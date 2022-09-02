@@ -1,0 +1,24 @@
+// SPDX-License-Identifier: MIT
+
+package setting
+
+import (
+	"testing"
+
+	"github.com/issue9/assert/v3"
+
+	"github.com/issue9/cmfx/pkg/test"
+)
+
+func TestInstall(t *testing.T) {
+	a := assert.New(t, false)
+	suite := test.NewSuite(a)
+	defer suite.Close()
+
+	id := "test"
+	m := suite.NewModule(id)
+	a.NotError(Install(m, suite.DB()))
+
+	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_settings").Exists()
+	a.NotError(err).True(exists)
+}

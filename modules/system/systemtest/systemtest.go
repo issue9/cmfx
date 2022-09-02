@@ -1,0 +1,22 @@
+// SPDX-License-Identifier: MIT
+
+package systemtest
+
+import (
+	"github.com/issue9/web"
+
+	"github.com/issue9/cmfx/modules/admin"
+	"github.com/issue9/cmfx/modules/system"
+	"github.com/issue9/cmfx/pkg/test"
+)
+
+func NewSystem(s *test.Suite, adminM *admin.Admin, r *web.Router) *system.System {
+	mod := s.NewModule("system")
+	i, err := system.Install(mod, s.DB())
+	s.Assertion().NotError(err).NotNil(i)
+
+	sys, err := system.New(mod, s.DB(), r, adminM)
+	s.Assertion().NotError(err).NotNil(sys)
+
+	return sys
+}

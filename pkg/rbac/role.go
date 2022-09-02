@@ -1,0 +1,142 @@
+// SPDX-License-Identifier: MIT
+
+package rbac
+
+import (
+	"fmt"
+
+	"github.com/issue9/sliceutil"
+)
+
+// Role 角色信息
+type Role struct {
+	r    *role
+	rbac *RBAC
+}
+
+// Role 返回角色的相关数据
+//
+// 如果不存在，则返回 nil。
+func (rbac *RBAC) Role(id int64) *Role {
+	r, found := rbac.roles[id]
+	if !found {
+		return nil
+	}
+	return r
+}
+
+// NewRole 声明新的角色
+//
+// parent 表示父角色，如果从父角色继承，那么可分配的资源也只能是父角色拥有的资源；
+func (rbac *RBAC) NewRole(parent int64, name, desc string) (int64, error) {
+	if parent > 0 && rbac.roles[parent] == nil {
+		return 0, fmt.Errorf("父角色 %d 不存在", parent)
+	}
+
+	e := rbac.dbPrefix.DB(rbac.db)
+	g := &role{Parent: parent, Name: name, Description: desc}
+	id, err := e.LastInsertID(g)
+	if err != nil {
+		return 0, err
+	}
+
+	rbac.roles[id] = &Role{
+		r: &role{
+			ID:          id,
+			Name:        name,
+			Description: desc,
+			Parent:      parent,
+		},
+		rbac: rbac,
+	}
+
+	return id, nil
+}
+
+// 删除角色
+func (rbac *RBAC) deleteRole(id int64) error {
+	if _, found := rbac.roles[id]; !found {
+		return nil
+	}
+
+	for _, role := range rbac.roles {
+		if role.r.Parent == id {
+			return fmt.Errorf("角色 %d 是角色 %d 的父类，不能删除", id, role.r.ID)
+		}
+	}
+
+	for u, roles := range rbac.users {
+		if sliceutil.Count(roles, func(i int64) bool { return i == id }) > 0 {
+			return fmt.Errorf("角色还包含了用户 %d，不能被删除！", u)
+		}
+	}
+
+	if _, err := rbac.dbPrefix.DB(rbac.db).Delete(&role{ID: id}); err != nil {
+		return err
+	}
+
+	delete(rbac.roles, id)
+
+	return nil
+}
+
+// 更新角色信息
+func (r *Role) update(name, desc string) error {
+	e := r.rbac.dbPrefix.DB(r.rbac.db)
+	if _, err := e.Update(&role{ID: r.r.ID, Name: name, Description: desc}); err != nil {
+		return err
+	}
+	r.r.Name = name
+	r.r.Description = desc
+	return nil
+}
+
+// 设置角色 role 访问 resID，覆盖原来的可访问资源
+func (r *Role) set(res ...string) error {
+	if len(res) > 0 {
+		res = sliceutil.Unique(res, func(i, j string) bool { return i == j }) // 过滤重复值
+		res = sliceutil.Delete(res, func(i string) bool { return i == "" })   // 删除空值
+	}
+	if len(res) == 0 {
+		return nil
+	}
+
+	// 如果存在父角色，还要确认父角色(仅限直系)是不是包含了这些资源。
+	if r.r.Parent > 0 {
+		p := r.rbac.roles[r.r.Parent]
+		if p == nil {
+			return fmt.Errorf("rbac: 未找到 %d 的父角色 %d", r.r.ID, r.r.Parent)
+		}
+
+		if len(p.r.Resources) == 0 {
+			return fmt.Errorf("rbac: 请先设置父角色 %d 的资源", p.r.ID)
+		}
+
+		if !sliceutil.Contains(p.r.Resources, res, func(i, j string) bool { return i == j }) {
+			return fmt.Errorf("rbac: 角色 %d 只能继承父角色 %d 的资源", r.r.ID, r.r.Parent)
+		}
+	}
+
+	r.r.Resources = res
+
+	e := r.rbac.dbPrefix.DB(r.rbac.db)
+	_, err := e.Update(&role{ID: r.r.ID, Resources: r.r.Resources}, "resources")
+	return err
+}
+
+// 检测 child 是否继承自 r
+func (r *Role) hasChild(child int64) bool {
+	if child == 0 {
+		return false
+	}
+
+	if child == r.r.ID {
+		return true
+	}
+
+	c := r.rbac.roles[child]
+	if c == nil || c.r.Parent == 0 {
+		return false
+	}
+	return r.hasChild(c.r.Parent)
+}
