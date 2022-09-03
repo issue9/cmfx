@@ -7,12 +7,12 @@ require (
 	github.com/issue9/assert/v3 v3.0.1
 	github.com/issue9/cache v0.4.0
 	github.com/issue9/localeutil v0.12.3
-	github.com/issue9/middleware/v6 v6.0.0-beta.7
+	github.com/issue9/middleware/v6 v6.0.0-beta.8
 	github.com/issue9/orm/v5 v5.0.0-beta.8
 	github.com/issue9/sliceutil v0.11.0
 	github.com/issue9/unique v1.3.2
 	github.com/issue9/validator v0.2.3
-	github.com/issue9/web v0.58.2
+	github.com/issue9/web v0.58.3
 	github.com/mattn/go-sqlite3 v1.14.15
 	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8
 	gopkg.in/yaml.v3 v3.0.1

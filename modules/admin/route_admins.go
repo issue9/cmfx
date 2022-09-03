@@ -3,17 +3,18 @@
 package admin
 
 import (
-    "net/http"
-    "strconv"
+	"fmt"
+	"net/http"
+	"strconv"
 
-    "github.com/issue9/orm/v5/sqlbuilder"
-    "github.com/issue9/orm/v5/types"
-    "github.com/issue9/web"
-    "github.com/issue9/web/server"
+	"github.com/issue9/orm/v5/sqlbuilder"
+	"github.com/issue9/orm/v5/types"
+	"github.com/issue9/web"
+	"github.com/issue9/web/server"
 
-    "github.com/issue9/cmfx"
-    "github.com/issue9/cmfx/locales"
-    "github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/pkg/rules"
 )
 
 // <api method="get" summary="获取指定的管理员账号">
@@ -43,39 +44,40 @@ import (
 //
 // </api>
 func (m *Admin) getAdmin(ctx *web.Context) web.Responser {
-    id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
-    if resp != nil {
-        return resp
-    }
+	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	if resp != nil {
+		return resp
+	}
 
-    a := &modelAdmin{ID: id}
-    found, err := m.dbPrefix.DB(m.db).Select(a)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if !found {
-        return ctx.NotFound()
-    }
+	a := &modelAdmin{ID: id}
+	found, err := m.dbPrefix.DB(m.db).Select(a)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if !found {
+		return ctx.NotFound()
+	}
 
-    return web.OK(a)
+	return web.OK(a)
 }
 
 type adminsQuery struct {
-    cmfx.Text
-    Groups []int64 `query:"group"`
-    States []State `query:"state,normal"`
-    Sexes  []Sex   `query:"sex"`
-    m      *Admin
+	cmfx.Text
+	Groups []int64 `query:"group"`
+	States []State `query:"state,normal"`
+	Sexes  []Sex   `query:"sex"`
+	m      *Admin
 }
 
 func (q *adminsQuery) CTXSanitize(ctx *web.Context, v *web.Validation) {
-    q.Text.CTXSanitize(ctx, v)
+	q.Text.CTXSanitize(ctx, v)
+	fmt.Printf("xxx:%+v", q.States)
 
-    v.AddSliceField(q.Groups, "group", web.NewRuleFunc(web.Phrase("group not exists"), func(v any) bool {
-        return q.m.rbac.Role(v.(int64)) != nil
-    })).
-        AddSliceField(q.States, "state", StateRule).
-        AddSliceField(q.Sexes, "sex", SexRule)
+	v.AddSliceField(q.Groups, "group", web.NewRuleFunc(web.Phrase("group not exists"), func(v any) bool {
+		return q.m.rbac.Role(v.(int64)) != nil
+	})).
+		AddSliceField(q.States, "state", StateRule).
+		AddSliceField(q.Sexes, "sex", SexRule)
 }
 
 // <api method="get" summary="获取所有的管理员账号">
@@ -116,59 +118,59 @@ func (q *adminsQuery) CTXSanitize(ctx *web.Context, v *web.Validation) {
 //
 // </api>
 func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
-    q := &adminsQuery{m: m}
-    if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
-        return resp
-    }
+	q := &adminsQuery{m: m}
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+		return resp
+	}
 
-    sql := m.db.SQLBuilder().Select().Column("*").From(m.dbPrefix.TableName(&modelAdmin{}))
+	sql := m.db.SQLBuilder().Select().Column("*").From(m.dbPrefix.TableName(&modelAdmin{}))
 
-    if len(q.States) > 0 {
-        sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
-            for _, state := range q.States {
-                ws.Or("{state}=?", int8(state))
-            }
-        })
-    }
+	if len(q.States) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, state := range q.States {
+				ws.Or("{state}=?", int8(state))
+			}
+		})
+	}
 
-    if len(q.Groups) > 0 {
-        sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
-            for _, g := range q.Groups {
-                gg := strconv.Itoa(int(g))
-                ws.Or("(groups LIKE ? or groups LIKE ? or groups LIKE ?)", ","+gg+",", ","+gg, gg+",")
-            }
-        })
-    }
-    if len(q.Sexes) > 0 {
-        sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
-            for _, g := range q.Sexes {
-                ws.Or("{sex}=?", g)
-            }
-        })
-    }
-    if len(q.Text.Text) > 0 {
-        text := "%" + q.Text.Text + "%"
-        sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
-    }
+	if len(q.Groups) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, g := range q.Groups {
+				gg := strconv.Itoa(int(g))
+				ws.Or("(groups LIKE ? or groups LIKE ? or groups LIKE ?)", ","+gg+",", ","+gg, gg+",")
+			}
+		})
+	}
+	if len(q.Sexes) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, g := range q.Sexes {
+				ws.Or("{sex}=?", g)
+			}
+		})
+	}
+	if len(q.Text.Text) > 0 {
+		text := "%" + q.Text.Text + "%"
+		sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
+	}
 
-    size, curr, err := q.Paging(sql)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if size == 0 {
-        return ctx.NotFound()
-    }
+	size, curr, err := q.Paging(sql)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if size == 0 {
+		return ctx.NotFound()
+	}
 
-    admins := make([]*modelAdmin, 0, curr)
-    n, err := sql.QueryObject(true, &admins)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if n == 0 {
-        return ctx.NotFound()
-    }
+	admins := make([]*modelAdmin, 0, curr)
+	n, err := sql.QueryObject(true, &admins)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if n == 0 {
+		return ctx.NotFound()
+	}
 
-    return web.OK(map[string]interface{}{"count": size, "admins": admins})
+	return web.OK(map[string]interface{}{"count": size, "admins": admins})
 }
 
 // <api method="patch" summary="修改指定的管理员账号">
@@ -198,61 +200,62 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
-    id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
-    if resp != nil {
-        return resp
-    }
+	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	if resp != nil {
+		return resp
+	}
 
-    // 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-    a := &modelAdmin{ID: id}
-    found, err := m.dbPrefix.DB(m.db).Select(a)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if !found {
-        return ctx.NotFound()
-    }
+	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
+	a := &modelAdmin{ID: id}
+	found, err := m.dbPrefix.DB(m.db).Select(a)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if !found {
+		return ctx.NotFound()
+	}
 
-    // 读取数据
-    data := &postAdminInfo{}
-    if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-        return resp
-    }
+	// 读取数据
+	data := &postAdminInfo{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
 
-    if a.Super && data.State != StateNormal {
-        return ctx.Problem(cmfx.BadRequestInvalidBody).AddParam("state", locales.InvalidValue.LocaleString(ctx.LocalePrinter()))
-    }
+	if a.Super && data.State != StateNormal {
+		return ctx.Problem(cmfx.BadRequestInvalidBody).AddParam("state", locales.InvalidValue.LocaleString(ctx.LocalePrinter()))
+	}
 
-    // 更新数据库
-    aa := &modelAdmin{
-        ID:       id,
-        State:    data.State,
-        Name:     data.Name,
-        Nickname: data.Nickname,
-        Avatar:   data.Avatar,
-        Sex:      data.Sex,
-    }
+	// 更新数据库
+	aa := &modelAdmin{
+		ID:       id,
+		State:    data.State,
+		Name:     data.Name,
+		Nickname: data.Nickname,
+		Avatar:   data.Avatar,
+		Sex:      data.Sex,
+	}
 
-    tx, err := m.db.Begin()
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
+	tx, err := m.db.Begin()
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    if _, err := tx.Update(aa, "state", "sex"); err != nil {
-        tx.Rollback()
-        return ctx.InternalServerError(err)
-    }
+	e := m.dbPrefix.DB(m.db)
+	if _, err := e.Update(aa, "state", "sex"); err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if err := m.rbac.Link(tx, id, data.Groups...); err != nil {
-        tx.Rollback()
-        return ctx.InternalServerError(err)
-    }
+	if err := m.rbac.Link(tx, id, data.Groups...); err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if err := tx.Commit(); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if err := tx.Commit(); err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    return web.NoContent()
+	return web.NoContent()
 }
 
 // <api method="put" summary="重置管理员的密码">
@@ -266,65 +269,65 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) deleteAdminPassword(ctx *web.Context) web.Responser {
-    id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
-    if resp != nil {
-        return resp
-    }
+	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	if resp != nil {
+		return resp
+	}
 
-    // 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-    a := &modelAdmin{ID: id}
-    found, err := m.dbPrefix.DB(m.db).Select(a)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if !found {
-        return ctx.NotFound()
-    }
+	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
+	a := &modelAdmin{ID: id}
+	found, err := m.dbPrefix.DB(m.db).Select(a)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if !found {
+		return ctx.NotFound()
+	}
 
-    // 更新数据库
-    if err := m.password.Set(nil, a.ID, defaultPassword); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	// 更新数据库
+	if err := m.password.Set(nil, a.ID, defaultPassword); err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    return web.NoContent()
+	return web.NoContent()
 }
 
 type postAdminInfo struct {
-    State    State                `json:"state" xml:"state,attr"`
-    Sex      Sex                  `json:"sex" xml:"sex,attr"`
-    Name     string               `json:"name" xml:"name"`
-    Nickname string               `json:"nickname" xml:"nickname"`
-    Username string               `json:"username" xml:"username"`
-    Password string               `json:"password" xml:"password"`
-    Groups   types.SliceOf[int64] `json:"groups" xml:"groups"`
-    Avatar   string               `json:"avatar,omitempty" xml:"avatar,attr,omitempty"`
-    m        *Admin
+	State    State                `json:"state" xml:"state,attr"`
+	Sex      Sex                  `json:"sex" xml:"sex,attr"`
+	Name     string               `json:"name" xml:"name"`
+	Nickname string               `json:"nickname" xml:"nickname"`
+	Username string               `json:"username" xml:"username"`
+	Password string               `json:"password" xml:"password"`
+	Groups   types.SliceOf[int64] `json:"groups" xml:"groups"`
+	Avatar   string               `json:"avatar,omitempty" xml:"avatar,attr,omitempty"`
+	m        *Admin
 }
 
 func (i *postAdminInfo) CTXSanitize(ctx *web.Context, v *web.Validation) {
-    v.AddField(i.State, "state", StateRule).
-        AddField(i.Name, "name", rules.Required).
-        AddField(i.Username, "username", rules.Required).
-        AddField(i.Nickname, "nickname", rules.Required).
-        AddField(i.Password, "password", rules.Required).
-        AddField(i.Avatar, "avatar", rules.Avatar).
+	v.AddField(i.State, "state", StateRule).
+		AddField(i.Name, "name", rules.Required).
+		AddField(i.Username, "username", rules.Required).
+		AddField(i.Nickname, "nickname", rules.Required).
+		AddField(i.Password, "password", rules.Required).
+		AddField(i.Avatar, "avatar", rules.Avatar).
 
-        // i.Groups
-        When(len(i.Groups) > 0, func(v *web.Validation) {
-            v.AddSliceField(i.Groups, "groups", web.NewRuleFunc(web.Phrase("group not exists"), func(val any) bool {
-                return i.m.rbac.Role(val.(int64)) != nil
-            }))
-        }).
-        When(len(i.Groups) == 0, func(v *web.Validation) {
-            v.Add("groups", locales.Required)
-        }).
-        AddField(i.Groups, "groups", server.NewRuleFunc(locales.InvalidValue, func(v any) bool {
-            ok, err := i.m.IsAllowChangeGroup(ctx, i.Groups)
-            if err != nil {
-                ctx.Logs().ERROR().Error(err)
-            }
-            return ok
-        }))
+		// i.Groups
+		When(len(i.Groups) > 0, func(v *web.Validation) {
+			v.AddSliceField(i.Groups, "groups", web.NewRuleFunc(web.Phrase("group not exists"), func(val any) bool {
+				return i.m.rbac.Role(val.(int64)) != nil
+			}))
+		}).
+		When(len(i.Groups) == 0, func(v *web.Validation) {
+			v.Add("groups", locales.Required)
+		}).
+		AddField(i.Groups, "groups", server.NewRuleFunc(locales.InvalidValue, func(v any) bool {
+			ok, err := i.m.IsAllowChangeGroup(ctx, i.Groups)
+			if err != nil {
+				ctx.Logs().ERROR().Error(err)
+			}
+			return ok
+		}))
 }
 
 // <api method="post" summary="添加管理员账号">
@@ -354,45 +357,46 @@ func (i *postAdminInfo) CTXSanitize(ctx *web.Context, v *web.Validation) {
 //
 // </api>
 func (m *Admin) postAdmins(ctx *web.Context) web.Responser {
-    data := &postAdminInfo{m: m}
-    if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-        return resp
-    }
+	data := &postAdminInfo{m: m}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
 
-    a := &modelAdmin{
-        State:    data.State,
-        Nickname: data.Nickname,
-        Name:     data.Name,
-        Avatar:   data.Avatar,
-        Sex:      data.Sex,
-        Username: data.Username,
-    }
+	a := &modelAdmin{
+		State:    data.State,
+		Nickname: data.Nickname,
+		Name:     data.Name,
+		Avatar:   data.Avatar,
+		Sex:      data.Sex,
+		Username: data.Username,
+	}
 
-    tx, err := m.db.Begin()
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
+	tx, err := m.db.Begin()
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    id, err := m.dbPrefix.Tx(tx).LastInsertID(a)
-    if err != nil {
-        tx.Rollback()
-        return ctx.InternalServerError(err)
-    }
+	id, err := m.dbPrefix.Tx(tx).LastInsertID(a)
+	if err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if err := m.rbac.Link(tx, id, data.Groups...); err != nil {
-        tx.Rollback()
-        return ctx.InternalServerError(err)
-    }
+	if err := m.rbac.Link(tx, id, data.Groups...); err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if err := m.password.Add(tx, id, data.Username, data.Password); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if err := m.password.Add(tx, id, data.Username, data.Password); err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if err := tx.Commit(); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if err := tx.Commit(); err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    return web.Created(nil, "")
+	return web.Created(nil, "")
 }
 
 // <api method="POST" summary="锁定管理员">
@@ -406,7 +410,7 @@ func (m *Admin) postAdmins(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) postAdminLocked(ctx *web.Context) web.Responser {
-    return m.setAdminState(ctx, StateLocked, http.StatusCreated)
+	return m.setAdminState(ctx, StateLocked, http.StatusCreated)
 }
 
 // <api method="POST" summary="设定为离职状态">
@@ -420,7 +424,7 @@ func (m *Admin) postAdminLocked(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) postAdminLeft(ctx *web.Context) web.Responser {
-    return m.setAdminState(ctx, StateLeft, http.StatusCreated)
+	return m.setAdminState(ctx, StateLeft, http.StatusCreated)
 }
 
 // <api method="delete" summary="解除锁定">
@@ -434,7 +438,7 @@ func (m *Admin) postAdminLeft(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) deleteAdminLocked(ctx *web.Context) web.Responser {
-    return m.setAdminState(ctx, StateNormal, http.StatusNoContent)
+	return m.setAdminState(ctx, StateNormal, http.StatusNoContent)
 }
 
 // <api method="delete" summary="恢复正常属性">
@@ -448,49 +452,49 @@ func (m *Admin) deleteAdminLocked(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) deleteAdminLeft(ctx *web.Context) web.Responser {
-    return m.setAdminState(ctx, StateNormal, http.StatusNoContent)
+	return m.setAdminState(ctx, StateNormal, http.StatusNoContent)
 }
 
 func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Responser {
-    id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
-    if resp != nil {
-        return resp
-    }
+	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	if resp != nil {
+		return resp
+	}
 
-    e := m.dbPrefix.DB(m.db)
+	e := m.dbPrefix.DB(m.db)
 
-    a := &modelAdmin{ID: id}
-    found, err := e.Select(a)
-    if !found {
-        return ctx.NotFound()
-    }
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if a.Super {
-        return ctx.Problem(forbiddenIsSuper)
-    }
-    if a.State == state { // 无须修改状态
-        goto END
-    }
+	a := &modelAdmin{ID: id}
+	found, err := e.Select(a)
+	if !found {
+		return ctx.NotFound()
+	}
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if a.Super {
+		return ctx.Problem(forbiddenIsSuper)
+	}
+	if a.State == state { // 无须修改状态
+		goto END
+	}
 
-    if _, err := e.Update(&modelAdmin{ID: id, State: state}, "state"); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if _, err := e.Update(&modelAdmin{ID: id, State: state}, "state"); err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    // 非正常状态，则要注销该用户的登录
-    if state != StateNormal {
-        if err := m.tokenServer.BlockUID(formatUID(a.ID)); err != nil {
-            ctx.Logs().ERROR().Error(err)
-        }
-    } else {
-        if err := m.tokenServer.RecoverUID(formatUID(a.ID)); err != nil {
-            ctx.Logs().ERROR().Error(err)
-        }
-    }
+	// 非正常状态，则要注销该用户的登录
+	if state != StateNormal {
+		if err := m.tokenServer.BlockUID(formatUID(a.ID)); err != nil {
+			ctx.Logs().ERROR().Error(err)
+		}
+	} else {
+		if err := m.tokenServer.RecoverUID(formatUID(a.ID)); err != nil {
+			ctx.Logs().ERROR().Error(err)
+		}
+	}
 
 END:
-    return web.Status(code)
+	return web.Status(code)
 }
 
 // <api method="POST" summary="将该用户设置为超级管理员">
@@ -504,43 +508,45 @@ END:
 //
 // </api>
 func (m *Admin) postSuper(ctx *web.Context) web.Responser {
-    a := m.LoginUser(ctx)
-    if !a.Super {
-        return ctx.Problem(forbiddenOnlySuper)
-    }
+	a := m.LoginUser(ctx)
+	if !a.Super {
+		return ctx.Problem(forbiddenOnlySuper)
+	}
 
-    id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
-    if resp != nil {
-        return resp
-    }
+	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	if resp != nil {
+		return resp
+	}
 
-    a1 := &modelAdmin{ID: id}
-    found, err := m.dbPrefix.DB(m.db).Select(a1)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    if !found {
-        return ctx.NotFound()
-    }
+	a1 := &modelAdmin{ID: id}
+	found, err := m.dbPrefix.DB(m.db).Select(a1)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if !found {
+		return ctx.NotFound()
+	}
 
-    tx, err := m.db.Begin()
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
+	tx, err := m.db.Begin()
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    t := m.dbPrefix.Tx(tx)
+	t := m.dbPrefix.Tx(tx)
 
-    if _, err := t.Update(&modelAdmin{ID: a.ID, Super: false}, "super"); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if _, err := t.Update(&modelAdmin{ID: a.ID, Super: false}, "super"); err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if _, err := t.Update(&modelAdmin{ID: id, Super: true}, "super"); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if _, err := t.Update(&modelAdmin{ID: id, Super: true}, "super"); err != nil {
+		tx.Rollback()
+		return ctx.InternalServerError(err)
+	}
 
-    if err := tx.Commit(); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if err := tx.Commit(); err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    return web.Created(nil, "")
+	return web.Created(nil, "")
 }

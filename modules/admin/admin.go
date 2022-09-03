@@ -6,6 +6,7 @@ package admin
 import (
 	"net/http"
 
+	"github.com/issue9/cmfx"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
@@ -100,7 +101,7 @@ func New(mod *web.Module, db *orm.DB, urlPrefix string, tokenCfg *token.Config, 
 		Delete("/groups/{id:digit}", m.RBACFilter(mod, "delete-group", m.deleteGroup)).
 		Get("/groups/{id:digit}/resources", m.getGroupResources).
 		Get("/groups/{id:digit}/resources/allowed", m.getGroupAllowedResources).
-		Put("/groups/{id:digit}/resources", m.RBACFilter(mod, "put-group-resources", m.putGroupResources))
+		Patch("/groups/{id:digit}/resources", m.RBACFilter(mod, "put-group-resources", m.patchGroupResources))
 
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/info", m.getInfo).
@@ -147,7 +148,7 @@ func (m *Admin) LoginUser(ctx *web.Context) *modelAdmin {
 		return nil
 	}
 	a := &modelAdmin{ID: uid.(int64)}
-	found, err := m.db.Select(a)
+	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if !found {
 		ctx.Server().Logs().Error("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
 		return nil
@@ -171,6 +172,10 @@ func (m *Admin) RegisterResources(mod *web.Module, res map[string]web.LocaleStri
 func (m *Admin) RBACFilter(mod *web.Module, res string, next web.HandlerFunc) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
 		u := m.LoginUser(ctx)
+		if u == nil {
+			return ctx.Problem(cmfx.Unauthorized)
+		}
+
 		if u.Super {
 			return next(ctx)
 		}

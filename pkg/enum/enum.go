@@ -154,11 +154,9 @@ func (e *Enum) write(buf *errwrap.Buffer) error {
 
 	// Validator
 	buf.Printf("func %sValidator(v any) bool {\n", e.Name).
-		WString("vv, ok := v.(string)\n").
+		Printf("vv, ok := v.(%s)\n", e.Name).
 		WString("if !ok { return false }\n").
-		Printf("vvv, err := Parse%s(vv)\n", e.Name).
-		WString("if err!=nil{return false}\n").
-		WString("return vvv.IsValid()\n").
+		WString("return vv.IsValid()\n").
 		WString("}\n\n")
 
 	// rule

@@ -4,7 +4,6 @@ package admin
 
 import (
 	"fmt"
-
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/locales"
@@ -62,15 +61,11 @@ func (s State) IsValid() bool {
 }
 
 func StateValidator(v any) bool {
-	vv, ok := v.(string)
+	vv, ok := v.(State)
 	if !ok {
 		return false
 	}
-	vvv, err := ParseState(vv)
-	if err != nil {
-		return false
-	}
-	return vvv.IsValid()
+	return vv.IsValid()
 }
 
 var StateRule = web.NewRuleFunc(locales.InvalidValue, StateValidator)
@@ -127,15 +122,11 @@ func (s Sex) IsValid() bool {
 }
 
 func SexValidator(v any) bool {
-	vv, ok := v.(string)
+	vv, ok := v.(Sex)
 	if !ok {
 		return false
 	}
-	vvv, err := ParseSex(vv)
-	if err != nil {
-		return false
-	}
-	return vvv.IsValid()
+	return vv.IsValid()
 }
 
 var SexRule = web.NewRuleFunc(locales.InvalidValue, SexValidator)
