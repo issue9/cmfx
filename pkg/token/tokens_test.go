@@ -21,11 +21,11 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := suite.NewModule("test")
+	m := "test"
 	a.NotError(Install(m, suite.DB()))
 	now := time.Now()
 
-	e := dbPrefix(m).DB(suite.DB())
+	e := orm.Prefix(m).DB(suite.DB())
 	err := e.InsertMany(10, []orm.TableNamer{
 		&blockedToken{Token: "1", Expired: now.Add(-10 * time.Second)},
 		&blockedToken{Token: "2", Expired: now.Add(time.Hour)},
@@ -46,7 +46,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	}
 	a.NotError(conf.SanitizeConfig())
 
-	tks, err := NewTokens(m, suite.DB(), BuildClaims, conf, "job")
+	tks, err := NewTokens(m, suite.Server(), suite.DB(), BuildClaims, conf, "job")
 	a.NotError(err).NotNil(tks).
 		False(tks.TokenIsBlocked("1")).
 		True(tks.TokenIsBlocked("2")).
@@ -73,7 +73,7 @@ func TestTokens_New(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := suite.NewModule("test")
+	m := "test"
 	a.NotError(Install(m, suite.DB()))
 	s := servertest.NewTester(a, nil)
 	r := s.NewRouter()
@@ -85,7 +85,7 @@ func TestTokens_New(t *testing.T) {
 	}
 	a.NotError(conf.SanitizeConfig())
 
-	tks, err := NewTokens(m, suite.DB(), BuildClaims, conf, "job")
+	tks, err := NewTokens(m, suite.Server(), suite.DB(), BuildClaims, conf, "job")
 	a.NotError(err).NotNil(tks)
 	r.Post("/login", func(ctx *web.Context) web.Responser {
 		return tks.New(ctx, http.StatusCreated, NewClaims("1"))

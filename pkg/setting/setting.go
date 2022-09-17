@@ -3,10 +3,7 @@
 // Package setting 设置项管理
 package setting
 
-import (
-	"github.com/issue9/orm/v5"
-	"github.com/issue9/web"
-)
+import "github.com/issue9/orm/v5"
 
 const (
 	TypeBool   = "bool"
@@ -26,12 +23,10 @@ type Setting struct {
 	groups   map[string]*Group
 }
 
-func New(parent *web.Module, db *orm.DB) *Setting {
+func New(mod string, db *orm.DB) *Setting {
 	return &Setting{
 		db:       db,
-		dbPrefix: dbPrefix(parent),
+		dbPrefix: orm.Prefix(mod),
 		groups:   make(map[string]*Group, 5),
 	}
 }
-
-func dbPrefix(parent *web.Module) orm.Prefix { return orm.Prefix(parent.ID()) }

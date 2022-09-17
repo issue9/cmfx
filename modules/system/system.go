@@ -20,7 +20,7 @@ const (
 )
 
 type System struct {
-	mod      *web.Module
+	mod      string
 	db       *orm.DB
 	dbPrefix orm.Prefix
 
@@ -31,16 +31,14 @@ type System struct {
 	setting *setting.Setting
 }
 
-func dbPrefix(mod *web.Module) orm.Prefix { return orm.Prefix(mod.ID()) }
-
-func New(mod *web.Module, db *orm.DB, r *web.Router, admin *admin.Admin) (*System, error) {
+func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admin) (*System, error) {
 	m := &System{
 		mod:      mod,
 		db:       db,
-		dbPrefix: dbPrefix(mod),
+		dbPrefix: orm.Prefix(mod),
 
 		admin:  admin,
-		health: health.New(health.NewCacheStore(mod.Server(), mod.BuildID("health"))),
+		health: health.New(health.NewCacheStore(s, mod+"_health")),
 
 		setting: setting.New(mod, db),
 	}

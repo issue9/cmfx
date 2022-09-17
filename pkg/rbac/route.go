@@ -153,7 +153,7 @@ func (rbac *RBAC) PutRoleResourcesHandle(idName string, ctx *web.Context) web.Re
 }
 
 // Filter 验证是否拥有指定的权限
-func (rbac *RBAC) Filter(uid int64, mod *web.Module, res string, next web.HandlerFunc) web.HandlerFunc {
+func (rbac *RBAC) Filter(uid int64, mod string, res string, next web.HandlerFunc) web.HandlerFunc {
 	res = buildResourceID(mod, res)
 	return func(ctx *web.Context) web.Responser {
 		allowed, err := rbac.IsAllow(uid, res)

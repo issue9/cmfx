@@ -31,10 +31,7 @@ type Tokens[T Claims] struct {
 }
 
 // NewTokens 声明令牌管理对象
-func NewTokens[T Claims](parent *web.Module, db *orm.DB, bc jwt.BuildClaimsFunc[T], cnf *Config, jobTitle string) (*Tokens[T], error) {
-	prefix := dbPrefix(parent)
-	s := parent.Server()
-
+func NewTokens[T Claims](mod string, s *web.Server, db *orm.DB, bc jwt.BuildClaimsFunc[T], cnf *Config, jobTitle string) (*Tokens[T], error) {
 	tks := &Tokens[T]{
 		signer: jwt.NewSigner(cnf.expired, cnf.refreshed),
 		br: func() jwt.Responser {
@@ -43,11 +40,11 @@ func NewTokens[T Claims](parent *web.Module, db *orm.DB, bc jwt.BuildClaimsFunc[
 
 		log: s.Logs().ERROR(),
 
-		cache:          cache.Prefix(string(prefix), s.Cache()),
+		cache:          cache.Prefix(mod+"_", s.Cache()),
 		blockerExpires: cnf.Refreshed,
 		blockerExpired: cnf.refreshed,
 
-		dbPrefix: dbPrefix(parent),
+		dbPrefix: orm.Prefix(mod),
 		db:       db,
 	}
 	tks.verifier = jwt.NewVerifier[T](tks, bc)
@@ -62,8 +59,6 @@ func NewTokens[T Claims](parent *web.Module, db *orm.DB, bc jwt.BuildClaimsFunc[
 
 	return tks, nil
 }
-
-func dbPrefix(parent *web.Module) orm.Prefix { return orm.Prefix(parent.ID()) }
 
 func (tks *Tokens[T]) loadData() error {
 	now := time.Now()

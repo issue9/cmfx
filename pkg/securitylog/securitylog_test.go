@@ -15,7 +15,7 @@ func TestSecurityLog(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := suite.NewModule("test")
+	m := "test"
 	a.NotError(Install(m, suite.DB()))
 
 	l := New(m, suite.DB())

@@ -16,8 +16,7 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	id := "test"
-	m := suite.NewModule(id)
-	a.NotError(Install(m, suite.DB()))
+	a.NotError(Install(id, suite.DB()))
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_settings").Exists()
 	a.NotError(err).True(exists)

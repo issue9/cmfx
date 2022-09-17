@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/orm/v5"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -15,10 +16,9 @@ func TestInstaller(t *testing.T) {
 	s := test.NewSuite(a)
 
 	id := "test"
-	mod := s.NewModule(id)
-	i, err := Install(mod, s.DB())
+	i, err := Install(id, s.DB())
 	s.Assertion().NotError(err).NotNil(i)
-	p := dbPrefix(mod)
+	p := orm.Prefix(id)
 
 	exists, err := s.DB().SQLBuilder().TableExists().Table(id + "_settings").Exists()
 	a.NotError(err).True(exists)

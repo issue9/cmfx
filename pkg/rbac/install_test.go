@@ -16,9 +16,8 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	const id = "rbac"
-	parent := suite.NewModule(id)
-	a.NotError(Install(parent, suite.DB()))
-	curr, err := New(parent, suite.DB(), nil)
+	a.NotError(Install(id, suite.DB()))
+	curr, err := New(id, suite.DB(), nil)
 	a.NotError(err).NotNil(curr)
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_rbac_links").Exists()

@@ -16,9 +16,8 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	id := "test"
-	mod := suite.NewModule(id)
 
-	a.NotError(Install(mod, suite.DB()))
+	a.NotError(Install(id, suite.DB()))
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_passport_passwords").Exists()
 	a.NotError(err).True(exists)

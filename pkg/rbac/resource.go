@@ -20,7 +20,7 @@ func (rbac *RBAC) registerResource(id string, title web.LocaleStringer) error {
 // RegisterResources 一次性注册多个资源
 //
 // module 表示资源 ID 的统一前缀值，一般为模块的 ID，用于区分不同模块下的 ID 相同的资源。
-func (rbac *RBAC) RegisterResources(mod *web.Module, res map[string]web.LocaleStringer) error {
+func (rbac *RBAC) RegisterResources(mod string, res map[string]web.LocaleStringer) error {
 	for id, r := range res {
 		if err := rbac.registerResource(buildResourceID(mod, id), r); err != nil {
 			return err
@@ -49,4 +49,4 @@ func (r *Role) resources() []string {
 	return nil
 }
 
-func buildResourceID(mod *web.Module, res string) string { return mod.BuildID("_" + res) }
+func buildResourceID(mod, res string) string { return mod + "_" + res }

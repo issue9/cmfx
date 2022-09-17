@@ -34,11 +34,9 @@ type Logs struct {
 	Logs  []*Log `json:"logs" yaml:"logs" xml:"log"`
 }
 
-func dbPrefix(parent *web.Module) orm.Prefix { return orm.Prefix(parent.ID()) }
-
-func New(parent *web.Module, db *orm.DB) *SecurityLog {
+func New(mod string, db *orm.DB) *SecurityLog {
 	return &SecurityLog{
-		dbPrefix: dbPrefix(parent),
+		dbPrefix: orm.Prefix(mod),
 		db:       db,
 	}
 }

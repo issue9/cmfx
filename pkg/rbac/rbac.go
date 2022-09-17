@@ -27,8 +27,8 @@ type RBAC struct {
 // parent 管理此对象的模块；
 // db 数据库对象；
 // reasonLogger 如果不为空，则在此日志上输出是因为什么理由获得了资源的访问权限；
-func New(parent *web.Module, db *orm.DB, reasonLogger web.Logger) (*RBAC, error) {
-	p := dbPrefix(parent)
+func New(mod string, db *orm.DB, reasonLogger web.Logger) (*RBAC, error) {
+	p := orm.Prefix(mod)
 
 	roles := make([]*role, 0, 50)
 	e := p.DB(db)
@@ -52,8 +52,6 @@ func New(parent *web.Module, db *orm.DB, reasonLogger web.Logger) (*RBAC, error)
 
 	return rbac, nil
 }
-
-func dbPrefix(parent *web.Module) orm.Prefix { return orm.Prefix(parent.ID()) }
 
 // Link 将 uid 与角色进行关联
 func (rbac *RBAC) Link(tx *orm.Tx, uid int64, role ...int64) error {

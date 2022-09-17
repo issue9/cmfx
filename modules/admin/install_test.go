@@ -16,9 +16,7 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	id := "test"
-	mod := suite.NewModule(id)
-
-	Install(mod, suite.DB())
+	Install(id, suite.DB())
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_admins").Exists()
 	a.NotError(err).True(exists)

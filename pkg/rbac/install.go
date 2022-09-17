@@ -9,8 +9,8 @@ import (
 	"github.com/issue9/cmfx"
 )
 
-func Install(parent *web.Module, db *orm.DB) error {
-	e := dbPrefix(parent).DB(db)
+func Install(mod string, db *orm.DB) error {
+	e := orm.Prefix(mod).DB(db)
 
 	return cmfx.NewChain().Next(func() error {
 		return web.StackError(e.Create(&role{}))

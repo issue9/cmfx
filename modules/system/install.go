@@ -11,14 +11,14 @@ import (
 )
 
 type Installer struct {
-	mod  *web.Module
+	mod  string
 	root *rootLinkage
 }
 
 func (i *Installer) Linkage() *Linkage { return i.root.top }
 
-func Install(mod *web.Module, db *orm.DB) (*Installer, error) {
-	p := dbPrefix(mod)
+func Install(mod string, db *orm.DB) (*Installer, error) {
+	p := orm.Prefix(mod)
 
 	e := p.DB(db)
 	err := cmfx.NewChain().Next(func() error {

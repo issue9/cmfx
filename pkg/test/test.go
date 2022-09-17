@@ -10,7 +10,6 @@ import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/unique"
-	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 	"gopkg.in/yaml.v3"
 
@@ -51,13 +50,6 @@ func NewSuite(a *assert.Assertion) *Suite {
 	})
 
 	return s
-}
-
-// NewModule 新的模块
-//
-// 和正常的模块声明，少了对模块描述的指定，该值直接采用 id 值。
-func (s *Suite) NewModule(id string) *web.Module {
-	return s.Server().NewModule(id, web.Phrase(id))
 }
 
 func (s *Suite) DB() *orm.DB { return s.db }

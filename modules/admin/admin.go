@@ -45,29 +45,27 @@ type Admin struct {
 	securitylog *securitylog.SecurityLog
 }
 
-func dbPrefix(mod *web.Module) orm.Prefix { return orm.Prefix(mod.ID()) }
-
-func New(mod *web.Module, db *orm.DB, urlPrefix string, tokenCfg *token.Config, router *web.Router) (*Admin, error) {
-	loadOnce(mod)
+func New(mod string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token.Config, router *web.Router) (*Admin, error) {
+	loadOnce(s)
 
 	inst, err := rbac.New(mod, db, nil) // TODO 第三个参数写配置文件
 	if err != nil {
 		return nil, web.StackError(err)
 	}
 
-	tks, err := token.NewTokens(mod, db, buildClaims, tokenCfg, "回收丢弃的管理员令牌")
+	tks, err := token.NewTokens(mod, s, db, buildClaims, tokenCfg, "回收丢弃的管理员令牌")
 	if err != nil {
 		return nil, err
 	}
 
 	m := &Admin{
 		db:       db,
-		dbPrefix: dbPrefix(mod),
+		dbPrefix: orm.Prefix(mod),
 
 		urlPrefix: urlPrefix,
 		router:    router,
 
-		password:    passport.New(mod, db).Password(mod.BuildID(authPasswordType)),
+		password:    passport.New(mod, db).Password(mod + "_" + authPasswordType),
 		tokenServer: tks,
 		rbac:        inst,
 
@@ -162,14 +160,14 @@ func (m *Admin) LoginUser(ctx *web.Context) *modelAdmin {
 }
 
 // RegisterResources 注册资源
-func (m *Admin) RegisterResources(mod *web.Module, res map[string]web.LocaleStringer) error {
+func (m *Admin) RegisterResources(mod string, res map[string]web.LocaleStringer) error {
 	return m.rbac.RegisterResources(mod, res)
 }
 
 // RBACFilter 验证是否拥有指定的权限
 //
 // NOTE: 需要 [Admin.AuthFilter] 作为前置条件，用到了其产生的 "admin" 变量。
-func (m *Admin) RBACFilter(mod *web.Module, res string, next web.HandlerFunc) web.HandlerFunc {
+func (m *Admin) RBACFilter(mod string, res string, next web.HandlerFunc) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
 		u := m.LoginUser(ctx)
 		if u == nil {

@@ -14,9 +14,8 @@ import (
 	"github.com/issue9/cmfx/pkg/token"
 )
 
-func Install(mod *web.Module, db *orm.DB) {
-	prefix := dbPrefix(mod)
-	e := prefix.DB(db)
+func Install(mod string, db *orm.DB) {
+	e := orm.Prefix(mod).DB(db)
 
 	cmfx.NewChain().Next(func() error {
 		return passport.Install(mod, db)
@@ -110,7 +109,7 @@ func Install(mod *web.Module, db *orm.DB) {
 		return web.StackError(tx.Commit())
 	}).Next(func() (err error) {
 		a := passport.New(mod, db)
-		p := a.Password(mod.BuildID(authPasswordType))
+		p := a.Password(mod + "_" + authPasswordType)
 
 		tx, err := db.Begin()
 		if err != nil {
@@ -133,5 +132,5 @@ func Install(mod *web.Module, db *orm.DB) {
 		}
 
 		return web.StackError(tx.Commit())
-	}).Fatal(mod.Server().Logs().FATAL(), 2)
+	}).Panic()
 }

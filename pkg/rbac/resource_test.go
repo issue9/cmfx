@@ -15,12 +15,12 @@ func TestRBAC_RegisterResources(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	parent := suite.NewModule("rbac")
+	parent := "rbac"
 	a.NotError(Install(parent, suite.DB()))
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 
-	m1 := suite.NewModule("m1")
+	m1 := "m1"
 	err = inst.RegisterResources(m1, map[string]web.LocaleStringer{
 		"r1": web.Phrase("r1"),
 		"r2": web.Phrase("r2"),
@@ -30,7 +30,7 @@ func TestRBAC_RegisterResources(t *testing.T) {
 	err = inst.RegisterResources(m1, map[string]web.LocaleStringer{"r1": web.Phrase("r1")}) // 同名
 	a.ErrorString(err, "资源 m1_r1 已经存在")
 
-	m2 := suite.NewModule("m2")
+	m2 := "m2"
 	err = inst.RegisterResources(m2, map[string]web.LocaleStringer{
 		"r1": web.Phrase("r1"),
 		"r2": web.Phrase("r2"),
@@ -42,19 +42,19 @@ func TestRole_resources(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	parent := suite.NewModule("rbac")
+	parent := "rbac"
 	a.NotError(Install(parent, suite.DB()))
 	inst, err := New(parent, suite.DB(), suite.Server().Logs().ERROR())
 	a.NotError(err).NotNil(inst)
 
-	m1 := suite.NewModule("m1")
+	m1 := "m1"
 	err = inst.RegisterResources(m1, map[string]web.LocaleStringer{
 		"r1": web.Phrase("r1"),
 		"r2": web.Phrase("r2"),
 	})
 	a.NotError(err)
 
-	m2 := suite.NewModule("m2")
+	m2 := "m2"
 	err = inst.RegisterResources(m2, map[string]web.LocaleStringer{
 		"r1": web.Phrase("r1"),
 		"r2": web.Phrase("r2"),
