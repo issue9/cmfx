@@ -15,7 +15,7 @@ func TestPassport_Password(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	a.NotError(Install(m, suite.DB()))
+	Install(m, suite.DB())
 
 	p := New(m, suite.DB())
 	a.NotNil(p)

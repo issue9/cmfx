@@ -12,8 +12,8 @@ import (
 
 func NewSystem(s *test.Suite, adminM *admin.Admin, r *web.Router) *system.System {
 	mod := "system"
-	i, err := system.Install(mod, s.DB())
-	s.Assertion().NotError(err).NotNil(i)
+	i := system.Install(mod, s.DB())
+	s.Assertion().NotNil(i)
 
 	sys, err := system.New(mod, s.Server(), s.DB(), r, adminM)
 	s.Assertion().NotError(err).NotNil(sys)

@@ -16,7 +16,7 @@ func TestRBAC_Link_IsAllow(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)

@@ -9,10 +9,10 @@ import (
 	"github.com/issue9/cmfx"
 )
 
-func Install(mod string, db *orm.DB) error {
+func Install(mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
-	return cmfx.NewChain().Next(func() error {
+	cmfx.Init(nil, func() error {
 		return web.StackError(e.Create(&log{}))
-	}).Err
+	})
 }

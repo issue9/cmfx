@@ -22,7 +22,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	a.NotError(Install(m, suite.DB()))
+	Install(m, suite.DB())
 	now := time.Now()
 
 	e := orm.Prefix(m).DB(suite.DB())
@@ -74,7 +74,7 @@ func TestTokens_New(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	a.NotError(Install(m, suite.DB()))
+	Install(m, suite.DB())
 	s := servertest.NewTester(a, nil)
 	r := s.NewRouter()
 	conf := &Config{

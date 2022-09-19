@@ -17,36 +17,33 @@ import (
 func Install(mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
-	cmfx.NewChain().Next(func() error {
-		return passport.Install(mod, db)
-	}).Next(func() error {
-		return rbac.Install(mod, db)
-	}).Next(func() error {
+	setting.Install(mod, db)
+	token.Install(mod, db)
+	securitylog.Install(mod, db)
+	passport.Install(mod, db)
+	rbac.Install(mod, db)
+
+	cmfx.Init(nil, func() error {
 		return web.StackError(e.Create(&modelAdmin{}))
-	}).Next(func() error {
-		return setting.Install(mod, db)
-	}).Next(func() error {
-		return token.Install(mod, db)
-	}).Next(func() error {
-		return securitylog.Install(mod, db)
-	}).Next(func() error {
+	}, func() error {
 		a, err := rbac.New(mod, db, nil)
 		if err != nil {
 			return web.StackError(err)
 		}
 
-		err = cmfx.NewChain().Next(func() error {
+		cmfx.Init(nil, func() error {
 			_, err := a.NewRole(0, "管理员", "拥有超级权限")
-			return err
-		}).Next(func() error {
+			return web.StackError(err)
+		}, func() error {
 			_, err := a.NewRole(0, "财务", "财务")
-			return err
-		}).Next(func() error {
+			return web.StackError(err)
+		}, func() error {
 			_, err := a.NewRole(0, "编辑", "仅有编辑文章的相关权限")
-			return err
-		}).Err
-		return web.StackError(err)
-	}).Next(func() error {
+			return web.StackError(err)
+		})
+
+		return nil
+	}, func() error {
 		us := []orm.TableNamer{
 			&modelAdmin{
 				ID:       1,
@@ -82,7 +79,7 @@ func Install(mod string, db *orm.DB) {
 		}
 
 		return web.StackError(e.InsertMany(10, us...))
-	}).Next(func() error {
+	}, func() error {
 		a, err := rbac.New(mod, db, nil)
 		if err != nil {
 			return web.StackError(err)
@@ -92,22 +89,20 @@ func Install(mod string, db *orm.DB) {
 			return web.StackError(err)
 		}
 
-		err = cmfx.NewChain().Next(func() error {
-			return web.StackError(a.Link(tx, 1, 1))
-		}).Next(func() error {
-			return web.StackError(a.Link(tx, 2, 2))
-		}).Next(func() error {
-			return web.StackError(a.Link(tx, 3, 2, 3))
-		}).Next(func() error {
-			return web.StackError(a.Link(tx, 4, 2, 3))
-		}).Err
-		if err != nil {
+		cmfx.Init(func() {
 			tx.Rollback()
-			return web.StackError(err)
-		}
+		}, func() error {
+			return web.StackError(a.Link(tx, 1, 1))
+		}, func() error {
+			return web.StackError(a.Link(tx, 2, 2))
+		}, func() error {
+			return web.StackError(a.Link(tx, 3, 2, 3))
+		}, func() error {
+			return web.StackError(a.Link(tx, 4, 2, 3))
+		})
 
 		return web.StackError(tx.Commit())
-	}).Next(func() (err error) {
+	}, func() (err error) {
 		a := passport.New(mod, db)
 		p := a.Password(mod + "_" + authPasswordType)
 
@@ -116,21 +111,18 @@ func Install(mod string, db *orm.DB) {
 			return web.StackError(err)
 		}
 
-		err = cmfx.NewChain().Next(func() error {
-			return web.StackError(p.Add(tx, 1, "admin", defaultPassword))
-		}).Next(func() error {
-			return web.StackError(p.Add(tx, 2, "u1", defaultPassword))
-		}).Next(func() error {
-			return web.StackError(p.Add(tx, 3, "u2", defaultPassword))
-		}).Next(func() error {
-			return web.StackError(p.Add(tx, 4, "u3", defaultPassword))
-		}).Err
-
-		if err != nil {
+		cmfx.Init(func() {
 			tx.Rollback()
-			return err
-		}
+		}, func() error {
+			return web.StackError(p.Add(tx, 1, "admin", defaultPassword))
+		}, func() error {
+			return web.StackError(p.Add(tx, 2, "u1", defaultPassword))
+		}, func() error {
+			return web.StackError(p.Add(tx, 3, "u2", defaultPassword))
+		}, func() error {
+			return web.StackError(p.Add(tx, 4, "u3", defaultPassword))
+		})
 
 		return web.StackError(tx.Commit())
-	}).Panic()
+	})
 }

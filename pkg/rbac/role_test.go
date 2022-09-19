@@ -16,7 +16,7 @@ func TestRBAC_NewRole(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
@@ -50,7 +50,7 @@ func TestRole_update(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
@@ -78,7 +78,7 @@ func TestRBAC_deleteRole(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
@@ -115,7 +115,7 @@ func TestRole_set(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
@@ -160,7 +160,7 @@ func TestRole_HasChild(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 

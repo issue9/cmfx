@@ -16,7 +16,7 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	const id = "ttt"
-	a.NotError(Install(id, suite.DB()))
+	Install(id, suite.DB())
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_token_blocked_users").Exists()
 	a.NotError(err).True(exists)

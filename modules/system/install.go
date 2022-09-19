@@ -17,26 +17,22 @@ type Installer struct {
 
 func (i *Installer) Linkage() *Linkage { return i.root.top }
 
-func Install(mod string, db *orm.DB) (*Installer, error) {
-	p := orm.Prefix(mod)
+func Install(mod string, db *orm.DB) *Installer {
+	setting.Install(mod, db)
 
+	p := orm.Prefix(mod)
 	e := p.DB(db)
-	err := cmfx.NewChain().Next(func() error {
-		return setting.Install(mod, db)
-	}).Next(func() error {
+	cmfx.Init(nil, func() error {
 		return web.StackError(e.Create(&linkage{}))
-	}).Err
-	if err != nil {
-		return nil, err
-	}
+	})
 
 	root, err := newRootLinkage(db, p)
 	if err != nil {
-		return nil, web.StackError(err)
+		panic(err)
 	}
 
 	return &Installer{
 		mod:  mod,
 		root: root,
-	}, nil
+	}
 }

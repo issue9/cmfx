@@ -16,8 +16,8 @@ func TestInstaller(t *testing.T) {
 	s := test.NewSuite(a)
 
 	id := "test"
-	i, err := Install(id, s.DB())
-	s.Assertion().NotError(err).NotNil(i)
+	i := Install(id, s.DB())
+	s.Assertion().NotNil(i)
 	p := orm.Prefix(id)
 
 	exists, err := s.DB().SQLBuilder().TableExists().Table(id + "_settings").Exists()

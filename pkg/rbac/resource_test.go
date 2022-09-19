@@ -16,7 +16,7 @@ func TestRBAC_RegisterResources(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), nil)
 	a.NotError(err).NotNil(inst)
 
@@ -43,7 +43,7 @@ func TestRole_resources(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	parent := "rbac"
-	a.NotError(Install(parent, suite.DB()))
+	Install(parent, suite.DB())
 	inst, err := New(parent, suite.DB(), suite.Server().Logs().ERROR())
 	a.NotError(err).NotNil(inst)
 
