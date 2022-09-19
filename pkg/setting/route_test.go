@@ -23,7 +23,7 @@ func TestHandleGet(t *testing.T) {
 	defer suite.Close()
 	m := "test"
 	db := suite.DB()
-	a.NotError(Install(m, db))
+	Install(m, db)
 	r := suite.NewRouter()
 
 	s := New(m, db)
@@ -88,7 +88,7 @@ func TestHandlePatch(t *testing.T) {
 	defer suite.Close()
 	m := "test"
 	db := suite.DB()
-	a.NotError(Install(m, db))
+	Install(m, db)
 	r := suite.NewRouter()
 
 	s := New(m, db)

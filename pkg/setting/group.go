@@ -3,10 +3,13 @@
 package setting
 
 import (
+	"database/sql"
 	"encoding/json"
 	"fmt"
 	"reflect"
 
+	"github.com/issue9/conv"
+	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 )
 
@@ -64,7 +67,7 @@ func (s *Setting) NewGroup(id string, g any, title, desc web.LocaleStringer, att
 func (g *Group) Load() error {
 	p := g.s.dbPrefix.DB(g.s.db)
 
-	list := make([]*setting, 0, len(g.attr.fields))
+	list := make([]*modelSetting, 0, len(g.attr.fields))
 	cnt, err := p.Where("{group}=?", g.attr.id).Select(true, &list)
 	if err != nil {
 		return err
@@ -74,11 +77,23 @@ func (g *Group) Load() error {
 	}
 
 	for _, item := range list {
-		index := g.attr.fields[item.Key].index
-		v := g.v.Field(index)
-		if err := json.Unmarshal([]byte(item.Value), v.Addr().Interface()); err != nil {
-			return err
+		attr := g.attr.fields[item.Key]
+		v := g.v.Field(attr.index)
+
+		if attr.slice {
+			data, err := conv.Bytes(item.Value)
+			if err != nil {
+				return err
+			}
+			if err := json.Unmarshal(data, v.Addr().Interface()); err != nil {
+				return err
+			}
+		} else {
+			if err := conv.Value(item.Value, v); err != nil {
+				return err
+			}
 		}
+
 	}
 
 	if g.notify != nil {
@@ -87,43 +102,39 @@ func (g *Group) Load() error {
 	return nil
 }
 
-func (g *Group) Update() error {
+func (g *Group) Update() error { return g.save(false) }
+
+func (g *Group) insert() error { return g.save(true) }
+
+func (g *Group) save(insert bool) error {
 	tx, err := g.s.db.Begin()
 	if err != nil {
 		return err
 	}
 
 	p := g.s.dbPrefix.Tx(tx)
-	for _, attr := range g.attr.fields {
-		val, err := json.Marshal(g.v.Field(attr.index).Interface())
-		if err != nil {
-			return err
-		}
-		_, err = p.Update(&setting{Group: g.attr.id, Key: attr.id, Value: string(val)})
-		if err != nil {
-			tx.Rollback()
-			return err
-		}
+	action := func(v orm.TableNamer) (sql.Result, error) { return p.Update(v) }
+	if insert {
+		action = p.Insert
 	}
 
-	return tx.Commit()
-}
-
-func (g *Group) insert() error {
-	tx, err := g.s.db.Begin()
-	if err != nil {
-		return err
-	}
-
-	p := g.s.dbPrefix.Tx(tx)
 	for _, attr := range g.attr.fields {
-		val, err := json.Marshal(g.v.Field(attr.index).Interface())
-		if err != nil {
-			return err
+		field := g.v.Field(attr.index).Interface()
+
+		if g.attr.fields[attr.id].slice { // 数组不支持直接写入数据库
+			data, err := json.Marshal(field)
+			if err != nil {
+				return err
+			}
+			field = data
 		}
 
-		_, err = p.Insert(&setting{Group: g.attr.id, Key: attr.id, Value: string(val)})
-		if err != nil {
+		obj := &modelSetting{
+			Group: g.attr.id,
+			Key:   attr.id,
+			Value: field,
+		}
+		if _, err = action(obj); err != nil {
 			tx.Rollback()
 			return err
 		}
