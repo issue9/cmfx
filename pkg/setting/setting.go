@@ -14,9 +14,6 @@ const (
 // NOTE: 如果有按用户进行设置的需求，不如直接建表方便。
 
 // Setting 设置项
-//
-// 所有的设置以结构体为单位保存在数据库，
-// 每个结构体可以有多个基本字段。
 type Setting struct {
 	db       *orm.DB
 	dbPrefix orm.Prefix

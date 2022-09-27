@@ -3,7 +3,6 @@
 package admin
 
 import (
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -71,7 +70,6 @@ type adminsQuery struct {
 
 func (q *adminsQuery) CTXSanitize(ctx *web.Context, v *web.Validation) {
 	q.Text.CTXSanitize(ctx, v)
-	fmt.Printf("xxx:%+v", q.States)
 
 	v.AddSliceField(q.Groups, "group", web.NewRuleFunc(web.Phrase("group not exists"), func(v any) bool {
 		return q.m.rbac.Role(v.(int64)) != nil

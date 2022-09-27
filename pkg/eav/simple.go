@@ -24,6 +24,7 @@ type Simple[T any] struct {
 //
 // prefix 为表名前缀。
 // marshal 和 unmarshal 表示将对象保存至表的编解码方法，如果未指定，则采用 json 的格式；
+// T 表示存取对象的类型；
 func NewSimple[T any](prefix string, db *orm.DB, marshal serializer.MarshalFunc, unmarshal serializer.UnmarshalFunc) *Simple[T] {
 	if marshal == nil {
 		marshal = json.Marshal

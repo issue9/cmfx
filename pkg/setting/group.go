@@ -21,14 +21,14 @@ type Group struct {
 	notify func()
 }
 
-// Register 注册配置对象
+// NewGroup 注册配置对象
 //
 // id 表示该设置对象的唯一 ID；
 // title,desc 对该组设置项的描述；
 // g 设置项的对象，要求该对象的所有字段都是基本类型；
 // attrs 对 g 各个字段的描述，键名为字段名；
 func (s *Setting) NewGroup(id string, g any, title, desc web.LocaleStringer, attrs map[string]*Attribute, notify func()) (*Group, error) {
-	// TODO 若支持泛型方法，v 可以指定具体类型？
+	// TODO 若支持泛型方法，g 可以指定具体类型？
 
 	if _, found := s.groups[id]; found {
 		panic(fmt.Sprintf("已经存在相同 id 的对象: %s", id))
