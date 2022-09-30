@@ -139,6 +139,10 @@ messages:
 - key: strength invalid
   message:
     msg: 不符合密码安全要求
+
+- key: must be greater than zero
+  message:
+    msg: 必须大于零
     
 # admin
 

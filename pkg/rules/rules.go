@@ -7,23 +7,25 @@ import (
 	"reflect"
 
 	"github.com/issue9/validator"
-	"github.com/issue9/web/server"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/locales"
 )
 
 var (
-	Required = server.NewRuleFunc(locales.Required, func(a any) bool {
+	Required = web.NewRuleFunc(locales.Required, func(a any) bool {
 		if a == nil {
 			return false
 		}
 		return !reflect.ValueOf(a).IsZero()
 	})
 
-	Strength = server.NewRule(locales.StrengthInvalid, validator.Strength(8, 1, 0, 1))
+	Strength = web.NewRule(locales.StrengthInvalid, validator.Strength(8, 1, 0, 1))
+
+	GreaterThanZero = web.NewRule(locales.MustBeGreaterThanZero, validator.Min(0))
 
 	// Avatar 头像验证规则，可以为空或是 URL
-	Avatar = server.NewRule(locales.InvalidValue, validator.OrFunc(validator.URL, func(a any) bool {
+	Avatar = web.NewRule(locales.InvalidValue, validator.OrFunc(validator.URL, func(a any) bool {
 		if a == nil {
 			return true
 		}

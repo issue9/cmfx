@@ -15,7 +15,7 @@ require (
 	github.com/issue9/source v0.2.0
 	github.com/issue9/unique v1.3.2
 	github.com/issue9/validator v0.2.3
-	github.com/issue9/web v0.59.1
+	github.com/issue9/web v0.59.3
 	github.com/mattn/go-sqlite3 v1.14.15
 	golang.org/x/crypto v0.0.0-20220924013350-4ba4fb4dd9e7
 	golang.org/x/text v0.3.7

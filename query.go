@@ -7,7 +7,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/issue9/localeutil"
+	"github.com/issue9/cmfx/pkg/rules"
 	"github.com/issue9/orm/v5/sqlbuilder"
 	"github.com/issue9/web"
 )
@@ -38,17 +38,10 @@ type DateRange struct {
 
 // CTXSanitize 实现查询参数的验证
 func (l *Limit) CTXSanitize(ctx *web.Context, v *web.Validation) {
-	if l.Page < 0 {
-		v.Add("page", localeutil.Phrase("必须大于 0"))
-	}
-
 	if l.Size == 0 {
 		l.Size = defaultPageSize
 	}
-
-	if l.Size < 0 {
-		v.Add("size", localeutil.Phrase("必须大于 0"))
-	}
+	v.AddField(l.Page, "page", rules.GreaterThanZero).AddField(l.Size, "size", rules.GreaterThanZero)
 }
 
 // Paging 获取分页信息

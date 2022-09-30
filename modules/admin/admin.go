@@ -45,34 +45,34 @@ type Admin struct {
 	securitylog *securitylog.SecurityLog
 }
 
-func New(mod string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token.Config, router *web.Router) (*Admin, error) {
+func New(id string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token.Config, router *web.Router) (*Admin, error) {
 	loadOnce(s)
 
-	inst, err := rbac.New(mod, db, nil) // TODO 第三个参数写配置文件
+	inst, err := rbac.New(id, db, nil) // TODO 第三个参数写配置文件
 	if err != nil {
 		return nil, web.StackError(err)
 	}
 
-	tks, err := token.NewTokens(mod, s, db, buildClaims, tokenCfg, "回收丢弃的管理员令牌")
+	tks, err := token.NewTokens(id, s, db, buildClaims, tokenCfg, "回收丢弃的管理员令牌")
 	if err != nil {
 		return nil, err
 	}
 
 	m := &Admin{
 		db:       db,
-		dbPrefix: orm.Prefix(mod),
+		dbPrefix: orm.Prefix(id),
 
 		urlPrefix: urlPrefix,
 		router:    router,
 
-		password:    passport.New(mod, db).Password(mod + "_" + authPasswordType),
+		password:    passport.New(id, db).Password(id + "_" + authPasswordType),
 		tokenServer: tks,
 		rbac:        inst,
 
-		securitylog: securitylog.New(mod, db),
+		securitylog: securitylog.New(id, db),
 	}
 
-	err = m.RegisterResources(mod, map[string]web.LocaleStringer{
+	err = m.RegisterResources(id, map[string]web.LocaleStringer{
 		"post-group":          web.Phrase("post groups"),
 		"delete-group":        web.Phrase("delete groups"),
 		"put-group":           web.Phrase("edit groups"),
@@ -94,12 +94,12 @@ func New(mod string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *toke
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/resources", m.getResources).
 		Get("/groups", m.getGroups).
-		Post("/groups", m.RBACFilter(mod, "post-group", m.postGroups)).
-		Put("/groups/{id:digit}", m.RBACFilter(mod, "put-group", m.putGroup)).
-		Delete("/groups/{id:digit}", m.RBACFilter(mod, "delete-group", m.deleteGroup)).
+		Post("/groups", m.RBACFilter(id, "post-group", m.postGroups)).
+		Put("/groups/{id:digit}", m.RBACFilter(id, "put-group", m.putGroup)).
+		Delete("/groups/{id:digit}", m.RBACFilter(id, "delete-group", m.deleteGroup)).
 		Get("/groups/{id:digit}/resources", m.getGroupResources).
 		Get("/groups/{id:digit}/resources/allowed", m.getGroupAllowedResources).
-		Patch("/groups/{id:digit}/resources", m.RBACFilter(mod, "put-group-resources", m.patchGroupResources))
+		Patch("/groups/{id:digit}/resources", m.RBACFilter(id, "put-group-resources", m.patchGroupResources))
 
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/info", m.getInfo).
@@ -107,15 +107,15 @@ func New(mod string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *toke
 		Get("/securitylog", m.getSecurityLogs).
 		Put("/password", m.putCurrentPassword).
 		Post("/admins/{id:digit}/super", m.postSuper).
-		Get("/admins", m.RBACFilter(mod, "get-admin", m.getAdmins)).
-		Post("/admins", m.RBACFilter(mod, "post-admin", m.postAdmins)).
-		Get("/admins/{id:digit}", m.RBACFilter(mod, "get-admin", m.getAdmin)).
-		Patch("/admins/{id:digit}", m.RBACFilter(mod, "put-admin", m.patchAdmin)).
-		Delete("/admins/{id:digit}/password", m.RBACFilter(mod, "put-admin", m.deleteAdminPassword)).
-		Post("/admins/{id:digit}/locked", m.RBACFilter(mod, "put-admin", m.postAdminLocked)).
-		Delete("/admins/{id:digit}/locked", m.RBACFilter(mod, "put-admin", m.deleteAdminLocked)).
-		Post("/admins/{id:digit}/left", m.RBACFilter(mod, "put-admin", m.postAdminLeft)).
-		Delete("/admins/{id:digit}/left", m.RBACFilter(mod, "put-admin", m.deleteAdminLeft))
+		Get("/admins", m.RBACFilter(id, "get-admin", m.getAdmins)).
+		Post("/admins", m.RBACFilter(id, "post-admin", m.postAdmins)).
+		Get("/admins/{id:digit}", m.RBACFilter(id, "get-admin", m.getAdmin)).
+		Patch("/admins/{id:digit}", m.RBACFilter(id, "put-admin", m.patchAdmin)).
+		Delete("/admins/{id:digit}/password", m.RBACFilter(id, "put-admin", m.deleteAdminPassword)).
+		Post("/admins/{id:digit}/locked", m.RBACFilter(id, "put-admin", m.postAdminLocked)).
+		Delete("/admins/{id:digit}/locked", m.RBACFilter(id, "put-admin", m.deleteAdminLocked)).
+		Post("/admins/{id:digit}/left", m.RBACFilter(id, "put-admin", m.postAdminLeft)).
+		Delete("/admins/{id:digit}/left", m.RBACFilter(id, "put-admin", m.deleteAdminLeft))
 
 	return m, nil
 }
