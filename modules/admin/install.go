@@ -10,14 +10,12 @@ import (
 	"github.com/issue9/cmfx/pkg/passport"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/securitylog"
-	"github.com/issue9/cmfx/pkg/setting"
 	"github.com/issue9/cmfx/pkg/token"
 )
 
 func Install(mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
-	setting.Install(mod, db)
 	token.Install(mod, db)
 	securitylog.Install(mod, db)
 	passport.Install(mod, db)

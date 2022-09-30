@@ -21,23 +21,20 @@ func TestHandleGet(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := "test"
-	db := suite.DB()
-	Install(m, db)
 	r := suite.NewRouter()
 
-	s := New(m, db)
+	s := New(newMemoryStore())
 	a.NotNil(s)
 
-	obj := &testGroup{}
-	g1, err := s.NewGroup("g1", obj, web.Phrase("g1 title"), web.Phrase("g1 desc"), testGroupAttrs, nil)
+	obj := &testConfig{}
+	g1, err := s.Register(obj, "g1", web.Phrase("g1 title"), web.Phrase("g1 desc"), attrs)
 	a.NotError(err).NotNil(g1)
-	obj.ID = 5
+	obj.ID = 5 // NewGroup 之后作了修改
 	obj.Name = "g1"
 	obj.Tags = []string{"t1", "t2"}
 
-	obj = &testGroup{}
-	g2, err := s.NewGroup("g2", obj, web.Phrase("g2 title"), web.Phrase("g2 desc"), testGroupAttrs, nil)
+	obj = &testConfig{}
+	g2, err := s.Register(obj, "g2", web.Phrase("g2 title"), web.Phrase("g2 desc"), attrs)
 	a.NotError(err).NotNil(g2)
 	obj.ID = 3
 	obj.Name = "g2"
@@ -82,37 +79,34 @@ func TestHandleGet(t *testing.T) {
 	})
 }
 
-func TestHandlePatch(t *testing.T) {
+func TestHandlePut(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := "test"
-	db := suite.DB()
-	Install(m, db)
 	r := suite.NewRouter()
 
-	s := New(m, db)
+	s := New(newMemoryStore())
 	a.NotNil(s)
 
-	obj := &testGroup{}
-	g1, err := s.NewGroup("g1", obj, web.Phrase("g1 title"), web.Phrase("g1 desc"), testGroupAttrs, nil)
+	obj := &testConfig{}
+	g1, err := s.Register(obj, "g1", web.Phrase("g1 title"), web.Phrase("g1 desc"), attrs)
 	a.NotError(err).NotNil(g1)
 	obj.ID = 5
 	obj.Name = "g1"
 	obj.Tags = []string{"1", "2"}
 
-	obj2 := &testGroup{}
-	g2, err := s.NewGroup("g2", obj2, web.Phrase("g2 title"), web.Phrase("g2 desc"), testGroupAttrs, nil)
+	obj2 := &testConfig{}
+	g2, err := s.Register(obj2, "g2", web.Phrase("g2 title"), web.Phrase("g2 desc"), attrs)
 	a.NotError(err).NotNil(g2)
 	obj2.ID = 3
 	obj2.Name = "g2"
 
-	r.Patch("/group/1", func(ctx *web.Context) web.Responser {
-		return g1.HandlePatch(ctx)
+	r.Put("/group/1", func(ctx *web.Context) web.Responser {
+		return g1.HandlePut(ctx)
 	})
 
-	r.Patch("/setting", func(ctx *web.Context) web.Responser {
-		return s.HandlePatch(ctx)
+	r.Put("/setting", func(ctx *web.Context) web.Responser {
+		return s.HandlePut(ctx)
 	})
 
 	suite.GoServe()
@@ -120,7 +114,7 @@ func TestHandlePatch(t *testing.T) {
 
 	t.Run("group/JSON ==> 400", func(t *testing.T) {
 		data := `{"items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["tt1","tt2"]}]}`
-		suite.NewRequest(http.MethodPatch, "/group/1", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPut, "/group/1", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest). // tags 不在候选列表中
@@ -129,18 +123,18 @@ func TestHandlePatch(t *testing.T) {
 
 	t.Run("group/JSON ==> 204", func(t *testing.T) {
 		data := `{"items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","4"]}]}`
-		suite.NewRequest(http.MethodPatch, "/group/1", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPut, "/group/1", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent).
 			StringBody("")
-		a.Equal(obj, &testGroup{ID: 7, Name: "json", Tags: []string{"3", "4"}})
+		a.Equal(obj, &testConfig{ID: 7, Name: "json", Tags: []string{"3", "4"}})
 	})
 
 	// 提交了空对象
 	t.Run("setting/JSON ==> 400", func(t *testing.T) {
 		data := `{"items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","4"]}]}`
-		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -150,7 +144,7 @@ func TestHandlePatch(t *testing.T) {
 	// 少 group.id
 	t.Run("setting/JSON ==> 400", func(t *testing.T) {
 		data := `{"groups":[{"items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","4"]}]}]}`
-		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -159,34 +153,34 @@ func TestHandlePatch(t *testing.T) {
 
 	t.Run("setting/JSON ==> 204", func(t *testing.T) {
 		data := `{"groups":[{"id":"g1","items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","5"]}]}]}`
-		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent)
-		a.Equal(obj, &testGroup{ID: 7, Name: "json", Tags: []string{"3", "5"}})
+		a.Equal(obj, &testConfig{ID: 7, Name: "json", Tags: []string{"3", "5"}})
 	})
 
 	t.Run("group/XML ==> 204", func(t *testing.T) {
 		data := `<group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group>`
-		suite.NewRequest(http.MethodPatch, "/group/1", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPut, "/group/1", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent)
-		a.Equal(obj, &testGroup{ID: 8, Name: "xml", Tags: []string{"1", "3"}})
+		a.Equal(obj, &testConfig{ID: 8, Name: "xml", Tags: []string{"1", "3"}})
 	})
 
 	t.Run("group/XML ==> 204", func(t *testing.T) {
 		data := `<group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value></item></group>`
-		suite.NewRequest(http.MethodPatch, "/group/1", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPut, "/group/1", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent)
-		a.Equal(obj, &testGroup{ID: 8, Name: "xml", Tags: []string{"1"}})
+		a.Equal(obj, &testConfig{ID: 8, Name: "xml", Tags: []string{"1"}})
 	})
 
 	t.Run("group/XML ==> 400", func(t *testing.T) {
 		data := `<group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>not-exists</value></item></group>`
-		suite.NewRequest(http.MethodPatch, "/group/1", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPut, "/group/1", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -196,7 +190,7 @@ func TestHandlePatch(t *testing.T) {
 	// 提交了空对象
 	t.Run("setting/XML ==> 400", func(t *testing.T) {
 		data := `<group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group>`
-		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusUnprocessableEntity). // 格式不正确
@@ -206,7 +200,7 @@ func TestHandlePatch(t *testing.T) {
 	// 少 group.id
 	t.Run("setting/XML ==> 400", func(t *testing.T) {
 		data := `<setting><group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group></setting>`
-		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -215,10 +209,10 @@ func TestHandlePatch(t *testing.T) {
 
 	t.Run("setting/XML ==> 204", func(t *testing.T) {
 		data := `<setting><group id="g1"><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group></setting>`
-		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent)
-		a.Equal(obj, &testGroup{ID: 8, Name: "xml", Tags: []string{"1", "3"}})
+		a.Equal(obj, &testConfig{ID: 8, Name: "xml", Tags: []string{"1", "3"}})
 	})
 }

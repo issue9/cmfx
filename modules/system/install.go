@@ -3,7 +3,7 @@
 package system
 
 import (
-	"github.com/issue9/cmfx/pkg/setting"
+	"github.com/issue9/cmfx/pkg/setting/store"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
@@ -18,7 +18,7 @@ type Installer struct {
 func (i *Installer) Linkage() *Linkage { return i.root.top }
 
 func Install(mod string, db *orm.DB) *Installer {
-	setting.Install(mod, db)
+	store.Install(mod, db)
 
 	p := orm.Prefix(mod)
 	e := p.DB(db)

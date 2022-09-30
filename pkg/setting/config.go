@@ -5,9 +5,24 @@ package setting
 import (
 	"fmt"
 	"reflect"
+	"unicode"
 
 	"github.com/issue9/web"
 )
+
+// Attribute 对配置对象各个字段的描述
+type Attribute struct {
+	ID          string
+	Title, Desc web.LocaleStringer
+	Multiple    bool // 多行文本
+	Candidate   []Candidate
+}
+
+// Candidate 候选数据
+type Candidate struct {
+	Value       any
+	Title, Desc web.LocaleStringer // 值的字面文本以及详细说明，desc 可以为空。
+}
 
 type groupAttribute struct {
 	id     string
@@ -30,30 +45,15 @@ type fieldAttribute struct {
 	index int // 在对象中的索引
 }
 
-// Attribute 对配置对象各个字段的描述
-type Attribute struct {
-	ID          string
-	Title, Desc web.LocaleStringer
-	Multiple    bool // 多行文本
-	Candidate   []Candidate
-}
-
-// Candidate 修改数据
-type Candidate struct {
-	Value       any
-	Title, Desc web.LocaleStringer // 值的字面文本以及详细说明，desc 可以为空。
-}
-
 func parseAttribute(t reflect.Type, attrs map[string]*Attribute) map[string]*fieldAttribute {
 	nums := t.NumField()
-
-	if nums != len(attrs) {
-		panic("attrs 中的参数数量与 t 的字段数量不相符")
-	}
 
 	items := make(map[string]*fieldAttribute, nums)
 	for i := 0; i < nums; i++ {
 		ft := t.Field(i)
+		if !unicode.IsUpper(rune(ft.Name[0])) {
+			continue
+		}
 
 		if !isAllowItemKind(ft.Type.Kind()) {
 			panic(fmt.Sprintf("字段 %s 并非基本类型", ft.Name))

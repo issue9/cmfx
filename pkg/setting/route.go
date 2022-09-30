@@ -130,20 +130,20 @@ func (i *ItemRequest) getValue(a *fieldAttribute) any {
 	return val
 }
 
-// HandlePatch 更新设置项
-func (g *Group) HandlePatch(ctx *web.Context) web.Responser {
+// HandlePut 更新设置项
+func (g *Group) HandlePut(ctx *web.Context) web.Responser {
 	gg := &GroupRequest{g: g}
 	if resp := ctx.Read(true, gg, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	if err := g.set(gg.Items); err != nil {
+	if err := g.fromRequest(gg.Items); err != nil {
 		return ctx.InternalServerError(err)
 	}
 	return web.NoContent()
 }
 
-func (g *Group) set(items []*ItemRequest) error {
+func (g *Group) fromRequest(items []*ItemRequest) error {
 	v := reflect.New(g.attr.t).Elem()
 
 	for _, item := range items {
@@ -156,7 +156,7 @@ func (g *Group) set(items []*ItemRequest) error {
 	}
 	g.v.Set(v)
 
-	return g.Update()
+	return g.s.store.Update(g.attr.id, v.Interface())
 }
 
 // HandleGet 获取设置项
@@ -194,7 +194,7 @@ func (g *Group) HandleGet(ctx *web.Context) web.Responser {
 	return web.OK(gg)
 }
 
-func (s *Setting) HandlePatch(ctx *web.Context) web.Responser {
+func (s *Setting) HandlePut(ctx *web.Context) web.Responser {
 	uu := &Request{s: s}
 	if resp := ctx.Read(true, uu, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -202,7 +202,9 @@ func (s *Setting) HandlePatch(ctx *web.Context) web.Responser {
 
 	for _, gg := range uu.Groups {
 		g := s.groups[gg.ID]
-		g.set(gg.Items)
+		if err := g.fromRequest(gg.Items); err != nil {
+			return ctx.InternalServerError(err)
+		}
 	}
 
 	return web.NoContent()

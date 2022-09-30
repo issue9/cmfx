@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package setting
+package store
 
 import (
 	"testing"

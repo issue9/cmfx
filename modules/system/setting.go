@@ -10,7 +10,7 @@ import (
 
 // NewSetting 声明一组新的设置组
 func (s *System) NewSetting(id string, v any, title, desc web.LocaleStringer, attrs map[string]*setting.Attribute, notify func()) (*setting.Group, error) {
-	return s.setting.NewGroup(id, v, title, desc, attrs, notify)
+	return s.setting.Register(v, id, title, desc, attrs)
 }
 
 // <api method="GET" summary="所有的设置项">

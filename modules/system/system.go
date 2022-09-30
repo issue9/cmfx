@@ -9,6 +9,7 @@ import (
 
 	"github.com/issue9/cmfx/modules/admin"
 	"github.com/issue9/cmfx/pkg/setting"
+	"github.com/issue9/cmfx/pkg/setting/store"
 )
 
 const (
@@ -40,7 +41,7 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admi
 		admin:  admin,
 		health: health.New(health.NewCacheStore(s, mod+"_health")),
 
-		setting: setting.New(mod, db),
+		setting: setting.New(store.NewDB(mod, db)),
 	}
 
 	r.Use(m.health)

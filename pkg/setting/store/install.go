@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package setting
+package store
 
 import (
 	"github.com/issue9/orm/v5"

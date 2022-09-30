@@ -11,13 +11,13 @@ import (
 	"github.com/issue9/web"
 )
 
-type testGroup struct {
+type testConfig struct {
 	ID   int
 	Name string
 	Tags []string
 }
 
-var testGroupAttrs = map[string]*Attribute{
+var attrs = map[string]*Attribute{
 	"ID": {
 		ID:    "id",
 		Title: web.Phrase("id"),
@@ -41,27 +41,6 @@ var testGroupAttrs = map[string]*Attribute{
 		},
 	},
 }
-
-/*
-func TestSetting_Register(t *testing.T) {
-	a := assert.New(t, false)
-	suite := test.NewSuite(a)
-	defer suite.Close()
-	m := suite.NewModule("test")
-	db := suite.DB()
-	a.NotError(Install(m, db))
-	s := New(m, db)
-	a.NotNil(s)
-
-	s.Register("test", &testGroup{}, web.Phrase("title"), web.Phrase("desc"), testGroupAttrs)
-	a.Length(s.attributes, 1)
-
-	a.PanicString(func() {
-		s.Register("test", &testGroup{}, web.Phrase("title"), web.Phrase("desc"), testGroupAttrs)
-	}, "已经存在相同 id 的对象: test")
-	a.Length(s.attributes, 1)
-}
-*/
 
 func TestParseAttribute(t *testing.T) {
 	a := assert.New(t, false)
@@ -98,15 +77,12 @@ func TestParseAttribute(t *testing.T) {
 	}
 
 	a.PanicString(func() {
-		parseAttribute(reflect.TypeOf(g2{}), nil)
-	}, "attrs 中的参数数量与 t 的字段数量不相符")
-
-	a.PanicString(func() {
 		parseAttribute(reflect.TypeOf(g2{}), map[string]*Attribute{"G1": {}})
 	}, "字段 G1 并非基本类型")
 
+	type Int int
 	type g3 struct {
-		int `setting:"g1"`
+		Int `setting:"g1"`
 	}
 	a.PanicString(func() {
 		parseAttribute(reflect.TypeOf(g3{5}), map[string]*Attribute{"int": {}})
