@@ -35,9 +35,9 @@ type rootLinkage struct {
 }
 
 type linkageResponse struct {
-	ID    int64              `json:"id" xml:"id,attr" yaml:"id"`
-	Name  string             `json:"name" xml:"name" yaml:"name"`
-	Items []*linkageResponse `json:"items,omitempty" xml:"item,omitempty" yaml:"items,omitempty"`
+	ID    int64              `json:"id" xml:"id,attr"`
+	Name  string             `json:"name" xml:"name"`
+	Items []*linkageResponse `json:"items,omitempty" xml:"item,omitempty"`
 }
 
 func (s *System) Linkage() *Linkage { return s.linkages.top }
@@ -210,7 +210,7 @@ func (l *Linkage) toResponse() *linkageResponse {
 // PutHandle 修改当前项内容
 func (l *Linkage) PutHandle(ctx *web.Context) web.Responser {
 	data := &struct {
-		Name string `json:"name" yaml:"name" xml:"name"`
+		Name string `json:"name" xml:"name"`
 	}{}
 	if data.Name == "" {
 		return ctx.Problem(cmfx.BadRequestInvalidBody).AddParam("name", locales.Required.LocaleString(ctx.LocalePrinter()))

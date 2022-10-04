@@ -12,23 +12,23 @@ import (
 
 type Config struct {
 	// expires 表示令牌的过期时间，单位为秒；
-	Expired int `xml:"expired,attr" json:"expired" yaml:"expired"`
+	Expired int `xml:"expired,attr" json:"expired"`
 	expired time.Duration
 
 	// 表示刷新令牌的过期时间，单位为秒，要长于 expired。
 	// 同时也被作为丢弃令牌的回收时间。
 	// 如果为零，则自动赋值为 Expired * 2。
-	Refreshed int `xml:"refreshed,attr" json:"refreshed" yaml:"refreshed"`
+	Refreshed int `xml:"refreshed,attr" json:"refreshed"`
 	refreshed time.Duration
 
-	HMAC []*hmac `xml:"hmac" json:"hmac" yaml:"hmac"`
+	HMAC []*hmac `xml:"hmac" json:"hmac"`
 	// TODO: 添加 RSA 等
 }
 
 type hmac struct {
-	ID     string `json:"id" xml:"id" yaml:"id"`
-	Method string `json:"method" xml:"method" yaml:"method"`
-	Secret string `json:"secret" xml:"secret" yaml:"secret"`
+	ID     string `json:"id" xml:"id"`
+	Method string `json:"method" xml:"method"`
+	Secret string `json:"secret" xml:"secret"`
 
 	method *gojwt.SigningMethodHMAC
 	secret []byte

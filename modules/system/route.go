@@ -3,11 +3,11 @@
 package system
 
 import (
-    "runtime"
-    "time"
+	"runtime"
+	"time"
 
-    "github.com/issue9/localeutil"
-    "github.com/issue9/web"
+	"github.com/issue9/localeutil"
+	"github.com/issue9/web"
 )
 
 // <api method="get" summary="系统信息">
@@ -29,36 +29,36 @@ import (
 //
 // </api>
 func (s *System) adminGetAPIs(*web.Context) web.Responser {
-    type state struct {
-        XMLName struct{} `json:"-" yaml:"-" xml:"states"`
+	type state struct {
+		XMLName struct{} `json:"-" xml:"states"`
 
-        Method       string        `json:"method" yaml:"method" xml:"method,attr"`
-        Path         string        `json:"path" yaml:"path" xml:"path"`
-        Min          time.Duration `json:"min" yaml:"min" xml:"min,attr"`
-        Max          time.Duration `json:"max" yaml:"max" xml:"max,attr"`
-        Count        int           `json:"count" yaml:"count" xml:"count,attr"`
-        UserErrors   int           `json:"userErrors" yaml:"userErrors" xml:"userErrors,attr"`       // 用户端出错次数，400-499
-        ServerErrors int           `json:"serverErrors" yaml:"serverErrors" xml:"serverErrors,attr"` // 服务端出错次数，>500
-        Last         time.Time     `json:"last" yaml:"last" xml:"last"`                              // 最后的访问时间
-        Spend        time.Duration `json:"spend" yaml:"spend" xml:"spend"`                           // 总花费的时间
-    }
+		Method       string        `json:"method" xml:"method,attr"`
+		Path         string        `json:"path" xml:"path"`
+		Min          time.Duration `json:"min" xml:"min,attr"`
+		Max          time.Duration `json:"max" xml:"max,attr"`
+		Count        int           `json:"count" xml:"count,attr"`
+		UserErrors   int           `json:"userErrors" xml:"userErrors,attr"`     // 用户端出错次数，400-499
+		ServerErrors int           `json:"serverErrors" xml:"serverErrors,attr"` // 服务端出错次数，>500
+		Last         time.Time     `json:"last" xml:"last"`                      // 最后的访问时间
+		Spend        time.Duration `json:"spend" xml:"spend"`                    // 总花费的时间
+	}
 
-    states := s.health.States()
-    resp := make([]*state, 0, len(states))
-    for _, s := range states {
-        resp = append(resp, &state{
-            Method:       s.Method,
-            Path:         s.Path,
-            Min:          s.Min,
-            Max:          s.Max,
-            Count:        s.Count,
-            UserErrors:   s.UserErrors,
-            ServerErrors: s.ServerErrors,
-            Last:         s.Last,
-            Spend:        s.Spend,
-        })
-    }
-    return web.OK(resp)
+	states := s.health.States()
+	resp := make([]*state, 0, len(states))
+	for _, s := range states {
+		resp = append(resp, &state{
+			Method:       s.Method,
+			Path:         s.Path,
+			Min:          s.Min,
+			Max:          s.Max,
+			Count:        s.Count,
+			UserErrors:   s.UserErrors,
+			ServerErrors: s.ServerErrors,
+			Last:         s.Last,
+			Spend:        s.Spend,
+		})
+	}
+	return web.OK(resp)
 }
 
 // <api method="get" summary="系统信息">
@@ -91,63 +91,63 @@ func (s *System) adminGetAPIs(*web.Context) web.Responser {
 //
 // </api>
 func (s *System) adminGetInfo(ctx *web.Context) web.Responser {
-    dbVersion, err := s.db.Version()
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
-    stats := s.db.Stats()
-    srv := ctx.Server()
+	dbVersion, err := s.db.Version()
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	stats := s.db.Stats()
+	srv := ctx.Server()
 
-    type db struct {
-        Name               string        `json:"name" xml:"name"`
-        Version            string        `json:"version" xml:"version"`
-        MaxOpenConnections int           `json:"maxOpenConnections" xml:"maxOpenConnections"`                   // 连接数
-        OpenConnections    int           `json:"openConnections" xml:"openConnections"`                         // 总的连接数
-        InUse              int           `json:"inUse" xml:"inUse"`                                             // 当前的连接数
-        Idle               int           `json:"idle" xml:"idle"`                                               // 空闲的连接
-        WaitCount          int64         `json:"waitCount" xml:"waitCount"`                                     // 等待的连接
-        WaitDuration       time.Duration `json:"waitDuration" xml:"waitDuration"`                               // 新连接的平均等待时间
-        MaxIdleClosed      int64         `json:"maxIdleClosed" xml:"maxIdleClosed"`                             // 最大空闲联接
-        MaxIdleTimeClosed  int64         `json:"maxIdleTimeClosed,omitempty" xml:"maxIdleTimeClosed,omitempty"` // The total number of connections closed due to SetConnMaxIdleTime.
-        MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed"`                     // 最生命周期联接
-    }
-    type info struct {
-        XMLName string `json:"-" xml:"info"`
+	type db struct {
+		Name               string        `json:"name" xml:"name"`
+		Version            string        `json:"version" xml:"version"`
+		MaxOpenConnections int           `json:"maxOpenConnections" xml:"maxOpenConnections"`                   // 连接数
+		OpenConnections    int           `json:"openConnections" xml:"openConnections"`                         // 总的连接数
+		InUse              int           `json:"inUse" xml:"inUse"`                                             // 当前的连接数
+		Idle               int           `json:"idle" xml:"idle"`                                               // 空闲的连接
+		WaitCount          int64         `json:"waitCount" xml:"waitCount"`                                     // 等待的连接
+		WaitDuration       time.Duration `json:"waitDuration" xml:"waitDuration"`                               // 新连接的平均等待时间
+		MaxIdleClosed      int64         `json:"maxIdleClosed" xml:"maxIdleClosed"`                             // 最大空闲联接
+		MaxIdleTimeClosed  int64         `json:"maxIdleTimeClosed,omitempty" xml:"maxIdleTimeClosed,omitempty"` // The total number of connections closed due to SetConnMaxIdleTime.
+		MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed"`                     // 最生命周期联接
+	}
+	type info struct {
+		XMLName string `json:"-" xml:"info"`
 
-        Name       string `json:"name" xml:"name"`
-        Version    string `json:"version" xml:"version"`
-        Uptime     string `json:"uptime" xml:"uptime"`
-        Go         string `json:"go" xml:"go"`
-        OS         string `json:"os" xml:"os"`
-        Arch       string `json:"arch" xml:"arch"`
-        CPUS       int    `json:"cpus" xml:"cpus"`
-        Goroutines int    `json:"goroutines" xml:"goroutines"`
-        DB         *db    `json:"db" xml:"db"`
-    }
+		Name       string `json:"name" xml:"name"`
+		Version    string `json:"version" xml:"version"`
+		Uptime     string `json:"uptime" xml:"uptime"`
+		Go         string `json:"go" xml:"go"`
+		OS         string `json:"os" xml:"os"`
+		Arch       string `json:"arch" xml:"arch"`
+		CPUS       int    `json:"cpus" xml:"cpus"`
+		Goroutines int    `json:"goroutines" xml:"goroutines"`
+		DB         *db    `json:"db" xml:"db"`
+	}
 
-    return web.OK(&info{
-        Name:       srv.Name(),
-        Version:    srv.Version(),
-        Uptime:     ctx.Server().Uptime().Format(time.RFC3339),
-        Go:         runtime.Version(),
-        OS:         runtime.GOOS,
-        Arch:       runtime.GOARCH,
-        CPUS:       runtime.NumCPU(),
-        Goroutines: runtime.NumGoroutine(),
-        DB: &db{
-            Name:               s.db.Dialect().DBName(),
-            Version:            dbVersion,
-            MaxOpenConnections: stats.MaxOpenConnections,
-            OpenConnections:    stats.OpenConnections,
-            InUse:              stats.InUse,
-            Idle:               stats.Idle,
-            WaitCount:          stats.WaitCount,
-            WaitDuration:       stats.WaitDuration,
-            MaxIdleClosed:      stats.MaxIdleClosed,
-            MaxIdleTimeClosed:  stats.MaxIdleTimeClosed,
-            MaxLifetimeClosed:  stats.MaxLifetimeClosed,
-        },
-    })
+	return web.OK(&info{
+		Name:       srv.Name(),
+		Version:    srv.Version(),
+		Uptime:     ctx.Server().Uptime().Format(time.RFC3339),
+		Go:         runtime.Version(),
+		OS:         runtime.GOOS,
+		Arch:       runtime.GOARCH,
+		CPUS:       runtime.NumCPU(),
+		Goroutines: runtime.NumGoroutine(),
+		DB: &db{
+			Name:               s.db.Dialect().DBName(),
+			Version:            dbVersion,
+			MaxOpenConnections: stats.MaxOpenConnections,
+			OpenConnections:    stats.OpenConnections,
+			InUse:              stats.InUse,
+			Idle:               stats.Idle,
+			WaitCount:          stats.WaitCount,
+			WaitDuration:       stats.WaitDuration,
+			MaxIdleClosed:      stats.MaxIdleClosed,
+			MaxIdleTimeClosed:  stats.MaxIdleTimeClosed,
+			MaxLifetimeClosed:  stats.MaxLifetimeClosed,
+		},
+	})
 }
 
 // <api method="get" summary="系统服务状态">
@@ -180,53 +180,53 @@ func (s *System) adminGetInfo(ctx *web.Context) web.Responser {
 //
 // </api>
 func (s *System) adminGetServices(ctx *web.Context) web.Responser {
-    type service struct {
-        Title string `json:"title" yaml:"title" xml:"title"`
-        State string `json:"state" yaml:"state" xml:"state,attr"`
-        Err   string `json:"err,omitempty" yaml:"err,omitempty" xml:"err,omitempty"`
-    }
-    type job struct {
-        service
-        Next time.Time `json:"next,omitempty" yaml:"next,omitempty" xml:"next,omitempty"`
-        Prev time.Time `json:"prev,omitempty" yaml:"prev,omitempty" xml:"prev,omitempty"`
-    }
-    type services struct {
-        XMLName  struct{}  `json:"-" yaml:"-" xml:"services"`
-        Services []service `json:"services" yaml:"services" xml:"service"`
-        Jobs     []job     `json:"jobs" yaml:"jobs" xml:"job"`
-    }
+	type service struct {
+		Title string `json:"title" xml:"title"`
+		State string `json:"state" xml:"state,attr"`
+		Err   string `json:"err,omitempty" xml:"err,omitempty"`
+	}
+	type job struct {
+		service
+		Next time.Time `json:"next,omitempty" xml:"next,omitempty"`
+		Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty"`
+	}
+	type services struct {
+		XMLName  struct{}  `json:"-" xml:"services"`
+		Services []service `json:"services" xml:"service"`
+		Jobs     []job     `json:"jobs" xml:"job"`
+	}
 
-    ss := services{}
-    for _, s := range ctx.Server().Services().Services() {
-        var err string
-        if s.Err() != nil {
-            err = s.Err().Error()
-        }
+	ss := services{}
+	for _, s := range ctx.Server().Services().Services() {
+		var err string
+		if s.Err() != nil {
+			err = s.Err().Error()
+		}
 
-        ss.Services = append(ss.Services, service{
-            Title: s.Title(),
-            State: s.State().String(),
-            Err:   err,
-        })
-    }
-    for _, j := range ctx.Server().Services().Jobs() {
-        var err string
-        if j.Err() != nil {
-            err = j.Err().Error()
-        }
+		ss.Services = append(ss.Services, service{
+			Title: s.Title(),
+			State: s.State().String(),
+			Err:   err,
+		})
+	}
+	for _, j := range ctx.Server().Services().Jobs() {
+		var err string
+		if j.Err() != nil {
+			err = j.Err().Error()
+		}
 
-        ss.Jobs = append(ss.Jobs, job{
-            service: service{
-                Title: j.Name(),
-                State: j.State().String(),
-                Err:   err,
-            },
-            Next: j.Next(),
-            Prev: j.Prev(),
-        })
-    }
+		ss.Jobs = append(ss.Jobs, job{
+			service: service{
+				Title: j.Name(),
+				State: j.State().String(),
+				Err:   err,
+			},
+			Next: j.Next(),
+			Prev: j.Prev(),
+		})
+	}
 
-    return web.OK(ss)
+	return web.OK(ss)
 }
 
 // <api method="GET" summary="系统错误信息">
@@ -240,27 +240,27 @@ func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 //
 // </api>
 func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
-    type p struct {
-        ID     string `json:"id" yaml:"id" xml:"id"`
-        Status int    `json:"status" yaml:"status" xml:"status,attr"`
-        Title  string `json:"title" yaml:"title" xml:"title"`
-        Detail string `json:"detail" yaml:"detail" xml:"detail"`
-    }
+	type p struct {
+		ID     string `json:"id" xml:"id"`
+		Status int    `json:"status" xml:"status,attr"`
+		Title  string `json:"title" xml:"title"`
+		Detail string `json:"detail" xml:"detail"`
+	}
 
-    pp := ctx.Server().Problems()
-    ps := make([]*p, 0, 100)
-    pp.Visit(func(id string, status int, title, detail localeutil.LocaleStringer) bool {
-        ps = append(ps, &p{
-            ID:     id,
-            Status: status,
-            Title:  title.LocaleString(ctx.LocalePrinter()),
-            Detail: detail.LocaleString(ctx.LocalePrinter()),
-        })
-        return true
-    })
-   
-    return web.OK(map[string]any{
-        "base":     pp.BaseURL(),
-        "problems": ps,
-    })
+	pp := ctx.Server().Problems()
+	ps := make([]*p, 0, 100)
+	pp.Visit(func(id string, status int, title, detail localeutil.LocaleStringer) bool {
+		ps = append(ps, &p{
+			ID:     id,
+			Status: status,
+			Title:  title.LocaleString(ctx.LocalePrinter()),
+			Detail: detail.LocaleString(ctx.LocalePrinter()),
+		})
+		return true
+	})
+
+	return web.OK(map[string]any{
+		"base":     pp.BaseURL(),
+		"problems": ps,
+	})
 }

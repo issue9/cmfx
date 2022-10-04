@@ -16,53 +16,53 @@ import (
 
 type (
 	Response struct {
-		XMLName struct{}         `json:"-" yaml:"-" xml:"setting"`
-		Groups  []*GroupResponse `json:"groups,omitempty" yaml:"groups,omitempty" xml:"groups,omitempty"`
+		XMLName struct{}         `json:"-" xml:"setting"`
+		Groups  []*GroupResponse `json:"groups,omitempty" xml:"groups,omitempty"`
 	}
 
 	GroupResponse struct {
-		XMLName struct{}        `json:"-" yaml:"-" xml:"group"`
-		ID      string          `json:"id" yaml:"id" xml:"id,attr"`
-		Title   string          `json:"title" yaml:"title" xml:"title"`
-		Desc    string          `json:"desc" yaml:"desc" xml:"desc"`
-		Items   []*ItemResponse `json:"items,omitempty" yaml:"items,omitempty" xml:"item,omitempty"`
+		XMLName struct{}        `json:"-" xml:"group"`
+		ID      string          `json:"id" xml:"id,attr"`
+		Title   string          `json:"title" xml:"title"`
+		Desc    string          `json:"desc" xml:"desc"`
+		Items   []*ItemResponse `json:"items,omitempty" xml:"item,omitempty"`
 	}
 
 	ItemResponse struct {
-		ID       string `json:"id" yaml:"id" xml:"id,attr"`
-		Title    string `json:"title" yaml:"title" xml:"title"`
-		Desc     string `json:"desc" yaml:"desc" xml:"desc"`
-		Value    any    `json:"value" yaml:"value" xml:"value"`
-		Type     string `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty"`
-		Multiple bool   `json:"multiple,omitempty" yaml:"multiple,omitempty" xml:"multiple,attr,omitempty"`
-		Slice    bool   `json:"slice,omitempty" yaml:"slice,omitempty" xml:"slice,attr,omitempty"`
+		ID       string `json:"id" xml:"id,attr"`
+		Title    string `json:"title" xml:"title"`
+		Desc     string `json:"desc" xml:"desc"`
+		Value    any    `json:"value" xml:"value"`
+		Type     string `json:"type,omitempty" xml:"type,attr,omitempty"`
+		Multiple bool   `json:"multiple,omitempty" xml:"multiple,attr,omitempty"`
+		Slice    bool   `json:"slice,omitempty" xml:"slice,attr,omitempty"`
 
-		Candidate []*CandidateResponse `json:"candidate,omitempty" yaml:"candidate,omitempty" xml:"candidate,omitempty"`
+		Candidate []*CandidateResponse `json:"candidate,omitempty" xml:"candidate,omitempty"`
 	}
 
 	CandidateResponse struct {
-		Value any    `json:"value" yaml:"value" xml:"value"`
-		Title string `json:"title" yaml:"title" xml:"title"`
-		Desc  string `json:"desc,omitempty" yaml:"desc,omitempty" xml:"desc,omitempty"`
+		Value any    `json:"value" xml:"value"`
+		Title string `json:"title" xml:"title"`
+		Desc  string `json:"desc,omitempty" xml:"desc,omitempty"`
 	}
 
 	Request struct {
 		s       *Setting
-		XMLName struct{}        `json:"-" yaml:"-" xml:"setting"`
-		Groups  []*GroupRequest `json:"groups,omitempty" yaml:"groups,omitempty" xml:"group,omitempty"`
+		XMLName struct{}        `json:"-" xml:"setting"`
+		Groups  []*GroupRequest `json:"groups,omitempty" xml:"group,omitempty"`
 	}
 
 	GroupRequest struct {
 		g       *Group
-		XMLName struct{}       `json:"-" yaml:"-" xml:"group"`
-		ID      string         `json:"id,omitempty" yaml:"id,omitempty" xml:"id,attr,omitempty"`
-		Items   []*ItemRequest `json:"items" yaml:"items" xml:"item"`
+		XMLName struct{}       `json:"-" xml:"group"`
+		ID      string         `json:"id,omitempty" xml:"id,attr,omitempty"`
+		Items   []*ItemRequest `json:"items" xml:"item"`
 	}
 
 	ItemRequest struct {
-		ID       string   `json:"id" yaml:"id" xml:"id,attr"`
-		Value    any      `json:"value" yaml:"value" xml:"-"`
-		XMLValue []string `json:"-" yaml:"-" xml:"value"` // XML 无法解析到 any 类型
+		ID       string   `json:"id" xml:"id,attr"`
+		Value    any      `json:"value" xml:"-"`
+		XMLValue []string `json:"-" xml:"value"` // XML 无法解析到 any 类型
 	}
 )
 

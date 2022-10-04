@@ -10,10 +10,10 @@ import (
 )
 
 type requestRole struct {
-	XMLName struct{} `json:"-" xml:"role" yaml:"-"`
-	Name    string   `json:"name" xml:"name" yaml:"name"`
-	Desc    string   `json:"description" xml:"description" yaml:"description"`
-	Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty" yaml:"parent,omitempty"`
+	XMLName struct{} `json:"-" xml:"role"`
+	Name    string   `json:"name" xml:"name"`
+	Desc    string   `json:"description" xml:"description"`
+	Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty"`
 }
 
 func (r *requestRole) CTXSanitize(v *web.Validation) {
@@ -24,10 +24,10 @@ func (r *requestRole) CTXSanitize(v *web.Validation) {
 func (rbac *RBAC) GetRolesHandle(ctx *web.Context) web.Responser {
 	type role struct {
 		XMLName struct{} `json:"-" xml:"group"`
-		ID      int64    `json:"id,omitempty" xml:"id,attr,omitempty" yaml:"id,omitempty"`
-		Name    string   `json:"name" xml:"name" yaml:"name"`
-		Desc    string   `json:"description" xml:"description" yaml:"description"`
-		Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty" yaml:"parent,omitempty"`
+		ID      int64    `json:"id,omitempty" xml:"id,attr,omitempty"`
+		Name    string   `json:"name" xml:"name"`
+		Desc    string   `json:"description" xml:"description"`
+		Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty"`
 	}
 
 	rs := make([]*role, 0, len(rbac.roles))

@@ -24,15 +24,15 @@ type SecurityLog struct {
 
 type Log struct {
 	// 展示数据不给 ID，自增 ID 会暴露一些不必要的信息。
-	Content   string    `json:"content" yaml:"content" xml:",cdata"`
-	IP        string    `json:"ip" yaml:"ip" xml:"ip,attr"`
-	UserAgent string    `json:"ua" yaml:"ua" xml:"ua"`
-	Created   time.Time `xml:"created" yaml:"created" json:"created"`
+	Content   string    `json:"content" xml:",cdata"`
+	IP        string    `json:"ip" xml:"ip,attr"`
+	UserAgent string    `json:"ua" xml:"ua"`
+	Created   time.Time `xml:"created" json:"created"`
 }
 
 type Logs struct {
-	Count int64  `json:"count" yaml:"count" xml:"count,attr"`
-	Logs  []*Log `json:"logs" yaml:"logs" xml:"log"`
+	Count int64  `json:"count" xml:"count,attr"`
+	Logs  []*Log `json:"logs" xml:"log"`
 }
 
 func New(mod string, db *orm.DB) *SecurityLog {
