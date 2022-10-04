@@ -16,7 +16,7 @@ type requestRole struct {
 	Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty" yaml:"parent,omitempty"`
 }
 
-func (r *requestRole) CTXSanitize(ctx *web.Context, v *web.Validation) {
+func (r *requestRole) CTXSanitize(v *web.Validation) {
 	v.AddField(r.Desc, "description", rules.Required).
 		AddField(r.Name, "name", rules.Required)
 }

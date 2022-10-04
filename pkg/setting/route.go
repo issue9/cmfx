@@ -66,17 +66,17 @@ type (
 	}
 )
 
-func (r *Request) CTXSanitize(ctx *web.Context, v *web.Validation) {
+func (r *Request) CTXSanitize(v *web.Validation) {
 	v.AddField(r.Groups, "groups", rules.Required)
 
 	for _, g := range r.Groups {
 		g.g = r.s.groups[g.ID]
 		v.AddField(g.ID, "id", rules.Required)
-		g.CTXSanitize(ctx, v)
+		g.CTXSanitize(v)
 	}
 }
 
-func (g *GroupRequest) CTXSanitize(ctx *web.Context, v *web.Validation) {
+func (g *GroupRequest) CTXSanitize(v *web.Validation) {
 	if len(g.Items) == 0 {
 		v.Add("items", locales.Required)
 		return

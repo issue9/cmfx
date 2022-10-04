@@ -10,6 +10,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/query"
 )
 
 // SecurityLog 安全日志
@@ -96,14 +97,14 @@ func (l *SecurityLog) Get(uid int64, size, page int, txt string, start, end time
 	return &Logs{Count: count, Logs: logs}, nil
 }
 
-type query struct {
-	cmfx.Text
-	Created cmfx.DateRange `query:"created"`
+type logQuery struct {
+	query.Text
+	Created query.DateRange `query:"created"`
 }
 
 // GetHandle 将数据以固定的格式输出客户端
 func (l *SecurityLog) GetHandle(uid int64, ctx *web.Context) web.Responser {
-	q := &query{}
+	q := &logQuery{}
 	if rslt := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); rslt != nil {
 		return rslt
 	}

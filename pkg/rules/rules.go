@@ -22,8 +22,6 @@ var (
 
 	Strength = web.NewRule(locales.StrengthInvalid, validator.Strength(8, 1, 0, 1))
 
-	GreaterThanZero = web.NewRule(locales.MustBeGreaterThanZero, validator.Min(0))
-
 	// Avatar 头像验证规则，可以为空或是 URL
 	Avatar = web.NewRule(locales.InvalidValue, validator.OrFunc(validator.URL, func(a any) bool {
 		if a == nil {

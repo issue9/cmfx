@@ -140,9 +140,13 @@ messages:
   message:
     msg: 不符合密码安全要求
 
-- key: must be greater than zero
+- key: must be greater than %d
   message:
-    msg: 必须大于零
+    msg: 必须大于 %d
+
+- key: must be less than %d
+  message:
+    msg: 必须小于 %d
     
 # admin
 

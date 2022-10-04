@@ -3,13 +3,13 @@
 package admin
 
 import (
-    "errors"
+	"errors"
 
-    "github.com/issue9/web"
+	"github.com/issue9/web"
 
-    "github.com/issue9/cmfx"
-    "github.com/issue9/cmfx/pkg/passport"
-    "github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/passport"
+	"github.com/issue9/cmfx/pkg/rules"
 )
 
 // <api method="GET" summary="获取当前登用户的信息">
@@ -31,18 +31,18 @@ import (
 //
 // </api>
 func (m *Admin) getInfo(ctx *web.Context) web.Responser {
-    return web.OK(m.LoginUser(ctx))
+	return web.OK(m.LoginUser(ctx))
 }
 
 type info struct {
-    XMLName  struct{} `json:"-" xml:"info"`
-    Nickname string   `json:"nickname" xml:"nickname"`
-    Avatar   string   `json:"avatar" xml:"avatar"`
+	XMLName  struct{} `json:"-" xml:"info"`
+	Nickname string   `json:"nickname" xml:"nickname"`
+	Avatar   string   `json:"avatar" xml:"avatar"`
 }
 
-func (i *info) CTXSanitize(ctx *web.Context, v *web.Validation) {
-    v.AddField(i.Nickname, "nickname", rules.Required).
-        AddField(i.Avatar, "avatar", rules.Avatar)
+func (i *info) CTXSanitize(v *web.Validation) {
+	v.AddField(i.Nickname, "nickname", rules.Required).
+		AddField(i.Avatar, "avatar", rules.Avatar)
 }
 
 // <api method="patch" summary="更新当前登用户的信息">
@@ -59,39 +59,39 @@ func (i *info) CTXSanitize(ctx *web.Context, v *web.Validation) {
 //
 // </api>
 func (m *Admin) patchInfo(ctx *web.Context) web.Responser {
-    data := &info{}
-    if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-        return resp
-    }
+	data := &info{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
 
-    a := m.LoginUser(ctx)
+	a := m.LoginUser(ctx)
 
-    _, err := m.dbPrefix.DB(m.db).Update(&modelAdmin{
-        ID:       a.ID,
-        Nickname: data.Nickname,
-        Avatar:   data.Avatar,
-    })
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
+	_, err := m.dbPrefix.DB(m.db).Update(&modelAdmin{
+		ID:       a.ID,
+		Nickname: data.Nickname,
+		Avatar:   data.Avatar,
+	})
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    m.AddSecurityLogWithContext(a.ID, ctx, "更新个人信息")
+	m.AddSecurityLogWithContext(a.ID, ctx, "更新个人信息")
 
-    return web.NoContent()
+	return web.NoContent()
 }
 
 type password struct {
-    XMLName struct{} `json:"-" xml:"password"`
-    Old     string   `json:"old" xml:"old"`
-    New     string   `json:"new" xml:"new"`
+	XMLName struct{} `json:"-" xml:"password"`
+	Old     string   `json:"old" xml:"old"`
+	New     string   `json:"new" xml:"new"`
 }
 
-func (p *password) CTXSanitize(ctx *web.Context, v *web.Validation) {
-    v.AddField(p.Old, "old", rules.Required).
-        AddField(p.New, "new", rules.Required).
-        AddField(p.New, "new", web.NewRuleFunc(web.Phrase("same of new and old password"), func(any) bool {
-            return p.Old == p.New
-        }))
+func (p *password) CTXSanitize(v *web.Validation) {
+	v.AddField(p.Old, "old", rules.Required).
+		AddField(p.New, "new", rules.Required).
+		AddField(p.New, "new", web.NewRuleFunc(web.Phrase("same of new and old password"), func(any) bool {
+			return p.Old == p.New
+		}))
 }
 
 // <api method="PUT" summary="当前登录用户修改自己的密码">
@@ -108,26 +108,26 @@ func (p *password) CTXSanitize(ctx *web.Context, v *web.Validation) {
 //
 // </api>
 func (m *Admin) putCurrentPassword(ctx *web.Context) web.Responser {
-    data := &password{}
-    if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-        return resp
-    }
+	data := &password{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
 
-    a := m.LoginUser(ctx)
-    err := m.password.Change(nil, a.ID, data.Old, data.New)
-    if errors.Is(err, passport.ErrUnauthorized) {
-        return ctx.Problem(cmfx.Unauthorized)
-    } else if err != nil {
-        return ctx.InternalServerError(err)
-    }
+	a := m.LoginUser(ctx)
+	err := m.password.Change(nil, a.ID, data.Old, data.New)
+	if errors.Is(err, passport.ErrUnauthorized) {
+		return ctx.Problem(cmfx.Unauthorized)
+	} else if err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
-        return ctx.InternalServerError(err)
-    }
+	if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    m.AddSecurityLogWithContext(a.ID, ctx, "修改密码")
+	m.AddSecurityLogWithContext(a.ID, ctx, "修改密码")
 
-    return web.NoContent()
+	return web.NoContent()
 }
 
 // <api method="GET" summary="当前用户的安全操作记录">
@@ -150,8 +150,8 @@ func (m *Admin) putCurrentPassword(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) getSecurityLogs(ctx *web.Context) web.Responser {
-    if u := m.LoginUser(ctx); u != nil {
-        return m.securitylog.GetHandle(u.ID, ctx)
-    }
-    return ctx.Problem(cmfx.Unauthorized)
+	if u := m.LoginUser(ctx); u != nil {
+		return m.securitylog.GetHandle(u.ID, ctx)
+	}
+	return ctx.Problem(cmfx.Unauthorized)
 }

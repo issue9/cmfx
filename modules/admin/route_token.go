@@ -3,25 +3,25 @@
 package admin
 
 import (
-    "errors"
-    "net/http"
+	"errors"
+	"net/http"
 
-    "github.com/issue9/web"
+	"github.com/issue9/web"
 
-    "github.com/issue9/cmfx"
-    "github.com/issue9/cmfx/pkg/passport"
-    "github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/passport"
+	"github.com/issue9/cmfx/pkg/rules"
 )
 
 type cert struct {
-    XMLName  struct{} `json:"-" xml:"login"`
-    Username string   `json:"username" xml:"username"`
-    Password string   `json:"password" xml:"password"`
+	XMLName  struct{} `json:"-" xml:"login"`
+	Username string   `json:"username" xml:"username"`
+	Password string   `json:"password" xml:"password"`
 }
 
-func (c *cert) CTXSanitize(ctx *web.Context, v *web.Validation) {
-    v.AddField(c.Username, "username", rules.Required).
-        AddField(c.Password, "password", rules.Required)
+func (c *cert) CTXSanitize(v *web.Validation) {
+	v.AddField(c.Username, "username", rules.Required).
+		AddField(c.Password, "password", rules.Required)
 }
 
 // <api method="POST" summary="管理员登录">
@@ -45,42 +45,42 @@ func (c *cert) CTXSanitize(ctx *web.Context, v *web.Validation) {
 // </response>
 // </api>
 func (m *Admin) postLogin(ctx *web.Context) web.Responser {
-    data := &cert{}
-    if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-        return resp
-    }
+	data := &cert{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
 
-    // 密码错误
-    uid, err := m.password.Valid(nil, data.Username, data.Password)
-    switch {
-    case errors.Is(err, passport.ErrUnauthorized):
-        return ctx.Problem(cmfx.Unauthorized)
-    case err != nil:
-        return ctx.InternalServerError(err)
-    }
+	// 密码错误
+	uid, err := m.password.Valid(nil, data.Username, data.Password)
+	switch {
+	case errors.Is(err, passport.ErrUnauthorized):
+		return ctx.Problem(cmfx.Unauthorized)
+	case err != nil:
+		return ctx.InternalServerError(err)
+	}
 
-    a := &modelAdmin{
-        ID: uid,
-    }
-    found, err := m.dbPrefix.DB(m.db).Select(a)
-    if err != nil {
-        return ctx.InternalServerError(err)
-    }
+	a := &modelAdmin{
+		ID: uid,
+	}
+	found, err := m.dbPrefix.DB(m.db).Select(a)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
 
-    if !found {
-        ctx.Server().Logs().Debugf("用户名 %v 不存在\n", data.Username)
-        return ctx.Problem(cmfx.Unauthorized)
-    }
+	if !found {
+		ctx.Server().Logs().Debugf("用户名 %v 不存在\n", data.Username)
+		return ctx.Problem(cmfx.Unauthorized)
+	}
 
-    if a.State != StateNormal {
-        return ctx.Problem(cmfx.Unauthorized)
-    }
+	if a.State != StateNormal {
+		return ctx.Problem(cmfx.Unauthorized)
+	}
 
-    if err := m.securitylog.AddWithContext(a.ID, ctx, "登录"); err != nil {
-        ctx.Server().Logs().Error(err)
-    }
+	if err := m.securitylog.AddWithContext(a.ID, ctx, "登录"); err != nil {
+		ctx.Server().Logs().Error(err)
+	}
 
-    return m.tokenServer.New(ctx, http.StatusCreated, newClaims(a.ID))
+	return m.tokenServer.New(ctx, http.StatusCreated, newClaims(a.ID))
 }
 
 // <api method="DELETE" summary="注销当前管理员的登录">
@@ -91,10 +91,10 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 // <response status="204" />
 // </api>
 func (m *Admin) deleteLogin(ctx *web.Context) web.Responser {
-    if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
-        ctx.Server().Logs().ERROR().Error(err)
-    }
-    return web.Status(http.StatusNoContent, "Clear-Site-Data", `"cookies", "storage"`)
+	if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
+		ctx.Server().Logs().ERROR().Error(err)
+	}
+	return web.Status(http.StatusNoContent, "Clear-Site-Data", `"cookies", "storage"`)
 }
 
 // <api method="get" summary="续定 token">
@@ -115,23 +115,23 @@ func (m *Admin) deleteLogin(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) getToken(ctx *web.Context) web.Responser {
-    if xx, found := m.tokenServer.GetValue(ctx); found {
-        if xx.BaseToken() == "" {
-            return web.Status(http.StatusForbidden)
-        }
+	if xx, found := m.tokenServer.GetValue(ctx); found {
+		if xx.BaseToken() == "" {
+			return web.Status(http.StatusForbidden)
+		}
 
-        if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
-            return ctx.InternalServerError(err)
-        }
-        if err := m.tokenServer.BlockToken(xx.BaseToken()); err != nil {
-            return ctx.InternalServerError(err)
-        }
+		if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
+			return ctx.InternalServerError(err)
+		}
+		if err := m.tokenServer.BlockToken(xx.BaseToken()); err != nil {
+			return ctx.InternalServerError(err)
+		}
 
-        if err := m.securitylog.AddWithContext(xx.UID, ctx, "刷新令牌"); err != nil {
-            ctx.Server().Logs().Error(err)
-        }
+		if err := m.securitylog.AddWithContext(xx.UID, ctx, "刷新令牌"); err != nil {
+			ctx.Server().Logs().Error(err)
+		}
 
-        return m.tokenServer.New(ctx, http.StatusCreated, newClaims(xx.UID))
-    }
-    return web.Status(http.StatusUnauthorized)
+		return m.tokenServer.New(ctx, http.StatusCreated, newClaims(xx.UID))
+	}
+	return web.Status(http.StatusUnauthorized)
 }

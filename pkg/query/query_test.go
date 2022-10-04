@@ -1,16 +1,13 @@
 // SPDX-License-Identifier: MIT
 
-package cmfx
+package query
 
 import (
 	"testing"
 	"time"
 
 	"github.com/issue9/assert/v3"
-	"github.com/issue9/web/server"
 )
-
-var _ server.CTXSanitizer = &Limit{}
 
 func TestDateRange(t *testing.T) {
 	a := assert.New(t, false)

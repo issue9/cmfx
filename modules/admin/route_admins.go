@@ -13,6 +13,7 @@ import (
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/pkg/query"
 	"github.com/issue9/cmfx/pkg/rules"
 )
 
@@ -61,15 +62,15 @@ func (m *Admin) getAdmin(ctx *web.Context) web.Responser {
 }
 
 type adminsQuery struct {
-	cmfx.Text
+	query.Text
 	Groups []int64 `query:"group"`
 	States []State `query:"state,normal"`
 	Sexes  []Sex   `query:"sex"`
 	m      *Admin
 }
 
-func (q *adminsQuery) CTXSanitize(ctx *web.Context, v *web.Validation) {
-	q.Text.CTXSanitize(ctx, v)
+func (q *adminsQuery) CTXSanitize(v *web.Validation) {
+	q.Text.CTXSanitize(v)
 
 	v.AddSliceField(q.Groups, "group", web.NewRuleFunc(web.Phrase("group not exists"), func(v any) bool {
 		return q.m.rbac.Role(v.(int64)) != nil
@@ -100,7 +101,7 @@ func (q *adminsQuery) CTXSanitize(ctx *web.Context, v *web.Validation) {
 //	</path>
 //	<response type="object" status="200">
 //	    <param name="count" type="number" summary="符合条件的数量，去除 page, size 的影响" />
-//	    <param name="admins" type="object" array="true" summary="当前页数据">
+//	    <param name="current" type="object" array="true" summary="当前页数据">
 //	        <param name="id" type="number" summary="用户 ID" />
 //	        <param name="state" type="string" summary="状态值">
 //	            <enum value="normal" summary="正常" />
@@ -151,24 +152,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 		sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
 	}
 
-	size, curr, err := q.Paging(sql)
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-	if size == 0 {
-		return ctx.NotFound()
-	}
-
-	admins := make([]*modelAdmin, 0, curr)
-	n, err := sql.QueryObject(true, &admins)
-	if err != nil {
-		return ctx.InternalServerError(err)
-	}
-	if n == 0 {
-		return ctx.NotFound()
-	}
-
-	return web.OK(map[string]interface{}{"count": size, "admins": admins})
+	return query.Paging[modelAdmin](ctx, &q.Limit, sql)
 }
 
 // <api method="patch" summary="修改指定的管理员账号">
@@ -302,7 +286,7 @@ type postAdminInfo struct {
 	m        *Admin
 }
 
-func (i *postAdminInfo) CTXSanitize(ctx *web.Context, v *web.Validation) {
+func (i *postAdminInfo) CTXSanitize(v *web.Validation) {
 	v.AddField(i.State, "state", StateRule).
 		AddField(i.Name, "name", rules.Required).
 		AddField(i.Username, "username", rules.Required).
@@ -319,10 +303,10 @@ func (i *postAdminInfo) CTXSanitize(ctx *web.Context, v *web.Validation) {
 		When(len(i.Groups) == 0, func(v *web.Validation) {
 			v.Add("groups", locales.Required)
 		}).
-		AddField(i.Groups, "groups", server.NewRuleFunc(locales.InvalidValue, func(v any) bool {
-			ok, err := i.m.IsAllowChangeGroup(ctx, i.Groups)
+		AddField(i.Groups, "groups", server.NewRuleFunc(locales.InvalidValue, func(_ any) bool {
+			ok, err := i.m.IsAllowChangeGroup(v.Context(), i.Groups)
 			if err != nil {
-				ctx.Logs().ERROR().Error(err)
+				v.Context().Logs().ERROR().Error(err)
 			}
 			return ok
 		}))
