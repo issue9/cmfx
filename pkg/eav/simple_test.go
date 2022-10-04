@@ -21,13 +21,13 @@ func TestSimple(t *testing.T) {
 
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	prefix := "test"
+	tableName := "test"
 	db := suite.DB()
-	InstallSimple(prefix, db)
+	InstallSimple(tableName, db)
 
 	// insert
 
-	simple := NewSimple[people](prefix, db, nil, nil)
+	simple := NewSimple[people](tableName, db, nil, nil)
 	a.NotNil(simple)
 	a.NotError(simple.Insert(1, &people{ID: 1, Name: "1", age: 5}))
 	a.Error(simple.Insert(1, &people{ID: 2, Name: "2", age: 5})) // 相同的 id 参数

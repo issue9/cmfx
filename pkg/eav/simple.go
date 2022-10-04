@@ -22,10 +22,10 @@ type Simple[T any] struct {
 
 // NewSimple 加载简要的 EAV 操作接口
 //
-// prefix 为表名前缀。
+// tableName 为表名；
 // marshal 和 unmarshal 表示将对象保存至表的编解码方法，如果未指定，则采用 json 的格式；
 // T 表示存取对象的类型；
-func NewSimple[T any](prefix string, db *orm.DB, marshal serializer.MarshalFunc, unmarshal serializer.UnmarshalFunc) *Simple[T] {
+func NewSimple[T any](tableName string, db *orm.DB, marshal serializer.MarshalFunc, unmarshal serializer.UnmarshalFunc) *Simple[T] {
 	if marshal == nil {
 		marshal = json.Marshal
 	}
@@ -35,7 +35,7 @@ func NewSimple[T any](prefix string, db *orm.DB, marshal serializer.MarshalFunc,
 
 	return &Simple[T]{
 		db:       db,
-		dbPrefix: orm.Prefix(prefix),
+		dbPrefix: orm.Prefix(tableName),
 
 		marshal:   marshal,
 		unmarshal: unmarshal,

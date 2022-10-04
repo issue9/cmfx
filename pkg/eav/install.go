@@ -11,10 +11,11 @@ import (
 
 // InstallSimple 安装简单的 EAV 数据表
 //
-// prefix 为表名前缀；
-func InstallSimple(prefix string, db *orm.DB) {
-	e := orm.Prefix(prefix).DB(db)
+// tableName 为表名；
+func InstallSimple(tableName string, db *orm.DB) {
+	e := orm.Prefix(tableName).DB(db)
 	cmfx.Init(nil, func() error {
 		return web.StackError(e.Create(&modelSimpleEAV{}))
 	})
+
 }

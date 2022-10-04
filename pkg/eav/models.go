@@ -7,4 +7,4 @@ type modelSimpleEAV struct {
 	Value []byte `orm:"name(value);len(-1)"` // 关联的值
 }
 
-func (m *modelSimpleEAV) TableName() string { return `_simple_eav` }
+func (m *modelSimpleEAV) TableName() string { return `` }
