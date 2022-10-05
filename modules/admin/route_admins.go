@@ -222,7 +222,7 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 		return ctx.InternalServerError(err)
 	}
 
-	e := m.dbPrefix.DB(m.db)
+	e := m.dbPrefix.Tx(tx)
 	if _, err := e.Update(aa, "state", "sex"); err != nil {
 		tx.Rollback()
 		return ctx.InternalServerError(err)
