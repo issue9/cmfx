@@ -22,7 +22,9 @@ func Install(mod string, db *orm.DB) {
 	rbac.Install(mod, db)
 
 	cmfx.Init(nil, func() error {
-		return web.StackError(e.Create(&modelAdmin{}))
+		return web.StackError(e.Create(&ModelAdmin{}))
+	}, func() error {
+		return web.StackError(e.Create(&modelSetting{}))
 	}, func() error {
 		a, err := rbac.New(mod, db, nil)
 		if err != nil {
@@ -43,7 +45,7 @@ func Install(mod string, db *orm.DB) {
 		return nil
 	}, func() error {
 		us := []orm.TableNamer{
-			&modelAdmin{
+			&ModelAdmin{
 				ID:       1,
 				Name:     "管理员",
 				Nickname: "管理员",
@@ -51,14 +53,14 @@ func Install(mod string, db *orm.DB) {
 				Sex:      SexMale,
 				Username: "admin",
 			},
-			&modelAdmin{
+			&ModelAdmin{
 				ID:       2,
 				Name:     "测试用户1",
 				Nickname: "测试用户1",
 				Sex:      SexMale,
 				Username: "u2",
 			},
-			&modelAdmin{
+			&ModelAdmin{
 				ID:       3,
 				State:    StateLocked,
 				Name:     "测试用户2",
@@ -66,7 +68,7 @@ func Install(mod string, db *orm.DB) {
 				Sex:      SexFemale,
 				Username: "u3",
 			},
-			&modelAdmin{
+			&ModelAdmin{
 				ID:       4,
 				State:    StateLeft,
 				Name:     "测试用户3",

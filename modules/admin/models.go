@@ -27,9 +27,7 @@ const (
 	SexFemale
 )
 
-// TODO: timezone, language
-
-type modelAdmin struct {
+type ModelAdmin struct {
 	XMLName struct{} `orm:"-" json:"-" xml:"admin"`
 
 	ID       int64     `orm:"name(id);ai" json:"id" xml:"id,attr"`
@@ -43,9 +41,17 @@ type modelAdmin struct {
 	Super    bool      `orm:"name(super)" json:"super,omitempty" xml:"super,attr,omitempty"`
 }
 
-func (a *modelAdmin) TableName() string { return `_admins` }
+type modelSetting struct {
+	UID   int64  `orm:"name(uid);unique(uid_id)"`
+	ID    string `orm:"name(id);len(20);unique(uid_id)"`
+	Value string `orm:"name(value);len(-1)"`
+}
 
-func (a *modelAdmin) BeforeInsert() error {
+func (*ModelAdmin) TableName() string { return `_admins` }
+
+func (*modelSetting) TableName() string { return `_settings` }
+
+func (a *ModelAdmin) BeforeInsert() error {
 	a.ID = 0
 	a.Created = time.Now()
 	a.Name = html.EscapeString(a.Name)
@@ -56,7 +62,7 @@ func (a *modelAdmin) BeforeInsert() error {
 }
 
 // BeforeUpdate 更新之前需要执行的操作
-func (a *modelAdmin) BeforeUpdate() error {
+func (a *ModelAdmin) BeforeUpdate() error {
 	a.Name = html.EscapeString(a.Name)
 	a.Nickname = html.EscapeString(a.Nickname)
 	a.Avatar = url.QueryEscape(a.Avatar)

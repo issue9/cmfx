@@ -16,7 +16,7 @@ import (
 
 type (
 	Response struct {
-		XMLName struct{}         `json:"-" xml:"setting"`
+		XMLName struct{}         `json:"-" xml:"settings"`
 		Groups  []*GroupResponse `json:"groups,omitempty" xml:"groups,omitempty"`
 	}
 
@@ -194,7 +194,7 @@ func (g *Group) HandleGet(ctx *web.Context) web.Responser {
 	return web.OK(gg)
 }
 
-func (s *Setting) HandlePut(ctx *web.Context) web.Responser {
+func (s *Setting) HandlePatch(ctx *web.Context) web.Responser {
 	uu := &Request{s: s}
 	if resp := ctx.Read(true, uu, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -218,12 +218,38 @@ func (s *Setting) HandleGet(ctx *web.Context) web.Responser {
 		Groups: make([]*GroupResponse, 0, len(s.groups)),
 	}
 	for _, g := range s.groups {
-		uu.Groups = append(uu.Groups, &GroupResponse{
+		gs := &GroupResponse{
 			ID:    g.attr.id,
 			Title: g.attr.title.LocaleString(p),
 			Desc:  g.attr.desc.LocaleString(p),
-		})
+			Items: make([]*ItemResponse, 0, len(g.attr.fields)),
+		}
+
+		for _, f := range g.attr.fields {
+			item := &ItemResponse{
+				ID:       f.id,
+				Title:    f.title.LocaleString(p),
+				Desc:     f.desc.LocaleString(p),
+				Value:    g.v.Field(f.index).Interface(),
+				Type:     f.typ,
+				Multiple: f.multiple,
+				Slice:    f.slice,
+			}
+			item.Candidate = make([]*CandidateResponse, 0, len(f.candidate))
+			for _, c := range f.candidate {
+				item.Candidate = append(item.Candidate, &CandidateResponse{
+					Value: c.Value,
+					Title: c.Title.LocaleString(p),
+					Desc:  c.Desc.LocaleString(p),
+				})
+			}
+
+			gs.Items = append(gs.Items, item)
+
+		}
+		uu.Groups = append(uu.Groups, gs)
 	}
+
 	sort.Slice(uu.Groups, func(i, j int) bool { return uu.Groups[i].ID < uu.Groups[j].ID })
 	return web.OK(uu)
 }

@@ -105,8 +105,8 @@ func TestHandlePut(t *testing.T) {
 		return g1.HandlePut(ctx)
 	})
 
-	r.Put("/setting", func(ctx *web.Context) web.Responser {
-		return s.HandlePut(ctx)
+	r.Patch("/setting", func(ctx *web.Context) web.Responser {
+		return s.HandlePatch(ctx)
 	})
 
 	suite.GoServe()
@@ -134,7 +134,7 @@ func TestHandlePut(t *testing.T) {
 	// 提交了空对象
 	t.Run("setting/JSON ==> 400", func(t *testing.T) {
 		data := `{"items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","4"]}]}`
-		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -144,7 +144,7 @@ func TestHandlePut(t *testing.T) {
 	// 少 group.id
 	t.Run("setting/JSON ==> 400", func(t *testing.T) {
 		data := `{"groups":[{"items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","4"]}]}]}`
-		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -153,7 +153,7 @@ func TestHandlePut(t *testing.T) {
 
 	t.Run("setting/JSON ==> 204", func(t *testing.T) {
 		data := `{"groups":[{"id":"g1","items":[{"id":"id","value":7},{"id":"Name","value":"json"},{"id":"tags","value":["3","5"]}]}]}`
-		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/json").
+		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/json").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent)
@@ -190,7 +190,7 @@ func TestHandlePut(t *testing.T) {
 	// 提交了空对象
 	t.Run("setting/XML ==> 400", func(t *testing.T) {
 		data := `<group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group>`
-		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusUnprocessableEntity). // 格式不正确
@@ -200,7 +200,7 @@ func TestHandlePut(t *testing.T) {
 	// 少 group.id
 	t.Run("setting/XML ==> 400", func(t *testing.T) {
 		data := `<setting><group><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group></setting>`
-		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusBadRequest).
@@ -209,7 +209,7 @@ func TestHandlePut(t *testing.T) {
 
 	t.Run("setting/XML ==> 204", func(t *testing.T) {
 		data := `<setting><group id="g1"><item id="id"><value>8</value></item><item id="Name"><value>xml</value></item><item id="tags"><value>1</value><value>3</value></item></group></setting>`
-		suite.NewRequest(http.MethodPut, "/setting", nil).Header("content-type", "application/xml").
+		suite.NewRequest(http.MethodPatch, "/setting", nil).Header("content-type", "application/xml").
 			Body([]byte(data)).
 			Do(nil).
 			Status(http.StatusNoContent)

@@ -66,7 +66,7 @@ func (m *Admin) patchInfo(ctx *web.Context) web.Responser {
 
 	a := m.LoginUser(ctx)
 
-	_, err := m.dbPrefix.DB(m.db).Update(&modelAdmin{
+	_, err := m.dbPrefix.DB(m.db).Update(&ModelAdmin{
 		ID:       a.ID,
 		Nickname: data.Nickname,
 		Avatar:   data.Avatar,

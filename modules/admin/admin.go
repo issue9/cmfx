@@ -6,6 +6,7 @@ package admin
 import (
 	"net/http"
 
+	"github.com/issue9/events"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
@@ -14,6 +15,7 @@ import (
 	"github.com/issue9/cmfx/pkg/passport"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/securitylog"
+	"github.com/issue9/cmfx/pkg/setting"
 	"github.com/issue9/cmfx/pkg/token"
 )
 
@@ -43,12 +45,20 @@ type Admin struct {
 	rbac        *rbac.RBAC
 
 	securitylog *securitylog.SecurityLog
+
+	// 用户登录和注销事件
+	loginEvent  events.Eventer[int64]
+	logoutEvent events.Eventer[int64]
+
+	// 登录用户的设置信息
+	settings     map[int64]*setting.Setting
+	userSettings map[int64]*userSetting
 }
 
 func New(id string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token.Config, router *web.Router) (*Admin, error) {
 	loadOnce(s)
 
-	inst, err := rbac.New(id, db, nil) // TODO 第三个参数写配置文件
+	inst, err := rbac.New(id, db, s.Logs().DEBUG())
 	if err != nil {
 		return nil, web.StackError(err)
 	}
@@ -70,7 +80,26 @@ func New(id string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token
 		rbac:        inst,
 
 		securitylog: securitylog.New(id, db),
+
+		loginEvent:  events.New[int64](),
+		logoutEvent: events.New[int64](),
+
+		settings:     make(map[int64]*setting.Setting, 100),
+		userSettings: make(map[int64]*userSetting, 100),
 	}
+
+	m.OnLogin(func(id int64) {
+		m.settings[id] = setting.New(&settingStore{uid: id, a: m})
+
+		us := &userSetting{Language: s.LanguageTag().String(), Timezone: s.Location().String()}
+		m.RegisterSetting(id, us, "ui", web.Phrase("ui setting"), web.Phrase("ui setting detail"), uiAttrs)
+		m.userSettings[id] = us
+	})
+
+	m.OnLogout(func(id int64) {
+		delete(m.settings, id)
+		delete(m.userSettings, id)
+	})
 
 	err = m.RegisterResources(id, map[string]web.LocaleStringer{
 		"post-group":          web.Phrase("post groups"),
@@ -106,6 +135,10 @@ func New(id string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token
 		Patch("/info", m.patchInfo).
 		Get("/securitylog", m.getSecurityLogs).
 		Put("/password", m.putCurrentPassword).
+		Get("/settings", m.getSettings).
+		Patch("/settings", m.patchSettings)
+
+	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Post("/admins/{id:digit}/super", m.postSuper).
 		Get("/admins", m.RBACFilter(id, "get-admin", m.getAdmins)).
 		Post("/admins", m.RBACFilter(id, "post-admin", m.postAdmins)).
@@ -132,6 +165,9 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 			return web.Status(http.StatusUnauthorized)
 		}
 		ctx.Vars[adminKey] = c.UID
+		s := m.userSettings[c.UID]
+		ctx.SetLanguage(s.Language)
+		ctx.SetLocation(s.Timezone)
 		return next(ctx)
 	})
 }
@@ -139,13 +175,13 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 // LoginUser 获取当前登录的用户信息
 //
 // 该信息由 AuthFilter 存储在 ctx.Vars 之中。
-func (m *Admin) LoginUser(ctx *web.Context) *modelAdmin {
+func (m *Admin) LoginUser(ctx *web.Context) *ModelAdmin {
 	uid, found := ctx.Vars[adminKey]
 	if !found {
 		ctx.Server().Logs().Error("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
 		return nil
 	}
-	a := &modelAdmin{ID: uid.(int64)}
+	a := &ModelAdmin{ID: uid.(int64)}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if !found {
 		ctx.Server().Logs().Error("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
@@ -200,4 +236,12 @@ func (m *Admin) AddSecurityLogWithContext(uid int64, ctx *web.Context, content s
 	if err := m.securitylog.AddWithContext(uid, ctx, content); err != nil {
 		ctx.Server().Logs().ERROR().Error(err)
 	}
+}
+
+func (m *Admin) OnLogin(f func(int64)) (int, error) { return m.loginEvent.Attach(f) }
+
+func (m *Admin) OnLogout(f func(int64)) (int, error) { return m.logoutEvent.Attach(f) }
+
+func (m *Admin) RegisterSetting(uid int64, v any, id string, title, desc web.LocaleStringer, attrs map[string]*setting.Attribute) (*setting.Group, error) {
+	return m.settings[uid].Register(v, id, title, desc, attrs)
 }

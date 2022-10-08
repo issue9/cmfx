@@ -20,4 +20,7 @@ func TestInstall(t *testing.T) {
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_admins").Exists()
 	a.NotError(err).True(exists)
+
+	exists, err = suite.DB().SQLBuilder().TableExists().Table(id + "_settings").Exists()
+	a.NotError(err).True(exists)
 }

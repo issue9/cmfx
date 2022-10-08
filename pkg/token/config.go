@@ -21,11 +21,11 @@ type Config struct {
 	Refreshed int `xml:"refreshed,attr" json:"refreshed"`
 	refreshed time.Duration
 
-	HMAC []*hmac `xml:"hmac" json:"hmac"`
+	HMAC []*HMAC `xml:"hmac" json:"hmac"`
 	// TODO: 添加 RSA 等
 }
 
-type hmac struct {
+type HMAC struct {
 	ID     string `json:"id" xml:"id"`
 	Method string `json:"method" xml:"method"`
 	Secret string `json:"secret" xml:"secret"`
@@ -59,7 +59,7 @@ func (cnf *Config) SanitizeConfig() *app.ConfigError {
 	return nil
 }
 
-func (h *hmac) sanitizeConfig() *app.ConfigError {
+func (h *HMAC) sanitizeConfig() *app.ConfigError {
 	if h.Secret == "" {
 		return &app.ConfigError{Field: "secret", Message: "不能为空"}
 	}
@@ -81,7 +81,7 @@ func (h *hmac) sanitizeConfig() *app.ConfigError {
 	return nil
 }
 
-func (tks *Tokens[T]) addHMAC(hmac *hmac) {
+func (tks *Tokens[T]) addHMAC(hmac *HMAC) {
 	tks.signer.AddHMAC(hmac.ID, hmac.method, hmac.secret)
 	tks.verifier.AddHMAC(hmac.ID, hmac.method, hmac.secret)
 }

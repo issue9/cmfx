@@ -40,7 +40,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 
 	conf := &Config{
 		Expired: 60,
-		HMAC: []*hmac{
+		HMAC: []*HMAC{
 			{ID: "hmac", Method: "HS256", Secret: "hmac"},
 		},
 	}
@@ -79,7 +79,7 @@ func TestTokens_New(t *testing.T) {
 	r := s.NewRouter()
 	conf := &Config{
 		Expired: 60,
-		HMAC: []*hmac{
+		HMAC: []*HMAC{
 			{ID: "hmac", Method: "HS256", Secret: "hmac"},
 		},
 	}

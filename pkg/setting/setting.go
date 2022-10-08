@@ -51,6 +51,12 @@ func New(s Store) *Setting {
 	}
 }
 
+// Get 获取指定 ID 的 [Group] 实例
+func (s *Setting) Get(id string) (*Group, bool) {
+	g, found := s.groups[id]
+	return g, found
+}
+
 // Register 将对象 g 注册为配置项
 //
 // 要求 g 必须是一个具有可导出字段的结构体指针。
@@ -58,7 +64,7 @@ func New(s Store) *Setting {
 // id 为注册对象的 ID，要求在 [Setting] 中具有唯一性；
 // title 简要描述；
 // desc 明细说明；
-// attrs 对 g 中各个字段的说明；
+// attrs 对 g 中各个字段的说明，键名为字段名称；
 func (s *Setting) Register(g any, id string, title, desc web.LocaleStringer, attrs map[string]*Attribute) (*Group, error) {
 	if _, found := s.groups[id]; found {
 		panic(fmt.Sprintf("已经存在相同 id 的对象: %s", id))

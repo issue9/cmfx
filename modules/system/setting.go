@@ -8,6 +8,12 @@ import (
 	"github.com/issue9/cmfx/pkg/setting"
 )
 
+// TODO
+type Setting struct {
+	Name      string
+	ShortName string
+}
+
 // NewSetting 声明一组新的设置组
 func (s *System) NewSetting(id string, v any, title, desc web.LocaleStringer, attrs map[string]*setting.Attribute, notify func()) (*setting.Group, error) {
 	return s.setting.Register(v, id, title, desc, attrs)

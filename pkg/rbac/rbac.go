@@ -154,9 +154,7 @@ func (rbac *RBAC) IsAllow(uid int64, resID string) (allowed bool, err error) {
 	for _, rid := range roles {
 		role := rbac.roles[rid]
 		if sliceutil.Exists(role.r.Resources, func(i string) bool { return i == resID }) {
-			if rbac.reasonLogger != nil {
-				rbac.reasonLogger.Printf("用户 %d 因角色 %d 获得了访问 %s 的权限", uid, rid, resID)
-			}
+			rbac.reasonLogger.Printf("用户 %d 因角色 %d 获得了访问 %s 的权限", uid, rid, resID)
 			return true, nil
 		}
 	}

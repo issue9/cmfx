@@ -59,7 +59,7 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 		return ctx.InternalServerError(err)
 	}
 
-	a := &modelAdmin{
+	a := &ModelAdmin{
 		ID: uid,
 	}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
@@ -80,6 +80,8 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 		ctx.Server().Logs().Error(err)
 	}
 
+	m.loginEvent.Publish(false, a.ID)
+
 	return m.tokenServer.New(ctx, http.StatusCreated, newClaims(a.ID))
 }
 
@@ -94,6 +96,10 @@ func (m *Admin) deleteLogin(ctx *web.Context) web.Responser {
 	if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
 		ctx.Server().Logs().ERROR().Error(err)
 	}
+
+	a := m.LoginUser(ctx)
+	m.logoutEvent.Publish(false, a.ID)
+
 	return web.Status(http.StatusNoContent, "Clear-Site-Data", `"cookies", "storage"`)
 }
 

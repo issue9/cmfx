@@ -32,7 +32,6 @@ func (l *Limit) CTXSanitize(v *web.Validation) {
 func Paging[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) web.Responser {
 	offset := l.Page * l.Size
 	sql.Limit(l.Size, offset)
-	println(l.Size, l.Page, offset)
 
 	// 获取总数量
 	count, err := sql.Count("count(*) as cnt").QueryInt("cnt")

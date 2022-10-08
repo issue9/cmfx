@@ -13,7 +13,7 @@ func TestConfig_SanitizeConfig(t *testing.T) {
 	a := assert.New(t, false)
 
 	conf := &Config{
-		HMAC: []*hmac{
+		HMAC: []*HMAC{
 			{
 				ID:     "1",
 				Method: "HS256",
@@ -29,7 +29,7 @@ func TestConfig_SanitizeConfig(t *testing.T) {
 		Equal(conf.Refreshed, 2*conf.Expired)
 
 	conf = &Config{
-		HMAC: []*hmac{
+		HMAC: []*HMAC{
 			{
 				ID:     "1",
 				Method: "not-exists",

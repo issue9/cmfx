@@ -164,7 +164,6 @@ func (rbac *RBAC) Filter(uid int64, mod string, res string, next web.HandlerFunc
 		if allowed {
 			return next(ctx)
 		}
-
 		return ctx.Problem(cmfx.Forbidden)
 	}
 }

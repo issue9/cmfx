@@ -49,7 +49,7 @@ func (m *Admin) getAdmin(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	a := &modelAdmin{ID: id}
+	a := &ModelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -122,7 +122,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	sql := m.db.SQLBuilder().Select().Column("*").From(m.dbPrefix.TableName(&modelAdmin{}))
+	sql := m.db.SQLBuilder().Select().Column("*").From(m.dbPrefix.TableName(&ModelAdmin{}))
 
 	if len(q.States) > 0 {
 		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
@@ -152,7 +152,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 		sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
 	}
 
-	return query.Paging[modelAdmin](ctx, &q.Limit, sql)
+	return query.Paging[ModelAdmin](ctx, &q.Limit, sql)
 }
 
 // <api method="patch" summary="修改指定的管理员账号">
@@ -188,7 +188,7 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	a := &modelAdmin{ID: id}
+	a := &ModelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -208,7 +208,7 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	// 更新数据库
-	aa := &modelAdmin{
+	aa := &ModelAdmin{
 		ID:       id,
 		State:    data.State,
 		Name:     data.Name,
@@ -257,7 +257,7 @@ func (m *Admin) deleteAdminPassword(ctx *web.Context) web.Responser {
 	}
 
 	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	a := &modelAdmin{ID: id}
+	a := &ModelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -344,7 +344,7 @@ func (m *Admin) postAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	a := &modelAdmin{
+	a := &ModelAdmin{
 		State:    data.State,
 		Nickname: data.Nickname,
 		Name:     data.Name,
@@ -445,7 +445,7 @@ func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Respo
 
 	e := m.dbPrefix.DB(m.db)
 
-	a := &modelAdmin{ID: id}
+	a := &ModelAdmin{ID: id}
 	found, err := e.Select(a)
 	if !found {
 		return ctx.NotFound()
@@ -460,7 +460,7 @@ func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Respo
 		goto END
 	}
 
-	if _, err := e.Update(&modelAdmin{ID: id, State: state}, "state"); err != nil {
+	if _, err := e.Update(&ModelAdmin{ID: id, State: state}, "state"); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -500,7 +500,7 @@ func (m *Admin) postSuper(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	a1 := &modelAdmin{ID: id}
+	a1 := &ModelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a1)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -516,12 +516,12 @@ func (m *Admin) postSuper(ctx *web.Context) web.Responser {
 
 	t := m.dbPrefix.Tx(tx)
 
-	if _, err := t.Update(&modelAdmin{ID: a.ID, Super: false}, "super"); err != nil {
+	if _, err := t.Update(&ModelAdmin{ID: a.ID, Super: false}, "super"); err != nil {
 		tx.Rollback()
 		return ctx.InternalServerError(err)
 	}
 
-	if _, err := t.Update(&modelAdmin{ID: id, Super: true}, "super"); err != nil {
+	if _, err := t.Update(&ModelAdmin{ID: id, Super: true}, "super"); err != nil {
 		tx.Rollback()
 		return ctx.InternalServerError(err)
 	}
