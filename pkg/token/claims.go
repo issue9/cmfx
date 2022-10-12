@@ -32,10 +32,7 @@ type defaultClaims struct {
 	ID      string `json:"jti"` // 当用户快速更换令牌时，此值可以保证令牌的唯一性。
 }
 
-// NewClaims 返回默认的 Claims 实现
-//
-// uid 为用户的唯一编号。
-func NewClaims(uid string) Claims {
+func newClaims(uid string) Claims {
 	return &defaultClaims{User: uid, ID: unique.Number().String()}
 }
 

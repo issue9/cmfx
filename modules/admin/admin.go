@@ -5,11 +5,13 @@ package admin
 
 import (
 	"net/http"
+	"time"
 
 	"github.com/issue9/events"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
+	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/passport"
@@ -23,7 +25,7 @@ const (
 	adminKey contextKey = 0
 
 	// defaultPassword 默认密码
-	defaultPassword = "123"
+	defaultPassword = "123" // TODO 移至数据库？
 
 	authPasswordType = "login"
 
@@ -55,15 +57,19 @@ type Admin struct {
 	userSettings map[int64]*userSetting
 }
 
-func New(id string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token.Config, router *web.Router) (*Admin, error) {
+// New 声明 Admin 对象
+//
+// id 表示模块的 ID，在某些需要唯一值的地方，会加上此值作为前缀；
+// o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
+func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *Options) (*Admin, error) {
 	loadOnce(s)
 
-	inst, err := rbac.New(id, db, s.Logs().DEBUG())
+	inst, err := rbac.New(s, id, db)
 	if err != nil {
 		return nil, web.StackError(err)
 	}
 
-	tks, err := token.NewTokens(id, s, db, buildClaims, tokenCfg, "回收丢弃的管理员令牌")
+	tks, err := o.buildTokens(s, id, db, "回收丢弃的管理员令牌")
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +78,7 @@ func New(id string, s *web.Server, db *orm.DB, urlPrefix string, tokenCfg *token
 		db:       db,
 		dbPrefix: orm.Prefix(id),
 
-		urlPrefix: urlPrefix,
+		urlPrefix: o.URLPrefix,
 		router:    router,
 
 		password:    passport.New(id, db).Password(id + "_" + authPasswordType),
@@ -166,8 +172,13 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 		}
 		ctx.Vars[adminKey] = c.UID
 		s := m.userSettings[c.UID]
-		ctx.SetLanguage(s.Language)
-		ctx.SetLocation(s.Timezone)
+
+		ctx.SetLanguage(language.MustParse(s.Language))
+		tz, err := time.LoadLocation(s.Timezone)
+		if err != nil {
+			return ctx.InternalServerError(err)
+		}
+		ctx.SetLocation(tz)
 		return next(ctx)
 	})
 }

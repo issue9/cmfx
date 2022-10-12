@@ -12,17 +12,13 @@ import (
 	"github.com/issue9/web"
 )
 
-type BuildResponseFunc = func() jwt.Responser
-
 // Tokens 令牌管理
 type Tokens[T Claims] struct {
-	signer   *jwt.Signer
-	verifier *jwt.Verifier[T]
-	br       BuildResponseFunc
+	*jwt.JWT[T]
 
 	log web.Logger
 
-	cache          cache.Access
+	cache          cache.Access // 保存运行时的过期 token
 	blockerExpires int
 	blockerExpired time.Duration
 
@@ -30,32 +26,35 @@ type Tokens[T Claims] struct {
 	dbPrefix orm.Prefix
 }
 
-// NewTokens 声明令牌管理对象
-func NewTokens[T Claims](mod string, s *web.Server, db *orm.DB, bc jwt.BuildClaimsFunc[T], cnf *Config, jobTitle string) (*Tokens[T], error) {
-	tks := &Tokens[T]{
-		signer: jwt.NewSigner(cnf.expired, cnf.refreshed),
-		br: func() jwt.Responser {
-			return &jwt.Response{}
-		},
+// NewTokens 声明 token 管理对象
+//
+// expires 表示 token 的过期时间，单位为秒；
+// refreshes 表示刷新令牌的过期时间，单位为秒，如果为 0 则采用用 expires * 2 作为默认值；
+// jobTitle 表示后台回收 token 服务的显示名称；
+func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], expires, refreshes int, jobTitle string) (*Tokens[T], error) {
+	if refreshes == 0 {
+		refreshes = expires * 2
+	}
 
+	expired := time.Duration(expires) * time.Second
+	refreshed := time.Duration(refreshes) * time.Second
+	tks := &Tokens[T]{
 		log: s.Logs().ERROR(),
 
 		cache:          cache.Prefix(mod+"_", s.Cache()),
-		blockerExpires: cnf.Refreshed,
-		blockerExpired: cnf.refreshed,
+		blockerExpires: refreshes,
+		blockerExpired: refreshed,
 
 		dbPrefix: orm.Prefix(mod),
 		db:       db,
 	}
-	tks.verifier = jwt.NewVerifier[T](tks, bc)
+	tks.JWT = jwt.New[T](tks, bc, expired, refreshed, nil)
 
 	if err := tks.loadData(); err != nil {
 		return nil, err
 	}
 
 	s.Services().AddTicker(jobTitle, tks.scanJob, tks.blockerExpired, false, false)
-
-	tks.addKeys(cnf)
 
 	return tks, nil
 }
@@ -176,17 +175,5 @@ func (tks *Tokens[T]) recoverCacheUID(uid string) error {
 // access 普通的访问令牌；
 // refresh 刷新令牌；
 func (tks *Tokens[T]) New(ctx *web.Context, status int, access T) web.Responser {
-	return tks.signer.Render(ctx, status, tks.br(), access)
-}
-
-func (tks *Tokens[T]) GetValue(ctx *web.Context) (T, bool) {
-	return tks.verifier.GetValue(ctx)
-}
-
-func (tks *Tokens[T]) GetToken(ctx *web.Context) string {
-	return tks.verifier.GetToken(ctx)
-}
-
-func (tks *Tokens[T]) Middleware(next web.HandlerFunc) web.HandlerFunc {
-	return tks.verifier.Middleware(next)
+	return tks.Render(ctx, status, access)
 }

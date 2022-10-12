@@ -8,6 +8,7 @@ import (
 	"testing"
 	"time"
 
+	gojwt "github.com/golang-jwt/jwt/v4"
 	"github.com/issue9/assert/v3"
 	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/orm/v5"
@@ -16,6 +17,8 @@ import (
 
 	"github.com/issue9/cmfx/pkg/test"
 )
+
+var _ web.Middleware = &Tokens[*defaultClaims]{}
 
 func TestTokens_loadData_and_scanJob(t *testing.T) {
 	a := assert.New(t, false)
@@ -38,15 +41,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	}...)
 	a.NotError(err)
 
-	conf := &Config{
-		Expired: 60,
-		HMAC: []*HMAC{
-			{ID: "hmac", Method: "HS256", Secret: "hmac"},
-		},
-	}
-	a.NotError(conf.SanitizeConfig())
-
-	tks, err := NewTokens(m, suite.Server(), suite.DB(), BuildClaims, conf, "job")
+	tks, err := NewTokens(suite.Server(), m, suite.DB(), BuildClaims, 60, 0, "job")
 	a.NotError(err).NotNil(tks).
 		False(tks.TokenIsBlocked("1")).
 		True(tks.TokenIsBlocked("2")).
@@ -54,6 +49,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 		False(tks.ClaimsIsBlocked(&defaultClaims{User: "1"})).
 		True(tks.ClaimsIsBlocked(&defaultClaims{User: "2"})).
 		False(tks.ClaimsIsBlocked(&defaultClaims{User: "1000"}))
+	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 
 	// 此时数据库里数据依然是各两条，AddTicker 的 imm 为 false，不会立即执行。
 	cnt, err := e.Where("1=1").Count(&blockedToken{})
@@ -76,19 +72,13 @@ func TestTokens_New(t *testing.T) {
 	m := "test"
 	Install(m, suite.DB())
 	s := servertest.NewTester(a, nil)
-	r := s.NewRouter()
-	conf := &Config{
-		Expired: 60,
-		HMAC: []*HMAC{
-			{ID: "hmac", Method: "HS256", Secret: "hmac"},
-		},
-	}
-	a.NotError(conf.SanitizeConfig())
+	r := s.Router()
 
-	tks, err := NewTokens(m, suite.Server(), suite.DB(), BuildClaims, conf, "job")
+	tks, err := NewTokens(suite.Server(), m, suite.DB(), BuildClaims, 60, 0, "job")
 	a.NotError(err).NotNil(tks)
+	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
-		return tks.New(ctx, http.StatusCreated, NewClaims("1"))
+		return tks.New(ctx, http.StatusCreated, newClaims("1"))
 	})
 
 	r.Post("/refresh", tks.Middleware(func(ctx *web.Context) web.Responser {
@@ -103,7 +93,7 @@ func TestTokens_New(t *testing.T) {
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
 				return ctx.InternalServerError(err)
 			}
-			return tks.New(ctx, http.StatusCreated, NewClaims(xx.UserID()))
+			return tks.New(ctx, http.StatusCreated, newClaims(xx.UserID()))
 		}
 		return web.Status(http.StatusUnauthorized)
 	}))
@@ -116,6 +106,7 @@ func TestTokens_New(t *testing.T) {
 	}))
 
 	s.GoServe()
+	defer s.Close(0)
 
 	s.NewRequest(http.MethodPost, "/login", nil).
 		Header("accept", "application/json").
@@ -179,6 +170,4 @@ func TestTokens_New(t *testing.T) {
 						Status(http.StatusCreated)
 				})
 		})
-
-	s.Close(0)
 }

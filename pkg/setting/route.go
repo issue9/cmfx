@@ -247,6 +247,7 @@ func (s *Setting) HandleGet(ctx *web.Context) web.Responser {
 			gs.Items = append(gs.Items, item)
 
 		}
+		sort.Slice(gs.Items, func(i, j int) bool { return gs.Items[i].ID < gs.Items[j].ID })
 		uu.Groups = append(uu.Groups, gs)
 	}
 

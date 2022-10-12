@@ -25,7 +25,7 @@ func (m *testMod) TableName() string { return "mods" }
 func TestPaging(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	r := s.NewRouter()
+	r := s.Router()
 
 	a.NotError(s.DB().Create(&testMod{}))
 

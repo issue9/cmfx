@@ -13,7 +13,7 @@ import (
 	"github.com/issue9/cmfx/pkg/token"
 )
 
-func Install(mod string, db *orm.DB) {
+func Install(s *web.Server, mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
 	token.Install(mod, db)
@@ -26,7 +26,7 @@ func Install(mod string, db *orm.DB) {
 	}, func() error {
 		return web.StackError(e.Create(&modelSetting{}))
 	}, func() error {
-		a, err := rbac.New(mod, db, nil)
+		a, err := rbac.New(s, mod, db)
 		if err != nil {
 			return web.StackError(err)
 		}
@@ -80,7 +80,7 @@ func Install(mod string, db *orm.DB) {
 
 		return web.StackError(e.InsertMany(10, us...))
 	}, func() error {
-		a, err := rbac.New(mod, db, nil)
+		a, err := rbac.New(s, mod, db)
 		if err != nil {
 			return web.StackError(err)
 		}

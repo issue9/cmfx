@@ -21,7 +21,7 @@ func TestHandleGet(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	r := suite.NewRouter()
+	r := suite.Router()
 
 	s := New(newMemoryStore())
 	a.NotNil(s)
@@ -68,14 +68,14 @@ func TestHandleGet(t *testing.T) {
 		suite.Get("/setting").Header("Accept", "application/json").
 			Do(nil).
 			Status(http.StatusOK).
-			StringBody(`{"groups":[{"id":"g1","title":"g1 title","desc":"g1 desc"},{"id":"g2","title":"g2 title","desc":"g2 desc"}]}`)
+			StringBody(`{"groups":[{"id":"g1","title":"g1 title","desc":"g1 desc","items":[{"id":"Name","title":"name","desc":"name desc","value":"g1","type":"string"},{"id":"id","title":"id","desc":"id desc","value":5,"type":"number"},{"id":"tags","title":"tags","desc":"tags desc","value":["t1","t2"],"type":"string","multiple":true,"slice":true,"candidate":[{"value":"1","title":"1","desc":"1 desc"},{"value":"2","title":"2","desc":"2 desc"},{"value":"3","title":"3","desc":"3 desc"},{"value":"4","title":"4","desc":"4 desc"},{"value":"5","title":"5","desc":"5 desc"}]}]},{"id":"g2","title":"g2 title","desc":"g2 desc","items":[{"id":"Name","title":"name","desc":"name desc","value":"g2","type":"string"},{"id":"id","title":"id","desc":"id desc","value":3,"type":"number"},{"id":"tags","title":"tags","desc":"tags desc","value":null,"type":"string","multiple":true,"slice":true,"candidate":[{"value":"1","title":"1","desc":"1 desc"},{"value":"2","title":"2","desc":"2 desc"},{"value":"3","title":"3","desc":"3 desc"},{"value":"4","title":"4","desc":"4 desc"},{"value":"5","title":"5","desc":"5 desc"}]}]}]}`)
 	})
 
 	t.Run("setting/XML", func(t *testing.T) {
 		suite.Get("/setting").Header("Accept", "application/xml").
 			Do(nil).
 			Status(http.StatusOK).
-			StringBody(`<setting><group id="g1"><title>g1 title</title><desc>g1 desc</desc></group><group id="g2"><title>g2 title</title><desc>g2 desc</desc></group></setting>`)
+			StringBody(`<settings><group id="g1"><title>g1 title</title><desc>g1 desc</desc><item id="Name" type="string"><title>name</title><desc>name desc</desc><value>g1</value></item><item id="id" type="number"><title>id</title><desc>id desc</desc><value>5</value></item><item id="tags" type="string" multiple="true" slice="true"><title>tags</title><desc>tags desc</desc><value>t1</value><value>t2</value><candidate><value>1</value><title>1</title><desc>1 desc</desc></candidate><candidate><value>2</value><title>2</title><desc>2 desc</desc></candidate><candidate><value>3</value><title>3</title><desc>3 desc</desc></candidate><candidate><value>4</value><title>4</title><desc>4 desc</desc></candidate><candidate><value>5</value><title>5</title><desc>5 desc</desc></candidate></item></group><group id="g2"><title>g2 title</title><desc>g2 desc</desc><item id="Name" type="string"><title>name</title><desc>name desc</desc><value>g2</value></item><item id="id" type="number"><title>id</title><desc>id desc</desc><value>3</value></item><item id="tags" type="string" multiple="true" slice="true"><title>tags</title><desc>tags desc</desc><candidate><value>1</value><title>1</title><desc>1 desc</desc></candidate><candidate><value>2</value><title>2</title><desc>2 desc</desc></candidate><candidate><value>3</value><title>3</title><desc>3 desc</desc></candidate><candidate><value>4</value><title>4</title><desc>4 desc</desc></candidate><candidate><value>5</value><title>5</title><desc>5 desc</desc></candidate></item></group></settings>`)
 	})
 }
 
@@ -83,7 +83,7 @@ func TestHandlePut(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	r := suite.NewRouter()
+	r := suite.Router()
 
 	s := New(newMemoryStore())
 	a.NotNil(s)

@@ -6,28 +6,30 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/pkg/test"
-	"github.com/issue9/cmfx/pkg/token"
 )
 
 func newAdmin(s *test.Suite) (*Admin, *web.Router) {
 	adminM := "admin"
-	Install(adminM, s.DB())
+	Install(s.Server(), adminM, s.DB())
 	s.Assertion().NotNil(adminM)
 
-	conf := &token.Config{
-		Expired:   60,
-		Refreshed: 120,
-		HMAC: []*token.HMAC{
+	o := &Options{
+		URLPrefix:      "/admin",
+		AccessExpires:  60,
+		RefreshExpires: 120,
+		Algorithms: []*Algorithm{
 			{
-				ID:     "11",
-				Method: "HS256",
-				Secret: "123412314",
+				Type:    "HMAC",
+				Name:    "HS256",
+				Public:  "1112345",
+				Private: "1112345",
 			},
 		},
 	}
-	s.Assertion().NotError(conf.SanitizeConfig())
-	r := s.NewRouter()
-	a, err := New(adminM, s.Server(), s.DB(), "/admin", conf, r)
+	s.Assertion().NotError(o.SanitizeConfig())
+
+	r := s.Router()
+	a, err := New(adminM, s.Server(), s.DB(), r, o)
 	s.Assertion().NotError(err).NotNil(a)
 
 	return a, r

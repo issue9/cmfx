@@ -27,7 +27,7 @@ type RBAC struct {
 // parent 管理此对象的模块；
 // db 数据库对象；
 // reasonLogger 如果不为空，则在此日志上输出是因为什么理由获得了资源的访问权限；
-func New(mod string, db *orm.DB, reasonLogger web.Logger) (*RBAC, error) {
+func New(s *web.Server, mod string, db *orm.DB) (*RBAC, error) {
 	p := orm.Prefix(mod)
 
 	roles := make([]*role, 0, 50)
@@ -43,7 +43,7 @@ func New(mod string, db *orm.DB, reasonLogger web.Logger) (*RBAC, error) {
 
 		db:           db,
 		dbPrefix:     p,
-		reasonLogger: reasonLogger,
+		reasonLogger: s.Logs().DEBUG(),
 	}
 
 	for _, r := range roles {

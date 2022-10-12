@@ -12,6 +12,7 @@ import (
 type Setting struct {
 	Name      string
 	ShortName string
+	Ratelimit int
 }
 
 // NewSetting 声明一组新的设置组

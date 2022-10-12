@@ -51,8 +51,8 @@ func TestAdmin_getSettings(t *testing.T) {
 					us := &setting.Response{}
 					a.NotError(json.Unmarshal(body, us))
 					a.Equal(us.Groups[0].ID, "ui").
-						Equal(us.Groups[0].Items[0].ID, "timezone").
-						Equal(us.Groups[0].Items[0].Value, "Local") // 未修改，继承自 web.Server
+						Equal(us.Groups[0].Items[1].ID, "timezone").
+						Equal(us.Groups[0].Items[1].Value, "Local") // 未修改，继承自 web.Server
 				})
 		})
 }
