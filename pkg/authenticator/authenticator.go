@@ -35,12 +35,7 @@ type Authenticator interface {
 type authInfo struct {
 	id   string
 	name web.LocaleStringer
-	logo string
 	auth Authenticator
-}
-
-type Info struct {
-	ID, Name, Logo string
 }
 
 func NewAuthenticators(cap int) *Authenticators {
@@ -54,7 +49,7 @@ func NewAuthenticators(cap int) *Authenticators {
 // id 为验证器的类型名称，需要唯一；
 // name 为该验证器的本地化名称；
 // logo 为该验证器的 LOGO；
-func (a *Authenticators) Register(id string, auth Authenticator, name web.LocaleStringer, logo string) {
+func (a *Authenticators) Register(id string, auth Authenticator, name web.LocaleStringer) {
 	if sliceutil.Exists(a.authenticators, func(info *authInfo) bool { return info.id == id }) {
 		panic(fmt.Sprintf("已经存在同名 %s 的验证器", id))
 	}
@@ -62,7 +57,6 @@ func (a *Authenticators) Register(id string, auth Authenticator, name web.Locale
 	a.authenticators = append(a.authenticators, &authInfo{
 		id:   id,
 		name: name,
-		logo: logo,
 		auth: auth,
 	})
 }
@@ -78,16 +72,12 @@ func (a *Authenticators) Valid(id, identity, password string) (uid int64, found 
 }
 
 // All 返回所有的验证器
-func (a *Authenticators) All(p *message.Printer) []*Info {
-	info := make([]*Info, 0, len(a.authenticators))
+func (a *Authenticators) All(p *message.Printer) map[string]string {
+	m := make(map[string]string, len(a.authenticators))
 	for _, i := range a.authenticators {
-		info = append(info, &Info{
-			ID:   i.id,
-			Name: i.name.LocaleString(p),
-			Logo: i.logo,
-		})
+		m[i.id] = i.name.LocaleString(p)
 	}
-	return info
+	return m
 }
 
 // Identities 获取 uid 已经关联的验证器

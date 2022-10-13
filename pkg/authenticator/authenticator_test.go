@@ -28,13 +28,13 @@ func TestAuthenticators(t *testing.T) {
 	// Register
 
 	p1 := password.New(suite.Server(), orm.Prefix(mod+"_p1"), suite.DB())
-	auth.Register("p1", p1, web.Phrase("password"), "https://example.com/logo.png")
+	auth.Register("p1", p1, web.Phrase("password"))
 
 	p2 := password.New(suite.Server(), orm.Prefix(mod+"_p2"), suite.DB())
-	auth.Register("p2", p2, web.Phrase("password"), "https://example.com/logo.png")
+	auth.Register("p2", p2, web.Phrase("password"))
 
 	a.PanicString(func() {
-		auth.Register("p1", p1, web.Phrase("password"), "https://example.com/logo.png")
+		auth.Register("p1", p1, web.Phrase("password"))
 	}, "已经存在同名 p1 的验证器")
 
 	a.Length(auth.All(suite.Server().LocalePrinter()), 2)
