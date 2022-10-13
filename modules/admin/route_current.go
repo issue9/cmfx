@@ -8,7 +8,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/cmfx/pkg/passport"
+	"github.com/issue9/cmfx/pkg/authenticator"
 	"github.com/issue9/cmfx/pkg/rules"
 )
 
@@ -80,13 +80,13 @@ func (m *Admin) patchInfo(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-type password struct {
+type pwd struct {
 	XMLName struct{} `json:"-" xml:"password"`
 	Old     string   `json:"old" xml:"old"`
 	New     string   `json:"new" xml:"new"`
 }
 
-func (p *password) CTXSanitize(v *web.Validation) {
+func (p *pwd) CTXSanitize(v *web.Validation) {
 	v.AddField(p.Old, "old", rules.Required).
 		AddField(p.New, "new", rules.Required).
 		AddField(p.New, "new", web.NewRuleFunc(web.Phrase("same of new and old password"), func(any) bool {
@@ -108,14 +108,14 @@ func (p *password) CTXSanitize(v *web.Validation) {
 //
 // </api>
 func (m *Admin) putCurrentPassword(ctx *web.Context) web.Responser {
-	data := &password{}
+	data := &pwd{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
 	a := m.LoginUser(ctx)
 	err := m.password.Change(nil, a.ID, data.Old, data.New)
-	if errors.Is(err, passport.ErrUnauthorized) {
+	if errors.Is(err, authenticator.ErrUnauthorized) {
 		return ctx.Problem(cmfx.Unauthorized)
 	} else if err != nil {
 		return ctx.InternalServerError(err)
