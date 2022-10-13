@@ -8,22 +8,24 @@ import (
 )
 
 type code struct {
-	ID       int64     `orm:"name(id);ai"`
-	Created  time.Time `orm:"name(created)"`
-	Updated  time.Time `orm:"name(updated)"`
-	UID      int64     `orm:"name(uid);index(uid)"`
-	Username string    `orm:"name(username);len(32);index(username)"`
-	Type     string    `orm:"name(type);len(20)"`
+	ID      int64     `orm:"name(id);ai"`
+	Created time.Time `orm:"name(created)"`
+	Updated time.Time `orm:"name(updated)"`
+
+	UID      int64  `orm:"name(uid);index(uid)"`
+	Username string `orm:"name(username);len(32);index(username)"`
+	Type     string `orm:"name(type);len(20)"`
 }
 
 type password struct {
-	ID       int64     `orm:"name(id);ai"`
-	Created  time.Time `orm:"name(created)"`
-	Updated  time.Time `orm:"name(updated)"`
-	UID      int64     `orm:"name(uid);index(uid)"`
-	Username string    `orm:"name(username);len(32);index(username)"`
-	Password []byte    `orm:"name(password);len(64)"`
-	Type     string    `orm:"name(type);len(20)"`
+	ID      int64     `orm:"name(id);ai"`
+	Created time.Time `orm:"name(created)"`
+	Updated time.Time `orm:"name(updated)"`
+
+	UID      int64  `orm:"name(uid);index(uid)"`
+	Username string `orm:"name(username);len(32);index(username)"`
+	Password []byte `orm:"name(password);len(64)"`
+	Type     string `orm:"name(type);len(20)"`
 }
 
 type oauth struct {

@@ -15,6 +15,8 @@ type Func struct {
 }
 
 // Func 以函数的方式验证账号密码
+//
+// f 用于验证账号和密码的正确性。
 func (p *Passport) Func(t string, f func(string, string) bool) *Func {
 	return &Func{
 		t: t,
@@ -24,6 +26,8 @@ func (p *Passport) Func(t string, f func(string, string) bool) *Func {
 }
 
 // Add 添加账号
+//
+// 将 uid 与 username 作关联
 func (p *Func) Add(tx *orm.Tx, uid int64, username string) error {
 	db := p.p.modelEngine(tx)
 
