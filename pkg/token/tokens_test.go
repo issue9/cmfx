@@ -78,7 +78,7 @@ func TestTokens_New(t *testing.T) {
 	a.NotError(err).NotNil(tks)
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
-		return tks.New(ctx, http.StatusCreated, newClaims("1"))
+		return tks.New(ctx, http.StatusCreated, NewClaims("1"))
 	})
 
 	r.Post("/refresh", tks.Middleware(func(ctx *web.Context) web.Responser {
@@ -93,7 +93,7 @@ func TestTokens_New(t *testing.T) {
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
 				return ctx.InternalServerError(err)
 			}
-			return tks.New(ctx, http.StatusCreated, newClaims(xx.UserID()))
+			return tks.New(ctx, http.StatusCreated, NewClaims(xx.UserID()))
 		}
 		return web.Status(http.StatusUnauthorized)
 	}))

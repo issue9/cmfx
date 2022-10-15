@@ -15,7 +15,10 @@ import (
 func Init(cleanup func(), f ...func() error) {
 	for _, ff := range f {
 		if err := ff(); err != nil {
-			cleanup()
+			if cleanup != nil {
+				cleanup()
+			}
+
 			fmt.Fprintf(os.Stderr, "%+v\n", err)
 			os.Exit(2)
 		}

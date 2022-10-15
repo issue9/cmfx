@@ -152,7 +152,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 		sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
 	}
 
-	return query.Paging[ModelAdmin](ctx, &q.Limit, sql)
+	return query.PagingResponser[ModelAdmin](ctx, &q.Limit, sql)
 }
 
 // <api method="patch" summary="修改指定的管理员账号">

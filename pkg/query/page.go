@@ -9,7 +9,8 @@ import (
 	"github.com/issue9/cmfx/pkg/rules"
 )
 
-type page[T any] struct {
+// Page 分页对象
+type Page[T any] struct {
 	XMLName struct{} `json:"-" xml:"page"`
 	Count   int64    `json:"count" xml:"count,attr"`                   // 符合条件的所有数据
 	Current []*T     `json:"current"  xml:"current"`                   // 当前页的数据
@@ -26,35 +27,49 @@ func (l *Limit) CTXSanitize(v *web.Validation) {
 	v.AddField(l.Page, "page", rules.MinZero).AddField(l.Size, "size", rules.MinZero)
 }
 
+// PagingResponser 将分页对象封装成 [web.Responser]
+//
+// T 为返回给客户端数据元素项的类型，必须为非指针类型。最终给客户的数据为 []*T。
+func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) web.Responser {
+	p, err := Paging[T](ctx, l, sql)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if p == nil || p.Count == 0 || len(p.Current) == 0 {
+		return ctx.NotFound()
+	}
+	return web.OK(p)
+}
+
 // Paging 返回分页对象
 //
 // T 为返回给客户端数据元素项的类型，必须为非指针类型。最终给客户的数据为 []*T。
-func Paging[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) web.Responser {
+func Paging[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) (*Page[T], error) {
 	offset := l.Page * l.Size
 	sql.Limit(l.Size, offset)
 
 	// 获取总数量
 	count, err := sql.Count("count(*) as cnt").QueryInt("cnt")
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return nil, err
 	}
 	sql.Count("")
 	if count == 0 {
-		return ctx.NotFound()
+		return nil, nil
 	}
 
 	curr := make([]*T, 0, l.Size)
 	n, err := sql.QueryObject(true, &curr)
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return nil, err
 	}
 	if n == 0 {
-		return ctx.NotFound()
+		return nil, nil
 	}
 
-	return web.OK(&page[T]{
+	return &Page[T]{
 		Count:   count,
 		Current: curr,
 		More:    int64(offset+n) < count,
-	})
+	}, nil
 }

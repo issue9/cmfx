@@ -37,7 +37,7 @@ func TestPaging(t *testing.T) {
 		q := &Limit{}
 		ctx.QueryObject(true, q, "400")
 		sql := s.DB().SQLBuilder().Where().Select(s.DB()).From("mods")
-		return Paging[testMod](ctx, q, sql)
+		return PagingResponser[testMod](ctx, q, sql)
 	})
 	s.Get("/q0").
 		Header("accept", "application/json").
@@ -54,7 +54,7 @@ func TestPaging(t *testing.T) {
 		q := &Limit{}
 		ctx.QueryObject(true, q, "400")
 		sql := s.DB().SQLBuilder().Where().Select(s.DB()).From("mods")
-		return Paging[testMod](ctx, q, sql)
+		return PagingResponser[testMod](ctx, q, sql)
 	})
 	s.Get("/q1").
 		Header("accept", "application/json").
@@ -66,7 +66,7 @@ func TestPaging(t *testing.T) {
 		q := &Limit{}
 		ctx.QueryObject(true, q, "400")
 		sql := s.DB().SQLBuilder().Where().Select(s.DB()).From("mods")
-		return Paging[testMod](ctx, q, sql)
+		return PagingResponser[testMod](ctx, q, sql)
 	})
 	s.Get("/q2?size=2").
 		Header("accept", "application/json").
@@ -78,7 +78,7 @@ func TestPaging(t *testing.T) {
 		q := &Limit{}
 		ctx.QueryObject(true, q, "400")
 		sql := s.DB().SQLBuilder().Where().Select(s.DB()).From("mods")
-		return Paging[testMod](ctx, q, sql)
+		return PagingResponser[testMod](ctx, q, sql)
 	})
 	s.Get("/q3?size=2&page=1").
 		Header("accept", "application/json").
@@ -90,7 +90,7 @@ func TestPaging(t *testing.T) {
 		q := &Limit{}
 		ctx.QueryObject(true, q, "400")
 		sql := s.DB().SQLBuilder().Where().Select(s.DB()).From("mods")
-		return Paging[testMod](ctx, q, sql)
+		return PagingResponser[testMod](ctx, q, sql)
 	})
 	s.Get("/q4?size=2&page=2").
 		Header("accept", "application/json").
