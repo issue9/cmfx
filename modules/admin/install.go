@@ -7,7 +7,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/cmfx/pkg/passport"
+	"github.com/issue9/cmfx/pkg/authenticator/password"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/securitylog"
 	"github.com/issue9/cmfx/pkg/token"
@@ -18,7 +18,7 @@ func Install(s *web.Server, mod string, db *orm.DB) {
 
 	token.Install(mod, db)
 	securitylog.Install(mod, db)
-	passport.Install(mod, db)
+	password.Install(mod+"_"+authPasswordType, db)
 	rbac.Install(mod, db)
 
 	cmfx.Init(nil, func() error {
@@ -103,8 +103,7 @@ func Install(s *web.Server, mod string, db *orm.DB) {
 
 		return web.StackError(tx.Commit())
 	}, func() (err error) {
-		a := passport.New(mod, db)
-		p := a.Password(mod + "_" + authPasswordType)
+		p := password.New(s, orm.Prefix(mod+"_"+authPasswordType), db)
 
 		tx, err := db.Begin()
 		if err != nil {

@@ -3,13 +3,11 @@
 package admin
 
 import (
-	"errors"
 	"net/http"
 
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/cmfx/pkg/passport"
 	"github.com/issue9/cmfx/pkg/rules"
 )
 
@@ -51,17 +49,12 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	// 密码错误
-	uid, err := m.password.Valid(nil, data.Username, data.Password)
-	switch {
-	case errors.Is(err, passport.ErrUnauthorized):
+	uid, found := m.auth.Valid(authPasswordType, data.Username, data.Password)
+	if !found {
 		return ctx.Problem(cmfx.Unauthorized)
-	case err != nil:
-		return ctx.InternalServerError(err)
 	}
 
-	a := &ModelAdmin{
-		ID: uid,
-	}
+	a := &ModelAdmin{ID: uid}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)

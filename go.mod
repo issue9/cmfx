@@ -18,7 +18,8 @@ require (
 	github.com/issue9/validator v0.2.3
 	github.com/issue9/web v0.59.7
 	github.com/mattn/go-sqlite3 v1.14.15
-	golang.org/x/crypto v0.0.0-20221010152910-d6f0a8c073c2
+	golang.org/x/crypto v0.0.0-20221012134737-56aed061732a
+	golang.org/x/oauth2 v0.0.0-20221014153046-6fdb5e3db783
 	golang.org/x/text v0.3.8
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -26,6 +27,7 @@ require (
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20220106215444-fb4bf637b56d // indirect
+	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/issue9/autoinc v1.0.9 // indirect
 	github.com/issue9/logs/v4 v4.0.0-beta.6 // indirect
@@ -36,8 +38,10 @@ require (
 	github.com/issue9/term/v3 v3.0.2 // indirect
 	github.com/klauspost/compress v1.15.11 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
-	golang.org/x/exp v0.0.0-20221011111909-0220f59fc3e4 // indirect
-	golang.org/x/net v0.0.0-20221004154528-8021a29435af // indirect
-	golang.org/x/sys v0.0.0-20221010170243-090e33056c14 // indirect
+	golang.org/x/exp v0.0.0-20221012211006-4de253d81b95 // indirect
+	golang.org/x/net v0.0.0-20221014081412-f15817d10f9b // indirect
+	golang.org/x/sys v0.0.0-20221013171732-95e765b1cc43 // indirect
 	golang.org/x/xerrors v0.0.0-20220907171357-04be3eba64a2 // indirect
+	google.golang.org/appengine v1.6.7 // indirect
+	google.golang.org/protobuf v1.28.1 // indirect
 )

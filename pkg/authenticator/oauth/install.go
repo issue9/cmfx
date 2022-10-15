@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package passport
+package oauth
 
 import (
 	"github.com/issue9/orm/v5"
@@ -11,12 +11,7 @@ import (
 
 func Install(mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
-
 	cmfx.Init(nil, func() error {
-		return web.StackError(e.Create(&code{}))
-	}, func() error {
-		return web.StackError(e.Create(&password{}))
-	}, func() error {
-		return web.StackError(e.Create(&oauth{}))
+		return web.StackError(e.Create(&modelOAuth{}))
 	})
 }

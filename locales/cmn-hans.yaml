@@ -183,6 +183,9 @@ messages:
   message:
     msg: 以服务器的时区作当前用户的时区信息
 
+- key: password mode
+  message:
+    msg: 密码模式
 
 - key: group not exists
   message:

@@ -14,8 +14,9 @@ import (
 	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/authenticator"
+	"github.com/issue9/cmfx/pkg/authenticator/password"
 	"github.com/issue9/cmfx/pkg/config"
-	"github.com/issue9/cmfx/pkg/passport"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/securitylog"
 	"github.com/issue9/cmfx/pkg/setting"
@@ -43,7 +44,8 @@ type Admin struct {
 	urlPrefix string
 	router    *web.Router
 
-	password    *passport.Password
+	auth        *authenticator.Authenticators
+	password    *password.Password
 	tokenServer *token.Tokens[*claims]
 	rbac        *rbac.RBAC
 
@@ -75,6 +77,9 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		return nil, err
 	}
 
+	auth := authenticator.NewAuthenticators(5)
+	pass := password.New(s, orm.Prefix(id+"_"+authPasswordType), db)
+	auth.Register(authPasswordType, pass, web.Phrase("password mode"))
 	m := &Admin{
 		db:       db,
 		dbPrefix: orm.Prefix(id),
@@ -82,7 +87,8 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		urlPrefix: o.URLPrefix,
 		router:    router,
 
-		password:    passport.New(id, db).Password(id + "_" + authPasswordType),
+		auth:        auth,
+		password:    pass,
 		tokenServer: tks,
 		rbac:        inst,
 
