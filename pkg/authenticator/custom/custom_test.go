@@ -14,7 +14,7 @@ import (
 
 var _ authenticator.Authenticator = &Func{}
 
-func TestPassport_Func(t *testing.T) {
+func TestCustom(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
