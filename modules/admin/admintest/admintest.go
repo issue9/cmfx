@@ -6,6 +6,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/modules/admin"
+	"github.com/issue9/cmfx/pkg/config"
 	"github.com/issue9/cmfx/pkg/test"
 )
 
@@ -14,11 +15,11 @@ func NewAdmin(s *test.Suite) (*admin.Admin, *web.Router) {
 	admin.Install(s.Server(), adminM, s.DB())
 	s.Assertion().NotNil(adminM)
 
-	o := &admin.Options{
+	o := &config.User{
 		URLPrefix:      "/admin",
 		AccessExpires:  60,
 		RefreshExpires: 120,
-		Algorithms: []*admin.Algorithm{
+		Algorithms: []*config.Algorithm{
 			{
 				Type:    "HMAC",
 				Name:    "HS256",

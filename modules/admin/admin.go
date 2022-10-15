@@ -14,6 +14,7 @@ import (
 	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/config"
 	"github.com/issue9/cmfx/pkg/passport"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/securitylog"
@@ -61,7 +62,7 @@ type Admin struct {
 //
 // id 表示模块的 ID，在某些需要唯一值的地方，会加上此值作为前缀；
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
-func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *Options) (*Admin, error) {
+func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.User) (*Admin, error) {
 	loadOnce(s)
 
 	inst, err := rbac.New(s, id, db)
@@ -69,7 +70,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *Options) (
 		return nil, web.StackError(err)
 	}
 
-	tks, err := o.buildTokens(s, id, db, "回收丢弃的管理员令牌")
+	tks, err := config.NewTokens(o, s, id, db, buildClaims, "回收丢弃的管理员令牌")
 	if err != nil {
 		return nil, err
 	}

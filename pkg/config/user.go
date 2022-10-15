@@ -1,12 +1,13 @@
 // SPDX-License-Identifier: MIT
 
-package admin
+package config
 
 import (
 	"strconv"
 	"strings"
 
 	gojwt "github.com/golang-jwt/jwt/v4"
+	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 	"github.com/issue9/web/app"
@@ -15,8 +16,9 @@ import (
 	"github.com/issue9/cmfx/pkg/token"
 )
 
-type Options struct {
-	// URLPrefix 所有 admin 地址的统一前缀
+// User 带有登录功能的模块配置
+type User struct {
+	// URLPrefix 路由地址的前缀
 	URLPrefix string `json:"urlPrefix,omitempty" xml:"urlPrefix,omitempty" yaml:"urlPrefix,omitempty"`
 
 	// Token
@@ -62,9 +64,9 @@ type Algorithm struct {
 // SanitizeConfig 用于检测和修正配置项的内容
 //
 // [New] 中并未主动调用该方法，使用者需要自行调用。
-func (o *Options) SanitizeConfig() *app.ConfigError {
-	if o.URLPrefix == "" {
-		return &app.ConfigError{Field: "urlPrefix", Message: locales.Required}
+func (o *User) SanitizeConfig() *app.ConfigError {
+	if o.URLPrefix != "" && o.URLPrefix[0] != '/' {
+		return &app.ConfigError{Field: "urlPrefix", Message: locales.InvalidValue}
 	}
 
 	if o.AccessExpires < 60 {
@@ -139,13 +141,14 @@ func (alg *Algorithm) sanitize() *app.ConfigError {
 	return nil
 }
 
-func (o *Options) buildTokens(s *web.Server, mod string, db *orm.DB, jobTitle string) (*token.Tokens[*claims], error) {
-	tks, err := token.NewTokens(s, mod, db, buildClaims, o.AccessExpires, o.RefreshExpires, jobTitle)
+// NewTokens 从配置中生成 tokens 对象
+func NewTokens[T token.Claims](u *User, s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], jobTitle string) (*token.Tokens[T], error) {
+	tks, err := token.NewTokens(s, mod, db, bc, u.AccessExpires, u.RefreshExpires, jobTitle)
 	if err != nil {
 		return nil, err
 	}
 
-	for index, alg := range o.Algorithms {
+	for index, alg := range u.Algorithms {
 		tks.Add(strconv.Itoa(index), alg.sign, alg.pub, alg.pvt)
 	}
 
