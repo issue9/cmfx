@@ -49,11 +49,15 @@ var uiAttrs = map[string]*setting.Attribute{
 	},
 
 	"Language": {
-		ID:        "language",
-		Title:     web.Phrase("ui language"),
-		Desc:      web.Phrase("ui language detail"),
-		Multiple:  false,
-		Candidate: []setting.Candidate{}, // 在 initAttrs 中初始化
+		ID:    "language",
+		Title: web.Phrase("ui language"),
+		Desc:  web.Phrase("ui language detail"),
+	},
+
+	"Theme": {
+		ID:    "theme",
+		Title: web.Phrase("theme"),
+		Desc:  web.Phrase("theme detail"),
 	},
 }
 

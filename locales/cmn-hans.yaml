@@ -168,7 +168,6 @@ messages:
   message:
     msg: 用户界面语言的设置
 
-
 - key: ui language
   message:
     msg: 界面语言
@@ -184,6 +183,14 @@ messages:
 - key: timezone detail
   message:
     msg: 用户所在的时区，默认情况采用服务器所在的时区。
+
+- key: theme
+  message:
+    msg: 主题
+
+- key: theme detail
+  message:
+    msg: 用户的界面主题
 
 - key: server timezone
   message:
