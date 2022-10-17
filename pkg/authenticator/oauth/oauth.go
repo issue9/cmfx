@@ -53,6 +53,7 @@ type OAuth[T UserInfo] struct {
 //
 // r 表示注册用户的方法，如果为 nil，那么碰到为未注册的用户时，[OAuth.Valid] 直接返回 false，
 // 否则的话将尝试注册了新用户并返回新用户的 id。
+// prefix 表名前缀，当有多个不同实例时，prefix 不能相同。
 func New[T UserInfo](s *web.Server, prefix orm.Prefix, db *orm.DB, c *oauth2.Config, g GetUserInfoFunc[T], r RegisterUserFunc[T]) *OAuth[T] {
 	return &OAuth[T]{
 		s:      s,
@@ -108,6 +109,11 @@ func (o *OAuth[T]) Valid(state, code string) (int64, bool) {
 		return 0, false
 	}
 	return mod.UID, true
+}
+
+func (o *OAuth[T]) Delete(uid int64) error {
+	_, err := o.modelEngine(nil).Delete(&modelOAuth{UID: uid})
+	return err
 }
 
 func (o *OAuth[T]) Identity(uid int64) (string, bool) {

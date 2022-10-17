@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-// Package authenticator 验证器
+// Package authenticator 用户验证
 package authenticator
 
 import (

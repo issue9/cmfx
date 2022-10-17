@@ -24,7 +24,7 @@ type Password struct {
 
 // New 声明 Password 对象
 //
-// prefix 表名前缀
+// prefix 表名前缀，当有多个不同实例时，prefix 不能相同。
 func New(s *web.Server, prefix orm.Prefix, db *orm.DB) *Password {
 	return &Password{
 		s:        s,
