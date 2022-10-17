@@ -32,11 +32,6 @@ type UserInfo interface {
 // OAuth 并未规定返回的用户信息字段，该方法只能由用户根据平台自行实现。
 type GetUserInfoFunc[T UserInfo] func(*oauth2.Token) (T, error)
 
-// RegisterUserFunc 注册 OAuth 用户
-//
-// 当前登了一个未注册的 OAuth 用户时，用户可以通过此方法将其注册为一个新的用户。
-type RegisterUserFunc[T UserInfo] func(T) (int64, error)
-
 // OAuth 表示 oauth2 登录的验证器
 type OAuth[T UserInfo] struct {
 	s      *web.Server
@@ -46,7 +41,6 @@ type OAuth[T UserInfo] struct {
 	state  string
 	config *oauth2.Config
 	f      GetUserInfoFunc[T]
-	r      RegisterUserFunc[T]
 }
 
 // New 声明 OAuth 对象
@@ -54,7 +48,7 @@ type OAuth[T UserInfo] struct {
 // r 表示注册用户的方法，如果为 nil，那么碰到为未注册的用户时，[OAuth.Valid] 直接返回 false，
 // 否则的话将尝试注册了新用户并返回新用户的 id。
 // prefix 表名前缀，当有多个不同实例时，prefix 不能相同。
-func New[T UserInfo](s *web.Server, prefix orm.Prefix, db *orm.DB, c *oauth2.Config, g GetUserInfoFunc[T], r RegisterUserFunc[T]) *OAuth[T] {
+func New[T UserInfo](s *web.Server, prefix orm.Prefix, db *orm.DB, c *oauth2.Config, g GetUserInfoFunc[T]) *OAuth[T] {
 	return &OAuth[T]{
 		s:      s,
 		prefix: prefix,
@@ -63,7 +57,6 @@ func New[T UserInfo](s *web.Server, prefix orm.Prefix, db *orm.DB, c *oauth2.Con
 		state:  unique.String().String(),
 		config: c,
 		f:      g,
-		r:      r,
 	}
 }
 
@@ -73,42 +66,34 @@ func (o *OAuth[T]) AuthURL() string { return o.config.AuthCodeURL(o.state) }
 // Valid 验证登录信息
 //
 // code 为 oauth 服务第一步返回的 code 值；
-func (o *OAuth[T]) Valid(state, code string) (int64, bool) {
+func (o *OAuth[T]) Valid(state, code string) (int64, string, bool) {
 	if state != o.state {
 		o.s.Logs().DEBUG().Printf("用户请求的 state %s 与传递的 state %s 不同", state, o.state)
-		return 0, false
+		return 0, "", false
 	}
 
 	token, err := o.config.Exchange(context.Background(), code)
 	if err != nil {
 		o.s.Logs().ERROR().Error(err)
-		return 0, false
+		return 0, "", false
 	}
 
 	info, err := o.f(token)
 	if err != nil {
 		o.s.Logs().ERROR().Error(err)
-		return 0, false
+		return 0, "", false
 	}
 
 	mod := &modelOAuth{Identity: info.Identity()}
 	found, err := o.modelEngine(nil).Select(mod)
 	if err != nil {
 		o.s.Logs().ERROR().Error(err)
-		return 0, false
+		return 0, "", false
 	}
 	if !found {
-		if o.r != nil {
-			uid, err := o.r(info)
-			if err != nil {
-				o.s.Logs().ERROR().Printf("%d 未找到关联的数据", uid)
-				return 0, false
-			}
-			return uid, true
-		}
-		return 0, false
+		return 0, info.Identity(), false
 	}
-	return mod.UID, true
+	return mod.UID, "", true
 }
 
 func (o *OAuth[T]) Delete(uid int64) error {
@@ -123,11 +108,7 @@ func (o *OAuth[T]) Identity(uid int64) (string, bool) {
 		o.s.Logs().ERROR().Error(err)
 		return "", false
 	}
-	if !found {
-		o.s.Logs().ERROR().Printf("%d 未找到关联的数据", uid)
-		return "", false
-	}
-	return mod.Identity, true
+	return mod.Identity, found
 }
 
 func (o *OAuth[T]) modelEngine(tx *orm.Tx) orm.ModelEngine {

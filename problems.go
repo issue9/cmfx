@@ -26,6 +26,9 @@ const (
 	UnauthorizedInvalidPassword    = "40103"
 	UnauthorizedInvalidAccount     = "40104"
 	UnauthorizedNeedChangePassword = "40105"
+
+	// 可注册的状态，比如 OAuth2 验证，如果未注册，返回一个 ID 可用以注册。
+	UnauthorizedRegistrable = "40106"
 )
 
 // 403
@@ -59,7 +62,8 @@ func AddProblems(p *server.Problems) {
 		add(UnauthorizedInvalidToken, web.Phrase("unauthorized invalid token"), web.Phrase("unauthorized invalid token detail")).
 		add(UnauthorizedInvalidPassword, web.Phrase("unauthorized invalid password"), web.Phrase("unauthorized invalid password detail")).
 		add(UnauthorizedInvalidAccount, web.Phrase("unauthorized invalid account"), web.Phrase("unauthorized invalid account detail")).
-		add(UnauthorizedNeedChangePassword, web.Phrase("unauthorized need change password"), web.Phrase("unauthorized need change password detail"))
+		add(UnauthorizedNeedChangePassword, web.Phrase("unauthorized need change password"), web.Phrase("unauthorized need change password detail")).
+		add(UnauthorizedRegistrable, web.Phrase("identity registrable"), web.Phrase("identity registrable detail"))
 
 	s = &status{p: p, status: http.StatusForbidden}
 	s.add(Forbidden, web.Phrase("forbidden"), web.Phrase("forbidden detail")).

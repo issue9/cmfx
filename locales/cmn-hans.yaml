@@ -101,6 +101,16 @@ messages:
     msg: >
       只有修改密码才能继续其它操作，一般是被定义了该账号的密码已经不安全了，需要重新设置密码。
 
+- key: identity registrable
+  message:
+    msg: >
+      可注册的 ID
+
+- key: identity registrable detail
+  message:
+    msg: >
+      某些登录状态验证失败之后，会返回一个可用于注册的 ID，客户端可根据此 ID 注册新的账号。
+
 - key: forbidden
   message:
     msg: 没有权限访问

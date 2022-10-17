@@ -6,8 +6,8 @@ package authenticator
 import (
 	"errors"
 	"fmt"
+	"time"
 
-	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
 	"golang.org/x/text/message"
 )
@@ -20,28 +20,44 @@ var (
 
 // Authenticators 验证器管理
 type Authenticators struct {
-	authenticators []*authInfo
+	authenticators map[string]*authInfo
+	expired        time.Duration
 }
 
 // Authenticator 身份验证接口
 type Authenticator interface {
 	// Valid 验证账号
-	Valid(username, password string) (int64, bool)
+	//
+	// username, password 向验证器提供的登录凭证，不同的实现对此两者的定义可能是不同的，
+	// 比如 oauth2 中表示的是由 authURL 返回的 state 和 code 参数。
+	// ok 表示是否验证成功；
+	// uid 表示验证成功之后返回与 username 关联的用户 ID；
+	// identity 表示验证成功，但是并未与任何 uid 绑定时，则返回该验证器验证之后的用户标记；
+	Valid(username, password string) (uid int64, identity string, ok bool)
 
 	// Identity 获取 uid 关联的账号名
 	Identity(int64) (string, bool)
 }
 
 type authInfo struct {
-	id   string
-	name web.LocaleStringer
-	auth Authenticator
+	id         string
+	name       web.LocaleStringer
+	auth       Authenticator
+	identities map[string]time.Time
 }
 
-func NewAuthenticators(cap int) *Authenticators {
-	return &Authenticators{
-		authenticators: make([]*authInfo, 0, cap),
+// NewAuthenticators 声明 Authenticators 对象
+//
+// d 每个验证失败的 ID 过期时间同时也是回收的频率；
+// jobTitle 回收方法的名称；
+func NewAuthenticators(s *web.Server, d time.Duration, jobTitle string) *Authenticators {
+	auth := &Authenticators{
+		authenticators: make(map[string]*authInfo, 5),
+		expired:        d,
 	}
+	s.Services().AddTicker(jobTitle, auth.GC, d, false, false)
+
+	return auth
 }
 
 // Register 注册验证器
@@ -50,25 +66,48 @@ func NewAuthenticators(cap int) *Authenticators {
 // name 为该验证器的本地化名称；
 // logo 为该验证器的 LOGO；
 func (a *Authenticators) Register(id string, auth Authenticator, name web.LocaleStringer) {
-	if sliceutil.Exists(a.authenticators, func(info *authInfo) bool { return info.id == id }) {
+	if _, found := a.authenticators[id]; found {
 		panic(fmt.Sprintf("已经存在同名 %s 的验证器", id))
 	}
 
-	a.authenticators = append(a.authenticators, &authInfo{
-		id:   id,
-		name: name,
-		auth: auth,
-	})
+	a.authenticators[id] = &authInfo{
+		id:         id,
+		name:       name,
+		auth:       auth,
+		identities: make(map[string]time.Time, 5),
+	}
 }
 
 // Valid 验证账号密码
 //
 // id 表示通过 [Authenticators.Register] 注册验证器时的 id；
-func (a *Authenticators) Valid(id, identity, password string) (uid int64, found bool) {
-	if info, found := sliceutil.At(a.authenticators, func(info *authInfo) bool { return info.id == id }); found {
-		return info.auth.Valid(identity, password)
+func (a *Authenticators) Valid(id, identity, password string) (int64, string, bool) {
+	if info, found := a.authenticators[id]; found {
+		uid, ident, ok := info.auth.Valid(identity, password)
+		if ok {
+			return uid, "", true
+		} else if ident != "" {
+			a.authenticators[id].identities[ident] = time.Now().Add(a.expired)
+			return 0, identity, false
+		}
 	}
-	return 0, false
+	return 0, "", false
+}
+
+// IdentityExpired 验证由 [Authenticator.Valid] 返回的值是否还能使用
+func (a *Authenticators) IdentityExpired(id, identity string) bool {
+	auth := a.authenticators[id]
+
+	expired, found := auth.identities[identity]
+	if !found {
+		return false
+	}
+
+	if expired.Before(time.Now()) {
+		delete(a.authenticators[id].identities, identity)
+		return false
+	}
+	return true
 }
 
 // All 返回所有的验证器
@@ -91,4 +130,16 @@ func (a *Authenticators) Identities(uid int64) map[string]string {
 		}
 	}
 	return m
+}
+
+// GC 执行回收过期 identity 的方法
+func (a *Authenticators) GC(now time.Time) error {
+	for _, auth := range a.authenticators {
+		for k, v := range auth.identities {
+			if v.Before(now) {
+				delete(auth.identities, k)
+			}
+		}
+	}
+	return nil
 }

@@ -109,27 +109,27 @@ func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 }
 
 // Valid 验证登录正确性并返回其 uid
-func (p *Password) Valid(identity, pass string) (int64, bool) {
+func (p *Password) Valid(identity, pass string) (int64, string, bool) {
 	pp := &modelPassword{Identity: identity}
 	found, err := p.modelEngine(nil).Select(pp)
 	if err != nil {
 		p.s.Logs().ERROR().Error(err)
-		return 0, false
+		return 0, "", false
 	}
 	if !found {
-		p.s.Logs().ERROR().Printf("用户 %s 不存在", identity)
-		return 0, false
+		p.s.Logs().DEBUG().Printf("用户 %s 不存在", identity)
+		return 0, "", false
 	}
 
 	err = bcrypt.CompareHashAndPassword(pp.Password, []byte(pass))
 	switch {
 	case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
-		return 0, false
+		return 0, "", false
 	case err != nil:
 		p.s.Logs().ERROR().Error(err)
-		return 0, false
+		return 0, "", false
 	default:
-		return pp.UID, true
+		return pp.UID, "", true
 	}
 }
 

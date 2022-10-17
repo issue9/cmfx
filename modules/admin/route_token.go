@@ -49,7 +49,7 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	// 密码错误
-	uid, found := m.auth.Valid(authPasswordType, data.Username, data.Password)
+	uid, identity, found := m.auth.Valid(authPasswordType, data.Username, data.Password)
 	if !found {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
@@ -62,11 +62,13 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 
 	if !found {
 		ctx.Server().Logs().Debugf("用户名 %v 不存在\n", data.Username)
-		return ctx.Problem(cmfx.Unauthorized)
+		p := ctx.Problem(cmfx.UnauthorizedRegistrable)
+		p.With("identity", identity)
+		return p
 	}
 
 	if a.State != StateNormal {
-		return ctx.Problem(cmfx.Unauthorized)
+		return ctx.Problem(cmfx.UnauthorizedInvalidState)
 	}
 
 	if err := m.securitylog.AddWithContext(a.ID, ctx, "登录"); err != nil {

@@ -29,20 +29,22 @@ func TestPassword(t *testing.T) {
 	a.ErrorIs(p.Add(nil, 1024, "1024", "1024"), authenticator.ErrExists)
 
 	// Valid
-	uid, ok := p.Valid("1024", "1024")
-	a.True(ok).Equal(uid, 1024)
-	uid, ok = p.Valid("1024", "pass")
-	a.False(ok).Equal(uid, 0)
+	uid, identity, ok := p.Valid("1024", "1024")
+	a.True(ok).Empty(identity).Equal(uid, 1024)
+	uid, identity, ok = p.Valid("1024", "pass") // 密码错误
+	a.False(ok).Empty(identity).Equal(uid, 0)
+	uid, identity, ok = p.Valid("not-exists", "pass") // 不存在
+	a.False(ok).Equal(identity, "").Equal(uid, 0)
 
 	// Change
 	a.ErrorString(p.Change(nil, 1025, "1024", "1024"), "不存在")
 	a.ErrorIs(p.Change(nil, 1024, "1025", "1024"), authenticator.ErrUnauthorized)
 	a.NotError(p.Change(nil, 1024, "1024", "1025"))
-	uid, ok = p.Valid("1024", "1025")
-	a.True(ok).Equal(uid, 1024)
+	uid, identity, ok = p.Valid("1024", "1025")
+	a.True(ok).Empty(identity).Equal(uid, 1024)
 
 	// Identity
-	identity, ok := p.Identity(1024)
+	identity, ok = p.Identity(1024)
 	a.True(ok).Equal(identity, "1024")
 	identity, ok = p.Identity(10240)
 	a.False(ok).Empty(identity)
@@ -50,8 +52,8 @@ func TestPassword(t *testing.T) {
 	// Delete
 	a.NotError(p.Delete(nil, 1024))
 	a.NotError(p.Delete(nil, 1024)) // 多次删除
-	uid, ok = p.Valid("1024", "1025")
-	a.False(ok).Zero(uid)
+	uid, identity, ok = p.Valid("1024", "1025")
+	a.False(ok).Equal(identity, "").Zero(uid) // 已删
 	identity, ok = p.Identity(1024)
 	a.False(ok).Empty(identity)
 }

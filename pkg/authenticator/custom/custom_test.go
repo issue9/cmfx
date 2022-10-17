@@ -31,13 +31,13 @@ func TestCustom(t *testing.T) {
 	a.ErrorIs(f.Add(nil, 1024, "1024"), authenticator.ErrExists)
 
 	// Valid
-	uid, ok := f.Valid("1024", "1024")
-	a.True(ok).Equal(uid, 1024)
-	uid, ok = f.Valid("1024", "1025")
-	a.False(ok).Equal(uid, 0)
+	uid, identity, ok := f.Valid("1024", "1024")
+	a.True(ok).Equal(uid, 1024).Empty(identity)
+	uid, identity, ok = f.Valid("1024", "1025")
+	a.False(ok).Equal(uid, 0).Empty(identity)
 
 	// Identity
-	identity, ok := f.Identity(1024)
+	identity, ok = f.Identity(1024)
 	a.True(ok).Equal(identity, "1024")
 	identity, ok = f.Identity(10240)
 	a.False(ok).Empty(identity)
@@ -45,8 +45,8 @@ func TestCustom(t *testing.T) {
 	// Delete
 	a.NotError(f.Delete(nil, 1024))
 	a.NotError(f.Delete(nil, 1024)) // 多次删除
-	uid, ok = f.Valid("1024", "1024")
-	a.False(ok).Equal(uid, 0)
+	uid, identity, ok = f.Valid("1024", "1024")
+	a.False(ok).Equal(uid, 0).Equal(identity, "1024")
 	identity, ok = f.Identity(1024) // 已删除
 	a.False(ok).Empty(identity)
 }

@@ -65,23 +65,22 @@ func (p *Func) Delete(tx *orm.Tx, uid int64) error {
 }
 
 // Valid 验证登录正确性并返回其 uid
-func (p *Func) Valid(identity, pass string) (int64, bool) {
+func (p *Func) Valid(identity, pass string) (int64, string, bool) {
 	if !p.f(identity, pass) {
-		return 0, false
+		return 0, "", false
 	}
 
 	pp := &modelCustom{Identity: identity}
 	found, err := p.modelEngine(nil).Select(pp)
 	if err != nil {
 		p.s.Logs().ERROR().Error(err)
-		return 0, false
+		return 0, "", false
 	}
 	if !found {
-		p.s.Logs().ERROR().Printf("用户 %s 验证通过，但未在关联表中找到", identity)
-		return 0, false
+		return 0, identity, false
 	}
 
-	return pp.UID, true
+	return pp.UID, "", true
 }
 
 func (p *Func) Identity(uid int64) (string, bool) {

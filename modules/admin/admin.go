@@ -77,7 +77,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		return nil, err
 	}
 
-	auth := authenticator.NewAuthenticators(5)
+	auth := authenticator.NewAuthenticators(s, time.Minute*2, "回收验证器的 ID")
 	pass := password.New(s, orm.Prefix(id+"_"+authPasswordType), db)
 	auth.Register(authPasswordType, pass, web.Phrase("password mode"))
 	m := &Admin{

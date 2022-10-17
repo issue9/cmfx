@@ -4,6 +4,7 @@ package authenticator_test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v3"
 	"github.com/issue9/orm/v5"
@@ -21,7 +22,7 @@ func TestAuthenticators(t *testing.T) {
 	password.Install(mod+"_p1", suite.DB())
 	password.Install(mod+"_p2", suite.DB())
 
-	auth := authenticator.NewAuthenticators(5)
+	auth := authenticator.NewAuthenticators(suite.Server(), time.Minute, "gc")
 	a.NotNil(auth)
 	a.Length(auth.All(suite.Server().LocalePrinter()), 0)
 
@@ -41,19 +42,19 @@ func TestAuthenticators(t *testing.T) {
 
 	// Valid / Identities
 
-	uid, ok := auth.Valid("p1", "1024", "1024")
-	a.False(ok).Zero(uid)
+	uid, identity, ok := auth.Valid("p1", "1024", "1024")
+	a.False(ok).Equal(identity, "").Zero(uid)
 	a.Empty(auth.Identities(1024))
 
 	// p1.Add
 	p1.Add(nil, 1024, "1024", "1024")
-	uid, ok = auth.Valid("p1", "1024", "1024")
-	a.True(ok).Equal(uid, 1024)
+	uid, identity, ok = auth.Valid("p1", "1024", "1024")
+	a.True(ok).Zero(identity).Equal(uid, 1024)
 	a.Equal(auth.Identities(1024), map[string]string{"p1": "1024"})
 
 	// p2.Add
 	p2.Add(nil, 1024, "1024", "1024")
-	uid, ok = auth.Valid("p2", "1024", "not match")
-	a.False(ok).Zero(uid)
+	uid, identity, ok = auth.Valid("p2", "1024", "not match")
+	a.Zero(identity).Zero(uid).False(ok)
 	a.Equal(auth.Identities(1024), map[string]string{"p1": "1024", "p2": "1024"})
 }

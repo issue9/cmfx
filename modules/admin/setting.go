@@ -60,6 +60,7 @@ var uiAttrs = map[string]*setting.Attribute{
 type userSetting struct {
 	Timezone string
 	Language string
+	Theme    string
 }
 
 type settingStore struct {
