@@ -24,8 +24,6 @@ func Install(s *web.Server, mod string, db *orm.DB) {
 	cmfx.Init(nil, func() error {
 		return web.StackError(e.Create(&ModelAdmin{}))
 	}, func() error {
-		return web.StackError(e.Create(&modelSetting{}))
-	}, func() error {
 		a, err := rbac.New(s, mod, db)
 		if err != nil {
 			return web.StackError(err)

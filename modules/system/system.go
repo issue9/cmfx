@@ -8,8 +8,6 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/modules/admin"
-	"github.com/issue9/cmfx/pkg/setting"
-	"github.com/issue9/cmfx/pkg/setting/store"
 )
 
 const (
@@ -28,8 +26,6 @@ type System struct {
 	admin    *admin.Admin
 	health   *health.Health
 	linkages *rootLinkage
-
-	setting *setting.Setting
 }
 
 func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admin) (*System, error) {
@@ -40,8 +36,6 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admi
 
 		admin:  admin,
 		health: health.New(health.NewCacheStore(s, mod+"_health")),
-
-		setting: setting.New(store.NewDB(mod, db)),
 	}
 
 	r.Use(m.health)
@@ -67,7 +61,6 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admi
 		Get("/system/info", m.admin.RBACFilter(mod, resGetInfo, m.adminGetInfo)).
 		Get("/system/services", m.admin.RBACFilter(mod, resGetServices, m.adminGetServices)).
 		Get("/system/apis", m.admin.RBACFilter(mod, resGetAPIs, m.adminGetAPIs)).
-		Get("/system/settings", m.admin.RBACFilter(mod, resGetSettings, m.adminGetSettings)).
 		Get("/system/linkages/{id}", m.admin.RBACFilter(mod, resGetLinkages, m.adminGetLinkages))
 
 	r.Get("/system/problems", m.commonGetProblems)

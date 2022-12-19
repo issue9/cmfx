@@ -86,7 +86,7 @@ func (q *adminsQuery) CTXSanitize(v *web.Validation) {
 //	<path path="/admins">
 //	    <query name="size" type="number" default="20" summary="每页数量" />
 //	    <query name="page" type="number" default="0" summary="页码，起始页 0" />
-//	    <query name="group" type="number" array="true" summary="只显示该分组的，0 表示所有，默认值为 0" />
+//	    <query name="group" type="number" array="true" summary="只显示该分组的，可以为空，表示所有。" />
 //	    <query name="state" type="string" array="true" default="normal" summary="状态值">
 //	        <enum value="normal" summary="正常" />
 //	        <enum value="locked" summary="锁定" />
@@ -133,6 +133,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 	}
 
 	if len(q.Groups) > 0 {
+		// TODO
 		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
 			for _, g := range q.Groups {
 				gg := strconv.Itoa(int(g))

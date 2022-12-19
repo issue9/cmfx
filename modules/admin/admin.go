@@ -11,7 +11,6 @@ import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
-	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/authenticator"
@@ -19,7 +18,6 @@ import (
 	"github.com/issue9/cmfx/pkg/config"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/securitylog"
-	"github.com/issue9/cmfx/pkg/setting"
 	"github.com/issue9/cmfx/pkg/token"
 )
 
@@ -54,10 +52,6 @@ type Admin struct {
 	// 用户登录和注销事件
 	loginEvent  events.Eventer[int64]
 	logoutEvent events.Eventer[int64]
-
-	// 登录用户的设置信息
-	settings     map[int64]*setting.Setting
-	userSettings map[int64]*userSetting
 }
 
 // New 声明 Admin 对象
@@ -96,23 +90,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 
 		loginEvent:  events.New[int64](),
 		logoutEvent: events.New[int64](),
-
-		settings:     make(map[int64]*setting.Setting, 100),
-		userSettings: make(map[int64]*userSetting, 100),
 	}
-
-	m.OnLogin(func(id int64) {
-		m.settings[id] = setting.New(&settingStore{uid: id, a: m})
-
-		us := &userSetting{Language: s.LanguageTag().String(), Timezone: s.Location().String()}
-		m.RegisterSetting(id, us, "ui", web.Phrase("ui setting"), web.Phrase("ui setting detail"), uiAttrs)
-		m.userSettings[id] = us
-	})
-
-	m.OnLogout(func(id int64) {
-		delete(m.settings, id)
-		delete(m.userSettings, id)
-	})
 
 	err = m.RegisterResources(id, map[string]web.LocaleStringer{
 		"post-group":          web.Phrase("post groups"),
@@ -147,9 +125,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		Get("/info", m.getInfo).
 		Patch("/info", m.patchInfo).
 		Get("/securitylog", m.getSecurityLogs).
-		Put("/password", m.putCurrentPassword).
-		Get("/settings", m.getSettings).
-		Patch("/settings", m.patchSettings)
+		Put("/password", m.putCurrentPassword)
 
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Post("/admins/{id:digit}/super", m.postSuper).
@@ -178,14 +154,6 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 			return web.Status(http.StatusUnauthorized)
 		}
 		ctx.Vars[adminKey] = c.UID
-		s := m.userSettings[c.UID]
-
-		ctx.SetLanguage(language.MustParse(s.Language))
-		tz, err := time.LoadLocation(s.Timezone)
-		if err != nil {
-			return ctx.InternalServerError(err)
-		}
-		ctx.SetLocation(tz)
 		return next(ctx)
 	})
 }
@@ -259,7 +227,3 @@ func (m *Admin) AddSecurityLogWithContext(uid int64, ctx *web.Context, content s
 func (m *Admin) OnLogin(f func(int64)) (int, error) { return m.loginEvent.Attach(f) }
 
 func (m *Admin) OnLogout(f func(int64)) (int, error) { return m.logoutEvent.Attach(f) }
-
-func (m *Admin) RegisterSetting(uid int64, v any, id string, title, desc web.LocaleStringer, attrs map[string]*setting.Attribute) (*setting.Group, error) {
-	return m.settings[uid].Register(v, id, title, desc, attrs)
-}

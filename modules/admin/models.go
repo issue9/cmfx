@@ -41,15 +41,7 @@ type ModelAdmin struct {
 	Super    bool      `orm:"name(super)" json:"super,omitempty" xml:"super,attr,omitempty"`
 }
 
-type modelSetting struct {
-	UID   int64  `orm:"name(uid);unique(uid_id)"`
-	ID    string `orm:"name(id);len(20);unique(uid_id)"`
-	Value string `orm:"name(value);len(-1)"`
-}
-
 func (*ModelAdmin) TableName() string { return `_admins` }
-
-func (*modelSetting) TableName() string { return `_settings` }
 
 func (a *ModelAdmin) BeforeInsert() error {
 	a.ID = 0

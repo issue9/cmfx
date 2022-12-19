@@ -27,6 +27,7 @@ import (
 //	    </param>
 //	    <param name="name" type="string" summary="真实姓名" />
 //	    <param name="nickname" type="string" summary="姓名" />
+//	    <param name="super" type="bool" summary="是否为超级管理员" />
 //	</response>
 //
 // </api>

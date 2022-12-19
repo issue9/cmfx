@@ -20,10 +20,7 @@ func TestInstaller(t *testing.T) {
 	s.Assertion().NotNil(i)
 	p := orm.Prefix(id)
 
-	exists, err := s.DB().SQLBuilder().TableExists().Table(id + "_settings").Exists()
-	a.NotError(err).True(exists)
-
-	exists, err = s.DB().SQLBuilder().TableExists().Table(id + "_linkages").Exists()
+	exists, err := s.DB().SQLBuilder().TableExists().Table(id + "_linkages").Exists()
 	a.NotError(err).True(exists)
 
 	err = i.Linkage().AddItems("a", "b", "c")
