@@ -6,11 +6,12 @@ require (
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/issue9/assert/v3 v3.0.4
 	github.com/issue9/cache v0.4.1
-	github.com/issue9/conv v1.3.3
 	github.com/issue9/errwrap v0.3.1
 	github.com/issue9/events v0.6.0
 	github.com/issue9/localeutil v0.12.5
+	github.com/issue9/logs/v4 v4.1.0
 	github.com/issue9/middleware/v6 v6.0.0-beta.11
+	github.com/issue9/mux/v7 v7.1.0
 	github.com/issue9/orm/v5 v5.0.0-beta.10
 	github.com/issue9/sliceutil v0.12.0
 	github.com/issue9/source v0.3.2
@@ -30,8 +31,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/gomodule/redigo v1.8.9 // indirect
 	github.com/issue9/autoinc v1.0.9 // indirect
-	github.com/issue9/logs/v4 v4.1.0 // indirect
-	github.com/issue9/mux/v7 v7.1.0 // indirect
+	github.com/issue9/conv v1.3.3 // indirect
 	github.com/issue9/query/v3 v3.1.1 // indirect
 	github.com/issue9/rands v1.2.1 // indirect
 	github.com/issue9/scheduled v0.9.3 // indirect

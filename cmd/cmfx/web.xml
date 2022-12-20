@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<web>
+    <http port=":8080" />
+    <logs created="true" caller="true">
+        <writer type="file">
+            <arg>15:04:05.000</arg>
+            <arg>./logs</arg>
+            <arg>20060102-%i.log</arg>
+            <arg>10485760</arg><!-- 约 10M -->
+        </writer>
+        <writer type="term">
+            <level>fatl</level>
+            <level>erro</level>
+            <level>warn</level>
+            <arg>04:05.000</arg>
+            <arg>red</arg>
+            <arg>stderr</arg>
+        </writer>
+        <writer type="term">
+            <level>info</level>
+            <level>dbug</level>
+            <level>trac</level>
+            <arg>04:05.000</arg>
+            <arg>green</arg>
+            <arg>stdout</arg>
+        </writer>
+    </logs>
+
+    <encodings>
+        <encoding type="*">
+            <id>deflate-default</id>
+            <id>gzip-default</id>
+            <id>br-default</id>
+            <id>compress-msb-8</id>
+        </encoding>
+    </encodings>
+
+    <mimetypes>
+        <mimetype type="application/json" target="json" problem="application/problem+json" />
+        <mimetype type="application/xml" target="xml" problem="application/problem+xml" />
+        <mimetype type="text/xml" target="xml" problem="application/problem+xml" />
+        <mimetype type="multipart/form-data" target="nil" />
+    </mimetypes>
+
+    <files>
+        <file>.json</file>
+        <file>.xml</file>
+        <file>.yaml</file>
+        <file>.yml</file>
+    </files>
+
+    <user>
+        <admin accessExpires="43200" refreshExpires="86400">
+            <urlPrefix>/admin</urlPrefix>
+            <algorithm type="hmac">
+                <name>HS256</name>
+                <public>a;asdfasi8iuhf;;DKf;ewieqpwe</public>
+                <private>a;asdfasi8iuhf;;DKf;ewieqpwe</private>
+            </algorithm>
+            <algorithm type="hmac">
+                <name>HS512</name>
+                <public>a:DJfi;[pqwieqw;werjrqpwe</public>
+                <private>a:DJfi;[pqwieqw;werjrqpwe</private>
+            </algorithm>
+            <algorithm type="rsa">
+                <name>RS512</name>
+                <public><![CDATA[-----BEGIN PUBLIC KEY-----
+MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOALys4MJZXhSBVhgSgIXCsFZU1D8rPX
+D0kpOUjD1uUF90jZNBQPT/8HLYVd7yxp8EcWCQWROmlf6n4FDdVLTHcCAwEAAQ==
+-----END PUBLIC KEY-----]]></public>
+                <private>-----BEGIN PRIVATE KEY-----
+MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEA4AvKzgwlleFIFWGB
+KAhcKwVlTUPys9cPSSk5SMPW5QX3SNk0FA9P/wcthV3vLGnwRxYJBZE6aV/qfgUN
+1UtMdwIDAQABAkAs0y8oOlXqvr/lRzTIBaQrF1FFPCr6wDRWtuC3JjeAamlSWBNO
+OSQybg4XVzvex4HFm0jlH0UTI2vJ6LTTt5eBAiEA79F56gMsB/WCB3AjfWXlva4b
+3krVBGHphyvsS2G7mm8CIQDvKd+RyquhJ08Yi4S6wZvFoaASqvTdu7MDAHnvqTSS
+eQIhAMhXie5pufXoLjlCgBN49aUw900L3MqtdSacFemfetb3AiAk5PLGTNuZKrU6
+9hrtrHxZSoulFZZctl3xMpuc6x9fEQIhAKKA2WJ2BFExcjhwN24mZyekdP5jCJJU
+jPakRl2w0aio
+-----END PRIVATE KEY-----</private>
+            </algorithm>
+        </admin>
+    </user>
+</web>

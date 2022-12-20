@@ -160,46 +160,6 @@ messages:
     
 # admin
 
-- key: ui setting
-  message:
-    msg: 界面设置
-
-- key: ui setting detail
-  message:
-    msg: 用户界面语言的设置
-
-- key: ui language
-  message:
-    msg: 界面语言
-
-- key: ui language detail
-  message:
-    msg: 用户操作界面的语言
-    
-- key: timezone
-  message:
-    msg: 时区
-
-- key: timezone detail
-  message:
-    msg: 用户所在的时区，默认情况采用服务器所在的时区。
-
-- key: theme
-  message:
-    msg: 主题
-
-- key: theme detail
-  message:
-    msg: 用户的界面主题
-
-- key: server timezone
-  message:
-    msg: 服务器时间
-
-- key: server timezone detail
-  message:
-    msg: 以服务器的时区作当前用户的时区信息
-
 - key: password mode
   message:
     msg: 密码模式
@@ -273,7 +233,3 @@ messages:
 - key: view linkages
   message:
     msg: 查看级联数据
-
-- key: the value not in candidate
-  message:
-    msg: 值不在候选列中

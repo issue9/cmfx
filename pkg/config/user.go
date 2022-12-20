@@ -62,8 +62,6 @@ type Algorithm struct {
 }
 
 // SanitizeConfig 用于检测和修正配置项的内容
-//
-// [New] 中并未主动调用该方法，使用者需要自行调用。
 func (o *User) SanitizeConfig() *app.ConfigError {
 	if o.URLPrefix != "" && o.URLPrefix[0] != '/' {
 		return &app.ConfigError{Field: "urlPrefix", Message: locales.InvalidValue}
