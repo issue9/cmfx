@@ -46,7 +46,7 @@ func newRootLinkage(db *orm.DB, p orm.Prefix) (*rootLinkage, error) {
 	ls := make([]*linkage, 0, 10)
 	_, err := p.DB(db).Where("deleted IS NULL").Select(true, &ls)
 	if err != nil {
-		return nil, web.StackError(err)
+		return nil, web.NewStackError(err)
 	}
 
 	type subLinkage struct {
@@ -213,7 +213,9 @@ func (l *Linkage) PutHandle(ctx *web.Context) web.Responser {
 		Name string `json:"name" xml:"name"`
 	}{}
 	if data.Name == "" {
-		return ctx.Problem(cmfx.BadRequestInvalidBody).AddParam("name", locales.Required.LocaleString(ctx.LocalePrinter()))
+		p := ctx.Problem(cmfx.BadRequestInvalidBody)
+		p.AddParam("name", locales.Required.LocaleString(ctx.LocalePrinter()))
+		return p
 	}
 
 	l.name = data.Name

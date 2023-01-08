@@ -205,7 +205,9 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	if a.Super && data.State != StateNormal {
-		return ctx.Problem(cmfx.BadRequestInvalidBody).AddParam("state", locales.InvalidValue.LocaleString(ctx.LocalePrinter()))
+		p := ctx.Problem(cmfx.BadRequestInvalidBody)
+		p.AddParam("state", locales.InvalidValue.LocaleString(ctx.LocalePrinter()))
+		return p
 	}
 
 	// 更新数据库

@@ -15,7 +15,7 @@ import (
 func InstallSimple(tableName string, db *orm.DB) {
 	e := orm.Prefix(tableName).DB(db)
 	cmfx.Init(nil, func() error {
-		return web.StackError(e.Create(&modelSimpleEAV{}))
+		return web.NewStackError(e.Create(&modelSimpleEAV{}))
 	})
 
 }

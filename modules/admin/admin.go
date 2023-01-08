@@ -63,7 +63,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 
 	inst, err := rbac.New(s, id, db)
 	if err != nil {
-		return nil, web.StackError(err)
+		return nil, web.NewStackError(err)
 	}
 
 	tks, err := config.NewTokens(o, s, id, db, buildClaims, "回收丢弃的管理员令牌")
@@ -103,7 +103,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		"post-admin": web.Phrase("post admins"),
 	})
 	if err != nil {
-		return nil, web.StackError(err)
+		return nil, web.NewStackError(err)
 	}
 
 	router.Prefix(m.URLPrefix()).

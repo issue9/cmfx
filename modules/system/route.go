@@ -6,7 +6,6 @@ import (
 	"runtime"
 	"time"
 
-	"github.com/issue9/localeutil"
 	"github.com/issue9/web"
 )
 
@@ -204,7 +203,7 @@ func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 		}
 
 		ss.Services = append(ss.Services, service{
-			Title: s.Title(),
+			Title: s.Title(ctx.LocalePrinter()),
 			State: s.State().String(),
 			Err:   err,
 		})
@@ -240,7 +239,7 @@ func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 //
 // </api>
 func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
-	type p struct {
+	type problem struct {
 		ID     string `json:"id" xml:"id"`
 		Status int    `json:"status" xml:"status,attr"`
 		Title  string `json:"title" xml:"title"`
@@ -248,19 +247,18 @@ func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
 	}
 
 	pp := ctx.Server().Problems()
-	ps := make([]*p, 0, 100)
-	pp.Visit(func(id string, status int, title, detail localeutil.LocaleStringer) bool {
-		ps = append(ps, &p{
-			ID:     id,
-			Status: status,
-			Title:  title.LocaleString(ctx.LocalePrinter()),
-			Detail: detail.LocaleString(ctx.LocalePrinter()),
+	ps := make([]*problem, 0, 100)
+	for _, p := range pp.Problems() {
+		ps = append(ps, &problem{
+			ID:     p.ID,
+			Status: p.Status,
+			Title:  p.Title.LocaleString(ctx.LocalePrinter()),
+			Detail: p.Detail.LocaleString(ctx.LocalePrinter()),
 		})
-		return true
-	})
+	}
 
 	return web.OK(map[string]any{
-		"base":     pp.BaseURL(),
+		"base":     pp.TypePrefix(),
 		"problems": ps,
 	})
 }

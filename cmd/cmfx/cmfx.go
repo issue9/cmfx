@@ -14,6 +14,7 @@ import (
 	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/web"
 	"github.com/issue9/web/app"
+	"github.com/issue9/web/errs"
 
 	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/cmfx/modules/admin"
@@ -28,7 +29,7 @@ type config struct {
 	Admin *c.User `yaml:"admin" xml:"admin" json:"admin"`
 }
 
-func (c *config) SanitizeConfig() *app.ConfigError {
+func (c *config) SanitizeConfig() *errs.ConfigError {
 	return c.Admin.SanitizeConfig()
 }
 
@@ -69,7 +70,7 @@ func initServer(s *web.Server, user *config, action string) error {
 
 	cmfx.AddProblems(s.Problems())
 
-	if err := s.LoadLocale(locales.Locales, "*.*"); err != nil {
+	if err := s.LoadLocales(locales.Locales, "*.*"); err != nil {
 		return err
 	}
 

@@ -6,8 +6,11 @@ import (
 	"encoding/json"
 
 	"github.com/issue9/orm/v5"
-	"github.com/issue9/web/serializer"
 )
+
+type MarshalFunc func(any) ([]byte, error)
+
+type UnmarshalFunc func([]byte, any) error
 
 // Simple 简单的 EAV 操作接口
 //
@@ -16,8 +19,8 @@ type Simple[T any] struct {
 	db       *orm.DB
 	dbPrefix orm.Prefix
 
-	marshal   serializer.MarshalFunc
-	unmarshal serializer.UnmarshalFunc
+	marshal   MarshalFunc
+	unmarshal UnmarshalFunc
 }
 
 // NewSimple 加载简要的 EAV 操作接口
@@ -25,7 +28,7 @@ type Simple[T any] struct {
 // tableName 为表名；
 // marshal 和 unmarshal 表示将对象保存至表的编解码方法，如果未指定，则采用 json 的格式；
 // T 表示存取对象的类型；
-func NewSimple[T any](tableName string, db *orm.DB, marshal serializer.MarshalFunc, unmarshal serializer.UnmarshalFunc) *Simple[T] {
+func NewSimple[T any](tableName string, db *orm.DB, marshal MarshalFunc, unmarshal UnmarshalFunc) *Simple[T] {
 	if marshal == nil {
 		marshal = json.Marshal
 	}

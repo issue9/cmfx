@@ -20,7 +20,7 @@ func Install(mod string, db *orm.DB) *Installer {
 	p := orm.Prefix(mod)
 	e := p.DB(db)
 	cmfx.Init(nil, func() error {
-		return web.StackError(e.Create(&linkage{}))
+		return web.NewStackError(e.Create(&linkage{}))
 	})
 
 	root, err := newRootLinkage(db, p)

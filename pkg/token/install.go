@@ -13,8 +13,8 @@ func Install(mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
 	cmfx.Init(nil, func() error {
-		return web.StackError(e.Create(&blockedToken{}))
+		return web.NewStackError(e.Create(&blockedToken{}))
 	}, func() error {
-		return web.StackError(e.Create(&discardUser{}))
+		return web.NewStackError(e.Create(&discardUser{}))
 	})
 }

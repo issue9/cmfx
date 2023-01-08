@@ -33,8 +33,7 @@ func NewSuite(a *assert.Assertion) *Suite {
 	a.NotError(err).NotNil(db)
 
 	server := servertest.NewTester(a, nil)
-	err = server.Server().Files().Serializer().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
-	a.NotError(err)
+	server.Server().Files().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
 
 	s := &Suite{
 		Tester: server,

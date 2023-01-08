@@ -38,35 +38,25 @@ const (
 	ForbiddenCaNotDeleteYourself = "40302"
 )
 
-type status struct {
-	status int
-	p      *server.Problems
-}
+func AddProblems(p server.Problems) {
+	s := p.Status(http.StatusBadRequest)
+	s.Add(BadRequest, web.Phrase("bad request"), web.Phrase("bad request")).
+		Add(BadRequestInvalidParam, web.Phrase("bad request invalid param"), web.Phrase("bad request invalid param detail")).
+		Add(BadRequestInvalidQuery, web.Phrase("bad request invalid query"), web.Phrase("bad request invalid query detail")).
+		Add(BadRequestInvalidHeader, web.Phrase("bad request invalid header"), web.Phrase("bad request invalid header detail")).
+		Add(BadRequestInvalidBody, web.Phrase("bad request invalid body"), web.Phrase("bad request invalid body detail"))
 
-func (s *status) add(id string, title, detail web.LocaleStringer) *status {
-	s.p.Add(id, s.status, title, detail)
-	return s
-}
+	s = p.Status(http.StatusUnauthorized)
+	s.Add(Unauthorized, web.Phrase("unauthorized"), web.Phrase("unauthorized detail")).
+		Add(UnauthorizedInvalidState, web.Phrase("unauthorized invalid state"), web.Phrase("unauthorized invalid state detail")).
+		Add(UnauthorizedInvalidToken, web.Phrase("unauthorized invalid token"), web.Phrase("unauthorized invalid token detail")).
+		Add(UnauthorizedInvalidPassword, web.Phrase("unauthorized invalid password"), web.Phrase("unauthorized invalid password detail")).
+		Add(UnauthorizedInvalidAccount, web.Phrase("unauthorized invalid account"), web.Phrase("unauthorized invalid account detail")).
+		Add(UnauthorizedNeedChangePassword, web.Phrase("unauthorized need change password"), web.Phrase("unauthorized need change password detail")).
+		Add(UnauthorizedRegistrable, web.Phrase("identity registrable"), web.Phrase("identity registrable detail"))
 
-func AddProblems(p *server.Problems) {
-	s := &status{p: p, status: http.StatusBadRequest}
-	s.add(BadRequest, web.Phrase("bad request"), web.Phrase("bad request")).
-		add(BadRequestInvalidParam, web.Phrase("bad request invalid param"), web.Phrase("bad request invalid param detail")).
-		add(BadRequestInvalidQuery, web.Phrase("bad request invalid query"), web.Phrase("bad request invalid query detail")).
-		add(BadRequestInvalidHeader, web.Phrase("bad request invalid header"), web.Phrase("bad request invalid header detail")).
-		add(BadRequestInvalidBody, web.Phrase("bad request invalid body"), web.Phrase("bad request invalid body detail"))
-
-	s = &status{p: p, status: http.StatusUnauthorized}
-	s.add(Unauthorized, web.Phrase("unauthorized"), web.Phrase("unauthorized detail")).
-		add(UnauthorizedInvalidState, web.Phrase("unauthorized invalid state"), web.Phrase("unauthorized invalid state detail")).
-		add(UnauthorizedInvalidToken, web.Phrase("unauthorized invalid token"), web.Phrase("unauthorized invalid token detail")).
-		add(UnauthorizedInvalidPassword, web.Phrase("unauthorized invalid password"), web.Phrase("unauthorized invalid password detail")).
-		add(UnauthorizedInvalidAccount, web.Phrase("unauthorized invalid account"), web.Phrase("unauthorized invalid account detail")).
-		add(UnauthorizedNeedChangePassword, web.Phrase("unauthorized need change password"), web.Phrase("unauthorized need change password detail")).
-		add(UnauthorizedRegistrable, web.Phrase("identity registrable"), web.Phrase("identity registrable detail"))
-
-	s = &status{p: p, status: http.StatusForbidden}
-	s.add(Forbidden, web.Phrase("forbidden"), web.Phrase("forbidden detail")).
-		add(ForbiddenStateNotAllow, web.Phrase("forbidden state not allow"), web.Phrase("forbidden state not allow detail")).
-		add(ForbiddenCaNotDeleteYourself, web.Phrase("forbidden can not delete yourself"), web.Phrase("forbidden can not delete yourself detail"))
+	s = p.Status(http.StatusForbidden)
+	s.Add(Forbidden, web.Phrase("forbidden"), web.Phrase("forbidden detail")).
+		Add(ForbiddenStateNotAllow, web.Phrase("forbidden state not allow"), web.Phrase("forbidden state not allow detail")).
+		Add(ForbiddenCaNotDeleteYourself, web.Phrase("forbidden can not delete yourself"), web.Phrase("forbidden can not delete yourself detail"))
 }

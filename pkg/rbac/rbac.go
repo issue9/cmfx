@@ -24,9 +24,7 @@ type RBAC struct {
 
 // New 声明 RBAC 对象
 //
-// parent 管理此对象的模块；
-// db 数据库对象；
-// reasonLogger 如果不为空，则在此日志上输出是因为什么理由获得了资源的访问权限；
+// mod 拥有此对象的模块；
 func New(s *web.Server, mod string, db *orm.DB) (*RBAC, error) {
 	p := orm.Prefix(mod)
 

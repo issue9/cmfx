@@ -5,7 +5,7 @@ package config
 import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/dialect"
-	"github.com/issue9/web/app"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/locales"
 )
@@ -28,7 +28,7 @@ type DB struct {
 	db *orm.DB
 }
 
-func (conf *DB) SanitizeConfig() *app.ConfigError {
+func (conf *DB) SanitizeConfig() *web.ConfigError {
 	var d orm.Dialect
 	switch conf.Type {
 	case "sqlite3":
@@ -42,12 +42,14 @@ func (conf *DB) SanitizeConfig() *app.ConfigError {
 	case "postgres":
 		d = dialect.Postgres("postgres")
 	default:
-		return &app.ConfigError{Field: "type", Value: conf.Type, Message: locales.InvalidValue}
+		err := web.NewConfigError("type", locales.InvalidValue)
+		err.Value = conf.Type
+		return err
 	}
 
 	db, err := orm.NewDB(conf.DSN, d)
 	if err != nil {
-		return &app.ConfigError{Message: err}
+		return web.NewConfigError("", err)
 	}
 	conf.db = db
 

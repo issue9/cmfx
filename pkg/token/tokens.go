@@ -65,7 +65,7 @@ func (tks *Tokens[T]) loadData() error {
 
 	tokens := make([]*blockedToken, 0, 100)
 	if _, err := e.Where("1=1").Select(true, &tokens); err != nil {
-		return web.StackError(err)
+		return web.NewStackError(err)
 	}
 	for _, t := range tokens {
 		if t.Expired.Before(now) {
@@ -78,7 +78,7 @@ func (tks *Tokens[T]) loadData() error {
 
 	users := make([]*discardUser, 0, 100)
 	if _, err := e.Where("1=1").Select(true, &users); err != nil {
-		return web.StackError(err)
+		return web.NewStackError(err)
 	}
 	for _, t := range users {
 		if t.Expired.Before(now) {
@@ -96,11 +96,11 @@ func (tks *Tokens[T]) scanJob(now time.Time) error {
 	e := tks.dbPrefix.DB(tks.db)
 
 	if _, err := e.Where("expired<?", now).Delete(&blockedToken{}); err != nil {
-		return web.StackError(err)
+		return web.NewStackError(err)
 	}
 
 	_, err := e.Where("expired<?", now).Delete(&discardUser{})
-	return web.StackError(err)
+	return web.NewStackError(err)
 }
 
 func (tks *Tokens[T]) TokenIsBlocked(token string) bool {
@@ -126,11 +126,11 @@ func (tks *Tokens[T]) BlockToken(token string) error {
 func (tks *Tokens[T]) blockCacheToken(token string) error {
 	if tks.cache.Exists(token) {
 		if err := tks.cache.Delete(token); err != nil {
-			return web.StackError(err)
+			return web.NewStackError(err)
 		}
 	}
 	// 不知道丢弃的是令牌还是刷新令牌，两者时间不一样，一律按刷新令牌处理。
-	return web.StackError(tks.cache.Set(token, struct{}{}, tks.blockerExpires))
+	return web.NewStackError(tks.cache.Set(token, struct{}{}, tks.blockerExpires))
 }
 
 // BlockUID 丢弃 UserID 关联的所有令牌
@@ -149,11 +149,11 @@ func (tks *Tokens[T]) BlockUID(uid string) error {
 func (tks *Tokens[T]) blockCacheUID(uid string) error {
 	if tks.cache.Exists(uid) {
 		if err := tks.cache.Delete(uid); err != nil {
-			return web.StackError(err)
+			return web.NewStackError(err)
 		}
 	}
 	// 不知道丢弃的是令牌还是刷新令牌，两者时间不一样，一律按刷新令牌处理。
-	return web.StackError(tks.cache.Set(uid, struct{}{}, tks.blockerExpires))
+	return web.NewStackError(tks.cache.Set(uid, struct{}{}, tks.blockerExpires))
 }
 
 // RecoverUID 恢复该用户的登录权限
@@ -167,7 +167,7 @@ func (tks *Tokens[T]) RecoverUID(uid string) error {
 }
 
 func (tks *Tokens[T]) recoverCacheUID(uid string) error {
-	return web.StackError(tks.cache.Delete(uid))
+	return web.NewStackError(tks.cache.Delete(uid))
 }
 
 // New 签发新的令牌

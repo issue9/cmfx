@@ -13,6 +13,6 @@ func Install(mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
 	cmfx.Init(nil, func() error {
-		return web.StackError(e.Create(&log{}))
+		return web.NewStackError(e.Create(&log{}))
 	})
 }

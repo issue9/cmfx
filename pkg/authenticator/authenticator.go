@@ -64,7 +64,6 @@ func NewAuthenticators(s *web.Server, d time.Duration, jobTitle string) *Authent
 //
 // id 为验证器的类型名称，需要唯一；
 // name 为该验证器的本地化名称；
-// logo 为该验证器的 LOGO；
 func (a *Authenticators) Register(id string, auth Authenticator, name web.LocaleStringer) {
 	if _, found := a.authenticators[id]; found {
 		panic(fmt.Sprintf("已经存在同名 %s 的验证器", id))
