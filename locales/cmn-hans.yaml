@@ -157,6 +157,10 @@ messages:
 - key: must be less than %d
   message:
     msg: 必须小于 %d
+
+- key: user %[1]d has access %[2]s because of %[3]d
+  message:
+    msg: 用户 %[1]d 因为 %[3]d 获得访问了 %[2]s 的权限
     
 # admin
 

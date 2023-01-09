@@ -56,9 +56,9 @@ func TestRBAC_Link_IsAllow(t *testing.T) {
 	a.Equal(inst.users[1], []int64{id, id2})
 
 	// IsAllow
-	allowed, err := inst.IsAllow(1, "not-exists")
+	allowed, err := inst.isAllow(1, "not-exists")
 	a.NotError(err).False(allowed)
-	allowed, err = inst.IsAllow(1, "res-1")
+	allowed, err = inst.isAllow(1, "res-1")
 	a.NotError(err).True(allowed)
 
 	// Unlink 未指定角色
@@ -87,6 +87,6 @@ func TestRBAC_Link_IsAllow(t *testing.T) {
 	a.NotError(inst.Unlink(tx, 1, id, id2))
 	a.NotError(tx.Commit())
 
-	allowed, err = inst.IsAllow(1, "res-1")
+	allowed, err = inst.isAllow(1, "res-1")
 	a.NotError(err).False(allowed)
 }

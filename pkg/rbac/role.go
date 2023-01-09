@@ -140,3 +140,21 @@ func (r *Role) hasChild(child int64) bool {
 	}
 	return r.hasChild(c.r.Parent)
 }
+
+// 角色可分配的资源列表
+func (r *Role) resources() []string {
+	if r.r.Parent == 0 {
+		res := make([]string, 0, len(r.rbac.resources))
+		res = append(res, r.rbac.resources...)
+		return res
+	}
+
+	// 如果有父角色(限于直系)，那么它所能分配的资源只能是父角色已经拥有的。
+	//
+	// 角色拥有的资源从上到下是逐渐收紧的状态，
+	// 所以一个角色所能支配的资源只能是其直系父角色带来的。
+	if parent := r.rbac.Role(r.r.Parent); parent != nil {
+		return parent.r.Resources
+	}
+	return nil
+}

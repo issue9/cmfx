@@ -3,10 +3,13 @@
 package rbac
 
 import (
-	"github.com/issue9/cmfx/pkg/rules"
+	"sort"
+
 	"github.com/issue9/web"
+	"golang.org/x/text/message"
 
 	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/rules"
 )
 
 type requestRole struct {
@@ -16,9 +19,48 @@ type requestRole struct {
 	Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty"`
 }
 
+type responseResource struct {
+	ID    string `json:"id" xml:"id,attr"`
+	Title string `json:"title" xml:",chardata"`
+}
+
+type responseResponseGroup struct {
+	Title     string             `json:"title" xml:"title"`
+	Resources []responseResource `json:"resources" xml:"resource"`
+}
+
+type responseResources struct {
+	XMLName struct{}                `json:"-" xml:"resources"`
+	Groups  []responseResponseGroup `json:"groups" xml:"resource"`
+}
+
 func (r *requestRole) CTXSanitize(v *web.Validation) {
 	v.AddField(r.Desc, "description", rules.Required).
 		AddField(r.Name, "name", rules.Required)
+}
+
+func buildResponseResources(p *message.Printer, gs map[string]*Group) *responseResources {
+	resources := &responseResources{}
+	for _, g := range gs {
+		gg := responseResponseGroup{
+			Title:     g.desc.LocaleString(p),
+			Resources: make([]responseResource, 0, len(g.resources)),
+		}
+
+		for id, title := range g.resources {
+			gg.Resources = append(gg.Resources, responseResource{
+				ID:    id,
+				Title: title.LocaleString(p),
+			})
+		}
+		sort.SliceStable(gg.Resources, func(i, j int) bool { return gg.Resources[i].ID < gg.Resources[j].ID })
+		resources.Groups = append(resources.Groups, gg)
+	}
+	sort.SliceStable(resources.Groups, func(i, j int) bool {
+		return resources.Groups[i].Title < resources.Groups[j].Title
+	})
+
+	return resources
 }
 
 func (rbac *RBAC) GetRolesHandle(ctx *web.Context) web.Responser {
@@ -79,7 +121,7 @@ func (rbac *RBAC) PutRoleHandle(idName string, ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-func (rbac *RBAC) DeleteRole(idName string, ctx *web.Context) web.Responser {
+func (rbac *RBAC) DeleteRoleHandle(idName string, ctx *web.Context) web.Responser {
 	id, resp := ctx.ParamID(idName, cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
@@ -92,14 +134,11 @@ func (rbac *RBAC) DeleteRole(idName string, ctx *web.Context) web.Responser {
 }
 
 func (rbac *RBAC) GetResourcesHandle(ctx *web.Context) web.Responser {
-	resources := make(map[string]string, len(rbac.resources))
-	for k, v := range rbac.resources {
-		resources[k] = v.LocaleString(ctx.LocalePrinter())
-	}
-	return web.OK(resources)
+	p := ctx.LocalePrinter()
+	return web.OK(buildResponseResources(p, rbac.groups))
 }
 
-// GetRoleResourcesHandle 获得角色可访问的资源列表
+// GetRoleResourcesHandle 获得角色已被允许访问的资源
 func (rbac *RBAC) GetRoleResourcesHandle(idName string, ctx *web.Context) web.Responser {
 	id, resp := ctx.ParamID(idName, cmfx.BadRequestInvalidParam)
 	if resp != nil {
@@ -114,7 +153,7 @@ func (rbac *RBAC) GetRoleResourcesHandle(idName string, ctx *web.Context) web.Re
 	return ctx.NotFound()
 }
 
-// GetRoleAllowedResourcesHandle 获得权限组允许访问的资源列表
+// GetRoleAllowedResourcesHandle 获取该角色可分配的资源列表
 func (rbac *RBAC) GetRoleAllowedResourcesHandle(idName string, ctx *web.Context) web.Responser {
 	id, resp := ctx.ParamID(idName, cmfx.BadRequestInvalidParam)
 	if resp != nil {
@@ -156,7 +195,7 @@ func (rbac *RBAC) PutRoleResourcesHandle(idName string, ctx *web.Context) web.Re
 func (rbac *RBAC) Filter(uid int64, mod string, res string, next web.HandlerFunc) web.HandlerFunc {
 	res = buildResourceID(mod, res)
 	return func(ctx *web.Context) web.Responser {
-		allowed, err := rbac.IsAllow(uid, res)
+		allowed, err := rbac.isAllow(uid, res)
 		if err != nil {
 			return ctx.InternalServerError(err)
 		}

@@ -25,5 +25,4 @@ func TestInstall(t *testing.T) {
 
 	exists, err = suite.DB().SQLBuilder().TableExists().Table(id + "_rbac_roles").Exists()
 	a.NotError(err).True(exists)
-
 }

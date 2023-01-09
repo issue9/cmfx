@@ -15,11 +15,12 @@ import (
 type RBAC struct {
 	roles     map[int64]*Role
 	users     map[int64][]int64 // 键名为用户 ID，键值为与该用户关联的角色 ID。
-	resources map[string]web.LocaleStringer
+	resources []string
+	groups    map[string]*Group
 
-	db           *orm.DB
-	dbPrefix     orm.Prefix
-	reasonLogger web.Logger
+	db       *orm.DB
+	dbPrefix orm.Prefix
+	s        *web.Server
 }
 
 // New 声明 RBAC 对象
@@ -37,11 +38,12 @@ func New(s *web.Server, mod string, db *orm.DB) (*RBAC, error) {
 	rbac := &RBAC{
 		roles:     make(map[int64]*Role, len(roles)),
 		users:     make(map[int64][]int64, 100),
-		resources: make(map[string]web.LocaleStringer, 100),
+		resources: make([]string, 0, 100),
+		groups:    make(map[string]*Group, 10),
 
-		db:           db,
-		dbPrefix:     p,
-		reasonLogger: s.Logs().DEBUG(),
+		db:       db,
+		dbPrefix: p,
+		s:        s,
 	}
 
 	for _, r := range roles {
@@ -131,8 +133,7 @@ func (rbac *RBAC) Unlink(tx *orm.Tx, uid int64, roleID ...int64) error {
 	return nil
 }
 
-// IsAllow 查询 uid 是否拥有访问 resID 的权限
-func (rbac *RBAC) IsAllow(uid int64, resID string) (allowed bool, err error) {
+func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
 	roles, found := rbac.users[uid]
 	if !found {
 		links := make([]*link, 0, 5)
@@ -152,7 +153,8 @@ func (rbac *RBAC) IsAllow(uid int64, resID string) (allowed bool, err error) {
 	for _, rid := range roles {
 		role := rbac.roles[rid]
 		if sliceutil.Exists(role.r.Resources, func(i string) bool { return i == resID }) {
-			rbac.reasonLogger.Printf("用户 %d 因角色 %d 获得了访问 %s 的权限", uid, rid, resID)
+			msg := web.Phrase("user %[1]d has access %[2]s because of %[3]d", uid, resID, rid)
+			rbac.s.Logs().DEBUG().Printf(msg.LocaleString(rbac.s.LocalePrinter()))
 			return true, nil
 		}
 	}

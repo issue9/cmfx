@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -183,4 +184,46 @@ func TestRole_HasChild(t *testing.T) {
 	a.True(inst.Role(r1).hasChild(r111))
 	a.True(inst.Role(r11).hasChild(r111))
 	a.True(inst.Role(r111).hasChild(r111))
+}
+
+func TestRole_resources(t *testing.T) {
+	a := assert.New(t, false)
+	suite := test.NewSuite(a)
+	defer suite.Close()
+	parent := "rbac"
+	Install(parent, suite.DB())
+	inst, err := New(suite.Server(), parent, suite.DB())
+	a.NotError(err).NotNil(inst)
+
+	g1 := inst.NewGroup("g1", web.Phrase("g1"))
+	g1.AddResources(map[string]web.LocaleStringer{
+		"r1": web.Phrase("r1"),
+		"r2": web.Phrase("r2"),
+	})
+
+	g2 := inst.NewGroup("g2", web.Phrase("g2"))
+	g2.AddResources(map[string]web.LocaleStringer{
+		"r1": web.Phrase("r1"),
+		"r2": web.Phrase("r2"),
+	})
+
+	id, err := inst.NewRole(0, "r1", "r1 desc")
+	a.NotError(err).NotZero(id)
+	r1 := inst.Role(id)
+	a.NotNil(r1)
+	a.Equal(len(r1.resources()), len(inst.resources))
+
+	id, err = inst.NewRole(r1.r.ID, "r2", "r2 desc")
+	a.NotError(err).NotZero(id)
+	r2 := inst.Role(id)
+	a.NotNil(r2)
+	a.Empty(r2.resources()) // 父角色未设定 allow，所以当前角色的 resources 也为空
+
+	// 父角色添加资源
+	a.NotError(r1.set("g1_r1"))
+	a.Equal(r2.resources(), []string{"g1_r1"})
+
+	// 父角色对资源进行了删减操作
+	a.NotError(r1.set("g1_r2", "g2_r1"))
+	a.Equal(r2.resources(), []string{"g1_r2", "g2_r1"})
 }
