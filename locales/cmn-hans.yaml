@@ -168,6 +168,10 @@ messages:
   message:
     msg: 密码模式
 
+- key: admin resource
+  message:
+    msg: 管理员
+
 - key: group not exists
   message:
     msg: 不存在该组

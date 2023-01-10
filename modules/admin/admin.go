@@ -31,6 +31,9 @@ const (
 
 	// SystemID 表示系统的 ID
 	SystemID = 0
+
+	// 当前模块的资源分组 ID
+	ResourceID = "admin"
 )
 
 type contextKey int
@@ -92,7 +95,8 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		logoutEvent: events.New[int64](),
 	}
 
-	err = m.RegisterResources(id, map[string]web.LocaleStringer{
+	g := m.NewResourceGroup(ResourceID, web.Phrase("admin resource"))
+	g.AddResources(map[string]web.LocaleStringer{
 		"post-group":          web.Phrase("post groups"),
 		"delete-group":        web.Phrase("delete groups"),
 		"put-group":           web.Phrase("edit groups"),
@@ -102,9 +106,6 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		"put-admin":  web.Phrase("put admin"),
 		"post-admin": web.Phrase("post admins"),
 	})
-	if err != nil {
-		return nil, web.NewStackError(err)
-	}
 
 	router.Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin).
@@ -181,10 +182,13 @@ func (m *Admin) LoginUser(ctx *web.Context) *ModelAdmin {
 	return a
 }
 
-// RegisterResources 注册资源
-func (m *Admin) RegisterResources(mod string, res map[string]web.LocaleStringer) error {
-	return m.rbac.RegisterResources(mod, res)
+// NewResourceGroup 新建资源分组
+func (m *Admin) NewResourceGroup(id string, desc web.LocaleStringer) *rbac.Group {
+	return m.rbac.NewGroup(id, desc)
 }
+
+// GetResourceGroup 获取已有资源分组
+func (m *Admin) GetResourceGroup(id string) *rbac.Group { return m.rbac.Group(id) }
 
 // RBACFilter 验证是否拥有指定的权限
 //

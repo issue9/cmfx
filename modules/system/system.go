@@ -28,13 +28,13 @@ type System struct {
 	linkages *rootLinkage
 }
 
-func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admin) (*System, error) {
+func New(mod string, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Admin) (*System, error) {
 	m := &System{
 		mod:      mod,
 		db:       db,
 		dbPrefix: orm.Prefix(mod),
 
-		admin:  admin,
+		admin:  adminM,
 		health: health.New(health.NewCacheStore(s, mod+"_health")),
 	}
 
@@ -46,16 +46,14 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, admin *admin.Admi
 	}
 	m.linkages = lg
 
-	err = m.admin.RegisterResources(mod, map[string]web.LocaleStringer{
+	rg := adminM.GetResourceGroup(admin.ResourceID)
+	rg.AddResources(map[string]web.LocaleStringer{
 		resGetInfo:     web.Phrase("view system info"),
 		resGetServices: web.Phrase("view services"),
 		resGetAPIs:     web.Phrase("view apis"),
 		resGetSettings: web.Phrase("view settings"),
 		resGetLinkages: web.Phrase("view linkages"),
 	})
-	if err != nil {
-		return nil, err
-	}
 
 	r.Prefix(m.admin.URLPrefix(), web.MiddlewareFunc(m.admin.AuthFilter)).
 		Get("/system/info", m.admin.RBACFilter(mod, resGetInfo, m.adminGetInfo)).

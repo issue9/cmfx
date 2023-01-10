@@ -73,7 +73,7 @@ func (m *Admin) putGroup(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) deleteGroup(ctx *web.Context) web.Responser {
-	return m.rbac.DeleteRole("id", ctx)
+	return m.rbac.DeleteRoleHandle("id", ctx)
 }
 
 // <api method="GET" summary="获取所有的资源">
