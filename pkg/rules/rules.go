@@ -20,6 +20,7 @@ var (
 		return !reflect.ValueOf(a).IsZero()
 	})
 
+	// Strength 密码强度规则
 	Strength = web.NewRule(locales.StrengthInvalid, validator.Strength(8, 1, 0, 1))
 
 	// Avatar 头像验证规则，可以为空或是 URL

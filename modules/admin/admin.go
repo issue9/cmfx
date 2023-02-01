@@ -165,17 +165,17 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 func (m *Admin) LoginUser(ctx *web.Context) *ModelAdmin {
 	uid, found := ctx.Vars[adminKey]
 	if !found {
-		ctx.Server().Logs().Error("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
+		ctx.Server().Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
 		return nil
 	}
 	a := &ModelAdmin{ID: uid.(int64)}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if !found {
-		ctx.Server().Logs().Error("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
+		ctx.Server().Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
 		return nil
 	}
 	if err != nil {
-		ctx.Server().Logs().Error(err)
+		ctx.Server().Logs().ERROR().Error(err)
 		return nil
 	}
 

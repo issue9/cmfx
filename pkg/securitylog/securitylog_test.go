@@ -16,7 +16,7 @@ func TestSecurityLog(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	Install(m, suite.DB())
+	Install(suite.Server(), m, suite.DB())
 
 	l := New(m, suite.DB())
 	a.NotNil(l)

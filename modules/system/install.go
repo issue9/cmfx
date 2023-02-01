@@ -16,10 +16,10 @@ type Installer struct {
 
 func (i *Installer) Linkage() *Linkage { return i.root.top }
 
-func Install(mod string, db *orm.DB) *Installer {
+func Install(s *web.Server, mod string, db *orm.DB) *Installer {
 	p := orm.Prefix(mod)
 	e := p.DB(db)
-	cmfx.Init(nil, func() error {
+	cmfx.Init(s, nil, func() error {
 		return web.NewStackError(e.Create(&linkage{}))
 	})
 

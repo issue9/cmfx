@@ -28,7 +28,7 @@ type DB struct {
 	db *orm.DB
 }
 
-func (conf *DB) SanitizeConfig() *web.ConfigError {
+func (conf *DB) SanitizeConfig() *web.FieldError {
 	var d orm.Dialect
 	switch conf.Type {
 	case "sqlite3":
@@ -42,14 +42,14 @@ func (conf *DB) SanitizeConfig() *web.ConfigError {
 	case "postgres":
 		d = dialect.Postgres("postgres")
 	default:
-		err := web.NewConfigError("type", locales.InvalidValue)
+		err := web.NewFieldError("type", locales.InvalidValue)
 		err.Value = conf.Type
 		return err
 	}
 
 	db, err := orm.NewDB(conf.DSN, d)
 	if err != nil {
-		return web.NewConfigError("", err)
+		return web.NewFieldError("", err)
 	}
 	conf.db = db
 

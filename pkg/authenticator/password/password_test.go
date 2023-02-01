@@ -19,7 +19,7 @@ func TestPassword(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	Install(m, suite.DB())
+	Install(suite.Server(), m, suite.DB())
 
 	p := New(suite.Server(), orm.Prefix(m), suite.DB())
 	a.NotNil(p)

@@ -19,8 +19,8 @@ func TestAuthenticators(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	mod := "test"
-	password.Install(mod+"_p1", suite.DB())
-	password.Install(mod+"_p2", suite.DB())
+	password.Install(suite.Server(), mod+"_p1", suite.DB())
+	password.Install(suite.Server(), mod+"_p2", suite.DB())
 
 	auth := authenticator.NewAuthenticators(suite.Server(), time.Minute, "gc")
 	a.NotNil(auth)

@@ -16,7 +16,7 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	const id = "rbac"
-	Install(id, suite.DB())
+	Install(suite.Server(), id, suite.DB())
 	curr, err := New(suite.Server(), id, suite.DB())
 	a.NotError(err).NotNil(curr)
 

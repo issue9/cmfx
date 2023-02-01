@@ -16,7 +16,7 @@ func TestRBAC_Group(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	parent := "rbac"
-	Install(parent, suite.DB())
+	Install(suite.Server(), parent, suite.DB())
 	inst, err := New(suite.Server(), parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 
@@ -36,7 +36,7 @@ func TestRBAC_Group_AddResources(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	parent := "rbac"
-	Install(parent, suite.DB())
+	Install(suite.Server(), parent, suite.DB())
 	inst, err := New(suite.Server(), parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 

@@ -16,7 +16,7 @@ import (
 //	<path path="/system/apis" />
 //	<response status="200" summary="OK" type="object" array="true">
 //	    <param name="method" type="string" summary="请求方法" />
-//	    <param name="path" type="string" summary="path" />
+//	    <param name="pattern" type="string" summary="pattern" />
 //	    <param name="min" type="string" summary="最快的一次请求用时" />
 //	    <param name="max" type="string" summary="最慢的一次请求用时" />
 //	    <param name="userErrors" type="number" summary="返回 400-499 次数" />
@@ -32,7 +32,7 @@ func (s *System) adminGetAPIs(*web.Context) web.Responser {
 		XMLName struct{} `json:"-" xml:"states"`
 
 		Method       string        `json:"method" xml:"method,attr"`
-		Path         string        `json:"path" xml:"path"`
+		Pattern      string        `json:"pattern" xml:"pattern"`
 		Min          time.Duration `json:"min" xml:"min,attr"`
 		Max          time.Duration `json:"max" xml:"max,attr"`
 		Count        int           `json:"count" xml:"count,attr"`
@@ -47,7 +47,7 @@ func (s *System) adminGetAPIs(*web.Context) web.Responser {
 	for _, s := range states {
 		resp = append(resp, &state{
 			Method:       s.Method,
-			Path:         s.Path,
+			Pattern:      s.Pattern,
 			Min:          s.Min,
 			Max:          s.Max,
 			Count:        s.Count,

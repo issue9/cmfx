@@ -3,7 +3,6 @@
 package securitylog
 
 import (
-	"errors"
 	"html"
 	"time"
 )
@@ -30,5 +29,5 @@ func (l *log) BeforeInsert() error {
 }
 
 func (l *log) BeforeUpdate() error {
-	return errors.New("此表不存在更新记录的情况")
+	panic("此表不存在更新记录的情况")
 }

@@ -9,9 +9,9 @@ import (
 	"github.com/issue9/cmfx"
 )
 
-func Install(mod string, db *orm.DB) {
+func Install(s *web.Server, mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
-	cmfx.Init(nil, func() error {
+	cmfx.Init(s, nil, func() error {
 		return web.NewStackError(e.Create(&modelPassword{}))
 	})
 }

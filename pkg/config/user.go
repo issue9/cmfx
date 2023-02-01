@@ -61,24 +61,24 @@ type Algorithm struct {
 }
 
 // SanitizeConfig 用于检测和修正配置项的内容
-func (o *User) SanitizeConfig() *web.ConfigError {
+func (o *User) SanitizeConfig() *web.FieldError {
 	if o.URLPrefix != "" && o.URLPrefix[0] != '/' {
-		return web.NewConfigError("urlPrefix", locales.InvalidValue)
+		return web.NewFieldError("urlPrefix", locales.InvalidValue)
 	}
 
 	if o.AccessExpires < 60 {
-		return web.NewConfigError("accessExpires", "不能少于 60")
+		return web.NewFieldError("accessExpires", "不能少于 60")
 	}
 
 	if o.RefreshExpires == 0 {
 		o.RefreshExpires = o.AccessExpires * 2
 	}
 	if o.RefreshExpires <= o.AccessExpires {
-		return web.NewConfigError("refreshExpires", "必须大于 accessExpires")
+		return web.NewFieldError("refreshExpires", "必须大于 accessExpires")
 	}
 
 	if len(o.Algorithms) == 0 {
-		return web.NewConfigError("algorithms", locales.Required)
+		return web.NewFieldError("algorithms", locales.Required)
 	}
 
 	for i, alg := range o.Algorithms {
@@ -91,48 +91,48 @@ func (o *User) SanitizeConfig() *web.ConfigError {
 	return nil
 }
 
-func (alg *Algorithm) sanitize() *web.ConfigError {
+func (alg *Algorithm) sanitize() *web.FieldError {
 	alg.sign = gojwt.GetSigningMethod(alg.Name)
 	if alg.sign == nil {
-		return web.NewConfigError("name", locales.InvalidValue)
+		return web.NewFieldError("name", locales.InvalidValue)
 	}
 
 	if alg.Public == "" {
-		return web.NewConfigError("public", locales.Required)
+		return web.NewFieldError("public", locales.Required)
 	}
 	alg.pub = []byte(alg.Public)
 
 	if alg.Private == "" {
-		return web.NewConfigError("private", locales.Required)
+		return web.NewFieldError("private", locales.Required)
 	}
 	alg.pvt = []byte(alg.Private)
 
 	switch strings.ToLower(alg.Type) {
 	case "hmac":
 		if _, ok := alg.sign.(*gojwt.SigningMethodHMAC); !ok {
-			return web.NewConfigError("name", locales.InvalidValue)
+			return web.NewFieldError("name", locales.InvalidValue)
 		}
 		if alg.Public != alg.Private {
-			return web.NewConfigError("private", locales.InvalidValue)
+			return web.NewFieldError("private", locales.InvalidValue)
 		}
 	case "rsa":
 		if _, ok := alg.sign.(*gojwt.SigningMethodRSA); !ok {
-			return web.NewConfigError("name", locales.InvalidValue)
+			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	case "raspss":
 		if _, ok := alg.sign.(*gojwt.SigningMethodRSAPSS); !ok {
-			return web.NewConfigError("name", locales.InvalidValue)
+			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	case "ecdsa":
 		if _, ok := alg.sign.(*gojwt.SigningMethodECDSA); !ok {
-			return web.NewConfigError("name", locales.InvalidValue)
+			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	case "ed25519":
 		if _, ok := alg.sign.(*gojwt.SigningMethodEd25519); !ok {
-			return web.NewConfigError("name", locales.InvalidValue)
+			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	default:
-		return web.NewConfigError("type", locales.InvalidValue)
+		return web.NewFieldError("type", locales.InvalidValue)
 	}
 
 	return nil

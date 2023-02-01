@@ -17,7 +17,7 @@ func TestInstall(t *testing.T) {
 
 	id := "test"
 
-	Install(id, suite.DB())
+	Install(suite.Server(), id, suite.DB())
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_passwords").Exists()
 	a.NotError(err).True(exists)

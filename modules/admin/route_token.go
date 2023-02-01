@@ -61,7 +61,7 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	if !found {
-		ctx.Server().Logs().Debugf("用户名 %v 不存在\n", data.Username)
+		ctx.Server().Logs().DEBUG().Printf("用户名 %v 不存在\n", data.Username)
 		p := ctx.Problem(cmfx.UnauthorizedRegistrable)
 		p.With("identity", identity)
 		return p
@@ -72,7 +72,7 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	if err := m.securitylog.AddWithContext(a.ID, ctx, "登录"); err != nil {
-		ctx.Server().Logs().Error(err)
+		ctx.Server().Logs().ERROR().Error(err)
 	}
 
 	m.loginEvent.Publish(false, a.ID)
@@ -129,7 +129,7 @@ func (m *Admin) getToken(ctx *web.Context) web.Responser {
 		}
 
 		if err := m.securitylog.AddWithContext(xx.UID, ctx, "刷新令牌"); err != nil {
-			ctx.Server().Logs().Error(err)
+			ctx.Server().Logs().ERROR().Error(err)
 		}
 
 		return m.tokenServer.New(ctx, http.StatusCreated, newClaims(xx.UID))

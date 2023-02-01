@@ -17,7 +17,7 @@ func TestRBAC_GetResourcesHandle(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	parent := "rbac"
-	Install(parent, suite.DB())
+	Install(suite.Server(), parent, suite.DB())
 	inst, err := New(suite.Server(), parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 

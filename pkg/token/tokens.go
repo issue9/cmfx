@@ -6,10 +6,10 @@ package token
 import (
 	"time"
 
-	"github.com/issue9/cache"
 	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
+	"github.com/issue9/web/cache"
 )
 
 // Tokens 令牌管理
@@ -18,7 +18,7 @@ type Tokens[T Claims] struct {
 
 	log web.Logger
 
-	cache          cache.Access // 保存运行时的过期 token
+	cache          cache.Cache // 保存运行时的过期 token
 	blockerExpires int
 	blockerExpired time.Duration
 
@@ -41,7 +41,7 @@ func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClai
 	tks := &Tokens[T]{
 		log: s.Logs().ERROR(),
 
-		cache:          cache.Prefix(mod+"_", s.Cache()),
+		cache:          cache.Prefix(s.Cache(), mod+"_"),
 		blockerExpires: refreshes,
 		blockerExpired: refreshed,
 

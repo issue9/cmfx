@@ -16,12 +16,12 @@ import (
 func Install(s *web.Server, mod string, db *orm.DB) {
 	e := orm.Prefix(mod).DB(db)
 
-	token.Install(mod, db)
-	securitylog.Install(mod, db)
-	password.Install(mod+"_"+authPasswordType, db)
-	rbac.Install(mod, db)
+	token.Install(s, mod, db)
+	securitylog.Install(s, mod, db)
+	password.Install(s, mod+"_"+authPasswordType, db)
+	rbac.Install(s, mod, db)
 
-	cmfx.Init(nil, func() error {
+	cmfx.Init(s, nil, func() error {
 		return web.NewStackError(e.Create(&ModelAdmin{}))
 	}, func() error {
 		a, err := rbac.New(s, mod, db)
@@ -29,7 +29,7 @@ func Install(s *web.Server, mod string, db *orm.DB) {
 			return web.NewStackError(err)
 		}
 
-		cmfx.Init(nil, func() error {
+		cmfx.Init(s, nil, func() error {
 			_, err := a.NewRole(0, "管理员", "拥有超级权限")
 			return web.NewStackError(err)
 		}, func() error {
@@ -87,7 +87,7 @@ func Install(s *web.Server, mod string, db *orm.DB) {
 			return web.NewStackError(err)
 		}
 
-		cmfx.Init(func() {
+		cmfx.Init(s, func() {
 			tx.Rollback()
 		}, func() error {
 			return web.NewStackError(a.Link(tx, 1, 1))
@@ -108,7 +108,7 @@ func Install(s *web.Server, mod string, db *orm.DB) {
 			return web.NewStackError(err)
 		}
 
-		cmfx.Init(func() {
+		cmfx.Init(s, func() {
 			tx.Rollback()
 		}, func() error {
 			return web.NewStackError(p.Add(tx, 1, "admin", defaultPassword))

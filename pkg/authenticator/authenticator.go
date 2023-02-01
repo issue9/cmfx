@@ -55,7 +55,7 @@ func NewAuthenticators(s *web.Server, d time.Duration, jobTitle string) *Authent
 		authenticators: make(map[string]*authInfo, 5),
 		expired:        d,
 	}
-	s.Services().AddTicker(jobTitle, auth.GC, d, false, false)
+	s.Services().AddTicker(jobTitle, auth.gc, d, false, false)
 
 	return auth
 }
@@ -131,8 +131,8 @@ func (a *Authenticators) Identities(uid int64) map[string]string {
 	return m
 }
 
-// GC 执行回收过期 identity 的方法
-func (a *Authenticators) GC(now time.Time) error {
+// 执行回收过期 identity 的方法
+func (a *Authenticators) gc(now time.Time) error {
 	for _, auth := range a.authenticators {
 		for k, v := range auth.identities {
 			if v.Before(now) {

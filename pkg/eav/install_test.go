@@ -16,12 +16,12 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	id := "eav"
-	InstallSimple(id, suite.DB())
+	InstallSimple(suite.Server(), id, suite.DB())
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id).Exists()
 	a.NotError(err).True(exists)
 
 	id = "eav2"
-	InstallSimple(id, suite.DB())
+	InstallSimple(suite.Server(), id, suite.DB())
 	exists, err = suite.DB().SQLBuilder().TableExists().Table(id).Exists()
 	a.NotError(err).True(exists)
 }

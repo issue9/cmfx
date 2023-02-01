@@ -8,13 +8,11 @@ import (
 	"os"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/logs/v4"
 	"github.com/issue9/mux/v7"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/web"
 	"github.com/issue9/web/app"
-	"github.com/issue9/web/errs"
 
 	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/cmfx/modules/admin"
@@ -29,7 +27,7 @@ type config struct {
 	Admin *c.User `yaml:"admin" xml:"admin" json:"admin"`
 }
 
-func (c *config) SanitizeConfig() *errs.ConfigError {
+func (c *config) SanitizeConfig() *web.FieldError {
 	return c.Admin.SanitizeConfig()
 }
 
@@ -52,7 +50,7 @@ func initServer(s *web.Server, user *config, action string) error {
 	router := s.Routers().New("", nil,
 		mux.URLDomain("https://localhost:8080/admin"),
 		mux.AllowedCORS(3600),
-		mux.LogRecovery(http.StatusInternalServerError, s.Logs().StdLogger(logs.LevelError)),
+		mux.LogRecovery(http.StatusInternalServerError, s.Logs().ERROR().StdLogger()),
 		mux.AnyInterceptor("any"), mux.DigitInterceptor("digit"),
 	)
 
