@@ -31,8 +31,8 @@ github.com/issue9/localeutil v0.12.6 h1:oqFio6fXDSLz9bz7YuEWPyoW0LRfusQN3P7C1KXB
 github.com/issue9/localeutil v0.12.6/go.mod h1:/sqeQ5CFq+r0aADIN6jpUgfsqOlVcIXU9vJZMnrlVX4=
 github.com/issue9/logs/v4 v4.3.0 h1:m6+kjo6v+zsyxn4Z60zsB2s9Y3hJmtZd2XhDawxmKTQ=
 github.com/issue9/logs/v4 v4.3.0/go.mod h1:EuAatRW3MCsC/B0t6ddVVPWY+Hr2gBR+m+UlUUNHvIE=
-github.com/issue9/middleware/v6 v6.0.0-beta.12 h1:HUBo8tqMaNoXYdqJth3ydoEWQd/LSh99LRSB60Joo8o=
-github.com/issue9/middleware/v6 v6.0.0-beta.12/go.mod h1:R3vitdZ0q97tbCS7/iqbMkIIyRT/J3Kwc1D+qvbXgIE=
+github.com/issue9/middleware/v6 v6.0.0-beta.14 h1:Zy3bYMsc14mUGxhEdXleMxxtQMBI8d7fO/WL63D6uPc=
+github.com/issue9/middleware/v6 v6.0.0-beta.14/go.mod h1:6Uk2WFjx9niBQMhM48lcBl576sl5yn8Av+sZ9VL+BO8=
 github.com/issue9/mux/v7 v7.1.0 h1:wpv80srTCxP6+Pw+7ioQwkbcW6laCGRtycx8zxICDCY=
 github.com/issue9/mux/v7 v7.1.0/go.mod h1:x0w3B3DnTsrELEo0iIVhGEbjiDmwCAxSqr9c/o+dbfk=
 github.com/issue9/orm/v5 v5.0.0-beta.10 h1:Xo1gBsTQxrTIs8GGytN5FR+pgKwdXNW9Xt12vPXiAkM=
@@ -57,8 +57,8 @@ github.com/issue9/unique/v2 v2.0.0 h1:pLfaHYWPoLrpH8T7LMikwNePlKplA7qtK8roUF4uCC
 github.com/issue9/unique/v2 v2.0.0/go.mod h1:s0109PBDKIm7457yUaYSX/4WzHmeoGiZMhEuOB5tREI=
 github.com/issue9/validator v0.2.6 h1:n7FnPq3Pi0XUeTUQg3wiBwjwZZzsQ2nFKU1pSsKMkbs=
 github.com/issue9/validator v0.2.6/go.mod h1:eDd0CWJ+tXoUf6K8p4Ot47WqbXAIP2Jai3hFajXu2ig=
-github.com/issue9/web v0.66.1 h1:2YJiPvqSQIBJjpUy/VCRIKBYzDs1atE6VvhW8qNDX8k=
-github.com/issue9/web v0.66.1/go.mod h1:mjAdCzO0Pf+uCws2cHBI0CG0pDczFFJNsoNktH86DgU=
+github.com/issue9/web v0.66.2 h1:CL19MJ/9rRi01Pd4jz2jmn5gNofO4cx4FMYbttM/LBY=
+github.com/issue9/web v0.66.2/go.mod h1:mjAdCzO0Pf+uCws2cHBI0CG0pDczFFJNsoNktH86DgU=
 github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51 h1:Z9n2FFNUXsshfwJMBgNA0RU6/i7WVaAegv3PtuIHPMs=
 github.com/klauspost/compress v1.15.15 h1:EF27CXIuDsYJ6mmvtBRlEuB2UVOqHG1tAXgZ7yIO+lw=
 github.com/klauspost/compress v1.15.15/go.mod h1:ZcK2JAFqKOpnBlxcLsJzYfrS9X1akm9fHZNnD9+Vo/4=

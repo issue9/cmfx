@@ -9,7 +9,7 @@ import (
 	"github.com/issue9/web"
 )
 
-// <api method="get" summary="系统信息">
+// <api method="get" summary="API 信息">
 //
 //	<server>admin</server>
 //	<tag>system</tag>
@@ -28,36 +28,7 @@ import (
 //
 // </api>
 func (s *System) adminGetAPIs(*web.Context) web.Responser {
-	type state struct {
-		XMLName struct{} `json:"-" xml:"states"`
-
-		Method       string        `json:"method" xml:"method,attr"`
-		Pattern      string        `json:"pattern" xml:"pattern"`
-		Min          time.Duration `json:"min" xml:"min,attr"`
-		Max          time.Duration `json:"max" xml:"max,attr"`
-		Count        int           `json:"count" xml:"count,attr"`
-		UserErrors   int           `json:"userErrors" xml:"userErrors,attr"`     // 用户端出错次数，400-499
-		ServerErrors int           `json:"serverErrors" xml:"serverErrors,attr"` // 服务端出错次数，>500
-		Last         time.Time     `json:"last" xml:"last"`                      // 最后的访问时间
-		Spend        time.Duration `json:"spend" xml:"spend"`                    // 总花费的时间
-	}
-
-	states := s.health.States()
-	resp := make([]*state, 0, len(states))
-	for _, s := range states {
-		resp = append(resp, &state{
-			Method:       s.Method,
-			Pattern:      s.Pattern,
-			Min:          s.Min,
-			Max:          s.Max,
-			Count:        s.Count,
-			UserErrors:   s.UserErrors,
-			ServerErrors: s.ServerErrors,
-			Last:         s.Last,
-			Spend:        s.Spend,
-		})
-	}
-	return web.OK(resp)
+	return web.OK(s.health.States())
 }
 
 // <api method="get" summary="系统信息">

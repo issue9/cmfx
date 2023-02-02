@@ -7,14 +7,14 @@ require (
 	github.com/issue9/assert/v3 v3.0.4
 	github.com/issue9/errwrap v0.3.1
 	github.com/issue9/events v0.6.0
-	github.com/issue9/middleware/v6 v6.0.0-beta.12
+	github.com/issue9/middleware/v6 v6.0.0-beta.14
 	github.com/issue9/mux/v7 v7.1.0
 	github.com/issue9/orm/v5 v5.0.0-beta.10
 	github.com/issue9/sliceutil v0.12.0
 	github.com/issue9/source v0.3.2
 	github.com/issue9/unique v1.3.2
 	github.com/issue9/validator v0.2.6
-	github.com/issue9/web v0.66.1
+	github.com/issue9/web v0.66.2
 	github.com/mattn/go-sqlite3 v1.14.16
 	golang.org/x/crypto v0.5.0
 	golang.org/x/oauth2 v0.4.0

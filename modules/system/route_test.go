@@ -4,6 +4,7 @@ package system
 
 import (
 	"encoding/json"
+	"net/http"
 	"testing"
 
 	"github.com/issue9/assert/v3"
@@ -12,7 +13,7 @@ import (
 	"github.com/issue9/cmfx/pkg/test"
 )
 
-func testSystem_apis(t *testing.T) {
+func TestSystem_apis(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	err := suite.Server().CatalogBuilder().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
@@ -21,19 +22,11 @@ func testSystem_apis(t *testing.T) {
 
 	suite.GoServe()
 
-	suite.Get("/admin/system/apis").
-		Header("accept-language", language.SimplifiedChinese.String()).
-		Header("accept", "application/json;charset=utf-8").
-		Do(nil).
-		BodyFunc(func(a *assert.Assertion, body []byte) {
-			a.True(json.Valid(body)).
-				NotEmpty(body)
-		})
-
 	suite.Get("/admin/system/info").
 		Header("accept-language", language.SimplifiedChinese.String()).
 		Header("accept", "application/json;charset=utf-8").
 		Do(nil).
+		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
 			a.True(json.Valid(body)).
 				NotEmpty(body)
@@ -43,6 +36,17 @@ func testSystem_apis(t *testing.T) {
 		Header("accept-language", language.SimplifiedChinese.String()).
 		Header("accept", "application/json;charset=utf-8").
 		Do(nil).
+		Status(http.StatusOK).
+		BodyFunc(func(a *assert.Assertion, body []byte) {
+			a.True(json.Valid(body)).
+				NotEmpty(body)
+		})
+
+	suite.Get("/admin/system/apis").
+		Header("accept-language", language.SimplifiedChinese.String()).
+		Header("accept", "application/json;charset=utf-8").
+		Do(nil).
+		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
 			a.True(json.Valid(body)).
 				NotEmpty(body)

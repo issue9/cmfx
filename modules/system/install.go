@@ -19,8 +19,11 @@ func (i *Installer) Linkage() *Linkage { return i.root.top }
 func Install(s *web.Server, mod string, db *orm.DB) *Installer {
 	p := orm.Prefix(mod)
 	e := p.DB(db)
+
 	cmfx.Init(s, nil, func() error {
 		return web.NewStackError(e.Create(&linkage{}))
+	}, func() error {
+		return web.NewStackError(e.Create(&healthModel{}))
 	})
 
 	root, err := newRootLinkage(db, p)
