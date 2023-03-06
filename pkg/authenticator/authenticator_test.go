@@ -19,26 +19,26 @@ func TestAuthenticators(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	mod := "test"
-	password.Install(suite.Server(), mod+"_p1", suite.DB())
-	password.Install(suite.Server(), mod+"_p2", suite.DB())
+	password.Install(suite.Server, mod+"_p1", suite.DB())
+	password.Install(suite.Server, mod+"_p2", suite.DB())
 
-	auth := authenticator.NewAuthenticators(suite.Server(), time.Minute, "gc")
+	auth := authenticator.NewAuthenticators(suite.Server, time.Minute, web.Phrase("gc"))
 	a.NotNil(auth)
-	a.Length(auth.All(suite.Server().LocalePrinter()), 0)
+	a.Length(auth.All(suite.Server.LocalePrinter()), 0)
 
 	// Register
 
-	p1 := password.New(suite.Server(), orm.Prefix(mod+"_p1"), suite.DB())
+	p1 := password.New(suite.Server, orm.Prefix(mod+"_p1"), suite.DB())
 	auth.Register("p1", p1, web.Phrase("password"))
 
-	p2 := password.New(suite.Server(), orm.Prefix(mod+"_p2"), suite.DB())
+	p2 := password.New(suite.Server, orm.Prefix(mod+"_p2"), suite.DB())
 	auth.Register("p2", p2, web.Phrase("password"))
 
 	a.PanicString(func() {
 		auth.Register("p1", p1, web.Phrase("password"))
 	}, "已经存在同名 p1 的验证器")
 
-	a.Length(auth.All(suite.Server().LocalePrinter()), 2)
+	a.Length(auth.All(suite.Server.LocalePrinter()), 2)
 
 	// Valid / Identities
 

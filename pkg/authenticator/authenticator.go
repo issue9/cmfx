@@ -50,7 +50,7 @@ type authInfo struct {
 //
 // d 每个验证失败的 ID 过期时间同时也是回收的频率；
 // jobTitle 回收方法的名称；
-func NewAuthenticators(s *web.Server, d time.Duration, jobTitle string) *Authenticators {
+func NewAuthenticators(s *web.Server, d time.Duration, jobTitle web.LocaleStringer) *Authenticators {
 	auth := &Authenticators{
 		authenticators: make(map[string]*authInfo, 5),
 		expired:        d,

@@ -6,7 +6,6 @@ import (
 	"net/http"
 
 	"github.com/issue9/web"
-	"github.com/issue9/web/server"
 )
 
 // 定义可用的错误代码
@@ -38,15 +37,29 @@ const (
 	ForbiddenCaNotDeleteYourself = "40302"
 )
 
-func AddProblems(p server.Problems) {
-	s := p.Status(http.StatusBadRequest)
+type StatusProblem struct {
+	s      *web.Server
+	status int
+}
+
+func (p *StatusProblem) Add(id string, title, detail web.LocaleStringer) *StatusProblem {
+	p.s.AddProblem(id, p.status, title, detail)
+	return p
+}
+
+func NewStatusProblem(s *web.Server, status int) *StatusProblem {
+	return &StatusProblem{s: s, status: status}
+}
+
+func AddProblems(p *web.Server) {
+	s := NewStatusProblem(p, http.StatusBadRequest)
 	s.Add(BadRequest, web.Phrase("bad request"), web.Phrase("bad request")).
 		Add(BadRequestInvalidParam, web.Phrase("bad request invalid param"), web.Phrase("bad request invalid param detail")).
 		Add(BadRequestInvalidQuery, web.Phrase("bad request invalid query"), web.Phrase("bad request invalid query detail")).
 		Add(BadRequestInvalidHeader, web.Phrase("bad request invalid header"), web.Phrase("bad request invalid header detail")).
 		Add(BadRequestInvalidBody, web.Phrase("bad request invalid body"), web.Phrase("bad request invalid body detail"))
 
-	s = p.Status(http.StatusUnauthorized)
+	s = NewStatusProblem(p, http.StatusUnauthorized)
 	s.Add(Unauthorized, web.Phrase("unauthorized"), web.Phrase("unauthorized detail")).
 		Add(UnauthorizedInvalidState, web.Phrase("unauthorized invalid state"), web.Phrase("unauthorized invalid state detail")).
 		Add(UnauthorizedInvalidToken, web.Phrase("unauthorized invalid token"), web.Phrase("unauthorized invalid token detail")).
@@ -55,7 +68,7 @@ func AddProblems(p server.Problems) {
 		Add(UnauthorizedNeedChangePassword, web.Phrase("unauthorized need change password"), web.Phrase("unauthorized need change password detail")).
 		Add(UnauthorizedRegistrable, web.Phrase("identity registrable"), web.Phrase("identity registrable detail"))
 
-	s = p.Status(http.StatusForbidden)
+	s = NewStatusProblem(p, http.StatusForbidden)
 	s.Add(Forbidden, web.Phrase("forbidden"), web.Phrase("forbidden detail")).
 		Add(ForbiddenStateNotAllow, web.Phrase("forbidden state not allow"), web.Phrase("forbidden state not allow detail")).
 		Add(ForbiddenCaNotDeleteYourself, web.Phrase("forbidden can not delete yourself"), web.Phrase("forbidden can not delete yourself detail"))

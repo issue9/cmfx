@@ -13,10 +13,10 @@ func newSystem(s *test.Suite) (*System, *web.Router) {
 	adminM, r := admintest.NewAdmin(s)
 
 	mod := "test"
-	i := Install(s.Server(), mod, s.DB())
+	i := Install(s.Server, mod, s.DB())
 	s.Assertion().NotNil(i)
 
-	sys, err := New(mod, s.Server(), s.DB(), r, adminM)
+	sys, err := New(mod, s.Server, s.DB(), r, adminM)
 	s.Assertion().NotError(err).NotNil(sys)
 
 	return sys, r

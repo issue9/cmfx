@@ -19,9 +19,9 @@ func TestCustom(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	Install(suite.Server(), m, suite.DB())
+	Install(suite.Server, m, suite.DB())
 
-	f := New(suite.Server(), orm.Prefix(m), suite.DB(), func(s1, s2 string) bool {
+	f := New(suite.Server, orm.Prefix(m), suite.DB(), func(s1, s2 string) bool {
 		return s1 == s2
 	})
 	a.NotNil(f)

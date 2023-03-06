@@ -12,10 +12,10 @@ import (
 
 func NewSystem(s *test.Suite, adminM *admin.Admin, r *web.Router) *system.System {
 	mod := "system"
-	i := system.Install(s.Server(), mod, s.DB())
+	i := system.Install(s.Server, mod, s.DB())
 	s.Assertion().NotNil(i)
 
-	sys, err := system.New(mod, s.Server(), s.DB(), r, adminM)
+	sys, err := system.New(mod, s.Server, s.DB(), r, adminM)
 	s.Assertion().NotError(err).NotNil(sys)
 
 	return sys

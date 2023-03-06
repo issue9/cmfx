@@ -25,7 +25,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	m := "test"
-	Install(suite.Server(), m, suite.DB())
+	Install(suite.Server, m, suite.DB())
 	now := time.Now()
 
 	e := orm.Prefix(m).DB(suite.DB())
@@ -41,7 +41,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	}...)
 	a.NotError(err)
 
-	tks, err := NewTokens(suite.Server(), m, suite.DB(), BuildClaims, 60, 0, "job")
+	tks, err := NewTokens(suite.Server, m, suite.DB(), BuildClaims, 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks).
 		False(tks.TokenIsBlocked("1")).
 		True(tks.TokenIsBlocked("2")).
@@ -68,17 +68,18 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 func TestTokens_New(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
+	defer servertest.Run(a, suite.Server)()
 	defer suite.Close()
-	m := "test"
-	Install(suite.Server(), m, suite.DB())
-	s := servertest.NewTester(a, nil)
-	r := s.Router()
 
-	tks, err := NewTokens(suite.Server(), m, suite.DB(), BuildClaims, 60, 0, "job")
+	m := "test"
+	Install(suite.Server, m, suite.DB())
+	r := suite.NewRouter("def", nil)
+
+	tks, err := NewTokens(suite.Server, m, suite.DB(), BuildClaims, 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks)
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
-		return tks.New(ctx, http.StatusCreated, NewClaims("1"))
+		return tks.New(ctx, http.StatusCreated, NewClaims(ctx.Server(), "1"))
 	})
 
 	r.Post("/refresh", tks.Middleware(func(ctx *web.Context) web.Responser {
@@ -93,7 +94,7 @@ func TestTokens_New(t *testing.T) {
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
 				return ctx.InternalServerError(err)
 			}
-			return tks.New(ctx, http.StatusCreated, NewClaims(xx.UserID()))
+			return tks.New(ctx, http.StatusCreated, NewClaims(ctx.Server(), xx.UserID()))
 		}
 		return web.Status(http.StatusUnauthorized)
 	}))
@@ -105,10 +106,7 @@ func TestTokens_New(t *testing.T) {
 		return web.Status(http.StatusUnauthorized)
 	}))
 
-	s.GoServe()
-	defer s.Close(0)
-
-	s.NewRequest(http.MethodPost, "/login", nil).
+	suite.Post("/login", nil).
 		Header("accept", "application/json").
 		Do(nil).
 		Status(http.StatusCreated).
@@ -120,22 +118,22 @@ func TestTokens_New(t *testing.T) {
 				NotZero(resp1.Expires).
 				NotEqual(resp1.Access, resp1.Refresh)
 
-			s.Get("/info").Do(nil).Status(http.StatusUnauthorized) // 未指定 token
-			s.Get("/info").Header("Authorization", resp1.Access).Do(nil).Status(http.StatusOK)
+			suite.Get("/info").Do(nil).Status(http.StatusUnauthorized) // 未指定 token
+			suite.Get("/info").Header("Authorization", resp1.Access).Do(nil).Status(http.StatusOK)
 
 			// 未传递报头
-			s.NewRequest(http.MethodPost, "/refresh", nil).
+			suite.Post("/refresh", nil).
 				Do(nil).
 				Status(http.StatusUnauthorized)
 
 			// 报头不是 Refresh
-			s.NewRequest(http.MethodPost, "/refresh", nil).
+			suite.Post("/refresh", nil).
 				Header("authorization", resp1.Access).
 				Do(nil).
 				Status(http.StatusForbidden)
 
 			// 正常更换刷新令牌
-			s.NewRequest(http.MethodPost, "/refresh", nil).
+			suite.Post("/refresh", nil).
 				Header("authorization", resp1.Refresh).
 				Do(nil).
 				BodyFunc(func(a *assert.Assertion, body []byte) {
@@ -150,21 +148,21 @@ func TestTokens_New(t *testing.T) {
 						True(resp2.Expires >= resp1.Expires) // 小于 1 秒，时间上体现不出来。
 
 					// resp1 已经过时
-					s.Get("/info").
+					suite.Get("/info").
 						Header("Authorization", resp1.Access).
 						Do(nil).
 						Status(http.StatusUnauthorized)
-					s.NewRequest(http.MethodPost, "/refresh", nil).
+					suite.Post("/refresh", nil).
 						Header("authorization", resp1.Refresh).
 						Do(nil).
 						Status(http.StatusUnauthorized)
 
 					// resp2 可用
-					s.Get("/info").
+					suite.Get("/info").
 						Header("Authorization", resp2.Access).
 						Do(nil).
 						Status(http.StatusOK)
-					s.NewRequest(http.MethodPost, "/refresh", nil).
+					suite.Post("/refresh", nil).
 						Header("authorization", resp2.Refresh).
 						Do(nil).
 						Status(http.StatusCreated)

@@ -27,11 +27,17 @@
     </logs>
 
     <encodings>
-        <encoding type="*">
-            <id>deflate-default</id>
-            <id>gzip-default</id>
-            <id>br-default</id>
-            <id>compress-msb-8</id>
+        <encoding id="deflate-default">
+            <type>*</type>
+        </encoding>
+        <encoding id="gzip-default">
+            <type>*</type>
+        </encoding>
+        <encoding id="br-default">
+            <type>*</type>
+        </encoding>
+        <encoding id="compress-msb-8">
+            <type>*</type>
         </encoding>
     </encodings>
 

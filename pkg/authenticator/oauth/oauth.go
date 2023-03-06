@@ -16,7 +16,6 @@ import (
 	"context"
 
 	"github.com/issue9/orm/v5"
-	"github.com/issue9/unique"
 	"github.com/issue9/web"
 	"golang.org/x/oauth2"
 )
@@ -54,7 +53,7 @@ func New[T UserInfo](s *web.Server, prefix orm.Prefix, db *orm.DB, c *oauth2.Con
 		prefix: prefix,
 		db:     db,
 
-		state:  unique.String().String(),
+		state:  s.UniqueID(),
 		config: c,
 		f:      g,
 	}

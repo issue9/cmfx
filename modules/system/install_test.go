@@ -16,7 +16,7 @@ func TestInstaller(t *testing.T) {
 	s := test.NewSuite(a)
 
 	id := "test"
-	i := Install(s.Server(), id, s.DB())
+	i := Install(s.Server, id, s.DB())
 	s.Assertion().NotNil(i)
 	p := orm.Prefix(id)
 

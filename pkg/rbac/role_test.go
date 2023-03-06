@@ -17,8 +17,8 @@ func TestRBAC_NewRole(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	Install(suite.Server(), parent, suite.DB())
-	inst, err := New(suite.Server(), parent, suite.DB())
+	Install(suite.Server, parent, suite.DB())
+	inst, err := New(suite.Server, parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
 
@@ -51,8 +51,8 @@ func TestRole_update(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	Install(suite.Server(), parent, suite.DB())
-	inst, err := New(suite.Server(), parent, suite.DB())
+	Install(suite.Server, parent, suite.DB())
+	inst, err := New(suite.Server, parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
 
@@ -79,8 +79,8 @@ func TestRBAC_deleteRole(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	Install(suite.Server(), parent, suite.DB())
-	inst, err := New(suite.Server(), parent, suite.DB())
+	Install(suite.Server, parent, suite.DB())
+	inst, err := New(suite.Server, parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
 
@@ -116,8 +116,8 @@ func TestRole_set(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	Install(suite.Server(), parent, suite.DB())
-	inst, err := New(suite.Server(), parent, suite.DB())
+	Install(suite.Server, parent, suite.DB())
+	inst, err := New(suite.Server, parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 	e := inst.dbPrefix.DB(inst.db)
 
@@ -161,8 +161,8 @@ func TestRole_HasChild(t *testing.T) {
 	defer suite.Close()
 
 	parent := "rbac"
-	Install(suite.Server(), parent, suite.DB())
-	inst, err := New(suite.Server(), parent, suite.DB())
+	Install(suite.Server, parent, suite.DB())
+	inst, err := New(suite.Server, parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 
 	r1, err := inst.NewRole(0, "r1", "r1-desc")
@@ -191,8 +191,8 @@ func TestRole_resources(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	parent := "rbac"
-	Install(suite.Server(), parent, suite.DB())
-	inst, err := New(suite.Server(), parent, suite.DB())
+	Install(suite.Server, parent, suite.DB())
+	inst, err := New(suite.Server, parent, suite.DB())
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))

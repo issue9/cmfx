@@ -15,4 +15,4 @@ type linkageModel struct {
 	Parent int64  `orm:"name(parent)"`
 }
 
-func (l *linkageModel) TableName() string { return `` }
+func (l *linkageModel) TableName() string { return `_linkages` }

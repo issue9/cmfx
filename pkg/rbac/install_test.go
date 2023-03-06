@@ -16,8 +16,8 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	const id = "rbac"
-	Install(suite.Server(), id, suite.DB())
-	curr, err := New(suite.Server(), id, suite.DB())
+	Install(suite.Server, id, suite.DB())
+	curr, err := New(suite.Server, id, suite.DB())
 	a.NotError(err).NotNil(curr)
 
 	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_rbac_links").Exists()

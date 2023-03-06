@@ -7,7 +7,7 @@ import (
 
 	gojwt "github.com/golang-jwt/jwt/v4"
 	"github.com/issue9/middleware/v6/jwt"
-	"github.com/issue9/unique"
+	"github.com/issue9/web"
 )
 
 // Claims 自定义 Claims 需要实现的接口
@@ -32,8 +32,8 @@ type defaultClaims struct {
 	ID      string `json:"jti"` // 当用户快速更换令牌时，此值可以保证令牌的唯一性。
 }
 
-func NewClaims(uid string) Claims {
-	return &defaultClaims{User: uid, ID: unique.Number().String()}
+func NewClaims(s *web.Server, uid string) Claims {
+	return &defaultClaims{User: uid, ID: s.UniqueID()}
 }
 
 func BuildClaims() Claims { return &defaultClaims{} }

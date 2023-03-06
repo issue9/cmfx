@@ -19,7 +19,6 @@ type Tokens[T Claims] struct {
 	log web.Logger
 
 	cache          cache.Cache // 保存运行时的过期 token
-	blockerExpires int
 	blockerExpired time.Duration
 
 	db       *orm.DB
@@ -31,7 +30,7 @@ type Tokens[T Claims] struct {
 // expires 表示 token 的过期时间，单位为秒；
 // refreshes 表示刷新令牌的过期时间，单位为秒，如果为 0 则采用用 expires * 2 作为默认值；
 // jobTitle 表示后台回收 token 服务的显示名称；
-func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], expires, refreshes int, jobTitle string) (*Tokens[T], error) {
+func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], expires, refreshes int, jobTitle web.LocaleStringer) (*Tokens[T], error) {
 	if refreshes == 0 {
 		refreshes = expires * 2
 	}
@@ -42,7 +41,6 @@ func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClai
 		log: s.Logs().ERROR(),
 
 		cache:          cache.Prefix(s.Cache(), mod+"_"),
-		blockerExpires: refreshes,
 		blockerExpired: refreshed,
 
 		dbPrefix: orm.Prefix(mod),
@@ -130,7 +128,7 @@ func (tks *Tokens[T]) blockCacheToken(token string) error {
 		}
 	}
 	// 不知道丢弃的是令牌还是刷新令牌，两者时间不一样，一律按刷新令牌处理。
-	return web.NewStackError(tks.cache.Set(token, struct{}{}, tks.blockerExpires))
+	return web.NewStackError(tks.cache.Set(token, struct{}{}, tks.blockerExpired))
 }
 
 // BlockUID 丢弃 UserID 关联的所有令牌
@@ -153,7 +151,7 @@ func (tks *Tokens[T]) blockCacheUID(uid string) error {
 		}
 	}
 	// 不知道丢弃的是令牌还是刷新令牌，两者时间不一样，一律按刷新令牌处理。
-	return web.NewStackError(tks.cache.Set(uid, struct{}{}, tks.blockerExpires))
+	return web.NewStackError(tks.cache.Set(uid, struct{}{}, tks.blockerExpired))
 }
 
 // RecoverUID 恢复该用户的登录权限

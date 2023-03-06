@@ -8,6 +8,7 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/web/server/servertest"
 	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx/pkg/test"
@@ -16,11 +17,12 @@ import (
 func TestSystem_apis(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
-	err := suite.Server().CatalogBuilder().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
+	err := suite.CatalogBuilder().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
 	a.NotError(err)
 	newSystem(suite)
 
-	suite.GoServe()
+	defer servertest.Run(a, suite.Server)()
+	defer suite.Close()
 
 	suite.Get("/admin/system/info").
 		Header("accept-language", language.SimplifiedChinese.String()).
@@ -51,6 +53,4 @@ func TestSystem_apis(t *testing.T) {
 			a.True(json.Valid(body)).
 				NotEmpty(body)
 		})
-
-	suite.Close()
 }

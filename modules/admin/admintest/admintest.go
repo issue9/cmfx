@@ -12,7 +12,7 @@ import (
 
 func NewAdmin(s *test.Suite) (*admin.Admin, *web.Router) {
 	adminM := "admin"
-	admin.Install(s.Server(), adminM, s.DB())
+	admin.Install(s.Server, adminM, s.DB())
 	s.Assertion().NotNil(adminM)
 
 	o := &config.User{
@@ -30,8 +30,8 @@ func NewAdmin(s *test.Suite) (*admin.Admin, *web.Router) {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	r := s.Router()
-	a, err := admin.New(adminM, s.Server(), s.DB(), r, o)
+	r := s.NewRouter("def", nil)
+	a, err := admin.New(adminM, s.Server, s.DB(), r, o)
 	s.Assertion().NotError(err).NotNil(a)
 
 	return a, r

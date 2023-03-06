@@ -7,6 +7,7 @@ import (
 	"time"
 
 	"github.com/issue9/web"
+	"github.com/issue9/web/server"
 )
 
 // <api method="get" summary="API 信息">
@@ -151,9 +152,9 @@ func (s *System) adminGetInfo(ctx *web.Context) web.Responser {
 // </api>
 func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 	type service struct {
-		Title string `json:"title" xml:"title"`
-		State string `json:"state" xml:"state,attr"`
-		Err   string `json:"err,omitempty" xml:"err,omitempty"`
+		Title string       `json:"title" xml:"title"`
+		State server.State `json:"state" xml:"state,attr"`
+		Err   string       `json:"err,omitempty" xml:"err,omitempty"`
 	}
 	type job struct {
 		service
@@ -167,34 +168,35 @@ func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 	}
 
 	ss := services{}
-	for _, s := range ctx.Server().Services().Services() {
-		var err string
-		if s.Err() != nil {
-			err = s.Err().Error()
+	ctx.Server().Services().Visit(func(title web.LocaleStringer, state server.State, err error) {
+		var err1 string
+		if err != nil {
+			err1 = err.Error()
 		}
 
 		ss.Services = append(ss.Services, service{
-			Title: s.Title(ctx.LocalePrinter()),
-			State: s.State().String(),
-			Err:   err,
+			Title: title.LocaleString(ctx.LocalePrinter()),
+			State: state,
+			Err:   err1,
 		})
-	}
-	for _, j := range ctx.Server().Services().Jobs() {
-		var err string
-		if j.Err() != nil {
-			err = j.Err().Error()
+	})
+
+	ctx.Server().Services().VisitJobs(func(name web.LocaleStringer, prev, next time.Time, state server.State, b bool, err error) {
+		var err1 string
+		if err != nil {
+			err1 = err.Error()
 		}
 
 		ss.Jobs = append(ss.Jobs, job{
 			service: service{
-				Title: j.Name(),
-				State: j.State().String(),
-				Err:   err,
+				Title: name.LocaleString(ctx.LocalePrinter()),
+				State: state,
+				Err:   err1,
 			},
-			Next: j.Next(),
-			Prev: j.Prev(),
+			Next: next,
+			Prev: prev,
 		})
-	}
+	})
 
 	return web.OK(ss)
 }
@@ -217,19 +219,15 @@ func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
 		Detail string `json:"detail" xml:"detail"`
 	}
 
-	pp := ctx.Server().Problems()
 	ps := make([]*problem, 0, 100)
-	for _, p := range pp.Problems() {
+	ctx.Server().VisitProblems(func(id string, status int, title, detail web.LocaleStringer) {
 		ps = append(ps, &problem{
-			ID:     p.ID,
-			Status: p.Status,
-			Title:  p.Title.LocaleString(ctx.LocalePrinter()),
-			Detail: p.Detail.LocaleString(ctx.LocalePrinter()),
+			ID:     id,
+			Status: status,
+			Title:  title.LocaleString(ctx.LocalePrinter()),
+			Detail: detail.LocaleString(ctx.LocalePrinter()),
 		})
-	}
-
-	return web.OK(map[string]any{
-		"base":     pp.TypePrefix(),
-		"problems": ps,
 	})
+
+	return web.OK(ps)
 }

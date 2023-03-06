@@ -9,6 +9,7 @@ import (
 	"github.com/issue9/assert/v3"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
+	"github.com/issue9/web/server/servertest"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -25,11 +26,11 @@ func (m *testMod) TableName() string { return "mods" }
 func TestPaging(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	r := s.Router()
+	r := s.NewRouter("def", nil)
 
 	a.NotError(s.DB().Create(&testMod{}))
 
-	s.GoServe()
+	defer servertest.Run(a, s.Server)()
 	defer s.Close()
 
 	// 无数据   404
@@ -92,7 +93,7 @@ func TestPaging(t *testing.T) {
 		sql := s.DB().SQLBuilder().Where().Select(s.DB()).From("mods")
 		return PagingResponser[testMod](ctx, q, sql)
 	})
-	s.Get("/q4?size=2&page=2").
+	servertest.Get(a, "http://localhost:8080/q4?size=2&page=2").
 		Header("accept", "application/json").
 		Do(nil).
 		Status(http.StatusNotFound)

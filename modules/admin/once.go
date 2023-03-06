@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sync"
 
+	"github.com/issue9/cmfx"
 	"github.com/issue9/web"
 )
 
@@ -18,7 +19,7 @@ const (
 
 func loadOnce(s *web.Server) {
 	once.Do(func() {
-		s.Problems().Status(http.StatusForbidden).
+		cmfx.NewStatusProblem(s, http.StatusForbidden).
 			Add(forbiddenIsSuper, web.Phrase("can not do it for super"), web.Phrase("can not do it for super detail")).
 			Add(forbiddenOnlySuper, web.Phrase("only for super"), web.Phrase("only for super detail"))
 	})

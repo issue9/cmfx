@@ -23,7 +23,7 @@ func TestSimple(t *testing.T) {
 	defer suite.Close()
 	tableName := "test"
 	db := suite.DB()
-	InstallSimple(suite.Server(), tableName, db)
+	InstallSimple(suite.Server, tableName, db)
 
 	// insert
 

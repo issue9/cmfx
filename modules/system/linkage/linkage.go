@@ -28,10 +28,10 @@ type Linkage struct {
 func ErrNotFound() error { return errNotFound }
 
 // New 声明 Linkage 模块
-func New(s *web.Server, tableName string, db *orm.DB) *Linkage {
+func New(s *web.Server, mod string, db *orm.DB) *Linkage {
 	return &Linkage{
 		s:        s,
-		dbPrefix: orm.Prefix(tableName),
+		dbPrefix: orm.Prefix(mod),
 		db:       db,
 	}
 }

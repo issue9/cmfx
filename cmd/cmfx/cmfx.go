@@ -47,7 +47,7 @@ func main() {
 }
 
 func initServer(s *web.Server, user *config, action string) error {
-	router := s.Routers().New("", nil,
+	router := s.NewRouter("", nil,
 		mux.URLDomain("https://localhost:8080/admin"),
 		mux.AllowedCORS(3600),
 		mux.LogRecovery(http.StatusInternalServerError, s.Logs().ERROR().StdLogger()),
@@ -66,7 +66,7 @@ func initServer(s *web.Server, user *config, action string) error {
 		return nil
 	})
 
-	cmfx.AddProblems(s.Problems())
+	cmfx.AddProblems(s)
 
 	if err := s.LoadLocales(locales.Locales, "*.*"); err != nil {
 		return err

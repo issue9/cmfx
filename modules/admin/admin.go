@@ -69,12 +69,12 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		return nil, web.NewStackError(err)
 	}
 
-	tks, err := config.NewTokens(o, s, id, db, buildClaims, "回收丢弃的管理员令牌")
+	tks, err := config.NewTokens(o, s, id, db, buildClaims, web.Phrase("token gc"))
 	if err != nil {
 		return nil, err
 	}
 
-	auth := authenticator.NewAuthenticators(s, time.Minute*2, "回收验证器的 ID")
+	auth := authenticator.NewAuthenticators(s, time.Minute*2, web.Phrase("auth id gc"))
 	pass := password.New(s, orm.Prefix(id+"_"+authPasswordType), db)
 	auth.Register(authPasswordType, pass, web.Phrase("password mode"))
 	m := &Admin{
@@ -154,7 +154,7 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 		if !found {
 			return web.Status(http.StatusUnauthorized)
 		}
-		ctx.Vars[adminKey] = c.UID
+		ctx.SetVar(adminKey, c.UID)
 		return next(ctx)
 	})
 }
@@ -163,7 +163,7 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 //
 // 该信息由 AuthFilter 存储在 ctx.Vars 之中。
 func (m *Admin) LoginUser(ctx *web.Context) *ModelAdmin {
-	uid, found := ctx.Vars[adminKey]
+	uid, found := ctx.GetVar(adminKey)
 	if !found {
 		ctx.Server().Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
 		return nil

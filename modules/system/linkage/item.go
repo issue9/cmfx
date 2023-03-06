@@ -2,23 +2,31 @@
 
 package linkage
 
-import "github.com/issue9/sliceutil"
+import (
+	"database/sql"
+	"fmt"
+	"time"
+
+	"github.com/issue9/sliceutil"
+)
 
 type Item[T any] struct {
-	ID    int64
-	Data  T
-	Items []*Item[T]
+	ID     int64
+	Data   T
+	Items  []*Item[T]
+	parent int64
 }
 
+// TODO 缓存输出的 []byte 内容
 type Root[T any] struct {
-	// TODO 缓存输出的 []byte 内容
 	linkage *Linkage
 	key     string
 
+	to func(*Item[T]) any
 	Item[T]
 }
 
-func NewRoot[T any](l *Linkage, key string) *Root[T] {
+func NewRoot[T any](l *Linkage, key string, to func(*Item[T]) any) *Root[T] {
 	return &Root[T]{
 		linkage: l,
 		key:     key,
@@ -27,23 +35,46 @@ func NewRoot[T any](l *Linkage, key string) *Root[T] {
 
 // Load 从数据库加载项
 func (r *Root[T]) Load() error {
-	items := make([]*Item[T], 0, 100)
+	mods := make([]*linkageModel, 0, 100)
 	_, err := r.linkage.dbPrefix.DB(r.linkage.db).
 		Where("key=?", r.key).
 		AndIsNull("deleted").
-		Select(true, &items)
+		Select(true, &mods)
 	if err != nil {
 		return err
 	}
 
-	for _, item := range items {
+	// 转换成 []*Item[T]
+	items := make([]*Item[T], 0, len(mods))
+	for _, item := range mods {
+		var data T
+		if err := unmarshal(item.Data, &data); err != nil {
+			return err
+		}
+
+		items = append(items, &Item[T]{
+			ID:     item.ID,
+			Data:   data,
+			Items:  make([]*Item[T], 0, 100),
+			parent: item.Parent,
+		})
+	}
+
+	for _, item1 := range items {
 		for _, item2 := range items {
-			if item.ID == item2.ID {
-				item.Items = append(item.Items, item2)
+			if item2.parent == item1.ID {
+				item1.Items = append(item1.Items, item2)
 			}
 		}
+		if item1.parent == 0 {
+			if r.ID != 0 {
+				panic(fmt.Sprintf("同时存在多个顶级元素,%d,%d", r.ID, item1.ID))
+			}
+			r.ID = item1.ID
+			r.Data = item1.Data
+			r.Items = item1.Items
+		}
 	}
-	r.Items = items
 
 	return nil
 }
@@ -51,14 +82,23 @@ func (r *Root[T]) Load() error {
 // Delete 删除一项数据
 //
 // id 表示数据项的 ID，可以是 [Root.Items] 下的任意层级数据。
+// 不能删除 Root 自身。
 func (r *Root[T]) Delete(id int64) error {
-	p, _, found := r.findItem(id)
+	if id == 0 || id == r.ID {
+		return ErrNotFound()
+	}
+
+	item, found := r.findItem(id)
+	if !found {
+		return ErrNotFound()
+	}
+	p, found := r.findItem(item.parent)
 	if !found {
 		return ErrNotFound()
 	}
 
-	_, err := r.linkage.dbPrefix.DB(r.linkage.db).Delete(&linkageModel{ID: id})
-	if err != nil {
+	data := &linkageModel{ID: id, Deleted: sql.NullTime{Time: time.Now()}}
+	if _, err := r.linkage.dbPrefix.DB(r.linkage.db).Update(data); err != nil {
 		return err
 	}
 
@@ -70,8 +110,13 @@ func (r *Root[T]) Delete(id int64) error {
 // Update 更新数据
 //
 // id 表示数据项的 ID，可以是 [Root.Items] 下的任意层级数据。
+// 如果 id 为零值，表示 Root 自身。
 func (r *Root[T]) Update(id int64, val T) error {
-	_, item, found := r.findItem(id)
+	if id == 0 {
+		id = r.ID
+	}
+
+	item, found := r.findItem(id)
 	if !found {
 		return ErrNotFound()
 	}
@@ -96,8 +141,13 @@ func (r *Root[T]) Update(id int64, val T) error {
 // Add 添加数据项
 //
 // id 表示上一级数据项的 ID，可以是 [Root.Items] 下的任意层级数据。
+// 如果 id 为零值，那么将被添加根元素之下。
 func (r *Root[T]) Add(parent int64, val T) error {
-	_, item, found := r.findItem(parent)
+	if parent == 0 {
+		parent = r.ID
+	}
+
+	item, found := r.findItem(parent)
 	if !found {
 		return ErrNotFound()
 	}
@@ -117,25 +167,27 @@ func (r *Root[T]) Add(parent int64, val T) error {
 	}
 
 	item.Items = append(item.Items, &Item[T]{
-		ID:   id,
-		Data: val,
+		ID:     id,
+		Data:   val,
+		parent: parent,
 	})
 
 	return nil
 }
 
-func (r *Root[T]) findItem(id int64) (parent, current *Item[T], found bool) {
-	if id == r.ID {
-		return nil, &r.Item, true
-	}
+func (r *Root[T]) findItem(id int64) (current *Item[T], found bool) {
 	return findItem(&r.Item, id)
 }
 
-func findItem[T any](item *Item[T], id int64) (parent, current *Item[T], found bool) {
+func findItem[T any](item *Item[T], id int64) (*Item[T], bool) {
+	if item.ID == id {
+		return item, true
+	}
+
 	for _, i := range item.Items {
-		if parent, current, found = findItem(i, id); found {
-			return
+		if current, found := findItem(i, id); found {
+			return current, true
 		}
 	}
-	return nil, nil, false
+	return nil, false
 }

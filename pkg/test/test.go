@@ -4,12 +4,18 @@
 package test
 
 import (
+	"net/http"
 	"os"
+	"strings"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v3/rest"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/dialect"
-	"github.com/issue9/unique"
+	"github.com/issue9/web"
+	"github.com/issue9/web/serializer/json"
+	"github.com/issue9/web/serializer/xml"
+	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/servertest"
 	"gopkg.in/yaml.v3"
 
@@ -19,7 +25,7 @@ import (
 )
 
 type Suite struct {
-	*servertest.Tester
+	*web.Server
 	a   *assert.Assertion
 	db  *orm.DB
 	dsn string
@@ -28,21 +34,28 @@ type Suite struct {
 }
 
 func NewSuite(a *assert.Assertion) *Suite {
-	dsn := unique.Number().String() + "_test.db"
+	dsn := "test.db"
 	db, err := orm.NewDB(dsn, dialect.Sqlite3("sqlite3"))
 	a.NotError(err).NotNil(db)
 
-	server := servertest.NewTester(a, nil)
-	server.Server().Files().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
+	srv, err := web.NewServer("test", "1.0.0", &server.Options{
+		Mimetypes: []*server.Mimetype{
+			{Type: json.Mimetype, Marshal: json.Marshal, Unmarshal: json.Unmarshal, ProblemType: json.ProblemMimetype},
+			{Type: xml.Mimetype, Marshal: xml.Marshal, Unmarshal: xml.Unmarshal, ProblemType: xml.ProblemMimetype},
+		},
+		HTTPServer: &http.Server{Addr: ":8080"},
+	})
+	a.NotError(err).NotNil(srv)
+	srv.Files().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
 
 	s := &Suite{
-		Tester: server,
+		Server: srv,
 		a:      a,
 		db:     db,
 		dsn:    dsn,
 	}
 
-	cmfx.AddProblems(server.Server().Problems())
+	cmfx.AddProblems(s.Server)
 
 	s.a.TB().Cleanup(func() {
 		s.Close()
@@ -65,8 +78,31 @@ func (s *Suite) Close() {
 	}
 
 	s.closed = true
-	s.Tester.Close(0)
+	s.Server.Close(0)
 
 	s.a.NotError(s.db.Close())
 	s.a.NotError(os.RemoveAll(s.dsn))
+}
+
+func (s *Suite) NewRequest(method, url string) *rest.Request {
+	return servertest.NewRequest(s.Assertion(), method, url)
+}
+
+func (s *Suite) Delete(url string) *rest.Request {
+	return servertest.Delete(s.Assertion(), buildURL(url))
+}
+
+func (s *Suite) Post(url string, body []byte) *rest.Request {
+	return servertest.Post(s.Assertion(), buildURL(url), body)
+}
+
+func (s *Suite) Get(url string) *rest.Request {
+	return servertest.Get(s.a, buildURL(url))
+}
+
+func buildURL(url string) string {
+	if !strings.HasPrefix(url, "http://") && !strings.HasPrefix(url, "https://") {
+		url = "http://localhost:8080" + url
+	}
+	return url
 }

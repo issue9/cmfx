@@ -220,6 +220,14 @@ messages:
   message:
     msg: 某些权限只有超级管理员才拥有，比如转让超级管理员操作。
 
+- key: token gc
+  message:
+    msg: 回收丢弃的管理员令牌
+
+- key: auth id gc
+  message:
+    msg: 回收验证器的 ID
+
 # system
 
 - key: view system info

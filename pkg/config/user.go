@@ -139,7 +139,7 @@ func (alg *Algorithm) sanitize() *web.FieldError {
 }
 
 // NewTokens 从配置中生成 tokens 对象
-func NewTokens[T token.Claims](u *User, s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], jobTitle string) (*token.Tokens[T], error) {
+func NewTokens[T token.Claims](u *User, s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], jobTitle web.LocaleStringer) (*token.Tokens[T], error) {
 	tks, err := token.NewTokens(s, mod, db, bc, u.AccessExpires, u.RefreshExpires, jobTitle)
 	if err != nil {
 		return nil, err
