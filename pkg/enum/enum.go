@@ -72,7 +72,7 @@ func Write(file, pkg string, enum ...*Enum) error {
 		Printf("package %s \n\n", pkg).
 		WString(`import (`).WByte('\n').
 		WString(`"fmt"`).WByte('\n').
-		WString(`"github.com/issue9/web"`).WString("\n\n").
+		WString(`"github.com/issue9/web/filter"`).WString("\n\n").
 		WString(`"github.com/issue9/cmfx/locales"`).WByte('\n').
 		WString(`)`).WByte('\n').WByte('\n')
 
@@ -153,14 +153,12 @@ func (e *Enum) write(buf *errwrap.Buffer) error {
 		WString("}\n\n")
 
 	// Validator
-	buf.Printf("func %sValidator(v any) bool {\n", e.Name).
-		Printf("vv, ok := v.(%s)\n", e.Name).
-		WString("if !ok { return false }\n").
-		WString("return vv.IsValid()\n").
+	buf.Printf("func %sValidator(v %s) bool {\n", e.Name, e.Name).
+		WString("return v.IsValid()\n").
 		WString("}\n\n")
 
 	// rule
-	buf.Printf(`var %sRule = web.NewRuleFunc( locales.InvalidValue,%sValidator)`, e.Name, e.Name)
+	buf.Printf(`var %sRule = filter.NewRule(%sValidator, locales.InvalidValue)`, e.Name, e.Name)
 	buf.WString("\n\n")
 
 	return nil

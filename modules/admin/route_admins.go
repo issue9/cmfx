@@ -9,12 +9,12 @@ import (
 	"github.com/issue9/orm/v5/sqlbuilder"
 	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
-	"github.com/issue9/web/server"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/pkg/filters"
 	"github.com/issue9/cmfx/pkg/query"
-	"github.com/issue9/cmfx/pkg/rules"
 )
 
 // <api method="get" summary="获取指定的管理员账号">
@@ -69,14 +69,15 @@ type adminsQuery struct {
 	m      *Admin
 }
 
-func (q *adminsQuery) CTXSanitize(v *web.Validation) {
-	q.Text.CTXSanitize(v)
+func (q *adminsQuery) CTXFilter(v *web.FilterProblem) {
+	q.Text.CTXFilter(v)
 
-	v.AddSliceField(q.Groups, "group", web.NewRuleFunc(web.Phrase("group not exists"), func(v any) bool {
-		return q.m.rbac.Role(v.(int64)) != nil
-	})).
-		AddSliceField(q.States, "state", StateRule).
-		AddSliceField(q.Sexes, "sex", SexRule)
+	g := filter.NewSliceRule[int64, []int64](func(v int64) bool {
+		return q.m.rbac.Role(v) != nil
+	}, web.Phrase("group not exists"))
+	v.AddFilter(filter.New(g)("group", &q.Groups)).
+		AddFilter(filter.New(filter.NewSliceRules[State, []State](StateRule))("state", &q.States)).
+		AddFilter(filter.New(filter.NewSliceRules[Sex, []Sex](SexRule))("sex", &q.Sexes))
 }
 
 // <api method="get" summary="获取所有的管理员账号">
@@ -289,30 +290,31 @@ type postAdminInfo struct {
 	m        *Admin
 }
 
-func (i *postAdminInfo) CTXSanitize(v *web.Validation) {
-	v.AddField(i.State, "state", StateRule).
-		AddField(i.Name, "name", rules.Required).
-		AddField(i.Username, "username", rules.Required).
-		AddField(i.Nickname, "nickname", rules.Required).
-		AddField(i.Password, "password", rules.Required).
-		AddField(i.Avatar, "avatar", rules.Avatar).
+func (i *postAdminInfo) CTXFilter(v *web.FilterProblem) {
+	v.AddFilter(filter.New(StateRule)("state", &i.State)).
+		AddFilter(filters.RequiredString("name", &i.Name)).
+		AddFilter(filters.RequiredString("username", &i.Username)).
+		AddFilter(filters.RequiredString("nickname", &i.Nickname)).
+		AddFilter(filters.RequiredString("password", &i.Password)).
+		AddFilter(filters.Avatar("avatar", &i.Avatar)).
 
 		// i.Groups
-		When(len(i.Groups) > 0, func(v *web.Validation) {
-			v.AddSliceField(i.Groups, "groups", web.NewRuleFunc(web.Phrase("group not exists"), func(val any) bool {
-				return i.m.rbac.Role(val.(int64)) != nil
-			}))
+		When(len(i.Groups) > 0, func(v *web.FilterProblem) {
+			g := filter.NewSliceRule[int64, types.SliceOf[int64]](func(val int64) bool {
+				return i.m.rbac.Role(val) != nil
+			}, web.Phrase("group not exists"))
+			v.AddFilter(filter.New(g)("groups", &i.Groups))
 		}).
-		When(len(i.Groups) == 0, func(v *web.Validation) {
+		When(len(i.Groups) == 0, func(v *web.FilterProblem) {
 			v.Add("groups", locales.Required)
 		}).
-		AddField(i.Groups, "groups", server.NewRuleFunc(locales.InvalidValue, func(_ any) bool {
+		AddFilter(filter.New(filter.NewSliceRule[int64, types.SliceOf[int64]](func(int64) bool {
 			ok, err := i.m.IsAllowChangeGroup(v.Context(), i.Groups)
 			if err != nil {
 				v.Context().Logs().ERROR().Error(err)
 			}
 			return ok
-		}))
+		}, locales.InvalidValue))("groups", &i.Groups))
 }
 
 // <api method="post" summary="添加管理员账号">

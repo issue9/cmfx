@@ -4,9 +4,9 @@ package enum
 
 import (
 	"fmt"
-	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/web/filter"
 )
 
 var state2StringMap = map[State]string{
@@ -70,4 +70,4 @@ func StateValidator(v any) bool {
 	return vvv.IsValid()
 }
 
-var StateRule = web.NewRuleFunc(locales.InvalidValue, StateValidator)
+var StateRule = filter.NewRule(StateValidator, locales.InvalidValue)

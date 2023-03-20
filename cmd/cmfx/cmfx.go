@@ -21,7 +21,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type application = app.AppOf[config]
+type application = app.CLIOf[config]
 
 type config struct {
 	Admin *c.User `yaml:"admin" xml:"admin" json:"admin"`

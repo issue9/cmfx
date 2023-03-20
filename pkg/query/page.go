@@ -6,7 +6,7 @@ import (
 	"github.com/issue9/orm/v5/sqlbuilder"
 	"github.com/issue9/web"
 
-	"github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx/pkg/filters"
 )
 
 // Page 分页对象
@@ -23,8 +23,9 @@ type Limit struct {
 	Size int `query:"size,20"` // 每页的数量
 }
 
-func (l *Limit) CTXSanitize(v *web.Validation) {
-	v.AddField(l.Page, "page", rules.MinZero).AddField(l.Size, "size", rules.MinZero)
+func (l *Limit) CTXFilter(v *web.FilterProblem) {
+	v.AddFilter(filters.MinZero("page", &l.Page)).
+		AddFilter(filters.MinZero("size", &l.Size))
 }
 
 // PagingResponser 将分页对象封装成 [web.Responser]

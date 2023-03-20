@@ -4,7 +4,7 @@ package admin
 
 import (
 	"fmt"
-	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/locales"
 )
@@ -60,15 +60,11 @@ func (s State) IsValid() bool {
 	return found
 }
 
-func StateValidator(v any) bool {
-	vv, ok := v.(State)
-	if !ok {
-		return false
-	}
-	return vv.IsValid()
+func StateValidator(v State) bool {
+	return v.IsValid()
 }
 
-var StateRule = web.NewRuleFunc(locales.InvalidValue, StateValidator)
+var StateRule = filter.NewRule(StateValidator, locales.InvalidValue)
 
 var sex2StringMap = map[Sex]string{
 	SexUnknown: "unknown",
@@ -121,12 +117,8 @@ func (s Sex) IsValid() bool {
 	return found
 }
 
-func SexValidator(v any) bool {
-	vv, ok := v.(Sex)
-	if !ok {
-		return false
-	}
-	return vv.IsValid()
+func SexValidator(v Sex) bool {
+	return v.IsValid()
 }
 
-var SexRule = web.NewRuleFunc(locales.InvalidValue, SexValidator)
+var SexRule = filter.NewRule(SexValidator, locales.InvalidValue)

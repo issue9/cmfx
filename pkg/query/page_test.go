@@ -14,7 +14,7 @@ import (
 	"github.com/issue9/cmfx/pkg/test"
 )
 
-var _ web.CTXSanitizer = &Limit{}
+var _ web.CTXFilter = &Limit{}
 
 type testMod struct {
 	ID   int64  `orm:"name(id);ai"`

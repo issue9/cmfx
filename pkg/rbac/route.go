@@ -9,7 +9,7 @@ import (
 	"golang.org/x/text/message"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx/pkg/filters"
 )
 
 type requestRole struct {
@@ -34,9 +34,9 @@ type responseResources struct {
 	Groups  []responseResponseGroup `json:"groups" xml:"resource"`
 }
 
-func (r *requestRole) CTXSanitize(v *web.Validation) {
-	v.AddField(r.Desc, "description", rules.Required).
-		AddField(r.Name, "name", rules.Required)
+func (r *requestRole) CTXFilter(v *web.FilterProblem) {
+	v.AddFilter(filters.RequiredString("description", &r.Desc)).
+		AddFilter(filters.RequiredString("name", &r.Name))
 }
 
 func buildResponseResources(p *message.Printer, gs map[string]*Group) *responseResources {

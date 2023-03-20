@@ -6,10 +6,11 @@ import (
 	"errors"
 
 	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/authenticator"
-	"github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx/pkg/filters"
 )
 
 // <api method="GET" summary="获取当前登用户的信息">
@@ -41,9 +42,9 @@ type info struct {
 	Avatar   string   `json:"avatar" xml:"avatar"`
 }
 
-func (i *info) CTXSanitize(v *web.Validation) {
-	v.AddField(i.Nickname, "nickname", rules.Required).
-		AddField(i.Avatar, "avatar", rules.Avatar)
+func (i *info) CTXFilter(v *web.FilterProblem) {
+	v.AddFilter(filters.RequiredString("nickname", &i.Nickname)).
+		AddFilter(filters.Avatar("avatar", &i.Avatar))
 }
 
 // <api method="patch" summary="更新当前登用户的信息">
@@ -87,12 +88,11 @@ type pwd struct {
 	New     string   `json:"new" xml:"new"`
 }
 
-func (p *pwd) CTXSanitize(v *web.Validation) {
-	v.AddField(p.Old, "old", rules.Required).
-		AddField(p.New, "new", rules.Required).
-		AddField(p.New, "new", web.NewRuleFunc(web.Phrase("same of new and old password"), func(any) bool {
-			return p.Old == p.New
-		}))
+func (p *pwd) CTXFilter(v *web.FilterProblem) {
+	same := filter.NewRule(func(s string) bool { return s == p.Old }, web.Phrase("same of new and old password"))
+	v.AddFilter(filters.RequiredString("old", &p.Old)).
+		AddFilter(filters.RequiredString("new", &p.New)).
+		AddFilter(filter.New(same)("new", &p.New))
 }
 
 // <api method="PUT" summary="当前登录用户修改自己的密码">

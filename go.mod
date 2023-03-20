@@ -7,13 +7,13 @@ require (
 	github.com/issue9/assert/v3 v3.0.4
 	github.com/issue9/errwrap v0.3.1
 	github.com/issue9/events v0.6.0
+	github.com/issue9/filter v0.4.0
 	github.com/issue9/middleware/v6 v6.0.0-beta.15
 	github.com/issue9/mux/v7 v7.1.0
 	github.com/issue9/orm/v5 v5.0.0-beta.10
 	github.com/issue9/sliceutil v0.12.0
 	github.com/issue9/source v0.3.2
-	github.com/issue9/validator v0.2.7
-	github.com/issue9/web v0.71.0
+	github.com/issue9/web v0.74.0
 	github.com/mattn/go-sqlite3 v1.14.16
 	golang.org/x/crypto v0.7.0
 	golang.org/x/oauth2 v0.6.0
@@ -28,14 +28,14 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/issue9/conv v1.3.4 // indirect
-	github.com/issue9/localeutil v0.12.7 // indirect
+	github.com/issue9/localeutil v0.13.2 // indirect
 	github.com/issue9/logs/v4 v4.5.0 // indirect
 	github.com/issue9/query/v3 v3.1.2 // indirect
 	github.com/issue9/rands/v2 v2.0.0 // indirect
 	github.com/issue9/scheduled v0.13.0 // indirect
 	github.com/issue9/term/v3 v3.1.1 // indirect
 	github.com/issue9/unique/v2 v2.0.0 // indirect
-	github.com/klauspost/compress v1.16.0 // indirect
+	github.com/klauspost/compress v1.16.3 // indirect
 	github.com/redis/go-redis/v9 v9.0.2 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	golang.org/x/net v0.8.0 // indirect

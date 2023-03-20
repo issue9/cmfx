@@ -8,7 +8,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/cmfx/pkg/rules"
+	"github.com/issue9/cmfx/pkg/filters"
 )
 
 type cert struct {
@@ -17,9 +17,9 @@ type cert struct {
 	Password string   `json:"password" xml:"password"`
 }
 
-func (c *cert) CTXSanitize(v *web.Validation) {
-	v.AddField(c.Username, "username", rules.Required).
-		AddField(c.Password, "password", rules.Required)
+func (c *cert) CTXFilter(v *web.FilterProblem) {
+	v.AddFilter(filters.RequiredString("username", &c.Username)).
+		AddFilter(filters.RequiredString("password", &c.Password))
 }
 
 // <api method="POST" summary="管理员登录">

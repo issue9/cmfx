@@ -213,6 +213,7 @@ func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 // </api>
 func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
 	type problem struct {
+		Prefix string `json:"prefix" xml:"prefix"`
 		ID     string `json:"id" xml:"id"`
 		Status int    `json:"status" xml:"status,attr"`
 		Title  string `json:"title" xml:"title"`
@@ -220,7 +221,7 @@ func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
 	}
 
 	ps := make([]*problem, 0, 100)
-	ctx.Server().VisitProblems(func(id string, status int, title, detail web.LocaleStringer) {
+	ctx.Server().VisitProblems(func(prefix, id string, status int, title, detail web.LocaleStringer) {
 		ps = append(ps, &problem{
 			ID:     id,
 			Status: status,
