@@ -97,7 +97,7 @@ func (m *Admin) getResources(ctx *web.Context) web.Responser {
 	return m.rbac.GetResourcesHandle(ctx)
 }
 
-// <api method="GET" summary="获得权限组可访问的资源列表">
+// <api method="GET" summary="获得角色已被允许访问的资源">
 //
 //	   <server>admin</server>
 //	   <tag>rbac</tag>
@@ -120,7 +120,7 @@ func (m *Admin) getGroupResources(ctx *web.Context) web.Responser {
 	return m.rbac.GetRoleResourcesHandle("id", ctx)
 }
 
-// <api method="GET" summary="获得权限组允许访问的资源列表">
+// <api method="GET" summary="获得权限组可分配的资源列表">
 //
 //	   <server>admin</server>
 //	   <tag>rbac</tag>
