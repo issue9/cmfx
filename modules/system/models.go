@@ -2,11 +2,7 @@
 
 package system
 
-import (
-	"database/sql"
-	"html"
-	"time"
-)
+import "time"
 
 type healthModel struct {
 	Route        string        `orm:"name(route);len(100);unique(r_m_p)"`
@@ -21,23 +17,9 @@ type healthModel struct {
 	Spend        time.Duration `orm:"name(spend)"`
 }
 
-type linkage struct {
-	ID      int64        `orm:"name(id);ai"`
-	Name    string       `orm:"name(name);len(100)"`
-	Parent  int64        `orm:"name(parent)"` // 上一级分类，若不存在，则为 0
-	Deleted sql.NullTime `orm:"name(deleted);nullable"`
-}
-
 func (l *healthModel) TableName() string { return `_api_health` }
 
 func (l *healthModel) BeforeUpdate() error {
 	l.Last = time.Now()
-	return nil
-}
-
-func (l *linkage) TableName() string { return `_linkages` }
-
-func (l *linkage) BeforeInsert() error {
-	l.Name = html.EscapeString(l.Name)
 	return nil
 }

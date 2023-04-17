@@ -8,6 +8,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/modules/admin"
+	"github.com/issue9/cmfx/modules/system/linkage"
 )
 
 const (
@@ -26,7 +27,7 @@ type System struct {
 
 	admin    *admin.Admin
 	health   *health.Health
-	linkages *rootLinkage
+	linkages *linkage.Linkage
 }
 
 func New(mod string, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Admin) (*System, error) {
@@ -41,17 +42,12 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Adm
 		db:       db,
 		dbPrefix: orm.Prefix(mod),
 
-		admin:  adminM,
-		health: health.New(store),
+		admin:    adminM,
+		health:   health.New(store),
+		linkages: linkage.New(s, mod, db),
 	}
 
 	r.Use(m.health)
-
-	lg, err := newRootLinkage(m.db, m.dbPrefix)
-	if err != nil {
-		return nil, err
-	}
-	m.linkages = lg
 
 	rg := adminM.GetResourceGroup(admin.ResourceID)
 	rg.AddResources(map[string]web.LocaleStringer{
@@ -65,8 +61,7 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Adm
 	r.Prefix(m.admin.URLPrefix(), web.MiddlewareFunc(m.admin.AuthFilter)).
 		Get("/system/info", m.admin.RBACFilter(mod, resGetInfo, m.adminGetInfo)).
 		Get("/system/services", m.admin.RBACFilter(mod, resGetServices, m.adminGetServices)).
-		Get("/system/apis", m.admin.RBACFilter(mod, resGetAPIs, m.adminGetAPIs)).
-		Get("/system/linkages/{id}", m.admin.RBACFilter(mod, resGetLinkages, m.adminGetLinkages))
+		Get("/system/apis", m.admin.RBACFilter(mod, resGetAPIs, m.adminGetAPIs))
 
 	r.Get("/system/problems", m.commonGetProblems)
 

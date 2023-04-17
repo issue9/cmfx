@@ -46,7 +46,7 @@ func NewSuite(a *assert.Assertion) *Suite {
 		HTTPServer: &http.Server{Addr: ":8080"},
 	})
 	a.NotError(err).NotNil(srv)
-	srv.Files().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
+	srv.Config().Serializer().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
 
 	s := &Suite{
 		Server: srv,

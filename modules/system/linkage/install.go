@@ -8,16 +8,12 @@ import (
 
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
-
-	"github.com/issue9/cmfx"
 )
 
-func Install(s *web.Server, tableName string, db *orm.DB) {
-	p := orm.Prefix(tableName)
+func Install(s *web.Server, mod string, db *orm.DB) error {
+	p := orm.Prefix(mod)
 	e := p.DB(db)
-	cmfx.Init(s, nil, func() error {
-		return web.NewStackError(e.Create(&linkageModel{}))
-	})
+	return web.NewStackError(e.Create(&linkageModel{}))
 }
 
 // Install 初始化数据

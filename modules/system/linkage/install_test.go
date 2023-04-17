@@ -16,7 +16,7 @@ func TestInstall(t *testing.T) {
 	defer s.Close()
 
 	id := "test"
-	Install(s.Server, id, s.DB())
+	a.NotError(Install(s.Server, id, s.DB()))
 
 	exists, err := s.DB().SQLBuilder().TableExists().Table(id + "_linkages").Exists()
 	a.NotError(err).True(exists)

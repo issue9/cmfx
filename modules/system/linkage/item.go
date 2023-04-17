@@ -11,9 +11,9 @@ import (
 )
 
 type Item[T any] struct {
-	ID     int64
+	ID     int64 `json:"id" xml:"id,attr" yaml:"id"`
 	Data   T
-	Items  []*Item[T]
+	Items  []*Item[T] `json:"items,omitempty" xml:"items,omitempty" yaml:"items,omitempty"`
 	parent int64
 }
 

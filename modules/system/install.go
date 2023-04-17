@@ -3,36 +3,20 @@
 package system
 
 import (
+	"github.com/issue9/cmfx"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
-	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/modules/system/linkage"
 )
 
-type Installer struct {
-	mod  string
-	root *rootLinkage
-}
-
-func (i *Installer) Linkage() *Linkage { return i.root.top }
-
-func Install(s *web.Server, mod string, db *orm.DB) *Installer {
+func Install(s *web.Server, mod string, db *orm.DB) {
 	p := orm.Prefix(mod)
 	e := p.DB(db)
 
 	cmfx.Init(s, nil, func() error {
-		return web.NewStackError(e.Create(&linkage{}))
+		return web.NewStackError(linkage.Install(s, mod, db))
 	}, func() error {
 		return web.NewStackError(e.Create(&healthModel{}))
 	})
-
-	root, err := newRootLinkage(db, p)
-	if err != nil {
-		panic(err)
-	}
-
-	return &Installer{
-		mod:  mod,
-		root: root,
-	}
 }

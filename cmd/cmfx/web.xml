@@ -48,12 +48,12 @@
         <mimetype type="multipart/form-data" target="nil" />
     </mimetypes>
 
-    <files>
-        <file>.json</file>
-        <file>.xml</file>
-        <file>.yaml</file>
-        <file>.yml</file>
-    </files>
+    <fileSerializers>
+        <fileSerializer>.json</fileSerializer>
+        <fileSerializer>.xml</fileSerializer>
+        <fileSerializer>.yaml</fileSerializer>
+        <fileSerializer>.yml</fileSerializer>
+    </fileSerializers>
 
     <user>
         <admin accessExpires="43200" refreshExpires="86400">

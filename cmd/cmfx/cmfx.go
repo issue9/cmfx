@@ -36,6 +36,7 @@ func main() {
 		Name:           "cmfx",
 		Version:        cmfx.Version,
 		Init:           initServer,
+		ConfigDir:      "./",
 		ConfigFilename: "web.xml",
 		ServeActions:   []string{"serve"},
 	}
