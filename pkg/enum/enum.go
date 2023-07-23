@@ -94,6 +94,8 @@ func (e *Enum) write(buf *errwrap.Buffer) error {
 		return err
 	}
 
+	buf.Printf("\n\n// %s\n\n", e.Name)
+
 	// type2StringMap
 	buf.Printf("var %s=map[%s]string{\n", e.type2StringMap, e.Name)
 	for _, v := range e.vals {
@@ -160,6 +162,17 @@ func (e *Enum) write(buf *errwrap.Buffer) error {
 	// rule
 	buf.Printf(`var %sRule = filter.NewRule(%sValidator, locales.InvalidValue)`, e.Name, e.Name)
 	buf.WString("\n\n")
+
+	// sliceRule
+	buf.Printf(`var %sSliceRule = filter.NewSliceRules[%s,[]%s](%sRule)`, e.Name, e.Name, e.Name, e.Name)
+	buf.WString("\n\n")
+
+	// filter
+	buf.Printf(`var %sFilter = filter.New(%sRule)`, e.Name, e.Name)
+	buf.WString("\n\n")
+
+	// sliceFilter
+	buf.Printf(`var %sSliceFilter = filter.New(%sSliceRule)`, e.Name, e.Name)
 
 	return nil
 }

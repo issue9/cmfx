@@ -196,16 +196,12 @@ func TestRole_resources(t *testing.T) {
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))
-	g1.AddResources(map[string]web.LocaleStringer{
-		"r1": web.Phrase("r1"),
-		"r2": web.Phrase("r2"),
-	})
+	g1r1 := g1.NewResource("r1", web.Phrase("r1"))
+	g1r2 := g1.NewResource("r2", web.Phrase("r2"))
 
 	g2 := inst.NewGroup("g2", web.Phrase("g2"))
-	g2.AddResources(map[string]web.LocaleStringer{
-		"r1": web.Phrase("r1"),
-		"r2": web.Phrase("r2"),
-	})
+	g2r1 := g2.NewResource("r1", web.Phrase("r1"))
+	g2.NewResource("r2", web.Phrase("r2"))
 
 	id, err := inst.NewRole(0, "r1", "r1 desc")
 	a.NotError(err).NotZero(id)
@@ -220,10 +216,10 @@ func TestRole_resources(t *testing.T) {
 	a.Empty(r2.resources()) // 父角色未设定 allow，所以当前角色的 resources 也为空
 
 	// 父角色添加资源
-	a.NotError(r1.set("g1_r1"))
-	a.Equal(r2.resources(), []string{"g1_r1"})
+	a.NotError(r1.set(g1r1))
+	a.Equal(r2.resources(), []string{g1r1})
 
 	// 父角色对资源进行了删减操作
-	a.NotError(r1.set("g1_r2", "g2_r1"))
-	a.Equal(r2.resources(), []string{"g1_r2", "g2_r1"})
+	a.NotError(r1.set(g1r2, g2r1))
+	a.Equal(r2.resources(), []string{g1r2, g2r1})
 }

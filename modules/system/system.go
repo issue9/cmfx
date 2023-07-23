@@ -8,15 +8,6 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/modules/admin"
-	"github.com/issue9/cmfx/modules/system/linkage"
-)
-
-const (
-	resGetInfo     = "get-info"
-	resGetAPIs     = "get-apis"
-	resGetServices = "get-services"
-	resGetSettings = "get-settings"
-	resGetLinkages = "get-linkages"
 )
 
 type System struct {
@@ -25,12 +16,11 @@ type System struct {
 	db       *orm.DB
 	dbPrefix orm.Prefix
 
-	admin    *admin.Admin
-	health   *health.Health
-	linkages *linkage.Linkage
+	admin  *admin.Admin
+	health *health.Health
 }
 
-func New(mod string, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Admin) (*System, error) {
+func New(mod string, desc web.LocaleStringer, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Admin) (*System, error) {
 	store, err := newHealthDBStore(s, mod, db)
 	if err != nil {
 		return nil, err
@@ -42,26 +32,21 @@ func New(mod string, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Adm
 		db:       db,
 		dbPrefix: orm.Prefix(mod),
 
-		admin:    adminM,
-		health:   health.New(store),
-		linkages: linkage.New(s, mod, db),
+		admin:  adminM,
+		health: health.New(store),
 	}
 
 	r.Use(m.health)
 
-	rg := adminM.GetResourceGroup(admin.ResourceID)
-	rg.AddResources(map[string]web.LocaleStringer{
-		resGetInfo:     web.Phrase("view system info"),
-		resGetServices: web.Phrase("view services"),
-		resGetAPIs:     web.Phrase("view apis"),
-		resGetSettings: web.Phrase("view settings"),
-		resGetLinkages: web.Phrase("view linkages"),
-	})
+	g := adminM.ResourceGroup()
+	resGetInfo := g.NewResource("get-info", web.Phrase("view system info"))
+	resGetServices := g.NewResource("get-services", web.Phrase("view services"))
+	resGetAPIs := g.NewResource("get-apis", web.Phrase("view apis"))
 
-	r.Prefix(m.admin.URLPrefix(), web.MiddlewareFunc(m.admin.AuthFilter)).
-		Get("/system/info", m.admin.RBACFilter(mod, resGetInfo, m.adminGetInfo)).
-		Get("/system/services", m.admin.RBACFilter(mod, resGetServices, m.adminGetServices)).
-		Get("/system/apis", m.admin.RBACFilter(mod, resGetAPIs, m.adminGetAPIs))
+	m.admin.Router(r, web.MiddlewareFunc(m.admin.AuthFilter)).
+		Get("/system/info", m.admin.RBACFilter(resGetInfo, m.adminGetInfo)).
+		Get("/system/services", m.admin.RBACFilter(resGetServices, m.adminGetServices)).
+		Get("/system/apis", m.admin.RBACFilter(resGetAPIs, m.adminGetAPIs))
 
 	r.Get("/system/problems", m.commonGetProblems)
 

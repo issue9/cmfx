@@ -4,8 +4,6 @@
 package rbac
 
 import (
-	"fmt"
-
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
@@ -61,11 +59,11 @@ func (rbac *RBAC) Link(tx *orm.Tx, uid int64, role ...int64) error {
 
 	role = sliceutil.Unique(role, func(i, j int64) bool { return i == j })
 
-	// 提取未在当前用户的角色列表中的
+	// 提取未在 uid 角色列表中的角色
 	if u := rbac.users[uid]; len(u) > 0 {
 		rs := make([]int64, 0, len(role))
 		for _, item := range role {
-			if sliceutil.Count(u, func(i int64) bool { return i == item }) <= 0 {
+			if sliceutil.Count(u, func(i int64, _ int) bool { return i == item }) <= 0 {
 				rs = append(rs, item)
 			}
 		}
@@ -74,7 +72,7 @@ func (rbac *RBAC) Link(tx *orm.Tx, uid int64, role ...int64) error {
 
 	for _, r := range role {
 		if _, found := rbac.roles[r]; !found {
-			return fmt.Errorf("角色 %d 并不存在", r)
+			return web.NewLocaleError("role %d not found", r)
 		}
 	}
 
@@ -105,7 +103,7 @@ func (rbac *RBAC) Unlink(tx *orm.Tx, uid int64, roleID ...int64) error {
 	roleID = sliceutil.Unique(roleID, func(i, j int64) bool { return i == j })
 	for _, r := range roleID {
 		if _, found := rbac.roles[r]; !found {
-			return fmt.Errorf("角色 %d 并不存在", r)
+			return web.NewLocaleError("role %d not found", r)
 		}
 	}
 
@@ -121,7 +119,7 @@ func (rbac *RBAC) Unlink(tx *orm.Tx, uid int64, roleID ...int64) error {
 	}
 
 	roles := rbac.users[uid]
-	rbac.users[uid] = sliceutil.QuickDelete(roles, func(i int64) bool {
+	rbac.users[uid] = sliceutil.QuickDelete(roles, func(i int64, _ int) bool {
 		for _, r := range roleID {
 			if r == i {
 				return true
@@ -152,7 +150,7 @@ func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
 
 	for _, rid := range roles {
 		role := rbac.roles[rid]
-		if sliceutil.Exists(role.r.Resources, func(i string) bool { return i == resID }) {
+		if sliceutil.Exists(role.r.Resources, func(i string, _ int) bool { return i == resID }) {
 			msg := web.Phrase("user %[1]d has access %[2]s because of %[3]d", uid, resID, rid)
 			rbac.s.Logs().DEBUG().Printf(msg.LocaleString(rbac.s.LocalePrinter()))
 			return true, nil

@@ -18,7 +18,7 @@ func Install(s *web.Server, mod string, db *orm.DB) error {
 
 // Install 初始化数据
 //
-// / item 表示根，ID 值不起作用
+// item 表示根，ID 值不起作用
 func (r *Root[T]) Install(item *Item[T]) error {
 	if len(r.Items) > 0 { // 如果 r.Items 不为空，表示数据库有数据，则不能再次初始化。
 		return errors.New("非空对象，不能再次安装数据。")

@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	gojwt "github.com/golang-jwt/jwt/v4"
+	gojwt "github.com/golang-jwt/jwt/v5"
 	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"

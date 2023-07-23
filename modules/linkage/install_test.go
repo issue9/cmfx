@@ -56,14 +56,14 @@ func TestRoot_Install(t *testing.T) {
 	Install(s.Server, id, s.DB())
 	l := New(s.Server, id, s.DB())
 
-	k1 := NewRoot[*object](l, "k1", nil)
+	k1 := NewRoot[*object](l, "k1")
 	a.NotError(k1.Install(installData))
 	a.ErrorString(k1.Install(installData), "非空对象，不能再次安装数据。")
-	a.ErrorString(NewRoot[*object](l, "k1", nil).Install(installData), "已经存在同名的 key: k1")
+	a.ErrorString(NewRoot[*object](l, "k1").Install(installData), "已经存在同名的 key: k1")
 	cnt, err := l.dbPrefix.DB(l.db).Where("key=?", "k1").Count(&linkageModel{})
 	a.NotError(err).Equal(5, cnt)
 
-	k2 := NewRoot[*object](l, "k2", nil)
+	k2 := NewRoot[*object](l, "k2")
 	a.NotError(k2.Install(installData))
 	cnt, err = l.dbPrefix.DB(l.db).Where("key=?", "k2").Count(&linkageModel{})
 	a.NotError(err).Equal(5, cnt)

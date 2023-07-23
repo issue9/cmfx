@@ -31,8 +31,9 @@ func (l *Limit) CTXFilter(v *web.FilterProblem) {
 // PagingResponser 将分页对象封装成 [web.Responser]
 //
 // T 为返回给客户端数据元素项的类型，必须为非指针类型。最终给客户的数据为 []*T。
-func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) web.Responser {
-	p, err := Paging[T](ctx, l, sql)
+// f 用于对 *T 进行额外处理；
+func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt, f func(*T)) web.Responser {
+	p, err := Paging(l, sql, f)
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}
@@ -42,10 +43,37 @@ func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectSt
 	return web.OK(p)
 }
 
+// PagingResponserWithConvert 将分页对象的元素通过 convert 转换之后封装成 [web.Responser]
+//
+// T 为从数据库读取的数据类型；
+// R 为返回给客户端数据元素项的类型；
+// convert 用于将 T 转换成 R 类型；
+func PagingResponserWithConvert[T, R any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt, convert func(*T) *R) web.Responser {
+	p, err := Paging[T](l, sql, nil)
+	if err != nil {
+		return ctx.InternalServerError(err)
+	}
+	if p == nil || p.Count == 0 || len(p.Current) == 0 {
+		return ctx.NotFound()
+	}
+
+	items := make([]*R, 0, len(p.Current))
+	for _, item := range p.Current {
+		items = append(items, convert(item))
+	}
+
+	return web.OK(&Page[R]{
+		Count:   p.Count,
+		Current: items,
+		More:    p.More,
+	})
+}
+
 // Paging 返回分页对象
 //
 // T 为返回给客户端数据元素项的类型，必须为非指针类型。最终给客户的数据为 []*T。
-func Paging[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) (*Page[T], error) {
+// f 用于对 *T 进行额外处理；
+func Paging[T any](l *Limit, sql *sqlbuilder.SelectStmt, f func(*T)) (*Page[T], error) {
 	offset := l.Page * l.Size
 	sql.Limit(l.Size, offset)
 
@@ -66,6 +94,12 @@ func Paging[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt) (*Pag
 	}
 	if n == 0 {
 		return nil, nil
+	}
+
+	if f != nil {
+		for _, item := range curr {
+			f(item)
+		}
 	}
 
 	return &Page[T]{

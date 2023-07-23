@@ -4,10 +4,12 @@ package enum
 
 import (
 	"fmt"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/locales"
-	"github.com/issue9/web/filter"
 )
+
+// State
 
 var state2StringMap = map[State]string{
 	StateS1: "s1",
@@ -58,16 +60,14 @@ func (t State) IsValid() bool {
 	return found
 }
 
-func StateValidator(v any) bool {
-	vv, ok := v.(string)
-	if !ok {
-		return false
-	}
-	vvv, err := ParseState(vv)
-	if err != nil {
-		return false
-	}
-	return vvv.IsValid()
+func StateValidator(v State) bool {
+	return v.IsValid()
 }
 
 var StateRule = filter.NewRule(StateValidator, locales.InvalidValue)
+
+var StateSliceRule = filter.NewSliceRules[State, []State](StateRule)
+
+var StateFilter = filter.New(StateRule)
+
+var StateSliceFilter = filter.New(StateSliceRule)

@@ -10,7 +10,7 @@ import (
 )
 
 // Version 表示当前框架的版本
-const Version = "0.6.0"
+const Version = "0.7.0"
 
 // Init 执行一系列的初始化操作
 //

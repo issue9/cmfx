@@ -11,7 +11,7 @@ import (
 	"github.com/issue9/cmfx/pkg/test"
 )
 
-func TestRBAC_Group(t *testing.T) {
+func TestGroup(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
@@ -31,7 +31,7 @@ func TestRBAC_Group(t *testing.T) {
 	}, "已经存在同名的分组 g1")
 }
 
-func TestRBAC_Group_AddResources(t *testing.T) {
+func TestGroup_NewResources(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
@@ -41,21 +41,17 @@ func TestRBAC_Group_AddResources(t *testing.T) {
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))
-	g1.AddResources(map[string]web.LocaleStringer{
-		"r1": web.Phrase("r1"),
-		"r2": web.Phrase("r2"),
-	})
+	g1r1 := g1.NewResource("r1", web.Phrase("r1"))
+	a.Equal(g1r1, buildResourceID(g1.ID(), "r1"))
+	g1.NewResource("r2", web.Phrase("r2"))
 
 	a.PanicString(func() {
-		g1.AddResources(map[string]web.LocaleStringer{
-			"r1": web.Phrase("r1"),
-		})
+		g1.NewResource("r1", web.Phrase("r1"))
 	}, "存在同名的资源 ID r1")
 
 	// 不同组下可以有相同的 id
 	g2 := inst.NewGroup("g2", web.Phrase("g2"))
-	g2.AddResources(map[string]web.LocaleStringer{
-		"r1": web.Phrase("r1"),
-		"r2": web.Phrase("r2"),
-	})
+	g2.NewResource("r1", web.Phrase("r1"))
+	g2.NewResource("r2", web.Phrase("r2"))
+
 }

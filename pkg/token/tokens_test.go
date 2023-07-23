@@ -8,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	gojwt "github.com/golang-jwt/jwt/v4"
+	gojwt "github.com/golang-jwt/jwt/v5"
 	"github.com/issue9/assert/v3"
 	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/orm/v5"
@@ -79,7 +79,7 @@ func TestTokens_New(t *testing.T) {
 	a.NotError(err).NotNil(tks)
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
-		return tks.New(ctx, http.StatusCreated, NewClaims(ctx.Server(), "1"))
+		return tks.New(ctx, http.StatusCreated, NewClaims(ctx, "1"))
 	})
 
 	r.Post("/refresh", tks.Middleware(func(ctx *web.Context) web.Responser {
@@ -94,7 +94,7 @@ func TestTokens_New(t *testing.T) {
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
 				return ctx.InternalServerError(err)
 			}
-			return tks.New(ctx, http.StatusCreated, NewClaims(ctx.Server(), xx.UserID()))
+			return tks.New(ctx, http.StatusCreated, NewClaims(ctx, xx.UserID()))
 		}
 		return web.Status(http.StatusUnauthorized)
 	}))

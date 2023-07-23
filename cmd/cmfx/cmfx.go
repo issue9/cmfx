@@ -56,7 +56,7 @@ func initServer(s *web.Server, user *config, action string) error {
 	)
 
 	router.Any("/debug/{path}", func(ctx *web.Context) web.Responser {
-		p, resp := ctx.ParamString("path", cmfx.BadRequestInvalidParam)
+		p, resp := ctx.PathString("path", cmfx.BadRequestInvalidParam)
 		if resp != nil {
 			return resp
 		}
@@ -95,7 +95,7 @@ func initServer(s *web.Server, user *config, action string) error {
 }
 
 func load(s *web.Server, db *orm.DB, router *web.Router, conf *c.User) error {
-	_, err := admin.New("admin", s, db, router, conf)
+	_, err := admin.New("admin", web.Phrase("admin"), s, db, router, conf)
 	return err
 }
 

@@ -109,15 +109,15 @@ func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 }
 
 // Valid 验证登录正确性并返回其 uid
-func (p *Password) Valid(identity, pass string) (int64, string, bool) {
-	pp := &modelPassword{Identity: identity}
+func (p *Password) Valid(username, pass string) (int64, string, bool) {
+	pp := &modelPassword{Identity: username}
 	found, err := p.modelEngine(nil).Select(pp)
 	if err != nil {
 		p.s.Logs().ERROR().Error(err)
 		return 0, "", false
 	}
 	if !found {
-		p.s.Logs().DEBUG().Printf("用户 %s 不存在", identity)
+		p.s.Logs().DEBUG().Printf("用户 %s 不存在", username)
 		return 0, "", false
 	}
 

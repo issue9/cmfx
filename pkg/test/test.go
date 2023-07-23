@@ -13,6 +13,7 @@ import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/web"
+	"github.com/issue9/web/logs"
 	"github.com/issue9/web/serializer/json"
 	"github.com/issue9/web/serializer/xml"
 	"github.com/issue9/web/server"
@@ -39,6 +40,10 @@ func NewSuite(a *assert.Assertion) *Suite {
 	a.NotError(err).NotNil(db)
 
 	srv, err := web.NewServer("test", "1.0.0", &server.Options{
+		Logs: &logs.Options{
+			Levels:  logs.AllLevels(),
+			Handler: logs.NewTermHandler(logs.NanoLayout, os.Stdout, nil),
+		},
 		Mimetypes: []*server.Mimetype{
 			{Type: json.Mimetype, Marshal: json.Marshal, Unmarshal: json.Unmarshal, ProblemType: json.ProblemMimetype},
 			{Type: xml.Mimetype, Marshal: xml.Marshal, Unmarshal: xml.Unmarshal, ProblemType: xml.ProblemMimetype},

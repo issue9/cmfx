@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"time"
 
-	gojwt "github.com/golang-jwt/jwt/v4"
+	gojwt "github.com/golang-jwt/jwt/v5"
 	"github.com/issue9/middleware/v6/jwt"
 )
 
@@ -27,13 +27,6 @@ func formatUID(uid int64) string { return strconv.FormatInt(uid, 36) }
 
 func buildClaims() *claims { return &claims{} }
 
-func (c *claims) Valid() error {
-	if time.Now().After(time.Unix(c.Expires, 0)) {
-		return gojwt.NewValidationError("exp 已过期", gojwt.ValidationErrorExpired)
-	}
-	return nil
-}
-
 func (c *claims) UserID() string { return c.User }
 
 func (c *claims) SetExpired(t time.Duration) {
@@ -50,3 +43,17 @@ func (c *claims) BuildRefresh(token string) jwt.Claims {
 		UID:    c.UID,
 	}
 }
+
+func (c *claims) GetExpirationTime() (*gojwt.NumericDate, error) {
+	return &gojwt.NumericDate{Time: time.Unix(c.Expires, 0)}, nil
+}
+
+func (c *claims) GetIssuedAt() (*gojwt.NumericDate, error) { return nil, nil }
+
+func (c *claims) GetNotBefore() (*gojwt.NumericDate, error) { return nil, nil }
+
+func (c *claims) GetIssuer() (string, error) { return "", nil }
+
+func (c *claims) GetSubject() (string, error) { return "", nil }
+
+func (c *claims) GetAudience() (gojwt.ClaimStrings, error) { return nil, nil }

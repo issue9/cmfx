@@ -3,9 +3,8 @@
 package rbac
 
 import (
-	"fmt"
-
 	"github.com/issue9/sliceutil"
+	"github.com/issue9/web"
 )
 
 // Role 角色信息
@@ -30,7 +29,7 @@ func (rbac *RBAC) Role(id int64) *Role {
 // parent 表示父角色，如果从父角色继承，那么可分配的资源也只能是父角色拥有的资源；
 func (rbac *RBAC) NewRole(parent int64, name, desc string) (int64, error) {
 	if parent > 0 && rbac.roles[parent] == nil {
-		return 0, fmt.Errorf("父角色 %d 不存在", parent)
+		return 0, web.NewLocaleError("父角色 %d 不存在", parent)
 	}
 
 	e := rbac.dbPrefix.DB(rbac.db)
@@ -61,13 +60,13 @@ func (rbac *RBAC) deleteRole(id int64) error {
 
 	for _, role := range rbac.roles {
 		if role.r.Parent == id {
-			return fmt.Errorf("角色 %d 是角色 %d 的父类，不能删除", id, role.r.ID)
+			return web.NewLocaleError("角色 %d 是角色 %d 的父类，不能删除", id, role.r.ID)
 		}
 	}
 
 	for u, roles := range rbac.users {
-		if sliceutil.Count(roles, func(i int64) bool { return i == id }) > 0 {
-			return fmt.Errorf("角色还包含了用户 %d，不能被删除！", u)
+		if sliceutil.Count(roles, func(i int64, _ int) bool { return i == id }) > 0 {
+			return web.NewLocaleError("角色还包含了用户 %d，不能被删除！", u)
 		}
 	}
 
@@ -94,8 +93,8 @@ func (r *Role) update(name, desc string) error {
 // 设置角色 role 访问 resID，覆盖原来的可访问资源
 func (r *Role) set(res ...string) error {
 	if len(res) > 0 {
-		res = sliceutil.Unique(res, func(i, j string) bool { return i == j }) // 过滤重复值
-		res = sliceutil.Delete(res, func(i string) bool { return i == "" })   // 删除空值
+		res = sliceutil.Unique(res, func(i, j string) bool { return i == j })      // 过滤重复值
+		res = sliceutil.Delete(res, func(i string, _ int) bool { return i == "" }) // 删除空值
 	}
 	if len(res) == 0 {
 		return nil
@@ -105,15 +104,15 @@ func (r *Role) set(res ...string) error {
 	if r.r.Parent > 0 {
 		p := r.rbac.roles[r.r.Parent]
 		if p == nil {
-			return fmt.Errorf("rbac: 未找到 %d 的父角色 %d", r.r.ID, r.r.Parent)
+			return web.NewLocaleError("rbac: 未找到 %d 的父角色 %d", r.r.ID, r.r.Parent)
 		}
 
 		if len(p.r.Resources) == 0 {
-			return fmt.Errorf("rbac: 请先设置父角色 %d 的资源", p.r.ID)
+			return web.NewLocaleError("rbac: 请先设置父角色 %d 的资源", p.r.ID)
 		}
 
 		if !sliceutil.Contains(p.r.Resources, res, func(i, j string) bool { return i == j }) {
-			return fmt.Errorf("rbac: 角色 %d 只能继承父角色 %d 的资源", r.r.ID, r.r.Parent)
+			return web.NewLocaleError("rbac: 角色 %d 只能继承父角色 %d 的资源", r.r.ID, r.r.Parent)
 		}
 	}
 

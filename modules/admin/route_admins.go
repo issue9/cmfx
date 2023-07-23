@@ -44,7 +44,7 @@ import (
 //
 // </api>
 func (m *Admin) getAdmin(ctx *web.Context) web.Responser {
-	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
 	}
@@ -76,8 +76,8 @@ func (q *adminsQuery) CTXFilter(v *web.FilterProblem) {
 		return q.m.rbac.Role(v) != nil
 	}, web.Phrase("group not exists"))
 	v.AddFilter(filter.New(g)("group", &q.Groups)).
-		AddFilter(filter.New(filter.NewSliceRules[State, []State](StateRule))("state", &q.States)).
-		AddFilter(filter.New(filter.NewSliceRules[Sex, []Sex](SexRule))("sex", &q.Sexes))
+		AddFilter(StateSliceFilter("state", &q.States)).
+		AddFilter(SexSliceFilter("sex", &q.Sexes))
 }
 
 // <api method="get" summary="获取所有的管理员账号">
@@ -154,7 +154,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 		sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
 	}
 
-	return query.PagingResponser[ModelAdmin](ctx, &q.Limit, sql)
+	return query.PagingResponser[ModelAdmin](ctx, &q.Limit, sql, nil)
 }
 
 // <api method="patch" summary="修改指定的管理员账号">
@@ -184,7 +184,7 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
-	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
 	}
@@ -255,7 +255,7 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 //
 // </api>
 func (m *Admin) deleteAdminPassword(ctx *web.Context) web.Responser {
-	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
 	}
@@ -291,30 +291,51 @@ type postAdminInfo struct {
 }
 
 func (i *postAdminInfo) CTXFilter(v *web.FilterProblem) {
-	v.AddFilter(filter.New(StateRule)("state", &i.State)).
-		AddFilter(filters.RequiredString("name", &i.Name)).
-		AddFilter(filters.RequiredString("username", &i.Username)).
-		AddFilter(filters.RequiredString("nickname", &i.Nickname)).
-		AddFilter(filters.RequiredString("password", &i.Password)).
-		AddFilter(filters.Avatar("avatar", &i.Avatar)).
+	switch v.Context().Request().Method {
+	case http.MethodPost, http.MethodPut:
+		v.AddFilter(filter.New(StateRule)("state", &i.State)).
+			AddFilter(filters.RequiredString("name", &i.Name)).
+			AddFilter(filters.RequiredString("username", &i.Username)).
+			AddFilter(filters.RequiredString("nickname", &i.Nickname)).
+			AddFilter(filters.RequiredString("password", &i.Password)).
+			AddFilter(filters.Avatar("avatar", &i.Avatar)).
 
-		// i.Groups
-		When(len(i.Groups) > 0, func(v *web.FilterProblem) {
-			g := filter.NewSliceRule[int64, types.SliceOf[int64]](func(val int64) bool {
-				return i.m.rbac.Role(val) != nil
-			}, web.Phrase("group not exists"))
-			v.AddFilter(filter.New(g)("groups", &i.Groups))
-		}).
-		When(len(i.Groups) == 0, func(v *web.FilterProblem) {
-			v.Add("groups", locales.Required)
-		}).
-		AddFilter(filter.New(filter.NewSliceRule[int64, types.SliceOf[int64]](func(int64) bool {
-			ok, err := i.m.IsAllowChangeGroup(v.Context(), i.Groups)
-			if err != nil {
-				v.Context().Logs().ERROR().Error(err)
-			}
-			return ok
-		}, locales.InvalidValue))("groups", &i.Groups))
+			// i.Groups
+			When(len(i.Groups) > 0, func(v *web.FilterProblem) {
+				g := filter.NewSliceRule[int64, types.SliceOf[int64]](func(val int64) bool {
+					return i.m.rbac.Role(val) != nil
+				}, web.Phrase("group not exists"))
+				v.AddFilter(filter.New(g)("groups", &i.Groups))
+			}).
+			When(len(i.Groups) == 0, func(v *web.FilterProblem) {
+				v.Add("groups", locales.Required)
+			}).
+			AddFilter(filter.New(filter.NewSliceRule[int64, types.SliceOf[int64]](func(int64) bool {
+				ok, err := i.m.IsAllowChangeRole(v.Context(), i.Groups)
+				if err != nil {
+					v.Context().Logs().ERROR().Error(err)
+				}
+				return ok
+			}, locales.InvalidValue))("groups", &i.Groups))
+	case http.MethodPatch:
+		v.AddFilter(filter.New(StateRule)("state", &i.State)).
+			AddFilter(filters.Avatar("avatar", &i.Avatar)).
+
+			// i.Groups
+			When(len(i.Groups) > 0, func(v *web.FilterProblem) {
+				g := filter.NewSliceRule[int64, types.SliceOf[int64]](func(val int64) bool {
+					return i.m.rbac.Role(val) != nil
+				}, web.Phrase("group not exists"))
+				v.AddFilter(filter.New(g)("groups", &i.Groups))
+			}).
+			AddFilter(filter.New(filter.NewSliceRule[int64, types.SliceOf[int64]](func(int64) bool {
+				ok, err := i.m.IsAllowChangeRole(v.Context(), i.Groups)
+				if err != nil {
+					v.Context().Logs().ERROR().Error(err)
+				}
+				return ok
+			}, locales.InvalidValue))("groups", &i.Groups))
+	}
 }
 
 // <api method="post" summary="添加管理员账号">
@@ -443,7 +464,7 @@ func (m *Admin) deleteAdminLeft(ctx *web.Context) web.Responser {
 }
 
 func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Responser {
-	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
 	}
@@ -500,7 +521,7 @@ func (m *Admin) postSuper(ctx *web.Context) web.Responser {
 		return ctx.Problem(forbiddenOnlySuper)
 	}
 
-	id, resp := ctx.ParamID("id", cmfx.BadRequestInvalidParam)
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
 	}

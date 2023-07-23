@@ -25,15 +25,12 @@ func TestRBAC_GetResourcesHandle(t *testing.T) {
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))
-	g1.AddResources(map[string]web.LocaleStringer{
-		"r1": web.Phrase("r1"),
-		"r2": web.Phrase("r2"),
-	})
+	g1.NewResource("r1", web.Phrase("r1"))
+	g1.NewResource("r2", web.Phrase("r2"))
+
 	g2 := inst.NewGroup("g2", web.Phrase("g2"))
-	g2.AddResources(map[string]web.LocaleStringer{
-		"r1": web.Phrase("r1"),
-		"r2": web.Phrase("r2"),
-	})
+	g2.NewResource("r1", web.Phrase("r1"))
+	g2.NewResource("r2", web.Phrase("r2"))
 
 	suite.NewRouter("def", nil).Get("/resources", inst.GetResourcesHandle)
 

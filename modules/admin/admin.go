@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/issue9/events"
+	"github.com/issue9/mux/v7"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
@@ -31,14 +32,12 @@ const (
 
 	// SystemID 表示系统的 ID
 	SystemID = 0
-
-	// 当前模块的资源分组 ID
-	ResourceID = "admin"
 )
 
 type contextKey int
 
 type Admin struct {
+	id       string
 	db       *orm.DB
 	dbPrefix orm.Prefix
 
@@ -61,7 +60,7 @@ type Admin struct {
 //
 // id 表示模块的 ID，在某些需要唯一值的地方，会加上此值作为前缀；
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
-func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.User) (*Admin, error) {
+func New(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB, router *web.Router, o *config.User) (*Admin, error) {
 	loadOnce(s)
 
 	inst, err := rbac.New(s, id, db)
@@ -78,6 +77,7 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 	pass := password.New(s, orm.Prefix(id+"_"+authPasswordType), db)
 	auth.Register(authPasswordType, pass, web.Phrase("password mode"))
 	m := &Admin{
+		id:       id,
 		db:       db,
 		dbPrefix: orm.Prefix(id),
 
@@ -95,17 +95,14 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 		logoutEvent: events.New[int64](),
 	}
 
-	g := m.NewResourceGroup(ResourceID, web.Phrase("admin resource"))
-	g.AddResources(map[string]web.LocaleStringer{
-		"post-group":          web.Phrase("post groups"),
-		"delete-group":        web.Phrase("delete groups"),
-		"put-group":           web.Phrase("edit groups"),
-		"put-group-resources": web.Phrase("put groups resources"),
-
-		"get-admin":  web.Phrase("get admins"),
-		"put-admin":  web.Phrase("put admin"),
-		"post-admin": web.Phrase("post admins"),
-	})
+	g := m.NewResourceGroup(id, desc)
+	postGroup := g.NewResource("post-group", web.Phrase("post groups"))
+	delGroup := g.NewResource("delete-group", web.Phrase("delete groups"))
+	putGroup := g.NewResource("put-group", web.Phrase("edit groups"))
+	putGroupResources := g.NewResource("put-group-resources", web.Phrase("put groups resources"))
+	getAdmin := g.NewResource("get-admin", web.Phrase("get admins"))
+	putAdmin := g.NewResource("put-admin", web.Phrase("put admin"))
+	postAdmin := g.NewResource("post-admin", web.Phrase("post admins"))
 
 	router.Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin).
@@ -115,12 +112,12 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/resources", m.getResources).
 		Get("/groups", m.getGroups).
-		Post("/groups", m.RBACFilter(id, "post-group", m.postGroups)).
-		Put("/groups/{id:digit}", m.RBACFilter(id, "put-group", m.putGroup)).
-		Delete("/groups/{id:digit}", m.RBACFilter(id, "delete-group", m.deleteGroup)).
+		Post("/groups", m.RBACFilter(postGroup, m.postGroups)).
+		Put("/groups/{id:digit}", m.RBACFilter(putGroup, m.putGroup)).
+		Delete("/groups/{id:digit}", m.RBACFilter(delGroup, m.deleteGroup)).
 		Get("/groups/{id:digit}/resources", m.getGroupResources).
 		Get("/groups/{id:digit}/resources/allowed", m.getGroupAllowedResources).
-		Patch("/groups/{id:digit}/resources", m.RBACFilter(id, "put-group-resources", m.patchGroupResources))
+		Patch("/groups/{id:digit}/resources", m.RBACFilter(putGroupResources, m.patchGroupResources))
 
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/info", m.getInfo).
@@ -130,20 +127,25 @@ func New(id string, s *web.Server, db *orm.DB, router *web.Router, o *config.Use
 
 	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Post("/admins/{id:digit}/super", m.postSuper).
-		Get("/admins", m.RBACFilter(id, "get-admin", m.getAdmins)).
-		Post("/admins", m.RBACFilter(id, "post-admin", m.postAdmins)).
-		Get("/admins/{id:digit}", m.RBACFilter(id, "get-admin", m.getAdmin)).
-		Patch("/admins/{id:digit}", m.RBACFilter(id, "put-admin", m.patchAdmin)).
-		Delete("/admins/{id:digit}/password", m.RBACFilter(id, "put-admin", m.deleteAdminPassword)).
-		Post("/admins/{id:digit}/locked", m.RBACFilter(id, "put-admin", m.postAdminLocked)).
-		Delete("/admins/{id:digit}/locked", m.RBACFilter(id, "put-admin", m.deleteAdminLocked)).
-		Post("/admins/{id:digit}/left", m.RBACFilter(id, "put-admin", m.postAdminLeft)).
-		Delete("/admins/{id:digit}/left", m.RBACFilter(id, "put-admin", m.deleteAdminLeft))
+		Get("/admins", m.RBACFilter(getAdmin, m.getAdmins)).
+		Post("/admins", m.RBACFilter(postAdmin, m.postAdmins)).
+		Get("/admins/{id:digit}", m.RBACFilter(getAdmin, m.getAdmin)).
+		Patch("/admins/{id:digit}", m.RBACFilter(putAdmin, m.patchAdmin)).
+		Delete("/admins/{id:digit}/password", m.RBACFilter(putAdmin, m.deleteAdminPassword)).
+		Post("/admins/{id:digit}/locked", m.RBACFilter(putAdmin, m.postAdminLocked)).
+		Delete("/admins/{id:digit}/locked", m.RBACFilter(putAdmin, m.deleteAdminLocked)).
+		Post("/admins/{id:digit}/left", m.RBACFilter(putAdmin, m.postAdminLeft)).
+		Delete("/admins/{id:digit}/left", m.RBACFilter(putAdmin, m.deleteAdminLeft))
 
 	return m, nil
 }
 
 func (m *Admin) URLPrefix() string { return m.urlPrefix }
+
+// URL 声明以 [Admin.URLPrefix] 为前缀的路径
+func (m *Admin) Router(r *web.Router, ms ...web.Middleware) *mux.PrefixOf[web.HandlerFunc] {
+	return r.Prefix(m.URLPrefix(), ms...)
+}
 
 // AuthFilter 验证是否登录
 //
@@ -161,7 +163,7 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 
 // LoginUser 获取当前登录的用户信息
 //
-// 该信息由 AuthFilter 存储在 ctx.Vars 之中。
+// 该信息由 AuthFilter 存储在 ctx.Vars() 之中。
 func (m *Admin) LoginUser(ctx *web.Context) *ModelAdmin {
 	uid, found := ctx.GetVar(adminKey)
 	if !found {
@@ -187,13 +189,18 @@ func (m *Admin) NewResourceGroup(id string, desc web.LocaleStringer) *rbac.Group
 	return m.rbac.NewGroup(id, desc)
 }
 
-// GetResourceGroup 获取已有资源分组
+// GetResourceGroup 获取指定 ID 的资源分组
 func (m *Admin) GetResourceGroup(id string) *rbac.Group { return m.rbac.Group(id) }
+
+// ResourceGroup 当前资源组
+func (m *Admin) ResourceGroup() *rbac.Group { return m.GetResourceGroup(m.id) }
 
 // RBACFilter 验证是否拥有指定的权限
 //
+// res 资源的 ID，为 [rbac.Group.NewResource] 的返回值；
+//
 // NOTE: 需要 [Admin.AuthFilter] 作为前置条件，用到了其产生的 "admin" 变量。
-func (m *Admin) RBACFilter(mod string, res string, next web.HandlerFunc) web.HandlerFunc {
+func (m *Admin) RBACFilter(res string, next web.HandlerFunc) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
 		u := m.LoginUser(ctx)
 		if u == nil {
@@ -203,19 +210,19 @@ func (m *Admin) RBACFilter(mod string, res string, next web.HandlerFunc) web.Han
 		if u.Super {
 			return next(ctx)
 		}
-		return m.rbac.Filter(u.ID, mod, res, next)(ctx)
+		return m.rbac.Filter(u.ID, res, next)(ctx)
 	}
 }
 
-// IsAllowChangeGroup 是否允许当前登录用户将角色 groups 赋予其它用户
+// IsAllowChangeRole 是否允许当前登录用户将角色赋予其它用户
 //
 // 除超级用户之外，其它任何人只能应用自己当前角色或是子角色给其它用户。
-func (m *Admin) IsAllowChangeGroup(ctx *web.Context, groups types.SliceOf[int64]) (bool, error) {
+func (m *Admin) IsAllowChangeRole(ctx *web.Context, roles types.SliceOf[int64]) (bool, error) {
 	curr := m.LoginUser(ctx)
 	if curr.Super {
 		return true, nil
 	}
-	return m.rbac.IsAllowRoles(curr.ID, groups)
+	return m.rbac.IsAllowRoles(curr.ID, roles)
 }
 
 func (m *Admin) AddSecurityLog(uid int64, content, ip, ua string) error {

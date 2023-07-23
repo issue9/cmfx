@@ -4,19 +4,28 @@
 package filters
 
 import (
-	"github.com/issue9/filter/sanitizer"
 	"github.com/issue9/filter/validator"
 	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/locales"
 )
 
-var (
-	// Strength 密码强度规则
-	Strength = filter.New(filter.NewRule(validator.Strength(8, 1, 0, 1), locales.StrengthInvalid), sanitizer.Trim)
+func NilOr[T any](v filter.ValidatorFuncOf[T]) filter.FilterFuncOf[T] {
+	return filter.NewFromVS(locales.InvalidValue, validator.NilOr(v))
+}
 
-	// Avatar 头像验证规则，可以为空或是 URL
-	Avatar = filter.New(filter.NewRule(validator.Or(validator.URL, validator.Zero[string]), locales.InvalidValue), sanitizer.Trim)
+func Nil[T any]() filter.FilterFuncOf[T] {
+	return filter.NewFromVS(locales.MustBeEmpty, validator.Zero[T])
+}
 
-	RequiredString = filter.New(filter.NewRule(validator.Not(validator.Zero[string]), locales.Required))
-)
+func Required[T any]() filter.FilterFuncOf[T] {
+	return filter.NewFromVS(locales.Required, validator.Not(validator.Zero[T]))
+}
+
+func Equal[T comparable](v T) filter.FilterFuncOf[T] {
+	return filter.NewFromVS(locales.InvalidValue, validator.Equal(v))
+}
+
+func NotEqual[T comparable](v T) filter.FilterFuncOf[T] {
+	return filter.NewFromVS(locales.InvalidValue, validator.Not(validator.Equal(v)))
+}

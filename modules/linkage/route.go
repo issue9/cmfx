@@ -9,17 +9,19 @@ import (
 )
 
 // HandleGet 返回指定 ID 的列表
+//
+// 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandleGet(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.ParamID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
 		if resp != nil {
 			return resp
 		}
 		if id == 0 {
-			return web.OK(r.to(&r.Item))
+			return web.OK(r.Item)
 		}
 
-		c, found := r.findItem(id)
+		c, found := r.Get(id)
 		if !found {
 			return ctx.NotFound()
 		}
@@ -27,10 +29,12 @@ func (r *Root[T]) BuildHandleGet(key string) web.HandlerFunc {
 	}
 }
 
-// BuildHandlePost
+// BuildHandlePost 添加子项
+//
+// 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandlePost(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.ParamID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
 		if resp != nil {
 			return resp
 		}
@@ -47,10 +51,12 @@ func (r *Root[T]) BuildHandlePost(key string) web.HandlerFunc {
 	}
 }
 
-// HandlePut
+// HandlePut 修改子项
+//
+// 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandlePut(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.ParamID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
 		if resp != nil {
 			return resp
 		}
@@ -67,10 +73,12 @@ func (r *Root[T]) BuildHandlePut(key string) web.HandlerFunc {
 	}
 }
 
-// HandleDelete
+// HandleDelete 删除子项
+//
+// 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandleDelete(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.ParamID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
 		if resp != nil {
 			return resp
 		}

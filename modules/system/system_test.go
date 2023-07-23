@@ -15,7 +15,7 @@ func newSystem(s *test.Suite) (*System, *web.Router) {
 	mod := "test"
 	Install(s.Server, mod, s.DB())
 
-	sys, err := New(mod, s.Server, s.DB(), r, adminM)
+	sys, err := New(mod, web.Phrase("system"), s.Server, s.DB(), r, adminM)
 	s.Assertion().NotError(err).NotNil(sys)
 
 	return sys, r

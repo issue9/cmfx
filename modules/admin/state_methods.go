@@ -9,6 +9,8 @@ import (
 	"github.com/issue9/cmfx/locales"
 )
 
+// State
+
 var state2StringMap = map[State]string{
 	StateNormal: "normal",
 	StateLocked: "locked",
@@ -66,6 +68,14 @@ func StateValidator(v State) bool {
 
 var StateRule = filter.NewRule(StateValidator, locales.InvalidValue)
 
+var StateSliceRule = filter.NewSliceRules[State, []State](StateRule)
+
+var StateFilter = filter.New(StateRule)
+
+var StateSliceFilter = filter.New(StateSliceRule)
+
+// Sex
+
 var sex2StringMap = map[Sex]string{
 	SexUnknown: "unknown",
 	SexMale:    "male",
@@ -122,3 +132,9 @@ func SexValidator(v Sex) bool {
 }
 
 var SexRule = filter.NewRule(SexValidator, locales.InvalidValue)
+
+var SexSliceRule = filter.NewSliceRules[Sex, []Sex](SexRule)
+
+var SexFilter = filter.New(SexRule)
+
+var SexSliceFilter = filter.New(SexSliceRule)

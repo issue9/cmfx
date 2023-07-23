@@ -9,19 +9,7 @@
             <arg>10485760</arg><!-- 约 10M -->
         </writer>
         <writer type="term">
-            <level>fatl</level>
-            <level>erro</level>
-            <level>warn</level>
             <arg>04:05.000</arg>
-            <arg>red</arg>
-            <arg>stderr</arg>
-        </writer>
-        <writer type="term">
-            <level>info</level>
-            <level>dbug</level>
-            <level>trac</level>
-            <arg>04:05.000</arg>
-            <arg>green</arg>
             <arg>stdout</arg>
         </writer>
     </logs>

@@ -5,7 +5,7 @@ package token
 import (
 	"time"
 
-	gojwt "github.com/golang-jwt/jwt/v4"
+	gojwt "github.com/golang-jwt/jwt/v5"
 	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/web"
 )
@@ -26,23 +26,37 @@ type Claims interface {
 }
 
 type defaultClaims struct {
-	User    string `json:"iss"`
-	Expires int64  `json:"exp"` // 过期时间
-	Claims  string `json:"clm"` // 原始令牌，如果为刷新令牌，此值为关联的令牌，否则为空。
-	ID      string `json:"jti"` // 当用户快速更换令牌时，此值可以保证令牌的唯一性。
+	Created time.Time `json:"iat"`
+	User    string    `json:"iss"`
+	Expires int64     `json:"exp"` // 过期时间
+	Claims  string    `json:"clm"` // 原始令牌，如果为刷新令牌，此值为关联的令牌，否则为空。
+	ID      string    `json:"jti"` // 当用户快速更换令牌时，此值可以保证令牌的唯一性。
 }
 
-func NewClaims(s *web.Server, uid string) Claims {
-	return &defaultClaims{User: uid, ID: s.UniqueID()}
+func NewClaims(ctx *web.Context, uid string) Claims {
+	return &defaultClaims{User: uid, ID: ctx.Server().UniqueID()}
 }
 
 func BuildClaims() Claims { return &defaultClaims{} }
 
-func (c *defaultClaims) Valid() error {
-	if time.Now().After(time.Unix(c.Expires, 0)) {
-		return gojwt.NewValidationError("exp 已过期", gojwt.ValidationErrorExpired)
-	}
-	return nil
+func (c *defaultClaims) GetExpirationTime() (*gojwt.NumericDate, error) {
+	return &gojwt.NumericDate{Time: time.Unix(c.Expires, 0)}, nil
+}
+
+func (c *defaultClaims) GetIssuedAt() (*gojwt.NumericDate, error) {
+	return &gojwt.NumericDate{Time: c.Created}, nil
+}
+
+func (c *defaultClaims) GetNotBefore() (*gojwt.NumericDate, error) {
+	return nil, nil
+}
+
+func (c *defaultClaims) GetIssuer() (string, error) { return "", nil }
+
+func (c *defaultClaims) GetSubject() (string, error) { return "", nil }
+
+func (c *defaultClaims) GetAudience() (gojwt.ClaimStrings, error) {
+	return nil, nil
 }
 
 func (c *defaultClaims) UserID() string { return c.User }

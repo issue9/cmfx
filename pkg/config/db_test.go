@@ -2,6 +2,6 @@
 
 package config
 
-import "github.com/issue9/web/app"
+import "github.com/issue9/config"
 
-var _ app.ConfigSanitizer = &DB{}
+var _ config.Sanitizer = &DB{}

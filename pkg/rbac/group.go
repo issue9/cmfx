@@ -34,27 +34,23 @@ func (rbac *RBAC) NewGroup(id string, desc web.LocaleStringer) *Group {
 
 func (rbac *RBAC) Group(id string) *Group { return rbac.groups[id] }
 
-func (g *Group) addResource(id string, title web.LocaleStringer) *Group {
+// NewResource 添加一个新的资源
+//
+// id 表示资源的 ID；
+// title 为对该资源的描述；
+// 返回唯一的资源 ID，该值可用于各类接口查询中；
+func (g *Group) NewResource(id string, title web.LocaleStringer) string {
 	resID := buildResourceID(g.id, id)
 	if _, found := g.resources[resID]; found {
 		panic(fmt.Sprintf("存在同名的资源 ID %s", id))
 	}
 	g.resources[resID] = title
 	g.rbac.resources = append(g.rbac.resources, id)
-	return g
+
+	return resID
 }
 
-// AddResources 注册多个资源
-func (g *Group) AddResources(resources map[string]web.LocaleStringer) *Group {
-	for id, title := range resources {
-		g.addResource(id, title)
-	}
-	return g
-}
+// ID 资源组的 ID
+func (g *Group) ID() string { return g.id }
 
-// IsAllow 查询 uid 是否拥有访问 resID 的权限
-func (g *Group) IsAllow(uid int64, resID string) (allowed bool, err error) {
-	return g.rbac.isAllow(uid, buildResourceID(g.id, resID))
-}
-
-func buildResourceID(mod, res string) string { return mod + "_" + res }
+func buildResourceID(gid, res string) string { return gid + "_" + res }

@@ -31,7 +31,7 @@ func NewAdmin(s *test.Suite) (*admin.Admin, *web.Router) {
 	s.Assertion().NotError(o.SanitizeConfig())
 
 	r := s.NewRouter("def", nil)
-	a, err := admin.New(adminM, s.Server, s.DB(), r, o)
+	a, err := admin.New(adminM, web.Phrase("admin"), s.Server, s.DB(), r, o)
 	s.Assertion().NotError(err).NotNil(a)
 
 	return a, r

@@ -11,8 +11,8 @@ import (
 )
 
 type Item[T any] struct {
-	ID     int64 `json:"id" xml:"id,attr" yaml:"id"`
-	Data   T
+	ID     int64      `json:"id" xml:"id,attr" yaml:"id"`
+	Data   T          `json:"data" xml:"data" yaml:"data"`
 	Items  []*Item[T] `json:"items,omitempty" xml:"items,omitempty" yaml:"items,omitempty"`
 	parent int64
 }
@@ -21,12 +21,13 @@ type Item[T any] struct {
 type Root[T any] struct {
 	linkage *Linkage
 	key     string
-
-	to func(*Item[T]) any
 	Item[T]
 }
 
-func NewRoot[T any](l *Linkage, key string, to func(*Item[T]) any) *Root[T] {
+// NewRoot 声明联动数据
+//
+// T 为每个数据的类型，此值必须实现 json.Unmarshal 接口；
+func NewRoot[T any](l *Linkage, key string) *Root[T] {
 	return &Root[T]{
 		linkage: l,
 		key:     key,
@@ -47,6 +48,10 @@ func (r *Root[T]) Load() error {
 	// 转换成 []*Item[T]
 	items := make([]*Item[T], 0, len(mods))
 	for _, item := range mods {
+		if item.Data == nil {
+			continue
+		}
+
 		var data T
 		if err := unmarshal(item.Data, &data); err != nil {
 			return err
@@ -88,11 +93,11 @@ func (r *Root[T]) Delete(id int64) error {
 		return ErrNotFound()
 	}
 
-	item, found := r.findItem(id)
+	item, found := r.Get(id)
 	if !found {
 		return ErrNotFound()
 	}
-	p, found := r.findItem(item.parent)
+	p, found := r.Get(item.parent)
 	if !found {
 		return ErrNotFound()
 	}
@@ -102,7 +107,7 @@ func (r *Root[T]) Delete(id int64) error {
 		return err
 	}
 
-	p.Items = sliceutil.Delete(p.Items, func(i *Item[T]) bool { return i.ID == id })
+	p.Items = sliceutil.Delete(p.Items, func(i *Item[T], _ int) bool { return i.ID == id })
 
 	return nil
 }
@@ -116,7 +121,7 @@ func (r *Root[T]) Update(id int64, val T) error {
 		id = r.ID
 	}
 
-	item, found := r.findItem(id)
+	item, found := r.Get(id)
 	if !found {
 		return ErrNotFound()
 	}
@@ -142,12 +147,12 @@ func (r *Root[T]) Update(id int64, val T) error {
 //
 // id 表示上一级数据项的 ID，可以是 [Root.Items] 下的任意层级数据。
 // 如果 id 为零值，那么将被添加根元素之下。
-func (r *Root[T]) Add(parent int64, val T) error {
+func (r *Root[T]) Add(parent int64, val ...T) error {
 	if parent == 0 {
 		parent = r.ID
 	}
 
-	item, found := r.findItem(parent)
+	item, found := r.Get(parent)
 	if !found {
 		return ErrNotFound()
 	}
@@ -166,16 +171,18 @@ func (r *Root[T]) Add(parent int64, val T) error {
 		return err
 	}
 
-	item.Items = append(item.Items, &Item[T]{
-		ID:     id,
-		Data:   val,
-		parent: parent,
-	})
+	for _, v := range val {
+		item.Items = append(item.Items, &Item[T]{
+			ID:     id,
+			Data:   v,
+			parent: parent,
+		})
+	}
 
 	return nil
 }
 
-func (r *Root[T]) findItem(id int64) (current *Item[T], found bool) {
+func (r *Root[T]) Get(id int64) (current *Item[T], found bool) {
 	return findItem(&r.Item, id)
 }
 

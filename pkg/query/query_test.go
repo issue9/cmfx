@@ -7,7 +7,10 @@ import (
 	"time"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/web"
 )
+
+var _ web.QueryUnmarshaler = &DateRange{}
 
 func TestDateRange(t *testing.T) {
 	a := assert.New(t, false)

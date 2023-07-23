@@ -6,10 +6,10 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v3"
-	"github.com/issue9/web/app"
+	"github.com/issue9/config"
 )
 
-var _ app.ConfigSanitizer = &User{}
+var _ config.Sanitizer = &User{}
 
 func TestUser_SanitizeConfig(t *testing.T) {
 	a := assert.New(t, false)
