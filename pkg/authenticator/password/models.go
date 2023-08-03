@@ -17,7 +17,7 @@ type modelPassword struct {
 	Password []byte `orm:"name(password);len(64)"`
 }
 
-func (p *modelPassword) TableName() string { return `_passwords` }
+func (p *modelPassword) TableName() string { return `_auth_passwords` }
 
 func (p *modelPassword) BeforeInsert() error {
 	p.Created = time.Now()

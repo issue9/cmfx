@@ -6,6 +6,7 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -38,7 +39,7 @@ func TestRBAC_Link_IsAllow(t *testing.T) {
 	// Link 不存在的角色
 	tx, err = suite.DB().Begin()
 	a.NotError(err).NotNil(tx)
-	a.ErrorString(inst.Link(tx, 1, id, id2, 10001), "并不存在")
+	a.Equal(inst.Link(tx, 1, id, id2, 10001).Error(), web.NewLocaleError("role %d not found", 10001).Error())
 	a.NotError(tx.Commit())
 	a.Empty(inst.users[1])
 
@@ -71,7 +72,7 @@ func TestRBAC_Link_IsAllow(t *testing.T) {
 	// Unlink 不存在的角色
 	tx, err = suite.DB().Begin()
 	a.NotError(err).NotNil(tx)
-	a.ErrorString(inst.Unlink(tx, 1, id, id2, 10001), "并不存在")
+	a.Equal(inst.Unlink(tx, 1, id, id2, 10001).Error(), web.NewLocaleError("role %d not found", 10001).Error())
 	a.NotError(tx.Commit())
 	a.Equal(inst.users[1], []int64{id, id2})
 

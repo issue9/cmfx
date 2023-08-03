@@ -5,7 +5,6 @@ package password
 
 import (
 	"errors"
-	"fmt"
 
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
@@ -94,7 +93,7 @@ func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 		return err
 	}
 	if !found {
-		return fmt.Errorf("用户 %d 不存在", uid)
+		return web.NewLocaleError("user %s not found", uid)
 	}
 
 	err = bcrypt.CompareHashAndPassword(pp.Password, []byte(old))

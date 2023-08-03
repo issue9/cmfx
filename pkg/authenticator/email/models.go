@@ -19,7 +19,7 @@ type modelEmail struct {
 	UID      int64        `orm:"name(uid);nullable;unique(uid)"`     // 关联的 UID，可以为空
 }
 
-func (l *modelEmail) TableName() string { return `auth_emails` }
+func (l *modelEmail) TableName() string { return `_auth_emails` }
 
 func (l *modelEmail) BeforeInsert() error {
 	l.ID = 0

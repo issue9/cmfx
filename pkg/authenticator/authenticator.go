@@ -4,7 +4,6 @@
 package authenticator
 
 import (
-	"errors"
 	"fmt"
 	"time"
 
@@ -13,9 +12,8 @@ import (
 )
 
 var (
-	ErrExists = errors.New("user already exists")
-
-	ErrUnauthorized = errors.New("unauthorized")
+	ErrExists       = web.NewLocaleError("user already exists")
+	ErrUnauthorized = web.NewLocaleError("unauthorized")
 )
 
 // Authenticators 验证器管理
@@ -80,6 +78,8 @@ func (a *Authenticators) Register(id string, auth Authenticator, name web.Locale
 // Valid 验证账号密码
 //
 // id 表示通过 [Authenticators.Register] 注册验证器时的 id；
+//
+// 返回参数同 [Authenticator.Valid]
 func (a *Authenticators) Valid(id, identity, password string) (int64, string, bool) {
 	if info, found := a.authenticators[id]; found {
 		uid, ident, ok := info.auth.Valid(identity, password)

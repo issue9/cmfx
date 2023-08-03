@@ -14,7 +14,7 @@ type modelOAuth struct {
 	Identity string    `orm:"name(identity);len(32);unique(identity)"`
 }
 
-func (p *modelOAuth) TableName() string { return `_oauth` }
+func (p *modelOAuth) TableName() string { return `_auth_oauth2` }
 
 func (p *modelOAuth) BeforeInsert() error {
 	p.Created = time.Now()

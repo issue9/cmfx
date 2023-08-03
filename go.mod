@@ -14,7 +14,7 @@ require (
 	github.com/issue9/orm/v5 v5.1.0
 	github.com/issue9/sliceutil v0.14.0
 	github.com/issue9/source v0.5.1
-	github.com/issue9/web v0.78.1
+	github.com/issue9/web v0.79.1
 	github.com/mattn/go-sqlite3 v1.14.17
 	golang.org/x/crypto v0.11.0
 	golang.org/x/oauth2 v0.10.0
@@ -29,7 +29,7 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
 	github.com/issue9/conv v1.3.4 // indirect
-	github.com/issue9/localeutil v0.20.0 // indirect
+	github.com/issue9/localeutil v0.20.1 // indirect
 	github.com/issue9/logs/v5 v5.0.0 // indirect
 	github.com/issue9/query/v3 v3.1.2 // indirect
 	github.com/issue9/rands/v2 v2.0.0 // indirect

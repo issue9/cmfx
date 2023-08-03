@@ -1,0 +1,203 @@
+id: und
+messages:
+    - key: admin
+      message:
+        msg: admin
+    - key: auth id gc
+      message:
+        msg: auth id gc
+    - key: bad request
+      message:
+        msg: bad request
+    - key: bad request invalid body
+      message:
+        msg: bad request invalid body
+    - key: bad request invalid body detail
+      message:
+        msg: bad request invalid body detail
+    - key: bad request invalid header
+      message:
+        msg: bad request invalid header
+    - key: bad request invalid header detail
+      message:
+        msg: bad request invalid header detail
+    - key: bad request invalid param
+      message:
+        msg: bad request invalid param
+    - key: bad request invalid param detail
+      message:
+        msg: bad request invalid param detail
+    - key: bad request invalid query
+      message:
+        msg: bad request invalid query
+    - key: bad request invalid query detail
+      message:
+        msg: bad request invalid query detail
+    - key: can not do it for super
+      message:
+        msg: can not do it for super
+    - key: can not do it for super detail
+      message:
+        msg: can not do it for super detail
+    - key: delete groups
+      message:
+        msg: delete groups
+    - key: edit groups
+      message:
+        msg: edit groups
+    - key: forbidden
+      message:
+        msg: forbidden
+    - key: forbidden can not delete yourself
+      message:
+        msg: forbidden can not delete yourself
+    - key: forbidden can not delete yourself detail
+      message:
+        msg: forbidden can not delete yourself detail
+    - key: forbidden detail
+      message:
+        msg: forbidden detail
+    - key: forbidden state not allow
+      message:
+        msg: forbidden state not allow
+    - key: forbidden state not allow detail
+      message:
+        msg: forbidden state not allow detail
+    - key: get admins
+      message:
+        msg: get admins
+    - key: group not exists
+      message:
+        msg: group not exists
+    - key: identity registrable
+      message:
+        msg: identity registrable
+    - key: identity registrable detail
+      message:
+        msg: identity registrable detail
+    - key: invalid format
+      message:
+        msg: invalid format
+    - key: invalid url format
+      message:
+        msg: invalid url format
+    - key: must be empty
+      message:
+        msg: must be empty
+    - key: must be greater than %d
+      message:
+        msg: must be greater than %d
+    - key: must be less than %d
+      message:
+        msg: must be less than %d
+    - key: only for super
+      message:
+        msg: only for super
+    - key: only for super detail
+      message:
+        msg: only for super detail
+    - key: password mode
+      message:
+        msg: password mode
+    - key: post admins
+      message:
+        msg: post admins
+    - key: post groups
+      message:
+        msg: post groups
+    - key: put admin
+      message:
+        msg: put admin
+    - key: put groups resources
+      message:
+        msg: put groups resources
+    - key: 'rbac: 未找到 %d 的父角色 %d'
+      message:
+        msg: 'rbac: 未找到 %d 的父角色 %d'
+    - key: 'rbac: 角色 %d 只能继承父角色 %d 的资源'
+      message:
+        msg: 'rbac: 角色 %d 只能继承父角色 %d 的资源'
+    - key: 'rbac: 请先设置父角色 %d 的资源'
+      message:
+        msg: 'rbac: 请先设置父角色 %d 的资源'
+    - key: required
+      message:
+        msg: required
+    - key: role %d not found
+      message:
+        msg: role %d not found
+    - key: same of new and old password
+      message:
+        msg: same of new and old password
+    - key: strength invalid
+      message:
+        msg: strength invalid
+    - key: system
+      message:
+        msg: system
+    - key: the value not in candidate
+      message:
+        msg: the value not in candidate
+    - key: token gc
+      message:
+        msg: token gc
+    - key: unauthorized
+      message:
+        msg: unauthorized
+    - key: unauthorized detail
+      message:
+        msg: unauthorized detail
+    - key: unauthorized invalid account
+      message:
+        msg: unauthorized invalid account
+    - key: unauthorized invalid account detail
+      message:
+        msg: unauthorized invalid account detail
+    - key: unauthorized invalid password
+      message:
+        msg: unauthorized invalid password
+    - key: unauthorized invalid password detail
+      message:
+        msg: unauthorized invalid password detail
+    - key: unauthorized invalid state
+      message:
+        msg: unauthorized invalid state
+    - key: unauthorized invalid state detail
+      message:
+        msg: unauthorized invalid state detail
+    - key: unauthorized invalid token
+      message:
+        msg: unauthorized invalid token
+    - key: unauthorized invalid token detail
+      message:
+        msg: unauthorized invalid token detail
+    - key: unauthorized need change password
+      message:
+        msg: unauthorized need change password
+    - key: unauthorized need change password detail
+      message:
+        msg: unauthorized need change password detail
+    - key: user %[1]d has access %[2]s because of %[3]d
+      message:
+        msg: user %[1]d has access %[2]s because of %[3]d
+    - key: user already exists
+      message:
+        msg: user already exists
+    - key: view apis
+      message:
+        msg: view apis
+    - key: view services
+      message:
+        msg: view services
+    - key: view system info
+      message:
+        msg: view system info
+    - key: 父角色 %d 不存在
+      message:
+        msg: 父角色 %d 不存在
+    - key: 角色 %d 是角色 %d 的父类，不能删除
+      message:
+        msg: 角色 %d 是角色 %d 的父类，不能删除
+    - key: 角色还包含了用户 %d，不能被删除！
+      message:
+        msg: 角色还包含了用户 %d，不能被删除！
