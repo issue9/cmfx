@@ -7,7 +7,6 @@ import (
 	"strings"
 
 	gojwt "github.com/golang-jwt/jwt/v5"
-	"github.com/issue9/middleware/v6/jwt"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
@@ -139,8 +138,8 @@ func (alg *Algorithm) sanitize() *web.FieldError {
 }
 
 // NewTokens 从配置中生成 tokens 对象
-func NewTokens[T token.Claims](u *User, s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], jobTitle web.LocaleStringer) (*token.Tokens[T], error) {
-	tks, err := token.NewTokens(s, mod, db, bc, u.AccessExpires, u.RefreshExpires, jobTitle)
+func NewTokens(u *User, s *web.Server, mod string, db *orm.DB, jobTitle web.LocaleStringer) (*token.Tokens, error) {
+	tks, err := token.NewTokens(s, mod, db, u.AccessExpires, u.RefreshExpires, jobTitle)
 	if err != nil {
 		return nil, err
 	}

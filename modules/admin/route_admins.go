@@ -365,11 +365,11 @@ func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Respo
 
 	// 非正常状态，则要注销该用户的登录
 	if state != StateNormal {
-		if err := m.tokenServer.BlockUID(formatUID(a.ID)); err != nil {
+		if err := m.tokenServer.BlockUID(strconv.FormatInt(a.ID, 10)); err != nil {
 			ctx.Logs().ERROR().Error(err)
 		}
 	} else {
-		if err := m.tokenServer.RecoverUID(formatUID(a.ID)); err != nil {
+		if err := m.tokenServer.RecoverUID(strconv.FormatInt(a.ID, 10)); err != nil {
 			ctx.Logs().ERROR().Error(err)
 		}
 	}

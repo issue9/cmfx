@@ -37,7 +37,7 @@ func TestPassword(t *testing.T) {
 	a.False(ok).Equal(identity, "").Equal(uid, 0)
 
 	// Change
-	a.ErrorString(p.Change(nil, 1025, "1024", "1024"), "不存在")
+	a.ErrorString(p.Change(nil, 1025, "1024", "1024"), "not found")
 	a.ErrorIs(p.Change(nil, 1024, "1025", "1024"), authenticator.ErrUnauthorized)
 	a.NotError(p.Change(nil, 1024, "1024", "1025"))
 	uid, identity, ok = p.Valid("1024", "1025")

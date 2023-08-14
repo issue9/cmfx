@@ -4,11 +4,13 @@ package admin
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/filters"
+	"github.com/issue9/cmfx/pkg/token"
 )
 
 type cert struct {
@@ -61,7 +63,7 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 
 	m.loginEvent.Publish(false, a.ID)
 
-	return m.tokenServer.New(ctx, http.StatusCreated, newClaims(a.ID))
+	return m.tokenServer.New(ctx, http.StatusCreated, token.NewClaims(ctx, strconv.FormatInt(a.ID, 10)))
 }
 
 // # api delete /login 注销当前管理员的登录
@@ -94,11 +96,15 @@ func (m *Admin) getToken(ctx *web.Context) web.Responser {
 			return ctx.InternalServerError(err)
 		}
 
-		if err := m.securitylog.AddWithContext(xx.UID, ctx, "刷新令牌"); err != nil {
+		uid, err := strconv.ParseInt(xx.User, 10, 64)
+		if err != nil {
+			return ctx.InternalServerError(err)
+		}
+		if err := m.securitylog.AddWithContext(uid, ctx, "刷新令牌"); err != nil {
 			ctx.Server().Logs().ERROR().Error(err)
 		}
 
-		return m.tokenServer.New(ctx, http.StatusCreated, newClaims(xx.UID))
+		return m.tokenServer.New(ctx, http.StatusCreated, token.NewClaims(ctx, xx.User))
 	}
 	return web.Status(http.StatusUnauthorized)
 }

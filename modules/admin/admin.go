@@ -46,7 +46,7 @@ type Admin struct {
 
 	auth        *authenticator.Authenticators
 	password    *password.Password
-	tokenServer *token.Tokens[*claims]
+	tokenServer *token.Tokens
 	rbac        *rbac.RBAC
 
 	securitylog *securitylog.SecurityLog
@@ -68,7 +68,7 @@ func New(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB, router *
 		return nil, web.NewStackError(err)
 	}
 
-	tks, err := config.NewTokens(o, s, id, db, buildClaims, web.StringPhrase("token gc"))
+	tks, err := config.NewTokens(o, s, id, db, web.StringPhrase("token gc"))
 	if err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 		if !found {
 			return web.Status(http.StatusUnauthorized)
 		}
-		ctx.SetVar(adminKey, c.UID)
+		ctx.SetVar(adminKey, c.User)
 		return next(ctx)
 	})
 }

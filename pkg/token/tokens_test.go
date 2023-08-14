@@ -18,7 +18,7 @@ import (
 	"github.com/issue9/cmfx/pkg/test"
 )
 
-var _ web.Middleware = &Tokens[*defaultClaims]{}
+var _ web.Middleware = &Tokens{}
 
 func TestTokens_loadData_and_scanJob(t *testing.T) {
 	a := assert.New(t, false)
@@ -41,14 +41,14 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	}...)
 	a.NotError(err)
 
-	tks, err := NewTokens(suite.Server, m, suite.DB(), BuildClaims, 60, 0, web.Phrase("job"))
+	tks, err := NewTokens(suite.Server, m, suite.DB(), 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks).
 		False(tks.TokenIsBlocked("1")).
 		True(tks.TokenIsBlocked("2")).
 		False(tks.TokenIsBlocked("not-exists")).
-		False(tks.ClaimsIsBlocked(&defaultClaims{User: "1"})).
-		True(tks.ClaimsIsBlocked(&defaultClaims{User: "2"})).
-		False(tks.ClaimsIsBlocked(&defaultClaims{User: "1000"}))
+		False(tks.ClaimsIsBlocked(&Claims{User: "1"})).
+		True(tks.ClaimsIsBlocked(&Claims{User: "2"})).
+		False(tks.ClaimsIsBlocked(&Claims{User: "1000"}))
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 
 	// 此时数据库里数据依然是各两条，AddTicker 的 imm 为 false，不会立即执行。
@@ -75,7 +75,7 @@ func TestTokens_New(t *testing.T) {
 	Install(suite.Server, m, suite.DB())
 	r := suite.NewRouter("def", nil)
 
-	tks, err := NewTokens(suite.Server, m, suite.DB(), BuildClaims, 60, 0, web.Phrase("job"))
+	tks, err := NewTokens(suite.Server, m, suite.DB(), 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks)
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
@@ -94,13 +94,13 @@ func TestTokens_New(t *testing.T) {
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
 				return ctx.InternalServerError(err)
 			}
-			return tks.New(ctx, http.StatusCreated, NewClaims(ctx, xx.UserID()))
+			return tks.New(ctx, http.StatusCreated, NewClaims(ctx, xx.User))
 		}
 		return web.Status(http.StatusUnauthorized)
 	}))
 
 	r.Get("/info", tks.Middleware(func(ctx *web.Context) web.Responser {
-		if xx, found := tks.GetValue(ctx); found && xx.UserID() == "1" {
+		if xx, found := tks.GetValue(ctx); found && xx.User == "1" {
 			return web.OK(nil)
 		}
 		return web.Status(http.StatusUnauthorized)

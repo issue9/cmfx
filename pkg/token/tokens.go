@@ -13,8 +13,8 @@ import (
 )
 
 // Tokens 令牌管理
-type Tokens[T Claims] struct {
-	*jwt.JWT[T]
+type Tokens struct {
+	*jwt.JWT[*Claims]
 
 	log web.Logger
 
@@ -30,14 +30,14 @@ type Tokens[T Claims] struct {
 // expires 表示 token 的过期时间，单位为秒；
 // refreshes 表示刷新令牌的过期时间，单位为秒，如果为 0 则采用用 expires * 2 作为默认值；
 // jobTitle 表示后台回收 token 服务的显示名称；
-func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClaimsFunc[T], expires, refreshes int, jobTitle web.LocaleStringer) (*Tokens[T], error) {
+func NewTokens(s *web.Server, mod string, db *orm.DB, expires, refreshes int, jobTitle web.LocaleStringer) (*Tokens, error) {
 	if refreshes == 0 {
 		refreshes = expires * 2
 	}
 
 	expired := time.Duration(expires) * time.Second
 	refreshed := time.Duration(refreshes) * time.Second
-	tks := &Tokens[T]{
+	tks := &Tokens{
 		log: s.Logs().ERROR(),
 
 		cache:          cache.Prefix(s.Cache(), mod+"_"),
@@ -46,7 +46,7 @@ func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClai
 		dbPrefix: orm.Prefix(mod),
 		db:       db,
 	}
-	tks.JWT = jwt.New[T](tks, bc, expired, refreshed, nil)
+	tks.JWT = jwt.New[*Claims](tks, buildClaims, expired, refreshed, nil)
 
 	if err := tks.loadData(); err != nil {
 		return nil, err
@@ -57,7 +57,7 @@ func NewTokens[T Claims](s *web.Server, mod string, db *orm.DB, bc jwt.BuildClai
 	return tks, nil
 }
 
-func (tks *Tokens[T]) loadData() error {
+func (tks *Tokens) loadData() error {
 	now := time.Now()
 	e := tks.dbPrefix.DB(tks.db)
 
@@ -90,7 +90,7 @@ func (tks *Tokens[T]) loadData() error {
 	return nil
 }
 
-func (tks *Tokens[T]) scanJob(now time.Time) error {
+func (tks *Tokens) scanJob(now time.Time) error {
 	e := tks.dbPrefix.DB(tks.db)
 
 	if _, err := e.Where("expired<?", now).Delete(&blockedToken{}); err != nil {
@@ -101,18 +101,18 @@ func (tks *Tokens[T]) scanJob(now time.Time) error {
 	return web.NewStackError(err)
 }
 
-func (tks *Tokens[T]) TokenIsBlocked(token string) bool {
+func (tks *Tokens) TokenIsBlocked(token string) bool {
 	return tks.cache.Exists(token)
 }
 
-func (tks *Tokens[T]) ClaimsIsBlocked(c T) bool {
-	return tks.cache.Exists(c.UserID())
+func (tks *Tokens) ClaimsIsBlocked(c *Claims) bool {
+	return tks.cache.Exists(c.User)
 }
 
 // BlockToken 丢弃令牌
 //
 // 时长为 New 中传递的 expired 的两倍。
-func (tks *Tokens[T]) BlockToken(token string) error {
+func (tks *Tokens) BlockToken(token string) error {
 	e := tks.dbPrefix.DB(tks.db)
 	_, err := e.Insert(&blockedToken{Token: token, Expired: time.Now().Add(tks.blockerExpired)})
 	if err != nil {
@@ -121,7 +121,7 @@ func (tks *Tokens[T]) BlockToken(token string) error {
 	return tks.blockCacheToken(token)
 }
 
-func (tks *Tokens[T]) blockCacheToken(token string) error {
+func (tks *Tokens) blockCacheToken(token string) error {
 	if tks.cache.Exists(token) {
 		if err := tks.cache.Delete(token); err != nil {
 			return web.NewStackError(err)
@@ -135,7 +135,7 @@ func (tks *Tokens[T]) blockCacheToken(token string) error {
 //
 // 时长为 New 中传递的 expires 的两倍。
 // 包括后续生成的令牌，一般用于禁止用户登录等操作。
-func (tks *Tokens[T]) BlockUID(uid string) error {
+func (tks *Tokens) BlockUID(uid string) error {
 	e := tks.dbPrefix.DB(tks.db)
 	_, err := e.Insert(&discardUser{UserID: uid, Expired: time.Now().Add(tks.blockerExpired)})
 	if err != nil {
@@ -144,7 +144,7 @@ func (tks *Tokens[T]) BlockUID(uid string) error {
 	return tks.blockCacheUID(uid)
 }
 
-func (tks *Tokens[T]) blockCacheUID(uid string) error {
+func (tks *Tokens) blockCacheUID(uid string) error {
 	if tks.cache.Exists(uid) {
 		if err := tks.cache.Delete(uid); err != nil {
 			return web.NewStackError(err)
@@ -155,7 +155,7 @@ func (tks *Tokens[T]) blockCacheUID(uid string) error {
 }
 
 // RecoverUID 恢复该用户的登录权限
-func (tks *Tokens[T]) RecoverUID(uid string) error {
+func (tks *Tokens) RecoverUID(uid string) error {
 	e := tks.dbPrefix.DB(tks.db)
 	_, err := e.Delete(&discardUser{UserID: uid})
 	if err != nil {
@@ -164,7 +164,7 @@ func (tks *Tokens[T]) RecoverUID(uid string) error {
 	return tks.recoverCacheUID(uid)
 }
 
-func (tks *Tokens[T]) recoverCacheUID(uid string) error {
+func (tks *Tokens) recoverCacheUID(uid string) error {
 	return web.NewStackError(tks.cache.Delete(uid))
 }
 
@@ -172,6 +172,6 @@ func (tks *Tokens[T]) recoverCacheUID(uid string) error {
 //
 // access 普通的访问令牌；
 // refresh 刷新令牌；
-func (tks *Tokens[T]) New(ctx *web.Context, status int, access T) web.Responser {
+func (tks *Tokens) New(ctx *web.Context, status int, access *Claims) web.Responser {
 	return tks.Render(ctx, status, access)
 }
