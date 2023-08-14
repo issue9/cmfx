@@ -1,6 +1,16 @@
 // SPDX-License-Identifier: MIT
 
+// Package cmfx 基于 <https://github.com/issue9/web> 框架的一些通用模块
 package cmfx
+
+// # restdoc cmfx 文档
+//
+// @media application/json application/xml
+// @tag admin 管理员端
+// @tag rbac RBAC
+// @openapi github.com/issue9/web@v0.79.4 misc/openapi.yaml
+// @resp 4XX * #/components/schemas/github.com.issue9.web.Problem
+// @resp 5XX * #/components/schemas/github.com.issue9.web.Problem
 
 import (
 	"fmt"

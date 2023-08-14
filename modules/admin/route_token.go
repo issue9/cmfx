@@ -22,26 +22,10 @@ func (c *cert) CTXFilter(v *web.FilterProblem) {
 		AddFilter(filters.RequiredString("password", &c.Password))
 }
 
-// <api method="POST" summary="管理员登录">
-// <path path="/login" />
-// <server>admin</server>
-// <tag>admin</tag>
-// <tag>auth</tag>
-// <request type="object" name="login">
-//
-//	<param name="username" type="string" summary="用户名" />
-//	<param name="password" type="string" summary="密码" />
-//
-// </request>
-// <response status="201" type="object">
-//
-//	<param name="uid" type="number" summary="用户 ID" />
-//	<param name="expires" type="number" summary="过期时间，单位秒" />
-//	<param name="access_token" type="string" summary="AccessToken" />
-//	<param name="refresh_token" type="string" summary="RefreshToken" />
-//
-// </response>
-// </api>
+// # API POST /login 管理员登录
+// @tag admin auth
+// @req * cert
+// @resp 201 * github.com/issue9/middleware/v6/jwt.Response
 func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	data := &cert{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
@@ -54,7 +38,7 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
 
-	a := &ModelAdmin{ID: uid}
+	a := &modelAdmin{ID: uid}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -80,13 +64,9 @@ func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	return m.tokenServer.New(ctx, http.StatusCreated, newClaims(a.ID))
 }
 
-// <api method="DELETE" summary="注销当前管理员的登录">
-// <path path="/login" />
-// <server>admin</server>
-// <tag>admin</tag>
-// <tag>auth</tag>
-// <response status="204" />
-// </api>
+// # api delete /login 注销当前管理员的登录
+// @tag admin auth
+// @resp 204 * {}
 func (m *Admin) deleteLogin(ctx *web.Context) web.Responser {
 	if err := m.tokenServer.BlockToken(m.tokenServer.GetToken(ctx)); err != nil {
 		ctx.Server().Logs().ERROR().Error(err)
@@ -98,23 +78,9 @@ func (m *Admin) deleteLogin(ctx *web.Context) web.Responser {
 	return web.Status(http.StatusNoContent, "Clear-Site-Data", `"cookies", "storage"`)
 }
 
-// <api method="get" summary="续定 token">
-//
-//	<server>admin</server>
-//	<tag>auth</tag>
-//	<tag>admin</tag>
-//	<path path="/token" />
-//	<request>
-//	    <header name="Authorization" type="string" summary="登录凭证 token" />
-//	</request>
-//	<response status="201" type="object">
-//	    <param name="uid" type="number" summary="用户 ID" />
-//	    <param name="expires" type="number" summary="过期时间，单位秒" />
-//	    <param name="access_token" type="string" summary="AccessToken" />
-//	    <param name="refresh_token" type="string" summary="refreshToken" />
-//	</response>
-//
-// </api>
+// # api get /token 续定 token
+// @tag admin auth
+// @resp 201 * github.com/issue9/middleware/v6/jwt.Response
 func (m *Admin) getToken(ctx *web.Context) web.Responser {
 	if xx, found := m.tokenServer.GetValue(ctx); found {
 		if xx.BaseToken() == "" {

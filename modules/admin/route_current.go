@@ -13,25 +13,9 @@ import (
 	"github.com/issue9/cmfx/pkg/filters"
 )
 
-// <api method="GET" summary="获取当前登用户的信息">
-//
-//	<path path="/info" />
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<response status="200" type="object">
-//	    <param name="id" type="number" summary="用户 ID" />
-//	    <param name="username" type="string" summary="登录账号" />
-//	    <param name="state" type="string" summary="状态值">
-//	        <enum value="normal" summary="正常" />
-//	        <enum value="locked" summary="锁定" />
-//	        <enum value="left" summary="离职" />
-//	    </param>
-//	    <param name="name" type="string" summary="真实姓名" />
-//	    <param name="nickname" type="string" summary="姓名" />
-//	    <param name="super" type="bool" summary="是否为超级管理员" />
-//	</response>
-//
-// </api>
+// # api get /info 获取当前登用户的信息
+// @tag admin
+// @resp 200 * ModelAdmin
 func (m *Admin) getInfo(ctx *web.Context) web.Responser {
 	return web.OK(m.LoginUser(ctx))
 }
@@ -47,19 +31,10 @@ func (i *info) CTXFilter(v *web.FilterProblem) {
 		AddFilter(filters.Avatar("avatar", &i.Avatar))
 }
 
-// <api method="patch" summary="更新当前登用户的信息">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/info" />
-//	<request type="object">
-//	    <header name="Authorization" type="string" summary="登录凭证 token" />
-//	     <param name="nickname" type="string" summary="昵称" />
-//	     <param name="avatar" type="string" summary="头像" />
-//	</request>
-//	<response status="204" summary="修改成功" />
-//
-// </api>
+// # api patch /info 更新当前登用户的信息
+// @tag admin
+// @req * info
+// @resp 204 * {}
 func (m *Admin) patchInfo(ctx *web.Context) web.Responser {
 	data := &info{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
@@ -68,7 +43,7 @@ func (m *Admin) patchInfo(ctx *web.Context) web.Responser {
 
 	a := m.LoginUser(ctx)
 
-	_, err := m.dbPrefix.DB(m.db).Update(&ModelAdmin{
+	_, err := m.dbPrefix.DB(m.db).Update(&modelAdmin{
 		ID:       a.ID,
 		Nickname: data.Nickname,
 		Avatar:   data.Avatar,
@@ -89,25 +64,16 @@ type pwd struct {
 }
 
 func (p *pwd) CTXFilter(v *web.FilterProblem) {
-	same := filter.NewRule(func(s string) bool { return s == p.Old }, web.Phrase("same of new and old password"))
+	same := filter.NewRule(func(s string) bool { return s == p.Old }, web.StringPhrase("same of new and old password"))
 	v.AddFilter(filters.RequiredString("old", &p.Old)).
 		AddFilter(filters.RequiredString("new", &p.New)).
 		AddFilter(filter.New(same)("new", &p.New))
 }
 
-// <api method="PUT" summary="当前登录用户修改自己的密码">
-//
-//	<server>admin</server>
-//	<tag>auth</tag>
-//	<tag>admin</tag>
-//	<path path="/password" />
-//	<request type="object">
-//	    <param name="old" type="string" summary="旧密码" />
-//	    <param name="new" type="string" summary="新密码" />
-//	</request>
-//	<response status="204" />
-//
-// </api>
+// # api put /password 当前登录用户修改自己的密码
+// @tag admin
+// @req * pwd
+// @resp 204 * {}
 func (m *Admin) putCurrentPassword(ctx *web.Context) web.Responser {
 	data := &pwd{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
@@ -131,25 +97,10 @@ func (m *Admin) putCurrentPassword(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-// <api method="GET" summary="当前用户的安全操作记录">
-//
-//	<path path="/securitylog">
-//	    <query name="size" type="number" default="20" summary="每页数量" />
-//	    <query name="page" type="number" default="0" summary="页码，起始页 0" />
-//	    <query name="text" type="string" summary="搜索文本内容" />
-//	    <query name="created" type="string" summary="时间" />
-//	</path>
-//	<response status="200" type="object">
-//	    <param name="count" type="number" summary="总数量" />
-//	    <param name="logs" type="object" summary="当前页的数据">
-//	        <param name="content" type="string" summary="操作内容" />
-//	        <param name="ip" type="string" summary="ip" />
-//	        <param name="ua" type="string" summary="user agent" />
-//	        <param name="created" type="string.date-time" summary="操作时间" />
-//	    </param>
-//	</response>
-//
-// </api>
+// # api get /securitylog 当前用户的安全操作记录
+// @tag admin
+// @query github.com/issue9/cmfx/pkg/securitylog.logQuery
+// @resp 200 * github.com/issue9/cmfx/pkg/query.Page[github.com/issue9/cmfx/pkg/securitylog.Log]
 func (m *Admin) getSecurityLogs(ctx *web.Context) web.Responser {
 	if u := m.LoginUser(ctx); u != nil {
 		return m.securitylog.GetHandle(u.ID, ctx)

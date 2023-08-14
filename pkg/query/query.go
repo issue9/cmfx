@@ -20,6 +20,8 @@ type Text struct {
 // 将查询参数中的  xx-xx 转换成两个时间戳。
 //
 // 其中 0 表示未传递过来。
+//
+// @type string
 type DateRange struct {
 	Start time.Time
 	End   time.Time

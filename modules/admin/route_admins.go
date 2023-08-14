@@ -17,39 +17,18 @@ import (
 	"github.com/issue9/cmfx/pkg/query"
 )
 
-// <api method="get" summary="获取指定的管理员账号">
+// # API GET /admins/{id} 获取指定的管理员账号
 //
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="200" type="object">
-//	    <param name="id" type="number" summary="用户 ID" />
-//	    <param name="username" type="string" summary="登录账号" />
-//	    <param name="state" type="string" summary="状态值">
-//	        <enum value="normal" summary="正常" />
-//	        <enum value="locked" summary="锁定" />
-//	        <enum value="left" summary="离职" />
-//	    </param>
-//	    <param name="sex" type="string" summary="性别">
-//	        <enum value="male" summary="男" />
-//	        <enum value="female" summary="女" />
-//	        <enum value="unknown" summary="未设置" />
-//	    </param>
-//	    <param name="name" type="string" summary="真实姓名" />
-//	    <param name="nickname" type="string" summary="姓名" />
-//	    <param name="groups" type="number" array="true" summary="权限组 ID" />
-//	</response>
-//
-// </api>
+// @tag admin
+// @path id int 管理的 ID
+// @resp 200 * ModelAdmin
 func (m *Admin) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
 		return resp
 	}
 
-	a := &ModelAdmin{ID: id}
+	a := &modelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -80,50 +59,18 @@ func (q *adminsQuery) CTXFilter(v *web.FilterProblem) {
 		AddFilter(SexSliceFilter("sex", &q.Sexes))
 }
 
-// <api method="get" summary="获取所有的管理员账号">
+// # API GET /admins 获取所有的管理员账号
 //
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins">
-//	    <query name="size" type="number" default="20" summary="每页数量" />
-//	    <query name="page" type="number" default="0" summary="页码，起始页 0" />
-//	    <query name="group" type="number" array="true" summary="只显示该分组的，可以为空，表示所有。" />
-//	    <query name="state" type="string" array="true" default="normal" summary="状态值">
-//	        <enum value="normal" summary="正常" />
-//	        <enum value="locked" summary="锁定" />
-//	        <enum value="left" summary="离职" />
-//	    </query>
-//	    <query name="sex" type="string" array="true" summary="性别">
-//	        <enum value="male" summary="男" />
-//	        <enum value="female" summary="女" />
-//	        <enum value="unknown" summary="未设置" />
-//	    </query>
-//	    <query name="text" type="string" default="" summary="查询的文本内容，可以是姓名，账号等" />
-//	</path>
-//	<response type="object" status="200">
-//	    <param name="count" type="number" summary="符合条件的数量，去除 page, size 的影响" />
-//	    <param name="current" type="object" array="true" summary="当前页数据">
-//	        <param name="id" type="number" summary="用户 ID" />
-//	        <param name="state" type="string" summary="状态值">
-//	            <enum value="normal" summary="正常" />
-//	            <enum value="locked" summary="锁定" />
-//	            <enum value="left" summary="离职" />
-//	        </param>
-//	        <param name="name" type="string" summary="真实姓名" />
-//	        <param name="nickname" type="string" summary="姓名" />
-//	        <param name="groups" type="number" array="true" summary="权限组 ID" />
-//	        <param name="username" type="string" summary="登录账号" />
-//	    </param>
-//	</response>
-//
-// </api>
+// @tag admin
+// @query adminsQuery
+// @resp 200 * github.com/issue9/cmfx/pkg/query.Page[ModelAdmin]
 func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 	q := &adminsQuery{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
 	}
 
-	sql := m.db.SQLBuilder().Select().Column("*").From(m.dbPrefix.TableName(&ModelAdmin{}))
+	sql := m.db.SQLBuilder().Select().Column("*").From(m.dbPrefix.TableName(&modelAdmin{}))
 
 	if len(q.States) > 0 {
 		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
@@ -154,35 +101,14 @@ func (m *Admin) getAdmins(ctx *web.Context) web.Responser {
 		sql.And("(username LIKE ? OR name LIKE ? OR nickname LIKE ?)", text, text, text)
 	}
 
-	return query.PagingResponser[ModelAdmin](ctx, &q.Limit, sql, nil)
+	return query.PagingResponser[modelAdmin](ctx, &q.Limit, sql, nil)
 }
 
-// <api method="patch" summary="修改指定的管理员账号">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<request type="object">
-//	    <param name="state" type="string" summary="状态值" xml-attr="true">
-//	        <enum value="normal" summary="正常" />
-//	        <enum value="locked" summary="锁定" />
-//	        <enum value="left" summary="离职" />
-//	    </param>
-//	    <param name="sex" type="string" summary="性别">
-//	        <enum value="male" summary="男" />
-//	        <enum value="female" summary="女" />
-//	        <enum value="unknown" summary="未设置" />
-//	    </param>
-//	    <param name="name" type="string" summary="真实姓名" />
-//	    <param name="nickname" type="string" summary="姓名" />
-//	    <param name="groups" type="number" array="true" summary="权限组" />
-//	    <param name="avatar" type="string.url" xml-attr="true" summary="头像地址" />
-//	</request>
-//	<response status="204" />
-//
-// </api>
+// # api PATCH /admins/{id} 更新管理员信息
+// @path id int 管理的 ID
+// @tag admin
+// @req * postAdminInfo
+// @resp 204 * {}
 func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
@@ -190,7 +116,7 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	a := &ModelAdmin{ID: id}
+	a := &modelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -212,7 +138,7 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	// 更新数据库
-	aa := &ModelAdmin{
+	aa := &modelAdmin{
 		ID:       id,
 		State:    data.State,
 		Name:     data.Name,
@@ -244,16 +170,10 @@ func (m *Admin) patchAdmin(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-// <api method="put" summary="重置管理员的密码">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}/password">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="204" />
-//
-// </api>
+// # api DELETE /admins/{id}/password 重置管理员的密码
+// @tag admin
+// @resp 204 * {}
+// @path id int 管理的 ID
 func (m *Admin) deleteAdminPassword(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidParam)
 	if resp != nil {
@@ -261,7 +181,7 @@ func (m *Admin) deleteAdminPassword(ctx *web.Context) web.Responser {
 	}
 
 	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	a := &ModelAdmin{ID: id}
+	a := &modelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -338,39 +258,17 @@ func (i *postAdminInfo) CTXFilter(v *web.FilterProblem) {
 	}
 }
 
-// <api method="post" summary="添加管理员账号">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins" />
-//	<request type="object">
-//	    <param name="state" type="string" summary="状态值">
-//	        <enum value="normal" summary="正常" />
-//	        <enum value="locked" summary="锁定" />
-//	        <enum value="left" summary="离职" />
-//	    </param>
-//	    <param name="sex" type="string" summary="性别">
-//	        <enum value="male" summary="男" />
-//	        <enum value="female" summary="女" />
-//	        <enum value="unknown" summary="未设置" />
-//	    </param>
-//	    <param name="username" type="string" summary="登录账号" />
-//	    <param name="name" type="string" summary="真实姓名" />
-//	    <param name="nickname" type="string" summary="昵称" />
-//	    <param name="groups" type="number" array="true" summary="权限组" />
-//	    <param name="password" type="string" summary="密码" />
-//	    <param name="avatar" type="string.url" summary="头像" />
-//	</request>
-//	<response status="201" />
-//
-// </api>
+// # api POST /admins 添加管理员账号
+// @tag admin
+// @req * postAdminInfo
+// @resp 201 * {}
 func (m *Admin) postAdmins(ctx *web.Context) web.Responser {
 	data := &postAdminInfo{m: m}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	a := &ModelAdmin{
+	a := &modelAdmin{
 		State:    data.State,
 		Nickname: data.Nickname,
 		Name:     data.Name,
@@ -407,58 +305,33 @@ func (m *Admin) postAdmins(ctx *web.Context) web.Responser {
 	return web.Created(nil, "")
 }
 
-// <api method="POST" summary="锁定管理员">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}/locked">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="201" />
-//
-// </api>
+// # api POST /admins/{id}/locked 锁定管理员
+// @tag admin
+// @resp 201 * {}
 func (m *Admin) postAdminLocked(ctx *web.Context) web.Responser {
 	return m.setAdminState(ctx, StateLocked, http.StatusCreated)
 }
 
-// <api method="POST" summary="设定为离职状态">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}/left">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="201" />
-//
-// </api>
+// # api POST /admins/{id}/left 设定为离职状态
+// @tag admin
+// @path id id 管理员的 ID
+// @resp 201 * {}
 func (m *Admin) postAdminLeft(ctx *web.Context) web.Responser {
 	return m.setAdminState(ctx, StateLeft, http.StatusCreated)
 }
 
-// <api method="delete" summary="解除锁定">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}/locked">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="204" />
-//
-// </api>
+// # api delete /admins/{id}/locked 解除锁定
+// @tag admin
+// @path id id 管理员的 ID
+// @resp 204 * {}
 func (m *Admin) deleteAdminLocked(ctx *web.Context) web.Responser {
 	return m.setAdminState(ctx, StateNormal, http.StatusNoContent)
 }
 
-// <api method="delete" summary="恢复正常属性">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}/left">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="204" />
-//
-// </api>
+// # api delete /admins/{id}/left 恢复正常属性
+// @tag admin
+// @path id id 管理员的 ID
+// @resp 204 * {}
 func (m *Admin) deleteAdminLeft(ctx *web.Context) web.Responser {
 	return m.setAdminState(ctx, StateNormal, http.StatusNoContent)
 }
@@ -471,7 +344,7 @@ func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Respo
 
 	e := m.dbPrefix.DB(m.db)
 
-	a := &ModelAdmin{ID: id}
+	a := &modelAdmin{ID: id}
 	found, err := e.Select(a)
 	if !found {
 		return ctx.NotFound()
@@ -486,7 +359,7 @@ func (m *Admin) setAdminState(ctx *web.Context, state State, code int) web.Respo
 		goto END
 	}
 
-	if _, err := e.Update(&ModelAdmin{ID: id, State: state}, "state"); err != nil {
+	if _, err := e.Update(&modelAdmin{ID: id, State: state}, "state"); err != nil {
 		return ctx.InternalServerError(err)
 	}
 
@@ -505,16 +378,10 @@ END:
 	return web.Status(code)
 }
 
-// <api method="POST" summary="将该用户设置为超级管理员">
-//
-//	<server>admin</server>
-//	<tag>admin</tag>
-//	<path path="/admins/{id}/super">
-//	    <param name="id" type="number" summary="管理员的 ID" />
-//	</path>
-//	<response status="201" />
-//
-// </api>
+// # api post /admins/{id}/super 将该用户设置为超级管理员
+// @tag admin
+// @path id id 管理员的 ID
+// @resp 201 * {}
 func (m *Admin) postSuper(ctx *web.Context) web.Responser {
 	a := m.LoginUser(ctx)
 	if !a.Super {
@@ -526,7 +393,7 @@ func (m *Admin) postSuper(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	a1 := &ModelAdmin{ID: id}
+	a1 := &modelAdmin{ID: id}
 	found, err := m.dbPrefix.DB(m.db).Select(a1)
 	if err != nil {
 		return ctx.InternalServerError(err)
@@ -542,12 +409,12 @@ func (m *Admin) postSuper(ctx *web.Context) web.Responser {
 
 	t := m.dbPrefix.Tx(tx)
 
-	if _, err := t.Update(&ModelAdmin{ID: a.ID, Super: false}, "super"); err != nil {
+	if _, err := t.Update(&modelAdmin{ID: a.ID, Super: false}, "super"); err != nil {
 		tx.Rollback()
 		return ctx.InternalServerError(err)
 	}
 
-	if _, err := t.Update(&ModelAdmin{ID: id, Super: true}, "super"); err != nil {
+	if _, err := t.Update(&modelAdmin{ID: id, Super: true}, "super"); err != nil {
 		tx.Rollback()
 		return ctx.InternalServerError(err)
 	}

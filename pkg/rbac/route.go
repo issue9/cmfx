@@ -63,18 +63,18 @@ func buildResponseResources(p *message.Printer, gs map[string]*Group) *responseR
 	return resources
 }
 
-func (rbac *RBAC) GetRolesHandle(ctx *web.Context) web.Responser {
-	type role struct {
-		XMLName struct{} `json:"-" xml:"group"`
-		ID      int64    `json:"id,omitempty" xml:"id,attr,omitempty"`
-		Name    string   `json:"name" xml:"name"`
-		Desc    string   `json:"description" xml:"description"`
-		Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty"`
-	}
+type roleResp struct {
+	XMLName struct{} `json:"-" xml:"group"`
+	ID      int64    `json:"id,omitempty" xml:"id,attr,omitempty"`
+	Name    string   `json:"name" xml:"name"`
+	Desc    string   `json:"description" xml:"description"`
+	Parent  int64    `json:"parent,omitempty" xml:"parent,attr,omitempty"`
+}
 
-	rs := make([]*role, 0, len(rbac.roles))
+func (rbac *RBAC) GetRolesHandle(ctx *web.Context) web.Responser {
+	rs := make([]*roleResp, 0, len(rbac.roles))
 	for _, r := range rbac.roles {
-		rs = append(rs, &role{
+		rs = append(rs, &roleResp{
 			ID:     r.r.ID,
 			Name:   r.r.Name,
 			Desc:   r.r.Description,

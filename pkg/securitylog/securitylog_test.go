@@ -3,11 +3,15 @@
 package securitylog
 
 import (
+	"encoding/json"
+	"net/http"
 	"testing"
-	"time"
 
 	"github.com/issue9/assert/v3"
+	"github.com/issue9/web"
+	"github.com/issue9/web/server/servertest"
 
+	"github.com/issue9/cmfx/pkg/query"
 	"github.com/issue9/cmfx/pkg/test"
 )
 
@@ -22,19 +26,41 @@ func TestSecurityLog(t *testing.T) {
 	a.NotNil(l)
 	a.NotError(l.Add(1, "127.0.0.0", "firefox", "change password"))
 	a.NotError(l.Add(1, "127.0.0.1", "chrome", "change username"))
-	logs, err := l.Get(1, 5, 0, "", time.Time{}, time.Time{})
-	a.NotError(err).
-		Equal(2, len(logs.Logs)).
-		Equal(2, logs.Count)
 
-	logs, err = l.Get(1, 1, 0, "", time.Time{}, time.Time{})
-	a.NotError(err).
-		Equal(1, len(logs.Logs)).
-		Equal(2, logs.Count)
+	defer servertest.Run(a, suite.Server)()
+	defer suite.Close()
+
+	suite.NewRouter("", nil).Get("/securitylog/{uid}", func(ctx *web.Context) web.Responser {
+		uid, resp := ctx.PathID("uid", web.ProblemNotFound)
+		if resp != nil {
+			return resp
+		}
+		return l.GetHandle(uid, ctx)
+	})
+
+	suite.Get("/securitylog/1?size=5").
+		Header("accept", "application/json").
+		Do(nil).
+		Status(http.StatusOK).
+		BodyFunc(func(a *assert.Assertion, body []byte) {
+			page := &query.Page[Log]{}
+			a.NotError(json.Unmarshal(body, page))
+			a.Length(page.Current, 2).Equal(2, page.Count)
+		})
+
+	suite.Get("/securitylog/1?size=1").
+		Header("accept", "application/json").
+		Do(nil).
+		Status(http.StatusOK).
+		BodyFunc(func(a *assert.Assertion, body []byte) {
+			page := &query.Page[Log]{}
+			a.NotError(json.Unmarshal(body, page))
+			a.Length(page.Current, 1).Equal(2, page.Count)
+		})
 
 	// 不存在的 uid
-	logs, err = l.Get(2, 5, 0, "", time.Time{}, time.Time{})
-	a.NotError(err).
-		Equal(0, len(logs.Logs)).
-		Equal(0, logs.Count)
+	suite.Get("/securitylog/10?size=1").
+		Header("accept", "application/json").
+		Do(nil).
+		Status(http.StatusNotFound)
 }

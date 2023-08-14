@@ -30,11 +30,6 @@ type Log struct {
 	Created   time.Time `xml:"created" json:"created"`
 }
 
-type Logs struct {
-	Count int64  `json:"count" xml:"count,attr"`
-	Logs  []*Log `json:"logs" xml:"log"`
-}
-
 func New(mod string, db *orm.DB) *SecurityLog {
 	return &SecurityLog{
 		dbPrefix: orm.Prefix(mod),
@@ -57,46 +52,6 @@ func (l *SecurityLog) AddWithContext(uid int64, ctx *web.Context, content string
 	return l.Add(uid, ctx.ClientIP(), ctx.Request().UserAgent(), content)
 }
 
-// Get 获取与 uid 关联的安全日志信息
-func (l *SecurityLog) Get(uid int64, size, page int, txt string, start, end time.Time) (*Logs, error) {
-	sql := l.db.SQLBuilder().Select().Columns("*").From(l.dbPrefix.TableName(&log{})).
-		Limit(size, page*size).
-		Desc("created").
-		Where("uid=?", uid)
-	if txt != "" {
-		txt = "%" + txt + "%"
-		sql.And("{user_agent} LIKE OR {ip} LIKE ? OR {content} LIKE ?", txt, txt, txt)
-	}
-	if !start.IsZero() {
-		sql.And("created>?", start)
-	}
-	if !end.IsZero() {
-		sql.And("{end}<?", end)
-	}
-
-	count, err := sql.Count("count(*) as cnt").QueryInt("cnt")
-	if err != nil {
-		return nil, err
-	}
-	sql.Count("")
-
-	ls := make([]*log, 0, size)
-	if _, err := sql.QueryObject(true, &ls); err != nil {
-		return nil, err
-	}
-
-	logs := make([]*Log, 0, len(ls))
-	for _, ll := range ls {
-		logs = append(logs, &Log{
-			Content:   ll.Content,
-			IP:        ll.IP,
-			Created:   ll.Created,
-			UserAgent: ll.UserAgent,
-		})
-	}
-	return &Logs{Count: count, Logs: logs}, nil
-}
-
 type logQuery struct {
 	query.Text
 	Created query.DateRange `query:"created"`
@@ -109,12 +64,19 @@ func (l *SecurityLog) GetHandle(uid int64, ctx *web.Context) web.Responser {
 		return rslt
 	}
 
-	logs, err := l.Get(uid, q.Size, q.Page, q.Text.Text, q.Created.Start, q.Created.End)
-	if err != nil {
-		return ctx.InternalServerError(err)
+	sql := l.db.SQLBuilder().Select().Columns("*").From(l.dbPrefix.TableName(&log{})).
+		Desc("created").
+		Where("uid=?", uid)
+	if q.Text.Text != "" {
+		txt := "%" + q.Text.Text + "%"
+		sql.And("{user_agent} LIKE OR {ip} LIKE ? OR {content} LIKE ?", txt, txt, txt)
 	}
-	if len(logs.Logs) == 0 {
-		return ctx.NotFound()
+	if !q.Created.Start.IsZero() {
+		sql.And("created>?", q.Created.Start)
 	}
-	return web.OK(logs)
+	if !q.Created.End.IsZero() {
+		sql.And("{end}<?", q.Created.End)
+	}
+
+	return query.PagingResponser[Log](ctx, &q.Limit, sql, nil)
 }

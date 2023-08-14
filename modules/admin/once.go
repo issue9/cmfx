@@ -20,7 +20,7 @@ const (
 func loadOnce(s *web.Server) {
 	once.Do(func() {
 		cmfx.NewStatusProblem(s, http.StatusForbidden).
-			Add(forbiddenIsSuper, web.Phrase("can not do it for super"), web.Phrase("can not do it for super detail")).
-			Add(forbiddenOnlySuper, web.Phrase("only for super"), web.Phrase("only for super detail"))
+			Add(forbiddenIsSuper, web.StringPhrase("can not do it for super"), web.StringPhrase("can not do it for super detail")).
+			Add(forbiddenOnlySuper, web.StringPhrase("only for super"), web.StringPhrase("only for super detail"))
 	})
 }

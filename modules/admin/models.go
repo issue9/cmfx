@@ -11,6 +11,9 @@ import (
 //go:generate go run ../../cmd/enums -file=state_methods.go -pkg=admin -enum=State:s,StateNormal,StateLocked,StateLeft;Sex:s,Unknown,Male,Female
 
 // State 表示管理员的状态
+//
+// @enum normal locked left
+// @type string
 type State int8
 
 const (
@@ -19,6 +22,10 @@ const (
 	StateLeft                // 离职
 )
 
+// 性别
+//
+// @enum unknown male female
+// @type string
 type Sex int8
 
 const (
@@ -27,7 +34,7 @@ const (
 	SexFemale
 )
 
-type ModelAdmin struct {
+type modelAdmin struct {
 	XMLName struct{} `orm:"-" json:"-" xml:"admin"`
 
 	ID       int64     `orm:"name(id);ai" json:"id" xml:"id,attr"`
@@ -41,9 +48,9 @@ type ModelAdmin struct {
 	Super    bool      `orm:"name(super)" json:"super,omitempty" xml:"super,attr,omitempty"`
 }
 
-func (*ModelAdmin) TableName() string { return `_admins` }
+func (*modelAdmin) TableName() string { return `_admins` }
 
-func (a *ModelAdmin) BeforeInsert() error {
+func (a *modelAdmin) BeforeInsert() error {
 	a.ID = 0
 	a.Created = time.Now()
 	a.Name = html.EscapeString(a.Name)
@@ -54,7 +61,7 @@ func (a *ModelAdmin) BeforeInsert() error {
 }
 
 // BeforeUpdate 更新之前需要执行的操作
-func (a *ModelAdmin) BeforeUpdate() error {
+func (a *modelAdmin) BeforeUpdate() error {
 	a.Name = html.EscapeString(a.Name)
 	a.Nickname = html.EscapeString(a.Nickname)
 	a.Avatar = url.QueryEscape(a.Avatar)

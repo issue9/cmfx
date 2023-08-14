@@ -68,14 +68,14 @@ func New(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB, router *
 		return nil, web.NewStackError(err)
 	}
 
-	tks, err := config.NewTokens(o, s, id, db, buildClaims, web.Phrase("token gc"))
+	tks, err := config.NewTokens(o, s, id, db, buildClaims, web.StringPhrase("token gc"))
 	if err != nil {
 		return nil, err
 	}
 
-	auth := authenticator.NewAuthenticators(s, time.Minute*2, web.Phrase("auth id gc"))
+	auth := authenticator.NewAuthenticators(s, time.Minute*2, web.StringPhrase("auth id gc"))
 	pass := password.New(s, orm.Prefix(id+"_"+authPasswordType), db)
-	auth.Register(authPasswordType, pass, web.Phrase("password mode"))
+	auth.Register(authPasswordType, pass, web.StringPhrase("password mode"))
 	m := &Admin{
 		id:       id,
 		db:       db,
@@ -96,13 +96,13 @@ func New(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB, router *
 	}
 
 	g := m.NewResourceGroup(id, desc)
-	postGroup := g.NewResource("post-group", web.Phrase("post groups"))
-	delGroup := g.NewResource("delete-group", web.Phrase("delete groups"))
-	putGroup := g.NewResource("put-group", web.Phrase("edit groups"))
-	putGroupResources := g.NewResource("put-group-resources", web.Phrase("put groups resources"))
-	getAdmin := g.NewResource("get-admin", web.Phrase("get admins"))
-	putAdmin := g.NewResource("put-admin", web.Phrase("put admin"))
-	postAdmin := g.NewResource("post-admin", web.Phrase("post admins"))
+	postGroup := g.NewResource("post-group", web.StringPhrase("post groups"))
+	delGroup := g.NewResource("delete-group", web.StringPhrase("delete groups"))
+	putGroup := g.NewResource("put-group", web.StringPhrase("edit groups"))
+	putGroupResources := g.NewResource("put-group-resources", web.StringPhrase("put groups resources"))
+	getAdmin := g.NewResource("get-admin", web.StringPhrase("get admins"))
+	putAdmin := g.NewResource("put-admin", web.StringPhrase("put admin"))
+	postAdmin := g.NewResource("post-admin", web.StringPhrase("post admins"))
 
 	router.Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin).
@@ -164,13 +164,13 @@ func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 // LoginUser 获取当前登录的用户信息
 //
 // 该信息由 AuthFilter 存储在 ctx.Vars() 之中。
-func (m *Admin) LoginUser(ctx *web.Context) *ModelAdmin {
+func (m *Admin) LoginUser(ctx *web.Context) *modelAdmin {
 	uid, found := ctx.GetVar(adminKey)
 	if !found {
 		ctx.Server().Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
 		return nil
 	}
-	a := &ModelAdmin{ID: uid.(int64)}
+	a := &modelAdmin{ID: uid.(int64)}
 	found, err := m.dbPrefix.DB(m.db).Select(a)
 	if !found {
 		ctx.Server().Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 admin.AuthFilter 中间件造成的！")
