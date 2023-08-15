@@ -7,7 +7,6 @@ import "github.com/issue9/web"
 // # api get /groups 获取权限组列表
 // @tag admin rbac
 // @resp 200 * []github.com/issue9/cmfx/pkg/rbac.roleResp
-// <api method="get" summary="获取权限组列表">
 func (m *Admin) getGroups(ctx *web.Context) web.Responser {
 	return m.rbac.GetRolesHandle(ctx)
 }

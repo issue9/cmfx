@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package securitylog
+package user
 
 import (
 	"testing"
@@ -18,6 +18,9 @@ func TestInstall(t *testing.T) {
 	id := "test"
 	Install(suite.Server, id, suite.DB())
 
-	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_securitylogs").Exists()
+	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_users").Exists()
+	a.NotError(err).True(exists)
+
+	exists, err = suite.DB().SQLBuilder().TableExists().Table(id + "_securitylogs").Exists()
 	a.NotError(err).True(exists)
 }

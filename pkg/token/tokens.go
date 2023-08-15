@@ -131,7 +131,7 @@ func (tks *Tokens) blockCacheToken(token string) error {
 	return web.NewStackError(tks.cache.Set(token, struct{}{}, tks.blockerExpired))
 }
 
-// BlockUID 丢弃 UserID 关联的所有令牌
+// BlockUID 丢弃 User 关联的所有令牌
 //
 // 时长为 New 中传递的 expires 的两倍。
 // 包括后续生成的令牌，一般用于禁止用户登录等操作。

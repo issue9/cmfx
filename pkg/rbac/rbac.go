@@ -151,7 +151,7 @@ func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
 	for _, rid := range roles {
 		role := rbac.roles[rid]
 		if sliceutil.Exists(role.r.Resources, func(i string, _ int) bool { return i == resID }) {
-			msg := web.Phrase("user %[1]d has access %[2]s because of %[3]d", uid, resID, rid)
+			msg := web.Phrase("user %d has access %s because of %d", uid, resID, rid)
 			rbac.s.Logs().DEBUG().Printf(msg.LocaleString(rbac.s.LocalePrinter()))
 			return true, nil
 		}

@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package securitylog
+package user
 
 import (
 	"encoding/json"
@@ -11,6 +11,7 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 
+	"github.com/issue9/cmfx/pkg/config"
 	"github.com/issue9/cmfx/pkg/query"
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -22,10 +23,25 @@ func TestSecurityLog(t *testing.T) {
 	m := "test"
 	Install(suite.Server, m, suite.DB())
 
-	l := New(m, suite.DB())
-	a.NotNil(l)
-	a.NotError(l.Add(1, "127.0.0.0", "firefox", "change password"))
-	a.NotError(l.Add(1, "127.0.0.1", "chrome", "change username"))
+	o := &config.User{
+		URLPrefix:      "/admin",
+		AccessExpires:  60,
+		RefreshExpires: 120,
+		Algorithms: []*config.Algorithm{
+			{
+				Type:    "HMAC",
+				Name:    "HS256",
+				Public:  "1112345",
+				Private: "1112345",
+			},
+		},
+	}
+	suite.Assertion().NotError(o.SanitizeConfig())
+
+	mod, err := NewModule(m, web.Phrase("user"), suite.Server, suite.DB(), o)
+	a.NotError(err).NotNil(mod)
+	a.NotError(mod.AddSecurityLog(nil, 1, "127.0.0.0", "firefox", "change password"))
+	a.NotError(mod.AddSecurityLog(nil, 1, "127.0.0.1", "chrome", "change username"))
 
 	defer servertest.Run(a, suite.Server)()
 	defer suite.Close()
@@ -35,7 +51,7 @@ func TestSecurityLog(t *testing.T) {
 		if resp != nil {
 			return resp
 		}
-		return l.GetHandle(uid, ctx)
+		return mod.getSecurityLogs(uid, ctx)
 	})
 
 	suite.Get("/securitylog/1?size=5").
@@ -43,7 +59,7 @@ func TestSecurityLog(t *testing.T) {
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			page := &query.Page[Log]{}
+			page := &query.Page[respLog]{}
 			a.NotError(json.Unmarshal(body, page))
 			a.Length(page.Current, 2).Equal(2, page.Count)
 		})
@@ -53,7 +69,7 @@ func TestSecurityLog(t *testing.T) {
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			page := &query.Page[Log]{}
+			page := &query.Page[respLog]{}
 			a.NotError(json.Unmarshal(body, page))
 			a.Length(page.Current, 1).Equal(2, page.Count)
 		})

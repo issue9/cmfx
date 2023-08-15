@@ -72,7 +72,7 @@ func (p *Password) Delete(tx *orm.Tx, uid int64) error {
 	return err
 }
 
-// Set 修改密码
+// Set 强制修改密码
 func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
 	pa, err := bcrypt.GenerateFromPassword([]byte(pass), defaultCost)
 	if err != nil {
@@ -86,6 +86,7 @@ func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
 	return err
 }
 
+// Change 验证并修改
 func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 	pp := &modelPassword{UID: uid}
 	found, err := p.modelEngine(tx).Select(pp)
