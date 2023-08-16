@@ -6,7 +6,6 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v3"
-	"github.com/issue9/orm/v5"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
 	"github.com/issue9/cmfx/pkg/test"
@@ -18,10 +17,10 @@ func TestPassword(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := "test"
-	Install(suite.Server, m, suite.DB())
+	mod := suite.NewModule("test")
+	Install(mod)
 
-	p := New(suite.Server, orm.Prefix(m), suite.DB())
+	p := New(mod)
 	a.NotNil(p)
 
 	// Add

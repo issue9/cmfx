@@ -7,6 +7,8 @@ import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
+
+	"github.com/issue9/cmfx"
 )
 
 // RBAC 权限管理类
@@ -15,22 +17,17 @@ type RBAC struct {
 	users     map[int64][]int64 // 键名为用户 ID，键值为与该用户关联的角色 ID。
 	resources []string
 	groups    map[string]*Group
-
-	db       *orm.DB
-	dbPrefix orm.Prefix
-	s        *web.Server
+	mod       cmfx.Module
 }
 
 // New 声明 RBAC 对象
 //
 // mod 拥有此对象的模块；
-func New(s *web.Server, mod string, db *orm.DB) (*RBAC, error) {
-	p := orm.Prefix(mod)
-
+func New(mod cmfx.Module) (*RBAC, error) {
 	roles := make([]*role, 0, 50)
-	e := p.DB(db)
+	e := mod.DBEngine(nil)
 	if _, err := e.Where("1=1").Select(true, &roles); err != nil {
-		return nil, err
+		return nil, web.NewStackError(err)
 	}
 
 	rbac := &RBAC{
@@ -38,10 +35,7 @@ func New(s *web.Server, mod string, db *orm.DB) (*RBAC, error) {
 		users:     make(map[int64][]int64, 100),
 		resources: make([]string, 0, 100),
 		groups:    make(map[string]*Group, 10),
-
-		db:       db,
-		dbPrefix: p,
-		s:        s,
+		mod:       mod,
 	}
 
 	for _, r := range roles {
@@ -85,10 +79,7 @@ func (rbac *RBAC) Link(tx *orm.Tx, uid int64, role ...int64) error {
 			ps = append(ps, &link{UID: uid, Role: rid})
 		}
 
-		e := rbac.dbPrefix.Tx(tx)
-		if err := e.InsertMany(100, ps...); err != nil {
-			return err
-		}
+		return rbac.mod.DBEngine(tx).InsertMany(100, ps...)
 	}
 
 	return nil
@@ -112,7 +103,7 @@ func (rbac *RBAC) Unlink(tx *orm.Tx, uid int64, roleID ...int64) error {
 		for _, v := range roleID {
 			roles = append(roles, v)
 		}
-		e := rbac.dbPrefix.Tx(tx)
+		e := rbac.mod.DBEngine(tx)
 		if _, err := e.Where("uid=?", uid).AndIn("role", roles...).Delete(&link{}); err != nil {
 			return err
 		}
@@ -135,7 +126,7 @@ func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
 	roles, found := rbac.users[uid]
 	if !found {
 		links := make([]*link, 0, 5)
-		e := rbac.dbPrefix.DB(rbac.db)
+		e := rbac.mod.DBEngine(nil)
 		if _, err := e.Where("uid=?", uid).Select(true, &links); err != nil {
 			return false, err
 		}
@@ -151,8 +142,7 @@ func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
 	for _, rid := range roles {
 		role := rbac.roles[rid]
 		if sliceutil.Exists(role.r.Resources, func(i string, _ int) bool { return i == resID }) {
-			msg := web.Phrase("user %d has access %s because of %d", uid, resID, rid)
-			rbac.s.Logs().DEBUG().Printf(msg.LocaleString(rbac.s.LocalePrinter()))
+			rbac.mod.Server().Logs().DEBUG().Printf("用户 %d 因为 %d 拥有了访问 %s 的权限", uid, rid, resID)
 			return true, nil
 		}
 	}

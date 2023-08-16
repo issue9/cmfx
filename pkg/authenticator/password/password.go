@@ -6,6 +6,7 @@ package password
 import (
 	"errors"
 
+	"github.com/issue9/cmfx"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 	"golang.org/x/crypto/bcrypt"
@@ -16,35 +17,21 @@ import (
 const defaultCost = 11
 
 type Password struct {
-	s        *web.Server
-	dbPrefix orm.Prefix
-	db       *orm.DB
+	mod cmfx.Module
 }
 
 // New 声明 Password 对象
 //
 // prefix 表名前缀，当有多个不同实例时，prefix 不能相同。
-func New(s *web.Server, prefix orm.Prefix, db *orm.DB) *Password {
-	return &Password{
-		s:        s,
-		dbPrefix: prefix,
-		db:       db,
-	}
-}
-
-func (p *Password) modelEngine(tx *orm.Tx) orm.ModelEngine {
-	if tx == nil {
-		return p.dbPrefix.DB(p.db)
-	} else {
-		return p.dbPrefix.Tx(tx)
-	}
+func New(mod cmfx.Module) *Password {
+	return &Password{mod: mod}
 }
 
 // Add 添加账号
 //
 // 如果 tx 为空，那么将采用 orm.DB 访问数据库。
 func (p *Password) Add(tx *orm.Tx, uid int64, identity, pass string) error {
-	db := p.modelEngine(tx)
+	db := p.mod.DBEngine(tx)
 
 	n, err := db.Where("identity=?", identity).Count(&modelPassword{})
 	if err != nil {
@@ -68,7 +55,7 @@ func (p *Password) Add(tx *orm.Tx, uid int64, identity, pass string) error {
 
 // Delete 删除关联的密码信息
 func (p *Password) Delete(tx *orm.Tx, uid int64) error {
-	_, err := p.modelEngine(tx).Delete(&modelPassword{UID: uid})
+	_, err := p.mod.DBEngine(tx).Delete(&modelPassword{UID: uid})
 	return err
 }
 
@@ -79,7 +66,7 @@ func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
 		return err
 	}
 
-	_, err = p.modelEngine(tx).Update(&modelPassword{
+	_, err = p.mod.DBEngine(tx).Update(&modelPassword{
 		UID:      uid,
 		Password: pa,
 	})
@@ -89,7 +76,7 @@ func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
 // Change 验证并修改
 func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 	pp := &modelPassword{UID: uid}
-	found, err := p.modelEngine(tx).Select(pp)
+	found, err := p.mod.DBEngine(tx).Select(pp)
 	if err != nil {
 		return err
 	}
@@ -111,13 +98,13 @@ func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 // Valid 验证登录正确性并返回其 uid
 func (p *Password) Valid(username, pass string) (int64, string, bool) {
 	pp := &modelPassword{Identity: username}
-	found, err := p.modelEngine(nil).Select(pp)
+	found, err := p.mod.DBEngine(nil).Select(pp)
 	if err != nil {
-		p.s.Logs().ERROR().Error(err)
+		p.mod.Server().Logs().ERROR().Error(err)
 		return 0, "", false
 	}
 	if !found {
-		p.s.Logs().DEBUG().Printf("用户 %s 不存在", username)
+		p.mod.Server().Logs().DEBUG().Printf("用户 %s 不存在", username)
 		return 0, "", false
 	}
 
@@ -126,7 +113,7 @@ func (p *Password) Valid(username, pass string) (int64, string, bool) {
 	case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
 		return 0, "", false
 	case err != nil:
-		p.s.Logs().ERROR().Error(err)
+		p.mod.Server().Logs().ERROR().Error(err)
 		return 0, "", false
 	default:
 		return pp.UID, "", true
@@ -135,13 +122,13 @@ func (p *Password) Valid(username, pass string) (int64, string, bool) {
 
 func (p *Password) Identity(uid int64) (string, bool) {
 	pp := &modelPassword{UID: uid}
-	found, err := p.modelEngine(nil).Select(pp)
+	found, err := p.mod.DBEngine(nil).Select(pp)
 	if err != nil {
-		p.s.Logs().ERROR().Error(err)
+		p.mod.Server().Logs().ERROR().Error(err)
 		return "", false
 	}
 	if !found {
-		p.s.Logs().ERROR().Printf("用户 %d 不存在", uid)
+		p.mod.Server().Logs().ERROR().Printf("用户 %d 不存在", uid)
 		return "", false
 	}
 

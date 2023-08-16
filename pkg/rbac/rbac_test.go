@@ -16,10 +16,10 @@ func TestRBAC_Link_IsAllow(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
 
-	inst, err := New(suite.Server, parent, suite.DB())
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
 
 	id, err := inst.NewRole(0, "name", "desc")

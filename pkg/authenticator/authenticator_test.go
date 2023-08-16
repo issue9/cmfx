@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/issue9/assert/v3"
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
@@ -18,9 +17,11 @@ import (
 func TestAuthenticators(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
-	mod := "test"
-	password.Install(suite.Server, mod+"_p1", suite.DB())
-	password.Install(suite.Server, mod+"_p2", suite.DB())
+	mod1 := suite.NewModule("test_p1")
+	mod2 := suite.NewModule("test_p2")
+
+	password.Install(mod1)
+	password.Install(mod2)
 
 	auth := authenticator.NewAuthenticators(suite.Server, time.Minute, web.Phrase("gc"))
 	a.NotNil(auth)
@@ -28,10 +29,10 @@ func TestAuthenticators(t *testing.T) {
 
 	// Register
 
-	p1 := password.New(suite.Server, orm.Prefix(mod+"_p1"), suite.DB())
+	p1 := password.New(mod1)
 	auth.Register("p1", p1, web.Phrase("password"))
 
-	p2 := password.New(suite.Server, orm.Prefix(mod+"_p2"), suite.DB())
+	p2 := password.New(mod2)
 	auth.Register("p2", p2, web.Phrase("password"))
 
 	a.PanicString(func() {

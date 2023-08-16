@@ -3,18 +3,15 @@
 package token
 
 import (
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
 )
 
-func Install(s *web.Server, mod string, db *orm.DB) {
-	e := orm.Prefix(mod).DB(db)
-
-	cmfx.Init(s, nil, func() error {
-		return web.NewStackError(e.Create(&blockedToken{}))
+func Install(mod cmfx.Module) {
+	cmfx.Init(mod.Server(), nil, func() error {
+		return web.NewStackError(mod.DBEngine(nil).Create(&blockedToken{}))
 	}, func() error {
-		return web.NewStackError(e.Create(&discardUser{}))
+		return web.NewStackError(mod.DBEngine(nil).Create(&discardUser{}))
 	})
 }

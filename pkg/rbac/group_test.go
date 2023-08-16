@@ -15,9 +15,9 @@ func TestGroup(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
 
 	a.Nil(inst.Group("g1"))
@@ -35,9 +35,9 @@ func TestGroup_NewResources(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))

@@ -15,14 +15,14 @@ func TestInstall(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	const id = "rbac"
-	Install(suite.Server, id, suite.DB())
-	curr, err := New(suite.Server, id, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	curr, err := New(mod)
 	a.NotError(err).NotNil(curr)
 
-	exists, err := suite.DB().SQLBuilder().TableExists().Table(id + "_rbac_links").Exists()
+	exists, err := suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_rbac_links").Exists()
 	a.NotError(err).True(exists)
 
-	exists, err = suite.DB().SQLBuilder().TableExists().Table(id + "_rbac_roles").Exists()
+	exists, err = suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_rbac_roles").Exists()
 	a.NotError(err).True(exists)
 }

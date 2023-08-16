@@ -16,11 +16,11 @@ func TestRBAC_NewRole(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
-	e := inst.dbPrefix.DB(inst.db)
+	e := inst.mod.DBEngine(nil)
 
 	id, err := inst.NewRole(0, "0", "0-desc")
 	a.NotError(err).NotZero(id)
@@ -50,11 +50,11 @@ func TestRole_update(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
-	e := inst.dbPrefix.DB(inst.db)
+	e := inst.mod.DBEngine(nil)
 
 	id, err := inst.NewRole(0, "0", "0-desc")
 	a.NotError(err).True(id > 0)
@@ -78,11 +78,11 @@ func TestRBAC_deleteRole(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
-	e := inst.dbPrefix.DB(inst.db)
+	e := inst.mod.DBEngine(nil)
 
 	// 删除不存在的角色
 	a.NotError(inst.deleteRole(1))
@@ -115,11 +115,11 @@ func TestRole_set(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
-	e := inst.dbPrefix.DB(inst.db)
+	e := inst.mod.DBEngine(nil)
 
 	id, err := inst.NewRole(0, "0", "0-desc")
 	a.NotError(err).NotZero(id)
@@ -160,9 +160,9 @@ func TestRole_HasChild(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
 
 	r1, err := inst.NewRole(0, "r1", "r1-desc")
@@ -190,9 +190,9 @@ func TestRole_resources(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))

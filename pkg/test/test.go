@@ -111,3 +111,7 @@ func buildURL(url string) string {
 	}
 	return url
 }
+
+func (s *Suite) NewModule(id string) cmfx.Module {
+	return cmfx.NewModule(id, web.Phrase(id), s.Server, s.DB())
+}

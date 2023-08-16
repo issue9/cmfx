@@ -32,7 +32,7 @@ func (rbac *RBAC) NewRole(parent int64, name, desc string) (int64, error) {
 		return 0, web.NewLocaleError("父角色 %d 不存在", parent)
 	}
 
-	e := rbac.dbPrefix.DB(rbac.db)
+	e := rbac.mod.DBEngine(nil)
 	g := &role{Parent: parent, Name: name, Description: desc}
 	id, err := e.LastInsertID(g)
 	if err != nil {
@@ -70,7 +70,7 @@ func (rbac *RBAC) deleteRole(id int64) error {
 		}
 	}
 
-	if _, err := rbac.dbPrefix.DB(rbac.db).Delete(&role{ID: id}); err != nil {
+	if _, err := rbac.mod.DBEngine(nil).Delete(&role{ID: id}); err != nil {
 		return err
 	}
 
@@ -81,7 +81,7 @@ func (rbac *RBAC) deleteRole(id int64) error {
 
 // 更新角色信息
 func (r *Role) update(name, desc string) error {
-	e := r.rbac.dbPrefix.DB(r.rbac.db)
+	e := r.rbac.mod.DBEngine(nil)
 	if _, err := e.Update(&role{ID: r.r.ID, Name: name, Description: desc}); err != nil {
 		return err
 	}
@@ -118,7 +118,7 @@ func (r *Role) set(res ...string) error {
 
 	r.r.Resources = res
 
-	e := r.rbac.dbPrefix.DB(r.rbac.db)
+	e := r.rbac.mod.DBEngine(nil)
 	_, err := e.Update(&role{ID: r.r.ID, Resources: r.r.Resources}, "resources")
 	return err
 }

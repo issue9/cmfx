@@ -7,9 +7,9 @@ import (
 	"strings"
 
 	gojwt "github.com/golang-jwt/jwt/v5"
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
+	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/cmfx/pkg/token"
 )
@@ -138,8 +138,8 @@ func (alg *Algorithm) sanitize() *web.FieldError {
 }
 
 // NewTokens 从配置中生成 tokens 对象
-func NewTokens(u *User, s *web.Server, mod string, db *orm.DB, jobTitle web.LocaleStringer) (*token.Tokens, error) {
-	tks, err := token.NewTokens(s, mod, db, u.AccessExpires, u.RefreshExpires, jobTitle)
+func NewTokens(mod cmfx.Module, u *User, jobTitle web.LocaleStringer) (*token.Tokens, error) {
+	tks, err := token.NewTokens(mod, u.AccessExpires, u.RefreshExpires, jobTitle)
 	if err != nil {
 		return nil, err
 	}

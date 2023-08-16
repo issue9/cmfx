@@ -20,8 +20,8 @@ func TestSecurityLog(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := "test"
-	Install(suite.Server, m, suite.DB())
+	m := suite.NewModule("test")
+	Install(m)
 
 	o := &config.User{
 		URLPrefix:      "/admin",
@@ -38,7 +38,7 @@ func TestSecurityLog(t *testing.T) {
 	}
 	suite.Assertion().NotError(o.SanitizeConfig())
 
-	mod, err := NewModule(m, web.Phrase("user"), suite.Server, suite.DB(), o)
+	mod, err := NewModule(m, o)
 	a.NotError(err).NotNil(mod)
 	a.NotError(mod.AddSecurityLog(nil, 1, "127.0.0.0", "firefox", "change password"))
 	a.NotError(mod.AddSecurityLog(nil, 1, "127.0.0.1", "chrome", "change username"))

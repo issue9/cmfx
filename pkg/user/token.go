@@ -38,7 +38,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 		m.token.RecoverUID(u.NO)
 	}
 
-	_, err := m.DBEngine(tx).Update(&User{ID: u.ID, State: s}, "state")
+	_, err := m.Module().DBEngine(tx).Update(&User{ID: u.ID, State: s}, "state")
 	return err
 }
 
@@ -62,11 +62,11 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 
 	// 注册
 	if uid == 0 && reg != nil {
-		tx, err := m.db.Begin()
+		tx, err := m.Module().DB().Begin()
 		if err != nil {
 			return ctx.InternalServerError(err)
 		}
-		e := m.dbPrefix.Tx(tx)
+		e := m.mod.DBPrefix().Tx(tx)
 
 		a := &User{NO: ctx.Server().UniqueID()}
 		uid, err = e.LastInsertID(a)
@@ -88,7 +88,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 	}
 
 	a := &User{ID: uid}
-	found, err := m.dbPrefix.DB(m.db).Select(a)
+	found, err := m.Module().DBEngine(nil).Select(a)
 	if err != nil {
 		return ctx.InternalServerError(err)
 	}

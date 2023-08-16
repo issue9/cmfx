@@ -7,22 +7,21 @@ import (
 	"time"
 
 	"github.com/issue9/middleware/v6/jwt"
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 	"github.com/issue9/web/cache"
+
+	"github.com/issue9/cmfx"
 )
 
 // Tokens 令牌管理
 type Tokens struct {
+	mod cmfx.Module
 	*jwt.JWT[*Claims]
 
 	log web.Logger
 
 	cache          cache.Cache // 保存运行时的过期 token
 	blockerExpired time.Duration
-
-	db       *orm.DB
-	dbPrefix orm.Prefix
 }
 
 // NewTokens 声明 token 管理对象
@@ -30,7 +29,7 @@ type Tokens struct {
 // expires 表示 token 的过期时间，单位为秒；
 // refreshes 表示刷新令牌的过期时间，单位为秒，如果为 0 则采用用 expires * 2 作为默认值；
 // jobTitle 表示后台回收 token 服务的显示名称；
-func NewTokens(s *web.Server, mod string, db *orm.DB, expires, refreshes int, jobTitle web.LocaleStringer) (*Tokens, error) {
+func NewTokens(mod cmfx.Module, expires, refreshes int, jobTitle web.LocaleStringer) (*Tokens, error) {
 	if refreshes == 0 {
 		refreshes = expires * 2
 	}
@@ -38,13 +37,11 @@ func NewTokens(s *web.Server, mod string, db *orm.DB, expires, refreshes int, jo
 	expired := time.Duration(expires) * time.Second
 	refreshed := time.Duration(refreshes) * time.Second
 	tks := &Tokens{
-		log: s.Logs().ERROR(),
+		mod: mod,
+		log: mod.Server().Logs().ERROR(),
 
-		cache:          cache.Prefix(s.Cache(), mod+"_"),
+		cache:          cache.Prefix(mod.Server().Cache(), mod.ID()+"_"),
 		blockerExpired: refreshed,
-
-		dbPrefix: orm.Prefix(mod),
-		db:       db,
 	}
 	tks.JWT = jwt.New[*Claims](tks, buildClaims, expired, refreshed, nil)
 
@@ -52,14 +49,14 @@ func NewTokens(s *web.Server, mod string, db *orm.DB, expires, refreshes int, jo
 		return nil, err
 	}
 
-	s.Services().AddTicker(jobTitle, tks.scanJob, tks.blockerExpired, false, false)
+	mod.Server().Services().AddTicker(jobTitle, tks.scanJob, tks.blockerExpired, false, false)
 
 	return tks, nil
 }
 
 func (tks *Tokens) loadData() error {
 	now := time.Now()
-	e := tks.dbPrefix.DB(tks.db)
+	e := tks.mod.DBEngine(nil)
 
 	tokens := make([]*blockedToken, 0, 100)
 	if _, err := e.Where("1=1").Select(true, &tokens); err != nil {
@@ -91,7 +88,7 @@ func (tks *Tokens) loadData() error {
 }
 
 func (tks *Tokens) scanJob(now time.Time) error {
-	e := tks.dbPrefix.DB(tks.db)
+	e := tks.mod.DBEngine(nil)
 
 	if _, err := e.Where("expired<?", now).Delete(&blockedToken{}); err != nil {
 		return web.NewStackError(err)
@@ -113,7 +110,7 @@ func (tks *Tokens) ClaimsIsBlocked(c *Claims) bool {
 //
 // 时长为 New 中传递的 expired 的两倍。
 func (tks *Tokens) BlockToken(token string) error {
-	e := tks.dbPrefix.DB(tks.db)
+	e := tks.mod.DBEngine(nil)
 	_, err := e.Insert(&blockedToken{Token: token, Expired: time.Now().Add(tks.blockerExpired)})
 	if err != nil {
 		tks.log.Error(err)
@@ -136,7 +133,7 @@ func (tks *Tokens) blockCacheToken(token string) error {
 // 时长为 New 中传递的 expires 的两倍。
 // 包括后续生成的令牌，一般用于禁止用户登录等操作。
 func (tks *Tokens) BlockUID(uid string) error {
-	e := tks.dbPrefix.DB(tks.db)
+	e := tks.mod.DBEngine(nil)
 	_, err := e.Insert(&discardUser{UserID: uid, Expired: time.Now().Add(tks.blockerExpired)})
 	if err != nil {
 		tks.log.Error(err)
@@ -156,7 +153,7 @@ func (tks *Tokens) blockCacheUID(uid string) error {
 
 // RecoverUID 恢复该用户的登录权限
 func (tks *Tokens) RecoverUID(uid string) error {
-	e := tks.dbPrefix.DB(tks.db)
+	e := tks.mod.DBEngine(nil)
 	_, err := e.Delete(&discardUser{UserID: uid})
 	if err != nil {
 		tks.log.Error(err)

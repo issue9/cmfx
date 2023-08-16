@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/issue9/orm/v5"
+	"github.com/issue9/cmfx"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server"
 
@@ -19,33 +19,27 @@ import (
 type contextKey string
 
 type Module struct {
-	id        string
-	db        *orm.DB
-	dbPrefix  orm.Prefix
+	mod       cmfx.Module
 	urlPrefix string // 所有接口的 URL 前缀
 	token     *token.Tokens
 	auth      *authenticator.Authenticators
 }
 
 // id 拥有此对象的模块；
-func NewModule(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB, conf *config.User) (*Module, error) {
-	tks, err := config.NewTokens(conf, s, id, db, web.Phrase("gc token for %s", desc))
+func NewModule(mod cmfx.Module, conf *config.User) (*Module, error) {
+	tks, err := config.NewTokens(mod, conf, web.Phrase("gc token for %s", mod.Desc()))
 	if err != nil {
 		return nil, web.NewStackError(err)
 	}
 
 	m := &Module{
-		id:        id,
-		db:        db,
-		dbPrefix:  orm.Prefix(id),
+		mod:       mod,
 		urlPrefix: conf.URLPrefix,
 		token:     tks,
-		auth:      authenticator.NewAuthenticators(s, time.Minute*2, web.Phrase("gc auth id")),
+		auth:      authenticator.NewAuthenticators(mod.Server(), time.Minute*2, web.Phrase("gc auth id")),
 	}
 	return m, nil
 }
-
-func (m *Module) ID() string { return m.id }
 
 func (m *Module) URLPrefix() string { return m.urlPrefix }
 
@@ -63,7 +57,7 @@ func (m *Module) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
 		if !found {
 			return web.Status(http.StatusUnauthorized)
 		}
-		ctx.SetVar(contextKey(m.id), c.User)
+		ctx.SetVar(contextKey(m.mod.ID()), c.User)
 		return next(ctx)
 	})
 }
@@ -75,13 +69,13 @@ func (m *Module) Authenticators() *authenticator.Authenticators { return m.auth 
 //
 // 该信息由 AuthFilter 存储在 ctx.Vars() 之中。
 func (m *Module) LoginUser(ctx *web.Context) *User {
-	no, found := ctx.GetVar(contextKey(m.id))
+	no, found := ctx.GetVar(contextKey(m.mod.ID()))
 	if !found {
 		ctx.Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 user.AuthFilter 中间件造成的！")
 		return nil
 	}
 	u := &User{NO: no.(string)}
-	found, err := m.dbPrefix.DB(m.db).Select(u)
+	found, err := m.mod.DBEngine(nil).Select(u)
 	if !found {
 		ctx.Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 user.AuthFilter 中间件造成的！")
 		return nil
@@ -94,9 +88,4 @@ func (m *Module) LoginUser(ctx *web.Context) *User {
 	return u
 }
 
-func (m *Module) DBEngine(tx *orm.Tx) orm.ModelEngine {
-	if tx != nil {
-		return m.dbPrefix.Tx(tx)
-	}
-	return m.dbPrefix.DB(m.db)
-}
+func (m *Module) Module() cmfx.Module { return m.mod }

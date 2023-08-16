@@ -19,9 +19,9 @@ func TestRBAC_GetResourcesHandle(t *testing.T) {
 	defer servertest.Run(a, suite.Server)()
 	defer suite.Close()
 
-	parent := "rbac"
-	Install(suite.Server, parent, suite.DB())
-	inst, err := New(suite.Server, parent, suite.DB())
+	mod := suite.NewModule("rbac")
+	Install(mod)
+	inst, err := New(mod)
 	a.NotError(err).NotNil(inst)
 
 	g1 := inst.NewGroup("g1", web.Phrase("g1"))

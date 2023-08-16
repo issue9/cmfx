@@ -24,11 +24,11 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := "test"
-	Install(suite.Server, m, suite.DB())
+	mod := suite.NewModule("test")
+	Install(mod)
 	now := time.Now()
 
-	e := orm.Prefix(m).DB(suite.DB())
+	e := mod.DBEngine(nil)
 	err := e.InsertMany(10, []orm.TableNamer{
 		&blockedToken{Token: "1", Expired: now.Add(-10 * time.Second)},
 		&blockedToken{Token: "2", Expired: now.Add(time.Hour)},
@@ -41,7 +41,7 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 	}...)
 	a.NotError(err)
 
-	tks, err := NewTokens(suite.Server, m, suite.DB(), 60, 0, web.Phrase("job"))
+	tks, err := NewTokens(mod, 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks).
 		False(tks.TokenIsBlocked("1")).
 		True(tks.TokenIsBlocked("2")).
@@ -71,11 +71,11 @@ func TestTokens_New(t *testing.T) {
 	defer servertest.Run(a, suite.Server)()
 	defer suite.Close()
 
-	m := "test"
-	Install(suite.Server, m, suite.DB())
+	mod := suite.NewModule("test")
+	Install(mod)
 	r := suite.NewRouter("def", nil)
 
-	tks, err := NewTokens(suite.Server, m, suite.DB(), 60, 0, web.Phrase("job"))
+	tks, err := NewTokens(mod, 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks)
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
