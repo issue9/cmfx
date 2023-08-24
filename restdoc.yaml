@@ -1,45 +1,7 @@
 openapi: 3.0.0
 components:
     schemas:
-        github.com.issue9.cmfx.modules.admin.ModelAdmin:
-            type: object
-            xml:
-                name: admin
-            properties:
-                avatar:
-                    type: string
-                    nullable: true
-                created:
-                    type: string
-                    format: date-time
-                    xml:
-                        attribute: true
-                id:
-                    type: integer
-                    xml:
-                        attribute: true
-                name:
-                    type: string
-                    title: 真实名称
-                    nullable: true
-                nickname:
-                    type: string
-                sex:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.Sex'
-                    xml:
-                        attribute: true
-                state:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.State'
-                    xml:
-                        attribute: true
-                super:
-                    type: boolean
-                    nullable: true
-                username:
-                    type: string
-        github.com.issue9.cmfx.modules.admin.Sex:
+        github.com.issue9.cmfx.Sex:
             type: string
             title: 性别
             description: |
@@ -51,63 +13,7 @@ components:
                 - unknown
                 - male
                 - female
-        github.com.issue9.cmfx.modules.admin.State:
-            type: string
-            title: State 表示管理员的状态
-            description: |
-                State 表示管理员的状态
-
-                @enum normal locked left
-                @type string
-            enum:
-                - normal
-                - locked
-                - left
-        github.com.issue9.cmfx.modules.admin.cert:
-            type: object
-            xml:
-                name: login
-            properties:
-                password:
-                    type: string
-                username:
-                    type: string
-        github.com.issue9.cmfx.modules.admin.info:
-            type: object
-            xml:
-                name: info
-            properties:
-                avatar:
-                    type: string
-                nickname:
-                    type: string
-        github.com.issue9.cmfx.modules.admin.postAdminInfo:
-            type: object
-            properties:
-                avatar:
-                    type: string
-                    nullable: true
-                groups:
-                    $ref: '#/components/schemas/github.com.issue9.orm.v5.types.SliceOf-int64-'
-                name:
-                    type: string
-                nickname:
-                    type: string
-                password:
-                    type: string
-                sex:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.Sex'
-                    xml:
-                        attribute: true
-                state:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.State'
-                    xml:
-                        attribute: true
-                username:
-                    type: string
-        github.com.issue9.cmfx.modules.admin.pwd:
+        github.com.issue9.cmfx.modules.admin.putPassword:
             type: object
             xml:
                 name: password
@@ -116,6 +22,99 @@ components:
                     type: string
                 old:
                     type: string
+        github.com.issue9.cmfx.modules.admin.respInfo:
+            type: object
+            xml:
+                name: info
+            properties:
+                avatar:
+                    type: string
+                    nullable: true
+                id:
+                    type: integer
+                    xml:
+                        attribute: true
+                name:
+                    type: string
+                    title: 真实名称，展示于后台
+                nickname:
+                    type: string
+                    title: 昵称，前台需要展示的地方显示此值
+                sex:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.Sex'
+                    xml:
+                        attribute: true
+        github.com.issue9.cmfx.modules.admin.respInfoWithAccount:
+            type: object
+            properties:
+                avatar:
+                    type: string
+                    nullable: true
+                id:
+                    type: integer
+                    xml:
+                        attribute: true
+                name:
+                    type: string
+                    title: 真实名称，展示于后台
+                nickname:
+                    type: string
+                    title: 昵称，前台需要展示的地方显示此值
+                password:
+                    type: string
+                roles:
+                    type: array
+                    xml:
+                        name: role
+                        wrapped: true
+                    items:
+                        type: integer
+                sex:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.Sex'
+                    xml:
+                        attribute: true
+                state:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.user.State'
+                    xml:
+                        attribute: true
+                username:
+                    type: string
+        github.com.issue9.cmfx.modules.admin.respInfoWithRoleState:
+            type: object
+            properties:
+                avatar:
+                    type: string
+                    nullable: true
+                id:
+                    type: integer
+                    xml:
+                        attribute: true
+                name:
+                    type: string
+                    title: 真实名称，展示于后台
+                nickname:
+                    type: string
+                    title: 昵称，前台需要展示的地方显示此值
+                roles:
+                    type: array
+                    xml:
+                        name: role
+                        wrapped: true
+                    items:
+                        type: integer
+                sex:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.Sex'
+                    xml:
+                        attribute: true
+                state:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.user.State'
+                    xml:
+                        attribute: true
         github.com.issue9.cmfx.modules.system.dbInfo:
             type: object
             properties:
@@ -247,7 +246,7 @@ components:
                 其中 0 表示未传递过来。
 
                 @type string
-        github.com.issue9.cmfx.pkg.query.Page-ModelAdmin-:
+        github.com.issue9.cmfx.pkg.query.Page-github.com.issue9.cmfx.pkg.user.respLog-:
             type: object
             title: Page 分页对象
             xml:
@@ -262,12 +261,12 @@ components:
                     type: array
                     title: 当前页的数据
                     items:
-                        $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.ModelAdmin'
+                        $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.user.respLog'
                 more:
                     type: boolean
                     title: 是否还有更多的数据
                     nullable: true
-        github.com.issue9.cmfx.pkg.query.Page-github.com.issue9.cmfx.pkg.securitylog.Log-:
+        github.com.issue9.cmfx.pkg.query.Page-respInfoWithRoleState-:
             type: object
             title: Page 分页对象
             xml:
@@ -282,7 +281,7 @@ components:
                     type: array
                     title: 当前页的数据
                     items:
-                        $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.securitylog.Log'
+                        $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithRoleState'
                 more:
                     type: boolean
                     title: 是否还有更多的数据
@@ -314,12 +313,30 @@ components:
                 parent:
                     type: integer
                     nullable: true
-        github.com.issue9.cmfx.pkg.securitylog.Log:
+        github.com.issue9.cmfx.pkg.user.State:
+            type: string
+            title: State 表示管理员的状态
+            description: |
+                State 表示管理员的状态
+
+                @enum normal locked deleted
+                @type string
+            enum:
+                - normal
+                - locked
+                - deleted
+        github.com.issue9.cmfx.pkg.user.account:
+            type: object
+            properties:
+                password:
+                    type: string
+                username:
+                    type: string
+        github.com.issue9.cmfx.pkg.user.respLog:
             type: object
             properties:
                 content:
                     type: string
-                    title: 展示数据不给 ID，自增 ID 会暴露一些不必要的信息。
                 created:
                     type: string
                     format: date-time
@@ -391,16 +408,6 @@ components:
                 refresh_token:
                     type: string
                     nullable: true
-        github.com.issue9.orm.v5.types.SliceOf-int64-:
-            type: array
-            items:
-                allOf:
-                    - type: integer
-                title: SliceOf 针对数组存组方式
-                description: |
-                    SliceOf 针对数组存组方式
-
-                    最终是以 json 的方式保存在数据库。
         github.com.issue9.web.Problem:
             type: object
             properties:
@@ -464,23 +471,23 @@ paths:
                 - admin
             summary: 获取所有的管理员账号
             parameters:
-                - name: group
-                  in: query
-                  schema:
-                    type: array
-                    items:
-                        type: integer
                 - name: page
                   in: query
                   schema:
                     type: integer
                     title: 请求的页码，从 0 开始。
+                - name: role
+                  in: query
+                  schema:
+                    type: array
+                    items:
+                        type: integer
                 - name: sex
                   in: query
                   schema:
                     type: array
                     items:
-                        $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.Sex'
+                        $ref: '#/components/schemas/github.com.issue9.cmfx.Sex'
                 - name: size
                   in: query
                   schema:
@@ -491,7 +498,7 @@ paths:
                   schema:
                     type: array
                     items:
-                        $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.State'
+                        $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.user.State'
                 - name: text
                   in: query
                   schema:
@@ -506,10 +513,10 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-ModelAdmin-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-respInfoWithRoleState-'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-ModelAdmin-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-respInfoWithRoleState-'
         post:
             tags:
                 - admin
@@ -518,10 +525,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.postAdminInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithAccount'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.postAdminInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithAccount'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -530,6 +537,26 @@ paths:
                 "201":
                     description: ""
     /admins/{id}:
+        delete:
+            tags:
+                - admin
+            summary: 删除管理员
+            parameters:
+                - name: id
+                  in: path
+                  description: 管理员的 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                    minimum: 1
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "201":
+                    description: ""
         get:
             tags:
                 - admin
@@ -544,10 +571,10 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.ModelAdmin'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithRoleState'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.ModelAdmin'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithRoleState'
         patch:
             tags:
                 - admin
@@ -564,10 +591,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.postAdminInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithRoleState'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.postAdminInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfoWithRoleState'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -583,47 +610,6 @@ paths:
               schema:
                 type: integer
                 format: int64
-    /admins/{id}/left:
-        delete:
-            tags:
-                - admin
-            summary: 恢复正常属性
-            parameters:
-                - name: id
-                  in: path
-                  description: 管理员的 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
-            responses:
-                4XX:
-                    $ref: '#/components/responses/4XX'
-                5XX:
-                    $ref: '#/components/responses/5XX'
-                "204":
-                    description: ""
-        post:
-            tags:
-                - admin
-            summary: 设定为离职状态
-            responses:
-                4XX:
-                    $ref: '#/components/responses/4XX'
-                5XX:
-                    $ref: '#/components/responses/5XX'
-                "201":
-                    description: ""
-        parameters:
-            - name: id
-              in: path
-              description: 管理员的 ID
-              required: true
-              schema:
-                type: integer
-                format: int64
-                minimum: 1
     /admins/{id}/locked:
         delete:
             tags:
@@ -703,7 +689,6 @@ paths:
                 - admin
                 - rbac
             summary: 获取权限组列表
-            description: '<api method="get" summary="获取权限组列表"> '
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -894,22 +879,23 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.ModelAdmin'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfo'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.ModelAdmin'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfo'
         patch:
             tags:
                 - admin
             summary: 更新当前登用户的信息
             requestBody:
+                description: 更新的信息，将忽略 id
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.info'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfo'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.info'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.respInfo'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -939,10 +925,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.cert'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.user.account'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.cert'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.user.account'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -966,10 +952,10 @@ paths:
                 content:
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.pwd'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.putPassword'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.pwd'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.modules.admin.putPassword'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1059,10 +1045,10 @@ paths:
                     content:
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-github.com.issue9.cmfx.pkg.securitylog.Log-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-github.com.issue9.cmfx.pkg.user.respLog-'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-github.com.issue9.cmfx.pkg.securitylog.Log-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.pkg.query.Page-github.com.issue9.cmfx.pkg.user.respLog-'
     /system/apis:
         get:
             tags:

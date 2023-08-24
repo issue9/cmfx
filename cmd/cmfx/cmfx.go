@@ -16,7 +16,7 @@ import (
 
 	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/cmfx/modules/admin"
-	c "github.com/issue9/cmfx/pkg/config"
+	"github.com/issue9/cmfx/pkg/user"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -24,7 +24,7 @@ import (
 type application = app.CLIOf[config]
 
 type config struct {
-	Admin *c.User `yaml:"admin" xml:"admin" json:"admin"`
+	Admin *user.Config `yaml:"admin" xml:"admin" json:"admin"`
 }
 
 func (c *config) SanitizeConfig() *web.FieldError {
@@ -56,13 +56,13 @@ func initServer(s *web.Server, user *config, action string) error {
 	)
 
 	router.Any("/debug/{path}", func(ctx *web.Context) web.Responser {
-		p, resp := ctx.PathString("path", cmfx.BadRequestInvalidParam)
+		p, resp := ctx.PathString("path", cmfx.BadRequestInvalidPath)
 		if resp != nil {
 			return resp
 		}
 
 		if err := mux.Debug(p, ctx, ctx.Request()); err != nil {
-			return ctx.InternalServerError(err)
+			return ctx.Error(err, "")
 		}
 		return nil
 	})
@@ -94,12 +94,12 @@ func initServer(s *web.Server, user *config, action string) error {
 	}
 }
 
-func load(s *web.Server, db *orm.DB, router *web.Router, conf *c.User) error {
-	_, err := admin.New("admin", web.Phrase("admin"), s, db, router, conf)
+func load(s *web.Server, db *orm.DB, router *web.Router, conf *user.Config) error {
+	_, err := admin.New(cmfx.NewModule("admin", web.Phrase("admin"), s, db), router, conf)
 	return err
 }
 
 func install(s *web.Server, db *orm.DB) error {
-	admin.Install(s, "admin", db)
+	admin.Install(cmfx.NewModule("admin", web.Phrase("admin"), s, db))
 	return nil
 }

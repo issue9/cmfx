@@ -15,10 +15,10 @@ func TestInstall(t *testing.T) {
 	s := test.NewSuite(a)
 	defer s.Close()
 
-	id := "test"
-	a.NotError(Install(s.Server, id, s.DB()))
+	mod := s.NewModule("test")
+	a.NotError(Install(mod))
 
-	exists, err := s.DB().SQLBuilder().TableExists().Table(id + "_linkages").Exists()
+	exists, err := s.DB().SQLBuilder().TableExists().Table(mod.ID() + "_linkages").Exists()
 	a.NotError(err).True(exists)
 }
 
@@ -52,19 +52,19 @@ func TestRoot_Install(t *testing.T) {
 	s := test.NewSuite(a)
 	defer s.Close()
 
-	id := "test"
-	Install(s.Server, id, s.DB())
-	l := New(s.Server, id, s.DB())
+	mod := s.NewModule("test")
+	Install(mod)
+	l := New(mod)
 
 	k1 := NewRoot[*object](l, "k1")
 	a.NotError(k1.Install(installData))
 	a.ErrorString(k1.Install(installData), "非空对象，不能再次安装数据。")
 	a.ErrorString(NewRoot[*object](l, "k1").Install(installData), "已经存在同名的 key: k1")
-	cnt, err := l.dbPrefix.DB(l.db).Where("key=?", "k1").Count(&linkageModel{})
+	cnt, err := l.DBEngine(nil).Where("key=?", "k1").Count(&linkageModel{})
 	a.NotError(err).Equal(5, cnt)
 
 	k2 := NewRoot[*object](l, "k2")
 	a.NotError(k2.Install(installData))
-	cnt, err = l.dbPrefix.DB(l.db).Where("key=?", "k2").Count(&linkageModel{})
+	cnt, err = l.DBEngine(nil).Where("key=?", "k2").Count(&linkageModel{})
 	a.NotError(err).Equal(5, cnt)
 }

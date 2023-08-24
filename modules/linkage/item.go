@@ -37,7 +37,7 @@ func NewRoot[T any](l *Linkage, key string) *Root[T] {
 // Load 从数据库加载项
 func (r *Root[T]) Load() error {
 	mods := make([]*linkageModel, 0, 100)
-	_, err := r.linkage.dbPrefix.DB(r.linkage.db).
+	_, err := r.linkage.DBEngine(nil).
 		Where("key=?", r.key).
 		AndIsNull("deleted").
 		Select(true, &mods)
@@ -103,7 +103,7 @@ func (r *Root[T]) Delete(id int64) error {
 	}
 
 	data := &linkageModel{ID: id, Deleted: sql.NullTime{Time: time.Now()}}
-	if _, err := r.linkage.dbPrefix.DB(r.linkage.db).Update(data); err != nil {
+	if _, err := r.linkage.DBEngine(nil).Update(data); err != nil {
 		return err
 	}
 
@@ -132,7 +132,7 @@ func (r *Root[T]) Update(id int64, val T) error {
 	}
 
 	item.Data = val
-	_, err = r.linkage.dbPrefix.DB(r.linkage.db).Update(&linkageModel{
+	_, err = r.linkage.DBEngine(nil).Update(&linkageModel{
 		ID:   id,
 		Data: data,
 	})
@@ -162,7 +162,7 @@ func (r *Root[T]) Add(parent int64, val ...T) error {
 		return err
 	}
 
-	id, err := r.linkage.dbPrefix.DB(r.linkage.db).LastInsertID(&linkageModel{
+	id, err := r.linkage.DBEngine(nil).LastInsertID(&linkageModel{
 		Data:   data,
 		Key:    r.key,
 		Parent: parent,

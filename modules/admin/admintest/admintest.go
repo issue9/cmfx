@@ -6,20 +6,19 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/modules/admin"
-	"github.com/issue9/cmfx/pkg/config"
 	"github.com/issue9/cmfx/pkg/test"
+	"github.com/issue9/cmfx/pkg/user"
 )
 
 func NewAdmin(s *test.Suite) (*admin.Admin, *web.Router) {
-	adminM := "admin"
-	admin.Install(s.Server, adminM, s.DB())
-	s.Assertion().NotNil(adminM)
+	mod := s.NewModule("admin")
+	admin.Install(mod)
 
-	o := &config.User{
+	o := &user.Config{
 		URLPrefix:      "/admin",
 		AccessExpires:  60,
 		RefreshExpires: 120,
-		Algorithms: []*config.Algorithm{
+		Algorithms: []*user.Algorithm{
 			{
 				Type:    "HMAC",
 				Name:    "HS256",
@@ -31,7 +30,7 @@ func NewAdmin(s *test.Suite) (*admin.Admin, *web.Router) {
 	s.Assertion().NotError(o.SanitizeConfig())
 
 	r := s.NewRouter("def", nil)
-	a, err := admin.New(adminM, web.Phrase("admin"), s.Server, s.DB(), r, o)
+	a, err := admin.New(mod, r, o)
 	s.Assertion().NotError(err).NotNil(a)
 
 	return a, r

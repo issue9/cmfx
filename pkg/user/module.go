@@ -5,19 +5,24 @@ package user
 
 import (
 	"net/http"
+	"os"
+	"strconv"
 	"time"
 
 	"github.com/issue9/cmfx"
+	"github.com/issue9/orm/v5"
+	"github.com/issue9/orm/v5/sqlbuilder"
+	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
-	"github.com/issue9/cmfx/pkg/config"
-	"github.com/issue9/cmfx/pkg/token"
+	"github.com/issue9/cmfx/pkg/user/token"
 )
 
-type contextKey string
-
+// Module 用户账号管理模块
+//
+// 提供了登录验证和 token 管理
 type Module struct {
 	mod       cmfx.Module
 	urlPrefix string // 所有接口的 URL 前缀
@@ -25,18 +30,23 @@ type Module struct {
 	auth      *authenticator.Authenticators
 }
 
-// id 拥有此对象的模块；
-func NewModule(mod cmfx.Module, conf *config.User) (*Module, error) {
-	tks, err := config.NewTokens(mod, conf, web.Phrase("gc token for %s", mod.Desc()))
+func NewModule(mod cmfx.Module, conf *Config) (*Module, error) {
+	desc := web.Phrase("recycle token for %s", mod.Desc())
+	tks, err := token.NewTokens(mod, conf.AccessExpires, conf.RefreshExpires, desc)
 	if err != nil {
 		return nil, web.NewStackError(err)
 	}
 
+	for index, alg := range conf.Algorithms {
+		tks.Add(strconv.Itoa(index), alg.sign, alg.pub, alg.pvt)
+	}
+
+	const authDesc = web.StringPhrase("recycle auth id")
 	m := &Module{
 		mod:       mod,
 		urlPrefix: conf.URLPrefix,
 		token:     tks,
-		auth:      authenticator.NewAuthenticators(mod.Server(), time.Minute*2, web.Phrase("gc auth id")),
+		auth:      authenticator.NewAuthenticators(mod.Server(), time.Minute*2, authDesc),
 	}
 	return m, nil
 }
@@ -48,44 +58,29 @@ func (m *Module) Router(r *web.Router, ms ...web.Middleware) *server.Prefix {
 	return r.Prefix(m.URLPrefix(), ms...)
 }
 
-// AuthFilter 验证是否登录
-//
-// 同时如果在登录状态下，会将当前登录用户的数据写入 ctx.Vars。
-func (m *Module) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
-	return m.token.Middleware(func(ctx *web.Context) web.Responser {
-		c, found := m.token.GetValue(ctx)
-		if !found {
-			return web.Status(http.StatusUnauthorized)
-		}
-		ctx.SetVar(contextKey(m.mod.ID()), c.User)
-		return next(ctx)
-	})
-}
-
-// Authenticators 管理验证登录信息
-func (m *Module) Authenticators() *authenticator.Authenticators { return m.auth }
-
-// LoginUser 获取当前登录的用户信息
-//
-// 该信息由 AuthFilter 存储在 ctx.Vars() 之中。
-func (m *Module) LoginUser(ctx *web.Context) *User {
-	no, found := ctx.GetVar(contextKey(m.mod.ID()))
-	if !found {
-		ctx.Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 user.AuthFilter 中间件造成的！")
-		return nil
-	}
-	u := &User{NO: no.(string)}
-	found, err := m.mod.DBEngine(nil).Select(u)
-	if !found {
-		ctx.Logs().ERROR().String("未检测到登录用户，可能是该接口未调用 user.AuthFilter 中间件造成的！")
-		return nil
-	}
+func (m *Module) GetUser(uid int64) (*User, error) {
+	u := &User{ID: uid}
+	found, err := m.DBEngine(nil).Select(u)
 	if err != nil {
-		ctx.Logs().ERROR().Error(err)
-		return nil
+		return nil, err
 	}
-
-	return u
+	if !found {
+		return nil, web.NewHTTPError(http.StatusNotFound, os.ErrNotExist)
+	}
+	return u, nil
 }
 
-func (m *Module) Module() cmfx.Module { return m.mod }
+func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states []State) {
+	sql.Column(alias + ".state")
+	sql.Join("left", m.mod.DBPrefix().TableName(&User{}), alias, on).WhereStmt().AndIn(alias+".state", sliceutil.AnySlice(states)...)
+}
+
+// 实现 cmfx.Module
+
+func (m *Module) ID() string                                         { return m.mod.ID() }
+func (m *Module) Desc() web.LocaleStringer                           { return m.mod.Desc() }
+func (m *Module) Server() *web.Server                                { return m.mod.Server() }
+func (m *Module) DB() *orm.DB                                        { return m.mod.DB() }
+func (m *Module) DBPrefix() orm.Prefix                               { return m.mod.DBPrefix() }
+func (m *Module) DBEngine(tx *orm.Tx) orm.ModelEngine                { return m.mod.DBEngine(tx) }
+func (m *Module) New(id string, desc web.LocaleStringer) cmfx.Module { return m.mod.New(id, desc) }

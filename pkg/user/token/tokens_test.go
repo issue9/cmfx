@@ -89,10 +89,10 @@ func TestTokens_New(t *testing.T) {
 			}
 
 			if err := tks.BlockToken(tks.GetToken(ctx)); err != nil {
-				return ctx.InternalServerError(err)
+				return ctx.Error(err, "")
 			}
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
-				return ctx.InternalServerError(err)
+				return ctx.Error(err, "")
 			}
 			return tks.New(ctx, http.StatusCreated, NewClaims(ctx, xx.User))
 		}

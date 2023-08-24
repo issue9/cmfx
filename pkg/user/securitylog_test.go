@@ -11,7 +11,6 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 
-	"github.com/issue9/cmfx/pkg/config"
 	"github.com/issue9/cmfx/pkg/query"
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -23,11 +22,11 @@ func TestSecurityLog(t *testing.T) {
 	m := suite.NewModule("test")
 	Install(m)
 
-	o := &config.User{
+	o := &Config{
 		URLPrefix:      "/admin",
 		AccessExpires:  60,
 		RefreshExpires: 120,
-		Algorithms: []*config.Algorithm{
+		Algorithms: []*Algorithm{
 			{
 				Type:    "HMAC",
 				Name:    "HS256",

@@ -49,7 +49,7 @@ func NewTokens(mod cmfx.Module, expires, refreshes int, jobTitle web.LocaleStrin
 		return nil, err
 	}
 
-	mod.Server().Services().AddTicker(jobTitle, tks.scanJob, tks.blockerExpired, false, false)
+	mod.Server().Services().AddTicker(jobTitle, tks.scanJob, time.Minute, false, false)
 
 	return tks, nil
 }

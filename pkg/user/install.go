@@ -6,7 +6,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/cmfx/pkg/token"
+	"github.com/issue9/cmfx/pkg/user/token"
 )
 
 func Install(mod cmfx.Module) {

@@ -13,6 +13,9 @@ type Role struct {
 	rbac *RBAC
 }
 
+// UserRoles 用户关联的角色表
+func (rbac *RBAC) UserRoles(uid int64) []int64 { return rbac.users[uid] }
+
 // Role 返回角色的相关数据
 //
 // 如果不存在，则返回 nil。
@@ -156,4 +159,9 @@ func (r *Role) resources() []string {
 		return parent.r.Resources
 	}
 	return nil
+}
+
+func (rbac *RBAC) RoleExists(v int64) bool {
+	_, found := rbac.roles[v]
+	return found
 }

@@ -13,7 +13,7 @@ import (
 // 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandleGet(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidPath)
 		if resp != nil {
 			return resp
 		}
@@ -34,7 +34,7 @@ func (r *Root[T]) BuildHandleGet(key string) web.HandlerFunc {
 // 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandlePost(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidPath)
 		if resp != nil {
 			return resp
 		}
@@ -45,7 +45,7 @@ func (r *Root[T]) BuildHandlePost(key string) web.HandlerFunc {
 		}
 
 		if err := r.Add(id, v); err != nil {
-			return ctx.InternalServerError(err)
+			return ctx.Error(err, "")
 		}
 		return web.Created(nil, "")
 	}
@@ -56,7 +56,7 @@ func (r *Root[T]) BuildHandlePost(key string) web.HandlerFunc {
 // 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandlePut(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidPath)
 		if resp != nil {
 			return resp
 		}
@@ -67,7 +67,7 @@ func (r *Root[T]) BuildHandlePut(key string) web.HandlerFunc {
 		}
 
 		if err := r.Update(id, v); err != nil {
-			return ctx.InternalServerError(err)
+			return ctx.Error(err, "")
 		}
 		return web.NoContent()
 	}
@@ -78,13 +78,13 @@ func (r *Root[T]) BuildHandlePut(key string) web.HandlerFunc {
 // 路由地址格式为 prefix/{key:digit} key 为参数 key 指定的值
 func (r *Root[T]) BuildHandleDelete(key string) web.HandlerFunc {
 	return func(ctx *web.Context) web.Responser {
-		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidParam)
+		id, resp := ctx.PathID(key, cmfx.BadRequestInvalidPath)
 		if resp != nil {
 			return resp
 		}
 
 		if err := r.Delete(id); err != nil {
-			return ctx.InternalServerError(err)
+			return ctx.Error(err, "")
 		}
 		return web.NoContent()
 	}

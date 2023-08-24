@@ -1,21 +1,19 @@
 // SPDX-License-Identifier: MIT
 
-package config
+package user
 
 import (
 	"strconv"
 	"strings"
 
-	gojwt "github.com/golang-jwt/jwt/v5"
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/issue9/web"
 
-	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/locales"
-	"github.com/issue9/cmfx/pkg/token"
 )
 
-// User 带有登录功能的模块配置
-type User struct {
+// Config 带有登录功能的模块配置
+type Config struct {
 	// URLPrefix 路由地址的前缀
 	URLPrefix string `json:"urlPrefix,omitempty" xml:"urlPrefix,omitempty" yaml:"urlPrefix,omitempty"`
 
@@ -55,12 +53,12 @@ type Algorithm struct {
 	// 如果是 hmac 类型，那么该值必须与 Public 相同
 	Private string `json:"private" yaml:"private" xml:"private"`
 
-	sign     gojwt.SigningMethod
+	sign     jwt.SigningMethod
 	pub, pvt []byte
 }
 
 // SanitizeConfig 用于检测和修正配置项的内容
-func (o *User) SanitizeConfig() *web.FieldError {
+func (o *Config) SanitizeConfig() *web.FieldError {
 	if o.URLPrefix != "" && o.URLPrefix[0] != '/' {
 		return web.NewFieldError("urlPrefix", locales.InvalidValue)
 	}
@@ -91,7 +89,7 @@ func (o *User) SanitizeConfig() *web.FieldError {
 }
 
 func (alg *Algorithm) sanitize() *web.FieldError {
-	alg.sign = gojwt.GetSigningMethod(alg.Name)
+	alg.sign = jwt.GetSigningMethod(alg.Name)
 	if alg.sign == nil {
 		return web.NewFieldError("name", locales.InvalidValue)
 	}
@@ -108,26 +106,26 @@ func (alg *Algorithm) sanitize() *web.FieldError {
 
 	switch strings.ToLower(alg.Type) {
 	case "hmac":
-		if _, ok := alg.sign.(*gojwt.SigningMethodHMAC); !ok {
+		if _, ok := alg.sign.(*jwt.SigningMethodHMAC); !ok {
 			return web.NewFieldError("name", locales.InvalidValue)
 		}
 		if alg.Public != alg.Private {
 			return web.NewFieldError("private", locales.InvalidValue)
 		}
 	case "rsa":
-		if _, ok := alg.sign.(*gojwt.SigningMethodRSA); !ok {
+		if _, ok := alg.sign.(*jwt.SigningMethodRSA); !ok {
 			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	case "raspss":
-		if _, ok := alg.sign.(*gojwt.SigningMethodRSAPSS); !ok {
+		if _, ok := alg.sign.(*jwt.SigningMethodRSAPSS); !ok {
 			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	case "ecdsa":
-		if _, ok := alg.sign.(*gojwt.SigningMethodECDSA); !ok {
+		if _, ok := alg.sign.(*jwt.SigningMethodECDSA); !ok {
 			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	case "ed25519":
-		if _, ok := alg.sign.(*gojwt.SigningMethodEd25519); !ok {
+		if _, ok := alg.sign.(*jwt.SigningMethodEd25519); !ok {
 			return web.NewFieldError("name", locales.InvalidValue)
 		}
 	default:
@@ -135,18 +133,4 @@ func (alg *Algorithm) sanitize() *web.FieldError {
 	}
 
 	return nil
-}
-
-// NewTokens 从配置中生成 tokens 对象
-func NewTokens(mod cmfx.Module, u *User, jobTitle web.LocaleStringer) (*token.Tokens, error) {
-	tks, err := token.NewTokens(mod, u.AccessExpires, u.RefreshExpires, jobTitle)
-	if err != nil {
-		return nil, err
-	}
-
-	for index, alg := range u.Algorithms {
-		tks.Add(strconv.Itoa(index), alg.sign, alg.pub, alg.pvt)
-	}
-
-	return tks, nil
 }

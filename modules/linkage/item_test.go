@@ -15,18 +15,18 @@ func TestRoot(t *testing.T) {
 	s := test.NewSuite(a)
 	defer s.Close()
 
-	id := "test"
-	Install(s.Server, id, s.DB())
-	l := New(s.Server, id, s.DB())
+	mod := s.NewModule("test")
+	Install(mod)
+	l := New(mod)
 
 	k1 := NewRoot[*object](l, "k1")
 	a.NotError(k1.Install(installData))
-	cnt, err := l.dbPrefix.DB(l.db).Where("key=?", "k1").Count(&linkageModel{})
+	cnt, err := l.DBEngine(nil).Where("key=?", "k1").Count(&linkageModel{})
 	a.NotError(err).Equal(5, cnt)
 
 	// Add
 	a.NotError(k1.Add(0, &object{Name: "new1", Age: 1}))
-	cnt, err = l.dbPrefix.DB(l.db).Where("key=?", "k1").Count(&linkageModel{})
+	cnt, err = l.DBEngine(nil).Where("key=?", "k1").Count(&linkageModel{})
 	a.NotError(err).Equal(6, cnt)
 	n1 := k1.Items[2]
 	a.Equal(n1.Data, &object{Name: "new1", Age: 1}).
@@ -34,7 +34,7 @@ func TestRoot(t *testing.T) {
 		Empty(n1.Items)
 
 	a.NotError(k1.Add(n1.ID, &object{Name: "new2", Age: 12}))
-	cnt, err = l.dbPrefix.DB(l.db).Where("key=?", "k1").Count(&linkageModel{})
+	cnt, err = l.DBEngine(nil).Where("key=?", "k1").Count(&linkageModel{})
 	a.NotError(err).Equal(7, cnt)
 	n12 := n1.Items[0]
 	a.Equal(n12.Data, &object{Name: "new2", Age: 12}).

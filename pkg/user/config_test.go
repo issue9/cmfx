@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-package config
+package user
 
 import (
 	"testing"
@@ -9,21 +9,21 @@ import (
 	"github.com/issue9/config"
 )
 
-var _ config.Sanitizer = &User{}
+var _ config.Sanitizer = &Config{}
 
-func TestUser_SanitizeConfig(t *testing.T) {
+func TestConfig_SanitizeConfig(t *testing.T) {
 	a := assert.New(t, false)
 
-	o := &User{URLPrefix: "admin"}
+	o := &Config{URLPrefix: "admin"}
 	a.Equal(o.SanitizeConfig().Field, "urlPrefix")
 
-	o = &User{URLPrefix: "/admin"}
+	o = &Config{URLPrefix: "/admin"}
 	a.Equal(o.SanitizeConfig().Field, "accessExpires")
 
-	o = &User{URLPrefix: "/admin", AccessExpires: 60}
+	o = &Config{URLPrefix: "/admin", AccessExpires: 60}
 	a.Equal(o.SanitizeConfig().Field, "algorithms")
 
-	o = &User{
+	o = &Config{
 		URLPrefix:     "/admin",
 		AccessExpires: 60,
 		Algorithms: []*Algorithm{

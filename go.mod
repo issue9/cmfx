@@ -8,13 +8,13 @@ require (
 	github.com/issue9/config v0.4.0
 	github.com/issue9/errwrap v0.3.1
 	github.com/issue9/events v0.7.0
-	github.com/issue9/filter v0.4.3
-	github.com/issue9/middleware/v6 v6.0.0-beta.17
+	github.com/issue9/filter v0.5.0
+	github.com/issue9/middleware/v6 v6.0.0-beta.18
 	github.com/issue9/mux/v7 v7.2.2
 	github.com/issue9/orm/v5 v5.1.0
-	github.com/issue9/sliceutil v0.14.0
+	github.com/issue9/sliceutil v0.15.0
 	github.com/issue9/source v0.5.1
-	github.com/issue9/web v0.79.4
+	github.com/issue9/web v0.81.0
 	github.com/mattn/go-sqlite3 v1.14.17
 	golang.org/x/crypto v0.12.0
 	golang.org/x/oauth2 v0.11.0
@@ -33,11 +33,11 @@ require (
 	github.com/issue9/logs/v5 v5.1.0 // indirect
 	github.com/issue9/query/v3 v3.1.2 // indirect
 	github.com/issue9/rands/v2 v2.0.0 // indirect
-	github.com/issue9/scheduled v0.13.0 // indirect
+	github.com/issue9/scheduled v0.14.0 // indirect
 	github.com/issue9/term/v3 v3.2.1 // indirect
 	github.com/issue9/unique/v2 v2.0.0 // indirect
 	github.com/klauspost/compress v1.16.7 // indirect
-	github.com/redis/go-redis/v9 v9.0.5 // indirect
+	github.com/redis/go-redis/v9 v9.1.0 // indirect
 	github.com/shopspring/decimal v1.3.1 // indirect
 	golang.org/x/mod v0.12.0 // indirect
 	golang.org/x/net v0.14.0 // indirect

@@ -48,11 +48,11 @@ type info struct {
 // @tag system admin
 // @resp 200 * info
 func (s *System) adminGetInfo(ctx *web.Context) web.Responser {
-	dbVersion, err := s.db.Version()
+	dbVersion, err := s.DB().Version()
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return ctx.Error(err, "")
 	}
-	stats := s.db.Stats()
+	stats := s.DB().Stats()
 	srv := ctx.Server()
 
 	return web.OK(&info{
@@ -65,7 +65,7 @@ func (s *System) adminGetInfo(ctx *web.Context) web.Responser {
 		CPUS:       runtime.NumCPU(),
 		Goroutines: runtime.NumGoroutine(),
 		DB: &dbInfo{
-			Name:               s.db.Dialect().DBName(),
+			Name:               s.DB().Dialect().DBName(),
 			Version:            dbVersion,
 			MaxOpenConnections: stats.MaxOpenConnections,
 			OpenConnections:    stats.OpenConnections,

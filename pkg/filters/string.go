@@ -22,6 +22,6 @@ var (
 	URL = filter.NewFromVS(locales.InvalidURLFormat, validator.URL)
 )
 
-func EmptyOr(v filter.ValidatorFuncOf[string]) filter.FilterFuncOf[string] {
-	return filter.New(filter.NewRule(validator.EmptyOr(v), locales.InvalidValue))
+func EmptyOr(v func(string) bool, s ...func(*string)) filter.FilterFuncOf[string] {
+	return filter.NewFromVS(locales.InvalidValue, validator.EmptyOr(v), s...)
 }

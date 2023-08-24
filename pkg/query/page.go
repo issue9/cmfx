@@ -35,7 +35,7 @@ func (l *Limit) CTXFilter(v *web.FilterProblem) {
 func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt, f func(*T)) web.Responser {
 	p, err := Paging(l, sql, f)
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return ctx.Error(err, "")
 	}
 	if p == nil || p.Count == 0 || len(p.Current) == 0 {
 		return ctx.NotFound()
@@ -51,7 +51,7 @@ func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectSt
 func PagingResponserWithConvert[T, R any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt, convert func(*T) *R) web.Responser {
 	p, err := Paging[T](l, sql, nil)
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return ctx.Error(err, "")
 	}
 	if p == nil || p.Count == 0 || len(p.Current) == 0 {
 		return ctx.NotFound()

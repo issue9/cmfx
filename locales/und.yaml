@@ -3,12 +3,12 @@ messages:
     - key: admin
       message:
         msg: admin
+    - key: admin installer
+      message:
+        msg: admin installer
     - key: auth id gc
       message:
         msg: auth id gc
-    - key: bad request
-      message:
-        msg: bad request
     - key: bad request invalid body
       message:
         msg: bad request invalid body
@@ -39,24 +39,21 @@ messages:
     - key: can not do it for super detail
       message:
         msg: can not do it for super detail
+    - key: delete admins
+      message:
+        msg: delete admins
     - key: delete groups
       message:
         msg: delete groups
     - key: edit groups
       message:
         msg: edit groups
-    - key: forbidden
-      message:
-        msg: forbidden
     - key: forbidden can not delete yourself
       message:
         msg: forbidden can not delete yourself
     - key: forbidden can not delete yourself detail
       message:
         msg: forbidden can not delete yourself detail
-    - key: forbidden detail
-      message:
-        msg: forbidden detail
     - key: forbidden state not allow
       message:
         msg: forbidden state not allow
@@ -66,9 +63,6 @@ messages:
     - key: get admins
       message:
         msg: get admins
-    - key: group not exists
-      message:
-        msg: group not exists
     - key: identity registrable
       message:
         msg: identity registrable
@@ -99,6 +93,9 @@ messages:
     - key: password mode
       message:
         msg: password mode
+    - key: password module
+      message:
+        msg: password module
     - key: post admins
       message:
         msg: post admins
@@ -120,33 +117,33 @@ messages:
     - key: 'rbac: 请先设置父角色 %d 的资源'
       message:
         msg: 'rbac: 请先设置父角色 %d 的资源'
+    - key: recycle auth id
+      message:
+        msg: recycle auth id
+    - key: recycle token for %s
+      message:
+        msg: recycle token for %s
     - key: required
       message:
         msg: required
     - key: role %d not found
       message:
         msg: role %d not found
+    - key: roles not exists
+      message:
+        msg: roles not exists
     - key: same of new and old password
       message:
         msg: same of new and old password
     - key: strength invalid
       message:
         msg: strength invalid
-    - key: system
-      message:
-        msg: system
     - key: the value not in candidate
       message:
         msg: the value not in candidate
-    - key: token gc
-      message:
-        msg: token gc
     - key: unauthorized
       message:
         msg: unauthorized
-    - key: unauthorized detail
-      message:
-        msg: unauthorized detail
     - key: unauthorized invalid account
       message:
         msg: unauthorized invalid account
@@ -177,9 +174,9 @@ messages:
     - key: unauthorized need change password detail
       message:
         msg: unauthorized need change password detail
-    - key: user %[1]d has access %[2]s because of %[3]d
+    - key: user %s not found
       message:
-        msg: user %[1]d has access %[2]s because of %[3]d
+        msg: user %s not found
     - key: user already exists
       message:
         msg: user already exists

@@ -10,7 +10,7 @@ import (
 	"github.com/issue9/cmfx/locales"
 )
 
-func NilOr[T any](v filter.ValidatorFuncOf[T]) filter.FilterFuncOf[T] {
+func NilOr[T any](v func(T) bool) filter.FilterFuncOf[T] {
 	return filter.NewFromVS(locales.InvalidValue, validator.NilOr(v))
 }
 

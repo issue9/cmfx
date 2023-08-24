@@ -26,6 +26,6 @@ func MaxNumber[T validator.Number](n T) filter.FilterFuncOf[T] {
 	return filter.New(filter.NewRule(validator.LessEqual(n), web.Phrase("must be less than %d", n)))
 }
 
-func ZeroOr[T validator.Number](v filter.ValidatorFuncOf[T]) filter.FilterFuncOf[T] {
+func ZeroOr[T validator.Number](v func(T) bool) filter.FilterFuncOf[T] {
 	return filter.New(filter.NewRule(validator.ZeroOr(v), locales.InvalidValue))
 }

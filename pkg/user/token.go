@@ -11,7 +11,7 @@ import (
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/filters"
-	"github.com/issue9/cmfx/pkg/token"
+	"github.com/issue9/cmfx/pkg/user/token"
 )
 
 // AfterFunc 在执行登录和注销行为之后的操作
@@ -30,15 +30,21 @@ func (c *account) CTXFilter(v *web.FilterProblem) {
 // SetState 设置状态
 //
 // 如果状态为非 Normal，那么也将会被禁卡登录。
-// 需要保证 u.ID 和 u.NO 是有效的。
-func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
-	if s != StateNormal {
-		m.token.BlockUID(u.NO)
-	} else {
-		m.token.RecoverUID(u.NO)
+// 需要保证 u.ID、u.State 和 u.NO 是有效的。
+func (m *Module) SetState(tx *orm.Tx, u *User, s State) (err error) {
+	if u.State == s {
+		return nil
 	}
 
-	_, err := m.Module().DBEngine(tx).Update(&User{ID: u.ID, State: s}, "state")
+	if s != StateNormal {
+		err = m.token.BlockUID(u.NO)
+	} else {
+		err = m.token.RecoverUID(u.NO)
+	}
+
+	if err == nil {
+		_, err = m.DBEngine(tx).Update(&User{ID: u.ID, State: s}, "state")
+	}
 	return err
 }
 
@@ -62,20 +68,20 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 
 	// 注册
 	if uid == 0 && reg != nil {
-		tx, err := m.Module().DB().Begin()
+		tx, err := m.DB().Begin()
 		if err != nil {
-			return ctx.InternalServerError(err)
+			return ctx.Error(err, "")
 		}
 		e := m.mod.DBPrefix().Tx(tx)
 
 		a := &User{NO: ctx.Server().UniqueID()}
 		uid, err = e.LastInsertID(a)
 		if err != nil {
-			return ctx.InternalServerError(errors.Join(err, tx.Rollback()))
+			return ctx.Error(errors.Join(err, tx.Rollback()), "")
 		}
 
 		if err := reg(tx, uid, identity); err != nil {
-			return ctx.InternalServerError(errors.Join(err, tx.Rollback()))
+			return ctx.Error(errors.Join(err, tx.Rollback()), "")
 		}
 
 		if err := m.AddSecurityLogFromContext(tx, a.ID, ctx, "自动注册"); err != nil { // 记录日志出错不回滚
@@ -83,21 +89,19 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 		}
 
 		if err = tx.Commit(); err != nil {
-			return ctx.InternalServerError(err)
+			return ctx.Error(err, "")
 		}
 	}
 
 	a := &User{ID: uid}
-	found, err := m.Module().DBEngine(nil).Select(a)
+	found, err := m.DBEngine(nil).Select(a)
 	if err != nil {
-		return ctx.InternalServerError(err)
+		return ctx.Error(err, "")
 	}
 
 	if !found {
 		ctx.Logs().DEBUG().Printf("用户名 %v 不存在\n", data.Username)
-		p := ctx.Problem(cmfx.UnauthorizedRegistrable)
-		p.With("identity", identity)
-		return p
+		return ctx.Problem(cmfx.UnauthorizedRegistrable).WithField("identity", identity)
 	}
 
 	if a.State != StateNormal {

@@ -3,12 +3,12 @@ messages:
     - key: admin
       message:
         msg: 管理员
+    - key: admin installer
+      message:
+        msg: admin installer
     - key: auth id gc
       message:
         msg: 回收验证器的 ID
-    - key: bad request
-      message:
-        msg: 无效的请求
     - key: bad request invalid body
       message:
         msg: 无效的报文
@@ -45,24 +45,21 @@ messages:
     - key: can not do it for super detail
       message:
         msg: 该操作无法应用到超级管理员身上，比如要修改该管理员的权限组等操作。
+    - key: delete admins
+      message:
+        msg: delete admins
     - key: delete groups
       message:
         msg: 删除角色
     - key: edit groups
       message:
         msg: 修改角色
-    - key: forbidden
-      message:
-        msg: 没有权限访问
     - key: forbidden can not delete yourself
       message:
         msg: 不允许删除自身
     - key: forbidden can not delete yourself detail
       message:
         msg: 不允许删除自身
-    - key: forbidden detail
-      message:
-        msg: 权限不够，无法访问该内容。
     - key: forbidden state not allow
       message:
         msg: 当前状态不允许该操作
@@ -72,9 +69,6 @@ messages:
     - key: get admins
       message:
         msg: 查看管理员信息
-    - key: group not exists
-      message:
-        msg: 不存在该组
     - key: identity registrable
       message:
         msg: |
@@ -107,6 +101,9 @@ messages:
     - key: password mode
       message:
         msg: 密码模式
+    - key: password module
+      message:
+        msg: password module
     - key: post admins
       message:
         msg: 添加管理员
@@ -128,33 +125,33 @@ messages:
     - key: 'rbac: 请先设置父角色 %d 的资源'
       message:
         msg: 'rbac: 请先设置父角色 %d 的资源'
+    - key: recycle auth id
+      message:
+        msg: 回收 auth id
+    - key: recycle token for %s
+      message:
+        msg: 为 %s 回收令牌
     - key: required
       message:
         msg: 不能为空
     - key: role %d not found
       message:
         msg: role %d not found
+    - key: roles not exists
+      message:
+        msg: roles not exists
     - key: same of new and old password
       message:
         msg: same of new and old password
     - key: strength invalid
       message:
         msg: 不符合密码安全要求
-    - key: system
-      message:
-        msg: 系统
     - key: the value not in candidate
       message:
         msg: the value not in candidate
-    - key: token gc
-      message:
-        msg: 回收丢弃的管理员令牌
     - key: unauthorized
       message:
         msg: 账号或是密码错误
-    - key: unauthorized detail
-      message:
-        msg: 所有验证未通过均有可能返回此错误代码，常见为账号密码不匹配。
     - key: unauthorized invalid account
       message:
         msg: 无效的账号
@@ -187,9 +184,9 @@ messages:
       message:
         msg: |
             只有修改密码才能继续其它操作，一般是被定义了该账号的密码已经不安全了，需要重新设置密码。
-    - key: user %[1]d has access %[2]s because of %[3]d
+    - key: user %s not found
       message:
-        msg: 用户 %[1]d 因为 %[3]d 获得访问了 %[2]s 的权限
+        msg: user %s not found
     - key: user already exists
       message:
         msg: 用户已经存在

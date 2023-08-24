@@ -4,7 +4,10 @@
 package rbac
 
 import (
+	"fmt"
+
 	"github.com/issue9/orm/v5"
+	"github.com/issue9/orm/v5/sqlbuilder"
 	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
 
@@ -13,6 +16,8 @@ import (
 
 // RBAC 权限管理类
 type RBAC struct {
+	super int64 // 超级用户 ID，无视所有的角色规则。
+
 	roles     map[int64]*Role
 	users     map[int64][]int64 // 键名为用户 ID，键值为与该用户关联的角色 ID。
 	resources []string
@@ -40,6 +45,18 @@ func New(mod cmfx.Module) (*RBAC, error) {
 
 	for _, r := range roles {
 		rbac.roles[r.ID] = &Role{r: r, rbac: rbac}
+	}
+
+	links := make([]*link, 0, 5)
+	size, err := e.Where("role=0").Select(true, &links)
+	if err != nil {
+		return nil, err
+	}
+	if size > 1 {
+		return nil, web.NewStackError(fmt.Errorf("数据库中存在多于一个的超级管理员 %v", links))
+	}
+	if size == 1 {
+		rbac.super = links[0].UID
 	}
 
 	return rbac, nil
@@ -123,11 +140,15 @@ func (rbac *RBAC) Unlink(tx *orm.Tx, uid int64, roleID ...int64) error {
 }
 
 func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
+	if rbac.IsSuper(uid) {
+		return true, nil
+	}
+
 	roles, found := rbac.users[uid]
 	if !found {
 		links := make([]*link, 0, 5)
 		e := rbac.mod.DBEngine(nil)
-		if _, err := e.Where("uid=?", uid).Select(true, &links); err != nil {
+		if _, err := e.Where("uid=?", uid).And("role<>0").Select(true, &links); err != nil {
 			return false, err
 		}
 
@@ -142,7 +163,7 @@ func (rbac *RBAC) isAllow(uid int64, resID string) (allowed bool, err error) {
 	for _, rid := range roles {
 		role := rbac.roles[rid]
 		if sliceutil.Exists(role.r.Resources, func(i string, _ int) bool { return i == resID }) {
-			rbac.mod.Server().Logs().DEBUG().Printf("用户 %d 因为 %d 拥有了访问 %s 的权限", uid, rid, resID)
+			rbac.mod.Server().Logs().DEBUG().Printf("用户 %d 因为角色 %d 拥有了访问资源 %s 的权限", uid, rid, resID)
 			return true, nil
 		}
 	}
@@ -169,4 +190,29 @@ LOOP:
 	}
 
 	return true, nil
+}
+
+// SetSuper 更换超级管理员
+func (rbac *RBAC) SetSuper(tx *orm.Tx, uid int64) error {
+	e := rbac.mod.DBEngine(tx)
+
+	// 删除原有的，可能不存在
+	if _, err := e.Where("role=0").Delete(&link{}); err != nil {
+		return err
+	}
+
+	if _, err := e.Insert(&link{UID: uid}); err != nil {
+		return err
+	}
+
+	rbac.super = uid
+	return nil
+}
+
+// IsSuper 是否为超级管理员
+func (rbac *RBAC) IsSuper(uid int64) bool { return rbac.super > 0 && rbac.super == uid }
+
+func (m *RBAC) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, roles []int64) {
+	sql.Column(alias + ".role")
+	sql.Join("left", m.mod.DBPrefix().TableName(&link{}), alias, on).WhereStmt().AndIn("role", sliceutil.AnySlice(roles)...)
 }

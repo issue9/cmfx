@@ -6,13 +6,13 @@ import (
 	"errors"
 	"fmt"
 
+	"github.com/issue9/cmfx"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 )
 
-func Install(s *web.Server, mod string, db *orm.DB) error {
-	p := orm.Prefix(mod)
-	e := p.DB(db)
+func Install(mod cmfx.Module) error {
+	e := mod.DBEngine(nil)
 	return web.NewStackError(e.Create(&linkageModel{}))
 }
 
@@ -24,7 +24,7 @@ func (r *Root[T]) Install(item *Item[T]) error {
 		return errors.New("非空对象，不能再次安装数据。")
 	}
 
-	cnt, err := r.linkage.dbPrefix.DB(r.linkage.db).
+	cnt, err := r.linkage.DBEngine(nil).
 		Where("key=?", r.key).
 		AndIsNull("deleted").
 		Count(&linkageModel{})
@@ -35,12 +35,12 @@ func (r *Root[T]) Install(item *Item[T]) error {
 		return fmt.Errorf("已经存在同名的 key: %s", r.key)
 	}
 
-	tx, err := r.linkage.db.Begin()
+	tx, err := r.linkage.DB().Begin()
 	if err != nil {
 		return err
 	}
 
-	e := r.linkage.dbPrefix.Tx(tx)
+	e := r.linkage.DBEngine(tx)
 	if err := r.install(e, 0, item); err != nil {
 		return errors.Join(err, tx.Rollback())
 	}

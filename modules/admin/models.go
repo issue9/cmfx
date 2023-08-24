@@ -5,54 +5,69 @@ package admin
 import (
 	"html"
 	"net/url"
-	"time"
+
+	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
+
+	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/pkg/filters"
+	"github.com/issue9/cmfx/pkg/user"
 )
 
-//go:generate go run ../../cmd/enums -file=state_methods.go -pkg=admin -enum=State:s,StateNormal,StateLocked,StateLeft;Sex:s,Unknown,Male,Female
-
-// State 表示管理员的状态
-//
-// @enum normal locked left
-// @type string
-type State int8
-
-const (
-	StateNormal State = iota // 正常
-	StateLocked              // 锁定
-	StateLeft                // 离职
-)
-
-// 性别
-//
-// @enum unknown male female
-// @type string
-type Sex int8
-
-const (
-	SexUnknown Sex = iota
-	SexMale
-	SexFemale
-)
-
-type modelAdmin struct {
-	XMLName struct{} `orm:"-" json:"-" xml:"admin"`
-
-	ID       int64     `orm:"name(id);ai" json:"id" xml:"id,attr"`
-	Created  time.Time `orm:"name(created)" json:"created" xml:"created,attr"`
-	State    State     `orm:"name(state)" json:"state" xml:"state,attr"`
-	Sex      Sex       `orm:"name(sex)" json:"sex" xml:"sex,attr"`
-	Name     string    `orm:"name(name);len(50)" json:"name,omitempty" xml:"name,omitempty"` // 真实名称
-	Nickname string    `orm:"name(nickname);len(50)" json:"nickname" xml:"nickname"`
-	Username string    `orm:"name(username);len(50)" json:"username" xml:"username"`
-	Avatar   string    `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,attr,omitempty"`
-	Super    bool      `orm:"name(super)" json:"super,omitempty" xml:"super,attr,omitempty"`
+// 用户的基本信息
+type modelInfo struct {
+	ID       int64    `orm:"name(id);unique(id)"`
+	Sex      cmfx.Sex `orm:"name(sex)"`
+	Name     string   `orm:"name(name);len(50)"`     // 真实名称，展示于后台
+	Nickname string   `orm:"name(nickname);len(50)"` // 昵称，前台需要展示的地方显示此值
+	Avatar   string   `orm:"name(avatar);len(1000)"`
 }
 
-func (*modelAdmin) TableName() string { return `_admins` }
+type respInfo struct {
+	m *Admin
 
-func (a *modelAdmin) BeforeInsert() error {
-	a.ID = 0
-	a.Created = time.Now()
+	XMLName struct{} `xml:"info" json:"-"`
+
+	ID       int64    `json:"id" xml:"id,attr"`
+	Sex      cmfx.Sex `json:"sex" xml:"sex,attr"`
+	Name     string   `json:"name" xml:"name"`         // 真实名称，展示于后台
+	Nickname string   `json:"nickname" xml:"nickname"` // 昵称，前台需要展示的地方显示此值
+	Avatar   string   `json:"avatar,omitempty" xml:"avatar,omitempty"`
+}
+
+type respInfoWithRoleState struct {
+	respInfo
+	Roles []int64    `json:"roles" xml:"roles>role"`
+	State user.State `json:"state" xml:"state,attr"`
+}
+
+type respInfoWithAccount struct {
+	respInfoWithRoleState
+	Username string `json:"username" xml:"username"`
+	Password string `json:"password" xml:"password"`
+}
+
+func (i *respInfo) CTXFilter(v *web.FilterProblem) {
+	v.AddFilter(filters.Avatar("avatar", &i.Avatar)).
+		AddFilter(cmfx.SexFilter("sex", &i.Sex))
+}
+
+func (i *respInfoWithRoleState) CTXFilter(v *web.FilterProblem) {
+	i.respInfo.CTXFilter(v)
+	v.AddFilter(filter.New(filter.NewSliceRule[int64, []int64](i.m.rbac.RoleExists, locales.InvalidValue))("roles", &i.Roles)).
+		AddFilter(user.StateFilter("state", &i.State))
+}
+
+func (i *respInfoWithAccount) CTXFilter(v *web.FilterProblem) {
+	i.respInfo.CTXFilter(v)
+	v.AddFilter(filters.RequiredString("username", &i.Username)).
+		AddFilter(filters.RequiredString("password", &i.Password))
+}
+
+func (*modelInfo) TableName() string { return `_info` }
+
+func (a *modelInfo) BeforeInsert() error {
 	a.Name = html.EscapeString(a.Name)
 	a.Nickname = html.EscapeString(a.Nickname)
 	a.Avatar = url.QueryEscape(a.Avatar)
@@ -61,7 +76,7 @@ func (a *modelAdmin) BeforeInsert() error {
 }
 
 // BeforeUpdate 更新之前需要执行的操作
-func (a *modelAdmin) BeforeUpdate() error {
+func (a *modelInfo) BeforeUpdate() error {
 	a.Name = html.EscapeString(a.Name)
 	a.Nickname = html.EscapeString(a.Nickname)
 	a.Avatar = url.QueryEscape(a.Avatar)

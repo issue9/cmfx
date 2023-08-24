@@ -3,6 +3,7 @@
 package system
 
 import (
+	"github.com/issue9/cmfx"
 	"github.com/issue9/middleware/v6/health"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
@@ -15,11 +16,11 @@ type healthDBStore struct {
 	errlog web.Logger
 }
 
-func newHealthDBStore(s *web.Server, mod string, db *orm.DB) (health.Store, error) {
+func newHealthDBStore(mod cmfx.Module) (health.Store, error) {
 	store := &healthDBStore{
-		cache:  health.NewCacheStore(s, mod+"_health_"),
-		db:     orm.Prefix(mod).DB(db),
-		errlog: s.Logs().ERROR(),
+		cache:  health.NewCacheStore(mod.Server(), mod.ID()+"_health_"),
+		db:     mod.DBEngine(nil),
+		errlog: mod.Server().Logs().ERROR(),
 	}
 
 	// 初始时，从数据库加载数据保存到缓存系统。

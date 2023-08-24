@@ -3,34 +3,28 @@
 package system
 
 import (
+	"github.com/issue9/cmfx"
 	"github.com/issue9/middleware/v6/health"
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/modules/admin"
 )
 
 type System struct {
-	s        *web.Server
-	mod      string
-	db       *orm.DB
-	dbPrefix orm.Prefix
+	cmfx.Module
 
 	admin  *admin.Admin
 	health *health.Health
 }
 
-func New(mod string, desc web.LocaleStringer, s *web.Server, db *orm.DB, r *web.Router, adminM *admin.Admin) (*System, error) {
-	store, err := newHealthDBStore(s, mod, db)
+func New(mod cmfx.Module, r *web.Router, adminM *admin.Admin) (*System, error) {
+	store, err := newHealthDBStore(mod)
 	if err != nil {
 		return nil, err
 	}
 
 	m := &System{
-		s:        s,
-		mod:      mod,
-		db:       db,
-		dbPrefix: orm.Prefix(mod),
+		Module: mod,
 
 		admin:  adminM,
 		health: health.New(store),

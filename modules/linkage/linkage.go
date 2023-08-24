@@ -7,8 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 
-	"github.com/issue9/orm/v5"
-	"github.com/issue9/web"
+	"github.com/issue9/cmfx"
 )
 
 var (
@@ -19,19 +18,13 @@ var (
 var errNotFound = errors.New("not found")
 
 type Linkage struct {
-	s        *web.Server
-	dbPrefix orm.Prefix
-	db       *orm.DB
+	cmfx.Module
 }
 
 // ErrNotFound 表示数据项未找到
 func ErrNotFound() error { return errNotFound }
 
 // New 声明 Linkage 模块
-func New(s *web.Server, mod string, db *orm.DB) *Linkage {
-	return &Linkage{
-		s:        s,
-		dbPrefix: orm.Prefix(mod),
-		db:       db,
-	}
+func New(mod cmfx.Module) *Linkage {
+	return &Linkage{Module: mod}
 }

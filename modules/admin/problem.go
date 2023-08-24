@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"sync"
 
-	"github.com/issue9/cmfx"
 	"github.com/issue9/web"
+
+	"github.com/issue9/cmfx"
 )
 
 var once = &sync.Once{}
@@ -17,7 +18,7 @@ const (
 	forbiddenOnlySuper = "admin-40002"
 )
 
-func loadOnce(s *web.Server) {
+func loadProblems(s *web.Server) {
 	once.Do(func() {
 		cmfx.NewStatusProblem(s, http.StatusForbidden).
 			Add(forbiddenIsSuper, web.StringPhrase("can not do it for super"), web.StringPhrase("can not do it for super detail")).
