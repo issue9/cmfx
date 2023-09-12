@@ -733,15 +733,6 @@ paths:
                 - admin
                 - rbac
             summary: 删除权限组
-            parameters:
-                - name: id
-                  in: path
-                  description: 权限组 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -754,6 +745,15 @@ paths:
                 - admin
                 - rbac
             summary: 修改权限组
+            parameters:
+                - name: id
+                  in: path
+                  description: 权限组 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                    minimum: 1
             requestBody:
                 content:
                     application/json:
@@ -784,15 +784,6 @@ paths:
                 - admin
                 - rbac
             summary: 获得角色已被允许访问的资源
-            parameters:
-                - name: id
-                  in: path
-                  description: 权限组 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -809,6 +800,15 @@ paths:
                 - admin
                 - rbac
             summary: 设置权限组的可访问的资源
+            parameters:
+                - name: id
+                  in: path
+                  description: 权限组 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                    minimum: 1
             requestBody:
                 description: 资源 ID 列表
                 content:

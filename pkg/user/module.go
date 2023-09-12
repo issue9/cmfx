@@ -83,4 +83,5 @@ func (m *Module) Server() *web.Server                                { return m.
 func (m *Module) DB() *orm.DB                                        { return m.mod.DB() }
 func (m *Module) DBPrefix() orm.Prefix                               { return m.mod.DBPrefix() }
 func (m *Module) DBEngine(tx *orm.Tx) orm.ModelEngine                { return m.mod.DBEngine(tx) }
+func (m *Module) Cache() web.Cache                                   { return m.mod.Cache() }
 func (m *Module) New(id string, desc web.LocaleStringer) cmfx.Module { return m.mod.New(id, desc) }

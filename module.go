@@ -5,6 +5,7 @@ package cmfx
 import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
+	"github.com/issue9/web/cache"
 )
 
 // Module 表示功能相对独立的模块
@@ -31,6 +32,9 @@ type Module interface {
 
 	// New 基于当前模块的 ID 声明一个新的实例
 	New(string, web.LocaleStringer) Module
+
+	// Cache 缓存系统
+	Cache() web.Cache
 }
 
 type module struct {
@@ -40,15 +44,19 @@ type module struct {
 
 	db     *orm.DB
 	prefix orm.Prefix
+	cache  web.Cache
 }
 
+// NewModule 提供了默认的 [Module] 实现
 func NewModule(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB) Module {
 	return &module{
-		id:     id,
-		desc:   desc,
-		s:      s,
+		id:   id,
+		desc: desc,
+		s:    s,
+
 		db:     db,
 		prefix: orm.Prefix(id),
+		cache:  cache.Prefix(s.Cache(), id),
 	}
 }
 
@@ -72,3 +80,5 @@ func (m *module) DBEngine(tx *orm.Tx) orm.ModelEngine {
 func (m *module) New(id string, desc web.LocaleStringer) Module {
 	return NewModule(m.ID()+id, desc, m.Server(), m.DB())
 }
+
+func (m *module) Cache() web.Cache { return m.cache }

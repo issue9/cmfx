@@ -13,6 +13,7 @@ import (
 	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/web"
 	"github.com/issue9/web/app"
+	"github.com/issue9/web/mode"
 
 	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/cmfx/modules/admin"
@@ -50,22 +51,15 @@ func main() {
 func initServer(s *web.Server, user *config, action string) error {
 	router := s.NewRouter("", nil,
 		mux.URLDomain("https://localhost:8080/admin"),
-		mux.AllowedCORS(3600),
-		mux.LogRecovery(http.StatusInternalServerError, s.Logs().ERROR().StdLogger()),
+		mux.AllowedCORS(3600), // TODO 转配置项？
+		mux.Recovery(func(w http.ResponseWriter, a any) {
+			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+			s.Logs().ERROR().Println(a)
+		}),
 		mux.AnyInterceptor("any"), mux.DigitInterceptor("digit"),
 	)
 
-	router.Any("/debug/{path}", func(ctx *web.Context) web.Responser {
-		p, resp := ctx.PathString("path", cmfx.BadRequestInvalidPath)
-		if resp != nil {
-			return resp
-		}
-
-		if err := mux.Debug(p, ctx, ctx.Request()); err != nil {
-			return ctx.Error(err, "")
-		}
-		return nil
-	})
+	mode.DebugRouter(router, "/debug", cmfx.BadRequestInvalidPath)
 
 	cmfx.AddProblems(s)
 
@@ -85,7 +79,6 @@ func initServer(s *web.Server, user *config, action string) error {
 	case "serve":
 		return load(s, db, router, user.Admin)
 	case "install":
-		defer db.Close()
 		return install(s, db)
 	case "upgrade":
 		panic("not implements")
