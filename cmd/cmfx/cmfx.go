@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package main
@@ -10,25 +12,30 @@ import (
 	"github.com/issue9/cmfx"
 	"github.com/issue9/mux/v7"
 	"github.com/issue9/orm/v5"
-	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/web"
-	"github.com/issue9/web/app"
-	"github.com/issue9/web/mode"
+	"github.com/issue9/web/comptime"
+	"github.com/issue9/web/server"
+	"github.com/issue9/web/server/app"
 
 	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/cmfx/modules/admin"
+	"github.com/issue9/cmfx/pkg/db"
 	"github.com/issue9/cmfx/pkg/user"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
-type application = app.CLIOf[config]
+type application = app.CLI[config]
 
 type config struct {
+	DB    *db.Config   `yaml:"db" xml:"db" json:"db"`
 	Admin *user.Config `yaml:"admin" xml:"admin" json:"admin"`
 }
 
 func (c *config) SanitizeConfig() *web.FieldError {
+	if err := c.DB.SanitizeConfig(); err != nil {
+		return err
+	}
 	return c.Admin.SanitizeConfig()
 }
 
@@ -36,7 +43,7 @@ func main() {
 	cmd := &application{
 		Name:           "cmfx",
 		Version:        cmfx.Version,
-		Init:           initServer,
+		NewServer:      initServer,
 		ConfigDir:      "./",
 		ConfigFilename: "web.xml",
 		ServeActions:   []string{"serve"},
@@ -48,38 +55,40 @@ func main() {
 	}
 }
 
-func initServer(s *web.Server, user *config, action string) error {
-	router := s.NewRouter("", nil,
+func initServer(name, ver string, o *server.Options, user *config, action string) (web.Server, error) {
+	s, err := server.New(name, ver, o)
+	if err != nil {
+		return nil, err
+	}
+
+	router := s.Routers().New("", nil,
 		mux.URLDomain("https://localhost:8080/admin"),
-		mux.AllowedCORS(3600), // TODO 转配置项？
+		mux.AllowedCORS(3600),
 		mux.Recovery(func(w http.ResponseWriter, a any) {
 			http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-			s.Logs().ERROR().Println(a)
+			s.Logs().ERROR().Print(a)
 		}),
 		mux.AnyInterceptor("any"), mux.DigitInterceptor("digit"),
 	)
 
-	mode.DebugRouter(router, "/debug", cmfx.BadRequestInvalidPath)
+	comptime.DebugRouter(router, "/debug", cmfx.BadRequestInvalidPath)
 
 	cmfx.AddProblems(s)
 
-	if err := s.LoadLocales(locales.Locales, "*.*"); err != nil {
-		return err
+	if err := s.Locale().LoadMessages("*.*", locales.All...); err != nil {
+		return nil, err
 	}
 
-	db, err := orm.NewDB("./cmfx.db", dialect.Sqlite3("sqlite3"))
-	if err != nil {
-		return err
-	}
+	db := user.DB.DB()
 	s.OnClose(func() error {
 		return db.Close()
 	})
 
 	switch action {
 	case "serve":
-		return load(s, db, router, user.Admin)
+		return s, load(s, db, router, user.Admin)
 	case "install":
-		return install(s, db)
+		return s, install(s, db, router)
 	case "upgrade":
 		panic("not implements")
 	default:
@@ -87,12 +96,12 @@ func initServer(s *web.Server, user *config, action string) error {
 	}
 }
 
-func load(s *web.Server, db *orm.DB, router *web.Router, conf *user.Config) error {
-	_, err := admin.New(cmfx.NewModule("admin", web.Phrase("admin"), s, db), router, conf)
+func load(s web.Server, db *orm.DB, router *web.Router, conf *user.Config) error {
+	_, err := admin.New(cmfx.NewModule("admin", web.Phrase("admin"), s, db, router), conf)
 	return err
 }
 
-func install(s *web.Server, db *orm.DB) error {
-	admin.Install(cmfx.NewModule("admin", web.Phrase("admin"), s, db))
+func install(s web.Server, db *orm.DB, router *web.Router) error {
+	admin.Install(cmfx.NewModule("admin", web.Phrase("admin"), s, db, router))
 	return nil
 }

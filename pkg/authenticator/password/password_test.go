@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package password
@@ -5,7 +7,7 @@ package password
 import (
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
 	"github.com/issue9/cmfx/pkg/test"

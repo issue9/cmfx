@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package eav
@@ -12,7 +14,7 @@ import (
 // InstallSimple 安装简单的 EAV 数据表
 //
 // tableName 为表名；
-func InstallSimple(s *web.Server, tableName string, db *orm.DB) {
+func InstallSimple(s web.Server, tableName string, db *orm.DB) {
 	e := orm.Prefix(tableName).DB(db)
 	cmfx.Init(s, nil, func() error {
 		return web.NewStackError(e.Create(&modelSimpleEAV{}))

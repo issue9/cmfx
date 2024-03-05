@@ -1,75 +1,75 @@
-// 当前文件由 cmd/enums 生成，请勿手动编辑！
+// 当前文件由 web 生成，请勿手动编辑！
 
 package cmfx
 
 import (
 	"fmt"
-	"github.com/issue9/web/filter"
 
-	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/web"
+	"github.com/issue9/web/locales"
 )
 
-// Sex
+//---------------------Sex------------------------
 
-var sex2StringMap = map[Sex]string{
-	SexUnknown: "unknown",
-	SexMale:    "male",
+var _SexToString = map[Sex]string{
 	SexFemale:  "female",
+	SexMale:    "male",
+	SexUnknown: "unknown",
 }
 
-var string2SexMap = map[string]Sex{
-	"unknown": SexUnknown,
-	"male":    SexMale,
+var _SexFromString = map[string]Sex{
 	"female":  SexFemale,
+	"male":    SexMale,
+	"unknown": SexUnknown,
 }
 
 // String fmt.Stringer
-func (s Sex) String() string {
-	if v, found := sex2StringMap[s]; found {
+func (S Sex) String() string {
+	if v, found := _SexToString[S]; found {
 		return v
 	}
-	return fmt.Sprintf("Sex(%d)", s)
+	return fmt.Sprintf("Sex(%d)", S)
+}
+
+func ParseSex(v string) (Sex, error) {
+	if t, found := _SexFromString[v]; found {
+		return t, nil
+	}
+	return 0, locales.ErrInvalidValue()
 }
 
 // MarshalText encoding.TextMarshaler
-func (s Sex) MarshalText() ([]byte, error) {
-	if v, found := sex2StringMap[s]; found {
+func (S Sex) MarshalText() ([]byte, error) {
+	if v, found := _SexToString[S]; found {
 		return []byte(v), nil
 	}
-	return []byte(fmt.Sprintf("Sex(%d)", s)), fmt.Errorf("未找到 %d 对应的字符串值", s)
-}
-
-// ParseSex 将字符串 v 解析为 State 类型
-func ParseSex(v string) (Sex, error) {
-	if t, found := string2SexMap[v]; found {
-		return t, nil
-	}
-	return 0, fmt.Errorf("未找到 %s 对应的值", v)
+	return nil, locales.ErrInvalidValue()
 }
 
 // UnmarshalText encoding.TextUnmarshaler
-func (s *Sex) UnmarshalText(p []byte) error {
+func (S *Sex) UnmarshalText(p []byte) error {
 	tmp, err := ParseSex(string(p))
 	if err == nil {
-		*s = tmp
+		*S = tmp
 	}
 	return err
 }
 
-// IsValid 验证该状态值是否有效
-func (s Sex) IsValid() bool {
-	_, found := sex2StringMap[s]
+func (S Sex) IsValid() bool {
+	_, found := _SexToString[S]
 	return found
 }
 
-func SexValidator(v Sex) bool {
-	return v.IsValid()
-}
+func SexValidator(v Sex) bool { return v.IsValid() }
 
-var SexRule = filter.NewRule(SexValidator, locales.InvalidValue)
+var (
+	SexRule = web.NewRule(SexValidator, locales.InvalidValue)
 
-var SexSliceRule = filter.NewSliceRules[Sex, []Sex](SexRule)
+	SexSliceRule = web.NewSliceRules[Sex, []Sex](SexRule)
 
-var SexFilter = filter.New(SexRule)
+	SexFilter = web.NewFilter(SexRule)
 
-var SexSliceFilter = filter.New(SexSliceRule)
+	SexSliceFilter = web.NewFilter(SexSliceRule)
+)
+
+//---------------------end Sex--------------------

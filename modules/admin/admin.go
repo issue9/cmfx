@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package admin 管理端的相关操作
@@ -8,14 +10,12 @@ import (
 	"time"
 
 	"github.com/issue9/events"
-	"github.com/issue9/mux/v7"
-	"github.com/issue9/orm/v5"
-	"github.com/issue9/orm/v5/types"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/authenticator"
 	"github.com/issue9/cmfx/pkg/authenticator/password"
+	"github.com/issue9/cmfx/pkg/db"
 	"github.com/issue9/cmfx/pkg/rbac"
 	"github.com/issue9/cmfx/pkg/user"
 )
@@ -29,8 +29,7 @@ const (
 )
 
 type Admin struct {
-	user   *user.Module
-	router *web.Router
+	user *user.Module
 
 	password *password.Password
 	rbac     *rbac.RBAC
@@ -44,7 +43,7 @@ type Admin struct {
 //
 // id 表示模块的 ID，在某些需要唯一值的地方，会加上此值作为前缀；
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
-func New(mod cmfx.Module, router *web.Router, o *user.Config) (*Admin, error) {
+func New(mod cmfx.Module, o *user.Config) (*Admin, error) {
 	loadProblems(mod.Server())
 
 	inst, err := rbac.New(mod)
@@ -61,8 +60,7 @@ func New(mod cmfx.Module, router *web.Router, o *user.Config) (*Admin, error) {
 	pass := password.New(mod.New("_"+authPasswordType, web.Phrase("password module")))
 	auth.Register(authPasswordType, pass, web.StringPhrase("password mode"))
 	m := &Admin{
-		user:   u,
-		router: router,
+		user: u,
 
 		password: pass,
 		rbac:     inst,
@@ -81,12 +79,12 @@ func New(mod cmfx.Module, router *web.Router, o *user.Config) (*Admin, error) {
 	postAdmin := g.NewResource("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.NewResource("del-admin", web.StringPhrase("delete admins"))
 
-	router.Prefix(m.URLPrefix()).
+	mod.Router().Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin).
 		Delete("/login", m.AuthFilter(m.deleteLogin)).
 		Get("/token", m.AuthFilter(m.getToken))
 
-	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/resources", m.getResources).
 		Get("/groups", m.getGroups).
 		Post("/groups", m.RBACFilter(postGroup, m.postGroups)).
@@ -96,13 +94,13 @@ func New(mod cmfx.Module, router *web.Router, o *user.Config) (*Admin, error) {
 		Get("/groups/{id:digit}/resources/allowed", m.getGroupAllowedResources).
 		Patch("/groups/{id:digit}/resources", m.RBACFilter(putGroupResources, m.patchGroupResources))
 
-	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/info", m.getInfo).
 		Patch("/info", m.patchInfo).
 		Get("/securitylog", m.getSecurityLogs).
 		Put("/password", m.putCurrentPassword)
 
-	router.Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Post("/admins/{id:digit}/super", m.postSuper).
 		Get("/admins", m.RBACFilter(getAdmin, m.getAdmins)).
 		Post("/admins", m.RBACFilter(postAdmin, m.postAdmins)).
@@ -117,11 +115,6 @@ func New(mod cmfx.Module, router *web.Router, o *user.Config) (*Admin, error) {
 }
 
 func (m *Admin) URLPrefix() string { return m.user.URLPrefix() }
-
-// URL 声明以 [Admin.URLPrefix] 为前缀的路径
-func (m *Admin) Router(r *web.Router, ms ...web.Middleware) *mux.PrefixOf[web.HandlerFunc] {
-	return m.user.Router(r, ms...)
-}
 
 // AuthFilter 验证是否登录
 func (m *Admin) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
@@ -161,16 +154,16 @@ func (m *Admin) RBACFilter(res string, next web.HandlerFunc) web.HandlerFunc {
 // IsAllowChangeRole 是否允许当前登录用户将角色赋予其它用户
 //
 // 除超级用户之外，其它任何人只能应用自己当前角色或是子角色给其它用户。
-func (m *Admin) IsAllowChangeRole(ctx *web.Context, roles types.SliceOf[int64]) (bool, error) {
+func (m *Admin) IsAllowChangeRole(ctx *web.Context, roles db.Int64s) (bool, error) {
 	curr := m.LoginUser(ctx)
 	return m.rbac.IsAllowRoles(curr.ID, roles)
 }
 
-func (m *Admin) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) error {
+func (m *Admin) AddSecurityLog(tx *db.Tx, uid int64, content, ip, ua string) error {
 	return m.user.AddSecurityLog(tx, uid, ip, ua, content)
 }
 
-func (m *Admin) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) {
+func (m *Admin) AddSecurityLogWithContext(tx *db.Tx, uid int64, ctx *web.Context, content string) {
 	m.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 

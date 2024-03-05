@@ -1,75 +1,75 @@
-// 当前文件由 cmd/enums 生成，请勿手动编辑！
+// 当前文件由 web 生成，请勿手动编辑！
 
 package user
 
 import (
 	"fmt"
-	"github.com/issue9/web/filter"
 
-	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/web"
+	"github.com/issue9/web/locales"
 )
 
-// State
+//---------------------State------------------------
 
-var state2StringMap = map[State]string{
-	StateNormal:  "normal",
-	StateLocked:  "locked",
+var _StateToString = map[State]string{
 	StateDeleted: "deleted",
+	StateLocked:  "locked",
+	StateNormal:  "normal",
 }
 
-var string2StateMap = map[string]State{
-	"normal":  StateNormal,
-	"locked":  StateLocked,
+var _StateFromString = map[string]State{
 	"deleted": StateDeleted,
+	"locked":  StateLocked,
+	"normal":  StateNormal,
 }
 
 // String fmt.Stringer
-func (s State) String() string {
-	if v, found := state2StringMap[s]; found {
+func (S State) String() string {
+	if v, found := _StateToString[S]; found {
 		return v
 	}
-	return fmt.Sprintf("State(%d)", s)
+	return fmt.Sprintf("State(%d)", S)
+}
+
+func ParseState(v string) (State, error) {
+	if t, found := _StateFromString[v]; found {
+		return t, nil
+	}
+	return 0, locales.ErrInvalidValue()
 }
 
 // MarshalText encoding.TextMarshaler
-func (s State) MarshalText() ([]byte, error) {
-	if v, found := state2StringMap[s]; found {
+func (S State) MarshalText() ([]byte, error) {
+	if v, found := _StateToString[S]; found {
 		return []byte(v), nil
 	}
-	return []byte(fmt.Sprintf("State(%d)", s)), fmt.Errorf("未找到 %d 对应的字符串值", s)
-}
-
-// ParseState 将字符串 v 解析为 State 类型
-func ParseState(v string) (State, error) {
-	if t, found := string2StateMap[v]; found {
-		return t, nil
-	}
-	return 0, fmt.Errorf("未找到 %s 对应的值", v)
+	return nil, locales.ErrInvalidValue()
 }
 
 // UnmarshalText encoding.TextUnmarshaler
-func (s *State) UnmarshalText(p []byte) error {
+func (S *State) UnmarshalText(p []byte) error {
 	tmp, err := ParseState(string(p))
 	if err == nil {
-		*s = tmp
+		*S = tmp
 	}
 	return err
 }
 
-// IsValid 验证该状态值是否有效
-func (s State) IsValid() bool {
-	_, found := state2StringMap[s]
+func (S State) IsValid() bool {
+	_, found := _StateToString[S]
 	return found
 }
 
-func StateValidator(v State) bool {
-	return v.IsValid()
-}
+func StateValidator(v State) bool { return v.IsValid() }
 
-var StateRule = filter.NewRule(StateValidator, locales.InvalidValue)
+var (
+	StateRule = web.NewRule(StateValidator, locales.InvalidValue)
 
-var StateSliceRule = filter.NewSliceRules[State, []State](StateRule)
+	StateSliceRule = web.NewSliceRules[State, []State](StateRule)
 
-var StateFilter = filter.New(StateRule)
+	StateFilter = web.NewFilter(StateRule)
 
-var StateSliceFilter = filter.New(StateSliceRule)
+	StateSliceFilter = web.NewFilter(StateSliceRule)
+)
+
+//---------------------end State--------------------

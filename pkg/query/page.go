@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package query
@@ -23,9 +25,9 @@ type Limit struct {
 	Size int `query:"size,20"` // 每页的数量
 }
 
-func (l *Limit) CTXFilter(v *web.FilterProblem) {
-	v.AddFilter(filters.MinZero("page", &l.Page)).
-		AddFilter(filters.MinZero("size", &l.Size))
+func (l *Limit) Filter(v *web.FilterContext) {
+	v.Add(filters.MinZero("page", &l.Page)).
+		Add(filters.MinZero("size", &l.Size))
 }
 
 // PagingResponser 将分页对象封装成 [web.Responser]

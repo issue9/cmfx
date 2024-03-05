@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package user
@@ -26,7 +28,7 @@ type Config struct {
 	RefreshExpires int `json:"refreshExpires,omitempty" xml:"refreshExpires,attr,omitempty" yaml:"refreshExpires,omitempty"`
 
 	// 支持的所有算法
-	Algorithms []*Algorithm `json:"algorithms,omitempty" xml:"algorithm,omitempty" yaml:"algorithms,omitempty"`
+	Algorithms []*Algorithm `json:"algorithms,omitempty" xml:"algorithms>algorithm,omitempty" yaml:"algorithms,omitempty"`
 }
 
 type Algorithm struct {

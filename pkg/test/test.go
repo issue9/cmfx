@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package test 提供测试功能函数
@@ -8,17 +10,13 @@ import (
 	"os"
 	"strings"
 
-	"github.com/issue9/assert/v3"
-	"github.com/issue9/assert/v3/rest"
+	"github.com/issue9/assert/v4"
+	"github.com/issue9/assert/v4/rest"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/orm/v5/dialect"
 	"github.com/issue9/web"
-	"github.com/issue9/web/logs"
-	"github.com/issue9/web/serializer/json"
-	"github.com/issue9/web/serializer/xml"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/servertest"
-	"gopkg.in/yaml.v3"
 
 	"github.com/issue9/cmfx"
 
@@ -26,10 +24,11 @@ import (
 )
 
 type Suite struct {
-	*web.Server
+	web.Server
 	a   *assert.Assertion
 	db  *orm.DB
 	dsn string
+	r   *web.Router
 
 	closed bool
 }
@@ -39,25 +38,23 @@ func NewSuite(a *assert.Assertion) *Suite {
 	db, err := orm.NewDB(dsn, dialect.Sqlite3("sqlite3"))
 	a.NotError(err).NotNil(db)
 
-	srv, err := web.NewServer("test", "1.0.0", &server.Options{
-		Logs: &logs.Options{
-			Levels:  logs.AllLevels(),
-			Handler: logs.NewTermHandler(logs.NanoLayout, os.Stdout, nil),
+	srv, err := server.New("test", "1.0.0", &server.Options{
+		Logs: &server.Logs{
+			Levels:  server.AllLevels(),
+			Handler: server.NewTermHandler(os.Stdout, nil),
+			Created: server.NanoLayout,
 		},
-		Mimetypes: []*server.Mimetype{
-			{Type: json.Mimetype, Marshal: json.Marshal, Unmarshal: json.Unmarshal, ProblemType: json.ProblemMimetype},
-			{Type: xml.Mimetype, Marshal: xml.Marshal, Unmarshal: xml.Unmarshal, ProblemType: xml.ProblemMimetype},
-		},
+		Mimetypes:  server.APIMimetypes(),
 		HTTPServer: &http.Server{Addr: ":8080"},
 	})
 	a.NotError(err).NotNil(srv)
-	srv.Config().Serializer().Add(yaml.Marshal, yaml.Unmarshal, ".yaml", ".yml")
 
 	s := &Suite{
 		Server: srv,
 		a:      a,
 		db:     db,
 		dsn:    dsn,
+		r:      srv.Routers().New("default", nil),
 	}
 
 	cmfx.AddProblems(s.Server)
@@ -113,5 +110,5 @@ func buildURL(url string) string {
 }
 
 func (s *Suite) NewModule(id string) cmfx.Module {
-	return cmfx.NewModule(id, web.Phrase(id), s.Server, s.DB())
+	return cmfx.NewModule(id, web.Phrase(id), s.Server, s.DB(), s.r)
 }

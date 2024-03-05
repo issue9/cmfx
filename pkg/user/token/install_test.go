@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package token
@@ -5,7 +7,7 @@ package token
 import (
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -18,9 +20,9 @@ func TestInstall(t *testing.T) {
 	mod := suite.NewModule("ttt")
 	Install(mod)
 
-	exists, err := suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_token_blocked_users").Exists()
+	exists, err := suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_blocked_users").Exists()
 	a.NotError(err).True(exists)
 
-	exists, err = suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_token_blocked_tokens").Exists()
+	exists, err = suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_blocked_tokens").Exists()
 	a.NotError(err).True(exists)
 }

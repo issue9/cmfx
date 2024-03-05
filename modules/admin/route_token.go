@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package admin
@@ -15,7 +17,7 @@ type loginQuery struct {
 // # API POST /login 管理员登录
 // @tag admin auth
 // @req * github.com/issue9/cmfx/pkg/user.account
-// @resp 201 * github.com/issue9/middleware/v6/jwt.Response
+// @resp 201 * github.com/issue9/middleware/v6/auth/jwt.Response
 func (m *Admin) postLogin(ctx *web.Context) web.Responser {
 	q := &loginQuery{}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
@@ -38,7 +40,7 @@ func (m *Admin) deleteLogin(ctx *web.Context) web.Responser {
 
 // # api get /token 续定 token
 // @tag admin auth
-// @resp 201 * github.com/issue9/middleware/v6/jwt.Response
+// @resp 201 * github.com/issue9/middleware/v6/auth/jwt.Response
 func (m *Admin) getToken(ctx *web.Context) web.Responser {
 	return m.user.RefreshToken(ctx)
 }

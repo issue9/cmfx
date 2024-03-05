@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package rbac
@@ -6,7 +8,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 
@@ -32,7 +34,7 @@ func TestRBAC_GetResourcesHandle(t *testing.T) {
 	g2.NewResource("r1", web.Phrase("r1"))
 	g2.NewResource("r2", web.Phrase("r2"))
 
-	suite.NewRouter("def", nil).Get("/resources", inst.GetResourcesHandle)
+	mod.Router().Get("/resources", inst.GetResourcesHandle)
 
 	suite.Get("/resources").Header("Accept", "application/json").
 		Do(nil).

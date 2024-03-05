@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package system
@@ -7,7 +9,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 	"github.com/issue9/web/server/servertest"
 	"golang.org/x/text/language"
 
@@ -17,7 +19,7 @@ import (
 func TestSystem_apis(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
-	err := suite.CatalogBuilder().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
+	err := suite.Locale().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
 	a.NotError(err)
 	newSystem(suite)
 

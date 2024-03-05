@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package linkage
@@ -5,7 +7,7 @@ package linkage
 import (
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -16,7 +18,7 @@ func TestInstall(t *testing.T) {
 	defer s.Close()
 
 	mod := s.NewModule("test")
-	a.NotError(Install(mod))
+	Install(mod)
 
 	exists, err := s.DB().SQLBuilder().TableExists().Table(mod.ID() + "_linkages").Exists()
 	a.NotError(err).True(exists)

@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package user
@@ -7,7 +9,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 
@@ -45,7 +47,7 @@ func TestSecurityLog(t *testing.T) {
 	defer servertest.Run(a, suite.Server)()
 	defer suite.Close()
 
-	suite.NewRouter("", nil).Get("/securitylog/{uid}", func(ctx *web.Context) web.Responser {
+	mod.Router().Get("/securitylog/{uid}", func(ctx *web.Context) web.Responser {
 		uid, resp := ctx.PathID("uid", web.ProblemNotFound)
 		if resp != nil {
 			return resp

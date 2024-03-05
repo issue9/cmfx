@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package cmfx
@@ -5,7 +7,6 @@ package cmfx
 import (
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
-	"github.com/issue9/web/cache"
 )
 
 // Module 表示功能相对独立的模块
@@ -17,7 +18,7 @@ type Module interface {
 	Desc() web.LocaleStringer
 
 	// Server 关联的 [web.Server] 对象
-	Server() *web.Server
+	Server() web.Server
 
 	// DB 关联的数据库对象
 	DB() *orm.DB
@@ -35,28 +36,33 @@ type Module interface {
 
 	// Cache 缓存系统
 	Cache() web.Cache
+
+	// Router 关联的路由
+	Router() *web.Router
 }
 
 type module struct {
 	id   string
 	desc web.LocaleStringer
-	s    *web.Server
+	s    web.Server
 
+	r      *web.Router
 	db     *orm.DB
 	prefix orm.Prefix
 	cache  web.Cache
 }
 
 // NewModule 提供了默认的 [Module] 实现
-func NewModule(id string, desc web.LocaleStringer, s *web.Server, db *orm.DB) Module {
+func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router) Module {
 	return &module{
 		id:   id,
 		desc: desc,
 		s:    s,
 
+		r:      r,
 		db:     db,
 		prefix: orm.Prefix(id),
-		cache:  cache.Prefix(s.Cache(), id),
+		cache:  web.NewCache(id, s.Cache()),
 	}
 }
 
@@ -64,7 +70,7 @@ func (m *module) ID() string { return m.id }
 
 func (m *module) Desc() web.LocaleStringer { return m.desc }
 
-func (m *module) Server() *web.Server { return m.s }
+func (m *module) Server() web.Server { return m.s }
 
 func (m *module) DB() *orm.DB { return m.db }
 
@@ -77,8 +83,10 @@ func (m *module) DBEngine(tx *orm.Tx) orm.ModelEngine {
 	return m.DBPrefix().Tx(tx)
 }
 
+func (m *module) Router() *web.Router { return m.r }
+
 func (m *module) New(id string, desc web.LocaleStringer) Module {
-	return NewModule(m.ID()+id, desc, m.Server(), m.DB())
+	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router())
 }
 
 func (m *module) Cache() web.Cache { return m.cache }

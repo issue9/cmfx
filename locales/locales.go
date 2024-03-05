@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package locales 本地化内容
@@ -5,6 +7,7 @@ package locales
 
 import (
 	"embed"
+	"io/fs"
 
 	"github.com/issue9/web"
 	"github.com/issue9/web/locales"
@@ -13,8 +16,7 @@ import (
 //go:embed *.yaml
 var Locales embed.FS
 
-// 引用 github.com/issue9/web 的本地化内容
-var WebLocales = locales.Locales
+var All = append([]fs.FS{Locales}, locales.Locales...)
 
 // 一些常用的翻译项
 const (
@@ -25,4 +27,5 @@ const (
 	MustBeEmpty      = web.StringPhrase("must be empty")
 	StrengthInvalid  = web.StringPhrase("strength invalid")
 	NotInCandidate   = web.StringPhrase("the value not in candidate")
+	NotFound         = web.StringPhrase("not found")
 )

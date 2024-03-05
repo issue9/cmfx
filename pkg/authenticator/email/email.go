@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package email 邮件验证
@@ -8,7 +10,7 @@ import (
 	"time"
 
 	"github.com/issue9/cmfx"
-	"github.com/issue9/orm/v5"
+	"github.com/issue9/cmfx/pkg/db"
 )
 
 type Email struct {
@@ -28,7 +30,7 @@ func New(mod cmfx.Module, expired time.Duration, smtp *SMTP) *Email {
 }
 
 // Send 发送验证码
-func (e *Email) Send(tx *orm.Tx, email, code string) error {
+func (e *Email) Send(tx *db.Tx, email, code string) error {
 	if err := e.smtp.send(email, code); err != nil {
 		return err
 	}
@@ -60,13 +62,13 @@ func (e *Email) Send(tx *orm.Tx, email, code string) error {
 	return err
 }
 
-func (e *Email) Delete(tx *orm.Tx, uid int64) error {
+func (e *Email) Delete(tx *db.Tx, uid int64) error {
 	_, err := e.mod.DBEngine(nil).Delete(&modelEmail{UID: uid})
 	return err
 }
 
 // Invalid 使指定的验证码无效
-func (e *Email) Invalid(tx *orm.Tx, email, code string) error {
+func (e *Email) Invalid(tx *db.Tx, email, code string) error {
 	mod := &modelEmail{
 		Email:    email,
 		Verified: sql.NullTime{Time: time.Now(), Valid: true},

@@ -1,6 +1,8 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
-package config
+package db
 
 import (
 	"github.com/issue9/orm/v5"
@@ -10,8 +12,8 @@ import (
 	"github.com/issue9/cmfx/locales"
 )
 
-// DB 数据库的配置文件格式
-type DB struct {
+// Config 数据库的配置项
+type Config struct {
 	// 表示数据库的类型
 	//
 	// 目前支持以下几种类型：
@@ -25,10 +27,10 @@ type DB struct {
 	// 连接数据库的参数
 	DSN string `yaml:"dsn" json:"dsn" xml:"dsn"`
 
-	db *orm.DB
+	db *DB
 }
 
-func (conf *DB) SanitizeConfig() *web.FieldError {
+func (conf *Config) SanitizeConfig() *web.FieldError {
 	var d orm.Dialect
 	switch conf.Type {
 	case "sqlite3":
@@ -56,4 +58,4 @@ func (conf *DB) SanitizeConfig() *web.FieldError {
 	return nil
 }
 
-func (conf *DB) DB() *orm.DB { return conf.db }
+func (conf *Config) DB() *DB { return conf.db }

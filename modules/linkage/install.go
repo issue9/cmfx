@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package linkage
@@ -6,14 +8,17 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/issue9/cmfx"
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
+
+	"github.com/issue9/cmfx"
+	"github.com/issue9/cmfx/pkg/db"
 )
 
-func Install(mod cmfx.Module) error {
-	e := mod.DBEngine(nil)
-	return web.NewStackError(e.Create(&linkageModel{}))
+func Install(mod cmfx.Module) {
+	cmfx.Init(mod.Server(), nil, func() error {
+		e := mod.DBEngine(nil)
+		return web.NewStackError(e.Create(&linkageModel{}))
+	})
 }
 
 // Install 初始化数据
@@ -52,7 +57,7 @@ func (r *Root[T]) Install(item *Item[T]) error {
 	return r.Load()
 }
 
-func (r *Root[T]) install(engine orm.ModelEngine, parent int64, item *Item[T]) error {
+func (r *Root[T]) install(engine db.ModelEngine, parent int64, item *Item[T]) error {
 	data, err := marshal(item.Data)
 	if err != nil {
 		return err

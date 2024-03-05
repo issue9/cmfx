@@ -1,26 +1,28 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package custom 自定义验证方法
 package custom
 
 import (
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
+	"github.com/issue9/cmfx/pkg/db"
 )
 
 type Func struct {
-	s        *web.Server
-	dbPrefix orm.Prefix
-	db       *orm.DB
+	s        web.Server
+	dbPrefix db.Prefix
+	db       *db.DB
 	f        func(username, password string) bool
 }
 
 // Func 以函数的方式验证账号密码
 //
 // f 用于验证账号和密码的正确性。
-func New(s *web.Server, tableName orm.Prefix, db *orm.DB, f func(string, string) bool) *Func {
+func New(s web.Server, tableName db.Prefix, db *db.DB, f func(string, string) bool) *Func {
 	return &Func{
 		s:        s,
 		dbPrefix: tableName,
@@ -29,7 +31,7 @@ func New(s *web.Server, tableName orm.Prefix, db *orm.DB, f func(string, string)
 	}
 }
 
-func (p *Func) modelEngine(tx *orm.Tx) orm.ModelEngine {
+func (p *Func) modelEngine(tx *db.Tx) db.ModelEngine {
 	if tx == nil {
 		return p.dbPrefix.DB(p.db)
 	} else {
@@ -40,7 +42,7 @@ func (p *Func) modelEngine(tx *orm.Tx) orm.ModelEngine {
 // Add 添加账号
 //
 // 将 uid 与 identity 作关联
-func (p *Func) Add(tx *orm.Tx, uid int64, identity string) error {
+func (p *Func) Add(tx *db.Tx, uid int64, identity string) error {
 	db := p.modelEngine(tx)
 
 	n, err := db.Where("identity=?", identity).Count(&modelCustom{})
@@ -59,7 +61,7 @@ func (p *Func) Add(tx *orm.Tx, uid int64, identity string) error {
 }
 
 // Delete 删除关联信息
-func (p *Func) Delete(tx *orm.Tx, uid int64) error {
+func (p *Func) Delete(tx *db.Tx, uid int64) error {
 	_, err := p.modelEngine(tx).Delete(&modelCustom{UID: uid})
 	return err
 }

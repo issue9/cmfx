@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package admin
@@ -7,7 +9,6 @@ import (
 
 	"github.com/issue9/orm/v5/sqlbuilder"
 	"github.com/issue9/web"
-	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/query"
@@ -61,13 +62,13 @@ type adminsQuery struct {
 	m      *Admin
 }
 
-func (q *adminsQuery) CTXFilter(v *web.FilterProblem) {
-	q.Text.CTXFilter(v)
+func (q *adminsQuery) Filter(v *web.FilterContext) {
+	q.Text.Filter(v)
 
-	g := filter.NewSliceRule[int64, []int64](q.m.rbac.RoleExists, web.Phrase("roles not exists"))
-	v.AddFilter(filter.New(g)("roles", &q.Roles)).
-		AddFilter(user.StateSliceFilter("state", &q.States)).
-		AddFilter(cmfx.SexSliceFilter("sex", &q.Sexes))
+	g := web.NewSliceRule[int64, []int64](q.m.rbac.RoleExists, web.Phrase("roles not exists"))
+	v.Add(web.NewFilter(g)("roles", &q.Roles)).
+		Add(user.StateSliceFilter("state", &q.States)).
+		Add(cmfx.SexSliceFilter("sex", &q.Sexes))
 }
 
 // # API GET /admins 获取所有的管理员账号

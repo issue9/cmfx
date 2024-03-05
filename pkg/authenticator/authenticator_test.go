@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package authenticator_test
@@ -6,7 +8,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
@@ -25,7 +27,7 @@ func TestAuthenticators(t *testing.T) {
 
 	auth := authenticator.NewAuthenticators(suite.Server, time.Minute, web.Phrase("gc"))
 	a.NotNil(auth)
-	a.Length(auth.All(suite.Server.LocalePrinter()), 0)
+	a.Length(auth.All(suite.Server.Locale().Printer()), 0)
 
 	// Register
 
@@ -39,7 +41,7 @@ func TestAuthenticators(t *testing.T) {
 		auth.Register("p1", p1, web.Phrase("password"))
 	}, "已经存在同名 p1 的验证器")
 
-	a.Length(auth.All(suite.Server.LocalePrinter()), 2)
+	a.Length(auth.All(suite.Server.Locale().Printer()), 2)
 
 	// Valid / Identities
 

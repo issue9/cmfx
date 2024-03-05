@@ -92,6 +92,9 @@ messages:
     - key: must be less than %d
       message:
         msg: 必须小于 %d
+    - key: not found
+      message:
+        msg: not found
     - key: only for super
       message:
         msg: 只有超级管理员才有此权限

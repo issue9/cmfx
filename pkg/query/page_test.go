@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package query
@@ -6,7 +8,7 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
@@ -14,7 +16,7 @@ import (
 	"github.com/issue9/cmfx/pkg/test"
 )
 
-var _ web.CTXFilter = &Limit{}
+var _ web.Filter = &Limit{}
 
 type testMod struct {
 	ID   int64  `orm:"name(id);ai"`
@@ -26,7 +28,8 @@ func (m *testMod) TableName() string { return "mods" }
 func TestPaging(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	r := s.NewRouter("def", nil)
+	mod := s.NewModule("test")
+	r := mod.Router()
 
 	a.NotError(s.DB().Create(&testMod{}))
 

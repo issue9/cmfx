@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package system
@@ -7,7 +9,6 @@ import (
 	"time"
 
 	"github.com/issue9/web"
-	"github.com/issue9/web/server"
 )
 
 // # api get /system/apis API 信息
@@ -30,6 +31,7 @@ type dbInfo struct {
 	MaxIdleTimeClosed  int64         `json:"maxIdleTimeClosed,omitempty" xml:"maxIdleTimeClosed,omitempty"` // The total number of connections closed due to SetConnMaxIdleTime.
 	MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed"`                     // 最生命周期联接
 }
+
 type info struct {
 	XMLName string `json:"-" xml:"info"`
 
@@ -81,9 +83,9 @@ func (s *System) adminGetInfo(ctx *web.Context) web.Responser {
 }
 
 type service struct {
-	Title string       `json:"title" xml:"title"`
-	State server.State `json:"state" xml:"state,attr"`
-	Err   string       `json:"err,omitempty" xml:"err,omitempty"`
+	Title string    `json:"title" xml:"title"`
+	State web.State `json:"state" xml:"state,attr"`
+	Err   string    `json:"err,omitempty" xml:"err,omitempty"`
 }
 type job struct {
 	service
@@ -102,7 +104,7 @@ type services struct {
 func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 
 	ss := services{}
-	ctx.Server().Services().Visit(func(title web.LocaleStringer, state server.State, err error) {
+	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
 		var err1 string
 		if err != nil {
 			err1 = err.Error()
@@ -115,20 +117,15 @@ func (s *System) adminGetServices(ctx *web.Context) web.Responser {
 		})
 	})
 
-	ctx.Server().Services().VisitJobs(func(name web.LocaleStringer, prev, next time.Time, state server.State, b bool, err error) {
-		var err1 string
-		if err != nil {
-			err1 = err.Error()
-		}
-
+	ctx.Server().Services().VisitJobs(func(j *web.Job) {
 		ss.Jobs = append(ss.Jobs, job{
 			service: service{
-				Title: name.LocaleString(ctx.LocalePrinter()),
-				State: state,
-				Err:   err1,
+				Title: j.Title().LocaleString(ctx.LocalePrinter()),
+				State: j.State(),
+				Err:   j.Err().Error(),
 			},
-			Next: next,
-			Prev: prev,
+			Next: j.Next(),
+			Prev: j.Prev(),
 		})
 	})
 
@@ -149,12 +146,12 @@ type problem struct {
 func (s *System) commonGetProblems(ctx *web.Context) web.Responser {
 
 	ps := make([]*problem, 0, 100)
-	ctx.Server().VisitProblems(func(prefix, id string, status int, title, detail web.LocaleStringer) {
+	ctx.Server().Problems().Visit(func(status int, p *web.LocaleProblem) {
 		ps = append(ps, &problem{
-			ID:     id,
+			ID:     p.ID,
 			Status: status,
-			Title:  title.LocaleString(ctx.LocalePrinter()),
-			Detail: detail.LocaleString(ctx.LocalePrinter()),
+			Title:  p.Title.LocaleString(ctx.LocalePrinter()),
+			Detail: p.Detail.LocaleString(ctx.LocalePrinter()),
 		})
 	})
 

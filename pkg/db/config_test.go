@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-package user
+package db
 
-import "github.com/issue9/cmfx"
+import "github.com/issue9/config"
 
-var _ cmfx.Module = &Module{}
+var _ config.Sanitizer = &Config{}

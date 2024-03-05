@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package user
@@ -7,8 +9,7 @@ import (
 	"time"
 )
 
-//go:generate go run ../../cmd/enums -file=state_methods.go -pkg=user -enum=State:s,StateNormal,StateLocked,StateDeleted
-
+//go:generate web enum -i=./models.go -o=./state_methods.go -t=State
 const (
 	StateNormal  State = iota // 正常
 	StateLocked               // 锁定

@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package token
@@ -9,8 +11,8 @@ import (
 	"time"
 
 	gojwt "github.com/golang-jwt/jwt/v5"
-	"github.com/issue9/assert/v3"
-	"github.com/issue9/middleware/v6/jwt"
+	"github.com/issue9/assert/v4"
+	"github.com/issue9/middleware/v6/auth/jwt"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
@@ -46,9 +48,9 @@ func TestTokens_loadData_and_scanJob(t *testing.T) {
 		False(tks.TokenIsBlocked("1")).
 		True(tks.TokenIsBlocked("2")).
 		False(tks.TokenIsBlocked("not-exists")).
-		False(tks.ClaimsIsBlocked(&Claims{User: "1"})).
-		True(tks.ClaimsIsBlocked(&Claims{User: "2"})).
-		False(tks.ClaimsIsBlocked(&Claims{User: "1000"}))
+		False(tks.ClaimsIsBlocked(&claims{User: "1"})).
+		True(tks.ClaimsIsBlocked(&claims{User: "2"})).
+		False(tks.ClaimsIsBlocked(&claims{User: "1000"}))
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 
 	// 此时数据库里数据依然是各两条，AddTicker 的 imm 为 false，不会立即执行。
@@ -73,13 +75,13 @@ func TestTokens_New(t *testing.T) {
 
 	mod := suite.NewModule("test")
 	Install(mod)
-	r := suite.NewRouter("def", nil)
+	r := mod.Router()
 
 	tks, err := NewTokens(mod, 60, 0, web.Phrase("job"))
 	a.NotError(err).NotNil(tks)
 	tks.AddHMAC("hmac", gojwt.SigningMethodHS256, []byte("hmac"))
 	r.Post("/login", func(ctx *web.Context) web.Responser {
-		return tks.New(ctx, http.StatusCreated, NewClaims(ctx, "1"))
+		return tks.New(ctx, http.StatusCreated, "1")
 	})
 
 	r.Post("/refresh", tks.Middleware(func(ctx *web.Context) web.Responser {
@@ -88,13 +90,13 @@ func TestTokens_New(t *testing.T) {
 				return web.Status(http.StatusForbidden)
 			}
 
-			if err := tks.BlockToken(tks.GetToken(ctx)); err != nil {
+			if err := tks.BlockToken(jwt.GetToken(ctx)); err != nil {
 				return ctx.Error(err, "")
 			}
 			if err := tks.BlockToken(xx.BaseToken()); err != nil {
 				return ctx.Error(err, "")
 			}
-			return tks.New(ctx, http.StatusCreated, NewClaims(ctx, xx.User))
+			return tks.New(ctx, http.StatusCreated, xx.User)
 		}
 		return web.Status(http.StatusUnauthorized)
 	}))

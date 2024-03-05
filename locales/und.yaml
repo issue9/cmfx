@@ -84,6 +84,9 @@ messages:
     - key: must be less than %d
       message:
         msg: must be less than %d
+    - key: not found
+      message:
+        msg: not found
     - key: only for super
       message:
         msg: only for super

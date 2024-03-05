@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package custom
@@ -5,7 +7,7 @@ package custom
 import (
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 	"github.com/issue9/orm/v5"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
@@ -18,10 +20,10 @@ func TestCustom(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	m := "test"
-	Install(suite.Server, m, suite.DB())
+	mod := suite.NewModule("test")
+	Install(mod)
 
-	f := New(suite.Server, orm.Prefix(m), suite.DB(), func(s1, s2 string) bool {
+	f := New(suite.Server, orm.Prefix(mod.ID()), suite.DB(), func(s1, s2 string) bool {
 		return s1 == s2
 	})
 	a.NotNil(f)

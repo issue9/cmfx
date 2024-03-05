@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package token 令牌管理
@@ -6,9 +8,8 @@ package token
 import (
 	"time"
 
-	"github.com/issue9/middleware/v6/jwt"
+	"github.com/issue9/middleware/v6/auth/jwt"
 	"github.com/issue9/web"
-	"github.com/issue9/web/cache"
 
 	"github.com/issue9/cmfx"
 )
@@ -16,11 +17,11 @@ import (
 // Tokens 令牌管理
 type Tokens struct {
 	mod cmfx.Module
-	*jwt.JWT[*Claims]
+	*jwt.JWT[*claims]
 
-	log web.Logger
+	log *web.Logger
 
-	cache          cache.Cache // 保存运行时的过期 token
+	cache          web.Cache // 保存运行时的过期 token
 	blockerExpired time.Duration
 }
 
@@ -40,10 +41,10 @@ func NewTokens(mod cmfx.Module, expires, refreshes int, jobTitle web.LocaleStrin
 		mod: mod,
 		log: mod.Server().Logs().ERROR(),
 
-		cache:          cache.Prefix(mod.Server().Cache(), mod.ID()+"_"),
+		cache:          web.NewCache(mod.ID()+"_", mod.Server().Cache()),
 		blockerExpired: refreshed,
 	}
-	tks.JWT = jwt.New[*Claims](tks, buildClaims, expired, refreshed, nil)
+	tks.JWT = jwt.New[*claims](tks, buildClaims, expired, refreshed, nil)
 
 	if err := tks.loadData(); err != nil {
 		return nil, err
@@ -102,7 +103,7 @@ func (tks *Tokens) TokenIsBlocked(token string) bool {
 	return tks.cache.Exists(token)
 }
 
-func (tks *Tokens) ClaimsIsBlocked(c *Claims) bool {
+func (tks *Tokens) ClaimsIsBlocked(c *claims) bool {
 	return tks.cache.Exists(c.User)
 }
 
@@ -128,7 +129,7 @@ func (tks *Tokens) blockCacheToken(token string) error {
 	return web.NewStackError(tks.cache.Set(token, struct{}{}, tks.blockerExpired))
 }
 
-// BlockUID 丢弃 User 关联的所有令牌
+// BlockUID 丢弃 uid 关联的所有令牌
 //
 // 时长为 New 中传递的 expires 的两倍。
 // 包括后续生成的令牌，一般用于禁止用户登录等操作。
@@ -168,7 +169,9 @@ func (tks *Tokens) recoverCacheUID(uid string) error {
 // New 签发新的令牌
 //
 // access 普通的访问令牌；
-// refresh 刷新令牌；
-func (tks *Tokens) New(ctx *web.Context, status int, access *Claims) web.Responser {
-	return tks.Render(ctx, status, access)
+func (tks *Tokens) New(ctx *web.Context, status int, no string) web.Responser {
+	return tks.Render(ctx, status, &claims{
+		User: no,
+		ID:   ctx.Server().UniqueID(),
+	})
 }

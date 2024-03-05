@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package password 密码类型的验证器
@@ -6,12 +8,12 @@ package password
 import (
 	"errors"
 
-	"github.com/issue9/cmfx"
-	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 	"golang.org/x/crypto/bcrypt"
 
+	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/authenticator"
+	"github.com/issue9/cmfx/pkg/db"
 )
 
 const defaultCost = 11
@@ -29,8 +31,8 @@ func New(mod cmfx.Module) *Password {
 
 // Add 添加账号
 //
-// 如果 tx 为空，那么将采用 orm.DB 访问数据库。
-func (p *Password) Add(tx *orm.Tx, uid int64, identity, pass string) error {
+// 如果 tx 为空，那么将采用 [db.DB] 访问数据库。
+func (p *Password) Add(tx *db.Tx, uid int64, identity, pass string) error {
 	db := p.mod.DBEngine(tx)
 
 	n, err := db.Where("identity=?", identity).Count(&modelPassword{})
@@ -54,13 +56,13 @@ func (p *Password) Add(tx *orm.Tx, uid int64, identity, pass string) error {
 }
 
 // Delete 删除关联的密码信息
-func (p *Password) Delete(tx *orm.Tx, uid int64) error {
+func (p *Password) Delete(tx *db.Tx, uid int64) error {
 	_, err := p.mod.DBEngine(tx).Delete(&modelPassword{UID: uid})
 	return err
 }
 
 // Set 强制修改密码
-func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
+func (p *Password) Set(tx *db.Tx, uid int64, pass string) error {
 	pa, err := bcrypt.GenerateFromPassword([]byte(pass), defaultCost)
 	if err != nil {
 		return err
@@ -74,7 +76,7 @@ func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
 }
 
 // Change 验证并修改
-func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
+func (p *Password) Change(tx *db.Tx, uid int64, old, pass string) error {
 	pp := &modelPassword{UID: uid}
 	found, err := p.mod.DBEngine(tx).Select(pp)
 	if err != nil {

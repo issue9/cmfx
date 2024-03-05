@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package user
@@ -6,12 +8,12 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/issue9/middleware/v6/auth/jwt"
 	"github.com/issue9/orm/v5"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/filters"
-	"github.com/issue9/cmfx/pkg/user/token"
 )
 
 // AfterFunc 在执行登录和注销行为之后的操作
@@ -22,9 +24,9 @@ type account struct {
 	Password string `json:"password" xml:"password" yaml:"password"`
 }
 
-func (c *account) CTXFilter(v *web.FilterProblem) {
-	v.AddFilter(filters.RequiredString("username", &c.Username)).
-		AddFilter(filters.RequiredString("password", &c.Password))
+func (c *account) Filter(v *web.FilterContext) {
+	v.Add(filters.RequiredString("username", &c.Username)).
+		Add(filters.RequiredString("password", &c.Password))
 }
 
 // SetState 设置状态
@@ -101,7 +103,9 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 
 	if !found {
 		ctx.Logs().DEBUG().Printf("用户名 %v 不存在\n", data.Username)
-		return ctx.Problem(cmfx.UnauthorizedRegistrable).WithField("identity", identity)
+		return ctx.Problem(cmfx.UnauthorizedRegistrable).WithExtensions(&struct {
+			Identity string `json:"identity" xml:"identity" yaml:"identity"`
+		}{Identity: identity})
 	}
 
 	if a.State != StateNormal {
@@ -116,14 +120,14 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 		after(uid)
 	}
 
-	return m.token.New(ctx, http.StatusCreated, token.NewClaims(ctx, a.NO))
+	return m.token.New(ctx, http.StatusCreated, a.NO)
 }
 
 // Logout 注销
 func (m *Module) Logout(ctx *web.Context, after AfterFunc) web.Responser {
 	uid := m.LoginUser(ctx).ID
 
-	if err := m.token.BlockToken(m.token.GetToken(ctx)); err != nil {
+	if err := m.token.BlockToken(jwt.GetToken(ctx)); err != nil {
 		ctx.Logs().ERROR().Error(err)
 	}
 
@@ -148,9 +152,9 @@ func (m *Module) RefreshToken(ctx *web.Context) web.Responser {
 	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, "刷新令牌"); err != nil {
 		ctx.Logs().ERROR().Error(err)
 	}
-	return m.token.New(ctx, http.StatusCreated, token.NewClaims(ctx, u.NO))
+	return m.token.New(ctx, http.StatusCreated, u.NO)
 }
 
 func (m *Module) BlockTokenFromContext(ctx *web.Context) error {
-	return m.token.BlockToken(m.token.GetToken(ctx))
+	return m.token.BlockToken(jwt.GetToken(ctx))
 }

@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package cmfx
@@ -37,36 +39,21 @@ const (
 	ForbiddenCaNotDeleteYourself = "40302"
 )
 
-type StatusProblem struct {
-	s      *web.Server
-	status int
-}
-
-func (p *StatusProblem) Add(id string, title, detail web.LocaleStringer) *StatusProblem {
-	p.s.AddProblem(id, p.status, title, detail)
-	return p
-}
-
-func NewStatusProblem(s *web.Server, status int) *StatusProblem {
-	return &StatusProblem{s: s, status: status}
-}
-
-func AddProblems(p *web.Server) {
-	s := NewStatusProblem(p, http.StatusBadRequest)
-	s.Add(BadRequestInvalidPath, web.Phrase("bad request invalid param"), web.Phrase("bad request invalid param detail")).
-		Add(BadRequestInvalidQuery, web.Phrase("bad request invalid query"), web.Phrase("bad request invalid query detail")).
-		Add(BadRequestInvalidHeader, web.Phrase("bad request invalid header"), web.Phrase("bad request invalid header detail")).
-		Add(BadRequestInvalidBody, web.Phrase("bad request invalid body"), web.Phrase("bad request invalid body detail"))
-
-	s = NewStatusProblem(p, http.StatusUnauthorized)
-	s.Add(UnauthorizedInvalidState, web.Phrase("unauthorized invalid state"), web.Phrase("unauthorized invalid state detail")).
-		Add(UnauthorizedInvalidToken, web.Phrase("unauthorized invalid token"), web.Phrase("unauthorized invalid token detail")).
-		Add(UnauthorizedInvalidPassword, web.Phrase("unauthorized invalid password"), web.Phrase("unauthorized invalid password detail")).
-		Add(UnauthorizedInvalidAccount, web.Phrase("unauthorized invalid account"), web.Phrase("unauthorized invalid account detail")).
-		Add(UnauthorizedNeedChangePassword, web.Phrase("unauthorized need change password"), web.Phrase("unauthorized need change password detail")).
-		Add(UnauthorizedRegistrable, web.Phrase("identity registrable"), web.Phrase("identity registrable detail"))
-
-	s = NewStatusProblem(p, http.StatusForbidden)
-	s.Add(ForbiddenStateNotAllow, web.Phrase("forbidden state not allow"), web.Phrase("forbidden state not allow detail")).
-		Add(ForbiddenCaNotDeleteYourself, web.Phrase("forbidden can not delete yourself"), web.Phrase("forbidden can not delete yourself detail"))
+func AddProblems(s web.Server) {
+	s.Problems().Add(http.StatusBadRequest,
+		&web.LocaleProblem{ID: BadRequestInvalidPath, Title: web.StringPhrase("bad request invalid param"), Detail: web.StringPhrase("bad request invalid param detail")},
+		&web.LocaleProblem{ID: BadRequestInvalidQuery, Title: web.StringPhrase("bad request invalid query"), Detail: web.StringPhrase("bad request invalid query detail")},
+		&web.LocaleProblem{ID: BadRequestInvalidHeader, Title: web.StringPhrase("bad request invalid header"), Detail: web.StringPhrase("bad request invalid header detail")},
+		&web.LocaleProblem{ID: BadRequestInvalidBody, Title: web.StringPhrase("bad request invalid body"), Detail: web.StringPhrase("bad request invalid body detail")},
+	).Add(http.StatusUnauthorized,
+		&web.LocaleProblem{ID: UnauthorizedInvalidState, Title: web.StringPhrase("unauthorized invalid state"), Detail: web.StringPhrase("unauthorized invalid state detail")},
+		&web.LocaleProblem{ID: UnauthorizedInvalidToken, Title: web.StringPhrase("unauthorized invalid token"), Detail: web.StringPhrase("unauthorized invalid token detail")},
+		&web.LocaleProblem{ID: UnauthorizedInvalidPassword, Title: web.StringPhrase("unauthorized invalid password"), Detail: web.StringPhrase("unauthorized invalid password detail")},
+		&web.LocaleProblem{ID: UnauthorizedInvalidAccount, Title: web.StringPhrase("unauthorized invalid account"), Detail: web.StringPhrase("unauthorized invalid account detail")},
+		&web.LocaleProblem{ID: UnauthorizedNeedChangePassword, Title: web.StringPhrase("unauthorized need change password"), Detail: web.StringPhrase("unauthorized need change password detail")},
+		&web.LocaleProblem{ID: UnauthorizedRegistrable, Title: web.StringPhrase("identity registrable"), Detail: web.StringPhrase("identity registrable detail")},
+	).Add(http.StatusForbidden,
+		&web.LocaleProblem{ID: ForbiddenStateNotAllow, Title: web.StringPhrase("forbidden state not allow"), Detail: web.StringPhrase("forbidden state not allow detail")},
+		&web.LocaleProblem{ID: ForbiddenCaNotDeleteYourself, Title: web.StringPhrase("forbidden can not delete yourself"), Detail: web.StringPhrase("forbidden can not delete yourself detail")},
+	)
 }

@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package user
@@ -33,7 +35,7 @@ type logQuery struct {
 }
 
 // GetSecurityLogs 将数据以固定的格式输出客户端
-func (m *Module) GetSecurityLogs(uid int64, ctx *web.Context) web.Responser {
+func (m *Module) GetSecurityLogs(ctx *web.Context) web.Responser {
 	u := m.LoginUser(ctx)
 	return m.getSecurityLogs(u.ID, ctx)
 }

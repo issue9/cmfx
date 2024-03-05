@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 // Package user 会员账号
@@ -14,7 +16,6 @@ import (
 	"github.com/issue9/orm/v5/sqlbuilder"
 	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
-	"github.com/issue9/web/server"
 
 	"github.com/issue9/cmfx/pkg/authenticator"
 	"github.com/issue9/cmfx/pkg/user/token"
@@ -53,11 +54,6 @@ func NewModule(mod cmfx.Module, conf *Config) (*Module, error) {
 
 func (m *Module) URLPrefix() string { return m.urlPrefix }
 
-// Router 声明以 [Module.URLPrefix] 为前缀的路径
-func (m *Module) Router(r *web.Router, ms ...web.Middleware) *server.Prefix {
-	return r.Prefix(m.URLPrefix(), ms...)
-}
-
 func (m *Module) GetUser(uid int64) (*User, error) {
 	u := &User{ID: uid}
 	found, err := m.DBEngine(nil).Select(u)
@@ -65,7 +61,7 @@ func (m *Module) GetUser(uid int64) (*User, error) {
 		return nil, err
 	}
 	if !found {
-		return nil, web.NewHTTPError(http.StatusNotFound, os.ErrNotExist)
+		return nil, web.NewError(http.StatusNotFound, os.ErrNotExist)
 	}
 	return u, nil
 }
@@ -79,9 +75,10 @@ func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states [
 
 func (m *Module) ID() string                                         { return m.mod.ID() }
 func (m *Module) Desc() web.LocaleStringer                           { return m.mod.Desc() }
-func (m *Module) Server() *web.Server                                { return m.mod.Server() }
+func (m *Module) Server() web.Server                                 { return m.mod.Server() }
 func (m *Module) DB() *orm.DB                                        { return m.mod.DB() }
 func (m *Module) DBPrefix() orm.Prefix                               { return m.mod.DBPrefix() }
 func (m *Module) DBEngine(tx *orm.Tx) orm.ModelEngine                { return m.mod.DBEngine(tx) }
 func (m *Module) Cache() web.Cache                                   { return m.mod.Cache() }
+func (m *Module) Router() *web.Router                                { return m.mod.Router() }
 func (m *Module) New(id string, desc web.LocaleStringer) cmfx.Module { return m.mod.New(id, desc) }

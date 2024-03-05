@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package token
@@ -9,11 +11,11 @@ type blockedToken struct {
 	Expired time.Time `orm:"name(expired)"`
 }
 
-func (d *blockedToken) TableName() string { return `_token_blocked_tokens` }
+func (d *blockedToken) TableName() string { return `_blocked_tokens` }
 
 type discardUser struct {
 	UserID  string    `orm:"name(user_id);unique(user_id)"`
 	Expired time.Time `orm:"name(expired)"`
 }
 
-func (d *discardUser) TableName() string { return `_token_blocked_users` }
+func (d *discardUser) TableName() string { return `_blocked_users` }

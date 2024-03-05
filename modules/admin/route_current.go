@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package admin
@@ -6,7 +8,6 @@ import (
 	"errors"
 
 	"github.com/issue9/web"
-	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx"
 	"github.com/issue9/cmfx/pkg/authenticator"
@@ -54,11 +55,11 @@ type putPassword struct {
 	New     string   `json:"new" xml:"new"`
 }
 
-func (p *putPassword) CTXFilter(v *web.FilterProblem) {
-	same := filter.NewRule(func(s string) bool { return s == p.Old }, web.StringPhrase("same of new and old password"))
-	v.AddFilter(filters.RequiredString("old", &p.Old)).
-		AddFilter(filters.RequiredString("new", &p.New)).
-		AddFilter(filter.New(same)("new", &p.New))
+func (p *putPassword) Filter(v *web.FilterContext) {
+	same := web.NewRule(func(s string) bool { return s == p.Old }, web.StringPhrase("same of new and old password"))
+	v.Add(filters.RequiredString("old", &p.Old)).
+		Add(filters.RequiredString("new", &p.New)).
+		Add(web.NewFilter(same)("new", &p.New))
 }
 
 // # api put /password 当前登录用户修改自己的密码
@@ -93,8 +94,5 @@ func (m *Admin) putCurrentPassword(ctx *web.Context) web.Responser {
 // @query github.com/issue9/cmfx/pkg/user.logQuery
 // @resp 200 * github.com/issue9/cmfx/pkg/query.Page[github.com/issue9/cmfx/pkg/user.respLog]
 func (m *Admin) getSecurityLogs(ctx *web.Context) web.Responser {
-	if u := m.LoginUser(ctx); u != nil {
-		return m.user.GetSecurityLogs(u.ID, ctx)
-	}
-	return ctx.Problem(cmfx.Unauthorized)
+	return m.user.GetSecurityLogs(ctx)
 }

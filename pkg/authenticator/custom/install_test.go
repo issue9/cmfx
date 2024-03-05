@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package custom
@@ -5,7 +7,7 @@ package custom
 import (
 	"testing"
 
-	"github.com/issue9/assert/v3"
+	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/pkg/test"
 )
@@ -15,10 +17,10 @@ func TestInstall(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	id := "test"
+	mod := suite.NewModule("test")
 
-	Install(suite.Server, id, suite.DB())
+	Install(mod)
 
-	exists, err := suite.DB().SQLBuilder().TableExists().Table(id).Exists()
+	exists, err := suite.DB().SQLBuilder().TableExists().Table(mod.ID()).Exists()
 	a.NotError(err).True(exists)
 }

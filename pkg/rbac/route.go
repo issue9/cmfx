@@ -1,3 +1,5 @@
+// SPDX-FileCopyrightText: 2022-2024 caixw
+//
 // SPDX-License-Identifier: MIT
 
 package rbac
@@ -34,9 +36,9 @@ type responseResources struct {
 	Groups  []responseResponseGroup `json:"groups" xml:"resource"`
 }
 
-func (r *requestRole) CTXFilter(v *web.FilterProblem) {
-	v.AddFilter(filters.RequiredString("description", &r.Desc)).
-		AddFilter(filters.RequiredString("name", &r.Name))
+func (r *requestRole) Filter(v *web.FilterContext) {
+	v.Add(filters.RequiredString("description", &r.Desc)).
+		Add(filters.RequiredString("name", &r.Name))
 }
 
 func buildResponseResources(p *message.Printer, gs map[string]*Group) *responseResources {
@@ -53,7 +55,7 @@ func buildResponseResources(p *message.Printer, gs map[string]*Group) *responseR
 				Title: title.LocaleString(p),
 			})
 		}
-		sort.SliceStable(gg.Resources, func(i, j int) bool { return gg.Resources[i].ID < gg.Resources[j].ID })
+		sort.SliceStable(gg.Resources, func(i, j int) bool { return gg.Resources[i].ID < gg.Resources[j].ID }) // TODO(go1.21): slices.SliceStable
 		resources.Groups = append(resources.Groups, gg)
 	}
 	sort.SliceStable(resources.Groups, func(i, j int) bool {
