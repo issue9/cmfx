@@ -14,18 +14,26 @@ import (
 )
 
 //go:embed *.yaml
-var Locales embed.FS
+var locale embed.FS
 
-var All = append([]fs.FS{Locales}, locales.Locales...)
+var All = append([]fs.FS{locale}, locales.Locales...)
 
 // 一些常用的翻译项
 const (
-	InvalidFormat    = web.StringPhrase("invalid format")
+	InvalidFormat    = locales.InvalidFormat
 	InvalidURLFormat = web.StringPhrase("invalid url format")
 	InvalidValue     = locales.InvalidValue
-	Required         = web.StringPhrase("required")
+	Required         = locales.CanNotBeEmpty
 	MustBeEmpty      = web.StringPhrase("must be empty")
 	StrengthInvalid  = web.StringPhrase("strength invalid")
 	NotInCandidate   = web.StringPhrase("the value not in candidate")
 	NotFound         = web.StringPhrase("not found")
 )
+
+func MustBeGreaterThan[T any](v T) web.LocaleStringer {
+	return web.Phrase("must be greater than %v", v)
+}
+
+func MustBeLessThan[T any](v T) web.LocaleStringer {
+	return web.Phrase("must be less than %v", v)
+}

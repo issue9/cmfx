@@ -1,83 +1,91 @@
-id: und
+id: zh-CN
 messages:
     - key: admin
       message:
-        msg: admin
+        msg: 管理员
     - key: admin installer
       message:
         msg: admin installer
     - key: auth id gc
       message:
-        msg: auth id gc
+        msg: 回收验证器的 ID
     - key: bad request invalid body
       message:
-        msg: bad request invalid body
+        msg: 无效的报文
+    - key: bad request invalid body
+      message:
+        msg: 提交的报头内容格式不正确返回此错误。比如无效的 JSON 格式等。
     - key: bad request invalid body detail
       message:
         msg: bad request invalid body detail
     - key: bad request invalid header
       message:
-        msg: bad request invalid header
+        msg: 无效的报头
     - key: bad request invalid header detail
       message:
-        msg: bad request invalid header detail
+        msg: |
+            无效的报头内容，缺少必要的报头，或是提交的报头格式不正确返回此错误。
     - key: bad request invalid param
       message:
-        msg: bad request invalid param
+        msg: 无效的路径参数
     - key: bad request invalid param detail
       message:
-        msg: bad request invalid param detail
+        msg: |
+            无效的路径参数，一般是路径参数的格式不正常，比如要求是数值型的，提交了 undefined， 比如 `/users/1` 变成了 `/users/undefined`。
     - key: bad request invalid query
       message:
-        msg: bad request invalid query
+        msg: 无效的查询参数
     - key: bad request invalid query detail
       message:
-        msg: bad request invalid query detail
+        msg: |
+            查询参数格式不正确，类似于无效的路径参数，大概率是前端提交的类型有误。
     - key: can not do it for super
       message:
-        msg: can not do it for super
+        msg: 不能对超级管理使用有此操作
     - key: can not do it for super detail
       message:
-        msg: can not do it for super detail
+        msg: 该操作无法应用到超级管理员身上，比如要修改该管理员的权限组等操作。
     - key: delete admins
       message:
         msg: delete admins
     - key: delete groups
       message:
-        msg: delete groups
+        msg: 删除角色
     - key: edit groups
       message:
-        msg: edit groups
+        msg: 修改角色
     - key: forbidden can not delete yourself
       message:
-        msg: forbidden can not delete yourself
+        msg: 不允许删除自身
     - key: forbidden can not delete yourself detail
       message:
-        msg: forbidden can not delete yourself detail
+        msg: 不允许删除自身
     - key: forbidden state not allow
       message:
-        msg: forbidden state not allow
+        msg: 当前状态不允许该操作
     - key: forbidden state not allow detail
       message:
-        msg: forbidden state not allow detail
+        msg: 当前状态不允许该操作
     - key: get admins
       message:
-        msg: get admins
+        msg: 查看管理员信息
     - key: identity registrable
       message:
-        msg: identity registrable
+        msg: |
+            可注册的 ID
     - key: identity registrable detail
       message:
-        msg: identity registrable detail
+        msg: |
+            某些登录状态验证失败之后，会返回一个可用于注册的 ID，客户端可根据此 ID 注册新的账号。
     - key: invalid format
       message:
-        msg: invalid format
+        msg: 无效的格式
     - key: invalid url format
       message:
-        msg: invalid url format
+        msg: 无效的 URL 格式
     - key: must be empty
       message:
-        msg: must be empty
+        msg: 只能为空
     - key: must be greater than %f
       message:
         msg: must be greater than %f
@@ -89,37 +97,37 @@ messages:
         msg: not found
     - key: only for super
       message:
-        msg: only for super
+        msg: 只有超级管理员才有此权限
     - key: only for super detail
       message:
-        msg: only for super detail
+        msg: 某些权限只有超级管理员才拥有，比如转让超级管理员操作。
     - key: password mode
       message:
-        msg: password mode
+        msg: 密码模式
     - key: password module
       message:
         msg: password module
     - key: post admins
       message:
-        msg: post admins
+        msg: 添加管理员
     - key: post groups
       message:
-        msg: post groups
+        msg: 添加角色
     - key: put admin
       message:
-        msg: put admin
+        msg: 修改管理员信息
     - key: put groups resources
       message:
-        msg: put groups resources
+        msg: 修改权限组的可访问资源
     - key: recycle auth id
       message:
-        msg: recycle auth id
+        msg: 回收 auth id
     - key: recycle token for %s
       message:
-        msg: recycle token for %s
+        msg: 为 %s 回收令牌
     - key: required
       message:
-        msg: required
+        msg: 不能为空
     - key: roles not exists
       message:
         msg: roles not exists
@@ -128,55 +136,57 @@ messages:
         msg: same of new and old password
     - key: strength invalid
       message:
-        msg: strength invalid
+        msg: 不符合密码安全要求
     - key: the value not in candidate
       message:
         msg: the value not in candidate
     - key: unauthorized
       message:
-        msg: unauthorized
+        msg: 账号或是密码错误
     - key: unauthorized invalid account
       message:
-        msg: unauthorized invalid account
+        msg: 无效的账号
     - key: unauthorized invalid account detail
       message:
-        msg: unauthorized invalid account detail
+        msg: 无效的账号
     - key: unauthorized invalid password
       message:
-        msg: unauthorized invalid password
+        msg: 密码无效
     - key: unauthorized invalid password detail
       message:
-        msg: unauthorized invalid password detail
+        msg: 密码错误
     - key: unauthorized invalid state
       message:
-        msg: unauthorized invalid state
+        msg: 当前状态无法登录
     - key: unauthorized invalid state detail
       message:
-        msg: unauthorized invalid state detail
+        msg: |
+            登录账号的状态无效，比如账号被锁定导致无法登录等。
     - key: unauthorized invalid token
       message:
-        msg: unauthorized invalid token
+        msg: 登陆失效
     - key: unauthorized invalid token detail
       message:
-        msg: unauthorized invalid token detail
+        msg: token 无效，长时间不登录会返回此错误。
     - key: unauthorized need change password
       message:
-        msg: unauthorized need change password
+        msg: 只有修改密码才能进行其它操作
     - key: unauthorized need change password detail
       message:
-        msg: unauthorized need change password detail
+        msg: |
+            只有修改密码才能继续其它操作，一般是被定义了该账号的密码已经不安全了，需要重新设置密码。
     - key: user %s not found
       message:
         msg: user %s not found
     - key: user already exists
       message:
-        msg: user already exists
+        msg: 用户已经存在
     - key: view apis
       message:
-        msg: view apis
+        msg: 查看接口信息
     - key: view services
       message:
-        msg: view services
+        msg: 查看服务列表
     - key: view system info
       message:
-        msg: view system info
+        msg: 查看系统信息
