@@ -24,5 +24,7 @@ func NewAdmin(s *test.Suite) *admin.Loader {
 	a := admin.Load(mod, o)
 	s.Assertion().NotNil(a)
 
+	// TODO 返回用于测试的令牌
+
 	return a
 }

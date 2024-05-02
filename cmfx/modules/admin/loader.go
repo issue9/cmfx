@@ -88,12 +88,12 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 
 	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/resources", m.getResources).
-		Get("/roles", m.getGroups).
-		Post("/roles", postGroup(m.postGroups)).
-		Put("/roles/{id:digit}", putGroup(m.putGroup)).
-		Delete("/roles/{id:digit}", delGroup(m.deleteGroup)).
-		Get("/roles/{id:digit}/resources", m.getGroupResources).
-		Patch("/roles/{id:digit}/resources", putGroupResources(m.patchGroupResources))
+		Get("/roles", m.getRoles).
+		Post("/roles", postGroup(m.postRoles)).
+		Put("/roles/{id:digit}", putGroup(m.putRole)).
+		Delete("/roles/{id:digit}", delGroup(m.deleteRole)).
+		Get("/roles/{id:digit}/resources", m.getRoleResources).
+		Put("/roles/{id:digit}/resources", putGroupResources(m.putRoleResources))
 
 	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
 		Get("/info", m.getInfo).
@@ -114,45 +114,45 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 	return m
 }
 
-func (m *Loader) URLPrefix() string { return m.user.URLPrefix() }
+func (l *Loader) URLPrefix() string { return l.user.URLPrefix() }
 
 // AuthFilter 验证是否登录
-func (m *Loader) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
-	return m.user.Middleware(next)
+func (l *Loader) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
+	return l.user.Middleware(next)
 }
 
 // LoginUser 获取当前登录的用户信息
-func (m *Loader) LoginUser(ctx *web.Context) *user.User { return m.user.CurrentUser(ctx) }
+func (l *Loader) LoginUser(ctx *web.Context) *user.User { return l.user.CurrentUser(ctx) }
 
 // NewResourceGroup 新建资源分组
-func (m *Loader) NewResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
-	return m.roleGroup.RBAC().NewResourceGroup(mod.ID(), mod.Desc())
+func (l *Loader) NewResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
+	return l.roleGroup.RBAC().NewResourceGroup(mod.ID(), mod.Desc())
 }
 
 // GetResourceGroup 获取指定 ID 的资源分组
-func (m *Loader) GetResourceGroup(id string) *rbac.ResourceGroup {
-	return m.roleGroup.RBAC().ResourceGroup(id)
+func (l *Loader) GetResourceGroup(id string) *rbac.ResourceGroup {
+	return l.roleGroup.RBAC().ResourceGroup(id)
 }
 
 // ResourceGroup 当前资源组
-func (m *Loader) ResourceGroup() *rbac.ResourceGroup { return m.GetResourceGroup(m.user.Module().ID()) }
+func (l *Loader) ResourceGroup() *rbac.ResourceGroup { return l.GetResourceGroup(l.user.Module().ID()) }
 
-func (m *Loader) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) error {
-	return m.user.AddSecurityLog(tx, uid, ip, ua, content)
+func (l *Loader) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) error {
+	return l.user.AddSecurityLog(tx, uid, ip, ua, content)
 }
 
-func (m *Loader) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) {
-	m.user.AddSecurityLogFromContext(tx, uid, ctx, content)
+func (l *Loader) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) {
+	l.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 
 // OnLogin 注册登录事件
-func (m *Loader) OnLogin(f func(*user.User)) context.CancelFunc {
-	return m.loginEvent.Subscribe(f)
+func (l *Loader) OnLogin(f func(*user.User)) context.CancelFunc {
+	return l.loginEvent.Subscribe(f)
 }
 
 // OnLogout 注册用户主动退出时的事
-func (m *Loader) OnLogout(f func(*user.User)) context.CancelFunc {
-	return m.logoutEvent.Subscribe(f)
+func (l *Loader) OnLogout(f func(*user.User)) context.CancelFunc {
+	return l.logoutEvent.Subscribe(f)
 }
 
 func newAdmin(mod *cmfx.Module, password *password.Password, data *respInfoWithAccount) error {
@@ -196,4 +196,4 @@ func newAdmin(mod *cmfx.Module, password *password.Password, data *respInfoWithA
 	return nil
 }
 
-func (m *Loader) Module() *cmfx.Module { return m.user.Module() }
+func (l *Loader) Module() *cmfx.Module { return l.user.Module() }

@@ -13,11 +13,11 @@ import (
 )
 
 func NilOr[T any](validator func(T) bool) filter.Builder[T] {
-	return filter.NewBuilder(v.V(v.Or(validator, v.Nil), locales.InvalidValue))
+	return filter.NewBuilder(v.V(v.Or(validator, v.Nil[T]), locales.InvalidValue))
 }
 
 func Nil[T any]() filter.Builder[T] {
-	return filter.NewBuilder(v.V[T](v.Nil, locales.MustBeEmpty))
+	return filter.NewBuilder(v.V[T](v.Nil[T], locales.MustBeEmpty))
 }
 
 // NotZero 非零值
