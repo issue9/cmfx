@@ -2,11 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+// Package system 系统设置及相关功能
 package system
 
 import (
 	"github.com/issue9/web"
+	"github.com/issue9/webuse/v7/handlers/monitor"
 	"github.com/issue9/webuse/v7/plugins/health"
+	"time"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
@@ -14,8 +17,9 @@ import (
 
 type Loader struct {
 	*cmfx.Module
-	admin  *admin.Loader
-	health *health.Health
+	admin   *admin.Loader
+	health  *health.Health
+	monitor *monitor.Monitor
 }
 
 func Load(mod *cmfx.Module, adminL *admin.Loader) *Loader {
@@ -25,9 +29,10 @@ func Load(mod *cmfx.Module, adminL *admin.Loader) *Loader {
 	}
 
 	m := &Loader{
-		Module: mod,
-		admin:  adminL,
-		health: health.New(store),
+		Module:  mod,
+		admin:   adminL,
+		health:  health.New(store),
+		monitor: monitor.New(mod.Server(), 30*time.Second),
 	}
 
 	mod.Server().Use(m.health)
@@ -41,7 +46,8 @@ func Load(mod *cmfx.Module, adminL *admin.Loader) *Loader {
 	mod.Router().Prefix(adminL.URLPrefix(), web.MiddlewareFunc(m.admin.AuthFilter)).
 		Get("/system/info", resGetInfo(m.adminGetInfo)).
 		Get("/system/services", resGetServices(m.adminGetServices)).
-		Get("/system/apis", resGetAPIs(m.adminGetAPIs))
+		Get("/system/apis", resGetAPIs(m.adminGetAPIs)).
+		Get("/system/monitor", resGetInfo(m.adminGetMonitor))
 
 	mod.Router().Get("/system/problems", m.commonGetProblems)
 

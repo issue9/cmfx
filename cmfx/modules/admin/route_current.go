@@ -18,23 +18,23 @@ import (
 // # api get /info 获取当前登用户的信息
 // @tag admin
 // @resp 200 * respInfo
-func (m *Loader) getInfo(ctx *web.Context) web.Responser {
-	return web.OK(m.LoginUser(ctx))
+func (l *Loader) getInfo(ctx *web.Context) web.Responser {
+	return web.OK(l.LoginUser(ctx))
 }
 
 // # api patch /info 更新当前登用户的信息
 // @tag admin
 // @req * respInfo 更新的信息，将忽略 id
 // @resp 204 * {}
-func (m *Loader) patchInfo(ctx *web.Context) web.Responser {
+func (l *Loader) patchInfo(ctx *web.Context) web.Responser {
 	data := &respInfo{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	a := m.LoginUser(ctx)
+	a := l.LoginUser(ctx)
 
-	_, err := m.Module().DB().Update(&modelInfo{
+	_, err := l.Module().DB().Update(&modelInfo{
 		ID:       a.ID,
 		Nickname: data.Nickname,
 		Avatar:   data.Avatar,
@@ -45,7 +45,9 @@ func (m *Loader) patchInfo(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	m.user.AddSecurityLogFromContext(nil, a.ID, ctx, "更新个人信息")
+	if err := l.user.AddSecurityLogFromContext(nil, a.ID, ctx, "更新个人信息"); err != nil {
+		return ctx.Error(err, "")
+	}
 
 	return web.NoContent()
 }
@@ -70,27 +72,27 @@ func (p *putPassword) Filter(v *web.FilterContext) {
 // @tag admin
 // @req * putPassword
 // @resp 204 * {}
-func (m *Loader) putCurrentPassword(ctx *web.Context) web.Responser {
+func (l *Loader) putCurrentPassword(ctx *web.Context) web.Responser {
 	data := &putPassword{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	a := m.LoginUser(ctx)
-	err := m.password.Change(a.ID, data.Old, data.New)
+	a := l.LoginUser(ctx)
+	err := l.password.Change(a.ID, data.Old, data.New)
 	if errors.Is(err, passport.ErrUnauthorized()) {
 		return ctx.Problem(cmfx.Unauthorized)
 	} else if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	return m.user.Logout(ctx, nil, web.Phrase("change password"))
+	return l.user.Logout(ctx, nil, web.Phrase("change password"))
 }
 
 // # api get /securitylog 当前用户的安全操作记录
 // @tag admin
-// @query github.com/issue9/cmfx/pkg/user.logQuery
+// @query github.com/issue9/cmfx/cmfx/user.queryLog
 // @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[github.com/issue9/cmfx/cmfx/user.respLog]
-func (m *Loader) getSecurityLogs(ctx *web.Context) web.Responser {
-	return m.user.GetSecurityLogs(ctx)
+func (l *Loader) getSecurityLogs(ctx *web.Context) web.Responser {
+	return l.user.GetSecurityLogs(ctx)
 }

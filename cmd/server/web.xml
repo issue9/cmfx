@@ -51,32 +51,6 @@
         </router>
         <admin accessExpires="43200" refreshExpires="86400">
             <urlPrefix>/admin</urlPrefix>
-            <algorithms>
-                <algorithm name="HS256">
-                    <public>a;asdfasi8iuhf;;DKf;ewieqpwe</public>
-                    <private>a;asdfasi8iuhf;;DKf;ewieqpwe</private>
-                </algorithm>
-                <algorithm name="HS512">
-                    <public>a:DJfi;[pqwieqw;werjrqpwe</public>
-                    <private>a:DJfi;[pqwieqw;werjrqpwe</private>
-                </algorithm>
-                <algorithm name="RS512">
-                    <public><![CDATA[-----BEGIN PUBLIC KEY-----
-MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOALys4MJZXhSBVhgSgIXCsFZU1D8rPX
-D0kpOUjD1uUF90jZNBQPT/8HLYVd7yxp8EcWCQWROmlf6n4FDdVLTHcCAwEAAQ==
------END PUBLIC KEY-----]]></public>
-                    <private>-----BEGIN PRIVATE KEY-----
-MIIBVQIBADANBgkqhkiG9w0BAQEFAASCAT8wggE7AgEAAkEA4AvKzgwlleFIFWGB
-KAhcKwVlTUPys9cPSSk5SMPW5QX3SNk0FA9P/wcthV3vLGnwRxYJBZE6aV/qfgUN
-1UtMdwIDAQABAkAs0y8oOlXqvr/lRzTIBaQrF1FFPCr6wDRWtuC3JjeAamlSWBNO
-OSQybg4XVzvex4HFm0jlH0UTI2vJ6LTTt5eBAiEA79F56gMsB/WCB3AjfWXlva4b
-3krVBGHphyvsS2G7mm8CIQDvKd+RyquhJ08Yi4S6wZvFoaASqvTdu7MDAHnvqTSS
-eQIhAMhXie5pufXoLjlCgBN49aUw900L3MqtdSacFemfetb3AiAk5PLGTNuZKrU6
-9hrtrHxZSoulFZZctl3xMpuc6x9fEQIhAKKA2WJ2BFExcjhwN24mZyekdP5jCJJU
-jPakRl2w0aio
------END PRIVATE KEY-----</private>
-                </algorithm>
-            </algorithms>
         </admin>
     </user>
 </web>

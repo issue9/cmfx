@@ -13,13 +13,12 @@ import (
 
 // # api get /system/apis API 信息
 // @tag system admin
-// @resp 200 * []github.com/issue9/middleware/v6/health.State
-func (s *Loader) adminGetAPIs(*web.Context) web.Responser {
-	return web.OK(s.health.States())
+// @resp 200 * []github.com/issue9/webuse/v7/handlers/health.State
+func (l *Loader) adminGetAPIs(_ *web.Context) web.Responser {
+	return web.OK(l.health.States())
 }
 
 type dbInfo struct {
-	// TODO 使用 gopsutil
 	Name               string        `json:"name" xml:"name"`
 	Version            string        `json:"version" xml:"version"`
 	MaxOpenConnections int           `json:"maxOpenConnections" xml:"maxOpenConnections"`                   // 连接数
@@ -50,9 +49,9 @@ type info struct {
 // # api get /system/info 系统信息
 // @tag system admin
 // @resp 200 * info
-func (s *Loader) adminGetInfo(ctx *web.Context) web.Responser {
-	dbVersion := s.DB().Version()
-	stats := s.DB().Stats()
+func (l *Loader) adminGetInfo(ctx *web.Context) web.Responser {
+	dbVersion := l.DB().Version()
+	stats := l.DB().Stats()
 	srv := ctx.Server()
 
 	return web.OK(&info{
@@ -65,7 +64,7 @@ func (s *Loader) adminGetInfo(ctx *web.Context) web.Responser {
 		CPUS:       runtime.NumCPU(),
 		Goroutines: runtime.NumGoroutine(),
 		DB: &dbInfo{
-			Name:               s.DB().Dialect().Name(),
+			Name:               l.DB().Dialect().Name(),
 			Version:            dbVersion,
 			MaxOpenConnections: stats.MaxOpenConnections,
 			OpenConnections:    stats.OpenConnections,
@@ -99,7 +98,7 @@ type services struct {
 // # api get /system/services 系统服务状态
 // @tag system admin
 // @resp 200 * services
-func (s *Loader) adminGetServices(ctx *web.Context) web.Responser {
+func (l *Loader) adminGetServices(ctx *web.Context) web.Responser {
 
 	ss := services{}
 	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
@@ -141,8 +140,7 @@ type problem struct {
 // # api get /problems 系统错误信息
 // @tag system
 // @resp 200 * []problem
-func (s *Loader) commonGetProblems(ctx *web.Context) web.Responser {
-
+func (l *Loader) commonGetProblems(ctx *web.Context) web.Responser {
 	ps := make([]*problem, 0, 100)
 	ctx.Server().Problems().Visit(func(status int, p *web.LocaleProblem) {
 		ps = append(ps, &problem{
@@ -155,3 +153,8 @@ func (s *Loader) commonGetProblems(ctx *web.Context) web.Responser {
 
 	return web.OK(ps)
 }
+
+// # api get /system/monitor 监视系统数据
+// @tag system
+// @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
+func (l *Loader) adminGetMonitor(ctx *web.Context) web.Responser { return l.monitor.Handle(ctx) }

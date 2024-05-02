@@ -6,4 +6,7 @@ package system
 
 import "github.com/issue9/orm/v6"
 
-var _ orm.TableNamer = &modelHealth{}
+var (
+	_ orm.TableNamer    = &modelHealth{}
+	_ orm.BeforeUpdater = &modelHealth{}
+)

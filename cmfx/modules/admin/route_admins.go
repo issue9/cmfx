@@ -24,14 +24,14 @@ import (
 // @tag admin
 // @path id int 管理的 ID
 // @resp 200 * respInfoWithRoleState
-func (m *Loader) getAdmin(ctx *web.Context) web.Responser {
+func (l *Loader) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
 		return resp
 	}
 
 	a := &modelInfo{ID: id}
-	found, err := m.Module().DB().Select(a)
+	found, err := l.Module().DB().Select(a)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -39,8 +39,8 @@ func (m *Loader) getAdmin(ctx *web.Context) web.Responser {
 		return ctx.NotFound()
 	}
 
-	roles := m.roleGroup.UserRoles(id)
-	u, err := m.user.GetUser(id)
+	roles := l.roleGroup.UserRoles(id)
+	u, err := l.user.GetUser(id)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -87,18 +87,18 @@ func (q *queryAdmins) Filter(v *web.FilterContext) {
 // # API GET /admins 获取所有的管理员账号
 //
 // @tag admin
-// @query adminsQuery
+// @query queryAdmins
 // @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[respInfoWithRoleState]
-func (m *Loader) getAdmins(ctx *web.Context) web.Responser {
-	q := &queryAdmins{m: m}
+func (l *Loader) getAdmins(ctx *web.Context) web.Responser {
+	q := &queryAdmins{m: l}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
 	}
 
-	sql := m.Module().DB().SQLBuilder().Select().Column("*").From(orm.TableName(&modelInfo{}), "info")
+	sql := l.Module().DB().SQLBuilder().Select().Column("*").From(orm.TableName(&modelInfo{}), "info")
 
 	if len(q.States) > 0 {
-		m.user.LeftJoin(sql, "user", "user.id=info.id", q.States)
+		l.user.LeftJoin(sql, "user", "user.id=info.id", q.States)
 	}
 
 	if len(q.Sexes) > 0 {
@@ -120,7 +120,7 @@ func (m *Loader) getAdmins(ctx *web.Context) web.Responser {
 	}
 
 	return query.PagingResponserWithConvert[info, respInfoWithRoleState](ctx, &q.Limit, sql, func(i *info) *respInfoWithRoleState {
-		roles := m.roleGroup.UserRoles(i.ID)
+		roles := l.roleGroup.UserRoles(i.ID)
 		rs := make([]string, 0, len(roles))
 		for _, r := range roles {
 			rs = append(rs, r.ID)
@@ -145,13 +145,13 @@ func (m *Loader) getAdmins(ctx *web.Context) web.Responser {
 // @tag admin
 // @req * respInfoWithRoleState
 // @resp 204 * {}
-func (m *Loader) patchAdmin(ctx *web.Context) web.Responser {
+func (l *Loader) patchAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
 		return resp
 	}
 
-	u, err := m.user.GetUser(id)
+	u, err := l.user.GetUser(id)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -171,19 +171,18 @@ func (m *Loader) patchAdmin(ctx *web.Context) web.Responser {
 		Sex:      data.Sex,
 	}
 
-	tx, err := m.Module().DB().Begin()
+	tx, err := l.Module().DB().Begin()
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	e := tx.NewEngine(m.Module().DB().TablePrefix())
+	e := tx.NewEngine(l.Module().DB().TablePrefix())
 	if _, err := e.Update(aa, "sex"); err != nil {
-		tx.Rollback()
-		return ctx.Error(err, "")
+		return ctx.Error(errors.Join(err, tx.Rollback()), "")
 	}
 
 	for _, rid := range data.Roles {
-		r := m.roleGroup.Role(rid)
+		r := l.roleGroup.Role(rid)
 		if r == nil {
 			continue
 		}
@@ -193,9 +192,8 @@ func (m *Loader) patchAdmin(ctx *web.Context) web.Responser {
 		}
 	}
 
-	if err := m.user.SetState(tx, u, data.State); err != nil {
-		tx.Rollback()
-		return ctx.Error(err, "")
+	if err := l.user.SetState(tx, u, data.State); err != nil {
+		return ctx.Error(errors.Join(err, tx.Rollback()), "")
 	}
 
 	if err := tx.Commit(); err != nil {
@@ -209,19 +207,19 @@ func (m *Loader) patchAdmin(ctx *web.Context) web.Responser {
 // @tag admin
 // @resp 204 * {}
 // @path id int 管理的 ID
-func (m *Loader) deleteAdminPassword(ctx *web.Context) web.Responser {
+func (l *Loader) deleteAdminPassword(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
 		return resp
 	}
 
 	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	if _, err := m.user.GetUser(id); err != nil {
+	if _, err := l.user.GetUser(id); err != nil {
 		return ctx.Error(err, "")
 	}
 
 	// 更新数据库
-	if err := m.password.Set(id, defaultPassword); err != nil {
+	if err := l.password.Set(id, defaultPassword); err != nil {
 		return ctx.Error(err, "")
 	}
 
@@ -232,13 +230,13 @@ func (m *Loader) deleteAdminPassword(ctx *web.Context) web.Responser {
 // @tag admin
 // @req * respInfoWithAccount
 // @resp 201 * {}
-func (m *Loader) postAdmins(ctx *web.Context) web.Responser {
-	data := &respInfoWithAccount{respInfoWithRoleState: respInfoWithRoleState{respInfo: respInfo{m: m}}}
+func (l *Loader) postAdmins(ctx *web.Context) web.Responser {
+	data := &respInfoWithAccount{respInfoWithRoleState: respInfoWithRoleState{respInfo: respInfo{m: l}}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	if err := newAdmin(m.Module(), m.password, data, ctx.Begin()); err != nil {
+	if err := newAdmin(l.Module(), l.password, data, ctx.Begin()); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")
@@ -247,38 +245,38 @@ func (m *Loader) postAdmins(ctx *web.Context) web.Responser {
 // # api POST /admins/{id}/locked 锁定管理员
 // @tag admin
 // @resp 201 * {}
-func (m *Loader) postAdminLocked(ctx *web.Context) web.Responser {
-	return m.setAdminState(ctx, user.StateLocked, http.StatusCreated)
+func (l *Loader) postAdminLocked(ctx *web.Context) web.Responser {
+	return l.setAdminState(ctx, user.StateLocked, http.StatusCreated)
 }
 
 // # api delete /admins/{id} 删除管理员
 // @tag admin
 // @path id id 管理员的 ID
 // @resp 201 * {}
-func (m *Loader) deleteAdmin(ctx *web.Context) web.Responser {
-	return m.setAdminState(ctx, user.StateDeleted, http.StatusCreated)
+func (l *Loader) deleteAdmin(ctx *web.Context) web.Responser {
+	return l.setAdminState(ctx, user.StateDeleted, http.StatusCreated)
 }
 
 // # api delete /admins/{id}/locked 解除锁定
 // @tag admin
 // @path id id 管理员的 ID
 // @resp 204 * {}
-func (m *Loader) deleteAdminLocked(ctx *web.Context) web.Responser {
-	return m.setAdminState(ctx, user.StateNormal, http.StatusNoContent)
+func (l *Loader) deleteAdminLocked(ctx *web.Context) web.Responser {
+	return l.setAdminState(ctx, user.StateNormal, http.StatusNoContent)
 }
 
-func (m *Loader) setAdminState(ctx *web.Context, state user.State, code int) web.Responser {
+func (l *Loader) setAdminState(ctx *web.Context, state user.State, code int) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
 		return resp
 	}
 
-	u, err := m.user.GetUser(id)
+	u, err := l.user.GetUser(id)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	if err := m.user.SetState(nil, u, state); err != nil {
+	if err := l.user.SetState(nil, u, state); err != nil {
 		return ctx.Error(err, "")
 	}
 
