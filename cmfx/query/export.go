@@ -17,7 +17,7 @@ const (
 	odsMimetype   = "application/vnd.oasis.opendocument.spreadsheet"
 )
 
-//go:generate web enum -i=./export.go -o=./export_methods.go -t=ExportType
+//go:generate web enum -i=./export.go -t=ExportType
 
 const (
 	ExportTypeCSV   ExportType = iota // 导出为 CSV
