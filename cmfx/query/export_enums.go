@@ -10,7 +10,7 @@ import (
 	"github.com/issue9/web/locales"
 )
 
-//---------------------ExportType------------------------
+//--------------------- ExportType ------------------------
 
 var _ExportTypeToString = map[ExportType]string{
 	ExportTypeCSV:   "csv",
@@ -109,4 +109,4 @@ var (
 	ExportTypeSliceFilter = filter.NewBuilder(ExportTypeSliceRule)
 )
 
-//---------------------end ExportType--------------------
+//--------------------- end ExportType --------------------
