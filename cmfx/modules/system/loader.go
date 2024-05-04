@@ -6,50 +6,68 @@
 package system
 
 import (
-	"github.com/issue9/web"
-	"github.com/issue9/webuse/v7/handlers/monitor"
-	"github.com/issue9/webuse/v7/plugins/health"
-	"time"
+    "time"
 
-	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/modules/admin"
+    "github.com/issue9/web"
+    "github.com/issue9/webuse/v7/handlers/monitor"
+    "github.com/issue9/webuse/v7/plugins/health"
+
+    "github.com/issue9/cmfx/cmfx"
+    "github.com/issue9/cmfx/cmfx/modules/admin"
 )
 
 type Loader struct {
-	*cmfx.Module
-	admin   *admin.Loader
-	health  *health.Health
-	monitor *monitor.Monitor
+    mod     *cmfx.Module
+    admin   *admin.Loader
+    health  *health.Health
+    monitor *monitor.Monitor
+
+    // 可能为空
+    buildBackupFilename func(time.Time) string
 }
 
-func Load(mod *cmfx.Module, adminL *admin.Loader) *Loader {
-	store, err := newHealthDBStore(mod)
-	if err != nil {
-		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
-	}
+// Load 加载当前模块
+//
+// conf 当前模块的配置项，需要调用者自先调用 [Config.SanitizeConfig] 对数据进行校正；
+func Load(mod *cmfx.Module, conf *Config, adminL *admin.Loader) *Loader {
+    store, err := newHealthDBStore(mod)
+    if err != nil {
+        panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+    }
 
-	m := &Loader{
-		Module:  mod,
-		admin:   adminL,
-		health:  health.New(store),
-		monitor: monitor.New(mod.Server(), 30*time.Second),
-	}
+    m := &Loader{
+        mod:     mod,
+        admin:   adminL,
+        health:  health.New(store),
+        monitor: monitor.New(mod.Server(), 30*time.Second),
+    }
 
-	mod.Server().Use(m.health)
-	m.health.Fill(mod.Server())
+    mod.Server().Use(m.health)
+    m.health.Fill(mod.Server())
 
-	g := adminL.ResourceGroup()
-	resGetInfo := g.New("get-info", web.Phrase("view system info"))
-	resGetServices := g.New("get-services", web.Phrase("view services"))
-	resGetAPIs := g.New("get-apis", web.Phrase("view apis"))
+    g := adminL.ResourceGroup()
+    resGetInfo := g.New("get-info", web.Phrase("view system info"))
+    resGetServices := g.New("get-services", web.Phrase("view services"))
+    resGetAPIs := g.New("get-apis", web.Phrase("view apis"))
+    restBackup := g.New("backup", web.Phrase("backup database"))
 
-	mod.Router().Prefix(adminL.URLPrefix(), web.MiddlewareFunc(m.admin.AuthFilter)).
-		Get("/system/info", resGetInfo(m.adminGetInfo)).
-		Get("/system/services", resGetServices(m.adminGetServices)).
-		Get("/system/apis", resGetAPIs(m.adminGetAPIs)).
-		Get("/system/monitor", resGetInfo(m.adminGetMonitor))
+    adminRouter := mod.Router().Prefix(adminL.URLPrefix(), web.MiddlewareFunc(m.admin.AuthFilter)).
+        Get("/system/info", resGetInfo(m.adminGetInfo)).
+        Get("/system/services", resGetServices(m.adminGetServices)).
+        Get("/system/apis", resGetAPIs(m.adminGetAPIs)).
+        Get("/system/monitor", resGetInfo(m.adminGetMonitor))
 
-	mod.Router().Get("/system/problems", m.commonGetProblems)
+    mod.Router().Get("/system/problems", m.commonGetProblems)
 
-	return m
+    if conf.Backup != nil {
+        m.buildBackupFilename = conf.Backup.buildFile
+       
+        mod.Server().Services().AddCron(web.Phrase("backup database"), func(now time.Time) error {
+            return mod.DB().Backup(m.buildBackupFilename(now))
+        }, conf.Backup.Cron, true)
+
+        adminRouter.Get("/system/backup", restBackup(m.adminPostBackup))
+    }
+
+    return m
 }
