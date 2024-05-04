@@ -18,7 +18,7 @@ type queryLogin struct {
 // # API POST /login 管理员登录
 // @tag admin auth
 // @req * github.com/issue9/cmfx/cmfx/user.reqAccount
-// @resp 201 * github.com/issue9/webuse/v7/middleware/auth/token.Response
+// @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
 func (l *Loader) postLogin(ctx *web.Context) web.Responser {
 	q := &queryLogin{}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
@@ -41,7 +41,7 @@ func (l *Loader) deleteLogin(ctx *web.Context) web.Responser {
 
 // # api get /token 续定 token
 // @tag admin auth
-// @resp 201 * github.com/issue9/webuse/v7/middleware/auth/token.Response
+// @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
 func (l *Loader) getToken(ctx *web.Context) web.Responser {
 	return l.user.RefreshToken(ctx)
 }

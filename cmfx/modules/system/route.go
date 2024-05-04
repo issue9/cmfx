@@ -13,7 +13,7 @@ import (
 
 // # api get /system/apis API 信息
 // @tag system admin
-// @resp 200 * []github.com/issue9/webuse/v7/handlers/health.State
+// @resp 200 * []github.com/issue9/webuse/v7/plugins/health.State
 func (l *Loader) adminGetAPIs(_ *web.Context) web.Responser {
 	return web.OK(l.health.States())
 }
@@ -50,8 +50,8 @@ type info struct {
 // @tag system admin
 // @resp 200 * info
 func (l *Loader) adminGetInfo(ctx *web.Context) web.Responser {
-	dbVersion := l.DB().Version()
-	stats := l.DB().Stats()
+	dbVersion := l.mod.DB().Version()
+	stats := l.mod.DB().Stats()
 	srv := ctx.Server()
 
 	return web.OK(&info{
@@ -64,7 +64,7 @@ func (l *Loader) adminGetInfo(ctx *web.Context) web.Responser {
 		CPUS:       runtime.NumCPU(),
 		Goroutines: runtime.NumGoroutine(),
 		DB: &dbInfo{
-			Name:               l.DB().Dialect().Name(),
+			Name:               l.mod.DB().Dialect().Name(),
 			Version:            dbVersion,
 			MaxOpenConnections: stats.MaxOpenConnections,
 			OpenConnections:    stats.OpenConnections,
@@ -99,7 +99,6 @@ type services struct {
 // @tag system admin
 // @resp 200 * services
 func (l *Loader) adminGetServices(ctx *web.Context) web.Responser {
-
 	ss := services{}
 	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
 		var err1 string
@@ -157,4 +156,16 @@ func (l *Loader) commonGetProblems(ctx *web.Context) web.Responser {
 // # api get /system/monitor 监视系统数据
 // @tag system
 // @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
-func (l *Loader) adminGetMonitor(ctx *web.Context) web.Responser { return l.monitor.Handle(ctx) }
+func (l *Loader) adminGetMonitor(ctx *web.Context) web.Responser {
+	return l.monitor.Handle(ctx)
+}
+
+// # api post /system/backup 手动执行备份数据
+// @tag system
+// @resp 201 * {}
+func (l *Loader) adminPostBackup(ctx *web.Context) web.Responser {
+	if err := l.mod.DB().Backup(l.buildBackupFilename(ctx.Begin())); err != nil {
+		return ctx.Error(err, web.ProblemInternalServerError)
+	}
+	return web.Created(nil, "")
+}

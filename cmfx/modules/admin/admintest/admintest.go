@@ -15,9 +15,10 @@ func NewAdmin(s *test.Suite) *admin.Loader {
 	admin.Install(mod)
 
 	o := &user.Config{
-		URLPrefix:      "/admin",
-		AccessExpired:  60,
-		RefreshExpired: 120,
+		URLPrefix:       "/admin",
+		AccessExpired:   60,
+		RefreshExpired:  120,
+		IdentityExpired: 120,
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 

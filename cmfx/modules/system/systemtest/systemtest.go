@@ -14,7 +14,9 @@ func NewSystem(s *test.Suite, adminL *admin.Loader) *system.Loader {
 	mod := s.NewModule("system")
 	system.Install(mod)
 
-	sys := system.Load(mod, adminL)
+	conf := &system.Config{}
+	s.Assertion().NotError(conf.SanitizeConfig())
+	sys := system.Load(mod, conf, adminL)
 	s.Assertion().NotNil(sys)
 
 	return sys
