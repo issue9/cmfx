@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/cmfx/cmfx/inital/test"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/mux/v8/header"
 	"github.com/issue9/web/server/servertest"
 	"golang.org/x/text/language"

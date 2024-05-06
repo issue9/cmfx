@@ -6,7 +6,7 @@ package main
 
 import (
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/inital/cmd"
+	"github.com/issue9/cmfx/cmfx/initial/cmd"
 
 	_ "github.com/mattn/go-sqlite3"
 )

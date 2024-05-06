@@ -10,7 +10,7 @@ import (
 
 	"github.com/issue9/assert/v4"
 
-	"github.com/issue9/cmfx/cmfx/inital/test"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/user/passport"
 	"github.com/issue9/cmfx/cmfx/user/passport/adaptertest"
 )

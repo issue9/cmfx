@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package inital 提供了项目初始化的一些方法
-package inital
+// Package initial 提供了项目初始化的一些方法
+package initial
 
 import (
 	"net/http"

@@ -14,7 +14,7 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 
-	"github.com/issue9/cmfx/cmfx/inital/test"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/query"
 )
 

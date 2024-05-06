@@ -5,7 +5,7 @@
 package admintest
 
 import (
-	"github.com/issue9/cmfx/cmfx/inital/test"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/user"
 )
@@ -15,10 +15,9 @@ func NewAdmin(s *test.Suite) *admin.Loader {
 	admin.Install(mod)
 
 	o := &user.Config{
-		URLPrefix:       "/admin",
-		AccessExpired:   60,
-		RefreshExpired:  120,
-		IdentityExpired: 120,
+		URLPrefix:      "/admin",
+		AccessExpired:  60,
+		RefreshExpired: 120,
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 

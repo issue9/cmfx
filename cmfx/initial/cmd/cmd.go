@@ -15,7 +15,7 @@ import (
 	"github.com/issue9/webuse/v7/handlers/debug"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/inital"
+	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
 )
@@ -39,7 +39,7 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		return nil, err
 	}
 
-	inital.Init(s)
+	initial.Init(s)
 
 	router := s.Routers().New("", nil,
 		web.URLDomain(user.URL),

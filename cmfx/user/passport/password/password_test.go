@@ -9,7 +9,7 @@ import (
 
 	"github.com/issue9/assert/v4"
 
-	"github.com/issue9/cmfx/cmfx/inital/test"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/user/passport"
 	"github.com/issue9/cmfx/cmfx/user/passport/adaptertest"
 )
@@ -26,5 +26,5 @@ func TestPassword(t *testing.T) {
 	p := New(mod, 11)
 	a.NotNil(p)
 
-	adaptertest.Run(a,p)
+	adaptertest.Run(a, p)
 }

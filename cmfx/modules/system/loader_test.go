@@ -5,7 +5,7 @@
 package system
 
 import (
-	"github.com/issue9/cmfx/cmfx/inital/test"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
 

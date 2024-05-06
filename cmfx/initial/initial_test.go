@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package inital
+package initial
 
 import "github.com/issue9/web"
 
