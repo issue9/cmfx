@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2024 caixw
 //
 // SPDX-License-Identifier: MIT
 
-package custom
+package code
 
 import (
 	"github.com/issue9/web"
@@ -11,8 +11,8 @@ import (
 )
 
 func Install(mod *cmfx.Module, tableName string) {
-	e := mod.DB().New(mod.DB().TablePrefix() + tableName)
-	if err := e.Create(&modelCustom{}); err != nil {
+	db := buildDB(mod, tableName)
+	if err := db.Create(&modelCode{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

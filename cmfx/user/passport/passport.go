@@ -6,6 +6,7 @@
 package passport
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
@@ -17,29 +18,22 @@ import (
 
 // Passport 验证器管理
 type Passport struct {
+	mod      *cmfx.Module
 	adapters map[string]*adapter
-	expired  time.Duration
 }
 
 type adapter struct {
-	id         string
-	name       web.LocaleStringer
-	auth       Adapter
-	identities map[string]time.Time
+	id   string
+	name web.LocaleStringer
+	auth Adapter
 }
 
 // New 声明 [Passport] 对象
-//
-// d 每个验证失败的 ID 过期时间同时也是回收的频率；
-func New(mod *cmfx.Module, d time.Duration) *Passport {
-	auth := &Passport{
+func New(mod *cmfx.Module) *Passport {
+	return &Passport{
+		mod:      mod,
 		adapters: make(map[string]*adapter, 5),
-		expired:  d,
 	}
-	msg := web.Phrase("recycle auth id for %s", mod.Desc())
-	mod.Server().Services().AddTicker(msg, auth.gc, d, false, false)
-
-	return auth
 }
 
 // Register 注册 [Adapter]
@@ -52,45 +46,29 @@ func (p *Passport) Register(id string, auth Adapter, name web.LocaleStringer) {
 	}
 
 	p.adapters[id] = &adapter{
-		id:         id,
-		name:       name,
-		auth:       auth,
-		identities: make(map[string]time.Time, 5),
+		id:   id,
+		name: name,
+		auth: auth,
 	}
 }
 
 // Valid 验证账号密码
 //
 // id 表示通过 [Passport.Register] 注册验证器时的 id；
-//
-// 返回参数同 [Adapter.Valid]
-func (p *Passport) Valid(id, identity, password string) (int64, string, bool) {
+func (p *Passport) Valid(id, identity, password string, now time.Time) (int64, string, bool) {
 	if info, found := p.adapters[id]; found {
-		uid, ident, ok := info.auth.Valid(identity, password)
-		if ok {
-			return uid, "", true
-		} else if ident != "" {
-			p.adapters[id].identities[ident] = time.Now().Add(p.expired)
-			return 0, identity, false
+		uid, ident, err := info.auth.Valid(identity, password, now)
+		switch {
+		case errors.Is(err, ErrUnauthorized()):
+			return 0, "", false
+		case err != nil:
+			p.mod.Server().Logs().ERROR().Error(err)
+			return 0, "", false
+		default:
+			return uid, ident, true
 		}
 	}
 	return 0, "", false
-}
-
-// IdentityExpired 验证由 [Adapter.Valid] 返回的值是否还能使用
-func (p *Passport) IdentityExpired(id, identity string) bool {
-	auth := p.adapters[id]
-
-	expired, found := auth.identities[identity]
-	if !found {
-		return false
-	}
-
-	if expired.Before(time.Now()) {
-		delete(p.adapters[id].identities, identity)
-		return false
-	}
-	return true
 }
 
 // All 返回所有的验证器
@@ -108,21 +86,11 @@ func (p *Passport) All(printer *message.Printer) map[string]string {
 func (p *Passport) Identities(uid int64) map[string]string {
 	m := make(map[string]string, len(p.adapters))
 	for _, info := range p.adapters {
-		if identity, found := info.auth.Identity(uid); found {
+		if identity, err := info.auth.Identity(uid); err == nil {
 			m[info.id] = identity
+		} else {
+			p.mod.Server().Logs().ERROR().Error(err)
 		}
 	}
 	return m
-}
-
-// 执行回收过期 identity 的方法
-func (p *Passport) gc(now time.Time) error {
-	for _, auth := range p.adapters {
-		for k, v := range auth.identities {
-			if v.Before(now) {
-				delete(auth.identities, k)
-			}
-		}
-	}
-	return nil
 }

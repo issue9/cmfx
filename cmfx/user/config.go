@@ -27,9 +27,6 @@ type Config struct {
 	// 刷新令牌的过期时间，单位为秒，如果为 0 则采用用 expires * 2 作为默认值。
 	RefreshExpired int `json:"refreshExpired,omitempty" xml:"refreshExpired,attr,omitempty" yaml:"refreshExpired,omitempty"`
 	refreshExpired time.Duration
-
-	IdentityExpired int `json:"identityExpired" xml:"identityExpired" yaml:"identityExpired"`
-	identityExpired time.Duration
 }
 
 // SanitizeConfig 用于检测和修正配置项的内容
@@ -49,13 +46,8 @@ func (o *Config) SanitizeConfig() *web.FieldError {
 		return web.NewFieldError("refreshExpired", locales.MustBeGreaterThan(strconv.Quote("accessExpired")))
 	}
 
-	if o.IdentityExpired < 1 {
-		return web.NewFieldError("identityExpired", locales.MustBeGreaterThan(0))
-	}
-
 	o.accessExpired = time.Duration(o.AccessExpired) * time.Second
 	o.refreshExpired = time.Duration(o.RefreshExpired) * time.Second
-	o.identityExpired = time.Duration(o.IdentityExpired) * time.Second
 
 	return nil
 }

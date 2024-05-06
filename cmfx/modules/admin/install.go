@@ -5,6 +5,8 @@
 package admin
 
 import (
+	"time"
+
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -85,10 +87,10 @@ func Install(mod *cmfx.Module) {
 		},
 	}
 
-	p := password.New(mod)
+	p := password.New(mod, 11)
 
 	for _, u := range us {
-		if err := newAdmin(mod, p, u); err != nil {
+		if err := newAdmin(mod, p, u, time.Now()); err != nil {
 			panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 		}
 	}

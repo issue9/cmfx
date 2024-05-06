@@ -7,47 +7,56 @@ package password
 
 import (
 	"errors"
+	"time"
 
-	"github.com/issue9/orm/v6"
-	"github.com/issue9/web"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
 )
 
-const defaultCost = 11
-
-type Password struct {
-	mod *cmfx.Module
+type password struct {
+	mod  *cmfx.Module
+	cost int
 }
 
-// New 声明 Password 对象
+// New 声明基于密码的验证方法
 //
-// prefix 表名前缀，当有多个不同实例时，prefix 不能相同。
-func New(mod *cmfx.Module) *Password {
-	return &Password{mod: mod}
+// cost 的值需介于 [bcrypt.MinCost,bcrypt.MaxCost] 之间，如果超出范围则会被设置为 [bcrypt.DefaultCost]。
+func New(mod *cmfx.Module, cost int) passport.Adapter {
+	if cost < bcrypt.MinCost || cost > bcrypt.MaxCost {
+		cost = bcrypt.DefaultCost
+	}
+	return &password{mod: mod, cost: cost}
 }
 
 // Add 添加账号
-//
-// 如果 tx 为空，那么将采用 [orm.DB] 访问数据库。
-func (p *Password) Add(tx *orm.Tx, uid int64, identity, pass string) error {
-	db := p.mod.Engine(tx)
+func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
+	db := p.mod.DB()
 
-	n, err := db.Where("identity=?", identity).Count(&modelPassword{})
+	n, err := db.Where("uid=?", uid).Count(&modelPassword{})
 	if err != nil {
 		return err
 	}
 	if n > 0 {
-		return passport.ErrExists()
+		return passport.ErrUIDExists()
 	}
 
-	pa, err := bcrypt.GenerateFromPassword([]byte(pass), defaultCost)
+	n, err = db.Where("identity=?", identity).Count(&modelPassword{})
+	if err != nil {
+		return err
+	}
+	if n > 0 {
+		return passport.ErrIdentityExists()
+	}
+
+	pa, err := bcrypt.GenerateFromPassword([]byte(pass), p.cost)
 	if err != nil {
 		return err
 	}
 	_, err = db.Insert(&modelPassword{
+		Created:  now,
+		Updated:  now,
 		UID:      uid,
 		Identity: identity,
 		Password: pa,
@@ -56,19 +65,30 @@ func (p *Password) Add(tx *orm.Tx, uid int64, identity, pass string) error {
 }
 
 // Delete 删除关联的密码信息
-func (p *Password) Delete(tx *orm.Tx, uid int64) error {
-	_, err := p.mod.Engine(tx).Delete(&modelPassword{UID: uid})
+func (p *password) Delete(uid int64) error {
+	_, err := p.mod.DB().Delete(&modelPassword{UID: uid})
 	return err
 }
 
 // Set 强制修改密码
-func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
-	pa, err := bcrypt.GenerateFromPassword([]byte(pass), defaultCost)
+func (p *password) Set(uid int64, pass string) error {
+	found, err := p.mod.DB().Select(&modelPassword{UID: uid})
+	if err != nil {
+		return err
+	}
+	if !found {
+		return passport.ErrUIDNotExists()
+	}
+	return p.set(uid, pass)
+}
+
+func (p *password) set(uid int64, pass string) error {
+	pa, err := bcrypt.GenerateFromPassword([]byte(pass), p.cost)
 	if err != nil {
 		return err
 	}
 
-	_, err = p.mod.Engine(tx).Update(&modelPassword{
+	_, err = p.mod.DB().Update(&modelPassword{
 		UID:      uid,
 		Password: pa,
 	})
@@ -76,14 +96,14 @@ func (p *Password) Set(tx *orm.Tx, uid int64, pass string) error {
 }
 
 // Change 验证并修改
-func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
+func (p *password) Change(uid int64, old, pass string) error {
 	pp := &modelPassword{UID: uid}
-	found, err := p.mod.Engine(tx).Select(pp)
+	found, err := p.mod.DB().Select(pp)
 	if err != nil {
 		return err
 	}
 	if !found {
-		return web.NewLocaleError("user %s not found", uid)
+		return passport.ErrUIDNotExists()
 	}
 
 	err = bcrypt.CompareHashAndPassword(pp.Password, []byte(old))
@@ -93,46 +113,40 @@ func (p *Password) Change(tx *orm.Tx, uid int64, old, pass string) error {
 	case err != nil:
 		return err
 	default:
-		return p.Set(tx, uid, pass)
+		return p.set(uid, pass)
 	}
 }
 
-// Valid 验证登录正确性并返回其 uid
-func (p *Password) Valid(username, pass string) (int64, string, bool) {
+func (p *password) Valid(username, pass string, _ time.Time) (int64, string, error) {
 	pp := &modelPassword{Identity: username}
-	found, err := p.mod.Engine(nil).Select(pp)
+	found, err := p.mod.DB().Select(pp)
 	if err != nil {
-		p.mod.Server().Logs().ERROR().Error(err)
-		return 0, "", false
+		return 0, "", err
 	}
 	if !found {
-		p.mod.Server().Logs().DEBUG().Printf("用户 %s 不存在", username)
-		return 0, "", false
+		return 0, "", passport.ErrUnauthorized()
 	}
 
 	err = bcrypt.CompareHashAndPassword(pp.Password, []byte(pass))
 	switch {
 	case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
-		return 0, "", false
+		return 0, "", passport.ErrUnauthorized()
 	case err != nil:
-		p.mod.Server().Logs().ERROR().Error(err)
-		return 0, "", false
+		return 0, "", err
 	default:
-		return pp.UID, "", true
+		return pp.UID, pp.Identity, nil
 	}
 }
 
-func (p *Password) Identity(uid int64) (string, bool) {
+func (p *password) Identity(uid int64) (string, error) {
 	pp := &modelPassword{UID: uid}
-	found, err := p.mod.Engine(nil).Select(pp)
+	found, err := p.mod.DB().Select(pp)
 	if err != nil {
-		p.mod.Server().Logs().ERROR().Error(err)
-		return "", false
+		return "", err
 	}
 	if !found {
-		p.mod.Server().Logs().ERROR().Printf("用户 %d 不存在", uid)
-		return "", false
+		return "", passport.ErrUIDNotExists()
 	}
 
-	return pp.Identity, true
+	return pp.Identity, nil
 }

@@ -29,7 +29,7 @@ const (
 type Loader struct {
 	user *user.Loader
 
-	password  *password.Password
+	password  passport.Adapter
 	roleGroup *rbac.RoleGroup
 
 	// 用户登录和注销事件
@@ -46,9 +46,9 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 
 	u := user.Load(mod, o)
 
-	auth := passport.New(mod, time.Minute*2)
-	pass := password.New(mod)
-	auth.Register("password", pass, web.StringPhrase("password mode"))
+	pp := passport.New(mod)
+	pass := password.New(mod, 8)
+	pp.Register("password", pass, web.StringPhrase("password mode"))
 	m := &Loader{
 		user: u,
 
@@ -155,7 +155,7 @@ func (m *Loader) OnLogout(f func(*user.User)) context.CancelFunc {
 	return m.logoutEvent.Subscribe(f)
 }
 
-func newAdmin(mod *cmfx.Module, password *password.Password, data *respInfoWithAccount) error {
+func newAdmin(mod *cmfx.Module, pa passport.Adapter, data *respInfoWithAccount, now time.Time) error {
 	tx, err := mod.DB().Begin()
 	if err != nil {
 		return err
@@ -179,11 +179,11 @@ func newAdmin(mod *cmfx.Module, password *password.Password, data *respInfoWithA
 		return errors.Join(err, tx.Rollback())
 	}
 
-	if err := password.Add(tx, id, data.Username, data.Password); err != nil {
-		return errors.Join(err, tx.Rollback())
+	if err := tx.Commit(); err != nil {
+		return err
 	}
 
-	if err := tx.Commit(); err != nil {
+	if err := pa.Add(id, data.Username, data.Password, now); err != nil {
 		return err
 	}
 

@@ -221,7 +221,7 @@ func (m *Loader) deleteAdminPassword(ctx *web.Context) web.Responser {
 	}
 
 	// 更新数据库
-	if err := m.password.Set(nil, id, defaultPassword); err != nil {
+	if err := m.password.Set(id, defaultPassword); err != nil {
 		return ctx.Error(err, "")
 	}
 
@@ -238,7 +238,7 @@ func (m *Loader) postAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	if err := newAdmin(m.Module(), m.password, data); err != nil {
+	if err := newAdmin(m.Module(), m.password, data, ctx.Begin()); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")

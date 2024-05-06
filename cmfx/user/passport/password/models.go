@@ -4,10 +4,7 @@
 
 package password
 
-import (
-	"html"
-	"time"
-)
+import "time"
 
 type modelPassword struct {
 	ID      int64     `orm:"name(id);ai"`
@@ -21,14 +18,7 @@ type modelPassword struct {
 
 func (p *modelPassword) TableName() string { return `_auth_passwords` }
 
-func (p *modelPassword) BeforeInsert() error {
-	p.Created = time.Now()
-	p.Identity = html.EscapeString(p.Identity)
-	return nil
-}
-
 func (p *modelPassword) BeforeUpdate() error {
 	p.Updated = time.Now()
-	p.Identity = html.EscapeString(p.Identity)
 	return nil
 }

@@ -1,11 +1,12 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2024 caixw
 //
 // SPDX-License-Identifier: MIT
 
-package password
+package code
 
 import (
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v4"
 
@@ -14,17 +15,16 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/passport/adaptertest"
 )
 
-var _ passport.Adapter = &password{}
+var _ passport.Adapter = &code{}
 
-func TestPassword(t *testing.T) {
+func TestCode(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	mod := suite.NewModule("test")
-	Install(mod)
+	Install(mod, "codes")
 
-	p := New(mod, 11)
+	p := New(mod, 5*time.Minute, "codes", send)
 	a.NotNil(p)
-
-	adaptertest.Run(a,p)
+	adaptertest.Run(a, p)
 }

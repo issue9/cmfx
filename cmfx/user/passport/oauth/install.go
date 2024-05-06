@@ -10,8 +10,9 @@ import (
 	"github.com/issue9/cmfx/cmfx"
 )
 
-func Install(mod cmfx.Module) {
-	if err := mod.DB().Create(&modelOAuth{}); err != nil {
+func Install(mod *cmfx.Module, tableName string) {
+	db := buildDB(mod, tableName)
+	if err := db.Create(&modelOAuth{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

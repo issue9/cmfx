@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 
+	"github.com/issue9/mux/v8/header"
 	"golang.org/x/oauth2"
 )
 
@@ -33,7 +34,7 @@ func TwitterGetUserInfo(token *oauth2.Token) (*TwitterUserInfo, error) {
 	if err != nil {
 		return nil, err
 	}
-	req.Header.Set("Authorization", token.AccessToken)
+	req.Header.Set(header.Authorization, token.AccessToken)
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {

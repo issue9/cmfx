@@ -36,7 +36,7 @@ func Load(mod *cmfx.Module, conf *Config) *Loader {
 		mod:       mod,
 		urlPrefix: conf.URLPrefix,
 		token:     token.New(mod.Server(), store, conf.accessExpired, conf.refreshExpired, web.ProblemUnauthorized, nil),
-		passport:  passport.New(mod, conf.identityExpired),
+		passport:  passport.New(mod),
 	}
 }
 

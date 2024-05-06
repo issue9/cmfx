@@ -66,7 +66,7 @@ func (m *Loader) Login(typ string, ctx *web.Context, reg func(*orm.Tx, int64, st
 	}
 
 	// 密码错误
-	uid, identity, ok := m.passport.Valid(typ, data.Username, data.Password)
+	uid, identity, ok := m.passport.Valid(typ, data.Username, data.Password, ctx.Begin())
 	if !ok {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
