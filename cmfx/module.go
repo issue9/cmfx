@@ -5,9 +5,15 @@
 package cmfx
 
 import (
+	"fmt"
+
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 )
+
+const moduleContextValue moduleContextType = 0
+
+type moduleContextType int
 
 // Module 表示代码模块的基本信息
 type Module struct {
@@ -19,11 +25,23 @@ type Module struct {
 }
 
 func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router) *Module {
+	// 防止重复的 id 值
+	m, loaded := s.Vars().LoadOrStore(moduleContextValue, map[string]struct{}{id: {}})
+	if loaded {
+		mm := m.(map[string]struct{})
+		if _, found := mm[id]; found {
+			panic(fmt.Sprintf("存在相同 id 的模块：%s\n", id))
+		} else {
+			mm[id] = struct{}{}
+			s.Vars().Store(moduleContextValue, mm)
+		}
+	}
+
 	return &Module{
 		id:   id,
 		desc: desc,
 		s:    s,
-		db:   db.New(db.TablePrefix() + id),
+		db:   db.New(id),
 		r:    r,
 	}
 }
