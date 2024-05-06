@@ -20,6 +20,5 @@ func TestInstall(t *testing.T) {
 	mod := suite.NewModule("test")
 	Install(mod)
 
-	exists, err := suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_auth_passwords").Exists()
-	a.NotError(err).True(exists)
+	suite.TableExists(mod.ID() + (&modelPassword{}).TableName())
 }

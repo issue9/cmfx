@@ -20,9 +20,6 @@ func TestInstall(t *testing.T) {
 	mod := suite.NewModule("test")
 	Install(mod)
 
-	exists, err := suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_users").Exists()
-	a.NotError(err).True(exists)
-
-	exists, err = suite.DB().SQLBuilder().TableExists().Table(mod.ID() + "_securitylogs").Exists()
-	a.NotError(err).True(exists)
+	suite.TableExists(mod.ID() + "_users").
+		TableExists(mod.ID() + "_securitylogs")
 }

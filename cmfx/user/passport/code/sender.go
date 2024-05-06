@@ -9,18 +9,25 @@ import (
 	"strings"
 
 	"github.com/issue9/errwrap"
+	"github.com/issue9/webfilter/validator"
 )
+
+// Sender 验证码的发送者需要实现的接口
+type Sender interface {
+	// ValidIdentity 验证接收地址的格式是否正确
+	ValidIdentity(string) bool
+
+	// Send 发送验证码
+	//
+	// target 为接收验证码的目标，比如邮箱地址或是手机号码等；
+	// code 为发送的验证码；
+	Send(target, code string) error
+}
 
 // 验证码的占位符
 const placeholder = "%%code%%"
 
-// SendFunc 验证码发送方法
-//
-// target 为接收验证码的目标，比如邮箱地址或是手机号码等；
-// code 为发送的验证码；
-type SendFunc = func(target, code string) error
-
-type SMTP struct {
+type smtpSender struct {
 	head     string // 固定的邮件头
 	addr     string
 	from     string
@@ -29,12 +36,12 @@ type SMTP struct {
 	auth     smtp.Auth
 }
 
-// NewSMTP 新建 [SMTP] 对象
+// NewSMTP 基于 SMTP 的 [Sender] 实现
 //
 // subject 为发送邮件的主题；
 // addr 为 smtp 的主机地址，需要带上端口号；
 // template 为邮件模板，可以有一个占位符 %%code%%；
-func NewSMTP(subject, addr, from, template string, auth smtp.Auth) *SMTP {
+func NewSMTP(subject, addr, from, template string, auth smtp.Auth) Sender {
 	b := errwrap.Buffer{}
 	b.Grow(1024)
 	b.WString("From: ").WString(from).WString("\r\n").
@@ -46,7 +53,7 @@ func NewSMTP(subject, addr, from, template string, auth smtp.Auth) *SMTP {
 		panic(b.Err)
 	}
 
-	ret := &SMTP{
+	ret := &smtpSender{
 		head:     b.String(),
 		addr:     addr,
 		from:     from,
@@ -57,8 +64,10 @@ func NewSMTP(subject, addr, from, template string, auth smtp.Auth) *SMTP {
 	return ret
 }
 
+func (s *smtpSender) ValidIdentity(identity string) bool { return validator.Email(identity) }
+
 // Send 发送邮件
-func (s *SMTP) Send(email, code string) error {
+func (s *smtpSender) Send(email, code string) error {
 	b := errwrap.Buffer{}
 	b.Grow(1024)
 	b.WString(s.head).

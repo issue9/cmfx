@@ -17,7 +17,7 @@ import (
 
 type code struct {
 	db      *orm.DB
-	send    SendFunc
+	sender  Sender
 	expired time.Duration
 }
 
@@ -29,10 +29,10 @@ func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
 //
 // expired 表示验证码的过期时间；
 // tableName 用于指定验证码的表名，需要在同一个 mod 环境下是唯一的；
-func New(mod *cmfx.Module, expired time.Duration, tableName string, send SendFunc) passport.Adapter {
+func New(mod *cmfx.Module, expired time.Duration, tableName string, sender Sender) passport.Adapter {
 	return &code{
 		db:      buildDB(mod, tableName),
-		send:    send,
+		sender:  sender,
 		expired: expired,
 	}
 }
@@ -93,13 +93,17 @@ func (e *code) set(uid int64, identity, code string) error {
 		return err
 	}
 
-	return e.send(identity, code)
+	return e.sender.Send(identity, code)
 }
 
 // Add 注册新用户
 //
 // code 为验证码，可以用于验证，但是并不会真的发送该验证码。
 func (e *code) Add(uid int64, identity, code string, now time.Time) error {
+	if !e.sender.ValidIdentity(identity) {
+		return passport.ErrInvalidIdentity()
+	}
+
 	if e.getModel(uid) != nil {
 		return passport.ErrUIDExists()
 	}

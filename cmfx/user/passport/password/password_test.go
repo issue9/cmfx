@@ -6,6 +6,7 @@ package password
 
 import (
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v4"
 
@@ -27,4 +28,20 @@ func TestPassword(t *testing.T) {
 	a.NotNil(p)
 
 	adaptertest.Run(a, p)
+}
+
+func TestValidIdentity(t *testing.T) {
+	a := assert.New(t, false)
+	suite := test.NewSuite(a)
+	defer suite.Close()
+	mod := suite.NewModule("test")
+	Install(mod)
+
+	p := New(mod, 11)
+	a.NotNil(p)
+
+	a.ErrorIs(p.Add(1024, "", "1024", time.Now()), passport.ErrInvalidIdentity())
+	a.ErrorIs(p.Add(1024, "//", "1024", time.Now()), passport.ErrInvalidIdentity())
+	a.NotError(p.Add(1024, "1024", "1024", time.Now()))
+	a.NotError(p.Add(1025, "abcd", "1024", time.Now()))
 }

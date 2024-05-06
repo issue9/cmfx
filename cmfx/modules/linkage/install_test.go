@@ -19,8 +19,7 @@ func TestInstall(t *testing.T) {
 	mod := s.NewModule("test")
 	Install(mod)
 
-	exists, err := s.DB().SQLBuilder().TableExists().Table(mod.ID() + "_linkages").Exists()
-	a.NotError(err).True(exists)
+	s.TableExists(mod.ID() + "_linkages")
 }
 
 type object struct {

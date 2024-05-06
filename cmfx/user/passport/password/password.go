@@ -32,6 +32,10 @@ func New(mod *cmfx.Module, cost int) passport.Adapter {
 
 // Add 添加账号
 func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
+	if !validIdentity(identity) {
+		return passport.ErrInvalidIdentity()
+	}
+
 	db := p.mod.DB()
 
 	n, err := db.Where("uid=?", uid).Count(&modelPassword{})
@@ -150,3 +154,20 @@ func (p *password) Identity(uid int64) (string, error) {
 
 	return pp.Identity, nil
 }
+
+func validIdentity(id string) bool {
+	if id == "" {
+		return false
+	}
+
+	for _, r := range id {
+		if !isAlpha(r) && !isDigit(r) {
+			return false
+		}
+	}
+
+	return true
+}
+
+func isAlpha(r rune) bool { return r >= 'A' && r <= 'Z' || r >= 'a' && r <= 'z' }
+func isDigit(r rune) bool { return r >= '0' && r <= '9' }

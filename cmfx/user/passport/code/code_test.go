@@ -24,7 +24,7 @@ func TestCode(t *testing.T) {
 	mod := suite.NewModule("test")
 	Install(mod, "codes")
 
-	p := New(mod, 5*time.Minute, "codes", send)
+	p := New(mod, 5*time.Minute, "codes", &sender{})
 	a.NotNil(p)
 	adaptertest.Run(a, p)
 }
