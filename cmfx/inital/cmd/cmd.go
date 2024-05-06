@@ -9,7 +9,6 @@ import (
 	"flag"
 
 	"github.com/issue9/mux/v8"
-	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/app"
@@ -18,7 +17,7 @@ import (
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/inital"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
-	"github.com/issue9/cmfx/cmfx/user"
+	"github.com/issue9/cmfx/cmfx/modules/system"
 )
 
 // Exec 执行服务
@@ -51,24 +50,22 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	db := user.DB.DB()
 	s.OnClose(func() error { return db.Close() })
 
+	var (
+		adminMod  = cmfx.NewModule("admin", web.Phrase("admin"), s, db, router)
+		systemMod = cmfx.NewModule("system", web.Phrase("system"), s, db, router)
+	)
+
 	switch action {
 	case "serve":
-		return s, load(s, db, router, user.Admin)
+		adminL := admin.Load(adminMod, user.Admin)
+		system.Load(systemMod, user.System, adminL)
 	case "install":
-		return s, install(s, db, router, user)
+		admin.Install(adminMod)
+		system.Install(systemMod)
 	case "upgrade":
 		panic("not implements")
 	default:
 		panic("invalid action")
 	}
-}
-
-func load(s web.Server, db *orm.DB, router *web.Router, conf *user.Config) error {
-	admin.Load(cmfx.NewModule("admin", web.Phrase("admin"), s, db, router), conf)
-	return nil
-}
-
-func install(s web.Server, db *orm.DB, router *web.Router, conf *Config) error {
-	admin.Install(cmfx.NewModule("admin", web.Phrase("admin"), s, db, router))
-	return nil
+	return s, nil
 }
