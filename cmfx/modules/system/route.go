@@ -136,7 +136,7 @@ type problem struct {
 	Detail string `json:"detail" xml:"detail"`
 }
 
-// # api get /problems 系统错误信息
+// # api get /system/problems 系统错误信息
 // @tag system
 // @resp 200 * []problem
 func (l *Loader) commonGetProblems(ctx *web.Context) web.Responser {
