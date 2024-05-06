@@ -16,6 +16,9 @@ import (
 
 // Config 配置项
 type Config struct {
+	// URLPrefix 该模块下的地址前缀
+	URLPrefix string `yaml:"urlPrefix" json:"urlPrefix" xml:"urlPrefix"`
+
 	// Backup 备份数据的选项
 	Backup *Backup `yaml:"backup,omitempty" json:"backup,omitempty" xml:"backup,omitempty"`
 }
@@ -36,6 +39,12 @@ type Backup struct {
 }
 
 func (c *Config) SanitizeConfig() *web.FieldError {
+	if c.URLPrefix == "" {
+		c.URLPrefix = "/system"
+	} else if c.URLPrefix[0] != '/' {
+		return web.NewFieldError("urlPrefix", locales.InvalidValue)
+	}
+
 	if c.Backup != nil {
 		if err := c.Backup.SanitizeConfig(); err != nil {
 			return err.AddFieldParent("backup")

@@ -35,7 +35,7 @@ func (c *reqAccount) Filter(v *web.FilterContext) {
 
 // SetState 设置用户状态
 //
-// 如果状态为非 [StateNormal]，那么也将会被禁卡登录。
+// 如果状态为非 [StateNormal]，那么也将会被禁止登录。
 //
 // NOTE: 需要保证 u.ID、u.State 和 u.NO 是有效的。
 func (m *Loader) SetState(tx *orm.Tx, u *User, s State) (err error) {
@@ -170,7 +170,7 @@ func (m *Loader) Middleware(next web.HandlerFunc) web.HandlerFunc { return m.tok
 
 // CurrentUser 获取当前登录的用户信息
 //
-// 该信息由 AuthFilter 存储在 [web.Context.vars] 之中。
+// 该信息由 [Loader.Middleware] 存储在 [web.Context.vars] 之中。
 func (m *Loader) CurrentUser(ctx *web.Context) *User {
 	if u, found := m.token.GetInfo(ctx); found {
 		return u
