@@ -53,7 +53,7 @@ func (m *Loader) SetState(tx *orm.Tx, u *User, s State) (err error) {
 	return err
 }
 
-// 如果 reg 不为空，表示在验证成功，但是不存在用户数是执行注册服务，其原型如下：
+// Login 如果 reg 不为空，表示在验证成功，但是不存在用户数是执行注册服务，其原型如下：
 //
 //	func(tx *orm.Tx, uid int64, identity string) error
 //

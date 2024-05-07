@@ -45,7 +45,7 @@ func (m *Loader) URLPrefix() string { return m.urlPrefix }
 // GetUser 获取指定 uid 的用户
 func (m *Loader) GetUser(uid int64) (*User, error) {
 	u := &User{ID: uid}
-	found, err := m.mod.DB().Select(u)
+	found, err := m.Module().DB().Select(u)
 	if err != nil {
 		return nil, err
 	}

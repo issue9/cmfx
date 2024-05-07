@@ -32,24 +32,24 @@ type respInfo struct {
 
 	XMLName struct{} `xml:"info" json:"-"`
 
-	ID       int64     `json:"id" xml:"id,attr"`
-	Sex      types.Sex `json:"sex" xml:"sex,attr"`
-	Name     string    `json:"name" xml:"name"`         // 真实名称，展示于后台
-	Nickname string    `json:"nickname" xml:"nickname"` // 昵称，前台需要展示的地方显示此值
-	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty"`
+	ID       int64     `json:"id" xml:"id,attr" cbor:"id"`
+	Sex      types.Sex `json:"sex" xml:"sex,attr" cbor:"sex"`
+	Name     string    `json:"name" xml:"name" cbor:"name"`             // 真实名称，展示于后台
+	Nickname string    `json:"nickname" xml:"nickname" cbor:"nickname"` // 昵称，前台需要展示的地方显示此值
+	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty"`
 }
 
 type respInfoWithRoleState struct {
 	respInfo
-	Roles []string `json:"roles" xml:"roles>role"`
+	Roles []string `json:"roles" xml:"roles>role" cbor:"roles"`
 	roles []*rbac.Role
-	State user.State `json:"state" xml:"state,attr"`
+	State user.State `json:"state" xml:"state,attr" cbor:"state"`
 }
 
 type respInfoWithAccount struct {
 	respInfoWithRoleState
-	Username string `json:"username" xml:"username"`
-	Password string `json:"password" xml:"password"`
+	Username string `json:"username" xml:"username" cbor:"username"`
+	Password string `json:"password" xml:"password" cbor:"password"`
 }
 
 func (i *respInfo) Filter(v *web.FilterContext) {

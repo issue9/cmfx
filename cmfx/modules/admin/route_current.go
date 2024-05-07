@@ -53,9 +53,9 @@ func (l *Loader) patchInfo(ctx *web.Context) web.Responser {
 }
 
 type putPassword struct {
-	XMLName struct{} `json:"-" xml:"password"`
-	Old     string   `json:"old" xml:"old"`
-	New     string   `json:"new" xml:"new"`
+	XMLName struct{} `json:"-" xml:"password" cbor:"-"`
+	Old     string   `json:"old" xml:"old" cbor:"old"`
+	New     string   `json:"new" xml:"new" cbor:"new"`
 }
 
 func (p *putPassword) Filter(v *web.FilterContext) {
