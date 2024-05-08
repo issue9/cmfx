@@ -99,7 +99,9 @@ func buildURL(url string) string {
 
 func (s *Suite) NewModule(id string) *cmfx.Module { return s.Module().New(id, web.Phrase(id)) }
 
-func (s *Suite) TableExists(name string) *Suite{
+func (s *Suite) TableExists(name string) *Suite {
+	s.Assertion().TB().Helper()
+
 	exists, err := s.DB().SQLBuilder().TableExists().Table(name).Exists()
 	s.Assertion().NotError(err).True(exists)
 	return s
