@@ -44,10 +44,10 @@ func checkObjectType[T any]() {
 	}
 }
 
-// NewObject 向 [Settings] 注册一个新的设置对象
+// LoadObject 从 [Settings] 加载设置对象的数据
 //
 // id 表示当前设置对象的 ID，每一个设置象需要有一个唯一的 id；
-func NewObject[T any](s *Settings, id string) (*Object[T], error) {
+func LoadObject[T any](s *Settings, id string) (*Object[T], error) {
 	if slices.Index(s.objects, id) >= 0 {
 		panic(fmt.Sprintf("已经存在相同的 ID：%s", id))
 	}

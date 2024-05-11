@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package system 系统设置及相关功能
 package system
 
 import (

@@ -33,17 +33,17 @@ func TestObject(t *testing.T) {
 	ss := New(mod, tableName, 0)
 	a.NotNil(ss).NotError(InstallObject(ss, "opt", &options{F2: 2}))
 
-	// NewObject
+	// LoadObject
 
 	a.PanicString(func() {
-		_, _ = NewObject[*options](ss, "opt")
+		_, _ = LoadObject[*options](ss, "opt")
 	}, "T 的约束必须是结构体")
 
 	a.PanicString(func() {
-		_, _ = NewObject[options](ss, "not-exists")
+		_, _ = LoadObject[options](ss, "not-exists")
 	}, "设置对象 not-exists 未安装")
 
-	obj, err := NewObject[options](ss, "opt")
+	obj, err := LoadObject[options](ss, "opt")
 	a.NotError(err).NotNil(obj).
 		Length(obj.users, 0).
 		NotNil(obj.preset)
