@@ -54,6 +54,8 @@ func TestObject(t *testing.T) {
 	a.NotError(err).NotNil(opt).
 		Equal(opt.F2, 2).
 		Length(obj.users, 1)
+	size, err := ss.db.Where("uid=?", 1).Select(true, &modelSetting{})
+	a.NotError(err).Zero(size) // 未存入数据库
 
 	// Object.Set
 
@@ -63,6 +65,8 @@ func TestObject(t *testing.T) {
 	a.NotError(err).NotNil(opt).
 		Equal(opt.F2, 1).
 		Length(obj.users, 1) // 主动写入了数据
+	size, err = ss.db.Where("uid=?", 1).Select(true, &modelSetting{})
+	a.NotError(err).Equal(size, 1) // 已入数据库
 }
 
 func TestGetFieldName(t *testing.T) {

@@ -10,7 +10,7 @@ package cmfx
 
 // # restdoc cmfx 文档
 //
-// @media application/json application/xml
+// @media application/json application/xml application/cbor
 // @version [Version]
 // @tag admin 管理员端
 // @tag rbac RBAC

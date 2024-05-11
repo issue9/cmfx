@@ -30,7 +30,7 @@ type modelInfo struct {
 type respInfo struct {
 	m *Loader
 
-	XMLName struct{} `xml:"info" json:"-"`
+	XMLName struct{} `xml:"info" json:"-" cbor:"-"`
 
 	ID       int64     `json:"id" xml:"id,attr" cbor:"id"`
 	Sex      types.Sex `json:"sex" xml:"sex,attr" cbor:"sex"`

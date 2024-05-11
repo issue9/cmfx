@@ -112,7 +112,7 @@ func (obj Object[T]) Set(uid int64, o *T) error {
 
 	err = obj.s.db.DoTransaction(func(tx *orm.Tx) error {
 		for _, mod := range mods {
-			if _, err := tx.Update(mod, "value"); err != nil {
+			if _, _, err := tx.Save(mod, "value"); err != nil {
 				return errors.Join(err, tx.Rollback())
 			}
 		}
