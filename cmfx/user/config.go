@@ -18,7 +18,7 @@ type Config struct {
 	// 路由地址的前缀
 	//
 	// 可以为空。
-	URLPrefix string `json:"urlPrefix,omitempty" xml:"urlPrefix,omitempty" yaml:"urlPrefix,omitempty"` // TODO 去掉？在 admin 指定？
+	URLPrefix string `json:"urlPrefix,omitempty" xml:"urlPrefix,omitempty" yaml:"urlPrefix,omitempty"`
 
 	// 访问令牌的过期时间，单位为秒。
 	AccessExpired int `json:"accessExpired,omitempty" xml:"accessExpired,attr,omitempty" yaml:"accessExpired,omitempty"`

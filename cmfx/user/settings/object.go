@@ -92,7 +92,9 @@ func (obj Object[T]) Get(uid int64) (*T, error) {
 		return &o, err
 	}
 
-	if size == 0 {
+	if uid == obj.s.presetUID {
+		obj.preset = ss
+	} else if size == 0 {
 		ss = obj.preset
 	}
 
@@ -108,6 +110,10 @@ func (obj Object[T]) Set(uid int64, o *T) error {
 	mods, err := toModels(o, uid, obj.id)
 	if err != nil {
 		return err
+	}
+
+	if uid == obj.s.presetUID {
+		obj.preset = mods
 	}
 
 	err = obj.s.db.DoTransaction(func(tx *orm.Tx) error {
