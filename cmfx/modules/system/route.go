@@ -14,36 +14,34 @@ import (
 // # api get /system/apis API 信息
 // @tag system admin
 // @resp 200 * []github.com/issue9/webuse/v7/plugins/health.State
-func (l *Loader) adminGetAPIs(_ *web.Context) web.Responser {
-	return web.OK(l.health.States())
-}
+func (l *Loader) adminGetAPIs(_ *web.Context) web.Responser { return web.OK(l.health.States()) }
 
 type dbInfo struct {
-	Name               string        `json:"name" xml:"name"`
-	Version            string        `json:"version" xml:"version"`
-	MaxOpenConnections int           `json:"maxOpenConnections" xml:"maxOpenConnections"`                   // 连接数
-	OpenConnections    int           `json:"openConnections" xml:"openConnections"`                         // 总的连接数
-	InUse              int           `json:"inUse" xml:"inUse"`                                             // 当前的连接数
-	Idle               int           `json:"idle" xml:"idle"`                                               // 空闲的连接
-	WaitCount          int64         `json:"waitCount" xml:"waitCount"`                                     // 等待的连接
-	WaitDuration       time.Duration `json:"waitDuration" xml:"waitDuration"`                               // 新连接的平均等待时间
-	MaxIdleClosed      int64         `json:"maxIdleClosed" xml:"maxIdleClosed"`                             // 最大空闲联接
-	MaxIdleTimeClosed  int64         `json:"maxIdleTimeClosed,omitempty" xml:"maxIdleTimeClosed,omitempty"` // The total number of connections closed due to SetConnMaxIdleTime.
-	MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed"`                     // 最生命周期联接
+	Name               string        `json:"name" xml:"name" cbor:"name"`                                                                      // 数据库驱动
+	Version            string        `json:"version" xml:"version" cbor:"version"`                                                             // 数据库版本
+	MaxOpenConnections int           `json:"maxOpenConnections" xml:"maxOpenConnections" cbor:"maxOpenConnections"`                            // 连接数
+	OpenConnections    int           `json:"openConnections" xml:"openConnections" cbor:"openConnections"`                                     // 总的连接数
+	InUse              int           `json:"inUse" xml:"inUse" cbor:"inUse"`                                                                   // 当前的连接数
+	Idle               int           `json:"idle" xml:"idle" cbor:"idle"`                                                                      // 空闲的连接
+	WaitCount          int64         `json:"waitCount" xml:"waitCount" cbor:"waitCount"`                                                       // 等待的连接
+	WaitDuration       time.Duration `json:"waitDuration" xml:"waitDuration" cbor:"waitDuration"`                                              // 新连接的平均等待时间
+	MaxIdleClosed      int64         `json:"maxIdleClosed" xml:"maxIdleClosed" cbor:"maxIdleClosed"`                                           // 最大空闲联接
+	MaxIdleTimeClosed  int64         `json:"maxIdleTimeClosed,omitempty" xml:"maxIdleTimeClosed,omitempty" cbor:"maxIdleTimeClosed,omitempty"` // The total number of connections closed due to SetConnMaxIdleTime.
+	MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed" cbor:"maxLifetimeClosed"`                               // 最生命周期联接
 }
 
 type info struct {
-	XMLName string `json:"-" xml:"info"`
+	XMLName string `json:"-" xml:"info" cbor:"-"`
 
-	Name       string  `json:"name" xml:"name"`
-	Version    string  `json:"version" xml:"version"`
-	Uptime     string  `json:"uptime" xml:"uptime"`
-	Go         string  `json:"go" xml:"go"`
-	OS         string  `json:"os" xml:"os"`
-	Arch       string  `json:"arch" xml:"arch"`
-	CPUS       int     `json:"cpus" xml:"cpus"`
-	Goroutines int     `json:"goroutines" xml:"goroutines"`
-	DB         *dbInfo `json:"db" xml:"db"`
+	Name       string  `json:"name" xml:"name" cbor:"name"`                   // 应用名称
+	Version    string  `json:"version" xml:"version" cbor:"version"`          // 应用版本号
+	Uptime     string  `json:"uptime" xml:"uptime" cbor:"uptime"`             // 应用的上次启动时间
+	Go         string  `json:"go" xml:"go" cbor:"go"`                         // 编译器的版本
+	OS         string  `json:"os" xml:"os" cbor:"os"`                         // 系统版本
+	Arch       string  `json:"arch" xml:"arch" cbor:"arch"`                   // CPU 架构
+	CPUS       int     `json:"cpus" xml:"cpus" cbor:"cpus"`                   // CPU 核心数量
+	Goroutines int     `json:"goroutines" xml:"goroutines" cbor:"goroutines"` // 当前运行的协程数量
+	DB         *dbInfo `json:"db" xml:"db" cbor:"db"`                         // 数据库的相关信息
 }
 
 // # api get /system/info 系统信息
@@ -80,19 +78,21 @@ func (l *Loader) adminGetInfo(ctx *web.Context) web.Responser {
 }
 
 type service struct {
-	Title string    `json:"title" xml:"title"`
-	State web.State `json:"state" xml:"state,attr"`
-	Err   string    `json:"err,omitempty" xml:"err,omitempty"`
+	Title string    `json:"title" xml:"title" cbor:"title"`                         // 名称
+	State web.State `json:"state" xml:"state,attr" cbor:"state"`                    // 状态
+	Err   string    `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty"` // 如果出错，表示错误内容，否则为空
 }
+
 type job struct {
 	service
-	Next time.Time `json:"next,omitempty" xml:"next,omitempty"`
-	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty"`
+	Next time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty"` // 下一次执行时间
+	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty"` // 上一次执行时间
 }
+
 type services struct {
-	XMLName  struct{}  `json:"-" xml:"services"`
-	Services []service `json:"services" xml:"service"`
-	Jobs     []job     `json:"jobs" xml:"job"`
+	XMLName  struct{}  `json:"-" xml:"services" cbor:"-"`
+	Services []service `json:"services" xml:"service" cbor:"service"` // 服务
+	Jobs     []job     `json:"jobs" xml:"job" cbor:"job"`             // 计划任务
 }
 
 // # api get /system/services 系统服务状态
@@ -129,11 +129,11 @@ func (l *Loader) adminGetServices(ctx *web.Context) web.Responser {
 }
 
 type problem struct {
-	Prefix string `json:"prefix" xml:"prefix"`
-	ID     string `json:"id" xml:"id"`
-	Status int    `json:"status" xml:"status,attr"`
-	Title  string `json:"title" xml:"title"`
-	Detail string `json:"detail" xml:"detail"`
+	Prefix string `json:"prefix" xml:"prefix" cbor:"prefix"`      // URL 前缀以，如果此值不为空，与 ID 组成一上完整的地址。
+	ID     string `json:"id" xml:"id" cbor:"id"`                  // 唯一 ID
+	Status int    `json:"status" xml:"status,attr" cbor:"status"` // 对应的原始 HTTP 状态码
+	Title  string `json:"title" xml:"title" cbor:"title"`         // 错误的简要描述
+	Detail string `json:"detail" xml:"detail" cbor:"detail"`      // 错误的明细
 }
 
 // # api get /system/problems 系统错误信息
@@ -156,9 +156,7 @@ func (l *Loader) commonGetProblems(ctx *web.Context) web.Responser {
 // # api get /system/monitor 监视系统数据
 // @tag system
 // @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
-func (l *Loader) adminGetMonitor(ctx *web.Context) web.Responser {
-	return l.monitor.Handle(ctx)
-}
+func (l *Loader) adminGetMonitor(ctx *web.Context) web.Responser { return l.monitor.Handle(ctx) }
 
 // # api post /system/backup 手动执行备份数据
 // @tag system
