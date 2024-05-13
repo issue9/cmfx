@@ -19,7 +19,7 @@ import (
 // @tag admin
 // @resp 200 * respInfo
 func (l *Loader) getInfo(ctx *web.Context) web.Responser {
-	return web.OK(l.LoginUser(ctx))
+	return web.OK(l.CurrentUser(ctx))
 }
 
 // # api patch /info 更新当前登用户的信息
@@ -32,7 +32,7 @@ func (l *Loader) patchInfo(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	a := l.LoginUser(ctx)
+	a := l.CurrentUser(ctx)
 
 	_, err := l.Module().DB().Update(&modelInfo{
 		ID:       a.ID,
@@ -78,7 +78,7 @@ func (l *Loader) putCurrentPassword(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	a := l.LoginUser(ctx)
+	a := l.CurrentUser(ctx)
 	err := l.password.Change(a.ID, data.Old, data.New)
 	if errors.Is(err, passport.ErrUnauthorized()) {
 		return ctx.Problem(cmfx.Unauthorized)

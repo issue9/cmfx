@@ -39,7 +39,6 @@ type Loader struct {
 
 // Load 声明 Admin 对象
 //
-// id 表示模块的 ID，在某些需要唯一值的地方，会加上此值作为前缀；
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
 func Load(mod *cmfx.Module, o *user.Config) *Loader {
 	loadProblems(mod.Server())
@@ -83,10 +82,10 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 
 	mod.Router().Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin).
-		Delete("/login", m.AuthFilter(m.deleteLogin)).
-		Get("/token", m.AuthFilter(m.getToken))
+		Delete("/login", m.AuthMiddleware(m.deleteLogin)).
+		Get("/token", m.AuthMiddleware(m.getToken))
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthMiddleware)).
 		Get("/resources", m.getResources).
 		Get("/roles", m.getRoles).
 		Post("/roles", postGroup(m.postRoles)).
@@ -95,13 +94,13 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 		Get("/roles/{id:digit}/resources", m.getRoleResources).
 		Put("/roles/{id:digit}/resources", putGroupResources(m.putRoleResources))
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthMiddleware)).
 		Get("/info", m.getInfo).
 		Patch("/info", m.patchInfo).
 		Get("/securitylog", m.getSecurityLogs).
 		Put("/password", m.putCurrentPassword)
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthFilter)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthMiddleware)).
 		Get("/admins", getAdmin(m.getAdmins)).
 		Post("/admins", postAdmin(m.postAdmins)).
 		Get("/admins/{id:digit}", getAdmin(m.getAdmin)).
@@ -116,13 +115,13 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 
 func (l *Loader) URLPrefix() string { return l.user.URLPrefix() }
 
-// AuthFilter 验证是否登录
-func (l *Loader) AuthFilter(next web.HandlerFunc) web.HandlerFunc {
+// AuthMiddleware 验证是否登录
+func (l *Loader) AuthMiddleware(next web.HandlerFunc) web.HandlerFunc {
 	return l.user.Middleware(next)
 }
 
-// LoginUser 获取当前登录的用户信息
-func (l *Loader) LoginUser(ctx *web.Context) *user.User { return l.user.CurrentUser(ctx) }
+// CurrentUser 获取当前登录的用户信息
+func (l *Loader) CurrentUser(ctx *web.Context) *user.User { return l.user.CurrentUser(ctx) }
 
 // NewResourceGroup 新建资源分组
 func (l *Loader) NewResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
@@ -141,8 +140,8 @@ func (l *Loader) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) e
 	return l.user.AddSecurityLog(tx, uid, ip, ua, content)
 }
 
-func (l *Loader) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) {
-	l.user.AddSecurityLogFromContext(tx, uid, ctx, content)
+func (l *Loader) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
+	return l.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 
 // OnLogin 注册登录事件

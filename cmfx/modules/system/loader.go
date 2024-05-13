@@ -50,7 +50,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Loader) *Loader {
 	resGetAPIs := g.New("get-apis", web.Phrase("view apis"))
 	resBackup := g.New("backup", web.Phrase("backup database"))
 
-	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, web.MiddlewareFunc(m.admin.AuthFilter))
+	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, web.MiddlewareFunc(m.admin.AuthMiddleware))
 	adminRouter.Get("/info", resGetInfo(m.adminGetInfo)).
 		Get("/services", resGetServices(m.adminGetServices)).
 		Get("/apis", resGetAPIs(m.adminGetAPIs)).

@@ -15,20 +15,20 @@ import (
 // 同时保存至数据库和缓存系统，但读取时只从缓存查找数据。
 type healthDBStore struct {
 	cache  health.Store
-	engine *orm.DB
+	db     *orm.DB
 	errlog *web.Logger
 }
 
 func newHealthDBStore(mod *cmfx.Module) (health.Store, error) {
 	store := &healthDBStore{
 		cache:  health.NewCacheStore(mod.Server(), mod.ID()+"_health_"),
-		engine: mod.DB(),
+		db:     mod.DB(),
 		errlog: mod.Server().Logs().ERROR(),
 	}
 
 	// 初始时，从数据库加载数据保存到缓存系统。
 	states := make([]*modelHealth, 0, 100)
-	_, err := store.engine.Where("1=1").Select(true, &states)
+	_, err := store.db.Where("1=1").Select(true, &states)
 	if err != nil {
 		return nil, err
 	}
@@ -64,7 +64,7 @@ func (s *healthDBStore) Save(state *health.State) {
 		Method:  state.Method,
 		Pattern: state.Pattern,
 	}
-	found, err := s.engine.Select(mod)
+	found, err := s.db.Select(mod)
 	if err != nil {
 		s.errlog.Error(err)
 		return
@@ -72,9 +72,9 @@ func (s *healthDBStore) Save(state *health.State) {
 
 	mod = healthModelFromState(state)
 	if found {
-		_, err = s.engine.Update(mod)
+		_, err = s.db.Update(mod)
 	} else {
-		_, err = s.engine.Insert(mod)
+		_, err = s.db.Insert(mod)
 	}
 	if err != nil {
 		s.errlog.Error(err)

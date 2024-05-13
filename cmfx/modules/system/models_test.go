@@ -9,4 +9,6 @@ import "github.com/issue9/orm/v6"
 var (
 	_ orm.TableNamer    = &modelHealth{}
 	_ orm.BeforeUpdater = &modelHealth{}
+
+	_ orm.TableNamer = &modelLinkage{}
 )
