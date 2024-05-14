@@ -16,7 +16,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-func Install(mod *cmfx.Module) {
+func Install(mod *cmfx.Module, o *Config) *Module {
 	user.Install(mod)
 	password.Install(mod)
 	rbac.Install(mod)
@@ -25,19 +25,15 @@ func Install(mod *cmfx.Module) {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	r := rbac.New(mod, nil)
-	a, err := r.NewRoleGroup(mod.ID(), 0)
-	if err != nil {
-		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
-	}
+	l := Load(mod, o)
 
-	if _, err = a.NewRole("管理员", "拥有超级权限", ""); err != nil {
+	if _, err := l.newRole("管理员", "拥有超级权限", ""); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
-	if _, err = a.NewRole("财务", "财务", ""); err != nil {
+	if _, err := l.newRole("财务", "财务", ""); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
-	if _, err = a.NewRole("编辑", "仅有编辑文章的相关权限", ""); err != nil {
+	if _, err := l.newRole("编辑", "仅有编辑文章的相关权限", ""); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
@@ -87,11 +83,11 @@ func Install(mod *cmfx.Module) {
 		},
 	}
 
-	p := password.New(mod, 11)
-
 	for _, u := range us {
-		if err := newAdmin(mod, p, u, time.Now()); err != nil {
+		if err := l.newAdmin(l.password, u, time.Now()); err != nil {
 			panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 		}
 	}
+
+	return l
 }

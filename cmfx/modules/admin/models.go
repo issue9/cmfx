@@ -28,7 +28,7 @@ type modelInfo struct {
 }
 
 type respInfo struct {
-	m *Loader
+	m *Module
 
 	XMLName struct{} `xml:"info" json:"-" cbor:"-"`
 

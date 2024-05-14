@@ -10,10 +10,13 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/mux/v8/header"
 	"github.com/issue9/web/server/servertest"
+	"github.com/issue9/webuse/v7/middlewares/auth"
 	"golang.org/x/text/language"
+
+	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
 
 func TestSystem_apis(t *testing.T) {
@@ -21,14 +24,17 @@ func TestSystem_apis(t *testing.T) {
 	suite := test.NewSuite(a)
 	err := suite.Module().Server().Locale().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
 	a.NotError(err)
-	newSystem(suite)
+	l := newSystem(suite)
 
 	defer servertest.Run(a, suite.Module().Server())()
 	defer suite.Close()
 
+	token := admintest.GetToken(suite, l.admin)
+
 	suite.Get("/admin/system/info").
 		Header(header.AcceptLanguage, language.SimplifiedChinese.String()).
 		Header(header.Accept, "application/json;charset=utf-8").
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, token)).
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
@@ -39,6 +45,7 @@ func TestSystem_apis(t *testing.T) {
 	suite.Get("/admin/system/services").
 		Header(header.AcceptLanguage, language.SimplifiedChinese.String()).
 		Header(header.Accept, "application/json;charset=utf-8").
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, token)).
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
@@ -49,6 +56,7 @@ func TestSystem_apis(t *testing.T) {
 	suite.Get("/admin/system/apis").
 		Header(header.AcceptLanguage, language.SimplifiedChinese.String()).
 		Header(header.Accept, "application/json;charset=utf-8").
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, token)).
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {

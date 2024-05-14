@@ -10,6 +10,7 @@ import (
 	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/user"
 )
 
 func TestInstall(t *testing.T) {
@@ -18,7 +19,17 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	mod := suite.NewModule("test")
-	Install(mod)
+	o := &Config{
+		SuperUser: 1,
+		User: &user.Config{
+			URLPrefix:      "/admin",
+			AccessExpired:  60,
+			RefreshExpired: 120,
+		},
+	}
+	suite.Assertion().NotError(o.SanitizeConfig())
+	l := Install(mod, o)
+	a.NotNil(l)
 
 	suite.TableExists(mod.ID() + "_info")
 }

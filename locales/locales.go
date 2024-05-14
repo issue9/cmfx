@@ -37,3 +37,11 @@ func MustBeGreaterThan[T any](v T) web.LocaleStringer {
 func MustBeLessThan[T any](v T) web.LocaleStringer {
 	return web.Phrase("must be less than %v", v)
 }
+
+func ErrMustBeGreaterThan[T any](v T) error {
+	return web.NewLocaleError("must be greater than %v", v)
+}
+
+func ErrMustBeLessThan[T any](v T) error {
+	return web.NewLocaleError("must be less than %v", v)
+}

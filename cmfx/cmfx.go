@@ -42,9 +42,7 @@ const (
 	UnauthorizedSecurityToken      = "40103" // 需要强验证
 	UnauthorizedInvalidAccount     = "40104" // 无效的账号或密码
 	UnauthorizedNeedChangePassword = "40105"
-
-	// 可注册的状态，比如 OAuth2 验证，如果未注册，返回一个 ID 可用以注册。
-	UnauthorizedRegistrable = "40106"
+	UnauthorizedRegistrable        = "40106" // 可注册的状态，比如 OAuth2 验证，如果未注册，返回一个 ID 可用以注册。
 )
 
 // 403

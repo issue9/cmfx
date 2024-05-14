@@ -8,6 +8,7 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
+	"reflect"
 	"slices"
 	"time"
 
@@ -17,7 +18,7 @@ import (
 
 // Linkage 级联菜单元素
 type Linkage[T any] struct {
-	l     *Loader
+	l     *Module
 	id    int64
 	title string
 	items []*LinkageItem[T]
@@ -30,8 +31,8 @@ type LinkageItem[T any] struct {
 	Items []*LinkageItem[T]
 }
 
-func LoadLinkage[T any](l *Loader, key string) (*Linkage[T], error) {
-	// TODO 限制 T 的类型不能为指针？
+func LoadLinkage[T any](l *Module, key string) (*Linkage[T], error) {
+	checkObjectType[T]()
 
 	db := l.mod.DB()
 
@@ -73,7 +74,7 @@ func LoadLinkage[T any](l *Loader, key string) (*Linkage[T], error) {
 	}
 
 	if root == nil {
-		panic(fmt.Sprintf("未从数据库中找到 %s 的根元素", key))
+		return nil, web.NewLocaleError("linkage key %s not found", key)
 	}
 
 	root.items = make([]*LinkageItem[T], 0, len(linkageItems))
@@ -86,10 +87,10 @@ func LoadLinkage[T any](l *Loader, key string) (*Linkage[T], error) {
 
 		modItem, found := sliceutil.At(modItems, func(i *modelLinkage, _ int) bool { return i.ID == item.ID })
 		if !found {
-			panic("无法从原数据中找到相应的 ID")
+			panic("无法从原数据中找到相应的 ID") // 这应该是代码出错或是数据库被修改
 		}
 		if modItem.Parent == 0 {
-			panic("parent.ID 为零的应该在之前代码中被过滤")
+			panic("parent.ID 为零的应该在之前代码中被过滤") // 这应该是代码出错或是数据库被修改
 		}
 
 		if modItem.Parent == root.id {
@@ -101,7 +102,6 @@ func LoadLinkage[T any](l *Loader, key string) (*Linkage[T], error) {
 			}
 			parent.Items = append(parent.Items, item)
 		}
-
 	}
 
 	return root, nil
@@ -214,4 +214,10 @@ func (l *LinkageItem[T]) find(id int64) (parent, curr *LinkageItem[T]) {
 
 func errLinkageItemNotFound(id int64) error {
 	return web.NewLocaleError("linkage item %d not found", id)
+}
+
+func checkObjectType[T any]() {
+	if reflect.TypeFor[T]().Kind() == reflect.Pointer {
+		panic(fmt.Sprintf("T 的约束必须是结构体"))
+	}
 }

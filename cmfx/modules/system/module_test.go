@@ -9,16 +9,10 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
 
-func newSystem(s *test.Suite) *Loader {
+func newSystem(s *test.Suite) *Module {
 	adminM := admintest.NewAdmin(s)
-
-	mod := s.NewModule("test")
-	Install(mod)
 
 	conf := &Config{}
 	s.Assertion().NotError(conf.SanitizeConfig())
-	sys := Load(mod, conf, adminM)
-	s.Assertion().NotNil(sys)
-
-	return sys
+	return Install(s.NewModule("test"), conf, adminM)
 }

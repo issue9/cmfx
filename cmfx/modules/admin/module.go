@@ -7,7 +7,6 @@ package admin
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/issue9/events"
@@ -22,12 +21,12 @@ import (
 )
 
 const (
+	passwordID      = "password"
 	defaultPassword = "123"
-	SystemID        = 0 // 表示系统的 ID
 )
 
-type Loader struct {
-	user *user.Loader
+type Module struct {
+	user *user.Module
 
 	password  passport.Adapter
 	roleGroup *rbac.RoleGroup
@@ -40,15 +39,14 @@ type Loader struct {
 // Load 声明 Admin 对象
 //
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
-func Load(mod *cmfx.Module, o *user.Config) *Loader {
+func Load(mod *cmfx.Module, o *Config) *Module {
 	loadProblems(mod.Server())
 
-	u := user.Load(mod, o)
+	u := user.Load(mod, o.User)
 
-	pp := passport.New(mod)
 	pass := password.New(mod, 8)
-	pp.Register("password", pass, web.StringPhrase("password mode"))
-	m := &Loader{
+	u.Passport().Register(passwordID, pass, web.StringPhrase("password mode"))
+	m := &Module{
 		user: u,
 
 		password: pass,
@@ -64,7 +62,7 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 		}
 		return u.ID, nil
 	})
-	rg, err := inst.NewRoleGroup("0", SystemID)
+	rg, err := inst.NewRoleGroup("0", o.SuperUser)
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
@@ -82,10 +80,10 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 
 	mod.Router().Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin).
-		Delete("/login", m.AuthMiddleware(m.deleteLogin)).
-		Get("/token", m.AuthMiddleware(m.getToken))
+		Delete("/login", m.Middleware(m.deleteLogin)).
+		Put("/login", m.Middleware(m.getToken))
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthMiddleware)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.Middleware)).
 		Get("/resources", m.getResources).
 		Get("/roles", m.getRoles).
 		Post("/roles", postGroup(m.postRoles)).
@@ -94,13 +92,13 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 		Get("/roles/{id:digit}/resources", m.getRoleResources).
 		Put("/roles/{id:digit}/resources", putGroupResources(m.putRoleResources))
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthMiddleware)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.Middleware)).
 		Get("/info", m.getInfo).
 		Patch("/info", m.patchInfo).
 		Get("/securitylog", m.getSecurityLogs).
 		Put("/password", m.putCurrentPassword)
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.AuthMiddleware)).
+	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.Middleware)).
 		Get("/admins", getAdmin(m.getAdmins)).
 		Post("/admins", postAdmin(m.postAdmins)).
 		Get("/admins/{id:digit}", getAdmin(m.getAdmin)).
@@ -113,81 +111,63 @@ func Load(mod *cmfx.Module, o *user.Config) *Loader {
 	return m
 }
 
-func (l *Loader) URLPrefix() string { return l.user.URLPrefix() }
+func (m *Module) URLPrefix() string { return m.user.URLPrefix() }
 
-// AuthMiddleware 验证是否登录
-func (l *Loader) AuthMiddleware(next web.HandlerFunc) web.HandlerFunc {
-	return l.user.Middleware(next)
-}
+// Middleware 验证是否登录
+func (m *Module) Middleware(next web.HandlerFunc) web.HandlerFunc { return m.user.Middleware(next) }
 
 // CurrentUser 获取当前登录的用户信息
-func (l *Loader) CurrentUser(ctx *web.Context) *user.User { return l.user.CurrentUser(ctx) }
+func (m *Module) CurrentUser(ctx *web.Context) *user.User { return m.user.CurrentUser(ctx) }
 
 // NewResourceGroup 新建资源分组
-func (l *Loader) NewResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
-	return l.roleGroup.RBAC().NewResourceGroup(mod.ID(), mod.Desc())
+func (m *Module) NewResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
+	return m.roleGroup.RBAC().NewResourceGroup(mod.ID(), mod.Desc())
 }
 
 // GetResourceGroup 获取指定 ID 的资源分组
-func (l *Loader) GetResourceGroup(id string) *rbac.ResourceGroup {
-	return l.roleGroup.RBAC().ResourceGroup(id)
+func (m *Module) GetResourceGroup(id string) *rbac.ResourceGroup {
+	return m.roleGroup.RBAC().ResourceGroup(id)
 }
 
 // ResourceGroup 当前资源组
-func (l *Loader) ResourceGroup() *rbac.ResourceGroup { return l.GetResourceGroup(l.user.Module().ID()) }
+func (m *Module) ResourceGroup() *rbac.ResourceGroup { return m.GetResourceGroup(m.user.Module().ID()) }
 
-func (l *Loader) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) error {
-	return l.user.AddSecurityLog(tx, uid, ip, ua, content)
+func (m *Module) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) error {
+	return m.user.AddSecurityLog(tx, uid, ip, ua, content)
 }
 
-func (l *Loader) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
-	return l.user.AddSecurityLogFromContext(tx, uid, ctx, content)
+func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
+	return m.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 
 // OnLogin 注册登录事件
-func (l *Loader) OnLogin(f func(*user.User)) context.CancelFunc {
-	return l.loginEvent.Subscribe(f)
-}
+func (m *Module) OnLogin(f func(*user.User)) context.CancelFunc { return m.loginEvent.Subscribe(f) }
 
 // OnLogout 注册用户主动退出时的事
-func (l *Loader) OnLogout(f func(*user.User)) context.CancelFunc {
-	return l.logoutEvent.Subscribe(f)
-}
+func (m *Module) OnLogout(f func(*user.User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }
 
-func newAdmin(mod *cmfx.Module, pa passport.Adapter, data *respInfoWithAccount, now time.Time) error {
-	tx, err := mod.DB().Begin()
+func (m *Module) Module() *cmfx.Module { return m.user.Module() }
+
+// 手动添加一个新的管理员
+func (m *Module) newAdmin(pa passport.Adapter, data *respInfoWithAccount, now time.Time) error {
+	uid, err := m.user.NewUser(pa, data.Username, data.Password, now)
 	if err != nil {
 		return err
 	}
 
-	e := tx.NewEngine(mod.DB().TablePrefix())
-
-	id, err := e.LastInsertID(&user.User{NO: mod.Server().UniqueID()})
-	if err != nil {
-		return errors.Join(err, tx.Rollback())
-	}
-
 	a := &modelInfo{
-		ID:       id,
+		ID:       uid,
 		Nickname: data.Nickname,
 		Name:     data.Name,
 		Avatar:   data.Avatar,
 		Sex:      data.Sex,
 	}
-	if _, err = e.Insert(a); err != nil {
-		return errors.Join(err, tx.Rollback())
-	}
-
-	if err := tx.Commit(); err != nil {
-		return err
-	}
-
-	if err := pa.Add(id, data.Username, data.Password, now); err != nil {
+	if _, err = m.Module().DB().Insert(a); err != nil {
 		return err
 	}
 
 	for _, role := range data.roles {
-		if err := role.Link(id); err != nil {
+		if err := role.Link(uid); err != nil {
 			return err
 		}
 	}
@@ -195,4 +175,6 @@ func newAdmin(mod *cmfx.Module, pa passport.Adapter, data *respInfoWithAccount, 
 	return nil
 }
 
-func (l *Loader) Module() *cmfx.Module { return l.user.Module() }
+func (m *Module) newRole(name, desc, parent string) (*rbac.Role, error) {
+	return m.roleGroup.NewRole(name, desc, parent)
+}

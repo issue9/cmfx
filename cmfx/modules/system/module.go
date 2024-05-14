@@ -15,9 +15,9 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 )
 
-type Loader struct {
+type Module struct {
 	mod     *cmfx.Module
-	admin   *admin.Loader
+	admin   *admin.Module
 	health  *health.Health
 	monitor *monitor.Monitor
 
@@ -28,13 +28,13 @@ type Loader struct {
 // Load 加载当前模块
 //
 // conf 当前模块的配置项，需要调用者自先调用 [Config.SanitizeConfig] 对数据进行校正；
-func Load(mod *cmfx.Module, conf *Config, adminL *admin.Loader) *Loader {
+func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	store, err := newHealthDBStore(mod)
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	m := &Loader{
+	m := &Module{
 		mod:     mod,
 		admin:   adminL,
 		health:  health.New(store),
@@ -50,7 +50,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Loader) *Loader {
 	resGetAPIs := g.New("get-apis", web.Phrase("view apis"))
 	resBackup := g.New("backup", web.Phrase("backup database"))
 
-	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, web.MiddlewareFunc(m.admin.AuthMiddleware))
+	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, web.MiddlewareFunc(m.admin.Middleware))
 	adminRouter.Get("/info", resGetInfo(m.adminGetInfo)).
 		Get("/services", resGetServices(m.adminGetServices)).
 		Get("/apis", resGetAPIs(m.adminGetAPIs)).

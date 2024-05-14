@@ -22,7 +22,7 @@ type modelCode struct {
 	Verified sql.NullTime `orm:"name(verified);nullable"`                  // 验证时间
 	Identity string       `orm:"name(identity);len(500);unique(identity)"` // 接收者，手机号、邮箱等。
 	Code     string       `orm:"name(code);len(8)"`                        // 验证码
-	UID      int64        `orm:"name(uid);nullable;unique(uid)"`           // 关联的 UID，可以为空
+	UID      int64        `orm:"name(uid);default(0)"`                     // 关联的 UID，可以为空
 }
 
 func (l *modelCode) TableName() string { return `` }

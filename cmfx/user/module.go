@@ -7,7 +7,6 @@ package user
 
 import (
 	"net/http"
-	"os"
 
 	"github.com/issue9/cache"
 	"github.com/issue9/orm/v6"
@@ -20,8 +19,8 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/passport"
 )
 
-// Loader 用户账号加载
-type Loader struct {
+// Module 用户账号模块
+type Module struct {
 	mod       *cmfx.Module
 	urlPrefix string // 所有接口的 URL 前缀
 	token     *tokens
@@ -29,10 +28,10 @@ type Loader struct {
 }
 
 // Load 加载当前模块的环境
-func Load(mod *cmfx.Module, conf *Config) *Loader {
+func Load(mod *cmfx.Module, conf *Config) *Module {
 	store := token.NewCacheStore[*User](cache.Prefix(mod.Server().Cache(), mod.ID()))
 
-	return &Loader{
+	return &Module{
 		mod:       mod,
 		urlPrefix: conf.URLPrefix,
 		token:     token.New(mod.Server(), store, conf.accessExpired, conf.refreshExpired, web.ProblemUnauthorized, nil),
@@ -40,24 +39,26 @@ func Load(mod *cmfx.Module, conf *Config) *Loader {
 	}
 }
 
-func (m *Loader) URLPrefix() string { return m.urlPrefix }
+func (m *Module) URLPrefix() string { return m.urlPrefix }
 
 // GetUser 获取指定 uid 的用户
-func (m *Loader) GetUser(uid int64) (*User, error) {
+func (m *Module) GetUser(uid int64) (*User, error) {
 	u := &User{ID: uid}
 	found, err := m.Module().DB().Select(u)
 	if err != nil {
 		return nil, err
 	}
 	if !found {
-		return nil, web.NewError(http.StatusNotFound, os.ErrNotExist)
+		return nil, web.NewError(http.StatusNotFound, cmfx.ErrNotFound())
 	}
 	return u, nil
 }
 
-func (m *Loader) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states []State) {
-	sql.Column(alias + ".state")
-	sql.Join("left", orm.TableName(&User{}), alias, on).WhereStmt().AndIn(alias+".state", sliceutil.AnySlice(states)...)
+func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states []State) {
+	sql.Column(alias+".state").
+		Join("left", orm.TableName(&User{}), alias, on).
+		WhereStmt().
+		AndIn(alias+".state", sliceutil.AnySlice(states)...)
 }
 
-func (m *Loader) Module() *cmfx.Module { return m.mod }
+func (m *Module) Module() *cmfx.Module { return m.mod }

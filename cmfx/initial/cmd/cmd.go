@@ -60,8 +60,8 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		adminL := admin.Load(adminMod, user.Admin)
 		system.Load(systemMod, user.System, adminL)
 	case "install":
-		admin.Install(adminMod)
-		system.Install(systemMod)
+		adminL := admin.Install(adminMod, user.Admin)
+		system.Install(systemMod, user.System, adminL)
 	case "upgrade":
 		panic("not implements")
 	default:

@@ -14,24 +14,27 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/modules/admin"
 )
 
-func Install(mod *cmfx.Module) {
+func Install(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	if err := mod.DB().Create(&modelHealth{}, &modelLinkage{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
+
+	return Load(mod, conf, adminL)
 }
 
 // DeleteLinkage 删除指定的级联数据
-func DeleteLinkage(l *Loader, key string) error {
+func DeleteLinkage(l *Module, key string) error {
 	mod := &modelLinkage{Deleted: sql.NullTime{Valid: true, Time: time.Now()}}
 	_, err := l.mod.DB().Where("key=?", key).Update(mod)
 	return err
 }
 
 // InstallLinkage 安装一组级联数据
-func InstallLinkage[T any](l *Loader, key, title string, items []*LinkageItem[T]) error {
-	// TODO 限制 T 的类型能为指针？
+func InstallLinkage[T any](l *Module, key, title string, items []*LinkageItem[T]) error {
+	checkObjectType[T]()
 
 	db := l.mod.DB()
 	root := &modelLinkage{}

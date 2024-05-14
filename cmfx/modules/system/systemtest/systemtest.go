@@ -10,13 +10,12 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/system"
 )
 
-func NewSystem(s *test.Suite, adminL *admin.Loader) *system.Loader {
+func NewSystem(s *test.Suite, adminL *admin.Module) *system.Module {
 	mod := s.NewModule("system")
-	system.Install(mod)
 
 	conf := &system.Config{}
 	s.Assertion().NotError(conf.SanitizeConfig())
-	sys := system.Load(mod, conf, adminL)
+	sys := system.Install(mod, conf, adminL)
 	s.Assertion().NotNil(sys)
 
 	return sys

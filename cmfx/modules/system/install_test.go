@@ -10,14 +10,21 @@ import (
 	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
 
 func TestInstall(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
+	adminL := admintest.NewAdmin(s)
+
+	conf := &Config{}
+	s.Assertion().NotError(conf.SanitizeConfig())
 	mod := s.NewModule("mod")
 
-	Install(mod)
+	l := Install(mod, conf, adminL)
+	a.NotNil(l)
+
 	s.TableExists("mod_linkages").TableExists("mod_api_healths")
 }
 

@@ -6,7 +6,6 @@
 package code
 
 import (
-	"database/sql"
 	"time"
 
 	"github.com/issue9/orm/v6"
@@ -38,7 +37,7 @@ func New(mod *cmfx.Module, expired time.Duration, tableName string, sender Sende
 }
 
 func (e *code) Delete(uid int64) error {
-	_, err := e.db.Delete(&modelCode{UID: uid})
+	_, err := e.db.Where("uid=?", uid).Delete(&modelCode{})
 	return err
 }
 
@@ -57,18 +56,22 @@ func (e *code) Valid(identity, code string, now time.Time) (int64, string, error
 }
 
 func (e *code) Identity(uid int64) (string, error) {
-	mod := &modelCode{UID: uid}
-	found, err := e.db.Select(mod)
+	mod := &modelCode{}
+	size, err := e.db.Where("uid=?", uid).Select(true, mod)
 	if err != nil {
 		return "", err
 	}
-	if !found {
+	if size == 0 {
 		return "", passport.ErrUIDNotExists()
 	}
 	return mod.Identity, nil
 }
 
 func (e *code) Change(uid int64, pass, code string) error {
+	if uid == 0 {
+		return passport.ErrUIDMustBeGreatThanZero()
+	}
+
 	m := e.getModel(uid)
 	if m == nil {
 		return passport.ErrUIDNotExists()
@@ -77,23 +80,27 @@ func (e *code) Change(uid int64, pass, code string) error {
 		return passport.ErrUnauthorized()
 	}
 
-	return e.set(uid, m.Identity, code)
+	return e.set(m.Identity, code)
 }
 
 func (e *code) Set(uid int64, code string) error {
+	if uid == 0 {
+		return passport.ErrUIDMustBeGreatThanZero()
+	}
+
 	m := e.getModel(uid)
 	if m == nil {
 		return passport.ErrUIDNotExists()
 	}
-	return e.set(uid, m.Identity, code)
+	return e.set(m.Identity, code)
 }
 
-func (e *code) set(uid int64, identity, code string) error {
-	if _, err := e.db.Update(&modelCode{UID: uid, Code: code}, "code", "uid"); err != nil {
+func (e *code) set(identity, code string) error {
+	if _, err := e.db.Update(&modelCode{Identity: identity, Code: code}, "code"); err != nil {
 		return err
 	}
 
-	return e.sender.Send(identity, code)
+	return e.sender.Sent(identity, code)
 }
 
 // Add 注册新用户
@@ -104,33 +111,41 @@ func (e *code) Add(uid int64, identity, code string, now time.Time) error {
 		return passport.ErrInvalidIdentity()
 	}
 
-	if e.getModel(uid) != nil {
+	if uid > 0 && e.getModel(uid) != nil {
 		return passport.ErrUIDExists()
 	}
 
-	m := &modelCode{Identity: identity}
-	f, err := e.db.Select(m)
+	mod := &modelCode{Identity: identity}
+	found, err := e.db.Select(mod)
 	if err != nil {
 		return err
 	}
-	if f {
-		return passport.ErrIdentityExists()
+	if found {
+		if mod.UID > 0 {
+			return passport.ErrIdentityExists()
+		}
+
+		_, err = e.db.Update(&modelCode{
+			UID:      uid,
+			Identity: identity,
+			Code:     code,
+		})
+	} else {
+		_, err = e.db.Insert(&modelCode{
+			Created:  now,
+			Expired:  now.Add(e.expired),
+			Identity: identity,
+			UID:      uid,
+			Code:     code,
+		})
 	}
 
-	_, err = e.db.Insert(&modelCode{
-		Created:  now,
-		Expired:  now.Add(e.expired),
-		Verified: sql.NullTime{},
-		Identity: identity,
-		UID:      uid,
-		Code:     code,
-	})
 	return err
 }
 
 func (e *code) getModel(uid int64) *modelCode {
-	m := &modelCode{UID: uid}
-	if f, err := e.db.Select(m); err == nil && f {
+	m := &modelCode{}
+	if f, err := e.db.Where("uid=?", uid).Select(true, m); err == nil && f > 0 {
 		return m
 	}
 	return nil

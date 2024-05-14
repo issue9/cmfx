@@ -25,6 +25,7 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/locales"
 )
 
 // UserInfo 表示 OAuth 登录后获取的用户信息
@@ -110,15 +111,15 @@ func (o *OAuth[T]) Identity(uid int64) (string, error) {
 	return mod.Identity, nil
 }
 
-func (o *OAuth[T]) Change(uid int64, pass, n string) error {
-	return errors.ErrUnsupported
-}
+func (o *OAuth[T]) Change(_ int64, _, _ string) error { return errors.ErrUnsupported }
 
-func (o *OAuth[T]) Set(uid int64, n string) error {
-	return errors.ErrUnsupported
-}
+func (o *OAuth[T]) Set(_ int64, _ string) error { return errors.ErrUnsupported }
 
 func (o *OAuth[T]) Add(uid int64, identity, _ string, now time.Time) error {
+	if uid == 0 {
+		return locales.ErrMustBeGreaterThan(0)
+	}
+
 	_, err := o.db.Insert(&modelOAuth{
 		Created:  now,
 		UID:      uid,

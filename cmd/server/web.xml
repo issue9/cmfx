@@ -49,8 +49,10 @@
         <router>
             <url>http://localhost:8080</url>
         </router>
-        <admin accessExpires="43200" refreshExpires="86400">
-            <urlPrefix>/admin</urlPrefix>
+        <admin superUser="1">
+            <user accessExpires="43200" refreshExpires="86400">
+                <urlPrefix>/admin</urlPrefix>
+            </user>
         </admin>
     </user>
 </web>

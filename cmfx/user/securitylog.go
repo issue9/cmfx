@@ -17,7 +17,7 @@ import (
 // AddSecurityLog 添加一条记录
 //
 // tx 如果为空，表示由 AddSecurityLog 直接提交数据；
-func (m *Loader) AddSecurityLog(tx *orm.Tx, uid int64, ip, ua, content string) error {
+func (m *Module) AddSecurityLog(tx *orm.Tx, uid int64, ip, ua, content string) error {
 	_, err := m.Module().Engine(tx).Insert(&modelLog{
 		UID:       uid,
 		Content:   content,
@@ -27,7 +27,7 @@ func (m *Loader) AddSecurityLog(tx *orm.Tx, uid int64, ip, ua, content string) e
 	return err
 }
 
-func (m *Loader) AddSecurityLogFromContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
+func (m *Module) AddSecurityLogFromContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
 	return m.AddSecurityLog(tx, uid, ctx.ClientIP(), ctx.Request().UserAgent(), content)
 }
 
@@ -38,13 +38,13 @@ type queryLog struct {
 }
 
 // GetSecurityLogs 将数据以固定的格式输出客户端
-func (m *Loader) GetSecurityLogs(ctx *web.Context) web.Responser {
+func (m *Module) GetSecurityLogs(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx)
 	return m.getSecurityLogs(u.ID, ctx)
 }
 
 // getSecurityLogs 将数据以固定的格式输出客户端
-func (m *Loader) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
+func (m *Module) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
 	q := &queryLog{}
 	if rslt := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); rslt != nil {
 		return rslt

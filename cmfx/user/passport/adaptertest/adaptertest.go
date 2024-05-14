@@ -16,11 +16,18 @@ import (
 // Run 测试 p 的基本功能
 func Run(a *assert.Assertion, p passport.Adapter) {
 	// Add
+
 	a.NotError(p.Add(1024, "1024", "1024", time.Now()))
 	a.ErrorIs(p.Add(1024, "1024", "1024", time.Now()), passport.ErrUIDExists())
 	a.ErrorIs(p.Add(1000, "1024", "1024", time.Now()), passport.ErrIdentityExists())
 
+	a.NotError(p.Add(0, "2025", "2025", time.Now()))
+	a.NotError(p.Add(0, "2026", "2026", time.Now()))
+	a.ErrorIs(p.Add(111, "1024", "1024", time.Now()), passport.ErrIdentityExists()) // 1024 已经有 uid
+	a.NotError(p.Add(2025, "2025", "2025", time.Now()))                             // 将 "2025" 关联 uid
+
 	// Valid
+
 	uid, identity, err := p.Valid("1024", "1024", time.Now())
 	a.NotError(err).Equal(identity, "1024").Equal(uid, 1024)
 	uid, identity, err = p.Valid("1024", "pass", time.Now()) // 密码错误
@@ -29,6 +36,7 @@ func Run(a *assert.Assertion, p passport.Adapter) {
 	a.Equal(err, passport.ErrUnauthorized()).Equal(identity, "").Equal(uid, 0)
 
 	// Change
+
 	a.ErrorIs(p.Change(1025, "1024", "1024"), passport.ErrUIDNotExists())
 	a.ErrorIs(p.Change(1024, "1025", "1024"), passport.ErrUnauthorized())
 	a.NotError(p.Change(1024, "1024", "1025"))
@@ -36,12 +44,14 @@ func Run(a *assert.Assertion, p passport.Adapter) {
 	a.NotError(err).Equal(identity, "1024").Equal(uid, 1024)
 
 	// Identity
+
 	identity, err = p.Identity(1024)
 	a.NotError(err).Equal(identity, "1024")
 	identity, err = p.Identity(10240)
 	a.Equal(err, passport.ErrUIDNotExists()).Empty(identity)
 
 	// Delete
+
 	a.NotError(p.Delete(1024)).
 		NotError(p.Delete(1024)) // 多次删除
 	uid, identity, err = p.Valid("1024", "1025", time.Now())

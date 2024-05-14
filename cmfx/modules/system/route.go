@@ -14,7 +14,7 @@ import (
 // # api get /system/apis API 信息
 // @tag system admin
 // @resp 200 * []github.com/issue9/webuse/v7/plugins/health.State
-func (l *Loader) adminGetAPIs(_ *web.Context) web.Responser { return web.OK(l.health.States()) }
+func (m *Module) adminGetAPIs(_ *web.Context) web.Responser { return web.OK(m.health.States()) }
 
 type dbInfo struct {
 	Name               string        `json:"name" xml:"name" cbor:"name"`                                                                      // 数据库驱动
@@ -47,9 +47,9 @@ type info struct {
 // # api get /system/info 系统信息
 // @tag system admin
 // @resp 200 * info
-func (l *Loader) adminGetInfo(ctx *web.Context) web.Responser {
-	dbVersion := l.mod.DB().Version()
-	stats := l.mod.DB().Stats()
+func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
+	dbVersion := m.mod.DB().Version()
+	stats := m.mod.DB().Stats()
 	srv := ctx.Server()
 
 	return web.OK(&info{
@@ -62,7 +62,7 @@ func (l *Loader) adminGetInfo(ctx *web.Context) web.Responser {
 		CPUS:       runtime.NumCPU(),
 		Goroutines: runtime.NumGoroutine(),
 		DB: &dbInfo{
-			Name:               l.mod.DB().Dialect().Name(),
+			Name:               m.mod.DB().Dialect().Name(),
 			Version:            dbVersion,
 			MaxOpenConnections: stats.MaxOpenConnections,
 			OpenConnections:    stats.OpenConnections,
@@ -98,7 +98,7 @@ type services struct {
 // # api get /system/services 系统服务状态
 // @tag system admin
 // @resp 200 * services
-func (l *Loader) adminGetServices(ctx *web.Context) web.Responser {
+func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 	ss := services{}
 	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
 		var err1 string
@@ -114,11 +114,16 @@ func (l *Loader) adminGetServices(ctx *web.Context) web.Responser {
 	})
 
 	ctx.Server().Services().VisitJobs(func(j *web.Job) {
+		var err string
+		if j.Err() != nil {
+			err = j.Err().Error()
+		}
+
 		ss.Jobs = append(ss.Jobs, job{
 			service: service{
 				Title: j.Title().LocaleString(ctx.LocalePrinter()),
 				State: j.State(),
-				Err:   j.Err().Error(),
+				Err:   err,
 			},
 			Next: j.Next(),
 			Prev: j.Prev(),
@@ -129,17 +134,18 @@ func (l *Loader) adminGetServices(ctx *web.Context) web.Responser {
 }
 
 type problem struct {
-	Prefix string `json:"prefix" xml:"prefix" cbor:"prefix"`      // URL 前缀以，如果此值不为空，与 ID 组成一上完整的地址。
-	ID     string `json:"id" xml:"id" cbor:"id"`                  // 唯一 ID
-	Status int    `json:"status" xml:"status,attr" cbor:"status"` // 对应的原始 HTTP 状态码
-	Title  string `json:"title" xml:"title" cbor:"title"`         // 错误的简要描述
-	Detail string `json:"detail" xml:"detail" cbor:"detail"`      // 错误的明细
+	XMLName struct{} `json:"-" cbor:"-" xml:"problem"`
+	Prefix  string   `json:"prefix" xml:"prefix" cbor:"prefix"`      // URL 前缀以，如果此值不为空，与 ID 组成一上完整的地址。
+	ID      string   `json:"id" xml:"id" cbor:"id"`                  // 唯一 ID
+	Status  int      `json:"status" xml:"status,attr" cbor:"status"` // 对应的原始 HTTP 状态码
+	Title   string   `json:"title" xml:"title" cbor:"title"`         // 错误的简要描述
+	Detail  string   `json:"detail" xml:"detail" cbor:"detail"`      // 错误的明细
 }
 
 // # api get /system/problems 系统错误信息
 // @tag system
 // @resp 200 * []problem
-func (l *Loader) commonGetProblems(ctx *web.Context) web.Responser {
+func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	ps := make([]*problem, 0, 100)
 	ctx.Server().Problems().Visit(func(status int, p *web.LocaleProblem) {
 		ps = append(ps, &problem{
@@ -156,13 +162,13 @@ func (l *Loader) commonGetProblems(ctx *web.Context) web.Responser {
 // # api get /system/monitor 监视系统数据
 // @tag system
 // @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
-func (l *Loader) adminGetMonitor(ctx *web.Context) web.Responser { return l.monitor.Handle(ctx) }
+func (m *Module) adminGetMonitor(ctx *web.Context) web.Responser { return m.monitor.Handle(ctx) }
 
 // # api post /system/backup 手动执行备份数据
 // @tag system
 // @resp 201 * {}
-func (l *Loader) adminPostBackup(ctx *web.Context) web.Responser {
-	if err := l.mod.DB().Backup(l.buildBackupFilename(ctx.Begin())); err != nil {
+func (m *Module) adminPostBackup(ctx *web.Context) web.Responser {
+	if err := m.mod.DB().Backup(m.buildBackupFilename(ctx.Begin())); err != nil {
 		return ctx.Error(err, web.ProblemInternalServerError)
 	}
 	return web.Created(nil, "")

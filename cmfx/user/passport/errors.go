@@ -15,6 +15,8 @@ var (
 	errInvalidIdentity   = web.NewLocaleError("invalid indetity format")
 )
 
+func ErrUIDMustBeGreatThanZero() error { return web.NewLocaleError("uid must be great than 0") }
+
 func ErrIdentityExists() error { return errIdentityExists }
 
 func ErrUIDExists() error { return errUIDExists }
