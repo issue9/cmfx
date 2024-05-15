@@ -31,7 +31,7 @@ func TestObject(t *testing.T) {
 	Install(mod, tableName)
 
 	ss := New(mod, tableName)
-	a.NotNil(ss).NotError(InstallObject(ss, "opt", &options{F2: 2}))
+	a.NotNil(ss).NotError(InstallObject(ss, "opt", &options{F2: 2, F1: "f1"}))
 
 	// LoadObject
 
@@ -53,6 +53,7 @@ func TestObject(t *testing.T) {
 	opt, err := obj.Get(1)
 	a.NotError(err).NotNil(opt).
 		Equal(opt.F2, 2).
+		Equal(opt.F1, "f1").
 		Length(obj.users, 1)
 	size, err := ss.db.Where("uid=?", 1).Select(true, &modelSetting{})
 	a.NotError(err).Zero(size) // 未存入数据库

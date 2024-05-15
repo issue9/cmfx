@@ -13,7 +13,6 @@ import (
 	"reflect"
 	"slices"
 
-	"github.com/issue9/conv"
 	"github.com/issue9/orm/v6"
 )
 
@@ -171,7 +170,7 @@ func fromModels[T any](ss []*modelSetting, o *T, g string) error {
 			panic(fmt.Sprintf("不存在的字段:%s,%s", g, key))
 		}
 
-		if err := conv.Value(ss[index].Value, rv.Field(i)); err != nil {
+		if err:=json.Unmarshal([]byte(ss[index].Value), rv.Field(i).Addr().Interface());err!=nil{
 			return err
 		}
 	}
