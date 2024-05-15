@@ -30,7 +30,7 @@ func TestObject(t *testing.T) {
 	mod := s.NewModule("mod")
 	Install(mod, tableName)
 
-	ss := New(mod, tableName, 0)
+	ss := New(mod, tableName)
 	a.NotNil(ss).NotError(InstallObject(ss, "opt", &options{F2: 2}))
 
 	// LoadObject

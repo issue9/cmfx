@@ -127,11 +127,13 @@ components:
                     title: 连接数
                 name:
                     type: string
+                    title: 数据库驱动
                 openConnections:
                     type: integer
                     title: 总的连接数
                 version:
                     type: string
+                    title: 数据库版本
                 waitCount:
                     type: integer
                     title: 等待的连接
@@ -145,73 +147,97 @@ components:
             properties:
                 arch:
                     type: string
+                    title: CPU 架构
                 cpus:
                     type: integer
+                    title: CPU 核心数量
                 db:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.dbInfo'
+                    title: 数据库的相关信息
                     nullable: true
                 go:
                     type: string
+                    title: 编译器的版本
                 goroutines:
                     type: integer
+                    title: 当前运行的协程数量
                 name:
                     type: string
+                    title: 应用名称
                 os:
                     type: string
+                    title: 系统版本
                 uptime:
                     type: string
+                    title: 应用的上次启动时间
                 version:
                     type: string
+                    title: 应用版本号
         github.com.issue9.cmfx.cmfx.modules.system.job:
             type: object
             properties:
                 err:
                     type: string
+                    title: 如果出错，表示错误内容，否则为空
                     nullable: true
                 next:
                     type: string
+                    title: 下一次执行时间
                     format: date-time
                     nullable: true
                 prev:
                     type: string
+                    title: 上一次执行时间
                     format: date-time
                     nullable: true
                 state:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.scheduled.State'
+                    title: 状态
                     xml:
                         attribute: true
                 title:
                     type: string
+                    title: 名称
         github.com.issue9.cmfx.cmfx.modules.system.problem:
             type: object
+            xml:
+                name: problem
             properties:
                 detail:
                     type: string
+                    title: 错误的明细
                 id:
                     type: string
+                    title: 唯一 ID
                 prefix:
                     type: string
+                    title: URL 前缀以，如果此值不为空，与 ID 组成一上完整的地址。
                 status:
                     type: integer
+                    title: 对应的原始 HTTP 状态码
                     xml:
                         attribute: true
                 title:
                     type: string
+                    title: 错误的简要描述
         github.com.issue9.cmfx.cmfx.modules.system.service:
             type: object
             properties:
                 err:
                     type: string
+                    title: 如果出错，表示错误内容，否则为空
                     nullable: true
                 state:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.scheduled.State'
+                    title: 状态
                     xml:
                         attribute: true
                 title:
                     type: string
+                    title: 名称
         github.com.issue9.cmfx.cmfx.modules.system.services:
             type: object
             xml:
@@ -219,10 +245,12 @@ components:
             properties:
                 jobs:
                     type: array
+                    title: 计划任务
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.job'
                 services:
                     type: array
+                    title: 服务
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.service'
         github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-:
@@ -330,6 +358,8 @@ components:
                     nullable: true
         github.com.issue9.cmfx.cmfx.user.reqAccount:
             type: object
+            xml:
+                name: account
             properties:
                 password:
                     type: string
@@ -544,6 +574,9 @@ components:
         4XX:
             description: ""
             content:
+                application/cbor:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
                 application/json:
                     schema:
                         $ref: '#/components/schemas/github.com.issue9.web.Problem'
@@ -553,6 +586,9 @@ components:
         5XX:
             description: desc
             content:
+                application/cbor:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
                 application/json:
                     schema:
                         $ref: '#/components/schemas/github.com.issue9.web.Problem'
@@ -609,6 +645,9 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-'
@@ -621,6 +660,9 @@ paths:
             summary: 添加管理员账号
             requestBody:
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithAccount'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithAccount'
@@ -659,6 +701,14 @@ paths:
             tags:
                 - admin
             summary: 获取指定的管理员账号
+            parameters:
+                - name: id
+                  in: path
+                  description: 管理的 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -667,6 +717,9 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
@@ -677,16 +730,11 @@ paths:
             tags:
                 - admin
             summary: 更新管理员信息
-            parameters:
-                - name: id
-                  in: path
-                  description: 管理的 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
             requestBody:
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
@@ -773,6 +821,9 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
@@ -786,6 +837,9 @@ paths:
             requestBody:
                 description: 更新的信息，将忽略 id
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
@@ -817,8 +871,16 @@ paths:
                 - admin
                 - auth
             summary: 管理员登录
+            parameters:
+                - name: type
+                  in: query
+                  schema:
+                    type: string
             requestBody:
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.reqAccount'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.reqAccount'
@@ -833,6 +895,31 @@ paths:
                 "201":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
+        put:
+            tags:
+                - admin
+                - auth
+            summary: 续定 token
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "201":
+                    description: ""
+                    content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
@@ -846,6 +933,9 @@ paths:
             summary: 当前登录用户修改自己的密码
             requestBody:
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.putPassword'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.putPassword'
@@ -873,6 +963,9 @@ paths:
                 "200":
                     description: 键名为资源 ID，键值为资源描述
                     content:
+                        application/cbor:
+                            schema:
+                                type: object
                         application/json:
                             schema:
                                 type: object
@@ -893,6 +986,11 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.respRole'
                         application/json:
                             schema:
                                 type: array
@@ -910,6 +1008,9 @@ paths:
             summary: 添加一个权限组
             requestBody:
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.reqRole'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.reqRole'
@@ -929,15 +1030,6 @@ paths:
                 - admin
                 - rbac
             summary: 删除权限组
-            parameters:
-                - name: id
-                  in: path
-                  description: 权限组 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -950,8 +1042,20 @@ paths:
                 - admin
                 - rbac
             summary: 修改权限组
+            parameters:
+                - name: id
+                  in: path
+                  description: 权限组 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                    minimum: 1
             requestBody:
                 content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.reqRole'
                     application/json:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.reqRole'
@@ -1008,6 +1112,11 @@ paths:
             requestBody:
                 description: 资源 ID 列表
                 content:
+                    application/cbor:
+                        schema:
+                            type: array
+                            items:
+                                type: string
                     application/json:
                         schema:
                             type: array
@@ -1072,6 +1181,9 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.user.respLog-'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.user.respLog-'
@@ -1092,6 +1204,11 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/github.com.issue9.webuse.v7.plugins.health.State'
                         application/json:
                             schema:
                                 type: array
@@ -1128,6 +1245,9 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.info'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.info'
@@ -1163,6 +1283,11 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                type: array
+                                items:
+                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
                         application/json:
                             schema:
                                 type: array
@@ -1187,32 +1312,15 @@ paths:
                 "200":
                     description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.services'
                         application/json:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.services'
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.services'
-    /token:
-        get:
-            tags:
-                - admin
-                - auth
-            summary: 续定 token
-            responses:
-                4XX:
-                    $ref: '#/components/responses/4XX'
-                5XX:
-                    $ref: '#/components/responses/5XX'
-                "201":
-                    description: ""
-                    content:
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
-                        application/xml:
-                            schema:
-                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
 tags:
     - name: admin
       description: 管理员端

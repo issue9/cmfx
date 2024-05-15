@@ -27,7 +27,7 @@ func TestInstallObject(t *testing.T) {
 	s := test.NewSuite(a)
 	mod := s.NewModule("test")
 	Install(mod, "settings")
-	ss := New(mod, "settings", 0)
+	ss := New(mod, "settings")
 	a.NotNil(ss)
 
 	a.NotError(InstallObject(ss, "opt", &options{F1: "f1"}))

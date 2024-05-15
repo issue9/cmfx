@@ -9,12 +9,13 @@ import (
 	"github.com/issue9/orm/v6"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/user"
 )
 
 type Settings struct {
 	db        *orm.DB
-	presetUID int64
 	objects   []string
+	presetUID int64
 }
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
@@ -25,10 +26,10 @@ func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
 //
 // tableName 为表名的后缀；
 // presetUID 默认用户的 id，该用户的的设置总是存在，当其它用户不存在设置项，会采用该用户的设置项作为默认值。
-func New(mod *cmfx.Module, tableName string, presetUID int64) *Settings {
+func New(mod *cmfx.Module, tableName string) *Settings {
 	return &Settings{
 		db:        buildDB(mod, tableName),
-		presetUID: presetUID,
 		objects:   make([]string, 0, 10),
+		presetUID: user.SpecialUserID,
 	}
 }

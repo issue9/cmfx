@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package user 会员账号
 package user
 
 import (

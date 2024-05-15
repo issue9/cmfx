@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package admin 管理端的相关操作
 package admin
 
 import (
@@ -18,11 +17,6 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/passport"
 	"github.com/issue9/cmfx/cmfx/user/passport/password"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
-)
-
-const (
-	passwordID      = "password"
-	defaultPassword = "123"
 )
 
 type Module struct {
@@ -147,6 +141,8 @@ func (m *Module) OnLogin(f func(*user.User)) context.CancelFunc { return m.login
 func (m *Module) OnLogout(f func(*user.User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }
 
 func (m *Module) Module() *cmfx.Module { return m.user.Module() }
+
+func (m *Module) Passport() *passport.Passport { return m.user.Passport() }
 
 // 手动添加一个新的管理员
 func (m *Module) newAdmin(pa passport.Adapter, data *respInfoWithAccount, now time.Time) error {
