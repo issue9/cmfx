@@ -14,6 +14,10 @@ package cmfx
 // @version [Version]
 // @tag admin 管理员端
 // @tag rbac RBAC
+// @tag auth 登录凭证
+// @tag system 系统相关
+// @tag settings 设置项
+// @tag common 公共接口
 // @resp 4XX * github.com/issue9/web.Problem
 // @resp 5XX * github.com/issue9/web.Problem desc
 

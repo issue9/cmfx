@@ -11,8 +11,10 @@ import (
 	"github.com/issue9/events"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport"
 	"github.com/issue9/cmfx/cmfx/user/passport/password"
@@ -30,11 +32,11 @@ type Module struct {
 	logoutEvent *events.Event[*user.User]
 }
 
-// Load 声明 Admin 对象
+// Load 加载管理模块
 //
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
 func Load(mod *cmfx.Module, o *Config) *Module {
-	loadProblems(mod.Server())
+	mod.Server().Use(web.PluginFunc(addProblems))
 
 	u := user.Load(mod, o.User)
 
@@ -72,35 +74,38 @@ func Load(mod *cmfx.Module, o *Config) *Module {
 	postAdmin := g.New("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.New("del-admin", web.StringPhrase("delete admins"))
 
-	mod.Router().Prefix(m.URLPrefix()).
-		Post("/login", m.postLogin).
-		Delete("/login", m.Middleware(m.deleteLogin)).
-		Put("/login", m.Middleware(m.getToken))
+	// 限制登录为最多一秒 2 次
+	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 2, time.Second, nil, nil)
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.Middleware)).
+	mod.Router().Prefix(m.URLPrefix()).
+		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server())).
+		Delete("/login", m.deleteLogin, m).
+		Put("/login", m.getToken, m)
+
+	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/resources", m.getResources).
 		Get("/roles", m.getRoles).
-		Post("/roles", postGroup(m.postRoles)).
-		Put("/roles/{id:digit}", putGroup(m.putRole)).
-		Delete("/roles/{id:digit}", delGroup(m.deleteRole)).
+		Post("/roles", m.postRoles, postGroup).
+		Put("/roles/{id:digit}", m.putRole, putGroup).
+		Delete("/roles/{id:digit}", m.deleteRole, delGroup).
 		Get("/roles/{id:digit}/resources", m.getRoleResources).
-		Put("/roles/{id:digit}/resources", putGroupResources(m.putRoleResources))
+		Put("/roles/{id:digit}/resources", m.putRoleResources, putGroupResources)
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.Middleware)).
+	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/info", m.getInfo).
 		Patch("/info", m.patchInfo).
 		Get("/securitylog", m.getSecurityLogs).
 		Put("/password", m.putCurrentPassword)
 
-	mod.Router().Prefix(m.URLPrefix(), web.MiddlewareFunc(m.Middleware)).
-		Get("/admins", getAdmin(m.getAdmins)).
-		Post("/admins", postAdmin(m.postAdmins)).
-		Get("/admins/{id:digit}", getAdmin(m.getAdmin)).
-		Patch("/admins/{id:digit}", putAdmin(m.patchAdmin)).
-		Delete("/admins/{id:digit}/password", putAdmin(m.deleteAdminPassword)).
-		Post("/admins/{id:digit}/locked", putAdmin(m.postAdminLocked)).
-		Delete("/admins/{id:digit}/locked", putAdmin(m.deleteAdminLocked)).
-		Delete("/admins/{id:digit}", delAdmin(m.deleteAdmin))
+	mod.Router().Prefix(m.URLPrefix(), m).
+		Get("/admins", m.getAdmins, getAdmin).
+		Post("/admins", m.postAdmins, postAdmin).
+		Get("/admins/{id:digit}", m.getAdmin, getAdmin).
+		Patch("/admins/{id:digit}", m.patchAdmin, putAdmin).
+		Delete("/admins/{id:digit}/password", m.deleteAdminPassword, putAdmin).
+		Post("/admins/{id:digit}/locked", m.postAdminLocked, putAdmin).
+		Delete("/admins/{id:digit}/locked", m.deleteAdminLocked, putAdmin).
+		Delete("/admins/{id:digit}", m.deleteAdmin, delAdmin)
 
 	return m
 }
@@ -108,29 +113,33 @@ func Load(mod *cmfx.Module, o *Config) *Module {
 func (m *Module) URLPrefix() string { return m.user.URLPrefix() }
 
 // Middleware 验证是否登录
-func (m *Module) Middleware(next web.HandlerFunc) web.HandlerFunc { return m.user.Middleware(next) }
+func (m *Module) Middleware(next web.HandlerFunc, method, path, router string) web.HandlerFunc {
+	return m.user.Middleware(next, method, path, router)
+}
 
 // CurrentUser 获取当前登录的用户信息
 func (m *Module) CurrentUser(ctx *web.Context) *user.User { return m.user.CurrentUser(ctx) }
 
-// NewResourceGroup 新建资源分组
+// NewResourceGroup 以模块为单位创建资源分组
 func (m *Module) NewResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
 	return m.roleGroup.RBAC().NewResourceGroup(mod.ID(), mod.Desc())
 }
 
-// GetResourceGroup 获取指定 ID 的资源分组
-func (m *Module) GetResourceGroup(id string) *rbac.ResourceGroup {
-	return m.roleGroup.RBAC().ResourceGroup(id)
+// GetResourceGroup 获取指定模块的资源分组
+func (m *Module) GetResourceGroup(mod *cmfx.Module) *rbac.ResourceGroup {
+	return m.roleGroup.RBAC().ResourceGroup(mod.ID())
 }
 
-// ResourceGroup 当前资源组
-func (m *Module) ResourceGroup() *rbac.ResourceGroup { return m.GetResourceGroup(m.user.Module().ID()) }
+// ResourceGroup 管理模块的资源分组
+func (m *Module) ResourceGroup() *rbac.ResourceGroup { return m.GetResourceGroup(m.user.Module()) }
 
+// AddSecurityLog 记录一条安全日志
 func (m *Module) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) error {
 	return m.user.AddSecurityLog(tx, uid, ip, ua, content)
 }
 
-func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
+// AddSecurityLogWithContext 从 [web.Context] 中记录一条安全日志
+func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content web.LocaleStringer) error {
 	return m.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 
@@ -145,13 +154,13 @@ func (m *Module) Module() *cmfx.Module { return m.user.Module() }
 func (m *Module) Passport() *passport.Passport { return m.user.Passport() }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(pa passport.Adapter, data *respInfoWithAccount, now time.Time) error {
+func (m *Module) newAdmin(pa passport.Adapter, data *reqInfoWithAccount, now time.Time) error {
 	uid, err := m.user.NewUser(pa, data.Username, data.Password, now)
 	if err != nil {
 		return err
 	}
 
-	a := &modelInfo{
+	a := &info{
 		ID:       uid,
 		Nickname: data.Nickname,
 		Name:     data.Name,

@@ -13,7 +13,7 @@ import (
 	"time"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/mux/v8/header"
+	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/servertest"
 	"github.com/issue9/webuse/v7/middlewares/auth"
@@ -26,7 +26,7 @@ import (
 func TestLoader_Login(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	u := newLoader(s)
+	u := newModule(s)
 
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "_code")
@@ -67,24 +67,24 @@ func TestLoader_Login(t *testing.T) {
 	})
 
 	// 测试 SetState
-	s.Module().Router().Post("/state", u.Middleware(func(ctx *web.Context) web.Responser {
+	s.Module().Router().Post("/state", func(ctx *web.Context) web.Responser {
 		user := u.CurrentUser(ctx)
 		a.NotError(u.SetState(nil, user, StateNormal))
 		a.NotError(u.SetState(nil, user, StateLocked))
 		return web.NoContent()
-	}))
+	}, u)
 
-	s.Module().Router().Post("/refresh", u.Middleware(func(ctx *web.Context) web.Responser {
+	s.Module().Router().Post("/refresh", func(ctx *web.Context) web.Responser {
 		return u.RefreshToken(ctx)
-	}))
+	}, u)
 
-	s.Module().Router().Get("/info", u.Middleware(func(ctx *web.Context) web.Responser {
+	s.Module().Router().Get("/info", func(ctx *web.Context) web.Responser {
 		return web.OK(u.CurrentUser(ctx))
-	}))
+	}, u)
 
-	s.Module().Router().Delete("/login", u.Middleware(func(ctx *web.Context) web.Responser {
+	s.Module().Router().Delete("/login", func(ctx *web.Context) web.Responser {
 		return u.Logout(ctx, nil, web.Phrase("reason"))
-	}))
+	}, u)
 
 	defer servertest.Run(a, s.Module().Server())()
 	defer s.Close()

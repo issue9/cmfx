@@ -34,7 +34,7 @@ func newHealthDBStore(mod *cmfx.Module) (health.Store, error) {
 	}
 	for _, state := range states {
 		store.cache.Save(&health.State{
-			Route:        state.Route,
+			Router:       state.Router,
 			Method:       state.Method,
 			Pattern:      state.Pattern,
 			Min:          state.Min,
@@ -60,7 +60,7 @@ func (s *healthDBStore) Save(state *health.State) {
 	// 保存到数据库
 
 	mod := &modelHealth{
-		Route:   state.Route,
+		Router:  state.Router,
 		Method:  state.Method,
 		Pattern: state.Pattern,
 	}
@@ -85,7 +85,7 @@ func (s *healthDBStore) All() []*health.State { return s.cache.All() }
 
 func healthModelFromState(s *health.State) *modelHealth {
 	return &modelHealth{
-		Route:        s.Route,
+		Router:       s.Router,
 		Method:       s.Method,
 		Pattern:      s.Pattern,
 		Min:          s.Min,

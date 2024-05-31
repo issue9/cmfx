@@ -16,7 +16,6 @@ import (
 	"github.com/issue9/web/server/servertest"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/initial"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -41,8 +40,6 @@ func NewSuite(a *assert.Assertion) *Suite {
 		dsn: dsn,
 		mod: cmfx.NewModule("", web.Phrase("suite"), srv, db, srv.Routers().New("default", nil)),
 	}
-
-	initial.Init(srv)
 
 	s.a.TB().Cleanup(func() {
 		s.Close()

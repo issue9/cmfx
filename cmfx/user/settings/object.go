@@ -13,23 +13,32 @@ import (
 	"reflect"
 	"slices"
 
+	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/web"
 )
 
 const tag = "setting"
 
+type Sanitizer interface {
+	SanitizeSettings() error
+}
+
 // Object 设置对象的操作接口
 //
-// T 为实际的设置对象，必须得是一个结构体类型。其每一个公开字段在数据库中表示为一条记录。
-// 如果要改变在数据库对应的字段名，可以为每一个字段添加 setting 标签，比如：
+// T 为实际的设置对象，必须得是一个结构体类型。
+// 如果 T 的指针还实现了 [Sanitizer] 接口，那么在加载或是写入数据源成功之后会调用该接口对数据进行修正。
+// 用户对 T 的修改应该及时采用 [Object.Put] 写入数据源，否则在重启后这些修改不会生效。
+//
+// 其每一个公开字段在数据库中表示为一条记录。如果要改变在数据库对应的字段名，
+// 可以为每一个字段添加 setting 标签，比如：
 //
 //	struct X {
 //	    Field string `setting:"field"`
 //	}
 //
 // 默认为字段名，如果不需要该字段，可以采用小写或是 setting:"-" 对其忽略。
-//
-// 用户对 T 的修改应该及时采用 [Object.Put] 写入数据源，否则在重启后这些修改不会生效。
+// 如果字段是非内置的类型，可以实现 json 的相关接口实现自定义的存储和读取功能。
 type Object[T any] struct {
 	id     string
 	s      *Settings
@@ -39,7 +48,7 @@ type Object[T any] struct {
 
 func checkObjectType[T any]() {
 	if reflect.TypeFor[T]().Kind() != reflect.Struct {
-		panic(fmt.Sprintf("T 的约束必须是结构体"))
+		panic("T 的约束必须是结构体")
 	}
 }
 
@@ -77,7 +86,7 @@ func LoadObject[T any](s *Settings, id string) (*Object[T], error) {
 //   - 查看是否有缓存的对象；
 //   - 从数据库查找数据；
 //   - 采用默认值；
-func (obj Object[T]) Get(uid int64) (*T, error) {
+func (obj *Object[T]) Get(uid int64) (*T, error) {
 	if o, found := obj.users[uid]; found {
 		return o, nil
 	}
@@ -105,7 +114,7 @@ func (obj Object[T]) Get(uid int64) (*T, error) {
 }
 
 // Set 保存 o 的设置对象
-func (obj Object[T]) Set(uid int64, o *T) error {
+func (obj *Object[T]) Set(uid int64, o *T) error {
 	mods, err := toModels(o, uid, obj.id)
 	if err != nil {
 		return err
@@ -131,6 +140,28 @@ func (obj Object[T]) Set(uid int64, o *T) error {
 	return nil
 }
 
+// HandleGet 用于处理 Get 的 HTTP 请求
+func (obj *Object[T]) HandleGet(ctx *web.Context, uid int64) web.Responser {
+	data, err := obj.Get(uid)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(data)
+}
+
+// HandlePut 用于处理 Put 的 HTTP 请求
+func (obj *Object[T]) HandlePut(ctx *web.Context, uid int64) web.Responser {
+	var data T
+	if resp := ctx.Read(true, &data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if err := obj.Set(uid, &data); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.NoContent()
+}
+
 // 将 o 转换为 []*modelSetting
 func toModels[T any](o *T, uid int64, g string) ([]*modelSetting, error) {
 	rv := reflect.ValueOf(o).Elem()
@@ -151,6 +182,9 @@ func toModels[T any](o *T, uid int64, g string) ([]*modelSetting, error) {
 		ss = append(ss, &modelSetting{UID: sql.NullInt64{Int64: uid, Valid: true}, Group: g, Key: key, Value: string(data)})
 	}
 
+	if err := callSanitizer(o); err != nil {
+		return nil, err
+	}
 	return ss, nil
 }
 
@@ -170,9 +204,17 @@ func fromModels[T any](ss []*modelSetting, o *T, g string) error {
 			panic(fmt.Sprintf("不存在的字段:%s,%s", g, key))
 		}
 
-		if err:=json.Unmarshal([]byte(ss[index].Value), rv.Field(i).Addr().Interface());err!=nil{
+		if err := json.Unmarshal([]byte(ss[index].Value), rv.Field(i).Addr().Interface()); err != nil {
 			return err
 		}
+	}
+
+	return callSanitizer(o)
+}
+
+func callSanitizer(o any) error {
+	if s, ok := o.(Sanitizer); ok {
+		return s.SanitizeSettings()
 	}
 	return nil
 }

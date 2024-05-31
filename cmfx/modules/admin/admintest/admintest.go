@@ -7,9 +7,11 @@ package admintest
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/mux/v8/header"
+	"github.com/issue9/mux/v9/header"
+	"github.com/issue9/web/server/config"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
@@ -17,16 +19,16 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-// NewAdmin 声明一个用于测试的 [admin.Module] 实例
-func NewAdmin(s *test.Suite) *admin.Module {
+// NewModule 声明一个用于测试的 [admin.Module] 实例
+func NewModule(s *test.Suite) *admin.Module {
 	mod := s.NewModule("admin")
 
 	o := &admin.Config{
 		SuperUser: 1,
 		User: &user.Config{
 			URLPrefix:      "/admin",
-			AccessExpired:  60,
-			RefreshExpired: 120,
+			AccessExpired:  60 * config.Duration(time.Second),
+			RefreshExpired: 120 * config.Duration(time.Second),
 		},
 	}
 	s.Assertion().NotError(o.SanitizeConfig())

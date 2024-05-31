@@ -8,7 +8,6 @@ package cmd
 import (
 	"flag"
 
-	"github.com/issue9/mux/v8"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/app"
@@ -20,7 +19,6 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/system"
 )
 
-// Exec 执行服务
 func Exec(name, version string) error {
 	return app.NewCLI(&app.CLIOptions[*Config]{
 		Name:           name,
@@ -39,11 +37,11 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		return nil, err
 	}
 
-	initial.Init(s)
+	initial.Init(s, user.Ratelimit)
 
 	router := s.Routers().New("", nil,
-		web.URLDomain(user.URL),
-		mux.AnyInterceptor("any"), mux.DigitInterceptor("digit"),
+		web.WithURLDomain(user.URL),
+		web.WithAnyInterceptor("any"), web.WithDigitInterceptor("digit"),
 	)
 	debug.RegisterDev(router, "/debug")
 

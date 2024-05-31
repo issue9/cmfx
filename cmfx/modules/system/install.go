@@ -15,12 +15,15 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
+	"github.com/issue9/cmfx/cmfx/user/settings"
 )
 
 func Install(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	if err := mod.DB().Create(&modelHealth{}, &modelLinkage{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
+
+	settings.Install(mod, settingsTableName)
 
 	return Load(mod, conf, adminL)
 }

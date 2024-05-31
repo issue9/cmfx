@@ -9,8 +9,8 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
 
-func newSystem(s *test.Suite) *Module {
-	adminM := admintest.NewAdmin(s)
+func newModule(s *test.Suite) *Module {
+	adminM := admintest.NewModule(s)
 
 	conf := &Config{}
 	s.Assertion().NotError(conf.SanitizeConfig())

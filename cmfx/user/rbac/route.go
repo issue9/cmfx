@@ -11,6 +11,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/filters"
 )
 
+// 角色信息
 type reqRole struct {
 	XMLName struct{} `json:"-" xml:"role" cbor:"-"`
 	Name    string   `json:"name" xml:"name" cbor:"name"`
@@ -23,6 +24,7 @@ func (r *reqRole) Filter(v *web.FilterContext) {
 		Add(filters.NotEmpty("name", &r.Name))
 }
 
+// 角色信息
 type respRole struct {
 	XMLName struct{} `json:"-" xml:"role" cbor:"role"`
 	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty"`

@@ -17,48 +17,53 @@ import (
 
 // # api get /info 获取当前登用户的信息
 // @tag admin
-// @resp 200 * respInfo
+// @resp 200 * info
 func (m *Module) getInfo(ctx *web.Context) web.Responser {
-	return web.OK(m.CurrentUser(ctx))
+	u := m.CurrentUser(ctx)
+	mod := &info{ID: u.ID}
+	f, err := m.Module().DB().Select(mod)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	if !f {
+		return ctx.NotFound()
+	}
+	return web.OK(mod)
 }
 
 // # api patch /info 更新当前登用户的信息
 // @tag admin
-// @req * respInfo 更新的信息，将忽略 id
+// @req * info 更新的信息，将忽略 id
 // @resp 204 * {}
 func (m *Module) patchInfo(ctx *web.Context) web.Responser {
-	data := &respInfo{}
+	data := &info{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
 	a := m.CurrentUser(ctx)
 
-	_, err := m.Module().DB().Update(&modelInfo{
-		ID:       a.ID,
-		Nickname: data.Nickname,
-		Avatar:   data.Avatar,
-		Sex:      data.Sex,
-		Name:     data.Name,
-	})
+	data.ID = a.ID // 确保 ID 正确
+	_, err := m.Module().DB().Update(data)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	if err := m.user.AddSecurityLogFromContext(nil, a.ID, ctx, "更新个人信息"); err != nil {
+	if err := m.user.AddSecurityLogFromContext(nil, a.ID, ctx, web.StringPhrase("update info")); err != nil {
 		return ctx.Error(err, "")
 	}
 
 	return web.NoContent()
 }
 
-type putPassword struct {
+// 密码修改
+type reqPassword struct {
 	XMLName struct{} `json:"-" xml:"password" cbor:"-"`
 	Old     string   `json:"old" xml:"old" cbor:"old"`
 	New     string   `json:"new" xml:"new" cbor:"new"`
 }
 
-func (p *putPassword) Filter(v *web.FilterContext) {
+func (p *reqPassword) Filter(v *web.FilterContext) {
 	same := filter.V(func(s string) bool {
 		return s == p.Old
 	}, web.StringPhrase("same of new and old password"))
@@ -68,12 +73,12 @@ func (p *putPassword) Filter(v *web.FilterContext) {
 		Add(filter.NewBuilder(same)("new", &p.New))
 }
 
-// # api put /password 当前登录用户修改自己的密码
+// # api PUT /password 当前登录用户修改自己的密码
 // @tag admin
-// @req * putPassword
+// @req * reqPassword
 // @resp 204 * {}
 func (m *Module) putCurrentPassword(ctx *web.Context) web.Responser {
-	data := &putPassword{}
+	data := &reqPassword{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
@@ -86,7 +91,7 @@ func (m *Module) putCurrentPassword(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	return m.user.Logout(ctx, nil, web.Phrase("change password"))
+	return m.user.Logout(ctx, nil, web.StringPhrase("change password"))
 }
 
 // # api get /securitylog 当前用户的安全操作记录

@@ -10,7 +10,7 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/mux/v8/header"
+	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/web/server/servertest"
 	"github.com/issue9/webuse/v7/middlewares/auth"
 	"golang.org/x/text/language"
@@ -24,7 +24,7 @@ func TestSystem_apis(t *testing.T) {
 	suite := test.NewSuite(a)
 	err := suite.Module().Server().Locale().SetString(language.SimplifiedChinese, "v1 desc", "v1 cn")
 	a.NotError(err)
-	l := newSystem(suite)
+	l := newModule(suite)
 
 	defer servertest.Run(a, suite.Module().Server())()
 	defer suite.Close()

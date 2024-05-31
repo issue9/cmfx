@@ -43,12 +43,17 @@
     </fileSerializers>
 
     <user>
+        <ratelimit capacity="50">
+            <rate>1s</rate>
+            <prefix>ratelimit___</prefix>
+        </ratelimit>
+
         <db type="sqlite3">
             <dsn>./server.db</dsn>
         </db>
-        <router>
-            <url>http://localhost:8080</url>
-        </router>
+
+        <url>http://localhost:8080</url>
+
         <admin superUser="1">
             <user accessExpires="43200" refreshExpires="86400">
                 <urlPrefix>/admin</urlPrefix>

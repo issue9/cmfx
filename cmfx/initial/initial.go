@@ -9,17 +9,40 @@ import (
 	"net/http"
 
 	"github.com/issue9/web"
+	"github.com/issue9/webuse/v7/middlewares"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
+	"github.com/issue9/webuse/v7/middlewares/empty"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/locales"
 )
 
+const contenxtKey contextType = 0
+
+type contextType int
+
 // Init 初始化当前框架的必要环境
-func Init(s web.Server) {
+//
+// NOTE: 需要在添加路由之前调用，否则参数 r 的限制不启作用。
+func Init(s web.Server, r *Ratelimit) {
+	c := web.NewCache(r.Prefix, s.Cache())
+	limit := ratelimit.New(c, r.Capacity, r.Rate.Duration(), nil, nil)
+
+	s.Vars().Store(contenxtKey, limit)
+
 	s.Use([]web.Plugin{
 		web.PluginFunc(locale),
 		web.PluginFunc(problems),
+		middlewares.Plugin(limit),
 	}...)
+}
+
+// Unlimit 取消由 [Init] 创建 API 限制功能
+func Unlimit(s web.Server) web.Middleware {
+	if v, ok := s.Vars().Load(contenxtKey); ok {
+		return (v.(*ratelimit.Ratelimit)).Unlimit()
+	}
+	return &empty.Empty{}
 }
 
 // 加载本地化的信息

@@ -21,7 +21,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 	password.Install(mod)
 	rbac.Install(mod)
 
-	if err := mod.DB().Create(&modelInfo{}); err != nil {
+	if err := mod.DB().Create(&info{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
@@ -37,43 +37,49 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	us := []*respInfoWithAccount{
+	us := []*reqInfoWithAccount{
 		{
-			respInfoWithRoleState: respInfoWithRoleState{
-				respInfo: respInfo{
+			ctxInfoWithRoleState: ctxInfoWithRoleState{
+				info: info{
 					Name:     "管理员",
 					Nickname: "管理员",
 					Sex:      types.SexMale,
+					Language: "zh-CN",
+					Timezone: "Asia/Shanghai",
 				},
 			},
 			Username: "admin",
 			Password: defaultPassword,
 		},
 		{
-			respInfoWithRoleState: respInfoWithRoleState{
-				respInfo: respInfo{
+			ctxInfoWithRoleState: ctxInfoWithRoleState{
+				info: info{
 					Name:     "测试用户1",
 					Nickname: "测试用户1",
 					Sex:      types.SexMale,
+					Language: "zh-TW",
+					Timezone: "Asia/Shanghai",
 				},
 			},
 			Username: "u1",
 			Password: defaultPassword,
 		},
 		{
-			respInfoWithRoleState: respInfoWithRoleState{
-				respInfo: respInfo{
+			ctxInfoWithRoleState: ctxInfoWithRoleState{
+				info: info{
 					Name:     "测试用户2",
 					Nickname: "测试用户2",
 					Sex:      types.SexFemale,
+					Language: "en-US",
+					Timezone: "America/New_York",
 				},
 			},
 			Username: "u2",
 			Password: defaultPassword,
 		},
 		{
-			respInfoWithRoleState: respInfoWithRoleState{
-				respInfo: respInfo{
+			ctxInfoWithRoleState: ctxInfoWithRoleState{
+				info: info{
 					Name:     "测试用户3",
 					Nickname: "测试用户3",
 				},

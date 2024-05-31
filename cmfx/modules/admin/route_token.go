@@ -45,10 +45,10 @@ func (m *Module) postLogin(ctx *web.Context) web.Responser {
 func (m *Module) deleteLogin(ctx *web.Context) web.Responser {
 	return m.user.Logout(ctx, func(u *user.User) {
 		m.logoutEvent.Publish(false, u)
-	}, web.Phrase("logout"))
+	}, web.StringPhrase("logout"))
 }
 
-// # api put /login 续定 token
+// # api put /login 续定令牌
 // @tag admin auth
 // @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
 func (m *Module) getToken(ctx *web.Context) web.Responser {

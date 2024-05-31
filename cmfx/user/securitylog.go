@@ -27,14 +27,14 @@ func (m *Module) AddSecurityLog(tx *orm.Tx, uid int64, ip, ua, content string) e
 	return err
 }
 
-func (m *Module) AddSecurityLogFromContext(tx *orm.Tx, uid int64, ctx *web.Context, content string) error {
-	return m.AddSecurityLog(tx, uid, ctx.ClientIP(), ctx.Request().UserAgent(), content)
+func (m *Module) AddSecurityLogFromContext(tx *orm.Tx, uid int64, ctx *web.Context, content web.LocaleStringer) error {
+	return m.AddSecurityLog(tx, uid, ctx.ClientIP(), ctx.Request().UserAgent(), content.LocaleString(ctx.LocalePrinter()))
 }
 
 type queryLog struct {
 	query.Text
-	CreatedStart time.Time `query:"created.start"`
-	CreatedEnd   time.Time `query:"created.end"`
+	CreatedStart time.Time `query:"created.start"` // 创建日志的起始时间
+	CreatedEnd   time.Time `query:"created.end"`   // 创建日志的结束时间
 }
 
 // GetSecurityLogs 将数据以固定的格式输出客户端

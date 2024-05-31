@@ -16,7 +16,7 @@ import (
 func TestInstall(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	adminL := admintest.NewAdmin(s)
+	adminL := admintest.NewModule(s)
 
 	conf := &Config{}
 	s.Assertion().NotError(conf.SanitizeConfig())
@@ -31,7 +31,7 @@ func TestInstall(t *testing.T) {
 func TestInstallLinkage(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	sys := newSystem(s)
+	sys := newModule(s)
 
 	err := InstallLinkage[string](sys, "sex", "SEX", nil)
 	a.NotError(err)

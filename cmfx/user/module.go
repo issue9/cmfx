@@ -33,7 +33,7 @@ func Load(mod *cmfx.Module, conf *Config) *Module {
 	return &Module{
 		mod:       mod,
 		urlPrefix: conf.URLPrefix,
-		token:     token.New(mod.Server(), store, conf.accessExpired, conf.refreshExpired, web.ProblemUnauthorized, nil),
+		token:     token.New(mod.Server(), store, conf.AccessExpired.Duration(), conf.RefreshExpired.Duration(), web.ProblemUnauthorized, nil),
 		passport:  passport.New(mod),
 	}
 }
@@ -53,6 +53,9 @@ func (m *Module) GetUser(uid int64) (*User, error) {
 	return u, nil
 }
 
+// LeftJoin 将 [User.State] 以 left join 的形式插入到 sql 语句中
+//
+// alias 为 [User] 表的别名，on 为 left join 的条件。
 func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states []State) {
 	sql.Column(alias+".state").
 		Join("left", orm.TableName(&User{}), alias, on).

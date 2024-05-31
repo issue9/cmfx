@@ -9,6 +9,8 @@ import (
 	"time"
 
 	"github.com/issue9/web"
+
+	"github.com/issue9/cmfx/cmfx/user"
 )
 
 // # api get /system/apis API 信息
@@ -16,6 +18,7 @@ import (
 // @resp 200 * []github.com/issue9/webuse/v7/plugins/health.State
 func (m *Module) adminGetAPIs(_ *web.Context) web.Responser { return web.OK(m.health.States()) }
 
+// 数据库的基本信息
 type dbInfo struct {
 	Name               string        `json:"name" xml:"name" cbor:"name"`                                                                      // 数据库驱动
 	Version            string        `json:"version" xml:"version" cbor:"version"`                                                             // 数据库版本
@@ -30,6 +33,7 @@ type dbInfo struct {
 	MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed" cbor:"maxLifetimeClosed"`                               // 最生命周期联接
 }
 
+// 系统信息
 type info struct {
 	XMLName string `json:"-" xml:"info" cbor:"-"`
 
@@ -77,18 +81,21 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 	})
 }
 
+// 服务
 type service struct {
 	Title string    `json:"title" xml:"title" cbor:"title"`                         // 名称
 	State web.State `json:"state" xml:"state,attr" cbor:"state"`                    // 状态
 	Err   string    `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty"` // 如果出错，表示错误内容，否则为空
 }
 
+// 计划任务
 type job struct {
 	service
 	Next time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty"` // 下一次执行时间
 	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty"` // 上一次执行时间
 }
 
+// 服务和计划任务
 type services struct {
 	XMLName  struct{}  `json:"-" xml:"services" cbor:"-"`
 	Services []service `json:"services" xml:"service" cbor:"service"` // 服务
@@ -133,6 +140,7 @@ func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 	return web.OK(ss)
 }
 
+// 错误信息
 type problem struct {
 	XMLName struct{} `json:"-" cbor:"-" xml:"problem"`
 	Prefix  string   `json:"prefix" xml:"prefix" cbor:"prefix"`      // URL 前缀以，如果此值不为空，与 ID 组成一上完整的地址。
@@ -143,7 +151,7 @@ type problem struct {
 }
 
 // # api get /system/problems 系统错误信息
-// @tag system
+// @tag common system
 // @resp 200 * []problem
 func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	ps := make([]*problem, 0, 100)
@@ -160,16 +168,67 @@ func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 }
 
 // # api get /system/monitor 监视系统数据
-// @tag system
+// @tag admin system
 // @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
 func (m *Module) adminGetMonitor(ctx *web.Context) web.Responser { return m.monitor.Handle(ctx) }
 
 // # api post /system/backup 手动执行备份数据
-// @tag system
+// @tag admin system
 // @resp 201 * {}
 func (m *Module) adminPostBackup(ctx *web.Context) web.Responser {
 	if err := m.mod.DB().Backup(m.buildBackupFilename(ctx.Begin())); err != nil {
 		return ctx.Error(err, web.ProblemInternalServerError)
 	}
 	return web.Created(nil, "")
+}
+
+// # api GET /system/settings/general 获取常规的设置项
+// @tag admin system settings
+// @resp 200 * generalSettings
+func (m *Module) adminGetSettingGeneral(ctx *web.Context) web.Responser {
+	return m.generalSettings.HandleGet(ctx, user.SpecialUserID)
+}
+
+// # api PUT /system/settings/general 设置常规的设置项
+// @tag admin system settings
+// @req * generalSettings
+// @resp 204 * {}
+func (m *Module) adminPutSettingGeneral(ctx *web.Context) web.Responser {
+	return m.generalSettings.HandlePut(ctx, user.SpecialUserID)
+}
+
+// # api GET /system/settings/censor 获取内容过滤的设置项
+// @tag admin system settings
+// @resp 200 * censorSettings
+func (m *Module) adminGetSettingCensor(ctx *web.Context) web.Responser {
+	return m.censorSettings.HandleGet(ctx, user.SpecialUserID)
+}
+
+// # api PUT /system/settings/censor 设置内容过滤的设置项
+// @tag admin system settings
+// @req * censorSettings
+// @resp 204 * {}
+func (m *Module) adminPutSettingCensor(ctx *web.Context) web.Responser {
+	return m.censorSettings.HandlePut(ctx, user.SpecialUserID)
+}
+
+// 后台的基本环境
+type env struct {
+	XMLName   struct{} `json:"-" cbor:"-" xml:"env"`
+	Name      string   `json:"name" cbor:"name" xml:"name"`
+	ShortName string   `json:"shortName" xml:"shortName" cbor:"shortName"`
+}
+
+// # api GET /system/env 获取基本的系统环境用于初始化前端的基本元素
+// @tag admin system
+// @resp 200 * env
+func (m *Module) adminGetEnv(ctx *web.Context) web.Responser {
+	g, err := m.generalSettings.Get(user.SpecialUserID)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(&env{
+		Name:      g.Name,
+		ShortName: g.ShortName,
+	})
 }

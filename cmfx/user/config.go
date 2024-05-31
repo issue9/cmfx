@@ -6,9 +6,9 @@ package user
 
 import (
 	"strconv"
-	"time"
 
 	"github.com/issue9/web"
+	"github.com/issue9/web/server/config"
 
 	"github.com/issue9/cmfx/locales"
 )
@@ -20,13 +20,11 @@ type Config struct {
 	// 可以为空。
 	URLPrefix string `json:"urlPrefix,omitempty" xml:"urlPrefix,omitempty" yaml:"urlPrefix,omitempty"`
 
-	// 访问令牌的过期时间，单位为秒。
-	AccessExpired int `json:"accessExpired,omitempty" xml:"accessExpired,attr,omitempty" yaml:"accessExpired,omitempty"`
-	accessExpired time.Duration
+	// 访问令牌的过期时间。
+	AccessExpired config.Duration `json:"accessExpired,omitempty" xml:"accessExpired,attr,omitempty" yaml:"accessExpired,omitempty"`
 
 	// 刷新令牌的过期时间，单位为秒，如果为 0 则采用用 expires * 2 作为默认值。
-	RefreshExpired int `json:"refreshExpired,omitempty" xml:"refreshExpired,attr,omitempty" yaml:"refreshExpired,omitempty"`
-	refreshExpired time.Duration
+	RefreshExpired config.Duration `json:"refreshExpired,omitempty" xml:"refreshExpired,attr,omitempty" yaml:"refreshExpired,omitempty"`
 }
 
 // SanitizeConfig 用于检测和修正配置项的内容
@@ -45,9 +43,6 @@ func (o *Config) SanitizeConfig() *web.FieldError {
 	if o.RefreshExpired <= o.AccessExpired {
 		return web.NewFieldError("refreshExpired", locales.MustBeGreaterThan(strconv.Quote("accessExpired")))
 	}
-
-	o.accessExpired = time.Duration(o.AccessExpired) * time.Second
-	o.refreshExpired = time.Duration(o.RefreshExpired) * time.Second
 
 	return nil
 }

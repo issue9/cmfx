@@ -14,7 +14,7 @@ dist = ./dist
 
 # 生成 API 文件
 api:
-	web restdoc -o=$(API)/restdoc.yaml $(ROOT)/cmfx
+	web restdoc -t=admin,common -o=$(API)/admin.yaml $(ROOT)/cmfx
 
 # 生成 go 的依赖内容
 gen:

@@ -1,8 +1,132 @@
 openapi: 3.0.0
 components:
     schemas:
-        github.com.issue9.cmfx.cmfx.modules.admin.putPassword:
+        github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState:
             type: object
+            title: 包含权限的管理员信息
+            properties:
+                avatar:
+                    type: string
+                    title: 头像
+                    nullable: true
+                id:
+                    type: integer
+                    xml:
+                        attribute: true
+                language:
+                    type: string
+                    title: 界面语言
+                name:
+                    type: string
+                    title: 真实名称
+                nickname:
+                    type: string
+                    title: 昵称
+                roles:
+                    type: array
+                    title: 关联的角色
+                    xml:
+                        name: role
+                        wrapped: true
+                    items:
+                        type: string
+                sex:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
+                    title: 性别
+                    xml:
+                        attribute: true
+                state:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
+                    title: 用户状态
+                    xml:
+                        attribute: true
+                timezone:
+                    type: string
+                    title: 时区
+        github.com.issue9.cmfx.cmfx.modules.admin.info:
+            type: object
+            title: 管理员的基本信息
+            xml:
+                name: info
+            properties:
+                avatar:
+                    type: string
+                    title: 头像
+                    nullable: true
+                id:
+                    type: integer
+                    xml:
+                        attribute: true
+                language:
+                    type: string
+                    title: 界面语言
+                name:
+                    type: string
+                    title: 真实名称
+                nickname:
+                    type: string
+                    title: 昵称
+                sex:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
+                    title: 性别
+                    xml:
+                        attribute: true
+                timezone:
+                    type: string
+                    title: 时区
+        github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount:
+            type: object
+            properties:
+                avatar:
+                    type: string
+                    title: 头像
+                    nullable: true
+                id:
+                    type: integer
+                    xml:
+                        attribute: true
+                language:
+                    type: string
+                    title: 界面语言
+                name:
+                    type: string
+                    title: 真实名称
+                nickname:
+                    type: string
+                    title: 昵称
+                password:
+                    type: string
+                roles:
+                    type: array
+                    title: 关联的角色
+                    xml:
+                        name: role
+                        wrapped: true
+                    items:
+                        type: string
+                sex:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
+                    title: 性别
+                    xml:
+                        attribute: true
+                state:
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
+                    title: 用户状态
+                    xml:
+                        attribute: true
+                timezone:
+                    type: string
+                    title: 时区
+                username:
+                    type: string
+        github.com.issue9.cmfx.cmfx.modules.admin.reqPassword:
+            type: object
+            title: 密码修改
             xml:
                 name: password
             properties:
@@ -10,101 +134,23 @@ components:
                     type: string
                 old:
                     type: string
-        github.com.issue9.cmfx.cmfx.modules.admin.respInfo:
+        github.com.issue9.cmfx.cmfx.modules.system.censorSettings:
             type: object
+            title: 内容审核设置
             xml:
-                name: info
+                name: censor
             properties:
-                avatar:
-                    type: string
-                    nullable: true
-                id:
-                    type: integer
-                    xml:
-                        attribute: true
                 name:
-                    type: string
-                    title: 真实名称，展示于后台
-                nickname:
-                    type: string
-                    title: 昵称，前台需要展示的地方显示此值
-                sex:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
-                    xml:
-                        attribute: true
-        github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithAccount:
-            type: object
-            properties:
-                avatar:
-                    type: string
-                    nullable: true
-                id:
-                    type: integer
-                    xml:
-                        attribute: true
-                name:
-                    type: string
-                    title: 真实名称，展示于后台
-                nickname:
-                    type: string
-                    title: 昵称，前台需要展示的地方显示此值
-                password:
-                    type: string
-                roles:
                     type: array
-                    xml:
-                        name: role
-                        wrapped: true
+                    title: 关键字过滤
                     items:
                         type: string
-                sex:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
-                    xml:
-                        attribute: true
-                state:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
-                    xml:
-                        attribute: true
-                username:
+                pattern:
                     type: string
-        github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState:
-            type: object
-            properties:
-                avatar:
-                    type: string
-                    nullable: true
-                id:
-                    type: integer
-                    xml:
-                        attribute: true
-                name:
-                    type: string
-                    title: 真实名称，展示于后台
-                nickname:
-                    type: string
-                    title: 昵称，前台需要展示的地方显示此值
-                roles:
-                    type: array
-                    xml:
-                        name: role
-                        wrapped: true
-                    items:
-                        type: string
-                sex:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
-                    xml:
-                        attribute: true
-                state:
-                    allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
-                    xml:
-                        attribute: true
+                    title: 正则表达式过滤
         github.com.issue9.cmfx.cmfx.modules.system.dbInfo:
             type: object
+            title: 数据库的基本信息
             properties:
                 idle:
                     type: integer
@@ -140,8 +186,34 @@ components:
                 waitDuration:
                     type: string
                     title: 新连接的平均等待时间
+        github.com.issue9.cmfx.cmfx.modules.system.env:
+            type: object
+            title: 后台的基本环境
+            xml:
+                name: env
+            properties:
+                name:
+                    type: string
+                shortName:
+                    type: string
+        github.com.issue9.cmfx.cmfx.modules.system.generalSettings:
+            type: object
+            title: 后台的常规设置
+            xml:
+                name: general
+            properties:
+                description:
+                    type: string
+                    title: 网站描述
+                name:
+                    type: string
+                    title: 网站名称
+                shortName:
+                    type: string
+                    title: 网站短标题
         github.com.issue9.cmfx.cmfx.modules.system.info:
             type: object
+            title: 系统信息
             xml:
                 name: info
             properties:
@@ -176,6 +248,7 @@ components:
                     title: 应用版本号
         github.com.issue9.cmfx.cmfx.modules.system.job:
             type: object
+            title: 计划任务
             properties:
                 err:
                     type: string
@@ -202,6 +275,7 @@ components:
                     title: 名称
         github.com.issue9.cmfx.cmfx.modules.system.problem:
             type: object
+            title: 错误信息
             xml:
                 name: problem
             properties:
@@ -224,6 +298,7 @@ components:
                     title: 错误的简要描述
         github.com.issue9.cmfx.cmfx.modules.system.service:
             type: object
+            title: 服务
             properties:
                 err:
                     type: string
@@ -240,6 +315,7 @@ components:
                     title: 名称
         github.com.issue9.cmfx.cmfx.modules.system.services:
             type: object
+            title: 服务和计划任务
             xml:
                 name: services
             properties:
@@ -253,7 +329,7 @@ components:
                     title: 服务
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.service'
-        github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-:
+        github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-:
             type: object
             title: Page 分页对象
             description: |
@@ -273,7 +349,7 @@ components:
                     title: 当前页的数据
                     items:
                         allOf:
-                            - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                            - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
                         nullable: true
                 more:
                     type: boolean
@@ -331,6 +407,7 @@ components:
                 - normal
         github.com.issue9.cmfx.cmfx.user.rbac.reqRole:
             type: object
+            title: 角色信息
             xml:
                 name: role
             properties:
@@ -343,6 +420,7 @@ components:
                     nullable: true
         github.com.issue9.cmfx.cmfx.user.rbac.respRole:
             type: object
+            title: 角色信息
             xml:
                 name: role
             properties:
@@ -358,6 +436,7 @@ components:
                     nullable: true
         github.com.issue9.cmfx.cmfx.user.reqAccount:
             type: object
+            title: 登录需要提交的信息
             xml:
                 name: account
             properties:
@@ -367,6 +446,7 @@ components:
                     type: string
         github.com.issue9.cmfx.cmfx.user.respLog:
             type: object
+            title: 安装日志
             properties:
                 content:
                     type: string
@@ -405,6 +485,7 @@ components:
             properties:
                 detail:
                     type: string
+                    title: 对错误的详细说明
                     nullable: true
                 extensions:
                     type: object
@@ -412,6 +493,7 @@ components:
                     nullable: true
                 instance:
                     type: string
+                    title: 指向错误发生的实例
                     nullable: true
                 params:
                     type: array
@@ -424,12 +506,16 @@ components:
                         $ref: '#/components/schemas/github.com.issue9.web.ProblemParam'
                 status:
                     type: integer
+                    title: 原始的错误状态码
                 title:
                     type: string
+                    title: 对错误的简要描述
                 type:
                     type: string
+                    title: 错误 ID
         github.com.issue9.web.ProblemParam:
             type: object
+            title: ProblemParam 单个错误字段的描述
             properties:
                 name:
                     type: string
@@ -439,6 +525,7 @@ components:
                     title: 出错信息
         github.com.issue9.webuse.v7.handlers.monitor.Net:
             type: object
+            title: Net 与网络相关的信息
             properties:
                 conns:
                     type: integer
@@ -451,6 +538,7 @@ components:
                     title: 发送数量，以字节为单位。
         github.com.issue9.webuse.v7.handlers.monitor.OS:
             type: object
+            title: OS 与系统相关的信息
             properties:
                 cpu:
                     type: number
@@ -465,6 +553,7 @@ components:
                     nullable: true
         github.com.issue9.webuse.v7.handlers.monitor.Process:
             type: object
+            title: Process 与进程相关的信息
             properties:
                 conns:
                     type: integer
@@ -480,6 +569,7 @@ components:
                     title: 内存使用量，以 byte 为单位。
         github.com.issue9.webuse.v7.handlers.monitor.Stats:
             type: object
+            title: Stats 监视的状态信息
             xml:
                 name: stats
             properties:
@@ -497,6 +587,56 @@ components:
                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.handlers.monitor.Process'
                     title: 当前进程的状态信息
                     nullable: true
+        github.com.issue9.webuse.v7.middlewares.acl.rbac.Resource:
+            type: object
+            title: Resource 单个资源
+            properties:
+                id:
+                    type: string
+                    xml:
+                        attribute: true
+                title:
+                    type: string
+        github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources:
+            type: object
+            title: Resources 资源
+            properties:
+                id:
+                    type: string
+                    xml:
+                        attribute: true
+                items:
+                    type: array
+                    nullable: true
+                    xml:
+                        name: item
+                        wrapped: true
+                    items:
+                        allOf:
+                            - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resource'
+                        nullable: true
+                title:
+                    type: string
+        github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources:
+            type: object
+            title: RoleResources 表示某个角色所能访问的资源
+            properties:
+                current:
+                    type: array
+                    title: Current 角色当前能访问的资源
+                    items:
+                        type: string
+                parent:
+                    type: array
+                    title: Parent 角色的父类能访问的资源
+                    description: |
+                        Parent 角色的父类能访问的资源
+
+                        必然也是当前角色所能访问的最大资源列表。
+
+                        Parent 肯定是包含了 Current 的所有值。
+                    items:
+                        type: string
         github.com.issue9.webuse.v7.middlewares.auth.token.Response:
             type: object
             title: Response 申请令牌时返回的对象
@@ -552,7 +692,7 @@ components:
                 pattern:
                     type: string
                     title: 路由
-                route:
+                router:
                     type: string
                     title: 多个路由时，表示的路由名称
                 serverErrors:
@@ -605,11 +745,6 @@ paths:
                 - admin
             summary: 获取所有的管理员账号
             parameters:
-                - name: page
-                  in: query
-                  schema:
-                    type: integer
-                    title: 请求的页码，从 0 开始。
                 - name: role
                   in: query
                   schema:
@@ -622,21 +757,12 @@ paths:
                     type: array
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
-                - name: size
-                  in: query
-                  schema:
-                    type: integer
-                    title: 每页的数量
                 - name: state
                   in: query
                   schema:
                     type: array
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
-                - name: text
-                  in: query
-                  schema:
-                    type: string
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -647,13 +773,13 @@ paths:
                     content:
                         application/cbor:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-'
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState-'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-'
         post:
             tags:
                 - admin
@@ -662,13 +788,13 @@ paths:
                 content:
                     application/cbor:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithAccount'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount'
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithAccount'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithAccount'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -701,14 +827,6 @@ paths:
             tags:
                 - admin
             summary: 获取指定的管理员账号
-            parameters:
-                - name: id
-                  in: path
-                  description: 管理的 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -719,28 +837,36 @@ paths:
                     content:
                         application/cbor:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
         patch:
             tags:
                 - admin
             summary: 更新管理员信息
+            parameters:
+                - name: id
+                  in: path
+                  description: 管理的 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
             requestBody:
                 content:
                     application/cbor:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfoWithRoleState'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -808,6 +934,7 @@ paths:
               schema:
                 type: integer
                 format: int64
+                minimum: 1
     /info:
         get:
             tags:
@@ -823,13 +950,13 @@ paths:
                     content:
                         application/cbor:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
                         application/json:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
                         application/xml:
                             schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
         patch:
             tags:
                 - admin
@@ -839,13 +966,13 @@ paths:
                 content:
                     application/cbor:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.respInfo'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -908,7 +1035,7 @@ paths:
             tags:
                 - admin
                 - auth
-            summary: 续定 token
+            summary: 续定令牌
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -935,13 +1062,13 @@ paths:
                 content:
                     application/cbor:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.putPassword'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.reqPassword'
                     application/json:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.putPassword'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.reqPassword'
                     application/xml:
                         schema:
-                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.putPassword'
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.reqPassword'
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -961,23 +1088,35 @@ paths:
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: 键名为资源 ID，键值为资源描述
+                    description: ""
                     content:
                         application/cbor:
                             schema:
-                                type: object
+                                type: array
+                                items:
+                                    allOf:
+                                        - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources'
+                                    nullable: true
                         application/json:
                             schema:
-                                type: object
+                                type: array
+                                items:
+                                    allOf:
+                                        - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources'
+                                    nullable: true
                         application/xml:
                             schema:
-                                type: object
+                                type: array
+                                items:
+                                    allOf:
+                                        - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources'
+                                    nullable: true
     /roles:
         get:
             tags:
                 - admin
                 - rbac
-            summary: 获取权限组列表
+            summary: 获取角色列表
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1005,7 +1144,7 @@ paths:
             tags:
                 - admin
                 - rbac
-            summary: 添加一个权限组
+            summary: 添加一个角色
             requestBody:
                 content:
                     application/cbor:
@@ -1029,7 +1168,7 @@ paths:
             tags:
                 - admin
                 - rbac
-            summary: 删除权限组
+            summary: 删除角色
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1041,7 +1180,7 @@ paths:
             tags:
                 - admin
                 - rbac
-            summary: 修改权限组
+            summary: 修改角色
             parameters:
                 - name: id
                   in: path
@@ -1072,7 +1211,7 @@ paths:
         parameters:
             - name: id
               in: path
-              description: 权限组 ID
+              description: 角色 ID
               required: true
               schema:
                 type: integer
@@ -1084,31 +1223,37 @@ paths:
                 - admin
                 - rbac
             summary: 获得角色已被允许访问的资源
+            parameters:
+                - name: id
+                  in: path
+                  description: 角色 ID
+                  required: true
+                  schema:
+                    type: integer
+                    format: int64
+                    minimum: 1
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: 键名为资源 ID，键值为资源描述
+                    description: ""
                     content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources'
                         application/json:
                             schema:
-                                type: object
-        patch:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources'
+        put:
             tags:
                 - admin
                 - rbac
-            summary: 设置权限组的可访问的资源
-            parameters:
-                - name: id
-                  in: path
-                  description: 权限组 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
+            summary: 设置角色的可访问的资源
             requestBody:
                 description: 资源 ID 列表
                 content:
@@ -1137,7 +1282,7 @@ paths:
         parameters:
             - name: id
               in: path
-              description: 权限组 ID
+              description: 角色 ID
               required: true
               schema:
                 type: integer
@@ -1153,11 +1298,13 @@ paths:
                   in: query
                   schema:
                     type: string
+                    title: 创建日志的结束时间
                     format: date-time
                 - name: created.start
                   in: query
                   schema:
                     type: string
+                    title: 创建日志的起始时间
                     format: date-time
                 - name: page
                   in: query
@@ -1222,6 +1369,7 @@ paths:
     /system/backup:
         post:
             tags:
+                - admin
                 - system
             summary: 手动执行备份数据
             responses:
@@ -1231,6 +1379,29 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "201":
                     description: ""
+    /system/env:
+        get:
+            tags:
+                - admin
+                - system
+            summary: 获取基本的系统环境用于初始化前端的基本元素
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "200":
+                    description: ""
+                    content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.env'
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.env'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.env'
     /system/info:
         get:
             tags:
@@ -1257,6 +1428,7 @@ paths:
     /system/monitor:
         get:
             tags:
+                - admin
                 - system
             summary: 监视系统数据
             responses:
@@ -1273,6 +1445,7 @@ paths:
     /system/problems:
         get:
             tags:
+                - common
                 - system
             summary: 系统错误信息
             responses:
@@ -1321,8 +1494,112 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.services'
+    /system/settings/censor:
+        get:
+            tags:
+                - admin
+                - system
+                - settings
+            summary: 获取内容过滤的设置项
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "200":
+                    description: ""
+                    content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
+        put:
+            tags:
+                - admin
+                - system
+                - settings
+            summary: 设置内容过滤的设置项
+            requestBody:
+                content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
+                    application/xml:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "204":
+                    description: ""
+    /system/settings/general:
+        get:
+            tags:
+                - admin
+                - system
+                - settings
+            summary: 获取常规的设置项
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "200":
+                    description: ""
+                    content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
+        put:
+            tags:
+                - admin
+                - system
+                - settings
+            summary: 设置常规的设置项
+            requestBody:
+                content:
+                    application/cbor:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
+                    application/xml:
+                        schema:
+                            $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "204":
+                    description: ""
 tags:
     - name: admin
       description: 管理员端
     - name: rbac
       description: RBAC
+    - name: auth
+      description: 登录凭证
+    - name: system
+      description: 系统相关
+    - name: settings
+      description: 设置项
+    - name: common
+      description: 公共接口

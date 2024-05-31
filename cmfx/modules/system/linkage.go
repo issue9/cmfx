@@ -31,6 +31,7 @@ type LinkageItem[T any] struct {
 	Items []*LinkageItem[T]
 }
 
+// LoadLinkage 加载一组级联数据
 func LoadLinkage[T any](l *Module, key string) (*Linkage[T], error) {
 	checkObjectType[T]()
 

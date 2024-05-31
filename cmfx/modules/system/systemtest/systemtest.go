@@ -10,12 +10,13 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/system"
 )
 
-func NewSystem(s *test.Suite, adminL *admin.Module) *system.Module {
+// NewModule 声明一个用于测试的 [system.Module] 实例
+func NewModule(s *test.Suite, adminM *admin.Module) *system.Module {
 	mod := s.NewModule("system")
 
 	conf := &system.Config{}
 	s.Assertion().NotError(conf.SanitizeConfig())
-	sys := system.Install(mod, conf, adminL)
+	sys := system.Install(mod, conf, adminM)
 	s.Assertion().NotNil(sys)
 
 	return sys

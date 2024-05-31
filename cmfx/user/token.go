@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/issue9/mux/v8/header"
+	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
@@ -23,6 +23,7 @@ type tokens = token.Token[*User]
 // AfterFunc 在执行登录和注销行为之后的操作
 type AfterFunc = func(*User)
 
+// 登录需要提交的信息
 type reqAccount struct {
 	XMLName  struct{} `xml:"account" json:"-" cbor:"-"`
 	Username string   `json:"username" xml:"username" yaml:"username" cbor:"username"`
@@ -62,12 +63,12 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) (err error) {
 //
 // uid 为新用户的 uid。
 func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, after AfterFunc) web.Responser {
-	data := &reqAccount{}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+	account := &reqAccount{}
+	if resp := ctx.Read(true, account, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	uid, identity, ok := m.passport.Valid(typ, data.Username, data.Password, ctx.Begin())
+	uid, identity, ok := m.passport.Valid(typ, account.Username, account.Password, ctx.Begin())
 	if !ok { // 密码或账号错误
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
@@ -75,7 +76,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, afte
 	// 注册
 	if uid == 0 && reg != nil {
 		var err error
-		if uid, err = m.NewUser(m.Passport().Get(typ), identity, data.Password, ctx.Begin()); err != nil {
+		if uid, err = m.NewUser(m.Passport().Get(typ), identity, account.Password, ctx.Begin()); err != nil {
 			return ctx.Error(err, "")
 		}
 
@@ -83,8 +84,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, afte
 			return ctx.Error(err, "")
 		}
 
-		msg := web.StringPhrase("auto register").LocaleString(ctx.LocalePrinter())
-		if err := m.AddSecurityLogFromContext(nil, uid, ctx, msg); err != nil { // 记录日志出错不回滚
+		if err := m.AddSecurityLogFromContext(nil, uid, ctx, web.StringPhrase("auto register")); err != nil { // 记录日志出错不回滚
 			ctx.Server().Logs().ERROR().Error(err)
 		}
 	}
@@ -96,7 +96,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, afte
 	}
 
 	if !found {
-		ctx.Logs().DEBUG().Printf("数据库不同步，%s 存在于适配器 %s，但是不存在于用户列表数据库\n", data.Username, typ)
+		ctx.Logs().DEBUG().Printf("数据库不同步，%s 存在于适配器 %s，但是不存在于用户列表数据库\n", account.Username, typ)
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 
@@ -104,8 +104,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, afte
 		return ctx.Problem(cmfx.UnauthorizedInvalidState)
 	}
 
-	msg := web.Phrase("login").LocaleString(ctx.LocalePrinter())
-	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, msg); err != nil {
+	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("login")); err != nil {
 		ctx.Server().Logs().ERROR().Error(err)
 	}
 
@@ -124,8 +123,7 @@ func (m *Module) Logout(ctx *web.Context, after AfterFunc, reason web.LocaleStri
 		ctx.Logs().ERROR().Error(err) // 输出错误不退出
 	}
 
-	msg := reason.LocaleString(ctx.LocalePrinter())
-	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, msg); err != nil {
+	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, reason); err != nil {
 		ctx.Server().Logs().ERROR().Error(err)
 	}
 
@@ -143,8 +141,7 @@ func (m *Module) RefreshToken(ctx *web.Context) web.Responser {
 		return web.Status(http.StatusUnauthorized)
 	}
 
-	msg := web.StringPhrase("refresh token").LocaleString(ctx.LocalePrinter())
-	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, msg); err != nil {
+	if err := m.AddSecurityLogFromContext(nil, u.ID, ctx, web.StringPhrase("refresh token")); err != nil {
 		ctx.Logs().ERROR().Error(err)
 	}
 
@@ -155,7 +152,9 @@ func (m *Module) RefreshToken(ctx *web.Context) web.Responser {
 func (m *Module) Passport() *passport.Passport { return m.passport }
 
 // Middleware 验证是否登录
-func (m *Module) Middleware(next web.HandlerFunc) web.HandlerFunc { return m.token.Middleware(next) }
+func (m *Module) Middleware(next web.HandlerFunc, method, path, router string) web.HandlerFunc {
+	return m.token.Middleware(next, method, path, router)
+}
 
 // CurrentUser 获取当前登录的用户信息
 //

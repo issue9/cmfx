@@ -22,6 +22,7 @@ const (
 // @type string
 type State int8
 
+// 安装日志
 type respLog struct {
 	Content   string    `json:"content" xml:",cdata" cbor:"content"`
 	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip"`

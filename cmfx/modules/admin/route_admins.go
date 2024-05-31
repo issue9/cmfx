@@ -23,14 +23,14 @@ import (
 //
 // @tag admin
 // @path id int 管理的 ID
-// @resp 200 * respInfoWithRoleState
+// @resp 200 * ctxInfoWithRoleState
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
 		return resp
 	}
 
-	a := &modelInfo{ID: id}
+	a := &info{ID: id}
 	found, err := m.Module().DB().Select(a)
 	if err != nil {
 		return ctx.Error(err, "")
@@ -50,14 +50,8 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 		rs = append(rs, r.ID)
 	}
 
-	return web.OK(&respInfoWithRoleState{
-		respInfo: respInfo{
-			ID:       a.ID,
-			Sex:      a.Sex,
-			Name:     a.Name,
-			Nickname: a.Nickname,
-			Avatar:   a.Avatar,
-		},
+	return web.OK(&ctxInfoWithRoleState{
+		info:  *a,
 		Roles: rs,
 		State: u.State,
 	})
@@ -88,14 +82,14 @@ func (q *queryAdmins) Filter(v *web.FilterContext) {
 //
 // @tag admin
 // @query queryAdmins
-// @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[respInfoWithRoleState]
+// @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[ctxInfoWithRoleState]
 func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 	q := &queryAdmins{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
 	}
 
-	sql := m.Module().DB().SQLBuilder().Select().Column("*").From(orm.TableName(&modelInfo{}), "info")
+	sql := m.Module().DB().SQLBuilder().Select().Column("*").From(orm.TableName(&info{}), "info")
 
 	if len(q.States) > 0 {
 		m.user.LeftJoin(sql, "user", "user.id=info.id", q.States)
@@ -113,27 +107,21 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 		sql.And("(info.name LIKE ? OR info.nickname LIKE ?)", text, text)
 	}
 
-	type info struct {
-		modelInfo
+	type modelInfo struct {
+		info
 		Roles []string   `orm:"roles"`
 		State user.State `orm:"state"`
 	}
 
-	return query.PagingResponserWithConvert[info, respInfoWithRoleState](ctx, &q.Limit, sql, func(i *info) *respInfoWithRoleState {
+	return query.PagingResponserWithConvert[modelInfo, ctxInfoWithRoleState](ctx, &q.Limit, sql, func(i *modelInfo) *ctxInfoWithRoleState {
 		roles := m.roleGroup.UserRoles(i.ID)
 		rs := make([]string, 0, len(roles))
 		for _, r := range roles {
 			rs = append(rs, r.ID)
 		}
 
-		return &respInfoWithRoleState{
-			respInfo: respInfo{
-				ID:       i.ID,
-				Sex:      i.Sex,
-				Name:     i.Name,
-				Nickname: i.Nickname,
-				Avatar:   i.Avatar,
-			},
+		return &ctxInfoWithRoleState{
+			info:  i.info,
 			Roles: rs,
 			State: i.State,
 		}
@@ -143,7 +131,7 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 // # api PATCH /admins/{id} 更新管理员信息
 // @path id int 管理的 ID
 // @tag admin
-// @req * respInfoWithRoleState
+// @req * ctxInfoWithRoleState
 // @resp 204 * {}
 func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
@@ -157,19 +145,11 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	// 读取数据
-	data := &respInfoWithRoleState{}
+	data := &ctxInfoWithRoleState{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
-
-	// 更新数据库
-	aa := &modelInfo{
-		ID:       id,
-		Name:     data.Name,
-		Nickname: data.Nickname,
-		Avatar:   data.Avatar,
-		Sex:      data.Sex,
-	}
+	data.ID = id // 指定主键
 
 	tx, err := m.Module().DB().Begin()
 	if err != nil {
@@ -177,7 +157,7 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	e := tx.NewEngine(m.Module().DB().TablePrefix())
-	if _, err := e.Update(aa, "sex"); err != nil {
+	if _, err := e.Update(data, "sex"); err != nil {
 		return ctx.Error(errors.Join(err, tx.Rollback()), "")
 	}
 
@@ -206,7 +186,7 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 // # api DELETE /admins/{id}/password 重置管理员的密码
 // @tag admin
 // @resp 204 * {}
-// @path id int 管理的 ID
+// @path id id 管理的 ID
 func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -228,10 +208,10 @@ func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
 
 // # api POST /admins 添加管理员账号
 // @tag admin
-// @req * respInfoWithAccount
+// @req * reqInfoWithAccount
 // @resp 201 * {}
 func (m *Module) postAdmins(ctx *web.Context) web.Responser {
-	data := &respInfoWithAccount{respInfoWithRoleState: respInfoWithRoleState{respInfo: respInfo{m: m}}}
+	data := &reqInfoWithAccount{ctxInfoWithRoleState: ctxInfoWithRoleState{info: info{m: m}}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
