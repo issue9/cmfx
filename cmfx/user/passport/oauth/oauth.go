@@ -69,7 +69,7 @@ func (o *OAuth[T]) AuthURL() string { return o.config.AuthCodeURL(o.state) }
 // state 为 oauth2 服务从 [OAuth.AuthURL] 返回的值；
 func (o *OAuth[T]) Valid(state, code string, _ time.Time) (int64, string, error) {
 	if state != o.state {
-		return 0, "", web.NewLocaleError("different state %s %s", state, o.state)
+		return 0, "", web.NewLocaleError("different oauth state value %s %s", state, o.state)
 	}
 
 	token, err := o.config.Exchange(context.Background(), code)

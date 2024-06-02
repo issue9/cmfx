@@ -3,12 +3,12 @@ messages:
     - key: admin
       message:
         msg: admin
-    - key: admin installer
+    - key: auto register
       message:
-        msg: admin installer
-    - key: auth id gc
+        msg: auto register
+    - key: backup database
       message:
-        msg: auth id gc
+        msg: backup database
     - key: bad request invalid body
       message:
         msg: bad request invalid body
@@ -39,15 +39,24 @@ messages:
     - key: can not do it for super detail
       message:
         msg: can not do it for super detail
+    - key: censor setting
+      message:
+        msg: censor setting
+    - key: change password
+      message:
+        msg: change password
     - key: delete admins
       message:
         msg: delete admins
-    - key: delete groups
+    - key: delete roles
       message:
-        msg: delete groups
-    - key: edit groups
+        msg: delete roles
+    - key: different oauth state value %s %s
       message:
-        msg: edit groups
+        msg: 返回了不同的 oauth state 值 %s %s
+    - key: edit roles
+      message:
+        msg: edit roles
     - key: forbidden can not delete yourself
       message:
         msg: forbidden can not delete yourself
@@ -60,33 +69,48 @@ messages:
     - key: forbidden state not allow detail
       message:
         msg: forbidden state not allow detail
+    - key: general setting
+      message:
+        msg: general setting
     - key: get admins
       message:
         msg: get admins
+    - key: identity already exists
+      message:
+        msg: identity already exists
+    - key: identity not exists
+      message:
+        msg: identity not exists
     - key: identity registrable
       message:
         msg: identity registrable
     - key: identity registrable detail
       message:
         msg: identity registrable detail
-    - key: invalid format
+    - key: invalid indetity format
       message:
-        msg: invalid format
-    - key: invalid url format
+        msg: invalid indetity format
+    - key: linkage %s not found
       message:
-        msg: invalid url format
-    - key: must be empty
+        msg: linkage %s not found
+    - key: linkage item %d not found
       message:
-        msg: must be empty
-    - key: must be greater than %f
+        msg: linkage item %d not found
+    - key: linkage item %d parent %d not found
       message:
-        msg: must be greater than %f
-    - key: must be less than %f
+        msg: linkage item %d parent %d not found
+    - key: linkage key %s not found
       message:
-        msg: must be less than %f
-    - key: not found
+        msg: linkage key %s not found
+    - key: login
       message:
-        msg: not found
+        msg: login
+    - key: logout
+      message:
+        msg: logout
+    - key: must be a dir
+      message:
+        msg: must be a dir
     - key: only for super
       message:
         msg: only for super
@@ -96,42 +120,42 @@ messages:
     - key: password mode
       message:
         msg: password mode
-    - key: password module
-      message:
-        msg: password module
     - key: post admins
       message:
         msg: post admins
-    - key: post groups
+    - key: post roles
       message:
-        msg: post groups
+        msg: post roles
     - key: put admin
       message:
         msg: put admin
-    - key: put groups resources
+    - key: put roles resources
       message:
-        msg: put groups resources
-    - key: recycle auth id
+        msg: put roles resources
+    - key: refresh token
       message:
-        msg: recycle auth id
-    - key: recycle token for %s
-      message:
-        msg: recycle token for %s
-    - key: required
-      message:
-        msg: required
+        msg: refresh token
     - key: roles not exists
       message:
         msg: roles not exists
     - key: same of new and old password
       message:
         msg: same of new and old password
-    - key: strength invalid
+    - key: suite
       message:
-        msg: strength invalid
-    - key: the value not in candidate
+        msg: suite
+    - key: system
       message:
-        msg: the value not in candidate
+        msg: system
+    - key: uid already exists
+      message:
+        msg: uid already exists
+    - key: uid must be great than 0
+      message:
+        msg: uid must be great than 0
+    - key: uid not exists
+      message:
+        msg: uid not exists
     - key: unauthorized
       message:
         msg: unauthorized
@@ -141,12 +165,6 @@ messages:
     - key: unauthorized invalid account detail
       message:
         msg: unauthorized invalid account detail
-    - key: unauthorized invalid password
-      message:
-        msg: unauthorized invalid password
-    - key: unauthorized invalid password detail
-      message:
-        msg: unauthorized invalid password detail
     - key: unauthorized invalid state
       message:
         msg: unauthorized invalid state
@@ -165,12 +183,15 @@ messages:
     - key: unauthorized need change password detail
       message:
         msg: unauthorized need change password detail
-    - key: user %s not found
+    - key: unauthorized security token
       message:
-        msg: user %s not found
-    - key: user already exists
+        msg: unauthorized security token
+    - key: unauthorized security token detail
       message:
-        msg: user already exists
+        msg: unauthorized security token detail
+    - key: update info
+      message:
+        msg: update info
     - key: view apis
       message:
         msg: view apis

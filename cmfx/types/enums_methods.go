@@ -10,7 +10,7 @@ import (
 	"github.com/issue9/web/locales"
 )
 
-//---------------------Sex------------------------
+//--------------------- Sex ------------------------
 
 var _SexToString = map[Sex]string{
 	SexFemale:  "female",
@@ -25,11 +25,11 @@ var _SexFromString = map[string]Sex{
 }
 
 // String fmt.Stringer
-func (S Sex) String() string {
-	if v, found := _SexToString[S]; found {
+func (s Sex) String() string {
+	if v, found := _SexToString[s]; found {
 		return v
 	}
-	return fmt.Sprintf("Sex(%d)", S)
+	return fmt.Sprintf("Sex(%d)", s)
 }
 
 func ParseSex(v string) (Sex, error) {
@@ -40,29 +40,29 @@ func ParseSex(v string) (Sex, error) {
 }
 
 // MarshalText encoding.TextMarshaler
-func (S Sex) MarshalText() ([]byte, error) {
-	if v, found := _SexToString[S]; found {
+func (s Sex) MarshalText() ([]byte, error) {
+	if v, found := _SexToString[s]; found {
 		return []byte(v), nil
 	}
 	return nil, locales.ErrInvalidValue()
 }
 
 // UnmarshalText encoding.TextUnmarshaler
-func (S *Sex) UnmarshalText(p []byte) error {
+func (s *Sex) UnmarshalText(p []byte) error {
 	tmp, err := ParseSex(string(p))
 	if err == nil {
-		*S = tmp
+		*s = tmp
 	}
 	return err
 }
 
-func (S Sex) IsValid() bool {
-	_, found := _SexToString[S]
+func (s Sex) IsValid() bool {
+	_, found := _SexToString[s]
 	return found
 }
 
 // Scan sql.Scanner
-func (S *Sex) Scan(src any) error {
+func (s *Sex) Scan(src any) error {
 	if src == nil {
 		return locales.ErrInvalidValue()
 	}
@@ -84,13 +84,13 @@ func (S *Sex) Scan(src any) error {
 		return err
 	}
 
-	*S = v
+	*s = v
 	return nil
 }
 
 // Value driver.Valuer
-func (S Sex) Value() (driver.Value, error) {
-	v, err := S.MarshalText()
+func (s Sex) Value() (driver.Value, error) {
+	v, err := s.MarshalText()
 	if err != nil {
 		return nil, err
 	}
@@ -109,4 +109,4 @@ var (
 	SexSliceFilter = filter.NewBuilder(SexSliceRule)
 )
 
-//---------------------end Sex--------------------
+//--------------------- end Sex --------------------

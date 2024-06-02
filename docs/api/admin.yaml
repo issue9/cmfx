@@ -16,6 +16,10 @@ components:
                 language:
                     type: string
                     title: 界面语言
+                    description: |
+                        界面语言
+
+                        不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
                 name:
                     type: string
                     title: 真实名称
@@ -45,6 +49,10 @@ components:
                 timezone:
                     type: string
                     title: 时区
+                    description: |
+                        时区
+
+                        不会直接影响服务的处理，客户端自行决定是否采用。
         github.com.issue9.cmfx.cmfx.modules.admin.info:
             type: object
             title: 管理员的基本信息
@@ -62,6 +70,10 @@ components:
                 language:
                     type: string
                     title: 界面语言
+                    description: |
+                        界面语言
+
+                        不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
                 name:
                     type: string
                     title: 真实名称
@@ -77,6 +89,10 @@ components:
                 timezone:
                     type: string
                     title: 时区
+                    description: |
+                        时区
+
+                        不会直接影响服务的处理，客户端自行决定是否采用。
         github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount:
             type: object
             properties:
@@ -91,6 +107,10 @@ components:
                 language:
                     type: string
                     title: 界面语言
+                    description: |
+                        界面语言
+
+                        不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
                 name:
                     type: string
                     title: 真实名称
@@ -122,6 +142,10 @@ components:
                 timezone:
                     type: string
                     title: 时区
+                    description: |
+                        时区
+
+                        不会直接影响服务的处理，客户端自行决定是否采用。
                 username:
                     type: string
         github.com.issue9.cmfx.cmfx.modules.admin.reqPassword:
@@ -745,6 +769,11 @@ paths:
                 - admin
             summary: 获取所有的管理员账号
             parameters:
+                - name: page
+                  in: query
+                  schema:
+                    type: integer
+                    title: 请求的页码，从 0 开始。
                 - name: role
                   in: query
                   schema:
@@ -757,12 +786,21 @@ paths:
                     type: array
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
+                - name: size
+                  in: query
+                  schema:
+                    type: integer
+                    title: 每页的数量
                 - name: state
                   in: query
                   schema:
                     type: array
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
+                - name: text
+                  in: query
+                  schema:
+                    type: string
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1306,20 +1344,6 @@ paths:
                     type: string
                     title: 创建日志的起始时间
                     format: date-time
-                - name: page
-                  in: query
-                  schema:
-                    type: integer
-                    title: 请求的页码，从 0 开始。
-                - name: size
-                  in: query
-                  schema:
-                    type: integer
-                    title: 每页的数量
-                - name: text
-                  in: query
-                  schema:
-                    type: string
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'

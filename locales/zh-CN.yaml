@@ -3,12 +3,12 @@ messages:
     - key: admin
       message:
         msg: 管理员
-    - key: admin installer
+    - key: auto register
       message:
-        msg: admin installer
-    - key: auth id gc
+        msg: 自动注册
+    - key: backup database
       message:
-        msg: 回收验证器的 ID
+        msg: 备份数据库
     - key: bad request invalid body
       message:
         msg: 无效的报文
@@ -45,15 +45,24 @@ messages:
     - key: can not do it for super detail
       message:
         msg: 该操作无法应用到超级管理员身上，比如要修改该管理员的权限组等操作。
+    - key: censor setting
+      message:
+        msg: 内容审核设置
+    - key: change password
+      message:
+        msg: 修改密码
     - key: delete admins
       message:
         msg: delete admins
-    - key: delete groups
+    - key: delete roles
       message:
         msg: 删除角色
-    - key: edit groups
+    - key: different oauth state value %s %s
       message:
-        msg: 修改角色
+        msg: 返回了不同的 oauth state 值 %s %s
+    - key: edit roles
+      message:
+        msg: 修改角色信息
     - key: forbidden can not delete yourself
       message:
         msg: 不允许删除自身
@@ -66,9 +75,18 @@ messages:
     - key: forbidden state not allow detail
       message:
         msg: 当前状态不允许该操作
+    - key: general setting
+      message:
+        msg: 常规设置
     - key: get admins
       message:
         msg: 查看管理员信息
+    - key: identity already exists
+      message:
+        msg: 已经存在相同的 ID
+    - key: identity not exists
+      message:
+        msg: ID 不存在
     - key: identity registrable
       message:
         msg: |
@@ -77,24 +95,30 @@ messages:
       message:
         msg: |
             某些登录状态验证失败之后，会返回一个可用于注册的 ID，客户端可根据此 ID 注册新的账号。
-    - key: invalid format
+    - key: invalid indetity format
       message:
-        msg: 无效的格式
-    - key: invalid url format
+        msg: 无效的 ID 格式
+    - key: linkage %s not found
       message:
-        msg: 无效的 URL 格式
-    - key: must be empty
+        msg: 级联数据 %s 未找到
+    - key: linkage item %d not found
       message:
-        msg: 只能为空
-    - key: must be greater than %f
+        msg: 级联数据子项 %d 未找到
+    - key: linkage item %d parent %d not found
       message:
-        msg: must be greater than %f
-    - key: must be less than %f
+        msg: 级联数据 %d 的上一级数据 %d 未找到
+    - key: linkage key %s not found
       message:
-        msg: must be less than %f
-    - key: not found
+        msg: 级联数据 %s 未找到
+    - key: login
       message:
-        msg: not found
+        msg: 登录
+    - key: logout
+      message:
+        msg: 退出
+    - key: must be a dir
+      message:
+        msg: 必须得是个目录
     - key: only for super
       message:
         msg: 只有超级管理员才有此权限
@@ -104,42 +128,42 @@ messages:
     - key: password mode
       message:
         msg: 密码模式
-    - key: password module
-      message:
-        msg: password module
     - key: post admins
       message:
         msg: 添加管理员
-    - key: post groups
+    - key: post roles
       message:
         msg: 添加角色
     - key: put admin
       message:
         msg: 修改管理员信息
-    - key: put groups resources
+    - key: put roles resources
       message:
-        msg: 修改权限组的可访问资源
-    - key: recycle auth id
+        msg: 调整角色资源
+    - key: refresh token
       message:
-        msg: 回收 auth id
-    - key: recycle token for %s
-      message:
-        msg: 为 %s 回收令牌
-    - key: required
-      message:
-        msg: 不能为空
+        msg: 刷新令牌
     - key: roles not exists
       message:
-        msg: roles not exists
+        msg: 角色不存在
     - key: same of new and old password
       message:
-        msg: same of new and old password
-    - key: strength invalid
+        msg: 新旧密码是相同的
+    - key: suite
       message:
-        msg: 不符合密码安全要求
-    - key: the value not in candidate
+        msg: 测试环境
+    - key: system
       message:
-        msg: the value not in candidate
+        msg: 系统
+    - key: uid already exists
+      message:
+        msg: UID 已经存在
+    - key: uid must be great than 0
+      message:
+        msg: UID 必须大于零
+    - key: uid not exists
+      message:
+        msg: UID 不存在
     - key: unauthorized
       message:
         msg: 账号或是密码错误
@@ -149,12 +173,6 @@ messages:
     - key: unauthorized invalid account detail
       message:
         msg: 无效的账号
-    - key: unauthorized invalid password
-      message:
-        msg: 密码无效
-    - key: unauthorized invalid password detail
-      message:
-        msg: 密码错误
     - key: unauthorized invalid state
       message:
         msg: 当前状态无法登录
@@ -175,12 +193,15 @@ messages:
       message:
         msg: |
             只有修改密码才能继续其它操作，一般是被定义了该账号的密码已经不安全了，需要重新设置密码。
-    - key: user %s not found
+    - key: unauthorized security token
       message:
-        msg: user %s not found
-    - key: user already exists
+        msg: 需要强验证
+    - key: unauthorized security token detail
       message:
-        msg: 用户已经存在
+        msg: 当前请求需要重新验证用户信息。
+    - key: update info
+      message:
+        msg: 更新信息
     - key: view apis
       message:
         msg: 查看接口信息
