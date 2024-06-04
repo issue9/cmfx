@@ -18,7 +18,7 @@ SERVER_BIN = server
 api:
 	web restdoc -t=admin,common -o=$(DOC_API)/admin.yaml $(CMFX)
 
-# 生成 go 的依赖内容
+# 生成 Go 的依赖内容
 gen:
 	go generate $(ROOT)/...
 
