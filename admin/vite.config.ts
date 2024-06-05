@@ -6,6 +6,7 @@
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
+import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -21,10 +22,20 @@ export default defineConfig({
         })
     ],
 
+  define: { 'process.env': {} },
     resolve: {
         alias: {
-            '@': 'src'
-        }
+            '@': fileURLToPath(new URL('./src', import.meta.url))
+        },
+        extensions: [
+            '.js',
+            '.json',
+            '.jsx',
+            '.mjs',
+            '.ts',
+            '.tsx',
+            '.vue',
+        ],
     },
 
     build: {
