@@ -49,7 +49,6 @@ export function state(t: Token): TokenState {
     if (now >= t.refresh_exp) {
         return TokenState.RefreshExpired;
     } 
-    console.log(now,t.access_exp)
     if(now >= t.access_exp) {
         return TokenState.AccessExpired;
     }

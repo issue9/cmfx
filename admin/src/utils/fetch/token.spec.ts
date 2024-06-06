@@ -15,7 +15,7 @@ test('token', async ()=>{
         access_exp: 1,
         refresh_token: 'refresh',
         refresh_exp: 3 
-    }
+    };
     expect(await writeToken(t));
 
     const now = Date.now().valueOf();
@@ -36,12 +36,12 @@ test('state', async ()=>{
         access_exp: 1,
         refresh_token: 'refresh',
         refresh_exp: 2
-    }
+    };
     expect(await writeToken(t));
     const rt = await getToken() as Token;
 
     expect(state(rt)).toEqual(TokenState.Normal);
-    await sleep(1*1000);
+    await sleep(1000);
     expect(state(rt)).toEqual(TokenState.AccessExpired);
     await sleep(2*1000);
     expect(state(rt)).toEqual(TokenState.RefreshExpired);

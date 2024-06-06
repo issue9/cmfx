@@ -9,7 +9,7 @@ describe('fetch', ()=>{
     test('new', ()=>{
         expect(()=>{
             new Fetcher('http://localhost', '/login', 'not-exists', 'zh-CN');
-        }).toThrowError('不支持的 mimetype not-exists')
+        }).toThrowError('不支持的 mimetype not-exists');
 
         const f = new Fetcher('http://localhost', '/login', 'application/json', 'zh-CN');
         expect(f).not.toBeNull();
@@ -19,7 +19,7 @@ describe('fetch', ()=>{
         const f = new Fetcher('http://localhost', '/login', 'application/json', 'zh-CN');
         expect(f.buildURL('/path')).toEqual('http://localhost/path');
         expect(f.buildURL('path')).toEqual('http://localhost/path');
-        expect(()=>{f.buildURL('')}).toThrowError('参数 path 不能为空');
+        expect(()=>{f.buildURL('');}).toThrowError('参数 path 不能为空');
     });
 });
 
