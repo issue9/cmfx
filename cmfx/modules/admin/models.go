@@ -46,6 +46,11 @@ type info struct {
 	// 不会直接影响服务的处理，客户端自行决定是否采用。
 	Timezone string `orm:"name(timezone);len(50)" json:"timezone" xml:"timezone" cbor:"timezone"`
 
+	// 主题
+	//
+	// 由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
+	Theme string `orm:"name(theme);len(-1)" json:"theme" xml:"theme" cbor:"theme"`
+
 	// 头像
 	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty"`
 }
