@@ -217,18 +217,5 @@ type env struct {
 	XMLName   struct{} `json:"-" cbor:"-" xml:"env"`
 	Name      string   `json:"name" cbor:"name" xml:"name"`
 	ShortName string   `json:"shortName" xml:"shortName" cbor:"shortName"`
-}
-
-// # api GET /system/env 获取基本的系统环境用于初始化前端的基本元素
-// @tag admin system
-// @resp 200 * env
-func (m *Module) adminGetEnv(ctx *web.Context) web.Responser {
-	g, err := m.generalSettings.Get(user.SpecialUserID)
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	return web.OK(&env{
-		Name:      g.Name,
-		ShortName: g.ShortName,
-	})
+	LOGO      string   `json:"logo" xml:"logo" cbor:"logo"`
 }

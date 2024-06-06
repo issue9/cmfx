@@ -68,7 +68,6 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		Put("/settings/censor", m.adminPutSettingCensor, resSettingsCensor)
 
 	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems)
-	mod.Router().Prefix(adminL.URLPrefix()).Prefix(conf.URLPrefix).Get("/env", m.adminGetEnv)
 
 	if conf.Backup != nil {
 		m.buildBackupFilename = conf.Backup.buildFile
