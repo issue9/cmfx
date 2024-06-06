@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { APIs, checkAPIs } from './apis.ts';
+import localforage from 'localforage';
+
+const siteTitleName = 'site_title';
+const logoName = 'logo';
 
 /**
  * 管理后台的基本配置
@@ -12,6 +15,20 @@ export interface Options {
      * 后台 API 访问的基地址
      */
     baseURL: string
+
+    /**
+     * 网站的标题
+     * 
+     * 该值会被保存在 localforage 之中，如果在 localforage 存在值，则此设置将不启作用。
+     */
+    title: string
+
+    /**
+     * 默认的 LOGO
+     *
+     * 该值会被保存在 localforage 之中，如果在 localforage 存在值，则此设置将不启作用。
+     */
+    logo: string
 
     /**
      * 后台需要用到的 API 地址，基于 baseURL。
@@ -63,6 +80,25 @@ export interface MenuItem {
     items?: Array<MenuItem>
 }
 
+export interface APIs {
+    [index: string]: string // 限定了所有字段的类型
+
+    /**
+     * 登录地址
+     */
+    login: string
+
+    /**
+     * 用户基本信息的地址
+     */
+    info: string
+
+    /**
+     * 用户的基本设置
+     */
+    settings: string
+};
+
 const presetOptions = {
     titleSeparator: ' | ',
     mimetype: 'application/json',
@@ -71,9 +107,26 @@ const presetOptions = {
 
 /**
  * 根据 o 生成一个完整的 Options 对象，且会检测字段是否正确。
+ * 
  * @param o 原始的对象
  */
-export function buildOptions(o: Options): Required<Options> {
+export async function buildOptions(o: Options): Promise<Required<Options>> {
+    const siteTitle = await localforage.getItem<string>(siteTitleName);
+    if (siteTitle) {
+        o.title = siteTitle;
+    }
+    if (o.title.length === 0) {
+        throw 'title 不能为空';
+    }
+    
+    const logo = await localforage.getItem<string>(logoName);
+    if (logo) {
+        o.logo = logo;
+    }
+    if (o.logo.length === 0) {
+        throw 'logo 不能为空';
+    }
+    
     const opt: Required<Options> = Object.assign({}, presetOptions, o);
 
     if (opt.baseURL.length === 0 || (!opt.baseURL.startsWith('http://') && !opt.baseURL.startsWith('https://'))) {
@@ -94,8 +147,11 @@ export function buildOptions(o: Options): Required<Options> {
         checkMenus([], opt.footer);
     }
 
+    await localforage.setItem(logoName, o.logo);
+    await localforage.setItem(siteTitleName, o.title);
+
     return opt;
-};
+}
 
 /**
  * 检测 items 是否存在相同的的 path
@@ -120,4 +176,31 @@ export function checkMenus(keys: Array<string>,items: Array<MenuItem>) {
             checkMenus(keys,item.items);
         }
     }
+}
+
+/**
+ * 检测 APIs 是否都有值
+ *
+ * @param apis 检测对象
+ */
+export function checkAPIs(apis: APIs) {
+    Object.entries(apis).forEach(([key, val])=>{
+        if (val.length === 0){
+            throw `apis.${key} 格式错误`;
+        }
+
+        if (val.charAt(0) !== '/') {
+            val = '/'+val;
+            apis[key] = val;
+        }
+    });
 };
+
+
+export async function setLogo(logo: string) {
+    await localforage.setItem(logoName, logo);
+}
+
+export async function setTitle(title: string) {
+    await localforage.setItem(siteTitleName, title);
+}

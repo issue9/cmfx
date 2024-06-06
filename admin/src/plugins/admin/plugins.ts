@@ -3,52 +3,61 @@
 // SPDX-License-Identifier: MIT
 
 import { App, inject, InjectionKey, Plugin } from 'vue';
+
 import { Fetcher, Return, Method } from '@/utils/fetch';
 
-import { Options, buildOptions } from './options';
-import { Env } from './apis.ts';
+import { Options, buildOptions, MenuItem, setLogo, setTitle } from './options';
 
 export class Admin {
     readonly #fetcher: Fetcher;
-    readonly #options: Required<Options>;
-    readonly #env: Env;
-    #title = '';
+    readonly #footer: Array<MenuItem>;
+    readonly #menus: Array<MenuItem>;
+    readonly #titleSeparator: string;
+    
+    #siteTitle: string;
+    #logo: string;
+    #pageTitle = '';
 
     /**
      * 构造函数
      *
      * @param o 用于初始化的参数
-     * @param f Fetcher 实例
-     * @param env 由 APIs.env 返回的对象
      */
-    constructor(o: Required<Options>, f: Fetcher, env: Env) {
-        this.#options = o;
-        this.#fetcher = f;
-        this.#env = env;
+    constructor(o: Required<Options>) {
+        this.#fetcher = new Fetcher(o.baseURL, o.apis.login, o.mimetype, navigator.languages[0]);
+        this.#footer = o.footer;
+        this.#menus = o.menus;
+        this.#titleSeparator = o.titleSeparator;
+        
+        this.#siteTitle = o.title;
+        this.#logo = o.logo;
     }
 
-    /**
-     * 用户在初始化插件时的参数
-     */
-    get options(): Required<Options> {return this.#options;}
-
-    /**
-     * 当前页面的标题
-     */
-    get title(): string { return this.#title; }
-
-    /**
-     * 当前页面的标题
-     * @param title
-     */
-    set title(title: string) {
-        this.#title = title;
+    get pageTitle(): string { return this.#pageTitle; }
+    set pageTitle(title: string) {
+        this.#pageTitle = title;
         
         if (title) {
-            title += this.options.titleSeparator;
+            title += this.#titleSeparator;
         }
-        document.title = title + this.#env.name;
+        document.title = title + this.siteTitle;
     }
+    
+    get siteTitle(): string {return this.#siteTitle; }
+    set siteTitle(title: string) {
+        this.#siteTitle = title;
+        (async()=>{ await setTitle(title); })();
+    }
+    
+    get logo(): string {return this.#logo; }
+    set logo(logo: string) {
+        this.#logo = logo;
+        (async()=>{ await setLogo(logo); })();
+    };
+    
+    get menus(): Array<MenuItem> {return this.#menus;}
+    
+    get footer(): Array<MenuItem> {return this.#footer;}
     
     //--------------------- 以下是对 Fetcher 各个方法的转发 ----------------------------
     
@@ -86,23 +95,6 @@ export class Admin {
 }
 
 /**
- * 构建 Admin 实例
- * 
- * 异步函数，不能直接由构造函数代替。
- */
-async function buildAdmin(o: Options): Promise<Admin> {
-    const opt = buildOptions(o);
-    const f = new Fetcher(o.baseURL, o.apis.login, opt.mimetype, navigator.languages[0]);
-
-    const ret = await f.get(o.apis.env, false);
-    if (!ret.ok) {
-        throw ret.problem; // TODO
-    }
-
-    return new Admin(opt, f, ret.body as Env);
-}
-
-/**
  * 创建应用于全局操作的插件
  *
  * @param o 需要的参数
@@ -110,7 +102,7 @@ async function buildAdmin(o: Options): Promise<Admin> {
 export function createAdmin(o: Options): Plugin<Admin> {
     return {
         async install(app: App) {
-            app.provide(adminKey, await buildAdmin(o));
+            app.provide(adminKey, new Admin(await buildOptions(o)));
         }
     };
 }

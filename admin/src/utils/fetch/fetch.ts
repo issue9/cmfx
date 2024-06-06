@@ -50,8 +50,12 @@ export class Fetcher {
         this.#contentType = contentType;
         this.#serializer = s;
     }
-    
-    set locale(v: string) { this.locale = v; }
+
+    /**
+     * 改变请求时的 accept-language 报头值
+     * @param v 需要符合 accept-language 的要求
+     */
+    set locale(v: string) { this.#locale = v; }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -83,9 +87,10 @@ export class Fetcher {
      * POST 请求
      *
      * @param path 相对于 baseURL 的地址
+     * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
-    async post(path: string, body: unknown, withToken = true): Promise<Return> {
+    async post(path: string, body?: unknown, withToken = true): Promise<Return> {
         return this.request(path, 'POST', body, withToken);
     }
 
@@ -93,9 +98,10 @@ export class Fetcher {
      * PUT 请求
      *
      * @param path 相对于 baseURL 的地址
+     * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
-    async put(path: string, body: unknown, withToken = true): Promise<Return> {
+    async put(path: string, body?: unknown, withToken = true): Promise<Return> {
         return this.request(path, 'PUT', body, withToken);
     }
 
@@ -103,9 +109,10 @@ export class Fetcher {
      * PATCH 请求
      *
      * @param path 相对于 baseURL 的地址
+     * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
-    async patch(path: string, body: unknown, withToken = true): Promise<Return> {
+    async patch(path: string, body?: unknown, withToken = true): Promise<Return> {
         return this.request(path, 'PATCH', body, withToken);
     }
 
