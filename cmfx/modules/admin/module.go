@@ -80,7 +80,7 @@ func Load(mod *cmfx.Module, o *Config) *Module {
 	mod.Router().Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server())).
 		Delete("/login", m.deleteLogin, m).
-		Put("/login", m.getToken, m)
+		Put("/login", m.putToken, m)
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/resources", m.getResources).

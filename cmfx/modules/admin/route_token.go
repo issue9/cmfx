@@ -51,6 +51,6 @@ func (m *Module) deleteLogin(ctx *web.Context) web.Responser {
 // # api put /login 续定令牌
 // @tag admin auth
 // @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
-func (m *Module) getToken(ctx *web.Context) web.Responser {
+func (m *Module) putToken(ctx *web.Context) web.Responser {
 	return m.user.RefreshToken(ctx)
 }
