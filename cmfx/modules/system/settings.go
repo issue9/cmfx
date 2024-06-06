@@ -8,12 +8,13 @@ import (
 	"regexp"
 	"strings"
 
-	"github.com/issue9/cmfx/cmfx/filters"
-	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/locales"
 	"github.com/issue9/web"
 	"github.com/issue9/web/filter"
 	"github.com/issue9/webfilter/validator"
+
+	"github.com/issue9/cmfx/cmfx/filters"
+	"github.com/issue9/cmfx/cmfx/user"
+	"github.com/issue9/cmfx/locales"
 )
 
 const settingsTableName = "settings"
@@ -27,6 +28,9 @@ type generalSettings struct {
 
 	// 网站短标题
 	ShortName string `setting:"shortName" json:"shortName" xml:"shortName" cbor:"shortName"`
+
+	// 网站的 LOGO
+	LOGO string `setting:"logo" json:"logo" xml:"logo" cbor:"logo"`
 
 	// 网站描述
 	Description string `setting:"description" json:"description" xml:"description" cbor:"description"`
@@ -55,7 +59,8 @@ func (c *censorSettings) SanitizeSettings() error {
 func (g *generalSettings) Filter(f *web.FilterContext) {
 	f.Add(filters.NotEmpty("name", &g.Name)).
 		Add(filters.NotEmpty("shortName", &g.ShortName)).
-		Add(filters.NotEmpty("description", &g.Description))
+		Add(filters.NotEmpty("description", &g.Description)).
+		Add(filters.URL("url", &g.LOGO))
 }
 
 func (c *censorSettings) Filter(f *web.FilterContext) {
