@@ -2,18 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { App } from 'admin';
-import { createApp } from 'vue';
+import { create, Options } from 'admin';
 
 // Vuetify
-import { createVuetify } from 'vuetify';
+import { VuetifyOptions } from 'vuetify';
 import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
 
-const vuetify = createVuetify({
+const vo: VuetifyOptions = {
     components,
     directives,
-});
+};
 
-createApp(App).use(vuetify).mount('#app');
+const o: Options = {}
+
+create(o, vo).mount('#app');

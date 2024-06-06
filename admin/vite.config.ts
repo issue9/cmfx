@@ -4,9 +4,9 @@
 
 /// <reference types="vitest" />
 import vue from '@vitejs/plugin-vue';
+import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
-import { fileURLToPath, URL } from 'node:url';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -46,8 +46,8 @@ export default defineConfig({
         lib: {
             entry: {
                 'index': './src/index.ts',
-                'components': './src/components/index.ts',
-                'pages': './src/pages/index.ts'
+                //'components': './src/components/index.ts',
+                //'pages': './src/pages/index.ts'
             },
             formats: ['es', 'cjs'],
             fileName: (format, name) => `${name}.${format}.js`

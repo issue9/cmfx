@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { App, inject, InjectionKey, Plugin } from 'vue';
+import { App, inject, InjectionKey } from 'vue';
 
-import { Fetcher, Return, Method } from '@/utils/fetch';
+import { Fetcher, Method, Return } from '@/utils/fetch';
 
-import { Options, buildOptions, MenuItem, setLogo, setTitle } from './options';
+import { buildOptions, MenuItem, Options, setLogo, setTitle } from './options';
 
 export class Admin {
     readonly #fetcher: Fetcher;
     readonly #footer: Array<MenuItem>;
     readonly #menus: Array<MenuItem>;
     readonly #titleSeparator: string;
-    
+
     #siteTitle: string;
     #logo: string;
     #pageTitle = '';
@@ -28,7 +28,7 @@ export class Admin {
         this.#footer = o.footer;
         this.#menus = o.menus;
         this.#titleSeparator = o.titleSeparator;
-        
+
         this.#siteTitle = o.title;
         this.#logo = o.logo;
     }
@@ -36,31 +36,31 @@ export class Admin {
     get pageTitle(): string { return this.#pageTitle; }
     set pageTitle(title: string) {
         this.#pageTitle = title;
-        
+
         if (title) {
             title += this.#titleSeparator;
         }
         document.title = title + this.siteTitle;
     }
-    
-    get siteTitle(): string {return this.#siteTitle; }
+
+    get siteTitle(): string { return this.#siteTitle; }
     set siteTitle(title: string) {
         this.#siteTitle = title;
-        (async()=>{ await setTitle(title); })();
+        (async () => { await setTitle(title); })();
     }
-    
-    get logo(): string {return this.#logo; }
+
+    get logo(): string { return this.#logo; }
     set logo(logo: string) {
         this.#logo = logo;
-        (async()=>{ await setLogo(logo); })();
+        (async () => { await setLogo(logo); })();
     };
-    
-    get menus(): Array<MenuItem> {return this.#menus;}
-    
-    get footer(): Array<MenuItem> {return this.#footer;}
-    
+
+    get menus(): Array<MenuItem> { return this.#menus; }
+
+    get footer(): Array<MenuItem> { return this.#footer; }
+
     //--------------------- 以下是对 Fetcher 各个方法的转发 ----------------------------
-    
+
     async get(path: string, withToken = true): Promise<Return> {
         return await this.#fetcher.get(path, withToken);
     }
@@ -81,7 +81,7 @@ export class Admin {
         return await this.#fetcher.patch(path, body, withToken);
     }
 
-    async upload(path: string, obj: FormData, withToken = true): Promise<Return>{
+    async upload(path: string, obj: FormData, withToken = true): Promise<Return> {
         return await this.#fetcher.upload(path, obj, withToken);
     }
 
@@ -99,7 +99,7 @@ export class Admin {
  *
  * @param o 需要的参数
  */
-export function createAdmin(o: Options): Plugin<Admin> {
+export function createAdmin(o: Options) {
     return {
         async install(app: App) {
             app.provide(adminKey, new Admin(await buildOptions(o)));

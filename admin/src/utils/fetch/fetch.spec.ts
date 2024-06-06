@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { expect, test, describe } from 'vitest';
+import { describe, expect, test } from 'vitest';
+
 import { Fetcher } from './fetch';
 
 describe('fetch', ()=>{
@@ -22,4 +23,3 @@ describe('fetch', ()=>{
         expect(()=>{f.buildURL('');}).toThrowError('参数 path 不能为空');
     });
 });
-

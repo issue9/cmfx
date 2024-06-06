@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {test, expect } from 'vitest';
-import { buildOptions, checkMenus, checkAPIs } from './options.ts';
 import localforage from 'localforage';
+import { expect, test } from 'vitest';
+
+import { buildOptions, checkAPIs, checkMenus } from './options.ts';
 
 test('buildOptions', async ()=>{
     const apis = {
@@ -12,7 +13,7 @@ test('buildOptions', async ()=>{
         settings: '/settings',
         info: '/info',
     };
-    
+
     await localforage.clear();
 
     let o = await buildOptions({

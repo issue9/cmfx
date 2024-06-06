@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+export { create } from '@/app';
+
 // utils
-export { sleep } from '@/utils/time';
-export type { Method, Problem, Page, Return, Token } from '@/utils/fetch';
 export { Fetcher } from '@/utils/fetch';
+export type { Method, Page, Problem, Return, Token } from '@/utils/fetch';
+export { sleep } from '@/utils/time';
 
 // plugins
-export * from '@/plugins';
-
-import App from '@/App.vue';
-export { App };
+export { Admin, useAdmin } from '@/plugins';
+export type { APIs, MenuItem, Options } from '@/plugins';

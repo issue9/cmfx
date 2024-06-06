@@ -3,10 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { expect, test } from 'vitest';
-import { Token, TokenState, delToken, getToken, state, writeToken } from './token';
+
 import { sleep } from '@/utils/time';
 
-test('token', async ()=>{
+import { Token, TokenState, delToken, getToken, state, writeToken } from './token';
+
+test('token', async () => {
     expect(await getToken()).toBeNull();
     expect(await delToken());
 
@@ -14,7 +16,7 @@ test('token', async ()=>{
         access_token: 'access',
         access_exp: 1,
         refresh_token: 'refresh',
-        refresh_exp: 3 
+        refresh_exp: 3
     };
     expect(await writeToken(t));
 
@@ -30,7 +32,7 @@ test('token', async ()=>{
     expect(await getToken()).toBeNull();
 });
 
-test('state', async ()=>{
+test('state', async () => {
     const t: Token = {
         access_token: 'access',
         access_exp: 1,
@@ -43,6 +45,6 @@ test('state', async ()=>{
     expect(state(rt)).toEqual(TokenState.Normal);
     await sleep(1000);
     expect(state(rt)).toEqual(TokenState.AccessExpired);
-    await sleep(2*1000);
+    await sleep(2 * 1000);
     expect(state(rt)).toEqual(TokenState.RefreshExpired);
 });
