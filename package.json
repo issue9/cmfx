@@ -1,0 +1,32 @@
+{
+    "name": "cmfx-admin",
+    "version": "0.7.0",
+    "private": true,
+    "author": {
+        "name": "caixw",
+        "url": "https://caixw.io"
+    },
+    "homepage": "https://github.com/issue9/cmfx",
+    "bugs": {
+        "url": "https://github.com/issue9/cmfx/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/issue9/cmfx"
+    },
+    "license": "MIT",
+    "workspaces": [
+        "demo/admin",
+        "admin"
+    ],
+    "scripts": {
+        "lint": "eslint"
+    },
+    "devDependencies": {
+        "@eslint/js": "^9.4.0",
+        "eslint": "^9.4.0",
+        "eslint-plugin-vue": "^9.26.0",
+        "globals": "^15.3.0",
+        "typescript-eslint": "^8.0.0-alpha.24"
+    }
+}

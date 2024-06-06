@@ -1,0 +1,56 @@
+{
+    "name": "admin",
+    "version": "0.7.0",
+    "type": "module",
+    "author": {
+        "name": "caixw",
+        "url": "https://caixw.io"
+    },
+    "homepage": "https://github.com/issue9/cmfx",
+    "bugs": {
+        "url": "https://github.com/issue9/cmfx/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/issue9/cmfx",
+        "directory": "admin"
+    },
+    "keywords": [
+        "cmfx",
+        "admin"
+    ],
+    "license": "MIT",
+    "files": [
+        "lib/"
+    ],
+    "types": "./lib/index.d.ts",
+    "main": "./lib/index.cjs.js",
+    "module": "./lib/index.es.js",
+    "exports": {
+        ".": {
+            "require": "./lib/index.cjs.js",
+            "import": "./lib/index.es.js"
+        },
+        "./style": {
+            "require": "./lib/style.css",
+            "import": "./lib/style.css"
+        }
+    },
+    "scripts": {
+        "build": "vue-tsc && vite build",
+        "test": "vitest"
+    },
+    "dependencies": {
+        "vue": "^3.4.27",
+        "vuetify": "^3.6.8"
+    },
+    "devDependencies": {
+        "@mdi/font": "^7.4.47",
+        "@vitejs/plugin-vue": "^5.0.4",
+        "typescript": "^5.2.2",
+        "vite": "^5.2.11",
+        "vite-plugin-dts": "^3.9.1",
+        "vitest": "^1.6.0",
+        "vue-tsc": "^2.0.19"
+    }
+}
