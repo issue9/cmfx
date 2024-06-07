@@ -9,13 +9,14 @@ import { XApp } from '@/pages/XApp';
 import { createAdmin, Options } from '@/plugins';
 
 /**
- * 创建 vue 的 app 实例
+ * 创建 vue 的 app 实例并初始化必要的插件
  *
- * @param o 当前插件的参数；
+ * @param o 初始化当前框架需要的参数；
  * @param vo vuetify 的参数；
+ * @returns 返回的 vue 的 App 实例
  */
-export function create(o: Options, vo: VuetifyOptions) {
+export async function create(o: Options, vo: VuetifyOptions) {
     return createApp(XApp)
         .use(createVuetify(vo))
-        .use(createAdmin(o))
+        .use(await createAdmin(o));
 }

@@ -10,5 +10,5 @@ export type { Method, Page, Problem, Return, Token } from '@/utils/fetch';
 export { sleep } from '@/utils/time';
 
 // plugins
-export { Admin, useAdmin } from '@/plugins';
+export { useAdmin } from '@/plugins';
 export type { APIs, MenuItem, Options } from '@/plugins';

@@ -2,7 +2,7 @@
     <v-app>
         <v-navigation-drawer v-model="isLogin">
             <v-list-item>
-                abc
+                abcdef
             </v-list-item>
             <v-divider />
 
@@ -20,12 +20,12 @@
 
             <template v-slot:append>
                 <v-btn icon="mdi-heart"></v-btn>
-                <v-btn icon="mdi-fullscreen"></v-btn>
+                <v-btn :icon="fullscreen.isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'" @click="fullscreen.toggle"></v-btn>
             </template>
         </v-app-bar>
 
         <v-main>
-            abc
+            abcdef
         </v-main>
     </v-app>
 </template>
@@ -35,8 +35,10 @@ import { ref } from 'vue';
 import { VNavigationDrawer, VMain, VApp, VListItem, VDivider, VBtn } from 'vuetify/components';
 
 import { useAdmin } from '@/plugins';
+import { useFullscreen } from '@vueuse/core';
 
 const admin = useAdmin();
+const fullscreen = useFullscreen();
 
 const isLogin = ref(false);
 

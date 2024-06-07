@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { create, Options } from 'admin';
+import { create, Options } from '@/index';
 
 // Vuetify
 import { VuetifyOptions } from 'vuetify';
@@ -15,6 +15,17 @@ const vo: VuetifyOptions = {
     directives,
 };
 
-const o: Options = {}
+const o: Options = {
+    baseURL: 'http://localhost',
+    apis: {
+        login: '/login',
+        settings: '/settings',
+        info: '/info',
+    },
+    title: 'title',
+    logo: 'http://localhost/favicon.ico',
+    menus: []
+};
+const app = await create(o, vo);
+app.mount('#app');
 
-create(o, vo).mount('#app');
