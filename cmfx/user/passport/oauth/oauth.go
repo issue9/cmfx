@@ -24,8 +24,8 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user/passport"
-	"github.com/issue9/cmfx/locales"
 )
 
 // UserInfo 表示 OAuth 登录后获取的用户信息

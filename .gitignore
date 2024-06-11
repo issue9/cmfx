@@ -10,6 +10,7 @@
 # 前端
 node_modules
 *.tsbuildinfo
+admin/lib/
 
 # IDE
 .vs/

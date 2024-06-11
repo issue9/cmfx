@@ -4,22 +4,22 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Fetcher } from './fetch';
+import { build } from './fetch';
 
-describe('fetch', ()=>{
-    test('new', ()=>{
-        expect(()=>{
-            new Fetcher('http://localhost', '/login', 'not-exists', 'zh-CN');
-        }).toThrowError('不支持的 mimetype not-exists');
+describe('fetch', () => {
+    test('build', async () => {
+        expect(async () => {
+            await build('http://localhost', '/login', 'not-exists', 'zh-CN');
+        }).rejects.toThrowError('不支持的 contentType not-exists');
 
-        const f = new Fetcher('http://localhost', '/login', 'application/json', 'zh-CN');
+        const f = await build('http://localhost', '/login', 'application/json', 'zh-CN');
         expect(f).not.toBeNull();
     });
 
-    test('buildURL', ()=>{
-        const f = new Fetcher('http://localhost', '/login', 'application/json', 'zh-CN');
+    test('buildURL', async () => {
+        const f = await build('http://localhost', '/login', 'application/json', 'zh-CN');
         expect(f.buildURL('/path')).toEqual('http://localhost/path');
         expect(f.buildURL('path')).toEqual('http://localhost/path');
-        expect(()=>{f.buildURL('');}).toThrowError('参数 path 不能为空');
+        expect(() => { f.buildURL(''); }).toThrowError('参数 path 不能为空');
     });
 });

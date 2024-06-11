@@ -10,9 +10,9 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx/initial"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
-	"github.com/issue9/cmfx/locales"
 )
 
 // Config 配置文件的自定义部分内容

@@ -2,15 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Composer, createI18n } from 'vue-i18n';
+import { useLocale } from 'vuetify';
+
+import { locales } from '@/locales/locales';
 import { Fetcher, Method, Return } from '@/utils/fetch';
 
-import { MenuItem, Options, setLogo, setTitle } from './options';
+import { Options, setLogo, setTitle } from './options';
+import { MenuItem } from './page';
 
 export class Admin {
     readonly #fetcher: Fetcher;
-    readonly #footer: Array<MenuItem>;
+    readonly #footer?: Array<MenuItem>;
     readonly #menus: Array<MenuItem>;
     readonly #titleSeparator: string;
+    readonly #i18n: Composer;
 
     #siteTitle: string;
     #logo: string;
@@ -21,11 +27,18 @@ export class Admin {
      *
      * @param o 用于初始化的参数
      */
-    constructor(o: Required<Options>) {
-        this.#fetcher = new Fetcher(o.baseURL, o.apis.login, o.mimetype, navigator.languages[0]);
-        this.#footer = o.footer;
-        this.#menus = o.menus;
+    constructor(o: Required<Options>, f: Fetcher) {
+        this.#fetcher = f;
+        this.#footer = o.page.footer;
+        this.#menus = o.page.menus;
         this.#titleSeparator = o.titleSeparator;
+        this.#i18n = createI18n({ legacy: false }).global;
+
+        for (const locale of locales) {
+            import(`@/locales/${locale}.json`).then((msg) => {
+                this.#i18n.setLocaleMessage(locale, msg);
+            });
+        }
 
         this.#siteTitle = o.title;
         this.#logo = o.logo;
@@ -55,9 +68,29 @@ export class Admin {
 
     get menus(): Array<MenuItem> { return this.#menus; }
 
-    get footer(): Array<MenuItem> { return this.#footer; }
+    get footer(): Array<MenuItem> { return this.#footer ?? []; }
+
+    set locale(v: string) {
+        this.#fetcher.locale = v;
+
+        document.head.lang = v;
+
+        const { current } = useLocale();
+        current.value = v;
+
+        this.#i18n.locale.value = v;
+    }
+    get locale(): string { return this.#fetcher.locale; }
+
+    t(k: string) {
+        return this.#i18n.t(k);
+    }
 
     //--------------------- 以下是对 Fetcher 各个方法的转发 ----------------------------
+
+    async isLogin(): Promise<boolean> { return await this.#fetcher.isLogin(); }
+
+    async logout() { await this.#fetcher.logout(); }
 
     async get(path: string, withToken = true): Promise<Return> {
         return await this.#fetcher.get(path, withToken);

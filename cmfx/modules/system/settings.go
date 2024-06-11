@@ -13,8 +13,8 @@ import (
 	"github.com/issue9/webfilter/validator"
 
 	"github.com/issue9/cmfx/cmfx/filters"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/locales"
 )
 
 const settingsTableName = "settings"

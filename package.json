@@ -16,14 +16,14 @@
     },
     "license": "MIT",
     "workspaces": [
-        "demo/admin",
+        "cmd/admin",
         "admin"
     ],
     "scripts": {
         "lint": "eslint"
     },
     "devDependencies": {
-        "@eslint/js": "^9.4.0",
+        "@stylistic/eslint-plugin-ts": "^2.1.0",
         "eslint": "^9.4.0",
         "eslint-plugin-vue": "^9.26.0",
         "globals": "^15.3.0",

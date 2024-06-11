@@ -3,35 +3,26 @@
 // SPDX-License-Identifier: MIT
 
 import globals from 'globals';
-import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
+import stylisticTs from '@stylistic/eslint-plugin-ts';
 import pluginVue from 'eslint-plugin-vue';
-
-/**
- * 在此添加一些缺失的全局类型
- */
-const customGlobal = {
-    RequestInit: false,
-    BodyInit: false
-}
+import parserTs from '@typescript-eslint/parser';
 
 export default [
-    pluginJs.configs.recommended,
-    ...tseslint.configs.strict,
-    //...tseslint.configs.stylistic,
     ...pluginVue.configs['flat/essential'],
     {
-        languageOptions: { globals: Object.assign(globals.browser, customGlobal) },
-        files: ['**/*.ts', '**/*.vue', '**/*.tsx'],
+        languageOptions: {
+            globals: globals.browser,
+            parser: parserTs
+        },
+        files: ['**/*.ts', '**/*.js', '**/*.mjs'],
+        plugins: {
+            '@stylistic/ts': stylisticTs
+        },
         rules: {
-            'no-undef': ['warn'],
-            'indent': ['error', 4],
-            'quotes': ['error', 'single'],
-            'semi': ['error', 'always'],
-            '@typescript-eslint/no-unused-vars': ['error', {'argsIgnorePattern': '^_'}]
+            '@stylistic/ts/indent': ['error', 4, { 'SwitchCase': 0 }],
+            '@stylistic/ts/quotes': ['error', 'single'],
+            '@stylistic/ts/semi': ['error', 'always'],
+            '@stylistic/ts/space-before-blocks': 'error'
         }
-    },
-    { // 必须得是一个新对象，不能直接写在上面的对象中！
-        ignores: ['**/*.js', '**/*.d.ts'],
     }
 ];

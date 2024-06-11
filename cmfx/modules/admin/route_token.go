@@ -9,8 +9,8 @@ import (
 	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/locales"
 )
 
 type queryLogin struct {

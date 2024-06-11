@@ -6,12 +6,12 @@
 
 ROOT = .
 DOCS = $(ROOT)/docs
-DEMO = $(ROOT)/demo
+CMD = $(ROOT)/cmd
 CMFX = $(ROOT)/cmfx
 ADMIN = $(ROOT)/admin
 
 DOC_API = $(DOCS)/api
-DEMO_SERVER = $(DEMO)/server
+CMD_SERVER = $(CMD)/server
 SERVER_BIN = server
 
 # 生成 API 文件
@@ -24,11 +24,11 @@ gen:
 
 # 编译测试项目
 build:
-web build -o=$(DEMO_SERVER)/$(SERVER_BIN) -v $(DEMO_SERVER)
+web build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 
 # 安装基本数据，依赖上一步的 build 生成的测试项目
 install:
-	cd $(DEMO_SERVER) && ./server -a=install
+	cd $(CMD_SERVER) && ./server -a=install
 
 watch:
-	web watch -app=-a=serve $(DEMO_SERVER)
+	web watch -app=-a=serve $(CMD_SERVER)

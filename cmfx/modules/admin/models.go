@@ -13,10 +13,10 @@ import (
 	"github.com/issue9/webfilter/validator"
 
 	"github.com/issue9/cmfx/cmfx/filters"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
-	"github.com/issue9/cmfx/locales"
 )
 
 // 管理员的基本信息

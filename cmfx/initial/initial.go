@@ -14,7 +14,7 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/empty"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 const contenxtKey contextType = 0

@@ -7,8 +7,8 @@ package admin
 import (
 	"github.com/issue9/web"
 
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/locales"
 )
 
 type Config struct {

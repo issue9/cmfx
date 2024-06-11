@@ -19,34 +19,40 @@ interface Serializer {
 }
 
 /**
+ * 构建 Fetcher 对象
+ * @param baseURL API 的基地址，不能以 / 结尾
+ * @param contentType mimetype 的类型
+ * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
+ * @param locale 本地化的标签
+ */
+export async function build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
+    const t = await getToken();
+    return new Fetcher(baseURL, loginPath, contentType, locale, t);
+}
+
+/**
  * 对 fetch 的二次包装
  */
 export class Fetcher {
     readonly #baseURL: string;
     readonly #loginPath: string;
     #locale: string;
-    
+    #token: Token | null;
+
     readonly #contentType: string;
     readonly #serializer: Serializer;
 
-
-    /**
-     * 构造函数
-     * @param baseURL API 的基地址，不能以 / 结尾
-     * @param contentType mimetype 的类型
-     * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
-     * @param locale 本地化的标签
-     */
-    constructor(baseURL: string, loginPath: string, contentType: string, locale: string) {
+    constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
         const s = serializers.get(contentType);
         if (!s) {
-            throw `不支持的 mimetype ${contentType}`;
+            throw `不支持的 contentType ${contentType}`;
         }
 
         this.#baseURL = baseURL;
         this.#loginPath = loginPath;
         this.#locale = locale;
-        
+        this.#token = token;
+
         this.#contentType = contentType;
         this.#serializer = s;
     }
@@ -56,6 +62,7 @@ export class Fetcher {
      * @param v 需要符合 accept-language 的要求
      */
     set locale(v: string) { this.#locale = v; }
+    get locale(): string { return this.#locale; }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -66,11 +73,11 @@ export class Fetcher {
         if (path.length === 0) {
             throw '参数 path 不能为空';
         }
-        
+
         if (path.charAt(0) !== '/') {
             return this.#baseURL + '/' + path;
         }
-        return this.#baseURL+path;
+        return this.#baseURL + path;
     }
 
     /**
@@ -147,17 +154,37 @@ export class Fetcher {
      * @param obj 上传的对象
      * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌。
      */
-    async upload(path: string, obj: FormData, withToken = true): Promise<Return>{
+    async upload(path: string, obj: FormData, withToken = true): Promise<Return> {
         const token = withToken ? await this.getToken() : undefined;
         return this.withArgument(path, 'POST', token, undefined, obj);
     }
-    
+
+    /**
+     * 是否处于登录状态
+     */
+    async isLogin(): Promise<boolean> {
+        const token = await this.getToken();
+        return token !== undefined;
+    }
+
+    /**
+     * 退出当前的登录状态
+     */
+    async logout() {
+        this.#token = null;
+        await delToken();
+    }
+
+    /**
+     * 获得令牌，如果令牌已经过期，会尝试刷新令牌。
+     */
     async getToken(): Promise<string | undefined> {
-        const t = await getToken();
+        const t = this.#token;
         if (!t) {
             return undefined;
         }
-        
+
+
         switch (state(t)) {
         case TokenState.Normal: // 正常状态
             return t.access_token;
@@ -170,9 +197,9 @@ export class Fetcher {
                 return undefined;
             }
 
-            const token = ret.body as Token;
-            await writeToken(token);
-            return token.access_token;
+            this.#token = ret.body as Token;
+            await writeToken(this.#token);
+            return this.#token.access_token;
         }
         }
     }
@@ -188,7 +215,7 @@ export class Fetcher {
      */
     async withArgument(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return> {
         const h = new Headers({
-            'Accept': this.#contentType+'; charset=UTF-8',
+            'Accept': this.#contentType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
         });
         if (token) {
@@ -197,18 +224,18 @@ export class Fetcher {
         if (ct) {
             h.set('Content-Type', ct);
         }
-        
+
         return await this.fetch(path, {
             method: method,
             body: body,
             mode: 'cors',
             headers: h,
-        }); 
+        });
     }
 
     /**
      * 相当于标准库的 fetch 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
-     * 
+     *
      * @param path 地址，相对于 baseURL
      * @param req 相关的参数
      */
@@ -220,9 +247,9 @@ export class Fetcher {
         if (resp.ok) {
             const txt = await resp.text();
             if (txt.length === 0) {
-                return {status: resp.status, ok: true};
+                return { status: resp.status, ok: true };
             }
-            return {status: resp.status, ok: true, body: this.#serializer.parse(txt) };
+            return { status: resp.status, ok: true, body: this.#serializer.parse(txt) };
         }
 
         // TODO 300-399
@@ -232,19 +259,20 @@ export class Fetcher {
         let ok = false;
         switch (resp.status) {
         case 401:
+            this.#token = null;
             await delToken();
             break;
         case 404: // 404 算正常返回
             ok = true;
         }
 
-        let p: Problem|undefined;
+        let p: Problem | undefined;
         try {
             p = this.#serializer.parse(await resp.text()) as Problem;
-        } catch(error) {
+        } catch (error) {
             console.error(error);
         }
-        return {status: resp.status, ok:ok, problem: p};
+        return { status: resp.status, ok: ok, problem: p };
     }
 }
 
@@ -277,7 +305,7 @@ export interface Page<T> {
 
 /**
  * 接口返回的对象
- * 
+ *
  * 如果 ok 为 true，表示返回的是正常的结果，该结果如果不为空，那么应该在 body 之中；
  * 如果 ok 为 false，表示返回的是非正常的结果，如果有错误信息，应该保存在 problem 之中。
  */

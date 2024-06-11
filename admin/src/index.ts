@@ -11,4 +11,5 @@ export { sleep } from '@/utils/time';
 
 // plugins
 export { useAdmin } from '@/plugins';
-export type { APIs, MenuItem, Options } from '@/plugins';
+export type { API, MenuItem, Options } from '@/plugins';
+

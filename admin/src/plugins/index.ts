@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { APIs, MenuItem, Options } from './admin/options';
-export { createAdmin, useAdmin } from './admin/plugins';
+export { createAdmin, useAdmin } from './admin';
+export type { API, MenuItem, Options, Page } from './admin';
 

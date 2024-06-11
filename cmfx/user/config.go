@@ -10,7 +10,7 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/server/config"
 
-	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 // Config 当前模块的配置项

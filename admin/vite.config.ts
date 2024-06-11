@@ -45,7 +45,7 @@ export default defineConfig({
         },
         rollupOptions: {
             // 不需要打包的内容
-            external: ['vue', 'vuetify']
+            external: ['vue', 'vuetify', 'vue-i18n', 'vue-router']
         }
     }
 });

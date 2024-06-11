@@ -8,7 +8,7 @@ import (
 	"github.com/issue9/web/filter"
 	v "github.com/issue9/webfilter/validator"
 
-	"github.com/issue9/cmfx/locales"
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 type Number interface {
