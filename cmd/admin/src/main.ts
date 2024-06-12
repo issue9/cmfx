@@ -58,5 +58,5 @@ const o: Options = {
 
 };
 
-const app = await create(o, router, vuetify, i18n);
-app.mount('#app');
+const app = await create(o, router, vuetify);
+app.use(i18n).mount('#app');

@@ -5,13 +5,13 @@
             </v-list-item>
             <v-divider />
 
-            <v-list-item v-for="(item, index) of admin.menus" :key="index">
+            <v-list-item v-for="(item, index) of menus" :key="index">
                 {{ item.title }}
             </v-list-item>
 
-            <template v-slot:append v-if="admin.footer">
+            <template v-slot:append v-if="footer">
                 <v-divider />
-                <a :href="item.key" v-for="(item, index) of admin.footer" :key="index">
+                <a :href="item.key" v-for="(item, index) of footer" :key="index">
                     {{ item.title }}
                 </a>
             </template>
@@ -25,7 +25,7 @@
             <v-app-bar-title>{{ admin.pageTitle }}</v-app-bar-title>
 
             <template v-slot:append>
-                <v-btn v-tooltip="admin.t('fullscreen')"
+                <v-btn v-tooltip="t('fullscreen')"
                     :icon="fullscreen.isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
                     @click="fullscreen.toggle"></v-btn>
             </template>
@@ -43,12 +43,13 @@ import {
     VNavigationDrawer, VMain, VApp, VListItem, VDivider, VBtn,
 } from 'vuetify/components';
 
-import { useAdmin } from '@/plugins';
+import { useInternal } from '@/plugins';
 import { useFullscreen } from '@vueuse/core';
 
-const admin = useAdmin();
+const { admin, menus, footer, t } = useInternal();
 const fullscreen = useFullscreen();
 const drawer = ref(true);
+admin.locale = 'zhHans';
 
 const isLogin = ref(false);
 admin.isLogin().then((v) => { isLogin.value = v; });

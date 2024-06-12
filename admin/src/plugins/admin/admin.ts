@@ -32,8 +32,8 @@ export class Admin {
         this.#footer = o.page.footer;
         this.#menus = o.page.menus;
         this.#titleSeparator = o.titleSeparator;
-        this.#i18n = createI18n({ legacy: false }).global;
 
+        this.#i18n = createI18n({ legacy: false }).global;
         for (const locale of locales) {
             import(`@/locales/${locale}.json`).then((msg) => {
                 this.#i18n.setLocaleMessage(locale, msg);
@@ -82,9 +82,7 @@ export class Admin {
     }
     get locale(): string { return this.#fetcher.locale; }
 
-    t(k: string) {
-        return this.#i18n.t(k);
-    }
+    get i18n(): Composer { return this.#i18n; }
 
     //--------------------- 以下是对 Fetcher 各个方法的转发 ----------------------------
 

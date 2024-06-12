@@ -5,5 +5,5 @@
 export type { API } from './api';
 export type { Options } from './options';
 export type { MenuItem, Page } from './page';
-export { createAdmin, useAdmin } from './plugins';
+export { createAdmin, useAdmin, useInternal } from './plugins';
 
