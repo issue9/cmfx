@@ -5,11 +5,10 @@
 export { create } from '@/app';
 
 // utils
-export { Fetcher } from '@/utils/fetch';
-export type { Method, Page, Problem, Return, Token } from '@/utils/fetch';
+export type { Page, Problem, Return } from '@/utils/fetch';
 export { sleep } from '@/utils/time';
 
 // plugins
 export { useAdmin } from '@/plugins';
-export type { API, MenuItem, Options } from '@/plugins';
+export type { Options } from '@/plugins';
 

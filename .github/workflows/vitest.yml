@@ -15,18 +15,18 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: 'Install Node'
+    - name: Install Node
       uses: actions/setup-node@v4
       with:
         node-version: '22.x'
 
-    - name: 'Install Deps'
+    - name: Install Deps
       run: npm install
 
-    - name: 'Test'
-      run: npx vitest --coverage.enabled true
+    - name: Test
+      run: npm run test --coverage.enabled true
 
-    - name: 'Report Coverage'
+    - name: Report Coverage
       # Set if: always() to also generate the report if tests are failing
       # Only works if you set `reportOnFailure: true` in your vite config as specified above
       if: always()

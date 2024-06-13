@@ -71,14 +71,15 @@ export class Admin {
     get footer(): Array<MenuItem> { return this.#footer ?? []; }
 
     set locale(v: string) {
-        this.#fetcher.locale = v;
+        this.#fetcher.locale = v; // 改变 fetch 中的 accept-language
 
-        document.head.lang = v;
+        document.documentElement.lang = v; // 改变 html.lang
 
+        // 改变 vuetify 的语言
         const { current } = useLocale();
         current.value = v;
 
-        this.#i18n.locale.value = v;
+        this.#i18n.locale.value = v;// 改变当前框架内部的语言
     }
     get locale(): string { return this.#fetcher.locale; }
 
