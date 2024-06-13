@@ -9,11 +9,24 @@ import { MenuItem, Page, checkPage } from './page';
 
 const siteTitleName = 'site_title';
 const logoName = 'logo';
+const languageName = 'language';
 
 /**
  * 管理后台的基本配置
  */
 export interface Options {
+    /**
+     * 支持的语言
+     */
+    languages: Array<string>
+
+    /**
+     * 默认的语言
+     *
+     * 该值会被保存在 localforage 之中，如果在 localforage 存在值，则此设置将不启作用。
+     */
+    language: string
+    
     /**
      * 网站的标题
      *
@@ -78,6 +91,14 @@ export async function buildOptions(o: Options): Promise<Required<Options>> {
     if (o.logo.length === 0) {
         throw 'logo 不能为空';
     }
+    
+    const lang = await localforage.getItem<string>(languageName);
+    if (lang) {
+        o.language = lang;
+    }
+    if (o.language.length === 0) {
+        throw 'language 不能为空';
+    }
 
     const opt: Required<Options> = Object.assign({}, presetOptions, o);
 
@@ -88,8 +109,9 @@ export async function buildOptions(o: Options): Promise<Required<Options>> {
     checkAPI(opt.api);
     checkPage(opt.page);
 
-    await localforage.setItem(logoName, o.logo);
-    await localforage.setItem(siteTitleName, o.title);
+    await setLogo(o.logo);
+    await setTitle(o.title);
+    await setLanguage(o.language);
 
     return opt;
 }
@@ -100,4 +122,8 @@ export async function setLogo(logo: string) {
 
 export async function setTitle(title: string) {
     await localforage.setItem(siteTitleName, title);
+}
+
+export async function setLanguage(lang: string) {
+    await localforage.setItem(languageName, lang);
 }

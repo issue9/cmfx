@@ -5,6 +5,7 @@
 import { App, inject, InjectionKey } from 'vue';
 
 import { build } from '@/utils/fetch';
+import {Locales} from '@/utils/locales/locales.ts';
 
 import { Admin } from './admin';
 import { buildOptions, Options } from './options';
@@ -16,7 +17,9 @@ import { buildOptions, Options } from './options';
  */
 export async function createAdmin(o: Options) {
     const opt = await buildOptions(o);
-    const f = await build(opt.api.base, opt.api.login, opt.mimetype, navigator.languages[0]);
+    const l = new Locales(opt.languages, opt.language);
+    const f = await build(opt.api.base, opt.api.login, opt.mimetype, l);
+    
     return {
         install(app: App) { // NOTE: install 不能是异步
             app.provide(key, new Admin(opt, f));

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token.ts';
+import { Locales } from '@/utils/locales/locales';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
@@ -19,30 +20,31 @@ interface Serializer {
 }
 
 /**
- * 构建 Fetcher 对象
- * @param baseURL API 的基地址，不能以 / 结尾
- * @param contentType mimetype 的类型
+ * 返回一个对 fetch 进行二次包装的对象
+ *
+ * @param baseURL API 的基地址，不能以 / 结尾。
+ * @param contentType mimetype 的类型。
  * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
- * @param locale 本地化的标签
+ * @param locales 管理本地化的对象，由该参数确定 accept-language 报头的内容。
  */
-export async function build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
+export async function build(baseURL: string, loginPath: string, contentType: string, locales: Locales): Promise<Fetcher> {
     const t = await getToken();
-    return new Fetcher(baseURL, loginPath, contentType, locale, t);
+    return new Fetcher(baseURL, loginPath, contentType, locales, t);
 }
 
-/**
- * 对 fetch 的二次包装
- */
-export class Fetcher {
+class Fetcher {
     readonly #baseURL: string;
     readonly #loginPath: string;
-    #locale: string;
+    readonly #locales: Locales;
     #token: Token | null;
 
     readonly #contentType: string;
     readonly #serializer: Serializer;
 
-    constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
+    /**
+     * 构造函数，参数参考 build
+     */
+    constructor(baseURL: string, loginPath: string, contentType: string, locales: Locales, token: Token | null) {
         const s = serializers.get(contentType);
         if (!s) {
             throw `不支持的 contentType ${contentType}`;
@@ -50,7 +52,7 @@ export class Fetcher {
 
         this.#baseURL = baseURL;
         this.#loginPath = loginPath;
-        this.#locale = locale;
+        this.#locales = locales;
         this.#token = token;
 
         this.#contentType = contentType;
@@ -58,11 +60,9 @@ export class Fetcher {
     }
 
     /**
-     * 改变请求时的 accept-language 报头值
-     * @param v 需要符合 accept-language 的要求
+     * 返回关联的 Locales 对象
      */
-    set locale(v: string) { this.#locale = v; }
-    get locale(): string { return this.#locale; }
+    get locales(): Locales { return this.#locales; }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -82,9 +82,6 @@ export class Fetcher {
 
     /**
      * DELETE 请求
-     *
-     * @param path 相对于 baseURL 的地址
-     * @param withToken 是否带上令牌，可参考 request
      */
     async delete(path: string, withToken = true): Promise<Return> {
         return this.request(path, 'DELETE', undefined, withToken);
@@ -103,10 +100,6 @@ export class Fetcher {
 
     /**
      * PUT 请求
-     *
-     * @param path 相对于 baseURL 的地址
-     * @param body 上传的数据，若没有则为空
-     * @param withToken 是否带上令牌，可参考 request
      */
     async put(path: string, body?: unknown, withToken = true): Promise<Return> {
         return this.request(path, 'PUT', body, withToken);
@@ -114,10 +107,6 @@ export class Fetcher {
 
     /**
      * PATCH 请求
-     *
-     * @param path 相对于 baseURL 的地址
-     * @param body 上传的数据，若没有则为空
-     * @param withToken 是否带上令牌，可参考 request
      */
     async patch(path: string, body?: unknown, withToken = true): Promise<Return> {
         return this.request(path, 'PATCH', body, withToken);
@@ -125,9 +114,6 @@ export class Fetcher {
 
     /**
      * GET 请求
-     *
-     * @param path 相对于 baseURL 的路由地址；
-     * @param withToken 是否带上令牌，可参考 request；
      */
     async get(path: string, withToken = true): Promise<Return> {
         return this.request(path, 'GET', undefined, withToken);
@@ -216,7 +202,7 @@ export class Fetcher {
     async withArgument(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return> {
         const h = new Headers({
             'Accept': this.#contentType + '; charset=UTF-8',
-            'Accept-Language': this.#locale,
+            'Accept-Language': this.#locales.current,
         });
         if (token) {
             h.set('Authorization', token);

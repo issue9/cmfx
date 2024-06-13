@@ -24,6 +24,8 @@ test('buildOptions', async () => {
     await localforage.clear();
 
     let o = await buildOptions({
+        languages: ['zh'],
+        language: 'zh',
         api: api,
         page: page,
         title: 'title',
@@ -33,6 +35,8 @@ test('buildOptions', async () => {
 
     await localforage.clear();
     expect(buildOptions({
+        languages: ['zh'],
+        language: 'zh',
         api: api,
         page: page,
         title: '',
@@ -41,6 +45,8 @@ test('buildOptions', async () => {
 
     await localforage.clear();
     expect(buildOptions({
+        languages: ['zh'],
+        language: 'zh',
         api: api,
         page: page,
         title: 'title',
@@ -49,12 +55,16 @@ test('buildOptions', async () => {
 
     await localforage.clear();
     await buildOptions({
+        languages: ['zh'],
+        language: 'zh',
         api: api,
         page: page,
         title: 'title',
         logo: 'logo'
     });
     o = await buildOptions({
+        languages: ['zh'],
+        language: 'zh',
         api: api,
         page: page,
         title: 't1',

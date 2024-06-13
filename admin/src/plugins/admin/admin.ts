@@ -6,13 +6,13 @@ import { Composer, createI18n } from 'vue-i18n';
 import { useLocale } from 'vuetify';
 
 import { locales } from '@/locales/locales';
-import { Fetcher, Method, Return } from '@/utils/fetch';
+import { build as buildFetch, Method, Return } from '@/utils/fetch';
 
-import { Options, setLogo, setTitle } from './options';
+import {Options, setLanguage, setLogo, setTitle} from './options';
 import { MenuItem } from './page';
 
 export class Admin {
-    readonly #fetcher: Fetcher;
+    readonly #fetcher: Awaited<ReturnType<typeof buildFetch>>;
     readonly #footer?: Array<MenuItem>;
     readonly #menus: Array<MenuItem>;
     readonly #titleSeparator: string;
@@ -24,10 +24,8 @@ export class Admin {
 
     /**
      * 构造函数
-     *
-     * @param o 用于初始化的参数
      */
-    constructor(o: Required<Options>, f: Fetcher) {
+    constructor(o: Required<Options>, f: Awaited<ReturnType<typeof buildFetch>>) {
         this.#fetcher = f;
         this.#footer = o.page.footer;
         this.#menus = o.page.menus;
@@ -71,7 +69,7 @@ export class Admin {
     get footer(): Array<MenuItem> { return this.#footer ?? []; }
 
     set locale(v: string) {
-        this.#fetcher.locale = v; // 改变 fetch 中的 accept-language
+        this.#fetcher.locales.current = v; // 改变 fetch 中的 accept-language
 
         document.documentElement.lang = v; // 改变 html.lang
 
@@ -80,11 +78,18 @@ export class Admin {
         current.value = v;
 
         this.#i18n.locale.value = v;// 改变当前框架内部的语言
+
+        (async()=>{await setLanguage(v);})();
     }
-    get locale(): string { return this.#fetcher.locale; }
+    get locale(): string { return this.#fetcher.locales.current; }
 
+    /**
+     * 返回支持的语言
+     */
+    get supportedLanguages() { return this.#fetcher.locales.supportedNames(); }
+    
     get i18n(): Composer { return this.#i18n; }
-
+    
     //--------------------- 以下是对 Fetcher 各个方法的转发 ----------------------------
 
     async isLogin(): Promise<boolean> { return await this.#fetcher.isLogin(); }

@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export const locales = ['en', 'cmn-Hans'];
+export { Locales } from './locales';
