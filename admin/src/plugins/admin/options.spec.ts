@@ -25,7 +25,7 @@ test('buildOptions', async () => {
 
     let o = await buildOptions({
         languages: ['zh'],
-        language: 'zh',
+        language: '',
         api: api,
         page: page,
         title: 'title',

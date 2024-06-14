@@ -25,7 +25,7 @@
             <v-app-bar-title>{{ admin.pageTitle }}</v-app-bar-title>
 
             <template v-slot:append>
-                <v-btn v-tooltip="t('fullscreen')"
+                <v-btn v-tooltip="t('_internal.fullscreen')"
                     :icon="fullscreen.isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
                     @click="fullscreen.toggle"></v-btn>
             </template>

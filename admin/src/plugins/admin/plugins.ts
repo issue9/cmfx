@@ -3,9 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { App, inject, InjectionKey } from 'vue';
+import { Composer, I18n } from 'vue-i18n';
+import { createVuetify } from 'vuetify';
 
+import { getVuetifyLocale, loadMessages } from '@/locales/locales';
 import { build } from '@/utils/fetch';
-import {Locales} from '@/utils/locales/locales.ts';
+import { Locales } from '@/utils/locales/locales';
 
 import { Admin } from './admin';
 import { buildOptions, Options } from './options';
@@ -15,14 +18,26 @@ import { buildOptions, Options } from './options';
  *
  * @param o 需要的参数
  */
-export async function createAdmin(o: Options) {
+export async function createAdmin(o: Options, vuetify: ReturnType<typeof createVuetify>, i18n: I18n) {
     const opt = await buildOptions(o);
-    const l = new Locales(opt.languages, opt.language);
+
+    const global = i18n.global as Composer;
+    await loadMessages(global);
+    const tags = Object.keys(global.messages.value);
+    const index = tags.indexOf(global.fallbackLocale.value as string); // BUG: index 可能为 -1
+
+    const l = new Locales(tags, index, global.locale.value);
+    l.afterChange((matched) => {
+        vuetify.locale.current.value = getVuetifyLocale(matched);  // 改变 vuetify 的语言
+        i18n.global.locale = matched; // vue-i18n 切换语言
+        document.documentElement.lang = matched; // 改变 html.lang
+    });
+
     const f = await build(opt.api.base, opt.api.login, opt.mimetype, l);
-    
+
     return {
         install(app: App) { // NOTE: install 不能是异步
-            app.provide(key, new Admin(opt, f));
+            app.provide(key, new Admin(opt, f, i18n));
         }
     };
 }
@@ -40,7 +55,8 @@ export function useInternal() {
 
     return {
         admin: inst as ReturnType<typeof useAdmin>,
-        t: inst.i18n.t,
+        t: inst.i18n.global.t,
+        n: inst.i18n.global.n, // TODO 移至 userAdmin
         menus: inst.menus,
         footer: inst.footer
     };

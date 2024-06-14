@@ -4,6 +4,7 @@
 
 import '@mdi/font/css/materialdesignicons.css';
 import { createApp } from 'vue';
+import { I18n } from 'vue-i18n';
 import { Router } from 'vue-router';
 import { createVuetify } from 'vuetify';
 
@@ -18,9 +19,10 @@ import { createAdmin, Options } from '@/plugins';
  * @param i18n 本地化的 i18n 实例；
  * @returns 返回的 vue 的 App 实例
  */
-export async function create(o: Options, router: Router, vuetify: ReturnType<typeof createVuetify>) {
+export async function create(o: Options, router: Router, vuetify: ReturnType<typeof createVuetify>, i18n: I18n) {
     return createApp(XApp)
+        .use(i18n)
         .use(router)
         .use(vuetify)
-        .use(await createAdmin(o));
+        .use(await createAdmin(o, vuetify, i18n));
 }

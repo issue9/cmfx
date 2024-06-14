@@ -13,11 +13,12 @@ import * as components from 'vuetify/components';
 import * as directives from 'vuetify/directives';
 import 'vuetify/styles';
 
-const i18n = createI18n({
+const i18n = createI18n<false>({
+    fallbackLocale: 'en',
     legacy: false,
-    locale: 'zhHans',
+    locale: 'cmn-Hans',
     messages: {
-        'zhHans': {
+        'cmn-Hans': {
             'home': '首页'
         }
     }
@@ -37,8 +38,7 @@ const router = createRouter({
 });
 
 const o: Options = {
-    languages: ['zh', 'cmn-Hans'],
-    language: 'zh',
+    languages: ['cmn-Hans'],
     api: {
         base: 'http://localhost',
         login: '/login',
@@ -57,8 +57,7 @@ const o: Options = {
             }
         ]
     }
-
 };
 
-const app = await create(o, router, vuetify);
-app.use(i18n).mount('#app');
+const app = await create(o, router, vuetify, i18n);
+app.mount('#app');

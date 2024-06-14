@@ -41,6 +41,7 @@
         "test": "vitest --coverage.enabled true"
     },
     "dependencies": {
+        "@formatjs/intl-localematcher": "^0.5.4",
         "@mdi/font": "^7.4.47",
         "@vueuse/core": "^10.10.0",
         "localforage": "^1.10.0",

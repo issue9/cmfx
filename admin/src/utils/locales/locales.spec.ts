@@ -3,37 +3,60 @@
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from 'vitest';
-import {Locales} from './locales';
+import { Locales } from './locales';
 
-describe('Locales', ()=> {
+describe('Locales', () => {
     test('constructor', () => {
         expect(() => {
-            new Locales([]);
+            new Locales([], 0);
         }).toThrowError('supported 不能为空');
 
-        expect(() => {
-            new Locales(['und'], 'zh');
-        }).toThrowError('curr 必须位于 supported 中');
+        const l = new Locales(['zh', 'en'], 1, 'zh')
+        expect(l).not.toBeNull();
+        expect(l.fallback).toEqual('en');
+        expect(l.current).toEqual('zh');
+        expect(l.supported).length(2);
 
-        expect(new Locales(['zh'], 'zh')).not.toBeNull();
+        expect(new Locales(['und'], 0, 'zh')).not.toBeNull();
 
         // 空的 curr，最终必然是匹配到一个元素的。
-        expect(new Locales(['zh'])).not.toBeNull();
+        expect(new Locales(['zh'], 0)).not.toBeNull();
     });
-    
-    test('current', ()=>{
-        const l = new Locales(['zh', 'jp'], 'zh');
+
+    test('current', () => {
+        const l = new Locales(['zh', 'jp'], 0, 'cmn');
         expect(l.current, 'zh');
-        
+
         l.current = 'jp';
         expect(l.current, 'jp');
-        
-        expect(()=>{l.current = 'ca';}).toThrowError('不支持该语言');
+
+        l.current = 'ca';
+        expect(l.current).toEqual('zh');
     });
-    
-    test('supportedNames',()=>{
-        const l = new Locales(['zh', 'jp'], 'zh');
-        
+
+    test('afterChange', () => {
+        let l = new Locales(['zh', 'jp'], 1, 'cmn');
+        l.afterChange((m, o, old, f) => {
+            expect(old).toEqual('zh');
+            expect(m).toEqual('zh');
+            expect(o).toEqual('zh');
+            expect(f).toEqual('jp');
+        });
+        l.current = 'zh';
+
+        l = new Locales(['zh', 'jp'], 1, 'cmn');
+        l.afterChange((m, o, old, f) => {
+            expect(old).toEqual('zh');
+            expect(m).toEqual('zh');
+            expect(o).toEqual('cmn');
+            expect(f).toEqual('jp');
+        });
+        l.current = 'cmn';
+    });
+
+    test('supportedNames', () => {
+        const l = new Locales(['zh', 'jp'], 0, 'zh');
+
         const names = l.supportedNames();
         expect(names).length(2);
         expect(names.get('zh')).not.length(0);

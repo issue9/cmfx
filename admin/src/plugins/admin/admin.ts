@@ -2,21 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Composer, createI18n } from 'vue-i18n';
-import { useLocale } from 'vuetify';
+import { I18n } from 'vue-i18n';
 
-import { locales } from '@/locales/locales';
 import { build as buildFetch, Method, Return } from '@/utils/fetch';
 
-import {Options, setLanguage, setLogo, setTitle} from './options';
+import { Options, setLogo, setTitle } from './options';
 import { MenuItem } from './page';
 
+type Fetcher = Awaited<ReturnType<typeof buildFetch>>;
+
 export class Admin {
-    readonly #fetcher: Awaited<ReturnType<typeof buildFetch>>;
+    readonly #fetcher: Fetcher;
     readonly #footer?: Array<MenuItem>;
     readonly #menus: Array<MenuItem>;
     readonly #titleSeparator: string;
-    readonly #i18n: Composer;
+    readonly #i18n: I18n;
 
     #siteTitle: string;
     #logo: string;
@@ -25,18 +25,12 @@ export class Admin {
     /**
      * 构造函数
      */
-    constructor(o: Required<Options>, f: Awaited<ReturnType<typeof buildFetch>>) {
+    constructor(o: Required<Options>, f: Fetcher, i18n: I18n) {
         this.#fetcher = f;
         this.#footer = o.page.footer;
         this.#menus = o.page.menus;
         this.#titleSeparator = o.titleSeparator;
-
-        this.#i18n = createI18n({ legacy: false }).global;
-        for (const locale of locales) {
-            import(`@/locales/${locale}.json`).then((msg) => {
-                this.#i18n.setLocaleMessage(locale, msg);
-            });
-        }
+        this.#i18n = i18n;
 
         this.#siteTitle = o.title;
         this.#logo = o.logo;
@@ -68,28 +62,16 @@ export class Admin {
 
     get footer(): Array<MenuItem> { return this.#footer ?? []; }
 
-    set locale(v: string) {
-        this.#fetcher.locales.current = v; // 改变 fetch 中的 accept-language
-
-        document.documentElement.lang = v; // 改变 html.lang
-
-        // 改变 vuetify 的语言
-        const { current } = useLocale();
-        current.value = v;
-
-        this.#i18n.locale.value = v;// 改变当前框架内部的语言
-
-        (async()=>{await setLanguage(v);})();
-    }
+    set locale(v: string) { this.#fetcher.locales.current = v; }
     get locale(): string { return this.#fetcher.locales.current; }
 
     /**
      * 返回支持的语言
      */
     get supportedLanguages() { return this.#fetcher.locales.supportedNames(); }
-    
-    get i18n(): Composer { return this.#i18n; }
-    
+
+    get i18n(): I18n { return this.#i18n; }
+
     //--------------------- 以下是对 Fetcher 各个方法的转发 ----------------------------
 
     async isLogin(): Promise<boolean> { return await this.#fetcher.isLogin(); }
