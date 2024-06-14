@@ -8,7 +8,7 @@ interface AfterLocaleChange {
     /**
      * 在改变语言时触发的事件
      *
-     * @param matched: 从 supported 中找到的与 orign 最匹配的语言标签，可能与 orign 有一定差别；
+     * @param matched: 从 supported 中找到的与 origin 最匹配的语言标签，可能与 origin 有一定差别；
      * @param origin 客户想要的原始语言标签；
      * @param old 改变之前的值；
      * @param fallback 设定的默认值；
