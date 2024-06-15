@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
+import { Locales } from '@/core/locales';
 import { build } from './fetch';
-import {Locales} from '@/utils/locales/locales';
 
 describe('fetch', () => {
-    const l = new Locales(['zh-Hans', 'zh-cn'], 'zh-cn');
-    
+    const l = new Locales(['zh-Hans', 'zh-cn'], 1);
+
     test('build', async () => {
         expect(async () => {
             await build('http://localhost', '/login', 'not-exists', l);

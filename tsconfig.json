@@ -5,7 +5,7 @@
             "path": "./admin/tsconfig.json"
         },
         {
-            "path": "./demo/admin/tsconfig.json"
+            "path": "./cmd/admin/tsconfig.json"
         }
     ]
 }
