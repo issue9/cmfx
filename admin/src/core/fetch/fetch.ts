@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { delToken, getToken, state, Token, TokenState, writeToken } from './token.ts';
-import { Locales } from '@/utils/locales/locales';
+import { Locales } from '@/core/locales/locales';
+
+import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 

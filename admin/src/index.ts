@@ -4,13 +4,9 @@
 
 export { create } from '@/app';
 
-// utils
-export type { Page, Problem, Return } from '@/utils/fetch';
-export { build } from '@/utils/fetch';
-export { sleep } from '@/utils/time';
-export type { Locales } from '@/utils/locales';
+// core
+export { sleep } from '@/core';
+export type { Options, Page, Problem, Return } from '@/core';
 
 // plugins
 export { useAdmin } from '@/plugins';
-export type { Options } from '@/plugins';
-

@@ -38,7 +38,6 @@ const router = createRouter({
 });
 
 const o: Options = {
-    languages: ['cmn-Hans'],
     api: {
         base: 'http://localhost',
         login: '/login',

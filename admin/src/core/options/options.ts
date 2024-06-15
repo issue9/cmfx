@@ -11,7 +11,7 @@ const siteTitleName = 'site_title';
 const logoName = 'logo';
 
 /**
- * 管理后台的基本配置
+ * 基本配置
  */
 export interface Options {
     /**
@@ -61,8 +61,9 @@ const presetOptions = {
  * 根据 o 生成一个完整的 Options 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
+ * @returns 返回一个所有值都正确的 <Required<Options>>
  */
-export async function buildOptions(o: Options): Promise<Required<Options>> {
+export async function build(o: Options): Promise<Required<Options>> {
     const siteTitle = await localforage.getItem<string>(siteTitleName);
     if (siteTitle) {
         o.title = siteTitle;
@@ -91,13 +92,26 @@ export async function buildOptions(o: Options): Promise<Required<Options>> {
     await setLogo(o.logo);
     await setTitle(o.title);
 
-    return opt;
+    return {
+        ...opt,
+        get logo() { return opt.logo; },
+        set logo(l: string) {
+            opt.logo = l;
+            setLogo(l);
+        },
+
+        get title() { return opt.title; },
+        set title(v: string) {
+            opt.title = v;
+            setTitle(v);
+        }
+    };
 }
 
-export async function setLogo(logo: string) {
+async function setLogo(logo: string) {
     await localforage.setItem(logoName, logo);
 }
 
-export async function setTitle(title: string) {
+async function setTitle(title: string) {
     await localforage.setItem(siteTitleName, title);
 }

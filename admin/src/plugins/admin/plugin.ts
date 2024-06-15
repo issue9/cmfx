@@ -6,11 +6,9 @@ import { App, inject, InjectionKey } from 'vue';
 import { Composer, I18n } from 'vue-i18n';
 import { createVuetify } from 'vuetify';
 
+import type { Options } from '@/core';
+import { buildFetch, buildOptions, Method, Return } from '@/core';
 import { initLocale } from '@/locales';
-import { build as buildFetch, Method, Return } from '@/utils/fetch';
-
-import type { Options } from './options';
-import { buildOptions, setLogo, setTitle } from './options';
 
 type VuetifyType = ReturnType<typeof createVuetify>;
 
@@ -60,8 +58,6 @@ export async function createPlugin(opt: Options, vuetify: VuetifyType, i18n: I18
     const fetcher = await buildFetch(o.api.base, o.api.login, o.mimetype, l);
     const global = i18n.global as Composer;
 
-    let siteTitle = o.title;
-    let logo = o.logo;
     let pageTitle = '';
 
     return {
@@ -75,17 +71,11 @@ export async function createPlugin(opt: Options, vuetify: VuetifyType, i18n: I18
             document.title = title + this.siteTitle;
         },
 
-        get siteTitle() { return siteTitle; },
-        set siteTitle(title: string) {
-            siteTitle = title;
-            (async () => { await setTitle(title); })();
-        },
+        get siteTitle() { return opt.title; },
+        set siteTitle(title: string) { opt.title = title; },
 
-        get logo() { return logo; },
-        set logo(l: string) {
-            logo = l;
-            (async () => { await setLogo(l); })();
-        },
+        get logo() { return opt.logo; },
+        set logo(l: string) { opt.logo = l; },
 
         get menus() { return o.page.menus; },
 

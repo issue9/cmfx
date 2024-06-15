@@ -8,8 +8,9 @@ import { I18n } from 'vue-i18n';
 import { Router } from 'vue-router';
 import { createVuetify } from 'vuetify';
 
+import { Options } from '@/core';
 import { XApp } from '@/pages/XApp';
-import { createAdmin, Options } from '@/plugins';
+import { createAdmin } from '@/plugins';
 
 /**
  * 创建 vue 的 app 实例并初始化必要的插件

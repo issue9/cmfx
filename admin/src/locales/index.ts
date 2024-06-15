@@ -5,7 +5,7 @@
 import { Composer, I18n } from 'vue-i18n';
 import { createVuetify } from 'vuetify';
 
-import { Locales } from '@/utils/locales';
+import { Locales } from '@/core';
 
 import { default as cmnHans } from './cmn-Hans';
 import { Locale, default as en } from './en';
