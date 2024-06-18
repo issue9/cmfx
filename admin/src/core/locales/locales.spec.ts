@@ -11,7 +11,7 @@ describe('Locales', () => {
             new Locales([], 0);
         }).toThrowError('supported 不能为空');
 
-        const l = new Locales(['zh', 'en'], 1, 'zh')
+        const l = new Locales(['zh', 'en'], 1, 'zh');
         expect(l).not.toBeNull();
         expect(l.fallback).toEqual('en');
         expect(l.current).toEqual('zh');

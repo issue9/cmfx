@@ -8,13 +8,12 @@ import pluginVue from 'eslint-plugin-vue';
 import parserTs from '@typescript-eslint/parser';
 
 export default [
-    ...pluginVue.configs['flat/essential'],
     {
         languageOptions: {
             globals: globals.browser,
             parser: parserTs
         },
-        files: ['**/*.ts', '**/*.js', '**/*.mjs'],
+        files: ['**/*.ts', '**/*.mts', '**/*.vue'],
         plugins: {
             '@stylistic/ts': stylisticTs
         },
@@ -24,5 +23,6 @@ export default [
             '@stylistic/ts/semi': ['error', 'always'],
             '@stylistic/ts/space-before-blocks': 'error'
         }
-    }
+    },
+    ...pluginVue.configs['flat/essential']
 ];

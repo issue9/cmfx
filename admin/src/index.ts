@@ -5,7 +5,7 @@
 export { create } from '@/app';
 
 // core
-export { sleep } from '@/core';
+export { Contrast, Mode, sleep } from '@/core';
 export type { Options, Page, Problem, Return } from '@/core';
 
 // plugins

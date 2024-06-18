@@ -6,6 +6,7 @@ import localforage from 'localforage';
 
 import { API, checkAPI } from './api';
 import { MenuItem, Page, checkPage } from './page';
+import { Theme } from './theme';
 
 const siteTitleName = 'site_title';
 const logoName = 'logo';
@@ -20,6 +21,11 @@ export interface Options {
      * 该值会被保存在 localforage 之中，如果在 localforage 存在值，则此设置将不启作用。
      */
     title: string
+
+    /**
+     * 默认的主题
+     */
+    theme: Theme
 
     /**
      * 默认的 LOGO

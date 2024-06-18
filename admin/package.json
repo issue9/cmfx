@@ -42,10 +42,11 @@
     },
     "dependencies": {
         "@formatjs/intl-localematcher": "^0.5.4",
+        "@material/material-color-utilities": "^0.2.7",
         "@mdi/font": "^7.4.47",
-        "@vueuse/core": "^10.10.0",
+        "@vueuse/core": "^10.11.0",
         "localforage": "^1.10.0",
-        "vue": "^3.4.27",
+        "vue": "^3.4.29",
         "vue-i18n": "^9.13.1",
         "vue-router": "^4.3.3",
         "vuetify": "^3.6.9"
@@ -56,9 +57,9 @@
         "@vitest/coverage-v8": "^1.6.0",
         "jsdom": "^24.1.0",
         "typescript": "^5.4.5",
-        "vite": "^5.2.11",
+        "vite": "^5.3.1",
         "vite-plugin-dts": "^3.9.1",
         "vitest": "^1.6.0",
-        "vue-tsc": "^2.0.19"
+        "vue-tsc": "^2.0.21"
     }
 }

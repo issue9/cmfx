@@ -26,13 +26,14 @@
 
             <template v-slot:append>
                 <v-btn v-tooltip="admin.t('_internal.fullscreen')"
-                    :icon="fullscreen.isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'"
-                    @click="fullscreen.toggle"></v-btn>
+                    :icon="fullscreen.isFullscreen ? 'mdi-fullscreen-exit' : 'mdi-fullscreen'" @click="fullscreen.toggle" />
+                <v-btn v-tooltip="admin.t('_internal.settings')" @click="settings = !settings" icon="mdi-cog-outline" />
             </template>
         </v-app-bar>
 
         <v-main id="main">
             <router-view />
+            <v-navigation-drawer v-model="settings" location="right"><x-settings /></v-navigation-drawer>
         </v-main>
     </v-app>
 </template>
@@ -42,6 +43,7 @@ import { ref } from 'vue';
 import {
     VNavigationDrawer, VMain, VApp, VListItem, VDivider, VBtn,
 } from 'vuetify/components';
+import XSettings from './XSettings.vue';
 
 import { useInternal } from '@/plugins';
 import { useFullscreen } from '@vueuse/core';
@@ -49,6 +51,7 @@ import { useFullscreen } from '@vueuse/core';
 const admin = useInternal();
 const fullscreen = useFullscreen();
 const drawer = ref(true);
+const settings = ref(false);
 //admin.locale = 'cmn-Hans';
 
 const isLogin = ref(false);

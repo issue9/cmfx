@@ -4,4 +4,5 @@
 
 export { build } from './options';
 export type { Options } from './options';
+export { Contrast, Mode } from './theme';
 

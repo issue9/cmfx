@@ -2,10 +2,35 @@
 //
 // SPDX-License-Identifier: MIT
 
-const locale = {
-    fullscreen: 'full screen'
+const messages = {
+    fullscreen: 'full screen',
+    settings: 'settings',
+    ok: 'OK',
+    reset: 'reset',
+    login: {
+        title: 'login',
+        username: 'username',
+        password: 'password'
+    },
+    theme: {
+        mode: 'theme mode',
+        dark: 'dark',
+        light: 'light',
+        system: 'system',
+        primaryColor: 'primary color'
+    },
+    contrast: {
+        contrast: 'contrast',
+        standard: 'standard',
+        medium: 'medium',
+        high: 'high'
+    },
+    locale: {
+        locale: 'locale',
+        uiLanguage: 'ui language',
+    }
 };
 
-export default locale;
+export default messages;
 
-export type Locale = typeof locale;
+export type Messages = typeof messages;

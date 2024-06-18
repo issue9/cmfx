@@ -9,6 +9,7 @@ import { createVuetify } from 'vuetify';
 import type { Options } from '@/core';
 import { buildFetch, buildOptions, Method, Return } from '@/core';
 import { initLocale } from '@/locales';
+import { Router } from 'vue-router';
 
 type VuetifyType = ReturnType<typeof createVuetify>;
 
@@ -45,18 +46,35 @@ export function useAdmin(): Omit<PluginType, 'menus' | 'footer'> {
 /**
  * 创建 Admin 插件的安装对象
  */
-export async function createAdmin(o: Options, vuetify: VuetifyType, i18n: I18n) {
-    const plugin = await createPlugin(o, vuetify, i18n);
+export async function createAdmin(o: Options, router: Router, vuetify: VuetifyType, i18n: I18n) {
+    const plugin = await createPlugin(o, router, vuetify, i18n);
     return {
         install(app: App) { app.provide(pluginKey, plugin); }// NOTE: install 不能是异步
     };
 }
 
-export async function createPlugin(opt: Options, vuetify: VuetifyType, i18n: I18n) {
+export async function createPlugin(opt: Options, router: Router, vuetify: VuetifyType, i18n: I18n) {
     const o = await buildOptions(opt);
     const l = await initLocale(vuetify, i18n);
     const fetcher = await buildFetch(o.api.base, o.api.login, o.mimetype, l);
     const global = i18n.global as Composer;
+
+    router.beforeEach(async (to) => { // 路由守卫
+        console.log('guard!');
+        if (await fetcher.isLogin()) {
+            console.log('isLogin');
+            if (to.path === o.page.login) { // 已登录的情况下，除了登录页面，其它页面都可以访问。
+                console.log('path==login');
+                return { path: o.page.home };
+            }
+        } else {
+            console.log('not login');
+            if (!to.meta.public) { // 未登录的情况下，所有 !public 的页页都不能访问。
+                console.log('not public:', to.path);
+                return { path: o.page.login };
+            }
+        }
+    });
 
     let pageTitle = '';
 

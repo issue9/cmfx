@@ -6,6 +6,7 @@ import localforage from 'localforage';
 import { expect, test } from 'vitest';
 
 import { build } from './options';
+import { Contrast, Mode } from './theme';
 
 test('build', async () => {
     const api = {
@@ -20,12 +21,18 @@ test('build', async () => {
         home: '/home',
         menus: []
     };
+    const theme = {
+        mode: Mode.System,
+        contrast: Contrast.Standard,
+        primary: '#ccc'
+    };
 
     await localforage.clear();
 
     let o = await build({
         api: api,
         page: page,
+        theme: theme,
         title: 'title',
         logo: 'logo'
     });
@@ -35,6 +42,7 @@ test('build', async () => {
     expect(build({
         api: api,
         page: page,
+        theme: theme,
         title: '',
         logo: 'logo'
     })).rejects.toThrowError('title 不能为空');
@@ -43,6 +51,7 @@ test('build', async () => {
     expect(build({
         api: api,
         page: page,
+        theme: theme,
         title: 'title',
         logo: ''
     })).rejects.toThrowError('logo 不能为空');
@@ -53,12 +62,14 @@ test('build', async () => {
     await build({
         api: api,
         page: page,
+        theme: theme,
         title: 'title',
         logo: 'logo'
     });
     o = await build({
         api: api,
         page: page,
+        theme: theme,
         title: 't1',
         logo: 'l1'
     });
@@ -71,6 +82,7 @@ test('build', async () => {
     await build({
         api: api,
         page: page,
+        theme: theme,
         title: 'title',
         logo: 'logo'
     });
@@ -78,6 +90,7 @@ test('build', async () => {
     o = await build({
         api: api,
         page: page,
+        theme: theme,
         title: 't1',
         logo: 'l1'
     });

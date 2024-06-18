@@ -1,7 +1,11 @@
+// SPDX-FileCopyrightText: 2024 caixw
+//
+// SPDX-License-Identifier: MIT
+
 /// <reference types="vite/client" />
 
 declare module '*.vue' {
-    import type { DefineComponent } from 'vue';
-    const component: DefineComponent<object, object, object>;
+    import type { defineComponent } from 'vue';
+    const component: ReturnType<typeof defineComponent>;
     export default component;
 }

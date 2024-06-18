@@ -8,10 +8,10 @@ import { createVuetify } from 'vuetify';
 import { Locales } from '@/core';
 
 import { default as cmnHans } from './cmn-Hans';
-import { Locale, default as en } from './en';
+import { Messages, default as en } from './en';
 
 // 指定了当前框架内置的翻译内容
-const locales = new Map<string, Locale>([
+const locales = new Map<string, Messages>([
     ['en', en],
     ['cmn-Hans', cmnHans]
 ]);

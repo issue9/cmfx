@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { create, Options } from '@/index';
+import { Contrast, Mode, Options, create } from '@/index';
+import { XLogin } from '@/pages';
 import { createI18n } from 'vue-i18n';
 import { createRouter, createWebHashHistory } from 'vue-router';
 
@@ -33,7 +34,19 @@ const vuetify = createVuetify({
 const router = createRouter({
     history: createWebHashHistory(),
     routes: [
-        // TODO
+        {
+            path: '/login',
+            component: XLogin,
+            meta: { public: true }
+        },
+        {
+            path: '/home',
+            component: () => import('./XHome.vue')
+        },
+        {
+            path: '/',
+            redirect: '/home'
+        }
     ]
 });
 
@@ -43,6 +56,12 @@ const o: Options = {
         login: '/login',
         settings: '/settings',
         info: '/info',
+    },
+
+    theme: {
+        mode: Mode.System,
+        contrast: Contrast.Standard,
+        primary: '#ccc'
     },
     title: 'title',
     logo: 'http://localhost/favicon.ico',

@@ -12,7 +12,7 @@ test('checkPage', () => {
             login: 'login',
             home: '',
             menus: []
-        })
+        });
     }).toThrowError('page.home 不能为空');
 
     expect(() => {
@@ -20,7 +20,7 @@ test('checkPage', () => {
             login: 'login',
             home: 'login',
             menus: []
-        })
+        });
     }).toThrowError('login 与 home 不能相同');
 });
 
