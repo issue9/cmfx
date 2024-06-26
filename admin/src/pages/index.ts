@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-// 所有公开的页面在此处声明，而不是顶级的 index.ts。
+// 只导出页面，其它功能由根目录的 index.ts 导出。
 
-export { XLogin } from './XLogin';
+export { Dashboard } from './dashboard';
+export { Login } from './login';
+

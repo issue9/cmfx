@@ -55,9 +55,13 @@
         <url>http://localhost:8080</url>
 
         <admin superUser="1">
-            <user accessExpires="43200" refreshExpires="86400">
+            <user accessExpired="1h" refreshExpired="24h">
                 <urlPrefix>/admin</urlPrefix>
             </user>
         </admin>
+
+        <system>
+            <urlPrefix>/system</urlPrefix>
+        </system>
     </user>
 </web>

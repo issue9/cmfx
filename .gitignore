@@ -12,6 +12,7 @@ node_modules
 *.tsbuildinfo
 admin/lib/
 admin/coverage/
+cmd/admin/dist/
 
 # IDE
 .vs/

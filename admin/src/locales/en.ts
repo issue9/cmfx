@@ -7,6 +7,13 @@ const messages = {
     settings: 'settings',
     ok: 'OK',
     reset: 'reset',
+    error: {
+        backHome: 'back home',
+        backPrev: 'back prev page',
+        pageNotFound: 'page not found',
+        forbidden: 'forbidden',
+        internalServerError: 'server error',
+    },
     login: {
         title: 'login',
         username: 'username',

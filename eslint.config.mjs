@@ -4,7 +4,6 @@
 
 import globals from 'globals';
 import stylisticTs from '@stylistic/eslint-plugin-ts';
-import pluginVue from 'eslint-plugin-vue';
 import parserTs from '@typescript-eslint/parser';
 
 export default [
@@ -13,7 +12,7 @@ export default [
             globals: globals.browser,
             parser: parserTs
         },
-        files: ['**/*.ts', '**/*.mts', '**/*.vue'],
+        files: ['**/*.ts', '**/*.mts', '**/*.mjs', '**/*.tsx'],
         plugins: {
             '@stylistic/ts': stylisticTs
         },
@@ -23,6 +22,5 @@ export default [
             '@stylistic/ts/semi': ['error', 'always'],
             '@stylistic/ts/space-before-blocks': 'error'
         }
-    },
-    ...pluginVue.configs['flat/essential']
+    }
 ];

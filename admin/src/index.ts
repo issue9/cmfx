@@ -2,11 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { create } from '@/app';
+export { Contrast, Mode, createApp, useApp } from './pages/app';
+export type { Options, Routes } from './pages/app';
 
-// core
-export { Contrast, Mode, sleep } from '@/core';
-export type { Options, Page, Problem, Return } from '@/core';
-
-// plugins
-export { useAdmin } from '@/plugins';

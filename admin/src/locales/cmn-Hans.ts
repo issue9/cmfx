@@ -9,6 +9,13 @@ const messages: Messages = {
     settings: '设置',
     ok: '确定',
     reset: '重置',
+    error: {
+        backHome: '返回首页',
+        backPrev: '返回上一页',
+        pageNotFound: '页面不存在',
+        forbidden: '无权访问当前页面',
+        internalServerError: '服务端错误',
+    },
     login: {
         title: '登录',
         username: '账号',

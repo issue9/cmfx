@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locales } from '@/core/locales/locales';
-
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -26,17 +24,17 @@ interface Serializer {
  * @param baseURL API 的基地址，不能以 / 结尾。
  * @param contentType mimetype 的类型。
  * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
- * @param locales 管理本地化的对象，由该参数确定 accept-language 报头的内容。
+ * @param locale 报头 accept-language 的内容。
  */
-export async function build(baseURL: string, loginPath: string, contentType: string, locales: Locales): Promise<Fetcher> {
+export async function build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
     const t = await getToken();
-    return new Fetcher(baseURL, loginPath, contentType, locales, t);
+    return new Fetcher(baseURL, loginPath, contentType, locale, t);
 }
 
 class Fetcher {
     readonly #baseURL: string;
     readonly #loginPath: string;
-    readonly #locales: Locales;
+    #locale: string;
     #token: Token | null;
 
     readonly #contentType: string;
@@ -45,7 +43,7 @@ class Fetcher {
     /**
      * 构造函数，参数参考 build
      */
-    constructor(baseURL: string, loginPath: string, contentType: string, locales: Locales, token: Token | null) {
+    constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
         const s = serializers.get(contentType);
         if (!s) {
             throw `不支持的 contentType ${contentType}`;
@@ -53,17 +51,14 @@ class Fetcher {
 
         this.#baseURL = baseURL;
         this.#loginPath = loginPath;
-        this.#locales = locales;
+        this.#locale = locale;
         this.#token = token;
 
         this.#contentType = contentType;
         this.#serializer = s;
     }
 
-    /**
-     * 返回关联的 Locales 对象
-     */
-    get locales(): Locales { return this.#locales; }
+    set locale(v: string) { this.#locale = v; }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -203,7 +198,7 @@ class Fetcher {
     async withArgument(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return> {
         const h = new Headers({
             'Accept': this.#contentType + '; charset=UTF-8',
-            'Accept-Language': this.#locales.current,
+            'Accept-Language': this.#locale,
         });
         if (token) {
             h.set('Authorization', token);

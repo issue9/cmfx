@@ -1,0 +1,252 @@
+@import 'material-symbols';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.material-symbols-outlined {
+    /*font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;*/
+    font-size: 1.3rem;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary-bg: 76 102 43;
+    --primary-accent: 16 32 0;
+    --primary-text: 255 255 255;
+    --primary-outline: 177 209 138;
+    --primary-divider: 16 32 0;
+
+    --secondary-bg: 88 98 73;
+    --secondary-accent: 21 30 11;
+    --secondary-text: 255 255 255;
+    --secondary-outline: 191 203 173;
+    --secondary-divider: 220 231 200;
+
+    --tertiary-bg: 56 102 99;
+    --tertiary-accent: 0 32 30;
+    --tertiary-text: 255 255 255;
+    --tertiary-outline: 160 208 203;
+    --tertiary-divider: 188 236 231;
+
+    --error-bg: 186 26 26;
+    --error-accent: 65 0 2;
+    --error-text: 255 255 255;
+    --error-outline: 255 218 214;
+    --error-divider: 65 0 2;
+
+    --surface-bg: 249 250 239;
+    --surface-text: 26 28 22;
+    --surface-outline: 218 219 208;
+    --surface-divider: 249 250 239;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --primary-bg: 177 209 138;
+        --primary-accent: 205 237 163;
+        --primary-text: 31 55 1;
+        --primary-outline: 177 209 138;
+        --primary-divider: 16 32 0;
+
+        --secondary-bg: 191 203 173;
+        --secondary-accent: 220 231 200;
+        --secondary-text: 42 51 30;
+        --secondary-outline: 191 203 173;
+        --secondary-divider: 21 30 11;
+
+        --tertiary-bg: 160 208 203;
+        --tertiary-accent: 188 236 231;
+        --tertiary-text: 0 55 53;
+        --tertiary-outline: 160 208 203;
+        --tertiary-divider: 0 32 30;
+
+        --error-bg: 255 180 171;
+        --error-accent: 255 218 214;
+        --error-text: 105 0 5;
+        --error-outline: 147 0 10;
+
+        --surface-bg: 18 20 14;
+        --surface-text: 226 227 216;
+        --surface-outline: 18 20 14;
+        --surface-divider: 56 58 50;
+        --error-divider: 255 218 214;
+    }
+}
+
+@layer components {
+    .primary-color {
+        @apply bg-primary text-primary;
+    }
+
+    .secondary-color {
+        @apply bg-secondary text-secondary;
+    }
+
+    .tertiary-color {
+        @apply bg-tertiary text-tertiary;
+    }
+
+    .surface-color {
+        @apply bg-surface text-surface;
+    }
+
+    .error-color {
+        @apply bg-error text-error;
+    }
+
+    .icon-container {
+        @apply inline-flex items-center text-center;
+    }
+
+    /***************************** button **************************/
+
+    .button {
+        @apply rounded-md text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed;
+    }
+
+    .primary-button,
+    .primary-filled-button {
+        @apply button primary-color hover:[&:not(:disabled)]:bg-[rgb(var(--primary-accent))];
+    }
+
+    .secondary-button,
+    .secondary-filled-button {
+        @apply button secondary-color hover:[&:not(:disabled)]:bg-[rgb(var(--secondary-accent))];
+    }
+
+    .tertiary-button,
+    .tertiary-filled-button {
+        @apply button tertiary-color hover:[&:not(:disabled)]:bg-[rgb(var(--tertiary-accent))];
+    }
+
+    .error-button,
+    .error-filled-button {
+        @apply button error-color hover:[&:not(:disabled)]:bg-[rgb(var(--error-accent))];
+    }
+
+    .border-button {
+        @apply button bg-transparent border border-solid;
+    }
+
+    .primary-border-button {
+        @apply border-button border-[rgb(var(--primary-border))] text-[rgb(var(--primary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--primary-accent))] hover:[&:not(:disabled)]:text-primary;
+    }
+
+    .secondary-border-button {
+        @apply border-button border-[rgb(var(--secondary-border))] text-[rgb(var(--secondary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--secondary-accent))] hover:[&:not(:disabled)]:text-secondary;
+    }
+
+    .tertiary-border-button {
+        @apply border-button border-[rgb(var(--tertiary-border))] text-[rgb(var(--tertiary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--tertiary-accent))] hover:[&:not(:disabled)]:text-tertiary;
+    }
+
+    .error-border-button {
+        @apply border-button border-[rgb(var(--error-border))] text-[rgb(var(--error-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--error-accent))] hover:[&:not(:disabled)]:text-error;
+    }
+
+    .flat-button {
+        @apply button bg-transparent;
+    }
+
+    .primary-flat-button {
+        @apply flat-button text-[rgb(var(--primary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--primary-accent))] hover:[&:not(disabled)]:text-primary;
+    }
+
+    .secondary-flat-button {
+        @apply flat-button text-[rgb(var(--secondary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--secondary-accent))] hover:[&:not(:disabled)]:text-secondary;
+    }
+
+    .tertiary-flat-button {
+        @apply flat-button text-[rgb(var(--tertiary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--tertiary-accent))] hover:[&:not(:disabled)]:text-tertiary;
+    }
+
+    .error-flat-button {
+        @apply flat-button text-[rgb(var(--error-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--error-accent))] hover:[&:not(:disabled)]:text-error;
+    }
+
+    .icon-button {
+        /* 让 p-1 和 p-2 与 .button 中的 py 和 md:py 相等 */
+        @apply text-sm p-1 md:p-2 disabled:cursor-not-allowed material-symbols-outlined rounded-full;
+    }
+
+    .primary-icon-button,
+    .primary-filled-icon-button {
+        @apply icon-button primary-color hover:[&:not(:disabled)]:bg-[rgb(var(--primary-accent))];
+    }
+
+    .secondary-icon-button,
+    .secondary-filled-icon-button {
+        @apply icon-button secondary-color hover:[&:not(:disabled)]:bg-[rgb(var(--secondary-accent))];
+    }
+
+    .tertiary-icon-button,
+    .tertiary-filled-icon-button {
+        @apply icon-button tertiary-color hover:[&:not(:disabled)]:bg-[rgb(var(--tertiary-accent))];
+    }
+
+    .error-icon-button,
+    .error-filled-icon-button {
+        @apply icon-button error-color hover:[&:not(:disabled)]:bg-[rgb(var(--error-accent))];
+    }
+
+    .border-icon-button {
+        @apply icon-button bg-transparent border border-solid;
+    }
+
+    .primary-border-icon-button {
+        @apply border-icon-button border-[rgb(var(--primary-border))] text-[rgb(var(--primary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--primary-accent))] hover:[&:not(:disabled)]:text-primary;
+    }
+
+    .secondary-border-icon-button {
+        @apply border-icon-button border-[rgb(var(--secondary-border))] text-[rgb(var(--secondary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--secondary-accent))] hover:[&:not(:disabled)]:text-secondary;
+    }
+
+    .tertiary-border-icon-button {
+        @apply border-icon-button border-[rgb(var(--tertiary-border))] text-[rgb(var(--tertiary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--tertiary-accent))] hover:[&:not(:disabled)]:text-tertiary;
+    }
+
+    .error-border-icon-button {
+        @apply border-icon-button border-[rgb(var(--error-border))] text-[rgb(var(--error-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--error-accent))] hover:[&:not(:disabled)]:text-error;
+    }
+
+    .flat-icon-button {
+        @apply icon-button bg-transparent;
+    }
+
+    .primary-flat-icon-button {
+        @apply flat-icon-button text-[rgb(var(--primary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--primary-accent))] hover:[&:not(disabled)]:text-primary;
+    }
+
+    .secondary-flat-icon-button {
+        @apply flat-icon-button text-[rgb(var(--secondary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--secondary-accent))] hover:[&:not(:disabled)]:text-secondary;
+    }
+
+    .tertiary-flat-icon-button {
+        @apply flat-icon-button text-[rgb(var(--tertiary-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--tertiary-accent))] hover:[&:not(:disabled)]:text-tertiary;
+    }
+
+    .error-flat-icon-button {
+        @apply flat-icon-button text-[rgb(var(--error-bg))];
+        @apply hover:[&:not(:disabled)]:bg-[rgb(var(--error-accent))] hover:[&:not(:disabled)]:text-error;
+    }
+
+    /***************************** card **************************/
+
+    .card {}
+}
