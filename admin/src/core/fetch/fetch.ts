@@ -18,20 +18,7 @@ interface Serializer {
     stringify(_: unknown): string;
 }
 
-/**
- * 返回一个对 fetch 进行二次包装的对象
- *
- * @param baseURL API 的基地址，不能以 / 结尾。
- * @param contentType mimetype 的类型。
- * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
- * @param locale 报头 accept-language 的内容。
- */
-export async function build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
-    const t = await getToken();
-    return new Fetcher(baseURL, loginPath, contentType, locale, t);
-}
-
-class Fetcher {
+export class Fetcher {
     readonly #baseURL: string;
     readonly #loginPath: string;
     #locale: string;
@@ -41,9 +28,19 @@ class Fetcher {
     readonly #serializer: Serializer;
 
     /**
-     * 构造函数，参数参考 build
+     * 返回一个对 fetch 进行二次包装的对象
+     *
+     * @param baseURL API 的基地址，不能以 / 结尾。
+     * @param contentType mimetype 的类型。
+     * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
+     * @param locale 报头 accept-language 的内容。
      */
-    constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
+    static async build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
+        const t = await getToken();
+        return new Fetcher(baseURL, loginPath, contentType, locale, t);
+    }
+
+    private constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
         const s = serializers.get(contentType);
         if (!s) {
             throw `不支持的 contentType ${contentType}`;
@@ -79,7 +76,7 @@ class Fetcher {
     /**
      * DELETE 请求
      */
-    async delete(path: string, withToken = true): Promise<Return> {
+    async delete<T>(path: string, withToken = true): Promise<Return<T>> {
         return this.request(path, 'DELETE', undefined, withToken);
     }
 
@@ -90,28 +87,28 @@ class Fetcher {
      * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
-    async post(path: string, body?: unknown, withToken = true): Promise<Return> {
+    async post<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
         return this.request(path, 'POST', body, withToken);
     }
 
     /**
      * PUT 请求
      */
-    async put(path: string, body?: unknown, withToken = true): Promise<Return> {
+    async put<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
         return this.request(path, 'PUT', body, withToken);
     }
 
     /**
      * PATCH 请求
      */
-    async patch(path: string, body?: unknown, withToken = true): Promise<Return> {
+    async patch<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
         return this.request(path, 'PATCH', body, withToken);
     }
 
     /**
      * GET 请求
      */
-    async get(path: string, withToken = true): Promise<Return> {
+    async get<T>(path: string, withToken = true): Promise<Return<T>> {
         return this.request(path, 'GET', undefined, withToken);
     }
 
@@ -123,7 +120,7 @@ class Fetcher {
      * @param obj 请求对象，如果是 GET，可以为空。
      * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
      */
-    async request(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return> {
+    async request<T>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<T>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj ? this.#serializer.stringify(obj) : undefined;
         return this.withArgument(path, method, token, this.#contentType, body);
@@ -136,7 +133,7 @@ class Fetcher {
      * @param obj 上传的对象
      * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌。
      */
-    async upload(path: string, obj: FormData, withToken = true): Promise<Return> {
+    async upload<T>(path: string, obj: FormData, withToken = true): Promise<Return<T>> {
         const token = withToken ? await this.getToken() : undefined;
         return this.withArgument(path, 'POST', token, undefined, obj);
     }
@@ -156,6 +153,7 @@ class Fetcher {
         this.#token = null;
         await delToken();
     }
+
 
     /**
      * 获得令牌，如果令牌已经过期，会尝试刷新令牌。
@@ -195,7 +193,7 @@ class Fetcher {
      * @param ct content-type 的值，如果为空，表示不需要，比如上传等操作，不需要指定客户的 content-type 值；
      * @param body 提交的内容，如果不没有可以为空；
      */
-    async withArgument(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return> {
+    async withArgument<T>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return<T>> {
         const h = new Headers({
             'Accept': this.#contentType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
@@ -221,7 +219,7 @@ class Fetcher {
      * @param path 地址，相对于 baseURL
      * @param req 相关的参数
      */
-    async fetch(path: string, req?: RequestInit): Promise<Return> {
+    async fetch<T>(path: string, req?: RequestInit): Promise<Return<T>> {
         const resp = await fetch(this.buildURL(path), req);
 
         // 200-299
@@ -231,7 +229,7 @@ class Fetcher {
             if (txt.length === 0) {
                 return { status: resp.status, ok: true };
             }
-            return { status: resp.status, ok: true, body: this.#serializer.parse(txt) };
+            return { status: resp.status, ok: true, body: this.#serializer.parse(txt) as T };
         }
 
         // TODO 300-399
@@ -254,7 +252,7 @@ class Fetcher {
         } catch (error) {
             console.error(error);
         }
-        return { status: resp.status, ok: ok, problem: p };
+        return { status: resp.status, ok: ok, body: p };
     }
 }
 
@@ -287,13 +285,24 @@ export interface Page<T> {
 
 /**
  * 接口返回的对象
- *
- * 如果 ok 为 true，表示返回的是正常的结果，该结果如果不为空，那么应该在 body 之中；
- * 如果 ok 为 false，表示返回的是非正常的结果，如果有错误信息，应该保存在 problem 之中。
  */
-export interface Return {
-    problem?: Problem
-    body?: unknown
-    status: number
-    ok: boolean
+export interface Return<T> {
+    /**
+     * 服务端返回的类型
+     *
+     * 根据 ok 的值表示不同的类型：
+     *  - false 返回 Problem 类型；
+     *  - true 返回 T 或是在服务没有数据时返回 undefined；
+     */
+    body?: T|Problem|undefined;
+
+    /**
+     * 状态码
+     */
+    status: number;
+
+    /**
+     * 是否出错了，决定了 body 的类型。
+     */
+    ok: boolean;
 }

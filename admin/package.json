@@ -51,6 +51,10 @@
             "require": "./src/index.ts",
             "import": "./src/index.ts"
         },
+        "./dev/demo": {
+            "require": "./src/demo.tsx",
+            "import": "./src/demo.tsx"
+        },
         "./dev/style.css": {
             "require": "./src/style.css",
             "import": "./src/style.css"

@@ -2,8 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-// fetch
-export * from './fetch';
-
-// time
-export * from './time';
+export { default as XDivider } from './divider';

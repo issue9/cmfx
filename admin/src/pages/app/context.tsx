@@ -5,7 +5,7 @@
 import * as i18n from '@solid-primitives/i18n';
 import { createContext, createResource, createSignal } from 'solid-js';
 
-import { buildFetch } from '@/core';
+import { Fetcher } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
 import { build as buildOptions } from './options';
 
@@ -15,7 +15,7 @@ export type Context = Awaited<ReturnType<typeof buildContext>>;
 
 export const context = createContext<Context>();
 
-export function buildContext(o: Options, f: Awaited<ReturnType<typeof buildFetch>>) {
+export function buildContext(o: Options, f: Fetcher) {
     const [getLocale, setLocale] = createSignal<Locale>(o.locales.fallback);
 
     const loadMessages = async (id: Locale) => {
@@ -30,7 +30,7 @@ export function buildContext(o: Options, f: Awaited<ReturnType<typeof buildFetch
     const t = i18n.translator(dict);
 
     return {
-        ...f, // TODO 需要改进接口实现
+        fetcher() {return f;}, // TODO 去掉部分不用的方法
 
         isLogin(): boolean {
             let is = false;
@@ -40,6 +40,10 @@ export function buildContext(o: Options, f: Awaited<ReturnType<typeof buildFetch
                 is=false;
             });
             return is;
+        },
+
+        notify(title: string, body: string, type?: 'error'|'warning'|'success'|'info') {
+            // TODO
         },
 
         // 以下为本地化相关功能

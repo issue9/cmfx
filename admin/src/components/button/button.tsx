@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show, splitProps } from 'solid-js';
+import { JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Color } from '@/components/base';
 
 import { Type } from './types';
 
 export interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
-    color: Color;
+    color?: Color;
     t?: Type;
     // TODO loading
     leftIcon?: string;
@@ -21,7 +21,9 @@ export interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
  * 普通的非响应式按钮
  */
 export default function XButton(props: Props) {
-    let cls = `${props.color}-${props.t}-button`;
+    props = mergeProps({ color: 'primary' }, props) as Props;
+
+    let cls = `button--${props.t} color--${props.color}`;
 
     if (props.rounded) {
         cls += ' rounded-full';

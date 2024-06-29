@@ -74,8 +74,8 @@ func Load(mod *cmfx.Module, o *Config) *Module {
 	postAdmin := g.New("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.New("del-admin", web.StringPhrase("delete admins"))
 
-	// 限制登录为最多一秒 2 次
-	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 2, time.Second, nil, nil)
+	// 限制登录为最多一秒 5 次，可能存在 OPTIONS 等预检操作。
+	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 5, time.Second, nil, nil)
 
 	mod.Router().Prefix(m.URLPrefix()).
 		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server())).

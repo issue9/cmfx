@@ -7,7 +7,7 @@ import { ErrorBoundary, For, JSXElement, createContext, useContext } from 'solid
 import { render } from 'solid-js/web';
 
 import { XError } from '@/components';
-import { buildFetch } from '@/core';
+import { Fetcher } from '@/core';
 import { buildContext, context } from './context';
 import { Options, build as buildOptions } from './options';
 
@@ -41,8 +41,8 @@ export async function create(elementID: string, o: Options) {
     const opt = await buildOptions(o);
     document.title = opt.title;
 
-    const f = await buildFetch(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
-    const ctx = buildContext(opt, f);
+    const f = await Fetcher.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
+    const ctx = buildContext(opt, f); // BUG: 在 render 之外调用了 createSignal
 
     const routes: Array<RouteDefinition> = [
         {
@@ -82,7 +82,7 @@ export async function create(elementID: string, o: Options) {
 
 function App(props: {o: Awaited<ReturnType<typeof buildOptions>>, children?: JSXElement}) {
     return <div class="flex flex-col box-border overflow-hidden h-dvh">
-        <header class="w-dvw p-4 tertiary-color flex content-between">
+        <header class="w-dvw p-4 color--tertiary flex content-between">
             <div>
                 <img class="inline-block" src={props.o.logo} />
                 <span class="inline-block ml-2">{props.o.title}</span>
@@ -94,7 +94,7 @@ function App(props: {o: Awaited<ReturnType<typeof buildOptions>>, children?: JSX
             </div>
 
             <div class="action">action
-                <button type="button" class="primary-icon-button">fullscreen</button>
+                <button type="button" class="icon-button--filled-primary">fullscreen</button>
             </div>
         </header>
         {props.children}
@@ -111,7 +111,7 @@ function Public(props: {children?: JSXElement}) {
         return;
     }
 
-    return <div class="p-4 surface-color overflow-auto">
+    return <div class="p-4 h-dvh flex justify-center color--surface overflow-auto">
         {props.children}
     </div>;
 }
@@ -127,7 +127,7 @@ function Private(props: {children?: JSXElement}) {
     }
 
     return <div class="flex flex-1 overflow-y-hidden">
-        <aside class="max-w-32 h-full tertiary-color px-4 pb-4">
+        <aside class="max-w-32 h-full color--tertiary px-4 pb-4">
             <For each={i.menus}>
                 {(item) => (
                     <li>
@@ -137,7 +137,7 @@ function Private(props: {children?: JSXElement}) {
             </For>
         </aside>
 
-        <main class=" overflow-y-scroll p-4 rounded-lg surface-color flex-1">
+        <main class="overflow-y-scroll p-4 rounded-lg color--surface flex-1">
             <ErrorBoundary fallback={(err)=>(<XError title={err.toString()} />)}>
                 {props.children}
             </ErrorBoundary>

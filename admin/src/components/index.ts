@@ -8,5 +8,11 @@ export type { Color } from './base';
 // button
 export * from './button';
 
+// divider
+export * from './divider';
+
 // error
 export * from './error';
+
+// form
+export * from './form';

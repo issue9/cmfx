@@ -2,17 +2,25 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSXElement } from 'solid-js';
+import { JSX } from 'solid-js';
 
+import { Form, XTextField } from '@/components';
 import { useApp } from '@/pages/app';
 
-export default function(): JSXElement {
-    const ctx = useApp();
+interface Account {
+    username: string;
+    password: string;
+}
 
-    return <form class="items-center flex justify-center flex-col gap-2">
+export default function(): JSX.Element {
+    const ctx = useApp();
+    const f = new Form<Account>({username:'',password:''});
+
+    return <form {...f.events(ctx.fetcher(), 'POST', '/login')} class="items-center flex justify-center flex-col gap-2">
         <p>{ctx.t('_internal.login.title')}</p>
-        <input name="username" />
-        <input name="password" />
-        <button type="submit" class="primary-button">{ctx.t('_internal.ok') as string}</button>
+        <XTextField icon="face" color='secondary' placeholder='username !' label="账号" name="username" f={f} />
+        <XTextField label="密码" name="password" f={f} />
+        <button class="button--filled-secondary" type="reset">reset</button>
+        <button disabled={f.get('username')()==''} type="submit" class="button--filled-primary">{ctx.t('_internal.ok') as string}</button>
     </form>;
 }

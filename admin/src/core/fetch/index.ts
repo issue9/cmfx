@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { build } from './fetch';
+export { Fetcher } from './fetch';
 export type { Method, Page, Problem, Return } from './fetch';
 

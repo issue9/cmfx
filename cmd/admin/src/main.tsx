@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Mode, Options, createApp } from 'admin/dev';
+import { Contrast, Mode, Options, Routes, createApp } from 'admin/dev';
+import { default as demoRoutes } from 'admin/dev/demo';
+
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
-import { default as Buttons } from './buttons';
-
-const routes = {
+const routes: Routes = {
     public: {
         home: '/login',
         routes: [
@@ -16,23 +16,12 @@ const routes = {
                 path: '/login',
                 component: pages.Login,
             },
-            {
-                path:'/errors',
-                component: ()=>{throw 'error';},
-            },
-            {
-                path:'/demo',
-                component: Buttons,
-            }
+            demoRoutes('/demo')
         ]
     },
     private: {
         home: '/dashboard',
         routes: [
-            {
-                path: '/buttons',
-                component: Buttons
-            },
             {
                 path: '/dashboard',
                 component: pages.Dashboard,
@@ -53,7 +42,7 @@ const o: Options = {
     },
 
     api: {
-        base: 'http://localhost:8080',
+        base: 'http://192.168.10.3:8080/admin',
         login: '/login',
         settings: '/settings',
         info: '/info',

@@ -9,13 +9,19 @@
 - primary
 - secondary
 - tertiary
-- surface
 - error
+- surface
 
-同时提供了 primary-color 等几种 CSS 类
+每种颜色又分为以下几种：
+ - text 文本色
+ - bg 除去文本之外，其它作为‘背景’存在的颜色，比如背景色，边框色等。
+
+
+
+同时提供了 color--primary 等几种 CSS 类
+
+大部分组件也提供了相应在的颜色类型，比如 text-field--primary,button--filled-primary 等。
 
 ### 字体
 
 字体采用 https://fonts.google.com/icons 相关定义可参考 style.css
-
-TODO Icon-Container

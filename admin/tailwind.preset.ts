@@ -6,80 +6,81 @@ import type { PresetsConfig } from 'tailwindcss/types/config';
 
 export default {
     theme: {
-        backgroundColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-bg) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-bg) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-bg) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-bg) / <alpha-value>)',
-            'error': 'rgb(var(--error-bg) / <alpha-value>)',
+        backgroundColor: ({theme}) => ({
+            'primary': 'var(--primary-bg)',
+            'secondary': 'var(--primary-bg)',
+            'tertiary': 'var(--tertiary-bg)',
+            'surface': 'var(--surface-bg)',
+            'error': 'var(--error-bg)',
             ...theme('colors')
         }),
 
-        textDecorationColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-text) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-text) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-text) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-text) / <alpha-value>)',
-            'error': 'rgb(var(--error-text) / <alpha-value>)',
-            ...theme('colors')
-        }),
-        textColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-text) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-text) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-text) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-text) / <alpha-value>)',
-            'error': 'rgb(var(--error-text) / <alpha-value>)',
-            ...theme('colors')
-        }),
-        caretColor: ({ theme }) => ({ // 插入符
-            'primary': 'rgb(var(--primary-text) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-text) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-text) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-text) / <alpha-value>)',
-            'error': 'rgb(var(--error-text) / <alpha-value>)',
+        accentColor: ({theme}) => ({
+            'primary': 'var(--primary-bg-high)',
+            'secondary': 'var(--secondary-bg-high)',
+            'tertiary': 'var(--tertiary-bg-high)',
+            'surface': 'var(--surface-bg-high)',
+            'error': 'var(--error-bg-high)',
             ...theme('colors')
         }),
 
-        ringColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-outline) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-outline) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-outline) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-outline) / <alpha-value>)',
-            'error': 'rgb(var(--error-outline) / <alpha-value>)',
+        textDecorationColor: ({theme}) => ({
+            'primary': 'var(--primary-text-high)',
+            'secondary': 'var(--secondary-text-high)',
+            'tertiary': 'var(--tertiary-text-high)',
+            'surface': 'var(--surface-text-high)',
+            'error': 'var(--error-text-high)',
             ...theme('colors')
         }),
-        outlineColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-outline) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-outline) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-outline) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-outline) / <alpha-value>)',
-            'error': 'rgb(var(--error-outline) / <alpha-value>)',
+        textColor: ({theme}) => ({
+            'primary': 'var(--primary-text)',
+            'secondary': 'var(--secondary-text)',
+            'tertiary': 'var(--tertiary-text)',
+            'surface': 'var(--surface-text)',
+            'error': 'var(--error-text)',
             ...theme('colors')
         }),
-        borderColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-outline) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-outline) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-outline) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-outline) / <alpha-value>)',
-            'error': 'rgb(var(--error-outline) / <alpha-value>)',
-            ...theme('colors')
-        }),
-        boxShadowColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-outline) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-outline) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-outline) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-outline) / <alpha-value>)',
-            'error': 'rgb(var(--error-outline) / <alpha-value>)',
+        caretColor: ({theme}) => ({ // 插入符
+            'primary': 'var(--primary-text)',
+            'secondary': 'var(--secondary-text)',
+            'tertiary': 'var(--tertiary-text)',
+            'surface': 'var(--surface-text)',
+            'error': 'var(--error-text)',
             ...theme('colors')
         }),
 
-        divideColor: ({ theme }) => ({
-            'primary': 'rgb(var(--primary-divider) / <alpha-value>)',
-            'secondary': 'rgb(var(--secondary-divider) / <alpha-value>)',
-            'tertiary': 'rgb(var(--tertiary-divider) / <alpha-value>)',
-            'surface': 'rgb(var(--surface-divider) / <alpha-value>)',
-            'error': 'rgb(var(--error-divider) / <alpha-value>)',
+        outlineColor: ({theme}) => ({
+            'primary': 'var(--primary-bg)',
+            'secondary': 'var(--secondary-bg)',
+            'tertiary': 'var(--tertiary-bg)',
+            'surface': 'var(--surface-bg)',
+            'error': 'var(--error-bg)',
             ...theme('colors')
         }),
+        borderColor: ({theme}) => ({
+            'primary': 'var(--primary-bg)',
+            'secondary': 'var(--secondary-bg)',
+            'tertiary': 'var(--tertiary-bg)',
+            'surface': 'var(--surface-bg)',
+            'error': 'var(--error-bg)',
+            ...theme('colors')
+        }),
+        placeholderColor: ({theme})=>({
+            'primary': 'var(--primary-text-low)',
+            'secondary': 'var(--secondary-text-low)',
+            'tertiary': 'var(--tertiary-text-low)',
+            'surface': 'var(--surface-text-low)',
+            'error': 'var(--error-text-low)',
+            ...theme('colors')
+        }),
+
+        divideColor: ({theme}) => ({
+            'primary': 'var(--primary-bg-low)',
+            'secondary': 'var(--secondary-bg-low)',
+            'tertiary': 'var(--tertiary-bg-low)',
+            'surface': 'var(--surface-bg-low)',
+            'error': 'var(--error-bg-low)',
+            ...theme('colors')
+        })
     }
 } satisfies PresetsConfig;

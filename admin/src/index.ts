@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { Contrast, Mode, createApp, useApp } from './pages/app';
+import './style.css';
+
+export { Contrast, createApp, Mode, useApp } from './pages/app';
 export type { Options, Routes } from './pages/app';
 
