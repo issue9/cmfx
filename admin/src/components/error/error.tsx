@@ -4,8 +4,8 @@
 
 import { mergeProps, Show } from 'solid-js';
 
+import { useApp } from '@/app';
 import { Color } from '@/components/base';
-import { useApp } from '@/pages/app';
 
 export interface Props {
     /**
@@ -47,7 +47,7 @@ export default function XError(props: Props) {
 
     const ctx = useApp();
 
-    return <div class={`error-page color--${props.color}`}>
+    return <div class={`error-page scheme--${props.color}`}>
         <Show when={props.header}>
             <h1>{props.header}</h1>
         </Show>
@@ -61,7 +61,7 @@ export default function XError(props: Props) {
         </Show>
 
         <Show when={props.home}>
-            <a class={`button--filled color--${props.buttonColor}`} href={props.home}>{ctx.t('_internal.error.backHome')}</a>
+            <a class={`button--filled scheme--${props.buttonColor}`} href={props.home}>{ctx.t('_internal.error.backHome')}</a>
         </Show>
     </div>;
 }

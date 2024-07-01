@@ -45,7 +45,7 @@ export default function XTextField<T extends Object>(props: Props<T>):JSX.Elemen
         }
     });
 
-    const cls = `text-field color--${props.color}`;
+    const cls = `text-field scheme--${props.color}`;
 
     return <div class="field">
         <label>

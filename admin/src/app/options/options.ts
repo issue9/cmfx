@@ -112,15 +112,9 @@ export async function build(o: Options): Promise<Required<Options>> {
         throw 'locales.locales 不能为空';
     }
 
-
-
     checkAPI(opt.api);
-
     checkMenus([], opt.menus);
-    if (opt.footer) {
-        checkMenus([], opt.footer);
-    }
-
+    if (opt.footer) { checkMenus([], opt.footer); }
     await setLogo(o.logo);
     await setTitle(o.title);
 

@@ -44,7 +44,7 @@ export default function XTextField<T extends Object>(props: Props<T>):JSX.Elemen
         }
     });
 
-    const cls = `textarea color--${props.color}`;
+    const cls = `textarea scheme--${props.color}`;
     return <div class="field">
         <label>
             <Show when={props.label}>

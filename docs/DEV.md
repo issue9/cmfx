@@ -16,9 +16,7 @@
  - text 文本色
  - bg 除去文本之外，其它作为‘背景’存在的颜色，比如背景色，边框色等。
 
-
-
-同时提供了 color--primary 等几种 CSS 类
+同时提供了 scheme--primary 等几种 CSS 类，用于指定 --bg 等颜色值，便不会直接指定 background-color
 
 大部分组件也提供了相应在的颜色类型，比如 text-field--primary,button--filled-primary 等。
 

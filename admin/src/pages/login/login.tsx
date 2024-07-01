@@ -4,8 +4,8 @@
 
 import { JSX } from 'solid-js';
 
+import { useApp } from '@/app';
 import { Form, XTextField } from '@/components';
-import { useApp } from '@/pages/app';
 
 interface Account {
     username: string;

@@ -23,7 +23,7 @@ export interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
 export default function XButton(props: Props) {
     props = mergeProps({ color: 'primary' }, props) as Props;
 
-    let cls = `button--${props.t} color--${props.color}`;
+    let cls = `button--${props.t} scheme--${props.color}`;
 
     if (props.rounded) {
         cls += ' rounded-full';

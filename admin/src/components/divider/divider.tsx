@@ -18,7 +18,7 @@ export default function(props: Props) {
     }
 
     props = mergeProps({ pos: 'left' }, props) as Props;
-    const cls = props.color ? `divider color--${props.color}` : 'divider';
+    const cls = props.color ? `divider scheme--${props.color}` : 'divider';
 
     switch (props.pos) {
     case 'start':

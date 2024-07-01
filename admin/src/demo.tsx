@@ -5,6 +5,7 @@
 import { A } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
+import { default as App } from '@/app/demo';
 import { default as Buttons } from '@/components/button/demo';
 import { default as Divider } from '@/components/divider/demo';
 import { default as Errors } from '@/components/error/demo';
@@ -19,7 +20,8 @@ import { default as Form } from '@/components/form/demo';
 export default function(prefix: string) {
     const nav = (props: {children?: JSX.Element}) => {
         return <div>
-            <p class="justify-center flex fixed color--surface gap-4">demo:
+            <p class="justify-center flex fixed scheme--surface gap-4">demo:
+                <A href={prefix + '/app'}>APP</A>
                 <A href={prefix + '/errors'}>errors</A>
                 <A href={prefix + '/buttons'}>buttons</A>
                 <A href={prefix + '/form'}>form</A>
@@ -35,6 +37,10 @@ export default function(prefix: string) {
         path: prefix,
         component: nav,
         children: [
+            {
+                path: '/app',
+                component: App,
+            },
             {
                 path: '/errors',
                 component: Errors,

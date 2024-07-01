@@ -18,7 +18,7 @@
 }
 
 @layer components {
-    .color--primary {
+    .scheme--primary {
         --bg: var(--primary-bg);
         --bg-low: var(--primary-bg-low);
         --bg-high: var(--primary-bg-high);
@@ -28,7 +28,7 @@
         @apply placeholder-primary divide-primary;
     }
 
-    .color--secondary {
+    .scheme--secondary {
         --bg: var(--secondary-bg);
         --bg-low: var(--secondary-bg-low);
         --bg-high: var(--secondary-bg-high);
@@ -38,7 +38,7 @@
         @apply placeholder-secondary divide-secondary;
     }
 
-    .color--tertiary {
+    .scheme--tertiary {
         --bg: var(--tertiary-bg);
         --bg-low: var(--tertiary-bg-low);
         --bg-high: var(--tertiary-bg-high);
@@ -48,7 +48,7 @@
         @apply placeholder-tertiary divide-tertiary;
     }
 
-    .color--error {
+    .scheme--error {
         --bg: var(--error-bg);
         --bg-low: var(--error-bg-low);
         --bg-high: var(--error-bg-high);
@@ -58,7 +58,7 @@
         @apply placeholder-error divide-error;
     }
 
-    .color--surface {
+    .scheme--surface {
         --bg: var(--surface-bg);
         --bg-low: var(--surface-bg-low);
         --bg-high: var(--surface-bg-high);
@@ -180,7 +180,12 @@
         @apply flex content-center items-center;
     }
 
-    /***************************** card **************************/
+    /***************************** notify **************************/
 
-    .card {}
+    .notify {
+        background-color: var(--bg);
+        color: var(--text);
+        border-color: var(--bg-low);
+        @apply rounded-md transition-[height] duration-100 mb-4 min-w-60 max-w-[500px] z-50;
+    }
 }

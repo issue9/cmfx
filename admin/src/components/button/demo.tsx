@@ -17,16 +17,16 @@ export default function() {
                         <button class="button">default color</button>
                         <For each={colors}>
                             {(c)=>(
-                                <button class={`button--${t} color--${c}`}>{c}</button>
+                                <button class={`button--${t} scheme--${c}`}>{c}</button>
                             )}
                         </For>
-                        <button class={`button--${t} color--tertiary rounded-full`}>rounded tertiary</button>
-                        <button class={`button--${t} color--tertiary icon-container`}>
+                        <button class={`button--${t} scheme--tertiary rounded-full`}>rounded tertiary</button>
+                        <button class={`button--${t} scheme--tertiary icon-container`}>
                             <span class="material-symbols-outlined">face</span>
                             icon primary
                             <span class="material-symbols-outlined">face</span>
                         </button>
-                        <button class={`button--${t} color--primary icon-container rounded-full`}>
+                        <button class={`button--${t} scheme--primary icon-container rounded-full`}>
                             <span class="material-symbols-outlined">face</span>
                         </button>
                     </div>
@@ -63,10 +63,10 @@ export default function() {
                     <div class="flex items-center gap-2">
                         <For each={colors}>
                             {(c)=>(
-                                <button class={`icon-button--${t} color--${c}`}>face</button>
+                                <button class={`icon-button--${t} scheme--${c}`}>face</button>
                             )}
                         </For>
-                        <button class={`button--${t} color--tertiary rounded-full`}>rounded tertiary</button>
+                        <button class={`button--${t} scheme--tertiary rounded-full`}>rounded tertiary</button>
                     </div>
                 </div>
             )}
@@ -84,7 +84,7 @@ export default function() {
                                 <XIconButton t={t} color={c}>sync</XIconButton>
                             )}
                         </For>
-                        <button class={`button--${t} color--tertiary rounded-full`}>rounded tertiary</button>
+                        <button class={`button--${t} scheme--tertiary rounded-full`}>rounded tertiary</button>
                     </div>
                 </div>
             )}
