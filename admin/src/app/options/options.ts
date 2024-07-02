@@ -2,16 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import localforage from 'localforage';
-
 import { API, checkAPI } from './api';
 import type { Locales } from './locales';
 import { MenuItem, checkMenus } from './page';
 import type { Routes } from './route';
 import type { Theme } from './theme';
-
-const siteTitleName = 'site_title';
-const logoName = 'logo';
 
 /**
  * 基本配置
@@ -19,8 +14,6 @@ const logoName = 'logo';
 export interface Options {
     /**
      * 网站的标题
-     *
-     * 该值会被保存在 localforage 之中，如果在 localforage 存在值，则此设置将不启作用。
      */
     title: string
 
@@ -30,14 +23,17 @@ export interface Options {
     theme: Theme
 
     /**
-     * 默认的 LOGO
-     *
-     * 该值会被保存在 localforage 之中，如果在 localforage 存在值，则此设置将不启作用。
+     * LOGO，URL 格式
      */
     logo: string
 
     /**
-     * 后台需要用到的 API 地址，基于 baseURL。
+     * 是否优先使用系统通知
+     */
+    systemNotify?: boolean
+
+    /**
+     * 后台需要用到的 API 地址
      */
     api: API
 
@@ -75,6 +71,7 @@ export interface Options {
 }
 
 const presetOptions = {
+    systemNotify: true,
     titleSeparator: ' | ',
     mimetype: 'application/json',
     footer: Array<MenuItem>()
@@ -85,19 +82,11 @@ const presetOptions = {
  *
  * @param o 原始的对象
  */
-export async function build(o: Options): Promise<Required<Options>> {
-    const siteTitle = await localforage.getItem<string>(siteTitleName);
-    if (siteTitle) {
-        o.title = siteTitle;
-    }
+export function build(o: Options): Required<Options> {
     if (o.title.length === 0) {
         throw 'title 不能为空';
     }
 
-    const logo = await localforage.getItem<string>(logoName);
-    if (logo) {
-        o.logo = logo;
-    }
     if (o.logo.length === 0) {
         throw 'logo 不能为空';
     }
@@ -115,30 +104,6 @@ export async function build(o: Options): Promise<Required<Options>> {
     checkAPI(opt.api);
     checkMenus([], opt.menus);
     if (opt.footer) { checkMenus([], opt.footer); }
-    await setLogo(o.logo);
-    await setTitle(o.title);
 
-    return {
-        ...opt,
-
-        get logo() { return opt.logo; },
-        set logo(l: string) {
-            opt.logo = l;
-            setLogo(l);
-        },
-
-        get title() { return opt.title; },
-        set title(v: string) {
-            opt.title = v;
-            setTitle(v);
-        }
-    };
-}
-
-async function setLogo(logo: string) {
-    await localforage.setItem(logoName, logo);
-}
-
-async function setTitle(title: string) {
-    await localforage.setItem(siteTitleName, title);
+    return opt;
 }

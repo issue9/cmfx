@@ -2,19 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
-import { ErrorBoundary, For, JSXElement } from 'solid-js';
+import { HashRouter, RouteDefinition } from '@solidjs/router';
+import { ErrorBoundary, For, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { XError } from '@/components';
 import { Fetcher, sleep } from '@/core';
-import { Show } from 'solid-js';
 import { Provider, buildContext, notifyColors, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
 
+/**
+* 初始化整个项目
+*
+* @param elementID 挂载的元素 ID；
+* @param o 项目的初始化选项；
+*/
 export async function create(elementID: string, o: Options) {
-    const opt = await buildOptions(o);
+    const opt = buildOptions(o);
 
     const f = await Fetcher.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
 
@@ -39,7 +44,7 @@ export async function create(elementID: string, o: Options) {
     ];
 
     render(() => {
-        const ctx = buildContext(opt, f);
+        const ctx = buildContext(opt, f); // buildContext 必须在组件内使用！
         ctx.title = '';
 
         const root = (props: { children?: JSXElement }) => (
@@ -50,53 +55,76 @@ export async function create(elementID: string, o: Options) {
             </ErrorBoundary>
         );
 
-        return <HashRouter root={root}>
-            {routes}
-        </HashRouter>;
+        return <HashRouter root={root}>{routes}</HashRouter>;
     }, document.getElementById(elementID)!);
 }
 
+/**
+* 项目的根组件
+*/
 function App(props: {children?: JSXElement}) {
+    const [fc, setFC] = createSignal<boolean>(!!document.fullscreenElement);
+    const toggleFullscreen = () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            document.body.requestFullscreen();
+        }
+
+        document.addEventListener('fullscreenchange', () => { // 有可能浏览器通过其它方式退出全屏。
+            setFC(!!document.fullscreenElement);
+        });
+    };
+
     const ctx = useInternal();
-    return <div class="flex flex-col box-border overflow-hidden h-dvh bg-surface text-surface">
-        <header class="w-dvw p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary">
-            <div>
-                <img class="inline-block" src={ctx.options.logo} />
-                <span class="inline-block ml-2">{ctx.options.title}</span>
+
+    return <div class="app">
+        <header class="app-bar">
+            <div class="flex icon-container">
+                <img class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
+                <span class="inline-block ml-2 text-lg font-bold">{ctx.options.title}</span>
+            </div >
+
+            <div class="px-4 flex flex-1 icon-container ml-10">
             </div>
 
-            <div class="px-4 flex-1 icon-container ml-10">
-                toolbar
-                <A href="/login" class="material-symbols-outlined">face</A>
-            </div>
+            <div class="flex scheme--primary gap-2">
+                <button type="button" onClick={toggleFullscreen}
+                    title={ctx.t('_internal.fullscreen')}
+                    class="icon-button--flat rounded-md">
+                    {fc() ? 'fullscreen_exit' : 'fullscreen'}
+                </button>
 
-            <div class="action">action
-                <button type="button" class="icon-button--filled scheme--primary">fullscreen</button>
+                <Show when={ctx.user()}>
+                    <button type="button" title={ctx.t('_internal.settings')} class="icon-button--flat rounded-md">settings</button>
+                </Show>
             </div>
         </header>
 
-        <div class="relative">
-            <div class="absolute top-4 right-4">
+        <div class="app-main">
+            <div class="notify-wrapper">
                 <For each={ctx.getNotify()}>
                     {item => {
                         const elemID = `notify-${item.id}`;
-                        const del = () => {
-                            document.getElementById(elemID)!.style.height = '0px';
-                            sleep(100).then(() => {
-                                ctx.delNotify(item.id);
-                            });
-                        }
 
-                        if (item.timeout) {
-                            sleep(1000 * item.timeout).then(() => {
-                                del();
-                            });
+                        const del = () => { // 删除通知，并通过改变 height 触发动画效果。
+                            const elem = document.getElementById(elemID);
+                            if (!elem) { // 已经删除
+                                return;
+                            }
+
+                            elem!.style.height = '0px';
+                            sleep(100).then(() => { ctx.delNotify(item.id); });
+                        };
+
+                        if (item.timeout) { // 存在自动删除功能
+                            sleep(1000 * item.timeout).then(() => { del(); });
                         }
                         const color = notifyColors.get(item.type);
                         return <div id={elemID} role="alert" class={`notify scheme--${color}`}>
-                            <div class="p-3 flex justify-between icon-container">
+                            <div class="title">
                                 <p>{item.title}</p>
-                                <button onClick={()=>del()} class="material-symbols-outlined hover:cursor-pointer">close</button>
+                                <button onClick={()=>del()} class="close">close</button>
                             </div>
                             <Show when={item.body}>
                                 <hr />
@@ -105,22 +133,17 @@ function App(props: {children?: JSXElement}) {
                         </div >;
                     }}
                 </For>
-            </div>
-            {props.children}
+            </div >
+
+            <div class="h-full flex overflow-hidden">
+                {props.children}
+            </div >
         </div>
     </div>;
 }
 
 function Public(props: {children?: JSXElement}) {
-    const ctx = useApp();
-
-    if (ctx.isLogin()) {
-        const nav = useNavigate();
-        nav(ctx.options.routes.private.home);
-        return;
-    }
-
-    return <div class="p-4 h-dvh flex rounded-lg justify-center overflow-auto">
+    return <>
         {props.children}
-    </div>;
+    </>;
 }

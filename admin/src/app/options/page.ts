@@ -2,21 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-/**
- * 一些页面布局相关的选项
- */
-export interface Page {
-    /**
-     * 左侧的导航菜单
-     */
-    menus: Array<MenuItem>
-
-    /**
-     * 底部的导航链接
-     */
-    footer?: Array<MenuItem>
-}
-
 export interface MenuItem {
     /**
      * 图标名称

@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import localforage from 'localforage';
 import { expect, test } from 'vitest';
 
 import { Locale } from '@/locales';
@@ -52,21 +51,7 @@ test('build', async () => {
         }
     };
 
-    await localforage.clear();
-
-    let o = await build({
-        locales,
-        routes,
-        api: api,
-        menus: [],
-        theme: theme,
-        title: 'title',
-        logo: 'logo'
-    });
-    expect(o.titleSeparator).toEqual(' | ');
-
-    await localforage.clear();
-    expect(build({
+    expect(()=>build({
         locales,
         routes,
         api: api,
@@ -74,10 +59,9 @@ test('build', async () => {
         theme: theme,
         title: '',
         logo: 'logo'
-    })).rejects.toThrowError('title 不能为空');
+    })).toThrowError('title 不能为空');
 
-    await localforage.clear();
-    expect(build({
+    expect(()=>build({
         locales,
         routes,
         api: api,
@@ -85,21 +69,9 @@ test('build', async () => {
         theme: theme,
         title: 'title',
         logo: ''
-    })).rejects.toThrowError('logo 不能为空');
+    })).toThrowError('logo 不能为空');
 
-
-    // 由 build 保存至 localforeage
-    await localforage.clear();
-    await build({
-        locales,
-        routes,
-        api: api,
-        menus: [],
-        theme: theme,
-        title: 'title',
-        logo: 'logo'
-    });
-    o = await build({
+    const o = build({
         locales,
         routes,
         api: api,
@@ -108,31 +80,8 @@ test('build', async () => {
         title: 't1',
         logo: 'l1'
     });
-    expect(o.logo).toEqual('logo');
-    expect(o.title).toEqual('title');
-
-    // 由 Options.logo 保存至 localforeage
-    await localforage.clear();
-    await localforage.clear();
-    await build({
-        locales,
-        routes,
-        api: api,
-        menus: [],
-        theme: theme,
-        title: 'title',
-        logo: 'logo'
-    });
-    o.logo = 'logo2';
-    o = await build({
-        locales,
-        routes,
-        api: api,
-        menus: [],
-        theme: theme,
-        title: 't1',
-        logo: 'l1'
-    });
-    expect(o.logo).toEqual('logo2');
-    expect(o.title).toEqual('title');
+    expect(o.logo).toEqual('l1');
+    expect(o.title).toEqual('t1');
+    expect(o.titleSeparator).toEqual(' | ');
+    expect(o.systemNotify).toBeTruthy();
 });

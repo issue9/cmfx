@@ -14,7 +14,7 @@ const routes: Routes = {
         routes: [
             {
                 path: '/login',
-                component: pages.Login,
+                component: pages.XLogin,
             },
             demoRoutes('/demo')
         ]
@@ -23,7 +23,7 @@ const routes: Routes = {
         home: '/dashboard',
         routes: [
             {
-                path: '/dashboard',
+                path: ['/dashboard', '/'],
                 component: pages.Dashboard,
             }
         ]
@@ -54,7 +54,7 @@ const o: Options = {
         primary: '#ccc'
     },
     title: 'title',
-    logo: 'http://localhost/favicon.ico',
+    logo: 'icon.svg',
     menus: [
         {
             title: 'test',

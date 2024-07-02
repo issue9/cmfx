@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import basicSsl from '@vitejs/plugin-basic-ssl';
 import autoprefixer from 'autoprefixer';
 import { fileURLToPath, URL } from 'node:url';
 import devtools from 'solid-devtools/vite';
@@ -31,5 +32,10 @@ export default defineConfig({
     plugins: [
         devtools(),
         solidPlugin(),
+        basicSsl({
+            name: 'test',
+            domains: ['localhost'],
+            certDir: './ssl'
+        })
     ]
 });

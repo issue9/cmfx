@@ -2,18 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Form, XTextField } from '@/components';
-
-interface Account {
-    username: string;
-    password: string;
-}
+import { Account } from '@/core';
 
 export default function(): JSX.Element {
     const ctx = useApp();
+
+    if (ctx.user()) { // 已经登录
+        const nav = useNavigate();
+        nav(ctx.options.routes.private.home);
+        return;
+    }
+
     const f = new Form<Account>({username:'',password:''});
 
     return <form {...f.events(ctx.fetcher(), 'POST', '/login')} class="items-center flex justify-center flex-col gap-2">

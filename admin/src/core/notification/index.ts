@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as XLogin } from './login';
+export { notify } from './notification';

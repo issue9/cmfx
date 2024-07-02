@@ -7,11 +7,11 @@ import { JSX, createContext, createResource, createSignal, createUniqueId, useCo
 import { createStore } from 'solid-js/store';
 
 import { Color } from '@/components';
-import { Fetcher } from '@/core';
+import { Fetcher, notify } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
 import { build as buildOptions } from './options';
 
-type Options = Awaited<ReturnType<typeof buildOptions>>;
+type Options = ReturnType<typeof buildOptions>;
 export type Context = Awaited<ReturnType<typeof buildContext>>;
 export type AppContext = Exclude<Context, 'options' | 'getNotify' | 'delNotify'>;
 
@@ -50,6 +50,17 @@ export function useInternal() {
  */
 export function useApp(): AppContext { return useInternal(); }
 
+export interface User {
+    id?: number;
+    sex?: 'unknown' | 'male' | 'female';
+    name?: string;
+    nicknae?: string;
+    language?: string;
+    timezone?: string;
+    theme?: string;
+    avatar?: string;
+}
+
 export function buildContext(o: Options, f: Fetcher) {
     const [getLocale, setLocale] = createSignal<Locale>(o.locales.fallback);
 
@@ -64,22 +75,22 @@ export function buildContext(o: Options, f: Fetcher) {
     const [dict] = createResource(getLocale, loadMessages);
     const t = i18n.translator(dict);
 
-    const [getNotifications, setNotifications] = createStore< Array<Notification>>([]);
+    const [getNotifications, setNotifications] = createStore<Array<Notification>>([]);
+
+    const [user, setUser] = createSignal<User>({});
+    f.get<User>(o.api.info).then((r)=>{
+        if (!r.ok) {
+            console.log(r.body);
+            return;
+        }
+
+        setUser(r.body!);
+    });
 
     return {
         fetcher() {return f;}, // TODO 去掉部分不用的方法
 
         get options() { return o; },
-
-        isLogin(): boolean {
-            let is = false;
-            f.isLogin().then((v)=>{
-                is=v;
-            }).catch(()=>{
-                is=false;
-            });
-            return is;
-        },
 
         set title(v: string) {
             if (v) {
@@ -90,6 +101,11 @@ export function buildContext(o: Options, f: Fetcher) {
 
             document.title = v;
         },
+
+        /**
+         * 返回当前登录的用户信息
+         */
+        user() { return user; },
 
         // notify
 
@@ -104,15 +120,19 @@ export function buildContext(o: Options, f: Fetcher) {
         /**
         * 发送一条通知给用户
         *
-        * @param title 标题
-        * @param body 具体内容，如果为空则只显示标题
-        * @param type 类型
-        * @param timeout 如果大于 0，超过此秒数时将自动关闭提法。
+        * @param title 标题；
+        * @param body 具体内容，如果为空则只显示标题；
+        * @param type 类型，仅对非系统通知的情况下有效；
+        * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
-        notify(title: string, body: string, type?: NotifyType,timeout=5) {
-            if (!type) { type = 'info'; }
+        async notify(title: string, body: string, type?: NotifyType, timeout=5) {
+            if (o.systemNotify && await notify(o.logo, title, body, getLocale(), timeout)) {
+                return;
+            }
+
             const id = createUniqueId();
-            setNotifications((prev) => [...prev, { title, body, type,id,timeout }]);
+            if (!type) { type = 'info'; }
+            setNotifications((prev) => [...prev, { title, body, type, id, timeout }]);
         },
 
         // 以下为本地化相关功能

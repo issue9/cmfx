@@ -12,7 +12,7 @@
 @tailwind utilities;
 
 .material-symbols-outlined {
-    /*font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 48;*/
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
     font-size: 1.3rem;
     box-sizing: border-box;
 }
@@ -135,14 +135,14 @@
         @apply rounded-sm outline-none outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1;
         @apply has-[:focus]:outline-[var(--text-high)] has-[:hover]:outline-[var(--text-high)];
         outline-color: var(--text-low);
-    }
 
-    .text-field>input {
-        @apply outline-none bg-transparent flex-1 px-1 md:px-2 w-full disabled:cursor-not-allowed read-only:cursor-default;
-    }
+        input {
+            @apply outline-none bg-transparent flex-1 px-1 md:px-2 w-full disabled:cursor-not-allowed read-only:cursor-default;
+        }
 
-    .text-field>.material-symbols-outlined {
-        flex: 0 0 0%;
+        .material-symbols-outlined {
+            flex: 0 0 0%;
+        }
     }
 
     .textarea {
@@ -158,18 +158,18 @@
         background-color: var(--bg);
         color: var(--text);
         @apply p-8 mx-auto w-dvw h-dvh content-center text-center;
-    }
 
-    .error-page h1 {
-        @apply mb-4 text-7xl md:text-9xl tracking-tight font-extrabold;
-    }
+        h1 {
+            @apply mb-4 text-7xl md:text-9xl tracking-tight font-extrabold;
+        }
 
-    .error-page .title {
-        @apply mb-4 tracking-tight font-bold text-3xl md:text-4xl;
-    }
+        .title {
+            @apply mb-4 tracking-tight font-bold text-3xl md:text-4xl;
+        }
 
-    .error-page .detail {
-        @apply mb-4 tracking-tight font-bold text-lg;
+        .detail {
+            @apply mb-4 tracking-tight font-bold text-lg;
+        }
     }
 
     /***************************** divider **************************/
@@ -180,12 +180,41 @@
         @apply flex content-center items-center;
     }
 
+    /***************************** app **************************/
+
+    .app {
+        @apply flex flex-col box-border overflow-hidden h-dvh bg-surface text-surface;
+
+        .app-bar {
+            @apply w-dvw p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary;
+        }
+
+        .app-main {
+            @apply relative h-full flex-1 overflow-y-hidden;
+        }
+    }
+
     /***************************** notify **************************/
 
-    .notify {
-        background-color: var(--bg);
-        color: var(--text);
-        border-color: var(--bg-low);
-        @apply rounded-md transition-[height] duration-100 mb-4 min-w-60 max-w-[500px] z-50;
+    .notify-wrapper {
+        @apply absolute top-4 right-4 left-4 sm:left-auto flex-col;
+        @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto;
+
+        .notify {
+            background-color: var(--bg);
+            color: var(--text);
+            border-color: var(--bg-low);
+            @apply rounded-md transition-[height] duration-100 mb-4 z-50 block w-full;
+
+            .title {
+                @apply p-3 flex justify-between icon-container;
+
+                .close {
+                    @apply material-symbols-outlined hover:cursor-pointer hover:text-[var(--text-high)];
+                }
+            }
+        }
     }
+
+
 }

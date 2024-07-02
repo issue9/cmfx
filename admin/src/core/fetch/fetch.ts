@@ -18,6 +18,9 @@ interface Serializer {
     stringify(_: unknown): string;
 }
 
+/**
+ * 对 fetch 的二次封装，提供了令牌续订功能。
+ */
 export class Fetcher {
     readonly #baseURL: string;
     readonly #loginPath: string;
@@ -123,7 +126,7 @@ export class Fetcher {
     async request<T>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<T>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj ? this.#serializer.stringify(obj) : undefined;
-        return this.withArgument(path, method, token, this.#contentType, body);
+        return this.withArgument<T>(path, method, token, this.#contentType, body);
     }
 
     /**
@@ -135,21 +138,29 @@ export class Fetcher {
      */
     async upload<T>(path: string, obj: FormData, withToken = true): Promise<Return<T>> {
         const token = withToken ? await this.getToken() : undefined;
-        return this.withArgument(path, 'POST', token, undefined, obj);
+        return this.withArgument<T>(path, 'POST', token, undefined, obj);
     }
 
     /**
-     * 是否处于登录状态
+     * 执行登录操作
+     *
+     * @returns 如果返回 True，表示操作成功，否则表示错误信息。
      */
-    async isLogin(): Promise<boolean> {
-        const token = await this.getToken();
-        return token !== undefined;
+    async login(account: Account): Promise<Problem|undefined|true> {
+        const token = await this.post<Token>(this.#loginPath, account, false);
+        if (token.ok) {
+            await writeToken(token.body!);
+            return true;
+        }
+
+        return token.body;
     }
 
     /**
      * 退出当前的登录状态
      */
     async logout() {
+        await this.delete(this.#loginPath);
         this.#token = null;
         await delToken();
     }
@@ -172,12 +183,12 @@ export class Fetcher {
             return undefined;
         case TokenState.AccessExpired: // 尝试刷新令牌
         { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
-            const ret = await this.withArgument(this.#loginPath, 'PUT', t.refresh_token, this.#contentType);
+            const ret = await this.withArgument<Token>(this.#loginPath, 'PUT', t.refresh_token, this.#contentType);
             if (!ret.ok) {
                 return undefined;
             }
 
-            this.#token = ret.body as Token;
+            this.#token = ret.body!;
             await writeToken(this.#token);
             return this.#token.access_token;
         }
@@ -225,34 +236,26 @@ export class Fetcher {
         // 200-299
 
         if (resp.ok) {
-            const txt = await resp.text();
-            if (txt.length === 0) {
-                return { status: resp.status, ok: true };
-            }
-            return { status: resp.status, ok: true, body: this.#serializer.parse(txt) as T };
+            return { status: resp.status, ok: true, body: await this.parse<T>(resp) };
         }
 
         // TODO 300-399
 
         // 400-599
 
-        let ok = false;
-        switch (resp.status) {
-        case 401:
+        if (resp.status === 401) {
             this.#token = null;
             await delToken();
-            break;
-        case 404: // 404 算正常返回
-            ok = true;
         }
+        return { status: resp.status, ok: false, body: await this.parse<Problem>(resp) };
+    }
 
-        let p: Problem | undefined;
-        try {
-            p = this.#serializer.parse(await resp.text()) as Problem;
-        } catch (error) {
-            console.error(error);
+    async parse<T>(resp: Response): Promise<T|undefined> {
+        const txt = await resp.text();
+        if (txt.length === 0) {
+            return;
         }
-        return { status: resp.status, ok: ok, body: p };
+        return this.#serializer.parse(await resp.text()) as T;
     }
 }
 
@@ -275,26 +278,13 @@ export interface Param {
 }
 
 /**
- * 分页接口返回的对象
- */
-export interface Page<T> {
-    count: number
-    current: Array<T>
-    more?: boolean
-}
-
-/**
  * 接口返回的对象
  */
-export interface Return<T> {
+export type Return<T> = {
     /**
      * 服务端返回的类型
-     *
-     * 根据 ok 的值表示不同的类型：
-     *  - false 返回 Problem 类型；
-     *  - true 返回 T 或是在服务没有数据时返回 undefined；
      */
-    body?: T|Problem|undefined;
+    body?: Problem;
 
     /**
      * 状态码
@@ -302,7 +292,36 @@ export interface Return<T> {
     status: number;
 
     /**
-     * 是否出错了，决定了 body 的类型。
+     * 是否出错了。
      */
-    ok: boolean;
+    ok: false;
+} | {
+    /**
+     * 服务端返回的类型
+     */
+    body?: T;
+
+    /**
+     * 状态码
+     */
+    status: number;
+
+    /**
+     * 是否出错了。
+     */
+    ok: true;
+};
+
+export interface Account {
+    username: string;
+    password: string;
+}
+
+/**
+ * 分页接口返回的对象
+ */
+export interface Page<T> {
+    count: number
+    current: Array<T>
+    more?: boolean
 }

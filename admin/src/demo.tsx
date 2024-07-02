@@ -27,7 +27,7 @@ export default function(prefix: string) {
                 <A href={prefix + '/form'}>form</A>
                 <A href={prefix + '/divider'}>divider</A>
             </p>
-            <div class="mt-8">
+            <div class="mt-8 p-4 overflow-y-scroll h-full">
                 {props.children}
             </div >
         </div>;
