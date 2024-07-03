@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, Show } from 'solid-js';
+import { JSX, mergeProps, Show } from 'solid-js';
 
 import { Color } from '@/components/base';
 import { Form, Object } from '@/components/form';
+import { default as XField } from '@/components/form/field';
 
 export interface Props<T extends Object> {
     name: keyof T;
@@ -18,40 +19,21 @@ export interface Props<T extends Object> {
 }
 
 export default function XTextField<T extends Object>(props: Props<T>):JSX.Element {
-    props = mergeProps({color:'primary', type:'text'}, props) as Props<T>; // 指定默认值
-
     type ft = T[typeof props.name];
+    props = mergeProps({color:'primary', type:'text'}, props) as Props<T>; // 指定默认值
+    let fieldRef;
 
-    const [getV,setV] = createSignal<ft>(props.f.getInitValue(props.name));
-    const [getE,setE] = createSignal<string>('');
-
-    props.f.add(props.name, {
-        getValue() {
-            return getV;
-        },
-
-        setValue(v: Exclude<ft,Function>) {
-            setV(v);
-        },
-
-        setError(err) {
-            setE(err);
-        },
-
-        reset() {
-            setE('');
-            setV(props.f.getInitValue(props.name));
-        }
-    });
-
-    const cls = `textarea scheme--${props.color}`;
-    return <div class="field">
+    return <XField ref={fieldRef} name={props.name} f={props.f}>
         <label>
             <Show when={props.label}>
                 {props.label}
             </Show>
-            <textarea class={cls} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder} value={getV()} onInput={(e)=>setV(e.target.value as ft)} />
+            <textarea class={`textarea scheme--${props.color}`}
+                disabled={props.disabled}
+                readOnly={props.readonly}
+                placeholder={props.placeholder}
+                value={fieldRef.getValue()()}
+                onInput={(e)=>fieldRef.setValue(e.target.value as ft)} />
         </label>
-        <p class="error" role="alert">{getE()}</p>
-    </div>;
+    </XField>;
 }

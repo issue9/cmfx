@@ -5,6 +5,7 @@
 import { Accessor } from 'solid-js';
 
 import { Fetcher, Method, Problem } from '@/core';
+import { Field } from './field';
 
 export interface Object {
     [k: string]: Exclude<any, Function>;
@@ -17,31 +18,6 @@ export interface Object {
  */
 export interface Validation<T extends Object> {
     (obj: T): Map<string, string> | undefined;
-}
-
-/**
- * 表单字段需要提供的接口
- */
-export interface Field<T extends Exclude<unknown, Function>> {
-    /**
-     * 返回当前组件的最新值
-     */
-    getValue(): Accessor<T>;
-
-    /**
-     * 设置当前组件的值
-     */
-    setValue(v: T): void;
-
-    /**
-     * 设置当前组件的错误状态
-     */
-    setError(err: string): void;
-
-    /**
-     * 重置当前组件的状态为初状态
-     */
-    reset(): void;
 }
 
 /**

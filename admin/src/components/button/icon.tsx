@@ -11,12 +11,22 @@ import { Type } from './types';
 export interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
     color?: Color;
     t?: Type;
+    rounded?: boolean;
 }
 
-export default function XIconButton(props: Props) {
-    props = mergeProps({ color: 'primary' }, props) as Props;
+const defaultProps: Props = {
+    color: 'primary',
+    t: 'filled'
+};
 
-    const cls = `icon-button--${props.t} scheme--${props.color}`;
+export default function XIconButton(props: Props) {
+    props = mergeProps(defaultProps, props);
+
     const [_, others] = splitProps(props, ['color', 't']);
-    return <button class={cls} {...others}>{props.children}</button>;
+    return <button {...others}
+        classList={{
+            [`icon-button--${props.t}`]: true,
+            [`scheme--${props.color}`]:true,
+            'rounded-full': props.rounded,
+        }}>{props.children}</button>;
 }

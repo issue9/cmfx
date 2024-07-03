@@ -4,7 +4,7 @@
 
 import type { PresetsConfig } from 'tailwindcss/types/config';
 
-export default {
+const config: PresetsConfig = {
     theme: {
         backgroundColor: ({theme}) => ({
             'primary': 'var(--primary-bg)',
@@ -83,4 +83,6 @@ export default {
             ...theme('colors')
         })
     }
-} satisfies PresetsConfig;
+};
+
+export default config;

@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, Show } from 'solid-js';
+import { JSX, mergeProps, Show } from 'solid-js';
 
 import { Color } from '@/components/base';
-import { Form, Object } from '@/components/form';
+import { default as XField } from '@/components/form/field';
+import { Form, Object } from '@/components/form/form';
 
 export interface Props<T extends Object> {
     name: keyof T;
@@ -13,7 +14,7 @@ export interface Props<T extends Object> {
     icon?: string;
     label?: string;
     placeholder?: string;
-    type?: 'text' | 'password' | 'url' | 'email';
+    type?: 'text' | 'password' | 'url' | 'email' | 'number' | 'date';
     disabled?: boolean;
     readonly?: boolean;
     f: Form<T>;
@@ -22,43 +23,25 @@ export interface Props<T extends Object> {
 export default function XTextField<T extends Object>(props: Props<T>):JSX.Element {
     type ft = T[typeof props.name];
     props = mergeProps({ color: 'primary' }, props) as Props<T>;
+    let fieldRef;
 
-    const [getV,setV] = createSignal<ft>(props.f.getInitValue(props.name));
-    const [getE,setE] = createSignal<string>('');
-
-    props.f.add(props.name, {
-        getValue() {
-            return getV;
-        },
-
-        setValue(v: Exclude<ft,Function>) {
-            setV(v);
-        },
-
-        setError(err) {
-            setE(err);
-        },
-
-        reset() {
-            setE('');
-            setV(props.f.getInitValue(props.name));
-        }
-    });
-
-    const cls = `text-field scheme--${props.color}`;
-
-    return <div class="field">
+    return <XField ref={fieldRef} name={props.name} f={props.f}>
         <label>
             <Show when={props.label}>
                 {props.label}
             </Show>
-            <div class={cls}>
+            <div class={`text-field scheme--${props.color}`}>
                 <Show when={props.icon}>
                     <span role="none" class="material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input type={props.type} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder} value={getV()} onInput={(e)=>setV(e.target.value as ft)} />
+                <input type={props.type}
+                    disabled={props.disabled}
+                    readOnly={props.readonly}
+                    placeholder={props.placeholder}
+                    value={fieldRef.getValue()()}
+                    onInput={(e)=>fieldRef.setValue(e.target.value as ft)}
+                />
             </div>
         </label>
-        <p class="error" role="alert">{getE()}</p>
-    </div>;
+    </XField >;
 }

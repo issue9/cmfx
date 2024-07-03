@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX, Match, mergeProps, Switch } from 'solid-js';
 
 import { Color } from '@/components/base';
 
@@ -12,26 +12,24 @@ export interface Props {
     children?: JSX.Element;
 }
 
+const defaultProps: Partial<Props> = {
+    pos: 'start'
+};
+
 export default function(props: Props) {
-    if (!props.children) {
-        return <hr />;
-    }
+    props = mergeProps(defaultProps, props);
 
-    props = mergeProps({ pos: 'left' }, props) as Props;
-    const cls = props.color ? `divider scheme--${props.color}` : 'divider';
-
-    switch (props.pos) {
-    case 'start':
-        return <div class={cls}>
-            {props.children}<hr class="flex-1 ml-2" />
-        </div>;
-    case 'center':
-        return <div class={cls}>
-            <hr class="flex-1 mr-2" />{props.children}<hr class="flex-1 ml-2" />
-        </div>;
-    case 'end':
-        return <div class={cls}>
-            <hr class="flex-1 mr-2" />{props.children}
-        </div>;
-    }
+    return <div class={props.color ? `divider scheme--${props.color}` : 'divider'}>
+        <Switch fallback={<hr />}>
+            <Match when={props.pos === 'start' && props.children}>
+                {props.children}<hr class="flex-1 ml-2" />
+            </Match>
+            <Match when={props.pos === 'center' && props.children}>
+                <hr class="flex-1 mr-2" />{props.children}<hr class="flex-1 ml-2" />
+            </Match>
+            <Match when={props.pos === 'end' && props.children}>
+                <hr class="flex-1 mr-2" />{props.children}
+            </Match>
+        </Switch>
+    </div>;
 }

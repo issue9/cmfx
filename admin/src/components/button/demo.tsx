@@ -2,92 +2,61 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { XButton, XIconButton, buttonTypes, colors } from 'admin/dev/components';
-import { For } from 'solid-js';
+import { createSignal, For } from 'solid-js';
+
+import { ButtonType, buttonTypes, colors, XButton, XIconButton } from 'admin/dev/components';
 
 export default function() {
-    return <div>
-        <h1 class="mb-4 text-lg">纯 CSS button</h1>
+    const [disable, setDisable] = createSignal(false);
+    const [rounded, setRounded] = createSignal(false);
+    const [t, setT] = createSignal<ButtonType>('filled');
 
-        <For each={buttonTypes}>
-            {(t)=>(
-                <div class="my-4">
-                    <p class="mb-2">{t}</p>
-                    <div class="flex items-center gap-2">
-                        <button class="button">default color</button>
-                        <For each={colors}>
-                            {(c)=>(
-                                <button class={`button--${t} scheme--${c}`}>{c}</button>
-                            )}
-                        </For>
-                        <button class={`button--${t} scheme--tertiary rounded-full`}>rounded tertiary</button>
-                        <button class={`button--${t} scheme--tertiary icon-container`}>
-                            <span class="material-symbols-outlined">face</span>
-                            icon primary
-                            <span class="material-symbols-outlined">face</span>
-                        </button>
-                        <button class={`button--${t} scheme--primary icon-container rounded-full`}>
-                            <span class="material-symbols-outlined">face</span>
-                        </button>
-                    </div>
-                </div>
-            )}
-        </For>
+    const Buttons = ()=> <>
+        <div class="flex items-center gap-2 my-4">
+            <For each={colors}>
+                {(c)=>(
+                    <XButton disabled={disable()} rounded={rounded()} t={t()} color={c}>{c}</XButton >
+                )}
+            </For>
+            <XButton disabled={disable()} rounded={rounded()} t={t()} color="primary" leftIcon="face" rightIcon="face">icon button</XButton>
+        </div>
+    </>;
 
-        <br /><br />
-        <h1 class="mb-4">组件 button</h1>
-        <For each={buttonTypes}>
-            {(t)=>(
-                <div class="my-4">
-                    <p class="mb-2">{t}</p>
-                    <div class="flex items-center gap-2">
-                        <For each={colors}>
-                            {(c)=>(
-                                <XButton t={t} color={c}>{c}</XButton>
-                            )}
-                        </For>
-                        <XButton t={t} color="primary" leftIcon="face" rightIcon="face">icon button</XButton>
-                        <XButton t={t} color="primary" rounded>rounded button</XButton>
-                    </div>
-                </div>
-            )}
-        </For>
+    const IconButtons = () => <>
+        <div class="flex items-center gap-2">
+            <For each={colors}>
+                {(c)=>(
+                    <XIconButton disabled={disable()} rounded={rounded()} t={t()} color={c}>sync</XIconButton>
+                )}
+            </For>
+            <button class="button--filled scheme--tertiary rounded-full">对比按钮</button>
+        </div>
+    </>;
 
+    return <div class="m-10">
+        <fieldset class="border-2">
+            <legend>设置</legend>
+            <For each={buttonTypes}>
+                {(item)=>(
+                    <label class="mr-4">
+                        <input class="mr-1" type="radio" name="type" value={item} onClick={()=>setT(item)} checked={t()===item} />{item}
+                    </label >
+                )}
+            </For>
 
-        <h1 class="mb-4 text-lg">纯 CSS icon-button</h1>
+            <label class="mr-4">
+                <input type="checkbox" onChange={(e)=>setRounded(e.target.checked)} />rounded
+            </label>
 
-        <For each={buttonTypes}>
-            {(t)=>(
-                <div class="my-4">
-                    <p class="mb-2">{t}</p>
-                    <div class="flex items-center gap-2">
-                        <For each={colors}>
-                            {(c)=>(
-                                <button class={`icon-button--${t} scheme--${c}`}>face</button>
-                            )}
-                        </For>
-                        <button class={`button--${t} scheme--tertiary rounded-full`}>rounded tertiary</button>
-                    </div>
-                </div>
-            )}
-        </For>
+            <label class="mr-4">
+                <input type="checkbox" onChange={(e)=>setDisable(e.target.checked)} />disabled
+            </label>
+        </fieldset>
 
-        <br /><br />
-        <h1 class="mb-4">组件 icon-button</h1>
-        <For each={buttonTypes}>
-            {(t)=>(
-                <div class="my-4">
-                    <p class="mb-2">{t}</p>
-                    <div class="flex items-center gap-2">
-                        <For each={colors}>
-                            {(c)=>(
-                                <XIconButton t={t} color={c}>sync</XIconButton>
-                            )}
-                        </For>
-                        <button class={`button--${t} scheme--tertiary rounded-full`}>rounded tertiary</button>
-                    </div>
-                </div>
-            )}
-        </For>
-    </div >;
+        <h1 class="my-4">button</h1>
+        <Buttons />
+
+        <h1 class="my-4">icon-button</h1>
+        <IconButtons />
+    </div>;
 }

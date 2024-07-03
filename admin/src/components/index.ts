@@ -11,6 +11,9 @@ export * from './button';
 // divider
 export * from './divider';
 
+// drawer
+export * from './drawer';
+
 // error
 export * from './error';
 

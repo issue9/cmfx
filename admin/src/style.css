@@ -15,6 +15,7 @@
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
     font-size: 1.3rem;
     box-sizing: border-box;
+    flex: 0 0 0%;
 }
 
 @layer components {
@@ -25,7 +26,6 @@
         --text: var(--primary-text);
         --text-low: var(--primary-text-low);
         --text-high: var(--primary-text-high);
-        @apply placeholder-primary divide-primary;
     }
 
     .scheme--secondary {
@@ -35,7 +35,6 @@
         --text: var(--secondary-text);
         --text-low: var(--secondary-text-low);
         --text-high: var(--secondary-text-high);
-        @apply placeholder-secondary divide-secondary;
     }
 
     .scheme--tertiary {
@@ -45,7 +44,6 @@
         --text: var(--tertiary-text);
         --text-low: var(--tertiary-text-low);
         --text-high: var(--tertiary-text-high);
-        @apply placeholder-tertiary divide-tertiary;
     }
 
     .scheme--error {
@@ -55,7 +53,6 @@
         --text: var(--error-text);
         --text-low: var(--error-text-low);
         --text-high: var(--error-text-high);
-        @apply placeholder-error divide-error;
     }
 
     .scheme--surface {
@@ -65,7 +62,6 @@
         --text: var(--surface-text);
         --text-low: var(--surface-text-low);
         --text-high: var(--surface-text-high);
-        @apply placeholder-surface divide-surface;
     }
 
     .icon-container {
@@ -76,7 +72,7 @@
 
     .button {
         color: var(--text);
-        @apply rounded-md text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:[&:not(:disabled)]:bg-[var(--bg-high)];
+        @apply border border-transparent rounded-md text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
     }
 
     .button--filled {
@@ -94,13 +90,13 @@
         background-color: transparent;
         color: var(--bg);
         @apply button;
-        @apply hover:[&:not(:disabled)]:bg-[var(--bg-high)] hover:[&:not(disabled)]:text-[var(--text)];
+        @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
     }
 
     .icon-button {
         /* 始终要让 p-1 和 p-2 与 .button 中的 py 和 md:py 相同 */
-        @apply text-sm p-1 md:p-2 disabled:cursor-not-allowed material-symbols-outlined rounded-full;
-        @apply hover:[&:not(:disabled)]:bg-[var(--bg-high)];
+        @apply border border-transparent text-sm p-1 md:p-2 disabled:cursor-not-allowed material-symbols-outlined;
+        @apply hover:enabled:bg-[var(--bg-high)];
     }
 
     .icon-button--filled {
@@ -118,7 +114,7 @@
         background-color: transparent;
         color: var(--bg);
         @apply icon-button;
-        @apply hover:[&:not(:disabled)]:bg-[var(--bg-high)] hover:[&:not(disabled)]:text-[var(--text)];
+        @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
     }
 
     .icon-button--flat {
@@ -133,22 +129,18 @@
 
     .text-field {
         @apply rounded-sm outline-none outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1;
-        @apply has-[:focus]:outline-[var(--text-high)] has-[:hover]:outline-[var(--text-high)];
+        @apply has-[:focus]:outline-[var(--text-high)] has-[:hover:enabled]:outline-[var(--text-high)];
         outline-color: var(--text-low);
 
-        input {
-            @apply outline-none bg-transparent flex-1 px-1 md:px-2 w-full disabled:cursor-not-allowed read-only:cursor-default;
-        }
-
-        .material-symbols-outlined {
-            flex: 0 0 0%;
+        & input {
+            @apply outline-none bg-transparent flex-1 px-1 w-full disabled:cursor-not-allowed read-only:cursor-default;
         }
     }
 
     .textarea {
         text-align: left !important;
         @apply rounded-sm bg-transparent outline-none outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full;
-        @apply has-[:focus]:outline-[var(--text-high)] has-[:hover]:outline-[var(--text-high)];
+        @apply focus:outline-[var(--text-high)] hover:enabled:outline-[var(--text-high)];
         outline-color: var(--bg-low);
     }
 
@@ -159,7 +151,7 @@
         color: var(--text);
         @apply p-8 mx-auto w-dvw h-dvh content-center text-center;
 
-        h1 {
+        & h1 {
             @apply mb-4 text-7xl md:text-9xl tracking-tight font-extrabold;
         }
 
@@ -216,5 +208,22 @@
         }
     }
 
+    /***************************** drawer **************************/
+
+    .drawer {
+        @apply h-full w-full flex overflow-hidden;
+
+        &>aside {
+            @apply h-full bg-[var(--bg)] text-[var(--text)] transition-[width] duration-300;
+        }
+
+        >.hiden {
+            @apply w-0;
+        }
+
+        &>main {
+            @apply overflow-y-scroll h-full rounded-lg flex-1;
+        }
+    }
 
 }

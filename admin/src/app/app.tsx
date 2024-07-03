@@ -6,11 +6,12 @@ import { HashRouter, RouteDefinition } from '@solidjs/router';
 import { ErrorBoundary, For, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { XError } from '@/components';
+import { XDrawer, XError } from '@/components';
 import { Fetcher, sleep } from '@/core';
 import { Provider, buildContext, notifyColors, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
+import XSetting from './settings';
 
 /**
 * 初始化整个项目
@@ -76,6 +77,8 @@ function App(props: {children?: JSXElement}) {
         });
     };
 
+    const [showSettings, setShowSettings] = createSignal(false);
+
     const ctx = useInternal();
 
     return <div class="app">
@@ -83,7 +86,7 @@ function App(props: {children?: JSXElement}) {
             <div class="flex icon-container">
                 <img class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
                 <span class="inline-block ml-2 text-lg font-bold">{ctx.options.title}</span>
-            </div >
+            </div>
 
             <div class="px-4 flex flex-1 icon-container ml-10">
             </div>
@@ -96,12 +99,13 @@ function App(props: {children?: JSXElement}) {
                 </button>
 
                 <Show when={ctx.user()}>
-                    <button type="button" title={ctx.t('_internal.settings')} class="icon-button--flat rounded-md">settings</button>
+                    <button type="button" onClick={() => setShowSettings(!showSettings()) }
+                        title={ctx.t('_internal.settings')} class="icon-button--flat rounded-md">settings</button>
                 </Show>
             </div>
         </header>
 
-        <div class="app-main">
+        <main class="app-main">
             <div class="notify-wrapper">
                 <For each={ctx.getNotify()}>
                     {item => {
@@ -130,15 +134,17 @@ function App(props: {children?: JSXElement}) {
                                 <hr />
                                 <p class="p-3">{item.body}</p>
                             </Show>
-                        </div >;
+                        </div>;
                     }}
                 </For>
-            </div >
+            </div>
 
-            <div class="h-full flex overflow-hidden">
-                {props.children}
-            </div >
-        </div>
+            <div class="h-full w-full">
+                <XDrawer pos="right" aside={<XSetting />} show={showSettings()}>
+                    {props.children}
+                </XDrawer  >
+            </div>
+        </main>
     </div>;
 }
 

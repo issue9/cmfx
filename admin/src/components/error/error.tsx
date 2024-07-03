@@ -39,11 +39,16 @@ export interface Props {
     home?: string;
 }
 
+const defaultProps: Partial<Props> = {
+    color: 'error',
+    buttonColor: 'primary'
+};
+
 /**
  * 显示错误信息的组件
  */
 export default function XError(props: Props) {
-    props = mergeProps({ color: 'error', buttonColor:'primary' }, props) as Props;
+    props = mergeProps(defaultProps, props);
 
     const ctx = useApp();
 
