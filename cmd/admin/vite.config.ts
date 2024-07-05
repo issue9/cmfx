@@ -17,6 +17,10 @@ export default defineConfig({
         host: true
     },
 
+    build: {
+        sourcemap: true
+    },
+
     css: {
         postcss: {
             plugins: [tailwindcss(), autoprefixer()]

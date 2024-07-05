@@ -4,13 +4,14 @@
 
 import { createSignal } from 'solid-js';
 
-import { Form } from './form';
-import XTextArea from './textarea/textarea';
-import XTextField from './textfield/textfiled';
+import { FormAccessor } from './access';
+import { XTextArea } from './textarea';
+import { XTextField } from './textfield';
 
 export default function() {
-    const f = new Form({
+    const f = new FormAccessor({
         f1: 'f1',
+        5:5,
         textarea: 'textarea',
     });
 
@@ -19,16 +20,17 @@ export default function() {
     return <div>
         <div class="w-60">
             <p>text-field</p><br />
-            <XTextField f={f} color='secondary' name="f1" />
-            <XTextField label='label' color='tertiary' placeholder='placeholder' f={f} name="f1" />
-            <XTextField label='disabled' disabled f={f} name="f1" />
-            <XTextField label='readonly' readonly f={f} name="f1" />
-            <XTextField label='icon' icon='face' f={f} name="f1" />
-            <XTextField label='password' type="password" icon='face' f={f} name="f1" />
-            <XTextField label='number' type="number" icon='face' f={f} name="f1" />
-            <XTextField label='date' type="date" icon='face' f={f} name="f1" />
-            <XTextArea label='date' f={f} name="textarea" />
-            <button class="button--filled" onClick={()=>setObj(JSON.stringify(f.object()))}> object </button  >
+            <XTextField accessor={f.accessor('f1')} color='secondary' />
+            <XTextField label='label' color='tertiary' placeholder='placeholder' accessor={f.accessor('f1')} />
+            <XTextField label='disabled' disabled accessor={f.accessor('f1')} />
+            <XTextField label='readonly' readonly accessor={f.accessor('f1')} />
+            <XTextField label='icon' icon='face' accessor={f.accessor('f1')} />
+            <XTextField label='password' type="password" icon='face' accessor={f.accessor('f1')} />
+            <XTextField label='number' type="number" icon='face' accessor={f.accessor('f1')} />
+            <XTextField label='date' type="date" icon='face' accessor={f.accessor('f1')} />
+            <XTextArea label='date' accessor={f.accessor('textarea')} />
+            <button class="button--filled scheme-primary" onClick={()=>setObj(JSON.stringify(f.object()))}> object </button>
+            <button class="button--filled scheme-primary" type="reset" onClick={()=>f.reset()}>reset</button>
             <pre>
                 {obj()}
             </pre>

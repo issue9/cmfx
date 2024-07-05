@@ -95,7 +95,7 @@
 
     .icon-button {
         /* 始终要让 p-1 和 p-2 与 .button 中的 py 和 md:py 相同 */
-        @apply border border-transparent text-sm p-1 md:p-2 disabled:cursor-not-allowed material-symbols-outlined;
+        @apply border border-transparent rounded-md text-sm p-1 md:p-2 disabled:cursor-not-allowed;
         @apply hover:enabled:bg-[var(--bg-high)];
     }
 
@@ -121,15 +121,82 @@
         @apply icon-button bg-transparent;
     }
 
-    /***************************** form **************************/
+    /***************************** form-radio **************************/
 
-    .field .error {
-        @apply text-sm text-error min-h-5;
+    .radio-group {
+        label {
+            @apply border-2 border-transparent icon-container;
+
+            .radio-icon {
+                color: var(--bg);
+                @apply mr-1;
+            }
+        }
+
+        label:hover .radio-icon {
+            color: var(--bg-high);
+        }
+
+        label.border {
+            @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+        }
     }
 
+    .radio-group:enabled {
+        label.border {
+            @apply hover:border-[var(--bg-high)];
+        }
+    }
+
+    .radio-group:disabled {
+        cursor: not-allowed;
+
+        label {
+            cursor: not-allowed;
+
+            .radio-icon {
+                cursor: not-allowed;
+                color: var(--bg);
+            }
+        }
+    }
+
+    /***************************** form-checkbox **************************/
+
+    .checkbox {
+        @apply border-2 border-transparent icon-container;
+
+        .checkbox-icon {
+            color: var(--bg);
+            @apply mr-1;
+        }
+    }
+
+    .checkbox.border {
+        @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+    }
+
+    .checkbox:has(:enabled):hover {
+        cursor: pointer;
+
+        .checkbox-icon {
+            color: var(--text-high);
+        }
+    }
+
+    .checkbox.border:has(:enabled):hover {
+        @apply border-[var(--bg-high)];
+    }
+
+    .checkbox:has(:disabled) {
+        cursor: not-allowed;
+    }
+
+    /***************************** form-text-field **************************/
+
     .text-field {
-        @apply rounded-sm outline-none outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1;
-        @apply has-[:focus]:outline-[var(--text-high)] has-[:hover:enabled]:outline-[var(--text-high)];
+        @apply rounded-sm outline-none outline-inherit flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
+        @apply has-[:focus:enabled]:outline-[var(--text-high)] has-[:hover:enabled]:outline-[var(--text-high)];
         outline-color: var(--text-low);
 
         & input {
@@ -137,11 +204,17 @@
         }
     }
 
+    /***************************** form-textarea **************************/
+
     .textarea {
         text-align: left !important;
         @apply rounded-sm bg-transparent outline-none outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full;
-        @apply focus:outline-[var(--text-high)] hover:enabled:outline-[var(--text-high)];
+        @apply focus:enabled:outline-[var(--text-high)] hover:enabled:outline-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
         outline-color: var(--bg-low);
+    }
+
+    .field_error {
+        @apply text-sm text-error min-h-5;
     }
 
     /***************************** error **************************/
@@ -149,7 +222,7 @@
     .error-page {
         background-color: var(--bg);
         color: var(--text);
-        @apply p-8 mx-auto w-dvw h-dvh content-center text-center;
+        @apply p-8 mx-auto w-full h-full content-center text-center;
 
         & h1 {
             @apply mb-4 text-7xl md:text-9xl tracking-tight font-extrabold;

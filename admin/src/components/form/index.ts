@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as XField } from './field';
-export type { Field } from './field';
-export { Form } from './form';
-export type { Object, Validation } from './form';
+export { FieldAccessor, FormAccessor } from './access';
+export type { Accessor, Validation } from './access';
 
-export { default as XTextField } from './textfield/textfiled';
-export type { Props as TextFieldProps } from './textfield/textfiled';
+export * from './textarea';
+export * from './textfield';
 

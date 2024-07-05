@@ -5,11 +5,9 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { Color } from '@/components/base';
-import { default as XField } from '@/components/form/field';
-import { Form, Object } from '@/components/form/form';
+import { Accessor } from '@/components/form';
 
-export interface Props<T extends Object> {
-    name: keyof T;
+export interface Props<T> {
     color?: Color;
     icon?: string;
     label?: string;
@@ -17,20 +15,24 @@ export interface Props<T extends Object> {
     type?: 'text' | 'password' | 'url' | 'email' | 'number' | 'date';
     disabled?: boolean;
     readonly?: boolean;
-    f: Form<T>;
+    rounded?: boolean;
+    accessor: Accessor<T>;
 }
 
-export default function XTextField<T extends Object>(props: Props<T>):JSX.Element {
-    type ft = T[typeof props.name];
+export default function XTextField<T extends string|number|Array<string>>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: 'primary' }, props) as Props<T>;
-    let fieldRef;
+    const access = props.accessor;
 
-    return <XField ref={fieldRef} name={props.name} f={props.f}>
+    return <div class="field">
         <label>
             <Show when={props.label}>
                 {props.label}
             </Show>
-            <div class={`text-field scheme--${props.color}`}>
+            <div classList={{
+                'text-field': true,
+                [`scheme--${props.color}`]: true,
+                'rounded-full': props.rounded,
+            }}>
                 <Show when={props.icon}>
                     <span role="none" class="material-symbols-outlined">{props.icon}</span>
                 </Show>
@@ -38,10 +40,11 @@ export default function XTextField<T extends Object>(props: Props<T>):JSX.Elemen
                     disabled={props.disabled}
                     readOnly={props.readonly}
                     placeholder={props.placeholder}
-                    value={fieldRef.getValue()()}
-                    onInput={(e)=>fieldRef.setValue(e.target.value as ft)}
+                    value={access.getValue()}
+                    onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
                 />
             </div>
         </label>
-    </XField >;
+        <p class="field_error" role="alert">{access.getError()}</p>
+    </div>;
 }

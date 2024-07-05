@@ -25,6 +25,7 @@ export default function XIconButton(props: Props) {
     const [_, others] = splitProps(props, ['color', 't']);
     return <button {...others}
         classList={{
+            'material-symbols-outlined': true,
             [`icon-button--${props.t}`]: true,
             [`scheme--${props.color}`]:true,
             'rounded-full': props.rounded,

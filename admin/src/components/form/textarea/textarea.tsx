@@ -5,25 +5,22 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { Color } from '@/components/base';
-import { Form, Object } from '@/components/form';
-import { default as XField } from '@/components/form/field';
+import { Accessor } from '@/components/form';
 
-export interface Props<T extends Object> {
-    name: keyof T;
+export interface Props<T> {
     color?: Color;
     label?: string;
     placeholder?: string;
     disabled?: boolean;
     readonly?: boolean;
-    f: Form<T>;
+    accessor: Accessor<T>;
 }
 
-export default function XTextField<T extends Object>(props: Props<T>):JSX.Element {
-    type ft = T[typeof props.name];
+export default function XTextField<T extends string|number|Array<string>>(props: Props<T>):JSX.Element {
     props = mergeProps({color:'primary', type:'text'}, props) as Props<T>; // 指定默认值
-    let fieldRef;
+    const access = props.accessor;
 
-    return <XField ref={fieldRef} name={props.name} f={props.f}>
+    return <div class="field">
         <label>
             <Show when={props.label}>
                 {props.label}
@@ -32,8 +29,9 @@ export default function XTextField<T extends Object>(props: Props<T>):JSX.Elemen
                 disabled={props.disabled}
                 readOnly={props.readonly}
                 placeholder={props.placeholder}
-                value={fieldRef.getValue()()}
-                onInput={(e)=>fieldRef.setValue(e.target.value as ft)} />
+                value={access.getValue()}
+                onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
         </label>
-    </XField>;
+        <p class="field_error" role="alert">{access.getError()}</p>
+    </div>;
 }

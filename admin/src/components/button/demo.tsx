@@ -4,7 +4,7 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { ButtonType, buttonTypes, colors, XButton, XIconButton } from 'admin/dev/components';
+import { ButtonType, buttonTypes, colors, XButton, XIconButton } from '@/components';
 
 export default function() {
     const [disable, setDisable] = createSignal(false);
