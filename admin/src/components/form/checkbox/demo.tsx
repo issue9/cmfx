@@ -50,7 +50,7 @@ export default function() {
 
             <br />
 
-            <button class="button--filled scheme--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled scheme--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
         </fieldset>
 
         <For each={colors}>

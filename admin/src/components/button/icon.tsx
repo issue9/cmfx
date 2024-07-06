@@ -2,32 +2,36 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, splitProps } from 'solid-js';
+import { JSX, mergeProps } from 'solid-js';
 
 import { Color } from '@/components/base';
+import { Style } from './types';
 
-import { Type } from './types';
-
-export interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface Props {
     color?: Color;
-    t?: Type;
+    style?: Style;
     rounded?: boolean;
+    disabled?: boolean;
+    children: JSX.Element;
+    onClick?: { (e?: Event): void };
 }
 
-const defaultProps: Props = {
+const defaultProps: Partial<Props> = {
     color: 'primary',
-    t: 'filled'
+    style: 'filled',
+    onClick:()=>{}
 };
 
 export default function XIconButton(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    const [_, others] = splitProps(props, ['color', 't']);
-    return <button {...others}
-        classList={{
-            'material-symbols-outlined': true,
-            [`icon-button--${props.t}`]: true,
-            [`scheme--${props.color}`]:true,
-            'rounded-full': props.rounded,
-        }}>{props.children}</button>;
+    return <button disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+        'material-symbols-outlined': true,
+        'icon-button': true,
+        [`${props.style}`]: true,
+        'rounded-full': props.rounded,
+        [`scheme--${props.color}`]:true,
+    }}>
+        {props.children}
+    </button>;
 }

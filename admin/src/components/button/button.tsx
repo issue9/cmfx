@@ -2,23 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { JSX, mergeProps } from 'solid-js';
 
 import { Color } from '@/components/base';
+import { Style } from './types';
 
-import { Type } from './types';
-
-export interface Props extends JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface Props {
     color?: Color;
-    t?: Type;
-    leftIcon?: string;
-    rightIcon?: string;
+    style?: Style;
     rounded?: boolean;
+    children: JSX.Element;
+    onClick?: { (e?: Event): void };
+    disabled?: boolean;
 }
 
-const defaultProps: Props = {
+const defaultProps: Partial<Props> = {
     color: 'primary',
-    t: 'filled'
+    style: 'filled',
+    onClick:()=>{}
 };
 
 /**
@@ -27,19 +28,13 @@ const defaultProps: Props = {
 export default function XButton(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    const [_, others] = splitProps(props, ['color', 't', 'leftIcon', 'rightIcon', 'rounded']);
-    return <button {...others} classList={{
-        [`button--${props.t}`]: true,
+    return <button disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+        'button': true,
+        [`${props.style}`]: true,
         [`scheme--${props.color}`]: true,
+        'icon-container': true,
         'rounded-full': props.rounded,
-        'icon-container': !!(props.leftIcon || props.rightIcon)
     }}>
-        <Show when={props.leftIcon}>
-            <span class="material-symbols-outlined mr-1">{props.leftIcon}</span>
-        </Show>
         {props.children}
-        <Show when={props.rightIcon}>
-            <span class="material-symbols-outlined ml-1">{props.rightIcon}</span>
-        </Show>
     </button>;
 }

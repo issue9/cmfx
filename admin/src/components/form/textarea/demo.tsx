@@ -27,7 +27,7 @@ export default function() {
 
             <br />
 
-            <button class="button--filled scheme--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled scheme--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </fieldset>
 
         <For each={colors}>

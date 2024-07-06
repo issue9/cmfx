@@ -75,21 +75,19 @@
         @apply border border-transparent rounded-md text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
     }
 
-    .button--filled {
+    .button.filled {
         background-color: var(--bg);
-        @apply button;
     }
 
-    .button--border {
+    .button.bordered {
         color: var(--bg);
         background-color: transparent;
-        @apply button border border-solid;
+        @apply border border-solid border-[var(--bg)];
     }
 
-    .button--flat {
+    .button.flated {
         background-color: transparent;
         color: var(--bg);
-        @apply button;
         @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
     }
 
@@ -99,26 +97,74 @@
         @apply hover:enabled:bg-[var(--bg-high)];
     }
 
-    .icon-button--filled {
+    .icon-button.filled {
         background-color: var(--bg);
-        @apply icon-button;
     }
 
-    .icon-button--border {
+    .icon-button.bordered {
         color: var(--text);
         background-color: transparent;
-        @apply icon-button border border-solid;
+        @apply border border-solid border-[var(--bg)];
     }
 
-    .icon-button--flat {
+    .icon-button.flated {
         background-color: transparent;
         color: var(--bg);
-        @apply icon-button;
         @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
     }
 
-    .icon-button--flat {
-        @apply icon-button bg-transparent;
+    .icon-button.flat {
+        @apply bg-transparent;
+    }
+
+    .button-group {
+        color: var(--text);
+        background-color: var(--bg);
+        @apply border-solid border border-transparent inline-block rounded-l-md rounded-r-md text-sm;
+
+        :first-child {
+            @apply rounded-l-md;
+        }
+
+        :last-child {
+            @apply rounded-r-md;
+        }
+
+        button {
+            color: var(--text);
+            @apply text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
+        }
+    }
+
+    .button-group.rounded {
+        @apply rounded-l-full rounded-r-full border-transparent;
+
+        :first-child {
+            @apply rounded-l-full;
+        }
+
+        :last-child {
+            @apply rounded-r-full;
+        }
+    }
+
+    .button-group.filled {
+        background-color: var(--bg);
+    }
+
+    .button-group.bordered {
+        color: var(--bg);
+        background-color: transparent;
+        @apply border border-solid border-[var(--bg)];
+    }
+
+    .button-group.flated {
+        background-color: transparent;
+        color: var(--bg);
+
+        button {
+            @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
+        }
     }
 
     /***************************** form-radio **************************/
@@ -195,7 +241,7 @@
     /***************************** form-text-field **************************/
 
     .text-field {
-        @apply rounded-sm outline-none outline-inherit flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
+        @apply rounded-sm outline-none outline-1 outline-inherit flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
         @apply has-[:focus:enabled]:outline-[var(--text-high)] has-[:hover:enabled]:outline-[var(--text-high)];
         outline-color: var(--text-low);
 
@@ -208,7 +254,7 @@
 
     .textarea {
         text-align: left !important;
-        @apply rounded-sm bg-transparent outline-none outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full;
+        @apply rounded-sm bg-transparent outline-none outline-1 outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full;
         @apply focus:enabled:outline-[var(--text-high)] hover:enabled:outline-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
         outline-color: var(--bg-low);
     }

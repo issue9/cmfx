@@ -3,5 +3,5 @@
 // SPDX-License-Identifier: MIT
 
 export { default as XRadioGroup } from './radio';
-export type { Props as RadioProps } from './radio';
+export type { Props as RadioGroupProps } from './radio';
 

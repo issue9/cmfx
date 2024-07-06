@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export const types = ['flat' , 'border' , 'filled'] as const;
+export const styles = ['flated' , 'bordered' , 'filled'] as const;
 
-export type Type = typeof types[number];
+export type Style = typeof styles[number];
