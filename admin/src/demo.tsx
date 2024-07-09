@@ -6,9 +6,12 @@ import { A } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { default as App } from '@/app/demo';
+import { default as Badge } from '@/components/badge/demo';
 import { default as Buttons } from '@/components/button/demo';
 import { default as Divider } from '@/components/divider/demo';
+import { default as Dropdown } from '@/components/dropdown/demo';
 import { default as Errors } from '@/components/error/demo';
+import { default as List } from '@/components/list/demo';
 
 // form 相关
 import { default as Checkbox } from '@/components/form/checkbox/demo';
@@ -26,10 +29,13 @@ import { default as TextField } from '@/components/form/textfield/demo';
 export default function(prefix: string) {
     const nav = (props: {children?: JSX.Element}) => {
         return <div class="h-full flex flex-col">
-            <p class="justify-center flex fixed scheme--surface gap-4">demo:
+            <p class="justify-center flex flex-wrap fixed scheme--surface gap-4">demo:
                 <A href={prefix + '/app'}>APP</A>
                 <A href={prefix + '/errors'}>errors</A>
                 <A href={prefix + '/buttons'}>buttons</A>
+                <A href={prefix + '/dropdown'}>dropdown</A>
+                <A href={prefix + '/badge'}>badge</A>
+                <A href={prefix + '/list'}>list</A>
                 <A href={prefix + '/form'}>form</A>
                 <A href={prefix + '/form-textfield'}>textfield</A>
                 <A href={prefix + '/form-textarea'}>textarea</A>
@@ -63,6 +69,19 @@ export default function(prefix: string) {
                 path: '/divider',
                 component: Divider,
             },
+            {
+                path: '/dropdown',
+                component: Dropdown,
+            },
+            {
+                path: '/badge',
+                component: Badge,
+            },
+            {
+                path: '/list',
+                component: List,
+            },
+
             {
                 path: '/form-textfield',
                 component: TextField,

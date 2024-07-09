@@ -5,13 +5,14 @@
 import { createSignal, For } from 'solid-js';
 
 import { Color, colors } from '@/components/base';
-import { Props, default as XDivider } from './divider';
+import { XDivider } from '@/components/divider';
+import { default as XItem } from './item';
+import { default as XList } from './list';
 
 export default function() {
     const [c, setC] = createSignal<Color>();
-    const [pos, setPos] = createSignal<Props['pos']>('start');
 
-    return <div class="w-80 p-5">
+    return <div class="flex flex-col gap-2">
         <fieldset class="border-2">
             <legend>颜色</legend>
             <For each={colors}>
@@ -26,19 +27,19 @@ export default function() {
             </label>
         </fieldset>
 
-        <fieldset class="border-2">
-            <legend>位置</legend>
-            <For each={new Array<Props['pos']>('start','center','end')}>
-                {(item)=>(
-                    <label class="mr-4">
-                        <input class="mr-1" type="radio" name="type" value={item} onClick={()=>setPos(item)} checked={pos()===item} />{item}
-                    </label>
-                )}
-            </For>
-        </fieldset>
-
-        <br /><br />
-
-        <XDivider color={c()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</XDivider>
-    </div>;
+        <XList color={c()}>
+            <XItem text="item" head='face'>
+                <XItem text="current" head='face' to="/demo/list" />
+                <XDivider />
+                <XItem text="item2" />
+                <XItem text="item3" />
+            </XItem>
+            <XDivider />
+            <XItem text="errors" head='face' to="/demo/errors" />
+            <XItem text="item2" head='face' />
+            <XItem text="item2" head='face'>
+                <XItem text="item" />
+            </XItem>
+        </XList >
+    </div >;
 }

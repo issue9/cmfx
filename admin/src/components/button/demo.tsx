@@ -31,7 +31,7 @@ export default function() {
                     <XIconButton disabled={disable()} rounded={rounded()} style={t()} color={c}>sync</XIconButton>
                 )}
             </For>
-            <button class="button--filled scheme--tertiary rounded-full">对比按钮</button>
+            <button class="button filled scheme--tertiary rounded-full">对比按钮</button>
         </div>
     </>;
 

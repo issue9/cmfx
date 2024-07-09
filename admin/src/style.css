@@ -286,9 +286,12 @@
     /***************************** divider **************************/
 
     .divider {
-        border: var(--text);
         color: var(--text);
         @apply flex content-center items-center;
+
+        hr {
+            color: var(--text-low);
+        }
     }
 
     /***************************** app **************************/
@@ -345,4 +348,78 @@
         }
     }
 
+    /***************************** dropdown **************************/
+
+    .dropdown {
+        position: relative;
+
+        .content {
+            @apply absolute hidden;
+        }
+
+        .show {
+            display: block;
+        }
+    }
+
+
+    /***************************** badge **************************/
+
+    .badge {
+        position: relative;
+
+        .content {
+            background-color: var(--bg);
+            color: var(--text);
+            @apply absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
+        }
+
+        .topleft {
+            @apply top-[-7px] left-[-7px];
+        }
+
+        .topright {
+            @apply top-[-7px] right-[-7px];
+        }
+
+        .bottomleft {
+            @apply bottom-[-7px] left-[-7px];
+        }
+
+        .bottomright {
+            @apply bottom-[-7px] right-[-7px];
+        }
+    }
+
+    /***************************** list **************************/
+
+    .list {
+        @apply flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
+        color: var(--text);
+        background-color: var(--bg);
+
+        .item {
+            @apply flex flex-col gap-y-1;
+
+            .title {
+                @apply rounded-md flex p-2 gap-1 icon-container cursor-pointer hover:bg-[var(--bg-low)] hover:text-[var(--text-low)];
+
+                .tail {
+                    @apply cursor-pointer rounded-full;
+                    margin-left: auto;
+                }
+            }
+
+            .hidden {
+                display: none;
+            }
+        }
+
+        .item.active {
+            .title {
+                background-color: var(--bg-high);
+                color: var(--text-high);
+            }
+        }
+    }
 }
