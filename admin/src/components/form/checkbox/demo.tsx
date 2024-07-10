@@ -5,7 +5,7 @@
 
 import { createSignal, For, JSX } from 'solid-js';
 
-import { colors } from '@/components/base';
+import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import { XCheckboxGroup } from '.';
 import XCheckbox from './checkbox';
@@ -16,9 +16,9 @@ export default function() {
     const [vertical, setVertical] = createSignal(false);
     const [icon, setIcon] = createSignal(true);
 
-    const checkboxOptions: Array<[string,string]> = [];
-    colors.forEach((item) => {
-        checkboxOptions.push([item, item]);
+    const checkboxOptions: Array<[string|undefined, string]> = [];
+    colorsWithUndefined.forEach((item) => {
+        checkboxOptions.push([item, item? item : 'undefined']);
     });
 
     const groupFA = FieldAccessor('checkbox', ['1']);
@@ -53,13 +53,13 @@ export default function() {
             <button class="button filled scheme--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
         </fieldset>
 
-        <For each={colors}>
+        <For each={colorsWithUndefined}>
             {(item)=>(
-                <XCheckbox label='test' icon={icon()} color={item} disabled={disable()} readonly={readonly()} />
+                <XCheckbox title={item ? item : 'undefined'} label='test' icon={icon()} color={item} disabled={disable()} readonly={readonly()} />
             )}
         </For>
 
-        <p class="my-4">group</p>
+        <br /><br />
 
         <XCheckboxGroup icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" color="primary" options={groupOptions} accessor={groupFA} />
         <pre>{ groupFA.getValue().toString() }</pre>

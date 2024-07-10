@@ -13,15 +13,19 @@ export interface Props {
 }
 
 const defaultProps: Partial<Props> = {
-    color: 'primary'
+    color: undefined
 };
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     return <div class="dropdown">
-        <div class={`content scheme--${props.color} ${props.show ? 'show' : ''}`}>
+        <div classList={{
+            'content': true,
+            'show': props.show,
+            [`scheme--${props.color}`]: !!props.color
+        }}>
             {props.children}
         </div>
-    </div >;
+    </div>;
 }

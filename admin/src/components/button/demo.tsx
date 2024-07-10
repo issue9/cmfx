@@ -4,7 +4,8 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { ButtonStyle, buttonStyles, colors, XButton, XButtonGroup, XIconButton } from '@/components';
+import { ButtonStyle, buttonStyles, XButton, XButtonGroup, XIconButton } from '@/components';
+import { colorsWithUndefined } from '@/components/base/demo';
 
 export default function() {
     const [disable, setDisable] = createSignal(false);
@@ -13,9 +14,9 @@ export default function() {
 
     const Buttons = ()=> <>
         <div class="flex items-center gap-2 my-4">
-            <For each={colors}>
+            <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <XButton disabled={disable()} rounded={rounded()} style={t()} color={c}>{c}</XButton >
+                    <XButton disabled={disable()} rounded={rounded()} style={t()} color={c}>{c ? c : 'undefined'}</XButton >
                 )}
             </For>
             <XButton disabled={disable()} rounded={rounded()} style={t()} color="primary">
@@ -26,12 +27,12 @@ export default function() {
 
     const IconButtons = () => <>
         <div class="flex items-center gap-2">
-            <For each={colors}>
+            <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <XIconButton disabled={disable()} rounded={rounded()} style={t()} color={c}>sync</XIconButton>
+                    <XIconButton title={c?c:'undefined'} disabled={disable()} rounded={rounded()} style={t()} color={c}>sync</XIconButton >
                 )}
             </For>
-            <button class="button filled scheme--tertiary rounded-full">对比按钮</button>
+            <XButton rounded color='tertiary'>对比按钮</XButton>
         </div>
     </>;
 
@@ -42,7 +43,7 @@ export default function() {
         {text:'button3', action: ()=>{}},
     ];
     const ButtonGroups = () => <div class="flex flex-col items-center gap-y-2">
-        <For each={colors}>
+        <For each={colorsWithUndefined}>
             {(c)=>(
                 <>
                     <XButtonGroup buttons={buttons} rounded={rounded()} color={c} style={t()} disabled={disable()} />

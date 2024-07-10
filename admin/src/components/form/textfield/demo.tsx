@@ -4,8 +4,8 @@
 
 import { createSignal, For } from 'solid-js';
 
+import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import { colors } from 'admin/dev/components';
 import XTextField from './textfiled';
 
 export default function() {
@@ -37,9 +37,9 @@ export default function() {
             <button class="button filled scheme--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
         </fieldset>
 
-        <For each={colors}>
+        <For each={colorsWithUndefined}>
             {(item) => (
-                <XTextField icon={icon() ? 'face' : ''} color={item} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={f} />
+                <XTextField title={item ? item : 'undefined'} icon={icon() ? 'face' : ''} color={item} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

@@ -4,8 +4,8 @@
 
 import { createSignal, For } from 'solid-js';
 
+import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import { colors } from 'admin/dev/components';
 import XTextArea from './textarea';
 
 export default function() {
@@ -30,9 +30,9 @@ export default function() {
             <button class="button filled scheme--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </fieldset>
 
-        <For each={colors}>
+        <For each={colorsWithUndefined}>
             {(item) => (
-                <XTextArea color={item} disabled={disable()} readonly={readonly()} accessor={f} />
+                <XTextArea color={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

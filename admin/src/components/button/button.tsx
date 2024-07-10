@@ -14,10 +14,10 @@ export interface Props {
     children: JSX.Element;
     onClick?: { (e?: Event): void };
     disabled?: boolean;
+    title?: string;
 }
 
 const defaultProps: Partial<Props> = {
-    color: 'primary',
     style: 'filled',
     onClick:()=>{}
 };
@@ -28,13 +28,13 @@ const defaultProps: Partial<Props> = {
 export default function XButton(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+    return <button title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
         'button': true,
         [`${props.style}`]: true,
-        [`scheme--${props.color}`]: true,
+        [`scheme--${props.color}`]: !!props.color,
         'icon-container': true,
         'rounded-full': props.rounded,
     }}>
         {props.children}
-    </button>;
+    </button >;
 }

@@ -14,21 +14,19 @@ export interface Props<T> {
     disabled?: boolean;
     readonly?: boolean;
     accessor: Accessor<T>;
+    title?: string;
 }
 
 export default function XTextField<T extends string|number|Array<string>>(props: Props<T>):JSX.Element {
-    props = mergeProps({color:'primary', type:'text'}, props) as Props<T>; // 指定默认值
+    props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值
     const access = props.accessor;
 
-    return <div class="field">
-        <label>
+    return <div class={props.color ? `field scheme--${props.color}` : 'field'}>
+        <label title={props.title}>
             <Show when={props.label}>
                 {props.label}
             </Show>
-            <textarea class={`textarea scheme--${props.color}`}
-                disabled={props.disabled}
-                readOnly={props.readonly}
-                placeholder={props.placeholder}
+            <textarea class="textarea" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                 value={access.getValue()}
                 onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
         </label>

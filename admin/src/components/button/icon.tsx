@@ -14,10 +14,10 @@ export interface Props {
     disabled?: boolean;
     children: JSX.Element;
     onClick?: { (e?: Event): void };
+    title?: string;
 }
 
 const defaultProps: Partial<Props> = {
-    color: 'primary',
     style: 'filled',
     onClick:()=>{}
 };
@@ -25,13 +25,13 @@ const defaultProps: Partial<Props> = {
 export default function XIconButton(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+    return <button title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
         'material-symbols-outlined': true,
         'icon-button': true,
         [`${props.style}`]: true,
         'rounded-full': props.rounded,
-        [`scheme--${props.color}`]:true,
+        [`scheme--${props.color}`]: !!props.color,
     }}>
         {props.children}
-    </button>;
+    </button >;
 }

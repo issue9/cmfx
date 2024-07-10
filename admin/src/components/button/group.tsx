@@ -16,12 +16,18 @@ export interface Props {
 }
 
 interface Button {
+    /**
+     * 按钮内的文本内容，不包含按钮本身。
+     */
     text: JSX.Element;
+
+    /**
+    * 点击该按钮执行的操作
+    */
     action: { (): void };
 }
 
 const defaultProps: Partial<Props> = {
-    color: 'primary',
     style: 'filled'
 };
 
@@ -31,7 +37,7 @@ export default function (props: Props) {
     return <fieldset disabled={props.disabled} classList={{
         'button-group': true,
         'rounded': props.rounded,
-        [`scheme--${props.color}`]: true,
+        [`scheme--${props.color}`]: !!props.color,
         [`${props.style}`]: true
     }}>
         <For each={props.buttons}>

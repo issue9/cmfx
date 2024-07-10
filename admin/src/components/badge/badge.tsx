@@ -18,7 +18,7 @@ export interface Props {
 }
 
 const defaultProps: Partial<Props> = {
-    color: 'primary',
+    color: undefined,
     pos: 'topright'
 };
 
@@ -27,6 +27,10 @@ export default function(props: Props) {
 
     return <div class="badge">
         {props.children}
-        <span class={`content scheme--${props.color} ${props.pos}`}>{ props.text }</span>
+        <span classList={{
+            'content': true,
+            [props.pos as string]: true,
+            [`scheme--${props.color}`]: props.color ? true : false
+        }}>{ props.text }</span >
     </div>;
 }

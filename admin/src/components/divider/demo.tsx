@@ -4,7 +4,8 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Color, colors } from '@/components/base';
+import { Color } from '@/components/base';
+import { ColorSelector } from '@/components/base/demo';
 import { Props, default as XDivider } from './divider';
 
 export default function() {
@@ -12,19 +13,7 @@ export default function() {
     const [pos, setPos] = createSignal<Props['pos']>('start');
 
     return <div class="w-80 p-5">
-        <fieldset class="border-2">
-            <legend>颜色</legend>
-            <For each={colors}>
-                {(item)=>(
-                    <label class="mr-4">
-                        <input class="mr-1" type="radio" name="type" value={item} onClick={()=>setC(item)} checked={c()===item} />{item}
-                    </label>
-                )}
-            </For>
-            <label class="mr-4">
-                <input class="mr-1" type="radio" name="type" value={undefined} onClick={()=>setC(undefined)} checked={c()===undefined} />undefined
-            </label>
-        </fieldset>
+        <ColorSelector getter={c} setter={setC} />
 
         <fieldset class="border-2">
             <legend>位置</legend>
@@ -40,5 +29,8 @@ export default function() {
         <br /><br />
 
         <XDivider color={c()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</XDivider>
+
+        <br /><br />
+        <XDivider color={c()} pos={pos()}></XDivider>
     </div>;
 }

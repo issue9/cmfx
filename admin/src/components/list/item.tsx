@@ -17,6 +17,13 @@ export interface Props {
     to?: string;
 
     /**
+     * 点击触发的事件
+     *
+     * 仅在 to 属性未指定的情况下，此属性才会有效。
+     */
+    onClick?: { (): void };
+
+    /**
      * 是否禁用当前项
      */
     disabled?: boolean;
@@ -60,18 +67,14 @@ export default function Item (props: Props) {
         </Show>
     </>;
 
-    return <Switch>
-        <Match when={!props.to}>
-            <div role="menuitem" class="item">
-                {content}
-            </div>
+    return <Switch fallback={<div role="menuitem" class="item">{content}</div>}>
+        <Match when={!props.to && props.onClick}>
+            <div role="menuitem" class="item" onClick={props.onClick}>{content}</div>
         </Match>
 
         <Match when={props.to}>
-            <A href={props.to!} role="menuitem" class="item" activeClass="active">
-                {content}
-            </A>
+            <A href={props.to!} role="menuitem" class="item" activeClass="active">{content}</A>
         </Match>
-    </Switch  >;
+    </Switch   >;
 
 }

@@ -17,20 +17,20 @@ export interface Props<T> {
     readonly?: boolean;
     rounded?: boolean;
     accessor: Accessor<T>;
+    title?: string;
 }
 
 export default function XTextField<T extends string|number|Array<string>>(props: Props<T>):JSX.Element {
-    props = mergeProps({ color: 'primary' }, props) as Props<T>;
+    props = mergeProps({ color: undefined }, props) as Props<T>;
     const access = props.accessor;
 
-    return <div class="field">
-        <label>
+    return <div class={props.color ? `field scheme--${props.color}` : 'field'}>
+        <label title={props.title}>
             <Show when={props.label}>
                 {props.label}
             </Show>
             <div classList={{
                 'text-field': true,
-                [`scheme--${props.color}`]: true,
                 'rounded-full': props.rounded,
             }}>
                 <Show when={props.icon}>
@@ -44,7 +44,7 @@ export default function XTextField<T extends string|number|Array<string>>(props:
                     onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
                 />
             </div>
-        </label>
+        </label >
         <p class="field_error" role="alert">{access.getError()}</p>
     </div>;
 }

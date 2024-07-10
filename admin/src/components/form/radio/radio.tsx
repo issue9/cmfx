@@ -7,7 +7,7 @@ import { For, JSX, mergeProps, Show } from 'solid-js';
 import { Color } from '@/components/base';
 import { Accessor } from '@/components/form';
 
-type Value = string | number;
+type Value = string | number | undefined;
 
 export interface Props {
     /**
@@ -22,17 +22,22 @@ export interface Props {
     vertical?: boolean;
     accessor: Accessor<Value>;
     options: Array<[Value, JSX.Element]>;
+    title?: string
 }
 
-const defaultProps: Partial<Props> = { color: 'primary', icon: true };
+const defaultProps: Partial<Props> = { icon: true };
 
 export default function Group (props:Props) {
     props = mergeProps(defaultProps, props);
     const access = props.accessor;
 
-    return <fieldset disabled={props.disabled} class={`radio-group field scheme--${props.color}`}>
+    return <fieldset disabled={props.disabled} classList={{
+        'radio-group': true,
+        'field': true,
+        [`scheme--${props.color}`]: !!props.color
+    }}>
         <Show when={props.label}>
-            <legend>{props.label}</legend>
+            <legend title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{

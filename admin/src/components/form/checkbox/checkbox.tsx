@@ -22,6 +22,7 @@ export interface Props {
     disabled?: boolean;
     readonly?: boolean;
     onChange?: {(v?: boolean):void}
+    title?: string;
 }
 
 const icons = new Map<boolean | undefined, string>([
@@ -30,15 +31,15 @@ const icons = new Map<boolean | undefined, string>([
     [false, 'check_box_outline_blank']
 ]);
 
-const defaultProps: Partial<Props> = { color: 'primary', icon: true };
+const defaultProps: Partial<Props> = { icon: true };
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
     const [chk, setChk] = createSignal(props.checked);
 
-    return <label classList={{
+    return <label title={props.title} classList={{
         'checkbox': true,
-        [`scheme--${props.color}`]: true,
+        [`scheme--${props.color}`]: !!props.color,
         'border': !props.icon
     }}>
         <input type="checkbox"

@@ -5,7 +5,8 @@
 
 import { createSignal } from 'solid-js';
 
-import { Color, colors } from '@/components/base';
+import { Color } from '@/components/base';
+import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import XGroup from './radio';
 
@@ -16,10 +17,10 @@ export default function() {
     const [vertical, setVertical] = createSignal(false);
     const [icon, setIcon] = createSignal(true);
 
-    const options: Array<[string,string]> = [];
+    const options: Array<[string|undefined,string]> = [];
 
-    colors.forEach((item) => {
-        options.push([item, item]);
+    colorsWithUndefined.forEach((item) => {
+        options.push([item, item ? item : 'undefined']);
     });
 
     return <div class="w-80">

@@ -22,7 +22,6 @@ export interface Props {
 }
 
 const defaultProps: Partial<Props> = {
-    color: 'primary',
     pos: 'left'
 };
 
@@ -30,7 +29,7 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     const Aside = ()=><aside classList={{
-        [`scheme--${props.color}`]: true,
+        [`scheme--${props.color}`]: !!props.color,
         'hiden': props.show === undefined ? false : !props.show,
     }}>
         {props.aside}
