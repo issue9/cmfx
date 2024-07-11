@@ -3,26 +3,22 @@
 // SPDX-License-Identifier: MIT
 
 
-import { createSignal, For, JSX } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 
 import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import { XCheckboxGroup } from '.';
 import XCheckbox from './checkbox';
+import { Option, default as XCheckboxGroup } from './group';
 
 export default function() {
     const [disable, setDisable] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [vertical, setVertical] = createSignal(false);
     const [icon, setIcon] = createSignal(true);
-
-    const checkboxOptions: Array<[string|undefined, string]> = [];
-    colorsWithUndefined.forEach((item) => {
-        checkboxOptions.push([item, item? item : 'undefined']);
-    });
+    const [iconStyle, setIconStyle] = createSignal(false);
 
     const groupFA = FieldAccessor('checkbox', ['1']);
-    const groupOptions: Array<[string, JSX.Element]> = [
+    const groupOptions: Array<Option<string>> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:red">red</div >],
         ['3', <div style="color:red">red<br/>red<br/>red</div >],
@@ -51,17 +47,23 @@ export default function() {
             <br />
 
             <button class="button filled scheme--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled scheme--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
         <For each={colorsWithUndefined}>
             {(item)=>(
-                <XCheckbox title={item ? item : 'undefined'} label='test' icon={icon()} color={item} disabled={disable()} readonly={readonly()} />
+                <XCheckbox checkedIcon={iconStyle() ? 'verified': undefined}
+                    title={item ? item : 'undefined'} label='test' icon={icon()} color={item} disabled={disable()} readonly={readonly()}
+                />
             )}
         </For>
 
         <br /><br />
 
-        <XCheckboxGroup icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" color="primary" options={groupOptions} accessor={groupFA} />
+        <XCheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
+            icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" color="primary"
+            options={groupOptions} accessor={groupFA}
+        />
         <pre>{ groupFA.getValue().toString() }</pre>
     </div>;
 }

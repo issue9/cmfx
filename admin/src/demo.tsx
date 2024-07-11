@@ -29,7 +29,7 @@ import { default as TextField } from '@/components/form/textfield/demo';
 export default function(prefix: string) {
     const nav = (props: {children?: JSX.Element}) => {
         return <div class="h-full flex flex-col">
-            <p class="justify-center flex flex-wrap fixed scheme--surface gap-4">demo:
+            <p class="justify-center flex flex-wrap scheme--surface gap-4">demo:
                 <A href={prefix + '/app'}>APP</A>
                 <A href={prefix + '/errors'}>errors</A>
                 <A href={prefix + '/buttons'}>buttons</A>

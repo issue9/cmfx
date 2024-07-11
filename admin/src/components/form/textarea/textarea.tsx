@@ -7,6 +7,8 @@ import { JSX, mergeProps, Show } from 'solid-js';
 import { Color } from '@/components/base';
 import { Accessor } from '@/components/form';
 
+type Value = string | number | Array<string>;
+
 export interface Props<T> {
     color?: Color;
     label?: string;
@@ -17,7 +19,7 @@ export interface Props<T> {
     title?: string;
 }
 
-export default function XTextField<T extends string|number|Array<string>>(props: Props<T>):JSX.Element {
+export default function XTextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值
     const access = props.accessor;
 

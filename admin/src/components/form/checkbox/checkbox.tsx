@@ -8,7 +8,7 @@ import { Color } from '@/components/base';
 
 export interface Props {
     /**
-     * 是否需要显示单选按钮的图标
+     * 是否需要显示多选按钮的图标
      */
     icon?: boolean;
 
@@ -21,17 +21,20 @@ export interface Props {
     label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
-    onChange?: {(v?: boolean):void}
+    onChange?: { (v?: boolean): void };
     title?: string;
+
+    checkedIcon?: string;
+    uncheckedIcon?: string;
+    indeterminateIcon?: string;
 }
 
-const icons = new Map<boolean | undefined, string>([
-    [undefined, 'indeterminate_check_box'],
-    [true, 'check_box'],
-    [false, 'check_box_outline_blank']
-]);
-
-const defaultProps: Partial<Props> = { icon: true };
+const defaultProps: Partial<Props> = {
+    icon: true,
+    checkedIcon: 'check_box',
+    uncheckedIcon: 'check_box_outline_blank',
+    indeterminateIcon: 'indeterminate_check_box'
+};
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
@@ -58,7 +61,7 @@ export default function(props: Props) {
         />
         <Show when={props.icon}>
             <span class="checkbox-icon material-symbols-outlined">
-                {icons.get(chk())}
+                { chk() === undefined ? props.indeterminateIcon : (chk() ? props.checkedIcon : props.uncheckedIcon) }
             </span>
         </Show>
         {props.label}

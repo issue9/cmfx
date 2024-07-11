@@ -2,9 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export const colors = ['primary' , 'secondary' , 'tertiary' , 'error'] as const;
+export { colors } from './color';
+export type { Color } from './color';
 
-/**
- * 几种主要的颜色
- */
-export type Color = typeof colors[number];

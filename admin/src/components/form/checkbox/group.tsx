@@ -2,45 +2,60 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps, Show } from 'solid-js';
+import { For, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Color } from '@/components/base';
 import { Accessor } from '@/components/form';
 import { XCheckbox } from '.';
 
-type Value = Array<string | number>;
+type Value = string | number;
 
-export interface Props {
-    color?: Color;
-    label?: string;
+export type Option<T extends Value> = [T, JSX.Element];
+
+export interface Props<T extends Value> {
+    /**
+     * 是否需要显示多选按钮的图标
+     */
     icon?: boolean;
+
+    color?: Color;
+    label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
     vertical?: boolean;
-    accessor: Accessor<Value>;
-    options: Array<[Value[number], JSX.Element]>;
+    accessor: Accessor<Array<Value>>;
+    options: Array<Option<T>>;
     title?: string
+
+    checkedIcon?: string;
+    uncheckedIcon?: string;
+    indeterminateIcon?: string;
 }
 
-const defaultProps: Partial<Props> = { color: 'primary', icon: true };
-
-export default function Group (props:Props) {
-    props = mergeProps(defaultProps, props);
+export default function Group<T extends Value> (props: Props<T>) {
+    props = mergeProps({
+        color: 'primary' as Color,
+        icon: true,
+        checkedIcon: 'check_box',
+        uncheckedIcon: 'check_box_outline_blank',
+        indeterminateIcon: 'indeterminate_check_box'
+    }, props);
     const access = props.accessor;
 
-    return <fieldset disabled={props.disabled} class={props.color ? `field scheme--${props.color}` : 'field'}>
+    const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
+
+    return <fieldset disabled={props.disabled} class={props.color ? `chk-group field scheme--${props.color}` : 'chk-group field'}>
         <Show when={props.label}>
-            <legend title={props.title}>{props.label}</legend >
+            <legend class="icon-container" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{
-            'flex': true,
-            'flex-col': props.vertical,
-            'gap-1': true
+            'content': true,
+            'flex-col': props.vertical
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <XCheckbox disabled={props.disabled} readonly={props.readonly} icon={props.icon} label={item[1]}
+                    <XCheckbox {...chkProps} label={item[1]}
                         checked={access.getValue().find((v)=>v===item[0]) ? true : false}
                         onChange={(v)=>{
                             if (v) {

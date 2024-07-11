@@ -2,22 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-export enum Mode {
-    System, // 跟随系统
-    Dark,
-    Light
-}
+export const modes = ['system', 'dark', 'light'] as const;
+
+export type Mode = typeof modes[number];
+
+export const contrasts = ['nopreference', 'less', 'more'] as const;
 
 /**
  * 对比度
  *
  * https://www.w3.org/TR/mediaqueries-5/#prefers-contrast
  */
-export enum Contrast {
-    NoPreference,
-    Less,
-    More
-}
+export type Contrast = typeof contrasts[number];
 
 export interface Theme {
     mode: Mode,

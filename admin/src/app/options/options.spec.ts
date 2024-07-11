@@ -8,7 +8,7 @@ import { Locale } from '@/locales';
 import { Locales } from './locales';
 import { build } from './options';
 import { Routes } from './route';
-import { Contrast, Mode } from './theme';
+import { Theme } from './theme';
 
 test('build', async () => {
     const api = {
@@ -18,9 +18,9 @@ test('build', async () => {
         info: '/info',
     };
 
-    const theme = {
-        mode: Mode.System,
-        contrast: Contrast.NoPreference,
+    const theme: Theme = {
+        mode: 'system',
+        contrast: 'nopreference',
         primary: '#ccc'
     };
 

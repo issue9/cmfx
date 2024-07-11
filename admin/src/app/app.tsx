@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { HashRouter, RouteDefinition } from '@solidjs/router';
+import { A, HashRouter, RouteDefinition } from '@solidjs/router';
 import { ErrorBoundary, For, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { XDrawer, XError } from '@/components';
+import { XDrawer, XError, XIconButton } from '@/components';
 import { Fetcher, sleep } from '@/core';
 import { Provider, buildContext, notifyColors, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
@@ -39,7 +39,9 @@ export async function create(elementID: string, o: Options) {
             path: '*',
             component: ()=>{
                 const ctx = useApp();
-                return <XError header="404" title={ctx.t('_internal.error.pageNotFound')} home={opt.routes.public.home} />;
+                return <XError header="404" title={ctx.t('_internal.error.pageNotFound')}>
+                    <A href={opt.routes.public.home}>{ ctx.t('_internal.error.backHome') }</A>
+                </XError>;
             }
         }
     ];
@@ -92,15 +94,14 @@ function App(props: {children?: JSXElement}) {
             </div>
 
             <div class="flex scheme--primary gap-2">
-                <button type="button" onClick={toggleFullscreen}
-                    title={ctx.t('_internal.fullscreen')}
-                    class="icon-button--flat rounded-md">
+                <XIconButton type="button" style="flated" rounded onClick={toggleFullscreen}title={ctx.t('_internal.fullscreen')}>
                     {fc() ? 'fullscreen_exit' : 'fullscreen'}
-                </button>
+                </XIconButton>
 
                 <Show when={ctx.user()}>
-                    <button type="button" onClick={() => setShowSettings(!showSettings()) }
-                        title={ctx.t('_internal.settings')} class="icon-button--flat rounded-md">settings</button>
+                    <XIconButton type="button" style='flated' rounded onClick={() => setShowSettings(!showSettings()) } title={ctx.t('_internal.settings')}>
+                        settings
+                    </XIconButton>
                 </Show>
             </div>
         </header>

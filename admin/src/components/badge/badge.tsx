@@ -6,13 +6,13 @@ import { JSX, mergeProps } from 'solid-js';
 
 import { Color } from '@/components/base';
 
-export const postions = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
+export const positions = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
 
-export type Postion = typeof postions[number];
+export type Position = typeof positions[number];
 
 export interface Props {
     color?: Color;
-    pos?: Postion;
+    pos?: Position;
     text?: string | number;
     children: JSX.Element;
 }

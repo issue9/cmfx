@@ -5,6 +5,8 @@
 export { FieldAccessor, FormAccessor } from './access';
 export type { Accessor, Validation } from './access';
 
+export * from './checkbox';
+export * from './radio';
 export * from './textarea';
 export * from './textfield';
 

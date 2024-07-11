@@ -4,6 +4,6 @@
 
 import './style.css';
 
-export { Contrast, Mode, createApp, useApp } from './app';
-export type { AppContext, NotifyType, Options, Routes } from './app';
+export { createApp, useApp } from './app';
+export type { AppContext, Contrast, Mode, NotifyType, Options, Routes } from './app';
 

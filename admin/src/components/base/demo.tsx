@@ -9,7 +9,7 @@ export const colorsWithUndefined = [...colors, undefined] as const;
 
 export function ColorSelector(props: {getter: getter<Color|undefined>,setter: Setter<Color|undefined>}) {
 
-    return <fieldset class="border-2">
+    return <fieldset class="border-2 flex flex-wrap">
         <legend>颜色</legend>
         <For each={colorsWithUndefined}>
             {(item)=>(

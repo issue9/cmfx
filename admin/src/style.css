@@ -12,10 +12,13 @@
 @tailwind utilities;
 
 .material-symbols-outlined {
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
     font-size: 1.3rem;
     box-sizing: border-box;
     flex: 0 0 0%;
+}
+
+.material-symbols-outlined.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 }
 
 @layer components {
@@ -162,7 +165,6 @@
             @apply border-2 border-transparent icon-container;
 
             .radio-icon {
-                color: var(--bg);
                 color: var(--text);
                 @apply mr-1;
             }
@@ -170,6 +172,10 @@
 
         label.border {
             @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+        }
+
+        .content {
+            @apply flex flex-wrap gap-1
         }
     }
 
@@ -224,6 +230,12 @@
 
     .checkbox:has(:disabled) {
         cursor: not-allowed;
+    }
+
+    .chk-group {
+        .content {
+            @apply flex flex-wrap gap-1
+        }
     }
 
     /***************************** form-text-field **************************/
@@ -348,11 +360,30 @@
             position: absolute;
         }
 
+        .topleft {
+            bottom: 100%;
+            left: 0;
+        }
+
+        .topright {
+            bottom: 100%;
+            right: 0;
+        }
+
+        .bottomleft {
+            top: 100%;
+            left: 0;
+        }
+
+        .bottomright {
+            top: 100%;
+            right: 0;
+        }
+
         .show {
             @apply block;
         }
     }
-
 
     /***************************** badge **************************/
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Mode, Options, Routes, createApp } from 'admin/dev';
+import { Options, Routes, createApp } from 'admin/dev';
 import { default as demoRoutes } from 'admin/dev/demo';
 
 import * as pages from 'admin/dev/pages';
@@ -49,8 +49,8 @@ const o: Options = {
     },
 
     theme: {
-        mode: Mode.System,
-        contrast: Contrast.NoPreference,
+        mode: 'system',
+        contrast: 'nopreference',
         primary: '#ccc'
     },
     title: 'title',

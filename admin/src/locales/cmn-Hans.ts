@@ -23,10 +23,12 @@ const messages: Messages = {
     },
     theme: {
         mode: '主题模式',
+        modeDesc: '自定义页面的主题模式',
         dark: '深色主题',
         light: '浅色主题',
         system: '跟随系统',
-        primaryColor: '主色调'
+        color: '主色调',
+        colorDesc: '自定义页面的主色调'
     },
     contrast: {
         contrast: '对比度',

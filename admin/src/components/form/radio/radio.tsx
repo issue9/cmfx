@@ -9,26 +9,33 @@ import { Accessor } from '@/components/form';
 
 type Value = string | number | undefined;
 
-export interface Props {
+export type Option<T extends Value> = [T, JSX.Element];
+
+export interface Props<T extends Value> {
     /**
-     * 是否需要显示单选按钮的图标
+     * 是否启用单选按钮的图标
      */
     icon?: boolean;
 
     color?: Color;
-    label?: string;
+    label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
     vertical?: boolean;
     accessor: Accessor<Value>;
-    options: Array<[Value, JSX.Element]>;
-    title?: string
+    options: Array<Option<T>>;
+    title?: string;
+
+    checkedIcon?: string;
+    uncheckedIcon?: string;
 }
 
-const defaultProps: Partial<Props> = { icon: true };
-
-export default function Group (props:Props) {
-    props = mergeProps(defaultProps, props);
+export default function Group<T extends Value> (props: Props<T>) {
+    props = mergeProps({
+        icon: true,
+        checkedIcon: 'radio_button_checked',
+        uncheckedIcon: 'radio_button_unchecked'
+    }, props);
     const access = props.accessor;
 
     return <fieldset disabled={props.disabled} classList={{
@@ -37,12 +44,11 @@ export default function Group (props:Props) {
         [`scheme--${props.color}`]: !!props.color
     }}>
         <Show when={props.label}>
-            <legend title={props.title}>{props.label}</legend >
+            <legend class="icon-container" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{
-            'flex': true,
-            'gap-1': true,
+            'content': true,
             'flex-col': props.vertical
         }}>
             <For each={props.options}>
@@ -62,7 +68,7 @@ export default function Group (props:Props) {
                         />
                         <Show when={props.icon}>
                             <span class="radio-icon material-symbols-outlined">
-                                {access.getValue() === item[0] ? 'radio_button_checked' : 'radio_button_unchecked'}
+                                {access.getValue() === item[0] ? props.checkedIcon : props.uncheckedIcon }
                             </span>
                         </Show>
                         {item[1]}

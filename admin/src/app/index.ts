@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 export { create as createApp } from './app';
+export type { Contrast, Mode, Options, Routes } from './options';
+
 export { useApp } from './context';
 export type { AppContext, NotifyType } from './context';
-export { Contrast, Mode } from './options';
-export type { Options, Routes } from './options';
 

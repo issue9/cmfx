@@ -7,11 +7,7 @@ import { JSX, Match, mergeProps, Switch } from 'solid-js';
 import { Color } from '@/components/base';
 
 export interface Props {
-    /**
-    * 色彩，如果为空，则采用父元素的色彩系统。
-    */
     color?: Color;
-
     pos?: 'start' | 'center' | 'end';
     children?: JSX.Element;
 }

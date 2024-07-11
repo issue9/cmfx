@@ -8,20 +8,23 @@ import { createSignal } from 'solid-js';
 import { Color } from '@/components/base';
 import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import XGroup from './radio';
+import { Option, default as XGroup } from './radio';
 
 export default function() {
-    const f = FieldAccessor('name', 'primary');
+    const [change, setChange] = createSignal<string>('');
+    const f = FieldAccessor<Color>('name', 'primary', (v,o)=>setChange(`new: ${v}, old: ${o}`));
     const [disable, setDisable] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [vertical, setVertical] = createSignal(false);
     const [icon, setIcon] = createSignal(true);
+    const [iconStyle, setIconStyle] = createSignal(false);
 
-    const options: Array<[string|undefined,string]> = [];
+    const options: Array<Option<Color|undefined>> = [];
 
     colorsWithUndefined.forEach((item) => {
         options.push([item, item ? item : 'undefined']);
     });
+
 
     return <div class="w-80">
         <fieldset class="border-2 my-4 box-border">
@@ -46,8 +49,14 @@ export default function() {
             <br />
 
             <button class="button filled scheme--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled scheme--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
-        <XGroup label='test' icon={icon()} vertical={vertical()} color={f.getValue() as Color} disabled={disable()} readonly={readonly()} accessor={f} options={options} />
+        <XGroup label='test' icon={icon()} vertical={vertical()} color={f.getValue()}
+            disabled={disable()} readonly={readonly()} accessor={f} options={options}
+            checkedIcon={iconStyle() ? 'task_alt' : undefined }
+        />
+
+        <span>{change()}</span>
     </div>;
 }

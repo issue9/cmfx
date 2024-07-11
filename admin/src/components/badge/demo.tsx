@@ -6,7 +6,7 @@ import { createSignal, For } from 'solid-js';
 
 import { Color } from '@/components/base';
 import { ColorSelector } from '@/components/base/demo';
-import { postions, default as XBadge } from './badge';
+import { positions, default as XBadge } from './badge';
 
 export default function () {
     const [text, setText] = createSignal('');
@@ -17,7 +17,7 @@ export default function () {
 
         <input type="text" placeholder='text' onInput={(e)=>setText(e.target.value)} />
         <div class="flex items-center gap-5 flex-wrap">
-            <For each={postions}>
+            <For each={positions}>
                 {(pos) => (
                     <XBadge pos={pos} color={c() } text={text()}>
                         <button class="button filled scheme--primary">{pos}</button >

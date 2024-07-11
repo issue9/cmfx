@@ -21,10 +21,12 @@ const messages = {
     },
     theme: {
         mode: 'theme mode',
+        modeDesc: 'customize the theme mode of the page',
         dark: 'dark',
         light: 'light',
         system: 'system',
-        primaryColor: 'primary color'
+        color: 'primary color',
+        colorDesc: 'customize the theme primary color of the page'
     },
     contrast: {
         contrast: 'contrast',

@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { colors } from './base';
-export type { Color } from './base';
-
 export * from './badge';
+export * from './base';
 export * from './button';
 export * from './divider';
 export * from './drawer';

@@ -15,6 +15,7 @@ export interface Props {
     onClick?: { (e?: Event): void };
     disabled?: boolean;
     title?: string;
+    type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
 const defaultProps: Partial<Props> = {
@@ -28,7 +29,7 @@ const defaultProps: Partial<Props> = {
 export default function XButton(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+    return <button type={props.type} title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
         'button': true,
         [`${props.style}`]: true,
         [`scheme--${props.color}`]: !!props.color,
@@ -36,5 +37,5 @@ export default function XButton(props: Props) {
         'rounded-full': props.rounded,
     }}>
         {props.children}
-    </button >;
+    </button>;
 }

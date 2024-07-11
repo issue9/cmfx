@@ -43,8 +43,12 @@ export interface Validation<T extends Record<string, unknown>> {
  * 为单个表单元素生成 Accessor 接口对象
  *
  * 当一个表单元素是单独使用的，可以传递此函数生成的对象。
+ *
+ * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
+ * @param v 初始化的值；
+ * @param change 当值发生改变时，将触发此方法的调用。
  */
-export function FieldAccessor<T>(name: string, v: T): Accessor<T> {
+export function FieldAccessor<T>(name: string, v: T, change?:{(val: T, old?: T): void}): Accessor<T> {
     const [err, errSetter] = createSignal<string>();
     const [val, valSetter] = createSignal<T>(v);
 
@@ -64,7 +68,11 @@ export function FieldAccessor<T>(name: string, v: T): Accessor<T> {
         },
 
         setValue(vv: T) {
+            const old = val();
             valSetter(vv as any);
+            if (change) {
+                change(vv, old);
+            }
         },
 
         reset() {

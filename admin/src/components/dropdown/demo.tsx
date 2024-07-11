@@ -2,37 +2,50 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
+import { Accessor, For, Setter, createSignal } from 'solid-js';
 
 import { Color } from '@/components/base';
 import { ColorSelector } from '@/components/base/demo';
-import XDropdown from './dropdown';
+import { ButtonStyle } from '@/components/button';
+import { ButtonSettings } from '@/components/button/demo';
+import { Position, Ref, default as XDropdown, positions } from './dropdown';
+
+export function PositionSelector(props: {get: Accessor<Position>, set: Setter<Position>}) {
+    return <fieldset class="border-2 flex flex-wrap">
+        <legend>位置</legend>
+        <For each={positions}>
+            {(item) => (
+                <label class="mr-4">
+                    <input class="mr-1" type="radio" name="type" value={item} onClick={() => props.set(item)} checked={props.get() === item} />{item}
+                </label >
+            )}
+        </For>
+    </fieldset>;
+}
 
 export default function() {
-    const [clickShow, setClickShow] = createSignal(false);
-    const [hoverShow, setHoverShow] = createSignal(false);
     const [c, setC] = createSignal<Color>();
+    const [pos, setPos] = createSignal<Position>('bottomleft');
+    const [icon, setIcon] = createSignal(false);
+    const [rounded, setRounded] = createSignal(false);
+    const [style, setStyle] = createSignal<ButtonStyle>('filled');
+    const [txt, setTxt] = createSignal('');
+    let ref: Ref;
 
-    document.body.addEventListener('click', () => {
-        setClickShow(false);
-    });
-
-    return <div class="w-80 p-5 flex justify-around">
-        <ColorSelector setter={setC} getter={c} />
-
-        <div>
-            <button class="button scheme--primary filled" onClick={()=>setClickShow(!clickShow())}>click</button>
-            <XDropdown show={clickShow()} color={c()}>
-                <div class="p-4 z-5">dropdown</div>
-            </XDropdown >
+    return <div class="p-5 flex flex-col items-center gap-5">
+        <div class="flex justify-around gap-2">
+            <ColorSelector setter={setC} getter={c} />
+            <ButtonSettings get={style} set={setStyle} />
+            <PositionSelector get={pos} set={setPos} />
+            <label><input type="checkbox" checked={icon()} onInput={(e)=>setIcon(e.target.checked)} />icon</label>
+            <label><input type="checkbox" checked={rounded()} onInput={(e)=>setRounded(e.target.checked)} />rounded</label>
+            <input value={txt()} onInput={(e)=>setTxt(e.target.value)} />
+            <button onClick={()=>ref?.visible(false)} class="button filled">手动关闭</button >
         </div>
 
-        <div onMouseEnter={()=>setHoverShow(true)} onMouseLeave={()=>setHoverShow(false)}>
-            <button class="button scheme--primary filled">hover</button>
-            <XDropdown show={hoverShow()} color={c()}>
-                <div class="p-4 z-5" onClick={() => { setHoverShow(false); }}>hover, click to close</div>
-            </XDropdown >
-        </div>
+        <XDropdown ref={el=>ref=el} icon={icon()? 'face':undefined} text={txt()} rounded={rounded()} color={c()} style={style()} pos={pos()}>
+            <div class="p-4 z-5">dropdown</div>
+        </XDropdown>
 
     </div>;
 }
