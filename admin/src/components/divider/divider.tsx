@@ -4,23 +4,22 @@
 
 import { JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 
 export interface Props {
-    color?: Color;
+    scheme?: Scheme;
     pos?: 'start' | 'center' | 'end';
     children?: JSX.Element;
 }
 
 const defaultProps: Partial<Props> = {
-    color: undefined,
     pos: 'start'
 };
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class={props.color ? `divider scheme--${props.color}` : 'divider'}>
+    return <div class={props.scheme ? `divider scheme--${props.scheme}` : 'divider'}>
         <Switch fallback={<hr class="w-full" />}>
             <Match when={props.pos === 'start' && props.children}>
                 {props.children}<hr class="flex-1 ml-2" />

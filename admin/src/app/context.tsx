@@ -6,7 +6,7 @@ import * as i18n from '@solid-primitives/i18n';
 import { JSX, createContext, createResource, createSignal, createUniqueId, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
-import { Color } from '@/components';
+import { Scheme } from '@/components';
 import { Fetcher, notify } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
 import { build as buildOptions } from './options';
@@ -19,7 +19,7 @@ const context = createContext<Context>();
 
 export type NotifyType = 'error' | 'warning' | 'success' | 'info';
 
-export const notifyColors = new Map<NotifyType, Color>([
+export const notifyColors = new Map<NotifyType, Scheme>([
     ['error', 'error'],
     ['warning', 'tertiary'],
     ['success', 'primary'],

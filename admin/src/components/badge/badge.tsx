@@ -4,21 +4,17 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Color } from '@/components/base';
-
-export const positions = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
-
-export type Position = typeof positions[number];
+import { Corner, Scheme } from '@/components/base';
 
 export interface Props {
-    color?: Color;
-    pos?: Position;
+    scheme?: Scheme;
+    pos?: Corner;
     text?: string | number;
     children: JSX.Element;
 }
 
 const defaultProps: Partial<Props> = {
-    color: undefined,
+    scheme: undefined,
     pos: 'topright'
 };
 
@@ -30,7 +26,7 @@ export default function(props: Props) {
         <span classList={{
             'content': true,
             [props.pos as string]: true,
-            [`scheme--${props.color}`]: props.color ? true : false
+            [`scheme--${props.scheme}`]: props.scheme ? true : false
         }}>{ props.text }</span >
     </div>;
 }

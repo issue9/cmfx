@@ -4,7 +4,7 @@
 
 import { createSignal, JSX, mergeProps, Show } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 
 export interface Props {
     /**
@@ -17,7 +17,7 @@ export interface Props {
      */
     checked?: boolean;
 
-    color?: Color;
+    scheme?: Scheme;
     label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
@@ -42,7 +42,7 @@ export default function(props: Props) {
 
     return <label title={props.title} classList={{
         'checkbox': true,
-        [`scheme--${props.color}`]: !!props.color,
+        [`scheme--${props.scheme}`]: !!props.scheme,
         'border': !props.icon
     }}>
         <input type="checkbox"

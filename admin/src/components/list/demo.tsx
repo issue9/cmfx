@@ -5,7 +5,7 @@
 import { createSignal } from 'solid-js';
 
 import { Color } from '@/components/base';
-import { ColorSelector } from '@/components/base/demo';
+import { SchemeSelector } from '@/components/base/demo';
 import { XDivider } from '@/components/divider';
 import { default as XItem } from './item';
 import { default as XList } from './list';
@@ -14,7 +14,7 @@ export default function() {
     const [c, setC] = createSignal<Color>();
 
     return <div class="flex flex-col gap-2">
-        <ColorSelector getter={c} setter={setC} />
+        <SchemeSelector get={c} set={setC} />
 
         <XList color={c()}>
             <XItem text="item" head='face'>

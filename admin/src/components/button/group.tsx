@@ -4,11 +4,11 @@
 
 import { For, JSX, mergeProps } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { Style } from './types';
 
 export interface Props {
-    color?: Color;
+    scheme?: Scheme;
     style?: Style;
     rounded?: boolean;
     disabled?: boolean;
@@ -37,7 +37,7 @@ export default function (props: Props) {
     return <fieldset disabled={props.disabled} classList={{
         'button-group': true,
         'rounded': props.rounded,
-        [`scheme--${props.color}`]: !!props.color,
+        [`scheme--${props.scheme}`]: !!props.scheme,
         [`${props.style}`]: true
     }}>
         <For each={props.buttons}>

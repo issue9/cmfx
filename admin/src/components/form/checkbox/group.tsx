@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { Accessor } from '@/components/form';
 import { XCheckbox } from '.';
 
@@ -18,7 +18,7 @@ export interface Props<T extends Value> {
      */
     icon?: boolean;
 
-    color?: Color;
+    scheme?: Scheme;
     label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
@@ -44,7 +44,7 @@ export default function Group<T extends Value> (props: Props<T>) {
 
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
 
-    return <fieldset disabled={props.disabled} class={props.color ? `chk-group field scheme--${props.color}` : 'chk-group field'}>
+    return <fieldset disabled={props.disabled} class={props.scheme ? `chk-group field scheme--${props.scheme}` : 'chk-group field'}>
         <Show when={props.label}>
             <legend class="icon-container" title={props.title}>{props.label}</legend >
         </Show>

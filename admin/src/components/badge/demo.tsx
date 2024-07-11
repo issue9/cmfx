@@ -4,22 +4,22 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Color } from '@/components/base';
-import { ColorSelector } from '@/components/base/demo';
-import { positions, default as XBadge } from './badge';
+import { corners, Scheme } from '@/components/base';
+import { SchemeSelector } from '@/components/base/demo';
+import { default as XBadge } from './badge';
 
 export default function () {
     const [text, setText] = createSignal('');
-    const [c, setC] = createSignal<Color>();
+    const [c, setC] = createSignal<Scheme>();
 
     return <div class="w-80 p-5 flex flex-col justify-around gap-5">
-        <ColorSelector setter={setC} getter={c} />
+        <SchemeSelector set={setC} get={c} />
 
         <input type="text" placeholder='text' onInput={(e)=>setText(e.target.value)} />
         <div class="flex items-center gap-5 flex-wrap">
-            <For each={positions}>
+            <For each={corners}>
                 {(pos) => (
-                    <XBadge pos={pos} color={c() } text={text()}>
+                    <XBadge pos={pos} scheme={c() } text={text()}>
                         <button class="button filled scheme--primary">{pos}</button >
                     </XBadge>
                 )}

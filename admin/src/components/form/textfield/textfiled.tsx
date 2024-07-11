@@ -4,13 +4,13 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { Accessor } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
 export interface Props<T> {
-    color?: Color;
+    scheme?: Scheme;
     icon?: string;
     label?: string;
     placeholder?: string;
@@ -26,7 +26,7 @@ export default function XTextField<T extends Value>(props: Props<T>):JSX.Element
     props = mergeProps({ color: undefined }, props) as Props<T>;
     const access = props.accessor;
 
-    return <div class={props.color ? `field scheme--${props.color}` : 'field'}>
+    return <div class={props.scheme ? `field scheme--${props.scheme}` : 'field'}>
         <label title={props.title}>
             <Show when={props.label}>
                 {props.label}

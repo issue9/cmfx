@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { colors } from './color';
-export type { Color } from './color';
+export { corners, schemes } from './types';
+export type { Corner, Scheme } from './types';
 

@@ -5,21 +5,21 @@
 
 import { createSignal } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import { Option, default as XGroup } from './radio';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
-    const f = FieldAccessor<Color>('name', 'primary', (v,o)=>setChange(`new: ${v}, old: ${o}`));
+    const f = FieldAccessor<Scheme>('name', 'primary', (v,o)=>setChange(`new: ${v}, old: ${o}`));
     const [disable, setDisable] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [vertical, setVertical] = createSignal(false);
     const [icon, setIcon] = createSignal(true);
     const [iconStyle, setIconStyle] = createSignal(false);
 
-    const options: Array<Option<Color|undefined>> = [];
+    const options: Array<Option<Scheme|undefined>> = [];
 
     colorsWithUndefined.forEach((item) => {
         options.push([item, item ? item : 'undefined']);
@@ -52,7 +52,7 @@ export default function() {
             <button class="button filled scheme--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
-        <XGroup label='test' icon={icon()} vertical={vertical()} color={f.getValue()}
+        <XGroup label='test' icon={icon()} vertical={vertical()} scheme={f.getValue()}
             disabled={disable()} readonly={readonly()} accessor={f} options={options}
             checkedIcon={iconStyle() ? 'task_alt' : undefined }
         />

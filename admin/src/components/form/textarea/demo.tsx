@@ -32,7 +32,7 @@ export default function() {
 
         <For each={colorsWithUndefined}>
             {(item) => (
-                <XTextArea color={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
+                <XTextArea scheme={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

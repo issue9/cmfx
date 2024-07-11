@@ -20,8 +20,8 @@ export default function() {
     return <div>
         <div class="w-60">
             <p>text-field</p><br />
-            <XTextField accessor={f.accessor('f1')} color='secondary' />
-            <XTextField label='label' color='tertiary' placeholder='placeholder' accessor={f.accessor('f1')} />
+            <XTextField accessor={f.accessor('f1')} scheme='secondary' />
+            <XTextField label='label' scheme='tertiary' placeholder='placeholder' accessor={f.accessor('f1')} />
             <XTextField label='disabled' disabled accessor={f.accessor('f1')} />
             <XTextField label='readonly' readonly accessor={f.accessor('f1')} />
             <XTextField label='icon' icon='face' accessor={f.accessor('f1')} />

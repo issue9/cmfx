@@ -4,13 +4,13 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { colorsWithUndefined } from '@/components/base/demo';
 import { default as XError } from './error';
 
 export default function() {
-    const [color, setColor] = createSignal<Color>();
-    return <XError header='404' title='page not found' detail='detail' color={color()}>
+    const [color, setColor] = createSignal<Scheme>();
+    return <XError header='404' title='page not found' detail='detail' scheme={color()}>
         <For each={colorsWithUndefined}>
             {(item)=>
                 <button class={`mx-2 button filled scheme--${item}`} onClick={()=>setColor(item)}>{item ? item : 'undefined'}</button>

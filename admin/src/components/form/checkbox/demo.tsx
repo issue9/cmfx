@@ -53,7 +53,7 @@ export default function() {
         <For each={colorsWithUndefined}>
             {(item)=>(
                 <XCheckbox checkedIcon={iconStyle() ? 'verified': undefined}
-                    title={item ? item : 'undefined'} label='test' icon={icon()} color={item} disabled={disable()} readonly={readonly()}
+                    title={item ? item : 'undefined'} label='test' icon={icon()} scheme={item} disabled={disable()} readonly={readonly()}
                 />
             )}
         </For>
@@ -61,7 +61,7 @@ export default function() {
         <br /><br />
 
         <XCheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
-            icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" color="primary"
+            icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" scheme="primary"
             options={groupOptions} accessor={groupFA}
         />
         <pre>{ groupFA.getValue().toString() }</pre>

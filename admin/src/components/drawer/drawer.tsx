@@ -4,13 +4,10 @@
 
 import { JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 
 export interface Props {
-    /**
-     * 指定了 side 的颜色
-     */
-    color?: Color;
+    scheme?: Scheme;
 
     show?: boolean;
 
@@ -29,7 +26,7 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     const Aside = ()=><aside classList={{
-        [`scheme--${props.color}`]: !!props.color,
+        [`scheme--${props.scheme}`]: !!props.scheme,
         'hiden': props.show === undefined ? false : !props.show,
     }}>
         {props.aside}

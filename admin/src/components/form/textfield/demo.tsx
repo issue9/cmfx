@@ -39,7 +39,7 @@ export default function() {
 
         <For each={colorsWithUndefined}>
             {(item) => (
-                <XTextField title={item ? item : 'undefined'} icon={icon() ? 'face' : ''} color={item} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={f} />
+                <XTextField title={item ? item : 'undefined'} icon={icon() ? 'face' : ''} scheme={item} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

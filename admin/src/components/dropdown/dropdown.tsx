@@ -4,10 +4,10 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Corner, Scheme } from '@/components/base';
 
 export interface Props {
-    color?: Color;
+    scheme?: Scheme;
 
     /**
      * 控制弹出内容的可见性
@@ -22,7 +22,7 @@ export interface Props {
     /**
      * 弹出内容的位置，相对于 activator
      */
-    pos?: Position;
+    pos?: Corner;
 
     /**
      * 弹出的内容
@@ -30,12 +30,8 @@ export interface Props {
     children: JSX.Element;
 }
 
-export const positions = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
-
-export type Position = typeof positions[number];
-
 const defaultProps: Partial<Props> = {
-    color: undefined,
+    scheme: undefined,
     pos: 'bottomright'
 };
 
@@ -44,7 +40,7 @@ export default function(props: Props) {
 
     return <div classList={{
         'dropdown': true,
-        [`scheme--${props.color}`]: !!props.color
+        [`scheme--${props.scheme}`]: !!props.scheme
     }}>
         {props.activator}
 

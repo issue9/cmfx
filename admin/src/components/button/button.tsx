@@ -4,11 +4,11 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { Style } from './types';
 
 export interface Props {
-    color?: Color;
+    scheme?: Scheme;
     style?: Style;
     rounded?: boolean;
     children: JSX.Element;
@@ -32,7 +32,7 @@ export default function XButton(props: Props) {
     return <button type={props.type} title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
         'button': true,
         [`${props.style}`]: true,
-        [`scheme--${props.color}`]: !!props.color,
+        [`scheme--${props.scheme}`]: !!props.scheme,
         'icon-container': true,
         'rounded-full': props.rounded,
     }}>

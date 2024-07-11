@@ -29,10 +29,10 @@ export default function() {
         <div class="flex items-center gap-2 my-4">
             <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <XButton disabled={disable()} rounded={rounded()} style={t()} color={c}>{c ? c : 'undefined'}</XButton >
+                    <XButton disabled={disable()} rounded={rounded()} style={t()} scheme={c}>{c ? c : 'undefined'}</XButton >
                 )}
             </For>
-            <XButton disabled={disable()} rounded={rounded()} style={t()} color="primary">
+            <XButton disabled={disable()} rounded={rounded()} style={t()} scheme="primary">
                 <span class="material-symbols-outlined mr-1">face</span>icon button
             </XButton>
         </div>
@@ -42,10 +42,10 @@ export default function() {
         <div class="flex items-center gap-2">
             <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <XIconButton title={c?c:'undefined'} disabled={disable()} rounded={rounded()} style={t()} color={c}>sync</XIconButton >
+                    <XIconButton title={c?c:'undefined'} disabled={disable()} rounded={rounded()} style={t()} scheme={c}>sync</XIconButton >
                 )}
             </For>
-            <XButton rounded color='tertiary'>对比按钮</XButton>
+            <XButton rounded scheme='tertiary'>对比按钮</XButton>
         </div>
     </>;
 
@@ -59,7 +59,7 @@ export default function() {
         <For each={colorsWithUndefined}>
             {(c)=>(
                 <>
-                    <XButtonGroup buttons={buttons} rounded={rounded()} color={c} style={t()} disabled={disable()} />
+                    <XButtonGroup buttons={buttons} rounded={rounded()} scheme={c} style={t()} disabled={disable()} />
                     <br />
                 </>
             )}

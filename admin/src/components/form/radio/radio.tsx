@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { Accessor } from '@/components/form';
 
 type Value = string | number | undefined;
@@ -17,7 +17,7 @@ export interface Props<T extends Value> {
      */
     icon?: boolean;
 
-    color?: Color;
+    scheme?: Scheme;
     label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
@@ -41,7 +41,7 @@ export default function Group<T extends Value> (props: Props<T>) {
     return <fieldset disabled={props.disabled} classList={{
         'radio-group': true,
         'field': true,
-        [`scheme--${props.color}`]: !!props.color
+        [`scheme--${props.scheme}`]: !!props.scheme
     }}>
         <Show when={props.label}>
             <legend class="icon-container" title={props.title}>{props.label}</legend >

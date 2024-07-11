@@ -22,7 +22,7 @@ export default function(): JSX.Element {
 
     return <form {...f.events(ctx.fetcher(), 'POST', '/login')} class="items-center flex justify-center flex-col gap-2">
         <p>{ctx.t('_internal.login.title')}</p>
-        <XTextField icon="face" color='secondary' placeholder='username !' label="账号" accessor={f.accessor('username')} />
+        <XTextField icon="face" scheme='secondary' placeholder='username !' label="账号" accessor={f.accessor('username')} />
         <XTextField label="密码" accessor={f.accessor('password')} />
         <button class="button--filled-secondary" type="reset">reset</button>
         <button disabled={f.accessor('username').getValue()==''} type="submit" class="button--filled-primary">{ctx.t('_internal.ok') as string}</button>
