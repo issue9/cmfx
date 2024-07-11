@@ -380,7 +380,7 @@
             right: 0;
         }
 
-        .show {
+        .visible {
             @apply block;
         }
     }

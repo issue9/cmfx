@@ -28,6 +28,7 @@ export default function() {
     const [pos, setPos] = createSignal<Position>('bottomleft');
     const [icon, setIcon] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
+    const [disabled, setDisabled] = createSignal(false);
     const [style, setStyle] = createSignal<ButtonStyle>('filled');
     const [txt, setTxt] = createSignal('');
     let ref: Ref;
@@ -37,13 +38,17 @@ export default function() {
             <ColorSelector setter={setC} getter={c} />
             <ButtonSettings get={style} set={setStyle} />
             <PositionSelector get={pos} set={setPos} />
-            <label><input type="checkbox" checked={icon()} onInput={(e)=>setIcon(e.target.checked)} />icon</label>
-            <label><input type="checkbox" checked={rounded()} onInput={(e)=>setRounded(e.target.checked)} />rounded</label>
+            <fieldset class="border-2 flex flex-col flex-wrap">
+                <legend>其它</legend>
+                <label><input type="checkbox" checked={icon()} onInput={(e)=>setIcon(e.target.checked)} />icon</label>
+                <label><input type="checkbox" checked={rounded()} onInput={(e)=>setRounded(e.target.checked)} />rounded</label>
+                <label><input type="checkbox" checked={disabled()} onInput={(e)=>setDisabled(e.target.checked)} />disabled</label>
+            </fieldset>
             <input value={txt()} onInput={(e)=>setTxt(e.target.value)} />
             <button onClick={()=>ref?.visible(false)} class="button filled">手动关闭</button >
         </div>
 
-        <XDropdown ref={el=>ref=el} icon={icon()? 'face':undefined} text={txt()} rounded={rounded()} color={c()} style={style()} pos={pos()}>
+        <XDropdown disabled={disabled()} ref={el=>ref=el} icon={icon()? 'face':undefined} text={txt()} rounded={rounded()} color={c()} style={style()} pos={pos()}>
             <div class="p-4 z-5">dropdown</div>
         </XDropdown>
 
