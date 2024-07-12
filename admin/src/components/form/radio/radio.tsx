@@ -2,35 +2,25 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps, Show } from 'solid-js';
+import { For, mergeProps, Show } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Accessor } from '@/components/form';
+import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
-type Value = string | number | undefined;
-
-export type Option<T extends Value> = [T, JSX.Element];
-
-export interface Props<T extends Value> {
+export type Props<T> = {
     /**
      * 是否启用单选按钮的图标
      */
     icon?: boolean;
 
-    scheme?: Scheme;
-    label?: JSX.Element;
-    disabled?: boolean;
-    readonly?: boolean;
     vertical?: boolean;
-    accessor: Accessor<Value>;
-    options: Array<Option<T>>;
-    title?: string;
+    accessor: Accessor<T>;
+    options: Options<T>;
 
     checkedIcon?: string;
     uncheckedIcon?: string;
-}
+} & FieldBaseProps;
 
-export default function Group<T extends Value> (props: Props<T>) {
+export default function Group<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({
         icon: true,
         checkedIcon: 'radio_button_checked',

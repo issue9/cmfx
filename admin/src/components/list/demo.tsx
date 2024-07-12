@@ -4,14 +4,14 @@
 
 import { createSignal } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 import { SchemeSelector } from '@/components/base/demo';
 import { XDivider } from '@/components/divider';
 import { default as XItem } from './item';
 import { default as XList } from './list';
 
 export default function() {
-    const [c, setC] = createSignal<Color>();
+    const [c, setC] = createSignal<Scheme>();
 
     return <div class="flex flex-col gap-2">
         <SchemeSelector get={c} set={setC} />

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A, useNavigate } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 import { ErrorBoundary, For, JSX } from 'solid-js';
 
-import { XDrawer, XError } from '@/components';
+import { XButton, XDrawer, XError, XItem, XList } from '@/components';
 import { useApp } from './context';
 
 export function Private(props: {children?: JSX.Element}) {
@@ -17,19 +17,23 @@ export function Private(props: {children?: JSX.Element}) {
         return;
     }
 
-    const aside = <>
-        <For each={ctx.options.menus}>
-            {(item) => (
-                <li>
-                    <A href={item.key!}>{ctx.t(item.title as any)}</A>
-                </li>
-            )}
-        </For>
-    </>;
+    const aside = <div>
+        <XList>
+            <For each={ctx.options.menus}>
+                {(item) => (
+                    <XItem to={item.key} head={item.icon} text={ctx.t(item.title as any) as string} />
+                )}
+            </For>
+        </XList>
+    </div>;
 
-    return <XDrawer aside={aside}>
-        <ErrorBoundary fallback={(err)=>(<XError title={err.toString()} />)}>
+    return <XDrawer aside={aside} scheme='secondary'>
+        <ErrorBoundary fallback={(err)=>(
+            <XError header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+                <XButton scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</XButton>
+            </XError>
+        )}>
             {props.children}
         </ErrorBoundary>
-    </XDrawer >;
+    </XDrawer>;
 }

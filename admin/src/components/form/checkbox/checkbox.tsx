@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, Show } from 'solid-js';
+import { createSignal, mergeProps, Show } from 'solid-js';
 
-import { Scheme } from '@/components/base';
+import { FieldBaseProps } from '@/components/form';
 
-export interface Props {
+export type Props = {
     /**
      * 是否需要显示多选按钮的图标
      */
@@ -17,17 +17,12 @@ export interface Props {
      */
     checked?: boolean;
 
-    scheme?: Scheme;
-    label?: JSX.Element;
-    disabled?: boolean;
-    readonly?: boolean;
     onChange?: { (v?: boolean): void };
-    title?: string;
 
     checkedIcon?: string;
     uncheckedIcon?: string;
     indeterminateIcon?: string;
-}
+} & FieldBaseProps;
 
 const defaultProps: Partial<Props> = {
     icon: true,

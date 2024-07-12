@@ -15,6 +15,7 @@ import { default as List } from '@/components/list/demo';
 
 // form 相关
 import { default as Checkbox } from '@/components/form/checkbox/demo';
+import { default as Choice } from '@/components/form/choice/demo';
 import { default as Form } from '@/components/form/demo';
 import { default as Raido } from '@/components/form/radio/demo';
 import { default as TextArea } from '@/components/form/textarea/demo';
@@ -41,6 +42,7 @@ export default function(prefix: string) {
                 <A href={prefix + '/form-textarea'}>textarea</A>
                 <A href={prefix + '/form-radio'}>radio</A>
                 <A href={prefix + '/form-checkbox'}>checkbox</A>
+                <A href={prefix + '/form-choice'}>choice</A>
                 <A href={prefix + '/divider'}>divider</A>
             </p>
             <div class="mt-8 p-4 overflow-y-scroll h-full">
@@ -97,6 +99,10 @@ export default function(prefix: string) {
             {
                 path: '/form-checkbox',
                 component: Checkbox,
+            },
+            {
+                path: '/form-choice',
+                component: Choice,
             },
             {
                 path: '/form',

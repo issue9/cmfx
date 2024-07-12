@@ -56,6 +56,9 @@
     --text: var(--surface-text);
     --text-low: var(--surface-text-low);
     --text-high: var(--surface-text-high);
+
+    /* 文本框中实际内容的最小尺寸，统一指定，方便控制。 */
+    --min-input-height: 24px;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -27,7 +27,7 @@ export default function(props: Props) {
 
     const Aside = ()=><aside classList={{
         [`scheme--${props.scheme}`]: !!props.scheme,
-        'hiden': props.show === undefined ? false : !props.show,
+        'hidden': props.show === undefined ? false : !props.show,
     }}>
         {props.aside}
     </aside>;
@@ -37,13 +37,13 @@ export default function(props: Props) {
             <div class="drawer">
                 <Aside />
                 <main>{props.children}</main>
-            </div>;
+            </div>
         </Match>
         <Match when={props.pos === 'right'}>
             <div class="drawer">
                 <main>{props.children}</main>
                 <Aside />
-            </div>;
+            </div>
         </Match>
     </Switch>;
 }

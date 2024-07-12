@@ -7,8 +7,8 @@ import { createSignal } from 'solid-js';
 
 import { Scheme } from '@/components/base';
 import { colorsWithUndefined } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form';
-import { Option, default as XGroup } from './radio';
+import { FieldAccessor, Options } from '@/components/form';
+import { default as XGroup } from './radio';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
@@ -19,8 +19,7 @@ export default function() {
     const [icon, setIcon] = createSignal(true);
     const [iconStyle, setIconStyle] = createSignal(false);
 
-    const options: Array<Option<Scheme|undefined>> = [];
-
+    const options: Options<Scheme|undefined> = [];
     colorsWithUndefined.forEach((item) => {
         options.push([item, item ? item : 'undefined']);
     });

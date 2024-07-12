@@ -9,9 +9,11 @@ const messages: Messages = {
     settings: '设置',
     ok: '确定',
     reset: '重置',
+    refresh: '刷新',
     error: {
         backHome: '返回首页',
         backPrev: '返回上一页',
+        unknownError: '未知错误',
         pageNotFound: '页面不存在',
         forbidden: '无权访问当前页面',
         internalServerError: '服务端错误',
@@ -38,6 +40,7 @@ const messages: Messages = {
     },
     locale: {
         locale: '本地化',
+        localeDesc: '设置页面的界面语言',
         uiLanguage: '界面语言',
     }
 };

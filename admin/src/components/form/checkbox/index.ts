@@ -7,5 +7,5 @@ export type { Props as CheckboxProps } from './checkbox';
 
 
 export { default as XCheckboxGroup } from './group';
-export type { Option as CheckboxGroupOption, Props as CheckboxGroupProps } from './group';
+export type { Props as CheckboxGroupProps } from './group';
 

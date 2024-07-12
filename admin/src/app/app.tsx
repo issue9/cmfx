@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A, HashRouter, RouteDefinition } from '@solidjs/router';
+import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
 import { ErrorBoundary, For, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { XDrawer, XError, XIconButton } from '@/components';
+import { XButton, XDrawer, XError, XIconButton } from '@/components';
 import { Fetcher, sleep } from '@/core';
 import { Provider, buildContext, notifyColors, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
@@ -40,7 +40,10 @@ export async function create(elementID: string, o: Options) {
             component: ()=>{
                 const ctx = useApp();
                 return <XError header="404" title={ctx.t('_internal.error.pageNotFound')}>
-                    <A href={opt.routes.public.home}>{ ctx.t('_internal.error.backHome') }</A>
+                    <div class="flex gap-x-5 justify-center">
+                        <A class="scheme--primary button filled" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
+                        <XButton scheme='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</XButton>
+                    </div>
                 </XError>;
             }
         }
@@ -51,7 +54,11 @@ export async function create(elementID: string, o: Options) {
         ctx.title = '';
 
         const root = (props: { children?: JSXElement }) => (
-            <ErrorBoundary fallback={(err)=>(<XError title={err.toString()} />)}>
+            <ErrorBoundary fallback={(err)=>(
+                <XError header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+                    <XButton scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</XButton>
+                </XError>
+            )}>
                 <Provider ctx={ctx}>
                     <App>{props.children}</App>
                 </Provider>
@@ -129,7 +136,7 @@ function App(props: {children?: JSXElement}) {
                         return <div id={elemID} role="alert" class={`notify scheme--${color}`}>
                             <div class="title">
                                 <p>{item.title}</p>
-                                <button onClick={()=>del()} class="close">close</button>
+                                <button onClick={() => del()} class="close">close</button>
                             </div>
                             <Show when={item.body}>
                                 <hr />
@@ -141,9 +148,9 @@ function App(props: {children?: JSXElement}) {
             </div>
 
             <div class="h-full w-full">
-                <XDrawer pos="right" aside={<XSetting />} show={showSettings()}>
+                <XDrawer pos="right" scheme='secondary' aside={<XSetting />} show={showSettings()}>
                     {props.children}
-                </XDrawer  >
+                </XDrawer>
             </div>
         </main>
     </div>;

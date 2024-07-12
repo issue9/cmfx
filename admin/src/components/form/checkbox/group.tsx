@@ -2,39 +2,28 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { For, mergeProps, Show, splitProps } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Accessor } from '@/components/form';
-import { XCheckbox } from '.';
+import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { default as XCheckbox } from './checkbox';
 
-type Value = string | number;
-
-export type Option<T extends Value> = [T, JSX.Element];
-
-export interface Props<T extends Value> {
+export type Props<T> = {
     /**
      * 是否需要显示多选按钮的图标
      */
     icon?: boolean;
 
-    scheme?: Scheme;
-    label?: JSX.Element;
-    disabled?: boolean;
-    readonly?: boolean;
     vertical?: boolean;
-    accessor: Accessor<Array<Value>>;
-    options: Array<Option<T>>;
-    title?: string
+    accessor: Accessor<Array<T>>;
+    options: Options<T>;
 
     checkedIcon?: string;
     uncheckedIcon?: string;
     indeterminateIcon?: string;
-}
+} & FieldBaseProps;
 
-export default function Group<T extends Value> (props: Props<T>) {
+export default function Group<T extends string | number> (props: Props<T>) {
     props = mergeProps({
-        color: 'primary' as Color,
         icon: true,
         checkedIcon: 'check_box',
         uncheckedIcon: 'check_box_outline_blank',

@@ -4,23 +4,17 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Accessor } from '@/components/form';
+import { Accessor, FieldBaseProps } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
-export interface Props<T> {
-    scheme?: Scheme;
+export type Props<T> = {
     icon?: string;
-    label?: string;
     placeholder?: string;
     type?: 'text' | 'password' | 'url' | 'email' | 'number' | 'date';
-    disabled?: boolean;
-    readonly?: boolean;
     rounded?: boolean;
     accessor: Accessor<T>;
-    title?: string;
-}
+} & FieldBaseProps;
 
 export default function XTextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;
@@ -46,7 +40,7 @@ export default function XTextField<T extends Value>(props: Props<T>):JSX.Element
                     onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
                 />
             </div>
-        </label >
+        </label>
         <p class="field_error" role="alert">{access.getError()}</p>
     </div>;
 }

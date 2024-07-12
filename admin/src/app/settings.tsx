@@ -2,19 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { FieldAccessor, XDivider, XRadioGroup } from '@/components';
+import { FieldAccessor, XChoice, XDivider, XRadioGroup } from '@/components';
+import { Locale, locales, names } from '@/locales';
 import { useApp } from './context';
 import { Mode } from './options';
 
 export default function() {
     const ctx = useApp();
+
     const modeFA = FieldAccessor<Mode>('mode', 'system');
+
     const colorFA = FieldAccessor<string|undefined>('color', undefined);
 
-    return <div class="p-4 min-w-60 h-full scheme--secondary bg-[var(--bg)] text-[var(--text)]">
+    const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], (v)=>{
+        ctx.locale = v[0];
+    });
+
+    return <div class="p-4 min-w-60 h-full bg-[var(--bg)] text-[var(--text)]">
         <XRadioGroup vertical accessor={modeFA}
             label={<div class="flex flex-col mb-1">
-                <p class="text-lg icon-container">
+                <p class="icon-container">
                     <span class="material-symbols-outlined mr-2">settings_night_sight</span>{ ctx.t('_internal.theme.mode') }
                 </p>
                 <span class="text-sm text-left">{ ctx.t('_internal.theme.modeDesc') }</span>
@@ -31,7 +38,7 @@ export default function() {
         <XRadioGroup accessor={colorFA}
             icon = {false}
             label={<div class="flex flex-col mb-1">
-                <p class="text-lg icon-container">
+                <p class="icon-container">
                     <span class="material-symbols-outlined mr-2">palette</span>{ ctx.t('_internal.theme.color') }
                 </p>
                 <span class="text-sm text-left">{ ctx.t('_internal.theme.colorDesc') }</span>
@@ -42,9 +49,14 @@ export default function() {
             ]}
         />
 
-        <XDivider pos='start'>
-            <span class="material-symbols-outlined mr-2">translate</span>{ ctx.t('_internal.locale.locale') }
-        </XDivider>
-        abc
-    </div >;
+        <XDivider />
+
+        <div class="flex flex-col">
+            <p class="icon-container">
+                <span class="material-symbols-outlined mr-2">translate</span>{ ctx.t('_internal.locale.locale') }
+            </p>
+            <span class="text-sm text-left">{ ctx.t('_internal.locale.localeDesc') }</span>
+        </div>
+        <XChoice accessor={localeFA} options={names} />
+    </div>;
 }

@@ -147,8 +147,6 @@ export function buildContext(o: Options, f: Fetcher) {
 
         /**
          * 返回支持的本地化列表
-         *
-         * 字段名为 ID 值，字段值为对应的名称。
          */
         get locales() { return names; }
     };

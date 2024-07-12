@@ -4,10 +4,10 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Color } from '@/components/base';
+import { Scheme } from '@/components/base';
 
 export interface Props {
-    color?: Color;
+    color?: Scheme;
     children: JSX.Element;
 }
 

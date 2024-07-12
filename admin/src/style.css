@@ -241,26 +241,67 @@
     /***************************** form-text-field **************************/
 
     .text-field {
-        @apply rounded-sm outline-none outline-1 outline-inherit flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
-        @apply has-[:focus:enabled]:outline-[var(--text-high)] has-[:hover:enabled]:outline-[var(--text-high)];
-        outline-color: var(--text-low);
+        @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
+        @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
         & input {
-            @apply outline-none bg-transparent flex-1 px-1 w-full disabled:cursor-not-allowed read-only:cursor-default;
+            min-height: var(--min-input-height);
+            @apply outline-none bg-transparent flex-1 px-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
+        }
+
+        .tail {
+            margin-left: auto;
         }
     }
 
     /***************************** form-textarea **************************/
 
     .textarea {
-        text-align: left !important;
-        @apply rounded-sm bg-transparent outline-none outline-1 outline-inherit flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full;
-        @apply focus:enabled:outline-[var(--text-high)] hover:enabled:outline-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
-        outline-color: var(--bg-low);
+        min-height: var(--min-input-height);
+        @apply rounded-md bg-transparent border-2 border-[var(--bg-low)] flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full text-left;
+        @apply focus:enabled:border-[var(--text-high)] hover:enabled:border-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
     }
 
     .field_error {
         @apply text-sm text-error min-h-5;
+    }
+
+    /***************************** form-choice **************************/
+
+    .choice-field {
+        .field-container {
+            @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1 cursor-pointer;
+            @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
+
+            .input {
+                min-height: var(--min-input-height);
+                @apply bg-transparent flex flex-wrap px-1 w-full disabled:cursor-not-allowed read-only:cursor-default gap-1;
+
+                .chip {
+                    @apply rounded-full bg-[var(--bg-high)] px-2 flex flex-col justify-center hover:bg-[var(--bg-low)];
+                }
+            }
+
+            .tail {
+                margin-left: auto;
+            }
+        }
+    }
+
+    .choice-options {
+        @apply border-2 bg-transparent rounded-md z-50 max-h-[240px] overflow-y-auto;
+    }
+
+    .choice-options li {
+        @apply p-1 md:p-2 hover:bg-[var(--bg-high)] icon-container flex;
+
+        .tail {
+            margin-left: auto;
+        }
+    }
+
+    .choice-options li.selected {
+        background-color: var(--bg-low);
     }
 
     /***************************** error **************************/
@@ -297,10 +338,10 @@
     /***************************** app **************************/
 
     .app {
-        @apply flex flex-col box-border overflow-hidden h-dvh bg-surface text-surface;
+        @apply flex flex-col box-border overflow-hidden h-full bg-surface text-surface;
 
         .app-bar {
-            @apply w-dvw p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary;
+            @apply w-full p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary;
         }
 
         .app-main {
@@ -339,10 +380,6 @@
             @apply h-full bg-[var(--bg)] text-[var(--text)] transition-[width] duration-300;
         }
 
-        >.hiden {
-            @apply w-0;
-        }
-
         &>main {
             @apply overflow-y-scroll h-full rounded-lg flex-1;
         }
@@ -358,6 +395,9 @@
             background-color: var(--bg);
             display: none;
             position: absolute;
+            /* 最起码与父元素等宽 */
+            min-width: 100%;
+            z-index: 50;
         }
 
         .topleft {
@@ -427,7 +467,6 @@
                 @apply rounded-md flex p-2 gap-1 icon-container cursor-pointer hover:bg-[var(--bg-low)] hover:text-[var(--text-low)];
 
                 .tail {
-                    @apply cursor-pointer rounded-full;
                     margin-left: auto;
                 }
             }

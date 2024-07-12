@@ -6,9 +6,9 @@
 import { createSignal, For } from 'solid-js';
 
 import { colorsWithUndefined } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form';
+import { FieldAccessor, Options } from '@/components/form';
 import XCheckbox from './checkbox';
-import { Option, default as XCheckboxGroup } from './group';
+import { default as XCheckboxGroup } from './group';
 
 export default function() {
     const [disable, setDisable] = createSignal(false);
@@ -18,10 +18,10 @@ export default function() {
     const [iconStyle, setIconStyle] = createSignal(false);
 
     const groupFA = FieldAccessor('checkbox', ['1']);
-    const groupOptions: Array<Option<string>> = [
+    const groupOptions: Options<string> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:red">red</div >],
-        ['3', <div style="color:red">red<br/>red<br/>red</div >],
+        ['3', <div style="color:red">red<br/>red<br/>red</div>],
     ];
 
     return <div class="w-80">

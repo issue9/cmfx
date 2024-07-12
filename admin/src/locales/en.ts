@@ -7,9 +7,11 @@ const messages = {
     settings: 'settings',
     ok: 'OK',
     reset: 'reset',
+    refresh: 'refresh',
     error: {
         backHome: 'back home',
         backPrev: 'back prev page',
+        unknownError: 'unknown error',
         pageNotFound: 'page not found',
         forbidden: 'forbidden',
         internalServerError: 'server error',
@@ -36,6 +38,7 @@ const messages = {
     },
     locale: {
         locale: 'locale',
+        localeDesc: 'set the ui language of the page',
         uiLanguage: 'ui language',
     }
 };

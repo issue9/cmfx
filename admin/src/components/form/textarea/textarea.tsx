@@ -4,20 +4,14 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Accessor } from '@/components/form';
+import { Accessor, FieldBaseProps } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
-export interface Props<T> {
-    scheme?: Scheme;
-    label?: string;
+export type Props<T> = {
     placeholder?: string;
-    disabled?: boolean;
-    readonly?: boolean;
     accessor: Accessor<T>;
-    title?: string;
-}
+} & FieldBaseProps;
 
 export default function XTextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值
