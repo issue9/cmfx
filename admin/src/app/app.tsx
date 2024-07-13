@@ -148,7 +148,7 @@ function App(props: {children?: JSXElement}) {
             </div>
 
             <div class="h-full w-full">
-                <XDrawer pos="right" scheme='secondary' aside={<XSetting />} show={showSettings()}>
+                <XDrawer pos="right" scheme='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>
                     {props.children}
                 </XDrawer>
             </div>

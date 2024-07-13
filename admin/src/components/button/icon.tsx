@@ -4,29 +4,27 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Style } from './types';
 
-export interface Props {
-    scheme?: Scheme;
-    style?: Style;
-    rounded?: boolean;
-    disabled?: boolean;
-    children: JSX.Element;
+import { Props as BaseProps } from './types';
+
+export interface Props extends BaseProps {
+    children: string;
     onClick?: { (e?: Event): void };
     title?: string;
     type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
 const defaultProps: Partial<Props> = {
-    style: 'filled',
-    onClick:()=>{}
+    style: 'filled'
 };
 
-export default function XIconButton(props: Props) {
+/**
+ * 仅带图标的按钮组件
+ */
+export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button type={props.type} title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+    return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
         'material-symbols-outlined': true,
         'icon-button': true,
         [`${props.style}`]: true,

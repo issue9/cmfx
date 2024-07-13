@@ -8,10 +8,10 @@ import { Accessor, FieldBaseProps } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
-export type Props<T> = {
+export interface Props<T> extends FieldBaseProps {
     placeholder?: string;
     accessor: Accessor<T>;
-} & FieldBaseProps;
+};
 
 export default function XTextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值

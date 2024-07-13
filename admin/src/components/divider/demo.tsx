@@ -9,11 +9,11 @@ import { SchemeSelector } from '@/components/base/demo';
 import { Props, default as XDivider } from './divider';
 
 export default function() {
-    const [c, setC] = createSignal<Scheme>();
+    const [scheme, setScheme] = createSignal<Scheme>();
     const [pos, setPos] = createSignal<Props['pos']>('start');
 
     return <div class="w-80 p-5">
-        <SchemeSelector get={c} set={setC} />
+        <SchemeSelector get={scheme} set={setScheme} />
 
         <fieldset class="border-2">
             <legend>位置</legend>
@@ -28,9 +28,9 @@ export default function() {
 
         <br /><br />
 
-        <XDivider scheme={c()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</XDivider>
+        <XDivider scheme={scheme()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</XDivider>
 
         <br /><br />
-        <XDivider scheme={c()} pos={pos()}></XDivider>
+        <XDivider scheme={scheme()} pos={pos()}></XDivider>
     </div>;
 }

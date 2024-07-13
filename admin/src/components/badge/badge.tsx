@@ -4,17 +4,15 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Corner, Scheme } from '@/components/base';
+import { BaseProps, Corner } from '@/components/base';
 
-export interface Props {
-    scheme?: Scheme;
+export interface Props extends BaseProps {
     pos?: Corner;
     text?: string | number;
     children: JSX.Element;
-}
+};
 
 const defaultProps: Partial<Props> = {
-    scheme: undefined,
     pos: 'topright'
 };
 

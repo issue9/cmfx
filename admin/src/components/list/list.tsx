@@ -2,23 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
-import { Scheme } from '@/components/base';
+import { BaseProps } from '@/components/base';
 
-export interface Props {
-    color?: Scheme;
+export interface Props extends BaseProps {
     children: JSX.Element;
 }
 
-const defaultProps: Partial<Props> = {
-    color: undefined
-};
-
 export default function (props: Props): JSX.Element {
-    props = mergeProps(defaultProps, props);
-
-    return <menu role="menu" class={props.color ? `list scheme--${props.color}` : 'list'}>
+    return <menu role="menu" class={props.scheme ? `list scheme--${props.scheme}` : 'list'}>
         { props.children }
     </menu>;
 }

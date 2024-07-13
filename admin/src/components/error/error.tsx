@@ -4,14 +4,9 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Scheme } from '@/components/base';
+import { BaseProps } from '@/components/base';
 
-export interface Props {
-    /**
-     * 组件的颜色，默认采用 error
-     */
-    scheme?: Scheme;
-
+export interface Props extends BaseProps {
     /**
      *标题
      */
@@ -40,7 +35,7 @@ const defaultProps: Partial<Props> = {
 export default function XError(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class={`error-page scheme--${props.scheme}`}>
+    return <div class={props.scheme ? `error-page scheme--${props.scheme}` : 'error-page'}>
         <Show when={props.header}>
             <h1>{props.header}</h1>
         </Show>

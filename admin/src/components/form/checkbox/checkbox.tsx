@@ -6,7 +6,7 @@ import { createSignal, mergeProps, Show } from 'solid-js';
 
 import { FieldBaseProps } from '@/components/form';
 
-export type Props = {
+export interface Props extends FieldBaseProps {
     /**
      * 是否需要显示多选按钮的图标
      */
@@ -22,7 +22,7 @@ export type Props = {
     checkedIcon?: string;
     uncheckedIcon?: string;
     indeterminateIcon?: string;
-} & FieldBaseProps;
+};
 
 const defaultProps: Partial<Props> = {
     icon: true,

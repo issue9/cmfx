@@ -4,14 +4,9 @@
 
 import { For, JSX, mergeProps } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Style } from './types';
+import { Props as BaseProps } from './types';
 
-export interface Props {
-    scheme?: Scheme;
-    style?: Style;
-    rounded?: boolean;
-    disabled?: boolean;
+export interface Props extends BaseProps {
     buttons: Array<Button>;
 }
 

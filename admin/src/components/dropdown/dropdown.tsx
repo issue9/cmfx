@@ -4,11 +4,9 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Corner, Scheme } from '@/components/base';
+import { BaseProps, Corner } from '@/components/base';
 
-export interface Props {
-    scheme?: Scheme;
-
+export interface Props extends BaseProps {
     /**
      * 控制弹出内容的可见性
      */
@@ -20,7 +18,7 @@ export interface Props {
     activator: JSX.Element;
 
     /**
-     * 弹出内容的位置，相对于 activator
+     * 弹出内容的位置，相对于 activator。默认值为 bottomleft
      */
     pos?: Corner;
 
@@ -32,7 +30,7 @@ export interface Props {
 
 const defaultProps: Partial<Props> = {
     scheme: undefined,
-    pos: 'bottomright'
+    pos: 'bottomleft'
 };
 
 export default function(props: Props) {

@@ -7,6 +7,11 @@ import { JSXElement } from 'solid-js';
 export default function(): JSXElement {
     return <div>
         dashboard
+        dashboard
+        dashboard
+        dashboard
+        dashboard
+        dashboard
         <br />
         <br />
         <br />

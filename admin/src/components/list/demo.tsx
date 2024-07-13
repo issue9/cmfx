@@ -16,7 +16,7 @@ export default function() {
     return <div class="flex flex-col gap-2">
         <SchemeSelector get={c} set={setC} />
 
-        <XList color={c()}>
+        <XList scheme={c()}>
             <XItem text="item" head='face'>
                 <XItem text="current" head='face' to="/demo/list" />
                 <XDivider />

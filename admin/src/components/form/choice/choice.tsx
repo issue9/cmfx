@@ -10,7 +10,7 @@ import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
 type Value = string | number;
 
-export type Props<T extends Value> = {
+export interface Props<T extends Value> extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;
@@ -25,7 +25,7 @@ export type Props<T extends Value> = {
      * NOTE: 无论 multiple 是否为 true，值的类型始终是数组。
      */
     accessor: Accessor<Array<T>>;
-} & FieldBaseProps;
+};
 
 /**
  * 用以替代 select 组件

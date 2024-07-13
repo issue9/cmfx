@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { For, Accessor as getter, Setter } from 'solid-js';
-import { Corner, corners, Scheme, schemes } from './index';
+import { Corner, corners, Scheme, schemes } from './types';
 
 export const colorsWithUndefined = [...schemes, undefined] as const;
 
@@ -13,7 +13,7 @@ export function SchemeSelector(props: {get: getter<Scheme|undefined>, set: Sette
         <For each={colorsWithUndefined}>
             {(item)=>(
                 <label class="mr-4">
-                    <input class="mr-1" type="radio" name="color"
+                    <input class="mr-1" type="radio" name="scheme"
                         value={item} onClick={()=>props.set(item as any)}
                         checked={props.get()===item}
                     />{item ? item : 'undefined'}
@@ -29,7 +29,7 @@ export function CornerSelector(props: {get: getter<Corner>,set: Setter<Corner>})
         <For each={corners}>
             {(item)=>(
                 <label class="mr-4">
-                    <input class="mr-1" type="radio" name="color"
+                    <input class="mr-1" type="radio" name="corner"
                         value={item} onClick={()=>props.set(item as any)}
                         checked={props.get()===item}
                     />{item ? item : 'undefined'}

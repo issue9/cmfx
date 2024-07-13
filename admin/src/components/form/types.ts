@@ -4,18 +4,17 @@
 
 import { JSX } from 'solid-js';
 
-import { Scheme } from '@/components/base';
+import { BaseProps } from '@/components/base';
 
 /**
  * 所有表单元素共有的属性
  */
-export interface Props {
-    scheme?: Scheme;
+export interface Props extends BaseProps {
     label?: JSX.Element;
+    title?: string;
     disabled?: boolean;
     readonly?: boolean;
-    title?: string;
-}
+};
 
 /**
  * 定义了 radio、select 等选项类型中每个选择项的类型。

@@ -4,32 +4,26 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { Style } from './types';
+import { Props as BaseProps } from './types';
 
-export interface Props {
-    scheme?: Scheme;
-    style?: Style;
-    rounded?: boolean;
+export interface Props extends BaseProps {
     children: JSX.Element;
     onClick?: { (e?: Event): void };
-    disabled?: boolean;
     title?: string;
     type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 }
 
 const defaultProps: Partial<Props> = {
-    style: 'filled',
-    onClick:()=>{}
+    style: 'filled'
 };
 
 /**
- * 普通的非响应式按钮
+ * 普通的按钮组件
  */
-export default function XButton(props: Props) {
+export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button type={props.type} title={props.title} disabled={props.disabled} onClick={(e)=>props.onClick!(e)} classList={{
+    return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
         'button': true,
         [`${props.style}`]: true,
         [`scheme--${props.scheme}`]: !!props.scheme,

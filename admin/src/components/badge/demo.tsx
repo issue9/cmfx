@@ -10,17 +10,17 @@ import { default as XBadge } from './badge';
 
 export default function () {
     const [text, setText] = createSignal('');
-    const [c, setC] = createSignal<Scheme>();
+    const [scheme, setScheme] = createSignal<Scheme>();
 
     return <div class="w-80 p-5 flex flex-col justify-around gap-5">
-        <SchemeSelector set={setC} get={c} />
+        <SchemeSelector set={setScheme} get={scheme} />
 
         <input type="text" placeholder='text' onInput={(e)=>setText(e.target.value)} />
         <div class="flex items-center gap-5 flex-wrap">
             <For each={corners}>
                 {(pos) => (
-                    <XBadge pos={pos} scheme={c() } text={text()}>
-                        <button class="button filled scheme--primary">{pos}</button >
+                    <XBadge pos={ pos } scheme={ scheme() } text={ text() }>
+                        <button class="button filled scheme--primary">{ pos }</button >
                     </XBadge>
                 )}
             </For>

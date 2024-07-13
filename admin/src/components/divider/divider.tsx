@@ -4,10 +4,9 @@
 
 import { JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { Scheme } from '@/components/base';
+import { BaseProps } from '@/components/base';
 
-export interface Props {
-    scheme?: Scheme;
+export interface Props extends BaseProps {
     pos?: 'start' | 'center' | 'end';
     children?: JSX.Element;
 }

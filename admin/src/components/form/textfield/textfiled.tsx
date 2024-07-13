@@ -8,13 +8,13 @@ import { Accessor, FieldBaseProps } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
-export type Props<T> = {
+export interface Props<T> extends FieldBaseProps {
     icon?: string;
     placeholder?: string;
     type?: 'text' | 'password' | 'url' | 'email' | 'number' | 'date';
     rounded?: boolean;
     accessor: Accessor<T>;
-} & FieldBaseProps;
+};
 
 export default function XTextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;

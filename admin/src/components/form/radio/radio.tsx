@@ -6,7 +6,7 @@ import { For, mergeProps, Show } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
-export type Props<T> = {
+export interface Props<T> extends FieldBaseProps {
     /**
      * 是否启用单选按钮的图标
      */
@@ -18,7 +18,7 @@ export type Props<T> = {
 
     checkedIcon?: string;
     uncheckedIcon?: string;
-} & FieldBaseProps;
+};
 
 export default function Group<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({

@@ -27,7 +27,7 @@ export function Private(props: {children?: JSX.Element}) {
         </XList>
     </div>;
 
-    return <XDrawer aside={aside} scheme='secondary'>
+    return <XDrawer aside={aside} scheme='secondary' visible={true}>
         <ErrorBoundary fallback={(err)=>(
             <XError header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
                 <XButton scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</XButton>
