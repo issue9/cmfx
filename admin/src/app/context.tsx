@@ -3,36 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import * as i18n from '@solid-primitives/i18n';
-import { JSX, createContext, createResource, createSignal, createUniqueId, useContext } from 'solid-js';
-import { createStore } from 'solid-js/store';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
-import { Scheme } from '@/components';
-import { Fetcher, notify } from '@/core';
+import { NotifySender, NotifyType } from '@/components';
+import { Fetcher } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
 import { build as buildOptions } from './options';
 
 type Options = ReturnType<typeof buildOptions>;
 export type Context = Awaited<ReturnType<typeof buildContext>>;
-export type AppContext = Exclude<Context, 'options' | 'getNotify' | 'delNotify'>;
+export type AppContext = Exclude<Context, 'options' | 'setNotifySender'>;
 
 const context = createContext<Context>();
-
-export type NotifyType = 'error' | 'warning' | 'success' | 'info';
-
-export const notifyColors = new Map<NotifyType, Scheme>([
-    ['error', 'error'],
-    ['warning', 'tertiary'],
-    ['success', 'primary'],
-    ['info', 'secondary'],
-]);
-
-interface Notification {
-    type: NotifyType;
-    title?: string;
-    body?: string;
-    id: string;
-    timeout?: number;
-}
 
 /**
  * 内部使用的全局方法
@@ -75,8 +57,6 @@ export function buildContext(o: Options, f: Fetcher) {
     const [dict] = createResource(getLocale, loadMessages);
     const t = i18n.translator(dict);
 
-    const [getNotifications, setNotifications] = createStore<Array<Notification>>([]);
-
     const [user, setUser] = createSignal<User>({});
     f.get<User>(o.api.info).then((r)=>{
         if (!r.ok) {
@@ -86,6 +66,8 @@ export function buildContext(o: Options, f: Fetcher) {
 
         setUser(r.body!);
     });
+
+    let notifySender: NotifySender;
 
     return {
         fetcher() {return f;}, // TODO 去掉部分不用的方法
@@ -107,15 +89,7 @@ export function buildContext(o: Options, f: Fetcher) {
          */
         user() { return user; },
 
-        // notify
-
-        getNotify() { return getNotifications; },
-
-        delNotify(id: string) {
-            setNotifications((prev) => {
-                return [...prev.filter((n) => { return n.id !== id; })];
-            });
-        },
+        setNotifySender(s: NotifySender) { notifySender = s; },
 
         /**
         * 发送一条通知给用户
@@ -126,13 +100,7 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body: string, type?: NotifyType, timeout=5) {
-            if (o.systemNotify && await notify(o.logo, title, body, getLocale(), timeout)) {
-                return;
-            }
-
-            const id = createUniqueId();
-            if (!type) { type = 'info'; }
-            setNotifications((prev) => [...prev, { title, body, type, id, timeout }]);
+            notifySender.send(title, body, this.locale, type, timeout);
         },
 
         // 以下为本地化相关功能

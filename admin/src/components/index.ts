@@ -11,4 +11,5 @@ export * from './dropdown';
 export * from './error';
 export * from './form';
 export * from './list';
+export * from './notify';
 

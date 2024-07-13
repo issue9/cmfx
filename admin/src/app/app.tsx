@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
-import { ErrorBoundary, For, JSXElement, Show, createSignal } from 'solid-js';
+import { ErrorBoundary, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { XButton, XDrawer, XError, XIconButton } from '@/components';
-import { Fetcher, sleep } from '@/core';
-import { Provider, buildContext, notifyColors, useApp, useInternal } from './context';
+import { XButton, XDrawer, XError, XIconButton, XNotify } from '@/components';
+import { Fetcher } from '@/core';
+import { Provider, buildContext, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
 import XSetting from './settings';
@@ -114,38 +114,7 @@ function App(props: {children?: JSXElement}) {
         </header>
 
         <main class="app-main">
-            <div class="notify-wrapper">
-                <For each={ctx.getNotify()}>
-                    {item => {
-                        const elemID = `notify-${item.id}`;
-
-                        const del = () => { // 删除通知，并通过改变 height 触发动画效果。
-                            const elem = document.getElementById(elemID);
-                            if (!elem) { // 已经删除
-                                return;
-                            }
-
-                            elem!.style.height = '0px';
-                            sleep(100).then(() => { ctx.delNotify(item.id); });
-                        };
-
-                        if (item.timeout) { // 存在自动删除功能
-                            sleep(1000 * item.timeout).then(() => { del(); });
-                        }
-                        const color = notifyColors.get(item.type);
-                        return <div id={elemID} role="alert" class={`notify scheme--${color}`}>
-                            <div class="title">
-                                <p>{item.title}</p>
-                                <button onClick={() => del()} class="close">close</button>
-                            </div>
-                            <Show when={item.body}>
-                                <hr />
-                                <p class="p-3">{item.body}</p>
-                            </Show>
-                        </div>;
-                    }}
-                </For>
-            </div>
+            <XNotify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} scheme='error' />
 
             <div class="h-full w-full">
                 <XDrawer pos="right" scheme='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>

@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { createSignal } from 'solid-js';
-import { NotifyType, useApp } from './context';
+
+import { NotifyType } from '@/components';
+import { useApp } from './context';
 
 export default function() {
     const ctx = useApp();
@@ -27,6 +29,6 @@ export default function() {
         <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
         <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
         <input type="number" onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
-        <button class="button--filled scheme--primary" onClick={notify}>notify</button>
+        <button class="button filled scheme--primary" onClick={notify}>notify</button>
     </div >;
 }
