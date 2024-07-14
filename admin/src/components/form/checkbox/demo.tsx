@@ -17,7 +17,7 @@ export default function() {
     const [icon, setIcon] = createSignal(true);
     const [iconStyle, setIconStyle] = createSignal(false);
 
-    const groupFA = FieldAccessor('checkbox', ['1']);
+    const groupFA = FieldAccessor('checkbox', ['1'], true);
     const groupOptions: Options<string> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:red">red</div >],

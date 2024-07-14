@@ -16,6 +16,7 @@
 @import './components/list/style.css';
 @import './components/notify/style.css';
 
+@import './components/form/style.css';
 @import './components/form/checkbox/style.css';
 @import './components/form/choice/style.css';
 @import './components/form/radio/style.css';
@@ -81,9 +82,4 @@
 
 .icon-container {
     @apply flex items-center text-center;
-}
-
-/* 表单字段的错误提示组件 */
-.field_error {
-    @apply text-sm text-error min-h-5;
 }

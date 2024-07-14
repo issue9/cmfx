@@ -26,6 +26,8 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                 value={access.getValue()}
                 onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
         </label>
-        <p class="field_error" role="alert">{access.getError()}</p>
+        <Show when={access.hasError()}>
+            <p class="field_error" role="alert">{access.getError()}</p>
+        </Show>
     </div>;
 }

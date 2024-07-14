@@ -12,7 +12,7 @@ import { default as XGroup } from './radio';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
-    const f = FieldAccessor<Scheme>('name', 'primary', (v,o)=>setChange(`new: ${v}, old: ${o}`));
+    const f = FieldAccessor<Scheme>('name', 'primary', true, (v,o)=>setChange(`new: ${v}, old: ${o}`));
     const [disable, setDisable] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [vertical, setVertical] = createSignal(false);

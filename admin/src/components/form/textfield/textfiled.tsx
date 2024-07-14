@@ -41,6 +41,8 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                 />
             </div>
         </label>
-        <p class="field_error" role="alert">{access.getError()}</p>
+        <Show when={access.hasError()}>
+            <p class="field_error" role="alert">{access.getError()}</p>
+        </Show>
     </div>;
 }

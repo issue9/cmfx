@@ -58,6 +58,8 @@ export default function Group<T extends string | number> (props: Props<T>) {
                 }
             </For>
         </div>
-        <p class="field_error" role="alert">{access.getError()}</p>
+        <Show when={access.hasError()}>
+            <p class="field_error" role="alert">{access.getError()}</p>
+        </Show>
     </fieldset>;
 }

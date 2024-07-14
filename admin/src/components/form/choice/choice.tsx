@@ -73,23 +73,31 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     };
 
     const activator = <div ref={(el) => actRef = el} class="field choice-activator">
-        <label title={props.title} onClick={() => {
-            if (!props.disabled) { setOptionsVisible(!optionsVisible()); }
+        <label title={props.title} onClick={(e) => {
+            if (!props.disabled) { setOptionsVisible(!optionsVisible()); e.preventDefault(); }
         }}>
             <Show when={props.label}>{props.label}</Show>
 
-            <div class="activator-container">
-                <input type='hidden' disabled={props.disabled} readOnly={props.readonly} />
+            <div classList={{
+                'activator-container': true,
+                'rounded': props.rounded
+            }}>
+                <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
                     <Switch>
-                        <Match when={props.multiple}><MultipleActivator /></Match>
-                        <Match when={!props.multiple}><SingelActivator /></Match>
+                        <Match when={ac.getValue().length === 0}>
+                            <span class="placeholder">{props.placeholder}</span>
+                        </Match>
+                        <Match when={props.multiple && ac.getValue().length > 0}><MultipleActivator /></Match>
+                        <Match when={!props.multiple && ac.getValue().length > 0}><SingelActivator /></Match>
                     </Switch>
                 </div>
                 <span class="material-symbols-outlined tail">{props.expandIcon}</span>
             </div>
         </label>
-        <p class="field_error" role="alert">{ac.getError()}</p>
+        <Show when={ac.hasError()}>
+            <p class="field_error" role="alert">{ac.getError()}</p>
+        </Show>
     </div>;
 
     // multiple 为 true 时的候选框的组件

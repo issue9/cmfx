@@ -13,7 +13,7 @@ type Err<T> = {
 };
 
 /**
- * 表单中用于存取数据的接口
+ * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
  */
 export interface Accessor<T> {
     /**
@@ -24,10 +24,17 @@ export interface Accessor<T> {
     getValue(): T;
     setValue(val: T): void;
 
+    /**
+     * 是否需要给错误信息预留位置
+     */
+    hasError(): boolean;
     getError(): string | undefined;
-    setError(string?: string): void
+    setError(string?: string): void;
 
-    reset(): void
+    /**
+     * 重置为初始状态
+     */
+    reset(): void;
 }
 
 /**
@@ -40,7 +47,7 @@ export interface Validation<T extends Record<string, unknown>> {
 }
 
 /**
- * 为单个表单元素生成 Accessor 接口对象
+ * 为单个表单元素生成 {@link Accessor} 接口对象
  *
  * 当一个表单元素是单独使用的，可以传递此函数生成的对象。
  *
@@ -48,12 +55,14 @@ export interface Validation<T extends Record<string, unknown>> {
  * @param v 初始化的值；
  * @param change 当值发生改变时，将触发此方法的调用。
  */
-export function FieldAccessor<T>(name: string, v: T, change?:{(val: T, old?: T): void}): Accessor<T> {
+export function FieldAccessor<T>(name: string, v: T, error?: boolean, change?:{(val: T, old?: T): void}): Accessor<T> {
     const [err, errSetter] = createSignal<string>();
     const [val, valSetter] = createSignal<T>(v);
 
     return {
         name(): string { return name; },
+
+        hasError(): boolean { return !!error; },
 
         getError(): string | undefined {
             return err();
@@ -102,12 +111,14 @@ export class FormAccessor<T extends Record<string, unknown>> {
     }
 
     /**
-     * 返回某个字段的 Accessor 接口供表单元素使用。
+     * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      */
     accessor(name: keyof T): Accessor<T[keyof T]> {
         const self = this;
         return {
             name(): string { return name as string; },
+
+            hasError(): boolean { return true; },
 
             getError(): string | undefined {
                 return self.#errGetter[name];

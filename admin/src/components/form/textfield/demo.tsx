@@ -9,7 +9,7 @@ import { FieldAccessor } from '@/components/form';
 import TextField from './textfiled';
 
 export default function() {
-    const f = FieldAccessor('name', '5');
+    const f = FieldAccessor('name', '5', true);
     const [disable, setDisable] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);

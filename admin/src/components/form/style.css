@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+.field {
+
+    /* 表单字段的错误提示组件 */
+    .field_error {
+        @apply text-sm text-error min-h-5;
+    }
+}
