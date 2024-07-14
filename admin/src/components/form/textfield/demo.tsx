@@ -6,7 +6,7 @@ import { createSignal, For } from 'solid-js';
 
 import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import XTextField from './textfiled';
+import TextField from './textfiled';
 
 export default function() {
     const f = FieldAccessor('name', '5');
@@ -39,7 +39,7 @@ export default function() {
 
         <For each={colorsWithUndefined}>
             {(item) => (
-                <XTextField title={item ? item : 'undefined'} icon={icon() ? 'face' : ''} scheme={item} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={f} />
+                <TextField title={item ? item : 'undefined'} icon={icon() ? 'face' : ''} scheme={item} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

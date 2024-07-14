@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as XCheckbox } from './checkbox';
+export { default as Checkbox } from './checkbox';
 export type { Props as CheckboxProps } from './checkbox';
 
 
-export { default as XCheckboxGroup } from './group';
+export { default as CheckboxGroup } from './group';
 export type { Props as CheckboxGroupProps } from './group';
 

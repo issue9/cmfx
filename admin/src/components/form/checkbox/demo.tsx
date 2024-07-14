@@ -7,8 +7,8 @@ import { createSignal, For } from 'solid-js';
 
 import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
-import XCheckbox from './checkbox';
-import { default as XCheckboxGroup } from './group';
+import Checkbox from './checkbox';
+import { default as CheckboxGroup } from './group';
 
 export default function() {
     const [disable, setDisable] = createSignal(false);
@@ -50,17 +50,17 @@ export default function() {
             <button class="button filled scheme--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
-        <For each={colorsWithUndefined}>
-            {(item)=>(
-                <XCheckbox checkedIcon={iconStyle() ? 'verified': undefined}
-                    title={item ? item : 'undefined'} label='test' icon={icon()} scheme={item} disabled={disable()} readonly={readonly()}
-                />
-            )}
-        </For>
+        <div class="flex flex-wrap mb-10">
+            <For each={colorsWithUndefined}>
+                {(item)=>(
+                    <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
+                        title={item ? item : 'undefined'} label='test' icon={icon()} scheme={item} disabled={disable()} readonly={readonly()}
+                    />
+                )}
+            </For>
+        </div>
 
-        <br /><br />
-
-        <XCheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
+        <CheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
             icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" scheme="primary"
             options={groupOptions} accessor={groupFA}
         />

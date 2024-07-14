@@ -1,0 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .notify {
+        @apply absolute top-4 right-4 left-4 sm:left-auto flex-col;
+        @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto;
+
+        .message {
+            background-color: var(--bg);
+            color: var(--text);
+            border-color: var(--bg-low);
+            @apply rounded-md transition-[height] duration-100 mb-4 z-50 block w-full;
+
+            .title {
+                @apply p-3 flex justify-between icon-container;
+
+                .close {
+                    @apply material-symbols-outlined hover:cursor-pointer hover:text-[var(--text-high)];
+                }
+            }
+        }
+    }
+}

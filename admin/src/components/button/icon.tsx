@@ -4,7 +4,6 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-
 import { Props as BaseProps } from './types';
 
 export interface Props extends BaseProps {

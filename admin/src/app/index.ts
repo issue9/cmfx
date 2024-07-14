@@ -6,5 +6,5 @@ export { create as createApp } from './app';
 export type { Contrast, Mode, Options, Routes } from './options';
 
 export { useApp } from './context';
-export type { AppContext, NotifyType } from './context';
+export type { AppContext } from './context';
 

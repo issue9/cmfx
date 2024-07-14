@@ -6,7 +6,7 @@ import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
 import { ErrorBoundary, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { XButton, XDrawer, XError, XIconButton, XNotify } from '@/components';
+import { Button, Drawer, ErrorPage, IconButton, Notify } from '@/components';
 import { Fetcher } from '@/core';
 import { Provider, buildContext, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
@@ -39,12 +39,12 @@ export async function create(elementID: string, o: Options) {
             path: '*',
             component: ()=>{
                 const ctx = useApp();
-                return <XError header="404" title={ctx.t('_internal.error.pageNotFound')}>
+                return <ErrorPage header="404" title={ctx.t('_internal.error.pageNotFound')}>
                     <div class="flex gap-x-5 justify-center">
                         <A class="scheme--primary button filled" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
-                        <XButton scheme='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</XButton>
+                        <Button scheme='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
                     </div>
-                </XError>;
+                </ErrorPage>;
             }
         }
     ];
@@ -55,9 +55,9 @@ export async function create(elementID: string, o: Options) {
 
         const root = (props: { children?: JSXElement }) => (
             <ErrorBoundary fallback={(err)=>(
-                <XError header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                    <XButton scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</XButton>
-                </XError>
+                <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+                    <Button scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
+                </ErrorPage>
             )}>
                 <Provider ctx={ctx}>
                     <App>{props.children}</App>
@@ -101,25 +101,25 @@ function App(props: {children?: JSXElement}) {
             </div>
 
             <div class="flex scheme--primary gap-2">
-                <XIconButton type="button" style="flated" rounded onClick={toggleFullscreen}title={ctx.t('_internal.fullscreen')}>
+                <IconButton type="button" style="flated" rounded onClick={toggleFullscreen}title={ctx.t('_internal.fullscreen')}>
                     {fc() ? 'fullscreen_exit' : 'fullscreen'}
-                </XIconButton>
+                </IconButton>
 
                 <Show when={ctx.user()}>
-                    <XIconButton type="button" style='flated' rounded onClick={() => setShowSettings(!showSettings()) } title={ctx.t('_internal.settings')}>
+                    <IconButton type="button" style='flated' rounded onClick={() => setShowSettings(!showSettings()) } title={ctx.t('_internal.settings')}>
                         settings
-                    </XIconButton>
+                    </IconButton>
                 </Show>
             </div>
         </header>
 
         <main class="app-main">
-            <XNotify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} scheme='error' />
+            <Notify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} scheme='error' />
 
             <div class="h-full w-full">
-                <XDrawer pos="right" scheme='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>
+                <Drawer pos="right" scheme='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>
                     {props.children}
-                </XDrawer>
+                </Drawer>
             </div>
         </main>
     </div>;

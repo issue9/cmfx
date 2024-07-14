@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as XTextArea } from './textarea';
+export { default as TextArea } from './textarea';
 export type { Props as TextAreaProps } from './textarea';
 

@@ -8,6 +8,10 @@
  * 当前文件主要定义了与主题相关的变量。
  */
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
     --primary: #96454c;
     --secondary: #22c55e;

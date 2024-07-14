@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .app {
+        @apply flex flex-col box-border overflow-hidden h-full bg-surface text-surface;
+
+        .app-bar {
+            @apply w-full p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary;
+        }
+
+        .app-main {
+            @apply relative h-full flex-1 overflow-y-hidden;
+        }
+    }
+}

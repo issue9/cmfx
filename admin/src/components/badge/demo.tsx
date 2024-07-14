@@ -6,7 +6,7 @@ import { createSignal, For } from 'solid-js';
 
 import { corners, Scheme } from '@/components/base';
 import { SchemeSelector } from '@/components/base/demo';
-import { default as XBadge } from './badge';
+import { default as Badge } from './badge';
 
 export default function () {
     const [text, setText] = createSignal('');
@@ -19,9 +19,9 @@ export default function () {
         <div class="flex items-center gap-5 flex-wrap">
             <For each={corners}>
                 {(pos) => (
-                    <XBadge pos={ pos } scheme={ scheme() } text={ text() }>
+                    <Badge pos={ pos } scheme={ scheme() } text={ text() }>
                         <button class="button filled scheme--primary">{ pos }</button >
-                    </XBadge>
+                    </Badge>
                 )}
             </For>
         </div>

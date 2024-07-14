@@ -5,7 +5,7 @@
 import { useNavigate } from '@solidjs/router';
 import { ErrorBoundary, For, JSX } from 'solid-js';
 
-import { XButton, XDrawer, XError, XItem, XList } from '@/components';
+import { Button, Drawer, ErrorPage, Item, List } from '@/components';
 import { useApp } from './context';
 
 export function Private(props: {children?: JSX.Element}) {
@@ -18,22 +18,22 @@ export function Private(props: {children?: JSX.Element}) {
     }
 
     const aside = <div>
-        <XList>
+        <List>
             <For each={ctx.options.menus}>
                 {(item) => (
-                    <XItem to={item.key} head={item.icon} text={ctx.t(item.title as any) as string} />
+                    <Item to={item.key} head={item.icon} text={ctx.t(item.title as any) as string} />
                 )}
             </For>
-        </XList>
+        </List>
     </div>;
 
-    return <XDrawer aside={aside} scheme='secondary' visible={true}>
+    return <Drawer aside={aside} scheme='secondary' visible={true}>
         <ErrorBoundary fallback={(err)=>(
-            <XError header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                <XButton scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</XButton>
-            </XError>
+            <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+                <Button scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
+            </ErrorPage>
         )}>
             {props.children}
         </ErrorBoundary>
-    </XDrawer>;
+    </Drawer>;
 }

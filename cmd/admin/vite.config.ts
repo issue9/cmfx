@@ -4,6 +4,7 @@
 
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
 import devtools from 'solid-devtools/vite';
 import tailwindcss from 'tailwindcss';
@@ -23,7 +24,7 @@ export default defineConfig({
 
     css: {
         postcss: {
-            plugins: [tailwindcss(), autoprefixer()]
+            plugins: [tailwindcss(), autoprefixer(), cssnano()]
         }
     },
 

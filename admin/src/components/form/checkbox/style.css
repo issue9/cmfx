@@ -1,0 +1,42 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+*/
+
+@layer components {
+    .checkbox {
+        @apply border-2 border-transparent icon-container;
+
+        .checkbox-icon {
+            color: var(--text-low);
+            @apply mr-1;
+        }
+    }
+
+    .checkbox.border {
+        @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+    }
+
+    .checkbox:has(:enabled):hover {
+        cursor: pointer;
+
+        .checkbox-icon {
+            color: var(--text-high);
+        }
+    }
+
+    .checkbox.border:has(:enabled):hover {
+        @apply border-[var(--bg-high)];
+    }
+
+    .checkbox:has(:disabled) {
+        cursor: not-allowed;
+    }
+
+    .checkbox-group {
+        .content {
+            @apply flex flex-wrap gap-1
+        }
+    }
+}

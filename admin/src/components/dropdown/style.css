@@ -1,0 +1,45 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .dropdown {
+        @apply relative;
+
+        .content {
+            color: var(--text);
+            background-color: var(--bg);
+            display: none;
+            position: absolute;
+            /* 最起码与父元素等宽 */
+            min-width: 100%;
+            z-index: 50;
+        }
+
+        .topleft {
+            bottom: 100%;
+            left: 0;
+        }
+
+        .topright {
+            bottom: 100%;
+            right: 0;
+        }
+
+        .bottomleft {
+            top: 100%;
+            left: 0;
+        }
+
+        .bottomright {
+            top: 100%;
+            right: 0;
+        }
+
+        .visible {
+            @apply block;
+        }
+    }
+}

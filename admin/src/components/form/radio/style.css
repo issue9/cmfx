@@ -1,0 +1,49 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+
+@layer components {
+    .radio-group {
+        label {
+            @apply border-2 border-transparent icon-container;
+
+            .radio-icon {
+                color: var(--text);
+                @apply mr-1;
+            }
+        }
+
+        label.border {
+            @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+        }
+
+        .content {
+            @apply flex flex-wrap gap-1
+        }
+    }
+
+    .radio-group:enabled {
+        label.border {
+            @apply hover:border-[var(--bg-high)];
+        }
+
+        label:hover .radio-icon {
+            color: var(--bg-high);
+        }
+    }
+
+    .radio-group:disabled {
+        cursor: not-allowed;
+
+        label {
+            cursor: not-allowed;
+
+            .radio-icon {
+                cursor: not-allowed;
+            }
+        }
+    }
+}

@@ -10,7 +10,7 @@ import { default as Badge } from '@/components/badge/demo';
 import { default as Buttons } from '@/components/button/demo';
 import { default as Divider } from '@/components/divider/demo';
 import { default as Dropdown } from '@/components/dropdown/demo';
-import { default as Errors } from '@/components/error/demo';
+import { default as Error } from '@/components/errorpage/demo';
 import { default as List } from '@/components/list/demo';
 
 // form 相关
@@ -61,7 +61,7 @@ export default function(prefix: string) {
             },
             {
                 path: '/errors',
-                component: Errors,
+                component: Error,
             },
             {
                 path: '/buttons',

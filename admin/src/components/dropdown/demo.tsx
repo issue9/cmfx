@@ -6,8 +6,8 @@ import { createSignal } from 'solid-js';
 
 import { Corner, Scheme } from '@/components/base';
 import { CornerSelector, SchemeSelector } from '@/components/base/demo';
-import { XButton } from '@/components/button';
-import { default as XDropdown } from './dropdown';
+import { Button } from '@/components/button';
+import { default as Dropdown } from './dropdown';
 
 export default function() {
     const [scheme, setScheme] = createSignal<Scheme>();
@@ -20,11 +20,11 @@ export default function() {
             <CornerSelector get={pos} set={setPos} />
         </div>
 
-        <XDropdown pos={pos()} scheme={scheme()} visible={visible()} activator={
-            <XButton scheme='primary' onClick={()=>setVisible(!visible())}>dropdown</XButton>
+        <Dropdown pos={pos()} scheme={scheme()} visible={visible()} activator={
+            <Button scheme='primary' onClick={()=>setVisible(!visible())}>dropdown</Button>
         }>
             <div class="p-4 z-5">dropdown</div>
-        </XDropdown>
+        </Dropdown>
 
     </div>;
 }

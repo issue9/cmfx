@@ -1,0 +1,38 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .drawer {
+        @apply h-full w-full flex overflow-hidden;
+
+        >aside {
+            @apply h-full bg-[var(--bg)] text-[var(--text)] transition-[width] z-50;
+        }
+
+        >main {
+            @apply overflow-y-scroll h-full flex-1;
+        }
+    }
+
+    .drawer.floating {
+        position: relative;
+
+        >aside {
+            position: absolute;
+        }
+    }
+
+    .drawer.floating::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        background-size: cover;
+        background-color: rgb(1 1 1 / .5);
+    }
+}

@@ -4,9 +4,9 @@
 
 import { Scheme } from '@/components/base';
 import { SchemeSelector } from '@/components/base/demo';
-import { FieldAccessor, Options, XTextField } from '@/components/form';
+import { FieldAccessor, Options, TextField } from '@/components/form';
 import { createSignal } from 'solid-js';
-import { default as XChoice } from './choice';
+import { default as Choice } from './choice';
 
 export default function() {
     const fa = FieldAccessor<Array<string>>('choice', ['1']);
@@ -60,8 +60,8 @@ export default function() {
             <button class="button filled scheme--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
         </div>
 
-        <XChoice disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} label="label" accessor={fa} options={options} />
-        <XChoice disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} accessor={mfa} multiple options={multipleOptions} />
-        <XTextField scheme={scheme()} accessor={tf} />
+        <Choice disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} label="label" accessor={fa} options={options} />
+        <Choice disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} accessor={mfa} multiple options={multipleOptions} />
+        <TextField scheme={scheme()} accessor={tf} />
     </div>;
 }

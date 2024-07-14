@@ -6,7 +6,7 @@ import { createSignal, For } from 'solid-js';
 
 import { colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import XTextArea from './textarea';
+import TextArea from './textarea';
 
 export default function() {
     const f = FieldAccessor('name', '5');
@@ -32,7 +32,7 @@ export default function() {
 
         <For each={colorsWithUndefined}>
             {(item) => (
-                <XTextArea scheme={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
+                <TextArea scheme={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

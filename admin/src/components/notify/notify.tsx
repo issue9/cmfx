@@ -66,7 +66,7 @@ export default function(props: Props) {
         }
     });
 
-    return <div class={props.scheme ? `notify-wrapper scheme--${props.scheme}` : 'notify-wrapper'}>
+    return <div class={props.scheme ? `notify scheme--${props.scheme}` : 'notify'}>
         <For each={msgs()}>
             {item => {
                 const elemID = `notify-${item.id}`;
@@ -85,7 +85,7 @@ export default function(props: Props) {
                     sleep(1000 * item.timeout).then(() => { del(); });
                 }
 
-                return <div id={elemID} role="alert" class={item.scheme ? `notify scheme--${item.scheme}` : 'notify'}>
+                return <div id={elemID} role="alert" class={item.scheme ? `message scheme--${item.scheme}` : 'message'}>
                     <div class="title">
                         <p>{item.title}</p>
                         <button onClick={() => del()} class="close">close</button>

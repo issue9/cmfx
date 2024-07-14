@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as XItem } from './item';
+export { default as Item } from './item';
 export type { Props as ItemProps } from './item';
 
-export { default as XList } from './list';
+export { default as List } from './list';
 export type { Props as ListProps } from './list';
 

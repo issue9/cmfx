@@ -1,0 +1,92 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .button {
+        @apply border border-transparent rounded-md text-sm py-1 px-2 md:py-2 md:px-4;
+        @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
+    }
+
+    .button.filled {
+        background-color: var(--bg);
+    }
+
+    .button.bordered {
+        @apply bg-transparent border-[var(--text)];
+    }
+
+    .button.flated {
+        @apply bg-transparent hover:enabled:bg-[var(--bg-high)];
+    }
+
+    .icon-button {
+        /* 始终要让 p-1 和 p-2 与 .button 中的 py 和 md:py 相同 */
+        @apply border border-transparent rounded-md text-sm p-1 md:p-2;
+        @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
+    }
+
+    .icon-button.filled {
+        background-color: var(--bg);
+    }
+
+    .icon-button.bordered {
+        @apply bg-transparent border-[var(--text)];
+    }
+
+    .icon-button.flated {
+        @apply bg-transparent hover:enabled:bg-[var(--bg-high)];
+    }
+
+    .button-group {
+        color: var(--text);
+        background-color: var(--bg);
+        @apply border-solid border border-transparent inline-block rounded-l-md rounded-r-md text-sm;
+
+        :first-child {
+            @apply rounded-l-md;
+        }
+
+        :last-child {
+            @apply rounded-r-md;
+        }
+
+        button {
+            color: var(--text);
+            @apply text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
+        }
+    }
+
+    .button-group.rounded {
+        @apply rounded-l-full rounded-r-full border-transparent;
+
+        :first-child {
+            @apply rounded-l-full;
+        }
+
+        :last-child {
+            @apply rounded-r-full;
+        }
+    }
+
+    .button-group.filled {
+        background-color: var(--bg);
+    }
+
+    .button-group.bordered {
+        color: var(--bg);
+        background-color: transparent;
+        @apply border border-solid border-[var(--bg)];
+    }
+
+    .button-group.flated {
+        background-color: transparent;
+        color: var(--bg);
+
+        button {
+            @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
+        }
+    }
+}

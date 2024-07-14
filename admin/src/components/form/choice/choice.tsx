@@ -5,7 +5,7 @@
 import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
-import { XDropdown } from '@/components/dropdown';
+import { Dropdown } from '@/components/dropdown';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
 type Value = string | number;
@@ -72,13 +72,13 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </For>;
     };
 
-    const activator = <div ref={(el) => actRef = el} class="field choice-field">
+    const activator = <div ref={(el) => actRef = el} class="field choice-activator">
         <label title={props.title} onClick={() => {
             if (!props.disabled) { setOptionsVisible(!optionsVisible()); }
         }}>
             <Show when={props.label}>{props.label}</Show>
 
-            <div class="field-container">
+            <div class="activator-container">
                 <input type='hidden' disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
                     <Switch>
@@ -157,5 +157,5 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </Switch>
     </ul>;
 
-    return <XDropdown scheme={props.scheme} pos='bottomleft' visible={optionsVisible()} activator={activator}>{ options }</XDropdown>;
+    return <Dropdown scheme={props.scheme} pos='bottomleft' visible={optionsVisible()} activator={activator}>{ options }</Dropdown>;
 }

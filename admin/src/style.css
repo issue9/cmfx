@@ -2,14 +2,72 @@
  * SPDX-FileCopyrightText: 2024 caixw
  *
  * SPDX-License-Identifier: MIT
-*/
+ */
 
 @import 'material-symbols';
 @import './theme.css';
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import './components/badge/style.css';
+@import './components/button/style.css';
+@import './components/divider/style.css';
+@import './components/drawer/style.css';
+@import './components/dropdown/style.css';
+@import './components/errorpage/style.css';
+@import './components/list/style.css';
+@import './components/notify/style.css';
+
+@import './components/form/checkbox/style.css';
+@import './components/form/choice/style.css';
+@import './components/form/radio/style.css';
+@import './components/form/textarea/style.css';
+@import './components/form/textfield/style.css';
+
+@import './app/style.css';
+
+.scheme--primary {
+    --bg: var(--primary-bg);
+    --bg-low: var(--primary-bg-low);
+    --bg-high: var(--primary-bg-high);
+    --text: var(--primary-text);
+    --text-low: var(--primary-text-low);
+    --text-high: var(--primary-text-high);
+}
+
+.scheme--secondary {
+    --bg: var(--secondary-bg);
+    --bg-low: var(--secondary-bg-low);
+    --bg-high: var(--secondary-bg-high);
+    --text: var(--secondary-text);
+    --text-low: var(--secondary-text-low);
+    --text-high: var(--secondary-text-high);
+}
+
+.scheme--tertiary {
+    --bg: var(--tertiary-bg);
+    --bg-low: var(--tertiary-bg-low);
+    --bg-high: var(--tertiary-bg-high);
+    --text: var(--tertiary-text);
+    --text-low: var(--tertiary-text-low);
+    --text-high: var(--tertiary-text-high);
+}
+
+.scheme--error {
+    --bg: var(--error-bg);
+    --bg-low: var(--error-bg-low);
+    --bg-high: var(--error-bg-high);
+    --text: var(--error-text);
+    --text-low: var(--error-text-low);
+    --text-high: var(--error-text-high);
+}
+
+.scheme--surface {
+    --bg: var(--surface-bg);
+    --bg-low: var(--surface-bg-low);
+    --bg-high: var(--surface-bg-high);
+    --text: var(--surface-text);
+    --text-low: var(--surface-text-low);
+    --text-high: var(--surface-text-high);
+}
 
 .material-symbols-outlined {
     font-size: 1.3rem;
@@ -21,481 +79,11 @@
     font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
 }
 
-@layer components {
-    .scheme--primary {
-        --bg: var(--primary-bg);
-        --bg-low: var(--primary-bg-low);
-        --bg-high: var(--primary-bg-high);
-        --text: var(--primary-text);
-        --text-low: var(--primary-text-low);
-        --text-high: var(--primary-text-high);
-    }
-
-    .scheme--secondary {
-        --bg: var(--secondary-bg);
-        --bg-low: var(--secondary-bg-low);
-        --bg-high: var(--secondary-bg-high);
-        --text: var(--secondary-text);
-        --text-low: var(--secondary-text-low);
-        --text-high: var(--secondary-text-high);
-    }
-
-    .scheme--tertiary {
-        --bg: var(--tertiary-bg);
-        --bg-low: var(--tertiary-bg-low);
-        --bg-high: var(--tertiary-bg-high);
-        --text: var(--tertiary-text);
-        --text-low: var(--tertiary-text-low);
-        --text-high: var(--tertiary-text-high);
-    }
-
-    .scheme--error {
-        --bg: var(--error-bg);
-        --bg-low: var(--error-bg-low);
-        --bg-high: var(--error-bg-high);
-        --text: var(--error-text);
-        --text-low: var(--error-text-low);
-        --text-high: var(--error-text-high);
-    }
-
-    .scheme--surface {
-        --bg: var(--surface-bg);
-        --bg-low: var(--surface-bg-low);
-        --bg-high: var(--surface-bg-high);
-        --text: var(--surface-text);
-        --text-low: var(--surface-text-low);
-        --text-high: var(--surface-text-high);
-    }
-
-    .icon-container {
-        @apply inline-flex items-center text-center;
-    }
-
-    /***************************** button **************************/
-
-    .button {
-        @apply border border-transparent rounded-md text-sm py-1 px-2 md:py-2 md:px-4;
-        @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
-    }
-
-    .button.filled {
-        background-color: var(--bg);
-    }
-
-    .button.bordered {
-        @apply bg-transparent border-[var(--text)];
-    }
-
-    .button.flated {
-        @apply bg-transparent hover:enabled:bg-[var(--bg-high)];
-    }
-
-    .icon-button {
-        /* 始终要让 p-1 和 p-2 与 .button 中的 py 和 md:py 相同 */
-        @apply border border-transparent rounded-md text-sm p-1 md:p-2;
-        @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
-    }
-
-    .icon-button.filled {
-        background-color: var(--bg);
-    }
-
-    .icon-button.bordered {
-        @apply bg-transparent border-[var(--text)];
-    }
-
-    .icon-button.flated {
-        @apply bg-transparent hover:enabled:bg-[var(--bg-high)];
-    }
-
-    .button-group {
-        color: var(--text);
-        background-color: var(--bg);
-        @apply border-solid border border-transparent inline-block rounded-l-md rounded-r-md text-sm;
-
-        :first-child {
-            @apply rounded-l-md;
-        }
-
-        :last-child {
-            @apply rounded-r-md;
-        }
-
-        button {
-            color: var(--text);
-            @apply text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
-        }
-    }
-
-    .button-group.rounded {
-        @apply rounded-l-full rounded-r-full border-transparent;
-
-        :first-child {
-            @apply rounded-l-full;
-        }
-
-        :last-child {
-            @apply rounded-r-full;
-        }
-    }
-
-    .button-group.filled {
-        background-color: var(--bg);
-    }
-
-    .button-group.bordered {
-        color: var(--bg);
-        background-color: transparent;
-        @apply border border-solid border-[var(--bg)];
-    }
-
-    .button-group.flated {
-        background-color: transparent;
-        color: var(--bg);
-
-        button {
-            @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
-        }
-    }
-
-    /***************************** form-radio **************************/
-
-    .radio-group {
-        label {
-            @apply border-2 border-transparent icon-container;
-
-            .radio-icon {
-                color: var(--text);
-                @apply mr-1;
-            }
-        }
-
-        label.border {
-            @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
-        }
-
-        .content {
-            @apply flex flex-wrap gap-1
-        }
-    }
-
-    .radio-group:enabled {
-        label.border {
-            @apply hover:border-[var(--bg-high)];
-        }
-
-        label:hover .radio-icon {
-            color: var(--bg-high);
-        }
-    }
-
-    .radio-group:disabled {
-        cursor: not-allowed;
-
-        label {
-            cursor: not-allowed;
-
-            .radio-icon {
-                cursor: not-allowed;
-            }
-        }
-    }
-
-    /***************************** form-checkbox **************************/
-
-    .checkbox {
-        @apply border-2 border-transparent icon-container;
-
-        .checkbox-icon {
-            color: var(--text-low);
-            @apply mr-1;
-        }
-    }
-
-    .checkbox.border {
-        @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
-    }
-
-    .checkbox:has(:enabled):hover {
-        cursor: pointer;
-
-        .checkbox-icon {
-            color: var(--text-high);
-        }
-    }
-
-    .checkbox.border:has(:enabled):hover {
-        @apply border-[var(--bg-high)];
-    }
-
-    .checkbox:has(:disabled) {
-        cursor: not-allowed;
-    }
-
-    .chk-group {
-        .content {
-            @apply flex flex-wrap gap-1
-        }
-    }
-
-    /***************************** form-text-field **************************/
-
-    .text-field {
-        @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
-        @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
-
-        & input {
-            min-height: var(--min-input-height);
-            @apply outline-none bg-transparent flex-1 px-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
-        }
-
-        .tail {
-            margin-left: auto;
-        }
-    }
-
-    /***************************** form-textarea **************************/
-
-    .textarea {
-        min-height: var(--min-input-height);
-        @apply rounded-md bg-transparent border-2 border-[var(--bg-low)] flex icon-container px-1 py-1 md:px-2 md:py-2 mt-1 w-full text-left;
-        @apply focus:enabled:border-[var(--text-high)] hover:enabled:border-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
-    }
-
-    .field_error {
-        @apply text-sm text-error min-h-5;
-    }
-
-    /***************************** form-choice **************************/
-
-    .choice-field {
-        .field-container {
-            @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1 cursor-pointer;
-            @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
-
-            .input {
-                min-height: var(--min-input-height);
-                @apply bg-transparent flex flex-wrap px-1 w-full disabled:cursor-not-allowed read-only:cursor-default gap-1;
-
-                .chip {
-                    @apply rounded-full bg-[var(--bg-high)] px-2 flex flex-col justify-center hover:bg-[var(--bg-low)];
-                }
-            }
-
-            .tail {
-                margin-left: auto;
-            }
-        }
-    }
-
-    .choice-options {
-        @apply border-2 bg-transparent rounded-md z-50 max-h-[240px] overflow-y-auto;
-    }
-
-    .choice-options li {
-        @apply p-1 md:p-2 hover:bg-[var(--bg-high)] icon-container flex;
-
-        .tail {
-            margin-left: auto;
-        }
-    }
-
-    .choice-options li.selected {
-        background-color: var(--bg-low);
-    }
-
-    /***************************** error **************************/
-
-    .error-page {
-        background-color: var(--bg);
-        color: var(--text);
-        @apply p-8 mx-auto w-full h-full content-center text-center;
-
-        & h1 {
-            @apply mb-4 text-7xl md:text-9xl tracking-tight font-extrabold;
-        }
-
-        .title {
-            @apply mb-4 tracking-tight font-bold text-3xl md:text-4xl;
-        }
-
-        .detail {
-            @apply mb-4 tracking-tight font-bold text-lg;
-        }
-    }
-
-    /***************************** divider **************************/
-
-    .divider {
-        color: var(--text);
-        @apply flex content-center items-center;
-
-        hr {
-            color: var(--text-low);
-        }
-    }
-
-    /***************************** app **************************/
-
-    .app {
-        @apply flex flex-col box-border overflow-hidden h-full bg-surface text-surface;
-
-        .app-bar {
-            @apply w-full p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary;
-        }
-
-        .app-main {
-            @apply relative h-full flex-1 overflow-y-hidden;
-        }
-    }
-
-    /***************************** notify **************************/
-
-    .notify-wrapper {
-        @apply absolute top-4 right-4 left-4 sm:left-auto flex-col;
-        @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto;
-
-        .notify {
-            background-color: var(--bg);
-            color: var(--text);
-            border-color: var(--bg-low);
-            @apply rounded-md transition-[height] duration-100 mb-4 z-50 block w-full;
-
-            .title {
-                @apply p-3 flex justify-between icon-container;
-
-                .close {
-                    @apply material-symbols-outlined hover:cursor-pointer hover:text-[var(--text-high)];
-                }
-            }
-        }
-    }
-
-    /***************************** drawer **************************/
-
-    .drawer {
-        @apply h-full w-full flex overflow-hidden;
-
-        >aside {
-            @apply h-full bg-[var(--bg)] text-[var(--text)] transition-[width] z-50;
-        }
-
-        >main {
-            @apply overflow-y-scroll h-full flex-1;
-        }
-    }
-
-    .drawer.floating {
-        position: relative;
-
-        >aside {
-            position: absolute;
-        }
-    }
-
-    .drawer.floating::after {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: 0;
-        bottom: 0;
-        right: 0;
-        background-size: cover;
-        background-color: rgb(1 1 1 / .5);
-    }
-
-    /***************************** dropdown **************************/
-
-    .dropdown {
-        @apply relative;
-
-        .content {
-            color: var(--text);
-            background-color: var(--bg);
-            display: none;
-            position: absolute;
-            /* 最起码与父元素等宽 */
-            min-width: 100%;
-            z-index: 50;
-        }
-
-        .topleft {
-            bottom: 100%;
-            left: 0;
-        }
-
-        .topright {
-            bottom: 100%;
-            right: 0;
-        }
-
-        .bottomleft {
-            top: 100%;
-            left: 0;
-        }
-
-        .bottomright {
-            top: 100%;
-            right: 0;
-        }
-
-        .visible {
-            @apply block;
-        }
-    }
-
-    /***************************** badge **************************/
-
-    .badge {
-        position: relative;
-
-        .content {
-            background-color: var(--bg);
-            color: var(--text);
-            @apply absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
-        }
-
-        .topleft {
-            @apply top-[-7px] left-[-7px];
-        }
-
-        .topright {
-            @apply top-[-7px] right-[-7px];
-        }
-
-        .bottomleft {
-            @apply bottom-[-7px] left-[-7px];
-        }
-
-        .bottomright {
-            @apply bottom-[-7px] right-[-7px];
-        }
-    }
-
-    /***************************** list **************************/
-
-    .list {
-        @apply flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
-        color: var(--text);
-        background-color: var(--bg);
-
-        .item {
-            @apply flex flex-col gap-y-1;
-
-            .title {
-                @apply rounded-md flex p-2 gap-1 icon-container cursor-pointer hover:bg-[var(--bg-low)] hover:text-[var(--text-low)];
-
-                .tail {
-                    margin-left: auto;
-                }
-            }
-        }
-
-        .item.active {
-            .title {
-                background-color: var(--bg-high);
-                color: var(--text-high);
-            }
-        }
-    }
+.icon-container {
+    @apply flex items-center text-center;
+}
+
+/* 表单字段的错误提示组件 */
+.field_error {
+    @apply text-sm text-error min-h-5;
 }

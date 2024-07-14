@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { FieldAccessor, XChoice, XDivider, XRadioGroup } from '@/components';
+import { Choice, Divider, FieldAccessor, RadioGroup } from '@/components';
 import { Locale, locales, names } from '@/locales';
 import { useApp } from './context';
 import { Mode } from './options';
@@ -19,7 +19,7 @@ export default function() {
     });
 
     return <div class="p-4 min-w-60 h-full bg-[var(--bg)] text-[var(--text)]">
-        <XRadioGroup vertical accessor={modeFA}
+        <RadioGroup vertical accessor={modeFA}
             label={<div class="flex flex-col mb-1">
                 <p class="icon-container">
                     <span class="material-symbols-outlined mr-2">settings_night_sight</span>{ ctx.t('_internal.theme.mode') }
@@ -33,9 +33,9 @@ export default function() {
             ]}
         />
 
-        <XDivider />
+        <Divider />
 
-        <XRadioGroup accessor={colorFA}
+        <RadioGroup accessor={colorFA}
             icon = {false}
             label={<div class="flex flex-col mb-1">
                 <p class="icon-container">
@@ -49,7 +49,7 @@ export default function() {
             ]}
         />
 
-        <XDivider />
+        <Divider />
 
         <div class="flex flex-col">
             <p class="icon-container">
@@ -57,6 +57,6 @@ export default function() {
             </p>
             <span class="text-sm text-left">{ ctx.t('_internal.locale.localeDesc') }</span>
         </div>
-        <XChoice accessor={localeFA} options={names} />
+        <Choice accessor={localeFA} options={names} />
     </div>;
 }

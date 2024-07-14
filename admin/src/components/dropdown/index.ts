@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as XDropdown } from './dropdown';
+export { default as Dropdown } from './dropdown';
 export type { Props as DropdownProps } from './dropdown';
 

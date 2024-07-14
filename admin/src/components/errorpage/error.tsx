@@ -32,7 +32,7 @@ const defaultProps: Partial<Props> = {
 /**
  * 显示错误信息的组件
  */
-export default function XError(props: Props) {
+export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     return <div class={props.scheme ? `error-page scheme--${props.scheme}` : 'error-page'}>

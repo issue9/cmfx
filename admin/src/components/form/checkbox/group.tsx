@@ -5,7 +5,7 @@
 import { For, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
-import { default as XCheckbox } from './checkbox';
+import { default as Checkbox } from './checkbox';
 
 export interface Props<T> extends FieldBaseProps {
     /**
@@ -33,7 +33,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
 
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
 
-    return <fieldset disabled={props.disabled} class={props.scheme ? `chk-group field scheme--${props.scheme}` : 'chk-group field'}>
+    return <fieldset disabled={props.disabled} class={props.scheme ? `checkbox-group field scheme--${props.scheme}` : 'checkbox-group field'}>
         <Show when={props.label}>
             <legend class="icon-container" title={props.title}>{props.label}</legend >
         </Show>
@@ -44,7 +44,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <XCheckbox {...chkProps} label={item[1]}
+                    <Checkbox {...chkProps} label={item[1]}
                         checked={access.getValue().find((v)=>v===item[0]) ? true : false}
                         onChange={(v)=>{
                             if (v) {

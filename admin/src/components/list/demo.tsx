@@ -6,9 +6,9 @@ import { createSignal } from 'solid-js';
 
 import { Scheme } from '@/components/base';
 import { SchemeSelector } from '@/components/base/demo';
-import { XDivider } from '@/components/divider';
-import { default as XItem } from './item';
-import { default as XList } from './list';
+import { Divider } from '@/components/divider';
+import { default as Item } from './item';
+import { default as List } from './list';
 
 export default function() {
     const [c, setC] = createSignal<Scheme>();
@@ -16,21 +16,21 @@ export default function() {
     return <div class="flex flex-col gap-2">
         <SchemeSelector get={c} set={setC} />
 
-        <XList scheme={c()}>
-            <XItem text="item" head='face'>
-                <XItem text="current" head='face' to="/demo/list" />
-                <XDivider />
-                <XItem text="item2" />
-                <XItem text="item3" />
-            </XItem>
-            <XDivider />
-            <XItem text="errors" head='face' to="/demo/errors" />
-            <XItem text="item2" head='face' />
-            <XItem text="level 1" head='face'>
-                <XItem text="level 2">
-                    <XItem text="level 3" />
-                </XItem>
-            </XItem>
-        </XList>
+        <List scheme={c()}>
+            <Item text="item" head='face'>
+                <Item text="current" head='face' to="/demo/list" />
+                <Divider />
+                <Item text="item2" />
+                <Item text="item3" />
+            </Item>
+            <Divider />
+            <Item text="errors" head='face' to="/demo/errors" />
+            <Item text="item2" head='face' />
+            <Item text="level 1" head='face'>
+                <Item text="level 2">
+                    <Item text="level 3" />
+                </Item>
+            </Item>
+        </List>
     </div>;
 }

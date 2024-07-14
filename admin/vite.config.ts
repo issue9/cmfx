@@ -4,6 +4,7 @@
 
 /// <reference types="vitest" />
 import autoprefixer from 'autoprefixer';
+import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
 import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
@@ -32,7 +33,7 @@ export default defineConfig({
 
     css: {
         postcss: {
-            plugins: [tailwindcss(), autoprefixer()]
+            plugins: [tailwindcss(), autoprefixer(), cssnano()]
         }
     },
 

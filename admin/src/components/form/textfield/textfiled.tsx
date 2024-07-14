@@ -16,7 +16,7 @@ export interface Props<T> extends FieldBaseProps {
     accessor: Accessor<T>;
 };
 
-export default function XTextField<T extends Value>(props: Props<T>):JSX.Element {
+export default function<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;
     const access = props.accessor;
 

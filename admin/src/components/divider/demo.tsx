@@ -6,7 +6,7 @@ import { createSignal, For } from 'solid-js';
 
 import { Scheme } from '@/components/base';
 import { SchemeSelector } from '@/components/base/demo';
-import { Props, default as XDivider } from './divider';
+import { default as Divider, Props } from './divider';
 
 export default function() {
     const [scheme, setScheme] = createSignal<Scheme>();
@@ -28,9 +28,9 @@ export default function() {
 
         <br /><br />
 
-        <XDivider scheme={scheme()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</XDivider>
+        <Divider scheme={scheme()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</Divider>
 
         <br /><br />
-        <XDivider scheme={scheme()} pos={pos()}></XDivider>
+        <Divider scheme={scheme()} pos={pos()}></Divider>
     </div>;
 }

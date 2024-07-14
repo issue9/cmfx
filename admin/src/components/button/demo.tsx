@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, Setter } from 'solid-js';
 
-import { ButtonStyle, buttonStyles, XButton, XButtonGroup, XIconButton } from '@/components';
+import { Button, ButtonGroup, ButtonStyle, buttonStyles, IconButton } from '@/components';
 import { colorsWithUndefined } from '@/components/base/demo';
 
 export function ButtonSettings(props: {get: Accessor<ButtonStyle>, set: Setter<ButtonStyle>}) {
@@ -29,12 +29,12 @@ export default function() {
         <div class="flex items-center gap-2 my-4">
             <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <XButton disabled={disable()} rounded={rounded()} style={t()} scheme={c}>{c ? c : 'undefined'}</XButton >
+                    <Button disabled={disable()} rounded={rounded()} style={t()} scheme={c}>{c ? c : 'undefined'}</Button>
                 )}
             </For>
-            <XButton disabled={disable()} rounded={rounded()} style={t()} scheme="primary">
+            <Button disabled={disable()} rounded={rounded()} style={t()} scheme="primary">
                 <span class="material-symbols-outlined mr-1">face</span>icon button
-            </XButton>
+            </Button>
         </div>
     </>;
 
@@ -42,10 +42,10 @@ export default function() {
         <div class="flex items-center gap-2">
             <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <XIconButton title={c?c:'undefined'} disabled={disable()} rounded={rounded()} style={t()} scheme={c}>sync</XIconButton >
+                    <IconButton title={c?c:'undefined'} disabled={disable()} rounded={rounded()} style={t()} scheme={c}>sync</IconButton >
                 )}
             </For>
-            <XButton rounded scheme='tertiary'>对比按钮</XButton>
+            <Button rounded scheme='tertiary'>对比按钮</Button>
         </div>
     </>;
 
@@ -59,7 +59,7 @@ export default function() {
         <For each={colorsWithUndefined}>
             {(c)=>(
                 <>
-                    <XButtonGroup buttons={buttons} rounded={rounded()} scheme={c} style={t()} disabled={disable()} />
+                    <ButtonGroup buttons={buttons} rounded={rounded()} scheme={c} style={t()} disabled={disable()} />
                     <br />
                 </>
             )}
