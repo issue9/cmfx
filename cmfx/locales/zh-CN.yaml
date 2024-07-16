@@ -95,9 +95,12 @@ messages:
       message:
         msg: |
             某些登录状态验证失败之后，会返回一个可用于注册的 ID，客户端可根据此 ID 注册新的账号。
-    - key: invalid indetity format
+    - key: invalid identity format
       message:
         msg: 无效的 ID 格式
+    - key: invalid url format
+      message:
+        msg: 无效的 URL 格式
     - key: linkage %s not found
       message:
         msg: 级联数据 %s 未找到
@@ -119,6 +122,18 @@ messages:
     - key: must be a dir
       message:
         msg: 必须得是个目录
+    - key: must be empty
+      message:
+        msg: 必须为空
+    - key: must be greater than %v
+      message:
+        msg: 须大于 %v
+    - key: must be less than %v
+      message:
+        msg: 须小于 %v
+    - key: not found
+      message:
+        msg: 未找到
     - key: only for super
       message:
         msg: 只有超级管理员才有此权限
@@ -149,12 +164,18 @@ messages:
     - key: same of new and old password
       message:
         msg: 新旧密码是相同的
+    - key: strength invalid
+      message:
+        msg: 密码强度不够
     - key: suite
       message:
         msg: 测试环境
     - key: system
       message:
         msg: 系统
+    - key: the value not in candidate
+      message:
+        msg: 该值并不在候选列表中
     - key: uid already exists
       message:
         msg: UID 已经存在

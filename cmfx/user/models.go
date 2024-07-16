@@ -7,6 +7,8 @@ package user
 import (
 	"html"
 	"time"
+
+	"github.com/issue9/orm/v6/core"
 )
 
 //go:generate web enum -i=./models.go -t=State
@@ -22,7 +24,9 @@ const (
 // @type string
 type State int8
 
-// 安装日志
+func (s State) PrimitiveType() core.PrimitiveType { return core.String }
+
+// 安全日志
 type respLog struct {
 	Content   string    `json:"content" xml:",cdata" cbor:"content"`
 	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip"`

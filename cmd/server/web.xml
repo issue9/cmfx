@@ -49,7 +49,7 @@
         </ratelimit>
 
         <db type="sqlite3">
-            <dsn>./server.db</dsn>
+            <dsn>./server.db?_loc=UTC</dsn>
         </db>
 
         <url>http://localhost:8080</url>
