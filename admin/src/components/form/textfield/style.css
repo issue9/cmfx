@@ -39,10 +39,10 @@
 
         .suffix {
             @apply flex overflow-clip;
+        }
 
-            .number-button {
-                @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)] icon-container justify-center;
-            }
+        .btn {
+            @apply disabled:cursor-not-allowed hover:enabled:text-[var(--text-high)] icon-container justify-center;
         }
     }
 
@@ -56,7 +56,7 @@
         >:last-child {
             @apply rounded-r-full;
 
-            .number-button:last {
+            .btn:last {
                 @apply rounded-r-full;
             }
         }

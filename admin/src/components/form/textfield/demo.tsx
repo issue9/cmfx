@@ -8,10 +8,12 @@ import { Scheme } from '@/components/base';
 import { SchemeSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Number from './number';
+import Password from './password';
 import TextField from './textfiled';
 
 export default function() {
     const txt = FieldAccessor('name', 'text', true);
+    const pwd = FieldAccessor('name', 'pwd', true);
     const num = FieldAccessor('name', 5, true);
 
     const [disable, setDisable] = createSignal(false);
@@ -50,18 +52,18 @@ export default function() {
 
         <div class="flex gap-10 mt-5">
             <div class="flex flex-col gap-2 w-80">
-                <TextField scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField label="label" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField label="prefix" prefix={prefix} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField label="prefix+suffix" prefix={prefix} suffix={suffix} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField label="prefix+icon suffix" prefix="prefix" suffix={icon} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <Number label="prefix+icon suffix" icon="face" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <TextField placeholder='placeholder' scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="label" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix" prefix={prefix} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+suffix" prefix={prefix} suffix={suffix} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix="prefix" suffix={icon} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             </div>
 
             <div class="flex flex-col gap-2 w-80">
-                <Number scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Number label="icon" icon="face" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Number label="range:[1,10]" icon="face" min={1} max={10} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' label="icon" icon="face" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Password placeholder='placeholder' label="password" icon="face" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
             </div>
         </div>
     </div>;

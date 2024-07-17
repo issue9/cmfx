@@ -14,7 +14,7 @@ export interface Props<T> extends FieldBaseProps {
     suffix?: ElementProp;
 
     placeholder?: string;
-    type?: 'text' | 'password' | 'url' | 'email';
+    type?: 'text' | 'url' | 'email';
     rounded?: boolean;
     accessor: Accessor<T>;
 };
