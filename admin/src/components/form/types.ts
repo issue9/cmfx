@@ -21,7 +21,7 @@ export interface Props extends BaseProps {
  *
  * T 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<T> = [T, JSX.Element];
+export type Option<T> = [T, JSX.Element | { (): JSX.Element }];
 
 /**
  * 选择项的数据类型

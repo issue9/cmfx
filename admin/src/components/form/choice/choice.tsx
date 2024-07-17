@@ -4,7 +4,6 @@
 
 import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 
-import { cloneElement } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
@@ -55,7 +54,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         return <For each={props.options}>
             {(item) => (
                 <Show when={ac.getValue().indexOf(item[0]) >= 0}>
-                    {cloneElement(item[1])}
+                    {item[1]}
                 </Show>
             )}
         </For>;
@@ -66,7 +65,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         return <For each={props.options}>
             {(item) => (
                 <Show when={ac.getValue().indexOf(item[0]) >= 0}>
-                    <span class="chip">{cloneElement(item[1])}</span>
+                    <span class="chip">{item[1]}</span>
                 </Show>
             )}
         </For>;

@@ -8,6 +8,9 @@
     .dropdown {
         @apply relative;
 
+        /* 防止父元素是 flex 时，撑大了此元素，导致 content 定位不准确。 */
+        align-self: flex-start;
+
         .content {
             color: var(--text);
             background-color: var(--bg);

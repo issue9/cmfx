@@ -5,6 +5,9 @@
  */
 
 .field {
+    ::placeholder {
+        color: var(--text-low);
+    }
 
     /* 表单字段的错误提示组件 */
     .field_error {

@@ -22,6 +22,7 @@
 @import './components/form/radio/style.css';
 @import './components/form/textarea/style.css';
 @import './components/form/textfield/style.css';
+@import './components/form/date/style.css';
 
 @import './app/style.css';
 

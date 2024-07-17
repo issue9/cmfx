@@ -14,7 +14,7 @@ export default function() {
 
     const colorFA = FieldAccessor<string|undefined>('color', undefined);
 
-    const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], (v)=>{
+    const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], false, (v)=>{
         ctx.locale = v[0];
     });
 

@@ -12,6 +12,7 @@ export default function() {
     const f = new FormAccessor({
         f1: 'f1',
         5:5,
+        date: '2021-01-02T15:31',
         textarea: 'textarea',
     });
 
@@ -26,14 +27,14 @@ export default function() {
             <TextField label='readonly' readonly accessor={f.accessor('f1')} />
             <TextField label='icon' icon='face' accessor={f.accessor('f1')} />
             <TextField label='password' type="password" icon='face' accessor={f.accessor('f1')} />
-            <TextField label='number' type="number" icon='face' accessor={f.accessor('f1')} />
-            <TextField label='date' type="date" icon='face' accessor={f.accessor('f1')} />
+            <TextField label='number' type="number" icon='face' accessor={f.accessor(5)} />
+            {f.accessor(5).getValue()}
+            <TextField label='date' type="date" icon='face' accessor={f.accessor('date')} />
+            {typeof f.accessor('date').getValue()}
             <TextArea label='date' accessor={f.accessor('textarea')} />
             <button class="button--filled scheme-primary" onClick={()=>setObj(JSON.stringify(f.object()))}> object </button>
             <button class="button--filled scheme-primary" type="reset" onClick={()=>f.reset()}>reset</button>
-            <pre>
-                {obj()}
-            </pre>
+            <pre>{obj()}</pre>
         </div>
     </div>;
 }

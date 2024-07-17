@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createSignal } from 'solid-js';
-import { SetStoreFunction, Store, createStore } from 'solid-js/store';
+import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
 import { Fetcher, Method, Problem } from '@/core';
 
@@ -22,7 +22,16 @@ export interface Accessor<T> {
     name(): string;
 
     getValue(): T;
+
+    /**
+     * 修改值，如果与旧值相同，则不会触发修改。
+     */
     setValue(val: T): void;
+
+    /**
+     * 注册值发生改变时的触发函数
+     */
+    onChange(change: ChangeFunc<T>): void;
 
     /**
      * 是否需要给错误信息预留位置
@@ -35,6 +44,10 @@ export interface Accessor<T> {
      * 重置为初始状态
      */
     reset(): void;
+}
+
+interface ChangeFunc<T> {
+    (val: T, old?: T): void;
 }
 
 /**
@@ -53,35 +66,33 @@ export interface Validation<T extends Record<string, unknown>> {
  *
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v 初始化的值；
- * @param change 当值发生改变时，将触发此方法的调用。
  */
-export function FieldAccessor<T>(name: string, v: T, error?: boolean, change?:{(val: T, old?: T): void}): Accessor<T> {
+export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<T> {
     const [err, errSetter] = createSignal<string>();
     const [val, valSetter] = createSignal<T>(v);
+    const changes: Array<ChangeFunc<T>> = [];
 
     return {
         name(): string { return name; },
 
         hasError(): boolean { return !!error; },
 
-        getError(): string | undefined {
-            return err();
-        },
+        getError(): string | undefined { return err(); },
 
-        setError(err: string): void {
-            errSetter(err);
-        },
+        setError(err: string): void { errSetter(err); },
 
-        getValue(): T {
-            return val();
-        },
+        onChange(change) { changes.push(change); },
+
+        getValue(): T { return val(); },
 
         setValue(vv: T) {
             const old = val();
+            if (old === vv) { return; }
+
             valSetter(vv as any);
-            if (change) {
-                change(vv, old);
-            }
+            changes.forEach((f) => {
+                f(vv, old);
+            });
         },
 
         reset() {
@@ -105,7 +116,6 @@ export class FormAccessor<T extends Record<string, unknown>> {
 
     constructor(val: T) {
         this.#initValues = val;
-
         [this.#valGetter, this.#valSetter] = createStore<T>(Object.assign({}, val));
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
     }
@@ -115,25 +125,27 @@ export class FormAccessor<T extends Record<string, unknown>> {
      */
     accessor(name: keyof T): Accessor<T[keyof T]> {
         const self = this;
+        const changes: Array<ChangeFunc<T[keyof T]>> = [];
+
         return {
             name(): string { return name as string; },
 
             hasError(): boolean { return true; },
 
-            getError(): string | undefined {
-                return self.#errGetter[name];
-            },
+            getError(): string | undefined { return self.#errGetter[name]; },
 
-            setError(err?: string): void {
-                self.#errSetter({[name]: err} as any);
-            },
+            setError(err?: string): void { self.#errSetter({ [name]: err } as any); },
 
-            getValue(): T[keyof T] {
-                return self.#valGetter[name];
-            },
+            onChange(change) { changes.push(change); },
+
+            getValue(): T[keyof T] { return self.#valGetter[name]; },
 
             setValue(val: T[keyof T]) {
-                self.#valSetter({ [name]: val } as any);
+                const old = this.getValue();
+                if (old !== val) {
+                    changes.forEach((f) => { f(val, old); });
+                    self.#valSetter({ [name]: val } as any);
+                }
             },
 
             reset() {
@@ -175,9 +187,7 @@ export class FormAccessor<T extends Record<string, unknown>> {
      */
     async submit<R>(f: Fetcher,method: Method, path: string,validation?: Validation<T>, withToken = true): Promise<R|undefined|false> {
         const obj = this.object(validation);
-        if (!obj) {
-            return false;
-        }
+        if (!obj) { return false; }
 
         const ret = await f.request<R>(path, method, obj, withToken);
         if (ret.ok) {
@@ -185,12 +195,11 @@ export class FormAccessor<T extends Record<string, unknown>> {
         }
 
         const p = ret.body!;
-        if (!p.params) {
-            return false;
+        if (p.params) {
+            p.params.forEach((param)=>{
+                this.accessor(param.name).setError(param.reason);
+            });
         }
-        p.params.forEach((param)=>{
-            this.accessor(param.name).setError(param.reason);
-        });
 
         return false;
     }
