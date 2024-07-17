@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, Corner } from '@/components/base';
+import { BaseProps, Corner, ElementProp, renderElementProp } from '@/components/base';
 
 export interface Props extends BaseProps {
     /**
@@ -15,7 +15,7 @@ export interface Props extends BaseProps {
     /**
      * 触发元素
      */
-    activator: JSX.Element;
+    activator: ElementProp;
 
     /**
      * 弹出内容的位置，相对于 activator。默认值为 bottomleft
@@ -40,7 +40,7 @@ export default function(props: Props) {
         'dropdown': true,
         [`scheme--${props.scheme}`]: !!props.scheme
     }}>
-        {props.activator}
+        {renderElementProp(props.activator)}
 
         <div classList={{
             'content': true,

@@ -4,7 +4,7 @@
 
 import { createSignal, mergeProps, Show, splitProps } from 'solid-js';
 
-
+import { renderElementProp } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
 import { FieldBaseProps } from '@/components/form';
 import { default as Panel, Props as PanelProps } from './panel';
@@ -37,7 +37,7 @@ export default function(props: Props) {
         <label title={props.title} onClick={(e) => {
             if (!props.disabled) { setPanelVisible(!panelVisible()); e.preventDefault(); }
         }}>
-            <Show when={props.label}>{props.label}</Show>
+            <Show when={props.label}>{renderElementProp(props.label)}</Show>
             <div classList={{
                 'activator-container': true,
                 'rounded': props.rounded

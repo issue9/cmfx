@@ -6,7 +6,7 @@ import { createSignal, For } from 'solid-js';
 
 import { Scheme } from '@/components/base';
 import { colorsWithUndefined } from '@/components/base/demo';
-import { default as ErrorPage } from './error';
+import { default as ErrorPage } from './errorpage';
 
 export default function() {
     const [color, setColor] = createSignal<Scheme>();

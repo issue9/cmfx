@@ -24,7 +24,7 @@
         }
 
         button {
-            @apply hover:bg-[var(--bg-high)] rounded-full icon-container justify-center;
+            @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)] rounded-full icon-container justify-center;
         }
 
         .tail {

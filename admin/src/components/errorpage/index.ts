@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as ErrorPage } from './error';
-export type { Props as ErrorPageProps } from './error';
+export { default as ErrorPage } from './errorpage';
+export type { Props as ErrorPageProps } from './errorpage';
 

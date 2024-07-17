@@ -4,6 +4,7 @@
 
 import { For, mergeProps, Show, splitProps } from 'solid-js';
 
+import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 import { default as Checkbox } from './checkbox';
 
@@ -35,7 +36,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
 
     return <fieldset disabled={props.disabled} class={props.scheme ? `checkbox-group field scheme--${props.scheme}` : 'checkbox-group field'}>
         <Show when={props.label}>
-            <legend class="icon-container" title={props.title}>{props.label}</legend >
+            <legend class="icon-container" title={props.title}>{renderElementProp(props.label)}</legend >
         </Show>
 
         <div classList={{

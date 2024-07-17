@@ -2,15 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
-
-import { BaseProps } from '@/components/base';
+import { BaseProps, ElementProp } from '@/components/base';
 
 /**
  * 所有表单元素共有的属性
  */
 export interface Props extends BaseProps {
-    label?: JSX.Element;
+    label?: ElementProp;
     title?: string;
     disabled?: boolean;
     readonly?: boolean;
@@ -21,7 +19,7 @@ export interface Props extends BaseProps {
  *
  * T 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<T> = [T, JSX.Element | { (): JSX.Element }];
+export type Option<T> = [T, ElementProp];
 
 /**
  * 选择项的数据类型

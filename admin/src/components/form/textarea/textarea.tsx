@@ -4,6 +4,7 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
+import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps } from '@/components/form';
 
 type Value = string | number | Array<string>;
@@ -20,7 +21,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
     return <div class={props.scheme ? `field scheme--${props.scheme}` : 'field'}>
         <label title={props.title}>
             <Show when={props.label}>
-                {props.label}
+                {renderElementProp(props.label)}
             </Show>
             <textarea class="textarea" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                 value={access.getValue()}

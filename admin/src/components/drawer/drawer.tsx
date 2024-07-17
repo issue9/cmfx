@@ -4,7 +4,7 @@
 
 import { JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
+import { BaseProps, ElementProp, renderElementProp } from '@/components/base';
 
 export interface Props extends BaseProps {
     /**
@@ -32,7 +32,7 @@ export interface Props extends BaseProps {
     /**
      * 侧边栏的内容
      */
-    aside: JSX.Element;
+    aside: ElementProp;
 
     children: JSX.Element;
 }
@@ -66,7 +66,7 @@ export default function(props: Props) {
         'hidden': !props.visible,
         'right-0': props.floating && props.pos === 'right'
     }}>
-        {props.aside}
+        {renderElementProp(props.aside)}
     </aside>;
 
     return <div ref={(el)=>conRef=el} classList={{ 'drawer': true, 'floating': props.floating && props.visible }}>

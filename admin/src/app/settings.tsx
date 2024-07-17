@@ -14,9 +14,8 @@ export default function() {
 
     const colorFA = FieldAccessor<string|undefined>('color', undefined);
 
-    const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], false, (v)=>{
-        ctx.locale = v[0];
-    });
+    const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], false);
+    localeFA.onChange((v) => { ctx.locale = v[0]; });
 
     return <div class="p-4 min-w-60 h-full bg-[var(--bg)] text-[var(--text)]">
         <RadioGroup vertical accessor={modeFA}

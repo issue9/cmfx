@@ -2,16 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Match, mergeProps, Switch } from 'solid-js';
+import { Match, mergeProps, ParentProps, Switch } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 
-export interface Props extends BaseProps {
-    pos?: 'start' | 'center' | 'end';
-    children?: JSX.Element;
-}
+export type Props = ParentProps<{pos?: 'start' | 'center' | 'end'} & BaseProps>;
 
-const defaultProps: Partial<Props> = {
+const defaultProps: Props = {
     pos: 'start'
 };
 

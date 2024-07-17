@@ -4,6 +4,7 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
+import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
@@ -26,6 +27,10 @@ export default function(props: Props): JSX.Element {
     const access = props.accessor;
 
     const step = (v: number) => {
+        if (props.readonly || props.disabled) {
+            return;
+        }
+
         access.setValue(access.getValue() + v);
         access.setError();
     };
@@ -33,7 +38,7 @@ export default function(props: Props): JSX.Element {
     return <div class={props.scheme ? `field scheme--${props.scheme}` : 'field'}>
         <label title={props.title}>
             <Show when={props.label}>
-                {props.label}
+                {renderElementProp(props.label)}
             </Show>
 
             <div classList={{
@@ -48,8 +53,8 @@ export default function(props: Props): JSX.Element {
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
                 />
-                <button class="tail material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
-                <button class="tail material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
+                <button disabled={props.disabled} class="tail material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
+                <button disabled={props.disabled} class="tail material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
             </div>
         </label>
 

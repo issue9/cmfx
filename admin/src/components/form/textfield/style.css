@@ -9,7 +9,7 @@
         @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1;
         @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
-        & input {
+        input {
             min-height: var(--min-input-height);
             @apply outline-none bg-transparent flex-1 px-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
         }

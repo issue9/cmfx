@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { JSX } from 'solid-js';
+
 /**
  * 表示组件的颜色主题
  *
@@ -13,7 +15,7 @@ export const schemes = ['primary' , 'secondary' , 'tertiary' , 'error'] as const
 export type Scheme = typeof schemes[number];
 
 /**
- * 元素的四个角
+ * 组件的四个角
  */
 export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
 
@@ -29,4 +31,17 @@ export interface Props {
      * 如果是 undefined，则表示从父元素继承。
      */
     scheme?: Scheme;
+}
+
+/**
+ * 当组件除 children 之外还需要以 {@link JSX.Element} 作为其属性时，可以声明为此类型。
+ * 相比纯粹的 JSX.Element 类型，添加以函数的形式返回 JSX.Element。
+ */
+export type ElementProp = JSX.Element | {(): JSX.Element};
+
+export function renderElementProp(p?: ElementProp): JSX.Element {
+    if (typeof p === 'function') {
+        return p();
+    }
+    return p;
 }
