@@ -23,6 +23,7 @@
 @import './components/form/textarea/style.css';
 @import './components/form/textfield/style.css';
 @import './components/form/date/style.css';
+@import './components/form/number/style.css';
 
 @import './app/style.css';
 

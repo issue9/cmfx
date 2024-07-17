@@ -6,41 +6,53 @@ import { JSX, mergeProps, Show } from 'solid-js';
 
 import { Accessor, FieldBaseProps } from '@/components/form';
 
-type Value = string | number | Array<string>;
-
-export interface Props<T> extends FieldBaseProps {
+export interface Props extends FieldBaseProps {
     icon?: string;
+    min?: number,
+    max?: number,
+    step?: number,
     placeholder?: string;
-    type?: 'text' | 'password' | 'url' | 'email';
     rounded?: boolean;
-    accessor: Accessor<T>;
+    accessor: Accessor<number>;
+}
+
+const defaultProps: Partial<Props> = {
+    step: 1,
 };
 
-export default function<T extends Value>(props: Props<T>):JSX.Element {
-    props = mergeProps({ color: undefined }, props) as Props<T>;
+export default function(props: Props): JSX.Element {
+    props = mergeProps(defaultProps, props);
+
     const access = props.accessor;
+
+    const step = (v: number) => {
+        access.setValue(access.getValue() + v);
+        access.setError();
+    };
 
     return <div class={props.scheme ? `field scheme--${props.scheme}` : 'field'}>
         <label title={props.title}>
             <Show when={props.label}>
                 {props.label}
             </Show>
+
             <div classList={{
-                'text-field': true,
+                'number': true,
                 'rounded-full': props.rounded,
             }}>
                 <Show when={props.icon}>
                     <span role="none" class="material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input type={props.type}
-                    disabled={props.disabled}
-                    readOnly={props.readonly}
-                    placeholder={props.placeholder}
+                <input type='number' disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                    min={props.min} max={props.max}
                     value={access.getValue()}
-                    onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
+                    onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
                 />
+                <button class="tail material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
+                <button class="tail material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
             </div>
         </label>
+
         <Show when={access.hasError()}>
             <p class="field_error" role="alert">{access.getError()}</p>
         </Show>

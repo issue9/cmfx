@@ -33,7 +33,7 @@
     @apply flex flex-col border-2 rounded-md text-center bg-[var(--bg)] text-[var(--text)] p-1 md:p-2;
 
     .title {
-        @apply pb-2;
+        @apply pb-2 cursor-pointer;
 
         .item {
             @apply mx-1;
