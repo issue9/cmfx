@@ -24,10 +24,22 @@ const defaultProps: Partial<Props> = {
 export default function(props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
 
+    if (props.step === 0) {
+        throw 'step 不能为零';
+    }
+
     const access = props.accessor;
 
     const step = (v: number) => {
         if (props.readonly || props.disabled) {
+            return;
+        }
+
+        const n = access.getValue() + v;
+        if (props.min !== undefined && v < 0 && n < props.min) {
+            return;
+        }
+        if (props.max !== undefined && v > 0 && n > props.max) {
             return;
         }
 
@@ -42,19 +54,21 @@ export default function(props: Props): JSX.Element {
             </Show>
 
             <div classList={{
-                'number': true,
-                'rounded-full': props.rounded,
+                'text-field': true,
+                'rounded': props.rounded,
             }}>
                 <Show when={props.icon}>
-                    <span role="none" class="material-symbols-outlined">{props.icon}</span>
+                    <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input type='number' disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                <input class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     min={props.min} max={props.max}
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
                 />
-                <button disabled={props.disabled} class="tail material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
-                <button disabled={props.disabled} class="tail material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
+                <div class="suffix">
+                    <button disabled={props.disabled} class="number-button material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
+                    <button disabled={props.disabled} class="number-button material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
+                </div>
             </div>
         </label>
 

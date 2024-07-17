@@ -4,13 +4,15 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
+import { ElementProp, renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
 export interface Props<T> extends FieldBaseProps {
-    icon?: string;
+    prefix?: ElementProp;
+    suffix?: ElementProp;
+
     placeholder?: string;
     type?: 'text' | 'password' | 'url' | 'email';
     rounded?: boolean;
@@ -28,18 +30,21 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
             </Show>
             <div classList={{
                 'text-field': true,
-                'rounded-full': props.rounded,
+                'rounded': props.rounded,
             }}>
-                <Show when={props.icon}>
-                    <span role="none" class="material-symbols-outlined">{props.icon}</span>
+                <Show when={props.prefix}>
+                    <div class="prefix">{renderElementProp(props.prefix)}</div>
                 </Show>
-                <input type={props.type}
+                <input class="input" type={props.type}
                     disabled={props.disabled}
                     readOnly={props.readonly}
                     placeholder={props.placeholder}
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
                 />
+                <Show when={props.suffix}>
+                    <div class="suffix">{renderElementProp(props.suffix)}</div>
+                </Show>
             </div>
         </label>
         <Show when={access.hasError()}>

@@ -18,7 +18,6 @@ import { default as Checkbox } from '@/components/form/checkbox/demo';
 import { default as Choice } from '@/components/form/choice/demo';
 import { default as Date } from '@/components/form/date/demo';
 import { default as Form } from '@/components/form/demo';
-import { default as Number } from '@/components/form/number/demo';
 import { default as Raido } from '@/components/form/radio/demo';
 import { default as TextArea } from '@/components/form/textarea/demo';
 import { default as TextField } from '@/components/form/textfield/demo';
@@ -46,7 +45,6 @@ export default function(prefix: string) {
                 <A href={prefix + '/form-checkbox'}>checkbox</A>
                 <A href={prefix + '/form-choice'}>choice</A>
                 <A href={prefix + '/form-date'}>date</A>
-                <A href={prefix + '/form-number'}>number</A>
                 <A href={prefix + '/divider'}>divider</A>
             </p>
             <div class="mt-8 p-4 overflow-y-scroll h-full">
@@ -111,10 +109,6 @@ export default function(prefix: string) {
             {
                 path: '/form-date',
                 component: Date,
-            },
-            {
-                path: '/form-number',
-                component: Number,
             },
             {
                 path: '/form',

@@ -9,7 +9,6 @@ export type { Props as FieldBaseProps, Option, Options } from './types';
 export * from './checkbox';
 export * from './choice';
 export * from './date';
-export * from './number';
 export * from './radio';
 export * from './textarea';
 export * from './textfield';
