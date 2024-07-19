@@ -4,16 +4,16 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { SchemeSelector } from '@/components/base/demo';
+import { Palette } from '@/components/base';
+import { PaletteSelector } from '@/components/base/demo';
 import { default as Divider, Props } from './divider';
 
 export default function() {
-    const [scheme, setScheme] = createSignal<Scheme>();
+    const [palette, setPalette] = createSignal<Palette>();
     const [pos, setPos] = createSignal<Props['pos']>('start');
 
     return <div class="w-80 p-5">
-        <SchemeSelector get={scheme} set={setScheme} />
+        <PaletteSelector get={palette} set={setPalette} />
 
         <fieldset class="border-2">
             <legend>位置</legend>
@@ -28,9 +28,9 @@ export default function() {
 
         <br /><br />
 
-        <Divider scheme={scheme()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</Divider>
+        <Divider palette={palette()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</Divider>
 
         <br /><br />
-        <Divider scheme={scheme()} pos={pos()}></Divider>
+        <Divider palette={palette()} pos={pos()}></Divider>
     </div>;
 }

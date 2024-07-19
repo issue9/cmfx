@@ -46,22 +46,22 @@ export default function() {
 
             <br />
 
-            <button class="button filled scheme--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
-            <button class="button filled scheme--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
+            <button class="button filled palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
         <div class="flex flex-wrap mb-10">
             <For each={colorsWithUndefined}>
                 {(item)=>(
                     <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
-                        title={item ? item : 'undefined'} label='test' icon={icon()} scheme={item} disabled={disable()} readonly={readonly()}
+                        title={item ? item : 'undefined'} label='test' icon={icon()} palette={item} disabled={disable()} readonly={readonly()}
                     />
                 )}
             </For>
         </div>
 
         <CheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
-            icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" scheme="primary"
+            icon={icon()} disabled={disable()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
             options={groupOptions} accessor={groupFA}
         />
         <pre>{ groupFA.getValue().toString() }</pre>

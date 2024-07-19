@@ -15,7 +15,7 @@ const defaultProps: Props = {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class={props.scheme ? `divider scheme--${props.scheme}` : 'divider'}>
+    return <div class={props.palette ? `divider palette--${props.palette}` : 'divider'}>
         <Switch fallback={<hr class="w-full" />}>
             <Match when={props.pos === 'start' && props.children}>
                 {props.children}<hr class="flex-1 ml-2" />

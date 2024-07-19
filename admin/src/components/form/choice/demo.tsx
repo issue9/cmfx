@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Scheme } from '@/components/base';
-import { SchemeSelector } from '@/components/base/demo';
+import { Palette } from '@/components/base';
+import { PaletteSelector } from '@/components/base/demo';
 import { FieldAccessor, Options, TextField } from '@/components/form';
 import { createSignal } from 'solid-js';
 import { default as Choice } from './choice';
@@ -33,14 +33,14 @@ export default function() {
     const tf = FieldAccessor('textfield', '');
 
 
-    const [scheme, setScheme] = createSignal<Scheme>();
+    const [palette, setPalette] = createSignal<Palette>();
     const [disable, setDisable] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [icon, setIcon] = createSignal(false);
     return <div class="px-10 py-5 flex flex-col gap-y-10 w-[500px]">
         <div class="flex mb-10 gap-2">
-            <SchemeSelector get={scheme} set={setScheme} />
+            <PaletteSelector get={palette} set={setPalette} />
             <label class="mr-4">
                 <input type="checkbox" onChange={(e) => setReadonly(e.target.checked)} />readonly
             </label>
@@ -53,16 +53,16 @@ export default function() {
                 <input type="checkbox" onChange={(e) => setDisable(e.target.checked)} />disabled
             </label>
 
-            <button class="button filled scheme--primary" onClick={() => {
+            <button class="button filled palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
                 mfa.setError(mfa.getError() ? undefined : 'error');
             }}>toggle error</button>
-            <button class="button filled scheme--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
+            <button class="button filled palette--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
         </div>
 
-        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} label="label" accessor={fa} options={options} />
-        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} accessor={mfa} multiple options={multipleOptions} />
-        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} scheme={scheme()} accessor={mfa} multiple options={multipleOptions} />
-        <TextField placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} scheme={scheme()} accessor={tf} />
+        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label" accessor={fa} options={options} />
+        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+        <TextField placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
     </div>;
 }

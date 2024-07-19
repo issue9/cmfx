@@ -32,7 +32,7 @@ export default function (props: Props) {
     return <fieldset disabled={props.disabled} classList={{
         'button-group': true,
         'rounded': props.rounded,
-        [`scheme--${props.scheme}`]: !!props.scheme,
+        [`palette--${props.palette}`]: !!props.palette,
         [`${props.style}`]: true
     }}>
         <For each={props.buttons}>

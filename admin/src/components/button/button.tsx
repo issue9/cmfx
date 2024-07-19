@@ -26,7 +26,7 @@ export default function(props: Props) {
     return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
         'button': true,
         [`${props.style}`]: true,
-        [`scheme--${props.scheme}`]: !!props.scheme,
+        [`palette--${props.palette}`]: !!props.palette,
         'icon-container': true,
         'rounded-full': props.rounded,
     }}>

@@ -5,7 +5,8 @@
  */
 
 @import 'material-symbols';
-@import './theme.css';
+@import './core/theme/theme.css';
+@import './tailwind.css';
 
 @import './components/badge/style.css';
 @import './components/button/style.css';
@@ -25,51 +26,6 @@
 @import './components/form/date/style.css';
 
 @import './app/style.css';
-
-.scheme--primary {
-    --bg: var(--primary-bg);
-    --bg-low: var(--primary-bg-low);
-    --bg-high: var(--primary-bg-high);
-    --text: var(--primary-text);
-    --text-low: var(--primary-text-low);
-    --text-high: var(--primary-text-high);
-}
-
-.scheme--secondary {
-    --bg: var(--secondary-bg);
-    --bg-low: var(--secondary-bg-low);
-    --bg-high: var(--secondary-bg-high);
-    --text: var(--secondary-text);
-    --text-low: var(--secondary-text-low);
-    --text-high: var(--secondary-text-high);
-}
-
-.scheme--tertiary {
-    --bg: var(--tertiary-bg);
-    --bg-low: var(--tertiary-bg-low);
-    --bg-high: var(--tertiary-bg-high);
-    --text: var(--tertiary-text);
-    --text-low: var(--tertiary-text-low);
-    --text-high: var(--tertiary-text-high);
-}
-
-.scheme--error {
-    --bg: var(--error-bg);
-    --bg-low: var(--error-bg-low);
-    --bg-high: var(--error-bg-high);
-    --text: var(--error-text);
-    --text-low: var(--error-text-low);
-    --text-high: var(--error-text-high);
-}
-
-.scheme--surface {
-    --bg: var(--surface-bg);
-    --bg-low: var(--surface-bg-low);
-    --bg-high: var(--surface-bg-high);
-    --text: var(--surface-text);
-    --text-low: var(--surface-text-low);
-    --text-high: var(--surface-text-high);
-}
 
 .material-symbols-outlined {
     font-size: 1.3rem;

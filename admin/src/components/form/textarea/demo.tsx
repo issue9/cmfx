@@ -27,12 +27,12 @@ export default function() {
 
             <br />
 
-            <button class="button filled scheme--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </fieldset>
 
         <For each={colorsWithUndefined}>
             {(item) => (
-                <TextArea scheme={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
+                <TextArea palette={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;

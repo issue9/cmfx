@@ -28,7 +28,7 @@ export default function(props: Props) {
         'icon-button': true,
         [`${props.style}`]: true,
         'rounded-full': props.rounded,
-        [`scheme--${props.scheme}`]: !!props.scheme,
+        [`palette--${props.palette}`]: !!props.palette,
     }}>
         {props.children}
     </button>;

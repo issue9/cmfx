@@ -32,7 +32,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
     return <fieldset disabled={props.disabled} classList={{
         'radio-group': true,
         'field': true,
-        [`scheme--${props.scheme}`]: !!props.scheme
+        [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
             <legend class="icon-container" title={props.title}>{renderElementProp(props.label)}</legend >

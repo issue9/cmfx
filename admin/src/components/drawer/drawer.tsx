@@ -62,7 +62,7 @@ export default function(props: Props) {
     }
 
     const Aside = ()=><aside ref={(el)=>asideRef=el} classList={{
-        [`scheme--${props.scheme}`]: !!props.scheme,
+        [`palette--${props.palette}`]: !!props.palette,
         'hidden': !props.visible,
         'right-0': props.floating && props.pos === 'right'
     }}>

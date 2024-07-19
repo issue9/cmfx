@@ -29,7 +29,7 @@ export interface Props extends BaseProps {
 }
 
 const defaultProps: Partial<Props> = {
-    scheme: undefined,
+    palette: undefined,
     pos: 'bottomleft'
 };
 
@@ -38,7 +38,7 @@ export default function(props: Props) {
 
     return <div classList={{
         'dropdown': true,
-        [`scheme--${props.scheme}`]: !!props.scheme
+        [`palette--${props.palette}`]: !!props.palette
     }}>
         {renderElementProp(props.activator)}
 

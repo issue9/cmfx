@@ -26,7 +26,7 @@ export interface Props extends BaseProps {
 }
 
 const defaultProps: Partial<Props> = {
-    scheme: 'error',
+    palette: 'error',
 };
 
 /**
@@ -35,7 +35,7 @@ const defaultProps: Partial<Props> = {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class={props.scheme ? `error-page scheme--${props.scheme}` : 'error-page'}>
+    return <div class={props.palette ? `error-page palette--${props.palette}` : 'error-page'}>
         <Show when={props.header}>
             <h1>{props.header}</h1>
         </Show>

@@ -6,14 +6,18 @@
 
 @layer components {
     .app {
-        @apply flex flex-col box-border overflow-hidden h-full bg-surface text-surface;
+        @apply flex flex-col box-border overflow-hidden h-full palette--surface bg-[var(--bg)] text-[var(--text)];
 
         .app-bar {
-            @apply w-full p-4 scheme--tertiary flex content-between bg-tertiary text-tertiary;
+            @apply w-full p-4 palette--tertiary flex content-between bg-[var(--bg)] text-[var(--text)];
         }
 
         .app-main {
             @apply relative h-full flex-1 overflow-y-hidden;
         }
+    }
+
+    .app-settings {
+        @apply p-4 min-w-60 h-full bg-[var(--bg)] text-[var(--text)] gap-y-5 flex flex-col;
     }
 }

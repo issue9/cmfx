@@ -4,19 +4,19 @@
 
 import { createSignal } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { SchemeSelector } from '@/components/base/demo';
+import { Palette } from '@/components/base';
+import { PaletteSelector } from '@/components/base/demo';
 import { Divider } from '@/components/divider';
 import { default as Item } from './item';
 import { default as List } from './list';
 
 export default function() {
-    const [c, setC] = createSignal<Scheme>();
+    const [palette, setPalette] = createSignal<Palette>();
 
     return <div class="flex flex-col gap-2">
-        <SchemeSelector get={c} set={setC} />
+        <PaletteSelector get={palette} set={setPalette} />
 
-        <List scheme={c()}>
+        <List palette={palette()}>
             <Item text="item" head='face'>
                 <Item text="current" head='face' to="/demo/list" />
                 <Divider />

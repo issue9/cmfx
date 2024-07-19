@@ -4,8 +4,8 @@
 
 import { createSignal } from 'solid-js';
 
-import { Scheme } from '@/components/base';
-import { SchemeSelector } from '@/components/base/demo';
+import { Palette } from '@/components/base';
+import { PaletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Number from './number';
 import Password from './password';
@@ -19,7 +19,7 @@ export default function() {
     const [disable, setDisable] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
-    const [scheme, setScheme] = createSignal<Scheme>();
+    const [palette, setPalette] = createSignal<Palette>();
 
     const prefix = () => (<div class="bg-red-500 flex items-center">prefix</div>);
 
@@ -29,7 +29,7 @@ export default function() {
 
     return <div class="flex flex-col flex-wrap px-5">
         <div class="flex gap-2">
-            <SchemeSelector get={scheme} set={setScheme} />
+            <PaletteSelector get={palette} set={setPalette} />
             <fieldset class="border-2 my-4 box-border">
                 <legend>设置</legend>
 
@@ -47,23 +47,23 @@ export default function() {
             </fieldset>
             <br />
 
-            <button class="button filled scheme--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="button filled palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </div>
 
         <div class="flex gap-10 mt-5">
             <div class="flex flex-col gap-2 w-80">
-                <TextField placeholder='placeholder' scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="label" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix" prefix={prefix} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+suffix" prefix={prefix} suffix={suffix} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix="prefix" suffix={icon} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="label" palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix" prefix={prefix} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+suffix" prefix={prefix} suffix={suffix} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix={icon} suffix={icon} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             </div>
 
             <div class="flex flex-col gap-2 w-80">
-                <Number placeholder='placeholder' scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Number placeholder='placeholder' label="icon" icon="face" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Number placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Password placeholder='placeholder' label="password" icon="face" scheme={scheme()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
+                <Number placeholder='placeholder' palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' label="icon" icon="face" palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Password placeholder='placeholder' label="password" icon="face" palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
             </div>
         </div>
     </div>;

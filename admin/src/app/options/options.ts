@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Contrast, Mode, Scheme } from '@/core/theme';
 import { API, checkAPI } from './api';
 import type { Locales } from './locales';
 import { MenuItem, checkMenus } from './page';
 import type { Routes } from './route';
-import type { Theme } from './theme';
 
 /**
  * 基本配置
@@ -68,6 +68,12 @@ export interface Options {
      * 与本地化相关的一些设置
      */
     locales: Locales
+}
+
+export interface Theme {
+    mode: Mode;
+    contrast: Contrast;
+    scheme: Scheme | number;
 }
 
 const presetOptions = {

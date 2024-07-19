@@ -2,11 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-// fetch
 export * from './fetch';
-
-// time
+export * from './notification';
+export * from './theme';
 export * from './time';
 
-// notification
-export * from './notification';

@@ -11,7 +11,7 @@ export interface Props extends BaseProps {
 }
 
 export default function (props: Props): JSX.Element {
-    return <menu role="menu" class={props.scheme ? `list scheme--${props.scheme}` : 'list'}>
+    return <menu role="menu" class={props.palette ? `list palette--${props.palette}` : 'list'}>
         { props.children }
     </menu>;
 }

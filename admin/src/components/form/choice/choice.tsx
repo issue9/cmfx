@@ -130,7 +130,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </>;
     };
 
-    // multiple 为 true 时的候选框的组件
+    // multiple 为 false 时的候选框的组件
     const SingleOptions = () => {
         return <>
             <For each={props.options}>
@@ -165,5 +165,5 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </Switch>
     </ul>;
 
-    return <Dropdown scheme={props.scheme} pos='bottomleft' visible={optionsVisible()} activator={activator}>{ options }</Dropdown>;
+    return <Dropdown palette={props.palette} pos='bottomleft' visible={optionsVisible()} activator={activator}>{ options }</Dropdown>;
 }

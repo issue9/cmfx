@@ -38,7 +38,7 @@ export default function(props: Props) {
 
     return <label title={props.title} classList={{
         'checkbox': true,
-        [`scheme--${props.scheme}`]: !!props.scheme,
+        [`palette--${props.palette}`]: !!props.palette,
         'border': !props.icon
     }}>
         <input type="checkbox"

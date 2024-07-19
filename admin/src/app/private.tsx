@@ -27,10 +27,10 @@ export function Private(props: {children?: JSX.Element}) {
         </List>
     </div>;
 
-    return <Drawer aside={aside} scheme='secondary' visible={true}>
+    return <Drawer aside={aside} palette='secondary' visible={true}>
         <ErrorBoundary fallback={(err)=>(
             <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                <Button scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
+                <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
             </ErrorPage>
         )}>
             {props.children}

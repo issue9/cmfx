@@ -5,14 +5,14 @@
 import { JSX } from 'solid-js';
 
 /**
- * 表示组件的颜色主题
+ * 组件可用的几种色盘
  *
- * 当为组件指定一个颜色主题时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，
- * 具体可参考 style.css 中的 scheme--primary 等相关的定义。
+ * 当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，
+ * 具体可参考 /core/theme/theme.css 中的 palette--primary 等相关的定义。
  */
-export const schemes = ['primary' , 'secondary' , 'tertiary' , 'error'] as const;
+export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error'] as const;
 
-export type Scheme = typeof schemes[number];
+export type Palette = typeof palettes[number];
 
 /**
  * 组件的四个角
@@ -26,11 +26,11 @@ export type Corner = typeof corners[number];
  */
 export interface Props {
     /**
-     * 指定当前组件的主题样式
+     * 指定当前组件采用的色盘
      *
      * 如果是 undefined，则表示从父元素继承。
      */
-    scheme?: Scheme;
+    palette?: Palette;
 }
 
 /**

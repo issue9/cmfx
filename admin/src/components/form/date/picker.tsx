@@ -54,7 +54,7 @@ export default function(props: Props) {
         </Show>
     </div>;
 
-    return <Dropdown scheme={props.scheme} activator={ activator } visible={panelVisible()}>
+    return <Dropdown palette={props.palette} activator={ activator } visible={panelVisible()}>
         <Panel {...panelProps} />
     </Dropdown>;
 }

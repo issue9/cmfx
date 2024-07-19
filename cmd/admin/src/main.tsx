@@ -51,7 +51,7 @@ const o: Options = {
     theme: {
         mode: 'system',
         contrast: 'nopreference',
-        primary: '#ccc'
+        scheme: 20
     },
     title: 'title',
     logo: 'icon.svg',

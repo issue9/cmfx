@@ -4,7 +4,7 @@
 
 import { createSignal, createUniqueId, For, Show } from 'solid-js';
 
-import { BaseProps, Scheme } from '@/components/base';
+import { BaseProps, Palette } from '@/components/base';
 import { notify, sleep } from '@/core';
 
 export interface Props extends BaseProps {
@@ -30,7 +30,7 @@ export interface Sender {
 
 export type Type = 'error' | 'warning' | 'success' | 'info';
 
-export const type2Scheme = new Map<Type, Scheme>([
+export const type2Palette = new Map<Type, Palette>([
     ['error', 'error'],
     ['warning', 'tertiary'],
     ['success', 'primary'],
@@ -38,7 +38,7 @@ export const type2Scheme = new Map<Type, Scheme>([
 ]);
 
 interface Message {
-    scheme?: Scheme;
+    palette?: Palette;
     title?: string;
     body?: string;
     id: string;
@@ -60,13 +60,13 @@ export default function(props: Props) {
             }
 
             const id = createUniqueId();
-            let scheme: Scheme | undefined;
-            if (type) { scheme = type2Scheme.get(type); }
-            setMsgs((prev) => [...prev, { title, body, type, id, timeout, scheme }]);
+            let palette: Palette | undefined;
+            if (type) { palette = type2Palette.get(type); }
+            setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
         }
     });
 
-    return <div class={props.scheme ? `notify scheme--${props.scheme}` : 'notify'}>
+    return <div class={props.palette ? `notify palette--${props.palette}` : 'notify'}>
         <For each={msgs()}>
             {item => {
                 const elemID = `notify-${item.id}`;
@@ -85,7 +85,7 @@ export default function(props: Props) {
                     sleep(1000 * item.timeout).then(() => { del(); });
                 }
 
-                return <div id={elemID} role="alert" class={item.scheme ? `message scheme--${item.scheme}` : 'message'}>
+                return <div id={elemID} role="alert" class={item.palette ? `message palette--${item.palette}` : 'message'}>
                     <div class="title">
                         <p>{item.title}</p>
                         <button onClick={() => del()} class="close">close</button>

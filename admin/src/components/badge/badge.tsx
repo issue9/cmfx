@@ -24,7 +24,7 @@ export default function(props: Props) {
         <span classList={{
             'content': true,
             [props.pos as string]: true,
-            [`scheme--${props.scheme}`]: props.scheme ? true : false
+            [`palette--${props.palette}`]: props.palette ? true : false
         }}>{ props.text }</span >
     </div>;
 }

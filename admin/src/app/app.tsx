@@ -7,7 +7,7 @@ import { ErrorBoundary, JSXElement, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Button, Drawer, ErrorPage, IconButton, Notify } from '@/components';
-import { Fetcher } from '@/core';
+import { Fetcher, initTheme } from '@/core';
 import { Provider, buildContext, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
@@ -41,8 +41,8 @@ export async function create(elementID: string, o: Options) {
                 const ctx = useApp();
                 return <ErrorPage header="404" title={ctx.t('_internal.error.pageNotFound')}>
                     <div class="flex gap-x-5 justify-center">
-                        <A class="scheme--primary button filled" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
-                        <Button scheme='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
+                        <A class="palette--primary button filled" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
+                        <Button palette='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
                     </div>
                 </ErrorPage>;
             }
@@ -50,13 +50,15 @@ export async function create(elementID: string, o: Options) {
     ];
 
     render(() => {
+        initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
+
         const ctx = buildContext(opt, f); // buildContext 必须在组件内使用！
         ctx.title = '';
 
         const root = (props: { children?: JSXElement }) => (
             <ErrorBoundary fallback={(err)=>(
                 <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                    <Button scheme='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
+                    <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
                 </ErrorPage>
             )}>
                 <Provider ctx={ctx}>
@@ -100,7 +102,7 @@ function App(props: {children?: JSXElement}) {
             <div class="px-4 flex flex-1 icon-container ml-10">
             </div>
 
-            <div class="flex scheme--primary gap-2">
+            <div class="flex palette--primary gap-2">
                 <IconButton type="button" style="flated" rounded onClick={toggleFullscreen}title={ctx.t('_internal.fullscreen')}>
                     {fc() ? 'fullscreen_exit' : 'fullscreen'}
                 </IconButton>
@@ -114,10 +116,10 @@ function App(props: {children?: JSXElement}) {
         </header>
 
         <main class="app-main">
-            <Notify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} scheme='error' />
+            <Notify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} palette='error' />
 
             <div class="h-full w-full">
-                <Drawer pos="right" scheme='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>
+                <Drawer pos="right" palette='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>
                     {props.children}
                 </Drawer>
             </div>

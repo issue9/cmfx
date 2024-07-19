@@ -5,6 +5,8 @@
 import type { PresetsConfig } from 'tailwindcss/types/config';
 
 const config: PresetsConfig = {
+    darkMode: 'selector',
+
     theme: {
         backgroundColor: ({theme}) => ({
             'primary': 'var(--primary-bg)',

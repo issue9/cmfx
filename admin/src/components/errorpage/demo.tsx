@@ -4,16 +4,16 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Scheme } from '@/components/base';
+import { Palette } from '@/components/base';
 import { colorsWithUndefined } from '@/components/base/demo';
 import { default as ErrorPage } from './errorpage';
 
 export default function() {
-    const [color, setColor] = createSignal<Scheme>();
-    return <ErrorPage header='404' title='page not found' detail='detail' scheme={color()}>
+    const [palette, setPalette] = createSignal<Palette>();
+    return <ErrorPage header='404' title='page not found' detail='detail' palette={palette()}>
         <For each={colorsWithUndefined}>
             {(item)=>
-                <button class={`mx-2 button filled scheme--${item}`} onClick={()=>setColor(item)}>{item ? item : 'undefined'}</button>
+                <button class={`mx-2 button filled palette--${item}`} onClick={()=>setPalette(item)}>{item ? item : 'undefined'}</button>
             }
         </For>
     </ErrorPage>;

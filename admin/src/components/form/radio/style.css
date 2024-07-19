@@ -17,7 +17,7 @@
         }
 
         label.border {
-            @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+            @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--text-high)];
         }
 
         .content {
@@ -26,8 +26,12 @@
     }
 
     .radio-group:enabled {
+        label {
+            cursor: pointer;
+        }
+
         label.border {
-            @apply hover:border-[var(--bg-high)];
+            @apply hover:border-[var(--text-low)];
         }
 
         label:hover .radio-icon {
