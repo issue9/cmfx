@@ -17,11 +17,45 @@ export interface Scheme {
     error?: number;
 }
 
+export function getScheme(preset: Scheme | number): Scheme | number {
+    const str = localStorage.getItem(key);
+    if (str) { // 保存在 localStorage 中的必然是对象
+        return JSON.parse(str) as Scheme;
+    }
+    return preset;
+}
+
+/**
+ * 改变主题色
+ *
+ * 此方法提供了动态改变主题色的方法，发生在 theme.css 应用之后。
+ */
+export function changeScheme(c: Scheme | number) {
+    if (typeof c === 'number') {
+        c = genScheme(c);
+    }
+
+    Object.entries(c).forEach((o)=>{
+        if (o[1] !== undefined) {
+            document.documentElement.style.setProperty('--'+o[0], o[1]);
+        }
+    });
+
+    const str = JSON.stringify(c);
+    localStorage.setItem(key, str);
+}
+
 /**
  * 根据给定的颜色值生成 Scheme 对象
+ *
+ * @param primary 主色调的色像值，[0-360] 之间，除去 error 之外的颜色都将根据此值自动生成；
+ * @param error 指定 error 色盘的色像值，如果未指定，则采用默认值，不会根据 primary 而变化；
+ * @param step 用于计算其它辅助色色像的步长；
  */
-export function genScheme(primary: number): Scheme {
-    const step = 60;
+export function genScheme(primary: number, error?: number, step = 60): Scheme {
+    if (step > 180) {
+        throw '参数 step 不能大于 180';
+    }
 
     let inc = (): number => {
         primary += step;
@@ -32,33 +66,10 @@ export function genScheme(primary: number): Scheme {
     };
 
     return {
-        primary: inc(),
+        primary: primary,
         secondary: inc(),
         tertiary: inc(),
-        surface: inc()
+        surface: inc(),
+        error: error
     };
-}
-
-export function initScheme(preset: Scheme | number) {
-    const str = localStorage.getItem(key);
-    if (str) { // 保存在 localStorage 中的必然是对象
-        preset = JSON.parse(str) as Scheme;
-    }
-    changeScheme(preset);
-}
-
-/**
- * 改变主题色
- *
- * 此方法提供了动态改变主题色的方法，但是在项目加载时依然会采用 theme.css 中的 --primary 等几个变量的定义。
- * 如果需要改变原始值，可以直接修改 theme.css 中相关的变量，或是在后续的 CSS 文件中对这些变量进行修改。
- */
-export function changeScheme(c: Scheme | number) {
-    if (typeof c === 'number') {
-        c = genScheme(c);
-    }
-
-    Object.entries(c).forEach((o)=>{
-        document.documentElement.style.setProperty('--'+o[0], o[1]);
-    });
 }

@@ -49,7 +49,12 @@ const messages = {
         light: 'light',
         system: 'system',
         color: 'primary color',
-        colorDesc: 'customize the theme primary color of the page'
+        colorDesc: 'customize the theme primary color of the page',
+        contrast: 'contrast',
+        contrastDesc: 'customize the theme contrast of the page',
+        nopreference: 'no preference',
+        less: 'less',
+        more: 'more'
     },
     contrast: {
         contrast: 'contrast',

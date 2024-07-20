@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
-import { changeMode, changeScheme, Mode } from '@/core/theme';
+import { changeContrast, changeMode, changeScheme, Contrast, getContrast, getMode, Mode } from '@/core/theme';
 import { Locale, locales, names } from '@/locales';
 import { useApp } from './context';
 
@@ -13,15 +13,15 @@ const colors = [0, 48, 96, 144, 192, 240, 288, 336, 384, 432, 480];
 export default function() {
     const ctx = useApp();
 
-    const modeFA = FieldAccessor<Mode>('mode', 'system');
-    modeFA.onChange((m) => {
-        changeMode(m);
-    });
+    const modeFA = FieldAccessor<Mode>('mode', getMode('system'));
+    modeFA.onChange((m) => { changeMode(m); });
 
-    const colorFA = FieldAccessor<number|undefined>('color', undefined);
-    colorFA.onChange((c) => {
-        changeScheme(c!);
-    });
+    const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
+    contrastFA.onChange((m) => { changeContrast(m); });
+
+    // TODO
+    const schemeFA = FieldAccessor<number|undefined>('color', undefined);
+    schemeFA.onChange((c) => { changeScheme(c!); });
 
     const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], false);
     localeFA.onChange((v) => { ctx.locale = v[0]; });
@@ -43,7 +43,18 @@ export default function() {
 
         <Divider />
 
-        <RadioGroup accessor={colorFA} icon = {false} options={colorsOptions}
+        <RadioGroup vertical accessor={contrastFA}
+            label={ <Label icon="contrast" title={ ctx.t('_internal.theme.contrast')! } desc={ ctx.t('_internal.theme.contrastDesc')! } /> }
+            options={[
+                ['more', <><span class="material-symbols-outlined mr-2">exposure_plus_1</span>{ctx.t('_internal.theme.more')}</>],
+                ['nopreference', <><span class="material-symbols-outlined mr-2">exposure_zero</span>{ctx.t('_internal.theme.nopreference')}</>],
+                ['less', <><span class="material-symbols-outlined mr-2">exposure_neg_1</span>{ctx.t('_internal.theme.less')}</>]
+            ]}
+        />
+
+        <Divider />
+
+        <RadioGroup accessor={schemeFA} icon = {false} options={colorsOptions}
             label={ <Label icon="palette" title={ ctx.t('_internal.theme.color')! } desc={ ctx.t('_internal.theme.colorDesc')! } /> }
         />
 

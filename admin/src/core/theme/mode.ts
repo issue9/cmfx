@@ -14,17 +14,17 @@ const dark = window.matchMedia('(prefers-color-scheme: dark)');
 export type Mode = typeof modes[number];
 
 /**
- * 初始化当前系统的主题
+ * 从当前的配置项中找到关于主题模式的配置项。
  *
  * @param preset 如果未指定主题模式，则采用此值。
  */
-export function initMode(preset: Mode) {
-    let m = (localStorage.getItem(key) ?? preset) as Mode;
+export function getMode(preset: Mode) {
+    const m = (localStorage.getItem(key) ?? preset) as Mode;
     if (modes.indexOf(m) < 0) {
         console.log(`从 localStorage 读取的 ${key} 值 ${m} 不符合要求！`);
-        m = 'system';
+        return 'system';
     }
-    changeMode(m);
+    return m;
 }
 
 /**
@@ -51,9 +51,7 @@ export function changeMode(mode: Mode) {
     localStorage.setItem(key, mode);
 }
 
-function systemMode(e: MediaQueryListEvent) {
-    setDarkMode(e.matches);
-}
+function systemMode(e: MediaQueryListEvent) { setDarkMode(e.matches); }
 
 function setDarkMode(dark?: boolean) {
     if (dark) {

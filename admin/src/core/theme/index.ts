@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { changeMode, modes } from './mode';
+export { changeMode, getMode, modes } from './mode';
 export type { Mode } from './mode';
 
-export { contrasts } from './contrast';
+export { changeContrast, contrasts, getContrast } from './contrast';
 export type { Contrast } from './contrast';
 
-export { changeScheme, genScheme } from './scheme';
+export { changeScheme, genScheme, getScheme } from './scheme';
 export type { Scheme } from './scheme';
 
 export { init as initTheme } from './theme';

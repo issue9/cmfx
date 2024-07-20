@@ -95,7 +95,7 @@ function App(props: {children?: JSXElement}) {
     return <div class="app">
         <header class="app-bar">
             <div class="flex icon-container">
-                <img class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
+                <img alt="logo" class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
                 <span class="inline-block ml-2 text-lg font-bold">{ctx.options.title}</span>
             </div>
 

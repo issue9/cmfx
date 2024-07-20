@@ -2,13 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast } from './contrast';
-import { initMode, Mode } from './mode';
-import { initScheme, Scheme } from './scheme';
+import { Contrast, changeContrast, getContrast } from './contrast';
+import { Mode, changeMode, getMode } from './mode';
+import { Scheme, changeScheme, getScheme } from './scheme';
 
+/**
+ * 初始化主题
+ */
 export function init(mode: Mode, scheme: number | Scheme, contrast: Contrast) {
-    initMode(mode);
-    initScheme(scheme);
-    // scheme 如果未指定，则应该采用此值初始化一个 Scheme 对象
-    // TODO
+    changeMode(getMode(mode));
+    changeScheme(getScheme(scheme));
+    changeContrast(getContrast(contrast));
 }
