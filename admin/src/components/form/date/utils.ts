@@ -41,7 +41,7 @@ export function weekDay(base: Week, delta?: number): Week {
  *  - 2 该月在当前面板上的起始日期；
  *  - 3 该月在当前面板上的结束日期；
  */
-export function monthDays(date: Date, week: Week): Array<[boolean,Month, number, number]> {
+export function monthDays(date: Date, week: Week): Array<[boolean, Month, number, number]> {
     // 当前月的第一天和最后一天
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
@@ -84,28 +84,28 @@ export function range(start: number, end: number): Array<number> {
 }
 
 export const monthsLocales = new Map<Month, string>([
-    [0, '_internal.datepicker.january'],
-    [1, '_internal.datepicker.february'],
-    [2, '_internal.datepicker.march'],
-    [3, '_internal.datepicker.april'],
-    [4, '_internal.datepicker.may'],
-    [5, '_internal.datepicker.june'],
-    [6, '_internal.datepicker.july'],
-    [7, '_internal.datepicker.augest'],
-    [8, '_internal.datepicker.september'],
-    [9, '_internal.datepicker.october'],
-    [10, '_internal.datepicker.november'],
-    [11, '_internal.datepicker.december'],
+    [0, '_internal.date.january'],
+    [1, '_internal.date.february'],
+    [2, '_internal.date.march'],
+    [3, '_internal.date.april'],
+    [4, '_internal.date.may'],
+    [5, '_internal.date.june'],
+    [6, '_internal.date.july'],
+    [7, '_internal.date.augest'],
+    [8, '_internal.date.september'],
+    [9, '_internal.date.october'],
+    [10, '_internal.date.november'],
+    [11, '_internal.date.december'],
 ]);
 
 export const weeksLocales = new Map<Week, string>([
-    [1, '_internal.datepicker.monday'],
-    [2, '_internal.datepicker.tuesday'],
-    [3, '_internal.datepicker.wednesday'],
-    [4, '_internal.datepicker.thursday'],
-    [5, '_internal.datepicker.friday'],
-    [6, '_internal.datepicker.saturday'],
-    [0, '_internal.datepicker.sunday']
+    [1, '_internal.date.monday'],
+    [2, '_internal.date.tuesday'],
+    [3, '_internal.date.wednesday'],
+    [4, '_internal.date.thursday'],
+    [5, '_internal.date.friday'],
+    [6, '_internal.date.saturday'],
+    [0, '_internal.date.sunday']
 ]);
 
 export const hoursOptions: Options<number> = [

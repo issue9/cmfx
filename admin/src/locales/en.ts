@@ -8,7 +8,7 @@ const messages = {
     ok: 'OK',
     reset: 'reset',
     refresh: 'refresh',
-    datepicker: {
+    date: {
         monday: 'Mon',
         tuesday: 'Tue',
         wednesday: 'Wed',
@@ -27,7 +27,9 @@ const messages = {
         september: 'Sep',
         october: 'Oct',
         november: 'Nov',
-        december: 'Dec'
+        december: 'Dec',
+        today: 'today',
+        now: 'now'
     },
     error: {
         backHome: 'back home',

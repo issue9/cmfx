@@ -6,7 +6,7 @@
 
 @layer components {
     .text-field {
-        @apply rounded-md border-2 border-[var(--text-low)] flex justify-between items-stretch text-center mt-1;
+        @apply rounded-md border-2 border-[var(--text-low)] flex justify-between items-stretch text-center;
         @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
         /* first-child 不一定是 prefix */

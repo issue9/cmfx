@@ -6,7 +6,7 @@
 
 .date-activator {
     .activator-container {
-        @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 mt-1 cursor-pointer;
+        @apply rounded-md border-2 border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 cursor-pointer;
         @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
         .input {
@@ -17,10 +17,6 @@
             .placeholder {
                 @apply text-[var(--text-low)];
             }
-        }
-
-        .tail {
-            margin-left: auto;
         }
     }
 
@@ -60,12 +56,11 @@
         }
     }
 
-    .time {
-        @apply flex content-around items-center;
+    .actions {
+        @apply flex content-around items-center mt-2 gap-x-1;
 
-        .hour,
-        .minute {
-            @apply flex flex-col overflow-y-auto;
+        .tail {
+            margin-left: auto;
         }
     }
 }

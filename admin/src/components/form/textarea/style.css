@@ -8,7 +8,7 @@
 @layer components {
     .textarea {
         min-height: var(--min-input-height);
-        @apply rounded-md bg-transparent border-2 border-[var(--bg-low)] flex px-1 py-1 md:px-2 md:py-2 mt-1 w-full text-left;
+        @apply rounded-md bg-transparent border-2 border-[var(--bg-low)] flex px-1 py-1 md:px-2 md:py-2 w-full text-left;
         @apply focus:enabled:border-[var(--text-high)] hover:enabled:border-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
     }
 }

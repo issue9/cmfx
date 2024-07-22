@@ -18,8 +18,8 @@ export default function() {
     const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
     contrastFA.onChange((m) => { changeContrast(m); });
 
-    const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], false);
-    localeFA.onChange((v) => { ctx.locale = v[0]; });
+    const localeFA = FieldAccessor<Locale>('locale', locales[0], false);
+    localeFA.onChange((v) => { ctx.locale = v; });
 
     const schemesOptions: Options<number> = [];
     for (let i = 0; i < schemesSize; i++) {

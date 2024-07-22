@@ -10,7 +10,7 @@ const messages: Messages = {
     ok: '确定',
     reset: '重置',
     refresh: '刷新',
-    datepicker: {
+    date: {
         monday: '一',
         tuesday: '二',
         wednesday: '三',
@@ -29,7 +29,9 @@ const messages: Messages = {
         september: '九月',
         october: '十月',
         november: '十一月',
-        december: '十二月'
+        december: '十二月',
+        today: '今日',
+        now: '现在'
     },
     error: {
         backHome: '返回首页',

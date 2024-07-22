@@ -54,7 +54,7 @@ export default function (props: Props) {
         ac.setValue(dt.getTime());
     };
 
-    const Panel = (p: { dt: Date, ha: Accessor<Array<number>>, ma: Accessor<Array<number>> }) => {
+    const Panel = (p: { dt: Date, ha: Accessor<number>, ma: Accessor<number> }) => {
         return <>
             <div class="title">
                 <span class="item">{p.dt.getFullYear()}</span>
@@ -90,34 +90,35 @@ export default function (props: Props) {
                 </For>
             </div>
 
-            <Show when={props.time}>
-                <div class="time">
+            <div class="actions">
+                <Show when={props.time}>
                     <Choice disabled={props.disabled} readonly={props.readonly} options={hoursOptions} accessor={p.ha} />
-                    <span class="mx-2">:</span>
+                    <span class="mx-1">:</span>
                     <Choice disabled={props.disabled} readonly={props.readonly} options={minutesOptions} accessor={p.ma} />
-                </div>
-            </Show>
+                </Show>
+                <button class='button flated tail' onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_internal.date.now' : '_internal.date.today')}</button>
+            </div>
         </>;
     };
 
-    const ha = FieldAccessor('hour', [new Date(ac.getValue()).getHours()], false);
+    const ha = FieldAccessor('hour', new Date(ac.getValue()).getHours(), false);
     ha.onChange((v) => {
         const dt = new Date(ac.getValue());
-        dt.setHours(v[0]);
+        dt.setHours(v);
         setValue(dt);
     });
 
-    const ma = FieldAccessor('minute', [new Date(ac.getValue()).getMinutes()], false );
+    const ma = FieldAccessor('minute', new Date(ac.getValue()).getMinutes(), false );
     ma.onChange((v) => {
         const dt = new Date(ac.getValue());
-        dt.setMinutes(v[0]);
+        dt.setMinutes(v);
         setValue(dt);
     });
 
     ac.onChange(() => {
         const dt = new Date(ac.getValue());
-        ha.setValue([dt.getHours()]);
-        ma.setValue([dt.getMinutes()]);
+        ha.setValue(dt.getHours());
+        ma.setValue(dt.getMinutes());
     });
 
     return <div classList={{
