@@ -12,12 +12,8 @@
         align-self: flex-start;
 
         .content {
-            color: var(--text);
-            background-color: var(--bg);
             display: none;
             position: absolute;
-            /* 最起码与父元素等宽 */
-            min-width: 100%;
             z-index: 50;
         }
 

@@ -11,6 +11,7 @@ import { default as Panel, Props as PanelProps } from './panel';
 
 export interface Props extends PanelProps, FieldBaseProps {
     placeholder?: string;
+
     rounded?: boolean;
 
     // TODO min, max, range
@@ -35,7 +36,8 @@ export default function(props: Props) {
 
     const activator = <div class="field date-activator">
         <label title={props.title} onClick={(e) => {
-            if (!props.disabled) { setPanelVisible(!panelVisible()); e.preventDefault(); }
+            e.preventDefault();
+            if (!props.disabled) {  setPanelVisible(!panelVisible()); }
         }}>
             <Show when={props.label}>{renderElementProp(props.label)}</Show>
             <div classList={{
@@ -54,7 +56,7 @@ export default function(props: Props) {
         </Show>
     </div>;
 
-    return <Dropdown palette={props.palette} activator={ activator } visible={panelVisible()}>
+    return <Dropdown setVisible={setPanelVisible} wrapperClass="w-full" palette={props.palette} activator={ activator } visible={panelVisible()}>
         <Panel {...panelProps} />
     </Dropdown>;
 }

@@ -3,12 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
-import { changeContrast, changeMode, changeScheme, Contrast, getContrast, getMode, Mode } from '@/core/theme';
+import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode } from '@/core/theme';
 import { Locale, locales, names } from '@/locales';
 import { useApp } from './context';
 
-// 预定义的颜色
-const colors = [0, 48, 96, 144, 192, 240, 288, 336, 384, 432, 480];
+const schemesSize = 15;
 
 export default function() {
     const ctx = useApp();
@@ -19,17 +18,24 @@ export default function() {
     const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
     contrastFA.onChange((m) => { changeContrast(m); });
 
-    // TODO
-    const schemeFA = FieldAccessor<number|undefined>('color', undefined);
-    schemeFA.onChange((c) => { changeScheme(c!); });
-
     const localeFA = FieldAccessor<Array<Locale>>('locale', [locales[0]], false);
     localeFA.onChange((v) => { ctx.locale = v[0]; });
 
-    const colorsOptions: Options<number> = [];
-    colors.forEach((color)=>{
-        colorsOptions.push([color, <ColorBlock color={color} />]);
-    });
+    const schemesOptions: Options<number> = [];
+    for (let i = 0; i < schemesSize; i++) {
+        const color = i * 48;
+        schemesOptions.push([color, <ColorBlock color={color} />]);
+    }
+
+    let scheme: number;
+    const s = getScheme(schemesOptions[0][0]);
+    if (typeof s === 'number') {
+        scheme = s;
+    } else {
+        scheme = s.primary;
+    }
+    const schemeFA = FieldAccessor<number>('scheme', scheme);
+    schemeFA.onChange((c) => { changeScheme(c!); });
 
     return <div class="app-settings">
         <RadioGroup vertical accessor={modeFA}
@@ -54,7 +60,7 @@ export default function() {
 
         <Divider />
 
-        <RadioGroup accessor={schemeFA} icon = {false} options={colorsOptions}
+        <RadioGroup accessor={schemeFA} icon = {false} options={schemesOptions}
             label={ <Label icon="palette" title={ ctx.t('_internal.theme.color')! } desc={ ctx.t('_internal.theme.colorDesc')! } /> }
         />
 
@@ -77,9 +83,12 @@ function Label(props: {icon: string, title: string, desc: string}) {
 }
 
 function ColorBlock(props: {color: number}) {
-    return <span style={{
-        'background-color': `hsl(${props.color} 50 50)`,
-        width: '1rem',
-        height: '1rem'
-    }} />;
+    const s = genScheme(props.color);
+
+    return <div class="flex flex-wrap w-6">
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.primary}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.secondary}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.tertiary}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.surface}`}} />
+    </div>;
 }

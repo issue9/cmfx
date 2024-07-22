@@ -27,7 +27,7 @@ export function Private(props: {children?: JSX.Element}) {
         </List>
     </div>;
 
-    return <Drawer aside={aside} palette='secondary' visible={true}>
+    return <Drawer palette='secondary' visible={true} main={
         <ErrorBoundary fallback={(err)=>(
             <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
                 <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
@@ -35,5 +35,7 @@ export function Private(props: {children?: JSX.Element}) {
         )}>
             {props.children}
         </ErrorBoundary>
+    }>
+        {aside}
     </Drawer>;
 }

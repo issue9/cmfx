@@ -92,8 +92,8 @@ function App(props: {children?: JSXElement}) {
 
     const ctx = useInternal();
 
-    return <div class="app">
-        <header class="app-bar">
+    return <div class="app palette--surface">
+        <header class="app-bar palette--tertiary">
             <div class="flex icon-container">
                 <img alt="logo" class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
                 <span class="inline-block ml-2 text-lg font-bold">{ctx.options.title}</span>
@@ -108,7 +108,8 @@ function App(props: {children?: JSXElement}) {
                 </IconButton>
 
                 <Show when={ctx.user()}>
-                    <IconButton type="button" style='flated' rounded onClick={() => setShowSettings(!showSettings()) } title={ctx.t('_internal.settings')}>
+                    <IconButton type="button" style='flated' title={ctx.t('_internal.settings')} rounded
+                        onClick={() => setShowSettings(!showSettings()) }>
                         settings
                     </IconButton>
                 </Show>
@@ -119,8 +120,8 @@ function App(props: {children?: JSXElement}) {
             <Notify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} palette='error' />
 
             <div class="h-full w-full">
-                <Drawer pos="right" palette='secondary' aside={<XSetting />} floating visible={showSettings()} close={()=>setShowSettings(false)}>
-                    {props.children}
+                <Drawer pos="right" palette='secondary' main={props.children} floating visible={showSettings()} close={()=>setShowSettings(false)}>
+                    <XSetting />
                 </Drawer>
             </div>
         </main>

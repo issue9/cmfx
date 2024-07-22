@@ -4,7 +4,7 @@
 
 import { JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 
-import { BaseProps, ElementProp, renderElementProp } from '@/components/base';
+import { BaseProps } from '@/components/base';
 
 export interface Props extends BaseProps {
     /**
@@ -32,9 +32,9 @@ export interface Props extends BaseProps {
     /**
      * 侧边栏的内容
      */
-    aside: ElementProp;
-
     children: JSX.Element;
+
+    main: JSX.Element;
 }
 
 const defaultProps: Partial<Props> = {
@@ -66,17 +66,17 @@ export default function(props: Props) {
         'hidden': !props.visible,
         'right-0': props.floating && props.pos === 'right'
     }}>
-        {renderElementProp(props.aside)}
+        {props.children}
     </aside>;
 
     return <div ref={(el)=>conRef=el} classList={{ 'drawer': true, 'floating': props.floating && props.visible }}>
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />
-                <main>{props.children}</main>
+                <main>{props.main}</main>
             </Match>
             <Match when={props.pos === 'right'}>
-                <main>{props.children}</main>
+                <main>{props.main}</main>
                 <Aside />
             </Match>
         </Switch>

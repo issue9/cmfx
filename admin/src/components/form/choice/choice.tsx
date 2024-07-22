@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
 import { renderElementProp } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
@@ -32,23 +32,9 @@ export interface Props<T extends Value> extends FieldBaseProps {
  */
 export default function <T extends Value>(props: Props<T>): JSX.Element {
     props = mergeProps({ expandIcon: 'expand_all' }, props);
-    let optRef: HTMLUListElement;
-    let actRef: HTMLDivElement;
 
     const ac = props.accessor;
     const [optionsVisible, setOptionsVisible] = createSignal(false);
-
-    const handleClick = (e: MouseEvent) => {
-        if (!optRef.contains(e.target as Node) && !actRef.contains(e.target as Node)) {
-            setOptionsVisible(false);
-        }
-    };
-    onMount(() => {
-        document.body.addEventListener('click', handleClick);
-    });
-    onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
-    });
 
     // multiple 为 false 时的输入框样式。
     const SingelActivator = () => {
@@ -72,9 +58,11 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </For>;
     };
 
-    const activator = <div ref={(el) => actRef = el} class="field choice-activator">
+    const activator = <div class="field choice-activator">
         <label title={props.title} onClick={(e) => {
-            if (!props.disabled) { setOptionsVisible(!optionsVisible()); e.preventDefault(); }
+            e.preventDefault();
+            if (!props.disabled) { setOptionsVisible(!optionsVisible()); }
+            return false;
         }}>
             <Show when={props.label}>{renderElementProp(props.label)}</Show>
 
@@ -104,9 +92,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     const MultipleOptions = () => {
         return <>
             <For each={props.options}>
-                {(item) => (
-                    <li onClick={() => {
-                        if (props.readonly) { return; }
+                {(item) => {
+                    const selected = (): boolean => { return ac.getValue().indexOf(item[0]) >= 0; };
+                    return <li aria-selected={selected()} role="option" classList={{'selected': selected()}} onClick={() => {
+                        if (props.readonly || props.disabled) { return; }
 
                         let items = [...ac.getValue()];
                         const index = items.indexOf(item[0]);
@@ -122,10 +111,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <span classList={{
                             'material-symbols-outlined': true,
                             'tail': true,
-                            'hidden': ac.getValue().indexOf(item[0]) < 0
+                            'hidden': !selected()
                         }}>check</span>
-                    </li>
-                )}
+                    </li>;
+                }}
             </For>
         </>;
     };
@@ -134,13 +123,12 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     const SingleOptions = () => {
         return <>
             <For each={props.options}>
-                {(item) => (
-                    <li classList={{
-                        'selected': ac.getValue()[0] === item[0]
-                    }} onClick={() => {
-                        if (props.readonly) { return; }
+                {(item) => {
+                    const selected = ()=>ac.getValue()[0] === item[0];
+                    return <li role="option" aria-selected={selected()} classList={{'selected': selected()}} onClick={() => {
+                        if (props.readonly || props.disabled) { return; }
 
-                        if (item[0] !== ac.getValue()[0]) {
+                        if (!selected()) {
                             ac.setValue([item[0]]);
                             ac.setError();
                         }
@@ -150,20 +138,20 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <span classList={{
                             'material-symbols-outlined': true,
                             'tail': true,
-                            'hidden': ac.getValue()[0] !== item[0]
+                            'hidden': !selected()
                         }}>check</span>
-                    </li>
-                )}
+                    </li>;
+                }}
             </For>
         </>;
     };
 
-    const options = <ul class="choice-options" ref={(el)=>optRef=el}>
+    return <Dropdown tag="ul" role="listbox" wrapperClass='w-full' class="choice-options"
+        setVisible={setOptionsVisible} palette={props.palette} pos='bottomleft' aria-multiselectable={props.multiple}
+        visible={optionsVisible()} activator={activator}>
         <Switch>
             <Match when={props.multiple}><MultipleOptions /></Match>
             <Match when={!props.multiple}><SingleOptions /></Match>
         </Switch>
-    </ul>;
-
-    return <Dropdown palette={props.palette} pos='bottomleft' visible={optionsVisible()} activator={activator}>{ options }</Dropdown>;
+    </Dropdown>;
 }

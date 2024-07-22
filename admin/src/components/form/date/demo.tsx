@@ -14,6 +14,7 @@ export default function() {
     const [week, setWeek] = createSignal<Week>(0);
     const [disabled, setDisabled] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
+    const [rounded, setRounded] = createSignal(false);
     const [time, setTime] = createSignal(false);
 
 
@@ -23,12 +24,13 @@ export default function() {
             <label><input type="checkbox" checked={time()} onChange={()=>setTime(!time())} />time</label>
             <label><input type="checkbox" checked={disabled()} onChange={()=>setDisabled(!disabled())} />disabled</label>
             <label><input type="checkbox" checked={readonly()} onChange={()=>setReadonly(!readonly())} />readonly</label>
+            <label><input type="checkbox" checked={rounded()} onChange={()=>setRounded(!rounded())} />rounded</label>
             <input type="number" placeholder='每周起始于' value={week as any} onChange={(e)=>setWeek(parseInt(e.target.value) as Week)} />
         </fieldset>
 
-        <div class="w-full flex flex-wrap gap-5">
+        <div class="w-full flex gap-5">
             <DatePanel readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-            <DatePicker readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePicker rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </div>
     </div>;
 }

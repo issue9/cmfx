@@ -2,15 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX, Setter, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 
 import { BaseProps, Corner, ElementProp, renderElementProp } from '@/components/base';
 
 export interface Props extends BaseProps {
+    [k: string]: unknown;
+
     /**
      * 控制弹出内容的可见性
      */
     visible?: boolean;
+
+    /**
+     * 控制可见性
+     *
+     * 如果指定了该值，那么在点击非当前控件时将关闭弹出的窗口，
+     * 否则将只能通过点击 activator 关闭窗口。
+     */
+    setVisible?: Setter<boolean>;
 
     /**
      * 触发元素
@@ -26,28 +37,55 @@ export interface Props extends BaseProps {
      * 弹出的内容
      */
     children: JSX.Element;
+
+    /**
+     * 弹出内容的标签
+     */
+    tag?: string;
+
+    /**
+     * 用于指整个容器的样式
+     */
+    wrapperClass?: string;
 }
 
 const defaultProps: Partial<Props> = {
-    palette: undefined,
+    tag: 'div',
     pos: 'bottomleft'
 };
 
-export default function(props: Props) {
+export default function Dropdown(props: Props) {
     props = mergeProps(defaultProps, props);
+    const [_, contentProps] = splitProps(props, ['visible', 'setVisible', 'activator', 'pos', 'children', 'tag', 'wrapperClass']);
 
-    return <div classList={{
+    let ref: HTMLDivElement;
+    const handleClick = (e: MouseEvent) => {
+        // NOTE: solidjs 的 onClick 事件注册在 dom，事件处理是自顶向下的，与正常的处理相反。
+        // on:click 与正常的相同，但是无法通过 ts 编译：https://github.com/solidjs/solid/discussions/1441
+
+        if (props.setVisible && !ref.contains(e.target as Node) && props.visible) {
+            props.setVisible(false);
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
+
+    return <div ref={(el)=>ref=el} class={props.wrapperClass} classList={{
         'dropdown': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         {renderElementProp(props.activator)}
 
-        <div classList={{
+        <Dynamic {...contentProps} component={props.tag} classList={{
             'content': true,
             [`${props.pos}`]: true,
             'visible': props.visible
         }}>
             {props.children}
-        </div>
+        </Dynamic>
     </div>;
 }

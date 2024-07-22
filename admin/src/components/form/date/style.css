@@ -54,6 +54,10 @@
         button.selected {
             @apply bg-[var(--bg-high)];
         }
+
+        button.disabled {
+            @apply text-[var(--text-low)];
+        }
     }
 
     .time {

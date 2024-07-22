@@ -31,7 +31,7 @@
         }
 
         label.border {
-            @apply hover:border-[var(--text-low)];
+            @apply hover:border-[var(--bg-high)];
         }
 
         label:hover .radio-icon {

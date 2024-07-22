@@ -75,7 +75,7 @@ export default function (props: Props) {
                     {(month) => (
                         <For each={range(month[2], month[3])}>
                             {(day) => (
-                                <button class={day === p.dt.getDate() && month[1] === p.dt.getMonth() ? 'selected' : ''}
+                                <button classList={{'selected': day === p.dt.getDate() && month[1] === p.dt.getMonth(),'disabled':!month[0]}}
                                     disabled={!month[0] || props.disabled}
                                     onClick={() => {
                                         if (props.readonly || props.disabled) { return; }

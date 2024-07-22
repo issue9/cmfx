@@ -35,7 +35,7 @@
     }
 
     .choice-options {
-        @apply border-2 bg-transparent rounded-md z-50 max-h-[240px] overflow-y-auto;
+        @apply border-2 bg-[var(--bg)] rounded-md z-50 max-h-[240px] overflow-y-auto w-full;
 
         li {
             @apply p-1 md:p-2 hover:bg-[var(--bg-high)] icon-container flex cursor-pointer;
@@ -47,6 +47,7 @@
 
         li.selected {
             background-color: var(--bg-low);
+            @apply hover:bg-[var(--bg-high)];
         }
     }
 }

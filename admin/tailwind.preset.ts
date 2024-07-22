@@ -14,6 +14,7 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-bg)',
             'surface': 'var(--surface-bg)',
             'error': 'var(--error-bg)',
+            'palette': 'var(--bg)',
             ...theme('colors')
         }),
 
@@ -23,6 +24,7 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-bg-high)',
             'surface': 'var(--surface-bg-high)',
             'error': 'var(--error-bg-high)',
+            'palette': 'var(--bg-high)',
             ...theme('colors')
         }),
 
@@ -32,6 +34,7 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-text-high)',
             'surface': 'var(--surface-text-high)',
             'error': 'var(--error-text-high)',
+            'palette': 'var(--text-high)',
             ...theme('colors')
         }),
         textColor: ({theme}) => ({
@@ -40,6 +43,7 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-text)',
             'surface': 'var(--surface-text)',
             'error': 'var(--error-text)',
+            'palette': 'var(--text)',
             ...theme('colors')
         }),
         caretColor: ({theme}) => ({ // 插入符
@@ -48,23 +52,26 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-text)',
             'surface': 'var(--surface-text)',
             'error': 'var(--error-text)',
+            'palette': 'var(--text)',
             ...theme('colors')
         }),
 
         outlineColor: ({theme}) => ({
-            'primary': 'var(--primary-bg)',
-            'secondary': 'var(--secondary-bg)',
-            'tertiary': 'var(--tertiary-bg)',
-            'surface': 'var(--surface-bg)',
-            'error': 'var(--error-bg)',
+            'primary': 'var(--primary-text-low)',
+            'secondary': 'var(--secondary-text-low)',
+            'tertiary': 'var(--tertiary-text-low)',
+            'surface': 'var(--surface-text-low)',
+            'error': 'var(--error-text-low)',
+            'palette': 'var(--text-low)',
             ...theme('colors')
         }),
         borderColor: ({theme}) => ({
-            'primary': 'var(--primary-bg)',
-            'secondary': 'var(--secondary-bg)',
-            'tertiary': 'var(--tertiary-bg)',
-            'surface': 'var(--surface-bg)',
-            'error': 'var(--error-bg)',
+            'primary': 'var(--primary-text-low)',
+            'secondary': 'var(--secondary-text-low)',
+            'tertiary': 'var(--tertiary-text-low)',
+            'surface': 'var(--surface-text-low)',
+            'error': 'var(--error-text-low)',
+            'palette': 'var(--text-low)',
             ...theme('colors')
         }),
         placeholderColor: ({theme})=>({
@@ -73,6 +80,7 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-text-low)',
             'surface': 'var(--surface-text-low)',
             'error': 'var(--error-text-low)',
+            'palette': 'var(--text-low)',
             ...theme('colors')
         }),
 
@@ -82,6 +90,7 @@ const config: PresetsConfig = {
             'tertiary': 'var(--tertiary-bg-low)',
             'surface': 'var(--surface-bg-low)',
             'error': 'var(--error-bg-low)',
+            'palette': 'var(--bg-low)',
             ...theme('colors')
         })
     }
