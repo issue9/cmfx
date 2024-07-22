@@ -8,23 +8,25 @@ import { renderElementProp } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
-type Value = string | number;
+type Value = string | number | undefined;
 
-export interface Props<T extends Value> extends FieldBaseProps {
+interface BaseProps<T extends Value> extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;
-    multiple?: boolean;
 
     /**
      * 尾部表示展开下拉框的图标，默认为 expand_all
      */
     expandIcon?: string;
+};
 
-    /**
-     * NOTE: 无论 multiple 是否为 true，值的类型始终是数组。
-     */
+export type Props<T extends Value> = BaseProps<T> & {
+    multiple: true;
     accessor: Accessor<Array<T>>;
+} | BaseProps<T> & {
+    multiple?: false;
+    accessor: Accessor<T>;
 };
 
 /**
@@ -33,14 +35,13 @@ export interface Props<T extends Value> extends FieldBaseProps {
 export default function <T extends Value>(props: Props<T>): JSX.Element {
     props = mergeProps({ expandIcon: 'expand_all' }, props);
 
-    const ac = props.accessor;
     const [optionsVisible, setOptionsVisible] = createSignal(false);
 
     // multiple 为 false 时的输入框样式。
-    const SingelActivator = () => {
+    const SingleActivator = (p: {access: Accessor<T>}) => {
         return <For each={props.options}>
             {(item) => (
-                <Show when={ac.getValue().indexOf(item[0]) >= 0}>
+                <Show when={p.access.getValue() === item[0]}>
                     {renderElementProp(item[1])}
                 </Show>
             )}
@@ -48,10 +49,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     };
 
     // multiple 为 true 时的输入框样式。
-    const MultipleActivator = () => {
+    const MultipleActivator = (p: {access: Accessor<Array<T>>}) => {
         return <For each={props.options}>
             {(item) => (
-                <Show when={ac.getValue().indexOf(item[0]) >= 0}>
+                <Show when={p.access.getValue().indexOf(item[0]) >= 0}>
                     <span class="chip">{renderElementProp(item[1])}</span>
                 </Show>
             )}
@@ -73,39 +74,39 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                 <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
                     <Switch>
-                        <Match when={ac.getValue().length === 0}>
+                        <Match when={props.accessor.getValue() === undefined || (props.multiple && props.accessor.getValue().length === 0)}>
                             <span class="placeholder">{props.placeholder}</span>
                         </Match>
-                        <Match when={props.multiple && ac.getValue().length > 0}><MultipleActivator /></Match>
-                        <Match when={!props.multiple && ac.getValue().length > 0}><SingelActivator /></Match>
+                        <Match when={props.multiple && props.accessor.getValue().length > 0}><MultipleActivator access={props.accessor as Accessor<Array<T>>} /></Match>
+                        <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
                 <span class="material-symbols-outlined tail">{props.expandIcon}</span>
             </div>
         </label>
-        <Show when={ac.hasError()}>
-            <p class="field_error" role="alert">{ac.getError()}</p>
+        <Show when={props.accessor.hasError()}>
+            <p class="field_error" role="alert">{props.accessor.getError()}</p>
         </Show>
     </div>;
 
     // multiple 为 true 时的候选框的组件
-    const MultipleOptions = () => {
+    const MultipleOptions = (p:{ac:Accessor<Array<T>>}) => {
         return <>
             <For each={props.options}>
                 {(item) => {
-                    const selected = (): boolean => { return ac.getValue().indexOf(item[0]) >= 0; };
+                    const selected = (): boolean => { return p.ac.getValue().indexOf(item[0]) >= 0; };
                     return <li aria-selected={selected()} role="option" classList={{'selected': selected()}} onClick={() => {
                         if (props.readonly || props.disabled) { return; }
 
-                        let items = [...ac.getValue()];
+                        let items = [...p.ac.getValue()];
                         const index = items.indexOf(item[0]);
                         if (index < 0) { // 不存在则添加
                             items.push(item[0]);
                         } else { // 已存在则删除
                             items.splice(index, 1);
                         }
-                        ac.setValue(items);
-                        ac.setError();
+                        p.ac.setValue(items);
+                        p.ac.setError();
                     }}>
                         {renderElementProp(item[1])}
                         <span classList={{
@@ -120,17 +121,17 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     };
 
     // multiple 为 false 时的候选框的组件
-    const SingleOptions = () => {
+    const SingleOptions = (p:{ac:Accessor<T>}) => {
         return <>
             <For each={props.options}>
                 {(item) => {
-                    const selected = ()=>ac.getValue()[0] === item[0];
+                    const selected = ()=>p.ac.getValue() === item[0];
                     return <li role="option" aria-selected={selected()} classList={{'selected': selected()}} onClick={() => {
                         if (props.readonly || props.disabled) { return; }
 
                         if (!selected()) {
-                            ac.setValue([item[0]]);
-                            ac.setError();
+                            p.ac.setValue(item[0]);
+                            p.ac.setError();
                         }
                         setOptionsVisible(false);
                     }}>
@@ -150,8 +151,8 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         setVisible={setOptionsVisible} palette={props.palette} pos='bottomleft' aria-multiselectable={props.multiple}
         visible={optionsVisible()} activator={activator}>
         <Switch>
-            <Match when={props.multiple}><MultipleOptions /></Match>
-            <Match when={!props.multiple}><SingleOptions /></Match>
+            <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
+            <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
         </Switch>
     </Dropdown>;
 }

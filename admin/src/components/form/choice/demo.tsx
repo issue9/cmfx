@@ -9,7 +9,7 @@ import { createSignal } from 'solid-js';
 import { default as Choice } from './choice';
 
 export default function() {
-    const fa = FieldAccessor<Array<string>>('choice', ['1'], true);
+    const fa = FieldAccessor<string|undefined>('choice', '1', true);
     const options: Options<string> = [
         ['1', ()=><div>abc</div>],
         ['2', ()=><div style="color:green">green</div >],
