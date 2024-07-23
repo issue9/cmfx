@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
 import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode } from '@/core/theme';
-import { Locale, locales, names } from '@/locales';
+import { Locale } from '@/locales';
 import { useApp } from './context';
 
 const schemesSize = 15;
@@ -18,7 +19,7 @@ export default function() {
     const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
     contrastFA.onChange((m) => { changeContrast(m); });
 
-    const localeFA = FieldAccessor<Locale>('locale', locales[0], false);
+    const localeFA = FieldAccessor<Locale>('locale', ctx.locale, false);
     localeFA.onChange((v) => { ctx.locale = v; });
 
     const schemesOptions: Options<number> = [];
@@ -70,7 +71,7 @@ export default function() {
             <legend>
                 <Label icon="translate" title={ ctx.t('_internal.locale.locale')! } desc={ ctx.t('_internal.locale.localeDesc')! } />
             </legend>
-            <Choice accessor={localeFA} options={names} />
+            <Choice accessor={localeFA} options={ctx.locales} />
         </fieldset>
     </div>;
 }

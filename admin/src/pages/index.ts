@@ -5,5 +5,5 @@
 // 只导出页面，其它功能由根目录的 index.ts 导出。
 
 export { Dashboard } from './dashboard';
-export { XLogin } from './login';
+export { Login } from './login';
 

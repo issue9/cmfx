@@ -14,7 +14,7 @@ const routes: Routes = {
         routes: [
             {
                 path: '/login',
-                component: pages.XLogin,
+                component: pages.Login,
             },
             demoRoutes('/demo')
         ]
@@ -42,7 +42,7 @@ const o: Options = {
     },
 
     api: {
-        base: 'http://192.168.10.3:8080/admin',
+        base: 'http://192.168.10.7:8080/admin',
         login: '/login',
         settings: '/settings',
         info: '/info',

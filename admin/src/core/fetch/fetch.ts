@@ -231,23 +231,30 @@ export class Fetcher {
      * @param req 相关的参数
      */
     async fetch<T>(path: string, req?: RequestInit): Promise<Return<T>> {
-        const resp = await fetch(this.buildURL(path), req);
+        try {
+            const resp = await fetch(this.buildURL(path), req);
 
-        // 200-299
+            // 200-299
 
-        if (resp.ok) {
-            return { status: resp.status, ok: true, body: await this.parse<T>(resp) };
+            if (resp.ok) {
+                return { status: resp.status, ok: true, body: await this.parse<T>(resp) };
+            }
+
+            // TODO 300-399
+
+            // 400-599
+
+            if (resp.status === 401) {
+                this.#token = null;
+                await delToken();
+            }
+            return { status: resp.status, ok: false, body: await this.parse<Problem>(resp) };
+        } catch(e) {
+            if (e instanceof Error) {
+                return { status: 500, ok: false, body: {type: '500', status: 500, title: 'fetch error', detail: e.message } };
+            }
+            return { status: 500, ok: false, body: {type: '500', status: 500, title: 'error', detail: (<any>e).toString() } };
         }
-
-        // TODO 300-399
-
-        // 400-599
-
-        if (resp.status === 401) {
-            this.#token = null;
-            await delToken();
-        }
-        return { status: resp.status, ok: false, body: await this.parse<Problem>(resp) };
     }
 
     async parse<T>(resp: Response): Promise<T|undefined> {
@@ -313,6 +320,7 @@ export type Return<T> = {
 };
 
 export interface Account {
+    [key: string]: string; // 限制字段名的类型
     username: string;
     password: string;
 }
@@ -321,6 +329,7 @@ export interface Account {
  * 分页接口返回的对象
  */
 export interface Page<T> {
+    [key: string]: unknown; // 限制字段名的类型
     count: number
     current: Array<T>
     more?: boolean

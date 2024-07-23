@@ -26,7 +26,10 @@ interface Group {
     /**
      * 该分组下的默认首页
      *
-     * 必须真实存在于 routes 之中。
+     * 当用户从 private 退出之后或是在未登录的情况下访问在 private 页面，将跳转至 public.home 页面，
+     * 当用户从 public 登录之后将跳转至 private.home 面面。
+     *
+     * NOTE: 必须真实存在于 routes 之中。
      */
     home: string;
 

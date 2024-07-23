@@ -75,6 +75,5 @@ export default function Item (props: Props) {
         <Match when={props.to}>
             <A href={props.to!} role="menuitem" class="item" activeClass="active">{content}</A>
         </Match>
-    </Switch   >;
-
+    </Switch>;
 }

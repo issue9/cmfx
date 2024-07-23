@@ -6,12 +6,12 @@ import { useNavigate } from '@solidjs/router';
 import { ErrorBoundary, For, JSX } from 'solid-js';
 
 import { Button, Drawer, ErrorPage, Item, List } from '@/components';
-import { useApp } from './context';
+import { useInternal } from './context';
 
 export function Private(props: {children?: JSX.Element}) {
-    const ctx = useApp();
+    const ctx = useInternal();
 
-    if (!ctx.user()) {
+    if (!ctx.user().id) {
         const nav = useNavigate();
         nav(ctx.options.routes.public.home);
         return;

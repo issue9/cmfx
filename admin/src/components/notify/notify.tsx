@@ -25,7 +25,7 @@ export interface Sender {
      * @param type 类型，仅对非系统通知的情况下有效；
      * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
      */
-    send(title: string, body: string,locale: string, type?: Type, timeout?: number): Promise<void>;
+    send(title: string, body?: string,locale?: string, type?: Type, timeout?: number): Promise<void>;
 }
 
 export type Type = 'error' | 'warning' | 'success' | 'info';
@@ -39,7 +39,7 @@ export const type2Palette = new Map<Type, Palette>([
 
 interface Message {
     palette?: Palette;
-    title?: string;
+    title: string;
     body?: string;
     id: string;
     timeout?: number;
@@ -54,7 +54,7 @@ export default function(props: Props) {
     };
 
     props.ref({
-        async send(title: string, body: string, locale: string, type?: Type, timeout?: number) {
+        async send(title: string, body?: string, locale?: string, type?: Type, timeout?: number) {
             if (props.system && await notify(title, body, props.icon, locale, timeout)) {
                 return;
             }

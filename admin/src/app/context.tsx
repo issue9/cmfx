@@ -8,10 +8,11 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 import { NotifySender, NotifyType } from '@/components';
 import { Fetcher } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
+import { createStore } from 'solid-js/store';
 import { build as buildOptions } from './options';
 
 type Options = ReturnType<typeof buildOptions>;
-export type Context = Awaited<ReturnType<typeof buildContext>>;
+export type Context = ReturnType<typeof buildContext>['ctx'];
 export type AppContext = Exclude<Context, 'options' | 'setNotifySender'>;
 
 const context = createContext<Context>();
@@ -57,19 +58,11 @@ export function buildContext(o: Options, f: Fetcher) {
     const [dict] = createResource(getLocale, loadMessages);
     const t = i18n.translator(dict);
 
-    const [user, setUser] = createSignal<User>({});
-    f.get<User>(o.api.info).then((r)=>{
-        if (!r.ok) {
-            console.log(r.body);
-            return;
-        }
-
-        setUser(r.body!);
-    });
+    const [user, setUser] = createStore<User>();
 
     let notifySender: NotifySender;
 
-    return {
+    const ctx = {
         fetcher() {return f;}, // TODO 去掉部分不用的方法
 
         get options() { return o; },
@@ -87,8 +80,33 @@ export function buildContext(o: Options, f: Fetcher) {
         /**
          * 返回当前登录的用户信息
          */
-        user() { return user; },
+        user() {
+            if (!user.name) {
+                (async () => {
+                    const r = await f.get<User>(o.api.info);
+                    if (!r.ok) {
+                        if (notifySender) { // 已经初始化 notify
+                            this.notify(r.body!.title, r.body!.detail, 'error');
+                        } else {
+                            console.error(r.body);
+                        }
+                        return;
+                    }
 
+                    const u = r.body;
+                    if (!u) {
+                        return;
+                    }
+                    setUser(u);
+                })();
+            }
+
+            return user;
+        },
+
+        /**
+         * 绑定全局的通知方法
+         */
         setNotifySender(s: NotifySender) { notifySender = s; },
 
         /**
@@ -99,7 +117,7 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param type 类型，仅对非系统通知的情况下有效；
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
-        async notify(title: string, body: string, type?: NotifyType, timeout=5) {
+        async notify(title: string, body?: string, type?: NotifyType, timeout=5) {
             notifySender.send(title, body, this.locale, type, timeout);
         },
 
@@ -118,10 +136,12 @@ export function buildContext(o: Options, f: Fetcher) {
          */
         get locales() { return names; }
     };
-}
 
-export function Provider(props: { ctx: Context, children: JSX.Element }): JSX.Element {
-    return <context.Provider value={props.ctx}>
-        {props.children}
-    </context.Provider>;
+    const Provider = (props: { children: JSX.Element }) => {
+        return <context.Provider value={ctx}>
+            {props.children}
+        </context.Provider>;
+    };
+
+    return { ctx, Provider };
 }

@@ -81,7 +81,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
-                <span class="material-symbols-outlined tail">{props.expandIcon}</span>
+                <span class="material-symbols-outlined expand">{props.expandIcon}</span>
             </div>
         </label>
         <Show when={props.accessor.hasError()}>

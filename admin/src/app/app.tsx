@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
-import { ErrorBoundary, JSXElement, Show, createSignal } from 'solid-js';
+import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Button, Drawer, ErrorPage, IconButton, Notify } from '@/components';
 import { Fetcher, initTheme } from '@/core';
-import { Provider, buildContext, useApp, useInternal } from './context';
+import { buildContext, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
 import XSetting from './settings';
@@ -21,10 +21,34 @@ import XSetting from './settings';
 */
 export async function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
-
+    const routes = buildRoutes(opt);
     const f = await Fetcher.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
 
-    const routes: Array<RouteDefinition> = [
+    render(() => {
+        initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
+
+        const { ctx, Provider } = buildContext(opt, f); // buildContext 必须在组件内使用！
+        ctx.title = '';
+
+        const root = (props: { children?: JSX.Element }) => (
+            <ErrorBoundary fallback={(err)=>(
+                <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+                    <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
+                </ErrorPage>
+            )}>
+                <Provider><App>{props.children}</App></Provider>
+            </ErrorBoundary>
+        );
+
+        return <HashRouter root={root}>{routes}</HashRouter>;
+    }, document.getElementById(elementID)!);
+}
+
+/**
+ * 生成适合 hashRouter 的路由项
+ */
+function buildRoutes(opt: Required<Options>): Array<RouteDefinition> {
+    return [
         {
             path: '/',
             component: Public,
@@ -48,49 +72,14 @@ export async function create(elementID: string, o: Options) {
             }
         }
     ];
-
-    render(() => {
-        initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
-
-        const ctx = buildContext(opt, f); // buildContext 必须在组件内使用！
-        ctx.title = '';
-
-        const root = (props: { children?: JSXElement }) => (
-            <ErrorBoundary fallback={(err)=>(
-                <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                    <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
-                </ErrorPage>
-            )}>
-                <Provider ctx={ctx}>
-                    <App>{props.children}</App>
-                </Provider>
-            </ErrorBoundary>
-        );
-
-        return <HashRouter root={root}>{routes}</HashRouter>;
-    }, document.getElementById(elementID)!);
 }
 
 /**
 * 项目的根组件
 */
-function App(props: {children?: JSXElement}) {
-    const [fc, setFC] = createSignal<boolean>(!!document.fullscreenElement);
-    const toggleFullscreen = () => {
-        if (document.fullscreenElement) {
-            document.exitFullscreen();
-        } else {
-            document.body.requestFullscreen();
-        }
-
-        document.addEventListener('fullscreenchange', () => { // 有可能浏览器通过其它方式退出全屏。
-            setFC(!!document.fullscreenElement);
-        });
-    };
-
-    const [showSettings, setShowSettings] = createSignal(false);
-
+function App(props: {children?: JSX.Element}) {
     const ctx = useInternal();
+    const [showSettings, setShowSettings] = createSignal(false);
 
     return <div class="app palette--surface">
         <header class="app-bar palette--tertiary">
@@ -103,11 +92,9 @@ function App(props: {children?: JSXElement}) {
             </div>
 
             <div class="flex palette--primary gap-2">
-                <IconButton type="button" style="flated" rounded onClick={toggleFullscreen}title={ctx.t('_internal.fullscreen')}>
-                    {fc() ? 'fullscreen_exit' : 'fullscreen'}
-                </IconButton>
+                <Fullscreen />
 
-                <Show when={ctx.user()}>
+                <Show when={ctx.user().id}>
                     <IconButton type="button" style='flated' title={ctx.t('_internal.settings')} rounded
                         onClick={() => setShowSettings(!showSettings()) }>
                         settings
@@ -128,7 +115,29 @@ function App(props: {children?: JSXElement}) {
     </div>;
 }
 
-function Public(props: {children?: JSXElement}) {
+function Fullscreen(): JSX.Element {
+    const ctx = useApp();
+
+    const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
+
+    const toggleFullscreen = () => {
+        if (document.fullscreenElement) {
+            document.exitFullscreen();
+        } else {
+            document.body.requestFullscreen();
+        }
+
+        document.addEventListener('fullscreenchange', () => { // 有可能浏览器通过其它方式退出全屏。
+            setFS(!!document.fullscreenElement);
+        });
+    };
+
+    return <IconButton type="button" style="flated" rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
+        {fs() ? 'fullscreen_exit' : 'fullscreen'}
+    </IconButton>;
+}
+
+function Public(props: {children?: JSX.Element}) {
     return <>
         {props.children}
     </>;

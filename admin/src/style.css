@@ -28,6 +28,8 @@
 @import './app/style.css';
 
 .material-symbols-outlined {
+    display: flex;
+    align-items: center;
     font-size: 1.3rem;
     box-sizing: border-box;
     flex: 0 0 0%;
