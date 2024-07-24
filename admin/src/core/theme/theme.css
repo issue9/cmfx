@@ -13,8 +13,9 @@
  * 每个色盘衍生出 bg、bg-low、bg-high、text、text-low 和 text-high 六种颜色。
  *
  * 对于使用者，可以直接通过 var(--primary-bg) 等变量直接调用颜色，
- * 或是采用 var(--bg) 读取当前上下文中采用色盘中的颜色。
+ * 或是采用 var(--bg) 读取当前上下文中色盘中的衍生颜色。
  * 两种方式，前者颜色固定，后者向上查找最近定义的 .palette--* 类型，从中获取值。
+ * 为元素添加 .palette--* 类或是 data-palette=* 可以指定色盘。
  *
  * 如果需要自定义颜色，有以下几种方式：
  *  - 指定 primary 和 error 两种最基本的色像，其它由 CSS 根据 primary 计算得出；

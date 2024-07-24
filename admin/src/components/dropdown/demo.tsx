@@ -4,21 +4,20 @@
 
 import { createSignal } from 'solid-js';
 
-import { Corner, Palette } from '@/components/base';
-import { CornerSelector, PaletteSelector } from '@/components/base/demo';
+import { cornerSelector, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { default as Dropdown } from './dropdown';
 
 export default function() {
-    const [palette, setPalette] = createSignal<Palette>();
-    const [pos, setPos] = createSignal<Corner>('bottomleft');
+    const [paletteS, palette] = paletteSelector();
+    const [posS,pos] = cornerSelector('bottomleft');
     const [visible1, setVisible1] = createSignal(false);
     const [visible2, setVisible2] = createSignal(false);
 
     return <div class="p-5 flex flex-col items-center gap-5">
         <div class="flex justify-around gap-2">
-            <PaletteSelector set={setPalette} get={palette} />
-            <CornerSelector get={pos} set={setPos} />
+            {paletteS}
+            {posS}
         </div>
 
         <Dropdown wrapperClass="border-2" pos={pos()} palette={palette()} visible={visible1()} activator={

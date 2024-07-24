@@ -5,9 +5,9 @@
  */
 
 @layer components {
-    .choice-activator {
+    .c--choice-activator {
         .activator-container {
-            @apply rounded-md border border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 cursor-pointer;
+            @apply rounded-md border border-[var(--text-low)] flex icon-container px-2 py-1 cursor-pointer;
             @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
             .input {
@@ -34,14 +34,18 @@
         }
     }
 
-    .choice-options {
+    .c--choice-options {
         @apply border bg-[var(--bg)] rounded-md z-50 max-h-[240px] overflow-y-auto w-full;
 
         li {
-            @apply p-1 md:p-2 hover:bg-[var(--bg-high)] icon-container flex cursor-pointer;
+            @apply p-2 hover:bg-[var(--bg-high)] icon-container flex cursor-pointer;
 
             .tail {
                 margin-left: auto;
+            }
+
+            .hidden {
+                display: none;
             }
         }
 

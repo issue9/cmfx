@@ -4,16 +4,15 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Palette } from '@/components/base';
-import { PaletteSelector } from '@/components/base/demo';
+import { paletteSelector } from '@/components/base/demo';
 import { default as Divider, Props } from './divider';
 
 export default function() {
-    const [palette, setPalette] = createSignal<Palette>();
+    const [paletteS, palette] = paletteSelector();
     const [pos, setPos] = createSignal<Props['pos']>('start');
 
     return <div class="w-80 p-5">
-        <PaletteSelector get={palette} set={setPalette} />
+        {paletteS}
 
         <fieldset class="border-2">
             <legend>位置</legend>

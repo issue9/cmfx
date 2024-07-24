@@ -37,7 +37,7 @@ export interface Props extends BaseProps {
     main: JSX.Element;
 }
 
-const defaultProps: Partial<Props> = {
+const defaultProps: Readonly<Partial<Props>> = {
     pos: 'left'
 };
 
@@ -69,7 +69,7 @@ export default function(props: Props) {
         {props.children}
     </aside>;
 
-    return <div ref={(el)=>conRef=el} classList={{ 'drawer': true, 'floating': props.floating && props.visible }}>
+    return <div ref={(el)=>conRef=el} classList={{ 'c--drawer': true, 'floating': props.floating && props.visible }}>
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />

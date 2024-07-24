@@ -5,7 +5,7 @@
 import { useNavigate } from '@solidjs/router';
 import { ErrorBoundary, For, JSX } from 'solid-js';
 
-import { Button, Drawer, ErrorPage, Item, List } from '@/components';
+import { Button, Drawer, Error, Item, List } from '@/components';
 import { useInternal } from './context';
 
 export function Private(props: {children?: JSX.Element}) {
@@ -29,9 +29,9 @@ export function Private(props: {children?: JSX.Element}) {
 
     return <Drawer palette='secondary' visible={true} main={
         <ErrorBoundary fallback={(err)=>(
-            <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+            <Error header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
                 <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
-            </ErrorPage>
+            </Error>
         )}>
             {props.children}
         </ErrorBoundary>

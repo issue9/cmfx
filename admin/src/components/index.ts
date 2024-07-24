@@ -8,7 +8,7 @@ export * from './button';
 export * from './divider';
 export * from './drawer';
 export * from './dropdown';
-export * from './errorpage';
+export * from './error';
 export * from './form';
 export * from './list';
 export * from './notify';

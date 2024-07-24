@@ -5,45 +5,88 @@
  */
 
 @layer components {
-    .button {
-        @apply border border-transparent text-center rounded-md text-sm py-1 px-2 md:py-2 md:px-4 text-[var(--text)] text-nowrap;
-        @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
+    .c--button {
+        @apply border flex justify-around border-transparent text-center rounded-md text-sm py-2 px-4 text-nowrap text-[var(--text)];
     }
 
-    .button.filled {
-        background-color: var(--bg);
+    .c--button:disabled {
+        @apply cursor-not-allowed bg-[var(--bg-low)] text-[var(--text-low)];
     }
 
-    .button.bordered {
-        @apply bg-transparent border-[var(--text)];
+    .c--button.button-style--fill {
+        @apply text-[var(--text)] bg-[var(--bg)] border-[var(--bg)];
     }
 
-    .button.flated {
-        @apply bg-transparent hover:enabled:bg-[var(--bg-high)];
+    .c--button.button-style--fill:enabled:hover {
+        @apply bg-[var(--bg-high)];
     }
 
-    .icon-button {
-        /* 始终要让 p-1 和 p-2 与 .button 中的 py 和 md:py 相同 */
-        @apply border border-transparent rounded-md text-sm p-1 md:p-2 text-[var(--text)];
-        @apply disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
+    .c--button.button-style--border {
+        @apply text-[var(--text)] bg-transparent border-[var(--text)];
     }
 
-    .icon-button.filled {
-        background-color: var(--bg);
+    .c--button.button-style--border:enabled:hover {
+        @apply border-[var(--text-high)];
     }
 
-    .icon-button.bordered {
-        @apply bg-transparent border-[var(--text)];
+    .c--button.button-style--flat {
+        @apply text-[var(--text)] bg-transparent border-transparent;
     }
 
-    .icon-button.flated {
-        @apply bg-transparent hover:enabled:bg-[var(--bg-high)];
+    .c--button.button-style--flat:enabled:hover {
+        @apply bg-[var(--bg-high)] border-[var(--bg-high)];
     }
 
-    .button-group {
-        color: var(--text);
-        background-color: var(--bg);
-        @apply border-solid border border-transparent inline-block rounded-l-md rounded-r-md text-sm;
+    /************************* icon-button ******************************/
+
+    .c--icon-button {
+        @apply border border-transparent rounded-md text-sm p-2 text-[var(--text)];
+    }
+
+    .c--icon-button:disabled {
+        @apply cursor-not-allowed bg-[var(--bg-low)] text-[var(--text-low)];
+    }
+
+    .c--icon-button.button-style--fill {
+        @apply text-[var(--text)] bg-[var(--bg)] border border-[var(--bg)];
+    }
+
+    .c--icon-button.button-style--fill:enabled:hover {
+        @apply bg-[var(--bg-high)];
+    }
+
+    .c--icon-button.button-style--border {
+        @apply text-[var(--text)] bg-transparent border border-[var(--text)];
+    }
+
+    .c--button.button-style--border:enabled:hover {
+        @apply border border-[var(--text-high)];
+    }
+
+    .c--icon-button.style--flat {
+        @apply bg-transparent;
+    }
+
+    .c--icon-button.button-style--flat {
+        @apply text-[var(--text)] bg-transparent border border-transparent;
+    }
+
+    .c--icon-button.button-style--flat:enabled:hover {
+        @apply bg-[var(--bg-high)];
+    }
+
+    /************************* button-group ******************************/
+
+    .c--button-group {
+        @apply text-[var(text)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
+
+        .c--button {
+            @apply rounded-none border-none items-center flex-1 text-sm py-2 px-4 text-[var(--text)];
+        }
+
+        .c--button:disabled {
+            @apply cursor-not-allowed bg-[var(--bg-low)] text-[var(--text-low)];
+        }
 
         :first-child {
             @apply rounded-l-md;
@@ -52,15 +95,10 @@
         :last-child {
             @apply rounded-r-md;
         }
-
-        button {
-            color: var(--text);
-            @apply text-sm py-1 px-2 md:py-2 md:px-4 disabled:cursor-not-allowed hover:enabled:bg-[var(--bg-high)];
-        }
     }
 
-    .button-group.rounded {
-        @apply rounded-l-full rounded-r-full border-transparent;
+    .c--button-group.rounded {
+        @apply rounded-l-full rounded-r-full;
 
         :first-child {
             @apply rounded-l-full;
@@ -71,22 +109,39 @@
         }
     }
 
-    .button-group.filled {
-        background-color: var(--bg);
+    .c--button-group.button-style--fill {
+        @apply bg-[var(--bg-low)];
+
+        .c--button {
+            @apply bg-[var(--bg)];
+        }
+
+        .c--button:enabled:hover {
+            @apply bg-[var(--bg-high)];
+        }
     }
 
-    .button-group.bordered {
-        color: var(--bg);
-        background-color: transparent;
-        @apply border border-solid border-[var(--bg)];
+    .c--button-group.button-style--border {
+        @apply text-[var(--bg)] bg-transparent border border-solid border-[var(--bg)];
+
+        .c--button {
+            @apply bg-transparent border-transparent;
+        }
+
+        .c--button:enabled:hover {
+            @apply border-[var(--text)];
+        }
     }
 
-    .button-group.flated {
-        background-color: transparent;
-        color: var(--bg);
+    .c--button-group.button-style--flat {
+        @apply bg-transparent text-[var(--bg)];
 
-        button {
-            @apply hover:enabled:bg-[var(--bg-high)] hover:enabled:text-[var(--text)];
+        .c--button {
+            @apply bg-transparent border-transparent;
+        }
+
+        .c--button:enabled:hover {
+            @apply bg-[var(--bg)];
         }
     }
 }

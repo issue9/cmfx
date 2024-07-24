@@ -25,7 +25,7 @@ export interface Props extends BaseProps {
     children?: JSX.Element;
 }
 
-const defaultProps: Partial<Props> = {
+const defaultProps: Readonly<Partial<Props>> = {
     palette: 'error',
 };
 
@@ -35,7 +35,7 @@ const defaultProps: Partial<Props> = {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class={props.palette ? `error-page palette--${props.palette}` : 'error-page'}>
+    return <div class={props.palette ? `c--error palette--${props.palette}` : 'c--error'}>
         <Show when={props.header}>
             <h1>{props.header}</h1>
         </Show>

@@ -27,7 +27,7 @@ export default function(props: Props): JSX.Element {
             </Show>
 
             <div classList={{
-                'text-field': true,
+                'c--text-field': true,
                 'rounded': props.rounded,
             }}>
                 <Show when={props.icon}>

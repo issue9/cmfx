@@ -13,7 +13,7 @@ export default function() {
     const [disable, setDisable] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
 
-    return <div class="w-80">
+    return <div class="w-80 flex flex-col gap-y-2">
         <fieldset class="border-2 my-4 box-border">
             <legend>设置</legend>
 

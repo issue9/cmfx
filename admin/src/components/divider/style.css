@@ -5,12 +5,7 @@
  */
 
 @layer components {
-    .divider {
-        color: var(--text);
-        @apply flex content-center items-center;
-
-        hr {
-            color: var(--text-low);
-        }
+    .c--divider {
+        @apply flex content-center items-center text-[var(--bg-low)];
     }
 }

@@ -7,7 +7,8 @@ import { For, JSX, lazy } from 'solid-js';
 
 const maps: Array<[string, ReturnType<typeof lazy>]> = [
     ['/app', lazy(()=>import('@/app/demo'))],
-    ['/errors', lazy(()=>import('@/components/errorpage/demo'))],
+    ['/base', lazy(()=>import('@/components/base/demo'))],
+    ['/errors', lazy(()=>import('@/components/error/demo'))],
     ['/button', lazy(()=>import('@/components/button/demo'))],
     ['/dropdown', lazy(()=>import('@/components/dropdown/demo'))],
     ['/badge', lazy(()=>import('@/components/badge/demo'))],

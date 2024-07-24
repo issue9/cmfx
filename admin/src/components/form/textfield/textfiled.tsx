@@ -29,7 +29,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                 {renderElementProp(props.label)}
             </Show>
             <div classList={{
-                'text-field': true,
+                'c--text-field': true,
                 'rounded': props.rounded,
             }}>
                 <Show when={props.prefix}>

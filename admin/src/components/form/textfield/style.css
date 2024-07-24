@@ -5,7 +5,7 @@
  */
 
 @layer components {
-    .text-field {
+    .c--text-field {
         @apply rounded-md border border-[var(--text-low)] flex justify-between items-stretch text-center;
         @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
@@ -24,7 +24,7 @@
 
         .input {
             min-height: var(--min-input-height);
-            @apply py-0 md:py-1 px-2 outline-none bg-transparent flex-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
+            @apply py-1 px-2 outline-none bg-transparent flex-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
 
             -webkit-appearance: textfield;
             -moz-appearance: textfield;
@@ -46,7 +46,7 @@
         }
     }
 
-    .text-field.rounded {
+    .c--text-field.rounded {
         @apply rounded-full;
 
         >:first-child {

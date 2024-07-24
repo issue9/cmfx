@@ -8,14 +8,17 @@ import { BaseProps } from '@/components/base';
 
 export type Props = ParentProps<{pos?: 'start' | 'center' | 'end'} & BaseProps>;
 
-const defaultProps: Props = {
+const defaultProps: Readonly<Props> = {
     pos: 'start'
 };
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class={props.palette ? `divider palette--${props.palette}` : 'divider'}>
+    return <div classList={{
+        'c--divider': true,
+        [`palette--${props.palette}`]: !!props.palette,
+    }}>
         <Switch fallback={<hr class="w-full" />}>
             <Match when={props.pos === 'start' && props.children}>
                 {props.children}<hr class="flex-1 ml-2" />

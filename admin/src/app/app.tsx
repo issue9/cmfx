@@ -6,7 +6,7 @@ import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
 import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Button, Drawer, ErrorPage, IconButton, Notify } from '@/components';
+import { Button, Drawer, Error, IconButton, Notify } from '@/components';
 import { Fetcher, initTheme } from '@/core';
 import { buildContext, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
@@ -32,9 +32,9 @@ export async function create(elementID: string, o: Options) {
 
         const root = (props: { children?: JSX.Element }) => (
             <ErrorBoundary fallback={(err)=>(
-                <ErrorPage header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
+                <Error header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
                     <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
-                </ErrorPage>
+                </Error>
             )}>
                 <Provider><App>{props.children}</App></Provider>
             </ErrorBoundary>
@@ -63,12 +63,12 @@ function buildRoutes(opt: Required<Options>): Array<RouteDefinition> {
             path: '*',
             component: ()=>{
                 const ctx = useApp();
-                return <ErrorPage header="404" title={ctx.t('_internal.error.pageNotFound')}>
+                return <Error header="404" title={ctx.t('_internal.error.pageNotFound')}>
                     <div class="flex gap-x-5 justify-center">
-                        <A class="palette--primary button filled" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
+                        <A class="palette--primary c--button button-style--fill" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
                         <Button palette='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
                     </div>
-                </ErrorPage>;
+                </Error>;
             }
         }
     ];
@@ -95,7 +95,7 @@ function App(props: {children?: JSX.Element}) {
                 <Fullscreen />
 
                 <Show when={ctx.user().id}>
-                    <IconButton type="button" style='flated' title={ctx.t('_internal.settings')} rounded
+                    <IconButton type="button" style='flat' title={ctx.t('_internal.settings')} rounded
                         onClick={() => setShowSettings(!showSettings()) }>
                         settings
                     </IconButton>
@@ -132,7 +132,7 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <IconButton type="button" style="flated" rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
+    return <IconButton type="button" style="flat" rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </IconButton>;
 }

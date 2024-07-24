@@ -37,7 +37,7 @@ export default function(props: Props) {
     const [chk, setChk] = createSignal(props.checked);
 
     return <label title={props.title} classList={{
-        'checkbox': true,
+        'c--checkbox': true,
         [`palette--${props.palette}`]: !!props.palette,
         'border': !props.icon
     }}>

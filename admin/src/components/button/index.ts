@@ -2,9 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { styles as buttonStyles } from './types';
-export type { Style as ButtonStyle } from './types';
-
 export { default as Button } from './button';
 export type { Props as ButtonProps } from './button';
 
@@ -13,4 +10,7 @@ export type { Props as IconButtonProps } from './icon';
 
 export { default as ButtonGroup } from './group';
 export type { Props as ButtonGroupProps } from './group';
+
+export { styles as buttonStyles } from './types';
+export type { Style as ButtonStyle } from './types';
 

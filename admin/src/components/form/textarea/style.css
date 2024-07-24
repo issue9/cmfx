@@ -4,11 +4,10 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 @layer components {
-    .textarea {
+    .c--textarea {
         min-height: var(--min-input-height);
-        @apply rounded-md bg-transparent border border-[var(--bg-low)] flex px-1 py-1 md:px-2 md:py-2 w-full text-left;
-        @apply focus:enabled:border-[var(--text-high)] hover:enabled:border-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
+        @apply rounded-md outline-none bg-transparent border border-[var(--bg-low)] flex px-2 py-2 w-full text-left;
+        @apply focus:border-[var(--text-high)] hover:enabled:border-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
     }
 }

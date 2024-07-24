@@ -19,7 +19,7 @@ export interface Props extends BaseProps {
      * 控制可见性
      *
      * 如果指定了该值，那么在点击非当前控件时将关闭弹出的窗口，
-     * 否则将只能通过点击 activator 关闭窗口。
+     * 否则将只能通过控制 visible 属性关闭窗口。
      */
     setVisible?: Setter<boolean>;
 
@@ -49,7 +49,7 @@ export interface Props extends BaseProps {
     wrapperClass?: string;
 }
 
-const defaultProps: Partial<Props> = {
+const defaultProps: Readonly<Partial<Props>> = {
     tag: 'div',
     pos: 'bottomleft'
 };
@@ -75,7 +75,7 @@ export default function Dropdown(props: Props) {
     });
 
     return <div ref={(el)=>ref=el} class={props.wrapperClass} classList={{
-        'dropdown': true,
+        'c--dropdown': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         {renderElementProp(props.activator)}

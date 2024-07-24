@@ -5,7 +5,7 @@
 */
 
 @layer components {
-    .checkbox {
+    .c--checkbox {
         @apply border-2 border-transparent icon-container;
 
         .checkbox-icon {
@@ -14,11 +14,11 @@
         }
     }
 
-    .checkbox.border {
+    .c--checkbox.border {
         @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
     }
 
-    .checkbox:has(:enabled):hover {
+    .c--checkbox:has(:enabled):hover {
         cursor: pointer;
 
         .checkbox-icon {
@@ -26,15 +26,15 @@
         }
     }
 
-    .checkbox.border:has(:enabled):hover {
+    .c--checkbox.border:has(:enabled):hover {
         @apply border-[var(--bg-high)];
     }
 
-    .checkbox:has(:disabled) {
+    .c--checkbox:has(:disabled) {
         cursor: not-allowed;
     }
 
-    .checkbox-group {
+    .c--checkbox-group {
         .content {
             @apply flex flex-wrap gap-1
         }

@@ -5,13 +5,11 @@
  */
 
 @layer components {
-    .badge {
+    .c--badge {
         position: relative;
 
         .content {
-            background-color: var(--bg);
-            color: var(--text);
-            @apply absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
+            @apply bg-[var(--bg)] text-[var(--text)] absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
         }
 
         .topleft {

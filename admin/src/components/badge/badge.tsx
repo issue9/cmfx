@@ -12,19 +12,19 @@ export interface Props extends BaseProps {
     children: JSX.Element;
 };
 
-const defaultProps: Partial<Props> = {
+const defaultProps: Readonly<Partial<Props>> = {
     pos: 'topright'
 };
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div class="badge">
+    return <div class="c--badge">
         {props.children}
         <span classList={{
             'content': true,
             [props.pos as string]: true,
-            [`palette--${props.palette}`]: props.palette ? true : false
+            [`palette--${props.palette}`]: !!props.palette,
         }}>{ props.text }</span >
     </div>;
 }

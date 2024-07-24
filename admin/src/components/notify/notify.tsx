@@ -66,7 +66,7 @@ export default function(props: Props) {
         }
     });
 
-    return <div class={props.palette ? `notify palette--${props.palette}` : 'notify'}>
+    return <div class={props.palette ? `c--notify palette--${props.palette}` : 'c--notify'}>
         <For each={msgs()}>
             {item => {
                 const elemID = `notify-${item.id}`;

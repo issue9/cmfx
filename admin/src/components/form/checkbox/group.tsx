@@ -34,7 +34,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
 
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
 
-    return <fieldset disabled={props.disabled} class={props.palette ? `checkbox-group field palette--${props.palette}` : 'checkbox-group field'}>
+    return <fieldset disabled={props.disabled} class={props.palette ? `c--checkbox-group field palette--${props.palette}` : 'c--checkbox-group field'}>
         <Show when={props.label}>
             <legend class="icon-container" title={props.title}>{renderElementProp(props.label)}</legend >
         </Show>

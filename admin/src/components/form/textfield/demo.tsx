@@ -4,8 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { Palette } from '@/components/base';
-import { PaletteSelector } from '@/components/base/demo';
+import { paletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Number from './number';
 import Password from './password';
@@ -19,7 +18,7 @@ export default function() {
     const [disable, setDisable] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
-    const [palette, setPalette] = createSignal<Palette>();
+    const [paletteS, palette] = paletteSelector();
 
     const prefix = () => (<div class="bg-red-500 flex items-center">prefix</div>);
 
@@ -29,7 +28,7 @@ export default function() {
 
     return <div class="flex flex-col flex-wrap px-5">
         <div class="flex gap-2">
-            <PaletteSelector get={palette} set={setPalette} />
+            {paletteS}
             <fieldset class="border-2 my-4 box-border">
                 <legend>设置</legend>
 

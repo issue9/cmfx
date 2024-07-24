@@ -12,7 +12,7 @@ export interface Props extends BaseProps {
 }
 
 export default function (props: Props): JSX.Element {
-    return <menu role="menu" class={props.palette ? `list palette--${props.palette}` : 'list'}>
+    return <menu role="menu" class={props.palette ? `c--list palette--${props.palette}` : 'c--list'}>
         { props.children }
     </menu>;
 }

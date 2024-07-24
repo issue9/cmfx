@@ -5,10 +5,8 @@
  */
 
 @layer components {
-    .list {
-        @apply flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
-        color: var(--text);
-        background-color: var(--bg);
+    .c--list {
+        @apply text-[var(--text)] bg-[var(--bg)] flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
 
         .item {
             @apply flex flex-col gap-y-1;
@@ -24,8 +22,7 @@
 
         .item.active {
             .title {
-                background-color: var(--bg-high);
-                color: var(--text-high);
+                @apply text-[var(--text-high)] bg-[var(--bg-high)];
             }
         }
     }

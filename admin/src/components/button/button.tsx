@@ -4,18 +4,14 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Props as BaseProps } from './types';
+import { Props as BaseProps, ButtonType, ClickFunc, defaultProps } from './types';
 
 export interface Props extends BaseProps {
     children: JSX.Element;
-    onClick?: { (e?: Event): void };
+    onClick?: ClickFunc;
     title?: string;
-    type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+    type?: ButtonType;
 }
-
-const defaultProps: Partial<Props> = {
-    style: 'filled'
-};
 
 /**
  * 普通的按钮组件
@@ -23,12 +19,13 @@ const defaultProps: Partial<Props> = {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
-        'button': true,
-        [`${props.style}`]: true,
-        [`palette--${props.palette}`]: !!props.palette,
-        'rounded-full': props.rounded,
-    }}>
+    return <button disabled={props.disabled}
+        type={props.type} title={props.title} onClick={props.onClick} classList={{
+            'c--button': true,
+            [`button-style--${props.style}`]: true,
+            [`palette--${props.palette}`]: !!props.palette,
+            'rounded-full': props.rounded,
+        }}>
         {props.children}
     </button>;
 }

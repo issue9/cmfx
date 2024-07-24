@@ -2,19 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
-
-import { Palette } from '@/components/base';
-import { PaletteSelector } from '@/components/base/demo';
+import { paletteSelector } from '@/components/base/demo';
 import { Divider } from '@/components/divider';
 import { default as Item } from './item';
 import { default as List } from './list';
 
 export default function() {
-    const [palette, setPalette] = createSignal<Palette>();
+    const [paletteS,palette] = paletteSelector();
 
     return <div class="flex flex-col gap-2">
-        <PaletteSelector get={palette} set={setPalette} />
+        {paletteS}
 
         <List palette={palette()}>
             <Item text="item" head='face'>

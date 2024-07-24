@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Palette } from '@/components/base';
-import { PaletteSelector } from '@/components/base/demo';
+import { paletteSelector } from '@/components/base/demo';
 import { FieldAccessor, Options, TextField } from '@/components/form';
 import { createSignal } from 'solid-js';
 import { default as Choice } from './choice';
@@ -33,14 +32,14 @@ export default function() {
     const tf = FieldAccessor('textfield', '');
 
 
-    const [palette, setPalette] = createSignal<Palette>();
+    const [paletteS, palette] = paletteSelector();
     const [disable, setDisable] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [icon, setIcon] = createSignal(false);
     return <div class="px-10 py-5 flex flex-col gap-y-10 w-[500px]">
         <div class="flex mb-10 gap-2">
-            <PaletteSelector get={palette} set={setPalette} />
+            {paletteS}
             <label class="mr-4">
                 <input type="checkbox" onChange={(e) => setReadonly(e.target.checked)} />readonly
             </label>

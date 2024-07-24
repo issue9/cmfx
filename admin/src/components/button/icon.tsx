@@ -2,20 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { mergeProps } from 'solid-js';
 
-import { Props as BaseProps } from './types';
+import { Props as BaseProps, ButtonType, ClickFunc, defaultProps } from './types';
 
 export interface Props extends BaseProps {
+    /**
+     * 图标名称 https://fonts.google.com/icons
+     */
     children: string;
-    onClick?: { (e?: Event): void };
-    title?: string;
-    type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
-}
 
-const defaultProps: Partial<Props> = {
-    style: 'filled'
-};
+    onClick?: ClickFunc;
+    title?: string;
+    type?: ButtonType;
+}
 
 /**
  * 仅带图标的按钮组件
@@ -24,11 +24,12 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
+        'component': true,
         'material-symbols-outlined': true,
-        'icon-button': true,
-        [`${props.style}`]: true,
+        'c--icon-button': true,
         'rounded-full': props.rounded,
         [`palette--${props.palette}`]: !!props.palette,
+        [`button-style--${props.style}`]: true
     }}>
         {props.children}
     </button>;

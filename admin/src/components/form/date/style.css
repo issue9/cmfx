@@ -4,9 +4,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-.date-activator {
+.c--date-activator {
     .activator-container {
-        @apply rounded-md border border-[var(--text-low)] flex icon-container px-1 py-0 md:px-2 md:py-1 cursor-pointer;
+        @apply rounded-md border border-[var(--text-low)] flex icon-container px-2 py-1 cursor-pointer;
         @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
 
         .input {
@@ -25,8 +25,8 @@
     }
 }
 
-.date-panel {
-    @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--text)] p-1 md:p-2;
+.c--date-panel {
+    @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--text)] p-2;
 
     .title {
         @apply pb-2 cursor-pointer;
