@@ -1,0 +1,44 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@import 'material-symbols';
+@import './core/theme/theme.css';
+@import './tailwind.css';
+
+@import './components/badge/style.css';
+@import './components/button/style.css';
+@import './components/divider/style.css';
+@import './components/drawer/style.css';
+@import './components/dropdown/style.css';
+@import './components/error/style.css';
+@import './components/list/style.css';
+@import './components/notify/style.css';
+
+@import './components/form/style.css';
+@import './components/form/checkbox/style.css';
+@import './components/form/choice/style.css';
+@import './components/form/radio/style.css';
+@import './components/form/textarea/style.css';
+@import './components/form/textfield/style.css';
+@import './components/form/date/style.css';
+
+@import './app/style.css';
+
+.material-symbols-outlined {
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    box-sizing: border-box;
+    flex: 0 0 0%;
+}
+
+.material-symbols-outlined.filled {
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+}
+
+.icon-container {
+    @apply flex items-center text-center;
+}

@@ -53,7 +53,7 @@ messages:
         msg: delete roles
     - key: different oauth state value %s %s
       message:
-        msg: 返回了不同的 oauth state 值 %s %s
+        msg: different oauth state value %s %s
     - key: edit roles
       message:
         msg: edit roles
@@ -87,9 +87,12 @@ messages:
     - key: identity registrable detail
       message:
         msg: identity registrable detail
-    - key: invalid indetity format
+    - key: invalid identity format
       message:
-        msg: invalid indetity format
+        msg: invalid identity format
+    - key: invalid url format
+      message:
+        msg: invalid url format
     - key: linkage %s not found
       message:
         msg: linkage %s not found
@@ -111,6 +114,18 @@ messages:
     - key: must be a dir
       message:
         msg: must be a dir
+    - key: must be empty
+      message:
+        msg: must be empty
+    - key: must be greater than %v
+      message:
+        msg: must be greater than %v
+    - key: must be less than %v
+      message:
+        msg: must be less than %v
+    - key: not found
+      message:
+        msg: not found
     - key: only for super
       message:
         msg: only for super
@@ -141,12 +156,18 @@ messages:
     - key: same of new and old password
       message:
         msg: same of new and old password
+    - key: strength invalid
+      message:
+        msg: strength invalid
     - key: suite
       message:
         msg: suite
     - key: system
       message:
         msg: system
+    - key: the value not in candidate
+      message:
+        msg: the value not in candidate
     - key: uid already exists
       message:
         msg: uid already exists

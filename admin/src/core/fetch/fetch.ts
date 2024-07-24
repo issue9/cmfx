@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locales } from '@/core/locales/locales';
-
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
@@ -21,31 +19,31 @@ interface Serializer {
 }
 
 /**
- * 返回一个对 fetch 进行二次包装的对象
- *
- * @param baseURL API 的基地址，不能以 / 结尾。
- * @param contentType mimetype 的类型。
- * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
- * @param locales 管理本地化的对象，由该参数确定 accept-language 报头的内容。
+ * 对 fetch 的二次封装，提供了令牌续订功能。
  */
-export async function build(baseURL: string, loginPath: string, contentType: string, locales: Locales): Promise<Fetcher> {
-    const t = await getToken();
-    return new Fetcher(baseURL, loginPath, contentType, locales, t);
-}
-
-class Fetcher {
+export class Fetcher {
     readonly #baseURL: string;
     readonly #loginPath: string;
-    readonly #locales: Locales;
+    #locale: string;
     #token: Token | null;
 
     readonly #contentType: string;
     readonly #serializer: Serializer;
 
     /**
-     * 构造函数，参数参考 build
+     * 返回一个对 fetch 进行二次包装的对象
+     *
+     * @param baseURL API 的基地址，不能以 / 结尾。
+     * @param contentType mimetype 的类型。
+     * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
+     * @param locale 报头 accept-language 的内容。
      */
-    constructor(baseURL: string, loginPath: string, contentType: string, locales: Locales, token: Token | null) {
+    static async build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
+        const t = await getToken();
+        return new Fetcher(baseURL, loginPath, contentType, locale, t);
+    }
+
+    private constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
         const s = serializers.get(contentType);
         if (!s) {
             throw `不支持的 contentType ${contentType}`;
@@ -53,17 +51,14 @@ class Fetcher {
 
         this.#baseURL = baseURL;
         this.#loginPath = loginPath;
-        this.#locales = locales;
+        this.#locale = locale;
         this.#token = token;
 
         this.#contentType = contentType;
         this.#serializer = s;
     }
 
-    /**
-     * 返回关联的 Locales 对象
-     */
-    get locales(): Locales { return this.#locales; }
+    set locale(v: string) { this.#locale = v; }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -84,7 +79,7 @@ class Fetcher {
     /**
      * DELETE 请求
      */
-    async delete(path: string, withToken = true): Promise<Return> {
+    async delete<T>(path: string, withToken = true): Promise<Return<T>> {
         return this.request(path, 'DELETE', undefined, withToken);
     }
 
@@ -95,28 +90,28 @@ class Fetcher {
      * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
-    async post(path: string, body?: unknown, withToken = true): Promise<Return> {
+    async post<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
         return this.request(path, 'POST', body, withToken);
     }
 
     /**
      * PUT 请求
      */
-    async put(path: string, body?: unknown, withToken = true): Promise<Return> {
+    async put<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
         return this.request(path, 'PUT', body, withToken);
     }
 
     /**
      * PATCH 请求
      */
-    async patch(path: string, body?: unknown, withToken = true): Promise<Return> {
+    async patch<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
         return this.request(path, 'PATCH', body, withToken);
     }
 
     /**
      * GET 请求
      */
-    async get(path: string, withToken = true): Promise<Return> {
+    async get<T>(path: string, withToken = true): Promise<Return<T>> {
         return this.request(path, 'GET', undefined, withToken);
     }
 
@@ -128,10 +123,10 @@ class Fetcher {
      * @param obj 请求对象，如果是 GET，可以为空。
      * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
      */
-    async request(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return> {
+    async request<T>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<T>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj ? this.#serializer.stringify(obj) : undefined;
-        return this.withArgument(path, method, token, this.#contentType, body);
+        return this.withArgument<T>(path, method, token, this.#contentType, body);
     }
 
     /**
@@ -141,26 +136,35 @@ class Fetcher {
      * @param obj 上传的对象
      * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌。
      */
-    async upload(path: string, obj: FormData, withToken = true): Promise<Return> {
+    async upload<T>(path: string, obj: FormData, withToken = true): Promise<Return<T>> {
         const token = withToken ? await this.getToken() : undefined;
-        return this.withArgument(path, 'POST', token, undefined, obj);
+        return this.withArgument<T>(path, 'POST', token, undefined, obj);
     }
 
     /**
-     * 是否处于登录状态
+     * 执行登录操作
+     *
+     * @returns 如果返回 True，表示操作成功，否则表示错误信息。
      */
-    async isLogin(): Promise<boolean> {
-        const token = await this.getToken();
-        return token !== undefined;
+    async login(account: Account): Promise<Problem|undefined|true> {
+        const token = await this.post<Token>(this.#loginPath, account, false);
+        if (token.ok) {
+            await writeToken(token.body!);
+            return true;
+        }
+
+        return token.body;
     }
 
     /**
      * 退出当前的登录状态
      */
     async logout() {
+        await this.delete(this.#loginPath);
         this.#token = null;
         await delToken();
     }
+
 
     /**
      * 获得令牌，如果令牌已经过期，会尝试刷新令牌。
@@ -179,12 +183,12 @@ class Fetcher {
             return undefined;
         case TokenState.AccessExpired: // 尝试刷新令牌
         { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
-            const ret = await this.withArgument(this.#loginPath, 'PUT', t.refresh_token, this.#contentType);
+            const ret = await this.withArgument<Token>(this.#loginPath, 'PUT', t.refresh_token, this.#contentType);
             if (!ret.ok) {
                 return undefined;
             }
 
-            this.#token = ret.body as Token;
+            this.#token = ret.body!;
             await writeToken(this.#token);
             return this.#token.access_token;
         }
@@ -200,10 +204,10 @@ class Fetcher {
      * @param ct content-type 的值，如果为空，表示不需要，比如上传等操作，不需要指定客户的 content-type 值；
      * @param body 提交的内容，如果不没有可以为空；
      */
-    async withArgument(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return> {
+    async withArgument<T>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return<T>> {
         const h = new Headers({
             'Accept': this.#contentType + '; charset=UTF-8',
-            'Accept-Language': this.#locales.current,
+            'Accept-Language': this.#locale,
         });
         if (token) {
             h.set('Authorization', token);
@@ -226,40 +230,39 @@ class Fetcher {
      * @param path 地址，相对于 baseURL
      * @param req 相关的参数
      */
-    async fetch(path: string, req?: RequestInit): Promise<Return> {
-        const resp = await fetch(this.buildURL(path), req);
-
-        // 200-299
-
-        if (resp.ok) {
-            const txt = await resp.text();
-            if (txt.length === 0) {
-                return { status: resp.status, ok: true };
-            }
-            return { status: resp.status, ok: true, body: this.#serializer.parse(txt) };
-        }
-
-        // TODO 300-399
-
-        // 400-599
-
-        let ok = false;
-        switch (resp.status) {
-        case 401:
-            this.#token = null;
-            await delToken();
-            break;
-        case 404: // 404 算正常返回
-            ok = true;
-        }
-
-        let p: Problem | undefined;
+    async fetch<T>(path: string, req?: RequestInit): Promise<Return<T>> {
         try {
-            p = this.#serializer.parse(await resp.text()) as Problem;
-        } catch (error) {
-            console.error(error);
+            const resp = await fetch(this.buildURL(path), req);
+
+            // 200-299
+
+            if (resp.ok) {
+                return { status: resp.status, ok: true, body: await this.parse<T>(resp) };
+            }
+
+            // TODO 300-399
+
+            // 400-599
+
+            if (resp.status === 401) {
+                this.#token = null;
+                await delToken();
+            }
+            return { status: resp.status, ok: false, body: await this.parse<Problem>(resp) };
+        } catch(e) {
+            if (e instanceof Error) {
+                return { status: 500, ok: false, body: {type: '500', status: 500, title: 'fetch error', detail: e.message } };
+            }
+            return { status: 500, ok: false, body: {type: '500', status: 500, title: 'error', detail: (<any>e).toString() } };
         }
-        return { status: resp.status, ok: ok, problem: p };
+    }
+
+    async parse<T>(resp: Response): Promise<T|undefined> {
+        const txt = await resp.text();
+        if (txt.length === 0) {
+            return;
+        }
+        return this.#serializer.parse(await resp.text()) as T;
     }
 }
 
@@ -282,23 +285,52 @@ export interface Param {
 }
 
 /**
- * 分页接口返回的对象
+ * 接口返回的对象
  */
-export interface Page<T> {
-    count: number
-    current: Array<T>
-    more?: boolean
+export type Return<T> = {
+    /**
+     * 服务端返回的类型
+     */
+    body?: Problem;
+
+    /**
+     * 状态码
+     */
+    status: number;
+
+    /**
+     * 是否出错了。
+     */
+    ok: false;
+} | {
+    /**
+     * 服务端返回的类型
+     */
+    body?: T;
+
+    /**
+     * 状态码
+     */
+    status: number;
+
+    /**
+     * 是否出错了。
+     */
+    ok: true;
+};
+
+export interface Account {
+    [key: string]: string; // 限制字段名的类型
+    username: string;
+    password: string;
 }
 
 /**
- * 接口返回的对象
- *
- * 如果 ok 为 true，表示返回的是正常的结果，该结果如果不为空，那么应该在 body 之中；
- * 如果 ok 为 false，表示返回的是非正常的结果，如果有错误信息，应该保存在 problem 之中。
+ * 分页接口返回的对象
  */
-export interface Return {
-    problem?: Problem
-    body?: unknown
-    status: number
-    ok: boolean
+export interface Page<T> {
+    [key: string]: unknown; // 限制字段名的类型
+    count: number
+    current: Array<T>
+    more?: boolean
 }

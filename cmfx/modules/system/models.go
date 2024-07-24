@@ -12,9 +12,9 @@ import (
 //------------------------------------- health ---------------------------------------
 
 type modelHealth struct {
-	Router       string        `orm:"name(router);len(100);unique(r_m_p)"`
+	Router       string        `orm:"name(router);len(20);unique(r_m_p)"`
 	Method       string        `orm:"name(method);len(10);unique(r_m_p)"`
-	Pattern      string        `orm:"name(pattern);len(1024);unique(r_m_p)"`
+	Pattern      string        `orm:"name(pattern);len(500);unique(r_m_p)"`
 	Min          time.Duration `orm:"name(min)"`
 	Max          time.Duration `orm:"name(max)"`
 	Count        int           `orm:"name(count)"`

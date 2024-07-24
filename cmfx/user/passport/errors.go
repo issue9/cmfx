@@ -12,7 +12,7 @@ var (
 	errIdentityNotExists = web.NewLocaleError("identity not exists")
 	errUIDNotExists      = web.NewLocaleError("uid not exists")
 	errUnauthorized      = web.NewLocaleError("unauthorized")
-	errInvalidIdentity   = web.NewLocaleError("invalid indetity format")
+	errInvalidIdentity   = web.NewLocaleError("invalid identity format")
 )
 
 func ErrUIDMustBeGreatThanZero() error { return web.NewLocaleError("uid must be great than 0") }

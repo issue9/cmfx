@@ -4,6 +4,8 @@
 
 package types
 
+import "github.com/issue9/orm/v6/core"
+
 //go:generate web enum -i=./enums.go -o=./enums_methods.go -t=Sex
 
 // 性别
@@ -17,3 +19,5 @@ const (
 	SexMale
 	SexFemale
 )
+
+func (s Sex) PrimitiveType() core.PrimitiveType { return core.String }

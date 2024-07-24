@@ -1,39 +1,61 @@
-openapi: 3.0.0
 components:
+    responses:
+        4XX:
+            content:
+                application/cbor:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+                application/xml:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+            description: ""
+        5XX:
+            content:
+                application/cbor:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+                application/json:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+                application/xml:
+                    schema:
+                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+            description: desc
     schemas:
         github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState:
-            type: object
-            title: 包含权限的管理员信息
             properties:
                 avatar:
-                    type: string
-                    title: 头像
                     nullable: true
+                    title: 头像
+                    type: string
                 id:
                     type: integer
                     xml:
                         attribute: true
                 language:
-                    type: string
-                    title: 界面语言
                     description: |
                         界面语言
 
                         不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
+                    title: 界面语言
+                    type: string
                 name:
-                    type: string
                     title: 真实名称
-                nickname:
                     type: string
+                nickname:
                     title: 昵称
+                    type: string
                 roles:
-                    type: array
+                    items:
+                        type: string
                     title: 关联的角色
+                    type: array
                     xml:
                         name: role
                         wrapped: true
-                    items:
-                        type: string
                 sex:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
@@ -46,87 +68,102 @@ components:
                     title: 用户状态
                     xml:
                         attribute: true
-                timezone:
+                theme:
+                    description: |
+                        主题
+
+                        由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
+                    title: 主题
                     type: string
-                    title: 时区
+                timezone:
                     description: |
                         时区
 
                         不会直接影响服务的处理，客户端自行决定是否采用。
-        github.com.issue9.cmfx.cmfx.modules.admin.info:
+                    title: 时区
+                    type: string
+            title: 包含权限的管理员信息
             type: object
-            title: 管理员的基本信息
-            xml:
-                name: info
+        github.com.issue9.cmfx.cmfx.modules.admin.info:
             properties:
                 avatar:
-                    type: string
-                    title: 头像
                     nullable: true
+                    title: 头像
+                    type: string
                 id:
                     type: integer
                     xml:
                         attribute: true
                 language:
-                    type: string
-                    title: 界面语言
                     description: |
                         界面语言
 
                         不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
+                    title: 界面语言
+                    type: string
                 name:
-                    type: string
                     title: 真实名称
-                nickname:
                     type: string
+                nickname:
                     title: 昵称
+                    type: string
                 sex:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
                     title: 性别
                     xml:
                         attribute: true
-                timezone:
+                theme:
+                    description: |
+                        主题
+
+                        由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
+                    title: 主题
                     type: string
-                    title: 时区
+                timezone:
                     description: |
                         时区
 
                         不会直接影响服务的处理，客户端自行决定是否采用。
-        github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount:
+                    title: 时区
+                    type: string
+            title: 管理员的基本信息
             type: object
+            xml:
+                name: info
+        github.com.issue9.cmfx.cmfx.modules.admin.reqInfoWithAccount:
             properties:
                 avatar:
-                    type: string
-                    title: 头像
                     nullable: true
+                    title: 头像
+                    type: string
                 id:
                     type: integer
                     xml:
                         attribute: true
                 language:
-                    type: string
-                    title: 界面语言
                     description: |
                         界面语言
 
                         不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
+                    title: 界面语言
+                    type: string
                 name:
-                    type: string
                     title: 真实名称
-                nickname:
                     type: string
+                nickname:
                     title: 昵称
+                    type: string
                 password:
                     type: string
                 roles:
-                    type: array
+                    items:
+                        type: string
                     title: 关联的角色
+                    type: array
                     xml:
                         name: role
                         wrapped: true
-                    items:
-                        type: string
                 sex:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
@@ -139,155 +176,154 @@ components:
                     title: 用户状态
                     xml:
                         attribute: true
-                timezone:
+                theme:
+                    description: |
+                        主题
+
+                        由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
+                    title: 主题
                     type: string
-                    title: 时区
+                timezone:
                     description: |
                         时区
 
                         不会直接影响服务的处理，客户端自行决定是否采用。
+                    title: 时区
+                    type: string
                 username:
                     type: string
-        github.com.issue9.cmfx.cmfx.modules.admin.reqPassword:
             type: object
-            title: 密码修改
-            xml:
-                name: password
+        github.com.issue9.cmfx.cmfx.modules.admin.reqPassword:
             properties:
                 new:
                     type: string
                 old:
                     type: string
-        github.com.issue9.cmfx.cmfx.modules.system.censorSettings:
+            title: 密码修改
             type: object
-            title: 内容审核设置
             xml:
-                name: censor
+                name: password
+        github.com.issue9.cmfx.cmfx.modules.system.censorSettings:
             properties:
                 name:
-                    type: array
-                    title: 关键字过滤
                     items:
                         type: string
+                    title: 关键字过滤
+                    type: array
                 pattern:
-                    type: string
                     title: 正则表达式过滤
-        github.com.issue9.cmfx.cmfx.modules.system.dbInfo:
+                    type: string
+            title: 内容审核设置
             type: object
-            title: 数据库的基本信息
+            xml:
+                name: censor
+        github.com.issue9.cmfx.cmfx.modules.system.dbInfo:
             properties:
                 idle:
-                    type: integer
                     title: 空闲的连接
+                    type: integer
                 inUse:
-                    type: integer
                     title: 当前的连接数
+                    type: integer
                 maxIdleClosed:
-                    type: integer
                     title: 最大空闲联接
+                    type: integer
                 maxIdleTimeClosed:
-                    type: integer
-                    title: The total number of connections closed due to SetConnMaxIdleTime.
                     nullable: true
+                    title: The total number of connections closed due to SetConnMaxIdleTime.
+                    type: integer
                 maxLifetimeClosed:
-                    type: integer
                     title: 最生命周期联接
+                    type: integer
                 maxOpenConnections:
-                    type: integer
                     title: 连接数
+                    type: integer
                 name:
-                    type: string
                     title: 数据库驱动
+                    type: string
                 openConnections:
-                    type: integer
                     title: 总的连接数
-                version:
-                    type: string
-                    title: 数据库版本
-                waitCount:
                     type: integer
+                version:
+                    title: 数据库版本
+                    type: string
+                waitCount:
                     title: 等待的连接
+                    type: integer
                 waitDuration:
-                    type: string
                     title: 新连接的平均等待时间
-        github.com.issue9.cmfx.cmfx.modules.system.env:
+                    type: string
+            title: 数据库的基本信息
             type: object
-            title: 后台的基本环境
-            xml:
-                name: env
-            properties:
-                name:
-                    type: string
-                shortName:
-                    type: string
         github.com.issue9.cmfx.cmfx.modules.system.generalSettings:
-            type: object
-            title: 后台的常规设置
-            xml:
-                name: general
             properties:
                 description:
-                    type: string
                     title: 网站描述
+                    type: string
+                logo:
+                    title: 网站的 LOGO
+                    type: string
                 name:
-                    type: string
                     title: 网站名称
-                shortName:
                     type: string
+                shortName:
                     title: 网站短标题
-        github.com.issue9.cmfx.cmfx.modules.system.info:
+                    type: string
+            title: 后台的常规设置
             type: object
-            title: 系统信息
             xml:
-                name: info
+                name: general
+        github.com.issue9.cmfx.cmfx.modules.system.info:
             properties:
                 arch:
-                    type: string
                     title: CPU 架构
+                    type: string
                 cpus:
-                    type: integer
                     title: CPU 核心数量
+                    type: integer
                 db:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.dbInfo'
-                    title: 数据库的相关信息
                     nullable: true
+                    title: 数据库的相关信息
                 go:
-                    type: string
                     title: 编译器的版本
+                    type: string
                 goroutines:
-                    type: integer
                     title: 当前运行的协程数量
+                    type: integer
                 name:
-                    type: string
                     title: 应用名称
+                    type: string
                 os:
-                    type: string
                     title: 系统版本
+                    type: string
                 uptime:
-                    type: string
                     title: 应用的上次启动时间
-                version:
                     type: string
+                version:
                     title: 应用版本号
-        github.com.issue9.cmfx.cmfx.modules.system.job:
+                    type: string
+            title: 系统信息
             type: object
-            title: 计划任务
+            xml:
+                name: info
+        github.com.issue9.cmfx.cmfx.modules.system.job:
             properties:
                 err:
-                    type: string
+                    nullable: true
                     title: 如果出错，表示错误内容，否则为空
-                    nullable: true
+                    type: string
                 next:
-                    type: string
+                    format: date-time
+                    nullable: true
                     title: 下一次执行时间
-                    format: date-time
-                    nullable: true
-                prev:
                     type: string
-                    title: 上一次执行时间
+                prev:
                     format: date-time
                     nullable: true
+                    title: 上一次执行时间
+                    type: string
                 state:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.scheduled.State'
@@ -295,39 +331,39 @@ components:
                     xml:
                         attribute: true
                 title:
-                    type: string
                     title: 名称
-        github.com.issue9.cmfx.cmfx.modules.system.problem:
+                    type: string
+            title: 计划任务
             type: object
-            title: 错误信息
-            xml:
-                name: problem
+        github.com.issue9.cmfx.cmfx.modules.system.problem:
             properties:
                 detail:
-                    type: string
                     title: 错误的明细
+                    type: string
                 id:
-                    type: string
                     title: 唯一 ID
-                prefix:
                     type: string
+                prefix:
                     title: URL 前缀以，如果此值不为空，与 ID 组成一上完整的地址。
+                    type: string
                 status:
-                    type: integer
                     title: 对应的原始 HTTP 状态码
+                    type: integer
                     xml:
                         attribute: true
                 title:
-                    type: string
                     title: 错误的简要描述
-        github.com.issue9.cmfx.cmfx.modules.system.service:
+                    type: string
+            title: 错误信息
             type: object
-            title: 服务
+            xml:
+                name: problem
+        github.com.issue9.cmfx.cmfx.modules.system.service:
             properties:
                 err:
-                    type: string
-                    title: 如果出错，表示错误内容，否则为空
                     nullable: true
+                    title: 如果出错，表示错误内容，否则为空
+                    type: string
                 state:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.scheduled.State'
@@ -335,79 +371,79 @@ components:
                     xml:
                         attribute: true
                 title:
-                    type: string
                     title: 名称
-        github.com.issue9.cmfx.cmfx.modules.system.services:
+                    type: string
+            title: 服务
             type: object
-            title: 服务和计划任务
-            xml:
-                name: services
+        github.com.issue9.cmfx.cmfx.modules.system.services:
             properties:
                 jobs:
-                    type: array
-                    title: 计划任务
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.job'
-                services:
+                    title: 计划任务
                     type: array
-                    title: 服务
+                services:
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.service'
-        github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-:
+                    title: 服务
+                    type: array
+            title: 服务和计划任务
             type: object
-            title: Page 分页对象
+            xml:
+                name: services
+        github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-:
             description: |
                 Page 分页对象
 
                 T 为返回给客户端数据元素项的类型，必须为非指针类型。
-            xml:
-                name: page
             properties:
                 count:
-                    type: integer
                     title: 符合条件的所有数据
+                    type: integer
                     xml:
                         attribute: true
                 current:
-                    type: array
-                    title: 当前页的数据
                     items:
                         allOf:
                             - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
                         nullable: true
+                    title: 当前页的数据
+                    type: array
                 more:
-                    type: boolean
-                    title: 是否还有更多的数据
                     nullable: true
-        github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.user.respLog-:
-            type: object
+                    title: 是否还有更多的数据
+                    type: boolean
             title: Page 分页对象
+            type: object
+            xml:
+                name: page
+        github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.user.respLog-:
             description: |
                 Page 分页对象
 
                 T 为返回给客户端数据元素项的类型，必须为非指针类型。
-            xml:
-                name: page
             properties:
                 count:
-                    type: integer
                     title: 符合条件的所有数据
+                    type: integer
                     xml:
                         attribute: true
                 current:
-                    type: array
-                    title: 当前页的数据
                     items:
                         allOf:
                             - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.respLog'
                         nullable: true
+                    title: 当前页的数据
+                    type: array
                 more:
-                    type: boolean
-                    title: 是否还有更多的数据
                     nullable: true
+                    title: 是否还有更多的数据
+                    type: boolean
+            title: Page 分页对象
+            type: object
+            xml:
+                name: page
         github.com.issue9.cmfx.cmfx.types.Sex:
-            type: string
-            title: 性别
             description: |
                 性别
 
@@ -417,9 +453,9 @@ components:
                 - unknown
                 - male
                 - female
-        github.com.issue9.cmfx.cmfx.user.State:
+            title: 性别
             type: string
-            title: State 表示管理员的状态
+        github.com.issue9.cmfx.cmfx.user.State:
             description: |
                 State 表示管理员的状态
 
@@ -429,63 +465,63 @@ components:
                 - deleted
                 - locked
                 - normal
+            title: State 表示管理员的状态
+            type: string
         github.com.issue9.cmfx.cmfx.user.rbac.reqRole:
-            type: object
-            title: 角色信息
-            xml:
-                name: role
             properties:
                 description:
                     type: string
                 name:
                     type: string
                 parent:
-                    type: string
                     nullable: true
-        github.com.issue9.cmfx.cmfx.user.rbac.respRole:
-            type: object
+                    type: string
             title: 角色信息
+            type: object
             xml:
                 name: role
+        github.com.issue9.cmfx.cmfx.user.rbac.respRole:
             properties:
                 description:
                     type: string
                 id:
-                    type: string
                     nullable: true
+                    type: string
                 name:
                     type: string
                 parent:
-                    type: string
                     nullable: true
-        github.com.issue9.cmfx.cmfx.user.reqAccount:
+                    type: string
+            title: 角色信息
             type: object
-            title: 登录需要提交的信息
             xml:
-                name: account
+                name: role
+        github.com.issue9.cmfx.cmfx.user.reqAccount:
             properties:
                 password:
                     type: string
                 username:
                     type: string
-        github.com.issue9.cmfx.cmfx.user.respLog:
+            title: 登录需要提交的信息
             type: object
-            title: 安装日志
+            xml:
+                name: account
+        github.com.issue9.cmfx.cmfx.user.respLog:
             properties:
                 content:
                     type: string
                 created:
-                    type: string
                     format: date-time
+                    type: string
                 ip:
                     type: string
                     xml:
                         attribute: true
                 ua:
                     type: string
+            title: 安全日志
+            type: object
         github.com.issue9.scheduled.State:
-            type: string
-            title: State 服务状态
             description: |
                 State 服务状态
 
@@ -497,123 +533,123 @@ components:
                 - stopped
                 - running
                 - failed
+            title: State 服务状态
+            type: string
         github.com.issue9.web.Problem:
-            type: object
-            title: Problem 基于 [RFC7807] 用于描述错误信息的对象
             description: |
                 Problem 基于 [RFC7807] 用于描述错误信息的对象
 
                 [RFC7807]: https://datatracker.ietf.org/doc/html/rfc7807
-            xml:
-                name: problem
             properties:
                 detail:
-                    type: string
+                    nullable: true
                     title: 对错误的详细说明
-                    nullable: true
-                extensions:
-                    type: object
-                    title: 反馈给用户的信息
-                    nullable: true
-                instance:
                     type: string
+                extensions:
+                    nullable: true
+                    title: 反馈给用户的信息
+                    type: object
+                instance:
+                    nullable: true
                     title: 指向错误发生的实例
-                    nullable: true
+                    type: string
                 params:
-                    type: array
-                    title: 用户提交对象各个字段的错误信息
+                    items:
+                        $ref: '#/components/schemas/github.com.issue9.web.ProblemParam'
                     nullable: true
+                    title: 用户提交对象各个字段的错误信息
+                    type: array
                     xml:
                         name: i
                         wrapped: true
-                    items:
-                        $ref: '#/components/schemas/github.com.issue9.web.ProblemParam'
                 status:
-                    type: integer
                     title: 原始的错误状态码
+                    type: integer
                 title:
-                    type: string
                     title: 对错误的简要描述
-                type:
                     type: string
+                type:
                     title: 错误 ID
-        github.com.issue9.web.ProblemParam:
+                    type: string
+            title: Problem 基于 [RFC7807] 用于描述错误信息的对象
             type: object
-            title: ProblemParam 单个错误字段的描述
+            xml:
+                name: problem
+        github.com.issue9.web.ProblemParam:
             properties:
                 name:
-                    type: string
                     title: 出错字段的名称
-                reason:
                     type: string
+                reason:
                     title: 出错信息
-        github.com.issue9.webuse.v7.handlers.monitor.Net:
+                    type: string
+            title: ProblemParam 单个错误字段的描述
             type: object
-            title: Net 与网络相关的信息
+        github.com.issue9.webuse.v7.handlers.monitor.Net:
             properties:
                 conns:
-                    type: integer
                     title: 连接数量
+                    type: integer
                 recv:
-                    type: integer
                     title: 读取数量，以字节为单位。
-                sent:
                     type: integer
+                sent:
                     title: 发送数量，以字节为单位。
-        github.com.issue9.webuse.v7.handlers.monitor.OS:
+                    type: integer
+            title: Net 与网络相关的信息
             type: object
-            title: OS 与系统相关的信息
+        github.com.issue9.webuse.v7.handlers.monitor.OS:
             properties:
                 cpu:
-                    type: number
                     title: CPU 使用百分比
+                    type: number
                 mem:
-                    type: integer
                     title: 内存使用量，以 byte 为单位。
+                    type: integer
                 net:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.handlers.monitor.Net'
-                    title: 网络相关数据
                     nullable: true
-        github.com.issue9.webuse.v7.handlers.monitor.Process:
+                    title: 网络相关数据
+            title: OS 与系统相关的信息
             type: object
-            title: Process 与进程相关的信息
+        github.com.issue9.webuse.v7.handlers.monitor.Process:
             properties:
                 conns:
-                    type: integer
                     title: 连接数量
+                    type: integer
                 cpu:
-                    type: number
                     title: CPU 使用百分比
+                    type: number
                 goroutines:
-                    type: integer
                     nullable: true
-                mem:
                     type: integer
+                mem:
                     title: 内存使用量，以 byte 为单位。
-        github.com.issue9.webuse.v7.handlers.monitor.Stats:
+                    type: integer
+            title: Process 与进程相关的信息
             type: object
-            title: Stats 监视的状态信息
-            xml:
-                name: stats
+        github.com.issue9.webuse.v7.handlers.monitor.Stats:
             properties:
                 created:
-                    type: string
-                    title: 此条记录的创建时间
                     format: date-time
+                    title: 此条记录的创建时间
+                    type: string
                 os:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.handlers.monitor.OS'
-                    title: 系统级别的状态信息
                     nullable: true
+                    title: 系统级别的状态信息
                 process:
                     allOf:
                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.handlers.monitor.Process'
-                    title: 当前进程的状态信息
                     nullable: true
-        github.com.issue9.webuse.v7.middlewares.acl.rbac.Resource:
+                    title: 当前进程的状态信息
+            title: Stats 监视的状态信息
             type: object
-            title: Resource 单个资源
+            xml:
+                name: stats
+        github.com.issue9.webuse.v7.middlewares.acl.rbac.Resource:
             properties:
                 id:
                     type: string
@@ -621,38 +657,36 @@ components:
                         attribute: true
                 title:
                     type: string
-        github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources:
+            title: Resource 单个资源
             type: object
-            title: Resources 资源
+        github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources:
             properties:
                 id:
                     type: string
                     xml:
                         attribute: true
                 items:
-                    type: array
-                    nullable: true
-                    xml:
-                        name: item
-                        wrapped: true
                     items:
                         allOf:
                             - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resource'
                         nullable: true
+                    nullable: true
+                    type: array
+                    xml:
+                        name: item
+                        wrapped: true
                 title:
                     type: string
-        github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources:
+            title: Resources 资源
             type: object
-            title: RoleResources 表示某个角色所能访问的资源
+        github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources:
             properties:
                 current:
-                    type: array
-                    title: Current 角色当前能访问的资源
                     items:
                         type: string
-                parent:
+                    title: Current 角色当前能访问的资源
                     type: array
-                    title: Parent 角色的父类能访问的资源
+                parent:
                     description: |
                         Parent 角色的父类能访问的资源
 
@@ -661,153 +695,115 @@ components:
                         Parent 肯定是包含了 Current 的所有值。
                     items:
                         type: string
-        github.com.issue9.webuse.v7.middlewares.auth.token.Response:
+                    title: Parent 角色的父类能访问的资源
+                    type: array
+            title: RoleResources 表示某个角色所能访问的资源
             type: object
-            title: Response 申请令牌时返回的对象
-            xml:
-                name: token
+        github.com.issue9.webuse.v7.middlewares.auth.token.Response:
             properties:
                 access_exp:
-                    type: integer
                     title: 访问令牌的有效时长，单位为秒
+                    type: integer
                     xml:
                         attribute: true
                 access_token:
-                    type: string
                     title: 访问令牌
+                    type: string
                 refresh_exp:
-                    type: integer
                     title: 刷新令牌的有效时长，单位为秒
+                    type: integer
                     xml:
                         attribute: true
                 refresh_token:
-                    type: string
                     title: 刷新令牌
-        github.com.issue9.webuse.v7.plugins.health.State:
+                    type: string
+            title: Response 申请令牌时返回的对象
             type: object
-            title: State 实际存在的数据类型
             xml:
-                name: state
+                name: token
+        github.com.issue9.webuse.v7.plugins.health.State:
             properties:
                 count:
-                    type: integer
                     title: 总的请求次数
+                    type: integer
                     xml:
                         attribute: true
                 last:
-                    type: string
-                    title: 最后的访问时间
                     format: date-time
-                max:
+                    title: 最后的访问时间
                     type: string
+                max:
                     title: 最大的执行时间
+                    type: string
                     xml:
                         attribute: true
                 method:
-                    type: string
                     title: 请求方法
+                    type: string
                     xml:
                         attribute: true
                 min:
-                    type: string
                     title: 最小的执行时间
+                    type: string
                     xml:
                         attribute: true
                 pattern:
-                    type: string
                     title: 路由
-                router:
                     type: string
+                router:
                     title: 多个路由时，表示的路由名称
+                    type: string
                 serverErrors:
-                    type: integer
                     title: 服务端出错次数，>500
+                    type: integer
                     xml:
                         attribute: true
                 spend:
-                    type: string
                     title: 总花费的时间
+                    type: string
                     xml:
                         attribute: true
                 userErrors:
-                    type: integer
                     title: 用户端出错次数，400-499
+                    type: integer
                     xml:
                         attribute: true
-    responses:
-        4XX:
-            description: ""
-            content:
-                application/cbor:
-                    schema:
-                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
-                application/xml:
-                    schema:
-                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
-        5XX:
-            description: desc
-            content:
-                application/cbor:
-                    schema:
-                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
-                application/json:
-                    schema:
-                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
-                application/xml:
-                    schema:
-                        $ref: '#/components/schemas/github.com.issue9.web.Problem'
+            title: State 实际存在的数据类型
+            type: object
+            xml:
+                name: state
 info:
     title: cmfx 文档
     version: 0.7.0
+openapi: 3.0.0
 paths:
     /admins:
         get:
-            tags:
-                - admin
-            summary: 获取所有的管理员账号
             parameters:
-                - name: page
-                  in: query
+                - in: query
+                  name: role
                   schema:
-                    type: integer
-                    title: 请求的页码，从 0 开始。
-                - name: role
-                  in: query
-                  schema:
-                    type: array
                     items:
                         type: string
-                - name: sex
-                  in: query
-                  schema:
                     type: array
+                - in: query
+                  name: sex
+                  schema:
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
-                - name: size
-                  in: query
-                  schema:
-                    type: integer
-                    title: 每页的数量
-                - name: state
-                  in: query
-                  schema:
                     type: array
+                - in: query
+                  name: state
+                  schema:
                     items:
                         $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
-                - name: text
-                  in: query
-                  schema:
-                    type: string
+                    type: array
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -818,10 +814,11 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState-'
-        post:
+                    description: ""
+            summary: 获取所有的管理员账号
             tags:
                 - admin
-            summary: 添加管理员账号
+        post:
             requestBody:
                 content:
                     application/cbor:
@@ -840,20 +837,11 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "201":
                     description: ""
+            summary: 添加管理员账号
+            tags:
+                - admin
     /admins/{id}:
         delete:
-            tags:
-                - admin
-            summary: 删除管理员
-            parameters:
-                - name: id
-                  in: path
-                  description: 管理员的 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -861,17 +849,24 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "201":
                     description: ""
-        get:
+            summary: 删除管理员
             tags:
                 - admin
-            summary: 获取指定的管理员账号
+        get:
+            parameters:
+                - description: 管理的 ID
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    format: int64
+                    type: integer
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -882,18 +877,28 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.ctxInfoWithRoleState'
-        patch:
+                    description: ""
+            summary: 获取指定的管理员账号
             tags:
                 - admin
-            summary: 更新管理员信息
+        parameters:
+            - description: 管理员的 ID
+              in: path
+              name: id
+              required: true
+              schema:
+                format: int64
+                minimum: 1
+                type: integer
+        patch:
             parameters:
-                - name: id
+                - description: 管理的 ID
                   in: path
-                  description: 管理的 ID
+                  name: id
                   required: true
                   schema:
-                    type: integer
                     format: int64
+                    type: integer
             requestBody:
                 content:
                     application/cbor:
@@ -912,19 +917,11 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
-        parameters:
-            - name: id
-              in: path
-              description: 管理的 ID
-              required: true
-              schema:
-                type: integer
-                format: int64
+            summary: 更新管理员信息
+            tags:
+                - admin
     /admins/{id}/locked:
         delete:
-            tags:
-                - admin
-            summary: 解除锁定
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -932,10 +929,19 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
-        post:
+            summary: 解除锁定
             tags:
                 - admin
-            summary: 锁定管理员
+        parameters:
+            - description: 管理员的 ID
+              in: path
+              name: id
+              required: true
+              schema:
+                format: int64
+                minimum: 1
+                type: integer
+        post:
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -943,20 +949,11 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "201":
                     description: ""
-        parameters:
-            - name: id
-              in: path
-              description: 管理员的 ID
-              required: true
-              schema:
-                type: integer
-                format: int64
-                minimum: 1
+            summary: 锁定管理员
+            tags:
+                - admin
     /admins/{id}/password:
         delete:
-            tags:
-                - admin
-            summary: 重置管理员的密码
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -964,27 +961,26 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
+            summary: 重置管理员的密码
+            tags:
+                - admin
         parameters:
-            - name: id
+            - description: 管理的 ID
               in: path
-              description: 管理的 ID
+              name: id
               required: true
               schema:
-                type: integer
                 format: int64
                 minimum: 1
+                type: integer
     /info:
         get:
-            tags:
-                - admin
-            summary: 获取当前登用户的信息
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -995,12 +991,12 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
-        patch:
+                    description: ""
+            summary: 获取当前登用户的信息
             tags:
                 - admin
-            summary: 更新当前登用户的信息
+        patch:
             requestBody:
-                description: 更新的信息，将忽略 id
                 content:
                     application/cbor:
                         schema:
@@ -1011,6 +1007,7 @@ paths:
                     application/xml:
                         schema:
                             $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.admin.info'
+                description: 更新的信息，将忽略 id
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1018,12 +1015,11 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
+            summary: 更新当前登用户的信息
+            tags:
+                - admin
     /login:
         delete:
-            tags:
-                - admin
-                - auth
-            summary: 注销当前管理员的登录
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1031,14 +1027,14 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
-        post:
+            summary: 注销当前管理员的登录
             tags:
                 - admin
                 - auth
-            summary: 管理员登录
+        post:
             parameters:
-                - name: type
-                  in: query
+                - in: query
+                  name: type
                   schema:
                     type: string
             requestBody:
@@ -1058,7 +1054,6 @@ paths:
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "201":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1069,18 +1064,18 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
-        put:
+                    description: ""
+            summary: 管理员登录
             tags:
                 - admin
                 - auth
-            summary: 续定令牌
+        put:
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "201":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1091,11 +1086,13 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.auth.token.Response'
+                    description: ""
+            summary: 续定令牌
+            tags:
+                - admin
+                - auth
     /password:
         put:
-            tags:
-                - admin
-            summary: 当前登录用户修改自己的密码
             requestBody:
                 content:
                     application/cbor:
@@ -1114,75 +1111,74 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
+            summary: 当前登录用户修改自己的密码
+            tags:
+                - admin
     /resources:
         get:
-            tags:
-                - admin
-                - rbac
-            summary: 获取所有的资源
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
-                                type: array
                                 items:
                                     allOf:
                                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources'
                                     nullable: true
+                                type: array
                         application/json:
                             schema:
-                                type: array
                                 items:
                                     allOf:
                                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources'
                                     nullable: true
+                                type: array
                         application/xml:
                             schema:
-                                type: array
                                 items:
                                     allOf:
                                         - $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.Resources'
                                     nullable: true
+                                type: array
+                    description: ""
+            summary: 获取所有的资源
+            tags:
+                - admin
+                - rbac
     /roles:
         get:
-            tags:
-                - admin
-                - rbac
-            summary: 获取角色列表
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
-                                type: array
                                 items:
                                     $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.respRole'
+                                type: array
                         application/json:
                             schema:
-                                type: array
                                 items:
                                     $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.respRole'
+                                type: array
                         application/xml:
                             schema:
-                                type: array
                                 items:
                                     $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.rbac.respRole'
-        post:
+                                type: array
+                    description: ""
+            summary: 获取角色列表
             tags:
                 - admin
                 - rbac
-            summary: 添加一个角色
+        post:
             requestBody:
                 content:
                     application/cbor:
@@ -1201,12 +1197,12 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "201":
                     description: ""
+            summary: 添加一个角色
+            tags:
+                - admin
+                - rbac
     /roles/{id}:
         delete:
-            tags:
-                - admin
-                - rbac
-            summary: 删除角色
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1214,20 +1210,29 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
-        put:
+            summary: 删除角色
             tags:
                 - admin
                 - rbac
-            summary: 修改角色
+        parameters:
+            - description: 角色 ID
+              in: path
+              name: id
+              required: true
+              schema:
+                format: int64
+                minimum: 1
+                type: integer
+        put:
             parameters:
-                - name: id
+                - description: 权限组 ID
                   in: path
-                  description: 权限组 ID
+                  name: id
                   required: true
                   schema:
-                    type: integer
                     format: int64
                     minimum: 1
+                    type: integer
             requestBody:
                 content:
                     application/cbor:
@@ -1246,37 +1251,18 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
-        parameters:
-            - name: id
-              in: path
-              description: 角色 ID
-              required: true
-              schema:
-                type: integer
-                format: int64
-                minimum: 1
+            summary: 修改角色
+            tags:
+                - admin
+                - rbac
     /roles/{id}/resources:
         get:
-            tags:
-                - admin
-                - rbac
-            summary: 获得角色已被允许访问的资源
-            parameters:
-                - name: id
-                  in: path
-                  description: 角色 ID
-                  required: true
-                  schema:
-                    type: integer
-                    format: int64
-                    minimum: 1
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1287,29 +1273,48 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.webuse.v7.middlewares.acl.rbac.RoleResources'
-        put:
+                    description: ""
+            summary: 获得角色已被允许访问的资源
             tags:
                 - admin
                 - rbac
-            summary: 设置角色的可访问的资源
+        parameters:
+            - description: 角色 ID
+              in: path
+              name: id
+              required: true
+              schema:
+                format: int64
+                minimum: 1
+                type: integer
+        put:
+            parameters:
+                - description: 角色 ID
+                  in: path
+                  name: id
+                  required: true
+                  schema:
+                    format: int64
+                    minimum: 1
+                    type: integer
             requestBody:
-                description: 资源 ID 列表
                 content:
                     application/cbor:
                         schema:
-                            type: array
                             items:
                                 type: string
+                            type: array
                     application/json:
                         schema:
-                            type: array
                             items:
                                 type: string
+                            type: array
                     application/xml:
                         schema:
-                            type: array
                             items:
                                 type: string
+                            type: array
+                description: 资源 ID 列表
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1317,40 +1322,45 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
-        parameters:
-            - name: id
-              in: path
-              description: 角色 ID
-              required: true
-              schema:
-                type: integer
-                format: int64
-                minimum: 1
+            summary: 设置角色的可访问的资源
+            tags:
+                - admin
+                - rbac
     /securitylog:
         get:
-            tags:
-                - admin
-            summary: 当前用户的安全操作记录
             parameters:
-                - name: created.end
-                  in: query
+                - in: query
+                  name: created.end
                   schema:
-                    type: string
+                    format: date-time
                     title: 创建日志的结束时间
+                    type: string
+                - in: query
+                  name: created.start
+                  schema:
                     format: date-time
-                - name: created.start
-                  in: query
+                    title: 创建日志的起始时间
+                    type: string
+                - in: query
+                  name: page
+                  schema:
+                    title: 请求的页码，从 0 开始。
+                    type: integer
+                - in: query
+                  name: size
+                  schema:
+                    title: 每页的数量
+                    type: integer
+                - in: query
+                  name: text
                   schema:
                     type: string
-                    title: 创建日志的起始时间
-                    format: date-time
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1361,41 +1371,41 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.query.Page-github.com.issue9.cmfx.cmfx.user.respLog-'
+                    description: ""
+            summary: 当前用户的安全操作记录
+            tags:
+                - admin
     /system/apis:
         get:
-            tags:
-                - system
-                - admin
-            summary: API 信息
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
-                                type: array
                                 items:
                                     $ref: '#/components/schemas/github.com.issue9.webuse.v7.plugins.health.State'
+                                type: array
                         application/json:
                             schema:
-                                type: array
                                 items:
                                     $ref: '#/components/schemas/github.com.issue9.webuse.v7.plugins.health.State'
+                                type: array
                         application/xml:
                             schema:
-                                type: array
                                 items:
                                     $ref: '#/components/schemas/github.com.issue9.webuse.v7.plugins.health.State'
+                                type: array
+                    description: ""
+            summary: API 信息
+            tags:
+                - system
+                - admin
     /system/backup:
         post:
-            tags:
-                - admin
-                - system
-            summary: 手动执行备份数据
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1403,42 +1413,18 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "201":
                     description: ""
-    /system/env:
-        get:
+            summary: 手动执行备份数据
             tags:
                 - admin
                 - system
-            summary: 获取基本的系统环境用于初始化前端的基本元素
-            responses:
-                4XX:
-                    $ref: '#/components/responses/4XX'
-                5XX:
-                    $ref: '#/components/responses/5XX'
-                "200":
-                    description: ""
-                    content:
-                        application/cbor:
-                            schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.env'
-                        application/json:
-                            schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.env'
-                        application/xml:
-                            schema:
-                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.env'
     /system/info:
         get:
-            tags:
-                - system
-                - admin
-            summary: 系统信息
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1449,65 +1435,65 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.info'
+                    description: ""
+            summary: 系统信息
+            tags:
+                - system
+                - admin
     /system/monitor:
         get:
-            tags:
-                - admin
-                - system
-            summary: 监视系统数据
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         text/event-stream:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.webuse.v7.handlers.monitor.Stats'
+                    description: ""
+            summary: 监视系统数据
+            tags:
+                - admin
+                - system
     /system/problems:
         get:
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "200":
+                    content:
+                        application/cbor:
+                            schema:
+                                items:
+                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
+                                type: array
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
+                                type: array
+                    description: ""
+            summary: 系统错误信息
             tags:
                 - common
                 - system
-            summary: 系统错误信息
-            responses:
-                4XX:
-                    $ref: '#/components/responses/4XX'
-                5XX:
-                    $ref: '#/components/responses/5XX'
-                "200":
-                    description: ""
-                    content:
-                        application/cbor:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
-                        application/json:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
-                        application/xml:
-                            schema:
-                                type: array
-                                items:
-                                    $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.problem'
     /system/services:
         get:
-            tags:
-                - system
-                - admin
-            summary: 系统服务状态
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1518,20 +1504,19 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.services'
+                    description: ""
+            summary: 系统服务状态
+            tags:
+                - system
+                - admin
     /system/settings/censor:
         get:
-            tags:
-                - admin
-                - system
-                - settings
-            summary: 获取内容过滤的设置项
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1542,12 +1527,13 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.censorSettings'
-        put:
+                    description: ""
+            summary: 获取内容过滤的设置项
             tags:
                 - admin
                 - system
                 - settings
-            summary: 设置内容过滤的设置项
+        put:
             requestBody:
                 content:
                     application/cbor:
@@ -1566,20 +1552,19 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
+            summary: 设置内容过滤的设置项
+            tags:
+                - admin
+                - system
+                - settings
     /system/settings/general:
         get:
-            tags:
-                - admin
-                - system
-                - settings
-            summary: 获取常规的设置项
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
                 5XX:
                     $ref: '#/components/responses/5XX'
                 "200":
-                    description: ""
                     content:
                         application/cbor:
                             schema:
@@ -1590,12 +1575,13 @@ paths:
                         application/xml:
                             schema:
                                 $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.generalSettings'
-        put:
+                    description: ""
+            summary: 获取常规的设置项
             tags:
                 - admin
                 - system
                 - settings
-            summary: 设置常规的设置项
+        put:
             requestBody:
                 content:
                     application/cbor:
@@ -1614,16 +1600,21 @@ paths:
                     $ref: '#/components/responses/5XX'
                 "204":
                     description: ""
+            summary: 设置常规的设置项
+            tags:
+                - admin
+                - system
+                - settings
 tags:
-    - name: admin
-      description: 管理员端
-    - name: rbac
-      description: RBAC
-    - name: auth
-      description: 登录凭证
-    - name: system
-      description: 系统相关
-    - name: settings
-      description: 设置项
-    - name: common
-      description: 公共接口
+    - description: 管理员端
+      name: admin
+    - description: RBAC
+      name: rbac
+    - description: 登录凭证
+      name: auth
+    - description: 系统相关
+      name: system
+    - description: 设置项
+      name: settings
+    - description: 公共接口
+      name: common

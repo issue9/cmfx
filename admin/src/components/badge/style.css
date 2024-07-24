@@ -1,0 +1,31 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--badge {
+        position: relative;
+
+        .content {
+            @apply bg-[var(--bg)] text-[var(--text)] absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
+        }
+
+        .topleft {
+            @apply top-[-7px] left-[-7px];
+        }
+
+        .topright {
+            @apply top-[-7px] right-[-7px];
+        }
+
+        .bottomleft {
+            @apply bottom-[-7px] left-[-7px];
+        }
+
+        .bottomright {
+            @apply bottom-[-7px] right-[-7px];
+        }
+    }
+}

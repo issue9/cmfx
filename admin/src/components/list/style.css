@@ -1,0 +1,29 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--list {
+        @apply text-[var(--text)] bg-[var(--bg)] flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
+
+        .item {
+            @apply flex flex-col gap-y-1;
+
+            .title {
+                @apply rounded-md flex p-2 gap-1 icon-container cursor-pointer hover:bg-[var(--bg-low)] hover:text-[var(--text-low)];
+
+                .tail {
+                    margin-left: auto;
+                }
+            }
+        }
+
+        .item.active {
+            .title {
+                @apply text-[var(--text-high)] bg-[var(--bg-high)];
+            }
+        }
+    }
+}

@@ -2,16 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-// locales
-export { Locales } from './locales';
-
-// fetch
-export { build as buildFetch } from './fetch';
-export type { Method, Page, Problem, Return } from './fetch';
-
-// options
-export { Contrast, Mode, build as buildOptions } from './options';
-export type { Options } from './options';
-
-// time
+export * from './fetch';
+export * from './notification';
+export * from './theme';
 export * from './time';
+

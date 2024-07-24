@@ -24,7 +24,7 @@ type modelLink struct {
 
 type modelRole struct {
 	GID         string        `orm:"name(gid);len(20)"`
-	ID          string        `orm:"name(id);unique(id);len(50);unique(id)"`
+	ID          string        `orm:"name(id);unique(id);len(50)"`
 	Name        string        `orm:"name(name);unique(name);len(50)"`
 	Description string        `orm:"name(description);len(-1)"`
 	Parent      string        `orm:"name(parent);len(50)"`

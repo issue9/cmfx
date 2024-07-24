@@ -31,35 +31,69 @@
             "require": "./lib/index.cjs.js",
             "import": "./lib/index.es.js"
         },
-        "./style": {
+        "./style.css": {
             "require": "./lib/style.css",
             "import": "./lib/style.css"
+        },
+        "./pages": {
+            "require": "./lib/pages.cjs.js",
+            "import": "./lib/pages.es.js"
+        },
+        "./components": {
+            "require": "./lib/components.cjs.js",
+            "import": "./lib/components.es.js"
+        },
+        "./tailwind.preset.ts": {
+            "require": "./tailwind.preset.ts",
+            "import": "./tailwind.preset.ts"
+        },
+        "./dev": {
+            "require": "./src/index.ts",
+            "import": "./src/index.ts"
+        },
+        "./dev/demo": {
+            "require": "./src/demo.tsx",
+            "import": "./src/demo.tsx"
+        },
+        "./dev/style.css": {
+            "require": "./src/style.css",
+            "import": "./src/style.css"
+        },
+        "./dev/pages": {
+            "require": "./src/pages/index.ts",
+            "import": "./src/pages/index.ts"
+        },
+        "./dev/components": {
+            "require": "./src/components/index.ts",
+            "import": "./src/components/index.ts"
         }
     },
     "scripts": {
-        "build": "vue-tsc && vite build",
+        "build": "vite build",
         "test": "vitest --coverage.enabled true"
     },
     "dependencies": {
         "@formatjs/intl-localematcher": "^0.5.4",
-        "@material/material-color-utilities": "^0.2.7",
-        "@mdi/font": "^7.4.47",
-        "@vueuse/core": "^10.11.0",
+        "@solid-primitives/i18n": "^2.1.1",
+        "@solidjs/router": "^0.14.1",
         "localforage": "^1.10.0",
-        "vue": "^3.4.29",
-        "vue-i18n": "^9.13.1",
-        "vue-router": "^4.3.3",
-        "vuetify": "^3.6.9"
+        "material-symbols": "^0.21.1",
+        "solid-js": "^1.8.18"
     },
     "devDependencies": {
-        "@types/node": "^20.14.2",
-        "@vitejs/plugin-vue": "^5.0.5",
-        "@vitest/coverage-v8": "^1.6.0",
+        "@types/node": "^20.14.10",
+        "@vitest/coverage-v8": "^2.0.2",
+        "autoprefixer": "^10.4.19",
+        "cssnano": "^7.0.4",
         "jsdom": "^24.1.0",
-        "typescript": "^5.4.5",
-        "vite": "^5.3.1",
+        "postcss": "^8.4.39",
+        "solid-devtools": "^0.30.1",
+        "tailwindcss": "^3.4.4",
+        "typescript": "^5.5.3",
+        "vite": "^5.3.3",
         "vite-plugin-dts": "^3.9.1",
-        "vitest": "^1.6.0",
-        "vue-tsc": "^2.0.21"
+        "vite-plugin-solid": "^2.10.2",
+        "vite-tsconfig-paths": "^4.3.2",
+        "vitest": "^2.0.2"
     }
 }

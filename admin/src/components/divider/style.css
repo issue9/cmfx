@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--divider {
+        @apply flex content-center items-center text-[var(--bg-low)];
+    }
+}

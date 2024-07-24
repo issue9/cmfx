@@ -39,7 +39,8 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 
 	initial.Init(s, user.Ratelimit)
 
-	router := s.Routers().New("", nil,
+	router := s.Routers().New("def", nil,
+		web.WithAllowedCORS(3600),
 		web.WithURLDomain(user.URL),
 		web.WithAnyInterceptor("any"), web.WithDigitInterceptor("digit"),
 	)

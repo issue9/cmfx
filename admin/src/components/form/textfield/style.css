@@ -1,0 +1,64 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--text-field {
+        @apply rounded-md border border-[var(--text-low)] flex justify-between items-stretch text-center;
+        @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
+
+        /* first-child 不一定是 prefix */
+        >:first-child {
+            @apply rounded-l-md;
+        }
+
+        >:last-child {
+            @apply rounded-r-md;
+        }
+
+        .prefix {
+            @apply flex overflow-clip;
+        }
+
+        .input {
+            min-height: var(--min-input-height);
+            @apply py-1 px-2 outline-none bg-transparent flex-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
+
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+
+            ::-webkit-outer-spin-button,
+            ::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+        }
+
+        .suffix {
+            @apply flex overflow-clip;
+        }
+
+        .btn {
+            @apply disabled:cursor-not-allowed hover:enabled:text-[var(--text-high)] icon-container justify-center;
+        }
+    }
+
+    .c--text-field.rounded {
+        @apply rounded-full;
+
+        >:first-child {
+            @apply rounded-l-full;
+        }
+
+        >:last-child {
+            @apply rounded-r-full;
+
+            .btn:last {
+                @apply rounded-r-full;
+            }
+        }
+    }
+}
