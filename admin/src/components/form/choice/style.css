@@ -7,8 +7,8 @@
 @layer components {
     .c--choice-activator {
         .activator-container {
-            @apply rounded-md border border-[var(--text-low)] flex icon-container px-2 py-1 cursor-pointer;
-            @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
+            @apply rounded-md border border-[var(--fg-low)] flex icon-container px-2 py-1 cursor-pointer;
+            @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
             .input {
                 min-height: var(--min-input-height);
@@ -20,7 +20,7 @@
                 }
 
                 .placeholder {
-                    @apply text-[var(--text-low)];
+                    @apply text-[var(--fg-low)];
                 }
             }
 

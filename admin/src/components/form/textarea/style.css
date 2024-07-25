@@ -8,6 +8,6 @@
     .c--textarea {
         min-height: var(--min-input-height);
         @apply rounded-md outline-none bg-transparent border border-[var(--bg-low)] flex px-2 py-2 w-full text-left;
-        @apply focus:border-[var(--text-high)] hover:enabled:border-[var(--text-high)] disabled:cursor-not-allowed read-only:cursor-default;
+        @apply focus:border-[var(--fg-high)] hover:enabled:border-[var(--fg-high)] disabled:cursor-not-allowed read-only:cursor-default;
     }
 }

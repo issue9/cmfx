@@ -6,11 +6,11 @@
 
 .field {
     ::placeholder {
-        color: var(--text-low);
+        color: var(--fg-low);
     }
 
     /* 表单字段的错误提示组件 */
     .field_error {
-        @apply text-sm text-error min-h-5;
+        @apply text-sm text-[var(--fg-error)] min-h-5;
     }
 }

@@ -9,20 +9,20 @@
         @apply border-2 border-transparent icon-container;
 
         .checkbox-icon {
-            color: var(--text-low);
+            color: var(--fg-low);
             @apply mr-1;
         }
     }
 
     .c--checkbox.border {
-        @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+        @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--bg)];
     }
 
     .c--checkbox:has(:enabled):hover {
         cursor: pointer;
 
         .checkbox-icon {
-            color: var(--text-high);
+            color: var(--fg-high);
         }
     }
 

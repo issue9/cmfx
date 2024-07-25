@@ -7,5 +7,9 @@
 @layer components {
     .c--divider {
         @apply flex content-center items-center text-[var(--bg-low)];
+
+        hr {
+            @apply border-[var(--bg-low)];
+        }
     }
 }

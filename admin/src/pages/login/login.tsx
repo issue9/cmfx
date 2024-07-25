@@ -11,6 +11,7 @@ import { Account } from '@/core';
 
 export default function(): JSX.Element {
     const ctx = useInternal();
+    ctx.title = ctx.t('_internal.login.title') as string;
 
     if (ctx.user().id) { // 已经登录
         const nav = useNavigate();
@@ -22,11 +23,11 @@ export default function(): JSX.Element {
 
     return <div class="flex justify-center h-full palette--primary">
         <form {...f.events(ctx.fetcher(), 'POST', '/login')} class="flex justify-center flex-col gap-2 w-full sm:w-80">
-            <p>{ctx.t('_internal.login.title')}</p>
+            <p class="text-lg">{ctx.t('_internal.login.title')}</p>
             <TextField prefix={<span class="material-symbols-outlined">person</span>} placeholder={ctx.t('_internal.login.username')}  accessor={f.accessor('username')} />
             <Password icon='lock' placeholder={ctx.t('_internal.login.password')} accessor={f.accessor('password')} />
-            <Button type="reset">reset</Button>
-            <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.t('_internal.ok') as string}</Button>
+            <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.t('_internal.ok')}</Button>
+            <Button type="reset">{ ctx.t('_internal.reset') }</Button>
         </form>
     </div>;
 }

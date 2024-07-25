@@ -8,6 +8,8 @@ import { default as demoRoutes } from 'admin/dev/demo';
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
+const urlBase = 'http://192.168.10.7:8080/admin';
+
 const routes: Routes = {
     public: {
         home: '/login',
@@ -42,7 +44,7 @@ const o: Options = {
     },
 
     api: {
-        base: 'http://192.168.10.7:8080/admin',
+        base: urlBase,
         login: '/login',
         settings: '/settings',
         info: '/info',

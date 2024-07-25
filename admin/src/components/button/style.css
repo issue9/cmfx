@@ -6,73 +6,42 @@
 
 @layer components {
     .c--button {
-        @apply border flex justify-around border-transparent text-center rounded-md text-sm py-2 px-4 text-nowrap text-[var(--text)];
+        @apply border flex justify-around border-transparent text-center rounded-md text-sm py-2 px-4 text-nowrap text-[var(--fg)] outline-none;
     }
 
-    .c--button:disabled {
-        @apply cursor-not-allowed bg-[var(--bg-low)] text-[var(--text-low)];
+    .c--button.icon {
+        @apply p-2;
     }
 
     .c--button.button-style--fill {
-        @apply text-[var(--text)] bg-[var(--bg)] border-[var(--bg)];
+        @apply text-[var(--fg)] bg-[var(--bg)] border-[var(--bg)];
     }
 
-    .c--button.button-style--fill:enabled:hover {
+    .c--button.button-style--fill:enabled:hover,
+    .c--button.button-style--fill:focus {
         @apply bg-[var(--bg-high)];
     }
 
     .c--button.button-style--border {
-        @apply text-[var(--text)] bg-transparent border-[var(--text)];
+        @apply text-[var(--fg)] bg-transparent border-[var(--fg)];
     }
 
-    .c--button.button-style--border:enabled:hover {
-        @apply border-[var(--text-high)];
+    .c--button.button-style--border:enabled:hover,
+    .c--button.button-style--border:focus {
+        @apply bg-[var(--bg)];
     }
 
     .c--button.button-style--flat {
-        @apply text-[var(--text)] bg-transparent border-transparent;
-    }
-
-    .c--button.button-style--flat:enabled:hover {
-        @apply bg-[var(--bg-high)] border-[var(--bg-high)];
-    }
-
-    /************************* icon-button ******************************/
-
-    .c--icon-button {
-        @apply border border-transparent rounded-md text-sm p-2 text-[var(--text)];
-    }
-
-    .c--icon-button:disabled {
-        @apply cursor-not-allowed bg-[var(--bg-low)] text-[var(--text-low)];
-    }
-
-    .c--icon-button.button-style--fill {
-        @apply text-[var(--text)] bg-[var(--bg)] border border-[var(--bg)];
-    }
-
-    .c--icon-button.button-style--fill:enabled:hover {
-        @apply bg-[var(--bg-high)];
-    }
-
-    .c--icon-button.button-style--border {
-        @apply text-[var(--text)] bg-transparent border border-[var(--text)];
-    }
-
-    .c--button.button-style--border:enabled:hover {
-        @apply border border-[var(--text-high)];
-    }
-
-    .c--icon-button.style--flat {
         @apply bg-transparent;
     }
 
-    .c--icon-button.button-style--flat {
-        @apply text-[var(--text)] bg-transparent border border-transparent;
+    .c--button.button-style--flat:enabled:hover,
+    .c--button.button-style--flat:focus {
+        @apply bg-[var(--bg-high)] border-[var(--bg-high)];
     }
 
-    .c--icon-button.button-style--flat:enabled:hover {
-        @apply bg-[var(--bg-high)];
+    .c--button:disabled {
+        @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
     }
 
     /************************* button-group ******************************/
@@ -81,11 +50,7 @@
         @apply text-[var(text)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
 
         .c--button {
-            @apply rounded-none border-none items-center flex-1 text-sm py-2 px-4 text-[var(--text)];
-        }
-
-        .c--button:disabled {
-            @apply cursor-not-allowed bg-[var(--bg-low)] text-[var(--text-low)];
+            @apply rounded-none border-none items-center flex-1 text-sm py-2 px-4 text-[var(--fg)] outline-none;
         }
 
         :first-child {
@@ -116,20 +81,22 @@
             @apply bg-[var(--bg)];
         }
 
-        .c--button:enabled:hover {
+        .c--button:enabled:hover,
+        .c--button:focus {
             @apply bg-[var(--bg-high)];
         }
     }
 
     .c--button-group.button-style--border {
-        @apply text-[var(--bg)] bg-transparent border border-solid border-[var(--bg)];
+        @apply text-[var(--bg)] bg-transparent border border-[var(--bg)];
 
         .c--button {
             @apply bg-transparent border-transparent;
         }
 
-        .c--button:enabled:hover {
-            @apply border-[var(--text)];
+        .c--button:enabled:hover,
+        .c--button:focus {
+            @apply bg-[var(--bg)];
         }
     }
 
@@ -140,8 +107,13 @@
             @apply bg-transparent border-transparent;
         }
 
-        .c--button:enabled:hover {
+        .c--button:enabled:hover,
+        .c--button:focus {
             @apply bg-[var(--bg)];
         }
+    }
+
+    .c--button-group:disabled * {
+        @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
     }
 }

@@ -6,10 +6,10 @@
 
 @layer components {
     .app {
-        @apply flex flex-col box-border overflow-hidden h-full bg-[var(--bg)] text-[var(--text)];
+        @apply flex flex-col box-border overflow-hidden h-full bg-[var(--bg)] text-[var(--fg)];
 
         .app-bar {
-            @apply w-full p-4 flex content-between bg-[var(--bg)] text-[var(--text)];
+            @apply w-full p-4 flex content-between bg-[var(--bg)] text-[var(--fg)];
         }
 
         .app-main {
@@ -18,7 +18,7 @@
     }
 
     .app-settings {
-        @apply p-4 min-w-60 max-w-80 h-full bg-[var(--bg)] text-[var(--text)] gap-y-5 flex flex-col;
+        @apply p-4 min-w-60 max-w-80 h-full bg-[var(--bg)] text-[var(--fg)] gap-y-5 flex flex-col;
         @apply overflow-y-auto;
     }
 }

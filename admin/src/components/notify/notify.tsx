@@ -9,7 +9,15 @@ import { notify, sleep } from '@/core';
 
 export interface Props extends BaseProps {
     ref: { (n: Sender): void };
+
+    /**
+     * 是否优先采用系统通知
+     */
     system?: boolean;
+
+    /**
+     * 通知的图标
+     */
     icon?: string;
 }
 
@@ -30,7 +38,7 @@ export interface Sender {
 
 export type Type = 'error' | 'warning' | 'success' | 'info';
 
-export const type2Palette = new Map<Type, Palette>([
+export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
     ['error', 'error'],
     ['warning', 'tertiary'],
     ['success', 'primary'],

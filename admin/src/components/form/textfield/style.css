@@ -6,8 +6,8 @@
 
 @layer components {
     .c--text-field {
-        @apply rounded-md border border-[var(--text-low)] flex justify-between items-stretch text-center;
-        @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
+        @apply rounded-md border border-[var(--fg-low)] flex justify-between items-stretch text-center;
+        @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         /* first-child 不一定是 prefix */
         >:first-child {
@@ -42,7 +42,7 @@
         }
 
         .btn {
-            @apply disabled:cursor-not-allowed hover:enabled:text-[var(--text-high)] icon-container justify-center;
+            @apply disabled:cursor-not-allowed hover:enabled:text-[var(--fg-high)] icon-container justify-center;
         }
     }
 

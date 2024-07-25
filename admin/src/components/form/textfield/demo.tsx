@@ -46,7 +46,7 @@ export default function() {
             </fieldset>
             <br />
 
-            <button class="button filled palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </div>
 
         <div class="flex gap-10 mt-5">

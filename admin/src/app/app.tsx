@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
-import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
+import { ErrorBoundary, JSX, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Button, Drawer, Error, IconButton, Notify } from '@/components';
@@ -94,12 +94,10 @@ function App(props: {children?: JSX.Element}) {
             <div class="flex palette--primary gap-2">
                 <Fullscreen />
 
-                <Show when={ctx.user().id}>
-                    <IconButton type="button" style='flat' title={ctx.t('_internal.settings')} rounded
-                        onClick={() => setShowSettings(!showSettings()) }>
-                        settings
-                    </IconButton>
-                </Show>
+                <IconButton type="button" style='flat' title={ctx.t('_internal.settings')} rounded
+                    onClick={() => setShowSettings(!showSettings()) }>
+                    settings
+                </IconButton>
             </div>
         </header>
 

@@ -11,13 +11,13 @@
             @apply border-2 border-transparent icon-container;
 
             .radio-icon {
-                color: var(--text);
+                color: var(--fg);
                 @apply mr-1;
             }
         }
 
         label.border {
-            @apply border-[var(--text-low)] rounded-sm has-[:checked]:border-[var(--text-high)];
+            @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--fg-high)];
         }
 
         .content {

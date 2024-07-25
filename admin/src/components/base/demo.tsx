@@ -55,15 +55,15 @@ export default function() {
         { paletteS }
 
         <div class="flex flex-col gap-y-5 mt-5">
-            <button class="text-[var(--text)] bg-[var(--bg)]" classList={{
+            <button class="text-[var(--fg)] bg-[var(--bg)]" classList={{
                 [`palette--${palette()}`]: !!palette()
             }}>button</button>
 
-            <span class="text-[var(--text)] bg-[var(--bg)]" classList={{
+            <span class="text-[var(--fg)] bg-[var(--bg)]" classList={{
                 [`palette--${palette()}`]: !!palette()
             }}>span</span>
 
-            <fieldset class="text-[var(--text)] bg-[var(--bg)]" classList={{
+            <fieldset class="text-[var(--fg)] bg-[var(--bg)]" classList={{
                 [`palette--${palette()}`]: !!palette()
             }}>
                 <legend>fieldset</legend>

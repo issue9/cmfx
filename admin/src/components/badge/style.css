@@ -9,7 +9,7 @@
         position: relative;
 
         .content {
-            @apply bg-[var(--bg)] text-[var(--text)] absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
+            @apply bg-[var(--bg)] text-[var(--fg)] absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
         }
 
         .topleft {

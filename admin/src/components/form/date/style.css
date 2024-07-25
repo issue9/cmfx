@@ -6,8 +6,8 @@
 
 .c--date-activator {
     .activator-container {
-        @apply rounded-md border border-[var(--text-low)] flex icon-container px-2 py-1 cursor-pointer;
-        @apply has-[:focus:enabled]:border-[var(--text-high)] has-[:hover:enabled]:border-[var(--text-high)];
+        @apply rounded-md border border-[var(--fg-low)] flex icon-container px-2 py-1 cursor-pointer;
+        @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         .input {
             min-height: var(--min-input-height);
@@ -15,7 +15,7 @@
             @apply peer-disabled:cursor-not-allowed peer-read-only:cursor-default;
 
             .placeholder {
-                @apply text-[var(--text-low)];
+                @apply text-[var(--fg-low)];
             }
         }
     }
@@ -26,7 +26,7 @@
 }
 
 .c--date-panel {
-    @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--text)] p-2;
+    @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2;
 
     .title {
         @apply pb-2 cursor-pointer;
@@ -52,7 +52,7 @@
         }
 
         button.disabled {
-            @apply text-[var(--text-low)];
+            @apply text-[var(--fg-low)];
         }
     }
 
@@ -69,5 +69,5 @@
 .date-panel.disabled,
 .date-panel.disabled * {
     cursor: not-allowed;
-    color: var(--text-low);
+    color: var(--fg-low);
 }

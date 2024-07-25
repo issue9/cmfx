@@ -24,9 +24,9 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
-        'component': true,
         'material-symbols-outlined': true,
-        'c--icon-button': true,
+        'c--button': true,
+        'icon': true,
         'rounded-full': props.rounded,
         [`palette--${props.palette}`]: !!props.palette,
         [`button-style--${props.style}`]: true
