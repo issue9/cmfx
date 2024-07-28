@@ -5,13 +5,14 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { renderElementProp } from '@/components/base';
-import { Accessor, FieldBaseProps } from '@/components/form';
+import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
 export interface Props<T> extends FieldBaseProps {
     placeholder?: string;
     accessor: Accessor<T>;
+    inputMode?: InputMode;
 };
 
 export default function<T extends Value>(props: Props<T>):JSX.Element {
@@ -23,7 +24,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
             <Show when={props.label}>
                 {renderElementProp(props.label)}
             </Show>
-            <textarea class="c--textarea" tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+            <textarea class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                 value={access.getValue()}
                 onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
         </label>

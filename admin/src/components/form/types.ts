@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { BaseProps, ElementProp } from '@/components/base';
+import { JSX } from 'solid-js';
 
 /**
  * 所有表单元素共有的属性
@@ -26,3 +27,5 @@ export type Option<T> = [T, ElementProp];
  * 选择项的数据类型
  */
 export type Options<T> = Array<Option<T>>;
+
+export type InputMode = JSX.HTMLAttributes<HTMLElement>['inputMode'];

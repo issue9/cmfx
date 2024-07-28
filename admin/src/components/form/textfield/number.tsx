@@ -5,7 +5,7 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { renderElementProp } from '@/components/base';
-import { Accessor, FieldBaseProps } from '@/components/form';
+import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
     icon?: string;
@@ -15,10 +15,16 @@ export interface Props extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     accessor: Accessor<number>;
+
+    /**
+     * 默认为 decimal
+     */
+    inputMode?: InputMode;
 }
 
 const defaultProps: Partial<Props> = {
     step: 1,
+    inputMode: 'decimal'
 };
 
 export default function(props: Props): JSX.Element {
@@ -60,7 +66,7 @@ export default function(props: Props): JSX.Element {
                 <Show when={props.icon}>
                     <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input class="input" type='number' disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                <input class="input" type='number' inputMode={props.inputMode} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     tabIndex={props.tabindex}
                     min={props.min} max={props.max}
                     value={access.getValue()}

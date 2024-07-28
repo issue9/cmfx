@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show } from 'solid-js';
+import { JSX, Show, createSignal } from 'solid-js';
 
 import { renderElementProp } from '@/components/base';
-import { Accessor, FieldBaseProps } from '@/components/form';
-import { createSignal } from 'solid-js';
+import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
     icon?: string;
     placeholder?: string;
     rounded?: boolean;
     accessor: Accessor<string>;
+    inputMode?: InputMode;
 }
 
 export default function(props: Props): JSX.Element {
@@ -33,7 +33,7 @@ export default function(props: Props): JSX.Element {
                 <Show when={props.icon}>
                     <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input ref={(el)=>ref=el} type="password" tabIndex={props.tabindex} class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                <input ref={(el)=>ref=el} type="password" inputMode={props.inputMode} tabIndex={props.tabindex} class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(e.target.value); access.setError(); }}
                 />

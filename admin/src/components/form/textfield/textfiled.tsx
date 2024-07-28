@@ -5,7 +5,7 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { ElementProp, renderElementProp } from '@/components/base';
-import { Accessor, FieldBaseProps } from '@/components/form';
+import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
@@ -17,6 +17,7 @@ export interface Props<T> extends FieldBaseProps {
     type?: 'text' | 'url' | 'email';
     rounded?: boolean;
     accessor: Accessor<T>;
+    inputMode?: InputMode;
 };
 
 export default function<T extends Value>(props: Props<T>):JSX.Element {
@@ -36,6 +37,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                     <div class="prefix">{renderElementProp(props.prefix)}</div>
                 </Show>
                 <input class="input" type={props.type}
+                    inputMode={props.inputMode}
                     tabIndex={props.tabindex}
                     disabled={props.disabled}
                     readOnly={props.readonly}
