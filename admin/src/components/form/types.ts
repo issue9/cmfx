@@ -12,6 +12,7 @@ export interface Props extends BaseProps {
     title?: string;
     disabled?: boolean;
     readonly?: boolean;
+    tabindex?: number;
 };
 
 /**

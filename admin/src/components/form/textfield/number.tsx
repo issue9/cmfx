@@ -60,15 +60,14 @@ export default function(props: Props): JSX.Element {
                 <Show when={props.icon}>
                     <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                <input class="input" type='number' disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                    tabIndex={props.tabindex}
                     min={props.min} max={props.max}
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
                 />
-                <div class="suffix">
-                    <button disabled={props.disabled} class="btn material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
-                    <button disabled={props.disabled} class="btn material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
-                </div>
+                <button disabled={props.disabled} class="btn material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
+                <button disabled={props.disabled} class="btn material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
             </div>
         </label>
 

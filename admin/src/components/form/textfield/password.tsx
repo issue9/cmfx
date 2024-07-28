@@ -33,7 +33,7 @@ export default function(props: Props): JSX.Element {
                 <Show when={props.icon}>
                     <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input ref={(el)=>ref=el} type="password" class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                <input ref={(el)=>ref=el} type="password" tabIndex={props.tabindex} class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(e.target.value); access.setError(); }}
                 />

@@ -42,6 +42,7 @@ export default function(props: Props) {
         'border': !props.icon
     }}>
         <input type="checkbox"
+            tabIndex={props.tabindex}
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={chk()}

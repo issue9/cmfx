@@ -32,9 +32,13 @@ export default function Group<T extends string | number> (props: Props<T>) {
     }, props);
     const access = props.accessor;
 
-    const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
+    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
 
-    return <fieldset disabled={props.disabled} class={props.palette ? `c--checkbox-group field palette--${props.palette}` : 'c--checkbox-group field'}>
+    return <fieldset tabIndex={props.tabindex} disabled={props.disabled} classList={{
+        'c--checkbox-group': true,
+        'field': true,
+        [`palette--${props.palette}`]: !!props.palette
+    }}>
         <Show when={props.label}>
             <legend class="icon-container" title={props.title}>{renderElementProp(props.label)}</legend >
         </Show>

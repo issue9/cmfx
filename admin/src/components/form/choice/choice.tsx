@@ -67,11 +67,11 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         }}>
             <Show when={props.label}>{renderElementProp(props.label)}</Show>
 
-            <div classList={{
+            <div tabIndex={props.tabindex} classList={{
                 'activator-container': true,
                 'rounded': props.rounded
             }}>
-                <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
+                <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
                     <Switch>
                         <Match when={props.accessor.getValue() === undefined || (props.multiple && props.accessor.getValue().length === 0)}>

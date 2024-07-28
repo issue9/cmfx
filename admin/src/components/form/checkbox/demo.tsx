@@ -46,8 +46,8 @@ export default function() {
 
             <br />
 
-            <button class="button filled palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
-            <button class="button filled palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
         <div class="flex flex-wrap mb-10">

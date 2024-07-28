@@ -30,7 +30,7 @@ export default function() {
 
         <div class="w-full flex gap-5">
             <DatePanel readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-            <DatePicker rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePicker tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </div>
     </div>;
 }

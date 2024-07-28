@@ -52,14 +52,14 @@ export default function() {
                 <input type="checkbox" onChange={(e) => setDisable(e.target.checked)} />disabled
             </label>
 
-            <button class="button filled palette--primary" onClick={() => {
+            <button class="c--button button-style--fill palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
                 mfa.setError(mfa.getError() ? undefined : 'error');
             }}>toggle error</button>
-            <button class="button filled palette--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
         </div>
 
-        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label" accessor={fa} options={options} />
+        <Choice tabindex={0} placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
         <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
         <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
         <TextField placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />

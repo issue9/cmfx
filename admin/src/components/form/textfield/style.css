@@ -24,25 +24,31 @@
 
         .input {
             min-height: var(--min-input-height);
-            @apply py-1 px-2 outline-none bg-transparent flex-1 w-full disabled:cursor-not-allowed read-only:cursor-default text-left;
+            @apply py-1 px-2 outline-none bg-transparent flex-1 w-full text-left;
 
             -webkit-appearance: textfield;
             -moz-appearance: textfield;
             appearance: textfield;
 
-            ::-webkit-outer-spin-button,
-            ::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
 
         .suffix {
-            @apply flex overflow-clip;
+            @apply flex;
         }
 
         .btn {
-            @apply disabled:cursor-not-allowed hover:enabled:text-[var(--fg-high)] icon-container justify-center;
+            @apply outline-none border-0 icon-container justify-center;
+            @apply disabled:cursor-not-allowed focus:text-[var(--fg-high)] hover:enabled:text-[var(--fg-high)];
+        }
+
+        .btn:focus {
+            @apply border-0 text-[var(--fg-high)];
         }
     }
 
@@ -55,10 +61,6 @@
 
         >:last-child {
             @apply rounded-r-full;
-
-            .btn:last {
-                @apply rounded-r-full;
-            }
         }
     }
 }

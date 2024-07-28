@@ -30,6 +30,10 @@
             cursor: pointer;
         }
 
+        label:has(:focus) .radio-icon {
+            color: var(--bg-low);
+        }
+
         label.border {
             @apply hover:border-[var(--bg-high)];
         }

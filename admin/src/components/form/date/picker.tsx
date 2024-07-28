@@ -40,7 +40,7 @@ export default function(props: Props) {
             if (!props.disabled) {  setPanelVisible(!panelVisible()); }
         }}>
             <Show when={props.label}>{renderElementProp(props.label)}</Show>
-            <div classList={{
+            <div tabIndex={props.tabindex} classList={{
                 'activator-container': true,
                 'rounded': props.rounded
             }}>

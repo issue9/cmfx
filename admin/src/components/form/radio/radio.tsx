@@ -47,6 +47,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
                     <label classList={{'border': !props.icon}}>
                         <input type="radio" class="appearance-none"
                             readOnly={props.readonly}
+                            tabIndex={props.tabindex}
                             checked={item[0] === access.getValue()}
                             name={props.accessor.name()}
                             value={item[0]}

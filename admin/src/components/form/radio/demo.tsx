@@ -48,8 +48,8 @@ export default function() {
 
             <br />
 
-            <button class="button filled palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
-            <button class="button filled palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </fieldset>
 
         <XGroup label='test' icon={icon()} vertical={vertical()} palette={f.getValue()}
