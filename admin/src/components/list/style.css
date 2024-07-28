@@ -7,23 +7,39 @@
 @layer components {
     .c--list {
         @apply text-[var(--fg)] bg-[var(--bg)] flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
+        counter-reset: indent;
 
         .item {
-            @apply flex flex-col gap-y-1;
+            @apply p-2 hover:bg-[var(--bg-low)] cursor-pointer rounded-md;
+        }
 
-            .title {
-                @apply rounded-md flex p-2 gap-1 icon-container cursor-pointer hover:bg-[var(--bg-low)] hover:text-[var(--fg-low)];
+        /* 带子项的 */
+        details {
+            summary {
+                @apply flex cursor-pointer mb-1 list-none px-2;
 
                 .tail {
                     margin-left: auto;
                 }
             }
+
+            /* safari 无法通过 summary.list-style 设置 */
+            summary::-webkit-details-marker,
+            summary::marker {
+                display: none;
+            }
+
+            >menu {
+                @apply flex flex-col gap-1;
+            }
         }
 
-        .item.active {
-            .title {
-                @apply text-[var(--fg-high)] bg-[var(--bg-high)];
-            }
+        .group {
+            @apply text-[var(--fg-low)] cursor-default px-2;
+        }
+
+        .item.selected {
+            @apply bg-[var(--bg-high)] text-[var(--fg-high)];
         }
     }
 }

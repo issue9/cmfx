@@ -2,78 +2,49 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A } from '@solidjs/router';
-import { createSignal, JSX, Match, Show, Switch } from 'solid-js';
+import { ElementProp } from '../base';
 
-export interface Props {
+export type Value = number | string;
+
+/**
+ * 列表项
+ */
+export type Item = {
+    type: 'divider';
+} | {
+    type: 'group'; // 分组
+
+    label?: ElementProp;
+
     /**
-     * 是否展开子元素
+     * 分组的子项
      */
-    expand?: boolean;
-
+    items: Array<Item>;
+} | {
     /**
-     * 跳转的地址，如果此值不为空，一般转换为 a.href 属性。
+     * 表示该项的类型
      */
-    to?: string;
+    type: 'item';
 
     /**
-     * 点击触发的事件
+     * 表示当前项的唯一值
      *
-     * 仅在 to 属性未指定的情况下，此属性才会有效。
+     * {@link List#onChange} 的参数即为此值。
      */
-    onClick?: { (): void };
+    value: Value;
 
     /**
-     * 是否禁用当前项
+     * 子项
+     */
+    items?: Array<Item>;
+
+    /**
+     * 列表项的内容
+     */
+    label: ElementProp;
+
+    /**
+     * 是否禁用该项
      */
     disabled?: boolean;
-
-    /**
-     * 头部的图标
-     */
-    head?: string;
-
-    /**
-     * 列表项的文本内容
-     */
-    text?: JSX.Element;
-
-    /**
-     * 子菜单，必须是 Item 类型。
-    */
-    children?: JSX.Element;
 };
-
-export default function Item (props: Props) {
-    const [hidden, setHidden] = createSignal(!props.expand);
-
-    const content = <>
-        <div class="title" onClick={() => { setHidden(!hidden()); }}>
-            <Show when={props.head}>
-                <span class="material-symbols-outlined">{props.head}</span>
-            </Show>
-
-            {props.text}
-
-            <Show when={props.children}>
-                <span class="material-symbols-outlined tail">{hidden()? 'keyboard_arrow_down':'keyboard_arrow_up'}</span>
-            </Show>
-        </div>
-
-        <Show when={props.children}>
-            <div class={`list ${hidden() ? 'hidden' : ''}`} role="menu">
-                {props.children}
-            </div>
-        </Show>
-    </>;
-
-    return <Switch fallback={<div role="menuitem" class="item">{content}</div>}>
-        <Match when={!props.to && props.onClick}>
-            <div role="menuitem" class="item" onClick={props.onClick}>{content}</div>
-        </Match>
-
-        <Match when={props.to}>
-            <A href={props.to!} role="menuitem" class="item" activeClass="active">{content}</A>
-        </Match>
-    </Switch>;
-}

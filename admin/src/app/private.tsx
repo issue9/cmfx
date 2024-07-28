@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import { ErrorBoundary, For, JSX } from 'solid-js';
+import { ErrorBoundary, JSX } from 'solid-js';
 
-import { Button, Drawer, Error, Item, List } from '@/components';
+import { Button, Drawer, Error } from '@/components';
 import { useInternal } from './context';
 
 export function Private(props: {children?: JSX.Element}) {
@@ -18,13 +18,7 @@ export function Private(props: {children?: JSX.Element}) {
     }
 
     const aside = <div>
-        <List>
-            <For each={ctx.options.menus}>
-                {(item) => (
-                    <Item to={item.key} head={item.icon} text={ctx.t(item.title as any) as string} />
-                )}
-            </For>
-        </List>
+
     </div>;
 
     return <Drawer palette='secondary' visible={true} main={

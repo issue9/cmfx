@@ -20,7 +20,7 @@ const defaultProps: Readonly<Props> = {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div classList={{
+    return <div role="separator" classList={{
         'c--divider': true,
         [`palette--${props.palette}`]: !!props.palette,
     }}>
