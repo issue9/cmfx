@@ -14,8 +14,10 @@
 @import './components/drawer/style.css';
 @import './components/dropdown/style.css';
 @import './components/error/style.css';
-@import './components/list/style.css';
 @import './components/notify/style.css';
+
+@import './components/tree/list/style.css';
+@import './components/tree/menu/style.css';
 
 @import './components/form/style.css';
 @import './components/form/checkbox/style.css';

@@ -12,8 +12,11 @@ const maps: Array<[string, ReturnType<typeof lazy>]> = [
     ['/button', lazy(()=>import('@/components/button/demo'))],
     ['/dropdown', lazy(()=>import('@/components/dropdown/demo'))],
     ['/badge', lazy(()=>import('@/components/badge/demo'))],
-    ['/list', lazy(()=>import('@/components/list/demo'))],
     ['/divider', lazy(()=>import('@/components/divider/demo'))],
+
+    ['/tree-list', lazy(()=>import('@/components/tree/list/demo'))],
+    ['/tree-menu', lazy(()=>import('@/components/tree/menu/demo'))],
+
     ['/form', lazy(()=>import('@/components/form/demo'))],
     ['/form-textfield', lazy(()=>import('@/components/form/textfield/demo'))],
     ['/form-textarea', lazy(()=>import('@/components/form/textarea/demo'))],

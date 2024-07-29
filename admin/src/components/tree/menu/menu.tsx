@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, Match, Show, Switch } from 'solid-js';
-import { Dynamic } from 'solid-js/web';
+import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
 import { BaseProps, renderElementProp } from '@/components/base';
 import { Divider } from '@/components/divider';
-import type { Item, Value } from './item';
+import type { Item, Value } from '@/components/tree/item';
 
 export interface Props extends BaseProps {
     /**
@@ -21,17 +20,21 @@ export interface Props extends BaseProps {
     onChange?: { (selected: Value, old?: Value): void };
 
     /**
-     * 可点击的元素是否以 A 作为标签名
-     *
-     * 如果为 true，那为 {@link Item#value} 将作为链接的值。
+     * 右侧展开子菜单的图标，默认为 chevron_right
      */
-    anchor?: boolean;
+    expandIcon?: string
 }
 
+const defaultProps: Readonly<Partial<Props>> = {
+    expandIcon: 'chevron_right'
+};
+
 export default function (props: Props): JSX.Element {
+    props = mergeProps(defaultProps, props);
+
     const [selected, setSelected] = createSignal<Value>();
 
-    const Items = (p: { items: Array<Item>, indent: number }): JSX.Element => {
+    const Items = (p: { items: Array<Item> }): JSX.Element => {
         return <For each={p.items}>
             {(item) => (
                 <Switch>
@@ -39,10 +42,10 @@ export default function (props: Props): JSX.Element {
                         <Divider />
                     </Match>
                     <Match when={item.type === 'group'}>
-                        <Group item={item} indent={p.indent} />
+                        <Group item={item} />
                     </Match>
                     <Match when={item.type === 'item'}>
-                        <I item={item} indent={p.indent} />
+                        <I item={item} />
                     </Match>
                 </Switch>
             )}
@@ -50,29 +53,25 @@ export default function (props: Props): JSX.Element {
     };
 
     // 渲染 type==item 的元素
-    const I = (p: { item: Item, indent: number }) => {
+    const I = (p: { item: Item }) => {
         if (p.item.type !== 'item') {
             throw 'item.type 只能是 item';
         }
 
-        const [open, setOpen] = createSignal(false);
-
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
-                <details class="items" onToggle={()=>setOpen(!open())} open={open()}>
-                    <summary  style={{ 'margin-left': `${p.indent}` + 'px' }} class="item">
-                        {renderElementProp(p.item.label)}
-                        <span class="tail material-symbols-outlined">{ open() ?'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
-                    </summary>
+                <li class="item">
+                    {renderElementProp(p.item.label)}
+                    <span class="tail material-symbols-outlined">{ props.expandIcon }</span>
                     <Show when={p.item.items}>
-                        <menu>
-                            <Items items={p.item.items as Array<Item>} indent={p.indent+10} />
+                        <menu class="c--menu hidden">
+                            <Items items={p.item.items as Array<Item>} />
                         </menu>
                     </Show>
-                </details>
+                </li>
             </Match>
             <Match when={!p.item.items}>
-                <Dynamic component={props.anchor ? 'A' : 'span'} href={props.anchor ? p.item.value : undefined} onClick={()=>{
+                <li onClick={()=>{
                     if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                     const old = selected();
@@ -80,32 +79,32 @@ export default function (props: Props): JSX.Element {
 
                     setSelected(p.item.value);
                     props.onChange(p.item.value, old);
-                }} style={{ 'margin-left': `${p.indent}` + 'px' }} classList={{
+                }} classList={{
                     'item': true,
                     'selected': selected() === p.item.value
                 }}>
                     {renderElementProp(p.item.label)}
-                </Dynamic>
+                </li>
             </Match>
         </Switch>;
     };
 
     // 渲染 type==group 的元素
-    const Group = (p: { item: Item, indent: number }): JSX.Element => {
+    const Group = (p: { item: Item }): JSX.Element => {
         if (p.item.type !== 'group') {
             throw 'item.type 只能是 group';
         }
 
         return <>
             <p class="group">{renderElementProp(p.item.label)}</p>
-            <Items items={p.item.items} indent={p.indent} />
+            <Items items={p.item.items} />
         </>;
     };
 
     return <menu role="menu" classList={{
-        'c--list': true,
+        'c--menu': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        <Items items={props.children} indent={0} />
+        <Items items={props.children} />
     </menu>;
 }

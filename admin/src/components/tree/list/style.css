@@ -6,17 +6,31 @@
 
 @layer components {
     .c--list {
-        @apply text-[var(--fg)] bg-[var(--bg)] flex flex-col p-2 gap-1 min-w-[200px] rounded-md;
-        counter-reset: indent;
+        /* 组件中引用此值 */
+        --item-space: theme('spacing.2');
+
+        @apply text-[var(--fg)] bg-[var(--bg)] flex flex-col gap-1 min-w-[200px] rounded-md;
+
+
+        >:first-child {
+            @apply rounded-t-md;
+        }
+
+        :last-child {
+            @apply rounded-b-md;
+        }
 
         .item {
-            @apply p-2 hover:bg-[var(--bg-low)] cursor-pointer rounded-md;
+            @apply hover:bg-[var(--bg-low)] cursor-pointer;
+            padding: var(--item-space);
         }
 
         /* 带子项的 */
         details {
             summary {
-                @apply flex cursor-pointer mb-1 list-none px-2;
+                @apply flex cursor-pointer list-none;
+                padding-left: var(--item-space);
+                padding-right: var(--item-space);
 
                 .tail {
                     margin-left: auto;
@@ -35,7 +49,9 @@
         }
 
         .group {
-            @apply text-[var(--fg-low)] cursor-default px-2;
+            @apply text-[var(--fg-low)] cursor-default;
+            padding-left: var(--item-space);
+            padding-right: var(--item-space);
         }
 
         .item.selected {

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { paletteSelector } from '@/components/base/demo';
 import { createSignal } from 'solid-js';
-import { Item } from './item';
+
+import { paletteSelector } from '@/components/base/demo';
+import { Item } from '@/components/tree/item';
 import { default as List } from './list';
 
 export default function() {
@@ -21,6 +22,7 @@ export default function() {
                 {type: 'item', value: 'v233', label: 'v233'},
                 {type: 'item', value: 'v234', label: 'v234', items: [
                     {type: 'item', value: 'v2341', label: 'v2341'},
+                    {type: 'divider'},
                     {type: 'item', value: 'v2342', label: 'v2342'},
                     {type: 'item', value: 'v2343', label: 'v2343'},
                 ]},
