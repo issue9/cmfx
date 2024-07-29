@@ -15,7 +15,7 @@ export default function() {
     const pwd = FieldAccessor('name', 'pwd', true);
     const num = FieldAccessor('name', 5, true);
 
-    const [disable, setDisable] = createSignal(false);
+    const [disabled, setDisabled] = createSignal(false);
     const [rounded, setRounded] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
     const [paletteS, palette] = paletteSelector();
@@ -41,7 +41,7 @@ export default function() {
                 </label>
 
                 <label class="mr-4">
-                    <input type="checkbox" onChange={(e) => setDisable(e.target.checked)} />disabled
+                    <input type="checkbox" onChange={(e) => setDisabled(e.target.checked)} />disabled
                 </label>
             </fieldset>
             <br />
@@ -51,18 +51,18 @@ export default function() {
 
         <div class="flex gap-10 mt-5">
             <div class="flex flex-col gap-2 w-80">
-                <TextField placeholder='placeholder' palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="label" palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix" prefix={prefix} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+suffix" prefix={prefix} suffix={suffix} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix={icon} suffix={icon} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix" prefix={prefix} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+suffix" prefix={prefix} suffix={suffix} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix={icon} suffix={icon} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             </div>
 
             <div class="flex flex-col gap-2 w-80">
-                <Number placeholder='placeholder' palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Number placeholder='placeholder' label="icon" icon="face" palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Number placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={num} />
-                <Password placeholder='placeholder' label="password" icon="face" palette={palette()} disabled={disable()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
+                <Number placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' label="icon" icon="face" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Number placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+                <Password placeholder='placeholder' label="password" icon="face" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
             </div>
         </div>
     </div>;

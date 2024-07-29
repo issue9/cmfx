@@ -6,9 +6,8 @@ import { expect, test } from 'vitest';
 
 import { Locale } from '@/locales';
 import { Locales } from './locales';
-import { build } from './options';
+import { build, Theme } from './options';
 import { Routes } from './route';
-import { Theme } from './theme';
 
 test('build', async () => {
     const api = {
@@ -21,7 +20,7 @@ test('build', async () => {
     const theme: Theme = {
         mode: 'system',
         contrast: 'nopreference',
-        primary: '#ccc'
+        scheme: 5
     };
 
     const locales: Locales = {

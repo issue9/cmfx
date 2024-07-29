@@ -17,6 +17,7 @@ const maps: Array<[string, ReturnType<typeof lazy>]> = [
     ['/form', lazy(()=>import('@/components/form/demo'))],
     ['/form-textfield', lazy(()=>import('@/components/form/textfield/demo'))],
     ['/form-textarea', lazy(()=>import('@/components/form/textarea/demo'))],
+    ['/form-editor', lazy(()=>import('@/components/form/editor/demo'))],
     ['/form-radio', lazy(()=>import('@/components/form/radio/demo'))],
     ['/form-checkbox', lazy(()=>import('@/components/form/checkbox/demo'))],
     ['/form-choice', lazy(()=>import('@/components/form/choice/demo'))],
