@@ -4,12 +4,12 @@
 
 import { createSignal } from 'solid-js';
 
-import { FormAccessor } from './access';
+import { ObjectAccessor } from './access';
 import { TextArea } from './textarea';
 import { TextField } from './textfield';
 
 export default function() {
-    const f = new FormAccessor({
+    const f = new ObjectAccessor({
         f1: 'f1',
         5:5,
         date: '2021-01-02T15:31',
@@ -30,8 +30,8 @@ export default function() {
             <TextField accessor={f.accessor('date')} />
             {typeof f.accessor('date').getValue()}
             <TextArea label='date' accessor={f.accessor('textarea')} />
-            <button class="button--filled palette--primary" onClick={()=>setObj(JSON.stringify(f.object()))}> object </button>
-            <button class="button--filled palette--primary" type="reset" onClick={()=>f.reset()}>reset</button>
+            <button class="c--button button-style--fill palette--primary" onClick={()=>setObj(JSON.stringify(f.object()))}> object </button>
+            <button class="c--button button-style--fill palette--primary" type="reset" onClick={()=>f.reset()}>reset</button>
             <pre>{obj()}</pre>
         </div>
     </div>;

@@ -2,15 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps, ElementProp } from '@/components/base';
 import { JSX } from 'solid-js';
+
+import { BaseProps, ElementProp } from '@/components/base';
 
 /**
  * 所有表单元素共有的属性
  */
 export interface Props extends BaseProps {
-    label?: ElementProp;
+    /**
+     * tooltip
+     */
     title?: string;
+
+    label?: ElementProp;
     disabled?: boolean;
     readonly?: boolean;
     tabindex?: number;

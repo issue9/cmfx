@@ -5,7 +5,7 @@
 import { createSignal } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
-import { Fetcher, Method, Problem } from '@/core';
+import { Fetcher, Method, Return } from '@/core';
 
 // Form 中保存错误的类型
 type Err<T> = {
@@ -51,11 +51,11 @@ interface ChangeFunc<T> {
 }
 
 /**
- * 验证数据的函数签名
+ * 验证数据 obj 的函数签名
  *
- * 如果不存在错误，则不返回内容，否则返回以字段名作为关键字的 map。
+ * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 map。
  */
-export interface Validation<T extends Record<string, unknown>> {
+export interface Validation<T extends object> {
     (obj: T): Map<keyof T, string> | undefined;
 }
 
@@ -103,9 +103,9 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
 }
 
 /**
- * 用于处理表单组件中对表单数据的存取
+ * 将一组 {@link Accessor} 存储至一个对象中
  */
-export class FormAccessor<T extends Record<string, unknown>> {
+export class ObjectAccessor<T extends object> {
     readonly #initValues: T;
 
     readonly #valGetter: Store<T>;
@@ -114,23 +114,31 @@ export class FormAccessor<T extends Record<string, unknown>> {
     readonly #errGetter: Store<Err<T>>;
     readonly #errSetter: SetStoreFunction<Err<T>>;
 
-    constructor(val: T) {
-        this.#initValues = val;
-        [this.#valGetter, this.#valSetter] = createStore<T>(Object.assign({}, val));
+    /**
+     * 构建函数
+     *
+     * @pram val 初始值；
+     */
+    constructor(preset: T) {
+        this.#initValues = preset;
+        [this.#valGetter, this.#valSetter] = createStore<T>(Object.assign({}, preset));
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
     }
 
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
+     *
+     * @param name 字段名称，对应 {@link Accessor#name} 方法；
+     * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
      */
-    accessor(name: keyof T): Accessor<T[keyof T]> {
+    accessor(name: keyof T, hasError?: boolean): Accessor<T[keyof T]> {
         const self = this;
         const changes: Array<ChangeFunc<T[keyof T]>> = [];
 
         return {
             name(): string { return name as string; },
 
-            hasError(): boolean { return true; },
+            hasError(): boolean { return hasError ?? false; },
 
             getError(): string | undefined { return self.#errGetter[name]; },
 
@@ -150,11 +158,10 @@ export class FormAccessor<T extends Record<string, unknown>> {
 
             reset() {
                 this.setError();
-                this.setValue({ [name]: self.#initValues[name] } as any);
+                this.setValue(self.#initValues[name]);
             }
         };
     }
-
 
     /**
      * 返回需要提交的对象
@@ -165,62 +172,18 @@ export class FormAccessor<T extends Record<string, unknown>> {
      * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
      *  其它情况下都将返回当前表单的最新值。
      */
-    object(validation?: Validation<T>): T|undefined {
+    object(validation?: Validation<T>): T | undefined {
         const v: T = this.#valGetter;
 
         if (validation) {
             const errors = validation(v);
             if (errors) {
-                errors?.forEach((err, name)=>{
-                    this.accessor(name).setError(err);
-                });
+                errors.forEach((err, name) => { this.accessor(name, true).setError(err); });
+                return;
             }
         }
 
         return v;
-    }
-
-    /**
-     * 提交数据
-     *
-     * @returns 如果验证出错，将返回 false；否则返回 R 的实例或是在没有的情况返回 undefined。
-     */
-    async submit<R>(f: Fetcher,method: Method, path: string,validation?: Validation<T>, withToken = true): Promise<R|undefined|false> {
-        const obj = this.object(validation);
-        if (!obj) { return false; }
-
-        const ret = await f.request<R>(path, method, obj, withToken);
-        if (ret.ok) {
-            return ret.body as Exclude<typeof ret.body,Problem>;
-        }
-
-        const p = ret.body!;
-        if (p.params) {
-            p.params.forEach((param)=>{
-                this.accessor(param.name).setError(param.reason);
-            });
-        }
-
-        return false;
-    }
-
-    /**
-     * 生成符合 form 的 onReset 和 onSubmit 事件
-     */
-    events(f: Fetcher,method: Method, path: string,validation?: Validation<T>, withToken = true) {
-        const self = this;
-
-        return {
-            onReset(e: Event): void {
-                self.reset();
-                e.preventDefault();
-            },
-
-            onSubmit(e: Event): void {
-                self.submit(f, method, path, validation, withToken);
-                e.preventDefault();
-            }
-        };
     }
 
     /**
@@ -229,5 +192,103 @@ export class FormAccessor<T extends Record<string, unknown>> {
     reset() {
         this.#errSetter({});
         this.#valSetter(this.#initValues);
+    }
+}
+
+interface SuccessFunc<T> {
+    (r?: Return<T, never>): void;
+}
+
+interface FailedFunc<T> {
+    (r?: Return<never, T>): void;
+}
+
+/**
+ * 适用于表单的 {@link ObjectAccessor}
+ */
+export class FormAccessor<T extends Record<string, unknown>, R = never, P = never> {
+    #object: ObjectAccessor<T>;
+    #method: Method;
+    #path: string;
+    #validation?: Validation<T>;
+    #withToken: boolean;
+    #fetcher: Fetcher;
+    #success?: SuccessFunc<R>;
+    #failed?: FailedFunc<P>;
+
+    /**
+     * 构造函数
+     *
+     * @param preset 初始值；
+     * @param method 请求方法；
+     * @param path 请求地址，相对于 {@link Options#api#base}；
+     * @param success 在接口正常返回时调用的方法；
+     * @param failed 在接口返回错误信息时调用的方法；
+     * @param validation 提交前对数据的验证方法；
+     * @param withToken 接口是否需要带上登录凭证；
+     */
+    constructor(preset: T, f: Fetcher, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, validation?: Validation<T>, withToken =true) {
+        this.#object = new ObjectAccessor(preset);
+        this.#method = method;
+        this.#path = path;
+        this.#validation = validation;
+        this.#withToken = withToken;
+        this.#fetcher = f;
+        this.#success = success;
+        this.#failed = failed;
+    }
+
+    /**
+     * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
+     */
+    accessor(name: keyof T): Accessor<T[keyof T]> { return this.#object.accessor(name, true); }
+
+    /**
+     * 提交数据
+     *
+     * @returns 表示接口是否成功调用
+     */
+    async submit(): Promise<boolean> {
+        const obj = this.#object.object(this.#validation);
+        if (!obj) { return false; }
+
+        const ret = await this.#fetcher.request<R,P>(this.#path, this.#method, obj, this.#withToken);
+        if (ret.ok) {
+            if (this.#success) {
+                this.#success(ret);
+            }
+            return true;
+        }
+
+        const p = ret.body!;
+        if (p && p.params) {
+            p.params.forEach((param)=>{
+                this.accessor(param.name).setError(param.reason);
+            });
+        }
+
+        if (this.#failed) {
+            this.#failed(ret);
+        }
+        return false;
+    }
+
+    /**
+     * 生成符合 form 的 onReset 和 onSubmit 事件
+     */
+    events() {
+        const self = this;
+
+        return {
+            onReset(e: Event): void {
+                self.#object.reset();
+                e.preventDefault();
+            },
+
+            onSubmit(e: Event): void {
+                self.submit();
+                e.preventDefault();
+            }
+        };
     }
 }

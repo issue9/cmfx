@@ -18,7 +18,8 @@ test('token', async () => {
         refresh_token: 'refresh',
         refresh_exp: 3
     };
-    expect(await writeToken(t));
+    const tk = await writeToken(t);
+    expect(tk.access_token).toEqual('access');
 
     const now = Date.now().valueOf();
     const rt = await getToken() as Token;

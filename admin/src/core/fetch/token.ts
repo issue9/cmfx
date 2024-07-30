@@ -15,16 +15,26 @@ export enum TokenState {
     RefreshExpired // 刷新令牌也过期了
 }
 
+/**
+ * 登录和刷新令牌接口返回的数据
+ */
 export interface Token {
     access_token: string;
     refresh_token: string;
 
-    // 以下为令牌过期时间，有两种不同的表示，可参考 buildToken 的说明。
+    // 以下为令牌过期时间，有两种不同的表示：
+    //  - 默认情况下表示对应令牌的过期秒数；
+    //  - 由 buildToken 处理之后，则表示过期时间点的时间戳毫秒数。可参考 buildToken 的说明；
 
-    access_exp: number; 
+    access_exp: number;
     refresh_exp: number;
 };
 
+/**
+ * 从缓存中获取令牌
+ *
+ * @returns 返回的令牌是由 {@link buildToken} 处理之后的。
+ */
 export async function getToken(): Promise<Token | null> {
     return await localforage.getItem<Token>(tokenName);
 }
@@ -34,13 +44,15 @@ export async function delToken() { await localforage.removeItem(tokenName); }
 /**
  * 保存令牌至缓存，会调用 buildToken 对令牌进行二次处理。
  */
-export async function writeToken(t: Token) {
-    await localforage.setItem(tokenName, buildToken(t));
+export async function writeToken(t: Token): Promise<Token> {
+    t = buildToken(t);
+    await localforage.setItem(tokenName, t);
+    return t;
 }
 
 /**
  * 获得令牌的状态
- * @param t 令牌
+ * @param t 令牌，必须得是由 {@link buildToken} 处理之后的对象。
  * @returns 令牌的状态
  */
 export function state(t: Token): TokenState {
@@ -48,7 +60,7 @@ export function state(t: Token): TokenState {
 
     if (now >= t.refresh_exp) {
         return TokenState.RefreshExpired;
-    } 
+    }
     if(now >= t.access_exp) {
         return TokenState.AccessExpired;
     }
@@ -57,9 +69,9 @@ export function state(t: Token): TokenState {
 
 /**
  * 对从服务端返回的令牌进行处理
- * 
+ *
  * 此方法会改变 access_exp 和 refresh_exp 的表示，表示令牌的过期时间点的毫秒数。
- * 
+ *
  * @param t 服务端返回的令牌
  * @returns 处理后的令牌
  */

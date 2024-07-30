@@ -26,7 +26,7 @@ export default function () {
                 <input type="checkbox" onChange={(e) => setDisabled(e.target.checked)} />disabled
             </label>
 
-            <button class="button filled palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </div>
 
         <Editor label='label' minHeight='200px' palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />

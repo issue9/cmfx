@@ -79,8 +79,8 @@ export class Fetcher {
     /**
      * DELETE 请求
      */
-    async delete<T>(path: string, withToken = true): Promise<Return<T>> {
-        return this.request(path, 'DELETE', undefined, withToken);
+    async delete<T=never,P=never>(path: string, withToken = true): Promise<Return<T,P>> {
+        return this.request<T,P>(path, 'DELETE', undefined, withToken);
     }
 
     /**
@@ -90,29 +90,29 @@ export class Fetcher {
      * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
-    async post<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
-        return this.request(path, 'POST', body, withToken);
+    async post<T=never,P=never>(path: string, body?: unknown, withToken = true): Promise<Return<T,P>> {
+        return this.request<T,P>(path, 'POST', body, withToken);
     }
 
     /**
      * PUT 请求
      */
-    async put<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
-        return this.request(path, 'PUT', body, withToken);
+    async put<T=never,P=never>(path: string, body?: unknown, withToken = true): Promise<Return<T,P>> {
+        return this.request<T,P>(path, 'PUT', body, withToken);
     }
 
     /**
      * PATCH 请求
      */
-    async patch<T>(path: string, body?: unknown, withToken = true): Promise<Return<T>> {
-        return this.request(path, 'PATCH', body, withToken);
+    async patch<T=never,P=never>(path: string, body?: unknown, withToken = true): Promise<Return<T,P>> {
+        return this.request<T,P>(path, 'PATCH', body, withToken);
     }
 
     /**
      * GET 请求
      */
-    async get<T>(path: string, withToken = true): Promise<Return<T>> {
-        return this.request(path, 'GET', undefined, withToken);
+    async get<T=never,P=never>(path: string, withToken = true): Promise<Return<T,P>> {
+        return this.request<T,P>(path, 'GET', undefined, withToken);
     }
 
     /**
@@ -123,10 +123,10 @@ export class Fetcher {
      * @param obj 请求对象，如果是 GET，可以为空。
      * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
      */
-    async request<T>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<T>> {
+    async request<T=never,P=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<T,P>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj ? this.#serializer.stringify(obj) : undefined;
-        return this.withArgument<T>(path, method, token, this.#contentType, body);
+        return this.withArgument<T,P>(path, method, token, this.#contentType, body);
     }
 
     /**
@@ -136,20 +136,20 @@ export class Fetcher {
      * @param obj 上传的对象
      * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌。
      */
-    async upload<T>(path: string, obj: FormData, withToken = true): Promise<Return<T>> {
+    async upload<T=never,P=never>(path: string, obj: FormData, withToken = true): Promise<Return<T,P>> {
         const token = withToken ? await this.getToken() : undefined;
-        return this.withArgument<T>(path, 'POST', token, undefined, obj);
+        return this.withArgument<T,P>(path, 'POST', token, undefined, obj);
     }
 
     /**
      * 执行登录操作
      *
-     * @returns 如果返回 True，表示操作成功，否则表示错误信息。
+     * @returns 如果返回 true，表示操作成功，否则表示错误信息。
      */
-    async login(account: Account): Promise<Problem|undefined|true> {
+    async login(account: Account): Promise<Problem<never>|undefined|true> {
         const token = await this.post<Token>(this.#loginPath, account, false);
         if (token.ok) {
-            await writeToken(token.body!);
+            this.#token = await writeToken(token.body!);
             return true;
         }
 
@@ -165,31 +165,27 @@ export class Fetcher {
         await delToken();
     }
 
-
     /**
-     * 获得令牌，如果令牌已经过期，会尝试刷新令牌。
+     * 获得令牌，如果令牌已经过期，会尝试刷新令牌，令牌不存在，则返回 undefined。
      */
     async getToken(): Promise<string | undefined> {
-        const t = this.#token;
-        if (!t) {
+        if (!this.#token) {
             return undefined;
         }
 
-
-        switch (state(t)) {
+        switch (state(this.#token)) {
         case TokenState.Normal: // 正常状态
-            return t.access_token;
+            return this.#token.access_token;
         case TokenState.RefreshExpired: // 刷新令牌也过期了
             return undefined;
         case TokenState.AccessExpired: // 尝试刷新令牌
         { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
-            const ret = await this.withArgument<Token>(this.#loginPath, 'PUT', t.refresh_token, this.#contentType);
+            const ret = await this.withArgument<Token>(this.#loginPath, 'PUT', this.#token.refresh_token, this.#contentType);
             if (!ret.ok) {
                 return undefined;
             }
 
-            this.#token = ret.body!;
-            await writeToken(this.#token);
+            this.#token = await writeToken(ret.body!);
             return this.#token.access_token;
         }
         }
@@ -204,7 +200,7 @@ export class Fetcher {
      * @param ct content-type 的值，如果为空，表示不需要，比如上传等操作，不需要指定客户的 content-type 值；
      * @param body 提交的内容，如果不没有可以为空；
      */
-    async withArgument<T>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return<T>> {
+    async withArgument<T=never,P=never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return<T,P>> {
         const h = new Headers({
             'Accept': this.#contentType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
@@ -230,7 +226,7 @@ export class Fetcher {
      * @param path 地址，相对于 baseURL
      * @param req 相关的参数
      */
-    async fetch<T>(path: string, req?: RequestInit): Promise<Return<T>> {
+    async fetch<T=never,P=never>(path: string, req?: RequestInit): Promise<Return<T,P>> {
         try {
             const resp = await fetch(this.buildURL(path), req);
 
@@ -248,7 +244,7 @@ export class Fetcher {
                 this.#token = null;
                 await delToken();
             }
-            return { status: resp.status, ok: false, body: await this.parse<Problem>(resp) };
+            return { status: resp.status, ok: false, body: await this.parse<Problem<P>>(resp) };
         } catch(e) {
             if (e instanceof Error) {
                 return { status: 500, ok: false, body: {type: '500', status: 500, title: 'fetch error', detail: e.message } };
@@ -257,26 +253,28 @@ export class Fetcher {
         }
     }
 
-    async parse<T>(resp: Response): Promise<T|undefined> {
+    async parse<T>(resp: Response): Promise<T | undefined> {
         const txt = await resp.text();
         if (txt.length === 0) {
             return;
         }
-        return this.#serializer.parse(await resp.text()) as T;
+        return this.#serializer.parse(txt) as T;
     }
 }
 
 /**
  * 接口错误返回的对象
+ *
+ * T 表示 extension 字段的类型，如果该字段空值，不需要指定。
  */
-export interface Problem {
+export interface Problem<T> {
     type: string
     title: string
     status: number
     detail?: string
     params?: Array<Param>
     instance?: string
-    extension?: unknown
+    extension?: T
 }
 
 export interface Param {
@@ -286,12 +284,15 @@ export interface Param {
 
 /**
  * 接口返回的对象
+ *
+ * T 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+ * R 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
  */
-export type Return<T> = {
+export type Return<T, P> = {
     /**
      * 服务端返回的类型
      */
-    body?: Problem;
+    body?: Problem<P>;
 
     /**
      * 状态码

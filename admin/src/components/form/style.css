@@ -4,6 +4,14 @@
  * SPDX-License-Identifier: MIT
  */
 
+@import './checkbox/style.css';
+@import './choice/style.css';
+@import './radio/style.css';
+@import './textarea/style.css';
+@import './editor/style.css';
+@import './textfield/style.css';
+@import './date/style.css';
+
 .field {
     ::placeholder {
         color: var(--fg-low);

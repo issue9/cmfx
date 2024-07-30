@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { FieldAccessor, FormAccessor } from './access';
+export { FieldAccessor, FormAccessor, ObjectAccessor } from './access';
 export type { Accessor, Validation } from './access';
+
 export type { Props as FieldBaseProps, InputMode, Option, Options } from './types';
 
 export * from './checkbox';

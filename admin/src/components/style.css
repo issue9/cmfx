@@ -1,0 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@import './badge/style.css';
+@import './button/style.css';
+@import './divider/style.css';
+@import './drawer/style.css';
+@import './dropdown/style.css';
+@import './error/style.css';
+@import './notify/style.css';
+@import './tree/style.css';
+@import './form/style.css';

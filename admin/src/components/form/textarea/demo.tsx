@@ -9,8 +9,8 @@ import { FieldAccessor } from '@/components/form';
 import TextArea from './textarea';
 
 export default function() {
-    const f = FieldAccessor('name', '5');
-    const [disable, setDisable] = createSignal(false);
+    const f = FieldAccessor('name', '5', true);
+    const [disabled, setDisabled] = createSignal(false);
     const [readonly, setReadonly] = createSignal(false);
 
     return <div class="w-80 flex flex-col gap-y-2">
@@ -22,17 +22,17 @@ export default function() {
             </label>
 
             <label class="mr-4">
-                <input type="checkbox" onChange={(e) => setDisable(e.target.checked)} />disabled
+                <input type="checkbox" onChange={(e) => setDisabled(e.target.checked)} />disabled
             </label>
 
             <br />
 
-            <button class="button filled palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="c--button button-style--fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </fieldset>
 
         <For each={colorsWithUndefined}>
             {(item) => (
-                <TextArea palette={item} title={item?item:'undefined'} disabled={disable()} readonly={readonly()} accessor={f} />
+                <TextArea palette={item} title={item?item:'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </div>;
