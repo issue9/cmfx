@@ -6,6 +6,7 @@ const messages = {
     fullscreen: 'full screen',
     settings: 'settings',
     ok: 'OK',
+    logout: 'logout',
     reset: 'reset',
     refresh: 'refresh',
     date: {

@@ -9,16 +9,8 @@
         /* 组件中引用此值 */
         --item-space: theme('spacing.2');
 
-        @apply text-[var(--fg)] bg-[var(--bg)] flex flex-col gap-1 min-w-[200px] rounded-md;
+        @apply text-[var(--fg)] bg-[var(--bg)] flex flex-col gap-1 min-w-[200px];
 
-
-        >:first-child {
-            @apply rounded-t-md;
-        }
-
-        :last-child {
-            @apply rounded-b-md;
-        }
 
         .item {
             @apply hover:bg-[var(--bg-low)] cursor-pointer;

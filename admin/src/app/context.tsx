@@ -8,7 +8,6 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 import { NotifySender, NotifyType } from '@/components';
 import { Fetcher } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
-import { createStore } from 'solid-js/store';
 import { build as buildOptions } from './options';
 
 type Options = ReturnType<typeof buildOptions>;
@@ -33,6 +32,9 @@ export function useInternal() {
  */
 export function useApp(): AppContext { return useInternal(); }
 
+/**
+ * 用户的基本信息
+ */
 export interface User {
     id?: number;
     sex?: 'unknown' | 'male' | 'female';
@@ -58,7 +60,32 @@ export function buildContext(o: Options, f: Fetcher) {
     const [dict] = createResource(getLocale, loadMessages);
     const t = i18n.translator(dict);
 
-    const [user, setUser] = createStore<User>();
+    const [user] = createResource(async () => {
+        const r = await f.get<User>(o.api.info);
+        if (!r.ok) { // 获取用户信息的接口会自动调用，不输出到通知栏。
+            console.error(r.body);
+            return;
+        }
+
+        return r.body;
+    });
+
+    //const [user, setUser] = createStore<User>({});
+    /*createEffect(async() => {
+        console.log('u1', user, user['id']);
+        const r = await f.get<User>(o.api.info);
+        if (!r.ok) { // 获取用户信息的接口会自动调用，不输出到通知栏。
+            console.error(r.body);
+            return;
+        }
+
+        const u = r.body;
+        if (!u) {
+            return;
+        }
+        setUser(u);
+    });
+    */
 
     let notifySender: NotifySender;
 
@@ -80,29 +107,7 @@ export function buildContext(o: Options, f: Fetcher) {
         /**
          * 返回当前登录的用户信息
          */
-        user() {
-            if (!user.name) {
-                (async () => {
-                    const r = await f.get<User>(o.api.info);
-                    if (!r.ok) {
-                        if (notifySender) { // 已经初始化 notify
-                            this.notify(r.body!.title, r.body!.detail, 'error');
-                        } else {
-                            console.error(r.body);
-                        }
-                        return;
-                    }
-
-                    const u = r.body;
-                    if (!u) {
-                        return;
-                    }
-                    setUser(u);
-                })();
-            }
-
-            return user;
-        },
+        user() { return user(); },
 
         /**
          * 绑定全局的通知方法
@@ -117,7 +122,7 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param type 类型，仅对非系统通知的情况下有效；
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
-        async notify(title: string, body?: string, type?: NotifyType, timeout=5) {
+        async notify(title: string, body?: string, type: NotifyType='error', timeout=5) {
             notifySender.send(title, body, this.locale, type, timeout);
         },
 

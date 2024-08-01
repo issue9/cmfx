@@ -10,6 +10,14 @@
 
         .app-bar {
             @apply w-full p-4 flex content-between bg-[var(--bg)] text-[var(--fg)];
+
+            .username {
+                @apply pl-0 pt-0 pb-0 rounded-md rounded-s-full items-center;
+
+                .avatar {
+                    @apply text-[2rem] bg-[var(--bg)] p-0 rounded-full items-center flex;
+                }
+            }
         }
 
         .app-main {

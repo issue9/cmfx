@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+.p--login {
+    @apply flex justify-center h-full;
+
+    form {
+        @apply flex justify-center flex-col gap-2 w-full sm:w-80;
+    }
+}

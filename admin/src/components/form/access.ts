@@ -5,7 +5,7 @@
 import { createSignal } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
-import { Fetcher, Method, Return } from '@/core';
+import { Fetcher, Method, Problem, Return } from '@/core';
 
 // Form 中保存错误的类型
 type Err<T> = {
@@ -66,6 +66,7 @@ export interface Validation<T extends object> {
  *
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v 初始化的值；
+ * @param error 是否显示错误信息的占位栏；
  */
 export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<T> {
     const [err, errSetter] = createSignal<string>();
@@ -104,6 +105,8 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
 
 /**
  * 将一组 {@link Accessor} 存储至一个对象中
+ *
+ * T 表示当前存储的对象类型；
  */
 export class ObjectAccessor<T extends object> {
     readonly #initValues: T;
@@ -115,9 +118,9 @@ export class ObjectAccessor<T extends object> {
     readonly #errSetter: SetStoreFunction<Err<T>>;
 
     /**
-     * 构建函数
+     * 构造函数
      *
-     * @pram val 初始值；
+     * @pram preset 初始值；
      */
     constructor(preset: T) {
         this.#initValues = preset;
@@ -128,7 +131,7 @@ export class ObjectAccessor<T extends object> {
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      *
-     * @param name 字段名称，对应 {@link Accessor#name} 方法；
+     * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
      * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
      */
     accessor(name: keyof T, hasError?: boolean): Accessor<T[keyof T]> {
@@ -172,6 +175,8 @@ export class ObjectAccessor<T extends object> {
      * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
      *  其它情况下都将返回当前表单的最新值。
      */
+    object(): T;
+    object(validation?: Validation<T>): T | undefined;
     object(validation?: Validation<T>): T | undefined {
         const v: T = this.#valGetter;
 
@@ -184,6 +189,17 @@ export class ObjectAccessor<T extends object> {
         }
 
         return v;
+    }
+
+    /**
+     * 根据 {@link Problem} 设置当前对象的错误信息
+     */
+    errorsFromProblem<PE = never>(p?: Problem<PE>) {
+        if (p && p.params) {
+            p.params.forEach((param)=>{
+                this.accessor(param.name as keyof T).setError(param.reason);
+            });
+        }
     }
 
     /**
@@ -205,8 +221,12 @@ interface FailedFunc<T> {
 
 /**
  * 适用于表单的 {@link ObjectAccessor}
+ *
+ * T 表示需要提交的对象类型；
+ * R 表示服务端返回的类型；
+ * P 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class FormAccessor<T extends Record<string, unknown>, R = never, P = never> {
+export class FormAccessor<T extends object, R = never, P = never> {
     #object: ObjectAccessor<T>;
     #method: Method;
     #path: string;
@@ -260,12 +280,7 @@ export class FormAccessor<T extends Record<string, unknown>, R = never, P = neve
             return true;
         }
 
-        const p = ret.body!;
-        if (p && p.params) {
-            p.params.forEach((param)=>{
-                this.accessor(param.name).setError(param.reason);
-            });
-        }
+        this.#object.errorsFromProblem(ret.body);
 
         if (this.#failed) {
             this.#failed(ret);

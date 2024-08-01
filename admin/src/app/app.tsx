@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
-import { ErrorBoundary, JSX, createSignal } from 'solid-js';
+import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Button, Drawer, Error, IconButton, Notify } from '@/components';
+import { Button, Drawer, Dropdown, Error, IconButton, Item, ItemValue, Menu, Notify } from '@/components';
 import { Fetcher, initTheme } from '@/core';
 import { buildContext, useApp, useInternal } from './context';
 import { Options, build as buildOptions } from './options';
@@ -82,7 +82,7 @@ function App(props: {children?: JSX.Element}) {
     const [showSettings, setShowSettings] = createSignal(false);
 
     return <div class="app palette--surface">
-        <header class="app-bar palette--tertiary">
+        <header class="app-bar palette--secondary">
             <div class="flex icon-container">
                 <img alt="logo" class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
                 <span class="inline-block ml-2 text-lg font-bold">{ctx.options.title}</span>
@@ -98,6 +98,8 @@ function App(props: {children?: JSX.Element}) {
                     onClick={() => setShowSettings(!showSettings()) }>
                     settings
                 </IconButton>
+
+                <Username />
             </div>
         </header>
 
@@ -111,6 +113,38 @@ function App(props: {children?: JSX.Element}) {
             </div>
         </main>
     </div>;
+}
+
+function Username(): JSX.Element {
+    const ctx = useInternal();
+    const [visible, setVisible] = createSignal(false);
+    const nav = useNavigate();
+
+    const items: Array<Item> = [
+        {type: 'divider'},
+        {
+            type: 'item',
+            value: 'logout',
+            label: ()=>ctx.t('_internal.logout')
+        }
+    ];
+
+    const onChange = (select: ItemValue)=>{
+        switch(select) {
+        case 'logout':
+            ctx.fetcher().logout();
+            nav(ctx.options.routes.public.home);
+        }
+        // TODO
+    }
+
+    const activator = <Button style='flat' onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
+
+    return <Show when={ctx.user()?.id}>
+        <Dropdown visible={visible()} setVisible={setVisible}  activator={activator} pos='bottomright'>
+            <Menu onChange={onChange}>{ items }</Menu>
+        </Dropdown>
+    </Show>;
 }
 
 function Fullscreen(): JSX.Element {
@@ -130,13 +164,11 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <IconButton type="button" style="flat" rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
+    return <IconButton type="button" style='flat' rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </IconButton>;
 }
 
 function Public(props: {children?: JSX.Element}) {
-    return <>
-        {props.children}
-    </>;
+    return <>{props.children}</>;
 }

@@ -9,6 +9,7 @@ import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
 const urlBase = 'http://192.168.10.7:8080/admin';
+//const urlBase = 'http://localhost:8080/admin';
 
 const routes: Routes = {
     public: {
