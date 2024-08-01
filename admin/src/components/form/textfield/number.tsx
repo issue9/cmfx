@@ -66,7 +66,7 @@ export default function(props: Props): JSX.Element {
                 <Show when={props.icon}>
                     <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
                 </Show>
-                <input class="input" type='number' inputMode={props.inputMode} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+                <input accessKey={props.accessKey} class="input" type='number' inputMode={props.inputMode} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     tabIndex={props.tabindex}
                     min={props.min} max={props.max}
                     value={access.getValue()}

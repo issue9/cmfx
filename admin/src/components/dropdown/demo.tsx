@@ -23,7 +23,7 @@ export default function() {
         <Dropdown wrapperClass="border-2" pos={pos()} palette={palette()} visible={visible1()} activator={
             <Button palette='primary' onClick={()=>setVisible1(!visible1())}>dropdown</Button>
         }>
-            <div class="p-4 z-5 bg-palette text-palette">dropdown</div>
+            <div class="p-4 z-5 bg-palette-bg text-palette-fg">dropdown</div>
         </Dropdown>
 
         <p>自动关闭</p>
@@ -31,7 +31,7 @@ export default function() {
         <Dropdown wrapperClass="w-full border-2" setVisible={setVisible2} pos={pos()} palette={palette()} visible={visible2()} activator={
             <Button palette='primary' onClick={()=>setVisible2(!visible2())}>dropdown</Button>
         }>
-            <div class="p-4 z-5 bg-palette text-palette">点击空白区别，自动关闭。</div>
+            <div class="p-4 z-5 bg-palette-bg text-palette-fg">点击空白区别，自动关闭。</div>
         </Dropdown>
 
     </div>;

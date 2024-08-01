@@ -36,7 +36,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                 <Show when={props.prefix}>
                     <div class="prefix">{renderElementProp(props.prefix)}</div>
                 </Show>
-                <input class="input" type={props.type}
+                <input accessKey={props.accessKey} class="input" type={props.type}
                     inputMode={props.inputMode}
                     tabIndex={props.tabindex}
                     disabled={props.disabled}

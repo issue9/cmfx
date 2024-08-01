@@ -24,7 +24,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
             <Show when={props.label}>
                 {renderElementProp(props.label)}
             </Show>
-            <textarea class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+            <textarea accessKey={props.accessKey} class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                 value={access.getValue()}
                 onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
         </label>

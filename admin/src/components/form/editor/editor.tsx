@@ -50,7 +50,7 @@ export default function(props: Props) {
         editor.enable(!props.disabled && !props.readonly);
     });
 
-    return <label onClick={()=>editor.focus()} classList={{
+    return <label accessKey={props.accessKey} onClick={()=>editor.focus()} classList={{
         'c--editor': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>

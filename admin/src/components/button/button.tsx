@@ -11,6 +11,8 @@ export interface Props extends BaseProps {
     onClick?: ClickFunc;
     title?: string;
     type?: ButtonType;
+    accessKey?: string;
+    autofocus?: boolean;
 }
 
 /**
@@ -19,7 +21,7 @@ export interface Props extends BaseProps {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button disabled={props.disabled}
+    return <button accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
         type={props.type} title={props.title} onClick={props.onClick} classList={{
             'c--button': true,
             [`button-style--${props.style}`]: true,

@@ -67,7 +67,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         }}>
             <Show when={props.label}>{renderElementProp(props.label)}</Show>
 
-            <div tabIndex={props.tabindex} classList={{
+            <div accessKey={props.accessKey} tabIndex={props.tabindex} classList={{
                 'activator-container': true,
                 'rounded': props.rounded
             }}>

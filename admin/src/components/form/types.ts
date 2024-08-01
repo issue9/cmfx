@@ -18,6 +18,7 @@ export interface Props extends BaseProps {
     label?: ElementProp;
     disabled?: boolean;
     readonly?: boolean;
+    accessKey?: string;
     tabindex?: number;
 };
 

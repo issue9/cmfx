@@ -29,7 +29,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
     }, props);
     const access = props.accessor;
 
-    return <fieldset disabled={props.disabled} classList={{
+    return <fieldset accessKey={props.accessKey} disabled={props.disabled} classList={{
         'c--radio-group': true,
         'field': true,
         [`palette--${props.palette}`]: !!props.palette
