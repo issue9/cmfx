@@ -14,7 +14,7 @@
         }
     }
 
-    .c--checkbox.border {
+    .c--checkbox.c--checkbox-border {
         @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--bg)];
     }
 
@@ -30,7 +30,7 @@
         }
     }
 
-    .c--checkbox.border:has(:enabled):hover {
+    .c--checkbox.c--checkbox-border:has(:enabled):hover {
         @apply border-[var(--bg-high)];
     }
 

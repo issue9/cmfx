@@ -69,7 +69,7 @@ export default function(props: Props) {
         {props.children}
     </aside>;
 
-    return <div ref={(el)=>conRef=el} classList={{ 'c--drawer': true, 'floating': props.floating && props.visible }}>
+    return <div ref={(el)=>conRef=el} classList={{ 'c--drawer': true, 'c--drawer-floating': props.floating && props.visible }}>
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />

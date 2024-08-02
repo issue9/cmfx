@@ -53,7 +53,7 @@
         }
     }
 
-    .c--text-field.rounded {
+    .c--text-field.c--text-field-rounded {
         @apply rounded-full;
 
         >:first-child {

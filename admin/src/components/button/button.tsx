@@ -24,7 +24,7 @@ export default function(props: Props) {
     return <button accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
         type={props.type} title={props.title} onClick={props.onClick} classList={{
             'c--button': true,
-            [`button-style--${props.style}`]: true,
+            [`c--button-${props.style}`]: true,
             [`palette--${props.palette}`]: !!props.palette,
             'rounded-full': props.rounded,
         }}>

@@ -18,9 +18,9 @@ export default function (props: Props) {
 
     return <fieldset role="group" disabled={props.disabled} classList={{
         'c--button-group': true,
-        'rounded': props.rounded,
-        [`palette--${props.palette}`]: !!props.palette,
-        [`button-style--${props.style}`]: true
+        'c--button-group-rounded': props.rounded,
+        [`c--button-group-${props.style}`]: true,
+        [`palette--${props.palette}`]: !!props.palette
     }}>
         {props.children}
     </fieldset >;

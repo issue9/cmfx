@@ -70,8 +70,8 @@
     }
 }
 
-.date-panel.disabled,
-.date-panel.disabled * {
+.c--date-panel.c--date-panel-disabled,
+.c--date-panel.c--date-panel-disabled * {
     cursor: not-allowed;
     color: var(--fg-low);
 }

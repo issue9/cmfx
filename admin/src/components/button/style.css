@@ -9,34 +9,34 @@
         @apply border flex justify-around border-transparent text-center rounded-md text-sm py-2 px-4 text-nowrap text-[var(--fg)] outline-none;
     }
 
-    .c--button.icon {
+    .c--button.c--button-icon {
         @apply p-2;
     }
 
-    .c--button.button-style--fill {
+    .c--button.c--button-fill {
         @apply text-[var(--fg)] bg-[var(--bg)] border-[var(--bg)];
     }
 
-    .c--button.button-style--fill:enabled:hover,
-    .c--button.button-style--fill:focus {
+    .c--button.c--button-fill:enabled:hover,
+    .c--button.c--button-fill:focus {
         @apply bg-[var(--bg-high)];
     }
 
-    .c--button.button-style--border {
+    .c--button.c--button-border {
         @apply text-[var(--fg)] bg-transparent border-[var(--fg)];
     }
 
-    .c--button.button-style--border:enabled:hover,
-    .c--button.button-style--border:focus {
+    .c--button.c--button-border:enabled:hover,
+    .c--button.c--button-border:focus {
         @apply bg-[var(--bg)];
     }
 
-    .c--button.button-style--flat {
+    .c--button.c--button-flat {
         @apply bg-transparent;
     }
 
-    .c--button.button-style--flat:enabled:hover,
-    .c--button.button-style--flat:focus {
+    .c--button.c--button-flat:enabled:hover,
+    .c--button.c--button-flat:focus {
         @apply bg-[var(--bg-high)] border-[var(--bg-high)];
     }
 
@@ -62,7 +62,7 @@
         }
     }
 
-    .c--button-group.rounded {
+    .c--button-group.c--button-group-rounded {
         @apply rounded-l-full rounded-r-full;
 
         :first-child {
@@ -74,7 +74,7 @@
         }
     }
 
-    .c--button-group.button-style--fill {
+    .c--button-group.c--button-group-fill {
         @apply bg-[var(--bg-low)];
 
         .c--button {
@@ -87,7 +87,7 @@
         }
     }
 
-    .c--button-group.button-style--border {
+    .c--button-group.c--button-group-border {
         @apply text-[var(--bg)] bg-transparent border border-[var(--bg)];
 
         .c--button {
@@ -100,7 +100,7 @@
         }
     }
 
-    .c--button-group.button-style--flat {
+    .c--button-group.c--button-group-flat {
         @apply bg-transparent text-[var(--bg)];
 
         .c--button {

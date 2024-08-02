@@ -123,7 +123,7 @@ export default function (props: Props) {
 
     return <div classList={{
         'c--date-panel': true,
-        'disabled': props.disabled
+        'c--date-panel-disabled': props.disabled
     }}>
         <Panel dt={new Date(ac.getValue())} ha={ha} ma={ma} />
     </div>;

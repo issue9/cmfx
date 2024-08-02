@@ -38,8 +38,8 @@ export default function(props: Props) {
 
     return <label title={props.title} classList={{
         'c--checkbox': true,
-        [`palette--${props.palette}`]: !!props.palette,
-        'border': !props.icon
+        'c--checkbox-border': !props.icon,
+        [`palette--${props.palette}`]: !!props.palette
     }}>
         <input type="checkbox"
             accessKey={props.accessKey}

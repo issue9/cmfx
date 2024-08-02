@@ -28,7 +28,7 @@ export default function(props: Props): JSX.Element {
 
             <div classList={{
                 'c--text-field': true,
-                'rounded': props.rounded,
+                'c--text-field-rounded': props.rounded,
             }}>
                 <Show when={props.icon}>
                     <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
