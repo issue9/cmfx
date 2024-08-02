@@ -9,28 +9,36 @@
         @apply bg-palette-bg text-palette-fg w-full;
         border: 1px solid var(--fg-low);
 
-        th,
-        td {
-            @apply px-2 py-1 text-left;
-            border-bottom: 1px solid var(--fg-low);
-        }
+        >table {
+            width: 100%;
 
-        tbody.hoverable {
-            tr.striped {
+            th,
+            td {
+                @apply px-2 py-1 text-left;
+                border-bottom: 1px solid var(--fg-low);
+            }
+
+            thead th {
+                @apply py-2 bg-palette-bg-high;
+            }
+
+            tbody.hoverable {
+                tr.striped {
+                    @apply bg-palette-bg-low;
+                }
+
+                tr:hover {
+                    @apply bg-palette-bg-high;
+                }
+            }
+
+            tbody tr.striped {
                 @apply bg-palette-bg-low;
             }
-
-            tr:hover {
-                @apply bg-palette-bg-high;
-            }
         }
 
-        tbody tr.striped {
-            @apply bg-palette-bg-low;
+        >table.fixed-layout {
+            table-layout: fixed;
         }
-    }
-
-    .c--table.c--table-fixed {
-        table-layout: fixed;
     }
 }

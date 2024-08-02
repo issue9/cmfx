@@ -15,11 +15,6 @@ export interface Props<T extends object> extends BaseProps {
     fixedLayout?: boolean;
 
     /**
-     * 是否固定表头
-     */
-    // TODO sticky?: boolean;
-
-    /**
      * 表头的定义
      */
     header: Array<Column<T>>;
@@ -47,7 +42,7 @@ export interface Props<T extends object> extends BaseProps {
 }
 
 const defaultProps = {
-    // TODO
+    striped: 0
 } as const;
 
 /**
@@ -60,38 +55,39 @@ export default function<T extends object>(props: Props<T>) {
         throw 'striped 必须大于或是等于 0';
     }
 
-    return <table classList={{
+    return <div classList={{
         'c--table': true,
-        'c--table-fixed': props.fixedLayout,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        <Show when={props.caption}>
-            <caption>{ renderElementProp(props.caption) }</caption>
-        </Show>
+        <table classList={{'fixed-layout': props.fixedLayout}}>
+            <Show when={props.caption}>
+                <caption>{ renderElementProp(props.caption) }</caption>
+            </Show>
 
-        <thead>
-            <tr>
-                <For each={props.header}>
-                    {(item)=>(
-                        <th class={item.headClass ?? item.cellClass}>{ item.label ? renderElementProp(item.label) : item.id }</th>
+            <thead>
+                <tr>
+                    <For each={props.header}>
+                        {(item)=>(
+                            <th class={item.headClass ?? item.cellClass}>{ item.label ? renderElementProp(item.label) : item.id }</th>
+                        )}
+                    </For>
+                </tr>
+            </thead>
+
+            <tbody class={props.hoverable ? 'hoverable' : undefined}>
+                <For each={props.items}>
+                    {(item, index)=>(
+                        <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
+                            <For each={props.header}>
+                                {(h) => {
+                                    const i = h.id in item ? (item as any)[h.id] : undefined;
+                                    return <td class={h.cellClass}>{h.render ? h.render(h.id, i, item) : i}</td>;
+                                }}
+                            </For>
+                        </tr>
                     )}
                 </For>
-            </tr>
-        </thead>
-
-        <tbody class={props.hoverable ? 'hoverable' : undefined}>
-            <For each={props.items}>
-                {(item, index)=>(
-                    <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
-                        <For each={props.header}>
-                            {(h) => {
-                                const i = h.id in item ? (item as any)[h.id] : undefined;
-                                return <td class={h.cellClass}>{h.render ? h.render(h.id, i, item) : i}</td>;
-                            }}
-                        </For>
-                    </tr>
-                )}
-            </For>
-        </tbody>
-    </table>;
+            </tbody>
+        </table>
+    </div>;
 }
