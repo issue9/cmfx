@@ -5,7 +5,7 @@
 import { For, mergeProps, Show } from 'solid-js';
 
 import { BaseProps, ElementProp, renderElementProp } from '@/components/base';
-import { Column, Striped } from './types';
+import { Column } from './types';
 
 export interface Props<T extends object> extends BaseProps {
     /**
@@ -35,9 +35,15 @@ export interface Props<T extends object> extends BaseProps {
     caption?: ElementProp;
 
     /**
-     * 条纹色
+     * 指定条纹色的间隔
+     * - 0 表示没有；
      */
-    striped?: Striped;
+    striped?: number;
+
+    /**
+     * tr 是否响应 hover 事件
+     */
+    hoverable?: boolean;
 }
 
 const defaultProps = {
@@ -50,10 +56,13 @@ const defaultProps = {
 export default function<T extends object>(props: Props<T>) {
     props = mergeProps(defaultProps, props);
 
+    if (props.striped !== undefined && props.striped < 0) {
+        throw 'striped 必须大于或是等于 0';
+    }
+
     return <table classList={{
         'c--table': true,
         'c--table-fixed': props.fixedLayout,
-        [`c--table-striped-${props.striped}`]: !!props.striped,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.caption}>
@@ -70,10 +79,10 @@ export default function<T extends object>(props: Props<T>) {
             </tr>
         </thead>
 
-        <tbody>
+        <tbody class={props.hoverable ? 'hoverable' : undefined}>
             <For each={props.items}>
-                {(item)=>(
-                    <tr>
+                {(item, index)=>(
+                    <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
                         <For each={props.header}>
                             {(h) => {
                                 const i = h.id in item ? (item as any)[h.id] : undefined;

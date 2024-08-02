@@ -6,10 +6,6 @@ import { JSX } from 'solid-js';
 
 import { ElementProp } from '@/components/base';
 
-export const striped = ['odd', 'even'] as const;
-
-export type Striped = typeof striped[number];
-
 /**
  * 用于描述表头的信息
  *

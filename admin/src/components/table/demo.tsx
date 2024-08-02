@@ -2,36 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
+import { createSignal } from 'solid-js';
 
 import { paletteSelector } from '@/components/base/demo';
 import Table from './table';
-import { Column, striped as ss, Striped } from './types';
-
-export function stripedSelector(v?: Striped): [JSX.Element, Accessor<Striped|undefined>, Setter<Striped|undefined>] {
-    const [get, set] = createSignal<Striped|undefined>(v);
-
-    const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
-        <legend>条纹</legend>
-        <For each={[...ss,undefined]}>
-            {(item)=>(
-                <label class="mr-4">
-                    <input class="mr-1" type="radio" name="palette"
-                        value={item} onClick={()=>set(item as any)}
-                        checked={get()===item}
-                    />{item ? item : 'undefined'}
-                </label>
-            )}
-        </For>
-    </fieldset>;
-
-    return [elem, get, set];
-}
+import { Column } from './types';
 
 export default function () {
     const [paletteS, palette] = paletteSelector();
-    const [stripedS, striped] = stripedSelector();
+    const [hoverable, setHoverable] = createSignal(false);
     const [fixedLayout, setFixedLayout] = createSignal(false);
+    const [striped, setStriped] = createSignal<number>(0);
 
     const items = [
         {id: 1, name: 'name1', address: 'address1'},
@@ -52,11 +33,11 @@ export default function () {
     return <div class="p-5 flex flex-col items-center gap-5">
         <div class="flex justify-around gap-2">
             {paletteS}
-            {stripedS}
-
+            <input type='number' placeholder='striped' value={striped()} onChange={(e)=>setStriped(parseInt(e.target.value))} />
             <label><input type="checkbox" checked={fixedLayout()} onChange={()=>setFixedLayout(!fixedLayout())} />fixedLayout</label>
+            <label><input type="checkbox" checked={hoverable()} onChange={()=>setHoverable(!hoverable())} />hoverable</label>
         </div>
 
-        <Table striped={striped()} fixedLayout={fixedLayout()}  palette={palette()} items={items} header={header} />
+        <Table striped={striped()} fixedLayout={fixedLayout()}  palette={palette()} items={items} header={header} hoverable={hoverable()} />
     </div>;
 }
