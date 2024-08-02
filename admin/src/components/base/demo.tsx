@@ -20,8 +20,12 @@ export function boolSelector(label: string, preset: boolean = false):[JSX.Elemen
     return [<label><input checked={get()} type="checkbox" onChange={() => set(!get())} />{label}</label>, get, set];
 }
 
-export function paletteSelector(v?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
-    const [get, set] = createSignal<Palette|undefined>(v);
+/**
+ * 创建色盘选择工具
+ * @param preset 默认值
+ */
+export function paletteSelector(preset?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
+    const [get, set] = createSignal<Palette|undefined>(preset);
 
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
         <legend>颜色</legend>
@@ -40,8 +44,8 @@ export function paletteSelector(v?: Palette): [JSX.Element, Accessor<Palette|und
     return [elem, get, set];
 }
 
-export function cornerSelector(v: Corner = 'bottomleft'): [JSX.Element, Accessor<Corner>, Setter<Corner>] {
-    const [get, set] = createSignal<Corner>(v);
+export function cornerSelector(preset: Corner = 'bottomleft'): [JSX.Element, Accessor<Corner>, Setter<Corner>] {
+    const [get, set] = createSignal<Corner>(preset);
 
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
         <legend>位置</legend>

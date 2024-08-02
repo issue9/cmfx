@@ -77,13 +77,13 @@
         "@solid-primitives/i18n": "^2.1.1",
         "@solidjs/router": "^0.14.1",
         "localforage": "^1.10.0",
-        "material-symbols": "^0.21.2",
+        "material-symbols": "^0.21.3",
         "quill": "^2.0.2",
         "solid-js": "^1.8.19"
     },
     "devDependencies": {
-        "@types/node": "^22.0.0",
-        "@vitest/coverage-v8": "^2.0.4",
+        "@types/node": "^22.1.0",
+        "@vitest/coverage-v8": "^2.0.5",
         "autoprefixer": "^10.4.19",
         "cssnano": "^7.0.4",
         "jsdom": "^24.1.1",
@@ -95,7 +95,7 @@
         "vite-plugin-dts": "^3.9.1",
         "vite-plugin-solid": "^2.10.2",
         "vite-tsconfig-paths": "^4.3.2",
-        "vitest": "^2.0.4",
+        "vitest": "^2.0.5",
         "vitest-fetch-mock": "^0.3.0"
     }
 }

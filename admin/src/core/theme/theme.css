@@ -74,12 +74,12 @@
     --tertiary-fg: lch(var(--luminance) 100 var(--tertiary));
     --tertiary-fg-high: lch(var(--luminance-high) 100 var(--tertiary));
 
-    --tertiary-bg-low: lch(var(--invert-luminance-low) 10 var(--surface));
-    --tertiary-bg: lch(var(--invert-luminance) 10 var(--surface));
-    --tertiary-bg-high: lch(var(--invert-luminance-high) 10 var(--surface));
-    --tertiary-fg-low: lch(var(--luminance-low) 100 var(--surface));
-    --tertiary-fg: lch(var(--luminance) 100 var(--surface));
-    --tertiary-fg-high: lch(var(--luminance-high) 100 var(--surface));
+    --surface-bg-low: lch(var(--invert-luminance-low) 10 var(--surface));
+    --surface-bg: lch(var(--invert-luminance) 10 var(--surface));
+    --surface-bg-high: lch(var(--invert-luminance-high) 10 var(--surface));
+    --surface-fg-low: lch(var(--luminance-low) 100 var(--surface));
+    --surface-fg: lch(var(--luminance) 100 var(--surface));
+    --surface-fg-high: lch(var(--luminance-high) 100 var(--surface));
 
     --error-bg-low: lch(var(--invert-luminance-low) 50 var(--error));
     --error-bg: lch(var(--invert-luminance) 50 var(--error));
@@ -113,12 +113,12 @@
     --tertiary-fg: lch(var(--invert-luminance) 50 var(--tertiary));
     --tertiary-fg-high: lch(var(--invert-luminance-high) 50 var(--tertiary));
 
-    --tertiary-bg-low: lch(var(--luminance-low) 10 var(--surface));
-    --tertiary-bg: lch(var(--luminance) 10 var(--surface));
-    --tertiary-bg-high: lch(var(--luminance-high) 10 var(--surface));
-    --tertiary-fg-low: lch(var(--invert-luminance-low) 100 var(--surface));
-    --tertiary-fg: lch(var(--invert-luminance) 100 var(--surface));
-    --tertiary-fg-high: lch(var(--invert-luminance-high) 100 var(--surface));
+    --surface-bg-low: lch(var(--luminance-low) 10 var(--surface));
+    --surface-bg: lch(var(--luminance) 10 var(--surface));
+    --surface-bg-high: lch(var(--luminance-high) 10 var(--surface));
+    --surface-fg-low: lch(var(--invert-luminance-low) 100 var(--surface));
+    --surface-fg: lch(var(--invert-luminance) 100 var(--surface));
+    --surface-fg-high: lch(var(--invert-luminance-high) 100 var(--surface));
 
     --error-bg-low: lch(var(--luminance-low) 100 var(--error));
     --error-bg: lch(var(--luminance) 100 var(--error));
@@ -129,12 +129,12 @@
 }
 
 :root {
-    --bg: var(--tertiary-bg);
-    --bg-low: var(--tertiary-bg-low);
-    --bg-high: var(--tertiary-bg-high);
-    --fg: var(--tertiary-fg);
-    --fg-low: var(--tertiary-fg-low);
-    --fg-high: var(--tertiary-fg-high);
+    --bg: var(--surface-bg);
+    --bg-low: var(--surface-bg-low);
+    --bg-high: var(--surface-bg-high);
+    --fg: var(--surface-fg);
+    --fg-low: var(--surface-fg-low);
+    --fg-high: var(--surface-fg-high);
 }
 
 .palette--primary {
@@ -174,10 +174,10 @@
 }
 
 .palette--surface {
-    --bg: var(--tertiary-bg);
-    --bg-low: var(--tertiary-bg-low);
-    --bg-high: var(--tertiary-bg-high);
-    --fg: var(--tertiary-fg);
-    --fg-low: var(--tertiary-fg-low);
-    --fg-high: var(--tertiary-fg-high);
+    --bg: var(--surface-bg);
+    --bg-low: var(--surface-bg-low);
+    --bg-high: var(--surface-bg-high);
+    --fg: var(--surface-fg);
+    --fg-low: var(--surface-fg-low);
+    --fg-high: var(--surface-fg-high);
 }
