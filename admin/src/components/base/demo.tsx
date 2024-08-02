@@ -8,6 +8,18 @@ import { Corner, corners, Palette, palettes } from './types';
 
 export const colorsWithUndefined = [...palettes, undefined] as const;
 
+/**
+ * 创建一个 bool 选择项
+ *
+ * @param label 标题
+ * @param preset 默认值
+ */
+export function boolSelector(label: string, preset: boolean = false):[JSX.Element, Accessor<boolean>, Setter<boolean>] {
+    const [get, set] = createSignal(preset);
+
+    return [<label><input checked={get()} type="checkbox" onChange={() => set(!get())} />{label}</label>, get, set];
+}
+
 export function paletteSelector(v?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
     const [get, set] = createSignal<Palette|undefined>(v);
 

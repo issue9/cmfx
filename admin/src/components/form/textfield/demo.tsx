@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
-
-import { paletteSelector } from '@/components/base/demo';
+import { boolSelector, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Number from './number';
 import Password from './password';
@@ -15,9 +13,9 @@ export default function() {
     const pwd = FieldAccessor('name', 'pwd', true);
     const num = FieldAccessor('name', 5, true);
 
-    const [disabled, setDisabled] = createSignal(false);
-    const [rounded, setRounded] = createSignal(false);
-    const [readonly, setReadonly] = createSignal(false);
+    const [disabledS, disabled] = boolSelector('disabled');
+    const [readonlyS, readonly] = boolSelector('readonly');
+    const [roundedS, rounded] = boolSelector('rounded');
     const [paletteS, palette] = paletteSelector();
 
     const prefix = () => (<div class="bg-red-500 flex items-center">prefix</div>);
@@ -31,18 +29,9 @@ export default function() {
             {paletteS}
             <fieldset class="border-2 my-4 box-border">
                 <legend>设置</legend>
-
-                <label class="mr-4">
-                    <input type="checkbox" onChange={(e) => setReadonly(e.target.checked)} />readonly
-                </label>
-
-                <label class="mr-4">
-                    <input type="checkbox" onChange={(e) => setRounded(e.target.checked)} />rounded
-                </label>
-
-                <label class="mr-4">
-                    <input type="checkbox" onChange={(e) => setDisabled(e.target.checked)} />disabled
-                </label>
+                {readonlyS}
+                {roundedS}
+                {disabledS}
             </fieldset>
             <br />
 

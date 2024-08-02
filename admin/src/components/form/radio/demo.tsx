@@ -6,7 +6,7 @@
 import { createSignal } from 'solid-js';
 
 import { Palette } from '@/components/base';
-import { colorsWithUndefined } from '@/components/base/demo';
+import { boolSelector, colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
 import { default as XGroup } from './radio';
 
@@ -14,10 +14,10 @@ export default function() {
     const [change, setChange] = createSignal<string>('');
     const f = FieldAccessor<Palette>('name', 'primary', true);
     f.onChange((v,o)=>setChange(`new: ${v}, old: ${o}`));
-    const [disable, setDisable] = createSignal(false);
-    const [readonly, setReadonly] = createSignal(false);
-    const [vertical, setVertical] = createSignal(false);
-    const [icon, setIcon] = createSignal(true);
+    const [disabledS, disabled] = boolSelector('disabled');
+    const [readonlyS, readonly] = boolSelector('readonly');
+    const [verticalS, vertical] = boolSelector('vertical');
+    const [iconS, icon] = boolSelector('icon');
     const [iconStyle, setIconStyle] = createSignal(false);
 
     const options: Options<Palette|undefined> = [];
@@ -29,22 +29,10 @@ export default function() {
     return <div class="w-80">
         <fieldset class="border-2 my-4 box-border">
             <legend>设置</legend>
-
-            <label class="mr-4">
-                <input type="checkbox" checked={readonly()} onChange={(e) => setReadonly(e.target.checked)} />readonly
-            </label>
-
-            <label class="mr-4">
-                <input type="checkbox" checked={disable()} onChange={(e) => setDisable(e.target.checked)} />disabled
-            </label>
-
-            <label class="mr-4">
-                <input type="checkbox" checked={vertical()} onChange={(e) => setVertical(e.target.checked)} />vertical
-            </label>
-
-            <label class="mr-4">
-                <input type="checkbox" checked={icon()} onChange={(e) => setIcon(e.target.checked)} />icon
-            </label>
+            {readonlyS}
+            {disabledS}
+            {verticalS}
+            {iconS}
 
             <br />
 
@@ -53,7 +41,7 @@ export default function() {
         </fieldset>
 
         <XGroup label='test' icon={icon()} vertical={vertical()} palette={f.getValue()}
-            disabled={disable()} readonly={readonly()} accessor={f} options={options}
+            disabled={disabled()} readonly={readonly()} accessor={f} options={options}
             checkedIcon={iconStyle() ? 'task_alt' : undefined }
         />
 

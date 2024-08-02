@@ -5,7 +5,7 @@
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Button, ButtonGroup, IconButton } from '@/components';
-import { colorsWithUndefined } from '@/components/base/demo';
+import { boolSelector, colorsWithUndefined } from '@/components/base/demo';
 import { Style, styles } from './types';
 
 export function styleSelector(v: Style = 'fill'): [JSX.Element, Accessor<Style>, Setter<Style>] {
@@ -29,9 +29,9 @@ export function styleSelector(v: Style = 'fill'): [JSX.Element, Accessor<Style>,
 }
 
 export default function() {
-    const [rounded, setRounded] = createSignal(false);
     const [styleS, style] = styleSelector('fill');
-    const [disabled, setDisabled] = createSignal(false);
+    const [disabledS, disabled] = boolSelector('disabled');
+    const [roundedS, rounded] = boolSelector('rounded');
 
     const Buttons = ()=> <>
         <div class="flex items-center gap-2 my-4">
@@ -89,11 +89,8 @@ export default function() {
 
     return <div class="m-10">
         {styleS}
-        <label><input type="checkbox" onChange={()=>setDisabled(!disabled())} />disabled</label>
-
-        <label class="mr-4">
-            <input type="checkbox" onChange={(e)=>setRounded(e.target.checked)} />rounded
-        </label>
+        {disabledS}
+        {roundedS}
 
         <h1 class="my-4">button</h1>
         <Buttons />

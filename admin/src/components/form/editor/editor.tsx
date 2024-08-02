@@ -43,6 +43,7 @@ export default function(props: Props) {
 
         editor.on(Quill.events.TEXT_CHANGE, () => {
             props.accessor.setValue(editor.getSemanticHTML());
+            props.accessor.setError();
         });
     });
 

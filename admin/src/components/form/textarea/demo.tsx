@@ -2,28 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For } from 'solid-js';
+import { For } from 'solid-js';
 
-import { colorsWithUndefined } from '@/components/base/demo';
+import { boolSelector, colorsWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import TextArea from './textarea';
 
 export default function() {
     const f = FieldAccessor('name', '5', true);
-    const [disabled, setDisabled] = createSignal(false);
-    const [readonly, setReadonly] = createSignal(false);
+    const [disabledS, disabled] = boolSelector('disabled');
+    const [readonlyS, readonly] = boolSelector('readonly');
 
     return <div class="w-80 flex flex-col gap-y-2">
         <fieldset class="border-2 my-4 box-border">
             <legend>设置</legend>
 
-            <label class="mr-4">
-                <input type="checkbox" onChange={(e) => setReadonly(e.target.checked)} />readonly
-            </label>
-
-            <label class="mr-4">
-                <input type="checkbox" onChange={(e) => setDisabled(e.target.checked)} />disabled
-            </label>
+            {readonlyS}
+            {disabledS}
 
             <br />
 

@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { paletteSelector } from '@/components/base/demo';
+import { boolSelector, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor, Options, TextField } from '@/components/form';
-import { createSignal } from 'solid-js';
 import { default as Choice } from './choice';
 
 export default function() {
@@ -31,37 +30,28 @@ export default function() {
 
     const tf = FieldAccessor('textfield', '');
 
-
     const [paletteS, palette] = paletteSelector();
-    const [disable, setDisable] = createSignal(false);
-    const [rounded, setRounded] = createSignal(false);
-    const [readonly, setReadonly] = createSignal(false);
-    const [icon, setIcon] = createSignal(false);
+    const [disabledS, disabled] = boolSelector('disabled');
+    const [readonlyS, readonly] = boolSelector('readonly');
+    const [roundedS, rounded] = boolSelector('rounded');
+    const [iconS, icon] = boolSelector('icon');
     return <div class="px-10 py-5 flex flex-col gap-y-10 w-[500px]">
         <div class="flex mb-10 gap-2">
             {paletteS}
-            <label class="mr-4">
-                <input type="checkbox" onChange={(e) => setReadonly(e.target.checked)} />readonly
-            </label>
-
-            <label class="mr-4">
-                <input type="checkbox" onChange={(e) => setRounded(e.target.checked)} />rounded
-            </label>
-
-            <label class="mr-4">
-                <input type="checkbox" onChange={(e) => setDisable(e.target.checked)} />disabled
-            </label>
+            {disabledS}
+            {readonlyS}
+            {roundedS}
+            {iconS}
 
             <button class="c--button button-style--fill palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
                 mfa.setError(mfa.getError() ? undefined : 'error');
             }}>toggle error</button>
-            <button class="c--button button-style--fill palette--primary" onClick={() => setIcon(!icon())}>toggle icon</button>
         </div>
 
-        <Choice tabindex={0} placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
-        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-        <Choice placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-        <TextField placeholder='placeholder' disabled={disable()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+        <Choice tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
+        <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+        <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+        <TextField placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
     </div>;
 }
