@@ -13,5 +13,6 @@ export * from './error';
 export * from './form';
 export * from './notify';
 export * from './pagination';
+export * from './table';
 export * from './tree';
 
