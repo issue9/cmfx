@@ -11,6 +11,10 @@ const messages: Messages = {
     logout: '退出',
     reset: '重置',
     refresh: '刷新',
+    pagination: {
+        prev: '前一页',
+        next: '下一页'
+    },
     date: {
         monday: '一',
         tuesday: '二',

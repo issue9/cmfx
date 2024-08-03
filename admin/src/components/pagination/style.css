@@ -1,0 +1,30 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+.c--pagination {
+    @apply flex gap-1;
+
+    .item {
+        @apply px-2 rounded-md bg-palette-bg;
+    }
+
+    .item.next,
+    .item.prev {
+        @apply bg-palette-bg-high hover:bg-palette-bg-low;
+    }
+
+    .item.line {
+        @apply p-1;
+
+        .btn {
+            @apply hover:bg-palette-bg-low px-2 py-[2px] rounded-md;
+        }
+
+        .current {
+            @apply bg-palette-bg-high;
+        }
+    }
+}
