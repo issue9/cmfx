@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { boolSelector, paletteSelector } from '@/components/base/demo';
+import { boolSelector, paletteSelector, Demo } from '@/components/base/demo';
 import { FieldAccessor, Options, TextField } from '@/components/form';
 import { default as Choice } from './choice';
 
@@ -35,23 +35,26 @@ export default function() {
     const [readonlyS, readonly] = boolSelector('readonly');
     const [roundedS, rounded] = boolSelector('rounded');
     const [iconS, icon] = boolSelector('icon');
-    return <div class="px-10 py-5 flex flex-col gap-y-10 w-[500px]">
-        <div class="flex mb-10 gap-2">
+
+    return <Demo settings={
+        <>
             {paletteS}
             {disabledS}
             {readonlyS}
             {roundedS}
             {iconS}
 
-            <button class="c--button button-style--fill palette--primary" onClick={() => {
+            <button class="c--button c--button-fill palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
                 mfa.setError(mfa.getError() ? undefined : 'error');
             }}>toggle error</button>
-        </div>
-
-        <Choice tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
-        <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-        <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-        <TextField placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
-    </div>;
+        </>
+    } stages={
+        <>
+            <Choice tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
+            <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+            <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+            <TextField placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+        </>
+    } />;
 }

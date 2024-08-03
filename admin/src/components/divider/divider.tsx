@@ -24,7 +24,7 @@ export default function(props: Props) {
         'c--divider': true,
         [`palette--${props.palette}`]: !!props.palette,
     }}>
-        <Switch fallback={<hr class="w-full" />}>
+        <Switch fallback={<hr style={{'border-style': props.style}} class="w-full" />}>
             <Match when={props.pos === 'start' && props.children}>
                 {props.children}<hr style={{ 'border-style': props.style }} class="flex-1 ml-2" />
             </Match>

@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { paletteSelector } from '@/components/base/demo';
+import { paletteSelector, Demo } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
 import { default as Menu } from './menu';
 
@@ -31,14 +31,13 @@ export default function() {
     ];
 
     const [selected, setSelected] = createSignal<string>();
-    return <div class="flex flex-col gap-2">
-        {paletteS}
 
+    return <Demo settings={paletteS} stages={
         <div class="w-80 mt-4">
             <Menu palette={palette()} onChange={(v,old)=>setSelected(v.toString()+'  '+old?.toString())}>
                 {items}
             </Menu>
             <div>{ selected() }</div>
         </div>
-    </div>;
+    } />;
 }

@@ -64,27 +64,52 @@ export function cornerSelector(preset: Corner = 'bottomleft'): [JSX.Element, Acc
     return [elem, get, set];
 }
 
+export interface DemoProps {
+    /**
+     * 设置项的内容
+     */
+    settings: JSX.Element;
+
+    /**
+     * 展示区的内容
+     */
+    stages: JSX.Element;
+}
+
+/**
+ * demo 展示组件
+ */
+export function Demo(props: DemoProps) {
+    return <div class="flex flex-col gap-y-5">
+        <div class="settings flex flex-wrap justify-between">
+            {props.settings}
+        </div>
+
+        <div class="stages flex flex-wrap justify-between gap-5">
+            {props.stages}
+        </div>
+    </div>;
+}
+
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
 
-    return <div>
-        { paletteS }
-
-        <div class="flex flex-col gap-y-5 mt-5">
-            <button class="text-[var(--fg)] bg-[var(--bg)]" classList={{
+    return <Demo settings={paletteS} stages={
+        <>
+            <button class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
                 [`palette--${palette()}`]: !!palette()
             }}>button</button>
 
-            <span class="text-[var(--fg)] bg-[var(--bg)]" classList={{
+            <span class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
                 [`palette--${palette()}`]: !!palette()
             }}>span</span>
 
-            <fieldset class="text-[var(--fg)] bg-[var(--bg)]" classList={{
+            <fieldset class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
                 [`palette--${palette()}`]: !!palette()
             }}>
                 <legend>fieldset</legend>
                 content
             </fieldset>
-        </div>
-    </div>;
+        </>
+    } />;
 }

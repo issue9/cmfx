@@ -5,7 +5,7 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { boolSelector, colorsWithUndefined } from '@/components/base/demo';
+import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
 import Checkbox from './checkbox';
 import { default as CheckboxGroup } from './group';
@@ -24,33 +24,36 @@ export default function() {
         ['3', <div style="color:red">red<br/>red<br/>red</div>],
     ];
 
-    return <div class="w-80">
-        <fieldset class="border-2 my-4 box-border">
-            <legend>设置</legend>
+    return <Demo settings={
+        <>
             {readonlyS}
             {disabledS}
             {verticalS}
             {iconS}
-            <br />
 
-            <button class="c--button button-style--fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
-            <button class="c--button button-style--fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
-        </fieldset>
+            <button class="c--button c--button-fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="c--button c--button-fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
+        </>
 
-        <div class="flex flex-wrap mb-10">
-            <For each={colorsWithUndefined}>
-                {(item)=>(
-                    <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
-                        title={item ? item : 'undefined'} label='test' icon={icon()} palette={item} disabled={disabled()} readonly={readonly()}
-                    />
-                )}
-            </For>
-        </div>
+    } stages={
+        <>
+            <div class="flex flex-wrap mb-10">
+                <For each={colorsWithUndefined}>
+                    {(item)=>(
+                        <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
+                            title={item ? item : 'undefined'} label='test' icon={icon()} palette={item} disabled={disabled()} readonly={readonly()}
+                        />
+                    )}
+                </For>
+            </div>
 
-        <CheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
-            icon={icon()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
-            options={groupOptions} accessor={groupFA}
-        />
-        <pre>{ groupFA.getValue().toString() }</pre>
-    </div>;
+            <div class="flex flex-col mb-10">
+                <CheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
+                    icon={icon()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
+                    options={groupOptions} accessor={groupFA}
+                />
+                <pre>{ groupFA.getValue().toString() }</pre>
+            </div>
+        </>
+    } />;
 }

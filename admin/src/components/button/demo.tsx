@@ -5,7 +5,7 @@
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Button, ButtonGroup, IconButton } from '@/components';
-import { boolSelector, colorsWithUndefined } from '@/components/base/demo';
+import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
 import { Style, styles } from './types';
 
 export function styleSelector(v: Style = 'fill'): [JSX.Element, Accessor<Style>, Setter<Style>] {
@@ -87,21 +87,33 @@ export default function() {
         </ButtonGroup>
     </div>;
 
-    return <div class="m-10">
-        {styleS}
-        {disabledS}
-        {roundedS}
+    return <Demo settings={
+        <>
+            {styleS}
+            {disabledS}
+            {roundedS}
+        </>
+    } stages={
+        <>
+            <div class="w-full">
+                <h1 class="my-4">button</h1>
+                <Buttons />
+            </div>
 
-        <h1 class="my-4">button</h1>
-        <Buttons />
+            <div class="w-full">
+                <h1 class="my-4">icon-button</h1>
+                <IconButtons />
+            </div>
 
-        <h1 class="my-4">icon-button</h1>
-        <IconButtons />
+            <div class="w-full">
+                <h1 class="my-4">button-group</h1>
+                <ButtonGroups />
+            </div>
 
-        <h1 class="my-4">button-group</h1>
-        <ButtonGroups />
-
-        <h1 class="my-4">block</h1>
-        <Block />
-    </div>;
+            <div class="w-full">
+                <h1 class="my-4">block</h1>
+                <Block />
+            </div>
+        </>
+    } />;
 }

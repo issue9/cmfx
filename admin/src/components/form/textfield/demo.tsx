@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { boolSelector, paletteSelector } from '@/components/base/demo';
+import { boolSelector, paletteSelector, Demo } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Number from './number';
 import Password from './password';
@@ -24,21 +24,16 @@ export default function() {
 
     const icon = () => (<span class="material-symbols-outlined flex items-center">face</span>);
 
-    return <div class="flex flex-col flex-wrap px-5">
-        <div class="flex gap-2">
+    return <Demo settings={
+        <>
             {paletteS}
-            <fieldset class="border-2 my-4 box-border">
-                <legend>设置</legend>
-                {readonlyS}
-                {roundedS}
-                {disabledS}
-            </fieldset>
-            <br />
-
-            <button class="c--button button-style--fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
-        </div>
-
-        <div class="flex gap-10 mt-5">
+            {readonlyS}
+            {roundedS}
+            {disabledS}
+            <button class="c--button c--button-fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
+        </>
+    } stages={
+        <>
             <div class="flex flex-col gap-2 w-80">
                 <TextField placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
                 <TextField placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
@@ -53,6 +48,6 @@ export default function() {
                 <Number placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
                 <Password placeholder='placeholder' label="password" icon="face" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
             </div>
-        </div>
-    </div>;
+        </>
+    } />;
 }
