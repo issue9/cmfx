@@ -13,7 +13,9 @@ const messages: Messages = {
     refresh: '刷新',
     pagination: {
         prev: '前一页',
-        next: '下一页'
+        next: '下一页',
+        firstPage: '首页',
+        lastPage: '末页',
     },
     date: {
         monday: '一',

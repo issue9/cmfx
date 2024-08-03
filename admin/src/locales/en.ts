@@ -11,7 +11,9 @@ const messages = {
     refresh: 'refresh',
     pagination: {
         prev: 'prev',
-        next: 'next'
+        next: 'next',
+        firstPage: 'first page',
+        lastPage: 'last page',
     },
     date: {
         monday: 'Mon',

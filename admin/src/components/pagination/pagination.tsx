@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { createEffect, createSignal, For } from 'solid-js';
+
 import { BaseProps } from '@/components/base';
 import { useInternal } from '@/app/context';
-import { createEffect, createSignal, For, Show } from 'solid-js';
 
 export interface Props extends BaseProps {
     /**
@@ -13,7 +14,7 @@ export interface Props extends BaseProps {
     count: number;
 
     /**
-     * 当前页的页码，基数为 1。
+     * 当前页的页码，取值范围为 [1, {@link Props#count}]。
      */
     value: number;
 
@@ -23,13 +24,13 @@ export interface Props extends BaseProps {
     onChange?: {(current: number, old?: number): void};
 }
 
-const size = 4;
+const size = 3;
 
 /**
  * 分页组件
  * 
  * 大致布局如下：
- *  [prev] [first,1,2,...,current...,7,8,last] [next]
+ *  [<<,<,1,2,...,current...,7,8,>,>>]
  */
 export default function(props: Props) {
     const ctx = useInternal();
@@ -45,7 +46,7 @@ export default function(props: Props) {
     createEffect(()=>{
         let min = current() - size;
         if (min <= 1) {
-            min = 2;
+            min = 1;
         }
         const pv: Array<number> = [];
         for(let i = min; i < current(); i++) {
@@ -55,10 +56,10 @@ export default function(props: Props) {
 
         let max = current() + size;
         if (max >= props.count) {
-            max = props.count-1;
+            max = props.count;
         }
         const nv: Array<number> = [];
-        for(let i = current()+1; i < props.count; i++) {
+        for(let i = current()+1; i <= max; i++) {
             nv.push(i);
         }
         setNexts(nv);
@@ -76,37 +77,38 @@ export default function(props: Props) {
         'c--pagination': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        <button onclick={()=>change(current()-1)} class="item prev" disabled={current()===1}>
-            {ctx.t('_internal.pagination.prev')}
-        </button>
+        <button onclick={()=>change(1)}
+            class="item material-symbols-outlined"
+            disabled={current()===1}
+            title={ctx.t('_internal.pagination.firstPage')}>first_page</button>
 
-        <div class="item line">
-            <Show when={current() > 1}>
-                <button onclick={()=>change(1)} class="btn">1</button>
-            </Show>
+        <button onclick={()=>change(current()-1)}
+            class="item material-symbols-outlined"
+            disabled={current()===1}
+            title={ctx.t('_internal.pagination.prev')}>chevron_left</button>
 
-            <For each={prevs()}>
-                {(item)=>(
-                    <button onclick={()=>change(item)} class="btn">{item}</button>
-                )}
-            </For>
+        <For each={prevs()}>
+            {(item)=>(
+                <button onclick={()=>change(item)} class="item">{item}</button>
+            )}
+        </For>
 
-            <button class="btn current">{current()}</button>
+        <button class="item current">{current()}</button>
 
-            <For each={nexts()}>
-                {(item)=>(
-                    <button onclick={()=>change(item)} class="btn">{item}</button>
-                )}
-            </For>
+        <For each={nexts()}>
+            {(item)=>(
+                <button onclick={()=>change(item)} class="item">{item}</button>
+            )}
+        </For>
 
+        <button onclick={()=>change(current()+1)}
+            class="item material-symbols-outlined"
+            title={ctx.t('_internal.pagination.next')}
+            disabled={current() >= props.count}>chevron_right</button>
 
-            <Show when={current() < props.count}>
-                <button onclick={()=>change(props.count)} class="btn">{props.count}</button>
-            </Show>
-        </div>
-
-        <button onclick={()=>change(current()+1)} class="item next" disabled={current() >= props.count}>
-            {ctx.t('_internal.pagination.next')}
-        </button>
+        <button onclick={()=>change(props.count)}
+            class="item material-symbols-outlined"
+            title={ctx.t('_internal.pagination.lastPage')}
+            disabled={current() >= props.count}>last_page</button>
     </div>;
 }

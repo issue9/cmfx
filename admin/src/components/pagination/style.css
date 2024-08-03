@@ -5,26 +5,26 @@
  */
 
 .c--pagination {
-    @apply flex gap-1;
+    @apply flex rounded-md bg-palette-bg;
+
+    :first-child {
+        @apply rounded-l-md;
+    }
+
+    :last-child {
+        @apply rounded-r-md;
+    }
+
 
     .item {
-        @apply px-2 rounded-md bg-palette-bg;
+        @apply hover:bg-palette-bg-low px-2 py-[2px];
     }
 
-    .item.next,
-    .item.prev {
-        @apply bg-palette-bg-high hover:bg-palette-bg-low;
+    .item:disabled {
+        @apply cursor-not-allowed bg-palette-bg text-palette-bg-high;
     }
 
-    .item.line {
-        @apply p-1;
-
-        .btn {
-            @apply hover:bg-palette-bg-low px-2 py-[2px] rounded-md;
-        }
-
-        .current {
-            @apply bg-palette-bg-high;
-        }
+    .current {
+        @apply bg-palette-bg-high;
     }
 }
