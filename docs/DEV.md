@@ -10,7 +10,7 @@
 
 ### 字体
 
-字体采用 https://fonts.google.com/icons 相关定义可参考 style.css
+字体采用 <https://fonts.google.com/icons> 相关定义可参考 style.css
 
 ### 组件
 

@@ -4,35 +4,36 @@
 
 import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
-import { BaseProps, renderElementProp } from '@/components/base';
+import { renderElementProp } from '@/components/base';
 import { Divider } from '@/components/divider';
-import type { Item, Value } from '@/components/tree/item';
+import type { Props as ContainerProps } from '@/components/tree/container';
+import { Item, Value } from '@/components/tree/item';
+import { sleep } from '@/core';
 
-export interface Props extends BaseProps {
-    /**
-     * 子项
-     */
-    children: Array<Item>;
-
-    /**
-     * 当选择项发生变化时触发的事件
-     */
-    onChange?: { (selected: Value, old?: Value): void };
-
+export interface Props extends ContainerProps {
     /**
      * 右侧展开子菜单的图标，默认为 chevron_right
      */
     expandIcon?: string
+
+    /**
+     * 点击菜单项之后自动关闭弹出的菜单
+     */
+    autoClose?: boolean;
 }
 
 const defaultProps: Readonly<Partial<Props>> = {
-    expandIcon: 'chevron_right'
+    expandIcon: 'chevron_right',
+    selectedClass: 'selected'
 };
 
 export default function (props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
 
     const [selected, setSelected] = createSignal<Value>();
+
+    // 在 props.autoClose 为 true 时，能正常关闭弹出的菜单。
+    const [hide, setHide] = createSignal(false);
 
     const Items = (p: { items: Array<Item> }): JSX.Element => {
         return <For each={p.items}>
@@ -63,7 +64,7 @@ export default function (props: Props): JSX.Element {
                 <li class="item">
                     {renderElementProp(p.item.label)}
                     <span class="tail material-symbols-outlined">{ props.expandIcon }</span>
-                    <Show when={p.item.items}>
+                    <Show when={p.item.items && !hide()}>
                         <menu class="c--menu hidden">
                             <Items items={p.item.items as Array<Item>} />
                         </menu>
@@ -71,17 +72,25 @@ export default function (props: Props): JSX.Element {
                 </li>
             </Match>
             <Match when={!p.item.items}>
-                <li onClick={()=>{
+                <li accessKey={p.item.accesskey} onClick={()=>{
                     if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
+                    if (props.autoClose) {
+                        setHide(true);
+                        sleep(500).then(()=>setHide(false));
+                    }
+
                     const old = selected();
-                    if (!props.onChange || old === p.item.value) { return; }
+                    if (old === p.item.value) { return; }
+
+                    if (props.onChange) {
+                        props.onChange(p.item.value, old);
+                    }
 
                     setSelected(p.item.value);
-                    props.onChange(p.item.value, old);
                 }} classList={{
                     'item': true,
-                    'selected': selected() === p.item.value
+                    [props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
                 }}>
                     {renderElementProp(p.item.label)}
                 </li>

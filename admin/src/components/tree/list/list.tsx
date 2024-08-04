@@ -2,24 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, Match, Show, Switch } from 'solid-js';
+import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, renderElementProp } from '@/components/base';
+import { renderElementProp } from '@/components/base';
 import { Divider } from '@/components/divider';
 import type { Item, Value } from '@/components/tree/item';
+import type { Props as ContainerProps } from '@/components/tree/container';
 
-export interface Props extends BaseProps {
-    /**
-     * 子项
-     */
-    children: Array<Item>;
-
-    /**
-     * 当选择项发生变化时触发的事件
-     */
-    onChange?: { (selected: Value, old?: Value): void };
-
+export interface Props extends ContainerProps {
     /**
      * 可点击的元素是否以 A 作为标签名
      *
@@ -28,7 +19,13 @@ export interface Props extends BaseProps {
     anchor?: boolean;
 }
 
+const defaultProps: Readonly<Partial<Props>> = {
+    selectedClass: 'selected'
+};
+
 export default function (props: Props): JSX.Element {
+    props = mergeProps(defaultProps, props);
+
     const [selected, setSelected] = createSignal<Value>();
 
     const Items = (p: { items: Array<Item>, indent: number }): JSX.Element => {
@@ -72,17 +69,20 @@ export default function (props: Props): JSX.Element {
                 </details>
             </Match>
             <Match when={!p.item.items}>
-                <Dynamic component={props.anchor ? 'A' : 'span'} href={props.anchor ? p.item.value : undefined} onClick={()=>{
+                <Dynamic component={props.anchor ? 'A' : 'span'} href={props.anchor ? p.item.value : undefined} accessKey={p.item.accesskey} onClick={()=>{
                     if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                     const old = selected();
-                    if (!props.onChange || old === p.item.value) { return; }
+                    if (old === p.item.value) { return; }
+
+                    if (props.onChange) {
+                        props.onChange(p.item.value, old);
+                    }
 
                     setSelected(p.item.value);
-                    props.onChange(p.item.value, old);
                 }} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} classList={{
                     'item': true,
-                    'selected': selected() === p.item.value
+                    [props.selectedClass!]: props.selectedClass && selected() === p.item.value
                 }}>
                     {renderElementProp(p.item.label)}
                 </Dynamic>

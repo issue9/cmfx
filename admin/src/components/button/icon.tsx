@@ -26,10 +26,10 @@ export default function(props: Props) {
     return <button type={props.type} title={props.title} disabled={props.disabled} onClick={props.onClick} classList={{
         'material-symbols-outlined': true,
         'c--button': true,
-        'icon': true,
+        'c--button-icon': true,
         'rounded-full': props.rounded,
         [`palette--${props.palette}`]: !!props.palette,
-        [`button-style--${props.style}`]: true
+        [`c--button-${props.style}`]: true
     }}>
         {props.children}
     </button>;

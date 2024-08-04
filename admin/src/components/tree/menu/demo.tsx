@@ -4,12 +4,16 @@
 
 import { createSignal } from 'solid-js';
 
-import { paletteSelector, Demo } from '@/components/base/demo';
+import { paletteSelector, Demo, boolSelector } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
 import { default as Menu } from './menu';
+import { selectedClassSelector } from '@/components/tree/list/demo';
 
 export default function() {
-    const [paletteS,palette] = paletteSelector('primary');
+    const [paletteS,palette] = paletteSelector('primary'); 
+    const [selectedClsS, selectedCls] = selectedClassSelector('selected');
+    const [autoCloseS, autoClose] = boolSelector('aut close', false);
+
     const items: Array<Item> = [
         {type: 'item', value: 'v1', label: 'v1'},
         {type: 'item', value: 'v2', label: 'v2'},
@@ -32,9 +36,15 @@ export default function() {
 
     const [selected, setSelected] = createSignal<string>();
 
-    return <Demo settings={paletteS} stages={
+    return <Demo settings={
+        <>
+            {paletteS}
+            {selectedClsS}
+            {autoCloseS}
+        </>
+    } stages={
         <div class="w-80 mt-4">
-            <Menu palette={palette()} onChange={(v,old)=>setSelected(v.toString()+'  '+old?.toString())}>
+            <Menu autoClose={autoClose()} selectedClass={selectedCls()} palette={palette()} onChange={(v,old)=>setSelected(v.toString()+'  '+old?.toString())}>
                 {items}
             </Menu>
             <div>{ selected() }</div>

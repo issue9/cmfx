@@ -136,7 +136,7 @@ function Username(): JSX.Element {
             nav(ctx.options.routes.public.home);
         }
         // TODO
-    }
+    };
 
     const activator = <Button style='flat' onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 

@@ -5,9 +5,9 @@
  */
 
 @import 'material-symbols';
+
 @import './core/theme/theme.css';
 @import './tailwind.css';
-
 @import './components/style.css';
 @import './pages/style.css';
 @import './app/style.css';

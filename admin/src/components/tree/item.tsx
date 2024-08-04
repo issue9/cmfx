@@ -47,4 +47,11 @@ export type Item = {
      * 是否禁用该项
      */
     disabled?: boolean;
+
+    /**
+     * 快捷键
+     * 
+     * https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/accesskey
+     */
+    accesskey?: string;
 };
