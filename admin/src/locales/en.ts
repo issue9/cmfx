@@ -9,6 +9,12 @@ const messages = {
     logout: 'logout',
     reset: 'reset',
     refresh: 'refresh',
+    pagination: {
+        prev: 'prev',
+        next: 'next',
+        firstPage: 'first page',
+        lastPage: 'last page',
+    },
     date: {
         monday: 'Mon',
         tuesday: 'Tue',
