@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, For } from 'solid-js';
+import { createEffect, createSignal, For, mergeProps } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 import { useInternal } from '@/app/context';
@@ -22,9 +22,17 @@ export interface Props extends BaseProps {
      * 在页码改变的时候触发
      */
     onChange?: {(current: number, old?: number): void};
+
+    /**
+     * 按钮的数据
+     */
+    spans?: number;
 }
 
-const size = 3;
+const defaultProps: Readonly<Partial<Props>> = {
+    spans: 3
+};
+
 
 /**
  * 分页组件
@@ -33,6 +41,8 @@ const size = 3;
  *  [<<,<,1,2,...,current...,7,8,>,>>]
  */
 export default function(props: Props) {
+    props = mergeProps(defaultProps, props);
+
     const ctx = useInternal();
 
     if (props.value < 1 || props.value > props.count) {
@@ -44,7 +54,7 @@ export default function(props: Props) {
     const [current, setCurrent] = createSignal(props.value);
 
     createEffect(()=>{
-        let min = current() - size;
+        let min = current() - props.spans!;
         if (min <= 1) {
             min = 1;
         }
@@ -54,7 +64,7 @@ export default function(props: Props) {
         }
         setPrevs(pv);
 
-        let max = current() + size;
+        let max = current() + props.spans!;
         if (max >= props.count) {
             max = props.count;
         }

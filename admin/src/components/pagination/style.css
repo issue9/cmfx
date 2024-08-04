@@ -4,27 +4,29 @@
  * SPDX-License-Identifier: MIT
  */
 
-.c--pagination {
-    @apply flex rounded-md bg-palette-bg;
+@layer components {
+    .c--pagination {
+        @apply flex rounded-md bg-palette-bg;
 
-    :first-child {
-        @apply rounded-l-md;
-    }
+        :first-child {
+            @apply rounded-l-md;
+        }
 
-    :last-child {
-        @apply rounded-r-md;
-    }
+        :last-child {
+            @apply rounded-r-md;
+        }
 
 
-    .item {
-        @apply hover:bg-palette-bg-low px-2 py-[2px];
-    }
+        .item {
+            @apply hover:bg-palette-bg-low px-2 py-[2px];
+        }
 
-    .item:disabled {
-        @apply cursor-not-allowed bg-palette-bg text-palette-bg-high;
-    }
+        .item:disabled {
+            @apply cursor-not-allowed bg-palette-bg text-palette-bg-high;
+        }
 
-    .current {
-        @apply bg-palette-bg-high;
+        .current {
+            @apply bg-palette-bg-high;
+        }
     }
 }
