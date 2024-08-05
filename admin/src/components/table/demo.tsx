@@ -4,14 +4,14 @@
 
 import { createSignal } from 'solid-js';
 
-import { paletteSelector } from '@/components/base/demo';
+import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import Table from './table';
 import { Column } from './types';
 
 export default function () {
     const [paletteS, palette] = paletteSelector();
-    const [hoverable, setHoverable] = createSignal(false);
-    const [fixedLayout, setFixedLayout] = createSignal(false);
+    const [hoverableS, hoverable] = boolSelector('hoverable', false);
+    const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
     const [striped, setStriped] = createSignal<number>(0);
 
     const items = [
@@ -27,17 +27,19 @@ export default function () {
         {id: 'id'},
         {id: 'name'},
         {id: 'address'},
-        { id: 'action', label: 'ACTIONS', render: (id) => { return <button>...</button>; }}
+        { id: 'action', label: 'ACTIONS', render: () => { return <button>...</button>; }}
     ];
 
-    return <div class="p-5 flex flex-col items-center gap-5">
-        <div class="flex justify-around gap-2">
+    return <Demo settings={
+        <>
             {paletteS}
+            {fixedLayoutS}
+            {hoverableS}
             <input type='number' placeholder='striped' value={striped()} onChange={(e)=>setStriped(parseInt(e.target.value))} />
-            <label><input type="checkbox" checked={fixedLayout()} onChange={()=>setFixedLayout(!fixedLayout())} />fixedLayout</label>
-            <label><input type="checkbox" checked={hoverable()} onChange={()=>setHoverable(!hoverable())} />hoverable</label>
-        </div>
-
-        <Table striped={striped()} fixedLayout={fixedLayout()}  palette={palette()} items={items} header={header} hoverable={hoverable()} />
-    </div>;
+        </>
+    } stages={
+        <>
+            <Table striped={striped()} fixedLayout={fixedLayout()}  palette={palette()} items={items} header={header} hoverable={hoverable()} />
+        </>
+    } />;
 }
