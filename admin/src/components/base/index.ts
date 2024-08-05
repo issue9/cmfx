@@ -4,6 +4,6 @@
 
 export { cloneElement } from './func';
 
-export { corners, palettes, renderElementProp } from './types';
-export type { Props as BaseProps, Corner, ElementProp, Palette } from './types';
+export { corners, palettes } from './types';
+export type { Props as BaseProps, Corner, Palette } from './types';
 

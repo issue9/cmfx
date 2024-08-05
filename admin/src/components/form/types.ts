@@ -4,7 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { BaseProps, ElementProp } from '@/components/base';
+import { BaseProps } from '@/components/base';
 
 /**
  * 所有表单元素共有的属性
@@ -15,7 +15,7 @@ export interface Props extends BaseProps {
      */
     title?: string;
 
-    label?: ElementProp;
+    label?: JSX.Element;
     disabled?: boolean;
     readonly?: boolean;
     accessKey?: string;
@@ -27,7 +27,7 @@ export interface Props extends BaseProps {
  *
  * T 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<T> = [T, ElementProp];
+export type Option<T> = [T, JSX.Element];
 
 /**
  * 选择项的数据类型

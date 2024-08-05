@@ -4,7 +4,6 @@
 
 import { JSX, Show, createSignal } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
@@ -23,7 +22,7 @@ export default function(props: Props): JSX.Element {
     return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
         <label title={props.title}>
             <Show when={props.label}>
-                {renderElementProp(props.label)}
+                {props.label}
             </Show>
 
             <div classList={{

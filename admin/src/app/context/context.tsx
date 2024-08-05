@@ -5,13 +5,15 @@
 import * as i18n from '@solid-primitives/i18n';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
+import { build as buildOptions } from '@/app/options';
 import { NotifySender, NotifyType } from '@/components';
 import { Fetcher } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
-import { build as buildOptions } from './options';
 
 type Options = ReturnType<typeof buildOptions>;
+
 export type Context = ReturnType<typeof buildContext>['ctx'];
+
 export type AppContext = Exclude<Context, 'options' | 'setNotifySender'>;
 
 const context = createContext<Context>();

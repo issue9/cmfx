@@ -5,10 +5,9 @@
 import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { renderElementProp } from '@/components/base';
 import { Divider } from '@/components/divider';
-import type { Item, Value } from '@/components/tree/item';
 import type { Props as ContainerProps } from '@/components/tree/container';
+import type { Item, Value } from '@/components/tree/item';
 
 export interface Props extends ContainerProps {
     /**
@@ -58,7 +57,7 @@ export default function (props: Props): JSX.Element {
             <Match when={p.item.items && p.item.items.length > 0}>
                 <details onToggle={()=>setOpen(!open())} open={open()}>
                     <summary style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} class="item">
-                        {renderElementProp(p.item.label)}
+                        {p.item.label}
                         <span class="tail material-symbols-outlined">{ open() ?'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
                     </summary>
                     <Show when={p.item.items}>
@@ -84,7 +83,7 @@ export default function (props: Props): JSX.Element {
                     'item': true,
                     [props.selectedClass!]: props.selectedClass && selected() === p.item.value
                 }}>
-                    {renderElementProp(p.item.label)}
+                    {p.item.label}
                 </Dynamic>
             </Match>
         </Switch>;
@@ -97,7 +96,7 @@ export default function (props: Props): JSX.Element {
         }
 
         return <>
-            <p class="group">{renderElementProp(p.item.label)}</p>
+            <p class="group">{p.item.label}</p>
             <Items items={p.item.items} indent={p.indent} />
         </>;
     };

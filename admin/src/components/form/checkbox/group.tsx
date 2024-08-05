@@ -4,7 +4,6 @@
 
 import { For, mergeProps, Show, splitProps } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 import { default as Checkbox } from './checkbox';
 
@@ -40,7 +39,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
-            <legend class="icon-container" title={props.title}>{renderElementProp(props.label)}</legend >
+            <legend class="icon-container" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{

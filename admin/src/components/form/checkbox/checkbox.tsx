@@ -4,7 +4,6 @@
 
 import { createSignal, mergeProps, Show } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { FieldBaseProps } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
@@ -62,6 +61,6 @@ export default function(props: Props) {
                 { chk() === undefined ? props.indeterminateIcon : (chk() ? props.checkedIcon : props.uncheckedIcon) }
             </span>
         </Show>
-        {renderElementProp(props.label)}
+        {props.label}
     </label>;
 }

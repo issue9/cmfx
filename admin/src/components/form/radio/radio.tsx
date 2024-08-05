@@ -4,7 +4,6 @@
 
 import { For, mergeProps, Show } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
 export interface Props<T> extends FieldBaseProps {
@@ -35,7 +34,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
-            <legend class="icon-container" title={props.title}>{renderElementProp(props.label)}</legend >
+            <legend class="icon-container" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{
@@ -63,7 +62,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
                                 {access.getValue() === item[0] ? props.checkedIcon : props.uncheckedIcon }
                             </span>
                         </Show>
-                        {renderElementProp(item[1])}
+                        {item[1]}
                     </label>
                 }
             </For>

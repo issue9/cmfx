@@ -6,10 +6,9 @@
 
 @layer components {
     .c--checkbox {
-        @apply border-2 border-transparent icon-container;
+        @apply border-2 border-transparent icon-container text-palette-fg;
 
         .checkbox-icon {
-            color: var(--fg-low);
             @apply mr-1;
         }
     }

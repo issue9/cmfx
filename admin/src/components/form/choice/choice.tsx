@@ -4,7 +4,7 @@
 
 import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
+import { cloneElement } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
@@ -42,7 +42,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         return <For each={props.options}>
             {(item) => (
                 <Show when={p.access.getValue() === item[0]}>
-                    {renderElementProp(item[1])}
+                    {cloneElement(item[1])}
                 </Show>
             )}
         </For>;
@@ -53,7 +53,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         return <For each={props.options}>
             {(item) => (
                 <Show when={p.access.getValue().indexOf(item[0]) >= 0}>
-                    <span class="chip">{renderElementProp(item[1])}</span>
+                    <span class="chip">{cloneElement(item[1])}</span>
                 </Show>
             )}
         </For>;
@@ -65,7 +65,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
             if (!props.disabled) { setOptionsVisible(!optionsVisible()); }
             return false;
         }}>
-            <Show when={props.label}>{renderElementProp(props.label)}</Show>
+            <Show when={props.label}>{props.label}</Show>
 
             <div accessKey={props.accessKey} tabIndex={props.tabindex} classList={{
                 'activator-container': true,
@@ -108,7 +108,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         p.ac.setValue(items);
                         p.ac.setError();
                     }}>
-                        {renderElementProp(item[1])}
+                        {cloneElement(item[1])}
                         <span classList={{
                             'material-symbols-outlined': true,
                             'tail': true,
@@ -135,7 +135,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         }
                         setOptionsVisible(false);
                     }}>
-                        {renderElementProp(item[1])}
+                        {cloneElement(item[1])}
                         <span classList={{
                             'hidden': !selected(),
                             'material-symbols-outlined': true,

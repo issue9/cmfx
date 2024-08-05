@@ -4,7 +4,6 @@
 
 import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { Divider } from '@/components/divider';
 import type { Props as ContainerProps } from '@/components/tree/container';
 import { Item, Value } from '@/components/tree/item';
@@ -62,7 +61,7 @@ export default function (props: Props): JSX.Element {
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
                 <li class="item">
-                    {renderElementProp(p.item.label)}
+                    {p.item.label}
                     <span class="tail material-symbols-outlined">{ props.expandIcon }</span>
                     <Show when={p.item.items && !hide()}>
                         <menu class="c--menu hidden">
@@ -92,7 +91,7 @@ export default function (props: Props): JSX.Element {
                     'item': true,
                     [props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
                 }}>
-                    {renderElementProp(p.item.label)}
+                    {p.item.label}
                 </li>
             </Match>
         </Switch>;
@@ -105,7 +104,7 @@ export default function (props: Props): JSX.Element {
         }
 
         return <>
-            <p class="group">{renderElementProp(p.item.label)}</p>
+            <p class="group">{p.item.label}</p>
             <Items items={p.item.items} />
         </>;
     };

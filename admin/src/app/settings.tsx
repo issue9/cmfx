@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
 import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode } from '@/core/theme';
 import { Locale } from '@/locales';

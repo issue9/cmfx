@@ -4,14 +4,13 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { ElementProp, renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 type Value = string | number | Array<string>;
 
 export interface Props<T> extends FieldBaseProps {
-    prefix?: ElementProp;
-    suffix?: ElementProp;
+    prefix?: JSX.Element;
+    suffix?: JSX.Element;
 
     placeholder?: string;
     type?: 'text' | 'url' | 'email';
@@ -27,14 +26,14 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
     return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
         <label title={props.title}>
             <Show when={props.label}>
-                {renderElementProp(props.label)}
+                {props.label}
             </Show>
             <div classList={{
                 'c--text-field': true,
                 'c--text-field-rounded': props.rounded,
             }}>
                 <Show when={props.prefix}>
-                    <div class="prefix">{renderElementProp(props.prefix)}</div>
+                    <div class="prefix">{props.prefix}</div>
                 </Show>
                 <input accessKey={props.accessKey} class="input" type={props.type}
                     inputMode={props.inputMode}
@@ -46,7 +45,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                     onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
                 />
                 <Show when={props.suffix}>
-                    <div class="suffix">{renderElementProp(props.suffix)}</div>
+                    <div class="suffix">{props.suffix}</div>
                 </Show>
             </div>
         </label>

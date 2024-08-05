@@ -7,7 +7,6 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { createEffect, createUniqueId, onMount, Show } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
@@ -56,7 +55,7 @@ export default function(props: Props) {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
-            {renderElementProp(props.label)}
+            {props.label}
         </Show>
 
         <div id={id} style={{'min-height': props.minHeight}}></div>

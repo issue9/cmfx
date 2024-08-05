@@ -5,7 +5,7 @@
 import { JSX, Setter, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps, Corner, ElementProp, renderElementProp } from '@/components/base';
+import { BaseProps, Corner } from '@/components/base';
 
 export interface Props extends BaseProps {
     [k: string]: unknown;
@@ -26,7 +26,7 @@ export interface Props extends BaseProps {
     /**
      * 触发元素
      */
-    activator: ElementProp;
+    activator: JSX.Element;
 
     /**
      * 弹出内容的位置，相对于 activator。默认值为 bottomleft
@@ -78,7 +78,7 @@ export default function Dropdown(props: Props) {
         'c--dropdown': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        {renderElementProp(props.activator)}
+        {props.activator}
 
         <Dynamic {...contentProps} component={props.tag} classList={{
             'content': true,

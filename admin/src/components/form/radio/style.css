@@ -8,10 +8,9 @@
 @layer components {
     .c--radio-group {
         label {
-            @apply border-2 border-transparent icon-container;
+            @apply border-2 border-transparent icon-container text-palette-fg;
 
             .radio-icon {
-                color: var(--fg);
                 @apply mr-1;
             }
         }
@@ -30,7 +29,7 @@
             cursor: pointer;
         }
 
-        label:has(:focus) .radio-icon {
+        label:focus-within .radio-icon {
             color: var(--bg-low);
         }
 
@@ -39,7 +38,7 @@
         }
 
         label:hover .radio-icon {
-            color: var(--bg-high);
+            color: var(--fg-high);
         }
     }
 

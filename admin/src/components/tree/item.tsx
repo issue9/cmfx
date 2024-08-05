@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ElementProp } from '../base';
+import { JSX } from 'solid-js';
 
 export type Value = number | string;
 
@@ -14,7 +14,7 @@ export type Item = {
 } | {
     type: 'group'; // 分组
 
-    label?: ElementProp;
+    label: string;
 
     /**
      * 分组的子项
@@ -29,7 +29,7 @@ export type Item = {
     /**
      * 表示当前项的唯一值
      *
-     * {@link List#onChange} 的参数即为此值。
+     * {@link container.ts/Props#onChange} 的参数即为此值。
      */
     value: Value;
 
@@ -39,9 +39,9 @@ export type Item = {
     items?: Array<Item>;
 
     /**
-     * 列表项的内容
+     * 列表项的展示内容
      */
-    label: ElementProp;
+    label: JSX.Element;
 
     /**
      * 是否禁用该项
@@ -50,7 +50,7 @@ export type Item = {
 
     /**
      * 快捷键
-     * 
+     *
      * https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/accesskey
      */
     accesskey?: string;

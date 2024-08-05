@@ -4,7 +4,6 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { renderElementProp } from '@/components/base';
 import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
 type Value = string | number | Array<string>;
@@ -22,7 +21,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
     return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
         <label title={props.title}>
             <Show when={props.label}>
-                {renderElementProp(props.label)}
+                {props.label}
             </Show>
             <textarea accessKey={props.accessKey} class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                 value={access.getValue()}
