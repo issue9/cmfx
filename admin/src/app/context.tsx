@@ -66,26 +66,8 @@ export function buildContext(o: Options, f: Fetcher) {
             console.error(r.body);
             return;
         }
-
         return r.body;
     });
-
-    //const [user, setUser] = createStore<User>({});
-    /*createEffect(async() => {
-        console.log('u1', user, user['id']);
-        const r = await f.get<User>(o.api.info);
-        if (!r.ok) { // 获取用户信息的接口会自动调用，不输出到通知栏。
-            console.error(r.body);
-            return;
-        }
-
-        const u = r.body;
-        if (!u) {
-            return;
-        }
-        setUser(u);
-    });
-    */
 
     let notifySender: NotifySender;
 

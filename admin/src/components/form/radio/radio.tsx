@@ -31,7 +31,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
 
     return <fieldset accessKey={props.accessKey} disabled={props.disabled} classList={{
         'c--radio-group': true,
-        'field': true,
+        'c--field': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>

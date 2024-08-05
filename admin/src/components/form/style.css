@@ -12,13 +12,21 @@
 @import './textfield/style.css';
 @import './date/style.css';
 
-.field {
-    ::placeholder {
-        color: var(--fg-low);
+@layer components {
+    .c--form {}
+
+    .c--form.c--form-loading {
+        cursor: wait;
     }
 
-    /* 表单字段的错误提示组件 */
-    .field_error {
-        @apply text-sm text-[var(--fg-error)] min-h-5;
+    .c--field {
+        ::placeholder {
+            color: var(--fg-low);
+        }
+
+        /* 表单字段的错误提示组件 */
+        .field_error {
+            @apply text-sm text-[var(--fg-error)] min-h-5;
+        }
     }
 }

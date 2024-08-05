@@ -59,7 +59,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </For>;
     };
 
-    const activator = <div class="field c--choice-activator">
+    const activator = <div class="c--field c--choice-activator">
         <label title={props.title} onClick={(e) => {
             e.preventDefault();
             if (!props.disabled) { setOptionsVisible(!optionsVisible()); }

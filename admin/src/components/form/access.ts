@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
+import { createSignal, Setter } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
 import { Fetcher, Method, Problem, Return } from '@/core';
@@ -211,11 +211,11 @@ export class ObjectAccessor<T extends object> {
     }
 }
 
-interface SuccessFunc<T> {
+export interface SuccessFunc<T> {
     (r?: Return<T, never>): void;
 }
 
-interface FailedFunc<T> {
+export interface FailedFunc<T> {
     (r?: Return<never, T>): void;
 }
 
@@ -235,6 +235,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
     #fetcher: Fetcher;
     #success?: SuccessFunc<R>;
     #failed?: FailedFunc<P>;
+    #loadingSetter?: Setter<boolean>;
 
     /**
      * 构造函数
@@ -244,10 +245,13 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @param path 请求地址，相对于 {@link Options#api#base}；
      * @param success 在接口正常返回时调用的方法；
      * @param failed 在接口返回错误信息时调用的方法；
+     * @param loadingSetter 用于向外界传递是否处于加载状态，如果不为空，在加载数据时会调用 loadingSetter(true)，加载完成或是出错时会调用 loadingSetter(false)；
      * @param validation 提交前对数据的验证方法；
      * @param withToken 接口是否需要带上登录凭证；
      */
-    constructor(preset: T, f: Fetcher, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, validation?: Validation<T>, withToken =true) {
+    constructor(preset: T, f: Fetcher, method: Method, path: string);
+    constructor(preset: T, f: Fetcher, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken?: boolean);
+    constructor(preset: T, f: Fetcher, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken = true) {
         this.#object = new ObjectAccessor(preset);
         this.#method = method;
         this.#path = path;
@@ -256,6 +260,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         this.#fetcher = f;
         this.#success = success;
         this.#failed = failed;
+        this.#loadingSetter = loadingSetter;
     }
 
     /**
@@ -269,10 +274,23 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @returns 表示接口是否成功调用
      */
     async submit(): Promise<boolean> {
+        if (!this.#loadingSetter) {
+            return await this.do();
+        }
+
+        try {
+            this.#loadingSetter(true);
+            return await this.do();
+        } finally {
+            this.#loadingSetter(false);
+        }
+    }
+
+    private async do(): Promise<boolean> {
         const obj = this.#object.object(this.#validation);
         if (!obj) { return false; }
 
-        const ret = await this.#fetcher.request<R,P>(this.#path, this.#method, obj, this.#withToken);
+        const ret = await this.#fetcher.request<R, P>(this.#path, this.#method, obj, this.#withToken);
         if (ret.ok) {
             if (this.#success) {
                 this.#success(ret);

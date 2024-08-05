@@ -16,7 +16,6 @@
             @apply rounded-r-md;
         }
 
-
         .item {
             @apply hover:bg-palette-bg-low px-2 py-[2px];
         }

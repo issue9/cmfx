@@ -20,7 +20,7 @@ export default function(props: Props): JSX.Element {
     const [visible, setVisible] = createSignal(false);
     let ref: HTMLInputElement;
 
-    return <div class={props.palette ? `field palette--${props.palette}` : 'field'}>
+    return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
         <label title={props.title}>
             <Show when={props.label}>
                 {renderElementProp(props.label)}

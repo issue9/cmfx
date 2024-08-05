@@ -22,7 +22,7 @@
     }
 
     .c--editor:has([contenteditable=true]):hover,
-    .c--editor:has(:focus) {
+    .c--editor:focus-within {
         >:first-child {
             border-top-color: var(--fg-high) !important;
             border-left-color: var(--fg-high) !important;

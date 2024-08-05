@@ -120,13 +120,13 @@ export class Fetcher {
      *
      * @param path 请求地址，相对于 baseURL
      * @param method 请求方法
-     * @param obj 请求对象，如果是 GET，可以为空。
+     * @param obj 请求对象，会由 #serializer 进行转换，如果是 GET，可以为空。
      * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
      */
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
-        const body = obj ? this.#serializer.stringify(obj) : undefined;
-        return this.withArgument<R,PE>(path, method, token, this.#contentType, body);
+        const body = obj === undefined ? undefined : this.#serializer.stringify(obj);
+        return this.withArgument<R,PE>(path, method, token, body ? this.#contentType : undefined, body);
     }
 
     /**

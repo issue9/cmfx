@@ -36,7 +36,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
 
     return <fieldset accessKey={props.accessKey} tabIndex={props.tabindex} disabled={props.disabled} classList={{
         'c--checkbox-group': true,
-        'field': true,
+        'c--field': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>

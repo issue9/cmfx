@@ -36,7 +36,7 @@ describe('Fetcher', () => {
         const data = await f.get('/abc');
         expect(data.ok).toBeTruthy();
         expect(data.status).toEqual(200);
-        expect(data.body).toEqual(123);
+        expect(data.body).toEqual<number>(123);
     });
 
     test('post', async () => {

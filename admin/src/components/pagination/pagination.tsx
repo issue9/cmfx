@@ -4,8 +4,8 @@
 
 import { createEffect, createSignal, For, mergeProps } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
 import { useInternal } from '@/app/context';
+import { BaseProps } from '@/components/base';
 
 export interface Props extends BaseProps {
     /**
@@ -36,7 +36,7 @@ const defaultProps: Readonly<Partial<Props>> = {
 
 /**
  * 分页组件
- * 
+ *
  * 大致布局如下：
  *  [<<,<,1,2,...,current...,7,8,>,>>]
  */

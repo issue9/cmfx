@@ -19,7 +19,7 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值
     const access = props.accessor;
 
-    return <div class={props.palette ? `field palette--${props.palette}` : 'field'}>
+    return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
         <label title={props.title}>
             <Show when={props.label}>
                 {renderElementProp(props.label)}

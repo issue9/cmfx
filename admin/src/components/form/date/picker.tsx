@@ -34,7 +34,7 @@ export default function(props: Props) {
     const [panelVisible, setPanelVisible] = createSignal(false);
     const ac = props.accessor;
 
-    const activator = <div accessKey={props.accessKey} class="field c--date-activator">
+    const activator = <div accessKey={props.accessKey} class="c--field c--date-activator">
         <label title={props.title} onClick={(e) => {
             e.preventDefault();
             if (!props.disabled) {  setPanelVisible(!panelVisible()); }
