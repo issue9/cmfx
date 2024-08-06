@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { cornerSelector, paletteSelector, Demo } from '@/components/base/demo';
+import { cornerSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { default as Dropdown } from './dropdown';
 
@@ -22,7 +22,7 @@ export default function() {
         </>
     } stages={
         <>
-            <div class="w-full">
+            <div>
                 <Dropdown wrapperClass="border-2" pos={pos()} palette={palette()} visible={visible1()} activator={
                     <Button palette='primary' onClick={()=>setVisible1(!visible1())}>dropdown</Button>
                 }>

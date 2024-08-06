@@ -2,37 +2,38 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
 
-import { ObjectAccessor } from './access';
+import { useInternal } from '@/app/context';
+import { Demo, paletteSelector } from '../base/demo';
+import { FormAccessor } from './access';
+import { DatePicker } from './date';
+import Form from './form';
 import { TextArea } from './textarea';
-import { TextField } from './textfield';
+import { Number, TextField } from './textfield';
 
 export default function() {
-    const f = new ObjectAccessor({
+    const ctx = useInternal();
+    const [paletteS, palette] = paletteSelector('secondary');
+
+    const f = new FormAccessor({
         f1: 'f1',
         5:5,
         date: '2021-01-02T15:31',
         textarea: 'textarea',
-    });
+    }, ctx.fetcher(), 'POST', '/path');
 
-    const [obj, setObj] = createSignal('');
-
-    return <div>
-        <div class="w-60">
-            <p>text-field</p><br />
-            <TextField accessor={f.accessor('f1')} palette='secondary' />
-            <TextField label='label' palette='tertiary' placeholder='placeholder' accessor={f.accessor('f1')} />
-            <TextField label='disabled' disabled accessor={f.accessor('f1')} />
-            <TextField label='readonly' readonly accessor={f.accessor('f1')} />
-            <TextField label='icon' accessor={f.accessor('f1')} />
-            {f.accessor(5).getValue()}
-            <TextField accessor={f.accessor('date')} />
-            {typeof f.accessor('date').getValue()}
-            <TextArea label='date' accessor={f.accessor('textarea')} />
-            <button class="c--button button-style--fill palette--primary" onClick={()=>setObj(JSON.stringify(f.object()))}> object </button>
-            <button class="c--button button-style--fill palette--primary" type="reset" onClick={()=>f.reset()}>reset</button>
-            <pre>{obj()}</pre>
-        </div>
-    </div>;
+    return <Demo settings={
+        <>
+            {paletteS}
+        </>
+    } stages={
+        <>
+            <Form formAccessor={f} palette={palette()}>
+                <TextField accessor={f.accessor('f1')} />
+                <Number accessor={f.accessor(5)} />
+                <DatePicker accessor={f.accessor('date')} />
+                <TextArea accessor={f.accessor('textarea')} />
+            </Form>
+        </>
+    } />;
 }

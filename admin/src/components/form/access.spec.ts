@@ -13,11 +13,12 @@ test('field access', () => {
 test('object access', () => {
     interface Object {
         f1: number;
+        f2: string;
     }
 
-    const f = new ObjectAccessor<Object>({ 'f1': 5 });
+    const f = new ObjectAccessor<Object>({ 'f1': 5, 'f2': 'f2' });
     t(f.accessor('f1'));
-    expect(f.object()).toEqual({ 'f1': 7 });
+    expect(f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
 
     const v = (_: Object) => { return new Map<keyof Object, string>([['f1', 'err']]); };
 

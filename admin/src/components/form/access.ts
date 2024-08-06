@@ -131,12 +131,13 @@ export class ObjectAccessor<T extends object> {
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      *
+     * FT 表示 name 字段的类型；
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
      * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
      */
-    accessor(name: keyof T, hasError?: boolean): Accessor<T[keyof T]> {
+    accessor<FT extends T[keyof T]>(name: keyof T, hasError?: boolean): Accessor<FT> {
         const self = this;
-        const changes: Array<ChangeFunc<T[keyof T]>> = [];
+        const changes: Array<ChangeFunc<FT>> = [];
 
         return {
             name(): string { return name as string; },
@@ -149,9 +150,9 @@ export class ObjectAccessor<T extends object> {
 
             onChange(change) { changes.push(change); },
 
-            getValue(): T[keyof T] { return self.#valGetter[name]; },
+            getValue(): FT { return self.#valGetter[name] as FT; },
 
-            setValue(val: T[keyof T]) {
+            setValue(val: FT) {
                 const old = this.getValue();
                 if (old !== val) {
                     changes.forEach((f) => { f(val, old); });
@@ -161,7 +162,7 @@ export class ObjectAccessor<T extends object> {
 
             reset() {
                 this.setError();
-                this.setValue(self.#initValues[name]);
+                this.setValue(self.#initValues[name] as FT);
             }
         };
     }
@@ -263,10 +264,12 @@ export class FormAccessor<T extends object, R = never, P = never> {
         this.#loadingSetter = loadingSetter;
     }
 
+    withLoadingSetter(s: Setter<boolean>) { this.#loadingSetter = s; }
+
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      */
-    accessor(name: keyof T): Accessor<T[keyof T]> { return this.#object.accessor(name, true); }
+    accessor<FT extends T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 
     /**
      * 提交数据
