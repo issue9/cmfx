@@ -13,6 +13,7 @@ export interface Props extends BaseProps {
     type?: ButtonType;
     accessKey?: string;
     autofocus?: boolean;
+    value?: string;
 }
 
 /**
@@ -21,7 +22,7 @@ export interface Props extends BaseProps {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <button accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
+    return <button value={props.value} accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
         type={props.type} title={props.title} onClick={props.onClick} classList={{
             'c--button': true,
             [`c--button-${props.style}`]: true,
