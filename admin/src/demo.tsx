@@ -11,6 +11,7 @@ const maps: Array<[string, ReturnType<typeof lazy>]> = [
     ['/errors', lazy(()=>import('@/components/error/demo'))],
     ['/button', lazy(()=>import('@/components/button/demo'))],
     ['/dropdown', lazy(()=>import('@/components/dropdown/demo'))],
+    ['/dialog', lazy(()=>import('@/components/dialog/demo'))],
     ['/badge', lazy(()=>import('@/components/badge/demo'))],
     ['/divider', lazy(()=>import('@/components/divider/demo'))],
     ['/pagination', lazy(()=>import('@/components/pagination/demo'))],
