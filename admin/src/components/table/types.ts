@@ -4,8 +4,6 @@
 
 import { JSX } from 'solid-js';
 
-import { ElementProp } from '@/components/base';
-
 /**
  * 用于描述列的信息
  *
@@ -20,7 +18,7 @@ export interface Column<T extends object> {
     /**
      * 列标题
      */
-    label?: ElementProp;
+    label?: JSX.Element;
 
     /**
      * 为于表头中的单元格指定 CSS 类。
@@ -41,7 +39,7 @@ export interface Column<T extends object> {
 }
 
 /**
- * CellRenderFunc 渲染单元格的方法
+ * 渲染单元格的方法
  */
 export interface CellRenderFunc<T extends object> {
     /**

@@ -7,7 +7,7 @@
 @layer components {
     .c--table {
         @apply bg-palette-bg text-palette-fg w-full;
-        border: 1px solid var(--fg-low);
+        @apply border-l border-r border-t border-palette-fg-low;
 
         >table {
             width: 100%;
