@@ -1,0 +1,11 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--dialog {
+        @apply bg-palette-bg text-palette-fg;
+    }
+}

@@ -8,6 +8,7 @@
 @import './button/style.css';
 @import './divider/style.css';
 @import './drawer/style.css';
+@import './dialog/style.css';
 @import './dropdown/style.css';
 @import './error/style.css';
 @import './notify/style.css';
