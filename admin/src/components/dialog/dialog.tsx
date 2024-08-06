@@ -19,7 +19,7 @@ export interface Props extends BaseProps {
  */
 export default function(props: Props) {
     return <dialog ref={(el)=>props.ref(el)} classList={{
-        'c--dialog':true,
+        'c--dialog': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         {props.children}
