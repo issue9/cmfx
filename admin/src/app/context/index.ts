@@ -3,5 +3,5 @@
 // SPDX-License-Identifier: MIT
 
 export { buildContext, useApp, useInternal } from './context';
-export type { AppContext, Context, User } from './context';
+export type { AppContext, Context, T, User } from './context';
 

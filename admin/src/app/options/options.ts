@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Mode, Scheme } from '@/core/theme';
+import { Contrast, Mimetype, Mode, Scheme } from '@/core';
 import { API, checkAPI } from './api';
 import type { Locales } from './locales';
-import { MenuItem, checkMenus } from './page';
+import { MenuItem } from './page';
 import type { Routes } from './route';
 
 /**
@@ -57,12 +57,7 @@ export interface Options {
      */
     footer?: Array<MenuItem>
 
-    /**
-     * 数据类型
-     *
-     * 比如 application/json、application/xml 等。
-     */
-    mimetype?: string
+    mimetype?: Mimetype
 
     /**
      * 与本地化相关的一些设置
@@ -108,8 +103,6 @@ export function build(o: Options): Required<Options> {
     }
 
     checkAPI(opt.api);
-    checkMenus([], opt.menus);
-    if (opt.footer) { checkMenus([], opt.footer); }
 
     return opt;
 }

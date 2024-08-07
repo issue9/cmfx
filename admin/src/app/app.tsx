@@ -125,7 +125,7 @@ function Username(): JSX.Element {
         {
             type: 'item',
             value: 'logout',
-            label: ()=>ctx.t('_internal.logout')
+            label: ctx.t('_internal.logout')
         }
     ];
 

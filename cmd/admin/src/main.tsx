@@ -28,6 +28,14 @@ const routes: Routes = {
             {
                 path: ['/dashboard', '/'],
                 component: pages.Dashboard,
+            },
+            {
+                path: '/roles',
+                component: pages.Dashboard
+            },
+            {
+                path: '/admins',
+                component: pages.Dashboard
             }
         ]
     }
@@ -60,16 +68,31 @@ const o: Options = {
     logo: 'icon.svg',
     menus: [
         {
-            title: 'test',
-            key: '/buttons'
+            type: 'item',
+            label: 'home',
+            path: '/dashboard'
         },
         {
-            title: '_internal.ok',
-            key: '/dashboard'
-        },
-        {
-            title: '_internal.login.title',
-            key: '/login'
+            type: 'group',
+            label: 'system',
+            items: [
+                {
+                    type: 'item',
+                    label: 'administrator',
+                    items: [
+                        {
+                            type: 'item',
+                            label: 'role',
+                            path: '/roles'
+                        },
+                        {
+                            type: 'item',
+                            label: 'administrator',
+                            path: '/admins'
+                        },
+                    ]
+                },
+            ]
         },
     ]
 };

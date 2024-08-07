@@ -16,6 +16,11 @@ export type Context = ReturnType<typeof buildContext>['ctx'];
 
 export type AppContext = Exclude<Context, 'options' | 'setNotifySender'>;
 
+/**
+ * 翻译函数的类型
+ */
+export type T = AppContext['t'];
+
 const context = createContext<Context>();
 
 /**
@@ -74,7 +79,7 @@ export function buildContext(o: Options, f: Fetcher) {
     let notifySender: NotifySender;
 
     const ctx = {
-        fetcher() {return f;}, // TODO 去掉部分不用的方法
+        fetcher() {return f;},
 
         get options() { return o; },
 

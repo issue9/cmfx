@@ -68,7 +68,7 @@ export interface DemoProps {
     /**
      * 设置项的内容
      */
-    settings: JSX.Element;
+    settings?: JSX.Element;
 
     /**
      * 展示区的内容

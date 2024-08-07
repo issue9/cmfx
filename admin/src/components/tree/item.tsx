@@ -30,11 +30,15 @@ export type Item = {
      * 表示当前项的唯一值
      *
      * {@link container.ts/Props#onChange} 的参数即为此值。
+     *
+     * NOTE: 该值为空时，{@link Item#items} 不能为空。
      */
-    value: Value;
+    value?: Value;
 
     /**
      * 子项
+     *
+     * NOTE: 该值为空时，{@link Item#value} 不能为空。
      */
     items?: Array<Item>;
 

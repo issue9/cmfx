@@ -14,10 +14,6 @@ describe('Fetcher', () => {
     });
 
     test('build', async () => {
-        expect(async () => {
-            await Fetcher.build('http://localhost', '/login', 'not-exists', 'zh-cn');
-        }).rejects.toThrowError('不支持的 contentType not-exists');
-
         const f = await Fetcher.build('http://localhost', '/login', 'application/json', 'zh-cn');
         expect(f).not.toBeNull();
     });

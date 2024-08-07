@@ -2,21 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Mimetype, Serializer } from './serializer';
+import { serializers } from './serializer';
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
 
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
-
-const serializers = new Map<string, Serializer>([
-    ['application/json', JSON],
-]);
-
-/**
- * 以 JSON 为参照定义了序列化和反序列化的接口
- */
-interface Serializer {
-    parse(_: string): unknown;
-    stringify(_: unknown): string;
-}
 
 /**
  * 对 fetch 的二次封装，提供了令牌续订功能。
@@ -27,26 +17,26 @@ export class Fetcher {
     #locale: string;
     #token: Token | null;
 
-    readonly #contentType: string;
+    readonly #contentType: Mimetype;
     readonly #serializer: Serializer;
 
     /**
      * 返回一个对 fetch 进行二次包装的对象
      *
      * @param baseURL API 的基地址，不能以 / 结尾。
-     * @param contentType mimetype 的类型。
+     * @param mimetype mimetype 的类型。
      * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
      * @param locale 报头 accept-language 的内容。
      */
-    static async build(baseURL: string, loginPath: string, contentType: string, locale: string): Promise<Fetcher> {
+    static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<Fetcher> {
         const t = await getToken();
-        return new Fetcher(baseURL, loginPath, contentType, locale, t);
+        return new Fetcher(baseURL, loginPath, mimetype, locale, t);
     }
 
-    private constructor(baseURL: string, loginPath: string, contentType: string, locale: string, token: Token | null) {
-        const s = serializers.get(contentType);
+    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null) {
+        const s = serializers.get(mimetype);
         if (!s) {
-            throw `不支持的 contentType ${contentType}`;
+            throw `不支持的 contentType ${mimetype}`;
         }
 
         this.#baseURL = baseURL;
@@ -54,7 +44,7 @@ export class Fetcher {
         this.#locale = locale;
         this.#token = token;
 
-        this.#contentType = contentType;
+        this.#contentType = mimetype;
         this.#serializer = s;
     }
 

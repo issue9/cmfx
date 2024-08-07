@@ -3,5 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 export default {
-    test: 'TEST'
+    home: 'home',
+    system: 'system',
+    administrator: 'administrator',
+    role: 'role',
 };

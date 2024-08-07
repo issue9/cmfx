@@ -36,7 +36,9 @@ export interface Sender {
     send(title: string, body?: string,locale?: string, type?: Type, timeout?: number): Promise<void>;
 }
 
-export type Type = 'error' | 'warning' | 'success' | 'info';
+export const types = ['error', 'warning', 'success', 'info'] as const;
+
+export type Type = typeof types[number];
 
 export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
     ['error', 'error'],

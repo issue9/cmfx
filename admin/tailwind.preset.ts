@@ -52,7 +52,7 @@ function applyColors(f: PluginUtils['theme']) {
     return {
         ...colors,
         ...f('colors')
-    }
+    };
 }
 
 const config: PresetsConfig = {

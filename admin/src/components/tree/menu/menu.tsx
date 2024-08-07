@@ -82,7 +82,7 @@ export default function (props: Props): JSX.Element {
                     const old = selected();
                     if (old === p.item.value) { return; }
 
-                    if (props.onChange) {
+                    if (props.onChange && p.item.value) {
                         props.onChange(p.item.value, old);
                     }
 

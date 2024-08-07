@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 
-import { NotifyType } from '@/components';
+import { Button, NotifyType, notifyTypes } from '@/components';
+import { Demo } from '@/components/base/demo';
 import { useApp } from './context';
 
 export default function() {
@@ -19,16 +20,17 @@ export default function() {
         ctx.notify(title(), body(), type(),timeout());
     };
 
-    return <div class="flex flex-col gap-2">
-        <select value={type()} onChange={(e) => { setType(e.target.value as NotifyType); }}>
-            <option value='error'>error</option>
-            <option value='success'>success</option>
-            <option value='warning'>warning</option>
-            <option value='info'>info</option>
-        </select >
-        <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
-        <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
-        <input type="number" onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
-        <button class="c--button button-style--fill palette--primary" onClick={notify}>notify</button>
-    </div >;
+    return <Demo stages={
+        <div class="flex flex-col gap-2 w-40">
+            <select value={type()} onChange={(e) => { setType(e.target.value as NotifyType); }}>
+                <For each={notifyTypes}>
+                    {(item) => (<option value={item}>{item}</option>)}
+                </For>
+            </select >
+            <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
+            <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
+            <input type="number" onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
+            <Button onClick={notify}>notify</Button>
+        </div >
+    } />;
 }

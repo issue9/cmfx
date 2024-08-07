@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { boolSelector, paletteSelector, Demo } from '@/components/base/demo';
+import { cloneElement } from '@/components/base';
+import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Number from './number';
 import Password from './password';
@@ -18,11 +19,11 @@ export default function() {
     const [roundedS, rounded] = boolSelector('rounded');
     const [paletteS, palette] = paletteSelector();
 
-    const prefix = () => (<div class="bg-red-500 flex items-center">prefix</div>);
+    const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
 
-    const suffix = () => (<div class="bg-red-500 flex items-center">suffix</div>);
+    const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
 
-    const icon = () => (<span class="material-symbols-outlined flex items-center">face</span>);
+    const icon = <span class="material-symbols-outlined flex items-center">face</span>;
 
     return <Demo settings={
         <>
@@ -37,9 +38,9 @@ export default function() {
             <div class="flex flex-col gap-2 w-80">
                 <TextField placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
                 <TextField placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix" prefix={prefix} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+suffix" prefix={prefix} suffix={suffix} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix={icon} suffix={icon} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix" prefix={cloneElement(prefix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+suffix" prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix={cloneElement(icon)} suffix={cloneElement(icon)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             </div>
 
             <div class="flex flex-col gap-2 w-80">
