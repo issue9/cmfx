@@ -5,8 +5,9 @@
 import { Navigate } from '@solidjs/router';
 import { ErrorBoundary, JSX, Match, Show, Switch } from 'solid-js';
 
-import { Button, Drawer, Error, Item, List } from '@/components';
+import { Drawer, Item, List } from '@/components';
 import { T, useInternal } from './context';
+import * as errors from './errors';
 import { MenuItem } from './options/page';
 
 export function Private(props: {children?: JSX.Element}) {
@@ -18,13 +19,7 @@ export function Private(props: {children?: JSX.Element}) {
         </Match>
         <Match when={ctx.user()?.id}>
             <Drawer palette='secondary' visible={true} main={
-                <ErrorBoundary fallback={(err) => (
-                    <Error header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                        <Button palette='primary' onClick={() => window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
-                    </Error>
-                )}>
-                    {props.children}
-                </ErrorBoundary>
+                <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
             }>
                 <List anchor>
                     {buildItems(ctx.t, ctx.options.menus)}

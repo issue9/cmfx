@@ -12,7 +12,6 @@ import { Account } from '@/core';
 /**
  * 登录页面
  */
-
 export default function (): JSX.Element {
     const ctx = useInternal();
     ctx.title = ctx.t('_internal.login.title') as string;
@@ -34,7 +33,7 @@ export function Login(): JSX.Element {
     const f = new ObjectAccessor<Account>({ username: '', password: '' });
     const onReset = () => { f.reset(); };
     const onSubmit = async() => {
-        const ret = await ctx.fetcher().login(f.object());
+        const ret = await ctx.login(f.object());
         if (ret === true) {
             nav(ctx.options.routes.private.home);
             return;

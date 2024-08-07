@@ -7,7 +7,7 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 
 import { build as buildOptions } from '@/app/options';
 import { NotifySender, NotifyType } from '@/components';
-import { Fetcher } from '@/core';
+import { Account, Fetcher } from '@/core';
 import { Locale, Messages, loads, names } from '@/locales';
 
 type Options = ReturnType<typeof buildOptions>;
@@ -67,7 +67,7 @@ export function buildContext(o: Options, f: Fetcher) {
     const [dict] = createResource(getLocale, loadMessages);
     const t = i18n.translator(dict);
 
-    const [user] = createResource(async () => {
+    const [user, {refetch}] = createResource(async () => {
         const r = await f.get<User>(o.api.info);
         if (!r.ok) { // 获取用户信息的接口会自动调用，不输出到通知栏。
             console.error(r.body);
@@ -80,6 +80,27 @@ export function buildContext(o: Options, f: Fetcher) {
 
     const ctx = {
         fetcher() {return f;},
+
+        /**
+         * 执行登录操作并刷新 user
+         * @param account 账号密码信息
+         * @returns true 表示登录成功，其它情况表示错误信息
+         */
+        async login(account: Account) {
+            const ret = await f.login(account);
+            if (ret === true) {
+                refetch();
+            }
+            return ret;
+        },
+
+        /**
+         * 退出登录并刷新 user
+         */
+        async logout() {
+            await f.logout();
+            refetch();
+        },
 
         get options() { return o; },
 

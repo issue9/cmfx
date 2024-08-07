@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A, HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
+import { HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
 import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Button, Drawer, Dropdown, Error, IconButton, Item, ItemValue, Menu, Notify } from '@/components';
+import { Button, Drawer, Dropdown, IconButton, ItemValue, Menu, Notify } from '@/components';
 import { Fetcher, initTheme } from '@/core';
 import { buildContext, useApp, useInternal } from './context';
+import * as errors from './errors';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
 import XSetting from './settings';
@@ -31,11 +32,7 @@ export async function create(elementID: string, o: Options) {
         ctx.title = '';
 
         const root = (props: { children?: JSX.Element }) => (
-            <ErrorBoundary fallback={(err)=>(
-                <Error header={ctx.t('_internal.error.unknownError')} title={err.toString()}>
-                    <Button palette='primary' onClick={()=>window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
-                </Error>
-            )}>
+            <ErrorBoundary fallback={err=>errors.Unknown(err)}>
                 <Provider><App>{props.children}</App></Provider>
             </ErrorBoundary>
         );
@@ -57,19 +54,8 @@ function buildRoutes(opt: Required<Options>): Array<RouteDefinition> {
         {
             path: '/',
             component: Private,
-            children: opt.routes.private.routes
-        },
-        {
-            path: '*',
-            component: ()=>{
-                const ctx = useApp();
-                return <Error header="404" title={ctx.t('_internal.error.pageNotFound')}>
-                    <div class="flex gap-x-5 justify-center">
-                        <A class="palette--primary c--button button-style--fill" href={opt.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
-                        <Button palette='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
-                    </div>
-                </Error>;
-            }
+            // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
+            children: [ ...opt.routes.private.routes, { path:'*', component: errors.NotFound } ]
         }
     ];
 }
@@ -120,29 +106,26 @@ function Username(): JSX.Element {
     const [visible, setVisible] = createSignal(false);
     const nav = useNavigate();
 
-    const items: Array<Item> = [
-        {type: 'divider'},
-        {
-            type: 'item',
-            value: 'logout',
-            label: ctx.t('_internal.logout')
-        }
-    ];
-
-    const onChange = (select: ItemValue)=>{
+    const onChange = async(select: ItemValue)=>{
         switch(select) {
         case 'logout':
-            ctx.fetcher().logout();
+            await ctx.logout();
             nav(ctx.options.routes.public.home);
         }
-        // TODO
     };
 
     const activator = <Button style='flat' onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 
     return <Show when={ctx.user()?.id}>
         <Dropdown visible={visible()} setVisible={setVisible}  activator={activator} pos='bottomright'>
-            <Menu onChange={onChange}>{ items }</Menu>
+            <Menu selectedClass='' onChange={onChange}>{[
+                {type: 'divider'},
+                {
+                    type: 'item',
+                    value: 'logout',
+                    label: ctx.t('_internal.logout')
+                }
+            ]}</Menu>
         </Dropdown>
     </Show>;
 }
