@@ -13,7 +13,11 @@
 @import './date/style.css';
 
 @layer components {
-    .c--form {}
+    .c--form {
+        fieldset {
+            @apply flex flex-wrap gap-4;
+        }
+    }
 
     .c--form.c--form-loading {
         cursor: wait;

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Options, Routes, createApp } from 'admin/dev';
-import { default as demoRoutes } from 'admin/dev/demo';
+import { routes as demoRoutes } from 'admin/dev/demo';
 
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
@@ -21,8 +21,7 @@ const routes: Routes = {
             {
                 path: '/login',
                 component: pages.Login,
-            },
-            demoRoutes('/demo')
+            }
         ]
     },
     private: {
@@ -41,12 +40,25 @@ const routes: Routes = {
                 component: pages.Dashboard
             },
             {
+                path: '/demo',
+                children: demoRoutes
+            },
+            {
                 path: '/test',
                 component: Test
             }
         ]
     }
 };
+
+const demoItems: Options['menus'] = [];
+demoRoutes.forEach((r) => {
+    demoItems.push({
+        type: 'item',
+        label: r.path as string,
+        path: '/demo' + r.path
+    });
+});
 
 const o: Options = {
     routes,
@@ -106,6 +118,11 @@ const o: Options = {
                 },
             ]
         },
+        {
+            type: 'group',
+            label: 'components',
+            items: demoItems
+        }
     ]
 };
 

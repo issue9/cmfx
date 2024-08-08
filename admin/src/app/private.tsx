@@ -39,7 +39,7 @@ function buildItems(t: T, menus: Array<MenuItem>) {
         case 'group':
             items.push({
                 type: 'group',
-                label: t(mi.label as any)!,
+                label: t(mi.label as any) ?? mi.label,
                 items: buildItems(t, mi.items)
             });
             break;
@@ -50,7 +50,7 @@ function buildItems(t: T, menus: Array<MenuItem>) {
                     <Show when={mi.icon}>
                         <span class="material-symbols-outlined">{mi.icon}</span>
                     </Show>
-                    {t(mi.label as any) as string}
+                    {t(mi.label as any) ?? mi.label}
                 </span>,
                 accesskey: mi.accesskey,
                 value: mi.path

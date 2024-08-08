@@ -95,4 +95,4 @@ export type MenuItem = {
      * 子菜单
      */
     items?: Array<MenuItem>
-}
+};

@@ -30,7 +30,7 @@ export default function() {
             <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
             <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
             <input type="number" onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
-            <Button onClick={notify}>notify</Button>
+            <Button palette='primary' onClick={notify}>notify</Button>
         </div >
     } />;
 }

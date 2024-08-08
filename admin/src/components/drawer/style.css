@@ -9,15 +9,13 @@
         @apply h-full w-full flex overflow-hidden;
 
         >aside {
-            @apply h-full bg-[var(--bg)] text-[var(--fg)] transition-[width] z-50;
+            @apply h-full bg-[var(--bg)] text-[var(--fg)] transition-[width] z-50 overflow-y-scroll;
         }
 
         >main {
             @apply overflow-y-scroll h-full flex-1;
         }
     }
-
-
 
     .c--drawer.c--drawer-floating {
         position: relative;
