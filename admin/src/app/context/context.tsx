@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import * as i18n from '@solid-primitives/i18n';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createResource, useContext } from 'solid-js';
 
 import { build as buildOptions } from '@/app/options';
 import { NotifySender, NotifyType } from '@/components';
 import { Account, Fetcher } from '@/core';
-import { Locale, Messages, loads, names } from '@/locales';
+import { Locale, names } from '@/locales';
+import { createI18n } from './locale';
 
 type Options = ReturnType<typeof buildOptions>;
 
@@ -54,18 +54,7 @@ export interface User {
 }
 
 export function buildContext(o: Options, f: Fetcher) {
-    const [getLocale, setLocale] = createSignal<Locale>(o.locales.fallback);
-
-    const loadMessages = async (id: Locale) => {
-        const internal: Messages = await loads[id]();
-        const userData = await o.locales.loader(id);
-        return i18n.flatten({
-            _internal: internal,
-            ...userData
-        });
-    };
-    const [dict] = createResource(getLocale, loadMessages);
-    const t = i18n.translator(dict);
+    const { getLocale, setLocale, t } = createI18n(o.locales);
 
     const [user, {refetch}] = createResource(async () => {
         const r = await f.get<User>(o.api.info);

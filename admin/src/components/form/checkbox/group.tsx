@@ -39,7 +39,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
-            <legend class="icon-container" title={props.title}>{props.label}</legend >
+            <legend class="icon-container w-full" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{

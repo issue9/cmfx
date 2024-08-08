@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Navigate, useNavigate } from '@solidjs/router';
-import { JSX, Match, Switch } from 'solid-js';
+import { createEffect, JSX, Match, Switch } from 'solid-js';
 
 import { useInternal } from '@/app/context';
 import { Button, ObjectAccessor, Password, TextField } from '@/components';
@@ -14,7 +14,6 @@ import { Account } from '@/core';
  */
 export default function (): JSX.Element {
     const ctx = useInternal();
-    ctx.title = ctx.t('_internal.login.title') as string;
 
     return <Switch>
         <Match when={ctx.user()?.id}>
@@ -43,6 +42,10 @@ export function Login(): JSX.Element {
             ctx.notify(ret.type, ret.title);
         }
     };
+
+    createEffect(() => {
+        ctx.title = ctx.t('_internal.login.title')!;
+    });
 
     return <div class="p--login palette--primary">
         <form onReset={onReset} onSubmit={onSubmit}>

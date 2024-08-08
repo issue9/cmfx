@@ -2,9 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-export default {
+import { Message } from './en';
+
+const m: Message = {
     home: '首页',
     system: '系统',
     administrator: '管理员',
     role: '角色',
+    nest: {
+        abc: 'ABC'
+    }
 };
+
+export default m;

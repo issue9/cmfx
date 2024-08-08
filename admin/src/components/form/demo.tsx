@@ -4,7 +4,7 @@
 
 
 import { useInternal } from '@/app/context';
-import { Demo, paletteSelector } from '../base/demo';
+import { Demo, paletteSelector } from '@/components/base/demo';
 import { FormAccessor } from './access';
 import { DatePicker } from './date';
 import Form from './form';

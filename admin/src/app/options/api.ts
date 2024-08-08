@@ -38,7 +38,7 @@ export function checkAPI(api: API) {
     if (api.base.length === 0 || (!api.base.startsWith('http://') && !api.base.startsWith('https://'))) {
         throw 'base 格式错误';
     }
-    if (api.base.charAt(api.base.length - 1) === '/') { // 保证以 / 结尾
+    if (api.base.charAt(api.base.length - 1) === '/') { // 保证不以 / 结尾
         api.base = api.base.substring(0, api.base.length - 1);
     }
 

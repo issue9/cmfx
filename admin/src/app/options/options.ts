@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { BaseDict } from '@solid-primitives/i18n';
+
 import { Contrast, Mimetype, Mode, Scheme } from '@/core';
+import type { Locale } from '@/locales';
 import { API, checkAPI } from './api';
-import type { Locales } from './locales';
-import { MenuItem } from './page';
-import type { Routes } from './route';
+import type { MenuItem, Routes } from './route';
 
 /**
  * 基本配置
@@ -63,6 +64,25 @@ export interface Options {
      * 与本地化相关的一些设置
      */
     locales: Locales
+}
+
+export interface Locales {
+    /**
+     * 加载本地化内容的函数
+     */
+    loader: { (locale: Locale): Promise<BaseDict> }
+
+    /**
+     * 支持的语言
+     *
+     * 需要确保这些指定的语言可以通过 {@link Locales#loader} 正常加载内容。
+     */
+    locales: Array<Locale>
+
+    /**
+     * 在找不到语言时的默认项
+     */
+    fallback: Locale
 }
 
 export interface Theme {

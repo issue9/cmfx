@@ -2,9 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useApp } from '@/app';
 import { JSXElement } from 'solid-js';
 
 export default function(): JSXElement {
+    const ctx = useApp();
+    ctx.title = ctx.t('_internal.ok')!;
+
     return <div>
         dashboard
         dashboard

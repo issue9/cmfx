@@ -8,6 +8,9 @@ import { default as demoRoutes } from 'admin/dev/demo';
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
+import { Message } from './locales';
+import { default as Test } from './pages/test';
+
 const urlBase = 'http://192.168.10.7:8080/admin';
 //const urlBase = 'http://localhost:8080/admin';
 
@@ -36,6 +39,10 @@ const routes: Routes = {
             {
                 path: '/admins',
                 component: pages.Dashboard
+            },
+            {
+                path: '/test',
+                component: Test
             }
         ]
     }
@@ -45,7 +52,7 @@ const o: Options = {
     routes,
 
     locales: {
-        loader: async (id): Promise<Record<string, unknown>> => {
+        loader: async (id): Promise<Message> => {
             return (await import(`./locales/${id}.ts`)).default;
         },
         fallback: 'en',
@@ -71,6 +78,11 @@ const o: Options = {
             type: 'item',
             label: 'home',
             path: '/dashboard'
+        },
+        {
+            type: 'item',
+            label: 'nest.abc',
+            path: '/test'
         },
         {
             type: 'group',

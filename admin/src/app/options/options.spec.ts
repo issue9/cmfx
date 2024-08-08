@@ -5,8 +5,7 @@
 import { expect, test } from 'vitest';
 
 import { Locale } from '@/locales';
-import { Locales } from './locales';
-import { build, Theme } from './options';
+import { build, Locales, Theme } from './options';
 import { Routes } from './route';
 
 test('build', async () => {

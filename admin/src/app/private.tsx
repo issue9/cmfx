@@ -8,7 +8,7 @@ import { ErrorBoundary, JSX, Match, Show, Switch } from 'solid-js';
 import { Drawer, Item, List } from '@/components';
 import { T, useInternal } from './context';
 import * as errors from './errors';
-import { MenuItem } from './options/page';
+import { MenuItem } from './options/route';
 
 export function Private(props: {children?: JSX.Element}) {
     const ctx = useInternal();

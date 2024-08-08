@@ -2,9 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-export default {
+const m = {
     home: 'home',
     system: 'system',
     administrator: 'administrator',
     role: 'role',
+    nest: {
+        abc: 'abc'
+    }
 };
+
+export default m;
+export type Message = typeof m;
