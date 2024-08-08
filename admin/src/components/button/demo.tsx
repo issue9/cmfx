@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { Button, ButtonGroup, IconButton } from '@/components';
+import { Button, ButtonGroup, ConfirmButton } from '@/components';
 import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
 import { Style, styles } from './types';
 
@@ -41,8 +41,10 @@ export default function() {
                 )}
             </For>
             <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
-                <span class="material-symbols-outlined mr-1">face</span>icon button
+                <span class="material-symbols-outlined mr-1">face</span>with icon
             </Button>
+
+            <ConfirmButton onClick={()=>alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary'>confirm button</ConfirmButton>
         </div>
     </>;
 
@@ -50,10 +52,11 @@ export default function() {
         <div class="flex items-center gap-2">
             <For each={colorsWithUndefined}>
                 {(c)=>(
-                    <IconButton title={c?c:'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</IconButton >
+                    <Button icon title={c?c:'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</Button>
                 )}
             </For>
             <Button rounded style='fill' palette='tertiary'>对比按钮</Button>
+            <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={()=>alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary' icon ok={<><span class="material-symbols-outlined mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
         </div>
     </>;
 
@@ -76,7 +79,7 @@ export default function() {
         <Button disabled={disabled()} rounded={rounded()} style={style()} palette='primary'>block</Button>
 
         <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
-            <span class="material-symbols-outlined mr-1">face</span>icon button
+            <span class="material-symbols-outlined mr-1">face</span>with icon
         </Button>
 
         <ButtonGroup rounded={rounded()} palette='primary' style={style()} disabled={disabled()}>

@@ -116,4 +116,14 @@
     .c--button-group:disabled * {
         @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
     }
+
+    /************************* confirm-button ******************************/
+
+    .c--confirm-button-panel {
+        @apply flex flex-col p-4 gap-2 bg-palette-bg text-palette-fg mt-1 rounded-md;
+
+        .actions {
+            @apply flex justify-end gap-2 mt-4;
+        }
+    }
 }

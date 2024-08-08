@@ -8,9 +8,10 @@ const messages: Messages = {
     fullscreen: '全屏',
     settings: '设置',
     ok: '确定',
-    logout: '退出',
+    cancel: '取消',
     reset: '重置',
     refresh: '刷新',
+    areYouSure: '你确定要这么做吗？',
     pagination: {
         prev: '前一页',
         next: '下一页',
@@ -50,6 +51,7 @@ const messages: Messages = {
     },
     login: {
         title: '登录',
+        logout: '退出',
         username: '账号',
         password: '密码'
     },

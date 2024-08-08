@@ -5,8 +5,8 @@
 export { default as Button } from './button';
 export type { Props as ButtonProps } from './button';
 
-export { default as IconButton } from './icon';
-export type { Props as IconButtonProps } from './icon';
+export { default as ConfirmButton } from './confirm';
+export type { Props as ConfirmButtonProps } from './confirm';
 
 export { default as ButtonGroup } from './group';
 export type { Props as ButtonGroupProps } from './group';

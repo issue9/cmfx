@@ -6,7 +6,7 @@ import { HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
 import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Button, Drawer, Dropdown, IconButton, ItemValue, Menu, Notify } from '@/components';
+import { Button, Drawer, Dropdown, ItemValue, Menu, Notify } from '@/components';
 import { Fetcher, initTheme } from '@/core';
 import { buildContext, useApp, useInternal } from './context';
 import * as errors from './errors';
@@ -80,10 +80,10 @@ function App(props: {children?: JSX.Element}) {
             <div class="flex palette--primary gap-2">
                 <Fullscreen />
 
-                <IconButton type="button" style='flat' title={ctx.t('_internal.settings')} rounded
+                <Button icon type="button" style='flat' title={ctx.t('_internal.settings')} rounded
                     onClick={() => setShowSettings(!showSettings()) }>
                     settings
-                </IconButton>
+                </Button>
 
                 <Username />
             </div>
@@ -123,7 +123,7 @@ function Username(): JSX.Element {
                 {
                     type: 'item',
                     value: 'logout',
-                    label: ctx.t('_internal.logout')
+                    label: ctx.t('_internal.login.logout')
                 }
             ]}</Menu>
         </Dropdown>
@@ -147,9 +147,9 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <IconButton type="button" style='flat' rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
+    return <Button icon type="button" style='flat' rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
-    </IconButton>;
+    </Button>;
 }
 
 function Public(props: {children?: JSX.Element}) {

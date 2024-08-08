@@ -7,9 +7,12 @@ import { Dynamic } from 'solid-js/web';
 
 import { BaseProps, Corner } from '@/components/base';
 
-export interface Props extends BaseProps {
-    [k: string]: unknown;
-
+/**
+ * 下拉框的属性
+ *
+ * 所有 {@link JSX#AriaAttributes} 和 class 属性会传递给弹出框。
+ */
+export interface Props extends BaseProps, JSX.AriaAttributes {
     /**
      * 控制弹出内容的可见性
      */
@@ -47,6 +50,11 @@ export interface Props extends BaseProps {
      * 用于指整个容器的样式
      */
     wrapperClass?: string;
+
+    /**
+     * 传递给弹出内容的样式表
+     */
+    class?: string;
 }
 
 const defaultProps: Readonly<Partial<Props>> = {
@@ -74,7 +82,7 @@ export default function Dropdown(props: Props) {
         document.body.removeEventListener('click', handleClick);
     });
 
-    return <div ref={(el)=>ref=el} class={props.wrapperClass} classList={{
+    return <div aria-haspopup="true" ref={(el)=>ref=el} class={props.wrapperClass} classList={{
         'c--dropdown': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>

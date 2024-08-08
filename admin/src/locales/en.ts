@@ -6,9 +6,10 @@ const messages = {
     fullscreen: 'full screen',
     settings: 'settings',
     ok: 'OK',
-    logout: 'logout',
+    cancel: 'cancel',
     reset: 'reset',
     refresh: 'refresh',
+    areYouSure: 'are you sure?',
     pagination: {
         prev: 'prev',
         next: 'next',
@@ -48,6 +49,7 @@ const messages = {
     },
     login: {
         title: 'login',
+        logout: 'logout',
         username: 'username',
         password: 'password'
     },
