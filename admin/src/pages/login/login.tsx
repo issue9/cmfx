@@ -16,10 +16,10 @@ export default function (): JSX.Element {
     const ctx = useInternal();
 
     return <Switch>
-        <Match when={ctx.user()?.id}>
+        <Match when={ctx.isLogin()}>
             <Navigate href={ctx.options.routes.private.home} />
         </Match>
-        <Match when={!ctx.user()?.id}>
+        <Match when={!ctx.isLogin()}>
             <Login />
         </Match>
     </Switch>;

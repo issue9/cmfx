@@ -14,16 +14,14 @@ export function Private(props: {children?: JSX.Element}) {
     const ctx = useInternal();
 
     return <Switch>
-        <Match when={!ctx.user()?.id}>
+        <Match when={!ctx.isLogin()}>
             <Navigate href={ctx.options.routes.public.home} />
         </Match>
-        <Match when={ctx.user()?.id}>
+        <Match when={ctx.isLogin()}>
             <Drawer palette='secondary' visible={true} main={
                 <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
             }>
-                <List anchor>
-                    {buildItems(ctx.t, ctx.options.menus)}
-                </List>
+                <List anchor>{buildItems(ctx.t, ctx.options.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;

@@ -21,7 +21,7 @@ export interface Options {
     /**
      * 默认的主题
      */
-    theme: Theme
+    theme?: Theme
 
     /**
      * LOGO，URL 格式
@@ -94,9 +94,10 @@ export interface Theme {
 const presetOptions = {
     systemNotify: true,
     titleSeparator: ' | ',
+    theme: { mode: 'system', contrast: 'nopreference', scheme: 20 },
     mimetype: 'application/json',
     footer: Array<MenuItem>()
-};
+} as const;
 
 /**
  * 根据 o 生成一个完整的 Options 对象，且会检测字段是否正确。

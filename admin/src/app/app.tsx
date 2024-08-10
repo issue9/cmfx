@@ -17,7 +17,7 @@ import XSetting from './settings';
 /**
 * 初始化整个项目
 *
-* @param elementID 挂载的元素 ID；
+* @param elementID 挂载的元素 ID，用户需要在该元素上指定高和宽，如果要占满页面可以用 100dvh 和 100dvw；
 * @param o 项目的初始化选项；
 */
 export async function create(elementID: string, o: Options) {
@@ -28,8 +28,7 @@ export async function create(elementID: string, o: Options) {
     render(() => {
         initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
 
-        const { ctx, Provider } = buildContext(opt, f); // buildContext 必须在组件内使用！
-        ctx.title = '';
+        const { Provider } = buildContext(opt, f); // buildContext 必须在组件内使用！
 
         const root = (props: { children?: JSX.Element }) => (
             <ErrorBoundary fallback={err=>errors.Unknown(err)}>
@@ -42,7 +41,7 @@ export async function create(elementID: string, o: Options) {
 }
 
 /**
- * 生成适合 hashRouter 的路由项
+ * 生成适合 HashRouter 的路由项
  */
 function buildRoutes(opt: Required<Options>): Array<RouteDefinition> {
     return [

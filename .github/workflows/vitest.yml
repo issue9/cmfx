@@ -24,7 +24,7 @@ jobs:
       run: npm install
 
     - name: Test
-      run: npm run test -w=admin --coverage.enabled true
+      run: npm run test -w=admin
 
     - name: Report Coverage
       # Set if: always() to also generate the report if tests are failing

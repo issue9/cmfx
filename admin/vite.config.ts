@@ -10,7 +10,6 @@ import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
-//import devtools from 'solid-devtools/vite';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -24,7 +23,6 @@ export default defineConfig({
     },
 
     plugins: [
-        //devtools(),
         solidPlugin(),
         dts({
             insertTypesEntry: true,

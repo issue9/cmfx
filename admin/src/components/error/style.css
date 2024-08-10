@@ -6,7 +6,7 @@
 
 @layer components {
     .c--error {
-        @apply text-[var(--fg)] bg-[var(--bg)] p-8 mx-auto w-full h-full content-center text-center;
+        @apply text-[var(--fg)] bg-[var(--bg)] p-8 mx-auto w-full h-full content-center text-center overflow-y-scroll;
 
         h1 {
             @apply mb-4 text-7xl md:text-9xl tracking-tight font-extrabold;

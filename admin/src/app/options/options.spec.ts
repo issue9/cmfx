@@ -5,7 +5,7 @@
 import { expect, test } from 'vitest';
 
 import { Locale } from '@/locales';
-import { build, Locales, Theme } from './options';
+import { build, Locales } from './options';
 import { Routes } from './route';
 
 test('build', async () => {
@@ -14,12 +14,6 @@ test('build', async () => {
         login: '/login',
         settings: '/settings',
         info: '/info',
-    };
-
-    const theme: Theme = {
-        mode: 'system',
-        contrast: 'nopreference',
-        scheme: 5
     };
 
     const locales: Locales = {
@@ -54,7 +48,6 @@ test('build', async () => {
         routes,
         api: api,
         menus: [],
-        theme: theme,
         title: '',
         logo: 'logo'
     })).toThrowError('title 不能为空');
@@ -64,7 +57,6 @@ test('build', async () => {
         routes,
         api: api,
         menus: [],
-        theme: theme,
         title: 'title',
         logo: ''
     })).toThrowError('logo 不能为空');
@@ -74,7 +66,6 @@ test('build', async () => {
         routes,
         api: api,
         menus: [],
-        theme: theme,
         title: 't1',
         logo: 'l1'
     });

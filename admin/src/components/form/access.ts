@@ -5,7 +5,8 @@
 import { createSignal, Setter } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
-import { Fetcher, Method, Problem, Return } from '@/core';
+import { AppContext } from '@/app';
+import { Method, Problem, Return } from '@/core';
 
 // Form 中保存错误的类型
 type Err<T> = {
@@ -233,7 +234,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
     #path: string;
     #validation?: Validation<T>;
     #withToken: boolean;
-    #fetcher: Fetcher;
+    #ctx: AppContext;
     #success?: SuccessFunc<R>;
     #failed?: FailedFunc<P>;
     #loadingSetter?: Setter<boolean>;
@@ -250,15 +251,16 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @param validation 提交前对数据的验证方法；
      * @param withToken 接口是否需要带上登录凭证；
      */
-    constructor(preset: T, f: Fetcher, method: Method, path: string);
-    constructor(preset: T, f: Fetcher, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken?: boolean);
-    constructor(preset: T, f: Fetcher, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken = true) {
+    constructor(preset: T, ctx: AppContext, method: Method, path: string);
+    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken?: boolean);
+    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken = true) {
+        // NOTE: ctx 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
         this.#method = method;
         this.#path = path;
         this.#validation = validation;
         this.#withToken = withToken;
-        this.#fetcher = f;
+        this.#ctx = ctx;
         this.#success = success;
         this.#failed = failed;
         this.#loadingSetter = loadingSetter;
@@ -293,7 +295,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         const obj = this.#object.object(this.#validation);
         if (!obj) { return false; }
 
-        const ret = await this.#fetcher.request<R, P>(this.#path, this.#method, obj, this.#withToken);
+        const ret = await this.#ctx.request<R, P>(this.#path, this.#method, obj, this.#withToken);
         if (ret.ok) {
             if (this.#success) {
                 this.#success(ret);

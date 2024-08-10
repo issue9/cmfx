@@ -156,6 +156,15 @@ export class Fetcher {
     }
 
     /**
+     * 当前是否是有效果的登录状态
+     *
+     * NOTE: 此方法与 {@link Fetcher#getToken} 的不同在于当前方法不会主动刷新 token。
+     */
+    isLogin(): boolean {
+        return !!this.#token && state(this.#token) !== TokenState.RefreshExpired;
+    }
+
+    /**
      * 获得令牌，如果令牌已经过期，会尝试刷新令牌，令牌不存在，则返回 undefined。
      */
     async getToken(): Promise<string | undefined> {
@@ -182,7 +191,7 @@ export class Fetcher {
     }
 
     /**
-     * 对 fetch 的二次包装，可以指定一些关键参数。
+     * 对 {@link Fetcher#fetch} 的二次包装，可以指定一些关键参数。
      *
      * @param path 请求路径，相对于 baseURL 的路径；
      * @param method 请求方法；

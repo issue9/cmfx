@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Options, Routes, createApp } from 'admin/dev';
-import { routes as demoRoutes } from 'admin/dev/demo';
 
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
+import * as demo from './demo';
 import { Message } from './locales';
 import { default as Test } from './pages/test';
 
@@ -18,47 +18,36 @@ const routes: Routes = {
     public: {
         home: '/login',
         routes: [
-            {
-                path: '/login',
-                component: pages.Login,
-            }
+            { path: '/login', component: pages.Login }
         ]
     },
     private: {
         home: '/dashboard',
         routes: [
-            {
-                path: ['/dashboard', '/'],
-                component: pages.Dashboard,
-            },
-            {
-                path: '/roles',
-                component: pages.Dashboard
-            },
-            {
-                path: '/admins',
-                component: pages.Dashboard
-            },
-            {
-                path: '/demo',
-                children: demoRoutes
-            },
-            {
-                path: '/test',
-                component: Test
-            }
+            { path: ['/dashboard', '/'], component: pages.Dashboard },
+            { path: '/roles', component: pages.Dashboard },
+            { path: '/admins', component: pages.Dashboard },
+            { path: '/demo', children: demo.routes },
+            { path: '/test', component: Test }
         ]
     }
 };
 
-const demoItems: Options['menus'] = [];
-demoRoutes.forEach((r) => {
-    demoItems.push({
-        type: 'item',
-        label: r.path as string,
-        path: '/demo' + r.path
-    });
-});
+const menus: Options['menus'] = [
+    { type: 'item', label: 'home', path: '/dashboard' },
+    { type: 'item', label: 'nest.abc', path: '/test' },
+    {
+        type: 'group', label: 'system', items: [
+            {
+                type: 'item', label: 'administrator', items: [
+                    { type: 'item', label: 'role', path: '/roles' },
+                    { type: 'item', label: 'administrator', path: '/admins' },
+                ]
+            },
+        ]
+    },
+    demo.menus
+];
 
 const o: Options = {
     routes,
@@ -78,52 +67,9 @@ const o: Options = {
         info: '/info',
     },
 
-    theme: {
-        mode: 'system',
-        contrast: 'nopreference',
-        scheme: 20
-    },
     title: 'title',
     logo: 'icon.svg',
-    menus: [
-        {
-            type: 'item',
-            label: 'home',
-            path: '/dashboard'
-        },
-        {
-            type: 'item',
-            label: 'nest.abc',
-            path: '/test'
-        },
-        {
-            type: 'group',
-            label: 'system',
-            items: [
-                {
-                    type: 'item',
-                    label: 'administrator',
-                    items: [
-                        {
-                            type: 'item',
-                            label: 'role',
-                            path: '/roles'
-                        },
-                        {
-                            type: 'item',
-                            label: 'administrator',
-                            path: '/admins'
-                        },
-                    ]
-                },
-            ]
-        },
-        {
-            type: 'group',
-            label: 'components',
-            items: demoItems
-        }
-    ]
+    menus: menus
 };
 
 createApp('app', o);

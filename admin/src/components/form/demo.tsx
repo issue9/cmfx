@@ -20,7 +20,7 @@ export default function() {
         5:5,
         date: '2021-01-02T15:31',
         textarea: 'textarea',
-    }, ctx.fetcher(), 'POST', '/path');
+    }, ctx, 'POST', '/path');
 
     return <Demo settings={
         <>
