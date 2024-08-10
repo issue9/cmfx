@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
-import { ErrorBoundary, JSX, Show, createSignal } from 'solid-js';
+import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Button, Drawer, Dropdown, ItemValue, Menu, Notify } from '@/components';
@@ -31,9 +31,7 @@ export async function create(elementID: string, o: Options) {
         const { Provider } = buildContext(opt, f); // buildContext 必须在组件内使用！
 
         const root = (props: { children?: JSX.Element }) => (
-            <ErrorBoundary fallback={err=>errors.Unknown(err)}>
-                <Provider><App>{props.children}</App></Provider>
-            </ErrorBoundary>
+            <Provider><App>{props.children}</App></Provider>
         );
 
         return <HashRouter root={root}>{routes}</HashRouter>;
@@ -134,11 +132,11 @@ function Fullscreen(): JSX.Element {
 
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
 
-    const toggleFullscreen = () => {
+    const toggleFullscreen = async() => {
         if (document.fullscreenElement) {
-            document.exitFullscreen();
+            await document.exitFullscreen();
         } else {
-            document.body.requestFullscreen();
+            await document.body.requestFullscreen();
         }
 
         document.addEventListener('fullscreenchange', () => { // 有可能浏览器通过其它方式退出全屏。

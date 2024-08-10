@@ -46,7 +46,7 @@ export interface User {
     id?: number;
     sex?: 'unknown' | 'male' | 'female';
     name?: string;
-    nicknae?: string;
+    nickname?: string;
     language?: string;
     timezone?: string;
     theme?: string;
@@ -159,7 +159,7 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            notifySender.send(title, body, this.locale, type, timeout);
+            await notifySender.send(title, body, this.locale, type, timeout);
         },
 
         // 以下为本地化相关功能
