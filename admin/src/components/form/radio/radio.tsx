@@ -18,7 +18,7 @@ export interface Props<T> extends FieldBaseProps {
 
     checkedIcon?: string;
     uncheckedIcon?: string;
-};
+}
 
 export default function Group<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({

@@ -22,7 +22,7 @@ export interface Props extends FieldBaseProps {
     checkedIcon?: string;
     uncheckedIcon?: string;
     indeterminateIcon?: string;
-};
+}
 
 const defaultProps: Partial<Props> = {
     icon: true,

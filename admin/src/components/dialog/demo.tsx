@@ -15,7 +15,7 @@ export default function() {
     let dlg1: HTMLDialogElement;
     let dlg2: HTMLDialogElement;
 
-    const fa = new FormAccessor({}, ctx.fetcher(), 'POST', '/path');
+    const fa = new FormAccessor({}, ctx, 'POST', '/path');
 
     return <Demo settings={
         <>

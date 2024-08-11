@@ -138,7 +138,7 @@ export function buildContext(o: Options, f: Fetcher) {
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
          *
          * @param status 反回的状态码；
-         * @param p 如果该值不空，半会抛出异常。
+         * @param p 如果该值空，半会抛出异常。
          */
         async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
             if (status === 401) {

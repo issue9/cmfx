@@ -28,7 +28,7 @@ export interface Token {
 
     access_exp: number;
     refresh_exp: number;
-};
+}
 
 /**
  * 从缓存中获取令牌

@@ -16,12 +16,8 @@ export default function (): JSX.Element {
     const ctx = useInternal();
 
     return <Switch>
-        <Match when={ctx.isLogin()}>
-            <Navigate href={ctx.options.routes.private.home} />
-        </Match>
-        <Match when={!ctx.isLogin()}>
-            <Login />
-        </Match>
+        <Match when={ctx.isLogin()}><Navigate href={ctx.options.routes.private.home} /></Match>
+        <Match when={!ctx.isLogin()}><Login /></Match>
     </Switch>;
 }
 
@@ -39,7 +35,7 @@ export function Login(): JSX.Element {
         }
 
         if (ret) {
-            ctx.notify(ret.type, ret.title);
+            await ctx.notify(ret.type, ret.title);
         }
     };
 

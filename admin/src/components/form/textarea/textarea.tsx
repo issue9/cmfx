@@ -12,7 +12,7 @@ export interface Props<T> extends FieldBaseProps {
     placeholder?: string;
     accessor: Accessor<T>;
     inputMode?: InputMode;
-};
+}
 
 export default function<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值

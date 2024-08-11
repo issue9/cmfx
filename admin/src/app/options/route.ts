@@ -54,7 +54,7 @@ interface Route {
      * 子路由
      */
     children?: Array<Route>;
-};
+}
 
 export type MenuItem = {
     type: 'divider';

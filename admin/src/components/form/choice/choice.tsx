@@ -19,7 +19,7 @@ interface BaseProps<T extends Value> extends FieldBaseProps {
      * 尾部表示展开下拉框的图标，默认为 expand_all
      */
     expandIcon?: string;
-};
+}
 
 export type Props<T extends Value> = BaseProps<T> & {
     multiple: true;

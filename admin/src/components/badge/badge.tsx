@@ -10,7 +10,7 @@ export interface Props extends BaseProps {
     pos?: Corner;
     text?: string | number;
     children: JSX.Element;
-};
+}
 
 const defaultProps: Readonly<Partial<Props>> = {
     pos: 'topright'

@@ -5,6 +5,7 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+import {useApp} from "@/app";
 
 export interface Props extends BaseProps {
     /**
@@ -22,6 +23,9 @@ export interface Props extends BaseProps {
      */
     detail?: string;
 
+    /**
+     * 指定一些自定义的操作
+     */
     children?: JSX.Element;
 }
 
@@ -34,6 +38,8 @@ const defaultProps: Readonly<Partial<Props>> = {
  */
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
+    const ctx = useApp();
+    ctx.title = props.header ?? '';
 
     return <div class={props.palette ? `c--error palette--${props.palette}` : 'c--error'}>
         <Show when={props.header}>
@@ -48,6 +54,10 @@ export default function(props: Props) {
             <p class="detail">{props.detail}</p>
         </Show>
 
-        {props.children}
+        <Show when={props.children}>
+            <div class="flex flex-wrap gap-5 justify-center mt-5">
+                {props.children}
+            </div>
+        </Show>
     </div>;
 }

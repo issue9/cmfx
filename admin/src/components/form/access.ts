@@ -313,8 +313,8 @@ export class FormAccessor<T extends object, R = never, P = never> {
                 e.preventDefault();
             },
 
-            onSubmit(e: Event): void {
-                self.submit();
+            async onSubmit(e: Event) {
+                await self.submit();
                 e.preventDefault();
             }
         };

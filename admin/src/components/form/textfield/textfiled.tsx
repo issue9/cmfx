@@ -17,7 +17,7 @@ export interface Props<T> extends FieldBaseProps {
     rounded?: boolean;
     accessor: Accessor<T>;
     inputMode?: InputMode;
-};
+}
 
 export default function<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;

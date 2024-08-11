@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A, useNavigate } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 
 import { Button, ErrorProps, Error as XError } from '@/components';
 import { useInternal } from './context';
 
 export function NotFound() {
     const ctx = useInternal();
+    const nav = useNavigate();
+    
     return <XError header="404" title={ctx.t('_internal.error.pageNotFound')}>
-        <div class="flex gap-x-5 justify-center">
-            <A class="palette--primary c--button c--button-fill" href={ctx.options.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
-            <Button palette='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
-        </div>
+        <Button palette='primary' onClick={() => { nav(ctx.options.routes.private.home); }}>{ ctx.t('_internal.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
     </XError>;
 }
 
@@ -22,6 +22,7 @@ export function NotFound() {
  */
 export function Unknown(err: any) {
     const ctx = useInternal();
+    const nav = useNavigate();
 
     const props: ErrorProps = {};
     if (err instanceof Error) {
@@ -33,8 +34,8 @@ export function Unknown(err: any) {
     }
 
     return <XError header={props.header ?? ctx.t('_internal.error.unknownError')} title={props.title} detail={props.detail}>
-        <A class="palette--primary c--button c--button-fill" href={ctx.options.routes.private.home}>{ ctx.t('_internal.error.backHome') }</A>
-        <Button palette='primary' onClick={() => { useNavigate()(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
+        <Button palette='primary' onClick={() => { nav(ctx.options.routes.private.home); }}>{ ctx.t('_internal.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(-1); }}>{ ctx.t('_internal.error.backPrev') }</Button>
         <Button palette='primary' onClick={() => window.location.reload()}>{ctx.t('_internal.refresh')}</Button>
     </XError>;
 }

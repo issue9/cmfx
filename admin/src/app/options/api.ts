@@ -27,7 +27,7 @@ export interface API {
      * 用户的基本设置
      */
     settings: string
-};
+}
 
 /**
  * 检测 API 是否都有值
@@ -55,4 +55,4 @@ export function checkAPI(api: API) {
             api[key] = '/' + val;
         }
     });
-};
+}

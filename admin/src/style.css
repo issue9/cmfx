@@ -12,18 +12,48 @@
 @import './pages/style.css';
 @import './app/style.css';
 
-.material-symbols-outlined {
-    display: flex;
-    align-items: center;
-    font-size: 1.2rem;
-    box-sizing: border-box;
-    flex: 0 0 0%;
-}
+@layer components {
+    
+    /**************************** 图标相关的定义 ****************************/
 
-.material-symbols-outlined.fill {
-    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
-}
+    .material-symbols-outlined {
+        display: flex;
+        align-items: center;
+        font-size: 1.2rem;
+        box-sizing: border-box;
+        flex: 0 0 0;
+    }
 
-.icon-container {
-    @apply flex items-center text-center;
+    .material-symbols-outlined.fill {
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
+    }
+
+    .icon-container {
+        @apply flex items-center text-center;
+    }
+    
+    /**************************** 滚动条的定义 ****************************/
+
+    /* 整个滚动条 */
+    ::-webkit-scrollbar {
+        @apply w-2 h-2;
+    }
+
+    ::-webkit-scrollbar-track {
+        @apply cursor-pointer border-2 border-palette-fg-high;
+    }
+
+    /* 滚动条滑块 */
+    ::-webkit-scrollbar-thumb {
+        @apply cursor-pointer bg-palette-bg-low rounded-full;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        @apply bg-palette-bg-high;
+    }
+
+    /* 同时有垂直和水平滚动条时交汇的部分 */
+    ::-webkit-scrollbar-corner {
+        display: block;
+    }
 }

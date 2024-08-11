@@ -20,7 +20,7 @@ export interface Props<T> extends FieldBaseProps {
     checkedIcon?: string;
     uncheckedIcon?: string;
     indeterminateIcon?: string;
-};
+}
 
 export default function Group<T extends string | number> (props: Props<T>) {
     props = mergeProps({
@@ -49,7 +49,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
             <For each={props.options}>
                 {(item) =>
                     <Checkbox {...chkProps} label={item[1]}
-                        checked={access.getValue().find((v)=>v===item[0]) ? true : false}
+                        checked={!!access.getValue().find((v)=>v===item[0])}
                         onChange={(v)=>{
                             if (v) {
                                 access.setValue([...access.getValue(), item[0]]);
