@@ -16,8 +16,8 @@ export default function() {
     const [timeout, setTimeout] = createSignal<number>(5);
     const [type, setType] = createSignal<NotifyType>('success');
 
-    const notify = () => {
-        ctx.notify(title(), body(), type(),timeout());
+    const notify = async(): Promise<void> => {
+        await ctx.notify(title(), body(), type(),timeout());
     };
 
     return <Demo stages={

@@ -87,7 +87,7 @@ function App(props: {children?: JSX.Element}) {
         </header>
 
         <main class="app-main">
-            <Notify ref={(el)=>ctx.setNotifySender(el)} system={ctx.options.systemNotify} icon={ctx.options.logo} palette='error' />
+            <Notify ref={(el)=>ctx.setNotifySender(el)} palette='error' />
 
             <div class="h-full w-full">
                 <Drawer pos="right" palette='secondary' main={props.children} floating visible={showSettings()} close={()=>setShowSettings(false)}>

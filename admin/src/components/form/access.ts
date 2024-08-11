@@ -217,10 +217,6 @@ export interface SuccessFunc<T> {
     (r?: Return<T, never>): void;
 }
 
-export interface FailedFunc<T> {
-    (r?: Return<never, T>): void;
-}
-
 /**
  * 适用于表单的 {@link ObjectAccessor}
  *
@@ -230,13 +226,12 @@ export interface FailedFunc<T> {
  */
 export class FormAccessor<T extends object, R = never, P = never> {
     #object: ObjectAccessor<T>;
-    #method: Method;
-    #path: string;
-    #validation?: Validation<T>;
-    #withToken: boolean;
+    readonly #method: Method;
+    readonly #path: string;
+    readonly #validation?: Validation<T>;
+    readonly #withToken: boolean;
     #ctx: AppContext;
-    #success?: SuccessFunc<R>;
-    #failed?: FailedFunc<P>;
+    readonly #success?: SuccessFunc<R>;
     #loadingSetter?: Setter<boolean>;
 
     /**
@@ -246,14 +241,13 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @param method 请求方法；
      * @param path 请求地址，相对于 {@link Options#api#base}；
      * @param success 在接口正常返回时调用的方法；
-     * @param failed 在接口返回错误信息时调用的方法；
      * @param loadingSetter 用于向外界传递是否处于加载状态，如果不为空，在加载数据时会调用 loadingSetter(true)，加载完成或是出错时会调用 loadingSetter(false)；
      * @param validation 提交前对数据的验证方法；
      * @param withToken 接口是否需要带上登录凭证；
      */
     constructor(preset: T, ctx: AppContext, method: Method, path: string);
-    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken?: boolean);
-    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, failed?: FailedFunc<P>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken = true) {
+    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken?: boolean);
+    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken = true) {
         // NOTE: ctx 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
         this.#method = method;
@@ -262,7 +256,6 @@ export class FormAccessor<T extends object, R = never, P = never> {
         this.#withToken = withToken;
         this.#ctx = ctx;
         this.#success = success;
-        this.#failed = failed;
         this.#loadingSetter = loadingSetter;
     }
 
@@ -304,10 +297,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         }
 
         this.#object.errorsFromProblem(ret.body);
-
-        if (this.#failed) {
-            this.#failed(ret);
-        }
+        await this.#ctx.outputProblem(ret.status, ret.body);
         return false;
     }
 

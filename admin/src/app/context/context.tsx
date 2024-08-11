@@ -6,9 +6,10 @@ import { JSX, createContext, createResource, useContext } from 'solid-js';
 
 import { build as buildOptions } from '@/app/options';
 import { NotifySender, NotifyType } from '@/components';
-import { Account, Fetcher, Method } from '@/core';
+import { Account, Fetcher, Method, Problem, notify } from '@/core';
 import { Locale, names } from '@/locales';
 import { createI18n } from './locale';
+import {useNavigate} from "@solidjs/router";
 
 type Options = ReturnType<typeof buildOptions>;
 
@@ -56,17 +57,43 @@ export interface User {
 export function buildContext(o: Options, f: Fetcher) {
     const { getLocale, setLocale, t } = createI18n(o.locales);
 
-    // TODO
+    let notifySender: NotifySender;
+    
+    const sendNotification = async (title: string, body?: string, type: NotifyType = 'error', timeout = 5)=> {
+        if (o.systemNotify && await notify(title, body, o.logo, getLocale(), timeout)) {
+            return;
+        }
+
+        if (notifySender) {
+            await notifySender.send(title, body, type, timeout);
+        } else {
+            switch (type) {
+                case 'error':
+                    console.error(title, body);
+                    break;
+                case 'info':
+                    console.info(title, body);
+                    break;
+                case 'success':
+                    console.info(title, body);
+                    break;
+                case 'warning':
+                    console.warn(title, body);
+                    break;
+                default:
+                    console.error(title, type, timeout);
+            }
+        }
+    };
+
     const [user, { refetch }] = createResource(async () => {
         const r = await f.get<User>(o.api.info);
-        if (!r.ok) { // 获取用户信息的接口会自动调用，不输出到通知栏。
-            console.error(r.body);
+        if (!r.ok) {
+            await sendNotification(r.body!.title);
             return;
         }
         return r.body as User;
     });
-
-    let notifySender: NotifySender;
 
     const ctx = {
         isLogin() { return f.isLogin(); },
@@ -96,7 +123,7 @@ export function buildContext(o: Options, f: Fetcher) {
         },
 
         async request<R = never, PE = never>(path: string, method: Method, obj?: unknown, withToken = true) {
-            return f.request<R, PE>(path, method, obj, withToken);
+            return f.request<R,PE>(path,method,obj,withToken)
         },
 
         async fetchWithArgument<R = never, PE = never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit) {
@@ -104,7 +131,26 @@ export function buildContext(o: Options, f: Fetcher) {
         },
 
         async fetch<R = never, PE = never>(path: string, req?: RequestInit) {
-            return f.fetch<R, PE>(path, req);
+            return f.fetch<R,PE>(path, req);
+        },
+
+        /**
+         * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
+         *
+         * @param status 反回的状态码；
+         * @param p 如果该值不空，半会抛出异常。
+         */
+        async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
+            if (status === 401) {
+                const nav = useNavigate();
+                nav(o.routes.public.home);
+                return;
+            }
+            
+            if (!p) {
+                throw '发生了一个未知的错误，请联系管理员！';
+            }
+            await this.notify(p.title,p.detail);
         },
 
         /**
@@ -152,6 +198,8 @@ export function buildContext(o: Options, f: Fetcher) {
 
         /**
         * 发送一条通知给用户
+        * 
+        * NOTE: 在组件还未初始化完成时，可能会发送到控制台。
         *
         * @param title 标题；
         * @param body 具体内容，如果为空则只显示标题；
@@ -159,7 +207,7 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            await notifySender.send(title, body, this.locale, type, timeout);
+            await sendNotification(title, body, type, timeout);
         },
 
         // 以下为本地化相关功能

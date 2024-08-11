@@ -5,20 +5,10 @@
 import { createSignal, createUniqueId, For, Show } from 'solid-js';
 
 import { BaseProps, Palette } from '@/components/base';
-import { notify, sleep } from '@/core';
+import { sleep } from '@/core';
 
 export interface Props extends BaseProps {
     ref: { (n: Sender): void };
-
-    /**
-     * 是否优先采用系统通知
-     */
-    system?: boolean;
-
-    /**
-     * 通知的图标
-     */
-    icon?: string;
 }
 
 /**
@@ -33,7 +23,7 @@ export interface Sender {
      * @param type 类型，仅对非系统通知的情况下有效；
      * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
      */
-    send(title: string, body?: string,locale?: string, type?: Type, timeout?: number): Promise<void>;
+    send(title: string, body?: string, type?: Type, timeout?: number): Promise<void>;
 }
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
@@ -64,11 +54,7 @@ export default function(props: Props) {
     };
 
     props.ref({
-        async send(title: string, body?: string, locale?: string, type?: Type, timeout?: number) {
-            if (props.system && await notify(title, body, props.icon, locale, timeout)) {
-                return;
-            }
-
+        async send(title: string, body?: string, type?: Type, timeout?: number) {
             const id = createUniqueId();
             let palette: Palette | undefined;
             if (type) { palette = type2Palette.get(type); }
