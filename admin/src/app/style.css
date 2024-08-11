@@ -9,7 +9,7 @@
         @apply flex flex-col box-border overflow-hidden h-full bg-[var(--bg)] text-[var(--fg)];
 
         .app-bar {
-            @apply w-full p-4 flex content-between bg-[var(--bg)] text-[var(--fg)];
+            @apply w-full p-4 flex content-between bg-[var(--bg)] text-[var(--fg)] border-b border-b-palette-bg-high;
 
             .username {
                 @apply pl-0 pt-0 pb-0 rounded-md rounded-s-full items-center;

@@ -34,26 +34,9 @@
     
     /**************************** 滚动条的定义 ****************************/
 
-    /* 整个滚动条 */
-    ::-webkit-scrollbar {
-        @apply w-2 h-2;
-    }
-
-    ::-webkit-scrollbar-track {
-        @apply cursor-pointer border-2 border-palette-fg-high;
-    }
-
-    /* 滚动条滑块 */
-    ::-webkit-scrollbar-thumb {
-        @apply cursor-pointer bg-palette-bg-low rounded-full;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-        @apply bg-palette-bg-high;
-    }
-
-    /* 同时有垂直和水平滚动条时交汇的部分 */
-    ::-webkit-scrollbar-corner {
-        display: block;
+    * {
+        /* 仅需支持 windows 下的 edge 即可，不需要改变其它浏览器的默认状态 */
+        scrollbar-width: thin;
+        scrollbar-color: var(--bg-low) var(--bg-high);
     }
 }
