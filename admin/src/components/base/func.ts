@@ -6,7 +6,7 @@ import { JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
 /**
- * 复制整个 JSX.Element 元素。
+ * 复制整个 {@link JSX#Element} 元素。
  */
 export function cloneElement(e: JSX.Element): JSX.Element {
     if (e instanceof Element) {

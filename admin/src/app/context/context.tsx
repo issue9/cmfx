@@ -2,14 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createContext, createResource, useContext } from 'solid-js';
+import { useNavigate } from '@solidjs/router';
+import {
+    JSX, createContext, createResource, createSignal, useContext
+} from 'solid-js';
 
 import { build as buildOptions } from '@/app/options';
 import { NotifySender, NotifyType } from '@/components';
-import { Account, Fetcher, Method, Problem, notify } from '@/core';
+import {
+    Account, Breakpoint,
+    Breakpoints,
+    Fetcher, Method, Problem, notify
+} from '@/core';
 import { Locale, names } from '@/locales';
 import { createI18n } from './locale';
-import {useNavigate} from "@solidjs/router";
 
 type Options = ReturnType<typeof buildOptions>;
 
@@ -58,7 +64,7 @@ export function buildContext(o: Options, f: Fetcher) {
     const { getLocale, setLocale, t } = createI18n(o.locales);
 
     let notifySender: NotifySender;
-    
+
     const sendNotification = async (title: string, body?: string, type: NotifyType = 'error', timeout = 5)=> {
         if (o.systemNotify && await notify(title, body, o.logo, getLocale(), timeout)) {
             return;
@@ -68,20 +74,20 @@ export function buildContext(o: Options, f: Fetcher) {
             await notifySender.send(title, body, type, timeout);
         } else {
             switch (type) {
-                case 'error':
-                    console.error(title, body);
-                    break;
-                case 'info':
-                    console.info(title, body);
-                    break;
-                case 'success':
-                    console.info(title, body);
-                    break;
-                case 'warning':
-                    console.warn(title, body);
-                    break;
-                default:
-                    console.error(title, type, timeout);
+            case 'error':
+                console.error(title, body);
+                break;
+            case 'info':
+                console.info(title, body);
+                break;
+            case 'success':
+                console.info(title, body);
+                break;
+            case 'warning':
+                console.warn(title, body);
+                break;
+            default:
+                console.error(title, type, timeout);
             }
         }
     };
@@ -93,6 +99,12 @@ export function buildContext(o: Options, f: Fetcher) {
             return;
         }
         return r.body as User;
+    });
+
+    const [bp, setBP] = createSignal<Breakpoint>('xs');
+    const breakpoints = new Breakpoints();
+    breakpoints.onChange((val) => {
+        setBP(val);
     });
 
     const ctx = {
@@ -123,7 +135,7 @@ export function buildContext(o: Options, f: Fetcher) {
         },
 
         async request<R = never, PE = never>(path: string, method: Method, obj?: unknown, withToken = true) {
-            return f.request<R,PE>(path,method,obj,withToken)
+            return f.request<R, PE>(path, method, obj, withToken);
         },
 
         async fetchWithArgument<R = never, PE = never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit) {
@@ -146,7 +158,7 @@ export function buildContext(o: Options, f: Fetcher) {
                 nav(o.routes.public.home);
                 return;
             }
-            
+
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
             }
@@ -179,6 +191,8 @@ export function buildContext(o: Options, f: Fetcher) {
          */
         user() { return user(); },
 
+        breakpoint() { return bp(); },
+
         get options() { return o; },
 
         set title(v: string) {
@@ -198,7 +212,7 @@ export function buildContext(o: Options, f: Fetcher) {
 
         /**
         * 发送一条通知给用户
-        * 
+        *
         * NOTE: 在组件还未初始化完成时，可能会发送到控制台。
         *
         * @param title 标题；
