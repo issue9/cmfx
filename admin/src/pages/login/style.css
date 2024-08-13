@@ -8,6 +8,6 @@
     @apply flex justify-center h-full;
 
     form {
-        @apply flex justify-center flex-col gap-2 w-full sm:w-80;
+        @apply flex justify-center flex-col px-2 gap-2 w-full xs:w-80;
     }
 }

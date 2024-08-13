@@ -90,7 +90,8 @@ function App(props: {children?: JSX.Element}) {
             <Notify ref={(el)=>ctx.setNotifySender(el)} palette='error' />
 
             <div class="h-full w-full">
-                <Drawer pos="right" palette='secondary' main={props.children} floating visible={showSettings()} close={()=>setShowSettings(false)}>
+                <Drawer pos="right" palette='secondary' main={props.children} floating
+                    visible={showSettings()} close={()=>setShowSettings(false)}>
                     <XSetting />
                 </Drawer>
             </div>
