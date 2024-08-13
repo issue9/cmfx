@@ -36,7 +36,7 @@ export interface BreakpointChange {
  */
 export class Breakpoints {
     #events: Array<BreakpointChange>;
-    #current?: Breakpoint;
+    #current: Breakpoint = 'sm'; // 赋值仅为防止报错，构函数通过 matchMedia 会进行初始化。
 
     constructor() {
         this.#events = [];
@@ -44,13 +44,17 @@ export class Breakpoints {
         Object.entries(breakpoints).forEach((item) => {
             const key = item[0] as Breakpoint;
             const mql = window.matchMedia(item[1]);
-            mql.addEventListener('change', (ev) => {
+
+            const event = (ev: {matches: boolean}) => {
                 if (ev.matches) {
                     this.#change(key);
-                }else if (key != 'xs') {
-                    this.#change(breakpointsOrder[breakpointsOrder.indexOf(key)-1]);
+                } else if (key != 'xs') {
+                    this.#change(breakpointsOrder[breakpointsOrder.indexOf(key) - 1]);
                 }
-            });
+            };
+            event(mql); // 先运行一次，获取初始的 #current。
+
+            mql.addEventListener('change', event);
         });
     }
 
@@ -66,6 +70,10 @@ export class Breakpoints {
      * 注册事件
      */
     onChange(...e: Array<BreakpointChange>) {
+        e.map((e) => { // 注册的函数先运行一次
+            e(this.#current);
+        });
+
         this.#events.push(...e);
     }
 
