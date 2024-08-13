@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { PluginUtils, PresetsConfig } from 'tailwindcss/types/config';
+import type { PluginUtils, PresetsConfig, ScreensConfig } from 'tailwindcss/types/config';
+import { breakpoints } from './src/core/theme/breakpoints';
 
 const colors = {
     'primary-bg': 'var(--primary-bg)',
@@ -95,7 +96,17 @@ const config: PresetsConfig = {
         divideColor: ({theme})=>({
             ...applyColors(theme)
         }),
+
+        screens: buildScreens()
     }
 };
+
+function buildScreens() {
+    const screens: ScreensConfig  = {};
+    Object.entries(breakpoints).forEach((item) => {
+        screens[item[0]] = { 'raw': item[1]};
+    });
+    return screens;
+}
 
 export default config;
