@@ -15,7 +15,7 @@ export interface Props extends BaseProps {
     /**
      * 当 floating 为 true 时，点击遮罩层将调用此方法关闭侧边栏。
      *
-     * NOTE: 这不是动态属性，{@link module:solid-js.Accessor} 不启作用。
+     * NOTE: 这不是响应式的属性。
      */
     close?: { (): void };
 
@@ -43,14 +43,15 @@ const defaultProps: Readonly<Partial<Props>> = {
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-    let conRef: HTMLDivElement;
     let asideRef: Node;
 
     if (props.close) {
         const handleClick = (e: MouseEvent) => {
+            if (!props.floating || !props.visible) { return; }
+
             const node = e.target as Node;
-            if (conRef.contains(node) && !asideRef.contains(node)) {
-                props.close?.();
+            if (!asideRef.contains(node)) {
+                props.close!();
             }
         };
         onMount(() => {
@@ -69,7 +70,10 @@ export default function(props: Props) {
         {props.children}
     </aside>;
 
-    return <div ref={(el)=>conRef=el} classList={{ 'c--drawer': true, 'c--drawer-floating': props.floating && props.visible }}>
+    return <div classList={{
+        'c--drawer': true,
+        'c--drawer-floating': props.floating
+    }}>
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />

@@ -11,7 +11,7 @@ import * as demo from './demo';
 import { Message } from './locales';
 import { default as Test } from './pages/test';
 
-const urlBase = 'http://192.168.10.7:8080/admin';
+const urlBase = 'http://192.168.10.10:8080/admin';
 //const urlBase = 'http://localhost:8080/admin';
 
 const routes: Routes = {
