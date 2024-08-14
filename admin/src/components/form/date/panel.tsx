@@ -4,8 +4,9 @@
 
 import { For, mergeProps, Show } from 'solid-js';
 
-import { useApp } from '@/app';
-import { Accessor, Choice, FieldAccessor } from '@/components/form';
+import { useApp } from '@/app/context';
+import { Accessor, FieldAccessor } from '@/components/form/access';
+import { Choice } from '@/components/form/choice';
 import {
     hoursOptions, minutesOptions, Month, monthDays, monthsLocales,
     range, Week, weekDay, weeks, weeksLocales

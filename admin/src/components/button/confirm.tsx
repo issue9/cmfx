@@ -4,7 +4,7 @@
 
 import { createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp } from '@/app/context';
 import { Corner, handleEvent } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
 import Button, { Props as BaseProps, defaultProps as defaultBaseProps } from './button';

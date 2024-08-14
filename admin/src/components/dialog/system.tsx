@@ -5,10 +5,10 @@
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { useApp } from '@/app';
+import { useApp } from '@/app/context'; // 直接导入 app/context 而不是 app 是为了防止循环依赖
 import { BaseProps } from '@/components/base';
-import { Button } from '../button';
-import { FieldAccessor, TextField } from '../form';
+import { Button } from '@/components/button';
+import { FieldAccessor, TextField } from '@/components/form';
 import { default as Dialog } from './dialog';
 
 interface Props extends BaseProps {

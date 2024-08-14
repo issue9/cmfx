@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp } from '@/app/context'; // 直接导入 app/context 而不是 app 是为了防止循环依赖
 import { BaseProps } from '@/components/base';
 
 export interface Props extends BaseProps {
