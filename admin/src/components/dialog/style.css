@@ -6,6 +6,18 @@
 
 @layer components {
     .c--dialog {
-        @apply bg-palette-bg text-palette-fg;
+        @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-bg-high;
+
+        >header {
+            @apply flex justify-between p-2 border-b border-b-palette-bg-low;
+        }
+
+        >main {
+            @apply p-2;
+        }
+
+        >footer {
+            @apply flex justify-end p-2;
+        }
     }
 }

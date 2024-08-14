@@ -66,7 +66,7 @@ export function buildContext(o: Options, f: Fetcher) {
     let notifySender: NotifySender;
 
     const sendNotification = async (title: string, body?: string, type: NotifyType = 'error', timeout = 5)=> {
-        if (o.systemNotify && await notify(title, body, o.logo, getLocale(), timeout)) {
+        if (o.system.notification && await notify(title, body, o.logo, getLocale(), timeout)) {
             return;
         }
 

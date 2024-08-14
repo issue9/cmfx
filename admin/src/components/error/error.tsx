@@ -4,8 +4,8 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
+import { useApp } from '@/app';
 import { BaseProps } from '@/components/base';
-import {useApp} from "@/app";
 
 export interface Props extends BaseProps {
     /**

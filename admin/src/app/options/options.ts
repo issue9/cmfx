@@ -29,9 +29,9 @@ export interface Options {
     logo: string
 
     /**
-     * 是否优先使用系统通知
+     * 提供部分一系统或浏览器相关的设置
      */
-    systemNotify?: boolean
+    system?: System;
 
     /**
      * 后台需要用到的 API 地址
@@ -66,6 +66,23 @@ export interface Options {
     locales: Locales
 }
 
+interface System {
+    /**
+     * 采用系统通知代替框架内部的实现
+     *
+     * 该功能需要在 https 下才有效，否则依然会采用内部的通知界面。
+     */
+    notification?: boolean;
+
+    /**
+     * 将浏览器的对话框代替为框架内的实现，目前支持以下几种：
+     *  -window.alert
+     *  -window.prompt
+     *  -window.confirm
+     */
+    dialog?: boolean;
+}
+
 export interface Locales {
     /**
      * 加载本地化内容的函数
@@ -92,7 +109,7 @@ export interface Theme {
 }
 
 const presetOptions = {
-    systemNotify: true,
+    system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', scheme: 20 },
     mimetype: 'application/json',

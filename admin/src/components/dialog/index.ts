@@ -5,3 +5,4 @@
 export { default as Dialog } from './dialog';
 export type { Props as DialogProps } from './dialog';
 
+export { default as SystemDialog } from './system';

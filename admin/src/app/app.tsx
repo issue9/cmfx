@@ -6,7 +6,7 @@ import { HashRouter, RouteDefinition, useNavigate } from '@solidjs/router';
 import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Button, Drawer, Dropdown, ItemValue, Menu, Notify } from '@/components';
+import { Button, Drawer, Dropdown, ItemValue, Menu, Notify, SystemDialog } from '@/components';
 import { Fetcher, initTheme } from '@/core';
 import { buildContext, useApp, useInternal } from './context';
 import * as errors from './errors';
@@ -65,6 +65,9 @@ function App(props: {children?: JSX.Element}) {
     const [showSettings, setShowSettings] = createSignal(false);
 
     return <div class="app palette--surface">
+        <Show when={ctx.options.system.dialog}>
+            <SystemDialog header={ctx.options.title} palette='surface' />
+        </Show>
         <header class="app-bar palette--secondary">
             <div class="flex icon-container">
                 <img alt="logo" class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />

@@ -72,5 +72,4 @@ test('build', async () => {
     expect(o.logo).toEqual('l1');
     expect(o.title).toEqual('t1');
     expect(o.titleSeparator).toEqual(' | ');
-    expect(o.systemNotify).toBeTruthy();
 });

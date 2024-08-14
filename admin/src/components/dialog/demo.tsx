@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useInternal } from '@/app/context';
+import { useApp } from '@/app/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Form, FormAccessor } from '@/components/form';
 import Dialog from './dialog';
+import { default as System } from './system';
 
 export default function() {
-    const ctx = useInternal();
+    const ctx = useApp();
     const [paletteS, palette] = paletteSelector('primary');
 
     let dlg1: HTMLDialogElement;
@@ -23,37 +24,41 @@ export default function() {
         </>
     } stages={
         <>
+            <System header='title' />
+            <Button onClick={()=>window.alert('msg')}>alert</Button>
+            <Button onClick={()=>window.confirm('msg')}>confirm</Button>
+            <Button onClick={()=>window.prompt('msg', 'def')}>prompt</Button>
+
             <div>
                 <Button onClick={()=>dlg1.show()} palette={palette()}>show</Button>
-                <Dialog palette={palette()} ref={(el)=>dlg1=el}>
-                    <div class="p-5 bg-palette-bg border-2 border-palette-fg">
-                        <h1>dialog</h1>
-                        <div class="py-3">content</div>
-
-                        <div class="flex">
-                            <button value='submit' type="submit" class="mr-8">submit</button>
-                            <button value='reset' type="reset" class="mr-8">reset</button>
-                            <button value='button' type="button" onClick={()=>dlg1.close('close')}>close</button>
-                        </div>
-                    </div>
+                <Dialog palette={palette()} ref={(el)=>dlg1=el} header="header" actions={
+                    <>
+                        <button value='submit' type="submit" class="mr-8">submit</button>
+                        <button value='reset' type="reset" class="mr-8">reset</button>
+                        <button value='button' type="button" onClick={()=>dlg1.close('close')}>close</button>
+                    </>
+                }>
+                    content
                 </Dialog>
             </div>
 
             <div>
                 <Button onClick={()=>dlg2.showModal()} palette={palette()}>showModal</Button>
-                <Dialog palette={palette()} ref={(el)=>dlg2=el}>
-                    <Form formAccessor={fa} inDialog>
-                        <div class="p-5 bg-palette-bg border-2 border-palette-fg">
-                            <h1>dialog</h1>
-                            <div class="py-3">form</div>
+                <Dialog palette={palette()} ref={(el)=>dlg2=el} header="header">
+                    <div>
+                        <Form formAccessor={fa} inDialog>
+                            <div class="flex flex-col">
+                                <div class="py-3">form</div>
 
-                            <div class="flex">
-                                <button value='submit' type="submit" class="mr-8">submit</button>
-                                <button value='reset' type="reset" class="mr-8">reset</button>
-                                <button value='button' type="button">button</button>
+                                <hr />
+                                <div class="flex">
+                                    <button value='submit' type="submit" class="mr-8">submit</button>
+                                    <button value='reset' type="reset" class="mr-8">reset</button>
+                                    <button value='button' type="button">button</button>
+                                </div>
                             </div>
-                        </div>
-                    </Form>
+                        </Form>
+                    </div>
                 </Dialog>
             </div>
         </>

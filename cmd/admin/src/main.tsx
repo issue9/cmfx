@@ -52,6 +52,11 @@ const menus: Options['menus'] = [
 const o: Options = {
     routes,
 
+    system: {
+        dialog: true,
+        notification: true
+    },
+
     locales: {
         loader: async (id): Promise<Message> => {
             return (await import(`./locales/${id}.ts`)).default;

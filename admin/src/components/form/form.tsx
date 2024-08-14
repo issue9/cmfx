@@ -2,13 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, JSX, Show } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 import { FormAccessor } from './access';
 
 export interface Props<T extends object, R = never, P = never> extends BaseProps {
     formAccessor: FormAccessor<T, R, P>;
+
+    /**
+     * 整个表单的标题
+     */
+    title?: JSX.Element;
 
     /**
      * 表单位于对话框中
@@ -33,6 +38,9 @@ export default function<T extends object, R = never, P = never>(props: Props<T,R
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <fieldset disabled={loading()}>
+            <Show when={props.title}>
+                <legend>{ props.title }</legend>
+            </Show>
             {props.children}
         </fieldset>
     </form>;
