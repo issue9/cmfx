@@ -21,18 +21,18 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@solidjs/router": "^0.14.1",
+        "@solidjs/router": "^0.14.3",
         "admin": "0.7.0",
-        "solid-js": "^1.8.20"
+        "solid-js": "^1.8.21"
     },
     "devDependencies": {
-        "@types/node": "^22.1.0",
+        "@types/node": "^22.3.0",
         "@vitejs/plugin-basic-ssl": "^1.1.0",
         "autoprefixer": "^10.4.20",
-        "cssnano": "^7.0.4",
+        "cssnano": "^7.0.5",
         "postcss": "^8.4.41",
         "solid-devtools": "^0.30.1",
-        "tailwindcss": "^3.4.9",
+        "tailwindcss": "^3.4.10",
         "typescript": "^5.5.4",
         "vite": "^5.4.0",
         "vite-plugin-solid": "^2.10.2"

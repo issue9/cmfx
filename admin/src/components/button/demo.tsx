@@ -34,7 +34,7 @@ export default function() {
     const [roundedS, rounded] = boolSelector('rounded');
 
     const Buttons = ()=> <>
-        <div class="flex items-center gap-2 my-4">
+        <div class="flex flex-wrap items-center gap-2 my-4">
             <For each={colorsWithUndefined}>
                 {(c)=>(
                     <Button disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</Button>
@@ -49,7 +49,7 @@ export default function() {
     </>;
 
     const IconButtons = () => <>
-        <div class="flex items-center gap-2">
+        <div class="flex flex-wrap items-center gap-2">
             <For each={colorsWithUndefined}>
                 {(c)=>(
                     <Button icon title={c?c:'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</Button>

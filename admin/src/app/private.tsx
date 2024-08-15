@@ -17,12 +17,16 @@ export function Private(props: {children?: JSX.Element}) {
 
     return <Switch>
         <Match when={!ctx.isLogin()}>
-            <Navigate href={ctx.options.routes.public.home} />
+            <Navigate href={/*@once*/ctx.options.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={Breakpoints.compare(ctx.breakpoint(), 'sm')<0} close={()=>setVisible(false)} palette='secondary' visible={visible()} main={
-                <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
-            }>
+            <Drawer floating={Breakpoints.compare(ctx.breakpoint(), 'sm')<0}
+                close={()=>setVisible(false)}
+                palette='secondary'
+                visible={visible()}
+                main={
+                    <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
+                }>
                 <List anchor>{buildItems(ctx.t, ctx.options.menus)}</List>
             </Drawer>
         </Match>

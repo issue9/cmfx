@@ -75,23 +75,23 @@
     "dependencies": {
         "@formatjs/intl-localematcher": "^0.5.4",
         "@solid-primitives/i18n": "^2.1.1",
-        "@solidjs/router": "^0.14.1",
+        "@solidjs/router": "^0.14.3",
         "localforage": "^1.10.0",
         "material-symbols": "^0.22.0",
         "quill": "^2.0.2",
-        "solid-js": "^1.8.20"
+        "solid-js": "^1.8.21"
     },
     "devDependencies": {
-        "@types/node": "^22.1.0",
+        "@types/node": "^22.3.0",
         "@vitest/coverage-v8": "^2.0.5",
         "autoprefixer": "^10.4.20",
-        "cssnano": "^7.0.4",
+        "cssnano": "^7.0.5",
         "jsdom": "^24.1.1",
         "postcss": "^8.4.41",
-        "tailwindcss": "^3.4.9",
+        "tailwindcss": "^3.4.10",
         "typescript": "^5.5.4",
         "vite": "^5.4.0",
-        "vite-plugin-dts": "^4.0.1",
+        "vite-plugin-dts": "^4.0.3",
         "vite-plugin-solid": "^2.10.2",
         "vitest": "^2.0.5",
         "vitest-fetch-mock": "^0.3.0"

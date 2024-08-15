@@ -18,7 +18,8 @@ import { default as Toolbar } from './toolbar';
 /**
  * 初始化整个项目
  *
- * @param elementID 挂载的元素 ID，用户需要在该元素上指定高和宽，如果要占满页面可以用 100dvh 和 100dvw；
+ * @param elementID 挂载的元素 ID，用户需要在该元素上指定高和宽，
+ *  如果要占满页面可以用 100dvh 和 100dvw 或是预定义的类 view-full；
  * @param o 项目的初始化选项；
  */
 export async function create(elementID: string, o: Options) {
@@ -29,7 +30,6 @@ export async function create(elementID: string, o: Options) {
         initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
         return <>
             <Notify />
-
             <App opt={opt} f={f} />
         </>;
     }, document.getElementById(elementID)!);
@@ -45,17 +45,15 @@ function App(props: {opt: Required<Options>, f: Fetcher}) {
 
     const Root = (p: { children?: JSX.Element }) => (<Provider>
         <Show when={props.opt.system.dialog}>
-            <SystemDialog header={props.opt.title} palette='surface' />
+            <SystemDialog header={/*@once*/props.opt.title} palette='surface' />
         </Show>
         <div class="app palette--surface">
             <Toolbar settingsVisibleGetter={showSettings} settingsVisibleSetter={setShowSettings} />
             <main class="app-main">
-                <div class="h-full w-full">
-                    <Drawer pos="right" palette='secondary' main={p.children} floating
-                        visible={showSettings()} close={() => setShowSettings(false)}>
-                        <XSetting />
-                    </Drawer>
-                </div>
+                <Drawer pos="right" palette='secondary' main={p.children} floating
+                    visible={showSettings()} close={() => setShowSettings(false)}>
+                    <XSetting />
+                </Drawer>
             </main>
         </div>
     </Provider>);
