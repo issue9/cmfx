@@ -34,9 +34,6 @@
     --surface: calc(var(--primary) + 180);
 
     --contrast: 100;
-
-    /* 文本框中实际内容的最小尺寸，统一指定，方便控制。 */
-    --min-input-height: 24px;
 }
 
 :root {

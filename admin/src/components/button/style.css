@@ -6,7 +6,7 @@
 
 @layer components {
     .c--button {
-        @apply border flex justify-around border-transparent items-center text-center rounded-md text-sm py-2 px-4 text-nowrap text-[var(--fg)] outline-none;
+        @apply border flex justify-around border-transparent items-center text-center rounded-md py-2 px-4 text-nowrap text-[var(--fg)] outline-none;
     }
 
     .c--button.c--button-icon {
@@ -18,7 +18,7 @@
     }
 
     .c--button.c--button-fill:enabled:hover,
-    .c--button.c--button-fill:focus {
+    .c--button.c--button-fill:focus-visible {
         @apply bg-[var(--bg-high)];
     }
 
@@ -27,7 +27,7 @@
     }
 
     .c--button.c--button-border:enabled:hover,
-    .c--button.c--button-border:focus {
+    .c--button.c--button-border:focus-visible {
         @apply bg-[var(--bg)];
     }
 
@@ -36,7 +36,7 @@
     }
 
     .c--button.c--button-flat:enabled:hover,
-    .c--button.c--button-flat:focus {
+    .c--button.c--button-flat:focus-visible {
         @apply bg-[var(--bg-high)] border-[var(--bg-high)];
     }
 
@@ -50,7 +50,7 @@
         @apply text-[var(text)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
 
         .c--button {
-            @apply rounded-none border-none items-center flex-1 text-sm py-2 px-4 text-[var(--fg)] outline-none;
+            @apply rounded-none border-none items-center flex-1 py-2 px-4 text-[var(--fg)] outline-none;
         }
 
         :first-child {
@@ -82,7 +82,7 @@
         }
 
         .c--button:enabled:hover,
-        .c--button:focus {
+        .c--button:focus-visible {
             @apply bg-[var(--bg-high)];
         }
     }
@@ -95,7 +95,7 @@
         }
 
         .c--button:enabled:hover,
-        .c--button:focus {
+        .c--button:focus-visible {
             @apply bg-[var(--bg)];
         }
     }
@@ -108,7 +108,7 @@
         }
 
         .c--button:enabled:hover,
-        .c--button:focus {
+        .c--button:focus-visible {
             @apply bg-[var(--bg)];
         }
     }

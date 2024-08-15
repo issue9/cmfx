@@ -13,8 +13,12 @@
 
 
         .item {
-            @apply hover:bg-[var(--bg-low)] cursor-pointer;
+            @apply hover:bg-palette-bg-low cursor-pointer border-0 outline-none;
             padding: var(--item-space);
+        }
+
+        .item:focus-visible {
+            @apply bg-palette-bg-low;
         }
 
         /* 带子项的 */

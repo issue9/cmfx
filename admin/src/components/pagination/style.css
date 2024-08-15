@@ -17,7 +17,11 @@
         }
 
         .item {
-            @apply hover:bg-palette-bg-low px-2 py-[2px];
+            @apply hover:bg-palette-bg-low px-2 py-[2px] outline-none;
+        }
+
+        .item:focus-visible {
+            @apply bg-palette-bg-low;
         }
 
         .item:disabled {
