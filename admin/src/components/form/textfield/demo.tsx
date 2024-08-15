@@ -23,7 +23,7 @@ export default function() {
 
     const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
 
-    const icon = <span class="material-symbols-outlined flex items-center">face</span>;
+    const icon = <span class="c--icon flex items-center">face</span>;
 
     return <Demo settings={
         <>

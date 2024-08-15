@@ -47,7 +47,7 @@ export default function(props: Props) {
                 <div class="input">
                     {typeof ac.getValue() === 'string' ? ac.getValue() : (new Date(ac.getValue())).toISOString() }
                 </div>
-                <span class="material-symbols-outlined tail">{props.expandIcon}</span>
+                <span class="c--icon tail">{props.expandIcon}</span>
             </div>
         </label>
         <Show when={ac.hasError()}>

@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { paletteSelector,Demo } from '@/components/base/demo';
+import { Demo, paletteSelector } from '@/components/base/demo';
 import { default as Divider, Props } from './divider';
 import { Style, styles } from './types';
 
@@ -51,7 +51,7 @@ export default function() {
     } stages={
         <>
             <div class="w-56">
-                <Divider style={style()} palette={palette()} pos={pos()}><span class="material-symbols-outlined">face</span>起始位置</Divider>
+                <Divider style={style()} palette={palette()} pos={pos()}><span class="c--icon">face</span>起始位置</Divider>
             </div>
 
             <div class="w-56">

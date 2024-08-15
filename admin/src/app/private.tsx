@@ -46,9 +46,9 @@ function buildItems(t: T, menus: Array<MenuItem>) {
         case 'item':
             const i: Item = {
                 type: 'item',
-                label: <span class="icon-container">
+                label: <span class="c--icon-container">
                     <Show when={mi.icon}>
-                        <span class="material-symbols-outlined">{mi.icon}</span>
+                        <span class="c--icon">{mi.icon}</span>
                     </Show>
                     {t(mi.label as any) ?? mi.label}
                 </span>,

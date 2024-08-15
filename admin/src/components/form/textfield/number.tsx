@@ -63,7 +63,7 @@ export default function(props: Props): JSX.Element {
                 'c--text-field-rounded': props.rounded,
             }}>
                 <Show when={props.icon}>
-                    <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
+                    <span role="none" class="prefix flex items-center pl-1 c--icon">{props.icon}</span>
                 </Show>
                 <input accessKey={props.accessKey} class="input" type='number' inputMode={props.inputMode} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     tabIndex={props.tabindex}
@@ -71,8 +71,8 @@ export default function(props: Props): JSX.Element {
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
                 />
-                <button disabled={props.disabled} class="btn material-symbols-outlined" onClick={()=>step(props.step!)}>arrow_drop_up</button>
-                <button disabled={props.disabled} class="btn material-symbols-outlined" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
+                <button disabled={props.disabled} class="btn c--icon" onClick={()=>step(props.step!)}>arrow_drop_up</button>
+                <button disabled={props.disabled} class="btn c--icon" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
             </div>
         </label>
 

@@ -46,7 +46,7 @@ export function Login(): JSX.Element {
     return <div class="p--login palette--primary">
         <form onReset={onReset} onSubmit={onSubmit}>
             <p class="text-lg">{ctx.t('_internal.login.title')}</p>
-            <TextField prefix={<span class="material-symbols-outlined">person</span>}
+            <TextField prefix={<span class="c--icon">person</span>}
                 placeholder={ctx.t('_internal.login.username')} accessor={f.accessor('username', true)} />
             <Password icon='lock' placeholder={ctx.t('_internal.login.password')} accessor={f.accessor('password', true)} />
             <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.t('_internal.ok')}</Button>

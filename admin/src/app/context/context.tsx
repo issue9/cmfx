@@ -3,17 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import {
-    JSX, createContext, createResource, createSignal, useContext
-} from 'solid-js';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { build as buildOptions } from '@/app/options';
-import { NotifySender, NotifyType } from '@/components';
-import {
-    Account, Breakpoint,
-    Breakpoints,
-    Fetcher, Method, Problem, notify
-} from '@/core';
+import { NotifyType } from '@/components/notify';
+import { Account, Breakpoint, Breakpoints, Fetcher, Method, Problem, notify } from '@/core';
 import { Locale, names } from '@/locales';
 import { createI18n } from './locale';
 
@@ -22,11 +16,6 @@ type Options = ReturnType<typeof buildOptions>;
 export type Context = ReturnType<typeof buildContext>['ctx'];
 
 export type AppContext = Exclude<Context, 'options' | 'setNotifySender' | 'login' | 'logout'>;
-
-/**
- * 翻译函数的类型
- */
-export type T = AppContext['t'];
 
 const context = createContext<Context>();
 
@@ -63,39 +52,10 @@ export interface User {
 export function buildContext(o: Options, f: Fetcher) {
     const { getLocale, setLocale, t } = createI18n(o.locales);
 
-    let notifySender: NotifySender;
-
-    const sendNotification = async (title: string, body?: string, type: NotifyType = 'error', timeout = 5)=> {
-        if (o.system.notification && await notify(title, body, o.logo, getLocale(), timeout)) {
-            return;
-        }
-
-        if (notifySender) {
-            await notifySender.send(title, body, type, timeout);
-        } else {
-            switch (type) {
-            case 'error':
-                console.error(title, body);
-                break;
-            case 'info':
-                console.info(title, body);
-                break;
-            case 'success':
-                console.info(title, body);
-                break;
-            case 'warning':
-                console.warn(title, body);
-                break;
-            default:
-                console.error(title, type, timeout);
-            }
-        }
-    };
-
     const [user, { refetch }] = createResource(async () => {
         const r = await f.get<User>(o.api.info);
         if (!r.ok) {
-            await sendNotification(r.body!.title);
+            await window.notify(r.body!.title);
             return;
         }
         return r.body as User;
@@ -206,11 +166,6 @@ export function buildContext(o: Options, f: Fetcher) {
         },
 
         /**
-         * 绑定全局的通知方法
-         */
-        setNotifySender(s: NotifySender) { notifySender = s; },
-
-        /**
         * 发送一条通知给用户
         *
         * NOTE: 在组件还未初始化完成时，可能会发送到控制台。
@@ -221,7 +176,10 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            await sendNotification(title, body, type, timeout);
+            if (o.system.notification && await notify(title, body, o.logo, getLocale(), timeout)) {
+                return;
+            }
+            window.notify(title, body, type, timeout);
         },
 
         // 以下为本地化相关功能
@@ -241,9 +199,7 @@ export function buildContext(o: Options, f: Fetcher) {
     };
 
     const Provider = (props: { children: JSX.Element }) => {
-        return <context.Provider value={ctx}>
-            {props.children}
-        </context.Provider>;
+        return <context.Provider value={ctx}>{props.children}</context.Provider>;
     };
 
     return { ctx, Provider };

@@ -44,7 +44,7 @@
         }
 
         .btn {
-            @apply outline-none border-0 icon-container justify-center;
+            @apply outline-none border-0 c--icon-container justify-center;
             @apply disabled:cursor-not-allowed focus:text-[var(--fg-high)] hover:enabled:text-[var(--fg-high)];
         }
 

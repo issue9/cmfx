@@ -88,12 +88,12 @@ export default function(props: Props) {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <button onclick={()=>change(1)}
-            class="item material-symbols-outlined"
+            class="item c--icon"
             disabled={current()===1}
             title={ctx.t('_internal.pagination.firstPage')}>first_page</button>
 
         <button onclick={()=>change(current()-1)}
-            class="item material-symbols-outlined"
+            class="item c--icon"
             disabled={current()===1}
             title={ctx.t('_internal.pagination.prev')}>chevron_left</button>
 
@@ -112,12 +112,12 @@ export default function(props: Props) {
         </For>
 
         <button onclick={()=>change(current()+1)}
-            class="item material-symbols-outlined"
+            class="item c--icon"
             title={ctx.t('_internal.pagination.next')}
             disabled={current() >= props.count}>chevron_right</button>
 
         <button onclick={()=>change(props.count)}
-            class="item material-symbols-outlined"
+            class="item c--icon"
             title={ctx.t('_internal.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</button>
     </div>;

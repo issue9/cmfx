@@ -41,9 +41,9 @@ export default function() {
         <RadioGroup vertical accessor={modeFA}
             label={ <Label icon="settings_night_sight" title={ ctx.t('_internal.theme.mode')! } desc={ ctx.t('_internal.theme.modeDesc')! } /> }
             options={[
-                ['system', <><span class="material-symbols-outlined mr-2">brightness_6</span>{ctx.t('_internal.theme.system')}</>],
-                ['dark', <><span class="material-symbols-outlined mr-2">dark_mode</span>{ctx.t('_internal.theme.dark')}</>],
-                ['light', <><span class="material-symbols-outlined mr-2">light_mode</span>{ctx.t('_internal.theme.light')}</>]
+                ['system', <><span class="c--icon mr-2">brightness_6</span>{ctx.t('_internal.theme.system')}</>],
+                ['dark', <><span class="c--icon mr-2">dark_mode</span>{ctx.t('_internal.theme.dark')}</>],
+                ['light', <><span class="c--icon mr-2">light_mode</span>{ctx.t('_internal.theme.light')}</>]
             ]}
         />
 
@@ -52,9 +52,9 @@ export default function() {
         <RadioGroup vertical accessor={contrastFA}
             label={ <Label icon="contrast" title={ ctx.t('_internal.theme.contrast')! } desc={ ctx.t('_internal.theme.contrastDesc')! } /> }
             options={[
-                ['more', <><span class="material-symbols-outlined mr-2">exposure_plus_1</span>{ctx.t('_internal.theme.more')}</>],
-                ['nopreference', <><span class="material-symbols-outlined mr-2">exposure_zero</span>{ctx.t('_internal.theme.nopreference')}</>],
-                ['less', <><span class="material-symbols-outlined mr-2">exposure_neg_1</span>{ctx.t('_internal.theme.less')}</>]
+                ['more', <><span class="c--icon mr-2">exposure_plus_1</span>{ctx.t('_internal.theme.more')}</>],
+                ['nopreference', <><span class="c--icon mr-2">exposure_zero</span>{ctx.t('_internal.theme.nopreference')}</>],
+                ['less', <><span class="c--icon mr-2">exposure_neg_1</span>{ctx.t('_internal.theme.less')}</>]
             ]}
         />
 
@@ -77,7 +77,7 @@ export default function() {
 
 function Label(props: {icon: string, title: string, desc: string}) {
     return <div class="flex flex-col mb-1">
-        <p class="icon-container"><span class="material-symbols-outlined mr-2">{ props.icon }</span>{props.title}</p>
+        <p class="c--icon-container"><span class="c--icon mr-2">{ props.icon }</span>{props.title}</p>
         <span class="text-sm text-left">{props.desc}</span>
     </div>;
 }

@@ -57,7 +57,7 @@ export default function(props: Props) {
             }}
         />
         <Show when={props.icon}>
-            <span class="checkbox-icon material-symbols-outlined">
+            <span class="checkbox-icon c--icon">
                 { chk() === undefined ? props.indeterminateIcon : (chk() ? props.checkedIcon : props.uncheckedIcon) }
             </span>
         </Show>

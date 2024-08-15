@@ -81,7 +81,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
-                <span class="material-symbols-outlined expand">{props.expandIcon}</span>
+                <span class="c--icon expand">{props.expandIcon}</span>
             </div>
         </label>
         <Show when={props.accessor.hasError()}>
@@ -110,7 +110,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                     }}>
                         {cloneElement(item[1])}
                         <span classList={{
-                            'material-symbols-outlined': true,
+                            'c--icon': true,
                             'tail': true,
                             'hidden': !selected()
                         }}>check</span>
@@ -138,7 +138,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         {cloneElement(item[1])}
                         <span classList={{
                             'hidden': !selected(),
-                            'material-symbols-outlined': true,
+                            'c--icon': true,
                             'tail': true,
                         }}>check</span>
                     </li>;

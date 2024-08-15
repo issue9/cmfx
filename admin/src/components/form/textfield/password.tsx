@@ -30,13 +30,13 @@ export default function(props: Props): JSX.Element {
                 'c--text-field-rounded': props.rounded,
             }}>
                 <Show when={props.icon}>
-                    <span role="none" class="prefix flex items-center pl-1 material-symbols-outlined">{props.icon}</span>
+                    <span role="none" class="prefix flex items-center pl-1 c--icon">{props.icon}</span>
                 </Show>
                 <input accessKey={props.accessKey} ref={(el)=>ref=el} type="password" inputMode={props.inputMode} tabIndex={props.tabindex} class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(e.target.value); access.setError(); }}
                 />
-                <button disabled={props.disabled} class="suffix btn flex items-center pr-1 material-symbols-outlined"
+                <button disabled={props.disabled} class="suffix btn flex items-center pr-1 c--icon"
                     onClick={() => {
                         setVisible(!visible());
                         ref.type = visible() ? 'text' : 'password';

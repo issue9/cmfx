@@ -41,7 +41,7 @@ export default function() {
                 )}
             </For>
             <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
-                <span class="material-symbols-outlined mr-1">face</span>with icon
+                <span class="c--icon mr-1">face</span>with icon
             </Button>
 
             <ConfirmButton onClick={()=>alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary'>confirm button</ConfirmButton>
@@ -79,7 +79,7 @@ export default function() {
         <Button disabled={disabled()} rounded={rounded()} style={style()} palette='primary'>block</Button>
 
         <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
-            <span class="material-symbols-outlined mr-1">face</span>with icon
+            <span class="c--icon mr-1">face</span>with icon
         </Button>
 
         <ButtonGroup rounded={rounded()} palette='primary' style={style()} disabled={disabled()}>

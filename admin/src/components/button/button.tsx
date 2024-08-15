@@ -41,8 +41,8 @@ export default function(props: Props) {
     return <button value={props.value} accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
         type={props.type} title={props.title} onClick={props.onClick} classList={{
             'c--button': true,
-            'icon-container': true,
-            'material-symbols-outlined': props.icon,
+            'c--icon-container': true,
+            'c--icon': props.icon,
             'c--button-icon': props.icon,
             [`c--button-${props.style}`]: true,
             [`palette--${props.palette}`]: !!props.palette,

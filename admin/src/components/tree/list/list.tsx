@@ -58,7 +58,7 @@ export default function (props: Props): JSX.Element {
                 <details onToggle={()=>setOpen(!open())} open={open()}>
                     <summary style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} class="item">
                         {p.item.label}
-                        <span class="tail material-symbols-outlined">{ open() ?'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
+                        <span class="tail c--icon">{ open() ?'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
                     </summary>
                     <Show when={p.item.items}>
                         <menu>

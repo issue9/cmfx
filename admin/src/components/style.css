@@ -6,6 +6,7 @@
 
 @import './badge/style.css';
 @import './button/style.css';
+@import './icon/style.css';
 @import './divider/style.css';
 @import './drawer/style.css';
 @import './dialog/style.css';

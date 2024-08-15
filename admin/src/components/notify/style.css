@@ -6,7 +6,7 @@
 
 @layer components {
     .c--notify {
-        @apply absolute top-4 right-4 left-4 sm:left-auto flex-col;
+        @apply absolute top-4 right-4 left-4 sm:left-auto flex-col z-[1000];
         @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto;
 
         .message {
@@ -18,10 +18,10 @@
             }
 
             .title {
-                @apply p-3 flex justify-between icon-container;
+                @apply p-3 flex justify-between c--icon-container;
 
                 .close {
-                    @apply material-symbols-outlined hover:cursor-pointer hover:text-[var(--fg-high)];
+                    @apply hover:cursor-pointer hover:text-[var(--fg-high)];
                 }
             }
         }

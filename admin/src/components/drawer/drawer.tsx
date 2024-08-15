@@ -43,14 +43,15 @@ const defaultProps: Readonly<Partial<Props>> = {
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-    let asideRef: Node;
+    let asideRef: HTMLElement;
+    let mainRef: HTMLElement;
 
     if (props.close) {
         const handleClick = (e: MouseEvent) => {
             if (!props.floating || !props.visible) { return; }
 
-            const node = e.target as Node;
-            if (!asideRef.contains(node)) {
+            const node = e.target as HTMLElement;
+            if (mainRef.contains(node) && !asideRef.contains(node)) {
                 props.close!();
             }
         };
@@ -70,7 +71,7 @@ export default function(props: Props) {
         {props.children}
     </aside>;
 
-    return <div classList={{
+    return <div ref={(el)=>mainRef=el} classList={{
         'c--drawer': true,
         'c--drawer-floating': props.floating
     }}>

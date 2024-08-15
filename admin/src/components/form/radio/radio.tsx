@@ -34,7 +34,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
-            <legend class="icon-container w-full" title={props.title}>{props.label}</legend >
+            <legend class="c--icon-container w-full" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{
@@ -58,7 +58,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
                             }}
                         />
                         <Show when={props.icon}>
-                            <span class="radio-icon material-symbols-outlined">
+                            <span class="radio-icon c--icon">
                                 {access.getValue() === item[0] ? props.checkedIcon : props.uncheckedIcon }
                             </span>
                         </Show>

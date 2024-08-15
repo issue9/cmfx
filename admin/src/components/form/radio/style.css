@@ -8,7 +8,7 @@
 @layer components {
     .c--radio-group {
         label {
-            @apply border-2 border-transparent icon-container text-palette-fg;
+            @apply border-2 border-transparent c--icon-container text-palette-fg;
 
             .radio-icon {
                 @apply mr-1;

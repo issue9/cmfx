@@ -48,9 +48,9 @@ export default function(props: Props) {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.header}>
-            <header class="icon-container">
+            <header class="c--icon-container">
                 {props.header}
-                <span class="material-symbols-outlined cursor-pointer" onClick={()=>ref.close('close')}>close</span>
+                <span class="c--icon cursor-pointer" onClick={()=>ref.close('close')}>close</span>
             </header>
         </Show>
 

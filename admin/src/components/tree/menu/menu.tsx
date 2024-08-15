@@ -62,7 +62,7 @@ export default function (props: Props): JSX.Element {
             <Match when={p.item.items && p.item.items.length > 0}>
                 <li class="item">
                     {p.item.label}
-                    <span class="tail material-symbols-outlined">{ props.expandIcon }</span>
+                    <span class="tail c--icon">{ props.expandIcon }</span>
                     <Show when={p.item.items && !hide()}>
                         <menu class="c--menu hidden">
                             <Items items={p.item.items as Array<Item>} />
