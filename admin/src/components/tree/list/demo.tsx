@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, Accessor, Setter, For } from 'solid-js';
+import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { paletteSelector, Demo } from '@/components/base/demo';
+import { Demo, paletteSelector } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
 import { default as List, Props } from './list';
 
@@ -73,6 +73,13 @@ export default function() {
             <div class="w-80 mt-4">
                 <p>不指定 onchange</p>
                 <List selectedClass={selectedCls()} palette={palette()}>
+                    {items}
+                </List>
+            </div>
+
+            <div class="w-80 mt-4">
+                <p>anchor=true</p>
+                <List anchor selectedClass={selectedCls()} palette={palette()}>
                     {items}
                 </List>
             </div>

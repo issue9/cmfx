@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { A } from '@solidjs/router';
 import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
@@ -68,21 +69,27 @@ export default function (props: Props): JSX.Element {
                 </details>
             </Match>
             <Match when={!p.item.items}>
-                <Dynamic component={props.anchor ? 'A' : 'span'} href={props.anchor ? p.item.value : undefined} accessKey={p.item.accesskey} onClick={()=>{
-                    if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
+                <Dynamic component={props.anchor ? A : 'span'}
+                    activeClass={props.selectedClass}
+                    href={props.anchor ? p.item.value?.toString() ?? '' : ''}
+                    accessKey={p.item.accesskey}
+                    onClick={()=>{
+                        if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
-                    const old = selected();
-                    if (old === p.item.value) { return; }
+                        const old = selected();
+                        if (old === p.item.value) { return; }
 
-                    if (props.onChange && p.item.value) {
-                        props.onChange(p.item.value, old);
-                    }
+                        if (props.onChange && p.item.value) {
+                            props.onChange(p.item.value, old);
+                        }
 
-                    setSelected(p.item.value);
-                }} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} classList={{
-                    'item': true,
-                    [props.selectedClass!]: props.selectedClass && selected() === p.item.value
-                }}>
+                        setSelected(p.item.value);
+                    }} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} classList={{
+                        'item': true,
+
+                        // anchor 的类型定义在 activeClass 属性
+                        [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
+                    }}>
                     {p.item.label}
                 </Dynamic>
             </Match>
