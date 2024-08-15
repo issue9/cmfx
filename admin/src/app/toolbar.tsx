@@ -6,11 +6,15 @@ import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Setter, Show, createSignal } from 'solid-js';
 
 import { Button, Dropdown, ItemValue, Menu } from '@/components';
+import { Breakpoints } from '@/core';
 import { useApp, useInternal } from './context';
+import { floatAsideWidth } from './private';
 
 interface Props {
     settingsVisibleGetter: Accessor<boolean>;
     settingsVisibleSetter: Setter<boolean>;
+    menuVisibleGetter: Accessor<boolean>;
+    menuVisibleSetter: Setter<boolean>;
 }
 
 /**
@@ -26,9 +30,12 @@ export default function Toolbar(props: Props) {
         </div>
 
         <div class="px-4 flex flex-1 c--icon-container ml-10">
+            <Show when={ctx.isLogin() && Breakpoints.compare(ctx.breakpoint(), floatAsideWidth)<0}>
+                <Button icon rounded type="button" style='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>menu</Button>
+            </Show>
         </div>
 
-        <div class="flex palette--primary gap-2">
+        <div class="flex gap-2">
             <Fullscreen />
 
             <Button icon type="button" style='flat' title={ctx.t('_internal.settings')} rounded

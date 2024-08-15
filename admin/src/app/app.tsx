@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { HashRouter, RouteDefinition } from '@solidjs/router';
+import { HashRouter } from '@solidjs/router';
 import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
@@ -41,41 +41,40 @@ export async function create(elementID: string, o: Options) {
 function App(props: {opt: Required<Options>, f: Fetcher}) {
     const { Provider } = buildContext(props.opt, props.f); // buildContext 必须在组件内使用！
 
-    const [showSettings, setShowSettings] = createSignal(false);
+    const [settingsVisible, setSettingsVisible] = createSignal(false);
+    const [menuVisible, setMenuVisible] = createSignal(true);
 
     const Root = (p: { children?: JSX.Element }) => (<Provider>
         <Show when={props.opt.system.dialog}>
             <SystemDialog header={/*@once*/props.opt.title} palette='surface' />
         </Show>
         <div class="app palette--surface">
-            <Toolbar settingsVisibleGetter={showSettings} settingsVisibleSetter={setShowSettings} />
+            <Toolbar settingsVisibleGetter={settingsVisible} settingsVisibleSetter={setSettingsVisible}
+                menuVisibleGetter={menuVisible} menuVisibleSetter={setMenuVisible} />
             <main class="app-main">
                 <Drawer pos="right" palette='secondary' main={p.children} floating
-                    visible={showSettings()} close={() => setShowSettings(false)}>
+                    visible={settingsVisible()} close={() => setSettingsVisible(false)}>
                     <XSetting />
                 </Drawer>
             </main>
         </div>
     </Provider>);
 
-    return <HashRouter root={Root}>{buildRoutes(props.opt)}</HashRouter>;
-}
-
-/**
- * 生成适合 HashRouter 的路由项
- */
-function buildRoutes(opt: Required<Options>): Array<RouteDefinition> {
-    return [
+    const routes = [
         {
             path: '/',
-            component: (props: {children?: JSX.Element})=><>{props.children}</>,
-            children: opt.routes.public.routes
+            component: (props: { children?: JSX.Element }) => <>{props.children}</>,
+            children: props.opt.routes.public.routes
         },
         {
             path: '/',
-            component: Private,
+            component: (props: { children?: JSX.Element })=>
+                <Private menuVisibleGetter={menuVisible} menuVisibleSetter={setMenuVisible}>{ props.children }</Private>,
+
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
-            children: [ ...opt.routes.private.routes, { path:'*', component: errors.NotFound } ]
+            children: [...props.opt.routes.private.routes, { path: '*', component: errors.NotFound }]
         }
     ];
+
+    return <HashRouter root={Root}>{/*@once*/routes}</HashRouter>;
 }

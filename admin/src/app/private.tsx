@@ -3,27 +3,38 @@
 // SPDX-License-Identifier: MIT
 
 import { Navigate } from '@solidjs/router';
-import { createSignal, ErrorBoundary, JSX, Match, Show, Switch } from 'solid-js';
+import { Accessor, createEffect, createMemo, ErrorBoundary, Match, ParentProps, Setter, Show, Switch } from 'solid-js';
 
 import { Drawer, Item, List } from '@/components';
-import { Breakpoints } from '@/core';
+import { Breakpoint, Breakpoints } from '@/core';
 import { T, useInternal } from './context';
 import * as errors from './errors';
 import { MenuItem } from './options/route';
 
-export function Private(props: {children?: JSX.Element}) {
+export const floatAsideWidth: Breakpoint = 'sm';
+
+interface Props extends ParentProps {
+    menuVisibleGetter: Accessor<boolean>;
+    menuVisibleSetter: Setter<boolean>;
+}
+
+export function Private(props: Props) {
     const ctx = useInternal();
-    const [visible, setVisible] = createSignal(true);
+    const floating = createMemo(() => Breakpoints.compare(ctx.breakpoint(), floatAsideWidth) < 0);
+    createEffect(() => {
+        if (!floating()) {
+            props.menuVisibleSetter(true);
+        }
+    });
 
     return <Switch>
         <Match when={!ctx.isLogin()}>
             <Navigate href={/*@once*/ctx.options.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={Breakpoints.compare(ctx.breakpoint(), 'sm')<0}
-                close={()=>setVisible(false)}
-                palette='secondary'
-                visible={visible()}
+            <Drawer floating={floating()} palette='secondary'
+                close={()=>props.menuVisibleSetter(false)}
+                visible={props.menuVisibleGetter()}
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
