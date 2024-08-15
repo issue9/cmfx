@@ -179,7 +179,7 @@ export function buildContext(o: Options, f: Fetcher) {
             if (o.system.notification && await notify(title, body, o.logo, getLocale(), timeout)) {
                 return;
             }
-            window.notify(title, body, type, timeout);
+            await window.notify(title, body, type, timeout);
         },
 
         // 以下为本地化相关功能

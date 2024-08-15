@@ -18,17 +18,28 @@ SERVER_BIN = server
 api:
 	web restdoc -t=admin,common -o=$(DOC_API)/admin.yaml $(CMFX)
 
-# 生成 Go 的依赖内容
+# 生成中间代码
 gen:
 	go generate $(ROOT)/...
 
 # 编译测试项目
-build:
-web build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
+build-cmd:
+	web build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
+	npm run build -w=cmd/admin
 
-# 安装基本数据，依赖上一步的 build 生成的测试项目
-install:
+# 编译项目内容
+build:
+	npm run build -w=admin
+
+# 安装基本数据，依赖 build 生成的测试项目
+init:
 	cd $(CMD_SERVER) && ./server -a=install
 
-watch:
+watch-server:
 	web watch -app=-a=serve $(CMD_SERVER)
+
+watch-admin:
+	npm run dev -w=cmd/admin
+
+# 运行测试内容
+watch: watch-server watch-admin
