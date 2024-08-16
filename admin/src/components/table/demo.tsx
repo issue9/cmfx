@@ -5,7 +5,7 @@
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import Table from './table';
+import { default as BasicTable } from './basic';
 import { Column } from './types';
 
 export default function () {
@@ -39,7 +39,11 @@ export default function () {
         </>
     } stages={
         <>
-            <Table striped={striped()} fixedLayout={fixedLayout()}  palette={palette()} items={items} header={header} hoverable={hoverable()} />
+            <BasicTable striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+                items={items} header={header} hoverable={hoverable()}
+                extraHeader={<p class="bg-primary-fg text-primary-bg">header</p>}
+                extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
+            />
         </>
     } />;
 }

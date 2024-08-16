@@ -40,6 +40,20 @@ export interface Props<T extends object> extends BaseProps {
      * tr 是否响应 hover 事件
      */
     hoverable?: boolean;
+
+    /**
+     * 表格顶部的扩展空间
+     *
+     * NOTE: 该区域不属于 table 空间。
+     */
+    extraHeader?: JSX.Element;
+
+    /**
+     * 表格底部的扩展空间
+     *
+     * NOTE: 该区域不属于 table 空间。
+     */
+    extraFooter?: JSX.Element;
 }
 
 const defaultProps = {
@@ -60,6 +74,10 @@ export default function<T extends object>(props: Props<T>) {
         'c--table': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
+        <Show when={props.extraHeader}>
+            {props.extraHeader}
+        </Show>
+
         <table classList={{'fixed-layout': props.fixedLayout}}>
             <Show when={props.caption}>
                 <caption>{ props.caption }</caption>
@@ -90,5 +108,9 @@ export default function<T extends object>(props: Props<T>) {
                 </For>
             </tbody>
         </table>
+
+        <Show when={props.extraFooter}>
+            {props.extraFooter}
+        </Show>
     </div>;
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Table } from './table';
-export type { Props as TableProps } from './table';
+export { default as BasicTable } from './basic';
+export type { Props as BasicTableProps } from './basic';
 
 export type { Column } from './types';
