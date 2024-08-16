@@ -16,9 +16,9 @@ export interface Props<T extends object> extends BaseProps {
     fixedLayout?: boolean;
 
     /**
-     * 表头的定义
+     * 列的定义
      */
-    header: Array<Column<T>>;
+    columns: Array<Column<T>>;
 
     /**
      * 表格的数据
@@ -61,7 +61,7 @@ const defaultProps = {
 } as const;
 
 /**
- * 表格组件
+ * 基础的表格组件
  */
 export default function<T extends object>(props: Props<T>) {
     props = mergeProps(defaultProps, props);
@@ -85,7 +85,7 @@ export default function<T extends object>(props: Props<T>) {
 
             <thead>
                 <tr>
-                    <For each={props.header}>
+                    <For each={props.columns}>
                         {(item)=>(
                             <th class={item.headClass ?? item.cellClass}>{ item.label ? item.label : item.id }</th>
                         )}
@@ -97,7 +97,7 @@ export default function<T extends object>(props: Props<T>) {
                 <For each={props.items}>
                     {(item, index)=>(
                         <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
-                            <For each={props.header}>
+                            <For each={props.columns}>
                                 {(h) => {
                                     const i = h.id in item ? (item as any)[h.id] : undefined;
                                     return <td class={h.cellClass}>{h.render ? h.render(h.id, i, item) : i}</td>;

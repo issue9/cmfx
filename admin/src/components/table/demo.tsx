@@ -40,7 +40,7 @@ export default function () {
     } stages={
         <>
             <BasicTable striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
-                items={items} header={header} hoverable={hoverable()}
+                items={items} columns={header} hoverable={hoverable()}
                 extraHeader={<p class="bg-primary-fg text-primary-bg">header</p>}
                 extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
             />
