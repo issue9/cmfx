@@ -24,7 +24,7 @@ export interface Props extends BaseProps {
     onChange?: {(current: number, old?: number): void};
 
     /**
-     * 按钮的数据
+     * 按钮的数量
      */
     spans?: number;
 }
@@ -32,7 +32,6 @@ export interface Props extends BaseProps {
 const defaultProps: Readonly<Partial<Props>> = {
     spans: 3
 };
-
 
 /**
  * 分页组件
@@ -83,42 +82,42 @@ export default function(props: Props) {
         }
     };
 
-    return <div classList={{
+    return <div role='navigation' classList={{
         'c--pagination': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <button onclick={()=>change(1)}
             class="item c--icon"
-            disabled={current()===1}
-            title={ctx.t('_internal.pagination.firstPage')}>first_page</button>
+            aria-label={ctx.t('_internal.pagination.firstPage')}
+            disabled={current()===1}>first_page</button>
 
         <button onclick={()=>change(current()-1)}
             class="item c--icon"
             disabled={current()===1}
-            title={ctx.t('_internal.pagination.prev')}>chevron_left</button>
+            aria-label={ctx.t('_internal.pagination.prev')}>chevron_left</button>
 
         <For each={prevs()}>
             {(item)=>(
-                <button onclick={()=>change(item)} class="item">{item}</button>
+                <button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</button>
             )}
         </For>
 
-        <button class="item current">{current()}</button>
+        <button aria-label={current().toString()} aria-selected='true' class="item current">{current()}</button>
 
         <For each={nexts()}>
             {(item)=>(
-                <button onclick={()=>change(item)} class="item">{item}</button>
+                <button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</button>
             )}
         </For>
 
         <button onclick={()=>change(current()+1)}
             class="item c--icon"
-            title={ctx.t('_internal.pagination.next')}
+            aria-label={ctx.t('_internal.pagination.next')}
             disabled={current() >= props.count}>chevron_right</button>
 
         <button onclick={()=>change(props.count)}
             class="item c--icon"
-            title={ctx.t('_internal.pagination.lastPage')}
+            aria-label={ctx.t('_internal.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</button>
     </div>;
 }
