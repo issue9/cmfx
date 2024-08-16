@@ -7,15 +7,18 @@
 @layer components {
     .c--table {
         @apply bg-palette-bg text-palette-fg w-full;
-        @apply border-l border-r border-t border-palette-fg-low;
 
         >table {
-            width: 100%;
+            @apply w-full border border-palette-fg-low;
 
             th,
             td {
-                @apply px-2 py-1 text-left;
-                border-bottom: 1px solid var(--fg-low);
+                @apply px-2 py-1 text-left border-b border-palette-fg-low;
+            }
+
+            tbody tr:last-of-type th,
+            tbody tr:last-of-type td {
+                @apply border-0;
             }
 
             thead th {

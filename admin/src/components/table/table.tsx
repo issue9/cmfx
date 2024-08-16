@@ -10,7 +10,8 @@ import { Column } from './types';
 export interface Props<T extends object> extends BaseProps {
     /**
      * 是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，
-     * 具体可查看 https://developer.mozilla.org/zh-CN/docs/Web/CSS/table-layout 。
+     * 但是可能会造成空间的巨大浪费。具体可查看：
+     * https://developer.mozilla.org/zh-CN/docs/Web/CSS/table-layout 。
      */
     fixedLayout?: boolean;
 
