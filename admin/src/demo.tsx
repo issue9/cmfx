@@ -16,6 +16,7 @@ export const routes: Options['routes']['private']['routes'] = [
     { path: '/divider', component: lazy(() => import('@/components/divider/demo')) },
     { path: '/pagination', component: lazy(() => import('@/components/pagination/demo')) },
     { path: '/icon', component: lazy(() => import('@/components/icon/demo')) },
+    { path: '/table', component: lazy(() => import('@/components/table/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },

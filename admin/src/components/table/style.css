@@ -1,0 +1,47 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--table {
+        @apply bg-palette-bg text-palette-fg w-full;
+
+        >table {
+            @apply w-full border border-palette-fg-low;
+
+            th,
+            td {
+                @apply px-2 py-1 text-left border-b border-palette-fg-low;
+            }
+
+            tbody tr:last-of-type th,
+            tbody tr:last-of-type td {
+                @apply border-0;
+            }
+
+            thead th {
+                @apply py-2 bg-palette-bg-high;
+            }
+
+            tbody.hoverable {
+                tr.striped {
+                    @apply bg-palette-bg-low;
+                }
+
+                tr:hover {
+                    @apply bg-palette-bg-high;
+                }
+            }
+
+            tbody tr.striped {
+                @apply bg-palette-bg-low;
+            }
+        }
+
+        >table.fixed-layout {
+            table-layout: fixed;
+        }
+    }
+}
