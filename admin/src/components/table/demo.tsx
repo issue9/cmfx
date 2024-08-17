@@ -8,7 +8,7 @@ import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { ObjectAccessor } from '@/components/form';
 import { Page, sleep } from '@/core';
 import { default as BasicTable } from './basic';
-import { default as DataTable } from './datatable';
+import { default as DataTable, fromSearch } from './datatable';
 import { Column } from './types';
 
 interface Item {
@@ -37,19 +37,20 @@ function buildItems(start: number, size: number): Array<Item> {
 
 const nopagingLoader = async (_: ObjectAccessor<Query>): Promise<Array<Item>> => {
     await sleep(500);
-    return [...buildItems(1, 5)];
+    return [...buildItems(1, 10)];
 };
 
 const pagingLoader = async (oa: ObjectAccessor<PagingQuery>): Promise<Page<Item>> => {
     const count = 100;
     await sleep(500);
 
-    const start = oa.accessor<number>('page').getValue();
+    const page = oa.accessor<number>('page').getValue();
+    const size = oa.accessor<number>('size').getValue();
 
     return {
-        more: start * 5 < count,
+        more: page * size < count,
         count: count,
-        current: [...buildItems(start * 5, 5)]
+        current: [...buildItems((page-1) * size, size)]
     };
 };
 
@@ -90,16 +91,16 @@ export default function () {
                 extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
             />
 
-            <p>datatable paging</p>
+            <p>分页表格</p>
 
             <DataTable paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 columns={header} hoverable={hoverable()}
-                queries={{txt: 'abc', page: 1, size: 5}}
+                queries={fromSearch({txt: 'abc', page: 1, size: 5})}
                 queryForm={(oa)=><></>}
                 load={pagingLoader}
             />
 
-            <p>datatable paging</p>
+            <p>未分页的表格</p>
 
             <DataTable striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 columns={header} hoverable={hoverable()}

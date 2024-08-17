@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Button } from '@/components/button';
@@ -11,7 +12,26 @@ import { Page } from '@/core';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 
+/**
+ * 从地址的查询参数中获取值
+ *
+ * @param preset 默认值；
+ * @returns 结合 preset 和从地址中获取的参数合并的参数对象
+ */
+export function fromSearch<Q extends QueryObject>(preset: Q): Q {
+    const [ps] = useSearchParams<Q>();
+    return Object.assign(preset, ps);
+}
 
+/**
+ * 将查询参数写入地址中
+ *
+ * @param q 查询参数
+ */
+export function saveSearch<Q extends QueryObject>(q: ObjectAccessor<Q>): void {
+    const [_, setter] = useSearchParams();
+    setter(q.object());
+}
 
 /**
  * 查询参数的类型约定
@@ -85,8 +105,8 @@ export default function<T extends object, Q extends QueryObject>(props: Props<T,
 
         footer = <>
             <Pagination onChange={(curr) => { page.setValue(curr as any); refetch(); }}
-                value={Math.floor(page.getValue())}
-                count={total() / size.getValue()} />
+                value={page.getValue()}
+                count={Math.ceil(total() / size.getValue())} />
         </>;
     }
 
