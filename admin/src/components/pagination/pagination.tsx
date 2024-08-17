@@ -46,7 +46,7 @@ export default function(props: Props) {
     const ctx = useInternal();
 
     if (props.value < 1 || props.value > props.count) {
-        throw 'props.value 的取值范围为 [1, props.count]';
+        throw `props.value 的取值 ${props.value} 范围为 [1, props.count:${props.count}]`;
     }
 
     const [prevs, setPrevs] = createSignal<Array<number>>([]);

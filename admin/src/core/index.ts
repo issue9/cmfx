@@ -6,4 +6,4 @@ export * from './fetch';
 export * from './notification';
 export * from './theme';
 export * from './time';
-
+export * from './utils';
