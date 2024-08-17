@@ -31,6 +31,11 @@ build-cmd:
 build:
 	npm run build -w=admin
 
+# 安装依赖
+install:
+	go mod download
+	npm install
+
 # 安装基本数据，依赖 build 生成的测试项目
 init:
 	cd $(CMD_SERVER) && ./server -a=install
