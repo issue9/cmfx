@@ -3,13 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createSignal, useContext } from 'solid-js';
 
 import { build as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
 import { Account, Breakpoint, Breakpoints, Fetcher, Method, Problem, notify } from '@/core';
 import { Locale, names } from '@/locales';
 import { createI18n } from './locale';
+import { createUser } from './user';
 
 type Options = ReturnType<typeof buildOptions>;
 
@@ -35,37 +36,14 @@ export function useInternal() {
  */
 export function useApp(): AppContext { return useInternal(); }
 
-/**
- * 用户的基本信息
- */
-export interface User {
-    id?: number;
-    sex?: 'unknown' | 'male' | 'female';
-    name?: string;
-    nickname?: string;
-    language?: string;
-    timezone?: string;
-    theme?: string;
-    avatar?: string;
-}
-
 export function buildContext(o: Options, f: Fetcher) {
     const { getLocale, setLocale, t } = createI18n(o.locales);
 
-    const [user, { refetch }] = createResource(async () => {
-        const r = await f.get<User>(o.api.info);
-        if (!r.ok) {
-            await window.notify(r.body!.title);
-            return;
-        }
-        return r.body as User;
-    });
+    const [user, { refetch }] = createUser(f, o.api.info);
 
     const [bp, setBP] = createSignal<Breakpoint>('xs');
     const breakpoints = new Breakpoints();
-    breakpoints.onChange((val) => {
-        setBP(val);
-    });
+    breakpoints.onChange((val) => { setBP(val); });
 
     const ctx = {
         isLogin() { return f.isLogin(); },
@@ -86,9 +64,7 @@ export function buildContext(o: Options, f: Fetcher) {
             return f.post<R, PE>(path, body, withToken);
         },
 
-        async get<R=never,PE=never>(path: string, withToken = true) {
-            return f.get<R,PE>(path, withToken);
-        },
+        async get<R = never, PE = never>(path: string, withToken = true) { return f.get<R, PE>(path, withToken); },
 
         async upload<R = never, PE = never>(path: string, obj: FormData, withToken = true) {
             return f.upload<R, PE>(path, obj, withToken);
@@ -102,9 +78,7 @@ export function buildContext(o: Options, f: Fetcher) {
             return f.withArgument<R, PE>(path, method, token, ct, body);
         },
 
-        async fetch<R = never, PE = never>(path: string, req?: RequestInit) {
-            return f.fetch<R,PE>(path, req);
-        },
+        async fetch<R = never, PE = never>(path: string, req?: RequestInit) { return f.fetch<R, PE>(path, req); },
 
         /**
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
@@ -150,6 +124,11 @@ export function buildContext(o: Options, f: Fetcher) {
          * 返回当前登录的用户信息
          */
         user() { return user(); },
+
+        /**
+         * 触发更新用户的事件
+         */
+        updateUser() { refetch(); },
 
         breakpoint() { return bp(); },
 

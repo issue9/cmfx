@@ -5,16 +5,13 @@
 import { createSignal, createUniqueId, For, mergeProps, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps, Corner, Palette } from '@/components/base';
+import { BaseProps, Palette } from '@/components/base';
 import { sleep } from '@/core';
 
-export interface Props extends BaseProps {
-    pos?: Corner;
-}
+export type Props = BaseProps;
 
 const defaultProps: Readonly<Partial<Props>> = {
     palette: 'error',
-    pos: 'topright'
 };
 
 declare global {
