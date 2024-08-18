@@ -21,14 +21,14 @@ export interface Props extends BaseProps {
     page: number;
 
     /**
-     * 每页的数据条数
+     * 每页的数据条数，默认为 sizes 属性的第二项。
      *
      * NOTE: 该值必须存在于 sizes 中。
      */
-    size: number;
+    size?: number;
 
     /**
-     * 属性 size 可用值的列表
+     * 属性 size 可用值的列表，默认为 {@link defaultSizes}
      */
     sizes?: Array<number>;
 
@@ -40,11 +40,16 @@ export interface Props extends BaseProps {
      * 按钮的数量
      */
     spans?: number;
+
+    class?: string;
 }
+
+export const defaultSizes = [10, 20, 50, 100] as const;
 
 const defaultProps: Readonly<Partial<Props>> = {
     spans: 3,
-    sizes: [10, 20, 50, 100]
+    size: defaultSizes[1],
+    sizes: [...defaultSizes]
 };
 
 /**
@@ -54,7 +59,8 @@ const defaultProps: Readonly<Partial<Props>> = {
  */
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-    if (props.sizes!.indexOf(props.size)<0) {
+
+    if (props.sizes!.indexOf(props.size!)<0) {
         throw `参数 size:${props.size} 必须存在于 props.sizes`;
     }
 
@@ -70,7 +76,7 @@ export default function(props: Props) {
 
     const [page, setPage] = createSignal(props.page);
 
-    const sizeAccessor = FieldAccessor('size', props.size);
+    const sizeAccessor = FieldAccessor('size', props.size!);
     sizeAccessor.onChange((val: number, old?: number) => {
         if (page() >= pages()) {
             pageChange(pages(), page());
@@ -101,7 +107,7 @@ export default function(props: Props) {
         };
     });
 
-    return <div classList={{
+    return <div class={props.class} classList={{
         'c--pagination-bar': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>

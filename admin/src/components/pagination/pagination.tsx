@@ -47,9 +47,17 @@ export default function(props: Props) {
     const [nexts, setNexts] = createSignal<Array<number>>([]);
     const [current, setCurrent] = createSignal(props.value);
 
+    const change = (page: number) => {
+        const old = current();
+        setCurrent(page);
+        if (props.onChange) {
+            props.onChange(page, old);
+        }
+    };
+
     createEffect(() => {
         if (current() > props.count) {
-            setCurrent(props.count);
+            change(props.count);
         }
 
         let min = current() - props.spans!;
@@ -76,14 +84,6 @@ export default function(props: Props) {
         }
         setNexts(nv);
     });
-
-    const change = (page: number) => {
-        const old = current();
-        setCurrent(page);
-        if (props.onChange) {
-            props.onChange(page, old);
-        }
-    };
 
     return <nav classList={{
         'c--pagination': true,
