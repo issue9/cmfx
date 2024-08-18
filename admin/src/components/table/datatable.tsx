@@ -5,9 +5,11 @@
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
+import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
 import { ObjectAccessor } from '@/components/form';
-import { Pagination } from '@/components/pagination';
+import { PaginationBar } from '@/components/pagination';
+import { defaultSizes } from '@/components/pagination/bar';
 import { Page } from '@/core';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
@@ -73,11 +75,28 @@ export interface Props<T extends object, Q extends QueryObject>
      * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     paging?: boolean;
+
+    /**
+     * 分页条所采用的色盘，默认值为 primary
+     *
+     * NOTE: 只有在 paging 为 true 时才会有效
+     */
+    paginationPalette?: Palette;
+
+    /**
+     * 可用的每页展示数量
+     *
+     * NOTE: 只有在 paging 为 true 时才会有效
+     */
+    pageSizes?: Array<number>;
 }
 
 const defaultProps = {
-    striped: 0
-} as const;
+    striped: 0,
+    pageSize: defaultSizes[1],
+    paginationPalette: 'primary' as Palette,
+    pageSizes: [...defaultSizes]
+};
 
 /**
  * 带有远程加载功能的表格组件
@@ -103,11 +122,10 @@ export default function<T extends object, Q extends QueryObject>(props: Props<T,
         const page = oa.accessor('page');
         const size = oa.accessor('size');
 
-        footer = <>
-            <Pagination onChange={(curr) => { page.setValue(curr as any); refetch(); }}
-                value={page.getValue()}
-                count={Math.ceil(total() / size.getValue())} />
-        </>;
+        footer = <PaginationBar class="mt-2" palette={props.paginationPalette}
+            onPageChange={(p) => { page.setValue(p as any); refetch(); }}
+            onSizeChange={(s) => { size.setValue(s as any); refetch(); }}
+            page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
     }
 
     const header = <div>
@@ -117,6 +135,6 @@ export default function<T extends object, Q extends QueryObject>(props: Props<T,
         </form>
     </div>;
 
-    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'paging']);
+    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'paging', 'paginationPalette', 'pageSizes']);
     return <BasicTable items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

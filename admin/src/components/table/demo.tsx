@@ -28,8 +28,8 @@ type PagingQuery = Query & {
 
 function buildItems(start: number, size: number): Array<Item> {
     const items: Array<Item> = [];
-    for (var i = 0; i < size; i++) {
-        items.push({ id: start+i, name: `name ${start+i}`, address: `address ${start+i}` });
+    for (var i = start; i < start+size; i++) {
+        items.push({ id: i, name: `name ${i}`, address: `address ${i}` });
     }
 
     return items;
@@ -93,9 +93,9 @@ export default function () {
 
             <p>分页表格</p>
 
-            <DataTable paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+            <DataTable paginationPalette='primary' paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 columns={header} hoverable={hoverable()}
-                queries={fromSearch({txt: 'abc', page: 1, size: 5})}
+                queries={fromSearch({txt: 'abc', page: 1, size: 10})}
                 queryForm={(oa)=><></>}
                 load={pagingLoader}
             />

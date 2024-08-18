@@ -6,10 +6,10 @@
 
 @layer components {
     .c--table {
-        @apply bg-palette-bg text-palette-fg w-full;
+        @apply bg-palette-bg text-palette-fg w-full p-2 rounded-md;
 
         >table {
-            @apply w-full border border-palette-fg-low;
+            @apply w-full border-t border-b border-palette-fg-low;
 
             th,
             td {
