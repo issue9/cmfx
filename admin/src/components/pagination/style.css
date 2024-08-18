@@ -32,4 +32,8 @@
             @apply bg-palette-bg-high;
         }
     }
+
+    .c--pagination-bar {
+        @apply flex justify-between items-center;
+    }
 }

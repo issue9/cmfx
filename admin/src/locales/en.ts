@@ -15,6 +15,7 @@ const messages = {
         next: 'next',
         firstPage: 'first page',
         lastPage: 'last page',
+        items: '{{ start }}-{{ end }} of {{ count }}'
     },
     date: {
         monday: 'Mon',

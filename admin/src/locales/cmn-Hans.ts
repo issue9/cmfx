@@ -17,6 +17,7 @@ const messages: Messages = {
         next: '下一页',
         firstPage: '首页',
         lastPage: '末页',
+        items: '{{ start }}-{{ end }} / {{ count }}'
     },
     date: {
         monday: '一',

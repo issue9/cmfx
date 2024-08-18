@@ -21,7 +21,7 @@ export interface Props extends BaseProps {
     /**
      * 在页码改变的时候触发
      */
-    onChange?: {(current: number, old?: number): void};
+    onChange?: { (current: number, old?: number): void };
 
     /**
      * 按钮的数量
@@ -41,25 +41,26 @@ const defaultProps: Readonly<Partial<Props>> = {
  */
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-
     const ctx = useInternal();
-
-    if (props.value < 1 || props.value > props.count) {
-        throw `props.value 的取值 ${props.value} 范围为 [1, props.count:${props.count}]`;
-    }
 
     const [prevs, setPrevs] = createSignal<Array<number>>([]);
     const [nexts, setNexts] = createSignal<Array<number>>([]);
     const [current, setCurrent] = createSignal(props.value);
 
-    createEffect(()=>{
+    createEffect(() => {
+        if (current() > props.count) {
+            setCurrent(props.count);
+        }
+
         let min = current() - props.spans!;
         if (min <= 1) {
             min = 1;
         }
         const pv: Array<number> = [];
-        for(let i = min; i < current(); i++) {
-            pv.push(i);
+        if (current() > min) {
+            for (let i = min; i < current(); i++) {
+                pv.push(i);
+            }
         }
         setPrevs(pv);
 
@@ -68,8 +69,10 @@ export default function(props: Props) {
             max = props.count;
         }
         const nv: Array<number> = [];
-        for(let i = current()+1; i <= max; i++) {
-            nv.push(i);
+        if (current() < max) {
+            for (let i = current() + 1; i <= max; i++) {
+                nv.push(i);
+            }
         }
         setNexts(nv);
     });
@@ -82,7 +85,7 @@ export default function(props: Props) {
         }
     };
 
-    return <div role='navigation' classList={{
+    return <nav classList={{
         'c--pagination': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
@@ -119,5 +122,5 @@ export default function(props: Props) {
             class="item c--icon"
             aria-label={ctx.t('_internal.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</button>
-    </div>;
+    </nav>;
 }

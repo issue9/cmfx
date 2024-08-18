@@ -34,7 +34,7 @@ function buildLoadMessages(locales : Locales) {
 export function createI18n(locales: Locales) {
     const [getLocale, setLocale] = createSignal(locales.fallback);
     const [dict] = createResource(getLocale, buildLoadMessages(locales));
-    const t = i18n.translator(dict);
+    const t = i18n.translator(dict, i18n.resolveTemplate);
 
     return { getLocale, setLocale, t };
 }
