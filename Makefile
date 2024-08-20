@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: api gen build-cmd build install init watch-server watch-admin watch
+.PHONY: api gen build-cmd build install init watch-server watch-admin watch test
 
 ROOT = .
 DOCS = $(ROOT)/docs
@@ -51,3 +51,8 @@ watch-admin:
 # 需要采用 -j 执行并行命令，比如：
 #  make watch -j2
 watch: watch-server watch-admin
+
+# 执行测试内容
+test:
+	go test ./... -count=1 -p=1 -parallel=1
+	npm run test -w=admin
