@@ -43,5 +43,9 @@
         >table.fixed-layout {
             table-layout: fixed;
         }
+
+        .header {
+            @apply flex flex-col;
+        }
     }
 }

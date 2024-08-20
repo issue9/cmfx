@@ -14,9 +14,11 @@ import solidPlugin from 'vite-plugin-solid';
 // https://vitejs.dev/config/
 export default defineConfig({
     test: {
-        'setupFiles': ['./src/vitest_setup.ts'],
+        setupFiles: ['./src/vitest_setup.ts'],
         environment: 'jsdom',
+        exclude: ['**/lib/**'],
         coverage: {
+            exclude: ['**/lib/**'],
             reporter: ['text', 'json-summary', 'json'],
             reportOnFailure: true,
         }

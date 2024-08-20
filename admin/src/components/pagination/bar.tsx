@@ -61,7 +61,7 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     if (props.sizes!.indexOf(props.size!)<0) {
-        throw `参数 size:${props.size} 必须存在于 props.sizes`;
+        throw `参数 props.size:${props.size} 必须存在于 props.sizes: ${props.sizes}`;
     }
 
     const ctx = useApp();

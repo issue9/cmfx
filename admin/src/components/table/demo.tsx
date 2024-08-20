@@ -7,8 +7,10 @@ import { createSignal } from 'solid-js';
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { ObjectAccessor } from '@/components/form';
 import { Page, sleep } from '@/core';
+import { SetParams, useSearchParams } from '@solidjs/router';
 import { default as BasicTable } from './basic';
-import { default as DataTable, fromSearch } from './datatable';
+import { default as DataTable } from './datatable';
+import { fromSearch, Params, saveSearch } from './search';
 import { Column } from './types';
 
 interface Item {
@@ -17,14 +19,9 @@ interface Item {
     address: string;
 }
 
-interface Query {
+interface Query extends SetParams {
     txt: string;
 }
-
-type PagingQuery = Query & {
-    page: number;
-    size: number;
-};
 
 function buildItems(start: number, size: number): Array<Item> {
     const items: Array<Item> = [];
@@ -40,7 +37,7 @@ const nopagingLoader = async (_: ObjectAccessor<Query>): Promise<Array<Item>> =>
     return [...buildItems(1, 10)];
 };
 
-const pagingLoader = async (oa: ObjectAccessor<PagingQuery>): Promise<Page<Item>> => {
+const pagingLoader = async (oa: ObjectAccessor<Query>): Promise<Page<Item>> => {
     const count = 100;
     await sleep(500);
 
@@ -76,6 +73,8 @@ export default function () {
         { id: 'action', label: 'ACTIONS', render: () => { return <button>...</button>; } }
     ];
 
+    const search = useSearchParams<Params<Query>>();
+
     return <Demo settings={
         <>
             {paletteS}
@@ -95,9 +94,9 @@ export default function () {
 
             <DataTable paginationPalette='primary' paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 columns={header} hoverable={hoverable()}
-                queries={fromSearch({txt: 'abc', page: 1, size: 10})}
+                queries={fromSearch<Query>({txt: 'abc', page: 1, size: 10}, search[0])}
                 queryForm={(oa)=><></>}
-                load={pagingLoader}
+                load={async(oa) => { const ret = await pagingLoader(oa); saveSearch(oa, search[1]); return ret; }}
             />
 
             <p>未分页的表格</p>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useSearchParams } from '@solidjs/router';
+import { SetParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Palette } from '@/components/base';
@@ -14,44 +14,9 @@ import { Page } from '@/core';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 
-/**
- * 从地址的查询参数中获取值
- *
- * @param preset 默认值；
- * @returns 结合 preset 和从地址中获取的参数合并的参数对象
- */
-export function fromSearch<Q extends QueryObject>(preset: Q): Q {
-    const [ps] = useSearchParams<Q>();
-    return Object.assign(preset, ps);
-}
-
-/**
- * 将查询参数写入地址中
- *
- * @param q 查询参数
- */
-export function saveSearch<Q extends QueryObject>(q: ObjectAccessor<Q>): void {
-    const [_, setter] = useSearchParams();
-    setter(q.object());
-}
-
-/**
- * 查询参数的类型约定
- */
-export interface QueryObject {
-    // NOTE: 保证查询参数至少且个属性。
-    // 如果查询参数为空，表示返回的数据是固定的，
-    // 那就和直接拿数据填充 BasicTable 是一样的效果了。
-    [k: string]: any;
-
-    // 分页属性，如果存在，那么类型必须得是 number
-
-    page?: number;
-    size?: number;
-}
-
-export interface Props<T extends object, Q extends QueryObject>
+export interface Props<T extends object, Q extends SetParams>
     extends Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> {
+
     /**
      * 加载数据的方法
      */
@@ -100,8 +65,11 @@ const defaultProps = {
 
 /**
  * 带有远程加载功能的表格组件
+ *
+ * T 为数据中每一条数据的类型；
+ * Q 为查询参数的类型；
  */
-export default function<T extends object, Q extends QueryObject>(props: Props<T, Q>) {
+export default function<T extends object, Q extends SetParams>(props: Props<T, Q>) {
     props = mergeProps(defaultProps, props);
     const oa = new ObjectAccessor<Q>(props.queries);
     const [total, setTotal] = createSignal<number>(100);
@@ -119,21 +87,24 @@ export default function<T extends object, Q extends QueryObject>(props: Props<T,
 
     let footer: JSX.Element | undefined;
     if (props.paging) {
-        const page = oa.accessor('page');
-        const size = oa.accessor('size');
+        const page = oa.accessor<number>('page');
+        const size = oa.accessor<number>('size');
 
         footer = <PaginationBar class="mt-2" palette={props.paginationPalette}
-            onPageChange={(p) => { page.setValue(p as any); refetch(); }}
-            onSizeChange={(s) => { size.setValue(s as any); refetch(); }}
+            onPageChange={(p) => { page.setValue(p); refetch(); }}
+            onSizeChange={(s) => { size.setValue(s); refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
     }
 
-    const header = <div>
-        <form>
+    const header = <header class="header">
+        <form class="search">
             {props.queryForm(oa)}
-            <Button type='submit' onClick={()=>refetch()}>TODO</Button>
+            <Button type='submit' onClick={() => refetch()}>TODO</Button>
         </form>
-    </div>;
+
+        <div class="toolbar">
+        </div>
+    </header>;
 
     const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'paging', 'paginationPalette', 'pageSizes']);
     return <BasicTable items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;

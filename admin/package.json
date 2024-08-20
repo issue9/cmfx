@@ -82,7 +82,7 @@
         "solid-js": "^1.8.21"
     },
     "devDependencies": {
-        "@types/node": "^22.4.0",
+        "@types/node": "^22.4.1",
         "@vitest/coverage-v8": "^2.0.5",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.5",

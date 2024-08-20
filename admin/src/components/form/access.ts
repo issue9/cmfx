@@ -136,7 +136,7 @@ export class ObjectAccessor<T extends object> {
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
      * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
      */
-    accessor<FT extends T[keyof T]>(name: keyof T, hasError?: boolean): Accessor<FT> {
+    accessor<FT = T[keyof T]>(name: keyof T, hasError?: boolean): Accessor<FT> {
         const self = this;
         const changes: Array<ChangeFunc<FT>> = [];
 
@@ -264,7 +264,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      */
-    accessor<FT extends T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
+    accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 
     /**
      * 提交数据
