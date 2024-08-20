@@ -5,6 +5,7 @@
 import { SetParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
+import { useApp } from '@/app';
 import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
 import { ObjectAccessor } from '@/components/form';
@@ -35,18 +36,16 @@ export interface Props<T extends object, Q extends SetParams>
     queries: Q;
 
     /**
+     * 一些突出元素的主题色，默认值为 primary。
+     */
+    accentPalette?: Palette;
+
+    /**
      * 数据是否分页展示
      *
      * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     paging?: boolean;
-
-    /**
-     * 分页条所采用的色盘，默认值为 primary
-     *
-     * NOTE: 只有在 paging 为 true 时才会有效
-     */
-    paginationPalette?: Palette;
 
     /**
      * 可用的每页展示数量
@@ -59,7 +58,7 @@ export interface Props<T extends object, Q extends SetParams>
 const defaultProps = {
     striped: 0,
     pageSize: defaultSizes[1],
-    paginationPalette: 'primary' as Palette,
+    accentPalette: 'primary' as Palette,
     pageSizes: [...defaultSizes]
 };
 
@@ -70,6 +69,7 @@ const defaultProps = {
  * Q 为查询参数的类型；
  */
 export default function<T extends object, Q extends SetParams>(props: Props<T, Q>) {
+    const ctx = useApp();
     props = mergeProps(defaultProps, props);
     const oa = new ObjectAccessor<Q>(props.queries);
     const [total, setTotal] = createSignal<number>(100);
@@ -90,7 +90,7 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
         const page = oa.accessor<number>('page');
         const size = oa.accessor<number>('size');
 
-        footer = <PaginationBar class="mt-2" palette={props.paginationPalette}
+        footer = <PaginationBar class="mt-2" palette={props.accentPalette}
             onPageChange={(p) => { page.setValue(p); refetch(); }}
             onSizeChange={(s) => { size.setValue(s); refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
@@ -99,13 +99,16 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
     const header = <header class="header">
         <form class="search">
             {props.queryForm(oa)}
-            <Button type='submit' onClick={() => refetch()}>TODO</Button>
+            <div class="actions">
+                <Button disabled={oa.isPreset()} type='reset' onClick={() => oa.reset()}>{ctx.t('_internal.reset')}</Button>
+                <Button palette='primary' disabled={oa.isPreset()} type='submit' onClick={() => refetch()}>{ctx.t('_internal.search')}</Button>
+            </div>
         </form>
 
         <div class="toolbar">
         </div>
     </header>;
 
-    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'paging', 'paginationPalette', 'pageSizes']);
+    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'paging', 'accentPalette', 'pageSizes']);
     return <BasicTable items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

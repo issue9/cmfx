@@ -5,7 +5,7 @@
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import { ObjectAccessor } from '@/components/form';
+import { ObjectAccessor, TextField } from '@/components/form';
 import { Page, sleep } from '@/core';
 import { SetParams, useSearchParams } from '@solidjs/router';
 import { default as BasicTable } from './basic';
@@ -92,10 +92,10 @@ export default function () {
 
             <p>分页表格</p>
 
-            <DataTable paginationPalette='primary' paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+            <DataTable accentPalette='primary' paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 columns={header} hoverable={hoverable()}
                 queries={fromSearch<Query>({txt: 'abc', page: 1, size: 10}, search[0])}
-                queryForm={(oa)=><></>}
+                queryForm={(oa)=><><TextField accessor={oa.accessor<string>('txt')} /></>}
                 load={async(oa) => { const ret = await pagingLoader(oa); saveSearch(oa, search[1]); return ret; }}
             />
 
@@ -104,7 +104,7 @@ export default function () {
             <DataTable striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 columns={header} hoverable={hoverable()}
                 queries={{txt: 'abc'}}
-                queryForm={(oa)=><></>}
+                queryForm={(oa)=><><TextField accessor={oa.accessor('txt')} /></>}
                 load={nopagingLoader}
             />
         </>

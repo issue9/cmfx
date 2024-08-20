@@ -45,7 +45,19 @@
         }
 
         .header {
-            @apply flex flex-col;
+            @apply flex flex-col mb-2;
+
+            .search {
+                @apply flex flex-wrap items-center gap-2;
+
+                .actions {
+                    @apply ml-auto flex gap-2;
+                }
+            }
+
+            .toolbar {
+                @apply flex;
+            }
         }
     }
 }
