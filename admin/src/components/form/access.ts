@@ -110,7 +110,8 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
  * T 表示当前存储的对象类型；
  */
 export class ObjectAccessor<T extends object> {
-    readonly #initValues: T;
+    readonly #preset: T;
+    readonly #presetKeys: Array<keyof T>;
 
     readonly #valGetter: Store<T>;
     readonly #valSetter: SetStoreFunction<T>;
@@ -124,7 +125,9 @@ export class ObjectAccessor<T extends object> {
      * @pram preset 初始值；
      */
     constructor(preset: T) {
-        this.#initValues = preset;
+        this.#preset = preset;
+        this.#presetKeys = Object.keys(preset) as Array<keyof T>;
+
         [this.#valGetter, this.#valSetter] = createStore<T>(Object.assign({}, preset));
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
     }
@@ -163,7 +166,7 @@ export class ObjectAccessor<T extends object> {
 
             reset() {
                 this.setError();
-                this.setValue(self.#initValues[name] as FT);
+                this.setValue(self.#preset[name] as FT);
             }
         };
     }
@@ -205,11 +208,23 @@ export class ObjectAccessor<T extends object> {
     }
 
     /**
+     * 判断当前保存的值是否为默认值
+     */
+    isPreset(): boolean {
+        for (const k of this.#presetKeys) {
+            if (this.#preset[k] !== this.#valGetter[k]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * 重置所有字段的状态和值
      */
     reset() {
         this.#errSetter({});
-        this.#valSetter(this.#initValues);
+        this.#valSetter(this.#preset);
     }
 }
 
@@ -265,6 +280,8 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      */
     accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
+
+    isPreset(): boolean { return this.#object.isPreset(); }
 
     /**
      * 提交数据

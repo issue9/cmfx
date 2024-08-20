@@ -17,13 +17,18 @@ test('object access', () => {
     }
 
     const f = new ObjectAccessor<Object>({ 'f1': 5, 'f2': 'f2' });
+    expect(f.isPreset()).toEqual<boolean>(true);
     t(f.accessor('f1'));
     expect(f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
+    expect(f.isPreset()).toEqual<boolean>(false);
 
+    // 验证
     const v = (_: Object) => { return new Map<keyof Object, string>([['f1', 'err']]); };
-
     expect(f.object(v)).toBeUndefined();
     expect(f.accessor('f1').getError(), 'err');
+
+    f.reset();
+    expect(f.isPreset()).toEqual<boolean>(true);
 });
 
 function t(a: Accessor<number>) {
