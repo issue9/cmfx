@@ -41,7 +41,11 @@ const messages: Messages = {
         november: '十一月',
         december: '十二月',
         today: '今日',
-        now: '现在'
+        now: '现在',
+        prevMonth: '上个月',
+        prevYear: '上一年',
+        nextMonth: '下个月',
+        nextYear: '下一年',
     },
     error: {
         backHome: '返回首页',

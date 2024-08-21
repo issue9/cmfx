@@ -39,7 +39,11 @@ const messages = {
         november: 'Nov',
         december: 'Dec',
         today: 'today',
-        now: 'now'
+        now: 'now',
+        prevMonth: 'prev month',
+        prevYear: 'prev year',
+        nextMonth: 'next month',
+        nextYear: 'next year',
     },
     error: {
         backHome: 'back home',

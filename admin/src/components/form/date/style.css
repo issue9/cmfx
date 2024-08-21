@@ -31,8 +31,11 @@
 .c--date-panel {
     @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2;
 
-    table {
+    .title {
+        @apply flex justify-between;
+    }
 
+    table {
         colgroup {
             .weekend {
                 @apply bg-palette-bg-low;

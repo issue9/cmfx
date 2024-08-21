@@ -59,13 +59,51 @@ export default function (props: Props) {
 
     const Panel = (p: { dt: Date, ha: Accessor<number>, ma: Accessor<number> }) => {
         return <>
-            <table>
-                <caption class="title">
-                    <span class="item">{p.dt.getFullYear()}</span>
-                    /
-                    <span class="item">{ctx.t(monthsLocales.get(p.dt.getMonth() as Month) as any)}</span>
-                </caption>
 
+            <div class="title">
+                <div>
+                    <button onClick={()=>{
+                        if (props.readonly || props.disabled) { return; }
+
+                        const dt = new Date(ac.getValue());
+                        dt.setFullYear(p.dt.getFullYear()-1);
+                        setValue(dt);
+                    }} title={ctx.t('_internal.date.prevYear')} aria-label={ctx.t('_internal.date.prevYear')} class="c--icon">keyboard_double_arrow_left</button>
+                    <button onClick={()=>{
+                        if (props.readonly || props.disabled) { return; }
+
+                        const dt = new Date(ac.getValue());
+                        dt.setMonth(p.dt.getMonth()-1);
+                        setValue(dt);
+                    }} title={ctx.t('_internal.date.prevMonth')} aria-label={ctx.t('_internal.date.prevMonth')} class="c--icon">chevron_left</button>
+                </div>
+
+                <div>
+                    <span>{p.dt.getFullYear()}</span>
+                    /
+                    <span>{ctx.t(monthsLocales.get(p.dt.getMonth() as Month) as any)}</span>
+                </div>
+
+                <div>
+                    <button onClick={()=>{
+                        if (props.readonly || props.disabled) { return; }
+
+                        const dt = new Date(ac.getValue());
+                        dt.setMonth(p.dt.getMonth()+1);
+                        setValue(dt);
+                    }} title={ctx.t('_internal.date.nextMonth')} aria-label={ctx.t('_internal.date.nextMonth')} class="c--icon">chevron_right</button>
+                    <button onClick={()=>{
+                        if (props.readonly || props.disabled) { return; }
+
+                        const dt = new Date(ac.getValue());
+                        dt.setFullYear(p.dt.getFullYear()+1);
+                        setValue(dt);
+
+                    }} title={ctx.t('_internal.date.nextYear')} aria-label={ctx.t('_internal.date.nextYear')} class="c--icon">keyboard_double_arrow_right</button>
+                </div>
+            </div>
+
+            <table>
                 <Show when={props.weekend}>
                     <colgroup>
                         <For each={weeks}>
