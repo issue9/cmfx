@@ -31,31 +31,29 @@
 .c--date-panel {
     @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2;
 
-    .title {
-        @apply pb-2 cursor-pointer;
+    table {
 
-        .item {
-            @apply mx-1;
-        }
-    }
-
-    .weeks,
-    .days {
-        @apply grid gap-2 cursor-default;
-        grid-template-columns: repeat(7, minmax(2rem, 1fr));
-    }
-
-    .days {
-        button {
-            @apply border border-transparent rounded-full text-sm p-1 hover:enabled:bg-[var(--bg-high)];
+        colgroup {
+            .weekend {
+                @apply bg-palette-bg-low;
+            }
         }
 
-        button.selected {
-            @apply bg-[var(--bg-high)];
-        }
+        th,
+        td {
+            @apply p-1;
 
-        button.disabled {
-            @apply text-[var(--fg-low)];
+            button {
+                @apply border border-transparent rounded-full text-sm p-1 hover:enabled:bg-[var(--bg-high)];
+            }
+
+            button.selected {
+                @apply bg-[var(--bg-high)];
+            }
+
+            button:disabled {
+                @apply text-[var(--fg-low)];
+            }
         }
     }
 
@@ -63,8 +61,7 @@
         @apply flex content-around items-center mt-2 gap-x-1 h-[34px];
 
         .tail {
-            margin-left: auto;
-            color: var(--primary-bg);
+            @apply ml-auto text-palette-fg hover:text-palette-fg-high;
         }
     }
 }

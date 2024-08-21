@@ -5,14 +5,15 @@
 import { For, mergeProps, Show } from 'solid-js';
 
 import { useApp } from '@/app/context';
+import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
 import {
     hoursOptions, minutesOptions, Month, monthDays, monthsLocales,
-    range, Week, weekDay, weeks, weeksLocales
+    Week, weekDay, weekDays, weeks, weeksLocales
 } from './utils';
 
-export interface Props {
+export interface Props extends FieldBaseProps {
     /**
      * 是否符带时间选择器
      */
@@ -20,9 +21,10 @@ export interface Props {
 
     // TODO min, max
 
-    disabled?: boolean;
-
-    readonly?: boolean;
+    /**
+     * 是否高亮周末的列
+     */
+    weekend?: boolean;
 
     /**
      * 一周的开始，默认为 0，即周日。
@@ -57,39 +59,57 @@ export default function (props: Props) {
 
     const Panel = (p: { dt: Date, ha: Accessor<number>, ma: Accessor<number> }) => {
         return <>
-            <div class="title">
-                <span class="item">{p.dt.getFullYear()}</span>
-                /
-                <span class="item">{ctx.t(monthsLocales.get(p.dt.getMonth() as Month) as any)}</span>
-            </div>
+            <table>
+                <caption class="title">
+                    <span class="item">{p.dt.getFullYear()}</span>
+                    /
+                    <span class="item">{ctx.t(monthsLocales.get(p.dt.getMonth() as Month) as any)}</span>
+                </caption>
 
-            <div class="weeks">
-                <For each={weeks}>
-                    {(w) => (
-                        <span>{ctx.t(weeksLocales.get(weekDay(w, props.weekBase)) as any)}</span>
-                    )}
-                </For>
-            </div>
-
-            <div class="days">
-                <For each={monthDays(p.dt, props.weekBase as Week)}>
-                    {(month) => (
-                        <For each={range(month[2], month[3])}>
-                            {(day) => (
-                                <button classList={{'selected': day === p.dt.getDate() && month[1] === p.dt.getMonth(),'disabled':!month[0]}}
-                                    disabled={!month[0] || props.disabled}
-                                    onClick={() => {
-                                        if (props.readonly || props.disabled) { return; }
-
-                                        const dt = new Date(ac.getValue());
-                                        dt.setDate(day);
-                                        setValue(dt);
-                                    }}>{day}</button>
+                <Show when={props.weekend}>
+                    <colgroup>
+                        <For each={weeks}>
+                            {(w) => (
+                                <col classList={{'weekend': weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase)===6}} />
                             )}
                         </For>
-                    )}
-                </For>
-            </div>
+                    </colgroup>
+                </Show>
+
+                <thead>
+                    <tr>
+                        <For each={weeks}>
+                            {(w) => (
+                                <th>{ctx.t(weeksLocales.get(weekDay(w, props.weekBase)) as any)}</th>
+                            )}
+                        </For>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <For each={weekDays(monthDays(p.dt, props.weekBase as Week))}>
+                        {(week) => (
+                            <tr>
+                                <For each={week}>
+                                    {(day) => (
+                                        <td>
+                                            <button classList={{'selected': day[2] === p.dt.getDate() && day[1] === p.dt.getMonth()}}
+                                                disabled={!day[0] || props.disabled}
+                                                onClick={() => {
+                                                    if (props.readonly || props.disabled) { return; }
+
+                                                    const dt = new Date(ac.getValue());
+                                                    dt.setDate(day[2]);
+                                                    setValue(dt);
+                                                }}>{day[2]}</button>
+                                        </td>
+                                    )}
+                                </For>
+                            </tr>
+                        )}
+                    </For>
+                </tbody>
+            </table>
 
             <div class="actions">
                 <Show when={props.time}>
@@ -97,7 +117,7 @@ export default function (props: Props) {
                     <span class="mx-1">:</span>
                     <Choice disabled={props.disabled} readonly={props.readonly} options={minutesOptions} accessor={p.ma} />
                 </Show>
-                <button class='button flated tail' onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_internal.date.now' : '_internal.date.today')}</button>
+                <button class='tail' onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_internal.date.now' : '_internal.date.today')}</button>
             </div>
         </>;
     };
@@ -124,7 +144,8 @@ export default function (props: Props) {
 
     return <div classList={{
         'c--date-panel': true,
-        'c--date-panel-disabled': props.disabled
+        'c--date-panel-disabled': props.disabled,
+        [`palette--${props.palette}`]: !!props.palette
     }}>
         <Panel dt={new Date(ac.getValue())} ha={ha} ma={ma} />
     </div>;

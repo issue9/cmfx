@@ -73,14 +73,21 @@ export function monthDays(date: Date, week: Week): Array<[boolean, Month, number
     return [prev, [true,lastDay.getMonth() as Month, 1, lastDay.getDate()], next];
 }
 
-// 返回 [start, end] 的数组
-//
-// 如果两者都是零，则返回空值数组。
-export function range(start: number, end: number): Array<number> {
-    if (start === end) {
-        return start === 0 ? [] : [start];
+export function weekDays(m: Array<[boolean, Month, number, number]>): Array<Array<[boolean, Month, number]>> {
+    const days: Array<[boolean, Month, number]> = [];
+    for (const mm of m) {
+        if (mm[2] === 0 && mm[2] === mm[3]) { continue; }
+
+        for (let i = mm[2]; i <= mm[3]; i++) {
+            days.push([mm[0], mm[1], i]);
+        }
     }
-    return Array.from({ length: (end - start + 1) }, (_, k) => k + start);
+
+    const weeks: Array<Array<[boolean, Month, number]>> = [];
+    for (let i = 0; i < days.length; i += 7) {
+        weeks.push(days.slice(i, i + 7));
+    }
+    return weeks;
 }
 
 export const monthsLocales = new Map<Month, string>([

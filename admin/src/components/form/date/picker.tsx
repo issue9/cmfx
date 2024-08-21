@@ -5,10 +5,9 @@
 import { createSignal, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Dropdown } from '@/components/dropdown';
-import { FieldBaseProps } from '@/components/form';
 import { default as Panel, Props as PanelProps } from './panel';
 
-export interface Props extends PanelProps, FieldBaseProps {
+export interface Props extends PanelProps {
     placeholder?: string;
 
     rounded?: boolean;
@@ -28,7 +27,7 @@ const defaultProps: Partial<Props> = {
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'disabled']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly']);
 
     const [panelVisible, setPanelVisible] = createSignal(false);
     const ac = props.accessor;

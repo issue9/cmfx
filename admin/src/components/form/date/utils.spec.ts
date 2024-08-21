@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { monthDays, range, weekDay } from './utils';
+import { monthDays, weekDay } from './utils';
 
 test('add weekDay', () => {
     expect(weekDay(0, 0)).toEqual(0);
@@ -82,11 +82,4 @@ test('monthDays', () => {
         [true, 6, 1, 31],
         [false, 7, 1, 2]
     ]);
-});
-
-test('range', () => {
-    expect(range(1, 2)).toEqual([1, 2]);
-    expect(range(1, 1)).toEqual([1]);
-    expect(range(0, 2)).toEqual([0, 1, 2]);
-    expect(range(0, 0)).toEqual([]);
 });
