@@ -112,12 +112,14 @@ export default function (props: Props) {
             </table>
 
             <div class="actions">
-                <Show when={props.time}>
-                    <Choice disabled={props.disabled} readonly={props.readonly} options={hoursOptions} accessor={p.ha} />
-                    <span class="mx-1">:</span>
-                    <Choice disabled={props.disabled} readonly={props.readonly} options={minutesOptions} accessor={p.ma} />
-                </Show>
-                <button class='tail' onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_internal.date.now' : '_internal.date.today')}</button>
+                <div class="time">
+                    <Show when={props.time}>
+                        <Choice disabled={props.disabled} readonly={props.readonly} options={hoursOptions} accessor={p.ha} />
+                        <span class="mx-1">:</span>
+                        <Choice disabled={props.disabled} readonly={props.readonly} options={minutesOptions} accessor={p.ma} />
+                    </Show>
+                </div>
+                <button class="now" onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_internal.date.now' : '_internal.date.today')}</button>
             </div>
         </>;
     };
@@ -142,11 +144,10 @@ export default function (props: Props) {
         ma.setValue(dt.getMinutes());
     });
 
-    return <div classList={{
+    return <fieldset disabled={props.disabled} classList={{
         'c--date-panel': true,
-        'c--date-panel-disabled': props.disabled,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Panel dt={new Date(ac.getValue())} ha={ha} ma={ma} />
-    </div>;
+    </fieldset>;
 }
