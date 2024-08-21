@@ -6,26 +6,27 @@
 
 @layer components {
     .c--badge {
-        position: relative;
+        @apply relative;
 
         .content {
-            @apply bg-[var(--bg)] text-[var(--fg)] absolute rounded-full text-center px-1 text-xs min-w-[14px] min-h-[14px];
+            @apply bg-[var(--bg)] text-[var(--fg)] absolute rounded-full px-1 text-xs min-w-[14px] min-h-[14px];
+            @apply inline-flex text-center justify-center;
         }
 
         .topleft {
-            @apply top-[-7px] left-[-7px];
+            @apply top-[-5px] left-[-5px];
         }
 
         .topright {
-            @apply top-[-7px] right-[-7px];
+            @apply top-[-5px] right-[-5px];
         }
 
         .bottomleft {
-            @apply bottom-[-7px] left-[-7px];
+            @apply bottom-[-5px] left-[-5px];
         }
 
         .bottomright {
-            @apply bottom-[-7px] right-[-7px];
+            @apply bottom-[-5px] right-[-5px];
         }
     }
 }

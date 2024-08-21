@@ -33,7 +33,7 @@ const messages = {
         may: 'May',
         june: 'Jun',
         july: 'Jul',
-        augest: 'Aug',
+        august: 'Aug',
         september: 'Sep',
         october: 'Oct',
         november: 'Nov',

@@ -25,6 +25,6 @@ export default function(props: Props) {
             'content': true,
             [props.pos as string]: true,
             [`palette--${props.palette}`]: !!props.palette,
-        }}>{ props.text }</span >
+        }}>{ props.text }</span>
     </div>;
 }

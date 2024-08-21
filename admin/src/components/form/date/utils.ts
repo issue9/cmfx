@@ -91,7 +91,7 @@ export const monthsLocales = new Map<Month, string>([
     [4, '_internal.date.may'],
     [5, '_internal.date.june'],
     [6, '_internal.date.july'],
-    [7, '_internal.date.augest'],
+    [7, '_internal.date.august'],
     [8, '_internal.date.september'],
     [9, '_internal.date.october'],
     [10, '_internal.date.november'],

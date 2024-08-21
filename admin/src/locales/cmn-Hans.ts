@@ -35,7 +35,7 @@ const messages: Messages = {
         may: '五月',
         june: '六月',
         july: '七月',
-        augest: '八月',
+        august: '八月',
         september: '九月',
         october: '十月',
         november: '十一月',
