@@ -8,8 +8,20 @@ import { BaseProps } from '@/components/base';
 import { Style } from './types';
 
 export type Props = ParentProps<{
+    /**
+     * 如果存在文字，表示文字的位置
+     */
     pos?: 'start' | 'center' | 'end';
+
+    /**
+     * 线的风格。
+     */
     style?: Style;
+
+    /**
+     * 交叉轴上的留白
+     */
+    padding?: string;
 } & BaseProps>;
 
 const defaultProps: Readonly<Props> = {
@@ -20,7 +32,7 @@ const defaultProps: Readonly<Props> = {
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
-    return <div role="separator" aria-orientation="horizontal" classList={{
+    return <div role="separator" aria-orientation="horizontal" style={{'padding-block': props.padding}} classList={{
         'c--divider': true,
         [`palette--${props.palette}`]: !!props.palette,
     }}>

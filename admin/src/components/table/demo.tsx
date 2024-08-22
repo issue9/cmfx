@@ -33,7 +33,7 @@ function buildItems(start: number, size: number): Array<Item> {
     return items;
 }
 
-const nopagingLoader = async (_: ObjectAccessor<Query>): Promise<Array<Item>> => {
+const nopagingLoader = async (_: {}): Promise<Array<Item>> => {
     await sleep(500);
     return [...buildItems(1, 10)];
 };
@@ -56,6 +56,7 @@ export default function () {
     const [paletteS, palette] = paletteSelector();
     const [hoverableS, hoverable] = boolSelector('hoverable', false);
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
+    const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', false);
     const [striped, setStriped] = createSignal<number>(0);
 
     const items: Array<Item> = [
@@ -81,6 +82,7 @@ export default function () {
             {paletteS}
             {fixedLayoutS}
             {hoverableS}
+            {systemToolbarS}
             <input type='number' placeholder='striped' value={striped()} onChange={(e)=>setStriped(parseInt(e.target.value))} />
         </>
     } stages={
@@ -93,7 +95,10 @@ export default function () {
 
             <p>分页表格</p>
 
-            <DataTable accentPalette='primary' paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+            <DataTable accentPalette='primary' paging systemToolbar={systemToolbar()}
+                striped={striped()}
+                fixedLayout={fixedLayout()}
+                palette={palette()}
                 toolbar={<><Button palette='primary'>+ New</Button></>}
                 columns={header} hoverable={hoverable()}
                 queries={fromSearch<Query>({txt: 'abc', page: 1, size: 10}, search[0])}
@@ -103,10 +108,11 @@ export default function () {
 
             <p>未分页的表格</p>
 
-            <DataTable striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+            <DataTable systemToolbar={systemToolbar()} striped={striped()}
+                fixedLayout={fixedLayout()}
+                palette={palette()}
                 columns={header} hoverable={hoverable()}
-                queries={{txt: 'abc'}}
-                queryForm={(oa)=><><TextField accessor={oa.accessor('txt')} /></>}
+                queries={{}}
                 load={nopagingLoader}
             />
         </>

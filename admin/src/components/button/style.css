@@ -6,11 +6,11 @@
 
 @layer components {
     .c--button {
-        @apply border flex justify-around border-transparent items-center text-center rounded-md py-2 px-4 text-nowrap text-[var(--fg)] outline-none;
+        @apply border flex justify-around border-transparent items-center text-center rounded-md py-1 px-3 text-nowrap text-[var(--fg)] outline-none;
     }
 
     .c--button.c--button-icon {
-        @apply p-2;
+        @apply p-1;
     }
 
     .c--button.c--button-fill {
@@ -50,7 +50,7 @@
         @apply text-[var(text)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
 
         .c--button {
-            @apply rounded-none border-none items-center flex-1 py-2 px-4 text-[var(--fg)] outline-none;
+            @apply rounded-none border-none items-center flex-1 py-1 px-3 text-[var(--fg)] outline-none;
         }
 
         :first-child {

@@ -56,7 +56,7 @@
             }
 
             .toolbar {
-                @apply flex justify-start pt-2 mt-2 border-t border-palette-fg-low;
+                @apply flex justify-start;
 
                 .action {
                     @apply hover:text-palette-fg-high;

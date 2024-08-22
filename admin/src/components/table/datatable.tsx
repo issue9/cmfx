@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { SetParams } from '@solidjs/router';
-import { createResource, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
+import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
+import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
 import { defaultSizes } from '@/components/pagination/bar';
@@ -25,20 +26,29 @@ export interface Props<T extends object, Q extends SetParams>
 
     /**
      * 构建查询参数组件
+     *
+     * 可以为空，可能存在只有分页的情况。
      */
-    queryForm: { (oa: ObjectAccessor<Q>): JSX.Element };
+    queryForm?: { (oa: ObjectAccessor<Q>): JSX.Element };
 
     /**
      * 查询参数的默认值
+     *
+     * 如果没有查询参数可以使用 {} 代替。
      */
     queries: Q;
 
     /**
      * 工具栏的内容
      *
-     * 工具栏右侧部分为框架自身提供。此属性提供的内容显示在左侧部分。
+     * 此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。
      */
     toolbar?: JSX.Element;
+
+    /**
+     * 是否需要展示框架自身提供的工具栏功能
+     */
+    systemToolbar?: boolean;
 
     /**
      * 一些突出元素的主题色，默认值为 primary。
@@ -102,23 +112,33 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
     }
 
     const header = <header class="header">
-        <form class="search">
-            {props.queryForm(oa)}
-            <div class="actions">
-                <Button disabled={oa.isPreset()} type='reset' onClick={() => oa.reset()}>{ctx.t('_internal.reset')}</Button>
-                <Button palette='primary' disabled={oa.isPreset()} type='submit' onClick={() => refetch()}>{ctx.t('_internal.search')}</Button>
-            </div>
-        </form>
+        <Show when={props.queryForm}>
+            <form class="search">
+                {props.queryForm!(oa)}
+                <div class="actions">
+                    <Button disabled={oa.isPreset()} type='reset' onClick={() => oa.reset()}>{ctx.t('_internal.reset')}</Button>
+                    <Button palette='primary' disabled={oa.isPreset()} type='submit' onClick={() => refetch()}>{ctx.t('_internal.search')}</Button>
+                </div>
+            </form>
+        </Show>
 
-        <div class="toolbar">
-            {props.toolbar}
-            <button onClick={()=>refetch()}
-                class="c--icon tail action"
-                aria-label={ctx.t('_internal.refresh')}
-                title={ctx.t('_internal.refresh')}>refresh</button>
-        </div>
+        <Show when={props.queryForm && (props.toolbar || props.systemToolbar)}>
+            <Divider padding="8px" />
+        </Show>
+
+        <Show when={props.toolbar || props.systemToolbar}>
+            <div class="toolbar">
+                {props.toolbar}
+                <Show when={props.systemToolbar}>
+                    <button onClick={() => refetch()}
+                        class="c--icon tail action"
+                        aria-label={ctx.t('_internal.refresh')}
+                        title={ctx.t('_internal.refresh')}>refresh</button>
+                </Show>
+            </div>
+        </Show>
     </header>;
 
-    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'paging', 'accentPalette', 'pageSizes']);
+    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes']);
     return <BasicTable items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

@@ -80,12 +80,12 @@ export interface DemoProps {
  * demo 展示组件
  */
 export function Demo(props: DemoProps) {
-    return <div class="flex flex-col gap-y-5 p-5">
-        <div class="settings flex flex-wrap justify-between">
+    return <div class="flex flex-col gap-y-5 justify-between">
+        <div class="settings flex flex-wrap gap-5 p-5 sticky top-0 bg-palette-bg border-b border-palette-bg-high">
             {props.settings}
         </div>
 
-        <div class="stages flex flex-wrap justify-between gap-5">
+        <div class="stages flex flex-wrap justify-between gap-5 p-5">
             {props.stages}
         </div>
     </div>;
