@@ -140,5 +140,5 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
     </header>;
 
     const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes']);
-    return <BasicTable items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+    return <BasicTable loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

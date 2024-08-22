@@ -54,6 +54,7 @@ const pagingLoader = async (oa: ObjectAccessor<Query>): Promise<Page<Item>> => {
 
 export default function () {
     const [paletteS, palette] = paletteSelector();
+    const [loadingS, loading] = boolSelector('loading', false);
     const [hoverableS, hoverable] = boolSelector('hoverable', false);
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
     const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', false);
@@ -80,6 +81,7 @@ export default function () {
     return <Demo settings={
         <>
             {paletteS}
+            {loadingS}
             {fixedLayoutS}
             {hoverableS}
             {systemToolbarS}
@@ -87,9 +89,9 @@ export default function () {
         </>
     } stages={
         <>
-            <BasicTable striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+            <BasicTable loading={loading()} striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
                 items={items} columns={header} hoverable={hoverable()}
-                extraHeader={<p class="bg-primary-fg text-primary-bg">header</p>}
+                extraHeader={<p class="bg-primary-fg text-primary-bg"><Button palette='primary'>Button</Button></p>}
                 extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
             />
 

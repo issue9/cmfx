@@ -15,6 +15,8 @@ export interface Props<T extends object> extends BaseProps {
      */
     fixedLayout?: boolean;
 
+    loading?: boolean;
+
     /**
      * 列的定义
      */
@@ -70,7 +72,7 @@ export default function<T extends object>(props: Props<T>) {
         throw 'striped 必须大于或是等于 0';
     }
 
-    return <div classList={{
+    return <fieldset disabled={props.loading} classList={{
         'c--table': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
@@ -112,5 +114,5 @@ export default function<T extends object>(props: Props<T>) {
         <Show when={props.extraFooter}>
             {props.extraFooter}
         </Show>
-    </div>;
+    </fieldset>;
 }
