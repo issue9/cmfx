@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { monthDays, weekDay } from './utils';
+import { formatDate, monthDays, weekDay, weekDays } from './utils';
 
 test('add weekDay', () => {
     expect(weekDay(0, 0)).toEqual(0);
@@ -82,4 +82,19 @@ test('monthDays', () => {
         [true, 6, 1, 31],
         [false, 7, 1, 2]
     ]);
+});
+
+test('weekDays', () => {
+    expect(weekDays([[false, 5, 29, 30], [true, 6, 1, 17], [false, 7, 1, 2]])).toEqual<Array<Array<[boolean, number, number]>>>([
+        [[false, 5, 29], [false, 5, 30], [true, 6, 1], [true, 6, 2], [true, 6, 3], [true, 6, 4], [true, 6, 5]],
+        [[true, 6, 6], [true, 6, 7], [true, 6, 8], [true, 6, 9], [true, 6, 10], [true, 6, 11], [true, 6, 12]],
+        [[true, 6, 13], [true, 6, 14], [true, 6, 15], [true, 6, 16], [true, 6, 17], [false, 7, 1], [false, 7, 2]]
+    ]);
+});
+
+test('formatDate', () => {
+    const d = new Date('2001-01-02T01:02:34');
+
+    expect(formatDate(d)).toEqual('2001-01-02');
+    expect(formatDate(d,true)).toEqual('2001-01-02T01:02:34');
 });

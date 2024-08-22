@@ -6,6 +6,7 @@ import { createSignal, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Dropdown } from '@/components/dropdown';
 import { default as Panel, Props as PanelProps } from './panel';
+import { formatDate } from './utils';
 
 export interface Props extends PanelProps {
     placeholder?: string;
@@ -44,7 +45,7 @@ export default function(props: Props) {
             }}>
                 <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
-                    {typeof ac.getValue() === 'string' ? ac.getValue() : (new Date(ac.getValue())).toISOString() }
+                    { formatDate(new Date(ac.getValue()), props.time) }
                 </div>
                 <span class="c--icon tail">{props.expandIcon}</span>
             </div>

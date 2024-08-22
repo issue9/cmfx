@@ -31,6 +31,19 @@ export function weekDay(base: Week, delta?: number): Week {
 }
 
 /**
+ * 格式化日期
+ */
+export function formatDate(d: Date, time?: boolean): string {
+    const date = `${d.getFullYear()}-${padNumber(d.getMonth() + 1, 2)}-${padNumber(d.getDate(), 2)}`;
+    if (!time) {
+        return date;
+    }
+    return date + `T${padNumber(d.getHours(), 2)}:${padNumber(d.getMinutes(), 2)}:${padNumber(d.getSeconds(), 2)}`;
+}
+
+function padNumber(n: number, len: number): string { return n.toString().padStart(len, '0'); }
+
+/**
  * 计算指定月份的天数范围
  *
  * @param week 起始的星期；
@@ -73,6 +86,9 @@ export function monthDays(date: Date, week: Week): Array<[boolean, Month, number
     return [prev, [true,lastDay.getMonth() as Month, 1, lastDay.getDate()], next];
 }
 
+/**
+ * 将由 {@link monthDays} 的结果转换为以 7 天为一组的天数据
+ */
 export function weekDays(m: Array<[boolean, Month, number, number]>): Array<Array<[boolean, Month, number]>> {
     const days: Array<[boolean, Month, number]> = [];
     for (const mm of m) {

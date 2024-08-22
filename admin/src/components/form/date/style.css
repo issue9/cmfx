@@ -69,8 +69,10 @@
     }
 }
 
-
 .c--date-panel:enabled {
+    .title button:hover {
+        @apply text-palette-fg-high;
+    }
 
     th,
     td {
