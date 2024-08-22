@@ -23,7 +23,7 @@ export interface Props extends BaseProps {
 };
 
 /**
- * 定义了 radio、select 等选项类型中每个选择项的类型。
+ * 定义了 radio、choice 等选项类型中每个选择项的类型。
  *
  * T 表示的是选择项的值类型，要求唯一且可比较。
  */

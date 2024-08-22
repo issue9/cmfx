@@ -14,7 +14,6 @@ export default function() {
     const [visible1, setVisible1] = createSignal(false);
     const [visible2, setVisible2] = createSignal(false);
 
-
     return <Demo settings={
         <>
             {paletteS}
