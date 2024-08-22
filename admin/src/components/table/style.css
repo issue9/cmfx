@@ -56,7 +56,15 @@
             }
 
             .toolbar {
-                @apply flex;
+                @apply flex justify-start pt-2 mt-2 border-t border-palette-fg-low;
+
+                .action {
+                    @apply hover:text-palette-fg-high;
+                }
+
+                .tail {
+                    @apply ml-auto;
+                }
             }
         }
     }

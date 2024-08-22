@@ -23,8 +23,6 @@ export interface Props<T extends object, Q extends SetParams>
      */
     load: { (q: ObjectAccessor<Q>): Promise<Page<T> | Array<T>> };
 
-    //TODO actions?: JSX.Element;
-
     /**
      * 构建查询参数组件
      */
@@ -34,6 +32,13 @@ export interface Props<T extends object, Q extends SetParams>
      * 查询参数的默认值
      */
     queries: Q;
+
+    /**
+     * 工具栏的内容
+     *
+     * 工具栏右侧部分为框架自身提供。此属性提供的内容显示在左侧部分。
+     */
+    toolbar?: JSX.Element;
 
     /**
      * 一些突出元素的主题色，默认值为 primary。
@@ -106,6 +111,11 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
         </form>
 
         <div class="toolbar">
+            {props.toolbar}
+            <button onClick={()=>refetch()}
+                class="c--icon tail action"
+                aria-label={ctx.t('_internal.refresh')}
+                title={ctx.t('_internal.refresh')}>refresh</button>
         </div>
     </header>;
 

@@ -5,6 +5,7 @@
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
+import { Button } from '@/components/button';
 import { ObjectAccessor, TextField } from '@/components/form';
 import { Page, sleep } from '@/core';
 import { SetParams, useSearchParams } from '@solidjs/router';
@@ -93,6 +94,7 @@ export default function () {
             <p>分页表格</p>
 
             <DataTable accentPalette='primary' paging striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+                toolbar={<><Button palette='primary'>+ New</Button></>}
                 columns={header} hoverable={hoverable()}
                 queries={fromSearch<Query>({txt: 'abc', page: 1, size: 10}, search[0])}
                 queryForm={(oa)=><><TextField accessor={oa.accessor<string>('txt')} /></>}
