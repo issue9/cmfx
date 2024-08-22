@@ -65,7 +65,7 @@ export default function(props: Props) {
 
     Object.defineProperty(window, 'notify', {
         writable: false,
-        value: async (title: string, body?: string, type?: Type, timeout?: number) => {
+        value: async (title: string, body?: string, type?: Type, timeout = 5) => {
             const id = createUniqueId();
             let palette: Palette | undefined;
             if (type) { palette = type2Palette.get(type); }
