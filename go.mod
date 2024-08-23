@@ -16,7 +16,7 @@ require (
 	github.com/issue9/sliceutil v0.16.1
 	github.com/issue9/web v0.96.4
 	github.com/issue9/webfilter v0.8.1-0.20240822062929-40c854699dee
-	github.com/issue9/webuse/v7 v7.0.0-20240822061358-f89561852b80
+	github.com/issue9/webuse/v7 v7.0.0-20240822162032-466ded5c04c1
 	github.com/mattn/go-sqlite3 v1.14.22
 	golang.org/x/crypto v0.26.0
 	golang.org/x/oauth2 v0.22.0
