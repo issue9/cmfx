@@ -57,6 +57,7 @@ export default function () {
     const [loadingS, loading] = boolSelector('loading', false);
     const [hoverableS, hoverable] = boolSelector('hoverable', false);
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
+    const [nodataS, nodata] = boolSelector('nodata', false);
     const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', false);
     const [striped, setStriped] = createSignal<number>(0);
 
@@ -82,6 +83,7 @@ export default function () {
         <>
             {paletteS}
             {loadingS}
+            {nodataS}
             {fixedLayoutS}
             {hoverableS}
             {systemToolbarS}
@@ -90,7 +92,7 @@ export default function () {
     } stages={
         <>
             <BasicTable loading={loading()} striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
-                items={items} columns={header} hoverable={hoverable()}
+                items={nodata() ? [] : items} columns={header} hoverable={hoverable()}
                 extraHeader={<p class="bg-primary-fg text-primary-bg"><Button palette='primary'>Button</Button></p>}
                 extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
             />

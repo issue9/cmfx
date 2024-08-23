@@ -22,7 +22,7 @@ export interface Props<T extends object, Q extends SetParams>
     /**
      * 加载数据的方法
      */
-    load: { (q: ObjectAccessor<Q>): Promise<Page<T> | Array<T>> };
+    load: { (q: ObjectAccessor<Q>): Promise<Page<T> | Array<T> | undefined> };
 
     /**
      * 构建查询参数组件
@@ -92,7 +92,9 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
     const [items, { refetch }] = createResource(async () => {
         const ret = await props.load(oa);
 
-        if (Array.isArray(ret)) {
+        if (ret === undefined) {
+            return undefined;
+        }else if (Array.isArray(ret)) {
             return ret;
         } else {
             setTotal(ret.count);

@@ -4,6 +4,7 @@
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
+import { useApp } from '@/app';
 import { BaseProps } from '@/components/base';
 import { Column } from './types';
 
@@ -25,7 +26,7 @@ export interface Props<T extends object> extends BaseProps {
     /**
      * 表格的数据
      */
-    items: Array<T>;
+    items?: Array<T>;
 
     /**
      * 表格标题
@@ -68,6 +69,8 @@ const defaultProps = {
 export default function<T extends object>(props: Props<T>) {
     props = mergeProps(defaultProps, props);
 
+    const ctx = useApp();
+
     if (props.striped !== undefined && props.striped < 0) {
         throw 'striped 必须大于或是等于 0';
     }
@@ -96,18 +99,25 @@ export default function<T extends object>(props: Props<T>) {
             </thead>
 
             <tbody class={props.hoverable ? 'hoverable' : undefined}>
-                <For each={props.items}>
-                    {(item, index)=>(
-                        <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
-                            <For each={props.columns}>
-                                {(h) => {
-                                    const i = h.id in item ? (item as any)[h.id] : undefined;
-                                    return <td class={h.cellClass}>{h.render ? h.render(h.id, i, item) : i}</td>;
-                                }}
-                            </For>
-                        </tr>
-                    )}
-                </For>
+                <Show when={props.items && props.items.length>0}>
+                    <For each={props.items}>
+                        {(item, index)=>(
+                            <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
+                                <For each={props.columns}>
+                                    {(h) => {
+                                        const i = h.id in item ? (item as any)[h.id] : undefined;
+                                        return <td class={h.cellClass}>{h.render ? h.render(h.id, i, item) : i}</td>;
+                                    }}
+                                </For>
+                            </tr>
+                        )}
+                    </For>
+                </Show>
+                <Show when={!props.items || props.items.length===0}>
+                    <tr>
+                        <td class="nodata" colSpan={props.columns.length}>{ ctx.t('_internal.table.nodata') }</td>
+                    </tr>
+                </Show>
             </tbody>
         </table>
 

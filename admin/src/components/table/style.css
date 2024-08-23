@@ -11,6 +11,10 @@
         >table {
             @apply w-full border-t border-b border-palette-fg-low;
 
+            .nodata {
+                @apply text-center w-full text-xl py-10;
+            }
+
             th,
             td {
                 @apply px-2 py-1 text-left border-b border-palette-fg-low;

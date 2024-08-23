@@ -11,6 +11,9 @@ const messages = {
     reset: 'reset',
     refresh: 'refresh',
     areYouSure: 'are you sure?',
+    table: {
+        nodata: 'no data'
+    },
     pagination: {
         prev: 'prev',
         next: 'next',
