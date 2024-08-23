@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
 import { Dropdown } from '@/components/dropdown';
@@ -89,13 +89,33 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </Show>
     </div>;
 
+    let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
+    createEffect(() => {
+        if (optionsVisible()) {
+            for (var i = 0; i < props.options.length; i++) {
+                const elem = li[i];
+                if (elem && elem.getAttribute('aria-selected') === 'true') {
+                    elem.scrollIntoView();
+                    return;
+                }
+            }
+        }
+    });
+
     // multiple 为 true 时的候选框的组件
     const MultipleOptions = (p:{ac:Accessor<Array<T>>}) => {
         return <>
             <For each={props.options}>
-                {(item) => {
+                {(item, i) => {
                     const selected = (): boolean => { return p.ac.getValue().indexOf(item[0]) >= 0; };
-                    return <li aria-selected={selected()} role="option" classList={{'selected': selected()}} onClick={() => {
+                    return <li aria-selected={selected()} role="option" classList={{'selected': selected()}} ref={el=>{
+                        if (i()>=props.options.length) {
+                            li.push(el);
+                        }else{
+                            li[i()] = el;
+                        }
+                    }}
+                    onClick={() => {
                         if (props.readonly || props.disabled) { return; }
 
                         let items = [...p.ac.getValue()];
@@ -124,9 +144,16 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     const SingleOptions = (p:{ac:Accessor<T>}) => {
         return <>
             <For each={props.options}>
-                {(item) => {
+                {(item, i) => {
                     const selected = ()=>p.ac.getValue() === item[0];
-                    return <li role="option" aria-selected={selected()} classList={{'selected': selected()}} onClick={() => {
+                    return <li role="option" aria-selected={selected()} classList={{ 'selected': selected() }} ref={el => {
+                        if (i() >= props.options.length) {
+                            li.push(el);
+                        } else {
+                            li[i()] = el;
+                        }
+                    }}
+                    onClick={() => {
                         if (props.readonly || props.disabled) { return; }
 
                         if (!selected()) {
