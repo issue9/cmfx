@@ -25,8 +25,8 @@ const routes: Routes = {
         home: '/dashboard',
         routes: [
             { path: ['/dashboard', '/'], component: pages.Dashboard },
-            { path: '/roles', component: pages.Dashboard },
-            { path: '/admins', component: pages.Dashboard },
+            { path: '/roles', component: pages.Roles },
+            { path: '/admins', component: pages.Admins },
             { path: '/demo', children: demo.routes },
             { path: '/test', component: Test }
         ]
