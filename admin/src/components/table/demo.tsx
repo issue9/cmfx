@@ -10,9 +10,9 @@ import { ObjectAccessor, TextField } from '@/components/form';
 import { Page, sleep } from '@/core';
 import { SetParams, useSearchParams } from '@solidjs/router';
 import { default as BasicTable } from './basic';
+import { Column } from './column';
 import { default as DataTable } from './datatable';
 import { fromSearch, Params, saveSearch } from './search';
-import { Column } from './types';
 
 interface Item {
     id: number;

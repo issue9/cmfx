@@ -12,8 +12,11 @@
         align-self: flex-start;
 
         .content {
-            display: none;
             position: absolute;
+            z-index: 5;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
         }
 
         .topleft {
@@ -36,8 +39,10 @@
             right: 0;
         }
 
-        .visible {
-            @apply block;
+        .content_visible {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity var(--transition-duration) linear;
         }
     }
 }

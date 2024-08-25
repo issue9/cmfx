@@ -34,6 +34,9 @@
     --surface: calc(var(--primary) + 180);
 
     --contrast: 100;
+
+    /* 动画时间 */
+    --transition-duration: 300ms;
 }
 
 :root {

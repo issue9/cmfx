@@ -91,7 +91,7 @@ export default function Dropdown(props: Props) {
         <Dynamic {...contentProps} component={props.tag} classList={{
             'content': true,
             [`${props.pos}`]: true,
-            'visible': props.visible
+            'content_visible': props.visible
         }}>
             {props.children}
         </Dynamic>

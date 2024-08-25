@@ -6,7 +6,7 @@ import { For, JSX, mergeProps, Show } from 'solid-js';
 
 import { useApp } from '@/app';
 import { BaseProps } from '@/components/base';
-import { Column } from './types';
+import { Column } from './column';
 
 export interface Props<T extends object> extends BaseProps {
     /**

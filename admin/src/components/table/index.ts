@@ -11,4 +11,4 @@ export type { Props as DataTableProps } from './datatable';
 export { fromSearch, saveSearch } from './search';
 export type { Params as SearchParams } from './search';
 
-export type { Column } from './types';
+export type { Column } from './column';
