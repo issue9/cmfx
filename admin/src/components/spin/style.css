@@ -5,8 +5,17 @@
  */
 
 .c--spin {
+    @apply relative;
+
+    .indicator {
+        @apply px-4 items-center justify-center w-full h-full top-0 left-0 absolute hidden;
+    }
 }
 
 .c--spin:disabled {
     @apply cursor-wait;
+    
+    .indicator {
+        @apply flex;
+    }
 }

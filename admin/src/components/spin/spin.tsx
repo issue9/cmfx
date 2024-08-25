@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {ParentProps, JSX, splitProps} from 'solid-js';
+import { ParentProps, JSX, splitProps, Show } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 
@@ -34,5 +34,11 @@ export default function (props: Props) {
         [`palette--${props.palette}`]: !!props.palette,
     }} disabled={props.spinning}>
         {props.children}
+        
+        <Show when={props.indicator}>
+            <div class="indicator">
+                {props.indicator}
+            </div>
+        </Show>
     </fieldset>;
 }
