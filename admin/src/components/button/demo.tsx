@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { Button, ButtonGroup, ConfirmButton } from '@/components';
+import { Button, ButtonGroup, ConfirmButton, SplitButton } from '@/components';
 import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
 import { Style, styles } from './types';
 
@@ -33,34 +33,43 @@ export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 
-    const Buttons = ()=> <>
-        <div class="flex flex-wrap items-center gap-2 my-4">
-            <For each={colorsWithUndefined}>
-                {(c)=>(
-                    <Button disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</Button>
-                )}
-            </For>
-            <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
-                <span class="c--icon mr-1">face</span>with icon
-            </Button>
+    const Buttons = () => <div class="flex flex-wrap items-center gap-2 my-4">
+        <For each={colorsWithUndefined}>
+            {(c) => (
+                <Button disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</Button>
+            )}
+        </For>
+        <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
+            <span class="c--icon mr-1">face</span>with icon
+        </Button>
 
-            <ConfirmButton onClick={()=>alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary'>confirm button</ConfirmButton>
-        </div>
-    </>;
+        <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary'>confirm button</ConfirmButton>
+    </div>;
 
-    const IconButtons = () => <>
-        <div class="flex flex-wrap items-center gap-2">
-            <For each={colorsWithUndefined}>
-                {(c)=>(
-                    <Button icon title={c?c:'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</Button>
-                )}
-            </For>
-            <Button rounded style='fill' palette='tertiary'>对比按钮</Button>
-            <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={()=>alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary' icon ok={<><span class="material-symbols-outlined mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
-        </div>
-    </>;
+    const IconButtons = () => <div class="flex flex-wrap items-center gap-2">
+        <For each={colorsWithUndefined}>
+            {(c) => (
+                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</Button>
+            )}
+        </For>
+        <Button rounded style='fill' palette='tertiary'>对比按钮</Button>
+        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary' icon ok={<><span class="c--icon mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
+    </div>;
 
-    const ButtonGroups = () => <div class="flex flex-col items-center gap-y-2">
+    const SplitButtons = () => <div class="flex flex-wrap items-center gap-2">
+        <For each={colorsWithUndefined}>
+            {(c) => (
+                <SplitButton palette={c} style={style()} rounded={rounded()} disabled={disabled()} menus={[
+                    {type: 'item', label: 'button1', onClick: ()=>console.log('btn1')},
+                    {type: 'item', label: 'button2', onClick: ()=>console.log('btn2')},
+                    {type: 'divider'},
+                    {type: 'item', label: 'confirm', onClick: ()=>confirm('confirm')},
+                ]}>split-button</SplitButton>
+            )}
+        </For>
+    </div>;
+
+    const ButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
         <For each={colorsWithUndefined}>
             {(c)=>(
                 <>
@@ -68,6 +77,21 @@ export default function() {
                         <Button>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>
+                    </ButtonGroup>
+                    <br />
+                </>
+            )}
+        </For>
+    </div>;
+
+    const IconButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
+        <For each={colorsWithUndefined}>
+            {(c)=>(
+                <>
+                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                        <Button icon>face</Button>
+                        <Button icon>close</Button>
+                        <Button icon>sync</Button>
                     </ButtonGroup>
                     <br />
                 </>
@@ -109,8 +133,18 @@ export default function() {
             </div>
 
             <div class="w-full">
+                <h1 class="my-4">split-button</h1>
+                <SplitButtons />
+            </div>
+
+            <div class="w-full">
                 <h1 class="my-4">button-group</h1>
                 <ButtonGroups />
+            </div>
+
+            <div class="w-full">
+                <h1 class="my-4">icon-button-group</h1>
+                <IconButtonGroups />
             </div>
 
             <div class="w-full">

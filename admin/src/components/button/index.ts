@@ -11,6 +11,9 @@ export type { Props as ConfirmButtonProps } from './confirm';
 export { default as ButtonGroup } from './group';
 export type { Props as ButtonGroupProps } from './group';
 
+export { default as SplitButton } from './split';
+export type { Props as SplitButtonProps } from './split';
+
 export { styles as buttonStyles } from './types';
 export type { Style as ButtonStyle } from './types';
 
