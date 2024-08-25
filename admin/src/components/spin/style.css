@@ -1,0 +1,12 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+.c--spin {
+}
+
+.c--spin:disabled {
+    @apply cursor-wait;
+}
