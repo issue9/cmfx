@@ -19,10 +19,6 @@
         }
     }
 
-    .c--form.c--form-loading {
-        cursor: wait;
-    }
-
     .c--field {
         ::placeholder {
             color: var(--fg-low);

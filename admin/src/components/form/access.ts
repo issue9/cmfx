@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, Setter } from 'solid-js';
+import { createSignal, Signal } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
 import { AppContext } from '@/app';
@@ -235,9 +235,9 @@ export interface SuccessFunc<T> {
 /**
  * 适用于表单的 {@link ObjectAccessor}
  *
- * T 表示需要提交的对象类型；
- * R 表示服务端返回的类型；
- * P 表示服务端出错是返回的 {@link Problem#extension} 类型；
+ * @template T 表示需要提交的对象类型；
+ * @template R 表示服务端返回的类型；
+ * @template P 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
 export class FormAccessor<T extends object, R = never, P = never> {
     #object: ObjectAccessor<T>;
@@ -247,7 +247,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
     readonly #withToken: boolean;
     #ctx: AppContext;
     readonly #success?: SuccessFunc<R>;
-    #loadingSetter?: Setter<boolean>;
+    #submitting: Signal<boolean>;
 
     /**
      * 构造函数
@@ -256,13 +256,12 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @param method 请求方法；
      * @param path 请求地址，相对于 {@link Options#api#base}；
      * @param success 在接口正常返回时调用的方法；
-     * @param loadingSetter 用于向外界传递是否处于加载状态，如果不为空，在加载数据时会调用 loadingSetter(true)，加载完成或是出错时会调用 loadingSetter(false)；
      * @param validation 提交前对数据的验证方法；
      * @param withToken 接口是否需要带上登录凭证；
      */
     constructor(preset: T, ctx: AppContext, method: Method, path: string);
-    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken?: boolean);
-    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, loadingSetter?: Setter<boolean>, validation?: Validation<T>, withToken = true) {
+    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, validation?: Validation<T>, withToken?: boolean);
+    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, validation?: Validation<T>, withToken = true) {
         // NOTE: ctx 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
         this.#method = method;
@@ -271,16 +270,22 @@ export class FormAccessor<T extends object, R = never, P = never> {
         this.#withToken = withToken;
         this.#ctx = ctx;
         this.#success = success;
-        this.#loadingSetter = loadingSetter;
+        this.#submitting = createSignal<boolean>(false);
     }
 
-    withLoadingSetter(s: Setter<boolean>) { this.#loadingSetter = s; }
+    /**
+     * 指示是否处于提交状态
+     */
+    submitting() { return this.#submitting[0](); }
 
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      */
     accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 
+    /**
+     * 当前内容是否都是默认值
+     */
     isPreset(): boolean { return this.#object.isPreset(); }
 
     /**
@@ -289,15 +294,11 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @returns 表示接口是否成功调用
      */
     async submit(): Promise<boolean> {
-        if (!this.#loadingSetter) {
-            return await this.do();
-        }
-
         try {
-            this.#loadingSetter(true);
+            this.#submitting[1](true);
             return await this.do();
         } finally {
-            this.#loadingSetter(false);
+            this.#submitting[1](false);
         }
     }
 

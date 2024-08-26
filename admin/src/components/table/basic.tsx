@@ -6,6 +6,7 @@ import { For, JSX, mergeProps, Show } from 'solid-js';
 
 import { useApp } from '@/app';
 import { BaseProps } from '@/components/base';
+import { Spin } from '@/components/spin';
 import { Column } from './column';
 
 export interface Props<T extends object> extends BaseProps {
@@ -70,10 +71,7 @@ export default function<T extends object>(props: Props<T>) {
         throw 'striped 必须大于或是等于 0';
     }
 
-    return <fieldset disabled={props.loading} classList={{
-        'c--table': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
+    return <Spin spinning={props.loading} palette={props.palette} class='c--table'>
         <Show when={props.extraHeader}>
             {props.extraHeader}
         </Show>
@@ -117,5 +115,5 @@ export default function<T extends object>(props: Props<T>) {
         <Show when={props.extraFooter}>
             {props.extraFooter}
         </Show>
-    </fieldset>;
+    </Spin>;
 }

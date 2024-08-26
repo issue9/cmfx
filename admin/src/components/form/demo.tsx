@@ -5,6 +5,7 @@
 
 import { useInternal } from '@/app/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
+import { Button } from '../button';
 import { FormAccessor } from './access';
 import { DatePicker } from './date';
 import Form from './form';
@@ -28,11 +29,13 @@ export default function() {
         </>
     } stages={
         <>
-            <Form formAccessor={f} palette={palette()}>
+            <Form formAccessor={f} palette={palette()} {...f.events()}>
                 <TextField accessor={f.accessor('f1')} />
                 <Number accessor={f.accessor(5)} />
                 <DatePicker accessor={f.accessor('date')} />
                 <TextArea accessor={f.accessor('textarea')} />
+                <Button type="reset">reset</Button>
+                <Button type="submit">submit</Button>
             </Form>
         </>
     } />;

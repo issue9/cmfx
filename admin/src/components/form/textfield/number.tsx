@@ -71,8 +71,8 @@ export default function(props: Props): JSX.Element {
                     value={access.getValue()}
                     onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
                 />
-                <button disabled={props.disabled} class="btn c--icon" onClick={()=>step(props.step!)}>arrow_drop_up</button>
-                <button disabled={props.disabled} class="btn c--icon" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
+                <button type='button' disabled={props.disabled} class="btn c--icon" onClick={()=>step(props.step!)}>arrow_drop_up</button>
+                <button type='button' disabled={props.disabled} class="btn c--icon" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
             </div>
         </label>
 
