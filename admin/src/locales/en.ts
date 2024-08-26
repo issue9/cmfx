@@ -45,7 +45,8 @@ const messages = {
         }
     },
     table: {
-        nodata: 'no data'
+        nodata: 'no data',
+        exportTo: 'export to {{type}}'
     },
     pagination: {
         prev: 'prev',

@@ -4,7 +4,6 @@
 
 import { SetParams, useSearchParams } from '@solidjs/router';
 
-import { ObjectAccessor } from '@/components/form';
 
 /**
  * 根据 T 生成其值类型为字符串的对象
@@ -58,6 +57,6 @@ export function fromSearch<Q extends SetParams>(preset: Q, searchParamsGetter: R
  * @param q 查询参数
  * @param searchSetter {@link useSearchParams} 返回值的第二个元素
  */
-export function saveSearch<Q extends SetParams>(q: ObjectAccessor<Q>, searchSetter: ReturnType<typeof useSearchParams<Params<Q>>>[1]): void {
-    searchSetter(q.object());
+export function saveSearch<Q extends SetParams>(q: Q, searchSetter: ReturnType<typeof useSearchParams<Params<Q>>>[1]): void {
+    searchSetter(q);
 }

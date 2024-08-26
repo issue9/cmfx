@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Column, Exporter, Row } from './export';
+export type { Column } from './column';
+export { Exporter } from './export';
 
-export { CSV } from './csv';

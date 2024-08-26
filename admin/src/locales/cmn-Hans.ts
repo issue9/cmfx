@@ -47,7 +47,8 @@ const messages: Messages = {
         }
     },
     table: {
-        nodata: '没有数据'
+        nodata: '没有数据',
+        exportTo: '导出为 {{type}}'
     },
     pagination: {
         prev: '前一页',

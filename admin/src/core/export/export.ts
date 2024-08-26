@@ -2,45 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-/**
- * 导出数据的行对象
- */
-export interface Row {
-    [k: string]: unknown;
-}
+import xlsx from 'xlsx';
+
+import { Page } from '@/core/fetch';
+import { Column } from './column';
 
 /**
- * 定义导出列的相关信息
+ * 加载数据的函数签名
  *
- * @template T 导出数据中每条数据的类型
+ * @template T 返回的行数据类型；
+ * @template Q 查询参数的类型；
  */
-export interface Column<T extends Row> {
-    /**
-     * 导出列在对象 T 中的字段名，如果是自定义列，也可能不存在于实现的 T 中。
-     */
-    id: string;
-
-    /**
-     * 导出列的标题，如果为空将直接采用 id
-     */
-    title: string;
-
-    /**
-     * 导出列的转换方法，如果为空，表示直接采用对应在的值，或是空
-     */
-    content?: CellRenderFunc<T>;
-}
-
-/**
- * 渲染单元格的方法
- */
-export interface CellRenderFunc<T extends Row> {
-    /**
-     * @param id 对应当前列 {@link Column#id} 的值；
-     * @param val 如果该 id 存在于 T 中，那返回其在 T 中的值，如果不存在则是 undefined；
-     * @param obj 表示是当前行的对象，其类型为 T；
-     */
-    (id: string, val?: T[keyof T], obj?: T): string | number | undefined;
+export interface LoadFunc<T extends object> {
+    (): Promise<Page<T> | Array<T> | undefined>
 }
 
 /**
@@ -48,40 +22,74 @@ export interface CellRenderFunc<T extends Row> {
  *
  * @template T 每一行数据的类型
  */
-export interface Exporter<T extends Row> {
+export class Exporter<T extends object> {
+    #sheet: xlsx.WorkSheet;
+    #columns: Array<Column<T>>;
+
+    /**
+     * 构造函数
+     *
+     * @param cols 对列的定义
+     */
+    constructor(cols: Array<Column<T>>) {
+        this.#columns = cols;
+
+        const row: Array<string> = [];
+        for(const c of cols) {
+            if (!c.isUnexported) {
+                row.push(c.label ?? c.id);
+            }
+        }
+        this.#sheet = xlsx.utils.aoa_to_sheet([row]);
+    }
+
     /**
      * 添加一至多行数据
      */
-    append(...row: Array<T>): void;
+    #append(...rows: Array<T>): void {
+        for(const row of rows) {
+            const data:Array<string> = [];
+            for(const c of this.#columns) {
+                if (c.isUnexported) {
+                    continue;
+                }
+
+                const val = (row as any)[c.id];
+                data.push(c.content ? c.content(c.id, val, row) : val);
+            }
+
+            xlsx.utils.sheet_add_aoa(this.#sheet, [data], {origin: -1});
+        }
+    }
 
     /**
-     * 对添加的数据创建下载功能
+     * 执行下载数据操作
      *
-     * @param filename 下载文件的文件名
+     * NOTE: 可多次调用。
      */
-    download(filename: string): Promise<void>;
-}
+    async download(load: LoadFunc<T>): Promise<void> {
+        const ret = await load();
 
-/**
- * 创建下载功能
- */
-export function download(file: File) {
-    const obj = URL.createObjectURL(file);
-
-    const link = document.createElement('a');
-    link.href = obj;
-    link.download = file.name;
-    document.body.append(link);
-    link.click();
-    document.body.removeChild(link);
-
-    URL.revokeObjectURL(obj);
-}
-
-export function getHeaderRow<T extends Row>(cols: Array<Column<T>>) {
-    const row = new Array<string>(cols.length);
-    for(const c of cols) {
-        row.push(c.title ?? c.id);
+        if (ret === undefined) {
+            return undefined;
+        }else if (Array.isArray(ret)) {
+            this.#append(...ret);
+        } else {
+            this.#append(...ret.current);
+        }
     }
-    return row;
+
+    /**
+     * 导出数据，即在浏览器中提供下载功能。
+     *
+     * @param filename 下载文件的文件名，如果是 excel，也作为工作表的名称。
+     * @param ext 后缀名，根据此值生成不同类型的文件。
+     */
+    export(filename: string, ext: '.csv' | '.xlsx' | '.ods'): void {
+        const book = xlsx.utils.book_new(this.#sheet, filename);
+        book.Props = {
+            ModifiedDate: new Date(),
+        };
+        xlsx.writeFile(book, filename + ext);
+    }
 }
