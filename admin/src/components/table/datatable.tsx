@@ -7,7 +7,7 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 
 import { useApp } from '@/app';
 import { Palette } from '@/components/base';
-import { Button, SplitButton } from '@/components/button';
+import { SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
@@ -108,7 +108,7 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
         }
     });
 
-    const exportCSV = async function (ext: Parameters<Exporter<T>['export']>[1]) {
+    const exports = async function (ext: Parameters<Exporter<T>['export']>[1]) {
         const e = new Exporter(props.columns);
         const q = { ...oa.object() };
         delete q.size;
@@ -136,11 +136,28 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
             <form class="search">
                 {props.queryForm!(oa)}
                 <div class="actions">
-                    <Button disabled={oa.isPreset()} type='reset' onClick={() => oa.reset()}>{ctx.t('_internal.reset')}</Button>
-                    <SplitButton palette='primary' type='submit' onClick={() => refetch()} menus={[
-                        { type: 'item', label: ctx.t('_internal.table.exportTo', {type:'CSV'}), onClick: () => { exportCSV('.csv'); }},
-                        { type: 'item', label: ctx.t('_internal.table.exportTo', {type: 'xlsx'}), onClick: () => { exportCSV('.xlsx'); }},
-                        { type: 'item', label: ctx.t('_internal.table.exportTo', {type:'ods'}), onClick: () => { exportCSV('.ods'); }},
+                    <SplitButton pos='bottomright' palette='primary' type='submit' onClick={() => refetch()} menus={[
+                        { type: 'item', onClick: () => { exports('.csv'); } , label: <>
+                            <span class="c--icon mr-2">csv</span>
+                            {ctx.t('_internal.table.exportTo', { type: 'CSV' })}
+                        </>
+                        },
+                        { type: 'item', onClick: () => { exports('.xlsx'); }, label: <>
+                            <span class="c--icon mr-2">rubric</span>
+                            {ctx.t('_internal.table.exportTo', { type: 'Excel' })}
+                        </>
+                        },
+                        { type: 'item', onClick: () => { exports('.ods'); }, label: <>
+                            <span class="c--icon mr-2">ods</span>
+                            {ctx.t('_internal.table.exportTo', { type: 'ODS' })}
+                        </>
+                        },
+                        { type: 'divider' },
+                        { type: 'item', onClick: () => { oa.reset(); }, disabled:oa.isPreset(), label: <>
+                            <span class="c--icon mr-2">restart_alt</span>
+                            {ctx.t('_internal.reset')}
+                        </>
+                        },
                     ]}>
                         {ctx.t('_internal.search')}
                     </SplitButton>
