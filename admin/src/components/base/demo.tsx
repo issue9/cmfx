@@ -6,7 +6,7 @@ import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Corner, corners, Palette, palettes } from './types';
 
-export const colorsWithUndefined = [...palettes, undefined] as const;
+export const palettesWithUndefined = [...palettes, undefined] as const;
 
 /**
  * 创建一个 bool 选择项
@@ -29,7 +29,7 @@ export function paletteSelector(preset?: Palette): [JSX.Element, Accessor<Palett
 
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
         <legend>颜色</legend>
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(item)=>(
                 <label class="mr-4">
                     <input class="mr-1" type="radio" name="palette"
@@ -81,7 +81,7 @@ export interface DemoProps {
  */
 export function Demo(props: DemoProps) {
     return <div class="flex flex-col gap-y-5 justify-between">
-        <div class="settings flex flex-wrap gap-5 p-5 sticky top-0 bg-palette-bg border-b border-palette-bg-high">
+        <div class="settings flex flex-wrap gap-5 p-5 sticky top-0 bg-palette-bg border-b border-palette-bg-high z-50">
             {props.settings}
         </div>
 

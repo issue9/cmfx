@@ -5,7 +5,7 @@
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Button, ButtonGroup, ConfirmButton, SplitButton } from '@/components';
-import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { Style, styles } from './types';
 
 export function styleSelector(v: Style = 'fill'): [JSX.Element, Accessor<Style>, Setter<Style>] {
@@ -34,7 +34,7 @@ export default function() {
     const [roundedS, rounded] = boolSelector('rounded');
 
     const Buttons = () => <div class="flex flex-wrap items-center gap-2 my-4">
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(c) => (
                 <Button disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</Button>
             )}
@@ -47,7 +47,7 @@ export default function() {
     </div>;
 
     const IconButtons = () => <div class="flex flex-wrap items-center gap-2">
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(c) => (
                 <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</Button>
             )}
@@ -57,7 +57,7 @@ export default function() {
     </div>;
 
     const SplitButtons = () => <div class="flex flex-wrap items-center gap-2">
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(c) => (
                 <SplitButton palette={c} style={style()} rounded={rounded()} disabled={disabled()} menus={[
                     {type: 'item', label: 'button1', onClick: ()=>console.log('btn1')},
@@ -70,7 +70,7 @@ export default function() {
     </div>;
 
     const ButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
@@ -85,7 +85,7 @@ export default function() {
     </div>;
 
     const IconButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>

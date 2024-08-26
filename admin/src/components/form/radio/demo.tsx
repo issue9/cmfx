@@ -6,7 +6,7 @@
 import { createSignal } from 'solid-js';
 
 import { Palette } from '@/components/base';
-import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
 import { default as XGroup } from './radio';
 
@@ -21,7 +21,7 @@ export default function() {
     const [iconStyle, setIconStyle] = createSignal(false);
 
     const options: Options<Palette|undefined> = [];
-    colorsWithUndefined.forEach((item) => {
+    palettesWithUndefined.forEach((item) => {
         options.push([item, item ? item : 'undefined']);
     });
 

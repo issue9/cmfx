@@ -5,7 +5,7 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
 import Checkbox from './checkbox';
 import { default as CheckboxGroup } from './group';
@@ -38,7 +38,7 @@ export default function() {
     } stages={
         <>
             <div class="flex flex-wrap mb-10">
-                <For each={colorsWithUndefined}>
+                <For each={palettesWithUndefined}>
                     {(item)=>(
                         <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
                             title={item ? item : 'undefined'} label='test' icon={icon()} palette={item} disabled={disabled()} readonly={readonly()}
