@@ -4,21 +4,22 @@
 
 import { JSX } from 'solid-js';
 
+import { Column as ExportColumn } from '@/core';
+
 /**
  * 用于描述列的信息
  *
- * T 表示的是展示在表格中的单条数据的类型。
+ * @template T 表示的是展示在表格中的单条数据的类型。
  */
-export interface Column<T extends object> {
-    /**
-     * 该列的 ID，一般对应展示数据的字段名
-     */
-    id: string;
-
+export interface Column<T extends object> extends ExportColumn<T> {
     /**
      * 列标题
+     *
+     * 如果该值为空，则采用以下几种路径获取值：
+     *  - label
+     *  - id
      */
-    label?: JSX.Element;
+    renderLabel?: JSX.Element;
 
     /**
      * 为于表头中的单元格指定 CSS 类。
@@ -34,8 +35,12 @@ export interface Column<T extends object> {
 
     /**
      * 单元格内容的渲染
+     *
+     * 如果该值为空，则采用以下几种路径获取值：
+     *  - content
+     *  - T[id]
      */
-    render?: CellRenderFunc<T>;
+    renderContent?: CellRenderFunc<T>;
 }
 
 /**

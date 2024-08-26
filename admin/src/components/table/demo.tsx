@@ -6,7 +6,7 @@ import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
-import { ObjectAccessor, TextField } from '@/components/form';
+import { TextField } from '@/components/form';
 import { Page, sleep } from '@/core';
 import { SetParams, useSearchParams } from '@solidjs/router';
 import { default as BasicTable } from './basic';
@@ -38,12 +38,20 @@ const nopagingLoader = async (_: {}): Promise<Array<Item>> => {
     return [...buildItems(1, 10)];
 };
 
-const pagingLoader = async (oa: ObjectAccessor<Query>): Promise<Page<Item>> => {
+const pagingLoader = async (oa: Query): Promise<Page<Item>> => {
     const count = 100;
     await sleep(500);
 
-    const page = oa.accessor<number>('page').getValue();
-    const size = oa.accessor<number>('size').getValue();
+    if (!oa.size) { // 下载没有 size
+        return {
+            more: false,
+            count: 100,
+            current: [...buildItems(0, count)]
+        };
+    }
+
+    const page = oa.page! as number;
+    const size = oa.size! as number;
 
     return {
         more: page * size < count,
@@ -70,11 +78,11 @@ export default function () {
         { id: 6, name: 'name6', address: 'address6' },
     ];
 
-    const header: Array<Column<Item>> = [
+    const columns: Array<Column<Item>> = [
         { id: 'id' },
         { id: 'name' },
         { id: 'address' },
-        { id: 'action', label: 'ACTIONS', render: () => { return <button>...</button>; } }
+        { id: 'action', renderLabel: 'ACTIONS', renderContent: () => { return <button>...</button>; }, isUnexported: true }
     ];
 
     const search = useSearchParams<Params<Query>>();
@@ -92,7 +100,7 @@ export default function () {
     } stages={
         <>
             <BasicTable loading={loading()} striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
-                items={nodata() ? [] : items} columns={header} hoverable={hoverable()}
+                items={nodata() ? [] : items} columns={columns} hoverable={hoverable()}
                 extraHeader={<p class="bg-primary-fg text-primary-bg"><Button palette='primary'>Button</Button></p>}
                 extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
             />
@@ -104,7 +112,7 @@ export default function () {
                 fixedLayout={fixedLayout()}
                 palette={palette()}
                 toolbar={<><Button palette='primary'>+ New</Button></>}
-                columns={header} hoverable={hoverable()}
+                columns={columns} hoverable={hoverable()}
                 queries={fromSearch<Query>({txt: 'abc', page: 1, size: 10}, search[0])}
                 queryForm={(oa)=><><TextField accessor={oa.accessor<string>('txt')} /></>}
                 load={async(oa) => { const ret = await pagingLoader(oa); saveSearch(oa, search[1]); return ret; }}
@@ -115,7 +123,7 @@ export default function () {
             <DataTable systemToolbar={systemToolbar()} striped={striped()}
                 fixedLayout={fixedLayout()}
                 palette={palette()}
-                columns={header} hoverable={hoverable()}
+                columns={columns} hoverable={hoverable()}
                 queries={{}}
                 load={nopagingLoader}
             />

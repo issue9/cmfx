@@ -29,11 +29,6 @@ export interface Props<T extends object> extends BaseProps {
     items?: Array<T>;
 
     /**
-     * 表格标题
-     */
-    caption?: JSX.Element;
-
-    /**
      * 指定条纹色的间隔
      * - 0 表示没有；
      */
@@ -84,15 +79,11 @@ export default function<T extends object>(props: Props<T>) {
         </Show>
 
         <table classList={{'fixed-layout': props.fixedLayout}}>
-            <Show when={props.caption}>
-                <caption>{ props.caption }</caption>
-            </Show>
-
             <thead>
                 <tr>
                     <For each={props.columns}>
                         {(item)=>(
-                            <th class={item.headClass ?? item.cellClass}>{ item.label ? item.label : item.id }</th>
+                            <th class={item.headClass ?? item.cellClass}>{ item.renderLabel ?? (item.label ?? item.id) }</th>
                         )}
                     </For>
                 </tr>
@@ -106,7 +97,9 @@ export default function<T extends object>(props: Props<T>) {
                                 <For each={props.columns}>
                                     {(h) => {
                                         const i = h.id in item ? (item as any)[h.id] : undefined;
-                                        return <td class={h.cellClass}>{h.render ? h.render(h.id, i, item) : i}</td>;
+                                        return <td class={h.cellClass}>
+                                            {h.renderContent ? h.renderContent(h.id, i, item) : (h.content ? h.content(h.id, i,item) : i)}
+                                        </td>;
                                     }}
                                 </For>
                             </tr>

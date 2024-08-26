@@ -14,7 +14,8 @@ const messages: Messages = {
     refresh: '刷新',
     areYouSure: '你确定要这么做吗？',
     table: {
-        nodata: '没有数据'
+        nodata: '没有数据',
+        exportTo: '导出为 {{type}}'
     },
     pagination: {
         prev: '前一页',
