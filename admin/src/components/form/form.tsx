@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, Show } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+import { Spin } from '@/components/spin';
 import { FormAccessor } from './access';
 
 export interface Props<T extends object, R = never, P = never> extends BaseProps {
@@ -23,25 +24,22 @@ export interface Props<T extends object, R = never, P = never> extends BaseProps
     inDialog?: boolean;
 
     children: JSX.Element;
+
+    onSubmit?: JSX.FormHTMLAttributes<HTMLFormElement>['onSubmit']
+
+    onReset?: JSX.FormHTMLAttributes<HTMLFormElement>['onReset']
 }
 
 /**
  * 表单组件
  */
 export default function<T extends object, R = never, P = never>(props: Props<T,R,P>) {
-    const [loading, setLoading] = createSignal(false);
-    props.formAccessor.withLoadingSetter(setLoading);
-
-    return <form method={props.inDialog ? 'dialog' : undefined} classList={{
-        'c--form': true,
-        'c--form-loading': loading(),
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <fieldset disabled={loading()}>
+    return <form method={props.inDialog ? 'dialog' : undefined} class="c--form" onSubmit={props.onSubmit} onReset={props.onReset}>
+        <Spin spinning={props.formAccessor.submitting()} palette={props.palette}>
             <Show when={props.title}>
                 <legend>{ props.title }</legend>
             </Show>
             {props.children}
-        </fieldset>
+        </Spin>
     </form>;
 }
