@@ -12,7 +12,8 @@ const messages = {
     refresh: 'refresh',
     areYouSure: 'are you sure?',
     table: {
-        nodata: 'no data'
+        nodata: 'no data',
+        exportTo: 'export to {{type}}'
     },
     pagination: {
         prev: 'prev',

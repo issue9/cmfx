@@ -7,12 +7,12 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 
 import { useApp } from '@/app';
 import { Palette } from '@/components/base';
-import { Button } from '@/components/button';
+import { Button, SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
 import { defaultSizes } from '@/components/pagination/bar';
-import { Page } from '@/core';
+import { Exporter, Page } from '@/core';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 
@@ -20,9 +20,14 @@ export interface Props<T extends object, Q extends SetParams>
     extends Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> {
 
     /**
+     * 文件名
+     */
+    filename?: string;
+
+    /**
      * 加载数据的方法
      */
-    load: { (q: ObjectAccessor<Q>): Promise<Page<T> | Array<T> | undefined> };
+    load: { (q: Q): Promise<Page<T> | Array<T> | undefined> };
 
     /**
      * 构建查询参数组件
@@ -71,6 +76,7 @@ export interface Props<T extends object, Q extends SetParams>
 }
 
 const defaultProps = {
+    filename: 'download',
     striped: 0,
     pageSize: defaultSizes[1],
     accentPalette: 'primary' as Palette,
@@ -90,7 +96,7 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
     const [total, setTotal] = createSignal<number>(100);
 
     const [items, { refetch }] = createResource(async () => {
-        const ret = await props.load(oa);
+        const ret = await props.load(oa.object());
 
         if (ret === undefined) {
             return undefined;
@@ -101,6 +107,18 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
             return ret.current;
         }
     });
+
+    const exportCSV = async function (ext: Parameters<Exporter<T>['export']>[1]) {
+        const e = new Exporter(props.columns);
+        const q = { ...oa.object() };
+        delete q.size;
+        delete q.page;
+
+        await e.download(()=>{
+            return props.load(q);
+        });
+        e.export(props.filename!, ext);
+    };
 
     let footer: JSX.Element | undefined;
     if (props.paging) {
@@ -119,7 +137,13 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
                 {props.queryForm!(oa)}
                 <div class="actions">
                     <Button disabled={oa.isPreset()} type='reset' onClick={() => oa.reset()}>{ctx.t('_internal.reset')}</Button>
-                    <Button palette='primary' disabled={oa.isPreset()} type='submit' onClick={() => refetch()}>{ctx.t('_internal.search')}</Button>
+                    <SplitButton palette='primary' type='submit' onClick={() => refetch()} menus={[
+                        { type: 'item', label: ctx.t('_internal.table.exportTo', {type:'CSV'}), onClick: () => { exportCSV('.csv'); }},
+                        { type: 'item', label: ctx.t('_internal.table.exportTo', {type: 'xlsx'}), onClick: () => { exportCSV('.xlsx'); }},
+                        { type: 'item', label: ctx.t('_internal.table.exportTo', {type:'ods'}), onClick: () => { exportCSV('.ods'); }},
+                    ]}>
+                        {ctx.t('_internal.search')}
+                    </SplitButton>
                 </div>
             </form>
         </Show>

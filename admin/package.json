@@ -79,7 +79,8 @@
         "localforage": "^1.10.0",
         "material-symbols": "^0.22.2",
         "quill": "^2.0.2",
-        "solid-js": "^1.8.21"
+        "solid-js": "^1.8.21",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
         "@types/node": "^22.5.0",
