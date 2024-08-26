@@ -4,7 +4,7 @@
 
 import { For } from 'solid-js';
 
-import { boolSelector, colorsWithUndefined, Demo } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import TextArea from './textarea';
 
@@ -20,7 +20,7 @@ export default function() {
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     } stages={
-        <For each={colorsWithUndefined}>
+        <For each={palettesWithUndefined}>
             {(item) => (
                 <TextArea palette={item} title={item?item:'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
             )}
