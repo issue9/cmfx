@@ -11,6 +11,24 @@ const messages = {
     reset: 'reset',
     refresh: 'refresh',
     areYouSure: 'are you sure?',
+    page: { // 页面的翻译内容
+        newItem: 'new item',
+        created: 'create time',
+        id: 'ID',
+        no: 'NO',
+        state: 'state',
+        actions: 'actions',
+        edit: 'edit',
+        securitylog: {
+            content: 'content',
+            ip: 'IP',
+            ua: 'user agent',
+        },
+        roles: {
+            name: 'name',
+            description: 'description'
+        }
+    },
     table: {
         nodata: 'no data'
     },

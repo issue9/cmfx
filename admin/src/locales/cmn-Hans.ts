@@ -13,6 +13,24 @@ const messages: Messages = {
     reset: '重置',
     refresh: '刷新',
     areYouSure: '你确定要这么做吗？',
+    page: { // 页面的翻译内容
+        newItem: '新建',
+        created: '添加时间',
+        id: 'ID',
+        no: 'NO',
+        state: '状态',
+        actions: '操作',
+        edit: '编辑',
+        securitylog: {
+            content: '内容',
+            ip: 'IP',
+            ua: 'UA',
+        },
+        roles: {
+            name: '名称',
+            description: '描述'
+        }
+    },
     table: {
         nodata: '没有数据'
     },

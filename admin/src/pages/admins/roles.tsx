@@ -5,7 +5,7 @@
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { Column, DataTable } from '@/components';
+import { Button, DataTable } from '@/components';
 
 interface Role {
     id?: number;
@@ -16,22 +16,16 @@ interface Role {
 export default function(): JSX.Element {
     const ctx = useApp();
 
-    const columns: Array<Column<Role>> = [
-        {
-            id: 'id',
-            label: 'ID',
-        },
-        {
-            id: 'name',
-            label: 'name',
-        },
-        {
-            id: 'description',
-            label: 'description',
-        },
-    ];
-
-    return <DataTable columns={columns} queries={{}} load={async() => {
+    return <DataTable queries={{}} systemToolbar columns={[
+        {id: 'id',label: ctx.t('_internal.page.id')},
+        {id: 'name',label: ctx.t('_internal.page.roles.name')},
+        {id: 'description',label: ctx.t('_internal.page.roles.description')},
+        {id: 'actions',label: ctx.t('_internal.page.actions'), render:()=><>
+            <Button palette='secondary'>{ ctx.t('_internal.page.edit') }</Button>
+        </>},
+    ]} toolbar={
+        <Button palette='primary' onClick={()=>alert('TODO')}>{ctx.t('_internal.page.newItem')}</Button>
+    } load={async() => {
         const ret = await ctx.get<Array<Role>>('/roles');
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);

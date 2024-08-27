@@ -5,7 +5,7 @@
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { Column, DataTable } from '@/components';
+import { DataTable } from '@/components';
 import { Page } from '@/core';
 
 interface Admin {
@@ -18,26 +18,12 @@ interface Admin {
 export default function(): JSX.Element {
     const ctx = useApp();
 
-    const columns: Array<Column<Admin>> = [
-        {
-            id: 'id',
-            label: 'ID',
-        },
-        {
-            id: 'no',
-            label: 'NO',
-        },
-        {
-            id: 'created',
-            label: '添加时间',
-        },
-        {
-            id: 'state',
-            label: '状态',
-        },
-    ];
-
-    return <DataTable columns={columns} queries={{}} load={async() => {
+    return <DataTable queries={{}} columns={[
+        {id: 'id',label: ctx.t('_internal.page.id')},
+        {id: 'no',label: ctx.t('_internal.page.no')},
+        {id: 'created',label: ctx.t('_internal.page.created')},
+        {id: 'state',label: ctx.t('_internal.page.state')},
+    ]} load={async() => {
         const ret = await ctx.get<Page<Admin>>('/admins');
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);

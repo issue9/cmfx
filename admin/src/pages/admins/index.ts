@@ -2,6 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Admins } from './admins';
-export { default as Roles } from './roles';
+import { default as Admins } from './admins';
+import { default as Roles } from './roles';
+import { default as SecurityLogs } from './securitylogs';
 
+export const admins = {
+    Admins,
+    Roles,
+    SecurityLogs
+};

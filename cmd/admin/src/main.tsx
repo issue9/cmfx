@@ -25,8 +25,9 @@ const routes: Routes = {
         home: '/dashboard',
         routes: [
             { path: ['/dashboard', '/'], component: pages.Dashboard },
-            { path: '/roles', component: pages.Roles },
-            { path: '/admins', component: pages.Admins },
+            { path: '/roles', component: pages.admins.Roles },
+            { path: '/admins', component: pages.admins.Admins },
+            { path: '/securitylog', component: pages.admins.SecurityLogs },
             { path: '/demo', children: demo.routes },
             { path: '/test', component: Test }
         ]
@@ -42,6 +43,7 @@ const menus: Options['menus'] = [
                 type: 'item', label: 'administrator', items: [
                     { type: 'item', label: 'role', path: '/roles' },
                     { type: 'item', label: 'administrator', path: '/admins' },
+                    { type: 'item', label: 'securitylog', path: '/securitylog' },
                 ]
             },
         ]
