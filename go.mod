@@ -11,7 +11,7 @@ require (
 	github.com/issue9/events v0.9.0
 	github.com/issue9/logs/v7 v7.6.2
 	github.com/issue9/mux/v9 v9.1.0
-	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20240822064233-b31a90929a20
+	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20240827062057-858081e16d66
 	github.com/issue9/scheduled v0.21.1
 	github.com/issue9/sliceutil v0.16.1
 	github.com/issue9/web v0.96.4

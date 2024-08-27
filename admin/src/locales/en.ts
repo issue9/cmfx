@@ -17,8 +17,23 @@ const messages = {
         id: 'ID',
         no: 'NO',
         state: 'state',
+        states: {
+            normal: 'normal',
+            locked: 'locked',
+            deleted: 'deleted'
+        },
         actions: 'actions',
         edit: 'edit',
+        sex: 'sex',
+        sexes: {
+            male: 'male',
+            female: 'female',
+            unknown: 'unknown'
+        },
+        admin: {
+            name: 'name',
+            nickname: 'nick name'
+        },
         securitylog: {
             content: 'content',
             ip: 'IP',

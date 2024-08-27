@@ -7,6 +7,7 @@ package admin
 import (
 	"html"
 	"net/url"
+	"time"
 
 	"github.com/issue9/web"
 	"github.com/issue9/web/filter"
@@ -58,9 +59,11 @@ type info struct {
 // 包含权限的管理员信息
 type ctxInfoWithRoleState struct {
 	info
-	Roles []string `json:"roles" xml:"roles>role" cbor:"roles"` // 关联的角色
-	roles []*rbac.Role
-	State user.State `json:"state" xml:"state,attr" cbor:"state"` // 用户状态
+	Roles   []string `json:"roles" xml:"roles>role" cbor:"roles"` // 关联的角色
+	roles   []*rbac.Role
+	State   user.State `json:"state" xml:"state,attr" cbor:"state"`       // 用户状态
+	NO      string     `json:"no" xml:"no,attr" cbor:"no"`                // 用户的唯一编号，一般用于前端
+	Created time.Time  `json:"created" xml:"created,attr" cbor:"created"` // 添加时间
 }
 
 type reqInfoWithAccount struct {

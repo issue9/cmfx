@@ -7,6 +7,7 @@ package admin
 import (
 	"errors"
 	"net/http"
+	"time"
 
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/sqlbuilder"
@@ -89,10 +90,10 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	sql := m.Module().DB().SQLBuilder().Select().Column("*").From(orm.TableName(&info{}), "info")
+	sql := m.Module().DB().SQLBuilder().Select().Column("info.*").From(orm.TableName(&info{}), "info")
 
 	if len(q.States) > 0 {
-		m.user.LeftJoin(sql, "user", "user.id=info.id", q.States)
+		m.user.LeftJoin(sql, "user", "{user}.{id}={info}.{id}", q.States)
 	}
 
 	if len(q.Sexes) > 0 {
@@ -109,11 +110,13 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 
 	type modelInfo struct {
 		info
-		Roles []string   `orm:"roles"`
-		State user.State `orm:"state"`
+		NO      string        `orm:"name(no);len(32);unique(no)"` // 用户的唯一编号，一般用于前端
+		Created time.Time     `orm:"name(created)"`               // 添加时间
+		State   user.State    `orm:"name(state)"`                 // 状态
+		Roles   types.Strings `orm:"roles"`
 	}
 
-	return query.PagingResponserWithConvert[modelInfo, ctxInfoWithRoleState](ctx, &q.Limit, sql, func(i *modelInfo) *ctxInfoWithRoleState {
+	return query.PagingResponserWithConvert(ctx, &q.Limit, sql, func(i *modelInfo) *ctxInfoWithRoleState {
 		roles := m.roleGroup.UserRoles(i.ID)
 		rs := make([]string, 0, len(roles))
 		for _, r := range roles {
@@ -121,9 +124,11 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 		}
 
 		return &ctxInfoWithRoleState{
-			info:  i.info,
-			Roles: rs,
-			State: i.State,
+			info:    i.info,
+			Roles:   rs,
+			State:   i.State,
+			NO:      i.NO,
+			Created: i.Created,
 		}
 	})
 }

@@ -19,8 +19,23 @@ const messages: Messages = {
         id: 'ID',
         no: 'NO',
         state: '状态',
+        states: {
+            normal: '正常',
+            locked: '锁定',
+            deleted: '删除'
+        },
         actions: '操作',
         edit: '编辑',
+        sex: '性别',
+        sexes: {
+            male: '男',
+            female: '女',
+            unknown: '未知'
+        },
+        admin: {
+            name: '姓名',
+            nickname: '昵称'
+        },
         securitylog: {
             content: '内容',
             ip: 'IP',
