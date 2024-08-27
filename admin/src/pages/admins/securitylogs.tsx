@@ -30,10 +30,10 @@ export default function() {
     };
 
     return <DataTable paging queries={q} columns={[
-        {id: 'content',label: ctx.t('_internal.page.securitylog.content')},
-        {id: 'ip',label: ctx.t('_internal.page.securitylog.ip')},
-        {id: 'ua',label: ctx.t('_internal.page.securitylog.ua')},
-        {id: 'created',label: ctx.t('_internal.page.created')},
+        {id: 'content',label: ctx.t('_i.page.securitylog.content')},
+        {id: 'ip',label: ctx.t('_i.page.securitylog.ip')},
+        {id: 'ua',label: ctx.t('_i.page.securitylog.ua')},
+        {id: 'created',label: ctx.t('_i.page.created')},
     ]} load={async () => {
         const ret = await ctx.get<Page<SecurityLog>>('/securitylog');
         if (!ret.ok) {

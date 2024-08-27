@@ -68,14 +68,14 @@ export default function (props: Props) {
                         const dt = new Date(ac.getValue());
                         dt.setFullYear(p.dt.getFullYear()-1);
                         setValue(dt);
-                    }} title={ctx.t('_internal.date.prevYear')} aria-label={ctx.t('_internal.date.prevYear')} class="c--icon">keyboard_double_arrow_left</button>
+                    }} title={ctx.t('_i.date.prevYear')} aria-label={ctx.t('_i.date.prevYear')} class="c--icon">keyboard_double_arrow_left</button>
                     <button onClick={()=>{
                         if (props.readonly || props.disabled) { return; }
 
                         const dt = new Date(ac.getValue());
                         dt.setMonth(p.dt.getMonth()-1);
                         setValue(dt);
-                    }} title={ctx.t('_internal.date.prevMonth')} aria-label={ctx.t('_internal.date.prevMonth')} class="c--icon">chevron_left</button>
+                    }} title={ctx.t('_i.date.prevMonth')} aria-label={ctx.t('_i.date.prevMonth')} class="c--icon">chevron_left</button>
                 </div>
 
                 <div>
@@ -91,7 +91,7 @@ export default function (props: Props) {
                         const dt = new Date(ac.getValue());
                         dt.setMonth(p.dt.getMonth()+1);
                         setValue(dt);
-                    }} title={ctx.t('_internal.date.nextMonth')} aria-label={ctx.t('_internal.date.nextMonth')} class="c--icon">chevron_right</button>
+                    }} title={ctx.t('_i.date.nextMonth')} aria-label={ctx.t('_i.date.nextMonth')} class="c--icon">chevron_right</button>
                     <button onClick={()=>{
                         if (props.readonly || props.disabled) { return; }
 
@@ -99,7 +99,7 @@ export default function (props: Props) {
                         dt.setFullYear(p.dt.getFullYear()+1);
                         setValue(dt);
 
-                    }} title={ctx.t('_internal.date.nextYear')} aria-label={ctx.t('_internal.date.nextYear')} class="c--icon">keyboard_double_arrow_right</button>
+                    }} title={ctx.t('_i.date.nextYear')} aria-label={ctx.t('_i.date.nextYear')} class="c--icon">keyboard_double_arrow_right</button>
                 </div>
             </div>
 
@@ -157,7 +157,7 @@ export default function (props: Props) {
                         <Choice disabled={props.disabled} readonly={props.readonly} options={minutesOptions} accessor={p.ma} />
                     </Show>
                 </div>
-                <button class="now" onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_internal.date.now' : '_internal.date.today')}</button>
+                <button class="now" onClick={()=>setValue(new Date())}>{ctx.t(props.time ? '_i.date.now' : '_i.date.today')}</button>
             </div>
         </>;
     };

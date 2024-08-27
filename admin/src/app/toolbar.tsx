@@ -38,7 +38,7 @@ export default function Toolbar(props: Props) {
         <div class="flex gap-2">
             <Fullscreen />
 
-            <Button icon type="button" style='flat' title={ctx.t('_internal.settings')} rounded
+            <Button icon type="button" style='flat' title={ctx.t('_i.settings')} rounded
                 onClick={() =>props.settingsVisibleSetter(!props.settingsVisibleGetter())}>
                 settings
             </Button>
@@ -70,7 +70,7 @@ function Username(): JSX.Element {
                 {
                     type: 'item',
                     value: 'logout',
-                    label: ctx.t('_internal.login.logout')
+                    label: ctx.t('_i.login.logout')
                 }
             ]}</Menu>
         </Dropdown>
@@ -94,7 +94,7 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <Button icon type="button" style='flat' rounded onClick={toggleFullscreen} title={ctx.t('_internal.fullscreen')}>
+    return <Button icon type="button" style='flat' rounded onClick={toggleFullscreen} title={ctx.t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
 }

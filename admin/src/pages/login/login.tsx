@@ -40,17 +40,17 @@ export function Login(): JSX.Element {
     };
 
     createEffect(() => {
-        ctx.title = ctx.t('_internal.login.title')!;
+        ctx.title = ctx.t('_i.login.title')!;
     });
 
     return <div class="p--login palette--primary">
         <form onReset={onReset} onSubmit={onSubmit}>
-            <p class="text-lg">{ctx.t('_internal.login.title')}</p>
+            <p class="text-lg">{ctx.t('_i.login.title')}</p>
             <TextField prefix={<span class="c--icon">person</span>}
-                placeholder={ctx.t('_internal.login.username')} accessor={f.accessor('username', true)} />
-            <Password icon='lock' placeholder={ctx.t('_internal.login.password')} accessor={f.accessor('password', true)} />
-            <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.t('_internal.ok')}</Button>
-            <Button type="reset">{ ctx.t('_internal.reset') }</Button>
+                placeholder={ctx.t('_i.login.username')} accessor={f.accessor('username', true)} />
+            <Password icon='lock' placeholder={ctx.t('_i.login.password')} accessor={f.accessor('password', true)} />
+            <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.t('_i.ok')}</Button>
+            <Button type="reset">{ ctx.t('_i.reset') }</Button>
         </form>
     </div>;
 }

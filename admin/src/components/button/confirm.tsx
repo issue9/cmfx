@@ -66,10 +66,10 @@ export default function(props: Props) {
     return <Dropdown class='c--confirm-button-panel'
         pos={props.pos} visible={visible()} setVisible={setVisible}
         palette={props.palette} activator={activator}>
-        {props.prompt ?? ctx.t('_internal.areYouSure')}
+        {props.prompt ?? ctx.t('_i.areYouSure')}
         <div class="actions">
-            <Button palette='secondary' onClick={()=>setVisible(false)}>{ props.cancel ?? ctx.t('_internal.cancel') }</Button>
-            <Button palette='primary' autofocus onClick={confirm}>{ props.ok ?? ctx.t('_internal.ok') }</Button>
+            <Button palette='secondary' onClick={()=>setVisible(false)}>{ props.cancel ?? ctx.t('_i.cancel') }</Button>
+            <Button palette='primary' autofocus onClick={confirm}>{ props.ok ?? ctx.t('_i.ok') }</Button>
         </div>
     </Dropdown>;
 }

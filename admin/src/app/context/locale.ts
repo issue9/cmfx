@@ -25,7 +25,7 @@ function buildLoadMessages(locales : Locales) {
         const internal: InternalMessages = await loads[id]();
         const userData = await locales.loader(id);
         return i18n.flatten({
-            _internal: internal,
+            _i: internal,
             ...userData
         });
     };

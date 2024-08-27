@@ -107,28 +107,28 @@ export function weekDays(m: Array<[boolean, Month, number, number]>): Array<Arra
 }
 
 export const monthsLocales = new Map<Month, string>([
-    [0, '_internal.date.january'],
-    [1, '_internal.date.february'],
-    [2, '_internal.date.march'],
-    [3, '_internal.date.april'],
-    [4, '_internal.date.may'],
-    [5, '_internal.date.june'],
-    [6, '_internal.date.july'],
-    [7, '_internal.date.august'],
-    [8, '_internal.date.september'],
-    [9, '_internal.date.october'],
-    [10, '_internal.date.november'],
-    [11, '_internal.date.december'],
+    [0, '_i.date.january'],
+    [1, '_i.date.february'],
+    [2, '_i.date.march'],
+    [3, '_i.date.april'],
+    [4, '_i.date.may'],
+    [5, '_i.date.june'],
+    [6, '_i.date.july'],
+    [7, '_i.date.august'],
+    [8, '_i.date.september'],
+    [9, '_i.date.october'],
+    [10, '_i.date.november'],
+    [11, '_i.date.december'],
 ]);
 
 export const weeksLocales = new Map<Week, string>([
-    [1, '_internal.date.monday'],
-    [2, '_internal.date.tuesday'],
-    [3, '_internal.date.wednesday'],
-    [4, '_internal.date.thursday'],
-    [5, '_internal.date.friday'],
-    [6, '_internal.date.saturday'],
-    [0, '_internal.date.sunday']
+    [1, '_i.date.monday'],
+    [2, '_i.date.tuesday'],
+    [3, '_i.date.wednesday'],
+    [4, '_i.date.thursday'],
+    [5, '_i.date.friday'],
+    [6, '_i.date.saturday'],
+    [0, '_i.date.sunday']
 ]);
 
 export const hoursOptions: Options<number> = [

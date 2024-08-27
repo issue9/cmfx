@@ -91,13 +91,13 @@ export default function(props: Props) {
     }}>
         <button onclick={()=>change(1)}
             class="item c--icon"
-            aria-label={ctx.t('_internal.pagination.firstPage')}
+            aria-label={ctx.t('_i.pagination.firstPage')}
             disabled={current()===1}>first_page</button>
 
         <button onclick={()=>change(current()-1)}
             class="item c--icon"
             disabled={current()===1}
-            aria-label={ctx.t('_internal.pagination.prev')}>chevron_left</button>
+            aria-label={ctx.t('_i.pagination.prev')}>chevron_left</button>
 
         <For each={prevs()}>
             {(item)=>(
@@ -115,12 +115,12 @@ export default function(props: Props) {
 
         <button onclick={()=>change(current()+1)}
             class="item c--icon"
-            aria-label={ctx.t('_internal.pagination.next')}
+            aria-label={ctx.t('_i.pagination.next')}
             disabled={current() >= props.count}>chevron_right</button>
 
         <button onclick={()=>change(props.count)}
             class="item c--icon"
-            aria-label={ctx.t('_internal.pagination.lastPage')}
+            aria-label={ctx.t('_i.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</button>
     </nav>;
 }

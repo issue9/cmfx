@@ -48,7 +48,7 @@ function Alert(props: Props) {
     };
 
     return <Dialog {...props} ref={el => dlg = el} class='w-60' actions={
-        <Button onClick={() => dlg.close()}>{ctx.t('_internal.ok')}</Button>
+        <Button onClick={() => dlg.close()}>{ctx.t('_i.ok')}</Button>
     }>
         {msg()}
     </Dialog>;
@@ -70,8 +70,8 @@ function Confirm(props: Props) {
 
     return <Dialog {...props} class='w-60' ref={el => dlg = el} actions={
         <>
-            <Button onClick={() => dlg.close()}>{ctx.t('_internal.cancel')}</Button>
-            <Button onClick={() => dlg.close('true')}>{ctx.t('_internal.ok')}</Button>
+            <Button onClick={() => dlg.close()}>{ctx.t('_i.cancel')}</Button>
+            <Button onClick={() => dlg.close('true')}>{ctx.t('_i.ok')}</Button>
         </>
     }>
         <p>{msg()}</p>
@@ -96,8 +96,8 @@ function Prompt(props: Props) {
 
     return <Dialog {...props} ref={el => dlg = el} class='w-60' actions={
         <>
-            <Button onClick={() => dlg.close()}>{ctx.t('_internal.cancel')}</Button>
-            <Button onClick={() => dlg.close(access.getValue())}>{ctx.t('_internal.ok')}</Button>
+            <Button onClick={() => dlg.close()}>{ctx.t('_i.cancel')}</Button>
+            <Button onClick={() => dlg.close(access.getValue())}>{ctx.t('_i.ok')}</Button>
         </>
     }>
         <TextField label={msg()} accessor={access} />

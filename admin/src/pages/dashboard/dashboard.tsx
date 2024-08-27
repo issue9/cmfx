@@ -7,7 +7,7 @@ import { JSXElement } from 'solid-js';
 
 export default function(): JSXElement {
     const ctx = useApp();
-    ctx.title = ctx.t('_internal.ok')!;
+    ctx.title = ctx.t('_i.ok')!;
 
     return <div>
         dashboard

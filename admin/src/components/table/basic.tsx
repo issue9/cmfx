@@ -106,7 +106,7 @@ export default function<T extends object>(props: Props<T>) {
                 </Show>
                 <Show when={!props.items || props.items.length===0}>
                     <tr>
-                        <td class="nodata" colSpan={props.columns.length}>{ ctx.t('_internal.table.nodata') }</td>
+                        <td class="nodata" colSpan={props.columns.length}>{ ctx.t('_i.table.nodata') }</td>
                     </tr>
                 </Show>
             </tbody>
