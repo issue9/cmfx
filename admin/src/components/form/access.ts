@@ -135,7 +135,10 @@ export class ObjectAccessor<T extends object> {
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      *
-     * FT 表示 name 字段的类型；
+     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 Accessor 接口，
+     * 后续的 Accessor#setValue 会自动向当前对象添加该值。
+     *
+     * @template FT 表示 name 字段的类型；
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
      * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
      */
@@ -280,6 +283,9 @@ export class FormAccessor<T extends object, R = never, P = never> {
 
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
+     *
+     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 Accessor 接口，
+     * 后续的 Accessor#setValue 会自动向当前对象添加该值。
      */
     accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 

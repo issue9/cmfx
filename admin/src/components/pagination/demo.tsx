@@ -20,15 +20,17 @@ export default function() {
         </>
     } stages={
         <>
-            <div>
+            <fieldset class="w-full p-4 border border-palette-fg">
+                <legend>Pagination</legend>
                 <Pagination palette={palette()} count={10} value={5} spans={spans()}
                     onChange={(val,old)=>{return setPage(`new:${val}, old:${old}`);}} />
                 <pre>{page()}</pre>
-            </div>
+            </fieldset>
 
-            <div class="w-[80%]">
+            <fieldset class="w-full p-4 border border-palette-fg">
+                <legend>PaginationBar</legend>
                 <PaginationBar palette={palette()} total={100} page={2} size={20} />
-            </div>
+            </fieldset>
         </>
     } />;
 }

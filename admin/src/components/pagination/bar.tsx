@@ -100,9 +100,10 @@ export default function(props: Props) {
     };
 
     const translateItems = createMemo(() => {
+        const end = page() * sizeAccessor.getValue();
         return {
             start: (page() - 1) * sizeAccessor.getValue() + 1,
-            end: page() * sizeAccessor.getValue(),
+            end: end > props.total ? props.total : end,
             count: props.total
         };
     });
