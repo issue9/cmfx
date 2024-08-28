@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { SetParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp } from '@/app/context';
 import { Palette } from '@/components/base';
 import { SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';
@@ -13,19 +12,30 @@ import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
 import { defaultSizes } from '@/components/pagination/bar';
 import { Exporter, Page } from '@/core';
+import { useSearchParams } from '@solidjs/router';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
+import { fromSearch, Params, Query, saveSearch } from './search';
 
-export interface Props<T extends object, Q extends SetParams>
+export interface Props<T extends object, Q extends Query>
     extends Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> {
 
     /**
-     * 文件名
+     * 是否需要将参数反映在地址的查询参数中
+     */
+    inSearch?: boolean;
+
+    /**
+     * 下载的文件名
+     *
+     * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     filename?: string;
 
     /**
      * 加载数据的方法
+     *
+     * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     load: { (q: Q): Promise<Page<T> | Array<T> | undefined> };
 
@@ -40,6 +50,8 @@ export interface Props<T extends object, Q extends SetParams>
      * 查询参数的默认值
      *
      * 如果没有查询参数可以使用 {} 代替。
+     *
+     * NOTE: 如果 {@link Props#inSearch} 为 true，那么地址中的参数将覆盖此参数中的相同名称的字段。
      */
     queries: Q;
 
@@ -78,7 +90,6 @@ export interface Props<T extends object, Q extends SetParams>
 const defaultProps = {
     filename: 'download',
     striped: 0,
-    pageSize: defaultSizes[1],
     accentPalette: 'primary' as Palette,
     pageSizes: [...defaultSizes]
 };
@@ -89,14 +100,27 @@ const defaultProps = {
  * T 为数据中每一条数据的类型；
  * Q 为查询参数的类型；
  */
-export default function<T extends object, Q extends SetParams>(props: Props<T, Q>) {
+export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
     const ctx = useApp();
     props = mergeProps(defaultProps, props);
-    const oa = new ObjectAccessor<Q>(props.queries);
+
+    const [searchG, searchS] = useSearchParams<Params<Q>>();
+    if (props.inSearch) {
+        props.queries = fromSearch(props.queries, searchG);
+
+        const l = props.load;
+        props.load = async (q: Q) => {
+            const ret = await l(q);
+            saveSearch(q, searchS);
+            return ret;
+        };
+    }
+
+    const queries = new ObjectAccessor<Q>(props.queries);
     const [total, setTotal] = createSignal<number>(100);
 
     const [items, { refetch }] = createResource(async () => {
-        const ret = await props.load(oa.object());
+        const ret = await props.load(queries.object());
 
         if (ret === undefined) {
             return undefined;
@@ -110,7 +134,7 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
 
     const exports = async function (ext: Parameters<Exporter<T>['export']>[1]) {
         const e = new Exporter(props.columns);
-        const q = { ...oa.object() };
+        const q = { ...queries.object() };
         delete q.size;
         delete q.page;
 
@@ -122,8 +146,11 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
 
     let footer: JSX.Element | undefined;
     if (props.paging) {
-        const page = oa.accessor<number>('page');
-        const size = oa.accessor<number>('size');
+        const page = queries.accessor<number>('page');
+        const size = queries.accessor<number>('size');
+        if (size.getValue()===0) {
+            size.setValue(defaultProps.pageSizes[1]);
+        }
 
         footer = <PaginationBar class="mt-2" palette={props.accentPalette}
             onPageChange={(p) => { page.setValue(p); refetch(); }}
@@ -134,7 +161,7 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
     const header = <header class="header">
         <Show when={props.queryForm}>
             <form class="search">
-                {props.queryForm!(oa)}
+                {props.queryForm!(queries)}
                 <div class="actions">
                     <SplitButton pos='bottomright' palette='primary' type='submit' onClick={() => refetch()} menus={[
                         { type: 'item', onClick: () => { exports('.csv'); } , label: <>
@@ -153,7 +180,7 @@ export default function<T extends object, Q extends SetParams>(props: Props<T, Q
                         </>
                         },
                         { type: 'divider' },
-                        { type: 'item', onClick: () => { oa.reset(); }, disabled:oa.isPreset(), label: <>
+                        { type: 'item', onClick: () => { queries.reset(); }, disabled:queries.isPreset(), label: <>
                             <span class="c--icon mr-2">restart_alt</span>
                             {ctx.t('_i.reset')}
                         </>

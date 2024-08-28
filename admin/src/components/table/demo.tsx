@@ -8,11 +8,10 @@ import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { TextField } from '@/components/form';
 import { Page, sleep } from '@/core';
-import { SetParams, useSearchParams } from '@solidjs/router';
 import { default as BasicTable } from './basic';
 import { Column } from './column';
 import { default as DataTable } from './datatable';
-import { fromSearch, Params, saveSearch } from './search';
+import { Query } from './search';
 
 interface Item {
     id: number;
@@ -20,7 +19,7 @@ interface Item {
     address: string;
 }
 
-interface Query extends SetParams {
+interface Q extends Query {
     txt: string;
 }
 
@@ -38,7 +37,7 @@ const nopagingLoader = async (_: {}): Promise<Array<Item>> => {
     return [...buildItems(1, 10)];
 };
 
-const pagingLoader = async (oa: Query): Promise<Page<Item>> => {
+const pagingLoader = async (oa: Q): Promise<Page<Item>> => {
     const count = 100;
     await sleep(500);
 
@@ -85,8 +84,6 @@ export default function () {
         { id: 'action', renderLabel: 'ACTIONS', renderContent: () => { return <button>...</button>; }, isUnexported: true }
     ];
 
-    const search = useSearchParams<Params<Query>>();
-
     return <Demo settings={
         <>
             {paletteS}
@@ -108,14 +105,15 @@ export default function () {
             <p>分页表格</p>
 
             <DataTable accentPalette='primary' paging systemToolbar={systemToolbar()}
+                inSearch
                 striped={striped()}
                 fixedLayout={fixedLayout()}
                 palette={palette()}
                 toolbar={<><Button palette='primary'>+ New</Button></>}
                 columns={columns} hoverable={hoverable()}
-                queries={fromSearch<Query>({txt: 'abc', page: 1, size: 10}, search[0])}
-                queryForm={(oa)=><><TextField accessor={oa.accessor<string>('txt')} /></>}
-                load={async(oa) => { const ret = await pagingLoader(oa); saveSearch(oa, search[1]); return ret; }}
+                queries={{ txt: 'abc', page: 1, size: 10 }}
+                queryForm={(oa) => <><TextField accessor={oa.accessor<string>('txt')} /></>}
+                load={pagingLoader}
             />
 
             <p>未分页的表格</p>

@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { SetParams } from '@solidjs/router';
+
 import { useApp } from '@/app';
 import { DataTable } from '@/components';
 import { Page } from '@/core';
-import { SetParams } from '@solidjs/router';
 
 interface SecurityLog {
     content: string;
@@ -15,8 +16,6 @@ interface SecurityLog {
 }
 
 interface Query extends SetParams {
-    size: number;
-    page: number;
     text?: string;
     'created.start'?: string;
     'created.end'?: string;

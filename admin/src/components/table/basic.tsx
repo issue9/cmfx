@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { Spin } from '@/components/spin';
 import { Column } from './column';

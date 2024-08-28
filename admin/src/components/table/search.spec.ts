@@ -11,4 +11,7 @@ test('fromSearch', () => {
     expect(fromSearch({ num: 0 }, { num: '22' })).toEqual({ num: 22 });
     expect(fromSearch({ bool: true }, { bool: '22' })).toEqual({ bool: true });
     expect(fromSearch({ bool: true, n: undefined }, { bool: '22', n: '5' })).toEqual({ bool: true, n: '5' });
+
+    expect(fromSearch({ bool: [true], n: undefined }, { bool: 'true,false', n: '5' })).toEqual({ bool: [true,false], n: '5' });
+    expect(fromSearch({ str: ['str'], n: undefined }, { str: 'true,false', n: '5' })).toEqual({ str: ['true','false'], n: '5' });
 });
