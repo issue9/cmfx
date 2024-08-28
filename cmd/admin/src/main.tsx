@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options, Routes, createApp } from 'admin/dev';
+import { createApp, Options, Routes } from 'admin/dev';
 
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
 import * as demo from './demo';
-import { Message } from './locales';
+import { loads, Message } from './locales';
 import { default as Test } from './pages/test';
 
 const urlBase = 'http://192.168.10.10:8080/admin';
@@ -60,9 +60,7 @@ const o: Options = {
     },
 
     locales: {
-        loader: async (id): Promise<Message> => {
-            return (await import(`./locales/${id}.ts`)).default;
-        },
+        messages: loads,
         fallback: 'en',
         locales: ['en', 'cmn-Hans']
     },

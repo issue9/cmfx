@@ -4,7 +4,6 @@
 
 import { expect, test } from 'vitest';
 
-import { Locale } from '@/locales';
 import { build, Locales } from './options';
 import { Routes } from './route';
 
@@ -17,7 +16,10 @@ test('build', async () => {
     };
 
     const locales: Locales = {
-        loader: async (_: Locale): Promise<Record<string, unknown>> => { return {}; },
+        messages: {
+            'en': async () => { return (await import('@/locales/en')).default; },
+            'cmn-Hans': async () => { return (await import('@/locales/cmn-Hans')).default; },
+        },
         locales: ['en', 'cmn-Hans'],
         fallback: 'en'
     };

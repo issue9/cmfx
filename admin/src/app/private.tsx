@@ -7,7 +7,8 @@ import { Accessor, createEffect, createMemo, ErrorBoundary, Match, ParentProps, 
 
 import { Drawer, Item, List } from '@/components';
 import { Breakpoint, Breakpoints } from '@/core';
-import { T, useInternal } from './context';
+import { T } from '@/locales';
+import { useInternal } from './context';
 import * as errors from './errors';
 import { MenuItem } from './options/route';
 

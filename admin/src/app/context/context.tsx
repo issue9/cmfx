@@ -8,8 +8,7 @@ import { JSX, createContext, createSignal, useContext } from 'solid-js';
 import { build as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
 import { Account, Breakpoint, Breakpoints, Fetcher, Method, Problem, notify } from '@/core';
-import { Locale, names } from '@/locales';
-import { createI18n } from './locale';
+import { Locale, createI18n, names } from '@/locales';
 import { createUser } from './user';
 
 type Options = ReturnType<typeof buildOptions>;
@@ -37,7 +36,7 @@ export function useInternal() {
 export function useApp(): AppContext { return useInternal(); }
 
 export function buildContext(o: Options, f: Fetcher) {
-    const { getLocale, setLocale, t } = createI18n(o.locales);
+    const { getLocale, setLocale, t } = createI18n(o.locales.fallback, o.locales.messages);
 
     const [user, { refetch }] = createUser(f, o.api.info);
 
