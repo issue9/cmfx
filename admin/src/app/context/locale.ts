@@ -8,13 +8,6 @@ import { createResource, createSignal } from 'solid-js';
 import { Locales } from '@/app/options';
 import { Messages as InternalMessages, Locale } from '@/locales';
 
-/**
- * 获取翻译对象 M 的所有字段名作为类型
- *
- * NOTE: 如果是嵌套对象，则会以 . 进行拼接。
- */
-export type KeyOfMessage<M extends i18n.BaseDict> = keyof i18n.Flatten<M>;
-
 const loads: Record<Locale, {():Promise<InternalMessages>}> = {
     'en': async()=>{return (await import('@/locales/en')).default;},
     'cmn-Hans': async()=>{return (await import('@/locales/cmn-Hans')).default;},
@@ -25,7 +18,7 @@ function buildLoadMessages(locales : Locales) {
         const internal: InternalMessages = await loads[id]();
         const userData = await locales.loader(id);
         return i18n.flatten({
-            _i: internal,
+            ...internal,
             ...userData
         });
     };

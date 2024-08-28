@@ -2,33 +2,29 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AppContext } from '@/app';
-import { Options, Query as QueryBase } from '@/components';
+import { Query as QueryBase } from '@/components';
+import { MessageKey } from '@/locales';
 
 export type Sex = 'male' | 'female' | 'unknown';
 
 export type State = 'normal' | 'locked' | 'deleted';
 
-export function buildSexOptions(ctx: AppContext): Options<Sex> {
-    return [
-        ['male', ctx.t('_i.page.sexes.male')],
-        ['female', ctx.t('_i.page.sexes.female')],
-        ['unknown', ctx.t('_i.page.sexes.unknown')],
-    ] as const;
-}
+export const sexesMap: Array<[Sex, MessageKey]> = [
+    ['male', '_i.page.sexes.male'],
+    ['female', '_i.page.sexes.female'],
+    ['unknown', '_i.page.sexes.unknown'],
+] as const;
 
-export function buildStateOptions(ctx: AppContext): Options<State> {
-    return [
-        ['normal', ctx.t('_i.page.states.normal')],
-        ['locked', ctx.t('_i.page.states.locked')],
-        ['deleted', ctx.t('_i.page.states.deleted')],
-    ] as const;
-}
+export const statesMap: Array<[State, MessageKey]> = [
+    ['normal', '_i.page.states.normal'],
+    ['locked', '_i.page.states.locked'],
+    ['deleted', '_i.page.states.deleted'],
+];
 
 export interface Query extends QueryBase {
     text?: string;
-    states?: Array<State>;
-    sexes?: Array<Sex>;
+    state?: Array<State>;
+    sex?: Array<Sex>;
 }
 
 export interface Admin {

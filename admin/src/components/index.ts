@@ -16,3 +16,4 @@ export * from './pagination';
 export * from './table';
 export * from './tree';
 
+export * from './utils';

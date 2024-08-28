@@ -6,5 +6,5 @@ export { create as createApp } from './app';
 export type { Options, Routes } from './options';
 
 export { useApp } from './context';
-export type { AppContext, KeyOfMessage, T } from './context';
+export type { AppContext, T } from './context';
 

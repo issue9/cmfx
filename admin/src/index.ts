@@ -5,3 +5,5 @@
 import './style.css';
 
 export * from './app';
+export * from './locales';
+

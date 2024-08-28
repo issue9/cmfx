@@ -95,7 +95,7 @@ const defaultProps = {
 };
 
 /**
- * 带有远程加载功能的表格组件
+ * 带有加载功能的表格组件
  *
  * T 为数据中每一条数据的类型；
  * Q 为查询参数的类型；
@@ -138,9 +138,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         delete q.size;
         delete q.page;
 
-        await e.download(()=>{
-            return props.load(q);
-        });
+        await e.download(()=>{return props.load(q);});
         e.export(props.filename!, ext);
     };
 
