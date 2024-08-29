@@ -8,7 +8,7 @@ import { Accessor, createEffect, createMemo, ErrorBoundary, Match, ParentProps, 
 import { Drawer, Item, List } from '@/components';
 import { Breakpoint, Breakpoints } from '@/core';
 import { T } from '@/locales';
-import { useInternal } from './context';
+import { useApp, useOptions } from './context';
 import * as errors from './errors';
 import { MenuItem } from './options/route';
 
@@ -20,7 +20,8 @@ interface Props extends ParentProps {
 }
 
 export function Private(props: Props) {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
     const floating = createMemo(() => Breakpoints.compare(ctx.breakpoint(), floatAsideWidth) < 0);
     createEffect(() => {
         if (!floating()) {
@@ -30,7 +31,7 @@ export function Private(props: Props) {
 
     return <Switch>
         <Match when={!ctx.isLogin()}>
-            <Navigate href={/*@once*/ctx.options.routes.public.home} />
+            <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
             <Drawer floating={floating()} palette='secondary'
@@ -39,7 +40,7 @@ export function Private(props: Props) {
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor>{buildItems(ctx.t, ctx.options.menus)}</List>
+                <List anchor>{buildItems(ctx.t, opt.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;

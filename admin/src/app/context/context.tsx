@@ -5,40 +5,46 @@
 import { useNavigate } from '@solidjs/router';
 import { JSX, createContext, createSignal, useContext } from 'solid-js';
 
-import { build as buildOptions } from '@/app/options';
+import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
 import { Account, Breakpoint, Breakpoints, Fetcher, Method, Problem, notify } from '@/core';
 import { Locale, createI18n, names } from '@/locales';
 import { createUser } from './user';
 
-type Options = ReturnType<typeof buildOptions>;
+type Options = Required<buildOptions>;
 
-export type Context = ReturnType<typeof buildContext>['ctx'];
+export type AppContext = ReturnType<typeof buildContext>['ctx'];
 
-export type AppContext = Exclude<Context, 'options' | 'setNotifySender' | 'login' | 'logout'>;
+const appContext = createContext<AppContext>();
 
-const context = createContext<Context>();
+const optContext = createContext<Options>();
 
 /**
- * 内部使用的全局方法
+ * 提供应用内的全局操作方法
  */
-export function useInternal() {
-    const ctx = useContext(context);
+export function useApp(): AppContext {
+    const ctx = useContext(appContext);
     if (!ctx) {
-        throw '未找到正确的 context';
+        throw '未找到正确的 appContext';
     }
     return ctx;
 }
 
 /**
- * 提供应用内的全局操作方法
+ * 提供应用初始化时的选项
  */
-export function useApp(): AppContext { return useInternal(); }
+export function useOptions(): Options {
+    const ctx = useContext(optContext);
+    if (!ctx) {
+        throw '未找到正确的 optContext';
+    }
+    return ctx;
+}
 
-export function buildContext(o: Options, f: Fetcher) {
-    const { getLocale, setLocale, t } = createI18n(o.locales.fallback, o.locales.messages);
+export function buildContext(opt: Required<buildOptions>, f: Fetcher) {
+    const { getLocale, setLocale, t } = createI18n(opt.locales.fallback, opt.locales.messages);
 
-    const [user, { refetch }] = createUser(f, o.api.info);
+    const [user, { refetch }] = createUser(f, opt.api.info);
 
     const [bp, setBP] = createSignal<Breakpoint>('xs');
     const breakpoints = new Breakpoints();
@@ -88,14 +94,14 @@ export function buildContext(o: Options, f: Fetcher) {
         async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
             if (status === 401) {
                 const nav = useNavigate();
-                nav(o.routes.public.home);
+                nav(opt.routes.public.home);
                 return;
             }
 
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
             }
-            await this.notify(p.title,p.detail);
+            await this.notify(p.title, p.detail);
         },
 
         /**
@@ -131,13 +137,11 @@ export function buildContext(o: Options, f: Fetcher) {
 
         breakpoint() { return bp(); },
 
-        get options() { return o; },
-
         set title(v: string) {
             if (v) {
-                v = v + o.titleSeparator + o.title;
+                v = v + opt.titleSeparator + opt.title;
             } else {
-                v = o.title;
+                v = opt.title;
             }
 
             document.title = v;
@@ -154,7 +158,7 @@ export function buildContext(o: Options, f: Fetcher) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            if (o.system.notification && await notify(title, body, o.logo, getLocale(), timeout)) {
+            if (opt.system.notification && await notify(title, body, opt.logo, getLocale(), timeout)) {
                 return;
             }
             await window.notify(title, body, type, timeout);
@@ -177,7 +181,9 @@ export function buildContext(o: Options, f: Fetcher) {
     };
 
     const Provider = (props: { children: JSX.Element }) => {
-        return <context.Provider value={ctx}>{props.children}</context.Provider>;
+        return <optContext.Provider value={opt}>
+            <appContext.Provider value={ctx}>{props.children}</appContext.Provider>
+        </optContext.Provider>;
     };
 
     return { ctx, Provider };

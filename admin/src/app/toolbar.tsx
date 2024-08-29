@@ -7,7 +7,7 @@ import { Accessor, JSX, Setter, Show, createSignal } from 'solid-js';
 
 import { Button, Dropdown, ItemValue, Menu } from '@/components';
 import { Breakpoints } from '@/core';
-import { useApp, useInternal } from './context';
+import { useApp, useOptions } from './context';
 import { floatAsideWidth } from './private';
 
 interface Props {
@@ -21,12 +21,13 @@ interface Props {
  * 顶部工具栏
  */
 export default function Toolbar(props: Props) {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
 
     return <header class="app-bar palette--secondary">
         <div class="flex c--icon-container">
-            <img alt="logo" class="inline-block max-w-6 max-h-6" src={ctx.options.logo} />
-            <span class="inline-block ml-2 text-lg font-bold">{ctx.options.title}</span>
+            <img alt="logo" class="inline-block max-w-6 max-h-6" src={opt.logo} />
+            <span class="inline-block ml-2 text-lg font-bold">{opt.title}</span>
         </div>
 
         <div class="px-4 flex flex-1 c--icon-container ml-10">
@@ -49,7 +50,8 @@ export default function Toolbar(props: Props) {
 }
 
 function Username(): JSX.Element {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
     const [visible, setVisible] = createSignal(false);
     const nav = useNavigate();
 
@@ -57,7 +59,7 @@ function Username(): JSX.Element {
         switch(select) {
         case 'logout':
             await ctx.logout();
-            nav(ctx.options.routes.public.home);
+            nav(opt.routes.public.home);
         }
     };
 

@@ -174,7 +174,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </>;
     };
 
-    return <Dropdown tag="ul" wrapperClass='w-full' class="c--choice-options"
+    return <Dropdown tag="ul" wrapperClass='c--choice' class="c--choice-options"
         setVisible={setOptionsVisible} palette={props.palette} pos='bottomleft' aria-multiselectable={props.multiple}
         visible={optionsVisible()} activator={activator}>
         <Switch>

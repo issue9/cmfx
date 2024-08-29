@@ -5,7 +5,7 @@
 import { Navigate, useNavigate } from '@solidjs/router';
 import { createEffect, JSX, Match, Switch } from 'solid-js';
 
-import { useInternal } from '@/app/context';
+import { useApp, useOptions } from '@/app/context';
 import { Button, ObjectAccessor, Password, TextField } from '@/components';
 import { Account } from '@/core';
 
@@ -13,16 +13,18 @@ import { Account } from '@/core';
  * 登录页面
  */
 export default function (): JSX.Element {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
 
     return <Switch>
-        <Match when={ctx.isLogin()}><Navigate href={ctx.options.routes.private.home} /></Match>
+        <Match when={ctx.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
         <Match when={!ctx.isLogin()}><Login /></Match>
     </Switch>;
 }
 
 export function Login(): JSX.Element {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
     const nav = useNavigate();
 
     const f = new ObjectAccessor<Account>({ username: '', password: '' });
@@ -30,7 +32,7 @@ export function Login(): JSX.Element {
     const onSubmit = async() => {
         const ret = await ctx.login(f.object());
         if (ret === true) {
-            nav(ctx.options.routes.private.home);
+            nav(opt.routes.private.home);
             return;
         }
 

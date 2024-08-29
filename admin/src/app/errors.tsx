@@ -5,14 +5,15 @@
 import { useNavigate } from '@solidjs/router';
 
 import { Button, ErrorProps, Error as XError } from '@/components';
-import { useInternal } from './context';
+import { useApp, useOptions } from './context';
 
 export function NotFound() {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
     const nav = useNavigate();
-    
+
     return <XError header="404" title={ctx.t('_i.error.pageNotFound')}>
-        <Button palette='primary' onClick={() => { nav(ctx.options.routes.private.home); }}>{ ctx.t('_i.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ ctx.t('_i.error.backHome') }</Button>
         <Button palette='primary' onClick={() => { nav(-1); }}>{ ctx.t('_i.error.backPrev') }</Button>
     </XError>;
 }
@@ -21,7 +22,8 @@ export function NotFound() {
  * 一些未知的错误统一使用此方法
  */
 export function Unknown(err: any) {
-    const ctx = useInternal();
+    const ctx = useApp();
+    const opt = useOptions();
     const nav = useNavigate();
 
     const props: ErrorProps = {};
@@ -34,7 +36,7 @@ export function Unknown(err: any) {
     }
 
     return <XError header={props.header ?? ctx.t('_i.error.unknownError')} title={props.title} detail={props.detail}>
-        <Button palette='primary' onClick={() => { nav(ctx.options.routes.private.home); }}>{ ctx.t('_i.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ ctx.t('_i.error.backHome') }</Button>
         <Button palette='primary' onClick={() => { nav(-1); }}>{ ctx.t('_i.error.backPrev') }</Button>
         <Button palette='primary' onClick={() => window.location.reload()}>{ctx.t('_i.refresh')}</Button>
     </XError>;

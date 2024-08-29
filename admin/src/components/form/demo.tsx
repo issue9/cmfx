@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 
-import { useInternal } from '@/app/context';
+import { useApp } from '@/app/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '../button';
 import { FormAccessor } from './access';
@@ -13,7 +13,7 @@ import { TextArea } from './textarea';
 import { Number, TextField } from './textfield';
 
 export default function() {
-    const ctx = useInternal();
+    const ctx = useApp();
     const [paletteS, palette] = paletteSelector('secondary');
 
     const f = new FormAccessor({

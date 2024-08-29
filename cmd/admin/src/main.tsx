@@ -8,7 +8,7 @@ import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
 import * as demo from './demo';
-import { loads, Message } from './locales';
+import { loads } from './locales';
 import { default as Test } from './pages/test';
 
 const urlBase = 'http://192.168.10.10:8080/admin';

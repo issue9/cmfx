@@ -32,6 +32,7 @@ const messages = {
                 unknown: 'unknown'
             },
             admin: {
+                title: 'admin',
                 name: 'name',
                 nickname: 'nick name'
             },

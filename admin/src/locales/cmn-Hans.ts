@@ -34,6 +34,7 @@ const messages: Messages = {
                 unknown: '未知'
             },
             admin: {
+                title: '管理员',
                 name: '姓名',
                 nickname: '昵称'
             },

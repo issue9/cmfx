@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, For, mergeProps } from 'solid-js';
 
-import { useInternal } from '@/app/context';
+import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
 
 export interface Props extends BaseProps {
@@ -41,7 +41,7 @@ const defaultProps: Readonly<Partial<Props>> = {
  */
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-    const ctx = useInternal();
+    const ctx = useApp();
 
     const [prevs, setPrevs] = createSignal<Array<number>>([]);
     const [nexts, setNexts] = createSignal<Array<number>>([]);
