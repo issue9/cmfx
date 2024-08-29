@@ -6,8 +6,6 @@
  * 与访问后端 API 地址相关的配置项
  */
 export interface API {
-    [index: string]: string // 限定了所有字段的类型
-
     /**
      * 后台 API 访问的基地址
      */
@@ -24,9 +22,14 @@ export interface API {
     info: string
 
     /**
-     * 用户的基本设置
+     * api 请求时可用的分页数值
      */
-    settings: string
+    pageSizes: Array<number>
+
+    /**
+     * 默认的分页数量，必须存在于 {@link API#pageSizes}。
+     */
+    defaultSize: number;
 }
 
 /**
@@ -42,17 +45,25 @@ export function checkAPI(api: API) {
         api.base = api.base.substring(0, api.base.length - 1);
     }
 
-    Object.entries(api).forEach(([key, val]) => {
-        if (key === 'base') { // base 之前已经检测
-            return;
-        }
+    api.login = checkAPIPath(api.login, 'login');
+    api.info = checkAPIPath(api.info, 'info');
 
-        if (!val.length) {
-            throw `api.${key} 不能为空`;
-        }
+    if (api.pageSizes.length === 0) {
+        throw 'pageSizes 不能为空';
+    }
 
-        if (val.charAt(0) !== '/') {
-            api[key] = '/' + val;
-        }
-    });
+    if (!api.pageSizes.includes(api.defaultSize)) {
+        throw 'defaultSize 必须存在于 pageSizes 之中';
+    }
+}
+
+function checkAPIPath(path: string, key: string): string {
+    if (!path.length) {
+        throw `api.${key} 不能为空`;
+    }
+
+    if (path.charAt(0) !== '/') {
+        path = '/' + path;
+    }
+    return path;
 }

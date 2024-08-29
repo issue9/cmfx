@@ -11,8 +11,9 @@ test('build', async () => {
     const api = {
         base: 'http://localhost',
         login: '/login',
-        settings: '/settings',
         info: '/info',
+        pageSizes: [1,2],
+        defaultSize: 1
     };
 
     const locales: Locales = {

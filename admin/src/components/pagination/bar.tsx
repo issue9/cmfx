@@ -4,7 +4,7 @@
 
 import { createMemo, createSignal, mergeProps } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp, useOptions } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { Choice, FieldAccessor, Options } from '@/components/form';
 import { default as Pagination } from './pagination';
@@ -44,21 +44,18 @@ export interface Props extends BaseProps {
     class?: string;
 }
 
-export const defaultSizes = [10, 20, 50, 100] as const;
-
-const defaultProps: Readonly<Partial<Props>> = {
-    spans: 3,
-    size: defaultSizes[1],
-    sizes: [...defaultSizes]
-};
-
 /**
  * 页码导航条
  *
  * 相对于 {@link Pagination} 变成了按照数据总量进行计算分页，而不是直接按照页数。
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    const opt = useOptions();
+    props = mergeProps({
+        spans: 3,
+        size: opt.api.defaultSize,
+        sizes: opt.api.pageSizes
+    }, props);
 
     if (props.sizes!.indexOf(props.size!)<0) {
         throw `参数 props.size:${props.size} 必须存在于 props.sizes: ${props.sizes}`;

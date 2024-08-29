@@ -113,7 +113,7 @@ const presetOptions = {
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', scheme: 20 },
     mimetype: 'application/json',
-    footer: Array<MenuItem>()
+    footer: Array<MenuItem>(),
 } as const;
 
 /**

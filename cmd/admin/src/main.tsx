@@ -68,8 +68,9 @@ const o: Options = {
     api: {
         base: urlBase,
         login: '/login',
-        settings: '/settings',
         info: '/info',
+        pageSizes: [10, 20, 50, 100],
+        defaultSize: 20
     },
 
     title: 'title',

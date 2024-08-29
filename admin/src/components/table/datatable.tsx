@@ -4,13 +4,12 @@
 
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { useApp } from '@/app/context';
+import { useApp, useOptions } from '@/app/context';
 import { Palette } from '@/components/base';
 import { SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
-import { defaultSizes } from '@/components/pagination/bar';
 import { Exporter, Page } from '@/core';
 import { useSearchParams } from '@solidjs/router';
 import type { Props as BaseProps } from './basic';
@@ -102,8 +101,7 @@ const defaultProps = {
     filename: 'download',
     striped: 0,
     accentPalette: 'primary' as Palette,
-    pageSizes: [...defaultSizes]
-};
+} as const;
 
 /**
  * 带有加载功能的表格组件
@@ -112,9 +110,11 @@ const defaultProps = {
  * Q 为查询参数的类型；
  */
 export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
+    const opt = useOptions();
     const ctx = useApp();
+
     let load = props.load;
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(defaultProps, { pageSizes: opt.api.pageSizes }, props);
 
     const [searchG, searchS] = useSearchParams<Params<Q>>();
     if (props.inSearch) {
@@ -167,7 +167,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         const page = queries.accessor<number>('page');
         const size = queries.accessor<number>('size');
         if (size.getValue()===0) {
-            size.setValue(defaultProps.pageSizes[1]);
+            size.setValue(opt.api.pageSizes[1]);
         }
 
         footer = <PaginationBar class="mt-2" palette={props.accentPalette}

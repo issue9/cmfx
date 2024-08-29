@@ -10,8 +10,9 @@ test('checkAPI', () => {
     const api = {
         base: 'http://localhost/',
         login: '/login',
-        settings: '/settings',
-        info: '/info'
+        info: '/info',
+        pageSizes: [1,2],
+        defaultSize: 1
     };
 
     expect(() => {
