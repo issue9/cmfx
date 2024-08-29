@@ -9,7 +9,7 @@
         @apply h-full w-full flex overflow-hidden;
 
         >aside {
-            @apply h-full bg-[var(--bg)] text-[var(--fg)] transition-[width] z-50 overflow-y-auto;
+            @apply h-full bg-[var(--bg)] text-[var(--fg)] z-50 overflow-y-auto;
         }
 
         >main {
