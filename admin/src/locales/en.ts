@@ -13,6 +13,8 @@ const messages = {
         refresh: 'refresh',
         areYouSure: 'are you sure?',
         page: { // 页面的翻译内容
+            editItem: 'edit item',
+            deleteItem: 'delete item',
             newItem: 'new item',
             created: 'create time',
             id: 'ID',
@@ -24,7 +26,6 @@ const messages = {
                 deleted: 'deleted'
             },
             actions: 'actions',
-            edit: 'edit',
             sex: 'sex',
             sexes: {
                 male: 'male',

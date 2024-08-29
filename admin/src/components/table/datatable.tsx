@@ -17,8 +17,15 @@ import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 import { fromSearch, Params, Query, saveSearch } from './search';
 
-export interface Props<T extends object, Q extends Query>
-    extends Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> {
+export interface Methods {
+    /**
+     * 刷新表格中的数据
+     */
+    refresh(): Promise<void>;
+}
+
+type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> & {
+    ref?: { (el: Methods): void };
 
     /**
      * 是否需要将参数反映在地址的查询参数中
@@ -31,13 +38,6 @@ export interface Props<T extends object, Q extends Query>
      * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     filename?: string;
-
-    /**
-     * 加载数据的方法
-     *
-     * NOTE: 这是一个静态数据，无法在运行过程中改变。
-     */
-    load: { (q: Q): Promise<Page<T> | Array<T> | undefined> };
 
     /**
      * 构建查询参数组件
@@ -71,13 +71,22 @@ export interface Props<T extends object, Q extends Query>
      * 一些突出元素的主题色，默认值为 primary。
      */
     accentPalette?: Palette;
+};
+
+export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
+    /**
+     * 加载数据的方法
+     *
+     * NOTE: 这是一个静态数据，无法在运行过程中改变。
+     */
+    load: { (q: Q): Promise<Page<T> | undefined>; };
 
     /**
      * 数据是否分页展示
      *
      * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
-    paging?: boolean;
+    paging: boolean;
 
     /**
      * 可用的每页展示数量
@@ -85,7 +94,9 @@ export interface Props<T extends object, Q extends Query>
      * NOTE: 只有在 paging 为 true 时才会有效
      */
     pageSizes?: Array<number>;
-}
+} | BaseTableProps<T, Q> & {
+    load: { (q: Q): Promise<Array<T> | undefined>; };
+};
 
 const defaultProps = {
     filename: 'download',
@@ -102,25 +113,25 @@ const defaultProps = {
  */
 export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
     const ctx = useApp();
+    let load = props.load;
     props = mergeProps(defaultProps, props);
 
     const [searchG, searchS] = useSearchParams<Params<Q>>();
     if (props.inSearch) {
         props.queries = fromSearch(props.queries, searchG);
 
-        const l = props.load;
-        props.load = async (q: Q) => {
-            const ret = await l(q);
+        load = (async (q: Q) => {
+            const ret = await props.load(q);
             saveSearch(q, searchS);
             return ret;
-        };
+        }) as Props<T,Q>['load'];
     }
 
     const queries = new ObjectAccessor<Q>(props.queries);
     const [total, setTotal] = createSignal<number>(100);
 
     const [items, { refetch }] = createResource(async () => {
-        const ret = await props.load(queries.object());
+        const ret = await load(queries.object());
 
         if (ret === undefined) {
             return undefined;
@@ -132,18 +143,27 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         }
     });
 
+    if (props.ref) {
+        props.ref({
+            refresh: async () => {
+                await refetch();
+            }
+        });
+    }
+
     const exports = async function (ext: Parameters<Exporter<T>['export']>[1]) {
         const e = new Exporter(props.columns);
         const q = { ...queries.object() };
         delete q.size;
         delete q.page;
 
-        await e.download(()=>{return props.load(q);});
+        await e.download(()=>{return load(q);});
         e.export(props.filename!, ext);
     };
 
     let footer: JSX.Element | undefined;
-    if (props.paging) {
+
+    if ('paging' in props) {
         const page = queries.accessor<number>('page');
         const size = queries.accessor<number>('size');
         if (size.getValue()===0) {
@@ -162,17 +182,17 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
                 {props.queryForm!(queries)}
                 <div class="actions">
                     <SplitButton pos='bottomright' palette='primary' type='submit' onClick={() => refetch()} menus={[
-                        { type: 'item', onClick: () => { exports('.csv'); } , label: <>
+                        { type: 'item', onClick: async() => { await exports('.csv'); } , label: <>
                             <span class="c--icon mr-2">csv</span>
                             {ctx.t('_i.table.exportTo', { type: 'CSV' })}
                         </>
                         },
-                        { type: 'item', onClick: () => { exports('.xlsx'); }, label: <>
+                        { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <>
                             <span class="c--icon mr-2">rubric</span>
                             {ctx.t('_i.table.exportTo', { type: 'Excel' })}
                         </>
                         },
-                        { type: 'item', onClick: () => { exports('.ods'); }, label: <>
+                        { type: 'item', onClick: async() => { await exports('.ods'); }, label: <>
                             <span class="c--icon mr-2">ods</span>
                             {ctx.t('_i.table.exportTo', { type: 'ODS' })}
                         </>
@@ -207,6 +227,10 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         </Show>
     </header>;
 
+    if (!('paging' in props)) {
+        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette']);
+        return <BasicTable loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+    }
     const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes']);
     return <BasicTable loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

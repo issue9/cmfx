@@ -15,6 +15,8 @@ const messages: Messages = {
         refresh: '刷新',
         areYouSure: '你确定要这么做吗？',
         page: { // 页面的翻译内容
+            editItem: '编辑',
+            deleteItem: '删除',
             newItem: '新建',
             created: '添加时间',
             id: 'ID',
@@ -26,7 +28,6 @@ const messages: Messages = {
                 deleted: '删除'
             },
             actions: '操作',
-            edit: '编辑',
             sex: '性别',
             sexes: {
                 male: '男',

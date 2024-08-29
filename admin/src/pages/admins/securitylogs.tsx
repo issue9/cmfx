@@ -37,7 +37,7 @@ export default function() {
         const ret = await ctx.get<Page<SecurityLog>>('/securitylog');
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);
-            return [];
+            return {current: [], count: 0};
         }
         return ret.body;
     }} />;
