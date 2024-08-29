@@ -101,8 +101,9 @@ export default function(props: Props) {
 
     const translateItems = createMemo(() => {
         const end = page() * sizeAccessor.getValue();
+        const start = props.total > 0 ? ((page() - 1) * sizeAccessor.getValue() + 1) : 0;
         return {
-            start: (page() - 1) * sizeAccessor.getValue() + 1,
+            start: start,
             end: end > props.total ? props.total : end,
             count: props.total
         };
