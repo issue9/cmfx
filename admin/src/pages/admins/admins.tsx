@@ -2,19 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { buildEnumsOptions, Button, Choice, Column, RemoteTable, RemoteTableMethods, TextField, translateEnum } from '@/components';
+import { buildEnumsOptions, Button, Choice, Column, Page, RemoteTable, RemoteTableMethods, TextField, translateEnum } from '@/components';
 import type { Admin, Query, Sex, State } from './types';
 import { sexesMap, statesMap } from './types';
 
 export default function(): JSX.Element {
     const ctx = useApp();
-
-    createEffect(() => {
-        ctx.title = ctx.t('_i.page.admin.title')!;
-    });
 
     const q: Query = {
         text: '',
@@ -25,7 +21,7 @@ export default function(): JSX.Element {
 
     let ref: RemoteTableMethods;
 
-    return <div class="page">
+    return <Page title="_i.page.admin.adminsManager">
         <RemoteTable ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
             <>
                 <Button palette='primary'>{ctx.t('_i.page.newItem')}</Button>
@@ -61,5 +57,5 @@ export default function(): JSX.Element {
                 }) as Column<Admin>['renderContent']
             },
         ]} />
-    </div>;
+    </Page>;
 }

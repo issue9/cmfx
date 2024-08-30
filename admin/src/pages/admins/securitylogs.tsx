@@ -2,11 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { SetParams } from '@solidjs/router';
-
 import { useApp } from '@/app';
-import { RemoteTable } from '@/components';
-import { Page } from '@/core';
+import { Page, Query, RemoteTable } from '@/components';
 
 interface SecurityLog {
     content: string;
@@ -15,7 +12,7 @@ interface SecurityLog {
     created: string;
 }
 
-interface Query extends SetParams {
+interface Q extends Query {
     text?: string;
     'created.start'?: string;
     'created.end'?: string;
@@ -24,21 +21,16 @@ interface Query extends SetParams {
 export default function() {
     const ctx = useApp();
 
-    const q: Query = {
+    const q: Q = {
         page: 1,
     };
 
-    return <RemoteTable paging queries={q} columns={[
-        {id: 'content',label: ctx.t('_i.page.securitylog.content')},
-        {id: 'ip',label: ctx.t('_i.page.securitylog.ip')},
-        {id: 'ua',label: ctx.t('_i.page.securitylog.ua')},
-        {id: 'created',label: ctx.t('_i.page.created')},
-    ]} load={async () => {
-        const ret = await ctx.get<Page<SecurityLog>>('/securitylog');
-        if (!ret.ok) {
-            ctx.outputProblem(ret.status, ret.body);
-            return {current: [], count: 0};
-        }
-        return ret.body;
-    }} />;
+    return <Page title="_i.page.securitylog.securitylog">
+        <RemoteTable<SecurityLog, Q> path='/securitylog' paging queries={q} columns={[
+            { id: 'content', label: ctx.t('_i.page.securitylog.content') },
+            { id: 'ip', label: ctx.t('_i.page.securitylog.ip') },
+            { id: 'ua', label: ctx.t('_i.page.securitylog.ua') },
+            { id: 'created', label: ctx.t('_i.page.created') },
+        ]} />
+    </Page>;
 }

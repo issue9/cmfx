@@ -5,9 +5,3 @@
  */
 
 @import './login/style.css';
-
-@layer components {
-    .page {
-        @apply p-4 pt-6;
-    }
-}

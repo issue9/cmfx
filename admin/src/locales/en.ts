@@ -33,17 +33,20 @@ const messages = {
                 unknown: 'unknown'
             },
             admin: {
-                title: 'admin',
+                adminsManager: 'admin manager',
                 name: 'name',
                 nickname: 'nick name'
             },
             securitylog: {
+                securitylog: 'security logs',
                 content: 'content',
                 ip: 'IP',
                 ua: 'user agent',
             },
             roles: {
+                rolesManager: 'roles manager',
                 name: 'name',
+                editPermission: 'edit permission',
                 description: 'description'
             }
         },

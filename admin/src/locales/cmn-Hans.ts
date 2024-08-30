@@ -35,17 +35,20 @@ const messages: Messages = {
                 unknown: '未知'
             },
             admin: {
-                title: '管理员',
+                adminsManager: '管理员',
                 name: '姓名',
                 nickname: '昵称'
             },
             securitylog: {
+                securitylog: '安全日志',
                 content: '内容',
                 ip: 'IP',
                 ua: 'UA',
             },
             roles: {
+                rolesManager: '角色管理',
                 name: '名称',
+                editPermission: '权限',
                 description: '描述'
             }
         },
