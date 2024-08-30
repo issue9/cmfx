@@ -53,11 +53,6 @@ export interface Options {
      */
     menus: Array<MenuItem>
 
-    /**
-     * 底部的导航链接
-     */
-    footer?: Array<MenuItem>
-
     mimetype?: Mimetype
 
     /**
@@ -113,7 +108,6 @@ const presetOptions = {
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', scheme: 20 },
     mimetype: 'application/json',
-    footer: Array<MenuItem>(),
 } as const;
 
 /**
