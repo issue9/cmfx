@@ -9,7 +9,7 @@ import { AppContext } from '@/app';
 import { Method, Problem, Return } from '@/core';
 
 // Form 中保存错误的类型
-type Err<T> = {
+type Err<T extends object> = {
     [K in keyof T]?: string;
 };
 

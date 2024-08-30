@@ -17,7 +17,7 @@ routes.forEach((r) => {
 });
 
 export const menus: Options['menus'][number] = {
-    type: 'group',
+    type: 'item',
     label: 'components',
     items: menuItems
 } as const;
