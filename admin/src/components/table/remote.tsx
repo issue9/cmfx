@@ -12,12 +12,19 @@ import { Query, query2Search } from './search';
 
 export interface Methods extends LoaderMethods {
     /**
+     * 删除指定数据并刷新当前表
+     *
+     * @param id 需要删除数据的 id，该值相对于 {@link Props#path} 属性生成删除地址。
+     */
+    delete<T extends string|number>(id: T): Promise<void>;
+
+    /**
      * 提供一个用于删除指定 id 的按钮组件
      */
-    DeleteAction(id: string | number): JSX.Element;
+    DeleteAction<T extends string|number>(id: T): JSX.Element;
 }
 
-export interface Props<T extends object, Q extends Query> extends Omit<LoaderProps<T,Q>, 'load'|'ref'> {
+export interface Props<T extends object, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'> {
     ref?: { (el: Methods): void; };
 
     /**
@@ -42,17 +49,22 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
 
     if (props.ref) {
         props.ref({
-            refresh: async () => { await ref.refresh(); },
+            async refresh(): Promise<void> { await ref.refresh(); },
 
-            DeleteAction: (id: string|number) => {
-                return <ConfirmButton icon rounded pos="bottomright" palette='error' title={ctx.t('_i.page.deleteItem')} onClick={async () => {
-                    const ret = await ctx.delete(`${props.path}/${id}`);
-                    if (!ret.ok) {
-                        ctx.outputProblem(ret.status, ret.body);
-                        return;
-                    }
-                    await ref.refresh();
-                }}>delete</ConfirmButton>;
+            async delete<T extends string|number>(id: T): Promise<void> {
+                const ret = await ctx.delete(`${props.path}/${id}`);
+                if (!ret.ok) {
+                    ctx.outputProblem(ret.status, ret.body);
+                    return;
+                }
+                await ref.refresh();
+            },
+
+            DeleteAction (id: string|number) {
+                return <ConfirmButton icon rounded pos="bottomright" palette='error'
+                    title={ctx.t('_i.page.deleteItem')}
+                    onClick={async () => { await this.delete(id); }}
+                >delete</ConfirmButton>;
             }
         });
     }

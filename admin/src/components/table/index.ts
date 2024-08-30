@@ -5,7 +5,7 @@
 export { default as BasicTable } from './basic';
 export type { Props as BasicTableProps } from './basic';
 
-export { default as LoaderTable, buildNoPagingLoadFunc, buildPagingLoadFunc } from './loader';
+export { default as LoaderTable } from './loader';
 export type { Methods as LoaderTableMethods, Props as LoaderTableProps } from './loader';
 
 export { default as RemoteTable } from './remote';

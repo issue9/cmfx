@@ -53,7 +53,7 @@ export default function(): JSX.Element {
                 }) as Column<Admin>['content']
             },
             {
-                id: 'actions', label: ctx.t('_i.page.actions'), isUnexported: true, renderContent: ((id, val, obj) => {
+                id: 'actions', label: ctx.t('_i.page.actions'), isUnexported: true, renderContent: ((id, _, obj) => {
                     return <div class="flex gap-x-2">
                         <Button icon rounded palette='tertiary' title={ctx.t('_i.page.editItem')}>edit</Button>
                         {ref.DeleteAction(obj!['id'])}
