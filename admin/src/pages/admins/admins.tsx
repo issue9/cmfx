@@ -5,7 +5,7 @@
 import { createEffect, JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { buildEnumsOptions, buildPagingLoadFunc, Button, Choice, Column, ConfirmButton, DataTable, TextField, translateEnum } from '@/components';
+import { buildEnumsOptions, Button, Choice, Column, RemoteTable, RemoteTableMethods, TextField, translateEnum } from '@/components';
 import type { Admin, Query, Sex, State } from './types';
 import { sexesMap, statesMap } from './types';
 
@@ -23,8 +23,10 @@ export default function(): JSX.Element {
         sex: ['male', 'female', 'unknown']
     };
 
+    let ref: RemoteTableMethods;
+
     return <div class="page">
-        <DataTable inSearch paging load={buildPagingLoadFunc(ctx, '/admins')} queries={q} systemToolbar toolbar={
+        <RemoteTable ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
             <>
                 <Button palette='primary'>{ctx.t('_i.page.newItem')}</Button>
             </>
@@ -54,14 +56,7 @@ export default function(): JSX.Element {
                 id: 'actions', label: ctx.t('_i.page.actions'), isUnexported: true, renderContent: ((id, val, obj) => {
                     return <div class="flex gap-x-2">
                         <Button icon rounded palette='tertiary' title={ctx.t('_i.page.editItem')}>edit</Button>
-                        <ConfirmButton icon rounded pos="bottomright" palette='error' title={ctx.t('_i.page.deleteItem')} onClick={async()=>{
-                            const ret = await ctx.delete(`/admins/${obj!['id']}`);
-                            if (!ret.ok) {
-                                ctx.outputProblem(ret.status, ret.body);
-                                return;
-                            }
-                            // TODO
-                        }}>delete</ConfirmButton>
+                        {ref.DeleteAction(obj!['id'])}
                     </div>;
                 }) as Column<Admin>['renderContent']
             },

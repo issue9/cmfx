@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { useApp, useOptions } from '@/app/context';
@@ -11,7 +12,6 @@ import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
 import { Exporter, Page } from '@/core';
-import { useSearchParams } from '@solidjs/router';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 import { fromSearch, Params, Query, saveSearch } from './search';
@@ -85,7 +85,7 @@ export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
      *
      * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
-    paging: boolean;
+    paging: true;
 
     /**
      * 可用的每页展示数量
@@ -95,6 +95,7 @@ export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
     pageSizes?: Array<number>;
 } | BaseTableProps<T, Q> & {
     load: { (q: Q): Promise<Array<T> | undefined>; };
+    paging?: false;
 };
 
 const defaultProps = {
@@ -104,7 +105,7 @@ const defaultProps = {
 } as const;
 
 /**
- * 带有加载功能的表格组件
+ * 基于加载方法加载数据的表格
  *
  * T 为数据中每一条数据的类型；
  * Q 为查询参数的类型；
@@ -145,9 +146,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
 
     if (props.ref) {
         props.ref({
-            refresh: async () => {
-                await refetch();
-            }
+            refresh: async () => { await refetch(); }
         });
     }
 
@@ -163,7 +162,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
 
     let footer: JSX.Element | undefined;
 
-    if ('paging' in props) {
+    if (props.paging) {
         const page = queries.accessor<number>('page');
         const size = queries.accessor<number>('size');
         if (size.getValue()===0) {
@@ -227,7 +226,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         </Show>
     </header>;
 
-    if (!('paging' in props)) {
+    if (!props.paging) {
         const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette']);
         return <BasicTable loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
     }

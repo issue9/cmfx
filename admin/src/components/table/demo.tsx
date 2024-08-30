@@ -10,7 +10,7 @@ import { TextField } from '@/components/form';
 import { Page, sleep } from '@/core';
 import { default as BasicTable } from './basic';
 import { Column } from './column';
-import { default as DataTable } from './datatable';
+import { default as LoaderTable } from './loader';
 import { Query } from './search';
 
 interface Item {
@@ -104,7 +104,7 @@ export default function () {
 
             <p>分页表格</p>
 
-            <DataTable accentPalette='primary' paging systemToolbar={systemToolbar()}
+            <LoaderTable accentPalette='primary' paging systemToolbar={systemToolbar()}
                 inSearch
                 striped={striped()}
                 fixedLayout={fixedLayout()}
@@ -118,7 +118,7 @@ export default function () {
 
             <p>未分页的表格</p>
 
-            <DataTable systemToolbar={systemToolbar()} striped={striped()}
+            <LoaderTable systemToolbar={systemToolbar()} striped={striped()}
                 fixedLayout={fixedLayout()}
                 palette={palette()}
                 columns={columns} hoverable={hoverable()}

@@ -5,10 +5,12 @@
 export { default as BasicTable } from './basic';
 export type { Props as BasicTableProps } from './basic';
 
-export { default as DataTable } from './datatable';
-export type { Methods as DataTableMethods, Props as DataTableProps } from './datatable';
+export { default as LoaderTable, buildNoPagingLoadFunc, buildPagingLoadFunc } from './loader';
+export type { Methods as LoaderTableMethods, Props as LoaderTableProps } from './loader';
 
-export { buildNoPagingLoadFunc, buildPagingLoadFunc } from './search';
+export { default as RemoteTable } from './remote';
+export type { Methods as RemoteTableMethods, Props as RemoteTableProps } from './remote';
+
 export type { Query } from './search';
 
 export type { Column } from './column';

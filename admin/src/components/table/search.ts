@@ -4,9 +4,6 @@
 
 import { SetParams, useSearchParams } from '@solidjs/router';
 
-import { AppContext } from '@/app/context';
-import { Page } from '@/core';
-
 type QueryValue = string | number | boolean | null | undefined;
 
 /**
@@ -114,33 +111,4 @@ export function query2Search<Q extends Query>(q: Q): string {
     });
 
     return s.toString();
-}
-
-/**
- * 生成符合 DataTable.load 属性的方法
- */
-export function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext, path: string) {
-    return async (q: Q): Promise<Page<T> | undefined> => {
-        const ret = await ctx.get<Page<T>>(path + '?' + query2Search(q));
-        if (!ret.ok) {
-            ctx.outputProblem(ret.status, ret.body);
-            return { count: 0, current: [] };
-        }
-        return ret.body;
-    };
-}
-
-
-/**
- * 生成符合 DataTable.load 属性的方法
- */
-export function buildNoPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext, path: string) {
-    return async (q: Q): Promise<Array<T> | undefined> => {
-        const ret = await ctx.get<Array<T>>(path + '?' + query2Search(q));
-        if (!ret.ok) {
-            ctx.outputProblem(ret.status, ret.body);
-            return [];
-        }
-        return ret.body;
-    };
 }

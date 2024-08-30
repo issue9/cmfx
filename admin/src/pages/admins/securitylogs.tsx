@@ -5,7 +5,7 @@
 import { SetParams } from '@solidjs/router';
 
 import { useApp } from '@/app';
-import { DataTable } from '@/components';
+import { RemoteTable } from '@/components';
 import { Page } from '@/core';
 
 interface SecurityLog {
@@ -28,7 +28,7 @@ export default function() {
         page: 1,
     };
 
-    return <DataTable paging queries={q} columns={[
+    return <RemoteTable paging queries={q} columns={[
         {id: 'content',label: ctx.t('_i.page.securitylog.content')},
         {id: 'ip',label: ctx.t('_i.page.securitylog.ip')},
         {id: 'ua',label: ctx.t('_i.page.securitylog.ua')},

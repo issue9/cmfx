@@ -5,7 +5,7 @@
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { Button, ConfirmButton, DataTable } from '@/components';
+import { Button, ConfirmButton, RemoteTable } from '@/components';
 
 interface Role {
     id?: number;
@@ -16,7 +16,7 @@ interface Role {
 export default function(): JSX.Element {
     const ctx = useApp();
 
-    return <DataTable queries={{}} systemToolbar columns={[
+    return <RemoteTable queries={{}} systemToolbar columns={[
         {id: 'id',label: ctx.t('_i.page.id')},
         {id: 'name',label: ctx.t('_i.page.roles.name')},
         {id: 'description',label: ctx.t('_i.page.roles.description')},
