@@ -25,7 +25,7 @@ type modelLink struct {
 type modelRole struct {
 	GID         string        `orm:"name(gid);len(20)"`
 	ID          string        `orm:"name(id);unique(id);len(50)"`
-	Name        string        `orm:"name(name);unique(name);len(50)"`
+	Name        string        `orm:"name(name);len(50)"`
 	Description string        `orm:"name(description);len(-1)"`
 	Parent      string        `orm:"name(parent);len(50)"`
 	Resources   types.Strings `orm:"name(resources);len(-1)"` // 关联的资源 ID

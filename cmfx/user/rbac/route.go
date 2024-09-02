@@ -5,6 +5,9 @@
 package rbac
 
 import (
+	"cmp"
+	"slices"
+
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -45,6 +48,7 @@ func GetRolesHandle(g *RoleGroup, ctx *web.Context) web.Responser {
 			Parent: r.Parent,
 		})
 	}
+	slices.SortFunc(rs, func(a, b *respRole) int { return cmp.Compare(a.ID, b.ID) }) // 使输出保持一致
 
 	return web.OK(rs)
 }
