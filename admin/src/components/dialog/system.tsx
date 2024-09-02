@@ -5,11 +5,10 @@
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { useApp } from '@/app/context'; // 直接导入 app/context 而不是 app 是为了防止循环依赖
+import { useOptions } from '@/app/context';
 import { BaseProps } from '@/components/base';
-import { Button } from '@/components/button';
 import { FieldAccessor, TextField } from '@/components/form';
-import { default as Dialog } from './dialog';
+import { default as Dialog, Methods } from './dialog';
 
 interface Props extends BaseProps {
     /**
@@ -24,11 +23,12 @@ interface Props extends BaseProps {
  *  - window.confirm
  *  - window.prompt
  */
-export default function(props: Props) {
+export default function(props: BaseProps) {
+    const opt = useOptions();
     return <Portal>
-        <Alert header={props.header} palette={props.palette} />
-        <Confirm header={props.header} palette={props.palette} />
-        <Prompt header={props.header} palette={props.palette} />
+        <Alert header={opt.title} palette={props.palette} />
+        <Confirm header={opt.title} palette={props.palette} />
+        <Prompt header={opt.title} palette={props.palette} />
     </Portal>;
 }
 
@@ -38,8 +38,7 @@ export default function(props: Props) {
  * 只需要在任意代码位置中插入此组件，之后即会自动替换 window.alert 方法。
  */
 function Alert(props: Props) {
-    const ctx = useApp();
-    let dlg: HTMLDialogElement;
+    let dlg: Methods;
     const [msg, setMsg] = createSignal<any>();
 
     window.alert = (msg?: any) => {
@@ -48,7 +47,7 @@ function Alert(props: Props) {
     };
 
     return <Dialog {...props} ref={el => dlg = el} class='w-60' actions={
-        <Button onClick={() => dlg.close()}>{ctx.t('_i.ok')}</Button>
+        dlg!.OKAction(() => { return 'ok'; })
     }>
         {msg()}
     </Dialog>;
@@ -58,8 +57,7 @@ function Alert(props: Props) {
  * 用于替代 window.confirm 的组件
  */
 function Confirm(props: Props) {
-    const ctx = useApp();
-    let dlg: HTMLDialogElement;
+    let dlg: Methods;
     const [msg, setMsg] = createSignal<string>();
 
     window.confirm = (msg?: string): boolean => {
@@ -70,8 +68,8 @@ function Confirm(props: Props) {
 
     return <Dialog {...props} class='w-60' ref={el => dlg = el} actions={
         <>
-            <Button onClick={() => dlg.close()}>{ctx.t('_i.cancel')}</Button>
-            <Button onClick={() => dlg.close('true')}>{ctx.t('_i.ok')}</Button>
+            {dlg!.CancelAction()}
+            {dlg!.OKAction(()=>'true')}
         </>
     }>
         <p>{msg()}</p>
@@ -82,8 +80,7 @@ function Confirm(props: Props) {
  * 用于替代 window.prompt 的组件
  */
 function Prompt(props: Props) {
-    const ctx = useApp();
-    let dlg: HTMLDialogElement;
+    let dlg: Methods;
     const [msg, setMsg] = createSignal<string>();
     const access = FieldAccessor('prompt', '', false);
 
@@ -96,8 +93,8 @@ function Prompt(props: Props) {
 
     return <Dialog {...props} ref={el => dlg = el} class='w-60' actions={
         <>
-            <Button onClick={() => dlg.close()}>{ctx.t('_i.cancel')}</Button>
-            <Button onClick={() => dlg.close(access.getValue())}>{ctx.t('_i.ok')}</Button>
+            {dlg!.CancelAction()}
+            {dlg!.OKAction(()=>access.getValue())}
         </>
     }>
         <TextField label={msg()} accessor={access} />

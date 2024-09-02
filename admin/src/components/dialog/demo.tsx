@@ -6,15 +6,15 @@ import { useApp } from '@/app/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Form, FormAccessor } from '@/components/form';
-import Dialog from './dialog';
+import Dialog, { Methods } from './dialog';
 import { default as System } from './system';
 
 export default function() {
     const ctx = useApp();
     const [paletteS, palette] = paletteSelector('primary');
 
-    let dlg1: HTMLDialogElement;
-    let dlg2: HTMLDialogElement;
+    let dlg1: Methods;
+    let dlg2: Methods;
 
     const fa = new FormAccessor({}, ctx, 'POST', '/path');
 
@@ -24,13 +24,12 @@ export default function() {
         </>
     } stages={
         <>
-            <System header='title' />
+            <System />
             <Button onClick={()=>window.alert('msg')}>alert</Button>
             <Button onClick={()=>window.confirm('msg')}>confirm</Button>
             <Button onClick={()=>window.prompt('msg', 'def')}>prompt</Button>
 
             <div>
-                <Button onClick={()=>dlg1.show()} palette={palette()}>show</Button>
                 <Dialog palette={palette()} ref={(el)=>dlg1=el} header="header" actions={
                     <>
                         <button value='submit' type="submit" class="mr-8">submit</button>
@@ -40,6 +39,7 @@ export default function() {
                 }>
                     content
                 </Dialog>
+                <Button onClick={()=>dlg1.show()} palette={palette()}>show</Button>
             </div>
 
             <div>

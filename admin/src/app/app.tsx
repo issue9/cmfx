@@ -46,7 +46,7 @@ function App(props: {opt: Required<Options>, f: Fetcher}) {
 
     const Root = (p: { children?: JSX.Element }) => (<Provider>
         <Show when={props.opt.system.dialog}>
-            <SystemDialog header={/*@once*/props.opt.title} palette='surface' />
+            <SystemDialog palette='surface' />
         </Show>
         <div class="app palette--surface">
             <Toolbar settingsVisibleGetter={settingsVisible} settingsVisibleSetter={setSettingsVisible}
