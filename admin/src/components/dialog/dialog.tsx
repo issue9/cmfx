@@ -16,7 +16,7 @@ interface ClickFunc {
      * @returns 如果返回 false，将阻止对话框的关闭，其它值将关闭对话框将作为对话框的 returnValue 返回。
      * 需要注意 undefined 是一个有效果的关闭对话框返回值。
      */
-    (): false | string | undefined;
+    (): Promise<false | string | undefined>;
 }
 
 export interface Methods {
@@ -101,9 +101,9 @@ export default function(props: Props) {
         showModal() { ref.showModal(); },
 
         Action(title?: JSX.Element, click?: ClickFunc): JSX.Element {
-            return <Button onClick={() => {
+            return <Button onClick={async () => {
                 if (click) {
-                    const ret = click();
+                    const ret = await click();
                     if (ret === false) { // undefined 也是关闭
                         return;
                     }
