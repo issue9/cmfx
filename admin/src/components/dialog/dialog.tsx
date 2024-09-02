@@ -45,6 +45,13 @@ export interface Methods {
      * @param click 点击事件
      */
     OKAction(click: ClickFunc): JSX.Element;
+
+    /**
+     * 生成带有确认和取消两个按钮的操作栏
+     * @param ok 确定按钮的事件
+     * @param cancel 取消按钮的事件
+     */
+    DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element;
 }
 
 export interface Props extends BaseProps {
@@ -112,6 +119,13 @@ export default function(props: Props) {
 
         OKAction(click?: ClickFunc): JSX.Element {
             return this.Action(ctx.t('_i.ok'), click);
+        },
+
+        DefaultActions(ok:ClickFunc, cancel?:ClickFunc): JSX.Element {
+            return <>
+                {this.CancelAction(cancel)}
+                {this.OKAction(ok)}
+            </>;
         }
     });
 
