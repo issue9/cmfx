@@ -128,7 +128,7 @@ export default function(props: Props) {
 
             if (def) {
                 const handler = async (e: KeyboardEvent) => {
-                    if (e.key === 'Enter') {
+                    if (e.key === 'Enter' && e.target === ref) {
                         await btnClick();
                     }
                 };
