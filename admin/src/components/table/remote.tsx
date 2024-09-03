@@ -10,7 +10,7 @@ import { Page } from '@/core';
 import LoaderTable, { Methods as LoaderMethods, Props as LoaderProps } from './loader';
 import { Query, query2Search } from './search';
 
-export interface Methods extends LoaderMethods {
+export interface Methods<T extends object> extends LoaderMethods<T> {
     /**
      * 删除指定数据并刷新当前表
      *
@@ -25,7 +25,7 @@ export interface Methods extends LoaderMethods {
 }
 
 export interface Props<T extends object, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'> {
-    ref?: { (el: Methods): void; };
+    ref?: { (el: Methods<T>): void; };
 
     /**
      * 数据的加载地址
@@ -45,10 +45,11 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
     const ctx = useApp();
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
     const load = props.paging ? buildPagingLoadFunc(ctx, props.path) : buildNoPagingLoadFunc(ctx, props.path);
-    let ref: LoaderMethods;
+    let ref: LoaderMethods<T>;
 
     if (props.ref) {
         props.ref({
+            items() { return ref.items(); },
             async refresh(): Promise<void> { await ref.refresh(); },
 
             async delete<T extends string|number>(id: T): Promise<void> {

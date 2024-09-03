@@ -5,7 +5,10 @@
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { Button, Column, Dialog, ObjectAccessor, Page, RemoteTable, RemoteTableMethods, TextArea, TextField } from '@/components';
+import {
+    Button, Column, Dialog, DialogMethods, ObjectAccessor,
+    Page, RemoteTable, RemoteTableMethods, TextArea, TextField
+} from '@/components';
 
 interface Role {
     id?: string;
@@ -16,9 +19,9 @@ interface Role {
 
 export default function(): JSX.Element {
     const ctx = useApp();
-    let tableRef: RemoteTableMethods;
-    let dialogRef: HTMLDialogElement;
-    const current = new ObjectAccessor<Role>({} as Role);
+    let tableRef: RemoteTableMethods<Role>;
+    let dialogRef: DialogMethods;
+    const current = new ObjectAccessor({} as Role);
 
     return <Page title="_i.page.roles.rolesManager">
         <Dialog ref={(el)=>dialogRef=el} header="HEADER TODO">

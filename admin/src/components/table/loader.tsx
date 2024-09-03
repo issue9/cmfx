@@ -16,7 +16,12 @@ import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 import { fromSearch, Params, Query, saveSearch } from './search';
 
-export interface Methods {
+export interface Methods<T extends object> {
+    /**
+     * 表格当前页的数据
+     */
+    items(): Array<T> | undefined;
+
     /**
      * 刷新表格中的数据
      */
@@ -24,7 +29,7 @@ export interface Methods {
 }
 
 type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> & {
-    ref?: { (el: Methods): void };
+    ref?: { (el: Methods<T>): void };
 
     /**
      * 是否需要将参数反映在地址的查询参数中
@@ -146,6 +151,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
 
     if (props.ref) {
         props.ref({
+            items: () => { return items(); },
             refresh: async () => { await refetch(); }
         });
     }

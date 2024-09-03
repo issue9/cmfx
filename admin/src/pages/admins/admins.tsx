@@ -19,7 +19,7 @@ export default function(): JSX.Element {
         sex: ['male', 'female', 'unknown']
     };
 
-    let ref: RemoteTableMethods;
+    let ref: RemoteTableMethods<Admin>;
 
     return <Page title="_i.page.admin.adminsManager">
         <RemoteTable ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
