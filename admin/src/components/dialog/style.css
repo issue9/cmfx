@@ -17,7 +17,7 @@
         }
 
         >footer {
-            @apply flex justify-end p-2;
+            @apply flex justify-end p-2 gap-2;
         }
     }
 }

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show } from 'solid-js';
+import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { Button } from '@/components/button';
 
@@ -25,13 +25,19 @@ export interface Methods {
     close(returnValue: string): void;
     show(): void;
     showModal(): void;
+    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
+    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
+    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
+    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 
     /**
      * 生成对话框上的按钮
-     * @param title 按钮内容
-     * @param click 点击事件
+     *
+     * @param title 按钮内容；
+     * @param click 点击事件；
+     * @param def 默认按钮，响应回车事件；
      */
-    Action(title?: JSX.Element, click?: ClickFunc): JSX.Element;
+    Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element;
 
     /**
      * 生成取消按钮的组件
@@ -42,12 +48,14 @@ export interface Methods {
 
     /**
      * 生成确定的按钮
+     *
      * @param click 点击事件
      */
     OKAction(click: ClickFunc): JSX.Element;
 
     /**
      * 生成带有确认和取消两个按钮的操作栏
+     *
      * @param ok 确定按钮的事件
      * @param cancel 取消按钮的事件
      */
@@ -99,9 +107,15 @@ export default function(props: Props) {
         close(returnValue: string) { ref.close(returnValue); },
         show() { ref.show(); },
         showModal() { ref.showModal(); },
+        addEventListener<K extends keyof HTMLElementEventMap>(type: K|string, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any|EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
+            ref.addEventListener(type as any, listener, options);
+        },
+        removeEventListener<K extends keyof HTMLElementEventMap>(type: K|string, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any|EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
+            ref.removeEventListener(type as any, listener, options);
+        },
 
-        Action(title?: JSX.Element, click?: ClickFunc): JSX.Element {
-            return <Button onClick={async () => {
+        Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element {
+            const btnClick = async () => {
                 if (click) {
                     const ret = await click();
                     if (ret === false) { // undefined 也是关闭
@@ -110,7 +124,24 @@ export default function(props: Props) {
                     return ref.close(ret);
                 }
                 ref.close();
-            }}>{title}</Button>;
+            };
+
+            if (def) {
+                const handler = async (e: KeyboardEvent) => {
+                    if (e.key === 'Enter') {
+                        await btnClick();
+                    }
+                };
+
+                const self = this;
+                onMount(() => {
+                    self.addEventListener('keydown', handler);
+                });
+                onCleanup(()=>{
+                    self.removeEventListener('keydown', handler);
+                });
+            }
+            return <Button type={def?'submit':'button'} palette={def?'primary':'secondary'} onClick={btnClick}>{title}</Button>;
         },
 
         CancelAction(click?: ClickFunc): JSX.Element {
@@ -118,7 +149,7 @@ export default function(props: Props) {
         },
 
         OKAction(click?: ClickFunc): JSX.Element {
-            return this.Action(ctx.t('_i.ok'), click);
+            return this.Action(ctx.t('_i.ok'), click, true);
         },
 
         DefaultActions(ok:ClickFunc, cancel?:ClickFunc): JSX.Element {
