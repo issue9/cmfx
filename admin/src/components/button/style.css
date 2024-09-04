@@ -18,6 +18,7 @@
     }
 
     .c--button.c--button-fill:enabled:hover,
+    .c--button.c--button-fill.link-enabled:hover,
     .c--button.c--button-fill:focus-visible {
         @apply bg-[var(--bg-high)];
     }
@@ -27,6 +28,7 @@
     }
 
     .c--button.c--button-border:enabled:hover,
+    .c--button.c--button-border.link-enabled:hover,
     .c--button.c--button-border:focus-visible {
         @apply bg-[var(--bg)];
     }
@@ -36,10 +38,12 @@
     }
 
     .c--button.c--button-flat:enabled:hover,
+    .c--button.c--button-flat.link-enabled:hover,
     .c--button.c--button-flat:focus-visible {
         @apply bg-[var(--bg-high)] border-[var(--bg-high)];
     }
 
+    .c--button.link-disabled,
     .c--button:disabled {
         @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
     }
@@ -86,6 +90,7 @@
         }
 
         .c--button:enabled:hover,
+        .c--button.link-enabled:hover,
         .c--button:focus-visible {
             @apply bg-[var(--bg-high)];
         }
@@ -99,6 +104,7 @@
         }
 
         .c--button:enabled:hover,
+        .c--button.link-enabled:hover,
         .c--button:focus-visible {
             @apply bg-[var(--bg)];
         }
@@ -112,11 +118,13 @@
         }
 
         .c--button:enabled:hover,
+        .c--button.link-enabled:hover,
         .c--button:focus-visible {
             @apply bg-[var(--bg)];
         }
     }
 
+    .c--button.link-disabled *,
     .c--button-group:disabled * {
         @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
     }

@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { Button, ButtonGroup, ConfirmButton, SplitButton } from '@/components';
+import { Button, ButtonGroup, ConfirmButton, LinkButton, SplitButton } from '@/components';
 import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { Style, styles } from './types';
 
@@ -32,6 +32,19 @@ export default function() {
     const [styleS, style] = styleSelector('fill');
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
+
+    const Links = () => <div class="flex flex-wrap items-center gap-2 my-4">
+        <For each={palettesWithUndefined}>
+            {(c) => (
+                <LinkButton href="./" disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</LinkButton>
+            )}
+        </For>
+        <LinkButton href="./" disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
+            <span class="c--icon mr-1">face</span>with icon
+        </LinkButton>
+
+        <Button rounded style='fill' palette='tertiary'>对比按钮</Button>
+    </div>;
 
     const Buttons = () => <div class="flex flex-wrap items-center gap-2 my-4">
         <For each={palettesWithUndefined}>
@@ -99,6 +112,36 @@ export default function() {
         </For>
     </div>;
 
+    const LinkButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
+        <For each={palettesWithUndefined}>
+            {(c) => (
+                <>
+                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                        <LinkButton href='.'>abc</LinkButton>
+                        <LinkButton href='.'>def</LinkButton>
+                        <LinkButton href='.'>hij</LinkButton>
+                    </ButtonGroup>
+                    <br />
+                </>
+            )}
+        </For>
+    </div>;
+
+    const LinkIconButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
+        <For each={palettesWithUndefined}>
+            {(c) => (
+                <>
+                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                        <LinkButton icon href="">face</LinkButton>
+                        <LinkButton icon href="">close</LinkButton>
+                        <LinkButton icon href="">sync</LinkButton>
+                    </ButtonGroup>
+                    <br />
+                </>
+            )}
+        </For>
+    </div>;
+
     const Block = () => <div class="flex flex-col gap-y-2">
         <Button disabled={disabled()} rounded={rounded()} style={style()} palette='primary'>block</Button>
 
@@ -128,6 +171,11 @@ export default function() {
             </div>
 
             <div class="w-full">
+                <h1 class="my-4">link</h1>
+                <Links />
+            </div>
+
+            <div class="w-full">
                 <h1 class="my-4">icon-button</h1>
                 <IconButtons />
             </div>
@@ -145,6 +193,16 @@ export default function() {
             <div class="w-full">
                 <h1 class="my-4">icon-button-group</h1>
                 <IconButtonGroups />
+            </div>
+
+            <div class="w-full">
+                <h1 class="my-4">link-button-group</h1>
+                <LinkButtonGroups />
+            </div>
+
+            <div class="w-full">
+                <h1 class="my-4">link-icon-button-group</h1>
+                <LinkIconButtonGroups />
             </div>
 
             <div class="w-full">

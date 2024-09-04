@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
 import {
-    Button, Column, Dialog, DialogMethods, ObjectAccessor,
+    Button, Column, Dialog, DialogMethods, LinkButton, ObjectAccessor,
     Page, RemoteTable, RemoteTableMethods, TextArea, TextField
 } from '@/components';
 import { Return } from '@/core';
@@ -70,8 +69,6 @@ export default function Roles(props: Props): JSX.Element {
         dialogRef.showModal();
     };
 
-    const nav = useNavigate();
-
     return <Page title="_i.page.roles.rolesManager">
         <Dialog ref={(el)=>dialogRef=el}
             header={currentID.getValue() ? ctx.t('_i.page.editItem') : ctx.t('_i.page.newItem')}
@@ -89,7 +86,7 @@ export default function Roles(props: Props): JSX.Element {
             {
                 id: 'actions', label: ctx.t('_i.page.actions'), renderContent: ((id, _, obj) => <div class="flex gap-x-2">
                     <Button icon rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={ctx.t('_i.page.editItem')}>edit</Button>
-                    <Button icon rounded palette='tertiary' onClick={()=>nav(`${props.routePrefix}/${obj!['id']}/permission`) } title={ctx.t('_i.page.roles.editPermission')}>passkey</Button>
+                    <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={ctx.t('_i.page.roles.editPermission')}>passkey</LinkButton>
                     {tableRef.DeleteAction(obj!['id']!)}
                 </div>) as Column<Role>['renderContent']
             },

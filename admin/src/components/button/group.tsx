@@ -8,7 +8,7 @@ import { Props as BaseProps, defaultProps } from './types';
 
 export interface Props extends BaseProps {
     /**
-     * 子元素，必须得是 Button 类型。
+     * 子元素，必须得是 Button 或是 LinkButton 类型。
      */
     children: JSX.Element;
 }

@@ -2,11 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { buildEnumsOptions, Button, Choice, Column, Page, RemoteTable, RemoteTableMethods, TextField, translateEnum } from '@/components';
+import {
+    buildEnumsOptions, Choice, Column, LinkButton,
+    Page, RemoteTable, RemoteTableMethods, TextField, translateEnum
+} from '@/components';
 import type { Admin, Query, Sex, State } from './types';
 import { sexesMap, statesMap } from './types';
 
@@ -28,13 +30,10 @@ export default function(props: Props): JSX.Element {
     };
 
     let ref: RemoteTableMethods<Admin>;
-    const nav = useNavigate();
 
     return <Page title="_i.page.admin.adminsManager">
         <RemoteTable ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
-            <>
-                <Button palette='primary'>{ctx.t('_i.page.newItem')}</Button>
-            </>
+            <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{ctx.t('_i.page.newItem')}</LinkButton>
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
@@ -60,7 +59,7 @@ export default function(props: Props): JSX.Element {
             {
                 id: 'actions', label: ctx.t('_i.page.actions'), isUnexported: true, renderContent: ((id, _, obj) => {
                     return <div class="flex gap-x-2">
-                        <Button icon rounded palette='tertiary' onClick={()=>nav(`${props.routePrefix}/${obj!['id']}`)} title={ctx.t('_i.page.editItem')}>edit</Button>
+                        <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}`} title={ctx.t('_i.page.editItem')}>edit</LinkButton>
                         {ref.DeleteAction(obj!['id'])}
                     </div>;
                 }) as Column<Admin>['renderContent']

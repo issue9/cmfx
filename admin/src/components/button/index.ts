@@ -5,6 +5,9 @@
 export { default as Button } from './button';
 export type { Props as ButtonProps } from './button';
 
+export { default as LinkButton } from './link';
+export type { Props as LinkButtonProps } from './link';
+
 export { default as ConfirmButton } from './confirm';
 export type { Props as ConfirmButtonProps } from './confirm';
 
