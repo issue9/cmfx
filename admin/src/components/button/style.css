@@ -45,7 +45,7 @@
 
     .c--button.link-disabled,
     .c--button:disabled {
-        @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
+        @apply cursor-not-allowed bg-[var(--bg-high)] text-[var(--bg-low)];
     }
 
     /************************* button-group ******************************/
@@ -126,7 +126,7 @@
 
     .c--button.link-disabled *,
     .c--button-group:disabled * {
-        @apply cursor-not-allowed bg-[var(--bg)] text-[var(--bg-high)];
+        @apply cursor-not-allowed bg-[var(--bg-high)] text-[var(--bg-low)];
     }
 
     /************************* confirm-button ******************************/

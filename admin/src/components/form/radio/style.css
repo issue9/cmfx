@@ -43,10 +43,10 @@
     }
 
     .c--radio-group:disabled {
-        cursor: not-allowed;
+        @apply cursor-not-allowed;
 
         label {
-            cursor: not-allowed;
+            @apply cursor-not-allowed text-palette-bg-low;
 
             .radio-icon {
                 cursor: not-allowed;

@@ -34,7 +34,7 @@
     }
 
     .c--checkbox:has(:disabled) {
-        cursor: not-allowed;
+        @apply cursor-not-allowed text-[var(--bg-low)];
     }
 
     .c--checkbox-group {
