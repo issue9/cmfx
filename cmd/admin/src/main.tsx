@@ -7,12 +7,16 @@ import { createApp, Options, Routes } from 'admin/dev';
 import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
-import * as demo from './demo';
+import { Demo } from './demo';
 import { loads } from './locales';
 import { default as Test } from './pages/test';
 
 const urlBase = 'http://192.168.10.10:8080/admin';
 //const urlBase = 'http://localhost:8080/admin';
+
+const demo = new Demo('/demo');
+const roles = pages.roles.build('/roles');
+const admins = pages.admins.build('/admins');
 
 const routes: Routes = {
     public: {
@@ -24,15 +28,16 @@ const routes: Routes = {
     private: {
         home: '/dashboard',
         routes: [
+            ...roles.routes(),
+            ...admins.routes(),
             { path: ['/dashboard', '/'], component: pages.Dashboard },
-            { path: '/roles', component: pages.admins.Roles },
-            { path: '/admins', component: pages.admins.Admins },
-            { path: '/securitylog', component: pages.admins.SecurityLogs },
-            { path: '/demo', children: demo.routes },
+            ...demo.routes(),
             { path: '/test', component: Test }
         ]
     }
 };
+
+console.log(routes);
 
 const menus: Options['menus'] = [
     { type: 'item', label: 'home', path: '/dashboard' },
@@ -41,14 +46,13 @@ const menus: Options['menus'] = [
         type: 'group', label: 'system', items: [
             {
                 type: 'item', label: 'administrator', items: [
-                    { type: 'item', label: 'role', path: '/roles' },
-                    { type: 'item', label: 'administrator', path: '/admins' },
-                    { type: 'item', label: 'securitylog', path: '/securitylog' },
+                    ...roles.menus(),
+                    ...admins.menus(),
                 ]
             },
         ]
     },
-    demo.menus
+    ...demo.menus()
 ];
 
 const o: Options = {

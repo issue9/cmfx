@@ -35,6 +35,7 @@ const messages: Messages = {
                 unknown: '未知'
             },
             admin: {
+                admin: '管理员',
                 adminsManager: '管理员',
                 name: '姓名',
                 nickname: '昵称'
@@ -46,7 +47,9 @@ const messages: Messages = {
                 ua: 'UA',
             },
             roles: {
+                roles: '角色',
                 rolesManager: '角色管理',
+                permission: '权限管理',
                 name: '名称',
                 editPermission: '权限',
                 description: '描述'

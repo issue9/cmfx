@@ -39,7 +39,7 @@ interface Group {
     routes: Array<Route>;
 }
 
-interface Route {
+export interface Route {
     /**
      * 页面的路由地址
      */

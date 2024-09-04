@@ -4,7 +4,11 @@
 
 // 只导出页面，其它功能由根目录的 index.ts 导出。
 
+export type { Pages } from './pages';
+
 export { Dashboard } from './dashboard';
 export { Login } from './login';
 
 export * from './admins';
+export * from './roles';
+

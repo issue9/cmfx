@@ -2,22 +2,35 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options } from 'admin/dev';
+import { MenuItem, Route } from 'admin/dev';
 import { routes } from 'admin/dev/demo';
+import { Pages } from 'admin/dev/pages';
 
-export { routes } from 'admin/dev/demo';
+export class Demo implements Pages {
+    #prefix: string;
 
-const menuItems: Options['menus'] = [];
-routes.forEach((r) => {
-    menuItems.push({
-        type: 'item',
-        label: r.path as string,
-        path: '/demo' + r.path
-    });
-});
+    constructor(p: string) {
+        this.#prefix = p;
+    }
 
-export const menus: Options['menus'][number] = {
-    type: 'item',
-    label: 'components',
-    items: menuItems
-} as const;
+    routes(): Array<Route> {
+        return [{ path: this.#prefix, children: routes }];
+    }
+
+    menus(): Array<MenuItem> {
+        const menuItems: Array<MenuItem> = [];
+        routes.forEach((r) => {
+            menuItems.push({
+                type: 'item',
+                label: r.path as string,
+                path: this.#prefix + r.path
+            });
+        });
+
+        return [{
+            type: 'item',
+            label: 'components',
+            items: menuItems
+        } as const];
+    }
+}

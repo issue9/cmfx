@@ -33,6 +33,7 @@ const messages = {
                 unknown: 'unknown'
             },
             admin: {
+                admin: 'adminstrator',
                 adminsManager: 'admin manager',
                 name: 'name',
                 nickname: 'nick name'
@@ -44,7 +45,9 @@ const messages = {
                 ua: 'user agent',
             },
             roles: {
+                roles: 'roles',
                 rolesManager: 'roles manager',
+                permission: 'permission',
                 name: 'name',
                 editPermission: 'edit permission',
                 description: 'description'

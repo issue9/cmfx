@@ -53,7 +53,7 @@ messages:
         msg: 修改密码
     - key: delete admins
       message:
-        msg: delete admins
+        msg: 删除管理员
     - key: delete roles
       message:
         msg: 删除角色

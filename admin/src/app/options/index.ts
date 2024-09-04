@@ -5,4 +5,5 @@
 export { build } from './options';
 export type { Locales, Options } from './options';
 
-export type { Routes } from './route';
+export type { MenuItem, Route, Routes } from './route';
+
