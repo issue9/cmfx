@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { CacheImplement } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
@@ -17,11 +18,14 @@ export class Fetcher {
     #locale: string;
     #token: Token | null;
 
+    readonly #cache: Cache;
+    #cachePaths: Array<string>;
+
     readonly #contentType: Mimetype;
     readonly #serializer: Serializer;
 
     /**
-     * 返回一个对 fetch 进行二次包装的对象
+     * 返回一个对 {@link fetch} 进行二次包装的对象
      *
      * @param baseURL API 的基地址，不能以 / 结尾。
      * @param mimetype mimetype 的类型。
@@ -30,10 +34,17 @@ export class Fetcher {
      */
     static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<Fetcher> {
         const t = await getToken();
-        return new Fetcher(baseURL, loginPath, mimetype, locale, t);
+
+        let c: Cache;
+        if ('caches' in window) {
+            c = await caches.open('fetcher');
+        } else { // 非 HTTPS 环境
+            c = new CacheImplement();
+        }
+        return new Fetcher(baseURL, loginPath, mimetype, locale, t, c);
     }
 
-    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null) {
+    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null, cache: Cache) {
         const s = serializers.get(mimetype);
         if (!s) {
             throw `不支持的 contentType ${mimetype}`;
@@ -44,11 +55,52 @@ export class Fetcher {
         this.#locale = locale;
         this.#token = token;
 
+        this.#cache = cache;
+        this.#cachePaths = [];
+
         this.#contentType = mimetype;
         this.#serializer = s;
     }
 
-    set locale(v: string) { this.#locale = v; }
+    /**
+     * 切换语言
+     */
+    set locale(v: string) {
+        this.#locale = v;
+        this.uncache();
+    }
+
+    /**
+     * 缓存 path 指向的 GET 接口数据
+     *
+     * 以下操作会删除缓存内容：
+     *  - 切换语言；
+     *  - 访问在了该接口的非 GET 请求；
+     *  - 调用 {@link Fetcher#uncache} 方法；
+     *
+     * @param path 相对于 baseURL 的接口地址；
+     */
+    async cache(...path: Array<string>): Promise<void> {
+        // cache.add 获取的并不是我们想要的结果。只能先缓存在 #cachePaths。
+        this.#cachePaths.push(...path);
+    }
+
+    /**
+     * 清除指定的缓存项
+     *
+     * @param path 相对于 baseURL 的接口地址；
+     */
+    async uncache(...path: Array<string>): Promise<void> {
+        if (path.length > 0) {
+            const paths = path.map((v) => { return this.buildURL(v); });
+            paths.forEach(async(p) => await this.#cache.delete(p));
+            this.#cachePaths = this.#cachePaths.filter((v) => !path.includes(v));
+        } else {
+            const paths = await this.#cache.keys();
+            paths.forEach(async(p) => await this.#cache.delete(p));
+            this.#cachePaths = [];
+        }
+    }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -222,16 +274,23 @@ export class Fetcher {
     /**
      * 相当于标准库的 fetch 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
-     * @param path 地址，相对于 baseURL
-     * @param req 相关的参数
+     * @param path 地址，相对于 baseURL；
+     * @param req 相关的参数；
+     * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+     * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
     async fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
         try {
-            const resp = await fetch(this.buildURL(path), req);
+            const p = this.buildURL(path);
+            const resp = await fetch(p, req);
 
             // 200-299
 
             if (resp.ok) {
+                if (this.#cachePaths.includes(path)) {
+                    this.#cachePaths = this.#cachePaths.filter((v) => v !== path);
+                    await this.#cache.put(p, resp);
+                }
                 return { status: resp.status, ok: true, body: await this.parse<R>(resp) };
             }
 
@@ -264,7 +323,7 @@ export class Fetcher {
 /**
  * 接口错误返回的对象
  *
- * E 表示 extension 字段的类型，如果该字段空值，不需要指定。
+ * @template E 表示 extension 字段的类型，如果该字段空值，不需要指定。
  */
 export interface Problem<E> {
     type: string
@@ -290,8 +349,8 @@ export interface Param {
 /**
  * 接口返回的对象
  *
- * R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
- * PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
+ * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+ * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
  */
 export type Return<R, PE> = {
     /**
