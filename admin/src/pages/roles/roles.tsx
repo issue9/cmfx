@@ -32,6 +32,8 @@ export default function Roles(props: Props): JSX.Element {
     const current = new ObjectAccessor({} as Role);
     const currentID = current.accessor('id');
 
+    ctx.cache('/roles');
+
     // 保存数据
     const save = async (): Promise<undefined> => {
         let ret: Return<Role, never>;
@@ -84,7 +86,7 @@ export default function Roles(props: Props): JSX.Element {
             { id: 'name', label: ctx.t('_i.page.roles.name') },
             { id: 'description', label: ctx.t('_i.page.roles.description') },
             {
-                id: 'actions', label: ctx.t('_i.page.actions'), renderContent: ((id, _, obj) => <div class="flex gap-x-2">
+                id: 'actions', label: ctx.t('_i.page.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
                     <Button icon rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={ctx.t('_i.page.editItem')}>edit</Button>
                     <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={ctx.t('_i.page.roles.editPermission')}>passkey</LinkButton>
                     {tableRef.DeleteAction(obj!['id']!)}

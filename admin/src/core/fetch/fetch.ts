@@ -19,7 +19,7 @@ export class Fetcher {
     #token: Token | null;
 
     readonly #cache: Cache;
-    #cachePaths: Array<string>;
+    #cachePaths: Map<string, Array<string>>;
 
     readonly #contentType: Mimetype;
     readonly #serializer: Serializer;
@@ -37,8 +37,9 @@ export class Fetcher {
 
         let c: Cache;
         if ('caches' in window) {
-            c = await caches.open('fetcher');
+            c = await caches.open('api');
         } else { // 非 HTTPS 环境
+            console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
             c = new CacheImplement();
         }
         return new Fetcher(baseURL, loginPath, mimetype, locale, t, c);
@@ -56,7 +57,7 @@ export class Fetcher {
         this.#token = token;
 
         this.#cache = cache;
-        this.#cachePaths = [];
+        this.#cachePaths = new Map<string, Array<string>>();
 
         this.#contentType = mimetype;
         this.#serializer = s;
@@ -67,22 +68,29 @@ export class Fetcher {
      */
     set locale(v: string) {
         this.#locale = v;
-        this.uncache();
+        this.clearCache();
     }
 
     /**
      * 缓存 path 指向的 GET 接口数据
      *
+     * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
+     * NOTE: 如果 path 已经被记录，再次调用，即使 deps 不同也将不启作用！
+     *
      * 以下操作会删除缓存内容：
      *  - 切换语言；
      *  - 访问在了该接口的非 GET 请求；
      *  - 调用 {@link Fetcher#uncache} 方法；
+     *  - 调用 {@link Fetcher#clearCache} 方法；
      *
      * @param path 相对于 baseURL 的接口地址；
+     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
      */
-    async cache(...path: Array<string>): Promise<void> {
-        // cache.add 获取的并不是我们想要的结果。只能先缓存在 #cachePaths。
-        this.#cachePaths.push(...path);
+    async cache(path: string, ...deps: Array<string>): Promise<void> {
+        if (!this.#cachePaths.has(path)) {
+            deps.push(path);
+            this.#cachePaths.set(path, deps);
+        }
     }
 
     /**
@@ -90,16 +98,14 @@ export class Fetcher {
      *
      * @param path 相对于 baseURL 的接口地址；
      */
-    async uncache(...path: Array<string>): Promise<void> {
-        if (path.length > 0) {
-            const paths = path.map((v) => { return this.buildURL(v); });
-            paths.forEach(async(p) => await this.#cache.delete(p));
-            this.#cachePaths = this.#cachePaths.filter((v) => !path.includes(v));
-        } else {
-            const paths = await this.#cache.keys();
-            paths.forEach(async(p) => await this.#cache.delete(p));
-            this.#cachePaths = [];
-        }
+    async uncache(path: string): Promise<void> {
+        this.#cachePaths.delete(path);
+        await this.#cache.delete(this.buildURL(path));
+    }
+
+    async clearCache(): Promise<void> {
+        this.#cachePaths.forEach(async(_, key) => await this.uncache(key));
+        this.#cachePaths.clear();
     }
 
     /**
@@ -280,17 +286,33 @@ export class Fetcher {
      * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
     async fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
+        const isGET = req && req.method === 'GET';
+        const fullPath = this.buildURL(path);
+
         try {
-            const p = this.buildURL(path);
-            const resp = await fetch(p, req);
+            let resp: Response | undefined;
+            if (isGET && this.#cachePaths.has(path)) {
+                resp = await this.#cache.match(fullPath);
+            }
+            const isMatched = !!resp; // 是否是从缓存中匹配到的数据
+            if (!resp) {
+                resp = await fetch(fullPath, req);
+            }
 
             // 200-299
 
             if (resp.ok) {
-                if (this.#cachePaths.includes(path)) {
-                    this.#cachePaths = this.#cachePaths.filter((v) => v !== path);
-                    await this.#cache.put(p, resp);
+                if (isGET) {
+                    if (!isMatched && this.#cachePaths.has(path)) {
+                        await this.#cache.put(fullPath, resp.clone());
+                    }
+                } else if (!req ||(req.method !== 'OPTIONS' && req.method !== 'HEAD')) { // 非 GET 请求，则清除缓存。
+                    const key = this.#needUncache(path);
+                    if (key) {
+                        await this.#cache.delete(this.buildURL(key));
+                    }
                 }
+
                 return { status: resp.status, ok: true, body: await this.parse<R>(resp) };
             }
 
@@ -308,6 +330,14 @@ export class Fetcher {
                 return { status: 500, ok: false, body: {type: '500', status: 500, title: 'fetch error', detail: e.message } };
             }
             return { status: 500, ok: false, body: {type: '500', status: 500, title: 'error', detail: (<any>e).toString() } };
+        }
+    }
+
+    #needUncache(path: string): string|undefined {
+        for(const [key, vals] of this.#cachePaths) {
+            if (vals.indexOf(path)>=0) {
+                return key;
+            }
         }
     }
 
@@ -393,7 +423,7 @@ export interface Account {
  * 分页接口返回的对象
  */
 export interface Page<T> {
-    count: number
-    current: Array<T>
-    more?: boolean
+    count: number;
+    current: Array<T>;
+    more?: boolean;
 }

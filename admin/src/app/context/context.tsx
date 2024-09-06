@@ -53,6 +53,21 @@ export function buildContext(opt: Required<buildOptions>, f: Fetcher) {
     const ctx = {
         isLogin() { return f.isLogin(); },
 
+        /**
+         * 缓存 GET path 指向的数据
+         *
+         * @param path 相对于 baseURL 的接口地址；
+         * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
+         */
+        async cache(path: string, ...deps: Array<string>): Promise<void> { await f.cache(path, ...deps); },
+
+        /**
+         * 取消 GET path 指向的缓存数据
+         */
+        async uncache(path: string): Promise<void> { await f.uncache(path); },
+
+        async clearCache(): Promise<void> { await f.clearCache(); },
+
         async delete<R = never, PE = never>(path: string, withToken = true) {
             return f.delete<R, PE>(path, withToken);
         },

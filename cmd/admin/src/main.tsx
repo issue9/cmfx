@@ -37,8 +37,6 @@ const routes: Routes = {
     }
 };
 
-console.log(routes);
-
 const menus: Options['menus'] = [
     { type: 'item', label: 'home', path: '/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test' },

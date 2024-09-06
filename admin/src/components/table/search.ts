@@ -110,5 +110,9 @@ export function query2Search<Q extends Query>(q: Q): string {
         }
     });
 
-    return s.toString();
+    const qs = s.toString();
+    if (qs) {
+        return '?'+qs;
+    }
+    return '';
 }
