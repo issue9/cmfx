@@ -5,7 +5,7 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { sleep } from '../time';
-import { API } from './api';
+import { API, query2Search } from './api';
 import { Token, writeToken } from './token';
 
 describe('API', () => {
@@ -93,4 +93,11 @@ describe('API token', () => {
         t = await f.getToken();
         expect(t).toBeUndefined();
     });
+});
+
+test('query2Search', () => {
+    expect(query2Search({ str: 'str' })).toEqual('?str=str');
+    expect(query2Search({ str: 'str', num: 0, bool: false })).toEqual('?str=str&num=0&bool=false');
+    expect(query2Search({ str: ['str'], num: [0,1], bool: false })).toEqual('?str=str&num=0%2C1&bool=false');
+    expect(query2Search({})).toEqual('');
 });

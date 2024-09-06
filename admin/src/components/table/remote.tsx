@@ -6,9 +6,8 @@ import { JSX, splitProps } from 'solid-js';
 
 import { AppContext, useApp } from '@/app/context';
 import { ConfirmButton } from '@/components/button';
-import { Page } from '@/core';
+import { Page, Query, query2Search } from '@/core';
 import LoaderTable, { Methods as LoaderMethods, Props as LoaderProps } from './loader';
-import { Query, query2Search } from './search';
 
 export interface Methods<T extends object> extends LoaderMethods<T> {
     /**

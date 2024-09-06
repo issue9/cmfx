@@ -32,7 +32,7 @@ export default function Roles(props: Props): JSX.Element {
     const current = new ObjectAccessor({} as Role);
     const currentID = current.accessor('id');
 
-    ctx.cache('/roles');
+    ctx.cacheAPI('/roles');
 
     // 保存数据
     const save = async (): Promise<undefined> => {

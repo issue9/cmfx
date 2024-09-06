@@ -7,11 +7,10 @@ import { createSignal } from 'solid-js';
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { TextField } from '@/components/form';
-import { Page, sleep } from '@/core';
+import { Page, Query, sleep } from '@/core';
 import { default as BasicTable } from './basic';
 import { Column } from './column';
 import { default as LoaderTable } from './loader';
-import { Query } from './search';
 
 interface Item {
     id: number;

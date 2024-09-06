@@ -14,7 +14,7 @@ export const serializers: Readonly<Map<Mimetype, Serializer>> = new Map<Mimetype
 ]);
 
 /**
- * 以 JSON 为参照定义了序列化和反序列化的接口
+ * 以 {@link JSON} 为参照定义了序列化和反序列化的接口
  */
 export interface Serializer {
     parse(_: string): unknown;
