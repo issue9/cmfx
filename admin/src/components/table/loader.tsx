@@ -11,10 +11,10 @@ import { SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
-import { Exporter, Page } from '@/core';
+import { Exporter, Page, Query } from '@/core';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
-import { fromSearch, Params, Query, saveSearch } from './search';
+import { fromSearch, Params, saveSearch } from './search';
 
 export interface Methods<T extends object> {
     /**

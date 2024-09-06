@@ -7,7 +7,7 @@ import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Drawer, Notify, SystemDialog } from '@/components';
-import { Fetcher, initTheme } from '@/core';
+import { API, initTheme } from '@/core';
 import { buildContext } from './context';
 import * as errors from './errors';
 import { Options, build as buildOptions } from './options';
@@ -24,7 +24,7 @@ import { default as Toolbar } from './toolbar';
  */
 export async function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
-    const f = await Fetcher.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
+    const f = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
 
     render(() => {
         initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
@@ -38,7 +38,7 @@ export async function create(elementID: string, o: Options) {
 /**
 * 项目的根组件
 */
-function App(props: {opt: Required<Options>, f: Fetcher}) {
+function App(props: {opt: Required<Options>, f: API}) {
     const { Provider } = buildContext(props.opt, props.f); // buildContext 必须在组件内使用！
 
     const [settingsVisible, setSettingsVisible] = createSignal(false);

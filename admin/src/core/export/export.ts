@@ -4,7 +4,7 @@
 
 import xlsx from 'xlsx';
 
-import { Page } from '@/core/fetch';
+import { Page } from '@/core/api';
 import { Column } from './column';
 
 /**

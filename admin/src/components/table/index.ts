@@ -11,6 +11,4 @@ export type { Methods as LoaderTableMethods, Props as LoaderTableProps } from '.
 export { default as RemoteTable } from './remote';
 export type { Methods as RemoteTableMethods, Props as RemoteTableProps } from './remote';
 
-export type { Query } from './search';
-
 export type { Column } from './column';

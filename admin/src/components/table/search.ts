@@ -4,16 +4,7 @@
 
 import { SetParams, useSearchParams } from '@solidjs/router';
 
-type QueryValue = string | number | boolean | null | undefined;
-
-/**
- * 查询参数的类型
- */
-export interface Query {
-    [k: string]: QueryValue | Array<QueryValue>;
-    page?: number;
-    size?: number;
-}
+import { Query } from '@/core';
 
 /**
  * 根据 T 生成其值类型为字符串的对象
@@ -91,24 +82,4 @@ export function saveSearch<Q extends Query>(q: Q, searchSetter: ReturnType<typeo
         }
     });
     searchSetter(s);
-}
-
-/**
- * 将 Q 转换为查询参数
- */
-export function query2Search<Q extends Query>(q: Q): string {
-    const s = new URLSearchParams();
-    Object.entries(q).forEach((v) => {
-        if (Array.isArray(v[1])) {
-            s.append(v[0], v[1].join(','));
-        } else {
-            if (typeof v[1] === 'string') {
-                s.append(v[0], v[1]);
-            } else if (!v[1]) {
-                s.append(v[0], v[1]!.toString());
-            }
-        }
-    });
-
-    return s.toString();
 }

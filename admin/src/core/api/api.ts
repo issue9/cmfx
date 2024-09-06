@@ -2,38 +2,49 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { CacheImplement } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
-
-export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+import { Account, Method, Problem, Query, Return } from './types';
 
 /**
- * 对 fetch 的二次封装，提供了令牌续订功能。
+ * 封装了 API 访问的基本功能
  */
-export class Fetcher {
+export class API {
     readonly #baseURL: string;
     readonly #loginPath: string;
     #locale: string;
     #token: Token | null;
 
+    readonly #cache: Cache;
+    #cachePaths: Map<string, Array<string>>;
+
     readonly #contentType: Mimetype;
     readonly #serializer: Serializer;
 
     /**
-     * 返回一个对 fetch 进行二次包装的对象
+     * 返回一个对 {@link fetch} 进行二次包装的对象
      *
      * @param baseURL API 的基地址，不能以 / 结尾。
      * @param mimetype mimetype 的类型。
      * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
      * @param locale 报头 accept-language 的内容。
      */
-    static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<Fetcher> {
+    static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<API> {
         const t = await getToken();
-        return new Fetcher(baseURL, loginPath, mimetype, locale, t);
+
+        let c: Cache;
+        if ('caches' in window) {
+            c = await caches.open('api');
+        } else { // 非 HTTPS 环境
+            console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
+            c = new CacheImplement();
+        }
+        return new API(baseURL, loginPath, mimetype, locale, t, c);
     }
 
-    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null) {
+    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null, cache: Cache) {
         const s = serializers.get(mimetype);
         if (!s) {
             throw `不支持的 contentType ${mimetype}`;
@@ -44,11 +55,57 @@ export class Fetcher {
         this.#locale = locale;
         this.#token = token;
 
+        this.#cache = cache;
+        this.#cachePaths = new Map<string, Array<string>>();
+
         this.#contentType = mimetype;
         this.#serializer = s;
     }
 
-    set locale(v: string) { this.#locale = v; }
+    /**
+     * 切换语言
+     */
+    set locale(v: string) {
+        this.#locale = v;
+        this.clearCache();
+    }
+
+    /**
+     * 缓存 path 指向的 GET 接口数据
+     *
+     * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
+     * NOTE: 如果 path 已经被记录，再次调用，即使 deps 不同也将不启作用！
+     *
+     * 以下操作会删除缓存内容：
+     *  - 切换语言；
+     *  - 访问在了该接口的非 GET 请求；
+     *  - 调用 {@link API#uncache} 方法；
+     *  - 调用 {@link API#clearCache} 方法；
+     *
+     * @param path 相对于 baseURL 的接口地址；
+     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
+     */
+    async cache(path: string, ...deps: Array<string>): Promise<void> {
+        if (!this.#cachePaths.has(path)) {
+            deps.push(path);
+            this.#cachePaths.set(path, deps);
+        }
+    }
+
+    /**
+     * 清除指定的缓存项
+     *
+     * @param path 相对于 baseURL 的接口地址；
+     */
+    async uncache(path: string): Promise<void> {
+        this.#cachePaths.delete(path);
+        await this.#cache.delete(this.buildURL(path));
+    }
+
+    async clearCache(): Promise<void> {
+        this.#cachePaths.forEach(async(_, key) => await this.uncache(key));
+        this.#cachePaths.clear();
+    }
 
     /**
      * 将 path 包装为一个 API 的 URL
@@ -158,7 +215,7 @@ export class Fetcher {
     /**
      * 当前是否是有效果的登录状态
      *
-     * NOTE: 此方法与 {@link Fetcher#getToken} 的不同在于当前方法不会主动刷新 token。
+     * NOTE: 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
      */
     isLogin(): boolean {
         return !!this.#token && state(this.#token) !== TokenState.RefreshExpired;
@@ -191,7 +248,7 @@ export class Fetcher {
     }
 
     /**
-     * 对 {@link Fetcher#fetch} 的二次包装，可以指定一些关键参数。
+     * 对 {@link API#fetch} 的二次包装，可以指定一些关键参数。
      *
      * @param path 请求路径，相对于 baseURL 的路径；
      * @param method 请求方法；
@@ -222,16 +279,39 @@ export class Fetcher {
     /**
      * 相当于标准库的 fetch 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
-     * @param path 地址，相对于 baseURL
-     * @param req 相关的参数
+     * @param path 地址，相对于 baseURL；
+     * @param req 相关的参数；
+     * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+     * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
     async fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
+        const isGET = req && req.method === 'GET';
+        const fullPath = this.buildURL(path);
+
         try {
-            const resp = await fetch(this.buildURL(path), req);
+            let resp: Response | undefined;
+            if (isGET && this.#cachePaths.has(path)) {
+                resp = await this.#cache.match(fullPath);
+            }
+            const isMatched = !!resp; // 是否是从缓存中匹配到的数据
+            if (!resp) {
+                resp = await fetch(fullPath, req);
+            }
 
             // 200-299
 
             if (resp.ok) {
+                if (isGET) {
+                    if (!isMatched && this.#cachePaths.has(path)) {
+                        await this.#cache.put(fullPath, resp.clone());
+                    }
+                } else if (!req ||(req.method !== 'OPTIONS' && req.method !== 'HEAD')) { // 非 GET 请求，则清除缓存。
+                    const key = this.#needUncache(path);
+                    if (key) {
+                        await this.#cache.delete(this.buildURL(key));
+                    }
+                }
+
                 return { status: resp.status, ok: true, body: await this.parse<R>(resp) };
             }
 
@@ -252,6 +332,14 @@ export class Fetcher {
         }
     }
 
+    #needUncache(path: string): string|undefined {
+        for(const [key, vals] of this.#cachePaths) {
+            if (vals.indexOf(path)>=0) {
+                return key;
+            }
+        }
+    }
+
     async parse<R>(resp: Response): Promise<R | undefined> {
         const txt = await resp.text();
         if (txt.length === 0) {
@@ -262,79 +350,25 @@ export class Fetcher {
 }
 
 /**
- * 接口错误返回的对象
- *
- * E 表示 extension 字段的类型，如果该字段空值，不需要指定。
+ * 将 Q 转换为查询参数
  */
-export interface Problem<E> {
-    type: string
-    title: string
-    status: number
-    detail?: string
-    instance?: string
-    extension?: E
+export function query2Search<Q extends Query>(q: Q): string {
+    const s = new URLSearchParams();
+    Object.entries(q).forEach((v) => {
+        if (Array.isArray(v[1])) {
+            s.append(v[0], v[1].join(','));
+        } else {
+            if (typeof v[1] === 'string') {
+                s.append(v[0], v[1]);
+            } else if (!v[1]) {
+                s.append(v[0], v[1]!.toString());
+            }
+        }
+    });
 
-    /**
-     * 具体的错误字段
-     *
-     * 根据 status 的不同，可能表示提交对象、查询参数或是报头的错误。
-     */
-    params?: Array<Param>
-}
-
-export interface Param {
-    name: string
-    reason: string
-}
-
-/**
- * 接口返回的对象
- *
- * R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
- * PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
- */
-export type Return<R, PE> = {
-    /**
-     * 服务端返回的类型
-     */
-    body?: Problem<PE>;
-
-    /**
-     * 状态码
-     */
-    status: number;
-
-    /**
-     * 是否出错了。
-     */
-    ok: false;
-} | {
-    /**
-     * 服务端返回的类型
-     */
-    body?: R;
-
-    /**
-     * 状态码
-     */
-    status: number;
-
-    /**
-     * 是否出错了。
-     */
-    ok: true;
-};
-
-export interface Account {
-    username: string;
-    password: string;
-}
-
-/**
- * 分页接口返回的对象
- */
-export interface Page<T> {
-    count: number
-    current: Array<T>
-    more?: boolean
+    const qs = s.toString();
+    if (qs) {
+        return '?'+qs;
+    }
+    return '';
 }

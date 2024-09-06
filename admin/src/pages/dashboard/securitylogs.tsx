@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { useApp } from '@/app';
-import { Page, Query, RemoteTable } from '@/components';
+import { Page, RemoteTable } from '@/components';
+import { Query } from '@/core';
 
 interface SecurityLog {
     content: string;

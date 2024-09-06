@@ -6,9 +6,8 @@ import { JSX, splitProps } from 'solid-js';
 
 import { AppContext, useApp } from '@/app/context';
 import { ConfirmButton } from '@/components/button';
-import { Page } from '@/core';
+import { Page, Query, query2Search } from '@/core';
 import LoaderTable, { Methods as LoaderMethods, Props as LoaderProps } from './loader';
-import { Query, query2Search } from './search';
 
 export interface Methods<T extends object> extends LoaderMethods<T> {
     /**
@@ -75,7 +74,7 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
 
 function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext, path: string) {
     return async (q: Q): Promise<Page<T> | undefined> => {
-        const ret = await ctx.get<Page<T>>(path + '?' + query2Search(q));
+        const ret = await ctx.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);
             return { count: 0, current: [] };
@@ -86,7 +85,7 @@ function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext,
 
 function buildNoPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext, path: string) {
     return async (q: Q): Promise<Array<T> | undefined> => {
-        const ret = await ctx.get<Array<T>>(path + '?' + query2Search(q));
+        const ret = await ctx.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);
             return [];
