@@ -4,7 +4,7 @@
 
 import { createResource } from 'solid-js';
 
-import { Fetcher } from '@/core';
+import { API } from '@/core';
 
 /**
  * 用户的基本信息
@@ -20,7 +20,7 @@ export interface User {
     avatar?: string;
 }
 
-export function createUser(f: Fetcher, path: string) {
+export function createUser(f: API, path: string) {
     return createResource(async () => {
         const r = await f.get<User>(path);
         if (!r.ok) {

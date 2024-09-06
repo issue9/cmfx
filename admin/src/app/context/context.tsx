@@ -7,7 +7,7 @@ import { JSX, createContext, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { Account, Breakpoint, Breakpoints, Fetcher, Method, Problem, notify } from '@/core';
+import { API, Account, Breakpoint, Breakpoints, Method, Problem, notify } from '@/core';
 import { Locale, createI18n, names } from '@/locales';
 import { createUser } from './user';
 
@@ -41,7 +41,7 @@ export function useOptions(): Options {
     return ctx;
 }
 
-export function buildContext(opt: Required<buildOptions>, f: Fetcher) {
+export function buildContext(opt: Required<buildOptions>, f: API) {
     const { getLocale, setLocale, t } = createI18n(opt.locales.fallback, opt.locales.messages);
 
     const [user, { refetch }] = createUser(f, opt.api.info);

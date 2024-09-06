@@ -10,9 +10,9 @@ import { delToken, getToken, state, Token, TokenState, writeToken } from './toke
 export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 
 /**
- * 对 fetch 的二次封装，提供了令牌续订功能。
+ * 封装了 API 访问的基本功能
  */
-export class Fetcher {
+export class API {
     readonly #baseURL: string;
     readonly #loginPath: string;
     #locale: string;
@@ -32,7 +32,7 @@ export class Fetcher {
      * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
      * @param locale 报头 accept-language 的内容。
      */
-    static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<Fetcher> {
+    static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<API> {
         const t = await getToken();
 
         let c: Cache;
@@ -42,7 +42,7 @@ export class Fetcher {
             console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
             c = new CacheImplement();
         }
-        return new Fetcher(baseURL, loginPath, mimetype, locale, t, c);
+        return new API(baseURL, loginPath, mimetype, locale, t, c);
     }
 
     private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null, cache: Cache) {
@@ -80,8 +80,8 @@ export class Fetcher {
      * 以下操作会删除缓存内容：
      *  - 切换语言；
      *  - 访问在了该接口的非 GET 请求；
-     *  - 调用 {@link Fetcher#uncache} 方法；
-     *  - 调用 {@link Fetcher#clearCache} 方法；
+     *  - 调用 {@link API#uncache} 方法；
+     *  - 调用 {@link API#clearCache} 方法；
      *
      * @param path 相对于 baseURL 的接口地址；
      * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
@@ -216,7 +216,7 @@ export class Fetcher {
     /**
      * 当前是否是有效果的登录状态
      *
-     * NOTE: 此方法与 {@link Fetcher#getToken} 的不同在于当前方法不会主动刷新 token。
+     * NOTE: 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
      */
     isLogin(): boolean {
         return !!this.#token && state(this.#token) !== TokenState.RefreshExpired;
@@ -249,7 +249,7 @@ export class Fetcher {
     }
 
     /**
-     * 对 {@link Fetcher#fetch} 的二次包装，可以指定一些关键参数。
+     * 对 {@link API#fetch} 的二次包装，可以指定一些关键参数。
      *
      * @param path 请求路径，相对于 baseURL 的路径；
      * @param method 请求方法；
