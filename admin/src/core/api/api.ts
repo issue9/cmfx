@@ -73,17 +73,19 @@ export class API {
     /**
      * 缓存 path 指向的 GET 接口数据
      *
-     * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
-     * NOTE: 如果 path 已经被记录，再次调用，即使 deps 不同也将不启作用！
-     *
      * 以下操作会删除缓存内容：
      *  - 切换语言；
      *  - 访问在了该接口的非 GET 请求；
      *  - 调用 {@link API#uncache} 方法；
      *  - 调用 {@link API#clearCache} 方法；
+     *  - 调用参数 deps 中的非 GET 请求；
      *
      * @param path 相对于 baseURL 的接口地址；
-     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
+     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项。
+     *  支持在尾部以 * 作为通配符，用以匹配任意字符。
+     *
+     * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
+     * NOTE: 相同的 path 多次调用，后续的调用将被忽略。
      */
     async cache(path: string, ...deps: Array<string>): Promise<void> {
         if (!this.#cachePaths.has(path)) {
@@ -333,9 +335,13 @@ export class API {
     }
 
     #needUncache(path: string): string|undefined {
-        for(const [key, vals] of this.#cachePaths) {
-            if (vals.indexOf(path)>=0) {
-                return key;
+        for(const [key, dpes] of this.#cachePaths) {
+            for(const dep of dpes) {
+                if (dep === path) { return key; }
+
+                if (dep.charAt(dep.length-1) === '*' && path.startsWith(dep.substring(0, dep.length-1))) {
+                    return key;
+                }
             }
         }
     }
