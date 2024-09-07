@@ -127,7 +127,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         async login(account: Account) {
             const ret = await f.login(account);
             if (ret === true) {
-                refetch();
+                await refetch();
             }
             return ret;
         },
@@ -137,7 +137,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          */
         async logout() {
             await f.logout();
-            refetch();
+            await refetch();
         },
 
         /**
@@ -148,7 +148,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         /**
          * 触发更新用户的事件
          */
-        updateUser() { refetch(); },
+        async updateUser() { await refetch(); },
 
         breakpoint() { return bp(); },
 
