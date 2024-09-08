@@ -7,7 +7,6 @@ package system
 import (
 	"database/sql"
 	"encoding/json"
-	"fmt"
 	"reflect"
 	"slices"
 	"time"
@@ -120,6 +119,10 @@ func (l *Linkage[T]) Add(v T, parent int64) (*LinkageItem[T], error) {
 		Data:    data,
 		Parent:  parent,
 	})
+	if err != nil {
+		return nil, err
+	}
+
 	item := &LinkageItem[T]{Data: v, ID: last}
 
 	if parent == 0 {
@@ -219,6 +222,6 @@ func errLinkageItemNotFound(id int64) error {
 
 func checkObjectType[T any]() {
 	if reflect.TypeFor[T]().Kind() == reflect.Pointer {
-		panic(fmt.Sprintf("T 的约束必须是结构体"))
+		panic("T 的约束必须是结构体")
 	}
 }

@@ -211,11 +211,3 @@ func (m *Module) adminGetSettingCensor(ctx *web.Context) web.Responser {
 func (m *Module) adminPutSettingCensor(ctx *web.Context) web.Responser {
 	return m.censorSettings.HandlePut(ctx, user.SpecialUserID)
 }
-
-// 后台的基本环境
-type env struct {
-	XMLName   struct{} `json:"-" cbor:"-" xml:"env"`
-	Name      string   `json:"name" cbor:"name" xml:"name"`
-	ShortName string   `json:"shortName" xml:"shortName" cbor:"shortName"`
-	LOGO      string   `json:"logo" xml:"logo" cbor:"logo"`
-}
