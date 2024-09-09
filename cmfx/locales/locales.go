@@ -11,12 +11,13 @@ import (
 
 	"github.com/issue9/web"
 	"github.com/issue9/web/locales"
+	wl "github.com/issue9/webuse/v7/locales"
 )
 
 //go:embed *.yaml
 var locale embed.FS
 
-var All = append([]fs.FS{locale}, locales.Locales...)
+var All = append([]fs.FS{locale, wl.Locales}, locales.Locales...)
 
 // 一些常用的翻译项
 const (

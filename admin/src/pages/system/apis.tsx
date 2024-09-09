@@ -1,0 +1,58 @@
+// SPDX-FileCopyrightText: 2024 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { JSX } from 'solid-js';
+
+import { Column, Page, RemoteTable } from '@/components';
+import { useApp } from '@/app';
+import { Method, Query } from '@/core';
+
+interface API {
+    method: string;
+    pattern: string;
+    router: string;
+
+    count: number; // 总的请求次数
+    last: string; // 时间字符串
+    serverErrors: number; // 500 及以上的错误的次数
+    userErrors: number; // 400-499 错误的次数
+
+    // 以下是与速度相关的数据，是对一个时间段的表述，
+    // 符合 go 中 time.Duration 的序列化要求。比如 2s 表示两秒。
+
+    max: string; 
+    min: string;
+    spend: string;
+}
+
+interface Q extends Query {
+    method: Array<Method>;
+    text: string;
+}
+
+export default function(): JSX.Element {
+    const ctx = useApp();
+
+    const queries: Q = {
+        method: ['GET', 'DELETE', 'PUT', 'PATCH', 'POST'],
+        text: ''
+    };
+
+    return <Page title="_i.page.system.apiViewer">
+        <RemoteTable queries={queries} path='/system/apis' columns={[
+            {id: 'router', label: ctx.t('_i.page.system.router')},
+            {id: 'method', label: ctx.t('_i.page.system.method')},
+            {id: 'pattern', label: ctx.t('_i.page.system.pattern')},
+
+            {id: 'count', label: ctx.t('_i.page.system.count')},
+            {id: 'last', label: ctx.t('_i.page.system.last')},
+            {id: 'serverErrors', label: ctx.t('_i.page.system.serverErrors')},
+            {id: 'userErrors', label: ctx.t('_i.page.system.userErrors')},
+
+            {id: 'max', label: ctx.t('_i.page.system.max')},
+            {id: 'min', label: ctx.t('_i.page.system.min')},
+            {id: 'spend', label: ctx.t('_i.page.system.spend')},
+        ] as Array<Column<API>>} />
+    </Page>;
+}

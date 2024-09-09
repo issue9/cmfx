@@ -21,7 +21,7 @@ export class roles implements Pages {
      */
     static Roles = Roles;
 
-    #prefix: string;
+    readonly #prefix: string;
 
     private constructor(prefix: string) {
         this.#prefix = prefix;

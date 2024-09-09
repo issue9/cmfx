@@ -162,7 +162,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         delete q.size;
         delete q.page;
 
-        await e.download(()=>{return load(q);});
+        await e.download(async()=>{return await load(q);});
         e.export(props.filename!, ext);
     };
 

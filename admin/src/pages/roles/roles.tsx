@@ -48,7 +48,7 @@ export default function Roles(props: Props): JSX.Element {
         }
 
         if (!ret.ok) {
-            ctx.outputProblem(ret.status, ret.body);
+            await ctx.outputProblem(ret.status, ret.body);
             return;
         }
         tableRef.refresh();

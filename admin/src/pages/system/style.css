@@ -1,0 +1,31 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .p--system-info {
+        @apply flex flex-wrap gap-5 justify-between;
+
+        fieldset {
+            @apply flex flex-col min-w-40 border border-palette-fg-low p-2 pt-0 rounded-md;
+
+            dl {
+                @apply flex flex-wrap hover:bg-palette-bg-low px-2 rounded-sm cursor-default;
+
+                dt {
+                    @apply w-40;
+                }
+                
+                dd {
+                    @apply ms-4;
+                }
+            }
+        }
+
+        .state {
+            @apply w-full;
+        }
+    }
+}

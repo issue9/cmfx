@@ -34,6 +34,36 @@ const messages: Messages = {
                 female: '女',
                 unknown: '未知'
             },
+            system: {
+                apis: 'API',
+                apiViewer: 'API',
+                router: '路由',
+                method: '请求方法',
+                pattern: '路径',
+                count: '访问次数',
+                last: '最后访问时间',
+                userErrors: '出错次数(5xx)',
+                serverErrors: '出错次数(4xx)',
+                max: '最长耗时',
+                min: '最短耗时',
+                spend: '平均耗时',
+
+                services: '服务',
+                jobs: '计划任务',
+                serviceViewer: '服务',
+                serviceState: '状态',
+                serviceStates: {
+                    running: '运行',
+                    stopped: '停止',
+                    failed: '出错'
+                },
+                title: '名称',
+                error: '错误内容',
+                next: '下次执行时间',
+                prev: '上次执行时间',
+
+                info: '信息',
+            },
             admin: {
                 admin: '管理员',
                 adminsManager: '管理员',

@@ -54,7 +54,7 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
             async delete<T extends string|number>(id: T): Promise<void> {
                 const ret = await ctx.delete(`${props.path}/${id}`);
                 if (!ret.ok) {
-                    ctx.outputProblem(ret.status, ret.body);
+                    await ctx.outputProblem(ret.status, ret.body);
                     return;
                 }
                 await ref.refresh();

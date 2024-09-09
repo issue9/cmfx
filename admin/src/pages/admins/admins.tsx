@@ -57,7 +57,7 @@ export default function(props: Props): JSX.Element {
                 }) as Column<Admin>['content']
             },
             {
-                id: 'actions', label: ctx.t('_i.page.actions'), isUnexported: true, renderContent: ((id, _, obj) => {
+                id: 'actions', label: ctx.t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj) => {
                     return <div class="flex gap-x-2">
                         <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}`} title={ctx.t('_i.page.editItem')}>edit</LinkButton>
                         {ref.DeleteAction(obj!['id'])}

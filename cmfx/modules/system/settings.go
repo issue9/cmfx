@@ -76,7 +76,7 @@ func (m *Module) Censor(text string) (ok bool) {
 	}
 
 	for _, word := range c.Words {
-		if strings.Index(text, word) >= 0 {
+		if strings.Contains(text, word) {
 			return false
 		}
 	}
