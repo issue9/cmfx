@@ -98,8 +98,21 @@ export interface Locales {
 }
 
 export interface Theme {
+    /**
+     * 主题模式
+     */
     mode: Mode;
+
+    /**
+     * 对比度
+     */
     contrast: Contrast;
+
+    /**
+     * 主题的颜色
+     *
+     * 如果是数值类型，那么将以此值作为主色调的色相，然后根据此值生成 {@link Scheme} 对象。
+     */
     scheme: Scheme | number;
 }
 

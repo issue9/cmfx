@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * 当前支持的 mime type
+ * 当前 API 支持的 mime type
  */
 export const mimetypes = ['application/json'] as const;
 
