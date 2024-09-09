@@ -18,6 +18,9 @@ export interface Column<T extends object> extends ExportColumn<T> {
      * 如果该值为空，则采用以下几种路径获取值：
      *  - label
      *  - id
+     *
+     * renderLabel 和 label 的区别在于，label 用于导出，只能是字符串，
+     * 而 renderLabel 可以是组件类型。
      */
     renderLabel?: JSX.Element;
 
@@ -39,6 +42,9 @@ export interface Column<T extends object> extends ExportColumn<T> {
      * 如果该值为空，则采用以下几种路径获取值：
      *  - content
      *  - T[id]
+     *
+     * renderContent 和 content 的区别在于，content 用于导出，只能是字符串，
+     * 而 renderContent 可以是组件类型。
      */
     renderContent?: CellRenderFunc<T>;
 }

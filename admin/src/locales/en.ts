@@ -32,8 +32,39 @@ const messages = {
                 female: 'female',
                 unknown: 'unknown'
             },
+            system: {
+                apis: 'API',
+                apiViewer: 'API Viewer',
+                router: 'router',
+                method: 'method',
+                pattern: 'pattern',
+                count: 'count',
+                last: 'last',
+                userErrors: 'errors(4xx)',
+                serverErrors: 'errors(5xx)',
+                max: 'max',
+                min: 'min',
+                spend: 'spend',
+
+                services: 'services',
+                jobs: 'jobs',
+                serviceViewer: 'service viewer',
+                serviceState: 'state',
+                serviceStates: {
+                    running: 'running',
+                    stopped: 'stopped',
+                    failed: 'failed'
+                },
+                title: 'title',
+                error: 'error message',
+                next: 'next',
+                prev: 'prev',
+
+                info: 'info',
+
+            },
             admin: {
-                admin: 'adminstrator',
+                admin: 'administrator',
                 adminsManager: 'admin manager',
                 name: 'name',
                 nickname: 'nick name'

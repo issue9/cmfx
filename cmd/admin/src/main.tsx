@@ -17,6 +17,7 @@ const urlBase = 'http://192.168.10.10:8080/admin';
 const demo = new Demo('/demo');
 const roles = pages.roles.build('/roles');
 const admins = pages.admins.build('/admins');
+const system = pages.system.build('/system');
 
 const routes: Routes = {
     public: {
@@ -30,6 +31,7 @@ const routes: Routes = {
         routes: [
             ...roles.routes(),
             ...admins.routes(),
+            ...system.routes(),
             { path: ['/dashboard', '/'], component: pages.Dashboard },
             ...demo.routes(),
             { path: '/test', component: Test }
@@ -46,6 +48,7 @@ const menus: Options['menus'] = [
                 type: 'item', label: 'administrator', items: [
                     ...roles.menus(),
                     ...admins.menus(),
+                    ...system.menus(),
                 ]
             },
         ]
