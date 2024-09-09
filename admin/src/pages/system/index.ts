@@ -13,7 +13,7 @@ export class system implements Pages {
     static Services = Services;
     static Info = Info;
 
-    #prefix: string;
+    readonly #prefix: string;
 
     static build(prefix: string) {
         return new system(prefix);

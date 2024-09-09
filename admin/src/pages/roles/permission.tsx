@@ -26,7 +26,7 @@ export default function() {
     const [parent, setParent] = createSignal<Array<string>>([], {equals: false});
     const [current, setCurrent] = createSignal<Array<string>>([], {equals: false});
 
-    const [resources] = createResource(async () => {
+    const [resources, {refetch}] = createResource(async () => {
         const ret = await ctx.get<Array<Resource>>('/resources');
         if (!ret.ok) {
             await ctx.outputProblem(ret.status, ret.body);
@@ -45,9 +45,12 @@ export default function() {
     });
 
     createEffect(()=>{
-        const b = roleResource();
-        setParent(b ? (b.parent ?? []) : []);
-        setCurrent(b? (b.current ?? []) : []);
+        if  (roleResource.state === 'ready') {
+            const b = roleResource();
+            setParent(b ? (b.parent ?? []) : []);
+            setCurrent(b? (b.current ?? []) : []);
+            refetch();
+        }
     });
 
     const save = async()=>{

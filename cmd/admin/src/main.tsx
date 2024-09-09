@@ -83,4 +83,4 @@ const o: Options = {
     menus: menus
 };
 
-createApp('app', o);
+await createApp('app', o);

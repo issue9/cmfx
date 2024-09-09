@@ -11,7 +11,7 @@ export class admins implements Pages {
     static Admins = Admins;
     static Edit = Edit;
 
-    #prefix: string;
+    readonly #prefix: string;
 
     private constructor(prefix: string) {
         this.#prefix = prefix;

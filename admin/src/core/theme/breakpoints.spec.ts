@@ -12,7 +12,7 @@ test('breakpoints.compare', () => {
     expect(Breakpoints.compare('sm', 'lg')).toEqual(-2);
 
     const bp = new Breakpoints();
-    bp.onChange((v) => {
+    bp.onChange(() => {
         // TODO
     });
 });
