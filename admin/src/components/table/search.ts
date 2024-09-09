@@ -81,5 +81,5 @@ export function saveSearch<Q extends Query>(q: Q, searchSetter: ReturnType<typeo
             s[v[0]] = v[1];
         }
     });
-    searchSetter(s);
+    searchSetter(s, {replace: true});
 }
