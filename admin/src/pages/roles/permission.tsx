@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate, useParams } from '@solidjs/router';
-import { createResource, createEffect, createSignal, For } from 'solid-js';
+import { createEffect, createResource, createSignal, For } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Button, Checkbox, Page } from '@/components';
@@ -25,15 +25,7 @@ export default function() {
     const nav = useNavigate();
     const [parent, setParent] = createSignal<Array<string>>([], {equals: false});
     const [current, setCurrent] = createSignal<Array<string>>([], {equals: false});
-
-    const [resources, {refetch}] = createResource(async () => {
-        const ret = await ctx.get<Array<Resource>>('/resources');
-        if (!ret.ok) {
-            await ctx.outputProblem(ret.status, ret.body);
-            return;
-        }
-        return ret.body;
-    });
+    const [resources, setResources] = createSignal<Array<Resource>>([], {equals: false});
 
     const [roleResource] = createResource(async () => {
         const ret = await ctx.get<RoleResource>(`/roles/${ps.id}/resources`);
@@ -44,12 +36,18 @@ export default function() {
         return  ret.body;
     });
 
-    createEffect(()=>{
-        if  (roleResource.state === 'ready') {
+    createEffect(async () => {
+        if (roleResource.state === 'ready') {
             const b = roleResource();
             setParent(b ? (b.parent ?? []) : []);
-            setCurrent(b? (b.current ?? []) : []);
-            refetch();
+            setCurrent(b ? (b.current ?? []) : []);
+
+            const ret = await ctx.get<Array<Resource>>('/resources');
+            if (!ret.ok) {
+                await ctx.outputProblem(ret.status, ret.body);
+                return;
+            }
+            setResources(ret.body!);
         }
     });
 
