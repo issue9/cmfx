@@ -44,7 +44,7 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     // A.href 无法设置为 javascript:void(0)
-    return <A href={props.disabled ? '' : props.href} replace={!props.disabled} accessKey={props.accessKey} title={props.title} classList={{
+    return <A href={props.disabled ? '' : props.href} accessKey={props.accessKey} title={props.title} classList={{
         'c--button': true,
         'c--icon-container': true,
         'c--icon': props.icon,
