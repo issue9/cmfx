@@ -63,6 +63,11 @@ export class API {
     }
 
     /**
+     * 当前对象访问 API 是的基地址
+     */
+    get baseURL(): string { return this.#baseURL; }
+
+    /**
      * 切换语言
      */
     set locale(v: string) {
@@ -80,7 +85,7 @@ export class API {
      *  - 调用 {@link API#clearCache} 方法；
      *  - 调用参数 deps 中的非 GET 请求；
      *
-     * @param path 相对于 baseURL 的接口地址；
+     * @param path 相对于 {@link API#baseURL} 的接口地址；
      * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项。
      *  支持在尾部以 * 作为通配符，用以匹配任意字符。
      *
@@ -97,7 +102,7 @@ export class API {
     /**
      * 清除指定的缓存项
      *
-     * @param path 相对于 baseURL 的接口地址；
+     * @param path 相对于 {@link API#baseURL} 的接口地址；
      */
     async uncache(path: string): Promise<void> {
         this.#cachePaths.delete(path);
@@ -112,7 +117,7 @@ export class API {
     /**
      * 将 path 包装为一个 API 的 URL
      *
-     * @param path 相对于 baseURL 的地址
+     * @param path 相对于 {@link API#baseURL} 的地址
      */
     buildURL(path: string): string {
         if (path.length === 0) {
@@ -120,9 +125,9 @@ export class API {
         }
 
         if (path.charAt(0) !== '/') {
-            return this.#baseURL + '/' + path;
+            return this.baseURL + '/' + path;
         }
-        return this.#baseURL + path;
+        return this.baseURL + path;
     }
 
     /**
@@ -135,7 +140,7 @@ export class API {
     /**
      * POST 请求
      *
-     * @param path 相对于 baseURL 的地址
+     * @param path 相对于 {@link API#baseURL} 的地址
      * @param body 上传的数据，若没有则为空
      * @param withToken 是否带上令牌，可参考 request
      */
@@ -167,7 +172,7 @@ export class API {
     /**
      * 执行普通的 API 请求
      *
-     * @param path 请求地址，相对于 baseURL
+     * @param path 请求地址，相对于 {@link API#baseURL}
      * @param method 请求方法
      * @param obj 请求对象，会由 #serializer 进行转换，如果是 GET，可以为空。
      * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
@@ -181,7 +186,7 @@ export class API {
     /**
      * 执行上传操作
      *
-     * @param path 上传地址，相对于 baseURL
+     * @param path 上传地址，相对于 {@link API#baseURL}
      * @param obj 上传的对象
      * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌。
      */
@@ -281,7 +286,7 @@ export class API {
     /**
      * 相当于标准库的 fetch 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
-     * @param path 地址，相对于 baseURL；
+     * @param path 地址，相对于 {@link API#baseURL}；
      * @param req 相关的参数；
      * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
@@ -352,6 +357,28 @@ export class API {
             return;
         }
         return this.#serializer.parse(txt) as R;
+    }
+
+    /**
+     * 创建 {@link EventSource} 对象
+     *
+     * @param path 是相对于 {@link API#baseURL} 的地址；
+     */
+    eventSource(path: string, conf?: EventSourceInit) {
+        return new EventSource(this.buildURL(path), conf);
+    }
+
+    /**
+     * 监听 es 上的 type 事件
+     *
+     * @param handler 事件处理程序，参数 e.data 是转换后的对象，而不是原始数据。
+     * @template T 表示 e.data 转换后的类型。
+     */
+    onEventSource<T>(es: EventSource, type: string, handler: {(e: MessageEvent<T>): void}) {
+        es.addEventListener(type, async (e: MessageEvent) => {
+            const data = this.#serializer.parse(e.data) as T;
+            handler(new MessageEvent(type, { data: data!, origin: e.origin, lastEventId: e.lastEventId, source: e.source }));
+        });
     }
 }
 
