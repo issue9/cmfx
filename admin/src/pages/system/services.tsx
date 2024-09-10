@@ -4,10 +4,10 @@
 
 import { JSX, createMemo } from 'solid-js';
 
-import { LoaderTable, Column, Page, translateEnum } from '@/components';
-import { MessageKey } from '@/locales';
 import { useApp } from '@/app';
+import { Column, LoaderTable, Page, translateEnum } from '@/components';
 import { Query } from '@/core';
+import { MessageKey } from '@/locales';
 
 interface Service {
     jobs: Array<Job>;
@@ -47,7 +47,7 @@ export default function(): JSX.Element {
         return ret.body;
     });
 
-    return <Page title='_i.page.system.serviceViewer'>
+    return <Page title='_i.page.system.serviceViewer' class="max-w-lg">
         <fieldset>
             <legend>{ctx.t('_i.page.system.services')}</legend>
             <LoaderTable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[

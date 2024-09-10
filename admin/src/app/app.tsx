@@ -36,8 +36,8 @@ export async function create(elementID: string, o: Options) {
 }
 
 /**
-* 项目的根组件
-*/
+ * 项目的根组件
+ */
 function App(props: {opt: Required<Options>, f: API}) {
     const { Provider } = buildContext(props.opt, props.f); // buildContext 必须在组件内使用！
 

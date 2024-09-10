@@ -13,7 +13,7 @@ export interface Props extends FieldBaseProps {
     icon?: boolean;
 
     /**
-     * 复选框的默认状态，undefined 表示未确定的状态，true 为选中，false 为未选中。
+     * 复选框的初始状态，undefined 表示未确定的状态，true 为选中，false 为未选中。
      */
     checked?: boolean;
 

@@ -44,7 +44,7 @@ export default function(): JSX.Element {
         return ret.body;
     });
 
-    return <Page title="_i.page.system.info">
+    return <Page title="_i.page.system.info" class="max-w-lg">
         <div class="p--system-info">
             <fieldset>
                 <legend>TODO</legend>

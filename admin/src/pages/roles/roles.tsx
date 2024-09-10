@@ -71,7 +71,7 @@ export default function Roles(props: Props): JSX.Element {
         dialogRef.showModal();
     };
 
-    return <Page title="_i.page.roles.rolesManager">
+    return <Page title="_i.page.roles.rolesManager" class="max-w-lg">
         <Dialog ref={(el)=>dialogRef=el}
             header={currentID.getValue() ? ctx.t('_i.page.editItem') : ctx.t('_i.page.newItem')}
             actions={dialogRef!.DefaultActions(save)}
