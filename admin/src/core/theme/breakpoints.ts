@@ -5,27 +5,32 @@
 // NOTE: 此文件可能被包括非源码目录下的多个文件引用，
 // 不要在此文件中引用项目专用的一些功能，比如 vite.config.ts 中的 resolve.alias 的定义等。
 
-/**
- * 定义了常用的屏幕尺寸
- *
- * JS 和 CSS 都会用到。
- */
-export const breakpoints: Record<Breakpoint, string> = {
-    // NOTE: 当屏幕从大到小变化，比如从 sm 向 xs 变化，会触发 sm 事件，且其 matches 为 false，
-    // 但是不会触发 xs，因为 sm 本身也是符合 xs 的条件。
-
-    xs: '(width >= 475px)',
-    sm: '(width >= 640px)',
-    md: '(width >= 768px)',
-    lg: '(width >= 1024px)',
-    xl: '(width >= 1280px)',
-    xxl: '(width >= 1536px)',
-    //xxxl: '(width >= 1600px)'
-} as const;
-
 const breakpointsOrder = ['xs', 'sm', 'md', 'lg', 'xl', 'xxl'] as const;
 
 export type Breakpoint = typeof breakpointsOrder[number];
+
+/**
+ * 定义了常用的屏幕尺寸
+ */
+export const breakpoints: Readonly<Record<Breakpoint, string>> = {
+    xs: '475px',
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+    xxl: '1536px',
+    //xxxl: '1600px'
+};
+
+type BreakpointsMedia = Record<Breakpoint, string>;
+
+/**
+ * 根据 {@link breakpoints} 生成的媒体查询样式
+ */
+export const breakpointsMedia: Readonly<BreakpointsMedia> = Object.entries(breakpoints).reduce<BreakpointsMedia>((obj, [key, val])=>{
+    obj[key as Breakpoint] = `(width >= ${val})`;
+    return obj;
+}, {} as BreakpointsMedia);
 
 export interface BreakpointChange {
     (val: Breakpoint, old?: Breakpoint): void;
@@ -41,10 +46,12 @@ export class Breakpoints {
     constructor() {
         this.#events = [];
 
-        Object.entries(breakpoints).forEach((item) => {
+        Object.entries(breakpointsMedia).forEach((item) => {
             const key = item[0] as Breakpoint;
             const mql = window.matchMedia(item[1]);
 
+            // 当屏幕从大到小变化，比如从 sm 向 xs 变化，会触发 sm 事件，且其 matches 为 false，
+            // 但是不会触发 xs，因为 sm 本身也是符合 xs 的条件。
             const event = (ev: {matches: boolean}) => {
                 if (ev.matches) {
                     this.#change(key);

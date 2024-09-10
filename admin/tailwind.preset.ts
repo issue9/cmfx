@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import type { PluginUtils, PresetsConfig, ScreensConfig } from 'tailwindcss/types/config';
-import { breakpoints } from './src/core/theme/breakpoints';
+import type { PresetsConfig, ScreensConfig } from 'tailwindcss/types/config';
+import { breakpoints, breakpointsMedia } from './src/core/theme/breakpoints';
 
 const colors = {
     'primary-bg': 'var(--primary-bg)',
@@ -49,61 +49,39 @@ const colors = {
     'palette-fg-high': 'var(--fg-high)',
 } as const;
 
-function applyColors(f: PluginUtils['theme']) {
-    return {
-        ...colors,
-        ...f('colors')
-    };
-}
-
 const config: PresetsConfig = {
     darkMode: 'selector',
 
     theme: {
-        // 自定义颜色，方便直接在 HTML 中使用
+        // 重定义 screens 属性，而不是扩展。
+        screens: buildScreens(),
 
-        backgroundColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
+        extend: {
+            backgroundColor: colors,
 
-        textColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
-        placeholderColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
-        caretColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
-        textDecorationColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
+            textColor: colors,
+            placeholderColor: colors,
+            caretColor: colors,
+            textDecorationColor: colors,
 
-        accentColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
+            accentColor: colors,
 
-        borderColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
-        outlineColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
-        ringColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
+            borderColor: colors,
+            outlineColor: colors,
+            ringColor: colors,
+            divideColor: colors,
 
-        divideColor: ({theme})=>({
-            ...applyColors(theme)
-        }),
-
-        screens: buildScreens()
+            minWidth: breakpoints,
+            maxWidth: breakpoints,
+        }
     }
 };
 
 function buildScreens() {
     const screens: ScreensConfig  = {};
-    Object.entries(breakpoints).forEach((item) => {
+    Object.entries(breakpointsMedia).forEach((item) => {
+        // NOTE: 当屏幕从大到小变化，比如从 sm 向 xs 变化，会触发 sm 事件，且其 matches 为 false，
+        // 但是不会触发 xs，因为 sm 本身也是符合 xs 的条件。
         screens[item[0]] = { 'raw': item[1]};
     });
     return screens;
