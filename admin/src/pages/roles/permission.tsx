@@ -28,7 +28,7 @@ export default function() {
     const [resources, setResources] = createSignal<Array<Resource>>([], {equals: false});
 
     const [roleResource] = createResource(async () => {
-        const ret = await ctx.get<RoleResource>(`/roles/${ps.id}/resources`);
+        const ret = await ctx.api.get<RoleResource>(`/roles/${ps.id}/resources`);
         if (!ret.ok) {
             await ctx.outputProblem(ret.status, ret.body);
             return;
@@ -42,7 +42,7 @@ export default function() {
             setParent(b ? (b.parent ?? []) : []);
             setCurrent(b ? (b.current ?? []) : []);
 
-            const ret = await ctx.get<Array<Resource>>('/resources');
+            const ret = await ctx.api.get<Array<Resource>>('/resources');
             if (!ret.ok) {
                 await ctx.outputProblem(ret.status, ret.body);
                 return;
@@ -52,7 +52,7 @@ export default function() {
     });
 
     const save = async()=>{
-        const ret = await ctx.put(`/roles/${ps.id}/resources`, current());
+        const ret = await ctx.api.put(`/roles/${ps.id}/resources`, current());
         if (!ret.ok) {
             await ctx.outputProblem(ret.status, ret.body);
             return;

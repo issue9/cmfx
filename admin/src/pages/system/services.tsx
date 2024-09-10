@@ -39,7 +39,7 @@ export default function(): JSX.Element {
     const ctx = useApp();
 
     const items = createMemo(async()=>{
-        const ret = await ctx.get<Service>('/system/services');
+        const ret = await ctx.api.get<Service>('/system/services');
         if (!ret.ok) {
             await ctx.outputProblem(ret.status, ret.body);
             return;

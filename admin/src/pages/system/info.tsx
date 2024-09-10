@@ -35,7 +35,7 @@ export default function(): JSX.Element {
     const ctx = useApp();
 
     const [info] = createResource(async()=>{
-        const ret = await ctx.get<Info>('/system/info');
+        const ret = await ctx.api.get<Info>('/system/info');
         if (!ret.ok) {
             await ctx.outputProblem(ret.status, ret.body);
             return;

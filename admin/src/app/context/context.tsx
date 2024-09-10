@@ -53,52 +53,58 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
     const ctx = {
         isLogin() { return f.isLogin(); },
 
-        /**
-         * 缓存 GET path 指向的数据
-         *
-         * @param path 相对于 baseURL 的接口地址；
-         * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
-         */
-        async cacheAPI(path: string, ...deps: Array<string>): Promise<void> { await f.cache(path, ...deps); },
 
-        /**
-         * 取消 GET path 指向的缓存数据
-         */
-        async uncacheAPI(path: string): Promise<void> { await f.uncache(path); },
 
         async clearCache(): Promise<void> { await f.clearCache(); },
 
-        async delete<R = never, PE = never>(path: string, withToken = true) {
-            return f.delete<R, PE>(path, withToken);
+        get api() {
+            return {
+                /**
+                 * 缓存 GET path 指向的数据
+                 *
+                 * @param path 相对于 baseURL 的接口地址；
+                 * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
+                 */
+                async cache(path: string, ...deps: Array<string>): Promise<void> { await f.cache(path, ...deps); },
+
+                /**
+                 * 取消 GET path 指向的缓存数据
+                 */
+                async uncache(path: string): Promise<void> { await f.uncache(path); },
+
+                async delete<R = never, PE = never>(path: string, withToken = true) {
+                    return f.delete<R, PE>(path, withToken);
+                },
+
+                async put<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
+                    return f.put<R, PE>(path, body, withToken);
+                },
+
+                async patch<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
+                    return f.patch<R, PE>(path, body, withToken);
+                },
+
+                async post<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
+                    return f.post<R, PE>(path, body, withToken);
+                },
+
+                async get<R = never, PE = never>(path: string, withToken = true) { return f.get<R, PE>(path, withToken); },
+
+                async upload<R = never, PE = never>(path: string, obj: FormData, withToken = true) {
+                    return f.upload<R, PE>(path, obj, withToken);
+                },
+
+                async request<R = never, PE = never>(path: string, method: Method, obj?: unknown, withToken = true) {
+                    return f.request<R, PE>(path, method, obj, withToken);
+                },
+
+                async fetchWithArgument<R = never, PE = never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit) {
+                    return f.withArgument<R, PE>(path, method, token, ct, body);
+                },
+
+                async fetch<R = never, PE = never>(path: string, req?: RequestInit) { return f.fetch<R, PE>(path, req); },
+            };
         },
-
-        async put<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
-            return f.put<R,PE>(path, body, withToken);
-        },
-
-        async patch<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
-            return f.patch<R, PE>(path, body, withToken);
-        },
-
-        async post<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
-            return f.post<R, PE>(path, body, withToken);
-        },
-
-        async get<R = never, PE = never>(path: string, withToken = true) { return f.get<R, PE>(path, withToken); },
-
-        async upload<R = never, PE = never>(path: string, obj: FormData, withToken = true) {
-            return f.upload<R, PE>(path, obj, withToken);
-        },
-
-        async request<R = never, PE = never>(path: string, method: Method, obj?: unknown, withToken = true) {
-            return f.request<R, PE>(path, method, obj, withToken);
-        },
-
-        async fetchWithArgument<R = never, PE = never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit) {
-            return f.withArgument<R, PE>(path, method, token, ct, body);
-        },
-
-        async fetch<R = never, PE = never>(path: string, req?: RequestInit) { return f.fetch<R, PE>(path, req); },
 
         /**
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。

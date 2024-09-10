@@ -312,7 +312,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         const obj = this.#object.object(this.#validation);
         if (!obj) { return false; }
 
-        const ret = await this.#ctx.request<R, P>(this.#path, this.#method, obj, this.#withToken);
+        const ret = await this.#ctx.api.request<R, P>(this.#path, this.#method, obj, this.#withToken);
         if (ret.ok) {
             if (this.#success) {
                 this.#success(ret);

@@ -52,7 +52,7 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
             async refresh(): Promise<void> { await ref.refresh(); },
 
             async delete<T extends string|number>(id: T): Promise<void> {
-                const ret = await ctx.delete(`${props.path}/${id}`);
+                const ret = await ctx.api.delete(`${props.path}/${id}`);
                 if (!ret.ok) {
                     await ctx.outputProblem(ret.status, ret.body);
                     return;
@@ -74,7 +74,7 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
 
 function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext, path: string) {
     return async (q: Q): Promise<Page<T> | undefined> => {
-        const ret = await ctx.get<Page<T>>(path + query2Search(q));
+        const ret = await ctx.api.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);
             return { count: 0, current: [] };
@@ -85,7 +85,7 @@ function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext,
 
 function buildNoPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext, path: string) {
     return async (q: Q): Promise<Array<T> | undefined> => {
-        const ret = await ctx.get<Array<T>>(path + query2Search(q));
+        const ret = await ctx.api.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {
             ctx.outputProblem(ret.status, ret.body);
             return [];

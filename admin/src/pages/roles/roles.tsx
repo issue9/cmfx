@@ -32,7 +32,7 @@ export default function Roles(props: Props): JSX.Element {
     const current = new ObjectAccessor({} as Role);
     const currentID = current.accessor('id');
 
-    ctx.cacheAPI('/roles','/roles/*');
+    ctx.api.cache('/roles','/roles/*');
 
     // 保存数据
     const save = async (): Promise<undefined> => {
@@ -42,9 +42,9 @@ export default function Roles(props: Props): JSX.Element {
         const obj = current.object();
         delete obj.id;
         if (id) {
-            ret = await ctx.put(`/roles/${id}`, obj);
+            ret = await ctx.api.put(`/roles/${id}`, obj);
         } else {
-            ret = await ctx.post('/roles', obj);
+            ret = await ctx.api.post('/roles', obj);
         }
 
         if (!ret.ok) {
