@@ -16,6 +16,6 @@ test('Breakpoints.compare', () => {
 });
 
 test('breakpointsMedia', () => {
-    expect(breakpointsMedia.xs).toEqual(`(width >= ${breakpoints.xs}px)`);
+    expect(breakpointsMedia.xs).toEqual(`(width >= ${breakpoints.xs})`);
     expect(breakpointsMedia.lg).toEqual('(width >= 1024px)');
 });

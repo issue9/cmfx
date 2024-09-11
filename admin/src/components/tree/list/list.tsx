@@ -2,19 +2,31 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { A } from '@solidjs/router';
+import { A, useLocation } from '@solidjs/router';
 import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { Divider } from '@/components/divider';
 import type { Props as ContainerProps } from '@/components/tree/container';
-import type { Item, Value } from '@/components/tree/item';
+import { findItems, type Item, type Value } from '@/components/tree/item';
 
 export interface Props extends ContainerProps {
     /**
-     * 可点击的元素是否以 A 作为标签名
+     * 设置选中项的初始值
+     *
+     * NOTE: 该值为非响应属性。
+     */
+    selected?: Value;
+
+    /**
+     * 可点击的元素是否以 {@link A} 作为标签名
      *
      * 如果为 true，那为 {@link Item#value} 将作为链接的值。
+     *
+     * NOTE: 如果此值为 true，且 {@link Props#selected} 为 undefined，
+     * 则会尝试从地址中获取相应的值。
+     *
+     * NOTE: 该值为非响应属性。
      */
     anchor?: boolean;
 }
@@ -23,23 +35,29 @@ const defaultProps: Readonly<Partial<Props>> = {
     selectedClass: 'selected'
 };
 
+/**
+ * 列表组件
+ */
 export default function (props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
 
-    const [selected, setSelected] = createSignal<Value>();
+    const [selected, setSelected] = createSignal<Value|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
+    const selectedIndexes = findItems(props.children, selected());
 
-    const Items = (p: { items: Array<Item>, indent: number }): JSX.Element => {
+    const All = (p: { items: Array<Item>, indent: number, selectedIndex: number }): JSX.Element => {
         return <For each={p.items}>
-            {(item) => (
+            {(item, index) => (
                 <Switch>
                     <Match when={item.type === 'divider'}>
                         <Divider />
                     </Match>
                     <Match when={item.type === 'group'}>
-                        <Group item={item} indent={p.indent} />
+                        <p class="group">{(item as any).label}</p>
+                        <All items={(item as any).items} indent={p.indent} selectedIndex={p.selectedIndex+1} />
                     </Match>
                     <Match when={item.type === 'item'}>
-                        <I item={item} indent={p.indent} />
+                        <Items item={item} indent={p.indent} selectedIndex={p.selectedIndex}
+                            isOpen={!!selectedIndexes && index() === selectedIndexes[p.selectedIndex]} />
                     </Match>
                 </Switch>
             )}
@@ -47,23 +65,23 @@ export default function (props: Props): JSX.Element {
     };
 
     // 渲染 type==item 的元素
-    const I = (p: { item: Item, indent: number }) => {
+    const Items = (p: { item: Item, indent: number, selectedIndex: number, isOpen: boolean }) => {
         if (p.item.type !== 'item') {
             throw 'item.type 只能是 item';
         }
 
-        const [open, setOpen] = createSignal(false);
+        const [open] = createSignal(p.isOpen);
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
-                <details onToggle={()=>setOpen(!open())} open={open()}>
+                <details open={open()}>
                     <summary style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} class="item">
                         {p.item.label}
                         <span class="tail c--icon">{ open() ?'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
                     </summary>
                     <Show when={p.item.items}>
                         <menu>
-                            <Items items={p.item.items as Array<Item>} indent={p.indent+1} />
+                            <All items={p.item.items as Array<Item>} indent={p.indent+1} selectedIndex={p.selectedIndex+1} />
                         </menu>
                     </Show>
                 </details>
@@ -73,6 +91,13 @@ export default function (props: Props): JSX.Element {
                     activeClass={props.selectedClass}
                     href={props.anchor ? p.item.value?.toString() ?? '' : ''}
                     accessKey={p.item.accesskey}
+                    style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
+                    classList={{
+                        'item': true,
+
+                        // anchor 的类型定义在 activeClass 属性
+                        [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
+                    }}
                     onClick={()=>{
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
@@ -84,34 +109,18 @@ export default function (props: Props): JSX.Element {
                         }
 
                         setSelected(p.item.value);
-                    }} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} classList={{
-                        'item': true,
-
-                        // anchor 的类型定义在 activeClass 属性
-                        [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
-                    }}>
+                    }}
+                >
                     {p.item.label}
                 </Dynamic>
             </Match>
         </Switch>;
     };
 
-    // 渲染 type==group 的元素
-    const Group = (p: { item: Item, indent: number }): JSX.Element => {
-        if (p.item.type !== 'group') {
-            throw 'item.type 只能是 group';
-        }
-
-        return <>
-            <p class="group">{p.item.label}</p>
-            <Items items={p.item.items} indent={p.indent} />
-        </>;
-    };
-
     return <menu role="menu" classList={{
         'c--list': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        <Items items={props.children} indent={1} />
+        <All items={props.children} indent={1} selectedIndex={0} />
     </menu>;
 }

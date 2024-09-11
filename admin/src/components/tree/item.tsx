@@ -59,3 +59,37 @@ export type Item = {
      */
     accesskey?: string;
 };
+
+/**
+* 从 items 中查找值为 value 的项
+* @param items 被查找对象
+* @param value 查找的对象
+* @returns 如果找到了，返回 value 在 items 的索引值，如果嵌套层，则返回每一次的索引。
+*/
+export function findItems(items: Array<Item>, value?: Value): Array<number>|undefined {
+    if (value === undefined) {
+        return;
+    }
+
+    for(const [index,item] of items.entries()) {
+        switch (item.type) {
+        case 'group':
+            if (item.items && item.items.length > 0) {
+                const indexes = findItems(item.items, value);
+                if (indexes && indexes.length > 0) {
+                    return [index, ...indexes];
+                }
+            }
+            continue;
+        case 'item':
+            if (item.items && item.items.length > 0) {
+                const indexes = findItems(item.items, value);
+                if (indexes && indexes.length > 0) {
+                    return [index, ...indexes];
+                }
+            } else if (item.value === value) {
+                return [index];
+            }
+        }
+    }
+}

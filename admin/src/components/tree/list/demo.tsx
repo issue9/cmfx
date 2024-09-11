@@ -71,8 +71,8 @@ export default function() {
             </div>
 
             <div class="w-80 mt-4">
-                <p>不指定 onchange</p>
-                <List selectedClass={selectedCls()} palette={palette()}>
+                <p>不指定 onchange，但是有默认值</p>
+                <List selectedClass={selectedCls()} palette={palette()} selected='v2341'>
                     {items}
                 </List>
             </div>
