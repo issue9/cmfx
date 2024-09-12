@@ -6,25 +6,33 @@
 
 @layer components {
     .p--system-info {
-        @apply flex flex-wrap gap-5 justify-between;
+        @apply flex flex-wrap gap-5 justify-between content-center box-border;
 
         fieldset {
-            @apply flex flex-col min-w-40 border border-palette-fg-low p-2 pt-0 rounded-md;
+            @apply flex flex-col border border-palette-fg-low p-2 rounded-md flex-grow;
 
             dl {
                 @apply flex flex-wrap hover:bg-palette-bg-low px-2 rounded-sm cursor-default;
 
                 dt {
-                    @apply w-40;
+                    @apply w-48;
                 }
-                
+
                 dd {
-                    @apply ms-4;
+                    @apply text-right m-auto flex-grow;
+                }
+            }
+
+            ul.backup_list {
+                @apply mt-1;
+
+                li {
+                    @apply flex flex-wrap justify-between items-center px-2 p-1 rounded-sm hover:bg-palette-bg-low;
                 }
             }
         }
 
-        .state {
+        .states {
             @apply w-full;
         }
     }

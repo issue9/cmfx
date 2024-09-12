@@ -18,8 +18,9 @@ require (
 	github.com/issue9/webfilter v0.8.1-0.20240822062929-40c854699dee
 	github.com/issue9/webuse/v7 v7.0.0-20240907185117-3898d25f9b4d
 	github.com/mattn/go-sqlite3 v1.14.22
+	github.com/shirou/gopsutil/v4 v4.24.8
 	golang.org/x/crypto v0.27.0
-	golang.org/x/oauth2 v0.22.0
+	golang.org/x/oauth2 v0.23.0
 	golang.org/x/text v0.18.0
 )
 
@@ -46,7 +47,6 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/redis/go-redis/v9 v9.6.1 // indirect
-	github.com/shirou/gopsutil/v4 v4.24.8 // indirect
 	github.com/shoenig/go-m1cpu v0.1.6 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect

@@ -7,6 +7,7 @@ package system
 import (
 	"os"
 	"path/filepath"
+	"strings"
 	"time"
 
 	"github.com/issue9/scheduled/schedulers/cron"
@@ -28,7 +29,7 @@ type Backup struct {
 	// 备份文件的路径
 	Dir string `json:"dir" yaml:"dir" xml:"dir"`
 
-	// 备份的文件格式
+	// 备份的文件格式，以 Go 的时间格式作为格式。
 	Format string `json:"format" yaml:"format" xml:"format"`
 
 	// 备份任务的执行时间
@@ -72,6 +73,10 @@ func (b *Backup) SanitizeConfig() *web.FieldError {
 	}
 	if _, err := cron.Parse(b.Cron, time.UTC); err != nil {
 		return web.NewFieldError("cron", err)
+	}
+
+	if strings.ContainsAny(b.Format, "/"+string(os.PathSeparator)) {
+		return web.NewFieldError("format", locales.ErrInvalidFormat())
 	}
 
 	b.buildFile = func(now time.Time) string {

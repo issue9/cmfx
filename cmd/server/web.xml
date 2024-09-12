@@ -62,6 +62,11 @@
 
         <system>
             <urlPrefix>/system</urlPrefix>
+            <backup>
+                <dir>./backup</dir>
+                <format>20060102-150405.sql</format>
+                <cron>@daily</cron>
+            </backup>
         </system>
     </user>
 </web>

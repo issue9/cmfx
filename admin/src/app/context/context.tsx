@@ -9,6 +9,7 @@ import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
 import { API, Account, Breakpoint, Breakpoints, Method, Problem, notify } from '@/core';
 import { Locale, createI18n, names } from '@/locales';
+import localforage from 'localforage';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -53,10 +54,27 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
     const ctx = {
         isLogin() { return f.isLogin(); },
 
+        /**
+         * 清除浏览器的所有缓存
+         */
+        async clearCache(): Promise<void> {
+            // api
+            await f.clearCache();
 
+            // localStorage
+            await localforage.clear(async(err)=>{
+                await this.notify(t('_i.error.unknownError')!, err);
+            });
 
-        async clearCache(): Promise<void> { await f.clearCache(); },
+            localStorage.clear();
+            sessionStorage.clear();
 
+            // TODO IndexedDB
+        },
+
+        /**
+         * API 接口操作接口
+         */
         get api() {
             return {
                 /**

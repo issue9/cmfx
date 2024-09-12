@@ -26,8 +26,8 @@ type Module struct {
 	generalSettings *settings.Object[generalSettings]
 	censorSettings  *settings.Object[censorSettings]
 
-	// 可能为空
-	buildBackupFilename func(time.Time) string
+	// 若配置中未设置，则以下字段为空
+	backupConfig *Backup
 }
 
 // Load 加载当前模块
@@ -54,6 +54,8 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	resGetServices := g.New("get-services", web.Phrase("view services"))
 	resGetAPIs := g.New("get-apis", web.Phrase("view apis"))
 	resBackup := g.New("backup", web.Phrase("backup database"))
+	resGetBackup := g.New("get-backup", web.Phrase("get backup database list"))
+	resDelBackup := g.New("del-backup", web.Phrase("del backup database file"))
 	resSettingsGeneral := g.New("setting-general", web.Phrase("general setting"))
 	resSettingsCensor := g.New("setting-censor", web.Phrase("censor setting"))
 
@@ -70,13 +72,15 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems)
 
 	if conf.Backup != nil {
-		m.buildBackupFilename = conf.Backup.buildFile
+		m.backupConfig = conf.Backup
 
 		mod.Server().Services().AddCron(web.Phrase("backup database"), func(now time.Time) error {
-			return mod.DB().Backup(m.buildBackupFilename(now))
+			return mod.DB().Backup(m.backupConfig.buildFile(now))
 		}, conf.Backup.Cron, true)
 
-		adminRouter.Get("/backup", m.adminPostBackup, resBackup)
+		adminRouter.Post("/backup", m.adminPostBackup, resBackup).
+			Get("/backup", m.adminGetBackup, resGetBackup).
+			Delete("/backup/{name}", m.adminDeleteBackup, resDelBackup)
 	}
 
 	return m

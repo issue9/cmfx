@@ -5,10 +5,14 @@
 package system
 
 import (
+	"os"
+	"path/filepath"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/issue9/web"
+	"github.com/shirou/gopsutil/v4/host"
 
 	"github.com/issue9/cmfx/cmfx/user"
 )
@@ -37,15 +41,22 @@ type dbInfo struct {
 type info struct {
 	XMLName string `json:"-" xml:"info" cbor:"-"`
 
-	Name       string  `json:"name" xml:"name" cbor:"name"`                   // 应用名称
-	Version    string  `json:"version" xml:"version" cbor:"version"`          // 应用版本号
-	Uptime     string  `json:"uptime" xml:"uptime" cbor:"uptime"`             // 应用的上次启动时间
-	Go         string  `json:"go" xml:"go" cbor:"go"`                         // 编译器的版本
-	OS         string  `json:"os" xml:"os" cbor:"os"`                         // 系统版本
-	Arch       string  `json:"arch" xml:"arch" cbor:"arch"`                   // CPU 架构
-	CPUS       int     `json:"cpus" xml:"cpus" cbor:"cpus"`                   // CPU 核心数量
-	Goroutines int     `json:"goroutines" xml:"goroutines" cbor:"goroutines"` // 当前运行的协程数量
-	DB         *dbInfo `json:"db" xml:"db" cbor:"db"`                         // 数据库的相关信息
+	Name       string           `json:"name" xml:"name" cbor:"name"`                   // 应用名称
+	Version    string           `json:"version" xml:"version" cbor:"version"`          // 应用版本号
+	Uptime     string           `json:"uptime" xml:"uptime" cbor:"uptime"`             // 应用的上次启动时间
+	Go         string           `json:"go" xml:"go" cbor:"go"`                         // 编译器的版本
+	OS         *operatingSystem `json:"os" xml:"os" cbor:"os"`                         // 系统信息
+	Arch       string           `json:"arch" xml:"arch" cbor:"arch"`                   // CPU 架构
+	CPUS       int              `json:"cpus" xml:"cpus" cbor:"cpus"`                   // CPU 核心数量
+	Goroutines int              `json:"goroutines" xml:"goroutines" cbor:"goroutines"` // 当前运行的协程数量
+	DB         *dbInfo          `json:"db" xml:"db" cbor:"db"`                         // 数据库的相关信息
+}
+
+type operatingSystem struct {
+	Platform string    `json:"platform" xml:"platform" cbor:"platform"`
+	Family   string    `json:"family" xml:"family" cbor:"family"`
+	Version  string    `json:"version" xml:"version" cbor:"version"`
+	Boot     time.Time `json:"boot" xml:"boot" cbor:"boot"` // 系统的开机时间
 }
 
 // # api get /system/info 系统信息
@@ -56,12 +67,30 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 	stats := m.mod.DB().Stats()
 	srv := ctx.Server()
 
+	platform, family, version, err := host.PlatformInformation()
+	if err != nil {
+		srv.Logs().ERROR().Error(err)
+		platform = runtime.GOOS
+	}
+
+	boot := srv.Uptime()
+	bt, err := host.BootTime()
+	if err != nil {
+		srv.Logs().ERROR().Error(err)
+		boot = time.Unix(int64(bt), 0)
+	}
+
 	return web.OK(&info{
-		Name:       srv.Name(),
-		Version:    srv.Version(),
-		Uptime:     ctx.Server().Uptime().Format(time.RFC3339),
-		Go:         runtime.Version(),
-		OS:         runtime.GOOS,
+		Name:    srv.Name(),
+		Version: srv.Version(),
+		Uptime:  ctx.Server().Uptime().Format(time.RFC3339),
+		Go:      runtime.Version(),
+		OS: &operatingSystem{
+			Platform: platform,
+			Family:   family,
+			Version:  version,
+			Boot:     boot,
+		},
 		Arch:       runtime.GOARCH,
 		CPUS:       runtime.NumCPU(),
 		Goroutines: runtime.NumGoroutine(),
@@ -167,19 +196,66 @@ func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	return web.OK(ps)
 }
 
-// # api get /system/monitor 监视系统数据
+// # api GET /system/monitor 监视系统数据
 // @tag admin system
 // @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
 func (m *Module) adminGetMonitor(ctx *web.Context) web.Responser { return m.monitor.Handle(ctx) }
 
-// # api post /system/backup 手动执行备份数据
+// # api POST /system/backup 手动执行备份数据
 // @tag admin system
 // @resp 201 * {}
 func (m *Module) adminPostBackup(ctx *web.Context) web.Responser {
-	if err := m.mod.DB().Backup(m.buildBackupFilename(ctx.Begin())); err != nil {
+	if err := m.mod.DB().Backup(m.backupConfig.buildFile(ctx.Begin())); err != nil {
 		return ctx.Error(err, web.ProblemInternalServerError)
 	}
 	return web.Created(nil, "")
+}
+
+// # api delete /system/backup/{name} 删除指定的备份文件
+// @path name string 备份文件的文件名
+// @tag admin system
+// @resp 204 * {}
+func (m *Module) adminDeleteBackup(ctx *web.Context) web.Responser {
+	p, resp := ctx.PathString("name", "")
+	if resp != nil {
+		return resp
+	}
+
+	if strings.ContainsAny(p, "/"+string(os.PathSeparator)) {
+		return ctx.NotFound()
+	}
+
+	if err := os.Remove(filepath.Join(m.backupConfig.Dir, p)); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.NoContent()
+}
+
+type backupList struct {
+	Cron string   `json:"cron" xml:"cron" cbor:"cron"`
+	List []string `json:"list" xml:"list" cbor:"list"`
+}
+
+// # api GET /system/backup 获取备份数据库的文件列表
+// @tag admin system
+// @resp 200 * backupConfig
+func (m *Module) adminGetBackup(ctx *web.Context) web.Responser {
+	entries, err := os.ReadDir(m.backupConfig.Dir)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+
+	list := make([]string, 0, len(entries))
+	for _, e := range entries {
+		if !e.IsDir() {
+			list = append(list, e.Name())
+		}
+	}
+
+	return web.OK(&backupList{
+		Cron: m.backupConfig.Cron,
+		List: list,
+	})
 }
 
 // # api GET /system/settings/general 获取常规的设置项
