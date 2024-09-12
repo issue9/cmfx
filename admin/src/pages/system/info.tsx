@@ -88,7 +88,7 @@ export default function(): JSX.Element {
             <fieldset class="w-[45%]">
                 <legend><Legend icon='action_key' text={ ctx.t('_i.page.actions') } /></legend>
 
-                <ConfirmButton palette='error' onClick={async()=>await ctx.clearCache()}>
+                <ConfirmButton palette='primary' onClick={async()=>await ctx.clearCache()}>
                     <span class="c--icon">clear_all</span>{ ctx.t('_i.page.system.clearCache') }
                 </ConfirmButton>
                 <span class="mt-1">{ctx.t('_i.page.system.clearCacheHelp')}</span>

@@ -46,42 +46,47 @@ export default function (props: Props): JSX.Element {
 
     const All = (p: { items: Array<Item>, indent: number, selectedIndex: number }): JSX.Element => {
         return <For each={p.items}>
-            {(item, index) => (
-                <Switch>
+            {(item, index) => {
+                const isSelected = !!selectedIndexes && (p.selectedIndex >= 0) && (index() >= 0) && (index() === selectedIndexes[p.selectedIndex]);
+                const selectedIndex = isSelected ? p.selectedIndex + 1 : -100;
+
+                return <Switch>
                     <Match when={item.type === 'divider'}>
                         <Divider />
                     </Match>
                     <Match when={item.type === 'group'}>
                         <p class="group">{(item as any).label}</p>
-                        <All items={(item as any).items} indent={p.indent} selectedIndex={p.selectedIndex+1} />
+                        <All items={(item as any).items} indent={p.indent} selectedIndex={selectedIndex} />
                     </Match>
                     <Match when={item.type === 'item'}>
-                        <Items item={item} indent={p.indent} selectedIndex={p.selectedIndex}
-                            isOpen={!!selectedIndexes && index() === selectedIndexes[p.selectedIndex]} />
+                        <Items item={item} indent={p.indent} selectedIndex={selectedIndex} isSelected={isSelected} />
                     </Match>
-                </Switch>
-            )}
+                </Switch>;
+            }}
         </For>;
     };
 
     // 渲染 type==item 的元素
-    const Items = (p: { item: Item, indent: number, selectedIndex: number, isOpen: boolean }) => {
+    // isSelected 当前项是否是选中项或是选中项的父级元素。
+    const Items = (p: { item: Item, indent: number, selectedIndex: number, isSelected: boolean }) => {
         if (p.item.type !== 'item') {
             throw 'item.type 只能是 item';
         }
 
-        const [open] = createSignal(p.isOpen);
+        // 这里始终初台为 false，details#onToggle 在初始化 details#open 时会被调用一次。
+        // 可以在那里将 open 初始化为一个正确的值。
+        const [open, setOpen] = createSignal(false);
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
-                <details open={open()}>
+                <details open={p.isSelected} onToggle={()=>setOpen(!open())}>
                     <summary style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} class="item">
                         {p.item.label}
-                        <span class="tail c--icon">{ open() ?'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
+                        <span class="tail c--icon">{ open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
                     </summary>
                     <Show when={p.item.items}>
                         <menu>
-                            <All items={p.item.items as Array<Item>} indent={p.indent+1} selectedIndex={p.selectedIndex+1} />
+                            <All items={p.item.items!} indent={p.indent+1} selectedIndex={p.selectedIndex} />
                         </menu>
                     </Show>
                 </details>
