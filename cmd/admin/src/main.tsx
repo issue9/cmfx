@@ -48,9 +48,13 @@ const menus: Options['menus'] = [
                 type: 'item', label: 'administrator', items: [
                     ...roles.menus(),
                     ...admins.menus(),
-                    ...system.menus(),
                 ]
             },
+            {
+                type: 'item', label: '_i.page.system.system', items: [
+                    ...system.menus(),
+                ]
+            }
         ]
     },
     ...demo.menus()

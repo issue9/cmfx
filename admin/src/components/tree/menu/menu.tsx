@@ -11,18 +11,12 @@ import { sleep } from '@/core';
 
 export interface Props extends ContainerProps {
     /**
-     * 右侧展开子菜单的图标，默认为 chevron_right
-     */
-    expandIcon?: string
-
-    /**
      * 点击菜单项之后自动关闭弹出的菜单
      */
     autoClose?: boolean;
 }
 
 const defaultProps: Readonly<Partial<Props>> = {
-    expandIcon: 'chevron_right',
     selectedClass: 'selected'
 };
 
@@ -62,7 +56,7 @@ export default function (props: Props): JSX.Element {
             <Match when={p.item.items && p.item.items.length > 0}>
                 <li class="item">
                     {p.item.label}
-                    <span class="tail c--icon">{ props.expandIcon }</span>
+                    <span class="tail c--icon">chevron_right</span>
                     <Show when={p.item.items && !hide()}>
                         <menu class="c--menu hidden">
                             <Items items={p.item.items as Array<Item>} />
