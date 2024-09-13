@@ -19,6 +19,11 @@ export interface Props extends ContainerProps {
     selected?: Value;
 
     /**
+     * 当选择项发生变化时触发的事件
+     */
+    onChange?: { (selected: Value, old?: Value): void };
+
+    /**
      * 可点击的元素是否以 {@link A} 作为标签名
      *
      * 如果为 true，那为 {@link Item#value} 将作为链接的值。
@@ -94,7 +99,7 @@ export default function (props: Props): JSX.Element {
             <Match when={!p.item.items}>
                 <Dynamic component={props.anchor ? A : 'span'}
                     activeClass={props.selectedClass}
-                    href={props.anchor ? p.item.value?.toString() ?? '' : ''}
+                    href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
                     accessKey={p.item.accesskey}
                     style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
                     classList={{
@@ -114,10 +119,7 @@ export default function (props: Props): JSX.Element {
                         }
 
                         setSelected(p.item.value);
-                    }}
-                >
-                    {p.item.label}
-                </Dynamic>
+                    }}>{p.item.label}</Dynamic>
             </Match>
         </Switch>;
     };

@@ -2,111 +2,50 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
+import { createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Divider } from '@/components/divider';
-import type { Props as ContainerProps } from '@/components/tree/container';
-import { Item, Value } from '@/components/tree/item';
-import { sleep } from '@/core';
+import { Corner } from '@/components/base';
+import { Dropdown } from '@/components/dropdown';
+import { Value } from '@/components/tree/item';
+import { Props as BaseProps, defaultProps as defaultBaseProps, default as Panel } from './panel';
 
-export interface Props extends ContainerProps {
+export interface Props extends Omit<BaseProps, 'onChange'> {
+    activator: JSX.Element;
+
+    pos?: Corner;
+
     /**
-     * 点击菜单项之后自动关闭弹出的菜单
+     * 当选择项发生变化时触发的事件
+     *
+     * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
      */
-    autoClose?: boolean;
+    onChange?: { (selected: Value, old?: Value): boolean | undefined; };
 }
 
 const defaultProps: Readonly<Partial<Props>> = {
-    selectedClass: 'selected'
+    ...(defaultBaseProps as any),
+    pos: 'bottomleft' as Corner
 };
 
-export default function (props: Props): JSX.Element {
+/**
+ * 下拉菜单组件
+ */
+export default function(props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
+    const [visible, setVisible] = createSignal(false);
 
-    const [selected, setSelected] = createSignal<Value>();
+    const [_, panelProps] = splitProps(props, ['pos', 'activator', 'onChange', 'children']);
 
-    // 在 props.autoClose 为 true 时，能正常关闭弹出的菜单。
-    const [hide, setHide] = createSignal(false);
-
-    const Items = (p: { items: Array<Item> }): JSX.Element => {
-        return <For each={p.items}>
-            {(item) => (
-                <Switch>
-                    <Match when={item.type === 'divider'}>
-                        <Divider />
-                    </Match>
-                    <Match when={item.type === 'group'}>
-                        <Group item={item} />
-                    </Match>
-                    <Match when={item.type === 'item'}>
-                        <I item={item} />
-                    </Match>
-                </Switch>
-            )}
-        </For>;
-    };
-
-    // 渲染 type==item 的元素
-    const I = (p: { item: Item }) => {
-        if (p.item.type !== 'item') {
-            throw 'item.type 只能是 item';
+    let onchange: BaseProps['onChange'];
+    if (props.onChange) {
+        onchange = (selected: Value, old?: Value) => {
+            if (!props.onChange!(selected, old)) {
+                setVisible(false);
+            }
         }
+    }
 
-        return <Switch>
-            <Match when={p.item.items && p.item.items.length > 0}>
-                <li class="item">
-                    {p.item.label}
-                    <span class="tail c--icon">chevron_right</span>
-                    <Show when={p.item.items && !hide()}>
-                        <menu class="c--menu hidden">
-                            <Items items={p.item.items as Array<Item>} />
-                        </menu>
-                    </Show>
-                </li>
-            </Match>
-            <Match when={!p.item.items}>
-                <li accessKey={p.item.accesskey} onClick={()=>{
-                    if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
-
-                    if (props.autoClose) {
-                        setHide(true);
-                        sleep(500).then(()=>setHide(false));
-                    }
-
-                    const old = selected();
-                    if (old === p.item.value) { return; }
-
-                    if (props.onChange && p.item.value) {
-                        props.onChange(p.item.value, old);
-                    }
-
-                    setSelected(p.item.value);
-                }} classList={{
-                    'item': true,
-                    [props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
-                }}>
-                    {p.item.label}
-                </li>
-            </Match>
-        </Switch>;
-    };
-
-    // 渲染 type==group 的元素
-    const Group = (p: { item: Item }): JSX.Element => {
-        if (p.item.type !== 'group') {
-            throw 'item.type 只能是 group';
-        }
-
-        return <>
-            <p class="group">{p.item.label}</p>
-            <Items items={p.item.items} />
-        </>;
-    };
-
-    return <menu role="menu" classList={{
-        'c--menu': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <Items items={props.children} />
-    </menu>;
+    return <Dropdown visible={visible()} setVisible={setVisible} activator={props.activator} pos={props.pos} class="z-[2000]">
+        <Panel onChange={onchange} {...panelProps}>{props.children}</Panel>
+    </Dropdown>;
 }

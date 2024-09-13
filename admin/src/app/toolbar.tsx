@@ -55,11 +55,12 @@ function Username(): JSX.Element {
     const [visible, setVisible] = createSignal(false);
     const nav = useNavigate();
 
-    const onChange = async(select: ItemValue)=>{
+    const onChange = (select: ItemValue): undefined=>{
         switch(select) {
         case 'logout':
-            await ctx.logout();
-            nav(opt.routes.public.home);
+            ctx.logout().finally(()=>{
+                nav(opt.routes.public.home);
+            });
         }
     };
 

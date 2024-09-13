@@ -86,7 +86,7 @@ export default function Dropdown(props: Props) {
         'c--dropdown': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        {props.activator}
+        <span>{props.activator}</span>
 
         <Dynamic {...contentProps} component={props.tag} classList={{
             'content': true,

@@ -23,18 +23,18 @@ const routes: Routes = {
     public: {
         home: '/login',
         routes: [
-            { path: '/login', component: pages.Login }
+            { path: '/login', component: pages.Login },
         ]
     },
     private: {
         home: '/dashboard',
         routes: [
+            { path: ['/dashboard', '/'], component: pages.Dashboard },
+            { path: '/test', component: Test },
             ...roles.routes(),
             ...admins.routes(),
             ...system.routes(),
-            { path: ['/dashboard', '/'], component: pages.Dashboard },
             ...demo.routes(),
-            { path: '/test', component: Test }
         ]
     }
 };

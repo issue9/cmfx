@@ -4,15 +4,16 @@
 
 import { createSignal } from 'solid-js';
 
-import { paletteSelector, Demo, boolSelector } from '@/components/base/demo';
+import { Demo, paletteSelector } from '@/components/base/demo';
+import { Button } from '@/components/button';
 import { Item } from '@/components/tree/item';
-import { default as Menu } from './menu';
 import { selectedClassSelector } from '@/components/tree/list/demo';
+import { default as Menu } from './menu';
+import { default as Panel } from './panel';
 
 export default function() {
-    const [paletteS,palette] = paletteSelector('primary'); 
+    const [paletteS,palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
-    const [autoCloseS, autoClose] = boolSelector('aut close', false);
 
     const items: Array<Item> = [
         {type: 'item', value: 'v1', label: 'v1'},
@@ -40,14 +41,18 @@ export default function() {
         <>
             {paletteS}
             {selectedClsS}
-            {autoCloseS}
         </>
     } stages={
         <div class="w-80 mt-4">
-            <Menu autoClose={autoClose()} selectedClass={selectedCls()} palette={palette()} onChange={(v,old)=>setSelected(v.toString()+'  '+old?.toString())}>
+            <p>panel</p>
+            <Panel selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
+                {items}
+            </Panel>
+            <div>{ selected() }</div>
+
+            <Menu selectedClass={selectedCls()} palette={palette()} activator={<Button palette='primary'>menu</Button>}>
                 {items}
             </Menu>
-            <div>{ selected() }</div>
         </div>
     } />;
 }
