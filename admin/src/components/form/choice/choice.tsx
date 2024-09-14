@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
+import { For, JSX, Match, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
-import { Dropdown } from '@/components/dropdown';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
 type Value = string | number | undefined;
@@ -14,11 +13,6 @@ interface BaseProps<T extends Value> extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;
-
-    /**
-     * 尾部表示展开下拉框的图标，默认为 expand_all
-     */
-    expandIcon?: string;
 }
 
 export type Props<T extends Value> = BaseProps<T> & {
@@ -29,13 +23,25 @@ export type Props<T extends Value> = BaseProps<T> & {
     accessor: Accessor<T>;
 };
 
+function togglePop(anchor: Element, pop: HTMLUListElement): boolean {
+    const ret = pop.togglePopover(); // 必须要先显示，后面的调整大小才有效果。
+
+    // [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+
+    const ab = anchor.getBoundingClientRect();
+    pop.style.minWidth = ab.width + 'px';
+    pop.style.width = ab.width + 'px';
+    pop.style.top = ab.bottom + 'px';
+    pop.style.left = ab.left + 'px';
+
+    return ret;
+}
+
 /**
  * 用以替代 select 组件
  */
 export default function <T extends Value>(props: Props<T>): JSX.Element {
-    props = mergeProps({ expandIcon: 'expand_all' }, props);
-
-    const [optionsVisible, setOptionsVisible] = createSignal(false);
+    let pop: HTMLUListElement;
 
     // multiple 为 false 时的输入框样式。
     const SingleActivator = (p: {access: Accessor<T>}) => {
@@ -59,11 +65,13 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </For>;
     };
 
-    const activator = <div class="c--field c--choice-activator">
-        <label title={props.title} onClick={(e) => {
+    let labelRef: HTMLLabelElement;
+    const activator = <div class="c--field c--choice-activator" aria-haspopup>
+        <label ref={el=>labelRef=el} title={props.title} onClick={(e) => {
             e.preventDefault();
-            if (!props.disabled) { setOptionsVisible(!optionsVisible()); }
-            return false;
+            if (togglePop(labelRef, pop)) {
+                scrollIntoView();
+            }
         }}>
             <Show when={props.label}>{props.label}</Show>
 
@@ -81,7 +89,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
-                <span class="c--icon expand">{props.expandIcon}</span>
+                <span class="c--icon expand">expand_all</span>
             </div>
         </label>
         <Show when={props.accessor.hasError()}>
@@ -90,17 +98,15 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     </div>;
 
     let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
-    createEffect(() => {
-        if (optionsVisible()) {
-            for (var i = 0; i < props.options.length; i++) {
-                const elem = li[i];
-                if (elem && elem.getAttribute('aria-selected') === 'true') {
-                    elem.scrollIntoView();
-                    return;
-                }
+    const scrollIntoView = () => {
+        for (var i = 0; i < props.options.length; i++) {
+            const elem = li[i];
+            if (elem && elem.ariaSelected === 'true') {
+                elem.scrollIntoView();
+                return;
             }
         }
-    });
+    };
 
     // multiple 为 true 时的候选框的组件
     const MultipleOptions = (p:{ac:Accessor<Array<T>>}) => {
@@ -160,7 +166,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                             p.ac.setValue(item[0]);
                             p.ac.setError();
                         }
-                        setOptionsVisible(false);
+                        pop.hidePopover();
                     }}>
                         {cloneElement(item[1])}
                         <span classList={{
@@ -174,12 +180,13 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </>;
     };
 
-    return <Dropdown tag="ul" wrapperClass='c--choice' class="c--choice-options"
-        setVisible={setOptionsVisible} palette={props.palette} pos='bottomleft' aria-multiselectable={props.multiple}
-        visible={optionsVisible()} activator={activator}>
-        <Switch>
-            <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
-            <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
-        </Switch>
-    </Dropdown>;
+    return <>
+        {activator}
+        <ul popover="auto" ref={el=>pop=el} class="c--choice-options">
+            <Switch>
+                <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
+                <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
+            </Switch>
+        </ul>
+    </>;
 }
