@@ -6,7 +6,7 @@
 
 .c--date-activator {
     .activator-container {
-        @apply rounded-md border border-[var(--fg-low)] flex c--icon-container px-2 py-1 cursor-pointer outline-none;
+        @apply rounded-md border border-[var(--fg-low)] flex c--icon-container px-2 py-1 cursor-pointer outline-none min-w-[300px];
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         .input {
@@ -29,7 +29,7 @@
 }
 
 .c--date-panel {
-    @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2;
+    @apply flex flex-col border rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border;
 
     .title {
         @apply flex justify-between;

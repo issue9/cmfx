@@ -49,7 +49,7 @@
     }
 
     .c--choice-options {
-        @apply border bg-[var(--bg)] rounded-md max-h-[240px] overflow-y-auto fixed box-border;
+        @apply border border-palette-fg-low bg-[var(--bg)] rounded-md max-h-[240px] overflow-y-auto fixed box-border;
         inset: unset;
 
         li {

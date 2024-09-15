@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, mergeProps, Show, splitProps } from 'solid-js';
+import { mergeProps, Show, splitProps } from 'solid-js';
 
-import { Dropdown } from '@/components/dropdown';
-import { default as Panel, Props as PanelProps } from './panel';
+import { defaultProps, default as Panel, Props as PanelProps } from './panel';
 import { formatDate } from './utils';
 
 export interface Props extends PanelProps {
@@ -14,29 +13,37 @@ export interface Props extends PanelProps {
     rounded?: boolean;
 
     // TODO min, max, range
-
-    /**
-     * 尾部表示展开下拉框的图标，默认为 expand_all
-     */
-    expandIcon?: string;
 }
 
-const defaultProps: Partial<Props> = {
-    weekBase: 0,
-    expandIcon: 'expand_all'
-};
+function togglePop(anchor: Element, pop: HTMLElement): boolean {
+    // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+    const ab = anchor.getBoundingClientRect();
+    pop.style.minWidth = ab.width + 'px';
+    pop.style.width = ab.width + 'px';
+    pop.style.top = ab.bottom + 'px';
+    pop.style.left = ab.left + 'px';
+
+    const ret = pop.togglePopover(); // 必须要先显示，后面的调整大小才有效果。
+    return ret;
+}
 
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette']);
 
-    const [panelVisible, setPanelVisible] = createSignal(false);
     const ac = props.accessor;
+    let panelRef: HTMLElement;
+    let labelRef: HTMLLabelElement;
 
-    const activator = <div accessKey={props.accessKey} class="c--field c--date-activator">
-        <label title={props.title} onClick={(e) => {
+    const activator = <div accessKey={props.accessKey}
+        classList={{
+            'c--field':true,
+            'c--date-activator':true,
+            [`palette--${props.palette}`]:!!props.palette,
+        }}>
+        <label ref={el=>labelRef=el} title={props.title} onClick={(e) => {
             e.preventDefault();
-            if (!props.disabled) {  setPanelVisible(!panelVisible()); }
+            togglePop(labelRef, panelRef);
         }}>
             <Show when={props.label}>{props.label}</Show>
             <div tabIndex={props.tabindex} classList={{
@@ -47,7 +54,7 @@ export default function(props: Props) {
                 <div class="input">
                     { formatDate(new Date(ac.getValue()), props.time) }
                 </div>
-                <span class="c--icon tail">{props.expandIcon}</span>
+                <span class="c--icon tail">expand_all</span>
             </div>
         </label>
         <Show when={ac.hasError()}>
@@ -55,7 +62,8 @@ export default function(props: Props) {
         </Show>
     </div>;
 
-    return <Dropdown setVisible={setPanelVisible} wrapperClass="w-full" palette={props.palette} activator={ activator } visible={panelVisible()}>
-        <Panel {...panelProps} />
-    </Dropdown>;
+    return <>
+        {activator}
+        <Panel class="fixed" popover="manual" ref={el=>panelRef=el} {...panelProps}></Panel>
+    </>;
 }
