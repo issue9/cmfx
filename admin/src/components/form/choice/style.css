@@ -7,7 +7,7 @@
 @layer components {
     .c--choice-activator {
         .activator-container {
-            @apply rounded-md border border-[var(--fg-low)] flex c--icon-container px-2 py-1 cursor-pointer outline-none;
+            @apply rounded-md border border-[var(--fg-low)] flex c--icon-container px-2 py-1 cursor-pointer outline-none box-border;
             @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
             .input {
@@ -49,17 +49,14 @@
     }
 
     .c--choice-options {
-        @apply border bg-[var(--bg)] rounded-md z-50 max-h-[240px] overflow-y-auto fixed m-0;
+        @apply border bg-[var(--bg)] rounded-md max-h-[240px] overflow-y-auto fixed box-border;
+        inset: unset;
 
         li {
             @apply p-2 hover:bg-[var(--bg-high)] c--icon-container flex cursor-pointer;
 
             .tail {
                 margin-left: auto;
-            }
-
-            .hidden {
-                display: none;
             }
         }
 

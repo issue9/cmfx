@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, Match, Show, Switch } from 'solid-js';
+import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
@@ -22,20 +22,6 @@ export type Props<T extends Value> = BaseProps<T> & {
     multiple?: false;
     accessor: Accessor<T>;
 };
-
-function togglePop(anchor: Element, pop: HTMLUListElement): boolean {
-    const ret = pop.togglePopover(); // 必须要先显示，后面的调整大小才有效果。
-
-    // [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
-
-    const ab = anchor.getBoundingClientRect();
-    pop.style.minWidth = ab.width + 'px';
-    pop.style.width = ab.width + 'px';
-    pop.style.top = ab.bottom + 'px';
-    pop.style.left = ab.left + 'px';
-
-    return ret;
-}
 
 /**
  * 用以替代 select 组件
@@ -66,10 +52,37 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     };
 
     let labelRef: HTMLLabelElement;
-    const activator = <div class="c--field c--choice-activator" aria-haspopup>
-        <label ref={el=>labelRef=el} title={props.title} onClick={(e) => {
+
+    const handleClick = (e: MouseEvent) => {
+        if (!pop.contains(e.target as Node) && !labelRef.contains(e.target as Node)) {
+            pop.hidePopover();
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
+
+    const calcPos = () =>{
+        // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+        const ab = labelRef.getBoundingClientRect();
+        pop.style.minWidth = ab.width + 'px';
+        pop.style.width = ab.width + 'px';
+        pop.style.top = labelRef.querySelector('.activator-container')!.getBoundingClientRect().top + 'px';
+        pop.style.left = ab.left + 'px';
+    }
+
+    const activator = <div classList={{
+        'c--field': true,
+        'c--choice-activator': true,
+        [`palette--${props.palette}`]: !!props.palette,
+    }} aria-haspopup>
+        <label ref={el => labelRef = el} title={props.title} onClick={(e) => {
             e.preventDefault();
-            if (togglePop(labelRef, pop)) {
+            if (pop.togglePopover()) {
+                calcPos();
                 scrollIntoView();
             }
         }}>
@@ -132,6 +145,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                             items.splice(index, 1);
                         }
                         p.ac.setValue(items);
+                        calcPos(); // 多选的情况下，改变值可能引起宽度变化。
                         p.ac.setError();
                     }}>
                         {cloneElement(item[1])}
@@ -182,7 +196,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
 
     return <>
         {activator}
-        <ul popover="auto" ref={el=>pop=el} class="c--choice-options">
+        <ul popover="manual" ref={el => pop = el} classList={{ 'c--choice-options': true, [`palette--${props.palette}`]: !!props.palette }}>
             <Switch>
                 <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
                 <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
