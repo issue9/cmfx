@@ -65,14 +65,14 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
-    const calcPos = () =>{
+    const calcPos = () => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const ab = labelRef.getBoundingClientRect();
         pop.style.minWidth = ab.width + 'px';
         pop.style.width = ab.width + 'px';
         pop.style.top = labelRef.querySelector('.activator-container')!.getBoundingClientRect().top + 'px';
         pop.style.left = ab.left + 'px';
-    }
+    };
 
     const activator = <div classList={{
         'c--field': true,

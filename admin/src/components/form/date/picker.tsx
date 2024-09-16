@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, Show, splitProps } from 'solid-js';
+import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { defaultProps, default as Panel, Props as PanelProps } from './panel';
 import { formatDate } from './utils';
@@ -23,8 +23,7 @@ function togglePop(anchor: Element, pop: HTMLElement): boolean {
     pop.style.top = ab.bottom + 'px';
     pop.style.left = ab.left + 'px';
 
-    const ret = pop.togglePopover(); // 必须要先显示，后面的调整大小才有效果。
-    return ret;
+    return pop.togglePopover();
 }
 
 export default function(props: Props) {
@@ -34,6 +33,18 @@ export default function(props: Props) {
     const ac = props.accessor;
     let panelRef: HTMLElement;
     let labelRef: HTMLLabelElement;
+
+    const handleClick = (e: MouseEvent) => {
+        if (!panelRef.contains(e.target as Node) && !labelRef.contains(e.target as Node)) {
+            panelRef.hidePopover();
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
 
     const activator = <div accessKey={props.accessKey}
         classList={{
