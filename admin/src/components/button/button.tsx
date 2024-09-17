@@ -6,6 +6,8 @@ import { JSX, mergeProps } from 'solid-js';
 
 import { Props as BaseProps, ButtonType, ClickFunc, defaultProps as defaultBaseProps } from './types';
 
+export type Ref = HTMLButtonElement;
+
 export interface Props extends BaseProps {
     /**
      * 是否为图标按钮
@@ -25,6 +27,7 @@ export interface Props extends BaseProps {
     accessKey?: string;
     autofocus?: boolean;
     value?: string;
+    ref?: { (el: Ref): void; };
 }
 
 export const defaultProps: Readonly<Partial<Props>> = {
@@ -39,6 +42,7 @@ export default function(props: Props) {
     props = mergeProps(defaultProps, props);
 
     return <button value={props.value} accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
+        ref={(el) => { if (props.ref) { props.ref(el); }}}
         type={props.type} title={props.title} onClick={props.onClick} classList={{
             'c--button': true,
             'c--icon-container': true,

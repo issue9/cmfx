@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
+import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
-import { Dropdown } from '@/components/dropdown';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
 type Value = string | number | undefined;
@@ -14,11 +13,6 @@ interface BaseProps<T extends Value> extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;
-
-    /**
-     * 尾部表示展开下拉框的图标，默认为 expand_all
-     */
-    expandIcon?: string;
 }
 
 export type Props<T extends Value> = BaseProps<T> & {
@@ -33,9 +27,7 @@ export type Props<T extends Value> = BaseProps<T> & {
  * 用以替代 select 组件
  */
 export default function <T extends Value>(props: Props<T>): JSX.Element {
-    props = mergeProps({ expandIcon: 'expand_all' }, props);
-
-    const [optionsVisible, setOptionsVisible] = createSignal(false);
+    let pop: HTMLUListElement;
 
     // multiple 为 false 时的输入框样式。
     const SingleActivator = (p: {access: Accessor<T>}) => {
@@ -59,11 +51,40 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </For>;
     };
 
-    const activator = <div class="c--field c--choice-activator">
-        <label title={props.title} onClick={(e) => {
+    let labelRef: HTMLLabelElement;
+
+    const handleClick = (e: MouseEvent) => {
+        if (!pop.contains(e.target as Node) && !labelRef.contains(e.target as Node)) {
+            pop.hidePopover();
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
+
+    const calcPos = () => {
+        // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+        const ab = labelRef.getBoundingClientRect();
+        pop.style.minWidth = ab.width + 'px';
+        pop.style.width = ab.width + 'px';
+        pop.style.top = labelRef.querySelector('.activator-container')!.getBoundingClientRect().top + 'px';
+        pop.style.left = ab.left + 'px';
+    };
+
+    const activator = <div classList={{
+        'c--field': true,
+        'c--choice-activator': true,
+        [`palette--${props.palette}`]: !!props.palette,
+    }} aria-haspopup>
+        <label ref={el => labelRef = el} title={props.title} onClick={(e) => {
             e.preventDefault();
-            if (!props.disabled) { setOptionsVisible(!optionsVisible()); }
-            return false;
+            if (pop.togglePopover()) {
+                calcPos();
+                scrollIntoView();
+            }
         }}>
             <Show when={props.label}>{props.label}</Show>
 
@@ -81,7 +102,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
-                <span class="c--icon expand">{props.expandIcon}</span>
+                <span class="c--icon expand">expand_all</span>
             </div>
         </label>
         <Show when={props.accessor.hasError()}>
@@ -90,17 +111,15 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     </div>;
 
     let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
-    createEffect(() => {
-        if (optionsVisible()) {
-            for (var i = 0; i < props.options.length; i++) {
-                const elem = li[i];
-                if (elem && elem.getAttribute('aria-selected') === 'true') {
-                    elem.scrollIntoView();
-                    return;
-                }
+    const scrollIntoView = () => {
+        for (var i = 0; i < props.options.length; i++) {
+            const elem = li[i];
+            if (elem && elem.ariaSelected === 'true') {
+                elem.scrollIntoView();
+                return;
             }
         }
-    });
+    };
 
     // multiple 为 true 时的候选框的组件
     const MultipleOptions = (p:{ac:Accessor<Array<T>>}) => {
@@ -126,6 +145,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                             items.splice(index, 1);
                         }
                         p.ac.setValue(items);
+                        calcPos(); // 多选的情况下，改变值可能引起宽度变化。
                         p.ac.setError();
                     }}>
                         {cloneElement(item[1])}
@@ -160,7 +180,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                             p.ac.setValue(item[0]);
                             p.ac.setError();
                         }
-                        setOptionsVisible(false);
+                        pop.hidePopover();
                     }}>
                         {cloneElement(item[1])}
                         <span classList={{
@@ -174,12 +194,13 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         </>;
     };
 
-    return <Dropdown tag="ul" wrapperClass='c--choice' class="c--choice-options"
-        setVisible={setOptionsVisible} palette={props.palette} pos='bottomleft' aria-multiselectable={props.multiple}
-        visible={optionsVisible()} activator={activator}>
-        <Switch>
-            <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
-            <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
-        </Switch>
-    </Dropdown>;
+    return <>
+        {activator}
+        <ul popover="manual" ref={el => pop = el} classList={{ 'c--choice-options': true, [`palette--${props.palette}`]: !!props.palette }}>
+            <Switch>
+                <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
+                <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
+            </Switch>
+        </ul>
+    </>;
 }

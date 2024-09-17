@@ -36,9 +36,15 @@ export interface Props extends FieldBaseProps {
      * 如果是 number，则表示微秒。
      */
     accessor: Accessor<string|number>;
+
+    popover?: boolean | 'manual' | 'auto';
+
+    ref?: { (el: HTMLElement): void; };
+
+    class?: string;
 }
 
-const defaultProps: Partial<Props> = {
+export const defaultProps: Partial<Props> = {
     weekBase: 0,
 };
 
@@ -182,10 +188,8 @@ export default function (props: Props) {
         ma.setValue(dt.getMinutes());
     });
 
-    return <fieldset disabled={props.disabled} classList={{
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); }} } disabled={props.disabled} class={props.class} classList={{
         'c--date-panel': true,
         [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <Panel dt={new Date(ac.getValue())} ha={ha} ma={ma} />
-    </fieldset>;
+    }}><Panel dt={new Date(ac.getValue())} ha={ha} ma={ma} /></fieldset>;
 }
