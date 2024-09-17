@@ -75,7 +75,7 @@
     "dependencies": {
         "@formatjs/intl-localematcher": "^0.5.4",
         "@solid-primitives/i18n": "^2.1.1",
-        "@solidjs/router": "^0.14.3",
+        "@solidjs/router": "^0.14.5",
         "localforage": "^1.10.0",
         "material-symbols": "^0.23.0",
         "quill": "^2.0.2",
@@ -83,18 +83,18 @@
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
-        "@types/node": "^22.5.4",
-        "@vitest/coverage-v8": "^2.0.5",
+        "@types/node": "^22.5.5",
+        "@vitest/coverage-v8": "^2.1.1",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.6",
         "jsdom": "^25.0.0",
-        "postcss": "^8.4.45",
+        "postcss": "^8.4.47",
         "tailwindcss": "^3.4.11",
         "typescript": "^5.6.2",
-        "vite": "^5.4.4",
+        "vite": "^5.4.6",
         "vite-plugin-dts": "^4.2.1",
         "vite-plugin-solid": "^2.10.2",
-        "vitest": "^2.0.5",
+        "vitest": "^2.1.1",
         "vitest-fetch-mock": "^0.3.0"
     }
 }
