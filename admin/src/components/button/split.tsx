@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, Match, mergeProps, splitProps, Switch } from 'solid-js';
+import { For, JSX, Match, mergeProps, onCleanup, splitProps, Switch } from 'solid-js';
 
-import { Corner } from '@/components/base';
-import { Dropdown } from '@/components/dropdown';
-import { Props as BaseProps, default as Button, defaultProps as defaultBaseProps } from './button';
-import { default as Group } from './group';
+import { onMount } from 'solid-js';
+import { Props as BaseProps, default as Button, defaultProps } from './button';
+import { default as Group, Ref as GroupRef } from './group';
 import { ClickFunc } from './types';
 
 type Item = { type: 'divider' } | {
@@ -18,14 +17,8 @@ type Item = { type: 'divider' } | {
 };
 
 export interface Props extends BaseProps {
-    pos?: Corner;
     menus: Array<Item>;
 }
-
-const defaultProps = {
-    ...defaultBaseProps,
-    pos: 'bottomleft' as Corner
-};
 
 /**
  * 带有一个默认操作的一组按钮
@@ -34,31 +27,53 @@ const defaultProps = {
 */
 export default function(props: Props) {
     props = mergeProps(defaultProps, props);
+    let pop: HTMLDivElement;
+    let group: GroupRef;
 
-    const [visible, setVisible] = createSignal(false);
+    const handleClick = (e: MouseEvent) => {
+        if (!pop.contains(e.target as Node) && !group.contains(e.target as Node)) {
+            pop.hidePopover();
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
 
-    const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette', 'pos']);
+    const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette']);
 
-    const activator = <Group style={props.style} rounded={props.rounded} disabled={props.disabled}>
+    const activator = <Group palette={props.palette} ref={el=>group=el} style={props.style} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
-        <Button icon={/*@once*/true} onClick={()=>setVisible(!visible())}>keyboard_arrow_down</Button>
+        <Button icon={/*@once*/true} onClick={() => {
+            pop.togglePopover();
+
+            // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+            const rect = group.getBoundingClientRect();
+            pop.style.top = rect.bottom + 'px';
+            pop.style.left = rect.left + 'px';
+        }}>keyboard_arrow_down</Button>
     </Group>;
 
-    return <Dropdown class="c--split-button_content" pos={props.pos} palette={props.palette} activator={activator} visible={visible()} setVisible={setVisible}>
-        <For each={props.menus}>
-            {(item)=>(
-                <Switch>
-                    <Match when={item.type === 'divider'}>
-                        <hr class="text-palette-bg-low" />
-                    </Match>
-                    <Match when={item.type === 'item'}>
-                        <button disabled={(item as any).disabled} class="whitespace-nowrap c--icon-container" onClick={() => {
-                            (item as any).onClick();
-                            setVisible(false);
-                        }}>{(item as any).label}</button>
-                    </Match>
-                </Switch>
-            )}
-        </For>
-    </Dropdown>;
+    return <>
+        {activator}
+        <div ref={el=>pop=el} popover="manual" classList={{ 'c--split-button_content':true, [`palette--${props.palette}`]:!!props.palette}}>
+            <For each={props.menus}>
+                {(item) => (
+                    <Switch>
+                        <Match when={item.type === 'divider'}>
+                            <hr class="text-palette-bg-low" />
+                        </Match>
+                        <Match when={item.type === 'item'}>
+                            <button disabled={(item as any).disabled} class="whitespace-nowrap c--icon-container" onClick={() => {
+                                (item as any).onClick();
+                                pop.hidePopover();
+                            }}>{(item as any).label}</button>
+                        </Match>
+                    </Switch>
+                )}
+            </For>
+        </div>
+    </>;
 }
