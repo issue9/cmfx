@@ -1,0 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* 当前文件定义了一些全局的动画 */
+
+@layer components {
+
+    [popover] {
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
+    }
+
+    [popover]:popover-open {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity var(--transition-duration) linear;
+    }
+}

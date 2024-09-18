@@ -45,7 +45,6 @@ export default function(props: Props): JSX.Element {
             pop.hidePopover();
             pop.showPopover();
 
-            // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
             pop.style.top = e.clientY + 'px';
             pop.style.left = e.clientX + 'px';
         }}>{props.activator}</span>
