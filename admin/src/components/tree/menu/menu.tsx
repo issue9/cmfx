@@ -4,22 +4,17 @@
 
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { Button, ButtonRef } from '@/components/button';
 import { Value } from '@/components/tree/item';
-import { Props as BaseProps, defaultProps, default as Panel, Ref } from './panel';
+import { default as HoverMenu, Props as HoverProps } from './hover';
+import { Props as BaseProps, defaultProps, default as Panel, Ref as PanelRef } from './panel';
 
-export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
+export interface Props extends HoverProps {
     /**
-     * 触发按钮上的内容
-     */
-    activator: JSX.Element;
-
-    /**
-     * 当选择项发生变化时触发的事件
+     * 是否以鼠标滑入滑出作为触发条件，默认为点击。
      *
-     * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
+     * NOTE: 这是一个非响应式的属性。
      */
-    onChange?: { (selected: Value, old?: Value): boolean | undefined; };
+    hoverable?: boolean;
 }
 
 /**
@@ -27,11 +22,17 @@ export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
  */
 export default function(props: Props): JSX.Element {
     props = mergeProps(defaultProps as Props, props);
-    let pop: Ref;
-    let btn: ButtonRef;
+
+    if (props.hoverable) {
+        const [_, hp] = splitProps(props, ['hoverable', 'children']);
+        return <HoverMenu {...hp}>{props.children}</HoverMenu>;
+    }
+
+    let pop: PanelRef;
+    let activator: HTMLSpanElement;
 
     const handleClick = (e: MouseEvent) => {
-        if (!pop.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+        if (!pop.contains(e.target as Node) && !activator.contains(e.target as Node)) {
             pop.hidePopover();
         }
     };
@@ -54,11 +55,12 @@ export default function(props: Props): JSX.Element {
     }
 
     return <>
-        <Button ref={el=>btn=el} palette={props.palette} onClick={()=>{
+        <span ref={el=>activator=el} classList={{[`palette--${props.palette}`]: !!props.palette}} onClick={()=>{
             pop.togglePopover();
 
             // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
-            const rect = btn.getBoundingClientRect();
+            const rect = activator.getBoundingClientRect();
+            pop.style.marginTop = '2px';
             pop.style.top = rect.bottom + 'px';
             if (props.direction === 'right') {
                 pop.style.left = rect.left + 'px';
@@ -66,7 +68,7 @@ export default function(props: Props): JSX.Element {
                 const pb = pop.getBoundingClientRect();
                 pop.style.left = (rect.right - pb.width) + 'px';
             }
-        }}>{props.activator}</Button>
+        }}>{props.activator}</span>
 
         <Panel popover="manual" ref={el=>pop=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
     </>;

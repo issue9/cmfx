@@ -5,7 +5,7 @@
 import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Setter, Show, createSignal } from 'solid-js';
 
-import { Button, Dropdown, ItemValue, Menu } from '@/components';
+import { Button, ItemValue, Menu } from '@/components';
 import { Breakpoints } from '@/core';
 import { useApp, useOptions } from './context';
 import { floatAsideWidth } from './private';
@@ -67,16 +67,14 @@ function Username(): JSX.Element {
     const activator = <Button style='flat' onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 
     return <Show when={ctx.user()?.id}>
-        <Dropdown visible={visible()} setVisible={setVisible}  activator={activator} pos='bottomright' class="z-[2000]">
-            <Menu selectedClass='' onChange={onChange}>{[
-                {type: 'divider'},
-                {
-                    type: 'item',
-                    value: 'logout',
-                    label: ctx.t('_i.login.logout')
-                }
-            ]}</Menu>
-        </Dropdown>
+        <Menu hoverable direction='left' selectedClass='' activator={activator} onChange={onChange}>{[
+            {type: 'divider'},
+            {
+                type: 'item',
+                value: 'logout',
+                label: ctx.t('_i.login.logout')
+            }
+        ]}</Menu>
     </Show>;
 }
 
