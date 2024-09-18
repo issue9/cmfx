@@ -10,6 +10,8 @@ import { Divider } from '@/components/divider';
 import type { Props as ContainerProps } from '@/components/tree/container';
 import { Item, Value } from '@/components/tree/item';
 
+export type Ref = HTMLElement;
+
 export interface Props extends ContainerProps {
     /**
      * 当选择项发生变化时触发的事件
@@ -24,10 +26,20 @@ export interface Props extends ContainerProps {
      * 如果为 true，那为 {@link Item#value} 将作为链接的值。
      */
     anchor?: boolean;
+
+    ref?: { (el: Ref): void; };
+
+    popover?: boolean | 'auto' | 'manual';
+
+    /**
+     * 菜单展开的方向
+     */
+    direction?: 'left' | 'right';
 }
 
 export const defaultProps: Readonly<Partial<Props>> = {
-    selectedClass: 'selected'
+    selectedClass: 'selected',
+    direction: 'right'
 };
 
 export default function (props: Props): JSX.Element {
@@ -64,7 +76,7 @@ export default function (props: Props): JSX.Element {
                 <li class="item">
                     {p.item.label}
                     <span class="tail c--icon">chevron_right</span>
-                    <menu class="c--menu hidden">
+                    <menu classList={{'c--menu':true,'hidden':true,[props.direction!]:true}}>
                         <All items={p.item.items as Array<Item>} />
                     </menu>
                 </li>
@@ -94,10 +106,8 @@ export default function (props: Props): JSX.Element {
         </Switch>;
     };
 
-    return <menu role="menu" classList={{
+    return <menu popover={props.popover} role="menu" ref={(el: Ref) => { if (props.ref) { props.ref(el); }}} classList={{
         'c--menu': true,
         [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <All items={props.children} />
-    </menu>;
+    }}><All items={props.children} /></menu>;
 }

@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { Corner } from '@/components/base';
-import { Dropdown } from '@/components/dropdown';
+import { Button, ButtonRef } from '@/components/button';
 import { Value } from '@/components/tree/item';
-import { Props as BaseProps, defaultProps as defaultBaseProps, default as Panel } from './panel';
+import { Props as BaseProps, defaultProps, default as Panel, Ref } from './panel';
 
-export interface Props extends Omit<BaseProps, 'onChange'> {
+export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
+    /**
+     * 触发按钮上的内容
+     */
     activator: JSX.Element;
-
-    pos?: Corner;
 
     /**
      * 当选择项发生变化时触发的事件
@@ -22,30 +22,52 @@ export interface Props extends Omit<BaseProps, 'onChange'> {
     onChange?: { (selected: Value, old?: Value): boolean | undefined; };
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
-    ...(defaultBaseProps as any),
-    pos: 'bottomleft' as Corner
-};
-
 /**
  * 下拉菜单组件
  */
 export default function(props: Props): JSX.Element {
-    props = mergeProps(defaultProps, props);
-    const [visible, setVisible] = createSignal(false);
+    props = mergeProps(defaultProps as Props, props);
+    let pop: Ref;
+    let btn: ButtonRef;
 
-    const [_, panelProps] = splitProps(props, ['pos', 'activator', 'onChange', 'children']);
+    const handleClick = (e: MouseEvent) => {
+        if (!pop.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+            pop.hidePopover();
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
+
+    const [_, panelProps] = splitProps(props, ['activator', 'onChange', 'children']);
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
         onchange = (selected: Value, old?: Value) => {
             if (!props.onChange!(selected, old)) {
-                setVisible(false);
+                pop.hidePopover();
             }
-        }
+        };
     }
 
-    return <Dropdown visible={visible()} setVisible={setVisible} activator={props.activator} pos={props.pos} class="z-[2000]">
-        <Panel onChange={onchange} {...panelProps}>{props.children}</Panel>
-    </Dropdown>;
+    return <>
+        <Button ref={el=>btn=el} palette={props.palette} onClick={()=>{
+            pop.togglePopover();
+
+            // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+            const rect = btn.getBoundingClientRect();
+            pop.style.top = rect.bottom + 'px';
+            if (props.direction === 'right') {
+                pop.style.left = rect.left + 'px';
+            } else {
+                const pb = pop.getBoundingClientRect();
+                pop.style.left = (rect.right - pb.width) + 'px';
+            }
+        }}>{props.activator}</Button>
+
+        <Panel popover="manual" ref={el=>pop=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
+    </>;
 }

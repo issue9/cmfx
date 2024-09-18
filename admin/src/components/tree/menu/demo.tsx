@@ -4,8 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { Demo, paletteSelector } from '@/components/base/demo';
-import { Button } from '@/components/button';
+import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
 import { selectedClassSelector } from '@/components/tree/list/demo';
 import { default as Menu } from './menu';
@@ -14,6 +13,7 @@ import { default as Panel } from './panel';
 export default function() {
     const [paletteS,palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
+    const [rightS, right] = boolSelector('right');
 
     const items: Array<Item> = [
         {type: 'item', value: 'v1', label: 'v1'},
@@ -41,18 +41,25 @@ export default function() {
         <>
             {paletteS}
             {selectedClsS}
+            {rightS}
         </>
     } stages={
-        <div class="w-80 mt-4">
-            <p>panel</p>
-            <Panel selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
-                {items}
-            </Panel>
-            <div>{ selected() }</div>
+        <>
+            <div class="w-80 mt-4">
+                <p>panel</p>
+                <Panel direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
+                    {items}
+                </Panel>
+                <div>{ selected() }</div>
+            </div>
 
-            <Menu selectedClass={selectedCls()} palette={palette()} activator={<Button palette='primary'>menu</Button>}>
-                {items}
-            </Menu>
-        </div>
+
+            <div class="w-80 mt-4">
+                <p>menu</p>
+                <Menu direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator='menu'>
+                    {items}
+                </Menu>
+            </div>
+        </>
     } />;
 }
