@@ -34,7 +34,6 @@ export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [roundedS, rounded] = boolSelector('rounded');
-    const [iconS, icon] = boolSelector('icon');
 
     return <Demo settings={
         <>
@@ -42,7 +41,6 @@ export default function() {
             {disabledS}
             {readonlyS}
             {roundedS}
-            {iconS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
@@ -51,9 +49,9 @@ export default function() {
         </>
     } stages={
         <>
-            <Choice tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
-            <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-            <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} expandIcon={icon() ? 'face' : undefined} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+            <Choice tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
+            <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+            <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
             <TextField placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
         </>
     } />;

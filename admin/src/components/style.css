@@ -10,7 +10,6 @@
 @import './divider/style.css';
 @import './drawer/style.css';
 @import './dialog/style.css';
-@import './dropdown/style.css';
 @import './error/style.css';
 @import './notify/style.css';
 @import './tree/style.css';
@@ -19,3 +18,27 @@
 @import './table/style.css';
 @import './spin/style.css';
 @import './page/style.css';
+
+@layer components {
+    /* 定义了一些全局的动画 */
+
+    [popover] {
+        display: block;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
+    }
+
+    [popover]:popover-open {
+        visibility: visible;
+        opacity: 1;
+        transition: opacity var(--transition-duration) linear;
+    }
+
+    @starting-style {
+        [popover]:popover-open {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+    }
+}

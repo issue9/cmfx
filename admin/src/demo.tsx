@@ -10,7 +10,6 @@ export const routes: Options['routes']['private']['routes'] = [
     { path: '/base', component: lazy(() => import('@/components/base/demo')) },
     { path: '/errors', component: lazy(() => import('@/components/error/demo')) },
     { path: '/button', component: lazy(() => import('@/components/button/demo')) },
-    { path: '/dropdown', component: lazy(() => import('@/components/dropdown/demo')) },
     { path: '/dialog', component: lazy(() => import('@/components/dialog/demo')) },
     { path: '/badge', component: lazy(() => import('@/components/badge/demo')) },
     { path: '/divider', component: lazy(() => import('@/components/divider/demo')) },

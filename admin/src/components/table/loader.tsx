@@ -186,7 +186,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
             <form class="search">
                 {props.queryForm!(queries)}
                 <div class="actions">
-                    <SplitButton pos='bottomright' palette='primary' type='submit' onClick={() => refetch()} menus={[
+                    <SplitButton palette='primary' type='submit' onClick={() => refetch()} menus={[
                         { type: 'item', onClick: async() => { await exports('.csv'); } , label: <>
                             <span class="c--icon mr-2">csv</span>
                             {ctx.t('_i.table.exportTo', { type: 'CSV' })}
