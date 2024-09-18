@@ -8,6 +8,7 @@ import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Item } from '@/components/tree/item';
 import { selectedClassSelector } from '@/components/tree/list/demo';
+import { default as Context } from './context';
 import { default as Menu } from './menu';
 import { default as Panel } from './panel';
 
@@ -47,7 +48,6 @@ export default function() {
     } stages={
         <>
             <div class="w-80 mt-4">
-                <p>panel</p>
                 <Panel direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
                     {items}
                 </Panel>
@@ -56,17 +56,21 @@ export default function() {
 
 
             <div class="w-80 mt-4">
-                <p>menu</p>
-                <Menu direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>menu</Button>}>
+                <Menu direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>click</Button>}>
                     {items}
                 </Menu>
             </div>
 
             <div class="w-80 mt-4">
-                <p>hover</p>
                 <Menu hoverable direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>hover</Button>}>
                     {items}
                 </Menu>
+            </div>
+
+            <div class="w-80 mt-4">
+                <Context selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
+                    {items}
+                </Context>
             </div>
         </>
     } />;

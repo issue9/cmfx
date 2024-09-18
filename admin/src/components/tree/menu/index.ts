@@ -5,3 +5,6 @@
 export { default as Menu } from './menu';
 export type { Props as MenuProps } from './menu';
 
+export { default as ContextMenu } from './context';
+export type { Props as ContextMenuProps } from './context';
+
