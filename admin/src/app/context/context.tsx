@@ -2,16 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import '@formatjs/intl-durationformat/polyfill';
 import { useNavigate } from '@solidjs/router';
-import prettyBytes from 'pretty-bytes';
 import { JSX, createContext, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
 import { API, Account, Breakpoint, Breakpoints, Method, Problem, notify } from '@/core';
-import { Locale, createI18n, names } from '@/locales';
 import localforage from 'localforage';
+import { buildLocale } from './locale';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -45,8 +43,7 @@ export function useOptions(): Options {
 }
 
 export function buildContext(opt: Required<buildOptions>, f: API) {
-    const { getLocale, setLocale, t } = createI18n(opt.locales.fallback, opt.locales.messages);
-
+    const l = buildLocale(opt, f);
     const [user, { refetch }] = createUser(f, opt.api.info);
 
     const [bp, setBP] = createSignal<Breakpoint>('xs');
@@ -65,13 +62,18 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
             // localStorage
             await localforage.clear(async(err)=>{
-                await this.notify(t('_i.error.unknownError')!, err);
+                if (err) {
+                    await this.notify(l.t('_i.error.unknownError')!, err);
+                }
             });
 
             localStorage.clear();
             sessionStorage.clear();
 
             // TODO IndexedDB
+
+            const nav = useNavigate();
+            nav(opt.routes.public.home);
         },
 
         /**
@@ -199,64 +201,15 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            if (opt.system.notification && await notify(title, body, opt.logo, getLocale(), timeout)) {
+            if (opt.system.notification && await notify(title, body, opt.logo, l.locale.language, timeout)) {
                 return;
             }
             await window.notify(title, body, type, timeout);
         },
 
-        /**
-         * 与本地化相关的格式化方法
-         */
-        get formater() {
-            const date = new Intl.DateTimeFormat(this.locale, {timeStyle: 'short', dateStyle:'short'});
-            const duration = new (Intl as any).DurationFormat(this.locale, {
-                minute: '2-digit',
-                second: '2-digit',
-                fractionalSecondDigits: 3
-            });
+        t:l.t,
 
-            return {
-                /**
-                 * 格式化字节数
-                 * @param bytes 需要格式化的字节数量
-                 * @param minimumFractionDigits 最小的精度，默认值为 3。
-                 */
-                bytes(bytes: number, minimumFractionDigits?: number): string {
-                    return prettyBytes(bytes, { locale: ctx.locale, space: true, minimumFractionDigits });
-                },
-
-                /**
-                 * 格式化日期
-                 * @param d 时间，如果是 number 类型，表示的是毫秒；
-                 * @returns 根据本地化格式的字符串
-                 */
-                date(d?: Date | string | number): string {
-                    if (d === undefined) { return ''; }
-                    return date.format(new Date(d));
-                },
-
-                duration(val?: number | string): string {
-                    if (val) { return duration.format({ nanoseconds: val }); }
-                    return '';
-                }
-            }
-        },
-
-        // 以下为本地化相关功能
-
-        t,
-        get locale() { return getLocale(); },
-        set locale(v: Locale) {
-            document.documentElement.lang = v;
-            setLocale(v);
-            f.locale = v;
-        },
-
-        /**
-         * 返回支持的本地化列表
-         */
-        get locales() { return names; }
+        locale() { return l; }
     };
 
     const Provider = (props: { children: JSX.Element }) => {

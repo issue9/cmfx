@@ -7,7 +7,7 @@ import { JSX, createMemo } from 'solid-js';
 import { useApp } from '@/app';
 import { Column, LoaderTable, Page, translateEnum } from '@/components';
 import { Query } from '@/core';
-import { MessageKey } from '@/locales';
+import { MessageKey } from '@/messages';
 
 interface Service {
     jobs: Array<Job>;

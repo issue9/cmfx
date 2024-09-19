@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Query as QueryBase } from '@/core';
-import { MessageKey } from '@/locales';
+import { MessageKey } from '@/messages';
 
 export type Sex = 'male' | 'female' | 'unknown';
 

@@ -4,7 +4,7 @@
 
 import { AppContext } from '@/app';
 import { Options } from '@/components';
-import { MessageKey } from '@/locales';
+import { MessageKey } from '@/messages';
 
 export type Enum<T extends string|number> = [T, MessageKey];
 

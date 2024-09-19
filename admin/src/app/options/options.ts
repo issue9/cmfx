@@ -5,7 +5,7 @@
 import { BaseDict } from '@solid-primitives/i18n';
 
 import { Contrast, Mimetype, Mode, Scheme } from '@/core';
-import type { Locale, LocaleMessages } from '@/locales';
+import type { Locale, MessagesLoader } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
 
@@ -82,19 +82,14 @@ export interface Locales {
     /**
      * 本地化 ID 及对应内容的加载函数
      */
-    messages: LocaleMessages<BaseDict>;
+    messages: MessagesLoader<BaseDict>;
 
     /**
      * 支持的语言
-     *
-     * 需要确保这些指定的语言可以通过 {@link Locales#loader} 正常加载内容。
      */
-    locales: Array<Locale>
+    locales: Array<Locale>;
 
-    /**
-     * 在找不到语言时的默认项
-     */
-    fallback: Locale
+    fallback: Locale;
 }
 
 export interface Theme {

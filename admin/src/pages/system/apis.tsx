@@ -46,11 +46,11 @@ export default function(): JSX.Element {
             { id: 'pattern', label: ctx.t('_i.page.system.pattern') },
 
             { id: 'count', label: ctx.t('_i.page.system.count') },
-            { id: 'last', label: ctx.t('_i.page.system.last'), content: (_: string, val: string) => { return ctx.formater.date(val); } },
+            { id: 'last', label: ctx.t('_i.page.system.last'), content: (_: string, val: string) => { return ctx.locale().date(val); } },
             { id: 'serverErrors', label: ctx.t('_i.page.system.serverErrors') },
             { id: 'userErrors', label: ctx.t('_i.page.system.userErrors') },
 
-            { id: 'max', label: ctx.t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.formater.duration(val); } },
+            { id: 'max', label: ctx.t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
             { id: 'min', label: ctx.t('_i.page.system.min') },
             { id: 'spend', label: ctx.t('_i.page.system.spend') },
         ] as Array<Column<API>>} />

@@ -29,7 +29,7 @@ export class API {
      * @param baseURL API 的基地址，不能以 / 结尾。
      * @param mimetype mimetype 的类型。
      * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
-     * @param locale 报头 accept-language 的内容。
+     * @param locale 请求报头 accept-language 的内容。
      */
     static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<API> {
         const t = await getToken();

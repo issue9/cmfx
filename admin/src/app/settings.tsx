@@ -4,7 +4,6 @@
 
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
 import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode } from '@/core/theme';
-import { Locale } from '@/locales';
 import { useApp } from './context';
 
 const schemesSize = 15;
@@ -18,8 +17,8 @@ export default function() {
     const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
     contrastFA.onChange((m) => { changeContrast(m); });
 
-    const localeFA = FieldAccessor<Locale>('locale', ctx.locale, false);
-    localeFA.onChange((v) => { ctx.locale = v; });
+    const localeFA = FieldAccessor<string>('locale', ctx.locale.toString(), false);
+    localeFA.onChange((v) => { ctx.locale().switch(v); });
 
     const schemesOptions: Options<number> = [];
     for (let i = 0; i < schemesSize; i++) {
@@ -70,7 +69,7 @@ export default function() {
             <legend>
                 <Label icon="translate" title={ ctx.t('_i.locale.locale')! } desc={ ctx.t('_i.locale.localeDesc')! } />
             </legend>
-            <Choice accessor={localeFA} options={ctx.locales} />
+            <Choice accessor={localeFA} options={ctx.locale().locales} />
         </fieldset>
     </div>;
 }

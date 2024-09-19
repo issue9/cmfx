@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { match } from '@formatjs/intl-localematcher';
 import * as i18n from '@solid-primitives/i18n';
 import { createResource, createSignal } from 'solid-js';
 
@@ -13,14 +14,6 @@ export type { Messages };
  * 支持的语言 ID
  */
 export const locales = ['en', 'cmn-Hans'] as const;
-
-/**
- * 支持语言的 ID 以对应的名称
- */
-export const names: Array<[Locale, string]> = [
-    ['en', 'english'],
-    ['cmn-Hans', '简体中文']
-] as const;
 
 export type Locale = typeof locales[number];
 
@@ -41,17 +34,18 @@ export type KeyOfMessage<M extends i18n.BaseDict> = keyof i18n.Flatten<M>;
  *
  * 字段名为语言 ID，值为加载相应语言的方法。
  */
-export type LocaleMessages<T extends i18n.BaseDict> = Record<Locale, { (): Promise<T> }>;
+export type MessagesLoader<T extends i18n.BaseDict> = Record<Locale, { (): Promise<T> }>;
 
-const loads: LocaleMessages<Messages> = {
-    'en': async () => { return (await import('@/locales/en')).default; },
-    'cmn-Hans': async () => { return (await import('@/locales/cmn-Hans')).default; },
+const internalLoaders: MessagesLoader<Messages> = {
+    'en': async () => { return (await import('@/messages/en')).default; },
+    'cmn-Hans': async () => { return (await import('@/messages/cmn-Hans')).default; },
 } as const;
 
-function buildLoadMessages(loaders: LocaleMessages<i18n.BaseDict>) {
-    return async function (id: Locale) {
-        const internal = await loads[id]();
-        const userData = await loaders[id]();
+function buildLoader(fallback: Locale, userLoaders: MessagesLoader<i18n.BaseDict>) {
+    return async function (id: string) {
+        const l = match([id], locales, fallback) as Locale; // 查找与 id 最匹配的本地化消息加载
+        const internal = await internalLoaders[l]();
+        const userData = await userLoaders[l]();
         return i18n.flatten({
             ...internal,
             ...userData
@@ -59,15 +53,15 @@ function buildLoadMessages(loaders: LocaleMessages<i18n.BaseDict>) {
     };
 }
 
-export function createI18n(fallback: Locale, loaders: LocaleMessages<i18n.BaseDict>) {
-    const [getLocale, setLocale] = createSignal(fallback);
-    const [dict] = createResource(getLocale, buildLoadMessages(loaders));
+export function create(fallback: Locale, userLoaders: MessagesLoader<i18n.BaseDict>) {
+    const [get, set] = createSignal<string>();
+    const [dict] = createResource(get, buildLoader(fallback, userLoaders));
     const t = i18n.translator(dict, i18n.resolveTemplate);
 
-    return { getLocale, setLocale, t };
+    return { reload: set, t };
 }
 
 /**
  * 翻译函数的类型
  */
-export type T = ReturnType<typeof createI18n>['t'];
+export type T = ReturnType<typeof create>['t'];

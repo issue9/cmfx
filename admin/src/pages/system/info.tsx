@@ -50,7 +50,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.formater.date(info()?.uptime)}</dd></dl>
+                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.uptime)}</dd></dl>
 
                 <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.t('_i.page.system.system')}</Divider>
 
@@ -60,7 +60,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>{ ctx.t('_i.page.system.version') }</dt><dd>{info()?.os.version}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.formater.date(info()?.os.uptime)}</dd></dl>
+                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.os.uptime)}</dd></dl>
 
                 <Divider padding='.5rem'><span class="c--icon mr-1">database</span>{ctx.t('_i.database')}</Divider>
 
@@ -109,7 +109,7 @@ export default function(): JSX.Element {
                     <For each={backup()?.list}>
                         {(item)=>(
                             <li>
-                                {item.path}&nbsp;({ctx.formater.bytes(item.size,2)})
+                                {item.path}&nbsp;({ctx.locale().bytes(item.size,2)})
                                 <ConfirmButton style='flat' palette='error' onClick={async()=>{
                                     const ret = await ctx.api.delete('/system/backup/'+item.path);
                                     if (!ret.ok) {
