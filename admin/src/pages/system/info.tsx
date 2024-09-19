@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import prettyBytes from 'pretty-bytes';
 import { createMemo, createResource, For, JSX } from 'solid-js';
 
 import { useApp } from '@/app';
@@ -88,13 +89,13 @@ export default function(): JSX.Element {
             <fieldset class="w-[45%]">
                 <legend><Legend icon='action_key' text={ ctx.t('_i.page.actions') } /></legend>
 
-                <ConfirmButton palette='primary' onClick={async()=>await ctx.clearCache()}>
-                    <span class="c--icon">clear_all</span>{ ctx.t('_i.page.system.clearCache') }
+                <ConfirmButton palette='secondary' onClick={async()=>await ctx.clearCache()}>
+                    <span class="c--icon mr-1">clear_all</span>{ ctx.t('_i.page.system.clearCache') }
                 </ConfirmButton>
                 <span class="mt-1">{ctx.t('_i.page.system.clearCacheHelp')}</span>
 
                 <Divider padding='1rem' />
-                <ConfirmButton palette='primary' disabled={backup()?.cron===''} onClick={async()=>{
+                <ConfirmButton palette='secondary' disabled={backup()?.cron===''} onClick={async()=>{
                     const ret = await ctx.api.post('/system/backup');
                     if (!ret.ok) {
                         ctx.outputProblem(ret.status, ret.body);
@@ -102,16 +103,16 @@ export default function(): JSX.Element {
                     }
                     await refetch();
                 }}>
-                    <span class="c--icon-container"><span class="c--icon mr-1">backup</span>{ ctx.t('_i.page.system.backupDB') }</span>
+                    <span class="c--icon mr-1">backup</span>{ ctx.t('_i.page.system.backupDB') }
                 </ConfirmButton>
                 <span class="mt-1">{ctx.t('_i.page.system.backupDBHelp', {cron: backup()?.cron!})}</span>
                 <ul class="backup_list">
                     <For each={backup()?.list}>
                         {(item)=>(
                             <li>
-                                {item}
+                                {item.path}&nbsp;({prettyBytes(item.size,{locale: ctx.locale})})
                                 <ConfirmButton style='flat' palette='error' onClick={async()=>{
-                                    const ret = await ctx.api.delete('/system/backup/'+item);
+                                    const ret = await ctx.api.delete('/system/backup/'+item.path);
                                     if (!ret.ok) {
                                         ctx.outputProblem(ret.status, ret.body);
                                         return;
@@ -197,5 +198,11 @@ interface Net {
 
 interface Backup {
     cron: string;
-    list: Array<string>;
+    list: Array<BackupFile>;
+}
+
+interface BackupFile {
+    path: string;
+    mod: string;
+    size: number;
 }

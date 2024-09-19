@@ -6,7 +6,7 @@
 
 @layer components {
     .c--button {
-        @apply border flex justify-around border-transparent items-center text-center rounded-md py-1 px-3 text-nowrap text-[var(--fg)] outline-none;
+        @apply border flex justify-center border-transparent items-center text-center rounded-md py-1 px-3 text-nowrap text-[var(--fg)] outline-none;
     }
 
     .c--button.c--button-icon {

@@ -62,7 +62,7 @@ export default function(props: Props) {
     };
 
     return <>
-        <Button ref={(el)=>btn=el} {...btnProps} onClick={() => {
+        <Button ref={(el)=>btn=el} {...btnProps} palette={props.palette} onClick={() => {
             pop.togglePopover();
 
             // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。

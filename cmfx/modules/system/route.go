@@ -221,6 +221,8 @@ func (m *Module) adminDeleteBackup(ctx *web.Context) web.Responser {
 		return resp
 	}
 
+	// 防止用户传递 ../ 等格式的数据以造成误删。
+	// 配置中已经限制了备份文件不能包含目录结构。
 	if strings.ContainsAny(p, "/"+string(os.PathSeparator)) {
 		return ctx.NotFound()
 	}
@@ -232,8 +234,14 @@ func (m *Module) adminDeleteBackup(ctx *web.Context) web.Responser {
 }
 
 type backupList struct {
-	Cron string   `json:"cron" xml:"cron" cbor:"cron"`
-	List []string `json:"list" xml:"list" cbor:"list"`
+	Cron string        `json:"cron" xml:"cron" cbor:"cron"`
+	List []*backupFile `json:"list" xml:"list" cbor:"list"`
+}
+
+type backupFile struct {
+	Path string    `json:"path" xml:"path" cbor:"path"`
+	Size int       `json:"size" xml:"size" cbor:"size"`
+	Mod  time.Time `json:"mod" xml:"mod" cbor:"mod"`
 }
 
 // # api GET /system/backup 获取备份数据库的文件列表
@@ -245,10 +253,16 @@ func (m *Module) adminGetBackup(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	list := make([]string, 0, len(entries))
+	list := make([]*backupFile, 0, len(entries))
 	for _, e := range entries {
 		if !e.IsDir() {
-			list = append(list, e.Name())
+			info, err := e.Info()
+			if err != nil {
+				ctx.Server().Logs().ERROR().Error(err)
+				list = append(list, &backupFile{Path: e.Name()})
+				continue
+			}
+			list = append(list, &backupFile{Path: e.Name(), Mod: info.ModTime(), Size: int(info.Size())})
 		}
 	}
 

@@ -27,7 +27,7 @@
                 @apply mt-1;
 
                 li {
-                    @apply flex flex-wrap justify-between items-center px-2 p-1 rounded-sm hover:bg-palette-bg-low;
+                    @apply flex flex-wrap justify-between items-center px-2 p-1 rounded-sm hover:bg-palette-bg-low cursor-default;
                 }
             }
         }
