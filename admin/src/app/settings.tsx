@@ -4,12 +4,13 @@
 
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
 import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode } from '@/core/theme';
-import { useApp } from './context';
+import { useApp, useOptions } from './context';
 
 const schemesSize = 15;
 
 export default function() {
     const ctx = useApp();
+    const opt = useOptions();
 
     const modeFA = FieldAccessor<Mode>('mode', getMode('system'));
     modeFA.onChange((m) => { changeMode(m); });
@@ -17,7 +18,7 @@ export default function() {
     const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
     contrastFA.onChange((m) => { changeContrast(m); });
 
-    const localeFA = FieldAccessor<string>('locale', ctx.locale.toString(), false);
+    const localeFA = FieldAccessor<string>('locale', ctx.locale().match(opt.locales.locales), false);
     localeFA.onChange((v) => { ctx.locale().switch(v); });
 
     const schemesOptions: Options<number> = [];

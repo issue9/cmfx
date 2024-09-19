@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import '@formatjs/intl-durationformat/polyfill';
+import { match } from '@formatjs/intl-localematcher';
 import prettyBytes from 'pretty-bytes';
 
 import { Options as buildOptions } from '@/app/options';
@@ -27,6 +28,13 @@ export function buildLocale(opt: Required<buildOptions>, api: API) {
         t,
 
         get locale(): Intl.Locale { return locale; },
+
+        /**
+         * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
+         */
+        match(locales: Array<string>) {
+            return match([locale.toString()], locales, 'und');
+        },
 
         /**
          * 切换本地化信息

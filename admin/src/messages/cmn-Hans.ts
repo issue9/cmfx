@@ -9,6 +9,7 @@ const messages: Messages = {
         fullscreen: '全屏',
         settings: '设置',
         ok: '确定',
+        os: '操作系统',
         database: '数据库',
         search: '搜索',
         cancel: '取消',

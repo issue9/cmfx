@@ -52,7 +52,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.uptime)}</dd></dl>
 
-                <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.t('_i.page.system.system')}</Divider>
+                <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.t('_i.os')}</Divider>
 
                 <dl><dt>{ ctx.t('_i.page.system.platform') }</dt><dd>{info()?.os.platform}</dd></dl>
 
@@ -60,7 +60,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>{ ctx.t('_i.page.system.version') }</dt><dd>{info()?.os.version}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.os.uptime)}</dd></dl>
+                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.os.boot)}</dd></dl>
 
                 <Divider padding='.5rem'><span class="c--icon mr-1">database</span>{ctx.t('_i.database')}</Divider>
 
@@ -146,7 +146,7 @@ interface Info {
         platform: string;
         family: string;
         version: string;
-        uptime: string;
+        boot: string;
     };
     uptime: string;
     version: string;

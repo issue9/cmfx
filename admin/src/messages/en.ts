@@ -7,6 +7,7 @@ const messages = {
         fullscreen: 'full screen',
         settings: 'settings',
         ok: 'OK',
+        os: 'OS',
         database: 'database',
         search: 'search',
         cancel: 'cancel',

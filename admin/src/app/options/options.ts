@@ -89,6 +89,11 @@ export interface Locales {
      */
     locales: Array<Locale>;
 
+    /**
+     * 备用的本地化 ID
+     *
+     * 在所需的本地化 ID 无法找到时，会采用该值。
+     */
     fallback: Locale;
 }
 
