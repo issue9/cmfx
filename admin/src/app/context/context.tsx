@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import '@formatjs/intl-durationformat/polyfill';
 import { useNavigate } from '@solidjs/router';
+import prettyBytes from 'pretty-bytes';
 import { JSX, createContext, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
@@ -201,6 +203,44 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
                 return;
             }
             await window.notify(title, body, type, timeout);
+        },
+
+        /**
+         * 与本地化相关的格式化方法
+         */
+        get formater() {
+            const date = new Intl.DateTimeFormat(this.locale, {timeStyle: 'short', dateStyle:'short'});
+            const duration = new (Intl as any).DurationFormat(this.locale, {
+                minute: '2-digit',
+                second: '2-digit',
+                fractionalSecondDigits: 3
+            });
+
+            return {
+                /**
+                 * 格式化字节数
+                 * @param bytes 需要格式化的字节数量
+                 * @param minimumFractionDigits 最小的精度，默认值为 3。
+                 */
+                bytes(bytes: number, minimumFractionDigits?: number): string {
+                    return prettyBytes(bytes, { locale: ctx.locale, space: true, minimumFractionDigits });
+                },
+
+                /**
+                 * 格式化日期
+                 * @param d 时间，如果是 number 类型，表示的是毫秒；
+                 * @returns 根据本地化格式的字符串
+                 */
+                date(d?: Date | string | number): string {
+                    if (d === undefined) { return ''; }
+                    return date.format(new Date(d));
+                },
+
+                duration(val?: number | string): string {
+                    if (val) { return duration.format({ nanoseconds: val }); }
+                    return '';
+                }
+            }
         },
 
         // 以下为本地化相关功能
