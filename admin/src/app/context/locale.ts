@@ -4,11 +4,11 @@
 
 import '@formatjs/intl-durationformat/polyfill';
 import { match } from '@formatjs/intl-localematcher';
-import prettyBytes from 'pretty-bytes';
 
 import { Options as buildOptions } from '@/app/options';
 import { API } from '@/core';
 import { create } from '@/messages';
+import { createResource } from 'solid-js';
 
 export function buildLocale(opt: Required<buildOptions>, api: API) {
     let locale = new Intl.Locale(navigator.language);
@@ -16,13 +16,18 @@ export function buildLocale(opt: Required<buildOptions>, api: API) {
     const { reload, t } = create(opt.locales.fallback, opt.locales.messages);
     reload(locale.language);
 
-    const dateFormater = new Intl.DateTimeFormat(locale, {timeStyle: 'short', dateStyle:'short'});
-
-    const durationFormater = new (Intl as any).DurationFormat(locale, {
-        minute: '2-digit',
-        second: '2-digit',
-        fractionalSecondDigits: 3
+    const [formater, formaterActions] = createResource(() => {
+        return {
+            date: new Intl.DateTimeFormat(locale, { timeStyle: 'short', dateStyle: 'short' }),
+            bytes: new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte', unitDisplay: 'narrow' }),
+            duration: new (Intl as any).DurationFormat(locale, {
+                minute: '2-digit',
+                second: '2-digit',
+                fractionalSecondDigits: 3
+            }),
+        };
     });
+    formaterActions.refetch();
 
     return {
         t,
@@ -44,6 +49,7 @@ export function buildLocale(opt: Required<buildOptions>, api: API) {
             document.documentElement.lang = this.locale.toString();
             reload(this.locale.language);
             api.locale = this.locale.toString();
+            formaterActions.refetch();
         },
 
         /**
@@ -62,7 +68,7 @@ export function buildLocale(opt: Required<buildOptions>, api: API) {
          */
         date(d?: Date | string | number): string {
             if (d === undefined) { return ''; }
-            return dateFormater.format(new Date(d));
+            return formater()!.date.format(new Date(d));
         },
 
         /**
@@ -70,16 +76,15 @@ export function buildLocale(opt: Required<buildOptions>, api: API) {
          */
         duration(val?: number | string): string {
             if (!val) { return ''; };
-            return durationFormater.format({ nanoseconds: val });
+            return formater()!.duration.format({ nanoseconds: val });
         },
 
         /**
          * 返回本地化的字节数
          * @param bytes 需要格式化的字节数量
-         * @param minimumFractionDigits 最小的精度，默认值为 3。
          */
-        bytes(bytes: number, minimumFractionDigits?: number): string {
-            return prettyBytes(bytes, { locale: locale.language, space: true, minimumFractionDigits });
+        bytes(bytes: number): string {
+            return formater()!.bytes.format(bytes);
         },
     };
 }

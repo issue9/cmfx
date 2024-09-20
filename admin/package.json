@@ -79,7 +79,6 @@
         "@solidjs/router": "^0.14.5",
         "localforage": "^1.10.0",
         "material-symbols": "^0.23.0",
-        "pretty-bytes": "^6.1.1",
         "quill": "^2.0.2",
         "solid-js": "^1.8.22",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"

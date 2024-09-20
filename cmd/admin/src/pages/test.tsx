@@ -7,7 +7,7 @@ import { MessageKey } from '../locales';
 
 export default function Test() {
     const ctx = useApp();
-    ctx.t<MessageKey>('home');
+    ctx.locale().t<MessageKey>('home');
 
-    return <div>{ ctx.t<MessageKey>('nest.abc') as string }</div>;
+    return <div>{ ctx.locale().t<MessageKey>('nest.abc') as string }</div>;
 }

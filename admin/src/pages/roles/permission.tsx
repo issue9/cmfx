@@ -90,8 +90,8 @@ export default function() {
             </For>
 
             <div class="flex justify-end gap-2">
-                <Button palette='secondary' onClick={()=>nav(-1)}>{ctx.t('_i.cancel')}</Button>
-                <Button palette='primary' onClick={()=>save()}>{ctx.t('_i.ok')}</Button>
+                <Button palette='secondary' onClick={()=>nav(-1)}>{ctx.locale().t('_i.cancel')}</Button>
+                <Button palette='primary' onClick={()=>save()}>{ctx.locale().t('_i.ok')}</Button>
             </div>
         </div>
     </Page>;

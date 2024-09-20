@@ -71,10 +71,10 @@ export default function(props: Props) {
             pop.style.left = rect.left + 'px';
         }}>{props.children}</Button>
         <div popover="manual" ref={el=>pop=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
-            {props.prompt ?? ctx.t('_i.areYouSure')}
+            {props.prompt ?? ctx.locale().t('_i.areYouSure')}
             <div class="actions">
-                <Button palette='secondary' onClick={() => pop.hidePopover()}>{props.cancel ?? ctx.t('_i.cancel')}</Button>
-                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? ctx.t('_i.ok')}</Button>
+                <Button palette='secondary' onClick={() => pop.hidePopover()}>{props.cancel ?? ctx.locale().t('_i.cancel')}</Button>
+                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? ctx.locale().t('_i.ok')}</Button>
             </div>
         </div>
     </>;

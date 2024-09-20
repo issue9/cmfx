@@ -22,7 +22,7 @@ export default function(): JSX.Element {
     const db = createMemo(() => { return info()?.db; });
     const allowedMaxConnections = createMemo(() => {
         const c = db()?.maxOpenConnections;
-        return (c && c > 0) ? c : ctx.t('_i.page.system.unlimited')!;
+        return (c && c > 0) ? c : ctx.locale().t('_i.page.system.unlimited')!;
     });
 
     // backup
@@ -39,37 +39,37 @@ export default function(): JSX.Element {
     return <Page title="_i.page.system.info" class="max-w-lg">
         <div class="p--system-info">
             <fieldset class="w-[45%]">
-                <legend><Legend icon='info' text={ctx.t('_i.page.system.info')} /></legend>
-                <dl><dt>{ ctx.t('_i.page.system.name') }</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
+                <legend><Legend icon='info' text={ctx.locale().t('_i.page.system.info')} /></legend>
+                <dl><dt>{ ctx.locale().t('_i.page.system.name') }</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.arch') }</dt><dd>{info()?.arch}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.arch') }</dt><dd>{info()?.arch}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.cpus') }</dt><dd>{info()?.cpus}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.cpus') }</dt><dd>{info()?.cpus}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.go') }</dt><dd>{info()?.go}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.go') }</dt><dd>{info()?.go}</dd></dl>
 
                 <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.uptime)}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.uptime)}</dd></dl>
 
-                <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.t('_i.os')}</Divider>
+                <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.locale().t('_i.os')}</Divider>
 
-                <dl><dt>{ ctx.t('_i.page.system.platform') }</dt><dd>{info()?.os.platform}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.platform') }</dt><dd>{info()?.os.platform}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.family') }</dt><dd>{info()?.os.family}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.family') }</dt><dd>{info()?.os.family}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.version') }</dt><dd>{info()?.os.version}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.version') }</dt><dd>{info()?.os.version}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.os.boot)}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.os.boot)}</dd></dl>
 
-                <Divider padding='.5rem'><span class="c--icon mr-1">database</span>{ctx.t('_i.database')}</Divider>
+                <Divider padding='.5rem'><span class="c--icon mr-1">database</span>{ctx.locale().t('_i.database')}</Divider>
 
-                <dl><dt>{ ctx.t('_i.database') }</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.database') }</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 
                 <dl>
-                    <dt>{ ctx.t('_i.page.system.connections') }</dt>
+                    <dt>{ ctx.locale().t('_i.page.system.connections') }</dt>
                     <dd title={
-                        ctx.t('_i.page.system.connectionsHelp', {
+                        ctx.locale().t('_i.page.system.connectionsHelp', {
                             maxOpenConnections: allowedMaxConnections(),
                             openConnections: db()?.openConnections!,
                             idle: db()?.idle!,
@@ -80,18 +80,18 @@ export default function(): JSX.Element {
                     </dd>
                 </dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.waitCount') }</dt><dd>{db()?.waitCount}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.waitCount') }</dt><dd>{db()?.waitCount}</dd></dl>
 
-                <dl><dt>{ ctx.t('_i.page.system.waitDuration') }</dt><dd>{db()?.waitDuration}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.waitDuration') }</dt><dd>{db()?.waitDuration}</dd></dl>
             </fieldset>
 
             <fieldset class="w-[45%]">
-                <legend><Legend icon='action_key' text={ ctx.t('_i.page.actions') } /></legend>
+                <legend><Legend icon='action_key' text={ ctx.locale().t('_i.page.actions') } /></legend>
 
                 <ConfirmButton palette='secondary' onClick={async()=>await ctx.clearCache()}>
-                    <span class="c--icon mr-1">clear_all</span>{ ctx.t('_i.page.system.clearCache') }
+                    <span class="c--icon mr-1">clear_all</span>{ ctx.locale().t('_i.page.system.clearCache') }
                 </ConfirmButton>
-                <span class="mt-1">{ctx.t('_i.page.system.clearCacheHelp')}</span>
+                <span class="mt-1">{ctx.locale().t('_i.page.system.clearCacheHelp')}</span>
 
                 <Divider padding='1rem' />
                 <ConfirmButton palette='secondary' disabled={backup()?.cron===''} onClick={async()=>{
@@ -102,9 +102,9 @@ export default function(): JSX.Element {
                     }
                     await refetch();
                 }}>
-                    <span class="c--icon mr-1">backup</span>{ ctx.t('_i.page.system.backupDB') }
+                    <span class="c--icon mr-1">backup</span>{ ctx.locale().t('_i.page.system.backupDB') }
                 </ConfirmButton>
-                <span class="mt-1">{ctx.t('_i.page.system.backupDBHelp', {cron: backup()?.cron!})}</span>
+                <span class="mt-1">{ctx.locale().t('_i.page.system.backupDBHelp', {cron: backup()?.cron!})}</span>
                 <ul class="backup_list">
                     <For each={backup()?.list}>
                         {(item)=>(
@@ -117,7 +117,7 @@ export default function(): JSX.Element {
                                         return;
                                     }
                                     await refetch();
-                                }}>{ ctx.t('_i.page.deleteItem') }</ConfirmButton>
+                                }}>{ ctx.locale().t('_i.page.deleteItem') }</ConfirmButton>
                             </li>
                         )}
                     </For>
@@ -125,7 +125,7 @@ export default function(): JSX.Element {
             </fieldset>
 
             <fieldset class="states">
-                <legend><Legend icon='ssid_chart' text={ ctx.t('_i.page.system.states') } /></legend>
+                <legend><Legend icon='ssid_chart' text={ ctx.locale().t('_i.page.system.states') } /></legend>
                 <div>chart</div>
             </fieldset>
         </div>

@@ -207,8 +207,6 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
             await window.notify(title, body, type, timeout);
         },
 
-        t:l.t,
-
         locale() { return l; }
     };
 

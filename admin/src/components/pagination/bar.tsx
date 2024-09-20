@@ -110,7 +110,7 @@ export default function(props: Props) {
         'c--pagination-bar': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        {ctx.t('_i.pagination.items', translateItems())}
+        {ctx.locale().t('_i.pagination.items', translateItems())}
         <div class="flex gap-2">
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
             <Pagination spans={props.spans} onChange={pageChange} value={page()} count={pages()} />

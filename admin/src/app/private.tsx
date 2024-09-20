@@ -40,7 +40,7 @@ export function Private(props: Props) {
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor>{buildItems(ctx.t, opt.menus)}</List>
+                <List anchor>{buildItems(ctx.locale().t, opt.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;

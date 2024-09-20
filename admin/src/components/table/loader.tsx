@@ -189,27 +189,27 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
                     <SplitButton palette='primary' type='submit' onClick={() => refetch()} menus={[
                         { type: 'item', onClick: async() => { await exports('.csv'); } , label: <>
                             <span class="c--icon mr-2">csv</span>
-                            {ctx.t('_i.table.exportTo', { type: 'CSV' })}
+                            {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
                         </>
                         },
                         { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <>
                             <span class="c--icon mr-2">rubric</span>
-                            {ctx.t('_i.table.exportTo', { type: 'Excel' })}
+                            {ctx.locale().t('_i.table.exportTo', { type: 'Excel' })}
                         </>
                         },
                         { type: 'item', onClick: async() => { await exports('.ods'); }, label: <>
                             <span class="c--icon mr-2">ods</span>
-                            {ctx.t('_i.table.exportTo', { type: 'ODS' })}
+                            {ctx.locale().t('_i.table.exportTo', { type: 'ODS' })}
                         </>
                         },
                         { type: 'divider' },
                         { type: 'item', onClick: () => { queries.reset(); }, disabled:queries.isPreset(), label: <>
                             <span class="c--icon mr-2">restart_alt</span>
-                            {ctx.t('_i.reset')}
+                            {ctx.locale().t('_i.reset')}
                         </>
                         },
                     ]}>
-                        {ctx.t('_i.search')}
+                        {ctx.locale().t('_i.search')}
                     </SplitButton>
                 </div>
             </form>
@@ -225,8 +225,8 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
                 <Show when={props.systemToolbar}>
                     <button onClick={() => refetch()}
                         class="c--icon tail action"
-                        aria-label={ctx.t('_i.refresh')}
-                        title={ctx.t('_i.refresh')}>refresh</button>
+                        aria-label={ctx.locale().t('_i.refresh')}
+                        title={ctx.locale().t('_i.refresh')}>refresh</button>
                 </Show>
             </div>
         </Show>

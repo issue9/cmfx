@@ -73,7 +73,7 @@ export default function Roles(props: Props): JSX.Element {
 
     return <Page title="_i.page.roles.rolesManager" class="max-w-lg">
         <Dialog ref={(el)=>dialogRef=el}
-            header={currentID.getValue() ? ctx.t('_i.page.editItem') : ctx.t('_i.page.newItem')}
+            header={currentID.getValue() ? ctx.locale().t('_i.page.editItem') : ctx.locale().t('_i.page.newItem')}
             actions={dialogRef!.DefaultActions(save)}
         >
             <form class="flex flex-col gap-2">
@@ -82,18 +82,18 @@ export default function Roles(props: Props): JSX.Element {
             </form>
         </Dialog>
         <RemoteTable ref={(el) => tableRef = el} path='/roles' queries={{}} systemToolbar columns={[
-            { id: 'id', label: ctx.t('_i.page.id') },
-            { id: 'name', label: ctx.t('_i.page.roles.name') },
-            { id: 'description', label: ctx.t('_i.page.roles.description') },
+            { id: 'id', label: ctx.locale().t('_i.page.id') },
+            { id: 'name', label: ctx.locale().t('_i.page.roles.name') },
+            { id: 'description', label: ctx.locale().t('_i.page.roles.description') },
             {
-                id: 'actions', label: ctx.t('_i.page.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
-                    <Button icon rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={ctx.t('_i.page.editItem')}>edit</Button>
-                    <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={ctx.t('_i.page.roles.editPermission')}>passkey</LinkButton>
+                id: 'actions', label: ctx.locale().t('_i.page.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
+                    <Button icon rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={ctx.locale().t('_i.page.editItem')}>edit</Button>
+                    <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={ctx.locale().t('_i.page.roles.editPermission')}>passkey</LinkButton>
                     {tableRef.DeleteAction(obj!['id']!)}
                 </div>) as Column<Role>['renderContent']
             },
         ]} toolbar={
-            <Button palette='primary' onClick={() => edit('')}>{ctx.t('_i.page.newItem')}</Button>
+            <Button palette='primary' onClick={() => edit('')}>{ctx.locale().t('_i.page.newItem')}</Button>
         } />
     </Page>;
 }
