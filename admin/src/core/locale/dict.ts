@@ -86,8 +86,8 @@ function visitDict<T extends Dict>(flat: Record<string, unknown>, dict: T, path:
  * }
  * ```
  */
-export function flatten<T extends Dict>(dict: T):Flatten<T> {
-    const flat: Record<string, unknown> = {};
+export function flatten<T extends Dict>(dict: T):Keys<T> {
+    const flat: Record<string, string> = {};
     visitDict(flat, dict, '');
-    return flat as Flatten<T>;
+    return flat as Keys<T>;
 }

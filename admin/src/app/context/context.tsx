@@ -3,13 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import { JSX, createContext, createSignal, useContext } from 'solid-js';
+import localforage from 'localforage';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Account, Breakpoint, Breakpoints, Method, Problem, notify } from '@/core';
-import localforage from 'localforage';
-import { buildLocale } from './locale';
+import { API, Account, Breakpoint, Breakpoints, Locale, Method, Problem, notify } from '@/core';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -43,8 +42,12 @@ export function useOptions(): Options {
 }
 
 export function buildContext(opt: Required<buildOptions>, f: API) {
-    const l = buildLocale(opt, f);
     const [user, { refetch }] = createUser(f, opt.api.info);
+
+    const [localeGetter, localeSetter] = createSignal<string>(navigator.language);
+    const [locale] = createResource(localeGetter, (info) => {
+        return Locale.build(info);
+    });
 
     const [bp, setBP] = createSignal<Breakpoint>('xs');
     const breakpoints = new Breakpoints();
@@ -63,7 +66,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
             // localStorage
             await localforage.clear(async(err)=>{
                 if (err) {
-                    await this.notify(l.t('_i.error.unknownError')!, err);
+                    await this.notify(locale()!.t('_i.error.unknownError')!, err);
                 }
             });
 
@@ -201,13 +204,15 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            if (opt.system.notification && await notify(title, body, opt.logo, l.locale.language, timeout)) {
+            if (opt.system.notification && await notify(title, body, opt.logo, locale()!.locale.language, timeout)) {
                 return;
             }
             await window.notify(title, body, type, timeout);
         },
 
-        locale() { return l; }
+        locale(): Locale { return locale()!; },
+
+        switchLocale(id: string) { localeSetter(id); },
     };
 
     const Provider = (props: { children: JSX.Element }) => {

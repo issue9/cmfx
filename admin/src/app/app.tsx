@@ -7,7 +7,7 @@ import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Drawer, Notify, SystemDialog } from '@/components';
-import { API, initTheme } from '@/core';
+import { API, Locale, initTheme } from '@/core';
 import { buildContext } from './context';
 import * as errors from './errors';
 import { Options, build as buildOptions } from './options';
@@ -25,6 +25,10 @@ import { default as Toolbar } from './toolbar';
 export async function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
     const f = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
+    Locale.init(opt.locales.fallback, f);
+    await Locale.support('en', async () => { return (await import('@/messages/en')).default; });
+    await Locale.support('cmn-Hans', async () => { return (await import('@/messages/cmn-Hans')).default; });
+
 
     render(() => {
         initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);

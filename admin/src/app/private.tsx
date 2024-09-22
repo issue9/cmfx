@@ -6,8 +6,7 @@ import { Navigate } from '@solidjs/router';
 import { Accessor, createEffect, createMemo, ErrorBoundary, Match, ParentProps, Setter, Show, Switch } from 'solid-js';
 
 import { Drawer, Item, List } from '@/components';
-import { Breakpoint, Breakpoints } from '@/core';
-import { T } from '@/messages';
+import { Breakpoint, Breakpoints, Locale } from '@/core';
 import { useApp, useOptions } from './context';
 import * as errors from './errors';
 import { MenuItem } from './options/route';
@@ -40,13 +39,13 @@ export function Private(props: Props) {
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor>{buildItems(ctx.locale().t, opt.menus)}</List>
+                <List anchor>{buildItems(ctx.locale(), opt.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;
 }
 
-function buildItems(t: T, menus: Array<MenuItem>) {
+function buildItems(l: Locale, menus: Array<MenuItem>) {
     const items: Array<Item> = [];
     menus.forEach((mi) => {
         switch (mi.type) {
@@ -56,8 +55,8 @@ function buildItems(t: T, menus: Array<MenuItem>) {
         case 'group':
             items.push({
                 type: 'group',
-                label: t(mi.label as any) ?? mi.label,
-                items: buildItems(t, mi.items)
+                label: l.t(mi.label),
+                items: buildItems(l, mi.items)
             });
             break;
         case 'item':
@@ -67,13 +66,13 @@ function buildItems(t: T, menus: Array<MenuItem>) {
                     <Show when={mi.icon}>
                         <span class="c--icon">{mi.icon}</span>
                     </Show>
-                    {t(mi.label as any) ?? mi.label}
+                    {l.t(mi.label)}
                 </span>,
                 accesskey: mi.accesskey,
                 value: mi.path
             };
             if (mi.items) {
-                i.items = buildItems(t, mi.items);
+                i.items = buildItems(l, mi.items);
             }
 
             items.push(i);

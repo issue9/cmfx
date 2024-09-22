@@ -109,7 +109,7 @@ export default function(): JSX.Element {
                     <For each={backup()?.list}>
                         {(item)=>(
                             <li>
-                                {item.path}&nbsp;({ctx.locale().bytes(item.size,2)})
+                                {item.path}&nbsp;({ctx.locale().bytes(item.size)})
                                 <ConfirmButton style='flat' palette='error' onClick={async()=>{
                                     const ret = await ctx.api.delete('/system/backup/'+item.path);
                                     if (!ret.ok) {

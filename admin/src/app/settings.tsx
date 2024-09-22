@@ -19,7 +19,7 @@ export default function() {
     contrastFA.onChange((m) => { changeContrast(m); });
 
     const localeFA = FieldAccessor<string>('locale', ctx.locale().match(opt.locales.locales), false);
-    localeFA.onChange((v) => { ctx.locale().switch(v); });
+    localeFA.onChange((v) => { ctx.switchLocale(v); });
 
     const schemesOptions: Options<number> = [];
     for (let i = 0; i < schemesSize; i++) {
