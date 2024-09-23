@@ -45,7 +45,22 @@ describe('Locale', async () => {
     });
 
     test('locales', () => {
-        let l = Locale.build('cmn-Hans');
+        const l = Locale.build('cmn-Hans');
         expect(l.locales.length).equal(2);
+    });
+
+    test('bytes', () => {
+        const l = Locale.build('en');
+        expect(l.bytes(1022)).equal('1,022B');
+        expect(l.bytes(1026)).equal('1.002kB');
+        expect(l.bytes(10261111)).equal('9.786MB');
+        expect(l.bytes(9999261111)).equal('9.313GB');
+        expect(l.bytes(99998888261111)).equal('90.948TB');
+    });
+
+    test('duration', () => {
+        const l = Locale.build('en');
+        expect(l.duration(111), '111ns');
+        expect(l.duration(11111111111), '111.111ms');
     });
 });

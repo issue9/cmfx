@@ -8,12 +8,29 @@ import IntlMessageFormat from 'intl-messageformat';
 
 import { API } from '@/core/api';
 import { Dict, flatten, Keys } from './dict';
+import { parseDuration } from './duration';
 
+const kb = 1024;
+const mb = kb * 1024;
+const gb = mb * 1024;
+const tb = gb * 1024;
+
+/**
+ * 提供本地化相关的功能
+ *
+ * 除了翻译之外，对于一些常用的格式比如日期等也提供了支持。
+ */
 export class Locale {
     static #fallbck: string;
     static #api: API;
     static #messages: Map<string, Map<string, IntlMessageFormat>>;
 
+    /**
+     * 初始化
+     *
+     * @param fallback 在找不到对应在的语言时采用的默认值；
+     * @param api 当改变当前的语言时，会同时将该值传递给 api.locale；
+     */
     static init(fallback: string, api: API) {
         Locale.#fallbck = fallback;
         Locale.#messages = new Map();
@@ -73,10 +90,17 @@ export class Locale {
 
     #current: Map<string, IntlMessageFormat>;
     #locale: Intl.Locale;
+
     #date: Intl.DateTimeFormat;
-    #bytes: Intl.NumberFormat;
+
+    #B: Intl.NumberFormat;
+    #kB: Intl.NumberFormat;
+    #mB: Intl.NumberFormat;
+    #gB: Intl.NumberFormat;
+    #tB: Intl.NumberFormat;
+
     #duration: any; //Intl.DurationFormat;
-    #displayNaes: Intl.DisplayNames;
+    #displayNames: Intl.DisplayNames;
 
     private constructor(locale?: string) {
         if (!locale) {
@@ -94,13 +118,16 @@ export class Locale {
         }
 
         this.#date = new Intl.DateTimeFormat(locale, { timeStyle: 'short', dateStyle: 'short' });
-        this.#bytes = new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte', unitDisplay: 'narrow' });
-        this.#duration = new (Intl as any).DurationFormat(locale, {
-            minute: '2-digit',
-            second: '2-digit',
-            fractionalSecondDigits: 3
-        });
-        this.#displayNaes = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
+
+        this.#B = new Intl.NumberFormat(locale, { style: 'unit', unit: 'byte', unitDisplay: 'narrow' });
+        this.#kB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte', unitDisplay: 'narrow' });
+        this.#mB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'megabyte', unitDisplay: 'narrow' });
+        this.#gB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'gigabyte', unitDisplay: 'narrow' });
+        this.#tB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'terabyte', unitDisplay: 'narrow' });
+
+        this.#duration = new (Intl as any).DurationFormat(locale, { minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+
+        this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
     }
 
     get locale(): Intl.Locale { return this.#locale; }
@@ -118,7 +145,7 @@ export class Locale {
     get locales() {
         const loc: Array<[string, string]> = [];
         Locale.#messages.forEach((_, key) => {
-            loc.push([key, this.#displayNaes.of(key)!]);
+            loc.push([key, this.#displayNames.of(key)!]);
         });
         return loc;
     }
@@ -137,8 +164,7 @@ export class Locale {
      *返回本地化的时间区间
      */
     duration(val?: number | string): string {
-        if (!val) { return ''; };
-        return this.#duration.format({ nanoseconds: val });
+        return this.#duration.format(parseDuration(val));
     }
 
     /**
@@ -146,7 +172,17 @@ export class Locale {
      * @param bytes 需要格式化的字节数量
      */
     bytes(bytes: number): string {
-        return this.#bytes.format(bytes);
+        if (bytes < kb) {
+            return this.#B.format(bytes);
+        } else if (bytes < mb) {
+            return this.#kB.format(bytes/kb);
+        } else if (bytes < gb) {
+            return this.#mB.format(bytes/mb);
+        } else if (bytes < tb) {
+            return this.#gB.format(bytes/gb);
+        } else {
+            return this.#tB.format(bytes/tb);
+        }
     }
 
     /**
