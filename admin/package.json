@@ -43,6 +43,10 @@
             "require": "./lib/components.cjs.js",
             "import": "./lib/components.es.js"
         },
+        "./messages/": {
+            "require": "./lib/messages/",
+            "import": "./lib/messages/"
+        },
         "./tailwind.preset.ts": {
             "require": "./tailwind.preset.ts",
             "import": "./tailwind.preset.ts"
@@ -66,6 +70,10 @@
         "./dev/components": {
             "require": "./src/components/index.ts",
             "import": "./src/components/index.ts"
+        },
+        "./dev/messages/": {
+            "require": "./src/messages/",
+            "import": "./src/messages/"
         }
     },
     "scripts": {
@@ -75,7 +83,6 @@
     "dependencies": {
         "@formatjs/intl-durationformat": "^0.2.4",
         "@formatjs/intl-localematcher": "^0.5.4",
-        "@solid-primitives/i18n": "^2.1.1",
         "@solidjs/router": "^0.14.5",
         "intl-messageformat": "^10.5.14",
         "localforage": "^1.10.0",

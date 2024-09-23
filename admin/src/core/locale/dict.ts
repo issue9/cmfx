@@ -7,7 +7,7 @@ import { UnionToIntersection } from '@/core/types';
 /**
  * 翻译文件的内容所需要遵循的格式
  */
-export type Dict = { [K: string]: string | Dict; };
+export type Dict = { [k: string]: string | Dict; };
 
 type JoinPath<P, B> = P extends string
     ? (B extends string ? `${P}.${B}` : P)
@@ -39,16 +39,16 @@ type DictField<T> = {
 }[keyof T];
 
 /**
+ * 翻译对象所有字段的联合类型
+ */
+export type Keys<T extends Dict, F = FlattenDict<T>> = keyof Omit<F, DictField<F>>;
+
+/**
  * 每个翻译对象扁平化的表示
  *
  * 作为 {@link flatten} 的返回值，具体说明也可参考 {@link flatten} 函数。
  */
-export type Flatten<T extends Dict, F=FlattenDict<T>> = Omit<F, DictField<F>>;
-
-/**
- * 翻译对象的所有字段名称
- */
-export type Keys<T extends Dict> = keyof Flatten<T>;
+export type Flatten<T extends Dict> = Record<Keys<T>, string>;
 
 function isDict(value: unknown): value is Dict {
     return value != null && typeof value === 'object';
@@ -86,8 +86,8 @@ function visitDict<T extends Dict>(flat: Record<string, unknown>, dict: T, path:
  * }
  * ```
  */
-export function flatten<T extends Dict>(dict: T):Keys<T> {
+export function flatten<T extends Dict>(dict: T) {
     const flat: Record<string, string> = {};
     visitDict(flat, dict, '');
-    return flat as Keys<T>;
+    return flat as Flatten<T>;
 }

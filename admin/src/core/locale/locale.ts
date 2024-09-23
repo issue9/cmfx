@@ -7,7 +7,7 @@ import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
 import { API } from '@/core/api';
-import { Dict, flatten } from './dict';
+import { Dict, flatten, Keys } from './dict';
 
 export class Locale {
     static #fallbck: string;
@@ -40,13 +40,19 @@ export class Locale {
     /**
      * 添加支持的语言及他它的翻译对象的加载方法
      */
-    static async support(locale: string, ...loaders: Array<Loader>) {
+    static async addDict(locale: string, ...loaders: Array<Loader>) {
         let dict: Dict = {};
         for(const l of loaders) {
             dict = { ...dict, ...await l() };
         }
 
-        const msgs = new Map<string, IntlMessageFormat>();
+        let msgs: Map<string, IntlMessageFormat>;
+        if (Locale.#messages.has(locale)) {
+            msgs = Locale.#messages.get(locale)!;
+        } else {
+            msgs = new Map<string, IntlMessageFormat>();
+        }
+
         Object.entries(flatten(dict)).forEach((item) => {
             try {
                 msgs.set(item[0], new IntlMessageFormat(item[1], locale));
@@ -59,14 +65,11 @@ export class Locale {
     }
 
     /**
-     * 切换语言
+     * 生成指定 ID 的本地化对象
      *
      * @@param locale 语言 ID，如果为空则采用浏览器 {@link navigator.language} 变量；
-     * @returns 表示是否切换成功
      */
-    static build(locale?: string): Locale {
-        return new Locale(locale);
-    }
+    static build(locale?: string): Locale { return new Locale(locale); }
 
     #current: Map<string, IntlMessageFormat>;
     #locale: Intl.Locale;
@@ -146,23 +149,33 @@ export class Locale {
         return this.#bytes.format(bytes);
     }
 
-    t(key: string, args?: TArgs): string {
-        const f = this.#current.get(key);
-        return f ? f.format(args) as string : key;
+    /**
+     * 翻译 key 指向的内容
+     *
+     * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+     */
+    t<D extends Dict>(key: string | Keys<D>, args?: TArgs): string {
+        const f = this.#current.get(key as string);
+        return (f ? f.format(args) : key) as string;
     }
 
-    tt(locale: string, key: string, args?: TArgs) {
+    /**
+     * 以 locale 的指定的语言翻译 key 指向的内容
+     *
+     * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+     */
+    tt<D extends Dict>(locale: string, key: string | Keys<D>, args?: TArgs): string {
         const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
         if (!msgs) {
-            return key;
+            return key as string;
         }
 
-        const f = msgs.get(key);
-        return f ? f.format(args) : key;
+        const f = msgs.get(key as string);
+        return (f ? f.format(args) : key) as string;
     }
 }
 
-export type TArgs = Parameters<IntlMessageFormat['format']>[0];
+type TArgs = Parameters<IntlMessageFormat['format']>[0];
 
 /**
  * 表示语言 ID 以对应加载方法的对象

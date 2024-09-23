@@ -8,7 +8,6 @@ import * as pages from 'admin/dev/pages';
 import 'admin/dev/style.css';
 
 import { Demo } from './demo';
-import { loads } from './locales';
 import { default as Test } from './pages/test';
 
 const urlBase = 'http://192.168.10.10:8080/admin';
@@ -69,7 +68,16 @@ const o: Options = {
     },
 
     locales: {
-        messages: loads,
+        messages: {
+            'en': [
+                async () => { return (await import('admin/dev/messages/en.ts')).default; },
+                async () => { return (await import('./locales/en')).default; },
+            ],
+            'cmn-Hans': [
+                async () => { return (await import('admin/dev/messages/cmn-Hans.ts')).default; },
+                async () => { return (await import('./locales/cmn-Hans')).default; },
+            ],
+        },
         fallback: 'en',
         locales: ['en', 'cmn-Hans']
     },

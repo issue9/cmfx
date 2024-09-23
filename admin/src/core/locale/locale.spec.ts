@@ -13,11 +13,14 @@ describe('Locale', async () => {
     Locale.init('en', api);
     expect(Locale.languageSize()).toEqual(0);
 
-    test('support', async () => {
-        await Locale.support('en', async () => { return { 'lang': 'en' }; });
+    test('addDict', async () => {
+        await Locale.addDict('en', async () => { return { 'lang': 'en' }; });
         expect(Locale.languageSize()).toEqual(1);
 
-        await Locale.support('cmn-Hans', async () => { return { 'lang': 'cmn-Hans' }; });
+        await Locale.addDict('cmn-Hans', async () => { return { 'lang': 'cmn-Hans' }; });
+        expect(Locale.languageSize()).toEqual(2);
+
+        await Locale.addDict('en', async () => { return { 'lang': 'en-US' }; });
         expect(Locale.languageSize()).toEqual(2);
     });
 
@@ -30,15 +33,15 @@ describe('Locale', async () => {
 
         l = Locale.build(); // 默认值
         expect(l).not.toBeUndefined();
-        expect(l.t('lang')).toEqual('en');
+        expect(l.t('lang')).toEqual('en-US');
 
         l = Locale.build('en');
         expect(l).not.toBeUndefined();
-        expect(l.t('lang')).toEqual('en');
+        expect(l.t('lang')).toEqual('en-US');
 
         l = Locale.build('en-US');
         expect(l).not.toBeUndefined();
-        expect(l.t('lang')).toEqual('en');
+        expect(l.t('lang')).toEqual('en-US');
     });
 
     test('locales', () => {

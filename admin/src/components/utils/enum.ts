@@ -4,9 +4,8 @@
 
 import { AppContext } from '@/app';
 import { Options } from '@/components';
-import { MessageKey } from '@/messages';
 
-export type Enum<T extends string|number> = [T, MessageKey];
+export type Enum<T extends string|number> = [T, string];
 
 /**
  * 枚举类型的以其对应的翻译 ID 的集合

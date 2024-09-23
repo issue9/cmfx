@@ -7,7 +7,7 @@ import { JSX, createMemo } from 'solid-js';
 import { useApp } from '@/app';
 import { Column, LoaderTable, Page, translateEnum } from '@/components';
 import { Query } from '@/core';
-import { MessageKey } from '@/messages';
+import { MessagesKey } from '@/messages';
 
 interface Service {
     jobs: Array<Job>;
@@ -27,7 +27,7 @@ interface Job extends Task {
     prev: string;
 }
 
-export const stateMap: Array<[State, MessageKey]> = [
+export const stateMap: Array<[State, MessagesKey]> = [
     ['stopped', '_i.page.system.serviceStates.stopped'],
     ['running', '_i.page.system.serviceStates.running'],
     ['failed', '_i.page.system.serviceStates.failed'],

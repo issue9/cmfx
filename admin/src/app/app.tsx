@@ -26,9 +26,9 @@ export async function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
     const f = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
     Locale.init(opt.locales.fallback, f);
-    await Locale.support('en', async () => { return (await import('@/messages/en')).default; });
-    await Locale.support('cmn-Hans', async () => { return (await import('@/messages/cmn-Hans')).default; });
-
+    for(const item of Object.entries(opt.locales.messages)) {
+        await Locale.addDict(item[0], ...item[1]);
+    }
 
     render(() => {
         initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
