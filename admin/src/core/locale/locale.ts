@@ -51,6 +51,8 @@ export class Locale {
      * 在当前支持的语言中找出与 l 最匹配的语言
      */
     static matchLanguage(l: string): string {
+        if (Locale.#messages.has(l)) { return l; }
+
         return match([l], Locale.languages(), Locale.#fallbck);
     }
 
@@ -107,15 +109,16 @@ export class Locale {
             locale = navigator.language;
         }
 
-        this.#locale = new Intl.Locale(locale);
-        Locale.#api.locale = this.#locale.language;
-
-        const curr = Locale.#messages.get(Locale.matchLanguage(locale));
+        locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
+        const curr = Locale.#messages.get(locale);
         if (curr) {
             this.#current = curr;
         } else {
             this.#current = new Map();
         }
+
+        this.#locale = new Intl.Locale(locale);
+        Locale.#api.locale = locale;
 
         this.#date = new Intl.DateTimeFormat(locale, { timeStyle: 'short', dateStyle: 'short' });
 
