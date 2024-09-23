@@ -50,11 +50,11 @@ export default function(props: Props): JSX.Element {
             },
             { id: 'name', label: ctx.locale().t('_i.page.admin.name') },
             { id: 'nickname', label: ctx.locale().t('_i.page.admin.nickname') },
-            { id: 'created', label: ctx.locale().t('_i.page.created') },
+            { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().date(v) },
             {
-                id: 'state', label: ctx.locale().t('_i.page.state'), content: ((_: string, v?: State) => {
+                id: 'state', label: ctx.locale().t('_i.page.state'), content: (_, v) => {
                     return translateEnum(statesMap, ctx, v);
-                }) as Column<Admin>['content']
+                }
             },
             {
                 id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj) => {

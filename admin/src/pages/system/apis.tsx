@@ -51,8 +51,8 @@ export default function(): JSX.Element {
             { id: 'userErrors', label: ctx.locale().t('_i.page.system.userErrors') },
 
             { id: 'max', label: ctx.locale().t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
-            { id: 'min', label: ctx.locale().t('_i.page.system.min') },
-            { id: 'spend', label: ctx.locale().t('_i.page.system.spend') },
+            { id: 'min', label: ctx.locale().t('_i.page.system.min'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
+            { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
         ] as Array<Column<API>>} />
     </Page>;
 }
