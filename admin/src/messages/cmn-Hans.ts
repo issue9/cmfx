@@ -9,6 +9,7 @@ const messages: Messages = {
         fullscreen: '全屏',
         settings: '设置',
         ok: '确定',
+        os: '操作系统',
         database: '数据库',
         search: '搜索',
         cancel: '取消',
@@ -67,7 +68,7 @@ const messages: Messages = {
                 states: '状态',
                 system: '系统',
                 backupDB: '备份数据库',
-                backupDBHelp: '此操作为手动执行一次备份操作。计划任务还会按照 {{cron}} 执行备份操作。',
+                backupDBHelp: '此操作为手动执行一次备份操作。计划任务还会按照 {cron} 执行备份操作。',
                 clearCache: '清除缓存',
                 clearCacheHelp: '清除浏览器的所有缓存，这将导致当前用户退出以及相关的用户设置。',
                 name: '名称',
@@ -80,7 +81,7 @@ const messages: Messages = {
                 version: '版本',
                 connections: '连接数',
                 unlimited: '未限制',
-                connectionsHelp: '允许最大的连接数: {{maxOpenConnections}}\n当前打开的连接数: {{openConnections}}\n使用中的连接: {{inUse}}\n空闲的连接: {{idle}}',
+                connectionsHelp: '允许最大的连接数: {maxOpenConnections}\n当前打开的连接数: {openConnections}\n使用中的连接: {inUse}\n空闲的连接: {idle}',
                 waitCount: '待连接的数量',
                 waitDuration: '待连接的时间',
             },
@@ -107,14 +108,14 @@ const messages: Messages = {
         },
         table: {
             nodata: '没有数据',
-            exportTo: '导出为 {{type}}'
+            exportTo: '导出为 {type}'
         },
         pagination: {
             prev: '前一页',
             next: '下一页',
             firstPage: '首页',
             lastPage: '末页',
-            items: '{{ start }}-{{ end }} / {{ count }}'
+            items: '{ start }-{ end } / { count }'
         },
         date: {
             monday: '一',

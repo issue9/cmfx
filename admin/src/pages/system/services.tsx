@@ -7,7 +7,7 @@ import { JSX, createMemo } from 'solid-js';
 import { useApp } from '@/app';
 import { Column, LoaderTable, Page, translateEnum } from '@/components';
 import { Query } from '@/core';
-import { MessageKey } from '@/locales';
+import { MessagesKey } from '@/messages';
 
 interface Service {
     jobs: Array<Job>;
@@ -27,7 +27,7 @@ interface Job extends Task {
     prev: string;
 }
 
-export const stateMap: Array<[State, MessageKey]> = [
+export const stateMap: Array<[State, MessagesKey]> = [
     ['stopped', '_i.page.system.serviceStates.stopped'],
     ['running', '_i.page.system.serviceStates.running'],
     ['failed', '_i.page.system.serviceStates.failed'],
@@ -49,28 +49,28 @@ export default function(): JSX.Element {
 
     return <Page title='_i.page.system.serviceViewer' class="max-w-lg">
         <fieldset>
-            <legend>{ctx.t('_i.page.system.services')}</legend>
+            <legend>{ctx.locale().t('_i.page.system.services')}</legend>
             <LoaderTable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
-                {id: 'title', label: ctx.t('_i.page.system.title')},
-                {id: 'state', label: ctx.t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
+                {id: 'title', label: ctx.locale().t('_i.page.system.title')},
+                {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
                     return translateEnum(stateMap, ctx, v);
                 }) as Column<Task>['content']},
-                {id: 'err', label: ctx.t('_i.page.system.error')},
+                {id: 'err', label: ctx.locale().t('_i.page.system.error')},
             ]} />
         </fieldset>
 
         <br />
 
         <fieldset>
-            <legend>{ctx.t('_i.page.system.jobs')}</legend>
+            <legend>{ctx.locale().t('_i.page.system.jobs')}</legend>
             <LoaderTable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
-                {id: 'title', label: ctx.t('_i.page.system.title')},
-                {id: 'state', label: ctx.t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
+                {id: 'title', label: ctx.locale().t('_i.page.system.title')},
+                {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
                     return translateEnum(stateMap, ctx, v);
                 }) as Column<Job>['content']},
-                {id: 'err', label: ctx.t('_i.page.system.error')},
-                {id: 'next', label: ctx.t('_i.page.system.next')},
-                {id: 'prev', label: ctx.t('_i.page.system.prev')},
+                {id: 'err', label: ctx.locale().t('_i.page.system.error')},
+                {id: 'next', label: ctx.locale().t('_i.page.system.next'), content: (_: string, val?: string) => { return ctx.locale().date(val); }},
+                {id: 'prev', label: ctx.locale().t('_i.page.system.prev'), content: (_: string, val?: string) => { return ctx.locale().date(val); }},
             ]} />
         </fieldset>
     </Page>;

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
 import { useNavigate, useParams } from '@solidjs/router';
+import { JSX } from 'solid-js';
 
-import { Page,Button } from '@/components';
 import { useApp } from '@/app';
+import { Button, Page } from '@/components';
 
 export default function(): JSX.Element {
     const ctx = useApp();
@@ -16,8 +16,8 @@ export default function(): JSX.Element {
     return <Page title="_i.page.admin.admin">
         <div class="flex justify-end gap-2">
             <div>{ps.id}</div>
-            <Button palette='secondary' onClick={()=>nav(-1)}>{ctx.t('_i.cancel')}</Button>
-            <Button palette='primary'>{ctx.t('_i.ok')}</Button>
+            <Button palette='secondary' onClick={()=>nav(-1)}>{ctx.locale().t('_i.cancel')}</Button>
+            <Button palette='primary'>{ctx.locale().t('_i.ok')}</Button>
         </div>
     </Page>;
 }

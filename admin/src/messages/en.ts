@@ -7,6 +7,7 @@ const messages = {
         fullscreen: 'full screen',
         settings: 'settings',
         ok: 'OK',
+        os: 'OS',
         database: 'database',
         search: 'search',
         cancel: 'cancel',
@@ -65,7 +66,7 @@ const messages = {
                 states: 'states',
                 system: 'system',
                 backupDB: 'backup database',
-                backupDBHelp: 'Manually a backup operation. The scheduled tasks will also perform backup operations with {{cron}}.',
+                backupDBHelp: 'Manually a backup operation. The scheduled tasks will also perform backup operations with {cron}.',
                 clearCache: 'clear cache',
                 clearCacheHelp: 'Clear all cache of browser and logout current login user',
                 name: 'name',
@@ -78,7 +79,7 @@ const messages = {
                 version: 'version',
                 connections: 'connections',
                 unlimited: 'unlimited',
-                connectionsHelp: 'allow max open connections: {{maxOpenConnections}}\nopen connections: {{openConnections}}\nin use: {{inUse}}\nidle: {{idle}}',
+                connectionsHelp: 'allow max open connections: {maxOpenConnections}\nopen connections: {openConnections}\nin use: {inUse}\nidle: {idle}',
                 waitCount: 'wait count',
                 waitDuration: 'wait duration',
             },
@@ -105,14 +106,14 @@ const messages = {
         },
         table: {
             nodata: 'no data',
-            exportTo: 'export to {{type}}'
+            exportTo: 'export to {type}'
         },
         pagination: {
             prev: 'prev',
             next: 'next',
             firstPage: 'first page',
             lastPage: 'last page',
-            items: '{{ start }}-{{ end }} of {{ count }}'
+            items: '{ start }-{ end } of { count }'
         },
         date: {
             monday: 'Mon',

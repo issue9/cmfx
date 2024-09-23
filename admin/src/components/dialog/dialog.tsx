@@ -145,11 +145,11 @@ export default function(props: Props) {
         },
 
         CancelAction(click?: ClickFunc): JSX.Element {
-            return this.Action(ctx.t('_i.cancel'), click);
+            return this.Action(ctx.locale().t('_i.cancel'), click);
         },
 
         OKAction(click?: ClickFunc): JSX.Element {
-            return this.Action(ctx.t('_i.ok'), click, true);
+            return this.Action(ctx.locale().t('_i.ok'), click, true);
         },
 
         DefaultActions(ok:ClickFunc, cancel?:ClickFunc): JSX.Element {

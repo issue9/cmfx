@@ -25,7 +25,7 @@ export default function (props: Props) {
     const ctx = useApp();
 
     createEffect(() => {
-        ctx.title = ctx.t(props.title as any);
+        ctx.title = ctx.locale().t(props.title as any);
     });
 
     return <div class={props.class ? props.class + ' c--page' : 'c--page'} >

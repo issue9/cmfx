@@ -3,13 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import { JSX, createContext, createSignal, useContext } from 'solid-js';
+import localforage from 'localforage';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Account, Breakpoint, Breakpoints, Method, Problem, notify } from '@/core';
-import { Locale, createI18n, names } from '@/locales';
-import localforage from 'localforage';
+import { API, Account, Breakpoint, Breakpoints, Locale, Method, Problem, notify } from '@/core';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -43,9 +42,12 @@ export function useOptions(): Options {
 }
 
 export function buildContext(opt: Required<buildOptions>, f: API) {
-    const { getLocale, setLocale, t } = createI18n(opt.locales.fallback, opt.locales.messages);
-
     const [user, { refetch }] = createUser(f, opt.api.info);
+
+    const [localeGetter, localeSetter] = createSignal<string>(navigator.language);
+    const [locale] = createResource(localeGetter, (info) => {
+        return Locale.build(info);
+    });
 
     const [bp, setBP] = createSignal<Breakpoint>('xs');
     const breakpoints = new Breakpoints();
@@ -63,13 +65,18 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
             // localStorage
             await localforage.clear(async(err)=>{
-                await this.notify(t('_i.error.unknownError')!, err);
+                if (err) {
+                    await this.notify(locale()!.t('_i.error.unknownError')!, err);
+                }
             });
 
             localStorage.clear();
             sessionStorage.clear();
 
             // TODO IndexedDB
+
+            const nav = useNavigate();
+            nav(opt.routes.public.home);
         },
 
         /**
@@ -197,26 +204,15 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            if (opt.system.notification && await notify(title, body, opt.logo, getLocale(), timeout)) {
+            if (opt.system.notification && await notify(title, body, opt.logo, locale()!.locale.language, timeout)) {
                 return;
             }
             await window.notify(title, body, type, timeout);
         },
 
-        // 以下为本地化相关功能
+        locale(): Locale { return locale()!; },
 
-        t,
-        get locale() { return getLocale(); },
-        set locale(v: Locale) {
-            document.documentElement.lang = v;
-            setLocale(v);
-            f.locale = v;
-        },
-
-        /**
-         * 返回支持的本地化列表
-         */
-        get locales() { return names; }
+        switchLocale(id: string) { localeSetter(id); },
     };
 
     const Provider = (props: { children: JSX.Element }) => {

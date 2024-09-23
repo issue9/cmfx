@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseDict } from '@solid-primitives/i18n';
-
-import { Contrast, Mimetype, Mode, Scheme } from '@/core';
-import type { Locale, LocaleMessages } from '@/locales';
+import { Contrast, DictLoader, Mimetype, Mode, Scheme } from '@/core';
+import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
 
@@ -80,21 +78,23 @@ interface System {
 
 export interface Locales {
     /**
-     * 本地化 ID 及对应内容的加载函数
+     * 指定本地化文本的加载方式
+     *
+     * 并不会自动加载内置的本地化对象，也需要在此指定。
      */
-    messages: LocaleMessages<BaseDict>;
+    messages: Record<string, Array<DictLoader>>;
 
     /**
      * 支持的语言
-     *
-     * 需要确保这些指定的语言可以通过 {@link Locales#loader} 正常加载内容。
      */
-    locales: Array<Locale>
+    locales: Array<LocaleID>;
 
     /**
-     * 在找不到语言时的默认项
+     * 备用的本地化 ID
+     *
+     * 在所需的本地化 ID 无法找到时，会采用该值。
      */
-    fallback: Locale
+    fallback: LocaleID;
 }
 
 export interface Theme {

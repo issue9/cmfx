@@ -62,7 +62,7 @@ export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
 
             DeleteAction (id: string|number) {
                 return <ConfirmButton icon rounded palette='error'
-                    title={ctx.t('_i.page.deleteItem')}
+                    title={ctx.locale().t('_i.page.deleteItem')}
                     onClick={async () => { await this.delete(id); }}
                 >delete</ConfirmButton>;
             }

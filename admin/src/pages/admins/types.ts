@@ -3,19 +3,19 @@
 // SPDX-License-Identifier: MIT
 
 import { Query as QueryBase } from '@/core';
-import { MessageKey } from '@/locales';
+import { MessagesKey } from '@/messages';
 
 export type Sex = 'male' | 'female' | 'unknown';
 
 export type State = 'normal' | 'locked' | 'deleted';
 
-export const sexesMap: Array<[Sex, MessageKey]> = [
+export const sexesMap: Array<[Sex, MessagesKey]> = [
     ['male', '_i.page.sexes.male'],
     ['female', '_i.page.sexes.female'],
     ['unknown', '_i.page.sexes.unknown'],
 ] as const;
 
-export const statesMap: Array<[State, MessageKey]> = [
+export const statesMap: Array<[State, MessagesKey]> = [
     ['normal', '_i.page.states.normal'],
     ['locked', '_i.page.states.locked'],
     ['deleted', '_i.page.states.deleted'],

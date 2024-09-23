@@ -73,11 +73,9 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 		platform = runtime.GOOS
 	}
 
-	boot := srv.Uptime()
-	bt, err := host.BootTime()
+	boot, err := host.BootTime()
 	if err != nil {
 		srv.Logs().ERROR().Error(err)
-		boot = time.Unix(int64(bt), 0)
 	}
 
 	return web.OK(&info{
@@ -89,7 +87,7 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 			Platform: platform,
 			Family:   family,
 			Version:  version,
-			Boot:     boot,
+			Boot:     time.Unix(int64(boot), 0),
 		},
 		Arch:       runtime.GOARCH,
 		CPUS:       runtime.NumCPU(),
