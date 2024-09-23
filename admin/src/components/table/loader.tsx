@@ -16,7 +16,7 @@ import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
 import { fromSearch, Params, saveSearch } from './search';
 
-export interface Methods<T extends object> {
+export interface Ref<T extends object> {
     /**
      * 表格当前页的数据
      */
@@ -29,7 +29,7 @@ export interface Methods<T extends object> {
 }
 
 type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> & {
-    ref?: { (el: Methods<T>): void };
+    ref?: { (el: Ref<T>): void };
 
     /**
      * 是否需要将参数反映在地址的查询参数中

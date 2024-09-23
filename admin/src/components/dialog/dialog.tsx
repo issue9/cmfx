@@ -19,7 +19,7 @@ interface ClickFunc {
     (): Promise<false | string | undefined>;
 }
 
-export interface Methods {
+export interface Ref {
     get open(): boolean;
     get returnValue(): string;
     close(returnValue: string): void;
@@ -63,7 +63,7 @@ export interface Methods {
 }
 
 export interface Props extends BaseProps {
-    ref: { (m: Methods): void };
+    ref: { (m: Ref): void };
 
     /**
      * 标题内容，如果此值不为空则同时会显示关闭按钮。

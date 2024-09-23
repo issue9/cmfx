@@ -3,6 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 export { default as Dialog } from './dialog';
-export type { Methods as DialogMethods, Props as DialogProps } from './dialog';
+export type { Props as DialogProps, Ref as DialogRef } from './dialog';
 
 export { default as SystemDialog } from './system';

@@ -6,15 +6,15 @@ import { useApp } from '@/app/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Form, FormAccessor } from '@/components/form';
-import Dialog, { Methods } from './dialog';
+import Dialog, { Ref } from './dialog';
 import { default as System } from './system';
 
 export default function() {
     const ctx = useApp();
     const [paletteS, palette] = paletteSelector('primary');
 
-    let dlg1: Methods;
-    let dlg2: Methods;
+    let dlg1: Ref;
+    let dlg2: Ref;
 
     const fa = new FormAccessor({}, ctx, 'POST', '/path');
 

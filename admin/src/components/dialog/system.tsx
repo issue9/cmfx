@@ -8,7 +8,7 @@ import { Portal } from 'solid-js/web';
 import { useOptions } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { FieldAccessor, TextField } from '@/components/form';
-import { default as Dialog, Methods } from './dialog';
+import { default as Dialog, Ref } from './dialog';
 
 interface Props extends BaseProps {
     /**
@@ -38,7 +38,7 @@ export default function(props: BaseProps) {
  * 只需要在任意代码位置中插入此组件，之后即会自动替换 window.alert 方法。
  */
 function Alert(props: Props) {
-    let dlg: Methods;
+    let dlg: Ref;
     const [msg, setMsg] = createSignal<any>();
 
     window.alert = (msg?: any) => {
@@ -57,7 +57,7 @@ function Alert(props: Props) {
  * 用于替代 window.confirm 的组件
  */
 function Confirm(props: Props) {
-    let dlg: Methods;
+    let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
 
     window.confirm = (msg?: string): boolean => {
@@ -75,7 +75,7 @@ function Confirm(props: Props) {
  * 用于替代 window.prompt 的组件
  */
 function Prompt(props: Props) {
-    let dlg: Methods;
+    let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
     const access = FieldAccessor('prompt', '', false);
 

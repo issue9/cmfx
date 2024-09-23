@@ -7,7 +7,7 @@ import { JSX } from 'solid-js';
 import { useApp } from '@/app';
 import {
     buildEnumsOptions, Choice, Column, LinkButton,
-    Page, RemoteTable, RemoteTableMethods, TextField, translateEnum
+    Page, RemoteTable, RemoteTableRef, TextField, translateEnum
 } from '@/components';
 import type { Admin, Query, Sex, State } from './types';
 import { sexesMap, statesMap } from './types';
@@ -29,7 +29,7 @@ export default function(props: Props): JSX.Element {
         sex: ['male', 'female', 'unknown']
     };
 
-    let ref: RemoteTableMethods<Admin>;
+    let ref: RemoteTableRef<Admin>;
 
     return <Page title="_i.page.admin.adminsManager">
         <RemoteTable ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={

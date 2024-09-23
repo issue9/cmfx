@@ -6,8 +6,8 @@ import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
 import {
-    Button, Column, Dialog, DialogMethods, LinkButton, ObjectAccessor,
-    Page, RemoteTable, RemoteTableMethods, TextArea, TextField
+    Button, Column, Dialog, DialogRef, LinkButton, ObjectAccessor,
+    Page, RemoteTable, RemoteTableRef, TextArea, TextField
 } from '@/components';
 import { Return } from '@/core';
 
@@ -27,8 +27,8 @@ interface Props {
 
 export default function Roles(props: Props): JSX.Element {
     const ctx = useApp();
-    let tableRef: RemoteTableMethods<Role>;
-    let dialogRef: DialogMethods;
+    let tableRef: RemoteTableRef<Role>;
+    let dialogRef: DialogRef;
     const current = new ObjectAccessor({} as Role);
     const currentID = current.accessor('id');
 

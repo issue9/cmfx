@@ -7,9 +7,9 @@ import { JSX, splitProps } from 'solid-js';
 import { AppContext, useApp } from '@/app/context';
 import { ConfirmButton } from '@/components/button';
 import { Page, Query, query2Search } from '@/core';
-import LoaderTable, { Methods as LoaderMethods, Props as LoaderProps } from './loader';
+import LoaderTable, { Props as LoaderProps, Ref as LoaderRef } from './loader';
 
-export interface Methods<T extends object> extends LoaderMethods<T> {
+export interface Ref<T extends object> extends LoaderRef<T> {
     /**
      * 删除指定数据并刷新当前表
      *
@@ -24,12 +24,12 @@ export interface Methods<T extends object> extends LoaderMethods<T> {
 }
 
 export interface Props<T extends object, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'> {
-    ref?: { (el: Methods<T>): void; };
+    ref?: { (el: Ref<T>): void; };
 
     /**
      * 数据的加载地址
      *
-     * 由 {@link Methods#DeleteAction} 生成的组件也会基于此值作删除操作
+     * 由 {@link Ref#DeleteAction} 生成的组件也会基于此值作删除操作
      */
     path: string
 }
@@ -38,13 +38,13 @@ export interface Props<T extends object, Q extends Query> extends Omit<LoaderPro
  * 基于远程数据的表格
  *
  * 相对于 {@link LoaderTable}，限制了加载的数据方式只能是特定的远程地址。
- * 但是通过 {@link Methods} 也提供了更多的操作方法。
+ * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
 export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
     const ctx = useApp();
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
     const load = props.paging ? buildPagingLoadFunc(ctx, props.path) : buildNoPagingLoadFunc(ctx, props.path);
-    let ref: LoaderMethods<T>;
+    let ref: LoaderRef<T>;
 
     if (props.ref) {
         props.ref({
