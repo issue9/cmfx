@@ -73,3 +73,17 @@ export function genScheme(primary: number, error?: number, step = 60): Scheme {
         error: error
     };
 }
+
+/**
+ * 生成一组主题数据
+ *
+ * @param primary 第一个主题的主色调
+ * @param size 生成的量
+ */
+export function genSchemes(primary: number, size = 16): Array<Scheme> {
+    const schemes: Array<Scheme> = [];
+    for(let i =0;i<size;i++) {
+        schemes.push(genScheme(primary+i*48, undefined));
+    }
+    return schemes;
+}

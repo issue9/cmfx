@@ -3,10 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
-import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode } from '@/core/theme';
+import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode, Scheme } from '@/core/theme';
 import { useApp, useOptions } from './context';
-
-const schemesSize = 15;
 
 export default function() {
     const ctx = useApp();
@@ -22,9 +20,8 @@ export default function() {
     localeFA.onChange((v) => { ctx.switchLocale(v); });
 
     const schemesOptions: Options<number> = [];
-    for (let i = 0; i < schemesSize; i++) {
-        const color = i * 48;
-        schemesOptions.push([color, <ColorBlock color={color} />]);
+    for (const s of opt.theme.schemes) {
+        schemesOptions.push([s.primary, <ColorBlock s={s} />]);
     }
 
     let scheme: number;
@@ -82,13 +79,11 @@ function Label(props: {icon: string, title: string, desc: string}) {
     </div>;
 }
 
-function ColorBlock(props: {color: number}) {
-    const s = genScheme(props.color);
-
+function ColorBlock(props: {s: Scheme}) {
     return <div class="flex flex-wrap w-6">
-        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.primary}`}} />
-        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.secondary}`}} />
-        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.tertiary}`}} />
-        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${s.surface}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${props.s.primary}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${props.s.secondary}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${props.s.tertiary}`}} />
+        <span class="w-3 h-3" style={{'background-color': `lch(50 100 ${props.s.surface}`}} />
     </div>;
 }

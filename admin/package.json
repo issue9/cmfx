@@ -43,6 +43,10 @@
             "require": "./lib/components.cjs.js",
             "import": "./lib/components.es.js"
         },
+        "./core": {
+            "require": "./lib/core.cjs.js",
+            "import": "./lib/core.es.js"
+        },
         "./messages/": {
             "require": "./lib/messages/",
             "import": "./lib/messages/"
@@ -70,6 +74,10 @@
         "./dev/components": {
             "require": "./src/components/index.ts",
             "import": "./src/components/index.ts"
+        },
+        "./dev/core": {
+            "require": "./src/core/index.ts",
+            "import": "./src/core/index.ts"
         },
         "./dev/messages/": {
             "require": "./src/messages/",

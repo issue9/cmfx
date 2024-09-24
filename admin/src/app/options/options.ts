@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, DictLoader, Mimetype, Mode, Scheme } from '@/core';
+import { Contrast, DictLoader, genScheme, genSchemes, Mimetype, Mode, Scheme } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -109,17 +109,19 @@ export interface Theme {
     contrast: Contrast;
 
     /**
-     * 主题的颜色
+     * 可用的主题列表
      *
-     * 如果是数值类型，那么将以此值作为主色调的色相，然后根据此值生成 {@link Scheme} 对象。
+     * 第一个元素的将被当作默认的主题使用。可由 {@link genScheme} 和 {@link genSchemes} 生成主题数据。
+     *
+     * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
-    scheme: Scheme | number;
+    schemes: Array<Scheme>;
 }
 
 const presetOptions = {
     system: {},
     titleSeparator: ' | ',
-    theme: { mode: 'system', contrast: 'nopreference', scheme: 20 },
+    theme: { mode: 'system', contrast: 'nopreference', schemes: genSchemes(20) },
     mimetype: 'application/json',
 } as const;
 

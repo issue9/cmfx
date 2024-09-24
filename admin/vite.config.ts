@@ -54,7 +54,8 @@ export default defineConfig({
             entry: {
                 'index': './src/index.ts',
                 'components': './src/components/index.ts',
-                'pages': './src/pages/index.ts'
+                'pages': './src/pages/index.ts',
+                'core': './src/core/index.ts',
             },
             formats: ['es', 'cjs'],
             fileName: (format, name) => `${name}.${format}.js`
