@@ -92,6 +92,7 @@
         "@formatjs/intl-durationformat": "^0.2.4",
         "@formatjs/intl-localematcher": "^0.5.4",
         "@solidjs/router": "^0.14.5",
+        "echarts": "^5.5.1",
         "intl-messageformat": "^10.5.14",
         "localforage": "^1.10.0",
         "material-symbols": "^0.23.0",
