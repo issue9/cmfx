@@ -91,3 +91,10 @@ export function flatten<T extends Dict>(dict: T) {
     visitDict(flat, dict, '');
     return flat as Flatten<T>;
 }
+
+
+/**
+ * 加载翻译对象的方法
+ *
+ */
+export type Loader = { (): Promise<Dict> };

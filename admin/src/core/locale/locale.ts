@@ -7,7 +7,7 @@ import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
 import { API } from '@/core/api';
-import { Dict, flatten, Keys } from './dict';
+import { Dict,Loader, flatten, Keys } from './dict';
 import { parseDuration } from './duration';
 
 const kb = 1024;
@@ -21,7 +21,7 @@ const tb = gb * 1024;
  * 除了翻译之外，对于一些常用的格式比如日期等也提供了支持。
  */
 export class Locale {
-    static #fallbck: string;
+    static #fallback: string;
     static #api: API;
     static #messages: Map<string, Map<string, IntlMessageFormat>>;
 
@@ -32,7 +32,7 @@ export class Locale {
      * @param api 当改变当前的语言时，会同时将该值传递给 api.locale；
      */
     static init(fallback: string, api: API) {
-        Locale.#fallbck = fallback;
+        Locale.#fallback = fallback;
         Locale.#messages = new Map();
         Locale.#api = api;
     }
@@ -53,7 +53,7 @@ export class Locale {
     static matchLanguage(l: string): string {
         if (Locale.#messages.has(l)) { return l; }
 
-        return match([l], Locale.languages(), Locale.#fallbck);
+        return match([l], Locale.languages(), Locale.#fallback);
     }
 
     /**
@@ -216,9 +216,3 @@ export class Locale {
 
 type TArgs = Parameters<IntlMessageFormat['format']>[0];
 
-/**
- * 表示语言 ID 以对应加载方法的对象
- *
- * 字段名为语言 ID，值为加载相应语言的方法。
- */
-export type Loader = { (): Promise<Dict> };
