@@ -6,7 +6,7 @@
 import { A } from '@solidjs/router';
 import { JSX, mergeProps } from 'solid-js';
 
-import { Props as BaseProps, defaultProps as defaultBaseProps } from './types';
+import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 /**
  * 将 {@link A} 以按钮的形式展示
@@ -33,15 +33,15 @@ export interface Props extends BaseProps {
     accessKey?: string;
 }
 
-export const defaultProps: Readonly<Partial<Props>> = {
-    ...defaultBaseProps,
+export const presetProps: Readonly<Partial<Props>> = {
+    ...presetBaseProps,
 };
 
 /**
  * 普通的按钮组件
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     // A.href 无法设置为 javascript:void(0)
     return <A href={props.href} accessKey={props.accessKey} title={props.title} onClick={

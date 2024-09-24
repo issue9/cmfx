@@ -10,7 +10,7 @@ import { sleep } from '@/core';
 
 export type Props = BaseProps;
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     palette: 'error',
 };
 
@@ -54,7 +54,7 @@ interface Message {
  * 不应该多次调用，且尽可能早地调用该组件，以使 notify 方法处于可用状态。
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     const [msgs, setMsgs] = createSignal<Array<Message>>([]);
     const delMsg = (id: string) => {

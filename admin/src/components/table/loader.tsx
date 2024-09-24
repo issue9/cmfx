@@ -103,7 +103,7 @@ export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
     paging?: false;
 };
 
-const defaultProps = {
+const presetProps = {
     filename: 'download',
     striped: 0,
     accentPalette: 'primary' as Palette,
@@ -120,7 +120,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
     const ctx = useApp();
 
     let load = props.load;
-    props = mergeProps(defaultProps, { pageSizes: opt.api.pageSizes }, props);
+    props = mergeProps(presetProps, { pageSizes: opt.api.pageSizes }, props);
 
     const [searchG, searchS] = useSearchParams<Params<Q>>();
     if (props.inSearch) {

@@ -55,7 +55,7 @@ export interface Props<T extends object> extends BaseProps {
     extraFooter?: JSX.Element;
 }
 
-const defaultProps = {
+const presetProps = {
     striped: 0
 } as const;
 
@@ -63,7 +63,7 @@ const defaultProps = {
  * 基础的表格组件
  */
 export default function<T extends object>(props: Props<T>) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     const ctx = useApp();
 

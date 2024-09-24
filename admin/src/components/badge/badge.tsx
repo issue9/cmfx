@@ -12,12 +12,12 @@ export interface Props extends BaseProps {
     children: JSX.Element;
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     pos: 'topright'
 };
 
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     return <div class="c--badge">
         {props.children}

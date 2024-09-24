@@ -4,7 +4,7 @@
 
 import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { defaultProps, default as Panel, Props as PanelProps } from './panel';
+import { presetProps, default as Panel, Props as PanelProps } from './panel';
 import { formatDate } from './utils';
 
 export interface Props extends PanelProps {
@@ -27,7 +27,7 @@ function togglePop(anchor: Element, pop: HTMLElement): boolean {
 }
 
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette']);
 
     const ac = props.accessor;

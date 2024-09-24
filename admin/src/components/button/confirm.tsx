@@ -6,7 +6,7 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { handleEvent } from '@/components/base';
-import Button, { Props as BaseProps, Ref as ButtonRef, defaultProps } from './button';
+import Button, { Props as BaseProps, Ref as ButtonRef, presetProps } from './button';
 import { ClickFunc } from './types';
 
 export interface Props extends BaseProps {
@@ -37,7 +37,7 @@ export interface Props extends BaseProps {
  * 带确认功能的按钮
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const ctx = useApp();
     let pop: HTMLDivElement;
     let btn: ButtonRef;

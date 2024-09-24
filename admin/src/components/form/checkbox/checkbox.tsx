@@ -24,7 +24,7 @@ export interface Props extends FieldBaseProps {
     indeterminateIcon?: string;
 }
 
-const defaultProps: Partial<Props> = {
+const presetProps: Partial<Props> = {
     icon: true,
     checkedIcon: 'check_box',
     uncheckedIcon: 'check_box_outline_blank',
@@ -32,7 +32,7 @@ const defaultProps: Partial<Props> = {
 };
 
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const [chk, setChk] = createSignal(props.checked);
 
     return <label title={props.title} classList={{

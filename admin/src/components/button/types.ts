@@ -28,4 +28,4 @@ export type ClickFunc = NonNullable<JSX.ButtonHTMLAttributes<HTMLButtonElement>[
 
 export type ButtonType = NonNullable<JSX.ButtonHTMLAttributes<HTMLButtonElement>['type']>;
 
-export const defaultProps: Readonly<Props> = { style: 'fill' };
+export const presetProps: Readonly<Props> = { style: 'fill' };

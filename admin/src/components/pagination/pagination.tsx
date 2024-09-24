@@ -29,7 +29,7 @@ export interface Props extends BaseProps {
     spans?: number;
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     spans: 3
 };
 
@@ -40,7 +40,7 @@ const defaultProps: Readonly<Partial<Props>> = {
  *  [<<,<,1,2,...,current...,7,8,>,>>]
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const ctx = useApp();
 
     const [prevs, setPrevs] = createSignal<Array<number>>([]);

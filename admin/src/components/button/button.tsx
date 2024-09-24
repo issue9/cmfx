@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Props as BaseProps, ButtonType, ClickFunc, defaultProps as defaultBaseProps } from './types';
+import { Props as BaseProps, ButtonType, ClickFunc, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLButtonElement;
 
@@ -30,8 +30,8 @@ export interface Props extends BaseProps {
     ref?: { (el: Ref): void; };
 }
 
-export const defaultProps: Readonly<Partial<Props>> = {
-    ...defaultBaseProps,
+export const presetProps: Readonly<Partial<Props>> = {
+    ...presetBaseProps,
     type: 'button'
 };
 
@@ -39,7 +39,7 @@ export const defaultProps: Readonly<Partial<Props>> = {
  * 普通的按钮组件
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     return <button value={props.value} accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
         ref={(el) => { if (props.ref) { props.ref(el); }}}

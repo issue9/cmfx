@@ -36,7 +36,7 @@ export interface Props extends ContainerProps {
     anchor?: boolean;
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     selectedClass: 'selected'
 };
 
@@ -44,7 +44,7 @@ const defaultProps: Readonly<Partial<Props>> = {
  * 列表组件
  */
 export default function (props: Props): JSX.Element {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     const [selected, setSelected] = createSignal<Value|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
     const selectedIndexes = findItems(props.children, selected());

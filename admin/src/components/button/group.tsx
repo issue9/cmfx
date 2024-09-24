@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { Props as BaseProps, defaultProps } from './types';
+import { Props as BaseProps, presetProps } from './types';
 
 export type Ref = HTMLFieldSetElement;
 
@@ -18,7 +18,7 @@ export interface Props extends BaseProps {
 }
 
 export default function (props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     return <fieldset role="group" ref={(el) => { if (props.ref) { props.ref(el); }}} disabled={props.disabled} classList={{
         'c--button-group': true,

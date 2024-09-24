@@ -6,7 +6,7 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Value } from '@/components/tree/item';
 import { default as HoverMenu, Props as HoverProps } from './hover';
-import { Props as BaseProps, defaultProps, default as Panel, Ref as PanelRef } from './panel';
+import { Props as BaseProps, presetProps, default as Panel, Ref as PanelRef } from './panel';
 
 export interface Props extends HoverProps {
     /**
@@ -21,7 +21,7 @@ export interface Props extends HoverProps {
  * 下拉菜单组件
  */
 export default function(props: Props): JSX.Element {
-    props = mergeProps(defaultProps as Props, props);
+    props = mergeProps(presetProps as Props, props);
 
     if (props.hoverable) {
         const [_, hp] = splitProps(props, ['hoverable', 'children']);

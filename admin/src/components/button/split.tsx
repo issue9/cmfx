@@ -5,7 +5,7 @@
 import { For, JSX, Match, mergeProps, onCleanup, splitProps, Switch } from 'solid-js';
 
 import { onMount } from 'solid-js';
-import { Props as BaseProps, default as Button, defaultProps } from './button';
+import { Props as BaseProps, default as Button, presetProps } from './button';
 import { default as Group, Ref as GroupRef } from './group';
 import { ClickFunc } from './types';
 
@@ -26,7 +26,7 @@ export interface Props extends BaseProps {
  * 属性中，除了 menus 用于表示所有的子命令外，其它属性都是用于描述默认按钮的属性的。
 */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     let pop: HTMLDivElement;
     let group: GroupRef;
 

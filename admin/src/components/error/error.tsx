@@ -29,7 +29,7 @@ export interface Props extends BaseProps {
     children?: JSX.Element;
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     palette: 'error',
 };
 
@@ -37,7 +37,7 @@ const defaultProps: Readonly<Partial<Props>> = {
  * 显示错误信息的组件
  */
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const ctx = useApp();
     ctx.title = props.header ?? '';
 

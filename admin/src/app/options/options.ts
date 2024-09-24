@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, DictLoader, genScheme, genSchemes, Mimetype, Mode, Scheme } from '@/core';
+import { Contrast, PickOptional, DictLoader, genScheme, genSchemes, Mimetype, Mode, Scheme } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -118,7 +118,7 @@ export interface Theme {
     schemes: Array<Scheme>;
 }
 
-const presetOptions = {
+const presetOptions: Readonly<PickOptional<Options>> = {
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: genSchemes(20) },
@@ -139,7 +139,7 @@ export function build(o: Options): Required<Options> {
         throw 'logo 不能为空';
     }
 
-    const opt: Required<Options> = Object.assign({}, presetOptions, o);
+    const opt = Object.assign({}, presetOptions, o) as Required<Options>;
 
     if (!opt.titleSeparator) {
         throw 'titleSeparator 不能为空';

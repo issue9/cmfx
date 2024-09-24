@@ -37,12 +37,12 @@ export interface Props extends BaseProps {
     main: JSX.Element;
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     pos: 'left'
 };
 
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     let asideRef: HTMLElement;
     let mainRef: HTMLElement;
 

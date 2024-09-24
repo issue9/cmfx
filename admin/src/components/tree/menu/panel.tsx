@@ -37,13 +37,13 @@ export interface Props extends ContainerProps {
     direction?: 'left' | 'right';
 }
 
-export const defaultProps: Readonly<Partial<Props>> = {
+export const presetProps: Readonly<Partial<Props>> = {
     selectedClass: 'selected',
     direction: 'right'
 };
 
 export default function (props: Props): JSX.Element {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const [selected, setSelected] = createSignal<Value>();
 
     const All = (p: { items: Array<Item> }): JSX.Element => {

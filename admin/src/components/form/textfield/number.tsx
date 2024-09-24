@@ -21,13 +21,13 @@ export interface Props extends FieldBaseProps {
     inputMode?: InputMode;
 }
 
-const defaultProps: Partial<Props> = {
+const presetProps: Partial<Props> = {
     step: 1,
     inputMode: 'decimal'
 };
 
 export default function(props: Props): JSX.Element {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     if (props.step === 0) {
         throw 'step 不能为零';

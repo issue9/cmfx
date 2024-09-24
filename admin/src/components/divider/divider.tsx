@@ -24,13 +24,13 @@ export type Props = ParentProps<{
     padding?: string;
 } & BaseProps>;
 
-const defaultProps: Readonly<Props> = {
+const presetProps: Readonly<Props> = {
     style: 'solid',
     pos: 'start'
 };
 
 export default function(props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     return <div role="separator" aria-orientation="horizontal" style={{'padding-block': props.padding}} classList={{
         'c--divider': true,

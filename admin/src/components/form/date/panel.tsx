@@ -44,7 +44,7 @@ export interface Props extends FieldBaseProps {
     class?: string;
 }
 
-export const defaultProps: Partial<Props> = {
+export const presetProps: Partial<Props> = {
     weekBase: 0,
 };
 
@@ -52,7 +52,7 @@ export const defaultProps: Partial<Props> = {
  * 日期选择的面板
  */
 export default function (props: Props) {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
     const ctx = useApp();
     const ac = props.accessor;
 
