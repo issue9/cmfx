@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
+import { boolSelector, Stage, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Item } from '@/components/tree/item';
 import { selectedClassSelector } from '@/components/tree/list/demo';
@@ -47,31 +47,31 @@ export default function() {
         </>
     } stages={
         <>
-            <div class="w-80 mt-4">
+            <Stage class="w-80 mt-4">
                 <Panel direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
                     {items}
                 </Panel>
                 <div>{ selected() }</div>
-            </div>
+            </Stage>
 
 
-            <div class="w-80 mt-4">
+            <Stage class="w-80 mt-4">
                 <Menu direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>click</Button>}>
                     {items}
                 </Menu>
-            </div>
+            </Stage>
 
-            <div class="w-80 mt-4">
+            <Stage class="w-80 mt-4">
                 <Menu hoverable direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>hover</Button>}>
                     {items}
                 </Menu>
-            </div>
+            </Stage>
 
-            <div class="w-80 mt-4">
+            <Stage class="w-80 mt-4">
                 <Context selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
                     {items}
                 </Context>
-            </div>
+            </Stage>
         </>
     } />;
 }

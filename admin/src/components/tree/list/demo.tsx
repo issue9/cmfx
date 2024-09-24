@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { Demo, paletteSelector } from '@/components/base/demo';
+import { Demo, Stage, paletteSelector } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
 import { default as List, Props } from './list';
 
@@ -63,26 +63,24 @@ export default function() {
         </>
     } stages={
         <>
-            <div class="w-80 mt-4">
+            <Stage class="w-80 mt-4">
                 <List selectedClass={selectedCls()} palette={palette()} onChange={(v,old)=>setSelected(v.toString()+'  '+old?.toString())}>
                     {items}
                 </List>
                 <div>{ selected() }</div>
-            </div>
+            </Stage>
 
-            <div class="w-80 mt-4">
-                <p>不指定 onchange，但是有默认值</p>
+            <Stage class="w-80 mt-4" title="不指定 onchange，但是有默认值">
                 <List selectedClass={selectedCls()} palette={palette()} selected='v2341'>
                     {items}
                 </List>
-            </div>
+            </Stage>
 
-            <div class="w-80 mt-4">
-                <p>anchor=true</p>
+            <Stage class="w-80 mt-4" title="anchor=true">
                 <List anchor selectedClass={selectedCls()} palette={palette()}>
                     {items}
                 </List>
-            </div>
+            </Stage>
         </>
     } />;
 }

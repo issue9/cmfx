@@ -31,7 +31,7 @@ export async function create(elementID: string, o: Options) {
     }
 
     render(() => {
-        initTheme(opt.theme.mode,opt.theme.scheme, opt.theme.contrast);
+        initTheme(opt.theme.mode,opt.theme.schemes[0], opt.theme.contrast);
         return <>
             <Notify />
             <App opt={opt} f={f} />

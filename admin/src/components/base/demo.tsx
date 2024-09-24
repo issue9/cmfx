@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
+import { Accessor, Show, createSignal, For, JSX, ParentProps, Setter } from 'solid-js';
 
 import { Corner, corners, Palette, palettes } from './types';
 
@@ -74,6 +74,15 @@ export interface DemoProps {
      * 展示区的内容
      */
     stages: JSX.Element;
+}
+
+export function Stage(props: ParentProps<{title?: string, class?: string}>) {
+    return <div class={'flex flex-col gap-4 '+ props.class}>
+        <Show when={props.title}>
+            <p>{props.title}</p>
+        </Show>
+        {props.children}
+    </div>;
 }
 
 /**

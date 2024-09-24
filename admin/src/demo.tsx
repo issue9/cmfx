@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { lazy } from 'solid-js';
+
 import { Options } from './app';
 
 export const routes: Options['routes']['private']['routes'] = [

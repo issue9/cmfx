@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
+import { boolSelector, Stage, Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { TextField } from '@/components/form';
 import { Page, Query, sleep } from '@/core';
@@ -95,35 +95,38 @@ export default function () {
         </>
     } stages={
         <>
-            <BasicTable loading={loading()} striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
-                items={nodata() ? [] : items} columns={columns} hoverable={hoverable()}
-                extraHeader={<p class="bg-primary-fg text-primary-bg"><Button palette='primary'>Button</Button></p>}
-                extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
-            />
+            <Stage class="w-full">
+                <BasicTable loading={loading()} striped={striped()} fixedLayout={fixedLayout()}  palette={palette()}
+                    items={nodata() ? [] : items} columns={columns} hoverable={hoverable()}
+                    extraHeader={<p class="bg-primary-fg text-primary-bg"><Button palette='primary'>Button</Button></p>}
+                    extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
+                />
+            </Stage>
 
-            <p>分页表格</p>
 
-            <LoaderTable accentPalette='primary' paging systemToolbar={systemToolbar()}
-                inSearch
-                striped={striped()}
-                fixedLayout={fixedLayout()}
-                palette={palette()}
-                toolbar={<><Button palette='primary'>+ New</Button></>}
-                columns={columns} hoverable={hoverable()}
-                queries={{ txt: 'abc', page: 1, size: 10 }}
-                queryForm={(oa) => <><TextField accessor={oa.accessor<string>('txt')} /></>}
-                load={pagingLoader}
-            />
+            <Stage title="分页表格" class="w-full">
+                <LoaderTable accentPalette='primary' paging systemToolbar={systemToolbar()}
+                    inSearch
+                    striped={striped()}
+                    fixedLayout={fixedLayout()}
+                    palette={palette()}
+                    toolbar={<><Button palette='primary'>+ New</Button></>}
+                    columns={columns} hoverable={hoverable()}
+                    queries={{ txt: 'abc', page: 1, size: 10 }}
+                    queryForm={(oa) => <><TextField accessor={oa.accessor<string>('txt')} /></>}
+                    load={pagingLoader}
+                />
+            </Stage>
 
-            <p>未分页的表格</p>
-
-            <LoaderTable systemToolbar={systemToolbar()} striped={striped()}
-                fixedLayout={fixedLayout()}
-                palette={palette()}
-                columns={columns} hoverable={hoverable()}
-                queries={{}}
-                load={nopagingLoader}
-            />
+            <Stage title="未分页的表格" class="w-full">
+                <LoaderTable systemToolbar={systemToolbar()} striped={striped()}
+                    fixedLayout={fixedLayout()}
+                    palette={palette()}
+                    columns={columns} hoverable={hoverable()}
+                    queries={{}}
+                    load={nopagingLoader}
+                />
+            </Stage>
         </>
     } />;
 }

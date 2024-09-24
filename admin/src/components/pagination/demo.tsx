@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { Demo, paletteSelector } from '@/components/base/demo';
+import { Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { default as PaginationBar } from './bar';
 import { default as Pagination } from './pagination';
 
@@ -20,17 +20,15 @@ export default function() {
         </>
     } stages={
         <>
-            <fieldset class="w-full p-4 border border-palette-fg">
-                <legend>Pagination</legend>
+            <Stage title="Pagination" class="w-full p-4 border border-palette-fg">
                 <Pagination palette={palette()} count={10} value={5} spans={spans()}
                     onChange={(val,old)=>{return setPage(`new:${val}, old:${old}`);}} />
                 <pre>{page()}</pre>
-            </fieldset>
+            </Stage>
 
-            <fieldset class="w-full p-4 border border-palette-fg">
-                <legend>PaginationBar</legend>
+            <Stage title="PaginationBar" class="w-full p-4 border border-palette-fg">
                 <PaginationBar palette={palette()} total={100} page={2} size={20} />
-            </fieldset>
+            </Stage>
         </>
     } />;
 }

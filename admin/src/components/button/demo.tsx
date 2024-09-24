@@ -5,7 +5,7 @@
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Button, ButtonGroup, ConfirmButton, LinkButton, SplitButton } from '@/components';
-import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
 import { Style, styles } from './types';
 
 export function styleSelector(v: Style = 'fill'): [JSX.Element, Accessor<Style>, Setter<Style>] {
@@ -165,50 +165,42 @@ export default function() {
         </>
     } stages={
         <>
-            <div class="w-full">
-                <h1 class="my-4">button</h1>
+            <Stage title="button">
                 <Buttons />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">link</h1>
+            <Stage title='link'>
                 <Links />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">icon-button</h1>
+            <Stage title='icon-button'>
                 <IconButtons />
-            </div>
+            </Stage>
 
-            <div class="w-full">
+            <Stage title='split-button'>
                 <h1 class="my-4">split-button</h1>
                 <SplitButtons />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">button-group</h1>
+            <Stage title="button-group">
                 <ButtonGroups />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">icon-button-group</h1>
+            <Stage title='icon-button-group'>
                 <IconButtonGroups />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">link-button-group</h1>
+            <Stage title="link-button-group">
                 <LinkButtonGroups />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">link-icon-button-group</h1>
+            <Stage title='link-icon-button-group'>
                 <LinkIconButtonGroups />
-            </div>
+            </Stage>
 
-            <div class="w-full">
-                <h1 class="my-4">block</h1>
+            <Stage title="block" class="w-full">
                 <Block />
-            </div>
+            </Stage>
         </>
     } />;
 }
