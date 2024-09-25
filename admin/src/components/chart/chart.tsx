@@ -4,7 +4,7 @@
 
 import * as echarts from 'echarts';
 import { RendererType } from 'echarts/types/src/util/types.js';
-import { mergeProps, onCleanup, onMount } from 'solid-js';
+import { createEffect, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 
@@ -60,6 +60,8 @@ export interface Props extends BaseProps {
 
     /**
      * 图表的配置项
+     *
+     * NOTE: 如果当前组件中设置了 palette 属性，那么此属性中的 backgroundColor 和 color 将不起作用。
      */
     o: echarts.EChartsOption;
 }
@@ -86,16 +88,26 @@ export default function(props: Props) {
             width: props.width,
             renderer: props.renderer,
         });
-
-        inst.setOption(props.o);
     });
 
     onCleanup(() => {
         inst.dispose();
     });
 
+    const getColor = (v: string) => { // 为了兼容 Canvas
+        return window.getComputedStyle(ref).getPropertyValue(v);
+    };
+    createEffect(() => {
+        const o = {
+            ...props.o,
+            backgroundColor: getColor('--bg'),
+            color: [getColor('--fg'), getColor('--fg-low'), getColor('--fg-high'), getColor('--bg-low'), getColor('--bg-high')]
+        };
+        inst.setOption(o);
+    });
+
     if (props.renderer === 'svg') {
-        return <div ref={el => ref = el}></div>;
+        return <div class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></div>;
     }
-    return <canvas ref={el => ref = el}></canvas>;
+    return <canvas class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></canvas>;
 }
