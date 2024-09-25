@@ -63,10 +63,10 @@ export function genScheme(primary: number, error?: number, step = 60): Scheme {
     };
 }
 
-export function genSchemes(primary: number, size = 16): Array<Scheme> {
+export function genSchemes(primary: number, size = 16, step = 60): Array<Scheme> {
     const schemes: Array<Scheme> = [];
     for(let i =0;i<size;i++) {
-        schemes.push(genScheme(primary+i*48, undefined));
+        schemes.push(genScheme(primary+i*48, undefined, step));
     }
     return schemes;
 }

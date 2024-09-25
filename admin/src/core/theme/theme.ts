@@ -117,8 +117,9 @@ export class Theme {
     /**
      * 生成一组主题数据
      *
-     * @param primary 第一个主题的主色调
-     * @param size 生成的量
+     * @param primary 第一个主题的主色调；
+     * @param size 生成的量；
+     * @param step 用于计算每一组主题色的辅助色色像步长；
      */
-    static genSchemes(primary: number, size = 16) { return genSchemes(primary, size); }
+    static genSchemes(primary: number, size = 16, step = 60) { return genSchemes(primary, size, step); }
 }
