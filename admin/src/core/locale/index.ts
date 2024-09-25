@@ -4,5 +4,6 @@
 
 export type { Dict, Keys as DictKeys, Loader as DictLoader } from './dict';
 
-export { Locale } from './locale';
+export { Locale, unitDisplays } from './locale';
+export type { UnitDisplay } from './locale';
 

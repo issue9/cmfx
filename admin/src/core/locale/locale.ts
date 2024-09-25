@@ -10,6 +10,19 @@ import { API } from '@/core/api';
 import { Dict,Loader, flatten, Keys } from './dict';
 import { parseDuration } from './duration';
 
+export const unitDisplays = ['full', 'short', 'narrow'] as const;
+
+/**
+ * 一些与本地化相关的单位名称的显示方式
+ * 
+ *  - full 显示完整的名称；
+ *  - short 显示简短的名称；
+ *  - narrow 以最简单的方式显示；
+ *
+ * 主要是针对 {@link Intl} 的一些预设，如果需要精细的控制，可自己实现。
+ */
+export type UnitDisplay = typeof unitDisplays[number];
+
 const kb = 1024;
 const mb = kb * 1024;
 const gb = mb * 1024;
@@ -87,8 +100,11 @@ export class Locale {
      * 生成指定 ID 的本地化对象
      *
      * @@param locale 语言 ID，如果为空则采用浏览器 {@link navigator.language} 变量；
+     * @param unitStyle 各种单位的显示风格；
      */
-    static build(locale?: string): Locale { return new Locale(locale); }
+    static build(locale?: string, unitStyle: UnitDisplay = 'narrow'): Locale {
+        return new Locale(locale, unitStyle);
+    }
 
     #current: Map<string, IntlMessageFormat>;
     #locale: Intl.Locale;
@@ -104,7 +120,7 @@ export class Locale {
     #duration: any; //Intl.DurationFormat;
     #displayNames: Intl.DisplayNames;
 
-    private constructor(locale?: string) {
+    private constructor(locale?: string, unitStyle: UnitDisplay = 'narrow') {
         if (!locale) {
             locale = navigator.language;
         }
@@ -120,15 +136,45 @@ export class Locale {
         this.#locale = new Intl.Locale(locale);
         Locale.#api.locale = locale;
 
-        this.#date = new Intl.DateTimeFormat(locale, { timeStyle: 'short', dateStyle: 'short' });
+        let dtStyle: Intl.DateTimeFormatOptions['timeStyle'] = 'medium';
+        let byteStyle: Intl.NumberFormatOptions['unitDisplay'] = 'narrow';
+        let durationStyle = 'narrow';
 
-        this.#B = new Intl.NumberFormat(locale, { style: 'unit', unit: 'byte', unitDisplay: 'narrow' });
-        this.#kB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte', unitDisplay: 'narrow' });
-        this.#mB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'megabyte', unitDisplay: 'narrow' });
-        this.#gB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'gigabyte', unitDisplay: 'narrow' });
-        this.#tB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'terabyte', unitDisplay: 'narrow' });
+        switch (unitStyle) {
+        case 'full':
+            dtStyle = 'full';
+            byteStyle = 'long';
+            durationStyle = 'long';
+            break;
+        case 'short':
+            dtStyle = 'medium';
+            byteStyle = 'short';
+            durationStyle = 'short';
+            break;
+        case 'narrow':
+            dtStyle = 'short';
+            byteStyle = 'narrow';
+            durationStyle = 'narrow';
+            break;
+        default:
+            throw `无效的参数 ${unitStyle}`;
+        }
 
-        this.#duration = new (Intl as any).DurationFormat(locale, { minute: '2-digit', second: '2-digit', fractionalSecondDigits: 3 });
+
+        this.#date = new Intl.DateTimeFormat(locale, { timeStyle: dtStyle, dateStyle: dtStyle });
+
+        this.#B = new Intl.NumberFormat(locale, { style: 'unit', unit: 'byte', unitDisplay: byteStyle });
+        this.#kB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte', unitDisplay: byteStyle });
+        this.#mB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'megabyte', unitDisplay: byteStyle });
+        this.#gB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'gigabyte', unitDisplay: byteStyle });
+        this.#tB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'terabyte', unitDisplay: byteStyle });
+
+        this.#duration = new (Intl as any).DurationFormat(locale, {
+            style: durationStyle,
+            minute: '2-digit',
+            second: '2-digit',
+            fractionalSecondDigits: 3,
+        });
 
         this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
     }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, PickOptional, Theme as CoreTheme, DictLoader, Mimetype, Mode, Scheme } from '@/core';
+import { Contrast, PickOptional, Theme as CoreTheme, DictLoader, Mimetype, Mode, Scheme, UnitDisplay } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -95,6 +95,11 @@ export interface Locales {
      * 在所需的本地化 ID 无法找到时，会采用该值。
      */
     fallback: LocaleID;
+
+    /**
+     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link UnitDisplay}
+     */
+    unitStyle?: UnitDisplay;
 }
 
 export interface Theme {
@@ -147,6 +152,10 @@ export function build(o: Options): Required<Options> {
 
     if (opt.locales.locales.length === 0) {
         throw 'locales.locales 不能为空';
+    }
+
+    if (!opt.locales.unitStyle) {
+        opt.locales.unitStyle = 'short';
     }
 
     checkAPI(opt.api);
