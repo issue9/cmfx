@@ -8,7 +8,7 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Account, Breakpoint, Breakpoints, Locale, Method, Problem, notify } from '@/core';
+import { API, Theme, Account, Locale, Method, Problem, notify, Breakpoint } from '@/core';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -49,9 +49,9 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         return Locale.build(info);
     });
 
-    const [bp, setBP] = createSignal<Breakpoint>('xs');
-    const breakpoints = new Breakpoints();
-    breakpoints.onChange((val) => { setBP(val); });
+    Theme.init(opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
+    const [bp, setBP] = createSignal<Breakpoint>(Theme.breakpoint);
+    Theme.onBreakpoint((v)=>setBP(v));
 
     const ctx = {
         isLogin() { return f.isLogin(); },
@@ -181,8 +181,6 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          */
         async updateUser() { await refetch(); },
 
-        breakpoint() { return bp(); },
-
         set title(v: string) {
             if (v) {
                 v = v + opt.titleSeparator + opt.title;
@@ -210,8 +208,18 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
             await window.notify(title, body, type, timeout);
         },
 
+        breakpoint(): Breakpoint { return bp(); },
+
+        /**
+         * 获取本地化的接口对象
+         */
         locale(): Locale { return locale()!; },
 
+        /**
+         * 切换本地化对象
+         *
+         * @param id 本地化 ID
+         */
         switchLocale(id: string) { localeSetter(id); },
     };
 

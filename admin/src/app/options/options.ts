@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, PickOptional, DictLoader, genScheme, genSchemes, Mimetype, Mode, Scheme } from '@/core';
+import { Contrast, PickOptional, Theme as CoreTheme, DictLoader, Mimetype, Mode, Scheme } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -111,7 +111,7 @@ export interface Theme {
     /**
      * 可用的主题列表
      *
-     * 第一个元素的将被当作默认的主题使用。可由 {@link genScheme} 和 {@link genSchemes} 生成主题数据。
+     * 第一个元素的将被当作默认的主题使用。可由 {@link CoreTheme#genScheme} 和 {@link CoreTheme#genSchemes} 生成主题数据。
      *
      * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
@@ -121,7 +121,7 @@ export interface Theme {
 const presetOptions: Readonly<PickOptional<Options>> = {
     system: {},
     titleSeparator: ' | ',
-    theme: { mode: 'system', contrast: 'nopreference', schemes: genSchemes(20) },
+    theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
     mimetype: 'application/json',
 } as const;
 

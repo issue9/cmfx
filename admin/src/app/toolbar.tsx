@@ -6,7 +6,7 @@ import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Setter, Show, createSignal } from 'solid-js';
 
 import { Button, ItemValue, Menu } from '@/components';
-import { Breakpoints } from '@/core';
+import { compareBreakpoint } from '@/core';
 import { useApp, useOptions } from './context';
 import { floatAsideWidth } from './private';
 
@@ -31,7 +31,7 @@ export default function Toolbar(props: Props) {
         </div>
 
         <div class="px-4 flex flex-1 c--icon-container ml-10">
-            <Show when={ctx.isLogin() && Breakpoints.compare(ctx.breakpoint(), floatAsideWidth)<0}>
+            <Show when={ctx.isLogin() && compareBreakpoint(ctx.breakpoint(), floatAsideWidth)<0}>
                 <Button icon rounded type="button" style='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>menu</Button>
             </Show>
         </div>

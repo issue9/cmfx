@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { genScheme } from './scheme';
+import { genScheme, genSchemes } from './scheme';
 
 test('genScheme', () => {
     let s = genScheme(20);
@@ -22,4 +22,8 @@ test('genScheme', () => {
     expect(()=>{
         genScheme(40, 20, 370);
     }).toThrow('参数 step 不能大于 180');
+});
+
+test('genSchemes', () => {
+    expect(genSchemes(20, 10).length).toEqual(10);
 });

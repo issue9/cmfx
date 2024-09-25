@@ -6,7 +6,7 @@ import { Navigate } from '@solidjs/router';
 import { Accessor, createEffect, createMemo, ErrorBoundary, Match, ParentProps, Setter, Show, Switch } from 'solid-js';
 
 import { Drawer, Item, List } from '@/components';
-import { Breakpoint, Breakpoints, Locale } from '@/core';
+import { Breakpoint, compareBreakpoint, Locale } from '@/core';
 import { useApp, useOptions } from './context';
 import * as errors from './errors';
 import { MenuItem } from './options/route';
@@ -21,7 +21,7 @@ interface Props extends ParentProps {
 export function Private(props: Props) {
     const ctx = useApp();
     const opt = useOptions();
-    const floating = createMemo(() => Breakpoints.compare(ctx.breakpoint(), floatAsideWidth) < 0);
+    const floating = createMemo(() => compareBreakpoint(ctx.breakpoint(), floatAsideWidth) < 0);
     createEffect(() => {
         if (!floating()) {
             props.menuVisibleSetter(true);

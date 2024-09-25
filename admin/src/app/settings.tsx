@@ -3,18 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, Divider, FieldAccessor, Options, RadioGroup } from '@/components';
-import { changeContrast, changeMode, changeScheme, Contrast, genScheme, getContrast, getMode, getScheme, Mode, Scheme } from '@/core/theme';
+import { Contrast, Theme, Mode, Scheme } from '@/core/theme';
 import { useApp, useOptions } from './context';
 
 export default function() {
     const ctx = useApp();
     const opt = useOptions();
 
-    const modeFA = FieldAccessor<Mode>('mode', getMode('system'));
-    modeFA.onChange((m) => { changeMode(m); });
+    const modeFA = FieldAccessor<Mode>('mode', Theme.mode);
+    modeFA.onChange((m) => { Theme.mode = m; });
 
-    const contrastFA = FieldAccessor<Contrast>('contrast', getContrast('nopreference'));
-    contrastFA.onChange((m) => { changeContrast(m); });
+    const contrastFA = FieldAccessor<Contrast>('contrast', Theme.contrast);
+    contrastFA.onChange((m) => { Theme.contrast = m; });
 
     const localeFA = FieldAccessor<string>('locale', ctx.locale().match(opt.locales.locales), false);
     localeFA.onChange((v) => { ctx.switchLocale(v); });
@@ -24,15 +24,8 @@ export default function() {
         schemesOptions.push([s.primary, <ColorBlock s={s} />]);
     }
 
-    let scheme: number;
-    const s = getScheme(schemesOptions[0][0]);
-    if (typeof s === 'number') {
-        scheme = s;
-    } else {
-        scheme = s.primary;
-    }
-    const schemeFA = FieldAccessor<number>('scheme', scheme);
-    schemeFA.onChange((c) => { changeScheme(c!); });
+    const schemeFA = FieldAccessor<number>('scheme', Theme.scheme.primary);
+    schemeFA.onChange((c) => { Theme.scheme = opt.theme.schemes.find((s)=>s.primary===c)!; });
 
     return <div class="app-settings">
         <RadioGroup vertical accessor={modeFA}

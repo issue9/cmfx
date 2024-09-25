@@ -7,7 +7,7 @@ import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Drawer, Notify, SystemDialog } from '@/components';
-import { API, Locale, initTheme } from '@/core';
+import { API, Locale } from '@/core';
 import { buildContext } from './context';
 import * as errors from './errors';
 import { Options, build as buildOptions } from './options';
@@ -24,14 +24,15 @@ import { default as Toolbar } from './toolbar';
  */
 export async function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
+
     const f = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
+
     Locale.init(opt.locales.fallback, f);
     for(const item of Object.entries(opt.locales.messages)) {
         await Locale.addDict(item[0], ...item[1]);
     }
 
     render(() => {
-        initTheme(opt.theme.mode,opt.theme.schemes[0], opt.theme.contrast);
         return <>
             <Notify />
             <App opt={opt} f={f} />

@@ -2,16 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { changeMode, getMode, modes } from './mode';
 export type { Mode } from './mode';
 
-export { changeContrast, contrasts, getContrast } from './contrast';
 export type { Contrast } from './contrast';
 
-export { changeScheme, genScheme, getScheme, genSchemes } from './scheme';
 export type { Scheme } from './scheme';
 
-export { Breakpoints, breakpoints, breakpointsMedia } from './breakpoints';
-export type { Breakpoint, BreakpointChange } from './breakpoints';
+export { breakpointsMedia, compareBreakpoint } from './breakpoints';
+export type { Breakpoint } from './breakpoints';
 
-export { init as initTheme } from './theme';
+export { Theme } from './theme';
+export type { BreakpointChange } from './theme';

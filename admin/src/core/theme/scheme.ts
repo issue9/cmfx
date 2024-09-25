@@ -17,7 +17,7 @@ export interface Scheme {
     error?: number;
 }
 
-export function getScheme(preset: Scheme | number): Scheme | number {
+export function getScheme(preset: Scheme): Scheme {
     const str = localStorage.getItem(key);
     if (str) { // 保存在 localStorage 中的必然是对象
         return JSON.parse(str) as Scheme;
@@ -30,11 +30,7 @@ export function getScheme(preset: Scheme | number): Scheme | number {
  *
  * 此方法提供了动态改变主题色的方法，发生在 theme.css 应用之后。
  */
-export function changeScheme(c: Scheme | number) {
-    if (typeof c === 'number') {
-        c = genScheme(c);
-    }
-
+export function changeScheme(c: Scheme) {
     Object.entries(c).forEach((o)=>{
         if (o[1] !== undefined) {
             document.documentElement.style.setProperty('--'+o[0], o[1]);
@@ -45,13 +41,6 @@ export function changeScheme(c: Scheme | number) {
     localStorage.setItem(key, str);
 }
 
-/**
- * 根据给定的颜色值生成 Scheme 对象
- *
- * @param primary 主色调的色像值，[0-360] 之间，除去 error 之外的颜色都将根据此值自动生成；
- * @param error 指定 error 色盘的色像值，如果未指定，则采用默认值，不会根据 primary 而变化；
- * @param step 用于计算其它辅助色色像的步长；
- */
 export function genScheme(primary: number, error?: number, step = 60): Scheme {
     if (step > 180) {
         throw '参数 step 不能大于 180';
@@ -74,12 +63,6 @@ export function genScheme(primary: number, error?: number, step = 60): Scheme {
     };
 }
 
-/**
- * 生成一组主题数据
- *
- * @param primary 第一个主题的主色调
- * @param size 生成的量
- */
 export function genSchemes(primary: number, size = 16): Array<Scheme> {
     const schemes: Array<Scheme> = [];
     for(let i =0;i<size;i++) {
