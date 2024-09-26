@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Options } from '../types';
+import { MessagesKey } from '@/messages';
 
 export const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
@@ -31,23 +32,10 @@ export function weekDay(base: Week, delta?: number): Week {
 }
 
 /**
- * 格式化日期
- */
-export function formatDate(d: Date, time?: boolean): string {
-    const date = `${d.getFullYear()}-${padNumber(d.getMonth() + 1, 2)}-${padNumber(d.getDate(), 2)}`;
-    if (!time) {
-        return date;
-    }
-    return date + `T${padNumber(d.getHours(), 2)}:${padNumber(d.getMinutes(), 2)}:${padNumber(d.getSeconds(), 2)}`;
-}
-
-function padNumber(n: number, len: number): string { return n.toString().padStart(len, '0'); }
-
-/**
  * 计算指定月份的天数范围
  *
- * @param week 起始的星期；
- * @param date 需要计算天的月份；
+ * @param week 每周的起始；
+ * @param date 需要计算的月份；
  * @returns 返回的元组列表，每个元组包含以下四个字段：
  *  - 0 boolean 表示是否为当前月份;
  *  - 1 Month 月份；
@@ -89,7 +77,7 @@ export function monthDays(date: Date, week: Week): Array<[boolean, Month, number
 /**
  * 将由 {@link monthDays} 的结果转换为以 7 天为一组的天数据
  */
-export function weekDays(m: Array<[boolean, Month, number, number]>): Array<Array<[boolean, Month, number]>> {
+export function getWeekDays(m: Array<[boolean, Month, number, number]>): Array<Array<[boolean, Month, number]>> {
     const days: Array<[boolean, Month, number]> = [];
     for (const mm of m) {
         if (mm[2] === 0 && mm[2] === mm[3]) { continue; }
@@ -106,7 +94,21 @@ export function weekDays(m: Array<[boolean, Month, number, number]>): Array<Arra
     return weeks;
 }
 
-export const monthsLocales = new Map<Month, string>([
+/**
+ * 将 date 所在的月份以及前后一星期以 7 天为一组进行分组
+ * 
+ * @param date 需要计算的月份；
+ * @param week 每周的起始；
+ * @returns 以 7 为一组的数据，每个元素包含以下三个字段：
+ *  - 0 是否为当前月份；
+ *  - 1 月份；
+ *  - 2 在当前月份中的日期；
+ */
+export function weekDays(date: Date, week: Week): Array<Array<[boolean, Month, number]>> {
+    return getWeekDays(monthDays(date, week));
+}
+
+export const monthsLocales = new Map<Month, MessagesKey>([
     [0, '_i.date.january'],
     [1, '_i.date.february'],
     [2, '_i.date.march'],
@@ -121,7 +123,7 @@ export const monthsLocales = new Map<Month, string>([
     [11, '_i.date.december'],
 ]);
 
-export const weeksLocales = new Map<Week, string>([
+export const weeksLocales = new Map<Week, MessagesKey>([
     [1, '_i.date.monday'],
     [2, '_i.date.tuesday'],
     [3, '_i.date.wednesday'],

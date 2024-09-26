@@ -5,7 +5,7 @@
 import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { presetProps, default as Panel, Props as PanelProps } from './panel';
-import { formatDate } from './utils';
+import { useApp } from '@/app/context';
 
 export interface Props extends PanelProps {
     placeholder?: string;
@@ -18,6 +18,7 @@ export interface Props extends PanelProps {
 function togglePop(anchor: Element, pop: HTMLElement): boolean {
     // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
     const ab = anchor.getBoundingClientRect();
+    pop.style.marginTop = '2px';
     pop.style.minWidth = ab.width + 'px';
     pop.style.width = ab.width + 'px';
     pop.style.top = ab.bottom + 'px';
@@ -27,6 +28,8 @@ function togglePop(anchor: Element, pop: HTMLElement): boolean {
 }
 
 export default function(props: Props) {
+    const ctx = useApp();
+
     props = mergeProps(presetProps, props);
     const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette']);
 
@@ -63,7 +66,7 @@ export default function(props: Props) {
             }}>
                 <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
-                    { formatDate(new Date(ac.getValue()), props.time) }
+                    { props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue()) }
                 </div>
                 <span class="c--icon tail">expand_all</span>
             </div>

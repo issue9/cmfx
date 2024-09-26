@@ -8,3 +8,5 @@ export type { Props as DatePickerProps } from './picker';
 export { default as DatePanel } from './panel';
 export type { Props as DatePanelProps } from './panel';
 
+export { weekDays } from './utils';
+

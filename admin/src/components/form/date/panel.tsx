@@ -9,8 +9,8 @@ import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
 import {
-    hoursOptions, minutesOptions, Month, monthDays, monthsLocales,
-    Week, weekDay, weekDays, weeks, weeksLocales
+    hoursOptions, minutesOptions, Month, weekDays,
+    Week, weekDay, weeks, weeksLocales, monthsLocales
 } from './utils';
 
 export interface Props extends FieldBaseProps {
@@ -131,7 +131,7 @@ export default function (props: Props) {
                 </thead>
 
                 <tbody>
-                    <For each={weekDays(monthDays(p.dt, props.weekBase as Week))}>
+                    <For each={weekDays(p.dt, props.weekBase as Week)}>
                         {(week) => (
                             <tr>
                                 <For each={week}>
