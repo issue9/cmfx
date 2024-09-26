@@ -29,7 +29,7 @@
 }
 
 .c--date-panel {
-    @apply border rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border;
+    @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border;
 
     .title {
         @apply flex justify-between;
