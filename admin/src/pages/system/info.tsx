@@ -50,7 +50,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.uptime)}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().datetime(info()?.uptime)}</dd></dl>
 
                 <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.locale().t('_i.os')}</Divider>
 
@@ -60,7 +60,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>{ ctx.locale().t('_i.page.system.version') }</dt><dd>{info()?.os.version}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().date(info()?.os.boot)}</dd></dl>
+                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().datetime(info()?.os.boot)}</dd></dl>
 
                 <Divider padding='.5rem'><span class="c--icon mr-1">database</span>{ctx.locale().t('_i.database')}</Divider>
 

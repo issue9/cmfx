@@ -50,7 +50,7 @@ export default function(props: Props): JSX.Element {
             },
             { id: 'name', label: ctx.locale().t('_i.page.admin.name') },
             { id: 'nickname', label: ctx.locale().t('_i.page.admin.nickname') },
-            { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().date(v) },
+            { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().datetime(v) },
             {
                 id: 'state', label: ctx.locale().t('_i.page.state'), content: (_, v) => {
                     return translateEnum(statesMap, ctx, v);

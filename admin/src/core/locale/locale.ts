@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import '@formatjs/intl-durationformat/polyfill'; // TODO: https://caniuse.com/?search=durationformat
 import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
@@ -109,6 +108,7 @@ export class Locale {
     #current: Map<string, IntlMessageFormat>;
     #locale: Intl.Locale;
 
+    #datetime: Intl.DateTimeFormat;
     #date: Intl.DateTimeFormat;
 
     #B: Intl.NumberFormat;
@@ -117,7 +117,7 @@ export class Locale {
     #gB: Intl.NumberFormat;
     #tB: Intl.NumberFormat;
 
-    #duration: any; //Intl.DurationFormat;
+    #duration: Intl.DurationFormat;
     #displayNames: Intl.DisplayNames;
 
     private constructor(locale?: string, unitStyle: UnitDisplay = 'narrow') {
@@ -138,7 +138,7 @@ export class Locale {
 
         let dtStyle: Intl.DateTimeFormatOptions['timeStyle'] = 'medium';
         let byteStyle: Intl.NumberFormatOptions['unitDisplay'] = 'narrow';
-        let durationStyle = 'narrow';
+        let durationStyle: Intl.DurationFormatOptions['style'] = 'narrow';
 
         switch (unitStyle) {
         case 'full':
@@ -161,25 +161,42 @@ export class Locale {
         }
 
 
-        this.#date = new Intl.DateTimeFormat(locale, { timeStyle: dtStyle, dateStyle: dtStyle });
+        this.#datetime = this.dateTimeFormat({ timeStyle: dtStyle, dateStyle: dtStyle });
+        this.#date = this.dateTimeFormat({ dateStyle: dtStyle });
 
-        this.#B = new Intl.NumberFormat(locale, { style: 'unit', unit: 'byte', unitDisplay: byteStyle });
-        this.#kB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'kilobyte', unitDisplay: byteStyle });
-        this.#mB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'megabyte', unitDisplay: byteStyle });
-        this.#gB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'gigabyte', unitDisplay: byteStyle });
-        this.#tB = new Intl.NumberFormat(locale, { style: 'unit', unit: 'terabyte', unitDisplay: byteStyle });
+        this.#B = this.numberFormat({ style: 'unit', unit: 'byte', unitDisplay: byteStyle });
+        this.#kB = this.numberFormat({ style: 'unit', unit: 'kilobyte', unitDisplay: byteStyle });
+        this.#mB = this.numberFormat({ style: 'unit', unit: 'megabyte', unitDisplay: byteStyle });
+        this.#gB = this.numberFormat({ style: 'unit', unit: 'gigabyte', unitDisplay: byteStyle });
+        this.#tB = this.numberFormat({ style: 'unit', unit: 'terabyte', unitDisplay: byteStyle });
 
-        this.#duration = new (Intl as any).DurationFormat(locale, {
-            style: durationStyle,
-            minute: '2-digit',
-            second: '2-digit',
-            fractionalSecondDigits: 3,
-        });
+        this.#duration = this.durationFormat({style: durationStyle, fractionalDigits: 3});
 
         this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
     }
 
     get locale(): Intl.Locale { return this.#locale; }
+
+    /**
+     * 创建 {@link Intl#DateFormat} 对象
+     */
+    dateTimeFormat(o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+        return new Intl.DateTimeFormat(this.locale, o);
+    }
+
+    /**
+     * 创建 {@link Intl#NumberFormat} 对象
+     */
+    numberFormat(o: Intl.NumberFormatOptions): Intl.NumberFormat {
+        return new Intl.NumberFormat(this.locale, o);
+    }
+
+    /**
+     * 创建 {@link DurationFormat} 对象
+     */
+    durationFormat(o: Intl.DurationFormatOptions): Intl.DurationFormat {
+        return new (Intl as any).DurationFormat(this.locale, o);
+    }
 
     /**
      * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
@@ -201,6 +218,16 @@ export class Locale {
 
     /**
      * 返回本地化的时间
+     * @param d 时间，如果是 number 类型，表示的是毫秒；
+     * @returns 根据本地化格式的字符串
+     */
+    datetime(d?: Date | string | number): string {
+        if (d === undefined) { return ''; }
+        return this.#datetime.format(new Date(d));
+    }
+
+    /**
+     * 返回本地化的日期
      * @param d 时间，如果是 number 类型，表示的是毫秒；
      * @returns 根据本地化格式的字符串
      */

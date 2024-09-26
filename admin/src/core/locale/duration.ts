@@ -2,9 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DurationInput } from '@formatjs/intl-durationformat/src/types';
+import '@formatjs/intl-durationformat/polyfill';
+import { DurationInput as DI, DurationFormatOptions as DFO, DurationFormat as DF } from '@formatjs/intl-durationformat/src/types';
 
 import { divide } from '@/core/math';
+
+// TODO: DurationFormat 上线之后可删除。
+// https://caniuse.com/?search=durationformat
+declare global {
+    namespace Intl {
+        type DurationFormat = DF;
+        type DurationFormatOptions = DFO;
+        type DurationInput = DI;
+    }
+}
 
 const ns = 1;
 const us = 1000 * ns;
@@ -15,7 +26,7 @@ const hour = 60 * minute;
 const day = 24 * hour;
 
 // https://cs.opensource.google/go/go/+/refs/tags/go1.23.1:src/time/format.go;l=1601
-const strMap: ReadonlyMap<string, keyof DurationInput> = new Map([
+const strMap: ReadonlyMap<string, keyof Intl.DurationInput> = new Map([
     ['ns', 'nanoseconds'],
     ['us', 'microseconds'],
     ['µs', 'microseconds'], // U+00B5 = micro symbol
@@ -26,7 +37,7 @@ const strMap: ReadonlyMap<string, keyof DurationInput> = new Map([
     ['h', 'hours'],
 ]);
 
-const durations: Array<[number, keyof DurationInput]> = [
+const durations: Array<[number, keyof Intl.DurationInput]> = [
     [day, 'days'],
     [hour, 'hours'],
     [minute, 'minutes'],
@@ -36,7 +47,7 @@ const durations: Array<[number, keyof DurationInput]> = [
     [1, 'nanoseconds'],
 ] as const;
 
-export function parseDuration(val?: number | string): DurationInput {
+export function parseDuration(val?: number | string): Intl.DurationInput {
     if (!val) { return { nanoseconds: 0 }; };
 
     if (typeof val === 'string') {
@@ -47,7 +58,7 @@ export function parseDuration(val?: number | string): DurationInput {
         val = parseInt(val);
     }
 
-    const opt: DurationInput = {};
+    const opt: Intl.DurationInput = {};
 
     for(const d of durations) {
         if (val > d[0]) {
@@ -61,8 +72,8 @@ export function parseDuration(val?: number | string): DurationInput {
     return opt;
 }
 
-function parseString(val: string): DurationInput {
-    const dur: DurationInput = {};
+function parseString(val: string): Intl.DurationInput {
+    const dur: Intl.DurationInput = {};
 
     let start = 0;
     let v: number = 0;

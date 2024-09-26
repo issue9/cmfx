@@ -46,7 +46,7 @@ export default function(): JSX.Element {
             { id: 'pattern', label: ctx.locale().t('_i.page.system.pattern') },
 
             { id: 'count', label: ctx.locale().t('_i.page.system.count') },
-            { id: 'last', label: ctx.locale().t('_i.page.system.last'), content: (_: string, val: string) => { return ctx.locale().date(val); } },
+            { id: 'last', label: ctx.locale().t('_i.page.system.last'), content: (_: string, val: string) => { return ctx.locale().datetime(val); } },
             { id: 'serverErrors', label: ctx.locale().t('_i.page.system.serverErrors') },
             { id: 'userErrors', label: ctx.locale().t('_i.page.system.userErrors') },
 

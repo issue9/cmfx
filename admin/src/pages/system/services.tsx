@@ -69,8 +69,8 @@ export default function(): JSX.Element {
                     return translateEnum(stateMap, ctx, v);
                 }) as Column<Job>['content']},
                 {id: 'err', label: ctx.locale().t('_i.page.system.error')},
-                {id: 'next', label: ctx.locale().t('_i.page.system.next'), content: (_: string, val?: string) => { return ctx.locale().date(val); }},
-                {id: 'prev', label: ctx.locale().t('_i.page.system.prev'), content: (_: string, val?: string) => { return ctx.locale().date(val); }},
+                {id: 'next', label: ctx.locale().t('_i.page.system.next'), content: (_: string, val?: string) => { return ctx.locale().datetime(val); }},
+                {id: 'prev', label: ctx.locale().t('_i.page.system.prev'), content: (_: string, val?: string) => { return ctx.locale().datetime(val); }},
             ]} />
         </fieldset>
     </Page>;
