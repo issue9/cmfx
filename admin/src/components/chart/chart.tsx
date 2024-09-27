@@ -39,7 +39,7 @@ export interface Props extends BaseProps {
     /**
      * 图表的配置项
      *
-     * NOTE: 如果当前组件中设置了 palette 属性，那么此属性中的 backgroundColor 和 color 将不起作用。
+     * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--bg) 等以适应主题的变化。
      */
     o: echarts.EChartsOption;
 }
@@ -76,12 +76,7 @@ export default function(props: Props) {
     });
 
     createEffect(() => {
-        const color = {
-            backgroundColor: 'var(--bg)',
-            color: ['var(--fg)', 'var(--fg-low)', 'var(--fg-high)', 'var(--bg-low)', 'var(--bg-high)']
-        };
-
-        inst.setOption({ ...props.o, ...color, });
+        inst.setOption(props.o);
     });
 
     return <div class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></div>;
