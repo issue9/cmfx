@@ -3,33 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import * as echarts from 'echarts';
-import { RendererType } from 'echarts/types/src/util/types.js';
 import { createEffect, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 
 export interface Props extends BaseProps {
-    /**
-     * 设备像素比
-     *
-     * 这是一个非响应式的属性
-     */
-    devicePixelRatio?: number;
-
-    /**
-     * 渲染方式，默认为 svg。
-     *
-     * 这是一个非响应式的属性
-     */
-    renderer?: RendererType;
-
-    /**
-     * 是否开启脏矩形渲染，只有在 Canvas 渲染模式有效
-     *
-     * 这是一个非响应式的属性
-     */
-    useDirtyRect?: boolean;
-
     /**
      * 是否扩大可点击元素的响应范围。null 表示对移动设备开启；true 表示总是开启；false 表示总是不开启。
      *
@@ -67,18 +45,21 @@ export interface Props extends BaseProps {
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
-    devicePixelRatio: window.devicePixelRatio,
-    renderer: 'svg',
-    useDirtyRect: false,
     useCoarsePointer: false,
     height: 300,
     width: 300
 };
 
+/**
+ * echarts 组件
+ *
+ * echarts 的 setOption 函数映射到 {@link Props#o} 属性，更新 o 属性相当于调用 setOption 方法。
+ * echarts#init 的各个参数则由组件的其它属性组成，都是非响应式的。
+ */
 export default function(props: Props) {
     props = mergeProps(presetProps, props);
 
-    let ref: HTMLDivElement | HTMLCanvasElement;
+    let ref: HTMLDivElement;
     let inst: echarts.ECharts;
 
     onMount(() => {
@@ -86,7 +67,7 @@ export default function(props: Props) {
             // TODO locale
             height: props.height,
             width: props.width,
-            renderer: props.renderer,
+            renderer: 'svg',
         });
     });
 
@@ -94,20 +75,14 @@ export default function(props: Props) {
         inst.dispose();
     });
 
-    const getColor = (v: string) => { // 为了兼容 Canvas
-        return window.getComputedStyle(ref).getPropertyValue(v);
-    };
     createEffect(() => {
-        const o = {
-            ...props.o,
-            backgroundColor: getColor('--bg'),
-            color: [getColor('--fg'), getColor('--fg-low'), getColor('--fg-high'), getColor('--bg-low'), getColor('--bg-high')]
+        const color = {
+            backgroundColor: 'var(--bg)',
+            color: ['var(--fg)', 'var(--fg-low)', 'var(--fg-high)', 'var(--bg-low)', 'var(--bg-high)']
         };
-        inst.setOption(o);
+
+        inst.setOption({ ...props.o, ...color, });
     });
 
-    if (props.renderer === 'svg') {
-        return <div class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></div>;
-    }
-    return <canvas class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></canvas>;
+    return <div class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></div>;
 }
