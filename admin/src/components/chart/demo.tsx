@@ -96,7 +96,7 @@ export default function() {
             </Stage>
 
             <Stage title="pie">
-                <Pie tooltip legend='left' radius={['30%','50%']} padding={5}
+                <Pie tooltip legend='left' radius={['30%','50%']} padding={5} borderRadius={5}
                     data={[{name: 'aaa',value: 80, selected:true}, {name: 'bbb',value: 180}, {name: 'ccc',value: 20}, {name: 'ddd',value: 20}, {name: 'eee',value: 500}]} />
             </Stage>
 

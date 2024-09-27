@@ -28,6 +28,16 @@ export interface Props extends Omit<BaseProps, 'o'> {
     radius?: number | string | (number|string)[];
 
     /**
+     * 南丁格尔玫瑰图
+     */
+    roseType?: 'radius' | 'area';
+
+    /**
+     * 圆角
+     */
+    borderRadius?: string | number;
+
+    /**
      * 选中的模式
      */
     selectedMode?: 'single' | 'multiple' | 'series' | boolean;
@@ -65,6 +75,10 @@ export default function(props: Props) {
                 selectedMode: props.selectedMode,
                 radius: props.radius,
                 type: 'pie',
+                roseType: props.roseType,
+                itemStyle: props.borderRadius ? {
+                    borderRadius: props.borderRadius
+                } : undefined,
             },
             dataset: {
                 source: props.data,
