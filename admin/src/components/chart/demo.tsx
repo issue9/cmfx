@@ -8,6 +8,7 @@ import { createStore } from 'solid-js/store';
 import { Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { default as Axis, Ref as AxisRef } from './axis';
 import { default as Chart } from './chart';
+import { default as Pie } from './pie';
 
 interface Item {name:string, v1: number, v2: number}
 
@@ -81,17 +82,27 @@ export default function() {
             </Stage>
 
             <Stage title="axis">
-                <Axis palette={palette()} tooltip legend title='svg+axis'
+                <Axis palette={palette()} tooltip legend='right' selectedMode='single'
                     xAxis={{ name: 'X', key: 'name' }}
                     series={[{type:'line', key:'v1'}, {type:'bar', key:'v2', yAxisIndex: 1, area: true, smooth:true}]}
                     data={items} />
             </Stage>
 
             <Stage title="axis">
-                <Axis palette={palette()} size={10} ref={el=>axisRef=el} tooltip legend title='svg+axis'
+                <Axis palette={palette()} size={10} ref={el=>axisRef=el} tooltip legend='center'
                     xAxis={{ name: 'X', key: 'name' }}
                     series={[{type:'bar', key:'v2', yAxisIndex: 1}, {type:'line', key:'v1', area:true, smooth:true}, ]}
                     data={items} />
+            </Stage>
+
+            <Stage title="pie">
+                <Pie tooltip legend='left' radius={['30%','50%']} padding={5}
+                    data={[{name: 'aaa',value: 80, selected:true}, {name: 'bbb',value: 180}, {name: 'ccc',value: 20}, {name: 'ddd',value: 20}, {name: 'eee',value: 500}]} />
+            </Stage>
+
+            <Stage title="pie">
+                <Pie legend='center' selectedMode='multiple'
+                    data={[{name: 'aaa',value: 80}, {name: 'bbb',value: 180, selected:true}, {name: 'ccc',value: 20}, {name: 'ddd',value: 20}, {name: 'eee',value: 500}]} />
             </Stage>
         </>
     } />;

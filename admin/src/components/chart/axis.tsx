@@ -21,11 +21,6 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
     xAxis: XAxis<T>;
 
     /**
-     * 标题
-     */
-    title?: string;
-
-    /**
      * 是否显示提示信息
      */
     tooltip?: boolean;
@@ -33,12 +28,17 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
     /**
      * 是否显示每一系列数据的标题
      */
-    legend?: boolean;
+    legend?: 'left' | 'right' | 'center';
 
     /**
      * 对数据列的定义
      */
     series: Array<Series<T>>;
+
+    /**
+     * 选中的模式
+     */
+    selectedMode?: 'single' | 'multiple' | 'series' | boolean;
 
     /**
      * 展示的数据
@@ -99,7 +99,7 @@ export interface Series<T extends object> {
     smooth?: boolean;
 
     /**
-     * 显示填充区域
+     * 显示填充区域，仅对 type === 'line' 有效果
      */
     area?: boolean;
 }
@@ -113,7 +113,7 @@ const presetProps = {
  */
 export default function<T extends object>(props: Props<T>) {
     props = mergeProps(presetProps, props);
-    const [_, charsProps] = splitProps(props, ['xAxis', 'data', 'size', 'title', 'tooltip', 'legend', 'series', 'ref']);
+    const [_, charsProps] = splitProps(props, ['xAxis', 'data', 'size', 'tooltip', 'legend', 'series', 'ref']);
 
     const [data, setData] = createSignal<Array<T>>(props.data);
 
@@ -145,12 +145,12 @@ export default function<T extends object>(props: Props<T>) {
         }
 
         const o: echarts.EChartsOption = {
-            title: { text: props.title, show: !!props.title, textStyle: {color: 'var(--fg)'} },
             tooltip: { show: props.tooltip, textStyle: {color: 'var(--fg)'}, backgroundColor: 'var(--bg)' },
-            legend: {
-                show: props.legend,
+            legend: props.legend ? {
+                show: !!props.legend,
                 textStyle: { color: 'var(--fg)'},
-            },
+                left: props.legend,
+            } : undefined,
             xAxis: {
                 name: props.xAxis.name,
                 type: 'category',
@@ -165,6 +165,7 @@ export default function<T extends object>(props: Props<T>) {
                     yAxisIndex: s.yAxisIndex,
                     symbol: 'circle',
                     symbolSize: 8,
+                    selectedMode: props.selectedMode,
                     stack: s.stack,
                     smooth: s.smooth,
                     areaStyle: s.area ? {} : undefined,
