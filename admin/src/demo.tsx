@@ -18,6 +18,7 @@ export const routes: Options['routes']['private']['routes'] = [
     { path: '/icon', component: lazy(() => import('@/components/icon/demo')) },
     { path: '/table', component: lazy(() => import('@/components/table/demo')) },
     { path: '/spin', component: lazy(() => import('@/components/spin/demo')) },
+    { path: '/chart', component: lazy(() => import('@/components/chart/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },
