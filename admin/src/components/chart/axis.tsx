@@ -158,8 +158,7 @@ export default function<T extends object>(props: Props<T>) {
                 splitLine: splitLine,
             },
             yAxis: yAxis,
-            series: props.series.map((s, i) => {
-                const color = colors[i < colors.length ? i : colors.length % i]; // 取余数需要考虑 i 为零的情况
+            series: props.series.map((s) => {
                 return {
                     name: s.name ?? s.type,
                     type: s.type,
@@ -168,12 +167,7 @@ export default function<T extends object>(props: Props<T>) {
                     symbolSize: 8,
                     stack: s.stack,
                     smooth: s.smooth,
-                    areaStyle: s.area ? {
-                        color: `color-mix(in lch, ${color} 50%, white 30%)`
-                    } : undefined,
-                    itemStyle: {
-                        color: color,
-                    },
+                    areaStyle: s.area ? {} : undefined,
                 };
             }),
             dataset: {
@@ -186,5 +180,3 @@ export default function<T extends object>(props: Props<T>) {
 
     return <Chart o={o()} {...charsProps} />;
 }
-
-const colors = ['var(--fg-low)', 'var(--fg-high)', 'var(--bg-low)', 'var(--bg-high)'] as const;
