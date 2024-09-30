@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, Match, mergeProps, onCleanup, splitProps, Switch } from 'solid-js';
+import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
-import { onMount } from 'solid-js';
 import { Props as BaseProps, default as Button, presetProps } from './button';
 import { default as Group, Ref as GroupRef } from './group';
 import { ClickFunc } from './types';
+import { calcPopoverPos } from '@/components/utils';
 
 type Item = { type: 'divider' } | {
     type: 'item';
@@ -48,11 +48,7 @@ export default function(props: Props) {
         <Button {...btnProps}>{props.children}</Button>
         <Button icon={/*@once*/true} onClick={() => {
             pop.togglePopover();
-
-            // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
-            const rect = group.getBoundingClientRect();
-            pop.style.top = rect.bottom + 'px';
-            pop.style.left = rect.left + 'px';
+            calcPopoverPos(pop, group.getBoundingClientRect());
         }}>keyboard_arrow_down</Button>
     </Group>;
 

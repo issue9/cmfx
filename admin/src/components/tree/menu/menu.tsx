@@ -7,6 +7,7 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import { Value } from '@/components/tree/item';
 import { default as HoverMenu, Props as HoverProps } from './hover';
 import { Props as BaseProps, presetProps, default as Panel, Ref as PanelRef } from './panel';
+import { calcPopoverPos } from '@/components/utils';
 
 export interface Props extends HoverProps {
     /**
@@ -54,22 +55,15 @@ export default function(props: Props): JSX.Element {
         };
     }
 
-    return <>
+    return <div class="w-fit">
         <span ref={el=>activator=el} classList={{[`palette--${props.palette}`]: !!props.palette}} onClick={()=>{
             pop.togglePopover();
 
-            // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
             const rect = activator.getBoundingClientRect();
-            pop.style.marginTop = '2px';
-            pop.style.top = rect.bottom + 'px';
-            if (props.direction === 'right') {
-                pop.style.left = rect.left + 'px';
-            } else {
-                const pb = pop.getBoundingClientRect();
-                pop.style.left = (rect.right - pb.width) + 'px';
-            }
+            const x = props.direction === 'right' ? rect.right - pop.getBoundingClientRect().width : rect.left;
+            calcPopoverPos(pop, new DOMRect(x, rect.y, rect.width, rect.height), '2px');
         }}>{props.activator}</span>
 
         <Panel popover="manual" ref={el=>pop=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
-    </>;
+    </div>;
 }

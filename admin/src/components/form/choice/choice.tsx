@@ -6,6 +6,7 @@ import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { calcPopoverPos } from '@/components/utils';
 
 type Value = string | number | undefined;
 
@@ -66,12 +67,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
     });
 
     const calcPos = () => {
-        // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const ab = labelRef.getBoundingClientRect();
         pop.style.minWidth = ab.width + 'px';
         pop.style.width = ab.width + 'px';
-        pop.style.top = labelRef.querySelector('.activator-container')!.getBoundingClientRect().top + 'px';
-        pop.style.left = ab.left + 'px';
+        calcPopoverPos(pop, DOMRect.fromRect(ab), '2px');
     };
 
     const activator = <div classList={{

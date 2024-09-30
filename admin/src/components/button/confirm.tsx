@@ -6,6 +6,7 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { handleEvent } from '@/components/base';
+import { calcPopoverPos } from '@/components/utils';
 import Button, { Props as BaseProps, Ref as ButtonRef, presetProps } from './button';
 import { ClickFunc } from './types';
 
@@ -64,11 +65,7 @@ export default function(props: Props) {
     return <>
         <Button ref={(el)=>btn=el} {...btnProps} palette={props.palette} onClick={() => {
             pop.togglePopover();
-
-            // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
-            const rect = btn.getBoundingClientRect();
-            pop.style.top = rect.bottom + 'px';
-            pop.style.left = rect.left + 'px';
+            calcPopoverPos(pop, btn.getBoundingClientRect());
         }}>{props.children}</Button>
         <div popover="manual" ref={el=>pop=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
             {props.prompt ?? ctx.locale().t('_i.areYouSure')}

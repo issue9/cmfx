@@ -6,6 +6,7 @@ import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { presetProps, default as Panel, Props as PanelProps } from './panel';
 import { useApp } from '@/app/context';
+import { calcPopoverPos } from '@/components/utils';
 
 export interface Props extends PanelProps {
     placeholder?: string;
@@ -16,15 +17,15 @@ export interface Props extends PanelProps {
 }
 
 function togglePop(anchor: Element, pop: HTMLElement): boolean {
-    // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
     const ab = anchor.getBoundingClientRect();
     pop.style.marginTop = '2px';
     pop.style.minWidth = ab.width + 'px';
     pop.style.width = ab.width + 'px';
-    pop.style.top = ab.bottom + 'px';
-    pop.style.left = ab.left + 'px';
 
-    return pop.togglePopover();
+    const ret = pop.togglePopover();
+    calcPopoverPos(pop, ab, '2px');
+
+    return ret;
 }
 
 export default function(props: Props) {

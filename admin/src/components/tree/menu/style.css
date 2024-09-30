@@ -47,8 +47,7 @@
         }
     }
 
-    .c--menu:not(:popover),
-    .c--menu:popover-open {
-        @apply flex flex-col;
+    .c--menu[popover]:popover-open {
+        @apply flex flex-col border border-palette-bg-low;
     }
 }

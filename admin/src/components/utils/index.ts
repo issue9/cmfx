@@ -5,3 +5,5 @@
 export { buildEnumsOptions, translateEnum } from './enum';
 export type { Enum, Enums } from './enum';
 
+export { calcPopoverPos } from './popover';
+
