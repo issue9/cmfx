@@ -64,5 +64,12 @@ func (m *Module) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
 		sql.And("{end}<?", q.CreatedEnd)
 	}
 
-	return query.PagingResponser[respLog](ctx, &q.Limit, sql, nil)
+	return query.PagingResponserWithConvert[modelLog, respLog](ctx, &q.Limit, sql, func(m *modelLog) *respLog {
+		return &respLog{
+			Content:   m.Content,
+			IP:        m.IP,
+			UserAgent: m.UserAgent,
+			Created:   m.Created,
+		}
+	})
 }

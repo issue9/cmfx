@@ -31,7 +31,9 @@ export default function() {
             { id: 'content', label: ctx.locale().t('_i.page.current.content') },
             { id: 'ip', label: ctx.locale().t('_i.page.current.ip') },
             { id: 'ua', label: ctx.locale().t('_i.page.current.ua') },
-            { id: 'created', label: ctx.locale().t('_i.page.created') },
+            { id: 'created', label: ctx.locale().t('_i.page.created'), content:(_: string, val?:string)=>{
+                return ctx.locale().datetime(val);
+            } },
         ]} />
     </Page>;
 }
