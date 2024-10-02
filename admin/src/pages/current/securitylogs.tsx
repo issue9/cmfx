@@ -26,11 +26,11 @@ export default function() {
         page: 1,
     };
 
-    return <Page title="_i.page.securitylog.securitylog">
+    return <Page title="_i.page.current.securitylog">
         <RemoteTable<SecurityLog, Q> path='/securitylog' paging queries={q} columns={[
-            { id: 'content', label: ctx.locale().t('_i.page.securitylog.content') },
-            { id: 'ip', label: ctx.locale().t('_i.page.securitylog.ip') },
-            { id: 'ua', label: ctx.locale().t('_i.page.securitylog.ua') },
+            { id: 'content', label: ctx.locale().t('_i.page.current.content') },
+            { id: 'ip', label: ctx.locale().t('_i.page.current.ip') },
+            { id: 'ua', label: ctx.locale().t('_i.page.current.ua') },
             { id: 'created', label: ctx.locale().t('_i.page.created') },
         ]} />
     </Page>;

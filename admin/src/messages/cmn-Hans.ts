@@ -36,6 +36,18 @@ const messages: Messages = {
                 female: '女',
                 unknown: '未知'
             },
+            current: { // 登录框
+                title: '登录',
+                username: '账号',
+                password: '密码',
+                home: '首页',
+                logout: '退出',
+                settings: '设置',
+                securitylog: '安全日志',
+                content: '内容',
+                ip: 'IP',
+                ua: 'UA',
+            },
             system: {
                 apis: 'API',
                 apiViewer: 'API',
@@ -91,12 +103,6 @@ const messages: Messages = {
                 name: '姓名',
                 nickname: '昵称'
             },
-            securitylog: {
-                securitylog: '安全日志',
-                content: '内容',
-                ip: 'IP',
-                ua: 'UA',
-            },
             roles: {
                 roles: '角色',
                 rolesManager: '角色管理',
@@ -151,12 +157,6 @@ const messages: Messages = {
             pageNotFound: '页面不存在',
             forbidden: '无权访问当前页面',
             internalServerError: '服务端错误',
-        },
-        login: {
-            title: '登录',
-            logout: '退出',
-            username: '账号',
-            password: '密码'
         },
         theme: {
             mode: '主题模式',

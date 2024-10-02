@@ -51,7 +51,7 @@
     /************************* button-group ******************************/
 
     .c--button-group {
-        @apply text-[var(text)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
+        @apply text-[var(--fg)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
 
         .c--button {
             @apply rounded-none border-none items-center flex-1 py-1 px-3 text-[var(--fg)] outline-none;

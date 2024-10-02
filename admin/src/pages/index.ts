@@ -4,10 +4,8 @@
 
 export type { Pages } from './pages';
 
-export { Dashboard } from './dashboard';
-export { Login } from './login';
-
 export * from './admins';
 export * from './roles';
 export * from './system';
+export * from './current';
 

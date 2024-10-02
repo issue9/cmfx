@@ -34,6 +34,18 @@ const messages = {
                 female: 'female',
                 unknown: 'unknown'
             },
+            current: {
+                home: 'Home',
+                logout: 'logout',
+                settings: 'Settings',
+                title: 'login',
+                username: 'username',
+                password: 'password',
+                securitylog: 'security logs',
+                content: 'content',
+                ip: 'IP',
+                ua: 'user agent',
+            },
             system: {
                 apis: 'API',
                 apiViewer: 'API Viewer',
@@ -89,12 +101,6 @@ const messages = {
                 name: 'name',
                 nickname: 'nick name'
             },
-            securitylog: {
-                securitylog: 'security logs',
-                content: 'content',
-                ip: 'IP',
-                ua: 'user agent',
-            },
             roles: {
                 roles: 'roles',
                 rolesManager: 'roles manager',
@@ -149,12 +155,6 @@ const messages = {
             pageNotFound: 'page not found',
             forbidden: 'forbidden',
             internalServerError: 'server error',
-        },
-        login: {
-            title: 'login',
-            logout: 'logout',
-            username: 'username',
-            password: 'password'
         },
         theme: {
             mode: 'theme mode',

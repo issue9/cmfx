@@ -17,29 +17,33 @@ const demo = new Demo('/demo');
 const roles = pages.roles.build('/roles');
 const admins = pages.admins.build('/admins');
 const system = pages.system.build('/system');
+const current = pages.current.build('/current');
 
 const routes: Routes = {
     public: {
         home: '/login',
         routes: [
-            { path: '/login', component: pages.Login },
+            { path: '/login', component: pages.current.Login },
         ]
     },
     private: {
-        home: '/dashboard',
+        home: '/current',
+        settings: '/current/settings',
+        logout: '/current/logout',
         routes: [
-            { path: ['/dashboard', '/'], component: pages.Dashboard },
+            { path: ['/dashboard', '/'], component: pages.current.Home },
             { path: '/test', component: Test },
             ...roles.routes(),
             ...admins.routes(),
             ...system.routes(),
             ...demo.routes(),
+            ...current.routes(),
         ]
     }
 };
 
 const menus: Options['menus'] = [
-    { type: 'item', label: 'home', path: '/dashboard' },
+    { type: 'item', label: 'home', path: '/current' },
     { type: 'item', label: 'nest.abc', path: '/test' },
     {
         type: 'group', label: 'system', items: [
@@ -92,7 +96,8 @@ const o: Options = {
 
     title: 'title',
     logo: 'icon.svg',
-    menus: menus
+    menus: menus,
+    userMenus: current.menus()
 };
 
 createApp('app', o);

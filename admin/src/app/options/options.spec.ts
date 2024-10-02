@@ -51,6 +51,7 @@ test('build', async () => {
         routes,
         api: api,
         menus: [],
+        userMenus: [],
         title: '',
         logo: 'logo'
     })).toThrowError('title 不能为空');
@@ -60,6 +61,7 @@ test('build', async () => {
         routes,
         api: api,
         menus: [],
+        userMenus: [],
         title: 'title',
         logo: ''
     })).toThrowError('logo 不能为空');
@@ -69,6 +71,7 @@ test('build', async () => {
         routes,
         api: api,
         menus: [],
+        userMenus: [],
         title: 't1',
         logo: 'l1'
     });

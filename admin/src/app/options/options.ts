@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, PickOptional, Theme as CoreTheme, DictLoader, Mimetype, Mode, Scheme, UnitDisplay } from '@/core';
+import {
+    Contrast, PickOptional, Theme as CoreTheme, DictLoader,
+    Mimetype, Mode, Scheme, UnitDisplay
+} from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -14,17 +17,17 @@ export interface Options {
     /**
      * 网站的标题
      */
-    title: string
+    title: string;
 
     /**
      * 默认的主题
      */
-    theme?: Theme
+    theme?: Theme;
 
     /**
      * LOGO，URL 格式
      */
-    logo: string
+    logo: string;
 
     /**
      * 提供部分一系统或浏览器相关的设置
@@ -34,29 +37,37 @@ export interface Options {
     /**
      * 后台需要用到的 API 地址
      */
-    api: API
+    api: API;
 
     /**
      * 标题中的分隔符
      */
-    titleSeparator?: string
+    titleSeparator?: string;
 
     /**
      * 路由设置
      */
-    routes: Routes
+    routes: Routes;
 
     /**
      * 左侧的导航菜单
      */
-    menus: Array<MenuItem>
+    menus: Array<MenuItem>;
 
-    mimetype?: Mimetype
+    /**
+     * 用户菜单
+     */
+    userMenus: Array<MenuItem>;
+
+    /**
+     * API 接口请求时的内容类型
+     */
+    mimetype?: Mimetype;
 
     /**
      * 与本地化相关的一些设置
      */
-    locales: Locales
+    locales: Locales;
 }
 
 interface System {

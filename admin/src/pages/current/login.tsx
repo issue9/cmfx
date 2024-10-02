@@ -42,15 +42,15 @@ export function Login(): JSX.Element {
     };
 
     createEffect(() => {
-        ctx.title = ctx.locale().t('_i.login.title')!;
+        ctx.title = ctx.locale().t('_i.page.current.title')!;
     });
 
     return <div class="p--login palette--primary">
         <form onReset={onReset} onSubmit={onSubmit}>
-            <p class="text-lg">{ctx.locale().t('_i.login.title')}</p>
+            <p class="text-lg">{ctx.locale().t('_i.page.current.title')}</p>
             <TextField prefix={<span class="c--icon">person</span>}
-                placeholder={ctx.locale().t('_i.login.username')} accessor={f.accessor('username', true)} />
-            <Password icon='lock' placeholder={ctx.locale().t('_i.login.password')} accessor={f.accessor('password', true)} />
+                placeholder={ctx.locale().t('_i.page.current.username')} accessor={f.accessor('username', true)} />
+            <Password icon='password' placeholder={ctx.locale().t('_i.page.current.password')} accessor={f.accessor('password', true)} />
             <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
             <Button type="reset">{ ctx.locale().t('_i.reset') }</Button>
         </form>

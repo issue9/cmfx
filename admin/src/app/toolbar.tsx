@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Setter, Show, createSignal } from 'solid-js';
 
-import { Button, ItemValue, Menu } from '@/components';
+import { Button, Menu } from '@/components';
 import { compareBreakpoint } from '@/core';
 import { useApp, useOptions } from './context';
-import { floatAsideWidth } from './private';
+import { buildItems, floatAsideWidth } from './private';
 
 interface Props {
     settingsVisibleGetter: Accessor<boolean>;
@@ -53,28 +52,11 @@ function Username(): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
     const [visible, setVisible] = createSignal(false);
-    const nav = useNavigate();
-
-    const onChange = (select: ItemValue): undefined=>{
-        switch(select) {
-        case 'logout':
-            ctx.logout().finally(()=>{
-                nav(opt.routes.public.home);
-            });
-        }
-    };
 
     const activator = <Button style='flat' onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 
     return <Show when={ctx.user()?.id}>
-        <Menu hoverable direction='left' selectedClass='' activator={activator} onChange={onChange}>{[
-            {type: 'divider'},
-            {
-                type: 'item',
-                value: 'logout',
-                label: ctx.locale().t('_i.login.logout')
-            }
-        ]}</Menu>
+        <Menu hoverable anchor direction='left' selectedClass='' activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
     </Show>;
 }
 

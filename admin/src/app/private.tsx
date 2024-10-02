@@ -3,7 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { Navigate } from '@solidjs/router';
-import { Accessor, createEffect, createMemo, ErrorBoundary, Match, ParentProps, Setter, Show, Switch } from 'solid-js';
+import {
+    Accessor, createEffect, createMemo, ErrorBoundary,
+    Match, ParentProps, Setter, Show, Switch
+} from 'solid-js';
 
 import { Drawer, Item, List } from '@/components';
 import { Breakpoint, compareBreakpoint, Locale } from '@/core';
@@ -45,7 +48,7 @@ export function Private(props: Props) {
     </Switch>;
 }
 
-function buildItems(l: Locale, menus: Array<MenuItem>) {
+export function buildItems(l: Locale, menus: Array<MenuItem>) {
     const items: Array<Item> = [];
     menus.forEach((mi) => {
         switch (mi.type) {
