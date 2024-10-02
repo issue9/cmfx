@@ -53,6 +53,8 @@ export default function(props: Props): JSX.Element {
                 pop.hidePopover();
             }
         };
+    } else {
+        onchange = (_: Value) => { pop.hidePopover(); };
     }
 
     return <div class="w-fit">

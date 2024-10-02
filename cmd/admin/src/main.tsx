@@ -28,8 +28,6 @@ const routes: Routes = {
     },
     private: {
         home: '/current',
-        settings: '/current/settings',
-        logout: '/current/logout',
         routes: [
             { path: ['/dashboard', '/'], component: pages.current.Home },
             { path: '/test', component: Test },

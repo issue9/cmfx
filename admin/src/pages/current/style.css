@@ -5,7 +5,7 @@
  */
 
 .p--login {
-    @apply flex justify-center h-full;
+    @apply justify-center h-full items-center;
 
     form {
         @apply flex justify-center flex-col px-2 gap-2 w-full xs:w-80;

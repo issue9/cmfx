@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { Navigate, useNavigate } from '@solidjs/router';
-import { createEffect, JSX, Match, Switch } from 'solid-js';
+import { JSX, Match, Switch } from 'solid-js';
 
 import { useApp, useOptions } from '@/app/context';
-import { Button, ObjectAccessor, Password, TextField } from '@/components';
+import { Button, Page, ObjectAccessor, Password, TextField } from '@/components';
 import { Account } from '@/core';
 
 /**
@@ -41,11 +41,7 @@ export function Login(): JSX.Element {
         }
     };
 
-    createEffect(() => {
-        ctx.title = ctx.locale().t('_i.page.current.title')!;
-    });
-
-    return <div class="p--login palette--primary">
+    return <Page title="_i.page.current.title" class="p--login palette--primary">
         <form onReset={onReset} onSubmit={onSubmit}>
             <p class="text-lg">{ctx.locale().t('_i.page.current.title')}</p>
             <TextField prefix={<span class="c--icon">person</span>}
@@ -54,5 +50,5 @@ export function Login(): JSX.Element {
             <Button disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
             <Button type="reset">{ ctx.locale().t('_i.reset') }</Button>
         </form>
-    </div>;
+    </Page>;
 }

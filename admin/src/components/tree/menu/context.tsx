@@ -6,6 +6,7 @@ import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Value } from '@/components/tree/item';
 import { Props as BaseProps, presetProps, default as Panel, Ref } from './panel';
+import { calcPopoverPos } from '@/components/utils';
 
 export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref' | 'direction'> {
     /**
@@ -37,6 +38,8 @@ export default function(props: Props): JSX.Element {
                 pop.hidePopover();
             }
         };
+    } else {
+        onchange = (_: Value) => { pop.hidePopover(); };
     }
 
     return <>
@@ -44,9 +47,7 @@ export default function(props: Props): JSX.Element {
             e.preventDefault();
             pop.hidePopover();
             pop.showPopover();
-
-            pop.style.top = e.clientY + 'px';
-            pop.style.left = e.clientX + 'px';
+            calcPopoverPos(pop, new DOMRect(e.clientX, e.clientY, 1, 1));
         }}>{props.activator}</span>
 
         <Panel popover="auto" ref={el=>pop=el} onChange={onchange} {...panelProps}>{props.children}</Panel>

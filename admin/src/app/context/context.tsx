@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate } from '@solidjs/router';
+import { redirect, useNavigate } from '@solidjs/router';
 import localforage from 'localforage';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
@@ -139,8 +139,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          */
         async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
             if (status === 401) {
-                const nav = useNavigate();
-                nav(opt.routes.public.home);
+                redirect(opt.routes.public.home);
                 return;
             }
 

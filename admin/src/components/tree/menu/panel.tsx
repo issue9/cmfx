@@ -15,8 +15,6 @@ export type Ref = HTMLElement;
 export interface Props extends ContainerProps {
     /**
      * 当选择项发生变化时触发的事件
-     *
-     * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
      */
     onChange?: { (selected: Value, old?: Value): void };
 
