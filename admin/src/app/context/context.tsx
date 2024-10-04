@@ -4,11 +4,11 @@
 
 import { redirect, useNavigate } from '@solidjs/router';
 import localforage from 'localforage';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createMemo, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Theme, Account, Locale, Method, Problem, notify, Breakpoint } from '@/core';
+import { API, Theme, Account, Locale, Method, Problem, notify, Breakpoint, UnitStyle } from '@/core';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -45,9 +45,12 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
     const [user, { refetch }] = createUser(f, opt.api.info);
 
     const [localeGetter, localeSetter] = createSignal<string>(navigator.language);
-    const [locale] = createResource(localeGetter, (info) => {
-        return Locale.build(info);
+    const [unitStyle, setUnitStyle] = createSignal<UnitStyle>('narrow');
+
+    const locale = createMemo(()=>{
+        return Locale.build(localeGetter(), unitStyle());
     });
+
 
     Theme.init(opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
     const [bp, setBP] = createSignal<Breakpoint>(Theme.breakpoint);
@@ -220,6 +223,8 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          * @param id 本地化 ID
          */
         switchLocale(id: string) { localeSetter(id); },
+
+        switchUnitStyle(style: UnitStyle) { setUnitStyle(style); },
     };
 
     const Provider = (props: { children: JSX.Element }) => {

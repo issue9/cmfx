@@ -25,7 +25,7 @@ export class Theme {
     static #mode: Mode;
 
     static #breakpointEvents: Array<BreakpointChange>;
-    static #breakpoint: Breakpoint; // 会在构造函数初始化。
+    static #breakpoint: Breakpoint;
 
     /**
      * 初始化主题

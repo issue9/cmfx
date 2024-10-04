@@ -7,7 +7,6 @@ import { Messages } from './en';
 const messages: Messages = {
     _i: {
         fullscreen: '全屏',
-        settings: '设置',
         ok: '确定',
         os: '操作系统',
         database: '数据库',
@@ -182,6 +181,11 @@ const messages: Messages = {
             locale: '本地化',
             localeDesc: '设置页面的界面语言',
             uiLanguage: '界面语言',
+            unitStyle: '显示形式',
+            unitStyleDesc: '设置各类数据的显示形式',
+            long: '完整格式',
+            short: '短格式',
+            narrow: '精简格式'
         }
     }
 };

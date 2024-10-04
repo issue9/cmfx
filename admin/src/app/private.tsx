@@ -5,10 +5,10 @@
 import { Navigate } from '@solidjs/router';
 import {
     Accessor, createEffect, createMemo, ErrorBoundary,
-    Match, ParentProps, Setter, Show, Switch
+    Match, ParentProps, Setter, Switch
 } from 'solid-js';
 
-import { Drawer, Item, List } from '@/components';
+import { Drawer, Item, Label, List } from '@/components';
 import { Breakpoint, compareBreakpoint, Locale } from '@/core';
 import { useApp, useOptions } from './context';
 import * as errors from './errors';
@@ -65,12 +65,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
         case 'item':
             const i: Item = {
                 type: 'item',
-                label: <span class="c--icon-container">
-                    <Show when={mi.icon}>
-                        <span class="c--icon">{mi.icon}</span>
-                    </Show>
-                    {l.t(mi.label)}
-                </span>,
+                label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
                 accesskey: mi.accesskey,
                 value: mi.path
             };

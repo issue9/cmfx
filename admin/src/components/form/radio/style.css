@@ -8,7 +8,7 @@
 @layer components {
     .c--radio-group {
         label {
-            @apply border-2 border-transparent c--icon-container text-palette-fg;
+            @apply border-2 border-transparent c--icon-container text-palette-fg box-border;
 
             .radio-icon {
                 @apply mr-1;
@@ -16,11 +16,12 @@
         }
 
         label.border {
-            @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--fg-high)];
+            @apply border-palette-bg-low rounded-sm;
+            @apply has-[:checked]:border-palette-fg-high;
         }
 
         .content {
-            @apply flex flex-wrap gap-1
+            @apply flex flex-wrap gap-1;
         }
     }
 

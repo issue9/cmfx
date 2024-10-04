@@ -4,8 +4,10 @@
 
 import { JSX } from 'solid-js';
 
+import { Page } from '@/components';
+
 export default function(): JSX.Element {
-    return <div>
-        Home
-    </div>;
+    return <Page title='_i.page.current.home'>
+        home
+    </Page>;
 }

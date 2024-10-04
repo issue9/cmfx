@@ -5,7 +5,6 @@
 const messages = {
     _i: {
         fullscreen: 'full screen',
-        settings: 'settings',
         ok: 'OK',
         os: 'OS',
         database: 'database',
@@ -180,6 +179,11 @@ const messages = {
             locale: 'locale',
             localeDesc: 'set the ui language of the page',
             uiLanguage: 'ui language',
+            unitStyle: 'unit display',
+            unitStyleDesc: 'set the unit display style of page',
+            long: 'long',
+            short: 'short',
+            narrow: 'narrow'
         }
     }
 };

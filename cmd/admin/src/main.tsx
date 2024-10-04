@@ -27,7 +27,7 @@ const routes: Routes = {
         ]
     },
     private: {
-        home: '/current',
+        home: '/current/home',
         routes: [
             { path: ['/dashboard', '/'], component: pages.current.Home },
             { path: '/test', component: Test },
@@ -41,7 +41,7 @@ const routes: Routes = {
 };
 
 const menus: Options['menus'] = [
-    { type: 'item', label: 'home', path: '/current' },
+    { type: 'item', label: 'home', path: '/current/home' },
     { type: 'item', label: 'nest.abc', path: '/test' },
     {
         type: 'group', label: 'system', items: [

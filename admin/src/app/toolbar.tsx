@@ -10,8 +10,6 @@ import { useApp, useOptions } from './context';
 import { buildItems, floatAsideWidth } from './private';
 
 interface Props {
-    settingsVisibleGetter: Accessor<boolean>;
-    settingsVisibleSetter: Setter<boolean>;
     menuVisibleGetter: Accessor<boolean>;
     menuVisibleSetter: Setter<boolean>;
 }
@@ -37,12 +35,6 @@ export default function Toolbar(props: Props) {
 
         <div class="flex gap-2">
             <Fullscreen />
-
-            <Button icon type="button" style='flat' title={ctx.locale().t('_i.settings')} rounded
-                onClick={() =>props.settingsVisibleSetter(!props.settingsVisibleGetter())}>
-                settings
-            </Button>
-
             <Username />
         </div>
     </header>;
@@ -53,10 +45,10 @@ function Username(): JSX.Element {
     const opt = useOptions();
     const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button style='flat' onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
+    const activator = <Button style={/*@once*/'flat'} onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 
     return <Show when={ctx.user()?.id}>
-        <Menu hoverable anchor direction='left' selectedClass='' activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
+        <Menu hoverable={/*@once*/true} anchor={/*@once*/true} direction={/*@once*/'left'} selectedClass='' activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
     </Show>;
 }
 
@@ -77,7 +69,7 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <Button icon type="button" style='flat' rounded onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
+    return <Button icon={/*@once*/true} type={/*@once*/'button'} style={/*@once*/'flat'} rounded={/*@once*/true} onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
 }

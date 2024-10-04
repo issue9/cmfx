@@ -13,6 +13,6 @@
     }
 
     .c--icon-container {
-        @apply flex items-center text-center;
+        @apply flex items-center text-center content-center;
     }
 }
