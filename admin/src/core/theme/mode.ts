@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Config } from '@/core/config';
+
 export const modes = ['system', 'dark', 'light'] as const;
 
 const key = 'theme_mode';
@@ -18,12 +20,15 @@ export type Mode = typeof modes[number];
  *
  * @param preset 如果未指定主题模式，则采用此值。
  */
-export function getMode(preset: Mode) {
-    const m = (localStorage.getItem(key) ?? preset) as Mode;
-    if (modes.indexOf(m) < 0) {
+export function getMode(c: Config, preset: Mode) {
+    let m = c.get<Mode>(key);
+    if (!m) {
+        m = preset;
+    } else if (modes.indexOf(m) < 0) {
         console.log(`从 localStorage 读取的 ${key} 值 ${m} 不符合要求！`);
-        return 'system';
+        m = 'system';
     }
+
     return m;
 }
 
@@ -32,7 +37,7 @@ export function getMode(preset: Mode) {
  *
  * NOTE: 主题模式会记录在当前浏览器环境，下次启动时会自动读取。
  */
-export function changeMode(mode: Mode) {
+export function changeMode(c: Config, mode: Mode) {
     switch (mode) {
     case 'system':
         setDarkMode(dark.matches);
@@ -48,7 +53,7 @@ export function changeMode(mode: Mode) {
         break;
     }
 
-    localStorage.setItem(key, mode);
+    c.set(key, mode);
 }
 
 function systemMode(e: MediaQueryListEvent) { setDarkMode(e.matches); }

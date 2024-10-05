@@ -4,11 +4,14 @@
 
 import { redirect, useNavigate } from '@solidjs/router';
 import localforage from 'localforage';
-import { JSX, createContext, createMemo, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Theme, Account, Locale, Method, Problem, notify, Breakpoint, UnitStyle } from '@/core';
+import {
+    API, Theme, Config, Account, Locale, Method,
+    Problem, notify, Breakpoint, UnitStyle,
+} from '@/core';
 import { createUser } from './user';
 
 type Options = Required<buildOptions>;
@@ -18,6 +21,9 @@ export type AppContext = ReturnType<typeof buildContext>['ctx'];
 const appContext = createContext<AppContext>();
 
 const optContext = createContext<Options>();
+
+// 保存于 sessionStorage 中的表示当前登录用户的 id
+const currentKey = 'current';
 
 /**
  * 提供应用内的全局操作方法
@@ -42,19 +48,21 @@ export function useOptions(): Options {
 }
 
 export function buildContext(opt: Required<buildOptions>, f: API) {
-    const [user, { refetch }] = createUser(f, opt.api.info);
+    const [user, userData] = createUser(f, opt.api.info);
 
-    const [localeGetter, localeSetter] = createSignal<string>(navigator.language);
-    const [unitStyle, setUnitStyle] = createSignal<UnitStyle>('narrow');
+    let uid = sessionStorage.getItem(currentKey) ?? '';
 
-    const locale = createMemo(()=>{
-        return Locale.build(localeGetter(), unitStyle());
-    });
-
-
-    Theme.init(opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
+    Theme.init(new Config(uid), opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
     const [bp, setBP] = createSignal<Breakpoint>(Theme.breakpoint);
     Theme.onBreakpoint((v)=>setBP(v));
+
+    let localeID: string | undefined;
+    let unitStyle: UnitStyle | undefined;
+    const [locale, localeData] = createResource(() => {
+        const conf = new Config(uid);
+        Theme.switchConfig(conf);
+        return new Locale(conf, localeID, unitStyle);
+    });
 
     const ctx = {
         isLogin() { return f.isLogin(); },
@@ -160,7 +168,10 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         async login(account: Account) {
             const ret = await f.login(account);
             if (ret === true) {
-                await refetch();
+                uid = account.username;
+                sessionStorage.setItem(currentKey, uid);
+                await userData.refetch();
+                await localeData.refetch();
             }
             return ret;
         },
@@ -170,7 +181,9 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          */
         async logout() {
             await f.logout();
-            await refetch();
+            sessionStorage.removeItem(currentKey);
+            await userData.refetch();
+            await localeData.refetch();
         },
 
         /**
@@ -181,7 +194,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         /**
          * 触发更新用户的事件
          */
-        async updateUser() { await refetch(); },
+        async updateUser() { await userData.refetch(); },
 
         set title(v: string) {
             if (v) {
@@ -222,9 +235,15 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          *
          * @param id 本地化 ID
          */
-        switchLocale(id: string) { localeSetter(id); },
+        switchLocale(id: string) {
+            localeID = id;
+            localeData.refetch();
+        },
 
-        switchUnitStyle(style: UnitStyle) { setUnitStyle(style); },
+        switchUnitStyle(style: UnitStyle) {
+            unitStyle = style;
+            localeData.refetch();
+        },
     };
 
     const Provider = (props: { children: JSX.Element }) => {

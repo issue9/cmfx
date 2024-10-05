@@ -15,23 +15,25 @@ export default function(): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
 
-    const modeFA = FieldAccessor<Mode>('mode', Theme.mode);
-    modeFA.onChange((m) => { Theme.mode = m; });
+    const modeFA = FieldAccessor<Mode>('mode', Theme.mode());
+    modeFA.onChange((m) => { Theme.setMode(m); });
 
-    const contrastFA = FieldAccessor<Contrast>('contrast', Theme.contrast);
-    contrastFA.onChange((m) => { Theme.contrast = m; });
+    const contrastFA = FieldAccessor<Contrast>('contrast', Theme.contrast());
+    contrastFA.onChange((m) => { Theme.setContrast(m); });
 
     const schemesOptions: Options<number> = [];
     for (const s of opt.theme.schemes) {
         schemesOptions.push([s.primary, <ColorBlock s={s} />]);
     }
-    const schemeFA = FieldAccessor<number>('scheme', Theme.scheme.primary);
-    schemeFA.onChange((c) => { Theme.scheme = opt.theme.schemes.find((s)=>s.primary===c)!; });
+    const schemeFA = FieldAccessor<number>('scheme', Theme.scheme().primary);
+    schemeFA.onChange((c) => {
+        Theme.setScheme(opt.theme.schemes.find((s)=>s.primary===c)!);
+    });
 
     const localeFA = FieldAccessor<string>('locale', ctx.locale().match(opt.locales.locales), false);
     localeFA.onChange((v) => { ctx.switchLocale(v); });
 
-    const unitFA = FieldAccessor<UnitStyle>('unit', 'narrow');
+    const unitFA = FieldAccessor<UnitStyle>('unit', ctx.locale().unitStyle);
     unitFA.onChange((v) => { ctx.switchUnitStyle(v); });
 
     return <Page title='_i.page.current.settings' class="max-w-sm">

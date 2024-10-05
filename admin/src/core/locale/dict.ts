@@ -24,7 +24,7 @@ type FlattenDict<T extends Dict, P = {}> = UnionToIntersection<
  * 获取对象 T 中所有字段类型为 {@link Dict} 的字段名称集合作为类型
  *
  * 比如：
- * ```tt
+ * ```ts
  * interface Dict {
  *     f1: string;
  *     f2: { f22: string; }
