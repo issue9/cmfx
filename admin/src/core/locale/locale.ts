@@ -122,7 +122,7 @@ export class Locale {
      * @param locale 语言 ID，如果为空则从 c 中获取，如果 c 中也不存在则采用浏览器 {@link navigator.language} 变量；
      * @param unitStyle 各种单位的显示风格，如果为空则从 c 中获取，如果也不存在于 c，则采用 'narrow' 作为默认值；
      */
-    constructor(c: Config, locale: string | undefined, unitStyle: UnitStyle | undefined) {
+    constructor(c: Config, locale?: string, unitStyle?: UnitStyle) {
         if (!locale) {
             locale = c.get<string>(localeKey);
         }
