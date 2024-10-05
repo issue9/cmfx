@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Config } from '@/core/config';
+
 export const contrasts = ['nopreference', 'less', 'more'] as const;
 
 const key = 'theme_contrast';
@@ -13,11 +15,13 @@ const key = 'theme_contrast';
  */
 export type Contrast = typeof contrasts[number];
 
-export function getContrast(preset: Contrast): Contrast {
-    const c = (localStorage.getItem(key) ?? preset) as Contrast;
-    if (contrasts.indexOf(c) < 0) {
+export function getContrast(conf: Config, preset: Contrast) {
+    let c = conf.get<Contrast>(key);
+    if (!c) {
+        c = preset;
+    } else if (contrasts.indexOf(c) < 0) {
         console.log(`从 localStorage 读取的 ${key} 值 ${c} 不符合要求！`);
-        return 'nopreference';
+        c = 'nopreference';
     }
     return c;
 }
@@ -25,10 +29,10 @@ export function getContrast(preset: Contrast): Contrast {
 /**
  * 调整对比度
  */
-export function changeContrast(c: Contrast) {
+export function changeContrast(conf: Config, c: Contrast) {
     const l = contrastLuminance.get(c)!;
     document.documentElement.style.setProperty('--contrast', l.toString());
-    localStorage.setItem(key, c);
+    conf.set(key, c);
 }
 
 const contrastLuminance = new Map<Contrast, number>([

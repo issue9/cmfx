@@ -16,5 +16,6 @@ export * from './page';
 export * from './pagination';
 export * from './table';
 export * from './tree';
+export * from './typography';
 
 export * from './utils';

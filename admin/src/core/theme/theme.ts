@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Config } from '@/core/config';
 import { breakpointsOrder, breakpointsMedia, Breakpoint } from './breakpoints';
 import { Contrast, changeContrast, getContrast, contrasts } from './contrast';
 import { Mode, changeMode, getMode, modes } from './mode';
@@ -19,35 +20,29 @@ export class Theme {
     static readonly modes = modes;
     static readonly breakpoints = breakpointsOrder;
 
-    // 几个属性的默认值
+    static #config: Config;
+
     static #scheme: Scheme;
     static #contrast: Contrast;
     static #mode: Mode;
 
     static #breakpointEvents: Array<BreakpointChange>;
-    static #breakpoint: Breakpoint; // 会在构造函数初始化。
+    static #breakpoint: Breakpoint;
 
     /**
      * 初始化主题
      *
-     * @param scheme 默认的主题值，如果为 number 类型，则采用 {@link Theme#genScheme} 生成 {@link Scheme} 对象；
+     * @param scheme 默认的主题值；
      * @param mode 默认的模式；
      * @param contrast 默认的对比度；
      */
-    static init(scheme: number | Scheme, mode: Mode = 'system', contrast: Contrast = 'nopreference') {
-        if (typeof scheme === 'number') {
-            scheme = genScheme(scheme);
-            Theme.#scheme = scheme;
-        }
-        changeScheme(getScheme(scheme));
-
-        Theme.#mode = mode;
-        changeMode(getMode(mode));
-
-        Theme.#contrast = contrast;
-        changeContrast(getContrast(contrast));
-
+    static init(conf: Config, scheme: Scheme, mode: Mode = 'system', contrast: Contrast = 'nopreference') {
         Theme.#initBreakpoint();
+
+        Theme.#scheme = scheme;
+        Theme.#mode = mode;
+        Theme.#contrast = contrast;
+        Theme.switchConfig(conf);
     }
 
     static #initBreakpoint() {
@@ -61,9 +56,9 @@ export class Theme {
             // 但是不会触发 xs，因为 sm 本身也是符合 xs 的条件。
             const event = (ev: {matches: boolean}) => {
                 if (ev.matches) {
-                    Theme.#change(key);
+                    Theme.#breakpointChange(key);
                 } else if (key != 'xs') {
-                    Theme.#change(breakpointsOrder[breakpointsOrder.indexOf(key) - 1]);
+                    Theme.#breakpointChange(breakpointsOrder[breakpointsOrder.indexOf(key) - 1]);
                 }
             };
             event(mql); // 先运行一次，获取初始的 #current。
@@ -72,7 +67,7 @@ export class Theme {
         });
     }
 
-    static #change(val: Breakpoint) {
+    static #breakpointChange(val: Breakpoint) {
         const old = Theme.#breakpoint;
         Theme.#breakpointEvents.forEach((e) => {
             e(val, old);
@@ -93,17 +88,45 @@ export class Theme {
         Theme.#breakpointEvents.push(...e);
     }
 
-    static get mode() { return getMode(Theme.#mode); }
+    /**
+     * 切换配置
+     */
+    static switchConfig(conf: Config) {
+        Theme.#config = conf;
 
-    static set mode(m: Mode) { changeMode(m); }
+        const s = getScheme(conf, Theme.#scheme);
+        changeScheme(conf, s);
+        Theme.#scheme = s;
 
-    static get contrast() { return getContrast(Theme.#contrast); }
+        const m = getMode(conf, Theme.#mode);
+        changeMode(conf, m);
+        Theme.#mode = m;
 
-    static set contrast(v: Contrast) { changeContrast(v); }
+        const c = getContrast(conf, Theme.#contrast);
+        changeContrast(conf, c);
+        Theme.#contrast = c;
+    }
 
-    static get scheme() { return getScheme(Theme.#scheme); }
+    static mode() { return Theme.#mode; }
 
-    static set scheme(v: Scheme) { changeScheme(v); }
+    static setMode(m: Mode) {
+        changeMode(Theme.#config, m);
+        Theme.#mode = m;
+    }
+
+    static contrast() { return Theme.#contrast; }
+
+    static setContrast(v: Contrast) {
+        changeContrast(Theme.#config, v);
+        Theme.#contrast = v;
+    }
+
+    static scheme() { return Theme.#scheme; }
+
+    static setScheme(v: Scheme) {
+        changeScheme(Theme.#config, v);
+        Theme.#scheme = v;
+    }
 
     /**
      * 根据给定的颜色值生成 Scheme 对象

@@ -8,8 +8,12 @@ import IntlMessageFormat from 'intl-messageformat';
 import { API } from '@/core/api';
 import { Dict,Loader, flatten, Keys } from './dict';
 import { parseDuration } from './duration';
+import { Config } from '@/core/config';
 
-export const unitDisplays = ['full', 'short', 'narrow'] as const;
+const localeKey = 'locale';
+const unitStyleKey = 'unit_style';
+
+export const unitStyles = ['full', 'short', 'narrow'] as const;
 
 /**
  * 一些与本地化相关的单位名称的显示方式
@@ -20,7 +24,7 @@ export const unitDisplays = ['full', 'short', 'narrow'] as const;
  *
  * 主要是针对 {@link Intl} 的一些预设，如果需要精细的控制，可自己实现。
  */
-export type UnitDisplay = typeof unitDisplays[number];
+export type UnitStyle = typeof unitStyles[number];
 
 const kb = 1024;
 const mb = kb * 1024;
@@ -95,18 +99,9 @@ export class Locale {
         Locale.#messages.set(locale, msgs);
     }
 
-    /**
-     * 生成指定 ID 的本地化对象
-     *
-     * @@param locale 语言 ID，如果为空则采用浏览器 {@link navigator.language} 变量；
-     * @param unitStyle 各种单位的显示风格；
-     */
-    static build(locale?: string, unitStyle: UnitDisplay = 'narrow'): Locale {
-        return new Locale(locale, unitStyle);
-    }
-
     #current: Map<string, IntlMessageFormat>;
     #locale: Intl.Locale;
+    #unitStyle: UnitStyle;
 
     #datetime: Intl.DateTimeFormat;
     #date: Intl.DateTimeFormat;
@@ -120,10 +115,29 @@ export class Locale {
     #duration: Intl.DurationFormat;
     #displayNames: Intl.DisplayNames;
 
-    private constructor(locale?: string, unitStyle: UnitDisplay = 'narrow') {
+    /**
+     * 构造函数
+     *
+     * @param c 配置对象；
+     * @param locale 语言 ID，如果为空则从 c 中获取，如果 c 中也不存在则采用浏览器 {@link navigator.language} 变量；
+     * @param unitStyle 各种单位的显示风格，如果为空则从 c 中获取，如果也不存在于 c，则采用 'narrow' 作为默认值；
+     */
+    constructor(c: Config, locale?: string, unitStyle?: UnitStyle) {
+        if (!locale) {
+            locale = c.get<string>(localeKey);
+        }
         if (!locale) {
             locale = navigator.language;
         }
+        c.set(localeKey, locale);
+
+        if (!unitStyle) {
+            unitStyle = c.get<UnitStyle>(unitStyleKey);
+        }
+        if (!unitStyle) {
+            unitStyle = 'narrow';
+        }
+        c.set(unitStyleKey, unitStyle);
 
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
         const curr = Locale.#messages.get(locale);
@@ -133,6 +147,7 @@ export class Locale {
             this.#current = new Map();
         }
 
+        this.#unitStyle = unitStyle;
         this.#locale = new Intl.Locale(locale);
         Locale.#api.locale = locale;
 
@@ -176,6 +191,8 @@ export class Locale {
     }
 
     get locale(): Intl.Locale { return this.#locale; }
+
+    get unitStyle(): UnitStyle { return this.#unitStyle; }
 
     /**
      * 创建 {@link Intl#DateFormat} 对象

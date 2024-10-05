@@ -51,7 +51,7 @@ export class current implements Pages {
 
     routes(): Array<Route> {
         return [
-            { path: this.#prefix, component:Home },
+            { path: this.#prefix + '/home', component:Home },
             { path: this.#prefix + '/settings', component: Settings },
             { path: this.#prefix + '/securitylogs', component: SecurityLogs },
             { path: this.#prefix + '/logout', component: Logout },
@@ -60,7 +60,7 @@ export class current implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_i.page.current.home', path: this.#prefix, icon: 'home' },
+            { type: 'item', label: '_i.page.current.home', path: this.#prefix + '/home', icon: 'home' },
             { type: 'item', label: '_i.page.current.settings', path: this.#prefix + '/settings', icon: 'settings' },
             { type: 'item', label: '_i.page.current.securitylog', path: this.#prefix + '/securitylogs', icon: 'badge' },
             { type: 'divider' },

@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Config } from '@/core/config';
+
 const key = 'theme_scheme';
 
 /**
@@ -17,12 +19,12 @@ export interface Scheme {
     error?: number;
 }
 
-export function getScheme(preset: Scheme): Scheme {
-    const str = localStorage.getItem(key);
-    if (str) { // 保存在 localStorage 中的必然是对象
-        return JSON.parse(str) as Scheme;
+export function getScheme(c: Config, preset: Scheme) {
+    let ret = c.get<Scheme>(key);
+    if (!ret) {
+        ret = preset;
     }
-    return preset;
+    return ret;
 }
 
 /**
@@ -30,15 +32,14 @@ export function getScheme(preset: Scheme): Scheme {
  *
  * 此方法提供了动态改变主题色的方法，发生在 theme.css 应用之后。
  */
-export function changeScheme(c: Scheme) {
-    Object.entries(c).forEach((o)=>{
+export function changeScheme(c: Config, s: Scheme) {
+    Object.entries(s).forEach((o)=>{
         if (o[1] !== undefined) {
             document.documentElement.style.setProperty('--'+o[0], o[1]);
         }
     });
 
-    const str = JSON.stringify(c);
-    localStorage.setItem(key, str);
+    c.set(key, s);
 }
 
 export function genScheme(primary: number, error?: number, step = 60): Scheme {

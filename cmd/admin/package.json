@@ -26,7 +26,7 @@
         "solid-js": "^1.9.1"
     },
     "devDependencies": {
-        "@types/node": "^22.7.3",
+        "@types/node": "^22.7.4",
         "@vitejs/plugin-basic-ssl": "^1.1.0",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.6",

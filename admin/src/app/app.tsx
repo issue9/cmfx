@@ -6,13 +6,12 @@ import { HashRouter } from '@solidjs/router';
 import { JSX, Show, createSignal } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Drawer, Notify, SystemDialog } from '@/components';
+import { Notify, SystemDialog } from '@/components';
 import { API, Locale } from '@/core';
 import { buildContext } from './context';
 import * as errors from './errors';
 import { Options, build as buildOptions } from './options';
 import { Private } from './private';
-import XSetting from './settings';
 import { default as Toolbar } from './toolbar';
 
 /**
@@ -46,7 +45,6 @@ export async function create(elementID: string, o: Options) {
 function App(props: {opt: Required<Options>, f: API}) {
     const { Provider } = buildContext(props.opt, props.f); // buildContext 必须在组件内使用！
 
-    const [settingsVisible, setSettingsVisible] = createSignal(false);
     const [menuVisible, setMenuVisible] = createSignal(true);
 
     const Root = (p: { children?: JSX.Element }) => (<Provider>
@@ -54,14 +52,8 @@ function App(props: {opt: Required<Options>, f: API}) {
             <SystemDialog palette='surface' />
         </Show>
         <div class="app palette--surface">
-            <Toolbar settingsVisibleGetter={settingsVisible} settingsVisibleSetter={setSettingsVisible}
-                menuVisibleGetter={menuVisible} menuVisibleSetter={setMenuVisible} />
-            <main class="app-main">
-                <Drawer pos="right" palette='secondary' main={p.children} floating
-                    visible={settingsVisible()} close={() => setSettingsVisible(false)}>
-                    <XSetting />
-                </Drawer>
-            </main>
+            <Toolbar menuVisibleGetter={menuVisible} menuVisibleSetter={setMenuVisible} />
+            <main class="app-main">{p.children}</main>
         </div>
     </Provider>);
 

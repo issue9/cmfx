@@ -5,11 +5,13 @@
 import { expect, test } from 'vitest';
 
 import { changeContrast, Contrast, getContrast } from './contrast';
+import { Config } from '@/core/config';
 
 test('contrast', () => {
-    expect(getContrast('less')).toEqual<Contrast>('less');
-    expect(getContrast('not-exists' as any)).toEqual<Contrast>('nopreference');
+    const c = new Config('');
 
-    changeContrast('more');
-    expect(getContrast('less')).toEqual<Contrast>('more');
+    expect(getContrast(c, 'less')).toEqual<Contrast>('less');
+
+    changeContrast(c, 'more');
+    expect(getContrast(c, 'less')).toEqual<Contrast>('more');
 });

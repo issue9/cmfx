@@ -95,14 +95,14 @@
         "echarts": "^5.5.1",
         "intl-messageformat": "^10.5.14",
         "localforage": "^1.10.0",
-        "material-symbols": "^0.23.0",
+        "material-symbols": "^0.24.0",
         "quill": "^2.0.2",
         "solid-js": "^1.9.1",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
-        "@types/node": "^22.7.3",
-        "@vitest/coverage-v8": "^2.1.1",
+        "@types/node": "^22.7.4",
+        "@vitest/coverage-v8": "^2.1.2",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.6",
         "jsdom": "^25.0.1",
@@ -110,9 +110,9 @@
         "tailwindcss": "^3.4.13",
         "typescript": "^5.6.2",
         "vite": "^5.4.8",
-        "vite-plugin-dts": "^4.2.2",
+        "vite-plugin-dts": "^4.2.3",
         "vite-plugin-solid": "^2.10.2",
-        "vitest": "^2.1.1",
+        "vitest": "^2.1.2",
         "vitest-fetch-mock": "^0.3.0"
     }
 }

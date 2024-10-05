@@ -4,7 +4,7 @@
 
 import {
     Contrast, PickOptional, Theme as CoreTheme, DictLoader,
-    Mimetype, Mode, Scheme, UnitDisplay
+    Mimetype, Mode, Scheme, UnitStyle
 } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
@@ -108,9 +108,9 @@ export interface Locales {
     fallback: LocaleID;
 
     /**
-     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link UnitDisplay}
+     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link UnitStyle}
      */
-    unitStyle?: UnitDisplay;
+    unitStyle?: UnitStyle;
 }
 
 export interface Theme {
