@@ -9,9 +9,9 @@ import { default as Checkbox } from './checkbox';
 
 export interface Props<T> extends FieldBaseProps {
     /**
-     * 是否需要显示多选按钮的图标
+     * 是否显示为块
      */
-    icon?: boolean;
+    block?: boolean;
 
     vertical?: boolean;
     accessor: Accessor<Array<T>>;
@@ -31,7 +31,7 @@ export default function Group<T extends string | number> (props: Props<T>) {
     }, props);
     const access = props.accessor;
 
-    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'icon', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
+    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'block', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
 
     return <fieldset accessKey={props.accessKey} tabIndex={props.tabindex} disabled={props.disabled} classList={{
         'c--checkbox-group': true,

@@ -8,9 +8,9 @@ import { Accessor, FieldBaseProps, Options } from '@/components/form';
 
 export interface Props<T> extends FieldBaseProps {
     /**
-     * 是否启用单选按钮的图标
+     * 是否显示为块
      */
-    icon?: boolean;
+    block?: boolean;
 
     vertical?: boolean;
     accessor: Accessor<T>;
@@ -22,7 +22,6 @@ export interface Props<T> extends FieldBaseProps {
 
 export default function Group<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({
-        icon: true,
         checkedIcon: 'radio_button_checked',
         uncheckedIcon: 'radio_button_unchecked'
     }, props);
@@ -43,7 +42,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <label classList={{'border': !props.icon}}>
+                    <label classList={{'border': props.block}}>
                         <input type="radio" class="appearance-none"
                             readOnly={props.readonly}
                             tabIndex={props.tabindex}
@@ -57,7 +56,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
                                 }
                             }}
                         />
-                        <Show when={props.icon}>
+                        <Show when={!props.block}>
                             <span class="radio-icon c--icon">
                                 {access.getValue() === item[0] ? props.checkedIcon : props.uncheckedIcon }
                             </span>

@@ -8,9 +8,9 @@ import { FieldBaseProps } from '@/components/form';
 
 export interface Props extends FieldBaseProps {
     /**
-     * 是否需要显示多选按钮的图标
+     * 是否显示为块
      */
-    icon?: boolean;
+    block?: boolean;
 
     /**
      * 复选框的初始状态，undefined 表示未确定的状态，true 为选中，false 为未选中。
@@ -25,7 +25,6 @@ export interface Props extends FieldBaseProps {
 }
 
 const presetProps: Partial<Props> = {
-    icon: true,
     checkedIcon: 'check_box',
     uncheckedIcon: 'check_box_outline_blank',
     indeterminateIcon: 'indeterminate_check_box'
@@ -37,7 +36,7 @@ export default function(props: Props) {
 
     return <label title={props.title} classList={{
         'c--checkbox': true,
-        'c--checkbox-border': !props.icon,
+        'c--checkbox-border': props.block,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <input type="checkbox"
@@ -56,7 +55,7 @@ export default function(props: Props) {
                 }
             }}
         />
-        <Show when={props.icon}>
+        <Show when={!props.block}>
             <span class="checkbox-icon c--icon">
                 { chk() === undefined ? props.indeterminateIcon : (chk() ? props.checkedIcon : props.uncheckedIcon) }
             </span>

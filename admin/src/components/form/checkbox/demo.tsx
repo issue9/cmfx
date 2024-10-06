@@ -14,7 +14,7 @@ export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [verticalS, vertical] = boolSelector('vertical');
-    const [iconS, icon] = boolSelector('icon', true);
+    const [blockS, block] = boolSelector('block');
     const [iconStyle, setIconStyle] = createSignal(false);
 
     const groupFA = FieldAccessor('checkbox', ['1'], true);
@@ -29,7 +29,7 @@ export default function() {
             {readonlyS}
             {disabledS}
             {verticalS}
-            {iconS}
+            {blockS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
             <button class="c--button c--button-fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
@@ -41,7 +41,7 @@ export default function() {
                 <For each={palettesWithUndefined}>
                     {(item)=>(
                         <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
-                            title={item ? item : 'undefined'} label='test' icon={icon()} palette={item} disabled={disabled()} readonly={readonly()}
+                            title={item ? item : 'undefined'} label='test' block={block()} palette={item} disabled={disabled()} readonly={readonly()}
                         />
                     )}
                 </For>
@@ -49,7 +49,7 @@ export default function() {
 
             <div class="flex flex-col mb-10">
                 <CheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
-                    icon={icon()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
+                    block={block()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
                     options={groupOptions} accessor={groupFA}
                 />
                 <pre>{ groupFA.getValue().toString() }</pre>

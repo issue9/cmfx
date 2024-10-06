@@ -17,7 +17,7 @@ export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [verticalS, vertical] = boolSelector('vertical');
-    const [iconS, icon] = boolSelector('icon');
+    const [blockS, block] = boolSelector('block');
     const [iconStyle, setIconStyle] = createSignal(false);
 
     const options: Options<Palette|undefined> = [];
@@ -30,14 +30,14 @@ export default function() {
             {readonlyS}
             {disabledS}
             {verticalS}
-            {iconS}
+            {blockS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
             <button class="c--button c--button-fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </>
     } stages={
         <>
-            <XGroup label='test' icon={icon()} vertical={vertical()} palette={f.getValue()}
+            <XGroup label='test' block={block()} vertical={vertical()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
                 checkedIcon={iconStyle() ? 'task_alt' : undefined }
             />

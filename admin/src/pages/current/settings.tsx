@@ -38,7 +38,7 @@ export default function(): JSX.Element {
             {ctx.locale().t('_i.theme.modeDesc')! }
         </Description>
 
-        <RadioGroup accessor={modeFA} icon={/*@once*/true}
+        <RadioGroup accessor={modeFA} block={/*@once*/false}
             options={/*@once*/[
                 ['system', <Label icon={/*@once*/'brightness_6'}>{ctx.locale().t('_i.theme.system')}</Label>],
                 ['dark', <Label icon={/*@once*/'dark_mode'}>{ctx.locale().t('_i.theme.dark')}</Label>],
@@ -52,7 +52,7 @@ export default function(): JSX.Element {
             {ctx.locale().t('_i.theme.contrastDesc')! }
         </Description>
 
-        <RadioGroup accessor={contrastFA} icon={/*@once*/true}
+        <RadioGroup accessor={contrastFA} block={/*@once*/false}
             options={/*@once*/[
                 ['more', <Label icon={/*@once*/'exposure_plus_1'}>{ctx.locale().t('_i.theme.more')}</Label>],
                 ['nopreference', <Label icon={/*@once*/'exposure_zero'}>{ctx.locale().t('_i.theme.nopreference')}</Label>],
@@ -66,7 +66,7 @@ export default function(): JSX.Element {
             {ctx.locale().t('_i.theme.colorDesc')! }
         </Description>
 
-        <RadioGroup accessor={schemeFA} icon={/*@once*/false} options={/*@once*/schemesOptions}/>
+        <RadioGroup accessor={schemeFA} block={/*@once*/true} options={/*@once*/schemesOptions}/>
 
         <Divider />
 
@@ -84,7 +84,7 @@ export default function(): JSX.Element {
             {ctx.locale().t('_i.locale.unitStyleDesc')! }
         </Description>
 
-        <RadioGroup accessor={unitFA} icon={/*@once*/true} options={/*@once*/[
+        <RadioGroup accessor={unitFA} block={/*@once*/false} options={/*@once*/[
             ['narrow', <Label icon={/*@once*/'format_letter_spacing_standard'}>{ctx.locale().t('_i.locale.narrow')}</Label>],
             ['short', <Label icon={/*@once*/'format_letter_spacing_wide'}>{ctx.locale().t('_i.locale.short')}</Label>],
             ['full', <Label icon={/*@once*/'format_letter_spacing_wider'}>{ctx.locale().t('_i.locale.long')}</Label>],
