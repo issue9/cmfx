@@ -26,7 +26,7 @@ export default function() {
     };
 
     return <Page title="_i.page.current.securitylog">
-        <RemoteTable path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
+        <RemoteTable<SecurityLog, Query> path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
             { id: 'content', label: ctx.locale().t('_i.page.current.content') },
             { id: 'ip', label: ctx.locale().t('_i.page.current.ip') },
             { id: 'ua', label: ctx.locale().t('_i.page.current.ua'), content:(_: string, val?: string)=>{

@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import { redirect, useNavigate } from '@solidjs/router';
-import localforage from 'localforage';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
@@ -75,16 +74,16 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
             await f.clearCache();
 
             // localStorage
-            await localforage.clear(async(err)=>{
-                if (err) {
-                    await this.notify(locale()!.t('_i.error.unknownError')!, err);
-                }
-            });
-
             localStorage.clear();
             sessionStorage.clear();
 
-            // TODO IndexedDB
+            // IndexedDB
+            const dbs = await indexedDB.databases();
+            for(const db of dbs) {
+                if (db.name) {
+                    indexedDB.deleteDatabase(db.name);
+                }
+            }
 
             const nav = useNavigate();
             nav(opt.routes.public.home);

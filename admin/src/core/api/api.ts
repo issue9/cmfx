@@ -15,7 +15,7 @@ export class API {
     readonly #baseURL: string;
     readonly #loginPath: string;
     #locale: string;
-    #token: Token | null;
+    #token: Token | undefined;
 
     readonly #cache: Cache;
     #cachePaths: Map<string, Array<string>>;
@@ -32,7 +32,7 @@ export class API {
      * @param locale 请求报头 accept-language 的内容。
      */
     static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<API> {
-        const t = await getToken();
+        const t = getToken();
 
         let c: Cache;
         if ('caches' in window) {
@@ -41,10 +41,10 @@ export class API {
             console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
             c = new CacheImplement();
         }
-        return new API(baseURL, loginPath, mimetype, locale, t, c);
+        return new API(baseURL, loginPath, mimetype, locale, c, t);
     }
 
-    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, token: Token | null, cache: Cache) {
+    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
         const s = serializers.get(mimetype);
         if (!s) {
             throw `不支持的 contentType ${mimetype}`;
@@ -203,7 +203,7 @@ export class API {
     async login(account: Account): Promise<Problem<never>|undefined|true> {
         const token = await this.post<Token>(this.#loginPath, account, false);
         if (token.ok) {
-            this.#token = await writeToken(token.body!);
+            this.#token = writeToken(token.body!);
             return true;
         }
 
@@ -215,8 +215,8 @@ export class API {
      */
     async logout() {
         await this.delete(this.#loginPath);
-        this.#token = null;
-        await delToken();
+        this.#token = undefined;
+        delToken();
     }
 
     /**
@@ -248,7 +248,7 @@ export class API {
                 return undefined;
             }
 
-            this.#token = await writeToken(ret.body!);
+            this.#token = writeToken(ret.body!);
             return this.#token.access_token;
         }
         }
@@ -327,8 +327,8 @@ export class API {
             // 400-599
 
             if (resp.status === 401) {
-                this.#token = null;
-                await delToken();
+                this.#token = undefined;
+                delToken();
             }
             return { status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {

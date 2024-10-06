@@ -95,7 +95,6 @@
         "bowser": "^2.11.0",
         "echarts": "^5.5.1",
         "intl-messageformat": "^10.5.14",
-        "localforage": "^1.10.0",
         "material-symbols": "^0.24.0",
         "quill": "^2.0.2",
         "solid-js": "^1.9.1",

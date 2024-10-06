@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import localforage from 'localforage';
-
 const tokenName = 'cmfx-admin-token';
 
 /**
@@ -35,18 +33,22 @@ export interface Token {
  *
  * @returns 返回的令牌是由 {@link buildToken} 处理之后的。
  */
-export async function getToken(): Promise<Token | null> {
-    return await localforage.getItem<Token>(tokenName);
+export function getToken(): Token | undefined {
+    const s = localStorage.getItem(tokenName);
+    if (!s) {
+        return;
+    }
+    return JSON.parse(s) as Token;
 }
 
-export async function delToken() { await localforage.removeItem(tokenName); }
+export function delToken() { localStorage.removeItem(tokenName); }
 
 /**
  * 保存令牌至缓存，会调用 buildToken 对令牌进行二次处理。
  */
-export async function writeToken(t: Token): Promise<Token> {
+export function writeToken(t: Token): Token {
     t = buildToken(t);
-    await localforage.setItem(tokenName, t);
+    localStorage.setItem(tokenName, JSON.stringify(t));
     return t;
 }
 

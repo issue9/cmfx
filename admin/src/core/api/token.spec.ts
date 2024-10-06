@@ -8,9 +8,9 @@ import { sleep } from '@/core/time';
 
 import { Token, TokenState, delToken, getToken, state, writeToken } from './token';
 
-test('token', async () => {
-    expect(await getToken()).toBeNull();
-    expect(await delToken());
+test('token', () => {
+    expect(getToken()).toBeUndefined();
+    expect(delToken());
 
     const t: Token = {
         access_token: 'access',
@@ -18,19 +18,19 @@ test('token', async () => {
         refresh_token: 'refresh',
         refresh_exp: 3
     };
-    const tk = await writeToken(t);
+    const tk = writeToken(t);
     expect(tk.access_token).toEqual('access');
 
     const now = Date.now().valueOf();
-    const rt = await getToken() as Token;
+    const rt = getToken() as Token;
 
     expect(rt.access_token).toEqual('access');
     expect(rt.refresh_token).toEqual('refresh');
     expect(rt.access_exp).toBeGreaterThan(now);
     expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
 
-    expect(await delToken());
-    expect(await getToken()).toBeNull();
+    expect(delToken());
+    expect(getToken()).toBeUndefined();
 });
 
 test('state', async () => {
@@ -40,8 +40,8 @@ test('state', async () => {
         refresh_token: 'refresh',
         refresh_exp: 2
     };
-    expect(await writeToken(t));
-    const rt = await getToken() as Token;
+    expect(writeToken(t));
+    const rt = getToken()!;
 
     expect(state(rt)).toEqual(TokenState.Normal);
     await sleep(1000);
