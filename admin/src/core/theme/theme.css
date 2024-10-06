@@ -5,25 +5,23 @@
  */
 
 /*
- * 当前文件定义了与主题相关的变量。
+ * 当前文件定义了与主题相关的 CSS 变量。
  *
  * ## 颜色
  *
- * 颜色被分为 primary、secondary、tertiary、surface 和 error 等五个色盘，
- * 每个色盘衍生出 bg、bg-low、bg-high、text、text-low 和 text-high 六种颜色。
+ * 颜色被分为 primary、secondary、tertiary、surface 和 error 五个色盘，
+ * 每个色盘衍生出 bg、bg-low、bg-high、fg、fg-low 和 fg-high 六种颜色。
  *
  * 对于使用者，可以直接通过 var(--primary-bg) 等变量直接调用颜色，
  * 或是采用 var(--bg) 读取当前上下文中色盘中的衍生颜色。
  * 两种方式，前者颜色固定，后者向上查找最近定义的 .palette--* 类型，从中获取值。
- * 为元素添加 .palette--* 类或是 data-palette=* 可以指定色盘。
  *
  * 如果需要自定义颜色，有以下几种方式：
- *  - 指定 primary 和 error 两种最基本的色相，其它由 CSS 根据 primary 计算得出；
- *  - 同时指定 primary、error、secondary、tertiary 和 surface 五种色相，由 CSS 计算深色模式下的颜色值；
- *  - 同时指定五种色盘的每个衍生色在深色模式下亮色模式下的值。
+ *  - 指定 --primary、--error、--secondary、--tertiary 和 --surface 五种色相，其中只有 --primary 是必须指定的；
+ *  - 指定所有色盘的所有衍生色，每个衍生色需要用 light-dark 同时指定深色和浅色模式下的颜色值；
  * NOTE: 色相 (hue) 的值，在 0-360 之间，具体说明可参考：https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value/lch#%E5%8F%96%E5%80%BC。
  *
- * contrast 表示对比度，0-100，100 为最高对比度。
+ * --contrast 表示对比度，0-100，100 为最高对比度。
  */
 
 :root {
@@ -49,76 +47,44 @@
     --invert-luminance-high: calc(var(--contrast) - var(--luminance-high));
 }
 
-:root {
-    color-scheme: light;
-
-    --bg-luminance-low: var(--invert-luminance-low);
-    --bg-luminance: var(--invert-luminance);
-    --bg-luminance-high: var(--invert-luminance-high);
-
-    --fg-luminance-low: var(--luminance-low);
-    --fg-luminance: var(--luminance);
-    --fg-luminance-high: var(--luminance-high);
-
-    --bg-chroma: 50;
-    --fg-chroma: 100;
-    --bg-chroma-surface: 10;
-    --fg-chroma-surface: 100;
-}
-
-.dark {
-    color-scheme: dark;
-
-    --bg-luminance-low: var(--luminance-low);
-    --bg-luminance: var(--luminance);
-    --bg-luminance-high: var(--luminance-high);
-
-    --fg-luminance-low: var(--invert-luminance-low);
-    --fg-luminance: var(--invert-luminance);
-    --fg-luminance-high: var(--invert-luminance-high);
-
-    --bg-chroma: 100;
-    --fg-chroma: 50;
-    --bg-chroma-surface: 10;
-    --fg-chroma-surface: 100;
-}
 
 :root {
-    /* TODO 后期可以直接使用 light-dark() 方法代替 */
-    --primary-bg-low: lch(var(--bg-luminance-low) var(--bg-chroma) var(--primary));
-    --primary-bg: lch(var(--bg-luminance) var(--bg-chroma) var(--primary));
-    --primary-bg-high: lch(var(--bg-luminance-high) var(--bg-chroma) var(--primary));
-    --primary-fg-low: lch(var(--fg-luminance-low) var(--fg-chroma) var(--primary));
-    --primary-fg: lch(var(--fg-luminance) var(--fg-chroma) var(--primary));
-    --primary-fg-high: lch(var(--fg-luminance-high) var(--fg-chroma) var(--primary));
+    color-scheme: light dark;
 
-    --secondary-bg-low: lch(var(--bg-luminance-low) var(--bg-chroma) var(--secondary));
-    --secondary-bg: lch(var(--bg-luminance) var(--bg-chroma) var(--secondary));
-    --secondary-bg-high: lch(var(--bg-luminance-high) var(--bg-chroma) var(--secondary));
-    --secondary-fg-low: lch(var(--fg-luminance-low) var(--fg-chroma) var(--secondary));
-    --secondary-fg: lch(var(--fg-luminance) var(--fg-chroma) var(--secondary));
-    --secondary-fg-high: lch(var(--fg-luminance-high) var(--fg-chroma) var(--secondary));
+    --primary-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--primary)), lch(var(--luminance-low) 100 var(--primary)));
+    --primary-bg: light-dark(lch(var(--invert-luminance) 50 var(--primary)), lch(var(--luminance) 100 var(--primary)));
+    --primary-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--primary)), lch(var(--luminance-high) 100 var(--primary)));
+    --primary-fg-low: light-dark(lch(var(--luminance-low) 100 var(--primary)), lch(var(--invert-luminance-low) 50 var(--primary)));
+    --primary-fg: light-dark(lch(var(--luminance) 100 var(--primary)), lch(var(--invert-luminance) 50 var(--primary)));
+    --primary-fg-high: light-dark(lch(var(--luminance-high) 100 var(--primary)), lch(var(--invert-luminance-high) 50 var(--primary)));
 
-    --tertiary-bg-low: lch(var(--bg-luminance-low) var(--bg-chroma) var(--tertiary));
-    --tertiary-bg: lch(var(--bg-luminance) var(--bg-chroma) var(--tertiary));
-    --tertiary-bg-high: lch(var(--bg-luminance-high) var(--bg-chroma) var(--tertiary));
-    --tertiary-fg-low: lch(var(--fg-luminance-low) var(--fg-chroma) var(--tertiary));
-    --tertiary-fg: lch(var(--fg-luminance) var(--fg-chroma) var(--tertiary));
-    --tertiary-fg-high: lch(var(--fg-luminance-high) var(--fg-chroma) var(--tertiary));
+    --secondary-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--secondary)), lch(var(--luminance-low) 100 var(--secondary)));
+    --secondary-bg: light-dark(lch(var(--invert-luminance) 50 var(--secondary)), lch(var(--luminance) 100 var(--secondary)));
+    --secondary-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--secondary)), lch(var(--luminance-high) 100 var(--secondary)));
+    --secondary-fg-low: light-dark(lch(var(--luminance-low) 100 var(--secondary)), lch(var(--invert-luminance-low) 50 var(--secondary)));
+    --secondary-fg: light-dark(lch(var(--luminance) 100 var(--secondary)), lch(var(--invert-luminance) 50 var(--secondary)));
+    --secondary-fg-high: light-dark(lch(var(--luminance-high) 100 var(--secondary)), lch(var(--invert-luminance-high) 50 var(--secondary)));
 
-    --surface-bg-low: lch(var(--bg-luminance-low) var(--bg-chroma-surface) var(--surface));
-    --surface-bg: lch(var(--bg-luminance) var(--bg-chroma-surface) var(--surface));
-    --surface-bg-high: lch(var(--bg-luminance-high) var(--bg-chroma-surface) var(--surface));
-    --surface-fg-low: lch(var(--fg-luminance-low) var(--fg-chroma-surface) var(--surface));
-    --surface-fg: lch(var(--fg-luminance) var(--fg-chroma-surface) var(--surface));
-    --surface-fg-high: lch(var(--fg-luminance-high) var(--fg-chroma-surface) var(--surface));
+    --tertiary-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--tertiary)), lch(var(--luminance-low) 100 var(--tertiary)));
+    --tertiary-bg: light-dark(lch(var(--invert-luminance) 50 var(--tertiary)), lch(var(--luminance) 100 var(--tertiary)));
+    --tertiary-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--tertiary)), lch(var(--luminance-high) 100 var(--tertiary)));
+    --tertiary-fg-low: light-dark(lch(var(--luminance-low) 100 var(--tertiary)), lch(var(--invert-luminance-low) 50 var(--tertiary)));
+    --tertiary-fg: light-dark(lch(var(--luminance) 100 var(--tertiary)), lch(var(--invert-luminance) 50 var(--tertiary)));
+    --tertiary-fg-high: light-dark(lch(var(--luminance-high) 100 var(--tertiary)), lch(var(--invert-luminance-high) 50 var(--tertiary)));
 
-    --error-bg-low: lch(var(--bg--luminance-low) var(--bg-chroma) var(--error));
-    --error-bg: lch(var(--bg-luminance) var(--bg-chroma) var(--error));
-    --error-bg-high: lch(var(--bg-luminance-high) var(--bg-chroma) var(--error));
-    --error-fg-low: lch(var(--fg-luminance-low) var(--fg-chroma) var(--error));
-    --error-fg: lch(var(--fg-luminance) var(--fg-chroma) var(--error));
-    --error-fg-high: lch(var(--fg-luminance-high) var(--fg-chroma) var(--error));
+    --surface-bg-low: light-dark(lch(var(--invert-luminance-low) 10 var(--surface)), lch(var(--luminance-low) 100 var(--surface)));
+    --surface-bg: light-dark(lch(var(--invert-luminance) 10 var(--surface)), lch(var(--luminance) 100 var(--surface)));
+    --surface-bg-high: light-dark(lch(var(--invert-luminance-high) 10 var(--surface)), lch(var(--luminance-high) 100 var(--surface)));
+    --surface-fg-low: light-dark(lch(var(--luminance-low) 10 var(--surface)), lch(var(--invert-luminance-low) 100 var(--surface)));
+    --surface-fg: light-dark(lch(var(--luminance) 10 var(--surface)), lch(var(--invert-luminance) 100 var(--surface)));
+    --surface-fg-high: light-dark(lch(var(--luminance-high) 10 var(--surface)), lch(var(--invert-luminance-high) 100 var(--surface)));
+
+    --error-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--error)), lch(var(--luminance-low) 100 var(--error)));
+    --error-bg: light-dark(lch(var(--invert-luminance) 50 var(--error)), lch(var(--luminance) 100 var(--error)));
+    --error-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--error)), lch(var(--luminance-high) 100 var(--error)));
+    --error-fg-low: light-dark(lch(var(--luminance-low) 100 var(--error)), lch(var(--invert-luminance-low) 50 var(--error)));
+    --error-fg: light-dark(lch(var(--luminance) 100 var(--error)), lch(var(--invert-luminance) 50 var(--error)));
+    --error-fg-high: light-dark(lch(var(--luminance-high) 100 var(--error)), lch(var(--invert-luminance-high) 50 var(--error)));
 
     --bg: var(--surface-bg);
     --bg-low: var(--surface-bg-low);

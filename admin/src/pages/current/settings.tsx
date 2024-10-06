@@ -4,10 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import {
-    Divider, Options, Choice, Label, FieldAccessor,
-    RadioGroup, Page, Description
-} from '@/components';
+import { Divider, Options, Choice, Label, FieldAccessor, RadioGroup, Page, Description } from '@/components';
 import { Mode, Scheme, Theme, Contrast, UnitStyle } from '@/core';
 import { useOptions, useApp } from '@/app/context';
 
@@ -104,9 +101,9 @@ export default function(): JSX.Element {
 function ColorBlock(props: {s: Scheme}) {
     // NOTE: 颜色的取值需与 core/theme/theme.css 中的设置相同。
     return <div class="flex flex-wrap w-10">
-        <span class="w-5 h-5" style={{'background-color': `lch(var(--bg-luminance) var(--bg-chroma) ${props.s.primary}`}} />
-        <span class="w-5 h-5" style={{'background-color': `lch(var(--bg-luminance) var(--bg-chroma) ${props.s.secondary}`}} />
-        <span class="w-5 h-5" style={{'background-color': `lch(var(--bg-luminance) var(--bg-chroma) ${props.s.tertiary}`}} />
-        <span class="w-5 h-5" style={{'background-color': `lch(var(--bg-luminance) var(--bg-chroma-surface) ${props.s.surface}`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.primary}), lch(var(--luminance-low) 100 ${props.s.primary}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.secondary}), lch(var(--luminance-low) 100 ${props.s.secondary}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.tertiary}), lch(var(--luminance-low) 100 ${props.s.tertiary}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 10 ${props.s.surface}), lch(var(--luminance-low) 100 ${props.s.surface}))`}} />
     </div>;
 }
