@@ -23,39 +23,37 @@ import { default as Toolbar } from './toolbar';
  */
 export async function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
+    const api = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
 
-    const f = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
-
-    Locale.init(opt.locales.fallback, f);
+    Locale.init(opt.locales.fallback, api);
     for(const item of Object.entries(opt.locales.messages)) {
         await Locale.addDict(item[0], ...item[1]);
     }
 
-    render(() => {
-        return <>
-            <Notify />
-            <App opt={opt} f={f} />
-        </>;
-    }, document.getElementById(elementID)!);
+    render(() => (<App opt={opt} api={api} />), document.getElementById(elementID)!);
 }
 
 /**
  * 项目的根组件
  */
-function App(props: {opt: Required<Options>, f: API}) {
-    const { Provider } = buildContext(props.opt, props.f); // buildContext 必须在组件内使用！
-
+function App(props: {opt: Required<Options>, api: API}) {
     const [menuVisible, setMenuVisible] = createSignal(true);
 
-    const Root = (p: { children?: JSX.Element }) => (<Provider>
-        <Show when={props.opt.system.dialog}>
-            <SystemDialog palette='surface' />
-        </Show>
-        <div class="app palette--surface">
-            <Toolbar menuVisibleGetter={menuVisible} menuVisibleSetter={setMenuVisible} />
-            <main class="app-main">{p.children}</main>
-        </div>
-    </Provider>);
+    const Root = (p: { children?: JSX.Element }) => {
+        // buildContext 中使用了 useContext 和 useNavigate，必须得 Router 之内使用。
+        const { Provider } = buildContext(props.opt, props.api);
+
+        return <Provider>
+            <Notify />
+            <Show when={props.opt.system.dialog}>
+                <SystemDialog palette='surface' />
+            </Show>
+            <div class="app palette--surface">
+                <Toolbar menuVisibleGetter={menuVisible} menuVisibleSetter={setMenuVisible} />
+                <main class="app-main">{p.children}</main>
+            </div>
+        </Provider>;
+    };
 
     const routes = [
         {

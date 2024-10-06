@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { redirect, useNavigate } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
@@ -63,6 +63,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         return new Locale(conf, localeID, unitStyle);
     });
 
+
     const ctx = {
         isLogin() { return f.isLogin(); },
 
@@ -84,6 +85,8 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
                     indexedDB.deleteDatabase(db.name);
                 }
             }
+
+            await f.logout();
 
             const nav = useNavigate();
             nav(opt.routes.public.home);
@@ -149,7 +152,8 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          */
         async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
             if (status === 401) {
-                redirect(opt.routes.public.home);
+                const nav = useNavigate();
+                nav(opt.routes.public.home);
                 return;
             }
 
