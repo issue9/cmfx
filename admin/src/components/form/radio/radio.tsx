@@ -22,6 +22,7 @@ export interface Props<T> extends FieldBaseProps {
 
 export default function Group<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({
+        tabindex: 0,
         checkedIcon: 'radio_button_checked',
         uncheckedIcon: 'radio_button_unchecked'
     }, props);
@@ -42,10 +43,9 @@ export default function Group<T extends string | number | undefined> (props: Pro
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <label classList={{'border': props.block}}>
+                    <label classList={{'border': props.block}} tabIndex={props.tabindex} accessKey={props.accessKey}>
                         <input type="radio" class="appearance-none"
                             readOnly={props.readonly}
-                            tabIndex={props.tabindex}
                             checked={item[0] === access.getValue()}
                             name={props.accessor.name()}
                             value={item[0]}

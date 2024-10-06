@@ -30,8 +30,12 @@
             cursor: pointer;
         }
 
-        label:focus-within .radio-icon {
-            color: var(--bg-low);
+        label:focus-visible {
+            outline: none;
+
+            .radio-icon {
+                color: var(--fg-high);
+            }
         }
 
         label.border {

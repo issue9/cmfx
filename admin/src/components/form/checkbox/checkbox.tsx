@@ -25,6 +25,7 @@ export interface Props extends FieldBaseProps {
 }
 
 const presetProps: Partial<Props> = {
+    tabindex: 0,
     checkedIcon: 'check_box',
     uncheckedIcon: 'check_box_outline_blank',
     indeterminateIcon: 'indeterminate_check_box'
@@ -34,18 +35,16 @@ export default function(props: Props) {
     props = mergeProps(presetProps, props);
     const [chk, setChk] = createSignal(props.checked);
 
-    return <label title={props.title} classList={{
+    return <label tabIndex={props.tabindex} accessKey={props.accessKey} title={props.title} classList={{
         'c--checkbox': true,
         'c--checkbox-border': props.block,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <input type="checkbox"
-            accessKey={props.accessKey}
-            tabIndex={props.tabindex}
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={chk()}
-            class="appearance-none"
+            class="appearance-none hidden"
             onChange={() => {
                 if (!props.readonly && !props.disabled) {
                     setChk(!chk());

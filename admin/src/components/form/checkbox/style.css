@@ -17,8 +17,11 @@
         @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--bg)];
     }
 
-    .c--checkbox:focus-within .checkbox-icon {
-        color: var(--fg-high);
+    .c--checkbox:focus-visible {
+        outline: none;
+        .checkbox-icon {
+            color: var(--fg-high);
+        }
     }
 
     .c--checkbox:has(:enabled):hover {
