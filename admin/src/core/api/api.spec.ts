@@ -97,6 +97,7 @@ describe('API token', () => {
 
 test('query2Search', () => {
     expect(query2Search({ str: 'str' })).toEqual('?str=str');
+    expect(query2Search({ str: 'str', page: 1 })).toEqual('?str=str&page=1');
     expect(query2Search({ str: 'str', num: 0, bool: false })).toEqual('?str=str&num=0&bool=false');
     expect(query2Search({ str: ['str'], num: [0,1], bool: false })).toEqual('?str=str&num=0%2C1&bool=false');
     expect(query2Search({})).toEqual('');

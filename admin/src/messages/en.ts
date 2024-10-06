@@ -44,6 +44,7 @@ const messages = {
                 content: 'content',
                 ip: 'IP',
                 ua: 'user agent',
+                uaInfo: 'browser: {browser}({browserVersion}) os: {os}({osVersion}) kernal: {kernal}({kernalVersion})',
             },
             system: {
                 apis: 'API',

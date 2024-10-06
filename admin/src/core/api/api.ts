@@ -393,7 +393,7 @@ export function query2Search<Q extends Query>(q: Q): string {
         } else {
             if (typeof v[1] === 'string') {
                 s.append(v[0], v[1]);
-            } else if (!v[1]) {
+            } else if (v[1] !== undefined) {
                 s.append(v[0], v[1]!.toString());
             }
         }

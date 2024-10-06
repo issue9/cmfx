@@ -46,6 +46,7 @@ const messages: Messages = {
                 content: '内容',
                 ip: 'IP',
                 ua: 'UA',
+                uaInfo: '浏览器: {browser}({browserVersion}) 系统: {os}({osVersion}) 内核: {kernal}({kernalVersion})',
             },
             system: {
                 apis: 'API',
