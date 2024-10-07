@@ -11,7 +11,6 @@ import (
 
 	"github.com/issue9/web"
 	"github.com/issue9/web/filter"
-	"github.com/issue9/webfilter/validator"
 
 	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/locales"
@@ -37,21 +36,6 @@ type info struct {
 	// 昵称
 	Nickname string `orm:"name(nickname);len(50)" json:"nickname" xml:"nickname" cbor:"nickname"`
 
-	// 界面语言
-	//
-	// 不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
-	Language string `orm:"name(language);len(50)" json:"language" xml:"language" cbor:"language"`
-
-	// 时区
-	//
-	// 不会直接影响服务的处理，客户端自行决定是否采用。
-	Timezone string `orm:"name(timezone);len(50)" json:"timezone" xml:"timezone" cbor:"timezone"`
-
-	// 主题
-	//
-	// 由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
-	Theme string `orm:"name(theme);len(-1)" json:"theme" xml:"theme" cbor:"theme"`
-
 	// 头像
 	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty"`
 }
@@ -74,9 +58,7 @@ type reqInfoWithAccount struct {
 
 func (i *info) Filter(v *web.FilterContext) {
 	v.Add(filters.Avatar("avatar", &i.Avatar)).
-		Add(types.SexFilter("sex", &i.Sex)).
-		Add(filter.New("timezone", &i.Timezone, validator.V(validator.Timezone, locales.InvalidFormat))).
-		Add(filter.New("language", &i.Language, validator.V(validator.LanguageTag, locales.InvalidFormat)))
+		Add(types.SexFilter("sex", &i.Sex))
 }
 
 func (i *ctxInfoWithRoleState) Filter(v *web.FilterContext) {
