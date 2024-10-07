@@ -384,8 +384,15 @@ export class API {
 
 /**
  * 将 Q 转换为查询参数
+ *
+ * 如果存在 q.page 属性，会自动将 page 的值减去 1，因为后端的 api 是从 0 页开始的。
  */
 export function query2Search<Q extends Query>(q: Q): string {
+    if (q.page) {
+        q = {...q};
+        q.page! -= 1;
+    }
+
     const s = new URLSearchParams();
     Object.entries(q).forEach((v) => {
         if (Array.isArray(v[1])) {

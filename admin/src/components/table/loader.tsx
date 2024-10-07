@@ -112,8 +112,8 @@ const presetProps = {
 /**
  * 基于加载方法加载数据的表格
  *
- * T 为数据中每一条数据的类型；
- * Q 为查询参数的类型；
+ * @template T 为数据中每一条数据的类型；
+ * @template Q 为查询参数的类型；
  */
 export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
     const opt = useOptions();
@@ -176,8 +176,8 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
         }
 
         footer = <PaginationBar class="mt-2" palette={props.accentPalette}
-            onPageChange={(p) => { page.setValue(p); refetch(); }}
-            onSizeChange={(s) => { size.setValue(s); refetch(); }}
+            onPageChange={async(p) => { page.setValue(p); await refetch(); }}
+            onSizeChange={async(s) => { size.setValue(s); await refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
     }
 
@@ -186,7 +186,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
             <form class="search">
                 {props.queryForm!(queries)}
                 <div class="actions">
-                    <SplitButton palette='primary' type='submit' onClick={() => refetch()} menus={[
+                    <SplitButton palette='primary' type='submit' onClick={async() => await refetch()} menus={[
                         { type: 'item', onClick: async() => { await exports('.csv'); } , label: <>
                             <span class="c--icon mr-2">csv</span>
                             {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
@@ -223,7 +223,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
             <div class="toolbar">
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
-                    <button onClick={() => refetch()}
+                    <button onClick={async() => await refetch()}
                         class="c--icon tail action"
                         aria-label={ctx.locale().t('_i.refresh')}
                         title={ctx.locale().t('_i.refresh')}>refresh</button>

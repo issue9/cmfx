@@ -15,4 +15,4 @@
 
 ### 本地化
 
-后端的本地化信息在 cmfx/locales 目录之下；前端的本地化信息在 admin/src/locales 目录之下。
+后端的本地化信息在 cmfx/locales 目录之下；前端的本地化信息在 admin/src/messages 目录之下。

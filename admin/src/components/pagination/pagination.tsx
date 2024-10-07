@@ -15,6 +15,8 @@ export interface Props extends BaseProps {
 
     /**
      * 当前页的页码，取值范围为 [1, {@link Props#count}]。
+     *
+     * NOTE: 这是一个非响应式的属性。
      */
     value: number;
 
@@ -61,7 +63,7 @@ export default function(props: Props) {
         }
 
         let min = current() - props.spans!;
-        if (min <= 1) {
+        if (min < 1) {
             min = 1;
         }
         const pv: Array<number> = [];
@@ -73,7 +75,7 @@ export default function(props: Props) {
         setPrevs(pv);
 
         let max = current() + props.spans!;
-        if (max >= props.count) {
+        if (max > props.count) {
             max = props.count;
         }
         const nv: Array<number> = [];

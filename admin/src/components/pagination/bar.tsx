@@ -16,7 +16,9 @@ export interface Props extends BaseProps {
     total: number;
 
     /**
-     * 当前页的页码，取值范围为 [1, Props#total/Props#size]。
+     * 当前页的页码，取值范围为 [1, {@link Props#total/Props#size}]。
+     *
+     * NOTE: 这是一个非响应式的属性。
      */
     page: number;
 
@@ -52,6 +54,7 @@ export interface Props extends BaseProps {
 export default function(props: Props) {
     const opt = useOptions();
     props = mergeProps({
+        total: opt.api.defaultSize,
         spans: 3,
         size: opt.api.defaultSize,
         sizes: opt.api.pageSizes
@@ -113,7 +116,7 @@ export default function(props: Props) {
         {ctx.locale().t('_i.pagination.items', translateItems())}
         <div class="flex gap-2">
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
-            <Pagination spans={props.spans} onChange={pageChange} value={page()} count={pages()} />
+            <Pagination spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />
         </div>
     </div>;
 }
