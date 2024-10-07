@@ -47,7 +47,7 @@ function Username(): JSX.Element {
 
     const activator = <Button style={/*@once*/'flat'} onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 
-    return <Show when={ctx.user()?.id}>
+    return <Show when={ctx.isLogin()}>
         <Menu hoverable={/*@once*/true} anchor={/*@once*/true} direction={/*@once*/'left'} selectedClass='' activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
     </Show>;
 }

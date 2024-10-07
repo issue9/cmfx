@@ -36,7 +36,7 @@ export function Login(): JSX.Element {
             return;
         }
 
-        if (ret) {
+        if (ret && ret.status !== 401) {
             await ctx.notify(ret.type, ret.title);
         }
     };

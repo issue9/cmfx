@@ -11,7 +11,7 @@ import {
     API, Theme, Config, Account, Locale, Method,
     Problem, notify, Breakpoint, UnitStyle,
 } from '@/core';
-import { createUser } from './user';
+import { User } from './user';
 
 type Options = Required<buildOptions>;
 
@@ -47,7 +47,17 @@ export function useOptions(): Options {
 }
 
 export function buildContext(opt: Required<buildOptions>, f: API) {
-    const [user, userData] = createUser(f, opt.api.info);
+    const [user, userData] = createResource(async () => {
+        const r = await f.get<User>(opt.api.info);
+        if (r.ok) {
+            return r.body as User;
+        }
+
+        if (!f.isLogin() && r.status === 401) {
+            return;
+        }
+        await window.notify(r.body!.title);
+    });
 
     let uid = sessionStorage.getItem(currentKey) ?? '';
 
@@ -65,7 +75,10 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
 
     const ctx = {
-        isLogin() { return f.isLogin(); },
+        /**
+         * 是否已经登录
+         */
+        isLogin() { return !!user(); },
 
         /**
          * 清除浏览器的所有缓存
@@ -148,7 +161,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
          *
          * @param status 反回的状态码；
-         * @param p 如果该值空，半会抛出异常。
+         * @param p 如果该值空，半会抛出异常；
          */
         async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
             if (status === 401) {
