@@ -60,14 +60,10 @@
             }
 
             .toolbar {
-                @apply flex justify-start;
+                @apply flex justify-start items-center;
 
                 .action {
-                    @apply hover:text-palette-fg-high;
-                }
-
-                .tail {
-                    @apply ml-auto;
+                    @apply hover:text-palette-fg-high cursor-pointer;
                 }
             }
         }

@@ -7,10 +7,11 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 
 import { useApp, useOptions } from '@/app/context';
 import { Palette } from '@/components/base';
-import { SplitButton } from '@/components/button';
+import { Button, SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
+import { Label } from '@/components/typography';
 import { Exporter, Page, Query } from '@/core';
 import type { Props as BaseProps } from './basic';
 import { default as BasicTable } from './basic';
@@ -187,26 +188,22 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
                 {props.queryForm!(queries)}
                 <div class="actions">
                     <SplitButton palette='primary' type='submit' onClick={async() => await refetch()} menus={[
-                        { type: 'item', onClick: async() => { await exports('.csv'); } , label: <>
-                            <span class="c--icon mr-2">csv</span>
+                        { type: 'item', onClick: async() => { await exports('.csv'); } , label: <Label icon="csv">
                             {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
-                        </>
+                        </Label>
                         },
-                        { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <>
-                            <span class="c--icon mr-2">rubric</span>
+                        { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <Label icon="rubric">
                             {ctx.locale().t('_i.table.exportTo', { type: 'Excel' })}
-                        </>
+                        </Label>
                         },
-                        { type: 'item', onClick: async() => { await exports('.ods'); }, label: <>
-                            <span class="c--icon mr-2">ods</span>
+                        { type: 'item', onClick: async() => { await exports('.ods'); }, label: <Label icon="ods">
                             {ctx.locale().t('_i.table.exportTo', { type: 'ODS' })}
-                        </>
+                        </Label>
                         },
                         { type: 'divider' },
-                        { type: 'item', onClick: () => { queries.reset(); }, disabled:queries.isPreset(), label: <>
-                            <span class="c--icon mr-2">restart_alt</span>
+                        { type: 'item', onClick: () => { queries.reset(); }, disabled:queries.isPreset(), label: <Label icon='restart_alt'>
                             {ctx.locale().t('_i.reset')}
-                        </>
+                        </Label>
                         },
                     ]}>
                         {ctx.locale().t('_i.search')}
@@ -223,10 +220,9 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
             <div class="toolbar">
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
-                    <button onClick={async() => await refetch()}
-                        class="c--icon tail action"
+                    <Button class="ml-auto action" icon rounded kind='flat' onClick={async() => await refetch()}
                         aria-label={ctx.locale().t('_i.refresh')}
-                        title={ctx.locale().t('_i.refresh')}>refresh</button>
+                        title={ctx.locale().t('_i.refresh')}>refresh</Button>
                 </Show>
             </div>
         </Show>

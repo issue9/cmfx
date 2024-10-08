@@ -8,7 +8,6 @@ import { useApp } from '@/app/context';
 import { handleEvent } from '@/components/base';
 import { calcPopoverPos } from '@/components/utils';
 import Button, { Props as BaseProps, Ref as ButtonRef, presetProps } from './button';
-import { ClickFunc } from './types';
 
 export interface Props extends BaseProps {
     /**
@@ -31,7 +30,7 @@ export interface Props extends BaseProps {
      *
      * 这将在用户点击确认按钮之后执行。
      */
-    onClick: ClickFunc; // 此处重新声明只是为了将可选字段变为必填字段。
+    onClick: NonNullable<BaseProps['onClick']>; // 此处重新声明只是为了将可选字段变为必填字段。
 }
 
 /**
@@ -57,7 +56,7 @@ export default function(props: Props) {
         document.body.removeEventListener('click', handleClick);
     });
 
-    const confirm: ClickFunc = (e) => {
+    const confirm: BaseProps['onClick'] = (e) => {
         handleEvent(props.onClick, e);
         pop.hidePopover();
     };

@@ -6,11 +6,7 @@
 
 @layer components {
     .c--checkbox {
-        @apply border-2 border-transparent c--icon-container text-palette-fg;
-
-        .checkbox-icon {
-            @apply mr-1;
-        }
+        @apply border-2 border-transparent flex items-center text-palette-fg;
     }
 
     .c--checkbox.c--checkbox-border {
@@ -19,6 +15,7 @@
 
     .c--checkbox:focus-visible {
         outline: none;
+
         .checkbox-icon {
             color: var(--fg-high);
         }

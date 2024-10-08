@@ -2,52 +2,32 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show, createSignal } from 'solid-js';
+import { JSX, Show, createSignal, splitProps } from 'solid-js';
 
-import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
+import { Button } from '@/components/button';
+import { Icon, IconSymbol } from '@/components/icon';
+import { Props as BaseProps, default as TextField, Ref as TextFieldRef } from './textfiled';
 
-export interface Props extends FieldBaseProps {
-    icon?: string;
-    placeholder?: string;
-    rounded?: boolean;
-    accessor: Accessor<string>;
-    inputMode?: InputMode;
-}
+export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|'ref'> {
+    icon?: IconSymbol;
+};
 
 export default function(props: Props): JSX.Element {
-    const access = props.accessor;
     const [visible, setVisible] = createSignal(false);
-    let ref: HTMLInputElement;
+    const [_, fieldProps] = splitProps(props, ['icon']);
+    let ref: TextFieldRef;
 
-    return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
-        <label title={props.title}>
-            <Show when={props.label}>
-                {props.label}
-            </Show>
-
-            <div classList={{
-                'c--text-field': true,
-                'c--text-field-rounded': props.rounded,
-            }}>
-                <Show when={props.icon}>
-                    <span role="none" class="prefix flex items-center pl-1 c--icon">{props.icon}</span>
-                </Show>
-                <input accessKey={props.accessKey} ref={(el)=>ref=el} type="password" inputMode={props.inputMode} tabIndex={props.tabindex} class="input" disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
-                    value={access.getValue()}
-                    onInput={(e) => { access.setValue(e.target.value); access.setError(); }}
-                />
-                <button disabled={props.disabled} class="suffix btn flex items-center pr-1 c--icon"
-                    onClick={() => {
-                        setVisible(!visible());
-                        ref.type = visible() ? 'text' : 'password';
-                    }}>
-                    {visible() ? 'visibility_off' : 'visibility'}
-                </button>
-            </div>
-        </label>
-
-        <Show when={access.hasError()}>
-            <p class="field_error" role="alert">{access.getError()}</p>
+    return <TextField {...fieldProps} type="password" ref={el=>ref=el} prefix={
+        <Show when={props.icon}>
+            <Icon icon={props.icon!} class="px-1 flex items-center !py-0" />
         </Show>
-    </div>;
+    } suffix={
+        <Button kind='flat' disabled={props.disabled} icon class="!px-1 !py-0 rounded-none"
+            onClick={() => {
+                setVisible(!visible());
+                ref.type = visible() ? 'text' : 'password';
+            }}>
+            {visible() ? 'visibility_off' : 'visibility'}
+        </Button>
+    } />;
 }

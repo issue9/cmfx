@@ -18,7 +18,7 @@
             }
 
             .title {
-                @apply p-3 flex justify-between c--icon-container;
+                @apply p-3 flex justify-between items-center;
 
                 .close {
                     @apply hover:cursor-pointer hover:text-[var(--fg-high)];

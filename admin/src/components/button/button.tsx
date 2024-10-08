@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Props as BaseProps, ButtonType, ClickFunc, presetProps as presetBaseProps } from './types';
+import { IconSymbol } from '@/components/icon';
+import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLButtonElement;
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, JSX.ButtonHTMLAttributes<HTMLButtonElement> {
     /**
      * 是否为图标按钮
      *
@@ -19,15 +20,7 @@ export interface Props extends BaseProps {
     /**
      * 按钮内容，如果 icon 为 true，那么内容应该是图标名称，否则不能显示为正确图标。
      */
-    children: JSX.Element;
-
-    onClick?: ClickFunc;
-    title?: string;
-    type?: ButtonType;
-    accessKey?: string;
-    autofocus?: boolean;
-    value?: string;
-    ref?: { (el: Ref): void; };
+    children: JSX.Element | IconSymbol;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
@@ -40,17 +33,16 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export default function(props: Props) {
     props = mergeProps(presetProps, props);
+    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'icon', 'children', 'classList']);
 
-    return <button value={props.value} accessKey={props.accessKey} autofocus={props.autofocus} disabled={props.disabled}
-        ref={(el) => { if (props.ref) { props.ref(el); }}}
-        type={props.type} title={props.title} onClick={props.onClick} classList={{
+    return <button {...btnProps} classList={{
             'c--button': true,
-            'c--icon-container': true,
             'c--icon': props.icon,
             'c--button-icon': props.icon,
-            [`c--button-${props.style}`]: true,
+            [`c--button-${props.kind}`]: true,
             [`palette--${props.palette}`]: !!props.palette,
             'rounded-full': props.rounded,
+            ...props.classList
         }}>
         {props.children}
     </button>;

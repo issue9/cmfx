@@ -6,12 +6,13 @@ import { JSX, mergeProps, ParentProps, Show, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { BaseProps } from '@/components/base';
+import { Icon, IconSymbol } from '@/components/icon';
 
 export interface Props extends BaseProps, ParentProps {
     /**
      * 图标
      */
-    icon?: string;
+    icon?: IconSymbol;
 
     /**
      * 标签，默认为 p
@@ -26,9 +27,9 @@ const defaultProps: Readonly<Partial<Props>> = {
 export default function(props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
 
-    return <Dynamic component={props.tag} class="c--icon-container">
+    return <Dynamic component={props.tag} class="flex items-center">
         <Show when={props.icon}>
-            <span class="c--icon mr-1">{ props.icon }</span>
+            <Icon class="mr-1" icon={props.icon!} />
         </Show>
 
         { props.children }

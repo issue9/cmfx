@@ -8,11 +8,8 @@
 
     /* 指定包含的内容为一个图标，这是对 material-symbols-outlined 的重定义 */
     .c--icon {
-        @apply material-symbols-outlined flex items-center text-[1.2rem] box-border flex-grow-0 flex-shrink-0;
+        @apply material-symbols-outlined flex-grow-0 flex-shrink-0 align-bottom;
+        font-size: inherit;
         /*font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;*/
-    }
-
-    .c--icon-container {
-        @apply flex items-center text-center content-center;
     }
 }

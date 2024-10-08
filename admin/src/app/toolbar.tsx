@@ -22,14 +22,14 @@ export default function Toolbar(props: Props) {
     const opt = useOptions();
 
     return <header class="app-bar palette--secondary">
-        <div class="flex c--icon-container">
+        <div class="flex items-center">
             <img alt="logo" class="inline-block max-w-6 max-h-6" src={opt.logo} />
             <span class="inline-block ml-2 text-lg font-bold">{opt.title}</span>
         </div>
 
-        <div class="px-4 flex flex-1 c--icon-container ml-10">
+        <div class="px-4 flex items-center flex-1 ml-10">
             <Show when={ctx.isLogin() && compareBreakpoint(ctx.breakpoint(), floatAsideWidth)<0}>
-                <Button icon rounded type="button" style='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>menu</Button>
+                <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>menu</Button>
             </Show>
         </div>
 
@@ -45,7 +45,7 @@ function Username(): JSX.Element {
     const opt = useOptions();
     const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button style={/*@once*/'flat'} onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
+    const activator = <Button kind={/*@once*/'flat'} onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
 
     return <Show when={ctx.user()}>
         <Menu hoverable={/*@once*/true} anchor={/*@once*/true} direction={/*@once*/'left'} selectedClass='' activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
@@ -69,7 +69,7 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <Button icon={/*@once*/true} type={/*@once*/'button'} style={/*@once*/'flat'} rounded={/*@once*/true} onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
+    return <Button icon={/*@once*/true} type={/*@once*/'button'} kind={/*@once*/'flat'} rounded={/*@once*/true} onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
 }

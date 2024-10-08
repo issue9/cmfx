@@ -6,14 +6,15 @@ import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Button, ButtonGroup, ConfirmButton, LinkButton, SplitButton } from '@/components';
 import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { Style, styles } from './types';
+import { Icon } from '@/components/icon';
+import { Kind, kinds } from './types';
 
-export function styleSelector(v: Style = 'fill'): [JSX.Element, Accessor<Style>, Setter<Style>] {
-    const [get, set] = createSignal<Style>(v);
+export function styleSelector(v: Kind = 'fill'): [JSX.Element, Accessor<Kind>, Setter<Kind>] {
+    const [get, set] = createSignal<Kind>(v);
 
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
         <legend>风格</legend>
-        <For each={styles}>
+        <For each={kinds}>
             {(item)=>(
                 <label class="mr-4">
                     <input class="mr-1" type="radio" name="style"
@@ -36,43 +37,43 @@ export default function() {
     const Links = () => <div class="flex flex-wrap items-center gap-2 my-4">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <LinkButton href="./" disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</LinkButton>
+                <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={style()} palette={c}>{c ? c : 'undefined'}</LinkButton>
             )}
         </For>
-        <LinkButton href="./" disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
-            <span class="c--icon mr-1">face</span>with icon
+        <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={style()} palette="primary">
+            <Icon class="!mr-1" icon="face" />with icon
         </LinkButton>
 
-        <Button rounded style='fill' palette='tertiary'>对比按钮</Button>
+        <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
     </div>;
 
     const Buttons = () => <div class="flex flex-wrap items-center gap-2 my-4">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <Button disabled={disabled()} rounded={rounded()} style={style()} palette={c}>{c ? c : 'undefined'}</Button>
+                <Button disabled={disabled()} rounded={rounded()} kind={style()} palette={c}>{c ? c : 'undefined'}</Button>
             )}
         </For>
-        <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
+        <Button disabled={disabled()} rounded={rounded()} kind={style()} palette="primary">
             <span class="c--icon mr-1">face</span>with icon
         </Button>
 
-        <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary'>confirm button</ConfirmButton>
+        <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={style()} palette='tertiary'>confirm button</ConfirmButton>
     </div>;
 
     const IconButtons = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} style={style()} palette={c}>sync</Button>
+                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={style()} palette={c}>sync</Button>
             )}
         </For>
-        <Button rounded style='fill' palette='tertiary'>对比按钮</Button>
-        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} style={style()} palette='tertiary' icon ok={<><span class="c--icon mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
+        <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
+        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={style()} palette='tertiary' icon ok={<><span class="c--icon mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
     </div>;
 
     const SplitButtons = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <SplitButton palette={c} style={style()} rounded={rounded()} disabled={disabled()} menus={[
+                <SplitButton palette={c} kind={style()} rounded={rounded()} disabled={disabled()} menus={[
                     {type: 'item', label: 'button1', onClick: ()=>console.log('btn1')},
                     {type: 'item', label: 'button2', onClick: ()=>console.log('btn2')},
                     {type: 'divider'},
@@ -86,7 +87,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
                         <Button>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>
@@ -101,7 +102,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
                         <Button icon>face</Button>
                         <Button icon>close</Button>
                         <Button icon>sync</Button>
@@ -116,7 +117,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
                         <LinkButton href='.'>abc</LinkButton>
                         <LinkButton href='.'>def</LinkButton>
                         <LinkButton href='.'>hij</LinkButton>
@@ -131,7 +132,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} style={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
                         <LinkButton icon href="">face</LinkButton>
                         <LinkButton icon href="">close</LinkButton>
                         <LinkButton icon href="">sync</LinkButton>
@@ -143,13 +144,13 @@ export default function() {
     </div>;
 
     const Block = () => <div class="flex flex-col gap-y-2">
-        <Button disabled={disabled()} rounded={rounded()} style={style()} palette='primary'>block</Button>
+        <Button disabled={disabled()} rounded={rounded()} kind={style()} palette='primary'>block</Button>
 
-        <Button disabled={disabled()} rounded={rounded()} style={style()} palette="primary">
+        <Button disabled={disabled()} rounded={rounded()} kind={style()} palette="primary">
             <span class="c--icon mr-1">face</span>with icon
         </Button>
 
-        <ButtonGroup rounded={rounded()} palette='primary' style={style()} disabled={disabled()}>
+        <ButtonGroup rounded={rounded()} palette='primary' kind={style()} disabled={disabled()}>
             <Button>abc</Button>
             <Button>def</Button>
             <Button>hij</Button>
@@ -178,7 +179,6 @@ export default function() {
             </Stage>
 
             <Stage title='split-button'>
-                <h1 class="my-4">split-button</h1>
                 <SplitButtons />
             </Stage>
 

@@ -14,6 +14,8 @@ export interface Props extends BaseProps {
      */
     children: JSX.Element;
 
+    disabled?: boolean;
+
     ref?: { (el: Ref): void; };
 }
 
@@ -23,7 +25,7 @@ export default function (props: Props) {
     return <fieldset role="group" ref={(el) => { if (props.ref) { props.ref(el); }}} disabled={props.disabled} classList={{
         'c--button-group': true,
         'c--button-group-rounded': props.rounded,
-        [`c--button-group-${props.style}`]: true,
+        [`c--button-group-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         {props.children}

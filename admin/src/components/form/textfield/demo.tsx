@@ -20,10 +20,7 @@ export default function() {
     const [paletteS, palette] = paletteSelector();
 
     const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
-
     const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
-
-    const icon = <span class="c--icon flex items-center">face</span>;
 
     return <Demo settings={
         <>
@@ -40,7 +37,6 @@ export default function() {
                 <TextField placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
                 <TextField placeholder='placeholder' label="prefix" prefix={cloneElement(prefix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
                 <TextField placeholder='placeholder' label="prefix+suffix" prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-                <TextField placeholder='placeholder' label="prefix+icon suffix" prefix={cloneElement(icon)} suffix={cloneElement(icon)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             </div>
 
             <div class="flex flex-col gap-2 w-80">

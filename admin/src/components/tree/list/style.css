@@ -28,8 +28,8 @@
                 padding-left: var(--item-space);
                 padding-right: var(--item-space);
 
-                .tail {
-                    margin-left: auto;
+                .expand {
+                    @apply ml-auto flex items-center;
                 }
             }
 

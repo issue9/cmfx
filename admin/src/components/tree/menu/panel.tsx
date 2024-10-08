@@ -7,6 +7,7 @@ import { createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { Divider } from '@/components/divider';
+import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
 import { Item, Value } from '@/components/tree/item';
 
@@ -73,7 +74,7 @@ export default function (props: Props): JSX.Element {
             <Match when={p.item.items && p.item.items.length > 0}>
                 <li class="item">
                     {p.item.label}
-                    <span class="tail c--icon">chevron_right</span>
+                    <Icon class="expand" icon="chevron_right" />
                     <menu classList={{'c--menu':true,'hidden':true,[props.direction!]:true}}>
                         <All items={p.item.items as Array<Item>} />
                     </menu>

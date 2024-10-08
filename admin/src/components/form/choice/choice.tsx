@@ -6,6 +6,7 @@ import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
 
 type Value = string | number | undefined;
@@ -101,7 +102,7 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
-                <span class="c--icon expand">expand_all</span>
+                <Icon class="expand" icon="expand_all" />
             </div>
         </label>
         <Show when={props.accessor.hasError()}>
@@ -148,11 +149,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         p.ac.setError();
                     }}>
                         {cloneElement(item[1])}
-                        <span classList={{
-                            'c--icon': true,
+                        <Icon icon="check" classList={{
                             'tail': true,
                             'hidden': !selected()
-                        }}>check</span>
+                        }} />
                     </li>;
                 }}
             </For>
@@ -182,11 +182,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                         pop.hidePopover();
                     }}>
                         {cloneElement(item[1])}
-                        <span classList={{
+                        <Icon icon='check' classList={{
                             'hidden': !selected(),
-                            'c--icon': true,
                             'tail': true,
-                        }}>check</span>
+                        }} />
                     </li>;
                 }}
             </For>

@@ -9,7 +9,6 @@
         @apply rounded-md border border-[var(--fg-low)] flex justify-between items-stretch text-center;
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
-        /* first-child 不一定是 prefix */
         >:first-child {
             @apply rounded-l-md;
         }
@@ -18,12 +17,8 @@
             @apply rounded-r-md;
         }
 
-        .prefix {
-            @apply flex overflow-clip;
-        }
-
         .input {
-            @apply py-1 px-2 outline-none bg-transparent flex-1 w-full text-left;
+            @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
 
             -webkit-appearance: textfield;
             -moz-appearance: textfield;
@@ -36,28 +31,10 @@
             -webkit-appearance: none;
             margin: 0;
         }
-
-        .suffix {
-            @apply flex;
-            overflow-y: clip;
-        }
-
-        .btn {
-            @apply outline-none border-0 c--icon-container justify-center;
-            @apply focus:text-[var(--fg-high)] hover:enabled:text-[var(--fg-high)];
-        }
-
-        .btn:focus {
-            @apply border-0 text-[var(--fg-high)];
-        }
     }
 
     .c--text-field:has(:disabled) {
         @apply border-[var(--bg-low)] text-palette-bg-high;
-
-        .btn {
-            @apply disabled:cursor-not-allowed;
-        }
     }
 
     .c--text-field.c--text-field-rounded {

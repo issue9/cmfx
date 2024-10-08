@@ -5,6 +5,7 @@
 import { createSignal, mergeProps, Show } from 'solid-js';
 
 import { FieldBaseProps } from '@/components/form';
+import { Icon, IconSymbol } from '@/components/icon';
 
 export interface Props extends FieldBaseProps {
     /**
@@ -19,12 +20,12 @@ export interface Props extends FieldBaseProps {
 
     onChange?: { (v?: boolean): void };
 
-    checkedIcon?: string;
-    uncheckedIcon?: string;
-    indeterminateIcon?: string;
+    checkedIcon?: IconSymbol;
+    uncheckedIcon?: IconSymbol;
+    indeterminateIcon?: IconSymbol;
 }
 
-const presetProps: Partial<Props> = {
+const presetProps: Readonly<Props> = {
     tabindex: 0,
     checkedIcon: 'check_box',
     uncheckedIcon: 'check_box_outline_blank',
@@ -55,9 +56,7 @@ export default function(props: Props) {
             }}
         />
         <Show when={!props.block}>
-            <span class="checkbox-icon c--icon">
-                { chk() === undefined ? props.indeterminateIcon : (chk() ? props.checkedIcon : props.uncheckedIcon) }
-            </span>
+            <Icon class="mr-1" icon={ chk() === undefined ? props.indeterminateIcon! : (chk() ? props.checkedIcon! : props.uncheckedIcon!) } />
         </Show>
         {props.label}
     </label>;

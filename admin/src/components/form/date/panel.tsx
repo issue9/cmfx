@@ -5,12 +5,16 @@
 import { For, mergeProps, Show } from 'solid-js';
 
 import { useApp } from '@/app/context';
+import { Button } from '@/components/button';
 import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
 import {
-    hoursOptions, minutesOptions, Month, weekDays,
-    Week, weekDay, weeks, weeksLocales, monthsLocales
+    hoursOptions, minutesOptions, Month,
+    monthsLocales,
+    Week, weekDay,
+    weekDays,
+    weeks, weeksLocales
 } from './utils';
 
 export interface Props extends FieldBaseProps {
@@ -68,20 +72,20 @@ export default function (props: Props) {
 
             <div class="title">
                 <div>
-                    <button onClick={()=>{
+                    <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')} onClick={()=>{
                         if (props.readonly || props.disabled) { return; }
 
                         const dt = new Date(ac.getValue());
                         dt.setFullYear(p.dt.getFullYear()-1);
                         setValue(dt);
-                    }} title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')} class="c--icon">keyboard_double_arrow_left</button>
-                    <button onClick={()=>{
+                    }}>keyboard_double_arrow_left</Button>
+                    <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')} onClick={()=>{
                         if (props.readonly || props.disabled) { return; }
 
                         const dt = new Date(ac.getValue());
                         dt.setMonth(p.dt.getMonth()-1);
                         setValue(dt);
-                    }} title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')} class="c--icon">chevron_left</button>
+                    }}>chevron_left</Button>
                 </div>
 
                 <div>
@@ -91,21 +95,20 @@ export default function (props: Props) {
                 </div>
 
                 <div>
-                    <button onClick={()=>{
+                    <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')} onClick={()=>{
                         if (props.readonly || props.disabled) { return; }
 
                         const dt = new Date(ac.getValue());
                         dt.setMonth(p.dt.getMonth()+1);
                         setValue(dt);
-                    }} title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')} class="c--icon">chevron_right</button>
-                    <button onClick={()=>{
+                    }}>chevron_right</Button>
+                    <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')} onClick={()=>{
                         if (props.readonly || props.disabled) { return; }
 
                         const dt = new Date(ac.getValue());
                         dt.setFullYear(p.dt.getFullYear()+1);
                         setValue(dt);
-
-                    }} title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')} class="c--icon">keyboard_double_arrow_right</button>
+                    }}>keyboard_double_arrow_right</Button>
                 </div>
             </div>
 

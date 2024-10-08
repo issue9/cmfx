@@ -4,15 +4,14 @@
 
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
+import { calcPopoverPos } from '@/components/utils';
 import { Props as BaseProps, default as Button, presetProps } from './button';
 import { default as Group, Ref as GroupRef } from './group';
-import { ClickFunc } from './types';
-import { calcPopoverPos } from '@/components/utils';
 
 type Item = { type: 'divider' } | {
     type: 'item';
     label: JSX.Element;
-    onClick: ClickFunc;
+    onClick: NonNullable<BaseProps['onClick']>;
     disabled?: boolean;
 };
 
@@ -44,7 +43,7 @@ export default function(props: Props) {
 
     const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette']);
 
-    const activator = <Group palette={props.palette} ref={el=>group=el} style={props.style} rounded={props.rounded} disabled={props.disabled}>
+    const activator = <Group palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
         <Button icon={/*@once*/true} onClick={() => {
             pop.togglePopover();
@@ -59,13 +58,13 @@ export default function(props: Props) {
                 {(item) => (
                     <Switch>
                         <Match when={item.type === 'divider'}>
-                            <hr class="text-palette-bg-low" />
+                            <hr class="border-palette-bg-low" />
                         </Match>
                         <Match when={item.type === 'item'}>
-                            <button disabled={(item as any).disabled} class="whitespace-nowrap c--icon-container" onClick={() => {
+                            <Button kind='flat' disabled={(item as any).disabled} class="whitespace-nowrap justify-start" onClick={() => {
                                 (item as any).onClick();
                                 pop.hidePopover();
-                            }}>{(item as any).label}</button>
+                            }}>{(item as any).label}</Button>
                         </Match>
                     </Switch>
                 )}

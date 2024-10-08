@@ -5,7 +5,7 @@
 import { createMemo, createResource, For, JSX } from 'solid-js';
 
 import { useApp } from '@/app';
-import { ConfirmButton, Divider, Page } from '@/components';
+import { ConfirmButton, Divider, Icon, Label, Page } from '@/components';
 
 export default function(): JSX.Element {
     const ctx = useApp();
@@ -39,7 +39,7 @@ export default function(): JSX.Element {
     return <Page title="_i.page.system.info" class="max-w-lg">
         <div class="p--system-info">
             <fieldset class="w-[45%]">
-                <legend><Legend icon='info' text={ctx.locale().t('_i.page.system.info')} /></legend>
+                <Label icon="info" tag='legend'>{ctx.locale().t('_i.page.system.info')}</Label>
                 <dl><dt>{ ctx.locale().t('_i.page.system.name') }</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
 
                 <dl><dt>{ ctx.locale().t('_i.page.system.arch') }</dt><dd>{info()?.arch}</dd></dl>
@@ -52,7 +52,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().datetime(info()?.uptime)}</dd></dl>
 
-                <Divider padding='.5rem'><span class="c--icon mr-1">dataset</span>{ctx.locale().t('_i.os')}</Divider>
+                <Divider padding='.5rem'><Icon class="mr-1" icon="dataset" />{ctx.locale().t('_i.os')}</Divider>
 
                 <dl><dt>{ ctx.locale().t('_i.page.system.platform') }</dt><dd>{info()?.os.platform}</dd></dl>
 
@@ -62,7 +62,7 @@ export default function(): JSX.Element {
 
                 <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().datetime(info()?.os.boot)}</dd></dl>
 
-                <Divider padding='.5rem'><span class="c--icon mr-1">database</span>{ctx.locale().t('_i.database')}</Divider>
+                <Divider padding='.5rem'><Icon class="mr-1" icon="database" />{ctx.locale().t('_i.database')}</Divider>
 
                 <dl><dt>{ ctx.locale().t('_i.database') }</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 
@@ -86,10 +86,10 @@ export default function(): JSX.Element {
             </fieldset>
 
             <fieldset class="w-[45%]">
-                <legend><Legend icon='action_key' text={ ctx.locale().t('_i.page.actions') } /></legend>
+                <Label icon='action_key' tag='legend'>{ ctx.locale().t('_i.page.actions') }</Label>
 
                 <ConfirmButton palette='secondary' onClick={async()=>await ctx.clearCache()}>
-                    <span class="c--icon mr-1">clear_all</span>{ ctx.locale().t('_i.page.system.clearCache') }
+                    <Icon class="mr-1" icon="clear_all" />{ ctx.locale().t('_i.page.system.clearCache') }
                 </ConfirmButton>
                 <span class="mt-1">{ctx.locale().t('_i.page.system.clearCacheHelp')}</span>
 
@@ -102,7 +102,7 @@ export default function(): JSX.Element {
                     }
                     await refetch();
                 }}>
-                    <span class="c--icon mr-1">backup</span>{ ctx.locale().t('_i.page.system.backupDB') }
+                    <Icon class="mr-1" icon="backup" />{ ctx.locale().t('_i.page.system.backupDB') }
                 </ConfirmButton>
                 <span class="mt-1">{ctx.locale().t('_i.page.system.backupDBHelp', {cron: backup()?.cron!})}</span>
                 <ul class="backup_list">
@@ -110,7 +110,7 @@ export default function(): JSX.Element {
                         {(item)=>(
                             <li>
                                 {item.path}&nbsp;({ctx.locale().bytes(item.size)})
-                                <ConfirmButton style='flat' palette='error' onClick={async()=>{
+                                <ConfirmButton kind='flat' palette='error' onClick={async()=>{
                                     const ret = await ctx.api.delete('/system/backup/'+item.path);
                                     if (!ret.ok) {
                                         ctx.outputProblem(ret.status, ret.body);
@@ -125,15 +125,11 @@ export default function(): JSX.Element {
             </fieldset>
 
             <fieldset class="states">
-                <legend><Legend icon='ssid_chart' text={ ctx.locale().t('_i.page.system.states') } /></legend>
+                <Label icon='ssid_chart' tag='legend' >{ ctx.locale().t('_i.page.system.states') }</Label>
                 <div>chart</div>
             </fieldset>
         </div>
     </Page>;
-}
-
-function Legend(p: {icon?: string, text?: string}) {
-    return <span class="c--icon-container mx-1"><span class="c--icon mr-1">{p.icon}</span>{p.text}</span>;
 }
 
 interface Info {

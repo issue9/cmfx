@@ -17,6 +17,6 @@ export type { Props as ButtonGroupProps, Ref as ButtonGroupRef } from './group';
 export { default as SplitButton } from './split';
 export type { Props as SplitButtonProps } from './split';
 
-export { styles as buttonStyles } from './types';
-export type { Style as ButtonStyle } from './types';
+export { kinds as buttonKinds } from './types';
+export type { Kind as ButtonKind } from './types';
 

@@ -5,6 +5,7 @@
 import { For, mergeProps, Show } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { Icon, IconSymbol } from '@/components/icon';
 
 export interface Props<T> extends FieldBaseProps {
     /**
@@ -16,15 +17,15 @@ export interface Props<T> extends FieldBaseProps {
     accessor: Accessor<T>;
     options: Options<T>;
 
-    checkedIcon?: string;
-    uncheckedIcon?: string;
+    checkedIcon?: IconSymbol;
+    uncheckedIcon?: IconSymbol;
 }
 
 export default function Group<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({
         tabindex: 0,
-        checkedIcon: 'radio_button_checked',
-        uncheckedIcon: 'radio_button_unchecked'
+        checkedIcon: 'radio_button_checked' as IconSymbol,
+        uncheckedIcon: 'radio_button_unchecked' as IconSymbol,
     }, props);
     const access = props.accessor;
 
@@ -34,7 +35,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.label}>
-            <legend class="c--icon-container w-full" title={props.title}>{props.label}</legend >
+            <legend class="flex items-center w-full" title={props.title}>{props.label}</legend >
         </Show>
 
         <div classList={{
@@ -57,9 +58,7 @@ export default function Group<T extends string | number | undefined> (props: Pro
                             }}
                         />
                         <Show when={!props.block}>
-                            <span class="radio-icon c--icon">
-                                {access.getValue() === item[0] ? props.checkedIcon : props.uncheckedIcon }
-                            </span>
+                            <Icon class="radio-icon" icon={ access.getValue() === item[0] ? props.checkedIcon! : props.uncheckedIcon!} />
                         </Show>
                         {item[1]}
                     </label>

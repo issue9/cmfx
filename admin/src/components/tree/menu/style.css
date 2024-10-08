@@ -20,8 +20,8 @@
         .item {
             @apply p-2 hover:bg-[var(--bg-low)] cursor-pointer relative flex;
 
-            .tail {
-                margin-left: auto
+            .expand {
+                @apply ml-auto flex items-center;
             }
         }
 

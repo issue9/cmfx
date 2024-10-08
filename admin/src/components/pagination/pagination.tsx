@@ -6,6 +6,7 @@ import { createEffect, createSignal, For, mergeProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
+import { Button } from '@/components/button';
 
 export interface Props extends BaseProps {
     /**
@@ -91,38 +92,38 @@ export default function(props: Props) {
         'c--pagination': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        <button onclick={()=>change(1)}
-            class="item c--icon"
+        <Button icon onclick={()=>change(1)}
+            class="item rounded-none"
             aria-label={ctx.locale().t('_i.pagination.firstPage')}
-            disabled={current()===1}>first_page</button>
+            disabled={current()===1}>first_page</Button>
 
-        <button onclick={()=>change(current()-1)}
-            class="item c--icon"
+        <Button icon onclick={()=>change(current()-1)}
+            class="item rounded-none"
             disabled={current()===1}
-            aria-label={ctx.locale().t('_i.pagination.prev')}>chevron_left</button>
+            aria-label={ctx.locale().t('_i.pagination.prev')}>chevron_left</Button>
 
         <For each={prevs()}>
             {(item)=>(
-                <button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</button>
+                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item rounded-none">{item}</Button>
             )}
         </For>
 
-        <button aria-label={current().toString()} aria-selected='true' class="item current">{current()}</button>
+        <Button aria-label={current().toString()} aria-selected='true' class="item current rounded-none">{current()}</Button>
 
         <For each={nexts()}>
             {(item)=>(
-                <button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</button>
+                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item rounded-none">{item}</Button>
             )}
         </For>
 
-        <button onclick={()=>change(current()+1)}
-            class="item c--icon"
+        <Button icon onclick={()=>change(current()+1)}
+            class="item rounded-none"
             aria-label={ctx.locale().t('_i.pagination.next')}
-            disabled={current() >= props.count}>chevron_right</button>
+            disabled={current() >= props.count}>chevron_right</Button>
 
-        <button onclick={()=>change(props.count)}
-            class="item c--icon"
+        <Button icon onclick={()=>change(props.count)}
+            class="item rounded-none"
             aria-label={ctx.locale().t('_i.pagination.lastPage')}
-            disabled={current() >= props.count}>last_page</button>
+            disabled={current() >= props.count}>last_page</Button>
     </nav>;
 }

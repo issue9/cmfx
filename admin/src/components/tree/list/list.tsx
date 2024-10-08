@@ -7,6 +7,7 @@ import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-j
 import { Dynamic } from 'solid-js/web';
 
 import { Divider } from '@/components/divider';
+import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
 import { findItems, type Item, type Value } from '@/components/tree/item';
 
@@ -87,7 +88,7 @@ export default function (props: Props): JSX.Element {
                 <details open={p.isSelected} onToggle={()=>setOpen(!open())}>
                     <summary style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} class="item">
                         {p.item.label}
-                        <span class="tail c--icon">{ open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' }</span>
+                        <Icon class="expand" icon={ open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' } />
                     </summary>
                     <Show when={p.item.items}>
                         <menu>

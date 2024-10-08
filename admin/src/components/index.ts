@@ -11,6 +11,7 @@ export * from './divider';
 export * from './drawer';
 export * from './error';
 export * from './form';
+export * from './icon';
 export * from './notify';
 export * from './page';
 export * from './pagination';

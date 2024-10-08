@@ -5,13 +5,14 @@
 import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+import { IconSymbol } from '@/components/icon';
 import Label from './label';
 
 export interface Props extends BaseProps, ParentProps {
     /**
      * 图标
      */
-    icon?: string;
+    icon?: IconSymbol;
 
     /**
      * 标题

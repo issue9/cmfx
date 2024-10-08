@@ -6,11 +6,11 @@
 
 @layer components {
     .c--button {
-        @apply border flex justify-center border-transparent items-center text-center rounded-md py-1 px-3 text-nowrap text-[var(--fg)] outline-none;
+        @apply border border-transparent flex items-center justify-center text-center rounded-md py-1 px-3 text-nowrap text-palette-fg outline-none;
     }
 
     .c--button.c--button-icon {
-        @apply p-1;
+        @apply p-2;
     }
 
     .c--button.c--button-fill {
@@ -54,11 +54,11 @@
         @apply text-[var(--fg)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
 
         .c--button {
-            @apply rounded-none border-none items-center flex-1 py-1 px-3 text-[var(--fg)] outline-none;
+            @apply rounded-none border-none flex-1 py-1 px-3 text-[var(--fg)] outline-none;
         }
 
         .c--button.c--button-icon {
-            @apply p-1;
+            @apply p-2;
         }
 
         :first-child {
@@ -146,18 +146,6 @@
     /************************* confirm-button ******************************/
 
     .c--split-button_content {
-        @apply bg-palette-bg p-1 gap-y-1 rounded-md mt-1 border border-palette-bg-low m-0;
-
-        button {
-            @apply py-1 px-2 rounded-md text-left;
-        }
-
-        button:hover {
-            @apply bg-palette-bg-high text-palette-fg-high;
-        }
-    }
-
-    .c--split-button_content:popover-open {
-        @apply flex flex-col;
+        @apply bg-palette-bg p-1 gap-y-1 rounded-md mt-1 border border-palette-bg-low m-0 flex flex-col;
     }
 }

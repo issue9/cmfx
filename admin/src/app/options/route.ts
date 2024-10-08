@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { IconSymbol } from '@/components';
 import { RouteSectionProps } from '@solidjs/router';
 import { Component } from 'solid-js';
 
@@ -67,7 +68,7 @@ export type MenuItem = {
     /**
      * 图标名称
      */
-    icon?: string;
+    icon?: IconSymbol;
 
     /**
      * 菜单的标题

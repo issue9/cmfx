@@ -2,30 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
-
 import { BaseProps } from '@/components/base';
 
 /**
  * 组件的风格
  */
-export const styles = ['flat' , 'border' , 'fill'] as const;
+export const kinds = ['flat' , 'border' , 'fill'] as const;
 
-export type Style = typeof styles[number];
+export type Kind = typeof kinds[number];
 
 export interface Props extends BaseProps {
     /**
      * 组件的展示风格
      */
-    style?: Style;
+    kind?: Kind;
 
     rounded?: boolean;
-
-    disabled?: boolean;
 }
 
-export type ClickFunc = NonNullable<JSX.ButtonHTMLAttributes<HTMLButtonElement>['onClick']>;
-
-export type ButtonType = NonNullable<JSX.ButtonHTMLAttributes<HTMLButtonElement>['type']>;
-
-export const presetProps: Readonly<Props> = { style: 'fill' };
+export const presetProps: Readonly<Props> = { kind: 'fill' };

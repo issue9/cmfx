@@ -7,6 +7,7 @@ import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { Button } from '@/components/button';
+import { Icon } from '../icon';
 
 /**
  * {@link Props#actions} 元素中的点击事件
@@ -165,9 +166,9 @@ export default function(props: Props) {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.header}>
-            <header class="c--icon-container">
+            <header class="flex items-center">
                 {props.header}
-                <span class="c--icon cursor-pointer" onClick={()=>ref.close('close')}>close</span>
+                <Icon class="cursor-pointer" icon="close" onClick={()=>ref.close('close')} />
             </header>
         </Show>
 

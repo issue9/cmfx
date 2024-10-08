@@ -2,23 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, Show } from 'solid-js';
+import { JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
+import { Button } from '@/components/button';
+import { Icon, IconSymbol } from '@/components/icon';
+import { Props as BaseProps, default as TextField } from './textfiled';
 
-export interface Props extends FieldBaseProps {
-    icon?: string;
+export interface Props extends Omit<BaseProps<number>, 'prefix'|'suffix'|'type'|'ref'> {
+    icon?: IconSymbol;
     min?: number,
     max?: number,
     step?: number,
-    placeholder?: string;
-    rounded?: boolean;
-    accessor: Accessor<number>;
-
-    /**
-     * 默认为 decimal
-     */
-    inputMode?: InputMode;
 }
 
 const presetProps: Partial<Props> = {
@@ -28,6 +22,7 @@ const presetProps: Partial<Props> = {
 
 export default function(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
+    const [_, fieldProps] = splitProps(props, ['icon','min','max','step']);
 
     if (props.step === 0) {
         throw 'step 不能为零';
@@ -52,32 +47,14 @@ export default function(props: Props): JSX.Element {
         access.setError();
     };
 
-    return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
-        <label title={props.title}>
-            <Show when={props.label}>
-                {props.label}
-            </Show>
-
-            <div classList={{
-                'c--text-field': true,
-                'c--text-field-rounded': props.rounded,
-            }}>
-                <Show when={props.icon}>
-                    <span role="none" class="prefix flex items-center pl-1 c--icon">{props.icon}</span>
-                </Show>
-                <input accessKey={props.accessKey} class="input" type='number' inputMode={props.inputMode} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
-                    tabIndex={props.tabindex}
-                    min={props.min} max={props.max}
-                    value={access.getValue()}
-                    onInput={(e) => { access.setValue(parseInt(e.target.value)); access.setError(); }}
-                />
-                <button type='button' disabled={props.disabled} class="btn c--icon" onClick={()=>step(props.step!)}>arrow_drop_up</button>
-                <button type='button' disabled={props.disabled} class="btn c--icon" onClick={()=>step(-props.step!)}>arrow_drop_down</button>
-            </div>
-        </label>
-
-        <Show when={access.hasError()}>
-            <p class="field_error" role="alert">{access.getError()}</p>
+    return <TextField {...fieldProps} type="number" prefix={
+        <Show when={props.icon}>
+            <Icon icon={props.icon!} class="px-1 !py-0 flex items-center" />
         </Show>
-    </div>;
+    } suffix={
+        <>
+            <Button type='button' kind='flat' class="!px-1 !py-0 rounded-none" icon disabled={props.disabled} onClick={()=>step(props.step!)}>arrow_drop_up</Button>
+            <Button type='button' kind='flat' class="!px-1 !py-0 rounded-none" icon disabled={props.disabled} onClick={()=>step(-props.step!)}>arrow_drop_down</Button>
+        </>
+    } />;
 }

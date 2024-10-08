@@ -4,14 +4,15 @@
 
 
 import { A } from '@solidjs/router';
-import { JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps, splitProps } from 'solid-js';
 
+import { IconSymbol } from '@/components/icon';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 /**
  * 将 {@link A} 以按钮的形式展示
  */
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
     /**
      * 跳转的链接
      */
@@ -27,10 +28,9 @@ export interface Props extends BaseProps {
     /**
      * 按钮内容，如果 icon 为 true，那么内容应该是图标名称，否则不能显示为正确图标。
      */
-    children: JSX.Element;
+    children: JSX.Element | IconSymbol;
 
-    title?: string;
-    accessKey?: string;
+    disabled?: boolean;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
@@ -42,16 +42,16 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export default function(props: Props) {
     props = mergeProps(presetProps, props);
+    const [_, linkProps] = splitProps(props, ['icon', 'children', 'disabled', 'kind', 'rounded']);
 
     // A.href 无法设置为 javascript:void(0)
-    return <A href={props.href} accessKey={props.accessKey} title={props.title} onClick={
+    return <A {...linkProps} onClick={
         !props.disabled ? undefined : e => e.preventDefault()
     } classList={{
         'c--button': true,
-        'c--icon-container': true,
         'c--icon': props.icon,
         'c--button-icon': props.icon,
-        [`c--button-${props.style}`]: true,
+        [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,
         'rounded-full': props.rounded,
         'link-enabled': !props.disabled,

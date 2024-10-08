@@ -6,6 +6,7 @@ import { createSignal, createUniqueId, For, mergeProps, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { BaseProps, Palette } from '@/components/base';
+import { Icon } from '@/components/icon';
 import { sleep } from '@/core';
 
 export type Props = BaseProps;
@@ -96,7 +97,7 @@ export default function(props: Props) {
                     return <div id={elemID} role="alert" class={item.palette ? `message palette--${item.palette}` : 'message'}>
                         <div class="title">
                             <p>{item.title}</p>
-                            <button onClick={() => del()} class="close c--icon">close</button>
+                            <Icon onClick={() => del()} class="close" icon="close" />
                         </div>
                         <Show when={item.body}>
                             <hr />

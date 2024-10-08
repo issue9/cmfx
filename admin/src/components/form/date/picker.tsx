@@ -4,9 +4,10 @@
 
 import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { presetProps, default as Panel, Props as PanelProps } from './panel';
 import { useApp } from '@/app/context';
+import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
+import { default as Panel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {
     placeholder?: string;
@@ -69,7 +70,7 @@ export default function(props: Props) {
                 <div class="input">
                     { props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue()) }
                 </div>
-                <span class="c--icon tail">expand_all</span>
+                <Icon icon="expand_all" />
             </div>
         </label>
         <Show when={ac.hasError()}>
