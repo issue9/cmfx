@@ -61,10 +61,6 @@
 
             .toolbar {
                 @apply flex justify-start items-center;
-
-                .action {
-                    @apply hover:text-palette-fg-high cursor-pointer;
-                }
             }
         }
     }

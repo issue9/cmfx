@@ -92,37 +92,32 @@ export default function(props: Props) {
         'c--pagination': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        <Button icon onclick={()=>change(1)}
-            class="item rounded-none"
+        <Button icon onclick={()=>change(1)} class="item"
             aria-label={ctx.locale().t('_i.pagination.firstPage')}
             disabled={current()===1}>first_page</Button>
 
-        <Button icon onclick={()=>change(current()-1)}
-            class="item rounded-none"
-            disabled={current()===1}
+        <Button icon onclick={()=>change(current()-1)} class="item" disabled={current()===1}
             aria-label={ctx.locale().t('_i.pagination.prev')}>chevron_left</Button>
 
         <For each={prevs()}>
             {(item)=>(
-                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item rounded-none">{item}</Button>
+                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</Button>
             )}
         </For>
 
-        <Button aria-label={current().toString()} aria-selected='true' class="item current rounded-none">{current()}</Button>
+        <Button aria-label={current().toString()} aria-selected='true' class="item current">{current()}</Button>
 
         <For each={nexts()}>
             {(item)=>(
-                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item rounded-none">{item}</Button>
+                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</Button>
             )}
         </For>
 
-        <Button icon onclick={()=>change(current()+1)}
-            class="item rounded-none"
+        <Button icon onclick={()=>change(current()+1)} class="item"
             aria-label={ctx.locale().t('_i.pagination.next')}
             disabled={current() >= props.count}>chevron_right</Button>
 
-        <Button icon onclick={()=>change(props.count)}
-            class="item rounded-none"
+        <Button icon onclick={()=>change(props.count)} class="item"
             aria-label={ctx.locale().t('_i.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</Button>
     </nav>;

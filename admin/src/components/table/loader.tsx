@@ -220,7 +220,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
             <div class="toolbar">
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
-                    <Button class="ml-auto action" icon rounded kind='flat' onClick={async() => await refetch()}
+                    <Button class="ml-auto" icon rounded kind='flat' onClick={async() => await refetch()}
                         aria-label={ctx.locale().t('_i.refresh')}
                         title={ctx.locale().t('_i.refresh')}>refresh</Button>
                 </Show>

@@ -27,9 +27,11 @@ export default function Toolbar(props: Props) {
             <span class="inline-block ml-2 text-lg font-bold">{opt.title}</span>
         </div>
 
-        <div class="px-4 flex items-center flex-1 ml-10">
+        <div class="flex items-center flex-1 mx-4">
             <Show when={ctx.isLogin() && compareBreakpoint(ctx.breakpoint(), floatAsideWidth)<0}>
-                <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>menu</Button>
+                <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>
+                {props.menuVisibleGetter() ? 'menu_open' : 'menu' }
+                </Button>
             </Show>
         </div>
 

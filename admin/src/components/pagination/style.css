@@ -9,23 +9,19 @@
         @apply flex rounded-md bg-palette-bg;
 
         :first-child {
-            @apply rounded-l-md;
+            @apply !rounded-l-md;
         }
 
         :last-child {
-            @apply rounded-r-md;
+            @apply !rounded-r-md;
         }
 
         .item {
-            @apply hover:bg-palette-bg-low px-2 py-[2px] outline-none;
+            @apply px-2 py-[2px] outline-none rounded-none;
         }
 
         .item:focus-visible {
             @apply bg-palette-bg-low;
-        }
-
-        .item:disabled {
-            @apply cursor-not-allowed bg-palette-bg text-palette-bg-high;
         }
 
         .current {
