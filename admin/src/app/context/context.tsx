@@ -78,7 +78,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         /**
          * 是否已经登录
          */
-        isLogin() { return !!user(); },
+        isLogin() { return f.isLogin(); },
 
         /**
          * 清除浏览器的所有缓存
