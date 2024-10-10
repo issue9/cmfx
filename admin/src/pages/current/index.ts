@@ -2,22 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Pages } from '@/pages/pages';
 import { MenuItem, Route } from '@/app';
-import { default as Home } from './home';
-import { default as Settings } from './settings';
-import { default as Logout } from './logout';
+import { Pages } from '@/pages/pages';
+import { default as Dashboard } from './dashboard';
 import { default as Login } from './login';
+import { default as Logout } from './logout';
+import { default as Profile } from './profile';
 import { default as SecurityLogs } from './securitylogs';
+import { default as Settings } from './settings';
 
 /**
  * 提供了与当前登录用户直接相关的页面
  */
 export class current implements Pages {
     /**
-     * 提供当前用户的首页面板
+     * 提供当前用户的仪表盘
      */
-    static Home = Home;
+    static Dashboard = Dashboard;
 
     /**
      * 提供当前用户的设置面
@@ -33,6 +34,11 @@ export class current implements Pages {
      * 退出页面
      */
     static Logout = Logout;
+
+    /**
+     * 当前用户的个人信息面板
+     */
+    static Profile = Profile;
 
     /**
      * 用户的安全日志
@@ -51,7 +57,8 @@ export class current implements Pages {
 
     routes(): Array<Route> {
         return [
-            { path: this.#prefix + '/home', component:Home },
+            { path: this.#prefix + '/dashboard', component:Dashboard },
+            { path: this.#prefix + '/profile', component:Profile },
             { path: this.#prefix + '/settings', component: Settings },
             { path: this.#prefix + '/securitylogs', component: SecurityLogs },
             { path: this.#prefix + '/logout', component: Logout },
@@ -60,9 +67,10 @@ export class current implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_i.page.current.home', path: this.#prefix + '/home', icon: 'home' },
+            { type: 'item', label: '_i.page.current.dashboard', path: this.#prefix + '/dashboard', icon: 'dashboard' },
+            { type: 'item', label: '_i.page.current.profile', path: this.#prefix + '/profile', icon: 'id_card' },
             { type: 'item', label: '_i.page.current.settings', path: this.#prefix + '/settings', icon: 'settings' },
-            { type: 'item', label: '_i.page.current.securitylog', path: this.#prefix + '/securitylogs', icon: 'badge' },
+            { type: 'item', label: '_i.page.current.securitylog', path: this.#prefix + '/securitylogs', icon: 'security' },
             { type: 'divider' },
             { type: 'item', label: '_i.page.current.logout', path: this.#prefix + '/logout', icon: 'logout' },
         ];

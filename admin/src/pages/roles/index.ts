@@ -40,7 +40,7 @@ export class roles implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_i.page.roles.roles', path: this.#prefix },
+            { type: 'item', icon: 'groups', label: '_i.page.roles.roles', path: this.#prefix },
         ];
     }
 }

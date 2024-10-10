@@ -11,3 +11,17 @@
         @apply flex justify-center flex-col px-2 gap-2 w-full xs:w-80;
     }
 }
+
+.p--profile {
+    .content {
+        @apply flex justify-between flex-col sm:flex-row box-border sm:gap-8 gap-10;
+    }
+
+    .form {
+        @apply flex flex-col sm:w-[50%] w-full;
+
+        .actions {
+            @apply w-full flex justify-end gap-5;
+        }
+    }
+}

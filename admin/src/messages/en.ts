@@ -14,6 +14,8 @@ const messages = {
         refresh: 'refresh',
         areYouSure: 'are you sure?',
         page: { // 页面的翻译内容
+            save: 'save',
+            update: 'update',
             editItem: 'edit item',
             deleteItem: 'delete item',
             newItem: 'new item',
@@ -34,17 +36,26 @@ const messages = {
                 unknown: 'unknown'
             },
             current: {
-                home: 'Home',
+                dashboard: 'Dashboard',
                 logout: 'logout',
                 settings: 'Settings',
+
                 title: 'login',
                 username: 'username',
                 password: 'password',
+
                 securitylog: 'security logs',
                 content: 'content',
                 ip: 'IP',
                 ua: 'user agent',
                 uaInfo: 'browser: {browser}({browserVersion}) os: {os}({osVersion}) kernal: {kernal}({kernalVersion})',
+
+                profile: 'profle',
+                name: 'name',
+                nickname: 'nickname',
+                oldPassword: 'old password',
+                newPassword: 'new password',
+                confirmPassword: 'confirm password',
             },
             system: {
                 apis: 'API',
@@ -155,6 +166,12 @@ const messages = {
             pageNotFound: 'page not found',
             forbidden: 'forbidden',
             internalServerError: 'server error',
+
+            // 以下为一些内置的错误提示信息
+            canNotBeEmpty: 'can not be empty',
+            oldNewPasswordCanNotBeEqual: 'The old passowrd and new password can not be equal',
+            newConfirmPasswordMustBeEqual: 'The new passowrd and confirm password must be equal',
+
         },
         theme: {
             mode: 'theme mode',

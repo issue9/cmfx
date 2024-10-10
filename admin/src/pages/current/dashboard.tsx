@@ -7,7 +7,7 @@ import { JSX } from 'solid-js';
 import { Page } from '@/components';
 
 export default function(): JSX.Element {
-    return <Page title='_i.page.current.home'>
+    return <Page title='_i.page.current.dashboard'>
         home
     </Page>;
 }

@@ -16,6 +16,8 @@ const messages: Messages = {
         refresh: '刷新',
         areYouSure: '你确定要这么做吗？',
         page: { // 页面的翻译内容
+            save: '保存',
+            update: '更新',
             editItem: '编辑',
             deleteItem: '删除',
             newItem: '新建',
@@ -36,17 +38,26 @@ const messages: Messages = {
                 unknown: '未知'
             },
             current: { // 登录框
+                dashboard: '仪表盘',
+                logout: '退出',
+                settings: '设置',
+
                 title: '登录',
                 username: '账号',
                 password: '密码',
-                home: '首页',
-                logout: '退出',
-                settings: '设置',
+
                 securitylog: '安全日志',
                 content: '内容',
                 ip: 'IP',
                 ua: 'UA',
                 uaInfo: '浏览器: {browser}({browserVersion}) 系统: {os}({osVersion}) 内核: {kernal}({kernalVersion})',
+
+                profile: '个人信息',
+                name: '姓名',
+                nickname: '昵称',
+                oldPassword: '旧密码',
+                newPassword: '新密码',
+                confirmPassword: '确认新密码',
             },
             system: {
                 apis: 'API',
@@ -157,6 +168,11 @@ const messages: Messages = {
             pageNotFound: '页面不存在',
             forbidden: '无权访问当前页面',
             internalServerError: '服务端错误',
+
+            // 以下为一些内置的错误提示信息
+            canNotBeEmpty: '不能为空',
+            oldNewPasswordCanNotBeEqual: '新密码不能与旧密码相同',
+            newConfirmPasswordMustBeEqual: '确认密码与新密码并不相同',
         },
         theme: {
             mode: '主题模式',

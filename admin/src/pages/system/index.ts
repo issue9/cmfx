@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { default as APIs } from './apis';
-import { default as Services } from './services';
-import { default as Info } from './info';
-import { Pages } from '@/pages/pages';
 import { MenuItem, Route } from '@/app/options/route';
+import { Pages } from '@/pages/pages';
+import { default as APIs } from './apis';
+import { default as Info } from './info';
+import { default as Services } from './services';
 
 export class system implements Pages {
     static APIs = APIs;
@@ -34,9 +34,9 @@ export class system implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_i.page.system.apis', path: this.#prefix+'/apis' },
-            { type: 'item', label: '_i.page.system.services', path: this.#prefix+'/services' },
-            { type: 'item', label: '_i.page.system.info', path: this.#prefix+'/info' },
+            { type: 'item', icon: 'api', label: '_i.page.system.apis', path: this.#prefix+'/apis' },
+            { type: 'item', icon: 'settings_slow_motion', label: '_i.page.system.services', path: this.#prefix+'/services' },
+            { type: 'item', icon: 'help', label: '_i.page.system.info', path: this.#prefix+'/info' },
         ];
     }
 }

@@ -4,9 +4,9 @@
 
 import { JSX } from 'solid-js';
 
-import { Divider, Options, Choice, Label, FieldAccessor, RadioGroup, Page, Description } from '@/components';
-import { Mode, Scheme, Theme, Contrast, UnitStyle } from '@/core';
-import { useOptions, useApp } from '@/app/context';
+import { useApp, useOptions } from '@/app/context';
+import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup } from '@/components';
+import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@/core';
 
 export default function(): JSX.Element {
     const ctx = useApp();
@@ -40,9 +40,9 @@ export default function(): JSX.Element {
 
         <RadioGroup accessor={modeFA} block={/*@once*/false}
             options={/*@once*/[
-                ['system', <Label icon={/*@once*/'brightness_6'}>{ctx.locale().t('_i.theme.system')}</Label>],
-                ['dark', <Label icon={/*@once*/'dark_mode'}>{ctx.locale().t('_i.theme.dark')}</Label>],
-                ['light', <Label icon={/*@once*/'brightness_6'}>{ctx.locale().t('_i.theme.light')}</Label>]
+                ['system', ctx.locale().t('_i.theme.system')],
+                ['dark', ctx.locale().t('_i.theme.dark')],
+                ['light', ctx.locale().t('_i.theme.light')]
             ]}
         />
 
@@ -54,9 +54,9 @@ export default function(): JSX.Element {
 
         <RadioGroup accessor={contrastFA} block={/*@once*/false}
             options={/*@once*/[
-                ['more', <Label icon={/*@once*/'exposure_plus_1'}>{ctx.locale().t('_i.theme.more')}</Label>],
-                ['nopreference', <Label icon={/*@once*/'exposure_zero'}>{ctx.locale().t('_i.theme.nopreference')}</Label>],
-                ['less', <Label icon={/*@once*/'exposure_neg_1'}>{ctx.locale().t('_i.theme.less')}</Label>]
+                ['more', ctx.locale().t('_i.theme.more')],
+                ['nopreference', ctx.locale().t('_i.theme.nopreference')],
+                ['less', ctx.locale().t('_i.theme.less')]
             ]}
         />
 
@@ -85,9 +85,9 @@ export default function(): JSX.Element {
         </Description>
 
         <RadioGroup accessor={unitFA} block={/*@once*/false} options={/*@once*/[
-            ['narrow', <Label icon={/*@once*/'format_letter_spacing_standard'}>{ctx.locale().t('_i.locale.narrow')}</Label>],
-            ['short', <Label icon={/*@once*/'format_letter_spacing_wide'}>{ctx.locale().t('_i.locale.short')}</Label>],
-            ['full', <Label icon={/*@once*/'format_letter_spacing_wider'}>{ctx.locale().t('_i.locale.long')}</Label>],
+            ['narrow', ctx.locale().t('_i.locale.narrow')],
+            ['short', ctx.locale().t('_i.locale.short')],
+            ['full', ctx.locale().t('_i.locale.long')],
         ]}/>
 
         <div class="ml-1 pl-2 border-l-2 border-palette-bg-low">

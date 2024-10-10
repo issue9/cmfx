@@ -27,9 +27,9 @@ const routes: Routes = {
         ]
     },
     private: {
-        home: '/current/home',
+        home: '/current/dashboard',
         routes: [
-            { path: ['/dashboard', '/'], component: pages.current.Home },
+            { path: ['/dashboard', '/'], component: pages.current.Dashboard },
             { path: '/test', component: Test },
             ...roles.routes(),
             ...admins.routes(),
@@ -41,18 +41,18 @@ const routes: Routes = {
 };
 
 const menus: Options['menus'] = [
-    { type: 'item', label: 'home', path: '/current/home' },
+    { type: 'item', icon: 'dashboard', label: '_i.page.current.dashboard', path: '/current/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test' },
     {
         type: 'group', label: 'system', items: [
             {
-                type: 'item', label: 'administrator', items: [
+                type: 'item', label: 'administrator', icon: 'admin_panel_settings', items: [
                     ...roles.menus(),
                     ...admins.menus(),
                 ]
             },
             {
-                type: 'item', label: '_i.page.system.system', items: [
+                type: 'item', label: '_i.page.system.system', icon: 'host', items: [
                     ...system.menus(),
                 ]
             }
