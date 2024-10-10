@@ -4,7 +4,8 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
+import { Accessor } from '@/components/form/access';
+import { AutoComplete, Props as FieldBaseProps, InputMode } from '@/components/form/types';
 
 type Value = string | number | Array<string>;
 
@@ -15,16 +16,19 @@ export interface Props<T> extends FieldBaseProps {
      * 文本框内顶部的内容
      */
     prefix?: JSX.Element;
+
     /**
      * 文本框内尾部的内容
      */
     suffix?: JSX.Element;
 
     placeholder?: string;
-    type?: 'text' | 'url' | 'email' | 'number' | 'password' | 'search';
+    type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
     rounded?: boolean;
     accessor: Accessor<T>;
     inputMode?: InputMode;
+    autocomplete?: AutoComplete;
+    'aria-autocomplete'?: JSX.FormHTMLAttributes<HTMLInputElement>['aria-autocomplete'];
 
     ref?: {(el: Ref):void};
 }
@@ -53,6 +57,8 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
                 <input accessKey={props.accessKey} class="input" type={props.type}
                     ref={el => { if (props.ref) { props.ref(el); }}}
                     inputMode={props.inputMode}
+                    autocomplete={props.autocomplete}
+                    aria-autocomplete={props['aria-autocomplete']}
                     tabIndex={props.tabindex}
                     disabled={props.disabled}
                     readOnly={props.readonly}

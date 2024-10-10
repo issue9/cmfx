@@ -8,7 +8,7 @@ export type { Accessor, Validation } from './access';
 export { default as Form } from './form';
 export type { Props as FormProps } from './form';
 
-export type { Props as FieldBaseProps, InputMode, Option, Options } from './types';
+export type { AutoComplete, Props as FieldBaseProps, InputMode, Option, Options } from './types';
 
 export * from './checkbox';
 export * from './choice';

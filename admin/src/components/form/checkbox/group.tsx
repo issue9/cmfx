@@ -5,6 +5,7 @@
 import { For, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { IconSymbol } from '@/components/icon';
 import { default as Checkbox } from './checkbox';
 
 export interface Props<T> extends FieldBaseProps {
@@ -17,17 +18,17 @@ export interface Props<T> extends FieldBaseProps {
     accessor: Accessor<Array<T>>;
     options: Options<T>;
 
-    checkedIcon?: string;
-    uncheckedIcon?: string;
-    indeterminateIcon?: string;
+    checkedIcon?: IconSymbol;
+    uncheckedIcon?: IconSymbol;
+    indeterminateIcon?: IconSymbol;
 }
 
 export default function Group<T extends string | number> (props: Props<T>) {
     props = mergeProps({
         icon: true,
-        checkedIcon: 'check_box',
-        uncheckedIcon: 'check_box_outline_blank',
-        indeterminateIcon: 'indeterminate_check_box'
+        checkedIcon: 'check_box' as IconSymbol,
+        uncheckedIcon: 'check_box_outline_blank' as IconSymbol,
+        indeterminateIcon: 'indeterminate_check_box' as IconSymbol
     }, props);
     const access = props.accessor;
 

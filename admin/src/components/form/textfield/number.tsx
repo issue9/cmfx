@@ -8,7 +8,7 @@ import { Button } from '@/components/button';
 import { Icon, IconSymbol } from '@/components/icon';
 import { Props as BaseProps, default as TextField } from './textfiled';
 
-export interface Props extends Omit<BaseProps<number>, 'prefix'|'suffix'|'type'|'ref'> {
+export interface Props extends Omit<BaseProps<number>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'> {
     icon?: IconSymbol;
     min?: number;
     max?: number;
