@@ -10,6 +10,6 @@
     .c--icon {
         @apply material-symbols-outlined flex-grow-0 flex-shrink-0 align-bottom;
         font-size: inherit;
-        /*font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;*/
+        font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 48;
     }
 }

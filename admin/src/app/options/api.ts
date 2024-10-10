@@ -13,11 +13,15 @@ export interface API {
 
     /**
      * 登录地址
+     *
+     * 该地址应该同时包含以下三个请求方法：POST、PUT 和 DELETE。
      */
     login: string
 
     /**
      * 用户基本信息的地址
+     *
+     * 该地址应该同时包含以下三个请求方法：GET 和 PATCH。
      */
     info: string
 

@@ -29,13 +29,16 @@ export default function() {
         </>
     } stages={
         <>
-            <Form formAccessor={f} palette={palette()} {...f.events()}>
+            <p>flex</p>
+            <Form class="flex items-center" formAccessor={f} palette={palette()} {...f.events()}>
                 <TextField accessor={f.accessor('f1')} />
                 <Number accessor={f.accessor(5)} />
                 <DatePicker accessor={f.accessor('date')} />
-                <TextArea accessor={f.accessor('textarea')} />
-                <Button type="reset">reset</Button>
-                <Button type="submit">submit</Button>
+                <TextArea class="flex-grow" accessor={f.accessor('textarea')} />
+                <div class="w-full flex justify-between">
+                    <Button type="reset">reset</Button>
+                    <Button type="submit">submit</Button>
+                </div>
             </Form>
         </>
     } />;

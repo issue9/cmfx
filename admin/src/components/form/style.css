@@ -26,7 +26,7 @@
 
         /* 表单字段的错误提示组件 */
         .field_error {
-            @apply text-sm text-[var(--fg-error)] min-h-5;
+            @apply text-sm text-error-fg min-h-5;
         }
     }
 }

@@ -36,7 +36,11 @@ export default function<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;
     const access = props.accessor;
 
-    return <div class={props.palette ? `c--field palette--${props.palette}` : 'c--field'}>
+    return <div class={props.class} classList={{
+        ...props.classList,
+        'c--field': true,
+        [`c--field palette--${props.palette}`]: !!props.palette
+    }}>
         <label title={props.title}>
             <Show when={props.label}>
                 {props.label}

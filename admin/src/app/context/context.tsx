@@ -7,10 +7,7 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import {
-    API, Theme, Config, Account, Locale, Method,
-    Problem, notify, Breakpoint, UnitStyle,
-} from '@/core';
+import { API, Account, Breakpoint, Config, Locale, Method, Problem, Theme, UnitStyle, notify } from '@/core';
 import { User } from './user';
 
 type Options = Required<buildOptions>;
@@ -208,9 +205,25 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         user() { return user(); },
 
         /**
-         * 触发更新用户的事件
+         * 从服务器更新数据
          */
-        async updateUser() { await userData.refetch(); },
+        async refetchUser() { await userData.refetch(); },
+
+        /**
+         * 更新用户信息
+         * @param u 新的数据；
+         * @returns 返回更新后的数据；
+         */
+        async updateUser(u: User): Promise<User|undefined> {
+            const ret = await this.api.patch(opt.api.info, u);
+            if (!ret.ok) {
+                await this.outputProblem(ret.status, ret.body);
+                return;
+            }
+
+            await this.refetchUser();
+            return this.user();
+        },
 
         set title(v: string) {
             if (v) {

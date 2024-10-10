@@ -20,6 +20,9 @@ export interface Props extends BaseProps {
     readonly?: boolean;
     accessKey?: string;
     tabindex?: number;
+
+    class?: string;
+    classList?: JSX.CustomAttributes<HTMLElement>['classList'];
 };
 
 /**

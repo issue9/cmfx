@@ -10,9 +10,9 @@ import { Props as BaseProps, default as TextField } from './textfiled';
 
 export interface Props extends Omit<BaseProps<number>, 'prefix'|'suffix'|'type'|'ref'> {
     icon?: IconSymbol;
-    min?: number,
-    max?: number,
-    step?: number,
+    min?: number;
+    max?: number;
+    step?: number;
 }
 
 const presetProps: Partial<Props> = {

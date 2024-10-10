@@ -30,7 +30,7 @@ export class admins implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_i.page.admin.admin', path: this.#prefix },
+            { type: 'item', icon: 'manage_accounts', label: '_i.page.admin.admin', path: this.#prefix },
         ];
     }
 

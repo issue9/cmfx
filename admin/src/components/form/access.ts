@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, Signal } from 'solid-js';
+import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, SetStoreFunction, Store } from 'solid-js/store';
 
 import { AppContext } from '@/app';
@@ -38,7 +38,16 @@ export interface Accessor<T> {
      * 是否需要给错误信息预留位置
      */
     hasError(): boolean;
+
+    /**
+     * 返回当前组件的错误信息
+     */
     getError(): string | undefined;
+
+    /**
+     * 设置当前组件的错误信息
+     * @param string 错误信息
+     */
     setError(string?: string): void;
 
     /**
@@ -88,7 +97,7 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
         getValue(): T { return val(); },
 
         setValue(vv: T) {
-            const old = val();
+            const old = untrack(val);
             if (old === vv) { return; }
 
             valSetter(vv as any);
@@ -136,7 +145,7 @@ export class ObjectAccessor<T extends object> {
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      *
      * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 Accessor 接口，
-     * 后续的 Accessor#setValue 会自动向当前对象添加该值。
+     * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
      * @template FT 表示 name 字段的类型；
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
@@ -160,7 +169,7 @@ export class ObjectAccessor<T extends object> {
             getValue(): FT { return self.#valGetter[name] as FT; },
 
             setValue(val: FT) {
-                const old = this.getValue();
+                const old = untrack(this.getValue);
                 if (old !== val) {
                     changes.forEach((f) => { f(val, old); });
                     self.#valSetter({ [name]: val } as any);
@@ -284,8 +293,8 @@ export class FormAccessor<T extends object, R = never, P = never> {
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      *
-     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 Accessor 接口，
-     * 后续的 Accessor#setValue 会自动向当前对象添加该值。
+     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
+     * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      */
     accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 

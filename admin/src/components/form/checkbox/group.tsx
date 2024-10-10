@@ -31,9 +31,10 @@ export default function Group<T extends string | number> (props: Props<T>) {
     }, props);
     const access = props.accessor;
 
-    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'block', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon']);
+    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'block', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon','classList', 'class']);
 
     return <fieldset accessKey={props.accessKey} tabIndex={props.tabindex} disabled={props.disabled} classList={{
+        ...props.classList,
         'c--checkbox-group': true,
         'c--field': true,
         [`palette--${props.palette}`]: !!props.palette

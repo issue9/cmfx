@@ -50,7 +50,8 @@ export default function(props: Props) {
         editor.enable(!props.disabled && !props.readonly);
     });
 
-    return <label accessKey={props.accessKey} onClick={()=>editor.focus()} classList={{
+    return <label accessKey={props.accessKey} onClick={()=>editor.focus()} class={props.class} classList={{
+        ...props.classList,
         'c--editor': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
@@ -58,7 +59,7 @@ export default function(props: Props) {
             {props.label}
         </Show>
 
-        <div id={id} style={{'min-height': props.minHeight}}></div>
+        <div id={id} class="h-full"></div>
 
         <Show when={props.accessor.hasError()}>
             {props.accessor.getError()}

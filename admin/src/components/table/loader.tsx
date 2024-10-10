@@ -192,7 +192,7 @@ export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
                             {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
                         </Label>
                         },
-                        { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <Label icon="rubric">
+                        { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <Label icon="horizontal_split">
                             {ctx.locale().t('_i.table.exportTo', { type: 'Excel' })}
                         </Label>
                         },

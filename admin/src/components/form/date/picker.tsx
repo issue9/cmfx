@@ -33,7 +33,7 @@ export default function(props: Props) {
     const ctx = useApp();
 
     props = mergeProps(presetProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'class', 'classList']);
 
     const ac = props.accessor;
     let panelRef: HTMLElement;
@@ -51,8 +51,9 @@ export default function(props: Props) {
         document.body.removeEventListener('click', handleClick);
     });
 
-    const activator = <div accessKey={props.accessKey}
+    const activator = <div accessKey={props.accessKey} class={props.class}
         classList={{
+            ...props.classList,
             'c--field':true,
             'c--date-activator':true,
             [`palette--${props.palette}`]:!!props.palette,

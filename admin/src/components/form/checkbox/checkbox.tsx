@@ -36,7 +36,8 @@ export default function(props: Props) {
     props = mergeProps(presetProps, props);
     const [chk, setChk] = createSignal(props.checked);
 
-    return <label tabIndex={props.tabindex} accessKey={props.accessKey} title={props.title} classList={{
+    return <label tabIndex={props.tabindex} accessKey={props.accessKey} title={props.title} class={props.class} classList={{
+        ...props.classList,
         'c--checkbox': true,
         'c--checkbox-border': props.block,
         [`palette--${props.palette}`]: !!props.palette

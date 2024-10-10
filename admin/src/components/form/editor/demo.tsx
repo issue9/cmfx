@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 
-import { boolSelector, paletteSelector, Demo } from '@/components/base/demo';
+import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
 import Editor from './editor';
 
@@ -22,10 +22,9 @@ export default function () {
             <button class="c--button c--button-fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </>
     } stages={
-        <div class="w-full">
-            <Editor label='label' minHeight='200px' palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
-
+        <>
+            <Editor label='label' class="min-h-[200px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
             <pre>{txt.getValue()}</pre>
-        </div>
+        </>
     } />;
 }

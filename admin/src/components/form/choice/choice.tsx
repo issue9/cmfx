@@ -74,7 +74,8 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
         calcPopoverPos(pop, DOMRect.fromRect(ab), '2px');
     };
 
-    const activator = <div classList={{
+    const activator = <div class={props.class} classList={{
+        ...props.classList,
         'c--field': true,
         'c--choice-activator': true,
         [`palette--${props.palette}`]: !!props.palette,
@@ -194,7 +195,10 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
 
     return <>
         {activator}
-        <ul popover="manual" ref={el => pop = el} classList={{ 'c--choice-options': true, [`palette--${props.palette}`]: !!props.palette }}>
+        <ul popover="manual" ref={el => pop = el} classList={{
+            'c--choice-options': true,
+            [`palette--${props.palette}`]: !!props.palette,
+        }}>
             <Switch>
                 <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
                 <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>

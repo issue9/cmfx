@@ -44,8 +44,6 @@ export interface Props extends FieldBaseProps {
     popover?: boolean | 'manual' | 'auto';
 
     ref?: { (el: HTMLElement): void; };
-
-    class?: string;
 }
 
 export const presetProps: Partial<Props> = {
@@ -192,6 +190,7 @@ export default function (props: Props) {
     });
 
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); }} } disabled={props.disabled} class={props.class} classList={{
+        ...props.classList,
         'c--date-panel': true,
         [`palette--${props.palette}`]: !!props.palette
     }}><Panel dt={new Date(ac.getValue())} ha={ha} ma={ma} /></fieldset>;
