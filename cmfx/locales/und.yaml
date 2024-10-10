@@ -45,6 +45,9 @@ messages:
     - key: change password
       message:
         msg: change password
+    - key: del backup database file
+      message:
+        msg: del backup database file
     - key: delete admins
       message:
         msg: delete admins
@@ -75,6 +78,9 @@ messages:
     - key: get admins
       message:
         msg: get admins
+    - key: get backup database list
+      message:
+        msg: get backup database list
     - key: identity already exists
       message:
         msg: identity already exists

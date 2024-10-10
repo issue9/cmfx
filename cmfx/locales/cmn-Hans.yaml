@@ -14,10 +14,10 @@ messages:
         msg: 无效的报文
     - key: bad request invalid body
       message:
-        msg: 提交的报头内容格式不正确返回此错误。比如无效的 JSON 格式等。
+        msg: 提交的内容格式不正确
     - key: bad request invalid body detail
       message:
-        msg: bad request invalid body detail
+        msg: 无效的内容格式或是内容与客户端指定的 content-type 不相符。
     - key: bad request invalid header
       message:
         msg: 无效的报头
@@ -51,6 +51,9 @@ messages:
     - key: change password
       message:
         msg: 修改密码
+    - key: del backup database file
+      message:
+        msg: 删除备份的数据库文件
     - key: delete admins
       message:
         msg: 删除管理员
@@ -81,6 +84,9 @@ messages:
     - key: get admins
       message:
         msg: 查看管理员信息
+    - key: get backup database list
+      message:
+        msg: 查看备份数据库的文件列表
     - key: identity already exists
       message:
         msg: 已经存在相同的 ID

@@ -65,7 +65,7 @@ type reqPassword struct {
 
 func (p *reqPassword) Filter(v *web.FilterContext) {
 	same := filter.V(func(s string) bool {
-		return s == p.Old
+		return s != p.Old
 	}, web.StringPhrase("same of new and old password"))
 
 	v.Add(filters.NotEmpty("old", &p.Old)).
