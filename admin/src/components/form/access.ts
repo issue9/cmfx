@@ -22,6 +22,9 @@ export interface Accessor<T> {
      */
     name(): string;
 
+    /**
+     * 获取关联的值，这是一个响应式的值。
+     */
     getValue(): T;
 
     /**
@@ -119,8 +122,8 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
  * T 表示当前存储的对象类型；
  */
 export class ObjectAccessor<T extends object> {
-    readonly #preset: T;
-    readonly #presetKeys: Array<keyof T>;
+    #preset: T;
+    #presetKeys: Array<keyof T>;
 
     readonly #valGetter: Store<T>;
     readonly #valSetter: SetStoreFunction<T>;
@@ -137,8 +140,18 @@ export class ObjectAccessor<T extends object> {
         this.#preset = preset;
         this.#presetKeys = Object.keys(preset) as Array<keyof T>;
 
-        [this.#valGetter, this.#valSetter] = createStore<T>(Object.assign({}, preset));
+        [this.#valGetter, this.#valSetter] = createStore<T>({...preset});
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
+    }
+
+    /**
+     * 指定默认值，该功能与构造函数的 preset 参数功能是相同的。
+     *
+     * 该功能被用于 {@link Accessor#reset}。
+     */
+    setPreset(v: T) {
+        this.#preset = v;
+        this.#presetKeys = Object.keys(v) as Array<keyof T>;
     }
 
     /**
@@ -298,6 +311,8 @@ export class FormAccessor<T extends object, R = never, P = never> {
      */
     accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 
+    setPreset(v: T) { return this.#object.setPreset(v); }
+
     /**
      * 当前内容是否都是默认值
      */
@@ -316,6 +331,8 @@ export class FormAccessor<T extends object, R = never, P = never> {
             this.#submitting[1](false);
         }
     }
+
+    reset() { this.#object.reset(); }
 
     private async do(): Promise<boolean> {
         const obj = this.#object.object(this.#validation);
@@ -342,7 +359,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
 
         return {
             onReset(e: Event): void {
-                self.#object.reset();
+                self.reset();
                 e.preventDefault();
             },
 
