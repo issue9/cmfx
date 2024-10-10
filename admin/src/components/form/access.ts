@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createSignal, Signal, untrack } from 'solid-js';
-import { createStore, SetStoreFunction, Store } from 'solid-js/store';
+import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
 import { AppContext } from '@/app';
 import { Method, Problem, Return } from '@/core';
@@ -123,7 +123,7 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
  */
 export class ObjectAccessor<T extends object> {
     #preset: T;
-    #presetKeys: Array<keyof T>;
+    readonly #isPreset: Signal<boolean>;
 
     readonly #valGetter: Store<T>;
     readonly #valSetter: SetStoreFunction<T>;
@@ -138,7 +138,7 @@ export class ObjectAccessor<T extends object> {
      */
     constructor(preset: T) {
         this.#preset = preset;
-        this.#presetKeys = Object.keys(preset) as Array<keyof T>;
+        this.#isPreset = createSignal(true);
 
         [this.#valGetter, this.#valSetter] = createStore<T>({...preset});
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
@@ -146,12 +146,30 @@ export class ObjectAccessor<T extends object> {
 
     /**
      * 指定默认值，该功能与构造函数的 preset 参数功能是相同的。
-     *
-     * 该功能被用于 {@link Accessor#reset}。
      */
     setPreset(v: T) {
         this.#preset = v;
-        this.#presetKeys = Object.keys(v) as Array<keyof T>;
+        this.#checkPreset();
+    }
+
+    /**
+     * 判断当前保存的值是否为默认值
+     *
+     * 这是一个响应式的值
+     */
+    isPreset() { return this.#isPreset[0](); }
+
+    #checkPreset() {
+        const keys = Object.keys(this.#preset) as Array<keyof T>;
+        const vals = unwrap(this.#valGetter);
+
+        for (const k of keys) {
+            if (this.#preset[k] !== vals[k]) {
+                this.#isPreset[1](false);
+                return;
+            }
+        }
+        this.#isPreset[1](true);
     }
 
     /**
@@ -187,6 +205,8 @@ export class ObjectAccessor<T extends object> {
                     changes.forEach((f) => { f(val, old); });
                     self.#valSetter({ [name]: val } as any);
                 }
+
+                self.#checkPreset();
             },
 
             reset() {
@@ -233,23 +253,12 @@ export class ObjectAccessor<T extends object> {
     }
 
     /**
-     * 判断当前保存的值是否为默认值
-     */
-    isPreset(): boolean {
-        for (const k of this.#presetKeys) {
-            if (this.#preset[k] !== this.#valGetter[k]) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    /**
      * 重置所有字段的状态和值
      */
     reset() {
         this.#errSetter({});
         this.#valSetter(this.#preset);
+        this.#checkPreset();
     }
 }
 
@@ -316,7 +325,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
     /**
      * 当前内容是否都是默认值
      */
-    isPreset(): boolean { return this.#object.isPreset(); }
+    isPreset() { return this.#object.isPreset(); }
 
     /**
      * 提交数据
