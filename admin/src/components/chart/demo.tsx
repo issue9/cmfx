@@ -5,7 +5,7 @@
 import * as echarts from 'echarts';
 import { createStore } from 'solid-js/store';
 
-import { Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { default as Axis, Ref as AxisRef } from './axis';
 import { default as Chart } from './chart';
 import { default as Pie } from './pie';
@@ -22,6 +22,8 @@ const items: Array<Item> = [
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
+    const [smoothS, smooth] = boolSelector('smooth');
+
     let axisRef: AxisRef<Item>;
 
     const x = [1, 2, 3, 4, 5, 6, 7];
@@ -74,6 +76,7 @@ export default function() {
     return <Demo settings={
         <>
             {paletteS}
+            {smoothS}
         </>
     } stages={
         <>
@@ -84,14 +87,14 @@ export default function() {
             <Stage title="axis">
                 <Axis palette={palette()} tooltip legend='right' selectedMode='single'
                     xAxis={{ name: 'X', key: 'name' }}
-                    series={[{type:'line', key:'v1'}, {type:'bar', key:'v2', yAxisIndex: 1, area: true, smooth:true}]}
+                    series={[{type:'line', key:'v1', smooth: smooth()}, {type:'bar', key:'v2', yAxisIndex: 1, area: true, smooth: smooth()}]}
                     data={items} />
             </Stage>
 
             <Stage title="axis">
                 <Axis palette={palette()} size={10} ref={el=>axisRef=el} tooltip legend='center'
                     xAxis={{ name: 'X', key: 'name' }}
-                    series={[{type:'bar', key:'v2', yAxisIndex: 1}, {type:'line', key:'v1', area:true, smooth:true}, ]}
+                    series={[{type:'bar', key:'v2', yAxisIndex: 1, smooth: smooth()}, {type:'line', key:'v1', area:true, smooth: smooth()}, ]}
                     data={items} />
             </Stage>
 
