@@ -31,4 +31,5 @@ export const routes: Options['routes']['private']['routes'] = [
     { path: '/form-checkbox', component: lazy(() => import('@/components/form/checkbox/demo')) },
     { path: '/form-choice', component: lazy(() => import('@/components/form/choice/demo')) },
     { path: '/form-date', component: lazy(() => import('@/components/form/date/demo')) },
+    { path: '/form-upload', component: lazy(() => import('@/components/form/upload/demo')) },
 ] as const;

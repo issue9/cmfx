@@ -36,14 +36,14 @@ export default function(props: Props) {
     const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'icon', 'children', 'classList']);
 
     return <button {...btnProps} classList={{
-            'c--button': true,
-            'c--icon': props.icon,
-            'c--button-icon': props.icon,
-            [`c--button-${props.kind}`]: true,
-            [`palette--${props.palette}`]: !!props.palette,
-            'rounded-full': props.rounded,
-            ...props.classList
-        }}>
+        'c--button': true,
+        'c--icon': props.icon,
+        'c--button-icon': props.icon,
+        [`c--button-${props.kind}`]: true,
+        [`palette--${props.palette}`]: !!props.palette,
+        'rounded-full': props.rounded,
+        ...props.classList
+    }}>
         {props.children}
     </button>;
 }
