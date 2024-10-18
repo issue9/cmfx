@@ -10,7 +10,9 @@ import (
 
 	"github.com/issue9/events"
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
+	"github.com/issue9/webuse/v7/handlers/static"
 	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -27,6 +29,8 @@ type Module struct {
 	password  passport.Adapter
 	roleGroup *rbac.RoleGroup
 
+	uploadField string
+
 	// 用户登录和注销事件
 	loginEvent  *events.Event[*user.User]
 	logoutEvent *events.Event[*user.User]
@@ -35,7 +39,8 @@ type Module struct {
 // Load 加载管理模块
 //
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
-func Load(mod *cmfx.Module, o *Config) *Module {
+// saver 头像上传功能的保存方式；
+func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	mod.Server().Use(web.PluginFunc(addProblems))
 
 	u := user.Load(mod, o.User)
@@ -46,6 +51,8 @@ func Load(mod *cmfx.Module, o *Config) *Module {
 		user: u,
 
 		password: pass,
+
+		uploadField: o.Upload.Field,
 
 		loginEvent:  events.New[*user.User](),
 		logoutEvent: events.New[*user.User](),
@@ -106,6 +113,18 @@ func Load(mod *cmfx.Module, o *Config) *Module {
 		Post("/admins/{id:digit}/locked", m.postAdminLocked, putAdmin).
 		Delete("/admins/{id:digit}/locked", m.deleteAdminLocked, putAdmin).
 		Delete("/admins/{id:digit}", m.deleteAdmin, delAdmin)
+
+	// upload
+	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)
+	mod.Router().Prefix("/upload", m).
+		Get("/{file}", static.ServeFileHandler(up, "file", "index.html")).
+		Post("", func(ctx *web.Context) web.Responser {
+			files, err := up.Do(m.uploadField, ctx.Request())
+			if err != nil {
+				return ctx.Error(err, "")
+			}
+			return web.OK(files)
+		})
 
 	return m
 }

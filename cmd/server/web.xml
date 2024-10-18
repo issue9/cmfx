@@ -58,6 +58,15 @@
             <user accessExpired="1h" refreshExpired="24h">
                 <urlPrefix>/admin</urlPrefix>
             </user>
+            <upload size="102411">
+                <exts>
+                    <ext>.jpg</ext>
+                    <ext>.jpeg</ext>
+                    <ext>.png</ext>
+                    <ext>.gif</ext>
+                </exts>
+                <field>file</field>
+            </upload>
         </admin>
 
         <system>

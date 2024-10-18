@@ -8,6 +8,7 @@ package cmd
 import (
 	"flag"
 
+	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/app"
@@ -54,9 +55,14 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		systemMod = cmfx.NewModule("system", web.Phrase("system"), s, db, router)
 	)
 
+	uploadSaver, err := upload.NewLocalSaver("./upload", upload.Day, nil)
+	if err != nil {
+		return nil, err
+	}
+
 	switch action {
 	case "serve":
-		adminL := admin.Load(adminMod, user.Admin)
+		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
 		system.Load(systemMod, user.System, adminL)
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin)
