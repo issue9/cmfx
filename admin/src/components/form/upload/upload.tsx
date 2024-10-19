@@ -9,9 +9,19 @@ import { Accessor } from '@/components/form';
 import { Props as BaseProps } from '@/components/form/types';
 import { PreviewFile, PreviewURL } from './preview';
 
+/**
+ * 上传组件外入的接口
+ */
 export interface Ref {
-    pick(): Promise<File>
-    upload(): Promise<void>
+    /**
+     * 显示文件选取对话框并返回选中的文件
+     */
+    pick(): Promise<HTMLInputElement['files']>;
+
+    /**
+     * 上传由 {@link Ref#pick} 选中的文件
+     */
+    upload(): Promise<void>;
 }
 
 export interface Props extends BaseProps {
@@ -80,49 +90,50 @@ export default function(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const access = props.accessor;
 
-
     let dropRef: HTMLDivElement;
     let inputRef: HTMLInputElement;
-
     const [unupload, setUnupload] = createSignal<Array<File>>([]);
 
-    const addAndUpload = ()=>{
-        // TODO
-    };
 
     const add = () => {
         inputRef.click();
-        inputRef.addEventListener('change', ()=>{
-            if (!inputRef.files || inputRef.files.length === 0) {
-                return;
-            }
-
-            const files: Array<File> = [];
-            for(var i = 0; i< inputRef.files.length; i++) {
-                files.push(inputRef.files.item(i)!);
-            }
-            setUnupload((prev)=>{return [...prev, ...files];});
-        });
     };
 
     const upload = async() => {
         for(const item of unupload()) {
             const data = new FormData();
             data.append(item.name, item);
-            const ret = await ctx.api.upload(props.action, data);
+            const ret = await ctx.api.upload<Array<string>,never>(props.action, data);
             if (!ret.ok) {
                 ctx.outputProblem(ret.status, ret.body);
                 continue;
             }
 
-            access.setValue([...access.getValue(), ret.body]);
+            access.setValue([...access.getValue(), ...ret.body!]);
         }
 
         // 清空未上传内容
         setUnupload([]);
     };
 
+    const addAndUpload = async ()=>{
+        add();
+        await upload();
+    };
+
     onMount(()=>{
+        inputRef.addEventListener('change', () => {
+            if (!inputRef.files || inputRef.files.length === 0) {
+                return;
+            }
+
+            const files: Array<File> = [];
+            for (var i = 0; i < inputRef.files.length; i++) {
+                files.push(inputRef.files.item(i)!);
+            }
+            setUnupload((prev) => { return [...prev, ...files]; });
+        });
+
         if (!props.droppable) {
             return;
         }
@@ -150,12 +161,13 @@ export default function(props: Props): JSX.Element {
 
     if (props.ref) {
         props.ref({
-            pick(): Promise<File> {
-                // TODO
+            pick(): Promise<HTMLInputElement['files']> {
+                inputRef.click();
+                return Promise.resolve(inputRef.files);
             },
 
             upload(): Promise<void> {
-                // TODO
+                return upload();
             }
         });
     }
@@ -188,7 +200,7 @@ export default function(props: Props): JSX.Element {
                 <For each={unupload()}>
                     {(item) => {
                         return <PreviewFile size={props.itemSize!} file={item} del={()=>{
-                            setUnupload(() => { return unupload().filter((v) => v.name !== item.name); });
+                            setUnupload((prev) => { return prev.filter((v) => v.name !== item.name); });
                         }} />;
                     }}
                 </For>
