@@ -121,36 +121,36 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
                 async uncache(path: string): Promise<void> { await f.uncache(path); },
 
                 async delete<R = never, PE = never>(path: string, withToken = true) {
-                    return f.delete<R, PE>(path, withToken);
+                    return await f.delete<R, PE>(path, withToken);
                 },
 
                 async put<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
-                    return f.put<R, PE>(path, body, withToken);
+                    return await f.put<R, PE>(path, body, withToken);
                 },
 
                 async patch<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
-                    return f.patch<R, PE>(path, body, withToken);
+                    return await f.patch<R, PE>(path, body, withToken);
                 },
 
                 async post<R = never, PE = never>(path: string, body?: unknown, withToken = true) {
-                    return f.post<R, PE>(path, body, withToken);
+                    return await f.post<R, PE>(path, body, withToken);
                 },
 
-                async get<R = never, PE = never>(path: string, withToken = true) { return f.get<R, PE>(path, withToken); },
+                async get<R = never, PE = never>(path: string, withToken = true) { return await f.get<R, PE>(path, withToken); },
 
                 async upload<R = never, PE = never>(path: string, obj: FormData, withToken = true) {
-                    return f.upload<R, PE>(path, obj, withToken);
+                    return await f.upload<R, PE>(path, obj, withToken);
                 },
 
                 async request<R = never, PE = never>(path: string, method: Method, obj?: unknown, withToken = true) {
-                    return f.request<R, PE>(path, method, obj, withToken);
+                    return await f.request<R, PE>(path, method, obj, withToken);
                 },
 
                 async fetchWithArgument<R = never, PE = never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit) {
-                    return f.withArgument<R, PE>(path, method, token, ct, body);
+                    return await f.withArgument<R, PE>(path, method, token, ct, body);
                 },
 
-                async fetch<R = never, PE = never>(path: string, req?: RequestInit) { return f.fetch<R, PE>(path, req); },
+                async fetch<R = never, PE = never>(path: string, req?: RequestInit) { return await f.fetch<R, PE>(path, req); },
             };
         },
 
