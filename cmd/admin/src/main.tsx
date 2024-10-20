@@ -17,7 +17,19 @@ const demo = new Demo('/demo');
 const roles = pages.roles.build('/roles');
 const admins = pages.admins.build('/admins');
 const system = pages.system.build('/system');
-const current = pages.current.build('/current');
+const current = pages.current.build('/current', <>
+    <div class="flex gap-4">
+        <pages.current.Panel class="basis-1/2">1/2</pages.current.Panel>
+        <pages.current.Panel class="basis-1/2">1/2</pages.current.Panel>
+    </div>
+    <div class="flex gap-4">
+        <pages.current.Panel class="basis-1/3" icon="dashboard" title="daahboard">1/3</pages.current.Panel>
+        <div class="basis-2/3 flex flex-col gap-4">
+            <pages.current.Panel icon="dashboard" title="daahboard">line 1</pages.current.Panel>
+            <pages.current.Panel>line 2</pages.current.Panel>
+        </div>
+    </div>
+</>);
 
 const routes: Routes = {
     public: {

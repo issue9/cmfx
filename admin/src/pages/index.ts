@@ -5,7 +5,7 @@
 export type { Pages } from './pages';
 
 export * from './admins';
+export * from './current';
 export * from './roles';
 export * from './system';
-export * from './current';
 

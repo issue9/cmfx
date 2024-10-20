@@ -30,12 +30,12 @@ export default function Toolbar(props: Props) {
         <div class="flex items-center flex-1 mx-4">
             <Show when={ctx.isLogin() && compareBreakpoint(ctx.breakpoint(), floatAsideWidth)<0}>
                 <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>
-                {props.menuVisibleGetter() ? 'menu_open' : 'menu' }
+                    {props.menuVisibleGetter() ? 'menu_open' : 'menu' }
                 </Button>
             </Show>
         </div>
 
-        <div class="flex gap-2">
+        <div class="flex gap-2 items-center">
             <Fullscreen />
             <Username />
         </div>
@@ -47,10 +47,15 @@ function Username(): JSX.Element {
     const opt = useOptions();
     const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button kind={/*@once*/'flat'} onClick={()=>setVisible(!visible())}>{ctx.user()?.name}</Button>;
+    const activator = <Button class="pl-1 rounded-full"
+        onClick={()=>setVisible(!visible())}>
+        <img class="w-6 h-6 rounded-full" src={ ctx.user()?.avatar ?? opt.logo } />
+        {ctx.user()?.name}
+    </Button>;
 
     return <Show when={ctx.user()}>
-        <Menu hoverable={/*@once*/true} anchor={/*@once*/true} direction={/*@once*/'left'} selectedClass='' activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
+        <Menu hoverable={/*@once*/true} anchor={/*@once*/true} direction={/*@once*/'left'} selectedClass=''
+            activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
     </Show>;
 }
 
@@ -71,7 +76,8 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <Button icon={/*@once*/true} type={/*@once*/'button'} kind={/*@once*/'flat'} rounded={/*@once*/true} onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
+    return <Button icon={/*@once*/true} type={/*@once*/'button'} kind={/*@once*/'flat'} rounded={/*@once*/true}
+        onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
 }

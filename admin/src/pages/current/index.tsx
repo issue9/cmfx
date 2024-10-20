@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { JSX } from 'solid-js';
+
 import { MenuItem, Route } from '@/app';
 import { Pages } from '@/pages/pages';
-import { default as Dashboard } from './dashboard';
+import { default as Dashboard, Panel } from './dashboard';
 import { default as Login } from './login';
 import { default as Logout } from './logout';
 import { default as Profile } from './profile';
@@ -45,20 +47,30 @@ export class current implements Pages {
      */
     static SecurityLogs = SecurityLogs;
 
-    readonly #prefix: string;
+    static Panel = Panel;
 
-    static build(prefix: string) {
-        return new current(prefix);
+    readonly #prefix: string;
+    readonly #children?: JSX.Element;
+
+    /**
+     * 生成 {@link Pages} 对象
+     *
+     * @param prefix 路由前缀
+     * @param dashboardChild 仪表盘内的元素
+     */
+    static build(prefix: string, dashboardChild?: JSX.Element) {
+        return new current(prefix, dashboardChild);
     }
 
-    private constructor(prefix: string) {
+    private constructor(prefix: string, dashboardChild?: JSX.Element) {
         this.#prefix = prefix;
+        this.#children = dashboardChild;
     }
 
     routes(): Array<Route> {
         return [
-            { path: this.#prefix + '/dashboard', component:Dashboard },
-            { path: this.#prefix + '/profile', component:Profile },
+            { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#children}</Dashboard> },
+            { path: this.#prefix + '/profile', component: Profile },
             { path: this.#prefix + '/settings', component: Settings },
             { path: this.#prefix + '/securitylogs', component: SecurityLogs },
             { path: this.#prefix + '/logout', component: Logout },
