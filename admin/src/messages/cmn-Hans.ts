@@ -42,7 +42,7 @@ const messages: Messages = {
                 logout: '退出',
                 settings: '设置',
 
-                title: '登录',
+                login: '登录',
                 username: '账号',
                 password: '密码',
 

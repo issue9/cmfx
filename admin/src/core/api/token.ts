@@ -44,7 +44,7 @@ export function getToken(): Token | undefined {
 export function delToken() { localStorage.removeItem(tokenName); }
 
 /**
- * 保存令牌至缓存，会调用 buildToken 对令牌进行二次处理。
+ * 保存令牌至缓存，会调用 {@link buildToken} 对令牌进行二次处理。
  */
 export function writeToken(t: Token): Token {
     t = buildToken(t);

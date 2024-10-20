@@ -41,9 +41,9 @@ export function Login(): JSX.Element {
         }
     };
 
-    return <Page title="_i.page.current.title" class="p--login palette--primary">
+    return <Page title="_i.page.current.login" class="p--login palette--primary">
         <form onReset={onReset} onSubmit={onSubmit}>
-            <p class="text-lg">{ctx.locale().t('_i.page.current.title')}</p>
+            <p class="text-lg">{ctx.locale().t('_i.page.current.login')}</p>
             <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={f.accessor('username', true)} />
             <Password icon='password_2' placeholder={ctx.locale().t('_i.page.current.password')} accessor={f.accessor('password', true)} />

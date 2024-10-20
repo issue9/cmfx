@@ -40,7 +40,7 @@ const messages = {
                 logout: 'logout',
                 settings: 'Settings',
 
-                title: 'login',
+                login: 'login',
                 username: 'username',
                 password: 'password',
 
