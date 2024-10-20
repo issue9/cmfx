@@ -104,6 +104,6 @@ function ColorBlock(props: {s: Scheme}) {
         <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.primary}), lch(var(--luminance-low) 100 ${props.s.primary}))`}} />
         <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.secondary}), lch(var(--luminance-low) 100 ${props.s.secondary}))`}} />
         <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.tertiary}), lch(var(--luminance-low) 100 ${props.s.tertiary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 10 ${props.s.surface}), lch(var(--luminance-low) 100 ${props.s.surface}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 10 ${props.s.surface}), lch(var(--luminance-low) 10 ${props.s.surface}))`}} />
     </div>;
 }
