@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 //go:generate web locale -l=und -m -f=yaml -o=./locales ./
-//go:generate web update-locale -src=./locales/und.yaml -dest=./locales/cmn-Hans.yaml
+//go:generate web update-locale -src=./locales/und.yaml -dest=./locales/zh.yaml
 
 // Package cmfx 基于 https://github.com/issue9/web 框架的一些通用模块
 package cmfx
