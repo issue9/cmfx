@@ -41,7 +41,7 @@ export default function(): JSX.Element {
     const items = createMemo(async()=>{
         const ret = await ctx.api.get<Service>('/system/services');
         if (!ret.ok) {
-            await ctx.outputProblem(ret.status, ret.body);
+            await ctx.outputProblem(ret.body);
             return;
         }
         return ret.body;

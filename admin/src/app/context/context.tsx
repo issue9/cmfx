@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate } from '@solidjs/router';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
@@ -45,14 +45,15 @@ export function useOptions(): Options {
 
 export function buildContext(opt: Required<buildOptions>, f: API) {
     const [user, userData] = createResource(async () => {
+        if (!f.isLogin()) {
+            return;
+        }
+
         const r = await f.get<User>(opt.api.info);
         if (r.ok) {
             return r.body as User;
         }
 
-        if (!f.isLogin() && r.status === 401) {
-            return;
-        }
         await window.notify(r.body!.title);
     });
 
@@ -70,6 +71,8 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         return new Locale(conf, localeID, unitStyle);
     });
 
+    const nav = useNavigate();
+    const loc = useLocation();
 
     const ctx = {
         /**
@@ -98,7 +101,6 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
             await f.logout();
 
-            const nav = useNavigate();
             nav(opt.routes.public.home);
         },
 
@@ -157,20 +159,18 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         /**
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
          *
-         * @param status 反回的状态码；
-         * @param p 如果该值空，半会抛出异常；
+         * @param p 如果该值空，则会抛出异常；
          */
-        async outputProblem<P>(status: number, p?: Problem<P>): Promise<void> {
-            if (status === 401) {
-                const nav = useNavigate();
-                nav(opt.routes.public.home);
-                return;
-            }
-
+        async outputProblem<P>(p?: Problem<P>): Promise<void> {
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
             }
-            await this.notify(p.title, p.detail);
+
+            if ((p.status === 401) && (opt.routes.public.home !== loc.pathname)) {
+                nav(opt.routes.public.home);
+            } else {
+                await this.notify(p.title, p.detail);
+            }
         },
 
         /**
@@ -217,7 +217,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         async updateUser(u: User): Promise<User|undefined> {
             const ret = await this.api.patch(opt.api.info, u);
             if (!ret.ok) {
-                await this.outputProblem(ret.status, ret.body);
+                await this.outputProblem(ret.body);
                 return;
             }
 

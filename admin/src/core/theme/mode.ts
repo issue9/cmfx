@@ -29,7 +29,7 @@ export function getMode(c: Config, preset: Mode) {
     if (!m) {
         m = preset;
     } else if (modes.indexOf(m) < 0) {
-        console.log(`从 localStorage 读取的 ${key} 值 ${m} 不符合要求！`);
+        console.warn(`从 localStorage 读取的 ${key} 值 ${m} 不符合要求！`);
         m = 'system';
     }
 

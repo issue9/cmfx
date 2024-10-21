@@ -356,7 +356,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         }
 
         this.#object.errorsFromProblem(ret.body);
-        await this.#ctx.outputProblem(ret.status, ret.body);
+        await this.#ctx.outputProblem(ret.body);
         return false;
     }
 

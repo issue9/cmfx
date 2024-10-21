@@ -84,6 +84,7 @@ export class API {
      *  - 调用 {@link API#uncache} 方法；
      *  - 调用 {@link API#clearCache} 方法；
      *  - 调用参数 deps 中的非 GET 请求；
+     *  - token 发生变化；
      *
      * @param path 相对于 {@link API#baseURL} 的接口地址；
      * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项。
@@ -204,6 +205,7 @@ export class API {
         const token = await this.post<Token>(this.#loginPath, account, false);
         if (token.ok) {
             this.#token = writeToken(token.body!);
+            await this.clearCache();
             return true;
         }
 
@@ -217,6 +219,7 @@ export class API {
         await this.delete(this.#loginPath);
         this.#token = undefined;
         delToken();
+        await this.clearCache();
     }
 
     /**

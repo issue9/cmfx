@@ -30,7 +30,7 @@ export default function() {
     const [roleResource] = createResource(async () => {
         const ret = await ctx.api.get<RoleResource>(`/roles/${ps.id}/resources`);
         if (!ret.ok) {
-            await ctx.outputProblem(ret.status, ret.body);
+            await ctx.outputProblem(ret.body);
             return;
         }
         return  ret.body;
@@ -44,7 +44,7 @@ export default function() {
 
             const ret = await ctx.api.get<Array<Resource>>('/resources');
             if (!ret.ok) {
-                await ctx.outputProblem(ret.status, ret.body);
+                await ctx.outputProblem(ret.body);
                 return;
             }
             setResources(ret.body!);
@@ -54,7 +54,7 @@ export default function() {
     const save = async()=>{
         const ret = await ctx.api.put(`/roles/${ps.id}/resources`, current());
         if (!ret.ok) {
-            await ctx.outputProblem(ret.status, ret.body);
+            await ctx.outputProblem(ret.body);
             return;
         }
         nav(-1);

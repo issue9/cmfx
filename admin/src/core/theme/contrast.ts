@@ -20,7 +20,7 @@ export function getContrast(conf: Config, preset: Contrast) {
     if (!c) {
         c = preset;
     } else if (contrasts.indexOf(c) < 0) {
-        console.log(`从 localStorage 读取的 ${key} 值 ${c} 不符合要求！`);
+        console.warn(`从 localStorage 读取的 ${key} 值 ${c} 不符合要求！`);
         c = 'nopreference';
     }
     return c;

@@ -28,21 +28,16 @@ export function Login(): JSX.Element {
     const nav = useNavigate();
 
     const f = new ObjectAccessor<Account>({ username: '', password: '' });
-    const onReset = () => { f.reset(); };
-    const onSubmit = async() => {
-        const ret = await ctx.login(f.object());
-        if (ret === true) {
-            nav(opt.routes.private.home);
-            return;
-        }
-
-        if (ret && ret.status !== 401) {
-            await ctx.notify(ret.type, ret.title);
-        }
-    };
 
     return <Page title="_i.page.current.login" class="p--login palette--primary">
-        <form onReset={onReset} onSubmit={onSubmit}>
+        <form onReset={()=>f.reset()} onSubmit={async()=>{
+            const ret = await ctx.login(f.object());
+            if (ret === true) {
+                nav(opt.routes.private.home);
+            } else if (ret) {
+                await ctx.outputProblem(ret);
+            }
+        }}>
             <p class="text-lg">{ctx.locale().t('_i.page.current.login')}</p>
             <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={f.accessor('username', true)} />
