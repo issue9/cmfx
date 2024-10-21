@@ -7,7 +7,7 @@ import { JSX } from 'solid-js';
 import { useOptions } from '@/app/context';
 import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { FieldAccessor } from '../access';
-import { default as Upload } from './upload';
+import { default as Album } from './album';
 
 export default function(): JSX.Element {
     const opt = useOptions();
@@ -30,12 +30,12 @@ export default function(): JSX.Element {
     } stages={
         <>
             <Stage title='basic'>
-                <Upload label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
+                <Album label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
                     action='./' accessor={basicA} />
             </Stage>
 
             <Stage title='basic+drop'>
-                <Upload class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
+                <Album class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
                     action='./' accessor={basicA} />
             </Stage>
         </>

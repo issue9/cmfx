@@ -2,29 +2,42 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, For, JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createSignal, JSX, onMount } from 'solid-js';
 
 import { useApp } from '@/app/context';
-import { Accessor } from '@/components/form';
 import { Props as BaseProps } from '@/components/form/types';
-import { PreviewFile, PreviewURL } from './preview';
 
 /**
- * 上传组件外入的接口
+ * 上传组件的外放接口
  */
 export interface Ref {
     /**
-     * 显示文件选取对话框并返回选中的文件
+     * 显示文件选取对话框，如果有选择文件的话，还自动添加至 {@link Ref#files} 中。
      */
-    pick(): Promise<HTMLInputElement['files']>;
+    pick(): void;
 
     /**
-     * 上传由 {@link Ref#pick} 选中的文件
+     * 返回所有未上传的文件
      */
-    upload(): Promise<void>;
+    files(): Array<File>;
+
+    /**
+     * 删除 {@link Ref#files} 中的第 index 对象
+     */
+    delete(index: number): void;
+
+    /**
+     * 上传 {@link Ref#files} 中的文件
+     */
+    upload(): Promise<Array<string>|undefined>;
 }
 
 export interface Props extends BaseProps {
+    /**
+     * 上传文件在表单中的名称
+     */
+    fieldName: string;
+
     /**
      * 上传的地址，是相对于 api#baseURL 的地址
      */
@@ -32,197 +45,111 @@ export interface Props extends BaseProps {
 
     /**
      * 是否多选
+     *
+     * 非响应式属性
      */
     multiple?: boolean;
-
-    /**
-     * 是否接受直接拖入文件
-     *
-     * 非响应式的属性
-     */
-    droppable?: boolean;
-
-    /**
-     * 是否自动执行上传操作
-     */
-    auto?: boolean;
-
-    /**
-     * 逆向显示内容，这将会导致上传按钮显示在最前面。
-     */
-    reverse?: boolean;
 
     /**
      * 支持的文件列表，同 https://developer.mozilla.org/zh-CN/docs/Web/HTML/Attributes/accept，但改为数组类型。
      */
     accept?: Array<string>;
 
-    accessor: Accessor<Array<string>>;
+    ref: { (el: Ref): void; }
 
     /**
-     * 子项的宽度
+     * 指定一个接受拖拖拽文件的区域
      */
-    itemSize?: string;
-
-    /**
-     * 在上传之前触发的事件，等同于 Input.change 事件。
-     */
-    before?: JSX.InputHTMLAttributes<HTMLInputElement>['onchange'];
-
-    /**
-     * 每个文件上传成功时触发的事件
-     */
-    success?: { (url: string): void; };
-
-    /**
-     * 每个文件上传失败时触发的事件
-     */
-    error?: { (err: any, name: string): void; };
-
-    ref?: { (el: Ref): void; }
+    dropzone?: HTMLElement;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
-    itemSize: '72px',
-};
-
+/**
+ * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
+ */
 export default function(props: Props): JSX.Element {
     const ctx = useApp();
 
-    props = mergeProps(presetProps, props);
-    const access = props.accessor;
-
-    let dropRef: HTMLDivElement;
     let inputRef: HTMLInputElement;
-    const [unupload, setUnupload] = createSignal<Array<File>>([]);
+    const [files, setFiles] = createSignal<Array<File>>([]);
 
-
-    const add = () => {
-        inputRef.click();
-    };
-
-    const upload = async() => {
-        for(const item of unupload()) {
-            const data = new FormData();
-            data.append(item.name, item);
-            const ret = await ctx.api.upload<Array<string>,never>(props.action, data);
-            if (!ret.ok) {
-                ctx.outputProblem(ret.status, ret.body);
-                continue;
-            }
-
-            access.setValue([...access.getValue(), ...ret.body!]);
-        }
-
-        // 清空未上传内容
-        setUnupload([]);
-    };
-
-    const addAndUpload = async ()=>{
-        add();
-        await upload();
-    };
-
-    onMount(()=>{
-        inputRef.addEventListener('change', () => {
-            if (!inputRef.files || inputRef.files.length === 0) {
-                return;
-            }
-
-            const files: Array<File> = [];
-            for (var i = 0; i < inputRef.files.length; i++) {
-                files.push(inputRef.files.item(i)!);
-            }
-            setUnupload((prev) => { return [...prev, ...files]; });
-        });
-
-        if (!props.droppable) {
-            dropRef.addEventListener('dragover', (e)=>{
-                e.dataTransfer!.dropEffect = 'none';
-                e.preventDefault();
-            });
+    /**
+     * 将 fs 内的文件添加至 unupload
+     */
+    const add = (fs: FileList | null) => {
+        if (!fs || fs.length === 0) {
             return;
         }
 
-        dropRef.addEventListener('dragover', (e)=>{
-            e.dataTransfer!.dropEffect = 'copy';
-            e.preventDefault();
+        if (!props.multiple) {
+            setFiles([fs.item(0)!]);
+            return;
+        }
+
+        const newFiles: Array<File> = [];
+        for (var i = 0; i < fs.length; i++) {
+            newFiles.push(fs.item(i)!);
+        }
+        setFiles((prev) => { return [...prev, ...newFiles]; });
+    };
+
+    onMount(() => {
+        inputRef.addEventListener('change', (e) => {
+            const target = e.target as HTMLInputElement;
+            add(target.files);
         });
-        dropRef.addEventListener('dragleave',(e)=>{
-            e.preventDefault();
-        });
 
-        dropRef.addEventListener('drop', (e)=>{
-            e.preventDefault();
-
-            if (!e.dataTransfer) { return; }
-
-            const list = e.dataTransfer.files;
-            if (list.length === 0) { return; }
-
-            setUnupload((prev)=>{
-                return [...prev, ...list];
+        if (props.dropzone) {
+            props.dropzone.addEventListener('dragover', (e) => {
+                e.dataTransfer!.dropEffect = 'copy';
+                e.preventDefault();
             });
-        });
+
+            props.dropzone.addEventListener('dragleave', (e) => {
+                e.preventDefault();
+            });
+
+            props.dropzone.addEventListener('drop', (e) => {
+                e.preventDefault();
+
+                if (e.dataTransfer) {
+                    add(e.dataTransfer.files);
+                }
+            });
+        }
     });
 
-    if (props.ref) {
-        props.ref({
-            pick(): Promise<HTMLInputElement['files']> {
-                inputRef.click();
-                return Promise.resolve(inputRef.files);
-            },
+    props.ref({
+        pick(): void {
+            inputRef.click();
+        },
 
-            upload(): Promise<void> {
-                return upload();
+        files(): Array<File> {
+            return files();
+        },
+
+        delete(index: number): void {
+            setFiles((prev) => {
+                prev.splice(index, 1);
+                return [...prev];
+            });
+        },
+
+        async upload(): Promise<Array<string>|undefined> {
+            const data = new FormData();
+            for (const item of files()) {
+                data.append(item.name, item);
             }
-        });
-    }
 
-    const size = createMemo((): JSX.CSSProperties => {
-        return { 'height': props.itemSize, 'width': props.itemSize };
+            const ret = await ctx.api.upload<Array<string>>(props.action, data);
+            if (!ret.ok) {
+                ctx.outputProblem(ret.status, ret.body);
+                return;
+            }
+
+            setFiles([]);
+            return ret.body;
+        }
     });
 
-    return <fieldset disabled={props.disabled} class={props.class} classList={{
-        ...props.classList,
-        'c--upload': true,
-        'c--field': true,
-        [`palette--${props.palette}`]: !!props.palette,
-    }}>
-        <div>
-            {props.label}
-            <input type="file" class="hidden" multiple={props.multiple} ref={el=>inputRef=el} />
-
-            <div ref={el=>dropRef=el} classList={{
-                'content': true,
-            }}>
-                <For each={access.getValue()}>
-                    {(item)=>(
-                        <PreviewURL size={props.itemSize!} url={item} del={()=>{
-                            access.setValue(access.getValue().filter((v) => v !== item));
-                        }} />
-                    )}
-                </For>
-
-                <For each={unupload()}>
-                    {(item) => {
-                        return <PreviewFile size={props.itemSize!} file={item} del={()=>{
-                            setUnupload((prev) => { return prev.filter((v) => v.name !== item.name); });
-                        }} />;
-                    }}
-                </For>
-                <Show when={props.auto}>
-                    <button style={size()} class={'c--icon action' + (props.reverse ? ' start' : '') } onClick={addAndUpload}>upload_file</button>
-                </Show>
-                <Show when={!props.auto}>
-                    <button style={size()} class={'c--icon action' + (props.reverse ? ' start' : '') } onClick={add}>add</button>
-                    <button style={size()} class={'c--icon action' + (props.reverse ? ' start' : '') } disabled={unupload().length===0} onClick={upload}>upload</button>
-                </Show>
-            </div>
-        </div>
-
-        <Show when={access.hasError()}>
-            <p class="field_error" role="alert">{access.getError()}</p>
-        </Show>
-    </fieldset>;
+    return <input type="file" class="hidden" name={props.fieldName} multiple={props.multiple} ref={el => inputRef = el} />;
 }
