@@ -15,6 +15,7 @@ export default function(): JSX.Element {
     const [paletteS, palette] = paletteSelector('secondary');
     const [disabledS, disabled] = boolSelector('disabled');
     const [reverseS, reverse] = boolSelector('reverse');
+    const [autoS, auto] = boolSelector('auto');
 
     const basicA = FieldAccessor('upload', [opt.logo, './test.jpg'], true);
 
@@ -23,12 +24,19 @@ export default function(): JSX.Element {
             {paletteS}
             {disabledS}
             {reverseS}
+            {autoS}
             <button class="c--button c--button-fill palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
         </>
     } stages={
         <>
             <Stage title='basic'>
-                <Upload label="basic" reverse={reverse()} droppable disabled={disabled()} palette={palette()} action='./' accessor={basicA} class='min-w-16' />
+                <Upload label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
+                    action='./' accessor={basicA} />
+            </Stage>
+
+            <Stage title='basic+drop'>
+                <Upload class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
+                    action='./' accessor={basicA} />
             </Stage>
         </>
     } />;

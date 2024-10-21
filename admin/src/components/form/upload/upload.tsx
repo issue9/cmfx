@@ -37,6 +37,8 @@ export interface Props extends BaseProps {
 
     /**
      * 是否接受直接拖入文件
+     *
+     * 非响应式的属性
      */
     droppable?: boolean;
 
@@ -135,10 +137,15 @@ export default function(props: Props): JSX.Element {
         });
 
         if (!props.droppable) {
+            dropRef.addEventListener('dragover', (e)=>{
+                e.dataTransfer!.dropEffect = 'none';
+                e.preventDefault();
+            });
             return;
         }
 
         dropRef.addEventListener('dragover', (e)=>{
+            e.dataTransfer!.dropEffect = 'copy';
             e.preventDefault();
         });
         dropRef.addEventListener('dragleave',(e)=>{
