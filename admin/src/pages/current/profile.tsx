@@ -2,15 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX } from 'solid-js';
+import { createEffect, createSignal, JSX, Show } from 'solid-js';
 
 import { useApp, useOptions, User } from '@/app/context';
-import { buildEnumsOptions, Button, Choice, Divider, Form, FormAccessor, Page, Password, TextField } from '@/components';
+import {
+    buildEnumsOptions, Button, Choice, Divider,
+    file2Base64, Form, FormAccessor,
+    Page, Password, TextField, Upload, UploadRef
+} from '@/components';
 import { Sex, sexesMap } from '@/pages/admins/types';
 
 export default function(): JSX.Element {
     const opt = useOptions();
     const ctx = useApp();
+    let uploadRef: UploadRef;
 
     const infoAccess = new FormAccessor<User>({sex: 'unknown'}, ctx, 'PATCH', opt.api.info, async () => {
         await ctx.refetchUser();
@@ -26,7 +31,8 @@ export default function(): JSX.Element {
     const nameA = infoAccess.accessor<string>('name');
     const nicknameA = infoAccess.accessor<string>('nickname');
     const sexA = infoAccess.accessor<Sex>('sex');
-    const avatarA = infoAccess.accessor<string>('avatar');
+
+    const [avatar, setAvatar] = createSignal('');
 
     createEffect(() => {
         const u = ctx.user();
@@ -37,15 +43,39 @@ export default function(): JSX.Element {
         nameA.setValue(u.name!);
         nicknameA.setValue(u.nickname!);
         sexA.setValue(u.sex!);
-        avatarA.setValue(u.avatar!);
+        setAvatar(u.avatar!);
+    });
+
+    createEffect(async () => {
+        setAvatar(await file2Base64(uploadRef.files()[0]));
     });
 
     return <Page title='_i.page.current.profile' class="p--profile max-w-md">
+        <Upload ref={el => uploadRef = el} fieldName='files' action='/upload' />
         <div class="flex gap-4">
-            <img class="rounded-full border border-palette-bg-low w-24 h-24" alt="avatar" src={avatarA.getValue() ?? opt.logo} />
+            <img class="rounded-full border border-palette-bg-low w-24 h-24" alt="avatar" src={avatar()} />
             <div class="flex flex-col my-4 items-start justify-center gap-2">
                 <p class="text-2xl">{ctx.user()?.name}</p>
-                <Button palette='tertiary'>更改头像</Button>
+                <Show when={uploadRef!.files().length === 0}>
+                    <Button onClick={async () => {
+                        uploadRef.pick();
+                    }}>{ctx.locale().t('_i.page.current.pickAvatar')}</Button>
+                </Show>
+                <Show when={uploadRef!.files().length > 0}>
+                    <Button onClick={async () => {
+                        const ret = await uploadRef.upload();
+                        if (!ret) {
+                            return;
+                        }
+                        setAvatar(ret[0]);
+                        console.log(ret[0]);
+                        const r = await ctx.api.patch('/info', { 'avatar': ret[0] });
+                        if (!r.ok) {
+                            ctx.outputProblem(r.status, r.body);
+                            return;
+                        }
+                    }}>{ctx.locale().t('_i.page.save')}</Button>
+                </Show>
             </div>
         </div>
 

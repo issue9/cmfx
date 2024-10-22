@@ -65,7 +65,7 @@
                     <ext>.png</ext>
                     <ext>.gif</ext>
                 </exts>
-                <field>file</field>
+                <field>files</field>
             </upload>
         </admin>
 

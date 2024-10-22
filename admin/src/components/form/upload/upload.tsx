@@ -137,7 +137,7 @@ export default function(props: Props): JSX.Element {
         async upload(): Promise<Array<string>|undefined> {
             const data = new FormData();
             for (const item of files()) {
-                data.append(item.name, item);
+                data.append(props.fieldName, item);
             }
 
             const ret = await ctx.api.upload<Array<string>>(props.action, data);

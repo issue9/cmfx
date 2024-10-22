@@ -56,6 +56,7 @@ const messages = {
                 oldPassword: 'old password',
                 newPassword: 'new password',
                 confirmPassword: 'confirm password',
+                pickAvatar: 'pick avatar',
             },
             system: {
                 apis: 'API',

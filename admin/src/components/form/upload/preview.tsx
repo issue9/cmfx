@@ -40,7 +40,7 @@ export function PreviewFile(props: FileProps): JSX.Element {
 
     createEffect(async () => {
         if (props.file.type.startsWith('image/')) {
-            setBG('url("'+await toBase64(props.file) as string)+'")';
+            setBG('url("'+await file2Base64(props.file) as string)+'")';
         } else {
             setBG('');
         }
@@ -56,11 +56,11 @@ export function PreviewFile(props: FileProps): JSX.Element {
     </div>;
 }
 
-function toBase64(file: File) {
+export function file2Base64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result);
+        reader.onload = () => resolve(reader.result as string);
         reader.onerror = reject;
     });
 }

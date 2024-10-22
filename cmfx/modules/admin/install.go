@@ -26,7 +26,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	saver, err := upload.NewLocalSaver("./upload", upload.Day, nil)
+	saver, err := upload.NewLocalSaver("./upload", "", upload.Day, nil)
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
