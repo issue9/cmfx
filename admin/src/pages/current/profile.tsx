@@ -33,6 +33,7 @@ export default function(): JSX.Element {
     const sexA = infoAccess.accessor<Sex>('sex');
 
     const [avatar, setAvatar] = createSignal('');
+    let originAvatar = ''; // 原始的头像内容，在取消上传头像时，可以从此值恢复。
 
     createEffect(() => {
         const u = ctx.user();
@@ -43,11 +44,15 @@ export default function(): JSX.Element {
         nameA.setValue(u.name!);
         nicknameA.setValue(u.nickname!);
         sexA.setValue(u.sex!);
+
         setAvatar(u.avatar!);
+        originAvatar = u.avatar!;
     });
 
     createEffect(async () => {
-        setAvatar(await file2Base64(uploadRef.files()[0]));
+        if (uploadRef.files().length > 0) {
+            setAvatar(await file2Base64(uploadRef.files()[0]));
+        }
     });
 
     return <Page title='_i.page.current.profile' class="p--profile max-w-md">
@@ -57,24 +62,31 @@ export default function(): JSX.Element {
             <div class="flex flex-col my-4 items-start justify-center gap-2">
                 <p class="text-2xl">{ctx.user()?.name}</p>
                 <Show when={uploadRef!.files().length === 0}>
-                    <Button onClick={async () => {
+                    <Button palette='tertiary' onClick={async () => {
                         uploadRef.pick();
                     }}>{ctx.locale().t('_i.page.current.pickAvatar')}</Button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
-                    <Button onClick={async () => {
-                        const ret = await uploadRef.upload();
-                        if (!ret) {
-                            return;
-                        }
-                        setAvatar(ret[0]);
-                        console.log(ret[0]);
-                        const r = await ctx.api.patch('/info', { 'avatar': ret[0] });
-                        if (!r.ok) {
-                            ctx.outputProblem(r.status, r.body);
-                            return;
-                        }
-                    }}>{ctx.locale().t('_i.page.save')}</Button>
+                    <div class="flex gap-2">
+                        <Button palette='primary' onClick={async () => {
+                            const ret = await uploadRef.upload();
+                            if (!ret) {
+                                return;
+                            }
+                            setAvatar(ret[0]);
+                            const r = await ctx.api.patch('/info', { 'avatar': ret[0] });
+                            if (!r.ok) {
+                                ctx.outputProblem(r.body);
+                                return;
+                            }
+                            await ctx.refetchUser();
+                        }}>{ctx.locale().t('_i.page.save')}</Button>
+
+                        <Button palette='error' onClick={()=>{
+                            setAvatar(originAvatar);
+                            uploadRef.delete(0);
+                        }}>{ ctx.locale().t('_i.cancel')}</Button>
+                    </div>
                 </Show>
             </div>
         </div>

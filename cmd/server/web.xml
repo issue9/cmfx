@@ -52,7 +52,7 @@
             <dsn>./server.db?_loc=UTC</dsn>
         </db>
 
-        <url>http://localhost:8080</url>
+        <url>http://192.168.10.11:8080</url>
 
         <admin superUser="1">
             <user accessExpired="1h" refreshExpired="24h">

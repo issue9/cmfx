@@ -116,8 +116,9 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	// upload
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)
+	mod.Router().Prefix(m.URLPrefix()).
+		Get("/upload/{file}", static.ServeFileHandler(up, "file", "index.html"))
 	mod.Router().Prefix(m.URLPrefix(), m).
-		Get("/upload/{file}", static.ServeFileHandler(up, "file", "index.html")).
 		Post("/upload", func(ctx *web.Context) web.Responser {
 			files, err := up.Do(m.uploadField, ctx.Request())
 			if err != nil {
