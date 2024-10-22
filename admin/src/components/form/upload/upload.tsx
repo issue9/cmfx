@@ -27,6 +27,11 @@ export interface Ref {
     delete(index: number): void;
 
     /**
+     * 清除所有未上传的内容
+     */
+    clear(): void;
+
+    /**
      * 上传 {@link Ref#files} 中的文件
      */
     upload(): Promise<Array<string>|undefined>;
@@ -119,13 +124,9 @@ export default function(props: Props): JSX.Element {
     });
 
     props.ref({
-        pick(): void {
-            inputRef.click();
-        },
+        pick(): void { inputRef.click(); },
 
-        files(): Array<File> {
-            return files();
-        },
+        files(): Array<File> { return files(); },
 
         delete(index: number): void {
             setFiles((prev) => {
@@ -134,7 +135,9 @@ export default function(props: Props): JSX.Element {
             });
         },
 
-        async upload(): Promise<Array<string>|undefined> {
+        clear(): void { setFiles([]); },
+
+        async upload(): Promise<Array<string> | undefined> {
             const data = new FormData();
             for (const item of files()) {
                 data.append(props.fieldName, item);
@@ -142,7 +145,7 @@ export default function(props: Props): JSX.Element {
 
             const ret = await ctx.api.upload<Array<string>>(props.action, data);
             if (!ret.ok) {
-                ctx.outputProblem(ret.status, ret.body);
+                ctx.outputProblem(ret.body);
                 return;
             }
 

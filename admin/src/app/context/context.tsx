@@ -51,7 +51,11 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
         const r = await f.get<User>(opt.api.info);
         if (r.ok) {
-            return r.body as User;
+            const u = r.body;
+            if (u && !u.avatar) {
+                u.avatar = opt.logo;
+            }
+            return u;
         }
 
         await window.notify(r.body!.title);

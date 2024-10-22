@@ -49,7 +49,7 @@ function Username(): JSX.Element {
 
     const activator = <Button class="pl-1 rounded-full"
         onClick={()=>setVisible(!visible())}>
-        <img class="w-6 h-6 rounded-full" src={ ctx.user()?.avatar ?? opt.logo } />
+        <img class="w-6 h-6 rounded-full mr-1" src={ ctx.user()?.avatar } />
         {ctx.user()?.name}
     </Button>;
 
