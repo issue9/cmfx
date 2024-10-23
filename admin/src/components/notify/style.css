@@ -6,23 +6,30 @@
 
 @layer components {
     .c--notify {
-        @apply absolute top-4 right-4 left-4 sm:left-auto flex-col z-[1000];
-        @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto;
+        @apply absolute top-4 right-4 left-4 flex flex-col z-[1000] gap-4;
+        @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto sm:left-auto;
 
         .message {
-            @apply bg-[var(--bg)] text-[var(--fg)];
-            @apply rounded-md transition-[height] duration-100 mb-4 z-50 block w-full;
+            @apply bg-palette-bg text-palette-fg rounded-md block w-full h-auto overflow-y-hidden;
+            @apply transition-all duration-[var(--transition-duration)];
 
             hr {
-                @apply border-[var(--bg-low)];
+                @apply border-palette-bg-low;
             }
 
             .title {
                 @apply p-3 flex justify-between items-center;
 
-                .close {
-                    @apply hover:cursor-pointer hover:text-[var(--fg-high)];
+                /* 比 close 大一圈，用以显示进度 */
+                .close-wrap {
+                    @apply flex items-center justify-center p-[2px] bg-palette-bg-low rounded-full;
+                    background: bg-palette-bg-low;
+
+                    .close {
+                        @apply hover:cursor-pointer hover:text-palette-fg-high rounded-full p-[1px] bg-palette-bg;
+                    }
                 }
+
             }
         }
     }

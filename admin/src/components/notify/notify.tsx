@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, createUniqueId, For, mergeProps, Show } from 'solid-js';
+import { createSignal, createUniqueId, For, mergeProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { BaseProps, Palette } from '@/components/base';
-import { Icon } from '@/components/icon';
-import { sleep } from '@/core';
+import Alert, { Props as AlertProps } from './alert';
 
 export type Props = BaseProps;
 
@@ -40,14 +39,6 @@ export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
     ['info', 'secondary'],
 ]);
 
-interface Message {
-    palette?: Palette;
-    title: string;
-    body?: string;
-    id: string;
-    timeout?: number;
-}
-
 /**
  * 通知组件
  *
@@ -56,13 +47,7 @@ interface Message {
  */
 export default function(props: Props) {
     props = mergeProps(presetProps, props);
-
-    const [msgs, setMsgs] = createSignal<Array<Message>>([]);
-    const delMsg = (id: string) => {
-        setMsgs((prev) => {
-            return [...prev.filter((n) => { return n.id !== id; })];
-        });
-    };
+    const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps,'del'>>>([]);
 
     Object.defineProperty(window, 'notify', {
         writable: false,
@@ -77,34 +62,13 @@ export default function(props: Props) {
     return <Portal>
         <div class={props.palette ? `c--notify palette--${props.palette}` : 'c--notify'}>
             <For each={msgs()}>
-                {item => {
-                    const elemID = `notify-${item.id}`;
-
-                    const del = () => { // 删除通知，并通过改变 height 触发动画效果。
-                        const elem = document.getElementById(elemID);
-                        if (!elem) { // 已经删除
-                            return;
-                        }
-
-                        elem!.style.height = '0px';
-                        sleep(100).then(() => { delMsg(item.id); });
-                    };
-
-                    if (item.timeout && item.timeout > 0) { // 存在自动删除功能
-                        sleep(1000 * item.timeout).then(() => { del(); });
-                    }
-
-                    return <div id={elemID} role="alert" class={item.palette ? `message palette--${item.palette}` : 'message'}>
-                        <div class="title">
-                            <p>{item.title}</p>
-                            <Icon onClick={() => del()} class="close" icon="close" />
-                        </div>
-                        <Show when={item.body}>
-                            <hr />
-                            <p class="p-3">{item.body}</p>
-                        </Show>
-                    </div>;
-                }}
+                {item =>(
+                    <Alert {...item} del={(id)=>{
+                        setMsgs((prev) => {
+                            return [...prev.filter((n) => { return n.id !== id; })];
+                        });
+                    }} />
+                )}
             </For>
         </div>
     </Portal>;
