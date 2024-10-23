@@ -10,11 +10,8 @@ import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
 import {
-    hoursOptions, minutesOptions, Month,
-    monthsLocales,
-    Week, weekDay,
-    weekDays,
-    weeks, weeksLocales
+    hoursOptions, minutesOptions, Month, monthsLocales,
+    Week, weekDay, weekDays, weeks, weeksLocales
 } from './utils';
 
 export interface Props extends FieldBaseProps {
