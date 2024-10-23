@@ -12,10 +12,11 @@ export default function(): JSX.Element {
     const nav = useNavigate();
     const opt = useOptions();
 
-    onMount(async()=>{
+    onMount(async () => {
         await ctx.logout();
         nav(opt.routes.public.home);
-    })
+    });
 
-    return <></>;
+    // 在网络不通时，ctx.logout 可能会非常耗时，所以此处展示一个简单的提示页面。
+    return <div class="flex items-center justify-center">{ ctx.locale().t('_i.page.current.loggingOut') }</div>;
 }
