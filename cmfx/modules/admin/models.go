@@ -6,7 +6,6 @@ package admin
 
 import (
 	"html"
-	"net/url"
 	"time"
 
 	"github.com/issue9/web"
@@ -89,7 +88,6 @@ func (*info) TableName() string { return `_info` }
 func (a *info) BeforeInsert() error {
 	a.Name = html.EscapeString(a.Name)
 	a.Nickname = html.EscapeString(a.Nickname)
-	a.Avatar = url.QueryEscape(a.Avatar)
 
 	return nil
 }
@@ -98,7 +96,6 @@ func (a *info) BeforeInsert() error {
 func (a *info) BeforeUpdate() error {
 	a.Name = html.EscapeString(a.Name)
 	a.Nickname = html.EscapeString(a.Nickname)
-	a.Avatar = url.QueryEscape(a.Avatar)
 
 	return nil
 }

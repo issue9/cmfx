@@ -21,6 +21,7 @@ export default function() {
     const q: Query = {
         page: 1,
         text: '',
+        size: 20,
         //'created.start'?: string;
         //'created.end'?: string;
     };

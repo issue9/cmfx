@@ -31,23 +31,27 @@ components:
                     nullable: true
                     title: 头像
                     type: string
+                created:
+                    format: date-time
+                    title: 添加时间
+                    type: string
+                    xml:
+                        attribute: true
                 id:
                     type: integer
                     xml:
                         attribute: true
-                language:
-                    description: |
-                        界面语言
-
-                        不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
-                    title: 界面语言
-                    type: string
                 name:
                     title: 真实名称
                     type: string
                 nickname:
                     title: 昵称
                     type: string
+                "no":
+                    title: 用户的唯一编号，一般用于前端
+                    type: string
+                    xml:
+                        attribute: true
                 roles:
                     items:
                         type: string
@@ -68,20 +72,6 @@ components:
                     title: 用户状态
                     xml:
                         attribute: true
-                theme:
-                    description: |
-                        主题
-
-                        由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
-                    title: 主题
-                    type: string
-                timezone:
-                    description: |
-                        时区
-
-                        不会直接影响服务的处理，客户端自行决定是否采用。
-                    title: 时区
-                    type: string
             title: 包含权限的管理员信息
             type: object
         github.com.issue9.cmfx.cmfx.modules.admin.info:
@@ -94,13 +84,6 @@ components:
                     type: integer
                     xml:
                         attribute: true
-                language:
-                    description: |
-                        界面语言
-
-                        不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
-                    title: 界面语言
-                    type: string
                 name:
                     title: 真实名称
                     type: string
@@ -113,20 +96,6 @@ components:
                     title: 性别
                     xml:
                         attribute: true
-                theme:
-                    description: |
-                        主题
-
-                        由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
-                    title: 主题
-                    type: string
-                timezone:
-                    description: |
-                        时区
-
-                        不会直接影响服务的处理，客户端自行决定是否采用。
-                    title: 时区
-                    type: string
             title: 管理员的基本信息
             type: object
             xml:
@@ -137,23 +106,27 @@ components:
                     nullable: true
                     title: 头像
                     type: string
+                created:
+                    format: date-time
+                    title: 添加时间
+                    type: string
+                    xml:
+                        attribute: true
                 id:
                     type: integer
                     xml:
                         attribute: true
-                language:
-                    description: |
-                        界面语言
-
-                        不会直接影响服务的处理，客户端自行决定是否采用。服务采用客户端的 Accept-Language 决定使用哪种语言。
-                    title: 界面语言
-                    type: string
                 name:
                     title: 真实名称
                     type: string
                 nickname:
                     title: 昵称
                     type: string
+                "no":
+                    title: 用户的唯一编号，一般用于前端
+                    type: string
+                    xml:
+                        attribute: true
                 password:
                     type: string
                 roles:
@@ -176,20 +149,6 @@ components:
                     title: 用户状态
                     xml:
                         attribute: true
-                theme:
-                    description: |
-                        主题
-
-                        由用户指定的主题信息，格式内容由客户端决定，会原样保存原样返回给客户端。
-                    title: 主题
-                    type: string
-                timezone:
-                    description: |
-                        时区
-
-                        不会直接影响服务的处理，客户端自行决定是否采用。
-                    title: 时区
-                    type: string
                 username:
                     type: string
             type: object
@@ -203,6 +162,27 @@ components:
             type: object
             xml:
                 name: password
+        github.com.issue9.cmfx.cmfx.modules.system.backupFile:
+            properties:
+                mod:
+                    format: date-time
+                    type: string
+                path:
+                    type: string
+                size:
+                    type: integer
+            type: object
+        github.com.issue9.cmfx.cmfx.modules.system.backupList:
+            properties:
+                cron:
+                    type: string
+                list:
+                    items:
+                        allOf:
+                            - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.backupFile'
+                        nullable: true
+                    type: array
+            type: object
         github.com.issue9.cmfx.cmfx.modules.system.censorSettings:
             properties:
                 name:
@@ -296,8 +276,10 @@ components:
                     title: 应用名称
                     type: string
                 os:
-                    title: 系统版本
-                    type: string
+                    allOf:
+                        - $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.operatingSystem'
+                    nullable: true
+                    title: 系统信息
                 uptime:
                     title: 应用的上次启动时间
                     type: string
@@ -326,7 +308,7 @@ components:
                     type: string
                 state:
                     allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.scheduled.State'
+                        - $ref: '#/components/schemas/github.com.issue9.web.State'
                     title: 状态
                     xml:
                         attribute: true
@@ -334,6 +316,19 @@ components:
                     title: 名称
                     type: string
             title: 计划任务
+            type: object
+        github.com.issue9.cmfx.cmfx.modules.system.operatingSystem:
+            properties:
+                boot:
+                    format: date-time
+                    title: 系统的开机时间
+                    type: string
+                family:
+                    type: string
+                platform:
+                    type: string
+                version:
+                    type: string
             type: object
         github.com.issue9.cmfx.cmfx.modules.system.problem:
             properties:
@@ -366,7 +361,7 @@ components:
                     type: string
                 state:
                     allOf:
-                        - $ref: '#/components/schemas/github.com.issue9.scheduled.State'
+                        - $ref: '#/components/schemas/github.com.issue9.web.State'
                     title: 状态
                     xml:
                         attribute: true
@@ -521,20 +516,6 @@ components:
                     type: string
             title: 安全日志
             type: object
-        github.com.issue9.scheduled.State:
-            description: |
-                State 服务状态
-
-                以下设置用于 restdoc
-
-                @type string
-                @enum stopped running failed
-            enum:
-                - stopped
-                - running
-                - failed
-            title: State 服务状态
-            type: string
         github.com.issue9.web.Problem:
             description: |
                 Problem 基于 [RFC7807] 用于描述错误信息的对象
@@ -585,6 +566,20 @@ components:
                     type: string
             title: ProblemParam 单个错误字段的描述
             type: object
+        github.com.issue9.web.State:
+            description: |
+                State 服务状态
+
+                以下设置用于 restdoc
+
+                @type string
+                @enum stopped running failed
+            enum:
+                - stopped
+                - running
+                - failed
+            title: State 服务状态
+            type: string
         github.com.issue9.webuse.v7.handlers.monitor.Net:
             properties:
                 conns:
@@ -781,6 +776,11 @@ paths:
         get:
             parameters:
                 - in: query
+                  name: page
+                  schema:
+                    title: 请求的页码，从 0 开始。
+                    type: integer
+                - in: query
                   name: role
                   schema:
                     items:
@@ -790,14 +790,43 @@ paths:
                   name: sex
                   schema:
                     items:
-                        $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.types.Sex'
+                        description: |
+                            性别
+
+                            @enum unknown male female
+                            @type string
+                        enum:
+                            - unknown
+                            - male
+                            - female
+                        title: 性别
+                        type: string
                     type: array
+                - in: query
+                  name: size
+                  schema:
+                    title: 每页的数量
+                    type: integer
                 - in: query
                   name: state
                   schema:
                     items:
-                        $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.user.State'
+                        description: |
+                            State 表示管理员的状态
+
+                            @enum
+                            @type string
+                        enum:
+                            - deleted
+                            - locked
+                            - normal
+                        title: State 表示管理员的状态
+                        type: string
                     type: array
+                - in: query
+                  name: text
+                  schema:
+                    type: string
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1341,20 +1370,6 @@ paths:
                     format: date-time
                     title: 创建日志的起始时间
                     type: string
-                - in: query
-                  name: page
-                  schema:
-                    title: 请求的页码，从 0 开始。
-                    type: integer
-                - in: query
-                  name: size
-                  schema:
-                    title: 每页的数量
-                    type: integer
-                - in: query
-                  name: text
-                  schema:
-                    type: string
             responses:
                 4XX:
                     $ref: '#/components/responses/4XX'
@@ -1405,6 +1420,28 @@ paths:
                 - system
                 - admin
     /system/backup:
+        get:
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "200":
+                    content:
+                        application/cbor:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.backupList'
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.backupList'
+                        application/xml:
+                            schema:
+                                $ref: '#/components/schemas/github.com.issue9.cmfx.cmfx.modules.system.backupList'
+                    description: ""
+            summary: 获取备份数据库的文件列表
+            tags:
+                - admin
+                - system
         post:
             responses:
                 4XX:
@@ -1417,6 +1454,26 @@ paths:
             tags:
                 - admin
                 - system
+    /system/backup/{name}:
+        delete:
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "204":
+                    description: ""
+            summary: 删除指定的备份文件
+            tags:
+                - admin
+                - system
+        parameters:
+            - description: 备份文件的文件名
+              in: path
+              name: name
+              required: true
+              schema:
+                type: string
     /system/info:
         get:
             responses:
@@ -1605,6 +1662,54 @@ paths:
                 - admin
                 - system
                 - settings
+    /upload:
+        post:
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "201":
+                    description: ""
+            summary: 上传文件，文件的字段名可在配置文件中配置
+            tags:
+                - admin
+                - upload
+    /upload/{file}:
+        get:
+            responses:
+                4XX:
+                    $ref: '#/components/responses/4XX'
+                5XX:
+                    $ref: '#/components/responses/5XX'
+                "200":
+                    content:
+                        application/cbor:
+                            schema:
+                                items:
+                                    type: string
+                                type: array
+                        application/json:
+                            schema:
+                                items:
+                                    type: string
+                                type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    type: string
+                                type: array
+                    description: ""
+            summary: 获取上传的文件
+            tags:
+                - admin
+                - upload
+        parameters:
+            - in: path
+              name: file
+              required: true
+              schema:
+                pattern: 文件名
 tags:
     - description: 管理员端
       name: admin

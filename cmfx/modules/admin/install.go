@@ -7,6 +7,7 @@ package admin
 import (
 	"time"
 
+	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -25,7 +26,11 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	l := Load(mod, o)
+	saver, err := upload.NewLocalSaver("./upload", "", upload.Day, nil)
+	if err != nil {
+		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+	}
+	l := Load(mod, o, saver)
 
 	if _, err := l.newRole("管理员", "拥有超级权限", ""); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))

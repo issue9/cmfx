@@ -52,12 +52,21 @@
             <dsn>./server.db?_loc=UTC</dsn>
         </db>
 
-        <url>http://localhost:8080</url>
+        <url>http://192.168.10.11:8080</url>
 
         <admin superUser="1">
             <user accessExpired="1h" refreshExpired="24h">
                 <urlPrefix>/admin</urlPrefix>
             </user>
+            <upload size="102411">
+                <exts>
+                    <ext>.jpg</ext>
+                    <ext>.jpeg</ext>
+                    <ext>.png</ext>
+                    <ext>.gif</ext>
+                </exts>
+                <field>files</field>
+            </upload>
         </admin>
 
         <system>
