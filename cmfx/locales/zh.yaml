@@ -11,6 +11,18 @@ messages:
     - key: backup database
       message:
         msg: 备份数据库
+    - key: bad request body not allowed
+      message:
+        msg: 不被允许的的提交内容
+    - key: bad request body not allowed detail
+      message:
+        msg: 不被允许的的提交内容，比如上传了不允许的文件格式等。
+    - key: bad request body too Larger
+      message:
+        msg: 提交的内容大小超过限制
+    - key: bad request body too Larger detail
+      message:
+        msg: 提交的正文内容大小超过限制。如果是上传内容，表示上传的文件大小超过限制。
     - key: bad request invalid body
       message:
         msg: 无效的报文

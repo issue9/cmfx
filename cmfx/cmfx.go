@@ -29,13 +29,15 @@ import (
 // Version 表示当前框架的版本
 const Version = "0.7.0"
 
-// 定义可用的错误代码
+// 400
 const (
-	BadRequest              = web.ProblemBadRequest
-	BadRequestInvalidPath   = "40001"
-	BadRequestInvalidQuery  = "40002"
-	BadRequestInvalidHeader = "40003"
-	BadRequestInvalidBody   = "40004"
+	BadRequest               = web.ProblemBadRequest
+	BadRequestInvalidPath    = "40001"
+	BadRequestInvalidQuery   = "40002"
+	BadRequestInvalidHeader  = "40003"
+	BadRequestInvalidBody    = "40004"
+	BadRequestBodyTooLarger  = "40005"
+	BadRequestBodyNotAllowed = "40006"
 )
 
 // 401

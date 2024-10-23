@@ -6,6 +6,7 @@ package admin
 
 import (
 	"context"
+	"errors"
 	"time"
 
 	"github.com/issue9/events"
@@ -130,10 +131,16 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 		// @resp 201 * {}
 		Post("/upload", func(ctx *web.Context) web.Responser {
 			files, err := up.Do(m.uploadField, ctx.Request())
-			if err != nil {
+			switch {
+			case errors.Is(err, upload.ErrNotAllowSize()):
+				return ctx.Problem(cmfx.BadRequestBodyTooLarger)
+			case errors.Is(err, upload.ErrNotAllowExt()):
+				return ctx.Problem(cmfx.BadRequestBodyNotAllowed)
+			case err != nil:
 				return ctx.Error(err, "")
+			default:
+				return web.OK(files)
 			}
-			return web.OK(files)
 		})
 
 	return m

@@ -10,6 +10,18 @@ messages:
     - key: backup database
       message:
         msg: backup database
+    - key: bad request body not allowed
+      message:
+        msg: bad request body not allowed
+    - key: bad request body not allowed detail
+      message:
+        msg: bad request body not allowed detail
+    - key: bad request body too Larger
+      message:
+        msg: bad request body too Larger
+    - key: bad request body too Larger detail
+      message:
+        msg: bad request body too Larger detail
     - key: bad request invalid body
       message:
         msg: bad request invalid body
