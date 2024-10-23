@@ -19,6 +19,8 @@ export interface Ref<T extends object> extends LoaderRef<T> {
 
     /**
      * 提供一个用于删除指定 id 的按钮组件
+     *
+     * 访问的地址为 DELETE {@link Props#path}/id。
      */
     DeleteAction<T extends string|number>(id: T): JSX.Element;
 }

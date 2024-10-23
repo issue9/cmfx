@@ -5,6 +5,7 @@
 const messages = {
     _i: {
         fullscreen: 'full screen',
+        successful: 'successful',
         ok: 'OK',
         os: 'OS',
         database: 'database',
@@ -111,7 +112,12 @@ const messages = {
                 admin: 'administrator',
                 adminsManager: 'admin manager',
                 name: 'name',
-                nickname: 'nick name'
+                nickname: 'nick name',
+                resetPassword: 'Reset password',
+                areYouSureResetPassword: 'Are you sure reset user password',
+                successfullyResetPassword: 'Successfully reset password',
+                lockUser: 'Lock user',
+                unlockUser: 'unlock user',
             },
             roles: {
                 roles: 'roles',

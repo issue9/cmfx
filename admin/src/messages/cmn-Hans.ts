@@ -7,6 +7,7 @@ import { Messages } from './en';
 const messages: Messages = {
     _i: {
         fullscreen: '全屏',
+        successful: '成功',
         ok: '确定',
         os: '操作系统',
         database: '数据库',
@@ -113,7 +114,12 @@ const messages: Messages = {
                 admin: '管理员',
                 adminsManager: '管理员',
                 name: '姓名',
-                nickname: '昵称'
+                nickname: '昵称',
+                resetPassword: '重置密码',
+                areYouSureResetPassword: '确定要重置用户的登录密码？',
+                successfullyResetPassword: '重置密码成功',
+                lockUser: '锁定该用户',
+                unlockUser: '解锁该用户',
             },
             roles: {
                 roles: '角色',

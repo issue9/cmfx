@@ -40,18 +40,16 @@ func (c *reqAccount) Filter(v *web.FilterContext) {
 // 如果状态为非 [StateNormal]，那么也将会被禁止登录。
 //
 // NOTE: 需要保证 u.ID、u.State 和 u.NO 是有效的。
-func (m *Module) SetState(tx *orm.Tx, u *User, s State) (err error) {
+func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 	if u.State == s {
 		return nil
 	}
 
-	if s != StateNormal {
-		err = m.token.Delete(u) // 用到 User.NO
+	if s != StateNormal { // 正常状态下需要考虑其是否在登录状态，如果是登录状态，则删除其登录的令牌。
+		m.token.Delete(u) // 用到 User.NO。非登录状态下，会返回错误，忽略。
 	}
 
-	if err == nil {
-		_, err = m.mod.Engine(tx).Update(&User{ID: u.ID, State: s}, "state")
-	}
+	_, err := m.mod.Engine(tx).Update(&User{ID: u.ID, State: s}, "state")
 	return err
 }
 

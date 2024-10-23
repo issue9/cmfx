@@ -15,7 +15,7 @@ import (
 const (
 	StateNormal  State = iota // 正常
 	StateLocked               // 锁定
-	StateDeleted              // 离职
+	StateDeleted              // 删除
 )
 
 // State 表示管理员的状态

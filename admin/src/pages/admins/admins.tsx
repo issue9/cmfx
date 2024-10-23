@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 
 import { useApp } from '@/app';
 import {
-    buildEnumsOptions, Choice, Column, LinkButton,
+    buildEnumsOptions, Button, Choice, Column, ConfirmButton, LinkButton,
     Page, RemoteTable, RemoteTableRef, TextField, translateEnum
 } from '@/components';
 import type { Admin, Query, Sex, State } from './types';
@@ -59,7 +59,43 @@ export default function(props: Props): JSX.Element {
             {
                 id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj) => {
                     return <div class="flex gap-x-2">
-                        <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}`} title={ctx.locale().t('_i.page.editItem')}>edit</LinkButton>
+                        <LinkButton icon rounded palette='tertiary'
+                            href={`${props.routePrefix}/${obj!['id']}`}
+                            title={ctx.locale().t('_i.page.editItem')}>edit</LinkButton>
+
+                        <Show when={obj?.state !== 'locked'}>
+                            <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async()=>{
+                                const r = await ctx.api.post(`/admins/${obj!['id']}/locked`);
+                                if (!r.ok) {
+                                    ctx.outputProblem(r.body);
+                                    return;
+                                }
+                                ref.refresh();
+                            }}>lock</Button>
+                        </Show>
+
+                        <Show when={obj?.state === 'locked'}>
+                            <Button icon rounded palette='tertiary' title={ctx.locale().t('_i.page.admin.unlockUser')} onClick={async()=>{
+                                const r = await ctx.api.delete(`/admins/${obj!['id']}/locked`);
+                                if (!r.ok) {
+                                    ctx.outputProblem(r.body);
+                                    return;
+                                }
+                                ref.refresh();
+                            }}>lock_open_right</Button>
+                        </Show>
+
+                        <ConfirmButton icon rounded palette='error' title={ctx.locale().t('_i.page.admin.resetPassword')}
+                            prompt={ctx.locale().t('_i.page.admin.areYouSureResetPassword')}
+                            onClick={async()=>{
+                                const r = await ctx.api.delete(`/admins/${obj!['id']}/password`);
+                                if (!r.ok) {
+                                    ctx.outputProblem(r.body);
+                                    return;
+                                }
+                                ctx.notify(ctx.locale().t('_i.page.admin.successfullyResetPassword'), undefined, 'success');
+                            }}>lock_reset</ConfirmButton>
+
                         {ref.DeleteAction(obj!['id'])}
                     </div>;
                 }) as Column<Admin>['renderContent']
