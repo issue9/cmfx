@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
 import { useNavigate } from '@solidjs/router';
+import { JSX, onMount } from 'solid-js';
 
 import { useApp, useOptions } from '@/app/context';
 
@@ -12,8 +12,10 @@ export default function(): JSX.Element {
     const nav = useNavigate();
     const opt = useOptions();
 
-    ctx.logout().then(()=>{
+    onMount(async()=>{
+        await ctx.logout();
         nav(opt.routes.public.home);
-    });
+    })
+
     return <></>;
 }
