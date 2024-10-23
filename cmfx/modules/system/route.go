@@ -244,7 +244,7 @@ type backupFile struct {
 
 // # api GET /system/backup 获取备份数据库的文件列表
 // @tag admin system
-// @resp 200 * backupConfig
+// @resp 200 * backupList
 func (m *Module) adminGetBackup(ctx *web.Context) web.Responser {
 	entries, err := os.ReadDir(m.backupConfig.Dir)
 	if err != nil {

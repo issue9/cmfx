@@ -117,8 +117,17 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	// upload
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)
 	mod.Router().Prefix(m.URLPrefix()).
+		// # API GET /upload/{file} 获取上传的文件
+		//
+		// @tag admin upload
+		// @path file 文件名
+		// @resp 200 * []string
 		Get("/upload/{file}", static.ServeFileHandler(up, "file", "index.html"))
 	mod.Router().Prefix(m.URLPrefix(), m).
+		// # API POST /upload 上传文件，文件的字段名可在配置文件中配置
+		//
+		// @tag admin upload
+		// @resp 201 * {}
 		Post("/upload", func(ctx *web.Context) web.Responser {
 			files, err := up.Do(m.uploadField, ctx.Request())
 			if err != nil {
