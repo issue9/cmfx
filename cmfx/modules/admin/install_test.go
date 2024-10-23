@@ -26,6 +26,11 @@ func TestInstall(t *testing.T) {
 			AccessExpired:  60,
 			RefreshExpired: 120,
 		},
+		Upload: &Upload{
+			Size:  1024 * 1024 * 1024,
+			Exts:  []string{".jpg"},
+			Field: "files",
+		},
 	}
 	suite.Assertion().NotError(o.SanitizeConfig())
 	l := Install(mod, o)

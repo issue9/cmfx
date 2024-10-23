@@ -30,6 +30,11 @@ func NewModule(s *test.Suite) *admin.Module {
 			AccessExpired:  60 * config.Duration(time.Second),
 			RefreshExpired: 120 * config.Duration(time.Second),
 		},
+		Upload: &admin.Upload{
+			Size:  1024 * 1024 * 1024,
+			Exts:  []string{".jpg"},
+			Field: "files",
+		},
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
