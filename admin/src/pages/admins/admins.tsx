@@ -6,7 +6,8 @@ import { JSX, Show } from 'solid-js';
 
 import { useApp } from '@/app';
 import {
-    buildEnumsOptions, Button, Choice, Column, ConfirmButton, LinkButton,
+    buildEnumsOptions, Button, Choice,
+    ConfirmButton, LinkButton,
     Page, RemoteTable, RemoteTableRef, TextField, translateEnum
 } from '@/components';
 import type { Admin, Query, Sex, State } from './types';
@@ -19,10 +20,16 @@ interface Props {
     routePrefix: string;
 }
 
+interface Q extends Query {
+    text: string;
+    state: Array<State>;
+    sex: Array<Sex>;
+}
+
 export default function(props: Props): JSX.Element {
     const ctx = useApp();
 
-    const q: Query = {
+    const q: Q = {
         text: '',
         page: 1,
         state: ['normal'],
@@ -32,7 +39,7 @@ export default function(props: Props): JSX.Element {
     let ref: RemoteTableRef<Admin>;
 
     return <Page title="_i.page.admin.adminsManager">
-        <RemoteTable ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
+        <RemoteTable<Admin, Q> ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
             <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{ctx.locale().t('_i.page.newItem')}</LinkButton>
         } queryForm={(qa) => (
             <>
@@ -44,20 +51,20 @@ export default function(props: Props): JSX.Element {
             { id: 'id', label: ctx.locale().t('_i.page.id') },
             { id: 'no', label: ctx.locale().t('_i.page.no') },
             {
-                id: 'sex', label: ctx.locale().t('_i.page.sex'), content: ((_: string, v?: Sex) => {
-                    return translateEnum(sexesMap, ctx, v);
-                }) as Column<Admin>['content']
+                id: 'sex', label: ctx.locale().t('_i.page.sex'), content: ((_: string, v) => {
+                    return translateEnum(sexesMap, ctx, v as Sex);
+                })
             },
             { id: 'name', label: ctx.locale().t('_i.page.admin.name') },
             { id: 'nickname', label: ctx.locale().t('_i.page.admin.nickname') },
             { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().datetime(v) },
             {
                 id: 'state', label: ctx.locale().t('_i.page.state'), content: (_, v) => {
-                    return translateEnum(statesMap, ctx, v);
+                    return translateEnum(statesMap, ctx, v as State);
                 }
             },
             {
-                id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj) => {
+                id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
                     return <div class="flex gap-x-2">
                         <LinkButton icon rounded palette='tertiary'
                             href={`${props.routePrefix}/${obj!['id']}`}
@@ -98,7 +105,7 @@ export default function(props: Props): JSX.Element {
 
                         {ref.DeleteAction(obj!['id'])}
                     </div>;
-                }) as Column<Admin>['renderContent']
+                })
             },
         ]} />
     </Page>;
