@@ -6,7 +6,7 @@
 
 .c--date-activator {
     .activator-container {
-        @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none min-w-[300px];
+        @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none min-w-[270px];
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         .input {
@@ -29,10 +29,10 @@
 }
 
 .c--date-panel {
-    @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border;
+    @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border flex flex-col gap-1;
 
     .title {
-        @apply flex justify-between;
+        @apply flex justify-between items-center;
     }
 
     table {
@@ -47,7 +47,7 @@
             @apply p-1;
 
             button {
-                @apply border border-transparent rounded-full text-sm p-1 min-w-8 items-center justify-center;
+                @apply border border-transparent outline-none rounded-full text-sm p-1 min-w-7 items-center justify-center;
             }
 
             button.selected {
@@ -61,7 +61,7 @@
     }
 
     .actions {
-        @apply flex justify-between items-center mt-2 gap-x-1;
+        @apply flex justify-between items-center gap-x-1;
 
         .time {
             @apply w-48 flex items-center;
@@ -77,7 +77,8 @@
     th,
     td {
         button:enabled {
-            @apply hover:bg-palette-bg-high;
+            @apply hover:bg-palette-bg-high hover:border-palette-bg-low;
+            @apply focus:bg-palette-bg-high focus:border-palette-bg-low;
         }
     }
 

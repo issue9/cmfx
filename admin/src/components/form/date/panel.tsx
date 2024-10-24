@@ -2,20 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, mergeProps, Show } from 'solid-js';
+import { createMemo, For, mergeProps, Show } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { Button } from '@/components/button';
 import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
-import {
-    hoursOptions, minutesOptions, Month,
-    monthsLocales,
-    Week, weekDay,
-    weekDays,
-    weeks, weeksLocales
-} from './utils';
+import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {
     /**
@@ -50,6 +44,8 @@ export const presetProps: Partial<Props> = {
     weekBase: 0,
 };
 
+const weekBase = new Date('2024-10-20'); // 这是星期天，作为计算星期的基准日期。
+
 /**
  * 日期选择的面板
  */
@@ -65,48 +61,56 @@ export default function (props: Props) {
         ac.setValue(dt.getTime());
     };
 
+    const titleFormat = createMemo(() => {
+        return ctx.locale().dateTimeFormat({ year: 'numeric', month: '2-digit' });
+    });
+
+    const weekFormat = createMemo(() => {
+        return ctx.locale().dateTimeFormat({ weekday: 'narrow' });
+    });
+
     const Panel = (p: { dt: Date, ha: Accessor<number>, ma: Accessor<number> }) => {
         return <>
 
             <div class="title">
                 <div>
-                    <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')} onClick={()=>{
-                        if (props.readonly || props.disabled) { return; }
+                    <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
+                        onClick={()=>{
+                            if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(ac.getValue());
-                        dt.setFullYear(p.dt.getFullYear()-1);
-                        setValue(dt);
-                    }}>keyboard_double_arrow_left</Button>
-                    <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')} onClick={()=>{
-                        if (props.readonly || props.disabled) { return; }
+                            const dt = new Date(ac.getValue());
+                            dt.setFullYear(p.dt.getFullYear()-1);
+                            setValue(dt);
+                        }}>keyboard_double_arrow_left</Button>
+                    <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
+                        onClick={()=>{
+                            if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(ac.getValue());
-                        dt.setMonth(p.dt.getMonth()-1);
-                        setValue(dt);
-                    }}>chevron_left</Button>
+                            const dt = new Date(ac.getValue());
+                            dt.setMonth(p.dt.getMonth()-1);
+                            setValue(dt);
+                        }}>chevron_left</Button>
                 </div>
 
-                <div>
-                    <span>{p.dt.getFullYear()}</span>
-                    /
-                    <span>{ctx.locale().t(monthsLocales.get(p.dt.getMonth() as Month) as any)}</span>
-                </div>
+                <div>{titleFormat().format(p.dt)}</div>
 
                 <div>
-                    <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')} onClick={()=>{
-                        if (props.readonly || props.disabled) { return; }
+                    <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
+                        onClick={()=>{
+                            if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(ac.getValue());
-                        dt.setMonth(p.dt.getMonth()+1);
-                        setValue(dt);
-                    }}>chevron_right</Button>
-                    <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')} onClick={()=>{
-                        if (props.readonly || props.disabled) { return; }
+                            const dt = new Date(ac.getValue());
+                            dt.setMonth(p.dt.getMonth()+1);
+                            setValue(dt);
+                        }}>chevron_right</Button>
+                    <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
+                        onClick={()=>{
+                            if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(ac.getValue());
-                        dt.setFullYear(p.dt.getFullYear()+1);
-                        setValue(dt);
-                    }}>keyboard_double_arrow_right</Button>
+                            const dt = new Date(ac.getValue());
+                            dt.setFullYear(p.dt.getFullYear()+1);
+                            setValue(dt);
+                        }}>keyboard_double_arrow_right</Button>
                 </div>
             </div>
 
@@ -125,14 +129,14 @@ export default function (props: Props) {
                     <tr>
                         <For each={weeks}>
                             {(w) => (
-                                <th>{ctx.locale().t(weeksLocales.get(weekDay(w, props.weekBase)) as any)}</th>
+                                <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate()+weekDay(w, props.weekBase)))}</th>
                             )}
                         </For>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <For each={weekDays(p.dt, props.weekBase as Week)}>
+                    <For each={weekDays(p.dt, props.weekBase!)}>
                         {(week) => (
                             <tr>
                                 <For each={week}>

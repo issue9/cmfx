@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { monthDays, weekDay, getWeekDays } from './utils';
+import { getWeekDays, monthDays, weekDay } from './utils';
 
 test('add weekDay', () => {
     expect(weekDay(0, 0)).toEqual(0);

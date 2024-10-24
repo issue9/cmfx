@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options } from '../types';
-import { MessagesKey } from '@/messages';
+import { Options } from '@/components/form/types';
 
 export const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
@@ -34,7 +33,7 @@ export function weekDay(base: Week, delta?: number): Week {
 /**
  * 计算指定月份的天数范围
  *
- * @param week 每周的起始；
+ * @param weekStart 每周的起始；
  * @param date 需要计算的月份；
  * @returns 返回的元组列表，每个元组包含以下四个字段：
  *  - 0 boolean 表示是否为当前月份;
@@ -42,7 +41,7 @@ export function weekDay(base: Week, delta?: number): Week {
  *  - 2 该月在当前面板上的起始日期；
  *  - 3 该月在当前面板上的结束日期；
  */
-export function monthDays(date: Date, week: Week): Array<[boolean, Month, number, number]> {
+export function monthDays(date: Date, weekStart: Week): Array<[boolean, Month, number, number]> {
     // 当前月的第一天和最后一天
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
@@ -50,8 +49,8 @@ export function monthDays(date: Date, week: Week): Array<[boolean, Month, number
     // 处理前一个月份的数据
     let prev: [boolean, Month, number, number] = [false, 0, 0, 0];
     const firstWeekDay = firstDay.getDay() as Week;
-    if (week !== firstWeekDay) {
-        let days = firstWeekDay - week-1; // 需要拿到前一个月需要添加的天数
+    if (weekStart !== firstWeekDay) {
+        let days = firstWeekDay - weekStart-1; // 需要拿到前一个月需要添加的天数
         if (days < 0) {
             days = weeks.length + days;
         }
@@ -63,8 +62,8 @@ export function monthDays(date: Date, week: Week): Array<[boolean, Month, number
     // 处理后一个月份的数据
     let next: [boolean, Month, number, number] = [false, 0, 0, 0];
     const lastWeekDay = lastDay.getDay() as Week;
-    if (weekDay(week,-1) !== lastWeekDay) {
-        let days = week - 1 - lastWeekDay;
+    if (weekDay(weekStart,-1) !== lastWeekDay) {
+        let days = weekStart - 1 - lastWeekDay;
         if (days <= 0) {
             days = weeks.length + days;
         }
@@ -96,42 +95,17 @@ export function getWeekDays(m: Array<[boolean, Month, number, number]>): Array<A
 
 /**
  * 将 date 所在的月份以及前后一星期以 7 天为一组进行分组
- * 
+ *
  * @param date 需要计算的月份；
- * @param week 每周的起始；
+ * @param weekStart 每周的起始；
  * @returns 以 7 为一组的数据，每个元素包含以下三个字段：
- *  - 0 是否为当前月份；
+ *  - 0 是否为禁用；
  *  - 1 月份；
  *  - 2 在当前月份中的日期；
  */
-export function weekDays(date: Date, week: Week): Array<Array<[boolean, Month, number]>> {
-    return getWeekDays(monthDays(date, week));
+export function weekDays(date: Date, weekStart: Week): Array<Array<[boolean, Month, number]>> {
+    return getWeekDays(monthDays(date, weekStart));
 }
-
-export const monthsLocales = new Map<Month, MessagesKey>([
-    [0, '_i.date.january'],
-    [1, '_i.date.february'],
-    [2, '_i.date.march'],
-    [3, '_i.date.april'],
-    [4, '_i.date.may'],
-    [5, '_i.date.june'],
-    [6, '_i.date.july'],
-    [7, '_i.date.august'],
-    [8, '_i.date.september'],
-    [9, '_i.date.october'],
-    [10, '_i.date.november'],
-    [11, '_i.date.december'],
-]);
-
-export const weeksLocales = new Map<Week, MessagesKey>([
-    [1, '_i.date.monday'],
-    [2, '_i.date.tuesday'],
-    [3, '_i.date.wednesday'],
-    [4, '_i.date.thursday'],
-    [5, '_i.date.friday'],
-    [6, '_i.date.saturday'],
-    [0, '_i.date.sunday']
-]);
 
 export const hoursOptions: Options<number> = [
     [0, '00'],
