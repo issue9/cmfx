@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MessagesKey } from '@/messages';
-import { Options } from '../types';
+import { Options } from '@/components/form/types';
 
 export const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
@@ -107,31 +106,6 @@ export function getWeekDays(m: Array<[boolean, Month, number, number]>): Array<A
 export function weekDays(date: Date, weekStart: Week): Array<Array<[boolean, Month, number]>> {
     return getWeekDays(monthDays(date, weekStart));
 }
-
-export const monthsLocales = new Map<Month, MessagesKey>([
-    [0, '_i.date.january'],
-    [1, '_i.date.february'],
-    [2, '_i.date.march'],
-    [3, '_i.date.april'],
-    [4, '_i.date.may'],
-    [5, '_i.date.june'],
-    [6, '_i.date.july'],
-    [7, '_i.date.august'],
-    [8, '_i.date.september'],
-    [9, '_i.date.october'],
-    [10, '_i.date.november'],
-    [11, '_i.date.december'],
-]);
-
-export const weeksLocales = new Map<Week, MessagesKey>([
-    [1, '_i.date.monday'],
-    [2, '_i.date.tuesday'],
-    [3, '_i.date.wednesday'],
-    [4, '_i.date.thursday'],
-    [5, '_i.date.friday'],
-    [6, '_i.date.saturday'],
-    [0, '_i.date.sunday']
-]);
 
 export const hoursOptions: Options<number> = [
     [0, '00'],
