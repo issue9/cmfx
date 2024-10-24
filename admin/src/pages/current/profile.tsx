@@ -6,18 +6,19 @@ import { createEffect, createSignal, JSX, Show } from 'solid-js';
 
 import { useApp, useOptions, User } from '@/app/context';
 import {
-    buildEnumsOptions, Button, Choice, Divider,
-    file2Base64, Form, FormAccessor,
-    Page, Password, TextField, Upload, UploadRef
+    buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
+    FormAccessor, Page, Password, TextField, Upload, UploadRef
 } from '@/components';
-import { Sex, sexesMap } from '@/pages/admins/types';
+import { Sex, sexesMap, zeroAdmin } from '@/pages/admins/types';
 
 export default function(): JSX.Element {
     const opt = useOptions();
     const ctx = useApp();
     let uploadRef: UploadRef;
 
-    const infoAccess = new FormAccessor<User>({sex: 'unknown'}, ctx, 'PATCH', opt.api.info, async () => {
+    const infoAccess = new FormAccessor<User>(zeroAdmin(), ctx, (obj)=>{
+        return ctx.api.patch(opt.api.info, obj);
+    }, async () => {
         await ctx.refetchUser();
     }, (obj) => {
         if (!obj.name) {
@@ -121,7 +122,9 @@ interface ProfilePassword {
 function Pass(): JSX.Element {
     const ctx = useApp();
 
-    const passAccess = new FormAccessor<ProfilePassword>({ old: '', new: '', confirm: '' }, ctx, 'PUT', '/password', undefined, (obj)=>{
+    const passAccess = new FormAccessor<ProfilePassword>({ old: '', new: '', confirm: '' }, ctx, (obj)=>{
+        return ctx.api.put('/password', obj);
+    }, undefined, (obj)=>{
         if (obj.old === '') {
             return new Map([['old', ctx.locale().t('_i.error.canNotBeEmpty')]]);
         }

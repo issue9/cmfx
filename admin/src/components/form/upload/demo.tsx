@@ -30,12 +30,12 @@ export default function(): JSX.Element {
     } stages={
         <>
             <Stage title='basic'>
-                <Album label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
+                <Album fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
                     action='./' accessor={basicA} />
             </Stage>
 
             <Stage title='basic+drop'>
-                <Album class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
+                <Album fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
                     action='./' accessor={basicA} />
             </Stage>
         </>

@@ -17,10 +17,10 @@ export default function() {
 
     const f = new FormAccessor({
         f1: 'f1',
-        5:5,
+        5: 5,
         date: '2021-01-02T15:31',
         textarea: 'textarea',
-    }, ctx, 'POST', '/path');
+    }, ctx, async (_) => { return { ok: false, status: 500 }; });
 
     return <Demo settings={
         <>

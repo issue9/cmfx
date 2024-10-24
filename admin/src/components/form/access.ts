@@ -6,7 +6,7 @@ import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
 import { AppContext } from '@/app';
-import { Method, Problem, Return } from '@/core';
+import { Problem, Return } from '@/core';
 
 // Form 中保存错误的类型
 type Err<T extends object> = {
@@ -266,6 +266,10 @@ export interface SuccessFunc<T> {
     (r?: Return<T, never>): void;
 }
 
+export interface Request<T extends object, R = never, P = never> {
+    (obj: T): Promise<Return<R, P>>;
+}
+
 /**
  * 适用于表单的 {@link ObjectAccessor}
  *
@@ -275,11 +279,9 @@ export interface SuccessFunc<T> {
  */
 export class FormAccessor<T extends object, R = never, P = never> {
     #object: ObjectAccessor<T>;
-    readonly #method: Method;
-    readonly #path: string;
     readonly #validation?: Validation<T>;
-    readonly #withToken: boolean;
     #ctx: AppContext;
+    #request: Request<T,R,P>;
     readonly #success?: SuccessFunc<R>;
     #submitting: Signal<boolean>;
 
@@ -287,22 +289,17 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * 构造函数
      *
      * @param preset 初始值；
-     * @param method 请求方法；
-     * @param path 请求地址，相对于 {@link Options#api#base}；
      * @param success 在接口正常返回时调用的方法；
      * @param validation 提交前对数据的验证方法；
-     * @param withToken 接口是否需要带上登录凭证；
      */
-    constructor(preset: T, ctx: AppContext, method: Method, path: string);
-    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, validation?: Validation<T>, withToken?: boolean);
-    constructor(preset: T, ctx: AppContext, method: Method, path: string, success?: SuccessFunc<R>, validation?: Validation<T>, withToken = true) {
+    constructor(preset: T, ctx: AppContext, req: Request<T, R, P>);
+    constructor(preset: T, ctx: AppContext, req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>);
+    constructor(preset: T, ctx: AppContext, req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>) {
         // NOTE: ctx 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
-        this.#method = method;
-        this.#path = path;
         this.#validation = validation;
-        this.#withToken = withToken;
         this.#ctx = ctx;
+        this.#request = req;
         this.#success = success;
         this.#submitting = createSignal<boolean>(false);
     }
@@ -347,7 +344,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         const obj = this.#object.object(this.#validation);
         if (!obj) { return false; }
 
-        const ret = await this.#ctx.api.request<R, P>(this.#path, this.#method, obj, this.#withToken);
+        const ret = await this.#request(obj);
         if (ret.ok) {
             if (this.#success) {
                 this.#success(ret);

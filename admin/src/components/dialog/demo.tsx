@@ -16,7 +16,7 @@ export default function() {
     let dlg1: Ref;
     let dlg2: Ref;
 
-    const fa = new FormAccessor({}, ctx, 'POST', '/path');
+    const fa = new FormAccessor({}, ctx, async (_) => { return {ok:false, status:500}; });
 
     return <Demo settings={
         <>

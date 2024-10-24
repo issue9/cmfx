@@ -103,7 +103,7 @@ export default function(props: Props): JSX.Element {
                                 ctx.notify(ctx.locale().t('_i.page.admin.successfullyResetPassword'), undefined, 'success');
                             }}>lock_reset</ConfirmButton>
 
-                        {ref.DeleteAction(obj!['id'])}
+                        {ref.DeleteAction(obj!.id!)}
                     </div>;
                 })
             },
