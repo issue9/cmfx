@@ -63,7 +63,7 @@ describe('API token', () => {
     });
 
     test('token', async () => {
-        await writeToken(Object.assign({}, token));
+        writeToken(Object.assign({}, token));
         const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
         let t = await f.getToken(); // 过期时间在 1 秒之内，必然未过期。
         expect(t).toEqual('access');
@@ -82,7 +82,7 @@ describe('API token', () => {
     test('login', async () => {
         const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
         fetchMock.mockResponseOnce(JSON.stringify(Object.assign({}, token)));
-        const ret = await f.login({ username: 'admin', password: '123' });
+        const ret = await f.login({ username: 'admin', password: '123' }, 'password');
         expect(ret).toBeTruthy();
 
         let t = await f.getToken();

@@ -8,6 +8,7 @@ package passport
 import (
 	"errors"
 	"fmt"
+	"iter"
 	"time"
 
 	"github.com/issue9/web"
@@ -55,7 +56,12 @@ func (p *Passport) Register(id string, auth Adapter, name web.LocaleStringer) {
 // Get 返回注册的适配器
 //
 // 如果找不到，则返回 nil。
-func (p *Passport) Get(id string) Adapter { return p.adapters[id].adapter }
+func (p *Passport) Get(id string) Adapter {
+	if info, found := p.adapters[id]; found {
+		return info.adapter
+	}
+	return nil
+}
 
 // Valid 验证账号密码
 //
@@ -77,25 +83,39 @@ func (p *Passport) Valid(id, identity, password string, now time.Time) (int64, s
 }
 
 // All 返回所有的适配器对象
-func (p *Passport) All(printer *message.Printer) map[string]string {
-	m := make(map[string]string, len(p.adapters))
-	for _, i := range p.adapters {
-		m[i.id] = i.name.LocaleString(printer)
+func (p *Passport) All(printer *message.Printer) iter.Seq2[string, string] {
+	return func(yield func(string, string) bool) {
+		for _, i := range p.adapters {
+			if !yield(i.id, i.name.LocaleString(printer)) {
+				break
+			}
+		}
 	}
-	return m
 }
 
 // Identities 获取 uid 已经关联的适配器
 //
 // 返回值键名为验证器 id，键值为该适配器对应的账号。
-func (p *Passport) Identities(uid int64) map[string]string {
-	m := make(map[string]string, len(p.adapters))
-	for _, info := range p.adapters {
-		if identity, err := info.adapter.Identity(uid); err == nil {
-			m[info.id] = identity
-		} else {
-			p.mod.Server().Logs().ERROR().Error(err)
+func (p *Passport) Identities(uid int64) iter.Seq2[string, string] {
+	return func(yield func(string, string) bool) {
+		for _, info := range p.adapters {
+			if identity, err := info.adapter.Identity(uid); err == nil {
+				if !yield(info.id, identity) {
+					break
+				}
+			} else {
+				p.mod.Server().Logs().ERROR().Error(err)
+			}
 		}
 	}
-	return m
+}
+
+// ClearUser 清空与 uid 相关的所有登录信息
+func (p *Passport) ClearUser(uid int64) error {
+	for _, info := range p.adapters {
+		if err := info.adapter.Delete(uid); err != nil {
+			return err
+		}
+	}
+	return nil
 }

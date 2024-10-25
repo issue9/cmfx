@@ -18,7 +18,7 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	mod := suite.NewModule("test")
-	Install(mod)
+	Install(mod, "passwords")
 
-	suite.TableExists(mod.ID() + (&modelPassword{}).TableName())
+	suite.TableExists(mod.ID() + "_auth_passwords")
 }

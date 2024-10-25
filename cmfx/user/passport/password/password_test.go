@@ -22,9 +22,9 @@ func TestPassword(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	mod := suite.NewModule("test")
-	Install(mod)
+	Install(mod, "p")
 
-	p := New(mod, 11)
+	p := New(mod, "p", 11)
 	a.NotNil(p)
 
 	adaptertest.Run(a, p)
@@ -35,9 +35,9 @@ func TestValidIdentity(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 	mod := suite.NewModule("test")
-	Install(mod)
+	Install(mod, "p")
 
-	p := New(mod, 11)
+	p := New(mod, "p", 11)
 	a.NotNil(p)
 
 	a.ErrorIs(p.Add(1024, "", "1024", time.Now()), passport.ErrInvalidIdentity())

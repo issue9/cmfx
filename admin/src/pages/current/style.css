@@ -8,7 +8,12 @@
     @apply justify-center h-full items-center;
 
     form {
-        @apply flex justify-center flex-col px-2 gap-2 w-full xs:w-80;
+        @apply flex justify-center flex-col gap-2 w-full xs:w-96 p-5;
+        @apply border border-palette-bg-low rounded-md bg-palette-bg shadow-sm shadow-palette-bg-low;
+
+        .title {
+            @apply flex justify-between mb-8;
+        }
     }
 }
 

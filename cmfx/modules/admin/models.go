@@ -49,10 +49,11 @@ type ctxInfoWithRoleState struct {
 	Created time.Time  `json:"created" xml:"created,attr" cbor:"created"` // 添加时间
 }
 
+// 添加新的管理员时，需要提供的数据
 type reqInfoWithAccount struct {
 	ctxInfoWithRoleState
-	Username string `json:"username" xml:"username" cbor:"username"`
-	Password string `json:"password" xml:"password" cbor:"password"`
+	Username string `json:"username" xml:"username" cbor:"username"` // 账号
+	Password string `json:"password" xml:"password" cbor:"password"` // 密码
 }
 
 func (i *info) Filter(v *web.FilterContext) {

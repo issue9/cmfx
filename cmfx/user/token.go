@@ -49,6 +49,12 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 		m.token.Delete(u) // 用到 User.NO。非登录状态下，会返回错误，忽略。
 	}
 
+	if s == StateDeleted { // 删除所有的登录信息
+		if err := m.Passport().ClearUser(u.ID); err != nil {
+			m.mod.Server().Logs().ERROR().Error(err) // 记录错误，但是不退出
+		}
+	}
+
 	_, err := m.mod.Engine(tx).Update(&User{ID: u.ID, State: s}, "state")
 	return err
 }

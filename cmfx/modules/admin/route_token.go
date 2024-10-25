@@ -5,6 +5,9 @@
 package admin
 
 import (
+	"cmp"
+	"slices"
+
 	"github.com/issue9/web"
 	"github.com/issue9/web/filter"
 
@@ -19,7 +22,7 @@ type queryLogin struct {
 }
 
 func (q *queryLogin) Filter(c *web.FilterContext) {
-	v := func(s string) bool { return q.m.user.Passport().Get(s) != nil }
+	v := func(s string) bool { return q.m.Passport().Get(s) != nil }
 	c.Add(filter.NewBuilder(filter.V(v, locales.InvalidValue))("type", &q.Type))
 }
 
@@ -53,4 +56,25 @@ func (m *Module) deleteLogin(ctx *web.Context) web.Responser {
 // @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
 func (m *Module) putToken(ctx *web.Context) web.Responser {
 	return m.user.RefreshToken(ctx)
+}
+
+type respAdapters struct {
+	Name string `json:"name" cbor:"name" xml:"name"`
+	Desc string `json:"desc" cbor:"desc" xml:"desc"`
+}
+
+// # api GET /passports 支持的登录验证方式
+// #tag admin auth
+// @resp 200 * respAdapters
+func (m *Module) getPassports(ctx *web.Context) web.Responser {
+	adapters := make([]*respAdapters, 0)
+	for k, v := range m.Passport().All(ctx.LocalePrinter()) {
+		adapters = append(adapters, &respAdapters{
+			Name: k,
+			Desc: v,
+		})
+	}
+	slices.SortFunc(adapters, func(a, b *respAdapters) int { return cmp.Compare(a.Name, b.Name) })
+
+	return web.OK(adapters)
 }

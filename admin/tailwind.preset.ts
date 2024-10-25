@@ -70,6 +70,7 @@ const config: PresetsConfig = {
             outlineColor: colors,
             ringColor: colors,
             divideColor: colors,
+            boxShadowColor: colors,
 
             minWidth: breakpoints,
             maxWidth: breakpoints,

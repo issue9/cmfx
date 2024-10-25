@@ -5,8 +5,10 @@
 package admin
 
 import (
+	"cmp"
 	"errors"
 	"net/http"
+	"slices"
 	"time"
 
 	"github.com/issue9/orm/v6"
@@ -20,11 +22,23 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
+type respAdminInfo struct {
+	ctxInfoWithRoleState
+
+	// 当前用户已经开通的验证方式
+	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports"`
+}
+
+type respPassportIdentity struct {
+	Name     string `json:"name" xml:"name" cbor:"name"`
+	Identity string `json:"identity" xml:"identity" cbor:"identity"`
+}
+
 // # API GET /admins/{id} 获取指定的管理员账号
 //
 // @tag admin
 // @path id int 管理的 ID
-// @resp 200 * ctxInfoWithRoleState
+// @resp 200 * respAdminInfo
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -51,10 +65,22 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 		rs = append(rs, r.ID)
 	}
 
-	return web.OK(&ctxInfoWithRoleState{
-		info:  *a,
-		Roles: rs,
-		State: u.State,
+	ps := make([]*respPassportIdentity, 0)
+	for k, v := range m.Passport().Identities(id) {
+		ps = append(ps, &respPassportIdentity{
+			Name:     k,
+			Identity: v,
+		})
+	}
+	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.Name, b.Name) }) // 排序，尽量使输出的内容相同
+
+	return web.OK(&respAdminInfo{
+		ctxInfoWithRoleState: ctxInfoWithRoleState{
+			info:  *a,
+			Roles: rs,
+			State: u.State,
+		},
+		Passports: ps,
 	})
 }
 
@@ -204,7 +230,7 @@ func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
 	}
 
 	// 更新数据库
-	if err := m.password.Set(id, defaultPassword); err != nil {
+	if err := m.Passport().Get(passportTypePassword).Set(id, m.defaultPassword); err != nil {
 		return ctx.Error(err, "")
 	}
 
@@ -221,7 +247,7 @@ func (m *Module) postAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	if err := m.newAdmin(m.password, data, ctx.Begin()); err != nil {
+	if err := m.newAdmin(data, ctx.Begin()); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")

@@ -29,12 +29,12 @@ func newModule(s *test.Suite) *Module {
 
 	mod := s.NewModule("user")
 	Install(mod)
-	password.Install(mod)
+	password.Install(mod, "password")
 
 	u := Load(mod, conf)
 	s.Assertion().NotNil(u)
 
-	u.Passport().Register("password", password.New(u.Module(), 9), web.Phrase("password"))
+	u.Passport().Register("password", password.New(u.Module(), "password", 9), web.Phrase("password"))
 	p := u.Passport().Get("password")
 	uid, err := u.NewUser(p, "admin", "password", time.Now())
 	s.Assertion().NotError(err).NotZero(uid)

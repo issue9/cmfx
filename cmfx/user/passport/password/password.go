@@ -9,6 +9,7 @@ import (
 	"errors"
 	"time"
 
+	"github.com/issue9/orm/v6"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -16,18 +17,24 @@ import (
 )
 
 type password struct {
-	mod  *cmfx.Module
+	db   *orm.DB
 	cost int
+}
+
+func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
+	return mod.DB().New(mod.DB().TablePrefix() + "_auth_" + tableName)
 }
 
 // New 声明基于密码的验证方法
 //
 // cost 的值需介于 [bcrypt.MinCost,bcrypt.MaxCost] 之间，如果超出范围则会被设置为 [bcrypt.DefaultCost]。
-func New(mod *cmfx.Module, cost int) passport.Adapter {
+// 在同一个模块下需要用到多个密码验证的实例时，tableName 用于区别不同。
+func New(mod *cmfx.Module, tableName string, cost int) passport.Adapter {
 	if cost < bcrypt.MinCost || cost > bcrypt.MaxCost {
 		cost = bcrypt.DefaultCost
 	}
-	return &password{mod: mod, cost: cost}
+	db := buildDB(mod, tableName)
+	return &password{db: db, cost: cost}
 }
 
 // Add 添加账号
@@ -36,9 +43,7 @@ func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
 		return passport.ErrInvalidIdentity()
 	}
 
-	db := p.mod.DB()
-
-	n, err := db.Where("uid=?", uid).Count(&modelPassword{})
+	n, err := p.db.Where("uid=?", uid).Count(&modelPassword{})
 	if err != nil {
 		return err
 	}
@@ -47,7 +52,7 @@ func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
 	}
 
 	mod := &modelPassword{Identity: identity}
-	found, err := db.Select(mod)
+	found, err := p.db.Select(mod)
 	if err != nil {
 		return err
 	}
@@ -62,14 +67,14 @@ func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
 			return passport.ErrIdentityExists()
 		}
 
-		_, err = db.Update(&modelPassword{
+		_, err = p.db.Update(&modelPassword{
 			Updated:  now,
 			UID:      uid,
 			Identity: identity,
 			Password: pa,
 		})
 	} else {
-		_, err = db.Insert(&modelPassword{
+		_, err = p.db.Insert(&modelPassword{
 			Created:  now,
 			Updated:  now,
 			UID:      uid,
@@ -83,7 +88,7 @@ func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
 
 // Delete 删除关联的密码信息
 func (p *password) Delete(uid int64) error {
-	_, err := p.mod.DB().Where("uid=?", uid).Delete(&modelPassword{})
+	_, err := p.db.Where("uid=?", uid).Delete(&modelPassword{})
 	return err
 }
 
@@ -94,7 +99,7 @@ func (p *password) Set(uid int64, pass string) error {
 	}
 
 	mod := &modelPassword{}
-	size, err := p.mod.DB().Where("uid=?", uid).Select(true, mod)
+	size, err := p.db.Where("uid=?", uid).Select(true, mod)
 	if err != nil {
 		return err
 	}
@@ -107,7 +112,7 @@ func (p *password) Set(uid int64, pass string) error {
 func (p *password) set(identity, pass string) error {
 	pa, err := bcrypt.GenerateFromPassword([]byte(pass), p.cost)
 	if err == nil {
-		_, err = p.mod.DB().Update(&modelPassword{Identity: identity, Password: pa})
+		_, err = p.db.Update(&modelPassword{Identity: identity, Password: pa})
 	}
 	return err
 }
@@ -119,7 +124,7 @@ func (p *password) Change(uid int64, old, pass string) error {
 	}
 
 	mod := &modelPassword{UID: uid}
-	size, err := p.mod.DB().Where("uid=?", uid).Select(true, mod)
+	size, err := p.db.Where("uid=?", uid).Select(true, mod)
 	if err != nil {
 		return err
 	}
@@ -140,7 +145,7 @@ func (p *password) Change(uid int64, old, pass string) error {
 
 func (p *password) Valid(username, pass string, _ time.Time) (int64, string, error) {
 	mod := &modelPassword{Identity: username}
-	found, err := p.mod.DB().Select(mod)
+	found, err := p.db.Select(mod)
 	if err != nil {
 		return 0, "", err
 	}
@@ -161,7 +166,7 @@ func (p *password) Valid(username, pass string, _ time.Time) (int64, string, err
 
 func (p *password) Identity(uid int64) (string, error) {
 	mod := &modelPassword{}
-	size, err := p.mod.DB().Where("uid=?", uid).Select(true, mod)
+	size, err := p.db.Where("uid=?", uid).Select(true, mod)
 	if err != nil {
 		return "", err
 	}

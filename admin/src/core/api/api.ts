@@ -201,8 +201,8 @@ export class API {
      *
      * @returns 如果返回 true，表示操作成功，否则表示错误信息。
      */
-    async login(account: Account): Promise<Problem<never>|undefined|true> {
-        const token = await this.post<Token>(this.#loginPath, account, false);
+    async login(account: Account, type: string): Promise<Problem<never>|undefined|true> {
+        const token = await this.post<Token>(this.#loginPath + '?type='+type, account, false);
         if (token.ok) {
             this.#token = writeToken(token.body!);
             await this.clearCache();

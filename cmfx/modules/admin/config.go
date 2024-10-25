@@ -18,6 +18,13 @@ type Config struct {
 	// User 用户相关的配置
 	User *user.Config `json:"user" xml:"user" yaml:"user"`
 
+	// DefaultPassword 默认的密码
+	//
+	// 重置密码的操作将会将用户的密码重置为该值。
+	//
+	// 如果未设置，该值将被设置为 123
+	DefaultPassword string `json:"defaultPassword" xml:"defaultPassword" yaml:"defaultPassword"`
+
 	// 上传接口的相关配置
 	Upload *Upload `json:"upload" xml:"upload" yaml:"upload"`
 }
@@ -38,6 +45,10 @@ func (c *Config) SanitizeConfig() *web.FieldError {
 
 	if err := c.User.SanitizeConfig(); err != nil {
 		return err.AddFieldParent("user")
+	}
+
+	if c.DefaultPassword == "" {
+		c.DefaultPassword = "123"
 	}
 
 	if c.Upload != nil {

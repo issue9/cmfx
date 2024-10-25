@@ -19,6 +19,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
+	"github.com/issue9/cmfx/cmfx/user/passport/password"
 )
 
 func Exec(name, version string) error {
@@ -66,6 +67,8 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	switch action {
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
+		adminL.Passport().Register("password2", password.New(adminL.Module(), "password2", 5), web.Phrase("another password valid"))
+
 		system.Load(systemMod, user.System, adminL)
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin)

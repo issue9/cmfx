@@ -84,7 +84,7 @@ func (m *Module) putCurrentPassword(ctx *web.Context) web.Responser {
 	}
 
 	a := m.CurrentUser(ctx)
-	err := m.password.Change(a.ID, data.Old, data.New)
+	err := m.Passport().Get(passportTypePassword).Change(a.ID, data.Old, data.New)
 	if errors.Is(err, passport.ErrUnauthorized()) {
 		return ctx.Problem(cmfx.Unauthorized)
 	} else if err != nil {

@@ -182,8 +182,8 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
          * @param account 账号密码信息
          * @returns true 表示登录成功，其它情况表示错误信息
          */
-        async login(account: Account) {
-            const ret = await f.login(account);
+        async login(account: Account,type: string = 'password') {
+            const ret = await f.login(account, type);
             if (ret === true) {
                 uid = account.username;
                 sessionStorage.setItem(currentKey, uid);

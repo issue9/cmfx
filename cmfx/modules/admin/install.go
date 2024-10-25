@@ -19,7 +19,7 @@ import (
 
 func Install(mod *cmfx.Module, o *Config) *Module {
 	user.Install(mod)
-	password.Install(mod)
+	password.Install(mod, "passwords")
 	rbac.Install(mod)
 
 	if err := mod.DB().Create(&info{}); err != nil {
@@ -52,7 +52,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "admin",
-			Password: defaultPassword,
+			Password: o.DefaultPassword,
 		},
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -63,7 +63,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "u1",
-			Password: defaultPassword,
+			Password: o.DefaultPassword,
 		},
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -74,7 +74,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "u2",
-			Password: defaultPassword,
+			Password: o.DefaultPassword,
 		},
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -84,12 +84,12 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "u3",
-			Password: defaultPassword,
+			Password: o.DefaultPassword,
 		},
 	}
 
 	for _, u := range us {
-		if err := l.newAdmin(l.password, u, time.Now()); err != nil {
+		if err := l.newAdmin(u, time.Now()); err != nil {
 			panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 		}
 	}

@@ -24,10 +24,12 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-type Module struct {
-	user *user.Module
+const passportTypePassword = "password" // 采用密码登录的
 
-	password  passport.Adapter
+type Module struct {
+	user            *user.Module
+	defaultPassword string
+
 	roleGroup *rbac.RoleGroup
 
 	uploadField string
@@ -46,12 +48,10 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	u := user.Load(mod, o.User)
 
-	pass := password.New(mod, 8)
-	u.Passport().Register(passwordID, pass, web.StringPhrase("password mode"))
+	u.Passport().Register(passportTypePassword, password.New(mod, "passwords", 8), web.StringPhrase("password mode"))
 	m := &Module{
-		user: u,
-
-		password: pass,
+		user:            u,
+		defaultPassword: o.DefaultPassword,
 
 		uploadField: o.Upload.Field,
 
@@ -86,6 +86,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 20, time.Second, nil, nil)
 
 	mod.Router().Prefix(m.URLPrefix()).
+		Get("/passports", m.getPassports).
 		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server())).
 		Delete("/login", m.deleteLogin, m).
 		Put("/login", m.putToken, m)
@@ -190,8 +191,8 @@ func (m *Module) Module() *cmfx.Module { return m.user.Module() }
 func (m *Module) Passport() *passport.Passport { return m.user.Passport() }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(pa passport.Adapter, data *reqInfoWithAccount, now time.Time) error {
-	uid, err := m.user.NewUser(pa, data.Username, data.Password, now)
+func (m *Module) newAdmin(data *reqInfoWithAccount, now time.Time) error {
+	uid, err := m.user.NewUser(m.Passport().Get(passportTypePassword), data.Username, data.Password, now)
 	if err != nil {
 		return err
 	}
