@@ -91,7 +91,7 @@ export default function <T extends Value, M extends boolean>(props: Props<T, M>)
                 <div class="input">
                     <Switch>
                         <Match when={props.accessor.getValue() === undefined || (props.multiple && (props.accessor.getValue() as Array<T>).length === 0)}>
-                            <span class="placeholder">{props.placeholder}</span>
+                            <span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />
                         </Match>
                         <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
                             <MultipleActivator access={props.accessor as Accessor<Array<T>>} />
