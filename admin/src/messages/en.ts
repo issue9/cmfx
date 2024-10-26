@@ -115,6 +115,7 @@ const messages = {
                 name: 'name',
                 nickname: 'nick name',
                 resetPassword: 'Reset password',
+                addSuccessful: 'Add user successful',
                 areYouSureResetPassword: 'Are you sure reset user password',
                 successfullyResetPassword: 'Successfully reset password',
                 lockUser: 'Lock user',

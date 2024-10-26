@@ -117,6 +117,7 @@ const messages: Messages = {
                 name: '姓名',
                 nickname: '昵称',
                 resetPassword: '重置密码',
+                addSuccessful: '添加成功',
                 areYouSureResetPassword: '确定要重置用户的登录密码？',
                 successfullyResetPassword: '重置密码成功',
                 lockUser: '锁定该用户',

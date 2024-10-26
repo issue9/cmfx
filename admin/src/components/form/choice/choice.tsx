@@ -89,14 +89,11 @@ export default function <T extends Value, M extends boolean>(props: Props<T, M>)
             }}>
                 <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
-                    <Switch>
-                        <Match when={props.accessor.getValue() === undefined || (props.multiple && (props.accessor.getValue() as Array<T>).length === 0)}>
-                            <span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />
-                        </Match>
+                    <Switch fallback={<span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />}>
                         <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
                             <MultipleActivator access={props.accessor as Accessor<Array<T>>} />
                         </Match>
-                        <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
+                        <Match when={!props.multiple && props.accessor.getValue()}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
                 <Icon class="expand" icon="expand_all" />
