@@ -28,12 +28,33 @@ export interface Query extends QueryBase {
 }
 
 export interface Admin {
-    id: number;
+    id?: number;
     no: string;
     sex: Sex;
     name: string;
     nickname: string;
     avatar?: string;
-    created: string;
+    created?: string;
     state: State;
+    roles: Array<string>;
+
+    username?: string;
+    password?: string;
+}
+
+export function zeroAdmin(): Admin {
+    return {
+        id: 0,
+        no: '',
+        sex: 'unknown',
+        name: '',
+        nickname: '',
+        avatar: '',
+        created: '',
+        state: 'normal',
+        roles: [],
+
+        username: '',
+        password: '',
+    };
 }

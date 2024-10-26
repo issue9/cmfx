@@ -11,7 +11,7 @@ import {
 } from '@/components';
 import { Return } from '@/core';
 
-interface Role {
+export interface Role {
     id?: string;
     name: string;
     description: string;

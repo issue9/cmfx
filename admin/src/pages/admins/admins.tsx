@@ -6,10 +6,10 @@ import { JSX, Show } from 'solid-js';
 
 import { useApp } from '@/app';
 import {
-    buildEnumsOptions, Button, Choice,
-    ConfirmButton, LinkButton,
-    Page, RemoteTable, RemoteTableRef, TextField, translateEnum
+    Button, ConfirmButton, LinkButton, Page,
+    RemoteTable, RemoteTableRef, TextField, translateEnum
 } from '@/components';
+import { SexSelector, StateSelector } from './selector';
 import type { Admin, Query, Sex, State } from './types';
 import { sexesMap, statesMap } from './types';
 
@@ -44,8 +44,8 @@ export default function(props: Props): JSX.Element {
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
-                <Choice options={buildEnumsOptions(statesMap, ctx)} multiple accessor={qa.accessor<Array<State>>('state')} />
-                <Choice options={buildEnumsOptions(sexesMap, ctx)} multiple accessor={qa.accessor<Array<Sex>>('sex')} />
+                <StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
+                <SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
             { id: 'id', label: ctx.locale().t('_i.page.id') },
@@ -57,7 +57,7 @@ export default function(props: Props): JSX.Element {
             },
             { id: 'name', label: ctx.locale().t('_i.page.admin.name') },
             { id: 'nickname', label: ctx.locale().t('_i.page.admin.nickname') },
-            { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().datetime(v) },
+            { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().datetime(v as string) },
             {
                 id: 'state', label: ctx.locale().t('_i.page.state'), content: (_, v) => {
                     return translateEnum(statesMap, ctx, v as State);

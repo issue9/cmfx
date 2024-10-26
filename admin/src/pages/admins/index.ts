@@ -6,10 +6,15 @@ import { MenuItem, Route } from '@/app/options/route';
 import { Pages } from '@/pages/pages';
 import { default as Admins } from './admins';
 import { default as Edit } from './edit';
+import { SexSelector, StateSelector } from './selector';
 
 export class admins implements Pages {
     static Admins = Admins;
     static Edit = Edit;
+
+    static SexSelector = SexSelector;
+
+    static StateSelector = StateSelector;
 
     readonly #prefix: string;
 
@@ -33,5 +38,4 @@ export class admins implements Pages {
             { type: 'item', icon: 'manage_accounts', label: '_i.page.admin.admin', path: this.#prefix },
         ];
     }
-
 }

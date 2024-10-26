@@ -62,7 +62,7 @@ export function Login(): JSX.Element {
 
             <Button palette='primary' disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
 
-            <Button palette='secondary' type="reset">{ ctx.locale().t('_i.reset') }</Button>
+            <Button palette='secondary' disabled={f.isPreset()} type="reset">{ ctx.locale().t('_i.reset') }</Button>
         </form>
     </Page>;
 }

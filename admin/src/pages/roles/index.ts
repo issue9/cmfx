@@ -6,6 +6,7 @@ import { MenuItem, Route } from '@/app/options/route';
 import { Pages } from '@/pages/pages';
 import { default as Permission } from './permission';
 import { default as Roles } from './roles';
+import { default as Selector } from './selector';
 
 /**
  * 提供所有角色相关的功能
@@ -20,6 +21,11 @@ export class roles implements Pages {
      * 角色列表组件
      */
     static Roles = Roles;
+
+    /**
+     * 角色选择框
+     */
+    static Selector = Selector;
 
     readonly #prefix: string;
 

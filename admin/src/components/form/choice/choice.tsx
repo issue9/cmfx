@@ -11,24 +11,18 @@ import { calcPopoverPos } from '@/components/utils';
 
 type Value = string | number | undefined;
 
-interface BaseProps<T extends Value> extends FieldBaseProps {
+export interface Props<T extends Value, M extends boolean> extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;
+    multiple?: M;
+    accessor: M extends true ? Accessor<Array<T>> : Accessor<T>;
 }
-
-export type Props<T extends Value> = BaseProps<T> & {
-    multiple: true;
-    accessor: Accessor<Array<T>>;
-} | BaseProps<T> & {
-    multiple?: false;
-    accessor: Accessor<T>;
-};
 
 /**
  * 用以替代 select 组件
  */
-export default function <T extends Value>(props: Props<T>): JSX.Element {
+export default function <T extends Value, M extends boolean>(props: Props<T, M>): JSX.Element {
     let pop: HTMLUListElement;
 
     // multiple 为 false 时的输入框样式。
@@ -96,10 +90,12 @@ export default function <T extends Value>(props: Props<T>): JSX.Element {
                 <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
                 <div class="input">
                     <Switch>
-                        <Match when={props.accessor.getValue() === undefined || (props.multiple && props.accessor.getValue().length === 0)}>
+                        <Match when={props.accessor.getValue() === undefined || (props.multiple && (props.accessor.getValue() as Array<T>).length === 0)}>
                             <span class="placeholder">{props.placeholder}</span>
                         </Match>
-                        <Match when={props.multiple && props.accessor.getValue().length > 0}><MultipleActivator access={props.accessor as Accessor<Array<T>>} /></Match>
+                        <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
+                            <MultipleActivator access={props.accessor as Accessor<Array<T>>} />
+                        </Match>
                         <Match when={!props.multiple}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                     </Switch>
                 </div>
