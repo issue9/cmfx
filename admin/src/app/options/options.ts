@@ -2,10 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    Contrast, PickOptional, Theme as CoreTheme, DictLoader,
-    Mimetype, Mode, Scheme, UnitStyle
-} from '@/core';
+import { Contrast, Theme as CoreTheme, DictLoader, Mimetype, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -14,6 +11,13 @@ import type { MenuItem, Routes } from './route';
  * 基本配置
  */
 export interface Options {
+    /**
+     * 页脚的一些链接或是文本内容
+     *
+     * NOTE: 登录页有此内容，其它页面由用户自行决定是否添加。
+     */
+    footer?: Array<Link>;
+
     /**
      * 网站的标题
      */
@@ -172,4 +176,9 @@ export function build(o: Options): Required<Options> {
     checkAPI(opt.api);
 
     return opt;
+}
+
+interface Link {
+    title: string;
+    link?: string;
 }

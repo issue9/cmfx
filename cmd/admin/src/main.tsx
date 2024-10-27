@@ -104,7 +104,13 @@ const o: Options = {
         defaultSize: 20
     },
 
-    title: 'title',
+    footer: [
+        {title: '&copy; 2024 by Example .Inc', link: 'https://example.com'},
+        {title: 'aaaabbbcccdddeeefff'},
+        {title: 'repo', link: 'https://github.com/issue/cmfx'},
+    ],
+
+    title: 'Title',
     logo: 'icon.svg',
     menus: menus,
     userMenus: current.menus()

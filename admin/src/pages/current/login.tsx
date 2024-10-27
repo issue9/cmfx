@@ -8,6 +8,7 @@ import { createSignal, JSX, Match, onMount, Switch } from 'solid-js';
 import { useApp, useOptions } from '@/app/context';
 import { buildEnumsOptions, Button, Choice, FieldAccessor, Icon, ObjectAccessor, Page, Password, TextField } from '@/components';
 import { Account } from '@/core';
+import { For, Show } from 'solid-js';
 
 /**
  * 登录页面
@@ -64,6 +65,20 @@ export function Login(): JSX.Element {
 
             <Button palette='secondary' disabled={f.isPreset()} type="reset">{ ctx.locale().t('_i.reset') }</Button>
         </form>
+
+        <Show when={opt.footer && opt.footer.length > 0}>
+            <footer>
+                <For each={opt.footer}>
+                    {(item)=>(
+                        <Switch fallback={<p innerHTML={item.title} />}>
+                            <Match when={item.link}>
+                                <a href={ item.link } innerHTML={item.title} />
+                            </Match>
+                        </Switch>
+                    )}
+                </For>
+            </footer>
+        </Show>
     </Page>;
 }
 
