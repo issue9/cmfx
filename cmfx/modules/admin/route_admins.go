@@ -225,8 +225,12 @@ func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
 	}
 
 	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	if _, err := m.user.GetUser(id); err != nil {
+	u, err := m.user.GetUser(id)
+	if err != nil {
 		return ctx.Error(err, "")
+	}
+	if u.State != user.StateNormal {
+		return ctx.Problem(cmfx.ForbiddenStateNotAllow)
 	}
 
 	// 更新数据库
@@ -285,6 +289,10 @@ func (m *Module) setAdminState(ctx *web.Context, state user.State, code int) web
 	u, err := m.user.GetUser(id)
 	if err != nil {
 		return ctx.Error(err, "")
+	}
+
+	if u.State == user.StateDeleted && state != user.StateDeleted {
+		return ctx.Problem(cmfx.ForbiddenStateNotAllow)
 	}
 
 	if err := m.user.SetState(nil, u, state); err != nil {
