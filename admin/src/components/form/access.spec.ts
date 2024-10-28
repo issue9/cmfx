@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { expect, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 import { Accessor, FieldAccessor, ObjectAccessor } from './access';
 
 test('field access', () => {
@@ -10,7 +10,7 @@ test('field access', () => {
     t(f);
 });
 
-test('object access', () => {
+describe('object access', () => {
     interface Object {
         f1: number;
         f2: string;
@@ -22,13 +22,33 @@ test('object access', () => {
     expect(f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(false);
 
-    // 验证
-    const v = (_: Object) => { return new Map<keyof Object, string>([['f1', 'err']]); };
-    expect(f.object(v)).toBeUndefined();
-    expect(f.accessor('f1').getError(), 'err');
+    test('validation', () => {
+        const v = (_: Object) => { return new Map<keyof Object, string>([['f1', 'err']]); };
+        expect(f.object(v)).toBeUndefined();
+        expect(f.accessor('f1').getError(), 'err');
 
-    f.reset();
-    expect(f.isPreset()).toEqual<boolean>(true);
+        const f1 = f.accessor('f1');
+        expect(f1).toEqual(f.accessor('f1'));
+
+        f.reset();
+        expect(f.isPreset()).toBeTruthy();
+        expect(f1).toEqual(f.accessor('f1')); // 同一个 Accessor 接口只有一个对象
+    });
+
+
+    test('setPreset', () => {
+        f.setPreset({ 'f1': 1, 'f2': '2' });
+        expect(f.isPreset()).toBeFalsy();
+        f.reset();
+        expect(f.isPreset()).toBeTruthy();
+        expect(f.accessor('f1').getValue()).toEqual(1);
+    });
+
+    test('setObject', () => {
+        f.setObject({ 'f1': 11, 'f2': '22' });
+        expect(f.accessor('f1').getValue()).toEqual(11);
+        expect(f.accessor('f2').getValue()).toEqual('22');
+    });
 });
 
 function t(a: Accessor<number>) {

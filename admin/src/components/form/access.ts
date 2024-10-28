@@ -15,6 +15,8 @@ type Err<T extends object> = {
 
 /**
  * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
+ *
+ * @template T 关联的值类型
  */
 export interface Accessor<T> {
     /**
@@ -131,6 +133,8 @@ export class ObjectAccessor<T extends object> {
     readonly #errGetter: Store<Err<T>>;
     readonly #errSetter: SetStoreFunction<Err<T>>;
 
+    #accessor: Map<keyof T, Accessor<T[keyof T]>>;
+
     /**
      * 构造函数
      *
@@ -142,6 +146,8 @@ export class ObjectAccessor<T extends object> {
 
         [this.#valGetter, this.#valSetter] = createStore<T>({...preset});
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
+
+        this.#accessor = new Map<keyof T, Accessor<T[keyof T]>>();
     }
 
     /**
@@ -183,10 +189,13 @@ export class ObjectAccessor<T extends object> {
      * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
      */
     accessor<FT = T[keyof T]>(name: keyof T, hasError?: boolean): Accessor<FT> {
+        let a: Accessor<FT>|undefined = this.#accessor.get(name)as Accessor<FT>;
+        if (a) { return a as Accessor<FT>; }
+
         const self = this;
         const changes: Array<ChangeFunc<FT>> = [];
 
-        return {
+        a = {
             name(): string { return name as string; },
 
             hasError(): boolean { return hasError ?? false; },
@@ -214,6 +223,8 @@ export class ObjectAccessor<T extends object> {
                 this.setValue(self.#preset[name] as FT);
             }
         };
+        this.#accessor.set(name, a as Accessor<T[keyof T]>);
+        return a;
     }
 
     /**
@@ -239,6 +250,15 @@ export class ObjectAccessor<T extends object> {
         }
 
         return v;
+    }
+
+    /**
+     * 修改整个对象的值
+     */
+    setObject(obj: T) {
+        Object.entries(obj).forEach(([k, v]) => {
+            this.accessor(k as keyof T).setValue(v);
+        });
     }
 
     /**
@@ -319,6 +339,8 @@ export class FormAccessor<T extends object, R = never, P = never> {
 
     setPreset(v: T) { return this.#object.setPreset(v); }
 
+    setObject(v: T) { return this.#object.setObject(v); }
+
     /**
      * 当前内容是否都是默认值
      */
@@ -344,7 +366,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         const obj = this.#object.object(this.#validation);
         if (!obj) { return false; }
 
-        const ret = await this.#request(obj);
+        const ret = await this.#request(unwrap(obj));
         if (ret.ok) {
             if (this.#success) {
                 this.#success(ret);
