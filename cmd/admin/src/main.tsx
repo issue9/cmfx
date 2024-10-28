@@ -35,7 +35,11 @@ const routes: Routes = {
     public: {
         home: '/login',
         routes: [
-            { path: '/login', component: pages.current.Login },
+            { path: '/login', component: ()=><pages.current.Login footer={[
+                {title: '&copy; 2024 by Example .Inc', link: 'https://example.com'},
+                {title: 'aaaabbbcccdddeeefff'},
+                {title: 'repo', link: 'https://github.com/issue/cmfx'},
+            ]} /> },
         ]
     },
     private: {
@@ -103,12 +107,6 @@ const o: Options = {
         pageSizes: [10, 20, 50, 100],
         defaultSize: 20
     },
-
-    footer: [
-        {title: '&copy; 2024 by Example .Inc', link: 'https://example.com'},
-        {title: 'aaaabbbcccdddeeefff'},
-        {title: 'repo', link: 'https://github.com/issue/cmfx'},
-    ],
 
     title: 'Title',
     logo: 'icon.svg',

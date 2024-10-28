@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, ParentProps } from 'solid-js';
+import { createEffect, JSX, ParentProps, splitProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
@@ -14,6 +14,10 @@ export interface Props extends BaseProps, ParentProps {
     title: string;
 
     class?: string;
+
+    classList?: JSX.CustomAttributes<HTMLElement>['classList'];
+
+    style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
 
 /**
@@ -28,7 +32,14 @@ export default function (props: Props) {
         ctx.title = ctx.locale().t(props.title);
     });
 
-    return <div class={props.class ? props.class + ' c--page' : 'c--page'}>
+    const [_, other] = splitProps(props, ['title', 'children']);
+    if ('classList' in other) {
+        other['classList'] = { ...other['classList'], 'c--page':true};
+    } else {
+        other['classList'] = { 'c--page': true };
+    }
+
+    return <div {...other}>
         {props.children}
     </div>;
 }
