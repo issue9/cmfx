@@ -6,7 +6,6 @@ package admin
 
 import (
 	"cmp"
-	"errors"
 	"net/http"
 	"slices"
 	"time"
@@ -49,14 +48,13 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 		return ctx.NotFound()
 	}
 
-	roles := m.roleGroup.UserRoles(id)
 	u, err := m.user.GetUser(id)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	rs := make([]string, 0, len(roles))
-	for _, r := range roles {
+	rs := make([]string, 0, 4)
+	for _, r := range m.roleGroup.UserRoles(id) {
 		rs = append(rs, r.ID)
 	}
 
@@ -150,73 +148,45 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	u, resp := m.getActiveUserFromContext(ctx)
 	if resp != nil {
 		return resp
-	}
-
-	u, err := m.user.GetUser(id)
-	if err != nil {
-		return ctx.Error(err, "")
 	}
 
 	// 读取数据
-	data := &ctxInfoWithRoleState{}
+	data := &ctxInfoWithRoleState{info: info{m: m}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
-	data.ID = id // 指定主键
+	data.ID = u.ID // 指定主键
 
-	tx, err := m.Module().DB().Begin()
+	err := m.Module().DB().DoTransaction(func(tx *orm.Tx) error {
+		e := tx.NewEngine(m.Module().DB().TablePrefix())
+		if _, err := e.Update(&data.info, "sex"); err != nil {
+			return err
+		}
+
+		return m.user.SetState(tx, u, data.State)
+	})
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	e := tx.NewEngine(m.Module().DB().TablePrefix())
-	if _, err := e.Update(data, "sex"); err != nil {
-		return ctx.Error(errors.Join(err, tx.Rollback()), "")
+	// 取消所有的权限组，可能涉及数据库操作，在事务外执行。
+	for _, role := range m.roleGroup.UserRoles(u.ID) {
+		if err := role.Unlink(u.ID); err != nil {
+			return ctx.Error(err, "")
+		}
 	}
-
 	for _, rid := range data.Roles {
-		r := m.roleGroup.Role(rid)
-		if r == nil {
-			continue
+		role := m.roleGroup.Role(rid)
+		if role == nil { // 由 filter 保证不存在为 nil
+			panic("role == nil")
 		}
 
-		if err := r.Link(id); err != nil {
-			return ctx.Error(errors.Join(err, tx.Rollback()), "")
+		if err := role.Link(u.ID); err != nil {
+			return ctx.Error(err, "")
 		}
-	}
-
-	if err := m.user.SetState(tx, u, data.State); err != nil {
-		return ctx.Error(errors.Join(err, tx.Rollback()), "")
-	}
-
-	if err := tx.Commit(); err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return web.NoContent()
-}
-
-func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
-	if resp != nil {
-		return resp
-	}
-
-	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	u, err := m.user.GetUser(id)
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	if u.State != user.StateNormal {
-		return ctx.Problem(cmfx.ForbiddenStateNotAllow)
-	}
-
-	// 更新数据库
-	if err := m.Passport().Get(passportTypePassword).Set(id, m.defaultPassword); err != nil {
-		return ctx.Error(err, "")
 	}
 
 	return web.NoContent()

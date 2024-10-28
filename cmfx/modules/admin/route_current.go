@@ -5,14 +5,9 @@
 package admin
 
 import (
-	"errors"
-
 	"github.com/issue9/web"
-	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/filters"
-	"github.com/issue9/cmfx/cmfx/user/passport"
 )
 
 func (m *Module) getInfo(ctx *web.Context) web.Responser {
@@ -49,44 +44,10 @@ func (m *Module) patchInfo(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-// 密码修改
-type reqPassword struct {
-	XMLName struct{} `json:"-" xml:"password" cbor:"-"`
-	Old     string   `json:"old" xml:"old" cbor:"old"`
-	New     string   `json:"new" xml:"new" cbor:"new"`
-}
-
-func (p *reqPassword) Filter(v *web.FilterContext) {
-	same := filter.V(func(s string) bool {
-		return s != p.Old
-	}, web.StringPhrase("same of new and old password"))
-
-	v.Add(filters.NotEmpty("old", &p.Old)).
-		Add(filters.NotEmpty("new", &p.New)).
-		Add(filter.NewBuilder(same)("new", &p.New))
-}
-
-// # api PUT /password 当前登录用户修改自己的密码
+// # api get /securitylog 当前用户的安全操作记录
 // @tag admin
-// @req * reqPassword
-// @resp 204 * {}
-func (m *Module) putCurrentPassword(ctx *web.Context) web.Responser {
-	data := &reqPassword{}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	a := m.CurrentUser(ctx)
-	err := m.Passport().Get(passportTypePassword).Change(a.ID, data.Old, data.New)
-	if errors.Is(err, passport.ErrUnauthorized()) {
-		return ctx.Problem(cmfx.Unauthorized)
-	} else if err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return m.user.Logout(ctx, nil, web.StringPhrase("change password"))
-}
-
+// @query github.com/issue9/cmfx/cmfx/user.queryLog
+// @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[github.com/issue9/cmfx/cmfx/user.respLog]
 func (m *Module) getSecurityLogs(ctx *web.Context) web.Responser {
 	return m.user.GetSecurityLogs(ctx)
 }

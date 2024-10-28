@@ -62,20 +62,22 @@ func (i *info) Filter(v *web.FilterContext) {
 }
 
 func (i *ctxInfoWithRoleState) Filter(v *web.FilterContext) {
-	i.roles = make([]*rbac.Role, 0, len(i.Roles))
-
 	roleValidator := func(id string) bool {
 		r := i.m.roleGroup.Role(id)
 		if r == nil {
 			return false
 		}
-		i.roles = append(i.roles, r)
 		return !r.IsDescendant(id)
 	}
 
 	i.info.Filter(v)
 	v.Add(filter.NewBuilder(filter.SV[[]string](roleValidator, locales.InvalidValue))("roles", &i.Roles)).
 		Add(user.StateFilter("state", &i.State))
+
+	i.roles = make([]*rbac.Role, 0, len(i.Roles))
+	for _, id := range i.Roles {
+		i.roles = append(i.roles, i.m.roleGroup.Role(id))
+	}
 }
 
 func (i *infoWithAccountDTO) Filter(v *web.FilterContext) {

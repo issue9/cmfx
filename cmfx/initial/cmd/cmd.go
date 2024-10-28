@@ -7,7 +7,9 @@ package cmd
 
 import (
 	"flag"
+	"net/smtp"
 	"path/filepath"
+	"time"
 
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
@@ -24,7 +26,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
-	"github.com/issue9/cmfx/cmfx/user/passport/password"
+	"github.com/issue9/cmfx/cmfx/user/passport/code"
 )
 
 func Exec(name, version string) error {
@@ -84,7 +86,9 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	switch action {
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
-		adminL.Passport().Register("password2", password.New(adminL.Module(), "password2", 5), web.Phrase("another password valid"))
+		smtpAuth := smtp.PlainAuth("id", "username", "password", "smtp@example.com")
+		smtpAdpater := code.New(adminL.Module(), 5*time.Minute, "smtp", code.NewSMTPSender("code", "smtp@example.com", "server@example.com", "%%code%%", smtpAuth))
+		adminL.Passport().Register("smtp", smtpAdpater, web.Phrase("smtp valid"))
 
 		system.Load(systemMod, user.System, adminL)
 	case "install":

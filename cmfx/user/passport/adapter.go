@@ -41,7 +41,7 @@ type Adapter interface {
 	// Set 强制修改用户 uid 的认证数据
 	//
 	// uid 为需要操作的用户，不能为零；
-	// n 的定义与 [Adapter.Change] 是相同的。
+	// n 为新的认证数据，由用户自定义，一般为新密码或是新的设备 ID 等；
 	Set(uid int64, n string) error
 
 	// Add 关联用户数据

@@ -171,8 +171,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				QueryObject(user.QueryLogDTO{}, nil).
 				Desc(web.Phrase("get login user security log api"), nil).
 				Response("200", user.LogVO{}, nil, nil)
-		})).
-		Put("/password", m.putCurrentPassword)
+		}))
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/admins", m.getAdmins, getAdmin, mod.API(func(o *openapi.Operation) {
@@ -203,13 +202,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				Body(&ctxInfoWithRoleState{}, false, nil, nil).
 				ResponseRef("204", "empty", nil, nil)
 		})).
-		Delete("/admins/{id:digit}/password", m.deleteAdminPassword, putAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("reset admin password api"), nil).
-				PathID("id:digit", web.Phrase("the ID of admin")).
-				Body(&ctxInfoWithRoleState{}, false, nil, nil).
-				ResponseRef("204", "empty", nil, nil)
-		})).
 		Post("/admins/{id:digit}/locked", m.postAdminLocked, putAdmin, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin").
 				Desc(web.Phrase("lock the admin api"), nil).
@@ -226,6 +218,17 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				Desc(web.Phrase("delete the admin api"), nil).
 				ResponseRef("204", "empty", nil, nil)
 		}))
+
+	// passport
+	mod.Router().Prefix(m.URLPrefix(), m).
+		Delete("/passports/{type}", m.deletePassport).
+		Post("/passports/{type}", m.postPassport).
+		Patch("/passports/{type}", m.patchPassport).
+		Put("/passports/{type}", m.putPassport).
+		Delete("/admins/{id:digit}/passports/{type}", m.deleteAdminPassport).
+		Post("/admins/{id:digit}/passports/{type}", m.postAdminPassport).
+		Patch("/admins/{id:digit}/passports/{type}", m.patchAdminPassport).
+		Put("/admins/{id:digit}/passports/{type}", m.putAdminPassport)
 
 	// upload
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)

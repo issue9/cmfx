@@ -58,4 +58,7 @@ const (
 	ForbiddenCaNotDeleteYourself = "40302"
 )
 
+// 404
+const NotFound = web.ProblemNotFound
+
 func ErrNotFound() error { return locales.ErrNotFound() }
