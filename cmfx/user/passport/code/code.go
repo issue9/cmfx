@@ -83,6 +83,18 @@ func (e *code) Identity(uid int64) (string, error) {
 	return mod.Identity, nil
 }
 
+func (e *code) UID(identity string) (int64, error) {
+	mod := &modelCode{}
+	size, err := e.db.Where("identity=?", identity).Select(true, mod)
+	if err != nil {
+		return 0, err
+	}
+	if size == 0 {
+		return 0, passport.ErrIdentityNotExists()
+	}
+	return mod.UID, nil
+}
+
 func (e *code) Update(uid int64) error {
 	if uid == 0 {
 		return passport.ErrUIDMustBeGreatThanZero()

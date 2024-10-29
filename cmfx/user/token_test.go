@@ -30,8 +30,8 @@ func TestLoader_Login(t *testing.T) {
 
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "_code")
-	pc := code.New(u.Module(), time.Second, "_code", nil, code.NewEmptySender())
-	u.Passport().Register("code", pc, web.Phrase("code"))
+	pc := code.New(u.Module(), time.Second, "code", nil, code.NewEmptySender(), web.Phrase("code"))
+	u.Passport().Register(pc)
 	a.NotError(pc.Add(0, "new", "password", time.Now()))
 
 	s.Module().Router().Post("/login", func(ctx *web.Context) web.Responser {

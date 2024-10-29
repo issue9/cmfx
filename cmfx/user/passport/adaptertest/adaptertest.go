@@ -42,6 +42,15 @@ func RunBase(a *assert.Assertion, p passport.Adapter) {
 	identity, err = p.Identity(10240)
 	a.Equal(err, passport.ErrUIDNotExists()).Empty(identity)
 
+	// uid
+
+	uid, err = p.UID("1024")
+	a.NotError(err).Equal(uid, 1024)
+	uid, err = p.UID("10240")
+	a.Equal(err, passport.ErrIdentityNotExists()).Zero(identity)
+	uid, err = p.UID("2025")
+	a.NotError(err).Zero(identity)
+
 	// Delete
 
 	a.NotError(p.Delete(1024)).

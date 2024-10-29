@@ -75,6 +75,7 @@ func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
 			return passport.ErrIdentityExists()
 		}
 
+		// NOTE: 存在 uid == 0 的临时验证数据
 		_, err = p.db.Update(&modelPassword{
 			Updated:  now,
 			UID:      uid,
@@ -100,9 +101,7 @@ func (p *password) Delete(uid int64) error {
 	return err
 }
 
-func (p *password) Update(uid int64) error {
-	return nil
-}
+func (p *password) Update(uid int64) error { return nil }
 
 func (p *password) Valid(username, pass string, _ time.Time) (int64, string, error) {
 	mod := &modelPassword{Identity: username}
@@ -136,6 +135,19 @@ func (p *password) Identity(uid int64) (string, error) {
 	}
 
 	return mod.Identity, nil
+}
+
+func (p *password) UID(identity string) (int64, error) {
+	mod := &modelPassword{}
+	size, err := p.db.Where("identity=?", identity).Select(true, mod)
+	if err != nil {
+		return 0, err
+	}
+	if size == 0 {
+		return 0, passport.ErrIdentityNotExists()
+	}
+
+	return mod.UID, nil
 }
 
 func validIdentity(id string) bool {

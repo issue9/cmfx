@@ -68,31 +68,6 @@ func (p *Passport) Valid(id, identity, password string, now time.Time) (int64, s
 	return 0, "", false
 }
 
-// Set 验证并修改某个用户的验证信息
-//
-// vID 用于验证的适配器 ID；
-// vIdentty 用于验证的账号信息；
-// vPass 用于验证的密码；
-// sID 需要修改的适配器 ID；
-// sIdent 需要修改的账号；
-// sValue 需要修改的密码；
-func (p *Passport) Set(vID, vIdent, vPass string, now time.Time, sID, sIdent, sPass string) error {
-	uid, _, ok := p.Valid(vID, vIdent, vPass, now)
-	if !ok {
-		return ErrUnauthorized()
-	}
-
-	adp := p.Get(sID)
-	if adp == nil {
-		return ErrAdapterNotFound()
-	}
-
-	if err := adp.Delete(uid); err != nil {
-		return err
-	}
-	return adp.Add(uid, sIdent, sPass, now)
-}
-
 // All 返回所有的适配器对象
 func (p *Passport) All(printer *message.Printer) iter.Seq2[string, string] {
 	return func(yield func(string, string) bool) {

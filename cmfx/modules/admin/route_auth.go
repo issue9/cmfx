@@ -12,6 +12,7 @@ import (
 	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport"
@@ -60,38 +61,69 @@ func (m *Module) putToken(ctx *web.Context) web.Responser {
 }
 
 type respAdapters struct {
-	Name string `json:"name" cbor:"name" xml:"name"`
+	ID   string `json:"id" cbor:"id" xml:"id"`
 	Desc string `json:"desc" cbor:"desc" xml:"desc"`
 }
 
 // # api GET /passports 支持的登录验证方式
-// #tag admin auth
+// @tag admin auth
 // @resp 200 * respAdapters
 func (m *Module) getPassports(ctx *web.Context) web.Responser {
 	adapters := make([]*respAdapters, 0)
 	for k, v := range m.Passport().All(ctx.LocalePrinter()) {
 		adapters = append(adapters, &respAdapters{
-			Name: k,
+			ID:   k,
 			Desc: v,
 		})
 	}
-	slices.SortFunc(adapters, func(a, b *respAdapters) int { return cmp.Compare(a.Name, b.Name) })
+	slices.SortFunc(adapters, func(a, b *respAdapters) int { return cmp.Compare(a.ID, b.ID) })
 
 	return web.OK(adapters)
 }
 
+// # api POST /passports/{type}/code/{identity} 请求新的验证码
+// @tag admin auth
+// @path id id 管理员的 ID
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
+// @resp 201 * {}
+func (m *Module) postPassportCode(ctx *web.Context) web.Responser {
+	typ, resp := ctx.PathString("type", cmfx.BadRequestInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	a := m.Passport().Get(typ)
+	if a == nil {
+		return ctx.Problem(cmfx.NotFound)
+	}
+
+	identity, resp := ctx.PathString("identity", cmfx.BadRequestInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	uid, err := a.UID(identity)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	if err := a.Update(uid); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.Created(nil, "")
+}
+
 // # api delete /passports/{type} 取消当前用户与登录方式 type 之间的关联
-// #tag admin auth
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
+// @tag admin auth
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
 // @resp 204 * {}
 func (m *Module) deletePassport(ctx *web.Context) web.Responser {
 	return m.delAdminPassport(ctx, m.getPassport)
 }
 
 // # api delete /admins/{id}/passports/{type} 取消用户 id 与登录方式 type 之间的关联
-// #tag admin auth
+// @tag admin auth
 // @path id id 管理员的 ID
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
 // @resp 204 * {}
 func (m *Module) deleteAdminPassport(ctx *web.Context) web.Responser {
 	return m.delAdminPassport(ctx, m.getAdminPassport)
@@ -109,14 +141,42 @@ func (m *Module) delAdminPassport(ctx *web.Context, f func(ctx *web.Context) (u 
 	return web.NoContent()
 }
 
+// 验证用户当次请求的数据
+type reqValidation struct {
+	Type     string `json:"type" cbor:"type" xml:"type"`
+	Identity string `json:"identity" cbor:"identity" xml:"identity"`
+	Password string `json:"password" cbor:"password" xml:"password"`
+}
+
+func (v *reqValidation) Filter(c *web.FilterContext) {
+	c.Add(filters.NotEmpty("type", &v.Type)).
+		Add(filters.NotEmpty("identity", &v.Identity)).
+		Add(filters.NotEmpty("password", &v.Password))
+}
+
+func (v *reqValidation) valid(ctx *web.Context, u *user.User, p *passport.Passport) bool {
+	adp := p.Get(v.Type)
+	if adp == nil {
+		return false
+	}
+
+	uid, _, err := adp.Valid(v.Identity, v.Password, ctx.Begin())
+	return err == nil && uid == u.ID
+}
+
 type reqPassport struct {
-	ID   string `json:"id" cbor:"id" xml:"id"`
-	Code string `json:"code" cbor:"code" xml:"code"`
+	// 用于验证的数据
+	Validate *reqValidation `json:"validate" xml:"validate" cbor:"validate"`
+
+	// 被修改的数据
+
+	Identity string `json:"identity" cbor:"identity" xml:"identity"`
+	Code     string `json:"code" cbor:"code" xml:"code"`
 }
 
 // # api POST /passports/{type} 建立当前用户与登录方式 type 之间的关联
-// #tag admin auth
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
+// @tag admin auth
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
 // @req * reqPassport
 // @resp 201 * {}
 func (m *Module) postPassport(ctx *web.Context) web.Responser {
@@ -124,9 +184,9 @@ func (m *Module) postPassport(ctx *web.Context) web.Responser {
 }
 
 // # api POST /admins/{id}/passports/{type} 建立用户 id 与登录方式 type 之间的关联
-// #tag admin auth
+// @tag admin auth
 // @path id id 管理员的 ID
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
 // @req * reqPassport
 // @resp 201 * {}
 func (m *Module) postAdminPassport(ctx *web.Context) web.Responser {
@@ -144,90 +204,55 @@ func (m *Module) addAdminPassport(ctx *web.Context, f func(ctx *web.Context) (u 
 		return resp
 	}
 
-	if err := a.Add(u.ID, data.ID, data.Code, ctx.Begin()); err != nil {
+	if !data.Validate.valid(ctx, u, m.Passport()) {
+		return ctx.Problem(cmfx.Unauthorized)
+	}
+
+	if err := a.Add(u.ID, data.Identity, data.Code, ctx.Begin()); err != nil {
 		return ctx.Error(err, "")
 	}
 
 	return web.Created(nil, "")
 }
 
-type reqChangePassport struct {
-	New string `json:"new" cbor:"new" xml:"new"`
-	Old string `json:"old" cbor:"old" xml:"old"`
-}
-
 // # api patch /passports/{type} 修改当前用户的登录方式 type 的认证数据
-// #tag admin auth
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
-// @req * reqChangePassport
+// @tag admin auth
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
+// @req * reqPassport
 // @resp 204 * {}
 func (m *Module) patchPassport(ctx *web.Context) web.Responser {
 	return m.editAdminPassport(ctx, m.getPassport)
 }
 
 // # api patch /admins/{id}/passports/{type} 修改用户 id 的登录方式 type 的认证数据
-// #tag admin auth
+// @tag admin auth
 // @path id id 管理员的 ID
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
-// @req * reqChangePassport
+// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 id 值。
+// @req * reqPassport
 // @resp 204 * {}
 func (m *Module) patchAdminPassport(ctx *web.Context) web.Responser {
 	return m.editAdminPassport(ctx, m.getAdminPassport)
 }
 
 func (m *Module) editAdminPassport(ctx *web.Context, f func(ctx *web.Context) (u *user.User, a passport.Adapter, resp web.Responser)) web.Responser {
-	u, a, resp := f(ctx)
+	u, adp, resp := f(ctx)
 	if resp != nil {
 		return resp
 	}
 
-	data := &reqChangePassport{}
+	data := &reqPassport{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	if err := a.Change(u.ID, data.Old, data.New); err != nil {
+	if !data.Validate.valid(ctx, u, m.Passport()) {
+		return ctx.Problem(cmfx.Unauthorized)
+	}
+
+	if err := adp.Delete(u.ID); err != nil {
 		return ctx.Error(err, "")
 	}
-
-	return web.NoContent()
-}
-
-type reqSetPassport struct {
-	New string `json:"new" cbor:"new" xml:"new"`
-}
-
-// # api PUT /passports/{type} 替换当前用户登录方式 type 的认证数据
-// #tag admin auth
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
-// @req * reqSetPassport
-// @resp 204 * {}
-func (m *Module) putPassport(ctx *web.Context) web.Responser {
-	return m.setAdminPassport(ctx, m.getPassport)
-}
-
-// # api PUT /admins/{id}/passports/{type} 替换用户 id 的登录方式 type 的认证数据
-// #tag admin auth
-// @path id id 管理员的 ID
-// @path type string 登录的类型，该值必须是由 /passports 返回列表中的 name 值。
-// @req * reqSetPassport
-// @resp 204 * {}
-func (m *Module) putAdminPassport(ctx *web.Context) web.Responser {
-	return m.setAdminPassport(ctx, m.getAdminPassport)
-}
-
-func (m *Module) setAdminPassport(ctx *web.Context, f func(ctx *web.Context) (u *user.User, a passport.Adapter, resp web.Responser)) web.Responser {
-	u, a, resp := f(ctx)
-	if resp != nil {
-		return resp
-	}
-
-	data := &reqSetPassport{}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	if err := a.Set(u.ID, data.New); err != nil {
+	if err := adp.Add(u.ID, data.Identity, data.Code, ctx.Begin()); err != nil {
 		return ctx.Error(err, "")
 	}
 

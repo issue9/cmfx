@@ -36,6 +36,13 @@ type Adapter interface {
 	// 如果不存在，返回空值和 [ErrUIDNotExists]
 	Identity(int64) (string, error)
 
+	// UID 获取与 identity 关联的 uid
+	//
+	// 如果不存在，返回空值和 [ErrIdentityNotExists]
+	//
+	// 如果返回 0，且不带错误信息，可能是临时验证的数据。
+	UID(identity string) (int64, error)
+
 	// Delete 解绑用户
 	//
 	// 如果 uid 为零值，清空所有的临时验证数据。

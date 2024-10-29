@@ -17,7 +17,11 @@ func NilOr[T any](validator func(T) bool) filter.Builder[T] {
 }
 
 func Nil[T any]() filter.Builder[T] {
-	return filter.NewBuilder(v.V[T](v.Nil[T], locales.MustBeEmpty))
+	return filter.NewBuilder(v.V(v.Nil[T], locales.MustBeEmpty))
+}
+
+func NotNil[T any]() filter.Builder[T] {
+	return filter.NewBuilder(v.V(v.Not(v.Nil[T]), locales.Required))
 }
 
 // NotZero 非零值
@@ -26,7 +30,7 @@ func NotZero[T any]() filter.Builder[T] {
 }
 
 func Zero[T any]() filter.Builder[T] {
-	return filter.NewBuilder(v.V(v.Zero[T], locales.Required))
+	return filter.NewBuilder(v.V(v.Zero[T], locales.MustBeEmpty))
 }
 
 func Equal[T comparable](val T) filter.Builder[T] {

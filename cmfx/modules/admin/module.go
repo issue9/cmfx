@@ -17,7 +17,6 @@ import (
 	"github.com/issue9/webuse/v7/handlers/static"
 	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	xrbac "github.com/issue9/webuse/v7/middlewares/acl/rbac"
-	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/initial"
@@ -90,27 +89,11 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 20, time.Second, nil, nil)
 
 	mod.Router().Prefix(m.URLPrefix()).
-		Get("/passports", m.getPassports, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("get passports api"), nil).
-				Response("200", &respAdapters{}, nil, nil)
-		})).
-		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server()), mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("admin login api"), nil).
-				Body(&user.Account{}, false, nil, nil).
-				Response("201", &token.Response{}, nil, nil)
-		})).
-		Delete("/login", m.deleteLogin, m, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("admin logout api"), nil).
-				ResponseRef("204", "empty", nil, nil)
-		})).
-		Put("/login", m.putToken, m, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("admin refresh token api"), nil).
-				Response("201", &token.Response{}, nil, nil)
-		}))
+		Get("/passports", m.getPassports).
+		Post("/passports/{type}/code/{identity}", m.postPassportCode, loginRate, initial.Unlimit(mod.Server())).
+		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server())).
+		Delete("/login", m.deleteLogin, m).
+		Put("/login", m.putToken, m)
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/resources", m.getResources, mod.API(func(o *openapi.Operation) {
@@ -224,11 +207,9 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 		Delete("/passports/{type}", m.deletePassport).
 		Post("/passports/{type}", m.postPassport).
 		Patch("/passports/{type}", m.patchPassport).
-		Put("/passports/{type}", m.putPassport).
 		Delete("/admins/{id:digit}/passports/{type}", m.deleteAdminPassport).
 		Post("/admins/{id:digit}/passports/{type}", m.postAdminPassport).
-		Patch("/admins/{id:digit}/passports/{type}", m.patchAdminPassport).
-		Put("/admins/{id:digit}/passports/{type}", m.putAdminPassport)
+		Patch("/admins/{id:digit}/passports/{type}", m.patchAdminPassport)
 
 	// upload
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)

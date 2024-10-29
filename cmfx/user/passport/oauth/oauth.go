@@ -119,6 +119,18 @@ func (o *OAuth[T]) Identity(uid int64) (string, error) {
 	return mod.Identity, nil
 }
 
+func (o *OAuth[T]) UID(identity string) (int64, error) {
+	mod := &modelOAuth{Identity: identity}
+	found, err := o.db.Select(mod)
+	if err != nil {
+		return 0, err
+	}
+	if !found {
+		return 0, passport.ErrUIDNotExists()
+	}
+	return mod.UID, nil
+}
+
 func (o *OAuth[T]) Update(_ int64) error { return nil }
 
 func (o *OAuth[T]) Add(uid int64, identity, _ string, now time.Time) error {
