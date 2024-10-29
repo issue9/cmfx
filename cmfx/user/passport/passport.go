@@ -9,9 +9,9 @@ import (
 	"errors"
 	"fmt"
 	"iter"
+	"slices"
 	"time"
 
-	"github.com/issue9/web"
 	"golang.org/x/text/message"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -20,45 +20,31 @@ import (
 // Passport 验证器管理
 type Passport struct {
 	mod      *cmfx.Module
-	adapters map[string]*adapter
-}
-
-type adapter struct {
-	id      string
-	name    web.LocaleStringer
-	adapter Adapter
+	adapters []Adapter
 }
 
 // New 声明 [Passport] 对象
 func New(mod *cmfx.Module) *Passport {
 	return &Passport{
 		mod:      mod,
-		adapters: make(map[string]*adapter, 5),
+		adapters: make([]Adapter, 0, 5),
 	}
 }
 
 // Register 注册 [Adapter]
-//
-// id 为适配器的类型名称，需要唯一；
-// name 为该适配器的本地化名称；
-func (p *Passport) Register(id string, auth Adapter, name web.LocaleStringer) {
-	if _, found := p.adapters[id]; found {
-		panic(fmt.Sprintf("已经存在同名 %s 的验证器", id))
+func (p *Passport) Register(adp Adapter) {
+	if slices.IndexFunc(p.adapters, func(a Adapter) bool { return a.ID() == adp.ID() }) >= 0 {
+		panic(fmt.Sprintf("已经存在同名 %s 的验证器", adp.ID()))
 	}
-
-	p.adapters[id] = &adapter{
-		id:      id,
-		name:    name,
-		adapter: auth,
-	}
+	p.adapters = append(p.adapters, adp)
 }
 
 // Get 返回注册的适配器
 //
 // 如果找不到，则返回 nil。
 func (p *Passport) Get(id string) Adapter {
-	if info, found := p.adapters[id]; found {
-		return info.adapter
+	if index := slices.IndexFunc(p.adapters, func(a Adapter) bool { return a.ID() == id }); index >= 0 {
+		return p.adapters[index]
 	}
 	return nil
 }
@@ -67,8 +53,8 @@ func (p *Passport) Get(id string) Adapter {
 //
 // id 表示通过 [Passport.Register] 注册适配器时的 id；
 func (p *Passport) Valid(id, identity, password string, now time.Time) (int64, string, bool) {
-	if info, found := p.adapters[id]; found {
-		uid, ident, err := info.adapter.Valid(identity, password, now)
+	if a := p.Get(id); a != nil {
+		uid, ident, err := a.Valid(identity, password, now)
 		switch {
 		case errors.Is(err, ErrUnauthorized()):
 			return 0, "", false
@@ -82,11 +68,36 @@ func (p *Passport) Valid(id, identity, password string, now time.Time) (int64, s
 	return 0, "", false
 }
 
+// Set 验证并修改某个用户的验证信息
+//
+// vID 用于验证的适配器 ID；
+// vIdentty 用于验证的账号信息；
+// vPass 用于验证的密码；
+// sID 需要修改的适配器 ID；
+// sIdent 需要修改的账号；
+// sValue 需要修改的密码；
+func (p *Passport) Set(vID, vIdent, vPass string, now time.Time, sID, sIdent, sPass string) error {
+	uid, _, ok := p.Valid(vID, vIdent, vPass, now)
+	if !ok {
+		return ErrUnauthorized()
+	}
+
+	adp := p.Get(sID)
+	if adp == nil {
+		return ErrAdapterNotFound()
+	}
+
+	if err := adp.Delete(uid); err != nil {
+		return err
+	}
+	return adp.Add(uid, sIdent, sPass, now)
+}
+
 // All 返回所有的适配器对象
 func (p *Passport) All(printer *message.Printer) iter.Seq2[string, string] {
 	return func(yield func(string, string) bool) {
-		for _, i := range p.adapters {
-			if !yield(i.id, i.name.LocaleString(printer)) {
+		for _, a := range p.adapters {
+			if !yield(a.ID(), a.Description().LocaleString(printer)) {
 				break
 			}
 		}
@@ -99,8 +110,8 @@ func (p *Passport) All(printer *message.Printer) iter.Seq2[string, string] {
 func (p *Passport) Identities(uid int64) iter.Seq2[string, string] {
 	return func(yield func(string, string) bool) {
 		for _, info := range p.adapters {
-			if identity, err := info.adapter.Identity(uid); err == nil {
-				if !yield(info.id, identity) {
+			if identity, err := info.Identity(uid); err == nil {
+				if !yield(info.ID(), identity) {
 					break
 				}
 			} else {
@@ -113,7 +124,7 @@ func (p *Passport) Identities(uid int64) iter.Seq2[string, string] {
 // ClearUser 清空与 uid 相关的所有登录信息
 func (p *Passport) ClearUser(uid int64) error {
 	for _, info := range p.adapters {
-		if err := info.adapter.Delete(uid); err != nil {
+		if err := info.Delete(uid); err != nil {
 			return err
 		}
 	}

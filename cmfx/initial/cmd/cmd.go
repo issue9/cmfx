@@ -87,8 +87,8 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
 		smtpAuth := smtp.PlainAuth("id", "username", "password", "smtp@example.com")
-		smtpAdpater := code.New(adminL.Module(), 5*time.Minute, "smtp", code.NewSMTPSender("code", "smtp@example.com", "server@example.com", "%%code%%", smtpAuth))
-		adminL.Passport().Register("smtp", smtpAdpater, web.Phrase("smtp valid"))
+		smtpAdpater := code.New(adminL.Module(), 5*time.Minute, "smtp", nil, code.NewSMTPSender("code", "smtp@example.com", "server@example.com", "%%code%%", smtpAuth), web.Phrase("smtp valid"))
+		adminL.Passport().Register(smtpAdpater)
 
 		system.Load(systemMod, user.System, adminL)
 	case "install":

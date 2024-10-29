@@ -16,7 +16,6 @@ package oauth
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/issue9/orm/v6"
@@ -24,7 +23,6 @@ import (
 	"golang.org/x/oauth2"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user/passport"
 )
 
@@ -45,6 +43,8 @@ type OAuth[T UserInfo] struct {
 	state  string
 	config *oauth2.Config
 	f      GetUserInfoFunc[T]
+	id     string
+	desc   web.LocaleStringer
 }
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
@@ -52,14 +52,22 @@ func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
 }
 
 // New 声明 [OAuth] 对象
-func New[T UserInfo](mod *cmfx.Module, tableName string, c *oauth2.Config, g GetUserInfoFunc[T]) *OAuth[T] {
+//
+// id 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符；
+func New[T UserInfo](mod *cmfx.Module, id string, c *oauth2.Config, g GetUserInfoFunc[T], desc web.LocaleStringer) *OAuth[T] {
 	return &OAuth[T]{
-		db:     buildDB(mod, tableName),
+		db:     buildDB(mod, id),
 		state:  mod.Server().UniqueID(),
 		config: c,
 		f:      g,
+		id:     id,
+		desc:   desc,
 	}
 }
+
+func (o *OAuth[T]) Description() web.LocaleStringer { return o.desc }
+
+func (o *OAuth[T]) ID() string { return o.id }
 
 // AuthURL 返回验证地址
 func (o *OAuth[T]) AuthURL() string { return o.config.AuthCodeURL(o.state) }
@@ -95,7 +103,7 @@ func (o *OAuth[T]) Valid(state, code string, _ time.Time) (int64, string, error)
 }
 
 func (o *OAuth[T]) Delete(uid int64) error {
-	_, err := o.db.Delete(&modelOAuth{UID: uid})
+	_, err := o.db.Where("uid=?", uid).Delete(&modelOAuth{}) // uid == 0 也是有效的值
 	return err
 }
 
@@ -111,15 +119,9 @@ func (o *OAuth[T]) Identity(uid int64) (string, error) {
 	return mod.Identity, nil
 }
 
-func (o *OAuth[T]) Change(_ int64, _, _ string) error { return errors.ErrUnsupported }
-
-func (o *OAuth[T]) Set(_ int64, _ string) error { return errors.ErrUnsupported }
+func (o *OAuth[T]) Update(_ int64) error { return nil }
 
 func (o *OAuth[T]) Add(uid int64, identity, _ string, now time.Time) error {
-	if uid == 0 {
-		return locales.ErrMustBeGreaterThan(0)
-	}
-
 	_, err := o.db.Insert(&modelOAuth{
 		Created:  now,
 		UID:      uid,

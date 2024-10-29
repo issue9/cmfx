@@ -12,6 +12,7 @@ require (
 	github.com/issue9/logs/v7 v7.6.4
 	github.com/issue9/mux/v9 v9.1.0
 	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20241018060335-bdbc5e5a6236
+	github.com/issue9/rands/v3 v3.0.1
 	github.com/issue9/scheduled v0.21.3
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
@@ -40,7 +41,6 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/issue9/localeutil v0.29.0 // indirect
 	github.com/issue9/query/v3 v3.1.3 // indirect
-	github.com/issue9/rands/v3 v3.0.1 // indirect
 	github.com/issue9/source v0.11.6 // indirect
 	github.com/issue9/term/v3 v3.3.2 // indirect
 	github.com/issue9/unique/v2 v2.1.0 // indirect

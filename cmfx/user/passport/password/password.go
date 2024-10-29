@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/web"
 	"golang.org/x/crypto/bcrypt"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -19,6 +20,8 @@ import (
 type password struct {
 	db   *orm.DB
 	cost int
+	id   string
+	desc web.LocaleStringer
 }
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
@@ -27,15 +30,20 @@ func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
 
 // New 声明基于密码的验证方法
 //
+// id 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符；
 // cost 的值需介于 [bcrypt.MinCost,bcrypt.MaxCost] 之间，如果超出范围则会被设置为 [bcrypt.DefaultCost]。
-// 在同一个模块下需要用到多个密码验证的实例时，tableName 用于区别不同。
-func New(mod *cmfx.Module, tableName string, cost int) passport.Adapter {
+// 在同一个模块下需要用到多个密码验证的实例时，tableName 用于区别不同；
+func New(mod *cmfx.Module, id string, cost int, desc web.LocaleStringer) passport.Adapter {
 	if cost < bcrypt.MinCost || cost > bcrypt.MaxCost {
 		cost = bcrypt.DefaultCost
 	}
-	db := buildDB(mod, tableName)
-	return &password{db: db, cost: cost}
+	db := buildDB(mod, id)
+	return &password{db: db, cost: cost, id: id, desc: desc}
 }
+
+func (p *password) ID() string { return p.id }
+
+func (p *password) Description() web.LocaleStringer { return p.desc }
 
 // Add 添加账号
 func (p *password) Add(uid int64, identity, pass string, now time.Time) error {
@@ -92,55 +100,8 @@ func (p *password) Delete(uid int64) error {
 	return err
 }
 
-// Set 强制修改密码
-func (p *password) Set(uid int64, pass string) error {
-	if uid == 0 {
-		return passport.ErrUIDMustBeGreatThanZero()
-	}
-
-	mod := &modelPassword{}
-	size, err := p.db.Where("uid=?", uid).Select(true, mod)
-	if err != nil {
-		return err
-	}
-	if size == 0 {
-		return passport.ErrUIDNotExists()
-	}
-	return p.set(mod.Identity, pass)
-}
-
-func (p *password) set(identity, pass string) error {
-	pa, err := bcrypt.GenerateFromPassword([]byte(pass), p.cost)
-	if err == nil {
-		_, err = p.db.Update(&modelPassword{Identity: identity, Password: pa})
-	}
-	return err
-}
-
-// Change 验证并修改
-func (p *password) Change(uid int64, old, pass string) error {
-	if uid == 0 {
-		return passport.ErrUIDMustBeGreatThanZero()
-	}
-
-	mod := &modelPassword{UID: uid}
-	size, err := p.db.Where("uid=?", uid).Select(true, mod)
-	if err != nil {
-		return err
-	}
-	if size == 0 {
-		return passport.ErrUIDNotExists()
-	}
-
-	err = bcrypt.CompareHashAndPassword(mod.Password, []byte(old))
-	switch {
-	case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
-		return passport.ErrUnauthorized()
-	case err != nil:
-		return err
-	default:
-		return p.set(mod.Identity, pass)
-	}
+func (p *password) Update(uid int64) error {
+	return nil
 }
 
 func (p *password) Valid(username, pass string, _ time.Time) (int64, string, error) {

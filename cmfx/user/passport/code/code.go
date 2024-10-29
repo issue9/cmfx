@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
@@ -18,6 +19,9 @@ type code struct {
 	db      *orm.DB
 	sender  Sender
 	expired time.Duration
+	gen     Generator
+	id      string
+	desc    web.LocaleStringer
 }
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
@@ -26,18 +30,30 @@ func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
 
 // New 声明基于验证码的验证方法
 //
+// id 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符；
 // expired 表示验证码的过期时间；
 // tableName 用于指定验证码的表名，需要在同一个 mod 环境下是唯一的；
-func New(mod *cmfx.Module, expired time.Duration, tableName string, sender Sender) passport.Adapter {
+func New(mod *cmfx.Module, expired time.Duration, id string, gen Generator, sender Sender, desc web.LocaleStringer) passport.Adapter {
+	if gen == nil {
+		gen = NumberGenerator(mod.Server(), id)
+	}
+
 	return &code{
-		db:      buildDB(mod, tableName),
+		db:      buildDB(mod, id),
 		sender:  sender,
 		expired: expired,
+		gen:     gen,
+		id:      id,
+		desc:    desc,
 	}
 }
 
+func (e *code) ID() string { return e.id }
+
+func (e *code) Description() web.LocaleStringer { return e.desc }
+
 func (e *code) Delete(uid int64) error {
-	_, err := e.db.Where("uid=?", uid).Delete(&modelCode{})
+	_, err := e.db.Where("uid=?", uid).Delete(&modelCode{}) // uid == 0 也是有效值
 	return err
 }
 
@@ -67,7 +83,7 @@ func (e *code) Identity(uid int64) (string, error) {
 	return mod.Identity, nil
 }
 
-func (e *code) Change(uid int64, pass, code string) error {
+func (e *code) Update(uid int64) error {
 	if uid == 0 {
 		return passport.ErrUIDMustBeGreatThanZero()
 	}
@@ -76,31 +92,13 @@ func (e *code) Change(uid int64, pass, code string) error {
 	if m == nil {
 		return passport.ErrUIDNotExists()
 	}
-	if m.Verified.Valid || m.Expired.Before(time.Now()) || m.Code != pass {
-		return passport.ErrUnauthorized()
-	}
 
-	return e.set(m.Identity, code)
-}
+	code := e.gen()
 
-func (e *code) Set(uid int64, code string) error {
-	if uid == 0 {
-		return passport.ErrUIDMustBeGreatThanZero()
-	}
-
-	m := e.getModel(uid)
-	if m == nil {
-		return passport.ErrUIDNotExists()
-	}
-	return e.set(m.Identity, code)
-}
-
-func (e *code) set(identity, code string) error {
-	if _, err := e.db.Update(&modelCode{Identity: identity, Code: code}, "code"); err != nil {
+	if _, err := e.db.Update(&modelCode{Identity: m.Identity, Code: code}, "code"); err != nil {
 		return err
 	}
-
-	return e.sender.Sent(identity, code)
+	return e.sender.Sent(m.Identity, code)
 }
 
 // Add 注册新用户

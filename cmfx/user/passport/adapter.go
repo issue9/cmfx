@@ -4,10 +4,20 @@
 
 package passport
 
-import "time"
+import (
+	"time"
 
-// Adapter 身份验证适配器
+	"github.com/issue9/web"
+)
+
+// Adapter 身份验证的适配器
 type Adapter interface {
+	// ID 该适配器对象的唯一标记
+	ID() string
+
+	// Description 对当前实例的描述信息
+	Description() web.LocaleStringer
+
 	// Valid 验证账号
 	//
 	// username, password 向验证器提供的登录凭证，不同的实现对此两者的定义可能是不同的，
@@ -31,18 +41,11 @@ type Adapter interface {
 	// 如果 uid 为零值，清空所有的临时验证数据。
 	Delete(uid int64) error
 
-	// Change 改变用户的认证数据
+	// Update 更新用户的验证数据
 	//
-	// uid 为需要操作的用户，不能为零；
-	// pass 一般为旧的认证代码，比如密码、验证码等；
-	// n 为新的认证数据，由用户自定义，一般为新密码或是新的设备 ID 等；
-	Change(uid int64, pass, n string) error
-
-	// Set 强制修改用户 uid 的认证数据
-	//
-	// uid 为需要操作的用户，不能为零；
-	// n 为新的认证数据，由用户自定义，一般为新密码或是新的设备 ID 等；
-	Set(uid int64, n string) error
+	// 部分实现可能不会实现该方法，比如基于固定时间算法的验证(TOTP)，
+	// 或是以密码形式进行验证的接口。
+	Update(uid int64) error
 
 	// Add 关联用户数据
 	//

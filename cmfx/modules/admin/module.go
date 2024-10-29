@@ -28,7 +28,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-const passportTypePassword = "password" // 采用密码登录的
+const passportTypePassword = "passwords" // 采用密码登录的
 
 type Module struct {
 	user            *user.Module
@@ -52,7 +52,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	u := user.Load(mod, o.User)
 
-	u.Passport().Register(passportTypePassword, password.New(mod, "passwords", 8), web.StringPhrase("password mode"))
+	u.Passport().Register(password.New(mod, passportTypePassword, 8, web.StringPhrase("password mode")))
 	m := &Module{
 		user:            u,
 		defaultPassword: o.DefaultPassword,

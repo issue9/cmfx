@@ -265,13 +265,7 @@ messages:
         msg: 登录验证器的 ID
     - key: password mode
       message:
-        msg: 密码模式
-    - key: patch admin info api
-      message:
-        msg: 更新管理员信息
-    - key: patch login user info api
-      message:
-        msg: 更新当前登录用户的信息
+        msg: 密码登录
     - key: post admins
       message:
         msg: 添加管理员

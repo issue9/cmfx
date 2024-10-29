@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/issue9/assert/v4"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/user/passport"
@@ -24,7 +25,11 @@ func TestCode(t *testing.T) {
 	mod := suite.NewModule("test")
 	Install(mod, "codes")
 
-	p := New(mod, 5*time.Minute, "codes", &sender{})
+	p := New(mod, 5*time.Minute, "codes", nil, &sender{}, web.Phrase("desc"))
 	a.NotNil(p)
-	adaptertest.Run(a, p)
+	adaptertest.RunBase(a, p)
+
+	p = New(mod, 5*time.Minute, "codes", nil, &sender{}, web.Phrase("desc"))
+	a.NotError(p.Add(1024, "1024", "1024", time.Now()))
+	adaptertest.RunUpdate(a, p)
 }

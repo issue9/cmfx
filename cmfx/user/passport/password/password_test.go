@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/issue9/assert/v4"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/user/passport"
@@ -24,10 +25,10 @@ func TestPassword(t *testing.T) {
 	mod := suite.NewModule("test")
 	Install(mod, "p")
 
-	p := New(mod, "p", 11)
+	p := New(mod, "p", 11, web.Phrase("desc"))
 	a.NotNil(p)
 
-	adaptertest.Run(a, p)
+	adaptertest.RunBase(a, p)
 }
 
 func TestValidIdentity(t *testing.T) {
@@ -37,7 +38,7 @@ func TestValidIdentity(t *testing.T) {
 	mod := suite.NewModule("test")
 	Install(mod, "p")
 
-	p := New(mod, "p", 11)
+	p := New(mod, "p", 11, web.Phrase("desc"))
 	a.NotNil(p)
 
 	a.ErrorIs(p.Add(1024, "", "1024", time.Now()), passport.ErrInvalidIdentity())

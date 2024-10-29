@@ -13,6 +13,7 @@ var (
 	errUIDNotExists      = web.NewLocaleError("uid not exists")
 	errUnauthorized      = web.NewLocaleError("unauthorized")
 	errInvalidIdentity   = web.NewLocaleError("invalid identity format")
+	errAdapterNotFound   = web.NewLocaleError("passport adapter not found")
 )
 
 func ErrUIDMustBeGreatThanZero() error { return web.NewLocaleError("uid must be great than 0") }
@@ -29,3 +30,5 @@ func ErrUIDNotExists() error { return errUIDNotExists }
 func ErrInvalidIdentity() error { return errInvalidIdentity }
 
 func ErrUnauthorized() error { return errUnauthorized }
+
+func ErrAdapterNotFound() error { return errAdapterNotFound }

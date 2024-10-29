@@ -13,8 +13,8 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/passport"
 )
 
-// Run 测试 p 的基本功能
-func Run(a *assert.Assertion, p passport.Adapter) {
+// RunBase 测试 p 的基本功能
+func RunBase(a *assert.Assertion, p passport.Adapter) {
 	// Add
 
 	a.NotError(p.Add(1024, "1024", "1024", time.Now()))
@@ -35,14 +35,6 @@ func Run(a *assert.Assertion, p passport.Adapter) {
 	uid, identity, err = p.Valid("not-exists", "pass", time.Now()) // 不存在
 	a.Equal(err, passport.ErrUnauthorized()).Equal(identity, "").Equal(uid, 0)
 
-	// Change
-
-	a.ErrorIs(p.Change(1025, "1024", "1024"), passport.ErrUIDNotExists())
-	a.ErrorIs(p.Change(1024, "1025", "1024"), passport.ErrUnauthorized())
-	a.NotError(p.Change(1024, "1024", "1025"))
-	uid, identity, err = p.Valid("1024", "1025", time.Now())
-	a.NotError(err).Equal(identity, "1024").Equal(uid, 1024)
-
 	// Identity
 
 	identity, err = p.Identity(1024)
@@ -58,4 +50,9 @@ func Run(a *assert.Assertion, p passport.Adapter) {
 	a.Equal(err, passport.ErrUnauthorized()).Equal(identity, "").Zero(uid) // 已删
 	identity, err = p.Identity(1024)
 	a.Equal(err, passport.ErrUIDNotExists()).Empty(identity)
+}
+
+func RunUpdate(a *assert.Assertion, p passport.Adapter) {
+	a.ErrorIs(p.Update(1025), passport.ErrUIDNotExists())
+	a.NotError(p.Update(1024))
 }
