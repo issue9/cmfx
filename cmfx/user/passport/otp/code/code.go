@@ -35,7 +35,7 @@ func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
 // tableName 用于指定验证码的表名，需要在同一个 mod 环境下是唯一的；
 func New(mod *cmfx.Module, expired time.Duration, id string, gen Generator, sender Sender, desc web.LocaleStringer) passport.Adapter {
 	if gen == nil {
-		gen = NumberGenerator(mod.Server(), id)
+		gen = NumberGenerator(mod.Server(), id, 4)
 	}
 
 	return &code{

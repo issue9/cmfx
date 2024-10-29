@@ -20,7 +20,7 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
-	"github.com/issue9/cmfx/cmfx/user/passport/code"
+	"github.com/issue9/cmfx/cmfx/user/passport/otp/code"
 )
 
 func TestLoader_Login(t *testing.T) {

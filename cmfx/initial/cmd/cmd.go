@@ -26,7 +26,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
-	"github.com/issue9/cmfx/cmfx/user/passport/code"
+	"github.com/issue9/cmfx/cmfx/user/passport/otp/code"
 )
 
 func Exec(name, version string) error {
