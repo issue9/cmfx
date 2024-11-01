@@ -54,14 +54,13 @@ export class Theme {
 
             // 当屏幕从大到小变化，比如从 sm 向 xs 变化，会触发 sm 事件，且其 matches 为 false，
             // 但是不会触发 xs，因为 sm 本身也是符合 xs 的条件。
-            const event = (ev: {matches: boolean}) => {
+            const event = (ev: MediaQueryListEvent) => {
                 if (ev.matches) {
                     Theme.#breakpointChange(key);
                 } else if (key != 'xs') {
                     Theme.#breakpointChange(breakpointsOrder[breakpointsOrder.indexOf(key) - 1]);
                 }
             };
-            event(mql); // 先运行一次，获取初始的 #current。
 
             mql.addEventListener('change', event);
         });
