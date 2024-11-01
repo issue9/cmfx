@@ -16,7 +16,7 @@ export type Props = {
 
 const presetProps: Readonly<Partial<Props>> = {
     role: 'img',
-}
+};
 
 export default function(props: Props) {
     const [, spanProps] = splitProps(mergeProps(presetProps, props), ['icon']);

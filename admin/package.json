@@ -101,7 +101,7 @@
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
-        "@types/node": "^22.8.4",
+        "@types/node": "^22.8.6",
         "@vitest/coverage-v8": "^2.1.4",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.6",

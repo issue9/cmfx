@@ -36,7 +36,7 @@ export function Private(props: Props) {
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={floating()} palette='secondary'
+            <Drawer floating={floating()} palette='secondary' mainID='main-content'
                 close={()=>props.menuVisibleSetter(false)}
                 visible={props.menuVisibleGetter()}
                 main={

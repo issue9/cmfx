@@ -6,6 +6,12 @@
 
 @layer components {
     .c--page {
-        @apply p-4 pt-6 flex flex-col gap-4 mx-auto;
+        @apply p-4 pt-6 flex flex-col gap-4 mx-auto w-full;
+
+        .backtop {
+            @apply hover:opacity-100 opacity-40 fixed right-4 bottom-4;
+            @apply transition-opacity duration-preset;
+            @apply print:hidden;
+        }
     }
 }

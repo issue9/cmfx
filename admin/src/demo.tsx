@@ -19,6 +19,7 @@ export const routes: Options['routes']['private']['routes'] = [
     { path: '/table', component: lazy(() => import('@/components/table/demo')) },
     { path: '/spin', component: lazy(() => import('@/components/spin/demo')) },
     { path: '/chart', component: lazy(() => import('@/components/chart/demo')) },
+    { path: '/page', component: lazy(() => import('@/components/page/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },

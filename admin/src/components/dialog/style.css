@@ -20,4 +20,8 @@
             @apply flex justify-end p-2 gap-2;
         }
     }
+
+    .c--dialog::backdrop {
+        backdrop-filter: blur(2px);
+    }
 }
