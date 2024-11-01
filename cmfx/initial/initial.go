@@ -61,6 +61,7 @@ func problems(s web.Server) {
 		&web.LocaleProblem{ID: cmfx.BadRequestInvalidBody, Title: web.StringPhrase("bad request invalid body"), Detail: web.StringPhrase("bad request invalid body detail")},
 		&web.LocaleProblem{ID: cmfx.BadRequestBodyTooLarger, Title: web.StringPhrase("bad request body too Larger"), Detail: web.StringPhrase("bad request body too Larger detail")},
 		&web.LocaleProblem{ID: cmfx.BadRequestBodyNotAllowed, Title: web.StringPhrase("bad request body not allowed"), Detail: web.StringPhrase("bad request body not allowed detail")},
+		&web.LocaleProblem{ID: cmfx.BadRequestLastPassport, Title: web.StringPhrase("bad request last passport"), Detail: web.StringPhrase("bad request last passport detail")},
 	).Add(http.StatusUnauthorized,
 		&web.LocaleProblem{ID: cmfx.UnauthorizedInvalidState, Title: web.StringPhrase("unauthorized invalid state"), Detail: web.StringPhrase("unauthorized invalid state detail")},
 		&web.LocaleProblem{ID: cmfx.UnauthorizedInvalidToken, Title: web.StringPhrase("unauthorized invalid token"), Detail: web.StringPhrase("unauthorized invalid token detail")},

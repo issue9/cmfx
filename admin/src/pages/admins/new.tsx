@@ -4,22 +4,17 @@
 
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
-import { unwrap } from 'solid-js/store';
 
 import { useApp } from '@/app';
 import { Button, Form, FormAccessor, Page, Password, TextField } from '@/components';
 import { roles } from '@/pages/roles';
-import { SexSelector } from './selector';
-import { Admin, Sex, zeroAdmin } from './types';
+import { Sex, SexSelector } from './selector';
 
 export default function(): JSX.Element {
     const ctx = useApp();
     const nav = useNavigate();
 
     const form = new FormAccessor<Admin>(zeroAdmin(), ctx, async (obj) => {
-        const o = unwrap(obj);
-        delete o.id;
-        delete o.created;
         return await ctx.api.post('/admins', obj);
     }, () => {
         ctx.notify(ctx.locale().t('_i.page.admin.addSuccessful'), undefined, 'success');
@@ -40,4 +35,24 @@ export default function(): JSX.Element {
             </div>
         </Form>
     </Page>;
+}
+
+interface Admin {
+    sex: Sex;
+    name: string;
+    nickname: string;
+    roles: Array<string>;
+    username: string;
+    password: string;
+}
+
+export function zeroAdmin(): Admin {
+    return {
+        sex: 'unknown',
+        name: '',
+        nickname: '',
+        roles: [],
+        username: '',
+        password: '',
+    };
 }

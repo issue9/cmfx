@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package hotp
+package totp
 
 import "time"
 

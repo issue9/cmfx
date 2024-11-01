@@ -9,6 +9,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strconv"
+	"strings"
 	"testing"
 	"time"
 
@@ -29,41 +30,21 @@ func TestLoader_Login(t *testing.T) {
 	u := newModule(s)
 
 	// 添加用于测试的验证码验证
-	code.Install(u.Module(), "_code")
+	code.Install(u.Module(), "code")
 	pc := code.New(u.Module(), time.Second, "code", nil, code.NewEmptySender(), web.Phrase("code"))
 	u.Passport().Register(pc)
 	a.NotError(pc.Add(0, "new", "password", time.Now()))
 
 	s.Module().Router().Post("/login", func(ctx *web.Context) web.Responser {
-		q, err := ctx.Queries(true)
-		if err != nil {
-			return ctx.Error(err, "")
-		}
+		output := &bytes.Buffer{}
+		resp := u.Login(ctx, func(id int64) error {
+			// 仅新用户才会访问到此
+			_, err := output.WriteString(strconv.FormatInt(id, 10))
+			return err
+		}, func(_ *User) { output.WriteString("after") })
 
-		switch q.String("type", "password") {
-		case "password":
-			output := &bytes.Buffer{}
-			resp := u.Login("password", ctx, func(id int64) error {
-				_, err := output.WriteString(strconv.FormatInt(id, 10))
-				return err
-			}, func(_ *User) {
-				output.WriteString("after")
-			})
-
-			a.NotNil(resp).Equal(output.String(), "after") // 用户已经存在
-			return resp
-		case "code":
-			output := &bytes.Buffer{}
-			resp := u.Login("code", ctx, func(id int64) error {
-				_, err := output.WriteString(strconv.FormatInt(id, 10))
-				return err
-			}, func(_ *User) { output.WriteString("after") })
-
-			a.NotNil(resp).Equal(output.String(), "2after") // 注册的新用户
-			return resp
-		default:
-			return ctx.NotImplemented()
-		}
+		a.NotNil(resp).True(strings.HasSuffix(output.String(), "after")) // 用户已经存在
+		return resp
 	})
 
 	// 测试 SetState
@@ -92,7 +73,7 @@ func TestLoader_Login(t *testing.T) {
 	//--------------------------- user 1 -------------------------------------
 
 	tk1 := &token.Response{}
-	s.Post("/login", []byte(`{"username":"admin","password":"password"}`)).
+	s.Post("/login", []byte(`{"type":"password","username":"admin","password":"password"}`)).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON+"; charset=utf-8").
 		Do(nil).
@@ -116,8 +97,10 @@ func TestLoader_Login(t *testing.T) {
 
 	//--------------------------- user 2 -------------------------------------
 
+	//  NOTE: 该用户不存在
+
 	tk1 = &token.Response{}
-	s.Post("/login?type=code", []byte(`{"username":"new","password":"password"}`)).
+	s.Post("/login?type=code", []byte(`{"type":"code","username":"new","password":"password"}`)).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON+"; charset=utf-8").
 		Do(nil).

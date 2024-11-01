@@ -4,9 +4,25 @@
 
 import { JSX } from 'solid-js';
 
-import { useApp } from '@/app';
+import { useApp, User } from '@/app';
 import { buildEnumsOptions, Choice, ChoiceProps } from '@/components';
-import { Sex, sexesMap, State, statesMap } from './types';
+import { MessagesKey } from '@/messages';
+
+export type Sex = User['sex'];
+
+export type State = User['state'];
+
+export const sexesMap: Array<[Sex, MessagesKey]> = [
+    ['male', '_i.page.sexes.male'],
+    ['female', '_i.page.sexes.female'],
+    ['unknown', '_i.page.sexes.unknown'],
+] as const;
+
+export const statesMap: Array<[State, MessagesKey]> = [
+    ['normal', '_i.page.states.normal'],
+    ['locked', '_i.page.states.locked'],
+    ['deleted', '_i.page.states.deleted'],
+];
 
 export type SexSelectorProps<M extends boolean> = Omit<ChoiceProps<Sex, M>,'options'>;
 

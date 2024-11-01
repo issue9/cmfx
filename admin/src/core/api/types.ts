@@ -72,6 +72,7 @@ export type Return<R, PE> = {
  * 登录接口的需要用户提供的对象
  */
 export interface Account {
+    type: string;
     username: string;
     password: string;
 }

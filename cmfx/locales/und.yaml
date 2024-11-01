@@ -70,6 +70,12 @@ messages:
     - key: bad request invalid query detail
       message:
         msg: bad request invalid query detail
+    - key: bad request last passport
+      message:
+        msg: bad request last passport
+    - key: bad request last passport detail
+      message:
+        msg: bad request last passport detail
     - key: can not do it for super
       message:
         msg: can not do it for super
@@ -79,12 +85,6 @@ messages:
     - key: censor setting
       message:
         msg: censor setting
-    - key: change password
-      message:
-        msg: change password
-    - key: created time
-      message:
-        msg: created time
     - key: del backup database file
       message:
         msg: del backup database file
@@ -130,12 +130,9 @@ messages:
     - key: general setting
       message:
         msg: general setting
-    - key: get admin info api
+    - key: generator code for %s
       message:
-        msg: get admin info api
-    - key: get admin list api
-      message:
-        msg: get admin list api
+        msg: generator code for %s
     - key: get admins
       message:
         msg: get admins
@@ -247,12 +244,9 @@ messages:
     - key: only for super detail
       message:
         msg: only for super detail
-    - key: passport adapter description
+    - key: passport adapter not found
       message:
-        msg: passport adapter description
-    - key: passport adapter id
-      message:
-        msg: passport adapter id
+        msg: passport adapter not found
     - key: password mode
       message:
         msg: password mode
@@ -298,15 +292,9 @@ messages:
     - key: roles not exists
       message:
         msg: roles not exists
-    - key: same of new and old password
+    - key: smtp valid
       message:
-        msg: same of new and old password
-    - key: sex
-      message:
-        msg: sex
-    - key: state
-      message:
-        msg: state
+        msg: smtp valid
     - key: strength invalid
       message:
         msg: strength invalid

@@ -28,11 +28,11 @@ type adminInfoVO struct {
 	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports"`
 }
 
-type respPassportIdentity struct {
-	Name     string `json:"name" xml:"name" cbor:"name"`
-	Identity string `json:"identity" xml:"identity" cbor:"identity"`
-}
-
+// # API GET /admins/{id} 获取指定的管理员账号
+//
+// @tag admin
+// @path id int 管理的 ID
+// @resp 200 * respAdminInfo
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -61,11 +61,11 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	ps := make([]*respPassportIdentity, 0)
 	for k, v := range m.Passport().Identities(id) {
 		ps = append(ps, &respPassportIdentity{
-			Name:     k,
-			Identity: v,
+			ID:       k,
+			Username: v,
 		})
 	}
-	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.Name, b.Name) }) // 排序，尽量使输出的内容相同
+	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&adminInfoVO{
 		ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -148,7 +148,7 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
-	u, resp := m.getActiveUserFromContext(ctx)
+	u, resp := m.getUserFromPath(ctx)
 	if resp != nil {
 		return resp
 	}

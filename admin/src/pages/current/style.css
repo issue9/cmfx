@@ -48,16 +48,18 @@
     }
 
     .p--profile {
-        .content {
-            @apply flex justify-between flex-col sm:flex-row box-border sm:gap-8 gap-10;
-        }
+        @apply max-w-xs;
 
         .form {
-            @apply flex flex-col sm:w-[50%] w-full;
+            @apply flex flex-col w-full;
 
             .actions {
                 @apply w-full flex justify-end gap-5;
             }
         }
+    }
+
+    .p--logout {
+        @apply items-center justify-center;
     }
 }

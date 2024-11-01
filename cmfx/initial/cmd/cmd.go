@@ -7,9 +7,7 @@ package cmd
 
 import (
 	"flag"
-	"net/smtp"
 	"path/filepath"
-	"time"
 
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
@@ -26,7 +24,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
-	"github.com/issue9/cmfx/cmfx/user/passport/otp/code"
+	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
 )
 
 func Exec(name, version string) error {
@@ -86,13 +84,13 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	switch action {
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
-		smtpAuth := smtp.PlainAuth("id", "username", "password", "smtp@example.com")
-		smtpAdpater := code.New(adminL.Module(), 5*time.Minute, "smtp", nil, code.NewSMTPSender("code", "smtp@example.com", "server@example.com", "%%code%%", smtpAuth), web.Phrase("smtp valid"))
-		adminL.Passport().Register(smtpAdpater)
+		adminL.Passport().Register(totp.New(adminL.Module(), "totp", web.Phrase("TOTP passport")))
 
 		system.Load(systemMod, user.System, adminL)
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin)
+		totp.Install(adminL.Module(), "totp")
+
 		system.Install(systemMod, user.System, adminL)
 	case "upgrade":
 		panic("not implements")

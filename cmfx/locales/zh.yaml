@@ -78,6 +78,12 @@ messages:
       message:
         msg: |
             查询参数格式不正确，类似于无效的路径参数，大概率是前端提交的类型有误。
+    - key: bad request last passport
+      message:
+        msg: 只剩下一种认证方式了
+    - key: bad request last passport detail
+      message:
+        msg: 最后一种认证方式是不能删除的。一个账号最起码保存一种认证方式，才能进行登录操作。
     - key: can not do it for super
       message:
         msg: 不能对超级管理使用有此操作
@@ -87,12 +93,6 @@ messages:
     - key: censor setting
       message:
         msg: 内容审核设置
-    - key: change password
-      message:
-        msg: 修改密码
-    - key: created time
-      message:
-        msg: created time
     - key: del backup database file
       message:
         msg: 删除备份的数据库文件
@@ -138,12 +138,9 @@ messages:
     - key: general setting
       message:
         msg: 常规设置
-    - key: get admin info api
+    - key: generator code for %s
       message:
-        msg: 获取管理员信息
-    - key: get admin list api
-      message:
-        msg: 获取管理员列表
+        msg: 为 %s 生成验证码
     - key: get admins
       message:
         msg: 查看管理员信息
@@ -257,12 +254,9 @@ messages:
     - key: only for super detail
       message:
         msg: 某些权限只有超级管理员才拥有，比如转让超级管理员操作。
-    - key: passport adapter description
+    - key: passport adapter not found
       message:
-        msg: 登录验证器的描述
-    - key: passport adapter id
-      message:
-        msg: 登录验证器的 ID
+        msg: 未找到指定的适配器
     - key: password mode
       message:
         msg: 密码登录
@@ -302,15 +296,9 @@ messages:
     - key: roles not exists
       message:
         msg: 角色不存在
-    - key: same of new and old password
+    - key: smtp valid
       message:
-        msg: 新旧密码是相同的
-    - key: sex
-      message:
-        msg: 性别
-    - key: state
-      message:
-        msg: 状态
+        msg: smtp valid
     - key: strength invalid
       message:
         msg: 密码强度不够

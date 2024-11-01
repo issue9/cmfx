@@ -5,7 +5,7 @@
 // Package hotp 提供基于 [TOTP] 的 [passport.Adapter] 实现
 //
 // [TOTP]: https://datatracker.ietf.org/doc/html/rfc6238
-package hotp
+package totp
 
 import (
 	"crypto/hmac"
@@ -47,6 +47,8 @@ func (p *totp) ID() string { return p.id }
 func (p *totp) Description() web.LocaleStringer { return p.desc }
 
 // Add 添加账号
+//
+// identity 表示账号，在登录页上，需要通过账号来判定验证码的关联对象。
 func (p *totp) Add(uid int64, identity, _ string, now time.Time) error {
 	n, err := p.db.Where("uid=?", uid).Count(&modelTOTP{})
 	if err != nil {

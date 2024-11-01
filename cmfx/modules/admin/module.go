@@ -206,10 +206,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Delete("/passports/{type}", m.deletePassport).
 		Post("/passports/{type}", m.postPassport).
-		Patch("/passports/{type}", m.patchPassport).
-		Delete("/admins/{id:digit}/passports/{type}", m.deleteAdminPassport).
-		Post("/admins/{id:digit}/passports/{type}", m.postAdminPassport).
-		Patch("/admins/{id:digit}/passports/{type}", m.patchAdminPassport)
+		Post("/passports/{type}/code", m.postCurrentPassportCode)
 
 	// upload
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)

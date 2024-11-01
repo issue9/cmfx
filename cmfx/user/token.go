@@ -26,12 +26,14 @@ type AfterFunc = func(*User)
 // 登录需要提交的信息
 type Account struct {
 	XMLName  struct{} `xml:"account" json:"-" cbor:"-"`
-	Username string   `json:"username" xml:"username" yaml:"username" cbor:"username"`
-	Password string   `json:"password" xml:"password" yaml:"password" cbor:"password"`
+	Type     string   `json:"type" xml:"type" cbor:"type"`
+	Username string   `json:"username" xml:"username" cbor:"username"`
+	Password string   `json:"password" xml:"password" cbor:"password"`
 }
 
 func (c *Account) Filter(v *web.FilterContext) {
-	v.Add(filters.NotEmpty("username", &c.Username)).
+	v.Add(filters.NotEmpty("type", &c.Type)).
+		Add(filters.NotEmpty("username", &c.Username)).
 		Add(filters.NotEmpty("password", &c.Password))
 }
 
@@ -61,18 +63,18 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 
 // Login 执行登录操作并在成功的情况下发放新的令牌
 //
-// 如果 reg 不为空，表示在验证成功，但是不存在用户数是执行注册服务，其原型如下：
+// 如果 reg 不为空，表示在验证成功，但是不存在用户数时执行注册服务，其原型如下：
 //
 //	func( uid int64) error
 //
 // uid 为新用户的 uid。
-func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, after AfterFunc) web.Responser {
+func (m *Module) Login(ctx *web.Context, reg func(int64) error, after AfterFunc) web.Responser {
 	account := &Account{}
 	if resp := ctx.Read(true, account, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
-	uid, identity, ok := m.passport.Valid(typ, account.Username, account.Password, ctx.Begin())
+	uid, identity, ok := m.passport.Valid(account.Type, account.Username, account.Password, ctx.Begin())
 	if !ok { // 密码或账号错误
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
@@ -80,7 +82,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, afte
 	// 注册
 	if uid == 0 && reg != nil {
 		var err error
-		if uid, err = m.NewUser(m.Passport().Get(typ), identity, account.Password, ctx.Begin()); err != nil {
+		if uid, err = m.NewUser(m.Passport().Get(account.Type), identity, account.Password, ctx.Begin()); err != nil {
 			return ctx.Error(err, "")
 		}
 
@@ -100,7 +102,7 @@ func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, afte
 	}
 
 	if !found {
-		ctx.Logs().DEBUG().Printf("数据库不同步，%s 存在于适配器 %s，但是不存在于用户列表数据库\n", account.Username, typ)
+		ctx.Logs().DEBUG().Printf("数据库不同步，%s 存在于适配器 %s，但是不存在于用户列表数据库\n", account.Username, account.Type)
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 
