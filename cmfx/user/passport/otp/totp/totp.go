@@ -20,6 +20,7 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/cmfx/user/passport/utils"
 )
 
 type totp struct {
@@ -33,7 +34,7 @@ type totp struct {
 //
 // [TOTP]: https://datatracker.ietf.org/doc/html/rfc6238
 func New(mod *cmfx.Module, id string, desc web.LocaleStringer) passport.Adapter {
-	db := buildDB(mod, id)
+	db := utils.BuildDB(mod, id)
 	return &totp{
 		mod:  mod,
 		db:   db,
@@ -160,8 +161,4 @@ func (p *totp) UID(identity string) (int64, error) {
 	}
 
 	return mod.UID, nil
-}
-
-func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_auth_" + tableName)
 }

@@ -30,8 +30,7 @@ import (
 const passportTypePassword = "passwords" // 采用密码登录的
 
 type Module struct {
-	user            *user.Module
-	defaultPassword string
+	user *user.Module
 
 	roleGroup *rbac.RoleGroup
 
@@ -53,8 +52,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	u.Passport().Register(password.New(mod, passportTypePassword, 8, web.StringPhrase("password mode")))
 	m := &Module{
-		user:            u,
-		defaultPassword: o.DefaultPassword,
+		user: u,
 
 		uploadField: o.Upload.Field,
 

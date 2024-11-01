@@ -24,6 +24,7 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/cmfx/user/passport/utils"
 )
 
 // UserInfo 表示 OAuth 登录后获取的用户信息
@@ -47,16 +48,12 @@ type OAuth[T UserInfo] struct {
 	desc   web.LocaleStringer
 }
 
-func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_auth_" + tableName)
-}
-
 // New 声明 [OAuth] 对象
 //
 // id 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符；
 func New[T UserInfo](mod *cmfx.Module, id string, c *oauth2.Config, g GetUserInfoFunc[T], desc web.LocaleStringer) *OAuth[T] {
 	return &OAuth[T]{
-		db:     buildDB(mod, id),
+		db:     utils.BuildDB(mod, id),
 		state:  mod.Server().UniqueID(),
 		config: c,
 		f:      g,

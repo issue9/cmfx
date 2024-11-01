@@ -52,7 +52,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "admin",
-			Password: o.DefaultPassword,
+			Password: "123",
 		},
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -63,7 +63,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "u1",
-			Password: o.DefaultPassword,
+			Password: "123",
 		},
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -74,7 +74,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "u2",
-			Password: o.DefaultPassword,
+			Password: "123",
 		},
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -84,7 +84,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 				},
 			},
 			Username: "u3",
-			Password: o.DefaultPassword,
+			Password: "123",
 		},
 	}
 

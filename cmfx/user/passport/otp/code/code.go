@@ -13,6 +13,7 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/cmfx/user/passport/utils"
 )
 
 type code struct {
@@ -22,10 +23,6 @@ type code struct {
 	gen     Generator
 	id      string
 	desc    web.LocaleStringer
-}
-
-func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_auth_" + tableName)
 }
 
 // New 声明基于验证码的验证方法
@@ -39,7 +36,7 @@ func New(mod *cmfx.Module, expired time.Duration, id string, gen Generator, send
 	}
 
 	return &code{
-		db:      buildDB(mod, id),
+		db:      utils.BuildDB(mod, id),
 		sender:  sender,
 		expired: expired,
 		gen:     gen,

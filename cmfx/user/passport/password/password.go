@@ -15,6 +15,7 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/cmfx/user/passport/utils"
 )
 
 type password struct {
@@ -22,10 +23,6 @@ type password struct {
 	cost int
 	id   string
 	desc web.LocaleStringer
-}
-
-func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_auth_" + tableName)
 }
 
 // New 声明基于密码的验证方法
@@ -37,7 +34,7 @@ func New(mod *cmfx.Module, id string, cost int, desc web.LocaleStringer) passpor
 	if cost < bcrypt.MinCost || cost > bcrypt.MaxCost {
 		cost = bcrypt.DefaultCost
 	}
-	db := buildDB(mod, id)
+	db := utils.BuildDB(mod, id)
 	return &password{db: db, cost: cost, id: id, desc: desc}
 }
 

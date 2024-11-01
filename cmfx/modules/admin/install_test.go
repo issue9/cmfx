@@ -26,7 +26,6 @@ func TestInstall(t *testing.T) {
 			AccessExpired:  60,
 			RefreshExpired: 120,
 		},
-		DefaultPassword: "123",
 		Upload: &Upload{
 			Size:  1024 * 1024 * 1024,
 			Exts:  []string{".jpg"},
