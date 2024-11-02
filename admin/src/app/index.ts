@@ -8,4 +8,3 @@ export type { MenuItem, Options, Route, Routes } from './options';
 export { useApp } from './context';
 export type { AppContext } from './context';
 
-export type { Messages as InternalMessages } from '@/messages';

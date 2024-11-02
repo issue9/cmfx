@@ -2,22 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, JSX, Setter, Show, createSignal } from 'solid-js';
+import { createSignal, JSX, Show, Signal } from 'solid-js';
 
-import { Button, Menu } from '@/components';
-import { compareBreakpoint } from '@/core';
+import { Button, Item, Label, Menu } from '@/components';
+import { Breakpoint, compareBreakpoint, Locale } from '@/core';
 import { useApp, useOptions } from './context';
-import { buildItems, floatAsideWidth } from './private';
+import { MenuItem } from './options/route';
 
-interface Props {
-    menuVisibleGetter: Accessor<boolean>;
-    menuVisibleSetter: Setter<boolean>;
-}
+export const floatAsideWidth: Breakpoint = 'sm';
+
+export interface MenuVisibleProps {
+    menuVisible: Signal<boolean>;
+};
 
 /**
  * 顶部工具栏
  */
-export default function Toolbar(props: Props) {
+export default function Toolbar(props: MenuVisibleProps) {
     const ctx = useApp();
     const opt = useOptions();
 
@@ -29,8 +30,8 @@ export default function Toolbar(props: Props) {
 
         <div class="flex items-center flex-1 mx-4">
             <Show when={ctx.isLogin() && compareBreakpoint(ctx.breakpoint(), floatAsideWidth)<0}>
-                <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisibleSetter(!props.menuVisibleGetter())}>
-                    {props.menuVisibleGetter() ? 'menu_open' : 'menu' }
+                <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisible[1](!props.menuVisible[0]())}>
+                    {props.menuVisible[0]() ? 'menu_open' : 'menu' }
                 </Button>
             </Show>
         </div>
@@ -80,4 +81,37 @@ function Fullscreen(): JSX.Element {
         onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
+}
+
+export function buildItems(l: Locale, menus: Array<MenuItem>) {
+    const items: Array<Item> = [];
+    menus.forEach((mi) => {
+        switch (mi.type) {
+        case 'divider':
+            items.push({ type: 'divider' });
+            break;
+        case 'group':
+            items.push({
+                type: 'group',
+                label: l.t(mi.label),
+                items: buildItems(l, mi.items)
+            });
+            break;
+        case 'item':
+            const i: Item = {
+                type: 'item',
+                label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
+                accesskey: mi.accesskey,
+                value: mi.path
+            };
+            if (mi.items) {
+                i.items = buildItems(l, mi.items);
+            }
+
+            items.push(i);
+            break;
+        }
+    });
+
+    return items;
 }
