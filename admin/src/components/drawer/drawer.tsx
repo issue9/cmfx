@@ -35,6 +35,8 @@ export interface Props extends BaseProps {
     children: JSX.Element;
 
     main: JSX.Element;
+
+    mainID?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -78,10 +80,10 @@ export default function(props: Props) {
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />
-                <main>{props.main}</main>
+                <main id={props.mainID}>{props.main}</main>
             </Match>
             <Match when={props.pos === 'right'}>
-                <main>{props.main}</main>
+                <main id={props.mainID}>{props.main}</main>
                 <Aside />
             </Match>
         </Switch>

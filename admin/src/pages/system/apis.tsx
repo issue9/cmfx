@@ -52,7 +52,11 @@ export default function(): JSX.Element {
 
             { id: 'max', label: ctx.locale().t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
             { id: 'min', label: ctx.locale().t('_i.page.system.min'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
-            { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
+            { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number, api?: API) => {
+                const count = api?.count!;
+                val = count > 0 ? val / count : 0;
+                return ctx.locale().duration(val);
+            } },
         ] as Array<Column<API>>} />
     </Page>;
 }
