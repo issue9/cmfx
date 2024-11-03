@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, Navigate } from '@solidjs/router';
-import { createEffect, createMemo, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { Drawer, List, Notify, SystemDialog } from '@/components';
@@ -11,7 +11,7 @@ import { API, compareBreakpoint, Locale } from '@/core';
 import { buildContext, useApp, useOptions } from './context';
 import * as errors from './errors';
 import { build as buildOptions, Options } from './options';
-import { buildItems, floatAsideWidth, MenuVisibleProps, default as Toolbar } from './toolbar';
+import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
 /**
  * 初始化整个项目
@@ -38,10 +38,13 @@ export async function create(elementID: string, o: Options) {
  */
 function App(props: {opt: Required<Options>, api: API}) {
     const menuVisible = createSignal(true);
+    const [floating, setFloating] = createSignal(false);
 
     const Root = (p: ParentProps) => {
         // buildContext 中使用了 useContext 和 useNavigate，必须得 Router 之内使用。
-        const { Provider } = buildContext(props.opt, props.api);
+        const { ctx, Provider } = buildContext(props.opt, props.api);
+
+        createEffect(() => { setFloating(!(compareBreakpoint(ctx.breakpoint(), props.opt.asideFloatingMinWidth) > 0)); });
 
         return <Provider>
             <Notify />
@@ -49,7 +52,7 @@ function App(props: {opt: Required<Options>, api: API}) {
                 <SystemDialog palette='surface' />
             </Show>
             <div class="app palette--surface">
-                <Toolbar menuVisible={menuVisible} />
+                <Toolbar menuVisible={menuVisible} floatingSidebar={floating()} />
                 <main class="app-main">{p.children}</main>
             </div>
         </Provider>;
@@ -64,7 +67,7 @@ function App(props: {opt: Required<Options>, api: API}) {
         {
             path: '/',
             component: (props: { children?: JSX.Element })=>
-                <Private menuVisible={menuVisible}>{ props.children }</Private>,
+                <Private floatingSidebar={floating()} menuVisible={menuVisible}>{ props.children }</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
             children: [...props.opt.routes.private.routes, { path: '*', component: errors.NotFound }]
@@ -74,14 +77,11 @@ function App(props: {opt: Required<Options>, api: API}) {
     return <HashRouter root={Root}>{/*@once*/routes}</HashRouter>;
 }
 
-export function Private(props: ParentProps & MenuVisibleProps) {
+function Private(props: ParentProps & MenuVisibleProps) {
     const ctx = useApp();
     const opt = useOptions();
-    const noFloating = createMemo(() => compareBreakpoint(ctx.breakpoint(), floatAsideWidth) > 0);
     createEffect(() => {
-        if (noFloating()) {
-            props.menuVisible[1](true);
-        }
+        if (!props.floatingSidebar) { props.menuVisible[1](true); }
     });
 
     return <Switch>
@@ -89,9 +89,8 @@ export function Private(props: ParentProps & MenuVisibleProps) {
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={!noFloating()} palette='secondary' mainID='main-content'
-                close={()=>props.menuVisible[1](false)}
-                visible={props.menuVisible[0]()}
+            <Drawer floating={props.floatingSidebar} palette='secondary' mainID='main-content'
+                close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>

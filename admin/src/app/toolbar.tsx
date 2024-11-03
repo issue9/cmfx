@@ -2,17 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, JSX, Show, Signal } from 'solid-js';
+import { createSignal, JSX, Show, Signal } from 'solid-js';
 
 import { Button, Item, Label, Menu } from '@/components';
-import { Breakpoint, compareBreakpoint, Locale } from '@/core';
+import { Locale } from '@/core';
 import { useApp, useOptions } from './context';
 import { MenuItem } from './options/route';
 
-export const floatAsideWidth: Breakpoint = 'sm';
-
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
+    floatingSidebar: boolean;
 };
 
 /**
@@ -21,7 +20,6 @@ export interface MenuVisibleProps {
 export default function Toolbar(props: MenuVisibleProps) {
     const ctx = useApp();
     const opt = useOptions();
-    const hideMenu = createMemo(() => compareBreakpoint(ctx.breakpoint(), floatAsideWidth) > 0);
 
     return <header class="app-bar palette--secondary">
         <div class="flex items-center">
@@ -30,9 +28,9 @@ export default function Toolbar(props: MenuVisibleProps) {
         </div>
 
         <div class="flex items-center flex-1 mx-4">
-            <Show when={ctx.isLogin() && !hideMenu()}>
-                <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisible[1](!props.menuVisible[0]())}>
-                    {props.menuVisible[0]() ? 'menu_open' : 'menu' }
+            <Show when={ctx.isLogin() && props.floatingSidebar}>
+                <Button icon rounded type="button" kind='flat' onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+                    {props.menuVisible[0]() ? 'menu_open' : 'menu'}
                 </Button>
             </Show>
         </div>
@@ -63,7 +61,6 @@ function Username(): JSX.Element {
 
 function Fullscreen(): JSX.Element {
     const ctx = useApp();
-
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
 
     const toggleFullscreen = async() => {
@@ -78,7 +75,7 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <Button icon={/*@once*/true} type={/*@once*/'button'} kind={/*@once*/'flat'} rounded={/*@once*/true}
+    return <Button icon type='button' kind='flat' rounded
         onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;

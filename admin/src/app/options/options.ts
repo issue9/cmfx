@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Theme as CoreTheme, DictLoader, Mimetype, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
+import { Breakpoint, Contrast, Theme as CoreTheme, DictLoader, Mimetype, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
@@ -65,6 +65,8 @@ export interface Options {
      * 与本地化相关的一些设置
      */
     locales: Locales;
+    
+    asideFloatingMinWidth?: Breakpoint;
 }
 
 interface System {
@@ -136,6 +138,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
     mimetype: 'application/json',
+    asideFloatingMinWidth: 'sm'
 } as const;
 
 /**
