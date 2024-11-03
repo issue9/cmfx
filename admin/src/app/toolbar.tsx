@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, Show, Signal } from 'solid-js';
+import { createMemo, createSignal, JSX, Show, Signal } from 'solid-js';
 
 import { Button, Item, Label, Menu } from '@/components';
 import { Breakpoint, compareBreakpoint, Locale } from '@/core';
@@ -21,6 +21,7 @@ export interface MenuVisibleProps {
 export default function Toolbar(props: MenuVisibleProps) {
     const ctx = useApp();
     const opt = useOptions();
+    const hideMenu = createMemo(() => compareBreakpoint(ctx.breakpoint(), floatAsideWidth) > 0);
 
     return <header class="app-bar palette--secondary">
         <div class="flex items-center">
@@ -29,7 +30,7 @@ export default function Toolbar(props: MenuVisibleProps) {
         </div>
 
         <div class="flex items-center flex-1 mx-4">
-            <Show when={ctx.isLogin() && compareBreakpoint(ctx.breakpoint(), floatAsideWidth)<0}>
+            <Show when={ctx.isLogin() && !hideMenu()}>
                 <Button icon rounded type="button" kind='flat' onClick={()=>props.menuVisible[1](!props.menuVisible[0]())}>
                     {props.menuVisible[0]() ? 'menu_open' : 'menu' }
                 </Button>

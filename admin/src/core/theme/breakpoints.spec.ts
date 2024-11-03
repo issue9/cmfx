@@ -6,7 +6,10 @@ import { expect, test } from 'vitest';
 import { breakpoints, breakpointsMedia, compareBreakpoint } from './breakpoints';
 
 test('compareBreakpoint', () => {
+    expect(compareBreakpoint(undefined, 'sm')).toEqual(-1);
+    expect(compareBreakpoint(undefined, undefined)).toEqual(0);
     expect(compareBreakpoint('xs', 'sm')).toEqual(-1);
+    expect(compareBreakpoint('xs', undefined)).toEqual(1);
     expect(compareBreakpoint('sm', 'sm')).toEqual(0);
     expect(compareBreakpoint('sm', 'xs')).toEqual(1);
     expect(compareBreakpoint('sm', 'lg')).toEqual(-2);

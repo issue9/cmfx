@@ -28,7 +28,7 @@ type BreakpointsMedia = Record<Breakpoint, string>;
 /**
  * 根据 {@link breakpoints} 生成的媒体查询样式
  */
-export const breakpointsMedia: Readonly<BreakpointsMedia> = Object.entries(breakpoints).reduce<BreakpointsMedia>((obj, [key, val])=>{
+export const breakpointsMedia: Readonly<BreakpointsMedia> = Object.entries(breakpoints).reduce<BreakpointsMedia>((obj, [key, val]) => {
     obj[key as Breakpoint] = `(width >= ${val})`;
     return obj;
 }, {} as BreakpointsMedia);
@@ -40,6 +40,9 @@ export const breakpointsMedia: Readonly<BreakpointsMedia> = Object.entries(break
  *  > 0 表示 v1 > v2；
  *  < 0 表示 v1 < v2；
  */
-export function compareBreakpoint(v1: Breakpoint, v2: Breakpoint): number {
+export function compareBreakpoint(v1?: Breakpoint, v2?: Breakpoint): number {
+    if (v1 === v2) { return 0; }
+    if (v1 === undefined) { return -1; }
+    if (v2 === undefined) { return 1; }
     return breakpointsOrder.indexOf(v1) - breakpointsOrder.indexOf(v2);
 }

@@ -7,7 +7,7 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Account, Breakpoint, Config, Locale, Method, Problem, Theme, UnitStyle, notify } from '@/core';
+import { API, Account, Config, Locale, Method, Problem, Theme, UnitStyle, notify } from '@/core';
 import { User } from './user';
 
 type Options = Required<buildOptions>;
@@ -64,7 +64,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
     let uid = sessionStorage.getItem(currentKey) ?? '';
 
     Theme.init(new Config(uid), opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
-    const [bp, setBP] = createSignal<Breakpoint>(Theme.breakpoint);
+    const [bp, setBP] = createSignal(Theme.breakpoint);
     Theme.onBreakpoint((v)=>setBP(v));
 
     let localeID: string | undefined;
@@ -256,7 +256,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
             await window.notify(title, body, type, timeout);
         },
 
-        breakpoint(): Breakpoint { return bp(); },
+        breakpoint() { return bp(); },
 
         /**
          * 获取本地化的接口对象

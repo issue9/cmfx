@@ -3,13 +3,16 @@
 // SPDX-License-Identifier: MIT
 
 import { Config } from '@/core/config';
-import { breakpointsOrder, breakpointsMedia, Breakpoint } from './breakpoints';
-import { Contrast, changeContrast, getContrast, contrasts } from './contrast';
+import { Breakpoint, breakpointsMedia, breakpointsOrder } from './breakpoints';
+import { Contrast, changeContrast, contrasts, getContrast } from './contrast';
 import { Mode, changeMode, getMode, modes } from './mode';
 import { Scheme, changeScheme, genScheme, genSchemes, getScheme } from './scheme';
 
 export interface BreakpointChange {
-    (val: Breakpoint, old?: Breakpoint): void;
+    /**
+     * @param val 表示当前的尺寸，如果是 undefined 表示小于 xs 的大小。
+     */
+    (val?: Breakpoint, old?: Breakpoint): void;
 }
 
 /**
@@ -27,7 +30,7 @@ export class Theme {
     static #mode: Mode;
 
     static #breakpointEvents: Array<BreakpointChange>;
-    static #breakpoint: Breakpoint;
+    static #breakpoint?: Breakpoint; // 未定义表示小于 xs
 
     /**
      * 初始化主题
@@ -63,6 +66,10 @@ export class Theme {
             };
 
             mql.addEventListener('change', event);
+            
+            if (mql.matches) {
+                Theme.#breakpointChange(key);
+            }
         });
     }
 
@@ -74,7 +81,12 @@ export class Theme {
         Theme.#breakpoint = val;
     }
 
-    static get breakpoint(): Breakpoint { return Theme.#breakpoint; }
+    /**
+     * 返回当前屏幕的尺寸
+     *
+     * @return 如果是 undefined 表示是小于 xs。
+     */
+    static get breakpoint(): Breakpoint | undefined { return Theme.#breakpoint; }
 
     /**
      * 注册屏幕尺寸发生变化时的处理事件

@@ -77,9 +77,9 @@ function App(props: {opt: Required<Options>, api: API}) {
 export function Private(props: ParentProps & MenuVisibleProps) {
     const ctx = useApp();
     const opt = useOptions();
-    const floating = createMemo(() => compareBreakpoint(ctx.breakpoint(), floatAsideWidth) < 0);
+    const noFloating = createMemo(() => compareBreakpoint(ctx.breakpoint(), floatAsideWidth) > 0);
     createEffect(() => {
-        if (!floating()) {
+        if (noFloating()) {
             props.menuVisible[1](true);
         }
     });
@@ -89,7 +89,7 @@ export function Private(props: ParentProps & MenuVisibleProps) {
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={floating()} palette='secondary' mainID='main-content'
+            <Drawer floating={!noFloating()} palette='secondary' mainID='main-content'
                 close={()=>props.menuVisible[1](false)}
                 visible={props.menuVisible[0]()}
                 main={
