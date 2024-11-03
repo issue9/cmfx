@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import { Component } from 'solid-js';
 
 import { MenuItem, Route } from '@/app';
 import { Pages } from '@/pages/pages';
@@ -50,26 +50,26 @@ export class current implements Pages {
     static Panel = Panel;
 
     readonly #prefix: string;
-    readonly #children?: JSX.Element;
+    readonly #children?: Component<{}>;
 
     /**
      * 生成 {@link Pages} 对象
      *
      * @param prefix 路由前缀
-     * @param dashboardChild 仪表盘内的元素
+     * @param dashboardChildren 仪表盘内的组件
      */
-    static build(prefix: string, dashboardChild?: JSX.Element) {
-        return new current(prefix, dashboardChild);
+    static build(prefix: string, dashboardChildren?: Component<{}>) {
+        return new current(prefix, dashboardChildren);
     }
 
-    private constructor(prefix: string, dashboardChild?: JSX.Element) {
+    private constructor(prefix: string, dashboardChild?: Component<{}>) {
         this.#prefix = prefix;
         this.#children = dashboardChild;
     }
 
     routes(): Array<Route> {
         return [
-            { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#children}</Dashboard> },
+            { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#children!({})}</Dashboard> },
             { path: this.#prefix + '/profile', component: Profile },
             { path: this.#prefix + '/settings', component: Settings },
             { path: this.#prefix + '/securitylogs', component: SecurityLogs },

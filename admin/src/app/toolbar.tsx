@@ -54,7 +54,7 @@ function Username(): JSX.Element {
     </Button>;
 
     return <Show when={ctx.user()}>
-        <Menu hoverable={/*@once*/true} anchor={/*@once*/true} direction={/*@once*/'left'} selectedClass=''
+        <Menu hoverable anchor direction='left' selectedClass=''
             activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
     </Show>;
 }

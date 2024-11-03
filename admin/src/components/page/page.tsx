@@ -51,7 +51,7 @@ export default function (props: Props) {
     onMount(()=>{
         main = document.getElementById('main-content')!;
         if (!main) {
-            console.error('未找到 ID 为 main-content 的元素');
+            console.warn('未找到 ID 为 main-content 的元素');
             main = btn.parentElement!;
         }
 
