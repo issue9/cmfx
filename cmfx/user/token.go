@@ -52,7 +52,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 	}
 
 	if s == StateDeleted { // 删除所有的登录信息
-		if err := m.Passport().ClearUser(u.ID); err != nil {
+		if err := m.Passport().DeleteUser(u.ID); err != nil {
 			m.mod.Server().Logs().ERROR().Error(err) // 记录错误，但是不退出
 		}
 	}

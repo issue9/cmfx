@@ -66,7 +66,7 @@ func TestPassport(t *testing.T) {
 
 	// p.DeleteUser
 
-	a.NotError(p.ClearUser(1111)) // 不存在该用户
-	a.NotError(p.ClearUser(1024))
+	a.NotError(p.DeleteUser(1111)) // 不存在该用户
+	a.NotError(p.DeleteUser(1024))
 	a.Empty(maps.Collect(p.Identities(1024)))
 }

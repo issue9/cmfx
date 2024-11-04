@@ -96,8 +96,8 @@ func (p *Passport) Identities(uid int64) iter.Seq2[string, string] {
 	}
 }
 
-// ClearUser 清空与 uid 相关的所有登录信息
-func (p *Passport) ClearUser(uid int64) error {
+// DeleteUser 清空与 uid 相关的所有登录信息
+func (p *Passport) DeleteUser(uid int64) error {
 	for _, info := range p.adapters {
 		if err := info.Delete(uid); err != nil {
 			return err

@@ -49,7 +49,7 @@ type respPassportAdapters struct {
 
 // # api GET /passports 支持的登录验证方式
 // @tag admin auth
-// @resp 200 * respAdapters
+// @resp 200 * respPassportAdapters
 func (m *Module) getPassports(ctx *web.Context) web.Responser {
 	adapters := make([]*respPassportAdapters, 0)
 	for k, v := range m.Passport().All(ctx.LocalePrinter()) {
