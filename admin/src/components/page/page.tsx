@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
+import { createEffect, JSX, ParentProps, Show, splitProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
+import { BackTop } from '@/components/backtop';
 import { BaseProps } from '@/components/base';
-import { Button, ButtonRef } from '@/components/button';
 
 export interface Props extends BaseProps, ParentProps {
     /**
@@ -14,10 +14,13 @@ export interface Props extends BaseProps, ParentProps {
      */
     title: string;
 
+    /**
+     * 是否禁止内置的 BackTop 组件。
+     */
+    disableBacktop?: boolean;
+
     class?: string;
-
     classList?: JSX.CustomAttributes<HTMLElement>['classList'];
-
     style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
 
@@ -41,31 +44,10 @@ export default function (props: Props) {
         other['classList'] = { 'c--page': true };
     }
 
-    let main: HTMLElement;
-
-    let btn: ButtonRef;
-    const scroll = ()=>{
-        btn.style.visibility = main.scrollTop > 10 ? 'visible' : 'hidden';
-    };
-
-    onMount(()=>{
-        main = document.getElementById('main-content')!;
-        if (!main) {
-            console.warn('未找到 ID 为 main-content 的元素');
-            main = btn.parentElement!;
-        }
-
-        scroll(); // 初始化状态
-        main.addEventListener('scroll', scroll);
-    });
-
-    onCleanup(()=>{ main.removeEventListener('scroll', scroll); });
-
     return <div {...other}>
         {props.children}
-
-        <Button palette='primary' ref={el=>btn=el} class="backtop" icon rounded onclick={()=>{
-            main.scrollTo({top: 0, behavior: 'smooth'});
-        }}>vertical_align_top</Button>
+        <Show when={!props.disableBacktop}>
+            <BackTop scroller='main-content' />
+        </Show>
     </div>;
 }

@@ -4,18 +4,24 @@
 
 import { For } from 'solid-js';
 
-import { paletteSelector, Demo } from '@/components/base/demo';
+import { Demo, boolSelector, paletteSelector } from '@/components/base/demo';
 import Page from './page';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
+    const [disableBackTopS, disableBackTop] = boolSelector('disable backtop');
     const len: Array<number> = [];
     for (var i = 0; i<100; i++) {
         len.push(i);
     }
 
-    return <Demo settings={paletteS} stages={
-        <Page title="title" palette={palette()}>
+    return <Demo settings={
+        <>
+            {paletteS}
+            {disableBackTopS}
+        </>
+    } stages={
+        <Page title="title" palette={palette()} disableBacktop={disableBackTop()}>
             <For each={len}>
                 {(i)=>(
                     <>{i} <br /></>

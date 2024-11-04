@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+export * from './backtop';
 export * from './badge';
 export * from './base';
 export * from './button';

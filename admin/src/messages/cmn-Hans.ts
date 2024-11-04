@@ -39,7 +39,7 @@ const messages: Messages = {
                 unknown: '未知'
             },
             current: { // 登录框
-                dashboard: '仪表盘',
+                dashboard: '控制台',
                 logout: '退出',
                 settings: '设置',
 

@@ -20,6 +20,7 @@ export const routes: Options['routes']['private']['routes'] = [
     { path: '/spin', component: lazy(() => import('@/components/spin/demo')) },
     { path: '/chart', component: lazy(() => import('@/components/chart/demo')) },
     { path: '/page', component: lazy(() => import('@/components/page/demo')) },
+    { path: '/backtop', component: lazy(() => import('@/components/backtop/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },
