@@ -13,6 +13,7 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/dialect"
 	"github.com/issue9/web"
+	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server/servertest"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -35,10 +36,11 @@ func NewSuite(a *assert.Assertion) *Suite {
 	a.NotError(err).NotNil(db)
 
 	srv := NewServer(a)
+	doc := openapi.New(srv, web.Phrase("test"))
 	s := &Suite{
 		a:   a,
 		dsn: dsn,
-		mod: cmfx.NewModule("", web.Phrase("suite"), srv, db, srv.Routers().New("default", nil)),
+		mod: cmfx.NewModule("", web.Phrase("suite"), srv, db, srv.Routers().New("default", nil), doc),
 	}
 
 	s.a.TB().Cleanup(func() {

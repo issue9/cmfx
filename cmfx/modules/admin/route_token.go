@@ -26,11 +26,6 @@ func (q *queryLogin) Filter(c *web.FilterContext) {
 	c.Add(filter.NewBuilder(filter.V(v, locales.InvalidValue))("type", &q.Type))
 }
 
-// # API POST /login 管理员登录
-// @tag admin auth
-// @query queryLogin
-// @req * github.com/issue9/cmfx/cmfx/user.reqAccount
-// @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
 func (m *Module) postLogin(ctx *web.Context) web.Responser {
 	q := &queryLogin{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
@@ -42,30 +37,21 @@ func (m *Module) postLogin(ctx *web.Context) web.Responser {
 	})
 }
 
-// # api delete /login 注销当前管理员的登录
-// @tag admin auth
-// @resp 204 * {}
 func (m *Module) deleteLogin(ctx *web.Context) web.Responser {
 	return m.user.Logout(ctx, func(u *user.User) {
 		m.logoutEvent.Publish(false, u)
 	}, web.StringPhrase("logout"))
 }
 
-// # api put /login 续定令牌
-// @tag admin auth
-// @resp 201 * github.com/issue9/webuse/v7/middlewares/auth/token.Response
 func (m *Module) putToken(ctx *web.Context) web.Responser {
 	return m.user.RefreshToken(ctx)
 }
 
 type respAdapters struct {
-	Name string `json:"name" cbor:"name" xml:"name"`
-	Desc string `json:"desc" cbor:"desc" xml:"desc"`
+	Name string `json:"name" cbor:"name" xml:"name" comment:"passport adapter id"`
+	Desc string `json:"desc" cbor:"desc" xml:"desc" comment:"passport adapter description"`
 }
 
-// # api GET /passports 支持的登录验证方式
-// #tag admin auth
-// @resp 200 * respAdapters
 func (m *Module) getPassports(ctx *web.Context) web.Responser {
 	adapters := make([]*respAdapters, 0)
 	for k, v := range m.Passport().All(ctx.LocalePrinter()) {

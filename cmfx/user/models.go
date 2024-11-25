@@ -27,21 +27,21 @@ type State int8
 func (s State) PrimitiveType() core.PrimitiveType { return core.String }
 
 // 安全日志
-type respLog struct {
-	Content   string    `json:"content" xml:",cdata" cbor:"content"`
-	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip"`
-	UserAgent string    `json:"ua" xml:"ua" cbor:"ua"`
-	Created   time.Time `xml:"created" json:"created" cbor:"created"`
+type LogVO struct {
+	Content   string    `json:"content" xml:",cdata" cbor:"content" comment:"log content"`
+	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip" comment:"log IP"`
+	UserAgent string    `json:"ua" xml:"ua" cbor:"ua" comment:"log user agent"`
+	Created   time.Time `xml:"created" json:"created" cbor:"created" comment:"created time"`
 }
 
 //--------------------------------------- user ---------------------------------------
 
 type User struct {
 	XMLName struct{}  `orm:"-" json:"-" xml:"user" cbor:"-"`
-	ID      int64     `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id"`                  // 用户的自增 ID
-	NO      string    `orm:"name(no);len(32);unique(no)" json:"no" xml:"no,attr" cbor:"no"`  // 用户的唯一编号，一般用于前端
-	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created"` // 添加时间
-	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state"`         // 状态
+	ID      int64     `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" comment:"user id"`                       // 用户的自增 ID
+	NO      string    `orm:"name(no);len(32);unique(no)" json:"no" xml:"no,attr" cbor:"no" comment:"user no"`       // 用户的唯一编号，一般用于前端
+	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created" comment:"created time"` // 添加时间
+	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state" comment:"user state"`           // 状态
 }
 
 func (u *User) GetUID() string { return u.NO }

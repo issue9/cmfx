@@ -31,8 +31,11 @@
 
     <mimetypes>
         <mimetype type="application/json" target="json" problem="application/problem+json" />
+        <mimetype type="application/yaml" target="yaml" problem="application/problem+yaml" />
         <mimetype type="application/xml" target="xml" problem="application/problem+xml" />
-        <mimetype type="text/xml" target="xml" problem="application/problem+xml" />
+        <mimetype type="application/cbor" target="cbor" problem="application/problem+cbor" />
+        <mimetype type="text/xml" target="xml" problem="text/problem+xml" />
+        <mimetype type="text/html" target="html" problem="text/html" />
         <mimetype type="multipart/form-data" target="nop" />
     </mimetypes>
 

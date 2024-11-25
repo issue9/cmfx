@@ -11,9 +11,14 @@ import (
 
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
+	"github.com/issue9/web/mimetype/cbor"
+	"github.com/issue9/web/mimetype/json"
+	"github.com/issue9/web/mimetype/yaml"
+	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/app"
 	"github.com/issue9/webuse/v7/handlers/debug"
+	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/initial"
@@ -40,7 +45,18 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		return nil, err
 	}
 
-	initial.Init(s, user.Ratelimit)
+	initial.Init(s, user.Ratelimit, web.PluginFunc(swagger.Install))
+
+	doc := openapi.New(s, web.Phrase("The api doc of %s", s.Name()),
+		openapi.WithMediaType(json.Mimetype, yaml.Mimetype, cbor.Mimetype),
+		openapi.WithResponse(&openapi.Response{
+			Ref:  &openapi.Ref{Ref: "empty"},
+			Body: &openapi.Schema{Type: openapi.TypeObject},
+		}),
+		openapi.WithProblemResponse(),
+		openapi.WithContact("caixw", "", "https://github.com/caixw"),
+		swagger.WithCDN(""),
+	)
 
 	router := s.Routers().New("default", nil,
 		web.WithAllowedCORS(3600),
@@ -48,13 +64,14 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		web.WithAnyInterceptor("any"), web.WithDigitInterceptor("digit"),
 	)
 	debug.RegisterDev(router, "/debug")
+	router.Get("/openapi", doc.Handler)
 
 	db := user.DB.DB()
 	s.OnClose(func() error { return db.Close() })
 
 	var (
-		adminMod  = cmfx.NewModule("admin", web.Phrase("admin"), s, db, router)
-		systemMod = cmfx.NewModule("system", web.Phrase("system"), s, db, router)
+		adminMod  = cmfx.NewModule("admin", web.Phrase("admin"), s, db, router, doc)
+		systemMod = cmfx.NewModule("system", web.Phrase("system"), s, db, router, doc)
 	)
 
 	uploadSaver, err := upload.NewLocalSaver("./upload", user.URL+"/admin/upload", upload.Day, func(dir, filename, ext string) string {

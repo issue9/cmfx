@@ -24,13 +24,13 @@ type tokens = token.Token[*User]
 type AfterFunc = func(*User)
 
 // 登录需要提交的信息
-type reqAccount struct {
+type Account struct {
 	XMLName  struct{} `xml:"account" json:"-" cbor:"-"`
 	Username string   `json:"username" xml:"username" yaml:"username" cbor:"username"`
 	Password string   `json:"password" xml:"password" yaml:"password" cbor:"password"`
 }
 
-func (c *reqAccount) Filter(v *web.FilterContext) {
+func (c *Account) Filter(v *web.FilterContext) {
 	v.Add(filters.NotEmpty("username", &c.Username)).
 		Add(filters.NotEmpty("password", &c.Password))
 }
@@ -67,7 +67,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 //
 // uid 为新用户的 uid。
 func (m *Module) Login(typ string, ctx *web.Context, reg func(int64) error, after AfterFunc) web.Responser {
-	account := &reqAccount{}
+	account := &Account{}
 	if resp := ctx.Read(true, account, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}

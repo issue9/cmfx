@@ -17,9 +17,6 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-// # api get /system/apis API 信息
-// @tag system admin
-// @resp 200 * []github.com/issue9/webuse/v7/plugins/health.State
 func (m *Module) adminGetAPIs(_ *web.Context) web.Responser { return web.OK(m.health.States()) }
 
 // 数据库的基本信息
@@ -59,9 +56,6 @@ type operatingSystem struct {
 	Boot     time.Time `json:"boot" xml:"boot" cbor:"boot"` // 系统的开机时间
 }
 
-// # api get /system/info 系统信息
-// @tag system admin
-// @resp 200 * info
 func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 	dbVersion := m.mod.DB().Version()
 	stats := m.mod.DB().Stats()
@@ -129,9 +123,6 @@ type services struct {
 	Jobs     []job     `json:"jobs" xml:"job" cbor:"job"`             // 计划任务
 }
 
-// # api get /system/services 系统服务状态
-// @tag system admin
-// @resp 200 * services
 func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 	ss := services{}
 	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
@@ -177,9 +168,6 @@ type problem struct {
 	Detail  string   `json:"detail" xml:"detail" cbor:"detail"`      // 错误的明细
 }
 
-// # api get /system/problems 系统错误信息
-// @tag common system
-// @resp 200 * []problem
 func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	ps := make([]*problem, 0, 100)
 	ctx.Server().Problems().Visit(func(status int, p *web.LocaleProblem) {
@@ -194,14 +182,8 @@ func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	return web.OK(ps)
 }
 
-// # api GET /system/monitor 监视系统数据
-// @tag admin system
-// @resp 200 text/event-stream github.com/issue9/webuse/v7/handlers/monitor.Stats
 func (m *Module) adminGetMonitor(ctx *web.Context) web.Responser { return m.monitor.Handle(ctx) }
 
-// # api POST /system/backup 手动执行备份数据
-// @tag admin system
-// @resp 201 * {}
 func (m *Module) adminPostBackup(ctx *web.Context) web.Responser {
 	if err := m.mod.DB().Backup(m.backupConfig.buildFile(ctx.Begin())); err != nil {
 		return ctx.Error(err, web.ProblemInternalServerError)
@@ -209,10 +191,6 @@ func (m *Module) adminPostBackup(ctx *web.Context) web.Responser {
 	return web.Created(nil, "")
 }
 
-// # api delete /system/backup/{name} 删除指定的备份文件
-// @path name string 备份文件的文件名
-// @tag admin system
-// @resp 204 * {}
 func (m *Module) adminDeleteBackup(ctx *web.Context) web.Responser {
 	p, resp := ctx.PathString("name", "")
 	if resp != nil {
@@ -242,9 +220,6 @@ type backupFile struct {
 	Mod  time.Time `json:"mod" xml:"mod" cbor:"mod"`
 }
 
-// # api GET /system/backup 获取备份数据库的文件列表
-// @tag admin system
-// @resp 200 * backupList
 func (m *Module) adminGetBackup(ctx *web.Context) web.Responser {
 	entries, err := os.ReadDir(m.backupConfig.Dir)
 	if err != nil {

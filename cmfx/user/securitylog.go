@@ -31,7 +31,7 @@ func (m *Module) AddSecurityLogFromContext(tx *orm.Tx, uid int64, ctx *web.Conte
 	return m.AddSecurityLog(tx, uid, ctx.ClientIP(), ctx.Request().UserAgent(), content.LocaleString(ctx.LocalePrinter()))
 }
 
-type queryLog struct {
+type QueryLogDTO struct {
 	query.Text
 	CreatedStart time.Time `query:"created.start"` // 创建日志的起始时间
 	CreatedEnd   time.Time `query:"created.end"`   // 创建日志的结束时间
@@ -45,7 +45,7 @@ func (m *Module) GetSecurityLogs(ctx *web.Context) web.Responser {
 
 // getSecurityLogs 将数据以固定的格式输出客户端
 func (m *Module) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
-	q := &queryLog{}
+	q := &QueryLogDTO{}
 	if rslt := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); rslt != nil {
 		return rslt
 	}
@@ -64,8 +64,8 @@ func (m *Module) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
 		sql.And("{end}<?", q.CreatedEnd)
 	}
 
-	return query.PagingResponserWithConvert[modelLog, respLog](ctx, &q.Limit, sql, func(m *modelLog) *respLog {
-		return &respLog{
+	return query.PagingResponserWithConvert[modelLog, LogVO](ctx, &q.Limit, sql, func(m *modelLog) *LogVO {
+		return &LogVO{
 			Content:   m.Content,
 			IP:        m.IP,
 			UserAgent: m.UserAgent,

@@ -42,7 +42,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	us := []*reqInfoWithAccount{
+	us := []*infoWithAccountDTO{
 		{
 			ctxInfoWithRoleState: ctxInfoWithRoleState{
 				info: info{

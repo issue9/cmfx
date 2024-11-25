@@ -53,7 +53,7 @@ func TestSecurityLog(t *testing.T) {
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			page := &query.Page[respLog]{}
+			page := &query.Page[LogVO]{}
 			a.NotError(json.Unmarshal(body, page))
 			a.Length(page.Current, 2).Equal(2, page.Count)
 		})
@@ -63,7 +63,7 @@ func TestSecurityLog(t *testing.T) {
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			page := &query.Page[respLog]{}
+			page := &query.Page[LogVO]{}
 			a.NotError(json.Unmarshal(body, page))
 			a.Length(page.Current, 1).Equal(2, page.Count)
 		})

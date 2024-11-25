@@ -9,6 +9,7 @@ import (
 
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
+	"github.com/issue9/web/openapi"
 )
 
 const moduleContextValue moduleContextType = 0
@@ -22,9 +23,10 @@ type Module struct {
 	s    web.Server
 	db   *orm.DB
 	r    *web.Router
+	doc  *openapi.Document
 }
 
-func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router) *Module {
+func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document) *Module {
 	// 防止重复的 id 值
 	m, loaded := s.Vars().LoadOrStore(moduleContextValue, map[string]struct{}{id: {}})
 	if loaded {
@@ -43,6 +45,7 @@ func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *
 		s:    s,
 		db:   db.New(id),
 		r:    r,
+		doc:  doc,
 	}
 }
 
@@ -67,7 +70,11 @@ func (m *Module) Engine(tx *orm.Tx) orm.Engine {
 
 // New 基于当前模块的 ID 声明一个新的实例
 func (m *Module) New(id string, desc web.LocaleStringer) *Module {
-	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router())
+	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc)
 }
 
 func (m *Module) Router() *web.Router { return m.r }
+
+func (m *Module) API(f func(o *openapi.Operation)) web.Middleware {
+	return m.doc.API(f)
+}

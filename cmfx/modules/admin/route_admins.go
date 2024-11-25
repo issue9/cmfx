@@ -22,7 +22,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-type respAdminInfo struct {
+type adminInfoVO struct {
 	ctxInfoWithRoleState
 
 	// 当前用户已经开通的验证方式
@@ -34,11 +34,6 @@ type respPassportIdentity struct {
 	Identity string `json:"identity" xml:"identity" cbor:"identity"`
 }
 
-// # API GET /admins/{id} 获取指定的管理员账号
-//
-// @tag admin
-// @path id int 管理的 ID
-// @resp 200 * respAdminInfo
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -74,7 +69,7 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	}
 	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.Name, b.Name) }) // 排序，尽量使输出的内容相同
 
-	return web.OK(&respAdminInfo{
+	return web.OK(&adminInfoVO{
 		ctxInfoWithRoleState: ctxInfoWithRoleState{
 			info:  *a,
 			Roles: rs,
@@ -86,9 +81,9 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 
 type queryAdmins struct {
 	query.Text
-	Roles  []string     `query:"role"`
-	States []user.State `query:"state,normal"`
-	Sexes  []types.Sex  `query:"sex"`
+	Roles  []string     `query:"role" comment:"role"`
+	States []user.State `query:"state,normal" comment:"state"`
+	Sexes  []types.Sex  `query:"sex" comment:"sex"`
 	m      *Module
 }
 
@@ -105,11 +100,6 @@ func (q *queryAdmins) Filter(v *web.FilterContext) {
 		Add(types.SexSliceFilter("sex", &q.Sexes))
 }
 
-// # API GET /admins 获取所有的管理员账号
-//
-// @tag admin
-// @query queryAdmins
-// @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[ctxInfoWithRoleState]
 func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 	q := &queryAdmins{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
@@ -159,11 +149,6 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 	})
 }
 
-// # api PATCH /admins/{id} 更新管理员信息
-// @path id int 管理的 ID
-// @tag admin
-// @req * ctxInfoWithRoleState
-// @resp 204 * {}
 func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -214,10 +199,6 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-// # api DELETE /admins/{id}/password 重置管理员的密码
-// @tag admin
-// @resp 204 * {}
-// @path id id 管理的 ID
 func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -241,12 +222,8 @@ func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-// # api POST /admins 添加管理员账号
-// @tag admin
-// @req * reqInfoWithAccount
-// @resp 201 * {}
 func (m *Module) postAdmins(ctx *web.Context) web.Responser {
-	data := &reqInfoWithAccount{ctxInfoWithRoleState: ctxInfoWithRoleState{info: info{m: m}}}
+	data := &infoWithAccountDTO{ctxInfoWithRoleState: ctxInfoWithRoleState{info: info{m: m}}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
@@ -257,25 +234,14 @@ func (m *Module) postAdmins(ctx *web.Context) web.Responser {
 	return web.Created(nil, "")
 }
 
-// # api POST /admins/{id}/locked 锁定管理员
-// @tag admin
-// @resp 201 * {}
 func (m *Module) postAdminLocked(ctx *web.Context) web.Responser {
 	return m.setAdminState(ctx, user.StateLocked, http.StatusCreated)
 }
 
-// # api delete /admins/{id} 删除管理员
-// @tag admin
-// @path id id 管理员的 ID
-// @resp 201 * {}
 func (m *Module) deleteAdmin(ctx *web.Context) web.Responser {
-	return m.setAdminState(ctx, user.StateDeleted, http.StatusCreated)
+	return m.setAdminState(ctx, user.StateDeleted, http.StatusNoContent)
 }
 
-// # api delete /admins/{id}/locked 解除锁定
-// @tag admin
-// @path id id 管理员的 ID
-// @resp 204 * {}
 func (m *Module) deleteAdminLocked(ctx *web.Context) web.Responser {
 	return m.setAdminState(ctx, user.StateNormal, http.StatusNoContent)
 }

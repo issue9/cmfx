@@ -15,6 +15,7 @@ import (
 	"github.com/issue9/orm/v6/dialect"
 	"github.com/issue9/web"
 	"github.com/issue9/web/mimetype/json"
+	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server"
 
 	_ "github.com/mattn/go-sqlite3"
@@ -39,8 +40,9 @@ func TestNewModule(t *testing.T) {
 	}()
 
 	r := srv.Routers().New("def", nil)
+	doc := openapi.New(srv, web.Phrase("test"))
 
-	mod := NewModule("m1", web.Phrase("m1"), srv, db, r)
+	mod := NewModule("m1", web.Phrase("m1"), srv, db, r, doc)
 	a.NotNil(mod).
 		Equal(mod.ID(), "m1").
 		Equal(mod.Server(), srv).
@@ -64,7 +66,8 @@ func TestNewModule(t *testing.T) {
 		Equal(mod3.DB().TablePrefix(), "m1sub_sub")
 
 	a.PanicString(func() {
-		NewModule("m1sub", web.Phrase("m1sub"), srv, db, r)
+		doc := openapi.New(srv, web.Phrase("test"))
+		NewModule("m1sub", web.Phrase("m1sub"), srv, db, r, doc)
 	}, "存在相同 id 的模块：m1sub")
 
 	a.Equal(mod2.Engine(nil), mod2.DB())

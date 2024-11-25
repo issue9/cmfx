@@ -24,17 +24,17 @@ type contextType int
 // Init 初始化当前框架的必要环境
 //
 // NOTE: 需要在添加路由之前调用，否则参数 r 的限制不启作用。
-func Init(s web.Server, r *Ratelimit) {
+func Init(s web.Server, r *Ratelimit, plugin ...web.Plugin) {
 	c := web.NewCache(r.Prefix, s.Cache())
 	limit := ratelimit.New(c, r.Capacity, r.Rate.Duration(), nil, nil)
-
 	s.Vars().Store(contenxtKey, limit)
 
-	s.Use([]web.Plugin{
+	plugins := append(plugin,
 		web.PluginFunc(locale),
 		web.PluginFunc(problems),
 		middlewares.Plugin(limit),
-	}...)
+	)
+	s.Use(plugins...)
 }
 
 // Unlimit 取消由 [Init] 创建 API 限制功能

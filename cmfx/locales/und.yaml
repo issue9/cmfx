@@ -1,12 +1,36 @@
 languages:
     - und
 messages:
+    - key: The api doc of %s
+      message:
+        msg: The api doc of %s
+    - key: add admin api
+      message:
+        msg: add admin api
+    - key: add role api
+      message:
+        msg: add role api
     - key: admin
       message:
         msg: admin
+    - key: admin login api
+      message:
+        msg: admin login api
+    - key: admin logout api
+      message:
+        msg: admin logout api
+    - key: admin refresh token api
+      message:
+        msg: admin refresh token api
+    - key: another password valid
+      message:
+        msg: another password valid
     - key: auto register
       message:
         msg: auto register
+    - key: backup api
+      message:
+        msg: backup api
     - key: backup database
       message:
         msg: backup database
@@ -58,18 +82,36 @@ messages:
     - key: change password
       message:
         msg: change password
+    - key: created time
+      message:
+        msg: created time
     - key: del backup database file
       message:
         msg: del backup database file
     - key: delete admins
       message:
         msg: delete admins
+    - key: delete backup file api
+      message:
+        msg: delete backup file api
+    - key: delete role api
+      message:
+        msg: delete role api
     - key: delete roles
       message:
         msg: delete roles
+    - key: delete the admin api
+      message:
+        msg: delete the admin api
     - key: different oauth state value %s %s
       message:
         msg: different oauth state value %s %s
+    - key: edit role info api
+      message:
+        msg: edit role info api
+    - key: edit role resources api
+      message:
+        msg: edit role resources api
     - key: edit roles
       message:
         msg: edit roles
@@ -88,12 +130,54 @@ messages:
     - key: general setting
       message:
         msg: general setting
+    - key: get admin info api
+      message:
+        msg: get admin info api
+    - key: get admin list api
+      message:
+        msg: get admin list api
     - key: get admins
       message:
         msg: get admins
+    - key: get api list api
+      message:
+        msg: get api list api
     - key: get backup database list
       message:
         msg: get backup database list
+    - key: get backup file list api
+      message:
+        msg: get backup file list api
+    - key: get login user info api
+      message:
+        msg: get login user info api
+    - key: get login user security log api
+      message:
+        msg: get login user security log api
+    - key: get passports api
+      message:
+        msg: get passports api
+    - key: get resources list api
+      message:
+        msg: get resources list api
+    - key: get role resources api
+      message:
+        msg: get role resources api
+    - key: get roles list api
+      message:
+        msg: get roles list api
+    - key: get services list api
+      message:
+        msg: get services list api
+    - key: get system info api
+      message:
+        msg: get system info api
+    - key: get system problems api
+      message:
+        msg: get system problems api
+    - key: get system state api
+      message:
+        msg: get system state api
     - key: identity already exists
       message:
         msg: identity already exists
@@ -124,6 +208,18 @@ messages:
     - key: linkage key %s not found
       message:
         msg: linkage key %s not found
+    - key: lock the admin api
+      message:
+        msg: lock the admin api
+    - key: log IP
+      message:
+        msg: log IP
+    - key: log content
+      message:
+        msg: log content
+    - key: log user agent
+      message:
+        msg: log user agent
     - key: login
       message:
         msg: login
@@ -151,9 +247,21 @@ messages:
     - key: only for super detail
       message:
         msg: only for super detail
+    - key: passport adapter description
+      message:
+        msg: passport adapter description
+    - key: passport adapter id
+      message:
+        msg: passport adapter id
     - key: password mode
       message:
         msg: password mode
+    - key: patch admin info api
+      message:
+        msg: patch admin info api
+    - key: patch login user info api
+      message:
+        msg: patch login user info api
     - key: post admins
       message:
         msg: post admins
@@ -169,12 +277,36 @@ messages:
     - key: refresh token
       message:
         msg: refresh token
+    - key: reset admin password api
+      message:
+        msg: reset admin password api
+    - key: role
+      message:
+        msg: role
+    - key: role description
+      message:
+        msg: role description
+    - key: role id
+      message:
+        msg: role id
+    - key: role name
+      message:
+        msg: role name
+    - key: role parent
+      message:
+        msg: role parent
     - key: roles not exists
       message:
         msg: roles not exists
     - key: same of new and old password
       message:
         msg: same of new and old password
+    - key: sex
+      message:
+        msg: sex
+    - key: state
+      message:
+        msg: state
     - key: strength invalid
       message:
         msg: strength invalid
@@ -184,6 +316,21 @@ messages:
     - key: system
       message:
         msg: system
+    - key: test
+      message:
+        msg: test
+    - key: the ID of admin
+      message:
+        msg: the ID of admin
+    - key: the backup filename
+      message:
+        msg: the backup filename
+    - key: the file name
+      message:
+        msg: the file name
+    - key: the role id
+      message:
+        msg: the role id
     - key: the value not in candidate
       message:
         msg: the value not in candidate
@@ -229,9 +376,27 @@ messages:
     - key: unauthorized security token detail
       message:
         msg: unauthorized security token detail
+    - key: unlock the admin api
+      message:
+        msg: unlock the admin api
     - key: update info
       message:
         msg: update info
+    - key: upload file
+      message:
+        msg: upload file
+    - key: upload static server
+      message:
+        msg: upload static server
+    - key: user id
+      message:
+        msg: user id
+    - key: user no
+      message:
+        msg: user no
+    - key: user state
+      message:
+        msg: user state
     - key: view apis
       message:
         msg: view apis
