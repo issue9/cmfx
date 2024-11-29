@@ -38,16 +38,16 @@ func NewModule(s *test.Suite) *admin.Module {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	loader := admin.Install(mod, o)
-	s.Assertion().NotNil(loader)
+	m := admin.Install(mod, o)
+	s.Assertion().NotNil(m)
 
-	return loader
+	return m
 }
 
 // GetToken 获得后台的访问令牌
-func GetToken(s *test.Suite, loader *admin.Module) string {
+func GetToken(s *test.Suite, m *admin.Module) string {
 	r := &token.Response{}
-	s.Post(loader.URLPrefix()+"/login?type=password", []byte(`{"username":"admin","password":"123"}`)).
+	s.Post(m.URLPrefix()+"/passports/password/login", []byte(`{"username":"admin","password":"123"}`)).
 		Header(header.ContentType, header.JSON+";charset=utf-8").
 		Header(header.Accept, header.JSON).
 		Do(nil).

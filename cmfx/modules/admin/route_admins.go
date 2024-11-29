@@ -40,7 +40,7 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	}
 
 	a := &info{ID: id}
-	found, err := m.Module().DB().Select(a)
+	found, err := m.UserModule().Module().DB().Select(a)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -59,10 +59,10 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	}
 
 	ps := make([]*respPassportIdentity, 0)
-	for k, v := range m.Passport().Identities(id) {
+	for k, v := range m.user.Identities(id) {
 		ps = append(ps, &respPassportIdentity{
 			ID:       k,
-			Username: v,
+			Identity: v,
 		})
 	}
 	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
@@ -104,7 +104,7 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	sql := m.Module().DB().SQLBuilder().Select().Column("info.*").From(orm.TableName(&info{}), "info")
+	sql := m.UserModule().Module().DB().SQLBuilder().Select().Column("info.*").From(orm.TableName(&info{}), "info")
 
 	if len(q.States) > 0 {
 		m.user.LeftJoin(sql, "user", "{user}.{id}={info}.{id}", q.States)
@@ -160,8 +160,8 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	}
 	data.ID = u.ID // 指定主键
 
-	err := m.Module().DB().DoTransaction(func(tx *orm.Tx) error {
-		e := tx.NewEngine(m.Module().DB().TablePrefix())
+	err := m.UserModule().Module().DB().DoTransaction(func(tx *orm.Tx) error {
+		e := tx.NewEngine(m.UserModule().Module().DB().TablePrefix())
 		if _, err := e.Update(&data.info, "sex"); err != nil {
 			return err
 		}
@@ -198,7 +198,7 @@ func (m *Module) postAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	if err := m.newAdmin(data, ctx.Begin()); err != nil {
+	if err := m.newAdmin(data); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")
@@ -236,4 +236,21 @@ func (m *Module) setAdminState(ctx *web.Context, state user.State, code int) web
 	}
 
 	return web.Status(code)
+}
+
+func (m *Module) getUserFromPath(ctx *web.Context) (*user.User, web.Responser) {
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	if resp != nil {
+		return nil, resp
+	}
+
+	u, err := m.user.GetUser(id)
+	if err != nil {
+		return nil, ctx.Error(err, "")
+	}
+	if u.State == user.StateDeleted {
+		return nil, ctx.Problem(cmfx.ForbiddenStateNotAllow)
+	}
+
+	return u, nil
 }

@@ -52,8 +52,8 @@ type ctxInfoWithRoleState struct {
 // 添加新的管理员时，需要提供的数据
 type infoWithAccountDTO struct {
 	ctxInfoWithRoleState
-	Username string `json:"username" xml:"username" cbor:"username"` // 账号
-	Password string `json:"password" xml:"password" cbor:"password"` // 密码
+	Username string `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"` // 账号
+	Password string `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"password"` // 密码
 }
 
 func (i *info) Filter(v *web.FilterContext) {

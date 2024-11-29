@@ -7,7 +7,6 @@ package admin
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/issue9/events"
 	"github.com/issue9/orm/v6"
@@ -15,15 +14,11 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
 	"github.com/issue9/webuse/v7/handlers/static"
-	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	xrbac "github.com/issue9/webuse/v7/middlewares/acl/rbac"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/cmfx/user/passport"
-	"github.com/issue9/cmfx/cmfx/user/passport/password"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
@@ -50,7 +45,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	u := user.Load(mod, o.User)
 
-	u.Passport().Register(password.New(mod, passportTypePassword, 8, web.StringPhrase("password mode")))
 	m := &Module{
 		user: u,
 
@@ -82,16 +76,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	putAdmin := g.New("put-admin", web.StringPhrase("put admin"))
 	postAdmin := g.New("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.New("del-admin", web.StringPhrase("delete admins"))
-
-	// 限制登录接口调用次数，可能存在 OPTIONS 等预检操作。
-	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 20, time.Second, nil, nil)
-
-	mod.Router().Prefix(m.URLPrefix()).
-		Get("/passports", m.getPassports).
-		Post("/passports/{type}/code/{identity}", m.postPassportCode, loginRate, initial.Unlimit(mod.Server())).
-		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server())).
-		Delete("/login", m.deleteLogin, m).
-		Put("/login", m.putToken, m)
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/resources", m.getResources, mod.API(func(o *openapi.Operation) {
@@ -200,12 +184,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				ResponseRef("204", "empty", nil, nil)
 		}))
 
-	// passport
-	mod.Router().Prefix(m.URLPrefix(), m).
-		Delete("/passports/{type}", m.deletePassport).
-		Post("/passports/{type}", m.postPassport).
-		Post("/passports/{type}/code", m.postCurrentPassportCode)
-
 	// upload
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)
 	mod.Router().Prefix(m.URLPrefix()).
@@ -284,13 +262,11 @@ func (m *Module) OnLogin(f func(*user.User)) context.CancelFunc { return m.login
 // OnLogout 注册用户主动退出时的事
 func (m *Module) OnLogout(f func(*user.User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }
 
-func (m *Module) Module() *cmfx.Module { return m.user.Module() }
-
-func (m *Module) Passport() *passport.Passport { return m.user.Passport() }
+func (m *Module) UserModule() *user.Module { return m.user }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(data *infoWithAccountDTO, now time.Time) error {
-	uid, err := m.user.NewUser(m.Passport().Get(passportTypePassword), data.Username, data.Password, now)
+func (m *Module) newAdmin(data *infoWithAccountDTO) error {
+	uid, err := m.user.New(user.StateNormal, data.Username, data.Password)
 	if err != nil {
 		return err
 	}
@@ -302,7 +278,7 @@ func (m *Module) newAdmin(data *infoWithAccountDTO, now time.Time) error {
 		Avatar:   data.Avatar,
 		Sex:      data.Sex,
 	}
-	if _, err = m.Module().DB().Insert(a); err != nil {
+	if _, err = m.UserModule().Module().DB().Insert(a); err != nil {
 		return err
 	}
 

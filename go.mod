@@ -22,7 +22,6 @@ require (
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.24.10
 	golang.org/x/crypto v0.29.0
-	golang.org/x/oauth2 v0.23.0
 	golang.org/x/text v0.20.0
 )
 

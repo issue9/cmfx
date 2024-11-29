@@ -22,6 +22,8 @@ type Sender interface {
 	//
 	// target 为接收验证码的目标，比如邮箱地址或是手机号码等；
 	// code 为发送的验证码；
+	//
+	// NOTE: 该方法会被异步调用。
 	Sent(target, code string) error
 }
 
@@ -36,15 +38,6 @@ type smtpSender struct {
 	template string
 	auth     smtp.Auth
 }
-
-type emptySender struct{}
-
-// NewEmptySender 一个空的 [Sender] 实现
-func NewEmptySender() Sender { return &emptySender{} }
-
-func (s *emptySender) ValidIdentity(_ string) bool { return true }
-
-func (s *emptySender) Sent(_, _ string) error { return nil }
 
 // NewSMTPSender 基于 SMTP 的 [Sender] 实现
 //

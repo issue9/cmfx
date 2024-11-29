@@ -13,7 +13,7 @@ import (
 
 func Install(mod *cmfx.Module, tableName string) {
 	db := utils.BuildDB(mod, tableName)
-	if err := db.Create(&modelTOTP{}); err != nil {
+	if err := db.Create(&accountPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

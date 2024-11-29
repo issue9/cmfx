@@ -38,7 +38,6 @@ const (
 	BadRequestInvalidBody    = "40004"
 	BadRequestBodyTooLarger  = "40005"
 	BadRequestBodyNotAllowed = "40006" // 提交内容的类型不允许，比如不允许的上传类型等
-	BadRequestLastPassport   = "40007" // 最后一个验证方式，不允许删除。
 )
 
 // 401

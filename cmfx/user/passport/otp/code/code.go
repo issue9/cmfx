@@ -6,43 +6,242 @@
 package code
 
 import (
+	"errors"
+	"strconv"
 	"time"
 
+	"github.com/issue9/cache"
+	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
+	"github.com/issue9/web/openapi"
+	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/cmfx/locales"
+	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport/utils"
 )
 
 type code struct {
-	db      *orm.DB
+	db    *orm.DB
+	cache web.Cache
+
 	sender  Sender
 	expired time.Duration
+	resend  time.Duration
 	gen     Generator
 	id      string
 	desc    web.LocaleStringer
+	user    *user.Module
 }
 
 // New 声明基于验证码的验证方法
 //
 // id 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符；
 // expired 表示验证码的过期时间；
-// tableName 用于指定验证码的表名，需要在同一个 mod 环境下是唯一的；
-func New(mod *cmfx.Module, expired time.Duration, id string, gen Generator, sender Sender, desc web.LocaleStringer) passport.Adapter {
+func Init(user *user.Module, expired, resend time.Duration, gen Generator, sender Sender, id string, desc web.LocaleStringer) user.Passport {
+	initProblems(user.Module().Server())
+
 	if gen == nil {
-		gen = NumberGenerator(mod.Server(), id, 4)
+		gen = NumberGenerator(user.Module().Server(), id, 4)
 	}
 
-	return &code{
-		db:      utils.BuildDB(mod, id),
+	c := &code{
+		db:    utils.BuildDB(user.Module(), id),
+		cache: web.NewCache(user.Module().ID()+"_passports_"+id+"_", user.Module().Server().Cache()),
+
 		sender:  sender,
 		expired: expired,
+		resend:  resend,
 		gen:     gen,
 		id:      id,
 		desc:    desc,
+		user:    user,
 	}
+
+	prefix := user.URLPrefix() + "/passports/" + id
+	user.Module().Router().Prefix(prefix).
+		Post("/login", c.postLogin, user.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").
+				Desc(web.Phrase("login by %s api", id), nil).
+				Body(accountTO{}, false, nil, nil).
+				Response("201", token.Response{}, nil, nil)
+		})).
+		Post("/login/code", c.requestLoginCode, c.user.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").
+				Desc(web.Phrase("request code for %s passport login api", id), nil).
+				Response("201", TargetTO{}, nil, nil)
+		}))
+	user.Module().Router().Prefix(prefix, user).
+		Post("", c.bindCode, c.user.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").
+				Desc(web.Phrase("bind %s passport for current user api", id), nil).
+				Body(accountTO{}, false, nil, nil).
+				ResponseRef("201", "empty", nil, nil)
+		})).
+		Delete("", c.deleteTOTP, c.user.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").
+				Desc(web.Phrase("delete %s passport for current user api", id), nil).
+				ResponseRef("204", "empty", nil, nil)
+		})).
+		Post("/code", c.requestBindCode, c.user.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").
+				Desc(web.Phrase("request code for %s passport bind api", id), nil).
+				Response("201", TargetTO{}, nil, nil)
+		}))
+
+	user.AddPassport(c)
+
+	return c
+}
+
+// 已登录状态下请求绑定时发送的验证码
+func (e *code) requestBindCode(ctx *web.Context) web.Responser {
+	return e.requestCode(ctx, true)
+}
+
+// 请求发送登录的验证码
+func (e *code) requestLoginCode(ctx *web.Context) web.Responser {
+	return e.requestCode(ctx, false)
+}
+
+func (e *code) requestCode(ctx *web.Context, isLogin bool) web.Responser {
+	data := &TargetTO{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	code := &codePO{}
+	err := e.cache.Get(data.Target, code)
+	if err != nil && !errors.Is(err, cache.ErrCacheMiss()) {
+		return ctx.Error(err, "")
+	}
+	if err == nil && code.ReSend.After(ctx.Begin()) { // 存在且未过再次发送的时间点
+		h := ctx.Header()
+		h.Set(header.XRateLimitLimit, "1")
+		h.Set(header.XRateLimitRemaining, "0")
+		h.Set(header.XRateLimitReset, strconv.FormatInt(code.ReSend.Unix(), 10))
+		return ctx.Problem(web.ProblemTooManyRequests)
+	}
+
+	if isLogin { // 登录状态需要检测是否已绑定到其它账号
+		mod := &accountPO{Target: data.Target}
+		found, err := e.db.Select(mod)
+		switch {
+		case err != nil:
+			return ctx.Error(err, "")
+		case found && mod.UID > 0:
+			return ctx.Problem(web.ProblemBadRequest).WithParam("target", web.Phrase("has been bind to other account").LocaleString(ctx.LocalePrinter()))
+		}
+	}
+
+	v := e.gen()
+	go func() {
+		if err := e.sender.Sent(data.Target, v); err != nil {
+			e.user.Module().Server().Logs().ERROR().Error(err)
+		}
+	}()
+
+	if err := e.cache.Set(data.Target, &codePO{Code: v, ReSend: ctx.Now().Add(e.resend)}, e.expired); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.Created(nil, "")
+}
+
+func (e *code) bindCode(ctx *web.Context) web.Responser {
+	data := &accountTO{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	code := &codePO{}
+	err := e.cache.Get(data.Target, code)
+	switch {
+	case errors.Is(err, cache.ErrCacheMiss()):
+		return ctx.Problem(cmfx.BadRequestInvalidBody).WithParam("target", web.Phrase("not exists").LocaleString(ctx.LocalePrinter()))
+	case err != nil:
+		return ctx.Error(err, "")
+	case code.Code != data.Code:
+		return ctx.Problem(cmfx.BadRequestInvalidBody).WithParam("code", locales.InvalidValue.LocaleString(ctx.LocalePrinter()))
+	}
+
+	mod := &accountPO{Target: data.Target}
+	found, err := e.db.Select(mod)
+	switch {
+	case err != nil:
+		return ctx.Error(err, "")
+	case found:
+		return ctx.Problem(problemHasBind)
+	}
+
+	mod = &accountPO{
+		ID:  mod.ID,
+		UID: e.user.CurrentUser(ctx).ID,
+	}
+	if _, _, err := e.db.Save(mod); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	if err := e.cache.Delete(data.Target); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.Created(nil, "")
+}
+
+func (e *code) postLogin(ctx *web.Context) web.Responser {
+	data := &accountTO{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	code := &codePO{}
+	err := e.cache.Get(data.Target, code)
+	switch {
+	case errors.Is(err, cache.ErrCacheMiss()):
+		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
+	case err != nil:
+		return ctx.Error(err, "")
+	case code.Code != data.Code:
+		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
+	}
+
+	mod := &accountPO{Target: data.Target}
+	found, err := e.db.Select(mod)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+
+	if !found { // 未关联账号
+		uid, err := e.user.New(user.StateNormal, data.Target, "")
+		if err != nil {
+			return ctx.Error(err, "")
+		}
+		mod = &accountPO{
+			Target: data.Target,
+			UID:    uid,
+		}
+		if _, _, err := e.db.Save(mod); err != nil {
+			return ctx.Error(err, "")
+		}
+	}
+
+	if err := e.cache.Delete(data.Target); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	u, err := e.user.GetUser(mod.UID)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return e.user.CreateToken(ctx, u, e)
+}
+
+func (e *code) deleteTOTP(ctx *web.Context) web.Responser {
+	if err := e.Delete(e.user.CurrentUser(ctx).ID); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.NoContent()
 }
 
 func (e *code) ID() string { return e.id }
@@ -50,110 +249,19 @@ func (e *code) ID() string { return e.id }
 func (e *code) Description() web.LocaleStringer { return e.desc }
 
 func (e *code) Delete(uid int64) error {
-	_, err := e.db.Where("uid=?", uid).Delete(&modelCode{}) // uid == 0 也是有效值
+	_, err := e.db.Where("uid=?", uid).Delete(&accountPO{}) // uid == 0 也是有效值
 	return err
 }
 
-func (e *code) Valid(identity, code string, now time.Time) (int64, string, error) {
-	mod := &modelCode{Identity: identity}
+func (e *code) Identity(uid int64) string {
+	mod := &accountPO{UID: uid}
 	found, err := e.db.Select(mod)
 	if err != nil {
-		return 0, "", err
+		e.user.Module().Server().Logs().ERROR().Error(err)
+		return ""
 	}
-
-	if !found || mod.Code != code || mod.Verified.Valid || mod.Expired.Before(now) {
-		return 0, "", passport.ErrUnauthorized()
+	if !found {
+		return ""
 	}
-
-	return mod.UID, identity, nil
-}
-
-func (e *code) Identity(uid int64) (string, error) {
-	mod := &modelCode{}
-	size, err := e.db.Where("uid=?", uid).Select(true, mod)
-	if err != nil {
-		return "", err
-	}
-	if size == 0 {
-		return "", passport.ErrUIDNotExists()
-	}
-	return mod.Identity, nil
-}
-
-func (e *code) UID(identity string) (int64, error) {
-	mod := &modelCode{}
-	size, err := e.db.Where("identity=?", identity).Select(true, mod)
-	if err != nil {
-		return 0, err
-	}
-	if size == 0 {
-		return 0, passport.ErrIdentityNotExists()
-	}
-	return mod.UID, nil
-}
-
-func (e *code) Update(uid int64) error {
-	if uid == 0 {
-		return passport.ErrUIDMustBeGreatThanZero()
-	}
-
-	m := e.getModel(uid)
-	if m == nil {
-		return passport.ErrUIDNotExists()
-	}
-
-	code := e.gen()
-
-	if _, err := e.db.Update(&modelCode{Identity: m.Identity, Code: code}, "code"); err != nil {
-		return err
-	}
-	return e.sender.Sent(m.Identity, code)
-}
-
-// Add 注册新用户
-//
-// code 为验证码，可以用于验证，但是并不会真的发送该验证码。
-func (e *code) Add(uid int64, identity, code string, now time.Time) error {
-	if !e.sender.ValidIdentity(identity) {
-		return passport.ErrInvalidIdentity()
-	}
-
-	if uid > 0 && e.getModel(uid) != nil {
-		return passport.ErrUIDExists()
-	}
-
-	mod := &modelCode{Identity: identity}
-	found, err := e.db.Select(mod)
-	if err != nil {
-		return err
-	}
-	if found {
-		if mod.UID > 0 {
-			return passport.ErrIdentityExists()
-		}
-
-		_, err = e.db.Update(&modelCode{
-			UID:      uid,
-			Identity: identity,
-			Code:     code,
-		})
-	} else {
-		_, err = e.db.Insert(&modelCode{
-			Created:  now,
-			Expired:  now.Add(e.expired),
-			Identity: identity,
-			UID:      uid,
-			Code:     code,
-		})
-	}
-
-	return err
-}
-
-func (e *code) getModel(uid int64) *modelCode {
-	m := &modelCode{}
-	if f, err := e.db.Where("uid=?", uid).Select(true, m); err == nil && f > 0 {
-		return m
-	}
-	return nil
+	return mod.Target
 }

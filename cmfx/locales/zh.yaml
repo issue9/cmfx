@@ -3,9 +3,18 @@ languages:
     - cmn-Hans
     - zh-CN
 messages:
+    - key: TOTP passport
+      message:
+        msg: TOTP 验证
+    - key: The ID of passport
+      message:
+        msg: 登录验证器的 ID
     - key: The api doc of %s
       message:
         msg: '%s 的 API 文档'
+    - key: The description of passport
+      message:
+        msg: 登治验证器的描述
     - key: add admin api
       message:
         msg: 添加管理员
@@ -15,21 +24,6 @@ messages:
     - key: admin
       message:
         msg: 管理员
-    - key: admin login api
-      message:
-        msg: 管理员登录
-    - key: admin logout api
-      message:
-        msg: 管理员退出
-    - key: admin refresh token api
-      message:
-        msg: 刷新管理员令牌
-    - key: another password valid
-      message:
-        msg: another password valid
-    - key: auto register
-      message:
-        msg: 自动注册
     - key: backup api
       message:
         msg: 备份数据库
@@ -78,12 +72,15 @@ messages:
       message:
         msg: |
             查询参数格式不正确，类似于无效的路径参数，大概率是前端提交的类型有误。
-    - key: bad request last passport
+    - key: before bind need create secret
       message:
-        msg: 只剩下一种认证方式了
-    - key: bad request last passport detail
+        msg: 绑定之前需要先创建密钥
+    - key: before bind need create secret detail
       message:
-        msg: 最后一种认证方式是不能删除的。一个账号最起码保存一种认证方式，才能进行登录操作。
+        msg: 在使用绑定接口绑定 TOTP 之前，需要调用创建密钥的接口生成一密钥。
+    - key: bind %s passport for current user api
+      message:
+        msg: 为当前用户绑定 %s 验证方式
     - key: can not do it for super
       message:
         msg: 不能对超级管理使用有此操作
@@ -93,9 +90,24 @@ messages:
     - key: censor setting
       message:
         msg: 内容审核设置
+    - key: change current user password for %s passport api
+      message:
+        msg: 修改当前用户的 %s 验证方式的密码
+    - key: code
+      message:
+        msg: 验证码
+    - key: code receiver, ignore when binded
+      message:
+        msg: 验证码接收者，如果已经绑定，则会忽略此值
+    - key: created time
+      message:
+        msg: 创建时间
     - key: del backup database file
       message:
         msg: 删除备份的数据库文件
+    - key: delete %s passport for current user api
+      message:
+        msg: 解绑当前用户与 %s 验证方式
     - key: delete admins
       message:
         msg: 删除管理员
@@ -111,9 +123,6 @@ messages:
     - key: delete the admin api
       message:
         msg: 删除管理员
-    - key: different oauth state value %s %s
-      message:
-        msg: 返回了不同的 oauth state 值 %s %s
     - key: edit role info api
       message:
         msg: 编辑角色信息
@@ -141,6 +150,12 @@ messages:
     - key: generator code for %s
       message:
         msg: 为 %s 生成验证码
+    - key: get admin info api
+      message:
+        msg: 获取管理员的信息
+    - key: get admin list api
+      message:
+        msg: 获取管理员列表
     - key: get admins
       message:
         msg: 查看管理员信息
@@ -159,9 +174,9 @@ messages:
     - key: get login user security log api
       message:
         msg: 获取当前登录用户的安全日志列表
-    - key: get passports api
+    - key: get passports list api
       message:
-        msg: 获取可用的登录方式列表
+        msg: 获取支持验证方式列表
     - key: get resources list api
       message:
         msg: 获取资源列表
@@ -183,12 +198,21 @@ messages:
     - key: get system state api
       message:
         msg: 查询系统状态
-    - key: identity already exists
+    - key: has been bind code
       message:
-        msg: 已经存在相同的 ID
-    - key: identity not exists
+        msg: 验证码验证方式已经绑定
+    - key: has been bind code detail
       message:
-        msg: ID 不存在
+        msg: 该方式的验证已经绑定，一般多次调用绑定接口可能会发生此错误
+    - key: has been bind to other account
+      message:
+        msg: 已经绑定到其它账号上
+    - key: has been bind totp detail
+      message:
+        msg: 该账号已经绑定 TOTP
+    - key: has been totp bind
+      message:
+        msg: 该账号已经绑定 TOTP
     - key: identity registrable
       message:
         msg: |
@@ -197,9 +221,6 @@ messages:
       message:
         msg: |
             某些登录状态验证失败之后，会返回一个可用于注册的 ID，客户端可根据此 ID 注册新的账号。
-    - key: invalid identity format
-      message:
-        msg: 无效的 ID 格式
     - key: invalid url format
       message:
         msg: 无效的 URL 格式
@@ -227,12 +248,15 @@ messages:
     - key: log user agent
       message:
         msg: log user agent
-    - key: login
+    - key: login by %s
       message:
-        msg: 登录
-    - key: logout
+        msg: 以 %s 的验证方式登录
+    - key: login by %s api
       message:
-        msg: 退出
+        msg: 以 %s 方式登录
+    - key: logout api
+      message:
+        msg: 退出当前登录
     - key: must be a dir
       message:
         msg: 必须得是个目录
@@ -245,21 +269,39 @@ messages:
     - key: must be less than %v
       message:
         msg: 须小于 %v
+    - key: new password
+      message:
+        msg: 新密码
+    - key: not exists
+      message:
+        msg: 不存在
     - key: not found
       message:
         msg: 未找到
+    - key: old password
+      message:
+        msg: 旧密码
     - key: only for super
       message:
         msg: 只有超级管理员才有此权限
     - key: only for super detail
       message:
         msg: 某些权限只有超级管理员才拥有，比如转让超级管理员操作。
-    - key: passport adapter not found
+    - key: passport
       message:
-        msg: 未找到指定的适配器
-    - key: password mode
+        msg: 验证方式
+    - key: passport password mode
       message:
-        msg: 密码登录
+        msg: 密码
+    - key: password
+      message:
+        msg: password
+    - key: patch admin info api
+      message:
+        msg: 更新管理员信息
+    - key: patch login user info api
+      message:
+        msg: 更新登不用户个人信息
     - key: post admins
       message:
         msg: 添加管理员
@@ -275,9 +317,18 @@ messages:
     - key: refresh token
       message:
         msg: 刷新令牌
-    - key: reset admin password api
+    - key: refresh token api
       message:
-        msg: 重置管理员密码
+        msg: 刷新令牌
+    - key: request code for %s passport bind api
+      message:
+        msg: 为绑定 %s 验证方式请求验证码
+    - key: request code for %s passport login api
+      message:
+        msg: 为 %s 验证方式登录请求验证码
+    - key: request secret for %s passport api
+      message:
+        msg: 为 %s 验证方式请求密钥
     - key: role
       message:
         msg: 角色
@@ -296,9 +347,18 @@ messages:
     - key: roles not exists
       message:
         msg: 角色不存在
-    - key: smtp valid
+    - key: secret expired
       message:
-        msg: smtp valid
+        msg: TOTP 密钥过期
+    - key: secret expired detail
+      message:
+        msg: TOTP 密钥过期
+    - key: sex
+      message:
+        msg: 性别
+    - key: state
+      message:
+        msg: 状态
     - key: strength invalid
       message:
         msg: 密码强度不够
@@ -308,9 +368,9 @@ messages:
     - key: system
       message:
         msg: 系统
-    - key: test
+    - key: target
       message:
-        msg: 测试
+        msg: 接收者
     - key: the ID of admin
       message:
         msg: 管理员 ID
@@ -320,24 +380,21 @@ messages:
     - key: the file name
       message:
         msg: 文件名
+    - key: the new password can not be equal old
+      message:
+        msg: 新旧密码不能相同
     - key: the role id
       message:
         msg: 角色 ID
     - key: the value not in candidate
       message:
         msg: 该值并不在候选列表中
-    - key: uid already exists
+    - key: totp code
       message:
-        msg: UID 已经存在
-    - key: uid must be great than 0
+        msg: TOTP 验证码
+    - key: totp secret
       message:
-        msg: UID 必须大于零
-    - key: uid not exists
-      message:
-        msg: UID 不存在
-    - key: unauthorized
-      message:
-        msg: 账号或是密码错误
+        msg: TOTP 密钥
     - key: unauthorized invalid account
       message:
         msg: 账号或是密码错误
@@ -385,12 +442,18 @@ messages:
     - key: user id
       message:
         msg: user id
+    - key: user logout
+      message:
+        msg: 用户主动退出
     - key: user no
       message:
         msg: user no
     - key: user state
       message:
         msg: user state
+    - key: username
+      message:
+        msg: 账号
     - key: view apis
       message:
         msg: 查看接口信息

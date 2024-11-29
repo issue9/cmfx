@@ -19,29 +19,33 @@ const (
 )
 
 // State 表示管理员的状态
-//
-// @enum
-// @type string
 type State int8
 
 func (s State) PrimitiveType() core.PrimitiveType { return core.String }
 
 // 安全日志
 type LogVO struct {
-	Content   string    `json:"content" xml:",cdata" cbor:"content" comment:"log content"`
-	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip" comment:"log IP"`
-	UserAgent string    `json:"ua" xml:"ua" cbor:"ua" comment:"log user agent"`
-	Created   time.Time `xml:"created" json:"created" cbor:"created" comment:"created time"`
+	Content   string    `json:"content" xml:",cdata" cbor:"content" yaml:"content" comment:"log content"`
+	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip" yaml:"ip" comment:"log IP"`
+	UserAgent string    `json:"ua" xml:"ua" cbor:"ua" yaml:"ua" comment:"log user agent"`
+	Created   time.Time `xml:"created" json:"created" cbor:"created" yaml:"created" comment:"created time"`
 }
 
 //--------------------------------------- user ---------------------------------------
 
 type User struct {
 	XMLName struct{}  `orm:"-" json:"-" xml:"user" cbor:"-"`
-	ID      int64     `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" comment:"user id"`                       // 用户的自增 ID
-	NO      string    `orm:"name(no);len(32);unique(no)" json:"no" xml:"no,attr" cbor:"no" comment:"user no"`       // 用户的唯一编号，一般用于前端
-	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created" comment:"created time"` // 添加时间
-	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state" comment:"user state"`           // 状态
+	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created" yaml:"created" comment:"created time"` // 添加时间
+	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state" yaml:"state" comment:"user state"`             // 状态
+
+	// 用户的自增 ID
+	ID int64 `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" yaml:"id" comment:"user id"`
+	// 用户编号，唯一且无序。
+	NO string `orm:"name(no);len(32);unique(no)" json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"`
+
+	// 登录信息，username 不唯一，保证在标记为删除的情况下，不影响相同值的数据添加。
+	Username string `orm:"name(username);len(32)" json:"username,omitempty" yaml:"username,omitempty" xml:"username,omitempty" cbor:"username,omitempty" comment:"username"`
+	Password []byte `orm:"name(password);len(64)" json:"password,omitempty" yaml:"password,omitempty" xml:"password,omitempty" cbor:"password,omitempty" comment:"password"`
 }
 
 func (u *User) GetUID() string { return u.NO }
@@ -56,7 +60,7 @@ func (u *User) BeforeInsert() error {
 
 //--------------------------------- modelLog ---------------------------------------------
 
-type modelLog struct {
+type logPO struct {
 	ID      int64     `orm:"name(id);ai"`
 	Created time.Time `orm:"name(created)"`
 
@@ -66,9 +70,9 @@ type modelLog struct {
 	UserAgent string `orm:"name(user_agent);len(500)"`
 }
 
-func (l *modelLog) TableName() string { return "_securitylogs" }
+func (l *logPO) TableName() string { return "_securitylogs" }
 
-func (l *modelLog) BeforeInsert() error {
+func (l *logPO) BeforeInsert() error {
 	l.Created = time.Now()
 	l.Content = html.EscapeString(l.Content)
 	l.IP = html.EscapeString(l.IP)
@@ -77,4 +81,4 @@ func (l *modelLog) BeforeInsert() error {
 	return nil
 }
 
-func (l *modelLog) BeforeUpdate() error { panic("此表不存在更新记录的情况") }
+func (l *logPO) BeforeUpdate() error { panic("此表不存在更新记录的情况") }

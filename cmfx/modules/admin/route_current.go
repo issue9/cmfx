@@ -14,8 +14,8 @@ import (
 )
 
 type respPassportIdentity struct {
-	ID       string `json:"id" xml:"id" cbor:"id"`
-	Username string `json:"username" xml:"username" cbor:"username"`
+	ID       string `json:"id" xml:"id" cbor:"id" yaml:"id"`
+	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"id"`
 }
 
 type respInfoWithPassport struct {
@@ -29,7 +29,7 @@ type respInfoWithPassport struct {
 func (m *Module) getInfo(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx)
 	infomation := &info{ID: u.ID}
-	f, err := m.Module().DB().Select(infomation)
+	f, err := m.UserModule().Module().DB().Select(infomation)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -38,10 +38,10 @@ func (m *Module) getInfo(ctx *web.Context) web.Responser {
 	}
 
 	ps := make([]*respPassportIdentity, 0)
-	for k, v := range m.Passport().Identities(u.ID) {
+	for k, v := range m.user.Identities(u.ID) {
 		ps = append(ps, &respPassportIdentity{
 			ID:       k,
-			Username: v,
+			Identity: v,
 		})
 	}
 	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
@@ -61,7 +61,7 @@ func (m *Module) patchInfo(ctx *web.Context) web.Responser {
 	a := m.CurrentUser(ctx)
 
 	data.ID = a.ID // 确保 ID 正确
-	_, err := m.Module().DB().Update(data)
+	_, err := m.UserModule().Module().DB().Update(data)
 	if err != nil {
 		return ctx.Error(err, "")
 	}

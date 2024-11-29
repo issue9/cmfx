@@ -5,21 +5,17 @@
 package admin
 
 import (
-	"time"
-
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/cmfx/user/passport/password"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
 func Install(mod *cmfx.Module, o *Config) *Module {
 	user.Install(mod)
-	password.Install(mod, "passwords")
 	rbac.Install(mod)
 
 	if err := mod.DB().Create(&info{}); err != nil {
@@ -89,7 +85,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 	}
 
 	for _, u := range us {
-		if err := l.newAdmin(u, time.Now()); err != nil {
+		if err := l.newAdmin(u); err != nil {
 			panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 		}
 	}

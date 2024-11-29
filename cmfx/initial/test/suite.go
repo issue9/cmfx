@@ -5,6 +5,7 @@
 package test
 
 import (
+	"net/http"
 	"os"
 	"strings"
 
@@ -13,10 +14,10 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/dialect"
 	"github.com/issue9/web"
-	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server/servertest"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/initial"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -36,7 +37,7 @@ func NewSuite(a *assert.Assertion) *Suite {
 	a.NotError(err).NotNil(db)
 
 	srv := NewServer(a)
-	doc := openapi.New(srv, web.Phrase("test"))
+	doc := initial.NewDocument(srv)
 	s := &Suite{
 		a:   a,
 		dsn: dsn,
@@ -85,6 +86,10 @@ func (s *Suite) Delete(url string) *rest.Request {
 
 func (s *Suite) Post(url string, body []byte) *rest.Request {
 	return servertest.Post(s.Assertion(), buildURL(url), body)
+}
+
+func (s *Suite) Put(url string, body []byte) *rest.Request {
+	return servertest.NewRequest(s.Assertion(),http.MethodPut, buildURL(url)).Body(body)
 }
 
 func (s *Suite) Get(url string) *rest.Request { return servertest.Get(s.a, buildURL(url)) }

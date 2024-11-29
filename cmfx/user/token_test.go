@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-package user
+package user_test
 
 import (
-	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
-	"strconv"
-	"strings"
 	"testing"
 	"time"
 
@@ -21,50 +19,32 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/code"
+	"github.com/issue9/cmfx/cmfx/user/passport/otp/code/codetest"
 )
 
-func TestLoader_Login(t *testing.T) {
+func TestModule_routes(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	u := newModule(s)
+	sender := codetest.New()
+
+	u := NewModule(s, nil, nil)
 
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "code")
-	pc := code.New(u.Module(), time.Second, "code", nil, code.NewEmptySender(), web.Phrase("code"))
-	u.Passport().Register(pc)
-	a.NotError(pc.Add(0, "new", "password", time.Now()))
-
-	s.Module().Router().Post("/login", func(ctx *web.Context) web.Responser {
-		output := &bytes.Buffer{}
-		resp := u.Login(ctx, func(id int64) error {
-			// 仅新用户才会访问到此
-			_, err := output.WriteString(strconv.FormatInt(id, 10))
-			return err
-		}, func(_ *User) { output.WriteString("after") })
-
-		a.NotNil(resp).True(strings.HasSuffix(output.String(), "after")) // 用户已经存在
-		return resp
-	})
+	code.Init(u, time.Second, time.Second, nil, sender, "code", web.Phrase("code"))
 
 	// 测试 SetState
 	s.Module().Router().Post("/state", func(ctx *web.Context) web.Responser {
-		user := u.CurrentUser(ctx)
-		a.NotError(u.SetState(nil, user, StateNormal))
-		a.NotError(u.SetState(nil, user, StateLocked))
+		usr := u.CurrentUser(ctx)
+		a.NotError(u.SetState(nil, usr, user.StateNormal))
+		a.NotError(u.SetState(nil, usr, user.StateLocked))
 		return web.NoContent()
-	}, u)
-
-	s.Module().Router().Post("/refresh", func(ctx *web.Context) web.Responser {
-		return u.RefreshToken(ctx)
 	}, u)
 
 	s.Module().Router().Get("/info", func(ctx *web.Context) web.Responser {
 		return web.OK(u.CurrentUser(ctx))
-	}, u)
-
-	s.Module().Router().Delete("/login", func(ctx *web.Context) web.Responser {
-		return u.Logout(ctx, nil, web.Phrase("reason"))
 	}, u)
 
 	defer servertest.Run(a, s.Module().Server())()
@@ -73,7 +53,7 @@ func TestLoader_Login(t *testing.T) {
 	//--------------------------- user 1 -------------------------------------
 
 	tk1 := &token.Response{}
-	s.Post("/login", []byte(`{"type":"password","username":"admin","password":"password"}`)).
+	s.Post("/user/passports/password/login", []byte(`{"username":"user","password":"123"}`)).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON+"; charset=utf-8").
 		Do(nil).
@@ -97,10 +77,18 @@ func TestLoader_Login(t *testing.T) {
 
 	//--------------------------- user 2 -------------------------------------
 
+	s.Post("/user/passports/code/login/code", []byte(`{"target":"new"}`)).
+		Header(header.Accept, header.JSON).
+		Header(header.ContentType, header.JSON+"; charset=utf-8").
+		Do(nil).
+		Status(http.StatusCreated).
+		BodyFunc(func(a *assert.Assertion, body []byte) { fmt.Println(string(body)) })
+	a.NotEmpty(sender.Code)
+
 	//  NOTE: 该用户不存在
 
 	tk1 = &token.Response{}
-	s.Post("/login?type=code", []byte(`{"type":"code","username":"new","password":"password"}`)).
+	s.Post("/user/passports/code/login", []byte(`{"target":"new","code":"`+sender.Code+`"}`)).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON+"; charset=utf-8").
 		Do(nil).
@@ -116,7 +104,7 @@ func TestLoader_Login(t *testing.T) {
 		Status(http.StatusOK)
 
 	tk2 := &token.Response{}
-	s.Post("/refresh", nil).
+	s.Put("/user/token", nil).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON+"; charset=utf-8").
 		Header(header.Authorization, auth.BuildToken(auth.Bearer, tk1.RefreshToken)).
@@ -127,7 +115,7 @@ func TestLoader_Login(t *testing.T) {
 		NotEqual(tk1.AccessToken, tk2.AccessToken)
 
 	// 退出 tk2
-	s.Delete("/login").
+	s.Delete("/user/token").
 		Header(header.Accept, header.JSON).
 		Header(header.Authorization, auth.BuildToken(auth.Bearer, tk2.AccessToken)).
 		Do(nil).

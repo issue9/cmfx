@@ -5,61 +5,70 @@
 package totp
 
 import (
+	"encoding/json"
+	"net/http"
 	"testing"
-	"time"
 
 	"github.com/issue9/assert/v4"
+	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/web"
+	"github.com/issue9/web/server/servertest"
+	"github.com/issue9/webuse/v7/middlewares/auth"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
-	"github.com/issue9/cmfx/cmfx/user/passport"
+	"github.com/issue9/cmfx/cmfx/user"
+	"github.com/issue9/cmfx/cmfx/user/usertest"
 )
+
+var _ user.Passport = &totp{}
 
 func TestTOTP(t *testing.T) {
 	a := assert.New(t, false)
 
 	suite := test.NewSuite(a)
 	defer suite.Close()
-	mod := suite.NewModule("test")
-	Install(mod, "totp")
-	p := New(mod, "totp", web.Phrase("totp"))
 
-	// Add
+	u := usertest.NewModule(suite)
+	Install(u.Module(), "totp")
+	p := Init(u, "totp", web.Phrase("totp"))
 
-	a.NotError(p.Add(1024, "1024", "1024", time.Now()))
-	a.ErrorIs(p.Add(1024, "1024", "1024", time.Now()), passport.ErrUIDExists())
-	a.ErrorIs(p.Add(1000, "1024", "1024", time.Now()), passport.ErrIdentityExists())
+	defer servertest.Run(a, suite.Module().Server())()
+	defer suite.Close()
 
-	a.NotError(p.Add(0, "2025", "2025", time.Now()))
-	a.NotError(p.Add(0, "2026", "2026", time.Now()))
-	a.ErrorIs(p.Add(111, "1024", "1024", time.Now()), passport.ErrIdentityExists()) // 1024 已经有 uid
-	a.NotError(p.Add(2025, "2025", "2025", time.Now()))                             // 将 "2025" 关联 uid
+	u1, err := u.GetUserByUsername("u1")
+	a.NotError(err).NotNil(u1)
 
-	// Identity
+	identity := p.Identity(u1.ID)
+	a.Empty(identity)
 
-	identity, err := p.Identity(1024)
-	a.NotError(err).Equal(identity, "1024")
-	identity, err = p.Identity(10240)
-	a.Equal(err, passport.ErrUIDNotExists()).Empty(identity)
+	// 未注册，登录不了
+	suite.Post("/user/passports/totp/login", nil).
+		Header(header.Accept, header.JSON).
+		Header(header.ContentType, header.JSON).
+		Body([]byte(`{"username":"u1","code":"123"}`)).
+		Do(nil).
+		Status(http.StatusUnauthorized)
 
-	// uid
+	tk := usertest.GetToken(suite, u)
 
-	uid, err := p.UID("1024")
-	a.NotError(err).Equal(uid, 1024)
-	uid, err = p.UID("10240")
-	a.Equal(err, passport.ErrIdentityNotExists()).Zero(identity)
-	uid, err = p.UID("2025")
-	a.NotError(err).Zero(identity)
+	secret := &secretVO{}
+	suite.Post("/user/passports/totp/secret", nil).
+		Header(header.Accept, header.JSON).
+		Header(header.ContentType, header.JSON).
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, tk)).
+		Do(nil).
+		Status(http.StatusCreated).
+		BodyFunc(func(a *assert.Assertion, body []byte) {
+			a.NotError(json.Unmarshal(body, secret)).
+				NotEmpty(secret.Secret)
+		})
 
-	// Delete
-
-	a.NotError(p.Delete(1024)).
-		NotError(p.Delete(1024)) // 多次删除
-	identity, err = p.Identity(1024)
-	a.Equal(err, passport.ErrUIDNotExists()).Empty(identity)
-
-	// Update
-
-	a.NotError(p.Update(1025))
-	a.NotError(p.Update(1024))
+	// 进行关联，但验证码错误
+	suite.Post("/user/passports/totp", nil).
+		Header(header.Accept, header.JSON).
+		Header(header.ContentType, header.JSON).
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, tk)).
+		Body([]byte(`{"username":"u1","code":"123"}`)).
+		Do(nil).
+		Status(http.StatusBadRequest)
 }

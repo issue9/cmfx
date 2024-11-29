@@ -6,12 +6,14 @@ package user
 
 import (
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/config"
+	xconf "github.com/issue9/config"
+	"github.com/issue9/web/server/config"
 )
 
-var _ config.Sanitizer = &Config{}
+var _ xconf.Sanitizer = &Config{}
 
 func TestConfig_SanitizeConfig(t *testing.T) {
 	a := assert.New(t, false)
@@ -20,10 +22,11 @@ func TestConfig_SanitizeConfig(t *testing.T) {
 	a.Equal(o.SanitizeConfig().Field, "urlPrefix")
 
 	o = &Config{URLPrefix: "/admin"}
-	a.Equal(o.SanitizeConfig().Field, "accessExpired")
-
-	o = &Config{URLPrefix: "/admin", AccessExpired: 60}
 	a.NotError(o.SanitizeConfig()).
-		Equal(o.AccessExpired, 60).
-		Equal(o.RefreshExpired, 60*2)
+		Equal(o.AccessExpired, 30*time.Minute)
+
+	o = &Config{URLPrefix: "/admin", AccessExpired: config.Duration(time.Hour)}
+	a.NotError(o.SanitizeConfig()).
+		Equal(o.AccessExpired, config.Duration(time.Hour)).
+		Equal(o.RefreshExpired, config.Duration(time.Hour)*2)
 }
