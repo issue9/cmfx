@@ -6,14 +6,14 @@ import { CacheImplement } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
 import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
-import { Account, Method, Problem, Query, Return } from './types';
+import { Method, Problem, Query, Return } from './types';
 
 /**
  * 封装了 API 访问的基本功能
  */
 export class API {
     readonly #baseURL: string;
-    readonly #loginPath: string;
+    readonly #tokenPath: string;
     #locale: string;
     #token: Token | undefined;
 
@@ -28,10 +28,10 @@ export class API {
      *
      * @param baseURL API 的基地址，不能以 / 结尾。
      * @param mimetype mimetype 的类型。
-     * @param loginPath 相对于 baseURL 的登录地址，该地址应该包含 POST、DELETE 和 PUT 三个请求，分别代表登录、退出和刷新令牌。
+     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 三个请求，分别代表退出和刷新令牌。
      * @param locale 请求报头 accept-language 的内容。
      */
-    static async build(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string): Promise<API> {
+    static async build(baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string): Promise<API> {
         const t = getToken();
 
         let c: Cache;
@@ -41,17 +41,17 @@ export class API {
             console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
             c = new CacheImplement();
         }
-        return new API(baseURL, loginPath, mimetype, locale, c, t);
+        return new API(baseURL, tokenPath, mimetype, locale, c, t);
     }
 
-    private constructor(baseURL: string, loginPath: string, mimetype: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
+    private constructor(baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
         const s = serializers.get(mimetype);
         if (!s) {
             throw `不支持的 contentType ${mimetype}`;
         }
 
         this.#baseURL = baseURL;
-        this.#loginPath = loginPath;
+        this.#tokenPath = tokenPath;
         this.#locale = locale;
         this.#token = token;
 
@@ -197,26 +197,24 @@ export class API {
     }
 
     /**
-     * 执行登录操作
+     * 设置登录状态
      *
      * @returns 如果返回 true，表示操作成功，否则表示错误信息。
      */
-    async login(account: Account): Promise<Problem<never>|undefined|true> {
-        const token = await this.post<Token>(this.#loginPath, account, false);
-        if (token.ok) {
-            this.#token = writeToken(token.body!);
+    async login(ret: Return<Token, never>): Promise<Problem<never>|undefined|true> {
+        if (ret.ok) {
+            this.#token = writeToken(ret.body!);
             await this.clearCache();
             return true;
         }
-
-        return token.body;
+        return ret.body;
     }
 
     /**
      * 退出当前的登录状态
      */
     async logout() {
-        await this.delete(this.#loginPath);
+        await this.delete(this.#tokenPath);
         this.#token = undefined;
         delToken();
         await this.clearCache();
@@ -246,7 +244,7 @@ export class API {
             return undefined;
         case TokenState.AccessExpired: // 尝试刷新令牌
         { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
-            const ret = await this.withArgument<Token>(this.#loginPath, 'PUT', this.#token.refresh_token, this.#contentType);
+            const ret = await this.withArgument<Token>(this.#tokenPath, 'PUT', this.#token.refresh_token, this.#contentType);
             if (!ret.ok) {
                 return undefined;
             }

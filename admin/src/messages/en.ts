@@ -44,6 +44,7 @@ const messages = {
                 login: 'login',
                 username: 'username',
                 password: 'password',
+                code: 'code',
                 loggingOut: 'logging out ...',
 
                 securitylog: 'security logs',

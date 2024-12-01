@@ -7,7 +7,8 @@ import { JSX, createContext, createResource, createSignal, useContext } from 'so
 
 import { Options as buildOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
-import { API, Account, Config, Locale, Method, Problem, Theme, UnitStyle, notify } from '@/core';
+import { API, Config, Locale, Method, Problem, Return, Theme, UnitStyle, notify } from '@/core';
+import { Token } from '@/core/api/token';
 import { User } from './user';
 
 type Options = Required<buildOptions>;
@@ -178,16 +179,16 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
         },
 
         /**
-         * 执行登录操作并刷新 user
+         * 设置登录状态并刷新 user
          * @param account 账号密码信息
          * @returns true 表示登录成功，其它情况表示错误信息
          */
-        async login(account: Account) {
-            const ret = await f.login(account);
+        async login(r: Return<Token,never>) {
+            const ret = await f.login(r);
             if (ret === true) {
-                uid = account.username;
-                sessionStorage.setItem(currentKey, uid);
                 await userData.refetch();
+                uid = this.user()!.id!.toString();
+                sessionStorage.setItem(currentKey, uid);
                 await localeData.refetch();
             }
             return ret;

@@ -46,6 +46,7 @@ const messages: Messages = {
                 login: '登录',
                 username: '账号',
                 password: '密码',
+                code: '验证码',
                 loggingOut: '正在退出...',
 
                 securitylog: '安全日志',

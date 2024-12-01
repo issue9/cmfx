@@ -77,8 +77,8 @@ export default function(): JSX.Element {
     return <Page title='_i.page.current.profile' class="p--profile">
         <Upload ref={el => uploadRef = el} fieldName='files' action='/upload' />
         <div class="flex gap-4">
-            <img class="rounded-full border border-palette-bg-low w-24 h-24" alt="avatar" src={avatar()} />
-            <div class="flex flex-col my-4 items-start justify-center gap-2">
+            <img class="avatar" alt="avatar" src={avatar()} />
+            <div class="name">
                 <p class="text-2xl">{ctx.user()?.name}</p>
                 <Show when={uploadRef!.files().length === 0}>
                     <Button palette='tertiary' onClick={async () => {

@@ -82,7 +82,11 @@ describe('API token', () => {
     test('login', async () => {
         const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
         fetchMock.mockResponseOnce(JSON.stringify(Object.assign({}, token)));
-        const ret = await f.login({ username: 'admin', password: '123' }, 'password');
+        const ret = await f.login({
+            status: 201,
+            ok: true,
+            body: { access_token: 'access', refresh_token: 'refresh', access_exp: 12345, refresh_exp: 12345 },
+        });
         expect(ret).toBeTruthy();
 
         let t = await f.getToken();
