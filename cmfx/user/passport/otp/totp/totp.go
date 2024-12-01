@@ -19,9 +19,11 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport/utils"
@@ -51,8 +53,9 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 	}
 
 	prefix := user.URLPrefix() + "/passports/" + id
+	rate := ratelimit.New(web.NewCache(user.Module().ID()+"passports_"+id+"_rate", user.Module().Server().Cache()), 20, time.Second, nil, nil)
 
-	user.Module().Router().Post(prefix+"/login", p.login, user.Module().API(func(o *openapi.Operation) {
+	user.Module().Router().Post(prefix+"/login", p.login, rate, initial.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").
 			Desc(web.Phrase("login by %s api", id), nil).
 			Body(accountTO{}, false, nil, nil).
@@ -71,7 +74,7 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 				Desc(web.Phrase("delete %s passport for current user api", id), nil).
 				ResponseRef("204", "empty", nil, nil)
 		})).
-		Post("/secret", p.postSecret, p.user.Module().API(func(o *openapi.Operation) {
+		Post("/secret", p.postSecret, rate, initial.Unlimit(user.Module().Server()), p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("request secret for %s passport api"), nil).
 				Response("201", secretVO{}, nil, nil)

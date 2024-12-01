@@ -62,8 +62,16 @@ export class current implements Pages {
     /**
      * 初始化登录方式的组件
      */
-    static initPassports(p: Map<string, PassportComponents>) {
-        current.#passports = p;
+    static initPassports(p: Map<string, PassportComponents|string>) {
+        const c = componens;
+        p.forEach((v, k) => {
+            if (typeof v === 'string') {
+                v = c.get(v)!;
+            }
+            c.set(k, v);
+        });
+
+        current.#passports = c;
     }
 
     /**

@@ -15,9 +15,11 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport/utils"
@@ -47,9 +49,11 @@ func Init(user *user.Module, expired, resend time.Duration, gen Generator, sende
 		gen = NumberGenerator(user.Module().Server(), id, 4)
 	}
 
+	idPrefix := user.Module().ID() + "_passports_" + id + "_"
+
 	c := &code{
 		db:    utils.BuildDB(user.Module(), id),
-		cache: web.NewCache(user.Module().ID()+"_passports_"+id+"_", user.Module().Server().Cache()),
+		cache: web.NewCache(idPrefix, user.Module().Server().Cache()),
 
 		sender:  sender,
 		expired: expired,
@@ -61,18 +65,21 @@ func Init(user *user.Module, expired, resend time.Duration, gen Generator, sende
 	}
 
 	prefix := user.URLPrefix() + "/passports/" + id
+	rate := ratelimit.New(web.NewCache(idPrefix+"_rate_", user.Module().Server().Cache()), 20, time.Second, nil, nil)
+
 	user.Module().Router().Prefix(prefix).
-		Post("/login", c.postLogin, user.Module().API(func(o *openapi.Operation) {
+		Post("/login", c.postLogin, rate, initial.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("login by %s api", id), nil).
 				Body(accountTO{}, false, nil, nil).
 				Response("201", token.Response{}, nil, nil)
 		})).
-		Post("/login/code", c.requestLoginCode, c.user.Module().API(func(o *openapi.Operation) {
+		Post("/login/code", c.requestLoginCode, rate, initial.Unlimit(user.Module().Server()), c.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("request code for %s passport login api", id), nil).
 				Response("201", TargetTO{}, nil, nil)
 		}))
+
 	user.Module().Router().Prefix(prefix, user).
 		Post("", c.bindCode, c.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
@@ -85,7 +92,7 @@ func Init(user *user.Module, expired, resend time.Duration, gen Generator, sende
 				Desc(web.Phrase("delete %s passport for current user api", id), nil).
 				ResponseRef("204", "empty", nil, nil)
 		})).
-		Post("/code", c.requestBindCode, c.user.Module().API(func(o *openapi.Operation) {
+		Post("/code", c.requestBindCode, rate, initial.Unlimit(user.Module().Server()), c.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("request code for %s passport bind api", id), nil).
 				Response("201", TargetTO{}, nil, nil)

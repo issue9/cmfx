@@ -18,7 +18,7 @@ export interface PassportComponents {
      * 登录页面
      */
     Login(): JSX.Element;
-    
+
     /**
      * 编辑页的操作按钮
      *
@@ -46,7 +46,7 @@ class Pwd implements PassportComponents {
         const opt = useOptions();
         const nav = useNavigate();
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
-    
+
         return <form onReset={() => account.reset()} onSubmit={async () => {
             const r = await ctx.api.post('/passports/password/login', account.object());
             const ret = await ctx.login(r);
@@ -58,9 +58,9 @@ class Pwd implements PassportComponents {
         }}>
             <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
-    
+
             <Password icon='password_2' placeholder={ctx.locale().t('_i.page.current.password')} accessor={account.accessor('password', true)} />
-    
+
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
         
             <Button palette='secondary' disabled={account.isPreset()} type="reset" > {ctx.locale().t('_i.reset')} </Button>
@@ -71,12 +71,12 @@ class Pwd implements PassportComponents {
         let dialogRef: DialogRef;
         const ctx = useApp();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
-        
+
         return <>
             <Button icon rounded title={ctx.locale().t('_i.page.current.changePassword')} onClick={() => {
                 dialogRef.showModal();
             }}>passkey</Button>
-            
+
             <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {
                     const r = await ctx.api.put(`/passports/${id}`, pwd.object());
@@ -84,7 +84,7 @@ class Pwd implements PassportComponents {
                         await ctx.outputProblem(r.body);
                         return undefined;
                     }
-                            
+
                     ctx.refetchUser();
                     return undefined;
                 })}>
@@ -124,12 +124,12 @@ class TOTP implements PassportComponents {
         }}>
             <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
-        
+
             <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='pin' />}
                 placeholder={ctx.locale().t('_i.page.current.code')} accessor={account.accessor('code', true)} />
-        
+
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
-        
+
             <Button palette='secondary' disabled={account.isPreset()} type="reset">{ctx.locale().t('_i.reset')}</Button>
         </form>;
     }
