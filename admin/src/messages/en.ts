@@ -59,7 +59,9 @@ const messages = {
                 pickAvatar: 'pick avatar',
                 requestCode: 'request code',
                 delete: 'delete',
-                create: 'create',
+                changePassword: 'change password',
+                oldPassword: 'old password',
+                newPassword: 'new password',
             },
             system: {
                 apis: 'API',

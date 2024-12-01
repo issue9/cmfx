@@ -7,6 +7,7 @@ import { createSignal, For, JSX, onMount } from 'solid-js';
 
 import { useApp, User } from '@/app';
 import { Button, Divider, Form, FormAccessor, Icon, Page, TextField } from '@/components';
+import { Passport } from '@/pages/current/passport';
 import { roles } from '@/pages/roles';
 import { Sex, SexSelector } from './selector';
 
@@ -96,9 +97,4 @@ function zeroAdmin(): Admin {
         roles: [],
         passports: [],
     };
-}
-
-export interface Passport {
-    id: string;
-    desc: string;
 }

@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Navigate, useNavigate } from '@solidjs/router';
+import { Navigate } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
 import { useApp, useOptions } from '@/app/context';
-import { buildEnumsOptions, Button, Choice, FieldAccessor, Icon, ObjectAccessor, Page, Password, TextField } from '@/components';
-import { Passport } from '@/pages/admins/edit';
+import { buildEnumsOptions, Choice, FieldAccessor, Page } from '@/components';
+import { Passport, PassportComponents } from './passport';
 
-interface Props {
+export interface Props {
     /**
      * 用以指定登录页面的 background-image 属性
      */
@@ -19,6 +19,8 @@ interface Props {
      * 登录页面底部的链接
      */
     footer?: Array<Link>;
+
+    passports: Map<string, PassportComponents>;
 }
 
 interface Link {
@@ -62,15 +64,7 @@ export function Login(props: Props): JSX.Element {
                 <p class="text-2xl">{ctx.locale().t('_i.page.current.login')}</p>
                 <Choice accessor={passport} options={buildEnumsOptions(passports(), ctx)} />
             </div>
-            
-            <Switch fallback={<Pwd />}>
-                <Match when={passport.getValue() === 'password'}>
-                    <Pwd />
-                </Match>
-                <Match when={passport.getValue() === 'totp'}>
-                    <TOTP />
-                </Match>
-            </Switch>
+            {props.passports.get(passport.getValue())?.Login()}
         </div>
 
         <Show when={props.footer && props.footer.length > 0}>
@@ -87,75 +81,4 @@ export function Login(props: Props): JSX.Element {
             </footer>
         </Show>
     </Page>;
-}
-
-interface PasswordAccount {
-    username: string;
-    password: string;
-}
-
-/**
- * 密码登录
- */
-function Pwd(): JSX.Element {
-    const ctx = useApp();
-    const opt = useOptions();
-    const nav = useNavigate();
-
-    const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
-
-    return <form onReset={() => account.reset()} onSubmit={async () => {
-        const r = await ctx.api.post('/passports/password/login', account.object());
-        const ret = await ctx.login(r);
-        if (ret === true) {
-            nav(opt.routes.private.home);
-        } else if (ret) {
-            await ctx.outputProblem(ret);
-        }
-    }}>
-        <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
-            placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
-
-        <Password icon='password_2' placeholder={ctx.locale().t('_i.page.current.password')} accessor={account.accessor('password', true)} />
-
-        <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
-
-        <Button palette='secondary' disabled={account.isPreset()} type="reset">{ctx.locale().t('_i.reset')}</Button>
-    </form>;
-}
-
-interface TOTPAccount {
-    username: string;
-    code: string;
-}
-
-/**
- * TOTP 方式的登录框
- */
-function TOTP(): JSX.Element {
-    const ctx = useApp();
-    const opt = useOptions();
-    const nav = useNavigate();
-    
-    const account = new ObjectAccessor<TOTPAccount>({ username: '', code: '' });
-        
-    return <form onReset={() => account.reset()} onSubmit={async () => {
-        const r = await ctx.api.post('/passports/code/login', account.object());
-        const ret = await ctx.login(r);
-        if (ret === true) {
-            nav(opt.routes.private.home);
-        } else if (ret) {
-            await ctx.outputProblem(ret);
-        }
-    }}>
-        <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
-            placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
-
-        <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='pin' />}
-            placeholder={ctx.locale().t('_i.page.current.code')} accessor={account.accessor('code', true)} />
-
-        <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
-
-        <Button palette='secondary' disabled={account.isPreset()} type="reset">{ctx.locale().t('_i.reset')}</Button>
-    </form>;
 }

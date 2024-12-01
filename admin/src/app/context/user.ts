@@ -18,5 +18,5 @@ export interface User {
 
 interface Passport {
     id: string;
-    username: string;
+    identity: string;
 }

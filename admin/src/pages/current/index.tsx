@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Component } from 'solid-js';
+import { Component, JSX } from 'solid-js';
 
 import { MenuItem, Route } from '@/app';
 import { Pages } from '@/pages/pages';
 import { default as Dashboard, Panel } from './dashboard';
-import { default as Login } from './login';
+import { default as Login, Props as LoginProps } from './login';
 import { default as Logout } from './logout';
+import { componens, PassportComponents } from './passport';
 import { default as Profile } from './profile';
 import { default as SecurityLogs } from './securitylogs';
 import { default as Settings } from './settings';
@@ -17,6 +18,8 @@ import { default as Settings } from './settings';
  * 提供了与当前登录用户直接相关的页面
  */
 export class current implements Pages {
+    static #passports: Map<string, PassportComponents> = componens;
+    
     /**
      * 提供当前用户的仪表盘
      */
@@ -30,7 +33,9 @@ export class current implements Pages {
     /**
      * 登录页面
      */
-    static Login = Login;
+    static Login = (props: Omit<LoginProps, 'passports'>): JSX.Element => {
+        return <Login {...props} passports={current.#passports} />;
+    };
 
     /**
      * 退出页面
@@ -40,7 +45,9 @@ export class current implements Pages {
     /**
      * 当前用户的个人信息面板
      */
-    static Profile = Profile;
+    static Profile = (): JSX.Element => {
+        return <Profile passports={current.#passports} />;
+    };
 
     /**
      * 用户的安全日志
@@ -51,6 +58,13 @@ export class current implements Pages {
 
     readonly #prefix: string;
     readonly #children?: Component<{}>;
+
+    /**
+     * 初始化登录方式的组件
+     */
+    static initPassports(p: Map<string, PassportComponents>) {
+        current.#passports = p;
+    }
 
     /**
      * 生成 {@link Pages} 对象
@@ -67,10 +81,13 @@ export class current implements Pages {
         this.#children = dashboardChild;
     }
 
+    /**
+     * 提供了除登录页之外的所有路由
+     */
     routes(): Array<Route> {
         return [
             { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#children!({})}</Dashboard> },
-            { path: this.#prefix + '/profile', component: Profile },
+            { path: this.#prefix + '/profile', component: current.Profile },
             { path: this.#prefix + '/settings', component: Settings },
             { path: this.#prefix + '/securitylogs', component: SecurityLogs },
             { path: this.#prefix + '/logout', component: Logout },

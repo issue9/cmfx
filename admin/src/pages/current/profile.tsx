@@ -6,17 +6,21 @@ import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 
 
 import { useApp, useOptions, User } from '@/app/context';
 import {
-    buildEnumsOptions, Button, Choice, ConfirmButton, Dialog, DialogRef, Divider,
-    file2Base64, Form, FormAccessor, Icon, ObjectAccessor, Page, TextField, Upload, UploadRef
+    buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
+    FormAccessor, Icon,
+    Page, TextField, Upload, UploadRef
 } from '@/components';
-import { Passport } from '@/pages/admins/edit';
 import { Sex, sexesMap } from '@/pages/admins/selector';
+import { Passport, PassportComponents } from './passport';
 
-export default function(): JSX.Element {
+interface Props {
+    passports: Map<string, PassportComponents>;
+}
+
+export default function(props: Props): JSX.Element {
     const opt = useOptions();
     const ctx = useApp();
     let uploadRef: UploadRef;
-    let dialogRef: DialogRef;
 
     const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, ctx, (obj)=>{
         return ctx.api.patch(opt.api.info, obj);
@@ -70,9 +74,6 @@ export default function(): JSX.Element {
         }
         setPassports(r.body!);
     });
-    
-    const account = new ObjectAccessor<Account>({ username: '', password: '' });
-    const [current, setCurrent] = createSignal('');
 
     return <Page title='_i.page.current.profile' class="p--profile">
         <Upload ref={el => uploadRef = el} fieldName='files' action='/upload' />
@@ -137,7 +138,8 @@ export default function(): JSX.Element {
                 <tbody>
                     <For each={passports()}>
                         {(item) => {
-                            const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.username);
+                            const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
+                            
                             return <tr>
                                 <td class="flex items-center">
                                     {item.id}
@@ -146,31 +148,7 @@ export default function(): JSX.Element {
                                 
                                 <td>{username()}</td>
                                 <td class="flex gap-2">
-                                    <Show when={username()}>
-                                        <Button palette='primary' icon rounded title={ctx.locale().t('_i.page.current.requestCode')} onclick={async () => {
-                                            const r = await ctx.api.post(`/passports/${item.id}/code`);
-                                            if (!r.ok) {
-                                                await ctx.outputProblem(r.body);
-                                                return;
-                                            }
-                                        }}>pin</Button>
-                                        
-                                        <ConfirmButton palette='error' icon rounded title={ctx.locale().t('_i.page.current.delete')} onClick={async () => {
-                                            const r = await ctx.api.delete(`/passports/${item.id}`);
-                                            if (!r.ok) {
-                                                await ctx.outputProblem(r.body);
-                                                return;
-                                            }
-                                            ctx.refetchUser();
-                                        }}>delete</ConfirmButton>
-                                    </Show>
-                                    
-                                    <Show when={!username()}>
-                                        <Button palette='primary' icon rounded title={ctx.locale().t('_i.page.current.create')} onclick={async () => {
-                                            setCurrent(item.id);
-                                            dialogRef.showModal();
-                                        }}>link</Button>
-                                    </Show>
+                                    {props.passports.get(item.id)?.Actions(item.id)}
                                 </td>
                             </tr>;
                         }}
@@ -178,27 +156,5 @@ export default function(): JSX.Element {
                 </tbody>
             </table>
         </fieldset>
-
-        <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.create')}
-            actions={dialogRef!.DefaultActions(async ()=>{
-                const r = await ctx.api.post(`/passports/${current()}`, account.object());
-                if (!r.ok) {
-                    await ctx.outputProblem(r.body);
-                    return undefined;
-                }
-                
-                ctx.refetchUser();
-                return undefined;
-            })}>
-            <form class="flex flex-col gap-2">
-                <TextField accessor={account.accessor<string>('username')} />
-                <TextField accessor={account.accessor<string>('password')} />
-            </form>
-        </Dialog>
     </Page>;
-}
-
-interface Account {
-    username: string;
-    password: string;
 }

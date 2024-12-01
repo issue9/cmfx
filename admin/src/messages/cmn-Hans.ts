@@ -61,7 +61,9 @@ const messages: Messages = {
                 pickAvatar: '选择头像',
                 requestCode: '发送验证码',
                 delete: '删除',
-                create: '创建账号',
+                changePassword: '更改密码',
+                oldPassword: '旧密码',
+                newPassword: '新密码',
             },
             system: {
                 apis: 'API',

@@ -101,8 +101,8 @@ type passwordDTO struct {
 }
 
 func (a *passwordDTO) Filter(ctx *web.FilterContext) {
-	b := filter.NewBuilder(filter.V[string](
-		func(t string) bool { return t == a.Old },
+	b := filter.NewBuilder(filter.V(
+		func(t string) bool { return t != a.Old },
 		web.Phrase("the new password can not be equal old"),
 	))
 
