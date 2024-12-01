@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package user
+package user_test
 
 import (
 	"time"
@@ -11,32 +11,31 @@ import (
 	"github.com/issue9/web/server/config"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
-	"github.com/issue9/cmfx/cmfx/user/passport/password"
+	"github.com/issue9/cmfx/cmfx/user"
 )
 
-var _ web.Middleware = &Module{}
+var _ web.Middleware = &user.Module{}
 
 // 声明 [Module] 变量
 //
 // 安装了注释库并提供一个 password 名称的密码验证功能
-func newModule(s *test.Suite) *Module {
-	conf := &Config{
+func NewModule(s *test.Suite, afterLogin, afterLogout user.AfterFunc) *user.Module {
+	conf := &user.Config{
 		URLPrefix:      "/user",
 		AccessExpired:  60 * config.Duration(time.Second),
 		RefreshExpired: 600 * config.Duration(time.Second),
+		AfterLogin:     afterLogin,
+		AfterLogout:    afterLogout,
 	}
 	s.Assertion().NotError(conf.SanitizeConfig())
 
 	mod := s.NewModule("user")
-	Install(mod)
-	password.Install(mod, "password")
+	user.Install(mod)
 
-	u := Load(mod, conf)
+	u := user.Load(mod, conf)
 	s.Assertion().NotNil(u)
 
-	u.Passport().Register("password", password.New(u.Module(), "password", 9), web.Phrase("password"))
-	p := u.Passport().Get("password")
-	uid, err := u.NewUser(p, "admin", "password", time.Now())
+	uid, err := u.New(user.StateNormal, "user", "123")
 	s.Assertion().NotError(err).NotZero(uid)
 
 	return u

@@ -69,14 +69,6 @@ export type Return<R, PE> = {
 };
 
 /**
- * 登录接口的需要用户提供的对象
- */
-export interface Account {
-    username: string;
-    password: string;
-}
-
-/**
  * 分页接口返回的对象
  */
 export interface Page<T> {

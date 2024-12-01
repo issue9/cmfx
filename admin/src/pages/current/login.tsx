@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Navigate, useNavigate } from '@solidjs/router';
+import { Navigate } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
 import { useApp, useOptions } from '@/app/context';
-import { buildEnumsOptions, Button, Choice, FieldAccessor, Icon, ObjectAccessor, Page, Password, TextField } from '@/components';
-import { Account } from '@/core';
+import { buildEnumsOptions, Choice, FieldAccessor, Page } from '@/components';
+import { Passport, PassportComponents } from './passport';
 
-interface Props {
+export interface Props {
     /**
      * 用以指定登录页面的 background-image 属性
      */
@@ -19,6 +19,8 @@ interface Props {
      * 登录页面底部的链接
      */
     footer?: Array<Link>;
+
+    passports: Map<string, PassportComponents>;
 }
 
 interface Link {
@@ -41,8 +43,8 @@ export default function (props: Props): JSX.Element {
 
 export function Login(props: Props): JSX.Element {
     const ctx = useApp();
-    const opt = useOptions();
-    const nav = useNavigate();
+
+    ctx.api.cache('/passports');
 
     const [passports, setPassports] = createSignal<Array<[string,string]>>([]);
     const passport = FieldAccessor('passport', 'password');
@@ -53,42 +55,25 @@ export function Login(props: Props): JSX.Element {
             ctx.outputProblem(r.body);
             return;
         }
-        setPassports(r.body!.map((v)=>[v.name,v.desc]));
+        setPassports(r.body!.map((v)=>[v.id,v.desc]));
     });
 
-    const f = new ObjectAccessor<Account>({ username: '', password: '' });
-
-    return <Page title="_i.page.current.login" class="p--login" style={{'background-image':props.bg}}>
-        <form onReset={()=>f.reset()} onSubmit={async()=>{
-            const ret = await ctx.login(f.object(), passport.getValue());
-            if (ret === true) {
-                nav(opt.routes.private.home);
-            } else if (ret) {
-                await ctx.outputProblem(ret);
-            }
-        }}>
+    return <Page title="_i.page.current.login" class="p--login" style={{ 'background-image': props.bg }}>
+        <div class="form">
             <div class="title">
                 <p class="text-2xl">{ctx.locale().t('_i.page.current.login')}</p>
-                <Choice accessor={passport} options={buildEnumsOptions(passports(), ctx)}/>
+                <Choice accessor={passport} options={buildEnumsOptions(passports(), ctx)} />
             </div>
-
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
-                placeholder={ctx.locale().t('_i.page.current.username')} accessor={f.accessor('username', true)} />
-
-            <Password icon='password_2' placeholder={ctx.locale().t('_i.page.current.password')} accessor={f.accessor('password', true)} />
-
-            <Button palette='primary' disabled={f.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
-
-            <Button palette='secondary' disabled={f.isPreset()} type="reset">{ ctx.locale().t('_i.reset') }</Button>
-        </form>
+            {props.passports.get(passport.getValue())?.Login()}
+        </div>
 
         <Show when={props.footer && props.footer.length > 0}>
             <footer>
                 <For each={props.footer}>
-                    {(item)=>(
+                    {(item) => (
                         <Switch fallback={<p innerHTML={item.title} />}>
                             <Match when={item.link}>
-                                <a href={ item.link } innerHTML={item.title} />
+                                <a href={item.link} innerHTML={item.title} />
                             </Match>
                         </Switch>
                     )}
@@ -96,9 +81,4 @@ export function Login(props: Props): JSX.Element {
             </footer>
         </Show>
     </Page>;
-}
-
-interface Passport {
-    name: string;
-    desc: string;
 }

@@ -5,13 +5,15 @@
 import { JSX, Show } from 'solid-js';
 
 import { useApp } from '@/app';
-import {
-    Button, ConfirmButton, LinkButton, Page,
-    RemoteTable, RemoteTableRef, TextField, translateEnum
-} from '@/components';
-import { SexSelector, StateSelector } from './selector';
-import type { Admin, Query, Sex, State } from './types';
-import { sexesMap, statesMap } from './types';
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum } from '@/components';
+import { Query as QueryBase } from '@/core';
+import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from './selector';
+
+export interface Query extends QueryBase {
+    text?: string;
+    state?: Array<State>;
+    sex?: Array<Sex>;
+}
 
 interface Props {
     /**
@@ -32,7 +34,7 @@ export default function(props: Props): JSX.Element {
     const q: Q = {
         text: '',
         page: 1,
-        state: ['normal'],
+        state: ['normal','locked'],
         sex: ['male', 'female', 'unknown']
     };
 
@@ -66,11 +68,13 @@ export default function(props: Props): JSX.Element {
             {
                 id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
                     return <div class="flex gap-x-2">
-                        <LinkButton icon rounded palette='tertiary'
-                            href={`${props.routePrefix}/${obj!['id']}`}
-                            title={ctx.locale().t('_i.page.editItem')}>edit</LinkButton>
+                        <Show when={obj?.state !== 'deleted'}>
+                            <LinkButton icon rounded palette='tertiary'
+                                href={`${props.routePrefix}/${obj!['id']}`}
+                                title={ctx.locale().t('_i.page.editItem')}>edit</LinkButton>
+                        </Show>
 
-                        <Show when={obj?.state !== 'locked'}>
+                        <Show when={obj?.state !== 'locked' && obj?.state!=='deleted'}>
                             <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async()=>{
                                 const r = await ctx.api.post(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
@@ -92,21 +96,23 @@ export default function(props: Props): JSX.Element {
                             }}>lock_open_right</Button>
                         </Show>
 
-                        <ConfirmButton icon rounded palette='error' title={ctx.locale().t('_i.page.admin.resetPassword')}
-                            prompt={ctx.locale().t('_i.page.admin.areYouSureResetPassword')}
-                            onClick={async()=>{
-                                const r = await ctx.api.delete(`/admins/${obj!['id']}/password`);
-                                if (!r.ok) {
-                                    ctx.outputProblem(r.body);
-                                    return;
-                                }
-                                ctx.notify(ctx.locale().t('_i.page.admin.successfullyResetPassword'), undefined, 'success');
-                            }}>lock_reset</ConfirmButton>
-
-                        {ref.DeleteAction(obj!.id!)}
+                        <Show when={obj?.state !== 'deleted'}>
+                            {ref.DeleteAction(obj!.id!)}
+                        </Show>
                     </div>;
                 })
             },
         ]} />
     </Page>;
+}
+
+export interface Admin {
+    id?: number;
+    no?: string;
+    sex: Sex;
+    name: string;
+    nickname: string;
+    avatar?: string;
+    created?: string;
+    state: State;
 }

@@ -74,6 +74,7 @@ const config: PresetsConfig = {
 
             minWidth: breakpoints,
             maxWidth: breakpoints,
+            width: breakpoints,
 
             transitionDuration: {
                 'preset':'var(--transition-duration)',

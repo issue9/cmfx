@@ -1,9 +1,18 @@
 languages:
     - und
 messages:
+    - key: TOTP passport
+      message:
+        msg: TOTP passport
+    - key: The ID of passport
+      message:
+        msg: The ID of passport
     - key: The api doc of %s
       message:
         msg: The api doc of %s
+    - key: The description of passport
+      message:
+        msg: The description of passport
     - key: add admin api
       message:
         msg: add admin api
@@ -13,21 +22,6 @@ messages:
     - key: admin
       message:
         msg: admin
-    - key: admin login api
-      message:
-        msg: admin login api
-    - key: admin logout api
-      message:
-        msg: admin logout api
-    - key: admin refresh token api
-      message:
-        msg: admin refresh token api
-    - key: another password valid
-      message:
-        msg: another password valid
-    - key: auto register
-      message:
-        msg: auto register
     - key: backup api
       message:
         msg: backup api
@@ -70,6 +64,15 @@ messages:
     - key: bad request invalid query detail
       message:
         msg: bad request invalid query detail
+    - key: before bind need create secret
+      message:
+        msg: before bind need create secret
+    - key: before bind need create secret detail
+      message:
+        msg: before bind need create secret detail
+    - key: bind %s passport for current user api
+      message:
+        msg: bind %s passport for current user api
     - key: can not do it for super
       message:
         msg: can not do it for super
@@ -79,15 +82,24 @@ messages:
     - key: censor setting
       message:
         msg: censor setting
-    - key: change password
+    - key: change current user password for %s passport api
       message:
-        msg: change password
+        msg: change current user password for %s passport api
+    - key: code
+      message:
+        msg: code
+    - key: code receiver, ignore when binded
+      message:
+        msg: code receiver, ignore when binded
     - key: created time
       message:
         msg: created time
     - key: del backup database file
       message:
         msg: del backup database file
+    - key: delete %s passport for current user api
+      message:
+        msg: delete %s passport for current user api
     - key: delete admins
       message:
         msg: delete admins
@@ -103,9 +115,6 @@ messages:
     - key: delete the admin api
       message:
         msg: delete the admin api
-    - key: different oauth state value %s %s
-      message:
-        msg: different oauth state value %s %s
     - key: edit role info api
       message:
         msg: edit role info api
@@ -130,6 +139,9 @@ messages:
     - key: general setting
       message:
         msg: general setting
+    - key: generator code for %s
+      message:
+        msg: generator code for %s
     - key: get admin info api
       message:
         msg: get admin info api
@@ -154,9 +166,9 @@ messages:
     - key: get login user security log api
       message:
         msg: get login user security log api
-    - key: get passports api
+    - key: get passports list api
       message:
-        msg: get passports api
+        msg: get passports list api
     - key: get resources list api
       message:
         msg: get resources list api
@@ -178,21 +190,27 @@ messages:
     - key: get system state api
       message:
         msg: get system state api
-    - key: identity already exists
+    - key: has been bind code
       message:
-        msg: identity already exists
-    - key: identity not exists
+        msg: has been bind code
+    - key: has been bind code detail
       message:
-        msg: identity not exists
+        msg: has been bind code detail
+    - key: has been bind to other account
+      message:
+        msg: has been bind to other account
+    - key: has been bind totp detail
+      message:
+        msg: has been bind totp detail
+    - key: has been totp bind
+      message:
+        msg: has been totp bind
     - key: identity registrable
       message:
         msg: identity registrable
     - key: identity registrable detail
       message:
         msg: identity registrable detail
-    - key: invalid identity format
-      message:
-        msg: invalid identity format
     - key: invalid url format
       message:
         msg: invalid url format
@@ -220,12 +238,15 @@ messages:
     - key: log user agent
       message:
         msg: log user agent
-    - key: login
+    - key: login by %s
       message:
-        msg: login
-    - key: logout
+        msg: login by %s
+    - key: login by %s api
       message:
-        msg: logout
+        msg: login by %s api
+    - key: logout api
+      message:
+        msg: logout api
     - key: must be a dir
       message:
         msg: must be a dir
@@ -238,24 +259,33 @@ messages:
     - key: must be less than %v
       message:
         msg: must be less than %v
+    - key: new password
+      message:
+        msg: new password
+    - key: not exists
+      message:
+        msg: not exists
     - key: not found
       message:
         msg: not found
+    - key: old password
+      message:
+        msg: old password
     - key: only for super
       message:
         msg: only for super
     - key: only for super detail
       message:
         msg: only for super detail
-    - key: passport adapter description
+    - key: passport
       message:
-        msg: passport adapter description
-    - key: passport adapter id
+        msg: passport
+    - key: passport password mode
       message:
-        msg: passport adapter id
-    - key: password mode
+        msg: passport password mode
+    - key: password
       message:
-        msg: password mode
+        msg: password
     - key: patch admin info api
       message:
         msg: patch admin info api
@@ -277,9 +307,18 @@ messages:
     - key: refresh token
       message:
         msg: refresh token
-    - key: reset admin password api
+    - key: refresh token api
       message:
-        msg: reset admin password api
+        msg: refresh token api
+    - key: request code for %s passport bind api
+      message:
+        msg: request code for %s passport bind api
+    - key: request code for %s passport login api
+      message:
+        msg: request code for %s passport login api
+    - key: request secret for %s passport api
+      message:
+        msg: request secret for %s passport api
     - key: role
       message:
         msg: role
@@ -298,9 +337,12 @@ messages:
     - key: roles not exists
       message:
         msg: roles not exists
-    - key: same of new and old password
+    - key: secret expired
       message:
-        msg: same of new and old password
+        msg: secret expired
+    - key: secret expired detail
+      message:
+        msg: secret expired detail
     - key: sex
       message:
         msg: sex
@@ -316,9 +358,9 @@ messages:
     - key: system
       message:
         msg: system
-    - key: test
+    - key: target
       message:
-        msg: test
+        msg: target
     - key: the ID of admin
       message:
         msg: the ID of admin
@@ -328,24 +370,21 @@ messages:
     - key: the file name
       message:
         msg: the file name
+    - key: the new password can not be equal old
+      message:
+        msg: the new password can not be equal old
     - key: the role id
       message:
         msg: the role id
     - key: the value not in candidate
       message:
         msg: the value not in candidate
-    - key: uid already exists
+    - key: totp code
       message:
-        msg: uid already exists
-    - key: uid must be great than 0
+        msg: totp code
+    - key: totp secret
       message:
-        msg: uid must be great than 0
-    - key: uid not exists
-      message:
-        msg: uid not exists
-    - key: unauthorized
-      message:
-        msg: unauthorized
+        msg: totp secret
     - key: unauthorized invalid account
       message:
         msg: unauthorized invalid account
@@ -391,12 +430,18 @@ messages:
     - key: user id
       message:
         msg: user id
+    - key: user logout
+      message:
+        msg: user logout
     - key: user no
       message:
         msg: user no
     - key: user state
       message:
         msg: user state
+    - key: username
+      message:
+        msg: username
     - key: view apis
       message:
         msg: view apis

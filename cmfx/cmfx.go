@@ -37,7 +37,7 @@ const (
 	BadRequestInvalidHeader  = "40003"
 	BadRequestInvalidBody    = "40004"
 	BadRequestBodyTooLarger  = "40005"
-	BadRequestBodyNotAllowed = "40006"
+	BadRequestBodyNotAllowed = "40006" // 提交内容的类型不允许，比如不允许的上传类型等
 )
 
 // 401
@@ -57,5 +57,8 @@ const (
 	ForbiddenStateNotAllow       = "40301"
 	ForbiddenCaNotDeleteYourself = "40302"
 )
+
+// 404
+const NotFound = web.ProblemNotFound
 
 func ErrNotFound() error { return locales.ErrNotFound() }

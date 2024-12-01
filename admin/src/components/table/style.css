@@ -15,13 +15,16 @@
                 @apply text-center w-full text-xl py-10;
             }
 
-            th,
-            td {
-                @apply px-2 py-1 text-left border-b border-palette-fg-low;
+            tr {
+                @apply border-b border-palette-fg-low;
             }
 
-            tbody tr:last-of-type th,
-            tbody tr:last-of-type td {
+            th,
+            td {
+                @apply px-2 py-1 text-left;
+            }
+
+            tbody tr:last-of-type {
                 @apply border-0;
             }
 

@@ -25,9 +25,13 @@
                 color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
                 color-mix(in lch, var(--tertiary-bg), transparent) 100%);
 
-        form {
+        .form {
             @apply flex justify-center flex-col gap-2 w-full xs:w-96 p-5;
             @apply border border-palette-bg-low rounded-md bg-palette-bg shadow-md shadow-palette-bg-low;
+
+            form {
+                @apply flex justify-center flex-col gap-2 w-full;
+            }
 
             .title {
                 @apply flex justify-between mb-8;
@@ -48,16 +52,26 @@
     }
 
     .p--profile {
-        .content {
-            @apply flex justify-between flex-col sm:flex-row box-border sm:gap-8 gap-10;
+        @apply max-w-xs;
+
+        .avatar {
+            @apply rounded-full border border-palette-bg-low w-24 h-24;
+        }
+
+        .name {
+            @apply flex flex-col my-4 items-start justify-center gap-2;
         }
 
         .form {
-            @apply flex flex-col sm:w-[50%] w-full;
+            @apply flex flex-col w-full;
 
             .actions {
                 @apply w-full flex justify-end gap-5;
             }
         }
+    }
+
+    .p--logout {
+        @apply items-center justify-center;
     }
 }

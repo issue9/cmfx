@@ -11,10 +11,6 @@ import (
 
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
-	"github.com/issue9/web/mimetype/cbor"
-	"github.com/issue9/web/mimetype/json"
-	"github.com/issue9/web/mimetype/yaml"
-	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/app"
 	"github.com/issue9/webuse/v7/handlers/debug"
@@ -24,7 +20,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
-	"github.com/issue9/cmfx/cmfx/user/passport/password"
+	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
 )
 
 func Exec(name, version string) error {
@@ -46,17 +42,7 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	}
 
 	initial.Init(s, user.Ratelimit, web.PluginFunc(swagger.Install))
-
-	doc := openapi.New(s, web.Phrase("The api doc of %s", s.Name()),
-		openapi.WithMediaType(json.Mimetype, yaml.Mimetype, cbor.Mimetype),
-		openapi.WithResponse(&openapi.Response{
-			Ref:  &openapi.Ref{Ref: "empty"},
-			Body: &openapi.Schema{Type: openapi.TypeObject},
-		}),
-		openapi.WithProblemResponse(),
-		openapi.WithContact("caixw", "", "https://github.com/caixw"),
-		swagger.WithCDN(""),
-	)
+	doc := initial.NewDocument(s)
 
 	router := s.Routers().New("default", nil,
 		web.WithAllowedCORS(3600),
@@ -84,11 +70,13 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 	switch action {
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
-		adminL.Passport().Register("password2", password.New(adminL.Module(), "password2", 5), web.Phrase("another password valid"))
+		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
 
 		system.Load(systemMod, user.System, adminL)
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin)
+		totp.Install(adminL.UserModule().Module(), "totp")
+
 		system.Install(systemMod, user.System, adminL)
 	case "upgrade":
 		panic("not implements")

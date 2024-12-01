@@ -7,7 +7,6 @@ package admin
 import (
 	"context"
 	"errors"
-	"time"
 
 	"github.com/issue9/events"
 	"github.com/issue9/orm/v6"
@@ -15,24 +14,18 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
 	"github.com/issue9/webuse/v7/handlers/static"
-	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	xrbac "github.com/issue9/webuse/v7/middlewares/acl/rbac"
-	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/initial"
 	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/cmfx/user/passport"
-	"github.com/issue9/cmfx/cmfx/user/passport/password"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-const passportTypePassword = "password" // 采用密码登录的
+const passportTypePassword = "passwords" // 采用密码登录的
 
 type Module struct {
-	user            *user.Module
-	defaultPassword string
+	user *user.Module
 
 	roleGroup *rbac.RoleGroup
 
@@ -52,10 +45,8 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	u := user.Load(mod, o.User)
 
-	u.Passport().Register(passportTypePassword, password.New(mod, "passwords", 8), web.StringPhrase("password mode"))
 	m := &Module{
-		user:            u,
-		defaultPassword: o.DefaultPassword,
+		user: u,
 
 		uploadField: o.Upload.Field,
 
@@ -85,32 +76,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	putAdmin := g.New("put-admin", web.StringPhrase("put admin"))
 	postAdmin := g.New("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.New("del-admin", web.StringPhrase("delete admins"))
-
-	// 限制登录接口调用次数，可能存在 OPTIONS 等预检操作。
-	loginRate := ratelimit.New(web.NewCache(mod.ID()+"_rate", mod.Server().Cache()), 20, time.Second, nil, nil)
-
-	mod.Router().Prefix(m.URLPrefix()).
-		Get("/passports", m.getPassports, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("get passports api"), nil).
-				Response("200", &respAdapters{}, nil, nil)
-		})).
-		Post("/login", m.postLogin, loginRate, initial.Unlimit(mod.Server()), mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("admin login api"), nil).
-				Body(&user.Account{}, false, nil, nil).
-				Response("201", &token.Response{}, nil, nil)
-		})).
-		Delete("/login", m.deleteLogin, m, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("admin logout api"), nil).
-				ResponseRef("204", "empty", nil, nil)
-		})).
-		Put("/login", m.putToken, m, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "auth").
-				Desc(web.Phrase("admin refresh token api"), nil).
-				Response("201", &token.Response{}, nil, nil)
-		}))
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/resources", m.getResources, mod.API(func(o *openapi.Operation) {
@@ -171,8 +136,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				QueryObject(user.QueryLogDTO{}, nil).
 				Desc(web.Phrase("get login user security log api"), nil).
 				Response("200", user.LogVO{}, nil, nil)
-		})).
-		Put("/password", m.putCurrentPassword)
+		}))
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/admins", m.getAdmins, getAdmin, mod.API(func(o *openapi.Operation) {
@@ -200,13 +164,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 		Patch("/admins/{id:digit}", m.patchAdmin, putAdmin, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin").
 				Desc(web.Phrase("patch admin info api"), nil).
-				Body(&ctxInfoWithRoleState{}, false, nil, nil).
-				ResponseRef("204", "empty", nil, nil)
-		})).
-		Delete("/admins/{id:digit}/password", m.deleteAdminPassword, putAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("reset admin password api"), nil).
-				PathID("id:digit", web.Phrase("the ID of admin")).
 				Body(&ctxInfoWithRoleState{}, false, nil, nil).
 				ResponseRef("204", "empty", nil, nil)
 		})).
@@ -305,13 +262,11 @@ func (m *Module) OnLogin(f func(*user.User)) context.CancelFunc { return m.login
 // OnLogout 注册用户主动退出时的事
 func (m *Module) OnLogout(f func(*user.User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }
 
-func (m *Module) Module() *cmfx.Module { return m.user.Module() }
-
-func (m *Module) Passport() *passport.Passport { return m.user.Passport() }
+func (m *Module) UserModule() *user.Module { return m.user }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(data *infoWithAccountDTO, now time.Time) error {
-	uid, err := m.user.NewUser(m.Passport().Get(passportTypePassword), data.Username, data.Password, now)
+func (m *Module) newAdmin(data *infoWithAccountDTO) error {
+	uid, err := m.user.New(user.StateNormal, data.Username, data.Password)
 	if err != nil {
 		return err
 	}
@@ -323,7 +278,7 @@ func (m *Module) newAdmin(data *infoWithAccountDTO, now time.Time) error {
 		Avatar:   data.Avatar,
 		Sex:      data.Sex,
 	}
-	if _, err = m.Module().DB().Insert(a); err != nil {
+	if _, err = m.UserModule().Module().DB().Insert(a); err != nil {
 		return err
 	}
 

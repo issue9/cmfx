@@ -46,6 +46,7 @@ const messages: Messages = {
                 login: '登录',
                 username: '账号',
                 password: '密码',
+                code: '验证码',
                 loggingOut: '正在退出...',
 
                 securitylog: '安全日志',
@@ -57,10 +58,12 @@ const messages: Messages = {
                 profile: '个人信息',
                 name: '姓名',
                 nickname: '昵称',
+                pickAvatar: '选择头像',
+                requestCode: '发送验证码',
+                delete: '删除',
+                changePassword: '更改密码',
                 oldPassword: '旧密码',
                 newPassword: '新密码',
-                confirmPassword: '确认新密码',
-                pickAvatar: '选择头像',
             },
             system: {
                 apis: 'API',
@@ -116,12 +119,12 @@ const messages: Messages = {
                 adminsManager: '管理员',
                 name: '姓名',
                 nickname: '昵称',
-                resetPassword: '重置密码',
                 addSuccessful: '添加成功',
-                areYouSureResetPassword: '确定要重置用户的登录密码？',
-                successfullyResetPassword: '重置密码成功',
                 lockUser: '锁定该用户',
                 unlockUser: '解锁该用户',
+
+                passport: '登录方式',
+                passportTtype: '类型',
             },
             roles: {
                 roles: '角色',

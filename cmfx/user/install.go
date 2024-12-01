@@ -12,7 +12,7 @@ import (
 
 // Install 安装当前的环境
 func Install(mod *cmfx.Module) {
-	if err := mod.DB().Create(&User{}, &modelLog{}); err != nil {
+	if err := mod.DB().Create(&User{}, &logPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

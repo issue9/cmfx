@@ -30,7 +30,6 @@ func NewModule(s *test.Suite) *admin.Module {
 			AccessExpired:  60 * config.Duration(time.Second),
 			RefreshExpired: 120 * config.Duration(time.Second),
 		},
-		DefaultPassword: "123",
 		Upload: &admin.Upload{
 			Size:  1024 * 1024 * 1024,
 			Exts:  []string{".jpg"},
@@ -39,16 +38,16 @@ func NewModule(s *test.Suite) *admin.Module {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	loader := admin.Install(mod, o)
-	s.Assertion().NotNil(loader)
+	m := admin.Install(mod, o)
+	s.Assertion().NotNil(m)
 
-	return loader
+	return m
 }
 
 // GetToken 获得后台的访问令牌
-func GetToken(s *test.Suite, loader *admin.Module) string {
+func GetToken(s *test.Suite, m *admin.Module) string {
 	r := &token.Response{}
-	s.Post(loader.URLPrefix()+"/login?type=password", []byte(`{"username":"admin","password":"123"}`)).
+	s.Post(m.URLPrefix()+"/passports/password/login", []byte(`{"username":"admin","password":"123"}`)).
 		Header(header.ContentType, header.JSON+";charset=utf-8").
 		Header(header.Accept, header.JSON).
 		Do(nil).

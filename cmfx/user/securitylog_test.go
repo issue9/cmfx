@@ -8,10 +8,12 @@ import (
 	"encoding/json"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/web"
+	"github.com/issue9/web/server/config"
 	"github.com/issue9/web/server/servertest"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
@@ -26,9 +28,8 @@ func TestSecurityLog(t *testing.T) {
 	Install(mod)
 
 	conf := &Config{
-		URLPrefix:      "/admin",
-		AccessExpired:  60,
-		RefreshExpired: 120,
+		URLPrefix:     "/admin",
+		AccessExpired: config.Duration(time.Hour),
 	}
 	suite.Assertion().NotError(conf.SanitizeConfig())
 

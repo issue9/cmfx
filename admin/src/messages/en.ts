@@ -44,6 +44,7 @@ const messages = {
                 login: 'login',
                 username: 'username',
                 password: 'password',
+                code: 'code',
                 loggingOut: 'logging out ...',
 
                 securitylog: 'security logs',
@@ -55,10 +56,12 @@ const messages = {
                 profile: 'profle',
                 name: 'name',
                 nickname: 'nickname',
+                pickAvatar: 'pick avatar',
+                requestCode: 'request code',
+                delete: 'delete',
+                changePassword: 'change password',
                 oldPassword: 'old password',
                 newPassword: 'new password',
-                confirmPassword: 'confirm password',
-                pickAvatar: 'pick avatar',
             },
             system: {
                 apis: 'API',
@@ -114,12 +117,12 @@ const messages = {
                 adminsManager: 'admin manager',
                 name: 'name',
                 nickname: 'nick name',
-                resetPassword: 'Reset password',
                 addSuccessful: 'Add user successful',
-                areYouSureResetPassword: 'Are you sure reset user password',
-                successfullyResetPassword: 'Successfully reset password',
                 lockUser: 'Lock user',
                 unlockUser: 'unlock user',
+
+                passport: 'passport',
+                passportTtype: 'type',
             },
             roles: {
                 roles: 'roles',

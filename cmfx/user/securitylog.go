@@ -18,7 +18,7 @@ import (
 //
 // tx 如果为空，表示由 AddSecurityLog 直接提交数据；
 func (m *Module) AddSecurityLog(tx *orm.Tx, uid int64, ip, ua, content string) error {
-	_, err := m.Module().Engine(tx).Insert(&modelLog{
+	_, err := m.Module().Engine(tx).Insert(&logPO{
 		UID:       uid,
 		Content:   content,
 		IP:        ip,
@@ -50,7 +50,7 @@ func (m *Module) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
 		return rslt
 	}
 
-	sql := m.mod.DB().SQLBuilder().Select().Columns("*").From(orm.TableName(&modelLog{})).
+	sql := m.mod.DB().SQLBuilder().Select().Columns("*").From(orm.TableName(&logPO{})).
 		Desc("created").
 		Where("uid=?", uid)
 	if q.Text.Text != "" {
@@ -64,7 +64,7 @@ func (m *Module) getSecurityLogs(uid int64, ctx *web.Context) web.Responser {
 		sql.And("{end}<?", q.CreatedEnd)
 	}
 
-	return query.PagingResponserWithConvert[modelLog, LogVO](ctx, &q.Limit, sql, func(m *modelLog) *LogVO {
+	return query.PagingResponserWithConvert[logPO, LogVO](ctx, &q.Limit, sql, func(m *logPO) *LogVO {
 		return &LogVO{
 			Content:   m.Content,
 			IP:        m.IP,

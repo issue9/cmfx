@@ -2,21 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
 import { useApp, useOptions, User } from '@/app/context';
 import {
     buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
-    FormAccessor, Page, Password, TextField, Upload, UploadRef
+    FormAccessor, Icon,
+    Page, TextField, Upload, UploadRef
 } from '@/components';
-import { Sex, sexesMap, zeroAdmin } from '@/pages/admins/types';
+import { Sex, sexesMap } from '@/pages/admins/selector';
+import { Passport, PassportComponents } from './passport';
 
-export default function(): JSX.Element {
+interface Props {
+    passports: Map<string, PassportComponents>;
+}
+
+export default function(props: Props): JSX.Element {
     const opt = useOptions();
     const ctx = useApp();
     let uploadRef: UploadRef;
 
-    const infoAccess = new FormAccessor<User>(zeroAdmin(), ctx, (obj)=>{
+    const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, ctx, (obj)=>{
         return ctx.api.patch(opt.api.info, obj);
     }, async () => {
         await ctx.refetchUser();
@@ -32,6 +38,9 @@ export default function(): JSX.Element {
     const nameA = infoAccess.accessor<string>('name');
     const nicknameA = infoAccess.accessor<string>('nickname');
     const sexA = infoAccess.accessor<Sex>('sex');
+    const passportA = infoAccess.accessor<User['passports']>('passports');
+    
+    const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
     const [avatar, setAvatar] = createSignal('');
     let originAvatar = ''; // 原始的头像内容，在取消上传头像时，可以从此值恢复。
@@ -40,11 +49,12 @@ export default function(): JSX.Element {
         const u = ctx.user();
         if (!u) { return; }
 
-        infoAccess.setPreset({ name: u.name, nickname: u.nickname, sex: u.sex });
+        infoAccess.setPreset(u);
 
         nameA.setValue(u.name!);
         nicknameA.setValue(u.nickname!);
         sexA.setValue(u.sex!);
+        passportA.setValue(u.passports);
 
         setAvatar(u.avatar!);
         originAvatar = u.avatar!;
@@ -55,12 +65,21 @@ export default function(): JSX.Element {
             setAvatar(await file2Base64(uploadRef.files()[0]));
         }
     });
+    
+    onMount(async () => {
+        const r = await ctx.api.get<Array<Passport>>('/passports');
+        if (!r.ok) {
+            ctx.outputProblem(r.body);
+            return;
+        }
+        setPassports(r.body!);
+    });
 
-    return <Page title='_i.page.current.profile' class="p--profile max-w-md">
+    return <Page title='_i.page.current.profile' class="p--profile">
         <Upload ref={el => uploadRef = el} fieldName='files' action='/upload' />
         <div class="flex gap-4">
-            <img class="rounded-full border border-palette-bg-low w-24 h-24" alt="avatar" src={avatar()} />
-            <div class="flex flex-col my-4 items-start justify-center gap-2">
+            <img class="avatar" alt="avatar" src={avatar()} />
+            <div class="name">
                 <p class="text-2xl">{ctx.user()?.name}</p>
                 <Show when={uploadRef!.files().length === 0}>
                     <Button palette='tertiary' onClick={async () => {
@@ -83,10 +102,10 @@ export default function(): JSX.Element {
                             await ctx.refetchUser();
                         }}>{ctx.locale().t('_i.page.save')}</Button>
 
-                        <Button palette='error' onClick={()=>{
+                        <Button palette='error' onClick={() => {
                             setAvatar(originAvatar);
                             uploadRef.delete(0);
-                        }}>{ ctx.locale().t('_i.cancel')}</Button>
+                        }}>{ctx.locale().t('_i.cancel')}</Button>
                     </div>
                 </Show>
             </div>
@@ -94,59 +113,48 @@ export default function(): JSX.Element {
 
         <Divider padding='4px' />
 
-        <div class="content">
-            <Form formAccessor={infoAccess} class="form">
-                <TextField class="w-full" label={ctx.locale().t('_i.page.current.name')} accessor={nameA} />
-                <TextField class="w-full" label={ctx.locale().t('_i.page.current.nickname')} accessor={nicknameA} />
-                <Choice class="w-full" label={ctx.locale().t('_i.page.sex')} accessor={sexA} options={buildEnumsOptions(sexesMap, ctx)} />
+        <Form formAccessor={infoAccess} class="form">
+            <TextField class="w-full" label={ctx.locale().t('_i.page.current.name')} accessor={nameA} />
+            <TextField class="w-full" label={ctx.locale().t('_i.page.current.nickname')} accessor={nicknameA} />
+            <Choice class="w-full" label={ctx.locale().t('_i.page.sex')} accessor={sexA} options={buildEnumsOptions(sexesMap, ctx)} />
 
-                <div class="actions">
-                    <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.reset')}</Button>
-                    <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.page.save')}</Button>
-                </div>
-            </Form>
+            <div class="actions">
+                <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.reset')}</Button>
+                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.page.save')}</Button>
+            </div>
+        </Form>
 
-            <hr class="w-full border-t border-palette-bg-low sm:hidden" />
+        <Divider padding='8px'>{ctx.locale().t('_i.page.admin.passport')}</Divider>
 
-            <Pass />
-        </div>
+        <fieldset class="c--table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>{ctx.locale().t('_i.page.admin.passportTtype')}</th>
+                        <th>{ctx.locale().t('_i.page.current.username')}</th>
+                        <th>{ctx.locale().t('_i.page.actions')}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <For each={passports()}>
+                        {(item) => {
+                            const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
+                            
+                            return <tr>
+                                <td class="flex items-center">
+                                    {item.id}
+                                    <Icon icon='help' title={item.desc} class="ml-1 cursor-help" />
+                                </td>
+                                
+                                <td>{username()}</td>
+                                <td class="flex gap-2">
+                                    {props.passports.get(item.id)?.Actions(item.id)}
+                                </td>
+                            </tr>;
+                        }}
+                    </For>
+                </tbody>
+            </table>
+        </fieldset>
     </Page>;
-}
-
-interface ProfilePassword {
-    old: string;
-    new: string;
-    confirm: string;
-}
-
-function Pass(): JSX.Element {
-    const ctx = useApp();
-
-    const passAccess = new FormAccessor<ProfilePassword>({ old: '', new: '', confirm: '' }, ctx, (obj)=>{
-        return ctx.api.put('/password', obj);
-    }, undefined, (obj)=>{
-        if (obj.old === '') {
-            return new Map([['old', ctx.locale().t('_i.error.canNotBeEmpty')]]);
-        }
-        if (obj.new === '') {
-            return new Map([['new', ctx.locale().t('_i.error.canNotBeEmpty')]]);
-        }
-
-        if (obj.old === obj.new) {
-            return new Map([['new', ctx.locale().t('_i.error.oldNewPasswordCanNotBeEqual')]]);
-        }
-        if (obj.new !== obj.confirm) {
-            return new Map([['confirm', ctx.locale().t('_i.error.newConfirmPasswordMustBeEqual')]]);
-        }
-    });
-
-    return <Form formAccessor={passAccess} class="form">
-        <Password class="w-full" autocomplete='current-password' label={ctx.locale().t('_i.page.current.oldPassword')} accessor={passAccess.accessor('old')} />
-        <Password class="w-full" autocomplete='new-password' label={ctx.locale().t('_i.page.current.newPassword')} accessor={passAccess.accessor('new')} />
-        <Password class="w-full" autocomplete='off' label={ctx.locale().t('_i.page.current.confirmPassword')} accessor={passAccess.accessor('confirm')} />
-
-        <div class="actions">
-            <Button disabled={passAccess.isPreset()} palette="primary" type='submit'>{ctx.locale().t('_i.page.update')}</Button>
-        </div>
-    </Form>;
 }

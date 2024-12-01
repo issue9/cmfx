@@ -6,7 +6,6 @@ package admin
 
 import (
 	"cmp"
-	"errors"
 	"net/http"
 	"slices"
 	"time"
@@ -29,11 +28,11 @@ type adminInfoVO struct {
 	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports"`
 }
 
-type respPassportIdentity struct {
-	Name     string `json:"name" xml:"name" cbor:"name"`
-	Identity string `json:"identity" xml:"identity" cbor:"identity"`
-}
-
+// # API GET /admins/{id} 获取指定的管理员账号
+//
+// @tag admin
+// @path id int 管理的 ID
+// @resp 200 * respAdminInfo
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {
@@ -41,7 +40,7 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	}
 
 	a := &info{ID: id}
-	found, err := m.Module().DB().Select(a)
+	found, err := m.UserModule().Module().DB().Select(a)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -49,25 +48,24 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 		return ctx.NotFound()
 	}
 
-	roles := m.roleGroup.UserRoles(id)
 	u, err := m.user.GetUser(id)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	rs := make([]string, 0, len(roles))
-	for _, r := range roles {
+	rs := make([]string, 0, 4)
+	for _, r := range m.roleGroup.UserRoles(id) {
 		rs = append(rs, r.ID)
 	}
 
 	ps := make([]*respPassportIdentity, 0)
-	for k, v := range m.Passport().Identities(id) {
+	for k, v := range m.user.Identities(id) {
 		ps = append(ps, &respPassportIdentity{
-			Name:     k,
+			ID:       k,
 			Identity: v,
 		})
 	}
-	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.Name, b.Name) }) // 排序，尽量使输出的内容相同
+	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&adminInfoVO{
 		ctxInfoWithRoleState: ctxInfoWithRoleState{
@@ -106,7 +104,7 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	sql := m.Module().DB().SQLBuilder().Select().Column("info.*").From(orm.TableName(&info{}), "info")
+	sql := m.UserModule().Module().DB().SQLBuilder().Select().Column("info.*").From(orm.TableName(&info{}), "info")
 
 	if len(q.States) > 0 {
 		m.user.LeftJoin(sql, "user", "{user}.{id}={info}.{id}", q.States)
@@ -150,73 +148,45 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	u, resp := m.getUserFromPath(ctx)
 	if resp != nil {
 		return resp
-	}
-
-	u, err := m.user.GetUser(id)
-	if err != nil {
-		return ctx.Error(err, "")
 	}
 
 	// 读取数据
-	data := &ctxInfoWithRoleState{}
+	data := &ctxInfoWithRoleState{info: info{m: m}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
-	data.ID = id // 指定主键
+	data.ID = u.ID // 指定主键
 
-	tx, err := m.Module().DB().Begin()
+	err := m.UserModule().Module().DB().DoTransaction(func(tx *orm.Tx) error {
+		e := tx.NewEngine(m.UserModule().Module().DB().TablePrefix())
+		if _, err := e.Update(&data.info, "sex"); err != nil {
+			return err
+		}
+
+		return m.user.SetState(tx, u, data.State)
+	})
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	e := tx.NewEngine(m.Module().DB().TablePrefix())
-	if _, err := e.Update(data, "sex"); err != nil {
-		return ctx.Error(errors.Join(err, tx.Rollback()), "")
+	// 取消所有的权限组，可能涉及数据库操作，在事务外执行。
+	for _, role := range m.roleGroup.UserRoles(u.ID) {
+		if err := role.Unlink(u.ID); err != nil {
+			return ctx.Error(err, "")
+		}
 	}
-
 	for _, rid := range data.Roles {
-		r := m.roleGroup.Role(rid)
-		if r == nil {
-			continue
+		role := m.roleGroup.Role(rid)
+		if role == nil { // 由 filter 保证不存在为 nil
+			panic("role == nil")
 		}
 
-		if err := r.Link(id); err != nil {
-			return ctx.Error(errors.Join(err, tx.Rollback()), "")
+		if err := role.Link(u.ID); err != nil {
+			return ctx.Error(err, "")
 		}
-	}
-
-	if err := m.user.SetState(tx, u, data.State); err != nil {
-		return ctx.Error(errors.Join(err, tx.Rollback()), "")
-	}
-
-	if err := tx.Commit(); err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return web.NoContent()
-}
-
-func (m *Module) deleteAdminPassword(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
-	if resp != nil {
-		return resp
-	}
-
-	// 查看指定的用户是否真实存在，不判断状态，即使锁定，也能改其信息
-	u, err := m.user.GetUser(id)
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	if u.State != user.StateNormal {
-		return ctx.Problem(cmfx.ForbiddenStateNotAllow)
-	}
-
-	// 更新数据库
-	if err := m.Passport().Get(passportTypePassword).Set(id, m.defaultPassword); err != nil {
-		return ctx.Error(err, "")
 	}
 
 	return web.NoContent()
@@ -228,7 +198,7 @@ func (m *Module) postAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	if err := m.newAdmin(data, ctx.Begin()); err != nil {
+	if err := m.newAdmin(data); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")
@@ -266,4 +236,21 @@ func (m *Module) setAdminState(ctx *web.Context, state user.State, code int) web
 	}
 
 	return web.Status(code)
+}
+
+func (m *Module) getUserFromPath(ctx *web.Context) (*user.User, web.Responser) {
+	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	if resp != nil {
+		return nil, resp
+	}
+
+	u, err := m.user.GetUser(id)
+	if err != nil {
+		return nil, ctx.Error(err, "")
+	}
+	if u.State == user.StateDeleted {
+		return nil, ctx.Problem(cmfx.ForbiddenStateNotAllow)
+	}
+
+	return u, nil
 }

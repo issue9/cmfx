@@ -7,8 +7,16 @@
  */
 export interface User {
     id?: number;
-    sex?: 'unknown' | 'male' | 'female';
-    name?: string;
-    nickname?: string;
+    sex: 'male' | 'female' | 'unknown';
+    state: 'normal' | 'locked' | 'deleted';
+    name: string;
+    nickname: string;
     avatar?: string;
+    roles?: Array<string>;
+    passports?: Array<Passport>;
+}
+
+interface Passport {
+    id: string;
+    identity: string;
 }
