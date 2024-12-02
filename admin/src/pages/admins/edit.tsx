@@ -65,13 +65,13 @@ export default function(): JSX.Element {
                 <tbody>
                     <For each={passports()}>
                         {(item) => {
-                            const username = formPassports.getValue()!.find((v) => v.id == item.id)?.username;
+                            const uid = formPassports.getValue()!.find((v) => v.id == item.id)?.id;
                             return <tr>
                                 <td class="flex items-center">
                                     {item.id}
                                     <Icon icon='help' title={item.desc} class="ml-1 cursor-help" />
                                 </td>
-                                <td>{username}</td>
+                                <td>{uid}</td>
                             </tr>;
                         }}
                     </For>
