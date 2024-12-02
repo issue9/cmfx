@@ -45,6 +45,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 	return err
 }
 
+// CreateToken 为用户 u 生成登录令牌
 func (m *Module) CreateToken(ctx *web.Context, u *User, p Passport) web.Responser {
 	if u.State != StateNormal {
 		return ctx.Problem(cmfx.UnauthorizedInvalidState)

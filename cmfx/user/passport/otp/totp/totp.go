@@ -76,7 +76,7 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 		})).
 		Post("/secret", p.postSecret, rate, initial.Unlimit(user.Module().Server()), p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
-				Desc(web.Phrase("request secret for %s passport api"), nil).
+				Desc(web.Phrase("request secret for %s passport api", id), nil).
 				Response("201", secretVO{}, nil, nil)
 		}))
 

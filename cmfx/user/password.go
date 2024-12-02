@@ -54,7 +54,7 @@ func initPassword(mod *Module) {
 
 	router.Put("", p.putPassword, p.mod, p.mod.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").
-			Desc(web.Phrase("change current user password for %s passport api"), nil).
+			Desc(web.Phrase("change current user password for %s passport api", passwordMode), nil).
 			Body(&passwordTO{}, false, nil, nil).
 			ResponseRef("204", "empty", nil, nil)
 	}))
