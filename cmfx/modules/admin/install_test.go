@@ -6,8 +6,10 @@ package admin
 
 import (
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v4"
+	"github.com/issue9/web/server/config"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/user"
@@ -23,8 +25,8 @@ func TestInstall(t *testing.T) {
 		SuperUser: 1,
 		User: &user.Config{
 			URLPrefix:      "/admin",
-			AccessExpired:  60,
-			RefreshExpired: 120,
+			AccessExpired:  config.Duration(time.Minute),
+			RefreshExpired: config.Duration(time.Minute * 2),
 		},
 		Upload: &Upload{
 			Size:  1024 * 1024 * 1024,
