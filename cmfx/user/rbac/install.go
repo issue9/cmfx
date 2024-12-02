@@ -11,7 +11,7 @@ import (
 )
 
 func Install(mod *cmfx.Module) {
-	if err := mod.DB().Create(&modelRole{}, &modelLink{}); err != nil {
+	if err := mod.DB().Create(&rolePO{}, &linkPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

@@ -92,13 +92,13 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 			o.Tag("admin", "rbac").
 				Desc(web.Phrase("add role api"), nil).
 				ResponseRef("201", "empty", nil, nil).
-				Body(&rbac.RoleDTO{}, false, nil, nil)
+				Body(&rbac.RoleTO{}, false, nil, nil)
 		})).
 		Put("/roles/{id:digit}", m.putRole, putGroup, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin", "rbac").
 				PathID("id:digit", web.Phrase("the role id")).
 				Desc(web.Phrase("edit role info api"), nil).
-				Body(&rbac.RoleDTO{}, false, nil, nil).
+				Body(&rbac.RoleTO{}, false, nil, nil).
 				ResponseRef("204", "empty", nil, nil)
 		})).
 		Delete("/roles/{id:digit}", m.deleteRole, delGroup, mod.API(func(o *openapi.Operation) {

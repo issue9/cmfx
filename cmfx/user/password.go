@@ -29,13 +29,13 @@ type password struct {
 	mod *Module
 }
 
-type accountDTO struct {
+type accountTO struct {
 	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
 	Username string   `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"`
 	Password string   `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"passport"`
 }
 
-func (c *accountDTO) Filter(v *web.FilterContext) {
+func (c *accountTO) Filter(v *web.FilterContext) {
 	v.Add(filters.NotEmpty("username", &c.Username)).
 		Add(filters.NotEmpty("password", &c.Password))
 }
@@ -48,14 +48,14 @@ func initPassword(mod *Module) {
 	router.Post("/login", p.postLogin, rate, initial.Unlimit(mod.Module().Server()), mod.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").
 			Desc(web.Phrase("login by %s api", passwordMode), nil).
-			Body(&accountDTO{}, false, nil, nil).
+			Body(&accountTO{}, false, nil, nil).
 			Response("201", token.Response{}, nil, nil)
 	}))
 
 	router.Put("", p.putPassword, p.mod, p.mod.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").
 			Desc(web.Phrase("change current user password for %s passport api"), nil).
-			Body(&passwordDTO{}, false, nil, nil).
+			Body(&passwordTO{}, false, nil, nil).
 			ResponseRef("204", "empty", nil, nil)
 	}))
 
@@ -63,7 +63,7 @@ func initPassword(mod *Module) {
 }
 
 func (p *password) postLogin(ctx *web.Context) web.Responser {
-	data := &accountDTO{}
+	data := &accountTO{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidHeader); resp != nil {
 		return resp
 	}
@@ -94,13 +94,13 @@ func (p *password) postLogin(ctx *web.Context) web.Responser {
 	}
 }
 
-type passwordDTO struct {
+type passwordTO struct {
 	XMLName struct{} `xml:"password" json:"-" yaml:"-" cbor:"-"`
 	New     string   `json:"new" yaml:"new" cbor:"new" comment:"new password"`
 	Old     string   `json:"old" yaml:"old" cbor:"old" comment:"old password"`
 }
 
-func (a *passwordDTO) Filter(ctx *web.FilterContext) {
+func (a *passwordTO) Filter(ctx *web.FilterContext) {
 	b := filter.NewBuilder(filter.V(
 		func(t string) bool { return t != a.Old },
 		web.Phrase("the new password can not be equal old"),
@@ -112,7 +112,7 @@ func (a *passwordDTO) Filter(ctx *web.FilterContext) {
 }
 
 func (p *password) putPassword(ctx *web.Context) web.Responser {
-	data := &passwordDTO{}
+	data := &passwordTO{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}

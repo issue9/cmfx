@@ -105,35 +105,35 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 }
 
 // 服务
-type service struct {
+type serviceVO struct {
 	Title string    `json:"title" xml:"title" cbor:"title" yaml:"title"`                                 // 名称
 	State web.State `json:"state" xml:"state,attr" cbor:"state" yaml:"state"`                            // 状态
 	Err   string    `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty" yaml:"err,omitempty"` // 如果出错，表示错误内容，否则为空
 }
 
 // 计划任务
-type job struct {
-	service
+type jobVO struct {
+	serviceVO
 	Next time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty" yaml:"next,omitempty"` // 下一次执行时间
 	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty" yaml:"prev,omitempty"` // 上一次执行时间
 }
 
 // 服务和计划任务
-type services struct {
-	XMLName  struct{}  `json:"-" xml:"services" cbor:"-" yaml:"-"`
-	Services []service `json:"services" xml:"service" cbor:"service" yaml:"service"` // 服务
-	Jobs     []job     `json:"jobs" xml:"job" cbor:"job" yaml:"job"`                 // 计划任务
+type servicesVO struct {
+	XMLName  struct{}    `json:"-" xml:"services" cbor:"-" yaml:"-"`
+	Services []serviceVO `json:"services" xml:"service" cbor:"service" yaml:"service"` // 服务
+	Jobs     []jobVO     `json:"jobs" xml:"job" cbor:"job" yaml:"job"`                 // 计划任务
 }
 
 func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
-	ss := services{}
+	ss := servicesVO{}
 	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
 		var err1 string
 		if err != nil {
 			err1 = err.Error()
 		}
 
-		ss.Services = append(ss.Services, service{
+		ss.Services = append(ss.Services, serviceVO{
 			Title: title.LocaleString(ctx.LocalePrinter()),
 			State: state,
 			Err:   err1,
@@ -146,8 +146,8 @@ func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 			err = j.Err().Error()
 		}
 
-		ss.Jobs = append(ss.Jobs, job{
-			service: service{
+		ss.Jobs = append(ss.Jobs, jobVO{
+			serviceVO: serviceVO{
 				Title: j.Title().LocaleString(ctx.LocalePrinter()),
 				State: j.State(),
 				Err:   err,

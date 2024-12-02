@@ -13,14 +13,14 @@ import (
 	"github.com/issue9/cmfx/cmfx"
 )
 
-type respPassportIdentity struct {
+type passportIdentityVO struct {
 	ID       string `json:"id" xml:"id" cbor:"id" yaml:"id"`
 	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"id"`
 }
 
-type respInfoWithPassport struct {
+type infoWithPassportVO struct {
 	info
-	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
+	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
 // # api get /info 获取当前登用户的信息
@@ -37,16 +37,16 @@ func (m *Module) getInfo(ctx *web.Context) web.Responser {
 		return ctx.NotFound()
 	}
 
-	ps := make([]*respPassportIdentity, 0)
+	ps := make([]*passportIdentityVO, 0)
 	for k, v := range m.user.Identities(u.ID) {
-		ps = append(ps, &respPassportIdentity{
+		ps = append(ps, &passportIdentityVO{
 			ID:       k,
 			Identity: v,
 		})
 	}
-	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
+	slices.SortFunc(ps, func(a, b *passportIdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
-	return web.OK(&respInfoWithPassport{
+	return web.OK(&infoWithPassportVO{
 		info:      *infomation,
 		Passports: ps,
 	})

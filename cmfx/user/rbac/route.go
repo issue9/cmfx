@@ -15,25 +15,25 @@ import (
 )
 
 // 角色信息
-type RoleDTO struct {
-	XMLName struct{} `json:"-" xml:"role" cbor:"-"`
-	Name    string   `json:"name" xml:"name" cbor:"name" comment:"role name"`
-	Desc    string   `json:"description" xml:"description" cbor:"description" comment:"role description"`
-	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" comment:"role parent"`
+type RoleTO struct {
+	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
+	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
+	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" comment:"role description"`
+	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
 }
 
-func (r *RoleDTO) Filter(v *web.FilterContext) {
+func (r *RoleTO) Filter(v *web.FilterContext) {
 	v.Add(filters.NotEmpty("description", &r.Desc)).
 		Add(filters.NotEmpty("name", &r.Name))
 }
 
 // 角色信息
 type RoleVO struct {
-	XMLName struct{} `json:"-" xml:"role" cbor:"-"`
-	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" comment:"role id"`
-	Name    string   `json:"name" xml:"name" cbor:"name" comment:"role name"`
-	Desc    string   `json:"description" xml:"description" cbor:"description" comment:"role description"`
-	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" comment:"role parent"`
+	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
+	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" yaml:"id,omitempty" comment:"role id"`
+	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
+	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" comment:"role description"`
+	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
 }
 
 // GetRolesHandle 向客户端输出 g 中保存的所有角色列表
@@ -54,7 +54,7 @@ func GetRolesHandle(g *RoleGroup, ctx *web.Context) web.Responser {
 
 // PostRolesHandle 向 g 中添加角色
 func PostRolesHandle(g *RoleGroup, ctx *web.Context) web.Responser {
-	data := &RoleDTO{}
+	data := &RoleTO{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
@@ -80,7 +80,7 @@ func PutRoleHandle(g *RoleGroup, idName string, ctx *web.Context) web.Responser 
 		return ctx.NotFound()
 	}
 
-	data := &RoleDTO{}
+	data := &RoleTO{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}

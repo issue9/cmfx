@@ -70,7 +70,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	})).
 		Get("/services", m.adminGetServices, resGetServices, mod.API(func(o *openapi.Operation) {
 			o.Tag("system", "admin").
-				Response("200", services{}, nil, nil).
+				Response("200", servicesVO{}, nil, nil).
 				Desc(web.Phrase("get services list api"), nil)
 		})).
 		Get("/apis", m.adminGetAPIs, resGetAPIs, mod.API(func(o *openapi.Operation) {

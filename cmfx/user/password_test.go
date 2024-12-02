@@ -13,8 +13,8 @@ import (
 
 var (
 	_ Passport   = &password{}
-	_ web.Filter = &passwordDTO{}
-	_ web.Filter = &accountDTO{}
+	_ web.Filter = &passwordTO{}
+	_ web.Filter = &accountTO{}
 )
 
 func TestUsernameValidator(t *testing.T) {

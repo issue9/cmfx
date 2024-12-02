@@ -25,7 +25,7 @@ type adminInfoVO struct {
 	infoWithRoleStateVO
 
 	// 当前用户已经开通的验证方式
-	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports"`
+	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports"`
 }
 
 // # API GET /admins/{id} 获取指定的管理员账号
@@ -58,14 +58,14 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 		rs = append(rs, r.ID)
 	}
 
-	ps := make([]*respPassportIdentity, 0)
+	ps := make([]*passportIdentityVO, 0)
 	for k, v := range m.user.Identities(id) {
-		ps = append(ps, &respPassportIdentity{
+		ps = append(ps, &passportIdentityVO{
 			ID:       k,
 			Identity: v,
 		})
 	}
-	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
+	slices.SortFunc(ps, func(a, b *passportIdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&adminInfoVO{
 		infoWithRoleStateVO: infoWithRoleStateVO{

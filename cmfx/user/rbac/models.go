@@ -16,13 +16,13 @@ import (
 )
 
 // 用户与角色的关联
-type modelLink struct {
+type linkPO struct {
 	UID  int64  `orm:"name(uid);unique(urg)"`
 	Role string `orm:"name(role);len(50);unique(urg)"`
 	GID  string `orm:"name(gid);len(20);unique(urg)"`
 }
 
-type modelRole struct {
+type rolePO struct {
 	GID         string        `orm:"name(gid);len(20)"`
 	ID          string        `orm:"name(id);unique(id);len(50)"`
 	Name        string        `orm:"name(name);len(50)"`
@@ -40,13 +40,13 @@ func newDBStore(mod *cmfx.Module) rbac.Store[int64] { return &dbStore{mod: mod} 
 func (db *dbStore) Load(gid string) (map[string]*rbac.Role[int64], error) {
 	e := db.mod.Engine(nil)
 
-	roles := make([]*modelRole, 0, 100)
+	roles := make([]*rolePO, 0, 100)
 	size, err := e.Where("gid=?", gid).Select(true, &roles)
 	if err != nil {
 		return nil, err
 	}
 
-	links := make([]*modelLink, 0, 100)
+	links := make([]*linkPO, 0, 100)
 	_, err = e.Where("gid=?", gid).Select(true, &links)
 	if err != nil {
 		return nil, err
@@ -81,11 +81,11 @@ func (db *dbStore) Del(gid, id string) error {
 	}
 	e := db.mod.Engine(tx)
 
-	if _, err = e.Delete(&modelRole{ID: id}); err != nil {
+	if _, err = e.Delete(&rolePO{ID: id}); err != nil {
 		return errors.Join(err, tx.Rollback())
 	}
 
-	if _, err = e.Where("role=? AND gid=?", id, gid).Delete(&modelLink{}); err != nil {
+	if _, err = e.Where("role=? AND gid=?", id, gid).Delete(&linkPO{}); err != nil {
 		return errors.Join(err, tx.Rollback())
 	}
 
@@ -99,7 +99,7 @@ func (db *dbStore) Set(gid string, r *rbac.Role[int64]) error {
 	}
 	e := db.mod.Engine(tx)
 
-	_, err = e.Update(&modelRole{
+	_, err = e.Update(&rolePO{
 		GID:         gid,
 		ID:          r.ID,
 		Name:        r.Name,
@@ -111,13 +111,13 @@ func (db *dbStore) Set(gid string, r *rbac.Role[int64]) error {
 		return errors.Join(err, tx.Rollback())
 	}
 
-	if _, err = e.Where("role=? and gid=?", r.ID, gid).Delete(&modelLink{}); err != nil {
+	if _, err = e.Where("role=? and gid=?", r.ID, gid).Delete(&linkPO{}); err != nil {
 		return errors.Join(err, tx.Rollback())
 	}
 
 	links := make([]orm.TableNamer, 0, len(r.Users))
 	for _, uid := range r.Users {
-		links = append(links, &modelLink{UID: uid, Role: r.ID, GID: gid})
+		links = append(links, &linkPO{UID: uid, Role: r.ID, GID: gid})
 	}
 	if err = e.InsertMany(10, links...); err != nil {
 		return errors.Join(err, tx.Rollback())
@@ -133,7 +133,7 @@ func (db *dbStore) Add(gid string, r *rbac.Role[int64]) error {
 	}
 	e := db.mod.Engine(tx)
 
-	_, err = e.Insert(&modelRole{
+	_, err = e.Insert(&rolePO{
 		GID:         gid,
 		ID:          r.ID,
 		Name:        r.Name,
@@ -147,7 +147,7 @@ func (db *dbStore) Add(gid string, r *rbac.Role[int64]) error {
 
 	links := make([]orm.TableNamer, 0, len(r.Users))
 	for _, uid := range r.Users {
-		links = append(links, &modelLink{UID: uid, Role: r.ID, GID: gid})
+		links = append(links, &linkPO{UID: uid, Role: r.ID, GID: gid})
 	}
 	if err = e.InsertMany(10, links...); err != nil {
 		return errors.Join(err, tx.Rollback())
@@ -156,17 +156,17 @@ func (db *dbStore) Add(gid string, r *rbac.Role[int64]) error {
 	return tx.Commit()
 }
 
-func (l *modelLink) TableName() string { return "_rbac_links" }
+func (l *linkPO) TableName() string { return "_rbac_links" }
 
-func (r *modelRole) TableName() string { return "_rbac_roles" }
+func (r *rolePO) TableName() string { return "_rbac_roles" }
 
-func (r *modelRole) BeforeInsert() error {
+func (r *rolePO) BeforeInsert() error {
 	r.Name = html.EscapeString(r.Name)
 	r.Description = html.EscapeString(r.Description)
 	return nil
 }
 
-func (r *modelRole) BeforeUpdate() error {
+func (r *rolePO) BeforeUpdate() error {
 	r.Name = html.EscapeString(r.Name)
 	r.Description = html.EscapeString(r.Description)
 	return nil
