@@ -36,7 +36,7 @@ func LoadLinkage[T any](l *Module, key string) (*Linkage[T], error) {
 
 	db := l.mod.DB()
 
-	modItems := make([]*modelLinkage, 0, 10)
+	modItems := make([]*linkagePO, 0, 10)
 	size, err := db.Where("key=?", key).AndIsNull("deleted").Select(true, &modItems)
 	if err != nil {
 		return nil, err
@@ -85,7 +85,7 @@ func LoadLinkage[T any](l *Module, key string) (*Linkage[T], error) {
 			panic("未从数据库读取到 id") // 这应该是代码出错或是数据库被修改
 		}
 
-		modItem, found := sliceutil.At(modItems, func(i *modelLinkage, _ int) bool { return i.ID == item.ID })
+		modItem, found := sliceutil.At(modItems, func(i *linkagePO, _ int) bool { return i.ID == item.ID })
 		if !found {
 			panic("无法从原数据中找到相应的 ID") // 这应该是代码出错或是数据库被修改
 		}
@@ -113,7 +113,7 @@ func (l *Linkage[T]) Add(v T, parent int64) (*LinkageItem[T], error) {
 	if err != nil {
 		return nil, err
 	}
-	last, err := l.l.mod.DB().LastInsertID(&modelLinkage{
+	last, err := l.l.mod.DB().LastInsertID(&linkagePO{
 		Key:     l.Key(),
 		Deleted: sql.NullTime{},
 		Data:    data,
@@ -144,7 +144,7 @@ func (l *Linkage[T]) Delete(id int64) error {
 		return errLinkageItemNotFound(id)
 	}
 
-	mod := &modelLinkage{Deleted: sql.NullTime{Time: time.Now(), Valid: true}}
+	mod := &linkagePO{Deleted: sql.NullTime{Time: time.Now(), Valid: true}}
 	if p == nil {
 		if _, err := l.l.mod.DB().Where("id=?", id).Update(mod); err != nil {
 			return err
@@ -170,7 +170,7 @@ func (l *Linkage[T]) Set(id int64, v T) error {
 	if err != nil {
 		return err
 	}
-	mod := &modelLinkage{ID: id, Data: data}
+	mod := &linkagePO{ID: id, Data: data}
 	if _, err := l.l.mod.DB().Update(mod, "data"); err != nil {
 		return err
 	}

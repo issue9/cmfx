@@ -193,7 +193,7 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) postAdmins(ctx *web.Context) web.Responser {
-	data := &infoWithAccountDTO{ctxInfoWithRoleState: ctxInfoWithRoleState{info: info{m: m}}}
+	data := &infoWithAccountTO{ctxInfoWithRoleState: ctxInfoWithRoleState{info: info{m: m}}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}

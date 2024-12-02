@@ -65,7 +65,7 @@ func Init(user *user.Module, expired, resend time.Duration, gen Generator, sende
 	}
 
 	prefix := user.URLPrefix() + "/passports/" + id
-	rate := ratelimit.New(web.NewCache(idPrefix+"_rate_", user.Module().Server().Cache()), 20, time.Second, nil, nil)
+	rate := ratelimit.New(web.NewCache(idPrefix+"_rate_", user.Module().Server().Cache()), 20, time.Second, nil)
 
 	user.Module().Router().Prefix(prefix).
 		Post("/login", c.postLogin, rate, initial.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {

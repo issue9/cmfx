@@ -11,7 +11,7 @@ import (
 
 //------------------------------------- health ---------------------------------------
 
-type modelHealth struct {
+type healthPO struct {
 	Router       string        `orm:"name(router);len(20);unique(r_m_p)"`
 	Method       string        `orm:"name(method);len(10);unique(r_m_p)"`
 	Pattern      string        `orm:"name(pattern);len(500);unique(r_m_p)"`
@@ -24,16 +24,16 @@ type modelHealth struct {
 	Spend        time.Duration `orm:"name(spend)"`
 }
 
-func (l *modelHealth) TableName() string { return `_api_healths` }
+func (l *healthPO) TableName() string { return `_api_healths` }
 
-func (l *modelHealth) BeforeUpdate() error {
+func (l *healthPO) BeforeUpdate() error {
 	l.Last = time.Now()
 	return nil
 }
 
 //------------------------------------- linkage ---------------------------------------
 
-type modelLinkage struct {
+type linkagePO struct {
 	ID      int64        `orm:"name(id);ai"`
 	Key     string       `orm:"name(key);len(20)"`           // 此分类的唯一关键字
 	Title   string       `orm:"name(title);len(20)"`         // 此分类的简要说明
@@ -42,4 +42,4 @@ type modelLinkage struct {
 	Parent  int64        `orm:"name(parent)"`                // 表示某一项的上一级项目，如果为零，表示该值是顶级项目。
 }
 
-func (l *modelLinkage) TableName() string { return `_linkages` }
+func (l *linkagePO) TableName() string { return `_linkages` }

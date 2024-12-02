@@ -35,7 +35,7 @@ func TestInstallLinkage(t *testing.T) {
 
 	err := InstallLinkage[string](sys, "sex", "SEX", nil)
 	a.NotError(err)
-	size, err := sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&modelLinkage{})
+	size, err := sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&linkagePO{})
 	a.NotError(err).Equal(size, 1)
 
 	a.PanicString(func() {
@@ -43,7 +43,7 @@ func TestInstallLinkage(t *testing.T) {
 	}, "已经存在同名的级联数据")
 
 	a.NotError(DeleteLinkage(sys, "sex"))
-	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&modelLinkage{})
+	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&linkagePO{})
 	a.NotError(err).Equal(size, 0)
 
 	err = InstallLinkage(sys, "sex", "SEX", []*LinkageItem[string]{
@@ -52,11 +52,11 @@ func TestInstallLinkage(t *testing.T) {
 		{Data: "other"},
 	})
 	a.NotError(err)
-	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&modelLinkage{})
+	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&linkagePO{})
 	a.NotError(err).Equal(size, 4)
 
 	a.NotError(DeleteLinkage(sys, "sex"))
-	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&modelLinkage{})
+	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&linkagePO{})
 	a.NotError(err).Equal(size, 0) // 所有相同 key 都会被标记为删除
 
 	// 有子项的数据
@@ -74,10 +74,10 @@ func TestInstallLinkage(t *testing.T) {
 		}},
 	})
 	a.NotError(err)
-	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&modelLinkage{})
+	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&linkagePO{})
 	a.NotError(err).Equal(size, 9)
 
 	a.NotError(DeleteLinkage(sys, "sex"))
-	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&modelLinkage{})
+	size, err = sys.mod.DB().Where("key=?", "sex").AndIsNull("deleted").Count(&linkagePO{})
 	a.NotError(err).Equal(size, 0) // 所有相同 key 都会被标记为删除
 }

@@ -50,7 +50,7 @@ func initServer(name, ver string, o *server.Options, user *Config, action string
 		web.WithAnyInterceptor("any"), web.WithDigitInterceptor("digit"),
 	)
 	debug.RegisterDev(router, "/debug")
-	router.Get("/openapi", doc.Handler)
+	router.Get("/openapi", doc.Handler())
 
 	db := user.DB.DB()
 	s.OnClose(func() error { return db.Close() })

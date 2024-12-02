@@ -19,7 +19,7 @@ import (
 )
 
 func Install(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
-	if err := mod.DB().Create(&modelHealth{}, &modelLinkage{}); err != nil {
+	if err := mod.DB().Create(&healthPO{}, &linkagePO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
@@ -30,7 +30,7 @@ func Install(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 
 // DeleteLinkage 删除指定的级联数据
 func DeleteLinkage(l *Module, key string) error {
-	mod := &modelLinkage{Deleted: sql.NullTime{Valid: true, Time: time.Now()}}
+	mod := &linkagePO{Deleted: sql.NullTime{Valid: true, Time: time.Now()}}
 	_, err := l.mod.DB().Where("key=?", key).Update(mod)
 	return err
 }
@@ -40,7 +40,7 @@ func InstallLinkage[T any](l *Module, key, title string, items []*LinkageItem[T]
 	checkObjectType[T]()
 
 	db := l.mod.DB()
-	root := &modelLinkage{}
+	root := &linkagePO{}
 
 	size, err := db.Where("key=?", key).AndIsNull("deleted").Select(true, root)
 	if err != nil {
@@ -55,7 +55,7 @@ func InstallLinkage[T any](l *Module, key, title string, items []*LinkageItem[T]
 		return err
 	}
 
-	id, err := tx.LastInsertID(&modelLinkage{Key: key, Title: title})
+	id, err := tx.LastInsertID(&linkagePO{Key: key, Title: title})
 	if err != nil {
 		return errors.Join(err, tx.Rollback())
 	}
@@ -76,7 +76,7 @@ func installLinkage[T any](tx *orm.Tx, key string, parent int64, item *LinkageIt
 		return err
 	}
 
-	last, err := tx.LastInsertID(&modelLinkage{
+	last, err := tx.LastInsertID(&linkagePO{
 		Key:    key,
 		Data:   data,
 		Parent: parent,

@@ -59,7 +59,7 @@ func TestLinkage(t *testing.T) {
 	a.NotError(l.Set(other.ID, "text"))
 	curr = l.Get(other.ID)
 	a.NotNil(curr).Equal(curr.Data, "text")
-	mod := &modelLinkage{ID: other.ID}
+	mod := &linkagePO{ID: other.ID}
 	size, err := sys.mod.DB().Where("id=?", other.ID).AndIsNull("deleted").Select(true, mod)
 	a.NotError(err).Equal(size, 1)
 

@@ -26,7 +26,7 @@ type contextType int
 // NOTE: 需要在添加路由之前调用，否则参数 r 的限制不启作用。
 func Init(s web.Server, r *Ratelimit, plugin ...web.Plugin) {
 	c := web.NewCache(r.Prefix, s.Cache())
-	limit := ratelimit.New(c, r.Capacity, r.Rate.Duration(), nil, nil)
+	limit := ratelimit.New(c, r.Capacity, r.Rate.Duration(), nil)
 	s.Vars().Store(contenxtKey, limit)
 
 	plugins := append(plugin,
@@ -59,7 +59,6 @@ func problems(s web.Server) {
 		&web.LocaleProblem{ID: cmfx.BadRequestInvalidQuery, Title: web.StringPhrase("bad request invalid query"), Detail: web.StringPhrase("bad request invalid query detail")},
 		&web.LocaleProblem{ID: cmfx.BadRequestInvalidHeader, Title: web.StringPhrase("bad request invalid header"), Detail: web.StringPhrase("bad request invalid header detail")},
 		&web.LocaleProblem{ID: cmfx.BadRequestInvalidBody, Title: web.StringPhrase("bad request invalid body"), Detail: web.StringPhrase("bad request invalid body detail")},
-		&web.LocaleProblem{ID: cmfx.BadRequestBodyTooLarger, Title: web.StringPhrase("bad request body too Larger"), Detail: web.StringPhrase("bad request body too Larger detail")},
 		&web.LocaleProblem{ID: cmfx.BadRequestBodyNotAllowed, Title: web.StringPhrase("bad request body not allowed"), Detail: web.StringPhrase("bad request body not allowed detail")},
 	).Add(http.StatusUnauthorized,
 		&web.LocaleProblem{ID: cmfx.UnauthorizedInvalidState, Title: web.StringPhrase("unauthorized invalid state"), Detail: web.StringPhrase("unauthorized invalid state detail")},

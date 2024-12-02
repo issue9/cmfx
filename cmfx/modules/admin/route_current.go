@@ -72,11 +72,3 @@ func (m *Module) patchInfo(ctx *web.Context) web.Responser {
 
 	return web.NoContent()
 }
-
-// # api get /securitylog 当前用户的安全操作记录
-// @tag admin
-// @query github.com/issue9/cmfx/cmfx/user.queryLog
-// @resp 200 * github.com/issue9/cmfx/cmfx/query.Page[github.com/issue9/cmfx/cmfx/user.respLog]
-func (m *Module) getSecurityLogs(ctx *web.Context) web.Responser {
-	return m.user.GetSecurityLogs(ctx)
-}

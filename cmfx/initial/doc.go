@@ -18,7 +18,7 @@ func NewDocument(s web.Server) *openapi.Document {
 		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
 		openapi.WithResponse(&openapi.Response{
 			Ref:  &openapi.Ref{Ref: "empty"},
-			Body: &openapi.Schema{Type: openapi.TypeObject},
+			Body: nil,
 		}),
 		openapi.WithProblemResponse(),
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),

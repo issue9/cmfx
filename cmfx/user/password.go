@@ -44,7 +44,7 @@ func initPassword(mod *Module) {
 	p := &password{mod: mod}
 	router := mod.Module().Router().Prefix(mod.URLPrefix() + "/passports/" + passwordMode)
 
-	rate := ratelimit.New(web.NewCache(mod.Module().ID()+"passports_"+passwordMode+"_rate", mod.Module().Server().Cache()), 20, time.Second, nil, nil)
+	rate := ratelimit.New(web.NewCache(mod.Module().ID()+"passports_"+passwordMode+"_rate", mod.Module().Server().Cache()), 20, time.Second, nil)
 	router.Post("/login", p.postLogin, rate, initial.Unlimit(mod.Module().Server()), mod.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").
 			Desc(web.Phrase("login by %s api", passwordMode), nil).

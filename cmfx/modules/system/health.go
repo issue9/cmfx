@@ -27,7 +27,7 @@ func newHealthDBStore(mod *cmfx.Module) (health.Store, error) {
 	}
 
 	// 初始时，从数据库加载数据保存到缓存系统。
-	states := make([]*modelHealth, 0, 100)
+	states := make([]*healthPO, 0, 100)
 	_, err := store.db.Where("1=1").Select(true, &states)
 	if err != nil {
 		return nil, err
@@ -59,7 +59,7 @@ func (s *healthDBStore) Save(state *health.State) {
 
 	// 保存到数据库
 
-	mod := &modelHealth{
+	mod := &healthPO{
 		Router:  state.Router,
 		Method:  state.Method,
 		Pattern: state.Pattern,
@@ -83,8 +83,8 @@ func (s *healthDBStore) Save(state *health.State) {
 
 func (s *healthDBStore) All() []*health.State { return s.cache.All() }
 
-func healthModelFromState(s *health.State) *modelHealth {
-	return &modelHealth{
+func healthModelFromState(s *health.State) *healthPO {
+	return &healthPO{
 		Router:       s.Router,
 		Method:       s.Method,
 		Pattern:      s.Pattern,

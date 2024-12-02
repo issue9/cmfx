@@ -15,7 +15,7 @@ import (
 // tableName 为表名；
 func InstallSimple(mod *cmfx.Module, tableName string) {
 	db := mod.DB().New(mod.DB().TablePrefix() + tableName)
-	if err := db.Create(&modelSimpleEAV{}); err != nil {
+	if err := db.Create(&simpleEavPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

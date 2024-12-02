@@ -50,7 +50,7 @@ type ctxInfoWithRoleState struct {
 }
 
 // 添加新的管理员时，需要提供的数据
-type infoWithAccountDTO struct {
+type infoWithAccountTO struct {
 	ctxInfoWithRoleState
 	Username string `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"` // 账号
 	Password string `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"password"` // 密码
@@ -80,7 +80,7 @@ func (i *ctxInfoWithRoleState) Filter(v *web.FilterContext) {
 	}
 }
 
-func (i *infoWithAccountDTO) Filter(v *web.FilterContext) {
+func (i *infoWithAccountTO) Filter(v *web.FilterContext) {
 	i.info.Filter(v)
 	v.Add(filters.NotEmpty("username", &i.Username)).
 		Add(filters.NotEmpty("password", &i.Password))

@@ -65,7 +65,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, m.admin)
 	adminRouter.Get("/info", m.adminGetInfo, resGetInfo, mod.API(func(o *openapi.Operation) {
 		o.Tag("system", "admin").
-			Response("200", info{}, nil, nil).
+			Response("200", infoVO{}, nil, nil).
 			Desc(web.Phrase("get system info api"), nil)
 	})).
 		Get("/services", m.adminGetServices, resGetServices, mod.API(func(o *openapi.Operation) {
@@ -97,7 +97,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems, mod.API(func(o *openapi.Operation) {
 		o.Tag("system", "common").
 			Desc(web.Phrase("get system problems api"), nil).
-			Response("200", []problem{}, nil, nil)
+			Response("200", []problemVO{}, nil, nil)
 	}))
 
 	if conf.Backup != nil {
@@ -115,7 +115,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 			Get("/backup", m.adminGetBackup, resGetBackup, mod.API(func(o *openapi.Operation) {
 				o.Tag("admin", "system").
 					Desc(web.Phrase("get backup file list api"), nil).
-					Response("200", backupList{}, nil, nil)
+					Response("200", backupListVO{}, nil, nil)
 			})).
 			Delete("/backup/{name}", m.adminDeleteBackup, resDelBackup, mod.API(func(o *openapi.Operation) {
 				o.Tag("admin", "system").

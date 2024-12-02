@@ -7,8 +7,8 @@ package system
 import "github.com/issue9/orm/v6"
 
 var (
-	_ orm.TableNamer    = &modelHealth{}
-	_ orm.BeforeUpdater = &modelHealth{}
+	_ orm.TableNamer    = &healthPO{}
+	_ orm.BeforeUpdater = &healthPO{}
 
-	_ orm.TableNamer = &modelLinkage{}
+	_ orm.TableNamer = &linkagePO{}
 )

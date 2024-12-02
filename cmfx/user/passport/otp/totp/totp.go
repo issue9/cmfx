@@ -53,7 +53,7 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 	}
 
 	prefix := user.URLPrefix() + "/passports/" + id
-	rate := ratelimit.New(web.NewCache(user.Module().ID()+"passports_"+id+"_rate", user.Module().Server().Cache()), 20, time.Second, nil, nil)
+	rate := ratelimit.New(web.NewCache(user.Module().ID()+"passports_"+id+"_rate", user.Module().Server().Cache()), 20, time.Second, nil)
 
 	user.Module().Router().Post(prefix+"/login", p.login, rate, initial.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").

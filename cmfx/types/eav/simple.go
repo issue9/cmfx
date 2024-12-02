@@ -56,12 +56,12 @@ func (eav *Simple[T]) Insert(id int64, v *T) error {
 		return err
 	}
 
-	_, err = eav.db.Insert(&modelSimpleEAV{ID: id, Value: data})
+	_, err = eav.db.Insert(&simpleEavPO{ID: id, Value: data})
 	return err
 }
 
 func (eav *Simple[T]) Delete(id int64) error {
-	_, err := eav.db.Delete(&modelSimpleEAV{ID: id})
+	_, err := eav.db.Delete(&simpleEavPO{ID: id})
 	return err
 }
 
@@ -71,12 +71,12 @@ func (eav *Simple[T]) Update(id int64, v *T) error {
 		return err
 	}
 
-	_, err = eav.db.Update(&modelSimpleEAV{ID: id, Value: data}, "value")
+	_, err = eav.db.Update(&simpleEavPO{ID: id, Value: data}, "value")
 	return err
 }
 
 func (eav *Simple[T]) Select(id int64, v *T) (bool, error) {
-	mod := &modelSimpleEAV{ID: id}
+	mod := &simpleEavPO{ID: id}
 	found, err := eav.db.Select(mod)
 	if err != nil {
 		return false, err

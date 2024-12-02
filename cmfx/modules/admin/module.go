@@ -130,12 +130,6 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				Desc(web.Phrase("patch login user info api"), nil).
 				Body(info{}, false, nil, nil).
 				ResponseRef("204", "empty", nil, nil)
-		})).
-		Get("/securitylog", m.getSecurityLogs, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				QueryObject(user.QueryLogDTO{}, nil).
-				Desc(web.Phrase("get login user security log api"), nil).
-				Response("200", user.LogVO{}, nil, nil)
 		}))
 
 	mod.Router().Prefix(m.URLPrefix(), m).
@@ -152,7 +146,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 		Post("/admins", m.postAdmins, postAdmin, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin").
 				Desc(web.Phrase("add admin api"), nil).
-				Body(&infoWithAccountDTO{}, false, nil, nil).
+				Body(&infoWithAccountTO{}, false, nil, nil).
 				ResponseRef("201", "empty", nil, nil)
 		})).
 		Get("/admins/{id:digit}", m.getAdmin, getAdmin, mod.API(func(o *openapi.Operation) {
@@ -206,7 +200,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 			files, err := up.Do(m.uploadField, ctx.Request())
 			switch {
 			case errors.Is(err, upload.ErrNotAllowSize()):
-				return ctx.Problem(cmfx.BadRequestBodyTooLarger)
+				return ctx.Problem(cmfx.RequestEntityTooLarge)
 			case errors.Is(err, upload.ErrNotAllowExt()):
 				return ctx.Problem(cmfx.BadRequestBodyNotAllowed)
 			case err != nil:
@@ -265,7 +259,7 @@ func (m *Module) OnLogout(f func(*user.User)) context.CancelFunc { return m.logo
 func (m *Module) UserModule() *user.Module { return m.user }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(data *infoWithAccountDTO) error {
+func (m *Module) newAdmin(data *infoWithAccountTO) error {
 	uid, err := m.user.New(user.StateNormal, data.Username, data.Password)
 	if err != nil {
 		return err

@@ -36,8 +36,7 @@ const (
 	BadRequestInvalidQuery   = "40002"
 	BadRequestInvalidHeader  = "40003"
 	BadRequestInvalidBody    = "40004"
-	BadRequestBodyTooLarger  = "40005"
-	BadRequestBodyNotAllowed = "40006" // 提交内容的类型不允许，比如不允许的上传类型等
+	BadRequestBodyNotAllowed = "40005" // 提交内容的类型不允许，比如不允许的上传类型等
 )
 
 // 401
@@ -60,5 +59,8 @@ const (
 
 // 404
 const NotFound = web.ProblemNotFound
+
+// 413
+const RequestEntityTooLarge = web.ProblemRequestEntityTooLarge
 
 func ErrNotFound() error { return locales.ErrNotFound() }
