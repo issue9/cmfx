@@ -135,8 +135,14 @@ func (p *totp) postSecret(ctx *web.Context) web.Responser {
 }
 
 func (p *totp) deleteTOTP(ctx *web.Context) web.Responser {
-	if err := p.Delete(p.user.CurrentUser(ctx).ID); err != nil {
+	u := p.user.CurrentUser(ctx)
+
+	if err := p.Delete(u.ID); err != nil {
 		return ctx.Error(err, "")
+	}
+
+	if err := p.user.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("delete %s", p.ID())); err != nil {
+		p.user.Module().Server().Logs().ERROR().Error(err)
 	}
 	return web.NoContent()
 }
@@ -203,6 +209,10 @@ func (p *totp) postBind(ctx *web.Context) web.Responser {
 	}
 	if _, err := p.db.Update(mod); err != nil {
 		return ctx.Error(err, "")
+	}
+
+	if err := p.user.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("bind %s", p.ID())); err != nil {
+		p.user.Module().Server().Logs().ERROR().Error(err)
 	}
 	return web.Created(nil, "")
 }

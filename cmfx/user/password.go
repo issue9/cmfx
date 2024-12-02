@@ -116,15 +116,15 @@ func (p *password) putPassword(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	mod := &User{ID: p.mod.CurrentUser(ctx).ID}
+	u := &User{ID: p.mod.CurrentUser(ctx).ID}
 
-	if found, err := p.mod.mod.DB().Select(mod); err != nil {
+	if found, err := p.mod.mod.DB().Select(u); err != nil {
 		return ctx.Error(err, "")
 	} else if !found {
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 
-	err := bcrypt.CompareHashAndPassword(mod.Password, []byte(data.Old))
+	err := bcrypt.CompareHashAndPassword(u.Password, []byte(data.Old))
 	switch {
 	case errors.Is(err, bcrypt.ErrMismatchedHashAndPassword):
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
@@ -137,13 +137,16 @@ func (p *password) putPassword(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 	_, err = p.mod.mod.DB().Update(&User{
-		ID:       mod.ID,
+		ID:       u.ID,
 		Password: pa,
 	})
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
+	if err := p.mod.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("change password")); err != nil {
+		p.mod.mod.Server().Logs().ERROR().Error(err)
+	}
 	return web.NoContent()
 }
 
