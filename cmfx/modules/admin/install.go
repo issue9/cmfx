@@ -40,7 +40,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 
 	us := []*infoWithAccountTO{
 		{
-			ctxInfoWithRoleState: ctxInfoWithRoleState{
+			infoWithRoleStateVO: infoWithRoleStateVO{
 				info: info{
 					Name:     "管理员",
 					Nickname: "管理员",
@@ -51,7 +51,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 			Password: "123",
 		},
 		{
-			ctxInfoWithRoleState: ctxInfoWithRoleState{
+			infoWithRoleStateVO: infoWithRoleStateVO{
 				info: info{
 					Name:     "测试用户1",
 					Nickname: "测试用户1",
@@ -62,7 +62,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 			Password: "123",
 		},
 		{
-			ctxInfoWithRoleState: ctxInfoWithRoleState{
+			infoWithRoleStateVO: infoWithRoleStateVO{
 				info: info{
 					Name:     "测试用户2",
 					Nickname: "测试用户2",
@@ -73,7 +73,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 			Password: "123",
 		},
 		{
-			ctxInfoWithRoleState: ctxInfoWithRoleState{
+			infoWithRoleStateVO: infoWithRoleStateVO{
 				info: info{
 					Name:     "测试用户3",
 					Nickname: "测试用户3",

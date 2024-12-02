@@ -20,7 +20,7 @@ type respPassportIdentity struct {
 
 type respInfoWithPassport struct {
 	info
-	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports"`
+	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
 // # api get /info 获取当前登用户的信息

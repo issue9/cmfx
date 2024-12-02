@@ -22,7 +22,7 @@ import (
 )
 
 type adminInfoVO struct {
-	ctxInfoWithRoleState
+	infoWithRoleStateVO
 
 	// 当前用户已经开通的验证方式
 	Passports []*respPassportIdentity `json:"passports" xml:"passports" cbor:"passports"`
@@ -68,7 +68,7 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	slices.SortFunc(ps, func(a, b *respPassportIdentity) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&adminInfoVO{
-		ctxInfoWithRoleState: ctxInfoWithRoleState{
+		infoWithRoleStateVO: infoWithRoleStateVO{
 			info:  *a,
 			Roles: rs,
 			State: u.State,
@@ -130,14 +130,14 @@ func (m *Module) getAdmins(ctx *web.Context) web.Responser {
 		Roles   types.Strings `orm:"roles"`
 	}
 
-	return query.PagingResponserWithConvert(ctx, &q.Limit, sql, func(i *modelInfo) *ctxInfoWithRoleState {
+	return query.PagingResponserWithConvert(ctx, &q.Limit, sql, func(i *modelInfo) *infoWithRoleStateVO {
 		roles := m.roleGroup.UserRoles(i.ID)
 		rs := make([]string, 0, len(roles))
 		for _, r := range roles {
 			rs = append(rs, r.ID)
 		}
 
-		return &ctxInfoWithRoleState{
+		return &infoWithRoleStateVO{
 			info:    i.info,
 			Roles:   rs,
 			State:   i.State,
@@ -154,7 +154,7 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 	}
 
 	// 读取数据
-	data := &ctxInfoWithRoleState{info: info{m: m}}
+	data := &infoWithRoleStateVO{info: info{m: m}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
@@ -193,7 +193,7 @@ func (m *Module) patchAdmin(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) postAdmins(ctx *web.Context) web.Responser {
-	data := &infoWithAccountTO{ctxInfoWithRoleState: ctxInfoWithRoleState{info: info{m: m}}}
+	data := &infoWithAccountTO{infoWithRoleStateVO: infoWithRoleStateVO{info: info{m: m}}}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}

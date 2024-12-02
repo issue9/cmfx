@@ -106,23 +106,23 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 
 // 服务
 type service struct {
-	Title string    `json:"title" xml:"title" cbor:"title"`                         // 名称
-	State web.State `json:"state" xml:"state,attr" cbor:"state"`                    // 状态
-	Err   string    `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty"` // 如果出错，表示错误内容，否则为空
+	Title string    `json:"title" xml:"title" cbor:"title" yaml:"title"`                                 // 名称
+	State web.State `json:"state" xml:"state,attr" cbor:"state" yaml:"state"`                            // 状态
+	Err   string    `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty" yaml:"err,omitempty"` // 如果出错，表示错误内容，否则为空
 }
 
 // 计划任务
 type job struct {
 	service
-	Next time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty"` // 下一次执行时间
-	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty"` // 上一次执行时间
+	Next time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty" yaml:"next,omitempty"` // 下一次执行时间
+	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty" yaml:"prev,omitempty"` // 上一次执行时间
 }
 
 // 服务和计划任务
 type services struct {
-	XMLName  struct{}  `json:"-" xml:"services" cbor:"-"`
-	Services []service `json:"services" xml:"service" cbor:"service"` // 服务
-	Jobs     []job     `json:"jobs" xml:"job" cbor:"job"`             // 计划任务
+	XMLName  struct{}  `json:"-" xml:"services" cbor:"-" yaml:"-"`
+	Services []service `json:"services" xml:"service" cbor:"service" yaml:"service"` // 服务
+	Jobs     []job     `json:"jobs" xml:"job" cbor:"job" yaml:"job"`                 // 计划任务
 }
 
 func (m *Module) adminGetServices(ctx *web.Context) web.Responser {

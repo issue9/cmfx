@@ -21,30 +21,30 @@ const settingsTableName = "settings"
 
 // 后台的常规设置
 type generalSettings struct {
-	XMLName struct{} `setting:"-" json:"-" cbor:"-" xml:"general"`
+	XMLName struct{} `setting:"-" json:"-" cbor:"-" xml:"general" yaml:"-"`
 
 	// 网站名称
-	Name string `setting:"name" json:"name" xml:"name" cbor:"name"`
+	Name string `setting:"name" json:"name" xml:"name" cbor:"name" yaml:"name"`
 
 	// 网站短标题
-	ShortName string `setting:"shortName" json:"shortName" xml:"shortName" cbor:"shortName"`
+	ShortName string `setting:"shortName" json:"shortName" xml:"shortName" cbor:"shortName" yaml:"shortName"`
 
 	// 网站的 LOGO
-	LOGO string `setting:"logo" json:"logo" xml:"logo" cbor:"logo"`
+	LOGO string `setting:"logo" json:"logo" xml:"logo" cbor:"logo" yaml:"logo"`
 
 	// 网站描述
-	Description string `setting:"description" json:"description" xml:"description" cbor:"description"`
+	Description string `setting:"description" json:"description" xml:"description" cbor:"description" yaml:"description"`
 }
 
 // 内容审核设置
 type censorSettings struct {
-	XMLName struct{} `setting:"-" json:"-" cbor:"-" xml:"censor"`
+	XMLName struct{} `setting:"-" json:"-" cbor:"-" xml:"censor" yaml:"-"`
 
 	// 关键字过滤
-	Words []string `setting:"name" json:"name" xml:"name" cbor:"name"`
+	Words []string `setting:"name" json:"name" xml:"name" cbor:"name" yaml:"name"`
 
 	// 正则表达式过滤
-	Pattern string `setting:"pattern" json:"pattern" xml:"pattern" cbor:"pattern"`
+	Pattern string `setting:"pattern" json:"pattern" xml:"pattern" cbor:"pattern" yaml:"pattern"`
 	pattern *regexp.Regexp
 }
 

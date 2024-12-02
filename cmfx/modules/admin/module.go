@@ -141,7 +141,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 						p.Schema.Enum = []any{"unknown", "female", "male"}
 					}
 				}).
-				Response("200", query.Page[ctxInfoWithRoleState]{}, nil, nil)
+				Response("200", query.Page[infoWithRoleStateVO]{}, nil, nil)
 		})).
 		Post("/admins", m.postAdmins, postAdmin, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin").
@@ -158,7 +158,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 		Patch("/admins/{id:digit}", m.patchAdmin, putAdmin, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin").
 				Desc(web.Phrase("patch admin info api"), nil).
-				Body(&ctxInfoWithRoleState{}, false, nil, nil).
+				Body(&infoWithRoleStateVO{}, false, nil, nil).
 				ResponseRef("204", "empty", nil, nil)
 		})).
 		Post("/admins/{id:digit}/locked", m.postAdminLocked, putAdmin, mod.API(func(o *openapi.Operation) {
