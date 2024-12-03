@@ -2,28 +2,40 @@
 //
 // SPDX-License-Identifier: MIT
 
+// Package test 初始化测试环境
 package test
 
 import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/assert/v4/rest"
+	"github.com/issue9/logs/v7"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/dialect"
 	"github.com/issue9/web"
+	"github.com/issue9/web/mimetype/cbor"
+	"github.com/issue9/web/mimetype/json"
+	"github.com/issue9/web/mimetype/yaml"
+	"github.com/issue9/web/openapi"
+	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/servertest"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
+	"github.com/issue9/webuse/v7/middlewares/auth/token"
+	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
 
 	"github.com/issue9/cmfx/cmfx"
 
 	_ "github.com/mattn/go-sqlite3"
 )
 
+var dsn = "test.db"
+
 type Suite struct {
 	a   *assert.Assertion
-	dsn string
 	mod *cmfx.Module
 
 	closed bool
@@ -31,26 +43,16 @@ type Suite struct {
 
 // NewSuite 新建测试套件
 func NewSuite(a *assert.Assertion) *Suite {
-	dsn := "test.db"
-	db, err := orm.NewDB("", dsn, dialect.Sqlite3("sqlite3"))
-	a.NotError(err).NotNil(db)
-
-	srv := NewServer(a)
-	doc := NewDocument(srv)
 	s := &Suite{
 		a:   a,
-		dsn: dsn,
-		mod: cmfx.NewModule("", web.Phrase("suite"), srv, db, srv.Routers().New("default", nil), doc),
+		mod: newServer(a),
 	}
 
-	s.a.TB().Cleanup(func() {
-		s.Close()
-	})
+	s.a.TB().Cleanup(func() { s.Close() })
 
 	return s
 }
 
-// Module [Suite] 本身也是 [cmfx.Module]
 func (s *Suite) Module() *cmfx.Module { return s.mod }
 
 func (s *Suite) Router() *web.Router { return s.Module().Router() }
@@ -72,7 +74,7 @@ func (s *Suite) Close() {
 	s.Module().Server().Close(0)
 
 	s.a.NotError(s.Module().DB().Close())
-	s.a.NotError(os.RemoveAll(s.dsn))
+	s.a.NotError(os.RemoveAll(dsn))
 }
 
 func (s *Suite) NewRequest(method, url string) *rest.Request {
@@ -108,4 +110,36 @@ func (s *Suite) TableExists(name string) *Suite {
 	exists, err := s.DB().SQLBuilder().TableExists().Table(name).Exists()
 	s.Assertion().NotError(err).True(exists)
 	return s
+}
+
+// newServer 创建 [web.Server] 实例
+func newServer(a *assert.Assertion) *cmfx.Module {
+	srv, err := server.NewHTTP("test", "1.0.0", &server.Options{
+		Logs: logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
+		Codec: web.NewCodec().
+			AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype).
+			AddMimetype(yaml.Mimetype, yaml.Marshal, yaml.Unmarshal, yaml.ProblemMimetype).
+			AddMimetype(cbor.Mimetype, cbor.Marshal, cbor.Unmarshal, cbor.ProblemMimetype),
+		HTTPServer: &http.Server{Addr: ":8080"},
+	})
+	a.NotError(err).NotNil(srv)
+
+	rate := ratelimit.New(web.NewCache("_test_rate", srv.Cache()), 10, time.Second, nil)
+
+	db, err := orm.NewDB("", dsn, dialect.Sqlite3("sqlite3"))
+	a.NotError(err).NotNil(db)
+
+	doc := openapi.New(srv, web.Phrase("The api doc of %s", srv.ID()),
+		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
+		openapi.WithClassicResponse(),
+		openapi.WithContact("caixw", "", "https://github.com/caixw"),
+		openapi.WithDescription(
+			nil,
+			web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(srv, 0)),
+		),
+		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
+		swagger.WithCDN(""),
+	)
+
+	return cmfx.Init(srv, rate, db, srv.Routers().New("amin", nil), doc)
 }

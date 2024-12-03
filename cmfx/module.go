@@ -6,15 +6,24 @@ package cmfx
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
+	"github.com/issue9/webuse/v7/middlewares"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
+	"github.com/issue9/webuse/v7/middlewares/empty"
+
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
-const moduleContextValue moduleContextType = 0
+const (
+	moduleKey serverVarsKey = 0
+	limitKey  serverVarsKey = 1
+)
 
-type moduleContextType int
+type serverVarsKey int
 
 // Module 表示代码模块的基本信息
 type Module struct {
@@ -26,16 +35,16 @@ type Module struct {
 	doc  *openapi.Document
 }
 
-func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document) *Module {
+func newModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document) *Module {
 	// 防止重复的 id 值
-	m, loaded := s.Vars().LoadOrStore(moduleContextValue, map[string]struct{}{id: {}})
+	m, loaded := s.Vars().LoadOrStore(moduleKey, map[string]struct{}{id: {}})
 	if loaded {
 		mm := m.(map[string]struct{})
 		if _, found := mm[id]; found {
 			panic(fmt.Sprintf("存在相同 id 的模块：%s\n", id))
 		} else {
 			mm[id] = struct{}{}
-			s.Vars().Store(moduleContextValue, mm)
+			s.Vars().Store(moduleKey, mm)
 		}
 	}
 
@@ -58,7 +67,7 @@ func (m *Module) Desc() web.LocaleStringer { return m.desc }
 // Server 关联的 [web.Server] 对象
 func (m *Module) Server() web.Server { return m.s }
 
-// DB 以当前数据库作为表名前缀的操作接口
+// DB 以当前实现的 [Module.ID] 表名前缀的操作接口
 func (m *Module) DB() *orm.DB { return m.db }
 
 func (m *Module) Engine(tx *orm.Tx) orm.Engine {
@@ -70,11 +79,64 @@ func (m *Module) Engine(tx *orm.Tx) orm.Engine {
 
 // New 基于当前模块的 ID 声明一个新的实例
 func (m *Module) New(id string, desc web.LocaleStringer) *Module {
-	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc)
+	return newModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc)
 }
 
+// 当前模块关联的路由对象
 func (m *Module) Router() *web.Router { return m.r }
 
+// 创建 openapi 文档的中间件
 func (m *Module) API(f func(o *openapi.Operation)) web.Middleware {
 	return m.doc.API(f)
+}
+
+// Init 初始化当前框架的必要环境
+func Init(s web.Server, limit *ratelimit.Ratelimit, db *orm.DB, router *web.Router, doc *openapi.Document) *Module {
+	s.Vars().Store(limitKey, limit)
+
+	s.Use(
+		web.PluginFunc(locale),
+		web.PluginFunc(problems),
+		middlewares.Plugin(limit),
+	)
+
+	s.OnClose(func() error { return db.Close() })
+
+	return newModule("", web.Phrase("root module"), s, db, router, doc)
+}
+
+// Unlimit 取消由 [InitFromConfig] 或 [Init] 创建的 API 访问次数限制功能
+func Unlimit(s web.Server) web.Middleware {
+	if v, ok := s.Vars().Load(limitKey); ok {
+		return (v.(*ratelimit.Ratelimit)).Unlimit()
+	}
+	return &empty.Empty{}
+}
+
+// 加载本地化的信息
+func locale(s web.Server) {
+	if err := s.Locale().LoadMessages("*.yaml", locales.All...); err != nil {
+		s.Logs().ERROR().Error(err)
+	}
+}
+
+// 初始化与 [web.Problem] 相关的本地化信息
+func problems(s web.Server) {
+	s.Problems().Add(http.StatusBadRequest,
+		&web.LocaleProblem{ID: BadRequestInvalidPath, Title: web.StringPhrase("bad request invalid param"), Detail: web.StringPhrase("bad request invalid param detail")},
+		&web.LocaleProblem{ID: BadRequestInvalidQuery, Title: web.StringPhrase("bad request invalid query"), Detail: web.StringPhrase("bad request invalid query detail")},
+		&web.LocaleProblem{ID: BadRequestInvalidHeader, Title: web.StringPhrase("bad request invalid header"), Detail: web.StringPhrase("bad request invalid header detail")},
+		&web.LocaleProblem{ID: BadRequestInvalidBody, Title: web.StringPhrase("bad request invalid body"), Detail: web.StringPhrase("bad request invalid body detail")},
+		&web.LocaleProblem{ID: BadRequestBodyNotAllowed, Title: web.StringPhrase("bad request body not allowed"), Detail: web.StringPhrase("bad request body not allowed detail")},
+	).Add(http.StatusUnauthorized,
+		&web.LocaleProblem{ID: UnauthorizedInvalidState, Title: web.StringPhrase("unauthorized invalid state"), Detail: web.StringPhrase("unauthorized invalid state detail")},
+		&web.LocaleProblem{ID: UnauthorizedInvalidToken, Title: web.StringPhrase("unauthorized invalid token"), Detail: web.StringPhrase("unauthorized invalid token detail")},
+		&web.LocaleProblem{ID: UnauthorizedSecurityToken, Title: web.StringPhrase("unauthorized security token"), Detail: web.StringPhrase("unauthorized security token detail")},
+		&web.LocaleProblem{ID: UnauthorizedInvalidAccount, Title: web.StringPhrase("unauthorized invalid account"), Detail: web.StringPhrase("unauthorized invalid account detail")},
+		&web.LocaleProblem{ID: UnauthorizedNeedChangePassword, Title: web.StringPhrase("unauthorized need change password"), Detail: web.StringPhrase("unauthorized need change password detail")},
+		&web.LocaleProblem{ID: UnauthorizedRegistrable, Title: web.StringPhrase("identity registrable"), Detail: web.StringPhrase("identity registrable detail")},
+	).Add(http.StatusForbidden,
+		&web.LocaleProblem{ID: ForbiddenStateNotAllow, Title: web.StringPhrase("forbidden state not allow"), Detail: web.StringPhrase("forbidden state not allow detail")},
+		&web.LocaleProblem{ID: ForbiddenCaNotDeleteYourself, Title: web.StringPhrase("forbidden can not delete yourself"), Detail: web.StringPhrase("forbidden can not delete yourself detail")},
+	)
 }

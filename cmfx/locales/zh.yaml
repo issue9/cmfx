@@ -36,12 +36,6 @@ messages:
     - key: bad request body not allowed detail
       message:
         msg: 不被允许的的提交内容，比如上传了不允许的文件格式等。
-    - key: bad request body too Larger
-      message:
-        msg: 提交的内容大小超过限制
-    - key: bad request body too Larger detail
-      message:
-        msg: 提交的正文内容大小超过限制。如果是上传内容，表示上传的文件大小超过限制。
     - key: bad request invalid body
       message:
         msg: 无效的报文
@@ -308,6 +302,9 @@ messages:
     - key: post roles
       message:
         msg: 添加角色
+    - key: problems response:\n\n%s\n
+      message:
+        msg: 每个错误对象的 type 表示错误代码，可能是以下的值之一:\n\n%s\n
     - key: put admin
       message:
         msg: 修改管理员信息
@@ -347,6 +344,9 @@ messages:
     - key: roles not exists
       message:
         msg: 角色不存在
+    - key: root module
+      message:
+        msg: 根模块
     - key: secret expired
       message:
         msg: TOTP 密钥过期
@@ -362,9 +362,6 @@ messages:
     - key: strength invalid
       message:
         msg: 密码强度不够
-    - key: suite
-      message:
-        msg: 测试环境
     - key: system
       message:
         msg: 系统
@@ -389,6 +386,9 @@ messages:
     - key: the value not in candidate
       message:
         msg: 该值并不在候选列表中
+    - key: token auth
+      message:
+        msg: 令牌凭证登录
     - key: totp code
       message:
         msg: TOTP 验证码

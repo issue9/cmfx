@@ -7,6 +7,7 @@ package cmd
 import "github.com/issue9/config"
 
 var (
-	_ config.Sanitizer = &DB{}
 	_ config.Sanitizer = &Config{}
+	_ config.Sanitizer = &Ratelimit{}
+	_ config.Sanitizer = &DB{}
 )

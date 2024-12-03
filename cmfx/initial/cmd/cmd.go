@@ -11,13 +11,17 @@ import (
 
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
+	"github.com/issue9/web/mimetype/cbor"
+	"github.com/issue9/web/mimetype/json"
+	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/app"
 	"github.com/issue9/webuse/v7/handlers/debug"
+	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
+	"github.com/issue9/webuse/v7/middlewares/auth/token"
 	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
@@ -41,34 +45,47 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		return nil, err
 	}
 
-	cmfx.Init(s, user.Ratelimit, web.PluginFunc(swagger.Install))
-	doc := test.NewDocument(s)
+	c := web.NewCache(user.Ratelimit.Prefix, s.Cache())
+	limit := ratelimit.New(c, user.Ratelimit.Capacity, user.Ratelimit.Rate.Duration(), nil)
 
-	router := s.Routers().New("default", nil,
-		web.WithAllowedCORS(3600),
-		web.WithURLDomain(user.URL),
-		web.WithAnyInterceptor("any"), web.WithDigitInterceptor("digit"),
+	router := s.Routers().New("main", nil,
+		web.WithAnyInterceptor("any"),
+		web.WithDigitInterceptor("digit"),
 	)
 	debug.RegisterDev(router, "/debug")
+
+	doc := openapi.New(s, web.Phrase("The api doc of %s", s.ID()),
+		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
+		openapi.WithClassicResponse(),
+		openapi.WithContact("caixw", "", "https://github.com/caixw"),
+		openapi.WithDescription(
+			nil,
+			web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(s, 0)),
+		),
+		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
+		swagger.WithCDN(""),
+	)
+	s.Use(web.PluginFunc(swagger.Install))
 	router.Get("/openapi", doc.Handler())
 
-	db := user.DB.DB()
-	s.OnClose(func() error { return db.Close() })
-
+	mod := cmfx.Init(s, limit, user.DB.DB(), router, doc)
 	var (
-		adminMod  = cmfx.NewModule("admin", web.Phrase("admin"), s, db, router, doc)
-		systemMod = cmfx.NewModule("system", web.Phrase("system"), s, db, router, doc)
+		adminMod  = mod.New("admin", web.Phrase("admin"))
+		systemMod = mod.New("system", web.Phrase("system"))
 	)
-
-	uploadSaver, err := upload.NewLocalSaver("./upload", user.URL+"/admin/upload", upload.Day, func(dir, filename, ext string) string {
-		return filepath.Join(dir, s.UniqueID()+ext) // filename 可能带非英文字符
-	})
-	if err != nil {
-		return nil, err
-	}
 
 	switch action {
 	case "serve":
+		url, err := mod.Router().URL(false, user.Admin.User.URLPrefix+"/upload", nil)
+		if err != nil {
+			return nil, err
+		}
+		uploadSaver, err := upload.NewLocalSaver("./upload", url, upload.Day, func(dir, filename, ext string) string {
+			return filepath.Join(dir, s.UniqueID()+ext) // filename 可能带非英文字符
+		})
+		if err != nil {
+			return nil, err
+		}
 		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
 		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
 

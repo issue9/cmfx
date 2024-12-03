@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <web>
-    <http port=":8080" />
+    <http port=":8080">
+        <url>http://localhost:8080</url>
+        <cors maxAge="3600">
+            <origins>
+                <origin>*</origin>
+            </origins>
+            <allowHeaders>
+                <header>*</header>
+            </allowHeaders>
+        </cors>
+    </http>
     <logs created="15:04:05.000" caller="true">
         <handlers>
             <handler type="file">

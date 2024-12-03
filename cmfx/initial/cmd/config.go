@@ -8,8 +8,10 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/dialect"
 	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
+	"github.com/issue9/web/server/config"
 
-	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
@@ -17,11 +19,8 @@ import (
 
 // Config 配置文件的自定义部分内容
 type Config struct {
-	// URL 路由的基地址
-	URL string `yaml:"url" xml:"url" json:"url"`
-
 	// Ratelimit API 限速的配置
-	Ratelimit *cmfx.Ratelimit `yaml:"ratelimit" xml:"ratelimit" json:"ratelimit"`
+	Ratelimit *Ratelimit `yaml:"ratelimit" xml:"ratelimit" json:"ratelimit"`
 
 	// DB 数据库配置
 	DB *DB `yaml:"db" xml:"db" json:"db"`
@@ -31,29 +30,6 @@ type Config struct {
 
 	// System 系统模块的相关配置
 	System *system.Config `yaml:"system,omitempty" xml:"system,omitempty" json:"system,omitempty"`
-}
-
-// DB 数据库的配置项
-type DB struct {
-	// Prefix 表名前缀
-	//
-	// 可以为空。
-	Prefix string `yaml:"prefix,omitempty" json:"prefix,omitempty" xml:"prefix,attr,omitempty"`
-
-	// 表示数据库的类型
-	//
-	// 目前支持以下几种类型：
-	//  - sqlite3
-	//  - sqlite 纯 Go
-	//  - mysql
-	//  - mariadb
-	//  - postgres
-	Type string `yaml:"type" json:"type" xml:"type,attr"`
-
-	// 连接数据库的参数
-	DSN string `yaml:"dsn" json:"dsn" xml:"dsn"`
-
-	db *orm.DB
 }
 
 func (c *Config) SanitizeConfig() *web.FieldError {
@@ -87,6 +63,29 @@ func (c *Config) SanitizeConfig() *web.FieldError {
 	return nil
 }
 
+// DB 数据库的配置项
+type DB struct {
+	// 表名前缀
+	//
+	// 可以为空。
+	Prefix string `yaml:"prefix,omitempty" json:"prefix,omitempty" xml:"prefix,attr,omitempty"`
+
+	// 表示数据库的类型
+	//
+	// 目前支持以下几种类型：
+	//  - sqlite3
+	//  - sqlite 纯 Go
+	//  - mysql
+	//  - mariadb
+	//  - postgres
+	Type string `yaml:"type" json:"type" xml:"type,attr"`
+
+	// 连接数据库的参数
+	DSN string `yaml:"dsn" json:"dsn" xml:"dsn"`
+
+	db *orm.DB
+}
+
 func (conf *DB) SanitizeConfig() *web.FieldError {
 	var d orm.Dialect
 	switch conf.Type {
@@ -115,7 +114,19 @@ func (conf *DB) SanitizeConfig() *web.FieldError {
 	return nil
 }
 
-// DB 返回根据配置项生成的 [orm.DB] 实例
-//
-// 调用 [DB.SanitizeConfig] 之后生成。
 func (conf *DB) DB() *orm.DB { return conf.db }
+
+// Ratelimit API 访问限制
+type Ratelimit struct {
+	Prefix   string          `yaml:"prefix" json:"prefix" xml:"prefix"`            // 在缓存系统中前缀，保证数据的唯一性
+	Rate     config.Duration `yaml:"rate" json:"rate" xml:"rate"`                  // 发放令牌的频率
+	Capacity uint64          `yaml:"capacity" json:"capacity" xml:"capacity,attr"` // 令牌桶的最高容量
+}
+
+func (r *Ratelimit) SanitizeConfig() *web.FieldError {
+	return filter.ToFieldError(
+		filters.NotEmpty("prefix", &r.Prefix),
+		filters.GreatEqual[config.Duration](0)("rate", &r.Rate),
+		filters.GreatEqual[uint64](10)("capacity", &r.Capacity),
+	)
+}

@@ -22,8 +22,6 @@ import (
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-const passportTypePassword = "passwords" // 采用密码登录的
-
 type Module struct {
 	user *user.Module
 

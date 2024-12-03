@@ -8,20 +8,6 @@
 // Package cmfx 基于 https://github.com/issue9/web 框架的一些通用模块
 package cmfx
 
-// # restdoc cmfx 文档
-//
-// @media application/json application/xml application/cbor
-// @version [Version]
-// @tag admin 管理员端
-// @tag rbac RBAC
-// @tag auth 登录凭证
-// @tag system 系统相关
-// @tag settings 设置项
-// @tag common 公共接口
-// @resp 4XX * github.com/issue9/web.Problem
-// @resp 5XX * github.com/issue9/web.Problem desc
-// TODO 删除！
-
 import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/locales"

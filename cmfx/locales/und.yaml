@@ -34,12 +34,6 @@ messages:
     - key: bad request body not allowed detail
       message:
         msg: bad request body not allowed detail
-    - key: bad request body too Larger
-      message:
-        msg: bad request body too Larger
-    - key: bad request body too Larger detail
-      message:
-        msg: bad request body too Larger detail
     - key: bad request invalid body
       message:
         msg: bad request invalid body
@@ -298,6 +292,9 @@ messages:
     - key: post roles
       message:
         msg: post roles
+    - key: problems response:\n\n%s\n
+      message:
+        msg: problems response:\n\n%s\n
     - key: put admin
       message:
         msg: put admin
@@ -337,6 +334,9 @@ messages:
     - key: roles not exists
       message:
         msg: roles not exists
+    - key: root module
+      message:
+        msg: root module
     - key: secret expired
       message:
         msg: secret expired
@@ -352,9 +352,6 @@ messages:
     - key: strength invalid
       message:
         msg: strength invalid
-    - key: suite
-      message:
-        msg: suite
     - key: system
       message:
         msg: system
@@ -379,6 +376,9 @@ messages:
     - key: the value not in candidate
       message:
         msg: the value not in candidate
+    - key: token auth
+      message:
+        msg: token auth
     - key: totp code
       message:
         msg: totp code
