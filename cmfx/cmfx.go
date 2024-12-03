@@ -20,6 +20,7 @@ package cmfx
 // @tag common 公共接口
 // @resp 4XX * github.com/issue9/web.Problem
 // @resp 5XX * github.com/issue9/web.Problem desc
+// TODO 删除！
 
 import (
 	"github.com/issue9/web"

@@ -2,8 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-package initial
+package cmfx
 
-import "github.com/issue9/config"
+import (
+	"github.com/issue9/config"
+	"github.com/issue9/web"
+)
 
 var _ config.Sanitizer = &Ratelimit{}
+
+var _ web.PluginFunc = problems

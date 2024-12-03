@@ -11,6 +11,7 @@ import (
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/mux/v9/header"
+	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server/servertest"
 	"github.com/issue9/webuse/v7/middlewares/auth"
 	"golang.org/x/text/language"
@@ -18,6 +19,8 @@ import (
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
+
+var _ openapi.OpenAPISchema = state(5)
 
 func TestSystem_apis(t *testing.T) {
 	a := assert.New(t, false)

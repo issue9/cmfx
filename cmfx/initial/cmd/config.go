@@ -9,7 +9,7 @@ import (
 	"github.com/issue9/orm/v6/dialect"
 	"github.com/issue9/web"
 
-	"github.com/issue9/cmfx/cmfx/initial"
+	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
@@ -21,7 +21,7 @@ type Config struct {
 	URL string `yaml:"url" xml:"url" json:"url"`
 
 	// Ratelimit API 限速的配置
-	Ratelimit *initial.Ratelimit `yaml:"ratelimit" xml:"ratelimit" json:"ratelimit"`
+	Ratelimit *cmfx.Ratelimit `yaml:"ratelimit" xml:"ratelimit" json:"ratelimit"`
 
 	// DB 数据库配置
 	DB *DB `yaml:"db" xml:"db" json:"db"`

@@ -17,7 +17,6 @@ import (
 	"github.com/issue9/web/server/servertest"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/initial"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -37,7 +36,7 @@ func NewSuite(a *assert.Assertion) *Suite {
 	a.NotError(err).NotNil(db)
 
 	srv := NewServer(a)
-	doc := initial.NewDocument(srv)
+	doc := NewDocument(srv)
 	s := &Suite{
 		a:   a,
 		dsn: dsn,
@@ -89,7 +88,7 @@ func (s *Suite) Post(url string, body []byte) *rest.Request {
 }
 
 func (s *Suite) Put(url string, body []byte) *rest.Request {
-	return servertest.NewRequest(s.Assertion(),http.MethodPut, buildURL(url)).Body(body)
+	return servertest.NewRequest(s.Assertion(), http.MethodPut, buildURL(url)).Body(body)
 }
 
 func (s *Suite) Get(url string) *rest.Request { return servertest.Get(s.a, buildURL(url)) }

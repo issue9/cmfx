@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/issue9/web"
+	"github.com/issue9/web/openapi"
 	"github.com/shirou/gopsutil/v4/host"
 
 	"github.com/issue9/cmfx/cmfx/user"
@@ -28,7 +29,7 @@ type dbVO struct {
 	InUse              int           `json:"inUse" xml:"inUse" cbor:"inUse" yaml:"inUse"`                                                     // 当前的连接数
 	Idle               int           `json:"idle" xml:"idle" cbor:"idle" yaml:"idle"`                                                         // 空闲的连接
 	WaitCount          int64         `json:"waitCount" xml:"waitCount" cbor:"waitCount" yaml:"waitCount"`                                     // 等待的连接
-	WaitDuration       time.Duration `json:"waitDuration" xml:"waitDuration" cbor:"waitDuration" yaml:"waitDuration"`                         // 新连接的平均等待时间
+	WaitDuration       time.Duration `json:"waitDuration" xml:"waitDuration" cbor:"waitDuration" yaml:"waitDuration" openapi:"string"`        // 新连接的平均等待时间
 	MaxIdleClosed      int64         `json:"maxIdleClosed" xml:"maxIdleClosed" cbor:"maxIdleClosed" yaml:"maxIdleClosed"`                     // 最大空闲联接
 	MaxLifetimeClosed  int64         `json:"maxLifetimeClosed" xml:"maxLifetimeClosed" cbor:"maxLifetimeClosed" yaml:"maxLifetimeClosed"`     // 最生命周期联接
 
@@ -38,17 +39,16 @@ type dbVO struct {
 
 // 系统信息
 type infoVO struct {
-	XMLName string `json:"-" xml:"info" cbor:"-"`
-
-	Name       string `json:"name" xml:"name" cbor:"name" yaml:"name"`                         // 应用名称
-	Version    string `json:"version" xml:"version" cbor:"version" yaml:"version"`             // 应用版本号
-	Uptime     string `json:"uptime" xml:"uptime" cbor:"uptime" yaml:"uptime"`                 // 应用的上次启动时间
-	Go         string `json:"go" xml:"go" cbor:"go" yaml:"go"`                                 // 编译器的版本
-	OS         *osVO  `json:"os" xml:"os" cbor:"os" yaml:"os"`                                 // 系统信息
-	Arch       string `json:"arch" xml:"arch" cbor:"arch" yaml:"arch"`                         // CPU 架构
-	CPUS       int    `json:"cpus" xml:"cpus" cbor:"cpus" yaml:"cpus"`                         // CPU 核心数量
-	Goroutines int    `json:"goroutines" xml:"goroutines" cbor:"goroutines" yaml:"goroutines"` // 当前运行的协程数量
-	DB         *dbVO  `json:"db" xml:"db" cbor:"db" yaml:"db"`                                 // 数据库的相关信息
+	XMLName    struct{} `json:"-" xml:"info" cbor:"-" yaml:"-"`
+	ID         string   `json:"id" xml:"id" cbor:"id" yaml:"id"`                                 // 应用名称
+	Version    string   `json:"version" xml:"version" cbor:"version" yaml:"version"`             // 应用版本号
+	Uptime     string   `json:"uptime" xml:"uptime" cbor:"uptime" yaml:"uptime"`                 // 应用的上次启动时间
+	Go         string   `json:"go" xml:"go" cbor:"go" yaml:"go"`                                 // 编译器的版本
+	OS         *osVO    `json:"os" xml:"os" cbor:"os" yaml:"os"`                                 // 系统信息
+	Arch       string   `json:"arch" xml:"arch" cbor:"arch" yaml:"arch"`                         // CPU 架构
+	CPUS       int      `json:"cpus" xml:"cpus" cbor:"cpus" yaml:"cpus"`                         // CPU 核心数量
+	Goroutines int      `json:"goroutines" xml:"goroutines" cbor:"goroutines" yaml:"goroutines"` // 当前运行的协程数量
+	DB         *dbVO    `json:"db" xml:"db" cbor:"db" yaml:"db"`                                 // 数据库的相关信息
 }
 
 type osVO struct {
@@ -75,7 +75,7 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 	}
 
 	return web.OK(&infoVO{
-		Name:    srv.Name(),
+		ID:      srv.ID(),
 		Version: srv.Version(),
 		Uptime:  ctx.Server().Uptime().Format(time.RFC3339),
 		Go:      runtime.Version(),
@@ -104,11 +104,18 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 	})
 }
 
+type state web.State
+
+func (state) OpenAPISchema(s *openapi.Schema) {
+	s.Type = openapi.TypeString
+	s.Enum = []any{"stopped", "running", "failed"}
+}
+
 // 服务
 type serviceVO struct {
-	Title string    `json:"title" xml:"title" cbor:"title" yaml:"title"`                                 // 名称
-	State web.State `json:"state" xml:"state,attr" cbor:"state" yaml:"state"`                            // 状态
-	Err   string    `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty" yaml:"err,omitempty"` // 如果出错，表示错误内容，否则为空
+	Title string `json:"title" xml:"title" cbor:"title" yaml:"title"`                                 // 名称
+	State state  `json:"state" xml:"state,attr" cbor:"state" yaml:"state"`                            // 状态
+	Err   string `json:"err,omitempty" xml:"err,omitempty" cbor:"err,omitempty" yaml:"err,omitempty"` // 如果出错，表示错误内容，否则为空
 }
 
 // 计划任务
@@ -127,7 +134,7 @@ type servicesVO struct {
 
 func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 	ss := servicesVO{}
-	ctx.Server().Services().Visit(func(title web.LocaleStringer, state web.State, err error) {
+	ctx.Server().Services().Visit(func(title web.LocaleStringer, s web.State, err error) {
 		var err1 string
 		if err != nil {
 			err1 = err.Error()
@@ -135,7 +142,7 @@ func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 
 		ss.Services = append(ss.Services, serviceVO{
 			Title: title.LocaleString(ctx.LocalePrinter()),
-			State: state,
+			State: state(s),
 			Err:   err1,
 		})
 	})
@@ -149,7 +156,7 @@ func (m *Module) adminGetServices(ctx *web.Context) web.Responser {
 		ss.Jobs = append(ss.Jobs, jobVO{
 			serviceVO: serviceVO{
 				Title: j.Title().LocaleString(ctx.LocalePrinter()),
-				State: j.State(),
+				State: state(j.State()),
 				Err:   err,
 			},
 			Next: j.Next(),

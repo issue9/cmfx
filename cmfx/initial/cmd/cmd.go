@@ -17,15 +17,15 @@ import (
 	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/initial"
+	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
 )
 
-func Exec(name, version string) error {
+func Exec(id, version string) error {
 	return app.NewCLI(&app.CLIOptions[*Config]{
-		Name:           name,
+		ID:             id,
 		Version:        version,
 		NewServer:      initServer,
 		ConfigDir:      "./",
@@ -35,14 +35,14 @@ func Exec(name, version string) error {
 	}).Exec()
 }
 
-func initServer(name, ver string, o *server.Options, user *Config, action string) (web.Server, error) {
-	s, err := server.NewHTTP(name, ver, o)
+func initServer(id, ver string, o *server.Options, user *Config, action string) (web.Server, error) {
+	s, err := server.NewHTTP(id, ver, o)
 	if err != nil {
 		return nil, err
 	}
 
-	initial.Init(s, user.Ratelimit, web.PluginFunc(swagger.Install))
-	doc := initial.NewDocument(s)
+	cmfx.Init(s, user.Ratelimit, web.PluginFunc(swagger.Install))
+	doc := test.NewDocument(s)
 
 	router := s.Routers().New("default", nil,
 		web.WithAllowedCORS(3600),

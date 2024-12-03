@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package initial
+package test
 
 import (
 	"github.com/issue9/web"
@@ -14,7 +14,7 @@ import (
 )
 
 func NewDocument(s web.Server) *openapi.Document {
-	return openapi.New(s, web.Phrase("The api doc of %s", s.Name()),
+	return openapi.New(s, web.Phrase("The api doc of %s", s.ID()),
 		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
 		openapi.WithClassicResponse(),
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),

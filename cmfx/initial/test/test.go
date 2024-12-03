@@ -19,7 +19,7 @@ import (
 	"github.com/issue9/web/server"
 	"github.com/issue9/web/server/config"
 
-	"github.com/issue9/cmfx/cmfx/initial"
+	"github.com/issue9/cmfx/cmfx"
 )
 
 // NewServer 创建 [web.Server] 实例
@@ -34,7 +34,7 @@ func NewServer(a *assert.Assertion) web.Server {
 	})
 	a.NotError(err).NotNil(srv)
 
-	initial.Init(srv, &initial.Ratelimit{
+	cmfx.Init(srv, &cmfx.Ratelimit{
 		Prefix:   "ratelimite___",
 		Rate:     config.Duration(time.Second),
 		Capacity: 10,
