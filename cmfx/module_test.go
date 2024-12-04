@@ -42,7 +42,7 @@ func TestNewModule(t *testing.T) {
 	r := srv.Routers().New("def", nil)
 	doc := openapi.New(srv, web.Phrase("test"))
 
-	mod := newModule("m1", web.Phrase("m1"), srv, db, r, doc)
+	mod := NewModule("m1", web.Phrase("m1"), srv, db, r, doc)
 	a.NotNil(mod).
 		Equal(mod.ID(), "m1").
 		Equal(mod.Server(), srv).
@@ -67,7 +67,7 @@ func TestNewModule(t *testing.T) {
 
 	a.PanicString(func() {
 		doc := openapi.New(srv, web.Phrase("test"))
-		newModule("m1sub", web.Phrase("m1sub"), srv, db, r, doc)
+		NewModule("m1sub", web.Phrase("m1sub"), srv, db, r, doc)
 	}, "存在相同 id 的模块：m1sub")
 
 	a.Equal(mod2.Engine(nil), mod2.DB())

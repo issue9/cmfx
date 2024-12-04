@@ -13,9 +13,10 @@ import (
 	"reflect"
 	"slices"
 
-	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
+	
+	"github.com/issue9/cmfx/cmfx"
 )
 
 const tag = "setting"
@@ -42,8 +43,8 @@ type Sanitizer interface {
 type Object[T any] struct {
 	id     string
 	s      *Settings
-	preset []*modelSetting // 保存着从数据库中加载的默认用户的设置对象
-	users  map[int64]*T    // 缓存的对象
+	preset []*settingPO // 保存着从数据库中加载的默认用户的设置对象
+	users  map[int64]*T // 缓存的对象
 }
 
 func checkObjectType[T any]() {
@@ -61,7 +62,7 @@ func LoadObject[T any](s *Settings, id string) (*Object[T], error) {
 	}
 	checkObjectType[T]()
 
-	ss := make([]*modelSetting, 0, 10)
+	ss := make([]*settingPO, 0, 10)
 	size, err := s.db.Where("uid=?", s.presetUID).And("{group}=?", id).Select(true, &ss)
 	if err != nil {
 		return nil, err
@@ -94,7 +95,7 @@ func (obj *Object[T]) Get(uid int64) (*T, error) {
 	// 尝试从数据库加载数据
 
 	var o T
-	ss := make([]*modelSetting, 0, 10)
+	ss := make([]*settingPO, 0, 10)
 	size, err := obj.s.db.Where("uid=?", uid).And("{group}=?", obj.id).Select(true, &ss)
 	if err != nil {
 		return &o, err
@@ -163,10 +164,10 @@ func (obj *Object[T]) HandlePut(ctx *web.Context, uid int64) web.Responser {
 }
 
 // 将 o 转换为 []*modelSetting
-func toModels[T any](o *T, uid int64, g string) ([]*modelSetting, error) {
+func toModels[T any](o *T, uid int64, g string) ([]*settingPO, error) {
 	rv := reflect.ValueOf(o).Elem()
 	size := rv.NumField()
-	ss := make([]*modelSetting, 0, size)
+	ss := make([]*settingPO, 0, size)
 
 	rt := rv.Type()
 	for i := range size {
@@ -179,7 +180,7 @@ func toModels[T any](o *T, uid int64, g string) ([]*modelSetting, error) {
 		if err != nil {
 			return nil, err
 		}
-		ss = append(ss, &modelSetting{UID: sql.NullInt64{Int64: uid, Valid: true}, Group: g, Key: key, Value: string(data)})
+		ss = append(ss, &settingPO{UID: sql.NullInt64{Int64: uid, Valid: true}, Group: g, Key: key, Value: string(data)})
 	}
 
 	if err := callSanitizer(o); err != nil {
@@ -189,7 +190,7 @@ func toModels[T any](o *T, uid int64, g string) ([]*modelSetting, error) {
 }
 
 // 从 []modelSetting 转换为 o
-func fromModels[T any](ss []*modelSetting, o *T, g string) error {
+func fromModels[T any](ss []*settingPO, o *T, g string) error {
 	rv := reflect.ValueOf(o).Elem()
 	rt := rv.Type()
 
@@ -199,7 +200,7 @@ func fromModels[T any](ss []*modelSetting, o *T, g string) error {
 			continue
 		}
 
-		index := slices.IndexFunc(ss, func(s *modelSetting) bool { return s.Key == key && s.Group == g })
+		index := slices.IndexFunc(ss, func(s *settingPO) bool { return s.Key == key && s.Group == g })
 		if index < 0 {
 			panic(fmt.Sprintf("不存在的字段:%s,%s", g, key))
 		}

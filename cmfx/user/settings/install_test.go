@@ -34,12 +34,12 @@ func TestInstallObject(t *testing.T) {
 
 	// 检测字段是都写入
 
-	f1 := &modelSetting{Group: "opt", Key: "f1", UID: sql.NullInt64{Valid: true, Int64: 0}}
+	f1 := &settingPO{Group: "opt", Key: "f1", UID: sql.NullInt64{Valid: true, Int64: 0}}
 	found, err := ss.db.Select(f1)
 	a.NotError(err).True(found)
 
 	// 零值也正常写入
-	f2 := &modelSetting{Group: "opt", Key: "F2", UID: sql.NullInt64{Valid: true, Int64: 0}}
+	f2 := &settingPO{Group: "opt", Key: "F2", UID: sql.NullInt64{Valid: true, Int64: 0}}
 	found, err = ss.db.Select(f2)
 	a.NotError(err).True(found)
 }

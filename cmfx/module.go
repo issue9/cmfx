@@ -26,6 +26,8 @@ const (
 type serverVarsKey int
 
 // Module 表示代码模块的基本信息
+//
+// Module 是代码复用的基本单元，根据模块 ID 不同，会生成不同的表名称，从尔达到整个单元复用的目的。
 type Module struct {
 	id   string
 	desc web.LocaleStringer
@@ -35,7 +37,8 @@ type Module struct {
 	doc  *openapi.Document
 }
 
-func newModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document) *Module {
+// NewModule 声明新模块
+func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document) *Module {
 	// 防止重复的 id 值
 	m, loaded := s.Vars().LoadOrStore(moduleKey, map[string]struct{}{id: {}})
 	if loaded {
@@ -79,11 +82,13 @@ func (m *Module) Engine(tx *orm.Tx) orm.Engine {
 
 // New 基于当前模块的 ID 声明一个新的实例
 func (m *Module) New(id string, desc web.LocaleStringer) *Module {
-	return newModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc)
+	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc)
 }
 
 // 当前模块关联的路由对象
 func (m *Module) Router() *web.Router { return m.r }
+
+func (m *Module) OpenAPI() *openapi.Document { return m.doc }
 
 // 创建 openapi 文档的中间件
 func (m *Module) API(f func(o *openapi.Operation)) web.Middleware {
@@ -102,10 +107,10 @@ func Init(s web.Server, limit *ratelimit.Ratelimit, db *orm.DB, router *web.Rout
 
 	s.OnClose(func() error { return db.Close() })
 
-	return newModule("", web.Phrase("root module"), s, db, router, doc)
+	return NewModule("", web.Phrase("root module"), s, db, router, doc)
 }
 
-// Unlimit 取消由 [InitFromConfig] 或 [Init] 创建的 API 访问次数限制功能
+// Unlimit 取消由 [Init] 创建的 API 访问次数限制功能
 func Unlimit(s web.Server) web.Middleware {
 	if v, ok := s.Vars().Load(limitKey); ok {
 		return (v.(*ratelimit.Ratelimit)).Unlimit()

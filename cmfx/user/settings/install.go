@@ -14,7 +14,7 @@ import (
 
 func Install(mod *cmfx.Module, tableName string) {
 	db := buildDB(mod, tableName)
-	if err := db.Create(&modelSetting{}); err != nil {
+	if err := db.Create(&settingPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

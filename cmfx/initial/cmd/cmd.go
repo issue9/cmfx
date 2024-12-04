@@ -57,6 +57,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	doc := openapi.New(s, web.Phrase("The api doc of %s", s.ID()),
 		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
 		openapi.WithProblemResponse(),
+		openapi.WithTag("admin", web.Phrase("admin tag"), "", nil),
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),
 		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
 		swagger.WithCDN(""),

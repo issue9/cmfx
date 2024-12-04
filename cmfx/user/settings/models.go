@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type modelSetting struct {
+type settingPO struct {
 	ID      int64         `orm:"name(id);ai"`
 	Group   string        `orm:"name(group);len(20);unique(group_key_uid)"`
 	Key     string        `orm:"name(key);len(20);unique(group_key_uid)"`
@@ -18,11 +18,11 @@ type modelSetting struct {
 	Created time.Time     `orm:"name(time)"`
 }
 
-func (l *modelSetting) BeforeInsert() error {
+func (l *settingPO) BeforeInsert() error {
 	if l.Created.IsZero() {
 		l.Created = time.Now()
 	}
 	return nil
 }
 
-func (l *modelSetting) TableName() string { return `` }
+func (l *settingPO) TableName() string { return `` }
