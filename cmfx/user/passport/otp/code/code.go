@@ -84,12 +84,12 @@ func Init(user *user.Module, expired, resend time.Duration, gen Generator, sende
 			o.Tag("auth").
 				Desc(web.Phrase("bind %s passport for current user api", id), nil).
 				Body(accountTO{}, false, nil, nil).
-				ResponseRef("201", "empty", nil, nil)
+				ResponseEmpty("201")
 		})).
 		Delete("", c.deleteTOTP, c.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("delete %s passport for current user api", id), nil).
-				ResponseRef("204", "empty", nil, nil)
+				ResponseEmpty("204")
 		})).
 		Post("/code", c.requestBindCode, rate, cmfx.Unlimit(user.Module().Server()), c.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").

@@ -131,7 +131,7 @@ func newServer(a *assert.Assertion) *cmfx.Module {
 
 	doc := openapi.New(srv, web.Phrase("The api doc of %s", srv.ID()),
 		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
-		openapi.WithClassicResponse(),
+		openapi.WithProblemResponse(),
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),
 		openapi.WithDescription(
 			nil,

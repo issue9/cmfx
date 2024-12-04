@@ -56,27 +56,21 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 
 	doc := openapi.New(s, web.Phrase("The api doc of %s", s.ID()),
 		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
-		openapi.WithClassicResponse(),
+		openapi.WithProblemResponse(),
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),
-		openapi.WithDescription(
-			nil,
-			web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(s, 0)),
-		),
 		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
 		swagger.WithCDN(""),
 	)
 	s.Use(web.PluginFunc(swagger.Install))
 	router.Get("/openapi", doc.Handler())
 
-	mod := cmfx.Init(s, limit, user.DB.DB(), router, doc)
-	var (
-		adminMod  = mod.New("admin", web.Phrase("admin"))
-		systemMod = mod.New("system", web.Phrase("system"))
-	)
+	root := cmfx.Init(s, limit, user.DB.DB(), router, doc)
+	adminMod := root.New("admin", web.Phrase("admin"))
+	systemMod := root.New("system", web.Phrase("system"))
 
 	switch action {
 	case "serve":
-		url, err := mod.Router().URL(false, user.Admin.User.URLPrefix+"/upload", nil)
+		url, err := root.Router().URL(false, user.Admin.User.URLPrefix+"/upload", nil)
 		if err != nil {
 			return nil, err
 		}
@@ -90,6 +84,9 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
 
 		system.Load(systemMod, user.System, adminL)
+
+		// 在所有模块加载完成之后调用，需要等待其它模块里的私有错误代码加载完成。
+		doc.WithDescription(nil, web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(s, 0)))
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin)
 		totp.Install(adminL.UserModule().Module(), "totp")

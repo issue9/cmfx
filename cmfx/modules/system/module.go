@@ -65,17 +65,17 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, m.admin)
 	adminRouter.Get("/info", m.adminGetInfo, resGetInfo, mod.API(func(o *openapi.Operation) {
 		o.Tag("system", "admin").
-			Response("200", infoVO{}, nil, nil).
+			Response200(infoVO{}).
 			Desc(web.Phrase("get system info api"), nil)
 	})).
 		Get("/services", m.adminGetServices, resGetServices, mod.API(func(o *openapi.Operation) {
 			o.Tag("system", "admin").
-				Response("200", servicesVO{}, nil, nil).
+				Response200(servicesVO{}).
 				Desc(web.Phrase("get services list api"), nil)
 		})).
 		Get("/apis", m.adminGetAPIs, resGetAPIs, mod.API(func(o *openapi.Operation) {
 			o.Tag("system", "admin").
-				Response("200", []health.State{}, nil, nil).
+				Response200([]health.State{}).
 				Desc(web.Phrase("get api list api"), nil)
 		})).
 		Get("/monitor", m.adminGetMonitor, resGetInfo, mod.API(func(o *openapi.Operation) {
@@ -97,7 +97,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems, mod.API(func(o *openapi.Operation) {
 		o.Tag("system", "common").
 			Desc(web.Phrase("get system problems api"), nil).
-			Response("200", []problemVO{}, nil, nil)
+			Response200([]problemVO{})
 	}))
 
 	if conf.Backup != nil {
@@ -110,18 +110,18 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		adminRouter.Post("/backup", m.adminPostBackup, resBackup, mod.API(func(o *openapi.Operation) {
 			o.Tag("admin", "system").
 				Desc(web.Phrase("backup api"), nil).
-				ResponseRef("201", "empty", nil, nil)
+				ResponseEmpty("201")
 		})).
 			Get("/backup", m.adminGetBackup, resGetBackup, mod.API(func(o *openapi.Operation) {
 				o.Tag("admin", "system").
 					Desc(web.Phrase("get backup file list api"), nil).
-					Response("200", backupListVO{}, nil, nil)
+					Response200(backupListVO{})
 			})).
 			Delete("/backup/{name}", m.adminDeleteBackup, resDelBackup, mod.API(func(o *openapi.Operation) {
 				o.Tag("admin", "system").
 					Desc(web.Phrase("delete backup file api"), nil).
 					Path("name", openapi.TypeString, web.Phrase("the backup filename"), nil).
-					ResponseRef("204", "empty", nil, nil)
+					ResponseEmpty("204")
 			}))
 	}
 

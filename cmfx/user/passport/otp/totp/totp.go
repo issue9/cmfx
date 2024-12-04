@@ -66,12 +66,12 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 			o.Tag("auth").
 				Desc(web.Phrase("bind %s passport for current user api", id), nil).
 				Body(codeTO{}, false, nil, nil).
-				ResponseRef("201", "empty", nil, nil)
+				ResponseEmpty("201")
 		})).
 		Delete("", p.deleteTOTP, p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("delete %s passport for current user api", id), nil).
-				ResponseRef("204", "empty", nil, nil)
+				ResponseEmpty("204")
 		})).
 		Post("/secret", p.postSecret, rate, cmfx.Unlimit(user.Module().Server()), p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").

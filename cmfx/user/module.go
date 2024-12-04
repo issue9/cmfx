@@ -47,7 +47,7 @@ func Load(mod *cmfx.Module, conf *Config) *Module {
 		Get("/passports", m.getPassports, mod.API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("get passports list api"), nil).
-				Response("200", []passportVO{}, nil, nil)
+				Response200([]passportVO{})
 		}))
 
 	mod.Router().Prefix(m.URLPrefix(), m).
@@ -55,17 +55,17 @@ func Load(mod *cmfx.Module, conf *Config) *Module {
 			o.Tag("auth").
 				Desc(web.Phrase("logout api"), nil).
 				Header(header.ClearSiteData, openapi.TypeString, nil, nil).
-				ResponseRef("204", "empty", nil, nil)
+				ResponseEmpty("204")
 		})).
 		Put("/token", m.refreshToken, mod.API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("refresh token api"), nil).
-				Response("204", &token.Response{}, nil, nil)
+				Response("201", &token.Response{}, nil, nil)
 		})).
 		Get("/securitylog", m.getSecyLogs, mod.API(func(o *openapi.Operation) {
 			o.QueryObject(queryLogTO{}, nil).
 				Desc(web.Phrase("get login user security log api"), nil).
-				Response("200", LogVO{}, nil, nil)
+				Response200(LogVO{})
 		}))
 
 	initPassword(m)

@@ -55,7 +55,7 @@ func initPassword(mod *Module) {
 		o.Tag("auth").
 			Desc(web.Phrase("change current user password for %s passport api", passwordMode), nil).
 			Body(&passwordTO{}, false, nil, nil).
-			ResponseRef("204", "empty", nil, nil)
+			ResponseEmpty("204")
 	}))
 
 	mod.AddPassport(p)
