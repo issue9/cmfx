@@ -5,9 +5,11 @@
 package user
 
 import (
+	"context"
 	"net/http"
 
 	"github.com/issue9/cache"
+	"github.com/issue9/events"
 	"github.com/issue9/mux/v9/header"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/sqlbuilder"
@@ -21,11 +23,13 @@ import (
 
 // Module 用户账号模块
 type Module struct {
-	mod         *cmfx.Module
-	urlPrefix   string // 所有接口的 URL 前缀
-	token       *tokens
-	afterLogin  AfterFunc
-	afterLogout AfterFunc
+	mod       *cmfx.Module
+	urlPrefix string // 所有接口的 URL 前缀
+	token     *tokens
+
+	// 用户登录和注销事件
+	loginEvent  *events.Event[*User]
+	logoutEvent *events.Event[*User]
 
 	passports []Passport
 }
@@ -35,12 +39,14 @@ func Load(mod *cmfx.Module, conf *Config) *Module {
 	store := token.NewCacheStore[*User](cache.Prefix(mod.Server().Cache(), mod.ID()))
 
 	m := &Module{
-		mod:         mod,
-		urlPrefix:   conf.URLPrefix,
-		token:       token.New(mod.Server(), store, conf.AccessExpired.Duration(), conf.RefreshExpired.Duration(), web.ProblemUnauthorized, nil),
-		afterLogin:  conf.AfterLogin,
-		afterLogout: conf.AfterLogout,
-		passports:   make([]Passport, 0, 5),
+		mod:       mod,
+		urlPrefix: conf.URLPrefix,
+		token:     token.New(mod.Server(), store, conf.AccessExpired.Duration(), conf.RefreshExpired.Duration(), web.ProblemUnauthorized, nil),
+
+		loginEvent:  events.New[*User](),
+		logoutEvent: events.New[*User](),
+
+		passports: make([]Passport, 0, 5),
 	}
 
 	mod.Router().Prefix(m.URLPrefix()).
@@ -114,3 +120,9 @@ func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states [
 }
 
 func (m *Module) Module() *cmfx.Module { return m.mod }
+
+// OnLogin 注册登录事件
+func (m *Module) OnLogin(f func(*User)) context.CancelFunc { return m.loginEvent.Subscribe(f) }
+
+// OnLogout 注册用户主动退出时的事
+func (m *Module) OnLogout(f func(*User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }

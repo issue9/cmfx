@@ -29,7 +29,7 @@ func TestModule_routes(t *testing.T) {
 	s := test.NewSuite(a)
 	sender := codetest.New()
 
-	u := NewModule(s, nil, nil)
+	u := NewModule(s)
 
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "code")

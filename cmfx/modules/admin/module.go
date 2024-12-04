@@ -5,10 +5,8 @@
 package admin
 
 import (
-	"context"
 	"errors"
 
-	"github.com/issue9/events"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
@@ -23,15 +21,9 @@ import (
 )
 
 type Module struct {
-	user *user.Module
-
-	roleGroup *rbac.RoleGroup
-
+	user        *user.Module
+	roleGroup   *rbac.RoleGroup
 	uploadField string
-
-	// 用户登录和注销事件
-	loginEvent  *events.Event[*user.User]
-	logoutEvent *events.Event[*user.User]
 }
 
 // Load 加载管理模块
@@ -39,15 +31,9 @@ type Module struct {
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
 // saver 上传功能的保存方式；
 func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
-	u := user.Load(mod, o.User)
-
 	m := &Module{
-		user: u,
-
+		user:        user.Load(mod, o.User),
 		uploadField: o.Upload.Field,
-
-		loginEvent:  events.New[*user.User](),
-		logoutEvent: events.New[*user.User](),
 	}
 
 	inst := rbac.New(mod, func(ctx *web.Context) (int64, web.Responser) {
@@ -245,12 +231,6 @@ func (m *Module) AddSecurityLog(tx *orm.Tx, uid int64, content, ip, ua string) e
 func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Context, content web.LocaleStringer) error {
 	return m.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
-
-// OnLogin 注册登录事件
-func (m *Module) OnLogin(f func(*user.User)) context.CancelFunc { return m.loginEvent.Subscribe(f) }
-
-// OnLogout 注册用户主动退出时的事
-func (m *Module) OnLogout(f func(*user.User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }
 
 func (m *Module) UserModule() *user.Module { return m.user }
 

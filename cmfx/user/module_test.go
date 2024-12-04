@@ -19,13 +19,11 @@ var _ web.Middleware = &user.Module{}
 // 声明 [Module] 变量
 //
 // 安装了注释库并提供一个 password 名称的密码验证功能
-func NewModule(s *test.Suite, afterLogin, afterLogout user.AfterFunc) *user.Module {
+func NewModule(s *test.Suite) *user.Module {
 	conf := &user.Config{
 		URLPrefix:      "/user",
 		AccessExpired:  60 * config.Duration(time.Second),
 		RefreshExpired: 600 * config.Duration(time.Second),
-		AfterLogin:     afterLogin,
-		AfterLogout:    afterLogout,
 	}
 	s.Assertion().NotError(conf.SanitizeConfig())
 

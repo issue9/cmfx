@@ -18,9 +18,6 @@ import (
 
 type tokens = token.Token[*User]
 
-// AfterFunc 在执行登录和注销行为之后的操作
-type AfterFunc = func(*User)
-
 // SetState 设置用户状态
 //
 // 如果状态为非 [StateNormal]，那么也将会被禁止登录。
@@ -55,9 +52,7 @@ func (m *Module) CreateToken(ctx *web.Context, u *User, p Passport) web.Response
 		ctx.Server().Logs().ERROR().Error(err)
 	}
 
-	if m.afterLogin != nil {
-		m.afterLogin(u)
-	}
+	m.loginEvent.Publish(true, u)
 
 	return m.token.New(ctx, u, http.StatusCreated)
 }
@@ -73,9 +68,7 @@ func (m *Module) logout(ctx *web.Context) web.Responser {
 		ctx.Server().Logs().ERROR().Error(err)
 	}
 
-	if m.afterLogout != nil {
-		m.afterLogout(u)
-	}
+	m.logoutEvent.Publish(true, u)
 
 	return web.Status(http.StatusNoContent, header.ClearSiteData, `"cookies", "storage"`)
 }
