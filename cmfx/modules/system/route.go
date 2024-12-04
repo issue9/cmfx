@@ -12,6 +12,7 @@ import (
 	"time"
 
 	"github.com/issue9/web"
+	"github.com/issue9/web/locales"
 	"github.com/issue9/web/openapi"
 	"github.com/shirou/gopsutil/v4/host"
 
@@ -105,6 +106,18 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 }
 
 type state web.State
+
+func (s state) MarshalText() ([]byte, error) {
+	switch s {
+	case state(web.Stopped):
+		return []byte("stopped"), nil
+	case state(web.Running):
+		return []byte("running"), nil
+	case state(web.Failed):
+		return []byte("failed"), nil
+	}
+	return nil, locales.ErrInvalidValue()
+}
 
 func (state) OpenAPISchema(s *openapi.Schema) {
 	s.Type = openapi.TypeString
