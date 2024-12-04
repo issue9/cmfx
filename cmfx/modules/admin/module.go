@@ -39,8 +39,6 @@ type Module struct {
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
 // saver 上传功能的保存方式；
 func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
-	mod.Server().Use(web.PluginFunc(addProblems))
-
 	u := user.Load(mod, o.User)
 
 	m := &Module{

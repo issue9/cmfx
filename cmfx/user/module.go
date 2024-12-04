@@ -63,8 +63,7 @@ func Load(mod *cmfx.Module, conf *Config) *Module {
 				Response("204", &token.Response{}, nil, nil)
 		})).
 		Get("/securitylog", m.getSecyLogs, mod.API(func(o *openapi.Operation) {
-			o.Tag("auth").
-				QueryObject(queryLogTO{}, nil).
+			o.QueryObject(queryLogTO{}, nil).
 				Desc(web.Phrase("get login user security log api"), nil).
 				Response("200", LogVO{}, nil, nil)
 		}))
