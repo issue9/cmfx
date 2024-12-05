@@ -14,10 +14,6 @@ DOC_API = $(DOCS)/api
 CMD_SERVER = $(CMD)/server
 SERVER_BIN = server
 
-# 生成 API 文件
-api:
-	web restdoc -t=admin,common -o=$(DOC_API)/admin.yaml $(CMFX)
-
 # 生成中间代码
 gen:
 	go generate $(ROOT)/...
@@ -25,11 +21,11 @@ gen:
 # 编译测试项目
 build-cmd:
 	web build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
-	npm run build -w=cmd/admin
+	npm run build -w=@cmfx/admin-demo
 
 # 编译项目内容
 build:
-	npm run build -w=admin
+	npm run build -w=@cmfx/admin
 
 # 安装依赖
 install:
@@ -44,7 +40,7 @@ watch-server:
 	web watch -app=-a=serve $(CMD_SERVER)
 
 watch-admin:
-	npm run dev -w=cmd/admin
+	npm run dev -w=@cmfx/admin-demo
 
 # 运行测试内容
 #
@@ -55,4 +51,4 @@ watch: watch-server watch-admin
 # 执行测试内容
 test:
 	go test ./... -count=1 -p=1 -parallel=1
-	npm run test -w=admin
+	npm run test -w=@cmfx/admin
