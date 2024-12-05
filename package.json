@@ -1,6 +1,6 @@
 {
-    "name": "cmfx-admin",
-    "version": "0.7.1",
+    "name": "@cmfx/admin-eslint",
+    "version": "0.7.2",
     "type": "module",
     "private": true,
     "author": {

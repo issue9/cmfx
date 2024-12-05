@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.7.1",
+    "version": "0.7.2",
     "type": "module",
     "description": "适用于 cmfx 的后台管理框架",
     "author": {
