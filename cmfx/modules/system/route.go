@@ -267,32 +267,18 @@ func (m *Module) adminGetBackup(ctx *web.Context) web.Responser {
 	})
 }
 
-// # api GET /system/settings/general 获取常规的设置项
-// @tag admin system settings
-// @resp 200 * generalSettings
 func (m *Module) adminGetSettingGeneral(ctx *web.Context) web.Responser {
 	return m.generalSettings.HandleGet(ctx, user.SpecialUserID)
 }
 
-// # api PUT /system/settings/general 设置常规的设置项
-// @tag admin system settings
-// @req * generalSettings
-// @resp 204 * {}
 func (m *Module) adminPutSettingGeneral(ctx *web.Context) web.Responser {
 	return m.generalSettings.HandlePut(ctx, user.SpecialUserID)
 }
 
-// # api GET /system/settings/censor 获取内容过滤的设置项
-// @tag admin system settings
-// @resp 200 * censorSettings
 func (m *Module) adminGetSettingCensor(ctx *web.Context) web.Responser {
 	return m.censorSettings.HandleGet(ctx, user.SpecialUserID)
 }
 
-// # api PUT /system/settings/censor 设置内容过滤的设置项
-// @tag admin system settings
-// @req * censorSettings
-// @resp 204 * {}
 func (m *Module) adminPutSettingCensor(ctx *web.Context) web.Responser {
 	return m.censorSettings.HandlePut(ctx, user.SpecialUserID)
 }

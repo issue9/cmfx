@@ -350,6 +350,9 @@ messages:
     - key: secret expired detail
       message:
         msg: TOTP 密钥过期
+    - key: settings tag
+      message:
+        msg: 设置
     - key: sex
       message:
         msg: 性别

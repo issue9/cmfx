@@ -49,6 +49,17 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		monitor:  monitor.New(mod.Server(), 30*time.Second),
 		settings: settings.New(mod, settingsTableName),
 	}
+	general, err := settings.LoadObject[generalSettings](m.settings, generalSettingName)
+	if err != nil {
+		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+	}
+	m.generalSettings = general
+
+	censor, err := settings.LoadObject[censorSettings](m.settings, censorSettingName)
+	if err != nil {
+		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+	}
+	m.censorSettings = censor
 
 	mod.Server().Use(m.health)
 
@@ -90,10 +101,24 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 					r.Body = nil
 				})
 		})).
-		Get("/settings/general", m.adminGetSettingGeneral, resSettingsGeneral).
-		Put("/settings/general", m.adminPutSettingGeneral, resSettingsGeneral).
-		Get("/settings/censor", m.adminGetSettingCensor, resSettingsCensor).
-		Put("/settings/censor", m.adminPutSettingCensor, resSettingsCensor)
+		Get("/settings/general", m.adminGetSettingGeneral, resSettingsGeneral, mod.API(func(o *openapi.Operation) {
+			o.Tag("settings", "system").
+				Response200(generalSettings{})
+		})).
+		Put("/settings/general", m.adminPutSettingGeneral, resSettingsGeneral, mod.API(func(o *openapi.Operation) {
+			o.Tag("settings", "system").
+				Body(generalSettings{}, false, nil, nil).
+				ResponseEmpty("204")
+		})).
+		Get("/settings/censor", m.adminGetSettingCensor, resSettingsCensor, mod.API(func(o *openapi.Operation) {
+			o.Tag("settings", "system").
+				Response200(censorSettings{})
+		})).
+		Put("/settings/censor", m.adminPutSettingCensor, resSettingsCensor, mod.API(func(o *openapi.Operation) {
+			o.Tag("settings", "system").
+				Body(censorSettings{}, false, nil, nil).
+				ResponseEmpty("204")
+		}))
 
 	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems, mod.OpenAPI().API(func(o *openapi.Operation) {
 		o.Tag("system", "common").

@@ -12,11 +12,13 @@ import (
 	"github.com/issue9/cmfx/cmfx"
 )
 
-func Install(mod *cmfx.Module, tableName string) {
+func Install(mod *cmfx.Module, tableName string) *Settings {
 	db := buildDB(mod, tableName)
 	if err := db.Create(&settingPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
+
+	return New(mod, tableName)
 }
 
 // InstallObject 向数据表中安装一个设置对象

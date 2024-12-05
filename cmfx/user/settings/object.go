@@ -5,7 +5,6 @@
 package settings
 
 import (
-	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -15,7 +14,7 @@ import (
 
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
-	
+
 	"github.com/issue9/cmfx/cmfx"
 )
 
@@ -180,7 +179,7 @@ func toModels[T any](o *T, uid int64, g string) ([]*settingPO, error) {
 		if err != nil {
 			return nil, err
 		}
-		ss = append(ss, &settingPO{UID: sql.NullInt64{Int64: uid, Valid: true}, Group: g, Key: key, Value: string(data)})
+		ss = append(ss, &settingPO{UID: uid, Group: g, Key: key, Value: string(data)})
 	}
 
 	if err := callSanitizer(o); err != nil {

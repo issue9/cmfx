@@ -340,6 +340,9 @@ messages:
     - key: secret expired detail
       message:
         msg: secret expired detail
+    - key: settings tag
+      message:
+        msg: settings tag
     - key: sex
       message:
         msg: sex

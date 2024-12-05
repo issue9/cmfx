@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+// Package usertest 提供简单的 user 包测试方法
 package usertest
 
 import (

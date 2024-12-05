@@ -23,7 +23,14 @@ func Install(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	settings.Install(mod, settingsTableName)
+	s := settings.Install(mod, settingsTableName)
+	if err := settings.InstallObject(s, generalSettingName, &generalSettings{}); err != nil {
+		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+	}
+
+	if err := settings.InstallObject(s, censorSettingName, &censorSettings{}); err != nil {
+		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+	}
 
 	return Load(mod, conf, adminL)
 }

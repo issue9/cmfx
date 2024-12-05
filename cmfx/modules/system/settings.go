@@ -17,7 +17,11 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-const settingsTableName = "settings"
+const (
+	settingsTableName  = "settings"
+	generalSettingName = "general"
+	censorSettingName  = "censor"
+)
 
 // 后台的常规设置
 type generalSettings struct {
