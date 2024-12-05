@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.7.5",
+    "version": "0.7.6",
     "type": "module",
     "description": "适用于 cmfx 的后台管理框架",
     "author": {
@@ -30,6 +30,7 @@
     "module": "./lib/index.es.js",
     "exports": {
         ".": {
+            "types": "./lib/index.d.ts",
             "require": "./lib/index.cjs.js",
             "import": "./lib/index.es.js"
         },
@@ -38,14 +39,17 @@
             "import": "./lib/style.css"
         },
         "./pages": {
+            "types": "./lib/pages.d.ts",
             "require": "./lib/pages.cjs.js",
             "import": "./lib/pages.es.js"
         },
         "./components": {
+            "types": "./lib/components.d.ts",
             "require": "./lib/components.cjs.js",
             "import": "./lib/components.es.js"
         },
         "./core": {
+            "types": "./lib/core.d.ts",
             "require": "./lib/core.cjs.js",
             "import": "./lib/core.es.js"
         },
@@ -91,30 +95,30 @@
         "test": "vitest --coverage.enabled true"
     },
     "dependencies": {
-        "@formatjs/intl-durationformat": "^0.6.1",
-        "@formatjs/intl-localematcher": "^0.5.6",
-        "@solidjs/router": "^0.15.0",
+        "@formatjs/intl-durationformat": "^0.6.4",
+        "@formatjs/intl-localematcher": "^0.5.8",
+        "@solidjs/router": "^0.15.1",
         "bowser": "^2.11.0",
         "echarts": "^5.5.1",
-        "intl-messageformat": "^10.7.3",
-        "material-symbols": "^0.25.3",
-        "quill": "^2.0.2",
+        "intl-messageformat": "^10.7.7",
+        "material-symbols": "^0.27.2",
+        "quill": "^2.0.3",
         "solid-js": "^1.9.3",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
-        "@types/node": "^22.8.6",
-        "@vitest/coverage-v8": "^2.1.4",
+        "@types/node": "^22.10.1",
+        "@vitest/coverage-v8": "^2.1.8",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.6",
         "jsdom": "^25.0.1",
-        "postcss": "^8.4.47",
-        "tailwindcss": "^3.4.14",
-        "typescript": "^5.6.3",
-        "vite": "^5.4.10",
+        "postcss": "^8.4.49",
+        "tailwindcss": "^3.4.16",
+        "typescript": "^5.7.2",
+        "vite": "^5.4.11",
         "vite-plugin-dts": "^4.3.0",
-        "vite-plugin-solid": "^2.10.2",
-        "vitest": "^2.1.4",
-        "vitest-fetch-mock": "^0.4.1"
+        "vite-plugin-solid": "^2.11.0",
+        "vitest": "^2.1.8",
+        "vitest-fetch-mock": "^0.4.2"
     }
 }

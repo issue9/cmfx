@@ -1,5 +1,8 @@
 {
     "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
         "baseUrl": ".",
         "target": "ESNext",
         "useDefineForClassFields": true,
