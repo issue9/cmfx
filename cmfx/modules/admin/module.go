@@ -61,41 +61,41 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/resources", m.getResources, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				Desc(web.Phrase("get resources list api"), nil).
 				Response200(xrbac.Resources{})
 		})).
 		Get("/roles", m.getRoles, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				Desc(web.Phrase("get roles list api"), nil).
 				Response200([]rbac.RoleVO{})
 		})).
 		Post("/roles", m.postRoles, postGroup, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				Desc(web.Phrase("add role api"), nil).
 				ResponseEmpty("201").
 				Body(&rbac.RoleTO{}, false, nil, nil)
 		})).
 		Put("/roles/{id:digit}", m.putRole, putGroup, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				PathID("id:digit", web.Phrase("the role id")).
 				Desc(web.Phrase("edit role info api"), nil).
 				Body(&rbac.RoleTO{}, false, nil, nil).
 				ResponseEmpty("204")
 		})).
 		Delete("/roles/{id:digit}", m.deleteRole, delGroup, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				Desc(web.Phrase("delete role api"), nil).
 				ResponseEmpty("204")
 		})).
 		Get("/roles/{id:digit}/resources", m.getRoleResources, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				PathID("id:digit", web.Phrase("the role id")).
 				Desc(web.Phrase("get role resources api"), nil).
 				Response200(&xrbac.RoleResources{})
 		})).
 		Put("/roles/{id:digit}/resources", m.putRoleResources, putGroupResources, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "rbac").
+			o.Tag("rbac").
 				Desc(web.Phrase("edit role resources api"), nil).
 				Body([]string{}, false, nil, nil).
 				ResponseEmpty("204")
@@ -103,21 +103,18 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/info", m.getInfo, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("get login user info api"), nil).
+			o.Desc(web.Phrase("get login user info api"), nil).
 				Response200(info{})
 		})).
 		Patch("/info", m.patchInfo, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("patch login user info api"), nil).
+			o.Desc(web.Phrase("patch login user info api"), nil).
 				Body(info{}, false, nil, nil).
 				ResponseEmpty("204")
 		}))
 
 	mod.Router().Prefix(m.URLPrefix(), m).
 		Get("/admins", m.getAdmins, getAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("get admin list api"), nil).
+			o.Desc(web.Phrase("get admin list api"), nil).
 				QueryObject(&queryAdmins{}, func(p *openapi.Parameter) {
 					if p.Name == "sex" {
 						p.Schema.Enum = []any{"unknown", "female", "male"}
@@ -126,37 +123,31 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				Response200(query.Page[infoWithRoleStateVO]{})
 		})).
 		Post("/admins", m.postAdmins, postAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("add admin api"), nil).
+			o.Desc(web.Phrase("add admin api"), nil).
 				Body(&infoWithAccountTO{}, false, nil, nil).
 				ResponseEmpty("201")
 		})).
 		Get("/admins/{id:digit}", m.getAdmin, getAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("get admin info api"), nil).
+			o.Desc(web.Phrase("get admin info api"), nil).
 				PathID("id:digit", web.Phrase("the ID of admin")).
 				Response200(&adminInfoVO{})
 		})).
 		Patch("/admins/{id:digit}", m.patchAdmin, putAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("patch admin info api"), nil).
+			o.Desc(web.Phrase("patch admin info api"), nil).
 				Body(&infoWithRoleStateVO{}, false, nil, nil).
 				ResponseEmpty("204")
 		})).
 		Post("/admins/{id:digit}/locked", m.postAdminLocked, putAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("lock the admin api"), nil).
+			o.Desc(web.Phrase("lock the admin api"), nil).
 				PathID("id:digit", web.Phrase("the ID of admin")).
 				ResponseEmpty("201")
 		})).
 		Delete("/admins/{id:digit}/locked", m.deleteAdminLocked, putAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("unlock the admin api"), nil).
+			o.Desc(web.Phrase("unlock the admin api"), nil).
 				ResponseEmpty("204")
 		})).
 		Delete("/admins/{id:digit}", m.deleteAdmin, delAdmin, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin").
-				Desc(web.Phrase("delete the admin api"), nil).
+			o.Desc(web.Phrase("delete the admin api"), nil).
 				ResponseEmpty("204")
 		}))
 
@@ -164,7 +155,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)
 	mod.Router().Prefix(m.URLPrefix()).
 		Get("/upload/{file}", static.ServeFileHandler(up, "file", "index.html"), mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "upload").
+			o.Tag("upload").
 				Desc(web.Phrase("upload static server"), nil).
 				Path("file", openapi.TypeString, web.Phrase("the file name"), nil).
 				Response("200", nil, nil, func(r *openapi.Response) {
@@ -191,7 +182,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				return web.OK(files)
 			}
 		}, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "upload").
+			o.Tag("upload").
 				Desc(web.Phrase("upload file"), nil).
 				Response("201", []string{}, nil, nil)
 		}))

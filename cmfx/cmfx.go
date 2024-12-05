@@ -11,6 +11,7 @@ package cmfx
 import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/locales"
+	"github.com/issue9/web/openapi"
 )
 
 // Version 表示当前框架的版本
@@ -51,3 +52,13 @@ const NotFound = web.ProblemNotFound
 const RequestEntityTooLarge = web.ProblemRequestEntityTooLarge
 
 func ErrNotFound() error { return locales.ErrNotFound() }
+
+// WithTags 当前框架所使用的 openapi 标签
+func WithTags() openapi.Option {
+	return openapi.WithOptions(
+		openapi.WithTag("admin", web.Phrase("admin tag"), "", nil),
+		openapi.WithTag("auth", web.Phrase("auth tag"), "", nil),
+		openapi.WithTag("rbac", web.Phrase("rbac tag"), "", nil),
+		openapi.WithTag("system", web.Phrase("system tag"), "", nil),
+	)
+}

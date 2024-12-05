@@ -35,10 +35,14 @@ type Module struct {
 	db   *orm.DB
 	r    *web.Router
 	doc  *openapi.Document
+	tags []string
 }
 
 // NewModule 声明新模块
-func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document) *Module {
+//
+// [Init] 会返回一个根模块，一般情况下使用该模块的 New 方法创建模块就可以了，
+// 除非项目涉及到多数据库、需要多个 [openapi.Document] 实例或是多路由等情况，才需要用到此方法。
+func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document, tags ...string) *Module {
 	// 防止重复的 id 值
 	m, loaded := s.Vars().LoadOrStore(moduleKey, map[string]struct{}{id: {}})
 	if loaded {
@@ -58,6 +62,7 @@ func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *
 		db:   db.New(id),
 		r:    r,
 		doc:  doc,
+		tags: tags,
 	}
 }
 
@@ -81,8 +86,11 @@ func (m *Module) Engine(tx *orm.Tx) orm.Engine {
 }
 
 // New 基于当前模块的 ID 声明一个新的实例
-func (m *Module) New(id string, desc web.LocaleStringer) *Module {
-	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc)
+//
+// tag 表示采用当前实例的 [Module.API] 生成的文档需要带上的标签。
+func (m *Module) New(id string, desc web.LocaleStringer, tag ...string) *Module {
+	tags := append(m.tags, tag...)
+	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc, tags...)
 }
 
 // 当前模块关联的路由对象
@@ -91,8 +99,17 @@ func (m *Module) Router() *web.Router { return m.r }
 func (m *Module) OpenAPI() *openapi.Document { return m.doc }
 
 // 创建 openapi 文档的中间件
+//
+// NOTE: 该方法会附带上指定的标签，如果不需要可以使用 [Module.OpenAPI] 返回的对象。
 func (m *Module) API(f func(o *openapi.Operation)) web.Middleware {
-	return m.doc.API(f)
+	ff := f
+	if len(m.tags) > 0 {
+		ff = func(o *openapi.Operation) {
+			o.Tag(m.tags...)
+			f(o)
+		}
+	}
+	return m.doc.API(ff)
 }
 
 // Init 初始化当前框架的必要环境

@@ -57,16 +57,16 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	doc := openapi.New(s, web.Phrase("The api doc of %s", s.ID()),
 		openapi.WithMediaType(json.Mimetype, cbor.Mimetype),
 		openapi.WithProblemResponse(),
-		openapi.WithTag("admin", web.Phrase("admin tag"), "", nil),
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),
 		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
+		cmfx.WithTags(),
 		swagger.WithCDN(""),
 	)
 	s.Use(web.PluginFunc(swagger.Install))
 	router.Get("/openapi", doc.Handler())
 
 	root := cmfx.Init(s, limit, user.DB.DB(), router, doc)
-	adminMod := root.New("admin", web.Phrase("admin"))
+	adminMod := root.New("admin", web.Phrase("admin"), "admin")
 	systemMod := root.New("system", web.Phrase("system"))
 
 	switch action {

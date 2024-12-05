@@ -22,6 +22,12 @@ messages:
     - key: admin
       message:
         msg: admin
+    - key: admin tag
+      message:
+        msg: admin tag
+    - key: auth tag
+      message:
+        msg: auth tag
     - key: backup api
       message:
         msg: backup api
@@ -67,12 +73,6 @@ messages:
     - key: bind %s passport for current user api
       message:
         msg: bind %s passport for current user api
-    - key: can not do it for super
-      message:
-        msg: can not do it for super
-    - key: can not do it for super detail
-      message:
-        msg: can not do it for super detail
     - key: censor setting
       message:
         msg: censor setting
@@ -265,12 +265,6 @@ messages:
     - key: old password
       message:
         msg: old password
-    - key: only for super
-      message:
-        msg: only for super
-    - key: only for super detail
-      message:
-        msg: only for super detail
     - key: passport
       message:
         msg: passport
@@ -301,6 +295,9 @@ messages:
     - key: put roles resources
       message:
         msg: put roles resources
+    - key: rbac tag
+      message:
+        msg: rbac tag
     - key: refresh token
       message:
         msg: refresh token
@@ -355,6 +352,9 @@ messages:
     - key: system
       message:
         msg: system
+    - key: system tag
+      message:
+        msg: system tag
     - key: target
       message:
         msg: target

@@ -62,24 +62,25 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	resSettingsGeneral := g.New("setting-general", web.Phrase("general setting"))
 	resSettingsCensor := g.New("setting-censor", web.Phrase("censor setting"))
 
-	adminRouter := mod.Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, m.admin)
-	adminRouter.Get("/info", m.adminGetInfo, resGetInfo, mod.API(func(o *openapi.Operation) {
-		o.Tag("system", "admin").
+	api := adminL.UserModule().Module().API
+	r := adminL.UserModule().Module().Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, m.admin)
+	r.Get("/info", m.adminGetInfo, resGetInfo, api(func(o *openapi.Operation) {
+		o.Tag("system").
 			Response200(infoVO{}).
 			Desc(web.Phrase("get system info api"), nil)
 	})).
 		Get("/services", m.adminGetServices, resGetServices, mod.API(func(o *openapi.Operation) {
-			o.Tag("system", "admin").
+			o.Tag("system").
 				Response200(servicesVO{}).
 				Desc(web.Phrase("get services list api"), nil)
 		})).
-		Get("/apis", m.adminGetAPIs, resGetAPIs, mod.API(func(o *openapi.Operation) {
-			o.Tag("system", "admin").
+		Get("/apis", m.adminGetAPIs, resGetAPIs, api(func(o *openapi.Operation) {
+			o.Tag("system").
 				Response200([]health.State{}).
 				Desc(web.Phrase("get api list api"), nil)
 		})).
 		Get("/monitor", m.adminGetMonitor, resGetInfo, mod.API(func(o *openapi.Operation) {
-			o.Tag("system", "admin").
+			o.Tag("system").
 				Desc(web.Phrase("get system state api"), nil).
 				Response("200", []monitor.Stats{}, nil, func(r *openapi.Response) {
 					if r.Content == nil {
@@ -94,7 +95,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		Get("/settings/censor", m.adminGetSettingCensor, resSettingsCensor).
 		Put("/settings/censor", m.adminPutSettingCensor, resSettingsCensor)
 
-	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems, mod.API(func(o *openapi.Operation) {
+	mod.Router().Prefix(conf.URLPrefix).Get("/problems", m.commonGetProblems, mod.OpenAPI().API(func(o *openapi.Operation) {
 		o.Tag("system", "common").
 			Desc(web.Phrase("get system problems api"), nil).
 			Response200([]problemVO{})
@@ -107,18 +108,18 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 			return mod.DB().Backup(m.backupConfig.buildFile(now))
 		}, conf.Backup.Cron, true)
 
-		adminRouter.Post("/backup", m.adminPostBackup, resBackup, mod.API(func(o *openapi.Operation) {
-			o.Tag("admin", "system").
+		r.Post("/backup", m.adminPostBackup, resBackup, mod.API(func(o *openapi.Operation) {
+			o.Tag("system").
 				Desc(web.Phrase("backup api"), nil).
 				ResponseEmpty("201")
 		})).
 			Get("/backup", m.adminGetBackup, resGetBackup, mod.API(func(o *openapi.Operation) {
-				o.Tag("admin", "system").
+				o.Tag("system").
 					Desc(web.Phrase("get backup file list api"), nil).
 					Response200(backupListVO{})
 			})).
 			Delete("/backup/{name}", m.adminDeleteBackup, resDelBackup, mod.API(func(o *openapi.Operation) {
-				o.Tag("admin", "system").
+				o.Tag("system").
 					Desc(web.Phrase("delete backup file api"), nil).
 					Path("name", openapi.TypeString, web.Phrase("the backup filename"), nil).
 					ResponseEmpty("204")

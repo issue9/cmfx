@@ -24,6 +24,12 @@ messages:
     - key: admin
       message:
         msg: 管理员
+    - key: admin tag
+      message:
+        msg: 后台管理端的所有接口
+    - key: auth tag
+      message:
+        msg: 登录验证
     - key: backup api
       message:
         msg: 备份数据库
@@ -75,12 +81,6 @@ messages:
     - key: bind %s passport for current user api
       message:
         msg: 为当前用户绑定 %s 验证方式
-    - key: can not do it for super
-      message:
-        msg: 不能对超级管理使用有此操作
-    - key: can not do it for super detail
-      message:
-        msg: 该操作无法应用到超级管理员身上，比如要修改该管理员的权限组等操作。
     - key: censor setting
       message:
         msg: 内容审核设置
@@ -275,12 +275,6 @@ messages:
     - key: old password
       message:
         msg: 旧密码
-    - key: only for super
-      message:
-        msg: 只有超级管理员才有此权限
-    - key: only for super detail
-      message:
-        msg: 某些权限只有超级管理员才拥有，比如转让超级管理员操作。
     - key: passport
       message:
         msg: 验证方式
@@ -311,6 +305,9 @@ messages:
     - key: put roles resources
       message:
         msg: 调整角色资源
+    - key: rbac tag
+      message:
+        msg: RBAC 角色权限
     - key: refresh token
       message:
         msg: 刷新令牌
@@ -363,6 +360,9 @@ messages:
       message:
         msg: 密码强度不够
     - key: system
+      message:
+        msg: 系统
+    - key: system tag
       message:
         msg: 系统
     - key: target
