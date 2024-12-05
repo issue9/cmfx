@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { KeyOfMessage } from 'admin/dev';
+import { DictKeys } from '@cmfx/admin/dev/core';
 import { Message } from './en';
 
 export type { Message };
-export type MessageKey = KeyOfMessage<Message>;
+export type MessageKey = DictKeys<Message>;

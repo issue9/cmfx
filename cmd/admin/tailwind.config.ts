@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import preset from 'admin/tailwind.preset.ts';
+import preset from '@cmfx/admin/tailwind.preset.ts';
 import type { Config } from 'tailwindcss';
 
 

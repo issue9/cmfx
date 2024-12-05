@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from 'admin/dev';
-import { routes } from 'admin/dev/demo';
-import { Pages } from 'admin/dev/pages';
+import { MenuItem, Route } from '@cmfx/admin/dev';
+import { routes } from '@cmfx/admin/dev/demo';
+import { Pages } from '@cmfx/admin/dev/pages';
 
 export class Demo implements Pages {
     #prefix: string;

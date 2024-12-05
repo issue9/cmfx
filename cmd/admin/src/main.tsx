@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createApp, Options, Routes } from 'admin/dev';
+import { createApp, Options, Routes } from '@cmfx/admin/dev';
 
-import * as pages from 'admin/dev/pages';
-import 'admin/dev/style.css';
+import * as pages from '@cmfx/admin/dev/pages';
+import '@cmfx/admin/dev/style.css';
 
 import { Demo } from './demo';
 import { default as Test } from './pages/test';
@@ -24,9 +24,9 @@ const current = pages.current.build('/current', () => {
             <pages.current.Panel class="basis-1/2">1/2</pages.current.Panel>
         </div>
         <div class="flex gap-4">
-            <pages.current.Panel class="basis-1/3" icon="dashboard" title="daahboard">1/3</pages.current.Panel>
+            <pages.current.Panel class="basis-1/3" icon="dashboard" title="dashboard">1/3</pages.current.Panel>
             <div class="basis-2/3 flex flex-col gap-4">
-                <pages.current.Panel icon="dashboard" title="daahboard">line 1</pages.current.Panel>
+                <pages.current.Panel icon="dashboard" title="dashboard">line 1</pages.current.Panel>
                 <pages.current.Panel>line 2</pages.current.Panel>
             </div>
         </div>
@@ -90,11 +90,11 @@ const o: Options = {
     locales: {
         messages: {
             'en': [
-                async () => { return (await import('admin/dev/messages/en.ts')).default; },
+                async () => { return (await import('@cmfx/admin/dev/messages/en.ts')).default; },
                 async () => { return (await import('./locales/en')).default; },
             ],
             'cmn-Hans': [
-                async () => { return (await import('admin/dev/messages/cmn-Hans.ts')).default; },
+                async () => { return (await import('@cmfx/admin/dev/messages/cmn-Hans.ts')).default; },
                 async () => { return (await import('./locales/cmn-Hans')).default; },
             ],
         },
