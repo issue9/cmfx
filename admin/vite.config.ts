@@ -10,6 +10,7 @@ import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -29,6 +30,12 @@ export default defineConfig({
         dts({
             insertTypesEntry: true,
             rollupTypes: true
+        }),
+        viteStaticCopy({
+            targets: [
+                { src: '../LICENSE', dest: '../' },
+                { src: '../README.md', dest: '../' },
+            ]
         })
     ],
 

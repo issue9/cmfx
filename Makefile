@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: api gen build-cmd build install init watch-server watch-admin watch test
+.PHONY: gen build-cmd build install init watch-server watch-admin watch test
 
 ROOT = .
 DOCS = $(ROOT)/docs
