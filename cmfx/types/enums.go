@@ -4,14 +4,14 @@
 
 package types
 
-import "github.com/issue9/orm/v6/core"
+import (
+	"github.com/issue9/orm/v6/core"
+	"github.com/issue9/web/openapi"
+)
 
 //go:generate web enum -i=./enums.go -o=./enums_methods.go -t=Sex
 
 // 性别
-//
-// @enum unknown male female
-// @type string
 type Sex int8
 
 const (
@@ -19,5 +19,10 @@ const (
 	SexMale
 	SexFemale
 )
+
+func (Sex) OpenAPISchema(s *openapi.Schema) {
+	s.Type = openapi.TypeString
+	s.Enum = []any{SexUnknown.String(), SexMale.String(), SexFemale.String()}
+}
 
 func (s Sex) PrimitiveType() core.PrimitiveType { return core.String }

@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6/core"
+	"github.com/issue9/web/openapi"
 )
 
 //go:generate web enum -i=./models.go -t=State
@@ -21,7 +22,12 @@ const (
 // State 表示管理员的状态
 type State int8
 
-func (s State) PrimitiveType() core.PrimitiveType { return core.String }
+func (State) PrimitiveType() core.PrimitiveType { return core.String }
+
+func (State) OpenAPISchema(s *openapi.Schema) {
+	s.Type = openapi.TypeString
+	s.Enum = []any{StateNormal.String(), StateLocked.String(), StateDeleted.String()}
+}
 
 // 安全日志
 type LogVO struct {
