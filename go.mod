@@ -16,13 +16,13 @@ require (
 	github.com/issue9/scheduled v0.21.3
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.100.3
-	github.com/issue9/webfilter v0.8.1-0.20240822062929-40c854699dee
-	github.com/issue9/webuse/v7 v7.0.0-20241202062825-d7804db18685
+	github.com/issue9/web v0.100.4
+	github.com/issue9/webfilter v0.9.0
+	github.com/issue9/webuse/v7 v7.0.0-20241205040622-8f281b3c1328
 	github.com/mattn/go-sqlite3 v1.14.24
-	github.com/shirou/gopsutil/v4 v4.24.10
-	golang.org/x/crypto v0.29.0
-	golang.org/x/text v0.20.0
+	github.com/shirou/gopsutil/v4 v4.24.11
+	golang.org/x/crypto v0.30.0
+	golang.org/x/text v0.21.0
 )
 
 require (
@@ -38,7 +38,7 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/issue9/localeutil v0.29.0 // indirect
+	github.com/issue9/localeutil v0.29.1 // indirect
 	github.com/issue9/query/v3 v3.1.3 // indirect
 	github.com/issue9/source v0.11.6 // indirect
 	github.com/issue9/term/v3 v3.3.2 // indirect
@@ -60,8 +60,8 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/mod v0.22.0 // indirect
 	golang.org/x/net v0.22.0 // indirect
-	golang.org/x/sync v0.9.0 // indirect
-	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/sync v0.10.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
