@@ -24,6 +24,6 @@ jobs:
         run: npm run build -w=@cmfx/admin
 
       - name: publish
-        run: npm publish -w=@cmfx/admin
+        run: npm publish  --access=public -w=@cmfx/admin
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
