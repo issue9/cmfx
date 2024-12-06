@@ -69,12 +69,11 @@ func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
 	}
 	if len(q.Text.Text) > 0 {
 		text := "%" + q.Text.Text + "%"
-		sql.And("(info.name LIKE ? OR info.nickname LIKE ?)", text, text)
+		sql.And("(info.nickname LIKE ?)", text)
 	}
 
 	type modelInfo struct {
 		infoPO
-		ID      int64      `orm:"name(id)"`
 		NO      string     `orm:"name(no);len(32);unique(no)"` // 用户的唯一编号，一般用于前端
 		Created time.Time  `orm:"name(created)"`               // 添加时间
 		State   user.State `orm:"name(state)"`                 // 状态

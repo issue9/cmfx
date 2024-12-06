@@ -59,13 +59,18 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 	p := mod.Router().Prefix(m.URLPrefix(), m)
 
 	p.Get("/info", m.memberGetInfo, mod.API(func(o *openapi.Operation) {
-		o.Tag("member").Desc(web.Phrase("get login user info api"), nil).
+		o.Desc(web.Phrase("get login user info api"), nil).
 			Response200(memberInfoVO{})
 	})).
 		Patch("/info", m.memberPathInfo, mod.API(func(o *openapi.Operation) {
-			o.Tag("member").Desc(web.Phrase("patch login user info api"), nil).
+			o.Desc(web.Phrase("patch login user info api"), nil).
 				Body(memberInfoTO{}, false, nil, nil).
 				ResponseEmpty("204")
+		})).
+		Post("", m.memberRegister, mod.API(func(o *openapi.Operation) {
+			o.Desc(web.Phrase("register member api"), nil).
+				Body(memberTO{}, false, nil, nil).
+				ResponseEmpty("201")
 		}))
 
 	up.Handle(p, mod.API, conf.Upload)

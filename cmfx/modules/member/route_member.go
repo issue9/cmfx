@@ -13,6 +13,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
 )
@@ -91,4 +92,27 @@ func (m *Module) memberPathInfo(ctx *web.Context) web.Responser {
 	}
 
 	return web.NoContent()
+}
+
+type memberTO struct {
+	XMLName  struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
+	Username string   `json:"username" yaml:"username" xml:"username" cbor:"username"`
+	Password string   `json:"password" yaml:"password" xml:"password" cbor:"password"`
+}
+
+func (q *memberTO) Filter(v *web.FilterContext) {
+	v.Add(filters.NotEmpty("username", &q.Username)).
+		Add(filters.NotEmpty("password", &q.Password))
+}
+
+func (m *Module) memberRegister(ctx *web.Context) web.Responser {
+	data := &memberTO{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if _, err := m.user.New(user.StateNormal, data.Username, data.Password); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.Created(nil, "")
 }
