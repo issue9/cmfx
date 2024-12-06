@@ -28,6 +28,9 @@ messages:
     - key: auth tag
       message:
         msg: auth tag
+    - key: avatar
+      message:
+        msg: avatar
     - key: backup api
       message:
         msg: backup api
@@ -100,6 +103,9 @@ messages:
     - key: delete backup file api
       message:
         msg: delete backup file api
+    - key: delete member
+      message:
+        msg: delete member
     - key: delete role api
       message:
         msg: delete role api
@@ -109,6 +115,9 @@ messages:
     - key: delete the admin api
       message:
         msg: delete the admin api
+    - key: delete the member api
+      message:
+        msg: delete the member api
     - key: edit role info api
       message:
         msg: edit role info api
@@ -160,6 +169,15 @@ messages:
     - key: get login user security log api
       message:
         msg: get login user security log api
+    - key: get member info api
+      message:
+        msg: get member info api
+    - key: get member list api
+      message:
+        msg: get member list api
+    - key: get members
+      message:
+        msg: get members
     - key: get passports list api
       message:
         msg: get passports list api
@@ -223,6 +241,9 @@ messages:
     - key: lock the admin api
       message:
         msg: lock the admin api
+    - key: lock the member api
+      message:
+        msg: lock the member api
     - key: log IP
       message:
         msg: log IP
@@ -241,6 +262,12 @@ messages:
     - key: logout api
       message:
         msg: logout api
+    - key: member module
+      message:
+        msg: member module
+    - key: member tag
+      message:
+        msg: member tag
     - key: must be a dir
       message:
         msg: must be a dir
@@ -256,6 +283,9 @@ messages:
     - key: new password
       message:
         msg: new password
+    - key: nickname
+      message:
+        msg: nickname
     - key: not exists
       message:
         msg: not exists
@@ -292,6 +322,9 @@ messages:
     - key: put admin
       message:
         msg: put admin
+    - key: put member
+      message:
+        msg: put member
     - key: put roles resources
       message:
         msg: put roles resources
@@ -421,6 +454,9 @@ messages:
     - key: unlock the admin api
       message:
         msg: unlock the admin api
+    - key: unlock the member api
+      message:
+        msg: unlock the member api
     - key: update info
       message:
         msg: update info

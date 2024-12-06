@@ -30,6 +30,9 @@ messages:
     - key: auth tag
       message:
         msg: 登录验证
+    - key: avatar
+      message:
+        msg: 头像
     - key: backup api
       message:
         msg: 备份数据库
@@ -108,6 +111,9 @@ messages:
     - key: delete backup file api
       message:
         msg: 删除备份文件
+    - key: delete member
+      message:
+        msg: 删除会员
     - key: delete role api
       message:
         msg: 删除管理员角色
@@ -117,6 +123,9 @@ messages:
     - key: delete the admin api
       message:
         msg: 删除管理员
+    - key: delete the member api
+      message:
+        msg: 删除会员
     - key: edit role info api
       message:
         msg: 编辑角色信息
@@ -168,6 +177,15 @@ messages:
     - key: get login user security log api
       message:
         msg: 获取当前登录用户的安全日志列表
+    - key: get member info api
+      message:
+        msg: 查看会员信息
+    - key: get member list api
+      message:
+        msg: 获得会员列表
+    - key: get members
+      message:
+        msg: 查看会员信息
     - key: get passports list api
       message:
         msg: 获取支持验证方式列表
@@ -233,6 +251,9 @@ messages:
     - key: lock the admin api
       message:
         msg: 锁定管理员
+    - key: lock the member api
+      message:
+        msg: 锁定会员
     - key: log IP
       message:
         msg: log IP
@@ -251,6 +272,12 @@ messages:
     - key: logout api
       message:
         msg: 退出当前登录
+    - key: member module
+      message:
+        msg: 会员模块
+    - key: member tag
+      message:
+        msg: 会员
     - key: must be a dir
       message:
         msg: 必须得是个目录
@@ -266,6 +293,9 @@ messages:
     - key: new password
       message:
         msg: 新密码
+    - key: nickname
+      message:
+        msg: 昵称
     - key: not exists
       message:
         msg: 不存在
@@ -302,6 +332,9 @@ messages:
     - key: put admin
       message:
         msg: 修改管理员信息
+    - key: put member
+      message:
+        msg: 修改会员信息
     - key: put roles resources
       message:
         msg: 调整角色资源
@@ -432,7 +465,10 @@ messages:
         msg: 当前请求需要重新验证用户信息。
     - key: unlock the admin api
       message:
-        msg: 解锁用户
+        msg: 解锁管理员
+    - key: unlock the member api
+      message:
+        msg: 解锁会员
     - key: update info
       message:
         msg: 更新信息
