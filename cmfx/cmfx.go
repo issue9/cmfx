@@ -61,5 +61,6 @@ func WithTags() openapi.Option {
 		openapi.WithTag("rbac", web.Phrase("rbac tag"), "", nil),
 		openapi.WithTag("system", web.Phrase("system tag"), "", nil),
 		openapi.WithTag("settings", web.Phrase("settings tag"), "", nil),
+		openapi.WithTag("upload", web.Phrase("upload tag"), "", nil),
 	)
 }

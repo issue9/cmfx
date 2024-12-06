@@ -5,16 +5,16 @@
 package admin
 
 import (
-	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
+	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-func Install(mod *cmfx.Module, o *Config) *Module {
+func Install(mod *cmfx.Module, o *Config,up *upload.Module) *Module {
 	user.Install(mod)
 	rbac.Install(mod)
 
@@ -22,11 +22,7 @@ func Install(mod *cmfx.Module, o *Config) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	saver, err := upload.NewLocalSaver("./upload", "", upload.Day, nil)
-	if err != nil {
-		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
-	}
-	l := Load(mod, o, saver)
+	l := Load(mod, o, up)
 
 	if _, err := l.newRole("管理员", "拥有超级权限", ""); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))

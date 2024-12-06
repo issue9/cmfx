@@ -21,9 +21,9 @@ messages:
     - key: add role api
       message:
         msg: 添加管理员角色
-    - key: admin
+    - key: admin module
       message:
-        msg: 管理员
+        msg: 管理员模块
     - key: admin tag
       message:
         msg: 后台管理端的所有接口
@@ -362,9 +362,9 @@ messages:
     - key: strength invalid
       message:
         msg: 密码强度不够
-    - key: system
+    - key: system module
       message:
-        msg: 系统
+        msg: 系统模块
     - key: system tag
       message:
         msg: 系统
@@ -439,9 +439,15 @@ messages:
     - key: upload file
       message:
         msg: 上传文件
+    - key: upload module
+      message:
+        msg: 上传模块
     - key: upload static server
       message:
         msg: 已上传文件的访问接口
+    - key: upload tag
+      message:
+        msg: 上传
     - key: user id
       message:
         msg: user id

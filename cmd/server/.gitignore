@@ -3,3 +3,4 @@ server.db
 logs/*
 backup/*
 upload/*
+uploads/*

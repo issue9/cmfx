@@ -5,6 +5,7 @@
 package settings
 
 import (
+	"database/sql"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -179,7 +180,7 @@ func toModels[T any](o *T, uid int64, g string) ([]*settingPO, error) {
 		if err != nil {
 			return nil, err
 		}
-		ss = append(ss, &settingPO{UID: uid, Group: g, Key: key, Value: string(data)})
+		ss = append(ss, &settingPO{UID: sql.NullInt64{Valid: true, Int64: uid}, Group: g, Key: key, Value: string(data)})
 	}
 
 	if err := callSanitizer(o); err != nil {

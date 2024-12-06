@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <web>
     <http port=":8080">
-        <url>http://localhost:8080</url>
+        <url>http://192.168.10.10:8080</url>
         <cors maxAge="3600">
             <origins>
                 <origin>*</origin>
@@ -65,13 +65,11 @@
             <dsn>./server.db?_loc=UTC</dsn>
         </db>
 
-        <url>http://192.168.10.11:8080</url>
-
         <admin superUser="1">
             <user accessExpired="1h" refreshExpired="24h">
                 <urlPrefix>/admin</urlPrefix>
             </user>
-            <upload size="102411">
+            <upload size="902411">
                 <exts>
                     <ext>.jpg</ext>
                     <ext>.jpeg</ext>

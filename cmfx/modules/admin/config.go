@@ -8,6 +8,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx/locales"
+	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
@@ -19,16 +20,7 @@ type Config struct {
 	User *user.Config `json:"user" xml:"user" yaml:"user"`
 
 	// 上传接口的相关配置
-	Upload *Upload `json:"upload" xml:"upload" yaml:"upload"`
-}
-
-type Upload struct {
-	Size int64 `json:"size" xml:"size,attr" yaml:"size"`
-
-	Exts []string `json:"exts" xml:"exts>ext" yaml:"exts"`
-
-	// 上传内容中表示文件的字段名
-	Field string `json:"field" xml:"field" yaml:"field"`
+	Upload *upload.Config `json:"upload" xml:"upload" yaml:"upload"`
 }
 
 func (c *Config) SanitizeConfig() *web.FieldError {
@@ -46,18 +38,6 @@ func (c *Config) SanitizeConfig() *web.FieldError {
 		}
 	} else {
 		return web.NewFieldError("upload", locales.Required)
-	}
-
-	return nil
-}
-
-func (u *Upload) SanitizeConfig() *web.FieldError {
-	if u.Size < 0 {
-		return web.NewFieldError("size", locales.MustBeGreaterThan(-1))
-	}
-
-	if u.Field == "" {
-		return web.NewFieldError("field", locales.Required)
 	}
 
 	return nil

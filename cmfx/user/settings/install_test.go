@@ -5,6 +5,7 @@
 package settings
 
 import (
+	"database/sql"
 	"testing"
 
 	"github.com/issue9/assert/v4"
@@ -33,12 +34,12 @@ func TestInstallObject(t *testing.T) {
 
 	// 检测字段是都写入
 
-	f1 := &settingPO{Group: "opt", Key: "f1", UID: 0}
+	f1 := &settingPO{Group: "opt", Key: "f1", UID: sql.NullInt64{Valid: true}}
 	found, err := ss.db.Select(f1)
 	a.NotError(err).True(found)
 
 	// 零值也正常写入
-	f2 := &settingPO{Group: "opt", Key: "F2", UID: 0}
+	f2 := &settingPO{Group: "opt", Key: "F2", UID: sql.NullInt64{Valid: true}}
 	found, err = ss.db.Select(f2)
 	a.NotError(err).True(found)
 }

@@ -9,7 +9,7 @@ import (
 	"flag"
 	"path/filepath"
 
-	"github.com/issue9/upload/v3"
+	xupload "github.com/issue9/upload/v3"
 	"github.com/issue9/web"
 	"github.com/issue9/web/mimetype/cbor"
 	"github.com/issue9/web/mimetype/json"
@@ -24,6 +24,7 @@ import (
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/system"
+	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
 )
 
@@ -66,22 +67,26 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	router.Get("/openapi", doc.Handler())
 
 	root := cmfx.Init(s, limit, user.DB.DB(), router, doc)
-	adminMod := root.New("admin", web.Phrase("admin"), "admin")
-	systemMod := root.New("system", web.Phrase("system"))
+	uploadMod := root.New("upload", web.Phrase("upload module"))
+	adminMod := root.New("admin", web.Phrase("admin module"), "admin")
+	systemMod := root.New("system", web.Phrase("system module"))
+
+	// 指定上传模块
+	url, err := root.Router().URL(false, "/uploads", nil)
+	if err != nil {
+		return nil, err
+	}
+	uploadSaver, err := xupload.NewLocalSaver("./uploads", url, xupload.Day, func(dir, filename, ext string) string {
+		return filepath.Join(dir, s.UniqueID()+ext) // filename 可能带非英文字符
+	})
+	if err != nil {
+		return nil, err
+	}
+	uploadL := upload.Load(uploadMod, "/uploads", uploadSaver)
 
 	switch action {
 	case "serve":
-		url, err := root.Router().URL(false, user.Admin.User.URLPrefix+"/upload", nil)
-		if err != nil {
-			return nil, err
-		}
-		uploadSaver, err := upload.NewLocalSaver("./upload", url, upload.Day, func(dir, filename, ext string) string {
-			return filepath.Join(dir, s.UniqueID()+ext) // filename 可能带非英文字符
-		})
-		if err != nil {
-			return nil, err
-		}
-		adminL := admin.Load(adminMod, user.Admin, uploadSaver)
+		adminL := admin.Load(adminMod, user.Admin, uploadL)
 		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
 
 		system.Load(systemMod, user.System, adminL)
@@ -89,7 +94,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		// 在所有模块加载完成之后调用，需要等待其它模块里的私有错误代码加载完成。
 		doc.WithDescription(nil, web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(s, 0)))
 	case "install":
-		adminL := admin.Install(adminMod, user.Admin)
+		adminL := admin.Install(adminMod, user.Admin, uploadL)
 		totp.Install(adminL.UserModule().Module(), "totp")
 
 		system.Install(systemMod, user.System, adminL)

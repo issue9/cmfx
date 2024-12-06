@@ -19,9 +19,9 @@ messages:
     - key: add role api
       message:
         msg: add role api
-    - key: admin
+    - key: admin module
       message:
-        msg: admin
+        msg: admin module
     - key: admin tag
       message:
         msg: admin tag
@@ -352,9 +352,9 @@ messages:
     - key: strength invalid
       message:
         msg: strength invalid
-    - key: system
+    - key: system module
       message:
-        msg: system
+        msg: system module
     - key: system tag
       message:
         msg: system tag
@@ -427,9 +427,15 @@ messages:
     - key: upload file
       message:
         msg: upload file
+    - key: upload module
+      message:
+        msg: upload module
     - key: upload static server
       message:
         msg: upload static server
+    - key: upload tag
+      message:
+        msg: upload tag
     - key: user id
       message:
         msg: user id

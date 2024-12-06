@@ -5,35 +5,30 @@
 package admin
 
 import (
-	"errors"
-
 	"github.com/issue9/orm/v6"
-	"github.com/issue9/upload/v3"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
-	"github.com/issue9/webuse/v7/handlers/static"
 	xrbac "github.com/issue9/webuse/v7/middlewares/acl/rbac"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
 type Module struct {
-	user        *user.Module
-	roleGroup   *rbac.RoleGroup
-	uploadField string
+	user      *user.Module
+	roleGroup *rbac.RoleGroup
 }
 
 // Load 加载管理模块
 //
 // o 表示初始化的一些额外选项，这些值可以直接从配置文件中加载；
-// saver 上传功能的保存方式；
-func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
+// up 上传模块；
+func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	m := &Module{
-		user:        user.Load(mod, o.User),
-		uploadField: o.Upload.Field,
+		user: user.Load(mod, o.User),
 	}
 
 	inst := rbac.New(mod, func(ctx *web.Context) (int64, web.Responser) {
@@ -59,12 +54,13 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 	postAdmin := g.New("post-admin", web.StringPhrase("post admins"))
 	delAdmin := g.New("del-admin", web.StringPhrase("delete admins"))
 
-	mod.Router().Prefix(m.URLPrefix(), m).
-		Get("/resources", m.getResources, mod.API(func(o *openapi.Operation) {
-			o.Tag("rbac").
-				Desc(web.Phrase("get resources list api"), nil).
-				Response200(xrbac.Resources{})
-		})).
+	p := mod.Router().Prefix(m.URLPrefix(), m)
+
+	p.Get("/resources", m.getResources, mod.API(func(o *openapi.Operation) {
+		o.Tag("rbac").
+			Desc(web.Phrase("get resources list api"), nil).
+			Response200(xrbac.Resources{})
+	})).
 		Get("/roles", m.getRoles, mod.API(func(o *openapi.Operation) {
 			o.Tag("rbac").
 				Desc(web.Phrase("get roles list api"), nil).
@@ -101,27 +97,25 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				ResponseEmpty("204")
 		}))
 
-	mod.Router().Prefix(m.URLPrefix(), m).
-		Get("/info", m.getInfo, mod.API(func(o *openapi.Operation) {
-			o.Desc(web.Phrase("get login user info api"), nil).
-				Response200(info{})
-		})).
+	p.Get("/info", m.getInfo, mod.API(func(o *openapi.Operation) {
+		o.Desc(web.Phrase("get login user info api"), nil).
+			Response200(info{})
+	})).
 		Patch("/info", m.patchInfo, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("patch login user info api"), nil).
 				Body(info{}, false, nil, nil).
 				ResponseEmpty("204")
 		}))
 
-	mod.Router().Prefix(m.URLPrefix(), m).
-		Get("/admins", m.getAdmins, getAdmin, mod.API(func(o *openapi.Operation) {
-			o.Desc(web.Phrase("get admin list api"), nil).
-				QueryObject(&queryAdmins{}, func(p *openapi.Parameter) {
-					if p.Name == "sex" {
-						p.Schema.Enum = []any{"unknown", "female", "male"}
-					}
-				}).
-				Response200(query.Page[infoWithRoleStateVO]{})
-		})).
+	p.Get("/admins", m.getAdmins, getAdmin, mod.API(func(o *openapi.Operation) {
+		o.Desc(web.Phrase("get admin list api"), nil).
+			QueryObject(&queryAdmins{}, func(p *openapi.Parameter) {
+				if p.Name == "sex" {
+					p.Schema.Enum = []any{"unknown", "female", "male"}
+				}
+			}).
+			Response200(query.Page[infoWithRoleStateVO]{})
+	})).
 		Post("/admins", m.postAdmins, postAdmin, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("add admin api"), nil).
 				Body(&infoWithAccountTO{}, false, nil, nil).
@@ -151,41 +145,7 @@ func Load(mod *cmfx.Module, o *Config, saver upload.Saver) *Module {
 				ResponseEmpty("204")
 		}))
 
-	// upload
-	up := upload.New(saver, o.Upload.Size, o.Upload.Exts...)
-	mod.Router().Prefix(m.URLPrefix()).
-		Get("/upload/{file}", static.ServeFileHandler(up, "file", "index.html"), mod.API(func(o *openapi.Operation) {
-			o.Tag("upload").
-				Desc(web.Phrase("upload static server"), nil).
-				Path("file", openapi.TypeString, web.Phrase("the file name"), nil).
-				Response("200", nil, nil, func(r *openapi.Response) {
-					if r.Content == nil {
-						r.Content = make(map[string]*openapi.Schema, 1)
-					}
-					r.Content["application/octet-stream"] = &openapi.Schema{
-						Type:   openapi.TypeString,
-						Format: openapi.FormatBinary,
-					}
-				})
-		}))
-	mod.Router().Prefix(m.URLPrefix(), m).
-		Post("/upload", func(ctx *web.Context) web.Responser {
-			files, err := up.Do(m.uploadField, ctx.Request())
-			switch {
-			case errors.Is(err, upload.ErrNotAllowSize()):
-				return ctx.Problem(cmfx.RequestEntityTooLarge)
-			case errors.Is(err, upload.ErrNotAllowExt()):
-				return ctx.Problem(cmfx.BadRequestBodyNotAllowed)
-			case err != nil:
-				return ctx.Error(err, "")
-			default:
-				return web.OK(files)
-			}
-		}, mod.API(func(o *openapi.Operation) {
-			o.Tag("upload").
-				Desc(web.Phrase("upload file"), nil).
-				Response("201", []string{}, nil, nil)
-		}))
+	up.Handle(p, mod.API, o.Upload)
 
 	return m
 }

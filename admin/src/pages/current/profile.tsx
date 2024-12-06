@@ -76,7 +76,7 @@ export default function(props: Props): JSX.Element {
     });
 
     return <Page title='_i.page.current.profile' class="p--profile">
-        <Upload ref={el => uploadRef = el} fieldName='files' action='/upload' />
+        <Upload ref={el => uploadRef = el} fieldName='files' action='/uploads' />
         <div class="flex gap-4">
             <img class="avatar" alt="avatar" src={avatar()} />
             <div class="name">

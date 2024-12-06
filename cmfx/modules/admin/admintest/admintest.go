@@ -7,15 +7,18 @@ package admintest
 import (
 	"encoding/json"
 	"net/http"
+	"path/filepath"
 	"time"
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/mux/v9/header"
+	xupload "github.com/issue9/upload/v3"
 	"github.com/issue9/web/server/config"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
+	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
@@ -30,7 +33,7 @@ func NewModule(s *test.Suite) *admin.Module {
 			AccessExpired:  60 * config.Duration(time.Second),
 			RefreshExpired: 120 * config.Duration(time.Second),
 		},
-		Upload: &admin.Upload{
+		Upload: &upload.Config{
 			Size:  1024 * 1024 * 1024,
 			Exts:  []string{".jpg"},
 			Field: "files",
@@ -38,7 +41,11 @@ func NewModule(s *test.Suite) *admin.Module {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	m := admin.Install(mod, o)
+	uploadSaver, err := xupload.NewLocalSaver("./uploads", "/uploads", xupload.Day, func(dir, filename, ext string) string {
+		return filepath.Join(dir, s.Module().Server().ID()+ext) // filename 可能带非英文字符
+	})
+	s.Assertion().NotError(err).NotNil(uploadSaver)
+	m := admin.Install(mod, o, upload.Load(s.NewModule("upload"), "/uploads", uploadSaver))
 	s.Assertion().NotNil(m)
 
 	return m
