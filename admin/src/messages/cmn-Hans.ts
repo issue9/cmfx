@@ -18,6 +18,7 @@ const messages: Messages = {
         areYouSure: '你确定要这么做吗？',
         page: { // 页面的翻译内容
             save: '保存',
+            nickname: '昵称',
             update: '更新',
             editItem: '编辑',
             deleteItem: '删除',
@@ -118,13 +119,16 @@ const messages: Messages = {
                 admin: '管理员',
                 adminsManager: '管理员',
                 name: '姓名',
-                nickname: '昵称',
                 addSuccessful: '添加成功',
                 lockUser: '锁定该用户',
                 unlockUser: '解锁该用户',
 
                 passport: '登录方式',
                 passportTtype: '类型',
+            },
+            member: {
+                member: '会员',
+                membersManager: '会员管理'
             },
             roles: {
                 roles: '角色',

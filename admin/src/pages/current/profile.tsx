@@ -7,11 +7,10 @@ import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 
 import { useApp, useOptions, User } from '@/app/context';
 import {
     buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
-    FormAccessor, Icon,
-    Page, TextField, Upload, UploadRef
+    FormAccessor, Icon, Page, TextField, Upload, UploadRef
 } from '@/components';
-import { Sex, sexesMap } from '@/pages/admins/selector';
-import { Passport, PassportComponents } from './passport';
+import { Passport, Sex, sexesMap } from '@/pages/common';
+import { PassportComponents } from './passport';
 
 interface Props {
     passports: Map<string, PassportComponents>;

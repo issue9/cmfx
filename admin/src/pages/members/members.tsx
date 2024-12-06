@@ -8,6 +8,7 @@ import { useApp } from '@/app';
 import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum } from '@/components';
 import { Query } from '@/core';
 import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
+import { Member } from './types';
 
 interface Props {
     /**
@@ -32,12 +33,10 @@ export default function(props: Props): JSX.Element {
         sex: ['male', 'female', 'unknown']
     };
 
-    let ref: RemoteTableRef<Admin>;
+    let ref: RemoteTableRef<Member>;
 
-    return <Page title="_i.page.admin.adminsManager">
-        <RemoteTable<Admin, Q> ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
-            <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{ctx.locale().t('_i.page.newItem')}</LinkButton>
-        } queryForm={(qa) => (
+    return <Page title="_i.page.member.membersManager">
+        <RemoteTable<Member, Q> ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
                 <StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
@@ -51,7 +50,6 @@ export default function(props: Props): JSX.Element {
                     return translateEnum(sexesMap, ctx, v as Sex);
                 })
             },
-            { id: 'name', label: ctx.locale().t('_i.page.admin.name') },
             { id: 'nickname', label: ctx.locale().t('_i.page.nickname') },
             { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().datetime(v as string) },
             {
@@ -60,7 +58,7 @@ export default function(props: Props): JSX.Element {
                 }
             },
             {
-                id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
+                id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
@@ -70,7 +68,7 @@ export default function(props: Props): JSX.Element {
 
                         <Show when={obj?.state !== 'locked' && obj?.state!=='deleted'}>
                             <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async()=>{
-                                const r = await ctx.api.post(`/admins/${obj!['id']}/locked`);
+                                const r = await ctx.api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     ctx.outputProblem(r.body);
                                     return;
@@ -81,7 +79,7 @@ export default function(props: Props): JSX.Element {
 
                         <Show when={obj?.state === 'locked'}>
                             <Button icon rounded palette='tertiary' title={ctx.locale().t('_i.page.admin.unlockUser')} onClick={async()=>{
-                                const r = await ctx.api.delete(`/admins/${obj!['id']}/locked`);
+                                const r = await ctx.api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     ctx.outputProblem(r.body);
                                     return;
@@ -98,15 +96,4 @@ export default function(props: Props): JSX.Element {
             },
         ]} />
     </Page>;
-}
-
-export interface Admin {
-    id?: number;
-    no?: string;
-    sex: Sex;
-    name: string;
-    nickname: string;
-    avatar?: string;
-    created?: string;
-    state: State;
 }

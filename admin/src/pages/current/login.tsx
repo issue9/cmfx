@@ -7,7 +7,8 @@ import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
 import { useApp, useOptions } from '@/app/context';
 import { buildEnumsOptions, Choice, FieldAccessor, Page } from '@/components';
-import { Passport, PassportComponents } from './passport';
+import { Passport } from '@/pages/common';
+import { PassportComponents } from './passport';
 
 export interface Props {
     /**

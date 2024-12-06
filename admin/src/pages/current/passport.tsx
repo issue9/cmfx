@@ -8,11 +8,6 @@ import { JSX } from 'solid-js';
 import { useApp, useOptions } from '@/app/context';
 import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField } from '@/components';
 
-export interface Passport {
-    id: string;
-    desc: string;
-}
-
 export interface PassportComponents {
     /**
      * 登录页面

@@ -7,16 +7,11 @@ import { Pages } from '@/pages/pages';
 import { default as Admins } from './admins';
 import { default as Edit } from './edit';
 import { default as New } from './new';
-import { SexSelector, StateSelector } from './selector';
 
 export class admins implements Pages {
     static Admins = Admins;
     static Edit = Edit;
     static New = New;
-
-    static SexSelector = SexSelector;
-
-    static StateSelector = StateSelector;
 
     readonly #prefix: string;
 
