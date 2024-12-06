@@ -65,6 +65,21 @@
             <dsn>./server.db?_loc=UTC</dsn>
         </db>
 
+        <member>
+            <user accessExpired="1h" refreshExpired="24h">
+                <urlPrefix>/member</urlPrefix>
+            </user>
+            <upload size="902411">
+                <exts>
+                    <ext>.jpg</ext>
+                    <ext>.jpeg</ext>
+                    <ext>.png</ext>
+                    <ext>.gif</ext>
+                </exts>
+                <field>files</field>
+            </upload>
+        </member>
+        
         <admin superUser="1">
             <user accessExpired="1h" refreshExpired="24h">
                 <urlPrefix>/admin</urlPrefix>

@@ -23,6 +23,7 @@ import (
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
+	"github.com/issue9/cmfx/cmfx/modules/member"
 	"github.com/issue9/cmfx/cmfx/modules/system"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
@@ -70,6 +71,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	uploadMod := root.New("upload", web.Phrase("upload module"))
 	adminMod := root.New("admin", web.Phrase("admin module"), "admin")
 	systemMod := root.New("system", web.Phrase("system module"))
+	memberMod := root.New("member", web.Phrase("member module"), "member")
 
 	// 指定上传模块
 	url, err := root.Router().URL(false, "/uploads", nil)
@@ -89,6 +91,8 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		adminL := admin.Load(adminMod, user.Admin, uploadL)
 		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
 
+		member.Load(memberMod, user.Member, uploadL, adminL)
+
 		system.Load(systemMod, user.System, adminL)
 
 		// 在所有模块加载完成之后调用，需要等待其它模块里的私有错误代码加载完成。
@@ -96,6 +100,8 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin, uploadL)
 		totp.Install(adminL.UserModule().Module(), "totp")
+
+		member.Install(memberMod, user.Member, uploadL)
 
 		system.Install(systemMod, user.System, adminL)
 	case "upgrade":

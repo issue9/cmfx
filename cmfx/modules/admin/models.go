@@ -27,16 +27,16 @@ type info struct {
 	ID int64 `orm:"name(id);unique(id)" json:"id" xml:"id,attr" cbor:"id" yaml:"id"`
 
 	// 性别
-	Sex types.Sex `orm:"name(sex)" json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
+	Sex types.Sex `orm:"name(sex)" json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex" comment:"sex"`
 
 	// 真实名称
 	Name string `orm:"name(name);len(50)" json:"name" xml:"name" cbor:"name" yaml:"name"`
 
 	// 昵称
-	Nickname string `orm:"name(nickname);len(50)" json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
+	Nickname string `orm:"name(nickname);len(50)" json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname" comment:"nickname"`
 
 	// 头像
-	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
+	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
 }
 
 // 包含权限的管理员信息

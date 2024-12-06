@@ -109,11 +109,7 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 
 	p.Get("/admins", m.getAdmins, getAdmin, mod.API(func(o *openapi.Operation) {
 		o.Desc(web.Phrase("get admin list api"), nil).
-			QueryObject(&queryAdmins{}, func(p *openapi.Parameter) {
-				if p.Name == "sex" {
-					p.Schema.Enum = []any{"unknown", "female", "male"}
-				}
-			}).
+			QueryObject(&queryAdmins{}, nil).
 			Response200(query.Page[infoWithRoleStateVO]{})
 	})).
 		Post("/admins", m.postAdmins, postAdmin, mod.API(func(o *openapi.Operation) {
