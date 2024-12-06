@@ -16,6 +16,7 @@ const messages = {
         areYouSure: 'are you sure?',
         page: { // 页面的翻译内容
             save: 'save',
+            nickname: 'nickname',
             update: 'update',
             editItem: 'edit item',
             deleteItem: 'delete item',
@@ -116,13 +117,16 @@ const messages = {
                 admin: 'administrator',
                 adminsManager: 'admin manager',
                 name: 'name',
-                nickname: 'nick name',
                 addSuccessful: 'Add user successful',
                 lockUser: 'Lock user',
                 unlockUser: 'unlock user',
 
                 passport: 'passport',
                 passportTtype: 'type',
+            },
+            member: {
+                member: 'member',
+                membersManager: 'Members'
             },
             roles: {
                 roles: 'roles',

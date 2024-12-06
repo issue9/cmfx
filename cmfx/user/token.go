@@ -101,6 +101,8 @@ func (m *Module) CurrentUser(ctx *web.Context) *User {
 }
 
 // New 添加新用户
+//
+// 返回新添加的用户 ID
 func (m *Module) New(s State, username, password string) (int64, error) {
 	pa, err := bcrypt.GenerateFromPassword([]byte(password), defaultCost)
 	if err != nil {

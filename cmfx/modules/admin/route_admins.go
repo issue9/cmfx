@@ -25,14 +25,9 @@ type adminInfoVO struct {
 	infoWithRoleStateVO
 
 	// 当前用户已经开通的验证方式
-	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports"`
+	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
-// # API GET /admins/{id} 获取指定的管理员账号
-//
-// @tag admin
-// @path id int 管理的 ID
-// @resp 200 * respAdminInfo
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
 	if resp != nil {

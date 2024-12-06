@@ -20,6 +20,6 @@ export default function(): JSX.Element {
 
     // 在网络不通时，ctx.logout 可能会非常耗时，所以此处展示一个简单的提示页面。
     return <Page title="_i.page.current.logout" class="p--logout">
-        { ctx.locale().t('_i.page.current.loggingOut') }
-    </Page>
+        {ctx.locale().t('_i.page.current.loggingOut')}
+    </Page>;
 }

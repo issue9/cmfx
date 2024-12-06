@@ -17,6 +17,7 @@ const demo = new Demo('/demo');
 const roles = pages.roles.build('/roles');
 const admins = pages.admins.build('/admins');
 const system = pages.system.build('/system');
+const members = pages.members.build('/members');
 const current = pages.current.build('/current', () => {
     return <>
         <div class="flex gap-4">
@@ -54,6 +55,7 @@ const routes: Routes = {
             ...system.routes(),
             ...demo.routes(),
             ...current.routes(),
+            ...members.routes(),
         ]
     }
 };
@@ -72,6 +74,11 @@ const menus: Options['menus'] = [
             {
                 type: 'item', label: '_i.page.system.system', icon: 'host', items: [
                     ...system.menus(),
+                ]
+            },
+            {
+                type: 'item', label: '_i.page.member.member', icon: 'supervisor_account', items: [
+                    ...members.menus(),
                 ]
             }
         ]

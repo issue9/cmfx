@@ -7,9 +7,8 @@ import { createSignal, For, JSX, onMount } from 'solid-js';
 
 import { useApp, User } from '@/app';
 import { Button, Divider, Form, FormAccessor, Icon, Page, TextField } from '@/components';
-import { Passport } from '@/pages/current/passport';
+import { Passport, Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
-import { Sex, SexSelector } from './selector';
 
 export default function(): JSX.Element {
     const ctx = useApp();

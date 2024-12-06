@@ -14,6 +14,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
+	"github.com/issue9/cmfx/cmfx/modules/member"
 	"github.com/issue9/cmfx/cmfx/modules/system"
 )
 
@@ -29,7 +30,9 @@ type Config struct {
 	Admin *admin.Config `yaml:"admin" xml:"admin" json:"admin"`
 
 	// System 系统模块的相关配置
-	System *system.Config `yaml:"system,omitempty" xml:"system,omitempty" json:"system,omitempty"`
+	System *system.Config `yaml:"system" xml:"system" json:"system"`
+
+	Member *member.Config `yaml:"member" xml:"member" json:"member"`
 }
 
 func (c *Config) SanitizeConfig() *web.FieldError {
@@ -54,10 +57,18 @@ func (c *Config) SanitizeConfig() *web.FieldError {
 		return err.AddFieldParent("admin")
 	}
 
-	if c.System != nil {
-		if err := c.System.SanitizeConfig(); err != nil {
-			return err.AddFieldParent("system")
-		}
+	if c.System == nil {
+		return web.NewFieldError("system", locales.Required)
+	}
+	if err := c.System.SanitizeConfig(); err != nil {
+		return err.AddFieldParent("system")
+	}
+
+	if c.Member == nil {
+		return web.NewFieldError("member", locales.Required)
+	}
+	if err := c.Member.SanitizeConfig(); err != nil {
+		return err.AddFieldParent("member")
 	}
 
 	return nil

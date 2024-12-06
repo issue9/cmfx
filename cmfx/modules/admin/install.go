@@ -8,13 +8,13 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
-	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/user/rbac"
 )
 
-func Install(mod *cmfx.Module, o *Config,up *upload.Module) *Module {
+func Install(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	user.Install(mod)
 	rbac.Install(mod)
 

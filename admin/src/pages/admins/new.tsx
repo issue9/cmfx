@@ -7,8 +7,8 @@ import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Button, Form, FormAccessor, Page, Password, TextField } from '@/components';
+import { Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
-import { Sex, SexSelector } from './selector';
 
 export default function(): JSX.Element {
     const ctx = useApp();
