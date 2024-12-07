@@ -14,7 +14,6 @@ import (
 	"github.com/issue9/webuse/v7/handlers/static"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 type Module struct {
@@ -66,25 +65,4 @@ func (m *Module) Handle(prefix *web.Prefix, api func(func(*openapi.Operation)) w
 			Desc(web.Phrase("upload file"), nil).
 			Response("201", []string{}, nil, nil)
 	}))
-}
-
-type Config struct {
-	Size int64 `json:"size" xml:"size,attr" yaml:"size"`
-
-	Exts []string `json:"exts" xml:"exts>ext" yaml:"exts"`
-
-	// 上传内容中表示文件的字段名
-	Field string `json:"field" xml:"field" yaml:"field"`
-}
-
-func (u *Config) SanitizeConfig() *web.FieldError {
-	if u.Size < 0 {
-		return web.NewFieldError("size", locales.MustBeGreaterThan(-1))
-	}
-
-	if u.Field == "" {
-		return web.NewFieldError("field", locales.Required)
-	}
-
-	return nil
 }
