@@ -16,6 +16,9 @@ export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier,num
     ['shift', 8],
 ]);
 
+/**
+ * 定义快捷键
+ */
 export class Hotkey {
     readonly key: string;
     readonly modifiers: number;

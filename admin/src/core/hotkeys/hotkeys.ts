@@ -32,8 +32,8 @@ export class Hotkeys {
         return ()=>{elem.removeEventListener('keydown', h);};
     }
 
-    #handlers: Array<[keys: Hotkey, handler:{():void;}]>;
-    #unbind: {():void;};
+    readonly #handlers: Array<[keys: Hotkey, handler:{():void;}]>;
+    readonly #unbind: {():void;};
 
     /**
      * 构造函数
