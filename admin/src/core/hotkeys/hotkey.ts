@@ -22,7 +22,7 @@ export class Hotkey {
 
     constructor(key: string, ...modifiers: Modifiers) {
         modifiers = modifiers.sort();
-        for (var i = 0;i<modifiers.length; i++) {
+        for (let i = 0;i<modifiers.length; i++) {
             if (modifiers[i] === modifiers[i+1]) {
                 throw `重复的修饰符 ${modifiers[i]}`;
             }
