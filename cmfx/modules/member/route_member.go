@@ -111,11 +111,10 @@ func (m *Module) memberRegister(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	uid, err := m.user.New(user.StateNormal, data.Username, data.Password)
+	msg := web.Phrase("register successful").LocaleString(ctx.LocalePrinter())
+	_, err := m.user.New(user.StateNormal, data.Username, data.Password, ctx.ClientIP(), ctx.Request().UserAgent(), msg)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
-
-	m.UserModule().AddSecurityLogFromContext(nil, uid, ctx, web.Phrase("user %d register successful", uid))
 	return web.Created(nil, "")
 }

@@ -26,7 +26,7 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Modul
 
 	m := Load(mod, o, up, adminL)
 
-	m1, err := m.UserModule().New(user.StateNormal, "m1", "123")
+	m1, err := m.UserModule().New(user.StateNormal, "m1", "123", "", "ua", "")
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}

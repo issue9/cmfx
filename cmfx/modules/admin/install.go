@@ -81,7 +81,7 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	}
 
 	for _, u := range us {
-		if err := l.newAdmin(u); err != nil {
+		if err := l.newAdmin(u, "", "ua", ""); err != nil {
 			panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 		}
 	}

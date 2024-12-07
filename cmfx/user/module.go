@@ -30,6 +30,7 @@ type Module struct {
 	// 用户登录和注销事件
 	loginEvent  *events.Event[*User]
 	logoutEvent *events.Event[*User]
+	addEvent    *events.Event[*User]
 
 	passports []Passport
 }
@@ -45,6 +46,7 @@ func Load(mod *cmfx.Module, conf *Config) *Module {
 
 		loginEvent:  events.New[*User](),
 		logoutEvent: events.New[*User](),
+		addEvent:    events.New[*User](),
 
 		passports: make([]Passport, 0, 5),
 	}
@@ -126,3 +128,6 @@ func (m *Module) OnLogin(f func(*User)) context.CancelFunc { return m.loginEvent
 
 // OnLogout 注册用户主动退出时的事
 func (m *Module) OnLogout(f func(*User)) context.CancelFunc { return m.logoutEvent.Subscribe(f) }
+
+// OnAdd 添加新用户时的事件
+func (m *Module) OnAdd(f func(*User)) context.CancelFunc { return m.addEvent.Subscribe(f) }

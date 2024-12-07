@@ -103,7 +103,10 @@ func (m *Module) CurrentUser(ctx *web.Context) *User {
 // New 添加新用户
 //
 // 返回新添加的用户 ID
-func (m *Module) New(s State, username, password string) (int64, error) {
+// ip 客户的 IP；
+// ua 客户端的标记；
+// content 添加时的备注；
+func (m *Module) New(s State, username, password string, ip, ua, content string) (int64, error) {
 	pa, err := bcrypt.GenerateFromPassword([]byte(password), defaultCost)
 	if err != nil {
 		return 0, err
@@ -115,10 +118,16 @@ func (m *Module) New(s State, username, password string) (int64, error) {
 		Username: username,
 		Password: pa,
 	}
-	uid, err := m.mod.DB().LastInsertID(u)
-	if err != nil {
-		return 0, err
-	}
 
-	return uid, nil
+	m.mod.DB().DoTransaction(func(tx *orm.Tx) error {
+		uid, err := tx.LastInsertID(u)
+		if err != nil {
+			return err
+		}
+		u.ID = uid
+		return m.AddSecurityLog(tx, uid, ip, ua, content)
+	})
+
+	m.addEvent.Publish(true, u)
+	return u.ID, nil
 }

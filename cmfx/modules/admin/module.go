@@ -182,8 +182,8 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 func (m *Module) UserModule() *user.Module { return m.user }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(data *infoWithAccountTO) error {
-	uid, err := m.user.New(user.StateNormal, data.Username, data.Password)
+func (m *Module) newAdmin(data *infoWithAccountTO, ip, ua, content string) error {
+	uid, err := m.user.New(user.StateNormal, data.Username, data.Password, ip, ua, content)
 	if err != nil {
 		return err
 	}

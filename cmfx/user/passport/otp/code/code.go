@@ -219,7 +219,8 @@ func (e *code) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	if !found { // 未关联账号
-		uid, err := e.user.New(user.StateNormal, data.Target, "")
+		msg := web.Phrase("auto register with %s", e.ID()).LocaleString(ctx.LocalePrinter())
+		uid, err := e.user.New(user.StateNormal, data.Target, "", ctx.ClientIP(), ctx.Request().UserAgent(), msg)
 		if err != nil {
 			return ctx.Error(err, "")
 		}
