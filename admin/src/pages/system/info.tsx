@@ -97,7 +97,7 @@ export default function(): JSX.Element {
                 <ConfirmButton palette='secondary' disabled={backup()?.cron===''} onClick={async()=>{
                     const ret = await ctx.api.post('/system/backup');
                     if (!ret.ok) {
-                        ctx.outputProblem(ret.body);
+                        await ctx.outputProblem(ret.body);
                         return;
                     }
                     await refetch();
@@ -113,7 +113,7 @@ export default function(): JSX.Element {
                                 <ConfirmButton kind='flat' palette='error' onClick={async()=>{
                                     const ret = await ctx.api.delete('/system/backup/'+item.path);
                                     if (!ret.ok) {
-                                        ctx.outputProblem(ret.body);
+                                        await ctx.outputProblem(ret.body);
                                         return;
                                     }
                                     await refetch();

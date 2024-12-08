@@ -195,7 +195,7 @@ export class Locale {
     get unitStyle(): UnitStyle { return this.#unitStyle; }
 
     /**
-     * 创建 {@link Intl#DateFormat} 对象
+     * 创建 {@link Intl#DateTimeFormat} 对象
      */
     dateTimeFormat(o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
         return new Intl.DateTimeFormat(this.locale, o);

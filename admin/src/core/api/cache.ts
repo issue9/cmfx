@@ -24,8 +24,7 @@ export class CacheImplement implements Cache {
     }
 
     async matchAll(_?: RequestInfo | URL, __?: CacheQueryOptions): Promise<ReadonlyArray<Response>> {
-        const arr: Readonly<Array<Response>> = [];
-        return arr;
+        return [];
     }
 
     async put(_: RequestInfo | URL, __: Response): Promise<void> {

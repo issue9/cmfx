@@ -80,7 +80,7 @@ class Pwd implements PassportComponents {
                         return undefined;
                     }
 
-                    ctx.refetchUser();
+                    await ctx.refetchUser();
                     return undefined;
                 })}>
                 <form class="flex flex-col gap-2">

@@ -69,7 +69,7 @@ describe('API token', () => {
         expect(t).toEqual('access');
 
         fetchMock.mockResponseOnce(JSON.stringify(Object.assign({}, token)));
-        t = await f.getToken();
+        await f.getToken();
         await sleep(1000);// 过期，但未过刷新令牌时间。会刷新令牌。
         t = await f.getToken();
         expect(t).toEqual('access');

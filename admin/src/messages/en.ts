@@ -52,9 +52,9 @@ const messages = {
                 content: 'content',
                 ip: 'IP',
                 ua: 'user agent',
-                uaInfo: 'browser: {browser}({browserVersion}) os: {os}({osVersion}) kernal: {kernal}({kernalVersion})',
+                uaInfo: 'browser: {browser}({browserVersion}) os: {os}({osVersion}) kernel: {kernel}({kernelVersion})',
 
-                profile: 'profle',
+                profile: 'profile',
                 name: 'name',
                 nickname: 'nickname',
                 pickAvatar: 'pick avatar',

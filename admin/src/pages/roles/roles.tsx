@@ -51,7 +51,7 @@ export default function Roles(props: Props): JSX.Element {
             await ctx.outputProblem(ret.body);
             return;
         }
-        tableRef.refresh();
+        await tableRef.refresh();
     };
 
     const edit = (id: string) => {

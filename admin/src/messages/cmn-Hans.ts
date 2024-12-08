@@ -54,7 +54,7 @@ const messages: Messages = {
                 content: '内容',
                 ip: 'IP',
                 ua: 'UA',
-                uaInfo: '浏览器: {browser}({browserVersion}) 系统: {os}({osVersion}) 内核: {kernal}({kernalVersion})',
+                uaInfo: '浏览器: {browser}({browserVersion}) 系统: {os}({osVersion}) 内核: {kernel}({kernelVersion})',
 
                 profile: '个人信息',
                 name: '姓名',

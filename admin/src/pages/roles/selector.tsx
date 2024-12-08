@@ -17,7 +17,7 @@ export default function<M extends boolean>(props: Props<M>): JSX.Element {
     onMount(async () => {
         const r = await ctx.api.get<Array<Role>>('/roles');
         if (!r.ok) {
-            ctx.outputProblem(r.body);
+            await ctx.outputProblem(r.body);
             return;
         }
 

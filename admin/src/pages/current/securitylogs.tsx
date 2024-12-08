@@ -38,8 +38,8 @@ export default function() {
                     browserVersion: info.browser.version,
                     os: info.os.name,
                     osVersion: info.os.version,
-                    kernal: info.engine.name,
-                    kernalVersion: info.engine.version,
+                    kernel: info.engine.name,
+                    kernelVersion: info.engine.version,
                 });
             } },
             { id: 'created', label: ctx.locale().t('_i.page.created'), content:(_: string, val?: string)=>{

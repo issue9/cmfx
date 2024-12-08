@@ -53,7 +53,7 @@ export function Login(props: Props): JSX.Element {
     onMount(async () => {
         const r = await ctx.api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            ctx.outputProblem(r.body);
+            await ctx.outputProblem(r.body);
             return;
         }
         setPassports(r.body!.map((v)=>[v.id,v.desc]));

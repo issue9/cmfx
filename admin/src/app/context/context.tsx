@@ -180,7 +180,7 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
         /**
          * 设置登录状态并刷新 user
-         * @param account 账号密码信息
+         * @param r 登录接口返回的数据
          * @returns true 表示登录成功，其它情况表示错误信息
          */
         async login(r: Return<Token,never>) {

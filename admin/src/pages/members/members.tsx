@@ -70,10 +70,10 @@ export default function(props: Props): JSX.Element {
                             <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async()=>{
                                 const r = await ctx.api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    ctx.outputProblem(r.body);
+                                    await ctx.outputProblem(r.body);
                                     return;
                                 }
-                                ref.refresh();
+                                await ref.refresh();
                             }}>lock</Button>
                         </Show>
 
@@ -81,10 +81,10 @@ export default function(props: Props): JSX.Element {
                             <Button icon rounded palette='tertiary' title={ctx.locale().t('_i.page.admin.unlockUser')} onClick={async()=>{
                                 const r = await ctx.api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    ctx.outputProblem(r.body);
+                                    await ctx.outputProblem(r.body);
                                     return;
                                 }
-                                ref.refresh();
+                                await ref.refresh();
                             }}>lock_open_right</Button>
                         </Show>
 

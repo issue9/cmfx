@@ -28,12 +28,12 @@ export default function(): JSX.Element {
             form.setPreset(r1.body!);
             form.setObject(r1.body!);
         } else {
-            ctx.outputProblem(r1.body);
+            await ctx.outputProblem(r1.body);
         }
 
         const r2 = await ctx.api.get<Array<Passport>>('/passports');
         if (!r2.ok) {
-            ctx.outputProblem(r2.body);
+            await ctx.outputProblem(r2.body);
             return;
         }
         setPassports(r2.body!);

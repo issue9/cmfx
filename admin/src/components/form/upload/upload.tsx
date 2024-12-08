@@ -145,7 +145,7 @@ export default function(props: Props): JSX.Element {
 
             const ret = await ctx.api.upload<Array<string>>(props.action, data);
             if (!ret.ok) {
-                ctx.outputProblem(ret.body);
+                await ctx.outputProblem(ret.body);
                 return;
             }
 

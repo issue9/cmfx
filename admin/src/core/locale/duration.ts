@@ -48,7 +48,7 @@ const durations: Array<[number, keyof Intl.DurationInput]> = [
 ] as const;
 
 export function parseDuration(val?: number | string): Intl.DurationInput {
-    if (!val) { return { nanoseconds: 0 }; };
+    if (!val) { return { nanoseconds: 0 }; }
 
     if (typeof val === 'string') {
         if (isNaN(Number(val))) {

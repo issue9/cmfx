@@ -68,7 +68,7 @@ export default function(props: Props): JSX.Element {
     onMount(async () => {
         const r = await ctx.api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            ctx.outputProblem(r.body);
+            await ctx.outputProblem(r.body);
             return;
         }
         setPassports(r.body!);
@@ -95,7 +95,7 @@ export default function(props: Props): JSX.Element {
                             setAvatar(ret[0]);
                             const r = await ctx.api.patch('/info', { 'avatar': ret[0] });
                             if (!r.ok) {
-                                ctx.outputProblem(r.body);
+                                await ctx.outputProblem(r.body);
                                 return;
                             }
                             await ctx.refetchUser();
