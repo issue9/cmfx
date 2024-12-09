@@ -37,7 +37,8 @@ func NewModule(s *test.Suite) *user.Module {
 	m := user.Load(mod, o)
 	s.Assertion().NotNil(m)
 
-	m.New(user.StateNormal, "u1", "123", "", "", "add user")
+	_, err := m.New(user.StateNormal, "u1", "123", "", "", "add user")
+	s.Assertion().NotError(err)
 	return m
 }
 

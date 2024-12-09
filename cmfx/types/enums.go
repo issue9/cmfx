@@ -25,4 +25,4 @@ func (Sex) OpenAPISchema(s *openapi.Schema) {
 	s.Enum = []any{SexUnknown.String(), SexMale.String(), SexFemale.String()}
 }
 
-func (s Sex) PrimitiveType() core.PrimitiveType { return core.String }
+func (Sex) PrimitiveType() core.PrimitiveType { return core.String }

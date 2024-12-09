@@ -55,20 +55,15 @@ func (m *Module) getPassports(ctx *web.Context) web.Responser {
 	return web.OK(passports)
 }
 
-func (m *Module) getPassport(id string) Passport {
-	if index := slices.IndexFunc(m.passports, func(a Passport) bool { return a.ID() == id }); index >= 0 {
-		return m.passports[index]
-	}
-	return nil
-}
-
 // 清空与 uid 相关的所有登录信息
-func (m *Module) deleteUser(uid int64) error {
+func (m *Module) deleteUser(u *User) error {
 	for _, p := range m.passports {
-		if err := p.Delete(uid); err != nil {
+		if err := p.Delete(u.ID); err != nil {
 			return err
 		}
 	}
+
+	m.delEvent.Publish(true, u)
 	return nil
 }
 

@@ -16,6 +16,8 @@ import (
 func TestLinkage(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
+	defer s.Close()
+
 	sys := newModule(s)
 
 	err := InstallLinkage(sys, "sex", "SEX", []*LinkageItem[string]{

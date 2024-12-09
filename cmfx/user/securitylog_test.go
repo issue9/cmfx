@@ -2,76 +2,56 @@
 //
 // SPDX-License-Identifier: MIT
 
-package user
+package user_test
 
 import (
 	"encoding/json"
 	"net/http"
 	"testing"
-	"time"
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/mux/v9/header"
-	"github.com/issue9/web"
-	"github.com/issue9/web/server/config"
 	"github.com/issue9/web/server/servertest"
+	"github.com/issue9/webuse/v7/middlewares/auth"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/query"
+	"github.com/issue9/cmfx/cmfx/user"
+	"github.com/issue9/cmfx/cmfx/user/usertest"
 )
 
 func TestSecurityLog(t *testing.T) {
 	a := assert.New(t, false)
 	suite := test.NewSuite(a)
-	defer suite.Close()
-	mod := suite.NewModule("test")
-	Install(mod)
 
-	conf := &Config{
-		URLPrefix:     "/admin",
-		AccessExpired: config.Duration(time.Hour),
-	}
-	suite.Assertion().NotError(conf.SanitizeConfig())
-
-	l := Load(mod, conf)
-	a.NotNil(l).
-		NotError(l.AddSecurityLog(nil, 1, "127.0.0.0", "firefox", "change password")).
+	l := usertest.NewModule(suite)
+	a.NotError(l.AddSecurityLog(nil, 1, "127.0.0.0", "firefox", "change password")).
 		NotError(l.AddSecurityLog(nil, 1, "127.0.0.1", "chrome", "change username"))
 
 	defer servertest.Run(a, suite.Module().Server())()
 	defer suite.Close()
 
-	l.mod.Router().Get("/securitylog/{uid}", func(ctx *web.Context) web.Responser {
-		uid, resp := ctx.PathID("uid", web.ProblemNotFound)
-		if resp != nil {
-			return resp
-		}
-		return l.getSecurityLogs(uid, ctx)
-	})
+	token := usertest.GetToken(suite, l)
 
-	suite.Get("/securitylog/1?size=5").
+	suite.Get("/user/securitylog?size=5").
 		Header(header.Accept, header.JSON).
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, token)).
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			page := &query.Page[LogVO]{}
+			page := &query.Page[user.LogVO]{}
 			a.NotError(json.Unmarshal(body, page))
-			a.Length(page.Current, 2).Equal(2, page.Count)
+			a.Length(page.Current, 4).Equal(4, page.Count) // 添加，登录，以及上面手动添加的两条记录
 		})
 
-	suite.Get("/securitylog/1?size=1").
+	suite.Get("/user/securitylog?size=1").
 		Header(header.Accept, header.JSON).
+		Header(header.Authorization, auth.BuildToken(auth.Bearer, token)).
 		Do(nil).
 		Status(http.StatusOK).
 		BodyFunc(func(a *assert.Assertion, body []byte) {
-			page := &query.Page[LogVO]{}
+			page := &query.Page[user.LogVO]{}
 			a.NotError(json.Unmarshal(body, page))
-			a.Length(page.Current, 1).Equal(2, page.Count)
+			a.Length(page.Current, 1).Equal(4, page.Count)
 		})
-
-	// 不存在的 uid
-	suite.Get("/securitylog/10?size=1").
-		Header(header.Accept, header.JSON).
-		Do(nil).
-		Status(http.StatusNotFound)
 }

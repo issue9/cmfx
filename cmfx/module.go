@@ -82,7 +82,7 @@ func (m *Module) Engine(tx *orm.Tx) orm.Engine {
 	if tx == nil {
 		return m.DB()
 	}
-	return tx.NewEngine(m.db.TablePrefix())
+	return tx.NewEngine(m.DB().TablePrefix())
 }
 
 // New 基于当前模块的 ID 声明一个新的实例
@@ -93,12 +93,12 @@ func (m *Module) New(id string, desc web.LocaleStringer, tag ...string) *Module 
 	return NewModule(m.ID()+id, desc, m.Server(), m.DB(), m.Router(), m.doc, tags...)
 }
 
-// 当前模块关联的路由对象
+// Router 当前模块关联的路由对象
 func (m *Module) Router() *web.Router { return m.r }
 
 func (m *Module) OpenAPI() *openapi.Document { return m.doc }
 
-// 创建 openapi 文档的中间件
+// API 创建 openapi 文档的中间件
 //
 // NOTE: 该方法会附带上指定的标签，如果不需要可以使用 [Module.OpenAPI] 返回的对象。
 func (m *Module) API(f func(o *openapi.Operation)) web.Middleware {

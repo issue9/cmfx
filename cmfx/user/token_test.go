@@ -27,12 +27,12 @@ import (
 func TestModule_routes(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	sender := codetest.New()
 
 	u := NewModule(s)
 
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "code")
+	sender := codetest.New()
 	code.Init(u, time.Second, time.Second, nil, sender, "code", web.Phrase("code"))
 
 	// 测试 SetState
@@ -127,4 +127,21 @@ func TestModule_routes(t *testing.T) {
 		Header(header.Authorization, auth.BuildToken(auth.Bearer, tk2.AccessToken)).
 		Do(nil).
 		Status(http.StatusUnauthorized)
+}
+
+func TestModule_New(t *testing.T) {
+	a := assert.New(t, false)
+	s := test.NewSuite(a)
+	defer s.Close()
+
+	u := NewModule(s)
+
+	_, err := u.New(user.StateDeleted, "uu", "pwd", "", "ua", "")
+	a.Equal(err, web.NewLocaleError("can not add user with %s state", user.StateDeleted))
+
+	_, err = u.New(user.StateLocked, "user", "pwd", "", "ua", "")
+	a.Equal(err, web.NewLocaleError("username %s exists", "user"))
+
+	id, err := u.New(user.StateLocked, "u2", "pwd", "", "ua", "")
+	a.NotError(err).True(id > 0)
 }

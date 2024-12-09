@@ -33,7 +33,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 	}
 
 	if s == StateDeleted { // 删除所有的登录信息
-		if err := m.deleteUser(u.ID); err != nil {
+		if err := m.deleteUser(u); err != nil {
 			m.mod.Server().Logs().ERROR().Error(err) // 记录错误，但是不退出
 		}
 	}
@@ -107,9 +107,20 @@ func (m *Module) CurrentUser(ctx *web.Context) *User {
 // ua 客户端的标记；
 // content 添加时的备注；
 func (m *Module) New(s State, username, password string, ip, ua, content string) (int64, error) {
+	if s == StateDeleted {
+		return 0, web.NewLocaleError("can not add user with %s state", StateDeleted)
+	}
+
 	pa, err := bcrypt.GenerateFromPassword([]byte(password), defaultCost)
 	if err != nil {
 		return 0, err
+	}
+
+	size, err := m.mod.DB().Where("username=?", username).And("state<>?", StateDeleted).Count(&User{})
+	if err != nil {
+		return 0, err
+	} else if size > 0 {
+		return 0, web.NewLocaleError("username %s exists", username)
 	}
 
 	u := &User{
