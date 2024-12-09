@@ -55,18 +55,6 @@ func (m *Module) getPassports(ctx *web.Context) web.Responser {
 	return web.OK(passports)
 }
 
-// 清空与 uid 相关的所有登录信息
-func (m *Module) deleteUser(u *User) error {
-	for _, p := range m.passports {
-		if err := p.Delete(u.ID); err != nil {
-			return err
-		}
-	}
-
-	m.delEvent.Publish(true, u)
-	return nil
-}
-
 // Identities 获取 uid 已经关联的适配器
 //
 // 返回值键名为验证器 id，键值为该适配器对应的账号。

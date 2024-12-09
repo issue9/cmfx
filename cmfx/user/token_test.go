@@ -22,13 +22,14 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/code"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/code/codetest"
+	"github.com/issue9/cmfx/cmfx/user/usertest"
 )
 
 func TestModule_routes(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
 
-	u := NewModule(s)
+	u := usertest.NewModule(s)
 
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "code")
@@ -53,7 +54,7 @@ func TestModule_routes(t *testing.T) {
 	//--------------------------- user 1 -------------------------------------
 
 	tk1 := &token.Response{}
-	s.Post("/user/passports/password/login", []byte(`{"username":"user","password":"123"}`)).
+	s.Post("/user/passports/password/login", []byte(`{"username":"u1","password":"123"}`)).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON+"; charset=utf-8").
 		Do(nil).
@@ -134,14 +135,20 @@ func TestModule_New(t *testing.T) {
 	s := test.NewSuite(a)
 	defer s.Close()
 
-	u := NewModule(s)
+	u := usertest.NewModule(s)
 
 	_, err := u.New(user.StateDeleted, "uu", "pwd", "", "ua", "")
 	a.Equal(err, web.NewLocaleError("can not add user with %s state", user.StateDeleted))
 
-	_, err = u.New(user.StateLocked, "user", "pwd", "", "ua", "")
-	a.Equal(err, web.NewLocaleError("username %s exists", "user"))
+	_, err = u.New(user.StateLocked, "u1", "pwd", "", "ua", "")
+	a.Equal(err, web.NewLocaleError("username %s exists", "u1"))
+
+	var event string
+	u.OnAdd(func(u *user.User) { event = u.Username })
 
 	id, err := u.New(user.StateLocked, "u2", "pwd", "", "ua", "")
-	a.NotError(err).True(id > 0)
+	a.NotError(err).
+		True(id > 0).
+		Wait(time.Millisecond*500). // OnAdd 是个异步方法
+		Equal(event, "u2")
 }

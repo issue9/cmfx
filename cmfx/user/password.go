@@ -73,7 +73,6 @@ func (p *password) postLogin(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 	if n <= 0 {
-		println("1", data.Username)
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 

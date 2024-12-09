@@ -42,6 +42,18 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 	return err
 }
 
+// 清空与 uid 相关的所有登录信息
+func (m *Module) deleteUser(u *User) error {
+	for _, p := range m.passports {
+		if err := p.Delete(u.ID); err != nil {
+			return err
+		}
+	}
+
+	m.delEvent.Publish(true, u)
+	return nil
+}
+
 // CreateToken 为用户 u 生成登录令牌
 func (m *Module) CreateToken(ctx *web.Context, u *User, p Passport) web.Responser {
 	if u.State != StateNormal {
