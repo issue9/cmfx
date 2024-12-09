@@ -123,4 +123,4 @@ const o: Options = {
     userMenus: current.menus()
 };
 
-await createApp('app', o);
+createApp('app', o);
