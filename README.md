@@ -1,11 +1,21 @@
 # cmfx
 
+[![Go](https://github.com/issue9/cmfx/actions/workflows/go.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/go.yml)
+![Go version](https://img.shields.io/github/go-mod/go-version/issue9/cmfx)
+[![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
+
+[![npm](https://github.com/issue9/cmfx/actions/workflows/npm.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/npm.yml)
+
+![License](https://img.shields.io/github/license/issue9/cmfx)
+
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/issue9/cmfx)](https://pkg.go.dev/github.com/issue9/cmfx)
+![NPM Version](https://img.shields.io/npm/v/%40cmfx%2Fadmin)
+
 ## 目录结构
 
 - admin 前端管理后台的主目录
 - cmfx 后端源码的主目录
 - docs 文档
-- docs/api API 文档
 
 ## 开发
 
