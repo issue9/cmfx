@@ -40,7 +40,7 @@ const routes: Routes = {
         routes: [
             { path: '/login', component: ()=><pages.current.Login footer={[
                 {title: '&copy; 2024 by Example .Inc', link: 'https://example.com'},
-                {title: 'aaaabbbcccdddeeefff'},
+                {title: 'text'},
                 {title: 'repo', link: 'https://github.com/issue/cmfx'},
             ]} /> },
         ]
@@ -100,13 +100,13 @@ const o: Options = {
                 async () => { return (await import('@cmfx/admin/dev/messages/en.ts')).default; },
                 async () => { return (await import('./locales/en')).default; },
             ],
-            'cmn-Hans': [
-                async () => { return (await import('@cmfx/admin/dev/messages/cmn-Hans.ts')).default; },
+            'zh-Hans': [
+                async () => { return (await import('@cmfx/admin/dev/messages/zh-Hans.ts')).default; },
                 async () => { return (await import('./locales/cmn-Hans')).default; },
             ],
         },
         fallback: 'en',
-        locales: ['en', 'cmn-Hans']
+        locales: ['en', 'zh-Hans']
     },
 
     api: {
@@ -123,4 +123,4 @@ const o: Options = {
     userMenus: current.menus()
 };
 
-createApp('app', o);
+await createApp('app', o);

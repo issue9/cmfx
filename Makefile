@@ -5,12 +5,10 @@
 .PHONY: gen build-cmd build install init watch-server watch-admin watch test
 
 ROOT = .
-DOCS = $(ROOT)/docs
 CMD = $(ROOT)/cmd
 CMFX = $(ROOT)/cmfx
 ADMIN = $(ROOT)/admin
 
-DOC_API = $(DOCS)/api
 CMD_SERVER = $(CMD)/server
 SERVER_BIN = server
 
@@ -33,7 +31,7 @@ install:
 	npm install
 
 # 安装基本数据，依赖 build 生成的测试项目
-init:
+init: build
 	cd $(CMD_SERVER) && ./server -a=install
 
 watch-server:

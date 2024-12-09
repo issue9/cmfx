@@ -63,6 +63,8 @@ export default defineConfig({
                 'components': './src/components/index.ts',
                 'pages': './src/pages/index.ts',
                 'core': './src/core/index.ts',
+                'messages/en': './src/messages/en.ts',
+                'messages/zh-Hans': './src/messages/zh-Hans.ts',
             },
             formats: ['es', 'cjs'],
             fileName: (format, name) => `${name}.${format}.js`

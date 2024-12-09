@@ -19,7 +19,7 @@ test('build', async () => {
     const locales: Locales = {
         messages: {
             'en': [async () => { return (await import('@/messages/en')).default; }],
-            'cmn-Hans': [async () => { return (await import('@/messages/cmn-Hans')).default; }],
+            'zh-Hans': [async () => { return (await import('@/messages/zh-Hans.ts')).default; }],
         },
         locales: ['en', 'cmn-Hans'],
         fallback: 'en'
