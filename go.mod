@@ -21,7 +21,7 @@ require (
 	github.com/issue9/webuse/v7 v7.0.0-20241205040622-8f281b3c1328
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.24.11
-	golang.org/x/crypto v0.30.0
+	golang.org/x/crypto v0.31.0
 	golang.org/x/text v0.21.0
 )
 
