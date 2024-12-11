@@ -128,7 +128,10 @@ const messages: Messages = {
             },
             member: {
                 member: '会员',
-                membersManager: '会员管理'
+                membersManager: '会员管理',
+                view: '会员信息',
+                birthday: '生日',
+                passports: '开通的登录方式'
             },
             roles: {
                 roles: '角色',

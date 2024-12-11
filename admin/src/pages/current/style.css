@@ -74,4 +74,10 @@
     .p--logout {
         @apply items-center justify-center;
     }
+
+    .p--dashboard {
+        .panel {
+            @apply flex flex-col rounded-md border border-palette-bg-low px-2 py-1;
+        }
+    }
 }

@@ -126,7 +126,10 @@ const messages = {
             },
             member: {
                 member: 'member',
-                membersManager: 'Members'
+                membersManager: 'Members',
+                view: 'member info',
+                birthday: 'birthday',
+                passports: 'passports'
             },
             roles: {
                 roles: 'roles',

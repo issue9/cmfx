@@ -13,7 +13,7 @@ export interface Member {
     state: State;
     
     avatar?: string;
-    birtday?: string;
+    birthday?: string;
     created?: string;
-    passports?: Array<User['passports']>;
+    passports?: User['passports'];
 }
