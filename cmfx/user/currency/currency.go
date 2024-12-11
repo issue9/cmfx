@@ -19,7 +19,7 @@ type OverviewsVO struct {
 	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"overview"`
 
 	UID      int64  `json:"uid" yaml:"uid" cbor:"uid" xml:"uid"`
-	NO       int64  `json:"no" yaml:"no" cbor:"no" xml:"no"`
+	NO       string `json:"no" yaml:"no" cbor:"no" xml:"no"`
 	Username string `json:"username" yaml:"username" cbor:"username" xml:"username"`
 
 	Available int64 `json:"available" yaml:"available" cbor:"available" xml:"available"`
@@ -29,7 +29,7 @@ type OverviewsVO struct {
 
 type overviewsPO struct {
 	overviewPO
-	NO       int64  `orm:"name(no)"`
+	NO       string `orm:"name(no)"`
 	Username string `orm:"name(username)"`
 }
 
