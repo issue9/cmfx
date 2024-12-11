@@ -19,7 +19,7 @@ import { default as Settings } from './settings';
  */
 export class current implements Pages {
     static #passports: Map<string, PassportComponents> = componens;
-    
+
     /**
      * 提供当前用户的仪表盘
      */
@@ -54,10 +54,13 @@ export class current implements Pages {
      */
     static SecurityLogs = SecurityLogs;
 
+    /**
+     * 可用于 Dashboard 页面的组件
+     */
     static Panel = Panel;
 
     readonly #prefix: string;
-    readonly #children?: Component<{}>;
+    readonly #dashboardChildren?: Component<{}>;
 
     /**
      * 初始化登录方式的组件
@@ -86,7 +89,7 @@ export class current implements Pages {
 
     private constructor(prefix: string, dashboardChild?: Component<{}>) {
         this.#prefix = prefix;
-        this.#children = dashboardChild;
+        this.#dashboardChildren = dashboardChild;
     }
 
     /**
@@ -94,7 +97,7 @@ export class current implements Pages {
      */
     routes(): Array<Route> {
         return [
-            { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#children!({})}</Dashboard> },
+            { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#dashboardChildren!({})}</Dashboard> },
             { path: this.#prefix + '/profile', component: current.Profile },
             { path: this.#prefix + '/settings', component: Settings },
             { path: this.#prefix + '/securitylogs', component: SecurityLogs },

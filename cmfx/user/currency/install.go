@@ -11,10 +11,12 @@ import (
 )
 
 // Install 安装当前的环境
-func Install(mod *user.Module, id string) {
+func Install(mod *user.Module, id string) *Module {
 	db := buildDB(mod.Module().DB(), id)
 
 	if err := db.Create(&overviewPO{}, &expirePO{}, &LogPO{}); err != nil {
 		panic(web.SprintError(mod.Module().Server().Locale().Printer(), true, err))
 	}
+
+	return Load(mod, id)
 }

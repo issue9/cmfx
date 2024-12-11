@@ -29,7 +29,7 @@ export interface Props extends BaseProps, ParentProps {
  *
  * 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
-export default function (props: Props) {
+export function Page (props: Props) {
     const ctx = useApp();
 
     createEffect(() => {

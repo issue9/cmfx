@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show } from 'solid-js';
+import { Component, JSX, Show } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum } from '@/components';
@@ -10,11 +10,33 @@ import { Query } from '@/core';
 import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
 import { Member } from './types';
 
+export interface ActionProps {
+    /**
+     * 当前数据行的 ID
+     */
+    id: number;
+    
+    /**
+     * 当前数据行
+     */
+    member?: Member;
+    
+    /**
+     * 对整个表格的引用
+     */
+    table?: RemoteTableRef<Member>;
+}
+
 interface Props {
     /**
      * 路由基地址
      */
     routePrefix: string;
+    
+    /**
+     * 操作列中的组件
+     */
+    actions?: Component<ActionProps>;
 }
 
 interface Q extends Query {
@@ -23,6 +45,9 @@ interface Q extends Query {
     sex: Array<Sex>;
 }
 
+/**
+ * 会员列表组件
+ */
 export default function(props: Props): JSX.Element {
     const ctx = useApp();
 
@@ -63,11 +88,11 @@ export default function(props: Props): JSX.Element {
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={ctx.locale().t('_i.page.editItem')}>edit</LinkButton>
+                                title={ctx.locale().t('_i.page.editItem')}>visibility</LinkButton>
                         </Show>
 
-                        <Show when={obj?.state !== 'locked' && obj?.state!=='deleted'}>
-                            <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async()=>{
+                        <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
+                            <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async () => {
                                 const r = await ctx.api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await ctx.outputProblem(r.body);
@@ -78,7 +103,7 @@ export default function(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button icon rounded palette='tertiary' title={ctx.locale().t('_i.page.admin.unlockUser')} onClick={async()=>{
+                            <Button icon rounded palette='tertiary' title={ctx.locale().t('_i.page.admin.unlockUser')} onClick={async () => {
                                 const r = await ctx.api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await ctx.outputProblem(r.body);
@@ -90,6 +115,10 @@ export default function(props: Props): JSX.Element {
 
                         <Show when={obj?.state !== 'deleted'}>
                             {ref.DeleteAction(obj!.id!)}
+                        </Show>
+                        
+                        <Show when={props.actions}>
+                            {props.actions!({ id: obj?.id as number, member: obj, table: ref })}
                         </Show>
                     </div>;
                 })

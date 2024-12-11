@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Page } from './page';
+export { Page } from './page';
 export type { Props as PageProps } from './page';
 
