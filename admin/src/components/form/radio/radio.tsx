@@ -21,7 +21,7 @@ export interface Props<T> extends FieldBaseProps {
     uncheckedIcon?: IconSymbol;
 }
 
-export default function Group<T extends string | number | undefined> (props: Props<T>) {
+export function RadioGroup<T extends string | number | undefined> (props: Props<T>) {
     props = mergeProps({
         tabindex: 0,
         checkedIcon: 'radio_button_checked' as IconSymbol,

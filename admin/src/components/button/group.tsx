@@ -19,7 +19,7 @@ export interface Props extends BaseProps {
     ref?: { (el: Ref): void; };
 }
 
-export default function (props: Props) {
+export function ButtonGroup(props: Props) {
     props = mergeProps(presetProps, props);
 
     return <fieldset role="group" ref={(el) => { if (props.ref) { props.ref(el); }}} disabled={props.disabled} classList={{

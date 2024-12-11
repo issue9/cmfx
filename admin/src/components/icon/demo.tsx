@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Demo } from '@/components/base/demo';
-import { default as Icon } from './icon';
+import { Icon } from './icon';
 
 export default function() {
     return <Demo stages={

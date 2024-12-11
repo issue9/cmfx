@@ -36,7 +36,7 @@ const presetProps: Readonly<Partial<Props>> = {
 /**
  * 显示错误信息的组件
  */
-export default function(props: Props) {
+export  function Error(props: Props) {
     props = mergeProps(presetProps, props);
     const ctx = useApp();
     ctx.title = props.header ?? '';

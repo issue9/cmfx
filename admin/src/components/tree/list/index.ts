@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as List } from './list';
+export { List } from './list';
 export type { Props as ListProps } from './list';
 

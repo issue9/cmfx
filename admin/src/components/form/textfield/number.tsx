@@ -6,7 +6,7 @@ import { JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Button } from '@/components/button';
 import { Icon, IconSymbol } from '@/components/icon';
-import { Props as BaseProps, default as TextField } from './textfiled';
+import { Props as BaseProps, TextField } from './textfiled';
 
 export interface Props extends Omit<BaseProps<number>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'> {
     icon?: IconSymbol;
@@ -20,7 +20,7 @@ const presetProps: Partial<Props> = {
     inputMode: 'decimal'
 };
 
-export default function(props: Props): JSX.Element {
+export function Number(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, fieldProps] = splitProps(props, ['icon','min','max','step']);
 

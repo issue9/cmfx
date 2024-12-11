@@ -32,7 +32,7 @@ const presetProps: Readonly<Props> = {
     indeterminateIcon: 'indeterminate_check_box'
 };
 
-export default function(props: Props) {
+export function Checkbox(props: Props) {
     props = mergeProps(presetProps, props);
     const [chk, setChk] = createSignal(props.checked);
 

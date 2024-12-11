@@ -36,7 +36,7 @@ export interface Props<T> extends FieldBaseProps {
 /**
  * 提供了单行的输入组件
  */
-export default function<T extends Value>(props: Props<T>):JSX.Element {
+export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;
     const access = props.accessor;
 

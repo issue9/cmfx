@@ -22,7 +22,7 @@ export interface Props<T extends Value, M extends boolean> extends FieldBaseProp
 /**
  * 用以替代 select 组件
  */
-export default function <T extends Value, M extends boolean>(props: Props<T, M>): JSX.Element {
+export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): JSX.Element {
     let pop: HTMLUListElement;
 
     // multiple 为 false 时的输入框样式。

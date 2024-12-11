@@ -6,14 +6,14 @@ import { JSX, Show, createSignal, splitProps } from 'solid-js';
 
 import { Button } from '@/components/button';
 import { Icon, IconSymbol } from '@/components/icon';
-import { Props as BaseProps, default as TextField, Ref as TextFieldRef } from './textfiled';
+import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfiled';
 
 export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'> {
     icon?: IconSymbol;
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 };
 
-export default function(props: Props): JSX.Element {
+export function Password(props: Props): JSX.Element {
     const [visible, setVisible] = createSignal(false);
     const [_, fieldProps] = splitProps(props, ['icon']);
     let ref: TextFieldRef;

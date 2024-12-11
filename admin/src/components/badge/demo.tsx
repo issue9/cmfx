@@ -5,9 +5,9 @@
 import { createSignal, For } from 'solid-js';
 
 import { corners } from '@/components/base';
-import { paletteSelector, Demo } from '@/components/base/demo';
+import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
-import { default as Badge } from './badge';
+import { Badge } from './badge';
 
 export default function () {
     const [text, setText] = createSignal('');

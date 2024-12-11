@@ -6,7 +6,7 @@ import { createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
 
 import { Accessor } from '@/components/form';
 import { PreviewFile, PreviewURL } from './preview';
-import Upload, { Props as BaseProps, Ref } from './upload';
+import { Props as BaseProps, Ref, Upload } from './upload';
 
 export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
     /**
@@ -41,7 +41,7 @@ const presetProps: Readonly<Partial<Props>> = {
     itemSize: '72px',
 };
 
-export default function(props: Props): JSX.Element {
+export function Album(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const access = props.accessor;
 

@@ -6,7 +6,7 @@ import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 import { IconSymbol } from '@/components/icon';
-import Label from './label';
+import { Label } from './label';
 
 export interface Props extends BaseProps, ParentProps {
     /**
@@ -20,7 +20,7 @@ export interface Props extends BaseProps, ParentProps {
     title: string;
 }
 
-export default function(props: Props): JSX.Element {
+export function Description(props: Props): JSX.Element {
     return <div class="flex flex-col">
         <Label icon={props.icon}>{ props.title }</Label>
         { props.children }

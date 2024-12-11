@@ -24,7 +24,7 @@ const defaultProps: Readonly<Partial<Props>> = {
     tag: 'p',
 };
 
-export default function(props: Props): JSX.Element {
+export function Label(props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
 
     return <Dynamic component={props.tag} class="flex items-center">

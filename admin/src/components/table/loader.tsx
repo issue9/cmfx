@@ -14,7 +14,7 @@ import { PaginationBar } from '@/components/pagination';
 import { Label } from '@/components/typography';
 import { Exporter, Page, Query } from '@/core';
 import type { Props as BaseProps } from './basic';
-import { default as BasicTable } from './basic';
+import { BasicTable } from './basic';
 import { fromSearch, Params, saveSearch } from './search';
 
 export interface Ref<T extends object> {
@@ -116,7 +116,7 @@ const presetProps = {
  * @template T 为数据中每一条数据的类型；
  * @template Q 为查询参数的类型；
  */
-export default function<T extends object, Q extends Query>(props: Props<T, Q>) {
+export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q>) {
     const opt = useOptions();
     const ctx = useApp();
 

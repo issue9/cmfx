@@ -62,7 +62,7 @@ const presetProps = {
 /**
  * 基础的表格组件
  */
-export default function<T extends object>(props: Props<T>) {
+export function BasicTable<T extends object>(props: Props<T>) {
     props = mergeProps(presetProps, props);
 
     const ctx = useApp();

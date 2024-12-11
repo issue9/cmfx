@@ -7,7 +7,7 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import { useApp } from '@/app/context';
 import { handleEvent } from '@/components/base';
 import { calcPopoverPos } from '@/components/utils';
-import Button, { Props as BaseProps, Ref as ButtonRef, presetProps } from './button';
+import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
 
 export interface Props extends BaseProps {
     /**
@@ -36,7 +36,7 @@ export interface Props extends BaseProps {
 /**
  * 带确认功能的按钮
  */
-export default function(props: Props) {
+export function ConfirmButton(props: Props) {
     props = mergeProps(presetProps, props);
     const ctx = useApp();
     let pop: HTMLDivElement;

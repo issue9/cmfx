@@ -6,7 +6,7 @@ import { createSignal, createUniqueId, For, mergeProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { BaseProps, Palette } from '@/components/base';
-import Alert, { Props as AlertProps } from './alert';
+import { Alert, Props as AlertProps } from './alert';
 
 export type Props = BaseProps;
 
@@ -45,7 +45,7 @@ export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
  * NOTE: 该组件会在全局注册一个 {@link Window#notify} 方法。
  * 不应该多次调用，且尽可能早地调用该组件，以使 notify 方法处于可用状态。
  */
-export default function(props: Props) {
+export  function Notify(props: Props) {
     props = mergeProps(presetProps, props);
     const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps,'del'>>>([]);
 

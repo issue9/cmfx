@@ -6,7 +6,7 @@ import { For } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import TextArea from './textarea';
+import { TextArea } from './textarea';
 
 export default function() {
     const f = FieldAccessor('name', '5', true);

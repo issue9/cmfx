@@ -6,8 +6,8 @@ import { useApp } from '@/app/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Form, FormAccessor } from '@/components/form';
-import Dialog, { Ref } from './dialog';
-import { default as System } from './system';
+import { Dialog, Ref } from './dialog';
+import { SystemDialog } from './system';
 
 export default function() {
     const ctx = useApp();
@@ -24,7 +24,7 @@ export default function() {
         </>
     } stages={
         <>
-            <System />
+            <SystemDialog />
             <Button onClick={()=>window.alert('msg')}>alert</Button>
             <Button onClick={()=>window.confirm('msg')}>confirm</Button>
             <Button onClick={()=>window.prompt('msg', 'def')}>prompt</Button>

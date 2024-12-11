@@ -8,7 +8,7 @@ import { Portal } from 'solid-js/web';
 import { useOptions } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { FieldAccessor, TextField } from '@/components/form';
-import { default as Dialog, Ref } from './dialog';
+import { Dialog, Ref } from './dialog';
 
 interface Props extends BaseProps {
     /**
@@ -23,7 +23,7 @@ interface Props extends BaseProps {
  *  - window.confirm
  *  - window.prompt
  */
-export default function(props: BaseProps) {
+export function SystemDialog(props: BaseProps) {
     const opt = useOptions();
     return <Portal>
         <Alert header={opt.title} palette={props.palette} />

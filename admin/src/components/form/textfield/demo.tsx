@@ -5,9 +5,9 @@
 import { cloneElement } from '@/components/base';
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import Number from './number';
-import Password from './password';
-import TextField from './textfiled';
+import { Number } from './number';
+import { Password } from './password';
+import { TextField } from './textfiled';
 
 export default function() {
     const txt = FieldAccessor('name', 'text', true);

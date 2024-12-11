@@ -4,13 +4,13 @@
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Stage, Demo, paletteSelector } from '@/components/base/demo';
+import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { TextField } from '@/components/form';
 import { Page, Query, sleep } from '@/core';
-import { default as BasicTable } from './basic';
+import { BasicTable } from './basic';
 import { Column } from './column';
-import { default as LoaderTable } from './loader';
+import { LoaderTable } from './loader';
 
 interface Item {
     id: number;

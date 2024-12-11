@@ -7,7 +7,7 @@ import { JSX, splitProps } from 'solid-js';
 import { AppContext, useApp } from '@/app/context';
 import { ConfirmButton } from '@/components/button';
 import { Page, Query, query2Search } from '@/core';
-import LoaderTable, { Props as LoaderProps, Ref as LoaderRef } from './loader';
+import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 
 export interface Ref<T extends object> extends LoaderRef<T> {
     /**
@@ -42,7 +42,7 @@ export interface Props<T extends object, Q extends Query> extends Omit<LoaderPro
  * 相对于 {@link LoaderTable}，限制了加载的数据方式只能是特定的远程地址。
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
-export default function<T extends object, Q extends Query>(props: Props<T,Q>) {
+export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>) {
     const ctx = useApp();
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
     const load = props.paging ? buildPagingLoadFunc(ctx, props.path) : buildNoPagingLoadFunc(ctx, props.path);

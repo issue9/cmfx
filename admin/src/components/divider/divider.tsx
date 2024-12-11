@@ -29,7 +29,7 @@ const presetProps: Readonly<Props> = {
     pos: 'start'
 };
 
-export default function(props: Props) {
+export function Divider(props: Props) {
     props = mergeProps(presetProps, props);
 
     return <div role="separator" aria-orientation="horizontal" style={{'padding-block': props.padding}} classList={{

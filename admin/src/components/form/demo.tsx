@@ -7,7 +7,7 @@ import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '../button';
 import { FormAccessor } from './access';
 import { DatePicker } from './date';
-import Form from './form';
+import { Form } from './form';
 import { TextArea } from './textarea';
 import { Number, TextField } from './textfield';
 

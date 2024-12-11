@@ -5,8 +5,8 @@
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
 import { calcPopoverPos } from '@/components/utils';
-import { Props as BaseProps, default as Button, presetProps } from './button';
-import { default as Group, Ref as GroupRef } from './group';
+import { Props as BaseProps, Button, presetProps } from './button';
+import { ButtonGroup, Ref as GroupRef } from './group';
 
 type Item = { type: 'divider' } | {
     type: 'item';
@@ -24,7 +24,7 @@ export interface Props extends BaseProps {
  *
  * 属性中，除了 menus 用于表示所有的子命令外，其它属性都是用于描述默认按钮的属性的。
 */
-export default function(props: Props) {
+export function SplitButton(props: Props) {
     props = mergeProps(presetProps, props);
     let pop: HTMLDivElement;
     let group: GroupRef;
@@ -43,13 +43,13 @@ export default function(props: Props) {
 
     const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette']);
 
-    const activator = <Group palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
+    const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
         <Button icon={/*@once*/true} onClick={() => {
             pop.togglePopover();
             calcPopoverPos(pop, group.getBoundingClientRect());
         }}>keyboard_arrow_down</Button>
-    </Group>;
+    </ButtonGroup>;
 
     return <>
         {activator}

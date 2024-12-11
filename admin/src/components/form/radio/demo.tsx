@@ -8,7 +8,7 @@ import { createSignal } from 'solid-js';
 import { Palette } from '@/components/base';
 import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
-import { default as XGroup } from './radio';
+import { RadioGroup } from './radio';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
@@ -37,7 +37,7 @@ export default function() {
         </>
     } stages={
         <>
-            <XGroup label='test' block={block()} vertical={vertical()} palette={f.getValue()}
+            <RadioGroup label='test' block={block()} vertical={vertical()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
                 checkedIcon={iconStyle() ? 'task_alt' : undefined }
             />

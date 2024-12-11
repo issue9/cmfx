@@ -18,7 +18,7 @@ const presetProps: Readonly<Partial<Props>> = {
     role: 'img',
 };
 
-export default function(props: Props) {
+export function Icon(props: Props) {
     const [, spanProps] = splitProps(mergeProps(presetProps, props), ['icon']);
     return <span {...spanProps} classList={{
         ...props.classList,

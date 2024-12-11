@@ -5,7 +5,7 @@
 export { FieldAccessor, FormAccessor, ObjectAccessor } from './access';
 export type { Accessor, Validation } from './access';
 
-export { default as Form } from './form';
+export { Form } from './form';
 export type { Props as FormProps } from './form';
 
 export type { AutoComplete, Props as FieldBaseProps, InputMode, Option, Options } from './types';
@@ -18,3 +18,4 @@ export * from './radio';
 export * from './textarea';
 export * from './textfield';
 export * from './upload';
+

@@ -43,7 +43,7 @@ const presetProps: Readonly<Partial<Props>> = {
     pos: 'left'
 };
 
-export default function(props: Props) {
+export function Drawer(props: Props) {
     props = mergeProps(presetProps, props);
     let asideRef: HTMLElement;
     let mainRef: HTMLElement;

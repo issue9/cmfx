@@ -7,8 +7,8 @@ import { createSignal, For } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
-import Checkbox from './checkbox';
-import { default as CheckboxGroup } from './group';
+import { Checkbox } from './checkbox';
+import { CheckboxGroup } from './group';
 
 export default function() {
     const [disabledS, disabled] = boolSelector('disabled');

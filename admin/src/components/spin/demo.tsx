@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { default as Spin } from './spin';
 import { Demo, boolSelector, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
+import { Spin } from './spin';
 
 export default function () {
     const [spinningS, spinning] = boolSelector('spinning', false);

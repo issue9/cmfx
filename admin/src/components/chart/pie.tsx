@@ -4,7 +4,7 @@
 
 import { createMemo, mergeProps, splitProps } from 'solid-js';
 
-import { Props as BaseProps, default as Chart, presetProps as presetBaseProps } from './chart';
+import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
 
 export interface Props extends Omit<BaseProps, 'o'> {
     /**
@@ -57,7 +57,7 @@ const presetProps = {
 /**
  * 带坐标系的图表组件
  */
-export default function(props: Props) {
+export function PieChart(props: Props) {
     props = mergeProps(presetProps, props);
     const [_, charsProps] = splitProps(props, ['data', 'tooltip', 'legend', 'padding', 'radius']);
 

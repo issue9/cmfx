@@ -7,7 +7,7 @@ import { JSX } from 'solid-js';
 import { useOptions } from '@/app/context';
 import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { FieldAccessor } from '../access';
-import { default as Album } from './album';
+import { Album } from './album';
 
 export default function(): JSX.Element {
     const opt = useOptions();

@@ -16,7 +16,7 @@ const presetProps: Readonly<Partial<Props>> = {
     pos: 'topright'
 };
 
-export default function(props: Props) {
+export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
 
     return <div class="c--badge">

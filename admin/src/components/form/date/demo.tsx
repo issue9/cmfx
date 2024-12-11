@@ -6,8 +6,8 @@ import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form';
-import { default as DatePanel } from './panel';
-import { default as DatePicker } from './picker';
+import { DatePanel } from './panel';
+import { DatePicker } from './picker';
 import { Week } from './utils';
 
 export default function() {

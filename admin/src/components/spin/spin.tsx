@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ParentProps, JSX, splitProps, Show } from 'solid-js';
+import { JSX, ParentProps, Show, splitProps } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 
@@ -27,7 +27,7 @@ export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
  * 
  * 访组件可以作为任何具有加载状态的组件的容器。
  */
-export default function (props: Props) {
+export function Spin(props: Props) {
     const [_, contProps] = splitProps(props, ['spinning', 'indicator', 'palette']);
     return <fieldset {...contProps} classList={{ // NOTE: classList 必须在 class 属性之后设置，否则不会启作用！
         'c--spin': true,

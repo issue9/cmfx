@@ -16,7 +16,7 @@ export interface Props extends BaseProps {
     del: { (id: string): void; };
 }
 
-export default function(props: Props): JSX.Element {
+export function Alert(props: Props): JSX.Element {
     let ref: HTMLDivElement;
     let wrapRef: HTMLDivElement;
 

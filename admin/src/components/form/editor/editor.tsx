@@ -19,7 +19,7 @@ export interface Props extends FieldBaseProps {
 /**
  * WYSIWYG 编辑器
  */
-export default function(props: Props) {
+export function Editor(props: Props) {
     const id = 'editor-' + createUniqueId();
 
     const options: QuillOptions = {

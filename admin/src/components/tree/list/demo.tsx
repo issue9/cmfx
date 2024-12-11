@@ -4,9 +4,9 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { Demo, Stage, paletteSelector } from '@/components/base/demo';
+import { Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
-import { default as List, Props } from './list';
+import { List, Props } from './list';
 
 type SelectedClass = Props['selectedClass'];
 

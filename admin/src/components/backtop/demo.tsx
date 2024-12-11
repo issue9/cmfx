@@ -6,7 +6,7 @@ import { For } from 'solid-js';
 
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { IconSymbol } from '@/components/icon';
-import BackTop from './backtop';
+import { BackTop } from './backtop';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();

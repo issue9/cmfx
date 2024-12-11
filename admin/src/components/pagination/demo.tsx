@@ -5,8 +5,8 @@
 import { createSignal } from 'solid-js';
 
 import { Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { default as PaginationBar } from './bar';
-import { default as Pagination } from './pagination';
+import { PaginationBar } from './bar';
+import { Pagination } from './pagination';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();

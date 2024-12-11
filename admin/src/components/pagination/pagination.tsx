@@ -42,7 +42,7 @@ const presetProps: Readonly<Partial<Props>> = {
  * 大致布局如下：
  *  [<<,<,1,2,...,current...,7,8,>,>>]
  */
-export default function(props: Props) {
+export function Pagination(props: Props) {
     props = mergeProps(presetProps, props);
     const ctx = useApp();
 

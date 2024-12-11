@@ -5,8 +5,8 @@
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Value } from '@/components/tree/item';
-import { Props as BaseProps, presetProps, default as Panel, Ref } from './panel';
 import { calcPopoverPos } from '@/components/utils';
+import { Props as BaseProps, default as Panel, presetProps, Ref } from './panel';
 
 export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref' | 'direction'> {
     /**
@@ -25,7 +25,7 @@ export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref' | 
 /**
  * 下拉菜单组件
  */
-export default function(props: Props): JSX.Element {
+export function ContextMenu(props: Props): JSX.Element {
     props = mergeProps(presetProps as Props, props);
     let pop: Ref;
 

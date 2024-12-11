@@ -71,7 +71,7 @@ export interface Props extends BaseProps {
 /**
  * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
  */
-export default function(props: Props): JSX.Element {
+export function Upload(props: Props): JSX.Element {
     const ctx = useApp();
 
     let inputRef: HTMLInputElement;

@@ -4,7 +4,7 @@
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
 import { FieldAccessor, Options, TextField } from '@/components/form';
-import { default as Choice } from './choice';
+import { Choice } from './choice';
 
 export default function() {
     const fa = FieldAccessor<string|undefined>('choice', '1', true);

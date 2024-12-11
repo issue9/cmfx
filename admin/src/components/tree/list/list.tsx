@@ -44,7 +44,7 @@ const presetProps: Readonly<Partial<Props>> = {
 /**
  * 列表组件
  */
-export default function (props: Props): JSX.Element {
+export function List(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     const [selected, setSelected] = createSignal<Value|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));

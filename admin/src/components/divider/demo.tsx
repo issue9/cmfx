@@ -5,7 +5,7 @@
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { Demo, paletteSelector } from '@/components/base/demo';
-import { default as Divider, Props } from './divider';
+import { Divider, Props } from './divider';
 import { Style, styles } from './types';
 
 export function styleSelector(v: Style = 'solid'): [JSX.Element, Accessor<Style>, Setter<Style>] {

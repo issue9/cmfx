@@ -7,7 +7,7 @@ import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import { useApp } from '@/app/context';
 import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
-import { default as Panel, Props as PanelProps, presetProps } from './panel';
+import { DatePanel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {
     placeholder?: string;
@@ -29,7 +29,7 @@ function togglePop(anchor: Element, pop: HTMLElement): boolean {
     return ret;
 }
 
-export default function(props: Props) {
+export function DatePicker(props: Props) {
     const ctx = useApp();
 
     props = mergeProps(presetProps, props);
@@ -81,6 +81,6 @@ export default function(props: Props) {
 
     return <>
         {activator}
-        <Panel class="fixed" popover="manual" ref={el=>panelRef=el} {...panelProps}></Panel>
+        <DatePanel class="fixed" popover="manual" ref={el=>panelRef=el} {...panelProps}></DatePanel>
     </>;
 }

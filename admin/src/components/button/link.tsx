@@ -40,7 +40,7 @@ export const presetProps: Readonly<Partial<Props>> = {
 /**
  * 普通的按钮组件
  */
-export default function(props: Props) {
+export function LinkButton(props: Props) {
     props = mergeProps(presetProps, props);
     const [_, linkProps] = splitProps(props, ['icon', 'children', 'disabled', 'kind', 'rounded']);
 

@@ -5,9 +5,9 @@
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Value } from '@/components/tree/item';
-import { default as HoverMenu, Props as HoverProps } from './hover';
-import { Props as BaseProps, presetProps, default as Panel, Ref as PanelRef } from './panel';
 import { calcPopoverPos } from '@/components/utils';
+import { default as HoverMenu, Props as HoverProps } from './hover';
+import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
 
 export interface Props extends HoverProps {
     /**
@@ -21,7 +21,7 @@ export interface Props extends HoverProps {
 /**
  * 下拉菜单组件
  */
-export default function(props: Props): JSX.Element {
+export function Menu(props: Props): JSX.Element {
     props = mergeProps(presetProps as Props, props);
 
     if (props.hoverable) {

@@ -31,7 +31,7 @@ export const presetProps: Readonly<Partial<Props>> = {
 /**
  * 普通的按钮组件
  */
-export default function(props: Props) {
+export function Button(props: Props) {
     props = mergeProps(presetProps, props);
     const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'icon', 'children', 'classList']);
 

@@ -5,7 +5,7 @@
 import { For } from 'solid-js';
 
 import { Demo, boolSelector, paletteSelector } from '@/components/base/demo';
-import Page from './page';
+import { Page } from './page';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();

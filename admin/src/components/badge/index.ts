@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Badge } from './badge';
+export { Badge } from './badge';
 export type { Props as BadgeProps } from './badge';
 

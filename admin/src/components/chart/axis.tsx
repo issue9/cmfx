@@ -5,7 +5,7 @@
 import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
 import { createMemo, createSignal, mergeProps, splitProps } from 'solid-js';
 
-import { Props as BaseProps, default as Chart, presetProps as presetBaseProps } from './chart';
+import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
 
 export interface Ref<T extends object> {
     /**
@@ -111,7 +111,7 @@ const presetProps = {
 /**
  * 带坐标系的图表组件
  */
-export default function<T extends object>(props: Props<T>) {
+export function AxisChart<T extends object>(props: Props<T>) {
     props = mergeProps(presetProps, props);
     const [_, charsProps] = splitProps(props, ['xAxis', 'data', 'size', 'tooltip', 'legend', 'series', 'ref']);
 

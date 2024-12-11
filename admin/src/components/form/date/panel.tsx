@@ -49,7 +49,7 @@ const weekBase = new Date('2024-10-20'); // 这是星期天，作为计算星期
 /**
  * 日期选择的面板
  */
-export default function (props: Props) {
+export function DatePanel(props: Props) {
     props = mergeProps(presetProps, props);
     const ctx = useApp();
     const ac = props.accessor;

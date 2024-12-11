@@ -42,7 +42,7 @@ const presetProps: Partial<Props> = {
 /**
  * 返回顶部的按钮
  */
-export default function(props: Props): JSX.Element {
+export function BackTop(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     const scroller = typeof props.scroller === 'string' ? document.getElementById(props.scroller) : props.scroller;
