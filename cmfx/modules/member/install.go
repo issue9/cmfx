@@ -17,7 +17,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Module) {
+func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Module) *Module {
 	user.Install(mod)
 
 	if err := mod.DB().Create(&infoPO{}); err != nil {
@@ -36,4 +36,6 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Modul
 		Sex:      types.SexFemale,
 		Nickname: "nickname",
 	})
+
+	return m
 }

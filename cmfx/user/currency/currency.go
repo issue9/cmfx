@@ -15,9 +15,44 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-type OverviewVO struct {
+type OverviewsVO struct {
 	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"overview"`
 
+	UID      int64  `json:"uid" yaml:"uid" cbor:"uid" xml:"uid"`
+	NO       int64  `json:"no" yaml:"no" cbor:"no" xml:"no"`
+	Username string `json:"username" yaml:"username" cbor:"username" xml:"username"`
+
+	Available int64 `json:"available" yaml:"available" cbor:"available" xml:"available"`
+	Freeze    int64 `json:"freeze" yaml:"freeze" cbor:"freeze" xml:"freeze"`
+	Used      int64 `json:"used" yaml:"used" cbor:"used" xml:"used"`
+}
+
+type overviewsPO struct {
+	overviewPO
+	NO       int64  `orm:"name(no)"`
+	Username string `orm:"name(username)"`
+}
+
+// GetOverviews 获取所有用户的摘要信息
+func (m *Module) GetOverviews(q *query.Text) (*query.Page[OverviewsVO], error) {
+	sql := m.db.SQLBuilder().Select().From(orm.TableName(&overviewPO{}), "ov")
+
+	m.user.LeftJoin(sql, "u", "u.id=ov.uid", []user.State{user.StateLocked, user.StateNormal})
+
+	return query.PagingWithConvert(&q.Limit, sql, func(o *overviewsPO) *OverviewsVO {
+		return &OverviewsVO{
+			UID:       o.UID,
+			NO:        o.NO,
+			Username:  o.Username,
+			Available: o.Available,
+			Freeze:    o.Freeze,
+			Used:      o.Used,
+		}
+	})
+}
+
+type OverviewVO struct {
+	XMLName   struct{}            `json:"-" yaml:"-" cbor:"-" xml:"overview"`
 	Available int64               `json:"available" yaml:"available" cbor:"available" xml:"available"`
 	Freeze    int64               `json:"freeze" yaml:"freeze" cbor:"freeze" xml:"freeze"`
 	Used      int64               `json:"used" yaml:"used" cbor:"used" xml:"used"`
@@ -27,19 +62,6 @@ type OverviewVO struct {
 type OverviewExpireVO struct {
 	Value int64     `json:"value" yaml:"value" cbor:"value" xml:"value"`
 	Date  time.Time `json:"date" yaml:"date" cbor:"date" xml:"date"`
-}
-
-// GetOverviews 获取所有用户的摘要信息
-func (m *Module) GetOverviews(q *query.Limit) (*query.Page[OverviewVO], error) {
-	sql := m.db.SQLBuilder().Select().From(orm.TableName(&overviewPO{}))
-
-	return query.PagingWithConvert(q, sql, func(o *overviewPO) *OverviewVO {
-		return &OverviewVO{
-			Available: o.Available,
-			Freeze:    o.Freeze,
-			Used:      o.Used,
-		}
-	})
 }
 
 // GetOverview 获取用户 u 的摘要信息
@@ -113,7 +135,7 @@ func (m *Module) Add(tx *orm.Tx, u *user.User, val uint, memo string, expire tim
 		return err
 	}
 
-	log := &logPO{
+	log := &LogPO{
 		UID:    overview.UID,
 		Before: overview.Available,
 		After:  ov.Available,
@@ -148,7 +170,7 @@ func (m *Module) Add(tx *orm.Tx, u *user.User, val uint, memo string, expire tim
 }
 
 // Del 减少金额
-func (m *Module) Del(tx *orm.Tx, u *user.User, val uint64, memo string) error {
+func (m *Module) Del(tx *orm.Tx, u *user.User, val uint, memo string) error {
 	e := m.engine(tx)
 	v := int64(val)
 
@@ -224,7 +246,7 @@ func (m *Module) Del(tx *orm.Tx, u *user.User, val uint64, memo string) error {
 	}
 
 	// 更新 logPO
-	log := &logPO{
+	log := &LogPO{
 		UID:    overview.UID,
 		Before: overview.Available,
 		After:  o2.Available,
@@ -263,7 +285,7 @@ func (m *Module) Freeze(tx *orm.Tx, u *user.User, val uint, memo string) error {
 		return err
 	}
 
-	log := &logPO{
+	log := &LogPO{
 		UID:    u.ID,
 		Before: overview.Available,
 		After:  o2.Available,
@@ -297,7 +319,7 @@ func (m *Module) Unfreeze(tx *orm.Tx, u *user.User, val int64, memo string) erro
 		return err
 	}
 
-	log := &logPO{
+	log := &LogPO{
 		UID:    u.ID,
 		Before: overview.Available,
 		After:  o2.Available,
@@ -315,12 +337,12 @@ type LogQuery struct {
 }
 
 // GetLogs 查询日志
-func (m *Module) GetLogs(u *user.User, q *LogQuery) (*query.Page[logPO], error) {
+func (m *Module) GetLogs(u *user.User, q *LogQuery) (*query.Page[LogPO], error) {
 	sql := m.db.SQLBuilder().Select().Where("uid=?", u.ID)
 	if q.Text.Text != "" {
 		text := "%" + q.Text.Text + "%"
 		sql.And("memo LIKE ?", text)
 	}
 
-	return query.Paging[logPO](&q.Limit, sql, nil)
+	return query.Paging[LogPO](&q.Limit, sql, nil)
 }

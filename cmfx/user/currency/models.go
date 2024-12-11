@@ -58,8 +58,8 @@ func (Type) OpenAPISchema(s *openapi.Schema) {
 
 func (Type) PrimitiveType() core.PrimitiveType { return core.String }
 
-// 货币花费明细
-type logPO struct {
+// LogPO 货币花费明细
+type LogPO struct {
 	ID  int64 `orm:"name(id);ai" json:"-" yaml:"-" xml:"-" cbor:"-"`
 	UID int64 `orm:"name(uid)" json:"-" yaml:"-" xml:"-" cbor:"-"`
 
@@ -71,9 +71,9 @@ type logPO struct {
 	Type    Type      `orm:"name(type);len(10)" json:"type" yaml:"type" xml:"type" cbor:"type" comment:"type of action"`
 }
 
-func (p *logPO) TableName() string { return "_logs" }
+func (p *LogPO) TableName() string { return "_logs" }
 
-func (p *logPO) BeforeInsert() error {
+func (p *LogPO) BeforeInsert() error {
 	p.Created = time.Now()
 	return nil
 }

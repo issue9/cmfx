@@ -39,7 +39,7 @@ func TestCurrency(t *testing.T) {
 			Zero(ov.Expire).
 			Zero(ov.Freeze)
 
-		log := &logPO{}
+		log := &LogPO{}
 		_, err = m.db.Where("uid=?", u1.ID).Select(true, log)
 		a.NotError(err).
 			Equal(log.Value, 10).
@@ -57,7 +57,7 @@ func TestCurrency(t *testing.T) {
 			Equal(ov.Expire, 10).
 			Zero(ov.Freeze)
 
-		size, err := m.db.Where("uid=?", u1.ID).Count(&logPO{})
+		size, err := m.db.Where("uid=?", u1.ID).Count(&LogPO{})
 		a.NotError(err).Equal(size, 2)
 	})
 
@@ -73,10 +73,10 @@ func TestCurrency(t *testing.T) {
 	})
 
 	t.Run("GetOverviews", func(t *testing.T) {
-		vo, err := m.GetOverviews(&query.Limit{Size: 10, Page: 0})
+		vo, err := m.GetOverviews(&query.Text{Limit: query.Limit{Size: 10, Page: 0}})
 		a.NotError(err).Length(vo.Current, 1)
 
-		vo, err = m.GetOverviews(&query.Limit{Size: 10, Page: 0})
+		vo, err = m.GetOverviews(&query.Text{Limit: query.Limit{Size: 10, Page: 0}})
 		a.NotError(err).Length(vo.Current, 1)
 	})
 
@@ -90,7 +90,7 @@ func TestCurrency(t *testing.T) {
 			Equal(ov.Expire, 5).
 			Equal(ov.Used, 5)
 
-		size, err := m.db.Where("uid=?", u1.ID).Count(&logPO{})
+		size, err := m.db.Where("uid=?", u1.ID).Count(&LogPO{})
 		a.NotError(err).Equal(size, 3)
 
 		m.Del(nil, u1, 10, "-10")
@@ -102,7 +102,7 @@ func TestCurrency(t *testing.T) {
 			Zero(ov.Expire).
 			Equal(ov.Used, 15)
 
-		size, err = m.db.Where("uid=?", u1.ID).Count(&logPO{})
+		size, err = m.db.Where("uid=?", u1.ID).Count(&LogPO{})
 		a.NotError(err).Equal(size, 4)
 	})
 
@@ -118,7 +118,7 @@ func TestCurrency(t *testing.T) {
 			Zero(ov.Expire).
 			Equal(ov.Used, 15)
 
-		size, err := m.db.Where("uid=?", u1.ID).Count(&logPO{})
+		size, err := m.db.Where("uid=?", u1.ID).Count(&LogPO{})
 		a.NotError(err).Equal(size, 5)
 	})
 
@@ -134,7 +134,7 @@ func TestCurrency(t *testing.T) {
 			Zero(ov.Expire).
 			Equal(ov.Used, 15)
 
-		size, err := m.db.Where("uid=?", u1.ID).Count(&logPO{})
+		size, err := m.db.Where("uid=?", u1.ID).Count(&LogPO{})
 		a.NotError(err).Equal(size, 6)
 	})
 }

@@ -100,6 +100,10 @@ func PagingWithConvert[T, R any](l *Limit, sql *sqlbuilder.SelectStmt, f func(*T
 		return nil, err
 	}
 
+	if p == nil {
+		return nil, nil
+	}
+
 	curr := make([]*R, 0, len(p.Current))
 	for _, item := range p.Current {
 		curr = append(curr, f(item))

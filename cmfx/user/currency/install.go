@@ -14,7 +14,7 @@ import (
 func Install(mod *user.Module, id string) {
 	db := buildDB(mod.Module().DB(), id)
 
-	if err := db.Create(&overviewPO{}, &expirePO{}, &logPO{}); err != nil {
+	if err := db.Create(&overviewPO{}, &expirePO{}, &LogPO{}); err != nil {
 		panic(web.SprintError(mod.Module().Server().Locale().Printer(), true, err))
 	}
 }
