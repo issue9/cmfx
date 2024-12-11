@@ -78,7 +78,9 @@ function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContext,
     return async (q: Q): Promise<Page<T> | undefined> => {
         const ret = await ctx.api.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
-            await ctx.outputProblem(ret.body);
+            if (ret.status !== 404) {
+                await ctx.outputProblem(ret.body);
+            }
             return { count: 0, current: [] };
         }
         return ret.body;
@@ -89,7 +91,9 @@ function buildNoPagingLoadFunc<T extends object, Q extends Query>(ctx: AppContex
     return async (q: Q): Promise<Array<T> | undefined> => {
         const ret = await ctx.api.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {
-            await ctx.outputProblem(ret.body);
+            if (ret.status !== 404) {
+                await ctx.outputProblem(ret.body);
+            }
             return [];
         }
         return ret.body;
