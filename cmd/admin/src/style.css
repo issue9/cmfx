@@ -1,3 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* 项目中必须引入此三项，否则像 basis-1/2 之类的会不启作用 */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .test {
     color: red;
 }

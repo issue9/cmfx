@@ -39,7 +39,7 @@ func PagingResponser[T any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectSt
 // T 为从数据库读取的数据类型，R 为返回给客户端数据元素项的类型。两者都不能为指针类型；
 // convert 用于将当前页的每个数据 *T 转换成 *R 类型；
 func PagingResponserWithConvert[T, R any](ctx *web.Context, l *Limit, sql *sqlbuilder.SelectStmt, convert func(*T) *R) web.Responser {
-	p, err := Paging[T](l, sql, nil)
+	p, err := PagingWithConvert(l, sql, convert)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -47,16 +47,7 @@ func PagingResponserWithConvert[T, R any](ctx *web.Context, l *Limit, sql *sqlbu
 		return ctx.NotFound()
 	}
 
-	items := make([]*R, 0, len(p.Current))
-	for _, item := range p.Current {
-		items = append(items, convert(item))
-	}
-
-	return web.OK(&Page[R]{
-		Count:   p.Count,
-		Current: items,
-		More:    p.More,
-	})
+	return web.OK(p)
 }
 
 // Paging 返回分页对象
@@ -96,5 +87,27 @@ func Paging[T any](l *Limit, sql *sqlbuilder.SelectStmt, f func(*T)) (*Page[T], 
 		Count:   count,
 		Current: curr,
 		More:    int64(offset+n) < count,
+	}, nil
+}
+
+// Paging 返回分页对象
+//
+// T 为从数据库读取的数据类型，R 为返回给客户端数据元素项的类型。两者都不能为指针类型；
+// f 用于对当前页的每一个元素 *T 进行额外处理；
+func PagingWithConvert[T, R any](l *Limit, sql *sqlbuilder.SelectStmt, f func(*T) *R) (*Page[R], error) {
+	p, err := Paging[T](l, sql, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	curr := make([]*R, 0, len(p.Current))
+	for _, item := range p.Current {
+		curr = append(curr, f(item))
+	}
+
+	return &Page[R]{
+		Count:   p.Count,
+		Current: curr,
+		More:    p.More,
 	}, nil
 }

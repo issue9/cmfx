@@ -29,10 +29,23 @@ type OverviewExpireVO struct {
 	Date  time.Time `json:"date" yaml:"date" cbor:"date" xml:"date"`
 }
 
-// GetUserOverview 获取用户 u 的摘要信息
+// GetOverviews 获取所有用户的摘要信息
+func (m *Module) GetOverviews(q *query.Limit) (*query.Page[OverviewVO], error) {
+	sql := m.db.SQLBuilder().Select().From(orm.TableName(&overviewPO{}))
+
+	return query.PagingWithConvert(q, sql, func(o *overviewPO) *OverviewVO {
+		return &OverviewVO{
+			Available: o.Available,
+			Freeze:    o.Freeze,
+			Used:      o.Used,
+		}
+	})
+}
+
+// GetOverview 获取用户 u 的摘要信息
 //
 // expire Expire 字段返回在此之前过期的积分，如果为空，则 Expire 不返回；
-func (m *Module) GetUserOverview(u *user.User, expire time.Time) (*OverviewVO, error) {
+func (m *Module) GetOverview(u *user.User, expire time.Time) (*OverviewVO, error) {
 	p := &overviewPO{ID: u.ID}
 	if found, err := m.db.Select(p); err != nil {
 		return nil, err
