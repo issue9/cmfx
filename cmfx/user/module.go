@@ -11,7 +11,6 @@ import (
 	"github.com/issue9/cache"
 	"github.com/issue9/events"
 	"github.com/issue9/mux/v9/header"
-	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
@@ -118,8 +117,8 @@ func (m *Module) GetUserByUsername(username string) (*User, error) {
 //
 // alias 为 [User] 表的别名，on 为 LEFT JOIN 的条件。
 func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states []State) {
-	sql.Columns(alias+".state", alias+".no", alias+".created").
-		Join("LEFT", orm.TableName(&User{}), alias, on).
+	sql.Columns(alias+".state", alias+".no", alias+".created", alias+".username").
+		Join("LEFT", m.mod.DB().TablePrefix()+(&User{}).TableName(), alias, on).
 		AndIn(alias+".state", sliceutil.AnySlice(states)...)
 }
 
