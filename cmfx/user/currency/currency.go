@@ -338,7 +338,7 @@ type LogQuery struct {
 
 // GetLogs 查询日志
 func (m *Module) GetLogs(u *user.User, q *LogQuery) (*query.Page[LogPO], error) {
-	sql := m.db.SQLBuilder().Select().Where("uid=?", u.ID)
+	sql := m.db.SQLBuilder().Select().Where("uid=?", u.ID).From(orm.TableName(&LogPO{}))
 	if q.Text.Text != "" {
 		text := "%" + q.Text.Text + "%"
 		sql.And("memo LIKE ?", text)

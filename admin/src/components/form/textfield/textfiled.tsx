@@ -23,6 +23,12 @@ export interface Props<T> extends FieldBaseProps {
     suffix?: JSX.Element;
 
     placeholder?: string;
+    
+    /**
+     * 内容类型
+     *
+     * 只有在此值为 number 时，内容才会被当作数值处理。
+     */
     type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
     rounded?: boolean;
     accessor: Accessor<T>;
@@ -64,7 +70,14 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
                     readOnly={props.readonly}
                     placeholder={props.placeholder}
                     value={access.getValue()}
-                    onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }}
+                    onInput={(e) => {
+                        let v = e.target.value as T;
+                        if (props.type === 'number') {
+                            v = parseInt(e.target.value) as T;
+                        }
+                        access.setValue(v);
+                        access.setError(); 
+                    }}
                 />
                 <Show when={props.suffix}>{props.suffix}</Show>
             </div>

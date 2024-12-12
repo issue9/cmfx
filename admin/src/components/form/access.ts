@@ -181,7 +181,7 @@ export class ObjectAccessor<T extends object> {
     /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
      *
-     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 Accessor 接口，
+     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
      * @template FT 表示 name 字段的类型；
