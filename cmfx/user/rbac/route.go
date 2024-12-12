@@ -70,7 +70,7 @@ func PostRolesHandle(g *RoleGroup, ctx *web.Context) web.Responser {
 //
 // idName 路由地址中表示角色 ID 的参数名称；
 func PutRoleHandle(g *RoleGroup, idName string, ctx *web.Context) web.Responser {
-	id, resp := ctx.PathString(idName, cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathString(idName, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}
@@ -96,7 +96,7 @@ func PutRoleHandle(g *RoleGroup, idName string, ctx *web.Context) web.Responser 
 //
 // idName 路由地址中表示角色 ID 的参数名称；
 func DeleteRoleHandle(g *RoleGroup, idName string, ctx *web.Context) web.Responser {
-	id, resp := ctx.PathString(idName, cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathString(idName, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}
@@ -120,7 +120,7 @@ func GetResourcesHandle(g *RoleGroup, ctx *web.Context) web.Responser {
 //
 // idName 路由地址中表示角色 ID 的参数名称；
 func GetRoleResourcesHandle(g *RoleGroup, idName string, ctx *web.Context) web.Responser {
-	id, resp := ctx.PathString(idName, cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathString(idName, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}
@@ -135,7 +135,7 @@ func GetRoleResourcesHandle(g *RoleGroup, idName string, ctx *web.Context) web.R
 //
 // idName 路由地址中表示角色 ID 的参数名称；
 func PutRoleResourcesHandle(g *RoleGroup, idName string, ctx *web.Context) web.Responser {
-	id, resp := ctx.PathString(idName, cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathString(idName, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}

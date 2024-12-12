@@ -75,7 +75,7 @@ type memberInfoTO struct {
 
 func (m *Module) memberPathInfo(ctx *web.Context) web.Responser {
 	data := &memberInfoTO{}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidPath); resp != nil {
+	if resp := ctx.Read(true, data, cmfx.NotFoundInvalidPath); resp != nil {
 		return resp
 	}
 

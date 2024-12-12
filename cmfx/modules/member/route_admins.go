@@ -99,7 +99,7 @@ type passportIdentityVO struct {
 }
 
 func (m *Module) adminGetMember(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}
@@ -153,7 +153,7 @@ func (m *Module) adminDeleteMemberLock(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) setMemberState(ctx *web.Context, state user.State, code int) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}

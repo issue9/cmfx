@@ -18,6 +18,9 @@ messages:
     - key: add admin api
       message:
         msg: 添加管理员
+    - key: add currency value
+      message:
+        msg: 增加的金额
     - key: add role api
       message:
         msg: 添加管理员角色
@@ -30,6 +33,9 @@ messages:
     - key: auth tag
       message:
         msg: 登录验证
+    - key: auto register with %s
+      message:
+        msg: 由 %s 触发而自动注册
     - key: avatar
       message:
         msg: 头像
@@ -61,13 +67,6 @@ messages:
       message:
         msg: |
             无效的报头内容，缺少必要的报头，或是提交的报头格式不正确返回此错误。
-    - key: bad request invalid param
-      message:
-        msg: 无效的路径参数
-    - key: bad request invalid param detail
-      message:
-        msg: |
-            无效的路径参数，一般是路径参数的格式不正常，比如要求是数值型的，提交了 undefined， 比如 `/users/1` 变成了 `/users/undefined`。
     - key: bad request invalid query
       message:
         msg: 无效的查询参数
@@ -75,6 +74,9 @@ messages:
       message:
         msg: |
             查询参数格式不正确，类似于无效的路径参数，大概率是前端提交的类型有误。
+    - key: balance not enough
+      message:
+        msg: 余额不足
     - key: before bind need create secret
       message:
         msg: 绑定之前需要先创建密钥
@@ -84,6 +86,9 @@ messages:
     - key: bind %s passport for current user api
       message:
         msg: 为当前用户绑定 %s 验证方式
+    - key: can not add user with %s state
+      message:
+        msg: 在 %s 状态下不能添加用户
     - key: censor setting
       message:
         msg: 内容审核设置
@@ -99,6 +104,12 @@ messages:
     - key: created time
       message:
         msg: 创建时间
+    - key: currency value after action
+      message:
+        msg: 操作之后的金额
+    - key: currency value before action
+      message:
+        msg: 操作之前的金额
     - key: del backup database file
       message:
         msg: 删除备份的数据库文件
@@ -135,6 +146,9 @@ messages:
     - key: edit roles
       message:
         msg: 修改角色信息
+    - key: expire must b after now
+      message:
+        msg: 过期时间必须在此之前
     - key: forbidden can not delete yourself
       message:
         msg: 不允许删除自身
@@ -278,6 +292,9 @@ messages:
     - key: member tag
       message:
         msg: 会员
+    - key: memo of action
+      message:
+        msg: 此操作的备注
     - key: must be a dir
       message:
         msg: 必须得是个目录
@@ -302,6 +319,13 @@ messages:
     - key: not found
       message:
         msg: 未找到
+    - key: not found invalid path
+      message:
+        msg: 无效的路径参数
+    - key: not found invalid path detail
+      message:
+        msg: |
+            无效的路径参数，一般是路径参数的格式不正常，比如要求是数值型的，提交了 undefined， 比如 `/users/1` 变成了 `/users/undefined`。
     - key: old password
       message:
         msg: 旧密码
@@ -347,6 +371,12 @@ messages:
     - key: refresh token api
       message:
         msg: 刷新令牌
+    - key: register member api
+      message:
+        msg: 注册会员
+    - key: register successful
+      message:
+        msg: 会员注册成功
     - key: request code for %s passport bind api
       message:
         msg: 为绑定 %s 验证方式请求验证码
@@ -431,6 +461,9 @@ messages:
     - key: totp secret
       message:
         msg: TOTP 密钥
+    - key: type of action
+      message:
+        msg: 操作的类型
     - key: unauthorized invalid account
       message:
         msg: 账号或是密码错误
@@ -499,6 +532,9 @@ messages:
     - key: username
       message:
         msg: 账号
+    - key: username %s exists
+      message:
+        msg: 用户名 %s 已经存在
     - key: view apis
       message:
         msg: 查看接口信息

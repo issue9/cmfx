@@ -88,7 +88,7 @@ export default function(props: Props): JSX.Element {
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={ctx.locale().t('_i.page.editItem')}>visibility</LinkButton>
+                                title={ctx.locale().t('_i.page.member.view')}>visibility</LinkButton>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>

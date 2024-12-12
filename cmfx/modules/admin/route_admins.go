@@ -29,7 +29,7 @@ type adminInfoVO struct {
 }
 
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}
@@ -212,7 +212,7 @@ func (m *Module) deleteAdminLocked(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) setAdminState(ctx *web.Context, state user.State, code int) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
 	}
@@ -234,7 +234,7 @@ func (m *Module) setAdminState(ctx *web.Context, state user.State, code int) web
 }
 
 func (m *Module) getUserFromPath(ctx *web.Context) (*user.User, web.Responser) {
-	id, resp := ctx.PathID("id", cmfx.BadRequestInvalidPath)
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return nil, resp
 	}

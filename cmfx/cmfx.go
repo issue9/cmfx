@@ -20,11 +20,10 @@ const Version = "0.7.12"
 // 400
 const (
 	BadRequest               = web.ProblemBadRequest
-	BadRequestInvalidPath    = "40001"
-	BadRequestInvalidQuery   = "40002"
-	BadRequestInvalidHeader  = "40003"
-	BadRequestInvalidBody    = "40004"
-	BadRequestBodyNotAllowed = "40005" // 提交内容的类型不允许，比如不允许的上传类型等
+	BadRequestInvalidQuery   = "40001"
+	BadRequestInvalidHeader  = "40002"
+	BadRequestInvalidBody    = "40003"
+	BadRequestBodyNotAllowed = "40004" // 提交内容的类型不允许，比如不允许的上传类型等
 )
 
 // 401
@@ -46,7 +45,10 @@ const (
 )
 
 // 404
-const NotFound = web.ProblemNotFound
+const (
+	NotFound            = web.ProblemNotFound
+	NotFoundInvalidPath = "40401"
+)
 
 // 413
 const RequestEntityTooLarge = web.ProblemRequestEntityTooLarge

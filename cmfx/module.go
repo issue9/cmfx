@@ -145,7 +145,6 @@ func locale(s web.Server) {
 // 初始化与 [web.Problem] 相关的本地化信息
 func problems(s web.Server) {
 	s.Problems().Add(http.StatusBadRequest,
-		&web.LocaleProblem{ID: BadRequestInvalidPath, Title: web.StringPhrase("bad request invalid param"), Detail: web.StringPhrase("bad request invalid param detail")},
 		&web.LocaleProblem{ID: BadRequestInvalidQuery, Title: web.StringPhrase("bad request invalid query"), Detail: web.StringPhrase("bad request invalid query detail")},
 		&web.LocaleProblem{ID: BadRequestInvalidHeader, Title: web.StringPhrase("bad request invalid header"), Detail: web.StringPhrase("bad request invalid header detail")},
 		&web.LocaleProblem{ID: BadRequestInvalidBody, Title: web.StringPhrase("bad request invalid body"), Detail: web.StringPhrase("bad request invalid body detail")},
@@ -160,5 +159,7 @@ func problems(s web.Server) {
 	).Add(http.StatusForbidden,
 		&web.LocaleProblem{ID: ForbiddenStateNotAllow, Title: web.StringPhrase("forbidden state not allow"), Detail: web.StringPhrase("forbidden state not allow detail")},
 		&web.LocaleProblem{ID: ForbiddenCaNotDeleteYourself, Title: web.StringPhrase("forbidden can not delete yourself"), Detail: web.StringPhrase("forbidden can not delete yourself detail")},
+	).Add(http.StatusNotFound,
+		&web.LocaleProblem{ID: NotFoundInvalidPath, Title: web.StringPhrase("not found invalid path"), Detail: web.StringPhrase("not found invalid path detail")},
 	)
 }

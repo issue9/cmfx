@@ -16,6 +16,9 @@ messages:
     - key: add admin api
       message:
         msg: add admin api
+    - key: add currency value
+      message:
+        msg: add currency value
     - key: add role api
       message:
         msg: add role api
@@ -28,6 +31,9 @@ messages:
     - key: auth tag
       message:
         msg: auth tag
+    - key: auto register with %s
+      message:
+        msg: auto register with %s
     - key: avatar
       message:
         msg: avatar
@@ -55,18 +61,15 @@ messages:
     - key: bad request invalid header detail
       message:
         msg: bad request invalid header detail
-    - key: bad request invalid param
-      message:
-        msg: bad request invalid param
-    - key: bad request invalid param detail
-      message:
-        msg: bad request invalid param detail
     - key: bad request invalid query
       message:
         msg: bad request invalid query
     - key: bad request invalid query detail
       message:
         msg: bad request invalid query detail
+    - key: balance not enough
+      message:
+        msg: balance not enough
     - key: before bind need create secret
       message:
         msg: before bind need create secret
@@ -76,6 +79,9 @@ messages:
     - key: bind %s passport for current user api
       message:
         msg: bind %s passport for current user api
+    - key: can not add user with %s state
+      message:
+        msg: can not add user with %s state
     - key: censor setting
       message:
         msg: censor setting
@@ -91,6 +97,12 @@ messages:
     - key: created time
       message:
         msg: created time
+    - key: currency value after action
+      message:
+        msg: currency value after action
+    - key: currency value before action
+      message:
+        msg: currency value before action
     - key: del backup database file
       message:
         msg: del backup database file
@@ -127,6 +139,9 @@ messages:
     - key: edit roles
       message:
         msg: edit roles
+    - key: expire must b after now
+      message:
+        msg: expire must b after now
     - key: forbidden can not delete yourself
       message:
         msg: forbidden can not delete yourself
@@ -268,6 +283,9 @@ messages:
     - key: member tag
       message:
         msg: member tag
+    - key: memo of action
+      message:
+        msg: memo of action
     - key: must be a dir
       message:
         msg: must be a dir
@@ -292,6 +310,12 @@ messages:
     - key: not found
       message:
         msg: not found
+    - key: not found invalid path
+      message:
+        msg: not found invalid path
+    - key: not found invalid path detail
+      message:
+        msg: not found invalid path detail
     - key: old password
       message:
         msg: old password
@@ -337,6 +361,12 @@ messages:
     - key: refresh token api
       message:
         msg: refresh token api
+    - key: register member api
+      message:
+        msg: register member api
+    - key: register successful
+      message:
+        msg: register successful
     - key: request code for %s passport bind api
       message:
         msg: request code for %s passport bind api
@@ -421,6 +451,9 @@ messages:
     - key: totp secret
       message:
         msg: totp secret
+    - key: type of action
+      message:
+        msg: type of action
     - key: unauthorized invalid account
       message:
         msg: unauthorized invalid account
@@ -487,6 +520,9 @@ messages:
     - key: username
       message:
         msg: username
+    - key: username %s exists
+      message:
+        msg: username %s exists
     - key: view apis
       message:
         msg: view apis
