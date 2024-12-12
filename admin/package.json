@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.7.11",
+    "version": "0.7.12",
     "type": "module",
     "description": "适用于 cmfx 的后台管理框架",
     "author": {
@@ -98,9 +98,9 @@
         "test": "vitest --coverage.enabled true"
     },
     "dependencies": {
-        "@formatjs/intl-durationformat": "^0.6.5",
+        "@formatjs/intl-durationformat": "^0.7.1",
         "@formatjs/intl-localematcher": "^0.5.9",
-        "@solidjs/router": "^0.15.1",
+        "@solidjs/router": "^0.15.2",
         "bowser": "^2.11.0",
         "echarts": "^5.5.1",
         "intl-messageformat": "^10.7.10",
@@ -110,7 +110,7 @@
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },
     "devDependencies": {
-        "@types/node": "^22.10.1",
+        "@types/node": "^22.10.2",
         "@vitest/coverage-v8": "^2.1.8",
         "autoprefixer": "^10.4.20",
         "cssnano": "^7.0.6",
