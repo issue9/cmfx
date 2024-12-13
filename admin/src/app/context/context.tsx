@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocation, useNavigate } from '@solidjs/router';
+import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { Options as buildOptions } from '@/app/options';
@@ -78,8 +78,33 @@ export function buildContext(opt: Required<buildOptions>, f: API) {
 
     const nav = useNavigate();
     const loc = useLocation();
+    const params = useParams();
 
     const ctx = {
+        /**
+         * 返回 {@link useParams} 的返回对象
+         *
+         * 在新项目中直接使用 {@link useParams} 会与当前框架的存在冲突。
+         * 所有需要使用 {@link useParmas} 的地址可直接使用此方法的返回对象。
+         */
+        params() { return params; },
+        
+        /**
+         * 返回 {@link useLocation} 的返回对象
+         *
+         * 在新项目中直接使用 {@link useLocation} 会与当前框架的存在冲突。
+         * 所有需要使用 {@link useLocation} 的地址可直接使用此方法的返回对象。
+         */
+        location() { return loc; },
+        
+        /**
+         * 返回 {@link useNavigate} 的返回对象
+         *
+         * 在新项目中直接使用 {@link useNavigate} 会与当前框架的存在冲突。
+         * 所有需要使用 {@link useNavigate} 的地址可直接使用此方法的返回对象。
+         */
+        navigate() { return nav; },
+
         /**
          * 是否已经登录
          */

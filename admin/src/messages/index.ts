@@ -10,7 +10,7 @@ export type { Messages } from './en';
 /**
  * 支持的语言 ID
  */
-export const locales = ['en', 'cmn-Hans'] as const;
+export const locales = ['en', 'zh-Hans'] as const;
 
 export type LocaleID = typeof locales[number];
 

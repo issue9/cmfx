@@ -21,7 +21,7 @@ test('build', async () => {
             'en': [async () => { return (await import('@/messages/en')).default; }],
             'zh-Hans': [async () => { return (await import('@/messages/zh-Hans.ts')).default; }],
         },
-        locales: ['en', 'cmn-Hans'],
+        locales: ['en', 'zh-Hans'],
         fallback: 'en'
     };
 

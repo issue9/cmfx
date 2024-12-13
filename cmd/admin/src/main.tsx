@@ -49,7 +49,7 @@ const routes: Routes = {
         home: '/current/dashboard',
         routes: [
             { path: ['/dashboard', '/'], component: pages.current.Dashboard },
-            { path: '/test', component: Test },
+            { path: '/test/:id/test', component: Test },
             ...roles.routes(),
             ...admins.routes(),
             ...system.routes(),
@@ -62,7 +62,7 @@ const routes: Routes = {
 
 const menus: Options['menus'] = [
     { type: 'item', icon: 'dashboard', label: '_i.page.current.dashboard', path: '/current/dashboard' },
-    { type: 'item', label: 'nest.abc', path: '/test' },
+    { type: 'item', label: 'nest.abc', path: '/test/5/test' },
     {
         type: 'group', label: 'system', items: [
             {

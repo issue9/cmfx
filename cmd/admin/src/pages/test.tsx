@@ -8,6 +8,8 @@ import { MessageKey } from '../locales';
 export default function Test() {
     const ctx = useApp();
     ctx.locale().t<MessageKey>('home');
+    const ps = ctx.useParams();
+    console.log(ps.id);
 
-    return <div>{ ctx.locale().t<MessageKey>('nest.abc') as string }</div>;
+    return <div>{ctx.locale().t<MessageKey>('nest.abc') as string},{ ps.id}</div>;
 }

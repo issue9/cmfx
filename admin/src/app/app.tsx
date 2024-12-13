@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { HashRouter, Navigate } from '@solidjs/router';
+import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { createEffect, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
@@ -40,8 +40,8 @@ function App(props: {opt: Required<Options>, api: API}) {
     const menuVisible = createSignal(true);
     const [floating, setFloating] = createSignal(false);
 
-    const Root = (p: ParentProps) => {
-        // buildContext 中使用了 useContext 和 useNavigate，必须得 Router 之内使用。
+    const Root = (p: RouteSectionProps) => {
+        // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
         const { ctx, Provider } = buildContext(props.opt, props.api);
 
         createEffect(() => { setFloating(!(compareBreakpoint(ctx.breakpoint(), props.opt.asideFloatingMinWidth) > 0)); });
