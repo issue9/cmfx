@@ -4,9 +4,9 @@
 
 import { MenuItem, Route } from '@/app/options/route';
 import { Pages } from '@/pages/pages';
-import { default as APIs } from './apis';
-import { default as Info } from './info';
-import { default as Services } from './services';
+import { APIs } from './apis';
+import { Info } from './info';
+import { Services } from './services';
 
 export class system implements Pages {
     static APIs = APIs;

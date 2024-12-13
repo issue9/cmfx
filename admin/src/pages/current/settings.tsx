@@ -8,7 +8,7 @@ import { useApp, useOptions } from '@/app/context';
 import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup } from '@/components';
 import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@/core';
 
-export default function(): JSX.Element {
+export function Settings(): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
 

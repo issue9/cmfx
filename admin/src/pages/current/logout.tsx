@@ -8,7 +8,7 @@ import { JSX, onMount } from 'solid-js';
 import { useApp, useOptions } from '@/app/context';
 import { Page } from '@/components';
 
-export default function(): JSX.Element {
+export function Logout(): JSX.Element {
     const ctx = useApp();
     const nav = useNavigate();
     const opt = useOptions();

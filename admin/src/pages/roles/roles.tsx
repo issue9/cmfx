@@ -25,7 +25,7 @@ interface Props {
     routePrefix: string;
 }
 
-export default function Roles(props: Props): JSX.Element {
+export function Roles(props: Props): JSX.Element {
     const ctx = useApp();
     let tableRef: RemoteTableRef<Role>;
     let dialogRef: DialogRef;

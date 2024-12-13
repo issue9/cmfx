@@ -4,9 +4,9 @@
 
 import { MenuItem, Route } from '@/app/options/route';
 import { Pages } from '@/pages/pages';
-import { default as Permission } from './permission';
-import { default as Roles } from './roles';
-import { default as Selector } from './selector';
+import { Permission } from './permission';
+import { Roles } from './roles';
+import { Selector } from './selector';
 
 /**
  * 提供所有角色相关的功能

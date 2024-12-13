@@ -48,7 +48,7 @@ interface Q extends Query {
 /**
  * 会员列表组件
  */
-export default function(props: Props): JSX.Element {
+export function Members(props: Props): JSX.Element {
     const ctx = useApp();
 
     const q: Q = {

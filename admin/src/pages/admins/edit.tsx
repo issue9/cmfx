@@ -10,7 +10,7 @@ import { Button, Divider, Form, FormAccessor, Icon, Page, TextField } from '@/co
 import { Passport, Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
-export default function(): JSX.Element {
+export function Edit(): JSX.Element {
     const ctx = useApp();
     const ps = useParams<{id: string}>();
 

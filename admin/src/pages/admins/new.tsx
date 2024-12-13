@@ -10,7 +10,7 @@ import { Button, Form, FormAccessor, Page, Password, TextField } from '@/compone
 import { Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
-export default function(): JSX.Element {
+export function New(): JSX.Element {
     const ctx = useApp();
     const nav = useNavigate();
 

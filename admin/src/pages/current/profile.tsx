@@ -16,7 +16,7 @@ interface Props {
     passports: Map<string, PassportComponents>;
 }
 
-export default function(props: Props): JSX.Element {
+export function Profile(props: Props): JSX.Element {
     const opt = useOptions();
     const ctx = useApp();
     let uploadRef: UploadRef;

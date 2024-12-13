@@ -6,8 +6,8 @@ import { Component } from 'solid-js';
 
 import { MenuItem, Route } from '@/app/options/route';
 import { Pages } from '@/pages/pages';
-import { ActionProps, default as Members } from './members';
-import { PanelProps, default as View } from './view';
+import { ActionProps, Members } from './members';
+import { PanelProps, View } from './view';
 export type { Member } from './types';
 
 export class members implements Pages {

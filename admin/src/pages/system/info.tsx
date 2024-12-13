@@ -7,7 +7,7 @@ import { createMemo, createResource, For, JSX } from 'solid-js';
 import { useApp } from '@/app';
 import { ConfirmButton, Divider, Icon, Label, Page } from '@/components';
 
-export default function(): JSX.Element {
+export function Info(): JSX.Element {
     const ctx = useApp();
 
     const [info] = createResource(async()=>{

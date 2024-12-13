@@ -19,7 +19,7 @@ interface RoleResource {
     parent: Array<string>;
 }
 
-export default function(): JSX.Element {
+export function Permission(): JSX.Element {
     const ctx = useApp();
     const ps = useParams<{id: string}>();
     const nav = useNavigate();

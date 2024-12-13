@@ -31,7 +31,7 @@ interface Q extends Query {
     text: string;
 }
 
-export default function(): JSX.Element {
+export function APIs(): JSX.Element {
     const ctx = useApp();
 
     const queries: Q = {

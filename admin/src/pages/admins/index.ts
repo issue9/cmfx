@@ -4,9 +4,9 @@
 
 import { MenuItem, Route } from '@/app/options/route';
 import { Pages } from '@/pages/pages';
-import { default as Admins } from './admins';
-import { default as Edit } from './edit';
-import { default as New } from './new';
+import { Admins } from './admins';
+import { Edit } from './edit';
+import { New } from './new';
 
 export class admins implements Pages {
     static Admins = Admins;

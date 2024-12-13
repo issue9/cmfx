@@ -22,7 +22,7 @@ interface Q extends Query {
     sex: Array<Sex>;
 }
 
-export default function(props: Props): JSX.Element {
+export function Admins(props: Props): JSX.Element {
     const ctx = useApp();
 
     const q: Q = {

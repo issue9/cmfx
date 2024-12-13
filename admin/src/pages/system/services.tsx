@@ -35,7 +35,7 @@ export const stateMap: Array<[State, MessagesKey]> = [
 
 
 
-export default function(): JSX.Element {
+export function Services(): JSX.Element {
     const ctx = useApp();
 
     const items = createMemo(async()=>{

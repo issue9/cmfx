@@ -6,7 +6,7 @@ import { JSX, ParentProps, Show } from 'solid-js';
 
 import { IconSymbol, Label, Page } from '@/components';
 
-export default function(props: ParentProps): JSX.Element {
+export function Dashboard(props: ParentProps): JSX.Element {
     return <Page title='_i.page.current.dashboard' class="p--dashboard">
         {props.children}
     </Page>;

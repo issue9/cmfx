@@ -32,17 +32,17 @@ interface Link {
 /**
  * 登录页面
  */
-export default function (props: Props): JSX.Element {
+export function Login(props: Props): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
 
     return <Switch>
         <Match when={ctx.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
-        <Match when={!ctx.isLogin()}><Login {...props} /></Match>
+        <Match when={!ctx.isLogin()}><LoginBox {...props} /></Match>
     </Switch>;
 }
 
-export function Login(props: Props): JSX.Element {
+function LoginBox(props: Props): JSX.Element {
     const ctx = useApp();
 
     ctx.api.cache('/passports');

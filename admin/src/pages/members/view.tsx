@@ -25,7 +25,7 @@ export interface Props {
     panels?: Component<PanelProps>;
 }
 
-export default function (props: Props): JSX.Element {
+export function View(props: Props): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
     const id = parseInt(useParams().id);

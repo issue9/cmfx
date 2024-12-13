@@ -16,7 +16,7 @@ interface SecurityLog {
     created: string;
 }
 
-export default function(): JSX.Element {
+export function SecurityLogs(): JSX.Element {
     const ctx = useApp();
 
     const q: Query = {

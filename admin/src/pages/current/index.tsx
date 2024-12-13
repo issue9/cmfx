@@ -6,13 +6,13 @@ import { Component, JSX } from 'solid-js';
 
 import { MenuItem, Route } from '@/app';
 import { Pages } from '@/pages/pages';
-import { default as Dashboard, Panel } from './dashboard';
-import { default as Login, Props as LoginProps } from './login';
-import { default as Logout } from './logout';
+import { Dashboard, Panel } from './dashboard';
+import { Login, Props as LoginProps } from './login';
+import { Logout } from './logout';
 import { componens, PassportComponents } from './passport';
-import { default as Profile } from './profile';
-import { default as SecurityLogs } from './securitylogs';
-import { default as Settings } from './settings';
+import { Profile } from './profile';
+import { SecurityLogs } from './securitylogs';
+import { Settings } from './settings';
 
 /**
  * 提供了与当前登录用户直接相关的页面

@@ -10,7 +10,7 @@ import { Role } from './roles';
 
 export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;
 
-export default function<M extends boolean>(props: Props<M>): JSX.Element {
+export function Selector<M extends boolean>(props: Props<M>): JSX.Element {
     const [roles, setRoles] = createSignal<Options<string>>([]);
     const ctx = useApp();
 
