@@ -102,7 +102,7 @@ const o: Options = {
             ],
             'zh-Hans': [
                 async () => { return (await import('@cmfx/admin/dev/messages/zh-Hans.ts')).default; },
-                async () => { return (await import('./locales/cmn-Hans')).default; },
+                async () => { return (await import('./locales/zh-Hans')).default; },
             ],
         },
         fallback: 'en',
