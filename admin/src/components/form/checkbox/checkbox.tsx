@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, mergeProps, Show } from 'solid-js';
+import { createSignal, JSX, mergeProps, Show } from 'solid-js';
 
 import { FieldBaseProps } from '@/components/form';
 import { Icon, IconSymbol } from '@/components/icon';
@@ -32,7 +32,7 @@ const presetProps: Readonly<Props> = {
     indeterminateIcon: 'indeterminate_check_box'
 };
 
-export function Checkbox(props: Props) {
+export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [chk, setChk] = createSignal(props.checked);
 

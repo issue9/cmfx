@@ -5,6 +5,7 @@
 import { Match, mergeProps, ParentProps, Switch } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+import { JSX } from 'solid-js';
 import { Style } from './types';
 
 export type Props = ParentProps<{
@@ -29,7 +30,7 @@ const presetProps: Readonly<Props> = {
     pos: 'start'
 };
 
-export function Divider(props: Props) {
+export function Divider(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     return <div role="separator" aria-orientation="horizontal" style={{'padding-block': props.padding}} classList={{

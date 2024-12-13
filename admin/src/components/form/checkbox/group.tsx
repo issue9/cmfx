@@ -6,6 +6,7 @@ import { For, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 import { IconSymbol } from '@/components/icon';
+import { JSX } from 'solid-js';
 import { Checkbox } from './checkbox';
 
 export interface Props<T> extends FieldBaseProps {
@@ -23,7 +24,7 @@ export interface Props<T> extends FieldBaseProps {
     indeterminateIcon?: IconSymbol;
 }
 
-export function CheckboxGroup<T extends string | number> (props: Props<T>) {
+export function CheckboxGroup<T extends string | number> (props: Props<T>): JSX.Element {
     props = mergeProps({
         icon: true,
         checkedIcon: 'check_box' as IconSymbol,

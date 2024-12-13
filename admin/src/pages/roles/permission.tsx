@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate, useParams } from '@solidjs/router';
-import { createEffect, createResource, createSignal, For } from 'solid-js';
+import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Button, Checkbox, Page } from '@/components';
@@ -19,7 +19,7 @@ interface RoleResource {
     parent: Array<string>;
 }
 
-export default function() {
+export default function(): JSX.Element {
     const ctx = useApp();
     const ps = useParams<{id: string}>();
     const nav = useNavigate();

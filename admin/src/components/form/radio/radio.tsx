@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, mergeProps, Show } from 'solid-js';
+import { For, JSX, mergeProps, Show } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
 import { Icon, IconSymbol } from '@/components/icon';
@@ -21,7 +21,7 @@ export interface Props<T> extends FieldBaseProps {
     uncheckedIcon?: IconSymbol;
 }
 
-export function RadioGroup<T extends string | number | undefined> (props: Props<T>) {
+export function RadioGroup<T extends string | number | undefined> (props: Props<T>): JSX.Element {
     props = mergeProps({
         tabindex: 0,
         checkedIcon: 'radio_button_checked' as IconSymbol,

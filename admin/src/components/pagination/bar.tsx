@@ -7,6 +7,7 @@ import { createMemo, createSignal, mergeProps } from 'solid-js';
 import { useApp, useOptions } from '@/app/context';
 import { BaseProps } from '@/components/base';
 import { Choice, FieldAccessor, Options } from '@/components/form';
+import { JSX } from 'solid-js';
 import { Pagination } from './pagination';
 
 export interface Props extends BaseProps {
@@ -51,7 +52,7 @@ export interface Props extends BaseProps {
  *
  * 相对于 {@link Pagination} 变成了按照数据总量进行计算分页，而不是直接按照页数。
  */
-export function PaginationBar(props: Props) {
+export function PaginationBar(props: Props): JSX.Element {
     const opt = useOptions();
     props = mergeProps({
         total: opt.api.defaultSize,

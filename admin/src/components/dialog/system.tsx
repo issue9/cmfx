@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal } from 'solid-js';
+import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { useOptions } from '@/app/context';
@@ -23,7 +23,7 @@ interface Props extends BaseProps {
  *  - window.confirm
  *  - window.prompt
  */
-export function SystemDialog(props: BaseProps) {
+export function SystemDialog(props: BaseProps): JSX.Element {
     const opt = useOptions();
     return <Portal>
         <Alert header={opt.title} palette={props.palette} />
@@ -37,7 +37,7 @@ export function SystemDialog(props: BaseProps) {
  *
  * 只需要在任意代码位置中插入此组件，之后即会自动替换 window.alert 方法。
  */
-function Alert(props: Props) {
+function Alert(props: Props): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<any>();
 
@@ -56,7 +56,7 @@ function Alert(props: Props) {
 /**
  * 用于替代 window.confirm 的组件
  */
-function Confirm(props: Props) {
+function Confirm(props: Props): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
 
@@ -74,7 +74,7 @@ function Confirm(props: Props) {
 /**
  * 用于替代 window.prompt 的组件
  */
-function Prompt(props: Props) {
+function Prompt(props: Props): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
     const access = FieldAccessor('prompt', '', false);

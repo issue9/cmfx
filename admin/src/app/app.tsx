@@ -20,7 +20,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  *  如果要占满页面可以用 100dvh 和 100dvw 或是预定义的类 view-full；
  * @param o 项目的初始化选项；
  */
-export async function create(elementID: string, o: Options) {
+export async function create(elementID: string, o: Options): Promise<void> {
     const opt = buildOptions(o);
     const api = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
     await api.cache(opt.api.info);
@@ -36,7 +36,7 @@ export async function create(elementID: string, o: Options) {
 /**
  * 项目的根组件
  */
-function App(props: {opt: Required<Options>, api: API}) {
+function App(props: {opt: Required<Options>, api: API}): JSX.Element {
     const menuVisible = createSignal(true);
     const [floating, setFloating] = createSignal(false);
 
@@ -77,7 +77,7 @@ function App(props: {opt: Required<Options>, api: API}) {
     return <HashRouter root={Root}>{/*@once*/routes}</HashRouter>;
 }
 
-function Private(props: ParentProps & MenuVisibleProps) {
+function Private(props: ParentProps & MenuVisibleProps): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
     createEffect(() => {

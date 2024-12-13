@@ -98,7 +98,7 @@ export interface Props extends BaseProps {
  *
  * 采用的是 html 标准中的 dialog 标签。
  */
-export function Dialog(props: Props) {
+export function Dialog(props: Props): JSX.Element {
     const ctx = useApp();
     let ref: HTMLDialogElement;
 

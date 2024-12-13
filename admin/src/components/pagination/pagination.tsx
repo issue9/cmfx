@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, For, mergeProps } from 'solid-js';
+import { createEffect, createSignal, For, JSX, mergeProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { BaseProps } from '@/components/base';
@@ -42,7 +42,7 @@ const presetProps: Readonly<Partial<Props>> = {
  * 大致布局如下：
  *  [<<,<,1,2,...,current...,7,8,>,>>]
  */
-export function Pagination(props: Props) {
+export function Pagination(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const ctx = useApp();
 

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import Bowser from 'bowser';
+import { JSX } from 'solid-js';
 
 import { useApp } from '@/app';
 import { Page, RemoteTable, TextField } from '@/components';
@@ -15,7 +16,7 @@ interface SecurityLog {
     created: string;
 }
 
-export default function() {
+export default function(): JSX.Element {
     const ctx = useApp();
 
     const q: Query = {

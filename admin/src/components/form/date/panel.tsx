@@ -9,6 +9,7 @@ import { Button } from '@/components/button';
 import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
+import { JSX } from 'solid-js';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {
@@ -49,7 +50,7 @@ const weekBase = new Date('2024-10-20'); // 这是星期天，作为计算星期
 /**
  * 日期选择的面板
  */
-export function DatePanel(props: Props) {
+export function DatePanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const ctx = useApp();
     const ac = props.accessor;

@@ -33,7 +33,7 @@ export interface PanelProps extends ParentProps {
 /**
  * 仪表盘页面中的仪表盘
  */
-export function Panel(props: PanelProps) {
+export function Panel(props: PanelProps): JSX.Element {
     return <div class={'panel ' + (props.class ? props.class : '')} >
         <Show when={props.icon || props.title}>
             <Label icon={props.icon}>{ props.title }</Label>

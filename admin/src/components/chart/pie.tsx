@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, mergeProps, splitProps } from 'solid-js';
+import { createMemo, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
 
@@ -57,7 +57,7 @@ const presetProps = {
 /**
  * 带坐标系的图表组件
  */
-export function PieChart(props: Props) {
+export function PieChart(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, charsProps] = splitProps(props, ['data', 'tooltip', 'legend', 'padding', 'radius']);
 

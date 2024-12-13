@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AppContext } from '@/app';
+import { AppContext } from '@/app/context';
 import { Options } from '@/components';
 
 export type Enum<T extends string|number> = [T, string];

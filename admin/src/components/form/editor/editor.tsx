@@ -5,7 +5,7 @@
 import type { QuillOptions, } from 'quill';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import { createEffect, createUniqueId, onMount, Show } from 'solid-js';
+import { createEffect, createUniqueId, JSX, onMount, Show } from 'solid-js';
 
 import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
 
@@ -19,7 +19,7 @@ export interface Props extends FieldBaseProps {
 /**
  * WYSIWYG 编辑器
  */
-export function Editor(props: Props) {
+export function Editor(props: Props): JSX.Element {
     const id = 'editor-' + createUniqueId();
 
     const options: QuillOptions = {

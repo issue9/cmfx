@@ -98,7 +98,7 @@ export default function(): JSX.Element {
     </Page>;
 }
 
-function ColorBlock(props: {s: Scheme}) {
+function ColorBlock(props: {s: Scheme}): JSX.Element {
     // NOTE: 颜色的取值需与 core/theme/theme.css 中的设置相同。
     return <div class="flex flex-wrap w-10">
         <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.primary}), lch(var(--luminance-low) 100 ${props.s.primary}))`}} />

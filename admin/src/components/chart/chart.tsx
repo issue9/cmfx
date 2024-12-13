@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import * as echarts from 'echarts';
-import { createEffect, mergeProps, onCleanup, onMount } from 'solid-js';
+import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 
@@ -56,7 +56,7 @@ export const presetProps: Readonly<Partial<Props>> = {
  * echarts 的 setOption 函数映射到 {@link Props#o} 属性，更新 o 属性相当于调用 setOption 方法。
  * echarts#init 的各个参数则由组件的其它属性组成，都是非响应式的。
  */
-export function Chart(props: Props) {
+export function Chart(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     let ref: HTMLDivElement;

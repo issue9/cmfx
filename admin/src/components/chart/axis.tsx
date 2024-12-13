@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
-import { createMemo, createSignal, mergeProps, splitProps } from 'solid-js';
+import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
 
@@ -111,7 +111,7 @@ const presetProps = {
 /**
  * 带坐标系的图表组件
  */
-export function AxisChart<T extends object>(props: Props<T>) {
+export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, charsProps] = splitProps(props, ['xAxis', 'data', 'size', 'tooltip', 'legend', 'series', 'ref']);
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { useApp } from '@/app/context';
 import { Icon } from '@/components/icon';
@@ -29,7 +29,7 @@ function togglePop(anchor: Element, pop: HTMLElement): boolean {
     return ret;
 }
 
-export function DatePicker(props: Props) {
+export function DatePicker(props: Props): JSX.Element {
     const ctx = useApp();
 
     props = mergeProps(presetProps, props);
