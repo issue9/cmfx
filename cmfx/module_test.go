@@ -17,6 +17,7 @@ import (
 	"github.com/issue9/web/mimetype/json"
 	"github.com/issue9/web/openapi"
 	"github.com/issue9/web/server"
+	"golang.org/x/text/language"
 
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -24,6 +25,7 @@ import (
 func TestNewModule(t *testing.T) {
 	a := assert.New(t, false)
 	srv, err := server.NewHTTP("test", "1.0.0", &server.Options{
+		Language:   language.SimplifiedChinese,
 		Logs:       logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
 		Codec:      web.NewCodec().AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype),
 		HTTPServer: &http.Server{Addr: ":8080"},
