@@ -26,6 +26,7 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
+	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx/cmfx"
 
@@ -115,7 +116,8 @@ func (s *Suite) TableExists(name string) *Suite {
 // newServer 创建 [web.Server] 实例
 func newServer(a *assert.Assertion) *cmfx.Module {
 	srv, err := server.NewHTTP("test", "1.0.0", &server.Options{
-		Logs: logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
+		Language: language.SimplifiedChinese,
+		Logs:     logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
 		Codec: web.NewCodec().
 			AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype).
 			AddMimetype(yaml.Mimetype, yaml.Marshal, yaml.Unmarshal, yaml.ProblemMimetype).
