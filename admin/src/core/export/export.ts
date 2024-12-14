@@ -18,7 +18,7 @@ export interface LoadFunc<T extends object> {
 }
 
 /**
- * 导出对象需要实现的接口
+ * 导出对象
  *
  * @template T 每一行数据的类型
  */

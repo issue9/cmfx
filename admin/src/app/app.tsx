@@ -10,7 +10,7 @@ import { Drawer, List, Notify, SystemDialog } from '@/components';
 import { API, compareBreakpoint, Locale } from '@/core';
 import { buildContext, useApp, useOptions } from './context';
 import * as errors from './errors';
-import { build as buildOptions, Options } from './options';
+import { AppOptions, build as buildOptions } from './options';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
 /**
@@ -20,7 +20,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  *  如果要占满页面可以用 100dvh 和 100dvw 或是预定义的类 view-full；
  * @param o 项目的初始化选项；
  */
-export async function create(elementID: string, o: Options): Promise<void> {
+export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
     const api = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
     await api.cache(opt.api.info);
@@ -36,7 +36,7 @@ export async function create(elementID: string, o: Options): Promise<void> {
 /**
  * 项目的根组件
  */
-function App(props: {opt: Required<Options>, api: API}): JSX.Element {
+function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
     const menuVisible = createSignal(true);
     const [floating, setFloating] = createSignal(false);
 

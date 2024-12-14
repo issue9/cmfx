@@ -10,7 +10,7 @@ import type { MenuItem, Routes } from './route';
 /**
  * 基本配置
  */
-export interface Options {
+export interface AppOptions {
     /**
      * 网站的标题
      */
@@ -133,7 +133,7 @@ export interface Theme {
     schemes: Array<Scheme>;
 }
 
-const presetOptions: Readonly<PickOptional<Options>> = {
+const presetOptions: Readonly<PickOptional<AppOptions>> = {
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
@@ -142,11 +142,11 @@ const presetOptions: Readonly<PickOptional<Options>> = {
 } as const;
 
 /**
- * 根据 o 生成一个完整的 Options 对象，且会检测字段是否正确。
+ * 根据 o 生成一个完整的 {@link AppOptions} 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
  */
-export function build(o: Options): Required<Options> {
+export function build(o: AppOptions): Required<AppOptions> {
     if (o.title.length === 0) {
         throw 'title 不能为空';
     }
@@ -155,7 +155,7 @@ export function build(o: Options): Required<Options> {
         throw 'logo 不能为空';
     }
 
-    const opt = Object.assign({}, presetOptions, o) as Required<Options>;
+    const opt = Object.assign({}, presetOptions, o) as Required<AppOptions>;
 
     if (!opt.titleSeparator) {
         throw 'titleSeparator 不能为空';

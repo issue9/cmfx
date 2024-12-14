@@ -3,19 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import '@formatjs/intl-durationformat/polyfill';
-import { DurationInput as DI, DurationFormatOptions as DFO, DurationFormat as DF } from '@formatjs/intl-durationformat/src/types';
 
 import { divide } from '@/core/math';
-
-// TODO: DurationFormat 上线之后可删除。
-// https://caniuse.com/?search=durationformat
-declare global {
-    namespace Intl {
-        type DurationFormat = DF;
-        type DurationFormatOptions = DFO;
-        type DurationInput = DI;
-    }
-}
 
 const ns = 1;
 const us = 1000 * ns;
