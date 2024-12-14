@@ -4,10 +4,9 @@
 
 import { JSX } from 'solid-js';
 
-import { useApp } from '@/app';
 import {
     Button, Column, Dialog, DialogRef, LinkButton, ObjectAccessor,
-    Page, RemoteTable, RemoteTableRef, TextArea, TextField
+    Page, RemoteTable, RemoteTableRef, TextArea, TextField, useApp
 } from '@/components';
 import { Return } from '@/core';
 

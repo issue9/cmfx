@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, For, JSX, mergeProps } from 'solid-js';
 
-import { useApp } from '@/app/context';
+import { useApp } from '@/components/context';
 import { BaseProps } from '@/components/base';
 import { Button } from '@/components/button';
 

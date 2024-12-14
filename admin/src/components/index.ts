@@ -20,4 +20,6 @@ export * from './table';
 export * from './tree';
 export * from './typography';
 
+export * from './context';
 export * from './utils';
+

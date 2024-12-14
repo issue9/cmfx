@@ -5,8 +5,7 @@
 import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
-import { useApp, useOptions } from '@/app/context';
-import { Page } from '@/components';
+import { Page, useApp, useOptions } from '@/components';
 
 export function Logout(): JSX.Element {
     const ctx = useApp();

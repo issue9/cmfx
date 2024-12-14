@@ -5,7 +5,7 @@
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
-import { AppContext } from '@/app';
+import { AppContext } from '@/components/context';
 import { Problem, Return } from '@/core';
 
 // Form 中保存错误的类型

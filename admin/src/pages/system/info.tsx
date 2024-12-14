@@ -4,8 +4,7 @@
 
 import { createMemo, createResource, For, JSX } from 'solid-js';
 
-import { useApp } from '@/app';
-import { ConfirmButton, Divider, Icon, Label, Page } from '@/components';
+import { ConfirmButton, Divider, Icon, Label, Page, useApp } from '@/components';
 
 export function Info(): JSX.Element {
     const ctx = useApp();

@@ -4,8 +4,7 @@
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { useApp } from '@/app';
-import { Choice, ChoiceProps, Options } from '@/components';
+import { Choice, ChoiceProps, Options, useApp } from '@/components';
 import { Role } from './roles';
 
 export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;

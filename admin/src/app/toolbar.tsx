@@ -4,10 +4,8 @@
 
 import { createSignal, JSX, Show, Signal } from 'solid-js';
 
-import { Button, Item, Label, Menu } from '@/components';
+import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
 import { Locale } from '@/core';
-import { useApp, useOptions } from './context';
-import { MenuItem } from './options/route';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;

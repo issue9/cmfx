@@ -4,7 +4,7 @@
 
 export { Notify, types as notifyTypes } from './notify';
 export type { Props as NotifyProps, Type as NotifyType } from './notify';
-import { Type } from './notify';
+import type { Type } from './notify';
 
 declare global {
     interface Window {

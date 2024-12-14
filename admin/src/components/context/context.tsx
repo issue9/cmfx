@@ -5,10 +5,10 @@
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
-import { AppOptions } from '@/app/options';
 import { NotifyType } from '@/components/notify';
 import { API, Config, Locale, Method, Problem, Return, Theme, UnitStyle, notify } from '@/core';
 import { Token } from '@/core/api/token';
+import { AppOptions } from './options';
 import { User } from './user';
 
 type ReqOptions = Required<AppOptions>;

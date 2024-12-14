@@ -4,9 +4,9 @@
 
 import { lazy } from 'solid-js';
 
-import { Options } from './app';
+import { Route } from '@/components';
 
-export const routes: Options['routes']['private']['routes'] = [
+export const routes: Array<Route> = [
     { path: '/app', component: lazy(() => import('@/app/demo')) },
     { path: '/base', component: lazy(() => import('@/components/base/demo')) },
     { path: '/errors', component: lazy(() => import('@/components/error/demo')) },

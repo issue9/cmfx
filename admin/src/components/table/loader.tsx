@@ -5,7 +5,7 @@
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { useApp, useOptions } from '@/app/context';
+import { useApp, useOptions } from '@/components/context';
 import { Palette } from '@/components/base';
 import { Button, SplitButton } from '@/components/button';
 import { Divider } from '@/components/divider';

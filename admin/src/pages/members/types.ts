@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { User } from '@/app/context';
+import { User } from '@/components';
 import { Sex, State } from '@/pages/common';
 
 export interface Member {

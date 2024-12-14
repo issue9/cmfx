@@ -5,8 +5,7 @@
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { useApp } from '@/app';
-import { Button, Form, FormAccessor, Page, Password, TextField } from '@/components';
+import { Button,useApp, Form, FormAccessor, Page, Password, TextField } from '@/components';
 import { Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 

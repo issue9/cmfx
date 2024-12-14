@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { useApp } from '@/app/context';
+import { useApp } from '@/components/context';
 import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';

@@ -4,7 +4,7 @@
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { useApp } from '@/app/context';
+import { useApp } from '@/components/context';
 import { Props as BaseProps } from '@/components/form/types';
 
 /**

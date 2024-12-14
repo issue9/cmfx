@@ -4,7 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { useOptions } from '@/app/context';
+import { useOptions } from '@/components/context';
 import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { FieldAccessor } from '../access';
 import { Album } from './album';
