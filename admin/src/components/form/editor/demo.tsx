@@ -21,10 +21,8 @@ export default function () {
 
             <button class="c--button c--button-fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </>
-    } stages={
-        <>
-            <Editor label='label' class="min-h-[200px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
-            <pre>{txt.getValue()}</pre>
-        </>
-    } />;
+    }>
+        <Editor label='label' class="min-h-[200px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
+        <pre>{txt.getValue()}</pre>
+    </Demo>;
 }

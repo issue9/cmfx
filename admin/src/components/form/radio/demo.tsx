@@ -35,14 +35,12 @@ export default function() {
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
             <button class="c--button c--button-fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </>
-    } stages={
-        <>
-            <RadioGroup label='test' block={block()} vertical={vertical()} palette={f.getValue()}
-                disabled={disabled()} readonly={readonly()} accessor={f} options={options}
-                checkedIcon={iconStyle() ? 'task_alt' : undefined }
-            />
+    }>
+        <RadioGroup label='test' block={block()} vertical={vertical()} palette={f.getValue()}
+            disabled={disabled()} readonly={readonly()} accessor={f} options={options}
+            checkedIcon={iconStyle() ? 'task_alt' : undefined}
+        />
 
-            <span>{change()}</span>
-        </>
-    } />;
+        <span>{change()}</span>
+    </Demo>;
 }

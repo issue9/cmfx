@@ -18,7 +18,7 @@ export default function () {
             {paletteS}
             <input type="text" placeholder='text' onInput={(e)=>setText(e.target.value)} />
         </>
-    } stages={
+    }>
         <For each={corners}>
             {(pos) => (
                 <Badge pos={ pos } palette={ palette() } text={ text() }>
@@ -26,5 +26,5 @@ export default function () {
                 </Badge>
             )}
         </For>
-    } />;
+    </Demo>;
 }

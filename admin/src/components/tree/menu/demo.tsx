@@ -45,33 +45,31 @@ export default function() {
             {selectedClsS}
             {rightS}
         </>
-    } stages={
-        <>
-            <Stage class="w-80 mt-4">
-                <Panel direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
-                    {items}
-                </Panel>
-                <div>{ selected() }</div>
-            </Stage>
+    }>
+        <Stage class="w-80 mt-4">
+            <Panel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
+                {items}
+            </Panel>
+            <div>{selected()}</div>
+        </Stage>
 
 
-            <Stage class="w-80 mt-4">
-                <Menu direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>click</Button>}>
-                    {items}
-                </Menu>
-            </Stage>
+        <Stage class="w-80 mt-4">
+            <Menu direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>click</Button>}>
+                {items}
+            </Menu>
+        </Stage>
 
-            <Stage class="w-80 mt-4">
-                <Menu hoverable direction={right() ? 'right':'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>hover</Button>}>
-                    {items}
-                </Menu>
-            </Stage>
+        <Stage class="w-80 mt-4">
+            <Menu hoverable direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>hover</Button>}>
+                {items}
+            </Menu>
+        </Stage>
 
-            <Stage class="w-80 mt-4">
-                <ContextMenu selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
-                    {items}
-                </ContextMenu>
-            </Stage>
-        </>
-    } />;
+        <Stage class="w-80 mt-4">
+            <ContextMenu selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
+                {items}
+            </ContextMenu>
+        </Stage>
+    </Demo>;
 }

@@ -78,35 +78,33 @@ export default function() {
             {paletteS}
             {smoothS}
         </>
-    } stages={
-        <>
-            <Stage title="svg+chart">
-                <Chart palette={palette()} o={opt} />
-            </Stage>
+    }>
+        <Stage title="svg+chart">
+            <Chart palette={palette()} o={opt} />
+        </Stage>
 
-            <Stage title="axis">
-                <AxisChart palette={palette()} tooltip legend='right' selectedMode='single'
-                    xAxis={{ name: 'X', key: 'name' }}
-                    series={[{type:'line', key:'v1', smooth: smooth()}, {type:'bar', key:'v2', yAxisIndex: 1, area: true, smooth: smooth()}]}
-                    data={items} />
-            </Stage>
+        <Stage title="axis">
+            <AxisChart palette={palette()} tooltip legend='right' selectedMode='single'
+                xAxis={{ name: 'X', key: 'name' }}
+                series={[{ type: 'line', key: 'v1', smooth: smooth() }, { type: 'bar', key: 'v2', yAxisIndex: 1, area: true, smooth: smooth() }]}
+                data={items} />
+        </Stage>
 
-            <Stage title="axis">
-                <AxisChart palette={palette()} size={10} ref={el=>axisRef=el} tooltip legend='center'
-                    xAxis={{ name: 'X', key: 'name' }}
-                    series={[{type:'bar', key:'v2', yAxisIndex: 1, smooth: smooth()}, {type:'line', key:'v1', area:true, smooth: smooth()}, ]}
-                    data={items} />
-            </Stage>
+        <Stage title="axis">
+            <AxisChart palette={palette()} size={10} ref={el => axisRef = el} tooltip legend='center'
+                xAxis={{ name: 'X', key: 'name' }}
+                series={[{ type: 'bar', key: 'v2', yAxisIndex: 1, smooth: smooth() }, { type: 'line', key: 'v1', area: true, smooth: smooth() },]}
+                data={items} />
+        </Stage>
 
-            <Stage title="pie">
-                <PieChart tooltip legend='left' radius={['30%','50%']} padding={5} borderRadius={5}
-                    data={[{name: 'aaa',value: 80, selected:true}, {name: 'bbb',value: 180}, {name: 'ccc',value: 20}, {name: 'ddd',value: 20}, {name: 'eee',value: 500}]} />
-            </Stage>
+        <Stage title="pie">
+            <PieChart tooltip legend='left' radius={['30%', '50%']} padding={5} borderRadius={5}
+                data={[{ name: 'aaa', value: 80, selected: true }, { name: 'bbb', value: 180 }, { name: 'ccc', value: 20 }, { name: 'ddd', value: 20 }, { name: 'eee', value: 500 }]} />
+        </Stage>
 
-            <Stage title="pie">
-                <PieChart legend='center' selectedMode='multiple'
-                    data={[{name: 'aaa',value: 80}, {name: 'bbb',value: 180, selected:true}, {name: 'ccc',value: 20}, {name: 'ddd',value: 20}, {name: 'eee',value: 500}]} />
-            </Stage>
-        </>
-    } />;
+        <Stage title="pie">
+            <PieChart legend='center' selectedMode='multiple'
+                data={[{ name: 'aaa', value: 80 }, { name: 'bbb', value: 180, selected: true }, { name: 'ccc', value: 20 }, { name: 'ddd', value: 20 }, { name: 'eee', value: 500 }]} />
+        </Stage>
+    </Demo>;
 }

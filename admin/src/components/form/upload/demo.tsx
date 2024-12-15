@@ -4,8 +4,8 @@
 
 import { JSX } from 'solid-js';
 
-import { useOptions } from '@/components/context';
 import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { useOptions } from '@/components/context';
 import { FieldAccessor } from '../access';
 import { Album } from './album';
 
@@ -27,17 +27,15 @@ export default function(): JSX.Element {
             {autoS}
             <button class="c--button c--button-fill palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
         </>
-    } stages={
-        <>
-            <Stage title='basic'>
-                <Album fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
-                    action='./' accessor={basicA} />
-            </Stage>
+    }>
+        <Stage title='basic'>
+            <Album fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
+                action='./' accessor={basicA} />
+        </Stage>
 
-            <Stage title='basic+drop'>
-                <Album fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
-                    action='./' accessor={basicA} />
-            </Stage>
-        </>
-    } />;
+        <Stage title='basic+drop'>
+            <Album fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
+                action='./' accessor={basicA} />
+        </Stage>
+    </Demo>;
 }

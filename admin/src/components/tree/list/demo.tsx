@@ -61,26 +61,24 @@ export default function() {
             {paletteS}
             {selectedClsS}
         </>
-    } stages={
-        <>
-            <Stage class="w-80 mt-4">
-                <List selectedClass={selectedCls()} palette={palette()} onChange={(v,old)=>setSelected(v.toString()+'  '+old?.toString())}>
-                    {items}
-                </List>
-                <div>{ selected() }</div>
-            </Stage>
+    }>
+        <Stage class="w-80 mt-4">
+            <List selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => setSelected(v.toString() + '  ' + old?.toString())}>
+                {items}
+            </List>
+            <div>{selected()}</div>
+        </Stage>
 
-            <Stage class="w-80 mt-4" title="不指定 onchange，但是有默认值">
-                <List selectedClass={selectedCls()} palette={palette()} selected='v2341'>
-                    {items}
-                </List>
-            </Stage>
+        <Stage class="w-80 mt-4" title="不指定 onchange，但是有默认值">
+            <List selectedClass={selectedCls()} palette={palette()} selected='v2341'>
+                {items}
+            </List>
+        </Stage>
 
-            <Stage class="w-80 mt-4" title="anchor=true">
-                <List anchor selectedClass={selectedCls()} palette={palette()}>
-                    {items}
-                </List>
-            </Stage>
-        </>
-    } />;
+        <Stage class="w-80 mt-4" title="anchor=true">
+            <List anchor selectedClass={selectedCls()} palette={palette()}>
+                {items}
+            </List>
+        </Stage>
+    </Demo>;
 }

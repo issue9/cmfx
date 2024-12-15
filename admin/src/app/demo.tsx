@@ -19,7 +19,7 @@ export default function() {
         await ctx.notify(title(), body(), type(),timeout());
     };
 
-    return <Demo stages={
+    return <Demo>
         <div class="flex flex-col gap-2 w-40">
             <select value={type()} onChange={(e) => { setType(e.target.value as NotifyType); }}>
                 <For each={notifyTypes}>
@@ -30,6 +30,6 @@ export default function() {
             <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
             <input type="number" onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
             <Button palette='primary' onClick={notify}>notify</Button>
-        </div >
-    } />;
+        </div>
+    </Demo>;
 }

@@ -20,13 +20,13 @@ export default function() {
             {paletteS}
             {disableBackTopS}
         </>
-    } stages={
+    }>
         <Page title="title" palette={palette()} disableBacktop={disableBackTop()}>
             <For each={len}>
-                {(i)=>(
+                {(i) => (
                     <>{i} <br /></>
                 )}
             </For>
         </Page>
-    } />;
+    </Demo>;
 }

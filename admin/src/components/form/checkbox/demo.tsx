@@ -35,25 +35,23 @@ export default function() {
             <button class="c--button c--button-fill palette--primary" onClick={() => setIconStyle(!iconStyle())}>toggle icon</button>
         </>
 
-    } stages={
-        <>
-            <div class="flex flex-wrap mb-10">
-                <For each={palettesWithUndefined}>
-                    {(item)=>(
-                        <Checkbox checkedIcon={iconStyle() ? 'verified': undefined}
-                            title={item ? item : 'undefined'} label='test' block={block()} palette={item} disabled={disabled()} readonly={readonly()}
-                        />
-                    )}
-                </For>
-            </div>
+    }>
+        <div class="flex flex-wrap mb-10">
+            <For each={palettesWithUndefined}>
+                {(item) => (
+                    <Checkbox checkedIcon={iconStyle() ? 'verified' : undefined}
+                        title={item ? item : 'undefined'} label='test' block={block()} palette={item} disabled={disabled()} readonly={readonly()}
+                    />
+                )}
+            </For>
+        </div>
 
-            <div class="flex flex-col mb-10">
-                <CheckboxGroup checkedIcon={iconStyle() ? 'verified': undefined}
-                    block={block()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
-                    options={groupOptions} accessor={groupFA}
-                />
-                <pre>{ groupFA.getValue().toString() }</pre>
-            </div>
-        </>
-    } />;
+        <div class="flex flex-col mb-10">
+            <CheckboxGroup checkedIcon={iconStyle() ? 'verified' : undefined}
+                block={block()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
+                options={groupOptions} accessor={groupFA}
+            />
+            <pre>{groupFA.getValue().toString()}</pre>
+        </div>
+    </Demo>;
 }

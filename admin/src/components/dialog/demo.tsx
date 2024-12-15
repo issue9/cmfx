@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useApp } from '@/components/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
+import { useApp } from '@/components/context';
 import { Form, FormAccessor } from '@/components/form';
 import { Dialog, Ref } from './dialog';
 import { SystemDialog } from './system';
@@ -22,45 +22,43 @@ export default function() {
         <>
             {paletteS}
         </>
-    } stages={
-        <>
-            <SystemDialog />
-            <Button onClick={()=>window.alert('msg')}>alert</Button>
-            <Button onClick={()=>window.confirm('msg')}>confirm</Button>
-            <Button onClick={()=>window.prompt('msg', 'def')}>prompt</Button>
+    }>
+        <SystemDialog />
+        <Button onClick={() => window.alert('msg')}>alert</Button>
+        <Button onClick={() => window.confirm('msg')}>confirm</Button>
+        <Button onClick={() => window.prompt('msg', 'def')}>prompt</Button>
 
-            <div>
-                <Dialog palette={palette()} ref={(el)=>dlg1=el} header="header" actions={
-                    <>
-                        <button value='submit' type="submit" class="mr-8">submit</button>
-                        <button value='reset' type="reset" class="mr-8">reset</button>
-                        <button value='button' type="button" onClick={()=>dlg1.close('close')}>close</button>
-                    </>
-                }>
-                    content
-                </Dialog>
-                <Button onClick={()=>dlg1.show()} palette={palette()}>show</Button>
-            </div>
+        <div>
+            <Dialog palette={palette()} ref={(el) => dlg1 = el} header="header" actions={
+                <>
+                    <button value='submit' type="submit" class="mr-8">submit</button>
+                    <button value='reset' type="reset" class="mr-8">reset</button>
+                    <button value='button' type="button" onClick={() => dlg1.close('close')}>close</button>
+                </>
+            }>
+                content
+            </Dialog>
+            <Button onClick={() => dlg1.show()} palette={palette()}>show</Button>
+        </div>
 
-            <div>
-                <Button onClick={()=>dlg2.showModal()} palette={palette()}>showModal</Button>
-                <Dialog palette={palette()} ref={(el)=>dlg2=el} header="header">
-                    <div>
-                        <Form formAccessor={fa} inDialog>
-                            <div class="flex flex-col">
-                                <div class="py-3">form</div>
+        <div>
+            <Button onClick={() => dlg2.showModal()} palette={palette()}>showModal</Button>
+            <Dialog palette={palette()} ref={(el) => dlg2 = el} header="header">
+                <div>
+                    <Form formAccessor={fa} inDialog>
+                        <div class="flex flex-col">
+                            <div class="py-3">form</div>
 
-                                <hr />
-                                <div class="flex">
-                                    <button value='submit' type="submit" class="mr-8">submit</button>
-                                    <button value='reset' type="reset" class="mr-8">reset</button>
-                                    <button value='button' type="button">button</button>
-                                </div>
+                            <hr />
+                            <div class="flex">
+                                <button value='submit' type="submit" class="mr-8">submit</button>
+                                <button value='reset' type="reset" class="mr-8">reset</button>
+                                <button value='button' type="button">button</button>
                             </div>
-                        </Form>
-                    </div>
-                </Dialog>
-            </div>
-        </>
-    } />;
+                        </div>
+                    </Form>
+                </div>
+            </Dialog>
+        </div>
+    </Demo>;
 }

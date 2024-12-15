@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useApp } from '@/components/context';
 import { Demo, paletteSelector } from '@/components/base/demo';
+import { useApp } from '@/components/context';
 import { Button } from '../button';
 import { FormAccessor } from './access';
 import { DatePicker } from './date';
@@ -26,19 +26,17 @@ export default function() {
         <>
             {paletteS}
         </>
-    } stages={
-        <>
-            <p>flex</p>
-            <Form class="flex items-center" formAccessor={f} palette={palette()} {...f.events()}>
-                <TextField accessor={f.accessor('f1')} />
-                <Number accessor={f.accessor(5)} />
-                <DatePicker accessor={f.accessor('date')} />
-                <TextArea class="flex-grow" accessor={f.accessor('textarea')} />
-                <div class="w-full flex justify-between">
-                    <Button type="reset">reset</Button>
-                    <Button type="submit">submit</Button>
-                </div>
-            </Form>
-        </>
-    } />;
+    }>
+        <p>flex</p>
+        <Form class="flex items-center" formAccessor={f} palette={palette()} {...f.events()}>
+            <TextField accessor={f.accessor('f1')} />
+            <Number accessor={f.accessor(5)} />
+            <DatePicker accessor={f.accessor('date')} />
+            <TextArea class="flex-grow" accessor={f.accessor('textarea')} />
+            <div class="w-full flex justify-between">
+                <Button type="reset">reset</Button>
+                <Button type="submit">submit</Button>
+            </div>
+        </Form>
+    </Demo>;
 }

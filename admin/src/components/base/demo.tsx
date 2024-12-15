@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, Show, createSignal, For, JSX, ParentProps, Setter } from 'solid-js';
+import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'solid-js';
 
 import { Corner, corners, Palette, palettes } from './types';
 
@@ -73,7 +73,7 @@ export interface DemoProps {
     /**
      * 展示区的内容
      */
-    stages: JSX.Element;
+    children: JSX.Element;
 }
 
 export function Stage(props: ParentProps<{title?: string, class?: string}>) {
@@ -95,7 +95,7 @@ export function Demo(props: DemoProps) {
         </div>
 
         <div class="stages flex flex-wrap justify-between gap-5 p-5">
-            {props.stages}
+            {props.children}
         </div>
     </div>;
 }
@@ -103,22 +103,20 @@ export function Demo(props: DemoProps) {
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
 
-    return <Demo settings={paletteS} stages={
-        <>
-            <button class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
-                [`palette--${palette()}`]: !!palette()
-            }}>button</button>
+    return <Demo settings={paletteS}>
+        <button class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
+            [`palette--${palette()}`]: !!palette()
+        }}>button</button>
 
-            <span class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
-                [`palette--${palette()}`]: !!palette()
-            }}>span</span>
+        <span class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
+            [`palette--${palette()}`]: !!palette()
+        }}>span</span>
 
-            <fieldset class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
-                [`palette--${palette()}`]: !!palette()
-            }}>
-                <legend>fieldset</legend>
-                content
-            </fieldset>
-        </>
-    } />;
+        <fieldset class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
+            [`palette--${palette()}`]: !!palette()
+        }}>
+            <legend>fieldset</legend>
+            content
+        </fieldset>
+    </Demo>;
 }

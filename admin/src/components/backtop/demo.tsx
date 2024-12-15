@@ -16,25 +16,23 @@ export default function() {
     }
 
     let scroller: HTMLElement;
-    return <Demo settings={paletteS} stages={
-        <>
-            <div ref={el=>scroller=el} class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">
-                <For each={len}>
-                    {(i)=>(
-                        <>{i} <br /></>
-                    )}
-                </For>
-                <BackTop scroller={scroller!} palette={palette()} class="mb-10 left-[300px] !bottom-4" style={{'right':'unset'}} />
-            </div>
+    return <Demo settings={paletteS}>
+        <div ref={el => scroller = el} class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">
+            <For each={len}>
+                {(i) => (
+                    <>{i} <br /></>
+                )}
+            </For>
+            <BackTop scroller={scroller!} palette={palette()} class="mb-10 left-[300px] !bottom-4" style={{ 'right': 'unset' }} />
+        </div>
             
-            <div ref={el=>scroller=el} class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">
-                <For each={len}>
-                    {(i)=>(
-                        <>{i} <br /></>
-                    )}
-                </For>
-                <BackTop scroller={scroller!} palette={palette()} class="mb-10">{'navigation' as IconSymbol}</BackTop>
-            </div>
-        </>
-    } />;
+        <div ref={el => scroller = el} class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">
+            <For each={len}>
+                {(i) => (
+                    <>{i} <br /></>
+                )}
+            </For>
+            <BackTop scroller={scroller!} palette={palette()} class="mb-10">{'navigation' as IconSymbol}</BackTop>
+        </div>
+    </Demo>;
 }

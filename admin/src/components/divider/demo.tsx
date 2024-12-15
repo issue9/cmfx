@@ -39,24 +39,22 @@ export default function() {
             {styleS}
             <fieldset class="border-2">
                 <legend>位置</legend>
-                <For each={new Array<Props['pos']>('start','center','end')}>
-                    {(item)=>(
+                <For each={new Array<Props['pos']>('start', 'center', 'end')}>
+                    {(item) => (
                         <label class="mr-4">
-                            <input class="mr-1" type="radio" name="type" value={item} onClick={()=>setPos(item)} checked={pos()===item} />{item}
+                            <input class="mr-1" type="radio" name="type" value={item} onClick={() => setPos(item)} checked={pos() === item} />{item}
                         </label>
                     )}
                 </For>
             </fieldset>
         </>
-    } stages={
-        <>
-            <div class="w-56">
-                <Divider style={style()} palette={palette()} pos={pos()}><span class="c--icon">face</span>起始位置</Divider>
-            </div>
+    }>
+        <div class="w-56">
+            <Divider style={style()} palette={palette()} pos={pos()}><span class="c--icon">face</span>起始位置</Divider>
+        </div>
 
-            <div class="w-56">
-                <Divider style={style()} palette={palette()} pos={pos()}></Divider>
-            </div>
-        </>
-    } />;
+        <div class="w-56">
+            <Divider style={style()} palette={palette()} pos={pos()}></Divider>
+        </div>
+    </Demo>;
 }

@@ -85,7 +85,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 返回 {@link useParams} 的返回对象
          *
          * 在新项目中直接使用 {@link useParams} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useParmas} 的地址可直接使用此方法的返回对象。
+         * 所有需要使用 {@link useParmas} 的地方可直接使用此方法的返回对象。
          */
         params() { return params; },
         
@@ -93,7 +93,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 返回 {@link useLocation} 的返回对象
          *
          * 在新项目中直接使用 {@link useLocation} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useLocation} 的地址可直接使用此方法的返回对象。
+         * 所有需要使用 {@link useLocation} 的地方可直接使用此方法的返回对象。
          */
         location() { return loc; },
         
@@ -101,7 +101,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 返回 {@link useNavigate} 的返回对象
          *
          * 在新项目中直接使用 {@link useNavigate} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useNavigate} 的地址可直接使用此方法的返回对象。
+         * 所有需要使用 {@link useNavigate} 的地方可直接使用此方法的返回对象。
          */
         navigate() { return nav; },
 
@@ -238,22 +238,6 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 从服务器更新数据
          */
         async refetchUser() { await userData.refetch(); },
-
-        /**
-         * 更新用户信息
-         * @param u 新的数据；
-         * @returns 返回更新后的数据；
-         */
-        async updateUser(u: User): Promise<User|undefined> {
-            const ret = await this.api.patch(opt.api.info, u);
-            if (!ret.ok) {
-                await this.outputProblem(ret.body);
-                return;
-            }
-
-            await this.refetchUser();
-            return this.user();
-        },
 
         set title(v: string) {
             if (v) {

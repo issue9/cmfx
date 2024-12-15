@@ -19,11 +19,11 @@ export default function() {
             {disabledS}
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
-    } stages={
+    }>
         <For each={palettesWithUndefined}>
             {(item) => (
                 <TextArea palette={item} title={item?item:'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
             )}
         </For>
-    } />;
+    </Demo>;
 }

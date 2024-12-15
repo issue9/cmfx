@@ -164,43 +164,41 @@ export default function() {
             {disabledS}
             {roundedS}
         </>
-    } stages={
-        <>
-            <Stage title="button">
-                <Buttons />
-            </Stage>
+    }>
+        <Stage title="button">
+            <Buttons />
+        </Stage>
 
-            <Stage title='link'>
-                <Links />
-            </Stage>
+        <Stage title='link'>
+            <Links />
+        </Stage>
 
-            <Stage title='icon-button'>
-                <IconButtons />
-            </Stage>
+        <Stage title='icon-button'>
+            <IconButtons />
+        </Stage>
 
-            <Stage title='split-button'>
-                <SplitButtons />
-            </Stage>
+        <Stage title='split-button'>
+            <SplitButtons />
+        </Stage>
 
-            <Stage title="button-group">
-                <ButtonGroups />
-            </Stage>
+        <Stage title="button-group">
+            <ButtonGroups />
+        </Stage>
 
-            <Stage title='icon-button-group'>
-                <IconButtonGroups />
-            </Stage>
+        <Stage title='icon-button-group'>
+            <IconButtonGroups />
+        </Stage>
 
-            <Stage title="link-button-group">
-                <LinkButtonGroups />
-            </Stage>
+        <Stage title="link-button-group">
+            <LinkButtonGroups />
+        </Stage>
 
-            <Stage title='link-icon-button-group'>
-                <LinkIconButtonGroups />
-            </Stage>
+        <Stage title='link-icon-button-group'>
+            <LinkIconButtonGroups />
+        </Stage>
 
-            <Stage title="block" class="w-full">
-                <Block />
-            </Stage>
-        </>
-    } />;
+        <Stage title="block" class="w-full">
+            <Block />
+        </Stage>
+    </Demo>;
 }
