@@ -22,17 +22,14 @@ export default function() {
             <Description palette={palette()} icon='table_eye' title='title'>
                 description<br />
                 description
-                    
-                <p>直属的 P 标签会自动缩进两个空格。</p>
-                <p>直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。</p>
             </Description>
                 
             <br />
             <br />
                 
             <Description palette={palette()}>
-                <p>直属的 P 标签会自动缩进两个空格。</p>
-                <p>直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。直属的 P 标签会自动缩进两个空格。</p>
+                无标题<br />
+                description
             </Description>
         </Stage>
     </Demo>;
