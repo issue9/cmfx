@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from '@cmfx/admin/dev';
+import { MenuItem, Route } from '@cmfx/admin/dev/components';
 import { routes } from '@cmfx/admin/dev/demo';
 import { Pages } from '@cmfx/admin/dev/pages';
 

@@ -4,8 +4,7 @@
 
 import { JSX, Show } from 'solid-js';
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum } from '@/components';
-import { useApp } from '@/components/context';
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum, useApp } from '@/components';
 import { Query } from '@/core';
 import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
 

@@ -5,8 +5,7 @@
 import { useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
-import { Button, Divider, Form, FormAccessor, Icon, Page, TextField } from '@/components';
-import { useApp, User } from '@/components/context';
+import { Button, Divider, Form, FormAccessor, Icon, Page, TextField, useApp, User } from '@/components';
 import { Passport, Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
@@ -42,7 +41,7 @@ export function Edit(): JSX.Element {
     return <Page title="_i.page.admin.admin" class="max-w-xs">
         <Form formAccessor={form} class="flex flex-col">
             <TextField class='w-full' accessor={form.accessor<string>('name')} label={ctx.locale().t('_i.page.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={ctx.locale().t('_i.page.admin.nickname')} />
+            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={ctx.locale().t('_i.page.nickname')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={ctx.locale().t('_i.page.roles.roles')} />
             <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} label={ctx.locale().t('_i.page.sex')} />
             <div class="w-full flex justify-end gap-5">

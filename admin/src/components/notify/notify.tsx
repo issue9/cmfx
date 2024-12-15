@@ -25,17 +25,23 @@ export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
     ['info', 'secondary'],
 ]);
 
+const notifyProperty = 'notify';
+
 /**
  * 通知组件
  *
  * NOTE: 该组件会在全局注册一个 {@link Window#notify} 方法。
- * 不应该多次调用，且尽可能早地调用该组件，以使 notify 方法处于可用状态。
+ * 尽可能早地调用该组件，以使 notify 方法处于可用状态。
  */
 export  function Notify(props: Props): JSX.Element {
+    if (!!Object.getOwnPropertyDescriptor(window, notifyProperty)) { // 防止多次调用
+        return;
+    }
+    
     props = mergeProps(presetProps, props);
     const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps,'del'>>>([]);
 
-    Object.defineProperty(window, 'notify', {
+    Object.defineProperty(window, notifyProperty, {
         writable: false,
         value: async (title: string, body?: string, type?: Type, timeout = 5) => {
             const id = createUniqueId();

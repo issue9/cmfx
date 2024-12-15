@@ -6,6 +6,7 @@ export * from './backtop';
 export * from './badge';
 export * from './base';
 export * from './button';
+export * from './card';
 export * from './chart';
 export * from './dialog';
 export * from './divider';

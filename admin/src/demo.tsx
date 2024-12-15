@@ -21,6 +21,8 @@ export const routes: Array<Route> = [
     { path: '/chart', component: lazy(() => import('@/components/chart/demo')) },
     { path: '/page', component: lazy(() => import('@/components/page/demo')) },
     { path: '/backtop', component: lazy(() => import('@/components/backtop/demo')) },
+    { path: '/typography', component: lazy(() => import('@/components/typography/demo')) },
+    { path: '/card', component: lazy(() => import('@/components/card/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },

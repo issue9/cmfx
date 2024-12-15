@@ -6,7 +6,7 @@ import { Component, JSX } from 'solid-js';
 
 import { MenuItem, Route } from '@/components';
 import { Pages } from '@/pages/pages';
-import { Dashboard, Panel } from './dashboard';
+import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';
 import { Logout } from './logout';
 import { componens, PassportComponents } from './passport';
@@ -53,11 +53,6 @@ export class current implements Pages {
      * 用户的安全日志
      */
     static SecurityLogs = SecurityLogs;
-
-    /**
-     * 可用于 Dashboard 页面的组件
-     */
-    static Panel = Panel;
 
     readonly #prefix: string;
     readonly #dashboardChildren?: Component<{}>;

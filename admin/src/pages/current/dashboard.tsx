@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, ParentProps, Show } from 'solid-js';
+import { JSX, ParentProps } from 'solid-js';
 
-import { IconSymbol, Label, Page } from '@/components';
+import { IconSymbol, Page } from '@/components';
 
 export function Dashboard(props: ParentProps): JSX.Element {
     return <Page title='_i.page.current.dashboard' class="p--dashboard">
@@ -28,16 +28,4 @@ export interface PanelProps extends ParentProps {
      * NOTE: 如果 {@link PanelProps#icon} 和 {@link PanelProps#title} 均为空，则不显示标题栏。
      */
     title?: string;
-}
-
-/**
- * 仪表盘页面中的仪表盘
- */
-export function Panel(props: PanelProps): JSX.Element {
-    return <div class={'panel ' + (props.class ? props.class : '')} >
-        <Show when={props.icon || props.title}>
-            <Label icon={props.icon}>{ props.title }</Label>
-        </Show>
-        {props.children}
-    </div>;
 }

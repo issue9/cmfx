@@ -18,6 +18,8 @@ export interface Props extends BaseProps, ParentProps {
      * 标签，默认为 p
      */
     tag?: ValidComponent;
+
+    class?: string;
 }
 
 const defaultProps: Readonly<Partial<Props>> = {
@@ -27,7 +29,7 @@ const defaultProps: Readonly<Partial<Props>> = {
 export function Label(props: Props): JSX.Element {
     props = mergeProps(defaultProps, props);
 
-    return <Dynamic component={props.tag} class="flex items-center">
+    return <Dynamic component={props.tag} class={'c--label '+ (props.class ?? '') + ' ' +(props.palette ? `palette--${props.palette}` : '')}>
         <Show when={props.icon}>
             <Icon class="mr-1" icon={props.icon!} />
         </Show>
