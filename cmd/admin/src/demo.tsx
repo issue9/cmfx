@@ -7,7 +7,7 @@ import { routes } from '@cmfx/admin/dev/demo';
 import { Pages } from '@cmfx/admin/dev/pages';
 
 export class Demo implements Pages {
-    #prefix: string;
+    readonly #prefix: string;
 
     constructor(p: string) {
         this.#prefix = p;

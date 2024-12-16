@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, mergeProps } from 'solid-js';
+import { createMemo, JSX, createSignal, mergeProps } from 'solid-js';
 
 import { useApp, useOptions } from '@/components/context';
 import { BaseProps } from '@/components/base';
 import { Choice, FieldAccessor, Options } from '@/components/form';
-import { JSX } from 'solid-js';
 import { Pagination } from './pagination';
 
 export interface Props extends BaseProps {
@@ -17,7 +16,7 @@ export interface Props extends BaseProps {
     total: number;
 
     /**
-     * 当前页的页码，取值范围为 [1, {@link Props#total/Props#size}]。
+     * 当前页的页码，取值范围为 [1, {@link Props#total}/{@link Props#size}]。
      *
      * NOTE: 这是一个非响应式的属性。
      */
@@ -31,7 +30,7 @@ export interface Props extends BaseProps {
     size?: number;
 
     /**
-     * 属性 size 可用值的列表，默认为 {@link defaultSizes}
+     * 属性 size 可用值的列表，默认为 {@link AppOptions#api#pageSizes}
      */
     sizes?: Array<number>;
 

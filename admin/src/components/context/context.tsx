@@ -85,7 +85,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 返回 {@link useParams} 的返回对象
          *
          * 在新项目中直接使用 {@link useParams} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useParmas} 的地方可直接使用此方法的返回对象。
+         * 所有需要使用 {@link useParams} 的地方可直接使用此方法的返回对象。
          */
         params() { return params; },
         
@@ -143,9 +143,9 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
                  * 缓存 GET path 指向的数据
                  *
                  * @param path 相对于 baseURL 的接口地址；
-                 * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项；
+                 * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一旦被调用，将更新当前的缓存项；
                  */
-                async cache(path: string, ...deps: Array<string>): Promise<void> { await f.cache(path, ...deps); },
+                cache(path: string, ...deps: Array<string>) { f.cache(path, ...deps); },
 
                 /**
                  * 取消 GET path 指向的缓存数据

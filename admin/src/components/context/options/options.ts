@@ -27,7 +27,7 @@ export interface AppOptions {
     logo: string;
 
     /**
-     * 提供部分一系统或浏览器相关的设置
+     * 提供部分系统或浏览器相关的设置
      */
     system?: System;
 

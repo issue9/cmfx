@@ -10,7 +10,7 @@ import { Locale } from '@/core';
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
     floatingSidebar: boolean;
-};
+}
 
 /**
  * 顶部工具栏

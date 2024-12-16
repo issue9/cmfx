@@ -4,15 +4,13 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { API } from '@/core/api';
 import { Locale } from './locale';
 import { Config } from '@/core/config';
 
 describe('Locale', async () => {
-    const api = await API.build('http:/localhost/api', '/login', 'application/json', 'en');
     const c = new Config('');
 
-    Locale.init('en', api);
+    Locale.init('en');
     expect(Locale.languageSize()).toEqual(0);
 
     test('addDict', async () => {

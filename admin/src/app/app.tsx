@@ -21,7 +21,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
     const api = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
-    await api.cache(opt.api.info);
+    api.cache(opt.api.info);
 
     Locale.init(opt.locales.fallback, api);
     for(const item of Object.entries(opt.locales.messages)) {

@@ -5,10 +5,10 @@
 import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
-import { API } from '@/core/api';
 import { Dict,Loader, flatten, Keys } from './dict';
 import { parseDuration } from './duration';
 import { Config } from '@/core/config';
+import { API } from '@/core/api';
 
 const localeKey = 'locale';
 const unitStyleKey = 'unit_style';
@@ -38,14 +38,14 @@ const tb = gb * 1024;
  */
 export class Locale {
     static #fallback: string;
-    static #api: API;
     static #messages: Map<string, Map<string, IntlMessageFormat>>;
+    static #api: API;
 
     /**
      * 初始化
      *
      * @param fallback 在找不到对应在的语言时采用的默认值；
-     * @param api 当改变当前的语言时，会同时将该值传递给 api.locale；
+     * @param api 切换语言时会同时切换 api 的 accept-language 报头；
      */
     static init(fallback: string, api: API) {
         Locale.#fallback = fallback;
@@ -100,8 +100,8 @@ export class Locale {
     }
 
     #current: Map<string, IntlMessageFormat>;
-    #locale: Intl.Locale;
-    #unitStyle: UnitStyle;
+    readonly #locale: Intl.Locale;
+    readonly #unitStyle: UnitStyle;
 
     #datetime: Intl.DateTimeFormat;
     #date: Intl.DateTimeFormat;
@@ -149,7 +149,7 @@ export class Locale {
 
         this.#unitStyle = unitStyle;
         this.#locale = new Intl.Locale(locale);
-        Locale.#api.locale = locale;
+        Locale.#api.setLocale(locale);
 
         let dtStyle: Intl.DateTimeFormatOptions['timeStyle'] = 'medium';
         let byteStyle: Intl.NumberFormatOptions['unitDisplay'] = 'narrow';

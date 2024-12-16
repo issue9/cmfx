@@ -90,7 +90,7 @@ func Paging[T any](l *Limit, sql *sqlbuilder.SelectStmt, f func(*T)) (*Page[T], 
 	}, nil
 }
 
-// Paging 返回分页对象
+// PagingWithConvert 返回分页对象
 //
 // T 为从数据库读取的数据类型，R 为返回给客户端数据元素项的类型。两者都不能为指针类型；
 // f 用于对当前页的每一个元素 *T 进行额外处理；

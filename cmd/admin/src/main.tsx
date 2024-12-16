@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createApp } from '@cmfx/admin/dev';
-import { AppOptions, Routes } from '@cmfx/admin/dev/components';
+import { AppOptions, Routes, Card, Label } from '@cmfx/admin/dev/components';
 
 import * as pages from '@cmfx/admin/dev/pages';
 import '@cmfx/admin/dev/style.css';
@@ -22,14 +22,14 @@ const members = pages.members.build('/members');
 const current = pages.current.build('/current', () => {
     return <>
         <div class="flex gap-4">
-            <pages.current.Panel class="basis-1/2">1/2</pages.current.Panel>
-            <pages.current.Panel class="basis-1/2">1/2</pages.current.Panel>
+            <Card class="basis-1/2">1/2</Card>
+            <Card class="basis-1/2">1/2</Card>
         </div>
         <div class="flex gap-4">
-            <pages.current.Panel class="basis-1/3" icon="dashboard" title="dashboard">1/3</pages.current.Panel>
+            <Card class="basis-1/3" header={<Label icon="dashboard">dashboard</Label>}>1/3</Card>
             <div class="basis-2/3 flex flex-col gap-4">
-                <pages.current.Panel icon="dashboard" title="dashboard">line 1</pages.current.Panel>
-                <pages.current.Panel>line 2</pages.current.Panel>
+                <Card header={<Label icon="dashboard">dashboard</Label>}>line 1</Card>
+                <Card>line 2</Card>
             </div>
         </div>
     </>;

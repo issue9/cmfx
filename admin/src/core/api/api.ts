@@ -18,7 +18,7 @@ export class API {
     #token: Token | undefined;
 
     readonly #cache: Cache;
-    #cachePaths: Map<string, Array<string>>;
+    readonly #cachePaths: Map<string, Array<string>>; // key 为地址，val 为依赖地址
 
     readonly #contentType: Mimetype;
     readonly #serializer: Serializer;
@@ -70,7 +70,7 @@ export class API {
     /**
      * 切换语言
      */
-    set locale(v: string) {
+    setLocale(v: string) {
         this.#locale = v;
         this.clearCache();
     }
@@ -87,13 +87,13 @@ export class API {
      *  - token 发生变化；
      *
      * @param path 相对于 {@link API#baseURL} 的接口地址；
-     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一量被调用，将更新当前的缓存项。
+     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一旦被调用，将更新当前的缓存项。
      *  支持在尾部以 * 作为通配符，用以匹配任意字符。
      *
      * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
      * NOTE: 相同的 path 多次调用，后续的调用将被忽略。
      */
-    async cache(path: string, ...deps: Array<string>): Promise<void> {
+    cache(path: string, ...deps: Array<string>) {
         if (!this.#cachePaths.has(path)) {
             deps.push(path);
             this.#cachePaths.set(path, deps);
@@ -110,8 +110,13 @@ export class API {
         await this.#cache.delete(this.buildURL(path));
     }
 
+    /**
+     * 清除所有的缓存项
+     */
     async clearCache(): Promise<void> {
-        this.#cachePaths.forEach(async(_, key) => await this.uncache(key));
+        for(let val of this.#cachePaths.keys()) {
+            await this.uncache(val);
+        }
         this.#cachePaths.clear();
     }
 
@@ -341,8 +346,8 @@ export class API {
     }
 
     #needUncache(path: string): string|undefined {
-        for(const [key, dpes] of this.#cachePaths) {
-            for(const dep of dpes) {
+        for(const [key, deps] of this.#cachePaths) {
+            for(const dep of deps) {
                 if (dep === path) { return key; }
 
                 if (dep.charAt(dep.length-1) === '*' && path.startsWith(dep.substring(0, dep.length-1))) {
@@ -364,6 +369,7 @@ export class API {
      * 创建 {@link EventSource} 对象
      *
      * @param path 是相对于 {@link API#baseURL} 的地址；
+     * @param conf 事件源对象；
      */
     eventSource(path: string, conf?: EventSourceInit) {
         return new EventSource(this.buildURL(path), conf);
@@ -372,8 +378,10 @@ export class API {
     /**
      * 监听 es 上的 type 事件
      *
-     * @param handler 事件处理程序，参数 e.data 是转换后的对象，而不是原始数据。
-     * @template T 表示 e.data 转换后的类型。
+     * @param es 事件源；
+     * @param handler 事件处理程序，参数 e.data 是转换后的对象，而不是原始数据；
+     * @param type 事件类型名称；
+     * @template T 表示 e.data 转换后的类型；
      */
     onEventSource<T>(es: EventSource, type: string, handler: {(e: MessageEvent<T>): void}) {
         es.addEventListener(type, async (e: MessageEvent) => {

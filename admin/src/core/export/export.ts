@@ -23,8 +23,8 @@ export interface LoadFunc<T extends object> {
  * @template T 每一行数据的类型
  */
 export class Exporter<T extends object> {
-    #sheet: xlsx.WorkSheet;
-    #columns: Array<Column<T>>;
+    readonly #sheet: xlsx.WorkSheet;
+    readonly #columns: Array<Column<T>>;
 
     /**
      * 构造函数

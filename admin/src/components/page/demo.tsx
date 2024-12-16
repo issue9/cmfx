@@ -11,7 +11,7 @@ export default function() {
     const [paletteS, palette] = paletteSelector();
     const [disableBackTopS, disableBackTop] = boolSelector('disable backtop');
     const len: Array<number> = [];
-    for (var i = 0; i<100; i++) {
+    for (let i = 0; i<100; i++) {
         len.push(i);
     }
 
