@@ -27,6 +27,16 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 		user: user.Load(mod, conf.User),
 	}
 
+	m.user.OnAdd(func(u *user.User) {
+		_, err := m.user.Module().DB().Insert(&infoPO{
+			ID:       u.ID,
+			Nickname: u.Username,
+		})
+		if err != nil {
+			m.user.Module().Server().Logs().ERROR().Error(err)
+		}
+	})
+
 	resGroup := adminMod.NewResourceGroup(mod)
 	getMembers := resGroup.New("get-members", web.StringPhrase("get members"))
 	putMember := resGroup.New("put-menmber", web.StringPhrase("put member"))
@@ -56,24 +66,28 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 			o.Tag("member").Desc(web.Phrase("delete the member api"), nil).ResponseEmpty("204")
 		}))
 
+	// 需要登录
 	p := mod.Router().Prefix(m.URLPrefix(), m)
-
-	p.Get("/info", m.memberGetInfo, mod.API(func(o *openapi.Operation) {
-		o.Desc(web.Phrase("get login user info api"), nil).
-			Response200(memberInfoVO{})
-	})).
-		Patch("/info", m.memberPathInfo, mod.API(func(o *openapi.Operation) {
+	up.Handle(p, mod.API, conf.Upload)
+	p.
+		Get("/info", m.memberGetInfo, mod.API(func(o *openapi.Operation) {
+			o.Desc(web.Phrase("get login user info api"), nil).
+				Response200(memberInfoVO{})
+		})).
+		Patch("/info", m.memberPatchInfo, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("patch login user info api"), nil).
 				Body(memberInfoTO{}, false, nil, nil).
 				ResponseEmpty("204")
-		})).
+		}))
+
+	// 不需要登录
+	mod.Router().Prefix(m.URLPrefix()).
 		Post("", m.memberRegister, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("register member api"), nil).
 				Body(memberTO{}, false, nil, nil).
 				ResponseEmpty("201")
 		}))
 
-	up.Handle(p, mod.API, conf.Upload)
 	return m
 }
 

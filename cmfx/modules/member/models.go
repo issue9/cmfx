@@ -16,7 +16,7 @@ type infoPO struct {
 	ID int64 `orm:"name(id);unique(id)" json:"id" xml:"id,attr" cbor:"id" yaml:"id"`
 
 	// 生日
-	Birthday sql.NullTime `orm:"name(birthday)" yaml:"birthday" json:"birthday" cbor:"birthday" xml:"birthday"`
+	Birthday sql.NullTime `orm:"name(birthday);nullable" yaml:"birthday" json:"birthday" cbor:"birthday" xml:"birthday"`
 
 	// 性别
 	Sex types.Sex `orm:"name(sex)" json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
