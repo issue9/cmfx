@@ -4,7 +4,11 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { Button, ButtonGroup, ConfirmButton, LinkButton, SplitButton } from '@/components';
+import { Button } from '@/components/button/button';
+import { ConfirmButton } from '@/components/button/confirm';
+import { ButtonGroup } from '@/components/button/group';
+import { LinkButton } from '@/components/button/link';
+import { SplitButton } from '@/components/button/split';
 import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
 import { Icon } from '@/components/icon';
 import { Kind, kinds } from './types';

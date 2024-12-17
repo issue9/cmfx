@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { Button } from '../button';
-import { Label } from '../typography';
+import { Button } from '@/components/button';
+import { Label } from '@/components/typography';
 import { Card } from './card';
 
 export default function() {
