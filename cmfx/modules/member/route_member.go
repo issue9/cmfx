@@ -73,7 +73,7 @@ type memberInfoTO struct {
 	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
 }
 
-func (m *Module) memberPathInfo(ctx *web.Context) web.Responser {
+func (m *Module) memberPatchInfo(ctx *web.Context) web.Responser {
 	data := &memberInfoTO{}
 	if resp := ctx.Read(true, data, cmfx.NotFoundInvalidPath); resp != nil {
 		return resp
@@ -87,7 +87,7 @@ func (m *Module) memberPathInfo(ctx *web.Context) web.Responser {
 		Nickname: data.Nickname,
 		Avatar:   data.Avatar,
 	}
-	if _, err := m.user.Module().DB().Update(info, "birthday", "avatar"); err != nil {
+	if _, _, err := m.user.Module().DB().Save(info, "birthday", "avatar"); err != nil {
 		return ctx.Error(err, "")
 	}
 
