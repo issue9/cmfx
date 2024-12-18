@@ -7,6 +7,7 @@ package cmd
 
 import (
 	"flag"
+	"fmt"
 	"path/filepath"
 
 	xupload "github.com/issue9/upload/v3"
@@ -74,7 +75,8 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	memberMod := root.New("member", web.Phrase("member module"), "member")
 
 	// 指定上传模块
-	url, err := root.Router().URL(false, "/uploads", nil)
+	const uploadPrefix = "/uploads"
+	url, err := root.Router().URL(false, uploadPrefix, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -84,7 +86,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	if err != nil {
 		return nil, err
 	}
-	uploadL := upload.Load(uploadMod, "/uploads", uploadSaver)
+	uploadL := upload.Load(uploadMod, uploadPrefix, uploadSaver)
 
 	switch action {
 	case "serve":
@@ -104,10 +106,8 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		member.Install(memberMod, user.Member, uploadL, adminL)
 
 		system.Install(systemMod, user.System, adminL)
-	case "upgrade":
-		panic("not implements")
 	default:
-		panic("invalid action")
+		panic(fmt.Sprintf("invalid action %s", action))
 	}
 	return s, nil
 }
