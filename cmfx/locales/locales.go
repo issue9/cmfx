@@ -19,7 +19,7 @@ var locale embed.FS
 
 var All = append([]fs.FS{locale, wl.Locales}, locales.Locales...)
 
-// 一些常用的翻译项
+// 一些常用翻译项
 const (
 	InvalidFormat    = locales.InvalidFormat
 	InvalidURLFormat = web.StringPhrase("invalid url format")

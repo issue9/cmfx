@@ -29,7 +29,6 @@ func (State) OpenAPISchema(s *openapi.Schema) {
 	s.Enum = []any{StateNormal.String(), StateLocked.String(), StateDeleted.String()}
 }
 
-// 安全日志
 type LogVO struct {
 	Content   string    `json:"content" xml:",cdata" cbor:"content" yaml:"content" comment:"log content"`
 	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip" yaml:"ip" comment:"log IP"`

@@ -88,17 +88,17 @@ func (i *infoWithAccountTO) Filter(v *web.FilterContext) {
 
 func (*info) TableName() string { return `_info` }
 
-func (a *info) BeforeInsert() error {
-	a.Name = html.EscapeString(a.Name)
-	a.Nickname = html.EscapeString(a.Nickname)
+func (i *info) BeforeInsert() error {
+	i.Name = html.EscapeString(i.Name)
+	i.Nickname = html.EscapeString(i.Nickname)
 
 	return nil
 }
 
 // BeforeUpdate 更新之前需要执行的操作
-func (a *info) BeforeUpdate() error {
-	a.Name = html.EscapeString(a.Name)
-	a.Nickname = html.EscapeString(a.Nickname)
+func (i *info) BeforeUpdate() error {
+	i.Name = html.EscapeString(i.Name)
+	i.Nickname = html.EscapeString(i.Nickname)
 
 	return nil
 }

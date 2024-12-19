@@ -37,7 +37,7 @@ type code struct {
 	user    *user.Module
 }
 
-// New 声明基于验证码的验证方法
+// Init 声明基于验证码的验证方法
 //
 // id 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符；
 // expired 表示验证码的过期时间；

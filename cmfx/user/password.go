@@ -136,10 +136,13 @@ func (p *password) putPassword(ctx *web.Context) web.Responser {
 	if err != nil {
 		return ctx.Error(err, "")
 	}
-	p.mod.mod.DB().Update(&User{
+	_, err = p.mod.mod.DB().Update(&User{
 		ID:       mod.ID,
 		Password: pa,
 	})
+	if err != nil {
+		return ctx.Error(err, "")
+	}
 
 	return web.NoContent()
 }
@@ -149,7 +152,7 @@ func (p *password) ID() string { return passwordMode }
 func (p *password) Description() web.LocaleStringer { return web.Phrase("passport password mode") }
 
 // Delete 删除关联的密码信息
-func (p *password) Delete(uid int64) error { return nil }
+func (p *password) Delete(int64) error { return nil }
 
 func (p *password) Identity(uid int64) string {
 	mod := &User{ID: uid}

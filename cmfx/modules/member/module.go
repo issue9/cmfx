@@ -39,8 +39,8 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 
 	resGroup := adminMod.NewResourceGroup(mod)
 	getMembers := resGroup.New("get-members", web.StringPhrase("get members"))
-	putMember := resGroup.New("put-menmber", web.StringPhrase("put member"))
-	delMember := resGroup.New("del-menmber", web.StringPhrase("delete member"))
+	putMember := resGroup.New("put-member", web.StringPhrase("put member"))
+	delMember := resGroup.New("del-member", web.StringPhrase("delete member"))
 
 	ap := adminMod.UserModule().Module().Router().Prefix(adminMod.URLPrefix(), adminMod)
 	adminAPI := adminMod.UserModule().Module().API

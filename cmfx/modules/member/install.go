@@ -30,12 +30,15 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Modul
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
-	m.user.Module().DB().Insert(&infoPO{
+	_, err = m.user.Module().DB().Insert(&infoPO{
 		ID:       m1,
 		Birthday: sql.NullTime{Time: time.Now(), Valid: true},
 		Sex:      types.SexFemale,
 		Nickname: "nickname",
 	})
+	if err != nil {
+		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
+	}
 
 	return m
 }

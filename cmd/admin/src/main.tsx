@@ -11,8 +11,8 @@ import '@cmfx/admin/dev/style.css';
 import { Demo } from './demo';
 import { default as Test } from './pages/test';
 
-const urlBase = 'http://192.168.10.10:8080/admin';
-//const urlBase = 'http://localhost:8080/admin';
+//const urlBase = 'http://192.168.10.10:8080/admin';
+const urlBase = 'http://localhost:8080/admin';
 
 const demo = new Demo('/demo');
 const roles = pages.roles.build('/roles');

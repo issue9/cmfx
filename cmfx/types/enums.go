@@ -11,7 +11,7 @@ import (
 
 //go:generate web enum -i=./enums.go -o=./enums_methods.go -t=Sex
 
-// 性别
+// Sex 性别
 type Sex int8
 
 const (

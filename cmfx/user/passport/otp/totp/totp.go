@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package hotp 提供基于 [TOTP] 的 [passport.Adapter] 实现
+// Package totp 提供基于 [TOTP] 的 [passport.Adapter] 实现
 //
 // [TOTP]: https://datatracker.ietf.org/doc/html/rfc6238
 package totp

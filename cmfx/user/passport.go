@@ -58,9 +58,9 @@ func (m *Module) getPassports(ctx *web.Context) web.Responser {
 // Identities 获取 uid 已经关联的适配器
 //
 // 返回值键名为验证器 id，键值为该适配器对应的账号。
-func (p *Module) Identities(uid int64) iter.Seq2[string, string] {
+func (m *Module) Identities(uid int64) iter.Seq2[string, string] {
 	return func(yield func(string, string) bool) {
-		for _, info := range p.passports {
+		for _, info := range m.passports {
 			if id := info.Identity(uid); id != "" {
 				if !yield(info.ID(), id) {
 					break

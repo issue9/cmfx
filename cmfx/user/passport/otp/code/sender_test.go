@@ -13,4 +13,4 @@ type sender struct{}
 
 func (s *sender) Sent(_, _ string) error { return nil }
 
-func (s *sender) ValidIdentity(id string) bool { return true }
+func (s *sender) ValidIdentity(string) bool { return true }

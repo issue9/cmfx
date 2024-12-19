@@ -14,7 +14,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/filters"
 )
 
-// 角色信息
+// RoleTO 角色信息
 type RoleTO struct {
 	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
 	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
@@ -27,7 +27,7 @@ func (r *RoleTO) Filter(v *web.FilterContext) {
 		Add(filters.NotEmpty("name", &r.Name))
 }
 
-// 角色信息
+// RoleVO 角色信息
 type RoleVO struct {
 	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
 	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" yaml:"id,omitempty" comment:"role id"`
@@ -37,7 +37,7 @@ type RoleVO struct {
 }
 
 // GetRolesHandle 向客户端输出 g 中保存的所有角色列表
-func GetRolesHandle(g *RoleGroup, ctx *web.Context) web.Responser {
+func GetRolesHandle(g *RoleGroup, _ *web.Context) web.Responser {
 	rs := make([]*RoleVO, 0, 20)
 	for r := range g.Roles() {
 		rs = append(rs, &RoleVO{

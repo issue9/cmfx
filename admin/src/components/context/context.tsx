@@ -6,8 +6,7 @@ import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
 
 import { NotifyType } from '@/components/notify';
-import { API, Config, Locale, Method, Problem, Return, Theme, UnitStyle, notify } from '@/core';
-import { Token } from '@/core/api/token';
+import { API, Config, Locale, Method, Problem, Return, Theme, UnitStyle, notify, Token } from '@/core';
 import { AppOptions } from './options';
 import { User } from './user';
 
@@ -208,7 +207,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * @param r 登录接口返回的数据
          * @returns true 表示登录成功，其它情况表示错误信息
          */
-        async login(r: Return<Token,never>) {
+        async login(r: Return<Token, never>) {
             const ret = await f.login(r);
             if (ret === true) {
                 await userData.refetch();

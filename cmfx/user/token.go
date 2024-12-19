@@ -29,7 +29,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 	}
 
 	if s != StateNormal { // 正常状态下需要考虑其是否在登录状态，如果是登录状态，则删除其登录的令牌。
-		m.token.Delete(u) // 用到 User.NO。非登录状态下，会返回错误，忽略。
+		_ = m.token.Delete(u) // 用到 User.NO。非登录状态下，会返回错误，忽略。
 	}
 
 	if s == StateDeleted { // 删除所有的登录信息
@@ -142,7 +142,7 @@ func (m *Module) New(s State, username, password string, ip, ua, content string)
 		Password: pa,
 	}
 
-	m.mod.DB().DoTransaction(func(tx *orm.Tx) error {
+	err = m.mod.DB().DoTransaction(func(tx *orm.Tx) error {
 		uid, err := tx.LastInsertID(u)
 		if err != nil {
 			return err
@@ -150,6 +150,9 @@ func (m *Module) New(s State, username, password string, ip, ua, content string)
 		u.ID = uid
 		return m.AddSecurityLog(tx, uid, ip, ua, content)
 	})
+	if err != nil {
+		return 0, err
+	}
 
 	m.addEvent.Publish(true, u)
 	return u.ID, nil

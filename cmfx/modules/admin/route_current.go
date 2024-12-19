@@ -28,8 +28,8 @@ type infoWithPassportVO struct {
 // @resp 200 * respInfoWithPassport
 func (m *Module) getInfo(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx)
-	infomation := &info{ID: u.ID}
-	f, err := m.UserModule().Module().DB().Select(infomation)
+	information := &info{ID: u.ID}
+	f, err := m.UserModule().Module().DB().Select(information)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -47,7 +47,7 @@ func (m *Module) getInfo(ctx *web.Context) web.Responser {
 	slices.SortFunc(ps, func(a, b *passportIdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&infoWithPassportVO{
-		info:      *infomation,
+		info:      *information,
 		Passports: ps,
 	})
 }

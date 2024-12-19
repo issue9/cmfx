@@ -8,3 +8,5 @@ export { mimetypes } from './serializer';
 export type { Mimetype } from './serializer';
 
 export type { Method, Page, Problem, Query, Return } from './types';
+
+export type { Token } from './token';

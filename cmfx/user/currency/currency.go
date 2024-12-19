@@ -207,23 +207,23 @@ func (m *Module) Del(tx *orm.Tx, u *user.User, val uint, memo string) error {
 			vv := v
 		LOOP:
 			for _, exp := range expires {
-				switch newVal := vv - exp.Value; {
-				case newVal == 0:
+				switch remind := vv - exp.Value; {
+				case remind == 0: // 正好一条记录减完所有数据
 					if _, err := e.Update(&expirePO{ID: exp.ID, Value: 0, Expired: time.Time{}}, "value", "expired"); err != nil {
 						return err
 					}
 					vv = 0
 					break LOOP
-				case newVal > 0:
+				case remind > 0: // 此条记录不够减
 					if _, err := e.Update(&expirePO{ID: exp.ID, Value: 0, Expired: time.Time{}}, "value", "expired"); err != nil {
 						return err
 					}
-					vv = newVal
-				case newVal < 0:
-					if _, err := e.Update(&expirePO{ID: exp.ID, Value: -newVal}, "value"); err != nil {
+					vv = remind
+				case remind < 0: // 此记录减完之后还有剩余
+					if _, err := e.Update(&expirePO{ID: exp.ID, Value: -remind}, "value"); err != nil {
 						return err
 					}
-					vv = 0
+					break LOOP
 				}
 			}
 		}
@@ -305,15 +305,14 @@ func (m *Module) Unfreeze(tx *orm.Tx, u *user.User, val int64, memo string) erro
 		return err
 	}
 
-	v := int64(val)
-	if (overview.Freeze) < v {
+	if (overview.Freeze) < val {
 		return ErrBalanceNotEnough()
 	}
 
 	o2 := &overviewPO{
 		ID:        overview.ID,
-		Available: overview.Available + v,
-		Freeze:    overview.Freeze - v,
+		Available: overview.Available + val,
+		Freeze:    overview.Freeze - val,
 	}
 	if _, err := e.Update(o2, "available", "freeze"); err != nil {
 		return err
@@ -323,7 +322,7 @@ func (m *Module) Unfreeze(tx *orm.Tx, u *user.User, val int64, memo string) erro
 		UID:    u.ID,
 		Before: overview.Available,
 		After:  o2.Available,
-		Value:  +v,
+		Value:  +val,
 		Memo:   memo,
 		Type:   TypeUnfreeze,
 	}
