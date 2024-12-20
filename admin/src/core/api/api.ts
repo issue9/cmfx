@@ -325,7 +325,7 @@ export class API {
                     }
                 }
 
-                return { status: resp.status, ok: true, body: await this.parse<R>(resp) };
+                return { headers: resp.headers, status: resp.status, ok: true, body: await this.parse<R>(resp) };
             }
 
             // TODO 300-399
@@ -336,12 +336,12 @@ export class API {
                 this.#token = undefined;
                 delToken();
             }
-            return { status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
+            return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {
             if (e instanceof Error) {
-                return { status: 500, ok: false, body: {type: '500', status: 500, title: 'fetch error', detail: e.message } };
+                return { status: 500, ok: false, body: { type: '500', status: 500, title: 'fetch error', detail: e.message } };
             }
-            return { status: 500, ok: false, body: {type: '500', status: 500, title: 'error', detail: (<any>e).toString() } };
+            return { status: 500, ok: false, body: { type: '500', status: 500, title: 'error', detail: (<any>e).toString() } };
         }
     }
 

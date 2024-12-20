@@ -38,6 +38,11 @@ export interface Param {
  */
 export type Return<R, PE> = {
     /**
+     * 返回的报头
+     */
+    headers?: Headers;
+
+    /**
      * 服务端返回的类型
      */
     body?: Problem<PE>;
@@ -52,6 +57,11 @@ export type Return<R, PE> = {
      */
     ok: false;
 } | {
+    /**
+     * 返回的报头
+     */
+    headers?: Headers;
+
     /**
      * 服务端返回的类型
      */
