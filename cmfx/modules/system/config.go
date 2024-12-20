@@ -18,6 +18,8 @@ import (
 // Config 配置项
 type Config struct {
 	// URLPrefix 该模块下的地址前缀
+	//
+	// 默认值为 /system
 	URLPrefix string `yaml:"urlPrefix" json:"urlPrefix" xml:"urlPrefix"`
 
 	// Backup 备份数据的选项

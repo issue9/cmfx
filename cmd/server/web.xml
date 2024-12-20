@@ -93,6 +93,7 @@
                 </exts>
                 <field>files</field>
             </upload>
+            <sse cap="10" keepAlive="1m" />
         </admin>
 
         <system>

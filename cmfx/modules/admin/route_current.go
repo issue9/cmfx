@@ -7,6 +7,7 @@ package admin
 import (
 	"cmp"
 	"slices"
+	"time"
 
 	"github.com/issue9/web"
 
@@ -23,9 +24,14 @@ type infoWithPassportVO struct {
 	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
-// # api get /info 获取当前登用户的信息
-// @tag admin
-// @resp 200 * respInfoWithPassport
+func (m *Module) getSSE(ctx *web.Context) web.Responser {
+	uid := m.user.CurrentUser(ctx).ID
+	src, wait := m.sse.NewSource(uid, ctx)
+	src.Sent([]string{ctx.Begin().Format(time.RFC3339)}, "connect", "")
+	wait()
+	return nil
+}
+
 func (m *Module) getInfo(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx)
 	information := &info{ID: u.ID}
