@@ -7,6 +7,7 @@ package admin
 import (
 	"cmp"
 	"slices"
+	"time"
 
 	"github.com/issue9/web"
 
@@ -23,9 +24,47 @@ type infoWithPassportVO struct {
 	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
-// # api get /info 获取当前登用户的信息
-// @tag admin
-// @resp 200 * respInfoWithPassport
+type sseTokenVO struct {
+	XMLName struct{} `json:"-" xml:"token" cbor:"-" yaml:"-"`
+	Access  string   `json:"access" xml:"access" cbor:"access" yaml:"access"`
+	Expire  int      `json:"expire" xml:"expire,attr" cbor:"expire" yaml:"expire"`
+}
+
+const sseTokenExpireInSeconds = 60
+
+func (m *Module) postSSE(ctx *web.Context) web.Responser {
+	s := m.UserModule().Module().Server()
+	token := s.UniqueID()
+
+	m.sseCaches.Set(token, m.UserModule().CurrentUser(ctx).ID, sseTokenExpireInSeconds*time.Second)
+	return web.Created(&sseTokenVO{
+		Access: token,
+		Expire: sseTokenExpireInSeconds,
+	}, "")
+}
+
+func (m *Module) getSSE(ctx *web.Context) web.Responser {
+	q, err := ctx.Queries(true)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+
+	token := q.String("token", "")
+	if token == "" {
+		return ctx.Problem(cmfx.UnauthorizedInvalidToken)
+	}
+
+	var uid int64
+	if err = m.sseCaches.Get(token, &uid); err != nil {
+		return ctx.Error(err, cmfx.UnauthorizedInvalidAccount)
+	}
+
+	src, wait := m.sse.NewSource(uid, ctx)
+	src.Sent([]string{ctx.Begin().Format(time.RFC3339)}, "connect", "")
+	wait()
+	return nil
+}
+
 func (m *Module) getInfo(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx)
 	information := &info{ID: u.ID}

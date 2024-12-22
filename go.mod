@@ -8,22 +8,24 @@ require (
 	github.com/issue9/config v0.8.0
 	github.com/issue9/conv v1.3.5
 	github.com/issue9/errwrap v0.3.2
-	github.com/issue9/events v0.9.0
+	github.com/issue9/events v0.9.1
 	github.com/issue9/logs/v7 v7.6.4
-	github.com/issue9/mux/v9 v9.1.1
+	github.com/issue9/mux/v9 v9.1.2
 	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20241018060335-bdbc5e5a6236
 	github.com/issue9/rands/v3 v3.0.1
 	github.com/issue9/scheduled v0.21.3
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.100.5
+	github.com/issue9/web v0.100.6
 	github.com/issue9/webfilter v0.9.0
-	github.com/issue9/webuse/v7 v7.0.0-20241205040622-8f281b3c1328
+	github.com/issue9/webuse/v7 v7.0.0-20241220091456-beb06bc648ed
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.24.11
 	golang.org/x/crypto v0.31.0
 	golang.org/x/text v0.21.0
 )
+
+replace github.com/issue9/web => /Users/caixw/dev.localized/issue9/web
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
@@ -51,6 +53,7 @@ require (
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
+	github.com/puzpuzpuz/xsync/v3 v3.4.0 // indirect
 	github.com/redis/go-redis/v9 v9.6.2 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect

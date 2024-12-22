@@ -6,7 +6,8 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { createEffect, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, buildContext, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
+import { AppOptions, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
+import { buildContext } from '@/components/context/context';
 import { API, compareBreakpoint, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';

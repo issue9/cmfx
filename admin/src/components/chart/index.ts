@@ -6,7 +6,7 @@ export { Chart } from './chart';
 export type { Props as ChartProps } from './chart';
 
 export { AxisChart } from './axis';
-export type { Props as AxisChartProps, XAxis as AxisChartPropsAxis, Series as AxisChartPropsSeries } from './axis';
+export type { Props as AxisChartProps, XAxis as AxisChartPropsAxis, Series as AxisChartPropsSeries, Ref as AxisRef } from './axis';
 
 export { PieChart } from './pie';
 export type { Props as PieChartProps } from './pie';

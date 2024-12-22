@@ -5,14 +5,14 @@
 package system
 
 import (
-	"reflect"
+	"context"
 	"time"
 
+	"github.com/issue9/events"
 	"github.com/issue9/web"
-	"github.com/issue9/web/mimetype/sse"
 	"github.com/issue9/web/openapi"
-	"github.com/issue9/webuse/v7/handlers/monitor"
 	"github.com/issue9/webuse/v7/plugins/health"
+	"github.com/issue9/webuse/v7/services/systat"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
@@ -20,10 +20,12 @@ import (
 )
 
 type Module struct {
-	mod     *cmfx.Module
-	admin   *admin.Module
-	health  *health.Health
-	monitor *monitor.Monitor
+	mod    *cmfx.Module
+	admin  *admin.Module
+	health *health.Health
+
+	stats   events.Subscriber[*systat.Stats]
+	cancels map[int64]context.CancelFunc
 
 	settings        *settings.Settings
 	generalSettings *settings.Object[generalSettings]
@@ -43,10 +45,13 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	}
 
 	m := &Module{
-		mod:      mod,
-		admin:    adminL,
-		health:   health.New(store),
-		monitor:  monitor.New(mod.Server(), 30*time.Second),
+		mod:    mod,
+		admin:  adminL,
+		health: health.New(store),
+
+		stats:   systat.Init(mod.Server(), time.Minute, time.Second, 20),
+		cancels: map[int64]context.CancelFunc{},
+
 		settings: settings.New(mod, settingsTableName),
 	}
 	general, err := settings.LoadObject[generalSettings](m.settings, generalSettingName)
@@ -65,6 +70,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 
 	g := adminL.NewResourceGroup(mod)
 	resGetInfo := g.New("get-info", web.Phrase("view system info"))
+	resGetStat := g.New("get-stat", web.Phrase("view system stat"))
 	resGetServices := g.New("get-services", web.Phrase("view services"))
 	resGetAPIs := g.New("get-apis", web.Phrase("view apis"))
 	resBackup := g.New("backup", web.Phrase("backup database"))
@@ -90,16 +96,15 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 				Response200([]health.State{}).
 				Desc(web.Phrase("get api list api"), nil)
 		})).
-		Get("/monitor", m.adminGetMonitor, resGetInfo, mod.API(func(o *openapi.Operation) {
-			o.Tag("system").
-				Desc(web.Phrase("get system state api"), nil).
-				Response("200", []monitor.Stats{}, nil, func(r *openapi.Response) {
-					if r.Content == nil {
-						r.Content = make(map[string]*openapi.Schema, 1)
-					}
-					r.Content[sse.Mimetype] = openapi.NewSchema(reflect.TypeOf([]monitor.Stats{}), nil, nil)
-					r.Body = nil
-				})
+		Post("/systat", m.adminPostSystat, resGetStat, mod.API(func(o *openapi.Operation) {
+			o.Tag("system", "systat").
+				Desc(web.Phrase("subscribe system stat api"), nil).
+				ResponseEmpty("201")
+		})).
+		Delete("/systat", m.adminDeleteSystat, resGetStat, mod.API(func(o *openapi.Operation) {
+			o.Tag("system", "systat").
+				Desc(web.Phrase("unsubscribe system stat api"), nil).
+				ResponseEmpty("204")
 		})).
 		Get("/settings/general", m.adminGetSettingGeneral, resSettingsGeneral, mod.API(func(o *openapi.Operation) {
 			o.Tag("settings", "system").

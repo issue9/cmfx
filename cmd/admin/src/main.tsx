@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createApp } from '@cmfx/admin/dev';
-import { AppOptions, Routes, Card, Label } from '@cmfx/admin/dev/components';
+import { AppOptions, Card, Label, Routes } from '@cmfx/admin/dev/components';
 
 import * as pages from '@cmfx/admin/dev/pages';
 import '@cmfx/admin/dev/style.css';

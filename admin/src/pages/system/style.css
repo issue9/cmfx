@@ -8,7 +8,7 @@
     .p--system-info {
         @apply flex flex-wrap gap-5 justify-between content-center box-border;
 
-        fieldset {
+        .panel {
             @apply flex flex-col border border-palette-fg-low p-2 rounded-md flex-grow;
 
             dl {

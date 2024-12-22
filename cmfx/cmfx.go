@@ -50,6 +50,12 @@ const (
 	NotFoundInvalidPath = "40401"
 )
 
+// 412
+const (
+	PreconditionFailed        = web.ProblemPreconditionFailed
+	PreconditionFailedNeedSSE = "41201"
+)
+
 // 413
 const RequestEntityTooLarge = web.ProblemRequestEntityTooLarge
 

@@ -12,6 +12,11 @@ export interface Ref<T extends object> {
      * 追加数据
      */
     append(...data: Array<T>): void;
+
+    /**
+     * 清空数据
+     */
+    clear(): void;
 }
 
 export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
@@ -19,6 +24,8 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
      * X 轴的设置
      */
     xAxis: XAxis<T>;
+
+    yAxis?: string;
 
     /**
      * 是否显示提示信息
@@ -127,6 +134,10 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
                     }
                     return d;
                 });
+            },
+
+            clear() {
+                setData([]);
             }
         });
     }
@@ -138,7 +149,7 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
         const dimensions = [props.xAxis.key, ...props.series.map(s=>s.key)] as Array<string>;
 
         const yAxis: Array<YAXisOption> = [{
-            type: 'value', axisLine: axisLine, splitLine: splitLine, show: true
+            type: 'value', axisLine: axisLine, splitLine: splitLine, show: true, name: props.yAxis
         }];
         if (props.series.find((s)=>s.yAxisIndex===1)) {
             yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });

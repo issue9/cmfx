@@ -5,6 +5,7 @@
 package system
 
 import (
+	"encoding/json"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -14,8 +15,10 @@ import (
 	"github.com/issue9/web"
 	"github.com/issue9/web/locales"
 	"github.com/issue9/web/openapi"
+	"github.com/issue9/webuse/v7/services/systat"
 	"github.com/shirou/gopsutil/v4/host"
 
+	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
@@ -204,7 +207,33 @@ func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	return web.OK(ps)
 }
 
-func (m *Module) adminGetMonitor(ctx *web.Context) web.Responser { return m.monitor.Handle(ctx) }
+func (m *Module) adminPostSystat(ctx *web.Context) web.Responser {
+	uid := m.admin.CurrentUser(ctx).ID
+	s := m.admin.SSE().Get(uid)
+	if s == nil {
+		return ctx.Problem(cmfx.PreconditionFailedNeedSSE)
+	}
+
+	e := s.NewEvent("systat", json.Marshal)
+
+	cancel := m.stats.Subscribe(func(data *systat.Stats) {
+		if err := e.Sent(data); err != nil {
+			m.admin.UserModule().Module().Server().Logs().ERROR().Error(err)
+		}
+	})
+	m.cancels[uid] = cancel
+
+	return web.Created(nil, "")
+}
+
+func (m *Module) adminDeleteSystat(ctx *web.Context) web.Responser {
+	uid := m.admin.CurrentUser(ctx).ID
+	if c, found := m.cancels[uid]; found {
+		c()
+		delete(m.cancels, uid)
+	}
+	return web.NoContent()
+}
 
 func (m *Module) adminPostBackup(ctx *web.Context) web.Responser {
 	if err := m.mod.DB().Backup(m.backupConfig.buildFile(ctx.Begin())); err != nil {
