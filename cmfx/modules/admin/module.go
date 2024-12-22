@@ -22,6 +22,7 @@ type Module struct {
 	user      *user.Module
 	roleGroup *rbac.RoleGroup
 	sse       *sse.Server[int64]
+	sseCaches web.Cache
 }
 
 // Load 加载管理模块
@@ -30,8 +31,9 @@ type Module struct {
 // up 上传模块；
 func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	m := &Module{
-		user: user.Load(mod, o.User),
-		sse:  sse.NewServer[int64](mod.Server(), o.SSE.Retry.Duration(), o.SSE.KeepAlive.Duration(), o.SSE.Cap, web.Phrase("admin sse server")),
+		user:      user.Load(mod, o.User),
+		sse:       sse.NewServer[int64](mod.Server(), o.SSE.Retry.Duration(), o.SSE.KeepAlive.Duration(), o.SSE.Cap, web.Phrase("admin sse server")),
+		sseCaches: web.NewCache(mod.ID()+"_sse_", mod.Server().Cache()),
 	}
 
 	inst := rbac.New(mod, func(ctx *web.Context) (int64, web.Responser) {
@@ -99,9 +101,18 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 				Body([]string{}, false, nil, nil).
 				ResponseEmpty("204")
 		})).
+		Post("/sse", m.postSSE, mod.API(func(o *openapi.Operation) {
+			o.Tag("sse").
+				Desc(web.Phrase("create sse token api"), nil).
+				//Header("Location", openapi.TypeString, nil, nil).
+				ResponseEmpty("201")
+		}))
+
+	mod.Router().Prefix(m.URLPrefix()).
 		Get("/sse", m.getSSE, mod.API(func(o *openapi.Operation) {
 			o.Tag("sse").
 				Desc(web.Phrase("get SSE message api"), nil).
+				Query("token", openapi.TypeString, web.Phrase("user token"), nil).
 				Response("200", nil, nil, func(r *openapi.Response) {
 					r.Body = nil
 					r.Content = map[string]*openapi.Schema{

@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { sleep } from '@/core/time';
 import { CacheImplement } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
-import { delToken, getToken, state, Token, TokenState, writeToken } from './token';
+import { delToken, getToken, SSEToken, state, Token, TokenState, writeToken } from './token';
 import { Method, Problem, Query, Return } from './types';
 
 /**
@@ -16,6 +17,7 @@ export class API {
     readonly #tokenPath: string;
     #locale: string;
     #token: Token | undefined;
+    #eventSource?: EventSource;
 
     readonly #cache: Cache;
     readonly #cachePaths: Map<string, Array<string>>; // key 为地址，val 为依赖地址
@@ -207,12 +209,30 @@ export class API {
      * @returns 如果返回 true，表示操作成功，否则表示错误信息。
      */
     async login(ret: Return<Token, never>): Promise<Problem<never>|undefined|true> {
-        if (ret.ok) {
-            this.#token = writeToken(ret.body!);
-            await this.clearCache();
-            return true;
+        if (!ret.ok) {
+            return ret.body;
         }
-        return ret.body;
+
+        this.#token = writeToken(ret.body!);
+        await this.clearCache();
+
+        await this.#initEventSource();
+
+        return true;
+    }
+
+    /**
+     * 初始化 EventSource
+     */
+    async #initEventSource() {
+        const r = await this.post<SSEToken>('/sse');
+        if (!r.ok) {
+            console.error(r.body);
+            return;
+        }
+
+        this.#eventSource = new EventSource(this.buildURL('/sse?token='+ r.body!.access));
+        await sleep(1000); // TODO
     }
 
     /**
@@ -223,6 +243,8 @@ export class API {
         this.#token = undefined;
         delToken();
         await this.clearCache();
+
+        this.#eventSource = undefined;
     }
 
     /**
@@ -366,13 +388,15 @@ export class API {
     }
 
     /**
-     * 创建 {@link EventSource} 对象
+     * 获取 {@link EventSource} 对象
      *
-     * @param path 是相对于 {@link API#baseURL} 的地址；
-     * @param conf 事件源对象；
+     * NOTE: 同次登录拥有相同的实例。
      */
-    eventSource(path: string, conf?: EventSourceInit) {
-        return new EventSource(this.buildURL(path), conf);
+    async eventSource(): Promise<EventSource | undefined> {
+        if (this.isLogin() && !this.#eventSource) { // 刷新页面可能导致 eventSource 无效。
+            await this.#initEventSource();
+        }
+        return this.#eventSource;
     }
 
     /**
@@ -383,8 +407,13 @@ export class API {
      * @param type 事件类型名称；
      * @template T 表示 e.data 转换后的类型；
      */
-    onEventSource<T>(es: EventSource, type: string, handler: {(e: MessageEvent<T>): void}) {
-        es.addEventListener(type, async (e: MessageEvent) => {
+    async onEventSource<T>(type: string, handler: {(e: MessageEvent<T>): void}): Promise<void> {
+        const es = await this.eventSource();
+        if (!es) {
+            throw '初始化 eventSource 失败';
+        }
+
+        es!.addEventListener(type, async (e: MessageEvent) => {
             const data = this.#serializer.parse(e.data) as T;
             handler(new MessageEvent(type, { data: data!, origin: e.origin, lastEventId: e.lastEventId, source: e.source }));
         });

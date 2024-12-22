@@ -4,6 +4,11 @@
 
 const tokenName = 'cmfx-admin-token';
 
+export interface SSEToken {
+    access: string;
+    expire: number;
+}
+
 /**
  * 令牌的状态
  */

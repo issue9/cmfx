@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createResource, For, JSX } from 'solid-js';
+import { createMemo, createResource, For, JSX, onCleanup } from 'solid-js';
 
-import { ConfirmButton, Divider, Icon, Label, Page, useApp } from '@/components';
+import { AxisChart, AxisRef, Button, ButtonGroup, ConfirmButton, Divider, Icon, Label, Page, useApp } from '@/components';
+import { onMount } from 'solid-js';
 
 export function Info(): JSX.Element {
     const ctx = useApp();
@@ -35,9 +36,34 @@ export function Info(): JSX.Element {
         return ret.body;
     });
 
+    // event source
+    
+    let osRef: AxisRef<Numbers>;
+
+    onMount(async () => {
+        const fixed = (num: number)=>Math.round(num * 100) / 100;
+        
+        await ctx.api.onEventSource('systat', (s: MessageEvent<Stats>) => {
+            const os = s.data.os;
+            const pro = s.data.process;
+            
+            const start = s.data.created.indexOf(':');
+            const end = s.data.created.indexOf('.');
+            const created = s.data.created.slice(start+1, end);
+
+            osRef.append({ os: fixed(os.cpu), process: fixed(pro.cpu), created: created });
+        });
+
+        await ctx.api.post('/system/systat');
+    });
+    
+    onCleanup(async () => {
+        await ctx.api.delete('/system/systat');
+    });
+
     return <Page title="_i.page.system.info" class="max-w-lg">
         <div class="p--system-info">
-            <fieldset class="w-[45%]">
+            <fieldset class="panel w-[45%]">
                 <Label icon="info" tag='legend'>{ctx.locale().t('_i.page.system.info')}</Label>
                 <dl><dt>{ ctx.locale().t('_i.page.system.name') }</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
 
@@ -84,7 +110,7 @@ export function Info(): JSX.Element {
                 <dl><dt>{ ctx.locale().t('_i.page.system.waitDuration') }</dt><dd>{db()?.waitDuration}</dd></dl>
             </fieldset>
 
-            <fieldset class="w-[45%]">
+            <fieldset class="panel w-[45%]">
                 <Label icon='action_key' tag='legend'>{ ctx.locale().t('_i.page.actions') }</Label>
 
                 <ConfirmButton palette='secondary' onClick={async()=>await ctx.clearCache()}>
@@ -123,9 +149,22 @@ export function Info(): JSX.Element {
                 </ul>
             </fieldset>
 
-            <fieldset class="states">
+            <fieldset class="panel states">
                 <Label icon='ssid_chart' tag='legend' >{ ctx.locale().t('_i.page.system.states') }</Label>
-                <div>chart</div>
+                <ButtonGroup>
+                    <Button>{ ctx.locale().t('_i.cpu') }</Button>
+                    <Button>{ ctx.locale().t('_i.memory') }</Button>
+                    <Button>{ ctx.locale().t('_i.page.system.connections') }</Button>
+                    <Button>{ ctx.locale().t('_i.page.system.goroutines') }</Button>
+                </ButtonGroup>
+                <br />
+                <AxisChart width='auto' ref={(el)=>osRef=el} size={100} tooltip legend='center' xAxis={{key: 'created'}}
+                    series={[
+                        { type: 'line', key: 'os', name: ctx.locale().t('_i.os'), area: true, smooth: true },
+                        { type: 'line', key: 'process', name: ctx.locale().t('_i.process'), area: true, smooth: true },
+                    ]}
+                    data={[]}
+                />
             </fieldset>
         </div>
     </Page>;
@@ -159,6 +198,12 @@ interface Info {
         waitCount: number;
         waitDuration: string;
     }
+}
+
+interface Numbers {
+    os: number;
+    process: number;
+    created: string;
 }
 
 /**

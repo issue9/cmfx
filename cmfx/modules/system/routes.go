@@ -18,6 +18,7 @@ import (
 	"github.com/issue9/webuse/v7/services/systat"
 	"github.com/shirou/gopsutil/v4/host"
 
+	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
@@ -209,6 +210,10 @@ func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 func (m *Module) adminPostSystat(ctx *web.Context) web.Responser {
 	uid := m.admin.CurrentUser(ctx).ID
 	s := m.admin.SSE().Get(uid)
+	if s == nil {
+		return ctx.Problem(cmfx.PreconditionFailedNeedSSE)
+	}
+
 	e := s.NewEvent("systat", json.Marshal)
 
 	cancel := m.stats.Subscribe(func(data *systat.Stats) {

@@ -25,6 +25,8 @@ require (
 	golang.org/x/text v0.21.0
 )
 
+replace github.com/issue9/web => /Users/caixw/dev.localized/issue9/web
+
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect

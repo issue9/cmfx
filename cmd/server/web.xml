@@ -46,6 +46,7 @@
         <mimetype type="application/cbor" target="cbor" problem="application/problem+cbor" />
         <mimetype type="text/xml" target="xml" problem="text/problem+xml" />
         <mimetype type="text/html" target="html" problem="text/html" />
+        <mimetype type="text/event-stream" target="nop" />
         <mimetype type="multipart/form-data" target="nop" />
     </mimetypes>
 

@@ -161,5 +161,7 @@ func problems(s web.Server) {
 		&web.LocaleProblem{ID: ForbiddenCaNotDeleteYourself, Title: web.StringPhrase("forbidden can not delete yourself"), Detail: web.StringPhrase("forbidden can not delete yourself detail")},
 	).Add(http.StatusNotFound,
 		&web.LocaleProblem{ID: NotFoundInvalidPath, Title: web.StringPhrase("not found invalid path"), Detail: web.StringPhrase("not found invalid path detail")},
+	).Add(http.StatusPreconditionFailed,
+		&web.LocaleProblem{ID: PreconditionFailedNeedSSE, Title: web.StringPhrase("precondition failed need sse"), Detail: web.StringPhrase("precondition failed need sse detail")},
 	)
 }
