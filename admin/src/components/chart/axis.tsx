@@ -12,6 +12,11 @@ export interface Ref<T extends object> {
      * 追加数据
      */
     append(...data: Array<T>): void;
+
+    /**
+     * 清空数据
+     */
+    clear(): void;
 }
 
 export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
@@ -127,6 +132,10 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
                     }
                     return d;
                 });
+            },
+
+            clear() {
+                setData([]);
             }
         });
     }

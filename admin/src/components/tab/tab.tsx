@@ -8,36 +8,34 @@ import { createSignal, For, JSX } from 'solid-js';
 import { BaseProps } from '@/components/base';
 import { Button } from '@/components/button';
 
-type Key = string | number;
-
-export interface Props extends BaseProps {
+export interface Props<T extends string | number> extends BaseProps {
     rounded?: boolean;
 
     disabled?: boolean;
 
     class?: string;
 
-    items: Array<[key: Key, title: JSX.Element]>
+    items: Array<[key: T, title: JSX.Element]>
 
     /**
      * 默认选中的值，如果为空，则选中第一个项。
      */
-    value?: Key;
+    value?: T;
 
     /**
      * 非响应属性
      */
-    onChange?: { (val: Key, old?: Key): void };
+    onChange?: { (val: T, old?: T): void };
 }
 
-export function Tab(props: Props) {
-    const [val, setVal] = createSignal<Key>(props.value ?? props.items[0][0]);
+export function Tab<T extends string | number>(props: Props<T>) {
+    const [val, setVal] = createSignal<T>(props.value ?? props.items[0][0]);
 
-    const change = (val: Key, old?: Key): void => {
+    const change = (v: T, old?: T): void => {
         if (props.onChange) {
-            props.onChange(val, old);
+            props.onChange(v, old);
         }
-        setVal(val);
+        setVal(()=>v);
     };
 
     return <fieldset role="group" class={props.class} disabled={props.disabled} classList={{

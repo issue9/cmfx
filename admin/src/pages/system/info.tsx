@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createResource, For, JSX, onCleanup } from 'solid-js';
+import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 
-import { AxisChart, AxisRef, Button, ButtonGroup, ConfirmButton, Divider, Icon, Label, Page, useApp } from '@/components';
-import { onMount } from 'solid-js';
+import { AxisChart, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab, useApp } from '@/components';
+
+const mb = 1024 * 1024;
 
 export function Info(): JSX.Element {
     const ctx = useApp();
@@ -37,12 +38,43 @@ export function Info(): JSX.Element {
     });
 
     // event source
+
+    let axisRef: AxisRef<Numbers>;
+
+    const [stat, setStat] = createSignal('cpu');
+    const changeTab = (val: string) => {
+        setStat(val);
+    };
+
+    const [data, setData] = createSignal<Array<Numbers>>([]);
+
+    const [cpu, setCPU] = createSignal<Array<Numbers>>([]);
+    const [mem, setMem] = createSignal<Array<Numbers>>([]);
+    const [conns, setConns] = createSignal<Array<Numbers>>([]);
+    const [goroutines, setGoroutines] = createSignal<Array<Numbers>>([]);
     
-    let osRef: AxisRef<Numbers>;
+    createEffect(() => {
+        axisRef.clear();
+
+        switch (stat()) {
+        case 'cpu':
+            axisRef.append(...cpu());
+            break;
+        case 'memory':
+            axisRef.append(...mem());
+            break;
+        case 'connections':
+            axisRef.append(...conns());
+            break;
+        case 'goroutines':
+            axisRef.append(...goroutines());
+            break;
+        }
+    });
 
     onMount(async () => {
         const fixed = (num: number)=>Math.round(num * 100) / 100;
-        
+
         await ctx.api.onEventSource('systat', (s: MessageEvent<Stats>) => {
             const os = s.data.os;
             const pro = s.data.process;
@@ -51,12 +83,34 @@ export function Info(): JSX.Element {
             const end = s.data.created.indexOf('.');
             const created = s.data.created.slice(start+1, end);
 
-            osRef.append({ os: fixed(os.cpu), process: fixed(pro.cpu), created: created });
+            setCPU((prev) => [...prev, { os: fixed(os.cpu), process: fixed(pro.cpu), created: created }]);
+            setMem((prev) => [...prev, { os: fixed(os.mem/mb), process: fixed(pro.mem/mb), created: created }]);
+            setConns((prev) => [...prev, { os: fixed(os.net.conns), process: fixed(pro.conns), created: created }]);
+            setGoroutines((prev) => [...prev, { os: 0, process: fixed(pro.goroutines), created: created }]);
+
+            switch(stat()) {
+            case 'cpu':
+                axisRef.append({ os: fixed(os.cpu), process: fixed(pro.cpu), created: created });
+                setData(cpu());
+                break;
+            case 'mem':
+                axisRef.append({ os: fixed(os.mem/mb), process: fixed(pro.mem/mb), created: created });
+                setData(mem());
+                break;
+            case 'conns':
+                axisRef.append({ os: fixed(os.net.conns), process: fixed(pro.conns), created: created });
+                setData(conns());
+                break;
+            case 'goroutines':
+                axisRef.append({ os: 0, process: fixed(pro.goroutines), created: created });
+                setData(goroutines());
+                break;
+            }
         });
 
         await ctx.api.post('/system/systat');
     });
-    
+
     onCleanup(async () => {
         await ctx.api.delete('/system/systat');
     });
@@ -150,20 +204,19 @@ export function Info(): JSX.Element {
             </fieldset>
 
             <fieldset class="panel states">
-                <Label icon='ssid_chart' tag='legend' >{ ctx.locale().t('_i.page.system.states') }</Label>
-                <ButtonGroup>
-                    <Button>{ ctx.locale().t('_i.cpu') }</Button>
-                    <Button>{ ctx.locale().t('_i.memory') }</Button>
-                    <Button>{ ctx.locale().t('_i.page.system.connections') }</Button>
-                    <Button>{ ctx.locale().t('_i.page.system.goroutines') }</Button>
-                </ButtonGroup>
-                <br />
-                <AxisChart width='auto' ref={(el)=>osRef=el} size={100} tooltip legend='center' xAxis={{key: 'created'}}
+                <Label icon='ssid_chart' tag='legend'>{ ctx.locale().t('_i.page.system.states') }</Label>
+                <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
+                    ['cpu', ctx.locale().t('_i.cpu')],
+                    ['memory', ctx.locale().t('_i.memory')],
+                    ['connections', ctx.locale().t('_i.page.system.connections')],
+                    ['goroutines', ctx.locale().t('_i.page.system.goroutines')],
+                ]} />
+                <AxisChart ref={(el)=>axisRef=el} width='auto' size={50} tooltip legend='center' xAxis={{key: 'created'}}
                     series={[
                         { type: 'line', key: 'os', name: ctx.locale().t('_i.os'), area: true, smooth: true },
                         { type: 'line', key: 'process', name: ctx.locale().t('_i.process'), area: true, smooth: true },
                     ]}
-                    data={[]}
+                    data={data()}
                 />
             </fieldset>
         </div>
