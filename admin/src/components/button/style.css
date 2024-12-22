@@ -52,6 +52,7 @@
 
     .c--button-group {
         @apply text-[var(--fg)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
+        @apply overflow-clip;
 
         .c--button {
             @apply rounded-none border-none flex-1 py-1 px-3 text-[var(--fg)] outline-none;
@@ -59,14 +60,6 @@
 
         .c--button.c--button-icon {
             @apply p-2;
-        }
-
-        :first-child {
-            @apply rounded-l-md;
-        }
-
-        :last-child {
-            @apply rounded-r-md;
         }
     }
 

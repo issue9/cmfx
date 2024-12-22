@@ -17,12 +17,14 @@ export interface Props extends BaseProps {
     disabled?: boolean;
 
     ref?: { (el: Ref): void; };
+
+    class?: string;
 }
 
 export function ButtonGroup(props: Props) {
     props = mergeProps(presetProps, props);
 
-    return <fieldset role="group" ref={(el) => { if (props.ref) { props.ref(el); }}} disabled={props.disabled} classList={{
+    return <fieldset role="group" class={props.class} ref={(el) => { if (props.ref) { props.ref(el); }}} disabled={props.disabled} classList={{
         'c--button-group': true,
         'c--button-group-rounded': props.rounded,
         [`c--button-group-${props.kind}`]: true,

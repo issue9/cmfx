@@ -4,12 +4,12 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
+import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
 import { Button } from '@/components/button/button';
 import { ConfirmButton } from '@/components/button/confirm';
 import { ButtonGroup } from '@/components/button/group';
 import { LinkButton } from '@/components/button/link';
 import { SplitButton } from '@/components/button/split';
-import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
 import { Icon } from '@/components/icon';
 import { Kind, kinds } from './types';
 
@@ -87,11 +87,26 @@ export default function() {
         </For>
     </div>;
 
-    const ButtonGroups = () => <div class="flex flex-wrap items-center gap-2">
+    const ButtonGroupsH = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
+                        <Button>abc</Button>
+                        <Button>def</Button>
+                        <Button>hij</Button>
+                    </ButtonGroup>
+                    <br />
+                </>
+            )}
+        </For>
+    </div>;
+    
+    const ButtonGroupsV = () => <div class="flex flex-wrap items-center gap-2">
+        <For each={palettesWithUndefined}>
+            {(c) => (
+                <>
+                    <ButtonGroup class="flex-col" rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
                         <Button>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>
@@ -186,7 +201,11 @@ export default function() {
         </Stage>
 
         <Stage title="button-group">
-            <ButtonGroups />
+            <ButtonGroupsH />
+        </Stage>
+
+        <Stage title="button-group">
+            <ButtonGroupsV />
         </Stage>
 
         <Stage title='icon-button-group'>
