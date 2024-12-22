@@ -17,6 +17,7 @@ export * from './icon';
 export * from './notify';
 export * from './page';
 export * from './pagination';
+export * from './tab';
 export * from './table';
 export * from './tree';
 export * from './typography';

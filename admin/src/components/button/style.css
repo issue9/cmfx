@@ -18,9 +18,10 @@
     }
 
     .c--button.c--button-fill:enabled:hover,
+    .c--button.c--button-fill.checked,
     .c--button.c--button-fill.link-enabled:hover,
     .c--button.c--button-fill:focus-visible {
-        @apply bg-[var(--bg-high)];
+        @apply !bg-[var(--bg-high)];
     }
 
     .c--button.c--button-border {
@@ -28,9 +29,10 @@
     }
 
     .c--button.c--button-border:enabled:hover,
+    .c--button.c--button-border.checked,
     .c--button.c--button-border.link-enabled:hover,
     .c--button.c--button-border:focus-visible {
-        @apply bg-[var(--bg)];
+        @apply !bg-[var(--bg)];
     }
 
     .c--button.c--button-flat {
@@ -38,9 +40,10 @@
     }
 
     .c--button.c--button-flat:enabled:hover,
+    .c--button.c--button-flat.checked,
     .c--button.c--button-flat.link-enabled:hover,
     .c--button.c--button-flat:focus-visible {
-        @apply bg-[var(--bg-high)] border-[var(--bg-high)];
+        @apply !bg-[var(--bg-high)] border-[var(--bg-high)];
     }
 
     .c--button.link-disabled,
@@ -65,14 +68,6 @@
 
     .c--button-group.c--button-group-rounded {
         @apply rounded-l-full rounded-r-full;
-
-        :first-child {
-            @apply rounded-l-full;
-        }
-
-        :last-child {
-            @apply rounded-r-full;
-        }
     }
 
     .c--button-group.c--button-group-fill {

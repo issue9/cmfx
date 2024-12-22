@@ -21,6 +21,11 @@ export interface Props extends BaseProps, JSX.ButtonHTMLAttributes<HTMLButtonEle
      * 按钮内容，如果 icon 为 true，那么内容应该是图标名称，否则不能显示为正确图标。
      */
     children: JSX.Element | IconSymbol;
+
+    /**
+     * 是否处于选中状态
+     */
+    checked?: boolean;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
@@ -42,6 +47,7 @@ export function Button(props: Props) {
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,
         'rounded-full': props.rounded,
+        'checked': props.checked,
         ...props.classList
     }}>
         {props.children}

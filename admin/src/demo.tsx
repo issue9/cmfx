@@ -23,6 +23,7 @@ export const routes: Array<Route> = [
     { path: '/backtop', component: lazy(() => import('@/components/backtop/demo')) },
     { path: '/typography', component: lazy(() => import('@/components/typography/demo')) },
     { path: '/card', component: lazy(() => import('@/components/card/demo')) },
+    { path: '/tab', component: lazy(() => import('@/components/tab/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },

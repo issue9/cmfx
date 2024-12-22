@@ -5,12 +5,12 @@
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { Button } from '@/components/button/button';
-import { ConfirmButton } from '@/components/button/confirm';
-import { ButtonGroup } from '@/components/button/group';
-import { LinkButton } from '@/components/button/link';
-import { SplitButton } from '@/components/button/split';
 import { Icon } from '@/components/icon';
+import { Button } from './button';
+import { ConfirmButton } from './confirm';
+import { ButtonGroup } from './group';
+import { LinkButton } from './link';
+import { SplitButton } from './split';
 import { Kind, kinds } from './types';
 
 export function styleSelector(v: Kind = 'fill'): [JSX.Element, Accessor<Kind>, Setter<Kind>] {
@@ -92,7 +92,7 @@ export default function() {
             {(c)=>(
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
-                        <Button>abc</Button>
+                        <Button checked>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>
                     </ButtonGroup>
