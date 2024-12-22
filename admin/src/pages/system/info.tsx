@@ -211,7 +211,8 @@ export function Info(): JSX.Element {
                     ['connections', ctx.locale().t('_i.page.system.connections')],
                     ['goroutines', ctx.locale().t('_i.page.system.goroutines')],
                 ]} />
-                <AxisChart ref={(el)=>axisRef=el} width='auto' size={50} tooltip legend='center' xAxis={{key: 'created'}}
+                <AxisChart ref={(el)=>axisRef=el} width='auto' size={50} tooltip legend='center'
+                    xAxis={{key: 'created'}} yAxis={stat()==='cpu' ? '%' : (stat()==='memory' ? 'MB' : '')}
                     series={[
                         { type: 'line', key: 'os', name: ctx.locale().t('_i.os'), area: true, smooth: true },
                         { type: 'line', key: 'process', name: ctx.locale().t('_i.process'), area: true, smooth: true },

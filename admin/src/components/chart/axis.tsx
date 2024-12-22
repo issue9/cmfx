@@ -25,6 +25,8 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
      */
     xAxis: XAxis<T>;
 
+    yAxis?: string;
+
     /**
      * 是否显示提示信息
      */
@@ -147,7 +149,7 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
         const dimensions = [props.xAxis.key, ...props.series.map(s=>s.key)] as Array<string>;
 
         const yAxis: Array<YAXisOption> = [{
-            type: 'value', axisLine: axisLine, splitLine: splitLine, show: true
+            type: 'value', axisLine: axisLine, splitLine: splitLine, show: true, name: props.yAxis
         }];
         if (props.series.find((s)=>s.yAxisIndex===1)) {
             yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });
