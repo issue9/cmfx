@@ -164,7 +164,7 @@ func (m *Module) setMemberState(ctx *web.Context, state user.State, code int) we
 	}
 
 	if u.State == user.StateDeleted && state != user.StateDeleted {
-		return ctx.Problem(cmfx.ForbiddenStateNotAllow)
+		return ctx.Problem(cmfx.ConflictStateNotAllow)
 	}
 
 	if err := m.user.SetState(nil, u, state); err != nil {

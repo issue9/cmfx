@@ -25,6 +25,9 @@ messages:
     - key: admin module
       message:
         msg: admin module
+    - key: admin sse server
+      message:
+        msg: admin sse server
     - key: admin tag
       message:
         msg: admin tag
@@ -94,6 +97,9 @@ messages:
     - key: code receiver, ignore when binded
       message:
         msg: code receiver, ignore when binded
+    - key: create sse token api
+      message:
+        msg: create sse token api
     - key: created time
       message:
         msg: created time
@@ -160,6 +166,9 @@ messages:
     - key: generator code for %s
       message:
         msg: generator code for %s
+    - key: get SSE message api
+      message:
+        msg: get SSE message api
     - key: get admin info api
       message:
         msg: get admin info api
@@ -214,9 +223,6 @@ messages:
     - key: get system problems api
       message:
         msg: get system problems api
-    - key: get system state api
-      message:
-        msg: get system state api
     - key: has been bind code
       message:
         msg: has been bind code
@@ -340,6 +346,12 @@ messages:
     - key: post roles
       message:
         msg: post roles
+    - key: precondition failed need sse
+      message:
+        msg: precondition failed need sse
+    - key: precondition failed need sse detail
+      message:
+        msg: precondition failed need sse detail
     - key: problems response:\n\n%s\n
       message:
         msg: problems response:\n\n%s\n
@@ -415,6 +427,9 @@ messages:
     - key: strength invalid
       message:
         msg: strength invalid
+    - key: subscribe system stat api
+      message:
+        msg: subscribe system stat api
     - key: system module
       message:
         msg: system module
@@ -490,6 +505,9 @@ messages:
     - key: unlock the member api
       message:
         msg: unlock the member api
+    - key: unsubscribe system stat api
+      message:
+        msg: unsubscribe system stat api
     - key: update info
       message:
         msg: update info
@@ -517,6 +535,9 @@ messages:
     - key: user state
       message:
         msg: user state
+    - key: user token
+      message:
+        msg: user token
     - key: username
       message:
         msg: username
@@ -532,3 +553,6 @@ messages:
     - key: view system info
       message:
         msg: view system info
+    - key: view system stat
+      message:
+        msg: view system stat

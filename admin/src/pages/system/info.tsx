@@ -206,13 +206,12 @@ export function Info(): JSX.Element {
             <fieldset class="panel states">
                 <Label icon='ssid_chart' tag='legend'>{ ctx.locale().t('_i.page.system.states') }</Label>
                 <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
-                    ['cpu', ctx.locale().t('_i.cpu')],
-                    ['memory', ctx.locale().t('_i.memory')],
+                    ['cpu', ctx.locale().t('_i.cpu')+' (%)'],
+                    ['memory', ctx.locale().t('_i.memory')+' (MB)'],
                     ['connections', ctx.locale().t('_i.page.system.connections')],
                     ['goroutines', ctx.locale().t('_i.page.system.goroutines')],
                 ]} />
-                <AxisChart ref={(el)=>axisRef=el} width='auto' size={50} tooltip legend='center'
-                    xAxis={{key: 'created'}} yAxis={stat()==='cpu' ? '%' : (stat()==='memory' ? 'MB' : '')}
+                <AxisChart ref={(el)=>axisRef=el} width='auto' size={50} tooltip legend='center' xAxis={{key: 'created'}}
                     series={[
                         { type: 'line', key: 'os', name: ctx.locale().t('_i.os'), area: true, smooth: true },
                         { type: 'line', key: 'process', name: ctx.locale().t('_i.process'), area: true, smooth: true },

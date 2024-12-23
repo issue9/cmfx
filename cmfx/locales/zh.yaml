@@ -27,6 +27,9 @@ messages:
     - key: admin module
       message:
         msg: 管理员模块
+    - key: admin sse server
+      message:
+        msg: 管理端的 SSE 服务
     - key: admin tag
       message:
         msg: 后台管理端的所有接口
@@ -101,6 +104,9 @@ messages:
     - key: code receiver, ignore when binded
       message:
         msg: 验证码接收者，如果已经绑定，则会忽略此值
+    - key: create sse token api
+      message:
+        msg: 生成用于访问 SSE 接口的令牌
     - key: created time
       message:
         msg: 创建时间
@@ -167,6 +173,9 @@ messages:
     - key: generator code for %s
       message:
         msg: 为 %s 生成验证码
+    - key: get SSE message api
+      message:
+        msg: 访问 SSE 的接口
     - key: get admin info api
       message:
         msg: 获取管理员的信息
@@ -221,9 +230,6 @@ messages:
     - key: get system problems api
       message:
         msg: 获取所有的错误代码
-    - key: get system state api
-      message:
-        msg: 查询系统状态
     - key: has been bind code
       message:
         msg: 验证码验证方式已经绑定
@@ -350,6 +356,12 @@ messages:
     - key: post roles
       message:
         msg: 添加角色
+    - key: precondition failed need sse
+      message:
+        msg: 先决定条件 SSE 未运行
+    - key: precondition failed need sse detail
+      message:
+        msg: 先决定条件 SSE 未运行
     - key: problems response:\n\n%s\n
       message:
         msg: 每个错误对象的 type 表示错误代码，可能是以下的值之一:\n\n%s\n
@@ -425,6 +437,9 @@ messages:
     - key: strength invalid
       message:
         msg: 密码强度不够
+    - key: subscribe system stat api
+      message:
+        msg: 订阅系统状态的 SSE 服务
     - key: system module
       message:
         msg: 系统模块
@@ -502,6 +517,9 @@ messages:
     - key: unlock the member api
       message:
         msg: 解锁会员
+    - key: unsubscribe system stat api
+      message:
+        msg: 取消系统状态的 SSE 服务
     - key: update info
       message:
         msg: 更新信息
@@ -529,6 +547,9 @@ messages:
     - key: user state
       message:
         msg: user state
+    - key: user token
+      message:
+        msg: 用户令牌
     - key: username
       message:
         msg: 账号
@@ -544,3 +565,6 @@ messages:
     - key: view system info
       message:
         msg: 查看系统信息
+    - key: view system stat
+      message:
+        msg: 查看系统状态

@@ -223,7 +223,7 @@ func (m *Module) setAdminState(ctx *web.Context, state user.State, code int) web
 	}
 
 	if u.State == user.StateDeleted && state != user.StateDeleted {
-		return ctx.Problem(cmfx.ForbiddenStateNotAllow)
+		return ctx.Problem(cmfx.ConflictStateNotAllow)
 	}
 
 	if err := m.user.SetState(nil, u, state); err != nil {
@@ -244,7 +244,7 @@ func (m *Module) getUserFromPath(ctx *web.Context) (*user.User, web.Responser) {
 		return nil, ctx.Error(err, "")
 	}
 	if u.State == user.StateDeleted {
-		return nil, ctx.Problem(cmfx.ForbiddenStateNotAllow)
+		return nil, ctx.Problem(cmfx.ConflictStateNotAllow)
 	}
 
 	return u, nil

@@ -15,7 +15,7 @@ import (
 )
 
 // Version 表示当前框架的版本
-const Version = "0.8.1"
+const Version = "0.8.2"
 
 // 400
 const (
@@ -40,14 +40,19 @@ const (
 // 403
 const (
 	Forbidden                    = web.ProblemForbidden
-	ForbiddenStateNotAllow       = "40301"
-	ForbiddenCaNotDeleteYourself = "40302"
+	ForbiddenCaNotDeleteYourself = "40301"
 )
 
 // 404
 const (
 	NotFound            = web.ProblemNotFound
 	NotFoundInvalidPath = "40401"
+)
+
+// 409
+const (
+	Conflict              = web.ProblemConflict
+	ConflictStateNotAllow = "40901"
 )
 
 // 412
@@ -57,7 +62,9 @@ const (
 )
 
 // 413
-const RequestEntityTooLarge = web.ProblemRequestEntityTooLarge
+const (
+	RequestEntityTooLarge = web.ProblemRequestEntityTooLarge
+)
 
 func ErrNotFound() error { return locales.ErrNotFound() }
 

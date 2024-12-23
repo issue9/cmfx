@@ -157,7 +157,7 @@ func problems(s web.Server) {
 		&web.LocaleProblem{ID: UnauthorizedNeedChangePassword, Title: web.StringPhrase("unauthorized need change password"), Detail: web.StringPhrase("unauthorized need change password detail")},
 		&web.LocaleProblem{ID: UnauthorizedRegistrable, Title: web.StringPhrase("identity registrable"), Detail: web.StringPhrase("identity registrable detail")},
 	).Add(http.StatusForbidden,
-		&web.LocaleProblem{ID: ForbiddenStateNotAllow, Title: web.StringPhrase("forbidden state not allow"), Detail: web.StringPhrase("forbidden state not allow detail")},
+		&web.LocaleProblem{ID: ConflictStateNotAllow, Title: web.StringPhrase("forbidden state not allow"), Detail: web.StringPhrase("forbidden state not allow detail")},
 		&web.LocaleProblem{ID: ForbiddenCaNotDeleteYourself, Title: web.StringPhrase("forbidden can not delete yourself"), Detail: web.StringPhrase("forbidden can not delete yourself detail")},
 	).Add(http.StatusNotFound,
 		&web.LocaleProblem{ID: NotFoundInvalidPath, Title: web.StringPhrase("not found invalid path"), Detail: web.StringPhrase("not found invalid path detail")},
