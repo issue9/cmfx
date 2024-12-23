@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@/core/time';
 import { CacheImplement } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
@@ -13,6 +12,8 @@ import { Method, Problem, Query, Return } from './types';
  * 封装了 API 访问的基本功能
  */
 export class API {
+    static #tokenStorage = localStorage;
+
     readonly #baseURL: string;
     readonly #tokenPath: string;
     #locale: string;
@@ -28,13 +29,15 @@ export class API {
     /**
      * 返回一个对 {@link fetch} 进行二次包装的对象
      *
-     * @param baseURL API 的基地址，不能以 / 结尾。
-     * @param mimetype mimetype 的类型。
-     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 三个请求，分别代表退出和刷新令牌。
-     * @param locale 请求报头 accept-language 的内容。
+     * @param storage 令牌的保存位置；
+     * @param baseURL API 的基地址，不能以 / 结尾；
+     * @param mimetype mimetype 的类型；
+     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 三个请求，分别代表退出和刷新令牌；
+     * @param locale 请求报头 accept-language 的内容；
      */
-    static async build(baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string): Promise<API> {
-        const t = getToken();
+    static async build(storage: Storage, baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string): Promise<API> {
+        API.#tokenStorage = storage;
+        const t = getToken(API.#tokenStorage);
 
         let c: Cache;
         if ('caches' in window) {
@@ -213,7 +216,7 @@ export class API {
             return ret.body;
         }
 
-        this.#token = writeToken(ret.body!);
+        this.#token = writeToken(API.#tokenStorage, ret.body!);
         await this.clearCache();
 
         await this.#initEventSource();
@@ -231,8 +234,27 @@ export class API {
             return;
         }
 
+        // watch 返回 Promise 和 Connect 两个对象，
+        // Promise 监视 Connect.val 的变化，直接其变为 true，Promise 才会 resolve。
+        interface Connect { val: boolean; };
+        const watch = ():[Promise<unknown>, Connect] => {
+            const connect: Connect = { val: false };
+            let proxy: Connect;
+            const p = new Promise((resolve) => {
+                proxy = new Proxy(connect, {
+                    set(target: Connect, p: string, val: boolean) {
+                        if (val) { resolve(val); }
+                        return Reflect.set(target, p, val);
+                    }
+                }); // end new Proxy
+            });
+            return [p, proxy!];
+        };
+
+        const [p, proxy] = watch();
         this.#eventSource = new EventSource(this.buildURL('/sse?token='+ r.body!.access));
-        await sleep(1000); // TODO
+        this.#eventSource.addEventListener('connect', () => { proxy.val = true; });
+        await p;
     }
 
     /**
@@ -241,9 +263,12 @@ export class API {
     async logout() {
         await this.delete(this.#tokenPath);
         this.#token = undefined;
-        delToken();
+        delToken(API.#tokenStorage);
         await this.clearCache();
 
+        if (this.#eventSource) {
+            this.#eventSource.close();
+        }
         this.#eventSource = undefined;
     }
 
@@ -276,7 +301,7 @@ export class API {
                 return undefined;
             }
 
-            this.#token = writeToken(ret.body!);
+            this.#token = writeToken(API.#tokenStorage, ret.body!);
             return this.#token.access_token;
         }
         }
@@ -356,7 +381,7 @@ export class API {
 
             if (resp.status === 401) {
                 this.#token = undefined;
-                delToken();
+                delToken(API.#tokenStorage);
             }
             return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {

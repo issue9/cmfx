@@ -38,22 +38,22 @@ export interface Token {
  *
  * @returns 返回的令牌是由 {@link buildToken} 处理之后的。
  */
-export function getToken(): Token | undefined {
-    const s = localStorage.getItem(tokenName);
+export function getToken(storage: Storage): Token | undefined {
+    const s = storage.getItem(tokenName);
     if (!s) {
         return;
     }
     return JSON.parse(s) as Token;
 }
 
-export function delToken() { localStorage.removeItem(tokenName); }
+export function delToken(storage: Storage) { storage.removeItem(tokenName); }
 
 /**
  * 保存令牌至缓存，会调用 {@link buildToken} 对令牌进行二次处理。
  */
-export function writeToken(t: Token): Token {
+export function writeToken(storage: Storage, t: Token): Token {
     t = buildToken(t);
-    localStorage.setItem(tokenName, JSON.stringify(t));
+    storage.setItem(tokenName, JSON.stringify(t));
     return t;
 }
 

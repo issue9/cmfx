@@ -5,12 +5,11 @@
 import { expect, test } from 'vitest';
 
 import { sleep } from '@/core/time';
-
 import { Token, TokenState, delToken, getToken, state, writeToken } from './token';
 
 test('token', () => {
-    expect(getToken()).toBeUndefined();
-    expect(delToken());
+    expect(getToken(sessionStorage)).toBeUndefined();
+    expect(delToken(sessionStorage));
 
     const t: Token = {
         access_token: 'access',
@@ -18,19 +17,19 @@ test('token', () => {
         refresh_token: 'refresh',
         refresh_exp: 3
     };
-    const tk = writeToken(t);
+    const tk = writeToken(sessionStorage,t);
     expect(tk.access_token).toEqual('access');
 
     const now = Date.now().valueOf();
-    const rt = getToken() as Token;
+    const rt = getToken(sessionStorage) as Token;
 
     expect(rt.access_token).toEqual('access');
     expect(rt.refresh_token).toEqual('refresh');
     expect(rt.access_exp).toBeGreaterThan(now);
     expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
 
-    expect(delToken());
-    expect(getToken()).toBeUndefined();
+    expect(delToken(sessionStorage));
+    expect(getToken(sessionStorage)).toBeUndefined();
 });
 
 test('state', async () => {
@@ -40,8 +39,8 @@ test('state', async () => {
         refresh_token: 'refresh',
         refresh_exp: 2
     };
-    expect(writeToken(t));
-    const rt = getToken()!;
+    expect(writeToken(sessionStorage,t));
+    const rt = getToken(sessionStorage)!;
 
     expect(state(rt)).toEqual(TokenState.Normal);
     await sleep(1000);

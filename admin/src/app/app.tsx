@@ -22,7 +22,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
 
-    const api = await API.build(opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
+    const api = await API.build(localStorage, opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
     await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
     api.cache(opt.api.info);
 

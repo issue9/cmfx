@@ -2,11 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { beforeEach, describe, expect, test } from 'vitest';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
 
-import { sleep } from '../time';
+import { sleep } from '@/core/time';
 import { API, query2Search } from './api';
 import { Token, writeToken } from './token';
+
+Object.defineProperty(window, 'EventSource', {
+    writable: true,
+    value: vi.fn().mockImplementation(() => ({
+        close: vi.fn(() => { }),
+        addEventListener: vi.fn(
+            (event: string, callback: (_message?: MessageEvent) => {}) => {
+                if (event === 'connect') { callback(); }
+            },
+        ),
+    })),
+});
 
 describe('API', () => {
     beforeEach(() => {
@@ -14,12 +26,12 @@ describe('API', () => {
     });
 
     test('build', async () => {
-        const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
-        expect(f).not.toBeNull();
+        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
+        expect(api).not.toBeNull();
     });
 
     test('buildURL', async () => {
-        const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
+        const f = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
         expect(f.buildURL('/path')).toEqual('http://localhost/path');
         expect(f.buildURL('path')).toEqual('http://localhost/path');
         expect(() => { f.buildURL(''); }).toThrowError('参数 path 不能为空');
@@ -28,8 +40,8 @@ describe('API', () => {
     test('get', async() => {
         fetchMock.mockResponseOnce('123');
 
-        const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
-        const data = await f.get('/abc');
+        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
+        const data = await api.get('/abc');
         expect(data.ok).toBeTruthy();
         expect(data.status).toEqual(200);
         expect(data.body).toEqual<number>(123);
@@ -38,7 +50,7 @@ describe('API', () => {
     test('post', async () => {
         fetchMock.mockResponseOnce('123', {status: 401});
 
-        const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
+        const f = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
         const data = await f.post('/abc');
         expect(data.ok).toBeFalsy();
     });
@@ -57,44 +69,44 @@ describe('API token', () => {
     };
 
     test('undefined token', async () => {
-        let f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
+        let f = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
         let t = await f.getToken();
         expect(t).toBeUndefined();
     });
 
     test('token', async () => {
-        writeToken(Object.assign({}, token));
-        const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
-        let t = await f.getToken(); // 过期时间在 1 秒之内，必然未过期。
+        writeToken(sessionStorage, Object.assign({}, token));
+        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
+        let t = await api.getToken(); // 过期时间在 1 秒之内，必然未过期。
         expect(t).toEqual('access');
 
         fetchMock.mockResponseOnce(JSON.stringify(Object.assign({}, token)));
-        await f.getToken();
+        await api.getToken();
         await sleep(1000);// 过期，但未过刷新令牌时间。会刷新令牌。
-        t = await f.getToken();
+        t = await api.getToken();
         expect(t).toEqual('access');
 
         await sleep(3000);// 刷新令牌也过期
-        t = await f.getToken();
+        t = await api.getToken();
         expect(t).toBeUndefined();
     });
 
     test('login', async () => {
-        const f = await API.build('http://localhost', '/login', 'application/json', 'zh-cn');
+        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'zh-cn');
         fetchMock.mockResponseOnce(JSON.stringify(Object.assign({}, token)));
-        const ret = await f.login({
+        const ret = await api.login({
             status: 201,
             ok: true,
             body: { access_token: 'access', refresh_token: 'refresh', access_exp: 12345, refresh_exp: 12345 },
         });
         expect(ret).toBeTruthy();
 
-        let t = await f.getToken();
+        let t = await api.getToken();
         expect(t).toEqual('access');
 
         fetchMock.mockResponseOnce('123');
-        await f.logout();
-        t = await f.getToken();
+        await api.logout();
+        t = await api.getToken();
         expect(t).toBeUndefined();
     });
 });

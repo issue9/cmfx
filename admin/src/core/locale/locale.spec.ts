@@ -4,12 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Locale } from './locale';
-import { Config } from '@/core/config';
 import { API } from '@/core/api';
+import { Config } from '@/core/config';
+import { Locale } from './locale';
 
 describe('Locale', async () => {
-    const api = await API.build('https://api.example.com', 'token', 'application/json', 'zh-Hans');
+    const api = await API.build(sessionStorage, 'https://api.example.com', 'token', 'application/json', 'zh-Hans');
     const c = new Config('');
 
     Locale.init('en', api);

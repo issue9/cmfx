@@ -123,6 +123,6 @@
         "vite-plugin-solid": "^2.11.0",
         "vite-plugin-static-copy": "^2.2.0",
         "vitest": "^2.1.8",
-        "vitest-fetch-mock": "^0.4.2"
+        "vitest-fetch-mock": "^0.4.3"
     }
 }
