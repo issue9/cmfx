@@ -13,10 +13,10 @@ require (
 	github.com/issue9/mux/v9 v9.1.2
 	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20241018060335-bdbc5e5a6236
 	github.com/issue9/rands/v3 v3.0.1
-	github.com/issue9/scheduled v0.21.3
+	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.100.7
+	github.com/issue9/web v0.100.8
 	github.com/issue9/webfilter v0.9.0
 	github.com/issue9/webuse/v7 v7.0.0-20241220091456-beb06bc648ed
 	github.com/mattn/go-sqlite3 v1.14.24
