@@ -13,7 +13,6 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
 )
@@ -94,27 +93,17 @@ func (m *Module) memberPatchInfo(ctx *web.Context) web.Responser {
 	return web.NoContent()
 }
 
-type memberTO struct {
-	XMLName  struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
-	Username string   `json:"username" yaml:"username" xml:"username" cbor:"username"`
-	Password string   `json:"password" yaml:"password" xml:"password" cbor:"password"`
-}
-
-func (q *memberTO) Filter(v *web.FilterContext) {
-	v.Add(filters.NotEmpty("username", &q.Username)).
-		Add(filters.NotEmpty("password", &q.Password))
-}
-
 func (m *Module) memberRegister(ctx *web.Context) web.Responser {
-	data := &memberTO{}
+	data := &memberTO{m: m}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
 	msg := web.Phrase("register successful").LocaleString(ctx.LocalePrinter())
-	_, err := m.user.New(user.StateNormal, data.Username, data.Password, ctx.ClientIP(), ctx.Request().UserAgent(), msg)
+	err := m.NewMember(data, ctx.ClientIP(), ctx.Request().UserAgent(), msg)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
+
 	return web.Created(nil, "")
 }

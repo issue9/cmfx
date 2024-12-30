@@ -26,12 +26,12 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Modul
 
 	m := Load(mod, o, up, adminL)
 
-	m1, err := m.UserModule().New(user.StateNormal, "m1", "123", "", "ua", "")
+	m1, err := m.UserModule().New(nil, user.StateNormal, "m1", "123", "", "ua", "")
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 	_, err = m.user.Module().DB().Insert(&infoPO{
-		ID:       m1,
+		ID:       m1.ID,
 		Birthday: sql.NullTime{Time: time.Now(), Valid: true},
 		Sex:      types.SexFemale,
 		Nickname: "nickname",

@@ -32,7 +32,7 @@ func TestCode(t *testing.T) {
 
 	u := usertest.NewModule(suite)
 	Install(u.Module(), "code")
-	p := Init(u, time.Minute, time.Second, nil, sender, "code", web.Phrase("code"))
+	p := Init(u, time.Minute, time.Second, nil, sender, "code", func(*user.User) error { return nil }, web.Phrase("code"))
 
 	defer servertest.Run(a, suite.Module().Server())()
 	defer suite.Close()

@@ -34,7 +34,7 @@ func TestModule_routes(t *testing.T) {
 	// 添加用于测试的验证码验证
 	code.Install(u.Module(), "code")
 	sender := codetest.New()
-	code.Init(u, time.Second, time.Second, nil, sender, "code", web.Phrase("code"))
+	code.Init(u, time.Second, time.Second, nil, sender, "code", func(*user.User) error { return nil }, web.Phrase("code"))
 
 	// 测试 SetState
 	s.Module().Router().Post("/state", func(ctx *web.Context) web.Responser {
@@ -137,18 +137,18 @@ func TestModule_New(t *testing.T) {
 
 	u := usertest.NewModule(s)
 
-	_, err := u.New(user.StateDeleted, "uu", "pwd", "", "ua", "")
+	_, err := u.New(nil, user.StateDeleted, "uu", "pwd", "", "ua", "")
 	a.Equal(err, web.NewLocaleError("can not add user with %s state", user.StateDeleted))
 
-	_, err = u.New(user.StateLocked, "u1", "pwd", "", "ua", "")
+	_, err = u.New(nil, user.StateLocked, "u1", "pwd", "", "ua", "")
 	a.Equal(err, web.NewLocaleError("username %s exists", "u1"))
 
 	var event string
 	u.OnAdd(func(u *user.User) { event = u.Username })
 
-	id, err := u.New(user.StateLocked, "u2", "pwd", "", "ua", "")
+	user, err := u.New(nil, user.StateLocked, "u2", "pwd", "", "ua", "")
 	a.NotError(err).
-		True(id > 0).
+		NotNil(user).
 		Wait(time.Millisecond*500). // OnAdd 是个异步方法
 		Equal(event, "u2")
 }

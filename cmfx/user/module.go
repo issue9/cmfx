@@ -97,6 +97,18 @@ func (m *Module) GetUser(uid int64) (*User, error) {
 	return u, nil
 }
 
+func (m *Module) GetUserByNO(no string) (*User, error) {
+	u := &User{NO: no}
+	found, err := m.Module().DB().Select(u)
+	if err != nil {
+		return nil, err
+	}
+	if !found {
+		return nil, web.NewError(http.StatusNotFound, cmfx.ErrNotFound())
+	}
+	return u, nil
+}
+
 // GetUserByUsername 根据账号名称查找用户对象
 //
 // NOTE: 用户名在数据表中不具备唯一性，只能保证非删除的数据是唯一的。

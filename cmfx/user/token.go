@@ -115,24 +115,25 @@ func (m *Module) CurrentUser(ctx *web.Context) *User {
 // New 添加新用户
 //
 // 返回新添加的用户 ID
+// tx 如果不为空，则在此事务中执行；
 // ip 客户的 IP；
 // ua 客户端的标记；
 // content 添加时的备注；
-func (m *Module) New(s State, username, password string, ip, ua, content string) (int64, error) {
+func (m *Module) New(tx *orm.Tx, s State, username, password string, ip, ua, content string) (*User, error) {
 	if s == StateDeleted {
-		return 0, web.NewLocaleError("can not add user with %s state", StateDeleted)
+		return nil, web.NewLocaleError("can not add user with %s state", StateDeleted)
 	}
 
 	pa, err := bcrypt.GenerateFromPassword([]byte(password), defaultCost)
 	if err != nil {
-		return 0, err
+		return nil, err
 	}
 
 	size, err := m.mod.DB().Where("username=?", username).And("state<>?", StateDeleted).Count(&User{})
 	if err != nil {
-		return 0, err
+		return nil, err
 	} else if size > 0 {
-		return 0, web.NewLocaleError("username %s exists", username)
+		return nil, web.NewLocaleError("username %s exists", username)
 	}
 
 	u := &User{
@@ -142,18 +143,15 @@ func (m *Module) New(s State, username, password string, ip, ua, content string)
 		Password: pa,
 	}
 
-	err = m.mod.DB().DoTransaction(func(tx *orm.Tx) error {
-		uid, err := tx.LastInsertID(u)
-		if err != nil {
-			return err
-		}
-		u.ID = uid
-		return m.AddSecurityLog(tx, uid, ip, ua, content)
-	})
-	if err != nil {
-		return 0, err
+	e := m.mod.Engine(tx)
+
+	if u.ID, err = e.LastInsertID(u); err != nil {
+		return nil, err
+	}
+	if err := m.AddSecurityLog(tx, u.ID, ip, ua, content); err != nil {
+		return nil, err
 	}
 
 	m.addEvent.Publish(true, u)
-	return u.ID, nil
+	return u, nil
 }

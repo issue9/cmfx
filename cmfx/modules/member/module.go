@@ -5,6 +5,9 @@
 package member
 
 import (
+	"database/sql"
+	"errors"
+
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
@@ -26,16 +29,6 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 	m := &Module{
 		user: user.Load(mod, conf.User),
 	}
-
-	m.user.OnAdd(func(u *user.User) {
-		_, err := m.user.Module().DB().Insert(&infoPO{
-			ID:       u.ID,
-			Nickname: u.Username,
-		})
-		if err != nil {
-			m.user.Module().Server().Logs().ERROR().Error(err)
-		}
-	})
 
 	resGroup := adminMod.NewResourceGroup(mod)
 	getMembers := resGroup.New("get-members", web.StringPhrase("get members"))
@@ -112,3 +105,33 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 }
 
 func (m *Module) UserModule() *user.Module { return m.user }
+
+// NewMember 添加新的会员
+func (m *Module) NewMember(data *memberTO, ip, ua, msg string) error {
+	tx, err := m.user.Module().DB().Begin()
+	if err != nil {
+		return err
+	}
+
+	u, err := m.user.New(nil, user.StateNormal, data.Username, data.Password, ip, ua, msg)
+	if err != nil {
+		return errors.Join(err, tx.Rollback())
+	}
+
+	info := &infoPO{
+		ID:       u.ID,
+		Nickname: data.Username,
+		Sex:      data.Sex,
+		Avatar:   data.Avatar,
+		Inviter:  data.inviter,
+	}
+	if !data.Birthday.IsZero() {
+		info.Birthday = sql.NullTime{Valid: true, Time: data.Birthday}
+	}
+
+	if _, err = m.user.Module().DB().Insert(info); err != nil {
+		return errors.Join(err, tx.Rollback())
+	}
+
+	return tx.Commit()
+}
