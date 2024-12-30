@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2024 caixw
 //
 // SPDX-License-Identifier: MIT
 
-package admin
+package member
 
 import (
 	"testing"
@@ -10,6 +10,7 @@ import (
 	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 	"github.com/issue9/cmfx/cmfx/modules/upload/uploadtest"
 )
 
@@ -18,8 +19,8 @@ func TestInstall(t *testing.T) {
 	suite := test.NewSuite(a)
 	defer suite.Close()
 
-	mod := suite.NewModule("test")
-	l := Install(mod, defaultConfig(a), uploadtest.NewModule(suite, "admin_upload"))
+	mod := suite.NewModule("member")
+	l := Install(mod, defaultConfig(a), uploadtest.NewModule(suite, "mem_upload"), admintest.NewModule(suite))
 	a.NotNil(l)
 
 	suite.TableExists(mod.ID() + "_info")

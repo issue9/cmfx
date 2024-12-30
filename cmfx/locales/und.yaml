@@ -82,6 +82,9 @@ messages:
     - key: bind %s passport for current user api
       message:
         msg: bind %s passport for current user api
+    - key: birthday
+      message:
+        msg: birthday
     - key: can not add user with %s state
       message:
         msg: can not add user with %s state
@@ -196,6 +199,9 @@ messages:
     - key: get member info api
       message:
         msg: get member info api
+    - key: get member invited api
+      message:
+        msg: get member invited api
     - key: get member list api
       message:
         msg: get member list api
@@ -238,6 +244,9 @@ messages:
     - key: has been totp bind
       message:
         msg: has been totp bind
+    - key: id
+      message:
+        msg: id
     - key: identity registrable
       message:
         msg: identity registrable
@@ -247,6 +256,9 @@ messages:
     - key: invalid url format
       message:
         msg: invalid url format
+    - key: inviter
+      message:
+        msg: inviter
     - key: linkage %s not found
       message:
         msg: linkage %s not found

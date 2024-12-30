@@ -47,6 +47,12 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 				PathID("id:digit", web.Phrase("the ID of admin")).
 				Response200(&adminInfoVO{})
 		})).
+		Get("/members/{id:digit}/invited", m.adminGetMemberInvited, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member invited api"), nil).
+				PathID("id:digit", web.Phrase("the ID of admin")).
+				QueryObject(&invitedQuery{}, nil).
+				Response200(query.Page[MemberVO]{})
+		})).
 		Post("/members/{id:digit}/locked", m.adminPostMemberLock, putMember, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("lock the member api"), nil).
 				PathID("id:digit", web.Phrase("the ID of admin")).
@@ -71,13 +77,18 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 			o.Desc(web.Phrase("patch login user info api"), nil).
 				Body(memberInfoTO{}, false, nil, nil).
 				ResponseEmpty("204")
+		})).
+		Get("/invited", m.adminGetMemberInvited, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member invited api"), nil).
+				QueryObject(&invitedQuery{}, nil).
+				Response200(query.Page[MemberVO]{})
 		}))
 
 	// 不需要登录
 	mod.Router().Prefix(m.URLPrefix()).
 		Post("", m.memberRegister, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("register member api"), nil).
-				Body(memberTO{}, false, nil, nil).
+				Body(MemberTO{}, false, nil, nil).
 				ResponseEmpty("201")
 		}))
 
@@ -107,15 +118,15 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 func (m *Module) UserModule() *user.Module { return m.user }
 
 // NewMember 添加新的会员
-func (m *Module) NewMember(data *memberTO, ip, ua, msg string) error {
+func (m *Module) NewMember(state user.State, data *MemberTO, ip, ua, msg string) (*user.User, error) {
 	tx, err := m.user.Module().DB().Begin()
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	u, err := m.user.New(nil, user.StateNormal, data.Username, data.Password, ip, ua, msg)
+	u, err := m.user.New(tx, state, data.Username, data.Password, ip, ua, msg)
 	if err != nil {
-		return errors.Join(err, tx.Rollback())
+		return nil, errors.Join(err, tx.Rollback())
 	}
 
 	info := &infoPO{
@@ -123,15 +134,71 @@ func (m *Module) NewMember(data *memberTO, ip, ua, msg string) error {
 		Nickname: data.Username,
 		Sex:      data.Sex,
 		Avatar:   data.Avatar,
-		Inviter:  data.inviter,
+		Inviter:  data.InviterID,
 	}
 	if !data.Birthday.IsZero() {
 		info.Birthday = sql.NullTime{Valid: true, Time: data.Birthday}
 	}
 
-	if _, err = m.user.Module().DB().Insert(info); err != nil {
-		return errors.Join(err, tx.Rollback())
+	if _, err = m.UserModule().Module().Engine(tx).Insert(info); err != nil {
+		return nil, errors.Join(err, tx.Rollback())
 	}
 
-	return tx.Commit()
+	if err := tx.Commit(); err != nil {
+		return nil, err
+	}
+
+	return u, nil
+}
+
+type invitedQuery struct {
+	query.Text
+	State []user.State `query:"state,normal"`
+}
+
+func (q *invitedQuery) Filter(ctx *web.FilterContext) {
+	q.Text.Filter(ctx)
+	ctx.Add(user.StateSliceFilter("state", &q.State))
+}
+
+// Invited 返回所有被 uid 邀请的用户列表
+//
+// 如果查找不到数据，则会同时返回两个 nil
+func (m *Module) Invited(uid int64, q *invitedQuery) (*query.Page[MemberVO], error) {
+	sql := m.user.Module().DB().SQLBuilder().Select().
+		From(orm.TableName(&infoPO{}), "info").
+		Where("info.inviter=?", uid).
+		Column("info.*")
+
+	if q.Text.Text != "" {
+		txt := "%" + q.Text.Text + "%"
+		sql.Where("u.username LIKE ? OR u.no LIKE ? OR info.nickname LIKE ?", txt, txt, txt)
+	}
+
+	m.user.LeftJoin(sql, "u", "u.{id}=info.{id}", q.State)
+
+	type mod struct {
+		infoPO
+		NO       string     `orm:"name(no);len(32);unique(no)"`
+		Username string     `orm:"name(username);len(32)"`
+		State    user.State `orm:"name(state)"`
+	}
+
+	return query.PagingWithConvert(&q.Limit, sql, func(t *mod) *MemberVO {
+		m := &MemberVO{
+			ID:       t.ID,
+			NO:       t.NO,
+			Username: t.Username,
+			Inviter:  t.Inviter,
+			Sex:      t.Sex,
+			Nickname: t.Nickname,
+			Avatar:   t.Avatar,
+		}
+
+		if t.Birthday.Valid {
+			m.Birthday = t.Birthday.Time
+		}
+
+		return m
+	})
 }

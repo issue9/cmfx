@@ -98,6 +98,24 @@ type passportIdentityVO struct {
 	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"id"`
 }
 
+func (m *Module) adminGetMemberInvited(ctx *web.Context) web.Responser {
+	uid, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	q := &invitedQuery{}
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+		return resp
+	}
+
+	mems, err := m.Invited(uid, q)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(mems)
+}
+
 func (m *Module) adminGetMember(ctx *web.Context) web.Responser {
 	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {

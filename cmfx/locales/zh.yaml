@@ -89,6 +89,9 @@ messages:
     - key: bind %s passport for current user api
       message:
         msg: 为当前用户绑定 %s 验证方式
+    - key: birthday
+      message:
+        msg: 生日
     - key: can not add user with %s state
       message:
         msg: 在 %s 状态下不能添加用户
@@ -203,6 +206,9 @@ messages:
     - key: get member info api
       message:
         msg: 查看会员信息
+    - key: get member invited api
+      message:
+        msg: 获得被当前会员邀请的会员
     - key: get member list api
       message:
         msg: 获得会员列表
@@ -245,6 +251,9 @@ messages:
     - key: has been totp bind
       message:
         msg: 该账号已经绑定 TOTP
+    - key: id
+      message:
+        msg: ID
     - key: identity registrable
       message:
         msg: |
@@ -256,6 +265,9 @@ messages:
     - key: invalid url format
       message:
         msg: 无效的 URL 格式
+    - key: inviter
+      message:
+        msg: 邀请人
     - key: linkage %s not found
       message:
         msg: 级联数据 %s 未找到

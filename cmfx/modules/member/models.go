@@ -54,24 +54,26 @@ func (a *infoPO) BeforeUpdate() error {
 	return nil
 }
 
-type memberTO struct {
+type MemberTO struct {
 	m *Module
 
 	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
 
 	Username string    `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
 	Password string    `json:"password" yaml:"password" xml:"password" cbor:"password" comment:"password"`
-	Inviter  string    `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
 	Birthday time.Time `json:"birthday,omitempty" yaml:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" comment:"birthday"`
 	Sex      types.Sex `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
 	Nickname string    `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
 	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
 
-	inviter int64
+	// 指定邀请用户，以下两种方法二选一，
+	// 如果是指定 Inviter，需要调用 Filter 生成 InviterID
+	Inviter   string `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+	InviterID int64  `json:"-" yaml:"-" xml:"-" cbor:"-"`
 }
 
-func (mem *memberTO) Filter(v *web.FilterContext) {
-	birthday := filter.NewBuilder[time.Time](filter.V(validator.ZeroOr(func(t time.Time) bool {
+func (mem *MemberTO) Filter(v *web.FilterContext) {
+	birthday := filter.NewBuilder(filter.V(validator.ZeroOr(func(t time.Time) bool {
 		return t.After(time.Now())
 	}), locales.InvalidValue))
 
@@ -85,7 +87,20 @@ func (mem *memberTO) Filter(v *web.FilterContext) {
 			if err != nil {
 				return false
 			}
-			mem.inviter = u.ID
+			mem.InviterID = u.ID
 			return true
 		}, locales.InvalidValue))("inviter", &mem.Inviter))
+}
+
+type MemberVO struct {
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
+
+	ID       int64     `json:"id,omitempty" yaml:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" comment:"id"`
+	NO       string    `json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"`
+	Username string    `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
+	Inviter  int64     `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+	Birthday time.Time `json:"birthday,omitempty" yaml:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" comment:"birthday"`
+	Sex      types.Sex `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
+	Nickname string    `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
+	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
 }

@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2024 caixw
 //
 // SPDX-License-Identifier: MIT
 
-package admintest
+package membertest
 
 import (
 	"encoding/json"
@@ -16,17 +16,18 @@ import (
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
+	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
+	"github.com/issue9/cmfx/cmfx/modules/member"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/modules/upload/uploadtest"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-// NewModule 声明一个用于测试的 [admin.Module] 实例
-func NewModule(s *test.Suite) *admin.Module {
+// NewModule 声明一个用于测试的 [member.Module] 实例
+func NewModule(s *test.Suite) *member.Module {
 	mod := s.NewModule("admin")
 
-	o := &admin.Config{
-		SuperUser: 1,
+	o := &member.Config{
 		User: &user.Config{
 			URLPrefix:      "/admin",
 			AccessExpired:  60 * config.Duration(time.Second),
@@ -40,7 +41,7 @@ func NewModule(s *test.Suite) *admin.Module {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	m := admin.Install(mod, o, uploadtest.NewModule(s, "admin_uploads"))
+	m := member.Install(mod, o, uploadtest.NewModule(s, "mem_uploads"), admintest.NewModule(s))
 	s.Assertion().NotNil(m)
 
 	return m

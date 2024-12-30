@@ -94,16 +94,29 @@ func (m *Module) memberPatchInfo(ctx *web.Context) web.Responser {
 }
 
 func (m *Module) memberRegister(ctx *web.Context) web.Responser {
-	data := &memberTO{m: m}
+	data := &MemberTO{m: m}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
 	}
 
 	msg := web.Phrase("register successful").LocaleString(ctx.LocalePrinter())
-	err := m.NewMember(data, ctx.ClientIP(), ctx.Request().UserAgent(), msg)
+	_, err := m.NewMember(user.StateNormal, data, ctx.ClientIP(), ctx.Request().UserAgent(), msg)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
 	return web.Created(nil, "")
+}
+
+func (m *Module) memberGetMemberInvited(ctx *web.Context) web.Responser {
+	q := &invitedQuery{}
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+		return resp
+	}
+
+	mems, err := m.Invited(m.UserModule().CurrentUser(ctx).ID, q)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(mems)
 }
