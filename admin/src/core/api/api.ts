@@ -252,7 +252,7 @@ export class API {
         };
 
         const [p, proxy] = watch();
-        this.#eventSource = new EventSource(this.buildURL('/sse?token='+ r.body!.access));
+        this.#eventSource = new EventSource(this.buildURL('/sse?token='+ r.body!.token));
         this.#eventSource.addEventListener('connect', () => { proxy.val = true; });
         await p;
     }

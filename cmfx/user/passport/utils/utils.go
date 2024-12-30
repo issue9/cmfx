@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package utils 提供供 passport 的一些工具
+// Package utils 提供 passport 的一些工具
 package utils
 
 import (

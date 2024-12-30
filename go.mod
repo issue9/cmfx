@@ -16,9 +16,9 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.100.8
+	github.com/issue9/web v0.100.9-0.20241230042041-062fbc92386d
 	github.com/issue9/webfilter v0.9.0
-	github.com/issue9/webuse/v7 v7.0.0-20241220091456-beb06bc648ed
+	github.com/issue9/webuse/v7 v7.0.0-20241230041047-b527a7c27188
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.24.11
 	golang.org/x/crypto v0.31.0

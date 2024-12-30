@@ -5,11 +5,14 @@
 package admin
 
 import (
+	"time"
+
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/mimetype/sse"
 	"github.com/issue9/web/openapi"
 	xrbac "github.com/issue9/webuse/v7/middlewares/acl/rbac"
+	"github.com/issue9/webuse/v7/middlewares/auth/temporary"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
@@ -22,7 +25,7 @@ type Module struct {
 	user      *user.Module
 	roleGroup *rbac.RoleGroup
 	sse       *sse.Server[int64]
-	sseCaches web.Cache
+	temp      *temporary.Temporary[*user.User]
 }
 
 // Load 加载管理模块
@@ -31,9 +34,9 @@ type Module struct {
 // up 上传模块；
 func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	m := &Module{
-		user:      user.Load(mod, o.User),
-		sse:       sse.NewServer[int64](mod.Server(), o.SSE.Retry.Duration(), o.SSE.KeepAlive.Duration(), o.SSE.Cap, web.Phrase("admin sse server")),
-		sseCaches: web.NewCache(mod.ID()+"_sse_", mod.Server().Cache()),
+		user: user.Load(mod, o.User),
+		sse:  sse.NewServer[int64](mod.Server(), o.SSE.Retry.Duration(), o.SSE.KeepAlive.Duration(), o.SSE.Cap, web.Phrase("admin sse server")),
+		temp: temporary.New[*user.User](mod.Server(), time.Minute, true, "token", cmfx.UnauthorizedInvalidToken, web.ProblemInternalServerError),
 	}
 
 	inst := rbac.New(mod, func(ctx *web.Context) (int64, web.Responser) {
@@ -104,21 +107,21 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 		Post("/sse", m.postSSE, mod.API(func(o *openapi.Operation) {
 			o.Tag("sse").
 				Desc(web.Phrase("create sse token api"), nil).
-				//Header("Location", openapi.TypeString, nil, nil).
-				ResponseEmpty("201")
+				Response("201", temporary.Response{Expire: 60}, nil, nil)
 		}))
 
-	mod.Router().Prefix(m.URLPrefix()).
+	mod.Router().Prefix(m.URLPrefix(), m.temp).
 		Get("/sse", m.getSSE, mod.API(func(o *openapi.Operation) {
 			o.Tag("sse").
 				Desc(web.Phrase("get SSE message api"), nil).
-				Query("token", openapi.TypeString, web.Phrase("user token"), nil).
+				Query(m.temp.QueryName(), openapi.TypeString, web.Phrase("user token"), nil).
 				Response("200", nil, nil, func(r *openapi.Response) {
 					r.Body = nil
 					r.Content = map[string]*openapi.Schema{
 						sse.Mimetype: {Type: openapi.TypeString, Format: openapi.FormatByte},
 					}
-				})
+				}).
+				SecuritySecheme(m.temp.SecurityScheme("sse-security", nil))
 		}))
 
 	p.Get("/info", m.getInfo, mod.API(func(o *openapi.Operation) {

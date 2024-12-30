@@ -5,7 +5,7 @@
 const tokenName = 'cmfx-admin-token';
 
 export interface SSEToken {
-    access: string;
+    token: string;
     expire: number;
 }
 
