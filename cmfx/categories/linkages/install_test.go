@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package linkage
+package linkages
 
 import (
 	"testing"
@@ -29,5 +29,5 @@ func TestInstall(t *testing.T) {
 	})
 	a.NotNil(l)
 
-	s.TableExists("mod_linkage_lk")
+	s.TableExists("mod_linkages_lk")
 }

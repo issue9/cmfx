@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package linkage
+package linkages
 
 import (
 	"github.com/issue9/orm/v6"
