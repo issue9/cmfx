@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package linkage
+package linkages
 
 import (
 	"testing"
@@ -38,14 +38,14 @@ func TestModule(t *testing.T) {
 		root, err := m.Get()
 		a.NotError(err).NotNil(root)
 
-		a.NotError(m.Add(root.ID, "t4", "icon4"))
+		a.NotError(m.Add(root.ID, "t4", "icon4", 5))
 		root, err = m.Get()
 		a.NotError(err).
 			NotNil(root).
 			Length(root.Items, 3)
 
 		item := root.Items[0]
-		a.NotError(m.Add(item.ID, "t5", "icon5"))
+		a.NotError(m.Add(item.ID, "t5", "icon5", 5))
 		root, err = m.Get()
 		a.NotError(err).
 			NotNil(root).
@@ -58,7 +58,7 @@ func TestModule(t *testing.T) {
 		a.NotError(err).NotNil(root)
 
 		item := root.Items[0]
-		a.NotError(m.Set(item.ID, "t55", "icon55"))
+		a.NotError(m.Set(item.ID, "t55", "icon55", 5))
 		root, err = m.Get()
 		a.NotError(err).
 			NotNil(root).

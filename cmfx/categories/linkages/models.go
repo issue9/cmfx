@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package linkage
+package linkages
 
 import "database/sql"
 
@@ -11,14 +11,18 @@ type linkagePO struct {
 	Title   string       `orm:"name(title);len(20)"`           // 此分类的简要说明
 	Icon    string       `orm:"name(icon);len(1024);nullable"` // 图标
 	Deleted sql.NullTime `orm:"name(deleted);nullable"`        // 删除时间
+	Order   int          `orm:"name(order)"`                   // 在同级中的顺序
 	Parent  int64        `orm:"name(parent)"`                  // 表示某一项的上一级项目，如果为零，表示该值是顶级项目。
 }
 
 func (l *linkagePO) TableName() string { return `` }
 
 type LinkageVO struct {
+	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"linkage"`
+
 	ID    int64        `json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
 	Title string       `json:"title" yaml:"title" cbor:"title" xml:"title"`
+	Order int          `json:"order,omitempty" yaml:"order,omitempty" cbor:"order,omitempty" xml:"order,attr,omitempty"` // 在同级中的顺序
 	Icon  string       `json:"icon,omitempty" yaml:"icon,omitempty" cbor:"icon,omitempty" xml:"icon,omitempty"`
 	Items []*LinkageVO `json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" xml:"items>item,omitempty"`
 }
@@ -28,5 +32,6 @@ func (vo *LinkageVO) toPO(parent int64) *linkagePO {
 		Parent: parent,
 		Title:  vo.Title,
 		Icon:   vo.Icon,
+		Order:  vo.Order,
 	}
 }

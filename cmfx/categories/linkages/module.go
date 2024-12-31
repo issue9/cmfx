@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package linkage
+package linkages
 
 import (
 	"database/sql"
@@ -63,6 +63,10 @@ func buildItems(v *LinkageVO, all []*linkagePO) []*linkagePO {
 	return all
 }
 
+func sort(items []*LinkageVO) {
+	slices.SortFunc(items, func(a, b *LinkageVO) int { return a.Order - b.Order })
+}
+
 func getItems(p int64, all []*linkagePO) ([]*LinkageVO, []*linkagePO) {
 	items := make([]*LinkageVO, 0, 10)
 	for _, item := range all {
@@ -71,9 +75,11 @@ func getItems(p int64, all []*linkagePO) ([]*LinkageVO, []*linkagePO) {
 				ID:    item.ID,
 				Title: item.Title,
 				Icon:  item.Icon,
+				Order: item.Order,
 			})
 		}
 	}
+	sort(items)
 
 	return items, slices.DeleteFunc(all, func(item *linkagePO) bool { // 删除所有已经在 items 中的项
 		return slices.IndexFunc(items, func(e *LinkageVO) bool { return e.ID == item.ID }) >= 0
@@ -90,23 +96,29 @@ func (m *Module) Get() (*LinkageVO, error) {
 }
 
 // Set 修改 id 指向的对象
-func (m *Module) Set(id int64, title, icon string) error {
+func (m *Module) Set(id int64, title, icon string, order int) error {
 	root, err := m.Get()
 	if err != nil {
 		return err
 	}
 
-	item, _ := findRoot(id, root)
+	item, p := findRoot(id, root)
 	item.Title = title
 	item.Icon = icon
+	item.Order = order
+
+	if p != nil {
+		sort(p.Items) // 重新排序
+	}
 
 	// 保存到数据库
 	po := &linkagePO{
 		ID:    id,
 		Title: title,
 		Icon:  icon,
+		Order: order,
 	}
-	if _, err := m.db.Update(po); err != nil {
+	if _, err := m.db.Update(po, "title", "icon", "order"); err != nil {
 		return err
 	}
 
@@ -125,6 +137,9 @@ func (m *Module) Delete(id int64) error {
 
 	_, p := findRoot(id, root)
 	p.Items = slices.DeleteFunc(p.Items, func(e *LinkageVO) bool { return e.ID == id })
+	if p != nil {
+		sort(p.Items) // 重新排序
+	}
 
 	po := &linkagePO{ID: id, Deleted: sql.NullTime{Valid: true, Time: time.Now()}}
 	if _, err := m.db.Update(po); err != nil {
@@ -136,7 +151,7 @@ func (m *Module) Delete(id int64) error {
 }
 
 // Add 向 parent 添加一个子项
-func (m *Module) Add(parent int64, title, icon string) error {
+func (m *Module) Add(parent int64, title, icon string, order int) error {
 	root, err := m.Get()
 	if err != nil {
 		return err
@@ -149,6 +164,7 @@ func (m *Module) Add(parent int64, title, icon string) error {
 		Title:  title,
 		Icon:   icon,
 		Parent: p.ID,
+		Order:  order,
 	}
 	id, err := m.db.LastInsertID(po)
 	if err != nil {
@@ -160,7 +176,9 @@ func (m *Module) Add(parent int64, title, icon string) error {
 		ID:    id,
 		Title: title,
 		Icon:  icon,
+		Order: order,
 	})
+	sort(p.Items)
 	return m.mod.Server().Cache().Set(m.cacheID, root, cache.Forever)
 }
 
@@ -182,8 +200,4 @@ func find(id int64, p *LinkageVO) (curr, parent *LinkageVO) {
 		}
 	}
 	return nil, nil
-}
-
-func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_linkage_" + tableName)
 }
