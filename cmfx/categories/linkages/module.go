@@ -76,6 +76,7 @@ func getItems(p int64, all []*linkagePO) ([]*LinkageVO, []*linkagePO) {
 				Title: item.Title,
 				Icon:  item.Icon,
 				Order: item.Order,
+				Count: item.Count,
 			})
 		}
 	}
@@ -143,6 +144,26 @@ func (m *Module) Delete(id int64) error {
 
 	po := &linkagePO{ID: id, Deleted: sql.NullTime{Valid: true, Time: time.Now()}}
 	if _, err := m.db.Update(po); err != nil {
+		return err
+	}
+
+	// 保存到缓存
+	return m.mod.Server().Cache().Set(m.cacheID, root, cache.Forever)
+}
+
+// AddCount 添加计数
+//
+// delta 增加的数量，可以为负数；
+func (m *Module) AddCount(id int64, delta int) error {
+	root, err := m.Get()
+	if err != nil {
+		return err
+	}
+
+	curr, _ := findRoot(id, root)
+	curr.Count++
+
+	if _, err := m.db.Update(&linkagePO{ID: id, Count: curr.Count}, "count"); err != nil {
 		return err
 	}
 

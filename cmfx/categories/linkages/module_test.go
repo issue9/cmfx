@@ -21,9 +21,10 @@ func TestModule(t *testing.T) {
 	m := Install(mod, "lk", &LinkageVO{
 		Title: "t1",
 		Icon:  "icon1",
+		Order: 5,
 		Items: []*LinkageVO{
-			{Title: "t2", Icon: "icon2"},
-			{Title: "t3", Icon: "icon3"},
+			{Title: "t2", Icon: "icon2", Order: 5},
+			{Title: "t3", Icon: "icon3", Order: 5},
 		},
 	})
 
@@ -32,6 +33,17 @@ func TestModule(t *testing.T) {
 		a.NotError(err).
 			Equal(root.Title, "t1").
 			Length(root.Items, 2)
+	})
+
+	t.Run("AddCount", func(t *testing.T) {
+		root, err := m.Get()
+		a.NotError(err).NotNil(root)
+
+		a.NotError(m.AddCount(root.ID, 1))
+
+		root, err = m.Get()
+		a.NotError(err).
+			Equal(root.Count, 1)
 	})
 
 	t.Run("Add", func(t *testing.T) {
