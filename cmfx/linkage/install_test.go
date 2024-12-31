@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package system
+package linkage
 
 import (
 	"testing"
@@ -10,20 +10,24 @@ import (
 	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
-	"github.com/issue9/cmfx/cmfx/modules/admin/admintest"
 )
 
 func TestInstall(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)
-	adminL := admintest.NewModule(s)
+	defer s.Close()
 
-	conf := &Config{}
-	s.Assertion().NotError(conf.SanitizeConfig())
 	mod := s.NewModule("mod")
 
-	l := Install(mod, conf, adminL)
+	a.PanicString(func() {
+		Install(mod, "lk", nil)
+	}, "参数 linkage 不能为空")
+
+	l := Install(mod, "lk", &LinkageVO{
+		Title: "t1",
+		Icon:  "icon",
+	})
 	a.NotNil(l)
 
-	s.TableExists("mod_api_healths")
+	s.TableExists("mod_linkage_lk")
 }
