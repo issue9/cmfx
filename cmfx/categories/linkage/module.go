@@ -105,24 +105,29 @@ func (m *Module) Set(id int64, title, icon string, order int) error {
 		return err
 	}
 
-	item, p := find(id, root)
-	if item == nil {
-		return locales.ErrNotFound()
-	}
-	item.Title = title
-	item.Icon = icon
-	item.Order = order
+	if id != root.ID { // 非根对象，需要重新排序
+		item, p := find(id, root)
+		if item == nil {
+			return locales.ErrNotFound()
+		}
+		item.Title = title
+		item.Icon = icon
+		item.Order = order
 
-	if p != nil {
-		sort(p.Items) // 重新排序
+		if p != nil {
+			sort(p.Items) // 重新排序
+		}
+	} else {
+		root.Title = title
+		root.Icon = icon
 	}
 
 	// 保存到数据库
 	po := &linkagePO{
-		ID:    id,
 		Title: title,
 		Icon:  icon,
 		Order: order,
+		ID:    id,
 	}
 	if _, err := m.db.Update(po, "title", "icon", "order"); err != nil {
 		return err
@@ -134,16 +139,24 @@ func (m *Module) Set(id int64, title, icon string, order int) error {
 
 // Delete 删除指定的项
 //
-// 一旦删除，所有的子项也将不可用。
+// 一旦删除，所有的子项也将不可用，不能删除根项。
 func (m *Module) Delete(id int64) error {
 	root, err := m.Get()
 	if err != nil {
 		return err
 	}
 
-	_, p := find(id, root)
-	p.Items = slices.DeleteFunc(p.Items, func(e *LinkageVO) bool { return e.ID == id })
+	if id == root.ID {
+		return web.NewLocaleError("invalid value")
+	}
+
+	curr, p := find(id, root)
+	if curr == nil {
+		return locales.ErrNotFound()
+	}
+
 	if p != nil {
+		p.Items = slices.DeleteFunc(p.Items, func(e *LinkageVO) bool { return e.ID == id })
 		sort(p.Items) // 重新排序
 	}
 
@@ -165,13 +178,18 @@ func (m *Module) AddCount(id int64, delta int) error {
 		return err
 	}
 
-	curr, _ := find(id, root)
-	if curr == nil {
-		return locales.ErrNotFound()
+	var item *LinkageVO
+	if id == root.ID {
+		item = root
+	} else {
+		if item, _ = find(id, root); item == nil {
+			return locales.ErrNotFound()
+		}
 	}
-	curr.Count += delta
 
-	if _, err := m.db.Update(&linkagePO{ID: id, Count: curr.Count}, "count"); err != nil {
+	item.Count += delta
+
+	if _, err := m.db.Update(&linkagePO{ID: id, Count: item.Count}, "count"); err != nil {
 		return err
 	}
 
@@ -180,6 +198,8 @@ func (m *Module) AddCount(id int64, delta int) error {
 }
 
 // Add 向 parent 添加一个子项
+//
+// parent 为 0 表示添加至根下；
 func (m *Module) Add(parent int64, title, icon string, order int) error {
 	root, err := m.Get()
 	if err != nil {
@@ -187,7 +207,7 @@ func (m *Module) Add(parent int64, title, icon string, order int) error {
 	}
 
 	var p *LinkageVO
-	if parent == 0 {
+	if parent == root.ID {
 		p = root
 	} else {
 		if p, _ = find(parent, root); p == nil {

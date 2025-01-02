@@ -59,3 +59,25 @@ func TestModule(t *testing.T) {
 		a.True(m.Validator(1)).False(m.Validator(100))
 	})
 }
+
+func TestModule_empty(t *testing.T) {
+	a := assert.New(t, false)
+	s := test.NewSuite(a)
+	defer s.Close()
+
+	mod := s.NewModule("lk")
+	m := Install(mod, "lk")
+
+	list, err := m.Get()
+	a.NotError(err).
+		Length(list, 0)
+
+	list, err = m.Get()
+	a.NotError(err).NotNil(list)
+
+	a.NotError(m.Add("t3", "t4"))
+	list, err = m.Get()
+	a.NotError(err).
+		NotNil(list).
+		Length(list, 2)
+}

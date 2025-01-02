@@ -30,10 +30,6 @@ func Load(mod *cmfx.Module, tableName string) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	if len(all) == 0 {
-		panic(mod.Server().Locale().Printer().Sprintf("no data"))
-	}
-
 	cacheID := mod.Server().UniqueID()
 	if err := mod.Server().Cache().Set(cacheID, all, cache.Forever); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))

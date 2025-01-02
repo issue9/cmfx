@@ -19,12 +19,8 @@ func TestInstall(t *testing.T) {
 
 	mod := s.NewModule("mod")
 
-	a.PanicString(func() {
-		Install(mod, "lk")
-	}, "参数 tag 不能为空")
-
 	l := Install(mod, "lk", "t1", "t2")
 	a.NotNil(l)
 
-	s.TableExists("mod_tags_lk")
+	s.TableExists("mod_tag_lk")
 }

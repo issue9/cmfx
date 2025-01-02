@@ -29,5 +29,5 @@ func TestInstall(t *testing.T) {
 	})
 	a.NotNil(l)
 
-	s.TableExists("mod_linkages_lk")
+	s.TableExists("mod_linkage_lk")
 }
