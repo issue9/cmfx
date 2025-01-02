@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package linkages
+package linkage
 
 import (
 	"testing"

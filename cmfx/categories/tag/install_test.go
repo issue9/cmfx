@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package tags
+package tag
 
 import (
 	"testing"

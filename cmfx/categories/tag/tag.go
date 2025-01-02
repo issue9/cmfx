@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Package tags 标签管理
-package tags
+// Package tag 标签管理
+package tag
 
 import (
 	"github.com/issue9/orm/v6"
@@ -12,5 +12,5 @@ import (
 )
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_tags_" + tableName)
+	return mod.DB().New(mod.DB().TablePrefix() + "_tag_" + tableName)
 }

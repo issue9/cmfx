@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package tags
+package tag
 
 type TagPO struct {
 	XMLName struct{} `orm:"-" json:"-" yaml:"-" cbor:"-" xml:"tag"`
