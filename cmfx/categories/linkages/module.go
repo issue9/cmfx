@@ -12,8 +12,10 @@ import (
 	"github.com/issue9/cache"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 // Module 管理一组带有层级关系的链表
@@ -103,7 +105,10 @@ func (m *Module) Set(id int64, title, icon string, order int) error {
 		return err
 	}
 
-	item, p := findRoot(id, root)
+	item, p := find(id, root)
+	if item == nil {
+		return locales.ErrNotFound()
+	}
 	item.Title = title
 	item.Icon = icon
 	item.Order = order
@@ -136,7 +141,7 @@ func (m *Module) Delete(id int64) error {
 		return err
 	}
 
-	_, p := findRoot(id, root)
+	_, p := find(id, root)
 	p.Items = slices.DeleteFunc(p.Items, func(e *LinkageVO) bool { return e.ID == id })
 	if p != nil {
 		sort(p.Items) // 重新排序
@@ -160,8 +165,11 @@ func (m *Module) AddCount(id int64, delta int) error {
 		return err
 	}
 
-	curr, _ := findRoot(id, root)
-	curr.Count++
+	curr, _ := find(id, root)
+	if curr == nil {
+		return locales.ErrNotFound()
+	}
+	curr.Count += delta
 
 	if _, err := m.db.Update(&linkagePO{ID: id, Count: curr.Count}, "count"); err != nil {
 		return err
@@ -178,7 +186,14 @@ func (m *Module) Add(parent int64, title, icon string, order int) error {
 		return err
 	}
 
-	p, _ := findRoot(parent, root)
+	var p *LinkageVO
+	if parent == 0 {
+		p = root
+	} else {
+		if p, _ = find(parent, root); p == nil {
+			return locales.ErrNotFound()
+		}
+	}
 
 	// 写入数据库
 	po := &linkagePO{
@@ -203,13 +218,6 @@ func (m *Module) Add(parent int64, title, icon string, order int) error {
 	return m.mod.Server().Cache().Set(m.cacheID, root, cache.Forever)
 }
 
-func findRoot(id int64, root *LinkageVO) (curr, parent *LinkageVO) {
-	if id == root.ID {
-		return root, nil
-	}
-	return find(id, root)
-}
-
 func find(id int64, p *LinkageVO) (curr, parent *LinkageVO) {
 	for _, item := range p.Items {
 		if item.ID == id {
@@ -221,4 +229,31 @@ func find(id int64, p *LinkageVO) (curr, parent *LinkageVO) {
 		}
 	}
 	return nil, nil
+}
+
+func (m *Module) Validator(v int64) bool {
+	root, err := m.Get()
+	if err != nil {
+		m.mod.Server().Logs().ERROR().Error(err)
+		return false
+	}
+
+	curr, _ := find(v, root)
+	return curr != nil
+}
+
+func (m *Module) Rule(name string, v *int64) (string, web.LocaleStringer) {
+	return filter.V(m.Validator, locales.InvalidValue)(name, v)
+}
+
+func (m *Module) SliceRule(name string, v *[]int64) (string, web.LocaleStringer) {
+	return filter.SV[[]int64](m.Validator, locales.InvalidValue)(name, v)
+}
+
+func (m *Module) Filter() filter.Builder[int64] {
+	return filter.NewBuilder(m.Rule)
+}
+
+func (m *Module) SliceFilter() filter.Builder[[]int64] {
+	return filter.NewBuilder(m.SliceRule)
 }

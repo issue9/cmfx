@@ -10,6 +10,7 @@ import (
 	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 func TestModule(t *testing.T) {
@@ -39,29 +40,27 @@ func TestModule(t *testing.T) {
 		root, err := m.Get()
 		a.NotError(err).NotNil(root)
 
-		a.NotError(m.AddCount(root.ID, 1))
+		a.Equal(m.AddCount(root.ID, 1), locales.ErrNotFound())
+
+		a.NotError(m.AddCount(root.Items[0].ID, 2))
 
 		root, err = m.Get()
 		a.NotError(err).
-			Equal(root.Count, 1)
+			Equal(root.Items[0].Count, 2)
 	})
 
 	t.Run("Add", func(t *testing.T) {
 		root, err := m.Get()
 		a.NotError(err).NotNil(root)
 
-		a.NotError(m.Add(root.ID, "t4", "icon4", 5))
-		root, err = m.Get()
-		a.NotError(err).
-			NotNil(root).
-			Length(root.Items, 3)
+		a.Equal(m.Add(root.ID, "t4", "icon4", 5), locales.ErrNotFound())
 
 		item := root.Items[0]
 		a.NotError(m.Add(item.ID, "t5", "icon5", 5))
 		root, err = m.Get()
 		a.NotError(err).
 			NotNil(root).
-			Length(root.Items, 3).
+			Length(root.Items, 2).
 			Equal(root.Items[0].Items[0].Title, "t5")
 	})
 
@@ -87,6 +86,6 @@ func TestModule(t *testing.T) {
 		root, err = m.Get()
 		a.NotError(err).
 			NotNil(root).
-			Length(root.Items, 2)
+			Length(root.Items, 1)
 	})
 }

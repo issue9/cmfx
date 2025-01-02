@@ -54,4 +54,8 @@ func TestModule(t *testing.T) {
 			NotNil(list).
 			Equal(list[0].Title, "t55")
 	})
+
+	t.Run("Validator", func(t *testing.T) {
+		a.True(m.Validator(1)).False(m.Validator(100))
+	})
 }

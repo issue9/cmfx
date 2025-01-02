@@ -10,8 +10,10 @@ import (
 	"github.com/issue9/cache"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/locales"
 )
 
 type Module struct {
@@ -89,4 +91,30 @@ func (m *Module) Add(title ...string) error {
 	}
 
 	return m.mod.Server().Cache().Set(m.cacheID, list, cache.Forever)
+}
+
+func (m *Module) Validator(v int64) bool {
+	list, err := m.Get()
+	if err != nil {
+		m.mod.Server().Logs().ERROR().Error(err)
+		return false
+	}
+
+	return slices.IndexFunc(list, func(e *TagPO) bool { return e.ID == v }) >= 0
+}
+
+func (m *Module) Rule(name string, v *int64) (string, web.LocaleStringer) {
+	return filter.V(m.Validator, locales.InvalidValue)(name, v)
+}
+
+func (m *Module) SliceRule(name string, v *[]int64) (string, web.LocaleStringer) {
+	return filter.SV[[]int64](m.Validator, locales.InvalidValue)(name, v)
+}
+
+func (m *Module) Filter() filter.Builder[int64] {
+	return filter.NewBuilder(m.Rule)
+}
+
+func (m *Module) SliceFilter() filter.Builder[[]int64] {
+	return filter.NewBuilder(m.SliceRule)
 }

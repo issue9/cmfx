@@ -46,3 +46,7 @@ func ErrMustBeGreaterThan[T any](v T) error {
 func ErrMustBeLessThan[T any](v T) error {
 	return web.NewLocaleError("must be less than %v", v)
 }
+
+var notFound = web.NewLocaleError("not found")
+
+func ErrNotFound() error { return notFound }
