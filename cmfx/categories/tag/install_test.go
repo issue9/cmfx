@@ -22,5 +22,5 @@ func TestInstall(t *testing.T) {
 	l := Install(mod, "lk", "t1", "t2")
 	a.NotNil(l)
 
-	s.TableExists("mod_tag_lk")
+	s.TableExists("mod_lk")
 }

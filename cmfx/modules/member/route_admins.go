@@ -13,23 +13,33 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
+	"github.com/issue9/webfilter/validator"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/filters"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
 type adminQueryMembers struct {
+	m *Module
+
 	query.Text
 	States []user.State `query:"state,normal" comment:"state"`
 	Sexes  []types.Sex  `query:"sex" comment:"sex"`
+	Levels []int64      `query:"level"`
+	Types  []int64      `query:"type"`
 }
 
 func (q *adminQueryMembers) Filter(v *web.FilterContext) {
 	q.Text.Filter(v)
 	v.Add(user.StateSliceFilter("state", &q.States)).
-		Add(types.SexSliceFilter("sex", &q.Sexes))
+		Add(types.SexSliceFilter("sex", &q.Sexes)).
+		Add(filter.NewBuilder(filter.SV[[]int64](q.m.levels.Validator, locales.InvalidValue))("level", &q.Levels)).
+		Add(filter.NewBuilder(filter.SV[[]int64](q.m.types.Validator, locales.InvalidValue))("type", &q.Types))
 }
 
 type adminInfoVO struct {
@@ -43,13 +53,15 @@ type adminInfoVO struct {
 	Sex      types.Sex  `json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
 	Nickname string     `json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
 	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
+	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
+	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
 
 	// 当前用户已经开通的验证方式
 	Passports []*passportIdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
 }
 
 func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
-	q := &adminQueryMembers{}
+	q := &adminQueryMembers{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
 	}
@@ -89,6 +101,8 @@ func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
 			Sex:      i.Sex,
 			Nickname: i.Nickname,
 			Avatar:   i.Avatar,
+			Level:    i.Level,
+			Type:     i.Type,
 		}
 	})
 }
@@ -154,8 +168,69 @@ func (m *Module) adminGetMember(ctx *web.Context) web.Responser {
 		Sex:       a.Sex,
 		Nickname:  a.Nickname,
 		Avatar:    a.Avatar,
+		Level:     a.Level,
+		Type:      a.Type,
 		Passports: ps,
 	})
+}
+
+// 后台添加用户时需要的数据
+type adminInfoTO struct {
+	m *Module
+
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
+
+	State    user.State `json:"state,omitempty" yaml:"state,omitempty" xml:"state,attr,omitempty" cbor:"state,omitempty" comment:"state"`
+	Username string     `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
+	Password string     `json:"password" yaml:"password" xml:"password" cbor:"password" comment:"password"`
+	Birthday time.Time  `json:"birthday,omitempty" yaml:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" comment:"birthday"`
+	Sex      types.Sex  `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
+	Nickname string     `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
+	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
+	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
+	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
+	Inviter  int64      `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+}
+
+func (mem *adminInfoTO) Filter(v *web.FilterContext) {
+	birthday := filter.NewBuilder(filter.V(validator.ZeroOr(func(t time.Time) bool {
+		return t.After(time.Now())
+	}), locales.InvalidValue))
+
+	v.Add(filters.NotEmpty("username", &mem.Username)).
+		Add(user.StateFilter("state", &mem.State)).
+		Add(filters.NotEmpty("password", &mem.Password)).
+		Add(birthday("birthday", &mem.Birthday)).
+		Add(filter.NewBuilder(filter.V(validator.ZeroOr(types.SexValidator), locales.InvalidValue))("sex", &mem.Sex)).
+		Add(filters.Avatar("avatar", &mem.Avatar)).
+		Add(filters.Avatar("avatar", &mem.Avatar)) // TODO intviter
+}
+
+func (mem *adminInfoTO) toInfo() *RegisterInfo {
+	return &RegisterInfo{
+		Username: mem.Username,
+		Password: mem.Password,
+		Birthday: mem.Birthday,
+		Sex:      mem.Sex,
+		Nickname: mem.Nickname,
+		Avatar:   mem.Avatar,
+		Level:    mem.Level,
+		Type:     mem.Type,
+		Inviter:  mem.Inviter,
+	}
+}
+
+func (m *Module) adminPostMembers(ctx *web.Context) web.Responser {
+	data := &adminInfoTO{m: m}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	msg := web.Phrase("add by admin %d", m.admin.CurrentUser(ctx).ID).LocaleString(ctx.LocalePrinter())
+	if _, err := m.NewMember(data.State, data.toInfo(), ctx.ClientIP(), ctx.Request().UserAgent(), msg); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.Created(nil, "")
 }
 
 func (m *Module) adminPostMemberLock(ctx *web.Context) web.Responser {
@@ -190,4 +265,20 @@ func (m *Module) setMemberState(ctx *web.Context, state user.State, code int) we
 	}
 
 	return web.Status(code)
+}
+
+func (m *Module) getLevels(ctx *web.Context) web.Responser {
+	l, err := m.levels.Get()
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(l)
+}
+
+func (m *Module) getTypes(ctx *web.Context) web.Responser {
+	l, err := m.types.Get()
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(l)
 }

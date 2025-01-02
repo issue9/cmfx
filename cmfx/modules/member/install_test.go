@@ -20,8 +20,10 @@ func TestInstall(t *testing.T) {
 	defer suite.Close()
 
 	mod := suite.NewModule("member")
-	l := Install(mod, defaultConfig(a), uploadtest.NewModule(suite, "mem_upload"), admintest.NewModule(suite))
+	l := Install(mod, defaultConfig(a), uploadtest.NewModule(suite, "mem_upload"), admintest.NewModule(suite), nil, nil)
 	a.NotNil(l)
 
-	suite.TableExists(mod.ID() + "_info")
+	suite.TableExists(mod.ID() + "_info").
+		TableExists(mod.ID() + "_" + typesTableName).
+		TableExists(mod.ID() + "_" + levelsTableName)
 }

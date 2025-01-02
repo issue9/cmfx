@@ -12,5 +12,5 @@ import (
 )
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
-	return mod.DB().New(mod.DB().TablePrefix() + "_linkage_" + tableName)
+	return mod.DB().New(mod.DB().TablePrefix() + "_" + tableName)
 }

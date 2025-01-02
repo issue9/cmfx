@@ -4,3 +4,8 @@
 
 // Package member 会员管理
 package member
+
+const (
+	typesTableName  = "types"
+	levelsTableName = "levels"
+)

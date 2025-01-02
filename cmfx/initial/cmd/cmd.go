@@ -103,7 +103,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		adminL := admin.Install(adminMod, user.Admin, uploadL)
 		totp.Install(adminL.UserModule().Module(), "totp")
 
-		member.Install(memberMod, user.Member, uploadL, adminL)
+		member.Install(memberMod, user.Member, uploadL, adminL, nil, nil)
 
 		system.Install(systemMod, user.System, adminL)
 	default:

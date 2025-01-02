@@ -41,7 +41,7 @@ func NewModule(s *test.Suite) *member.Module {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	m := member.Install(mod, o, uploadtest.NewModule(s, "mem_uploads"), admintest.NewModule(s))
+	m := member.Install(mod, o, uploadtest.NewModule(s, "mem_uploads"), admintest.NewModule(s), nil, nil)
 	s.Assertion().NotNil(m)
 
 	return m

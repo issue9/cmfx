@@ -7,41 +7,61 @@ package member
 import (
 	"database/sql"
 	"errors"
+	"time"
 
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/categories/tag"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
 	"github.com/issue9/cmfx/cmfx/query"
+	"github.com/issue9/cmfx/cmfx/types"
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
 // Module 不带权限功能的会员管理模块
 type Module struct {
-	user *user.Module
+	user  *user.Module
+	admin *admin.Module
+
+	levels *tag.Module
+	types  *tag.Module
 }
 
 // Load 加载模块
 func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Module) *Module {
 	m := &Module{
-		user: user.Load(mod, conf.User),
+		user:  user.Load(mod, conf.User),
+		admin: adminMod,
+
+		levels: tag.Load(mod, levelsTableName),
+		types:  tag.Load(mod, typesTableName),
 	}
 
 	resGroup := adminMod.NewResourceGroup(mod)
+	addMembers := resGroup.New("add-members", web.StringPhrase("add members"))
 	getMembers := resGroup.New("get-members", web.StringPhrase("get members"))
 	putMember := resGroup.New("put-member", web.StringPhrase("put member"))
 	delMember := resGroup.New("del-member", web.StringPhrase("delete member"))
 
+	// admin 接口
+
 	ap := adminMod.UserModule().Module().Router().Prefix(adminMod.URLPrefix(), adminMod)
 	adminAPI := adminMod.UserModule().Module().API
-	ap.Get("/members", m.adminGetMembers, getMembers, adminAPI(func(o *openapi.Operation) {
-		o.Tag("member").Desc(web.Phrase("get member list api"), nil).
-			QueryObject(&adminQueryMembers{}, nil).
-			Response200(query.Page[adminInfoVO]{})
-	})).
+	ap.
+		Post("/members", m.adminPostMembers, addMembers, adminAPI(func(o *openapi.Operation) {
+			o.Tag("/member").Desc(web.Phrase("add member api"), nil).
+				Body(adminInfoTO{}, false, nil, nil).
+				ResponseEmpty("201")
+		})).
+		Get("/members", m.adminGetMembers, getMembers, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member list api"), nil).
+				QueryObject(&adminQueryMembers{}, nil).
+				Response200(query.Page[adminInfoVO]{})
+		})).
 		Get("/members/{id:digit}", m.adminGetMember, getMembers, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member info api"), nil).
 				PathID("id:digit", web.Phrase("the ID of admin")).
@@ -51,7 +71,7 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 			o.Tag("member").Desc(web.Phrase("get member invited api"), nil).
 				PathID("id:digit", web.Phrase("the ID of admin")).
 				QueryObject(&invitedQuery{}, nil).
-				Response200(query.Page[MemberVO]{})
+				Response200(query.Page[InvitedMember]{})
 		})).
 		Post("/members/{id:digit}/locked", m.adminPostMemberLock, putMember, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("lock the member api"), nil).
@@ -63,7 +83,15 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 		})).
 		Delete("/members/{id:digit}", m.adminDeleteMember, delMember, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("delete the member api"), nil).ResponseEmpty("204")
+		})).
+		Get("/member/levels", m.getLevels, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member level list api"), nil).Response200([]tag.TagPO{})
+		})).
+		Get("/member/types", m.getTypes, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member type list api"), nil).Response200([]tag.TagPO{})
 		}))
+
+	// member 接口
 
 	// 需要登录
 	p := mod.Router().Prefix(m.URLPrefix(), m)
@@ -81,14 +109,20 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 		Get("/invited", m.adminGetMemberInvited, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member invited api"), nil).
 				QueryObject(&invitedQuery{}, nil).
-				Response200(query.Page[MemberVO]{})
+				Response200(query.Page[InvitedMember]{})
+		})).
+		Get("/levels", m.getLevels, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member level list api"), nil).Response200([]tag.TagPO{})
+		})).
+		Get("/types", m.getTypes, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("get member type list api"), nil).Response200([]tag.TagPO{})
 		}))
 
 	// 不需要登录
 	mod.Router().Prefix(m.URLPrefix()).
 		Post("", m.memberRegister, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("register member api"), nil).
-				Body(MemberTO{}, false, nil, nil).
+				Body(memberInfoTO{}, false, nil, nil).
 				ResponseEmpty("201")
 		}))
 
@@ -117,8 +151,20 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 
 func (m *Module) UserModule() *user.Module { return m.user }
 
+type RegisterInfo struct {
+	Username string
+	Password string
+	Birthday time.Time
+	Sex      types.Sex
+	Nickname string
+	Avatar   string
+	Level    int64
+	Type     int64
+	Inviter  int64
+}
+
 // NewMember 添加新的会员
-func (m *Module) NewMember(state user.State, data *MemberTO, ip, ua, msg string) (*user.User, error) {
+func (m *Module) NewMember(state user.State, data *RegisterInfo, ip, ua, msg string) (*user.User, error) {
 	tx, err := m.user.Module().DB().Begin()
 	if err != nil {
 		return nil, err
@@ -134,7 +180,7 @@ func (m *Module) NewMember(state user.State, data *MemberTO, ip, ua, msg string)
 		Nickname: data.Username,
 		Sex:      data.Sex,
 		Avatar:   data.Avatar,
-		Inviter:  data.InviterID,
+		Inviter:  data.Inviter,
 	}
 	if !data.Birthday.IsZero() {
 		info.Birthday = sql.NullTime{Valid: true, Time: data.Birthday}
@@ -164,7 +210,7 @@ func (q *invitedQuery) Filter(ctx *web.FilterContext) {
 // Invited 返回所有被 uid 邀请的用户列表
 //
 // 如果查找不到数据，则会同时返回两个 nil
-func (m *Module) Invited(uid int64, q *invitedQuery) (*query.Page[MemberVO], error) {
+func (m *Module) Invited(uid int64, q *invitedQuery) (*query.Page[InvitedMember], error) {
 	sql := m.user.Module().DB().SQLBuilder().Select().
 		From(orm.TableName(&infoPO{}), "info").
 		Where("info.inviter=?", uid).
@@ -184,14 +230,16 @@ func (m *Module) Invited(uid int64, q *invitedQuery) (*query.Page[MemberVO], err
 		State    user.State `orm:"name(state)"`
 	}
 
-	return query.PagingWithConvert(&q.Limit, sql, func(t *mod) *MemberVO {
-		m := &MemberVO{
+	return query.PagingWithConvert(&q.Limit, sql, func(t *mod) *InvitedMember {
+		m := &InvitedMember{
 			ID:       t.ID,
 			NO:       t.NO,
 			Username: t.Username,
 			Inviter:  t.Inviter,
 			Sex:      t.Sex,
 			Nickname: t.Nickname,
+			Level:    t.Level,
+			Type:     t.Type,
 			Avatar:   t.Avatar,
 		}
 
@@ -201,4 +249,19 @@ func (m *Module) Invited(uid int64, q *invitedQuery) (*query.Page[MemberVO], err
 
 		return m
 	})
+}
+
+type InvitedMember struct {
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
+
+	ID       int64     `json:"id,omitempty" yaml:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" comment:"id"`
+	NO       string    `json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"`
+	Username string    `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
+	Inviter  int64     `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+	Birthday time.Time `json:"birthday,omitempty" yaml:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" comment:"birthday"`
+	Sex      types.Sex `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
+	Nickname string    `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
+	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
+	Level    int64     `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
+	Type     int64     `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
 }
