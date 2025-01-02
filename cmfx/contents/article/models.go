@@ -30,8 +30,8 @@ type articlePO struct {
 
 	// 分类信息
 
-	Topics []types.Int64s `orm:"name(topics)"`
-	Tags   []types.Int64s `orm:"name(tags)"`
+	Topics types.Int64s `orm:"name(topics)"`
+	Tags   types.Int64s `orm:"name(tags)"`
 
 	// 各类时间属性
 
@@ -41,6 +41,7 @@ type articlePO struct {
 	Modifier int64        `orm:"name(modifier)"`
 	Deleted  sql.NullTime `orm:"name(deleted);nullable;default(NULL)"`
 	Deleter  int64        `orm:"name(deleter)"`
+	Version  int          `orm:"name(version);occ"` // TODO 每个版本保存为不同记录？如果分版本记录，不需要 Modifier 字段
 }
 
 func (*articlePO) TableName() string { return `_articles` }
@@ -71,4 +72,47 @@ func (l *articlePO) BeforeUpdate() error {
 	l.Modified = time.Now()
 
 	return nil
+}
+
+type Article struct {
+	Slug            string
+	Author          string
+	Views           int
+	Order           int
+	Title           string
+	Images          []string
+	Keywords        string
+	Summary         string
+	Content         string
+	Topics          []int64
+	Tags            []int64
+	CreatorModifier int64 // 添加时为创建者否则为修改者
+}
+
+func (a *Article) toPO() *articlePO {
+	return &articlePO{
+		Slug: a.Slug,
+
+		Author: a.Author,
+		Views:  a.Views,
+		Order:  a.Order,
+
+		// 内容
+
+		Title:    a.Title,
+		Images:   types.Strings(a.Images),
+		Keywords: a.Keywords,
+		Summary:  a.Summary,
+		Content:  a.Content,
+
+		// 分类信息
+
+		Topics: types.Int64s(a.Topics),
+		Tags:   types.Int64s(a.Tags),
+
+		// 各类时间属性
+
+		Creator:  a.CreatorModifier,
+		Modifier: a.CreatorModifier,
+	}
 }

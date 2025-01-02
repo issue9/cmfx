@@ -5,4 +5,7 @@
 // Package article 文章管理
 package article
 
-const topicsTableName = "topics"
+const (
+	topicsTableName = "topics"
+	tagsTableName   = "tags"
+)
