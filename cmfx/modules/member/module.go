@@ -87,8 +87,30 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 		Get("/member/levels", m.getLevels, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member level list api"), nil).Response200([]tag.TagPO{})
 		})).
+		Patch("/member/levels/{id:digit}", m.adminPatchLevel, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").
+				Desc(web.Phrase("patch member level api"), nil).
+				Body(tagInfo{}, false, nil, nil).
+				PathID("id:digit", web.Phrase("the ID of member level"))
+		})).
+		Post("/member/levels", m.adminPostLevel, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").
+				Desc(web.Phrase("add member level api"), nil).
+				Body(tagInfo{}, false, nil, nil)
+		})).
 		Get("/member/types", m.getTypes, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member type list api"), nil).Response200([]tag.TagPO{})
+		})).
+		Patch("/member/types/{id:digit}", m.adminPatchType, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").
+				Desc(web.Phrase("patch member type api"), nil).
+				Body(tagInfo{}, false, nil, nil).
+				PathID("id:digit", web.Phrase("the ID of member type"))
+		})).
+		Post("/member/types", m.adminPostType, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").
+				Desc(web.Phrase("add member type api"), nil).
+				Body(tagInfo{}, false, nil, nil)
 		}))
 
 	// member 接口
@@ -106,7 +128,7 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 				Body(memberInfoTO{}, false, nil, nil).
 				ResponseEmpty("204")
 		})).
-		Get("/invited", m.adminGetMemberInvited, adminAPI(func(o *openapi.Operation) {
+		Get("/invited", m.memberGetMemberInvited, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member invited api"), nil).
 				QueryObject(&invitedQuery{}, nil).
 				Response200(query.Page[InvitedMember]{})

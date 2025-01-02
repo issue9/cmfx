@@ -19,11 +19,6 @@ import (
 
 var _ web.Filter = &invitedQuery{}
 
-func newModule(suite *test.Suite) *Module {
-	mod := suite.NewModule("mem")
-	return Load(mod, defaultConfig(suite.Assertion()), uploadtest.NewModule(suite, "mem_upload"), admintest.NewModule(suite))
-}
-
 func TestModule_NewMember(t *testing.T) {
 	a := assert.New(t, false)
 	s := test.NewSuite(a)

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -211,13 +211,22 @@ func (mem *adminInfoTO) Filter(v *web.FilterContext) {
 		return t.After(time.Now())
 	}), locales.InvalidValue))
 
+	inviter := filter.NewBuilder(filter.V(validator.ZeroOr(func(id int64) bool {
+		u, err := mem.m.UserModule().GetUser(id)
+		if err != nil {
+			v.Context().Server().Logs().ERROR().Error(err)
+			return false
+		}
+		return u.ID > 0
+	}), locales.InvalidValue))
+
 	v.Add(filters.NotEmpty("username", &mem.Username)).
 		Add(user.StateFilter("state", &mem.State)).
 		Add(filters.NotEmpty("password", &mem.Password)).
 		Add(birthday("birthday", &mem.Birthday)).
 		Add(filter.NewBuilder(filter.V(validator.ZeroOr(types.SexValidator), locales.InvalidValue))("sex", &mem.Sex)).
 		Add(filters.Avatar("avatar", &mem.Avatar)).
-		Add(filters.Avatar("avatar", &mem.Avatar)) // TODO intviter
+		Add(inviter("inviter", &mem.Inviter))
 }
 
 func (mem *adminInfoTO) toInfo() *RegisterInfo {
@@ -289,10 +298,81 @@ func (m *Module) getLevels(ctx *web.Context) web.Responser {
 	return web.OK(l)
 }
 
+type tagInfo struct {
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"info"`
+	Title   string   `json:"title" cbor:"title" yaml:"title" xml:"title"`
+}
+
+func (t *tagInfo) Filter(ctx *web.FilterContext) {
+	ctx.Add(filters.NotEmpty("title", &t.Title))
+}
+
+func (m *Module) adminPatchLevel(ctx *web.Context) web.Responser {
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	data := &tagInfo{}
+	if resp = ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if err := m.levels.Set(id, data.Title); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	return web.NoContent()
+}
+
+func (m *Module) adminPostLevel(ctx *web.Context) web.Responser {
+	data := &tagInfo{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if err := m.levels.Add(data.Title); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	return web.Created(nil, "")
+}
+
 func (m *Module) getTypes(ctx *web.Context) web.Responser {
 	l, err := m.types.Get()
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.OK(l)
+}
+
+func (m *Module) adminPatchType(ctx *web.Context) web.Responser {
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	data := &tagInfo{}
+	if resp = ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if err := m.types.Set(id, data.Title); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	return web.NoContent()
+}
+
+func (m *Module) adminPostType(ctx *web.Context) web.Responser {
+	data := &tagInfo{}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if err := m.types.Add(data.Title); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	return web.Created(nil, "")
 }
