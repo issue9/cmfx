@@ -79,6 +79,20 @@ func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
 			}
 		})
 	}
+	if len(q.Levels) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, l := range q.Levels {
+				ws.Or("info.{level}=?", l)
+			}
+		})
+	}
+	if len(q.Types) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, t := range q.Types {
+				ws.Or("info.{type}=?", t)
+			}
+		})
+	}
 	if len(q.Text.Text) > 0 {
 		text := "%" + q.Text.Text + "%"
 		sql.And("(info.nickname LIKE ?)", text)
@@ -227,7 +241,7 @@ func (m *Module) adminPostMembers(ctx *web.Context) web.Responser {
 	}
 
 	msg := web.Phrase("add by admin %d", m.admin.CurrentUser(ctx).ID).LocaleString(ctx.LocalePrinter())
-	if _, err := m.NewMember(data.State, data.toInfo(), ctx.ClientIP(), ctx.Request().UserAgent(), msg); err != nil {
+	if _, err := m.Add(data.State, data.toInfo(), ctx.ClientIP(), ctx.Request().UserAgent(), msg); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")

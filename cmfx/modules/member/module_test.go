@@ -30,20 +30,20 @@ func TestModule_NewMember(t *testing.T) {
 	defer s.Close()
 	mod := Install(s.NewModule("mem"), defaultConfig(a), uploadtest.NewModule(s, "mem_upload"), admintest.NewModule(s), nil, nil)
 
-	u1, err := mod.NewMember(user.StateNormal, &RegisterInfo{
+	u1, err := mod.Add(user.StateNormal, &RegisterInfo{
 		Username: "u1",
 		Password: "u1",
 	}, "[:1]", "test", "test add")
 	a.NotError(err).NotNil(u1)
 
-	u2, err := mod.NewMember(user.StateNormal, &RegisterInfo{
+	u2, err := mod.Add(user.StateNormal, &RegisterInfo{
 		Username: "u2",
 		Password: "u2",
 		Inviter:  u1.ID,
 	}, "[:1]", "test", "test add")
 	a.NotError(err).NotNil(u2)
 
-	u3, err := mod.NewMember(user.StateLocked, &RegisterInfo{
+	u3, err := mod.Add(user.StateLocked, &RegisterInfo{
 		Username: "u3",
 		Password: "u3",
 		Inviter:  u1.ID,

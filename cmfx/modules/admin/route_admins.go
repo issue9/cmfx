@@ -193,7 +193,7 @@ func (m *Module) postAdmins(ctx *web.Context) web.Responser {
 		return resp
 	}
 
-	if err := m.newAdmin(data, ctx.ClientIP(), ctx.Request().UserAgent(), ""); err != nil {
+	if err := m.addAdmin(data, ctx.ClientIP(), ctx.Request().UserAgent(), ""); err != nil {
 		return ctx.Error(err, "")
 	}
 	return web.Created(nil, "")

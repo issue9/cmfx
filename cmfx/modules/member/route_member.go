@@ -155,7 +155,7 @@ func (m *Module) memberRegister(ctx *web.Context) web.Responser {
 	}
 
 	msg := web.Phrase("register successful").LocaleString(ctx.LocalePrinter())
-	_, err := m.NewMember(user.StateNormal, data.toInfo(), ctx.ClientIP(), ctx.Request().UserAgent(), msg)
+	_, err := m.Add(user.StateNormal, data.toInfo(), ctx.ClientIP(), ctx.Request().UserAgent(), msg)
 	if err != nil {
 		return ctx.Error(err, "")
 	}

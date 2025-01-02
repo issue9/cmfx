@@ -210,7 +210,7 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 func (m *Module) UserModule() *user.Module { return m.user }
 
 // 手动添加一个新的管理员
-func (m *Module) newAdmin(data *infoWithAccountTO, ip, ua, content string) error {
+func (m *Module) addAdmin(data *infoWithAccountTO, ip, ua, content string) error {
 	tx, err := m.user.Module().DB().Begin()
 	if err != nil {
 		return err

@@ -32,7 +32,7 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Modul
 
 	m := Load(mod, o, up, adminL)
 
-	_, err := m.NewMember(user.StateNormal, &RegisterInfo{
+	_, err := m.Add(user.StateNormal, &RegisterInfo{
 		Username: "m1",
 		Password: "",
 		Birthday: time.Now(),

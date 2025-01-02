@@ -163,8 +163,8 @@ type RegisterInfo struct {
 	Inviter  int64
 }
 
-// NewMember 添加新的会员
-func (m *Module) NewMember(state user.State, data *RegisterInfo, ip, ua, msg string) (*user.User, error) {
+// Add 添加新的会员
+func (m *Module) Add(state user.State, data *RegisterInfo, ip, ua, msg string) (*user.User, error) {
 	tx, err := m.user.Module().DB().Begin()
 	if err != nil {
 		return nil, err
