@@ -66,6 +66,11 @@ func (m *Module) CreateToken(ctx *web.Context, u *User, p Passport) web.Response
 
 	m.loginEvent.Publish(true, u)
 
+	// 记录末次登录时间
+	if _, err := m.mod.DB().Update(&User{ID: u.ID, Last: ctx.Begin()}); err != nil {
+		ctx.Server().Logs().ERROR().Error(err) // 不返回错误
+	}
+
 	return m.token.New(ctx, u, http.StatusCreated)
 }
 

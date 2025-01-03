@@ -42,6 +42,7 @@ type User struct {
 	XMLName struct{}  `orm:"-" json:"-" xml:"user" cbor:"-"`
 	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created" yaml:"created" comment:"created time"` // 添加时间
 	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state" yaml:"state" comment:"user state"`             // 状态
+	Last    time.Time `orm:"name(last)" json:"last,omitempty" xml:"last,omitempty" cbor:"last,omitempty" yaml:"last,omitempty"`
 
 	// 用户的自增 ID
 	ID int64 `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" yaml:"id" comment:"user id"`
