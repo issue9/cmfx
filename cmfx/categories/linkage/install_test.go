@@ -23,7 +23,7 @@ func TestInstall(t *testing.T) {
 		Install(mod, "lk", nil)
 	}, "参数 linkage 不能为空")
 
-	l := Install(mod, "lk", &LinkageVO{
+	l := Install(mod, "lk", &Linkage{
 		Title: "t1",
 		Icon:  "icon",
 	})

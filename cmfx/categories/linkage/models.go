@@ -18,18 +18,18 @@ type linkagePO struct {
 
 func (l *linkagePO) TableName() string { return `` }
 
-type LinkageVO struct {
+type Linkage struct {
 	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"linkage"`
 
-	ID    int64        `json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
-	Title string       `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Order int          `json:"order,omitempty" yaml:"order,omitempty" cbor:"order,omitempty" xml:"order,attr,omitempty"` // 在同级中的顺序
-	Icon  string       `json:"icon,omitempty" yaml:"icon,omitempty" cbor:"icon,omitempty" xml:"icon,omitempty"`
-	Items []*LinkageVO `json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" xml:"items>item,omitempty"`
-	Count int          `json:"count,omitempty" yaml:"count,omitempty" cbor:"count,omitempty" xml:"count,attr,omitempty"` // 关联内容的数量
+	ID    int64      `json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
+	Title string     `json:"title" yaml:"title" cbor:"title" xml:"title"`
+	Order int        `json:"order,omitempty" yaml:"order,omitempty" cbor:"order,omitempty" xml:"order,attr,omitempty"` // 在同级中的顺序
+	Icon  string     `json:"icon,omitempty" yaml:"icon,omitempty" cbor:"icon,omitempty" xml:"icon,omitempty"`
+	Items []*Linkage `json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" xml:"items>item,omitempty"`
+	Count int        `json:"count,omitempty" yaml:"count,omitempty" cbor:"count,omitempty" xml:"count,attr,omitempty"` // 关联内容的数量
 }
 
-func (vo *LinkageVO) toPO(parent int64) *linkagePO {
+func (vo *Linkage) toPO(parent int64) *linkagePO {
 	return &linkagePO{
 		Parent: parent,
 		Title:  vo.Title,

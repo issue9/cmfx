@@ -56,7 +56,7 @@ func Load(mod *cmfx.Module, tableName string) *Module {
 	}
 }
 
-func buildItems(v *LinkageVO, all []*linkagePO) []*linkagePO {
+func buildItems(v *Linkage, all []*linkagePO) []*linkagePO {
 	v.Items, all = getItems(v.ID, all)
 	for _, item := range v.Items {
 		all = buildItems(item, all)
@@ -65,15 +65,15 @@ func buildItems(v *LinkageVO, all []*linkagePO) []*linkagePO {
 	return all
 }
 
-func sort(items []*LinkageVO) {
-	slices.SortFunc(items, func(a, b *LinkageVO) int { return a.Order - b.Order })
+func sort(items []*Linkage) {
+	slices.SortFunc(items, func(a, b *Linkage) int { return a.Order - b.Order })
 }
 
-func getItems(p int64, all []*linkagePO) ([]*LinkageVO, []*linkagePO) {
-	items := make([]*LinkageVO, 0, 10)
+func getItems(p int64, all []*linkagePO) ([]*Linkage, []*linkagePO) {
+	items := make([]*Linkage, 0, 10)
 	for _, item := range all {
 		if item.Parent == p {
-			items = append(items, &LinkageVO{
+			items = append(items, &Linkage{
 				ID:    item.ID,
 				Title: item.Title,
 				Icon:  item.Icon,
@@ -85,13 +85,13 @@ func getItems(p int64, all []*linkagePO) ([]*LinkageVO, []*linkagePO) {
 	sort(items)
 
 	return items, slices.DeleteFunc(all, func(item *linkagePO) bool { // 删除所有已经在 items 中的项
-		return slices.IndexFunc(items, func(e *LinkageVO) bool { return e.ID == item.ID }) >= 0
+		return slices.IndexFunc(items, func(e *Linkage) bool { return e.ID == item.ID }) >= 0
 	})
 }
 
 // Get 获得所有内容
-func (m *Module) Get() (*LinkageVO, error) {
-	root := &LinkageVO{}
+func (m *Module) Get() (*Linkage, error) {
+	root := &Linkage{}
 	if err := m.mod.Server().Cache().Get(m.cacheID, root); err != nil {
 		return nil, err
 	}
@@ -156,7 +156,7 @@ func (m *Module) Delete(id int64) error {
 	}
 
 	if p != nil {
-		p.Items = slices.DeleteFunc(p.Items, func(e *LinkageVO) bool { return e.ID == id })
+		p.Items = slices.DeleteFunc(p.Items, func(e *Linkage) bool { return e.ID == id })
 		sort(p.Items) // 重新排序
 	}
 
@@ -178,7 +178,7 @@ func (m *Module) AddCount(id int64, delta int) error {
 		return err
 	}
 
-	var item *LinkageVO
+	var item *Linkage
 	if id == root.ID {
 		item = root
 	} else {
@@ -206,7 +206,7 @@ func (m *Module) Add(parent int64, title, icon string, order int) error {
 		return err
 	}
 
-	var p *LinkageVO
+	var p *Linkage
 	if parent == root.ID {
 		p = root
 	} else {
@@ -228,7 +228,7 @@ func (m *Module) Add(parent int64, title, icon string, order int) error {
 	}
 
 	// 重新保存到缓存
-	p.Items = append(p.Items, &LinkageVO{
+	p.Items = append(p.Items, &Linkage{
 		ID:    id,
 		Title: title,
 		Icon:  icon,
@@ -238,7 +238,7 @@ func (m *Module) Add(parent int64, title, icon string, order int) error {
 	return m.mod.Server().Cache().Set(m.cacheID, root, cache.Forever)
 }
 
-func find(id int64, p *LinkageVO) (curr, parent *LinkageVO) {
+func find(id int64, p *Linkage) (curr, parent *Linkage) {
 	for _, item := range p.Items {
 		if item.ID == id {
 			return item, p

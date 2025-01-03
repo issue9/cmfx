@@ -12,7 +12,7 @@ import (
 )
 
 // Install 安装数据库以及相关的初始数据
-func Install(mod *cmfx.Module, tableName string, linkage *LinkageVO) *Module {
+func Install(mod *cmfx.Module, tableName string, linkage *Linkage) *Module {
 	db := buildDB(mod, tableName)
 
 	if err := db.Create(&linkagePO{}); err != nil {
@@ -33,7 +33,7 @@ func Install(mod *cmfx.Module, tableName string, linkage *LinkageVO) *Module {
 	return Load(mod, tableName)
 }
 
-func install(tx *orm.Tx, linkage *LinkageVO, parent int64) error {
+func install(tx *orm.Tx, linkage *Linkage, parent int64) error {
 	lastID, err := tx.LastInsertID(linkage.toPO(parent))
 	if err != nil {
 		return err

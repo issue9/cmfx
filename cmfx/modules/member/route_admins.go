@@ -290,89 +290,10 @@ func (m *Module) setMemberState(ctx *web.Context, state user.State, code int) we
 	return web.Status(code)
 }
 
-func (m *Module) getLevels(ctx *web.Context) web.Responser {
-	l, err := m.levels.Get()
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	return web.OK(l)
+func (m *Module) adminPutLevel(ctx *web.Context) web.Responser {
+	return m.levels.HandlePutTag(ctx, "id")
 }
 
-type tagInfo struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"info"`
-	Title   string   `json:"title" cbor:"title" yaml:"title" xml:"title"`
-}
-
-func (t *tagInfo) Filter(ctx *web.FilterContext) {
-	ctx.Add(filters.NotEmpty("title", &t.Title))
-}
-
-func (m *Module) adminPatchLevel(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
-	if resp != nil {
-		return resp
-	}
-
-	data := &tagInfo{}
-	if resp = ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	if err := m.levels.Set(id, data.Title); err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return web.NoContent()
-}
-
-func (m *Module) adminPostLevel(ctx *web.Context) web.Responser {
-	data := &tagInfo{}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	if err := m.levels.Add(data.Title); err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return web.Created(nil, "")
-}
-
-func (m *Module) getTypes(ctx *web.Context) web.Responser {
-	l, err := m.types.Get()
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	return web.OK(l)
-}
-
-func (m *Module) adminPatchType(ctx *web.Context) web.Responser {
-	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
-	if resp != nil {
-		return resp
-	}
-
-	data := &tagInfo{}
-	if resp = ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	if err := m.types.Set(id, data.Title); err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return web.NoContent()
-}
-
-func (m *Module) adminPostType(ctx *web.Context) web.Responser {
-	data := &tagInfo{}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	if err := m.types.Add(data.Title); err != nil {
-		return ctx.Error(err, "")
-	}
-
-	return web.Created(nil, "")
+func (m *Module) adminPutType(ctx *web.Context) web.Responser {
+	return m.types.HandlePutTag(ctx, "id")
 }

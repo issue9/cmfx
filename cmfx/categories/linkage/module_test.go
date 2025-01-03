@@ -20,11 +20,11 @@ func TestModule(t *testing.T) {
 	defer s.Close()
 
 	mod := s.NewModule("lk")
-	m := Install(mod, "lk", &LinkageVO{
+	m := Install(mod, "lk", &Linkage{
 		Title: "t1",
 		Icon:  "icon1",
 		Order: 5,
-		Items: []*LinkageVO{
+		Items: []*Linkage{
 			{Title: "t2", Icon: "icon2", Order: 5},
 			{Title: "t3", Icon: "icon3", Order: 5},
 		},

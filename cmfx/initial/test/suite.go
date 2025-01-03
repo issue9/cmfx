@@ -90,6 +90,10 @@ func (s *Suite) Post(url string, body []byte) *rest.Request {
 	return servertest.Post(s.Assertion(), buildURL(url), body)
 }
 
+func (s *Suite) Patch(url string, body []byte) *rest.Request {
+	return servertest.Patch(s.Assertion(), buildURL(url), body)
+}
+
 func (s *Suite) Put(url string, body []byte) *rest.Request {
 	return servertest.NewRequest(s.Assertion(), http.MethodPut, buildURL(url)).Body(body)
 }
