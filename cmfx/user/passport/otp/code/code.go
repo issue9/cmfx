@@ -15,7 +15,6 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
-	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -68,8 +67,8 @@ func Init(
 		user:    user,
 	}
 
-	prefix := user.URLPrefix() + "/passports/" + id
-	rate := ratelimit.New(web.NewCache(idPrefix+"_rate_", user.Module().Server().Cache()), 20, time.Second, nil)
+	prefix := utils.BuildPrefix(user, id)
+	rate := utils.BuildRate(user, id)
 
 	user.Module().Router().Prefix(prefix).
 		Post("/login", c.postLogin, rate, cmfx.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
