@@ -15,7 +15,6 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
-	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user"
@@ -32,12 +31,16 @@ type passkey struct {
 	ttl   time.Duration
 }
 
+// Init 初始化 passkey 模块
+//
+// ttl 表示 passkey 从 begin 到 finish 的有效时间；
+// url 表示 webauthn 的 origins 参数；
 func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration, url ...string) user.Passport {
 	s := u.Module().Server()
 
 	wa, err := webauthn.New(&webauthn.Config{
 		RPDisplayName: s.ID(),
-		RPID:          s.ID(),
+		RPID:          id,
 		RPOrigins:     url,
 	})
 	if err != nil {
@@ -54,9 +57,9 @@ func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration,
 		ttl:   ttl,
 	}
 
-	prefix := u.URLPrefix() + "/passports/" + id
-	rate := ratelimit.New(web.NewCache(u.Module().ID()+"passports_"+id+"_rate", u.Module().Server().Cache()), 20, time.Second, nil)
-
+	prefix := utils.BuildPrefix(u, id)
+	rate := utils.BuildRate(u, id)
+	
 	u.Module().Router().Prefix(prefix, rate, cmfx.Unlimit(u.Module().Server())).
 		Get("/register/{username}", p.registerBegin, u.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").Desc(web.Phrase("passkey begin register api"), nil).
