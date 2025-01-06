@@ -89,7 +89,8 @@ func (m *Module) Add(title ...string) error {
 	return m.mod.Server().Cache().Set(m.cacheID, list, cache.Forever)
 }
 
-func (m *Module) Validator(v int64) bool {
+// Valid 验证 v 是否存在
+func (m *Module) Valid(v int64) bool {
 	list, err := m.Get()
 	if err != nil {
 		m.mod.Server().Logs().ERROR().Error(err)
@@ -100,11 +101,11 @@ func (m *Module) Validator(v int64) bool {
 }
 
 func (m *Module) Rule(name string, v *int64) (string, web.LocaleStringer) {
-	return filter.V(m.Validator, locales.InvalidValue)(name, v)
+	return filter.V(m.Valid, locales.InvalidValue)(name, v)
 }
 
 func (m *Module) SliceRule(name string, v *[]int64) (string, web.LocaleStringer) {
-	return filter.SV[[]int64](m.Validator, locales.InvalidValue)(name, v)
+	return filter.SV[[]int64](m.Valid, locales.InvalidValue)(name, v)
 }
 
 func (m *Module) Filter() filter.Builder[int64] {

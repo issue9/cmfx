@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -42,7 +42,8 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 	}
 
 	resGroup := adminMod.NewResourceGroup(mod)
-	addMembers := resGroup.New("add-members", web.StringPhrase("add members"))
+	setMemberLevel := resGroup.New("set-member-level", web.StringPhrase("set member level"))
+	setMemberType := resGroup.New("set-member-type", web.StringPhrase("set member type"))
 	getMembers := resGroup.New("get-members", web.StringPhrase("get members"))
 	putMember := resGroup.New("put-member", web.StringPhrase("put member"))
 	delMember := resGroup.New("del-member", web.StringPhrase("delete member"))
@@ -52,11 +53,6 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 	ap := adminMod.UserModule().Module().Router().Prefix(adminMod.URLPrefix(), adminMod)
 	adminAPI := adminMod.UserModule().Module().API
 	ap.
-		Post("/members", m.adminPostMembers, addMembers, adminAPI(func(o *openapi.Operation) {
-			o.Tag("/member").Desc(web.Phrase("add member api"), nil).
-				Body(adminInfoTO{}, false, nil, nil).
-				ResponseEmpty("201")
-		})).
 		Get("/members", m.adminGetMembers, getMembers, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member list api"), nil).
 				QueryObject(&adminQueryMembers{}, nil).
@@ -64,8 +60,20 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 		})).
 		Get("/members/{id:digit}", m.adminGetMember, getMembers, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member info api"), nil).
-				PathID("id:digit", web.Phrase("the ID of admin")).
+				PathID("id:digit", web.Phrase("the ID of member")).
 				Response200(&adminInfoVO{})
+		})).
+		Put("/members/{id:digit}/level", m.adminPutLevel, setMemberLevel, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("set member level api"), nil).
+				PathID("id:digit", web.Phrase("the ID of member")).
+				Body(adminMemberLevelTO{}, false, nil, nil).
+				ResponseEmpty("204")
+		})).
+		Put("/members/{id:digit}/type", m.adminPutType, setMemberType, adminAPI(func(o *openapi.Operation) {
+			o.Tag("member").Desc(web.Phrase("set member type api"), nil).
+				PathID("id:digit", web.Phrase("the ID of member")).
+				Body(adminMemberTypeTO{}, false, nil, nil).
+				ResponseEmpty("204")
 		})).
 		Get("/members/{id:digit}/invited", m.adminGetMemberInvited, adminAPI(func(o *openapi.Operation) {
 			o.Tag("member").Desc(web.Phrase("get member invited api"), nil).
@@ -290,4 +298,18 @@ type InvitedMember struct {
 	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
 	Level    int64     `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
 	Type     int64     `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
+}
+
+// SetLevel 设置用户的等级
+func (m *Module) SetLevel(tx *orm.Tx, uid, lv int64) error {
+	e := m.UserModule().Module().Engine(tx)
+	_, err := e.Update(&infoPO{ID: uid, Level: lv}, "level")
+	return err
+}
+
+// SetType 设置用户的类型
+func (m *Module) SetType(tx *orm.Tx, uid, t int64) error {
+	e := m.UserModule().Module().Engine(tx)
+	_, err := e.Update(&infoPO{ID: uid, Type: t}, "type")
+	return err
 }

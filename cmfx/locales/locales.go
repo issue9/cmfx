@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -42,6 +42,8 @@ func MustBeLessThan[T any](v T) web.LocaleStringer {
 func ErrMustBeGreaterThan[T any](v T) error {
 	return web.NewLocaleError("must be greater than %v", v)
 }
+
+func ErrInvalidValue() error { return locales.ErrInvalidValue() }
 
 func ErrMustBeLessThan[T any](v T) error {
 	return web.NewLocaleError("must be less than %v", v)

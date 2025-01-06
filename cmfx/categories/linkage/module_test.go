@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/issue9/assert/v4"
-	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/locales"
@@ -91,7 +90,7 @@ func TestModule(t *testing.T) {
 		a.NotError(err).NotNil(root)
 
 		a.Equal(m.Delete(0), locales.ErrNotFound())
-		a.Equal(m.Delete(root.ID), web.NewLocaleError("invalid value"))
+		a.Equal(m.Delete(root.ID), locales.ErrInvalidValue())
 
 		item := root.Items[0]
 		a.NotError(m.Delete(item.ID))

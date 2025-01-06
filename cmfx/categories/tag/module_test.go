@@ -56,7 +56,7 @@ func TestModule(t *testing.T) {
 	})
 
 	t.Run("Validator", func(t *testing.T) {
-		a.True(m.Validator(1)).False(m.Validator(100))
+		a.True(m.Valid(1)).False(m.Valid(100))
 	})
 }
 

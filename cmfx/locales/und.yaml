@@ -19,6 +19,12 @@ messages:
     - key: add currency value
       message:
         msg: add currency value
+    - key: add member level api
+      message:
+        msg: add member level api
+    - key: add member type api
+      message:
+        msg: add member type api
     - key: add role api
       message:
         msg: add role api
@@ -202,9 +208,18 @@ messages:
     - key: get member invited api
       message:
         msg: get member invited api
+    - key: get member level list api
+      message:
+        msg: get member level list api
     - key: get member list api
       message:
         msg: get member list api
+    - key: get member statistic
+      message:
+        msg: get member statistic
+    - key: get member type list api
+      message:
+        msg: get member type list api
     - key: get members
       message:
         msg: get members
@@ -259,18 +274,6 @@ messages:
     - key: inviter
       message:
         msg: inviter
-    - key: linkage %s not found
-      message:
-        msg: linkage %s not found
-    - key: linkage item %d not found
-      message:
-        msg: linkage item %d not found
-    - key: linkage item %d parent %d not found
-      message:
-        msg: linkage item %d parent %d not found
-    - key: linkage key %s not found
-      message:
-        msg: linkage key %s not found
     - key: lock the admin api
       message:
         msg: lock the admin api
@@ -352,6 +355,12 @@ messages:
     - key: patch login user info api
       message:
         msg: patch login user info api
+    - key: patch member level api
+      message:
+        msg: patch member level api
+    - key: patch member type api
+      message:
+        msg: patch member type api
     - key: post admins
       message:
         msg: post admins
@@ -427,6 +436,18 @@ messages:
     - key: secret expired detail
       message:
         msg: secret expired detail
+    - key: set member level
+      message:
+        msg: set member level
+    - key: set member level api
+      message:
+        msg: set member level api
+    - key: set member type
+      message:
+        msg: set member type
+    - key: set member type api
+      message:
+        msg: set member type api
     - key: settings tag
       message:
         msg: settings tag
@@ -454,6 +475,15 @@ messages:
     - key: the ID of admin
       message:
         msg: the ID of admin
+    - key: the ID of member
+      message:
+        msg: the ID of member
+    - key: the ID of member level
+      message:
+        msg: the ID of member level
+    - key: the ID of member type
+      message:
+        msg: the ID of member type
     - key: the backup filename
       message:
         msg: the backup filename

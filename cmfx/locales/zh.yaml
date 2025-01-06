@@ -21,6 +21,12 @@ messages:
     - key: add currency value
       message:
         msg: 增加的金额
+    - key: add member level api
+      message:
+        msg: 添加会员等级
+    - key: add member type api
+      message:
+        msg: 添加会员类型
     - key: add role api
       message:
         msg: 添加管理员角色
@@ -209,9 +215,18 @@ messages:
     - key: get member invited api
       message:
         msg: 获得被当前会员邀请的会员
+    - key: get member level list api
+      message:
+        msg: 获取会员等级列表
     - key: get member list api
       message:
         msg: 获得会员列表
+    - key: get member statistic
+      message:
+        msg: 获得会员统计信息
+    - key: get member type list api
+      message:
+        msg: 获得会员类型列表
     - key: get members
       message:
         msg: 查看会员信息
@@ -268,18 +283,6 @@ messages:
     - key: inviter
       message:
         msg: 邀请人
-    - key: linkage %s not found
-      message:
-        msg: 级联数据 %s 未找到
-    - key: linkage item %d not found
-      message:
-        msg: 级联数据子项 %d 未找到
-    - key: linkage item %d parent %d not found
-      message:
-        msg: 级联数据 %d 的上一级数据 %d 未找到
-    - key: linkage key %s not found
-      message:
-        msg: 级联数据 %s 未找到
     - key: lock the admin api
       message:
         msg: 锁定管理员
@@ -362,6 +365,12 @@ messages:
     - key: patch login user info api
       message:
         msg: 更新登不用户个人信息
+    - key: patch member level api
+      message:
+        msg: 更新会员等级的提示信息
+    - key: patch member type api
+      message:
+        msg: 更新会员类型的提示信息
     - key: post admins
       message:
         msg: 添加管理员
@@ -437,6 +446,18 @@ messages:
     - key: secret expired detail
       message:
         msg: TOTP 密钥过期
+    - key: set member level
+      message:
+        msg: 设置会员等级
+    - key: set member level api
+      message:
+        msg: 设置会员等级
+    - key: set member type
+      message:
+        msg: 设置会员类型
+    - key: set member type api
+      message:
+        msg: 设置会员类型
     - key: settings tag
       message:
         msg: 设置
@@ -464,6 +485,15 @@ messages:
     - key: the ID of admin
       message:
         msg: 管理员 ID
+    - key: the ID of member
+      message:
+        msg: 会员 ID
+    - key: the ID of member level
+      message:
+        msg: the ID of member level
+    - key: the ID of member type
+      message:
+        msg: 会员的 ID 值
     - key: the backup filename
       message:
         msg: 备份文件的文件名

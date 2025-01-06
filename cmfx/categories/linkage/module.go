@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -147,7 +147,7 @@ func (m *Module) Delete(id int64) error {
 	}
 
 	if id == root.ID {
-		return web.NewLocaleError("invalid value")
+		return locales.ErrInvalidValue()
 	}
 
 	curr, p := find(id, root)

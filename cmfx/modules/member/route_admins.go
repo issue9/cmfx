@@ -14,10 +14,8 @@ import (
 	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
 	"github.com/issue9/web/filter"
-	"github.com/issue9/webfilter/validator"
 
 	"github.com/issue9/cmfx/cmfx"
-	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/types"
@@ -38,8 +36,8 @@ func (q *adminQueryMembers) Filter(v *web.FilterContext) {
 	q.Text.Filter(v)
 	v.Add(user.StateSliceFilter("state", &q.States)).
 		Add(types.SexSliceFilter("sex", &q.Sexes)).
-		Add(filter.NewBuilder(filter.SV[[]int64](q.m.levels.Validator, locales.InvalidValue))("level", &q.Levels)).
-		Add(filter.NewBuilder(filter.SV[[]int64](q.m.types.Validator, locales.InvalidValue))("type", &q.Types))
+		Add(filter.NewBuilder(filter.SV[[]int64](q.m.levels.Valid, locales.InvalidValue))("level", &q.Levels)).
+		Add(filter.NewBuilder(filter.SV[[]int64](q.m.types.Valid, locales.InvalidValue))("type", &q.Types))
 }
 
 type adminInfoVO struct {
@@ -188,74 +186,6 @@ func (m *Module) adminGetMember(ctx *web.Context) web.Responser {
 	})
 }
 
-// 后台添加用户时需要的数据
-type adminInfoTO struct {
-	m *Module
-
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"member"`
-
-	State    user.State `json:"state,omitempty" yaml:"state,omitempty" xml:"state,attr,omitempty" cbor:"state,omitempty" comment:"state"`
-	Username string     `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
-	Password string     `json:"password" yaml:"password" xml:"password" cbor:"password" comment:"password"`
-	Birthday time.Time  `json:"birthday,omitempty" yaml:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" comment:"birthday"`
-	Sex      types.Sex  `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
-	Nickname string     `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
-	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
-	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
-	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
-	Inviter  int64      `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
-}
-
-func (mem *adminInfoTO) Filter(v *web.FilterContext) {
-	birthday := filter.NewBuilder(filter.V(validator.ZeroOr(func(t time.Time) bool {
-		return t.After(time.Now())
-	}), locales.InvalidValue))
-
-	inviter := filter.NewBuilder(filter.V(validator.ZeroOr(func(id int64) bool {
-		u, err := mem.m.UserModule().GetUser(id)
-		if err != nil {
-			v.Context().Server().Logs().ERROR().Error(err)
-			return false
-		}
-		return u.ID > 0
-	}), locales.InvalidValue))
-
-	v.Add(filters.NotEmpty("username", &mem.Username)).
-		Add(user.StateFilter("state", &mem.State)).
-		Add(filters.NotEmpty("password", &mem.Password)).
-		Add(birthday("birthday", &mem.Birthday)).
-		Add(filter.NewBuilder(filter.V(validator.ZeroOr(types.SexValidator), locales.InvalidValue))("sex", &mem.Sex)).
-		Add(filters.Avatar("avatar", &mem.Avatar)).
-		Add(inviter("inviter", &mem.Inviter))
-}
-
-func (mem *adminInfoTO) toInfo() *RegisterInfo {
-	return &RegisterInfo{
-		Username: mem.Username,
-		Password: mem.Password,
-		Birthday: mem.Birthday,
-		Sex:      mem.Sex,
-		Nickname: mem.Nickname,
-		Avatar:   mem.Avatar,
-		Level:    mem.Level,
-		Type:     mem.Type,
-		Inviter:  mem.Inviter,
-	}
-}
-
-func (m *Module) adminPostMembers(ctx *web.Context) web.Responser {
-	data := &adminInfoTO{m: m}
-	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
-		return resp
-	}
-
-	msg := web.Phrase("add by admin %d", m.admin.CurrentUser(ctx).ID).LocaleString(ctx.LocalePrinter())
-	if _, err := m.Add(data.State, data.toInfo(), ctx.ClientIP(), ctx.Request().UserAgent(), msg); err != nil {
-		return ctx.Error(err, "")
-	}
-	return web.Created(nil, "")
-}
-
 func (m *Module) adminPostMemberLock(ctx *web.Context) web.Responser {
 	return m.setMemberState(ctx, user.StateLocked, http.StatusCreated)
 }
@@ -304,4 +234,66 @@ func (m *Module) adminGetStatcstic(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 	return web.OK(s)
+}
+
+type adminMemberTypeTO struct {
+	m       *Module
+	XMLName struct{} `xml:"type" json:"-" cbor:"-" yaml:"-"`
+	Type    int64    `json:"type" xml:"type" cbor:"type" yaml:"type"`
+}
+
+func (m *adminMemberTypeTO) Filter(ctx *web.FilterContext) {
+	ctx.Add(m.m.types.Filter()("type", &m.Type))
+}
+
+func (m *Module) adminPutMemberType(ctx *web.Context) web.Responser {
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	if _, err := m.user.GetUser(id); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	data := &adminMemberTypeTO{m: m}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if _, err := m.UserModule().Module().DB().Update(&infoPO{ID: id, Type: data.Type}, "type"); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.NoContent()
+}
+
+type adminMemberLevelTO struct {
+	m       *Module
+	XMLName struct{} `xml:"level" json:"-" cbor:"-" yaml:"-"`
+	Level   int64    `json:"level" xml:"level" cbor:"level" yaml:"level"`
+}
+
+func (m *adminMemberLevelTO) Filter(ctx *web.FilterContext) {
+	ctx.Add(m.m.types.Filter()("type", &m.Level))
+}
+
+func (m *Module) adminPutMemberLevel(ctx *web.Context) web.Responser {
+	id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+	if resp != nil {
+		return resp
+	}
+
+	if _, err := m.user.GetUser(id); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	data := &adminMemberLevelTO{m: m}
+	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
+		return resp
+	}
+
+	if _, err := m.UserModule().Module().DB().Update(&infoPO{ID: id, Level: data.Level}, "level"); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.NoContent()
 }
