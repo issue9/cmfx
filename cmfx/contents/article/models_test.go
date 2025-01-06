@@ -10,4 +10,6 @@ var (
 	_ orm.TableNamer     = &articlePO{}
 	_ orm.BeforeInserter = &articlePO{}
 	_ orm.BeforeUpdater  = &articlePO{}
+
+	_ orm.TableNamer = &articleSnapshotPO{}
 )

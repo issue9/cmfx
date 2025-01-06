@@ -74,6 +74,13 @@ func (l *articlePO) BeforeUpdate() error {
 	return nil
 }
 
+type articleSnapshotPO struct {
+	articlePO
+	Main int64 `orm:"name(main)"`
+}
+
+func (*articleSnapshotPO) TableName() string { return `_article_snapshots` }
+
 type Article struct {
 	Slug            string
 	Author          string
