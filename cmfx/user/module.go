@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,10 +7,12 @@ package user
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/issue9/cache"
 	"github.com/issue9/events"
 	"github.com/issue9/mux/v9/header"
+	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/sliceutil"
 	"github.com/issue9/web"
@@ -129,7 +131,7 @@ func (m *Module) GetUserByUsername(username string) (*User, error) {
 //
 // alias 为 [User] 表的别名，on 为 LEFT JOIN 的条件。
 func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string, states []State) {
-	sql.Columns(alias+".state", alias+".no", alias+".created", alias+".username").
+	sql.Columns(alias+".state", alias+".no", alias+".created", alias+".last", alias+".username").
 		Join("LEFT", m.mod.DB().TablePrefix()+(&User{}).TableName(), alias, on).
 		AndIn(alias+".state", sliceutil.AnySlice(states)...)
 }
@@ -147,3 +149,42 @@ func (m *Module) OnAdd(f func(*User)) context.CancelFunc { return m.addEvent.Sub
 
 // OnDelete 删除用户时的事件
 func (m *Module) OnDelete(f func(*User)) context.CancelFunc { return m.addEvent.Subscribe(f) }
+
+// Statistic 用户统计信息
+type Statistic struct {
+	XMLName struct{} `orm:"-" xml:"statistic" json:"-" yaml:"-" cbor:"-"`
+
+	Online int `orm:"name(online)" xml:"online" json:"online" yaml:"online" cbor:"online"` // 在线用户数，10 分钟之内登录的用户。
+	Active int `orm:"name(active)" xml:"active" json:"active" yaml:"active" cbor:"active"` // 活跃用户数，一月之内登录的用户。
+	All    int `orm:"name(all)" xml:"all" json:"all" yaml:"all" cbor:"all"`                // 所有用户数
+	Month  int `orm:"name(month)" xml:"month" json:"month" yaml:"month" cbor:"month"`      // 本月新增用户数
+	Week   int `orm:"name(week)" xml:"week" json:"week" yaml:"week" cbor:"week"`           // 本周新增用户数
+	Day    int `orm:"name(day)" xml:"day" json:"day" yaml:"day" cbor:"day"`                // 今日新增用户数
+}
+
+// Statistic 统计用户信息
+//
+// now 为当前时间，用于往前推荐对应时间的各类数据。
+func (m *Module) Statistic(now time.Time) (*Statistic, error) {
+	online := now.Add(-10 * time.Minute)
+	active := now.AddDate(0, 0, -30)
+	month := now.AddDate(0, -1, 0)
+	week := now.AddDate(0, 0, -7)
+	day := now.AddDate(0, 0, -1)
+
+	sql := m.mod.DB().SQLBuilder().Select().From(orm.TableName(&User{})).
+		Count(`
+		COUNT(CASE WHEN last > ? THEN id END) as online,
+		COUNT(CASE WHEN last > ? THEN id END) as active,
+		COUNT(CASE WHEN created > ? THEN id END) as month,
+		COUNT(CASE WHEN created > ? THEN id END) as week,
+		COUNT(CASE WHEN created > ? THEN id END) as day,
+		COUNT(*) as {all}
+		`, online, active, month, week, day)
+
+	s := &Statistic{}
+	if _, err := sql.QueryObject(true, s); err != nil {
+		return nil, err
+	}
+	return s, nil
+}

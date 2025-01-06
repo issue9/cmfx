@@ -111,6 +111,10 @@ func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Mod
 			o.Tag("member").
 				Desc(web.Phrase("add member type api"), nil).
 				Body(tag.TagTO{}, false, nil, nil)
+		})).
+		Get("/statistic/member", m.adminGetStatcstic, adminAPI(func(o *openapi.Operation) {
+			o.Tag("statistic", "member").Desc(web.Phrase("get member statistic"), nil).
+				Response200(user.Statistic{})
 		}))
 
 	// member 接口

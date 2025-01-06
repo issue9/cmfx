@@ -297,3 +297,11 @@ func (m *Module) adminPutLevel(ctx *web.Context) web.Responser {
 func (m *Module) adminPutType(ctx *web.Context) web.Responser {
 	return m.types.HandlePutTag(ctx, "id")
 }
+
+func (m *Module) adminGetStatcstic(ctx *web.Context) web.Responser {
+	s, err := m.user.Statistic(ctx.Begin())
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.OK(s)
+}

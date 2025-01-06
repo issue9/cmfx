@@ -44,6 +44,12 @@ const messages = {
                 dashboard: 'Dashboard',
                 logout: 'logout',
                 settings: 'Settings',
+                allMembers: 'All',
+                monthMembers: 'Month',
+                weekMembers: 'Week',
+                dayMembers: 'Day',
+                onlineMembers: 'online',
+                activeMembers: 'active',
 
                 login: 'login',
                 username: 'username',

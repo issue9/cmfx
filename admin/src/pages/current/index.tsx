@@ -9,6 +9,7 @@ import { Pages } from '@/pages/pages';
 import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';
 import { Logout } from './logout';
+import { MemStatistic } from './memstatistic';
 import { componens, PassportComponents } from './passport';
 import { Profile } from './profile';
 import { SecurityLogs } from './securitylogs';
@@ -19,6 +20,11 @@ import { Settings } from './settings';
  */
 export class current implements Pages {
     static #passports: Map<string, PassportComponents> = componens;
+    
+    /**
+     * 会员统计信息面板
+     */
+    static MemberStatisticPanel = MemStatistic;
 
     /**
      * 提供当前用户的仪表盘

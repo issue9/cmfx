@@ -46,6 +46,13 @@ const messages: Messages = {
                 dashboard: '控制台',
                 logout: '退出',
                 settings: '设置',
+                allMembers: '所有会员',
+                monthMembers: '过去 30 天新增会员',
+                weekMembers: '过去 7 天新增会员',
+                dayMembers: '今日新增会员',
+                onlineMembers: '当前在线会员',
+                activeMembers: '活跃会员',
+
 
                 login: '登录',
                 username: '账号',

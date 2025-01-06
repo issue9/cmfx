@@ -21,6 +21,7 @@ const system = pages.system.build('/system');
 const members = pages.members.build('/members');
 const current = pages.current.build('/current', () => {
     return <>
+        <pages.current.MemberStatisticPanel />
         <div class="flex gap-4">
             <Card class="basis-1/2">1/2</Card>
             <Card class="basis-1/2">1/2</Card>
