@@ -8,6 +8,7 @@ import (
 
 	"github.com/issue9/web/filter"
 	"github.com/issue9/web/locales"
+	"github.com/issue9/web/openapi"
 )
 
 //--------------------- Type ------------------------
@@ -108,5 +109,10 @@ var (
 
 	TypeSliceFilter = filter.NewBuilder(TypeSliceRule)
 )
+
+func (Type) OpenAPISchema(s *openapi.Schema) {
+	s.Type = openapi.TypeString
+	s.Enum = []any{TypeFreeze.String(), TypeNormal.String(), TypeUnfreeze.String()}
+}
 
 //--------------------- end Type --------------------

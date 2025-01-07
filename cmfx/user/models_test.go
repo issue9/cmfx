@@ -10,17 +10,13 @@ import (
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/orm/v6/core"
-	"github.com/issue9/web/openapi"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/usertest"
 )
 
-var (
-	_ core.PrimitiveTyper   = user.StateNormal
-	_ openapi.OpenAPISchema = user.StateDeleted
-)
+var _ core.PrimitiveTyper = user.StateNormal
 
 func TestModule_Statistic(t *testing.T) {
 	a := assert.New(t, false)

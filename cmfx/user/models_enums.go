@@ -8,6 +8,7 @@ import (
 
 	"github.com/issue9/web/filter"
 	"github.com/issue9/web/locales"
+	"github.com/issue9/web/openapi"
 )
 
 //--------------------- State ------------------------
@@ -108,5 +109,10 @@ var (
 
 	StateSliceFilter = filter.NewBuilder(StateSliceRule)
 )
+
+func (State) OpenAPISchema(s *openapi.Schema) {
+	s.Type = openapi.TypeString
+	s.Enum = []any{StateDeleted.String(), StateLocked.String(), StateNormal.String()}
+}
 
 //--------------------- end State --------------------

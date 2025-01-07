@@ -1,17 +1,13 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 package currency
 
-import (
-	"github.com/issue9/orm/v6"
-	"github.com/issue9/web/openapi"
-)
+import "github.com/issue9/orm/v6"
 
 var (
-	_ orm.TableNamer        = &overviewPO{}
-	_ orm.TableNamer        = &LogPO{}
-	_ orm.TableNamer        = &expirePO{}
-	_ openapi.OpenAPISchema = TypeFreeze
+	_ orm.TableNamer = &overviewPO{}
+	_ orm.TableNamer = &LogPO{}
+	_ orm.TableNamer = &expirePO{}
 )

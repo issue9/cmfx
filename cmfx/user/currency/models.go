@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6/core"
-	"github.com/issue9/web/openapi"
 )
 
 // 用户的货币总览表
@@ -50,11 +49,6 @@ const (
 	TypeFreeze
 	TypeUnfreeze
 )
-
-func (Type) OpenAPISchema(s *openapi.Schema) {
-	s.Type = openapi.TypeString
-	s.Enum = []any{TypeNormal.String(), TypeFreeze.String(), TypeUnfreeze.String()}
-}
 
 func (Type) PrimitiveType() core.PrimitiveType { return core.String }
 

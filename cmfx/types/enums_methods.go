@@ -8,6 +8,7 @@ import (
 
 	"github.com/issue9/web/filter"
 	"github.com/issue9/web/locales"
+	"github.com/issue9/web/openapi"
 )
 
 //--------------------- Sex ------------------------
@@ -108,5 +109,10 @@ var (
 
 	SexSliceFilter = filter.NewBuilder(SexSliceRule)
 )
+
+func (Sex) OpenAPISchema(s *openapi.Schema) {
+	s.Type = openapi.TypeString
+	s.Enum = []any{SexFemale.String(), SexMale.String(), SexUnknown.String()}
+}
 
 //--------------------- end Sex --------------------

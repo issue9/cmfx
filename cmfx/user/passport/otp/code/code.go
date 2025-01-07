@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -224,7 +224,7 @@ func (e *code) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	if !found { // 未关联账号
-		tx, err := e.db.Begin()
+		tx, err := e.db.BeginTx(ctx, nil)
 		if err != nil {
 			return ctx.Error(err, "")
 		}

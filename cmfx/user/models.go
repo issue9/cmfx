@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6/core"
-	"github.com/issue9/web/openapi"
 )
 
 //go:generate web enum -i=./models.go -t=State
@@ -23,11 +22,6 @@ const (
 type State int8
 
 func (State) PrimitiveType() core.PrimitiveType { return core.String }
-
-func (State) OpenAPISchema(s *openapi.Schema) {
-	s.Type = openapi.TypeString
-	s.Enum = []any{StateNormal.String(), StateLocked.String(), StateDeleted.String()}
-}
 
 type LogVO struct {
 	Content   string    `json:"content" xml:",cdata" cbor:"content" yaml:"content" comment:"log content"`
