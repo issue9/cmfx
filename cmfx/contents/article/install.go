@@ -17,7 +17,7 @@ func Install(mod *cmfx.Module, tableName string, ts ...string) {
 	tag.Install(mod, tagsTableName, ts...)
 
 	db := buildDB(mod, tableName)
-	if err := db.Create(&snapshotPO{}, &articlePO{}); err != nil {
+	if err := db.Create(&snapshotPO{}, &articlePO{}, &tagRelationPO{}, &topicRelationPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 }

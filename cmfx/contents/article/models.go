@@ -16,19 +16,15 @@ import (
 // 文章快照的内容
 type snapshotPO struct {
 	ID       int64         `orm:"name(id);ai"`
+	Article  int64         `orm:"name(article)"`           // 所属的文章 ID
 	Author   string        `orm:"name(author);len(20)"`    // 显示的作者信息
 	Title    string        `orm:"name(title);len(100)"`    // 标题
 	Images   types.Strings `orm:"name(images);len(1000)"`  // 缩略图
 	Keywords string        `orm:"name(keywords)"`          // 关键字
 	Summary  string        `orm:"name(summary);len(2000)"` // 摘要
 	Content  string        `orm:"name(content);len(-1)"`   // 文章内容
-
-	Created time.Time `orm:"name(created)"`
-	Creator int64     `orm:"name(creator)"`
-
-	// 分类信息
-	Topics types.Int64s `orm:"name(topics)"`
-	Tags   types.Int64s `orm:"name(tags)"`
+	Created  time.Time     `orm:"name(created)"`
+	Creator  int64         `orm:"name(creator)"`
 }
 
 type articlePO struct {
@@ -44,6 +40,16 @@ type articlePO struct {
 	Modifier int64        `orm:"name(modifier)"`
 	Deleted  sql.NullTime `orm:"name(deleted);nullable;default(NULL)"`
 	Deleter  int64        `orm:"name(deleter)"`
+}
+
+type tagRelationPO struct {
+	Tag      int64 `orm:"name(tag)"`
+	Snapshot int64 `orm:"name(snapshot)"`
+}
+
+type topicRelationPO struct {
+	Topic    int64 `orm:"name(topic)"`
+	Snapshot int64 `orm:"name(snapshot)"`
 }
 
 func (*snapshotPO) TableName() string { return `_snapshots` }
@@ -66,39 +72,6 @@ func (l *snapshotPO) BeforeUpdate() error {
 
 func (*articlePO) TableName() string { return `` }
 
-type Article struct {
-	Author          string
-	Views           int
-	Order           int
-	Title           string
-	Images          []string
-	Keywords        string
-	Summary         string
-	Content         string
-	Topics          []int64
-	Tags            []int64
-	CreatorModifier int64 // 添加时为创建者否则为修改者
-}
+func (*tagRelationPO) TableName() string { return "_snapshots_tags_re" }
 
-func (a *Article) toPO() *snapshotPO {
-	return &snapshotPO{
-		Author: a.Author,
-
-		// 内容
-
-		Title:    a.Title,
-		Images:   types.Strings(a.Images),
-		Keywords: a.Keywords,
-		Summary:  a.Summary,
-		Content:  a.Content,
-
-		// 分类信息
-
-		Topics: types.Int64s(a.Topics),
-		Tags:   types.Int64s(a.Tags),
-
-		// 各类时间属性
-
-		Creator: a.CreatorModifier,
-	}
-}
+func (*topicRelationPO) TableName() string { return "_snapshots_topics_rel" }
