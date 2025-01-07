@@ -13,8 +13,8 @@ import (
 )
 
 func Install(mod *cmfx.Module, tableName string, ts ...string) {
-	linkage.Install(mod, topicsTableName, &linkage.Linkage{})
-	tag.Install(mod, tagsTableName, ts...)
+	linkage.Install(mod, tableName+"_"+topicsTableName, &linkage.Linkage{})
+	tag.Install(mod, tableName+"_"+tagsTableName, ts...)
 
 	db := buildDB(mod, tableName)
 	if err := db.Create(&snapshotPO{}, &articlePO{}, &tagRelationPO{}, &topicRelationPO{}); err != nil {

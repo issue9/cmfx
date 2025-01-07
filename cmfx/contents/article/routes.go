@@ -8,6 +8,7 @@ import (
 	"database/sql"
 	"time"
 
+	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/fetch"
 	"github.com/issue9/web"
@@ -36,11 +37,14 @@ type OverviewQuery struct {
 	m *Module
 	query.Text
 	Created time.Time `query:"created"`
-	// TODO 添加 Tags,Topics 查询
+	Tags    []int64   `query:"tag"`
+	Topics  []int64   `query:"topic"`
 }
 
 func (q *OverviewQuery) Filter(ctx *web.FilterContext) {
 	q.Text.Filter(ctx)
+	ctx.Add(q.m.Tags().SliceFilter()("tag", &q.Tags)).
+		Add(q.m.Topics().SliceFilter()("topic", &q.Topics))
 }
 
 // HandleGetArticles 获取文章列表
@@ -53,13 +57,29 @@ func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 	}
 
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
-		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id")
+		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
+		Join("LEFT", orm.TableName(&tagRelationPO{}), "tags", "tags.snapshot=s.id").
+		Join("LEFT", orm.TableName(&topicRelationPO{}), "topics", "topics.snapshot=s.id")
 	if !q.Created.IsZero() {
 		sql.Where("a.created>?", q.Created)
 	}
 	if q.Text.Text != "" {
 		txt := "%" + q.Text.Text + "%"
 		sql.Where("a.slug LIKE ? OR s.title LIKE ? OR s.author LIKE ?", txt, txt, txt)
+	}
+	if len(q.Tags) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, t := range q.Tags {
+				ws.Or("tags.tag=?", t)
+			}
+		})
+	}
+	if len(q.Topics) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, t := range q.Topics {
+				ws.Or("topics.topic=?", t)
+			}
+		})
 	}
 
 	return query.PagingResponser[OverviewVO](ctx, &q.Limit, sql, nil)

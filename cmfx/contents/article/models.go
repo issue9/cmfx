@@ -29,7 +29,7 @@ type snapshotPO struct {
 
 type articlePO struct {
 	ID    int64  `orm:"name(id);ai"`
-	Slug  string `orm:"name(slug);len(100);unique(slug)"`
+	Slug  string `orm:"name(slug);len(200);unique(slug)"`
 	Last  int64  `orm:"name(last)"`  // 最后一次的快照 ID
 	Views int    `orm:"name(views)"` // 查看数量
 	Order int    `orm:"name(order)"` // 排序，按从小到大排序
@@ -38,7 +38,7 @@ type articlePO struct {
 	Creator  int64        `orm:"name(creator)"`
 	Modified time.Time    `orm:"name(modified)"`
 	Modifier int64        `orm:"name(modifier)"`
-	Deleted  sql.NullTime `orm:"name(deleted);nullable;default(NULL)"`
+	Deleted  sql.NullTime `orm:"name(deleted);nullable"`
 	Deleter  int64        `orm:"name(deleter)"`
 }
 
@@ -59,8 +59,6 @@ func (l *snapshotPO) BeforeInsert() error {
 	l.Title = html.EscapeString(l.Title)
 	l.Author = html.EscapeString(l.Author)
 	l.Keywords = html.EscapeString(l.Keywords)
-	l.Summary = html.EscapeString(l.Summary)
-	l.Content = html.EscapeString(l.Content)
 	l.Created = time.Now()
 
 	return nil
@@ -72,6 +70,6 @@ func (l *snapshotPO) BeforeUpdate() error {
 
 func (*articlePO) TableName() string { return `` }
 
-func (*tagRelationPO) TableName() string { return "_snapshots_tags_re" }
+func (*tagRelationPO) TableName() string { return "_snapshots_tags_rel" }
 
 func (*topicRelationPO) TableName() string { return "_snapshots_topics_rel" }

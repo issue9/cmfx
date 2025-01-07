@@ -20,6 +20,9 @@ type Module struct {
 }
 
 // Load 加载内容管理模块
+//
+// tableName 文章内容的表名部分，其它表都以此作为表名前缀；
+// mod 所属的模块；
 func Load(mod *cmfx.Module, tableName string) *Module {
 	m := &Module{
 		db:     buildDB(mod, tableName),
