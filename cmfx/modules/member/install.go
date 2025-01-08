@@ -34,7 +34,7 @@ func Install(mod *cmfx.Module, o *Config, up *upload.Module, adminL *admin.Modul
 
 	_, err := m.Add(user.StateNormal, &RegisterInfo{
 		Username: "m1",
-		Password: "",
+		Password: "123",
 		Birthday: time.Now(),
 		Sex:      types.SexFemale,
 		Nickname: "nickname",

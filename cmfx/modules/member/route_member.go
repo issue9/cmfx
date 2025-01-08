@@ -126,14 +126,14 @@ func (mem *memberInfoTO) Filter(v *web.FilterContext) {
 
 	v.Add(filters.NotEmpty("username", &mem.Username)).
 		Add(filters.NotEmpty("password", &mem.Password)).
-		Add(filter.NewBuilder(filter.V(func(no string) bool {
+		Add(filter.NewBuilder(filter.V(validator.ZeroOr(func(no string) bool {
 			u, err := mem.m.UserModule().GetUserByNO(no)
 			if err != nil {
 				return false
 			}
 			mem.inviterID = u.ID
 			return true
-		}, locales.InvalidValue))("inviter", &mem.Inviter))
+		}), locales.InvalidValue))("inviter", &mem.Inviter))
 }
 
 func (mem *memberInfoTO) toInfo() *RegisterInfo {
