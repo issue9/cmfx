@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6"
-	"github.com/issue9/orm/v6/fetch"
 	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
 
@@ -52,14 +51,15 @@ func (q *OverviewQuery) Filter(ctx *web.FilterContext) {
 // 查询参数为 [OverviewQuery]，返回对象为 [query.Page[OverviewVO]]
 func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 	q := &OverviewQuery{m: m}
-	if resp := ctx.Read(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
 	}
 
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
+		Column("a.id,a.slug,a.views,a.{order},s.title,a.created,a.modified").
 		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
-		Join("LEFT", orm.TableName(&tagRelationPO{}), "tags", "tags.article=a.id").
-		Join("LEFT", orm.TableName(&topicRelationPO{}), "topics", "topics.article=a.id")
+		AndIsNull("a.deleted").
+		Desc("a.{order}")
 	if !q.Created.IsZero() {
 		sql.Where("a.created>?", q.Created)
 	}
@@ -68,16 +68,18 @@ func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 		sql.Where("a.slug LIKE ? OR s.title LIKE ? OR s.author LIKE ?", txt, txt, txt)
 	}
 	if len(q.Tags) > 0 {
+		m.tagRel.LeftJoin(sql, "tags", "tags.v1=a.id")
 		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
 			for _, t := range q.Tags {
-				ws.Or("tags.tag=?", t)
+				ws.Or("tags.v2=?", t)
 			}
 		})
 	}
 	if len(q.Topics) > 0 {
+		m.topicRel.LeftJoin(sql, "topics", "topics.v1=a.id")
 		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
 			for _, t := range q.Topics {
-				ws.Or("topics.topic=?", t)
+				ws.Or("topics.v2=?", t)
 			}
 		})
 	}
@@ -89,7 +91,8 @@ func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 type ArticleVO struct {
 	XMLName struct{} `xml:"article" json:"-" yaml:"-" cbor:"-" orm:"-"`
 
-	ID       int64         `orm:"name(id);ai" json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
+	ID       int64         `orm:"name(id)" json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
+	Snapshot int64         `orm:"name(snapshot)" json:"snapshot" yaml:"snapshot" cbor:"snapshot" xml:"snapshot,attr"` // 此文章对应的快照 ID
 	Slug     string        `orm:"name(slug);len(100);unique(slug)" json:"slug" yaml:"slug" cbor:"slug" xml:"slug"`
 	Views    int           `orm:"name(views)" json:"views" yaml:"views" cbor:"views" xml:"views,attr"`
 	Order    int           `orm:"name(order)" json:"order" yaml:"order" cbor:"order" xml:"order,attr"`
@@ -118,10 +121,11 @@ type ArticleVO struct {
 func (m *Module) HandleGetArticle(ctx *web.Context, article int64) web.Responser {
 	a := &ArticleVO{}
 	size, err := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
-		Column("a.slug,a.views,a.order,a.created,a.modified,a.deleted,a.deleter,a.last").
-		Column("s.author,s.title,s.images,s.summary,s.content,s.tags,s.topics").
+		Column("a.id,a.slug,a.views,a.{order},a.created,a.modified,a.deleted,a.deleter,a.last").
+		Column("s.author,s.title,s.images,s.summary,s.content,s.id as snapshot").
 		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
 		Where("a.id=?", article).
+		AndIsNull("a.deleted").
 		QueryObject(true, a)
 	if err != nil {
 		return ctx.Error(err, "")
@@ -177,7 +181,21 @@ func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Response
 	}
 
 	err := m.db.DoTransactionTx(ctx, nil, func(tx *orm.Tx) error {
-		last, err := tx.LastInsertID(&snapshotPO{ // 添加快照
+		article, err := tx.LastInsertID(&articlePO{ // 添加文章
+			Slug:     a.Slug,
+			Views:    a.Views,
+			Order:    a.Order,
+			Created:  ctx.Begin(),
+			Creator:  creator,
+			Modified: ctx.Begin(),
+			Modifier: creator,
+		})
+		if err != nil {
+			return err
+		}
+
+		snapshot, err := tx.LastInsertID(&snapshotPO{ // 添加快照
+			Article:  article,
 			Author:   a.Author,
 			Title:    a.Title,
 			Images:   a.Images,
@@ -191,47 +209,22 @@ func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Response
 			return err
 		}
 
-		article, err := tx.LastInsertID(&articlePO{ // 添加文章
-			Slug:     a.Slug,
-			Last:     last,
-			Views:    a.Views,
-			Order:    a.Order,
-			Created:  ctx.Begin(),
-			Creator:  creator,
-			Modified: ctx.Begin(),
-			Modifier: creator,
-		})
-		if err != nil {
-			return err
-		}
-
 		// 插入标签关系表
-		if l := len(a.Tags); l > 0 {
-			tags := make([]orm.TableNamer, 0, l)
-			for _, t := range a.Tags {
-				tags = append(tags, &tagRelationPO{Tag: t, Article: last})
-			}
-			if err = tx.InsertMany(50, tags...); err != nil {
+		for _, t := range a.Tags {
+			if err := m.tagRel.Add(tx, article, t); err != nil {
 				return err
 			}
 		}
 
 		// 插入主题关系表
-		if l := len(a.Topics); l > 0 {
-			topics := make([]orm.TableNamer, 0, l)
-			for _, t := range a.Topics {
-				topics = append(topics, &topicRelationPO{Topic: t, Article: last})
-				if err := m.topics.AddCount(t, 1); err != nil {
-					ctx.Logs().ERROR().Error(err) // 影响不大，输出错误即可。
-				}
-			}
-			if err = tx.InsertMany(50, topics...); err != nil {
+		for _, t := range a.Topics {
+			if err := m.topicRel.Add(tx, article, t); err != nil {
 				return err
 			}
 		}
 
-		// 更新快照对应的文章 ID
-		_, err = tx.Update(&snapshotPO{ID: last, Article: article})
+		// 更新 Article.Last
+		_, err = tx.Update(&articlePO{ID: article, Last: snapshot})
 		return err
 	})
 	if err != nil {
@@ -262,9 +255,18 @@ func (to *ArticlePatchTO) Filter(ctx *web.FilterContext) {
 
 // HandlePatchArticle 修改文章的内容
 //
-// article 为文章的 ID，调用者需要确保值的正确性；
+// article 为文章的 ID；
 // modifier 为修改者的 ID，调用者需要确保值的正确性；
 func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) web.Responser {
+	ar := &articlePO{ID: article}
+	found, err := m.db.Select(ar)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	if !found || ar.Deleted.Valid {
+		return ctx.NotFound()
+	}
+
 	a := &ArticlePatchTO{m: m}
 	if resp := ctx.Read(true, a, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -286,27 +288,20 @@ func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) w
 			return err
 		}
 
-		// 插入标签关系表，不需要删除旧的关系因为 snapshot 是新的。
-		if l := len(a.Tags); l > 0 {
-			tags := make([]orm.TableNamer, 0, l)
-			for _, t := range a.Tags {
-				tags = append(tags, &tagRelationPO{Tag: t, Article: last})
-			}
-			if err = tx.InsertMany(50, tags...); err != nil {
+		if err = m.tagRel.DeleteByV1(tx, article); err != nil { // 删除旧的关系
+			return err
+		}
+		for _, t := range a.Tags { // 插入标签关系表
+			if err := m.tagRel.Add(tx, last, t); err != nil {
 				return err
 			}
 		}
 
-		// 插入主题关系表
-		if l := len(a.Topics); l > 0 {
-			topics := make([]orm.TableNamer, 0, l)
-			for _, t := range a.Topics {
-				topics = append(topics, &topicRelationPO{Topic: t, Article: last})
-				if err := m.topics.AddCount(t, 1); err != nil {
-					ctx.Logs().ERROR().Error(err) // 影响不大，输出错误即可
-				}
-			}
-			if err = tx.InsertMany(50, topics...); err != nil {
+		if err = m.topicRel.DeleteByV1(tx, article); err != nil { // 删除旧的关系
+			return err
+		}
+		for _, t := range a.Topics { // 插入主题关系表
+			if err := m.topicRel.Add(tx, last, t); err != nil {
 				return err
 			}
 		}
@@ -325,16 +320,33 @@ func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) w
 
 // HandleDeleteArticle 删除指定的文章
 //
-// article 为文章的 ID，调用者需要确保值的正确性；
+// article 为文章的 ID；
 // deleter 为删除者的 ID，调用者需要确保值的正确性；
 func (m *Module) HandleDeleteArticle(ctx *web.Context, article, deleter int64) web.Responser {
+	a := &articlePO{ID: article}
+	found, err := m.db.Select(a)
+	if err != nil {
+		return ctx.Error(err, "")
+	}
+	if !found || a.Deleted.Valid {
+		return ctx.NotFound()
+	}
+
 	po := &articlePO{
 		ID:      article,
 		Deleted: sql.NullTime{Valid: true, Time: ctx.Begin()},
 		Deleter: deleter,
 	}
 
-	// delete topics
+	err = m.db.DoTransactionTx(ctx, nil, func(tx *orm.Tx) error {
+		if err := m.tagRel.DeleteByV1(tx, article); err != nil { // 删除旧的关系
+			return err
+		}
+		return m.topicRel.DeleteByV1(tx, article) // 删除旧的关系
+	})
+	if err != nil {
+		return ctx.Error(err, "")
+	}
 
 	if _, err := m.db.Update(po); err != nil {
 		return ctx.Error(err, "")
@@ -345,33 +357,39 @@ func (m *Module) HandleDeleteArticle(ctx *web.Context, article, deleter int64) w
 // HandleGetSnapshots 获取文章的快照列表
 //
 // article 更新快照对应的文章 ID；
-// 返回 []string，为文章对应的快照 ID 列表；
+// 返回 []OverviewVO；
 func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Responser {
-	rows, err := m.db.SQLBuilder().Select().
-		From(orm.TableName(&snapshotPO{})).
-		Column("id").
-		Where("article=?", article).
-		Query()
-	if err != nil {
-		return ctx.Error(err, "")
+	q := &query.Text{}
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+		return resp
 	}
 
-	ids, err := fetch.Column[int64](false, "id", rows)
-	if err != nil {
-		return ctx.Error(err, "")
+	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
+		Column("a.id,a.slug,a.views,a.{order},s.title,a.created,a.modified").
+		Join("LEFT", orm.TableName(&articlePO{}), "a", "a.id=s.article").
+		Where("a.id=?", article).
+		AndIsNull("a.deleted")
+
+	if q.Text != "" {
+		txt := "%" + q.Text + "%"
+		sql.Where("a.slug LIKE ? OR s.title LIKE ? OR s.author LIKE ?", txt, txt, txt)
 	}
-	return web.OK(ids)
+
+	return query.PagingResponser[OverviewVO](ctx, &q.Limit, sql, nil)
 }
 
 // HandleGetSnapshot 获取快照的详细信息
 //
+// NOTE: 关联的文章一旦删除，快照也将不可获取。
+//
 // snapshot 为快照的 ID；
 func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Responser {
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
-		Column("a.slug,a.views,a.order,a.created,a.modified,a.deleted,a.deleter,a.last").
-		Column("s.author,s.title,s.images,s.summary,s.content,s.tags,s.topics").
+		Column("a.id,a.slug,a.views,a.{order},a.created,a.modified,a.deleted,a.deleter,a.last").
+		Column("s.author,s.title,s.images,s.summary,s.content,s.id as snapshot").
 		Join("LEFT", orm.TableName(&articlePO{}), "a", "a.last=s.id").
-		Where("s.id=?", snapshot)
+		Where("s.id=?", snapshot).
+		AndIsNull("a.deleted")
 
 	a := &ArticleVO{}
 	size, err := sql.QueryObject(true, a)
@@ -391,32 +409,11 @@ func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Respons
 }
 
 func (m *Module) getArticleAttribute(article int64) (topics, tags []int64, err error) {
-	rows, err := m.db.SQLBuilder().Select().
-		Where("article=?", article).
-		From(orm.TableName(&tagRelationPO{})).
-		Column("tag").
-		Query()
+	tags, err = m.tagRel.ListV2(article)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	tags, err = fetch.Column[int64](true, "tag", rows)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	rows, err = m.db.SQLBuilder().Select().
-		Where("article=?", article).
-		From(orm.TableName(&topicRelationPO{})).
-		Column("topic").
-		Query()
-	if err != nil {
-		return nil, nil, err
-	}
-	topics, err = fetch.Column[int64](true, "topic", rows)
-	if err != nil {
-		return nil, nil, err
-	}
-
-	return topics, tags, nil
+	topics, err = m.topicRel.ListV2(article)
+	return
 }

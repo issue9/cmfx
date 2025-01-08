@@ -42,16 +42,6 @@ type articlePO struct {
 	Deleter  int64        `orm:"name(deleter)"`
 }
 
-type tagRelationPO struct {
-	Tag     int64 `orm:"name(tag)"`
-	Article int64 `orm:"name(article)"`
-}
-
-type topicRelationPO struct {
-	Topic   int64 `orm:"name(topic)"`
-	Article int64 `orm:"name(article)"`
-}
-
 func (*snapshotPO) TableName() string { return `_snapshots` }
 
 func (l *snapshotPO) BeforeInsert() error {
@@ -70,6 +60,14 @@ func (l *snapshotPO) BeforeUpdate() error {
 
 func (*articlePO) TableName() string { return `_articles` }
 
-func (*tagRelationPO) TableName() string { return "_article_tag_rel" }
+func (l *articlePO) BeforeInsert() error {
+	l.ID = 0
+	l.Created = time.Now()
 
-func (*topicRelationPO) TableName() string { return "_article_topic_rel" }
+	return nil
+}
+
+func (l *articlePO) BeforeUpdate() error {
+	l.Modified = time.Now()
+	return nil
+}

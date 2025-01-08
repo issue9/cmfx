@@ -25,7 +25,5 @@ func TestInstall(t *testing.T) {
 	s.TableExists(prefix + "_snapshots").
 		TableExists(prefix + "_articles").
 		TableExists(prefix + "_" + tagsTableName).
-		TableExists(prefix + "_" + topicsTableName).
-		TableExists(prefix + "_article_tag_rel").
-		TableExists(prefix + "_article_topic_rel")
+		TableExists(prefix + "_" + topicsTableName)
 }
