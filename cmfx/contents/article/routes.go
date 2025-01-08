@@ -8,9 +8,9 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/fetch"
+	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -58,8 +58,8 @@ func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
 		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
-		Join("LEFT", orm.TableName(&tagRelationPO{}), "tags", "tags.snapshot=s.id").
-		Join("LEFT", orm.TableName(&topicRelationPO{}), "topics", "topics.snapshot=s.id")
+		Join("LEFT", orm.TableName(&tagRelationPO{}), "tags", "tags.article=a.id").
+		Join("LEFT", orm.TableName(&topicRelationPO{}), "topics", "topics.article=a.id")
 	if !q.Created.IsZero() {
 		sql.Where("a.created>?", q.Created)
 	}
@@ -115,7 +115,7 @@ type ArticleVO struct {
 //
 // 返回参数的实际类型为 [ArticleVO]；
 // article 为文章的 ID，使用都需要确保值的正确性；
-func (m *Module) HandleGetArticle(ctx *web.Context, article string) web.Responser {
+func (m *Module) HandleGetArticle(ctx *web.Context, article int64) web.Responser {
 	a := &ArticleVO{}
 	size, err := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
 		Column("a.slug,a.views,a.order,a.created,a.modified,a.deleted,a.deleter,a.last").
@@ -130,28 +130,7 @@ func (m *Module) HandleGetArticle(ctx *web.Context, article string) web.Response
 		return ctx.NotFound()
 	}
 
-	rows, err := m.db.SQLBuilder().Select().
-		Where("snapshot=?", a.Last).
-		From(orm.TableName(&tagRelationPO{})).
-		Column("tag").
-		Query()
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	a.Tags, err = fetch.Column[int64](true, "tag", rows)
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-
-	rows, err = m.db.SQLBuilder().Select().
-		Where("snapshot=?", a.Last).
-		From(orm.TableName(&topicRelationPO{})).
-		Column("topic").
-		Query()
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	a.Topics, err = fetch.Column[int64](true, "topic", rows)
+	a.Topics, a.Tags, err = m.getArticleAttribute(a.ID)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
@@ -190,6 +169,7 @@ func (to *ArticleTO) Filter(ctx *web.FilterContext) {
 // HandlePostArticle 创建新的文章
 //
 // creator 为创建者的 ID，调用者需要确保值的正确性；
+// 提交类型为 [ArticleTO]；
 func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Responser {
 	a := &ArticleTO{m: m}
 	if resp := ctx.Read(true, a, cmfx.BadRequestInvalidBody); resp != nil {
@@ -229,7 +209,7 @@ func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Response
 		if l := len(a.Tags); l > 0 {
 			tags := make([]orm.TableNamer, 0, l)
 			for _, t := range a.Tags {
-				tags = append(tags, &tagRelationPO{Tag: t, Snapshot: last})
+				tags = append(tags, &tagRelationPO{Tag: t, Article: last})
 			}
 			if err = tx.InsertMany(50, tags...); err != nil {
 				return err
@@ -240,7 +220,10 @@ func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Response
 		if l := len(a.Topics); l > 0 {
 			topics := make([]orm.TableNamer, 0, l)
 			for _, t := range a.Topics {
-				topics = append(topics, &topicRelationPO{Topic: t, Snapshot: last})
+				topics = append(topics, &topicRelationPO{Topic: t, Article: last})
+				if err := m.topics.AddCount(t, 1); err != nil {
+					ctx.Logs().ERROR().Error(err) // 影响不大，输出错误即可。
+				}
 			}
 			if err = tx.InsertMany(50, topics...); err != nil {
 				return err
@@ -307,7 +290,7 @@ func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) w
 		if l := len(a.Tags); l > 0 {
 			tags := make([]orm.TableNamer, 0, l)
 			for _, t := range a.Tags {
-				tags = append(tags, &tagRelationPO{Tag: t, Snapshot: last})
+				tags = append(tags, &tagRelationPO{Tag: t, Article: last})
 			}
 			if err = tx.InsertMany(50, tags...); err != nil {
 				return err
@@ -318,7 +301,10 @@ func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) w
 		if l := len(a.Topics); l > 0 {
 			topics := make([]orm.TableNamer, 0, l)
 			for _, t := range a.Topics {
-				topics = append(topics, &topicRelationPO{Topic: t, Snapshot: last})
+				topics = append(topics, &topicRelationPO{Topic: t, Article: last})
+				if err := m.topics.AddCount(t, 1); err != nil {
+					ctx.Logs().ERROR().Error(err) // 影响不大，输出错误即可
+				}
 			}
 			if err = tx.InsertMany(50, topics...); err != nil {
 				return err
@@ -347,6 +333,8 @@ func (m *Module) HandleDeleteArticle(ctx *web.Context, article, deleter int64) w
 		Deleted: sql.NullTime{Valid: true, Time: ctx.Begin()},
 		Deleter: deleter,
 	}
+
+	// delete topics
 
 	if _, err := m.db.Update(po); err != nil {
 		return ctx.Error(err, "")
@@ -394,31 +382,41 @@ func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Respons
 		return ctx.NotFound()
 	}
 
-	rows, err := m.db.SQLBuilder().Select().
-		Where("snapshot=?", a.Last).
-		From(orm.TableName(&tagRelationPO{})).
-		Column("tag").
-		Query()
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	a.Tags, err = fetch.Column[int64](true, "tag", rows)
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-
-	rows, err = m.db.SQLBuilder().Select().
-		Where("snapshot=?", a.Last).
-		From(orm.TableName(&topicRelationPO{})).
-		Column("topic").
-		Query()
-	if err != nil {
-		return ctx.Error(err, "")
-	}
-	a.Topics, err = fetch.Column[int64](true, "topic", rows)
+	a.Topics, a.Tags, err = m.getArticleAttribute(a.ID)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
 	return web.OK(a)
+}
+
+func (m *Module) getArticleAttribute(article int64) (topics, tags []int64, err error) {
+	rows, err := m.db.SQLBuilder().Select().
+		Where("article=?", article).
+		From(orm.TableName(&tagRelationPO{})).
+		Column("tag").
+		Query()
+	if err != nil {
+		return nil, nil, err
+	}
+
+	tags, err = fetch.Column[int64](true, "tag", rows)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	rows, err = m.db.SQLBuilder().Select().
+		Where("article=?", article).
+		From(orm.TableName(&topicRelationPO{})).
+		Column("topic").
+		Query()
+	if err != nil {
+		return nil, nil, err
+	}
+	topics, err = fetch.Column[int64](true, "topic", rows)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return topics, tags, nil
 }

@@ -12,4 +12,6 @@ var (
 	_ orm.BeforeUpdater  = &snapshotPO{}
 
 	_ orm.TableNamer = &articlePO{}
+	_ orm.TableNamer = &tagRelationPO{}
+	_ orm.TableNamer = &topicRelationPO{}
 )

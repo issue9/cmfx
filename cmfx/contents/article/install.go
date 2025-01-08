@@ -12,12 +12,17 @@ import (
 	"github.com/issue9/cmfx/cmfx/categories/tag"
 )
 
-func Install(mod *cmfx.Module, tableName string, ts ...string) {
-	linkage.Install(mod, tableName+"_"+topicsTableName, &linkage.Linkage{})
-	tag.Install(mod, tableName+"_"+tagsTableName, ts...)
+// Install 安装数据
+//
+// mod 所属模块；tablePrefix 表名前缀；ts 关联的标签列表；
+func Install(mod *cmfx.Module, tablePrefix string, ts ...string) *Module {
+	linkage.Install(mod, tablePrefix+"_"+topicsTableName, &linkage.Linkage{Title: "topics"})
+	tag.Install(mod, tablePrefix+"_"+tagsTableName, ts...)
 
-	db := buildDB(mod, tableName)
+	db := buildDB(mod, tablePrefix)
 	if err := db.Create(&snapshotPO{}, &articlePO{}, &tagRelationPO{}, &topicRelationPO{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
+
+	return Load(mod, tablePrefix)
 }

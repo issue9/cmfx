@@ -20,12 +20,12 @@ func TestInstall(t *testing.T) {
 
 	mod := s.NewModule("test")
 	Install(mod, "abc")
-	prefix := mod.DB().TablePrefix() + "_" + "abc"
+	prefix := mod.ID() + "_" + "abc"
 
 	s.TableExists(prefix + "_snapshots").
-		TableExists(prefix).
-		TableExists(prefix + "_tags").
-		TableExists(prefix + "_topics").
-		TableExists(prefix + "_snapshots_tags_rel").
-		TableExists(prefix + "_snapshots_topics_rel")
+		TableExists(prefix + "_articles").
+		TableExists(prefix + "_" + tagsTableName).
+		TableExists(prefix + "_" + topicsTableName).
+		TableExists(prefix + "_article_tag_rel").
+		TableExists(prefix + "_article_topic_rel")
 }

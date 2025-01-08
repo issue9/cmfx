@@ -43,13 +43,13 @@ type articlePO struct {
 }
 
 type tagRelationPO struct {
-	Tag      int64 `orm:"name(tag)"`
-	Snapshot int64 `orm:"name(snapshot)"`
+	Tag     int64 `orm:"name(tag)"`
+	Article int64 `orm:"name(article)"`
 }
 
 type topicRelationPO struct {
-	Topic    int64 `orm:"name(topic)"`
-	Snapshot int64 `orm:"name(snapshot)"`
+	Topic   int64 `orm:"name(topic)"`
+	Article int64 `orm:"name(article)"`
 }
 
 func (*snapshotPO) TableName() string { return `_snapshots` }
@@ -68,8 +68,8 @@ func (l *snapshotPO) BeforeUpdate() error {
 	return errors.New("快照不会执行更新操作")
 }
 
-func (*articlePO) TableName() string { return `` }
+func (*articlePO) TableName() string { return `_articles` }
 
-func (*tagRelationPO) TableName() string { return "_snapshots_tags_rel" }
+func (*tagRelationPO) TableName() string { return "_article_tag_rel" }
 
-func (*topicRelationPO) TableName() string { return "_snapshots_topics_rel" }
+func (*topicRelationPO) TableName() string { return "_article_topic_rel" }
