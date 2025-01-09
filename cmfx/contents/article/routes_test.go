@@ -31,6 +31,20 @@ func TestModule_Handle(t *testing.T) {
 	s.Router().
 		Post("/articles", func(ctx *web.Context) web.Responser { return m.HandlePostArticle(ctx, 1) }).
 		Get("/articles", m.HandleGetArticles).
+		Get("/topics/{id}", func(ctx *web.Context) web.Responser {
+			id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+			if resp != nil {
+				return resp
+			}
+			return m.HandleGetArticlesByTopic(ctx, id)
+		}).
+		Get("/tags/{id}", func(ctx *web.Context) web.Responser {
+			id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
+			if resp != nil {
+				return resp
+			}
+			return m.HandleGetArticlesByTag(ctx, id)
+		}).
 		Get("/articles/{id}", func(ctx *web.Context) web.Responser {
 			id, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 			if resp != nil {
@@ -106,6 +120,22 @@ func TestModule_Handle(t *testing.T) {
 				a.True(bytes.Index(body, []byte(`"count":1`)) >= 0)
 			})
 
+		s.Get("/tags/1").
+			Header(header.ContentType, header.JSON).Header(header.Accept, header.JSON).
+			Do(nil).
+			Status(http.StatusOK).
+			BodyFunc(func(a *assert.Assertion, body []byte) {
+				a.True(bytes.Index(body, []byte(`"count":1`)) >= 0)
+			})
+
+		s.Get("/topics/1").
+			Header(header.ContentType, header.JSON).Header(header.Accept, header.JSON).
+			Do(nil).
+			Status(http.StatusOK).
+			BodyFunc(func(a *assert.Assertion, body []byte) {
+				a.True(bytes.Index(body, []byte(`"count":1`)) >= 0)
+			})
+
 		s.Get("/articles/1").
 			Header(header.ContentType, header.JSON).Header(header.Accept, header.JSON).
 			Do(nil).
@@ -160,10 +190,10 @@ func TestModule_Handle(t *testing.T) {
 			Header(header.ContentType, header.JSON).Header(header.Accept, header.JSON).
 			Do(nil).
 			BodyFunc(func(a *assert.Assertion, body []byte) {
-				article := &ArticleVO{}
-				a.NotError(json.Unmarshal(body, article))
-				a.Equal(article.ID, 1).
-					Equal(article.Snapshot, 2)
+				snapshot := &SnapshotVO{}
+				a.NotError(json.Unmarshal(body, snapshot))
+				a.Equal(snapshot.ID, 2).
+					Equal(snapshot.Article, 1)
 			})
 
 		// 删除之后，内容不再可获取

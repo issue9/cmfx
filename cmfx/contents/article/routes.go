@@ -46,6 +46,30 @@ func (q *OverviewQuery) Filter(ctx *web.FilterContext) {
 		Add(q.m.Topics().SliceFilter()("topic", &q.Topics))
 }
 
+type TopicOverviewQuery struct {
+	m *Module
+	query.Text
+	Created time.Time `query:"created"`
+	Tags    []int64   `query:"tag"`
+}
+
+func (q *TopicOverviewQuery) Filter(ctx *web.FilterContext) {
+	q.Text.Filter(ctx)
+	ctx.Add(q.m.Tags().SliceFilter()("tag", &q.Tags))
+}
+
+type TagOverviewQuery struct {
+	m *Module
+	query.Text
+	Created time.Time `query:"created"`
+	Topics  []int64   `query:"topic"`
+}
+
+func (q *TagOverviewQuery) Filter(ctx *web.FilterContext) {
+	q.Text.Filter(ctx)
+	ctx.Add(q.m.Topics().SliceFilter()("topic", &q.Topics))
+}
+
 // HandleGetArticles 获取文章列表
 //
 // 查询参数为 [OverviewQuery]，返回对象为 [query.Page[OverviewVO]]
@@ -87,6 +111,76 @@ func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 	return query.PagingResponser[OverviewVO](ctx, &q.Limit, sql, nil)
 }
 
+// HandleGetArticlesByTopic 获取文章列表
+//
+// 查询参数为 [TopicOverviewQuery]，返回对象为 [query.Page[OverviewVO]]
+func (m *Module) HandleGetArticlesByTopic(ctx *web.Context, topic int64) web.Responser {
+	q := &OverviewQuery{m: m}
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+		return resp
+	}
+
+	sql := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
+		Column("a.id,a.slug,a.views,a.{order},s.title,a.created,a.modified").
+		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
+		AndIsNull("a.deleted").
+		And("topic.v2=?", topic).
+		Desc("a.{order}")
+	m.topicRel.LeftJoin(sql, "topic", "topic.v1=a.id")
+	if !q.Created.IsZero() {
+		sql.Where("a.created>?", q.Created)
+	}
+	if q.Text.Text != "" {
+		txt := "%" + q.Text.Text + "%"
+		sql.Where("a.slug LIKE ? OR s.title LIKE ? OR s.author LIKE ?", txt, txt, txt)
+	}
+	if len(q.Tags) > 0 {
+		m.tagRel.LeftJoin(sql, "tags", "tags.v1=a.id")
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, t := range q.Tags {
+				ws.Or("tags.v2=?", t)
+			}
+		})
+	}
+
+	return query.PagingResponser[OverviewVO](ctx, &q.Limit, sql, nil)
+}
+
+// HandleGetArticlesByTag 获取文章列表
+//
+// 查询参数为 [TagOverviewQuery]，返回对象为 [query.Page[OverviewVO]]
+func (m *Module) HandleGetArticlesByTag(ctx *web.Context, tag int64) web.Responser {
+	q := &OverviewQuery{m: m}
+	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
+		return resp
+	}
+
+	sql := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
+		Column("a.id,a.slug,a.views,a.{order},s.title,a.created,a.modified").
+		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
+		AndIsNull("a.deleted").
+		And("tag.v2=?", tag).
+		Desc("a.{order}")
+	m.tagRel.LeftJoin(sql, "tag", "tag.v1=a.id")
+	if !q.Created.IsZero() {
+		sql.Where("a.created>?", q.Created)
+	}
+	if q.Text.Text != "" {
+		txt := "%" + q.Text.Text + "%"
+		sql.Where("a.slug LIKE ? OR s.title LIKE ? OR s.author LIKE ?", txt, txt, txt)
+	}
+	if len(q.Tags) > 0 {
+		m.tagRel.LeftJoin(sql, "tags", "tags.v1=a.id")
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, t := range q.Tags {
+				ws.Or("tags.v2=?", t)
+			}
+		})
+	}
+
+	return query.PagingResponser[OverviewVO](ctx, &q.Limit, sql, nil)
+}
+
 // ArticleVO 文章的详细内容
 type ArticleVO struct {
 	XMLName struct{} `xml:"article" json:"-" yaml:"-" cbor:"-" orm:"-"`
@@ -121,7 +215,7 @@ type ArticleVO struct {
 func (m *Module) HandleGetArticle(ctx *web.Context, article int64) web.Responser {
 	a := &ArticleVO{}
 	size, err := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
-		Column("a.id,a.slug,a.views,a.{order},a.created,a.modified,a.deleted,a.deleter,a.last").
+		Column("a.id,a.slug,a.views,a.{order},a.created,a.modified,a.last").
 		Column("s.author,s.title,s.images,s.summary,s.content,s.id as snapshot").
 		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "a.last=s.id").
 		Where("a.id=?", article).
@@ -365,7 +459,7 @@ func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Respons
 	}
 
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
-		Column("a.id,a.slug,a.views,a.{order},s.title,a.created,a.modified").
+		Column("a.id,a.slug,a.views,a.{order},s.title,s.created,s.created AS modified").
 		Join("LEFT", orm.TableName(&articlePO{}), "a", "a.id=s.article").
 		Where("a.id=?", article).
 		AndIsNull("a.deleted")
@@ -378,6 +472,22 @@ func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Respons
 	return query.PagingResponser[OverviewVO](ctx, &q.Limit, sql, nil)
 }
 
+// SnapshotVO 文章快照详细内容
+type SnapshotVO struct {
+	XMLName struct{} `xml:"article" json:"-" yaml:"-" cbor:"-" orm:"-"`
+
+	ID       int64         `orm:"name(id)" json:"id" yaml:"id" cbor:"id" xml:"id,attr"`                          // 快照 ID
+	Article  int64         `orm:"name(article)" json:"article" yaml:"article" cbor:"article" xml:"article,attr"` // 快照关联的文章 ID
+	Slug     string        `orm:"name(slug);len(100);unique(slug)" json:"slug" yaml:"slug" cbor:"slug" xml:"slug"`
+	Author   string        `orm:"name(author);len(20)" json:"author" yaml:"author" cbor:"author" xml:"author"`
+	Title    string        `orm:"name(title);len(100)" json:"title" yaml:"title" cbor:"title" xml:"title"`
+	Images   types.Strings `orm:"name(images);len(1000)" json:"images" yaml:"images" cbor:"images" xml:"images>image"`
+	Keywords string        `orm:"name(keywords)" json:"keywords" yaml:"keywords" cbor:"keywords" xml:"keywords"`
+	Summary  string        `orm:"name(summary);len(2000)" json:"summary" yaml:"summary" cbor:"summary" xml:"summary,cdata"`
+	Content  string        `orm:"name(content);len(-1)" json:"content" yaml:"content" cbor:"content" xml:"content,cdata"`
+	Created  time.Time     `orm:"name(created)" json:"created" yaml:"created" cbor:"created" xml:"created"`
+}
+
 // HandleGetSnapshot 获取快照的详细信息
 //
 // NOTE: 关联的文章一旦删除，快照也将不可获取。
@@ -385,24 +495,19 @@ func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Respons
 // snapshot 为快照的 ID；
 func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Responser {
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
-		Column("a.id,a.slug,a.views,a.{order},a.created,a.modified,a.deleted,a.deleter,a.last").
-		Column("s.author,s.title,s.images,s.summary,s.content,s.id as snapshot").
+		Column("a.id as article,a.slug").
+		Column("s.author,s.created,s.title,s.images,s.summary,s.content,s.id").
 		Join("LEFT", orm.TableName(&articlePO{}), "a", "a.last=s.id").
 		Where("s.id=?", snapshot).
 		AndIsNull("a.deleted")
 
-	a := &ArticleVO{}
+	a := &SnapshotVO{}
 	size, err := sql.QueryObject(true, a)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 	if size == 0 {
 		return ctx.NotFound()
-	}
-
-	a.Topics, a.Tags, err = m.getArticleAttribute(a.ID)
-	if err != nil {
-		return ctx.Error(err, "")
 	}
 
 	return web.OK(a)
