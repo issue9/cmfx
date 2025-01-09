@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-package article
+package comment
 
 import (
 	"testing"
@@ -22,8 +22,6 @@ func TestInstall(t *testing.T) {
 	Install(mod, "abc")
 	prefix := mod.ID() + "_" + "abc"
 
-	s.TableExists(prefix + "_article_snapshots").
-		TableExists(prefix + "_articles").
-		TableExists(prefix + "_" + tagsTableName).
-		TableExists(prefix + "_" + topicsTableName)
+	s.TableExists(prefix + "_comment_snapshots").
+		TableExists(prefix + "_comments")
 }

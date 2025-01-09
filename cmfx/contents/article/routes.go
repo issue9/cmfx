@@ -426,31 +426,42 @@ func (m *Module) HandleDeleteArticle(ctx *web.Context, article, deleter int64) w
 		return ctx.NotFound()
 	}
 
-	po := &articlePO{
-		ID:      article,
-		Deleted: sql.NullTime{Valid: true, Time: ctx.Begin()},
-		Deleter: deleter,
-	}
-
 	err = m.db.DoTransactionTx(ctx, nil, func(tx *orm.Tx) error {
 		if err := m.tagRel.DeleteByV1(tx, article); err != nil { // 删除旧的关系
 			return err
 		}
-		return m.topicRel.DeleteByV1(tx, article) // 删除旧的关系
+		if err = m.topicRel.DeleteByV1(tx, article); err != nil { // 删除旧的关系
+			return err
+		}
+
+		_, err = tx.NewEngine(m.db.TablePrefix()).Update(&articlePO{
+			ID:      article,
+			Deleted: sql.NullTime{Valid: true, Time: ctx.Begin()},
+			Deleter: deleter,
+		})
+		return err
 	})
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	if _, err := m.db.Update(po); err != nil {
-		return ctx.Error(err, "")
-	}
 	return web.NoContent()
+}
+
+// SnapshotOverviewVO 文章快照的摘要信息
+type SnapshotOverviewVO struct {
+	XMLName struct{} `xml:"snapshot" json:"-" yaml:"-" cbor:"-" orm:"-"`
+
+	Article int64     `xml:"article" json:"article" yaml:"article" cbor:"article" orm:"name(article)"` // 关联的文章
+	ID      int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`                          // 快照 ID
+	Author  string    `xml:"author" json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
+	Title   string    `xml:"title" json:"title" yaml:"title" cbor:"title" orm:"name(title)"`
+	Created time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
 }
 
 // HandleGetSnapshots 获取文章的快照列表
 //
-// article 更新快照对应的文章 ID；
+// article 文章 ID；
 // 返回 []OverviewVO；
 func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Responser {
 	q := &query.Text{}
@@ -459,7 +470,7 @@ func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Respons
 	}
 
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
-		Column("a.id,a.slug,a.views,a.{order},s.title,s.created,s.created AS modified").
+		Column("a.id as article,s.id,s.author,s.title,s.created").
 		Join("LEFT", orm.TableName(&articlePO{}), "a", "a.id=s.article").
 		Where("a.id=?", article).
 		AndIsNull("a.deleted")

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,6 +6,7 @@ package filters
 
 import (
 	"github.com/issue9/web/filter"
+	"github.com/issue9/webfilter/validator"
 	v "github.com/issue9/webfilter/validator"
 
 	"github.com/issue9/cmfx/cmfx/locales"
@@ -41,4 +42,12 @@ func GreatEqual[T Number](n T) filter.Builder[T] {
 
 func LessEqual[T Number](n T) filter.Builder[T] {
 	return filter.NewBuilder(v.V(v.LessEqual(n), locales.MustBeLessThan(float64(n))))
+}
+
+func Between[T Number](min, max T) filter.Builder[T] {
+	return filter.NewBuilder(v.V(validator.Between(min, max), locales.MustBeBetween(min, max)))
+}
+
+func BetweenEqual[T Number](min, max T) filter.Builder[T] {
+	return filter.NewBuilder(v.V(validator.BetweenEqual(min, max), locales.MustBeBetweenEqual(min, max)))
 }

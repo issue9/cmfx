@@ -42,7 +42,7 @@ type articlePO struct {
 	Deleter  int64        `orm:"name(deleter)"`
 }
 
-func (*snapshotPO) TableName() string { return `_snapshots` }
+func (*snapshotPO) TableName() string { return `_article_snapshots` }
 
 func (l *snapshotPO) BeforeInsert() error {
 	l.ID = 0
