@@ -75,6 +75,7 @@ func (m *Module[T1, T2]) ListV1(v2 T2) ([]T1, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	return fetch.Column[T1](false, "v1", rows)
 }
 
@@ -84,6 +85,7 @@ func (m *Module[T1, T2]) ListV2(v1 T1) ([]T2, error) {
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 	return fetch.Column[T2](false, "v2", rows)
 }
 
