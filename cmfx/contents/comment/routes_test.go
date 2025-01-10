@@ -7,6 +7,7 @@ package comment
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"strconv"
 	"testing"
@@ -88,7 +89,7 @@ func TestModule_Handle(t *testing.T) {
 		s.Post("/comments", data).
 			Header(header.ContentType, header.JSON).Header(header.Accept, header.JSON).
 			Do(nil).
-			Status(http.StatusCreated)
+			Status(http.StatusCreated).BodyFunc(func(a *assert.Assertion, body []byte) {fmt.Println(string(body))})
 		spo := &snapshotPO{}
 		ssize, err := m.db.Where("true").Select(true, spo)
 		a.NotError(err).Equal(ssize, 1)

@@ -9,14 +9,16 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
+	"github.com/issue9/web/filter"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/filters"
+	"github.com/issue9/cmfx/cmfx/locales"
 	"github.com/issue9/cmfx/cmfx/query"
 )
 
-// CommentVO 摘要信息
 type CommentVO struct {
 	XMLName  struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-"`
 	ID       int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
@@ -24,17 +26,22 @@ type CommentVO struct {
 	Created  time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
 	Modified time.Time `xml:"modified" json:"modified" yaml:"modified" cbor:"modified" orm:"name(modified)"`
 	Content  string    `xml:"content" json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
-	Rate     int       `xml:"rate" json:"rate" yaml:"rate" cbor:"rate" orm:"name(rate)"`
+
+	Rate  int          `xml:"rate,omitempty" json:"rate,omitempty" yaml:"rate,omitempty" cbor:"rate,omitempty" orm:"name(rate)"`
+	State State        `xml:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty" cbor:"state,omitempty"  orm:"name(state)"`
+	Items []*CommentVO `xml:"items>item,omitempty" json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" orm:"-"`
 }
 
 type CommentQuery struct {
 	m *Module
 	query.Text
 	Created time.Time `query:"created"`
+	State   []State   `query:"state,visible,top"`
 }
 
 func (q *CommentQuery) Filter(ctx *web.FilterContext) {
 	q.Text.Filter(ctx)
+	ctx.Add(StateSliceFilter("state", &q.State))
 }
 
 // HandleSetState 设置状态
@@ -60,12 +67,19 @@ func (m *Module) HandleGetComments(ctx *web.Context) web.Responser {
 	}
 
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&commentPO{}), "c").
-		Column("c.id,c.created,c.modified,s.rate,s.content").
+		Column("c.id,c.created,c.modified,s.rate,s.content,c.state").
 		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "c.last=s.id").
 		AndIsNull("c.deleted").
-		Desc("c.{created}")
+		Desc("c.{state}", "c.{created}")
 	if !q.Created.IsZero() {
 		sql.Where("c.created>?", q.Created)
+	}
+	if len(q.State) > 0 {
+		sql.AndGroup(func(ws *sqlbuilder.WhereStmt) {
+			for _, s := range q.State {
+				ws.Or("c.{state}=?", s)
+			}
+		})
 	}
 	if q.Text.Text != "" {
 		txt := "%" + q.Text.Text + "%"
@@ -77,28 +91,34 @@ func (m *Module) HandleGetComments(ctx *web.Context) web.Responser {
 
 // HandleGetCommentsByTarget 获取指定对象的评论列表
 //
-// 查询参数为 [CommentQuery]，返回对象为 [query.Page[CommentVO]]
+// 查询参数为 [query.Limit]，返回对象为 [query.Page[CommentVO]]，只返回不 hidden 的条目。
 func (m *Module) HandleGetCommentsByTarget(ctx *web.Context, target int64) web.Responser {
-	q := &CommentQuery{m: m}
+	buildSQL := func(parent int64) *sqlbuilder.SelectStmt {
+		return m.db.SQLBuilder().Select().From(orm.TableName(&commentPO{}), "c").
+			Column("c.id,c.created,c.modified,s.content").
+			Join("LEFT", orm.TableName(&snapshotPO{}), "s", "c.last=s.id").
+			Where("target=?", target).
+			And("c.state<>?", StateHidden).
+			And("c.parent=?", parent).
+			AndIsNull("c.deleted").
+			Desc("c.{state}", "c.{created}")
+	}
+
+	q := &query.Limit{}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
 	}
 
-	sql := m.db.SQLBuilder().Select().From(orm.TableName(&commentPO{}), "c").
-		Column("c.id,c.created,c.modified,s.rate,s.content").
-		Join("LEFT", orm.TableName(&snapshotPO{}), "s", "c.last=s.id").
-		Where("target=?", target).
-		AndIsNull("c.deleted").
-		Desc("c.{created}")
-	if q.Text.Text != "" {
-		txt := "%" + q.Text.Text + "%"
-		sql.Where("s.content LIKE ? OR c.author LIKE ?", txt, txt)
-	}
-	if !q.Created.IsZero() {
-		sql.Where("c.created>?", q.Created)
-	}
-
-	return query.PagingResponser[CommentVO](ctx, &q.Limit, sql, nil)
+	return query.PagingResponser[CommentVO](ctx, q, buildSQL(0), func(cv *CommentVO) {
+		items := make([]*CommentVO, 0, 10)
+		switch size, err := buildSQL(cv.ID).QueryObject(true, items); {
+		case err != nil:
+			ctx.Logs().ERROR().Error(err)
+		case size == 0:
+		default:
+			cv.Items = items
+		}
+	})
 }
 
 // HandleGetComment 获取评论信息
@@ -135,8 +155,28 @@ type CommentTO struct {
 
 func (to *CommentTO) Filter(ctx *web.FilterContext) {
 	ctx.Add(filters.NotEmpty("content", &to.Content)).
-		Add(filters.BetweenEqual(0, 10)("rate", &to.Rate)).
-		Add(filters.NotEmpty("author", &to.Author))
+		When(to.Parent == 0, func(v *web.FilterContext) {
+			v.Add(filters.BetweenEqual(0, 10)("rate", &to.Rate))
+		}).
+		When(to.Parent > 0, func(v *web.FilterContext) {
+			v.Add(filters.Equal(0)("rate", &to.Rate))
+		}).
+		Add(filters.NotEmpty("author", &to.Author)).
+		Add(filter.NewBuilder(filter.V(func(p int64) bool {
+			if p == 0 {
+				return true
+			}
+
+			po := &commentPO{ID: p}
+			found, err := to.m.db.Select(po)
+			if err != nil {
+				ctx.Context().Logs().ERROR().Error(err)
+				return false
+			} else if !found {
+				return false
+			}
+			return po.Parent == 0 // 不能多级嵌套
+		}, locales.MustBeEmpty))("parent", &to.Parent))
 }
 
 // HandlePostComment 添加新的评论
