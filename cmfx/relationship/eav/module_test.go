@@ -38,10 +38,18 @@ func TestModule_Attribute(t *testing.T) {
 	id, err := m.AddAttribute("name")
 	a.NotError(err).Equal(id, 1)
 
+	name, err := m.GetAttribute(id)
+	a.NotError(err).Equal(name, "name")
+
+	name, err = m.GetAttribute(10000)
+	a.NotError(err).Equal(name, "")
+
 	attrs, err := m.GetAttributes()
 	a.NotError(err).Equal(attrs, []*AttributeVO{{ID: id, Name: "name"}})
 
 	a.NotError(m.SetAttribute(id, "name1"))
+	name, err = m.GetAttribute(id)
+	a.NotError(err).Equal(name, "name1")
 	attrs, err = m.GetAttributes()
 	a.NotError(err).Equal(attrs, []*AttributeVO{{ID: id, Name: "name1"}})
 
@@ -70,6 +78,16 @@ func TestValues(t *testing.T) {
 	a.NotError(err).Equal(id, 1)
 	id, err = AddValue[int64](m, 1, attr, 6)
 	a.NotError(err).Equal(id, 2)
+
+	// GetValue
+
+	val, err := GetValue[int64](m, id)
+	a.NotError(err).Equal(val, 6)
+
+	val, err = GetValue[int64](m, 10000)
+	a.NotError(err).Equal(val, 0)
+
+	// GetValues
 
 	ints, err := GetValues[int64](m, 1, attr)
 	a.NotError(err).Equal(ints, []*ValueVO[int64]{{ID: 1, Value: 5}, {ID: 2, Value: 6}})

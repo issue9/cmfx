@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/orm/v6/fetch"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -60,6 +61,27 @@ func (m *Module) DelAttribute(id int64) error {
 	return err
 }
 
+// GetAttribute 获取属性 id 对应的名称
+//
+// NOTE: 该操作不会考虑 id 是否已经被删除，如果不存在返回空字符串。
+func (m *Module) GetAttribute(id int64) (string, error) {
+	rows, err := m.db.SQLBuilder().Select().Where("id=?", id).From(orm.TableName(&attrPO{})).Query()
+	if err != nil {
+		return "", err
+	}
+	defer rows.Close()
+
+	ss, err := fetch.Column[string](true, "name", rows)
+	if err != nil {
+		return "", err
+	}
+
+	if len(ss) == 0 {
+		return "", nil
+	}
+	return ss[0], nil
+}
+
 type AttributeVO struct {
 	ID   int64  `json:"id" yaml:"id" xml:"id" yaml:"id" orm:"name(id)"`
 	Name string `json:"name" yaml:"name" xml:"name" yaml:"name" orm:"name(name)"`
@@ -108,6 +130,25 @@ func DelValue[T ValueType](m *Module, id int64) error {
 type ValueVO[T ValueType] struct {
 	ID    int64 `json:"id" yaml:"id" xml:"id" yaml:"id" orm:"name(id)"`
 	Value T     `json:"value" yaml:"value" xml:"value" yaml:"value" orm:"name(value)"`
+}
+
+// GetValue 获得 id 对应的值
+//
+// NOTE: 该操作不会考虑 id 是否已经被删除。
+func GetValue[T ValueType](m *Module, id int64) (T, error) {
+	rows, err := m.db.SQLBuilder().Select().Where("id=?", id).From(getTableName[T]()).Query()
+
+	var v T
+	if err != nil {
+		return v, err
+	}
+	defer rows.Close()
+
+	vv, err := fetch.Column[T](true, "value", rows)
+	if len(vv) == 0 {
+		return v, nil
+	}
+	return vv[0], err
 }
 
 func GetValues[T ValueType](m *Module, entity, attr int64) ([]*ValueVO[T], error) {
