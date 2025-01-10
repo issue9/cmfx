@@ -41,6 +41,7 @@ const (
 const (
 	Forbidden                    = web.ProblemForbidden
 	ForbiddenCaNotDeleteYourself = "40301"
+	ForbiddenMustBeAuthor        = "40302"
 )
 
 // 404
