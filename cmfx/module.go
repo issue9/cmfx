@@ -159,6 +159,7 @@ func problems(s web.Server) {
 	).Add(http.StatusForbidden,
 		&web.LocaleProblem{ID: ConflictStateNotAllow, Title: web.StringPhrase("forbidden state not allow"), Detail: web.StringPhrase("forbidden state not allow detail")},
 		&web.LocaleProblem{ID: ForbiddenCaNotDeleteYourself, Title: web.StringPhrase("forbidden can not delete yourself"), Detail: web.StringPhrase("forbidden can not delete yourself detail")},
+		&web.LocaleProblem{ID: ForbiddenMustBeAuthor, Title: web.StringPhrase("forbidden must be author"), Detail: web.StringPhrase("forbidden must be author detail")},
 	).Add(http.StatusNotFound,
 		&web.LocaleProblem{ID: NotFoundInvalidPath, Title: web.StringPhrase("not found invalid path"), Detail: web.StringPhrase("not found invalid path detail")},
 	).Add(http.StatusPreconditionFailed,

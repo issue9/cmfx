@@ -258,6 +258,10 @@ func (m *Module) Validator(v int64) bool {
 		return false
 	}
 
+	if v == root.ID {
+		return true
+	}
+
 	curr, _ := find(v, root)
 	return curr != nil
 }

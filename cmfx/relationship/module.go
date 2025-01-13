@@ -7,6 +7,7 @@ package relationship
 import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/fetch"
+	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -84,4 +85,12 @@ func (m *Module[T1, T2]) ListV2(v1 T1) ([]T2, error) {
 		return nil, err
 	}
 	return fetch.Column[T2](false, "v2", rows)
+}
+
+// LeftJoin LEFT JOIN 至 sql
+//
+// alias 为当前的 relationshipPO 表指定别名，该别名可能在 on 参数中可能会用到；
+func (m *Module[T1, T2]) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string) {
+	tb := m.db.TablePrefix() + (&relationshipPO[T1, T2]{}).TableName()
+	sql.Join("LEFT", tb, alias, on)
 }

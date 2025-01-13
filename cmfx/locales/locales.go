@@ -6,6 +6,7 @@
 package locales
 
 import (
+	"cmp"
 	"embed"
 	"io/fs"
 
@@ -30,6 +31,14 @@ const (
 	NotInCandidate   = web.StringPhrase("the value not in candidate")
 	NotFound         = web.StringPhrase("not found")
 )
+
+func MustBeBetween[T cmp.Ordered](min, max T) web.LocaleStringer {
+	return web.Phrase("must be between (%v,%v)", min, max)
+}
+
+func MustBeBetweenEqual[T cmp.Ordered](min, max T) web.LocaleStringer {
+	return web.Phrase("must be between [%v,%v]", min, max)
+}
 
 func MustBeGreaterThan[T any](v T) web.LocaleStringer {
 	return web.Phrase("must be greater than %v", v)
