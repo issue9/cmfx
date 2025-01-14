@@ -12,6 +12,8 @@
         display: block;
         visibility: hidden;
         opacity: 0;
+
+        /* 两个属性同时发生变化，但是 visibility 没有过渡动画，等待时间到之后直接改变其属性。 */
         transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
     }
 

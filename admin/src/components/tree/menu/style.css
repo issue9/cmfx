@@ -23,12 +23,6 @@
             .expand {
                 @apply ml-auto flex items-center;
             }
-        }
-
-        .item:hover {
-            >.c--menu {
-                @apply absolute top-0 flex-col flex;
-            }
 
             >.c--menu.left {
                 @apply right-[100%];
@@ -37,6 +31,24 @@
             >.c--menu.right {
                 @apply left-[100%];
             }
+        }
+
+        .item:hover {
+            >.c--menu {
+                @apply absolute top-0 flex-col flex;
+
+                opacity: 1;
+                visibility: visible;
+                transition: opacity var(--transition-duration) linear;
+            }
+        }
+
+        .opacity-0 {
+            @apply absolute top-0 flex-col flex;
+
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
         }
 
         .group {

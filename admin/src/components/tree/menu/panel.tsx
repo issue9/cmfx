@@ -75,7 +75,7 @@ export default function (props: Props): JSX.Element {
                 <li class="item">
                     {p.item.label}
                     <Icon class="expand" icon="chevron_right" />
-                    <menu classList={{'c--menu':true,'hidden':true,[props.direction!]:true}}>
+                    <menu classList={{'c--menu':true,'opacity-0':true,[props.direction!]:true}}>
                         <All items={p.item.items as Array<Item>} />
                     </menu>
                 </li>
