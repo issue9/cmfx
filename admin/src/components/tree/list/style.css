@@ -13,8 +13,7 @@
 
 
         .item {
-            @apply hover:bg-palette-bg-low cursor-pointer border-0 outline-none;
-            padding: var(--item-space);
+            @apply hover:bg-palette-bg-low cursor-pointer border-0 outline-none p-[var(--item-space)];
         }
 
         .item:focus-visible {
@@ -22,32 +21,30 @@
         }
 
         /* 带子项的 */
-        details {
-            summary {
-                @apply flex cursor-pointer list-none;
-                padding-left: var(--item-space);
-                padding-right: var(--item-space);
+        .details {
+            .summary {
+                @apply flex cursor-pointer px-[var(--item-space)];
 
                 .expand {
                     @apply ml-auto flex items-center;
                 }
             }
 
-            /* safari 无法通过 summary.list-style 设置 */
-            summary::-webkit-details-marker,
-            summary::marker {
-                display: none;
+            >menu {
+                @apply grid grid-rows-[1fr] overflow-hidden transition-[var(--transition-duration)];
+
+                .menus {
+                    @apply flex flex-col min-h-0;
+                }
             }
 
-            >menu {
-                @apply flex flex-col gap-1;
+            >menu.hidden {
+                @apply grid-rows-[0fr];
             }
         }
 
         .group {
-            @apply text-[var(--fg-low)] cursor-default;
-            padding-left: var(--item-space);
-            padding-right: var(--item-space);
+            @apply text-[var(--fg-low)] cursor-default px-[var(--item-space)];
         }
 
         .item.selected {

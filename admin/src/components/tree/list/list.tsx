@@ -79,23 +79,23 @@ export function List(props: Props): JSX.Element {
             throw 'item.type 只能是 item';
         }
 
-        // 这里始终初台为 false，details#onToggle 在初始化 details#open 时会被调用一次。
-        // 可以在那里将 open 初始化为一个正确的值。
-        const [open, setOpen] = createSignal(false);
+        const [open, setOpen] = createSignal(p.isSelected);
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
-                <details open={p.isSelected} onToggle={()=>setOpen(!open())}>
-                    <summary style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }} class="item">
+                <div class="details">
+                    <div class="summary item" onclick={()=>setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
                         {p.item.label}
                         <Icon class="expand" icon={ open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' } />
-                    </summary>
+                    </div>
                     <Show when={p.item.items}>
-                        <menu>
-                            <All items={p.item.items!} indent={p.indent+1} selectedIndex={p.selectedIndex} />
+                        <menu classList={{'hidden': !open()}}>
+                            <div class="menus">
+                                <All items={p.item.items!} indent={p.indent+1} selectedIndex={p.selectedIndex} />
+                            </div>
                         </menu>
                     </Show>
-                </details>
+                </div>
             </Match>
             <Match when={!p.item.items}>
                 <Dynamic component={props.anchor ? A : 'span'}
