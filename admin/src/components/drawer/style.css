@@ -22,10 +22,21 @@
 
         >aside {
             position: absolute;
+            transform: scaleX(1);
+            transform-origin: left;
+            transition: transform var(--transition-duration) ease-in-out;
+        }
+        >aside.aside-hidden {
+            transform: scaleX(0);
+        }
+
+        .pos-right {
+            @apply right-0;
+            transform-origin: right;
         }
     }
 
-    .c--drawer.c--drawer-floating:not(:has(>aside.hidden))::after {
+    .c--drawer.c--drawer-floating:not(:has(>aside.aside-hidden))::after {
         content: '';
         position: absolute;
         top: 0;

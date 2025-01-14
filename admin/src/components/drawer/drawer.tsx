@@ -67,8 +67,8 @@ export function Drawer(props: Props) {
 
     const Aside = ()=><aside ref={(el)=>asideRef=el} classList={{
         [`palette--${props.palette}`]: !!props.palette,
-        'hidden': !props.visible,
-        'right-0': props.floating && props.pos === 'right'
+        'aside-hidden': !props.visible,
+        'pos-right': props.floating && props.pos === 'right',
     }}>
         {props.children}
     </aside>;
