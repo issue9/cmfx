@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,7 +10,7 @@ export class Config {
 
     /**
      * 构造函数
-     * @param id 表示引配置对象的唯一 ID
+     * @param id 表示此配置对象的唯一 ID
      */
     constructor(id: string | number) {
         this.#id = ((typeof id === 'number') ? id.toString() : id) + '--';

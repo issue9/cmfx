@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -209,7 +209,8 @@ export class API {
     /**
      * 设置登录状态
      *
-     * @returns 如果返回 true，表示操作成功，否则表示错误信息。
+     * @param ret 表示执行登录操作之后返回的对象；
+     * @returns 如果返回 true，表示操作成功，否则表示错误信息；
      */
     async login(ret: Return<Token, never>): Promise<Problem<never>|undefined|true> {
         if (!ret.ok) {
