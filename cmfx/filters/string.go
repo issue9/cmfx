@@ -14,7 +14,7 @@ import (
 
 var (
 	// Strength 密码强度规则
-	Strength = filter.NewBuilder(s.S(s.Trim), v.V(v.Strength(8, 1, 0, 1), locales.StrengthInvalid))
+	Strength = filter.NewBuilder(s.S(s.Trim), v.V(v.Strength(8, 1, 0, 1, 2), locales.StrengthInvalid))
 
 	// Avatar 头像验证规则，可以为空或是 URL
 	Avatar = filter.NewBuilder(s.S(s.Trim), v.V(v.Or(v.URL, v.Zero[string]), locales.InvalidValue))
