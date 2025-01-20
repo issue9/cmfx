@@ -12,17 +12,18 @@ require (
 	github.com/issue9/logs/v7 v7.6.4
 	github.com/issue9/mux/v9 v9.1.2
 	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20250106072547-19dd3a7ecd5d
-	github.com/issue9/rands/v3 v3.0.1
+	github.com/issue9/rands/v3 v3.1.0
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
 	github.com/issue9/web v0.100.9
-	github.com/issue9/webfilter v0.9.0
+	github.com/issue9/webfilter v0.9.1-0.20250120124046-d8e4650d7c52
 	github.com/issue9/webuse/v7 v7.0.0-20250104102537-a39e3a17d77d
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.24.12
 	golang.org/x/crypto v0.32.0
 	golang.org/x/text v0.21.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -64,5 +65,4 @@ require (
 	golang.org/x/sync v0.10.0 // indirect
 	golang.org/x/sys v0.29.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
-	gopkg.in/yaml.v3 v3.0.1 // indirect
 )

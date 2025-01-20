@@ -6,6 +6,8 @@
 package test
 
 import (
+	xj "encoding/json"
+	"encoding/xml"
 	"net/http"
 	"os"
 	"strings"
@@ -13,6 +15,7 @@ import (
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/assert/v4/rest"
+	"github.com/issue9/config"
 	"github.com/issue9/logs/v7"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/orm/v6/dialect"
@@ -27,6 +30,7 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
 	"golang.org/x/text/language"
+	xy "gopkg.in/yaml.v3"
 
 	"github.com/issue9/cmfx/cmfx"
 
@@ -119,6 +123,11 @@ func (s *Suite) TableExists(name string) *Suite {
 
 // newServer 创建 [web.Server] 实例
 func newServer(a *assert.Assertion) *cmfx.Module {
+	s := config.Serializer{}
+	s.Add(xy.Marshal, xy.Unmarshal, ".yaml", ".yml").
+		Add(xj.Marshal, xj.Unmarshal, ".json").
+		Add(xml.Marshal, xml.Unmarshal, ".xml")
+
 	srv, err := server.NewHTTP("test", "1.0.0", &server.Options{
 		Language: language.SimplifiedChinese,
 		Logs:     logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
@@ -127,6 +136,7 @@ func newServer(a *assert.Assertion) *cmfx.Module {
 			AddMimetype(yaml.Mimetype, yaml.Marshal, yaml.Unmarshal, yaml.ProblemMimetype).
 			AddMimetype(cbor.Mimetype, cbor.Marshal, cbor.Unmarshal, cbor.ProblemMimetype),
 		HTTPServer: &http.Server{Addr: ":8080"},
+		Config:     config.Dir(s, "./"),
 	})
 	a.NotError(err).NotNil(srv)
 
