@@ -56,7 +56,7 @@ export function Edit(): JSX.Element {
             <table>
                 <thead>
                     <tr>
-                        <th>{ctx.locale().t('_i.page.admin.passportTtype')}</th>
+                        <th>{ctx.locale().t('_i.page.admin.passportType')}</th>
                         <th>{ctx.locale().t('_i.page.current.username')}</th>
                     </tr>
                 </thead>

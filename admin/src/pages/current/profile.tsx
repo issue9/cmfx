@@ -128,7 +128,7 @@ export function Profile(props: Props): JSX.Element {
             <table>
                 <thead>
                     <tr>
-                        <th>{ctx.locale().t('_i.page.admin.passportTtype')}</th>
+                        <th>{ctx.locale().t('_i.page.admin.passportType')}</th>
                         <th>{ctx.locale().t('_i.page.current.username')}</th>
                         <th>{ctx.locale().t('_i.page.actions')}</th>
                     </tr>

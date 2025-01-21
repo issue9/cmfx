@@ -1,16 +1,22 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
+
+import YAML from 'yaml';
 
 /**
  * 当前 API 支持的 mime type
  */
-export const mimetypes = ['application/json'] as const;
+export const mimetypes = [
+    'application/json',
+    'application/yaml',
+] as const;
 
 export type Mimetype = typeof mimetypes[number];
 
 export const serializers: Readonly<Map<Mimetype, Serializer>> = new Map<Mimetype, Serializer>([
     ['application/json', JSON],
+    ['application/yaml', YAML],
 ]);
 
 /**

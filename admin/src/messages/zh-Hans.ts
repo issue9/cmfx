@@ -135,7 +135,7 @@ const messages: Messages = {
                 unlockUser: '解锁该用户',
 
                 passport: '登录方式',
-                passportTtype: '类型',
+                passportType: '类型',
             },
             member: {
                 member: '会员',

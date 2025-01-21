@@ -132,7 +132,7 @@ const messages = {
                 unlockUser: 'unlock user',
 
                 passport: 'passport',
-                passportTtype: 'type',
+                passportType: 'type',
             },
             member: {
                 member: 'member',
