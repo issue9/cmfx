@@ -10,7 +10,7 @@ import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';
 import { Logout } from './logout';
 import { MemStatistic } from './memstatistic';
-import { componens, PassportComponents } from './passport';
+import { componens, PassportComponents } from './passports';
 import { Profile } from './profile';
 import { SecurityLogs } from './securitylogs';
 import { Settings } from './settings';

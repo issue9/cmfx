@@ -9,7 +9,7 @@ import {
     FormAccessor, Icon, Page, TextField, Upload, UploadRef, useApp, useOptions, User
 } from '@/components';
 import { Passport, Sex, sexesMap } from '@/pages/common';
-import { PassportComponents } from './passport';
+import { PassportComponents } from './passports';
 
 interface Props {
     passports: Map<string, PassportComponents>;
