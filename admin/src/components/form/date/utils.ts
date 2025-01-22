@@ -1,9 +1,12 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Options } from '@/components/form/types';
 
+/**
+ * 月份，0 表示一月。
+ */
 export const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
 export type Month = typeof months[number];
@@ -31,23 +34,30 @@ export function weekDay(base: Week, delta?: number): Week {
 }
 
 /**
+ * {@link monthDays} 的返回值类型
+ */
+interface MonthDays {
+    isCurrent: boolean;// 表示是否为当前月份
+    year: number; // 年份
+    month: Month; // 月份
+    start: number; // 该月在当前面板上的起始日期
+    end: number; // 该月在当前面板上的结束日期
+}
+
+/**
  * 计算指定月份的天数范围
  *
  * @param weekStart 每周的起始；
  * @param date 需要计算的月份；
- * @returns 返回的元组列表，每个元组包含以下四个字段：
- *  - 0 boolean 表示是否为当前月份;
- *  - 1 Month 月份；
- *  - 2 该月在当前面板上的起始日期；
- *  - 3 该月在当前面板上的结束日期；
+ * @returns 返回的 {@link MonthDays} 列表；
  */
-export function monthDays(date: Date, weekStart: Week): Array<[boolean, Month, number, number]> {
+export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
     // 当前月的第一天和最后一天
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
 
     // 处理前一个月份的数据
-    let prev: [boolean, Month, number, number] = [false, 0, 0, 0];
+    const prev: MonthDays = { isCurrent: false, month: 0, start: 0, end: 0, year: 0 };
     const firstWeekDay = firstDay.getDay() as Week;
     if (weekStart !== firstWeekDay) {
         let days = firstWeekDay - weekStart-1; // 需要拿到前一个月需要添加的天数
@@ -56,36 +66,59 @@ export function monthDays(date: Date, weekStart: Week): Array<[boolean, Month, n
         }
         const lastDay = new Date(date.getFullYear(), date.getMonth(), 0);
         const last = lastDay.getDate();
-        prev = [false, lastDay.getMonth() as Month, last - days, last];
+        prev.month = lastDay.getMonth() as Month;
+        prev.start = last - days;
+        prev.end = last;
+        prev.year = date.getFullYear();
     }
 
     // 处理后一个月份的数据
-    let next: [boolean, Month, number, number] = [false, 0, 0, 0];
+    const next: MonthDays = { isCurrent: false, month: 0, start: 0, end: 0, year: 0 };
     const lastWeekDay = lastDay.getDay() as Week;
     if (weekDay(weekStart,-1) !== lastWeekDay) {
         let days = weekStart - 1 - lastWeekDay;
         if (days <= 0) {
             days = weeks.length + days;
         }
-        next = [false, (new Date(date.getFullYear(), date.getMonth()+1,1)).getMonth() as Month, 1, days];
+        next.month = (new Date(date.getFullYear(), date.getMonth() + 1, 1)).getMonth() as Month;
+        next.start = 1;
+        next.end = days;
+        next.year = date.getFullYear();
     }
 
-    return [prev, [true,lastDay.getMonth() as Month, 1, lastDay.getDate()], next];
+    const curr: MonthDays = {
+        isCurrent: true,
+        month: lastDay.getMonth() as Month,
+        start: 1,
+        end: lastDay.getDate(),
+        year: lastDay.getFullYear(),
+    };
+    return [prev, curr, next];
 }
 
 /**
  * 将由 {@link monthDays} 的结果转换为以 7 天为一组的天数据
  */
-export function getWeekDays(m: Array<[boolean, Month, number, number]>): Array<Array<[boolean, Month, number]>> {
+export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<Array<[boolean, Month, number]>> {
     const days: Array<[boolean, Month, number]> = [];
     for (const mm of m) {
-        if (mm[2] === 0 && mm[2] === mm[3]) { continue; }
+        if (mm.start === 0 && mm.start === mm.end) { continue; }
 
-        for (let i = mm[2]; i <= mm[3]; i++) {
-            days.push([mm[0], mm[1], i]);
+        for (let i = mm.start; i <= mm.end; i++) {
+            let enabled = mm.isCurrent;
+            const now = new Date(mm.year, mm.month, i);
+            if (min && min > now) {
+                enabled = false
+            }
+            if (max && max < now) {
+                enabled = false
+            }
+            
+            days.push([enabled, mm.month, i]);
         }
     }
 
+    // 将天以 7 为单位进行分割并存入 weeks。
     const weeks: Array<Array<[boolean, Month, number]>> = [];
     for (let i = 0; i < days.length; i += 7) {
         weeks.push(days.slice(i, i + 7));
@@ -103,8 +136,8 @@ export function getWeekDays(m: Array<[boolean, Month, number, number]>): Array<A
  *  - 1 月份；
  *  - 2 在当前月份中的日期；
  */
-export function weekDays(date: Date, weekStart: Week): Array<Array<[boolean, Month, number]>> {
-    return getWeekDays(monthDays(date, weekStart));
+export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[boolean, Month, number]>> {
+    return getWeekDays(monthDays(date, weekStart), min, max);
 }
 
 export const hoursOptions: Options<number> = [

@@ -14,7 +14,11 @@ export interface Props extends PanelProps {
 
     rounded?: boolean;
 
-    // TODO min, max, range
+    min?: Date;
+
+    max?: Date;
+
+    // TODO range
 }
 
 function togglePop(anchor: Element, pop: HTMLElement): boolean {
@@ -33,7 +37,7 @@ export function DatePicker(props: Props): JSX.Element {
     const ctx = useApp();
 
     props = mergeProps(presetProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'class', 'classList']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'class', 'classList', 'min', 'max']);
 
     const ac = props.accessor;
     let panelRef: HTMLElement;

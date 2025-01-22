@@ -1,15 +1,14 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, For, mergeProps, Show } from 'solid-js';
+import { createMemo, For, JSX, mergeProps, Show } from 'solid-js';
 
-import { useApp } from '@/components/context';
 import { Button } from '@/components/button';
+import { useApp } from '@/components/context';
 import { FieldBaseProps } from '@/components/form';
 import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
-import { JSX } from 'solid-js';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {
@@ -18,7 +17,15 @@ export interface Props extends FieldBaseProps {
      */
     time?: boolean;
 
-    // TODO min, max
+    /**
+     * 允许的最小日期
+     */
+    min?: Date;
+    
+    /**
+     * 允许的最大日期
+     */
+    max?: Date;
 
     /**
      * 是否高亮周末的列
@@ -137,7 +144,7 @@ export function DatePanel(props: Props): JSX.Element {
                 </thead>
 
                 <tbody>
-                    <For each={weekDays(p.dt, props.weekBase!)}>
+                    <For each={weekDays(p.dt, props.weekBase!, props.min, props.max)}>
                         {(week) => (
                             <tr>
                                 <For each={week}>
