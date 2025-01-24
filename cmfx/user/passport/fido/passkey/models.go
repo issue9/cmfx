@@ -15,7 +15,7 @@ import (
 type credentials = types.SliceOf[webauthn.Credential]
 
 type accountPO struct {
-	Username string `orm:"name(username);unique"`
+	Username string `orm:"name(username);unique(username)"`
 	UID      int64  `orm:"name(uid);unique(uid)"`
 
 	Requested   time.Time    `orm:"name(requested)"`       // 请求绑定的时间

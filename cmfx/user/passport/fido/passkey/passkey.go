@@ -59,7 +59,7 @@ func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration,
 
 	prefix := utils.BuildPrefix(u, id)
 	rate := utils.BuildRate(u, id)
-	
+
 	u.Module().Router().Prefix(prefix, rate, cmfx.Unlimit(u.Module().Server())).
 		Get("/register/{username}", p.registerBegin, u.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").Desc(web.Phrase("passkey begin register api"), nil).
@@ -81,6 +81,8 @@ func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration,
 				Body(protocol.CredentialAssertionResponse{}, false, nil, nil).
 				ResponseEmpty("201")
 		}))
+
+	u.AddPassport(p)
 
 	return p
 }
