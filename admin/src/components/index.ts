@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -17,6 +17,7 @@ export * from './icon';
 export * from './notify';
 export * from './page';
 export * from './pagination';
+export * from './qrcode';
 export * from './tab';
 export * from './table';
 export * from './tree';

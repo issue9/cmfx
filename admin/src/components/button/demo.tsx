@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
+import { Accessor, For, JSX, Setter } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
+import { arraySelector, boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
 import { Icon } from '@/components/icon';
 import { Button } from './button';
 import { ConfirmButton } from './confirm';
@@ -13,28 +13,12 @@ import { LinkButton } from './link';
 import { SplitButton } from './split';
 import { Kind, kinds } from './types';
 
-export function styleSelector(v: Kind = 'fill'): [JSX.Element, Accessor<Kind>, Setter<Kind>] {
-    const [get, set] = createSignal<Kind>(v);
-
-    const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
-        <legend>风格</legend>
-        <For each={kinds}>
-            {(item)=>(
-                <label class="mr-4">
-                    <input class="mr-1" type="radio" name="style"
-                        value={item} onClick={()=>set(item as any)}
-                        checked={get()===item}
-                    />{item ? item : 'undefined'}
-                </label>
-            )}
-        </For>
-    </fieldset>;
-
-    return [elem, get, set];
+export function kindSelector(v: Kind = 'fill'): [JSX.Element, Accessor<Kind>, Setter<Kind>] {
+    return arraySelector('风格', kinds, v);
 }
 
 export default function() {
-    const [styleS, style] = styleSelector('fill');
+    const [styleS, style] = kindSelector('fill');
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 

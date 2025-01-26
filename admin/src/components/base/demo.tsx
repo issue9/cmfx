@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,42 +25,30 @@ export function boolSelector(label: string, preset: boolean = false):[JSX.Elemen
  * @param preset 默认值
  */
 export function paletteSelector(preset?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
-    const [get, set] = createSignal<Palette|undefined>(preset);
-
-    const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
-        <legend>颜色</legend>
-        <For each={palettesWithUndefined}>
-            {(item)=>(
-                <label class="mr-4">
-                    <input class="mr-1" type="radio" name="palette"
-                        value={item} onClick={()=>set(item as any)}
-                        checked={get()===item}
-                    />{item ? item : 'undefined'}
-                </label>
-            )}
-        </For>
-    </fieldset>;
-
-    return [elem, get, set];
+    return arraySelector<Palette|undefined>('颜色', palettesWithUndefined, preset);
 }
 
 export function cornerSelector(preset: Corner = 'bottomleft'): [JSX.Element, Accessor<Corner>, Setter<Corner>] {
-    const [get, set] = createSignal<Corner>(preset);
+    return arraySelector('位置', corners, preset);
+}
 
+export function arraySelector<T extends string|number|undefined>(label: string, array: ReadonlyArray<T>, preset: T): [JSX.Element, Accessor<T>, Setter<T>] {
+    const [get, set] = createSignal<T>(preset);
+    
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
-        <legend>位置</legend>
-        <For each={corners}>
-            {(item)=>(
+        <legend>{ label }</legend>
+        <For each={array}>
+            {(item) => (
                 <label class="mr-4">
                     <input class="mr-1" type="radio" name="corner"
-                        value={item} onClick={()=>set(item as any)}
-                        checked={get()===item}
-                    />{item ? item : 'undefined'}
+                        value={item} onClick={() => set(item as any)}
+                        checked={get() === item}
+                    />{item !== undefined ? item : 'undefined'}
                 </label>
             )}
         </For>
     </fieldset>;
-
+    
     return [elem, get, set];
 }
 

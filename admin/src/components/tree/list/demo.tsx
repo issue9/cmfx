@@ -1,33 +1,15 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
+import { createSignal } from 'solid-js';
 
-import { Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { arraySelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { Item } from '@/components/tree/item';
-import { List, Props } from './list';
+import { List } from './list';
 
-type SelectedClass = Props['selectedClass'];
-
-export function selectedClassSelector(v?: string): [JSX.Element, Accessor<SelectedClass>, Setter<SelectedClass>] {
-    const [get, set] = createSignal<SelectedClass>(v);
-
-    const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
-        <legend>selected class</legend>
-        <For each={['selected', '', undefined]}>
-            {(item)=>(
-                <label class="mr-4">
-                    <input class="mr-1" type="radio" name="style"
-                        value={item} onClick={()=>set(item as any)}
-                        checked={get()===item}
-                    />{item ? item : (item === '' ? '<empty>' : '默认值')}
-                </label>
-            )}
-        </For>
-    </fieldset>;
-
-    return [elem, get, set];
+export function selectedClassSelector(v?: string) {
+    return arraySelector('selected class', ['selected', '', undefined], v);
 }
 
 export default function() {

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -24,6 +24,7 @@ export const routes: Array<Route> = [
     { path: '/typography', component: lazy(() => import('@/components/typography/demo')) },
     { path: '/card', component: lazy(() => import('@/components/card/demo')) },
     { path: '/tab', component: lazy(() => import('@/components/tab/demo')) },
+    { path: '/qrcode', component: lazy(() => import('@/components/qrcode/demo')) },
 
     { path: '/tree-list', component: lazy(() => import('@/components/tree/list/demo')) },
     { path: '/tree-menu', component: lazy(() => import('@/components/tree/menu/demo')) },
