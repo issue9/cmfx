@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -72,6 +72,9 @@ const messages = {
                 changePassword: 'change password',
                 oldPassword: 'old password',
                 newPassword: 'new password',
+                bindTOTP: 'bind totp',
+                unbindTOTP: 'unbind totp',
+                requestTOTPSecret: 'request totp secret code',
             },
             system: {
                 apis: 'API',

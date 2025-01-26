@@ -146,7 +146,7 @@ export function Profile(props: Props): JSX.Element {
                                 
                                 <td>{username()}</td>
                                 <td class="flex gap-2">
-                                    {props.passports.get(item.id)?.Actions(item.id)}
+                                    {props.passports.get(item.id)?.Actions(username())}
                                 </td>
                             </tr>;
                         }}

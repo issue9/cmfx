@@ -13,7 +13,7 @@ export interface PassportComponents {
     /**
      * 编辑页的操作按钮
      *
-     * @param id 当前组件的 ID
+     * @param identity 与当前组件关联的账号，若是未关联则传递空值；
      */
-    Actions(id: string): JSX.Element;
+    Actions(identity?: string): JSX.Element;
 }

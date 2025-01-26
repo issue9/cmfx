@@ -22,6 +22,17 @@ interface PasswordValue {
  * 密码登录方式
  */
 export class Pwd implements PassportComponents {
+    #id: string;
+
+    /**
+     * 构造函数
+     *
+     * @param id 组件的 ID；
+     */
+    constructor(id: string) {
+        this.#id = id;
+    }
+
     Login(): JSX.Element {
         const ctx = useApp();
         const opt = useOptions();
@@ -29,7 +40,7 @@ export class Pwd implements PassportComponents {
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
 
         return <form onReset={() => account.reset()} onSubmit={async () => {
-            const r = await ctx.api.post('/passports/password/login', account.object());
+            const r = await ctx.api.post(`/passports/${this.#id}/login`, account.object());
             const ret = await ctx.login(r);
             if (ret === true) {
                 nav(opt.routes.private.home);
@@ -48,7 +59,7 @@ export class Pwd implements PassportComponents {
         </form>;
     }
 
-    Actions(id: string): JSX.Element {
+    Actions(_?: string): JSX.Element {
         let dialogRef: DialogRef;
         const ctx = useApp();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
@@ -60,7 +71,7 @@ export class Pwd implements PassportComponents {
 
             <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {
-                    const r = await ctx.api.put(`/passports/${id}`, pwd.object());
+                    const r = await ctx.api.put(`/passports/${this.#id}`, pwd.object());
                     if (!r.ok) {
                         await ctx.outputProblem(r.body);
                         return undefined;

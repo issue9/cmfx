@@ -5,10 +5,12 @@
 import { PassportComponents } from './passports';
 import { Pwd } from './password';
 import { TOTP } from './totp';
+import { Webauthn } from './webauthn';
 
 export type { PassportComponents } from './passports';
 
-export const componens = new Map<string, PassportComponents>([
-    ['password', new Pwd()],
-    ['totp', new TOTP()],
+export const components = new Map<string, PassportComponents>([
+    ['password', new Pwd('password')],
+    ['totp', new TOTP('totp')],
+    ['webauthn', new Webauthn('webauthn')],
 ]);

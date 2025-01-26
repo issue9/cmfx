@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -75,6 +75,9 @@ const messages: Messages = {
                 changePassword: '更改密码',
                 oldPassword: '旧密码',
                 newPassword: '新密码',
+                bindTOTP: '绑定 TOTP',
+                unbindTOTP: '解绑 TOTP',
+                requestTOTPSecret: '请求 TOTP 安全码',
             },
             system: {
                 apis: 'API',

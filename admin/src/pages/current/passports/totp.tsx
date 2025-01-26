@@ -3,29 +3,45 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import { JSX } from 'solid-js';
+import { createSignal, JSX, Show } from 'solid-js';
 
-import { Button, Icon, ObjectAccessor, TextField, useApp, useOptions } from '@/components';
+import { Button, Dialog, DialogRef, FieldAccessor, Icon, ObjectAccessor, TextField, useApp, useOptions } from '@/components';
 import { PassportComponents } from './passports';
 
-interface TOTPAccount {
+interface Account {
     username: string;
     code: string;
+}
+
+interface Secret {
+    secret: string;
+    username: string;
 }
 
 /**
  * TOTP 登录方式
  */
 export class TOTP implements PassportComponents {
+    #id: string;
+
+    /**
+     * 构造函数
+     *
+     * @param id 组件的 ID；
+     */
+    constructor(id: string) {
+        this.#id = id;
+    }
+
     Login(): JSX.Element {
         const ctx = useApp();
         const opt = useOptions();
         const nav = useNavigate();
 
-        const account = new ObjectAccessor<TOTPAccount>({ username: '', code: '' });
+        const account = new ObjectAccessor<Account>({ username: '', code: '' });
 
         return <form onReset={() => account.reset()} onSubmit={async () => {
-            const r = await ctx.api.post('/passports/code/login', account.object());
+            const r = await ctx.api.post(`/passports/${this.#id}/login`, account.object());
             const ret = await ctx.login(r);
             if (ret === true) {
                 nav(opt.routes.private.home);
@@ -45,10 +61,52 @@ export class TOTP implements PassportComponents {
         </form>;
     }
     
-    Actions(id: string): JSX.Element {
-        //
+    Actions(username?: string): JSX.Element {
+        const ctx = useApp();
+        let dialogRef: DialogRef;
+        const code = FieldAccessor('code', '');
+        const [secret, setSecret] = createSignal<Secret>({secret:'',username:''});
+
         return <>
-            TODO
+            <Show when={username}>
+                <Button icon rounded title={ctx.locale().t('_i.page.current.unbindTOTP')} onClick={async () => {
+                    const r = await ctx.api.delete(`/passports/${this.#id}`);
+                    if (!r.ok) {
+                        ctx.outputProblem(r.body);
+                    }
+                }}>link_off</Button>
+            </Show>
+
+            <Show when={!username}>
+                <Button icon rounded title={ctx.locale().t('_i.page.current.requestTOTPSecret')} onClick={async () => {
+                    const r = await ctx.api.post<Secret>(`/passports/${this.#id}/secret`);
+                    if (!r.ok) {
+                        ctx.outputProblem(r.body);
+                        return;
+                    }
+
+                    setSecret(r.body!);
+                    dialogRef.showModal();
+                }}>add_link</Button>
+                
+                <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.changePassword')}
+                    actions={dialogRef!.DefaultActions(async () => {
+                        const r = await ctx.api.put(`/passports/${this.#id}`, {'code': code.getValue()});
+                        if (!r.ok) {
+                            await ctx.outputProblem(r.body);
+                            return undefined;
+                        }
+                
+                        await ctx.refetchUser();
+                        return undefined;
+                    })}>
+                    <form class="flex flex-col gap-2">
+                        <p>{ secret().username /* TODO 显示二维码 */ }</p>
+                        <p>{ secret().secret }</p>
+                        <TextField placeholder={ctx.locale().t('_i.page.current.newPassword')} accessor={code} />
+                    </form>
+                </Dialog>
+            </Show>
         </>;
     }
 }
