@@ -13,7 +13,12 @@ export interface PassportComponents {
     /**
      * 编辑页的操作按钮
      *
+     * @param refresh 刷新页面，Actions 当前方法会改变验证方法列表的内容，可以调用此方法刷新；
      * @param identity 与当前组件关联的账号，若是未关联则传递空值；
      */
-    Actions(identity?: string): JSX.Element;
+    Actions(refresh: RefreshFunc, identity?: string): JSX.Element;
+}
+
+export interface RefreshFunc {
+    (): Promise<void>;
 }

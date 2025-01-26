@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Breakpoint, Contrast, Theme as CoreTheme, DictLoader, Mimetype, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
+import {
+    Breakpoint, Contrast, Theme as CoreTheme, DictLoader,
+    Mimetype, Mode, PickOptional, Scheme, UnitStyle
+} from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';

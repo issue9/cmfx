@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
-import { JSX } from 'solid-js';
+import { JSX, Show } from 'solid-js';
 
-import { Button, Icon, ObjectAccessor, Password, TextField, useApp, useOptions } from '@/components';
-import { PassportComponents } from './passports';
+import { Button, ConfirmButton, Icon, ObjectAccessor, Password, TextField, useApp, useOptions } from '@/components';
+import { PassportComponents, RefreshFunc } from './passports';
 
 interface Account {
     username: string;
@@ -51,14 +51,21 @@ export class Webauthn implements PassportComponents {
         </form>;
     }
 
-    Actions(username?: string): JSX.Element {
+    Actions(f: RefreshFunc, username?: string): JSX.Element {
         const ctx = useApp();
-        
+
         return <>
-            <Button icon rounded title={ctx.locale().t('_i.page.current.bindWebauthn')} onClick={() => {
-            }}>add_link</Button>
-            <Button icon rounded title={ctx.locale().t('_i.page.current.unbindWebauthn')} onClick={() => {
-            }}>link_off</Button>
+            <Show when={!username}>
+                <Button icon rounded title={ctx.locale().t('_i.page.current.bindWebauthn')} onClick={() => {
+                    // TODO
+                }}>add_link</Button>
+            </Show>
+
+            <Show when={username}>
+                <ConfirmButton palette='error' icon rounded title={ctx.locale().t('_i.page.current.unbindWebauthn')} onClick={() => {
+                    // TODO
+                }}>link_off</ConfirmButton>
+            </Show>
         </>;
     }
 }

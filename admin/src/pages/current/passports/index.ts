@@ -7,7 +7,7 @@ import { Pwd } from './password';
 import { TOTP } from './totp';
 import { Webauthn } from './webauthn';
 
-export type { PassportComponents } from './passports';
+export type { PassportComponents, RefreshFunc } from './passports';
 
 export const components = new Map<string, PassportComponents>([
     ['password', new Pwd('password')],

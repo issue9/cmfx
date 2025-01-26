@@ -5,14 +5,19 @@
 import { useNavigate } from '@solidjs/router';
 import { createSignal, JSX, Show } from 'solid-js';
 
-import { Button, Dialog, DialogRef, FieldAccessor, Icon, ObjectAccessor, TextField, useApp, useOptions } from '@/components';
-import { PassportComponents } from './passports';
+import {
+    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
+    Icon, ObjectAccessor, QRCode, TextField, useApp, useOptions
+} from '@/components';
+import { PassportComponents, RefreshFunc } from './passports';
 
+// 登录框的字段
 interface Account {
     username: string;
     code: string;
 }
 
+// 请求绑定时返回的字段
 interface Secret {
     secret: string;
     username: string;
@@ -60,25 +65,29 @@ export class TOTP implements PassportComponents {
             <Button palette='secondary' disabled={account.isPreset()} type="reset">{ctx.locale().t('_i.reset')}</Button>
         </form>;
     }
-    
-    Actions(username?: string): JSX.Element {
+
+    Actions(f: RefreshFunc, username?: string): JSX.Element {
         const ctx = useApp();
+        const opt = useOptions();
+        
         let dialogRef: DialogRef;
         const code = FieldAccessor('code', '');
         const [secret, setSecret] = createSignal<Secret>({secret:'',username:''});
 
         return <>
             <Show when={username}>
-                <Button icon rounded title={ctx.locale().t('_i.page.current.unbindTOTP')} onClick={async () => {
+                <ConfirmButton palette='error' icon rounded title={ctx.locale().t('_i.page.current.unbindTOTP')} onClick={async () => {
                     const r = await ctx.api.delete(`/passports/${this.#id}`);
                     if (!r.ok) {
                         ctx.outputProblem(r.body);
+                        return;
                     }
-                }}>link_off</Button>
+                    await f();
+                }}>link_off</ConfirmButton>
             </Show>
 
             <Show when={!username}>
-                <Button icon rounded title={ctx.locale().t('_i.page.current.requestTOTPSecret')} onClick={async () => {
+                <Button icon rounded title={ctx.locale().t('_i.page.current.bindTOTP')} onClick={async () => {
                     const r = await ctx.api.post<Secret>(`/passports/${this.#id}/secret`);
                     if (!r.ok) {
                         ctx.outputProblem(r.body);
@@ -89,21 +98,21 @@ export class TOTP implements PassportComponents {
                     dialogRef.showModal();
                 }}>add_link</Button>
                 
-                <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.changePassword')}
+                <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.bindTOTP')}
                     actions={dialogRef!.DefaultActions(async () => {
                         const r = await ctx.api.put(`/passports/${this.#id}`, {'code': code.getValue()});
                         if (!r.ok) {
                             await ctx.outputProblem(r.body);
                             return undefined;
                         }
-                
+
                         await ctx.refetchUser();
                         return undefined;
                     })}>
                     <form class="flex flex-col gap-2">
-                        <p>{ secret().username /* TODO 显示二维码 */ }</p>
-                        <p>{ secret().secret }</p>
-                        <TextField placeholder={ctx.locale().t('_i.page.current.newPassword')} accessor={code} />
+                        <QRCode type='rounded' value={`otpauth://topt/${secret().username}?secret=${secret().secret}&issuer=${opt.title}`} />
+                        <br />
+                        <TextField placeholder={ctx.locale().t('_i.page.current.verifyCode')} accessor={code} />
                     </form>
                 </Dialog>
             </Show>

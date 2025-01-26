@@ -6,7 +6,7 @@ import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField, useApp, useOptions } from '@/components';
-import { PassportComponents } from './passports';
+import { PassportComponents, RefreshFunc } from './passports';
 
 interface PasswordAccount {
     username: string;
@@ -59,7 +59,7 @@ export class Pwd implements PassportComponents {
         </form>;
     }
 
-    Actions(_?: string): JSX.Element {
+    Actions(__: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
         const ctx = useApp();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
