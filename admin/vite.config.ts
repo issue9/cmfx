@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -68,7 +68,8 @@ export default defineConfig({
                 'messages/zh-Hans': './src/messages/zh-Hans.ts',
             },
             formats: ['es', 'cjs'],
-            fileName: (format, name) => `${name}.${format}.js`
+            fileName: (format, name) => `${name}.${format}.js`,
+            cssFileName: 'style',
         },
         rollupOptions: {
             // 不需要打包的内容
