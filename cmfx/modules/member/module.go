@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/orm/v6/sqlbuilder"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
 
@@ -312,4 +313,12 @@ func (m *Module) SetType(tx *orm.Tx, uid, t int64) error {
 	e := m.UserModule().Module().Engine(tx)
 	_, err := e.Update(&infoPO{ID: uid, Type: t}, "type")
 	return err
+}
+
+// LeftJoin 将 以 LEFT JOIN 的形式插入到 sql 语句中
+//
+// alias 为 [infoPO] 表的别名，on 为 LEFT JOIN 的条件。
+func (m *Module) LeftJoin(sql *sqlbuilder.SelectStmt, alias, on string) {
+	sql.Columns(alias+".birthday", alias+".sex", alias+".nickname", alias+".avatar", alias+".inviter", alias+".level", alias+".type").
+		Join("LEFT", m.UserModule().Module().DB().TablePrefix()+(&infoPO{}).TableName(), alias, on)
 }

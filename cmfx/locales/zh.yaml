@@ -170,6 +170,12 @@ messages:
     - key: forbidden can not delete yourself detail
       message:
         msg: 不允许删除自身
+    - key: forbidden must be author
+      message:
+        msg: 只能由作者操作
+    - key: forbidden must be author detail
+      message:
+        msg: 该操作只能由作者进行操作。
     - key: forbidden state not allow
       message:
         msg: 当前状态不允许该操作
@@ -319,6 +325,12 @@ messages:
     - key: must be a dir
       message:
         msg: 必须得是个目录
+    - key: must be between (%v,%v)
+      message:
+        msg: 值必须介于 (%v,%v) 之间
+    - key: must be between [%v,%v]
+      message:
+        msg: 值必须介于 [%v,%v] 之间
     - key: must be empty
       message:
         msg: 必须为空

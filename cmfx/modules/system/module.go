@@ -97,12 +97,12 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 				Desc(web.Phrase("get api list api"), nil)
 		})).
 		Post("/systat", m.adminPostSystat, resGetStat, mod.API(func(o *openapi.Operation) {
-			o.Tag("system", "systat").
+			o.Tag("system", "systat", "sse").
 				Desc(web.Phrase("subscribe system stat api"), nil).
 				ResponseEmpty("201")
 		})).
 		Delete("/systat", m.adminDeleteSystat, resGetStat, mod.API(func(o *openapi.Operation) {
-			o.Tag("system", "systat").
+			o.Tag("system", "systat", "sse").
 				Desc(web.Phrase("unsubscribe system stat api"), nil).
 				ResponseEmpty("204")
 		})).

@@ -163,6 +163,12 @@ messages:
     - key: forbidden can not delete yourself detail
       message:
         msg: forbidden can not delete yourself detail
+    - key: forbidden must be author
+      message:
+        msg: forbidden must be author
+    - key: forbidden must be author detail
+      message:
+        msg: forbidden must be author detail
     - key: forbidden state not allow
       message:
         msg: forbidden state not allow
@@ -310,6 +316,12 @@ messages:
     - key: must be a dir
       message:
         msg: must be a dir
+    - key: must be between (%v,%v)
+      message:
+        msg: must be between (%v,%v)
+    - key: must be between [%v,%v]
+      message:
+        msg: must be between [%v,%v]
     - key: must be empty
       message:
         msg: must be empty
