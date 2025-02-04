@@ -96,18 +96,23 @@ func (p *passkey) Delete(uid int64) error {
 	return err
 }
 
-func (p *passkey) Identity(uid int64) string {
+func (p *passkey) Identity(uid int64) (string, int8) {
 	if u, err := p.user.GetUser(uid); err != nil {
 		p.user.Module().Server().Logs().ERROR().Error(err)
-		return ""
+		return "", -1
 	} else {
 		mod := &accountPO{UID: u.ID}
 		if found, err := p.db.Select(mod); err != nil {
 			p.user.Module().Server().Logs().ERROR().Error(err)
-			return ""
+			return "", -1
 		} else if !found {
-			return ""
+			return "", -1
 		}
-		return u.Username
+
+		state := int8(0)
+		if !mod.Binded.Valid {
+			state = 1
+		}
+		return u.Username, state
 	}
 }

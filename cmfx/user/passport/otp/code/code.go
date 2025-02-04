@@ -289,15 +289,15 @@ func (e *code) Delete(uid int64) error {
 	return err
 }
 
-func (e *code) Identity(uid int64) string {
+func (e *code) Identity(uid int64) (string, int8) {
 	mod := &accountPO{UID: uid}
 	found, err := e.db.Select(mod)
 	if err != nil {
 		e.user.Module().Server().Logs().ERROR().Error(err)
-		return ""
+		return "", -1
 	}
 	if !found {
-		return ""
+		return "", -1
 	}
-	return mod.Target
+	return mod.Target, 0
 }

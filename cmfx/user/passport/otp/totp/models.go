@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -48,4 +48,5 @@ type secretVO struct {
 	XMLName  struct{} `xml:"secret" yaml:"-" json:"-" cbor:"-"`
 	Username string   `json:"username" yaml:"username" cbor:"username" xml:"username" comment:"username"`
 	Secret   string   `json:"secret" yaml:"secret" cbor:"secret" xml:"secret" comment:"totp secret"`
+	Expired  int      `json:"expired" yaml:"expired" cbor:"expired" xml:"expired" comment:"expired in seconds"`
 }

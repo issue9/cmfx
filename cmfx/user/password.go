@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -157,18 +157,18 @@ func (p *password) Description() web.LocaleStringer { return web.Phrase("passpor
 // Delete 删除关联的密码信息
 func (p *password) Delete(int64) error { return nil }
 
-func (p *password) Identity(uid int64) string {
+func (p *password) Identity(uid int64) (string, int8) {
 	mod := &User{ID: uid}
 	found, err := p.mod.mod.DB().Select(mod)
 	if err != nil {
 		p.mod.Module().Server().Logs().ERROR().Error(err)
-		return ""
+		return "", -1
 	}
 	if !found {
-		return ""
+		return "", -1
 	}
 
-	return mod.Username
+	return mod.Username, 0
 }
 
 // UsernameValidator 账号名的验证器

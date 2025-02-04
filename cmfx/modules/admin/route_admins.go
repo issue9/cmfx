@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,7 +25,7 @@ type adminInfoVO struct {
 	infoWithRoleStateVO
 
 	// 当前用户已经开通的验证方式
-	Passports []*passportIdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
+	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {
@@ -53,14 +53,8 @@ func (m *Module) getAdmin(ctx *web.Context) web.Responser {
 		rs = append(rs, r.ID)
 	}
 
-	ps := make([]*passportIdentityVO, 0)
-	for k, v := range m.user.Identities(id) {
-		ps = append(ps, &passportIdentityVO{
-			ID:       k,
-			Identity: v,
-		})
-	}
-	slices.SortFunc(ps, func(a, b *passportIdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
+	ps := slices.Collect(m.user.Identities(id))
+	slices.SortFunc(ps, func(a, b *user.IdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&adminInfoVO{
 		infoWithRoleStateVO: infoWithRoleStateVO{

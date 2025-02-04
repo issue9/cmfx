@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -38,8 +38,8 @@ func TestTOTP(t *testing.T) {
 	u1, err := u.GetUserByUsername("u1")
 	a.NotError(err).NotNil(u1)
 
-	identity := p.Identity(u1.ID)
-	a.Empty(identity)
+	identity, state := p.Identity(u1.ID)
+	a.Equal(state, -1).Empty(identity)
 
 	// 未注册，登录不了
 	suite.Post("/user/passports/totp/login", nil).

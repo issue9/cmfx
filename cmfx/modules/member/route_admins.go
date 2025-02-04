@@ -55,7 +55,7 @@ type adminInfoVO struct {
 	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
 
 	// 当前用户已经开通的验证方式
-	Passports []*passportIdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
+	Passports []*user.IdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
 }
 
 func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
@@ -119,11 +119,6 @@ func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
 	})
 }
 
-type passportIdentityVO struct {
-	ID       string `json:"id" xml:"id" cbor:"id" yaml:"id"`
-	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"id"`
-}
-
 func (m *Module) adminGetMemberInvited(ctx *web.Context) web.Responser {
 	uid, resp := ctx.PathID("id", cmfx.NotFoundInvalidPath)
 	if resp != nil {
@@ -162,14 +157,8 @@ func (m *Module) adminGetMember(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	ps := make([]*passportIdentityVO, 0)
-	for k, v := range m.user.Identities(id) {
-		ps = append(ps, &passportIdentityVO{
-			ID:       k,
-			Identity: v,
-		})
-	}
-	slices.SortFunc(ps, func(a, b *passportIdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
+	ps := slices.Collect(m.user.Identities(id))
+	slices.SortFunc(ps, func(a, b *user.IdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&adminInfoVO{
 		ID:        u.ID,
