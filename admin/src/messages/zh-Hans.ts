@@ -79,6 +79,7 @@ const messages: Messages = {
                 verifyCode: '验证码',
                 bindWebauthn: '绑定 webauthn',
                 unbindWebauthn: '解绑 webauthn',
+                invalidCode: '无效的验证码',
             },
             system: {
                 apis: 'API',

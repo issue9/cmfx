@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { base32nopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, JSX, Show } from 'solid-js';
 
@@ -71,8 +72,8 @@ export class TOTP implements PassportComponents {
         const opt = useOptions();
         
         let dialogRef: DialogRef;
-        const code = FieldAccessor('code', '');
-        const [secret, setSecret] = createSignal<Secret>({secret:'',username:''});
+        const code = FieldAccessor('code', '', true);
+        const [qr, setQR] = createSignal<string>('');
 
         return <>
             <Show when={username}>
@@ -94,23 +95,26 @@ export class TOTP implements PassportComponents {
                         return;
                     }
 
-                    setSecret(r.body!);
+                    const s = r.body! as Secret;
+                    s.secret = base32nopad.encode(new TextEncoder().encode(s.secret));
+                    setQR(`otpauth://totp/${opt.title}:${s.username}?secret=${s.secret}&issuer=${opt.title}`);
                     dialogRef.showModal();
                 }}>add_link</Button>
-                
+
                 <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.bindTOTP')}
                     actions={dialogRef!.DefaultActions(async () => {
-                        const r = await ctx.api.put(`/passports/${this.#id}`, {'code': code.getValue()});
+                        const r = await ctx.api.post(`/passports/${this.#id}`, {'code': code.getValue()});
                         if (!r.ok) {
-                            await ctx.outputProblem(r.body);
-                            return undefined;
+                            code.setError(ctx.locale().t('_i.page.current.invalidCode'));
+                            return false;
                         }
 
                         await ctx.refetchUser();
-                        return undefined;
                     })}>
                     <form class="flex flex-col gap-2">
-                        <QRCode type='rounded' value={`otpauth://topt/${secret().username}?secret=${secret().secret}&issuer=${opt.title}`} />
+                        <p title={qr()}>
+                            <QRCode type='rounded' value={qr()} />
+                        </p>
                         <br />
                         <TextField placeholder={ctx.locale().t('_i.page.current.verifyCode')} accessor={code} />
                     </form>

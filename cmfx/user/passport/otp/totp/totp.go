@@ -53,15 +53,6 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 		desc: desc,
 	}
 
-	user.Module().Server().Services().AddTicker(web.Phrase("gc totp secret code"), func(now time.Time) error {
-		_, err := p.db.SQLBuilder().Delete().
-			Where("requested>?", now.Add(secretExpired)).
-			AndIsNull("binded").
-			Table(orm.TableName(&accountPO{})).
-			Exec()
-		return err
-	}, time.Minute, false, false)
-
 	prefix := utils.BuildPrefix(user, id)
 	rate := utils.BuildRate(user, id)
 	user.Module().Router().Post(prefix+"/login", p.login, rate, cmfx.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
@@ -121,6 +112,16 @@ func (p *totp) Identity(uid int64) (string, int8) {
 			return "", -1
 		}
 
+		// 未绑定，但是请求时间已经超过最大的过期时间，直接删除。
+		if !mod.Binded.Valid && mod.Requested.Add(secretExpired).After(time.Now()) {
+			if _, err := p.db.Delete(&accountPO{UID: u.ID}); err != nil {
+				p.user.Module().Server().Logs().ERROR().Error(err)
+				goto RET
+			}
+			return "", -1
+		}
+
+	RET:
 		state := int8(0)
 		if !mod.Binded.Valid {
 			state = 1
@@ -191,7 +192,7 @@ func (p *totp) login(ctx *web.Context) web.Responser {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
 
-	if valid(data.Code, mod.Secret) {
+	if !valid(data.Code, mod.Secret) {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
 	return p.user.CreateToken(ctx, u, p)

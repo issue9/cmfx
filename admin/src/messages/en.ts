@@ -76,6 +76,7 @@ const messages = {
                 verifyCode: 'verify code',
                 bindWebauthn: 'bind webauthn',
                 unbindWebauthn: 'unbind webauthn',
+                invalidCode: 'invalid code',
             },
             system: {
                 apis: 'API',
