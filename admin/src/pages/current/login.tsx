@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Navigate } from '@solidjs/router';
+import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
 import { buildEnumsOptions, Choice, FieldAccessor, Page, useApp, useOptions } from '@/components';
@@ -43,11 +43,13 @@ export function Login(props: Props): JSX.Element {
 
 function LoginBox(props: Props): JSX.Element {
     const ctx = useApp();
+    const [q,setQ] = useSearchParams<{ type: string }>();
 
     ctx.api.cache('/passports');
 
     const [passports, setPassports] = createSignal<Array<[string,string]>>([]);
-    const passport = FieldAccessor('passport', 'password');
+    const passport = FieldAccessor('passport', q.type ?? 'password');
+    passport.onChange((n) => setQ({ type: n }));
 
     onMount(async () => {
         const r = await ctx.api.get<Array<Passport>>('/passports');
