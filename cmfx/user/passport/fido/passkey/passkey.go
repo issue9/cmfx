@@ -8,6 +8,7 @@
 package passkey
 
 import (
+	nu "net/url"
 	"time"
 
 	"github.com/go-webauthn/webauthn/protocol"
@@ -33,14 +34,20 @@ type passkey struct {
 
 // Init 初始化 passkey 模块
 //
+// id 表示 RPID 的值；
 // ttl 表示 passkey 从 begin 到 finish 的有效时间；
 // url 表示 webauthn 的 origins 参数；
 func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration, url ...string) user.Passport {
 	s := u.Module().Server()
 
+	uu, err := nu.Parse(url[0])
+	if err != nil {
+		panic(web.SprintError(u.Module().Server().Locale().Printer(), true, err))
+	}
+
 	wa, err := webauthn.New(&webauthn.Config{
 		RPDisplayName: s.ID(),
-		RPID:          id,
+		RPID:          uu.Hostname(),
 		RPOrigins:     url,
 	})
 	if err != nil {
@@ -60,24 +67,29 @@ func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration,
 	prefix := utils.BuildPrefix(u, id)
 	rate := utils.BuildRate(u, id)
 
-	u.Module().Router().Prefix(prefix, rate, cmfx.Unlimit(u.Module().Server())).
-		Get("/register/{username}", p.registerBegin, u.Module().API(func(o *openapi.Operation) {
-			o.Tag("auth").Desc(web.Phrase("passkey begin register api"), nil).
-				Response200(protocol.CredentialCreation{}).
-				Path("username", openapi.TypeString, web.Phrase("username"), nil)
+	u.Module().Router().Prefix(prefix, u, rate, cmfx.Unlimit(u.Module().Server())).
+		Get("/register", p.registerBegin, u.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").Desc(web.Phrase("psskey begin register for %s api", id), nil).
+				Response200(protocol.CredentialCreation{})
 		})).
-		Post("/register/{username}", p.registerFinish, u.Module().API(func(o *openapi.Operation) {
-			o.Tag("auth").Desc(web.Phrase("passkey begin register api"), nil).
+		Post("/register", p.registerFinish, u.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").Desc(web.Phrase("psskey register for %s api", id), nil).
 				Body(protocol.CredentialCreationResponse{}, false, nil, nil).
 				ResponseEmpty("201")
 		})).
+		Delete("", p.deletePasskey, u.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").Desc(web.Phrase("passkey delete for %s api", id), nil).
+				ResponseEmpty("204")
+		}))
+
+	u.Module().Router().Prefix(prefix, rate, cmfx.Unlimit(u.Module().Server())).
 		Get("/login/{username}", p.loginBegin, u.Module().API(func(o *openapi.Operation) {
-			o.Tag("auth").Desc(web.Phrase("passkey begin register api"), nil).
+			o.Tag("auth").Desc(web.Phrase("passkey begin login for %s api", id), nil).
 				Response200(protocol.CredentialAssertion{}).
 				Path("username", openapi.TypeString, web.Phrase("username"), nil)
 		})).
 		Post("/login/{username}", p.loginFinish, u.Module().API(func(o *openapi.Operation) {
-			o.Tag("auth").Desc(web.Phrase("passkey begin register api"), nil).
+			o.Tag("auth").Desc(web.Phrase("passkey login for %s api", id), nil).
 				Body(protocol.CredentialAssertionResponse{}, false, nil, nil).
 				ResponseEmpty("201")
 		}))

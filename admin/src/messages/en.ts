@@ -54,8 +54,8 @@ const messages = {
                 login: 'login',
                 username: 'username',
                 password: 'password',
-                code: 'code',
                 loggingOut: 'logging out ...',
+                invalidAccount: 'invalid account',
 
                 securitylog: 'security logs',
                 content: 'content',

@@ -62,7 +62,7 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 			Response("201", token.Response{}, nil, nil)
 	}))
 
-	user.Module().Router().Prefix(prefix, user).
+	user.Module().Router().Prefix(prefix, user, rate, cmfx.Unlimit(user.Module().Server())).
 		Post("", p.postBind, p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("bind %s passport for current user api", id), nil).
@@ -74,12 +74,12 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 				Desc(web.Phrase("delete %s passport for current user api", id), nil).
 				ResponseEmpty("204")
 		})).
-		Post("/secret", p.postSecret, rate, cmfx.Unlimit(user.Module().Server()), p.user.Module().API(func(o *openapi.Operation) {
+		Post("/secret", p.postSecret, p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("request secret for %s passport api", id), nil).
 				Response("201", secretVO{}, nil, nil)
 		})).
-		Delete("/secret", p.deleteSecret, rate, p.user.Module().API(func(o *openapi.Operation) {
+		Delete("/secret", p.deleteSecret, p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("delete secret for %s passport api", id), nil).
 				ResponseEmpty("204")

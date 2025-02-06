@@ -53,12 +53,11 @@ const messages: Messages = {
                 onlineMembers: '当前在线会员',
                 activeMembers: '活跃会员',
 
-
                 login: '登录',
                 username: '账号',
                 password: '密码',
-                code: '验证码',
                 loggingOut: '正在退出...',
+                invalidAccount: '无效的账号',
 
                 securitylog: '安全日志',
                 content: '内容',

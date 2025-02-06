@@ -11,16 +11,17 @@ import (
 	"github.com/issue9/cmfx/cmfx"
 )
 
-func (p *passkey) registerBegin(ctx *web.Context) web.Responser {
-	username, resp := ctx.PathString("username", cmfx.NotFoundInvalidPath)
-	if resp != nil {
-		return resp
-	}
+func (p *passkey) deletePasskey(ctx *web.Context) web.Responser {
+	uu := p.user.CurrentUser(ctx)
 
-	uu, err := p.user.GetUserByUsername(username)
-	if err != nil {
-		return ctx.Error(nil, "")
+	if _, err := p.db.Delete(&accountPO{UID: uu.ID}); err != nil {
+		return ctx.Error(err, "")
 	}
+	return web.NoContent()
+}
+
+func (p *passkey) registerBegin(ctx *web.Context) web.Responser {
+	uu := p.user.CurrentUser(ctx)
 	if uu == nil {
 		return ctx.NotFound()
 	}
@@ -31,7 +32,7 @@ func (p *passkey) registerBegin(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 	if !found {
-		account = &accountPO{Username: username, UID: uu.ID, Requested: ctx.Begin()}
+		account = &accountPO{Username: uu.Username, UID: uu.ID, Requested: ctx.Begin()}
 		if _, err := p.db.Insert(account); err != nil {
 			return ctx.Error(err, "")
 		}
@@ -42,7 +43,7 @@ func (p *passkey) registerBegin(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	if err := p.cache.Set("reg-"+username, session, p.ttl); err != nil {
+	if err := p.cache.Set("reg-"+uu.Username, session, p.ttl); err != nil {
 		return ctx.Error(err, "")
 	}
 
@@ -50,12 +51,12 @@ func (p *passkey) registerBegin(ctx *web.Context) web.Responser {
 }
 
 func (p *passkey) registerFinish(ctx *web.Context) web.Responser {
-	username, resp := ctx.PathString("username", cmfx.NotFoundInvalidPath)
-	if resp != nil {
-		return resp
+	u := p.user.CurrentUser(ctx)
+	if u == nil {
+		return ctx.NotFound()
 	}
 
-	account := &accountPO{Username: username}
+	account := &accountPO{UID: u.ID}
 	found, err := p.db.Select(account)
 	if err != nil {
 		return ctx.Error(err, "")
@@ -65,7 +66,7 @@ func (p *passkey) registerFinish(ctx *web.Context) web.Responser {
 	}
 
 	session := webauthn.SessionData{}
-	if err := p.cache.Get("reg-"+username, &session); err != nil {
+	if err := p.cache.Get("reg-"+u.Username, &session); err != nil {
 		return ctx.Error(err, "")
 	}
 
@@ -73,8 +74,7 @@ func (p *passkey) registerFinish(ctx *web.Context) web.Responser {
 	if err != nil {
 		return ctx.Error(err, "")
 	}
-	account.Credentials = append(account.Credentials, *c)
-	if _, err = p.db.Update(account); err != nil {
+	if _, err = p.db.Update(&accountPO{UID: u.ID, Credentials: append(account.Credentials, *c)}); err != nil {
 		return ctx.Error(err, "")
 	}
 
@@ -82,7 +82,7 @@ func (p *passkey) registerFinish(ctx *web.Context) web.Responser {
 }
 
 func (p *passkey) loginBegin(ctx *web.Context) web.Responser {
-	username, resp := ctx.PathString("username", cmfx.NotFoundInvalidPath)
+	username, resp := ctx.PathString("username", cmfx.UnauthorizedInvalidAccount)
 	if resp != nil {
 		return resp
 	}
@@ -93,7 +93,7 @@ func (p *passkey) loginBegin(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 	if !found {
-		return ctx.NotFound()
+		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 
 	opt, session, err := p.wa.BeginLogin(account)
@@ -109,7 +109,7 @@ func (p *passkey) loginBegin(ctx *web.Context) web.Responser {
 }
 
 func (p *passkey) loginFinish(ctx *web.Context) web.Responser {
-	username, resp := ctx.PathString("username", cmfx.NotFoundInvalidPath)
+	username, resp := ctx.PathString("username", cmfx.UnauthorizedInvalidAccount)
 	if resp != nil {
 		return resp
 	}
@@ -120,7 +120,7 @@ func (p *passkey) loginFinish(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 	if !found {
-		return ctx.NotFound()
+		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 
 	session := webauthn.SessionData{}
@@ -128,10 +128,18 @@ func (p *passkey) loginFinish(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	_, err = p.wa.FinishLogin(account, session, ctx.Request())
+	if _, err = p.wa.FinishLogin(account, session, ctx.Request()); err != nil {
+		return ctx.Error(err, "")
+	}
+
+	if err = p.cache.Delete("login-" + username); err != nil {
+		ctx.Logs().ERROR().Error(err) // 只记录错误，不退出。
+	}
+
+	u, err := p.user.GetUser(account.UID)
 	if err != nil {
 		return ctx.Error(err, "")
 	}
 
-	return web.Created(nil, "")
+	return p.user.CreateToken(ctx, u, p)
 }

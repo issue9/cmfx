@@ -94,7 +94,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadL)
 		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
-		passkey.Init(adminL.UserModule(), "webauthn", web.Phrase("webauthn passport"), time.Minute, "https://example.com/webauthn")
+		passkey.Init(adminL.UserModule(), "webauthn", web.Phrase("webauthn passport"), time.Minute, "http://localhost:8080", "http://localhost:5173")
 
 		member.Load(memberMod, user.Member, uploadL, adminL)
 

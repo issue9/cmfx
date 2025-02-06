@@ -11,7 +11,7 @@
             </allowHeaders>
         </cors>
     </http>
-    <logs created="15:04:05.000" caller="true">
+    <logs created="15:04:05.000" caller="true" location="true">
         <handlers>
             <handler type="file">
                 <arg>./logs</arg>
