@@ -3,598 +3,652 @@ languages:
 messages:
     - key: TOTP passport
       message:
-        msg: TOTP passport
+          msg: TOTP passport
     - key: The ID of passport
       message:
-        msg: The ID of passport
+          msg: The ID of passport
     - key: The api doc of %s
       message:
-        msg: The api doc of %s
+          msg: The api doc of %s
     - key: The description of passport
       message:
-        msg: The description of passport
+          msg: The description of passport
     - key: add admin api
       message:
-        msg: add admin api
+          msg: add admin api
     - key: add currency value
       message:
-        msg: add currency value
+          msg: add currency value
     - key: add member level api
       message:
-        msg: add member level api
+          msg: add member level api
     - key: add member type api
       message:
-        msg: add member type api
+          msg: add member type api
     - key: add role api
       message:
-        msg: add role api
+          msg: add role api
     - key: admin module
       message:
-        msg: admin module
+          msg: admin module
     - key: admin sse server
       message:
-        msg: admin sse server
+          msg: admin sse server
     - key: admin tag
       message:
-        msg: admin tag
+          msg: admin tag
     - key: auth tag
       message:
-        msg: auth tag
+          msg: auth tag
     - key: auto register with %s
       message:
-        msg: auto register with %s
+          msg: auto register with %s
     - key: avatar
       message:
-        msg: avatar
+          msg: avatar
     - key: backup api
       message:
-        msg: backup api
+          msg: backup api
     - key: backup database
       message:
-        msg: backup database
+          msg: backup database
     - key: bad request body not allowed
       message:
-        msg: bad request body not allowed
+          msg: bad request body not allowed
     - key: bad request body not allowed detail
       message:
-        msg: bad request body not allowed detail
+          msg: bad request body not allowed detail
     - key: bad request invalid body
       message:
-        msg: bad request invalid body
+          msg: bad request invalid body
     - key: bad request invalid body detail
       message:
-        msg: bad request invalid body detail
+          msg: bad request invalid body detail
     - key: bad request invalid header
       message:
-        msg: bad request invalid header
+          msg: bad request invalid header
     - key: bad request invalid header detail
       message:
-        msg: bad request invalid header detail
+          msg: bad request invalid header detail
     - key: bad request invalid query
       message:
-        msg: bad request invalid query
+          msg: bad request invalid query
     - key: bad request invalid query detail
       message:
-        msg: bad request invalid query detail
+          msg: bad request invalid query detail
     - key: balance not enough
       message:
-        msg: balance not enough
+          msg: balance not enough
     - key: before bind need create secret
       message:
-        msg: before bind need create secret
+          msg: before bind need create secret
     - key: before bind need create secret detail
       message:
-        msg: before bind need create secret detail
+          msg: before bind need create secret detail
+    - key: bind %s
+      message:
+          msg: bind %s
     - key: bind %s passport for current user api
       message:
-        msg: bind %s passport for current user api
+          msg: bind %s passport for current user api
     - key: birthday
       message:
-        msg: birthday
+          msg: birthday
     - key: can not add user with %s state
       message:
-        msg: can not add user with %s state
+          msg: can not add user with %s state
     - key: censor setting
       message:
-        msg: censor setting
+          msg: censor setting
     - key: change current user password for %s passport api
       message:
-        msg: change current user password for %s passport api
+          msg: change current user password for %s passport api
+    - key: change password
+      message:
+          msg: change password
     - key: code
       message:
-        msg: code
+          msg: code
     - key: code receiver, ignore when binded
       message:
-        msg: code receiver, ignore when binded
+          msg: code receiver, ignore when binded
     - key: create sse token api
       message:
-        msg: create sse token api
+          msg: create sse token api
     - key: created time
       message:
-        msg: created time
+          msg: created time
     - key: currency value after action
       message:
-        msg: currency value after action
+          msg: currency value after action
     - key: currency value before action
       message:
-        msg: currency value before action
+          msg: currency value before action
     - key: del backup database file
       message:
-        msg: del backup database file
+          msg: del backup database file
+    - key: delete %s
+      message:
+          msg: delete %s
     - key: delete %s passport for current user api
       message:
-        msg: delete %s passport for current user api
+          msg: delete %s passport for current user api
     - key: delete admins
       message:
-        msg: delete admins
+          msg: delete admins
     - key: delete backup file api
       message:
-        msg: delete backup file api
+          msg: delete backup file api
     - key: delete member
       message:
-        msg: delete member
+          msg: delete member
     - key: delete role api
       message:
-        msg: delete role api
+          msg: delete role api
     - key: delete roles
       message:
-        msg: delete roles
+          msg: delete roles
+    - key: delete secret for %s passport api
+      message:
+          msg: delete secret for %s passport api
     - key: delete the admin api
       message:
-        msg: delete the admin api
+          msg: delete the admin api
     - key: delete the member api
       message:
-        msg: delete the member api
+          msg: delete the member api
     - key: edit role info api
       message:
-        msg: edit role info api
+          msg: edit role info api
     - key: edit role resources api
       message:
-        msg: edit role resources api
+          msg: edit role resources api
     - key: edit roles
       message:
-        msg: edit roles
+          msg: edit roles
     - key: expire must b after now
       message:
-        msg: expire must b after now
+          msg: expire must b after now
+    - key: expired in seconds
+      message:
+          msg: expired in seconds
     - key: forbidden can not delete yourself
       message:
-        msg: forbidden can not delete yourself
+          msg: forbidden can not delete yourself
     - key: forbidden can not delete yourself detail
       message:
-        msg: forbidden can not delete yourself detail
+          msg: forbidden can not delete yourself detail
+    - key: forbidden must be author
+      message:
+          msg: forbidden must be author
+    - key: forbidden must be author detail
+      message:
+          msg: forbidden must be author detail
     - key: forbidden state not allow
       message:
-        msg: forbidden state not allow
+          msg: forbidden state not allow
     - key: forbidden state not allow detail
       message:
-        msg: forbidden state not allow detail
+          msg: forbidden state not allow detail
     - key: general setting
       message:
-        msg: general setting
+          msg: general setting
     - key: generator code for %s
       message:
-        msg: generator code for %s
+          msg: generator code for %s
     - key: get SSE message api
       message:
-        msg: get SSE message api
+          msg: get SSE message api
     - key: get admin info api
       message:
-        msg: get admin info api
+          msg: get admin info api
     - key: get admin list api
       message:
-        msg: get admin list api
+          msg: get admin list api
     - key: get admins
       message:
-        msg: get admins
+          msg: get admins
     - key: get api list api
       message:
-        msg: get api list api
+          msg: get api list api
     - key: get backup database list
       message:
-        msg: get backup database list
+          msg: get backup database list
     - key: get backup file list api
       message:
-        msg: get backup file list api
+          msg: get backup file list api
     - key: get login user info api
       message:
-        msg: get login user info api
+          msg: get login user info api
     - key: get login user security log api
       message:
-        msg: get login user security log api
+          msg: get login user security log api
     - key: get member info api
       message:
-        msg: get member info api
+          msg: get member info api
     - key: get member invited api
       message:
-        msg: get member invited api
+          msg: get member invited api
     - key: get member level list api
       message:
-        msg: get member level list api
+          msg: get member level list api
     - key: get member list api
       message:
-        msg: get member list api
+          msg: get member list api
     - key: get member statistic
       message:
-        msg: get member statistic
+          msg: get member statistic
     - key: get member type list api
       message:
-        msg: get member type list api
+          msg: get member type list api
     - key: get members
       message:
-        msg: get members
+          msg: get members
     - key: get passports list api
       message:
-        msg: get passports list api
+          msg: get passports list api
     - key: get resources list api
       message:
-        msg: get resources list api
+          msg: get resources list api
     - key: get role resources api
       message:
-        msg: get role resources api
+          msg: get role resources api
     - key: get roles list api
       message:
-        msg: get roles list api
+          msg: get roles list api
     - key: get services list api
       message:
-        msg: get services list api
+          msg: get services list api
     - key: get system info api
       message:
-        msg: get system info api
+          msg: get system info api
     - key: get system problems api
       message:
-        msg: get system problems api
+          msg: get system problems api
     - key: has been bind code
       message:
-        msg: has been bind code
+          msg: has been bind code
     - key: has been bind code detail
       message:
-        msg: has been bind code detail
+          msg: has been bind code detail
     - key: has been bind to other account
       message:
-        msg: has been bind to other account
+          msg: has been bind to other account
     - key: has been bind totp detail
       message:
-        msg: has been bind totp detail
+          msg: has been bind totp detail
     - key: has been totp bind
       message:
-        msg: has been totp bind
+          msg: has been totp bind
     - key: id
       message:
-        msg: id
+          msg: id
     - key: identity registrable
       message:
-        msg: identity registrable
+          msg: identity registrable
     - key: identity registrable detail
       message:
-        msg: identity registrable detail
+          msg: identity registrable detail
     - key: invalid url format
       message:
-        msg: invalid url format
+          msg: invalid url format
     - key: inviter
       message:
-        msg: inviter
+          msg: inviter
     - key: lock the admin api
       message:
-        msg: lock the admin api
+          msg: lock the admin api
     - key: lock the member api
       message:
-        msg: lock the member api
+          msg: lock the member api
     - key: log IP
       message:
-        msg: log IP
+          msg: log IP
     - key: log content
       message:
-        msg: log content
+          msg: log content
     - key: log user agent
       message:
-        msg: log user agent
+          msg: log user agent
     - key: login by %s
       message:
-        msg: login by %s
+          msg: login by %s
     - key: login by %s api
       message:
-        msg: login by %s api
+          msg: login by %s api
     - key: logout api
       message:
-        msg: logout api
+          msg: logout api
     - key: member module
       message:
-        msg: member module
+          msg: member module
     - key: member tag
       message:
-        msg: member tag
+          msg: member tag
     - key: memo of action
       message:
-        msg: memo of action
+          msg: memo of action
     - key: must be a dir
       message:
-        msg: must be a dir
+          msg: must be a dir
+    - key: must be between (%v,%v)
+      message:
+          msg: must be between (%v,%v)
+    - key: must be between [%v,%v]
+      message:
+          msg: must be between [%v,%v]
     - key: must be empty
       message:
-        msg: must be empty
+          msg: must be empty
     - key: must be greater than %v
       message:
-        msg: must be greater than %v
+          msg: must be greater than %v
     - key: must be less than %v
       message:
-        msg: must be less than %v
+          msg: must be less than %v
     - key: new password
       message:
-        msg: new password
+          msg: new password
     - key: nickname
       message:
-        msg: nickname
+          msg: nickname
     - key: not exists
       message:
-        msg: not exists
+          msg: not exists
     - key: not found
       message:
-        msg: not found
+          msg: not found
     - key: not found invalid path
       message:
-        msg: not found invalid path
+          msg: not found invalid path
     - key: not found invalid path detail
       message:
-        msg: not found invalid path detail
+          msg: not found invalid path detail
     - key: old password
       message:
-        msg: old password
+          msg: old password
+    - key: passkey begin login for %s api
+      message:
+          msg: passkey begin login for %s api
+    - key: passkey delete for %s api
+      message:
+          msg: passkey delete for %s api
+    - key: passkey login for %s api
+      message:
+          msg: passkey login for %s api
     - key: passport
       message:
-        msg: passport
+          msg: passport
+    - key: passport id
+      message:
+          msg: passport id
     - key: passport password mode
       message:
-        msg: passport password mode
+          msg: passport password mode
     - key: password
       message:
-        msg: password
+          msg: password
     - key: patch admin info api
       message:
-        msg: patch admin info api
+          msg: patch admin info api
     - key: patch login user info api
       message:
-        msg: patch login user info api
+          msg: patch login user info api
     - key: patch member level api
       message:
-        msg: patch member level api
+          msg: patch member level api
     - key: patch member type api
       message:
-        msg: patch member type api
+          msg: patch member type api
     - key: post admins
       message:
-        msg: post admins
+          msg: post admins
     - key: post roles
       message:
-        msg: post roles
+          msg: post roles
     - key: precondition failed need sse
       message:
-        msg: precondition failed need sse
+          msg: precondition failed need sse
     - key: precondition failed need sse detail
       message:
-        msg: precondition failed need sse detail
+          msg: precondition failed need sse detail
     - key: problems response:\n\n%s\n
       message:
-        msg: problems response:\n\n%s\n
+          msg: problems response:\n\n%s\n
+    - key: psskey begin register for %s api
+      message:
+          msg: psskey begin register for %s api
+    - key: psskey register for %s api
+      message:
+          msg: psskey register for %s api
     - key: put admin
       message:
-        msg: put admin
+          msg: put admin
     - key: put member
       message:
-        msg: put member
+          msg: put member
     - key: put roles resources
       message:
-        msg: put roles resources
+          msg: put roles resources
     - key: rbac tag
       message:
-        msg: rbac tag
+          msg: rbac tag
     - key: refresh token
       message:
-        msg: refresh token
+          msg: refresh token
     - key: refresh token api
       message:
-        msg: refresh token api
+          msg: refresh token api
     - key: register member api
       message:
-        msg: register member api
+          msg: register member api
     - key: register successful
       message:
-        msg: register successful
+          msg: register successful
     - key: request code for %s passport bind api
       message:
-        msg: request code for %s passport bind api
+          msg: request code for %s passport bind api
     - key: request code for %s passport login api
       message:
-        msg: request code for %s passport login api
+          msg: request code for %s passport login api
     - key: request secret for %s passport api
       message:
-        msg: request secret for %s passport api
+          msg: request secret for %s passport api
     - key: role
       message:
-        msg: role
+          msg: role
     - key: role description
       message:
-        msg: role description
+          msg: role description
     - key: role id
       message:
-        msg: role id
+          msg: role id
     - key: role name
       message:
-        msg: role name
+          msg: role name
     - key: role parent
       message:
-        msg: role parent
+          msg: role parent
     - key: roles not exists
       message:
-        msg: roles not exists
+          msg: roles not exists
     - key: root module
       message:
-        msg: root module
+          msg: root module
     - key: secret expired
       message:
-        msg: secret expired
+          msg: secret expired
     - key: secret expired detail
       message:
-        msg: secret expired detail
+          msg: secret expired detail
     - key: set member level
       message:
-        msg: set member level
+          msg: set member level
     - key: set member level api
       message:
-        msg: set member level api
+          msg: set member level api
     - key: set member type
       message:
-        msg: set member type
+          msg: set member type
     - key: set member type api
       message:
-        msg: set member type api
+          msg: set member type api
     - key: settings tag
       message:
-        msg: settings tag
+          msg: settings tag
     - key: sex
       message:
-        msg: sex
+          msg: sex
     - key: state
       message:
-        msg: state
+          msg: state
     - key: strength invalid
       message:
-        msg: strength invalid
+          msg: strength invalid
     - key: subscribe system stat api
       message:
-        msg: subscribe system stat api
+          msg: subscribe system stat api
     - key: system module
       message:
-        msg: system module
+          msg: system module
     - key: system tag
       message:
-        msg: system tag
+          msg: system tag
     - key: target
       message:
-        msg: target
+          msg: target
     - key: the ID of admin
       message:
-        msg: the ID of admin
+          msg: the ID of admin
     - key: the ID of member
       message:
-        msg: the ID of member
+          msg: the ID of member
     - key: the ID of member level
       message:
-        msg: the ID of member level
+          msg: the ID of member level
     - key: the ID of member type
       message:
-        msg: the ID of member type
+          msg: the ID of member type
     - key: the backup filename
       message:
-        msg: the backup filename
+          msg: the backup filename
     - key: the file name
       message:
-        msg: the file name
+          msg: the file name
     - key: the new password can not be equal old
       message:
-        msg: the new password can not be equal old
+          msg: the new password can not be equal old
     - key: the role id
       message:
-        msg: the role id
+          msg: the role id
+    - key: the state for passport and identity
+      message:
+          msg: the state for passport and identity
     - key: the value not in candidate
       message:
-        msg: the value not in candidate
+          msg: the value not in candidate
     - key: token auth
       message:
-        msg: token auth
+          msg: token auth
     - key: totp code
       message:
-        msg: totp code
+          msg: totp code
     - key: totp secret
       message:
-        msg: totp secret
+          msg: totp secret
     - key: type of action
       message:
-        msg: type of action
+          msg: type of action
     - key: unauthorized invalid account
       message:
-        msg: unauthorized invalid account
+          msg: unauthorized invalid account
     - key: unauthorized invalid account detail
       message:
-        msg: unauthorized invalid account detail
+          msg: unauthorized invalid account detail
     - key: unauthorized invalid state
       message:
-        msg: unauthorized invalid state
+          msg: unauthorized invalid state
     - key: unauthorized invalid state detail
       message:
-        msg: unauthorized invalid state detail
+          msg: unauthorized invalid state detail
     - key: unauthorized invalid token
       message:
-        msg: unauthorized invalid token
+          msg: unauthorized invalid token
     - key: unauthorized invalid token detail
       message:
-        msg: unauthorized invalid token detail
+          msg: unauthorized invalid token detail
     - key: unauthorized need change password
       message:
-        msg: unauthorized need change password
+          msg: unauthorized need change password
     - key: unauthorized need change password detail
       message:
-        msg: unauthorized need change password detail
+          msg: unauthorized need change password detail
     - key: unauthorized security token
       message:
-        msg: unauthorized security token
+          msg: unauthorized security token
     - key: unauthorized security token detail
       message:
-        msg: unauthorized security token detail
+          msg: unauthorized security token detail
     - key: unlock the admin api
       message:
-        msg: unlock the admin api
+          msg: unlock the admin api
     - key: unlock the member api
       message:
-        msg: unlock the member api
+          msg: unlock the member api
     - key: unsubscribe system stat api
       message:
-        msg: unsubscribe system stat api
+          msg: unsubscribe system stat api
     - key: update info
       message:
-        msg: update info
+          msg: update info
     - key: upload file
       message:
-        msg: upload file
+          msg: upload file
     - key: upload module
       message:
-        msg: upload module
+          msg: upload module
     - key: upload static server
       message:
-        msg: upload static server
+          msg: upload static server
     - key: upload tag
       message:
-        msg: upload tag
+          msg: upload tag
     - key: user id
       message:
-        msg: user id
+          msg: user id
+    - key: user identity for current passport
+      message:
+          msg: user identity for current passport
     - key: user logout
       message:
-        msg: user logout
+          msg: user logout
     - key: user no
       message:
-        msg: user no
+          msg: user no
     - key: user state
       message:
-        msg: user state
+          msg: user state
     - key: user token
       message:
-        msg: user token
+          msg: user token
     - key: username
       message:
-        msg: username
+          msg: username
     - key: username %s exists
       message:
-        msg: username %s exists
+          msg: username %s exists
     - key: view apis
       message:
-        msg: view apis
+          msg: view apis
     - key: view services
       message:
-        msg: view services
+          msg: view services
     - key: view system info
       message:
-        msg: view system info
+          msg: view system info
     - key: view system stat
       message:
-        msg: view system stat
+          msg: view system stat
+    - key: webauthn passport
+      message:
+          msg: webauthn passport

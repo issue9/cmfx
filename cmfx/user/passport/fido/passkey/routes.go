@@ -129,7 +129,7 @@ func (p *passkey) loginFinish(ctx *web.Context) web.Responser {
 	}
 
 	if _, err = p.wa.FinishLogin(account, session, ctx.Request()); err != nil {
-		return ctx.Error(err, "")
+		return ctx.Error(err, cmfx.UnauthorizedInvalidAccount)
 	}
 
 	if err = p.cache.Delete("login-" + username); err != nil {
