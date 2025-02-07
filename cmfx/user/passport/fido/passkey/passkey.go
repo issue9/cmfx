@@ -34,9 +34,9 @@ type passkey struct {
 
 // Init 初始化 passkey 模块
 //
-// id 表示 RPID 的值；
+// id 表示模块的 ID；
 // ttl 表示 passkey 从 begin 到 finish 的有效时间；
-// url 表示 webauthn 的 origins 参数；
+// url 表示 webauthn 的 origins 参数，其中第一个元素的域名将作为 RPID 值；
 func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration, url ...string) user.Passport {
 	s := u.Module().Server()
 
