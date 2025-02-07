@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
 import { buildContext } from '@/components/context/context';
-import { API, compareBreakpoint, Locale } from '@/core';
+import { API, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
@@ -45,7 +45,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
         // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
         const { ctx, Provider } = buildContext(props.opt, props.api);
 
-        createEffect(() => { setFloating(!(compareBreakpoint(ctx.breakpoint(), props.opt.asideFloatingMinWidth) > 0)); });
+        //TODO createEffect(() => { setFloating(!(compareBreakpoint(ctx.breakpoint(), props.opt.asideFloatingMinWidth) > 0)); });
 
         return <Provider>
             <Notify />

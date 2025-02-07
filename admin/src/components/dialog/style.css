@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,9 +7,10 @@
 @layer components {
     .c--dialog {
         @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-bg-high;
+        @apply top-1/2 left-1/2 translate-[-50%];
 
         >header {
-            @apply flex justify-between p-2 border-b border-b-palette-bg-low;
+            @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low;
         }
 
         >main {

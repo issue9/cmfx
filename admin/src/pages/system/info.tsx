@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -115,7 +115,7 @@ export function Info(): JSX.Element {
         await ctx.api.delete('/system/systat');
     });
 
-    return <Page title="_i.page.system.info" class="max-w-lg">
+    return <Page title="_i.page.system.info" class="max-w-lg w-lg">
         <div class="p--system-info">
             <fieldset class="panel w-[45%]">
                 <Label icon="info" tag='legend'>{ctx.locale().t('_i.page.system.info')}</Label>

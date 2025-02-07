@@ -26,6 +26,7 @@
             transform-origin: left;
             transition: transform var(--transition-duration) ease-in-out;
         }
+
         >aside.aside-hidden {
             transform: scaleX(0);
         }

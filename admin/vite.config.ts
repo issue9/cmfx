@@ -3,10 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 /// <reference types="vitest" />
-import autoprefixer from 'autoprefixer';
+import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
-import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
@@ -36,12 +35,13 @@ export default defineConfig({
                 { src: '../LICENSE', dest: '../' },
                 { src: '../README.md', dest: '../' },
             ]
-        })
+        }),
+        tailwindcss()
     ],
 
     css: {
         postcss: {
-            plugins: [tailwindcss(), autoprefixer(), cssnano()]
+            plugins: [cssnano()]
         }
     },
 

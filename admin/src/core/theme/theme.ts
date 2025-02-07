@@ -1,19 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Config } from '@/core/config';
-import { Breakpoint, breakpointsMedia, breakpointsOrder } from './breakpoints';
 import { Contrast, changeContrast, contrasts, getContrast } from './contrast';
 import { Mode, changeMode, getMode, modes } from './mode';
 import { Scheme, changeScheme, genScheme, genSchemes, getScheme } from './scheme';
-
-export interface BreakpointChange {
-    /**
-     * @param val 表示当前的尺寸，如果是 undefined 表示小于 xs 的大小。
-     */
-    (val?: Breakpoint, old?: Breakpoint): void;
-}
 
 /**
  * 提供与主题相关的接口
@@ -21,16 +13,12 @@ export interface BreakpointChange {
 export class Theme {
     static readonly contrasts = contrasts;
     static readonly modes = modes;
-    static readonly breakpoints = breakpointsOrder;
 
     static #config: Config;
 
     static #scheme: Scheme;
     static #contrast: Contrast;
     static #mode: Mode;
-
-    static #breakpointEvents: Array<BreakpointChange>;
-    static #breakpoint?: Breakpoint; // 未定义表示小于 xs
 
     /**
      * 初始化主题
@@ -40,63 +28,10 @@ export class Theme {
      * @param contrast 默认的对比度；
      */
     static init(conf: Config, scheme: Scheme, mode: Mode = 'system', contrast: Contrast = 'nopreference') {
-        Theme.#initBreakpoint();
-
         Theme.#scheme = scheme;
         Theme.#mode = mode;
         Theme.#contrast = contrast;
         Theme.switchConfig(conf);
-    }
-
-    static #initBreakpoint() {
-        Theme.#breakpointEvents = [];
-
-        Object.entries(breakpointsMedia).forEach((item) => {
-            const key = item[0] as Breakpoint;
-            const mql = window.matchMedia(item[1]);
-
-            // 当屏幕从大到小变化，比如从 sm 向 xs 变化，会触发 sm 事件，且其 matches 为 false，
-            // 但是不会触发 xs，因为 sm 本身也是符合 xs 的条件。
-            const event = (ev: MediaQueryListEvent) => {
-                if (ev.matches) {
-                    Theme.#breakpointChange(key);
-                } else if (key != 'xs') {
-                    Theme.#breakpointChange(breakpointsOrder[breakpointsOrder.indexOf(key) - 1]);
-                }
-            };
-
-            mql.addEventListener('change', event);
-            
-            if (mql.matches) {
-                Theme.#breakpointChange(key);
-            }
-        });
-    }
-
-    static #breakpointChange(val: Breakpoint) {
-        const old = Theme.#breakpoint;
-        Theme.#breakpointEvents.forEach((e) => {
-            e(val, old);
-        });
-        Theme.#breakpoint = val;
-    }
-
-    /**
-     * 返回当前屏幕的尺寸
-     *
-     * @return 如果是 undefined 表示是小于 xs。
-     */
-    static get breakpoint(): Breakpoint | undefined { return Theme.#breakpoint; }
-
-    /**
-     * 注册屏幕尺寸发生变化时的处理事件
-     */
-    static onBreakpoint(...e: Array<BreakpointChange>) {
-        e.map((e) => { // 注册的函数先运行一次
-            e(Theme.#breakpoint);
-        });
-
-        Theme.#breakpointEvents.push(...e);
     }
 
     /**

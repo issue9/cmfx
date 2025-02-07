@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -23,5 +23,6 @@ export function Icon(props: Props) {
     return <span {...spanProps} classList={{
         ...props.classList,
         'c--icon': true,
+        'material-symbols-outlined': true
     }}>{props.icon}</span>;
 }

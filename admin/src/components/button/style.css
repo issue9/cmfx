@@ -1,12 +1,12 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 @layer components {
     .c--button {
-        @apply border border-transparent flex items-center justify-center text-center rounded-md py-1 px-3 text-nowrap text-palette-fg outline-none;
+        @apply border cursor-pointer border-transparent flex items-center justify-center text-center rounded-md py-1 px-3 text-nowrap text-palette-fg outline-none;
     }
 
     .c--button.c--button-icon {
@@ -14,14 +14,14 @@
     }
 
     .c--button.c--button-fill {
-        @apply text-[var(--fg)] bg-palette-bg border-[var(--bg)];
+        @apply text-(--fg) bg-palette-bg border-(--bg);
     }
 
     .c--button.c--button-fill:enabled:hover,
     .c--button.c--button-fill.checked,
     .c--button.c--button-fill.link-enabled:hover,
     .c--button.c--button-fill:focus-visible {
-        @apply !bg-[var(--bg-high)];
+        @apply !bg-(--bg-high);
     }
 
     .c--button.c--button-border {

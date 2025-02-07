@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -43,6 +43,7 @@ export function Button(props: Props) {
     return <button {...btnProps} classList={{
         'c--button': true,
         'c--icon': props.icon,
+        'material-symbols-outlined': props.icon,
         'c--button-icon': props.icon,
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,

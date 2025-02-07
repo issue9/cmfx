@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -7,7 +7,7 @@
 @layer components {
     .c--backtop {
         @apply hover:opacity-100 opacity-40 fixed right-4 bottom-4;
-        @apply transition-opacity duration-preset;
+        @apply transition-opacity duration-(--transition-duration);
         @apply print:hidden;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -46,7 +46,6 @@
     --invert-luminance: calc(var(--contrast) - var(--luminance));
     --invert-luminance-high: calc(var(--contrast) - var(--luminance-high));
 }
-
 
 :root {
     color-scheme: light dark;
@@ -137,4 +136,64 @@
     --fg: var(--surface-fg);
     --fg-low: var(--surface-fg-low);
     --fg-high: var(--surface-fg-high);
+}
+
+/* 重新定义了 tailwind 中的一些配置项 */
+
+@theme inline {
+    --color-primary-bg: var(--primary-bg);
+    --color-primary-bg-low: var(--primary-bg-low);
+    --color-primary-bg-high: var(--primary-bg-high);
+    --color-primary-fg: var(--primary-fg);
+    --color-primary-fg-low: var(--primary-fg-low);
+    --color-primary-fg-high: var(--primary-fg-high);
+
+    --color-secondary-bg: var(--secondary-bg);
+    --color-secondary-bg-low: var(--secondary-bg-low);
+    --color-secondary-bg-high: var(--secondary-bg-high);
+    --color-secondary-fg: var(--secondary-fg);
+    --color-secondary-fg-low: var(--secondary-fg-low);
+    --color-secondary-fg-high: var(--secondary-fg-high);
+
+    --color-tertiary-bg: var(--tertiary-bg);
+    --color-tertiary-bg-low: var(--tertiary-bg-low);
+    --color-tertiary-bg-high: var(--tertiary-bg-high);
+    --color-tertiary-fg: var(--tertiary-fg);
+    --color-tertiary-fg-low: var(--tertiary-fg-low);
+    --color-tertiary-fg-high: var(--tertiary-fg-high);
+
+    --color-error-bg: var(--error-bg);
+    --color-error-bg-low: var(--error-bg-low);
+    --color-error-bg-high: var(--error-bg-high);
+    --color-error-fg: var(--error-fg);
+    --color-error-fg-low: var(--error-fg-low);
+    --color-error-fg-high: var(--error-fg-high);
+
+    --color-surface-bg: var(--surface-bg);
+    --color-surface-bg-low: var(--surface-bg-low);
+    --color-surface-bg-high: var(--surface-bg-high);
+    --color-surface-fg: var(--surface-fg);
+    --color-surface-fg-low: var(--surface-fg-low);
+    --color-surface-fg-high: var(--surface-fg-high);
+
+    --color-palette-bg: var(--bg);
+    --color-palette-bg-low: var(--bg-low);
+    --color-palette-bg-high: var(--bg-high);
+    --color-palette-fg: var(--fg);
+    --color-palette-fg-low: var(--fg-low);
+    --color-palette-fg-high: var(--fg-high);
+
+    --breakpoint-xs: 34rem;
+    --breakpoint-sm: 40rem;
+    --breakpoint-md: 48rem;
+    --breakpoint-lg: 64rem;
+    --breakpoint-xl: 80rem;
+    --breakpoint-2xl: 96rem;
+
+    --container-xs: var(--breakpoint-xs);
+    --container-sm: var(--breakpoint-sm);
+    --container-md: var(--breakpoint-md);
+    --container-lg: var(--breakpoint-lg);
+    --container-xl: var(--breakpoint-xl);
+    --container-2xl: var(--breakpoint-2xl);
 }

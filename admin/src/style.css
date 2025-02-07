@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
-@import 'material-symbols';
+@import 'tailwindcss';
 
 @import './core/theme/theme.css';
-@import './tailwind.css';
+@import 'material-symbols';
 
 @import './animation.css';
 @import './components/style.css';

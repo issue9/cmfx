@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -145,7 +145,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
                         {cloneElement(item[1])}
                         <Icon icon="check" classList={{
                             'tail': true,
-                            'hidden': !selected()
+                            '!hidden': !selected()
                         }} />
                     </li>;
                 }}
