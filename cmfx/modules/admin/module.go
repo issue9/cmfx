@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -127,7 +127,7 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 
 	p.Get("/info", m.getInfo, mod.API(func(o *openapi.Operation) {
 		o.Desc(web.Phrase("get login user info api"), nil).
-			Response200(info{})
+			Response200(infoWithPassportVO{})
 	})).
 		Patch("/info", m.patchInfo, mod.API(func(o *openapi.Operation) {
 			o.Desc(web.Phrase("patch login user info api"), nil).

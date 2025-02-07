@@ -9,6 +9,7 @@ import (
 	"flag"
 	"fmt"
 	"path/filepath"
+	"time"
 
 	xupload "github.com/issue9/upload/v3"
 	"github.com/issue9/web"
@@ -27,6 +28,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/modules/member"
 	"github.com/issue9/cmfx/cmfx/modules/system"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
+	"github.com/issue9/cmfx/cmfx/user/passport/fido/passkey"
 	"github.com/issue9/cmfx/cmfx/user/passport/otp/totp"
 )
 
@@ -92,6 +94,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	case "serve":
 		adminL := admin.Load(adminMod, user.Admin, uploadL)
 		totp.Init(adminL.UserModule(), "totp", web.Phrase("TOTP passport"))
+		passkey.Init(adminL.UserModule(), "webauthn", web.Phrase("webauthn passport"), time.Minute, "http://localhost:8080", "http://localhost:5173")
 
 		member.Load(memberMod, user.Member, uploadL, adminL)
 
@@ -102,6 +105,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin, uploadL)
 		totp.Install(adminL.UserModule().Module(), "totp")
+		passkey.Install(adminL.UserModule().Module(), "webauthn")
 
 		member.Install(memberMod, user.Member, uploadL, adminL, nil, nil)
 

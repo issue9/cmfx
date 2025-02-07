@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -35,7 +35,7 @@ type memberInfoVO struct {
 	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
 
 	// 当前用户已经开通的验证方式
-	Passports []*passportIdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
+	Passports []*user.IdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
 }
 
 func (m *Module) memberGetInfo(ctx *web.Context) web.Responser {
@@ -49,14 +49,8 @@ func (m *Module) memberGetInfo(ctx *web.Context) web.Responser {
 		return ctx.NotFound()
 	}
 
-	ps := make([]*passportIdentityVO, 0)
-	for k, v := range m.user.Identities(u.ID) {
-		ps = append(ps, &passportIdentityVO{
-			ID:       k,
-			Identity: v,
-		})
-	}
-	slices.SortFunc(ps, func(a, b *passportIdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
+	ps := slices.Collect(m.user.Identities(u.ID))
+	slices.SortFunc(ps, func(a, b *user.IdentityVO) int { return cmp.Compare(a.ID, b.ID) }) // 排序，尽量使输出的内容相同
 
 	return web.OK(&memberInfoVO{
 		NO:        u.NO,

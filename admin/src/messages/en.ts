@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -54,8 +54,8 @@ const messages = {
                 login: 'login',
                 username: 'username',
                 password: 'password',
-                code: 'code',
                 loggingOut: 'logging out ...',
+                invalidAccount: 'invalid account',
 
                 securitylog: 'security logs',
                 content: 'content',
@@ -67,11 +67,19 @@ const messages = {
                 name: 'name',
                 nickname: 'nickname',
                 pickAvatar: 'pick avatar',
-                requestCode: 'request code',
                 delete: 'delete',
                 changePassword: 'change password',
                 oldPassword: 'old password',
                 newPassword: 'new password',
+                bindTOTP: 'bind totp',
+                unbindTOTP: 'unbind totp',
+                verifyCode: 'verify code',
+                bindWebauthn: 'bind webauthn',
+                unbindWebauthn: 'unbind webauthn',
+                unbindAllWebauthn: 'unbind all webauthn',
+                invalidCode: 'invalid code',
+                webauthnCredentials: 'webauthn credentials',
+                lastUsed: 'last used',
             },
             system: {
                 apis: 'API',

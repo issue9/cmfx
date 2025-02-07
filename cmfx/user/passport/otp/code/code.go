@@ -15,7 +15,6 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
-	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -68,8 +67,8 @@ func Init(
 		user:    user,
 	}
 
-	prefix := user.URLPrefix() + "/passports/" + id
-	rate := ratelimit.New(web.NewCache(idPrefix+"_rate_", user.Module().Server().Cache()), 20, time.Second, nil)
+	prefix := utils.BuildPrefix(user, id)
+	rate := utils.BuildRate(user, id)
 
 	user.Module().Router().Prefix(prefix).
 		Post("/login", c.postLogin, rate, cmfx.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
@@ -177,8 +176,8 @@ func (e *code) bindCode(ctx *web.Context) web.Responser {
 		return ctx.Problem(cmfx.BadRequestInvalidBody).WithParam("code", locales.InvalidValue.LocaleString(ctx.LocalePrinter()))
 	}
 
-	mod := &accountPO{Target: data.Target}
-	found, err := e.db.Select(mod)
+	u := &accountPO{Target: data.Target}
+	found, err := e.db.Select(u)
 	switch {
 	case err != nil:
 		return ctx.Error(err, "")
@@ -186,16 +185,20 @@ func (e *code) bindCode(ctx *web.Context) web.Responser {
 		return ctx.Problem(problemHasBind)
 	}
 
-	mod = &accountPO{
-		ID:  mod.ID,
+	u = &accountPO{
+		ID:  u.ID,
 		UID: e.user.CurrentUser(ctx).ID,
 	}
-	if _, _, err := e.db.Save(mod); err != nil {
+	if _, _, err := e.db.Save(u); err != nil {
 		return ctx.Error(err, "")
 	}
 
 	if err := e.cache.Delete(data.Target); err != nil {
 		return ctx.Error(err, "")
+	}
+
+	if err := e.user.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("bind %s", e.ID())); err != nil {
+		e.user.Module().Server().Logs().ERROR().Error(err)
 	}
 	return web.Created(nil, "")
 }
@@ -265,8 +268,14 @@ func (e *code) postLogin(ctx *web.Context) web.Responser {
 }
 
 func (e *code) deleteTOTP(ctx *web.Context) web.Responser {
-	if err := e.Delete(e.user.CurrentUser(ctx).ID); err != nil {
+	uid := e.user.CurrentUser(ctx).ID
+
+	if err := e.Delete(uid); err != nil {
 		return ctx.Error(err, "")
+	}
+
+	if err := e.user.AddSecurityLogFromContext(nil, uid, ctx, web.Phrase("delete %s", e.ID())); err != nil {
+		e.user.Module().Server().Logs().ERROR().Error(err)
 	}
 	return web.NoContent()
 }
@@ -280,15 +289,15 @@ func (e *code) Delete(uid int64) error {
 	return err
 }
 
-func (e *code) Identity(uid int64) string {
+func (e *code) Identity(uid int64) (string, int8) {
 	mod := &accountPO{UID: uid}
 	found, err := e.db.Select(mod)
 	if err != nil {
 		e.user.Module().Server().Logs().ERROR().Error(err)
-		return ""
+		return "", -1
 	}
 	if !found {
-		return ""
+		return "", -1
 	}
-	return mod.Target
+	return mod.Target, 0
 }

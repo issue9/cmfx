@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-// Package totp 提供基于 [TOTP] 的 [passport.Adapter] 实现
+// Package totp 提供基于 [TOTP] 的 [passport.Passport] 实现
 //
 // [TOTP]: https://datatracker.ietf.org/doc/html/rfc6238
 package totp
@@ -19,7 +19,6 @@ import (
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
-	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -29,7 +28,10 @@ import (
 )
 
 // 密钥未绑定时的过期时间
-const secretExpired = time.Hour
+const (
+	secretExpiredInSeconds = 10 * 60
+	secretExpired          = secretExpiredInSeconds * time.Second
+)
 
 type totp struct {
 	user *user.Module
@@ -51,9 +53,8 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 		desc: desc,
 	}
 
-	prefix := user.URLPrefix() + "/passports/" + id
-	rate := ratelimit.New(web.NewCache(user.Module().ID()+"passports_"+id+"_rate", user.Module().Server().Cache()), 20, time.Second, nil)
-
+	prefix := utils.BuildPrefix(user, id)
+	rate := utils.BuildRate(user, id)
 	user.Module().Router().Post(prefix+"/login", p.login, rate, cmfx.Unlimit(user.Module().Server()), user.Module().API(func(o *openapi.Operation) {
 		o.Tag("auth").
 			Desc(web.Phrase("login by %s api", id), nil).
@@ -61,7 +62,7 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 			Response("201", token.Response{}, nil, nil)
 	}))
 
-	user.Module().Router().Prefix(prefix, user).
+	user.Module().Router().Prefix(prefix, user, rate, cmfx.Unlimit(user.Module().Server())).
 		Post("", p.postBind, p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("bind %s passport for current user api", id), nil).
@@ -73,10 +74,15 @@ func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
 				Desc(web.Phrase("delete %s passport for current user api", id), nil).
 				ResponseEmpty("204")
 		})).
-		Post("/secret", p.postSecret, rate, cmfx.Unlimit(user.Module().Server()), p.user.Module().API(func(o *openapi.Operation) {
+		Post("/secret", p.postSecret, p.user.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").
 				Desc(web.Phrase("request secret for %s passport api", id), nil).
 				Response("201", secretVO{}, nil, nil)
+		})).
+		Delete("/secret", p.deleteSecret, p.user.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").
+				Desc(web.Phrase("delete secret for %s passport api", id), nil).
+				ResponseEmpty("204")
 		}))
 
 	user.AddPassport(p)
@@ -93,19 +99,34 @@ func (p *totp) Delete(uid int64) error {
 	return err
 }
 
-func (p *totp) Identity(uid int64) string {
+func (p *totp) Identity(uid int64) (string, int8) {
 	if u, err := p.user.GetUser(uid); err != nil {
 		p.user.Module().Server().Logs().ERROR().Error(err)
-		return ""
+		return "", -1
 	} else {
 		mod := &accountPO{UID: u.ID}
 		if found, err := p.db.Select(mod); err != nil {
 			p.user.Module().Server().Logs().ERROR().Error(err)
-			return ""
+			return "", -1
 		} else if !found {
-			return ""
+			return "", -1
 		}
-		return u.Username
+
+		// 未绑定，但是请求时间已经超过最大的过期时间，直接删除。
+		if !mod.Binded.Valid && mod.Requested.Add(secretExpired).After(time.Now()) {
+			if _, err := p.db.Delete(&accountPO{UID: u.ID}); err != nil {
+				p.user.Module().Server().Logs().ERROR().Error(err)
+				goto RET
+			}
+			return "", -1
+		}
+
+	RET:
+		state := int8(0)
+		if !mod.Binded.Valid {
+			state = 1
+		}
+		return u.Username, state
 	}
 }
 
@@ -131,12 +152,22 @@ func (p *totp) postSecret(ctx *web.Context) web.Responser {
 		return ctx.Error(err, "")
 	}
 
-	return web.Created(&secretVO{Secret: n.Secret, Username: u.Username}, "")
+	return web.Created(&secretVO{
+		Secret:   n.Secret,
+		Username: u.Username,
+		Expired:  secretExpiredInSeconds,
+	}, "")
 }
 
 func (p *totp) deleteTOTP(ctx *web.Context) web.Responser {
-	if err := p.Delete(p.user.CurrentUser(ctx).ID); err != nil {
+	u := p.user.CurrentUser(ctx)
+
+	if err := p.Delete(u.ID); err != nil {
 		return ctx.Error(err, "")
+	}
+
+	if err := p.user.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("delete %s", p.ID())); err != nil {
+		p.user.Module().Server().Logs().ERROR().Error(err)
 	}
 	return web.NoContent()
 }
@@ -161,7 +192,7 @@ func (p *totp) login(ctx *web.Context) web.Responser {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
 
-	if valid(data.Code, mod.Secret) {
+	if !valid(data.Code, mod.Secret) {
 		return ctx.Problem(cmfx.Unauthorized)
 	}
 	return p.user.CreateToken(ctx, u, p)
@@ -204,6 +235,10 @@ func (p *totp) postBind(ctx *web.Context) web.Responser {
 	if _, err := p.db.Update(mod); err != nil {
 		return ctx.Error(err, "")
 	}
+
+	if err := p.user.AddSecurityLogFromContext(nil, u.ID, ctx, web.Phrase("bind %s", p.ID())); err != nil {
+		p.user.Module().Server().Logs().ERROR().Error(err)
+	}
 	return web.Created(nil, "")
 }
 
@@ -231,4 +266,15 @@ func valid(code, secret string) bool {
 	}
 
 	return result == code
+}
+
+// 删除当前用户的安全码
+func (p *totp) deleteSecret(ctx *web.Context) web.Responser {
+	u := p.user.CurrentUser(ctx)
+
+	m := &accountPO{UID: u.ID}
+	if _, err := p.db.Delete(m); err != nil {
+		return ctx.Error(err, "")
+	}
+	return web.NoContent()
 }

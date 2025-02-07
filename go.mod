@@ -3,6 +3,7 @@ module github.com/issue9/cmfx
 go 1.23.0
 
 require (
+	github.com/go-webauthn/webauthn v0.11.2
 	github.com/issue9/assert/v4 v4.3.1
 	github.com/issue9/cache v0.18.0
 	github.com/issue9/config v0.8.0
@@ -38,6 +39,9 @@ require (
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
+	github.com/go-webauthn/x v0.1.14 // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
+	github.com/google/go-tpm v0.9.1 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/issue9/localeutil v0.29.1 // indirect
 	github.com/issue9/query/v3 v3.1.3 // indirect
@@ -52,6 +56,7 @@ require (
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.5.0 // indirect
 	github.com/redis/go-redis/v9 v9.6.2 // indirect

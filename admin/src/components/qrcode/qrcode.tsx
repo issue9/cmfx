@@ -102,6 +102,8 @@ export function QRCode(props: Props): JSX.Element {
         qr.append(ref);
     });
 
-    return <span ref={el => ref = el}
-        class={props.palette ? `palette--${props.palette}` : undefined} />;
+    return <span ref={el => ref = el} classList={{
+        [`palette--${props.palette}`]: !!props.palette,
+        'c--qrcode': true,
+    }} />;
 }

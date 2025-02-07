@@ -9,7 +9,7 @@ import {
     FormAccessor, Icon, Page, TextField, Upload, UploadRef, useApp, useOptions, User
 } from '@/components';
 import { Passport, Sex, sexesMap } from '@/pages/common';
-import { PassportComponents } from './passport';
+import { PassportComponents } from './passports';
 
 interface Props {
     passports: Map<string, PassportComponents>;
@@ -37,7 +37,7 @@ export function Profile(props: Props): JSX.Element {
     const nicknameA = infoAccess.accessor<string>('nickname');
     const sexA = infoAccess.accessor<Sex>('sex');
     const passportA = infoAccess.accessor<User['passports']>('passports');
-    
+
     const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
     const [avatar, setAvatar] = createSignal('');
@@ -63,7 +63,7 @@ export function Profile(props: Props): JSX.Element {
             setAvatar(await file2Base64(uploadRef.files()[0]));
         }
     });
-    
+
     onMount(async () => {
         const r = await ctx.api.get<Array<Passport>>('/passports');
         if (!r.ok) {
@@ -137,16 +137,16 @@ export function Profile(props: Props): JSX.Element {
                     <For each={passports()}>
                         {(item) => {
                             const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
-                            
+
                             return <tr>
                                 <td class="flex items-center">
                                     {item.id}
                                     <Icon icon='help' title={item.desc} class="ml-1 cursor-help" />
                                 </td>
-                                
+
                                 <td>{username()}</td>
                                 <td class="flex gap-2">
-                                    {props.passports.get(item.id)?.Actions(item.id)}
+                                    {props.passports.get(item.id)?.Actions(async()=>await ctx.refetchUser(), username())}
                                 </td>
                             </tr>;
                         }}

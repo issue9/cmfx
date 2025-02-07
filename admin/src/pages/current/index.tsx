@@ -10,7 +10,7 @@ import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';
 import { Logout } from './logout';
 import { MemStatistic } from './memstatistic';
-import { componens, PassportComponents } from './passport';
+import { components, PassportComponents } from './passports';
 import { Profile } from './profile';
 import { SecurityLogs } from './securitylogs';
 import { Settings } from './settings';
@@ -19,7 +19,7 @@ import { Settings } from './settings';
  * 提供了与当前登录用户直接相关的页面
  */
 export class current implements Pages {
-    static #passports: Map<string, PassportComponents> = componens;
+    static #passports: Map<string, PassportComponents> = components;
     
     /**
      * 会员统计信息面板
@@ -67,7 +67,7 @@ export class current implements Pages {
      * 初始化登录方式的组件
      */
     static initPassports(p: Map<string, PassportComponents|string>) {
-        const c = componens;
+        const c = components;
         p.forEach((v, k) => {
             if (typeof v === 'string') {
                 v = c.get(v)!;

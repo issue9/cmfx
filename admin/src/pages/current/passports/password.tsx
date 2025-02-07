@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,20 +6,7 @@ import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField, useApp, useOptions } from '@/components';
-
-export interface PassportComponents {
-    /**
-     * 登录页面
-     */
-    Login(): JSX.Element;
-
-    /**
-     * 编辑页的操作按钮
-     *
-     * @param id 当前组件的 ID
-     */
-    Actions(id: string): JSX.Element;
-}
+import { PassportComponents, RefreshFunc } from './passports';
 
 interface PasswordAccount {
     username: string;
@@ -34,7 +21,18 @@ interface PasswordValue {
 /**
  * 密码登录方式
  */
-class Pwd implements PassportComponents {
+export class Pwd implements PassportComponents {
+    #id: string;
+
+    /**
+     * 构造函数
+     *
+     * @param id 组件的 ID；
+     */
+    constructor(id: string) {
+        this.#id = id;
+    }
+
     Login(): JSX.Element {
         const ctx = useApp();
         const opt = useOptions();
@@ -42,7 +40,7 @@ class Pwd implements PassportComponents {
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
 
         return <form onReset={() => account.reset()} onSubmit={async () => {
-            const r = await ctx.api.post('/passports/password/login', account.object());
+            const r = await ctx.api.post(`/passports/${this.#id}/login`, account.object());
             const ret = await ctx.login(r);
             if (ret === true) {
                 nav(opt.routes.private.home);
@@ -61,7 +59,7 @@ class Pwd implements PassportComponents {
         </form>;
     }
 
-    Actions(id: string): JSX.Element {
+    Actions(__: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
         const ctx = useApp();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
@@ -73,7 +71,7 @@ class Pwd implements PassportComponents {
 
             <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {
-                    const r = await ctx.api.put(`/passports/${id}`, pwd.object());
+                    const r = await ctx.api.put(`/passports/${this.#id}`, pwd.object());
                     if (!r.ok) {
                         await ctx.outputProblem(r.body);
                         return undefined;
@@ -90,53 +88,3 @@ class Pwd implements PassportComponents {
         </>;
     }
 }
-
-interface TOTPAccount {
-    username: string;
-    code: string;
-}
-
-/**
- * TOTP 登录方式
- */
-class TOTP implements PassportComponents {
-    Login(): JSX.Element {
-        const ctx = useApp();
-        const opt = useOptions();
-        const nav = useNavigate();
-
-        const account = new ObjectAccessor<TOTPAccount>({ username: '', code: '' });
-
-        return <form onReset={() => account.reset()} onSubmit={async () => {
-            const r = await ctx.api.post('/passports/code/login', account.object());
-            const ret = await ctx.login(r);
-            if (ret === true) {
-                nav(opt.routes.private.home);
-            } else if (ret) {
-                await ctx.outputProblem(ret);
-            }
-        }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
-                placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
-
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='pin' />}
-                placeholder={ctx.locale().t('_i.page.current.code')} accessor={account.accessor('code', true)} />
-
-            <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
-
-            <Button palette='secondary' disabled={account.isPreset()} type="reset">{ctx.locale().t('_i.reset')}</Button>
-        </form>;
-    }
-    
-    Actions(id: string): JSX.Element {
-        //
-        return <>
-            TODO
-        </>;
-    }
-}
-
-export const componens = new Map<string, PassportComponents>([
-    ['password', new Pwd()],
-    ['totp', new TOTP()],
-]);

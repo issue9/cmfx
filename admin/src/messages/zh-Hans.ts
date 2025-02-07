@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -53,12 +53,11 @@ const messages: Messages = {
                 onlineMembers: '当前在线会员',
                 activeMembers: '活跃会员',
 
-
                 login: '登录',
                 username: '账号',
                 password: '密码',
-                code: '验证码',
                 loggingOut: '正在退出...',
+                invalidAccount: '无效的账号',
 
                 securitylog: '安全日志',
                 content: '内容',
@@ -70,11 +69,19 @@ const messages: Messages = {
                 name: '姓名',
                 nickname: '昵称',
                 pickAvatar: '选择头像',
-                requestCode: '发送验证码',
                 delete: '删除',
                 changePassword: '更改密码',
                 oldPassword: '旧密码',
                 newPassword: '新密码',
+                bindTOTP: '绑定 TOTP',
+                unbindTOTP: '解绑 TOTP',
+                verifyCode: '验证码',
+                bindWebauthn: '绑定证书',
+                unbindWebauthn: '解绑证书',
+                unbindAllWebauthn: '解绑所有证书',
+                invalidCode: '无效的验证码',
+                webauthnCredentials: 'webauthn 证书管理',
+                lastUsed: '最后使用时间',
             },
             system: {
                 apis: 'API',
