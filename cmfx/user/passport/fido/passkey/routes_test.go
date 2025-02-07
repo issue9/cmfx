@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-package totp
+package passkey
 
 import (
-	"encoding/json"
 	"net/http"
 	"testing"
+	"time"
 
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/mux/v9/header"
@@ -16,20 +16,17 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/auth"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
-	"github.com/issue9/cmfx/cmfx/user"
 	"github.com/issue9/cmfx/cmfx/user/usertest"
 )
 
-var _ user.Passport = &totp{}
-
-func TestTOTP(t *testing.T) {
+func TestPasskey(t *testing.T) {
 	a := assert.New(t, false)
 
 	suite := test.NewSuite(a)
 
 	u := usertest.NewModule(suite)
-	Install(u.Module(), "totp")
-	p := Init(u, "totp", web.Phrase("totp"))
+	Install(u.Module(), "passkey")
+	p := Init(u, "passkey", web.Phrase("totp"), 10*time.Minute, "http://localhost:8080")
 
 	defer servertest.Run(a, suite.Module().Server())()
 	defer suite.Close()
@@ -41,33 +38,20 @@ func TestTOTP(t *testing.T) {
 	a.Equal(state, -1).Empty(identity)
 
 	// 未注册，登录不了
-	suite.Post("/user/passports/totp/login", nil).
+	suite.Post("/user/passports/passkey/login/u1", nil).
 		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON).
-		Body([]byte(`{"username":"u1","code":"123"}`)).
+		Body([]byte(``)).
 		Do(nil).
 		Status(http.StatusUnauthorized)
 
 	tk := usertest.GetToken(suite, u)
 
-	secret := &secretVO{}
-	suite.Post("/user/passports/totp/secret", nil).
+	suite.Get("/user/passports/passkey/register").
 		Header(header.Accept, header.JSON).
-		Header(header.ContentType, header.JSON).
 		Header(header.Authorization, auth.BearerToken(tk)).
-		Do(nil).
-		Status(http.StatusCreated).
-		BodyFunc(func(a *assert.Assertion, body []byte) {
-			a.NotError(json.Unmarshal(body, secret)).
-				NotEmpty(secret.Secret)
-		})
-
-	// 进行关联，但验证码错误
-	suite.Post("/user/passports/totp", nil).
-		Header(header.Accept, header.JSON).
 		Header(header.ContentType, header.JSON).
-		Header(header.Authorization, auth.BuildToken(auth.Bearer, tk)).
-		Body([]byte(`{"username":"u1","code":"123"}`)).
+		Body([]byte(``)).
 		Do(nil).
-		Status(http.StatusBadRequest)
+		Status(http.StatusOK)
 }

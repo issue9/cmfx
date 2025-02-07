@@ -6,7 +6,10 @@ import { base64urlnopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
 
-import { Button, ConfirmButton, FieldAccessor, Icon, TextField, useApp, useOptions } from '@/components';
+import {
+    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
+    Icon, Label, RemoteTable, RemoteTableRef, TextField, useApp, useOptions
+} from '@/components';
 import { Token } from '@/core';
 import { PassportComponents, RefreshFunc } from './passports';
 
@@ -47,7 +50,19 @@ export class Webauthn implements PassportComponents {
                     id: base64urlnopad.decode(c.id as any),
                 }));
             }
-            const pc = await navigator.credentials.get({ publicKey: pubKey });
+            const credential = await navigator.credentials.get({ publicKey: pubKey }) as any;
+
+            const pc = {
+                id: credential.id,
+                rawId: bufferToBase64URL(credential.rawId),
+                type: credential.type,
+                response: {
+                    authenticatorData: bufferToBase64URL(credential.response.authenticatorData),
+                    clientDataJSON: bufferToBase64URL(credential.response.clientDataJSON),
+                    signature: bufferToBase64URL(credential.response.signature),
+                    userHandle: credential.response.userHandle ? bufferToBase64URL(credential.response.userHandle) : null
+                }
+            };
             const r2 = await ctx.api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
             if (!r2.ok) {
                 if (r1.status === 401) {
@@ -77,46 +92,98 @@ export class Webauthn implements PassportComponents {
         </form>;
     }
 
-    Actions(f: RefreshFunc, username?: string): JSX.Element {
+    Actions(f: RefreshFunc): JSX.Element {
         const ctx = useApp();
+        let dialogRef: DialogRef;
+        let tableRef: RemoteTableRef<Credential>;
 
         return <>
-            <Show when={!username}>
-                <Button icon rounded title={ctx.locale().t('_i.page.current.bindWebauthn')} onClick={async() => {
-                    const r1 = await ctx.api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
-                    if (!r1.ok) {
-                        ctx.outputProblem(r1.body);
-                        return;
-                    }
+            <Button icon rounded title={ctx.locale().t('_i.page.current.bindWebauthn')} onClick={async () => {
+                dialogRef.showModal();
+            }}>credit_card_gear</Button>
 
-                    const pubKey = r1.body!.publicKey!;
-                    pubKey.challenge = base64urlnopad.decode(pubKey.challenge as any);
-                    if (pubKey.user && pubKey.user.id) {
-                        pubKey.user.id = base64urlnopad.decode(pubKey.user.id as any);
-                    }
-                    const credential = await navigator.credentials.create({publicKey: pubKey});
+            <Dialog class="w-[80%]" ref={(el) => dialogRef = el} header={
+                <Label icon='credit_card_gear'>{ctx.locale().t('_i.page.current.webauthnCredentials')}</Label>
+            }>
+                <div class="overflow-auto">
+                    <RemoteTable<Credential, {}> ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
+                        columns={[
+                            { id: 'id', label: ctx.locale().t('_i.page.id') },
+                            { id: 'ua', label: ctx.locale().t('_i.page.current.ua') },
+                            { id: 'last', label: ctx.locale().t('_i.page.current.lastUsed'), content: (_, val) => ctx.locale().datetime(val) },
+                            {
+                                id: 'id', label: ctx.locale().t('_i.page.actions'), renderContent: (_, val) => (
+                                    <ConfirmButton icon rounded palette='error' title={ctx.locale().t('_i.page.current.unbindWebauthn')} onClick={async () => {
+                                        const r1 = await ctx.api.delete(`/passports/${this.#id}/credentials/${val}`);
+                                        if (!r1.ok) {
+                                            ctx.outputProblem(r1.body);
+                                            return;
+                                        }
 
-                    const r2 = await ctx.api.post(`/passports/${this.#id}/register`, credential);
-                    if (!r2.ok) {
-                        ctx.outputProblem(r2.body);
-                        return;
-                    }
+                                        tableRef.refresh();
+                                        await f();
+                                    }}>delete</ConfirmButton>
+                                )
+                            },
+                        ]}
+                        toolbar={<div class="flex gap-2">
+                            <Button palette='primary' rounded onClick={async () => {
+                                const r1 = await ctx.api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
+                                if (!r1.ok) {
+                                    ctx.outputProblem(r1.body);
+                                    return;
+                                }
 
-                    await ctx.refetchUser();
-                }}>add_link</Button>
-            </Show>
+                                const pubKey = r1.body!.publicKey!;
+                                pubKey.challenge = base64urlnopad.decode(pubKey.challenge as any);
+                                if (pubKey.user && pubKey.user.id) {
+                                    pubKey.user.id = base64urlnopad.decode(pubKey.user.id as any);
+                                }
+                                const credential = await navigator.credentials.create({ publicKey: pubKey }) as any;
 
-            <Show when={username}>
-                <ConfirmButton palette='error' icon rounded title={ctx.locale().t('_i.page.current.unbindWebauthn')} onClick={async () => {
-                    const r1 = await ctx.api.delete(`/passports/${this.#id}`);
-                    if (!r1.ok) {
-                        ctx.outputProblem(r1.body);
-                        return;
-                    }
-                    
-                    await f();
-                }}>link_off</ConfirmButton>
-            </Show>
+                                const pc = {
+                                    id: credential.id,
+                                    rawId: bufferToBase64URL(credential.rawId),
+                                    type: credential.type,
+                                    response: {
+                                        attestationObject: bufferToBase64URL(credential.response.attestationObject),
+                                        clientDataJSON: bufferToBase64URL(credential.response.clientDataJSON),
+                                    }
+                                };
+
+                                const r2 = await ctx.api.post(`/passports/${this.#id}/register`, pc);
+                                if (!r2.ok) {
+                                    ctx.outputProblem(r2.body);
+                                    return;
+                                }
+
+                                tableRef.refresh();
+                                await f();
+                            }}><Icon icon='add_link' />&#160;{ctx.locale().t('_i.page.current.bindWebauthn')}</Button>
+
+                            <ConfirmButton palette='secondary' rounded onClick={async () => {
+                                const r1 = await ctx.api.delete(`/passports/${this.#id}`);
+                                if (!r1.ok) {
+                                    ctx.outputProblem(r1.body);
+                                    return;
+                                }
+                                await f();
+                            }}><Icon icon='link_off' />&#160;{ctx.locale().t('_i.page.current.unbindAllWebauthn')}</ConfirmButton>
+                        </div>}
+                    />
+                </div>
+            </Dialog>
         </>;
     }
+}
+
+interface Credential {
+    created: string;
+    last: string;
+    id: string;
+    ua: string;
+}
+
+function bufferToBase64URL(b: ArrayBuffer): string {
+    return base64urlnopad.encode(new Uint8Array(b));
 }

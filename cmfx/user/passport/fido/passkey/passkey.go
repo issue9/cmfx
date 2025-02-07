@@ -77,7 +77,16 @@ func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration,
 				Body(protocol.CredentialCreationResponse{}, false, nil, nil).
 				ResponseEmpty("201")
 		})).
-		Delete("", p.deletePasskey, u.Module().API(func(o *openapi.Operation) {
+		Get("/credentials", p.getCredentials, u.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").Desc(web.Phrase("passkey get credentials for %s api", id), nil).
+				Response200([]credentialVO{})
+		})).
+		Delete("/credentials/{id}", p.delCredential, u.Module().API(func(o *openapi.Operation) {
+			o.Tag("auth").Desc(web.Phrase("passkey delete credential for %s api", id), nil).
+				Path("id", openapi.TypeString, web.Phrase("the id of credential"), nil).
+				ResponseEmpty("204")
+		})).
+		Delete("", p.delPasskey, u.Module().API(func(o *openapi.Operation) {
 			o.Tag("auth").Desc(web.Phrase("passkey delete for %s api", id), nil).
 				ResponseEmpty("204")
 		}))
@@ -121,10 +130,6 @@ func (p *passkey) Identity(uid int64) (string, int8) {
 			return "", -1
 		}
 
-		state := int8(0)
-		if !mod.Binded.Valid {
-			state = 1
-		}
-		return u.Username, state
+		return u.Username, 0
 	}
 }
