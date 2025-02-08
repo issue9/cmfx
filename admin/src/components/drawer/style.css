@@ -1,8 +1,28 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
+
+@utility c--drawer-floating {
+    @apply relative;
+
+    >aside {
+        position: absolute;
+        transform-origin: left;
+        transform: scaleX(1);
+        transition: transform var(--transition-duration) ease-in-out;
+    }
+
+    >aside.aside-hidden {
+        transform: scaleX(0) !important;
+    }
+
+    .pos-right {
+        @apply right-0;
+        transform-origin: right;
+    }
+}
 
 @layer components {
     .c--drawer {
@@ -17,31 +37,12 @@
         }
     }
 
-    .c--drawer.c--drawer-floating {
-        position: relative;
-
-        >aside {
-            position: absolute;
-            transform: scaleX(1);
-            transform-origin: left;
-            transition: transform var(--transition-duration) ease-in-out;
-        }
-
-        >aside.aside-hidden {
-            transform: scaleX(0);
-        }
-
-        .pos-right {
-            @apply right-0;
-            transform-origin: right;
-        }
-    }
-
-    .c--drawer.c--drawer-floating:not(:has(>aside.aside-hidden))::after {
+    .c--drawer:not(:has(>aside.aside-hidden))::after {
         content: '';
+        display: block;
         position: absolute;
-        top: 0;
         left: 0;
+        top: 0;
         bottom: 0;
         right: 0;
         background-size: cover;

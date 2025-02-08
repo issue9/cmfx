@@ -7,6 +7,8 @@ import { Contrast, changeContrast, contrasts, getContrast } from './contrast';
 import { Mode, changeMode, getMode, modes } from './mode';
 import { Scheme, changeScheme, genScheme, genSchemes, getScheme } from './scheme';
 
+export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+
 /**
  * 提供与主题相关的接口
  */

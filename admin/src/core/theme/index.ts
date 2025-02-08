@@ -9,3 +9,5 @@ export type { Contrast } from './contrast';
 export type { Scheme } from './scheme';
 
 export { Theme } from './theme';
+export type { Breakpoint } from './theme';
+

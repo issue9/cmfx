@@ -1,15 +1,15 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX, Show, Signal } from 'solid-js';
 
 import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
-import { Locale } from '@/core';
+import { Breakpoint, Locale } from '@/core';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
-    floatingSidebar: boolean;
+    floatingSidebar: Breakpoint;
 }
 
 /**
@@ -26,8 +26,17 @@ export default function Toolbar(props: MenuVisibleProps) {
         </div>
 
         <div class="flex items-center flex-1 mx-4">
-            <Show when={ctx.isLogin() && props.floatingSidebar}>
-                <Button icon rounded type="button" kind='flat' onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+            <Show when={ctx.isLogin()}>
+                <Button icon rounded type="button" kind='flat'
+                    classList={{
+                        'xs:!hidden': props.floatingSidebar == 'xs',
+                        'sm:!hidden': props.floatingSidebar == 'sm',
+                        'md:!hidden': props.floatingSidebar == 'md',
+                        'lg:!hidden': props.floatingSidebar == 'lg',
+                        'xl:!hidden': props.floatingSidebar == 'xl',
+                        '2xl:!hidden': props.floatingSidebar == '2xl',
+                    }}
+                    onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                     {props.menuVisible[0]() ? 'menu_open' : 'menu'}
                 </Button>
             </Show>

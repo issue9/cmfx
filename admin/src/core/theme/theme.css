@@ -193,6 +193,9 @@
     --color-palette-fg-low: var(--fg-low);
     --color-palette-fg-high: var(--fg-high);
 
+    /*
+     * NOTE: 需要保证与 theme.ts 中 Breakpoint 类型的取值相对应
+     */
     --breakpoint-xs: 34rem;
     --breakpoint-sm: 40rem;
     --breakpoint-md: 48rem;
