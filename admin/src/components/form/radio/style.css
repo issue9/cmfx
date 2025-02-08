@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -9,6 +9,7 @@
     .c--radio-group {
         label {
             @apply border-2 border-transparent flex items-center text-palette-fg box-border;
+            @apply overflow-hidden;
 
             .radio-icon {
                 @apply mr-1;

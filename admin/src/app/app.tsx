@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
 import { buildContext } from '@/components/context/context';
-import { API, compareBreakpoint, Locale } from '@/core';
+import { API, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
@@ -39,13 +39,11 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
  */
 function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
     const menuVisible = createSignal(true);
-    const [floating, setFloating] = createSignal(false);
+    const floating = 'xs';
 
     const Root = (p: RouteSectionProps) => {
         // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
-        const { ctx, Provider } = buildContext(props.opt, props.api);
-
-        createEffect(() => { setFloating(!(compareBreakpoint(ctx.breakpoint(), props.opt.asideFloatingMinWidth) > 0)); });
+        const { Provider } = buildContext(props.opt, props.api);
 
         return <Provider>
             <Notify />
@@ -53,7 +51,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
                 <SystemDialog palette='surface' />
             </Show>
             <div class="app palette--surface">
-                <Toolbar menuVisible={menuVisible} floatingSidebar={floating()} />
+                <Toolbar menuVisible={menuVisible} floatingSidebar={floating} />
                 <main class="app-main">{p.children}</main>
             </div>
         </Provider>;
@@ -68,7 +66,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
         {
             path: '/',
             component: (props: { children?: JSX.Element })=>
-                <Private floatingSidebar={floating()} menuVisible={menuVisible}>{ props.children }</Private>,
+                <Private floatingSidebar={floating} menuVisible={menuVisible}>{ props.children }</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
             children: [...props.opt.routes.private.routes, { path: '*', component: errors.NotFound }]

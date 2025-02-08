@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -36,7 +36,7 @@ export function changeContrast(conf: Config, c: Contrast) {
 }
 
 const contrastLuminance = new Map<Contrast, number>([
-    ['less', 70],
-    ['nopreference', 90],
-    ['more', 100],
+    ['less', .7],
+    ['nopreference', .9],
+    ['more', 1],
 ]);

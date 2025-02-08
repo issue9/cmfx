@@ -1,13 +1,12 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 //import basicSsl from '@vitejs/plugin-basic-ssl';
-import autoprefixer from 'autoprefixer';
+import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
 import devtools from 'solid-devtools/vite';
-import tailwindcss from 'tailwindcss';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
@@ -24,7 +23,7 @@ export default defineConfig({
 
     css: {
         postcss: {
-            plugins: [tailwindcss(), autoprefixer(), cssnano()]
+            plugins: [cssnano()]
         }
     },
 
@@ -37,6 +36,7 @@ export default defineConfig({
     plugins: [
         devtools(),
         solidPlugin(),
+        tailwindcss(),
         /*
         basicSsl({
             name: 'test',

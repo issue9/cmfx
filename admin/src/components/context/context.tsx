@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
-import { JSX, createContext, createResource, createSignal, useContext } from 'solid-js';
+import { JSX, createContext, createResource, useContext } from 'solid-js';
 
 import { NotifyType } from '@/components/notify';
 import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle, notify } from '@/core';
@@ -64,8 +64,6 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
     let uid = sessionStorage.getItem(currentKey) ?? '';
 
     Theme.init(new Config(uid), opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
-    const [bp, setBP] = createSignal(Theme.breakpoint);
-    Theme.onBreakpoint((v)=>setBP(v));
 
     let localeID: string | undefined;
     let unitStyle: UnitStyle | undefined;
@@ -217,8 +215,6 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
             }
             await window.notify(title, body, type, timeout);
         },
-
-        breakpoint() { return bp(); },
 
         /**
          * 获取本地化的接口对象

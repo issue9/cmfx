@@ -1,10 +1,14 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
+import {
+    createEffect, createSignal, JSX, Match,
+    mergeProps, onCleanup, onMount, Switch
+} from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+import { Breakpoint } from '@/core';
 
 export interface Props extends BaseProps {
     /**
@@ -21,8 +25,11 @@ export interface Props extends BaseProps {
 
     /**
      * 侧边栏是以浮动的形式出现，默认值为 false。
+     *
+     * 如果是 true 或是 false 表示始终保持一种状态，
+     * 其它的值表示在整个页面小于此值时才变为浮动状态。
      */
-    floating?: boolean;
+    floating?: boolean | Breakpoint;
 
     /**
      * 位置，默认值为 left
@@ -40,23 +47,35 @@ export interface Props extends BaseProps {
 }
 
 const presetProps: Readonly<Partial<Props>> = {
-    pos: 'left'
+    pos: 'left',
+    floating: false
 };
 
 export function Drawer(props: Props) {
     props = mergeProps(presetProps, props);
     let asideRef: HTMLElement;
     let mainRef: HTMLElement;
+    
+    const [floating, setFloating] = createSignal(false);
+    const [floatCls, setFloatCls] = createSignal('');
+    
+    createEffect(() => {
+        setFloating(props.floating !== false);
+        if (typeof props.floating === 'string') {
+            setFloatCls(props.floating);
+        }
+    });
 
     if (props.close) {
         const handleClick = (e: MouseEvent) => {
-            if (!props.floating || !props.visible) { return; }
+            if (!floating() || !props.visible) { return; }
 
             const node = e.target as HTMLElement;
             if (mainRef.contains(node) && !asideRef.contains(node)) {
                 props.close!();
             }
         };
+
         onMount(() => {
             document.body.addEventListener('click', handleClick);
         });
@@ -68,14 +87,18 @@ export function Drawer(props: Props) {
     const Aside = ()=><aside ref={(el)=>asideRef=el} classList={{
         [`palette--${props.palette}`]: !!props.palette,
         'aside-hidden': !props.visible,
-        'pos-right': props.floating && props.pos === 'right',
-    }}>
-        {props.children}
-    </aside>;
+        'pos-right': floating() && props.pos === 'right',
+    }}>{props.children}</aside>;
 
     return <div ref={(el)=>mainRef=el} classList={{
         'c--drawer': true,
-        'c--drawer-floating': props.floating
+        'c--drawer-floating': !floatCls() && floating(),
+        'max-xs:c--drawer-floating': floatCls() == 'xs',
+        'max-sm:c--drawer-floating': floatCls() == 'sm',
+        'max-md:c--drawer-floating': floatCls() == 'md',
+        'max-lg:c--drawer-floating': floatCls() == 'lg',
+        'max-xl:c--drawer-floating': floatCls() == 'xl',
+        'max-2xl:c--drawer-floating': floatCls() == '2xl',
     }}>
         <Switch>
             <Match when={props.pos === 'left'}>

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -50,6 +50,7 @@ export function LinkButton(props: Props) {
     } classList={{
         'c--button': true,
         'c--icon': props.icon,
+        'material-symbols-outlined': props.icon,
         'c--button-icon': props.icon,
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,

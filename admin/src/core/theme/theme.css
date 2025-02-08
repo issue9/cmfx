@@ -1,14 +1,14 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 /*
- * 当前文件定义了与主题相关的 CSS 变量。
- *
- * ## 颜色
- *
+ * 当前文件定义了与主题相关的 CSS 变量
+ */
+
+/*
  * 颜色被分为 primary、secondary、tertiary、surface 和 error 五个色盘，
  * 每个色盘衍生出 bg、bg-low、bg-high、fg、fg-low 和 fg-high 六种颜色。
  *
@@ -16,75 +16,84 @@
  * 或是采用 var(--bg) 读取当前上下文中色盘中的衍生颜色。
  * 两种方式，前者颜色固定，后者向上查找最近定义的 .palette--* 类型，从中获取值。
  *
- * 如果需要自定义颜色，有以下几种方式：
- *  - 指定 --primary、--error、--secondary、--tertiary 和 --surface 五种色相，其中只有 --primary 是必须指定的；
- *  - 指定所有色盘的所有衍生色，每个衍生色需要用 light-dark 同时指定深色和浅色模式下的颜色值；
- * NOTE: 色相 (hue) 的值，在 0-360 之间，具体说明可参考：https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value/lch#%E5%8F%96%E5%80%BC。
+ * 可通过定义这些颜色值改变整体的页面颜色。其中只有 --primary 是必须指定的，
+ * 其它的颜色会根据 --primary 自动调整，当然也可以所有颜色都直接指定。
  *
- * --contrast 表示对比度，0-100，100 为最高对比度。
+ * 颜色的取值范围为 [0,360]，具体说明可参考：https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value/lch#%E5%8F%96%E5%80%BC。
  */
-
 :root {
     --primary: 0;
     --error: 20;
     --secondary: calc(var(--primary) + 60);
     --tertiary: calc(var(--primary) + 120);
     --surface: calc(var(--primary) + 180);
+}
 
-    --contrast: 100;
-
+/*
+ * 定义了与动画相关的变量
+ */
+:root {
     /* 动画时间 */
     --transition-duration: 300ms;
 }
 
+/*
+ * 定义了颜色对比度
+ *
+ * --contrast 表示对比度，范围：[.5,1]，可通过改变此值调整页面的对比度。
+ */
 :root {
-    --luminance-low: 30;
-    --luminance: 15;
-    --luminance-high: 0;
+    --contrast: 1;
 
-    --invert-luminance-low: calc(var(--contrast) - var(--luminance-low));
-    --invert-luminance: calc(var(--contrast) - var(--luminance));
-    --invert-luminance-high: calc(var(--contrast) - var(--luminance-high));
+    --c-low: .3;
+    --c: .15;
+    --c-high: 0;
+
+    --invert-c-low: calc(var(--contrast) - var(--c-low));
+    --invert-c: calc(var(--contrast) - var(--c));
+    --invert-c-high: calc(var(--contrast) - var(--c-high));
 }
 
-
+/*
+ * 根据上面定义的值计算实际使用的颜色变量
+ */
 :root {
     color-scheme: light dark;
 
-    --primary-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--primary)), lch(var(--luminance-low) 100 var(--primary)));
-    --primary-bg: light-dark(lch(var(--invert-luminance) 50 var(--primary)), lch(var(--luminance) 100 var(--primary)));
-    --primary-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--primary)), lch(var(--luminance-high) 100 var(--primary)));
-    --primary-fg-low: light-dark(lch(var(--luminance-low) 100 var(--primary)), lch(var(--invert-luminance-low) 50 var(--primary)));
-    --primary-fg: light-dark(lch(var(--luminance) 100 var(--primary)), lch(var(--invert-luminance) 50 var(--primary)));
-    --primary-fg-high: light-dark(lch(var(--luminance-high) 100 var(--primary)), lch(var(--invert-luminance-high) 50 var(--primary)));
+    --primary-bg-low: light-dark(oklch(var(--invert-c-low) .2 var(--primary)), oklch(var(--c-low) .4 var(--primary)));
+    --primary-bg: light-dark(oklch(var(--invert-c) .2 var(--primary)), oklch(var(--c) .4 var(--primary)));
+    --primary-bg-high: light-dark(oklch(var(--invert-c-high) .2 var(--primary)), oklch(var(--c-high) .4 var(--primary)));
+    --primary-fg-low: light-dark(oklch(var(--c-low) .4 var(--primary)), oklch(var(--invert-c-low) .2 var(--primary)));
+    --primary-fg: light-dark(oklch(var(--c) .4 var(--primary)), oklch(var(--invert-c) .2 var(--primary)));
+    --primary-fg-high: light-dark(oklch(var(--c-high) .4 var(--primary)), oklch(var(--invert-c-high) .2 var(--primary)));
 
-    --secondary-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--secondary)), lch(var(--luminance-low) 100 var(--secondary)));
-    --secondary-bg: light-dark(lch(var(--invert-luminance) 50 var(--secondary)), lch(var(--luminance) 100 var(--secondary)));
-    --secondary-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--secondary)), lch(var(--luminance-high) 100 var(--secondary)));
-    --secondary-fg-low: light-dark(lch(var(--luminance-low) 100 var(--secondary)), lch(var(--invert-luminance-low) 50 var(--secondary)));
-    --secondary-fg: light-dark(lch(var(--luminance) 100 var(--secondary)), lch(var(--invert-luminance) 50 var(--secondary)));
-    --secondary-fg-high: light-dark(lch(var(--luminance-high) 100 var(--secondary)), lch(var(--invert-luminance-high) 50 var(--secondary)));
+    --secondary-bg-low: light-dark(oklch(var(--invert-c-low) .2 var(--secondary)), oklch(var(--c-low) .4 var(--secondary)));
+    --secondary-bg: light-dark(oklch(var(--invert-c) .2 var(--secondary)), oklch(var(--c) .4 var(--secondary)));
+    --secondary-bg-high: light-dark(oklch(var(--invert-c-high) .2 var(--secondary)), oklch(var(--c-high) .4 var(--secondary)));
+    --secondary-fg-low: light-dark(oklch(var(--c-low) .4 var(--secondary)), oklch(var(--invert-c-low) .2 var(--secondary)));
+    --secondary-fg: light-dark(oklch(var(--c) .4 var(--secondary)), oklch(var(--invert-c) .2 var(--secondary)));
+    --secondary-fg-high: light-dark(oklch(var(--c-high) .4 var(--secondary)), oklch(var(--invert-c-high) .2 var(--secondary)));
 
-    --tertiary-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--tertiary)), lch(var(--luminance-low) 100 var(--tertiary)));
-    --tertiary-bg: light-dark(lch(var(--invert-luminance) 50 var(--tertiary)), lch(var(--luminance) 100 var(--tertiary)));
-    --tertiary-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--tertiary)), lch(var(--luminance-high) 100 var(--tertiary)));
-    --tertiary-fg-low: light-dark(lch(var(--luminance-low) 100 var(--tertiary)), lch(var(--invert-luminance-low) 50 var(--tertiary)));
-    --tertiary-fg: light-dark(lch(var(--luminance) 100 var(--tertiary)), lch(var(--invert-luminance) 50 var(--tertiary)));
-    --tertiary-fg-high: light-dark(lch(var(--luminance-high) 100 var(--tertiary)), lch(var(--invert-luminance-high) 50 var(--tertiary)));
+    --tertiary-bg-low: light-dark(oklch(var(--invert-c-low) .2 var(--tertiary)), oklch(var(--c-low) .4 var(--tertiary)));
+    --tertiary-bg: light-dark(oklch(var(--invert-c) .2 var(--tertiary)), oklch(var(--c) .4 var(--tertiary)));
+    --tertiary-bg-high: light-dark(oklch(var(--invert-c-high) .2 var(--tertiary)), oklch(var(--c-high) .4 var(--tertiary)));
+    --tertiary-fg-low: light-dark(oklch(var(--c-low) .4 var(--tertiary)), oklch(var(--invert-c-low) .2 var(--tertiary)));
+    --tertiary-fg: light-dark(oklch(var(--c) .4 var(--tertiary)), oklch(var(--invert-c) .2 var(--tertiary)));
+    --tertiary-fg-high: light-dark(oklch(var(--c-high) .4 var(--tertiary)), oklch(var(--invert-c-high) .2 var(--tertiary)));
 
-    --surface-bg-low: light-dark(lch(var(--invert-luminance-low) 10 var(--surface)), lch(var(--luminance-low) 10 var(--surface)));
-    --surface-bg: light-dark(lch(var(--invert-luminance) 10 var(--surface)), lch(var(--luminance) 10 var(--surface)));
-    --surface-bg-high: light-dark(lch(var(--invert-luminance-high) 10 var(--surface)), lch(var(--luminance-high) 10 var(--surface)));
-    --surface-fg-low: light-dark(lch(var(--luminance-low) 10 var(--surface)), lch(var(--invert-luminance-low) 50 var(--surface)));
-    --surface-fg: light-dark(lch(var(--luminance) 10 var(--surface)), lch(var(--invert-luminance) 50 var(--surface)));
-    --surface-fg-high: light-dark(lch(var(--luminance-high) 10 var(--surface)), lch(var(--invert-luminance-high) 50 var(--surface)));
+    --surface-bg-low: light-dark(oklch(var(--invert-c-low) .1 var(--surface)), oklch(var(--c-low) 0.1 var(--surface)));
+    --surface-bg: light-dark(oklch(var(--invert-c) 0.1 var(--surface)), oklch(var(--c) 0.1 var(--surface)));
+    --surface-bg-high: light-dark(oklch(var(--invert-c-high) 0.1 var(--surface)), oklch(var(--c-high) 0.1 var(--surface)));
+    --surface-fg-low: light-dark(oklch(var(--c-low) 0.1 var(--surface)), oklch(var(--invert-c-low) .3 var(--surface)));
+    --surface-fg: light-dark(oklch(var(--c) 0.1 var(--surface)), oklch(var(--invert-c) .3 var(--surface)));
+    --surface-fg-high: light-dark(oklch(var(--c-high) 0.1 var(--surface)), oklch(var(--invert-c-high) .3 var(--surface)));
 
-    --error-bg-low: light-dark(lch(var(--invert-luminance-low) 50 var(--error)), lch(var(--luminance-low) 100 var(--error)));
-    --error-bg: light-dark(lch(var(--invert-luminance) 50 var(--error)), lch(var(--luminance) 100 var(--error)));
-    --error-bg-high: light-dark(lch(var(--invert-luminance-high) 50 var(--error)), lch(var(--luminance-high) 100 var(--error)));
-    --error-fg-low: light-dark(lch(var(--luminance-low) 100 var(--error)), lch(var(--invert-luminance-low) 50 var(--error)));
-    --error-fg: light-dark(lch(var(--luminance) 100 var(--error)), lch(var(--invert-luminance) 50 var(--error)));
-    --error-fg-high: light-dark(lch(var(--luminance-high) 100 var(--error)), lch(var(--invert-luminance-high) 50 var(--error)));
+    --error-bg-low: light-dark(oklch(var(--invert-c-low) .2 var(--error)), oklch(var(--c-low) .4 var(--error)));
+    --error-bg: light-dark(oklch(var(--invert-c) .2 var(--error)), oklch(var(--c) .4 var(--error)));
+    --error-bg-high: light-dark(oklch(var(--invert-c-high) .2 var(--error)), oklch(var(--c-high) .4 var(--error)));
+    --error-fg-low: light-dark(oklch(var(--c-low) .4 var(--error)), oklch(var(--invert-c-low) .2 var(--error)));
+    --error-fg: light-dark(oklch(var(--c) .4 var(--error)), oklch(var(--invert-c) .2 var(--error)));
+    --error-fg-high: light-dark(oklch(var(--c-high) .4 var(--error)), oklch(var(--invert-c-high) .2 var(--error)));
 
     --bg: var(--surface-bg);
     --bg-low: var(--surface-bg-low);
@@ -137,4 +146,67 @@
     --fg: var(--surface-fg);
     --fg-low: var(--surface-fg-low);
     --fg-high: var(--surface-fg-high);
+}
+
+/* 重新定义了 tailwind 中的一些配置项 */
+
+@theme inline {
+    --color-primary-bg: var(--primary-bg);
+    --color-primary-bg-low: var(--primary-bg-low);
+    --color-primary-bg-high: var(--primary-bg-high);
+    --color-primary-fg: var(--primary-fg);
+    --color-primary-fg-low: var(--primary-fg-low);
+    --color-primary-fg-high: var(--primary-fg-high);
+
+    --color-secondary-bg: var(--secondary-bg);
+    --color-secondary-bg-low: var(--secondary-bg-low);
+    --color-secondary-bg-high: var(--secondary-bg-high);
+    --color-secondary-fg: var(--secondary-fg);
+    --color-secondary-fg-low: var(--secondary-fg-low);
+    --color-secondary-fg-high: var(--secondary-fg-high);
+
+    --color-tertiary-bg: var(--tertiary-bg);
+    --color-tertiary-bg-low: var(--tertiary-bg-low);
+    --color-tertiary-bg-high: var(--tertiary-bg-high);
+    --color-tertiary-fg: var(--tertiary-fg);
+    --color-tertiary-fg-low: var(--tertiary-fg-low);
+    --color-tertiary-fg-high: var(--tertiary-fg-high);
+
+    --color-error-bg: var(--error-bg);
+    --color-error-bg-low: var(--error-bg-low);
+    --color-error-bg-high: var(--error-bg-high);
+    --color-error-fg: var(--error-fg);
+    --color-error-fg-low: var(--error-fg-low);
+    --color-error-fg-high: var(--error-fg-high);
+
+    --color-surface-bg: var(--surface-bg);
+    --color-surface-bg-low: var(--surface-bg-low);
+    --color-surface-bg-high: var(--surface-bg-high);
+    --color-surface-fg: var(--surface-fg);
+    --color-surface-fg-low: var(--surface-fg-low);
+    --color-surface-fg-high: var(--surface-fg-high);
+
+    --color-palette-bg: var(--bg);
+    --color-palette-bg-low: var(--bg-low);
+    --color-palette-bg-high: var(--bg-high);
+    --color-palette-fg: var(--fg);
+    --color-palette-fg-low: var(--fg-low);
+    --color-palette-fg-high: var(--fg-high);
+
+    /*
+     * NOTE: 需要保证与 theme.ts 中 Breakpoint 类型的取值相对应
+     */
+    --breakpoint-xs: 34rem;
+    --breakpoint-sm: 40rem;
+    --breakpoint-md: 48rem;
+    --breakpoint-lg: 64rem;
+    --breakpoint-xl: 80rem;
+    --breakpoint-2xl: 96rem;
+
+    --container-xs: var(--breakpoint-xs);
+    --container-sm: var(--breakpoint-sm);
+    --container-md: var(--breakpoint-md);
+    --container-lg: var(--breakpoint-lg);
+    --container-xl: var(--breakpoint-xl);
+    --container-2xl: var(--breakpoint-2xl);
 }

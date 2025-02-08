@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -166,7 +166,7 @@ export function Dialog(props: Props): JSX.Element {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.header}>
-            <header class="flex items-center">
+            <header>
                 {props.header}
                 <Icon class="cursor-pointer" icon="close" onClick={()=>ref.close('close')} />
             </header>
