@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -23,7 +23,7 @@
         /* 带子项的 */
         .details {
             .summary {
-                @apply flex cursor-pointer px-[var(--item-space)];
+                @apply flex cursor-pointer px-[var(--item-space)] items-center;
 
                 .expand {
                     @apply ml-auto flex items-center;

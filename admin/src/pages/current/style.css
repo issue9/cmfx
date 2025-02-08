@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -86,6 +86,16 @@
 
         .item {
             @apply flex-grow border border-palette-bg-low rounded-md text-center;
+        }
+    }
+
+    .p--settings {
+        .color-block {
+            @apply flex flex-wrap w-10;
+
+            span {
+                @apply w-5 h-5;
+            }
         }
     }
 }

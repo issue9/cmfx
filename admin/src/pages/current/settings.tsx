@@ -32,7 +32,7 @@ export function Settings(): JSX.Element {
     const unitFA = FieldAccessor<UnitStyle>('unit', ctx.locale().unitStyle);
     unitFA.onChange((v) => { ctx.switchUnitStyle(v); });
 
-    return <Page title='_i.page.current.settings' class="max-w-sm">
+    return <Page title='_i.page.current.settings' class="max-w-sm p--settings">
         <Description icon={/*@once*/'settings_night_sight'} title={ctx.locale().t('_i.theme.mode')!}>
             {ctx.locale().t('_i.theme.modeDesc')! }
         </Description>
@@ -99,10 +99,10 @@ export function Settings(): JSX.Element {
 
 function ColorBlock(props: {s: Scheme}): JSX.Element {
     // NOTE: 颜色的取值需与 core/theme/theme.css 中的设置相同。
-    return <div class="flex flex-wrap w-10">
-        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.primary}), oklch(var(--c-low) .4 ${props.s.primary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.secondary}), oklch(var(--c-low) .4 ${props.s.secondary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.tertiary}), oklch(var(--c-low) .4 ${props.s.tertiary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .04 ${props.s.surface}), oklch(var(--c-low) .04 ${props.s.surface}))`}} />
+    return <div class="color-block">
+        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.primary}), oklch(var(--c-low) .4 ${props.s.primary}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.secondary}), oklch(var(--c-low) .4 ${props.s.secondary}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.tertiary}), oklch(var(--c-low) .4 ${props.s.tertiary}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .04 ${props.s.surface}), oklch(var(--c-low) .04 ${props.s.surface}))`}} />
     </div>;
 }
