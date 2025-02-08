@@ -26,6 +26,7 @@
 
 /* 减少动画 */
 @media (prefers-reduced-motion: reduce) {
+
     *,
     *::before,
     *::after {

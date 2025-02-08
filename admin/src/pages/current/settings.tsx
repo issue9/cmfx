@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -100,9 +100,9 @@ export function Settings(): JSX.Element {
 function ColorBlock(props: {s: Scheme}): JSX.Element {
     // NOTE: 颜色的取值需与 core/theme/theme.css 中的设置相同。
     return <div class="flex flex-wrap w-10">
-        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.primary}), lch(var(--luminance-low) 100 ${props.s.primary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.secondary}), lch(var(--luminance-low) 100 ${props.s.secondary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 50 ${props.s.tertiary}), lch(var(--luminance-low) 100 ${props.s.tertiary}))`}} />
-        <span class="w-5 h-5" style={{'background-color': `light-dark(lch(var(--invert-luminance-low) 10 ${props.s.surface}), lch(var(--luminance-low) 10 ${props.s.surface}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.primary}), oklch(var(--c-low) .4 ${props.s.primary}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.secondary}), oklch(var(--c-low) .4 ${props.s.secondary}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.tertiary}), oklch(var(--c-low) .4 ${props.s.tertiary}))`}} />
+        <span class="w-5 h-5" style={{'background-color': `light-dark(oklch(var(--invert-c-low) .04 ${props.s.surface}), oklch(var(--c-low) .04 ${props.s.surface}))`}} />
     </div>;
 }
