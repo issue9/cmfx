@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.8.7",
+    "version": "0.8.8",
     "type": "module",
     "description": "适用于 cmfx 的后台管理框架",
     "author": {
@@ -60,10 +60,6 @@
             "require": "./lib/messages/",
             "import": "./lib/messages/"
         },
-        "./tailwind.preset.ts": {
-            "require": "./tailwind.preset.ts",
-            "import": "./tailwind.preset.ts"
-        },
         "./dev": {
             "require": "./src/index.ts",
             "import": "./src/index.ts"
@@ -98,14 +94,14 @@
         "test": "vitest --coverage.enabled true"
     },
     "dependencies": {
-        "@formatjs/intl-durationformat": "^0.7.2",
-        "@formatjs/intl-localematcher": "^0.5.10",
+        "@formatjs/intl-durationformat": "^0.7.3",
+        "@formatjs/intl-localematcher": "^0.6.0",
         "@scure/base": "^1.2.4",
         "@solidjs/router": "^0.15.3",
-        "@tailwindcss/vite": "^4.0.4",
+        "tailwindcss": "^4.0.5",
         "bowser": "^2.11.0",
         "echarts": "^5.6.0",
-        "intl-messageformat": "^10.7.14",
+        "intl-messageformat": "^10.7.15",
         "material-symbols": "^0.28.1",
         "qr-code-styling": "^1.9.1",
         "quill": "^2.0.3",
@@ -120,7 +116,7 @@
         "cssnano": "^7.0.6",
         "jsdom": "^26.0.0",
         "postcss": "^8.5.1",
-        "tailwindcss": "^4.0.4",
+        "@tailwindcss/vite": "^4.0.5",
         "typescript": "^5.7.3",
         "vite": "^6.1.0",
         "vite-plugin-dts": "^4.5.0",
