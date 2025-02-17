@@ -114,7 +114,8 @@ func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	mod.Router().Prefix(m.URLPrefix(), m.temp).
 		Get("/sse", m.getSSE, mod.API(func(o *openapi.Operation) {
 			o.Tag("sse").
-				Desc(web.Phrase("get SSE message api"), nil).
+				Desc(web.Phrase("get SSE message api"), o.Document().ParameterizedDoc(`registered sse protocol:
+%s`)).
 				Query(m.temp.QueryName(), openapi.TypeString, web.Phrase("user token"), nil).
 				Response("200", nil, nil, func(r *openapi.Response) {
 					r.Body = nil

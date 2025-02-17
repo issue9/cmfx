@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -195,14 +195,14 @@ type problemVO struct {
 
 func (m *Module) commonGetProblems(ctx *web.Context) web.Responser {
 	ps := make([]*problemVO, 0, 100)
-	ctx.Server().Problems().Visit(func(status int, p *web.LocaleProblem) {
+	for status, p := range ctx.Server().Problems().Problems() {
 		ps = append(ps, &problemVO{
 			ID:     p.ID,
 			Status: status,
 			Title:  p.Title.LocaleString(ctx.LocalePrinter()),
 			Detail: p.Detail.LocaleString(ctx.LocalePrinter()),
 		})
-	})
+	}
 
 	return web.OK(ps)
 }

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,6 +6,7 @@ package system
 
 import (
 	"context"
+	"reflect"
 	"time"
 
 	"github.com/issue9/events"
@@ -100,6 +101,13 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 			o.Tag("system", "systat", "sse").
 				Desc(web.Phrase("subscribe system stat api"), nil).
 				ResponseEmpty("201")
+			obj := openapi.MarkdownGoObject(systat.Stats{}, map[reflect.Type]string{reflect.TypeFor[time.Time](): "string"})
+
+			// 追加 SSE 协议
+			o.Document().ParameterizedDoc(`registered sse protocol:
+%s`, web.Phrase(`## system stat json
+%s
+`, obj))
 		})).
 		Delete("/systat", m.adminDeleteSystat, resGetStat, mod.API(func(o *openapi.Operation) {
 			o.Tag("system", "systat", "sse").

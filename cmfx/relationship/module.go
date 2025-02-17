@@ -18,20 +18,20 @@ type Module[T1, T2 T] struct {
 	mod *cmfx.Module
 }
 
-func Load[T1, T2 T](mod *cmfx.Module, prefix string) *Module[T1, T2] {
+func Load[T1, T2 T](mod *cmfx.Module, tableName string) *Module[T1, T2] {
 	return &Module[T1, T2]{
-		db:  buildDB(mod, prefix),
+		db:  buildDB(mod, tableName),
 		mod: mod,
 	}
 }
 
-func Install[T1, T2 T](mod *cmfx.Module, prefix string) *Module[T1, T2] {
-	db := buildDB(mod, prefix)
+func Install[T1, T2 T](mod *cmfx.Module, tableName string) *Module[T1, T2] {
+	db := buildDB(mod, tableName)
 	if err := db.Create(&relationshipPO[T1, T2]{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	return Load[T1, T2](mod, prefix)
+	return Load[T1, T2](mod, tableName)
 }
 
 func (m *Module[T1, T2]) engine(tx *orm.Tx) orm.Engine {

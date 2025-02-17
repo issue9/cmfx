@@ -3,6 +3,13 @@ languages:
     - cmn-Hans
     - zh-CN
 messages:
+    - key: |
+          ## system stat json
+          %s
+      message:
+          msg: |
+              ## 系统状态的 JSON 格式数据
+              %s
     - key: TOTP passport
       message:
           msg: TOTP 验证
@@ -380,9 +387,15 @@ messages:
     - key: passkey begin login for %s api
       message:
           msg: "%s 的预登录"
+    - key: passkey delete credential for %s api
+      message:
+          msg: 删除 %s 的证书
     - key: passkey delete for %s api
       message:
           msg: 删除 %s 的登录账号
+    - key: passkey get credentials for %s api
+      message:
+          msg: 获取 %s 的证书列表
     - key: passkey login for %s api
       message:
           msg: 完成 %s 登录
@@ -422,15 +435,21 @@ messages:
     - key: precondition failed need sse detail
       message:
           msg: 先决定条件 SSE 未运行
-    - key: problems response:\n\n%s\n
+    - key: |
+          problems response:
+
+          %s
       message:
-          msg: 每个错误对象的 type 表示错误代码，可能是以下的值之一:\n\n%s\n
+          msg: |
+              每个错误对象的 type 表示错误代码，可能是以下的值之一:
+
+              %s
     - key: psskey begin register for %s api
       message:
           msg: psskey begin register for %s api
-    - key: "%s 预注册"
+    - key: psskey register for %s api
       message:
-          msg: 完成 %s 的注册
+          msg: 向 %s 注册
     - key: put admin
       message:
           msg: 修改管理员信息
@@ -455,6 +474,13 @@ messages:
     - key: register successful
       message:
           msg: 会员注册成功
+    - key: |-
+          registered sse protocol:
+          %s
+      message:
+          msg: |-
+              已注册的 SSE 协议:
+              %s
     - key: request code for %s passport bind api
       message:
           msg: 为绑定 %s 验证方式请求验证码
@@ -545,6 +571,9 @@ messages:
     - key: the file name
       message:
           msg: 文件名
+    - key: the id of credential
+      message:
+          msg: 证书 ID
     - key: the new password can not be equal old
       message:
           msg: 新旧密码不能相同

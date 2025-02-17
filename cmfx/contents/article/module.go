@@ -18,8 +18,8 @@ type Module struct {
 	mod      *cmfx.Module
 	topics   *linkage.Module
 	tags     *tag.Module
-	topicRel *relationship.Module[int64, int64]
-	tagRel   *relationship.Module[int64, int64]
+	topicRel *relationship.Module[int64, int64] // 主题与文章的关联，0 文章，1 主题
+	tagRel   *relationship.Module[int64, int64] // 标签与文章的关联，0 文章，1 标签
 }
 
 // Load 加载内容管理模块

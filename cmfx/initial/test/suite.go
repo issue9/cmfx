@@ -151,7 +151,10 @@ func newServer(a *assert.Assertion) *cmfx.Module {
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),
 		openapi.WithDescription(
 			nil,
-			web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(srv, 0)),
+			web.Phrase(`problems response:
+
+%s
+`, openapi.MarkdownProblems(srv, 0)),
 		),
 		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
 		swagger.WithCDN(""),

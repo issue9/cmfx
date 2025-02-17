@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -35,7 +35,6 @@ import (
 func Exec(id, version string) error {
 	return app.NewCLI(&app.CLIOptions[*Config]{
 		ID:             id,
-		Version:        version,
 		NewServer:      initServer,
 		ConfigDir:      "./",
 		ConfigFilename: "web.xml",
@@ -101,7 +100,10 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		system.Load(systemMod, user.System, adminL)
 
 		// 在所有模块加载完成之后调用，需要等待其它模块里的私有错误代码加载完成。
-		doc.WithDescription(nil, web.Phrase("problems response:\n\n%s\n", openapi.MarkdownProblems(s, 0)))
+		doc.WithDescription(nil, web.Phrase(`problems response:
+
+%s
+`, openapi.MarkdownProblems(s, 4)))
 	case "install":
 		adminL := admin.Install(adminMod, user.Admin, uploadL)
 		totp.Install(adminL.UserModule().Module(), "totp")

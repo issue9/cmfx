@@ -2,37 +2,35 @@ name: Go
 on: [push, pull_request]
 
 jobs:
+    test:
+        name: Test
+        runs-on: ${{ matrix.os }}
 
-  test:
-    name: Test
-    runs-on: ${{ matrix.os }}
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macOS-latest, windows-latest]
+                go: ["1.24.x"]
 
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macOS-latest, windows-latest]
-        go: ['1.23.x']
+        steps:
+            - name: Check out code into the Go module directory
+              uses: actions/checkout@v4
 
-    steps:
+            - name: Set up Go ${{ matrix.go }}
+              uses: actions/setup-go@v5
+              with:
+                  go-version: ${{ matrix.go }}
+              id: go
 
-      - name: Check out code into the Go module directory
-        uses: actions/checkout@v4
+            - name: Vet
+              run: go vet -v ./...
 
-      - name: Set up Go ${{ matrix.go }}
-        uses: actions/setup-go@v5
-        with:
-          go-version: ${{ matrix.go }}
-        id: go
+            - name: Test
+              env:
+                  LANG: en
+              run: go test -v -coverprofile='coverage.txt' -p=1 -parallel=1 -covermode=atomic ./...
 
-      - name: Vet
-        run: go vet -v ./...
-
-      - name: Test
-        env:
-          LANG: en
-        run: go test -v -coverprofile='coverage.txt' -p=1 -parallel=1 -covermode=atomic ./...
-
-      - name: Upload Coverage report
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          file: ./coverage.txt
+            - name: Upload Coverage report
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  files: ./coverage.txt
