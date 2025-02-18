@@ -11,7 +11,7 @@
 
 ## 开发
 
-基于此项目的开发，可参考 [dev](docs/DEV.md)。
+基于此项目的项目，可参考 [dev](docs/DEV.md)。
 
 若要参与此项目的开发，可参考 [CONTRIBUTING](docs/CONTRIBUTING.md)。
 

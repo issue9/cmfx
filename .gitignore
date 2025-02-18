@@ -18,6 +18,7 @@ vite.config.ts.timestamp-*.mjs
 # 以下两个文件是从根目录复制的
 admin/LICENSE
 admin/README.md
+admin/.browserslistrc
 
 # IDE
 .vs/
