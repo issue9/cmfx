@@ -11,7 +11,7 @@ import { API, checkAPI } from './api';
 import type { MenuItem, Routes } from './route';
 
 /**
- * 基本配置
+ * 项目的基本配置
  */
 export interface AppOptions {
     /**
@@ -68,7 +68,10 @@ export interface AppOptions {
      * 与本地化相关的一些设置
      */
     locales: Locales;
-    
+
+    /**
+     * 侧边栏在小于此值时将变为浮动状态
+     */
     asideFloatingMinWidth?: Breakpoint;
 }
 
@@ -141,7 +144,7 @@ const presetOptions: Readonly<PickOptional<AppOptions>> = {
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
     mimetype: 'application/json',
-    asideFloatingMinWidth: 'sm'
+    asideFloatingMinWidth: 'xs'
 } as const;
 
 /**

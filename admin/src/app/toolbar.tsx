@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, Show, Signal } from 'solid-js';
+import { createEffect, createSignal, JSX, Show, Signal } from 'solid-js';
 
 import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
-import { Breakpoint, Locale } from '@/core';
+import { Locale } from '@/core';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
-    floatingSidebar: Breakpoint;
 }
 
 /**
@@ -19,6 +18,10 @@ export default function Toolbar(props: MenuVisibleProps) {
     const ctx = useApp();
     const opt = useOptions();
 
+    createEffect(() => {
+        if (!opt.asideFloatingMinWidth) { props.menuVisible[1](true); }
+    });
+    
     return <header class="app-bar palette--secondary">
         <div class="flex items-center">
             <img alt="logo" class="inline-block max-w-6 max-h-6" src={opt.logo} />
@@ -29,12 +32,12 @@ export default function Toolbar(props: MenuVisibleProps) {
             <Show when={ctx.isLogin()}>
                 <Button icon rounded type="button" kind='flat'
                     classList={{
-                        'xs:!hidden': props.floatingSidebar == 'xs',
-                        'sm:!hidden': props.floatingSidebar == 'sm',
-                        'md:!hidden': props.floatingSidebar == 'md',
-                        'lg:!hidden': props.floatingSidebar == 'lg',
-                        'xl:!hidden': props.floatingSidebar == 'xl',
-                        '2xl:!hidden': props.floatingSidebar == '2xl',
+                        'xs:!hidden': opt.asideFloatingMinWidth == 'xs',
+                        'sm:!hidden': opt.asideFloatingMinWidth == 'sm',
+                        'md:!hidden': opt.asideFloatingMinWidth == 'md',
+                        'lg:!hidden': opt.asideFloatingMinWidth == 'lg',
+                        'xl:!hidden': opt.asideFloatingMinWidth == 'xl',
+                        '2xl:!hidden': opt.asideFloatingMinWidth == '2xl',
                     }}
                     onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                     {props.menuVisible[0]() ? 'menu_open' : 'menu'}

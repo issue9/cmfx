@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
-import { createEffect, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import { createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
@@ -39,7 +39,6 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
  */
 function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
     const menuVisible = createSignal(true);
-    const floating = 'xs';
 
     const Root = (p: RouteSectionProps) => {
         // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
@@ -51,7 +50,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
                 <SystemDialog palette='surface' />
             </Show>
             <div class="app palette--surface">
-                <Toolbar menuVisible={menuVisible} floatingSidebar={floating} />
+                <Toolbar menuVisible={menuVisible} />
                 <main class="app-main">{p.children}</main>
             </div>
         </Provider>;
@@ -66,7 +65,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
         {
             path: '/',
             component: (props: { children?: JSX.Element })=>
-                <Private floatingSidebar={floating} menuVisible={menuVisible}>{ props.children }</Private>,
+                <Private menuVisible={menuVisible}>{ props.children }</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
             children: [...props.opt.routes.private.routes, { path: '*', component: errors.NotFound }]
@@ -79,16 +78,13 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
 function Private(props: ParentProps & MenuVisibleProps): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
-    createEffect(() => {
-        if (!props.floatingSidebar) { props.menuVisible[1](true); }
-    });
 
     return <Switch>
         <Match when={!ctx.isLogin()}>
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={props.floatingSidebar} palette='secondary' mainID='main-content'
+            <Drawer floating={opt.asideFloatingMinWidth} palette='secondary' mainID='main-content'
                 close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
