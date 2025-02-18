@@ -195,7 +195,10 @@
 
     /*
      * NOTE: 需要保证与 theme.ts 中 Breakpoint 类型的取值相对应
+     *
+     * 断点的值必须得是一个标准的 CSS 值，而不是能是变量，否则在 @media 查询中不能直接引用。
      */
+
     --breakpoint-xs: 34rem;
     --breakpoint-sm: 40rem;
     --breakpoint-md: 48rem;
@@ -203,10 +206,10 @@
     --breakpoint-xl: 80rem;
     --breakpoint-2xl: 96rem;
 
-    --container-xs: var(--breakpoint-xs);
-    --container-sm: var(--breakpoint-sm);
-    --container-md: var(--breakpoint-md);
-    --container-lg: var(--breakpoint-lg);
-    --container-xl: var(--breakpoint-xl);
-    --container-2xl: var(--breakpoint-2xl);
+    --container-xs: 34rem;
+    --container-sm: 40rem;
+    --container-md: 48rem;
+    --container-lg: 64rem;
+    --container-xl: 80rem;
+    --container-2xl: 96rem;
 }

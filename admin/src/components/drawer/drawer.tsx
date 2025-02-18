@@ -41,8 +41,14 @@ export interface Props extends BaseProps {
      */
     children: JSX.Element;
 
+    /**
+     * 主元素区的内容
+     */
     main: JSX.Element;
 
+    /**
+     * 包含主元素区的元素 ID
+     */
     mainID?: string;
 }
 
