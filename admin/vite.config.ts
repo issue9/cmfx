@@ -19,7 +19,7 @@ export default defineConfig({
         exclude: ['**/lib/**'],
         coverage: {
             exclude: ['**/lib/**'],
-            reporter: ['text', 'json-summary', 'json'],
+            reporter: ['text', 'json-summary', ['json', {file: 'report.json'}]],
             reportOnFailure: true,
         }
     },

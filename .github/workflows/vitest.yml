@@ -27,8 +27,7 @@ jobs:
       run: npm run test -w=@cmfx/admin
 
     - name: Upload test results to Codecov
-      if: ${{ !cancelled() }}
-      uses: codecov/test-results-action@v5
+      uses: codecov/codecov-action@v5
       with:
-        files: ./admin/coverage/test-report.junit.xml
-        token: ${{ secrets.CODECOV_TOKEN }}
+          token: ${{secrets.CODECOV_TOKEN}}
+          files: ./admin/coverage/report.json

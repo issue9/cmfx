@@ -91,7 +91,7 @@
     },
     "scripts": {
         "build": "vite build",
-        "test": "vitest --coverage.enabled true --reporter=junit --outputFile=coverage/test-report.junit.xml"
+        "test": "vitest --coverage.enabled true"
     },
     "dependencies": {
         "@formatjs/intl-durationformat": "^0.7.3",
