@@ -9,18 +9,12 @@
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 ![License](https://img.shields.io/github/license/issue9/cmfx)
 
-## 目录结构
-
-- admin 前端管理后台的主目录
-- cmfx 后端源码的主目录
-- docs 文档
-
 ## 开发
 
-可以直接在 cmd 目前之下做二次开发。
+基于此项目的开发，可参考 [dev](docs/DEV.md)。
 
-## 参与项目
+若要参与此项目的开发，可参考 [CONTRIBUTING](docs/CONTRIBUTING.md)。
 
-### 本地化
+## 版权
 
-后端的本地化信息在 cmfx/locales 目录之下；前端的本地化信息在 admin/src/messages 目录之下。
+本项目采用 [MIT](https://opensource.org/licenses/MIT) 开源授权许可证，完整的授权说明可在 [LICENSE](LICENSE) 文件中找到。

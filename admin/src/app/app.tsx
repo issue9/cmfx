@@ -15,8 +15,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 /**
  * 初始化整个项目
  *
- * @param elementID 挂载的元素 ID，用户需要在该元素上指定高和宽，
- *  如果要占满页面可以用 100dvh 和 100dvw 或是预定义的类 view-full；
+ * @param elementID 挂载的元素 ID；
  * @param o 项目的初始化选项；
  */
 export async function create(elementID: string, o: AppOptions): Promise<void> {

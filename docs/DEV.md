@@ -2,17 +2,31 @@
 
 ## 前端
 
+前端部分提供了后台的管理的基本框架，可通过以下命令安装依赖：
+```bash
+npm i @cmfx/admin
+```
+当然也可以直接在当前项目的 [cmd/admin](cmd/admin) 下作开发。
+
 ### 主题
 
-前端采用了 tailwindcss 作为样式管理。
-可以使用 --bg 调用当前组件的背景色，或是 --primary-fg 等方式调用指定色盘作为文字的颜色。
+前端采用了 tailwind css 作为样式管理，可直接采用 tailwind 相关项目。
+支持容器媒体查询，可以在整个项目的挂载元素上添加 `@container`。
 
-### 字体
+图标字体采用 <https://fonts.google.com/icons>。
 
-字体采用 <https://fonts.google.com/icons> 相关定义可参考 style.css
+同时还定义了以下几个调色盘：
+ - primary
+ - secondary
+ - tertiary
+ - error
+ - surface
+各个组件可通过指定 palette 属性指定其颜色。
 
-### 组件
+## 后端
 
-组件和页面的 CSS 文件，类型名必须以 c-- 或是 p-- 开头，防止不小心类名之间相互覆盖。
-
-所以组件都要有明确的返回值，否则在生成 .d.ts 文件时可能会出错。
+可采用以下代码安装：
+```bash
+go get github.com/issue9/cmfx
+```
+或是直接在当前项目的 [cmd/server](cmd/server) 下开发。

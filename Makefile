@@ -31,7 +31,7 @@ install:
 	npm install
 
 # 安装基本数据，依赖 build 生成的测试项目
-init: build
+init: build-cmd
 	cd $(CMD_SERVER) && ./server -a=install
 
 watch-server:
