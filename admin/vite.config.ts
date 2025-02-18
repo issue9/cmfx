@@ -34,6 +34,7 @@ export default defineConfig({
             targets: [
                 { src: '../LICENSE', dest: '../' },
                 { src: '../README.md', dest: '../' },
+                { src: '../.browserslistrc', dest: '../' },
             ]
         }),
         tailwindcss()

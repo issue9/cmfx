@@ -6,7 +6,11 @@
 ```bash
 npm i @cmfx/admin
 ```
-当然也可以直接在当前项目的 [cmd/admin](cmd/admin) 下作开发。
+当然也可以直接在当前项目的 [cmd/admin](/cmd/admin) 下作开发。
+
+### 可继承的属性
+
+ - browserslist 如果要保持与 @cmfx/admin 相同的浏览器版本，需要在 browserslist 中指定 `extends @cmfx/admin`。
 
 ### 主题
 
@@ -21,6 +25,7 @@ npm i @cmfx/admin
  - tertiary
  - error
  - surface
+
 各个组件可通过指定 palette 属性指定其颜色。
 
 ## 后端
@@ -29,4 +34,4 @@ npm i @cmfx/admin
 ```bash
 go get github.com/issue9/cmfx
 ```
-或是直接在当前项目的 [cmd/server](cmd/server) 下开发。
+或是直接在当前项目的 [cmd/server](/cmd/server) 下开发。

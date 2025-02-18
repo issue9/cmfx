@@ -7,7 +7,9 @@
 ### 代码
 
 Go 采用 `gofmt` 进行格式化，无须手动处理，在 `gofmt` 允许的范围之内用户可自行决定。
+
 前端代码已经配置 `ESLint`，需要在 IDE 做相应的配置，以开启自动检测功能。
+
 对于像 yaml 等配置型的文件，由 `.editorconfig` 进行规范，你的 IDE 需要支持该功能以方便自动格式化。
 
 ### commit-msg
@@ -47,7 +49,7 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 # 获取当前提交的 commit msg
 commit_msg=`cat $1`
-msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore)(\(.+\))?: .{1,80}"
+msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert)(\(.+\))?: .{1,80}"
 if [[ ! $commit_msg =~ $msg_reg ]]
 then
     echo "\n不合法的消息格式，请使用正确的格式\n <type>(<scope>): <subject>"
@@ -78,9 +80,9 @@ fi
 ### 目录结构
 
 - admin 管理后台的主目录；
+- cmd 包含了用于测试的前后端；
 - cmfx 后端源码的主目录；
 - docs 文档；
-- cmd 包含了用于测试的前后端；
 
 ### 本地化
 
@@ -91,3 +93,11 @@ fi
 前端的一些注意事项：
  - 组件和页面的 CSS 样式，类型名必须以 c-- 或是 p-- 开头，防止不小心类名之间相互覆盖；
  - 所有组件都要有明确的返回值，否则在生成 .d.ts 文件时可能会出错；
+ 
+### 后端
+
+数据库模型的命名，为了好区分，分别有以下作为后缀的命名：
+
+ - PO 持久化对象，一般为 ORM 中映射的对象；
+ - VO 值对象，服务端传递给客户端；
+ - TO 客户端传递给服务端的数据；
