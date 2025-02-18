@@ -24,13 +24,11 @@ jobs:
       run: npm install
 
     - name: Test
-      run: npm run test -w=admin
+      run: npm run test -w=@cmfx/admin
 
-    - name: Report Coverage
-      # Set if: always() to also generate the report if tests are failing
-      # Only works if you set `reportOnFailure: true` in your vite config as specified above
-      if: always()
-      uses: davelosert/vitest-coverage-report-action@v2
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v5
       with:
-        name: admin
-        working-directory: ./admin
+        files: ./admin/coverage/test-report.junit.xml
+        token: ${{ secrets.CODECOV_TOKEN }}
