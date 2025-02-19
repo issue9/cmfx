@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,8 +7,16 @@ import { JSX, mergeProps } from 'solid-js';
 import { BaseProps, Corner } from '@/components/base';
 
 export interface Props extends BaseProps {
+    /**
+     * 位置
+     */
     pos?: Corner;
+
+    /**
+     * 角上的内容
+     */
     text?: string | number;
+
     children: JSX.Element;
 }
 

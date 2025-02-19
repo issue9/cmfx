@@ -20,6 +20,10 @@
         "noEmit": true,
         "jsx": "preserve",
         "jsxImportSource": "solid-js",
+        "types": [
+            "vite/client",
+            "@testing-library/jest-dom"
+        ],
         /* Linting */
         "strict": true,
         "noUnusedLocals": true,
