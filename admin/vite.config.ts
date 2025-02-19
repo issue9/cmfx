@@ -18,7 +18,7 @@ export default defineConfig({
         environment: 'jsdom',
         exclude: ['**/lib/**'],
         coverage: {
-            exclude: ['**/lib/**'],
+            exclude: ['**/lib/**', '**/demo.tsx', 'cmd/admin/**'],
             reporter: ['text', 'json-summary', ['json', {file: 'report.json'}]],
             reportOnFailure: true,
         }

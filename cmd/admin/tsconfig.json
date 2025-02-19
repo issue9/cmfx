@@ -30,8 +30,7 @@
         "src/**/*.mjs",
         "src/**/*.js",
         "src/**/*.tsx",
-        "postcss.config.mjs",
-        "tailwind.config.ts"
+        "postcss.config.mjs"
     ],
     "references": [
         {
