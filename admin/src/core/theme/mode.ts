@@ -23,14 +23,14 @@ const schemes: ReadonlyMap<Mode, string> = new Map<Mode, string>([
  * 从当前的配置项中找到关于主题模式的配置项。
  *
  * @param c 保存配置项的接口；
- * @param preset 如果未指定主题模式，则采用此值。；
+ * @param preset 如果未指定主题模式，则采用此值；
  */
 export function getMode(c: Config, preset: Mode) {
     let m = c.get<Mode>(key);
     if (!m) {
         m = preset;
     } else if (modes.indexOf(m) < 0) {
-        console.warn(`从 localStorage 读取的 ${key} 值 ${m} 不符合要求！`);
+        console.warn(`从 c 读取的 ${key} 值 ${m} 不符合要求！`);
         m = 'system';
     }
 

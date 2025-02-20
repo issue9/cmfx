@@ -7,17 +7,25 @@
  */
 export class Config {
     readonly #id: string;
+    readonly #s: Storage;
 
     /**
      * 构造函数
-     * @param id 表示此配置对象的唯一 ID
+     *
+     * @param id 表示此配置对象的唯一 ID；
+     * @param s 存储位置，默认为 {window#localStorage}；
      */
-    constructor(id: string | number) {
+    constructor(id: string | number, s?: Storage) {
         this.#id = ((typeof id === 'number') ? id.toString() : id) + '--';
+
+        if (!s) {
+            s = localStorage;
+        }
+        this.#s = s;
     }
 
     get<T>(id: string): T | undefined {
-        const s = localStorage.getItem(this.#id + id);
+        const s = this.#s.getItem(this.#id + id);
         if (!s) {
             return;
         }
@@ -26,19 +34,8 @@ export class Config {
 
     set<T>(id: string, obj: T) {
         const s = JSON.stringify(obj);
-        localStorage.setItem(this.#id + id, s);
+        this.#s.setItem(this.#id + id, s);
     }
 
-    remove(id: string) {
-        localStorage.removeItem(id);
-    }
-
-    clear() {
-        const keys = localStorage.keys();
-        for(const key of keys) {
-            if (key.startsWith(this.#id)) {
-                localStorage.removeItem(key);
-            }
-        }
-    }
+    remove(id: string) { this.#s.removeItem(this.#id + id); }
 }

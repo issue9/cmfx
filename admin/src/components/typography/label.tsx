@@ -22,12 +22,12 @@ export interface Props extends BaseProps, ParentProps {
     class?: string;
 }
 
-const defaultProps: Readonly<Partial<Props>> = {
+const presetProps: Readonly<Partial<Props>> = {
     tag: 'p',
 };
 
 export function Label(props: Props): JSX.Element {
-    props = mergeProps(defaultProps, props);
+    props = mergeProps(presetProps, props);
 
     return <Dynamic component={props.tag} class={'c--label '+ (props.class ?? '') + ' ' +(props.palette ? `palette--${props.palette}` : '')}>
         <Show when={props.icon}>

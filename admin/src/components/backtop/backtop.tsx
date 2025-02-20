@@ -21,14 +21,14 @@ export interface Props extends BaseProps {
      * NOTE: 这是一个非响应式的属性。
      */
     scroller: HTMLElement | string;
-    
+
     /**
      * 当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。
      */
     distance?: number;
-    
+
     children?: IconSymbol;
-    
+
     class?: string;
     classList?: JSX.CustomAttributes<HTMLElement>['classList'];
     style?: JSX.HTMLAttributes<HTMLElement>['style'];
@@ -55,7 +55,7 @@ export function BackTop(props: Props): JSX.Element {
     const scroll = () => {
         btn.style.visibility = scroller.scrollTop > props.distance! ? 'visible' : 'hidden';
     };
-    
+
     onMount(() => {
         scroll(); // 初始化状态
         scroller.addEventListener('scroll', scroll);

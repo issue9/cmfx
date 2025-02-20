@@ -37,7 +37,7 @@ export  function Notify(props: Props): JSX.Element {
     if (!!Object.getOwnPropertyDescriptor(window, notifyProperty)) { // 防止多次调用
         return;
     }
-    
+
     props = mergeProps(presetProps, props);
     const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps,'del'>>>([]);
 

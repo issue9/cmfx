@@ -61,10 +61,10 @@ export function Drawer(props: Props) {
     props = mergeProps(presetProps, props);
     let asideRef: HTMLElement;
     let mainRef: HTMLElement;
-    
+
     const [floating, setFloating] = createSignal(false);
     const [floatCls, setFloatCls] = createSignal('');
-    
+
     createEffect(() => {
         setFloating(props.floating !== false);
         if (typeof props.floating === 'string') {

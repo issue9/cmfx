@@ -18,7 +18,7 @@ export default defineConfig({
         environment: 'jsdom',
         exclude: ['**/lib/**'],
         coverage: {
-            exclude: ['**/lib/**', '**/demo.tsx', 'cmd/admin/**'],
+            exclude: ['**/lib/**', '**/demo.tsx', '**/vite.config.ts'],
             reporter: ['text', 'json-summary', ['json', {file: 'report.json'}]],
             reportOnFailure: true,
         }

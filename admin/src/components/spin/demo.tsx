@@ -9,7 +9,7 @@ import { Spin } from './spin';
 export default function () {
     const [spinningS, spinning] = boolSelector('spinning', false);
     const [paletteS, palette] = paletteSelector('primary');
-    
+
     return <Demo settings={
         <>
             {paletteS}
