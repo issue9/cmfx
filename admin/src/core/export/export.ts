@@ -14,7 +14,7 @@ import { Column } from './column';
  * @template Q 查询参数的类型；
  */
 export interface LoadFunc<T extends object> {
-    (): Promise<Page<T> | Array<T> | undefined>
+    (): Promise<Page<T> | Array<T> | undefined>;
 }
 
 /**
@@ -65,7 +65,7 @@ export class Exporter<T extends object> {
     /**
      * 执行下载数据操作
      *
-     * NOTE: 可多次调用。
+     * NOTE: 可多次调用
      */
     async download(load: LoadFunc<T>): Promise<void> {
         const ret = await load();

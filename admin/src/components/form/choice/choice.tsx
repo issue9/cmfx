@@ -177,7 +177,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
                     }}>
                         {cloneElement(item[1])}
                         <Icon icon='check' classList={{
-                            'hidden': !selected(),
+                            '!hidden': !selected(),
                             'tail': true,
                         }} />
                     </li>;

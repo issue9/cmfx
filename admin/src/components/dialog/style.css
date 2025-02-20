@@ -6,7 +6,7 @@
 
 @layer components {
     .c--dialog {
-        @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-bg-high;
+        @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low shadow-xs;
         @apply top-1/2 left-1/2 translate-[-50%];
 
         >header {
@@ -23,6 +23,6 @@
     }
 
     .c--dialog::backdrop {
-        backdrop-filter: blur(2px);
+        backdrop-filter: blur(1px);
     }
 }

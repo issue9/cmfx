@@ -69,11 +69,13 @@ fi
 - gcc: 部分 Go 库需要 cgo 的支持
 - make
 
-之后可以通过以下方式初始开发环境
+之后可以通过在根目录下执行以下命令初始开发环境：
 
-1. 在根目录下运行 `make install` 安装环境；
-1. 在根目录下运行 `make init` 初始化项目的数据库等信息；
-1. 在根目录下运行 `make watch -j2` 可同时运行前后端，之后可在浏览器中运行 `http://localhost:5173` 查看后台界面；
+1. `make install` 安装环境；
+1. `make init` 初始化项目的数据库等信息；
+1. `make watch-server` 热编译后端代码，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
+1. `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
+1. 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
 
 ## 开发
 
