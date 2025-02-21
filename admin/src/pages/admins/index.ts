@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -25,9 +25,9 @@ export class admins implements Pages {
 
     routes(): Array<Route> {
         return [
-            { path: this.#prefix, component: ()=>Admins({routePrefix: this.#prefix}) },
-            { path: this.#prefix + '/0', component: New },
-            { path: this.#prefix + '/:id', component: Edit },
+            { path: this.#prefix, component: () => Admins({ routePrefix: this.#prefix }) },
+            { path: this.#prefix + '/0', component: () => New({ backURL: this.#prefix }) },
+            { path: this.#prefix + '/:id', component: () => Edit({ backURL: this.#prefix }) },
         ];
     }
 

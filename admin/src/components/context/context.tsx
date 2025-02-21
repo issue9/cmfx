@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -85,7 +85,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 所有需要使用 {@link useParams} 的地方可直接使用此方法的返回对象。
          */
         params() { return params; },
-        
+
         /**
          * 返回 {@link useLocation} 的返回对象
          *
@@ -93,7 +93,7 @@ export function buildContext(opt: Required<AppOptions>, f: API) {
          * 所有需要使用 {@link useLocation} 的地方可直接使用此方法的返回对象。
          */
         location() { return loc; },
-        
+
         /**
          * 返回 {@link useNavigate} 的返回对象
          *

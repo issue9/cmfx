@@ -25,6 +25,7 @@ const messages = {
             deleteItem: 'delete item',
             newItem: 'new item',
             created: 'create time',
+            back: 'back',
             id: 'ID',
             no: 'NO',
             state: 'state',

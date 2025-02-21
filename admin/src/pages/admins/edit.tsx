@@ -1,25 +1,32 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
-import { Button, Divider, Form, FormAccessor, Icon, Page, TextField, useApp, User } from '@/components';
+import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField, useApp, User } from '@/components';
 import { Passport, Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
-export function Edit(): JSX.Element {
+interface Props {
+    /**
+     * 返回上一页的地址
+     */
+    backURL: string;
+}
+
+export function Edit(props: Props): JSX.Element {
     const ctx = useApp();
     const ps = useParams<{id: string}>();
 
     const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
-    const form = new FormAccessor<Admin>(zeroAdmin(), ctx, async(obj)=>{
-        return await ctx.api.patch(`/admins/${ps.id}`, obj);
-    });
+    const form = new FormAccessor<Admin>(zeroAdmin(), ctx,
+        async (obj) => { return await ctx.api.patch(`/admins/${ps.id}`, obj); },
+        () => { ctx.navigate()(props.backURL); }
+    );
     const formPassports = form.accessor<Admin['passports']>('passports');
-
 
     onMount(async () => {
         const r1 = await ctx.api.get<Admin>(`/admins/${ps.id}`);
@@ -44,7 +51,11 @@ export function Edit(): JSX.Element {
             <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={ctx.locale().t('_i.page.nickname')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={ctx.locale().t('_i.page.roles.roles')} />
             <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} label={ctx.locale().t('_i.page.sex')} />
-            <div class="w-full flex justify-end gap-5">
+            <div class="w-full flex justify-between gap-5">
+                <LinkButton href={props.backURL} type="button" palette='secondary'>
+                    <Icon icon='arrow_back_ios' />
+                    {ctx.locale().t('_i.page.back')}
+                </LinkButton>
                 <Button disabled={form.isPreset()} type="reset" palette='secondary'>{ctx.locale().t('_i.reset')}</Button>
                 <Button disabled={form.isPreset()} type="submit" palette='primary'>{ctx.locale().t('_i.ok')}</Button>
             </div>

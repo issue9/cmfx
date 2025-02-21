@@ -1,23 +1,28 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { Button,useApp, Form, FormAccessor, Page, Password, TextField } from '@/components';
+import { Button, Form, FormAccessor, Icon, LinkButton, Page, Password, TextField, useApp } from '@/components';
 import { Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
-export function New(): JSX.Element {
+interface Props {
+    /**
+     * 返回上一页的地址
+     */
+    backURL: string;
+}
+
+export function New(props: Props): JSX.Element {
     const ctx = useApp();
-    const nav = useNavigate();
 
     const form = new FormAccessor<Admin>(zeroAdmin(), ctx, async (obj) => {
         return await ctx.api.post('/admins', obj);
-    }, () => {
-        ctx.notify(ctx.locale().t('_i.page.admin.addSuccessful'), undefined, 'success');
-        nav(-1);
+    }, async () => {
+        await ctx.notify(ctx.locale().t('_i.page.admin.addSuccessful'), undefined, 'success');
+        ctx.navigate()(-1);
     });
 
     return <Page title="_i.page.admin.admin" class="max-w-xs">
@@ -28,8 +33,11 @@ export function New(): JSX.Element {
             <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={ctx.locale().t('_i.page.current.password')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={ctx.locale().t('_i.page.roles.roles')} />
             <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} />
-            <div class="w-full flex justify-end gap-5">
-                <Button type="button" palette='secondary' onClick={()=>nav(-1)}>{ctx.locale().t('_i.cancel')}</Button>
+            <div class="w-full flex justify-between gap-5">
+                <LinkButton href={props.backURL} palette='secondary'>
+                    <Icon icon='arrow_back_ios' />
+                    {ctx.locale().t('_i.cancel')}
+                </LinkButton>
                 <Button type="submit" palette='primary'>{ctx.locale().t('_i.ok')}</Button>
             </div>
         </Form>

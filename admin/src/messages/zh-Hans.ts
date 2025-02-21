@@ -27,6 +27,7 @@ const messages: Messages = {
             deleteItem: '删除',
             newItem: '新建',
             created: '添加时间',
+            back: '返回',
             id: 'ID',
             no: 'NO',
             state: '状态',
@@ -42,7 +43,7 @@ const messages: Messages = {
                 female: '女',
                 unknown: '未知'
             },
-            current: { // 登录框
+            current: {
                 dashboard: '控制台',
                 logout: '退出',
                 settings: '设置',
