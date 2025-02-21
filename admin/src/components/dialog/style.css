@@ -6,8 +6,7 @@
 
 @layer components {
     .c--dialog {
-        @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low shadow-xs;
-        @apply top-1/2 left-1/2 translate-[-50%];
+        @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low;
 
         >header {
             @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low;
@@ -20,9 +19,5 @@
         >footer {
             @apply flex justify-end p-2 gap-2;
         }
-    }
-
-    .c--dialog::backdrop {
-        backdrop-filter: blur(1px);
     }
 }

@@ -7,7 +7,7 @@
 @layer components {
     .c--menu {
         @apply text-[var(--fg)] bg-[var(--bg)] gap-y-1 min-w-[200px] rounded-md overflow-visible;
-        @apply flex flex-col border border-palette-bg-low;
+        @apply flex flex-col border border-palette-bg-low z-[500];
 
         :first-child {
             @apply rounded-t-md;
@@ -18,7 +18,7 @@
         }
 
         .item {
-            @apply p-2 hover:bg-[var(--bg-low)] cursor-pointer relative flex;
+            @apply p-2 hover:bg-[var(--bg-low)] cursor-pointer relative flex items-center;
 
             .expand {
                 @apply ml-auto flex items-center;
@@ -31,24 +31,16 @@
             >.c--menu.right {
                 @apply left-[100%];
             }
+
+            >.c--menu {
+                @apply absolute top-0 flex-col flex popshow;
+            }
         }
 
         .item:hover {
             >.c--menu {
-                @apply absolute top-0 flex-col flex;
-
-                opacity: 1;
-                visibility: visible;
-                transition: opacity var(--transition-duration) linear;
+                @apply pophidden;
             }
-        }
-
-        .opacity-0 {
-            @apply absolute top-0 flex-col flex;
-
-            visibility: hidden;
-            opacity: 0;
-            transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
         }
 
         .group {

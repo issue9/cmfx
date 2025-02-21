@@ -27,21 +27,6 @@
     scrollbar-color: var(--bg-low) var(--bg-high);
 }
 
-[popover] {
-    display: block;
-    visibility: hidden;
-    opacity: 0;
-
-    /* 两个属性同时发生变化，但是 visibility 没有过渡动画，等待时间到之后直接改变其属性。 */
-    transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
-}
-
-[popover]:popover-open {
-    visibility: visible;
-    opacity: 1;
-    transition: opacity var(--transition-duration) linear;
-}
-
 /* 减少动画 */
 @media (prefers-reduced-motion: reduce) {
 
@@ -51,4 +36,45 @@
         transition-property: none !important;
         animation: none !important;
     }
+}
+
+/* 弹出框的动画 */
+@utility popshow {
+    visibility: hidden;
+    opacity: 0;
+
+    /* 两个属性同时发生变化，但是 visibility 没有过渡动画，等待时间到之后直接改变其属性。 */
+    transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) linear;
+}
+
+/* 弹出框的关闭动画 */
+@utility pophidden {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity var(--transition-duration) linear;
+}
+
+/******************* 对话框 ****************/
+
+dialog {
+    @apply top-1/2 left-1/2 translate-[-50%] shadow-lg block popshow;
+}
+
+dialog[open] {
+    @apply pophidden;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity var(--transition-duration) linear;
+}
+
+/********************* popover *******************/
+
+[popover] {
+    @apply block popshow;
+}
+
+[popover]:popover-open {
+    @apply pophidden;
 }

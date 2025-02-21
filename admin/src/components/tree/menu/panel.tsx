@@ -75,7 +75,7 @@ export default function (props: Props): JSX.Element {
                 <li class="item">
                     {p.item.label}
                     <Icon class="expand" icon="chevron_right" />
-                    <menu classList={{'c--menu':true,'opacity-0':true,[props.direction!]:true}}>
+                    <menu classList={{ 'c--menu': true, [props.direction!]: true }}>
                         <All items={p.item.items as Array<Item>} />
                     </menu>
                 </li>
@@ -89,7 +89,7 @@ export default function (props: Props): JSX.Element {
                         'item': true,
                         [props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
                     }}
-                    onClick={()=>{
+                    onClick={() => {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                         const old = selected();
