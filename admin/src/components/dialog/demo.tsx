@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,7 +7,6 @@ import { Button } from '@/components/button';
 import { useApp } from '@/components/context';
 import { Form, FormAccessor } from '@/components/form';
 import { Dialog, Ref } from './dialog';
-import { SystemDialog } from './system';
 
 export default function() {
     const ctx = useApp();
@@ -23,7 +22,6 @@ export default function() {
             {paletteS}
         </>
     }>
-        <SystemDialog />
         <Button onClick={() => window.alert('msg')}>alert</Button>
         <Button onClick={() => window.confirm('msg')}>confirm</Button>
         <Button onClick={() => window.prompt('msg', 'def')}>prompt</Button>

@@ -33,13 +33,13 @@
             }
 
             >.c--menu {
-                @apply absolute top-0 flex-col flex popshow;
+                @apply absolute top-0 flex-col flex pop;
             }
         }
 
         .item:hover {
             >.c--menu {
-                @apply pophidden;
+                @apply popopen;
             }
         }
 
