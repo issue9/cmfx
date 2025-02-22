@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -47,9 +47,11 @@ export default function() {
         </>
     }>
         <Stage class="w-80 mt-4">
-            <Panel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
-                {items}
-            </Panel>
+            <div class="absolute">
+                <Panel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
+                    {items}
+                </Panel>
+            </div>
             <div>{selected()}</div>
         </Stage>
 

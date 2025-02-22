@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -17,7 +17,7 @@ export interface Props extends ContainerProps {
     /**
      * 当选择项发生变化时触发的事件
      */
-    onChange?: { (selected: Value, old?: Value): void };
+    onChange?: { (selected?: Value, old?: Value): void };
 
     /**
      * 是否采用 {@link A} 标签
@@ -93,9 +93,8 @@ export default function (props: Props): JSX.Element {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                         const old = selected();
-                        if (old === p.item.value) { return; }
 
-                        if (props.onChange && p.item.value) {
+                        if (props.onChange) {
                             props.onChange(p.item.value, old);
                         }
 

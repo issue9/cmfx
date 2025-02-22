@@ -1,8 +1,6 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
-
-import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { Button } from '@/components/button';
@@ -61,11 +59,9 @@ const pagingLoader = async (oa: Q): Promise<Page<Item>> => {
 export default function () {
     const [paletteS, palette] = paletteSelector();
     const [loadingS, loading] = boolSelector('loading', false);
-    const [hoverableS, hoverable] = boolSelector('hoverable', false);
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
     const [nodataS, nodata] = boolSelector('nodata', false);
-    const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', false);
-    const [striped, setStriped] = createSignal<number>(0);
+    const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', true);
 
     const items: Array<Item> = [
         { id: 1, name: 'name1', address: 'address1' },
@@ -89,14 +85,12 @@ export default function () {
             {loadingS}
             {nodataS}
             {fixedLayoutS}
-            {hoverableS}
             {systemToolbarS}
-            <input type='number' placeholder='striped' value={striped()} onChange={(e) => setStriped(parseInt(e.target.value))} />
         </>
     }>
         <Stage class="w-full">
-            <BasicTable loading={loading()} striped={striped()} fixedLayout={fixedLayout()} palette={palette()}
-                items={nodata() ? [] : items} columns={columns} hoverable={hoverable()}
+            <BasicTable loading={loading()} fixedLayout={fixedLayout()} palette={palette()}
+                items={nodata() ? [] : items} columns={columns}
                 extraHeader={<p class="bg-primary-fg text-primary-bg"><Button palette='primary'>Button</Button></p>}
                 extraFooter={<p class="bg-primary-fg text-primary-bg">footer</p>}
             />
@@ -106,11 +100,10 @@ export default function () {
         <Stage title="分页表格" class="w-full">
             <LoaderTable accentPalette='primary' paging systemToolbar={systemToolbar()}
                 inSearch
-                striped={striped()}
                 fixedLayout={fixedLayout()}
                 palette={palette()}
                 toolbar={<><Button palette='primary'>+ New</Button></>}
-                columns={columns} hoverable={hoverable()}
+                columns={columns}
                 queries={{ txt: 'abc', page: 1, size: 10 }}
                 queryForm={(oa) => <><TextField accessor={oa.accessor<string>('txt')} /></>}
                 load={pagingLoader}
@@ -118,10 +111,10 @@ export default function () {
         </Stage>
 
         <Stage title="未分页的表格" class="w-full">
-            <LoaderTable systemToolbar={systemToolbar()} striped={striped()}
+            <LoaderTable systemToolbar={systemToolbar()}
                 fixedLayout={fixedLayout()}
                 palette={palette()}
-                columns={columns} hoverable={hoverable()}
+                columns={columns}
                 queries={{}}
                 load={nopagingLoader}
             />

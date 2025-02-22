@@ -163,7 +163,10 @@ const messages: Messages = {
         },
         table: {
             nodata: '没有数据',
-            exportTo: '导出为 {type}'
+            exportTo: '导出为 {type}',
+            hoverable: '悬停效果',
+            striped: '条纹间隔 {num}',
+            noStriped: '无',
         },
         pagination: {
             prev: '前一页',

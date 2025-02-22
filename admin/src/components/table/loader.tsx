@@ -1,16 +1,17 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { useApp, useOptions } from '@/components/context';
 import { Palette } from '@/components/base';
 import { Button, SplitButton } from '@/components/button';
+import { useApp, useOptions } from '@/components/context';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
+import { Menu } from '@/components/tree';
 import { Label } from '@/components/typography';
 import { Exporter, Page, Query } from '@/core';
 import type { Props as BaseProps } from './basic';
@@ -181,29 +182,36 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
             onSizeChange={async(s) => { size.setValue(s); await refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
     }
+    
+    const [hoverable, setHoverable] = createSignal(props.hoverable);
+    const [striped, setStriped] = createSignal(props.striped);
 
     const header = <header class="header">
         <Show when={props.queryForm}>
             <form class="search">
                 {props.queryForm!(queries)}
                 <div class="actions">
-                    <SplitButton palette='primary' type='submit' onClick={async() => await refetch()} menus={[
-                        { type: 'item', onClick: async() => { await exports('.csv'); } , label: <Label icon="csv">
-                            {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
-                        </Label>
+                    <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
+                        {
+                            type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon="csv">
+                                {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
+                            </Label>
                         },
-                        { type: 'item', onClick: async() => { await exports('.xlsx'); }, label: <Label icon="horizontal_split">
-                            {ctx.locale().t('_i.table.exportTo', { type: 'Excel' })}
-                        </Label>
+                        {
+                            type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon="horizontal_split">
+                                {ctx.locale().t('_i.table.exportTo', { type: 'Excel' })}
+                            </Label>
                         },
-                        { type: 'item', onClick: async() => { await exports('.ods'); }, label: <Label icon="ods">
-                            {ctx.locale().t('_i.table.exportTo', { type: 'ODS' })}
-                        </Label>
+                        {
+                            type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon="ods">
+                                {ctx.locale().t('_i.table.exportTo', { type: 'ODS' })}
+                            </Label>
                         },
                         { type: 'divider' },
-                        { type: 'item', onClick: () => { queries.reset(); }, disabled:queries.isPreset(), label: <Label icon='restart_alt'>
-                            {ctx.locale().t('_i.reset')}
-                        </Label>
+                        {
+                            type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon='restart_alt'>
+                                {ctx.locale().t('_i.reset')}
+                            </Label>
                         },
                     ]}>
                         {ctx.locale().t('_i.search')}
@@ -220,18 +228,73 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
             <div class="toolbar">
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
-                    <Button class="ml-auto" icon rounded kind='flat' onClick={async() => await refetch()}
-                        aria-label={ctx.locale().t('_i.refresh')}
-                        title={ctx.locale().t('_i.refresh')}>refresh</Button>
+                    <div class="ml-auto flex gap-[1px]">
+                        <Menu hoverable direction='left' selectedClass='' activator={
+                            <Button icon rounded kind='flat'>table_rows_narrow</Button>
+                        } onChange={(v) => {
+                            switch (v) {
+                            case 'hoverable':
+                                setHoverable(!hoverable());
+                                break;
+                            case 0:
+                                setStriped(0);
+                                break;
+                            case 2:
+                                setStriped(2);
+                                break;
+                            case 3:
+                                setStriped(3);
+                                break;
+                            case 4:
+                                setStriped(4);
+                                break;
+                            case 5:
+                                setStriped(5);
+                                break;
+                            }
+                            return true;
+                        }}>
+                            {[
+                                {
+                                    type: 'item', value: 'hoverable',
+                                    label: <Label icon={hoverable() ? 'check_box' : 'check_box_outline_blank'}>{ ctx.locale().t('_i.table.hoverable') }</Label>
+                                },
+                                { type: 'divider' },
+                                {
+                                    type: 'item', value: 0,
+                                    label: <Label icon={!striped() ? 'check_circle' : 'radio_button_unchecked'}>{ ctx.locale().t('_i.table.noStriped') }</Label>
+                                },
+                                {
+                                    type: 'item', value: 2,
+                                    label: <Label icon={striped() === 2 ? 'check_circle' : 'radio_button_unchecked'}>{ ctx.locale().t('_i.table.striped', {'num': 2}) }</Label>
+                                },
+                                {
+                                    type: 'item', value: 3,
+                                    label: <Label icon={striped() === 3 ? 'check_circle' : 'radio_button_unchecked'}>{ ctx.locale().t('_i.table.striped', {'num': 3}) }</Label>
+                                },
+                                {
+                                    type: 'item', value: 4,
+                                    label: <Label icon={striped() === 4 ? 'check_circle' : 'radio_button_unchecked'}>{ ctx.locale().t('_i.table.striped', {'num': 4}) }</Label>
+                                },
+                                {
+                                    type: 'item', value: 5,
+                                    label: <Label icon={striped() === 5 ? 'check_circle' : 'radio_button_unchecked'}>{ ctx.locale().t('_i.table.striped', {'num': 5}) }</Label>
+                                },
+                            ]}
+                        </Menu>
+                        <Button icon rounded kind='flat' onClick={async () => await refetch()}
+                            aria-label={ctx.locale().t('_i.refresh')}
+                            title={ctx.locale().t('_i.refresh')}>refresh</Button>
+                    </div>
                 </Show>
             </div>
         </Show>
     </header>;
 
     if (!props.paging) {
-        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette']);
-        return <BasicTable loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette', 'hoverable', 'striped']);
+        return <BasicTable striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
     }
-    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes']);
-    return <BasicTable loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes', 'hoverable', 'striped']);
+    return <BasicTable striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

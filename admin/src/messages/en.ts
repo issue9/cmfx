@@ -161,7 +161,10 @@ const messages = {
         },
         table: {
             nodata: 'no data',
-            exportTo: 'export to {type}'
+            exportTo: 'export to {type}',
+            hoverable: 'hoverable',
+            striped: 'striped {num}',
+            noStriped: 'no striped',
         },
         pagination: {
             prev: 'prev',
