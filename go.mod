@@ -3,7 +3,7 @@ module github.com/issue9/cmfx
 go 1.24.0
 
 require (
-	github.com/go-webauthn/webauthn v0.11.2
+	github.com/go-webauthn/webauthn v0.12.1
 	github.com/issue9/assert/v4 v4.3.1
 	github.com/issue9/cache v0.18.1
 	github.com/issue9/config v0.9.0
@@ -22,7 +22,7 @@ require (
 	github.com/issue9/webuse/v7 v7.0.0-20250217080250-c248e87e16cb
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.25.1
-	golang.org/x/crypto v0.33.0
+	golang.org/x/crypto v0.34.0
 	golang.org/x/text v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
 )
@@ -39,9 +39,9 @@ require (
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-sql-driver/mysql v1.8.1 // indirect
-	github.com/go-webauthn/x v0.1.14 // indirect
+	github.com/go-webauthn/x v0.1.18 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
-	github.com/google/go-tpm v0.9.1 // indirect
+	github.com/google/go-tpm v0.9.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/issue9/localeutil v0.29.3 // indirect
 	github.com/issue9/query/v3 v3.1.3 // indirect

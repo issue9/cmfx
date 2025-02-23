@@ -182,7 +182,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
             onSizeChange={async(s) => { size.setValue(s); await refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
     }
-    
+
     const [hoverable, setHoverable] = createSignal(props.hoverable);
     const [striped, setStriped] = createSignal(props.striped);
 

@@ -19,7 +19,7 @@ export class Demo implements Pages {
 
     menus(): Array<MenuItem> {
         const menuItems: Array<MenuItem> = [];
-        routes.forEach((r) => {
+        routes.sort().forEach((r) => {
             menuItems.push({
                 type: 'item',
                 label: r.path as string,
