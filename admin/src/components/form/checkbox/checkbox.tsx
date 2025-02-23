@@ -1,11 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, Show } from 'solid-js';
+import { createSignal, JSX, mergeProps } from 'solid-js';
 
 import { FieldBaseProps } from '@/components/form';
-import { Icon, IconSymbol } from '@/components/icon';
 
 export interface Props extends FieldBaseProps {
     /**
@@ -19,17 +18,10 @@ export interface Props extends FieldBaseProps {
     checked?: boolean;
 
     onChange?: { (v?: boolean): void };
-
-    checkedIcon?: IconSymbol;
-    uncheckedIcon?: IconSymbol;
-    indeterminateIcon?: IconSymbol;
 }
 
 const presetProps: Readonly<Props> = {
     tabindex: 0,
-    checkedIcon: 'check_box',
-    uncheckedIcon: 'check_box_outline_blank',
-    indeterminateIcon: 'indeterminate_check_box'
 };
 
 export function Checkbox(props: Props): JSX.Element {
@@ -46,7 +38,7 @@ export function Checkbox(props: Props): JSX.Element {
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={chk()}
-            class="appearance-none hidden"
+            class={props.block ? '!hidden' : 'undefined'}
             onChange={() => {
                 if (!props.readonly && !props.disabled) {
                     setChk(!chk());
@@ -56,9 +48,6 @@ export function Checkbox(props: Props): JSX.Element {
                 }
             }}
         />
-        <Show when={!props.block}>
-            <Icon class="mr-1" icon={ chk() === undefined ? props.indeterminateIcon! : (chk() ? props.checkedIcon! : props.uncheckedIcon!) } />
-        </Show>
         {props.label}
     </label>;
 }

@@ -5,8 +5,8 @@
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Value } from '@/components/tree/item';
-import { Props as BaseProps, presetProps, default as Panel, Ref as PanelRef } from './panel';
 import { calcPopoverPos } from '@/components/utils';
+import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
 
 export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
     /**
@@ -19,7 +19,7 @@ export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
      *
      * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
      */
-    onChange?: { (selected: Value, old?: Value): boolean | undefined; };
+    onChange?: { (selected?: Value, old?: Value): boolean | undefined; };
 }
 
 /**
@@ -34,13 +34,13 @@ export default function(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected: Value, old?: Value) => {
+        onchange = (selected?: Value, old?: Value) => {
             if (!props.onChange!(selected, old)) {
                 pop.hidePopover();
             }
         };
     } else {
-        onchange = (_: Value) => { pop.hidePopover(); };
+        onchange = () => { pop.hidePopover(); };
     }
 
     const onmouseenter = () => {

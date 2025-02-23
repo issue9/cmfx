@@ -19,7 +19,7 @@ export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref' | 
      *
      * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
      */
-    onChange?: { (selected: Value, old?: Value): boolean | undefined; };
+    onChange?: { (selected?: Value, old?: Value): boolean | undefined; };
 }
 
 /**
@@ -33,13 +33,13 @@ export function ContextMenu(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected: Value, old?: Value) => {
+        onchange = (selected?: Value, old?: Value) => {
             if (!props.onChange!(selected, old)) {
                 pop.hidePopover();
             }
         };
     } else {
-        onchange = (_: Value) => { pop.hidePopover(); };
+        onchange = () => { pop.hidePopover(); };
     }
 
     return <>

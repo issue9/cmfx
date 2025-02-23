@@ -48,7 +48,7 @@ export default function() {
     }>
         <Stage class="w-80 mt-4">
             <div class="absolute">
-                <Panel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v.toString() + '  ' + old?.toString()); return true; }}>
+                <Panel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v?.toString() + '  ' + old?.toString()); return true; }}>
                     {items}
                 </Panel>
             </div>

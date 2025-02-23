@@ -64,6 +64,14 @@
 
             .toolbar {
                 @apply flex justify-start items-center;
+
+                .system-toolbar {
+                    @apply ml-auto flex gap-[1px];
+
+                    .menu-item {
+                        @apply flex cursor-pointer items-center gap-[2px];
+                    }
+                }
             }
         }
     }

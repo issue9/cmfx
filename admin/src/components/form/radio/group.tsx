@@ -1,11 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
-import { Icon, IconSymbol } from '@/components/icon';
 
 export interface Props<T> extends FieldBaseProps {
     /**
@@ -16,16 +15,11 @@ export interface Props<T> extends FieldBaseProps {
     vertical?: boolean;
     accessor: Accessor<T>;
     options: Options<T>;
-
-    checkedIcon?: IconSymbol;
-    uncheckedIcon?: IconSymbol;
 }
 
 export function RadioGroup<T extends string | number | undefined> (props: Props<T>): JSX.Element {
     props = mergeProps({
         tabindex: 0,
-        checkedIcon: 'radio_button_checked' as IconSymbol,
-        uncheckedIcon: 'radio_button_unchecked' as IconSymbol,
     }, props);
     const access = props.accessor;
 
@@ -46,7 +40,7 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
             <For each={props.options}>
                 {(item) =>
                     <label classList={{'border': props.block}} tabIndex={props.tabindex} accessKey={props.accessKey}>
-                        <input type="radio" class="appearance-none"
+                        <input type="radio" class={props.block ? '!hidden' : undefined}
                             readOnly={props.readonly}
                             checked={item[0] === access.getValue()}
                             name={props.accessor.name()}
@@ -58,9 +52,6 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
                                 }
                             }}
                         />
-                        <Show when={!props.block}>
-                            <Icon class="radio-icon" icon={ access.getValue() === item[0] ? props.checkedIcon! : props.uncheckedIcon!} />
-                        </Show>
                         {item[1]}
                     </label>
                 }

@@ -4,15 +4,48 @@
  * SPDX-License-Identifier: MIT
  */
 
-
 @layer components {
+    input[type="radio"] {
+        @apply appearance-none relative inline-block w-4 h-4 !rounded-full cursor-pointer;
+        @apply p-0 border-[2px] border-palette-fg outline-0 hover:border-palette-fg-high;
+
+        vertical-align: middle;
+        font-size: 0.5rem;
+        transition: all var(--transition-duration) ease;
+    }
+
+    input[type="radio"]:disabled {
+        border-color: var(--bg-low);
+        cursor: not-allowed;
+    }
+
+    input[type="radio"]:after {
+        @apply inline-block absolute left-1/2 top-1/2 bg-palette-fg rounded-full w-2 h-2 opacity-0;
+        content: '';
+        transform: translate(-50%, -50%);
+        transition: all var(--transition-duration) ease;
+        transform-origin: center center;
+        pointer-events: none;
+    }
+
+    input[type="radio"]:checked:after {
+        opacity: 1;
+    }
+
+    .c--radio-group[type="radio"]:disabled:after {
+        cursor: not-allowed;
+        background: var(--bg-low);
+    }
+
+    /* 以上代码重定义了默认的 radio 样式 */
+
     .c--radio-group {
         label {
             @apply border-2 border-transparent flex items-center text-palette-fg box-border;
             @apply overflow-hidden;
 
-            .radio-icon {
-                @apply mr-1;
+            input {
+                @apply mr-[2px]
             }
         }
 
@@ -31,20 +64,8 @@
             cursor: pointer;
         }
 
-        label:focus-visible {
-            outline: none;
-
-            .radio-icon {
-                color: var(--fg-high);
-            }
-        }
-
         label.border {
             @apply hover:border-[var(--bg-high)];
-        }
-
-        label:hover .radio-icon {
-            color: var(--fg-high);
         }
     }
 
@@ -53,10 +74,6 @@
 
         label {
             @apply cursor-not-allowed text-palette-bg-low;
-
-            .radio-icon {
-                cursor: not-allowed;
-            }
         }
     }
 }

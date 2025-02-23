@@ -48,13 +48,13 @@ export function Menu(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected: Value, old?: Value) => {
+        onchange = (selected?: Value, old?: Value) => {
             if (!props.onChange!(selected, old)) {
                 pop.hidePopover();
             }
         };
     } else {
-        onchange = (_: Value) => { pop.hidePopover(); };
+        onchange = () => { pop.hidePopover(); };
     }
 
     return <div class="w-fit">

@@ -108,10 +108,10 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
             let enabled = mm.isCurrent;
             const now = new Date(mm.year, mm.month, i);
             if (min && min > now) {
-                enabled = false
+                enabled = false;
             }
             if (max && max < now) {
-                enabled = false
+                enabled = false;
             }
             
             days.push([enabled, mm.month, i]);

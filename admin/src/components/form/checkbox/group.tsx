@@ -1,12 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { For, mergeProps, Show, splitProps } from 'solid-js';
+import { For, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Accessor, FieldBaseProps, Options } from '@/components/form';
-import { IconSymbol } from '@/components/icon';
-import { JSX } from 'solid-js';
 import { Checkbox } from './checkbox';
 
 export interface Props<T> extends FieldBaseProps {
@@ -18,22 +16,15 @@ export interface Props<T> extends FieldBaseProps {
     vertical?: boolean;
     accessor: Accessor<Array<T>>;
     options: Options<T>;
-
-    checkedIcon?: IconSymbol;
-    uncheckedIcon?: IconSymbol;
-    indeterminateIcon?: IconSymbol;
 }
 
 export function CheckboxGroup<T extends string | number> (props: Props<T>): JSX.Element {
     props = mergeProps({
         icon: true,
-        checkedIcon: 'check_box' as IconSymbol,
-        uncheckedIcon: 'check_box_outline_blank' as IconSymbol,
-        indeterminateIcon: 'indeterminate_check_box' as IconSymbol
     }, props);
     const access = props.accessor;
 
-    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'block', 'checkedIcon', 'uncheckedIcon', 'indeterminateIcon','classList', 'class']);
+    const [chkProps, _] = splitProps(props, ['disabled', 'tabindex', 'readonly', 'block', 'classList', 'class']);
 
     return <fieldset accessKey={props.accessKey} tabIndex={props.tabindex} disabled={props.disabled} classList={{
         ...props.classList,
