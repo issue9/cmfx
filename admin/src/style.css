@@ -71,6 +71,7 @@ dialog::backdrop {
 
 /********************* popover *******************/
 
+/* 调用者需要指定 display 属性，且值不能为 none */
 [popover] {
     @apply pop;
 }

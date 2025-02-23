@@ -49,11 +49,10 @@
     }
 
     .c--choice-options {
-        @apply border border-palette-fg-low bg-[var(--bg)] rounded-md max-h-[240px] overflow-y-auto fixed box-border;
-        inset: unset;
+        @apply border border-palette-fg-low bg-palette-bg rounded-md max-h-[240px] overflow-y-auto box-border block;
 
         li {
-            @apply p-2 hover:bg-[var(--bg-high)] flex items-center cursor-pointer;
+            @apply p-2 hover:bg-palette-bg-high flex items-center cursor-pointer;
 
             .tail {
                 margin-left: auto;
@@ -61,8 +60,7 @@
         }
 
         li.selected {
-            background-color: var(--bg-low);
-            @apply hover:bg-[var(--bg-high)];
+            @apply bg-palette-bg-low hover:bg-palette-bg-high;
         }
     }
 }
