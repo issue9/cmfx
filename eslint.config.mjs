@@ -1,12 +1,20 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import globals from 'globals';
+import { includeIgnoreFile } from '@eslint/compat';
 import stylisticTs from '@stylistic/eslint-plugin-ts';
 import parserTs from '@typescript-eslint/parser';
+import globals from 'globals';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const gitignorePath = path.resolve(__dirname, '.gitignore');
 
 export default [
+    includeIgnoreFile(gitignorePath),
     {
         languageOptions: {
             globals: globals.browser,
