@@ -4,12 +4,12 @@
 
 import { createApp } from '@cmfx/admin/dev';
 import { AppOptions, Card, Label, Routes } from '@cmfx/admin/dev/components';
-
 import * as pages from '@cmfx/admin/dev/pages';
 import '@cmfx/admin/dev/style.css';
 
 import { Demo } from './demo';
 import { default as Test } from './pages/test';
+import './style.css';
 
 //const urlBase = 'http://192.168.10.10:8080/admin';
 const urlBase = 'http://localhost:8080/admin';

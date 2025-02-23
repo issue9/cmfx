@@ -5,7 +5,7 @@
  */
 
 /* 项目中必须引入此文件，否则像 basis-1/2 之类的会不启作用 */
-@import 'tailwindcss';
+@import 'tailwindcss' source('.');
 
 .test {
     color: red;

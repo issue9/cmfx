@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -89,7 +89,7 @@ export function List(props: Props): JSX.Element {
                         <Icon class="expand" icon={ open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' } />
                     </div>
                     <Show when={p.item.items}>
-                        <menu classList={{'hidden': !open()}}>
+                        <menu classList={{'hidden-menu': !open()}}>
                             <div class="menus">
                                 <All items={p.item.items!} indent={p.indent+1} selectedIndex={p.selectedIndex} />
                             </div>

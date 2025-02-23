@@ -31,14 +31,15 @@
             }
 
             >menu {
-                @apply grid grid-rows-[1fr] overflow-hidden transition-[var(--transition-duration)];
+                @apply grid grid-rows-[1fr] overflow-hidden;
+                transition: all var(--transition-duration) ease;
 
                 .menus {
                     @apply flex flex-col min-h-0;
                 }
             }
 
-            >menu.hidden {
+            >menu.hidden-menu {
                 @apply grid-rows-[0fr];
             }
         }
