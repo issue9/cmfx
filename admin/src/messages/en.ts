@@ -165,6 +165,7 @@ const messages = {
             hoverable: 'hoverable',
             striped: 'striped {num}',
             noStriped: 'no striped',
+            stickyHeader: 'sticky header',
         },
         pagination: {
             prev: 'prev',

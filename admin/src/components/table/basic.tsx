@@ -4,8 +4,8 @@
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
-import { useApp } from '@/components/context';
 import { BaseProps } from '@/components/base';
+import { useApp } from '@/components/context';
 import { Spin } from '@/components/spin';
 import { Column } from './column';
 
@@ -39,6 +39,11 @@ export interface Props<T extends object> extends BaseProps {
      * tr 是否响应 hover 事件
      */
     hoverable?: boolean;
+
+    /**
+     * 固定表格头部位于指定的位置，如果为 undefined，表示不固定。
+     */
+    stickyHeader?: string;
 
     /**
      * 表格顶部的扩展空间
@@ -77,7 +82,10 @@ export function BasicTable<T extends object>(props: Props<T>) {
         </Show>
 
         <table classList={{'fixed-layout': props.fixedLayout}}>
-            <thead>
+            <thead style={{
+                'position': props.stickyHeader === undefined ? undefined : 'sticky',
+                'top': props.stickyHeader === undefined ? undefined : props.stickyHeader,
+            }}>
                 <tr>
                     <For each={props.columns}>
                         {(item)=>(

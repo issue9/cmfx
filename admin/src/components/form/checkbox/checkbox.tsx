@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps } from 'solid-js';
 
 import { FieldBaseProps } from '@/components/form';
 
@@ -13,7 +13,7 @@ export interface Props extends FieldBaseProps {
     block?: boolean;
 
     /**
-     * 复选框的初始状态，undefined 表示未确定的状态，true 为选中，false 为未选中。
+     * 复选框的初始状态，true 为选中，false 为未选中。
      */
     checked?: boolean;
 
@@ -26,7 +26,6 @@ const presetProps: Readonly<Props> = {
 
 export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const [chk, setChk] = createSignal(props.checked);
 
     return <label tabIndex={props.tabindex} accessKey={props.accessKey} title={props.title} class={props.class} classList={{
         ...props.classList,
@@ -37,13 +36,12 @@ export function Checkbox(props: Props): JSX.Element {
         <input type="checkbox"
             readOnly={props.readonly}
             disabled={props.disabled}
-            checked={chk()}
+            checked={props.checked}
             class={props.block ? '!hidden' : 'undefined'}
-            onChange={() => {
+            onChange={(e) => {
                 if (!props.readonly && !props.disabled) {
-                    setChk(!chk());
                     if (props.onChange) {
-                        props.onChange(chk());
+                        props.onChange(e.target.checked);
                     }
                 }
             }}

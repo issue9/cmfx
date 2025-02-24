@@ -39,7 +39,7 @@ export function APIs(): JSX.Element {
     };
 
     return <Page title="_i.page.system.apiViewer">
-        <RemoteTable queries={queries} path='/system/apis' columns={[
+        <RemoteTable systemToolbar queries={queries} path='/system/apis' columns={[
             { id: 'router', label: ctx.locale().t('_i.page.system.router') },
             { id: 'method', label: ctx.locale().t('_i.page.system.method') },
             { id: 'pattern', label: ctx.locale().t('_i.page.system.pattern') },

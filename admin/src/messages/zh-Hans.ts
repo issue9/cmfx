@@ -167,6 +167,7 @@ const messages: Messages = {
             hoverable: '悬停效果',
             striped: '条纹间隔 {num}',
             noStriped: '无',
+            stickyHeader: '固定表格头',
         },
         pagination: {
             prev: '前一页',

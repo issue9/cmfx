@@ -185,6 +185,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
 
     const [hoverable, setHoverable] = createSignal(props.hoverable);
     const [striped, setStriped] = createSignal(props.striped);
+    const [sticky, setSticky] = createSignal(props.stickyHeader);
 
     const header = <header class="header">
         <Show when={props.queryForm}>
@@ -236,6 +237,9 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                             case 'hoverable':
                                 setHoverable(!hoverable());
                                 break;
+                            case 'sticky-header':
+                                setSticky(sticky() === undefined ? '0px' : undefined);
+                                break;
                             case 0:
                                 setStriped(0);
                                 break;
@@ -257,7 +261,12 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                             {[
                                 {
                                     type: 'item', value: 'hoverable',
-                                    label: <Checkbox label={ctx.locale().t('_i.table.hoverable')} />
+                                    label: <Checkbox checked={hoverable()} label={ctx.locale().t('_i.table.hoverable')} />
+                                },
+                                { type: 'divider' },
+                                {
+                                    type: 'item', value: 'sticky-header',
+                                    label: <Checkbox checked={sticky() !== undefined} label={ctx.locale().t('_i.table.stickyHeader')} />
                                 },
                                 { type: 'divider' },
                                 {
@@ -292,9 +301,9 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
     </header>;
 
     if (!props.paging) {
-        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette', 'hoverable', 'striped']);
-        return <BasicTable striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette', 'hoverable', 'striped', 'stickyHeader']);
+        return <BasicTable stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
     }
-    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes', 'hoverable', 'striped']);
-    return <BasicTable striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes', 'hoverable', 'striped', 'stickyHeader']);
+    return <BasicTable stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }
