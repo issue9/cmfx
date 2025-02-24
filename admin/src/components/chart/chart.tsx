@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -69,6 +69,10 @@ export function Chart(props: Props): JSX.Element {
             width: props.width,
             renderer: 'svg',
         });
+
+        window.onresize = () => {
+            inst.resize();
+        };
     });
 
     onCleanup(() => {

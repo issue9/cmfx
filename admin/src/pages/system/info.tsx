@@ -115,111 +115,109 @@ export function Info(): JSX.Element {
         await ctx.api.delete('/system/systat');
     });
 
-    return <Page title="_i.page.system.info" class="max-w-lg w-lg">
-        <div class="p--system-info">
-            <fieldset class="panel w-[45%]">
-                <Label icon="info" tag='legend'>{ctx.locale().t('_i.page.system.info')}</Label>
-                <dl><dt>{ ctx.locale().t('_i.page.system.name') }</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
+    return <Page title="_i.page.system.info" class="!max-w-lg p--system-info">
+        <fieldset class="panel w-[45%] max-sm:w-full">
+            <Label icon="info" tag='legend'>{ctx.locale().t('_i.page.system.info')}</Label>
+            <dl><dt>{ctx.locale().t('_i.page.system.name')}</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.arch') }</dt><dd>{info()?.arch}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.cpus') }</dt><dd>{info()?.cpus}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.cpus')}</dt><dd>{info()?.cpus}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.go') }</dt><dd>{info()?.go}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.go')}</dt><dd>{info()?.go}</dd></dl>
 
-                <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
+            <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().datetime(info()?.uptime)}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.uptime')}</dt><dd>{ctx.locale().datetime(info()?.uptime)}</dd></dl>
 
-                <Divider padding='.5rem'><Icon class="mr-1" icon="dataset" />{ctx.locale().t('_i.os')}</Divider>
+            <Divider padding='.5rem'><Icon class="mr-1" icon="dataset" />{ctx.locale().t('_i.os')}</Divider>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.platform') }</dt><dd>{info()?.os.platform}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.platform')}</dt><dd>{info()?.os.platform}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.family') }</dt><dd>{info()?.os.family}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.family')}</dt><dd>{info()?.os.family}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.version') }</dt><dd>{info()?.os.version}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.version')}</dt><dd>{info()?.os.version}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.uptime') }</dt><dd>{ctx.locale().datetime(info()?.os.boot)}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.uptime')}</dt><dd>{ctx.locale().datetime(info()?.os.boot)}</dd></dl>
 
-                <Divider padding='.5rem'><Icon class="mr-1" icon="database" />{ctx.locale().t('_i.database')}</Divider>
+            <Divider padding='.5rem'><Icon class="mr-1" icon="database" />{ctx.locale().t('_i.database')}</Divider>
 
-                <dl><dt>{ ctx.locale().t('_i.database') }</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.database')}</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 
-                <dl>
-                    <dt>{ ctx.locale().t('_i.page.system.connections') }</dt>
-                    <dd title={
-                        ctx.locale().t('_i.page.system.connectionsHelp', {
-                            maxOpenConnections: allowedMaxConnections(),
-                            openConnections: db()?.openConnections!,
-                            idle: db()?.idle!,
-                            inUse: db()?.inUse!,
-                        })
-                    }>
-                        {allowedMaxConnections()} / {db()?.openConnections} / { db()?.idle } / { db()?.inUse }
-                    </dd>
-                </dl>
+            <dl>
+                <dt>{ctx.locale().t('_i.page.system.connections')}</dt>
+                <dd title={
+                    ctx.locale().t('_i.page.system.connectionsHelp', {
+                        maxOpenConnections: allowedMaxConnections(),
+                        openConnections: db()?.openConnections!,
+                        idle: db()?.idle!,
+                        inUse: db()?.inUse!,
+                    })
+                }>
+                    {allowedMaxConnections()} / {db()?.openConnections} / {db()?.idle} / {db()?.inUse}
+                </dd>
+            </dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.waitCount') }</dt><dd>{db()?.waitCount}</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.waitCount')}</dt><dd>{db()?.waitCount}</dd></dl>
 
-                <dl><dt>{ ctx.locale().t('_i.page.system.waitDuration') }</dt><dd>{db()?.waitDuration}</dd></dl>
-            </fieldset>
+            <dl><dt>{ctx.locale().t('_i.page.system.waitDuration')}</dt><dd>{db()?.waitDuration}</dd></dl>
+        </fieldset>
 
-            <fieldset class="panel w-[45%]">
-                <Label icon='action_key' tag='legend'>{ ctx.locale().t('_i.page.actions') }</Label>
+        <fieldset class="panel w-[45%] max-sm:w-full">
+            <Label icon='action_key' tag='legend'>{ctx.locale().t('_i.page.actions')}</Label>
 
-                <ConfirmButton palette='secondary' onClick={async()=>await ctx.clearCache()}>
-                    <Icon class="mr-1" icon="clear_all" />{ ctx.locale().t('_i.page.system.clearCache') }
-                </ConfirmButton>
-                <span class="mt-1">{ctx.locale().t('_i.page.system.clearCacheHelp')}</span>
+            <ConfirmButton palette='secondary' onClick={async () => await ctx.clearCache()}>
+                <Icon class="mr-1" icon="clear_all" />{ctx.locale().t('_i.page.system.clearCache')}
+            </ConfirmButton>
+            <span class="mt-1">{ctx.locale().t('_i.page.system.clearCacheHelp')}</span>
 
-                <Divider padding='1rem' />
-                <ConfirmButton palette='secondary' disabled={backup()?.cron===''} onClick={async()=>{
-                    const ret = await ctx.api.post('/system/backup');
-                    if (!ret.ok) {
-                        await ctx.outputProblem(ret.body);
-                        return;
-                    }
-                    await refetch();
-                }}>
-                    <Icon class="mr-1" icon="backup" />{ ctx.locale().t('_i.page.system.backupDB') }
-                </ConfirmButton>
-                <span class="mt-1">{ctx.locale().t('_i.page.system.backupDBHelp', {cron: backup()?.cron!})}</span>
-                <ul class="backup_list">
-                    <For each={backup()?.list}>
-                        {(item)=>(
-                            <li>
-                                {item.path}&nbsp;({ctx.locale().bytes(item.size)})
-                                <ConfirmButton kind='flat' palette='error' onClick={async()=>{
-                                    const ret = await ctx.api.delete('/system/backup/'+item.path);
-                                    if (!ret.ok) {
-                                        await ctx.outputProblem(ret.body);
-                                        return;
-                                    }
-                                    await refetch();
-                                }}>{ ctx.locale().t('_i.page.deleteItem') }</ConfirmButton>
-                            </li>
-                        )}
-                    </For>
-                </ul>
-            </fieldset>
+            <Divider padding='1rem' />
+            <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onClick={async () => {
+                const ret = await ctx.api.post('/system/backup');
+                if (!ret.ok) {
+                    await ctx.outputProblem(ret.body);
+                    return;
+                }
+                await refetch();
+            }}>
+                <Icon class="mr-1" icon="backup" />{ctx.locale().t('_i.page.system.backupDB')}
+            </ConfirmButton>
+            <span class="mt-1">{ctx.locale().t('_i.page.system.backupDBHelp', { cron: backup()?.cron! })}</span>
+            <ul class="backup_list">
+                <For each={backup()?.list}>
+                    {(item) => (
+                        <li>
+                            {item.path}&nbsp;({ctx.locale().bytes(item.size)})
+                            <ConfirmButton kind='flat' palette='error' onClick={async () => {
+                                const ret = await ctx.api.delete('/system/backup/' + item.path);
+                                if (!ret.ok) {
+                                    await ctx.outputProblem(ret.body);
+                                    return;
+                                }
+                                await refetch();
+                            }}>{ctx.locale().t('_i.page.deleteItem')}</ConfirmButton>
+                        </li>
+                    )}
+                </For>
+            </ul>
+        </fieldset>
 
-            <fieldset class="panel states">
-                <Label icon='ssid_chart' tag='legend'>{ ctx.locale().t('_i.page.system.states') }</Label>
-                <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
-                    ['cpu', ctx.locale().t('_i.cpu')+' (%)'],
-                    ['memory', ctx.locale().t('_i.memory')+' (MB)'],
-                    ['connections', ctx.locale().t('_i.page.system.connections')],
-                    ['goroutines', ctx.locale().t('_i.page.system.goroutines')],
-                ]} />
-                <AxisChart ref={(el)=>axisRef=el} width='auto' size={50} tooltip legend='center' xAxis={{key: 'created'}}
-                    series={[
-                        { type: 'line', key: 'os', name: ctx.locale().t('_i.os'), area: true, smooth: true },
-                        { type: 'line', key: 'process', name: ctx.locale().t('_i.process'), area: true, smooth: true },
-                    ]}
-                    data={data()}
-                />
-            </fieldset>
-        </div>
+        <fieldset class="panel w-full">
+            <Label icon='ssid_chart' tag='legend'>{ctx.locale().t('_i.page.system.states')}</Label>
+            <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
+                ['cpu', ctx.locale().t('_i.cpu') + ' (%)'],
+                ['memory', ctx.locale().t('_i.memory') + ' (MB)'],
+                ['connections', ctx.locale().t('_i.page.system.connections')],
+                ['goroutines', ctx.locale().t('_i.page.system.goroutines')],
+            ]} />
+            <AxisChart ref={(el) => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
+                series={[
+                    { type: 'line', key: 'os', name: ctx.locale().t('_i.os'), area: true, smooth: true },
+                    { type: 'line', key: 'process', name: ctx.locale().t('_i.process'), area: true, smooth: true },
+                ]}
+                data={data()}
+            />
+        </fieldset>
     </Page>;
 }
 
