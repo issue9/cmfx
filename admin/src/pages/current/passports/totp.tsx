@@ -55,10 +55,10 @@ export class TOTP implements PassportComponents {
                 await ctx.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
+            <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='person' />}
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
 
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='pin' />}
+            <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='pin' />}
                 placeholder={ctx.locale().t('_i.page.current.verifyCode')} accessor={account.accessor('code', true)} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>

@@ -20,7 +20,7 @@ export function Password(props: Props): JSX.Element {
 
     return <TextField {...fieldProps} type="password" ref={el=>ref=el} prefix={
         <Show when={props.icon}>
-            <Icon icon={props.icon!} class="px-1 flex items-center !py-0" />
+            <Icon icon={props.icon!} class="px-1 !flex !items-center !py-0" />
         </Show>
     } suffix={
         <Button kind='flat' disabled={props.disabled} icon class="!px-1 !py-0 rounded-none"

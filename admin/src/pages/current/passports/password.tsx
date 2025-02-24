@@ -48,7 +48,7 @@ export class Pwd implements PassportComponents {
                 await ctx.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
+            <TextField prefix={<Icon class="!py-0 !px-1 !flex items-center" icon='person' />}
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
 
             <Password icon='password_2' placeholder={ctx.locale().t('_i.page.current.password')} accessor={account.accessor('password', true)} />

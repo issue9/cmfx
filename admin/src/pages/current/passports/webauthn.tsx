@@ -80,10 +80,10 @@ export class Webauthn implements PassportComponents {
                 await ctx.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 flex items-center" icon='person' />}
+            <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='person' />}
                 suffix={
                     <Show when={account.getValue()!==''}>
-                        <Icon class="!py-0 !px-1 flex items-center" icon='close' onClick={()=>account.setValue('')} />
+                        <Icon class="!py-0 !px-1 !flex !items-center" icon='close' onClick={()=>account.setValue('')} />
                     </Show>
                 }
                 placeholder={ctx.locale().t('_i.page.current.username')} accessor={account} />

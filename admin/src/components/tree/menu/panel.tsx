@@ -89,7 +89,7 @@ export default function (props: Props): JSX.Element {
                         'item': true,
                         [props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
                     }}
-                    onClick={(e: MouseEvent) => {
+                    onClick={props.anchor ? undefined : (e: MouseEvent) => {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                         const old = selected();
@@ -99,7 +99,6 @@ export default function (props: Props): JSX.Element {
                         }
 
                         setSelected(p.item.value);
-
                         e.preventDefault();
                     }}>{p.item.label}</Dynamic>
             </Match>
