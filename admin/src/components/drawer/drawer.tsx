@@ -2,10 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    createEffect, createSignal, JSX, Match,
-    mergeProps, onCleanup, onMount, Switch
-} from 'solid-js';
+import { createEffect, createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
+import { Transition } from 'solid-transition-group';
 
 import { BaseProps } from '@/components/base';
 import { Breakpoint } from '@/core';
@@ -109,10 +107,10 @@ export function Drawer(props: Props) {
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />
-                <main id={props.mainID}>{props.main}</main>
+                <main id={props.mainID}><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
             </Match>
             <Match when={props.pos === 'right'}>
-                <main id={props.mainID}>{props.main}</main>
+                <main id={props.mainID}><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
                 <Aside />
             </Match>
         </Switch>

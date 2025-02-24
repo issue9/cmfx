@@ -35,6 +35,24 @@
         >main {
             @apply overflow-y-auto h-full flex-1;
         }
+
+        /* Transition 动画 */
+
+        .drawer-fade-enter-active,
+        .drawer-fade-exit-active {
+            transition: opacity var(--transition-duration), transform var(--transition-duration);
+        }
+
+        .drawer-fade-enter,
+        .drawer-fade-exit-to {
+            transform: translateX(10px);
+            opacity: 0;
+        }
+
+        .drawer-fade-enter {
+            transform: translateX(-10px);
+            opacity: 1;
+        }
     }
 
     .c--drawer:not(:has(>aside.aside-hidden))::after {

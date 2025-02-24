@@ -76,7 +76,7 @@ func (p *password) postLogin(ctx *web.Context) web.Responser {
 		return ctx.Problem(cmfx.UnauthorizedInvalidAccount)
 	}
 
-	// 如果密码是空值，则不能通过此方法登录
+	// 如果密码是空值，则至少还有一种其它的登录方式，需要通过该方式修改密码。
 	if bcrypt.CompareHashAndPassword(mod.Password, []byte{}) == nil {
 		return ctx.Problem(cmfx.UnauthorizedNeedChangePassword)
 	}

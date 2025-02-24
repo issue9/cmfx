@@ -105,6 +105,7 @@
         "qr-code-styling": "^1.9.1",
         "quill": "^2.0.3",
         "solid-js": "^1.9.5",
+        "solid-transition-group": "^0.3.0",
         "tailwindcss": "^4.0.8",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
         "yaml": "^2.7.0"
