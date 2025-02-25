@@ -84,14 +84,14 @@ export function List(props: Props): JSX.Element {
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
                 <div class="details">
-                    <div class="summary item" onclick={()=>setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
+                    <div class="summary item" onclick={() => setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
                         {p.item.label}
-                        <Icon class="expand" icon={ open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down' } />
+                        <Icon class="expand" icon={open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} />
                     </div>
                     <Show when={p.item.items}>
-                        <menu classList={{'hidden-menu': !open()}}>
+                        <menu classList={{ 'hidden-menu': !open() }}>
                             <div class="menus">
-                                <All items={p.item.items!} indent={p.indent+1} selectedIndex={p.selectedIndex} />
+                                <All items={p.item.items!} indent={p.indent + 1} selectedIndex={p.selectedIndex} />
                             </div>
                         </menu>
                     </Show>
@@ -105,11 +105,10 @@ export function List(props: Props): JSX.Element {
                     style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
                     classList={{
                         'item': true,
-
                         // anchor 的类型定义在 activeClass 属性
-                        [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
+                        [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value,
                     }}
-                    onClick={()=>{
+                    onClick={(e: MouseEvent) => {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                         const old = selected();
@@ -120,6 +119,10 @@ export function List(props: Props): JSX.Element {
                         }
 
                         setSelected(p.item.value);
+
+                        if (!props.anchor) {
+                            e.preventDefault();
+                        }
                     }}>{p.item.label}</Dynamic>
             </Match>
         </Switch>;

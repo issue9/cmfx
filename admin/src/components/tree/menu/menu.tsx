@@ -49,7 +49,7 @@ export function Menu(props: Props): JSX.Element {
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
         onchange = (selected?: Value, old?: Value) => {
-            if (!props.onChange!(selected, old)) {
+            if (!props.onChange!(selected, old) && pop.hidePopover) {
                 pop.hidePopover();
             }
         };
@@ -59,7 +59,9 @@ export function Menu(props: Props): JSX.Element {
 
     return <div class="w-fit">
         <span ref={el=>activator=el} classList={{[`palette--${props.palette}`]: !!props.palette}} onClick={()=>{
-            pop.togglePopover();
+            if (pop.togglePopover) {
+                pop.togglePopover();
+            }
 
             const rect = activator.getBoundingClientRect();
             const x = props.direction === 'right' ? rect.right - pop.getBoundingClientRect().width : rect.left;

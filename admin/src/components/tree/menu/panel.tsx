@@ -11,7 +11,7 @@ import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
 import { Item, Value } from '@/components/tree/item';
 
-export type Ref = HTMLElement;
+export type Ref = HTMLMenuElement;
 
 export interface Props extends ContainerProps {
     /**
@@ -87,9 +87,10 @@ export default function (props: Props): JSX.Element {
                     accessKey={p.item.accesskey}
                     classList={{
                         'item': true,
-                        [props.selectedClass!]: !!props.selectedClass && selected() === p.item.value
+                        // anchor 的类型定义在 activeClass 属性
+                        [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value,
                     }}
-                    onClick={props.anchor ? undefined : (e: MouseEvent) => {
+                    onClick={(e: MouseEvent) => {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                         const old = selected();
@@ -99,7 +100,10 @@ export default function (props: Props): JSX.Element {
                         }
 
                         setSelected(p.item.value);
-                        e.preventDefault();
+
+                        if (!props.anchor) {
+                            e.preventDefault();
+                        }
                     }}>{p.item.label}</Dynamic>
             </Match>
         </Switch>;
