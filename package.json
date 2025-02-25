@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin-eslint",
-    "version": "0.8.9",
+    "version": "0.8.10",
     "type": "module",
     "private": true,
     "author": {
@@ -28,6 +28,6 @@
         "@eslint/compat": "^1.2.7",
         "eslint": "^9.21.0",
         "globals": "^16.0.0",
-        "typescript-eslint": "^8.24.1"
+        "typescript-eslint": "^8.25.0"
     }
 }
