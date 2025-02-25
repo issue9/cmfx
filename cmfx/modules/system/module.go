@@ -55,13 +55,13 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 
 		settings: settings.New(mod, settingsTableName),
 	}
-	general, err := settings.LoadObject[generalSettings](m.settings, generalSettingName)
+	general, err := settings.LoadObject[generalSettings](m.settings, generalSettingName, time.Hour)
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 	m.generalSettings = general
 
-	censor, err := settings.LoadObject[censorSettings](m.settings, censorSettingName)
+	censor, err := settings.LoadObject[censorSettings](m.settings, censorSettingName, time.Hour)
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
