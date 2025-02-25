@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,7 +12,10 @@ import (
 	"go/token"
 	"reflect"
 	"slices"
+	"strconv"
+	"time"
 
+	"github.com/issue9/cache"
 	"github.com/issue9/orm/v6"
 	"github.com/issue9/web"
 
@@ -44,7 +47,7 @@ type Object[T any] struct {
 	id     string
 	s      *Settings
 	preset []*settingPO // 保存着从数据库中加载的默认用户的设置对象
-	users  map[int64]*T // 缓存的对象
+	ttl    time.Duration
 }
 
 func checkObjectType[T any]() {
@@ -56,7 +59,7 @@ func checkObjectType[T any]() {
 // LoadObject 从 [Settings] 加载设置对象的数据
 //
 // id 表示当前设置对象的 ID，每一个设置象需要有一个唯一的 id；
-func LoadObject[T any](s *Settings, id string) (*Object[T], error) {
+func LoadObject[T any](s *Settings, id string, ttl time.Duration) (*Object[T], error) {
 	if slices.Index(s.objects, id) >= 0 {
 		panic(fmt.Sprintf("已经存在相同的 ID：%s", id))
 	}
@@ -77,7 +80,7 @@ func LoadObject[T any](s *Settings, id string) (*Object[T], error) {
 		s:      s,
 		id:     id,
 		preset: ss,
-		users:  make(map[int64]*T, 100),
+		ttl:    ttl,
 	}, nil
 }
 
@@ -88,30 +91,27 @@ func LoadObject[T any](s *Settings, id string) (*Object[T], error) {
 //   - 从数据库查找数据；
 //   - 采用默认值；
 func (obj *Object[T]) Get(uid int64) (*T, error) {
-	if o, found := obj.users[uid]; found {
-		return o, nil
-	}
-
-	// 尝试从数据库加载数据
-
 	var o T
-	ss := make([]*settingPO, 0, 10)
-	size, err := obj.s.db.Where("uid=?", uid).And("{group}=?", obj.id).Select(true, &ss)
-	if err != nil {
-		return &o, err
-	}
+	err := cache.GetOrInit[T](obj.s.c, strconv.FormatInt(uid, 10), &o, obj.ttl, func(o *T) error {
+		ss := make([]*settingPO, 0, 10)
+		size, err := obj.s.db.Where("uid=?", uid).And("{group}=?", obj.id).Select(true, &ss)
+		if err != nil {
+			return err
+		}
 
-	if uid == obj.s.presetUID {
-		obj.preset = ss
-	} else if size == 0 {
-		ss = obj.preset
-	}
+		if uid == obj.s.presetUID {
+			obj.preset = ss
+		} else if size == 0 {
+			ss = obj.preset
+		}
 
-	if err = fromModels(ss, &o, obj.id); err != nil {
-		return nil, err
-	}
-	obj.users[uid] = &o
-	return &o, nil
+		if err = obj.fromModels(ss, o); err != nil {
+			return err
+		}
+		return nil
+	})
+
+	return &o, err
 }
 
 // Set 保存 o 的设置对象
@@ -123,6 +123,10 @@ func (obj *Object[T]) Set(uid int64, o *T) error {
 
 	if uid == obj.s.presetUID {
 		obj.preset = mods
+	}
+
+	if err := obj.s.c.Set(strconv.FormatInt(uid, 10), *o, obj.ttl); err != nil {
+		return err
 	}
 
 	err = obj.s.db.DoTransaction(func(tx *orm.Tx) error {
@@ -137,7 +141,6 @@ func (obj *Object[T]) Set(uid int64, o *T) error {
 		return err
 	}
 
-	obj.users[uid] = o
 	return nil
 }
 
@@ -190,7 +193,7 @@ func toModels[T any](o *T, uid int64, g string) ([]*settingPO, error) {
 }
 
 // 从 []modelSetting 转换为 o
-func fromModels[T any](ss []*settingPO, o *T, g string) error {
+func (obj *Object[T]) fromModels(ss []*settingPO, o *T) error {
 	rv := reflect.ValueOf(o).Elem()
 	rt := rv.Type()
 
@@ -200,9 +203,9 @@ func fromModels[T any](ss []*settingPO, o *T, g string) error {
 			continue
 		}
 
-		index := slices.IndexFunc(ss, func(s *settingPO) bool { return s.Key == key && s.Group == g })
+		index := slices.IndexFunc(ss, func(s *settingPO) bool { return s.Key == key && s.Group == obj.id })
 		if index < 0 {
-			panic(fmt.Sprintf("不存在的字段:%s,%s", g, key))
+			panic(fmt.Sprintf("不存在的字段:%s,%s", obj.id, key))
 		}
 
 		if err := json.Unmarshal([]byte(ss[index].Value), rv.Field(i).Addr().Interface()); err != nil {

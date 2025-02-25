@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/go-webauthn/webauthn v0.12.1
 	github.com/issue9/assert/v4 v4.3.1
-	github.com/issue9/cache v0.18.1
+	github.com/issue9/cache v0.19.0
 	github.com/issue9/config v0.9.0
 	github.com/issue9/conv v1.3.5
 	github.com/issue9/errwrap v0.3.2
@@ -17,7 +17,7 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.102.2
+	github.com/issue9/web v0.102.4
 	github.com/issue9/webfilter v0.9.1-0.20250120124046-d8e4650d7c52
 	github.com/issue9/webuse/v7 v7.0.0-20250217080250-c248e87e16cb
 	github.com/mattn/go-sqlite3 v1.14.24
@@ -52,14 +52,14 @@ require (
 	github.com/issue9/watermark v1.2.4 // indirect
 	github.com/jellydator/ttlcache/v3 v3.3.0 // indirect
 	github.com/kardianos/service v1.2.2 // indirect
-	github.com/klauspost/compress v1.17.11 // indirect
+	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
-	github.com/puzpuzpuz/xsync/v3 v3.5.0 // indirect
-	github.com/redis/go-redis/v9 v9.7.0 // indirect
+	github.com/puzpuzpuz/xsync/v3 v3.5.1 // indirect
+	github.com/redis/go-redis/v9 v9.7.1 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect

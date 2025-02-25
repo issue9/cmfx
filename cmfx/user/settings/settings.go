@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,9 @@
 package settings
 
 import (
+	"github.com/issue9/cache"
 	"github.com/issue9/orm/v6"
+	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/user"
@@ -16,6 +18,7 @@ type Settings struct {
 	db        *orm.DB
 	objects   []string
 	presetUID int64
+	c         web.Cache
 }
 
 func buildDB(mod *cmfx.Module, tableName string) *orm.DB {
@@ -31,5 +34,6 @@ func New(mod *cmfx.Module, tableName string) *Settings {
 		db:        buildDB(mod, tableName),
 		objects:   make([]string, 0, 10),
 		presetUID: user.SpecialUserID,
+		c:         cache.Prefix(mod.Server().Cache(), mod.ID()),
 	}
 }
