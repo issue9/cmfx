@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,6 +8,7 @@ import (
 	"github.com/issue9/web"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/user/settings"
 )
@@ -22,7 +23,7 @@ func Install(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	if err := settings.InstallObject(s, censorSettingName, &censorSettings{}); err != nil {
+	if err := settings.InstallObject(s, auditSettingName, &filters.Config{}); err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 

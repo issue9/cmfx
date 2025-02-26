@@ -46,6 +46,9 @@ messages:
     - key: admin tag
       message:
           msg: 后台管理端的所有接口
+    - key: audit setting
+      message:
+          msg: 审核设置
     - key: auth tag
       message:
           msg: 登录验证
@@ -111,9 +114,6 @@ messages:
     - key: can not add user with %s state
       message:
           msg: 在 %s 状态下不能添加用户
-    - key: censor setting
-      message:
-          msg: 内容审核设置
     - key: change current user password for %s passport api
       message:
           msg: 修改当前用户的 %s 验证方式的密码
@@ -311,6 +311,9 @@ messages:
     - key: inviter
       message:
           msg: 邀请人
+    - key: keyword filter
+      message:
+          msg: 关键字过滤
     - key: lock the admin api
       message:
           msg: 锁定管理员
@@ -654,6 +657,9 @@ messages:
     - key: upload tag
       message:
           msg: 上传
+    - key: url blacklist filter
+      message:
+          msg: URL 黑名单过滤
     - key: user id
       message:
           msg: user id

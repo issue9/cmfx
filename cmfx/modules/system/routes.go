@@ -304,10 +304,10 @@ func (m *Module) adminPutSettingGeneral(ctx *web.Context) web.Responser {
 	return m.generalSettings.HandlePut(ctx, user.SpecialUserID)
 }
 
-func (m *Module) adminGetSettingCensor(ctx *web.Context) web.Responser {
-	return m.censorSettings.HandleGet(ctx, user.SpecialUserID)
+func (m *Module) adminGetSettingAudit(ctx *web.Context) web.Responser {
+	return m.auditSettings.HandleGet(ctx, user.SpecialUserID)
 }
 
-func (m *Module) adminPutSettingCensor(ctx *web.Context) web.Responser {
-	return m.censorSettings.HandlePut(ctx, user.SpecialUserID)
+func (m *Module) adminPutSettingAudit(ctx *web.Context) web.Responser {
+	return m.auditSettings.HandlePut(ctx, user.SpecialUserID)
 }
