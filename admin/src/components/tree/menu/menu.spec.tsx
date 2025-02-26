@@ -47,10 +47,9 @@ describe('Menu', async () => {
     });
 
     test('onchange', async () => {
-        let val, old;
-        const change = (v?: Value, o?: Value): boolean | undefined => {
+        let val;
+        const change = (v?: Value): boolean | undefined => {
             val = v;
-            old = o;
             return undefined;
         };
         const { unmount, getByText } = render(() => <Menu activator={<button>click</button>} onChange={change}>{[...items]}</Menu>);
