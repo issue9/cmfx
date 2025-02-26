@@ -79,6 +79,9 @@ export function PieChart(props: Props): JSX.Element {
                 itemStyle: props.borderRadius ? {
                     borderRadius: props.borderRadius
                 } : undefined,
+                label: {
+                    color: 'var(--fg)'
+                }
             },
             dataset: {
                 source: props.data,

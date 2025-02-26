@@ -73,12 +73,12 @@ export function Info(): JSX.Element {
     });
 
     onMount(async () => {
-        const fixed = (num: number)=>Math.round(num * 100) / 100;
+        const fixed = (num: number)=>Math.round(num * 100) / 100; // 固定小数点
 
         await ctx.api.onEventSource('systat', (s: MessageEvent<Stats>) => {
             const os = s.data.os;
             const pro = s.data.process;
-            
+
             const start = s.data.created.indexOf(':');
             const end = s.data.created.indexOf('.');
             const created = s.data.created.slice(start+1, end);
@@ -108,7 +108,10 @@ export function Info(): JSX.Element {
             }
         });
 
-        await ctx.api.post('/system/systat');
+        const r = await ctx.api.post('/system/systat');
+        if (!r.ok) {
+            console.error(r.body);
+        }
     });
 
     onCleanup(async () => {

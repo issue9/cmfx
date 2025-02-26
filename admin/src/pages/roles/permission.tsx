@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { useNavigate, useParams } from '@solidjs/router';
+import { useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { Button,useApp, Checkbox, Page } from '@/components';
+import { Button, Checkbox, Page, useApp } from '@/components';
 
 interface Resource {
     id: string;
@@ -21,7 +21,7 @@ interface RoleResource {
 export function Permission(): JSX.Element {
     const ctx = useApp();
     const ps = useParams<{id: string}>();
-    const nav = useNavigate();
+    const nav = ctx.navigate();
     const [parent, setParent] = createSignal<Array<string>>([], {equals: false});
     const [current, setCurrent] = createSignal<Array<string>>([], {equals: false});
     const [resources, setResources] = createSignal<Array<Resource>>([], {equals: false});
@@ -29,9 +29,14 @@ export function Permission(): JSX.Element {
     const [roleResource] = createResource(async () => {
         const ret = await ctx.api.get<RoleResource>(`/roles/${ps.id}/resources`);
         if (!ret.ok) {
+            if (ret.status === 404) {
+                return;
+            }
+
             await ctx.outputProblem(ret.body);
             return;
         }
+
         return  ret.body;
     });
 

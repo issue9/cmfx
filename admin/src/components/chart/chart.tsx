@@ -62,6 +62,8 @@ export function Chart(props: Props): JSX.Element {
     let ref: HTMLDivElement;
     let inst: echarts.ECharts;
 
+    const resize = () => { inst.resize(); };
+
     onMount(() => {
         inst = echarts.init(ref, null, {
             // TODO locale
@@ -70,18 +72,19 @@ export function Chart(props: Props): JSX.Element {
             renderer: 'svg',
         });
 
-        window.onresize = () => {
-            inst.resize();
-        };
+        window.addEventListener('resize', resize);
     });
 
     onCleanup(() => {
         inst.dispose();
+        window.removeEventListener('resize', resize);
     });
 
     createEffect(() => {
         inst.setOption(props.o);
     });
 
-    return <div class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></div>;
+    return <div classList={{
+        [`palette--${props.palette}`]: !!props.palette,
+    }} ref={el => ref = el}></div>;
 }
