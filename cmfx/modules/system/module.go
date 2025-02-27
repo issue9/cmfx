@@ -16,6 +16,7 @@ import (
 	"github.com/issue9/webuse/v7/services/systat"
 
 	"github.com/issue9/cmfx/cmfx"
+	"github.com/issue9/cmfx/cmfx/filters"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
 	"github.com/issue9/cmfx/cmfx/user/settings"
 )
@@ -30,7 +31,7 @@ type Module struct {
 
 	settings        *settings.Settings
 	generalSettings *settings.Object[generalSettings]
-	censorSettings  *settings.Object[censorSettings]
+	auditSettings   *settings.Object[filters.Config]
 
 	// 若配置中未设置，则以下字段为空
 	backupConfig *Backup
@@ -61,11 +62,11 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	}
 	m.generalSettings = general
 
-	censor, err := settings.LoadObject[censorSettings](m.settings, censorSettingName, time.Hour)
+	audit, err := settings.LoadObject[filters.Config](m.settings, auditSettingName, time.Hour)
 	if err != nil {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
-	m.censorSettings = censor
+	m.auditSettings = audit
 
 	mod.Server().Use(m.health)
 
@@ -78,7 +79,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 	resGetBackup := g.New("get-backup", web.Phrase("get backup database list"))
 	resDelBackup := g.New("del-backup", web.Phrase("del backup database file"))
 	resSettingsGeneral := g.New("setting-general", web.Phrase("general setting"))
-	resSettingsCensor := g.New("setting-censor", web.Phrase("censor setting"))
+	resSettingsAudit := g.New("setting-audit", web.Phrase("audit setting"))
 
 	api := adminL.UserModule().Module().API
 	r := adminL.UserModule().Module().Router().Prefix(adminL.URLPrefix()+conf.URLPrefix, m.admin)
@@ -123,13 +124,13 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 				Body(generalSettings{}, false, nil, nil).
 				ResponseEmpty("204")
 		})).
-		Get("/settings/censor", m.adminGetSettingCensor, resSettingsCensor, mod.API(func(o *openapi.Operation) {
+		Get("/settings/audit", m.adminGetSettingAudit, resSettingsAudit, mod.API(func(o *openapi.Operation) {
 			o.Tag("settings", "system").
-				Response200(censorSettings{})
+				Response200(filters.Config{})
 		})).
-		Put("/settings/censor", m.adminPutSettingCensor, resSettingsCensor, mod.API(func(o *openapi.Operation) {
+		Put("/settings/audit", m.adminPutSettingAudit, resSettingsAudit, mod.API(func(o *openapi.Operation) {
 			o.Tag("settings", "system").
-				Body(censorSettings{}, false, nil, nil).
+				Body(filters.Config{}, false, nil, nil).
 				ResponseEmpty("204")
 		}))
 

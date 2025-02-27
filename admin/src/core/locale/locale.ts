@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
-import { Dict,Loader, flatten, Keys } from './dict';
-import { parseDuration } from './duration';
-import { Config } from '@/core/config';
 import { API } from '@/core/api';
+import { Config } from '@/core/config';
+import { Dict, flatten, Keys, Loader } from './dict';
+import { parseDuration } from './duration';
 
 const localeKey = 'locale';
 const unitStyleKey = 'unit_style';

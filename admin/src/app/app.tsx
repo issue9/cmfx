@@ -6,7 +6,7 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
+import { AppOptions, buildOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@/components';
 import { buildContext } from '@/components/context/context';
 import { API, Hotkey, Locale } from '@/core';
 import * as errors from './errors';
@@ -25,9 +25,11 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
     await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
     api.cache(opt.api.info);
 
+    // 加载本地化语言
     Locale.init(opt.locales.fallback, api);
     for(const item of Object.entries(opt.locales.messages)) {
         await Locale.addDict(item[0], ...item[1]);
+        registerChartLocales(item[0]); // 加载图表组件的本地化语言
     }
 
     Hotkey.init(); // 初始化快捷键。

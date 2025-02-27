@@ -65,7 +65,7 @@ export interface DemoProps {
 }
 
 export function Stage(props: ParentProps<{title?: string, class?: string}>) {
-    return <div class={'flex flex-col gap-4 '+ props.class}>
+    return <div class={'flex flex-col gap-4 '+ (props.class ?? '')}>
         <Show when={props.title}>
             <p>{props.title}</p>
         </Show>

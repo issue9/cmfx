@@ -44,6 +44,9 @@ messages:
     - key: admin tag
       message:
         msg: admin tag
+    - key: audit setting
+      message:
+        msg: audit setting
     - key: auth tag
       message:
         msg: auth tag
@@ -104,9 +107,6 @@ messages:
     - key: can not add user with %s state
       message:
         msg: can not add user with %s state
-    - key: censor setting
-      message:
-        msg: censor setting
     - key: change current user password for %s passport api
       message:
         msg: change current user password for %s passport api
@@ -302,6 +302,9 @@ messages:
     - key: inviter
       message:
         msg: inviter
+    - key: keyword filter
+      message:
+        msg: keyword filter
     - key: lock the admin api
       message:
         msg: lock the admin api
@@ -642,6 +645,9 @@ messages:
     - key: upload tag
       message:
         msg: upload tag
+    - key: url blacklist filter
+      message:
+        msg: url blacklist filter
     - key: user id
       message:
         msg: user id

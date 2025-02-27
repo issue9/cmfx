@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin-demo",
-    "version": "0.8.10",
+    "version": "0.8.11",
     "type": "module",
     "author": {
         "name": "caixw",
@@ -21,9 +21,9 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@cmfx/admin": "0.8.10",
+        "@cmfx/admin": "0.8.11",
         "@solidjs/router": "^0.15.3",
-        "tailwindcss": "^4.0.8",
+        "tailwindcss": "^4.0.9",
         "solid-js": "^1.9.5"
     },
     "devDependencies": {
@@ -33,7 +33,7 @@
         "cssnano": "^7.0.6",
         "postcss": "^8.5.3",
         "solid-devtools": "^0.33.0",
-        "@tailwindcss/vite": "^4.0.8",
+        "@tailwindcss/vite": "^4.0.9",
         "typescript": "^5.7.3",
         "vite": "^6.2.0",
         "vite-plugin-solid": "^2.11.2"

@@ -6,6 +6,8 @@ import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+import { useApp } from '@/components/context';
+import { matchLocale } from './locale';
 
 export interface Props extends BaseProps {
     /**
@@ -58,30 +60,34 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function Chart(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
+    const ctx = useApp();
 
     let ref: HTMLDivElement;
     let inst: echarts.ECharts;
 
+    const resize = () => { inst.resize(); };
+
     onMount(() => {
         inst = echarts.init(ref, null, {
-            // TODO locale
+            locale: matchLocale(ctx.locale().locale.toString()),
             height: props.height,
             width: props.width,
             renderer: 'svg',
         });
 
-        window.onresize = () => {
-            inst.resize();
-        };
+        window.addEventListener('resize', resize);
     });
 
     onCleanup(() => {
         inst.dispose();
+        window.removeEventListener('resize', resize);
     });
 
     createEffect(() => {
         inst.setOption(props.o);
     });
 
-    return <div class={props.palette ? `palette--${props.palette}` : ''} ref={el => ref = el}></div>;
+    return <div classList={{
+        [`palette--${props.palette}`]: !!props.palette,
+    }} ref={el => ref = el}></div>;
 }
