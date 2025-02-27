@@ -8,7 +8,7 @@ import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, SystemDialog, useApp, useOptions } from '@/components';
 import { buildContext } from '@/components/context/context';
-import { API, Locale } from '@/core';
+import { API, Hotkey, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
@@ -29,6 +29,8 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
     for(const item of Object.entries(opt.locales.messages)) {
         await Locale.addDict(item[0], ...item[1]);
     }
+
+    Hotkey.init(); // 初始化快捷键。
 
     render(() => (<App opt={opt} api={api} />), document.getElementById(elementID)!);
 }
