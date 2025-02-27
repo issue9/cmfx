@@ -11,4 +11,5 @@ export * from './theme';
 export * from './time';
 export * from './types';
 export * from './config';
+export * from './hotkey';
 
