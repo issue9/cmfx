@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -27,5 +27,10 @@ describe('HotKey', ()=>{
 
         expect(hk.match(new KeyboardEvent('keydown', {key:'F', metaKey: true}))).toBeFalsy();
         expect(hk.match(new KeyboardEvent('keydown', {key:'f', shiftKey: true, metaKey: true, altKey: true}))).toBeFalsy();
+    });
+
+    test('toString',()=>{
+        const hk = new Hotkey('F', 'shift', 'meta');
+        expect(hk.toString()).toEqual('meta+shift+f');
     });
 });
