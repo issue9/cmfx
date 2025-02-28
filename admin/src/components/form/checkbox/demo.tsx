@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For } from 'solid-js';
+import { createSignal, For } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
 import { FieldAccessor, Options } from '@/components/form';
 import { Checkbox } from './checkbox';
 import { CheckboxGroup } from './group';
@@ -21,6 +21,9 @@ export default function() {
         ['2', <div style="color:red">red</div >],
         ['3', <div style="color:red">red<br/>red<br/>red</div>],
     ];
+    
+    const [chk, setChk] = createSignal<boolean>();
+    const onchange = (v?: boolean): void => { setChk(v); };
 
     return <Demo settings={
         <>
@@ -33,7 +36,7 @@ export default function() {
         </>
 
     }>
-        <div class="flex flex-wrap mb-10">
+        <Stage title="checkbox">
             <For each={palettesWithUndefined}>
                 {(item) => (
                     <Checkbox 
@@ -41,14 +44,19 @@ export default function() {
                     />
                 )}
             </For>
-        </div>
+        </Stage>
+        
+        <Stage title="change">
+            <Checkbox title='onchange' label='onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
+            <div>{ chk() ? 'checked' : 'unchecked' }</div>
+        </Stage>
 
-        <div class="flex flex-col mb-10">
+        <Stage title="checkbox Group">
             <CheckboxGroup
                 block={block()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
                 options={groupOptions} accessor={groupFA}
             />
             <pre>{groupFA.getValue().toString()}</pre>
-        </div>
+        </Stage>
     </Demo>;
 }

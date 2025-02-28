@@ -100,9 +100,9 @@ export function Settings(): JSX.Element {
 function ColorBlock(props: {s: Scheme}): JSX.Element {
     // NOTE: 颜色的取值需与 core/theme/theme.css 中的设置相同。
     return <div class="color-block">
-        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.primary}), oklch(var(--c-low) .4 ${props.s.primary}))`}} />
-        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.secondary}), oklch(var(--c-low) .4 ${props.s.secondary}))`}} />
-        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .2 ${props.s.tertiary}), oklch(var(--c-low) .4 ${props.s.tertiary}))`}} />
-        <span style={{'background-color': `light-dark(oklch(var(--invert-c-low) .04 ${props.s.surface}), oklch(var(--c-low) .04 ${props.s.surface}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .2 ${props.s.primary}), oklch(var(--l-low) .4 ${props.s.primary}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .2 ${props.s.secondary}), oklch(var(--l-low) .4 ${props.s.secondary}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .2 ${props.s.tertiary}), oklch(var(--l-low) .4 ${props.s.tertiary}))`}} />
+        <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .1 ${props.s.surface}), oklch(var(--l-low) .3 ${props.s.surface}))`}} />
     </div>;
 }

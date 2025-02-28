@@ -31,7 +31,7 @@ export function getContrast(conf: Config, preset: Contrast) {
  */
 export function changeContrast(conf: Config, c: Contrast) {
     const l = contrastLuminance.get(c)!;
-    document.documentElement.style.setProperty('--contrast', l.toString());
+    document.documentElement.style.setProperty('--lightness', l.toString());
     conf.set(key, c);
 }
 

@@ -9,7 +9,7 @@ import { Palette } from '@/components/base';
 import { Button, SplitButton } from '@/components/button';
 import { useApp, useOptions } from '@/components/context';
 import { Divider } from '@/components/divider';
-import { Checkbox, ObjectAccessor } from '@/components/form';
+import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
 import { Menu } from '@/components/tree';
 import { Label } from '@/components/typography';
@@ -261,33 +261,40 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                             {[
                                 {
                                     type: 'item', value: 'hoverable',
-                                    label: <Checkbox checked={hoverable()} label={ctx.locale().t('_i.table.hoverable')} />
+                                    label: <label class="menu-item">
+                                        <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
+                                        {ctx.locale().t('_i.table.hoverable')}</label>
                                 },
                                 { type: 'divider' },
                                 {
                                     type: 'item', value: 'sticky-header',
-                                    label: <Checkbox checked={sticky() !== undefined} label={ctx.locale().t('_i.table.stickyHeader')} />
+                                    label: <label class="menu-item">
+                                        <input type="checkbox" checked={sticky() !== undefined} onClick={(e) => {
+                                            setSticky(sticky() === undefined ? '0px' : undefined);
+                                            e.stopPropagation();
+                                        }}/>
+                                        {ctx.locale().t('_i.table.stickyHeader')}</label>
                                 },
                                 { type: 'divider' },
                                 {
                                     type: 'item', value: 0,
-                                    label: <label class="menu-item"><input type="radio" checked={striped()==0} />{ ctx.locale().t('_i.table.noStriped') }</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{ctx.locale().t('_i.table.noStriped')}</label>,
                                 },
                                 {
                                     type: 'item', value: 2,
-                                    label: <label class="menu-item"><input type="radio" checked={striped()==2} />{ ctx.locale().t('_i.table.striped', {'num': 2}) }</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{ctx.locale().t('_i.table.striped', { 'num': 2 })}</label>,
                                 },
                                 {
                                     type: 'item', value: 3,
-                                    label: <label class="menu-item"><input type="radio" checked={striped()==3} />{ ctx.locale().t('_i.table.striped', {'num': 3}) }</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{ctx.locale().t('_i.table.striped', { 'num': 3 })}</label>,
                                 },
                                 {
                                     type: 'item', value: 4,
-                                    label: <label class="menu-item"><input type="radio" checked={striped()==4} />{ ctx.locale().t('_i.table.striped', {'num': 4}) }</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{ctx.locale().t('_i.table.striped', { 'num': 4 })}</label>,
                                 },
                                 {
                                     type: 'item', value: 5,
-                                    label: <label class="menu-item"><input type="radio" checked={striped()==5} />{ ctx.locale().t('_i.table.striped', {'num': 5}) }</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{ctx.locale().t('_i.table.striped', { 'num': 5 })}</label>,
                                 },
                             ]}
                         </Menu>

@@ -103,6 +103,7 @@ export default function (props: Props): JSX.Element {
 
                         if (!props.anchor) {
                             e.preventDefault();
+                            e.stopPropagation();
                         }
                     }}>{p.item.label}</Dynamic>
             </Match>

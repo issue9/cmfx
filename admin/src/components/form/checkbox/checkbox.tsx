@@ -39,10 +39,8 @@ export function Checkbox(props: Props): JSX.Element {
             checked={props.checked}
             classList={{ '!hidden': props.block }}
             onChange={(e) => {
-                if (!props.readonly && !props.disabled) {
-                    if (props.onChange) {
-                        props.onChange(e.target.checked);
-                    }
+                if (!props.readonly && !props.disabled && props.onChange) {
+                    props.onChange(e.target.checked);
                 }
             }}
         />
