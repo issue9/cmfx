@@ -6,6 +6,8 @@
 
 @layer components {
     .c--editor {
+        @apply flex flex-col;
+
         >:first-child {
             border-top-color: var(--fg-low) !important;
             border-left-color: var(--fg-low) !important;

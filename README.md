@@ -1,3 +1,7 @@
+<!--
+该文件会被复制在 admin 目录，为了链接的正确性，所有的链接都应该是绝对链接。
+-->
+
 # cmfx
 
 [![Go](https://github.com/issue9/cmfx/actions/workflows/go.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/go.yml)
@@ -13,10 +17,10 @@ cmfx 是基于 [Go](https://go.dev) + [solidjs](https://www.solidjs.com/) 的快
 
 ## 开发
 
-基于此项目的项目，可参考 [DEV](/docs/DEV.md)。
+基于此项目的项目，可参考 [DEV](https://github.com/issue9/cmfx/blob/master/docs/DEV.md)。
 
-若要参与此项目的开发，可参考 [CONTRIBUTING](/docs/CONTRIBUTING.md)。
+若要参与此项目的开发，可参考 [CONTRIBUTING](https://github.com/issue9/cmfx/blob/master/docs/CONTRIBUTING.md)。
 
 ## 版权
 
-本项目采用 [MIT](https://opensource.org/licenses/MIT) 开源授权许可证，完整的授权说明可在 [LICENSE](/LICENSE) 文件中找到。
+本项目采用 [MIT](https://opensource.org/licenses/MIT) 开源授权许可证，完整的授权说明可在 [LICENSE](https://github.com/issue9/cmfx/blob/master/LICENSE) 文件中找到。

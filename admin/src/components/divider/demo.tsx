@@ -34,7 +34,7 @@ export default function() {
         </>
     }>
         <div class="w-56">
-            <Divider style={style()} palette={palette()} pos={pos()}><span class="c--icon">face</span>起始位置</Divider>
+            <Divider style={style()} palette={palette()} pos={pos()}><span class="c--icon material-symbols-outlined">face</span>起始位置</Divider>
         </div>
 
         <div class="w-56">

@@ -1,11 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 @layer components {
     .c--page {
-        @apply p-4 pt-6 flex flex-col gap-4 mx-auto w-full;
+        @apply p-4 pt-6 flex flex-col gap-4 mx-auto w-full bg-palette-bg text-palette-fg;
     }
 }

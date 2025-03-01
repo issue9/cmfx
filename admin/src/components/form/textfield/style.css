@@ -10,11 +10,11 @@
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         >:first-child {
-            @apply rounded-l-md;
+            @apply !rounded-l-md;
         }
 
         >:last-child {
-            @apply rounded-r-md;
+            @apply !rounded-r-md;
         }
 
         .input {
@@ -41,11 +41,11 @@
         @apply rounded-full;
 
         >:first-child {
-            @apply rounded-l-full;
+            @apply !rounded-l-full;
         }
 
         >:last-child {
-            @apply rounded-r-full;
+            @apply !rounded-r-full;
         }
     }
 }

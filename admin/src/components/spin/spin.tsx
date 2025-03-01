@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -15,7 +15,7 @@ export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
     spinning?: boolean;
 
     /**
-     * 在加载状态下显示的内容
+     * 在加载状态下的指示器
      */
     indicator?: JSX.Element;
 
@@ -24,8 +24,8 @@ export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
 
 /**
  * 加载指示组件
- * 
- * 访组件可以作为任何具有加载状态的组件的容器。
+ *
+ * 访组件可以作为任何具有加载状态的组件的容器
  */
 export function Spin(props: Props) {
     const [_, contProps] = splitProps(props, ['spinning', 'indicator', 'palette']);
@@ -36,9 +36,7 @@ export function Spin(props: Props) {
         {props.children}
 
         <Show when={props.indicator}>
-            <div class="indicator">
-                {props.indicator}
-            </div>
+            <div class="indicator">{props.indicator}</div>
         </Show>
     </fieldset>;
 }

@@ -49,7 +49,7 @@ export function Number(props: Props): JSX.Element {
 
     return <TextField {...fieldProps} type="number" prefix={
         <Show when={props.icon}>
-            <Icon icon={props.icon!} class="px-1 !py-0 flex items-center" />
+            <Icon icon={props.icon!} class="px-1 !py-0 !flex !items-center" />
         </Show>
     } suffix={
         <>
