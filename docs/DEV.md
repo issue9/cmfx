@@ -42,3 +42,8 @@ go get github.com/issue9/cmfx
 ```
 
 或是直接在当前项目的 [cmd/server](/cmd/server) 下开发。
+
+## 部署
+
+如果在 <https://pkg.go.dev/github.com/issue9/web/server/app#CLIOptions> 中指定了 Daemon 字段，
+那么应用中本身就带了简单的守护进程操作功能。否则需要用户自己将应用转换为守护进程。

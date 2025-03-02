@@ -64,7 +64,7 @@ function LoginBox(props: Props): JSX.Element {
         <div class="form">
             <div class="title">
                 <p class="text-2xl">{ctx.locale().t('_i.page.current.login')}</p>
-                <Choice accessor={passport} options={buildEnumsOptions(passports(), ctx)} />
+                <Choice class='min-w-40' accessor={passport} options={buildEnumsOptions(passports(), ctx)} />
             </div>
             {props.passports.get(passport.getValue())?.Login()}
         </div>

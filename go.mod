@@ -17,7 +17,7 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.102.4
+	github.com/issue9/web v0.102.5
 	github.com/issue9/webfilter v0.9.1-0.20250120124046-d8e4650d7c52
 	github.com/issue9/webuse/v7 v7.0.0-20250217080250-c248e87e16cb
 	github.com/mattn/go-sqlite3 v1.14.24

@@ -29,7 +29,7 @@ export function New(props: Props): JSX.Element {
         <Form formAccessor={form} class="flex flex-col">
             <TextField class='w-full' accessor={form.accessor<string>('username')} label={ctx.locale().t('_i.page.current.username')} />
             <TextField class='w-full' accessor={form.accessor<string>('name')} label={ctx.locale().t('_i.page.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={ctx.locale().t('_i.page.admin.nickname')} />
+            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={ctx.locale().t('_i.page.current.nickname')} />
             <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={ctx.locale().t('_i.page.current.password')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={ctx.locale().t('_i.page.roles.roles')} />
             <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} />
