@@ -10,6 +10,7 @@ import { Button } from './button';
 import { ConfirmButton } from './confirm';
 import { ButtonGroup } from './group';
 import { LinkButton } from './link';
+import { FitScreenButton } from './screen';
 import { SplitButton } from './split';
 import { Kind, kinds } from './types';
 
@@ -18,17 +19,17 @@ export function kindSelector(v: Kind = 'fill'): [JSX.Element, Accessor<Kind>, Se
 }
 
 export default function() {
-    const [styleS, style] = kindSelector('fill');
+    const [kindS, kind] = kindSelector('fill');
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 
     const Links = () => <div class="flex flex-wrap items-center gap-2 my-4">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={style()} palette={c}>{c ? c : 'undefined'}</LinkButton>
+                <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}>{c ? c : 'undefined'}</LinkButton>
             )}
         </For>
-        <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={style()} palette="primary">
+        <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
             <Icon class="!mr-1" icon="face" />with icon
         </LinkButton>
 
@@ -38,30 +39,30 @@ export default function() {
     const Buttons = () => <div class="flex flex-wrap items-center gap-2 my-4">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <Button disabled={disabled()} rounded={rounded()} kind={style()} palette={c}>{c ? c : 'undefined'}</Button>
+                <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}>{c ? c : 'undefined'}</Button>
             )}
         </For>
-        <Button disabled={disabled()} rounded={rounded()} kind={style()} palette="primary">
+        <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
             <span class="c--icon mr-1">face</span>with icon
         </Button>
 
-        <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={style()} palette='tertiary'>confirm button</ConfirmButton>
+        <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary'>confirm button</ConfirmButton>
     </div>;
 
     const IconButtons = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={style()} palette={c}>sync</Button>
+                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}>sync</Button>
             )}
         </For>
         <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
-        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={style()} palette='tertiary' icon ok={<><span class="c--icon mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
+        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary' icon ok={<><span class="c--icon mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
     </div>;
 
     const SplitButtons = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <SplitButton palette={c} kind={style()} rounded={rounded()} disabled={disabled()} menus={[
+                <SplitButton palette={c} kind={kind()} rounded={rounded()} disabled={disabled()} menus={[
                     {type: 'item', label: 'button1', onClick: ()=>console.log('btn1')},
                     {type: 'item', label: 'button2', onClick: ()=>console.log('btn2')},
                     {type: 'divider'},
@@ -75,7 +76,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
                         <Button checked>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>
@@ -90,7 +91,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <ButtonGroup class="flex-col" rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
+                    <ButtonGroup class="flex-col" rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
                         <Button>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>
@@ -105,7 +106,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
                         <Button icon>face</Button>
                         <Button icon>close</Button>
                         <Button icon>sync</Button>
@@ -120,7 +121,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
                         <LinkButton href='.'>abc</LinkButton>
                         <LinkButton href='.'>def</LinkButton>
                         <LinkButton href='.'>hij</LinkButton>
@@ -135,7 +136,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <ButtonGroup rounded={rounded()} palette={c} kind={style()} disabled={disabled()}>
+                    <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
                         <LinkButton icon href="">face</LinkButton>
                         <LinkButton icon href="">close</LinkButton>
                         <LinkButton icon href="">sync</LinkButton>
@@ -147,13 +148,13 @@ export default function() {
     </div>;
 
     const Block = () => <div class="flex flex-col gap-y-2">
-        <Button disabled={disabled()} rounded={rounded()} kind={style()} palette='primary'>block</Button>
+        <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette='primary'>block</Button>
 
-        <Button disabled={disabled()} rounded={rounded()} kind={style()} palette="primary">
+        <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
             <span class="c--icon mr-1">face</span>with icon
         </Button>
 
-        <ButtonGroup rounded={rounded()} palette='primary' kind={style()} disabled={disabled()}>
+        <ButtonGroup rounded={rounded()} palette='primary' kind={kind()} disabled={disabled()}>
             <Button>abc</Button>
             <Button>def</Button>
             <Button>hij</Button>
@@ -161,13 +162,27 @@ export default function() {
         </ButtonGroup>
     </div>;
 
+    let screenElement: HTMLElement;
     return <Demo settings={
         <>
-            {styleS}
+            {kindS}
             {disabledS}
             {roundedS}
         </>
     }>
+
+        <Stage title="fit screen">
+            <div class="w-full" ref={el => screenElement = el}>
+                <For each={palettesWithUndefined}>
+                    {(c) => (
+                        <FitScreenButton disabled={disabled()} rounded={rounded()} kind={kind()} container={()=>screenElement} palette={c} />
+                    )}
+                </For>
+                <p>line1</p>
+                <p>line2</p>
+            </div>
+        </Stage>
+
         <Stage title="button">
             <Buttons />
         </Stage>

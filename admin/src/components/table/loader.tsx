@@ -6,7 +6,7 @@ import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Palette } from '@/components/base';
-import { Button, SplitButton } from '@/components/button';
+import { Button, FitScreenButton, SplitButton } from '@/components/button';
 import { useApp, useOptions } from '@/components/context';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
@@ -28,9 +28,11 @@ export interface Ref<T extends object> {
      * 刷新表格中的数据
      */
     refresh(): Promise<void>;
+
+    element: HTMLElement;
 }
 
-type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter'> & {
+type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'> & {
     ref?: { (el: Ref<T>): void };
 
     /**
@@ -120,6 +122,7 @@ const presetProps = {
 export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q>) {
     const opt = useOptions();
     const ctx = useApp();
+    let ref: HTMLElement;
 
     let load = props.load;
     props = mergeProps(presetProps, { pageSizes: opt.api.pageSizes }, props);
@@ -154,7 +157,8 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
     if (props.ref) {
         props.ref({
             items: () => { return items(); },
-            refresh: async () => { await refetch(); }
+            refresh: async () => { await refetch(); },
+            element: ref!,
         });
     }
 
@@ -301,6 +305,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                         <Button icon rounded kind='flat' onClick={async () => await refetch()}
                             aria-label={ctx.locale().t('_i.refresh')}
                             title={ctx.locale().t('_i.refresh')}>refresh</Button>
+                        <FitScreenButton rounded kind='flat' title={ctx.locale().t('_i.table.fitScreen')} container={()=>ref} />
                     </div>
                 </Show>
             </div>
@@ -308,9 +313,9 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
     </header>;
 
     if (!props.paging) {
-        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette', 'hoverable', 'striped', 'stickyHeader']);
-        return <BasicTable stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+        const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette', 'hoverable', 'striped', 'stickyHeader', 'ref']);
+        return <BasicTable ref={(el)=>ref=el} stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
     }
-    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes', 'hoverable', 'striped', 'stickyHeader']);
-    return <BasicTable stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+    const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes', 'hoverable', 'striped', 'stickyHeader', 'ref']);
+    return <BasicTable ref={(el)=>ref=el} stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

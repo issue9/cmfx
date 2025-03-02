@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -58,6 +58,8 @@ export interface Props<T extends object> extends BaseProps {
      * NOTE: 该区域不属于 table 空间。
      */
     extraFooter?: JSX.Element;
+
+    ref: { (el: HTMLElement): void };
 }
 
 const presetProps = {
@@ -76,7 +78,8 @@ export function BasicTable<T extends object>(props: Props<T>) {
         throw 'striped 必须大于或是等于 0';
     }
 
-    return <Spin spinning={props.loading} palette={props.palette} class='c--table'>
+    return <Spin spinning={props.loading} palette={props.palette} class='c--table'
+        ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); }}}>
         <Show when={props.extraHeader}>
             {props.extraHeader}
         </Show>

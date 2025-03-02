@@ -166,6 +166,7 @@ const messages = {
             striped: 'striped {num}',
             noStriped: 'no striped',
             stickyHeader: 'sticky header',
+            fitScreen: 'fit screen',
         },
         pagination: {
             prev: 'prev',

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -52,6 +52,7 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
         props.ref({
             items() { return ref.items(); },
             async refresh(): Promise<void> { await ref.refresh(); },
+            element: ref!.element,
 
             async delete<T extends string|number>(id: T): Promise<void> {
                 const ret = await ctx.api.delete(`${props.path}/${id}`);
@@ -67,7 +68,7 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
                     title={ctx.locale().t('_i.page.deleteItem')}
                     onClick={async () => { await this.delete(id); }}
                 >delete</ConfirmButton>;
-            }
+            },
         });
     }
 
