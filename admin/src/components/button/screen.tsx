@@ -4,9 +4,20 @@
 
 import { createSignal, mergeProps, splitProps } from 'solid-js';
 
+import { IconSymbol } from '@/components/icon';
 import { Props as BaseProps, Button, presetProps } from './button';
 
-export interface Props extends Omit<BaseProps, 'children' | 'icon'> {
+export interface Props extends Omit<BaseProps, 'onClick' | 'children'> {
+    /**
+     * 展开状态下的内容
+     */
+    collapse: IconSymbol | string;
+
+    /**
+     * 未展开状态下的内容
+     */
+    expand: IconSymbol | string;
+
     /**
      * 获取需要被全屏的容器
      */
@@ -22,7 +33,7 @@ export function FitScreenButton(props: Props) {
     props = mergeProps(presetProps, props);
     const [fit, setFit] = createSignal<boolean>(false);
 
-    const [_, btnProps] = splitProps(props, ['onClick']);
+    const [_, btnProps] = splitProps(props, ['container']);
 
     return <Button icon {...btnProps} onClick={() => {
         setFit(!fit());
@@ -31,5 +42,5 @@ export function FitScreenButton(props: Props) {
         } else {
             props.container().classList.remove('c--fit-screen');
         }
-    }}>{fit() ? 'collapse_content' : 'expand_content'}</Button>;
+    }}>{fit() ? props.collapse : props.expand}</Button>;
 }

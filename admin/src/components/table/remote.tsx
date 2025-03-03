@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, splitProps } from 'solid-js';
+import { JSX, onMount, splitProps } from 'solid-js';
 
 import { ConfirmButton } from '@/components/button';
 import { AppContext, useApp } from '@/components/context';
@@ -48,29 +48,31 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
     const load = props.paging ? buildPagingLoadFunc(ctx, props.path) : buildNoPagingLoadFunc(ctx, props.path);
     let ref: LoaderRef<T>;
 
-    if (props.ref) {
-        props.ref({
-            items() { return ref.items(); },
-            async refresh(): Promise<void> { await ref.refresh(); },
-            element: ref!.element,
+    onMount(() => {
+        if (props.ref) {
+            props.ref({
+                items() { return ref.items(); },
+                async refresh(): Promise<void> { await ref.refresh(); },
+                element: ref!.element,
 
-            async delete<T extends string|number>(id: T): Promise<void> {
-                const ret = await ctx.api.delete(`${props.path}/${id}`);
-                if (!ret.ok) {
-                    await ctx.outputProblem(ret.body);
-                    return;
-                }
-                await ref.refresh();
-            },
+                async delete<T extends string | number>(id: T): Promise<void> {
+                    const ret = await ctx.api.delete(`${props.path}/${id}`);
+                    if (!ret.ok) {
+                        await ctx.outputProblem(ret.body);
+                        return;
+                    }
+                    await ref.refresh();
+                },
 
-            DeleteAction (id: string|number) {
-                return <ConfirmButton icon rounded palette='error'
-                    title={ctx.locale().t('_i.page.deleteItem')}
-                    onClick={async () => { await this.delete(id); }}
-                >delete</ConfirmButton>;
-            },
-        });
-    }
+                DeleteAction(id: string | number) {
+                    return <ConfirmButton icon rounded palette='error'
+                        title={ctx.locale().t('_i.page.deleteItem')}
+                        onClick={async () => { await this.delete(id); }}
+                    >delete</ConfirmButton>;
+                },
+            });
+        }
+    });
 
     return <LoaderTable ref={(el)=>ref=el} {...tableProps} load={load as any} />;
 }

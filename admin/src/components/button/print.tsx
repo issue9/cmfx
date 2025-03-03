@@ -6,7 +6,7 @@ import { mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Button, presetProps } from './button';
 
-export interface Props extends Omit<BaseProps, 'children' | 'icon'> {
+export interface Props extends Omit<BaseProps, 'onClick'> {
     /**
      * 获取需要被打印的容器
      */
@@ -20,17 +20,26 @@ export interface Props extends Omit<BaseProps, 'children' | 'icon'> {
  */
 export function PrintButton(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, btnProps] = splitProps(props, ['onClick']);
+    const [_, btnProps] = splitProps(props, ['container']);
 
     return <Button icon {...btnProps} onClick={() => {
         const c = props.container();
+        
+        const after = () => {
+            c.classList.remove('c--fit-screen');
+        };
+        const before = () => {
+            c.classList.add('c--fit-screen');
+        };
 
         onMount(() => {
-            c.classList.add('c--fit-screen');
+            window.addEventListener('beforeprint', before);
+            window.addEventListener('afterprint', after);
         });
 
         onCleanup(() => {
-            c.classList.remove('c--fit-screen');
+            window.removeEventListener('beforeprint', before);
+            window.removeEventListener('afterprint', after);
         });
 
         window.print();
