@@ -16,6 +16,7 @@ const messages = {
         cancel: 'cancel',
         reset: 'reset',
         refresh: 'refresh',
+        print: 'print',
         areYouSure: 'are you sure?',
         page: { // 页面的翻译内容
             save: 'save',

@@ -18,6 +18,7 @@ const messages: Messages = {
         cancel: '取消',
         reset: '重置',
         refresh: '刷新',
+        print: '打印',
         areYouSure: '你确定要这么做吗？',
         page: { // 页面的翻译内容
             save: '保存',

@@ -10,6 +10,7 @@ import { Button } from './button';
 import { ConfirmButton } from './confirm';
 import { ButtonGroup } from './group';
 import { LinkButton } from './link';
+import { PrinterButton } from './print';
 import { FitScreenButton } from './screen';
 import { SplitButton } from './split';
 import { Kind, kinds } from './types';
@@ -162,7 +163,32 @@ export default function() {
         </ButtonGroup>
     </div>;
 
-    let screenElement: HTMLElement;
+    const FitScreen = () => <div class="flex flex-wrap gap-5">
+        <For each={palettesWithUndefined}>
+            {(c) => {
+                let screenElement: HTMLElement;
+                return <div class="w-10" ref={el => screenElement = el}>
+                    <FitScreenButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <p>line1</p>
+                    <p>line2</p>
+                </div>;
+            }}
+        </For>
+    </div>;
+
+    const Prints = () => <div class="flex flex-wrap gap-5">
+        <For each={palettesWithUndefined}>
+            {(c) => {
+                let screenElement: HTMLElement;
+                return <div class="w-10" ref={el => screenElement = el}>
+                    <PrinterButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <p>line1</p>
+                    <p>line2</p>
+                </div>;
+            }}
+        </For>
+    </div>;
+    
     return <Demo settings={
         <>
             {kindS}
@@ -172,15 +198,11 @@ export default function() {
     }>
 
         <Stage title="fit screen">
-            <div class="w-full" ref={el => screenElement = el}>
-                <For each={palettesWithUndefined}>
-                    {(c) => (
-                        <FitScreenButton disabled={disabled()} rounded={rounded()} kind={kind()} container={()=>screenElement} palette={c} />
-                    )}
-                </For>
-                <p>line1</p>
-                <p>line2</p>
-            </div>
+            <FitScreen />
+        </Stage>
+
+        <Stage title="printer">
+            <Prints />
         </Stage>
 
         <Stage title="button">

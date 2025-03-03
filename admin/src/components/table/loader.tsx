@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { useSearchParams } from '@solidjs/router';
+import { Printd } from 'printd';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Palette } from '@/components/base';
-import { Button, FitScreenButton, SplitButton } from '@/components/button';
+import { Button, FitScreenButton, SplitButton,PrintButton } from '@/components/button';
 import { useApp, useOptions } from '@/components/context';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
@@ -305,7 +306,12 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                         <Button icon rounded kind='flat' onClick={async () => await refetch()}
                             aria-label={ctx.locale().t('_i.refresh')}
                             title={ctx.locale().t('_i.refresh')}>refresh</Button>
-                        <FitScreenButton rounded kind='flat' title={ctx.locale().t('_i.table.fitScreen')} container={()=>ref} />
+                        <FitScreenButton rounded kind='flat' container={()=>ref}
+                            aria-title={ctx.locale().t('_i.table.fitScreen')}
+                            title={ctx.locale().t('_i.table.fitScreen')} />
+                        <PrintButton icon rounded kind='flat' container={()=>ref}
+                            aria-label={ctx.locale().t('_i.print')}
+                            title={ctx.locale().t('_i.print')}>print</PrintButton>
                     </div>
                 </Show>
             </div>
