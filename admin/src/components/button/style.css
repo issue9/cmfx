@@ -142,17 +142,4 @@
     .c--fit-screen {
         @apply !fixed !top-0 !left-0 !w-full !h-full !bg-palette-bg !z-[1000] p-4;
     }
-
-    /***************** print *****************/
-
-    @media print {
-        body * {
-            visibility: hidden;
-        }
-
-        .c--print-content,
-        .c--print-content * {
-            visibility: visible;
-        }
-    }
 }

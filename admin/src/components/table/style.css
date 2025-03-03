@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -52,7 +52,7 @@
         }
 
         .header {
-            @apply flex flex-col mb-2;
+            @apply flex flex-col mb-2 print:hidden;
 
             .search {
                 @apply flex flex-wrap items-center gap-2;
@@ -73,6 +73,10 @@
                     }
                 }
             }
+        }
+
+        .footer {
+            @apply mt-2 print:hidden;
         }
     }
 }

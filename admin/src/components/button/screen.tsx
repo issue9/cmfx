@@ -6,7 +6,7 @@ import { createSignal, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Button, presetProps } from './button';
 
-export interface Props extends Omit<BaseProps, 'children'> {
+export interface Props extends Omit<BaseProps, 'children' | 'icon'> {
     /**
      * 获取需要被全屏的容器
      */
@@ -22,7 +22,7 @@ export function FitScreenButton(props: Props) {
     props = mergeProps(presetProps, props);
     const [fit, setFit] = createSignal<boolean>(false);
 
-    const [_, btnProps] = splitProps(props, ['onClick', 'icon']);
+    const [_, btnProps] = splitProps(props, ['onClick']);
 
     return <Button icon {...btnProps} onClick={() => {
         setFit(!fit());

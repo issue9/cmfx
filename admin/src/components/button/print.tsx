@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, splitProps } from 'solid-js';
+import { mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Button, presetProps } from './button';
 
-export interface Props extends Omit<BaseProps, 'children'> {
+export interface Props extends Omit<BaseProps, 'children' | 'icon'> {
     /**
      * 获取需要被打印的容器
      */
@@ -20,17 +20,17 @@ export interface Props extends Omit<BaseProps, 'children'> {
  */
 export function PrintButton(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, btnProps] = splitProps(props, ['onClick', 'icon']);
+    const [_, btnProps] = splitProps(props, ['onClick']);
 
     return <Button icon {...btnProps} onClick={() => {
         const c = props.container();
 
-        c.classList.add('c--fit-screen');
-        c.classList.add('c--print-content');
+        onMount(() => {
+            c.classList.add('c--fit-screen');
+        });
 
-        window.addEventListener('afterprint', () => {
+        onCleanup(() => {
             c.classList.remove('c--fit-screen');
-            c.classList.remove('c--print-content');
         });
 
         window.print();

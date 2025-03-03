@@ -3,11 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { useSearchParams } from '@solidjs/router';
-import { Printd } from 'printd';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { Palette } from '@/components/base';
-import { Button, FitScreenButton, SplitButton,PrintButton } from '@/components/button';
+import { Button, FitScreenButton, PrintButton, SplitButton } from '@/components/button';
 import { useApp, useOptions } from '@/components/context';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
@@ -182,7 +181,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
             size.setValue(opt.api.pageSizes[1]);
         }
 
-        footer = <PaginationBar class="mt-2" palette={props.accentPalette}
+        footer = <PaginationBar class="footer" palette={props.accentPalette}
             onPageChange={async(p) => { page.setValue(p); await refetch(); }}
             onSizeChange={async(s) => { size.setValue(s); await refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
@@ -311,7 +310,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                             title={ctx.locale().t('_i.table.fitScreen')} />
                         <PrintButton icon rounded kind='flat' container={()=>ref}
                             aria-label={ctx.locale().t('_i.print')}
-                            title={ctx.locale().t('_i.print')}>print</PrintButton>
+                            title={ctx.locale().t('_i.print')} />
                     </div>
                 </Show>
             </div>

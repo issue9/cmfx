@@ -10,7 +10,7 @@ import { Button } from './button';
 import { ConfirmButton } from './confirm';
 import { ButtonGroup } from './group';
 import { LinkButton } from './link';
-import { PrinterButton } from './print';
+import { PrintButton } from './print';
 import { FitScreenButton } from './screen';
 import { SplitButton } from './split';
 import { Kind, kinds } from './types';
@@ -181,7 +181,7 @@ export default function() {
             {(c) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <PrinterButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <PrintButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
                     <p>line1</p>
                     <p>line2</p>
                 </div>;
