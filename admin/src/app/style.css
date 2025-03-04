@@ -29,4 +29,13 @@
         @apply p-4 min-w-60 max-w-80 h-full bg-[var(--bg)] text-[var(--fg)] gap-y-5 flex flex-col;
         @apply overflow-y-auto;
     }
+
+    .app-search {
+        @apply w-130 max-xs:w-full !top-60;
+
+        .list {
+            @apply border-t-[1px] border-b-[1px] border-t-palette-fg-low border-b-palette-fg-low;
+            @apply min-h-30 h-40 max-h-50 overflow-y-scroll;
+        }
+    }
 }

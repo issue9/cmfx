@@ -38,6 +38,10 @@
     }
 }
 
+kbd {
+    @apply border-[1px] border-palette-fg-low rounded-sm bg-palette-bg-low px-1 py-[1px];
+}
+
 /* 弹出框默认状态下的样式 */
 @utility pop {
     visibility: hidden;

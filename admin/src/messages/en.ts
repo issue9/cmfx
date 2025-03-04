@@ -18,6 +18,10 @@ const messages = {
         refresh: 'refresh',
         print: 'print',
         areYouSure: 'are you sure?',
+        app: {
+            keyDesc: '\'<kbd>\'&#8593;\'</kbd>\' \'<kbd>\'&#8595;\'</kbd>\' select item; \'<kbd>\'enter\'</kbd>\' confirm; \'<kbd>\'ESC\'</kbd>\' cancel.',
+            searchAtSidebar: 'search at sidebar',
+        },
         page: { // 页面的翻译内容
             save: 'save',
             nickname: 'nickname',

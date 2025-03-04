@@ -4,7 +4,10 @@
 
 import { createEffect, createSignal, JSX, Show, Signal } from 'solid-js';
 
-import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
+import {
+    Button, Dialog, DialogRef, FieldAccessor, Icon, Item, Label,
+    List, Menu, MenuItem, TextField, useApp, useOptions
+} from '@/components';
 import { Locale } from '@/core';
 
 export interface MenuVisibleProps {
@@ -46,12 +49,16 @@ export default function Toolbar(props: MenuVisibleProps) {
         </div>
 
         <div class="flex gap-2 items-center">
+            <Show when={ctx.user()}><Search /></Show>
             <Fullscreen />
-            <Username />
+            <Show when={ctx.user()}><Username /></Show>
         </div>
     </header>;
 }
 
+/**
+ * 用户名及其下拉菜单
+ */
 function Username(): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
@@ -63,12 +70,14 @@ function Username(): JSX.Element {
         {ctx.user()?.name}
     </Button>;
 
-    return <Show when={ctx.user()}>
-        <Menu hoverable anchor direction='left'
-            activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
-    </Show>;
+    return <Menu hoverable anchor direction='left' activator={activator}>
+        {buildItems(ctx.locale(), opt.userMenus)}
+    </Menu>;
 }
 
+/**
+ * 顶部全屏按钮
+ */
 function Fullscreen(): JSX.Element {
     const ctx = useApp();
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
@@ -91,6 +100,51 @@ function Fullscreen(): JSX.Element {
     </Button>;
 }
 
+/**
+ * 顶部搜索框
+ */
+function Search(): JSX.Element {
+    const ctx = useApp();
+    const opt = useOptions();
+    let dlgRef: DialogRef;
+    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(ctx.locale(), opt.menus, ''));
+    
+    const input = FieldAccessor('search', '', false);
+    input.onChange((val: string) => {
+        setItems(buildItemsWithSearch(ctx.locale(), opt.menus, val));
+    });
+
+    const showSearch = () => {
+        input.setValue('');
+        dlgRef.showModal();
+    };
+
+    return <>
+        <Dialog ref={el => dlgRef = el} class="app-search" actions={
+            <div class="w-full">
+                <div class="w-full text-left" innerHTML={ctx.locale().t('_i.app.keyDesc')}></div>
+            </div>
+        }>
+            <TextField class='mb-3 border-0' accessor={input} placeholder={ctx.locale().t('_i.app.searchAtSidebar')} suffix={
+                <Show when={input.getValue() !== ''}>
+                    <Icon icon='close' class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
+                </Show>
+            } prefix={
+                <Icon icon='search' class="!flex !items-center ms-1" />
+            } />
+
+            <div class="list"><List onChange={(selected)=>{
+                dlgRef.close('');
+                ctx.navigate()(selected as string);
+            }}>{items()}</List></div>
+        </Dialog>
+
+        <Button icon type='button' kind='flat' rounded
+            title={ctx.locale().t('_i.search')}
+            onClick={showSearch}>search</Button>
+    </>;
+}
+
 export function buildItems(l: Locale, menus: Array<MenuItem>) {
     const items: Array<Item> = [];
     menus.forEach((mi) => {
@@ -102,7 +156,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
             items.push({
                 type: 'group',
                 label: l.t(mi.label),
-                items: buildItems(l, mi.items)
+                items: buildItems(l, mi.items),
             });
             break;
         case 'item':
@@ -110,13 +164,53 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
                 type: 'item',
                 label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
                 accesskey: mi.accesskey,
-                value: mi.path
+                value: mi.path,
             };
             if (mi.items) {
                 i.items = buildItems(l, mi.items);
             }
 
             items.push(i);
+            break;
+        }
+    });
+
+    return items;
+}
+
+export function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: string) {
+    const items: Array<Item> = [];
+
+    if (!search) {
+        return items;
+    }
+
+    menus.forEach((mi) => {
+        switch (mi.type) {
+        case 'divider':
+            return;
+        case 'group':
+            const c = buildItemsWithSearch(l, mi.items, search);
+            if (c.length > 0) {
+                items.push(...c);
+            }
+            break;
+        case 'item':
+            if (mi.items && mi.items.length > 0) {
+                const cc = buildItemsWithSearch(l, mi.items, search);
+                if (cc.length > 0) {
+                    items.push(...cc);
+                }
+            } else {
+                const label = l.t(mi.label);
+                if (label.includes(search)) {
+                    items.push({
+                        type: 'item',
+                        label: <Label icon={mi.icon}>{label}</Label>,
+                        value: mi.path,
+                    });
+                }
+            }
             break;
         }
     });
