@@ -9,18 +9,18 @@ import { Dynamic } from 'solid-js/web';
 import { Divider } from '@/components/divider';
 import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
-import { findItems, type Item, type Value } from '@/components/tree/item';
+import { findItems, type Item } from '@/components/tree/item';
 
 export interface Props extends ContainerProps {
     /**
      * 设置选中项的初始值
      */
-    selected?: Value;
+    selected?: string;
 
     /**
      * 当选择项发生变化时触发的事件
      */
-    onChange?: { (selected: Value, old?: Value): void };
+    onChange?: { (selected: string, old?: string): void };
 
     /**
      * 可点击的元素是否以 {@link A} 作为标签名
@@ -45,8 +45,8 @@ const presetProps: Readonly<Partial<Props>> = {
 export function List(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    let oldValue: Value|undefined = undefined;
-    const [selected, setSelected] = createSignal<Value|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
+    let oldValue: string|undefined = undefined;
+    const [selected, setSelected] = createSignal<string|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
     const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected()));
 
     createEffect(() => {

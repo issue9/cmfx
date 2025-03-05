@@ -244,19 +244,19 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                             case 'sticky-header':
                                 setSticky(sticky() === undefined ? '0px' : undefined);
                                 break;
-                            case 0:
+                            case '0':
                                 setStriped(0);
                                 break;
-                            case 2:
+                            case '2':
                                 setStriped(2);
                                 break;
-                            case 3:
+                            case '3':
                                 setStriped(3);
                                 break;
-                            case 4:
+                            case '4':
                                 setStriped(4);
                                 break;
-                            case 5:
+                            case '5':
                                 setStriped(5);
                                 break;
                             }
@@ -281,23 +281,23 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                 },
                                 { type: 'divider' },
                                 {
-                                    type: 'item', value: 0,
+                                    type: 'item', value: '0',
                                     label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{ctx.locale().t('_i.table.noStriped')}</label>,
                                 },
                                 {
-                                    type: 'item', value: 2,
+                                    type: 'item', value: '2',
                                     label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{ctx.locale().t('_i.table.striped', { 'num': 2 })}</label>,
                                 },
                                 {
-                                    type: 'item', value: 3,
+                                    type: 'item', value: '3',
                                     label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{ctx.locale().t('_i.table.striped', { 'num': 3 })}</label>,
                                 },
                                 {
-                                    type: 'item', value: 4,
+                                    type: 'item', value: '4',
                                     label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{ctx.locale().t('_i.table.striped', { 'num': 4 })}</label>,
                                 },
                                 {
-                                    type: 'item', value: 5,
+                                    type: 'item', value: '5',
                                     label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{ctx.locale().t('_i.table.striped', { 'num': 5 })}</label>,
                                 },
                             ]}

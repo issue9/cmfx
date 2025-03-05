@@ -1,10 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
-
-export type Value = number | string;
 
 /**
  * 列表项
@@ -33,7 +31,7 @@ export type Item = {
      *
      * NOTE: 该值为空时，{@link Item#items} 不能为空。
      */
-    value?: Value;
+    value?: string;
 
     /**
      * 子项
@@ -66,7 +64,7 @@ export type Item = {
 * @param value 查找的对象
 * @returns 如果找到了，返回 value 在 items 的索引值，如果嵌套层，则返回每一次的索引。
 */
-export function findItems(items: Array<Item>, value?: Value): Array<number>|undefined {
+export function findItems(items: Array<Item>, value?: string): Array<number>|undefined {
     if (value === undefined) {
         return;
     }

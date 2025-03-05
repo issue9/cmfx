@@ -6,7 +6,7 @@ import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { Item, Value } from '@/components/tree/item';
+import { Item } from '@/components/tree/item';
 import { Menu } from './menu';
 
 describe('Menu', async () => {
@@ -48,7 +48,7 @@ describe('Menu', async () => {
 
     test('onchange', async () => {
         let val;
-        const change = (v?: Value): boolean | undefined => {
+        const change = (v?: string): boolean | undefined => {
             val = v;
             return undefined;
         };

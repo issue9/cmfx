@@ -1,10 +1,9 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Value } from '@/components/tree/item';
 import { calcPopoverPos } from '@/components/utils';
 import { Props as BaseProps, default as Panel, presetProps, Ref } from './panel';
 
@@ -19,7 +18,7 @@ export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref' | 
      *
      * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
      */
-    onChange?: { (selected?: Value, old?: Value): boolean | undefined; };
+    onChange?: { (selected?: string, old?: string): boolean | undefined; };
 }
 
 /**
@@ -33,7 +32,7 @@ export function ContextMenu(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected?: Value, old?: Value) => {
+        onchange = (selected?: string, old?: string) => {
             if (!props.onChange!(selected, old)) {
                 pop.hidePopover();
             }
