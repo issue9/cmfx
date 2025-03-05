@@ -37,6 +37,7 @@ export default function() {
     ];
 
     const [selected, setSelected] = createSignal<string>();
+    const [old, setOld] = createSignal<string>();
 
     return <Demo settings={
         <>
@@ -45,20 +46,23 @@ export default function() {
         </>
     }>
         <Stage class="w-80 mt-4">
-            <List selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => setSelected(v.toString() + '  ' + old?.toString())}>
+            <List selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => {
+                setSelected(v as string);
+                setOld(old as string);
+            }}>
                 {items}
             </List>
-            <div>{selected()}</div>
+            <div>selected: {selected()}, old: {old()}</div>
         </Stage>
 
         <Stage class="w-80 mt-4" title="不指定 onchange，但是有默认值">
-            <List selectedClass={selectedCls()} palette={palette()} selected='v2341'>
+            <List selectedClass={selectedCls()} palette={palette()} selected={selected()}>
                 {items}
             </List>
         </Stage>
 
         <Stage class="w-80 mt-4" title="anchor=true">
-            <List anchor selectedClass={selectedCls()} palette={palette()}>
+            <List anchor selectedClass={selectedCls()} palette={palette()} selected={selected()}>
                 {items}
             </List>
         </Stage>
