@@ -4,11 +4,9 @@
 
 import { createEffect, createSignal, JSX, Show, Signal } from 'solid-js';
 
-import {
-    Button, Dialog, DialogRef, FieldAccessor, Icon, Item, Label,
-    List, Menu, MenuItem, TextField, useApp, useOptions
-} from '@/components';
+import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
 import { Locale } from '@/core';
+import { Search } from './search';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
@@ -24,14 +22,14 @@ export default function Toolbar(props: MenuVisibleProps) {
     createEffect(() => {
         if (!opt.asideFloatingMinWidth) { props.menuVisible[1](true); }
     });
-    
+
     return <header class="app-bar palette--secondary">
-        <div class="flex items-center">
-            <img alt="logo" class="inline-block max-w-6 max-h-6" src={opt.logo} />
-            <span class="inline-block ml-2 text-lg font-bold">{opt.title}</span>
+        <div class="title">
+            <img alt="logo" class="logo" src={opt.logo} />
+            <span class="name">{opt.title}</span>
         </div>
 
-        <div class="flex items-center flex-1 mx-4">
+        <div class="menu-icon">
             <Show when={ctx.isLogin()}>
                 <Button icon rounded type="button" kind='flat'
                     classList={{
@@ -100,51 +98,6 @@ function Fullscreen(): JSX.Element {
     </Button>;
 }
 
-/**
- * 顶部搜索框
- */
-function Search(): JSX.Element {
-    const ctx = useApp();
-    const opt = useOptions();
-    let dlgRef: DialogRef;
-    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(ctx.locale(), opt.menus, ''));
-    
-    const input = FieldAccessor('search', '', false);
-    input.onChange((val: string) => {
-        setItems(buildItemsWithSearch(ctx.locale(), opt.menus, val));
-    });
-
-    const showSearch = () => {
-        input.setValue('');
-        dlgRef.showModal();
-    };
-
-    return <>
-        <Dialog ref={el => dlgRef = el} class="app-search" actions={
-            <div class="w-full">
-                <div class="w-full text-left" innerHTML={ctx.locale().t('_i.app.keyDesc')}></div>
-            </div>
-        }>
-            <TextField class='mb-3 border-0' accessor={input} placeholder={ctx.locale().t('_i.app.searchAtSidebar')} suffix={
-                <Show when={input.getValue() !== ''}>
-                    <Icon icon='close' class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
-                </Show>
-            } prefix={
-                <Icon icon='search' class="!flex !items-center ms-1" />
-            } />
-
-            <div class="list"><List onChange={(selected)=>{
-                dlgRef.close('');
-                ctx.navigate()(selected as string);
-            }}>{items()}</List></div>
-        </Dialog>
-
-        <Button icon type='button' kind='flat' rounded
-            title={ctx.locale().t('_i.search')}
-            onClick={showSearch}>search</Button>
-    </>;
-}
-
 export function buildItems(l: Locale, menus: Array<MenuItem>) {
     const items: Array<Item> = [];
     menus.forEach((mi) => {
@@ -171,46 +124,6 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
             }
 
             items.push(i);
-            break;
-        }
-    });
-
-    return items;
-}
-
-export function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: string) {
-    const items: Array<Item> = [];
-
-    if (!search) {
-        return items;
-    }
-
-    menus.forEach((mi) => {
-        switch (mi.type) {
-        case 'divider':
-            return;
-        case 'group':
-            const c = buildItemsWithSearch(l, mi.items, search);
-            if (c.length > 0) {
-                items.push(...c);
-            }
-            break;
-        case 'item':
-            if (mi.items && mi.items.length > 0) {
-                const cc = buildItemsWithSearch(l, mi.items, search);
-                if (cc.length > 0) {
-                    items.push(...cc);
-                }
-            } else {
-                const label = l.t(mi.label);
-                if (label.includes(search)) {
-                    items.push({
-                        type: 'item',
-                        label: <Label icon={mi.icon}>{label}</Label>,
-                        value: mi.path,
-                    });
-                }
-            }
             break;
         }
     });

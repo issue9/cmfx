@@ -22,7 +22,7 @@ const messages: Messages = {
         areYouSure: '你确定要这么做吗？',
         app: {
             keyDesc: '\'<kbd>\'&#8593;\'</kbd>\' \'<kbd>\'&#8595;\'</kbd>\' 选择项；\'<kbd>\'Enter\'</kbd>\' 确定选择；\'<kbd>\'ESC\'</kbd>\' 关闭。',
-            searchAtSidebar: '在侧边栏搜索',
+            searchAtSidebar: '搜索侧边栏菜单',
         },
         page: { // 页面的翻译内容
             save: '保存',

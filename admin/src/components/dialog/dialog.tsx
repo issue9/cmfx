@@ -23,7 +23,7 @@ interface ClickFunc {
 export interface Ref {
     get open(): boolean;
     get returnValue(): string;
-    close(returnValue: string): void;
+    close(returnValue?: string): void;
     show(): void;
     showModal(): void;
     addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
@@ -105,7 +105,7 @@ export function Dialog(props: Props): JSX.Element {
     props.ref({
         get open() { return ref.open; },
         get returnValue() { return ref.returnValue; },
-        close(returnValue: string) { ref.close(returnValue); },
+        close(returnValue?: string) { ref.close(returnValue); },
         show() { ref.show(); },
         showModal() { ref.showModal(); },
         addEventListener<K extends keyof HTMLElementEventMap>(type: K|string, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any|EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
