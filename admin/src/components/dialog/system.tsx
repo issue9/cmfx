@@ -5,8 +5,8 @@
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { useOptions } from '@/components/context';
 import { BaseProps } from '@/components/base';
+import { useOptions } from '@/components/context';
 import { FieldAccessor, TextField } from '@/components/form';
 import { Dialog, Ref } from './dialog';
 
@@ -33,7 +33,7 @@ export function SystemDialog(props: BaseProps): JSX.Element {
 }
 
 /**
- * 用于替代 window.alert 的组件
+ * 用于替代 {@link window#alert} 的组件
  *
  * 只需要在任意代码位置中插入此组件，之后即会自动替换 window.alert 方法。
  */
@@ -54,7 +54,7 @@ function Alert(props: Props): JSX.Element {
 }
 
 /**
- * 用于替代 window.confirm 的组件
+ * 用于替代 {@link window#confirm} 的组件
  */
 function Confirm(props: Props): JSX.Element {
     let dlg: Ref;
@@ -72,7 +72,7 @@ function Confirm(props: Props): JSX.Element {
 }
 
 /**
- * 用于替代 window.prompt 的组件
+ * 用于替代 {@link window#prompt} 的组件
  */
 function Prompt(props: Props): JSX.Element {
     let dlg: Ref;

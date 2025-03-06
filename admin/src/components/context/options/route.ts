@@ -22,17 +22,6 @@ export interface Routes {
      * 需要登录才可查看的页面
      */
     private: Group;
-
-    /**
-     * 指定访问路径的别名
-     *
-     * 当用户访问 src 页面时，如果访问 dest 页面，但地址不会发生变化。
-     * dest 页面必须存在于 {@link Routes#public.routes} 或是 {@link Routes#private.routes} 之中。
-     */
-    alias?: Array<{
-        src: string;
-        dest: string;
-    }>;
 }
 
 interface Group {

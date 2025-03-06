@@ -172,9 +172,7 @@ export function Dialog(props: Props): JSX.Element {
             </header>
         </Show>
 
-        <main>
-            {props.children}
-        </main>
+        <main>{props.children}</main>
 
         <Show when={props.actions}>
             <footer>{props.actions}</footer>
