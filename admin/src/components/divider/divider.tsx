@@ -1,11 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Match, mergeProps, ParentProps, Switch } from 'solid-js';
+import { JSX, Match, mergeProps, ParentProps, Switch } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
-import { JSX } from 'solid-js';
 import { Style } from './types';
 
 export type Props = ParentProps<{
@@ -30,6 +29,9 @@ const presetProps: Readonly<Props> = {
     pos: 'start'
 };
 
+/**
+ * 分割线
+ */
 export function Divider(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 

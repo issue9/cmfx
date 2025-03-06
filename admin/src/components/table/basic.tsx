@@ -59,7 +59,7 @@ export interface Props<T extends object> extends BaseProps {
      */
     extraFooter?: JSX.Element;
 
-    ref: { (el: HTMLElement): void };
+    ref?: { (el: HTMLElement): void };
 }
 
 const presetProps = {

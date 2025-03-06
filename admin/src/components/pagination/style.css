@@ -17,7 +17,7 @@
         }
 
         .item {
-            @apply px-2 py-[2px] outline-none rounded-none;
+            @apply px-2 py-[2px] outline-none rounded-xs;
         }
 
         .item:focus-visible {

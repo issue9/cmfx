@@ -6,6 +6,7 @@ import { createEffect, createSignal, JSX, Show, Signal } from 'solid-js';
 
 import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
 import { Locale } from '@/core';
+import { Search } from './search';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
@@ -21,14 +22,14 @@ export default function Toolbar(props: MenuVisibleProps) {
     createEffect(() => {
         if (!opt.asideFloatingMinWidth) { props.menuVisible[1](true); }
     });
-    
+
     return <header class="app-bar palette--secondary">
-        <div class="flex items-center">
-            <img alt="logo" class="inline-block max-w-6 max-h-6" src={opt.logo} />
-            <span class="inline-block ml-2 text-lg font-bold">{opt.title}</span>
+        <div class="title">
+            <img alt="logo" class="logo" src={opt.logo} />
+            <span class="name">{opt.title}</span>
         </div>
 
-        <div class="flex items-center flex-1 mx-4">
+        <div class="menu-icon">
             <Show when={ctx.isLogin()}>
                 <Button icon rounded type="button" kind='flat'
                     classList={{
@@ -46,12 +47,16 @@ export default function Toolbar(props: MenuVisibleProps) {
         </div>
 
         <div class="flex gap-2 items-center">
+            <Show when={ctx.user()}><Search /></Show>
             <Fullscreen />
-            <Username />
+            <Show when={ctx.user()}><Username /></Show>
         </div>
     </header>;
 }
 
+/**
+ * 用户名及其下拉菜单
+ */
 function Username(): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
@@ -63,12 +68,14 @@ function Username(): JSX.Element {
         {ctx.user()?.name}
     </Button>;
 
-    return <Show when={ctx.user()}>
-        <Menu hoverable anchor direction='left'
-            activator={activator}>{buildItems(ctx.locale(), opt.userMenus)}</Menu>
-    </Show>;
+    return <Menu hoverable anchor direction='left' activator={activator}>
+        {buildItems(ctx.locale(), opt.userMenus)}
+    </Menu>;
 }
 
+/**
+ * 顶部全屏按钮
+ */
 function Fullscreen(): JSX.Element {
     const ctx = useApp();
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
@@ -102,7 +109,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
             items.push({
                 type: 'group',
                 label: l.t(mi.label),
-                items: buildItems(l, mi.items)
+                items: buildItems(l, mi.items),
             });
             break;
         case 'item':
@@ -110,7 +117,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
                 type: 'item',
                 label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
                 accesskey: mi.accesskey,
-                value: mi.path
+                value: mi.path,
             };
             if (mi.items) {
                 i.items = buildItems(l, mi.items);

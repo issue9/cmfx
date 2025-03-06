@@ -3,26 +3,24 @@
 // SPDX-License-Identifier: MIT
 
 import { A, useLocation } from '@solidjs/router';
-import { createSignal, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
+import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch, untrack } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { Divider } from '@/components/divider';
 import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
-import { findItems, type Item, type Value } from '@/components/tree/item';
+import { findItems, type Item } from '@/components/tree/item';
 
 export interface Props extends ContainerProps {
     /**
      * 设置选中项的初始值
-     *
-     * NOTE: 该值为非响应属性。
      */
-    selected?: Value;
+    selected?: string;
 
     /**
      * 当选择项发生变化时触发的事件
      */
-    onChange?: { (selected: Value, old?: Value): void };
+    onChange?: { (selected: string, old?: string): void };
 
     /**
      * 可点击的元素是否以 {@link A} 作为标签名
@@ -47,14 +45,26 @@ const presetProps: Readonly<Partial<Props>> = {
 export function List(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    const [selected, setSelected] = createSignal<Value|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
-    const selectedIndexes = findItems(props.children, selected());
+    let oldValue: string|undefined = undefined;
+    const [selected, setSelected] = createSignal<string|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
+    const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected()));
+
+    createEffect(() => {
+        oldValue = untrack(selected);
+        setSelected(props.selected);
+        setSelectedIndexes(findItems(props.children, props.selected));
+    });
 
     const All = (p: { items: Array<Item>, indent: number, selectedIndex: number }): JSX.Element => {
         return <For each={p.items}>
             {(item, index) => {
-                const isSelected = !!selectedIndexes && (p.selectedIndex >= 0) && (index() >= 0) && (index() === selectedIndexes[p.selectedIndex]);
-                const selectedIndex = isSelected ? p.selectedIndex + 1 : -100;
+                const [isSelected, setIsSelected] = createSignal(false);
+                const [selectedIndex, setSelectedIndex] = createSignal(-100);
+
+                createEffect(() => {
+                    setIsSelected(!!selectedIndexes() && (p.selectedIndex >= 0) && (index() >= 0) && (index() === selectedIndexes()![p.selectedIndex]));
+                    setSelectedIndex(untrack(isSelected) ? p.selectedIndex + 1 : -100);
+                });
 
                 return <Switch>
                     <Match when={item.type === 'divider'}>
@@ -62,10 +72,10 @@ export function List(props: Props): JSX.Element {
                     </Match>
                     <Match when={item.type === 'group'}>
                         <p class="group">{(item as any).label}</p>
-                        <All items={(item as any).items} indent={p.indent} selectedIndex={selectedIndex} />
+                        <All items={(item as any).items} indent={p.indent} selectedIndex={selectedIndex()} />
                     </Match>
                     <Match when={item.type === 'item'}>
-                        <Items item={item} indent={p.indent} selectedIndex={selectedIndex} isSelected={isSelected} />
+                        <Items item={item} indent={p.indent} selectedIndex={selectedIndex()} isSelected={isSelected()} />
                     </Match>
                 </Switch>;
             }}
@@ -80,6 +90,7 @@ export function List(props: Props): JSX.Element {
         }
 
         const [open, setOpen] = createSignal(p.isSelected);
+        createEffect(() => { setOpen(p.isSelected); });
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
@@ -111,11 +122,9 @@ export function List(props: Props): JSX.Element {
                     onClick={(e: MouseEvent) => {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
-                        const old = selected();
-                        if (old === p.item.value) { return; }
-
                         if (props.onChange && p.item.value) {
-                            props.onChange(p.item.value, old);
+                            oldValue = selected(); // 只有 onchage 时，oldValue 才会被赋值。
+                            props.onChange(p.item.value, oldValue);
                         }
 
                         setSelected(p.item.value);

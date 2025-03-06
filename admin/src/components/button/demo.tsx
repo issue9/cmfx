@@ -168,7 +168,7 @@ export default function() {
             {(c) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <FitScreenButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <FitScreenButton expand='expand' collapse='collapse' disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
                     <p>line1</p>
                     <p>line2</p>
                 </div>;
@@ -181,7 +181,7 @@ export default function() {
             {(c) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <PrintButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <PrintButton icon disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c}>print</PrintButton>
                     <p>line1</p>
                     <p>line2</p>
                 </div>;

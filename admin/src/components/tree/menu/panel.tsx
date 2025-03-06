@@ -9,7 +9,7 @@ import { Dynamic } from 'solid-js/web';
 import { Divider } from '@/components/divider';
 import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
-import { Item, Value } from '@/components/tree/item';
+import { Item } from '@/components/tree/item';
 
 export type Ref = HTMLMenuElement;
 
@@ -17,7 +17,7 @@ export interface Props extends ContainerProps {
     /**
      * 当选择项发生变化时触发的事件
      */
-    onChange?: { (selected?: Value, old?: Value): void };
+    onChange?: { (selected?: string, old?: string): void };
 
     /**
      * 是否采用 {@link A} 标签
@@ -43,7 +43,7 @@ export const presetProps: Readonly<Partial<Props>> = {
 
 export default function (props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const [selected, setSelected] = createSignal<Value>();
+    const [selected, setSelected] = createSignal<string>();
 
     const All = (p: { items: Array<Item> }): JSX.Element => {
         return <For each={p.items}>

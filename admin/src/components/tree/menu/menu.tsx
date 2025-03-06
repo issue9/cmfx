@@ -1,10 +1,9 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { Value } from '@/components/tree/item';
 import { calcPopoverPos } from '@/components/utils';
 import { default as HoverMenu, Props as HoverProps } from './hover';
 import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
@@ -48,7 +47,7 @@ export function Menu(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected?: Value, old?: Value) => {
+        onchange = (selected?: string, old?: string) => {
             if (!props.onChange!(selected, old) && pop.hidePopover) {
                 pop.hidePopover();
             }
