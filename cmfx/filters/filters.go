@@ -7,7 +7,7 @@ package filters
 
 import (
 	"github.com/issue9/web/filter"
-	v "github.com/issue9/webfilter/validator"
+	v "github.com/issue9/webuse/v7/filters/validator"
 
 	"github.com/issue9/cmfx/cmfx/locales"
 )

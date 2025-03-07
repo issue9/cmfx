@@ -51,7 +51,7 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 		admin:  adminL,
 		health: health.New(store),
 
-		stats:   systat.Init(mod.Server(), time.Minute, time.Second, 20),
+		stats:   systat.Init(mod.Server(), time.Minute, 20),
 		cancels: map[int64]context.CancelFunc{},
 
 		settings: settings.New(mod, settingsTableName),

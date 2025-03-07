@@ -11,19 +11,18 @@ require (
 	github.com/issue9/errwrap v0.3.2
 	github.com/issue9/events v0.9.1
 	github.com/issue9/logs/v7 v7.6.5
-	github.com/issue9/mux/v9 v9.1.2
-	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20250106072547-19dd3a7ecd5d
+	github.com/issue9/mux/v9 v9.1.4
+	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20250306154222-15a8468d97e4
 	github.com/issue9/rands/v3 v3.1.0
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.102.5
-	github.com/issue9/webfilter v0.9.1-0.20250120124046-d8e4650d7c52
-	github.com/issue9/webuse/v7 v7.0.0-20250217080250-c248e87e16cb
+	github.com/issue9/web v0.102.7
+	github.com/issue9/webuse/v7 v7.0.0-20250307031725-edde50ead737
 	github.com/mattn/go-sqlite3 v1.14.24
-	github.com/shirou/gopsutil/v4 v4.25.1
-	golang.org/x/crypto v0.35.0
-	golang.org/x/text v0.22.0
+	github.com/shirou/gopsutil/v4 v4.25.2
+	golang.org/x/crypto v0.36.0
+	golang.org/x/text v0.23.0
 	gopkg.in/yaml.v3 v3.0.1
 )
 
@@ -38,14 +37,14 @@ require (
 	github.com/ebitengine/purego v0.8.2 // indirect
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
-	github.com/go-sql-driver/mysql v1.8.1 // indirect
+	github.com/go-sql-driver/mysql v1.9.0 // indirect
 	github.com/go-webauthn/x v0.1.18 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
 	github.com/google/go-tpm v0.9.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/issue9/localeutil v0.29.3 // indirect
 	github.com/issue9/query/v3 v3.1.3 // indirect
-	github.com/issue9/source v0.12.4 // indirect
+	github.com/issue9/source v0.12.5 // indirect
 	github.com/issue9/term/v3 v3.4.0 // indirect
 	github.com/issue9/unique/v2 v2.1.1 // indirect
 	github.com/issue9/version v1.0.8 // indirect
@@ -66,9 +65,9 @@ require (
 	github.com/wk8/go-ordered-map/v2 v2.1.8 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
-	golang.org/x/mod v0.23.0 // indirect
+	golang.org/x/mod v0.24.0 // indirect
 	golang.org/x/net v0.33.0 // indirect
-	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/sync v0.12.0 // indirect
+	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 )

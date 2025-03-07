@@ -6,8 +6,8 @@ package filters
 
 import (
 	"github.com/issue9/web/filter"
-	s "github.com/issue9/webfilter/sanitizer"
-	v "github.com/issue9/webfilter/validator"
+	s "github.com/issue9/webuse/v7/filters/sanitizer"
+	v "github.com/issue9/webuse/v7/filters/validator"
 
 	"github.com/issue9/cmfx/cmfx/locales"
 )
