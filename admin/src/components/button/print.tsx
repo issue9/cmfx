@@ -24,7 +24,7 @@ export function PrintButton(props: Props) {
 
     return <Button icon {...btnProps} onClick={() => {
         const c = props.container();
-        
+
         const after = () => {
             c.classList.remove('c--fit-screen');
         };
