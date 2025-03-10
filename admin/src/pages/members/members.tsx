@@ -4,7 +4,7 @@
 
 import { Component, JSX, Show } from 'solid-js';
 
-import { Button,useApp, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum } from '@/components';
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum, useApp } from '@/components';
 import { Query } from '@/core';
 import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
 import { Member } from './types';
@@ -82,7 +82,7 @@ export function Members(props: Props): JSX.Element {
                 }
             },
             {
-                id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
+                id: 'actions', cellClass:'print-hidden', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'

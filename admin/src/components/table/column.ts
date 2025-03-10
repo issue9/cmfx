@@ -25,7 +25,12 @@ export interface Column<T extends object> extends ExportColumn<T> {
     renderLabel?: JSX.Element;
 
     /**
-     * 为于表头中的单元格指定 CSS 类。
+     * colgroup>col 的 CSS 类名
+     */
+    colClass?: string;
+
+    /**
+     * 为 thead>tr>td 和 thead>tr>th 指定的 CSS 类。
      */
     headClass?: string;
 

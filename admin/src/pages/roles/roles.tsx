@@ -85,7 +85,7 @@ export function Roles(props: Props): JSX.Element {
             { id: 'name', label: ctx.locale().t('_i.page.roles.name') },
             { id: 'description', label: ctx.locale().t('_i.page.roles.description') },
             {
-                id: 'actions', label: ctx.locale().t('_i.page.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
+                id: 'actions', cellClass: 'print-hidden', label: ctx.locale().t('_i.page.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
                     <Button icon rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={ctx.locale().t('_i.page.editItem')}>edit</Button>
                     <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={ctx.locale().t('_i.page.roles.editPermission')}>passkey</LinkButton>
                     {tableRef.DeleteAction(obj!['id']!)}

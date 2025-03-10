@@ -78,6 +78,8 @@ export function BasicTable<T extends object>(props: Props<T>) {
         throw 'striped 必须大于或是等于 0';
     }
 
+    const hasCol = props.columns.findIndex((v) => v.colClass !== '') >= 0;
+
     return <Spin spinning={props.loading} palette={props.palette} class='c--table'
         ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); }}}>
         <Show when={props.extraHeader}>
@@ -85,6 +87,14 @@ export function BasicTable<T extends object>(props: Props<T>) {
         </Show>
 
         <table classList={{'fixed-layout': props.fixedLayout}}>
+            <Show when={hasCol}>
+                <colgroup>
+                    <For each={props.columns}>
+                        {(item)=>(<col class={item.colClass} />)}
+                    </For>
+                </colgroup>
+            </Show>
+
             <thead style={{
                 'position': props.stickyHeader === undefined ? undefined : 'sticky',
                 'top': props.stickyHeader === undefined ? undefined : props.stickyHeader,

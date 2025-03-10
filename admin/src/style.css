@@ -38,6 +38,12 @@
     }
 }
 
+@media print {
+    .print-hidden {
+        display: none;
+    }
+}
+
 kbd {
     @apply border-[1px] border-palette-fg-low rounded-sm bg-palette-bg-low px-1 py-[1px];
 }

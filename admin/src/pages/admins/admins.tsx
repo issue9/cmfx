@@ -59,7 +59,7 @@ export function Admins(props: Props): JSX.Element {
                 }
             },
             {
-                id: 'actions', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
+                id: 'actions', cellClass: 'print-hidden', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
