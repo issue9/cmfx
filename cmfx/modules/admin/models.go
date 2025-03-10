@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -81,7 +81,7 @@ func (i *infoWithRoleStateVO) Filter(v *web.FilterContext) {
 }
 
 func (i *infoWithAccountTO) Filter(v *web.FilterContext) {
-	i.info.Filter(v)
+	i.infoWithRoleStateVO.Filter(v)
 	v.Add(filters.NotEmpty("username", &i.Username)).
 		Add(filters.NotEmpty("password", &i.Password))
 }

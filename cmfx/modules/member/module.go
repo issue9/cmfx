@@ -6,7 +6,6 @@ package member
 
 import (
 	"database/sql"
-	"errors"
 	"time"
 
 	"github.com/issue9/orm/v6"
@@ -200,14 +199,9 @@ type RegisterInfo struct {
 
 // Add 添加新的会员
 func (m *Module) Add(state user.State, data *RegisterInfo, ip, ua, msg string) (*user.User, error) {
-	tx, err := m.user.Module().DB().Begin()
+	u, err := m.user.New(state, data.Username, data.Password, ip, ua, msg)
 	if err != nil {
 		return nil, err
-	}
-
-	u, err := m.user.New(tx, state, data.Username, data.Password, ip, ua, msg)
-	if err != nil {
-		return nil, errors.Join(err, tx.Rollback())
 	}
 
 	info := &infoPO{
@@ -221,14 +215,9 @@ func (m *Module) Add(state user.State, data *RegisterInfo, ip, ua, msg string) (
 		info.Birthday = sql.NullTime{Valid: true, Time: data.Birthday}
 	}
 
-	if _, err = m.UserModule().Module().Engine(tx).Insert(info); err != nil {
-		return nil, errors.Join(err, tx.Rollback())
-	}
-
-	if err := tx.Commit(); err != nil {
+	if _, err = m.UserModule().Module().DB().Insert(info); err != nil {
 		return nil, err
 	}
-
 	return u, nil
 }
 

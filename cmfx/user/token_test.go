@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -137,16 +137,16 @@ func TestModule_New(t *testing.T) {
 
 	u := usertest.NewModule(s)
 
-	_, err := u.New(nil, user.StateDeleted, "uu", "pwd", "", "ua", "")
+	_, err := u.New(user.StateDeleted, "uu", "pwd", "", "ua", "")
 	a.Equal(err, web.NewLocaleError("can not add user with %s state", user.StateDeleted))
 
-	_, err = u.New(nil, user.StateLocked, "u1", "pwd", "", "ua", "")
+	_, err = u.New(user.StateLocked, "u1", "pwd", "", "ua", "")
 	a.Equal(err, web.NewLocaleError("username %s exists", "u1"))
 
 	var event string
 	u.OnAdd(func(u *user.User) { event = u.Username })
 
-	user, err := u.New(nil, user.StateLocked, "u2", "pwd", "", "ua", "")
+	user, err := u.New(user.StateLocked, "u2", "pwd", "", "ua", "")
 	a.NotError(err).
 		NotNil(user).
 		Wait(time.Millisecond*500). // OnAdd 是个异步方法

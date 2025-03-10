@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -28,7 +28,7 @@ func TestLoad(t *testing.T) {
 	size, err := m.db.Where("true").Count(&overviewPO{})
 	a.NotError(err).Zero(size) // 先安装的 user，再安装的 currency，不会自动添加 overviewPO 表。
 
-	id, err := u.New(nil, user.StateNormal, "u2", "123", "", "", "add")
+	id, err := u.New(user.StateNormal, "u2", "123", "", "", "add")
 	a.NotError(err).NotZero(id)
 
 	a.Wait(time.Millisecond * 500) // 待 Load 完成数据库插入 overview

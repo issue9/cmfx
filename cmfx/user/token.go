@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -124,7 +124,7 @@ func (m *Module) CurrentUser(ctx *web.Context) *User {
 // ip 客户的 IP；
 // ua 客户端的标记；
 // content 添加时的备注；
-func (m *Module) New(tx *orm.Tx, s State, username, password string, ip, ua, content string) (*User, error) {
+func (m *Module) New(s State, username, password string, ip, ua, content string) (*User, error) {
 	if s == StateDeleted {
 		return nil, web.NewLocaleError("can not add user with %s state", StateDeleted)
 	}
@@ -148,12 +148,14 @@ func (m *Module) New(tx *orm.Tx, s State, username, password string, ip, ua, con
 		Password: pa,
 	}
 
-	e := m.mod.Engine(tx)
-
-	if u.ID, err = e.LastInsertID(u); err != nil {
-		return nil, err
-	}
-	if err := m.AddSecurityLog(tx, u.ID, ip, ua, content); err != nil {
+	// NOTE: 事务必须是当前函数之内的，因为末尾有事件发布
+	err = m.mod.DB().DoTransaction(func(tx *orm.Tx) error {
+		if u.ID, err = m.mod.Engine(tx).LastInsertID(u); err != nil {
+			return err
+		}
+		return m.AddSecurityLog(tx, u.ID, ip, ua, content)
+	})
+	if err != nil {
 		return nil, err
 	}
 

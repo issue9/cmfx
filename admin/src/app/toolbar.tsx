@@ -28,7 +28,7 @@ export default function Toolbar(props: Props) {
         if (!opt.asideFloatingMinWidth) { props.menuVisible[1](true); }
     });
 
-    return <header class="app-bar palette--secondary">
+    return <header class="app-bar palette--tertiary">
         <div class="title">
             <img alt="logo" class="logo" src={opt.logo} />
             <span class="name">{opt.title}</span>
@@ -51,7 +51,7 @@ export default function Toolbar(props: Props) {
             </Show>
         </div>
 
-        <div class="flex gap-2 items-center">
+        <div class="system-bar">
             <Show when={ctx.user()}><Search switch={props.switch} /></Show>
             <Fullscreen />
             <Show when={ctx.user()}><Username /></Show>

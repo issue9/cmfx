@@ -5,7 +5,6 @@
 package admin
 
 import (
-	"errors"
 	"time"
 
 	"github.com/issue9/orm/v6"
@@ -212,17 +211,10 @@ func (m *Module) UserModule() *user.Module { return m.user }
 
 // 手动添加一个新的管理员
 func (m *Module) addAdmin(data *infoWithAccountTO, ip, ua, content string) error {
-	tx, err := m.user.Module().DB().Begin()
+	u, err := m.user.New(user.StateNormal, data.Username, data.Password, ip, ua, content)
 	if err != nil {
 		return err
 	}
-
-	u, err := m.user.New(tx, user.StateNormal, data.Username, data.Password, ip, ua, content)
-	if err != nil {
-		return errors.Join(err, tx.Rollback())
-	}
-
-	e := m.UserModule().Module().Engine(tx)
 
 	a := &info{
 		ID:       u.ID,
@@ -231,17 +223,18 @@ func (m *Module) addAdmin(data *infoWithAccountTO, ip, ua, content string) error
 		Avatar:   data.Avatar,
 		Sex:      data.Sex,
 	}
-	if _, err = e.Insert(a); err != nil {
-		return errors.Join(err, tx.Rollback())
+	if _, err = m.user.Module().DB().Insert(a); err != nil {
+		return err
 	}
 
+	// NOTE: role.Link 内可能会包含事务。
 	for _, role := range data.roles {
 		if err := role.Link(u.ID); err != nil {
 			return err
 		}
 	}
 
-	return tx.Commit()
+	return nil
 }
 
 func (m *Module) newRole(name, desc, parent string) (*rbac.Role, error) {

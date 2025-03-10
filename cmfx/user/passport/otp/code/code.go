@@ -227,32 +227,25 @@ func (e *code) postLogin(ctx *web.Context) web.Responser {
 	}
 
 	if !found { // 未关联账号
-		tx, err := e.db.BeginTx(ctx, nil)
+		msg := web.Phrase("auto register with %s", e.ID()).LocaleString(ctx.LocalePrinter())
+		u, err := e.user.New(user.StateNormal, data.Target, "", ctx.ClientIP(), ctx.Request().UserAgent(), msg)
 		if err != nil {
 			return ctx.Error(err, "")
 		}
 
-		msg := web.Phrase("auto register with %s", e.ID()).LocaleString(ctx.LocalePrinter())
-		u, err := e.user.New(tx, user.StateNormal, data.Target, "", ctx.ClientIP(), ctx.Request().UserAgent(), msg)
-		if err != nil {
-			return ctx.Error(errors.Join(err, tx.Rollback()), "")
-		}
 		mod = &accountPO{
 			Target: data.Target,
 			UID:    u.ID,
 		}
-		if _, _, err = tx.Save(mod); err != nil {
-			return ctx.Error(errors.Join(err, tx.Rollback()), "")
+
+		if _, _, err = e.db.Save(mod); err != nil {
+			return ctx.Error(err, "")
 		}
 
 		if e.newUser != nil {
 			if err = e.newUser(u); err != nil {
-				return ctx.Error(errors.Join(err, tx.Rollback()), "")
+				return ctx.Error(err, "")
 			}
-		}
-
-		if err := tx.Commit(); err != nil {
-			return ctx.Error(err, "")
 		}
 	}
 

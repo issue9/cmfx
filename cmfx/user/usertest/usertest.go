@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -37,7 +37,7 @@ func NewModule(s *test.Suite) *user.Module {
 	m := user.Load(mod, o)
 	s.Assertion().NotNil(m)
 
-	_, err := m.New(nil, user.StateNormal, "u1", "123", "", "", "add user")
+	_, err := m.New(user.StateNormal, "u1", "123", "", "", "add user")
 	s.Assertion().NotError(err)
 	return m
 }
