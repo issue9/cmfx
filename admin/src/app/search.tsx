@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, onMount, Show } from 'solid-js';
+import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
 import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, MenuItem, TextField, TextFieldRef, useApp, useOptions } from '@/components';
 import { Locale } from '@/core';
@@ -12,10 +12,14 @@ interface Item {
     label: JSX.Element;
 }
 
+export interface Props {
+    switch: Setter<string>;
+}
+
 /**
  * 顶部搜索框
  */
-export function Search(): JSX.Element {
+export function Search(props: Props): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
     let dlgRef: DialogRef;
@@ -84,6 +88,7 @@ export function Search(): JSX.Element {
             <ul ref={el=>listRef=el} onKeyDown={handleKeyDown} tabindex={-1} class="list">
                 <For each={items()}>{(item) => (
                     <li onClick={()=>{
+                        props.switch(item.value);
                         ctx.navigate()(item.value);
                         dlgRef.close('');
                     }}>{ item.label }</li>

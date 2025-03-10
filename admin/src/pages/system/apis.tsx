@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
 
-import { Column, Page, RemoteTable, useApp } from '@/components';
+import { Column, Label, Page, RemoteTable, useApp } from '@/components';
 import { Method, Query } from '@/core';
 
 interface API {
@@ -39,23 +39,25 @@ export function APIs(): JSX.Element {
     };
 
     return <Page title="_i.page.system.apiViewer">
-        <RemoteTable systemToolbar queries={queries} path='/system/apis' columns={[
-            { id: 'router', label: ctx.locale().t('_i.page.system.router') },
-            { id: 'method', label: ctx.locale().t('_i.page.system.method') },
-            { id: 'pattern', label: ctx.locale().t('_i.page.system.pattern') },
-
-            { id: 'count', label: ctx.locale().t('_i.page.system.count') },
-            { id: 'last', label: ctx.locale().t('_i.page.system.last'), content: (_: string, val: string) => { return ctx.locale().datetime(val); } },
-            { id: 'serverErrors', label: ctx.locale().t('_i.page.system.serverErrors') },
-            { id: 'userErrors', label: ctx.locale().t('_i.page.system.userErrors') },
-
-            { id: 'max', label: ctx.locale().t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
-            { id: 'min', label: ctx.locale().t('_i.page.system.min'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
-            { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number, api?: API) => {
-                const count = api?.count!;
-                val = count > 0 ? val / count : 0;
-                return ctx.locale().duration(val);
-            } },
-        ] as Array<Column<API>>} />
+        <RemoteTable systemToolbar queries={queries} path='/system/apis'
+            toolbar={<Label icon='api'>{ ctx.locale().t('_i.page.system.apis') }</Label>}
+            columns={[
+                { id: 'router', label: ctx.locale().t('_i.page.system.router') },
+                { id: 'method', label: ctx.locale().t('_i.page.system.method') },
+                { id: 'pattern', label: ctx.locale().t('_i.page.system.pattern') },
+    
+                { id: 'count', label: ctx.locale().t('_i.page.system.count') },
+                { id: 'last', label: ctx.locale().t('_i.page.system.last'), content: (_: string, val: string) => { return ctx.locale().datetime(val); } },
+                { id: 'serverErrors', label: ctx.locale().t('_i.page.system.serverErrors') },
+                { id: 'userErrors', label: ctx.locale().t('_i.page.system.userErrors') },
+    
+                { id: 'max', label: ctx.locale().t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
+                { id: 'min', label: ctx.locale().t('_i.page.system.min'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
+                { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number, api?: API) => {
+                    const count = api?.count!;
+                    val = count > 0 ? val / count : 0;
+                    return ctx.locale().duration(val);
+                } },
+            ] as Array<Column<API>>} />
     </Page>;
 }

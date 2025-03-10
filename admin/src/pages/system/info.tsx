@@ -121,7 +121,7 @@ export function Info(): JSX.Element {
     return <Page title="_i.page.system.info" class="!max-w-lg p--system-info">
         <fieldset class="panel w-[45%] max-sm:w-full">
             <Label icon="info" tag='legend'>{ctx.locale().t('_i.page.system.info')}</Label>
-            <dl><dt>{ctx.locale().t('_i.page.system.name')}</dt><dd>{info()?.name}&nbsp;({info()?.version})</dd></dl>
+            <dl><dt>{ctx.locale().t('_i.page.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
             <dl><dt>{ctx.locale().t('_i.page.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
 
@@ -229,7 +229,7 @@ interface Info {
     cpus: number;
     go: string;
     goroutines: number;
-    name: string;
+    id: string;
     os: {
         platform: string;
         family: string;

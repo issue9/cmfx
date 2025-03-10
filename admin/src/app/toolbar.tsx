@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, Show, Signal } from 'solid-js';
+import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
 import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
 import { Locale } from '@/core';
@@ -12,10 +12,15 @@ export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
 }
 
+type Props = MenuVisibleProps & {
+    // 切换侧边栏菜单的操作
+    switch: Setter<string>;
+};
+
 /**
  * 顶部工具栏
  */
-export default function Toolbar(props: MenuVisibleProps) {
+export default function Toolbar(props: Props) {
     const ctx = useApp();
     const opt = useOptions();
 
@@ -47,7 +52,7 @@ export default function Toolbar(props: MenuVisibleProps) {
         </div>
 
         <div class="flex gap-2 items-center">
-            <Show when={ctx.user()}><Search /></Show>
+            <Show when={ctx.user()}><Search switch={props.switch} /></Show>
             <Fullscreen />
             <Show when={ctx.user()}><Username /></Show>
         </div>

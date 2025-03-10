@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
-import { createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@/components';
@@ -42,6 +42,7 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
  */
 function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
     const menuVisible = createSignal(true);
+    const [selected, setSelected] = createSignal<string>('');
 
     const Root = (p: RouteSectionProps) => {
         // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
@@ -53,7 +54,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
                 <SystemDialog palette='surface' />
             </Show>
             <div class="app palette--surface">
-                <Toolbar menuVisible={menuVisible} />
+                <Toolbar menuVisible={menuVisible} switch={setSelected} />
                 <main class="app-main">{p.children}</main>
             </div>
         </Provider>;
@@ -68,7 +69,7 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
         {
             path: '/',
             component: (props: { children?: JSX.Element })=>
-                <Private menuVisible={menuVisible}>{ props.children }</Private>,
+                <Private menuVisible={menuVisible} selected={selected}>{ props.children }</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
             children: [...props.opt.routes.private.routes, { path: '*', component: errors.NotFound }]
@@ -78,7 +79,12 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
     return <HashRouter root={Root}>{/*@once*/routes}</HashRouter>;
 }
 
-function Private(props: ParentProps & MenuVisibleProps): JSX.Element {
+type PrivateProps = ParentProps<MenuVisibleProps & {
+    // 获取当前侧边栏选中的菜单项
+    selected: Accessor<string>
+}>;
+
+function Private(props: PrivateProps): JSX.Element {
     const ctx = useApp();
     const opt = useOptions();
 
@@ -92,7 +98,7 @@ function Private(props: ParentProps & MenuVisibleProps): JSX.Element {
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor>{buildItems(ctx.locale(), opt.menus)}</List>
+                <List anchor selected={props.selected()}>{buildItems(ctx.locale(), opt.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;

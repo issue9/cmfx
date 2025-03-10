@@ -4,7 +4,7 @@
 
 import { JSX, createMemo } from 'solid-js';
 
-import { Column, LoaderTable, Page, translateEnum, useApp } from '@/components';
+import { Column, Label, LoaderTable, Page, translateEnum, useApp } from '@/components';
 import { Query } from '@/core';
 import { MessagesKey } from '@/messages';
 
@@ -49,7 +49,7 @@ export function Services(): JSX.Element {
 
     return <Page title='_i.page.system.serviceViewer' class="max-w-lg">
         <fieldset>
-            <legend>{ctx.locale().t('_i.page.system.services')}</legend>
+            <Label icon='subtitles_gear' tag='legend'>{ctx.locale().t('_i.page.system.services')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: ctx.locale().t('_i.page.system.title')},
                 {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
@@ -62,7 +62,7 @@ export function Services(): JSX.Element {
         <br />
 
         <fieldset>
-            <legend>{ctx.locale().t('_i.page.system.jobs')}</legend>
+            <Label icon='task' tag='legend'>{ctx.locale().t('_i.page.system.jobs')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: ctx.locale().t('_i.page.system.title')},
                 {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
