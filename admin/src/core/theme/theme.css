@@ -47,7 +47,7 @@
 
     --l-low: .3;
     --l: .15;
-    --l-high: 0;
+    --l-high: .05;
 
     --invert-l-low: calc(var(--lightness) - var(--l-low));
     --invert-l: calc(var(--lightness) - var(--l));
@@ -62,26 +62,26 @@
 
     --primary-bg-low: light-dark(oklch(var(--invert-l-low) .2 var(--primary)), oklch(var(--l-low) .45 var(--primary)));
     --primary-bg: light-dark(oklch(var(--invert-l) .2 var(--primary)), oklch(var(--l) .4 var(--primary)));
-    --primary-bg-high: light-dark(oklch(var(--invert-l-high) .2 var(--primary)), oklch(var(--l-high) .45 var(--primary)));
+    --primary-bg-high: light-dark(oklch(var(--invert-l-high) .2 var(--primary)), oklch(var(--l-high) .5 var(--primary)));
     --primary-fg-low: light-dark(oklch(var(--l-low) .4 var(--primary)), oklch(var(--invert-l-low) .2 var(--primary)));
     --primary-fg: light-dark(oklch(var(--l) .4 var(--primary)), oklch(var(--invert-l) .2 var(--primary)));
     --primary-fg-high: light-dark(oklch(var(--l-high) .4 var(--primary)), oklch(var(--invert-l-high) .2 var(--primary)));
 
     --secondary-bg-low: light-dark(oklch(var(--invert-l-low) .2 var(--secondary)), oklch(var(--l-low) .45 var(--secondary)));
     --secondary-bg: light-dark(oklch(var(--invert-l) .2 var(--secondary)), oklch(var(--l) .4 var(--secondary)));
-    --secondary-bg-high: light-dark(oklch(var(--invert-l-high) .2 var(--secondary)), oklch(var(--l-high) .45 var(--secondary)));
+    --secondary-bg-high: light-dark(oklch(var(--invert-l-high) .2 var(--secondary)), oklch(var(--l-high) .5 var(--secondary)));
     --secondary-fg-low: light-dark(oklch(var(--l-low) .4 var(--secondary)), oklch(var(--invert-l-low) .2 var(--secondary)));
     --secondary-fg: light-dark(oklch(var(--l) .4 var(--secondary)), oklch(var(--invert-l) .2 var(--secondary)));
     --secondary-fg-high: light-dark(oklch(var(--l-high) .4 var(--secondary)), oklch(var(--invert-l-high) .2 var(--secondary)));
 
     --tertiary-bg-low: light-dark(oklch(var(--invert-l-low) .2 var(--tertiary)), oklch(var(--l-low) .45 var(--tertiary)));
     --tertiary-bg: light-dark(oklch(var(--invert-l) .2 var(--tertiary)), oklch(var(--l) .4 var(--tertiary)));
-    --tertiary-bg-high: light-dark(oklch(var(--invert-l-high) .2 var(--tertiary)), oklch(var(--l-high) .45 var(--tertiary)));
+    --tertiary-bg-high: light-dark(oklch(var(--invert-l-high) .2 var(--tertiary)), oklch(var(--l-high) .5 var(--tertiary)));
     --tertiary-fg-low: light-dark(oklch(var(--l-low) .4 var(--tertiary)), oklch(var(--invert-l-low) .2 var(--tertiary)));
     --tertiary-fg: light-dark(oklch(var(--l) .4 var(--tertiary)), oklch(var(--invert-l) .2 var(--tertiary)));
     --tertiary-fg-high: light-dark(oklch(var(--l-high) .4 var(--tertiary)), oklch(var(--invert-l-high) .2 var(--tertiary)));
 
-    --surface-bg-low: light-dark(oklch(var(--invert-l-low) .01 var(--surface)), oklch(var(--l-low) .2 var(--surface)));
+    --surface-bg-low: light-dark(oklch(var(--invert-l-low) .01 var(--surface)), oklch(var(--l-low) .1 var(--surface)));
     --surface-bg: light-dark(oklch(var(--invert-l) .01 var(--surface)), oklch(var(--l) .03 var(--surface)));
     --surface-bg-high: light-dark(oklch(var(--invert-l-high) .01 var(--surface)), oklch(var(--l-high) .2 var(--surface)));
     --surface-fg-low: light-dark(oklch(var(--l-low) .1 var(--surface)), oklch(var(--invert-l-low) .2 var(--surface)));

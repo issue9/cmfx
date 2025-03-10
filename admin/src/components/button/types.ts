@@ -21,3 +21,4 @@ export interface Props extends BaseProps {
 }
 
 export const presetProps: Readonly<Props> = { kind: 'fill' };
+
