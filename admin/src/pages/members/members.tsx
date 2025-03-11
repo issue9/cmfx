@@ -82,7 +82,7 @@ export function Members(props: Props): JSX.Element {
                 }
             },
             {
-                id: 'actions', cellClass:'print-hidden', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
+                id: 'actions', cellClass:'no-print', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'

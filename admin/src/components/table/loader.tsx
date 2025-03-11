@@ -308,7 +308,8 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                         <FitScreenButton rounded kind='fill' palette='tertiary' expand='expand_content' collapse='collapse_content' container={()=>ref}
                             aria-title={ctx.locale().t('_i.table.fitScreen')}
                             title={ctx.locale().t('_i.table.fitScreen')} />
-                        <PrintButton icon rounded kind='fill' palette='tertiary' container={()=>ref}
+                        <PrintButton icon rounded kind='fill' palette='tertiary' container={()=>ref.querySelector('table')!}
+                            cssText='table {border-collapse: collapse} tr{border-bottom: 1px solid black;} .no-print{display:none}'
                             aria-label={ctx.locale().t('_i.print')}
                             title={ctx.locale().t('_i.print')}>print</PrintButton>
                     </div>

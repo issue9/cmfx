@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import Printd from 'printd';
+import { mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Button, presetProps } from './button';
 
@@ -11,6 +12,13 @@ export interface Props extends Omit<BaseProps, 'onClick'> {
      * 获取需要被打印的容器
      */
     container: { (): HTMLElement; };
+
+    /**
+     * 打印内容的 CSS
+     *
+     * NOTE: 打印的内容是复制的对象，无法直接引用原来的 CSS，需要额外指定。
+     */
+    cssText?: string;
 }
 
 /**
@@ -23,25 +31,7 @@ export function PrintButton(props: Props) {
     const [_, btnProps] = splitProps(props, ['container']);
 
     return <Button icon {...btnProps} onClick={() => {
-        const c = props.container();
-
-        const after = () => {
-            c.classList.remove('c--fit-screen');
-        };
-        const before = () => {
-            c.classList.add('c--fit-screen');
-        };
-
-        onMount(() => {
-            window.addEventListener('beforeprint', before);
-            window.addEventListener('afterprint', after);
-        });
-
-        onCleanup(() => {
-            window.removeEventListener('beforeprint', before);
-            window.removeEventListener('afterprint', after);
-        });
-
-        window.print();
+        const d = new Printd();
+        d.print(props.container(), props.cssText ? [props.cssText] : undefined);
     }}>print</Button>;
 }

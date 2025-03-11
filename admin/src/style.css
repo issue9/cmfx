@@ -38,8 +38,9 @@
     }
 }
 
+/* 打印的全局设置 */
 @media print {
-    .print-hidden {
+    .no-print {
         display: none;
     }
 }
