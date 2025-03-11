@@ -32,6 +32,9 @@ export function PrintButton(props: Props) {
 
     return <Button icon {...btnProps} onClick={() => {
         const d = new Printd();
-        d.print(props.container(), props.cssText ? [props.cssText] : undefined);
+        d.print(props.container(), props.cssText ? [props.cssText] : undefined, undefined, (arg)=>{
+            arg.launchPrint();
+            arg.iframe.remove();
+        });
     }}>print</Button>;
 }
