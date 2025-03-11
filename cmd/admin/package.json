@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin-demo",
-    "version": "0.8.11",
+    "version": "0.8.12",
     "type": "module",
     "author": {
         "name": "caixw",
@@ -21,7 +21,7 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@cmfx/admin": "0.8.11",
+        "@cmfx/admin": "0.8.12",
         "@solidjs/router": "^0.15.3",
         "tailwindcss": "^4.0.12",
         "solid-js": "^1.9.5"
