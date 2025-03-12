@@ -4,9 +4,9 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { FieldBaseProps } from '@/components/form';
+import { FieldProps } from '@/components/form/field';
 
-export interface Props extends FieldBaseProps {
+export interface Props extends FieldProps {
     /**
      * 是否显示为块
      */

@@ -1,14 +1,15 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { FieldAccessor, FormAccessor, ObjectAccessor } from './access';
-export type { Accessor, Validation } from './access';
+export { FormAccessor, ObjectAccessor } from './access';
+export type { Validation } from './access';
 
 export { Form } from './form';
 export type { Props as FormProps } from './form';
 
-export type { AutoComplete, Props as FieldBaseProps, InputMode, Option, Options } from './types';
+export { FieldAccessor } from './field';
+export type { Accessor, AutoComplete, FieldProps, InputMode, LabelPos, Option, Options } from './field';
 
 export * from './checkbox';
 export * from './choice';

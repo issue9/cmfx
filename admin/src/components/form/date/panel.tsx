@@ -6,12 +6,11 @@ import { createMemo, For, JSX, mergeProps, Show } from 'solid-js';
 
 import { Button } from '@/components/button';
 import { useApp } from '@/components/context';
-import { FieldBaseProps } from '@/components/form';
-import { Accessor, FieldAccessor } from '@/components/form/access';
 import { Choice } from '@/components/form/choice';
+import { Accessor, FieldAccessor, FieldProps } from '@/components/form/field';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
-export interface Props extends FieldBaseProps {
+export interface Props extends FieldProps {
     /**
      * 是否符带时间选择器
      */

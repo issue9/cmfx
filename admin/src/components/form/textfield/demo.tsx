@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { cloneElement } from '@/components/base';
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form';
+import { FieldAccessor } from '@/components/form/field';
 import { Number } from './number';
 import { Password } from './password';
 import { TextField } from './textfiled';

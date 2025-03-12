@@ -1,9 +1,10 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
+@import './field/style.css';
 @import './checkbox/style.css';
 @import './choice/style.css';
 @import './radio/style.css';
@@ -17,17 +18,6 @@
     .c--form {
         fieldset {
             @apply flex flex-wrap gap-4;
-        }
-    }
-
-    .c--field {
-        ::placeholder {
-            color: var(--fg-low);
-        }
-
-        /* 表单字段的错误提示组件 */
-        .field_error {
-            @apply text-sm text-error-fg min-h-5;
         }
     }
 }

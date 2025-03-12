@@ -5,7 +5,7 @@
 import { createSignal, For } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { FieldAccessor, Options } from '@/components/form';
+import { FieldAccessor, Options } from '@/components/form/field';
 import { Checkbox } from './checkbox';
 import { CheckboxGroup } from './group';
 

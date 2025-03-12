@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { Accessor } from '@/components/form';
+import { Accessor } from '@/components/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import { Props as BaseProps, Ref, Upload } from './upload';
 

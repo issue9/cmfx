@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import { FieldAccessor, Options, TextField } from '@/components/form';
+import { TextField } from '@/components/form';
+import { FieldAccessor, Options } from '@/components/form/field';
 import { Choice } from './choice';
 
 export default function() {

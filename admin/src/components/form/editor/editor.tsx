@@ -7,9 +7,9 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { createEffect, createUniqueId, JSX, onMount, Show } from 'solid-js';
 
-import { Accessor, FieldBaseProps } from '@/components/form';
+import { Accessor, FieldProps } from '@/components/form/field';
 
-export interface Props extends FieldBaseProps {
+export interface Props extends FieldProps {
     placeholder?: string;
     accessor: Accessor<string>;
 }

@@ -4,10 +4,10 @@
 
 import { For, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { Accessor, FieldProps, Options } from '@/components/form/field';
 import { Checkbox } from './checkbox';
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T> extends FieldProps {
     /**
      * 是否显示为块
      */

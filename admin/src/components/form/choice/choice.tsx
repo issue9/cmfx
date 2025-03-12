@@ -5,13 +5,13 @@
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
-import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { Accessor, FieldProps, Options } from '@/components/form/field';
 import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
 
 type Value = string | number | undefined;
 
-export interface Props<T extends Value, M extends boolean> extends FieldBaseProps {
+export interface Props<T extends Value, M extends boolean> extends FieldProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;

@@ -1,14 +1,14 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Accessor, FieldBaseProps, InputMode } from '@/components/form';
+import { Accessor, FieldProps, InputMode } from '@/components/form/field';
 
 type Value = string | number | Array<string>;
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T> extends FieldProps {
     placeholder?: string;
     accessor: Accessor<T>;
     inputMode?: InputMode;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,63 +7,12 @@ import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
 import { AppContext } from '@/components/context';
 import { Problem, Return } from '@/core';
+import { Accessor, ChangeFunc } from './field';
 
 // Form 中保存错误的类型
 type Err<T extends object> = {
     [K in keyof T]?: string;
 };
-
-/**
- * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
- *
- * @template T 关联的值类型
- */
-export interface Accessor<T> {
-    /**
-     * 字段的名称
-     */
-    name(): string;
-
-    /**
-     * 获取关联的值，这是一个响应式的值。
-     */
-    getValue(): T;
-
-    /**
-     * 修改值，如果与旧值相同，则不会触发修改。
-     */
-    setValue(val: T): void;
-
-    /**
-     * 注册值发生改变时的触发函数
-     */
-    onChange(change: ChangeFunc<T>): void;
-
-    /**
-     * 是否需要给错误信息预留位置
-     */
-    hasError(): boolean;
-
-    /**
-     * 返回当前组件的错误信息
-     */
-    getError(): string | undefined;
-
-    /**
-     * 设置当前组件的错误信息
-     * @param string 错误信息
-     */
-    setError(string?: string): void;
-
-    /**
-     * 重置为初始状态
-     */
-    reset(): void;
-}
-
-interface ChangeFunc<T> {
-    (val: T, old?: T): void;
-}
 
 /**
  * 验证数据 obj 的函数签名
@@ -72,50 +21,6 @@ interface ChangeFunc<T> {
  */
 export interface Validation<T extends object> {
     (obj: T): Map<keyof T, string> | undefined;
-}
-
-/**
- * 为单个表单元素生成 {@link Accessor} 接口对象
- *
- * 当一个表单元素是单独使用的，可以传递此函数生成的对象。
- *
- * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
- * @param v 初始化的值；
- * @param error 是否显示错误信息的占位栏；
- */
-export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<T> {
-    const [err, errSetter] = createSignal<string>();
-    const [val, valSetter] = createSignal<T>(v);
-    const changes: Array<ChangeFunc<T>> = [];
-
-    return {
-        name(): string { return name; },
-
-        hasError(): boolean { return !!error; },
-
-        getError(): string | undefined { return err(); },
-
-        setError(err: string): void { errSetter(err); },
-
-        onChange(change) { changes.push(change); },
-
-        getValue(): T { return val(); },
-
-        setValue(vv: T) {
-            const old = untrack(val);
-            if (old === vv) { return; }
-
-            valSetter(vv as any);
-            changes.forEach((f) => {
-                f(vv, old);
-            });
-        },
-
-        reset() {
-            this.setValue(v);
-            errSetter();
-        }
-    };
 }
 
 /**

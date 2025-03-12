@@ -1,17 +1,16 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Accessor } from '@/components/form/access';
-import { AutoComplete, Props as FieldBaseProps, InputMode } from '@/components/form/types';
+import { Accessor, AutoComplete, FieldProps, InputMode } from '@/components/form/field';
 
 type Value = string | number | Array<string>;
 
 export type Ref = HTMLInputElement;
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T> extends FieldProps {
     /**
      * 文本框内顶部的内容
      */

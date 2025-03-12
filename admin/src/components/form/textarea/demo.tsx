@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { For } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form';
+import { FieldAccessor } from '@/components/form/field';
 import { TextArea } from './textarea';
 
 export default function() {

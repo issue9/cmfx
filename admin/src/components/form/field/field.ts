@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -10,9 +10,6 @@ import { BaseProps } from '@/components/base';
  * 所有表单元素共有的属性
  */
 export interface Props extends BaseProps {
-    /**
-     * tooltip
-     */
     title?: string;
 
     label?: JSX.Element;
@@ -24,6 +21,14 @@ export interface Props extends BaseProps {
     class?: string;
     classList?: JSX.CustomAttributes<HTMLElement>['classList'];
 };
+
+/**
+ * 表单字段标签的位置
+ *
+ * - top 在字段的上方；
+ * - start 在字段的前方；
+ */
+export type LabelPos = 'start' | 'top';
 
 /**
  * 定义了 radio、choice 等选项类型中每个选择项的类型。

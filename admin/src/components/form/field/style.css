@@ -1,0 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--field {
+        ::placeholder {
+            color: var(--fg-low);
+        }
+
+        /* 表单字段的错误提示组件 */
+        .field_error {
+            @apply text-sm text-error-fg min-h-5;
+        }
+    }
+}

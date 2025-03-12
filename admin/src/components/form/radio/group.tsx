@@ -4,9 +4,9 @@
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
-import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { Accessor, FieldProps, Options } from '@/components/form/field';
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T> extends FieldProps {
     /**
      * 是否显示为块
      */
