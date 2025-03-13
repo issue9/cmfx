@@ -1,58 +1,52 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 @layer components {
-    .c--upload {
-        .content {
-            @apply w-fit h-fit border rounded-md border-palette-fg-low;
-            @apply flex flex-wrap gap-2 p-2 items-center justify-start content-start;
+    .c--upload-content {
+        @apply w-fit h-fit border rounded-md border-palette-fg-low;
+        @apply flex flex-wrap gap-2 p-2 items-center justify-start content-start;
 
-            .preview {
-                @apply relative border border-palette-bg-low p-1 rounded-sm order-10;
+        .preview {
+            @apply relative border border-palette-bg-low p-1 rounded-sm order-10;
 
-                .close {
-                    @apply absolute right-1 top-1 text-palette-fg;
-                    @apply hover:text-palette-fg-high hover:cursor-pointer;
-                }
+            .close {
+                @apply absolute right-1 top-1 text-palette-fg;
+                @apply hover:text-palette-fg-high hover:cursor-pointer;
             }
+        }
 
-            .action {
-                @apply relative border border-palette-bg-low p-1 rounded-sm order-11;
-                @apply text-2xl text-palette-fg-low;
-            }
+        .action {
+            @apply relative border border-palette-bg-low p-1 rounded-sm order-11;
+            @apply text-2xl text-palette-fg-low;
+        }
 
-            .action.start {
-                @apply !order-1;
-            }
+        .action.start {
+            @apply !order-1;
         }
     }
 
-    .c--upload:enabled {
-        .content {
-            .preview {
-                @apply hover:border-palette-fg-low;
-            }
+    .c--upload-content:enabled {
+        .preview {
+            @apply hover:border-palette-fg-low;
+        }
 
-            .action {
-                @apply hover:enabled:border-palette-fg-low hover:disabled:cursor-not-allowed;
-            }
+        .action {
+            @apply hover:enabled:border-palette-fg-low hover:disabled:cursor-not-allowed;
         }
     }
 
-    .c--upload:disabled {
-        .content {
-            @apply cursor-not-allowed text-palette-bg-low border-palette-bg-low;
+    .c--upload-content:disabled {
+        @apply cursor-not-allowed text-palette-bg-low border-palette-bg-low;
 
-            .preview {
-                @apply cursor-not-allowed;
-            }
+        .preview {
+            @apply cursor-not-allowed;
+        }
 
-            .action {
-                @apply cursor-not-allowed;
-            }
+        .action {
+            @apply cursor-not-allowed;
         }
     }
 }

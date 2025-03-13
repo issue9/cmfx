@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
+import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
 import { FieldAccessor } from '@/components/form/field';
 import { DatePanel } from './panel';
 import { DatePicker } from './picker';
@@ -22,6 +22,7 @@ export default function() {
     const [weekendS, weekend] = boolSelector('weekend');
     const [timeS, time] = boolSelector('time');
     const [minmaxS, minmax] = boolSelector('minmax');
+    const [horizontalS, horizontal] = boolSelector('horizontal', true);
 
     return <Demo settings={
         <>
@@ -32,10 +33,16 @@ export default function() {
             {weekendS}
             {roundedS}
             {minmaxS}
+            {horizontalS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
         </>
     }>
-        <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-        <DatePicker min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+        <Stage title="panel">
+            <DatePanel horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+        </Stage>
+        
+        <Stage title="picker">
+            <DatePicker horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+        </Stage>
     </Demo>;
 }

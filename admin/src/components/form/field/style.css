@@ -6,12 +6,26 @@
 
 @layer components {
     .c--field {
+        display: grid;
+        grid-template-rows: minmax(0, auto) 1fr minmax(0, auto);
+        grid-template-columns: minmax(0, auto) 1fr minmax(0, auto);
+        grid-column-gap: 2px;
+        grid-template-areas: 'top-left top-center top-right'
+            'middle-left middle-center middle-right'
+            'bottom-left bottom-center bottom-right';
+        align-items: center;
+        justify-items: start;
+
         ::placeholder {
             color: var(--fg-low);
         }
 
+        .c--field-content {
+            @apply w-full h-full flex flex-col;
+        }
+
         /* 表单字段的错误提示组件 */
-        .field_error {
+        .c--field_error {
             @apply text-sm text-error-fg min-h-5;
         }
     }

@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { useApp } from '@/components/context';
+import { Field } from '@/components/form/field';
 import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
@@ -17,13 +18,10 @@ export interface Props extends PanelProps {
     min?: Date;
 
     max?: Date;
-
-    // TODO range
 }
 
 function togglePop(anchor: Element, pop: HTMLElement): boolean {
     const ab = anchor.getBoundingClientRect();
-    pop.style.marginTop = '2px';
     pop.style.minWidth = ab.width + 'px';
     pop.style.width = ab.width + 'px';
 
@@ -41,10 +39,11 @@ export function DatePicker(props: Props): JSX.Element {
 
     const ac = props.accessor;
     let panelRef: HTMLElement;
-    let labelRef: HTMLLabelElement;
+    let fieldRef: HTMLElement;
+    let anchorRef: HTMLElement;
 
     const handleClick = (e: MouseEvent) => {
-        if (!panelRef.contains(e.target as Node) && !labelRef.contains(e.target as Node)) {
+        if (!fieldRef.contains(e.target as Node)) {
             panelRef.hidePopover();
         }
     };
@@ -55,36 +54,29 @@ export function DatePicker(props: Props): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
-    const activator = <div accessKey={props.accessKey} class={props.class}
-        classList={{
-            ...props.classList,
-            'c--field':true,
-            'c--date-activator':true,
-            [`palette--${props.palette}`]:!!props.palette,
+    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
+        inputArea={{ pos: 'middle-center' }}
+        errArea={{ pos: 'bottom-center' }}
+        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        classList={props.classList}
+        hasError={props.accessor.hasError}
+        getError={props.accessor.getError}
+        title={props.title}
+        label={<label onClick={()=>togglePop(anchorRef, panelRef)}>{props.label}</label>}
+        palette={props.palette}
+        aria-haspopup
+    >
+        <div tabIndex={props.tabindex} ref={el=>anchorRef=el} onClick={()=>togglePop(anchorRef, panelRef)} classList={{
+            'activator-container': true,
+            'rounded': props.rounded
         }}>
-        <label ref={el=>labelRef=el} title={props.title} onClick={(e) => {
-            e.preventDefault();
-            togglePop(labelRef, panelRef);
-        }}>
-            <Show when={props.label}>{props.label}</Show>
-            <div tabIndex={props.tabindex} classList={{
-                'activator-container': true,
-                'rounded': props.rounded
-            }}>
-                <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
-                <div class="input">
-                    { props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue()) }
-                </div>
-                <Icon icon="expand_all" />
+            <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
+            <div class="input">
+                {props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue())}
             </div>
-        </label>
-        <Show when={ac.hasError()}>
-            <p class="field_error" role="alert">{ac.getError()}</p>
-        </Show>
-    </div>;
+            <Icon icon="expand_all" />
+        </div>
 
-    return <>
-        {activator}
-        <DatePanel class="fixed" popover="manual" ref={el=>panelRef=el} {...panelProps}></DatePanel>
-    </>;
+        <DatePanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}></DatePanel>
+    </Field>;
 }

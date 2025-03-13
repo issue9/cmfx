@@ -4,9 +4,9 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { FieldProps } from '@/components/form/field';
+import { FieldBaseProps } from '@/components/form/field';
 
-export interface Props extends FieldProps {
+export interface Props extends FieldBaseProps {
     /**
      * 是否显示为块
      */
@@ -38,6 +38,11 @@ export function Checkbox(props: Props): JSX.Element {
             disabled={props.disabled}
             checked={props.checked}
             classList={{ '!hidden': props.block }}
+            onClick={(e)=>{
+                if (props.readonly) {
+                    e.preventDefault();
+                }
+            }}
             onChange={(e) => {
                 if (!props.readonly && !props.disabled && props.onChange) {
                     props.onChange(e.target.checked);

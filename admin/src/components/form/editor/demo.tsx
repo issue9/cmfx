@@ -12,17 +12,19 @@ export default function () {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [paletteS, palette] = paletteSelector();
+    const [horizontalS, horizontal] = boolSelector('horizontal', true);
 
     return <Demo settings={
         <>
             {paletteS}
             {disabledS}
             {readonlyS}
+            {horizontalS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
-        <Editor label='label' class="h-[500px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
+        <Editor horizontal={horizontal()} label='label' class="h-[500px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
         <pre>{txt.getValue()}</pre>
     </Demo>;
 }

@@ -5,7 +5,7 @@
 import { createSignal, JSX, onMount } from 'solid-js';
 
 import { useApp } from '@/components/context';
-import { FieldProps } from '@/components/form/field';
+import { FieldBaseProps } from '@/components/form/field';
 
 /**
  * 上传组件的外放接口
@@ -37,7 +37,7 @@ export interface Ref {
     upload(): Promise<Array<string>|undefined>;
 }
 
-export interface Props extends FieldProps {
+export interface Props extends FieldBaseProps {
     /**
      * 上传文件在表单中的名称
      */

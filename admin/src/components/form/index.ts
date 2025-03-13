@@ -9,7 +9,7 @@ export { Form } from './form';
 export type { Props as FormProps } from './form';
 
 export { FieldAccessor } from './field';
-export type { Accessor, AutoComplete, FieldProps, InputMode, LabelPos, Option, Options } from './field';
+export type { Accessor, AutoComplete, FieldBaseProps, InputMode, Option, Options } from './field';
 
 export * from './checkbox';
 export * from './choice';

@@ -1,21 +1,19 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 @layer components {
-    .c--editor {
-        @apply flex flex-col;
-
-        >:first-child {
+    .c--field {
+        .ql-toolbar {
             border-top-color: var(--fg-low) !important;
             border-left-color: var(--fg-low) !important;
             border-right-color: var(--fg-low) !important;
             @apply rounded-t-md;
         }
 
-        >:last-child {
+        .ql-container {
             border-bottom-color: var(--fg-low) !important;
             border-left-color: var(--fg-low) !important;
             border-right-color: var(--fg-low) !important;
@@ -23,15 +21,15 @@
         }
     }
 
-    .c--editor:has([contenteditable=true]):hover,
-    .c--editor:focus-within {
-        >:first-child {
+    .c--field:has([contenteditable=true]):hover,
+    .c--field:focus-within {
+        .ql-toolbar {
             border-top-color: var(--fg-high) !important;
             border-left-color: var(--fg-high) !important;
             border-right-color: var(--fg-high) !important;
         }
 
-        >:last-child {
+        .ql-container {
             border-bottom-color: var(--fg-high) !important;
             border-left-color: var(--fg-high) !important;
             border-right-color: var(--fg-high) !important;
