@@ -13,6 +13,11 @@ export interface Props<T> extends FieldBaseProps {
      */
     block?: boolean;
 
+    /**
+     * 所有 checkbox 项是否横排
+     */
+    itemHorizontal?: boolean;
+
     accessor: Accessor<Array<T>>;
     options: Options<T>;
 }
@@ -38,7 +43,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
         palette={props.palette}>
         <div classList={{
             'c--checkbox-group-content': true,
-            'flex-col': !props.horizontal
+            'flex-col': !props.itemHorizontal
         }}>
             <For each={props.options}>
                 {(item) =>

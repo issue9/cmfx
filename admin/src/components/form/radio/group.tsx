@@ -12,6 +12,11 @@ export interface Props<T> extends FieldBaseProps {
      */
     block?: boolean;
 
+    /**
+     * 所有 checkbox 项是否横排
+     */
+    itemHorizontal?: boolean;
+
     accessor: Accessor<T>;
     options: Options<T>;
 }
@@ -35,7 +40,7 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
         <div classList={{
             'c--radio-group-content': true,
             'flex': true,
-            'flex-col': !props.horizontal
+            'flex-col': !props.itemHorizontal
         }}>
             <For each={props.options}>
                 {(item) =>
