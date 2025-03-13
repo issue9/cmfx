@@ -40,9 +40,11 @@
     }
 
     .c--radio-group-content {
+        @apply flex flex-wrap gap-1;
+
         label {
             @apply border-2 border-transparent flex items-center text-palette-fg box-border;
-            @apply overflow-hidden;
+            @apply overflow-hidden cursor-pointer;
 
             input {
                 @apply mr-[2px]

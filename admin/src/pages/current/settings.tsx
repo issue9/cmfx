@@ -37,7 +37,7 @@ export function Settings(): JSX.Element {
             {ctx.locale().t('_i.theme.modeDesc')! }
         </Description>
 
-        <RadioGroup accessor={modeFA} block={/*@once*/false}
+        <RadioGroup itemHorizontal accessor={modeFA} block={/*@once*/false}
             options={/*@once*/[
                 ['system', ctx.locale().t('_i.theme.system')],
                 ['dark', ctx.locale().t('_i.theme.dark')],
@@ -51,7 +51,7 @@ export function Settings(): JSX.Element {
             {ctx.locale().t('_i.theme.contrastDesc')! }
         </Description>
 
-        <RadioGroup accessor={contrastFA} block={/*@once*/false}
+        <RadioGroup itemHorizontal accessor={contrastFA} block={/*@once*/false}
             options={/*@once*/[
                 ['more', ctx.locale().t('_i.theme.more')],
                 ['nopreference', ctx.locale().t('_i.theme.nopreference')],
@@ -65,7 +65,7 @@ export function Settings(): JSX.Element {
             {ctx.locale().t('_i.theme.colorDesc')! }
         </Description>
 
-        <RadioGroup accessor={schemeFA} block={/*@once*/true} options={/*@once*/schemesOptions}/>
+        <RadioGroup itemHorizontal accessor={schemeFA} block={/*@once*/true} options={/*@once*/schemesOptions}/>
 
         <Divider />
 
@@ -83,7 +83,7 @@ export function Settings(): JSX.Element {
             {ctx.locale().t('_i.locale.unitStyleDesc')! }
         </Description>
 
-        <RadioGroup accessor={unitFA} block={/*@once*/false} options={/*@once*/[
+        <RadioGroup itemHorizontal accessor={unitFA} block={/*@once*/false} options={/*@once*/[
             ['narrow', ctx.locale().t('_i.locale.narrow')],
             ['short', ctx.locale().t('_i.locale.short')],
             ['full', ctx.locale().t('_i.locale.long')],

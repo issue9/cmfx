@@ -39,7 +39,6 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
         palette={props.palette}>
         <div classList={{
             'c--radio-group-content': true,
-            'flex': true,
             'flex-col': !props.itemHorizontal
         }}>
             <For each={props.options}>
