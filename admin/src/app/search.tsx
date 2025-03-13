@@ -60,8 +60,10 @@ export function Search(props: Props): JSX.Element {
             break;
         }
 
-        currItem.classList.add('selected');
-        currItem.scrollIntoView({ block: 'center' });
+        if (currItem) { // 如果没有候选项的话，currItem 此时为空。
+            currItem.classList.add('selected');
+            currItem.scrollIntoView({ block: 'center' });
+        }
 
         e.stopPropagation();
     };
@@ -102,7 +104,15 @@ export function Search(props: Props): JSX.Element {
     </>;
 }
 
-function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: string) {
+/**
+* 根据搜索的内容生成一个平级的菜单列表
+*
+* @param l 本地化对象，所有菜单都将由此进行初始化；
+* @param menus 所有菜单项，结果从此菜单中筛选；
+* @param search 需要搜索的内容；
+* @returns 包含搜索内容的所有菜单项；
+*/
+export function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: string) {
     const items: Array<Item> = [];
 
     if (!search) {

@@ -13,7 +13,7 @@ import { findItems, type Item } from '@/components/tree/item';
 
 export interface Props extends ContainerProps {
     /**
-     * 设置选中项的初始值
+     * 设置选中项
      */
     selected?: string;
 
@@ -47,7 +47,7 @@ export function List(props: Props): JSX.Element {
 
     let oldValue: string|undefined = undefined;
     const [selected, setSelected] = createSignal<string|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
-    const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected()));
+    const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected()));// 选中项在每一层中的索引
 
     createEffect(() => {
         oldValue = untrack(selected);
@@ -89,8 +89,16 @@ export function List(props: Props): JSX.Element {
             throw 'item.type 只能是 item';
         }
 
+        let ref: HTMLElement;
+
         const [open, setOpen] = createSignal(p.isSelected);
-        createEffect(() => { setOpen(p.isSelected); });
+        createEffect(() => {
+            setOpen(p.isSelected);
+
+            if (p.isSelected && ref) {
+                ref.scrollIntoView({ block: 'center' });
+            }
+        });
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
@@ -109,8 +117,8 @@ export function List(props: Props): JSX.Element {
                 </div>
             </Match>
             <Match when={!p.item.items}>
-                <Dynamic component={props.anchor ? A : 'span'}
-                    activeClass={props.selectedClass}
+                <Dynamic ref={(el: HTMLElement)=>ref=el} component={props.anchor ? A : 'span'}
+                    activeClass={props.anchor ? props.selectedClass : undefined}
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
                     accessKey={p.item.accesskey}
                     style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
