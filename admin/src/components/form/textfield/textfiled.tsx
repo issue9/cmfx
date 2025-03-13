@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { Accessor } from '@/components/form/access';
-import { AutoComplete, Props as FieldBaseProps, InputMode } from '@/components/form/types';
+import { Accessor, AutoComplete, Field, FieldBaseProps, InputMode } from '@/components/form/field';
+import { createUniqueId } from 'solid-js';
 
 type Value = string | number | Array<string>;
 
@@ -45,45 +45,43 @@ export interface Props<T> extends FieldBaseProps {
 export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({ color: undefined }, props) as Props<T>;
     const access = props.accessor;
+    const id = createUniqueId();
 
-    return <div class={props.class} classList={{
-        ...props.classList,
-        'c--field': true,
-        [`c--field palette--${props.palette}`]: !!props.palette
-    }}>
-        <label title={props.title}>
-            <Show when={props.label}>
-                {props.label}
-            </Show>
-            <div classList={{
-                'c--text-field': true,
-                'c--text-field-rounded': props.rounded,
-            }}>
-                <Show when={props.prefix}>{props.prefix}</Show>
-                <input accessKey={props.accessKey} class="input" type={props.type}
-                    ref={el => { if (props.ref) { props.ref(el); }}}
-                    inputMode={props.inputMode}
-                    autocomplete={props.autocomplete}
-                    aria-autocomplete={props['aria-autocomplete']}
-                    tabIndex={props.tabindex}
-                    disabled={props.disabled}
-                    readOnly={props.readonly}
-                    placeholder={props.placeholder}
-                    value={access.getValue()}
-                    onInput={(e) => {
-                        let v = e.target.value as T;
-                        if (props.type === 'number') {
-                            v = parseInt(e.target.value) as T;
-                        }
-                        access.setValue(v);
-                        access.setError(); 
-                    }}
-                />
-                <Show when={props.suffix}>{props.suffix}</Show>
-            </div>
-        </label>
-        <Show when={access.hasError()}>
-            <p class="field_error" role="alert">{access.getError()}</p>
-        </Show>
-    </div>;
+    return <Field class={props.class}
+        inputArea={{ pos: 'middle-center' }}
+        errArea={{ pos: 'bottom-center' }}
+        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        classList={props.classList}
+        hasError={access.hasError}
+        getError={access.getError}
+        title={props.title}
+        label={<label for={id}>{props.label}</label>}
+        palette={props.palette}>
+        <div classList={{
+            'c--text-field': true,
+            'c--text-field-rounded': props.rounded,
+        }}>
+            <Show when={props.prefix}>{props.prefix}</Show>
+            <input id={id} accessKey={props.accessKey} class="input" type={props.type}
+                ref={el => { if (props.ref) { props.ref(el); } }}
+                inputMode={props.inputMode}
+                autocomplete={props.autocomplete}
+                aria-autocomplete={props['aria-autocomplete']}
+                tabIndex={props.tabindex}
+                disabled={props.disabled}
+                readOnly={props.readonly}
+                placeholder={props.placeholder}
+                value={access.getValue()}
+                onInput={(e) => {
+                    let v = e.target.value as T;
+                    if (props.type === 'number') {
+                        v = parseInt(e.target.value) as T;
+                    }
+                    access.setValue(v);
+                    access.setError();
+                }}
+            />
+            <Show when={props.suffix}>{props.suffix}</Show>
+        </div>
+    </Field>;
 }

@@ -5,9 +5,9 @@
 import type { QuillOptions, } from 'quill';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import { createEffect, createUniqueId, JSX, onMount, Show } from 'solid-js';
+import { createEffect, createUniqueId, JSX, onMount } from 'solid-js';
 
-import { Accessor, FieldBaseProps } from '@/components/form';
+import { Accessor, Field, FieldBaseProps } from '@/components/form/field';
 
 export interface Props extends FieldBaseProps {
     placeholder?: string;
@@ -49,17 +49,18 @@ export function Editor(props: Props): JSX.Element {
         }
     });
 
-    return <label accessKey={props.accessKey} onClick={() => editor.focus()} class={props.class} classList={{
-        ...props.classList,
-        'c--editor': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <Show when={props.label}>{props.label}</Show>
-
-        <div ref={el=>ref=el} id={'editor-' + createUniqueId()} class="h-full"></div>
-
-        <Show when={props.accessor.hasError()}>
-            {props.accessor.getError()}
-        </Show>
-    </label>;
+    return <Field class={props.class}
+        inputArea={{ pos: 'middle-center' }}
+        errArea={{ pos: 'bottom-center' }}
+        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        classList={props.classList}
+        hasError={props.accessor.hasError}
+        getError={props.accessor.getError}
+        title={props.title}
+        label={<label onClick={()=>editor.focus()}>{props.label}</label>}
+        palette={props.palette}
+        aria-haspopup
+    >
+        <div ref={el => ref = el} id={'editor-' + createUniqueId()}></div>
+    </Field>;
 }

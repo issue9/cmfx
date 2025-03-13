@@ -7,7 +7,7 @@ import { createSignal } from 'solid-js';
 
 import { Palette } from '@/components/base';
 import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { FieldAccessor, Options } from '@/components/form';
+import { FieldAccessor, Options } from '@/components/form/field';
 import { RadioGroup } from './group';
 
 export default function() {
@@ -16,7 +16,8 @@ export default function() {
     f.onChange((v,o)=>setChange(`new: ${v}, old: ${o}`));
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
-    const [verticalS, vertical] = boolSelector('vertical');
+    const [horizontalS, horizontal] = boolSelector('horizontal');
+    const [itemHorizontalS, itemHorizontal] = boolSelector('item-horizontal');
     const [blockS, block] = boolSelector('block');
 
     const options: Options<Palette|undefined> = [];
@@ -28,14 +29,15 @@ export default function() {
         <>
             {readonlyS}
             {disabledS}
-            {verticalS}
+            {horizontalS}
+            {itemHorizontalS}
             {blockS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <Stage title="radio group">
-            <RadioGroup label='test' block={block()} vertical={vertical()} palette={f.getValue()}
+            <RadioGroup label='test' block={block()} itemHorizontal={itemHorizontal()} horizontal={horizontal()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
             />
             <span>{change()}</span>

@@ -5,14 +5,15 @@
 import { createSignal, For } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { FieldAccessor, Options } from '@/components/form';
+import { FieldAccessor, Options } from '@/components/form/field';
 import { Checkbox } from './checkbox';
 import { CheckboxGroup } from './group';
 
 export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
-    const [verticalS, vertical] = boolSelector('vertical');
+    const [horizontalS, horizontal] = boolSelector('horizontal', true);
+    const [itemHorizontalS, itemHorizontal] = boolSelector('item-horizontal', true);
     const [blockS, block] = boolSelector('block');
 
     const groupFA = FieldAccessor('checkbox', ['1'], true);
@@ -29,7 +30,8 @@ export default function() {
         <>
             {readonlyS}
             {disabledS}
-            {verticalS}
+            {horizontalS}
+            {itemHorizontalS}
             {blockS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
@@ -39,7 +41,7 @@ export default function() {
         <Stage title="checkbox">
             <For each={palettesWithUndefined}>
                 {(item) => (
-                    <Checkbox 
+                    <Checkbox
                         title={item ? item : 'undefined'} label='test' block={block()} palette={item} disabled={disabled()} readonly={readonly()}
                     />
                 )}
@@ -52,8 +54,8 @@ export default function() {
         </Stage>
 
         <Stage title="checkbox Group">
-            <CheckboxGroup
-                block={block()} disabled={disabled()} vertical={vertical()} readonly={readonly()} label="group" palette="primary"
+            <CheckboxGroup horizontal={horizontal()} itemHorizontal={itemHorizontal()}
+                block={block()} disabled={disabled()} readonly={readonly()} label="group" palette="primary"
                 options={groupOptions} accessor={groupFA}
             />
             <pre>{groupFA.getValue().toString()}</pre>

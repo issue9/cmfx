@@ -5,7 +5,7 @@
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/components/base';
-import { Accessor, FieldBaseProps, Options } from '@/components/form';
+import { Accessor, Field, FieldBaseProps, Options } from '@/components/form/field';
 import { Icon } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';
 
@@ -47,10 +47,11 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
         </For>;
     };
 
-    let labelRef: HTMLLabelElement;
+    let fieldRef: HTMLDivElement;
+    let anchorRef: HTMLElement;
 
     const handleClick = (e: MouseEvent) => {
-        if (!pop.contains(e.target as Node) && !labelRef.contains(e.target as Node)) {
+        if (!fieldRef.contains(e.target as Node)) {
             pop.hidePopover();
         }
     };
@@ -62,47 +63,22 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
     });
 
     const calcPos = () => {
-        const ab = labelRef.getBoundingClientRect();
+        const ab = anchorRef.getBoundingClientRect();
         pop.style.minWidth = ab.width + 'px';
         pop.style.width = ab.width + 'px';
         calcPopoverPos(pop, DOMRect.fromRect(ab), '2px');
     };
 
-    const activator = <div class={props.class} classList={{
-        ...props.classList,
-        'c--field': true,
-        'c--choice-activator': true,
-        [`palette--${props.palette}`]: !!props.palette,
-    }} aria-haspopup>
-        <label ref={el => labelRef = el} title={props.title} onClick={(e) => {
-            e.preventDefault();
-            if (pop.togglePopover()) {
-                calcPos();
-                scrollIntoView();
-            }
-        }}>
-            <Show when={props.label}>{props.label}</Show>
+    const clickInput = (e?: MouseEvent) => {
+        if (props.disabled) { return; }
 
-            <div accessKey={props.accessKey} tabIndex={props.tabindex} classList={{
-                'activator-container': true,
-                'rounded': props.rounded
-            }}>
-                <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
-                <div class="input">
-                    <Switch fallback={<span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />}>
-                        <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
-                            <MultipleActivator access={props.accessor as Accessor<Array<T>>} />
-                        </Match>
-                        <Match when={!props.multiple && props.accessor.getValue()}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
-                    </Switch>
-                </div>
-                <Icon class="expand" icon="expand_all" />
-            </div>
-        </label>
-        <Show when={props.accessor.hasError()}>
-            <p class="field_error" role="alert">{props.accessor.getError()}</p>
-        </Show>
-    </div>;
+        if (pop.togglePopover()) {
+            calcPos();
+            scrollIntoView();
+        }
+        e?.stopPropagation();
+    };
+
 
     let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
     const scrollIntoView = () => {
@@ -186,8 +162,33 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
         </>;
     };
 
-    return <>
-        {activator}
+    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--choice-activator'}
+        inputArea={{ pos: 'middle-center' }}
+        errArea={{ pos: 'bottom-center' }}
+        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        classList={props.classList}
+        hasError={props.accessor.hasError}
+        getError={props.accessor.getError}
+        title={props.title}
+        label={<label onClick={clickInput}>{props.label}</label>}
+        palette={props.palette}
+        aria-haspopup>
+        <div ref={el=>anchorRef=el} onClick={clickInput} accessKey={props.accessKey} tabIndex={props.tabindex} classList={{
+            'activator-container': true,
+            'rounded-full': props.rounded
+        }}>
+            <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
+            <div class="input">
+                <Switch fallback={<span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />}>
+                    <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
+                        <MultipleActivator access={props.accessor as Accessor<Array<T>>} />
+                    </Match>
+                    <Match when={!props.multiple && props.accessor.getValue()}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
+                </Switch>
+            </div>
+            <Icon class="expand" icon="expand_all" />
+        </div>
+
         <ul popover="manual" ref={el => pop = el} classList={{
             'c--choice-options': true,
             [`palette--${props.palette}`]: !!props.palette,
@@ -197,5 +198,5 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
                 <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
             </Switch>
         </ul>
-    </>;
+    </Field>;
 }

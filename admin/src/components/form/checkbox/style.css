@@ -65,9 +65,7 @@
         @apply cursor-not-allowed text-[var(--bg-low)];
     }
 
-    .c--checkbox-group {
-        .content {
-            @apply flex flex-wrap gap-1
-        }
+    .c--checkbox-group-content {
+        @apply flex flex-wrap gap-1;
     }
 }

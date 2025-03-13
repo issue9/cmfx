@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
 import { useApp } from '@/components/context';
-import { Props as BaseProps } from '@/components/form/types';
+import { FieldBaseProps } from '@/components/form/field';
 
 /**
  * 上传组件的外放接口
@@ -37,7 +37,7 @@ export interface Ref {
     upload(): Promise<Array<string>|undefined>;
 }
 
-export interface Props extends BaseProps {
+export interface Props extends FieldBaseProps {
     /**
      * 上传文件在表单中的名称
      */

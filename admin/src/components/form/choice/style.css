@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -41,10 +41,6 @@
 
         .activator-container:focus {
             @apply border-[var(--fg-high)];
-        }
-
-        .activator-container.rounded {
-            @apply rounded-full;
         }
     }
 

@@ -1,9 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import { FieldAccessor, Options, TextField } from '@/components/form';
+import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { TextField } from '@/components/form';
+import { FieldAccessor, Options } from '@/components/form/field';
 import { Choice } from './choice';
 
 export default function() {
@@ -34,6 +35,7 @@ export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [roundedS, rounded] = boolSelector('rounded');
+    const [horizontalS, horizontal] = boolSelector('horizontal', true);
 
     return <Demo settings={
         <>
@@ -41,6 +43,7 @@ export default function() {
             {disabledS}
             {readonlyS}
             {roundedS}
+            {horizontalS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
@@ -48,9 +51,15 @@ export default function() {
             }}>toggle error</button>
         </>
     }>
-        <Choice tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
-        <Choice placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-        <Choice disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-        <TextField placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+        <Stage title="label" class="flex flex-row gap-5">
+            <Choice horizontal={horizontal()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
+            <TextField horizontal={horizontal()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+        </Stage>
+
+        <Stage title="multiple" class="flex flex-row gap-5">
+            <Choice horizontal={horizontal()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+            <Choice horizontal={horizontal()} disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
+            <TextField horizontal={horizontal()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+        </Stage>
     </Demo>;
 }

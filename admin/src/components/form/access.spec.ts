@@ -1,14 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { describe, expect, test } from 'vitest';
-import { Accessor, FieldAccessor, ObjectAccessor } from './access';
 
-test('field access', () => {
-    const f = FieldAccessor('name', 5);
-    t(f);
-});
+import { ObjectAccessor } from './access';
+import { Accessor } from './field';
 
 describe('object access', () => {
     interface Object {

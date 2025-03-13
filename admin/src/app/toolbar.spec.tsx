@@ -16,7 +16,9 @@ test('toolbar', async () => {
     const api = await API.build(localStorage, options.api.base, options.api.login, options.mimetype, 'zh-Hans');
     Locale.init('en', api);
     const menus = createSignal(false);
-    const { container, unmount } = render(() => <Toolbar menuVisible={menus} />, {
+    const [_, setSwitch] = createSignal('');
+
+    const { container, unmount } = render(() => <Toolbar switch={setSwitch} menuVisible={menus} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
                 const { Provider } = buildContext(options, api);
