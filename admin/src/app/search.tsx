@@ -137,7 +137,7 @@ export function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: 
                 }
             } else {
                 const label = l.t(mi.label);
-                if (label.includes(search)) {
+                if (label.toLowerCase().includes(search.toLowerCase())) {
                     items.push({
                         label: <Label icon={mi.icon}>{label}</Label>,
                         value: mi.path!,
