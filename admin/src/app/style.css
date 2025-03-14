@@ -35,7 +35,7 @@
 
                     .list {
                         @apply border-t-[1px] border-b-[1px] border-t-palette-fg-low border-b-palette-fg-low;
-                        @apply min-h-30 h-40 max-h-50 overflow-y-scroll;
+                        @apply min-h-30 h-40 max-h-50 overflow-y-scroll py-1;
 
                         li {
                             @apply flex items-center gap-2 px-2 py-3 rounded-md outline-0 cursor-pointer;

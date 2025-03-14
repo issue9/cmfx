@@ -60,7 +60,7 @@ export function List(props: Props): JSX.Element {
     createEffect(() => {
         if (ref()) {
             sleep(Theme.transitionDuration(300)).then(() => { // 等待动画完成，再滚动。否则先滚动到指定位置，再展开，将显示错位。
-                ref()!.scrollIntoView({ block: 'center' });
+                ref()!.scrollIntoView({ block: 'center', behavior: 'smooth' });
             });
         }
     });

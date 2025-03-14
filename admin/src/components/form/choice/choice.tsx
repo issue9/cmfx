@@ -85,7 +85,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
         for (var i = 0; i < props.options.length; i++) {
             const elem = li[i];
             if (elem && elem.ariaSelected === 'true') {
-                elem.scrollIntoView();
+                elem.scrollIntoView({ block: 'center', behavior: 'smooth' });
                 return;
             }
         }

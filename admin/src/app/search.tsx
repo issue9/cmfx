@@ -62,7 +62,7 @@ export function Search(props: Props): JSX.Element {
 
         if (currItem) { // 如果没有候选项的话，currItem 此时为空。
             currItem.classList.add('selected');
-            currItem.scrollIntoView({ block: 'center' });
+            currItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
 
         e.stopPropagation();

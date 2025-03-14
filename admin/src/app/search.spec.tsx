@@ -11,7 +11,7 @@ import { describe, expect, test } from 'vitest';
 import { AppOptions } from '@/components';
 import { buildContext } from '@/components/context/context';
 import { options } from '@/components/context/options/options.spec';
-import { API, Config, Locale, sleep } from '@/core';
+import { API, Config, Locale } from '@/core';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {
@@ -75,7 +75,7 @@ describe('search', async () => {
         expect(ul!.children.length).toEqual(0);
 
         // 搜索存在的内容
-        input.value = ''; // 重置内容为空
+        input!.value = ''; // 重置内容为空
         await user.type(input!, 'item');
         ul = container.querySelector('.list');
         expect(ul!.children.length).toBeGreaterThan(0);
