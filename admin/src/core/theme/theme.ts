@@ -37,6 +37,27 @@ export class Theme {
     }
 
     /**
+     * 获取动画的过滤时间，即 CSS 的 --transition-duration 变量的值。
+     *
+     * @param preset 默认值，找不到时返回该值，单位为毫秒；
+     * @param 返回以毫秒为单位的数值；
+     */
+    static transitionDuration(preset: number): number {
+        let val = getComputedStyle(document.documentElement).getPropertyValue('--transition-duration');
+        if (!val) {
+            return preset;
+        }
+
+        if (val.endsWith('ms')) {
+            return parseInt(val.substring(0, val.length - 2));
+        } else if (val.endsWith('s')) {
+            return parseInt(val.substring(0, val.length - 1))*1000;
+        } else { // 其它直接当作数值处理
+            return parseInt(val);
+        }
+    }
+
+    /**
      * 切换配置
      */
     static switchConfig(conf: Config) {

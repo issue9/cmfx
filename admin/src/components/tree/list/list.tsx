@@ -10,6 +10,7 @@ import { Divider } from '@/components/divider';
 import { Icon } from '@/components/icon';
 import type { Props as ContainerProps } from '@/components/tree/container';
 import { findItems, type Item } from '@/components/tree/item';
+import { sleep, Theme } from '@/core';
 
 export interface Props extends ContainerProps {
     /**
@@ -48,11 +49,20 @@ export function List(props: Props): JSX.Element {
     let oldValue: string|undefined = undefined;
     const [selected, setSelected] = createSignal<string|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
     const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected()));// 选中项在每一层中的索引
+    const [ref, setRef] = createSignal<HTMLElement>(); // 记录最终选中项
 
     createEffect(() => {
         oldValue = untrack(selected);
         setSelected(props.selected);
         setSelectedIndexes(findItems(props.children, props.selected));
+    });
+
+    createEffect(() => {
+        if (ref()) {
+            sleep(Theme.transitionDuration(300)).then(() => { // 等待动画完成，再滚动。否则先滚动到指定位置，再展开，将显示错位。
+                ref()!.scrollIntoView({ block: 'center' });
+            });
+        }
     });
 
     const All = (p: { items: Array<Item>, indent: number, selectedIndex: number }): JSX.Element => {
@@ -96,7 +106,7 @@ export function List(props: Props): JSX.Element {
             setOpen(p.isSelected);
 
             if (p.isSelected && ref) {
-                ref.scrollIntoView({ block: 'center' });
+                setRef(ref);
             }
         });
 
