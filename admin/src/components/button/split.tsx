@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -41,11 +41,11 @@ export function SplitButton(props: Props) {
         document.body.removeEventListener('click', handleClick);
     });
 
-    const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette']);
+    const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette', 'menus']);
 
     const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
-        <Button icon={/*@once*/true} onClick={() => {
+        <Button class="split" icon={/*@once*/true} onClick={() => {
             pop.togglePopover();
             calcPopoverPos(pop, group.getBoundingClientRect());
         }}>keyboard_arrow_down</Button>

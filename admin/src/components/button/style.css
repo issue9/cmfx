@@ -63,6 +63,10 @@
             @apply rounded-none border-none flex-1 py-1 px-3 text-[var(--fg)] outline-none;
         }
 
+        .c--button.split {
+            border-left: 1px solid var(--bg-low) !important;
+        }
+
         .c--button.c--button-icon {
             @apply p-2;
         }
@@ -98,13 +102,17 @@
         .c--button:focus-visible {
             @apply bg-[var(--bg)];
         }
+
+        .c--button.split:enabled {
+            border-left-color: var(--bg) !important;
+        }
     }
 
     .c--button-group.c--button-group-flat {
-        @apply bg-transparent text-[var(--bg)];
+        @apply bg-transparent text-[var(--bg)] pointer-events-none;
 
         .c--button {
-            @apply bg-transparent border-transparent;
+            @apply bg-transparent border-transparent pointer-events-auto;
         }
 
         .c--button:enabled:hover,
@@ -112,6 +120,14 @@
         .c--button:focus-visible {
             @apply bg-[var(--bg)];
         }
+
+        .c--button.split:enabled {
+            border-left-color: transparent !important;
+        }
+    }
+
+    .c--button-group-flat:hover {
+        @apply !border-[var(--bg)];
     }
 
     .c--button.link-disabled *,
