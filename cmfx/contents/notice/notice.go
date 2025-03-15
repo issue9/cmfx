@@ -6,6 +6,5 @@
 package notice
 
 const (
-	typesKey  = "notice_types"
-	groupsKey = "notice_groups"
+	typesKey = "notice_types"
 )

@@ -6,4 +6,7 @@ package notice
 
 import "github.com/issue9/orm/v6"
 
-var _ orm.TableNamer = &noticePO{}
+var (
+	_ orm.TableNamer = &noticePO{}
+	_ orm.TableNamer = &groupPO{}
+)

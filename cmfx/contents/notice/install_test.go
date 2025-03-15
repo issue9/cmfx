@@ -10,6 +10,7 @@ import (
 	"github.com/issue9/assert/v4"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
+	"github.com/issue9/cmfx/cmfx/user/usertest"
 )
 
 func TestInstall(t *testing.T) {
@@ -18,11 +19,10 @@ func TestInstall(t *testing.T) {
 	s := test.NewSuite(a)
 	defer s.Close()
 
-	mod := s.NewModule("test")
-	Install(mod)
+	u := usertest.NewModule(s)
+	Install(u)
 
-	s.TableExists(mod.ID() + "_" + typesKey).
-		TableExists(mod.ID() + "_" + groupsKey).
-		TableExists(mod.ID() + "_notice_group").
-		TableExists(mod.ID() + "_notices")
+	s.TableExists(u.Module().ID() + "_" + typesKey).
+		TableExists(u.Module().ID() + "_notice_groups").
+		TableExists(u.Module().ID() + "_notices")
 }
