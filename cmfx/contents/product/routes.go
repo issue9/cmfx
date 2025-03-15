@@ -9,6 +9,7 @@ import (
 
 	"github.com/issue9/web"
 
+	"github.com/issue9/cmfx/cmfx/query"
 	"github.com/issue9/cmfx/cmfx/types"
 )
 
@@ -25,9 +26,22 @@ type OverviewVO struct {
 	Merchant int64         `orm:"name(merchant)" json:"merchant,omitempty" yaml:"merchant,omitempty" cbor:"merchant,omitempty" xml:"merchant,attr,omitempty"`
 }
 
+type OverviewQuery struct {
+	MerchantOverviewQuery
+	Merchant []int64 `query:"merchant"`
+}
+
 func (m *Module) HandleGetProducts(ctx *web.Context) web.Responser {
 	// TODO
 	return ctx.NotImplemented()
+}
+
+type MerchantOverviewQuery struct {
+	query.Text
+	CreatedStart  time.Time `query:"created-start"`
+	CreatedEnd    time.Time `query:"created-end"`
+	ModifiedStart time.Time `query:"modified-start"`
+	ModifiedEnd   time.Time `query:"modified-end"`
 }
 
 func (m *Module) HandleGetProductsByMerchant(ctx *web.Context, merchant int64) web.Responser {
