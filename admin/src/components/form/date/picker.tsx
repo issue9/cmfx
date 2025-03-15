@@ -67,7 +67,7 @@ export function DatePicker(props: Props): JSX.Element {
         aria-haspopup
     >
         <div tabIndex={props.tabindex} ref={el=>anchorRef=el} onClick={()=>togglePop(anchorRef, panelRef)} classList={{
-            'activator-container': true,
+            'c--date-activator-container': true,
             'rounded': props.rounded
         }}>
             <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />

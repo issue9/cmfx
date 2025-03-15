@@ -5,7 +5,7 @@
  */
 
 .c--date-activator {
-    .activator-container {
+    .c--date-activator-container {
         @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none min-w-[270px];
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
@@ -19,11 +19,11 @@
         }
     }
 
-    .activator-container:focus {
+    .c--date-activator-container:focus {
         @apply border-[var(--fg-high)];
     }
 
-    .activator-container.rounded {
+    .c--date-activator-container.rounded {
         @apply rounded-full;
     }
 }

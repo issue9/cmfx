@@ -6,7 +6,7 @@
 
 @layer components {
     .c--choice-activator {
-        .activator-container {
+        .c--choice-activator-container {
             @apply rounded-md border border-[var(--fg-low)] flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
             @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
@@ -27,7 +27,7 @@
             }
         }
 
-        .activator-container:has(:disabled) {
+        .c--choice-activator-container:has(:disabled) {
             @apply cursor-not-allowed border-palette-bg-low;
 
             .input {
@@ -39,7 +39,7 @@
             }
         }
 
-        .activator-container:focus {
+        .c--choice-activator-container:focus {
             @apply border-[var(--fg-high)];
         }
     }

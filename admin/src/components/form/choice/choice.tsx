@@ -174,7 +174,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
         palette={props.palette}
         aria-haspopup>
         <div ref={el=>anchorRef=el} onClick={clickInput} tabIndex={props.tabindex} classList={{
-            'activator-container': true,
+            'c--choice-activator-container': true,
             'rounded-full': props.rounded
         }}>
             <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
