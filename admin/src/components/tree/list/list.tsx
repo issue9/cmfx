@@ -130,7 +130,6 @@ export function List(props: Props): JSX.Element {
                 <Dynamic ref={(el: HTMLElement)=>ref=el} component={props.anchor ? A : 'span'}
                     activeClass={props.anchor ? props.selectedClass : undefined}
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
-                    accessKey={p.item.accesskey}
                     style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
                     classList={{
                         'item': true,

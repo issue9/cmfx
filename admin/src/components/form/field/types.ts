@@ -21,7 +21,6 @@ export type FieldBaseProps = Props & {
     horizontal?: boolean; // 内容排版方式，一般会影响 label 与主体内容的排列。
     disabled?: boolean;
     readonly?: boolean;
-    accessKey?: string;
     tabindex?: number;
 };
 

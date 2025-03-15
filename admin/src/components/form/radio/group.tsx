@@ -43,7 +43,7 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <label classList={{ 'border': props.block }} tabIndex={props.tabindex} accessKey={props.accessKey}>
+                    <label classList={{ 'border': props.block }} tabIndex={props.tabindex}>
                         <input type="radio" class={props.block ? '!hidden' : undefined}
                             readOnly={props.readonly}
                             checked={item[0] === access.getValue()}

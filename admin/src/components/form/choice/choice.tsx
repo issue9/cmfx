@@ -173,7 +173,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
         label={<label onClick={clickInput}>{props.label}</label>}
         palette={props.palette}
         aria-haspopup>
-        <div ref={el=>anchorRef=el} onClick={clickInput} accessKey={props.accessKey} tabIndex={props.tabindex} classList={{
+        <div ref={el=>anchorRef=el} onClick={clickInput} tabIndex={props.tabindex} classList={{
             'activator-container': true,
             'rounded-full': props.rounded
         }}>

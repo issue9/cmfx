@@ -82,13 +82,6 @@ export type MenuItem = {
     path?: string
 
     /**
-     * 快捷键
-     *
-     * https://developer.mozilla.org/zh-CN/docs/Web/HTML/Global_attributes/accesskey
-     */
-    accesskey?: string;
-
-    /**
      * 子菜单
      */
     items?: Array<MenuItem>

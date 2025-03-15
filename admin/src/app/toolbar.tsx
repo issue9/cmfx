@@ -121,7 +121,6 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
             const i: Item = {
                 type: 'item',
                 label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
-                accesskey: mi.accesskey,
                 value: mi.path,
             };
             if (mi.items) {

@@ -30,7 +30,7 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
         title={props.title}
         label={<label for={id}>{props.label}</label>}
         palette={props.palette}>
-        <textarea id={id} accessKey={props.accessKey} class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+        <textarea id={id} class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
             value={access.getValue()}
             onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
     </Field>;

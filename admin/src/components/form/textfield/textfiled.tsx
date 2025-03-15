@@ -62,7 +62,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
             'c--text-field-rounded': props.rounded,
         }}>
             <Show when={props.prefix}>{props.prefix}</Show>
-            <input id={id} accessKey={props.accessKey} class="input" type={props.type}
+            <input id={id} class="input" type={props.type}
                 ref={el => { if (props.ref) { props.ref(el); } }}
                 inputMode={props.inputMode}
                 autocomplete={props.autocomplete}

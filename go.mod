@@ -3,7 +3,7 @@ module github.com/issue9/cmfx
 go 1.24.0
 
 require (
-	github.com/go-webauthn/webauthn v0.12.1
+	github.com/go-webauthn/webauthn v0.12.2
 	github.com/issue9/assert/v4 v4.3.1
 	github.com/issue9/cache v0.19.0
 	github.com/issue9/config v0.9.0
@@ -17,8 +17,8 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
-	github.com/issue9/web v0.102.7
-	github.com/issue9/webuse/v7 v7.0.0-20250308173303-fa8a1c1e8928
+	github.com/issue9/web v0.102.8
+	github.com/issue9/webuse/v7 v7.0.0-20250315171903-807de66d5624
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.25.2
 	golang.org/x/crypto v0.36.0
@@ -28,6 +28,7 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/BurntSushi/toml v1.4.0 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20230905024940-24af94b03874 // indirect
@@ -38,7 +39,7 @@ require (
 	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-sql-driver/mysql v1.9.0 // indirect
-	github.com/go-webauthn/x v0.1.18 // indirect
+	github.com/go-webauthn/x v0.1.19 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
 	github.com/google/go-tpm v0.9.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
@@ -66,7 +67,7 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/net v0.33.0 // indirect
+	golang.org/x/net v0.36.0 // indirect
 	golang.org/x/sync v0.12.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect

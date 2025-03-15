@@ -84,7 +84,6 @@ export default function (props: Props): JSX.Element {
                 <Dynamic component={props.anchor ? A : 'span'}
                     activeClass={props.selectedClass}
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
-                    accessKey={p.item.accesskey}
                     classList={{
                         'item': true,
                         // anchor 的类型定义在 activeClass 属性

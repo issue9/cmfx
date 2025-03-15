@@ -27,7 +27,7 @@ const presetProps: Readonly<Props> = {
 export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <label tabIndex={props.tabindex} accessKey={props.accessKey} title={props.title} class={props.class} classList={{
+    return <label tabIndex={props.tabindex} title={props.title} class={props.class} classList={{
         ...props.classList,
         'c--checkbox': true,
         'c--checkbox-border': props.block,
