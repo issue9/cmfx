@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, Show } from 'solid-js';
+import { createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
 import { Accessor, AutoComplete, Field, FieldBaseProps, InputMode } from '@/components/form/field';
-import { createUniqueId } from 'solid-js';
 
 type Value = string | number | Array<string>;
 
@@ -36,7 +35,7 @@ export interface Props<T> extends FieldBaseProps {
     autocomplete?: AutoComplete;
     'aria-autocomplete'?: JSX.FormHTMLAttributes<HTMLInputElement>['aria-autocomplete'];
 
-    ref?: {(el: Ref):void};
+    ref?: { (el: Ref): void };
 }
 
 /**

@@ -77,12 +77,9 @@ export function DatePicker(props: Props): JSX.Element {
                 'rounded': props.rounded
             }}
         >
-            <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
-            <div class="input">
-                {ac.getValue() === undefined
-                    ? <span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />
-                    : (props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue()))}
-            </div>
+            <input class="input" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
+                props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue())
+            } />
             <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={()=>{
                 props.accessor.setValue(undefined);
             }} />

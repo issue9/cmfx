@@ -16,10 +16,6 @@
         align-items: center;
         justify-items: start;
 
-        ::placeholder {
-            color: var(--fg-low);
-        }
-
         .c--field-content {
             @apply w-full h-full flex flex-col;
         }

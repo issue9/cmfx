@@ -28,6 +28,10 @@
     scrollbar-color: var(--bg-low) var(--bg-high);
 }
 
+::placeholder {
+    color: var(--bg-low);
+}
+
 /* 减少动画 */
 @media (prefers-reduced-motion: reduce) {
 

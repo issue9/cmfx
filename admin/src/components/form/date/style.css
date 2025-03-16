@@ -10,12 +10,8 @@
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         .input {
-            @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer;
-            @apply peer-disabled:cursor-not-allowed peer-read-only:cursor-default;
-
-            .placeholder {
-                @apply text-[var(--fg-low)];
-            }
+            @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
+            @apply disabled:cursor-not-allowed read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
         }
     }
 
