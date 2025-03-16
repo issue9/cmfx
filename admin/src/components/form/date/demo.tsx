@@ -24,6 +24,8 @@ export default function() {
     const [minmaxS, minmax] = boolSelector('minmax');
     const [horizontalS, horizontal] = boolSelector('horizontal', true);
 
+    const [panelVal, setPanelVal] = createSignal('');
+
     return <Demo settings={
         <>
             {paletteS}
@@ -38,7 +40,8 @@ export default function() {
         </>
     }>
         <Stage title="panel">
-            <DatePanel horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePanel ok={()=>setPanelVal(ac.getValue())} horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <p>{panelVal()}</p>
         </Stage>
         
         <Stage title="picker">

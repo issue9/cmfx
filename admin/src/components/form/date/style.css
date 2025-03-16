@@ -64,8 +64,12 @@
     .actions {
         @apply flex justify-between items-center gap-x-1;
 
-        .time {
-            @apply w-48 flex items-center;
+        .left {
+            @apply mr-1 flex items-center;
+        }
+
+        .right {
+            @apply flex justify-end items-center gap-x-2;
         }
     }
 }

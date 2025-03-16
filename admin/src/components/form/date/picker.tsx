@@ -77,6 +77,6 @@ export function DatePicker(props: Props): JSX.Element {
             <Icon icon="expand_all" />
         </div>
 
-        <DatePanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}></DatePanel>
+        <DatePanel ok={()=>panelRef.hidePopover()} class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}></DatePanel>
     </Field>;
 }
