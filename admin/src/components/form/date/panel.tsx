@@ -40,7 +40,7 @@ export interface Props extends FieldBaseProps {
      * 如果是字符串，表示一个能被 {@link Date.parse} 识别的日期格式，
      * 如果是 number，则表示微秒。
      */
-    accessor: Accessor<string|number>;
+    accessor: Accessor<string | number | undefined>;
 
     popover?: boolean | 'manual' | 'auto';
 
@@ -68,7 +68,8 @@ export function DatePanel(props: Props): JSX.Element {
     // 当前面板上的值
     // 
     // 只有在用户点击确认的时候，才会将面板上的值赋给 props.accessor。
-    const [panelValue, setPanelValue] = createSignal<Date>(new Date(props.accessor.getValue()));
+    const val = props.accessor.getValue() ? new Date(props.accessor.getValue()!) : new Date();
+    const [panelValue, setPanelValue] = createSignal<Date>(val);
 
     const ha = FieldAccessor('hour', new Date(panelValue().toISOString()).getHours(), false);
     ha.onChange((v) => {
@@ -93,7 +94,8 @@ export function DatePanel(props: Props): JSX.Element {
     };
 
     createEffect(() => {
-        setValue(new Date(props.accessor.getValue()));
+        const val = props.accessor.getValue() ? new Date(props.accessor.getValue()!) : new Date();
+        setValue(val);
     });
 
     const titleFormat = createMemo(() => {

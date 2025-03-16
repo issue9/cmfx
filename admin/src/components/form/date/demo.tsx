@@ -45,7 +45,7 @@ export default function() {
         </Stage>
         
         <Stage title="picker">
-            <DatePicker horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePicker placeholder='placeholder' horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </Stage>
     </Demo>;
 }

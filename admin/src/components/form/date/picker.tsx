@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { useApp } from '@/components/context';
 import { Field } from '@/components/form/field';
@@ -54,6 +54,8 @@ export function DatePicker(props: Props): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
+    const [hover, setHover] = createSignal(false);
+
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
         inputArea={{ pos: 'middle-center' }}
         errArea={{ pos: 'bottom-center' }}
@@ -66,15 +68,24 @@ export function DatePicker(props: Props): JSX.Element {
         palette={props.palette}
         aria-haspopup
     >
-        <div tabIndex={props.tabindex} ref={el=>anchorRef=el} onClick={()=>togglePop(anchorRef, panelRef)} classList={{
-            'c--date-activator-container': true,
-            'rounded': props.rounded
-        }}>
+        <div tabIndex={props.tabindex} ref={el=>anchorRef=el}
+            onMouseEnter={()=>setHover(true)}
+            onMouseLeave={()=>setHover(false)}
+            onClick={()=>togglePop(anchorRef, panelRef)}
+            classList={{
+                'c--date-activator-container': true,
+                'rounded': props.rounded
+            }}
+        >
             <input class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
             <div class="input">
-                {props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue())}
+                {ac.getValue() === undefined
+                    ? <span class="placeholder" innerHTML={props.placeholder ?? '&#160;'} />
+                    : (props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue()))}
             </div>
-            <Icon icon="expand_all" />
+            <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={()=>{
+                props.accessor.setValue(undefined);
+            }} />
         </div>
 
         <DatePanel ok={()=>panelRef.hidePopover()} class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}></DatePanel>
