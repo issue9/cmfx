@@ -70,7 +70,7 @@ export interface Props extends FieldBaseProps {
 export const presetProps: Partial<Props> = {
     accentPalette: 'primary',
     weekBase: 0,
-};
+} as const;
 
 const weekBase = new Date('2024-10-20'); // 这是星期天，作为计算星期的基准日期。
 
