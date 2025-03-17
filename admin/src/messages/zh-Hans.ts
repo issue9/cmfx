@@ -183,6 +183,7 @@ const messages: Messages = {
             items: '{ start }-{ end } / { count }'
         },
         date: {
+            clear: '清除',
             today: '今日',
             now: '现在',
             prevMonth: '上个月',

@@ -181,6 +181,7 @@ const messages = {
             items: '{ start }-{ end } of { count }'
         },
         date: {
+            clear: 'clear',
             today: 'today',
             now: 'now',
             prevMonth: 'prev month',

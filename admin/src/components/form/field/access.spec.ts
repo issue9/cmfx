@@ -6,7 +6,7 @@ import { expect, test } from 'vitest';
 
 import { FieldAccessor } from './access';
 
-test('field access', () => {
+test('FieldAccessor', () => {
     const a = FieldAccessor('name', 5);
 
     expect(a.getError()).toBeUndefined();

@@ -2,15 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, mergeProps, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onMount, Show, untrack } from 'solid-js';
 
+import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
 import { useApp } from '@/components/context';
-import { Choice } from '@/components/form/choice';
-import { Accessor, FieldAccessor, FieldBaseProps } from '@/components/form/field';
+import { Accessor, FieldBaseProps } from '@/components/form/field';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {
+    /**
+     * 一些突出操作的样式色盘
+     */
+    accentPalette?: Palette;
+
     /**
      * 是否符带时间选择器
      */
@@ -45,14 +50,25 @@ export interface Props extends FieldBaseProps {
     popover?: boolean | 'manual' | 'auto';
 
     /**
-     * 点击确认时的动作
+     * 对应确定操作按钮
      */
     ok?: { (): void; };
+
+    /**
+     * 对应清除操作按钮
+     */
+    clear?: { (): void; };
+
+    /**
+     * 对应今日操作按钮
+     */
+    now?: { (): void; };
 
     ref?: { (el: HTMLElement): void; };
 }
 
 export const presetProps: Partial<Props> = {
+    accentPalette: 'primary',
     weekBase: 0,
 };
 
@@ -66,36 +82,28 @@ export function DatePanel(props: Props): JSX.Element {
     const ctx = useApp();
 
     // 当前面板上的值
-    // 
-    // 只有在用户点击确认的时候，才会将面板上的值赋给 props.accessor。
-    const val = props.accessor.getValue() ? new Date(props.accessor.getValue()!) : new Date();
-    const [panelValue, setPanelValue] = createSignal<Date>(val);
+    const val = props.accessor.getValue();
+    const [panelValue, setPanelValue] = createSignal<Date>(val !== undefined ? new Date(val) : new Date());
 
-    const ha = FieldAccessor('hour', new Date(panelValue().toISOString()).getHours(), false);
-    ha.onChange((v) => {
-        const dt = new Date(panelValue());
-        dt.setHours(v);
-        setPanelValue(dt);
-    });
-
-    const ma = FieldAccessor('minute', new Date(panelValue()).getMinutes(), false );
-    ma.onChange((v) => {
-        const dt = new Date(panelValue());
-        dt.setMinutes(v);
-        setPanelValue(dt);
-    });
-
-    const setValue = (dt: Date) => {
-        setPanelValue(dt);
+    const scrollTimer = () => {
         if (props.time) {
-            ha.setValue(dt.getHours());
-            ma.setValue(dt.getMinutes());
+            const items = timeRef.querySelectorAll('.item>li.selected');
+            if (items) {
+                for (const item of items) {
+                    item.scrollIntoView({ block: 'start', behavior: 'smooth' });
+                }
+            }
         }
     };
 
+    const setValue = (dt: Date) => {
+        setPanelValue(dt);
+        scrollTimer();
+    };
+
     createEffect(() => {
-        const val = props.accessor.getValue() ? new Date(props.accessor.getValue()!) : new Date();
-        setValue(val);
+        const v = props.accessor.getValue();
+        if (v !== undefined) { setValue(new Date(v)); }
     });
 
     const titleFormat = createMemo(() => {
@@ -106,112 +114,169 @@ export function DatePanel(props: Props): JSX.Element {
         return ctx.locale().dateTimeFormat({ weekday: 'narrow' });
     });
 
+    // 以下用于处理 timeRef 根据 dateRef 的高度作适配调整。
+    let dateRef: HTMLDivElement;
+    let timeRef: HTMLDivElement;
+
+    onMount(() => {
+        const rect = dateRef.getBoundingClientRect();
+        timeRef.style.height = rect.height + 'px';
+        scrollTimer();
+    });
+
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled} class={props.class} classList={{
         ...props.classList,
         'c--date-panel': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
 
-        <div class="title">
-            <div>
-                <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
-                    onClick={() => {
-                        if (props.readonly || props.disabled) { return; }
+        <div class="main">
+            <div ref={el => dateRef = el}>
+                <div class="title">
+                    <div>
+                        <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
+                            onClick={() => {
+                                if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(panelValue());
-                        dt.setFullYear(dt.getFullYear() - 1);
-                        setValue(dt);
-                    }}>keyboard_double_arrow_left</Button>
-                <Button icon rounded kind='flat' title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
-                    onClick={() => {
-                        if (props.readonly || props.disabled) { return; }
+                                const dt = new Date(panelValue());
+                                dt.setFullYear(dt.getFullYear() - 1);
+                                setValue(dt);
+                            }}>keyboard_double_arrow_left</Button>
+                        <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
+                            onClick={() => {
+                                if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(panelValue());
-                        dt.setMonth(dt.getMonth() - 1);
-                        setValue(dt);
-                    }}>chevron_left</Button>
-            </div>
+                                const dt = new Date(panelValue());
+                                dt.setMonth(dt.getMonth() - 1);
+                                setValue(dt);
+                            }}>chevron_left</Button>
+                    </div>
 
-            <div>{titleFormat()}</div>
+                    <div>{titleFormat()}</div>
 
-            <div>
-                <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
-                    onClick={() => {
-                        if (props.readonly || props.disabled) { return; }
+                    <div>
+                        <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
+                            onClick={() => {
+                                if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(panelValue());
-                        dt.setMonth(dt.getMonth() + 1);
-                        setValue(dt);
-                    }}>chevron_right</Button>
-                <Button icon rounded kind="flat" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
-                    onClick={() => {
-                        if (props.readonly || props.disabled) { return; }
+                                const dt = new Date(panelValue());
+                                dt.setMonth(dt.getMonth() + 1);
+                                setValue(dt);
+                            }}>chevron_right</Button>
+                        <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
+                            onClick={() => {
+                                if (props.readonly || props.disabled) { return; }
 
-                        const dt = new Date(panelValue());
-                        dt.setFullYear(dt.getFullYear() + 1);
-                        setValue(dt);
-                    }}>keyboard_double_arrow_right</Button>
-            </div>
-        </div>
+                                const dt = new Date(panelValue());
+                                dt.setFullYear(dt.getFullYear() + 1);
+                                setValue(dt);
+                            }}>keyboard_double_arrow_right</Button>
+                    </div>
+                </div>
 
-        <table>
-            <Show when={props.weekend}>
-                <colgroup>
-                    <For each={weeks}>
-                        {(w) => (
-                            <col classList={{ 'weekend': weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
-                        )}
-                    </For>
-                </colgroup>
-            </Show>
+                <table>
+                    <Show when={props.weekend}>
+                        <colgroup>
+                            <For each={weeks}>
+                                {(w) => (
+                                    <col classList={{ 'weekend': weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
+                                )}
+                            </For>
+                        </colgroup>
+                    </Show>
 
-            <thead>
-                <tr>
-                    <For each={weeks}>
-                        {(w) => (
-                            <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate() + weekDay(w, props.weekBase)))}</th>
-                        )}
-                    </For>
-                </tr>
-            </thead>
-
-            <tbody>
-                <For each={weekDays(panelValue(), props.weekBase!, props.min, props.max)}>
-                    {(week) => (
+                    <thead>
                         <tr>
-                            <For each={week}>
-                                {(day) => (
-                                    <td>
-                                        <button classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
-                                            disabled={!day[0] || props.disabled}
-                                            onClick={() => {
-                                                if (props.readonly || props.disabled) { return; }
-
-                                                const dt = new Date(panelValue());
-                                                dt.setDate(day[2]);
-                                                setValue(dt);
-                                            }}>{day[2]}</button>
-                                    </td>
+                            <For each={weeks}>
+                                {(w) => (
+                                    <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate() + weekDay(w, props.weekBase)))}</th>
                                 )}
                             </For>
                         </tr>
-                    )}
-                </For>
-            </tbody>
-        </table>
+                    </thead>
+
+                    <tbody>
+                        <For each={weekDays(panelValue(), props.weekBase!, props.min, props.max)}>
+                            {(week) => (
+                                <tr>
+                                    <For each={week}>
+                                        {(day) => (
+                                            <td>
+                                                <button classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
+                                                    disabled={!day[0] || props.disabled}
+                                                    onClick={() => {
+                                                        if (props.readonly || props.disabled) { return; }
+
+                                                        const dt = new Date(panelValue());
+                                                        dt.setDate(day[2]);
+                                                        setValue(dt);
+                                                    }}>{day[2]}</button>
+                                            </td>
+                                        )}
+                                    </For>
+                                </tr>
+                            )}
+                        </For>
+                    </tbody>
+                </table>
+            </div>
+
+            <div ref={el => timeRef = el} classList={{
+                'time':true,
+                '!flex': props.time,
+                '!hidden': !props.time,
+            }}>
+                <ul class="item">
+                    <For each={hoursOptions}>
+                        {(item) => (
+                            <li classList={{ 'selected': panelValue().getHours() == item[0] }}
+                                onClick={() => {
+                                    if (props.disabled || props.readonly) { return; }
+                                    const dt = new Date(panelValue());
+                                    dt.setHours(item[0]);
+                                    setValue(dt);
+                                }}
+                            >{item[1]}</li>
+                        )}
+                    </For>
+                </ul>
+
+                <ul class="item">
+                    <For each={minutesOptions}>
+                        {(item) => (
+                            <li classList={{ 'selected': panelValue().getMinutes() == item[0] }}
+                                onClick={() => {
+                                    if (props.disabled || props.readonly) { return; }
+                                    const dt = new Date(panelValue());
+                                    dt.setMinutes(item[0]);
+                                    setValue(dt);
+                                }}
+                            >{item[1]}</li>
+                        )}
+                    </For>
+                </ul>
+            </div>
+        </div>
 
         <div class="actions">
             <div class="left">
-                <Show when={props.time}>
-                    <Choice disabled={props.disabled} readonly={props.readonly} options={hoursOptions} accessor={ha} />
-                    <span class="mx-1">:</span>
-                    <Choice disabled={props.disabled} readonly={props.readonly} options={minutesOptions} accessor={ma} />
-                </Show>
+                <button class="action" onClick={() => {
+                    setValue(new Date());
+                    if (props.now) { props.now(); }
+                }}>
+                    {ctx.locale().t(props.time ? '_i.date.now' : '_i.date.today')}
+                </button>
             </div>
-            <div class='right'>
-                <button class="now" onClick={() => setValue(new Date())}>{ctx.locale().t(props.time ? '_i.date.now' : '_i.date.today')}</button>
-                <button class="now" onClick={() => {
-                    props.accessor.setValue(panelValue().toISOString());
+
+            <div class="right">
+                <button class="action" onClick={() => {
+                    // 清除只对 accessor 的内容任务清除，panelValue 不变。
+                    props.accessor.setValue(undefined);
+                    if (props.clear) { props.clear(); }
+                }}>{ctx.locale().t('_i.date.clear')}</button>
+
+                <button classList={{ 'action': true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
+                    props.accessor.setValue(untrack(panelValue).toISOString());
                     if (props.ok) { props.ok(); }
                 }}>{ctx.locale().t(props.time ? '_i.ok' : '_i.ok')}</button>
             </div>

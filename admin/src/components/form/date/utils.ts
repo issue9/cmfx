@@ -55,6 +55,7 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
     // 当前月的第一天和最后一天
     const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
     const lastDay = new Date(date.getFullYear(), date.getMonth()+1, 0);
+    let count = lastDay.getDate();
 
     // 处理前一个月份的数据
     const prev: MonthDays = { isCurrent: false, month: 0, start: 0, end: 0, year: 0 };
@@ -70,6 +71,8 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
         prev.start = last - days;
         prev.end = last;
         prev.year = date.getFullYear();
+
+        count += days;
     }
 
     // 处理后一个月份的数据
@@ -80,6 +83,11 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
         if (days <= 0) {
             days = weeks.length + days;
         }
+        count += days;
+        if (count < 35) { // 固定高度，底部可能出现一行多余的数据。
+            days += 7;
+        }
+
         next.month = (new Date(date.getFullYear(), date.getMonth() + 1, 1)).getMonth() as Month;
         next.start = 1;
         next.end = days;

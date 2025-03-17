@@ -22,12 +22,8 @@ export interface Props extends PanelProps {
 
 function togglePop(anchor: Element, pop: HTMLElement): boolean {
     const ab = anchor.getBoundingClientRect();
-    pop.style.minWidth = ab.width + 'px';
-    pop.style.width = ab.width + 'px';
-
     const ret = pop.togglePopover();
     calcPopoverPos(pop, ab, '2px');
-
     return ret;
 }
 
@@ -35,7 +31,7 @@ export function DatePicker(props: Props): JSX.Element {
     const ctx = useApp();
 
     props = mergeProps(presetProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'class', 'classList', 'min', 'max']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
 
     const ac = props.accessor;
     let panelRef: HTMLElement;
@@ -64,14 +60,14 @@ export function DatePicker(props: Props): JSX.Element {
         hasError={props.accessor.hasError}
         getError={props.accessor.getError}
         title={props.title}
-        label={<label onClick={()=>togglePop(anchorRef, panelRef)}>{props.label}</label>}
+        label={<label onClick={() => togglePop(anchorRef, panelRef)}>{props.label}</label>}
         palette={props.palette}
         aria-haspopup
     >
-        <div tabIndex={props.tabindex} ref={el=>anchorRef=el}
-            onMouseEnter={()=>setHover(true)}
-            onMouseLeave={()=>setHover(false)}
-            onClick={()=>togglePop(anchorRef, panelRef)}
+        <div tabIndex={props.tabindex} ref={el => anchorRef = el}
+            onMouseEnter={() => setHover(true)}
+            onMouseLeave={() => setHover(false)}
+            onClick={() => togglePop(anchorRef, panelRef)}
             classList={{
                 'c--date-activator-container': true,
                 'rounded': props.rounded
@@ -80,11 +76,14 @@ export function DatePicker(props: Props): JSX.Element {
             <input class="input" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue())
             } />
-            <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={()=>{
+            <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={() => {
                 props.accessor.setValue(undefined);
             }} />
         </div>
 
-        <DatePanel ok={()=>panelRef.hidePopover()} class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}></DatePanel>
+        <DatePanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}
+            ok={() => panelRef.hidePopover()}
+            clear={() => panelRef.hidePopover()}
+        />
     </Field>;
 }

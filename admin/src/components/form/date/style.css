@@ -6,7 +6,7 @@
 
 .c--date-activator {
     .c--date-activator-container {
-        @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none min-w-[270px];
+        @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none;
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         .input {
@@ -28,7 +28,7 @@
     @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border flex flex-col gap-1;
 
     .title {
-        @apply flex justify-between items-center;
+        @apply flex justify-between items-center mb-1;
     }
 
     table {
@@ -40,10 +40,10 @@
 
         th,
         td {
-            @apply p-1;
+            @apply p-[2px];
 
             button {
-                @apply border border-transparent outline-none rounded-full text-sm p-1 min-w-7 !cursor-pointer;
+                @apply border border-transparent outline-none rounded-full text-sm p-1 min-w-7 cursor-pointer;
                 line-height: 1.28;
             }
 
@@ -57,15 +57,39 @@
         }
     }
 
+    .main {
+        @apply flex flex-row;
+
+        .time {
+            @apply h-10 flex flex-row pl-1;
+
+            ul.item {
+                @apply overflow-y-scroll h-full w-10;
+
+                li {
+                    @apply rounded-sm;
+                }
+
+                li.selected {
+                    @apply bg-palette-bg-low;
+                }
+            }
+        }
+    }
+
     .actions {
-        @apply flex justify-between items-center gap-x-1;
+        @apply flex justify-between items-center pt-1 border-t-palette-bg-low border-t-[1px];
 
         .left {
-            @apply mr-1 flex items-center;
+            @apply flex justify-start items-center;
         }
 
         .right {
-            @apply flex justify-end items-center gap-x-2;
+            @apply flex justify-end items-center;
+        }
+
+        .action {
+            @apply px-1 rounded-sm text-palette-fg;
         }
     }
 }
@@ -73,6 +97,14 @@
 .c--date-panel:enabled {
     .title button:hover {
         @apply text-palette-fg-high;
+    }
+
+    .main {
+        .time {
+            li:hover {
+                @apply bg-palette-bg-low cursor-pointer;
+            }
+        }
     }
 
     th,
@@ -84,8 +116,8 @@
     }
 
     .actions {
-        .now {
-            @apply hover:text-palette-fg-high cursor-pointer;
+        .action {
+            @apply hover:text-palette-fg-high hover:bg-palette-bg-high cursor-pointer;
         }
     }
 }

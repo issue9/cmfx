@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -44,7 +44,7 @@ test('monthDays', () => {
     expect(monthDays(new Date(2024, 6, 1), 0)).toEqual([
         { isCurrent: false, month: 5, start: 30, end: 30, year: 2024 },
         { isCurrent: true, month: 6, start: 1, end: 31, year: 2024 },
-        { isCurrent: false, month: 7, start: 1, end: 3, year: 2024 }
+        { isCurrent: false, month: 7, start: 1, end: 10, year: 2024 }
     ]);
 
     expect(monthDays(new Date(2024, 6, 1), 1)).toEqual([
@@ -74,13 +74,13 @@ test('monthDays', () => {
     expect(monthDays(new Date(2024, 6, 1), 5)).toEqual([
         { isCurrent: false, month: 5, start: 28, end: 30, year: 2024 },
         { isCurrent: true, month: 6, start: 1, end: 31, year: 2024 },
-        { isCurrent: false, month: 7, start: 1, end: 1, year: 2024 }
+        { isCurrent: false, month: 7, start: 1, end: 8, year: 2024 }
     ]);
 
     expect(monthDays(new Date(2024, 6, 1), 6)).toEqual([
-        { isCurrent:false, month:5, start:29, end:30, year: 2024 },
-        { isCurrent:true, month:6, start:1, end:31, year: 2024 },
-        { isCurrent:false, month:7, start:1, end:2, year: 2024 }
+        { isCurrent: false, month: 5, start: 29, end: 30, year: 2024 },
+        { isCurrent: true, month: 6, start: 1, end: 31, year: 2024 },
+        { isCurrent: false, month: 7, start: 1, end: 9, year: 2024 }
     ]);
 });
 

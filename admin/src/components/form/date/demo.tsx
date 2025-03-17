@@ -24,8 +24,6 @@ export default function() {
     const [minmaxS, minmax] = boolSelector('minmax');
     const [horizontalS, horizontal] = boolSelector('horizontal', true);
 
-    const [panelVal, setPanelVal] = createSignal('');
-
     return <Demo settings={
         <>
             {paletteS}
@@ -40,12 +38,16 @@ export default function() {
         </>
     }>
         <Stage title="panel">
-            <DatePanel ok={()=>setPanelVal(ac.getValue())} horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-            <p>{panelVal()}</p>
+            <DatePanel horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <p>{ac.getValue()}</p>
         </Stage>
-        
+
         <Stage title="picker">
-            <DatePicker placeholder='placeholder' horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePicker class="w-[400px]" placeholder='placeholder' horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+        </Stage>
+
+        <Stage title="picker">
+            <DatePicker class="w-[200px]" placeholder='placeholder' horizontal={horizontal()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </Stage>
     </Demo>;
 }
