@@ -124,7 +124,8 @@ export function DatePanel(props: Props): JSX.Element {
 
     const title = <div class="title">
         <div>
-            <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
+            <Button tabIndex={props.tabindex} icon rounded kind='flat' class="!p-1"
+                title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -132,7 +133,8 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setFullYear(dt.getFullYear() - 1);
                     setValue(dt);
                 }}>keyboard_double_arrow_left</Button>
-            <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
+            <Button tabIndex={props.tabindex} icon rounded kind='flat' class="!p-1"
+                title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -145,7 +147,8 @@ export function DatePanel(props: Props): JSX.Element {
         <div>{titleFormat()}</div>
 
         <div>
-            <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
+            <Button tabIndex={props.tabindex} icon rounded kind="flat" class="!p-1"
+                title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -153,7 +156,8 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setMonth(dt.getMonth() + 1);
                     setValue(dt);
                 }}>chevron_right</Button>
-            <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
+            <Button tabIndex={props.tabindex} icon rounded kind="flat" class="!p-1"
+                title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -228,7 +232,7 @@ export function DatePanel(props: Props): JSX.Element {
                         <For each={week}>
                             {(day) => (
                                 <td>
-                                    <button classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
+                                    <button tabIndex={props.tabindex} classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
                                         disabled={!day[0] || props.disabled}
                                         onClick={() => {
                                             if (props.readonly || props.disabled) { return; }
@@ -258,20 +262,20 @@ export function DatePanel(props: Props): JSX.Element {
 
         <div class="actions">
             <div class="left">
-                <button class="action" onClick={() => {
+                <button tabIndex={props.tabindex} class="action" onClick={() => {
                     setValue(new Date());
                     if (props.now) { props.now(); }
                 }}>{ctx.locale().t(props.time ? '_i.date.now' : '_i.date.today')}</button>
             </div>
 
             <div class="right">
-                <button class="action" onClick={() => {
+                <button tabIndex={props.tabindex} class="action" onClick={() => {
                     // 清除只对 accessor 的内容任务清除，panelValue 不变。
                     props.accessor.setValue(undefined);
                     if (props.clear) { props.clear(); }
                 }}>{ctx.locale().t('_i.date.clear')}</button>
 
-                <button classList={{ 'action': true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
+                <button tabIndex={props.tabindex} classList={{ 'action': true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
                     props.accessor.setValue(untrack(panelValue).toISOString());
                     if (props.ok) { props.ok(); }
                 }}>{ctx.locale().t(props.time ? '_i.ok' : '_i.ok')}</button>

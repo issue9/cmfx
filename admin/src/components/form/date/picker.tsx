@@ -64,7 +64,7 @@ export function DatePicker(props: Props): JSX.Element {
         palette={props.palette}
         aria-haspopup
     >
-        <div tabIndex={props.tabindex} ref={el => anchorRef = el}
+        <div ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
@@ -73,7 +73,7 @@ export function DatePicker(props: Props): JSX.Element {
                 'rounded': props.rounded
             }}
         >
-            <input class="input" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
+            <input class="input" tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue())
             } />
             <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={() => {
