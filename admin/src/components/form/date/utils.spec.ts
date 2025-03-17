@@ -50,7 +50,7 @@ test('monthDays', () => {
     expect(monthDays(new Date(2024, 6, 1), 1)).toEqual([
         { isCurrent: false, month: 0, start: 0, end: 0, year: 0 },
         { isCurrent: true, month: 6, start: 1, end: 31, year: 2024 },
-        { isCurrent: false, month: 7, start: 1, end: 4, year: 2024 }
+        { isCurrent: false, month: 7, start: 1, end: 11, year: 2024 }
     ]);
 
     expect(monthDays(new Date(2024, 6, 1), 2)).toEqual([
@@ -68,7 +68,7 @@ test('monthDays', () => {
     expect(monthDays(new Date(2024, 6, 1), 4)).toEqual([
         { isCurrent: false, month: 5, start: 27, end: 30, year: 2024 },
         { isCurrent: true, month: 6, start: 1, end: 31, year: 2024 },
-        { isCurrent: false, month: 0, start: 0, end: 0, year: 0 }
+        { isCurrent: false, month: 7, start: 1, end: 7, year: 2024 }
     ]);
 
     expect(monthDays(new Date(2024, 6, 1), 5)).toEqual([

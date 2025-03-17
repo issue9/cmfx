@@ -110,9 +110,7 @@ export function DatePanel(props: Props): JSX.Element {
         return ctx.locale().dateTimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
     });
 
-    const weekFormat = createMemo(() => {
-        return ctx.locale().dateTimeFormat({ weekday: 'narrow' });
-    });
+    const weekFormat = createMemo(() => { return ctx.locale().dateTimeFormat({ weekday: 'narrow' }); });
 
     // 以下用于处理 timeRef 根据 dateRef 的高度作适配调整。
     let dateRef: HTMLDivElement;
@@ -124,138 +122,138 @@ export function DatePanel(props: Props): JSX.Element {
         scrollTimer();
     });
 
+    const title = <div class="title">
+        <div>
+            <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+
+                    const dt = new Date(panelValue());
+                    dt.setFullYear(dt.getFullYear() - 1);
+                    setValue(dt);
+                }}>keyboard_double_arrow_left</Button>
+            <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+
+                    const dt = new Date(panelValue());
+                    dt.setMonth(dt.getMonth() - 1);
+                    setValue(dt);
+                }}>chevron_left</Button>
+        </div>
+
+        <div>{titleFormat()}</div>
+
+        <div>
+            <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+
+                    const dt = new Date(panelValue());
+                    dt.setMonth(dt.getMonth() + 1);
+                    setValue(dt);
+                }}>chevron_right</Button>
+            <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+
+                    const dt = new Date(panelValue());
+                    dt.setFullYear(dt.getFullYear() + 1);
+                    setValue(dt);
+                }}>keyboard_double_arrow_right</Button>
+        </div>
+    </div>;
+
+    const timer = <div ref={el => timeRef = el} classList={{
+        'time': true,
+        '!flex': props.time,
+        '!hidden': !props.time,
+    }}>
+        <ul class="item">
+            <For each={hoursOptions}>
+                {(item) => (
+                    <li classList={{ 'selected': panelValue().getHours() == item[0] }}
+                        onClick={() => {
+                            if (props.disabled || props.readonly) { return; }
+                            const dt = new Date(panelValue());
+                            dt.setHours(item[0]);
+                            setValue(dt);
+                        }}
+                    >{item[1]}</li>
+                )}
+            </For>
+        </ul>
+
+        <ul class="item">
+            <For each={minutesOptions}>
+                {(item) => (
+                    <li classList={{ 'selected': panelValue().getMinutes() == item[0] }}
+                        onClick={() => {
+                            if (props.disabled || props.readonly) { return; }
+                            const dt = new Date(panelValue());
+                            dt.setMinutes(item[0]);
+                            setValue(dt);
+                        }}
+                    >{item[1]}</li>
+                )}
+            </For>
+        </ul>
+    </div>;
+
+    const daysSelector = <table>
+        <Show when={props.weekend}>
+            <colgroup>
+                <For each={weeks}>
+                    {(w) => (
+                        <col classList={{ 'weekend': weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
+                    )}
+                </For>
+            </colgroup>
+        </Show>
+
+        <thead>
+            <tr>
+                <For each={weeks}>
+                    {(w) => (
+                        <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate() + weekDay(w, props.weekBase)))}</th>
+                    )}
+                </For>
+            </tr>
+        </thead>
+
+        <tbody>
+            <For each={weekDays(panelValue(), props.weekBase!, props.min, props.max)}>
+                {(week) => (
+                    <tr>
+                        <For each={week}>
+                            {(day) => (
+                                <td>
+                                    <button classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
+                                        disabled={!day[0] || props.disabled}
+                                        onClick={() => {
+                                            if (props.readonly || props.disabled) { return; }
+    
+                                            const dt = new Date(panelValue());
+                                            dt.setDate(day[2]);
+                                            setValue(dt);
+                                        }}>{day[2]}</button>
+                                </td>
+                            )}
+                        </For>
+                    </tr>
+                )}
+            </For>
+        </tbody>
+    </table>;
+
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled} class={props.class} classList={{
         ...props.classList,
         'c--date-panel': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-
         <div class="main">
-            <div ref={el => dateRef = el}>
-                <div class="title">
-                    <div>
-                        <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevYear')} aria-label={ctx.locale().t('_i.date.prevYear')}
-                            onClick={() => {
-                                if (props.readonly || props.disabled) { return; }
-
-                                const dt = new Date(panelValue());
-                                dt.setFullYear(dt.getFullYear() - 1);
-                                setValue(dt);
-                            }}>keyboard_double_arrow_left</Button>
-                        <Button icon rounded kind='flat' class="!p-1" title={ctx.locale().t('_i.date.prevMonth')} aria-label={ctx.locale().t('_i.date.prevMonth')}
-                            onClick={() => {
-                                if (props.readonly || props.disabled) { return; }
-
-                                const dt = new Date(panelValue());
-                                dt.setMonth(dt.getMonth() - 1);
-                                setValue(dt);
-                            }}>chevron_left</Button>
-                    </div>
-
-                    <div>{titleFormat()}</div>
-
-                    <div>
-                        <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextMonth')} aria-label={ctx.locale().t('_i.date.nextMonth')}
-                            onClick={() => {
-                                if (props.readonly || props.disabled) { return; }
-
-                                const dt = new Date(panelValue());
-                                dt.setMonth(dt.getMonth() + 1);
-                                setValue(dt);
-                            }}>chevron_right</Button>
-                        <Button icon rounded kind="flat" class="!p-1" title={ctx.locale().t('_i.date.nextYear')} aria-label={ctx.locale().t('_i.date.nextYear')}
-                            onClick={() => {
-                                if (props.readonly || props.disabled) { return; }
-
-                                const dt = new Date(panelValue());
-                                dt.setFullYear(dt.getFullYear() + 1);
-                                setValue(dt);
-                            }}>keyboard_double_arrow_right</Button>
-                    </div>
-                </div>
-
-                <table>
-                    <Show when={props.weekend}>
-                        <colgroup>
-                            <For each={weeks}>
-                                {(w) => (
-                                    <col classList={{ 'weekend': weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
-                                )}
-                            </For>
-                        </colgroup>
-                    </Show>
-
-                    <thead>
-                        <tr>
-                            <For each={weeks}>
-                                {(w) => (
-                                    <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate() + weekDay(w, props.weekBase)))}</th>
-                                )}
-                            </For>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        <For each={weekDays(panelValue(), props.weekBase!, props.min, props.max)}>
-                            {(week) => (
-                                <tr>
-                                    <For each={week}>
-                                        {(day) => (
-                                            <td>
-                                                <button classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
-                                                    disabled={!day[0] || props.disabled}
-                                                    onClick={() => {
-                                                        if (props.readonly || props.disabled) { return; }
-
-                                                        const dt = new Date(panelValue());
-                                                        dt.setDate(day[2]);
-                                                        setValue(dt);
-                                                    }}>{day[2]}</button>
-                                            </td>
-                                        )}
-                                    </For>
-                                </tr>
-                            )}
-                        </For>
-                    </tbody>
-                </table>
-            </div>
-
-            <div ref={el => timeRef = el} classList={{
-                'time':true,
-                '!flex': props.time,
-                '!hidden': !props.time,
-            }}>
-                <ul class="item">
-                    <For each={hoursOptions}>
-                        {(item) => (
-                            <li classList={{ 'selected': panelValue().getHours() == item[0] }}
-                                onClick={() => {
-                                    if (props.disabled || props.readonly) { return; }
-                                    const dt = new Date(panelValue());
-                                    dt.setHours(item[0]);
-                                    setValue(dt);
-                                }}
-                            >{item[1]}</li>
-                        )}
-                    </For>
-                </ul>
-
-                <ul class="item">
-                    <For each={minutesOptions}>
-                        {(item) => (
-                            <li classList={{ 'selected': panelValue().getMinutes() == item[0] }}
-                                onClick={() => {
-                                    if (props.disabled || props.readonly) { return; }
-                                    const dt = new Date(panelValue());
-                                    dt.setMinutes(item[0]);
-                                    setValue(dt);
-                                }}
-                            >{item[1]}</li>
-                        )}
-                    </For>
-                </ul>
-            </div>
+            <div ref={el => dateRef = el}>{title}{daysSelector}</div>
+            {timer}
         </div>
 
         <div class="actions">
@@ -263,9 +261,7 @@ export function DatePanel(props: Props): JSX.Element {
                 <button class="action" onClick={() => {
                     setValue(new Date());
                     if (props.now) { props.now(); }
-                }}>
-                    {ctx.locale().t(props.time ? '_i.date.now' : '_i.date.today')}
-                </button>
+                }}>{ctx.locale().t(props.time ? '_i.date.now' : '_i.date.today')}</button>
             </div>
 
             <div class="right">

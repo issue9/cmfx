@@ -44,6 +44,11 @@ interface MonthDays {
     end: number; // 该月在当前面板上的结束日期
 }
 
+// minDaySize 每个面板最小的日期数量
+//
+// 需要固定面板高度，底部可能出现一行多余的数据。
+const minDaySize = 41; // 6 行，每行 7 列。
+
 /**
  * 计算指定月份的天数范围
  *
@@ -78,13 +83,13 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
     // 处理后一个月份的数据
     const next: MonthDays = { isCurrent: false, month: 0, start: 0, end: 0, year: 0 };
     const lastWeekDay = lastDay.getDay() as Week;
-    if (weekDay(weekStart,-1) !== lastWeekDay) {
+    if (weekDay(weekStart,-1) !== lastWeekDay || count < minDaySize) {
         let days = weekStart - 1 - lastWeekDay;
         if (days <= 0) {
             days = weeks.length + days;
         }
         count += days;
-        if (count < 35) { // 固定高度，底部可能出现一行多余的数据。
+        if (count < minDaySize) {
             days += 7;
         }
 
