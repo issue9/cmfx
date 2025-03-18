@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2024 caixw
+# SPDX-FileCopyrightText: 2024-2025 caixw
 #
 # SPDX-License-Identifier: MIT
 
@@ -18,7 +18,7 @@ gen:
 
 # 编译测试项目
 build-cmd:
-	web build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
+	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 	npm run build -w=@cmfx/admin-demo
 
 # 编译项目内容
@@ -49,4 +49,5 @@ watch: watch-server watch-admin
 # 执行测试内容
 test:
 	go test ./... -count=1 -p=1 -parallel=1
-	npm run test -w=@cmfx/admin
+	npm run lint
+	npm run test-nowatch -w=@cmfx/admin
