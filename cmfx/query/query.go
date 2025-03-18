@@ -57,7 +57,7 @@ func (r *DateRange) UnmarshalQuery(data string) (err error) {
 
 func (r *DateRange) Filter(ctx *web.FilterContext) {
 	if r.Start.IsZero() && r.End.IsZero() && r.End.Before(r.Start) {
-		ctx.AddError("end", web.NewLocaleError("query param end time must be after start time"))
+		ctx.AddError("end", web.NewLocaleError("end time must be after start time"))
 	}
 }
 

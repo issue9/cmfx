@@ -462,6 +462,9 @@ messages:
     - key: put roles resources
       message:
           msg: 调整角色资源
+    - key: end time must be after start time
+      message:
+          msg: 结束时间必须大于开始时间
     - key: rbac tag
       message:
           msg: RBAC 角色权限
