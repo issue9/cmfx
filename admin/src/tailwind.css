@@ -49,6 +49,8 @@
     --color-palette-fg-low: var(--fg-low);
     --color-palette-fg-high: var(--fg-high);
 
+    --default-transition-duration: var(--transition-duration);
+
     /*
      * NOTE: 需要保证与 core/theme.ts 中 Breakpoint 类型的取值相对应
      *
