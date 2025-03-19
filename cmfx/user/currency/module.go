@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -27,20 +27,20 @@ func Load(u *user.Module, id string) *Module {
 		db:   buildDB(u.Module().DB(), id),
 	}
 
-	u.OnAdd(func(u *user.User) { m.initOverview(nil, u) }) // 添加用户时创建一个关联的初始表
+	u.OnAdd(func(u *user.User) { m.initOverview(nil, u.ID) }) // 添加用户时创建一个关联的初始表
 
 	return m
 }
 
-func (m *Module) initOverview(tx *orm.Tx, u *user.User) *overviewPO {
+func (m *Module) initOverview(tx *orm.Tx, u int64) *overviewPO {
 	e := m.engine(tx)
 
-	id, err := e.LastInsertID(&overviewPO{UID: u.ID})
+	id, err := e.LastInsertID(&overviewPO{UID: u})
 	if err != nil {
 		m.user.Module().Server().Logs().ERROR().Error(err)
 	}
 
-	return &overviewPO{ID: id, UID: u.ID}
+	return &overviewPO{ID: id, UID: u}
 }
 
 func buildDB(db *orm.DB, id string) *orm.DB {

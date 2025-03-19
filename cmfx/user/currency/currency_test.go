@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -31,7 +31,7 @@ func TestCurrency(t *testing.T) {
 	expire := time.Now().Add(time.Hour)
 
 	t.Run("Add", func(t *testing.T) {
-		a.NotError(m.Add(nil, u1, 10, "+10", time.Time{}))
+		a.NotError(m.Add(nil, u1.ID, 10, "+10", time.Time{}))
 		ov := &overviewPO{UID: u1.ID}
 		_, err = m.db.Select(ov)
 		a.NotError(err).Equal(ov.Available, 10).
@@ -49,7 +49,7 @@ func TestCurrency(t *testing.T) {
 
 		// add with expire
 
-		a.NotError(m.Add(nil, u1, 10, "+10", expire))
+		a.NotError(m.Add(nil, u1.ID, 10, "+10", expire))
 		ov = &overviewPO{UID: u1.ID}
 		_, err = m.db.Select(ov)
 		a.NotError(err).Equal(ov.Available, 20).
@@ -62,10 +62,10 @@ func TestCurrency(t *testing.T) {
 	})
 
 	t.Run("GetOverview", func(t *testing.T) {
-		vo, err := m.GetOverview(u1, time.Now())
+		vo, err := m.GetOverview(u1.ID, time.Now())
 		a.NotError(err).Equal(vo, &OverviewVO{Available: 20})
 
-		vo, err = m.GetOverview(u1, expire.Add(time.Hour))
+		vo, err = m.GetOverview(u1.ID, expire.Add(time.Hour))
 		a.NotError(err).Equal(vo.Available, 20).
 			Length(vo.Expire, 1).
 			Equal(vo.Expire[0].Value, 10).
@@ -81,7 +81,7 @@ func TestCurrency(t *testing.T) {
 	})
 
 	t.Run("Del", func(t *testing.T) {
-		m.Del(nil, u1, 5, "-5")
+		m.Del(nil, u1.ID, 5, "-5")
 
 		ov := &overviewPO{UID: u1.ID}
 		_, err = m.db.Select(ov)
@@ -93,7 +93,7 @@ func TestCurrency(t *testing.T) {
 		size, err := m.db.Where("uid=?", u1.ID).Count(&LogPO{})
 		a.NotError(err).Equal(size, 3)
 
-		m.Del(nil, u1, 10, "-10")
+		m.Del(nil, u1.ID, 10, "-10")
 
 		ov = &overviewPO{UID: u1.ID}
 		_, err = m.db.Select(ov)

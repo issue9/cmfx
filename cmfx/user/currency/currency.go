@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -67,12 +67,12 @@ type OverviewExpireVO struct {
 // GetOverview 获取用户 u 的摘要信息
 //
 // expire Expire 字段返回在此之前过期的积分，如果为空，则 Expire 不返回；
-func (m *Module) GetOverview(u *user.User, expire time.Time) (*OverviewVO, error) {
-	p := &overviewPO{ID: u.ID}
+func (m *Module) GetOverview(uid int64, expire time.Time) (*OverviewVO, error) {
+	p := &overviewPO{ID: uid}
 	if found, err := m.db.Select(p); err != nil {
 		return nil, err
 	} else if !found {
-		m.initOverview(nil, u)
+		m.initOverview(nil, uid)
 		return &OverviewVO{}, nil
 	}
 
@@ -84,7 +84,7 @@ func (m *Module) GetOverview(u *user.User, expire time.Time) (*OverviewVO, error
 
 	if !expire.IsZero() {
 		ep := make([]*expirePO, 0, 10)
-		size, err := m.db.Where("uid=?", u.ID).And("expired<?", expire).Select(true, &ep)
+		size, err := m.db.Where("uid=?", uid).And("expired<?", expire).Select(true, &ep)
 		if err != nil {
 			return nil, err
 		}
@@ -107,7 +107,7 @@ func (m *Module) GetOverview(u *user.User, expire time.Time) (*OverviewVO, error
 // Add 添加金额
 //
 // expire 如果不为空值，表示该积分在到达该时间还未被使用时，将不能再使用。
-func (m *Module) Add(tx *orm.Tx, u *user.User, val uint, memo string, expire time.Time) error {
+func (m *Module) Add(tx *orm.Tx, uid int64, val uint, memo string, expire time.Time) error {
 	isExpire := !expire.IsZero()
 	e := m.engine(tx)
 
@@ -115,11 +115,11 @@ func (m *Module) Add(tx *orm.Tx, u *user.User, val uint, memo string, expire tim
 		return web.NewLocaleError("expire must b after now")
 	}
 
-	overview := &overviewPO{UID: u.ID}
+	overview := &overviewPO{UID: uid}
 	if found, err := e.Select(overview); err != nil {
 		return err
 	} else if !found {
-		overview = m.initOverview(tx, u)
+		overview = m.initOverview(tx, uid)
 	}
 
 	v := int64(val)
@@ -148,7 +148,7 @@ func (m *Module) Add(tx *orm.Tx, u *user.User, val uint, memo string, expire tim
 
 	if isExpire {
 		ee := &expirePO{}
-		if _, err := e.Where("uid=?", u.ID).And("expired=?", expire).Select(true, ee); err != nil {
+		if _, err := e.Where("uid=?", uid).And("expired=?", expire).Select(true, ee); err != nil {
 			return err
 		}
 
@@ -170,15 +170,15 @@ func (m *Module) Add(tx *orm.Tx, u *user.User, val uint, memo string, expire tim
 }
 
 // Del 减少金额
-func (m *Module) Del(tx *orm.Tx, u *user.User, val uint, memo string) error {
+func (m *Module) Del(tx *orm.Tx, uid int64, val uint, memo string) error {
 	e := m.engine(tx)
 	v := int64(val)
 
-	overview := &overviewPO{UID: u.ID}
+	overview := &overviewPO{UID: uid}
 	if found, err := e.Select(overview); err != nil {
 		return err
 	} else if !found {
-		overview = m.initOverview(tx, u)
+		overview = m.initOverview(tx, uid)
 	}
 
 	if overview.Available < v {
@@ -188,13 +188,13 @@ func (m *Module) Del(tx *orm.Tx, u *user.User, val uint, memo string) error {
 	// 更新 expirePO
 	switch {
 	case overview.Expire <= v: // 所有 expirePO 的值都置零
-		_, err := e.Where("uid=?", u.ID).Update(&expirePO{Value: 0, Expired: time.Time{}}, "value", "expired")
+		_, err := e.Where("uid=?", uid).Update(&expirePO{Value: 0, Expired: time.Time{}}, "value", "expired")
 		if err != nil {
 			return err
 		}
 	case overview.Expire > v: // 部分 expirePO 设置为零
 		expires := make([]*expirePO, 0, 10)
-		size, err := e.Where("uid=?", u.ID).And("value>0").And("expired>?", time.Now()).Select(true, &expires)
+		size, err := e.Where("uid=?", uid).And("value>0").And("expired>?", time.Now()).Select(true, &expires)
 		if err != nil {
 			return err
 		}
@@ -231,15 +231,11 @@ func (m *Module) Del(tx *orm.Tx, u *user.User, val uint, memo string) error {
 	}
 
 	// 更新 overview
-	expire := overview.Expire - v
-	if expire < 0 {
-		expire = 0
-	}
 	o2 := &overviewPO{
 		ID:        overview.ID,
 		Available: overview.Available - v,
 		Used:      overview.Used + v,
-		Expire:    expire,
+		Expire:    max(overview.Expire-v, 0),
 	}
 	if _, err := e.Update(o2, "expire", "available"); err != nil {
 		return err
