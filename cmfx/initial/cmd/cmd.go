@@ -35,6 +35,7 @@ import (
 func Exec(id, version string) error {
 	return app.NewCLI(&app.CLIOptions[*Config]{
 		ID:             id,
+		Version:        version,
 		NewServer:      initServer,
 		ConfigDir:      "./",
 		ConfigFilename: "web.xml",

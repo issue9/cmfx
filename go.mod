@@ -16,7 +16,7 @@ require (
 	github.com/issue9/rands/v3 v3.1.0
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
-	github.com/issue9/upload/v3 v3.0.0-beta.1.0.20241022053811-f1d945a6d3e6
+	github.com/issue9/upload/v3 v3.1.0
 	github.com/issue9/web v0.102.8
 	github.com/issue9/webuse/v7 v7.0.0-20250315171903-807de66d5624
 	github.com/mattn/go-sqlite3 v1.14.24
@@ -49,7 +49,7 @@ require (
 	github.com/issue9/term/v3 v3.4.0 // indirect
 	github.com/issue9/unique/v2 v2.1.1 // indirect
 	github.com/issue9/version v1.0.8 // indirect
-	github.com/issue9/watermark v1.2.4 // indirect
+	github.com/issue9/watermark v1.2.5 // indirect
 	github.com/jellydator/ttlcache/v3 v3.3.0 // indirect
 	github.com/kardianos/service v1.2.2 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect

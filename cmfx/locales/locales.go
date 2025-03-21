@@ -29,7 +29,7 @@ const (
 	MustBeEmpty      = web.StringPhrase("must be empty")
 	StrengthInvalid  = web.StringPhrase("strength invalid")
 	NotInCandidate   = web.StringPhrase("the value not in candidate")
-	NotFound         = web.StringPhrase("not found")
+	NotFound         = locales.NotFound
 )
 
 func MustBeBetween[T cmp.Ordered](min, max T) web.LocaleStringer {
@@ -58,6 +58,4 @@ func ErrMustBeLessThan[T any](v T) error {
 	return web.NewLocaleError("must be less than %v", v)
 }
 
-var notFound = web.NewLocaleError("not found")
-
-func ErrNotFound() error { return notFound }
+func ErrNotFound() error { return locales.ErrNotFound() }

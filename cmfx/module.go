@@ -40,8 +40,15 @@ type Module struct {
 
 // NewModule 声明新模块
 //
-// [Init] 会返回一个根模块，一般情况下使用该模块的 New 方法创建模块就可以了，
-// 除非项目涉及到多数据库、需要多个 [openapi.Document] 实例或是多路由等情况，才需要用到此方法。
+// id 表示模块的 ID；
+// desc 对于该模块的描述；
+// db 数据库实例；
+// r 路由对象；
+// doc openapi 文档对象；
+// tags 向 doc 参数添加的接口都自动关联 tags 指定的标签；
+//
+// [Init] 会返回一个根模块，之后可以用返回对象的 [Module.New] 创建模块。
+// 如果涉及到多数据库、需要多个 [openapi.Document] 实例或是多路由的情况，也可以使用此方法创建多个根模块。
 func NewModule(id string, desc web.LocaleStringer, s web.Server, db *orm.DB, r *web.Router, doc *openapi.Document, tags ...string) *Module {
 	// 防止重复的 id 值
 	m, loaded := s.Vars().LoadOrStore(moduleKey, map[string]struct{}{id: {}})
