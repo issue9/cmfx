@@ -18,7 +18,7 @@ require (
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.1.0
 	github.com/issue9/web v0.102.8
-	github.com/issue9/webuse/v7 v7.0.0-20250315171903-807de66d5624
+	github.com/issue9/webuse/v7 v7.0.0-20250322024020-f7f4d1bccb2a
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.25.2
 	golang.org/x/crypto v0.36.0
@@ -40,7 +40,7 @@ require (
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-sql-driver/mysql v1.9.0 // indirect
 	github.com/go-webauthn/x v0.1.19 // indirect
-	github.com/golang-jwt/jwt/v5 v5.2.1 // indirect
+	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/google/go-tpm v0.9.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/issue9/localeutil v0.29.3 // indirect
