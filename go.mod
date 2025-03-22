@@ -5,7 +5,7 @@ go 1.24.0
 require (
 	github.com/go-webauthn/webauthn v0.12.2
 	github.com/issue9/assert/v4 v4.3.1
-	github.com/issue9/cache v0.19.0
+	github.com/issue9/cache v0.19.1
 	github.com/issue9/config v0.9.0
 	github.com/issue9/conv v1.3.5
 	github.com/issue9/errwrap v0.3.2
@@ -17,8 +17,8 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.1.0
-	github.com/issue9/web v0.102.8
-	github.com/issue9/webuse/v7 v7.0.0-20250322024020-f7f4d1bccb2a
+	github.com/issue9/web v0.102.10
+	github.com/issue9/webuse/v7 v7.0.0-20250322164108-50dac0f2f9e0
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.25.2
 	golang.org/x/crypto v0.36.0
@@ -28,7 +28,7 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
-	github.com/BurntSushi/toml v1.4.0 // indirect
+	github.com/BurntSushi/toml v1.5.0 // indirect
 	github.com/andybalholm/brotli v1.1.1 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20230905024940-24af94b03874 // indirect
@@ -59,7 +59,7 @@ require (
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/power-devops/perfstat v0.0.0-20210106213030-5aafc221ea8c // indirect
 	github.com/puzpuzpuz/xsync/v3 v3.5.1 // indirect
-	github.com/redis/go-redis/v9 v9.7.1 // indirect
+	github.com/redis/go-redis/v9 v9.7.3 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/tklauser/go-sysconf v0.3.12 // indirect
 	github.com/tklauser/numcpus v0.6.1 // indirect

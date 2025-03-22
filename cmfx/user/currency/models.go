@@ -54,15 +54,15 @@ func (Type) PrimitiveType() core.PrimitiveType { return core.String }
 
 // LogPO 货币花费明细
 type LogPO struct {
-	ID  int64 `orm:"name(id);ai" json:"-" yaml:"-" xml:"-" cbor:"-"`
-	UID int64 `orm:"name(uid)" json:"-" yaml:"-" xml:"-" cbor:"-"`
+	ID  int64 `orm:"name(id);ai" json:"-" yaml:"-" xml:"-" cbor:"-" toml:"-"`
+	UID int64 `orm:"name(uid)" json:"-" yaml:"-" xml:"-" cbor:"-" toml:"-"`
 
-	Created time.Time `orm:"name(created)" json:"created" yaml:"created" xml:"created" cbor:"created"`
-	Before  int64     `orm:"name(before)" json:"before" yaml:"before" xml:"before" cbor:"before" comment:"currency value before action"`
-	After   int64     `orm:"name(after)" json:"after" yaml:"after" xml:"after" cbor:"after" comment:"currency value after action"`
-	Value   int64     `orm:"name(value)" json:"value" yaml:"value" xml:"value" cbor:"value" comment:"add currency value"`
-	Memo    string    `orm:"name(memo);len(1000)" json:"memo" yaml:"memo" xml:"memo" cbor:"memo" comment:"memo of action"`
-	Type    Type      `orm:"name(type);len(10)" json:"type" yaml:"type" xml:"type" cbor:"type" comment:"type of action"`
+	Created time.Time `orm:"name(created)" json:"created" yaml:"created" xml:"created" toml:"created" cbor:"created"`
+	Before  int64     `orm:"name(before)" json:"before" yaml:"before" xml:"before" cbor:"before" toml:"before" comment:"currency value before action"`
+	After   int64     `orm:"name(after)" json:"after" yaml:"after" xml:"after" cbor:"after" toml:"after" comment:"currency value after action"`
+	Value   int64     `orm:"name(value)" json:"value" yaml:"value" xml:"value" cbor:"value" toml:"value" comment:"add currency value"`
+	Memo    string    `orm:"name(memo);len(1000)" json:"memo" yaml:"memo" xml:"memo" cbor:"memo" toml:"memo" comment:"memo of action"`
+	Type    Type      `orm:"name(type);len(10)" json:"type" yaml:"type" xml:"type" cbor:"type" toml:"type" comment:"type of action"`
 }
 
 func (p *LogPO) TableName() string { return "_logs" }

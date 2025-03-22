@@ -25,7 +25,7 @@ type adminInfoVO struct {
 	infoWithRoleStateVO
 
 	// 当前用户已经开通的验证方式
-	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
+	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports" toml:"passports"`
 }
 
 func (m *Module) getAdmin(ctx *web.Context) web.Responser {

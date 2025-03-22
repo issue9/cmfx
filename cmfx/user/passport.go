@@ -42,9 +42,9 @@ func (m *Module) AddPassport(adp Passport) {
 }
 
 type passportVO struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"passports"`
-	ID      string   `json:"id" cbor:"id" xml:"id" yaml:"id" comment:"The ID of passport"`
-	Desc    string   `json:"desc" cbor:"desc" xml:"desc" yaml:"desc" comment:"The description of passport"`
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" toml:"-" xml:"passports"`
+	ID      string   `json:"id" cbor:"id" xml:"id" yaml:"id" toml:"id" comment:"The ID of passport"`
+	Desc    string   `json:"desc" cbor:"desc" xml:"desc" yaml:"desc" toml:"id" comment:"The description of passport"`
 }
 
 func (m *Module) getPassports(ctx *web.Context) web.Responser {
@@ -62,11 +62,11 @@ func (m *Module) getPassports(ctx *web.Context) web.Responser {
 }
 
 type IdentityVO struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"identity"`
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" toml:"-" xml:"identity"`
 
-	ID       string `json:"id" xml:"id" cbor:"id" yaml:"id" comment:"passport id"`
-	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"identity" comment:"user identity for current passport"`
-	State    int8   `json:"state" xml:"state,attr" cbor:"state" yaml:"state" comment:"the state for passport and identity"`
+	ID       string `json:"id" xml:"id" cbor:"id" yaml:"id" toml:"id" comment:"passport id"`
+	Identity string `json:"identity" xml:"identity" cbor:"identity" yaml:"identity" toml:"identity" comment:"user identity for current passport"`
+	State    int8   `json:"state" xml:"state,attr" cbor:"state" yaml:"state" toml:"state" comment:"the state for passport and identity"`
 }
 
 // Identities 获取 uid 已经关联的适配器

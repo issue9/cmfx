@@ -16,15 +16,15 @@ import (
 )
 
 type OverviewsVO struct {
-	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"overview"`
+	XMLName struct{} `json:"-" yaml:"-" cbor:"-" toml:"-" xml:"overview"`
 
-	UID      int64  `json:"uid" yaml:"uid" cbor:"uid" xml:"uid"`
-	NO       string `json:"no" yaml:"no" cbor:"no" xml:"no"`
-	Username string `json:"username" yaml:"username" cbor:"username" xml:"username"`
+	UID      int64  `json:"uid" yaml:"uid" cbor:"uid" toml:"uid" xml:"uid"`
+	NO       string `json:"no" yaml:"no" cbor:"no" toml:"no" xml:"no"`
+	Username string `json:"username" yaml:"username" cbor:"username" toml:"username" xml:"username"`
 
-	Available int64 `json:"available" yaml:"available" cbor:"available" xml:"available"`
-	Freeze    int64 `json:"freeze" yaml:"freeze" cbor:"freeze" xml:"freeze"`
-	Used      int64 `json:"used" yaml:"used" cbor:"used" xml:"used"`
+	Available int64 `json:"available" yaml:"available" cbor:"available" toml:"available" xml:"available"`
+	Freeze    int64 `json:"freeze" yaml:"freeze" cbor:"freeze" toml:"freeze" xml:"freeze"`
+	Used      int64 `json:"used" yaml:"used" cbor:"used" toml:"used" xml:"used"`
 }
 
 type overviewsPO struct {
@@ -52,11 +52,11 @@ func (m *Module) GetOverviews(q *query.Text) (*query.Page[OverviewsVO], error) {
 }
 
 type OverviewVO struct {
-	XMLName   struct{}            `json:"-" yaml:"-" cbor:"-" xml:"overview"`
-	Available int64               `json:"available" yaml:"available" cbor:"available" xml:"available"`
-	Freeze    int64               `json:"freeze" yaml:"freeze" cbor:"freeze" xml:"freeze"`
-	Used      int64               `json:"used" yaml:"used" cbor:"used" xml:"used"`
-	Expire    []*OverviewExpireVO `json:"expire,omitempty" yaml:"expire,omitempty" cbor:"expire,omitempty" xml:"expire,omitempty"`
+	XMLName   struct{}            `json:"-" yaml:"-" cbor:"-" toml:"-" xml:"overview"`
+	Available int64               `json:"available" yaml:"available" cbor:"available" toml:"available" xml:"available"`
+	Freeze    int64               `json:"freeze" yaml:"freeze" cbor:"freeze" toml:"freeze" xml:"freeze"`
+	Used      int64               `json:"used" yaml:"used" cbor:"used" toml:"used" xml:"used"`
+	Expire    []*OverviewExpireVO `json:"expire,omitempty" yaml:"expire,omitempty" cbor:"expire,omitempty" toml:"expire,omitempty" xml:"expire,omitempty"`
 }
 
 type OverviewExpireVO struct {

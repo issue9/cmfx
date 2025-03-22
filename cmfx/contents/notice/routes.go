@@ -28,18 +28,18 @@ func (noticeKind) OpenAPISchema(s *openapi.Schema) {
 
 type NoticeDetailTO struct {
 	m       *Module
-	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"notice"`
+	XMLName struct{} `json:"-" yaml:"-" cbor:"-" toml:"-" xml:"notice"`
 
-	Kind       noticeKind `json:"kind" yaml:"kind" cbor:"kind" xml:"kind,attr"`
-	FilterName string     `json:"filter,omitempty" yaml:"filter,omitempty" cbor:"filter" xml:"filter,omitempty"`
-	Users      []int64    `json:"users,omitempty" yaml:"users,omitempty" cbor:"users,omitempty" xml:"users,omitempty"`
+	Kind       noticeKind `json:"kind" yaml:"kind" cbor:"kind" toml:"kind" xml:"kind,attr"`
+	FilterName string     `json:"filter,omitempty" yaml:"filter,omitempty" cbor:"filter,omitempty" toml:"filter,omitempty" xml:"filter,omitempty"`
+	Users      []int64    `json:"users,omitempty" yaml:"users,omitempty" cbor:"users,omitempty" toml:"users,omitempty" xml:"users,omitempty"`
 
-	Expired sql.NullTime `json:"expired" yaml:"expired" cbor:"expired" xml:"expired"`
-	Type    int64        `json:"type" yaml:"type" cbor:"type" xml:"type,attr"`
+	Expired sql.NullTime `json:"expired" yaml:"expired" cbor:"expired" toml:"expired" xml:"expired"`
+	Type    int64        `json:"type" yaml:"type" cbor:"type" toml:"type" xml:"type,attr"`
 
-	Author  string `json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title   string `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Content string `json:"content" yaml:"content" cbor:"content" xml:"content"`
+	Author  string `json:"author" yaml:"author" cbor:"author" toml:"author" xml:"author"`
+	Title   string `json:"title" yaml:"title" cbor:"title" toml:"title" xml:"title"`
+	Content string `json:"content" yaml:"content" cbor:"content" toml:"content" xml:"content"`
 }
 
 func (n *NoticeDetailTO) Filter(ctx *web.FilterContext) {
@@ -143,15 +143,15 @@ type NoticeDetailQuery struct {
 
 // 通知的明细类型
 type NoticeDetailVO struct {
-	XMLName struct{}     `json:"-" yaml:"-" cbor:"-" xml:"xmlns,attr"`
-	ID      int64        `json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
-	Created time.Time    `json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Creator int64        `json:"creator" yaml:"creator" cbor:"creator" xml:"creator,attr"`
-	Expired sql.NullTime `json:"expired" yaml:"expired" cbor:"expired" xml:"expired"`
-	Type    int64        `json:"type" yaml:"type" cbor:"type" xml:"type,attr"`
-	Author  string       `json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title   string       `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Content string       `json:"content" yaml:"content" cbor:"content" xml:"content"`
+	XMLName struct{}     `json:"-" yaml:"-" cbor:"-" toml:"-" xml:"xmlns,attr"`
+	ID      int64        `json:"id" yaml:"id" cbor:"id" toml:"id" xml:"id,attr"`
+	Created time.Time    `json:"created" yaml:"created" cbor:"created" toml:"created" xml:"created"`
+	Creator int64        `json:"creator" yaml:"creator" cbor:"creator" toml:"creator" xml:"creator,attr"`
+	Expired sql.NullTime `json:"expired" yaml:"expired" cbor:"expired" toml:"expired" xml:"expired"`
+	Type    int64        `json:"type" yaml:"type" cbor:"type" toml:"type" xml:"type,attr"`
+	Author  string       `json:"author" yaml:"author" cbor:"author" toml:"author" xml:"author"`
+	Title   string       `json:"title" yaml:"title" cbor:"title" toml:"title" xml:"title"`
+	Content string       `json:"content" yaml:"content" cbor:"content" toml:"content" xml:"content"`
 }
 
 func newNoticeDetail(po *noticePO) *NoticeDetailVO {
@@ -234,14 +234,14 @@ type NoticeQuery struct {
 
 // 通知
 type NoticeVO struct {
-	XMLName struct{}     `json:"-" yaml:"-" cbor:"-" xml:"xmlns,attr"`
-	NO      string       `json:"no" yaml:"no" cbor:"no" xml:"no"`
-	Created time.Time    `json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Type    int64        `json:"type" yaml:"type" cbor:"type" xml:"type,attr"`
-	Author  string       `json:"author" yaml:"author" cbor:"author" xml:"author"`
-	Title   string       `json:"title" yaml:"title" cbor:"title" xml:"title"`
-	Content string       `json:"content" yaml:"content" cbor:"content" xml:"content"`
-	Read    sql.NullTime `json:"read" yaml:"read" cbor:"read" xml:"read,attr"`
+	XMLName struct{}     `json:"-" yaml:"-" cbor:"-" toml:"-" xml:"xmlns,attr"`
+	NO      string       `json:"no" yaml:"no" cbor:"no" toml:"no" xml:"no"`
+	Created time.Time    `json:"created" yaml:"created" cbor:"created" toml:"created" xml:"created"`
+	Type    int64        `json:"type" yaml:"type" cbor:"type" toml:"type" xml:"type,attr"`
+	Author  string       `json:"author" yaml:"author" cbor:"author" toml:"author" xml:"author"`
+	Title   string       `json:"title" yaml:"title" cbor:"title" toml:"title" xml:"title"`
+	Content string       `json:"content" yaml:"content" cbor:"content" toml:"content" xml:"content"`
+	Read    sql.NullTime `json:"read" yaml:"read" cbor:"read" toml:"read" xml:"read,attr"`
 }
 
 func newNotice(po *noticePO) *NoticeVO {

@@ -15,27 +15,27 @@ import (
 
 type Config struct {
 	// SuperUser 超级用户的 ID
-	SuperUser int64 `json:"superUser" xml:"superUser,attr" yaml:"superUser"`
+	SuperUser int64 `json:"superUser" xml:"superUser,attr" yaml:"superUser" toml:"superUser"`
 
 	// User 用户相关的配置
-	User *user.Config `json:"user" xml:"user" yaml:"user"`
+	User *user.Config `json:"user" xml:"user" yaml:"user" toml:"user"`
 
 	// 上传接口的相关配置
-	Upload *upload.Config `json:"upload" xml:"upload" yaml:"upload"`
+	Upload *upload.Config `json:"upload" xml:"upload" yaml:"upload" toml:"upload"`
 
-	SSE *SSE `json:"sse,omitempty" xml:"sse,omitempty" yaml:"sse,omitempty"`
+	SSE *SSE `json:"sse,omitempty" xml:"sse,omitempty" yaml:"sse,omitempty" toml:"sse,omitempty"`
 }
 
 // SSE 的相关配置
 type SSE struct {
 	// 如果不为零表示发送心跳包的时间
-	KeepAlive config.Duration `json:"keepAlive,omitempty" xml:"keepAlive,attr,omitempty" yaml:"keepAlive,omitempty"`
+	KeepAlive config.Duration `json:"keepAlive,omitempty" xml:"keepAlive,attr,omitempty" yaml:"keepAlive,omitempty" toml:"keepAlive,omitempty"`
 
 	// 缓存队列的大小，默认为 10，必须大于 1 才有效。
-	Cap int `json:"cap,omitempty" xml:"cap,attr,omitempty" yaml:"cap,omitempty"`
+	Cap int `json:"cap,omitempty" xml:"cap,attr,omitempty" yaml:"cap,omitempty" toml:"cap,omitempty"`
 
 	// 如果大于零，表示发送 retry 的值。
-	Retry config.Duration `json:"retry,omitempty" xml:"retry,attr,omitempty" yaml:"retry,omitempty"`
+	Retry config.Duration `json:"retry,omitempty" xml:"retry,attr,omitempty" yaml:"retry,omitempty" toml:"retry,omitempty"`
 }
 
 func (c *Config) SanitizeConfig() *web.FieldError {

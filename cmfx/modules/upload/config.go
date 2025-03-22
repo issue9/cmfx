@@ -13,13 +13,13 @@ import (
 // Config 上传的配置项
 type Config struct {
 	// 允许上传的文件大小
-	Size int64 `json:"size" xml:"size,attr" yaml:"size"`
+	Size int64 `json:"size" xml:"size,attr" yaml:"size" toml:"size"`
 
 	// 允许上传的扩展名
-	Exts []string `json:"exts" xml:"exts>ext" yaml:"exts"`
+	Exts []string `json:"exts" xml:"exts>ext" yaml:"exts" toml:"exts"`
 
 	// 上传内容中表示文件的字段名
-	Field string `json:"field" xml:"field" yaml:"field"`
+	Field string `json:"field" xml:"field" yaml:"field" toml:"field"`
 }
 
 func (u *Config) SanitizeConfig() *web.FieldError {

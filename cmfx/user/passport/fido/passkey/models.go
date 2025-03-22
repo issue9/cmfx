@@ -44,8 +44,9 @@ type credentialPO struct {
 }
 
 type credentialVO struct {
-	Created time.Time `json:"created" yaml:"created" cbor:"created" xml:"created"`
-	Last    time.Time `json:"last" yaml:"last" cbor:"last" xml:"last"`
-	ID      []byte    `json:"id" yaml:"id" cbor:"id" xml:"id"`
-	UA      string    `json:"ua" yaml:"ua" cbor:"ua" xml:"ua"`
+	XMLName struct{}  `xml:"credential" json:"-" yaml:"-" toml:"-" cbor:"-"`
+	Created time.Time `json:"created" yaml:"created" cbor:"created" xml:"created" toml:"created"`
+	Last    time.Time `json:"last" yaml:"last" cbor:"last" xml:"last" toml:"last"`
+	ID      []byte    `json:"id" yaml:"id" cbor:"id" xml:"id" toml:"id"`
+	UA      string    `json:"ua" yaml:"ua" cbor:"ua" xml:"ua" toml:"ua"`
 }

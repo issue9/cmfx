@@ -25,9 +25,9 @@ type accountPO struct {
 func (p *accountPO) TableName() string { return `` }
 
 type accountTO struct {
-	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
-	Username string   `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"`
-	Code     string   `json:"code" xml:"code" cbor:"code" yaml:"code" comment:"totp code"`
+	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-" toml:"-"`
+	Username string   `json:"username" xml:"username" cbor:"username" toml:"username" yaml:"username" comment:"username"`
+	Code     string   `json:"code" xml:"code" cbor:"code" yaml:"code" toml:"code" comment:"totp code"`
 }
 
 func (t *accountTO) Filter(ctx *web.FilterContext) {
@@ -36,8 +36,8 @@ func (t *accountTO) Filter(ctx *web.FilterContext) {
 }
 
 type codeTO struct {
-	XMLName struct{} `xml:"code" json:"-" cbor:"-" yaml:"-"`
-	Code    string   `json:"code" xml:"code" cbor:"code" yaml:"code" comment:"totp code"`
+	XMLName struct{} `xml:"code" json:"-" cbor:"-" yaml:"-" toml:"-"`
+	Code    string   `json:"code" xml:"code" cbor:"code" yaml:"code" toml:"code" comment:"totp code"`
 }
 
 func (t *codeTO) Filter(ctx *web.FilterContext) {
@@ -45,8 +45,8 @@ func (t *codeTO) Filter(ctx *web.FilterContext) {
 }
 
 type secretVO struct {
-	XMLName  struct{} `xml:"secret" yaml:"-" json:"-" cbor:"-"`
-	Username string   `json:"username" yaml:"username" cbor:"username" xml:"username" comment:"username"`
-	Secret   string   `json:"secret" yaml:"secret" cbor:"secret" xml:"secret" comment:"totp secret"`
-	Expired  int      `json:"expired" yaml:"expired" cbor:"expired" xml:"expired" comment:"expired in seconds"`
+	XMLName  struct{} `xml:"secret" yaml:"-" json:"-" cbor:"-" toml:"-"`
+	Username string   `json:"username" yaml:"username" cbor:"username" xml:"username" toml:"username" comment:"username"`
+	Secret   string   `json:"secret" yaml:"secret" cbor:"secret" xml:"secret" toml:"secret" comment:"totp secret"`
+	Expired  int      `json:"expired" yaml:"expired" cbor:"expired" xml:"expired" toml:"expired" comment:"expired in seconds"`
 }

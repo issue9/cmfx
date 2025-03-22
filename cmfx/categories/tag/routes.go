@@ -12,8 +12,8 @@ import (
 )
 
 type TagTO struct {
-	XMLName struct{} `json:"-" cbor:"-" yaml:"-" xml:"info"`
-	Title   string   `json:"title" cbor:"title" yaml:"title" xml:"title"`
+	XMLName struct{} `json:"-" cbor:"-" yaml:"-" toml:"-" xml:"info"`
+	Title   string   `json:"title" cbor:"title" yaml:"title" xml:"title" toml:"title"`
 }
 
 func (t *TagTO) Filter(ctx *web.FilterContext) {

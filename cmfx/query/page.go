@@ -13,10 +13,10 @@ import (
 //
 // T 为返回给客户端数据元素项的类型，必须为非指针类型。
 type Page[T any] struct {
-	XMLName struct{} `json:"-" xml:"page" cbor:"-" yaml:"-"`
-	Count   int64    `json:"count" xml:"count,attr" cbor:"count" yaml:"count"`                                     // 符合条件的所有数据
-	Current []*T     `json:"current"  xml:"current" cbor:"current" yaml:"current"`                                 // 当前页的数据
-	More    bool     `json:"more,omitempty" xml:"more,attr,omitempty" cbor:"more,omitempty" yaml:"more,omitempty"` // 是否还有更多的数据
+	XMLName struct{} `json:"-" xml:"page" cbor:"-" yaml:"-" toml:"-"`
+	Count   int64    `json:"count" xml:"count,attr" cbor:"count" yaml:"count" toml:"count"`                                              // 符合条件的所有数据
+	Current []*T     `json:"current"  xml:"current" cbor:"current" yaml:"current" toml:"current"`                                        // 当前页的数据
+	More    bool     `json:"more,omitempty" xml:"more,attr,omitempty" cbor:"more,omitempty" yaml:"more,omitempty" toml:"more,omitempty"` // 是否还有更多的数据
 }
 
 // PagingResponser 将分页对象封装成 [web.Responser]

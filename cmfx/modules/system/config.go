@@ -20,22 +20,22 @@ type Config struct {
 	// URLPrefix 该模块下的地址前缀
 	//
 	// 默认值为 /system
-	URLPrefix string `yaml:"urlPrefix" json:"urlPrefix" xml:"urlPrefix"`
+	URLPrefix string `yaml:"urlPrefix" json:"urlPrefix" xml:"urlPrefix" toml:"urlPrefix"`
 
 	// Backup 备份数据的选项
-	Backup *Backup `yaml:"backup,omitempty" json:"backup,omitempty" xml:"backup,omitempty"`
+	Backup *Backup `yaml:"backup,omitempty" json:"backup,omitempty" xml:"backup,omitempty" toml:"backup,omitempty"`
 }
 
 // Backup 备份数据的相关设置项
 type Backup struct {
 	// 备份文件的路径
-	Dir string `json:"dir" yaml:"dir" xml:"dir"`
+	Dir string `json:"dir" yaml:"dir" xml:"dir" toml:"dir"`
 
 	// 备份的文件格式，以 Go 的时间格式作为格式。
-	Format string `json:"format" yaml:"format" xml:"format"`
+	Format string `json:"format" yaml:"format" xml:"format" toml:"format"`
 
 	// 备份任务的执行时间
-	Cron string `yaml:"cron" json:"cron" xml:"cron"`
+	Cron string `yaml:"cron" json:"cron" xml:"cron" toml:"cron"`
 
 	// 生成备份文件的文件名
 	buildFile func(time time.Time) string

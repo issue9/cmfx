@@ -14,10 +14,10 @@ import (
 
 type Config struct {
 	// User 用户相关的配置
-	User *user.Config `json:"user" xml:"user" yaml:"user"`
+	User *user.Config `json:"user" xml:"user" yaml:"user" toml:"user"`
 
 	// 上传接口的相关配置
-	Upload *upload.Config `json:"upload" xml:"upload" yaml:"upload"`
+	Upload *upload.Config `json:"upload" xml:"upload" yaml:"upload" toml:"upload"`
 }
 
 func (c *Config) SanitizeConfig() *web.FieldError {

@@ -18,7 +18,7 @@ import (
 
 type infoWithPassportVO struct {
 	info
-	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
+	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports" toml:"passports"`
 }
 
 func (m *Module) postSSE(ctx *web.Context) web.Responser {

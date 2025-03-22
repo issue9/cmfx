@@ -20,16 +20,16 @@ import (
 )
 
 type CommentVO struct {
-	XMLName  struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-"`
-	ID       int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
-	Author   string    `xml:"author" json:"author" yaml:"author" cbor:"author" orm:"name(author)"`
-	Created  time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
-	Modified time.Time `xml:"modified" json:"modified" yaml:"modified" cbor:"modified" orm:"name(modified)"`
-	Content  string    `xml:"content" json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
+	XMLName  struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-" toml:"-"`
+	ID       int64     `xml:"id" json:"id" yaml:"id" cbor:"id" toml:"id" orm:"name(id)"`
+	Author   string    `xml:"author" json:"author" yaml:"author" cbor:"author" toml:"author" orm:"name(author)"`
+	Created  time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" toml:"created" orm:"name(created)"`
+	Modified time.Time `xml:"modified" json:"modified" yaml:"modified" cbor:"modified" toml:"modified" orm:"name(modified)"`
+	Content  string    `xml:"content" json:"content" yaml:"content" cbor:"content" toml:"content" orm:"name(content)"`
 
-	Rate  int          `xml:"rate,omitempty" json:"rate,omitempty" yaml:"rate,omitempty" cbor:"rate,omitempty" orm:"name(rate)"`
-	State State        `xml:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty" cbor:"state,omitempty"  orm:"name(state)"`
-	Items []*CommentVO `xml:"items>item,omitempty" json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" orm:"-"`
+	Rate  int          `xml:"rate,omitempty" json:"rate,omitempty" yaml:"rate,omitempty" cbor:"rate,omitempty" toml:"rate,omitempty" orm:"name(rate)"`
+	State State        `xml:"state,omitempty" json:"state,omitempty" yaml:"state,omitempty" cbor:"state,omitempty" toml:"state,omitempty" orm:"name(state)"`
+	Items []*CommentVO `xml:"items>item,omitempty" json:"items,omitempty" yaml:"items,omitempty" cbor:"items,omitempty" toml:"items,omitempty" orm:"-"`
 }
 
 type CommentQuery struct {
@@ -146,11 +146,11 @@ func (m *Module) HandleGetComment(ctx *web.Context, comment int64) web.Responser
 type CommentTO struct {
 	m *Module
 
-	XMLName struct{} `xml:"comment" json:"-" yaml:"-" cbor:"-"`
-	Content string   `json:"content" yaml:"content" cbor:"content" xml:"content"`
-	Rate    int      `json:"rate" yaml:"rate" cbor:"rate" xml:"rate,attr"`
-	Author  string   `json:"author" yaml:"author" cbor:"author" xml:"author"` // 显示的作者信息
-	Parent  int64    `json:"parent" yaml:"parent" cbor:"parent" xml:"parent"` // 父评论
+	XMLName struct{} `xml:"comment" json:"-" yaml:"-" cbor:"-" toml:"-"`
+	Content string   `json:"content" yaml:"content" cbor:"content" toml:"content" xml:"content"`
+	Rate    int      `json:"rate" yaml:"rate" cbor:"rate" toml:"rate" xml:"rate,attr"`
+	Author  string   `json:"author" yaml:"author" cbor:"author" toml:"author" xml:"author"` // 显示的作者信息
+	Parent  int64    `json:"parent" yaml:"parent" cbor:"parent" toml:"parent" xml:"parent"` // 父评论
 }
 
 func (to *CommentTO) Filter(ctx *web.FilterContext) {
@@ -298,12 +298,12 @@ func (m *Module) HandleDeleteComment(ctx *web.Context, creator, comment int64) w
 
 // SnapshotVO 摘要信息
 type SnapshotVO struct {
-	XMLName struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-"`
-	Comment int64     `xml:"comment" json:"comment" yaml:"comment" cbor:"comment" orm:"name(comment)"` // 关联的评论
-	ID      int64     `xml:"id" json:"id" yaml:"id" cbor:"id" orm:"name(id)"`
-	Created time.Time `xml:"created" json:"created" yaml:"created" cbor:"created" orm:"name(created)"`
-	Content string    `xml:"content" json:"content" yaml:"content" cbor:"content" orm:"name(content)"`
-	Rate    int64     `xml:"rate" json:"rate" yaml:"rate" cbor:"rate" orm:"name(rate)"`
+	XMLName struct{}  `xml:"comment" json:"-" yaml:"-" cbor:"-" orm:"-" toml:"-"`
+	Comment int64     `xml:"comment" json:"comment" yaml:"comment" cbor:"comment" toml:"comment" orm:"name(comment)"` // 关联的评论
+	ID      int64     `xml:"id" json:"id" yaml:"id" cbor:"id" toml:"id" orm:"name(id)"`
+	Created time.Time `xml:"created" json:"created" yaml:"created" toml:"created" cbor:"created" orm:"name(created)"`
+	Content string    `xml:"content" json:"content" yaml:"content" cbor:"content" toml:"content" orm:"name(content)"`
+	Rate    int64     `xml:"rate" json:"rate" yaml:"rate" cbor:"rate" toml:"rate" orm:"name(rate)"`
 }
 
 // HandleGetSnapshots 获取评论的快照列表

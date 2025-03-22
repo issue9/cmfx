@@ -15,9 +15,10 @@ import (
 )
 
 type LinkageTO struct {
-	Title string `json:"title" xml:"title" cbor:"title" yaml:"title"`
-	Icon  string `json:"icon,omitempty" xml:"icon,omitempty" cbor:"icon,omitempty" yaml:"icon,omitempty"`
-	Order int    `json:"order,omitempty" xml:"order,attr,omitempty" cbor:"order,omitempty" yaml:"order,omitempty"`
+	XMLName struct{} `xml:"linkage" json:"-" cbor:"-" yaml:"-" toml:"-"`
+	Title   string   `json:"title" xml:"title" cbor:"title" yaml:"title" toml:"title"`
+	Icon    string   `json:"icon,omitempty" xml:"icon,omitempty" cbor:"icon,omitempty" yaml:"icon,omitempty" toml:"icon,omitempty"`
+	Order   int      `json:"order,omitempty" xml:"order,attr,omitempty" cbor:"order,omitempty" yaml:"order,omitempty" toml:"order,omitempty"`
 }
 
 func (l *LinkageTO) Filter(ctx *web.FilterContext) {
