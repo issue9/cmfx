@@ -63,7 +63,7 @@ export class Exporter<T extends object> {
     }
 
     /**
-     * 执行下载数据操作
+     * 从服务器下载全部数据到当前浏览器
      *
      * NOTE: 可多次调用
      */
@@ -80,7 +80,9 @@ export class Exporter<T extends object> {
     }
 
     /**
-     * 导出数据，即在浏览器中提供下载功能。
+     * 导出数据
+     *
+     * 即将 {@link Exporter#download} 下载的数据提供下载功能。
      *
      * @param filename 下载文件的文件名，如果是 excel，也作为工作表的名称。
      * @param ext 后缀名，根据此值生成不同类型的文件。

@@ -61,7 +61,7 @@ export function SplitButton(props: Props) {
                             <hr class="border-palette-bg-low" />
                         </Match>
                         <Match when={item.type === 'item'}>
-                            <Button kind='flat' disabled={(item as any).disabled} class="whitespace-nowrap justify-start" onClick={() => {
+                            <Button kind='flat' disabled={(item as any).disabled} class="item" onClick={() => {
                                 (item as any).onClick();
                                 pop.hidePopover();
                             }}>{(item as any).label}</Button>
