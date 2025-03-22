@@ -1,8 +1,16 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export class CacheImplement implements Cache {
+export async function newCache(): Promise<Cache> {
+    if ('caches' in window) {
+        return await caches.open('api');
+    } 
+    console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
+    return new CacheImplement();
+}
+
+class CacheImplement implements Cache {
     async add(_: RequestInfo | URL): Promise<void> {}
 
     async addAll(requests: RequestInfo[]): Promise<void>;

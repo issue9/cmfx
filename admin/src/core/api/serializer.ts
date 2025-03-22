@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import YAML from 'yaml';
+import TOML from 'smol-toml';
 
 /**
  * 当前 API 支持的 mime type
@@ -10,6 +11,7 @@ import YAML from 'yaml';
 export const mimetypes = [
     'application/json',
     'application/yaml',
+    'application/toml',
 ] as const;
 
 export type Mimetype = typeof mimetypes[number];
@@ -17,6 +19,7 @@ export type Mimetype = typeof mimetypes[number];
 export const serializers: Readonly<Map<Mimetype, Serializer>> = new Map<Mimetype, Serializer>([
     ['application/json', JSON],
     ['application/yaml', YAML],
+    ['application/toml', TOML],
 ]);
 
 /**

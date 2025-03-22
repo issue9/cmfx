@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { CacheImplement } from './cache';
+import { newCache } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
 import { delToken, getToken, SSEToken, state, Token, TokenState, writeToken } from './token';
@@ -37,16 +37,9 @@ export class API {
      */
     static async build(storage: Storage, baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string): Promise<API> {
         API.#tokenStorage = storage;
-        const t = getToken(API.#tokenStorage);
 
-        let c: Cache;
-        if ('caches' in window) {
-            c = await caches.open('api');
-        } else { // 非 HTTPS 环境
-            console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
-            c = new CacheImplement();
-        }
-        return new API(baseURL, tokenPath, mimetype, locale, c, t);
+        const t = getToken(API.#tokenStorage);
+        return new API(baseURL, tokenPath, mimetype, locale, await newCache(), t);
     }
 
     private constructor(baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
