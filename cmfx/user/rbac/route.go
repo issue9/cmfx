@@ -16,10 +16,10 @@ import (
 
 // RoleTO 角色信息
 type RoleTO struct {
-	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-" toml:"-"`
-	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" toml:"name" comment:"role name"`
-	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" toml:"description" comment:"role description"`
-	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" toml:"parent,omitempty" comment:"role parent"`
+	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
+	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
+	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" comment:"role description"`
+	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
 }
 
 func (r *RoleTO) Filter(v *web.FilterContext) {
@@ -29,11 +29,11 @@ func (r *RoleTO) Filter(v *web.FilterContext) {
 
 // RoleVO 角色信息
 type RoleVO struct {
-	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-" toml:"-"`
-	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" yaml:"id,omitempty" toml:"id,omitempty" comment:"role id"`
-	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" toml:"name" comment:"role name"`
-	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" toml:"description" comment:"role description"`
-	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" toml:"parent,omitempty" comment:"role parent"`
+	XMLName struct{} `json:"-" xml:"role" cbor:"-" yaml:"-"`
+	ID      string   `json:"id,omitempty" xml:"id,attr,omitempty" cbor:"id,omitempty" yaml:"id,omitempty" comment:"role id"`
+	Name    string   `json:"name" xml:"name" cbor:"name" yaml:"name" comment:"role name"`
+	Desc    string   `json:"description" xml:"description" cbor:"description" yaml:"description" comment:"role description"`
+	Parent  string   `json:"parent,omitempty" xml:"parent,attr,omitempty" cbor:"parent,omitempty" yaml:"parent,omitempty" comment:"role parent"`
 }
 
 // GetRolesHandle 向客户端输出 g 中保存的所有角色列表

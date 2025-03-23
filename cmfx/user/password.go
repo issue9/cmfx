@@ -29,9 +29,9 @@ type password struct {
 }
 
 type accountTO struct {
-	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-" toml:"-"`
-	Username string   `json:"username" xml:"username" cbor:"username" toml:"username" yaml:"username" comment:"username"`
-	Password string   `json:"password" xml:"password" cbor:"password" toml:"password" yaml:"password" comment:"passport"`
+	XMLName  struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
+	Username string   `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"`
+	Password string   `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"passport"`
 }
 
 func (c *accountTO) Filter(v *web.FilterContext) {
@@ -94,9 +94,9 @@ func (p *password) postLogin(ctx *web.Context) web.Responser {
 }
 
 type passwordTO struct {
-	XMLName struct{} `xml:"password" json:"-" yaml:"-" cbor:"-" toml:"-"`
-	New     string   `json:"new" yaml:"new" cbor:"new" xml:"new" toml:"new" comment:"new password"`
-	Old     string   `json:"old" yaml:"old" cbor:"old" xml:"old" toml:"old" comment:"old password"`
+	XMLName struct{} `xml:"password" json:"-" yaml:"-" cbor:"-"`
+	New     string   `json:"new" yaml:"new" cbor:"new" xml:"new" comment:"new password"`
+	Old     string   `json:"old" yaml:"old" cbor:"old" xml:"old" comment:"old password"`
 }
 
 func (a *passwordTO) Filter(ctx *web.FilterContext) {

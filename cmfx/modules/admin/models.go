@@ -22,38 +22,38 @@ import (
 type info struct {
 	m *Module
 
-	XMLName struct{} `orm:"-" xml:"info" json:"-" cbor:"-" yaml:"-" toml:"-"`
+	XMLName struct{} `orm:"-" xml:"info" json:"-" cbor:"-" yaml:"-"`
 
-	ID int64 `orm:"name(id);unique(id)" json:"id" xml:"id,attr" cbor:"id" yaml:"id" toml:"id"`
+	ID int64 `orm:"name(id);unique(id)" json:"id" xml:"id,attr" cbor:"id" yaml:"id"`
 
 	// 性别
-	Sex types.Sex `orm:"name(sex)" json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex" toml:"sex" comment:"sex"`
+	Sex types.Sex `orm:"name(sex)" json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex" comment:"sex"`
 
 	// 真实名称
-	Name string `orm:"name(name);len(50)" json:"name" xml:"name" cbor:"name" yaml:"name" toml:"name"`
+	Name string `orm:"name(name);len(50)" json:"name" xml:"name" cbor:"name" yaml:"name"`
 
 	// 昵称
-	Nickname string `orm:"name(nickname);len(50)" json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname" toml:"nickname" comment:"nickname"`
+	Nickname string `orm:"name(nickname);len(50)" json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname" comment:"nickname"`
 
 	// 头像
-	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" toml:"avatar,omitempty" comment:"avatar"`
+	Avatar string `orm:"name(avatar);len(1000)" json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
 }
 
 // 包含权限的管理员信息
 type infoWithRoleStateVO struct {
 	info
-	Roles   []string `json:"roles" xml:"roles>role" cbor:"roles" yaml:"roles" toml:"roles"` // 关联的角色
+	Roles   []string `json:"roles" xml:"roles>role" cbor:"roles" yaml:"roles"` // 关联的角色
 	roles   []*rbac.Role
-	State   user.State `json:"state" xml:"state,attr" cbor:"state" yaml:"state" toml:"state"`           // 用户状态
-	NO      string     `json:"no" xml:"no,attr" cbor:"no" yaml:"no" toml:"no"`                          // 用户的唯一编号，一般用于前端
-	Created time.Time  `json:"created" xml:"created,attr" cbor:"created" yaml:"created" toml:"created"` // 添加时间
+	State   user.State `json:"state" xml:"state,attr" cbor:"state" yaml:"state"`         // 用户状态
+	NO      string     `json:"no" xml:"no,attr" cbor:"no" yaml:"no"`                     // 用户的唯一编号，一般用于前端
+	Created time.Time  `json:"created" xml:"created,attr" cbor:"created" yaml:"created"` // 添加时间
 }
 
 // 添加新的管理员时，需要提供的数据
 type infoWithAccountTO struct {
 	infoWithRoleStateVO
-	Username string `json:"username" xml:"username" cbor:"username" yaml:"username" toml:"username" comment:"username"` // 账号
-	Password string `json:"password" xml:"password" cbor:"password" yaml:"password" toml:"password" comment:"password"` // 密码
+	Username string `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"` // 账号
+	Password string `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"password"` // 密码
 }
 
 func (i *info) Filter(v *web.FilterContext) {

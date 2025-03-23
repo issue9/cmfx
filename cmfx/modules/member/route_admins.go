@@ -41,21 +41,21 @@ func (q *adminQueryMembers) Filter(v *web.FilterContext) {
 }
 
 type adminInfoVO struct {
-	XMLName struct{} `xml:"info" json:"-" cbor:"-" yaml:"-" toml:"-"`
+	XMLName struct{} `xml:"info" json:"-" cbor:"-" yaml:"-"`
 
-	ID       int64      `json:"id" yaml:"id" cbor:"id" toml:"id" xml:"id,attr"`
-	NO       string     `json:"no" yaml:"no" cbor:"no" toml:"no" xml:"no,attr"`
-	Created  time.Time  `json:"created" yaml:"created" cbor:"created" toml:"created" xml:"created"`
-	State    user.State `json:"state" yaml:"state" cbor:"state" toml:"state" xml:"state"`
-	Birthday time.Time  `json:"birthday,omitempty" cbor:"birthday,omitempty" toml:"birthday,omitempty" xml:"birthday,omitempty" yaml:"birthday,omitempty"`
-	Sex      types.Sex  `json:"sex" xml:"sex,attr" cbor:"sex" toml:"sex" yaml:"sex"`
-	Nickname string     `json:"nickname" xml:"nickname" cbor:"nickname" toml:"nickname" yaml:"nickname"`
-	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" toml:"avatar,omitempty" yaml:"avatar,omitempty"`
-	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" toml:"level,attr,omitempty" cbor:"level,omitempty"`
-	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" toml:"type,attr,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
+	ID       int64      `json:"id" yaml:"id" cbor:"id" xml:"id,attr"`
+	NO       string     `json:"no" yaml:"no" cbor:"no" xml:"no,attr"`
+	Created  time.Time  `json:"created" yaml:"created" cbor:"created" xml:"created"`
+	State    user.State `json:"state" yaml:"state" cbor:"state" xml:"state"`
+	Birthday time.Time  `json:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" yaml:"birthday,omitempty"`
+	Sex      types.Sex  `json:"sex" xml:"sex,attr" cbor:"sex" yaml:"sex"`
+	Nickname string     `json:"nickname" xml:"nickname" cbor:"nickname" yaml:"nickname"`
+	Avatar   string     `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty"`
+	Level    int64      `json:"level,omitempty" yaml:"level,omitempty" xml:"level,attr,omitempty" cbor:"level,omitempty"`
+	Type     int64      `json:"type,omitempty" yaml:"type,omitempty" xml:"type,attr,omitempty" cbor:"type,omitempty"`
 
 	// 当前用户已经开通的验证方式
-	Passports []*user.IdentityVO `json:"passports,omitempty" toml:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
+	Passports []*user.IdentityVO `json:"passports,omitempty" xml:"passports>passport,omitempty" cbor:"passports,omitempty" yaml:"passports,omitempty"`
 }
 
 func (m *Module) adminGetMembers(ctx *web.Context) web.Responser {
@@ -227,8 +227,8 @@ func (m *Module) adminGetStatcstic(ctx *web.Context) web.Responser {
 
 type adminMemberTypeTO struct {
 	m       *Module
-	XMLName struct{} `xml:"type" json:"-" cbor:"-" yaml:"-" toml:"-"`
-	Type    int64    `json:"type" xml:"type" cbor:"type" yaml:"type" toml:"type"`
+	XMLName struct{} `xml:"type" json:"-" cbor:"-" yaml:"-"`
+	Type    int64    `json:"type" xml:"type" cbor:"type" yaml:"type"`
 }
 
 func (m *adminMemberTypeTO) Filter(ctx *web.FilterContext) {
@@ -258,8 +258,8 @@ func (m *Module) adminPutMemberType(ctx *web.Context) web.Responser {
 
 type adminMemberLevelTO struct {
 	m       *Module
-	XMLName struct{} `xml:"level" json:"-" cbor:"-" yaml:"-" toml:"-"`
-	Level   int64    `json:"level" xml:"level" cbor:"level" yaml:"level" toml:"level"`
+	XMLName struct{} `xml:"level" json:"-" cbor:"-" yaml:"-"`
+	Level   int64    `json:"level" xml:"level" cbor:"level" yaml:"level"`
 }
 
 func (m *adminMemberLevelTO) Filter(ctx *web.FilterContext) {

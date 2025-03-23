@@ -37,9 +37,9 @@ type codePO struct {
 }
 
 type accountTO struct {
-	XMLName struct{} `xml:"account" json:"-" cbor:"-" yaml:"-" toml:"-"`
-	Target  string   `json:"target" xml:"target" cbor:"target" yaml:"target" toml:"target" comment:"target"`
-	Code    string   `json:"code" xml:"code" cbor:"code" yaml:"code" toml:"code" comment:"code"`
+	XMLName struct{} `xml:"account" json:"-" cbor:"-" yaml:"-"`
+	Target  string   `json:"target" xml:"target" cbor:"target" yaml:"target" comment:"target"`
+	Code    string   `json:"code" xml:"code" cbor:"code" yaml:"code" comment:"code"`
 }
 
 func (a *accountTO) Filter(ctx *web.FilterContext) {
@@ -48,8 +48,8 @@ func (a *accountTO) Filter(ctx *web.FilterContext) {
 }
 
 type TargetTO struct {
-	XMLName struct{} `xml:"target" yaml:"-" json:"-" cbor:"-" toml:"-"`
-	Target  string   `json:"target" yaml:"target" cbor:"target" xml:"target" toml:"target" comment:"code receiver, ignore when binded"`
+	XMLName struct{} `xml:"target" yaml:"-" json:"-" cbor:"-"`
+	Target  string   `json:"target" yaml:"target" cbor:"target" xml:"target" comment:"code receiver, ignore when binded"`
 }
 
 func (a *TargetTO) Filter(ctx *web.FilterContext) {
