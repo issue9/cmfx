@@ -108,11 +108,11 @@ func (m *Module) memberPatchInfo(ctx *web.Context) web.Responser {
 }
 
 type memberInfoTO struct {
-	memberInfoPathTO
-	Username  string `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
-	Password  string `json:"password" yaml:"password" xml:"password" cbor:"password" comment:"password"`
-	Inviter   string `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
-	inviterID int64
+	memberInfoPathTO `yaml:",inline"`
+	Username         string `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
+	Password         string `json:"password" yaml:"password" xml:"password" cbor:"password" comment:"password"`
+	Inviter          string `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
+	inviterID        int64
 }
 
 func (mem *memberInfoTO) Filter(v *web.FilterContext) {

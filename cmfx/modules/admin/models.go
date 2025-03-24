@@ -41,7 +41,7 @@ type info struct {
 
 // 包含权限的管理员信息
 type infoWithRoleStateVO struct {
-	info
+	info    `yaml:",inline"`
 	Roles   []string `json:"roles" xml:"roles>role" cbor:"roles" yaml:"roles"` // 关联的角色
 	roles   []*rbac.Role
 	State   user.State `json:"state" xml:"state,attr" cbor:"state" yaml:"state"`         // 用户状态
@@ -51,9 +51,9 @@ type infoWithRoleStateVO struct {
 
 // 添加新的管理员时，需要提供的数据
 type infoWithAccountTO struct {
-	infoWithRoleStateVO
-	Username string `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"` // 账号
-	Password string `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"password"` // 密码
+	infoWithRoleStateVO `yaml:",inline"`
+	Username            string `json:"username" xml:"username" cbor:"username" yaml:"username" comment:"username"` // 账号
+	Password            string `json:"password" xml:"password" cbor:"password" yaml:"password" comment:"password"` // 密码
 }
 
 func (i *info) Filter(v *web.FilterContext) {

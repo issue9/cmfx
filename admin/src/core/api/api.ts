@@ -408,8 +408,6 @@ export class API {
 
     /**
      * 获取 {@link EventSource} 对象
-     *
-     * NOTE: 同次登录拥有相同的实例。
      */
     async eventSource(): Promise<EventSource | undefined> {
         if (this.isLogin() && !this.#eventSource) { // 刷新页面可能导致 eventSource 无效。
@@ -424,18 +422,14 @@ export class API {
      * @param es 事件源；
      * @param handler 事件处理程序，参数 e.data 是转换后的对象，而不是原始数据；
      * @param type 事件类型名称；
-     * @template T 表示 e.data 转换后的类型；
      */
-    async onEventSource<T>(type: string, handler: {(e: MessageEvent<T>): void}): Promise<void> {
+    async onEventSource(type: string, handler: {(e: MessageEvent): void}): Promise<void> {
         const es = await this.eventSource();
         if (!es) {
             throw '初始化 eventSource 失败';
         }
 
-        es!.addEventListener(type, async (e: MessageEvent) => {
-            const data = this.#serializer.parse(e.data) as T;
-            handler(new MessageEvent(type, { data: data!, origin: e.origin, lastEventId: e.lastEventId, source: e.source }));
-        });
+        es!.addEventListener(type, handler);
     }
 }
 

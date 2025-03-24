@@ -22,7 +22,7 @@ import (
 )
 
 type adminInfoVO struct {
-	infoWithRoleStateVO
+	infoWithRoleStateVO `yaml:",inline"`
 
 	// 当前用户已经开通的验证方式
 	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`

@@ -136,16 +136,16 @@ type serviceVO struct {
 
 // 计划任务
 type jobVO struct {
-	serviceVO
-	Next time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty" yaml:"next,omitempty"` // 下一次执行时间
-	Prev time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty" yaml:"prev,omitempty"` // 上一次执行时间
+	serviceVO `yaml:",inline"`
+	Next      time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty" yaml:"next,omitempty"` // 下一次执行时间
+	Prev      time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty" yaml:"prev,omitempty"` // 上一次执行时间
 }
 
 // 服务和计划任务
 type servicesVO struct {
 	XMLName  struct{}    `json:"-" xml:"services" cbor:"-" yaml:"-"`
-	Services []serviceVO `json:"services" xml:"service" cbor:"service" yaml:"service"` // 服务
-	Jobs     []jobVO     `json:"jobs" xml:"job" cbor:"job" yaml:"job"`                 // 计划任务
+	Services []serviceVO `json:"services" xml:"services>service" cbor:"services" yaml:"services"` // 服务
+	Jobs     []jobVO     `json:"jobs" xml:"jobs>job" cbor:"jobs" yaml:"jobs"`                     // 计划任务
 }
 
 func (m *Module) adminGetServices(ctx *web.Context) web.Responser {

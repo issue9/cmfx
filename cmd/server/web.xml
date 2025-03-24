@@ -40,7 +40,6 @@
     </encodings>
 
     <mimetypes>
-        <mimetype type="application/toml" target="toml" problem="application/problem+toml" />
         <mimetype type="application/json" target="json" problem="application/problem+json" />
         <mimetype type="application/yaml" target="yaml" problem="application/problem+yaml" />
         <mimetype type="application/xml" target="xml" problem="application/problem+xml" />

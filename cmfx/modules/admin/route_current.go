@@ -17,7 +17,7 @@ import (
 )
 
 type infoWithPassportVO struct {
-	info
+	info      `yaml:",inline"`
 	Passports []*user.IdentityVO `json:"passports" xml:"passports" cbor:"passports" yaml:"passports"`
 }
 
