@@ -56,7 +56,7 @@ export function APIs(): JSX.Element {
                 { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number, api?: API) => {
                     const count = api?.count!;
                     val = count > 0 ? val / count : 0;
-                    return ctx.locale().duration(val);
+                    return ctx.locale().duration(Math.floor(val));
                 } },
             ] as Array<Column<API>>} />
     </Page>;

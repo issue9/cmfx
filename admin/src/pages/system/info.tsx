@@ -75,13 +75,14 @@ export function Info(): JSX.Element {
     onMount(async () => {
         const fixed = (num: number)=>Math.round(num * 100) / 100; // 固定小数点
 
-        await ctx.api.onEventSource('systat', (s: MessageEvent<Stats>) => {
-            const os = s.data.os;
-            const pro = s.data.process;
+        await ctx.api.onEventSource('systat', (s: MessageEvent) => {
+            const d = JSON.parse(s.data) as Stats;
+            const os = d.os;
+            const pro = d.process;
 
-            const start = s.data.created.indexOf(':');
-            const end = s.data.created.indexOf('.');
-            const created = s.data.created.slice(start+1, end);
+            const start = d.created.indexOf(':');
+            const end = d.created.indexOf('.');
+            const created = d.created.slice(start+1, end);
 
             setCPU((prev) => [...prev, { os: fixed(os.cpu), process: fixed(pro.cpu), created: created }]);
             setMem((prev) => [...prev, { os: fixed(os.mem/mb), process: fixed(pro.mem/mb), created: created }]);
