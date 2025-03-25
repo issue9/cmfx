@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
-import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@/components';
@@ -50,9 +50,8 @@ function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
 
         return <Provider>
             <Notify />
-            <Show when={props.opt.system.dialog}>
-                <SystemDialog palette='surface' />
-            </Show>
+            <SystemDialog palette='surface' />
+
             <div class="app palette--surface">
                 <Toolbar menuVisible={menuVisible} switch={setSelected} />
                 <main class="app-main">{p.children}</main>

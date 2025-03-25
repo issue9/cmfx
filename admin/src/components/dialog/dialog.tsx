@@ -36,7 +36,7 @@ export interface Ref {
      *
      * @param title 按钮内容；
      * @param click 点击事件；
-     * @param def 默认按钮，响应回车事件；
+     * @param def 是否为默认按钮，如果是则会响应回车事件；
      */
     Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element;
 
@@ -119,12 +119,10 @@ export function Dialog(props: Props): JSX.Element {
             const btnClick = async () => {
                 if (click) {
                     const ret = await click();
-                    if (ret === false) { // undefined 也是关闭
-                        return;
-                    }
+                    if (ret === false) { return; } // false 阻止关闭
                     return ref.close(ret);
                 }
-                ref.close();
+                return ref.close(''); // dialog 常驻，需要取消上一次的 returnValue 值。
             };
 
             if (def) {
@@ -142,7 +140,7 @@ export function Dialog(props: Props): JSX.Element {
                     self.removeEventListener('keydown', handler);
                 });
             }
-            return <Button type={def?'submit':'button'} palette={def?'primary':'secondary'} onClick={btnClick}>{title}</Button>;
+            return <Button type={def ? 'submit' : 'button'} palette={def ? 'primary' : 'secondary'} onClick={btnClick}>{title}</Button>;
         },
 
         CancelAction(click?: ClickFunc): JSX.Element {

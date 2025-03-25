@@ -7,6 +7,7 @@ import { Button } from '@/components/button';
 import { useApp } from '@/components/context';
 import { Form, FormAccessor } from '@/components/form';
 import { Dialog, Ref } from './dialog';
+import { alert, confirm, prompt } from './system';
 
 export default function() {
     const ctx = useApp();
@@ -15,16 +16,20 @@ export default function() {
     let dlg1: Ref;
     let dlg2: Ref;
 
-    const fa = new FormAccessor({}, ctx, async (_) => { return {ok:false, status:500}; });
+    const fa = new FormAccessor({}, ctx, async (_) => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; });
 
     return <Demo settings={
         <>
             {paletteS}
         </>
     }>
-        <Button onClick={() => window.alert('msg')}>alert</Button>
-        <Button onClick={() => window.confirm('msg')}>confirm</Button>
-        <Button onClick={() => window.prompt('msg', 'def')}>prompt</Button>
+        <Button onClick={async () => { await alert('msg'); console.log('alert'); }}>alert</Button>
+        <Button onClick={async () => { console.log('confirm:', await confirm('msg')); }}>confirm</Button>
+        <Button onClick={async () => { console.log('prompt:', await prompt('msg', 'def')); }}>prompt</Button>
+
+        <Button onClick={async () => { await window.alert('msg'); console.log('alert'); }}>system.alert</Button>
+        <Button onClick={async () => { console.log('confirm:', await window.confirm('msg')); }}>system.confirm</Button>
+        <Button onClick={async () => { console.log('prompt:', await window.prompt('msg', 'def')); }}>system.prompt</Button>
 
         <div>
             <Dialog palette={palette()} ref={(el) => dlg1 = el} header="header" actions={
@@ -41,7 +46,7 @@ export default function() {
 
         <div>
             <Button onClick={() => dlg2.showModal()} palette={palette()}>showModal</Button>
-            <Dialog palette={palette()} ref={(el) => dlg2 = el} header="header">
+            <Dialog palette={palette()} ref={el => dlg2 = el} header="header">
                 <div>
                     <Form formAccessor={fa} inDialog>
                         <div class="flex flex-col">

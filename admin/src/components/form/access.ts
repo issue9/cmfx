@@ -187,11 +187,11 @@ export class ObjectAccessor<T extends object> {
     }
 }
 
-export interface SuccessFunc<T> {
+interface SuccessFunc<T> {
     (r?: Return<T, never>): void;
 }
 
-export interface Request<T extends object, R = never, P = never> {
+interface Request<T extends object, R = never, P = never> {
     (obj: T): Promise<Return<R, P>>;
 }
 
@@ -216,6 +216,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * @param preset 初始值；
      * @param success 在接口正常返回时调用的方法；
      * @param validation 提交前对数据的验证方法；
+     * @param req 提交数据的方法；
      */
     constructor(preset: T, ctx: AppContext, req: Request<T, R, P>);
     constructor(preset: T, ctx: AppContext, req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>);
