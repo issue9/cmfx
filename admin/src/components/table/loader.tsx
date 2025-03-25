@@ -8,6 +8,7 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 import { Palette } from '@/components/base';
 import { Button, FitScreenButton, PrintButton, SplitButton } from '@/components/button';
 import { useApp, useOptions } from '@/components/context';
+import { prompt } from '@/components/dialog';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';
 import { PaginationBar } from '@/components/pagination';
@@ -169,7 +170,10 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
         delete q.page;
 
         await e.download(async () => { return await load(q); });
-        e.export(props.filename!, ext);
+        const filename = await prompt(ctx.locale().t('_i.table.downloadFilename'), props.filename);
+        if (filename) {
+            e.export(filename, ext);
+        }
     };
 
     let footer: JSX.Element | undefined;

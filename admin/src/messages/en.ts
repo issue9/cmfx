@@ -172,6 +172,7 @@ const messages = {
             noStriped: 'no striped',
             stickyHeader: 'sticky header',
             fitScreen: 'fit screen',
+            downloadFilename: 'the filename of download',
         },
         pagination: {
             prev: 'prev',

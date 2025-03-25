@@ -174,6 +174,7 @@ const messages: Messages = {
             noStriped: '无',
             stickyHeader: '固定表格头',
             fitScreen: '扩展至整个屏幕大小',
+            downloadFilename: '下载的文件名',
         },
         pagination: {
             prev: '前一页',
