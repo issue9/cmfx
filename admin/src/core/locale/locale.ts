@@ -5,7 +5,9 @@
 import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
-import { API, Config, Duration, formatDuration, parseDuration } from '@/core';
+import { API } from '@/core/api';
+import { Config } from '@/core/config';
+import { Duration, formatDuration, parseDuration } from '@/core/time';
 import { Dict, flatten, Keys, Loader } from './dict';
 
 const localeKey = 'locale';
