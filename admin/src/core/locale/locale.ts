@@ -5,10 +5,8 @@
 import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
-import { API } from '@/core/api';
-import { Config } from '@/core/config';
+import { API, Config, Duration, formatDuration, parseDuration } from '@/core';
 import { Dict, flatten, Keys, Loader } from './dict';
-import { parseDuration } from './duration';
 
 const localeKey = 'locale';
 const unitStyleKey = 'unit_style';
@@ -256,8 +254,8 @@ export class Locale {
     /**
      *返回本地化的时间区间
      */
-    duration(val?: number | string): string {
-        return this.#duration.format(parseDuration(val));
+    duration(val?: Duration): string {
+        return this.#duration.format(formatDuration(parseDuration(val)));
     }
 
     /**
@@ -305,4 +303,3 @@ export class Locale {
 }
 
 type TArgs = Parameters<IntlMessageFormat['format']>[0];
-

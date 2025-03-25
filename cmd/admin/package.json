@@ -27,7 +27,7 @@
         "solid-js": "^1.9.5"
     },
     "devDependencies": {
-        "@types/node": "^22.13.11",
+        "@types/node": "^22.13.13",
         "@vitejs/plugin-basic-ssl": "^2.0.0",
         "autoprefixer": "^10.4.21",
         "cssnano": "^7.0.6",
@@ -35,7 +35,7 @@
         "solid-devtools": "^0.33.0",
         "@tailwindcss/vite": "^4.0.15",
         "typescript": "^5.8.2",
-        "vite": "^6.2.2",
+        "vite": "^6.2.3",
         "vite-plugin-solid": "^2.11.6"
     }
 }

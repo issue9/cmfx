@@ -5,7 +5,7 @@
 import { JSX } from 'solid-js';
 
 import { Column, Label, Page, RemoteTable, useApp } from '@/components';
-import { Method, Query } from '@/core';
+import { Duration, Method, parseDuration, Query } from '@/core';
 
 interface API {
     method: string;
@@ -20,9 +20,9 @@ interface API {
     // 以下是与速度相关的数据，是对一个时间段的表述，
     // 符合 go 中 time.Duration 的序列化要求。比如 2s 表示两秒。
 
-    max: string;
-    min: string;
-    spend: string;
+    max: Duration;
+    min: Duration;
+    spend: Duration;
 }
 
 interface Q extends Query {
@@ -51,12 +51,12 @@ export function APIs(): JSX.Element {
                 { id: 'serverErrors', label: ctx.locale().t('_i.page.system.serverErrors') },
                 { id: 'userErrors', label: ctx.locale().t('_i.page.system.userErrors') },
     
-                { id: 'max', label: ctx.locale().t('_i.page.system.max'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
-                { id: 'min', label: ctx.locale().t('_i.page.system.min'), content: (_: string, val: number) => { return ctx.locale().duration(val); } },
-                { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: number, api?: API) => {
+                { id: 'max', label: ctx.locale().t('_i.page.system.max'), content: (_: string, val: Duration) => { return ctx.locale().duration(val); } },
+                { id: 'min', label: ctx.locale().t('_i.page.system.min'), content: (_: string, val: Duration) => { return ctx.locale().duration(val); } },
+                { id: 'spend', label: ctx.locale().t('_i.page.system.spend'), content: (_: string, val: Duration, api?: API) => {
                     const count = api?.count!;
-                    val = count > 0 ? val / count : 0;
-                    return ctx.locale().duration(Math.floor(val));
+                    val = count > 0 ? parseDuration(val) / count : 0;
+                    return ctx.locale().duration(val);
                 } },
             ] as Array<Column<API>>} />
     </Page>;

@@ -4,12 +4,14 @@
 
 import '@formatjs/intl-durationformat/polyfill';
 
-const us = 1000;
-const ms = 1000 * us;
-const second = 1000 * ms;
-const minute = 60 * second;
-const hour = 60 * minute;
-const day = 24 * hour;
+export type Duration = number | string;
+
+export const us = 1000;
+export const ms = 1000 * us;
+export const second = 1000 * ms;
+export const minute = 60 * second;
+export const hour = 60 * minute;
+export const day = 24 * hour;
 
 const nameValues: Array<[keyof Intl.DurationInput, number]> = [
     ['nanoseconds', 1],
@@ -33,11 +35,12 @@ const unitNames: ReadonlyMap<string, keyof Intl.DurationInput> = new Map([
     ['h', 'hours'],
 ]);
 
-export function parseDuration(val?: number | string): Intl.DurationInput {
-    if (!val) { return { nanoseconds: 0 }; }
+// parseDuration 将一个时间段的描述转换为纳秒
+export function parseDuration(val?: Duration): number {
+    if (!val) { return 0; }
 
-    let nano = 0; // 总的纳秒数
     if (typeof(val) === 'string') {
+        let nano = 0; // 总的纳秒数
         let isNum = true;
         let start = 0;
         let v = 0;
@@ -54,7 +57,7 @@ export function parseDuration(val?: number | string): Intl.DurationInput {
                     const name = unitNames.get(val.slice(start, i));
                     if (name === undefined) { throw `无法解析的单位名称 ${val.slice(start, i)}`; }
 
-                    nano += nameValues.find(item=>item[0]===name)![1] * v;
+                    nano += Math.round(nameValues.find(item=>item[0]===name)![1] * v); // 防止 .99999 之类的小数位
                     start = i;
                     isNum = true;
                     v = 0;
@@ -68,14 +71,19 @@ export function parseDuration(val?: number | string): Intl.DurationInput {
                 } else {
                     const name = unitNames.get(last);
                     if (name === undefined) { throw `无法解析的单位名称 ${last}`; }
-                    nano += nameValues.find(item=>item[0]===name)![1] * v;
+                    nano += Math.round(nameValues.find(item=>item[0]===name)![1] * v); // 防止 .99999 之类的小数位
                 }
 
                 break;
             }
         }
-    } else { nano = isNaN(val) ? 0 : val; }
+        return nano;
+    }
 
+    return isNaN(val) ? 0 : Math.round(val);
+}
+
+export function formatDuration(nano: number): Intl.DurationInput {
     const obj: Intl.DurationInput = {};
     let hasField = false; // 是否有字段已经设置过值
     for (let i = 1; i < nameValues.length; i++) {
@@ -84,7 +92,7 @@ export function parseDuration(val?: number | string): Intl.DurationInput {
         if (rem) {
             hasField = true;
             const prev = nameValues[i - 1];
-            obj[prev[0]] = Math.floor(rem / prev[1]); // Intl.DurationInput 要求必须是整数
+            obj[prev[0]] = Math.round(rem / prev[1]); // Intl.DurationInput 要求必须是整数
             nano -= rem;
         }
         if (!nano) { break; }

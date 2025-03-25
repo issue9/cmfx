@@ -18,7 +18,7 @@ require (
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.1.0
 	github.com/issue9/web v0.102.10
-	github.com/issue9/webuse/v7 v7.0.0-20250322164108-50dac0f2f9e0
+	github.com/issue9/webuse/v7 v7.0.0-20250323161640-aaebfbc1e339
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.25.2
 	golang.org/x/crypto v0.36.0
