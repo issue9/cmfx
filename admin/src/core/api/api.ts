@@ -24,30 +24,28 @@ export class API {
     readonly #cachePaths: Map<string, Array<string>>; // key 为地址，val 为依赖地址
 
     readonly #contentType: Mimetype;
-    readonly #serializer: Serializer;
+    readonly #contentSerializer: Serializer;
+    readonly #acceptType: Mimetype;
+    readonly #acceptSerializer: Serializer;
 
     /**
      * 返回一个对 {@link fetch} 进行二次包装的对象
      *
      * @param storage 令牌的保存位置；
      * @param baseURL API 的基地址，不能以 / 结尾；
-     * @param mimetype mimetype 的类型；
+     * @param contentType 请求内容的类型；
+     * @param accept mimetype 返回内容的类型；
      * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 三个请求，分别代表退出和刷新令牌；
      * @param locale 请求报头 accept-language 的内容；
      */
-    static async build(storage: Storage, baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string): Promise<API> {
+    static async build(storage: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
         API.#tokenStorage = storage;
 
         const t = getToken(API.#tokenStorage);
-        return new API(baseURL, tokenPath, mimetype, locale, await newCache(), t);
+        return new API(baseURL, tokenPath, contentType, accept, locale, await newCache(), t);
     }
 
-    private constructor(baseURL: string, tokenPath: string, mimetype: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
-        const s = serializers.get(mimetype);
-        if (!s) {
-            throw `不支持的 contentType ${mimetype}`;
-        }
-
+    private constructor(baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
         this.#baseURL = baseURL;
         this.#tokenPath = tokenPath;
         this.#locale = locale;
@@ -56,8 +54,10 @@ export class API {
         this.#cache = cache;
         this.#cachePaths = new Map<string, Array<string>>();
 
-        this.#contentType = mimetype;
-        this.#serializer = s;
+        this.#contentType = contentType;
+        this.#contentSerializer = serializers.get(contentType)!;
+        this.#acceptType = accept;
+        this.#acceptSerializer = serializers.get(accept)!;
     }
 
     /**
@@ -183,7 +183,7 @@ export class API {
      */
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
-        const body = obj === undefined ? undefined : this.#serializer.stringify(obj);
+        const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
         return this.withArgument<R,PE>(path, method, token, body ? this.#contentType : undefined, body);
     }
 
@@ -312,14 +312,14 @@ export class API {
      */
     async withArgument<R=never,PE=never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return<R,PE>> {
         const h = new Headers({
-            'Accept': this.#contentType + '; charset=UTF-8',
+            'Accept': this.#acceptType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
         });
         if (token) {
             h.set('Authorization', 'Bearer ' + token);
         }
         if (ct) {
-            h.set('Content-Type', ct);
+            h.set('Content-Type', ct + '; charset=UTF-8');
         }
 
         return await this.fetch(path, {
@@ -403,7 +403,7 @@ export class API {
         if (txt.length === 0) {
             return;
         }
-        return this.#serializer.parse(txt) as R;
+        return this.#acceptSerializer.parse(txt) as R;
     }
 
     /**

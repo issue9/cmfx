@@ -1,13 +1,13 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import {
     Breakpoint, Contrast, Theme as CoreTheme, DictLoader,
-    Mimetype, Mode, PickOptional, Scheme, UnitStyle
+    Mode, PickOptional, Scheme, UnitStyle
 } from '@/core';
 import type { LocaleID } from '@/messages';
-import { API, checkAPI } from './api';
+import { API, sanitizeAPI } from './api';
 import type { MenuItem, Routes } from './route';
 
 /**
@@ -58,11 +58,6 @@ export interface AppOptions {
      * 用户菜单
      */
     userMenus: Array<MenuItem>;
-
-    /**
-     * API 接口请求时的内容类型
-     */
-    mimetype?: Mimetype;
 
     /**
      * 与本地化相关的一些设置
@@ -143,16 +138,17 @@ const presetOptions: Readonly<PickOptional<AppOptions>> = {
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
-    mimetype: 'application/json',
-    asideFloatingMinWidth: 'xs'
+    asideFloatingMinWidth: 'xs',
 } as const;
+
+type ReqAppOptions = Required<Omit<AppOptions, 'api'>> & { api: Required<API> };
 
 /**
  * 根据 o 生成一个完整的 {@link AppOptions} 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
  */
-export function build(o: AppOptions): Required<AppOptions> {
+export function build(o: AppOptions): ReqAppOptions {
     if (o.title.length === 0) {
         throw 'title 不能为空';
     }
@@ -175,7 +171,7 @@ export function build(o: AppOptions): Required<AppOptions> {
         opt.locales.unitStyle = 'short';
     }
 
-    checkAPI(opt.api);
+    sanitizeAPI(opt.api);
 
-    return opt;
+    return opt as ReqAppOptions;
 }

@@ -8,7 +8,7 @@ import { API, Config } from '@/core';
 import { Locale } from './locale';
 
 describe('Locale', async () => {
-    const api = await API.build(sessionStorage, 'https://api.example.com', 'token', 'application/json', 'zh-Hans');
+    const api = await API.build(sessionStorage, 'https://api.example.com', 'token', 'application/json', 'application/json', 'zh-Hans');
     const c = new Config('');
 
     Locale.init('en', api);

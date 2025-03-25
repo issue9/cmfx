@@ -13,7 +13,8 @@ import { API, Locale } from '@/core';
 import Toolbar from './toolbar';
 
 test('toolbar', async () => {
-    const api = await API.build(localStorage, options.api.base, options.api.login, options.mimetype, 'zh-Hans');
+    const ao = options.api;
+    const api = await API.build(localStorage, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, 'zh-Hans');
     Locale.init('en', api);
     const menus = createSignal(false);
     const [_, setSwitch] = createSignal('');

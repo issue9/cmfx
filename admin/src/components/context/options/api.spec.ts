@@ -1,37 +1,38 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { expect, test } from 'vitest';
 
-import { checkAPI } from './api';
+import { API, sanitizeAPI } from './api';
 
-test('checkAPI', () => {
-    const api = {
+test('sanitizeAPI', () => {
+    const api: API = {
         base: 'http://localhost/',
         login: '/login',
         info: '/info',
         pageSizes: [1,2],
-        defaultSize: 1
+        presetSize: 1
     };
 
     expect(() => {
-        checkAPI(Object.assign({}, api, { login: '' }));
+        sanitizeAPI(Object.assign({}, api, { login: '' }));
     }).toThrowError('api.login 不能为空');
 
     expect(() => {
-        checkAPI(Object.assign({}, api, { info: '' }));
+        sanitizeAPI(Object.assign({}, api, { info: '' }));
     }).toThrowError('api.info 不能为空');
 
     expect(() => {
-        checkAPI(Object.assign({}, api, { base: 'localhost' }));
+        sanitizeAPI(Object.assign({}, api, { base: 'localhost' }));
     }).toThrowError('base 格式错误');
 
     let o = Object.assign({}, api);
-    checkAPI(o);
+    sanitizeAPI(o);
     expect(o.base).toEqual('http://localhost'); // 去掉了尾部的 /
+    expect(o.encoding).toEqual({ content: 'application/json', accept: 'application/json' });
 
     o = Object.assign({}, api, { info: 'info' });
-    checkAPI(o);
+    sanitizeAPI(o);
     expect(o.info).toEqual('/info');
 });

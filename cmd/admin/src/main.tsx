@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -115,8 +115,10 @@ const o: AppOptions = {
         base: urlBase,
         login: '/login',
         info: '/info',
-        pageSizes: [10, 20, 50, 100],
-        defaultSize: 20
+        encoding: {
+            content: 'application/json',
+            accept: 'application/yaml'
+        }
     },
 
     title: 'Title',

@@ -7,16 +7,16 @@ import { JSX, createContext, createResource, useContext } from 'solid-js';
 
 import { NotifyType } from '@/components/notify';
 import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle, notify } from '@/core';
-import { AppOptions } from './options';
+import { buildOptions } from './options';
 import { User } from './user';
 
-type ReqOptions = Required<AppOptions>;
+export type OptContext = ReturnType<typeof buildOptions>;
 
 export type AppContext = ReturnType<typeof buildContext>['ctx'];
 
 const appContext = createContext<AppContext>();
 
-const optContext = createContext<ReqOptions>();
+const optContext = createContext<OptContext>();
 
 // 保存于 sessionStorage 中的表示当前登录用户的 id
 const currentKey = 'current';
@@ -35,7 +35,7 @@ export function useApp(): AppContext {
 /**
  * 提供应用初始化时的选项
  */
-export function useOptions(): ReqOptions {
+export function useOptions(): OptContext {
     const ctx = useContext(optContext);
     if (!ctx) {
         throw '未找到正确的 optContext';
@@ -43,7 +43,7 @@ export function useOptions(): ReqOptions {
     return ctx;
 }
 
-export function buildContext(opt: Required<AppOptions>, f: API) {
+export function buildContext(opt: OptContext, f: API) {
     const [user, userData] = createResource(async () => {
         if (!f.isLogin()) {
             return;

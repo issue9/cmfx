@@ -32,4 +32,3 @@ export type ExtractOptional<T> = Omit<T, OptionalKeys<T>>;
  * 提取 T 中所有的可选字段组成一个新的对象
  */
 export type PickOptional<T> = Pick<T, OptionalKeys<T>>;
-

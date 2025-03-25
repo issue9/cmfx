@@ -13,7 +13,7 @@ const api = {
     login: '/login',
     info: '/info',
     pageSizes: [1, 2],
-    defaultSize: 1
+    presetSize: 1
 };
 
 const locales: Locales = {
@@ -88,5 +88,6 @@ test('build', async () => {
     });
     expect(o.logo).toEqual('l1');
     expect(o.title).toEqual('t1');
+    expect(o.api.encoding).toEqual({ content: 'application/json', accept: 'application/json' });
     expect(o.titleSeparator).toEqual(' | ');
 });

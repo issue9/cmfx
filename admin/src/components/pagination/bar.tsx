@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, JSX, createSignal, mergeProps } from 'solid-js';
+import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { useApp, useOptions } from '@/components/context';
 import { BaseProps } from '@/components/base';
+import { useApp, useOptions } from '@/components/context';
 import { Choice, FieldAccessor, Options } from '@/components/form';
 import { Pagination } from './pagination';
 
@@ -54,9 +54,9 @@ export interface Props extends BaseProps {
 export function PaginationBar(props: Props): JSX.Element {
     const opt = useOptions();
     props = mergeProps({
-        total: opt.api.defaultSize,
+        total: opt.api.presetSize,
         spans: 3,
-        size: opt.api.defaultSize,
+        size: opt.api.presetSize,
         sizes: opt.api.pageSizes
     }, props);
 

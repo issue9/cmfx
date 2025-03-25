@@ -15,7 +15,8 @@ import { API, Config, Locale } from '@/core';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {
-    const api = await API.build(localStorage, options.api.base, options.api.login, options.mimetype, 'zh-Hans');
+    const ao = options.api;
+    const api = await API.build(localStorage, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, 'zh-Hans');
     Locale.init('en', api);
     const l = new Locale(new Config('admin', sessionStorage));
     const menus: AppOptions['menus'] = [

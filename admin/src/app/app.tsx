@@ -7,7 +7,7 @@ import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch 
 import { render } from 'solid-js/web';
 
 import { AppOptions, buildOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@/components';
-import { buildContext } from '@/components/context/context';
+import { buildContext, OptContext } from '@/components/context/context';
 import { API, Hotkey, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
@@ -20,8 +20,9 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  */
 export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
+    const ao = opt.api;
 
-    const api = await API.build(localStorage, opt.api.base, opt.api.login, opt.mimetype, opt.locales.fallback);
+    const api = await API.build(localStorage, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, opt.locales.fallback);
     await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
     api.cache(opt.api.info);
 
@@ -40,7 +41,7 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
 /**
  * 项目的根组件
  */
-function App(props: {opt: Required<AppOptions>, api: API}): JSX.Element {
+function App(props: {opt: OptContext, api: API}): JSX.Element {
     const menuVisible = createSignal(true);
     const [selected, setSelected] = createSignal<string>('');
 
