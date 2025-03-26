@@ -1,0 +1,23 @@
+{
+    "name": "@cmfx/admin",
+    "version": "0.8.13",
+    "license": "MIT",
+    "exports": {
+        ".": "src/index.ts",
+        "./style.css": "src/style.css",
+        "./pages": "src/pages/index.ts",
+        "./components": "src/components/index.ts",
+        "./core": "src/core/index.ts",
+        "./messages/": "src/messages/index.ts"
+    },
+    "publish": {
+        "include": [
+            "LICENSE",
+            "README.md",
+            "src/**/*.ts"
+        ],
+        "exclude": [
+            "src/**/*.spec.ts"
+        ]
+    }
+}
