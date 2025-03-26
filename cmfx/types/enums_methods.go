@@ -6,6 +6,7 @@ import (
 	"database/sql/driver"
 	"fmt"
 
+	"github.com/fxamacker/cbor/v2"
 	"github.com/issue9/web/filter"
 	"github.com/issue9/web/locales"
 	"github.com/issue9/web/openapi"
@@ -40,7 +41,6 @@ func ParseSex(v string) (Sex, error) {
 	return 0, locales.ErrInvalidValue()
 }
 
-// MarshalText encoding.TextMarshaler
 func (s Sex) MarshalText() ([]byte, error) {
 	if v, found := _SexToString[s]; found {
 		return []byte(v), nil
@@ -48,13 +48,32 @@ func (s Sex) MarshalText() ([]byte, error) {
 	return nil, locales.ErrInvalidValue()
 }
 
-// UnmarshalText encoding.TextUnmarshaler
 func (s *Sex) UnmarshalText(p []byte) error {
 	tmp, err := ParseSex(string(p))
 	if err == nil {
 		*s = tmp
 	}
 	return err
+}
+
+func (s Sex) MarshalCBOR() ([]byte, error) {
+	if v, found := _SexToString[s]; found {
+		return cbor.Marshal(v)
+	}
+	return nil, locales.ErrInvalidValue()
+}
+
+func (s *Sex) UnmarshalCBOR(p []byte) error {
+	var tmp string
+	if err := cbor.Unmarshal(p, &tmp); err != nil {
+		return err
+	}
+
+	if ss, found := _SexFromString[tmp]; found {
+		*s = ss
+		return nil
+	}
+	return locales.ErrInvalidValue()
 }
 
 func (s Sex) IsValid() bool {

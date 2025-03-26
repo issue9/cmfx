@@ -6,6 +6,7 @@ import (
 	"database/sql/driver"
 	"fmt"
 
+	"github.com/fxamacker/cbor/v2"
 	"github.com/issue9/web/filter"
 	"github.com/issue9/web/locales"
 	"github.com/issue9/web/openapi"
@@ -40,7 +41,6 @@ func ParseType(v string) (Type, error) {
 	return 0, locales.ErrInvalidValue()
 }
 
-// MarshalText encoding.TextMarshaler
 func (t Type) MarshalText() ([]byte, error) {
 	if v, found := _TypeToString[t]; found {
 		return []byte(v), nil
@@ -48,13 +48,32 @@ func (t Type) MarshalText() ([]byte, error) {
 	return nil, locales.ErrInvalidValue()
 }
 
-// UnmarshalText encoding.TextUnmarshaler
 func (t *Type) UnmarshalText(p []byte) error {
 	tmp, err := ParseType(string(p))
 	if err == nil {
 		*t = tmp
 	}
 	return err
+}
+
+func (t Type) MarshalCBOR() ([]byte, error) {
+	if v, found := _TypeToString[t]; found {
+		return cbor.Marshal(v)
+	}
+	return nil, locales.ErrInvalidValue()
+}
+
+func (t *Type) UnmarshalCBOR(p []byte) error {
+	var tmp string
+	if err := cbor.Unmarshal(p, &tmp); err != nil {
+		return err
+	}
+
+	if ss, found := _TypeFromString[tmp]; found {
+		*t = ss
+		return nil
+	}
+	return locales.ErrInvalidValue()
 }
 
 func (t Type) IsValid() bool {

@@ -5,6 +5,7 @@ package comment
 import (
 	"fmt"
 
+	"github.com/fxamacker/cbor/v2"
 	"github.com/issue9/web/filter"
 	"github.com/issue9/web/locales"
 	"github.com/issue9/web/openapi"
@@ -39,7 +40,6 @@ func ParseState(v string) (State, error) {
 	return 0, locales.ErrInvalidValue()
 }
 
-// MarshalText encoding.TextMarshaler
 func (s State) MarshalText() ([]byte, error) {
 	if v, found := _StateToString[s]; found {
 		return []byte(v), nil
@@ -47,13 +47,32 @@ func (s State) MarshalText() ([]byte, error) {
 	return nil, locales.ErrInvalidValue()
 }
 
-// UnmarshalText encoding.TextUnmarshaler
 func (s *State) UnmarshalText(p []byte) error {
 	tmp, err := ParseState(string(p))
 	if err == nil {
 		*s = tmp
 	}
 	return err
+}
+
+func (s State) MarshalCBOR() ([]byte, error) {
+	if v, found := _StateToString[s]; found {
+		return cbor.Marshal(v)
+	}
+	return nil, locales.ErrInvalidValue()
+}
+
+func (s *State) UnmarshalCBOR(p []byte) error {
+	var tmp string
+	if err := cbor.Unmarshal(p, &tmp); err != nil {
+		return err
+	}
+
+	if ss, found := _StateFromString[tmp]; found {
+		*s = ss
+		return nil
+	}
+	return locales.ErrInvalidValue()
 }
 
 func (s State) IsValid() bool {

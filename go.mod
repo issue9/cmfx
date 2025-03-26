@@ -3,6 +3,7 @@ module github.com/issue9/cmfx
 go 1.24.0
 
 require (
+	github.com/fxamacker/cbor/v2 v2.7.0
 	github.com/go-webauthn/webauthn v0.12.2
 	github.com/issue9/assert/v4 v4.3.1
 	github.com/issue9/cache v0.19.1
@@ -17,8 +18,8 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.1.0
-	github.com/issue9/web v0.102.10
-	github.com/issue9/webuse/v7 v7.0.0-20250323161640-aaebfbc1e339
+	github.com/issue9/web v0.102.11
+	github.com/issue9/webuse/v7 v7.0.0-20250326164340-b6f8f20e01e0
 	github.com/mattn/go-sqlite3 v1.14.24
 	github.com/shirou/gopsutil/v4 v4.25.2
 	golang.org/x/crypto v0.36.0
@@ -36,7 +37,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.2.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
-	github.com/fxamacker/cbor/v2 v2.7.0 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
 	github.com/go-sql-driver/mysql v1.9.0 // indirect
 	github.com/go-webauthn/x v0.1.19 // indirect

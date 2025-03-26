@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,7 +12,7 @@ export interface SSEToken {
 /**
  * 令牌的状态
  */
-export enum TokenState {
+export const enum TokenState {
     Normal, // 可访问的状态
     AccessExpired, // 访问令牌已过期，刷新令牌未过期
     RefreshExpired // 刷新令牌也过期了

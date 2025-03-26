@@ -116,8 +116,8 @@ const o: AppOptions = {
         login: '/login',
         info: '/info',
         encoding: {
-            content: 'application/json',
-            accept: 'application/yaml'
+            content: 'application/cbor',
+            accept: 'application/json'
         }
     },
 

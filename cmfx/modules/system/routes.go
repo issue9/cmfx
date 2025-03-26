@@ -12,6 +12,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/fxamacker/cbor/v2"
 	"github.com/issue9/web"
 	"github.com/issue9/web/locales"
 	"github.com/issue9/web/openapi"
@@ -110,14 +111,22 @@ func (m *Module) adminGetInfo(ctx *web.Context) web.Responser {
 
 type state web.State
 
+var stateStrings = map[web.State]string{
+	web.Stopped: "stopped",
+	web.Running: "running",
+	web.Failed:  "failed",
+}
+
 func (s state) MarshalText() ([]byte, error) {
-	switch s {
-	case state(web.Stopped):
-		return []byte("stopped"), nil
-	case state(web.Running):
-		return []byte("running"), nil
-	case state(web.Failed):
-		return []byte("failed"), nil
+	if v, found := stateStrings[web.State(s)]; found {
+		return []byte(v), nil
+	}
+	return nil, locales.ErrInvalidValue()
+}
+
+func (s state) MarshalCBOR() ([]byte, error) {
+	if v, found := stateStrings[web.State(s)]; found {
+		return cbor.Marshal(v)
 	}
 	return nil, locales.ErrInvalidValue()
 }

@@ -66,7 +66,7 @@ func (m *Module) patchInfo(ctx *web.Context) web.Responser {
 	a := m.CurrentUser(ctx)
 
 	data.ID = a.ID // 确保 ID 正确
-	_, err := m.UserModule().Module().DB().Update(data)
+	_, err := m.UserModule().Module().DB().Update(data, "sex")
 	if err != nil {
 		return ctx.Error(err, "")
 	}

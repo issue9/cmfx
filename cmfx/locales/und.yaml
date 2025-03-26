@@ -173,6 +173,9 @@ messages:
     - key: edit roles
       message:
           msg: edit roles
+    - key: end time must be after start time
+      message:
+          msg: end time must be after start time
     - key: expire must b after now
       message:
           msg: expire must b after now
@@ -365,9 +368,6 @@ messages:
     - key: not exists
       message:
           msg: not exists
-    - key: not found
-      message:
-          msg: not found
     - key: not found invalid path
       message:
           msg: not found invalid path
@@ -452,9 +452,6 @@ messages:
     - key: put roles resources
       message:
           msg: put roles resources
-    - key: end time must be after start time
-      message:
-          msg: end time must be after start time
     - key: rbac tag
       message:
           msg: rbac tag

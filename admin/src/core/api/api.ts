@@ -178,7 +178,7 @@ export class API {
      *
      * @param path 请求地址，相对于 {@link API#baseURL}
      * @param method 请求方法
-     * @param obj 请求对象，会由 #serializer 进行转换，如果是 GET，可以为空。
+     * @param obj 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空。
      * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
      */
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
@@ -399,11 +399,11 @@ export class API {
     }
 
     async parse<R>(resp: Response): Promise<R | undefined> {
-        const txt = await resp.text();
-        if (txt.length === 0) {
+        const bs = await resp.bytes();
+        if (bs.length === 0) {
             return;
         }
-        return this.#acceptSerializer.parse(txt) as R;
+        return this.#acceptSerializer.parse(bs) as R;
     }
 
     /**
