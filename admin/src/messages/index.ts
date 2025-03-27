@@ -3,9 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { DictKeys } from '@/core';
-import { Messages } from './en.lang';
+import  messages  from './en.lang';
 
-export type { Messages } from './en.lang';
+/**
+ * 框架内部的翻译对象
+ */
+export type Messages = typeof messages;
 
 /**
  * 支持的语言 ID

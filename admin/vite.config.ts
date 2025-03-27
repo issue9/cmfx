@@ -28,10 +28,7 @@ export default defineConfig({
         solidPlugin(),
         dts({
             insertTypesEntry: true,
-            rollupTypes: true,
-            exclude: [
-                './src/messages/*.lang.ts'
-            ]
+            rollupTypes: true
         }),
         viteStaticCopy({
             targets: [
