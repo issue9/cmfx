@@ -3,21 +3,20 @@
     "version": "0.8.13",
     "license": "MIT",
     "exports": {
-        ".": "src/index.ts",
-        "./style.css": "src/style.css",
-        "./pages": "src/pages/index.ts",
-        "./components": "src/components/index.ts",
-        "./core": "src/core/index.ts",
-        "./messages/": "src/messages/index.ts"
+        ".": "./lib/index.d.ts",
+        "./pages": "./lib/pages.d.ts",
+        "./components": "./lib/components.d.ts",
+        "./core": "./lib/core.d.ts",
+        "./messages": "./lib/messages.d.ts"
     },
     "publish": {
         "include": [
             "LICENSE",
             "README.md",
-            "src/**/*.ts"
+            "lib/"
         ],
         "exclude": [
-            "src/**/*.spec.ts"
+            "lib/**/*.cjs"
         ]
     }
 }

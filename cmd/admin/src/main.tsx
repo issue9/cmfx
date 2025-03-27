@@ -99,11 +99,11 @@ const o: AppOptions = {
     locales: {
         messages: {
             'en': [
-                async () => { return (await import('@cmfx/admin/dev/messages/en.ts')).default; },
+                async () => { return (await import('@cmfx/admin/dev/messages/en.lang.ts')).default; },
                 async () => { return (await import('./locales/en')).default; },
             ],
             'zh-Hans': [
-                async () => { return (await import('@cmfx/admin/dev/messages/zh-Hans.ts')).default; },
+                async () => { return (await import('@cmfx/admin/dev/messages/zh-Hans.lang.ts')).default; },
                 async () => { return (await import('./locales/zh-Hans')).default; },
             ],
         },

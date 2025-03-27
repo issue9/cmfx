@@ -1,11 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { DictKeys } from '@/core';
-import { Messages } from './en';
+import { Messages } from './en.lang';
 
-export type { Messages } from './en';
+export type { Messages } from './en.lang';
 
 /**
  * 支持的语言 ID

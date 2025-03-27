@@ -28,7 +28,10 @@ export default defineConfig({
         solidPlugin(),
         dts({
             insertTypesEntry: true,
-            rollupTypes: true
+            rollupTypes: true,
+            exclude: [
+                './src/messages/*.lang.ts'
+            ]
         }),
         viteStaticCopy({
             targets: [
@@ -64,9 +67,10 @@ export default defineConfig({
                 'components': './src/components/index.ts',
                 'pages': './src/pages/index.ts',
                 'core': './src/core/index.ts',
+                'messages': './src/messages/index.ts',
 
-                'messages/en': './src/messages/en.ts',
-                'messages/zh-Hans': './src/messages/zh-Hans.ts',
+                'messages/en': './src/messages/en.lang.ts',
+                'messages/zh-Hans': './src/messages/zh-Hans.lang.ts',
             },
             formats: ['es', 'cjs'],
             fileName: (format, name) => `${name}.${format}.js`,

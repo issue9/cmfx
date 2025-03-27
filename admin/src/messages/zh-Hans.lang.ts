@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Messages } from './en';
+import { Messages } from './en.lang';
 
 const messages: Messages = {
     _i: {

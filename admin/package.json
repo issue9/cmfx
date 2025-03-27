@@ -59,6 +59,11 @@
             "require": "./lib/messages/",
             "import": "./lib/messages/"
         },
+        "./messages": {
+            "types": "./lib/messages.d.ts",
+            "require": "./lib/messages.cjs.js",
+            "import": "./lib/messages.es.js"
+        },
         "./dev": {
             "require": "./src/index.ts",
             "import": "./src/index.ts"
@@ -86,6 +91,10 @@
         "./dev/messages/": {
             "require": "./src/messages/",
             "import": "./src/messages/"
+        },
+        "./dev/messages": {
+            "require": "./src/messages/index.ts",
+            "import": "./src/messages/index.ts"
         }
     },
     "scripts": {
