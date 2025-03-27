@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { formatDuration, parseDuration } from './duration';
+export { formatDuration, parseDuration, us, ms, second, minute, hour, day } from './duration';
 export type { Duration } from './duration';
 
 export * from './time';

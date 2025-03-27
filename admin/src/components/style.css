@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -16,6 +16,7 @@
 @import './form/style.css';
 @import './pagination/style.css';
 @import './table/style.css';
+@import './timer/style.css';
 @import './spin/style.css';
 @import './page/style.css';
 @import './chart/style.css';
