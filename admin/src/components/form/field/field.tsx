@@ -8,18 +8,31 @@ import { Accessor } from './access';
 import type { Props } from './types';
 
 export interface FieldArea {
+    /**
+     * 指位置
+     */
     pos: 'top-left' | 'top-center' | 'top-right'
     | 'middle-left' | 'middle-center' | 'middle-right'
     | 'bottom-left' | 'bottom-center' | 'bottom-right';
 
+    /**
+     * 跨的列数
+     */
     cols?: 1 | 2 | 3;
 }
 
 export type FieldProps<T> = ParentProps<Props & {
-    hasError: Accessor<T>['hasError'],
+    hasHelp: Accessor<T>['hasHelp'],
     getError: Accessor<T>['getError'],
+    
+    /**
+     * 提示信息
+     *
+     * 该内容显示在 helpArea 区别。
+     */
+    help?: JSX.Element;
 
-    errArea: FieldArea;
+    helpArea: FieldArea;
     labelArea: FieldArea;
     inputArea: FieldArea;
 
@@ -56,8 +69,11 @@ export default function Field<T>(props: FieldProps<T>): JSX.Element {
         <div class="c--field-content" style={fieldArea2Style(props.inputArea)}>
             {props.children}
         </div>
-        <Show when={props.hasError()}>
-            <p class="c--field_error" style={fieldArea2Style(props.errArea)} role="alert">{props.getError()}</p>
+        <Show when={props.hasHelp()}>
+            <p style={fieldArea2Style(props.helpArea)} role="alert" classList={{
+                'c--field_help': true,
+                'c--field_error': !!props.getError(),
+            }}>{props.getError() ?? props.help}</p>
         </Show>
     </div>;
 }

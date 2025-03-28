@@ -48,10 +48,11 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
 
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
-        errArea={{ pos: 'bottom-center' }}
+        helpArea={{ pos: 'bottom-center' }}
         labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
         classList={props.classList}
-        hasError={access.hasError}
+        help={props.help}
+        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={<label for={id}>{props.label}</label>}

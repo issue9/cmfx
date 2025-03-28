@@ -22,6 +22,13 @@ export type FieldBaseProps = Props & {
     disabled?: boolean;
     readonly?: boolean;
     tabindex?: number;
+
+    /**
+     * 提示信息
+     *
+     * 该内容显示在 helpArea 区别。
+     */
+    help?: JSX.Element;
 };
 
 /**

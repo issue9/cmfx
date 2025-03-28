@@ -54,10 +54,11 @@ export function DatePicker(props: Props): JSX.Element {
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
         inputArea={{ pos: 'middle-center' }}
-        errArea={{ pos: 'bottom-center' }}
+        helpArea={{ pos: 'bottom-center' }}
+        help={props.help}
         labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
         classList={props.classList}
-        hasError={props.accessor.hasError}
+        hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
         label={<label onClick={() => togglePop(anchorRef, panelRef)}>{props.label}</label>}

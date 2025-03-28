@@ -24,7 +24,7 @@ export default function () {
             <button class="c--button c--button-fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
-        <Editor horizontal={horizontal()} label='label' class="h-[500px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
+        <Editor help="help  text" horizontal={horizontal()} label='label' class="h-[500px] w-full" palette={palette()} readonly={readonly()} disabled={disabled()} accessor={txt} />
         <pre>{txt.getValue()}</pre>
     </Demo>;
 }

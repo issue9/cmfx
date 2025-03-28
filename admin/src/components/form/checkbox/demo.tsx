@@ -54,7 +54,7 @@ export default function() {
         </Stage>
 
         <Stage title="checkbox Group">
-            <CheckboxGroup horizontal={horizontal()} itemHorizontal={itemHorizontal()}
+            <CheckboxGroup help="help text" horizontal={horizontal()} itemHorizontal={itemHorizontal()}
                 block={block()} disabled={disabled()} readonly={readonly()} label="group" palette="primary"
                 options={groupOptions} accessor={groupFA}
             />

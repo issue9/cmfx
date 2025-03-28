@@ -66,10 +66,11 @@ export function DateRangePicker(props: Props): JSX.Element {
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
         inputArea={{ pos: 'middle-center' }}
-        errArea={{ pos: 'bottom-center' }}
+        helpArea={{ pos: 'bottom-center' }}
         labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        help={props.help}
         classList={props.classList}
-        hasError={props.accessor.hasError}
+        hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
         label={<label onClick={() => anchorRef.click()}>{props.label}</label>}

@@ -33,10 +33,11 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
 
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
-        errArea={{ pos: 'bottom-center' }}
+        helpArea={{ pos: 'bottom-center' }}
         labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
         classList={props.classList}
-        hasError={access.hasError}
+        help={props.help}
+        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={props.label}

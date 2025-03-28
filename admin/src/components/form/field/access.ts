@@ -31,9 +31,11 @@ export interface Accessor<T> {
     onChange(change: ChangeFunc<T>): void;
 
     /**
-     * 是否需要给错误信息预留位置
+     * 是否需要给帮助信息预留位置
+     *
+     * 只有此值为 true 时，错误信息才会正确显示。
      */
-    hasError(): boolean;
+    hasHelp(): boolean;
 
     /**
      * 返回当前组件的错误信息
@@ -63,9 +65,9 @@ export interface ChangeFunc<T> {
  *
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v 初始化的值；
- * @param error 是否显示错误信息的占位栏；
+ * @param hasHelp 是否显示错误信息的占位栏；
  */
-export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<T> {
+export function FieldAccessor<T>(name: string, v: T, hasHelp?: boolean): Accessor<T> {
     const [err, errSetter] = createSignal<string>();
     const [val, valSetter] = createSignal<T>(v);
     const changes: Array<ChangeFunc<T>> = [];
@@ -73,7 +75,7 @@ export function FieldAccessor<T>(name: string, v: T, error?: boolean): Accessor<
     return {
         name(): string { return name; },
 
-        hasError(): boolean { return !!error; },
+        hasHelp(): boolean { return !!hasHelp; },
 
         getError(): string | undefined { return err(); },
 

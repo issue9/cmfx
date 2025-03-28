@@ -29,10 +29,11 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
     
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
-        errArea={{ pos: 'bottom-center' }}
+        helpArea={{ pos: 'bottom-center' }}
         labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
         classList={props.classList}
-        hasError={access.hasError}
+        help={props.help}
+        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={props.label}

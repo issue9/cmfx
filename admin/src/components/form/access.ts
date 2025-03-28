@@ -91,9 +91,9 @@ export class ObjectAccessor<T extends object> {
      *
      * @template FT 表示 name 字段的类型；
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
-     * @param hasError 是否需要展示错误信息，对应 {@link Accessor#hasError} 方法；
+     * @param hasHelp 是否需要展示错误信息，对应 {@link Accessor#hasHelp} 方法；
      */
-    accessor<FT = T[keyof T]>(name: keyof T, hasError?: boolean): Accessor<FT> {
+    accessor<FT = T[keyof T]>(name: keyof T, hasHelp?: boolean): Accessor<FT> {
         let a: Accessor<FT>|undefined = this.#accessor.get(name)as Accessor<FT>;
         if (a) { return a as Accessor<FT>; }
 
@@ -103,7 +103,7 @@ export class ObjectAccessor<T extends object> {
         a = {
             name(): string { return name as string; },
 
-            hasError(): boolean { return hasError ?? false; },
+            hasHelp(): boolean { return hasHelp ?? false; },
 
             getError(): string | undefined { return self.#errGetter[name]; },
 
