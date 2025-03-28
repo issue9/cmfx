@@ -4,7 +4,7 @@
 
 import { lazy } from 'solid-js';
 
-import { Route } from '@/components';
+import { Route } from '@/context';
 
 export const routes: Array<Route> = [
     { path: '/app', component: lazy(() => import('@/app/demo')) },

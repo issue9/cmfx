@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { User } from '@/components';
+import { User } from '@/context';
 import { Sex, State } from '@/pages/common';
 
 export interface Member {

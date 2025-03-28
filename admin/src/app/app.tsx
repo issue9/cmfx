@@ -6,8 +6,10 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, buildOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@/components';
-import { buildContext, OptContext } from '@/components/context/context';
+import { Drawer, List, Notify, registerChartLocales, SystemDialog } from '@/components';
+import { AppOptions, useApp, useOptions } from '@/context';
+import { buildOptions } from '@/context/options';
+import { buildContext, OptContext } from '@/context/context';
 import { API, Hotkey, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';

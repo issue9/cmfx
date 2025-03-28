@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { Choice, ChoiceProps, Options, useApp } from '@/components';
+import { Choice, ChoiceProps, Options } from '@/components';
+import { useApp } from '@/context';
 import { Role } from './roles';
 
 export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;

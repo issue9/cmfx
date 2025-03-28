@@ -1,11 +1,12 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
-import { Page, useApp, useOptions } from '@/components';
+import { Page } from '@/components';
+import { useApp, useOptions } from '@/context';
 
 export function Logout(): JSX.Element {
     const ctx = useApp();

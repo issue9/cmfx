@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from '@cmfx/admin/dev/components';
+import { MenuItem, Route } from '@cmfx/admin/dev';
 import { routes } from '@cmfx/admin/dev/demo';
 import { Pages } from '@cmfx/admin/dev/pages';
 

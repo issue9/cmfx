@@ -1,11 +1,12 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { Page, RemoteTable, TextField, useApp } from '@/components';
+import { Page, RemoteTable, TextField } from '@/components';
+import { useApp } from '@/context';
 import { Query } from '@/core';
 
 interface SecurityLog {

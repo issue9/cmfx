@@ -1,11 +1,12 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { Page, useApp, useOptions } from '@/components';
+import { Page } from '@/components';
+import { useApp, useOptions } from '@/context';
 import { Passport, sexesMap, statesMap } from '@/pages/common';
 import { Member } from './types';
 

@@ -4,7 +4,8 @@
 
 import { JSX, createMemo } from 'solid-js';
 
-import { Column, Label, LoaderTable, Page, translateEnum, useApp } from '@/components';
+import { Column, Label, LoaderTable, Page, translateEnum } from '@/components';
+import { useApp } from '@/context';
 import { Query } from '@/core';
 import { MessagesKey } from '@/messages';
 

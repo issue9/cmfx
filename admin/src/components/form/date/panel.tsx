@@ -6,8 +6,8 @@ import { createEffect, createMemo, createSignal, For, JSX, mergeProps, Show, unt
 
 import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
-import { useApp } from '@/components/context';
 import { Accessor, FieldBaseProps } from '@/components/form/field';
+import { useApp } from '@/context';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {

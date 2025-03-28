@@ -1,11 +1,12 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { Button, ErrorProps, useApp, useOptions, Error as XError } from '@/components';
+import { Button, ErrorProps, Error as XError } from '@/components';
+import { useApp, useOptions } from '@/context';
 
 export function NotFound(): JSX.Element {
     const ctx = useApp();

@@ -5,7 +5,8 @@
 import { useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { Button, Checkbox, Page, useApp } from '@/components';
+import { Button, Checkbox, Page } from '@/components';
+import { useApp } from '@/context';
 
 interface Resource {
     id: string;

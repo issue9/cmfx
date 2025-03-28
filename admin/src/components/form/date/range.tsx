@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { useApp } from '@/components/context';
+import { useApp } from '@/context';
 import { Accessor, Field, FieldAccessor } from '@/components/form/field';
 import { Icon, IconSymbol } from '@/components/icon';
 import { calcPopoverPos } from '@/components/utils';

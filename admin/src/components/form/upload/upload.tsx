@@ -4,7 +4,7 @@
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { useApp } from '@/components/context';
+import { useApp } from '@/context';
 import { FieldBaseProps } from '@/components/form/field';
 
 /**

@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Description, useApp } from '@/components';
 import { JSX, createSignal, onMount } from 'solid-js';
+
+import { Description } from '@/components';
+import { useApp } from '@/context';
 
 export function MemStatistic(): JSX.Element {
     const [statistic, setStatistic] = createSignal<Statistic>({

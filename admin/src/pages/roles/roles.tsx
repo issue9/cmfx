@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,9 @@ import { JSX } from 'solid-js';
 
 import {
     Button, Column, Dialog, DialogRef, LinkButton, ObjectAccessor,
-    Page, RemoteTable, RemoteTableRef, TextArea, TextField, useApp
+    Page, RemoteTable, RemoteTableRef, TextArea, TextField
 } from '@/components';
+import { useApp } from '@/context';
 import { Return } from '@/core';
 
 export interface Role {

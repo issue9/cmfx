@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
 
-import { buildEnumsOptions, Choice, ChoiceProps, useApp, User } from '@/components';
+import { buildEnumsOptions, Choice, ChoiceProps } from '@/components';
+import { useApp, User } from '@/context';
 import { MessagesKey } from '@/messages';
 
 export type Sex = User['sex'];

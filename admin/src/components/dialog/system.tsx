@@ -6,7 +6,7 @@ import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { BaseProps } from '@/components/base';
-import { useOptions } from '@/components/context';
+import { useOptions } from '@/context';
 import { FieldAccessor, TextField } from '@/components/form';
 import { Dialog, Ref } from './dialog';
 

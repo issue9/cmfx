@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -7,4 +7,4 @@ export type { AppContext } from './context';
 
 export type { User } from './user';
 
-export * from './options';
+export type { AppOptions, Locales, MenuItem, Route, Routes } from './options';

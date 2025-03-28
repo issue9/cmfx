@@ -4,7 +4,8 @@
 
 import { JSX } from 'solid-js';
 
-import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup, useApp, useOptions } from '@/components';
+import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup } from '@/components';
+import { useApp, useOptions } from '@/context';
 import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@/core';
 
 export function Settings(): JSX.Element {

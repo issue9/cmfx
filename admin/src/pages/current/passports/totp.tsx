@@ -8,8 +8,9 @@ import { createSignal, JSX, Show } from 'solid-js';
 
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, ObjectAccessor, QRCode, TextField, useApp, useOptions
+    Icon, ObjectAccessor, QRCode, TextField
 } from '@/components';
+import { useApp, useOptions } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 // 登录框的字段

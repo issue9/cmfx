@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import Printd from 'printd';
-import { mergeProps, splitProps } from 'solid-js';
+import { mergeProps, splitProps, JSX } from 'solid-js';
 
 import { Props as BaseProps, Button, presetProps } from './button';
 
@@ -26,7 +26,7 @@ export interface Props extends Omit<BaseProps, 'onClick'> {
  *
  * NOTE: 需要保证当前组件必须在 [Props#container] 之内，否则可能会无法退回原来状态的可能。
  */
-export function PrintButton(props: Props) {
+export function PrintButton(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, btnProps] = splitProps(props, ['container']);
 

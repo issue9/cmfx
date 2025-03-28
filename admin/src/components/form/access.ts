@@ -5,7 +5,7 @@
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
-import { AppContext } from '@/components/context';
+import { AppContext } from '@/context';
 import { Problem, Return } from '@/core';
 import { Accessor, ChangeFunc } from './field';
 

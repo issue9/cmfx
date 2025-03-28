@@ -4,7 +4,8 @@
 
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
-import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, MenuItem, TextField, TextFieldRef, useApp, useOptions } from '@/components';
+import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, TextField, TextFieldRef } from '@/components';
+import { MenuItem, useApp, useOptions } from '@/context';
 import { Locale } from '@/core';
 
 interface Item {

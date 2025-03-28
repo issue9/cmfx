@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,8 +6,9 @@ import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 
 
 import {
     buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
-    FormAccessor, Icon, Page, TextField, Upload, UploadRef, useApp, useOptions, User
+    FormAccessor, Icon, Page, TextField, Upload, UploadRef
 } from '@/components';
+import { useApp, useOptions, User } from '@/context';
 import { Passport, Sex, sexesMap } from '@/pages/common';
 import { PassportComponents } from './passports';
 

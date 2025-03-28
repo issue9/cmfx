@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Component } from 'solid-js';
 
-import { MenuItem, Route } from '@/components';
+import { MenuItem, Route } from '@/context';
 import { Pages } from '@/pages/pages';
 import { ActionProps, Members } from './members';
 import { PanelProps, View } from './view';

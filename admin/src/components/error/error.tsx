@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { useApp } from '@/components/context'; 
+import { useApp } from '@/context'; 
 import { BaseProps } from '@/components/base';
 
 export interface Props extends BaseProps {

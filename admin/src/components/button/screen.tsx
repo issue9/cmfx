@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, mergeProps, splitProps } from 'solid-js';
+import { createSignal, mergeProps, splitProps, JSX } from 'solid-js';
 
 import { IconSymbol } from '@/components/icon';
 import { Props as BaseProps, Button, presetProps } from './button';
@@ -29,7 +29,7 @@ export interface Props extends Omit<BaseProps, 'onClick' | 'children'> {
  *
  * NOTE: 需要保证当前组件必须在 [Props#container] 之内，否则可能会无法退回原来状态的可能。
  */
-export function FitScreenButton(props: Props) {
+export function FitScreenButton(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [fit, setFit] = createSignal<boolean>(false);
 

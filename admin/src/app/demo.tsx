@@ -1,10 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createSignal, For } from 'solid-js';
 
-import { Button, NotifyType, notifyTypes, useApp } from '@/components';
+import { Button, NotifyType, notifyTypes } from '@/components';
+import { useApp } from '@/context';
 import { Demo } from '@/components/base/demo';
 
 export default function() {

@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { Demo, paletteSelector } from '@/components/base/demo';
-import { useApp } from '@/components/context';
+import { useApp } from '@/context';
 import { Button } from '../button';
 import { FormAccessor } from './access';
 import { DatePicker } from './date';

@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, For, JSX, mergeProps } from 'solid-js';
 
-import { useApp } from '@/components/context';
+import { useApp } from '@/context';
 import { BaseProps } from '@/components/base';
 import { Button } from '@/components/button';
 

@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from '@/components';
+import { MenuItem, Route } from '@/context';
 
 /**
  * 定义一个页面集合需要提供的接口

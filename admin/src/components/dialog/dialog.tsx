@@ -6,7 +6,7 @@ import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 import { Button } from '@/components/button';
-import { useApp } from '@/components/context';
+import { useApp } from '@/context';
 import { Icon } from '@/components/icon';
 
 /**

@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { useApp } from '@cmfx/admin/dev/components';
+import { useApp } from '@cmfx/admin/dev';
 import { MessageKey } from '../locales';
 
 export default function Test() {
