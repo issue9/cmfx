@@ -11,6 +11,7 @@ import { createSignal } from 'solid-js';
 
 export default function () {
     const [fullS, full] = boolSelector('full');
+    const [unitS, unit] = boolSelector('unit');
     const [msg, setMsg] = createSignal('');
     
     let ref: Ref;
@@ -18,20 +19,21 @@ export default function () {
     return <Demo settings={
         <>
             {fullS}
+            {unitS}
         </>
     }>
         <Stage title="-1">
-            <Timer ref={el=>ref=el} duration={'23m34s'} full={full()} interval={-1} autoStart />
+            <Timer unit={unit()} ref={el=>ref=el} duration={'23m34s'} full={full()} interval={-1} autoStart />
             <Button palette="primary" onClick={()=>ref!.toggle()}>toggle</Button>
         </Stage>
 
         <Stage title="event:-1">
-            <Timer onTick={()=>setMsg('tick')} onComplete={()=>setMsg('complete')} duration={'10s'} full={full()} interval={-1} autoStart />
+            <Timer unit={unit()} onTick={()=>setMsg('tick')} onComplete={()=>setMsg('complete')} duration={'10s'} full={full()} interval={-1} autoStart />
             <div>{msg()}</div>
         </Stage>
 
         <Stage title="+1">
-            <Timer duration={'23m34s'} full={full()} interval={1} autoStart />
+            <Timer unit={unit()} duration={'23m34s'} full={full()} interval={1} autoStart />
         </Stage>
     </Demo>;
 }

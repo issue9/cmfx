@@ -4,8 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show } from 'solid-js';
-import { onMount } from 'solid-js';
+import { createEffect, createSignal, onMount, JSX, mergeProps, onCleanup, Show } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
 import { Duration,parseDuration, formatDuration, second } from '@/core';
@@ -49,6 +48,11 @@ export interface Props extends BaseProps {
      * 每一步倒计时触发
      */
     onTick?: { (): void; };
+
+    /**
+     * 每一步倒计时触发
+     */
+    unit?: boolean;
 
     /**
      * 完成时触发
@@ -95,30 +99,30 @@ export default function Timer(props: Props): JSX.Element {
     createEffect(() => {
         setNano(parseDuration(props.duration));
     });
+    createEffect(() => {
+        setDur(formatDuration(nano()));
+    });
 
     const tick = () => {
         setNano((old) => old + props.interval! * second);
         props.onTick && props.onTick();
+        
+        if (nano() <= 0) {
+            pause();
+            props.onComplete && props.onComplete();
+        }
     };
 
     let intervalID: any;
     const start = () => {
-        intervalID = setInterval(tick, 1000 * Math.abs(props.interval!));
+        if (nano() > 0) {
+            intervalID = setInterval(tick, 1000 * Math.abs(props.interval!));
+        }
     };
     const pause = () => {
         clearInterval(intervalID);
         intervalID = 0;
     };
-
-    createEffect(() => {
-        const n = nano();
-
-        setDur(formatDuration(n));
-        if (n <= 0) {
-            pause();
-            props.onComplete && props.onComplete();
-        }
-    });
 
     if (props.autoStart) {
         onMount(start);
@@ -158,7 +162,7 @@ export default function Timer(props: Props): JSX.Element {
         <Show when={props.full || dur().days}>
             <div class="item">
                 <span class="text">{ format(dur().days ?? 0) }</span>
-                <span class="unit">{ ctx.locale().t('_i.timer.days') }</span>
+                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.days') }</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
@@ -166,7 +170,7 @@ export default function Timer(props: Props): JSX.Element {
         <Show when={props.full || dur().hours}>
             <div class="item">
                 <span class="text">{ format(dur().hours ?? 0) }</span>
-                <span class="unit">{ ctx.locale().t('_i.timer.hours') }</span>
+                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.hours') }</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
@@ -174,7 +178,7 @@ export default function Timer(props: Props): JSX.Element {
         <Show when={props.full || dur().minutes}>
             <div class="item">
                 <span class="text">{ format(dur().minutes ?? 0) }</span>
-                <span class="unit">{ ctx.locale().t('_i.timer.minutes') }</span>
+                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.minutes') }</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
@@ -182,7 +186,7 @@ export default function Timer(props: Props): JSX.Element {
         <Show when={props.full || dur().seconds}>
             <div class="item">
                 <span class="text">{ format(dur().seconds ?? 0) }</span>
-                <span class="unit">{ ctx.locale().t('_i.timer.seconds') }</span>
+                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.seconds') }</span></Show>
             </div>
         </Show>
     </div>;
