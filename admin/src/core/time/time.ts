@@ -47,7 +47,7 @@ export function createTimer(fn: { (): void; }, timeout: number, step: number, ti
         stop() { clearInterval(timer); },
 
         /**
-         * 暂停计时器，之后可用 restart 继续
+         * 暂停计时器，之后可用 start 继续
          */
         pause() { clearInterval(timer); },
 

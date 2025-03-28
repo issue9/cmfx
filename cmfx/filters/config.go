@@ -32,7 +32,7 @@ func PresetConfig() *Config { return presetConfig }
 
 // Keywords 按关键字过滤
 //
-// 关键字的内容由 [DefaultConfig.Keywords] 提供。
+// 关键字的内容由 [PresetConfig.Keywords] 提供。
 func Keywords() filter.Builder[string] {
 	return filter.NewBuilder(filter.V(func(v string) bool {
 		if presetConfig == nil {
@@ -43,9 +43,9 @@ func Keywords() filter.Builder[string] {
 	}, locales.InvalidValue))
 }
 
-// URLBacklist URL 黑名单
+// URLBlacklist URL 黑名单
 //
-// 黑名单的内容由 [DefaultConfig.URLBlacklist] 提供。
+// 黑名单的内容由 [PresetConfig.URLBlacklist] 提供。
 func URLBlacklist() filter.Builder[string] {
 	return filter.NewBuilder(filter.V(func(v string) bool {
 		if presetConfig == nil {

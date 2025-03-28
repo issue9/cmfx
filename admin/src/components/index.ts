@@ -20,6 +20,7 @@ export * from './pagination';
 export * from './qrcode';
 export * from './tab';
 export * from './table';
+export * from './timer';
 export * from './tree';
 export * from './typography';
 

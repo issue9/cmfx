@@ -164,6 +164,12 @@ const messages = {
                 description: 'description'
             }
         },
+        timer: {
+            seconds: 'seconds',
+            minutes: 'minutes',
+            hours: 'hours',
+            days: 'days'
+        },
         table: {
             nodata: 'no data',
             exportTo: 'export to {type}',

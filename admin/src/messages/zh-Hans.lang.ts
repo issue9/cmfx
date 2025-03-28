@@ -166,6 +166,12 @@ const messages: typeof m = {
                 description: '描述'
             }
         },
+        timer: {
+            seconds: '秒',
+            minutes: '分',
+            hours: '小时',
+            days: '天'
+        },
         table: {
             nodata: '没有数据',
             exportTo: '导出为 {type}',
