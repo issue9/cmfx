@@ -4,5 +4,5 @@
  * SPDX-License-Identifier: MIT
  */
 
-export type { Props as TimerProps } from './timer';
+export type { Props as TimerProps, Ref as TimerRef } from './timer';
 export { default as Timer } from './timer';

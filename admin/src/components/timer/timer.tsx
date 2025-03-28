@@ -10,6 +10,15 @@ import { BaseProps } from '@/components/base';
 import { Duration,parseDuration, formatDuration, second } from '@/core';
 import { useApp } from '@/components/context';
 
+type Field = 'days' | 'hours' | 'minutes' | 'seconds';
+
+export const fields: ReadonlyMap<Field, number> = new Map<Field, number>([
+    ['seconds', 0],
+    ['minutes', 1],
+    ['hours', 2],
+    ['days', 3],
+]);
+
 /**
  * 倒计时的计时器
  */
@@ -27,9 +36,14 @@ export interface Props extends BaseProps {
     separator?: JSX.Element;
 
     /**
-     * 是否显示全部的面，即使该项的值是零。
+     * 需要显示的最小字段名称
+     *
+     * 默认为 minutes，即只显示分钟和秒数。
+     *
+     * 当指定的单位无法全部显示指定的值时，大于此单位的数值会换算累加到该单位上。
+     * 比如：当只指定了 seconds，但是表示分钟的值也不为空，则分钟会转换为秒数累加在秒之上。
      */
-    full?: boolean;
+    startField?: Field;
 
     /**
      * 频率
@@ -66,6 +80,7 @@ export interface Props extends BaseProps {
 }
 
 const presetProps: Partial<Props> = {
+    startField: 'minutes',
     separator: ':',
     interval: -1,
 } as const;
@@ -152,41 +167,57 @@ export default function Timer(props: Props): JSX.Element {
     const ctx = useApp();
 
     const format = (n: number): string => {
-        return n.toString().padStart(2, '0');
+        const s = n.toString();
+        if (s.length < 2) {
+            return s.padStart(2, '0');
+        }
+        return s;
     };
 
     return <div class={props.class} classList={{
         ...props.classList,
         'c--timer': true,
     }}>
-        <Show when={props.full || dur().days}>
+        <Show when={fields.get(props.startField!)! >= fields.get('days')!}>
             <div class="item">
-                <span class="text">{ format(dur().days ?? 0) }</span>
-                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.days') }</span></Show>
+                <span class="text">{format(dur().days ?? 0)}</span>
+                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.days')}</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
 
-        <Show when={props.full || dur().hours}>
+        <Show when={fields.get(props.startField!)! >= fields.get('hours')!}>
             <div class="item">
-                <span class="text">{ format(dur().hours ?? 0) }</span>
-                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.hours') }</span></Show>
+                <span class="text">{
+                    format((dur().hours ?? 0) + (props.startField! === 'hours' ? (dur().days ?? 0) * 24 : 0))
+                }</span>
+                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.hours')}</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
 
-        <Show when={props.full || dur().minutes}>
+        <Show when={fields.get(props.startField!)! >= fields.get('minutes')!}>
             <div class="item">
-                <span class="text">{ format(dur().minutes ?? 0) }</span>
-                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.minutes') }</span></Show>
+                <span class="text">{
+                    format(
+                        (dur().minutes ?? 0) +
+                        (props.startField! === 'minutes' ? ((dur().days ?? 0) * 24*60 + (dur().hours ?? 0) * 60) : 0)
+                    )
+                }</span>
+                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.minutes')}</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
 
-        <Show when={props.full || dur().seconds}>
+        <Show when={fields.get(props.startField!)! >= fields.get('seconds')!}>
             <div class="item">
-                <span class="text">{ format(dur().seconds ?? 0) }</span>
-                <Show when={props.unit}><span class="unit">{ ctx.locale().t('_i.timer.seconds') }</span></Show>
+                <span class="text">{
+                    format(
+                        (dur().seconds ?? 0) +
+                        (props.startField === 'seconds' ? ((dur().days ?? 0) * 24*60*60 + (dur().hours ?? 0) * 60*60 + (dur().minutes ?? 0) * 60) : 0)
+                    )
+                }</span>
+                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.seconds')}</span></Show>
             </div>
         </Show>
     </div>;
