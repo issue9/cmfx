@@ -6,7 +6,7 @@ import { createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
 import { Accessor, AutoComplete, Field, FieldBaseProps, InputMode } from '@/components/form/field';
 
-type Value = string | number | Array<string>;
+type Value = string | number | Array<string> | undefined;
 
 export type Ref = HTMLInputElement;
 
@@ -70,7 +70,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
                 disabled={props.disabled}
                 readOnly={props.readonly}
                 placeholder={props.placeholder}
-                value={access.getValue()}
+                value={access.getValue() ?? ''} // 正常处理 undefined
                 onInput={(e) => {
                     let v = e.target.value as T;
                     if (props.type === 'number') {

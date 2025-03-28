@@ -8,7 +8,7 @@ import { Button } from '@/components/button';
 import { Icon, IconSymbol } from '@/components/icon';
 import { Props as BaseProps, TextField } from './textfiled';
 
-export interface Props extends Omit<BaseProps<number>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'> {
+export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'> {
     icon?: IconSymbol;
     min?: number;
     max?: number;
@@ -35,7 +35,7 @@ export function Number(props: Props): JSX.Element {
             return;
         }
 
-        const n = access.getValue() + v;
+        const n = (access.getValue() ?? 0) + v;
         if (props.min !== undefined && v < 0 && n < props.min) {
             return;
         }
@@ -43,7 +43,7 @@ export function Number(props: Props): JSX.Element {
             return;
         }
 
-        access.setValue(access.getValue() + v);
+        access.setValue((access.getValue() ?? 0) + v);
         access.setError();
     };
 
