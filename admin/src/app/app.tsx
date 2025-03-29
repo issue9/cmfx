@@ -7,7 +7,7 @@ import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch 
 import { render } from 'solid-js/web';
 
 import { Drawer, List, Notify, registerChartLocales, SystemDialog } from '@/components';
-import { AppOptions, useApp, useOptions } from '@/context';
+import { Options, useApp, useOptions } from '@/context';
 import { buildOptions } from '@/context/options';
 import { buildContext, OptContext } from '@/context/context';
 import { API, Hotkey, Locale } from '@/core';
@@ -20,7 +20,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  * @param elementID 挂载的元素 ID；
  * @param o 项目的初始化选项；
  */
-export async function create(elementID: string, o: AppOptions): Promise<void> {
+export async function create(elementID: string, o: Options): Promise<void> {
     const opt = buildOptions(o);
     const ao = opt.api;
 

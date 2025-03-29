@@ -43,6 +43,9 @@ export interface API {
     encoding?: Encoding;
 }
 
+/**
+ * API 请求中的编码设置
+ */
 interface Encoding {
     /**
      * 请求内容的格式

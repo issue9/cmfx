@@ -10,7 +10,7 @@ import type { MenuItem, Routes } from './route';
 /**
  * 项目的基本配置
  */
-export interface AppOptions {
+export interface Options {
     /**
      * 网站的标题
      */
@@ -67,6 +67,9 @@ export interface AppOptions {
     asideFloatingMinWidth?: Breakpoint;
 }
 
+/**
+ * 一些与系统相关的设置
+ */
 interface System {
     /**
      * 采用系统通知代替框架内部的实现
@@ -84,6 +87,9 @@ interface System {
     dialog?: boolean;
 }
 
+/**
+ * 设置项中与本地化相关的设置
+ */
 export interface Locales {
     /**
      * 指定本地化文本的加载方式
@@ -110,6 +116,9 @@ export interface Locales {
     unitStyle?: UnitStyle;
 }
 
+/**
+ * 主题相关的设置
+ */
 export interface Theme {
     /**
      * 主题模式
@@ -131,21 +140,21 @@ export interface Theme {
     schemes: Array<Scheme>;
 }
 
-const presetOptions: Readonly<PickOptional<AppOptions>> = {
+const presetOptions: Readonly<PickOptional<Options>> = {
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
     asideFloatingMinWidth: 'xs',
 } as const;
 
-type ReqAppOptions = Required<Omit<AppOptions, 'api'>> & { api: Required<API> };
+type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
 
 /**
- * 根据 o 生成一个完整的 {@link AppOptions} 对象，且会检测字段是否正确。
+ * 根据 o 生成一个完整的 {@link Options} 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
  */
-export function build(o: AppOptions): ReqAppOptions {
+export function build(o: Options): ReqOptions {
     if (o.title.length === 0) {
         throw 'title 不能为空';
     }
@@ -154,7 +163,7 @@ export function build(o: AppOptions): ReqAppOptions {
         throw 'logo 不能为空';
     }
 
-    const opt = Object.assign({}, presetOptions, o) as Required<AppOptions>;
+    const opt = Object.assign({}, presetOptions, o) as Required<Options>;
 
     if (!opt.titleSeparator) {
         throw 'titleSeparator 不能为空';
@@ -170,5 +179,5 @@ export function build(o: AppOptions): ReqAppOptions {
 
     sanitizeAPI(opt.api);
 
-    return opt as ReqAppOptions;
+    return opt as ReqOptions;
 }

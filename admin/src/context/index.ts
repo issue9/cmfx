@@ -7,4 +7,4 @@ export type { AppContext } from './context';
 
 export type { User } from './user';
 
-export type { AppOptions, Locales, MenuItem, Route, Routes } from './options';
+export type { Options, Locales, MenuItem, Route, Routes } from './options';

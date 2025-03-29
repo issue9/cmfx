@@ -30,7 +30,7 @@ export interface Props extends BaseProps {
     size?: number;
 
     /**
-     * 属性 size 可用值的列表，默认为 {@link AppOptions#api#pageSizes}
+     * 属性 size 可用值的列表，默认为 {@link Options#api#pageSizes}
      */
     sizes?: Array<number>;
 

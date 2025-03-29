@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createApp, AppOptions, Routes } from '@cmfx/admin/dev';
+import { createApp, Options, Routes } from '@cmfx/admin/dev';
 import { Card, Label } from '@cmfx/admin/dev/components';
 import * as pages from '@cmfx/admin/dev/pages';
 import '@cmfx/admin/dev/style.css';
@@ -62,7 +62,7 @@ const routes: Routes = {
     }
 };
 
-const menus: AppOptions['menus'] = [
+const menus: Options['menus'] = [
     { type: 'item', icon: 'dashboard', label: '_i.page.current.dashboard', path: '/current/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test/5/test' },
     {
@@ -88,7 +88,7 @@ const menus: AppOptions['menus'] = [
     ...demo.menus()
 ];
 
-const o: AppOptions = {
+const o: Options = {
     routes,
 
     system: {
