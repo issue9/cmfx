@@ -37,6 +37,7 @@ export const routes: Array<Route> = [
     { path: '/form-date', component: lazy(() => import('@/components/form/date/demo')) },
     { path: '/form-editor', component: lazy(() => import('@/components/form/editor/demo')) },
     { path: '/form-radio', component: lazy(() => import('@/components/form/radio/demo')) },
+    { path: '/form-range', component: lazy(() => import('@/components/form/range/demo')) },
     { path: '/form-textfield', component: lazy(() => import('@/components/form/textfield/demo')) },
     { path: '/form-textarea', component: lazy(() => import('@/components/form/textarea/demo')) },
     { path: '/form-upload', component: lazy(() => import('@/components/form/upload/demo')) },

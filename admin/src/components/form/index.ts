@@ -19,4 +19,5 @@ export * from './radio';
 export * from './textarea';
 export * from './textfield';
 export * from './upload';
+export * from './range';
 

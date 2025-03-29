@@ -17,7 +17,7 @@
         justify-items: start;
 
         .c--field-content {
-            @apply w-full h-full flex flex-col;
+            @apply w-full h-full flex flex-col justify-center;
         }
 
         .c--field_help {

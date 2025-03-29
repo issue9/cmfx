@@ -1,0 +1,20 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+input[type=range] {
+    @apply bg-palette-bg text-palette-fg h-2 appearance-none rounded-lg cursor-pointer border-[1px] border-palette-bg-low;
+
+    &::-webkit-slider-thumb,
+    &::-moz-range-thumb {
+        @apply transition-all ease-in-out;
+        @apply rounded-full w-3 h-3 bg-palette-bg;
+        @apply border-3 border-palette-fg-high;
+    }
+}
+
+@layer components {
+    .c--range {}
+}

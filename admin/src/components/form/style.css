@@ -13,6 +13,7 @@
 @import './textfield/style.css';
 @import './date/style.css';
 @import './upload/style.css';
+@import './range/style.css';
 
 @layer components {
     .c--form {
