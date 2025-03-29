@@ -19,6 +19,11 @@ export interface Props extends FieldBaseProps {
 
     step?: number;
 
+    /**
+     * 背景和滑块拥有相同的调度
+     */
+    fitHeight?: boolean;
+
     marks?: Array<[value: number, title: string]>;
 
     horizontal?: boolean;
@@ -44,7 +49,8 @@ export default function Range(props: Props): JSX.Element {
         label={props.label}
         palette={props.palette}
     >
-        <input class="c--range" type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
+        <input type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
+            classList={{'c--range': true, 'fit-height': props.fitHeight}}
             readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={(e) => {
                 if (!props.readonly && !props.disabled) {
                     let v = parseFloat(e.target.value);
