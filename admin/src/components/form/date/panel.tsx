@@ -114,7 +114,7 @@ export function DatePanel(props: Props): JSX.Element {
 
     // 以下用于处理 timeRef 根据 dateRef 的高度作适配调整。
     // 在 onMount 中，dateRef 的高度依然为零，所以是无用的。
-    // 只能在 createEffect 中追踪 datRef 的变化。
+    // 只能在 createEffect 中追踪 dateRef 的变化。
     const [dateRef, setDateRef] = createSignal<HTMLDivElement>();
     let timeRef: HTMLDivElement;
     createEffect(() => {

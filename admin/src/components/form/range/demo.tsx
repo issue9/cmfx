@@ -34,7 +34,17 @@ export default function () {
         </Stage>
 
         <Stage title="step">
-            <Range fitHeight={fitHeight()} accessor={f} palette='primary' step={10} min={0} max={100} disabled={disabled()} readonly={readonly()} horizontal={horizontal()} />
+            <Range fitHeight={fitHeight()} accessor={f} palette='primary' step={20} min={0} max={100} disabled={disabled()} readonly={readonly()} horizontal={horizontal()} />
+        </Stage>
+
+        <Stage title="float step">
+            <Range fitHeight={fitHeight()} accessor={f} palette='primary' step={0.5} min={0} max={100} disabled={disabled()} readonly={readonly()} horizontal={horizontal()} />
+        </Stage>
+
+        <Stage title="mark">
+            <Range fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} horizontal={horizontal()}
+                step={20} min={5} max={110} marks={[[10, '15'], [50, '50'], [80, '80'], [110, 'last']]}
+            />
         </Stage>
     </Demo>;
 }

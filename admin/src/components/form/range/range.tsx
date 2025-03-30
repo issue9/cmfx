@@ -2,31 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
+import { createEffect, Show, JSX, For, createSignal, onMount, onCleanup } from 'solid-js';
 
 import { Accessor, Field, FieldBaseProps } from '@/components/form/field';
 
 export interface Props extends FieldBaseProps {
-    /**
-     * 最小值
-     */
     min?: number;
-
-    /**
-     * 最大值
-     */
     max?: number;
-
     step?: number;
 
     /**
-     * 背景和滑块拥有相同的调度
+     * 滑轨和滑块拥有相同的调度
      */
     fitHeight?: boolean;
 
+    /**
+     * 可以在滑轨上作一些标记
+     *
+     * NOTE: 要求这些标记点必须在 {@link Props#min} 和 {@link Props#max} 之间。
+     * 所以 marks 不为空时，min 和 max 是不能为空的。
+     */
     marks?: Array<[value: number, title: string]>;
-
-    horizontal?: boolean;
 
     accessor: Accessor<number>;
 }
@@ -36,8 +32,34 @@ export interface Props extends FieldBaseProps {
  */
 export default function Range(props: Props): JSX.Element {
     const access = props.accessor;
+    const [marks, setMarks] = createSignal<Props['marks']>([]);
+    let fieldRef: HTMLDivElement;
 
-    return <Field class={props.class}
+    onMount(() => {
+        const resizeObserver = new ResizeObserver(entries => {
+            const entry = entries[0];
+            const top = (-(entry.contentBoxSize[0].blockSize/2 + 2)).toString() + 'px';
+            fieldRef.style.setProperty('--top', top);
+        });
+        
+        resizeObserver.observe(fieldRef!.firstElementChild!);
+        onCleanup(() => {resizeObserver.disconnect();});
+    });
+
+    let scale: number;
+    createEffect(() => {// 根据 min 和 max 计算各个标记点的值
+        if (props.marks && props.marks.length > 0) {
+            let marks = props.marks ? props.marks.sort((a, b) => a[0] - b[0]) : undefined;
+            marks = marks?.map((item) => {
+                item[0] -= props.min!;
+                return item;
+            });
+            setMarks(marks);
+            scale = (props.max! - props.min!) / 100;
+        }
+    });
+
+    return <Field ref={el=>fieldRef=el} class={props.class + ' c--range'}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
         labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
@@ -50,7 +72,7 @@ export default function Range(props: Props): JSX.Element {
         palette={props.palette}
     >
         <input type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
-            classList={{'c--range': true, 'fit-height': props.fitHeight}}
+            classList={{'fit-height': props.fitHeight }}
             readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={(e) => {
                 if (!props.readonly && !props.disabled) {
                     let v = parseFloat(e.target.value);
@@ -59,5 +81,17 @@ export default function Range(props: Props): JSX.Element {
                 }
             }}
         />
+
+        <Show when={marks()}>
+            <div class="marks">
+                <For each={marks()}>
+                    {(item) => (
+                        <>
+                            <span class="item" style={{ 'left': (item[0] / scale!).toString() + '%' }}>{item[1]}</span>
+                        </>
+                    )}
+                </For>
+            </div>
+        </Show>
     </Field>;
 }

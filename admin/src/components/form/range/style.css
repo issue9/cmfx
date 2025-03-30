@@ -5,18 +5,36 @@
  */
 
 input[type=range] {
-    @apply bg-palette-bg text-palette-fg h-2 appearance-none rounded-full cursor-pointer border-[1px] border-palette-bg-low;
+    @apply w-full my-2 bg-palette-bg text-palette-fg h-2 appearance-none rounded-full cursor-pointer border-[1px] border-palette-bg-low;
 
     &::-webkit-slider-thumb,
     &::-moz-range-thumb {
-        @apply transition-all ease-in-out;
         @apply rounded-full w-3 h-3 bg-palette-bg;
         @apply border-3 border-palette-fg-high;
     }
 }
 
 @layer components {
-    .c--range.fit-height {
-        @apply !h-5;
+    .c--range {
+        --top: 5px;
+
+        .fit-height {
+            @apply !h-5;
+        }
+
+        .marks {
+            @apply relative w-full;
+
+            .item {
+                @apply absolute translate-x-[-50%];
+            }
+
+            .item::before {
+                top: var(--top);
+
+                content: '';
+                @apply absolute left-[40%] block w-1 h-1 rounded-full bg-palette-fg-high;
+            }
+        }
     }
 }
