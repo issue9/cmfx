@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
+import { createEffect, onCleanup, onMount, createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
 
 import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
@@ -112,15 +112,18 @@ export function DatePanel(props: Props): JSX.Element {
 
     const weekFormat = createMemo(() => { return ctx.locale().dateTimeFormat({ weekday: 'narrow' }); });
 
-    // 以下用于处理 timeRef 根据 dateRef 的高度作适配调整。
-    // 在 onMount 中，dateRef 的高度依然为零，所以是无用的。
-    // 只能在 createEffect 中追踪 dateRef 的变化。
-    const [dateRef, setDateRef] = createSignal<HTMLDivElement>();
+    let dateRef: HTMLDivElement;
     let timeRef: HTMLDivElement;
-    createEffect(() => {
-        const rect = dateRef()!.getBoundingClientRect();
-        timeRef.style.height = rect.height + 'px';
-        scrollTimer();
+    onMount(() => {
+        // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+        const resizeObserver = new ResizeObserver(entries => {
+            const height = entries[0]!.borderBoxSize[0].blockSize;
+            timeRef.style.height = height + 'px';
+            scrollTimer();
+        });
+
+        resizeObserver.observe(dateRef!);
+        onCleanup(() => { resizeObserver.disconnect(); });
     });
 
     const title = <div class="title">
@@ -257,7 +260,7 @@ export function DatePanel(props: Props): JSX.Element {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <div class="main">
-            <div ref={setDateRef}>{title}{daysSelector}</div>
+            <div ref={el => dateRef = el}>{title}{daysSelector}</div>
             {timer}
         </div>
 

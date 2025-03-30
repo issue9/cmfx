@@ -36,6 +36,7 @@ export default function Range(props: Props): JSX.Element {
     let fieldRef: HTMLDivElement;
 
     onMount(() => {
+        // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
             const entry = entries[0];
             const top = (-(entry.contentBoxSize[0].blockSize/2 + 2)).toString() + 'px';
