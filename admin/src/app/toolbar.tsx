@@ -26,7 +26,7 @@ export default function Toolbar(props: Props) {
     const opt = useOptions();
 
     createEffect(() => {
-        if (!opt.asideFloatingMinWidth) { props.menuVisible[1](true); }
+        if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
     });
 
     return <header class="app-bar palette--tertiary">
@@ -39,12 +39,12 @@ export default function Toolbar(props: Props) {
             <Show when={ctx.isLogin()}>
                 <Button icon rounded type="button" kind='flat'
                     classList={{
-                        'xs:!hidden': opt.asideFloatingMinWidth == 'xs',
-                        'sm:!hidden': opt.asideFloatingMinWidth == 'sm',
-                        'md:!hidden': opt.asideFloatingMinWidth == 'md',
-                        'lg:!hidden': opt.asideFloatingMinWidth == 'lg',
-                        'xl:!hidden': opt.asideFloatingMinWidth == 'xl',
-                        '2xl:!hidden': opt.asideFloatingMinWidth == '2xl',
+                        'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
+                        'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
+                        'md:!hidden': opt.aside.floatingMinWidth == 'md',
+                        'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
+                        'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
+                        '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
                     }}
                     onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                     {props.menuVisible[0]() ? 'menu_open' : 'menu'}

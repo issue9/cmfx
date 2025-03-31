@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Breakpoint, Contrast, Theme as CoreTheme, DictLoader, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
+import { Contrast, Theme as CoreTheme, DictLoader, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
 import type { LocaleID } from '@/messages';
 import { API, sanitizeAPI } from './api';
 import type { MenuItem, Routes } from './route';
+import { presetAside } from './aside';
+import type { Aside } from './aside';
 
 /**
  * 项目的基本配置
@@ -47,9 +49,9 @@ export interface Options {
     routes: Routes;
 
     /**
-     * 左侧的导航菜单
+     * 侧边栏的设置
      */
-    menus: Array<MenuItem>;
+    aside?: Aside;
 
     /**
      * 用户菜单
@@ -60,11 +62,6 @@ export interface Options {
      * 与本地化相关的一些设置
      */
     locales: Locales;
-
-    /**
-     * 侧边栏在小于此值时将变为浮动状态
-     */
-    asideFloatingMinWidth?: Breakpoint;
 }
 
 /**
@@ -144,8 +141,8 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
-    asideFloatingMinWidth: 'xs',
 } as const;
+
 
 type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
 
@@ -164,6 +161,7 @@ export function build(o: Options): ReqOptions {
     }
 
     const opt = Object.assign({}, presetOptions, o) as Required<Options>;
+    opt.aside = Object.assign({}, presetAside, opt.aside);
 
     if (!opt.titleSeparator) {
         throw 'titleSeparator 不能为空';

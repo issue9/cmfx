@@ -50,7 +50,6 @@ export const options = buildOptions({
     locales,
     routes,
     api: api,
-    menus: [],
     userMenus: [],
     title: 't1',
     logo: 'l1'
@@ -61,7 +60,6 @@ test('build', async () => {
         locales,
         routes,
         api: api,
-        menus: [],
         userMenus: [],
         title: '',
         logo: 'logo'
@@ -71,7 +69,6 @@ test('build', async () => {
         locales,
         routes,
         api: api,
-        menus: [],
         userMenus: [],
         title: 'title',
         logo: ''
@@ -81,13 +78,16 @@ test('build', async () => {
         locales,
         routes,
         api: api,
-        menus: [],
         userMenus: [],
         title: 't1',
-        logo: 'l1'
+        logo: 'l1',
+        aside:{
+            menus: [],
+        }
     });
     expect(o.logo).toEqual('l1');
     expect(o.title).toEqual('t1');
     expect(o.api.encoding).toEqual({ content: 'application/json', accept: 'application/json' });
     expect(o.titleSeparator).toEqual(' | ');
+    expect(o.aside.floatingMinWidth).toEqual('xs'); // 默认值
 });

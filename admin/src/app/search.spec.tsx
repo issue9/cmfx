@@ -8,7 +8,7 @@ import userEvent from '@testing-library/user-event';
 import { createSignal, ParentProps } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { Options } from '@/context';
+import { MenuItem } from '@/context';
 import { buildContext } from '@/context/context';
 import { options } from '@/context/options/options.spec';
 import { API, Config, Locale } from '@/core';
@@ -19,7 +19,7 @@ describe('search', async () => {
     const api = await API.build(localStorage, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, 'zh-Hans');
     Locale.init('en', api);
     const l = new Locale(new Config('admin', sessionStorage));
-    const menus: Options['menus'] = [
+    const menus: Array<MenuItem> = [
         {'type': 'divider'},
         {'type': 'item', label: 'item-1'},
         {'type': 'item', label: 'item-2', items: [
@@ -53,7 +53,7 @@ describe('search', async () => {
             wrapper: (props: ParentProps) => {
                 const Root = () => {
                     const opt = { ...options };
-                    opt.menus = menus; // 替换菜单项
+                    opt.aside.menus = menus; // 替换菜单项
                     const { Provider } = buildContext(opt, api);
                     return <Provider>{props.children}</Provider>;
                 };

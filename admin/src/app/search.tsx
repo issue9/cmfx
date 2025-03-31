@@ -25,11 +25,11 @@ export function Search(props: Props): JSX.Element {
     const opt = useOptions();
     let dlgRef: DialogRef;
     let listRef: HTMLUListElement;
-    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(ctx.locale(), opt.menus, ''));
+    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(ctx.locale(), opt.aside.menus, ''));
 
     const input = FieldAccessor('search', '', false);
     input.onChange((val: string) => {
-        setItems(buildItemsWithSearch(ctx.locale(), opt.menus, val));
+        setItems(buildItemsWithSearch(ctx.locale(), opt.aside.menus, val));
     });
 
     const showSearch = () => {

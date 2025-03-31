@@ -97,12 +97,12 @@ function Private(props: PrivateProps): JSX.Element {
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={ctx.isLogin()}>
-            <Drawer floating={opt.asideFloatingMinWidth} palette='tertiary' mainID='main-content'
+            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' mainID='main-content'
                 close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor selected={props.selected()}>{buildItems(ctx.locale(), opt.menus)}</List>
+                <List anchor selected={props.selected()}>{buildItems(ctx.locale(), opt.aside.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;

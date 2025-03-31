@@ -3,11 +3,11 @@
     "version": "0.8.15",
     "license": "MIT",
     "exports": {
-        ".": "./lib/index.d.ts",
-        "./pages": "./lib/pages.d.ts",
-        "./components": "./lib/components.d.ts",
-        "./core": "./lib/core.d.ts",
-        "./messages": "./lib/messages.d.ts"
+        ".": "./src/index.ts",
+        "./pages": "./src/pages/index.ts",
+        "./components": "./src/components/index.ts",
+        "./core": "./src/core/index.ts",
+        "./messages/*": "./src/messages/*"
     },
     "publish": {
         "include": [
