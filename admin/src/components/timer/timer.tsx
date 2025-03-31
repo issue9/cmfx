@@ -8,7 +8,7 @@ import { createEffect, createSignal, onMount, JSX, mergeProps, onCleanup, Show }
 
 import { BaseProps } from '@/components/base';
 import { Duration,parseDuration, formatDuration, second } from '@/core';
-import { useApp } from '@/context';
+import { useApp } from '@/components/context';
 
 type Field = 'days' | 'hours' | 'minutes' | 'seconds';
 

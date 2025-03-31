@@ -8,9 +8,9 @@ import userEvent from '@testing-library/user-event';
 import { createSignal, ParentProps } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { MenuItem } from '@/context';
-import { buildContext } from '@/context/context';
-import { options } from '@/context/options/options.spec';
+import { MenuItem, } from '@/components/context';
+import { buildContext } from '@/components/context/context';
+import { options } from '@/components/context/options/options.spec';
 import { API, Config, Locale } from '@/core';
 import { buildItemsWithSearch, Search } from './search';
 

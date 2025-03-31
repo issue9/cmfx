@@ -4,8 +4,7 @@
 
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 
-import { AxisChart, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab } from '@/components';
-import { useApp } from '@/context';
+import { AxisChart, useApp, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab } from '@/components';
 
 const mb = 1024 * 1024;
 

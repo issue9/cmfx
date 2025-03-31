@@ -7,7 +7,7 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 
 import { Palette } from '@/components/base';
 import { Button, FitScreenButton, PrintButton, SplitButton } from '@/components/button';
-import { useApp, useOptions } from '@/context';
+import { useApp, useOptions } from '@/components/context';
 import { prompt } from '@/components/dialog';
 import { Divider } from '@/components/divider';
 import { ObjectAccessor } from '@/components/form';

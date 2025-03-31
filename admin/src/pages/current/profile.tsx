@@ -5,10 +5,9 @@
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
 import {
-    buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
-    FormAccessor, Icon, Page, TextField, Upload, UploadRef
+    buildEnumsOptions, Button, Choice, Divider, file2Base64, Form, User,
+    FormAccessor, Icon, Page, TextField, Upload, UploadRef, useApp, useOptions
 } from '@/components';
-import { useApp, useOptions, User } from '@/context';
 import { Passport, Sex, sexesMap } from '@/pages/common';
 import { PassportComponents } from './passports';
 

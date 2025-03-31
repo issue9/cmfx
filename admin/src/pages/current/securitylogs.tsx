@@ -5,8 +5,7 @@
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { Page, RemoteTable, TextField } from '@/components';
-import { useApp } from '@/context';
+import { Page, RemoteTable, TextField, useApp } from '@/components';
 import { Query } from '@/core';
 
 interface SecurityLog {

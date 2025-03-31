@@ -4,8 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Column, Label, Page, RemoteTable } from '@/components';
-import { useApp } from '@/context';
+import { Column, useApp, Label, Page, RemoteTable } from '@/components';
 import { Duration, Method, parseDuration, Query } from '@/core';
 
 interface API {

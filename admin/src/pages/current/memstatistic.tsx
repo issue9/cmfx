@@ -4,8 +4,7 @@
 
 import { JSX, createSignal, onMount } from 'solid-js';
 
-import { Description } from '@/components';
-import { useApp } from '@/context';
+import { Description, useApp } from '@/components';
 
 export function MemStatistic(): JSX.Element {
     const [statistic, setStatistic] = createSignal<Statistic>({

@@ -8,8 +8,8 @@ import userEvent from '@testing-library/user-event';
 import { ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
-import { buildContext } from '@/context/context';
-import { options } from '@/context/options/options.spec';
+import { buildContext } from '@/components/context/context';
+import { options } from '@/components/context/options/options.spec';
 import { API, Locale } from '@/core';
 import { Pagination } from './pagination';
 

@@ -5,8 +5,7 @@
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { Button, ErrorProps, Error as XError } from '@/components';
-import { useApp, useOptions } from '@/context';
+import { Button, ErrorProps, Error as XError, useApp, useOptions } from '@/components';
 
 export function NotFound(): JSX.Element {
     const ctx = useApp();

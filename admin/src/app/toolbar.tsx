@@ -4,8 +4,7 @@
 
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
-import { Button, Item, Label, Menu } from '@/components';
-import { MenuItem, useApp, useOptions } from '@/context';
+import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
 import { Locale } from '@/core';
 import { Search } from './search';
 

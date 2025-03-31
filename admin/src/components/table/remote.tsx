@@ -5,7 +5,7 @@
 import { JSX, onMount, splitProps } from 'solid-js';
 
 import { ConfirmButton } from '@/components/button';
-import { AppContext, useApp } from '@/context';
+import { AppContext, useApp } from '@/components/context';
 import { Page, Query, query2Search } from '@/core';
 import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 

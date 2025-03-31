@@ -7,7 +7,7 @@ import { createEffect, onCleanup, onMount, createMemo, createSignal, For, JSX, m
 import { Palette } from '@/components/base';
 import { Button } from '@/components/button';
 import { Accessor, FieldBaseProps } from '@/components/form/field';
-import { useApp } from '@/context';
+import { useApp } from '@/components/context';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {

@@ -6,9 +6,8 @@ import { JSX } from 'solid-js';
 
 import {
     Button, Column, Dialog, DialogRef, LinkButton, ObjectAccessor,
-    Page, RemoteTable, RemoteTableRef, TextArea, TextField
+    Page, RemoteTable, RemoteTableRef, TextArea, TextField, useApp
 } from '@/components';
-import { useApp } from '@/context';
 import { Return } from '@/core';
 
 export interface Role {

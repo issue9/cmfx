@@ -5,7 +5,7 @@
 import { Demo, paletteSelector } from '@/components/base/demo';
 import { Button } from '@/components/button';
 import { Form, FormAccessor } from '@/components/form';
-import { useApp } from '@/context';
+import { useApp } from '@/components/context';
 import { Dialog, Ref } from './dialog';
 import { alert, confirm, prompt } from './system';
 

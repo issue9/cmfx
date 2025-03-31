@@ -4,7 +4,7 @@
 
 import { Component } from 'solid-js';
 
-import { MenuItem, Route } from '@/context';
+import { MenuItem, Route } from '@/components';
 import { Pages } from '@/pages/pages';
 import { ActionProps, Members } from './members';
 import { PanelProps, View } from './view';

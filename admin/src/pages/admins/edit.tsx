@@ -5,8 +5,7 @@
 import { useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
-import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField } from '@/components';
-import { useApp, User } from '@/context';
+import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField, useApp, User } from '@/components';
 import { Passport, Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 

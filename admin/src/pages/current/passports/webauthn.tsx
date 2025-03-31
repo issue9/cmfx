@@ -8,9 +8,8 @@ import { JSX, Show } from 'solid-js';
 
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, Label, RemoteTable, RemoteTableRef, TextField
+    Icon, Label, RemoteTable, RemoteTableRef, TextField, useApp, useOptions
 } from '@/components';
-import { useApp, useOptions } from '@/context';
 import { Token } from '@/core';
 import { PassportComponents, RefreshFunc } from './passports';
 

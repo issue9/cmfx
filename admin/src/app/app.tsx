@@ -6,10 +6,9 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Drawer, List, Notify, registerChartLocales, SystemDialog } from '@/components';
-import { Options, useApp, useOptions } from '@/context';
-import { buildOptions } from '@/context/options';
-import { buildContext, OptContext } from '@/context/context';
+import { Drawer, List, Notify, registerChartLocales, SystemDialog, AppOptions, useApp, useOptions } from '@/components';
+import { buildOptions } from '@/components/context/options';
+import { buildContext, OptContext } from '@/components/context/context';
 import { API, Hotkey, Locale } from '@/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
@@ -20,7 +19,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  * @param elementID 挂载的元素 ID；
  * @param o 项目的初始化选项；
  */
-export async function create(elementID: string, o: Options): Promise<void> {
+export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
     const ao = opt.api;
 

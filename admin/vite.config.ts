@@ -29,7 +29,14 @@ export default defineConfig({
         dts({
             entryRoot: './src',
             insertTypesEntry: true,
-            rollupTypes: true
+            rollupTypes: true,
+            exclude: [
+                'node_modules/**',
+                '**/lib/**',
+                './src/**/*.spec.ts',
+                './src/**/*.spec.tsx',
+                './src/**/demo.tsx',
+            ]
         }),
         viteStaticCopy({
             targets: [

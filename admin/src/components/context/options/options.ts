@@ -12,7 +12,7 @@ import type { Aside } from './aside';
 /**
  * 项目的基本配置
  */
-export interface Options {
+export interface AppOptions {
     /**
      * 网站的标题
      */
@@ -137,21 +137,21 @@ export interface Theme {
     schemes: Array<Scheme>;
 }
 
-const presetOptions: Readonly<PickOptional<Options>> = {
+const presetOptions: Readonly<PickOptional<AppOptions>> = {
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
 } as const;
 
 
-type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
+type ReqOptions = Required<Omit<AppOptions, 'api'>> & { api: Required<API> };
 
 /**
  * 根据 o 生成一个完整的 {@link Options} 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
  */
-export function build(o: Options): ReqOptions {
+export function build(o: AppOptions): ReqOptions {
     if (o.title.length === 0) {
         throw 'title 不能为空';
     }
@@ -160,7 +160,7 @@ export function build(o: Options): ReqOptions {
         throw 'logo 不能为空';
     }
 
-    const opt = Object.assign({}, presetOptions, o) as Required<Options>;
+    const opt = Object.assign({}, presetOptions, o) as Required<AppOptions>;
     opt.aside = Object.assign({}, presetAside, opt.aside);
 
     if (!opt.titleSeparator) {

@@ -5,7 +5,7 @@
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { handleEvent } from '@/components/base';
-import { useApp } from '@/context';
+import { useApp } from '@/components/context';
 import { calcPopoverPos } from '@/components/utils';
 import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
 
