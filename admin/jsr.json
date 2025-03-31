@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.8.14",
+    "version": "0.8.15",
     "license": "MIT",
     "exports": {
         ".": "./lib/index.d.ts",

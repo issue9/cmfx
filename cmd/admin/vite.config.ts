@@ -29,7 +29,10 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            '@': fileURLToPath(new URL('../../admin/src', import.meta.url))
+            '@cmfx/admin': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../admin/lib', import.meta.url))
+                : fileURLToPath(new URL('../../admin/src', import.meta.url)),
+            '@': fileURLToPath(new URL('../../admin/src', import.meta.url)) // demo 始终指向 admin/src
         }
     },
 

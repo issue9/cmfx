@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.8.14",
+    "version": "0.8.15",
     "type": "module",
     "description": "适用于 cmfx 的后台管理框架",
     "author": {
@@ -63,38 +63,6 @@
             "types": "./lib/messages.d.ts",
             "require": "./lib/messages.cjs.js",
             "import": "./lib/messages.es.js"
-        },
-        "./dev": {
-            "require": "./src/index.ts",
-            "import": "./src/index.ts"
-        },
-        "./dev/demo": {
-            "require": "./src/demo.tsx",
-            "import": "./src/demo.tsx"
-        },
-        "./dev/style.css": {
-            "require": "./src/style.css",
-            "import": "./src/style.css"
-        },
-        "./dev/pages": {
-            "require": "./src/pages/index.ts",
-            "import": "./src/pages/index.ts"
-        },
-        "./dev/components": {
-            "require": "./src/components/index.ts",
-            "import": "./src/components/index.ts"
-        },
-        "./dev/core": {
-            "require": "./src/core/index.ts",
-            "import": "./src/core/index.ts"
-        },
-        "./dev/messages/": {
-            "require": "./src/messages/",
-            "import": "./src/messages/"
-        },
-        "./dev/messages": {
-            "require": "./src/messages/index.ts",
-            "import": "./src/messages/index.ts"
         }
     },
     "scripts": {
@@ -119,7 +87,7 @@
         "solid-transition-group": "^0.3.0",
         "tailwindcss": "^4.0.17",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
-        "yaml": "^2.7.0"
+        "yaml": "^2.7.1"
     },
     "devDependencies": {
         "@solidjs/testing-library": "^0.8.10",

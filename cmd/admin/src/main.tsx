@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createApp, Options, Routes } from '@cmfx/admin/dev';
-import { Card, Label } from '@cmfx/admin/dev/components';
-import * as pages from '@cmfx/admin/dev/pages';
-import '@cmfx/admin/dev/style.css';
+import { createApp, Options, Routes } from '@cmfx/admin';
+import { Card, Label } from '@cmfx/admin/components';
+import * as pages from '@cmfx/admin/pages';
+import '@cmfx/admin/style.css';
 
 import { Demo } from './demo';
 import { default as Test } from './pages/test';
@@ -99,11 +99,11 @@ const o: Options = {
     locales: {
         messages: {
             'en': [
-                async () => { return (await import('@cmfx/admin/dev/messages/en.lang.ts')).default; },
+                async () => { return (await import('@cmfx/admin/messages/en.lang')).default; },
                 async () => { return (await import('./locales/en')).default; },
             ],
             'zh-Hans': [
-                async () => { return (await import('@cmfx/admin/dev/messages/zh-Hans.lang.ts')).default; },
+                async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang')).default; },
                 async () => { return (await import('./locales/zh-Hans')).default; },
             ],
         },

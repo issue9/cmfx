@@ -30,7 +30,8 @@
         "src/**/*.mjs",
         "src/**/*.js",
         "src/**/*.tsx",
-        "postcss.config.mjs"
+        "postcss.config.mjs",
+        "../../admin/**/*.tsx",
     ],
     "references": [
         {

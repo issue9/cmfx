@@ -27,6 +27,7 @@ export default defineConfig({
     plugins: [
         solidPlugin(),
         dts({
+            entryRoot: './src',
             insertTypesEntry: true,
             rollupTypes: true
         }),
@@ -64,13 +65,13 @@ export default defineConfig({
                 'components': './src/components/index.ts',
                 'pages': './src/pages/index.ts',
                 'core': './src/core/index.ts',
-                'messages': './src/messages/index.ts',
 
-                'messages/en': './src/messages/en.lang.ts',
-                'messages/zh-Hans': './src/messages/zh-Hans.lang.ts',
+                'messages': './src/messages/index.ts',
+                'messages/en.lang': './src/messages/en.lang.ts',
+                'messages/zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
             },
-            formats: ['es', 'cjs'],
-            fileName: (format, name) => `${name}.${format}.js`,
+            formats: ['es'],
+            fileName: (format, name) => `${name}.js`,
             cssFileName: 'style',
         },
         rollupOptions: {

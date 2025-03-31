@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useApp } from '@cmfx/admin/dev';
-import { MessageKey } from '../locales';
+import { useApp } from '@cmfx/admin';
+import { Message } from '../locales';
 
 export default function Test() {
     const ctx = useApp();
-    ctx.locale().t<MessageKey>('home');
+    ctx.locale().t<Message>('home');
     const ps = ctx.params();
     console.log(ps.id);
 
-    return <div>{ctx.locale().t<MessageKey>('nest.abc') as string},{ ps.id}</div>;
+    return <div>{ctx.locale().t<Message>('nest.abc') as string},{ ps.id}</div>;
 }
