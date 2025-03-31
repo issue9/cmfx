@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AppOptions, Routes, MenuItem } from '@cmfx/admin/components';
+import { AppOptions, Routes, MenuItem, Card, Label } from '@cmfx/admin';
 import { createApp } from '@cmfx/admin';
-import { Card, Label } from '@cmfx/admin/components';
 import * as pages from '@cmfx/admin/pages';
 import '@cmfx/admin/style.css';
 

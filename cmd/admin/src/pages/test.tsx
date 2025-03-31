@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useApp } from '@cmfx/admin/components';
+import { useApp } from '@cmfx/admin';
 import { Message } from '../locales';
 
 export default function Test() {

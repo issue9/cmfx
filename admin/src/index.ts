@@ -15,7 +15,6 @@
  * @module
  */
 
-import './style.css';
-
-export * from './app';
 export type { Messages as InternalMessages } from './messages';
+export * from './components';
+export * from './app';

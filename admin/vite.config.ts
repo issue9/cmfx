@@ -69,11 +69,8 @@ export default defineConfig({
         lib: {
             entry: {
                 'index': './src/index.ts',
-                'components': './src/components/index.ts',
                 'pages': './src/pages/index.ts',
                 'core': './src/core/index.ts',
-
-                'messages': './src/messages/index.ts',
                 'messages/en.lang': './src/messages/en.lang.ts',
                 'messages/zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
             },

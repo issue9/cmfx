@@ -28,13 +28,11 @@
         "LICENSE"
     ],
     "types": "./lib/index.d.ts",
-    "main": "./lib/index.cjs.js",
-    "module": "./lib/index.es.js",
+    "module": "./lib/index.js",
     "exports": {
         ".": {
             "types": "./lib/index.d.ts",
-            "require": "./lib/index.cjs.js",
-            "import": "./lib/index.es.js"
+            "import": "./lib/index.js"
         },
         "./style.css": {
             "require": "./lib/style.css",
@@ -42,27 +40,15 @@
         },
         "./pages": {
             "types": "./lib/pages.d.ts",
-            "require": "./lib/pages.cjs.js",
-            "import": "./lib/pages.es.js"
-        },
-        "./components": {
-            "types": "./lib/components.d.ts",
-            "require": "./lib/components.cjs.js",
-            "import": "./lib/components.es.js"
+            "import": "./lib/pages.js"
         },
         "./core": {
             "types": "./lib/core.d.ts",
-            "require": "./lib/core.cjs.js",
-            "import": "./lib/core.es.js"
+            "import": "./lib/core.js"
         },
         "./messages/": {
             "require": "./lib/messages/",
             "import": "./lib/messages/"
-        },
-        "./messages": {
-            "types": "./lib/messages.d.ts",
-            "require": "./lib/messages.cjs.js",
-            "import": "./lib/messages.es.js"
         }
     },
     "scripts": {
