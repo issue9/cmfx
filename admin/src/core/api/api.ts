@@ -190,13 +190,14 @@ export class API {
     /**
      * 执行上传操作
      *
-     * @param path 上传地址，相对于 {@link API#baseURL}
-     * @param obj 上传的对象
-     * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌。
+     * @param path 上传地址，相对于 {@link API#baseURL}；
+     * @param obj 上传的对象；
+     * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌；
+     * @param method 请求方法；
      */
-    async upload<R=never,PE=never>(path: string, obj: FormData, withToken = true): Promise<Return<R,PE>> {
+    async upload<R=never,PE=never>(path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
-        return this.withArgument<R,PE>(path, 'POST', token, undefined, obj);
+        return this.withArgument<R,PE>(path, method, token, undefined, obj);
     }
 
     /**

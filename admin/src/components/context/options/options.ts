@@ -147,7 +147,7 @@ const presetOptions: Readonly<PickOptional<AppOptions>> = {
 type ReqOptions = Required<Omit<AppOptions, 'api'>> & { api: Required<API> };
 
 /**
- * 根据 o 生成一个完整的 {@link Options} 对象，且会检测字段是否正确。
+ * 根据 o 生成一个完整的 {@link AppOptions} 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
  */

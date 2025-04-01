@@ -3,13 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import '@cmfx/admin/style.css';
+import './style.css';
+
 import { AppOptions, Routes, MenuItem, Card, Label } from '@cmfx/admin';
 import { createApp } from '@cmfx/admin';
 import * as pages from '@cmfx/admin/pages';
 
 import { Demo } from './demo';
 import { default as Test } from './pages/test';
-import './style.css';
 
 //const urlBase = 'http://192.168.10.10:8080/admin';
 const urlBase = 'http://localhost:8080/admin';

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -44,9 +44,9 @@ func Load(mod *cmfx.Module, prefix string, saver upload.Saver) *Module {
 	return &Module{saver: saver, prefix: prefix}
 }
 
-// Handle 提供上传功能
+// Handle 注册上传接口
 func (m *Module) Handle(prefix *web.Prefix, api func(func(*openapi.Operation)) web.Middleware, conf *Config) {
-	up := upload.New(m.saver, conf.Size, conf.Exts...)
+	up := m.Upload(conf)
 
 	prefix.Post(m.prefix, func(ctx *web.Context) web.Responser {
 		files, err := up.Do(conf.Field, ctx.Request())
@@ -65,4 +65,9 @@ func (m *Module) Handle(prefix *web.Prefix, api func(func(*openapi.Operation)) w
 			Desc(web.Phrase("upload file"), nil).
 			Response("201", []string{}, nil, nil)
 	}))
+}
+
+// Upload 提供原始的 [upload.Upload] 对象
+func (m *Module) Upload(conf *Config) *upload.Upload {
+	return upload.New(m.saver, conf.Size, conf.Exts...)
 }

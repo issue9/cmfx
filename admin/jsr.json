@@ -3,22 +3,17 @@
     "version": "0.8.16",
     "license": "MIT",
     "exports": {
-        ".": "./src/index.ts",
-        "./pages": "./src/pages/index.ts",
-        "./components": "./src/components/index.ts",
-        "./core": "./src/core/index.ts",
-        "./messages/*": "./src/messages/*"
+        ".": "./lib/index.d.ts",
+        "./pages": "./lib/pages.d.ts",
+        "./core": "./lib/core.d.ts",
+        "./messages/en.lang": "./lib/messages/en.lang.d.ts",
+        "./messages/zh-Hans.lang": "./lib/messages/zh-Hans.lang.d.ts"
     },
     "publish": {
         "include": [
             "LICENSE",
             "README.md",
-            "./src/"
-        ],
-        "exclude": [
-            "./src/**/*.spec.ts",
-            "./src/**/*.spec.tsx",
-            "./src/**/demo.tsx"
+            "./lib/"
         ]
     }
 }
