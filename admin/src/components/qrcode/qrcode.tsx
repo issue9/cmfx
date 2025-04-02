@@ -2,10 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import QRCodeStyling, { CornerDotType, CornerSquareType, DotType, ErrorCorrectionLevel, Options } from 'qr-code-styling';
-import { createEffect, JSX, mergeProps } from 'solid-js';
+import QRCodeStyling, { CornerDotType, FileExtension, CornerSquareType, DotType, ErrorCorrectionLevel, Options } from 'qr-code-styling';
+import { createEffect, onMount, createSignal, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps } from '@/components/base';
+
+export interface Ref {
+    /**
+     * 提供下载图片的功能
+     */
+    download(name?: string, ext?: FileExtension): Promise<void>;
+}
 
 export interface Props extends BaseProps {
     /**
@@ -46,6 +53,8 @@ export interface Props extends BaseProps {
     height?: number;
 
     padding?: number;
+
+    ref?: { (el: Ref): void; };
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -60,10 +69,10 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export function QRCode(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
+    const [ref, setRef] = createSignal<HTMLSpanElement>();
 
-    let ref: HTMLSpanElement;
-
-    createEffect(() => {
+    let download: Ref['download'];
+    const init = () => {
         const opt: Partial<Options> = {
             width: props.width,
             height: props.height,
@@ -94,15 +103,38 @@ export function QRCode(props: Props): JSX.Element {
             };
         }
 
-        while(ref.firstChild) {
-            ref.removeChild(ref.firstChild);
+        while (ref() && ref()!.firstChild) {
+            ref()!.removeChild(ref()!.firstChild!);
         }
 
         const qr = new QRCodeStyling(opt);
-        qr.append(ref);
-    });
+        qr.append(ref());
 
-    return <span ref={el => ref = el} classList={{
+        download = async (name?: string, ext?: FileExtension): Promise<void> => {
+            // 因为用到的颜色是 var(--bg) 的 CSS 变量，下载时，这些引用的外部变量无法自动转换。
+            // 所以需要创建一个临时的对象，并将 CSS 变量计算为对应的值。
+
+            const elem = ref() ?? document.documentElement;
+            const qr2 = new QRCodeStyling(Object.assign(structuredClone(opt), {
+                backgroundOptions: { color: getComputedStyle(elem).getPropertyValue('--bg') },
+                dotsOptions: { color: getComputedStyle(elem).getPropertyValue('--fg') },
+            }));
+            return await qr2.download({ name: name, extension: ext });
+        };
+    };
+
+    createEffect(init);
+    onMount(init);
+
+    if (props.ref) {
+        props.ref({
+            async download(name, ext): Promise<void> {
+                return await download(name, ext);
+            }
+        });
+    }
+
+    return <span ref={setRef} classList={{
         [`palette--${props.palette}`]: !!props.palette,
         'c--qrcode': true,
     }} />;

@@ -5,7 +5,7 @@
 import { CornerDotType, CornerSquareType, DotType } from 'qr-code-styling';
 
 import { arraySelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { QRCode } from './qrcode';
+import { QRCode, Ref } from './qrcode';
 
 const dotTypes = ['dots' , 'rounded' , 'classy' , 'classy-rounded' , 'square' , 'extra-rounded'] as const;
 const cornerDotTypes = ['dot', 'square'] as const;
@@ -28,7 +28,9 @@ export default function() {
     const [typeS, t] = typeSelector();
     const [ctypeS, ctype] = cornerTypeSelector();
     const [cstypeS, cstype] = cornerSquareTypeSelector();
-    
+
+    let ref: Ref;
+
     return <Demo settings={
         <>
             {paletteS}
@@ -43,7 +45,10 @@ export default function() {
         </Stage>
 
         <Stage title="padding">
-            <QRCode padding={10} type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
+            <QRCode ref={el=>ref=el} padding={10} type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
+            <button onclick={()=>ref.download()}>png</button>
+            <button onclick={()=>ref.download('f1', 'jpeg')}>jpeg</button>
+            <button onclick={()=>ref.download('f1', 'svg')}>svg</button>
         </Stage>
     </Demo>;
 }
