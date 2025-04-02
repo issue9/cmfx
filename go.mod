@@ -13,14 +13,15 @@ require (
 	github.com/issue9/events v0.9.1
 	github.com/issue9/logs/v7 v7.6.5
 	github.com/issue9/mux/v9 v9.1.4
-	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20250306154222-15a8468d97e4
+	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20250401170939-12ca50525954
 	github.com/issue9/rands/v3 v3.1.0
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.1.0
 	github.com/issue9/web v0.102.11
 	github.com/issue9/webuse/v7 v7.0.0-20250326164340-b6f8f20e01e0
-	github.com/mattn/go-sqlite3 v1.14.24
+	github.com/kardianos/service v1.2.2
+	github.com/mattn/go-sqlite3 v1.14.25
 	github.com/shirou/gopsutil/v4 v4.25.2
 	golang.org/x/crypto v0.36.0
 	golang.org/x/text v0.23.0
@@ -38,7 +39,7 @@ require (
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/ebitengine/purego v0.8.2 // indirect
 	github.com/go-ole/go-ole v1.2.6 // indirect
-	github.com/go-sql-driver/mysql v1.9.0 // indirect
+	github.com/go-sql-driver/mysql v1.9.1 // indirect
 	github.com/go-webauthn/x v0.1.19 // indirect
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/google/go-tpm v0.9.3 // indirect
@@ -51,7 +52,6 @@ require (
 	github.com/issue9/version v1.0.8 // indirect
 	github.com/issue9/watermark v1.2.5 // indirect
 	github.com/jellydator/ttlcache/v3 v3.3.0 // indirect
-	github.com/kardianos/service v1.2.2 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect

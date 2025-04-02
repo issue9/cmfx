@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/admin",
-    "version": "0.8.16",
+    "version": "0.8.17",
     "type": "module",
     "description": "适用于 cmfx 的后台管理框架",
     "author": {
@@ -71,17 +71,17 @@
         "quill": "^2.0.3",
         "solid-js": "^1.9.5",
         "solid-transition-group": "^0.3.0",
-        "tailwindcss": "^4.0.17",
+        "tailwindcss": "^4.1.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
         "yaml": "^2.7.1"
     },
     "devDependencies": {
         "@solidjs/testing-library": "^0.8.10",
-        "@tailwindcss/vite": "^4.0.17",
+        "@tailwindcss/vite": "^4.1.0",
         "@testing-library/jest-dom": "^6.6.3",
         "@testing-library/user-event": "^14.6.1",
-        "@types/node": "^22.13.14",
-        "@vitest/coverage-v8": "^3.0.9",
+        "@types/node": "^22.13.17",
+        "@vitest/coverage-v8": "^3.1.1",
         "autoprefixer": "^10.4.21",
         "cssnano": "^7.0.6",
         "jsdom": "^26.0.0",
@@ -91,7 +91,7 @@
         "vite-plugin-dts": "^4.5.3",
         "vite-plugin-solid": "^2.11.6",
         "vite-plugin-static-copy": "^2.3.0",
-        "vitest": "^3.0.9",
+        "vitest": "^3.1.1",
         "vitest-fetch-mock": "^0.4.5"
     },
     "overrides": {

@@ -22,6 +22,7 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
+	"github.com/kardianos/service"
 
 	"github.com/issue9/cmfx/cmfx"
 	"github.com/issue9/cmfx/cmfx/modules/admin"
@@ -41,6 +42,12 @@ func Exec(id, version string) error {
 		ConfigFilename: "web.xml",
 		ServeActions:   []string{"serve"},
 		ErrorHandling:  flag.ExitOnError,
+		Daemon: &service.Config{
+			Name:        id,
+			DisplayName: id,
+			Description: id,
+			Arguments:   []string{"-a=serve"},
+		},
 	}).Exec()
 }
 
