@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,11 +8,12 @@ import { Button } from '@/components/button';
 import { Icon, IconSymbol } from '@/components/icon';
 import { Props as BaseProps, TextField } from './textfiled';
 
-export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'> {
+export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'|'inputMode'> {
     icon?: IconSymbol;
     min?: number;
     max?: number;
     step?: number;
+    inputMode?: 'decimal' | 'numeric';
 }
 
 const presetProps: Partial<Props> = {
@@ -20,6 +21,9 @@ const presetProps: Partial<Props> = {
     inputMode: 'decimal'
 };
 
+/**
+ * 数字输入组件
+ */
 export function Number(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, fieldProps] = splitProps(props, ['icon','min','max','step']);

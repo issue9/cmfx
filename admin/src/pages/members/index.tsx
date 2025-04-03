@@ -10,11 +10,20 @@ import { ActionProps, Members } from './members';
 import { PanelProps, View } from './view';
 export type { Member } from './types';
 
+/**
+ * 提供了会员管理页面以及组件
+ */
 export class members implements Pages {
+    /**
+     * 会员列表页面
+     */
     static Members = Members;
-    
+
+    /**
+     * 查看会员信息
+     */
     static View = View;
-    
+
     readonly #prefix: string;
     readonly #memberActions?: Component<ActionProps>;
     readonly #viewPanels?: Component<PanelProps>;

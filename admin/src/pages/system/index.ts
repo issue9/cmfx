@@ -8,9 +8,23 @@ import { APIs } from './apis';
 import { Info } from './info';
 import { Services } from './services';
 
+/**
+ * 提供系统相关的功能
+ */
 export class system implements Pages {
+    /**
+     * API 页面
+     */
     static APIs = APIs;
+
+    /**
+     * 系统服务页面
+     */
     static Services = Services;
+
+    /**
+     * 系统信息
+     */
     static Info = Info;
 
     readonly #prefix: string;
@@ -18,7 +32,6 @@ export class system implements Pages {
     static build(prefix: string) {
         return new system(prefix);
     }
-
 
     private constructor(p: string) {
         this.#prefix = p;

@@ -34,7 +34,7 @@ export type FieldBaseProps = Props & {
 /**
  * 定义了 radio、choice 等选项类型中每个选择项的类型。
  *
- * T 表示的是选择项的值类型，要求唯一且可比较。
+ * @template T 表示的是选择项的值类型，要求唯一且可比较。
  */
 export type Option<T> = [T, JSX.Element];
 
@@ -43,9 +43,16 @@ export type Option<T> = [T, JSX.Element];
  */
 export type Options<T> = Array<Option<T>>;
 
+/**
+ * input 组件的 inputMode 属性的可选值
+ */
 export type InputMode = JSX.HTMLAttributes<HTMLElement>['inputMode'];
 
-// https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill
+/**
+ * input 组件的 autoComplete 属性
+ *
+ * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill
+ */
 export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name'
     | 'honorific-suffix' | 'nickname' | 'organization-title' | 'username' | 'new-password' | 'current-password'
     | 'one-time-code' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3'

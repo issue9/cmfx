@@ -7,6 +7,9 @@ import { JSX, ParentProps, Show } from 'solid-js';
 import { Accessor } from './access';
 import type { Props } from './types';
 
+/**
+ * 用于表示子组件所处的位置
+ */
 export interface FieldArea {
     /**
      * 指位置
@@ -36,7 +39,7 @@ export type FieldProps<T> = ParentProps<Props & {
     labelArea: FieldArea;
     inputArea: FieldArea;
 
-    ref?: { (el: HTMLDivElement): void; }
+    ref?: { (el: HTMLDivElement): void; };
 }>;
 
 function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
@@ -55,6 +58,8 @@ function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
  *  top-left    | top-center    | top-right
  *  middle-left | middle-center | middle-right
  *  bottom-left | bottom-center | bottom-right
+ *
+ * @template T 表示当前组件的值类型。
  */
 export default function Field<T>(props: FieldProps<T>): JSX.Element {
     return <div class={props.class} ref={(el) => { if (props.ref) { props.ref(el); }}} classList={{

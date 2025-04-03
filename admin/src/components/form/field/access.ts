@@ -66,6 +66,7 @@ export interface ChangeFunc<T> {
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v 初始化的值；
  * @param hasHelp 是否显示错误信息的占位栏；
+ * @template T 关联的值类型
  */
 export function FieldAccessor<T>(name: string, v: T, hasHelp?: boolean): Accessor<T> {
     const [err, errSetter] = createSignal<string>();

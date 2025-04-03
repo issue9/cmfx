@@ -23,17 +23,17 @@
     "dependencies": {
         "@cmfx/admin": "0.8.17",
         "@solidjs/router": "^0.15.3",
-        "tailwindcss": "^4.1.0",
+        "tailwindcss": "^4.1.1",
         "solid-js": "^1.9.5"
     },
     "devDependencies": {
-        "@types/node": "^22.13.17",
+        "@types/node": "^22.14.0",
         "@vitejs/plugin-basic-ssl": "^2.0.0",
         "autoprefixer": "^10.4.21",
         "cssnano": "^7.0.6",
         "postcss": "^8.5.3",
         "solid-devtools": "^0.34.0",
-        "@tailwindcss/vite": "^4.1.0",
+        "@tailwindcss/vite": "^4.1.1",
         "typescript": "^5.8.2",
         "vite": "^6.2.4",
         "vite-plugin-solid": "^2.11.6"

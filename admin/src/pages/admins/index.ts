@@ -8,9 +8,23 @@ import { Admins } from './admins';
 import { Edit } from './edit';
 import { New } from './new';
 
+/**
+ * 提供与管理员相关的页面以及相关组件
+ */
 export class admins implements Pages {
+    /**
+     * 管理员列表页面
+     */
     static Admins = Admins;
+
+    /**
+     * 编辑管理员信息页面
+     */
     static Edit = Edit;
+
+    /**
+     * 新建管理员页面
+     */
     static New = New;
 
     readonly #prefix: string;
@@ -19,6 +33,9 @@ export class admins implements Pages {
         this.#prefix = prefix;
     }
 
+    /**
+     * 构建当前对象
+     */
     static build(prefix: string) {
         return new admins(prefix);
     }

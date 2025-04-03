@@ -14,12 +14,16 @@
     <logs created="15:04:05.000" caller="true" location="true">
         <handlers>
             <handler type="file">
-                <arg>./logs</arg>
-                <arg>20060102-%i.log</arg>
-                <arg>10485760</arg><!-- 约 10M -->
+                <args>
+                    <arg>./logs</arg>
+                    <arg>20060102-%i.log</arg>
+                    <arg>10485760</arg><!-- 约 10M -->
+                </args>
             </handler>
             <handler type="term">
-                <arg>stdout</arg>
+                <args>
+                    <arg>stdout</arg>
+                </args>
             </handler>
         </handlers>
     </logs>

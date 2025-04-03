@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.1
 
 require (
-	github.com/fxamacker/cbor/v2 v2.7.0
+	github.com/fxamacker/cbor/v2 v2.8.0
 	github.com/go-webauthn/webauthn v0.12.2
 	github.com/issue9/assert/v4 v4.3.1
 	github.com/issue9/cache v0.19.1
@@ -20,7 +20,7 @@ require (
 	github.com/issue9/scheduled v0.22.0
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.1.0
-	github.com/issue9/web v0.102.11
+	github.com/issue9/web v0.102.12
 	github.com/issue9/webuse/v7 v7.0.0-20250326164340-b6f8f20e01e0
 	github.com/kardianos/service v1.2.2
 	github.com/mattn/go-sqlite3 v1.14.25

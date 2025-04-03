@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -117,6 +117,8 @@ const presetProps = {
 
 /**
  * 带坐标系的图表组件
+ *
+ * @template T 每一条数据的类型
  */
 export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
     props = mergeProps(presetProps, props);

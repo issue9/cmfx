@@ -24,6 +24,9 @@ const presetProps: Readonly<Props> = {
     tabindex: 0,
 };
 
+/**
+ * 带文本提示的复选框
+ */
 export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
@@ -39,9 +42,7 @@ export function Checkbox(props: Props): JSX.Element {
             checked={props.checked}
             classList={{ '!hidden': props.block }}
             onClick={(e)=>{
-                if (props.readonly) {
-                    e.preventDefault();
-                }
+                if (props.readonly) { e.preventDefault(); }
             }}
             onChange={(e) => {
                 if (!props.readonly && !props.disabled && props.onChange) {

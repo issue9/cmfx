@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps, createUniqueId } from 'solid-js';
 
 import { Accessor, Field, FieldBaseProps, InputMode } from '@/components/form/field';
-import { createUniqueId } from 'solid-js';
 
 type Value = string | number | Array<string>;
 
@@ -15,6 +14,11 @@ export interface Props<T> extends FieldBaseProps {
     inputMode?: InputMode;
 }
 
+/**
+ * 多行文本框
+ *
+ * @template T 文本框内容的类型
+ */
 export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值
     const access = props.accessor;

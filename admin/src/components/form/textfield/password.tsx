@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -13,6 +13,9 @@ export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 };
 
+/**
+ * 密码输入组件
+ */
 export function Password(props: Props): JSX.Element {
     const [visible, setVisible] = createSignal(false);
     const [_, fieldProps] = splitProps(props, ['icon']);
