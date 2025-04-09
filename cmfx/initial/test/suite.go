@@ -13,6 +13,7 @@ import (
 	"strings"
 	"time"
 
+	xy "github.com/goccy/go-yaml"
 	"github.com/issue9/assert/v4"
 	"github.com/issue9/assert/v4/rest"
 	"github.com/issue9/config"
@@ -30,7 +31,6 @@ import (
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
 	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
 	"golang.org/x/text/language"
-	xy "gopkg.in/yaml.v3"
 
 	"github.com/issue9/cmfx/cmfx"
 

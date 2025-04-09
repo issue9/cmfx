@@ -18,8 +18,8 @@ export type Enums<T extends string | number> = Array<Enum<T>>;
  * @param enums 表示所有的枚举集合；
  */
 export function translateEnum<T extends string|number>(enums: Enums<T>, ctx: AppContext, item?: T): string|undefined {
-    const val = enums.find((v) => v[0] === item)!;
-    return ctx.locale().t(val[1]) as string;
+    const val = enums.find((v) => v[0] === item);
+    return val ? (ctx.locale().t(val[1]) as string ?? val[1]) : undefined;
 }
 
 /**

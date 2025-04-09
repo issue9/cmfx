@@ -146,8 +146,8 @@ type serviceVO struct {
 // 计划任务
 type jobVO struct {
 	serviceVO `yaml:",inline"`
-	Next      time.Time `json:"next,omitempty" xml:"next,omitempty" cbor:"next,omitempty" yaml:"next,omitempty"` // 下一次执行时间
-	Prev      time.Time `json:"prev,omitempty" xml:"prev,omitempty" cbor:"prev,omitempty" yaml:"prev,omitempty"` // 上一次执行时间
+	Next      time.Time `json:"next,omitzero" xml:"next,omitzero" cbor:"next,omitzero" yaml:"next,omitempty"` // 下一次执行时间
+	Prev      time.Time `json:"prev,omitzero" xml:"prev,omitzero" cbor:"prev,omitzero" yaml:"prev,omitempty"` // 上一次执行时间
 }
 
 // 服务和计划任务

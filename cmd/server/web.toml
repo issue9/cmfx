@@ -8,79 +8,72 @@ encodings = [
 ]
 
 mimetypes = [
-    { type="application/json" target="json" problem="application/problem+json" },
-    { type="application/yaml" target="yaml" problem="application/problem+yaml" },
-    { type="application/cbor" target="cbor" problem="application/problem+cbor" },
+    { type = "application/json", target = "json", problem = "application/problem+json" },
+    { type = "application/yaml", target = "yaml", problem = "application/problem+yaml" },
+    { type = "application/cbor", target = "cbor", problem = "application/problem+cbor" },
 
-    { type="application/xml" target="xml" problem="application/problem+xml" },
-    { type="text/xml" target="xml" problem="text/problem+xml" },
-    { type="text/html" target="html" problem="text/html" },
-    { type="text/event-stream" target="nop" },
-    { type="multipart/form-data" target="nop" },
+    { type = "application/xml", target = "xml", problem = "application/problem+xml" },
+    { type = "text/xml", target = "xml", problem = "text/problem+xml" },
+    { type = "text/html", target = "html", problem = "text/html" },
+    { type = "text/event-stream", target = "nop" },
+    { type = "multipart/form-data", target = "nop" },
 ]
 
 fileSerializers = ["json", "xml", "yaml", "toml"]
 
 [http]
-    httpport = ":8080"
-    url = "http://192.168.10.10:8080"
-    cors.maxAge = 3600
-    cors.origins = "*"
-    cors.allowHeaders = "*"
+port = ":8080"
+url = "http://192.168.10.10:8080"
+cors.maxAge = 3600
+cors.origins = ["*"]
+cors.allowHeaders = ["*"]
 
 [logs]
-    created = "15:04:05.000"
-    caller = true
-    location = true
-    handlers = [
-        {type = "file", args: ["./logs", "20060102-%i.log", "10485760"]},
-        {type = "term", args: ["stdout"]},
-    ]
+created = "15:04:05.000"
+caller = true
+location = true
+handlers = [
+    { type = "file", args = [
+        "./logs",
+        "20060102-%i.log",
+        "10485760",
+    ] },
+    { type = "term", args = [
+        "stdout",
+    ] },
+]
 
 [user.ratelimit]
-    capacity = 50
-    rate = "1s"
-    prefix = "ratelimit___"
+capacity = 50
+rate = "1s"
+prefix = "ratelimit___"
 
 [user.db]
-    type = "sqlite3"
-    dsn = "./server.db?_loc=UTC"
+type = "sqlite3"
+dsn = "./server.db?_loc=UTC"
 
 [user.member]
-    user = {
-        accessExpired = "1h"
-        refreshExpired = "24h"
-    }
-    upload = {
-        size = 902411
-        exts = [".jpg", ".jpeg", ".png", ".gif"]
-        field = "files"
-    }
+user = { accessExpired = "1h", refreshExpired = "24h", urlPrefix = "/member" }
+upload = { size = 902411, exts = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+], field = "files" }
 
 [user.admin]
-    superUser = 1
-    user = {
-        accessExpired = "1h"
-        refreshExpired = "24h"
-        urlPrefix = "/admin"
-    }
+superUser = 1
+user = { accessExpired = "1h", refreshExpired = "24h", urlPrefix = "/admin" }
 
-    upload = {
-        size = 902411
-        exts = [".jpg", ".jpeg", ".png", ".gif"]
-        field = "files"
-    }
+upload = { size = 902411, exts = [
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+], field = "files" }
 
-    sse = {
-        cap = 10
-        keepAlive = "1m"
-    }
+sse = { cap = 10, keepAlive = "1m" }
 
 [user.system]
-    urlPrefix = "/system"
-    backup = {
-        dir = "./backup"
-        format = "20060102-150405.sql"
-        cron = "@daily"
-    }
-
+urlPrefix = "/system"
+backup = { dir = "./backup", format = "20060102-150405.sql", cron = "@daily" }

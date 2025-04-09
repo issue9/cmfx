@@ -38,7 +38,7 @@ type User struct {
 
 	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state" yaml:"state" comment:"user state"`             // 状态
 	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created" yaml:"created" comment:"created time"` // 添加时间
-	Last    time.Time `orm:"name(last)" json:"last,omitempty" xml:"last,omitempty" cbor:"last,omitempty" yaml:"last,omitempty"`    // 末次登录时间
+	Last    time.Time `orm:"name(last)" json:"last,omitzero" xml:"last,omitzero" cbor:"last,omitzero" yaml:"last,omitempty"`    // 末次登录时间
 
 	// 用户的自增 ID
 	ID int64 `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" yaml:"id" comment:"user id"`

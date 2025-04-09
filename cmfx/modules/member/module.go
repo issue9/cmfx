@@ -282,7 +282,7 @@ type InvitedMember struct {
 	NO       string    `json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"`
 	Username string    `json:"username" yaml:"username" xml:"username" cbor:"username" comment:"username"`
 	Inviter  int64     `json:"inviter,omitempty" yaml:"inviter,omitempty" xml:"inviter,omitempty" cbor:"inviter,omitempty" comment:"inviter"`
-	Birthday time.Time `json:"birthday,omitempty" yaml:"birthday,omitempty" cbor:"birthday,omitempty" xml:"birthday,omitempty" comment:"birthday"`
+	Birthday time.Time `json:"birthday,omitzero" yaml:"birthday,omitempty" cbor:"birthday,omitzero" xml:"birthday,omitzero" comment:"birthday"`
 	Sex      types.Sex `json:"sex,omitempty" xml:"sex,attr,omitempty" cbor:"sex,omitempty" yaml:"sex,omitempty" comment:"sex"`
 	Nickname string    `json:"nickname,omitempty" xml:"nickname,omitempty" cbor:"nickname,omitempty" yaml:"nickname,omitempty" comment:"nickname"`
 	Avatar   string    `json:"avatar,omitempty" xml:"avatar,omitempty" cbor:"avatar,omitempty" yaml:"avatar,omitempty" comment:"avatar"`
