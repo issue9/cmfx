@@ -5,7 +5,7 @@
 import { expect, test } from 'vitest';
 
 import { sleep } from '@/core/time';
-import { Token, TokenState, delToken, getToken, state, writeToken } from './token';
+import { Token, delToken, getToken, state, writeToken } from './token';
 
 test('token', () => {
     const tokenName = 'cmfx-token-name';
@@ -46,9 +46,9 @@ test('state', async () => {
     expect(writeToken(sessionStorage,t, tokenName));
     const rt = getToken(sessionStorage, tokenName)!;
 
-    expect(state(rt)).toEqual(TokenState.Normal);
+    expect(state(rt)).toEqual('normal');
     await sleep(1000);
-    expect(state(rt)).toEqual(TokenState.AccessExpired);
+    expect(state(rt)).toEqual('accessExpired');
     await sleep(2 * 1000);
-    expect(state(rt)).toEqual(TokenState.RefreshExpired);
+    expect(state(rt)).toEqual('refreshExpired');
 });

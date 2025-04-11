@@ -5,7 +5,7 @@
 import { newCache } from './cache';
 import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
-import { delToken, getToken, SSEToken, state, Token, TokenState, writeToken } from './token';
+import { delToken, getToken, SSEToken, state, Token, writeToken } from './token';
 import { Method, Problem, Query, Return } from './types';
 
 /**
@@ -259,7 +259,7 @@ export class API {
      * NOTE: 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
      */
     isLogin(): boolean {
-        return !!this.#token && state(this.#token) !== TokenState.RefreshExpired;
+        return !!this.#token && state(this.#token) !== 'refreshExpired';
     }
 
     /**
@@ -271,11 +271,11 @@ export class API {
         }
 
         switch (state(this.#token)) {
-        case TokenState.Normal: // 正常状态
+        case 'normal': // 正常状态
             return this.#token.access_token;
-        case TokenState.RefreshExpired: // 刷新令牌也过期了
+        case 'refreshExpired': // 刷新令牌也过期了
             return undefined;
-        case TokenState.AccessExpired: // 尝试刷新令牌
+        case 'accessExpired': // 尝试刷新令牌
         { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
             const ret = await this.#withArgument<Token>(this.#tokenPath, 'PUT', this.#token.refresh_token, true);
             if (!ret.ok) {

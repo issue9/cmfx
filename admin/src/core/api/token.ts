@@ -10,11 +10,10 @@ export interface SSEToken {
 /**
  * 令牌的状态
  */
-export const enum TokenState {
-    Normal, // 可访问的状态
-    AccessExpired, // 访问令牌已过期，刷新令牌未过期
-    RefreshExpired // 刷新令牌也过期了
-}
+export type TokenState =
+    'normal' // 可访问的状态
+    | 'accessExpired' // 访问令牌已过期，刷新令牌未过期
+    | 'refreshExpired'; // 刷新令牌也过期了
 
 /**
  * 登录和刷新令牌接口返回的数据
@@ -64,12 +63,12 @@ export function state(t: Token): TokenState {
     const now = Date.now().valueOf();
 
     if (now >= t.refresh_exp) {
-        return TokenState.RefreshExpired;
+        return 'refreshExpired';
     }
     if(now >= t.access_exp) {
-        return TokenState.AccessExpired;
+        return 'accessExpired';
     }
-    return TokenState.Normal;
+    return 'normal';
 }
 
 /**
