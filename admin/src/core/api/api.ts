@@ -19,7 +19,11 @@ export class API {
 
     readonly #baseURL: string;
     #locale: string;
-    #eventSource?: EventSource;
+
+    // eventSource 管理
+    //
+    // 键名为对应的 SSE 地址，键值为对应的 EventSource 实例，以及是否需要登录才能使用的标记。
+    readonly #events: Map<string, [EventSource, boolean]>;
 
     readonly #cache: Cache;
     readonly #cachePaths: Map<string, Array<string>>; // key 为地址，val 为依赖地址
@@ -57,6 +61,7 @@ export class API {
 
         this.#baseURL = baseURL;
         this.#locale = locale;
+        this.#events = new Map();
 
         this.#cache = cache;
         this.#cachePaths = new Map<string, Array<string>>();
@@ -150,10 +155,6 @@ export class API {
 
     /**
      * POST 请求
-     *
-     * @param path 相对于 {@link API#baseURL} 的地址
-     * @param body 上传的数据，若没有则为空
-     * @param withToken 是否带上令牌，可参考 request
      */
     async post<R=never,PE=never>(path: string, body?: unknown, withToken = true): Promise<Return<R,PE>> {
         return this.request<R,PE>(path, 'POST', body, withToken);
@@ -183,10 +184,12 @@ export class API {
     /**
      * 执行普通的 API 请求
      *
-     * @param path 请求地址，相对于 {@link API#baseURL}
-     * @param method 请求方法
-     * @param obj 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空。
-     * @param withToken 是否带上令牌，如果此值为 true，那么在 token 过期的情况下会自动尝试刷新令牌。
+     * @param path 请求地址，相对于 {@link API#baseURL}；
+     * @param method 请求方法；
+     * @param obj 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
+     * @param withToken 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌；
+     * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+     * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
@@ -199,7 +202,7 @@ export class API {
      *
      * @param path 上传地址，相对于 {@link API#baseURL}；
      * @param obj 上传的对象；
-     * @param withToken 是否需要带上 token，如果为 true，那么在登录过期时会尝试刷新令牌；
+     * @param withToken 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
      * @param method 请求方法；
      */
     async upload<R=never,PE=never>(path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true): Promise<Return<R,PE>> {
@@ -221,46 +224,13 @@ export class API {
         this.#token = writeToken(this.#tokenStorage, ret.body!, this.#tokenName);
         await this.clearCache();
 
-        await this.#initEventSource();
-
         return true;
     }
 
     /**
-     * 初始化 EventSource
-     */
-    async #initEventSource() {
-        const r = await this.post<SSEToken>('/sse');
-        if (!r.ok) {
-            console.error(r.body);
-            return;
-        }
-
-        // watch 返回 Promise 和 Connect 两个对象，
-        // Promise 监视 Connect.val 的变化，直接其变为 true，Promise 才会 resolve。
-        interface Connect { val: boolean; };
-        const watch = ():[Promise<unknown>, Connect] => {
-            const connect: Connect = { val: false };
-            let proxy: Connect;
-            const p = new Promise((resolve) => {
-                proxy = new Proxy(connect, {
-                    set(target: Connect, p: string, val: boolean) {
-                        if (val) { resolve(val); }
-                        return Reflect.set(target, p, val);
-                    }
-                }); // end new Proxy
-            });
-            return [p, proxy!];
-        };
-
-        const [p, proxy] = watch();
-        this.#eventSource = new EventSource(this.buildURL('/sse?token='+ r.body!.token));
-        this.#eventSource.addEventListener('connect', () => { proxy.val = true; });
-        await p;
-    }
-
-    /**
      * 退出当前的登录状态
+     *
+     * 同时会断开需要登录的 SSE 连接。
      */
     async logout() {
         await this.delete(this.#tokenPath);
@@ -268,10 +238,19 @@ export class API {
         delToken(this.#tokenStorage, this.#tokenName);
         await this.clearCache();
 
-        if (this.#eventSource) {
-            this.#eventSource.close();
+        // 关闭需要登录的 EventSource
+
+        const keys: Array<string> = [];
+        for (const [key, item] of this.#events) {
+            if (item[1]) {
+                item[0].close();
+                keys.push(key);
+            }
         }
-        this.#eventSource = undefined;
+
+        for (const key of keys) { // 从 events 删除这些 EventSource 对象
+            this.#events.delete(key);
+        }
     }
 
     /**
@@ -418,29 +397,75 @@ export class API {
     }
 
     /**
-     * 获取 {@link EventSource} 对象
+     * 获取用于订阅 SSE 的对象
+     *
+     * @param path SSE 服务的地址；
+     * @param needLogin 是否需要登录状态才能访问。
+     * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
      */
-    async eventSource(): Promise<EventSource | undefined> {
-        if (this.isLogin() && !this.#eventSource) { // 刷新页面可能导致 eventSource 无效。
-            await this.#initEventSource();
+    async eventSource(path: string, needLogin?: boolean): Promise<Pick<EventSource, 'addEventListener' | 'removeEventListener'> | undefined> {
+        // NOTE: 刷新页面可能导致 EventSource 无效
+
+        if (this.#events.has(path)) {
+            const item = this.#events.get(path)!;
+            if (item[1] !== needLogin) {
+                throw '参数 needLogin 与现有的实例不一致';
+            }
+            return item[0];
         }
-        return this.#eventSource;
+
+
+        const es = await this.#initEventSource(path, needLogin);
+        if (es) {
+            this.#events.set(path, [es, !!needLogin]);
+        }
+        return es;
     }
 
     /**
-     * 监听 es 上的 type 事件
-     *
-     * @param es 事件源；
-     * @param handler 事件处理程序，参数 e.data 是转换后的对象，而不是原始数据；
-     * @param type 事件类型名称；
+     * 关闭当前实例建立起来的所有 SSE 服务
      */
-    async onEventSource(type: string, handler: {(e: MessageEvent): void}): Promise<void> {
-        const es = await this.eventSource();
-        if (!es) {
-            throw '初始化 eventSource 失败';
+    async closeEventSource(): Promise<void> {
+        for(const [_, item] of this.#events) {
+            item[0].close();
+        }
+        this.#events.clear();
+    }
+
+    // 初始化 EventSource
+    async #initEventSource(path: string, needLogin?: boolean): Promise<EventSource | undefined> {
+        if (needLogin) {
+            const r = await this.post<SSEToken>(path);
+            if (!r.ok) {
+                console.error(r.body);
+                return;
+            }
+
+            path = path+'?token='+r.body!.token;
         }
 
-        es!.addEventListener(type, handler);
+        // watch 返回 Promise 和 Connect 两个对象，
+        // Promise 监视 Connect.val 的变化，直到其变为 true，Promise 才会 resolve。
+        interface Connect { val: boolean; };
+        const watch = ():[Promise<unknown>, Connect] => {
+            const connect: Connect = { val: false };
+            let proxy: Connect;
+            const p = new Promise((resolve) => {
+                proxy = new Proxy(connect, {
+                    set(target: Connect, p: string, val: boolean) {
+                        if (val) { resolve(val); }
+                        return Reflect.set(target, p, val);
+                    }
+                }); // end new Proxy
+            });
+            return [p, proxy!];
+        };
+
+        const [p, proxy] = watch();
+        const es = new EventSource(this.buildURL(path));
+        es.addEventListener('open', () => { proxy.val = true; });
+        await p;
+        return es;
     }
 }
 

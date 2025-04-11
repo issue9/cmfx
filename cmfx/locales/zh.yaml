@@ -1,7 +1,7 @@
 languages:
+    - zh-CN
     - zh-Hans
     - cmn-Hans
-    - zh-CN
 messages:
     - key: |
           ## system stat json
@@ -213,9 +213,6 @@ messages:
     - key: generator code for %s
       message:
           msg: 为 %s 生成验证码
-    - key: get SSE message api
-      message:
-          msg: 访问 SSE 的接口
     - key: get admin info api
       message:
           msg: 获取管理员的信息
@@ -276,6 +273,9 @@ messages:
     - key: get services list api
       message:
           msg: 获取服务列表
+    - key: get sse message api
+      message:
+          msg: 访问 SSE 接口
     - key: get system info api
       message:
           msg: 获取系统信息

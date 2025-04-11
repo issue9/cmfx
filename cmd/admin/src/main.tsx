@@ -116,7 +116,7 @@ const o: AppOptions = {
 
     api: {
         base: urlBase,
-        login: '/login',
+        login: '/token',
         info: '/info',
         encoding: {
             content: 'application/cbor',
