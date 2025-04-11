@@ -10,7 +10,7 @@ import { Routes } from './route';
 
 const api = {
     base: 'http://localhost',
-    login: '/login',
+    token: '/login',
     info: '/info',
     pageSizes: [1, 2],
     presetSize: 1
@@ -91,7 +91,8 @@ test('build', async () => {
     });
     expect(o.logo).toEqual('l1');
     expect(o.title).toEqual('t1');
-    expect(o.api.encoding).toEqual({ content: 'application/json', accept: 'application/json' });
+    expect(o.api.contentType).toEqual('application/json');
+    expect(o.api.acceptType).toEqual('application/json');
     expect(o.titleSeparator).toEqual(' | ');
     expect(o.aside.floatingMinWidth).toEqual('xs'); // 默认值
 });

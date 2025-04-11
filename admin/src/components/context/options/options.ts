@@ -26,6 +26,11 @@ export interface AppOptions {
     title: string;
 
     /**
+     * 保存本地数据的位置
+     */
+    storage?: Storage;
+
+    /**
      * 默认的主题
      */
     theme?: Theme;
@@ -145,6 +150,7 @@ export interface Theme {
 }
 
 const presetOptions: Readonly<PickOptional<AppOptions>> = {
+    storage: window.localStorage,
     system: {},
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
@@ -186,7 +192,7 @@ export function build(o: AppOptions): ReqOptions {
         opt.locales.unitStyle = 'short';
     }
 
-    sanitizeAPI(opt.api);
+    opt.api = sanitizeAPI(opt.api);
 
     return opt as ReqOptions;
 }

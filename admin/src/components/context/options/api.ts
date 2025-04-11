@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mimetype } from '@/core';
+import { Mimetype, PickOptional } from '@/core';
 
 /**
- * 与访问后端 API 地址相关的配置项
+ * 与访问后端 API 相关的配置项
  */
 export interface API {
     /**
@@ -20,7 +20,7 @@ export interface API {
      *  - PUT 刷新令牌；
      *  - DELETE 删除令牌；
      */
-    login: string;
+    token: string;
 
     /**
      * 相对于 base 的获取用户基本信息的地址
@@ -42,59 +42,47 @@ export interface API {
     presetSize?: number;
 
     /**
-     * API 接口的内容类型
-     */
-    encoding?: Encoding;
-}
-
-/**
- * API 请求中的编码设置
- */
-interface Encoding {
-    /**
      * 请求内容的格式
      */
-    content: Mimetype;
+    contentType?: Mimetype;
 
     /**
      * 返回内容的格式
      */
-    accept: Mimetype;
+    acceptType?: Mimetype;
 }
+
+const presetAPI: Readonly<PickOptional<API>> = {
+    pageSizes: [10, 20, 50, 100, 200],
+    presetSize: 20,
+    contentType: 'application/json',
+    acceptType: 'application/json'
+};
 
 /**
  * 检测 API 是否都有值
  *
  * @param api 检测对象
  */
-export function sanitizeAPI(api: API) {
-    if (api.base.length === 0 || (!api.base.startsWith('http://') && !api.base.startsWith('https://'))) {
+export function sanitizeAPI(api: API): Required<API> {
+    const a = Object.assign(presetAPI, api);
+
+    if (a.base.length === 0 || (!api.base.startsWith('http://') && !api.base.startsWith('https://'))) {
         throw 'base 格式错误';
     }
-    if (api.base.charAt(api.base.length - 1) === '/') { // 保证不以 / 结尾
-        api.base = api.base.substring(0, api.base.length - 1);
+    if (a.base.charAt(a.base.length - 1) === '/') { // 保证不以 / 结尾
+        a.base = a.base.substring(0, a.base.length - 1);
     }
 
-    api.login = checkAPIPath(api.login, 'login');
-    api.info = checkAPIPath(api.info, 'info');
+    a.token = checkAPIPath(a.token, 'token');
+    a.info = checkAPIPath(a.info, 'info');
 
-    if (!api.pageSizes || api.pageSizes.length === 0) {
-        api.pageSizes = [10, 20, 50, 100, 200];
-    }
-
-    if (!api.presetSize) {
-        api.presetSize = api.pageSizes[0];
-    }
-    if (!api.pageSizes.includes(api.presetSize)) {
+    if (!a.pageSizes!.includes(a.presetSize!)) {
         throw 'presetSize 必须存在于 pageSizes 之中';
     }
 
-    if (!api.encoding) {
-        api.encoding = {
-            content: 'application/json',
-            accept: 'application/json'
-        };
-    }
+    
+    return a as Required<API>;
 }
 
 function checkAPIPath(path: string, key: string): string {

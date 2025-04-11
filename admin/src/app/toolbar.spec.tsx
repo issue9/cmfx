@@ -14,7 +14,7 @@ import Toolbar from './toolbar';
 
 test('toolbar', async () => {
     const ao = options.api;
-    const api = await API.build(localStorage, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, 'zh-Hans');
+    const api = await API.build(options.id, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans', localStorage);
     Locale.init('en', api);
     const menus = createSignal(false);
     const [_, setSwitch] = createSignal('');

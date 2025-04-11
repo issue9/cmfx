@@ -12,7 +12,7 @@ import { options } from './options/options.spec';
 describe('context', async () => {
     test('buildContext', async () => {
         const ao = options.api;
-        const api = await API.build(localStorage, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, 'zh-Hans');
+        const api = await API.build(options.id, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans', localStorage);
         Locale.init('en', api);
 
         const Root = ()=>{

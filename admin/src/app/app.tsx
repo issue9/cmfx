@@ -23,7 +23,7 @@ export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
     const ao = opt.api;
 
-    const api = await API.build(o.id, ao.base, ao.login, ao.encoding.content, ao.encoding.accept, opt.locales.fallback);
+    const api = await API.build(o.id, ao.base, ao.token, ao.contentType, ao.acceptType, opt.locales.fallback, opt.storage);
     await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
     api.cache(opt.api.info);
 

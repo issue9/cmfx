@@ -63,12 +63,12 @@ export function buildContext(opt: OptContext, f: API) {
 
     let uid = sessionStorage.getItem(currentKey) ?? '';
 
-    Theme.init(new Config(uid), opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
+    Theme.init(new Config(uid, opt.storage), opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
 
     let localeID: string | undefined;
     let unitStyle: UnitStyle | undefined;
     const [locale, localeData] = createResource(() => {
-        const conf = new Config(uid);
+        const conf = new Config(uid, opt.storage);
         Theme.switchConfig(conf);
         return new Locale(conf, localeID, unitStyle);
     });

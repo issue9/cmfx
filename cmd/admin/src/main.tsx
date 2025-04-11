@@ -116,12 +116,10 @@ const o: AppOptions = {
 
     api: {
         base: urlBase,
-        login: '/token',
+        token: '/token',
         info: '/info',
-        encoding: {
-            content: 'application/cbor',
-            accept: 'application/json'
-        }
+        contentType: 'application/cbor',
+        acceptType: 'application/json'
     },
 
     title: 'Title',
