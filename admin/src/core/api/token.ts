@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-const tokenName = 'cmfx-admin-token';
-
 export interface SSEToken {
     token: string;
     expire: number;
@@ -38,7 +36,7 @@ export interface Token {
  *
  * @returns 返回的令牌是由 {@link buildToken} 处理之后的。
  */
-export function getToken(storage: Storage): Token | undefined {
+export function getToken(storage: Storage, tokenName: string): Token | undefined {
     const s = storage.getItem(tokenName);
     if (!s) {
         return;
@@ -46,12 +44,12 @@ export function getToken(storage: Storage): Token | undefined {
     return JSON.parse(s) as Token;
 }
 
-export function delToken(storage: Storage) { storage.removeItem(tokenName); }
+export function delToken(storage: Storage, tokenName: string) { storage.removeItem(tokenName); }
 
 /**
  * 保存令牌至缓存，会调用 {@link buildToken} 对令牌进行二次处理。
  */
-export function writeToken(storage: Storage, t: Token): Token {
+export function writeToken(storage: Storage, t: Token, tokenName: string): Token {
     t = buildToken(t);
     storage.setItem(tokenName, JSON.stringify(t));
     return t;

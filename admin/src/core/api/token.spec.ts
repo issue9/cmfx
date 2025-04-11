@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,8 +8,10 @@ import { sleep } from '@/core/time';
 import { Token, TokenState, delToken, getToken, state, writeToken } from './token';
 
 test('token', () => {
-    expect(getToken(sessionStorage)).toBeUndefined();
-    expect(delToken(sessionStorage));
+    const tokenName = 'cmfx-token-name';
+
+    expect(getToken(sessionStorage, tokenName)).toBeUndefined();
+    expect(delToken(sessionStorage, tokenName));
 
     const t: Token = {
         access_token: 'access',
@@ -17,30 +19,32 @@ test('token', () => {
         refresh_token: 'refresh',
         refresh_exp: 3
     };
-    const tk = writeToken(sessionStorage,t);
+    const tk = writeToken(sessionStorage,t, tokenName);
     expect(tk.access_token).toEqual('access');
 
     const now = Date.now().valueOf();
-    const rt = getToken(sessionStorage) as Token;
+    const rt = getToken(sessionStorage, tokenName) as Token;
 
     expect(rt.access_token).toEqual('access');
     expect(rt.refresh_token).toEqual('refresh');
     expect(rt.access_exp).toBeGreaterThan(now);
     expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
 
-    expect(delToken(sessionStorage));
-    expect(getToken(sessionStorage)).toBeUndefined();
+    expect(delToken(sessionStorage, tokenName));
+    expect(getToken(sessionStorage, tokenName)).toBeUndefined();
 });
 
 test('state', async () => {
+    const tokenName = 'cmfx-token-name';
+
     const t: Token = {
         access_token: 'access',
         access_exp: 1,
         refresh_token: 'refresh',
         refresh_exp: 2
     };
-    expect(writeToken(sessionStorage,t));
-    const rt = getToken(sessionStorage)!;
+    expect(writeToken(sessionStorage,t, tokenName));
+    const rt = getToken(sessionStorage, tokenName)!;
 
     expect(state(rt)).toEqual(TokenState.Normal);
     await sleep(1000);

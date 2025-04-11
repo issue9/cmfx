@@ -47,6 +47,7 @@ const routes: Routes = {
 };
 
 export const options = buildOptions({
+    id: 'abc',
     locales,
     routes,
     api: api,
@@ -57,6 +58,7 @@ export const options = buildOptions({
 
 test('build', async () => {
     expect(()=>build({
+        id: 'abc',
         locales,
         routes,
         api: api,
@@ -66,6 +68,7 @@ test('build', async () => {
     })).toThrowError('title 不能为空');
 
     expect(()=>build({
+        id: 'abc',
         locales,
         routes,
         api: api,
@@ -75,6 +78,7 @@ test('build', async () => {
     })).toThrowError('logo 不能为空');
 
     const o = build({
+        id: 'abc',
         locales,
         routes,
         api: api,

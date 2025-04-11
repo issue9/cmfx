@@ -29,7 +29,7 @@ import (
 	"github.com/issue9/web/server/servertest"
 	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
-	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
+	"github.com/issue9/webuse/v7/openapis"
 	"golang.org/x/text/language"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -157,7 +157,7 @@ func newServer(a *assert.Assertion) *cmfx.Module {
 `, openapi.MarkdownProblems(srv, 0)),
 		),
 		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
-		swagger.WithCDN(""),
+		openapis.WithCDNViewer(srv, "scalar", ""),
 	)
 
 	return cmfx.Init(srv, rate, db, srv.Routers().New("amin", nil), doc)

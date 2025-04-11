@@ -90,6 +90,8 @@ const menus: Array<MenuItem> = [
 ];
 
 const o: AppOptions = {
+    id: 'admin-demo',
+
     routes,
 
     system: {

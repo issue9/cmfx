@@ -21,7 +21,7 @@ import (
 	"github.com/issue9/webuse/v7/handlers/debug"
 	"github.com/issue9/webuse/v7/middlewares/acl/ratelimit"
 	"github.com/issue9/webuse/v7/middlewares/auth/token"
-	"github.com/issue9/webuse/v7/plugins/openapi/swagger"
+	"github.com/issue9/webuse/v7/openapis"
 	"github.com/kardianos/service"
 
 	"github.com/issue9/cmfx/cmfx"
@@ -72,9 +72,8 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 		openapi.WithContact("caixw", "", "https://github.com/caixw"),
 		openapi.WithSecurityScheme(token.SecurityScheme("token", web.Phrase("token auth"))),
 		cmfx.WithTags(),
-		swagger.WithCDN(""),
+		openapis.WithCDNViewer(s, "scalar", ""),
 	)
-	s.Use(web.PluginFunc(swagger.Install))
 	router.Get("/openapi", doc.Handler())
 
 	root := cmfx.Init(s, limit, user.DB.DB(), router, doc)

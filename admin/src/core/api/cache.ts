@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-export async function newCache(): Promise<Cache> {
+export async function newCache(id: string): Promise<Cache> {
     if ('caches' in window) {
-        return await caches.open('api');
-    } 
+        return await caches.open(id);
+    }
     console.warn('非 HTTP 环境，无法启用 API 缓存功能！');
     return new CacheImplement();
 }

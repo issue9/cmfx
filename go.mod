@@ -21,8 +21,8 @@ require (
 	github.com/issue9/scheduled v0.22.1
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.3.0
-	github.com/issue9/web v0.103.1
-	github.com/issue9/webuse/v7 v7.0.0-20250409060528-14d432f3ef6a
+	github.com/issue9/web v0.103.2
+	github.com/issue9/webuse/v7 v7.0.0-20250410073754-21625f803dca
 	github.com/kardianos/service v1.2.2
 	github.com/mattn/go-sqlite3 v1.14.27
 	github.com/shirou/gopsutil/v4 v4.25.3

@@ -14,16 +14,20 @@ export interface API {
     base: string;
 
     /**
-     * 登录地址
+     * 相对于 base 的令牌管理地址
      *
-     * 该地址应该同时包含以下三个请求方法：POST、PUT 和 DELETE。
+     * 该地址应该同时包含以下两个请求方法：
+     *  - PUT 刷新令牌；
+     *  - DELETE 删除令牌；
      */
     login: string;
 
     /**
-     * 用户基本信息的地址
+     * 相对于 base 的获取用户基本信息的地址
      *
-     * 该地址应该同时包含以下三个请求方法：GET 和 PATCH。
+     * 该地址应该同时包含以下两个请求方法：
+     *  - PATCH 更新用户信息；
+     *  - GET 获取用户基本信息
      */
     info: string;
 

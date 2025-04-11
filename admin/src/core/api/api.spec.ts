@@ -21,17 +21,19 @@ Object.defineProperty(window, 'EventSource', {
 });
 
 describe('API', () => {
+    const tokenName = 'cmfx-token-name';
+
     beforeEach(() => {
         fetchMock.resetMocks();
     });
 
     test('build', async () => {
-        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
+        const api = await API.build(tokenName, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
         expect(api).not.toBeNull();
     });
 
     test('buildURL', async () => {
-        const f = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
+        const f = await API.build(tokenName, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
         expect(f.buildURL('/path')).toEqual('http://localhost/path');
         expect(f.buildURL('path')).toEqual('http://localhost/path');
         expect(() => { f.buildURL(''); }).toThrowError('参数 path 不能为空');
@@ -40,7 +42,7 @@ describe('API', () => {
     test('get', async() => {
         fetchMock.mockResponseOnce('123');
 
-        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
+        const api = await API.build(tokenName, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
         const data = await api.get('/abc');
         expect(data.ok).toBeTruthy();
         expect(data.status).toEqual(200);
@@ -50,15 +52,19 @@ describe('API', () => {
     test('post', async () => {
         fetchMock.mockResponseOnce('123', {status: 401});
 
-        const f = await API.build(sessionStorage, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
+        const f = await API.build(tokenName, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
         const data = await f.post('/abc');
         expect(data.ok).toBeFalsy();
     });
 });
 
 describe('API token', () => {
+    const tokenName = 'cmfx-token-name';
+    const s = window.sessionStorage;
+
     beforeEach(() => {
         fetchMock.resetMocks();
+        s.clear();
     });
 
     const token: Token = {
@@ -69,14 +75,14 @@ describe('API token', () => {
     };
 
     test('undefined token', async () => {
-        let f = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
+        let f = await API.build(tokenName, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn', s);
         let t = await f.getToken();
         expect(t).toBeUndefined();
     });
 
     test('token', async () => {
-        writeToken(sessionStorage, Object.assign({}, token));
-        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
+        writeToken(s, Object.assign({}, token), tokenName);
+        const api = await API.build(tokenName, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn', s);
         let t = await api.getToken(); // 过期时间在 1 秒之内，必然未过期。
         expect(t).toEqual('access');
 
@@ -92,7 +98,7 @@ describe('API token', () => {
     });
 
     test('login', async () => {
-        const api = await API.build(sessionStorage, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
+        const api = await API.build(tokenName, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
         fetchMock.mockResponseOnce(JSON.stringify(Object.assign({}, token)));
         const ret = await api.login({
             status: 201,

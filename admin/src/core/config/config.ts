@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 /**
- * 提供保存于浏览器端的配置接口
+ * 提供用户保存于浏览器端的配置接口
  */
 export class Config {
     readonly #id: string;
@@ -12,7 +12,7 @@ export class Config {
     /**
      * 构造函数
      *
-     * @param id 表示此配置对象的唯一 ID；
+     * @param id 表示此配置对象的唯一 ID，一般为用户的 ID；
      * @param s 存储位置，默认为 {window#localStorage}；
      */
     constructor(id: string | number, s?: Storage) {

@@ -14,6 +14,13 @@ import type { Aside } from './aside';
  */
 export interface AppOptions {
     /**
+     * 该 app 的 ID
+     *
+     * 用于保证同框架的不同应用在浏览器中保存的数据具有唯一性。
+     */
+    id: string;
+
+    /**
      * 网站的标题
      */
     title: string;
@@ -152,6 +159,10 @@ type ReqOptions = Required<Omit<AppOptions, 'api'>> & { api: Required<API> };
  * @param o 原始的对象
  */
 export function build(o: AppOptions): ReqOptions {
+    if (o.id.length === 0) {
+        throw 'id 不能为空';
+    }
+
     if (o.title.length === 0) {
         throw 'title 不能为空';
     }

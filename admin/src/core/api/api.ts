@@ -12,12 +12,13 @@ import { Method, Problem, Query, Return } from './types';
  * 封装了 API 访问的基本功能
  */
 export class API {
-    static #tokenStorage = localStorage;
+    readonly #tokenStorage: Storage;
+    readonly #tokenPath: string;
+    readonly #tokenName: string;
+    #token: Token | undefined;
 
     readonly #baseURL: string;
-    readonly #tokenPath: string;
     #locale: string;
-    #token: Token | undefined;
     #eventSource?: EventSource;
 
     readonly #cache: Cache;
@@ -29,27 +30,33 @@ export class API {
     readonly #acceptSerializer: Serializer;
 
     /**
-     * 返回一个对 {@link fetch} 进行二次包装的对象
+     * 构建一个用于访问 API 的对象
      *
-     * @param storage 令牌的保存位置；
+     * @param tokenName 保存令牌时的名称，在多实例中，通完此值判定不同的令牌；
      * @param baseURL API 的基地址，不能以 / 结尾；
      * @param contentType 请求内容的类型；
      * @param accept mimetype 返回内容的类型；
-     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 三个请求，分别代表退出和刷新令牌；
+     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
      * @param locale 请求报头 accept-language 的内容；
+     * @param s 保存令牌的对象，如果为空会采用 {@link window#localStorage}；
      */
-    static async build(storage: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
-        API.#tokenStorage = storage;
-
-        const t = getToken(API.#tokenStorage);
-        return new API(baseURL, tokenPath, contentType, accept, locale, await newCache(), t);
+    static async build(tokenName: string, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, s?: Storage): Promise<API> {
+        // NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
+        return new API(tokenName, baseURL, tokenPath, contentType, accept, locale, await newCache(tokenName), s);
     }
 
-    private constructor(baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache, token: Token | undefined) {
-        this.#baseURL = baseURL;
+    private constructor(tokenName: string, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache, s?: Storage) {
+        if (!s) {
+            s = window.localStorage;
+        }
+
+        this.#tokenStorage = s;
         this.#tokenPath = tokenPath;
+        this.#tokenName = tokenName;
+        this.#token = getToken(this.#tokenStorage, this.#tokenName);
+
+        this.#baseURL = baseURL;
         this.#locale = locale;
-        this.#token = token;
 
         this.#cache = cache;
         this.#cachePaths = new Map<string, Array<string>>();
@@ -78,7 +85,7 @@ export class API {
      *
      * 以下操作会删除缓存内容：
      *  - 切换语言；
-     *  - 访问在了该接口的非 GET 请求；
+     *  - 访问了该接口的非 GET 请求；
      *  - 调用 {@link API#uncache} 方法；
      *  - 调用 {@link API#clearCache} 方法；
      *  - 调用参数 deps 中的非 GET 请求；
@@ -184,7 +191,7 @@ export class API {
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
-        return this.withArgument<R,PE>(path, method, token, body ? this.#contentType : undefined, body);
+        return this.#withArgument<R,PE>(path, method, token, body ? true : false, body);
     }
 
     /**
@@ -197,7 +204,7 @@ export class API {
      */
     async upload<R=never,PE=never>(path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
-        return this.withArgument<R,PE>(path, method, token, undefined, obj);
+        return this.#withArgument<R,PE>(path, method, token, false, obj);
     }
 
     /**
@@ -211,7 +218,7 @@ export class API {
             return ret.body;
         }
 
-        this.#token = writeToken(API.#tokenStorage, ret.body!);
+        this.#token = writeToken(this.#tokenStorage, ret.body!, this.#tokenName);
         await this.clearCache();
 
         await this.#initEventSource();
@@ -258,7 +265,7 @@ export class API {
     async logout() {
         await this.delete(this.#tokenPath);
         this.#token = undefined;
-        delToken(API.#tokenStorage);
+        delToken(this.#tokenStorage, this.#tokenName);
         await this.clearCache();
 
         if (this.#eventSource) {
@@ -291,12 +298,12 @@ export class API {
             return undefined;
         case TokenState.AccessExpired: // 尝试刷新令牌
         { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
-            const ret = await this.withArgument<Token>(this.#tokenPath, 'PUT', this.#token.refresh_token, this.#contentType);
+            const ret = await this.#withArgument<Token>(this.#tokenPath, 'PUT', this.#token.refresh_token, true);
             if (!ret.ok) {
                 return undefined;
             }
 
-            this.#token = writeToken(API.#tokenStorage, ret.body!);
+            this.#token = writeToken(this.#tokenStorage, ret.body!, this.#tokenName);
             return this.#token.access_token;
         }
         }
@@ -308,10 +315,10 @@ export class API {
      * @param path 请求路径，相对于 baseURL 的路径；
      * @param method 请求方法；
      * @param token 携带的令牌，如果为空，表示不需要令牌；
-     * @param ct content-type 的值，如果为空，表示不需要，比如上传等操作，不需要指定客户的 content-type 值；
-     * @param body 提交的内容，如果不没有可以为空；
+     * @param ct 是否需要指定 content-type 报头；
+     * @param body 提交的内容，如果没有可以为空；
      */
-    async withArgument<R=never,PE=never>(path: string, method: Method, token?: string, ct?: string, body?: BodyInit): Promise<Return<R,PE>> {
+    async #withArgument<R=never,PE=never>(path: string, method: Method, token?: string, ct?: boolean, body?: BodyInit): Promise<Return<R,PE>> {
         const h = new Headers({
             'Accept': this.#acceptType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
@@ -320,10 +327,10 @@ export class API {
             h.set('Authorization', 'Bearer ' + token);
         }
         if (ct) {
-            h.set('Content-Type', ct + '; charset=UTF-8');
+            h.set('Content-Type', this.#contentType + '; charset=UTF-8');
         }
 
-        return await this.fetch(path, {
+        return await this.#fetch(path, {
             method: method,
             body: body,
             mode: 'cors',
@@ -332,14 +339,17 @@ export class API {
     }
 
     /**
-     * 相当于标准库的 fetch 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
+     * 相当于标准库的 {#link window#fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
      * @param path 地址，相对于 {@link API#baseURL}；
      * @param req 相关的参数；
      * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
-    async fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
+    async #fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
+        // NOTE: req 的不同，可能需要返回不同的结果，对于缓存的接口，
+        // 没办法根据 req 的不同而选择缓存不同的数据。干脆直接不让此方法公开。
+
         const isGET = req && req.method === 'GET';
         const fullPath = this.buildURL(path);
 
@@ -376,7 +386,7 @@ export class API {
 
             if (resp.status === 401) {
                 this.#token = undefined;
-                delToken(API.#tokenStorage);
+                delToken(this.#tokenStorage, this.#tokenName);
             }
             return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {
