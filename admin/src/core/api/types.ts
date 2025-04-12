@@ -26,8 +26,8 @@ export interface Problem<E> {
 }
 
 export interface Param {
-    name: string
-    reason: string
+    name: string;
+    reason: string;
 }
 
 /**

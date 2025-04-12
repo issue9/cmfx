@@ -7,10 +7,7 @@ export interface SSEToken {
     expire: number;
 }
 
-/**
- * 令牌的状态
- */
-export type TokenState =
+type TokenState =
     'normal' // 可访问的状态
     | 'accessExpired' // 访问令牌已过期，刷新令牌未过期
     | 'refreshExpired'; // 刷新令牌也过期了

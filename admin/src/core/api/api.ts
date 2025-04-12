@@ -20,13 +20,11 @@ export class API {
     readonly #baseURL: string;
     #locale: string;
 
-    // eventSource 管理
-    //
     // 键名为对应的 SSE 地址，键值为对应的 EventSource 实例，以及是否需要登录才能使用的标记。
     readonly #events: Map<string, [EventSource, boolean]>;
 
     readonly #cache: Cache;
-    readonly #cachePaths: Map<string, Array<string>>; // key 为地址，val 为依赖地址
+    readonly #cachePaths: Map<string, Array<string>>; // 键名为地址，键值为依赖地址。
 
     readonly #contentType: Mimetype;
     readonly #contentSerializer: Serializer;
@@ -359,8 +357,6 @@ export class API {
                 return { headers: resp.headers, status: resp.status, ok: true, body: await this.parse<R>(resp) };
             }
 
-            // TODO 300-399
-
             // 400-599
 
             if (resp.status === 401) {
@@ -369,10 +365,9 @@ export class API {
             }
             return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {
-            if (e instanceof Error) {
-                return { status: 500, ok: false, body: { type: '500', status: 500, title: 'fetch error', detail: e.message } };
-            }
-            return { status: 500, ok: false, body: { type: '500', status: 500, title: 'error', detail: (<any>e).toString() } };
+            const p: Problem<PE> = { type: '500', status: 500, title: 'error' };
+            p.detail = e instanceof Error ? e.message : (<any>e).toString();
+            return { status: 500, ok: false, body: p };
         }
     }
 

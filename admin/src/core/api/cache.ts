@@ -15,13 +15,9 @@ class CacheImplement implements Cache {
 
     async addAll(requests: RequestInfo[]): Promise<void>;
     async addAll(requests: Iterable<RequestInfo>): Promise<void>;
-    async addAll(_: unknown): Promise<void> {
-        return;
-    }
+    async addAll(_: unknown): Promise<void> { return; }
 
-    async delete(_: RequestInfo | URL, __?: CacheQueryOptions): Promise<boolean> {
-        return true;
-    }
+    async delete(_: RequestInfo | URL, __?: CacheQueryOptions): Promise<boolean> { return true; }
 
     async keys(_?: RequestInfo | URL, __?: CacheQueryOptions): Promise<ReadonlyArray<Request>> {
         return [];
@@ -35,7 +31,5 @@ class CacheImplement implements Cache {
         return [];
     }
 
-    async put(_: RequestInfo | URL, __: Response): Promise<void> {
-        return;
-    }
+    async put(_: RequestInfo | URL, __: Response): Promise<void> { return; }
 }

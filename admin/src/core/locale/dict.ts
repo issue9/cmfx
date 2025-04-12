@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -92,9 +92,7 @@ export function flatten<T extends Dict>(dict: T) {
     return flat as Flatten<T>;
 }
 
-
 /**
  * 加载翻译对象的方法
- *
  */
 export type Loader = { (): Promise<Dict> };
