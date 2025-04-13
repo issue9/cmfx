@@ -1,9 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { sleep } from '@cmfx/core';
 import { expect, test } from 'vitest';
-import { createTimer, sleep } from './time';
+
+import { createTimer } from './timer';
 
 test('createTimer', async() => {
     let isDone = false;

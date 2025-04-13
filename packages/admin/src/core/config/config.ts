@@ -24,6 +24,9 @@ export class Config {
         this.#s = s;
     }
 
+    /**
+     * 获取配置项
+     */
     get<T>(id: string): T | undefined {
         const s = this.#s.getItem(this.#id + id);
         if (!s) {
@@ -32,10 +35,16 @@ export class Config {
         return JSON.parse(s);
     }
 
+    /**
+     * 设置配置项
+     */
     set<T>(id: string, obj: T) {
         const s = JSON.stringify(obj);
         this.#s.setItem(this.#id + id, s);
     }
 
+    /**
+     * 删除配置项
+     */
     remove(id: string) { this.#s.removeItem(this.#id + id); }
 }

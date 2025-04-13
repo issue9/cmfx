@@ -18,8 +18,6 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "preserve",
-        "jsxImportSource": "solid-js",
         "types": [
             "vite/client",
             "@testing-library/jest-dom"

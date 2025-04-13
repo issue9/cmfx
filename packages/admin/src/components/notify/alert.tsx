@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { sleep } from '@cmfx/core';
 import { JSX, onMount, Show } from 'solid-js';
-import { createTimer, sleep } from '@cmfx/core';
 
 import { BaseProps } from '@/components/base';
 import { Icon } from '@/components/icon';
 import { Theme } from '@/core';
+import { createTimer } from './timer';
 
 export interface Props extends BaseProps {
     title: string;
