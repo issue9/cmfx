@@ -4,7 +4,7 @@
 
 import { MenuItem, Route } from '@cmfx/admin';
 import { Pages } from '@cmfx/admin/pages';
-import { routes } from '../../../admin/src/demo';
+import { routes } from '../../../packages/admin/src/demo';
 
 export class Demo implements Pages {
     readonly #prefix: string;

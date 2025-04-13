@@ -30,9 +30,12 @@ export default defineConfig({
     resolve: {
         alias: {
             '@cmfx/admin': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../../admin/lib', import.meta.url))
-                : fileURLToPath(new URL('../../admin/src', import.meta.url)),
-            '@': fileURLToPath(new URL('../../admin/src', import.meta.url)) // demo 始终指向 admin/src
+                ? fileURLToPath(new URL('../../packages/admin/lib', import.meta.url))
+                : fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
+            '@cmfx/core': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../packages/core/lib', import.meta.url))
+                : fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
+            '@': fileURLToPath(new URL('../../packages/admin/src', import.meta.url)) // demo 始终指向 admin/src
         }
     },
 

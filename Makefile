@@ -7,7 +7,7 @@
 ROOT = .
 CMD = $(ROOT)/cmd
 CMFX = $(ROOT)/cmfx
-ADMIN = $(ROOT)/admin
+ADMIN = $(ROOT)/packagesadmin
 
 CMD_SERVER = $(CMD)/server
 SERVER_BIN = server

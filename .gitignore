@@ -10,15 +10,15 @@
 # 前端
 node_modules
 *.tsbuildinfo
-admin/lib/
-admin/coverage/
+packages/admin/lib/
+packages/admin/coverage/
 cmd/admin/dist/
 vite.config.ts.timestamp-*.mjs
 
-# 以下两个文件是从根目录复制的
-admin/LICENSE
-admin/README.md
-admin/.browserslistrc
+# 以下几个文件是从根目录复制的
+packages/admin/LICENSE
+packages/admin/README.md
+packages/admin/.browserslistrc
 
 # IDE
 .vs/
