@@ -4,8 +4,8 @@
 
 import { JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { Button } from '@/components/button';
-import { Icon, IconSymbol } from '@/components/icon';
+import { Button } from '@admin/components/button';
+import { Icon, IconSymbol } from '@admin/components/icon';
 import { Props as BaseProps, TextField } from './textfiled';
 
 export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'|'inputMode'> {

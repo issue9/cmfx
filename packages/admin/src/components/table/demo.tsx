@@ -4,9 +4,9 @@
 
 import { Page, Query, sleep } from '@cmfx/core';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { Button } from '@/components/button';
-import { TextField } from '@/components/form';
+import { boolSelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
+import { Button } from '@admin/components/button';
+import { TextField } from '@admin/components/form';
 import { BasicTable } from './basic';
 import { Column } from './column';
 import { LoaderTable } from './loader';

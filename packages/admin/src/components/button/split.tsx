@@ -4,7 +4,7 @@
 
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
-import { calcPopoverPos } from '@/components/utils';
+import { calcPopoverPos } from '@admin/components/utils';
 import { Props as BaseProps, Button, presetProps } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 

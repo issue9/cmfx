@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
 import { Duration, Method, parseDuration, Query } from '@cmfx/core';
+import { JSX } from 'solid-js';
 
-import { Column, useApp, Label, Page, RemoteTable } from '@/components';
+import { Column, Label, Page, RemoteTable, useApp } from '@admin/components';
 
 interface API {
     method: string;

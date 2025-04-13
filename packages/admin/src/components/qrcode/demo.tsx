@@ -4,7 +4,7 @@
 
 import { CornerDotType, CornerSquareType, DotType } from 'qr-code-styling';
 
-import { arraySelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { arraySelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
 import { QRCode, Ref } from './qrcode';
 
 const dotTypes = ['dots' , 'rounded' , 'classy' , 'classy-rounded' , 'square' , 'extra-rounded'] as const;

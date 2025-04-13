@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup, useApp, useOptions } from '@/components';
-import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@/core';
+import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup, useApp, useOptions } from '@admin/components';
 
 export function Settings(): JSX.Element {
     const ctx = useApp();

@@ -29,13 +29,19 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            '@cmfx/admin': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../../packages/admin/lib', import.meta.url))
-                : fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
+            '@cmfx/admin/demo': fileURLToPath(new URL('../../packages/admin/src/demo', import.meta.url)), // demo 始终指向 admin/src
+            '@admin': fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
+            '@core': fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
+
+            '@cmfx/core/style.css': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../packages/core/lib/style.css', import.meta.url))
+                : fileURLToPath(new URL('../../packages/core/src/theme/theme.css', import.meta.url)),
             '@cmfx/core': process.env.NODE_ENV == 'production'
                 ? fileURLToPath(new URL('../../packages/core/lib', import.meta.url))
                 : fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
-            '@': fileURLToPath(new URL('../../packages/admin/src', import.meta.url)) // demo 始终指向 admin/src
+            '@cmfx/admin': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../packages/admin/lib', import.meta.url))
+                : fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
         }
     },
 

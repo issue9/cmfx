@@ -4,7 +4,7 @@
 
 import { createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { Accessor, Field } from '@/components/form/field';
+import { Accessor, Field } from '@admin/components/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import { Props as BaseProps, Ref, Upload } from './upload';
 

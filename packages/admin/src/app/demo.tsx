@@ -4,8 +4,8 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { Button, NotifyType, notifyTypes, useApp } from '@/components';
-import { Demo } from '@/components/base/demo';
+import { Button, NotifyType, notifyTypes, useApp } from '@admin/components';
+import { Demo } from '@admin/components/base/demo';
 
 export default function() {
     const ctx = useApp();

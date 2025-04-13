@@ -4,8 +4,8 @@
 
 import { createSignal } from 'solid-js';
 
-import { arraySelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { Item } from '@/components/tree/item';
+import { arraySelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
+import { Item } from '@admin/components/tree/item';
 import { List } from './list';
 
 export function selectedClassSelector(v?: string) {

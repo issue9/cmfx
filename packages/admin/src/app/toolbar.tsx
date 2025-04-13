@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Locale } from '@cmfx/core';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
-import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@/components';
-import { Locale } from '@/core';
+import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@admin/components';
 import { Search } from './search';
 
 export interface MenuVisibleProps {

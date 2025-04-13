@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
-import { API, Problem, Return, Token } from '@cmfx/core';
 
-import { NotifyType } from '@/components/notify';
-import { Config, Locale, Theme, UnitStyle, notify } from '@/core';
+import { NotifyType } from '@admin/components/notify';
+import { notify } from '@admin/core';
 import { buildOptions } from './options';
 import { User } from './user';
 

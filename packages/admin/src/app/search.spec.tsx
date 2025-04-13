@@ -2,17 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { API, Config, Locale } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { createSignal, ParentProps } from 'solid-js';
 import { describe, expect, test } from 'vitest';
-import { API } from '@cmfx/core';
 
-import { MenuItem, } from '@/components/context';
-import { buildContext } from '@/components/context/context';
-import { options } from '@/components/context/options/options.spec';
-import { Config, Locale } from '@/core';
+import { MenuItem, } from '@admin/components/context';
+import { buildContext } from '@admin/components/context/context';
+import { options } from '@admin/components/context/options/options.spec';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {

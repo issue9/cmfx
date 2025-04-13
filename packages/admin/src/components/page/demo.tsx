@@ -4,7 +4,7 @@
 
 import { For } from 'solid-js';
 
-import { Demo, boolSelector, paletteSelector } from '@/components/base/demo';
+import { Demo, boolSelector, paletteSelector } from '@admin/components/base/demo';
 import { Page } from './page';
 
 export default function() {

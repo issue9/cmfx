@@ -2,7 +2,7 @@
     "name": "@cmfx/core",
     "version": "0.8.19",
     "type": "module",
-    "description": "适用于 cmfx 的前端核心功能",
+    "description": "提供 cmfx 的前端核心功能",
     "author": {
         "name": "caixw",
         "url": "https://caixw.io"
@@ -29,6 +29,16 @@
     ],
     "types": "./lib/index.d.ts",
     "module": "./lib/index.js",
+    "exports": {
+        ".": {
+            "types": "./lib/index.d.ts",
+            "import": "./lib/index.js"
+        },
+        "./style.css": {
+            "require": "./lib/style.css",
+            "import": "./lib/style.css"
+        }
+    },
     "scripts": {
         "build": "vite build",
         "test": "vitest --coverage.enabled true",
@@ -40,8 +50,6 @@
         "yaml": "^2.7.1"
     },
     "devDependencies": {
-        "@testing-library/jest-dom": "^6.6.3",
-        "@testing-library/user-event": "^14.6.1",
         "@types/node": "^22.14.1",
         "@vitest/coverage-v8": "^3.1.1",
         "jsdom": "^26.0.0",

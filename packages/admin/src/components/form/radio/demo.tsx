@@ -5,9 +5,9 @@
 
 import { createSignal } from 'solid-js';
 
-import { Palette } from '@/components/base';
-import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { FieldAccessor, Options } from '@/components/form/field';
+import { Palette } from '@admin/components/base';
+import { boolSelector, Demo, palettesWithUndefined, Stage } from '@admin/components/base/demo';
+import { FieldAccessor, Options } from '@admin/components/form/field';
 import { RadioGroup } from './group';
 
 export default function() {

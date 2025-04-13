@@ -4,8 +4,8 @@
 
 import { JSX } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
-import { Spin } from '@/components/spin';
+import { BaseProps } from '@admin/components/base';
+import { Spin } from '@admin/components/spin';
 import { FormAccessor } from './access';
 
 export interface Props<T extends object, R = never, P = never> extends BaseProps {

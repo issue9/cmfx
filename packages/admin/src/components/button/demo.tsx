@@ -4,8 +4,8 @@
 
 import { Accessor, For, JSX, Setter } from 'solid-js';
 
-import { arraySelector, boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
-import { Icon } from '@/components/icon';
+import { arraySelector, boolSelector, Demo, palettesWithUndefined, Stage } from '@admin/components/base/demo';
+import { Icon } from '@admin/components/icon';
 import { Button } from './button';
 import { ConfirmButton } from './confirm';
 import { ButtonGroup } from './group';

@@ -4,10 +4,10 @@
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { Button } from '@/components/button';
-import { Item } from '@/components/tree/item';
-import { selectedClassSelector } from '@/components/tree/list/demo';
+import { boolSelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
+import { Button } from '@admin/components/button';
+import { Item } from '@admin/components/tree/item';
+import { selectedClassSelector } from '@admin/components/tree/list/demo';
 import { ContextMenu } from './context';
 import { Menu } from './menu';
 import { default as Panel } from './panel';

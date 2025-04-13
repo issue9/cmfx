@@ -4,9 +4,9 @@
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
-import { Choice, FieldAccessor, Options } from '@/components/form';
-import { useApp, useOptions } from '@/components/context';
+import { BaseProps } from '@admin/components/base';
+import { Choice, FieldAccessor, Options } from '@admin/components/form';
+import { useApp, useOptions } from '@admin/components/context';
 import { Pagination } from './pagination';
 
 export interface Props extends BaseProps {

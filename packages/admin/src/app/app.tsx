@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API } from '@cmfx/core';
+import { API, Locale } from '@cmfx/core';
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@/components';
-import { buildContext, OptContext } from '@/components/context/context';
-import { buildOptions } from '@/components/context/options';
-import { Hotkey, Locale } from '@/core';
+import { AppOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@admin/components';
+import { buildContext, OptContext } from '@admin/components/context/context';
+import { buildOptions } from '@admin/components/context/options';
+import { Hotkey } from '@admin/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 

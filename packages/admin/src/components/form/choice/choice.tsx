@@ -4,10 +4,10 @@
 
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
-import { cloneElement } from '@/components/base';
-import { Accessor, Field, FieldBaseProps, Options } from '@/components/form/field';
-import { Icon } from '@/components/icon';
-import { calcPopoverPos } from '@/components/utils';
+import { cloneElement } from '@admin/components/base';
+import { Accessor, Field, FieldBaseProps, Options } from '@admin/components/form/field';
+import { Icon } from '@admin/components/icon';
+import { calcPopoverPos } from '@admin/components/utils';
 
 type Value = string | number | undefined;
 

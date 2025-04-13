@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Demo, boolSelector, paletteSelector } from '@/components/base/demo';
-import { Button } from '@/components/button';
+import { Demo, boolSelector, paletteSelector } from '@admin/components/base/demo';
+import { Button } from '@admin/components/button';
 import { Spin } from './spin';
 
 export default function () {

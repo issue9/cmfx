@@ -4,9 +4,10 @@
 
 import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
-import { API, Duration, formatDuration, parseDuration } from '@cmfx/core';
 
-import { Config } from '@/core/config';
+import { API } from '@core/api';
+import { Config } from '@core/config';
+import { Duration, formatDuration, parseDuration } from '@core/time';
 import { Dict, flatten, Keys, Loader } from './dict';
 
 const localeKey = 'locale';

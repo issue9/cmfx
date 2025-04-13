@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
-import { IconSymbol } from '@/components/icon';
+import { IconSymbol } from '@admin/components/icon';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLButtonElement;

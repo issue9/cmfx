@@ -4,9 +4,9 @@
 
 import { JSX } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { useOptions } from '@/components/context';
-import { FieldAccessor } from '@/components/form/field';
+import { boolSelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
+import { useOptions } from '@admin/components/context';
+import { FieldAccessor } from '@admin/components/form/field';
 import { Album } from './album';
 
 export default function(): JSX.Element {

@@ -5,8 +5,8 @@
 import { Query } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum, useApp } from '@/components';
-import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum, useApp } from '@admin/components';
+import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@admin/pages/common';
 
 interface Props {
     /**

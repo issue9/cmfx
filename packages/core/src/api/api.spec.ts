@@ -4,9 +4,9 @@
 
 import { beforeEach, describe, expect, test, vi } from 'vitest';
 
+import { sleep } from '@core/time';
 import { API, query2Search } from './api';
 import { Token, writeToken } from './token';
-import { sleep } from '@/time';
 
 Object.defineProperty(window, 'EventSource', {
     writable: true,

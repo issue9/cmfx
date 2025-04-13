@@ -4,8 +4,8 @@
 
 import { JSX, Show, createSignal, splitProps } from 'solid-js';
 
-import { Button } from '@/components/button';
-import { Icon, IconSymbol } from '@/components/icon';
+import { Button } from '@admin/components/button';
+import { Icon, IconSymbol } from '@admin/components/icon';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfiled';
 
 export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'> {

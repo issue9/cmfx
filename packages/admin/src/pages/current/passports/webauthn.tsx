@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Token } from '@cmfx/core';
 import { base64urlnopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
-import { Token } from '@cmfx/core';
 
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
     Icon, Label, RemoteTable, RemoteTableRef, TextField, useApp, useOptions
-} from '@/components';
+} from '@admin/components';
 import { PassportComponents, RefreshFunc } from './passports';
 
 export class Webauthn implements PassportComponents {

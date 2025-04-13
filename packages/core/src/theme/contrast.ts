@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@/core/config';
+import { Config } from '@core/config';
 
 export const contrasts = ['nopreference', 'less', 'more'] as const;
 

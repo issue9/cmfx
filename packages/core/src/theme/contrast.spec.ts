@@ -4,8 +4,8 @@
 
 import { expect, test } from 'vitest';
 
+import { Config } from '@core/config';
 import { changeContrast, Contrast, getContrast } from './contrast';
-import { Config } from '@/core/config';
 
 test('contrast', () => {
     const c = new Config('');

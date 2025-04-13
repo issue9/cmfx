@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, mergeProps, splitProps, JSX } from 'solid-js';
+import { createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { IconSymbol } from '@/components/icon';
+import { IconSymbol } from '@admin/components/icon';
 import { Props as BaseProps, Button, presetProps } from './button';
 
 export interface Props extends Omit<BaseProps, 'onClick' | 'children'> {

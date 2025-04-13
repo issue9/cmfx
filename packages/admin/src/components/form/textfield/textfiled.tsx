@@ -4,7 +4,7 @@
 
 import { createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { Accessor, AutoComplete, Field, FieldBaseProps, InputMode } from '@/components/form/field';
+import { Accessor, AutoComplete, Field, FieldBaseProps, InputMode } from '@admin/components/form/field';
 
 type Value = string | number | Array<string> | undefined;
 

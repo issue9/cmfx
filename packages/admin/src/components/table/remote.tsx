@@ -5,8 +5,8 @@
 import { JSX, onMount, splitProps } from 'solid-js';
 import { Page, Query, query2Search } from '@cmfx/core';
 
-import { ConfirmButton } from '@/components/button';
-import { AppContext, useApp } from '@/components/context';
+import { ConfirmButton } from '@admin/components/button';
+import { AppContext, useApp } from '@admin/components/context';
 import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 
 export interface Ref<T extends object> extends LoaderRef<T> {

@@ -4,10 +4,10 @@
 
 import { createEffect, onCleanup, onMount, createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
 
-import { Palette } from '@/components/base';
-import { Button } from '@/components/button';
-import { Accessor, FieldBaseProps } from '@/components/form/field';
-import { useApp } from '@/components/context';
+import { Palette } from '@admin/components/base';
+import { Button } from '@admin/components/button';
+import { Accessor, FieldBaseProps } from '@admin/components/form/field';
+import { useApp } from '@admin/components/context';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends FieldBaseProps {

@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Config } from '@/core/config';
+import { Config } from '@core/config';
 import { Theme } from './theme';
 import './theme.css';
 

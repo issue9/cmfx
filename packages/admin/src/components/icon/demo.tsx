@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Demo } from '@/components/base/demo';
+import { Demo } from '@admin/components/base/demo';
 import { Icon } from './icon';
 
 export default function() {

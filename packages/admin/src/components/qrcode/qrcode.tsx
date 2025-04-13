@@ -5,7 +5,7 @@
 import QRCodeStyling, { CornerDotType, FileExtension, CornerSquareType, DotType, ErrorCorrectionLevel, Options } from 'qr-code-styling';
 import { createEffect, onMount, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
+import { BaseProps } from '@admin/components/base';
 
 export interface Ref {
     /**

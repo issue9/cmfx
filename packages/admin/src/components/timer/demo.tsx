@@ -1,14 +1,12 @@
-/*
- * SPDX-FileCopyrightText: 2025 caixw
- *
- * SPDX-License-Identifier: MIT
- */
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, arraySelector, Demo, Stage } from '@/components/base/demo';
-import { Button } from '@/components/button';
-import Timer, { Ref, fields } from './timer';
+import { arraySelector, boolSelector, Demo, Stage } from '@admin/components/base/demo';
+import { Button } from '@admin/components/button';
+import Timer, { fields, Ref } from './timer';
 
 export default function () {
     const [unitS, unit] = boolSelector('unit');

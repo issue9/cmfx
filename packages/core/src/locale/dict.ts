@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { UnionToIntersection } from '@/core/types';
+/**
+ * 联合类型转换为交叉类型
+ */
+type UnionToIntersection<T> = (T extends any ? (k: T) => void : never) extends (k: infer I) => void ? I : never;
 
 /**
  * 翻译文件的内容所需要遵循的格式

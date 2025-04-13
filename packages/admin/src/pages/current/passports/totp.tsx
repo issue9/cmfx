@@ -9,7 +9,7 @@ import { createSignal, JSX, Show } from 'solid-js';
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
     Icon, ObjectAccessor, QRCode, TextField, useApp, useOptions
-} from '@/components';
+} from '@admin/components';
 import { PassportComponents, RefreshFunc } from './passports';
 
 // 登录框的字段

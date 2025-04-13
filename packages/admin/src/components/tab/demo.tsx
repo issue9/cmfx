@@ -4,7 +4,7 @@
 
 import { For } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined, Stage } from '@/components/base/demo';
+import { boolSelector, Demo, palettesWithUndefined, Stage } from '@admin/components/base/demo';
 import { Tab } from './tab';
 
 export default function() {

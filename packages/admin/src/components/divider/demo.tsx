@@ -4,7 +4,7 @@
 
 import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
-import { arraySelector, Demo, paletteSelector } from '@/components/base/demo';
+import { arraySelector, Demo, paletteSelector } from '@admin/components/base/demo';
 import { Divider, Props } from './divider';
 import { Style, styles } from './types';
 

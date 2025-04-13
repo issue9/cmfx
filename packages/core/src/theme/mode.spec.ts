@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@/core/config';
 import { describe, expect, test } from 'vitest';
+
+import { Config } from '@core/config';
 import { changeMode, getMode } from './mode';
 
 describe('mode', () => {

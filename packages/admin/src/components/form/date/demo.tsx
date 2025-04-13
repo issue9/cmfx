@@ -4,8 +4,8 @@
 
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form/field';
+import { boolSelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
+import { FieldAccessor } from '@admin/components/form/field';
 import { DatePanel } from './panel';
 import { DatePicker } from './picker';
 import { DateRangePicker } from './range';

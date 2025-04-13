@@ -4,9 +4,9 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { corners } from '@/components/base';
-import { Demo, paletteSelector } from '@/components/base/demo';
-import { Button } from '@/components/button';
+import { corners } from '@admin/components/base';
+import { Demo, paletteSelector } from '@admin/components/base/demo';
+import { Button } from '@admin/components/button';
 import { Badge } from './badge';
 
 export default function () {

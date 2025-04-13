@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form/field';
+import { boolSelector, Demo, paletteSelector } from '@admin/components/base/demo';
+import { FieldAccessor } from '@admin/components/form/field';
 import { Editor } from './editor';
 
 export default function () {

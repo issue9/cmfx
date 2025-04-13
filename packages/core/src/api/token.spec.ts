@@ -4,8 +4,8 @@
 
 import { expect, test } from 'vitest';
 
+import { sleep } from '@core/time';
 import { Token, delToken, getToken, state, writeToken } from './token';
-import { sleep } from '@/time';
 
 test('token', () => {
     const tokenName = 'cmfx-token-name';

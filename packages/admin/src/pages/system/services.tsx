@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createMemo } from 'solid-js';
 import { Query } from '@cmfx/core';
+import { JSX, createMemo } from 'solid-js';
 
-import { Column, useApp, Label, LoaderTable, Page, translateEnum } from '@/components';
-import { MessagesKey } from '@/messages';
+import { Column, Label, LoaderTable, Page, translateEnum, useApp } from '@admin/components';
+import { MessagesKey } from '@admin/messages';
 
 interface Service {
     jobs: Array<Job>;

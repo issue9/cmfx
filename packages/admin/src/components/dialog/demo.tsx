@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Demo, paletteSelector } from '@/components/base/demo';
-import { Button } from '@/components/button';
-import { Form, FormAccessor } from '@/components/form';
-import { useApp } from '@/components/context';
+import { Demo, paletteSelector } from '@admin/components/base/demo';
+import { Button } from '@admin/components/button';
+import { Form, FormAccessor } from '@admin/components/form';
+import { useApp } from '@admin/components/context';
 import { Dialog, Ref } from './dialog';
 import { alert, confirm, prompt } from './system';
 

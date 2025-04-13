@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@/core/config';
+import { Config } from '@core/config';
 import { Contrast, changeContrast, contrasts, getContrast } from './contrast';
 import { Mode, changeMode, getMode, modes } from './mode';
 import { Scheme, changeScheme, genScheme, genSchemes, getScheme } from './scheme';

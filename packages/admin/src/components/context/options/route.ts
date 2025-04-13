@@ -5,7 +5,7 @@
 import { RouteSectionProps } from '@solidjs/router';
 import { Component } from 'solid-js';
 
-import { IconSymbol } from '@/components';
+import { IconSymbol } from '@admin/components';
 
 /**
  * 对路由的定义

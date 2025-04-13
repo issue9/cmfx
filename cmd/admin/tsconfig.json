@@ -31,7 +31,8 @@
         "src/**/*.js",
         "src/**/*.tsx",
         "postcss.config.mjs",
-        "../../admin/**/*.tsx",
+        "../../pakcages/**/*.tsx",
+        "../../pakcages/**/*.ts",
     ],
     "references": [
         {

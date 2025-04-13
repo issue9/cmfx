@@ -15,5 +15,8 @@ declare global {
 }
 
 export * from './api';
+export * from './config';
+export * from './locale';
+export * from './theme';
 export * from './time';
 

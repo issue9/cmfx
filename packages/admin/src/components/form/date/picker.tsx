@@ -4,10 +4,10 @@
 
 import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { useApp } from '@/components/context';
-import { Field } from '@/components/form/field';
-import { Icon } from '@/components/icon';
-import { calcPopoverPos } from '@/components/utils';
+import { useApp } from '@admin/components/context';
+import { Field } from '@admin/components/form/field';
+import { Icon } from '@admin/components/icon';
+import { calcPopoverPos } from '@admin/components/utils';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {

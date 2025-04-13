@@ -4,8 +4,8 @@
 
 import { For } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form/field';
+import { boolSelector, Demo, palettesWithUndefined } from '@admin/components/base/demo';
+import { FieldAccessor } from '@admin/components/form/field';
 import { TextArea } from './textarea';
 
 export default function() {

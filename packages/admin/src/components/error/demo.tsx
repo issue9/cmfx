@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { paletteSelector } from '@/components/base/demo';
+import { paletteSelector } from '@admin/components/base/demo';
 import { Error } from './error';
 
 export default function() {

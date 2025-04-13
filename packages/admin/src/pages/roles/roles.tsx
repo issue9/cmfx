@@ -8,7 +8,7 @@ import { Return } from '@cmfx/core';
 import {
     Button, Column, Dialog, DialogRef, LinkButton, ObjectAccessor,
     Page, RemoteTable, RemoteTableRef, TextArea, TextField, useApp
-} from '@/components';
+} from '@admin/components';
 
 export interface Role {
     id?: string;

@@ -6,7 +6,7 @@ import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { Item } from '@/components/tree/item';
+import { Item } from '@admin/components/tree/item';
 import { Menu } from './menu';
 
 describe('Menu', async () => {

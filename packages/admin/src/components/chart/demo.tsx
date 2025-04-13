@@ -5,7 +5,7 @@
 import * as echarts from 'echarts';
 import { createStore } from 'solid-js/store';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { boolSelector, Demo, paletteSelector, Stage } from '@admin/components/base/demo';
 import { AxisChart, Ref as AxisRef } from './axis';
 import { Chart } from './chart';
 import { PieChart } from './pie';

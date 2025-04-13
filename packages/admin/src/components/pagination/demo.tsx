@@ -4,7 +4,7 @@
 
 import { createSignal } from 'solid-js';
 
-import { Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { Demo, paletteSelector, Stage } from '@admin/components/base/demo';
 import { PaginationBar } from './bar';
 import { Pagination } from './pagination';
 

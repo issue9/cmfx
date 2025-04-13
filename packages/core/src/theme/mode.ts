@@ -1,8 +1,8 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@/core/config';
+import { Config } from '@core/config';
 
 export const modes = ['system', 'dark', 'light'] as const;
 

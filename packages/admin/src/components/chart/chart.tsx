@@ -5,8 +5,8 @@
 import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
-import { useApp } from '@/components/context';
+import { BaseProps } from '@admin/components/base';
+import { useApp } from '@admin/components/context';
 import { matchLocale } from './locale';
 
 export interface Props extends BaseProps {

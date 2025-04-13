@@ -2,12 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Theme as CoreTheme, DictLoader, Mode, PickOptional, Scheme, UnitStyle } from '@/core';
-import type { LocaleID } from '@/messages';
+import { Contrast, Theme as CoreTheme, DictLoader, Mode, Scheme, UnitStyle } from '@cmfx/core';
+
+import { PickOptional } from '@admin/core';
+import type { LocaleID } from '@admin/messages';
 import { API, sanitizeAPI } from './api';
-import type { MenuItem, Routes } from './route';
-import { presetAside } from './aside';
 import type { Aside } from './aside';
+import { presetAside } from './aside';
+import type { MenuItem, Routes } from './route';
 
 /**
  * 项目的基本配置

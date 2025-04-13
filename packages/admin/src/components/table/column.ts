@@ -4,7 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { Column as ExportColumn } from '@/core';
+import { Column as ExportColumn } from '@admin/core';
 
 /**
  * 用于描述列的信息

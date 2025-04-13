@@ -6,10 +6,10 @@ import { A } from '@solidjs/router';
 import { createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { Divider } from '@/components/divider';
-import { Icon } from '@/components/icon';
-import type { Props as ContainerProps } from '@/components/tree/container';
-import { Item } from '@/components/tree/item';
+import { Divider } from '@admin/components/divider';
+import { Icon } from '@admin/components/icon';
+import type { Props as ContainerProps } from '@admin/components/tree/container';
+import { Item } from '@admin/components/tree/item';
 
 export type Ref = HTMLMenuElement;
 

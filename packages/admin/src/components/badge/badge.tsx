@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, Corner } from '@/components/base';
+import { BaseProps, Corner } from '@admin/components/base';
 
 export interface Props extends BaseProps {
     /**

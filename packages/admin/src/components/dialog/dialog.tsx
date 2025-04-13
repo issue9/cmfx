@@ -4,10 +4,10 @@
 
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
-import { Button } from '@/components/button';
-import { useApp } from '@/components/context';
-import { Icon } from '@/components/icon';
+import { BaseProps } from '@admin/components/base';
+import { Button } from '@admin/components/button';
+import { useApp } from '@admin/components/context';
+import { Icon } from '@admin/components/icon';
 
 /**
  * {@link Props#actions} 元素中的点击事件

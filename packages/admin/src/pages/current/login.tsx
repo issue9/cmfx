@@ -5,8 +5,8 @@
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
-import { buildEnumsOptions, Choice, FieldAccessor, Page, useApp, useOptions } from '@/components';
-import { Passport } from '@/pages/common';
+import { buildEnumsOptions, Choice, FieldAccessor, Page, useApp, useOptions } from '@admin/components';
+import { Passport } from '@admin/pages/common';
 import { PassportComponents } from './passports';
 
 export interface Props {

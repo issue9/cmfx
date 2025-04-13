@@ -19,8 +19,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "types": [
-            "vite/client",
-            "@testing-library/jest-dom"
+            "vite/client"
         ],
         /* Linting */
         "strict": true,
@@ -29,7 +28,7 @@
         "noFallthroughCasesInSwitch": true,
         "composite": true,
         "paths": {
-            "@/*": [
+            "@core/*": [
                 "src/*"
             ]
         }

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Breakpoint } from '@cmfx/core';
 import { createEffect, createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
-import { BaseProps } from '@/components/base';
-import { Breakpoint } from '@/core';
+import { BaseProps } from '@admin/components/base';
 
 export interface Props extends BaseProps {
     /**

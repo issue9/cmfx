@@ -4,8 +4,8 @@
 
 import { JSX } from 'solid-js';
 
-import { buildEnumsOptions, Choice, ChoiceProps, useApp, User } from '@/components';
-import { MessagesKey } from '@/messages';
+import { buildEnumsOptions, Choice, ChoiceProps, useApp, User } from '@admin/components';
+import { MessagesKey } from '@admin/messages';
 
 export type Sex = User['sex'];
 

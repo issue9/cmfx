@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { FieldBaseProps } from '@/components/form/field';
+import { FieldBaseProps } from '@admin/components/form/field';
 
 export interface Props extends FieldBaseProps {
     /**

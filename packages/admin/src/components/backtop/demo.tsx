@@ -4,8 +4,8 @@
 
 import { For } from 'solid-js';
 
-import { Demo, paletteSelector } from '@/components/base/demo';
-import { IconSymbol } from '@/components/icon';
+import { Demo, paletteSelector } from '@admin/components/base/demo';
+import { IconSymbol } from '@admin/components/icon';
 import { BackTop } from './backtop';
 
 export default function() {

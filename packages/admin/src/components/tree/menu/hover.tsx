@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
-import { calcPopoverPos } from '@/components/utils';
+import { calcPopoverPos } from '@admin/components/utils';
 import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
 
 export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {

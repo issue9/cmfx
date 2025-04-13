@@ -4,8 +4,8 @@
 
 import { For } from 'solid-js';
 
-import { boolSelector, Stage, Demo, palettesWithUndefined } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form/field';
+import { boolSelector, Demo, palettesWithUndefined, Stage } from '@admin/components/base/demo';
+import { FieldAccessor } from '@admin/components/form/field';
 import Range from './range';
 
 export default function () {

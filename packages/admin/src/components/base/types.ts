@@ -1,9 +1,9 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 
-import { Scheme } from '@/core';
+import { Scheme } from '@cmfx/core';
 
 /**
  * 组件可用的几种色盘

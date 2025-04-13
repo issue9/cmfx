@@ -4,7 +4,7 @@
 
 import { JSX, ParentProps, Show, splitProps } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
+import { BaseProps } from '@admin/components/base';
 
 export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
     /**

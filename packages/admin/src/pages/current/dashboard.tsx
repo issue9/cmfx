@@ -4,7 +4,7 @@
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { IconSymbol, Page } from '@/components';
+import { IconSymbol, Page } from '@admin/components';
 
 export function Dashboard(props: ParentProps): JSX.Element {
     return <Page title='_i.page.current.dashboard' class="p--dashboard">

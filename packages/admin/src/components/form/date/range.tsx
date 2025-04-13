@@ -4,10 +4,10 @@
 
 import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { useApp } from '@/components/context';
-import { Accessor, Field, FieldAccessor } from '@/components/form/field';
-import { Icon, IconSymbol } from '@/components/icon';
-import { calcPopoverPos } from '@/components/utils';
+import { useApp } from '@admin/components/context';
+import { Accessor, Field, FieldAccessor } from '@admin/components/form/field';
+import { Icon, IconSymbol } from '@admin/components/icon';
+import { calcPopoverPos } from '@admin/components/utils';
 import { DatePanel, presetProps as presetPickerProps } from './panel';
 import { Props as PickerProps } from './picker';
 

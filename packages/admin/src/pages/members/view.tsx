@@ -5,8 +5,8 @@
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { Page, useApp, useOptions } from '@/components';
-import { Passport, sexesMap, statesMap } from '@/pages/common';
+import { Page, useApp, useOptions } from '@admin/components';
+import { Passport, sexesMap, statesMap } from '@admin/pages/common';
 import { Member } from './types';
 
 

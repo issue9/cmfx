@@ -5,9 +5,9 @@
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps } from '@/components/base';
-import { useOptions } from '@/components/context';
-import { FieldAccessor, TextField } from '@/components/form';
+import { BaseProps } from '@admin/components/base';
+import { useOptions } from '@admin/components/context';
+import { FieldAccessor, TextField } from '@admin/components/form';
 import { Dialog, Ref } from './dialog';
 
 interface Props extends BaseProps {

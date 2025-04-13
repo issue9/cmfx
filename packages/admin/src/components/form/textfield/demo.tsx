@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { cloneElement } from '@/components/base';
-import { boolSelector, Demo, paletteSelector } from '@/components/base/demo';
-import { FieldAccessor } from '@/components/form/field';
+import { cloneElement } from '@admin/components/base';
+import { boolSelector, Demo, paletteSelector } from '@admin/components/base/demo';
+import { FieldAccessor } from '@admin/components/form/field';
 import { Number } from './number';
 import { Password } from './password';
 import { TextField } from './textfiled';

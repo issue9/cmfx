@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from '@/components';
-import { Pages } from '@/pages/pages';
+import { MenuItem, Route } from '@admin/components';
+import { Pages } from '@admin/pages/pages';
 import { APIs } from './apis';
 import { Info } from './info';
 import { Services } from './services';

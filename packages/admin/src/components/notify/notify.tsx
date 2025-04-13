@@ -5,7 +5,7 @@
 import { createSignal, createUniqueId, For, JSX, mergeProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps, Palette } from '@/components/base';
+import { BaseProps, Palette } from '@admin/components/base';
 import { Alert, Props as AlertProps } from './alert';
 
 export type Props = BaseProps;

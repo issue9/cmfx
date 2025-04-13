@@ -2,16 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { sleep, Theme } from '@cmfx/core';
 import { A, useLocation } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch, untrack } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
-import { sleep } from '@cmfx/core';
 
-import { Divider } from '@/components/divider';
-import { Icon } from '@/components/icon';
-import type { Props as ContainerProps } from '@/components/tree/container';
-import { findItems, type Item } from '@/components/tree/item';
-import { Theme } from '@/core';
+import { Divider } from '@admin/components/divider';
+import { Icon } from '@admin/components/icon';
+import type { Props as ContainerProps } from '@admin/components/tree/container';
+import { findItems, type Item } from '@admin/components/tree/item';
 
 export interface Props extends ContainerProps {
     /**

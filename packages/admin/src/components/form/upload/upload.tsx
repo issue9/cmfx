@@ -4,8 +4,8 @@
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { useApp } from '@/components/context';
-import { FieldBaseProps } from '@/components/form/field';
+import { useApp } from '@admin/components/context';
+import { FieldBaseProps } from '@admin/components/form/field';
 
 /**
  * 上传组件的外放接口

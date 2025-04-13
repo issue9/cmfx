@@ -2,20 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Page, Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
-import { Page, Query } from '@cmfx/core';
 
-import { Palette } from '@/components/base';
-import { Button, FitScreenButton, PrintButton, SplitButton } from '@/components/button';
-import { useApp, useOptions } from '@/components/context';
-import { prompt } from '@/components/dialog';
-import { Divider } from '@/components/divider';
-import { ObjectAccessor } from '@/components/form';
-import { PaginationBar } from '@/components/pagination';
-import { Menu } from '@/components/tree';
-import { Label } from '@/components/typography';
-import { Exporter } from '@/core';
+import { Palette } from '@admin/components/base';
+import { Button, FitScreenButton, PrintButton, SplitButton } from '@admin/components/button';
+import { useApp, useOptions } from '@admin/components/context';
+import { prompt } from '@admin/components/dialog';
+import { Divider } from '@admin/components/divider';
+import { ObjectAccessor } from '@admin/components/form';
+import { PaginationBar } from '@admin/components/pagination';
+import { Menu } from '@admin/components/tree';
+import { Label } from '@admin/components/typography';
+import { Exporter } from '@admin/core';
 import type { Props as BaseProps } from './basic';
 import { BasicTable } from './basic';
 import { fromSearch, Params, saveSearch } from './search';

@@ -4,9 +4,9 @@
 
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent } from '@/components/base';
-import { useApp } from '@/components/context';
-import { calcPopoverPos } from '@/components/utils';
+import { handleEvent } from '@admin/components/base';
+import { useApp } from '@admin/components/context';
+import { calcPopoverPos } from '@admin/components/utils';
 import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
 
 export interface Props extends BaseProps {

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Demo, paletteSelector, Stage } from '@/components/base/demo';
+import { Demo, paletteSelector, Stage } from '@admin/components/base/demo';
 import { Description } from './description';
 import { Label } from './label';
 

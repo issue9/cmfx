@@ -1,14 +1,12 @@
-/*
- * SPDX-FileCopyrightText: 2025 caixw
- *
- * SPDX-License-Identifier: MIT
- */
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
 
 import { Duration, formatDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps } from '@/components/base';
-import { useApp } from '@/components/context';
+import { BaseProps } from '@admin/components/base';
+import { useApp } from '@admin/components/context';
 
 type Field = 'days' | 'hours' | 'minutes' | 'seconds';
 

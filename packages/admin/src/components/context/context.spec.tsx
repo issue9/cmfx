@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API } from '@cmfx/core';
+import { API, Locale } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { describe, expect, test } from 'vitest';
 
-import { Locale } from '@/core';
 import { buildContext } from './context';
 import { options } from './options/options.spec';
 

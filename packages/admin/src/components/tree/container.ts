@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps } from '@/components/base';
+import { BaseProps } from '@admin/components/base';
 import { Item } from './item';
 
 /**
