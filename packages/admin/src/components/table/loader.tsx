@@ -136,7 +136,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
             const ret = await props.load(q);
             saveSearch(q, searchS);
             return ret;
-        }) as Props<T,Q>['load'];
+        }) as Props<T, Q>['load'];
     }
 
     const queries = new ObjectAccessor<Q>(props.queries);
@@ -172,7 +172,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
         await e.fetch(load, q);
         const filename = await prompt(ctx.locale().t('_i.table.downloadFilename'), props.filename);
         if (filename) {
-            e.export(filename, ext);
+            e.export(filename, ext, ctx.locale().locale.language);
         }
     };
 

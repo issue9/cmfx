@@ -4,8 +4,8 @@
 
 import xlsx from 'xlsx';
 
-import { Column } from './column';
 import { Page, Query } from '@core/api';
+import { Column } from './column';
 
 /**
  * 从服务器获取数据的函数签名
@@ -20,7 +20,8 @@ export interface FetchFunc<T extends object, Q extends Query> {
 /**
  * 提供从 API 分页接口导出数据的方法
  *
- * @template T 每一行数据的类型
+ * @template T 每一行数据的类型；
+ * @template Q 查询参数的类型；
  */
 export class Exporter<T extends object, Q extends Query> {
     readonly #sheet: xlsx.WorkSheet;
@@ -82,15 +83,23 @@ export class Exporter<T extends object, Q extends Query> {
      *
      * 将 {@link Exporter#fetch} 下载的数据导出给用户。
      *
-     * @param filename 文件名，如果是 excel，也作为工作表的名称。
-     * @param ext 后缀名，根据此值生成不同类型的文件。
+     * @param filename 文件名，如果是 excel，也作为工作表的名称；
+     * @param lang 语言；
+     * @param ext 后缀名，根据此值生成不同类型的文件；
+     * @param appName 应用名称；
+     * @param appVersion 应用版本；
      *
      * NOTE: 这将通过浏览器创建一个自动下载的功能。
      */
-    export(filename: string, ext: '.csv' | '.xlsx' | '.ods'): void {
+    export(filename: string, ext: '.csv' | '.xlsx' | '.ods', lang?: string, appName?: string, appVersion?: string): void {
         const book = xlsx.utils.book_new(this.#sheet, filename);
+        const d = new Date();
         book.Props = {
-            ModifiedDate: new Date(),
+            ModifiedDate: d,
+            CreatedDate: d,
+            Language: lang,
+            Application: appName,
+            AppVersion: appVersion,
         };
         xlsx.writeFile(book, filename + ext);
     }
