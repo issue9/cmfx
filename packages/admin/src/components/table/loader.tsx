@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, Query } from '@cmfx/core';
+import { Exporter, Page, Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
@@ -17,7 +17,6 @@ import { Menu } from '@admin/components/tree';
 import { Label } from '@admin/components/typography';
 import type { Props as BaseProps } from './basic';
 import { BasicTable } from './basic';
-import { Exporter } from './export';
 import { fromSearch, Params, saveSearch } from './search';
 
 export interface Ref<T extends object> {
@@ -164,13 +163,13 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
         });
     }
 
-    const exports = async function (ext: Parameters<Exporter<T>['export']>[1]) {
-        const e = new Exporter(props.columns);
+    const exports = async function (ext: Parameters<Exporter<T, Q>['export']>[1]) {
+        const e = new Exporter<T, Q>(props.columns);
         const q = { ...queries.object() };
         delete q.size;
         delete q.page;
 
-        await e.download(async () => { return await load(q); });
+        await e.fetch(load, q);
         const filename = await prompt(ctx.locale().t('_i.table.downloadFilename'), props.filename);
         if (filename) {
             e.export(filename, ext);

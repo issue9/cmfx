@@ -2,27 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page } from '@cmfx/core';
 import xlsx from 'xlsx';
 
 import { Column } from './column';
+import { Page, Query } from '@core/api';
 
 /**
- * 加载数据的函数签名
+ * 从服务器获取数据的函数签名
  *
  * @template T 返回的行数据类型；
  * @template Q 查询参数的类型；
  */
-export interface LoadFunc<T extends object> {
-    (): Promise<Page<T> | Array<T> | undefined>;
+export interface FetchFunc<T extends object, Q extends Query> {
+    (q: Q): Promise<Page<T> | Array<T> | undefined>;
 }
 
 /**
- * 导出对象
+ * 提供从 API 分页接口导出数据的方法
  *
  * @template T 每一行数据的类型
  */
-export class Exporter<T extends object> {
+export class Exporter<T extends object, Q extends Query> {
     readonly #sheet: xlsx.WorkSheet;
     readonly #columns: Array<Column<T>>;
 
@@ -63,12 +63,10 @@ export class Exporter<T extends object> {
     }
 
     /**
-     * 从服务器下载全部数据到当前浏览器
-     *
-     * NOTE: 可多次调用
+     * 从服务器获取全部数据到当前浏览器
      */
-    async download(load: LoadFunc<T>): Promise<void> {
-        const ret = await load();
+    async fetch(load: FetchFunc<T, Q>, q: Q): Promise<void> {
+        const ret = await load(q);
 
         if (ret === undefined) {
             return undefined;
@@ -82,10 +80,12 @@ export class Exporter<T extends object> {
     /**
      * 导出数据
      *
-     * 即将 {@link Exporter#download} 下载的数据提供下载功能。
+     * 将 {@link Exporter#fetch} 下载的数据导出给用户。
      *
-     * @param filename 下载文件的文件名，如果是 excel，也作为工作表的名称。
+     * @param filename 文件名，如果是 excel，也作为工作表的名称。
      * @param ext 后缀名，根据此值生成不同类型的文件。
+     *
+     * NOTE: 这将通过浏览器创建一个自动下载的功能。
      */
     export(filename: string, ext: '.csv' | '.xlsx' | '.ods'): void {
         const book = xlsx.utils.book_new(this.#sheet, filename);

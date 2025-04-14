@@ -9,7 +9,7 @@
  */
 export interface Column<T extends object> {
     /**
-     * 导出列在对象 T 中的字段名，如果是自定义列，也可能不存在于实现的 T 中。
+     * 导出列在对象 T 中的字段名，如果是自定义列，也可以是不存在于 T 中。
      */
     id: string;
 
