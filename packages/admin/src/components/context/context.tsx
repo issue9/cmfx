@@ -6,8 +6,7 @@ import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle } from '@
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
 
-import { NotifyType } from '@admin/components/notify';
-import { notify } from '@admin/core';
+import { NotifyType, notify } from '@admin/components/notify';
 import { buildOptions } from './options';
 import { User } from './user';
 
@@ -59,7 +58,7 @@ export function buildContext(opt: OptContext, f: API) {
             return u;
         }
 
-        await window.notify(r.body!.title);
+        await notify(r.body!.title);
     });
 
     let uid = sessionStorage.getItem(currentKey) ?? '';
@@ -208,13 +207,10 @@ export function buildContext(opt: OptContext, f: API) {
         * @param title 标题；
         * @param body 具体内容，如果为空则只显示标题；
         * @param type 类型，仅对非系统通知的情况下有效；
-        * @param timeout 如果大于 0，超过此秒数时将自动关闭提法；
+        * @param timeout 如果大于 0，超过此毫秒数时将自动关闭提法；
         */
-        async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5) {
-            if (opt.system.notification && await notify(title, body, opt.logo, locale()!.locale.language, timeout)) {
-                return;
-            }
-            await window.notify(title, body, type, timeout);
+        async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5000) {
+            await notify(title, body, type, this.locale().locale.language, timeout);
         },
 
         /**

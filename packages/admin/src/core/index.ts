@@ -4,6 +4,5 @@
 
 export * from './export';
 export * from './hotkey';
-export * from './notification';
 export * from './types';
 

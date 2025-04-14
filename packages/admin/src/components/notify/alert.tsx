@@ -13,10 +13,13 @@ export interface Props extends BaseProps {
     title: string;
     body?: string;
     id: string;
-    timeout?: number; // 单位为秒
+    timeout?: number; // 单位为毫秒
     del: { (id: string): void; };
 }
 
+/**
+ * 警告框
+ */
 export function Alert(props: Props): JSX.Element {
     let ref: HTMLDivElement;
     let wrapRef: HTMLDivElement;
@@ -29,7 +32,7 @@ export function Alert(props: Props): JSX.Element {
 
     onMount(() => {
         if (props.timeout) {
-            const timeout = props.timeout * 1000;
+            const timeout = props.timeout;
             let timer = createTimer(del, timeout, 100, (t: number) => {
                 const p = (timeout - t) / timeout * 100;
                 wrapRef.style.background = `conic-gradient(var(--bg-low) 0% ${p}%, var(--bg-high) ${p}% 100%)`;

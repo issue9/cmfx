@@ -7,7 +7,7 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, Drawer, List, Notify, registerChartLocales, SystemDialog, useApp, useOptions } from '@admin/components';
+import { AppOptions, Drawer, initNotify, List, registerChartLocales, SystemDialog, useApp, useOptions } from '@admin/components';
 import { buildContext, OptContext } from '@admin/components/context/context';
 import { buildOptions } from '@admin/components/context/options';
 import { Hotkey } from '@admin/core';
@@ -50,9 +50,10 @@ function App(props: {opt: OptContext, api: API}): JSX.Element {
     const Root = (p: RouteSectionProps) => {
         // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
         const { Provider } = buildContext(props.opt, props.api);
+        const o = props.opt;
 
         return <Provider>
-            <Notify />
+            {initNotify(o.system.notification, o.logo, 'error')}
             <SystemDialog palette='surface' />
 
             <div class="app palette--surface">

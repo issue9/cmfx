@@ -12,7 +12,7 @@ export default function() {
 
     const [title, setTitle] = createSignal('title');
     const [body, setBody] = createSignal('body');
-    const [timeout, setTimeout] = createSignal<number>(5);
+    const [timeout, setTimeout] = createSignal<number>(5000);
     const [type, setType] = createSignal<NotifyType>('success');
 
     const notify = async(): Promise<void> => {
@@ -28,7 +28,7 @@ export default function() {
             </select >
             <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
             <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
-            <input type="number" onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
+            <input type="number" step={500} onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
             <Button palette='primary' onClick={notify}>notify</Button>
         </div>
     </Demo>;
