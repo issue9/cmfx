@@ -1,0 +1,91 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@import 'tailwindcss' source('.');
+@import 'material-symbols';
+
+@import '@cmfx/core/style.css';
+
+@import './tailwind.css';
+@import './components/style.css';
+@import './pages/style.css';
+@import './app/style.css';
+
+.view-full {
+    width: 100dvw;
+    height: 100dvh;
+}
+
+/* 
+ * 滚动条的定义
+ *
+ * 仅需支持 windows 下的 edge 即可，不需要改变其它浏览器的默认状态。
+ */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg-low) var(--bg-high);
+}
+
+::placeholder {
+    color: var(--bg-low);
+}
+
+/* 减少动画 */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-property: none !important;
+        animation: none !important;
+    }
+}
+
+kbd {
+    @apply border-[1px] border-palette-fg-low rounded-sm bg-palette-bg-low px-1 py-[1px];
+}
+
+/* 弹出框默认状态下的样式 */
+@utility pop {
+    visibility: hidden;
+    opacity: 0;
+
+    /* 两个属性同时发生变化，但是 visibility 没有过渡动画，等待时间到之后直接改变其属性。 */
+    transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) ease-in;
+}
+
+/* 弹出框打开状态下应用的样式 */
+@utility popopen {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity var(--transition-duration) ease-in;
+}
+
+/******************* 对话框 ****************/
+
+dialog {
+    @apply top-1/2 left-1/2 translate-[-50%] shadow-lg block fixed pop;
+}
+
+dialog[open] {
+    @apply popopen block;
+}
+
+dialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity var(--transition-duration) linear;
+}
+
+/********************* popover *******************/
+
+/* 调用者需要指定 display 属性，且值不能为 none */
+[popover] {
+    @apply pop;
+}
+
+[popover]:popover-open {
+    @apply popopen;
+}

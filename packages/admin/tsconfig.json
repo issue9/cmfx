@@ -1,0 +1,55 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "skipLibCheck": true,
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        "types": [
+            "vite/client",
+            "@testing-library/jest-dom"
+        ],
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "composite": true,
+        "paths": {
+            "@admin/*": [
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "src/**/*.mjs",
+        "src/**/*.js",
+        "src/**/*.tsx",
+    ],
+    "exclude": [
+        "lib",
+    ],
+    "outDir": "./lib",
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
+}

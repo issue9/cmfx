@@ -84,14 +84,14 @@ fi
 
 ### 目录结构
 
-- admin 管理后台的主目录；
 - cmd 包含了用于测试的前后端；
 - cmfx 后端源码的主目录；
 - docs 文档；
+- packages 前端相关的代码；
 
 ### 本地化
 
-后端的本地化信息在 `cmfx/locales` 目录之下；前端的本地化信息在 `admin/src/messages` 目录之下。
+后端的本地化信息在 `cmfx/locales` 目录之下；前端的本地化信息在 `packages/admin/src/messages` 目录之下。
 
 ### 前端
 

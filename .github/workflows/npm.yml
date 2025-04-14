@@ -1,4 +1,4 @@
-name: NPM-PUBLISH
+name: NPM-Publish
 
 on:
   create:
@@ -15,15 +15,23 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 23
           registry-url: https://registry.npmjs.org/
 
       - run: npm ci
 
-      - name: build
+      - name: build @cmfx/core
+        run: npm run build -w=@cmfx/core
+
+      - name: publish @cmfx/core
+        run: npm publish --access=public -w=@cmfx/core
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
+
+      - name: build @cmfx/admin
         run: npm run build -w=@cmfx/admin
 
-      - name: publish
-        run: npm publish  --access=public -w=@cmfx/admin
+      - name: publish @cmfx/admin
+        run: npm publish --access=public -w=@cmfx/admin
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}

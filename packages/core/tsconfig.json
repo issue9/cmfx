@@ -1,0 +1,52 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "declarationMap": true,
+        "sourceMap": true,
+        "baseUrl": ".",
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "skipLibCheck": true,
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "types": [
+            "vite/client"
+        ],
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "composite": true,
+        "paths": {
+            "@core/*": [
+                "src/*"
+            ]
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "src/**/*.mjs",
+        "src/**/*.js",
+        "src/**/*.tsx",
+    ],
+    "exclude": [
+        "lib",
+    ],
+    "outDir": "./lib",
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
+}

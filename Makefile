@@ -6,8 +6,6 @@
 
 ROOT = .
 CMD = $(ROOT)/cmd
-CMFX = $(ROOT)/cmfx
-ADMIN = $(ROOT)/admin
 
 CMD_SERVER = $(CMD)/server
 SERVER_BIN = server
@@ -23,6 +21,7 @@ build-cmd:
 
 # 编译项目内容
 build:
+	npm run build -w=@cmfx/core
 	npm run build -w=@cmfx/admin
 
 # 安装依赖
@@ -50,4 +49,5 @@ watch: watch-server watch-admin
 test:
 	go test ./... -count=1 -p=1 -parallel=1
 	npm run lint
+	npm run test-nowatch -w=@cmfx/core
 	npm run test-nowatch -w=@cmfx/admin

@@ -1,0 +1,15 @@
+{
+    "name": "@cmfx/core",
+    "version": "0.8.19",
+    "license": "MIT",
+    "exports": {
+        ".": "./lib/index.d.ts"
+    },
+    "publish": {
+        "include": [
+            "LICENSE",
+            "README.md",
+            "./lib/"
+        ]
+    }
+}

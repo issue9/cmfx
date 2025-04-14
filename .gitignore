@@ -8,22 +8,14 @@
 *.out
 
 # 前端
-node_modules
+node_modules/
 *.tsbuildinfo
-admin/lib/
-admin/coverage/
-cmd/admin/dist/
 vite.config.ts.timestamp-*.mjs
-
-# 以下两个文件是从根目录复制的
-admin/LICENSE
-admin/README.md
-admin/.browserslistrc
 
 # IDE
 .vs/
-.vscode/
 .idea/
 .fleet/
+.vscode/
 *.swp
 .DS_Store

@@ -2,7 +2,6 @@ name: Vitest
 on: [push, pull_request]
 
 jobs:
-
   test:
     runs-on: ubuntu-latest
 
@@ -13,21 +12,30 @@ jobs:
       pull-requests: write
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install Node
-      uses: actions/setup-node@v4
-      with:
-        node-version: '22.x'
+      - name: Install Node
+        uses: actions/setup-node@v4
+        with:
+            node-version: "23.x"
 
-    - name: Install Deps
-      run: npm install
+      - name: Install Deps
+        run: npm install
 
-    - name: Test
-      run: npm run test -w=@cmfx/admin
+      - name: Test-core
+        run: npm run test -w=@cmfx/core
 
-    - name: Upload test results to Codecov
-      uses: codecov/codecov-action@v5
-      with:
-          token: ${{secrets.CODECOV_TOKEN}}
-          files: ./admin/coverage/report.json
+      - name: Upload @cmfx/core test to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+            token: ${{secrets.CODECOV_TOKEN}}
+            files: ./admin/coverage/report.json
+
+      - name: Test-admin
+        run: npm run test -w=@cmfx/admin
+
+      - name: Upload @cmfx/admin test to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+            token: ${{secrets.CODECOV_TOKEN}}
+            files: ./admin/coverage/report.json
