@@ -66,6 +66,7 @@ export default defineConfig({
                 : fileURLToPath(new URL('../core/src', import.meta.url)),
 
             '@admin': fileURLToPath(new URL('./src', import.meta.url)),
+            '@core': fileURLToPath(new URL('../core/src', import.meta.url)), // 解决 @cmfx/core 在 dev 环境下的引用问题
         }
     },
 
