@@ -153,7 +153,10 @@ export interface Theme {
 
 const presetOptions: Readonly<PickOptional<AppOptions>> = {
     storage: window.localStorage,
-    system: {},
+    system: {
+        dialog: true,
+        notification: true,
+    },
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
 } as const;

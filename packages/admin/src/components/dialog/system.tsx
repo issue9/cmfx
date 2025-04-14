@@ -5,8 +5,7 @@
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps } from '@admin/components/base';
-import { useOptions } from '@admin/components/context';
+import { BaseProps, Palette } from '@admin/components/base';
 import { FieldAccessor, TextField } from '@admin/components/form';
 import { Dialog, Ref } from './dialog';
 
@@ -18,24 +17,24 @@ interface Props extends BaseProps {
 }
 
 /**
- * 提供了与 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，
+ * 初始化弹出框的基本功能
+ *
+ * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，
  * 可用于替换对应的浏览器方法。
  *
- * 如果选项中的 system.dialog 的值为 true，那么对应的系统方法也会被替换。
+ * 如果选项中的 system 的值为 true，那么对应的系统方法也会被替换。
  */
-export function SystemDialog(props: Props): JSX.Element {
-    const opt = useOptions();
-
-    if (opt.system.dialog) {
+export function initDialog(title: string, system?: boolean, palette?: Palette): JSX.Element {
+    if (system) {
         window.alert = alert;
         window.confirm = confirm as any;
         window.prompt = prompt as any;
     }
 
     return <Portal>
-        <Alert header={opt.title} palette={props.palette} />
-        <Confirm header={opt.title} palette={props.palette} />
-        <Prompt header={opt.title} palette={props.palette} />
+        <Alert header={/*@once*/title} palette={/*@once*/palette} />
+        <Confirm header={/*@once*/title} palette={/*@once*/palette} />
+        <Prompt header={/*@once*/title} palette={/*@once*/palette} />
     </Portal>;
 }
 

@@ -6,7 +6,9 @@ import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle } from '@
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
 
+import { initDialog } from '@admin/components/dialog/system';
 import { NotifyType, notify } from '@admin/components/notify';
+import { initNotify } from '@admin/components/notify/notify';
 import { buildOptions } from './options';
 import { User } from './user';
 
@@ -49,6 +51,8 @@ export function buildContext(opt: OptContext, f: API) {
             return;
         }
 
+        // 依然可能 401，比如由服务器导致的用户退出，f.isLogin 是检测不出来的。
+
         const r = await f.get<User>(opt.api.info);
         if (r.ok) {
             const u = r.body;
@@ -58,7 +62,8 @@ export function buildContext(opt: OptContext, f: API) {
             return u;
         }
 
-        await notify(r.body!.title);
+        // 此时 notify 还未初始化
+        console.error(r.body?.title);
     });
 
     let uid = sessionStorage.getItem(currentKey) ?? '';
@@ -236,7 +241,11 @@ export function buildContext(opt: OptContext, f: API) {
 
     const Provider = (props: { children: JSX.Element }) => {
         return <optContext.Provider value={opt}>
-            <appContext.Provider value={ctx}>{props.children}</appContext.Provider>
+            <appContext.Provider value={ctx}>
+                {initNotify(opt.system.notification, opt.logo, 'error')}
+                {initDialog(opt.title, opt.system.dialog, 'surface')}
+                {props.children}
+            </appContext.Provider>
         </optContext.Provider>;
     };
 
