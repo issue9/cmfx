@@ -77,7 +77,6 @@ export default defineConfig({
             entry: {
                 'index': './src/index.ts',
                 'pages': './src/pages/index.ts',
-                'core': './src/core/index.ts',
                 'messages/en.lang': './src/messages/en.lang.ts',
                 'messages/zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
             },

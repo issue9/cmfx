@@ -7,10 +7,9 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, Drawer, initNotify, List, registerChartLocales, SystemDialog, useApp, useOptions } from '@admin/components';
+import { AppOptions, Drawer, Hotkey, initNotify, List, registerChartLocales, SystemDialog, useApp, useOptions } from '@admin/components';
 import { buildContext, OptContext } from '@admin/components/context/context';
 import { buildOptions } from '@admin/components/context/options';
-import { Hotkey } from '@admin/core';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 

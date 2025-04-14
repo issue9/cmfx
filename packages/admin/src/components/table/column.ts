@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
 
-import { Column as ExportColumn } from '@admin/core';
+import { Column as ExportColumn } from './export';
 
 /**
  * 用于描述列的信息

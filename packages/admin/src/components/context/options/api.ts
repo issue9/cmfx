@@ -4,7 +4,7 @@
 
 import { Mimetype } from '@cmfx/core';
 
-import { PickOptional } from '@admin/core';
+import { PickOptional } from './types';
 
 /**
  * 与访问后端 API 相关的配置项

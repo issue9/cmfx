@@ -15,9 +15,9 @@ import { ObjectAccessor } from '@admin/components/form';
 import { PaginationBar } from '@admin/components/pagination';
 import { Menu } from '@admin/components/tree';
 import { Label } from '@admin/components/typography';
-import { Exporter } from '@admin/core';
 import type { Props as BaseProps } from './basic';
 import { BasicTable } from './basic';
+import { Exporter } from './export';
 import { fromSearch, Params, saveSearch } from './search';
 
 export interface Ref<T extends object> {

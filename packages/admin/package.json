@@ -42,10 +42,6 @@
             "types": "./lib/pages.d.ts",
             "import": "./lib/pages.js"
         },
-        "./core": {
-            "types": "./lib/core.d.ts",
-            "import": "./lib/core.js"
-        },
         "./messages/": {
             "require": "./lib/messages/",
             "import": "./lib/messages/"

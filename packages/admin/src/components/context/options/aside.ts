@@ -4,8 +4,8 @@
 
 import { Breakpoint } from '@cmfx/core';
 
-import { PickOptional } from '@admin/core';
 import type { MenuItem } from './route';
+import { PickOptional } from './types';
 
 export interface Aside {
     /**
