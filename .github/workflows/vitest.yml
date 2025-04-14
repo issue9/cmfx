@@ -29,7 +29,7 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
             token: ${{secrets.CODECOV_TOKEN}}
-            files: ./packages/admin/coverage/report.json
+            files: ./packages/core/coverage/report.json
 
       - name: Test-admin
         run: npm run test -w=@cmfx/admin
