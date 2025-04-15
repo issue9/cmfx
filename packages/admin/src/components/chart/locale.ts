@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { match } from '@formatjs/intl-localematcher';
+import { matchLocales } from '@cmfx/core';
 
 /**
  * 为当前组件注册指定的本地化语言
@@ -15,7 +15,7 @@ export async function registerLocales(l: string) {
 /**
  * 从当前组支持的语言中查找与 l 最匹配的语言
  */
-export function matchLocale(l: string) { return match([l], locales, l); }
+export function matchLocale(l: string) { return matchLocales(l, locales, l, {localeMatcher: 'best fit'}); }
 
 // 当前组件支持的语言
 //

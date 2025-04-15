@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { match } from '@formatjs/intl-localematcher';
 import IntlMessageFormat from 'intl-messageformat';
 
 import { API } from '@core/api';
 import { Config } from '@core/config';
 import { Duration, formatDuration, parseDuration } from '@core/time';
 import { Dict, flatten, Keys, Loader } from './dict';
+import { match } from './match';
 
 const localeKey = 'locale';
 const unitStyleKey = 'unit_style';
@@ -69,7 +69,7 @@ export class Locale {
     static matchLanguage(l: string): string {
         if (Locale.#messages.has(l)) { return l; }
 
-        return match([l], Locale.languages(), Locale.#fallback);
+        return match(l, Locale.languages(), Locale.#fallback);
     }
 
     /**
@@ -219,7 +219,7 @@ export class Locale {
      * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
      */
     match(locales: Array<string>) {
-        return match([this.locale.toString()], locales, 'und');
+        return match(this.locale.toString(), locales, 'und');
     }
 
     /**
