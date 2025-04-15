@@ -4,7 +4,6 @@
 
 import { expect, test } from 'vitest';
 
-import { buildOptions } from '.';
 import { build, Locales } from './options';
 import { Routes } from './route';
 
@@ -46,7 +45,7 @@ const routes: Routes = {
     }
 };
 
-export const options = buildOptions({
+export const options = build({
     id: 'abc',
     locales,
     routes,

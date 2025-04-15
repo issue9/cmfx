@@ -1,11 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { RouteSectionProps } from '@solidjs/router';
+import { MaterialSymbol } from 'material-symbols';
 import { Component } from 'solid-js';
-
-import { IconSymbol } from '@admin/components';
 
 /**
  * 对路由的定义
@@ -69,7 +68,7 @@ export type MenuItem = {
     /**
      * 图标名称
      */
-    icon?: IconSymbol;
+    icon?: MaterialSymbol;
 
     /**
      * 菜单的标题

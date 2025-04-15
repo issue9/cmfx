@@ -5,7 +5,6 @@
     "exports": {
         ".": "./lib/index.d.ts",
         "./pages": "./lib/pages.d.ts",
-        "./core": "./lib/core.d.ts",
         "./messages/en.lang": "./lib/messages/en.lang.d.ts",
         "./messages/zh-Hans.lang": "./lib/messages/zh-Hans.lang.d.ts"
     },
