@@ -283,7 +283,7 @@ export class Locale {
      *
      * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    t<D extends Dict>(key: string | Keys<D>, args?: TArgs): string {
+    t<D extends Dict>(key: string | Keys<D>, args?: TranslateArgs): string {
         const f = this.#current.get(key as string);
         return (f ? f.format(args) : key) as string;
     }
@@ -293,7 +293,7 @@ export class Locale {
      *
      * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    tt<D extends Dict>(locale: string, key: string | Keys<D>, args?: TArgs): string {
+    tt<D extends Dict>(locale: string, key: string | Keys<D>, args?: TranslateArgs): string {
         const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
         if (!msgs) {
             return key as string;
@@ -304,4 +304,4 @@ export class Locale {
     }
 }
 
-type TArgs = Parameters<IntlMessageFormat['format']>[0];
+export type TranslateArgs = Parameters<IntlMessageFormat['format']>[0];

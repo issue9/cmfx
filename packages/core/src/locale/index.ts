@@ -5,7 +5,7 @@
 export type { Dict, Keys as DictKeys, Loader as DictLoader } from './dict';
 
 export { Locale, unitStyles } from './locale';
-export type { UnitStyle } from './locale';
+export type { TranslateArgs, UnitStyle } from './locale';
 
 export { match as matchLocales } from './match';
 
