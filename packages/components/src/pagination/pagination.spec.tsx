@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Locale } from '@cmfx/core';
+import { API, Config, Locale, Problem } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
@@ -10,12 +10,10 @@ import { ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
 import { build } from '@components/context/context';
-import { options } from '@components/context/options/options.spec';
 import { Pagination } from './pagination';
 
 test('pagination', async () => {
-    const ao = options.api;
-    const api = await API.build(options.id, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans', localStorage);
+    const api = await API.build('token', 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-Hans', localStorage);
     Locale.init('en', api);
 
     const user = userEvent.setup();
@@ -24,7 +22,16 @@ test('pagination', async () => {
     const { container, unmount } = render(() => <Pagination count={5} value={3} onChange={(val) => curr=val} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
-                const { Provider } = build(options, api);
+                const { Provider } = build(new Config('id'), {
+                    title: 'title',
+                    titleSeparator: '-',
+                    pageSize: 20,
+                    pageSizes: [10, 20, 30],
+                    api: api,
+                    outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+                        console.error(p);
+                    }
+                });
                 return <Provider>{props.children}</Provider>;
             };
 

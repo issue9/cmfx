@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: gen build-cmd build install init watch-server watch-admin watch test
+.PHONY: gen build-cmd build install init watch-server watch-admin watch-components watch test
 
 ROOT = .
 CMD = $(ROOT)/cmd
@@ -18,6 +18,7 @@ gen:
 build-cmd:
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 	npm run build -w=@cmfx/admin-demo
+	npm run build -w=@cmfx/components-demo
 
 # 编译项目内容
 build:
@@ -39,6 +40,9 @@ watch-server:
 
 watch-admin:
 	npm run dev -w=@cmfx/admin-demo
+
+watch-components:
+	npm run dev -w=@cmfx/components-demo
 
 # 运行测试内容
 #

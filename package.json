@@ -18,6 +18,7 @@
     "license": "MIT",
     "workspaces": [
         "cmd/admin",
+        "cmd/components",
         "packages/core",
         "packages/components",
         "packages/admin"

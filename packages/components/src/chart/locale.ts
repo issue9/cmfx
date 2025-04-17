@@ -3,13 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { matchLocales } from '@cmfx/core';
+import * as echarts from 'echarts';
 
 /**
  * 为当前组件注册指定的本地化语言
  */
 export async function registerLocales(l: string) {
     const id = matchLocale(l);
-    await import(`../../../../../node_modules/echarts/i18n/lang${id}-obj.js`);
+    const obj = (await import(`echarts/i18n/lang${id}.js`)).default;
+    echarts.registerLocale(id, obj);
 }
 
 /**
