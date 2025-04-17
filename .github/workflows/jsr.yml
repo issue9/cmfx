@@ -25,6 +25,8 @@ jobs:
 
             - run: npm ci
 
+            # @cmfx/core
+
             - name: build @cmfx/core
               run: npm run build -w=@cmfx/core
 
@@ -32,6 +34,20 @@ jobs:
 
             - name: Publish package @cmfx/core
               run: npx jsr publish
+
+            # @cmfx/components
+
+            - run: cd ../../
+
+            - name: build @cmfx/components
+              run: npm run build -w=@cmfx/components
+
+            - run: cd packages/components
+
+            - name: Publish package @cmfx/components
+              run: npx jsr publish
+
+            # @cmfx/admin
 
             - run: cd ../../
 

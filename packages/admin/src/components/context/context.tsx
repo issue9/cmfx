@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { buildLocale } from '@cmfx/components';
 import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
@@ -68,15 +69,10 @@ export function buildContext(opt: OptContext, f: API) {
 
     let uid = sessionStorage.getItem(currentKey) ?? '';
 
-    Theme.init(new Config(uid, opt.storage), opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
-
-    let localeID: string | undefined;
-    let unitStyle: UnitStyle | undefined;
-    const [locale, localeData] = createResource(() => {
-        const conf = new Config(uid, opt.storage);
-        Theme.switchConfig(conf);
-        return new Locale(conf, localeID, unitStyle);
-    });
+    const conf = new Config(uid, opt.storage);
+    Theme.init(conf, opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
+    Theme.switchConfig(conf);
+    const lp = buildLocale(conf); 
 
     const nav = useNavigate();
     const loc = useLocation();
@@ -169,7 +165,8 @@ export function buildContext(opt: OptContext, f: API) {
                 await userData.refetch();
                 uid = this.user()!.id!.toString();
                 sessionStorage.setItem(currentKey, uid);
-                await localeData.refetch();
+                const conf = new Config(uid, opt.storage);
+                Theme.switchConfig(conf);
             }
             return ret;
         },
@@ -181,7 +178,8 @@ export function buildContext(opt: OptContext, f: API) {
             await f.logout();
             sessionStorage.removeItem(currentKey);
             await userData.refetch();
-            await localeData.refetch();
+            const conf = new Config(uid, opt.storage);
+            Theme.switchConfig(conf);
         },
 
         /**
@@ -221,22 +219,16 @@ export function buildContext(opt: OptContext, f: API) {
         /**
          * 获取本地化的接口对象
          */
-        locale(): Locale { return locale()!; },
+        locale() { return lp.context.locale()!; },
 
         /**
          * 切换本地化对象
          *
          * @param id 本地化 ID
          */
-        switchLocale(id: string) {
-            localeID = id;
-            localeData.refetch();
-        },
+        switchLocale(id: string) { lp.context.switchLocale(id); },
 
-        switchUnitStyle(style: UnitStyle) {
-            unitStyle = style;
-            localeData.refetch();
-        },
+        switchUnitStyle(style: UnitStyle) { lp.context.switchUnitStyle(style); },
     };
 
     const Provider = (props: { children: JSX.Element }) => {
@@ -244,7 +236,9 @@ export function buildContext(opt: OptContext, f: API) {
             <appContext.Provider value={ctx}>
                 {initNotify(opt.system.notification, opt.logo, 'error')}
                 {initDialog(opt.title, opt.system.dialog, 'surface')}
-                {props.children}
+                <lp.Provider>
+                    {props.children}
+                </lp.Provider>
             </appContext.Provider>
         </optContext.Provider>;
     };

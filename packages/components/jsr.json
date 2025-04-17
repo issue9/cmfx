@@ -1,0 +1,18 @@
+{
+    "name": "@cmfx/components",
+    "version": "0.9.2",
+    "license": "MIT",
+    "exports": {
+        ".": "./lib/index.d.ts",
+        "./pages": "./lib/pages.d.ts",
+        "./messages/en.lang": "./lib/messages/en.lang.d.ts",
+        "./messages/zh-Hans.lang": "./lib/messages/zh-Hans.lang.d.ts"
+    },
+    "publish": {
+        "include": [
+            "LICENSE",
+            "README.md",
+            "./lib/"
+        ]
+    }
+}
