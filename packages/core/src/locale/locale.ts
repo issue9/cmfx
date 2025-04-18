@@ -64,6 +64,19 @@ export class Locale {
     static languages(): Array<string> { return [...Locale.#messages.keys()]; }
 
     /**
+     * 以 locale 的指定的语言翻译 key 指向的内容
+     *
+     * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+     */
+    static translate<D extends Dict>(locale: string, key: string | Keys<D>, args?: TranslateArgs): string {
+        const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
+        if (!msgs) { return key as string; }
+
+        const f = msgs.get(key as string);
+        return (f ? f.format(args) : key) as string;
+    }
+
+    /**
      * 在当前支持的语言中找出与 l 最匹配的语言
      */
     static matchLanguage(l: string): string {
@@ -76,11 +89,6 @@ export class Locale {
      * 添加支持的语言及他它的翻译对象的加载方法
      */
     static async addDict(locale: string, ...loaders: Array<Loader>) {
-        let dict: Dict = {};
-        for(const l of loaders) {
-            dict = { ...dict, ...await l() };
-        }
-
         let msgs: Map<string, IntlMessageFormat>;
         if (Locale.#messages.has(locale)) {
             msgs = Locale.#messages.get(locale)!;
@@ -88,15 +96,17 @@ export class Locale {
             msgs = new Map<string, IntlMessageFormat>();
         }
 
-        Object.entries(flatten(dict)).forEach((item) => {
-            try {
-                msgs.set(item[0], new IntlMessageFormat(item[1], locale));
-            }catch (err) {
-                console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
-            }
-        });
+        for (const l of loaders) {
+            Object.entries(flatten(await l())).forEach((item) => {
+                try {
+                    msgs.set(item[0], new IntlMessageFormat(item[1], locale));
+                } catch (err) {
+                    console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
+                }
+            });
 
-        Locale.#messages.set(locale, msgs);
+            Locale.#messages.set(locale, msgs);
+        }
     }
 
     #current: Map<string, IntlMessageFormat>;
@@ -294,13 +304,7 @@ export class Locale {
      * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
     tt<D extends Dict>(locale: string, key: string | Keys<D>, args?: TranslateArgs): string {
-        const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
-        if (!msgs) {
-            return key as string;
-        }
-
-        const f = msgs.get(key as string);
-        return (f ? f.format(args) : key) as string;
+        return Locale.translate(locale, key, args);
     }
 }
 

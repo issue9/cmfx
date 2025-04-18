@@ -19,10 +19,11 @@ interface Props extends BaseProps {
 /**
  * 初始化弹出框的基本功能
  *
- * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，
- * 可用于替换对应的浏览器方法。
+ * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  *
- * 如果选项中的 system 的值为 true，那么对应的系统方法也会被替换。
+ * @param system 是否替换浏览器的默认弹出框；
+ * @param title 浏览器弹出框的标题；
+ * @param palette 浏览器弹出框的主题；
  */
 export function initDialog(title: string, system?: boolean, palette?: Palette): JSX.Element {
     if (system) {
@@ -130,4 +131,3 @@ function Prompt(props: Props): JSX.Element {
  * {@link window#prompt} 是阻塞模式的，而当前函数则是异步函数。
  */
 export async function prompt(msg?: string, val?: string): Promise<string | null> { return await promptInst(msg, val); }
-

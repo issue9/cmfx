@@ -40,10 +40,11 @@ export async function notify(title: string, body?: string, type?: Type, lang?: s
 /**
  * 注册全局通知组件
  *
- * NOTE: 该组件会在全局注册一个 {@link Window#notify} 方法。
- * 尽可能早地调用该组件，以使 {@link Window#notify} 方法处于可用状态。
+ * 尽可能早地调用该组件，以使当前方法处于可用状态。
  *
- * palette 默认的主题色，后续会被 notify 的 type 覆盖；
+ * @param system 是否将通知发送到操作系统的通知栏上；
+ * @param icon 如果 system 为 true，该参数指定弹出框上的图标；
+ * @param palette 默认的主题色，后续会被 notify 的 type 覆盖；
  */
 export function initNotify(system?: boolean, icon?: string, palette: Palette = 'error'): JSX.Element {
     const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps, 'del'>>>([]);

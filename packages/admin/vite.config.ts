@@ -58,22 +58,28 @@ export default defineConfig({
 
     resolve: {
         alias: {
+            '@cmfx/components/style.css': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../components/lib/style.css', import.meta.url))
+                : fileURLToPath(new URL('../components/src/style.css', import.meta.url)),
+
+            '@cmfx/components/tailwind.css': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../components/lib/tailwind.css', import.meta.url))
+                : fileURLToPath(new URL('../components/src/tailwind.css', import.meta.url)),
+            /* 
             '@cmfx/core': process.env.NODE_ENV == 'production'
                 ? fileURLToPath(new URL('../core/lib', import.meta.url))
                 : fileURLToPath(new URL('../core/src', import.meta.url)),
 
-            '@cmfx/components/style.css': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../components/lib/style.css', import.meta.url))
-                : fileURLToPath(new URL('../components/src/style.css', import.meta.url)),
             '@cmfx/components': process.env.NODE_ENV == 'production'
                 ? fileURLToPath(new URL('../components/lib', import.meta.url))
                 : fileURLToPath(new URL('../components/src', import.meta.url)),
+                */
 
             '@admin': fileURLToPath(new URL('./src', import.meta.url)),
 
             // 解决 @cmfx/core 和 @cmfx/components 在 dev 环境下的引用问题
-            '@core': fileURLToPath(new URL('../core/src', import.meta.url)),
-            '@components': fileURLToPath(new URL('../components/src', import.meta.url)),
+            //'@core': fileURLToPath(new URL('../core/src', import.meta.url)),
+            //'@components': fileURLToPath(new URL('../components/src', import.meta.url)),
         }
     },
 
@@ -84,7 +90,6 @@ export default defineConfig({
         lib: {
             entry: {
                 'index': './src/index.ts',
-                'pages': './src/pages/index.ts',
                 'messages/en.lang': './src/messages/en.lang.ts',
                 'messages/zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
             },

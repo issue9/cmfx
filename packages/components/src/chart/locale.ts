@@ -6,18 +6,24 @@ import { matchLocales } from '@cmfx/core';
 import * as echarts from 'echarts';
 
 /**
- * 为当前组件注册指定的本地化语言
+ * 注册与 l 最匹配的语言
  */
 export async function registerLocales(l: string) {
     const id = matchLocale(l);
-    const obj = (await import(`echarts/i18n/lang${id}.js`)).default;
+    if (!locales.includes(id)) { // echarts 未提供的语言则直接忽略加载。
+        return;
+    }
+
+    const obj = (await import(`../../../../node_modules/echarts/lib/i18n/lang${id}.js`)).default;
     echarts.registerLocale(id, obj);
 }
 
 /**
- * 从当前组支持的语言中查找与 l 最匹配的语言
+ * 从当前组件支持的语言中查找与 l 最匹配的语言
  */
-export function matchLocale(l: string) { return matchLocales(l, locales, l, {localeMatcher: 'best fit'}); }
+export function matchLocale(l: string): LocaleID {
+    return matchLocales(l, locales, l, {localeMatcher: 'best fit'}) as LocaleID;
+}
 
 // 当前组件支持的语言
 //
@@ -26,7 +32,7 @@ const locales = [
     'AR',
     'CS',
     'DE',
-    'EN',
+    //'EN', // echarts 已经默认导入
     'ES',
     'FA',
     'FI',
@@ -46,5 +52,7 @@ const locales = [
     'TR',
     'UK',
     'VI',
-    'ZH',
+    //'ZH', // echarts 已经默认导入
 ] as const;
+
+type LocaleID = typeof locales[number];

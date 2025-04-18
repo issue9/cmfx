@@ -2,14 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { buildLocale } from '@cmfx/components';
-import { API, Config, Locale, Problem, Return, Theme, Token, UnitStyle } from '@cmfx/core';
+import { NotifyType, build, initDialog, initNotify, notify } from '@cmfx/components';
+import { API, Config, Problem, Return, Theme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
 
-import { initDialog } from '@admin/components/dialog/system';
-import { NotifyType, notify } from '@admin/components/notify';
-import { initNotify } from '@admin/components/notify/notify';
 import { buildOptions } from './options';
 import { User } from './user';
 
@@ -27,7 +24,7 @@ const currentKey = 'current';
 /**
  * 提供应用内的全局操作方法
  */
-export function useApp(): AppContext {
+export function useAdmin(): AppContext {
     const ctx = useContext(appContext);
     if (!ctx) {
         throw '未找到正确的 appContext';
@@ -72,7 +69,24 @@ export function buildContext(opt: OptContext, f: API) {
     const conf = new Config(uid, opt.storage);
     Theme.init(conf, opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
     Theme.switchConfig(conf);
-    const lp = buildLocale(conf); 
+    const lp = build(conf, {
+        title: opt.title,
+        titleSeparator: opt.titleSeparator,
+        pageSizes: opt.api.pageSizes,
+        pageSize: opt.api.presetSize,
+        api: f,
+        outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+            if (!p) {
+                throw '发生了一个未知的错误，请联系管理员！';
+            }
+
+            if ((p.status === 401) && (opt.routes.public.home !== loc.pathname)) {
+                nav(opt.routes.public.home);
+            } else {
+                await notify(p.title, p.detail);
+            }
+        }
+    }); 
 
     const nav = useNavigate();
     const loc = useLocation();
@@ -143,15 +157,7 @@ export function buildContext(opt: OptContext, f: API) {
          * @param p 如果该值空，则会抛出异常；
          */
         async outputProblem<P>(p?: Problem<P>): Promise<void> {
-            if (!p) {
-                throw '发生了一个未知的错误，请联系管理员！';
-            }
-
-            if ((p.status === 401) && (opt.routes.public.home !== loc.pathname)) {
-                nav(opt.routes.public.home);
-            } else {
-                await this.notify(p.title, p.detail);
-            }
+            await lp.context.outputProblem(p);
         },
 
         /**
@@ -192,15 +198,7 @@ export function buildContext(opt: OptContext, f: API) {
          */
         async refetchUser() { await userData.refetch(); },
 
-        set title(v: string) {
-            if (v) {
-                v = v + opt.titleSeparator + opt.title;
-            } else {
-                v = opt.title;
-            }
-
-            document.title = v;
-        },
+        set title(v: string) { lp.context.title = v; },
 
         /**
         * 发送一条通知给用户
@@ -234,9 +232,9 @@ export function buildContext(opt: OptContext, f: API) {
     const Provider = (props: { children: JSX.Element }) => {
         return <optContext.Provider value={opt}>
             <appContext.Provider value={ctx}>
-                {initNotify(opt.system.notification, opt.logo, 'error')}
-                {initDialog(opt.title, opt.system.dialog, 'surface')}
                 <lp.Provider>
+                    {initNotify(opt.system.notification, opt.logo, 'error')}
+                    {initDialog(opt.title, opt.system.dialog, 'surface')}
                     {props.children}
                 </lp.Provider>
             </appContext.Provider>

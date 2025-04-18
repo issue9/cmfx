@@ -41,6 +41,7 @@ export default defineConfig({
             targets: [
                 { src: '../../LICENSE', dest: '../' },
                 { src: '../../.browserslistrc', dest: '../' },
+                { src: './src/tailwind.css', dest: './' },
             ]
         }),
         tailwindcss()
@@ -85,7 +86,7 @@ export default defineConfig({
         },
         rollupOptions: {
             // 不需要打包的内容
-            external: ['solid-js', 'solid-js/web', '@cmfx/core']
+            external: ['solid-js', 'solid-js/web', '@solidjs/router', '@cmfx/core']
         }
     }
 });

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useApp } from '@cmfx/admin';
+import { useAdmin } from '@cmfx/admin';
 import { Message } from '../locales';
 
 export default function Test() {
-    const ctx = useApp();
+    const ctx = useAdmin();
     ctx.locale().t<Message>('home');
     const ps = ctx.params();
     console.log(ps.id);

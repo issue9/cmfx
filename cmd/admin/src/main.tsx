@@ -5,17 +5,15 @@
 import '@cmfx/admin/style.css';
 import './style.css';
 
-import { AppOptions, Routes, MenuItem, Card, Label } from '@cmfx/admin';
-import { createApp } from '@cmfx/admin';
+import { AppOptions, createApp, MenuItem, Routes } from '@cmfx/admin';
 import * as pages from '@cmfx/admin/pages';
+import { Card, Label } from '@cmfx/components';
 
-import { Demo } from './demo';
 import { default as Test } from './pages/test';
 
 //const urlBase = 'http://192.168.10.10:8080/admin';
 const urlBase = 'http://localhost:8080/admin';
 
-const demo = new Demo('/demo');
 const roles = pages.roles.build('/roles');
 const admins = pages.admins.build('/admins');
 const system = pages.system.build('/system');
@@ -56,7 +54,6 @@ const routes: Routes = {
             ...roles.routes(),
             ...admins.routes(),
             ...system.routes(),
-            ...demo.routes(),
             ...current.routes(),
             ...members.routes(),
         ]
@@ -86,7 +83,6 @@ const menus: Array<MenuItem> = [
             }
         ]
     },
-    ...demo.menus()
 ];
 
 const o: AppOptions = {
@@ -102,10 +98,12 @@ const o: AppOptions = {
     locales: {
         messages: {
             'en': [
+                async () => { return (await import('@cmfx/components/messages/en.lang')).default; },
                 async () => { return (await import('@cmfx/admin/messages/en.lang')).default; },
                 async () => { return (await import('./locales/en')).default; },
             ],
             'zh-Hans': [
+                async () => { return (await import('@cmfx/components/messages/zh-Hans.lang')).default; },
                 async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang')).default; },
                 async () => { return (await import('./locales/zh-Hans')).default; },
             ],

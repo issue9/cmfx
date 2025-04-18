@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Column, Label, Page, RemoteTable } from '@cmfx/components';
 import { Duration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { Column, Label, Page, RemoteTable, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 
 interface API {
     method: string;
@@ -31,7 +32,7 @@ interface Q extends Query {
 }
 
 export function APIs(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
 
     const queries: Q = {
         method: ['GET', 'DELETE', 'PUT', 'PATCH', 'POST'],

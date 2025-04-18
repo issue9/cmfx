@@ -8,4 +8,6 @@ export type { FieldArea, FieldProps } from './field';
 export { FieldAccessor } from './access';
 export type { Accessor, ChangeFunc } from './access';
 
+export { translateEnums2Options } from './types';
 export type { AutoComplete, FieldBaseProps, InputMode, Option, Options } from './types';
+

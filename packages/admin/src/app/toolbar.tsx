@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Item, Label, Menu } from '@cmfx/components';
 import { Locale } from '@cmfx/core';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
-import { Button, Item, Label, Menu, MenuItem, useApp, useOptions } from '@admin/components';
+import { MenuItem, useAdmin, useOptions } from '@admin/context';
 import { Search } from './search';
 
 export interface MenuVisibleProps {
@@ -21,7 +22,7 @@ type Props = MenuVisibleProps & {
  * 顶部工具栏
  */
 export default function Toolbar(props: Props) {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
 
     createEffect(() => {
@@ -63,7 +64,7 @@ export default function Toolbar(props: Props) {
  * 用户名及其下拉菜单
  */
 function Username(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
     const [visible, setVisible] = createSignal(false);
 
@@ -82,7 +83,7 @@ function Username(): JSX.Element {
  * 顶部全屏按钮
  */
 function Fullscreen(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
 
     const toggleFullscreen = async() => {

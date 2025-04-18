@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Checkbox, Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { Button, Checkbox, Page, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 
 interface Resource {
     id: string;
@@ -19,7 +20,7 @@ interface RoleResource {
 }
 
 export function Permission(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const ps = useParams<{id: string}>();
     const nav = ctx.navigate();
     const [parent, setParent] = createSignal<Array<string>>([], {equals: false});

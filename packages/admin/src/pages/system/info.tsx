@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { AxisChart, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 
-import { AxisChart, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 
 const mb = 1024 * 1024;
 
 export function Info(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
 
     const [info] = createResource(async()=>{
         const ret = await ctx.api.get<Info>('/system/info');

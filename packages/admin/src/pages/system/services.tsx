@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Column, Label, LoaderTable, Page, translateEnum } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { JSX, createMemo } from 'solid-js';
 
-import { Column, Label, LoaderTable, Page, translateEnum, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 import { MessagesKey } from '@admin/messages';
 
 interface Service {
@@ -36,7 +37,7 @@ export const stateMap: Array<[State, MessagesKey]> = [
  * 服务列表页面
  */
 export function Services(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
 
     const items = createMemo(async()=>{
         const ret = await ctx.api.get<Service>('/system/services');
@@ -53,7 +54,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: ctx.locale().t('_i.page.system.title')},
                 {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
-                    return translateEnum(stateMap, ctx, v);
+                    return translateEnum(stateMap, ctx, v!);
                 }) as Column<Task>['content']},
                 {id: 'err', label: ctx.locale().t('_i.page.system.error')},
             ]} />
@@ -66,7 +67,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: ctx.locale().t('_i.page.system.title')},
                 {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
-                    return translateEnum(stateMap, ctx, v);
+                    return translateEnum(stateMap, ctx, v!);
                 }) as Column<Job>['content']},
                 {id: 'err', label: ctx.locale().t('_i.page.system.error')},
                 {id: 'next', label: ctx.locale().t('_i.page.system.next'), content: (_: string, val?: string) => { return ctx.locale().datetime(val); }},

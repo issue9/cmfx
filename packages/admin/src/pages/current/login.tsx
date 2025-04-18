@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Choice, FieldAccessor, Page, translateEnums2Options } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
-import { buildEnumsOptions, Choice, FieldAccessor, Page, useApp, useOptions } from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 import { Passport } from '@admin/pages/common';
 import { PassportComponents } from './passports';
 
@@ -32,7 +33,7 @@ interface Link {
  * 登录页面
  */
 export function Login(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
 
     return <Switch>
@@ -42,7 +43,7 @@ export function Login(props: Props): JSX.Element {
 }
 
 function LoginBox(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const [q,setQ] = useSearchParams<{ type: string }>();
 
     ctx.api.cache('/passports');
@@ -64,7 +65,7 @@ function LoginBox(props: Props): JSX.Element {
         <div class="form">
             <div class="title">
                 <p class="text-2xl">{ctx.locale().t('_i.page.current.login')}</p>
-                <Choice class='min-w-40' accessor={passport} options={buildEnumsOptions(passports(), ctx)} />
+                <Choice class='min-w-40' accessor={passport} options={translateEnums2Options(passports(), ctx)} />
             </div>
             {props.passports.get(passport.getValue())?.Login()}
         </div>

@@ -15,6 +15,7 @@ export const routes = [
     { path: '/divider', component: lazy(() => import('@components/divider/demo')) },
     { path: '/errors', component: lazy(() => import('@components/error/demo')) },
     { path: '/icon', component: lazy(() => import('@components/icon/demo')) },
+    { path: '/notify', component: lazy(() => import('@components/notify/demo')) },
     { path: '/pagination', component: lazy(() => import('@components/pagination/demo')) },
     { path: '/page', component: lazy(() => import('@components/page/demo')) },
     { path: '/qrcode', component: lazy(() => import('@components/qrcode/demo')) },

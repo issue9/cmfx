@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Form, FormAccessor, Icon, LinkButton, Page, Password, TextField } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
-import { Button, Form, FormAccessor, Icon, LinkButton, Page, Password, TextField, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 import { Sex, SexSelector } from '@admin/pages/common';
 import { roles } from '@admin/pages/roles';
 
@@ -16,7 +17,7 @@ interface Props {
 }
 
 export function New(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
 
     const form = new FormAccessor<Admin>(zeroAdmin(), ctx, async (obj) => {
         return await ctx.api.post('/admins', obj);

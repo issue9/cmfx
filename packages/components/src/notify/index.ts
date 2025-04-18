@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { notify, types as notifyTypes } from './notify';
+export { initNotify, notify, types as notifyTypes } from './notify';
 export type { Type as NotifyType } from './notify';
 
