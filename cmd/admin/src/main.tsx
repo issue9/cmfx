@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import '@cmfx/admin/style.css';
 import './style.css';
 
-import { AppOptions, createApp, MenuItem, Routes } from '@cmfx/admin';
-import * as pages from '@cmfx/admin/pages';
+import { admins, AppOptions, createApp, current, members, MenuItem, roles, Routes, system } from '@cmfx/admin';
 import { Card, Label } from '@cmfx/components';
 
 import { default as Test } from './pages/test';
@@ -14,13 +12,13 @@ import { default as Test } from './pages/test';
 //const urlBase = 'http://192.168.10.10:8080/admin';
 const urlBase = 'http://localhost:8080/admin';
 
-const roles = pages.roles.build('/roles');
-const admins = pages.admins.build('/admins');
-const system = pages.system.build('/system');
-const members = pages.members.build('/members');
-const current = pages.current.build('/current', () => {
+const rolesPage = roles.build('/roles');
+const adminsPage = admins.build('/admins');
+const systemPage = system.build('/system');
+const membersPage = members.build('/members');
+const currentPage = current.build('/current', () => {
     return <>
-        <pages.current.MemberStatisticPanel />
+        <current.MemberStatisticPanel />
         <div class="flex gap-4">
             <Card class="basis-1/2">1/2</Card>
             <Card class="basis-1/2">1/2</Card>
@@ -39,7 +37,7 @@ const routes: Routes = {
     public: {
         home: '/login',
         routes: [
-            { path: '/login', component: ()=><pages.current.Login footer={[
+            { path: '/login', component: ()=><current.Login footer={[
                 {title: '&copy; 2024 by Example .Inc', link: 'https://example.com'},
                 {title: 'text'},
                 {title: 'repo', link: 'https://github.com/issue/cmfx'},
@@ -49,13 +47,13 @@ const routes: Routes = {
     private: {
         home: '/current/dashboard',
         routes: [
-            { path: ['/dashboard', '/'], component: pages.current.Dashboard },
+            { path: ['/dashboard', '/'], component: current.Dashboard },
             { path: '/test/:id/test', component: Test },
-            ...roles.routes(),
-            ...admins.routes(),
-            ...system.routes(),
-            ...current.routes(),
-            ...members.routes(),
+            ...rolesPage.routes(),
+            ...adminsPage.routes(),
+            ...systemPage.routes(),
+            ...currentPage.routes(),
+            ...membersPage.routes(),
         ]
     }
 };
@@ -67,18 +65,18 @@ const menus: Array<MenuItem> = [
         type: 'group', label: 'system', items: [
             {
                 type: 'item', label: 'administrator', icon: 'admin_panel_settings', items: [
-                    ...roles.menus(),
-                    ...admins.menus(),
+                    ...rolesPage.menus(),
+                    ...adminsPage.menus(),
                 ]
             },
             {
                 type: 'item', label: '_i.page.system.system', icon: 'host', items: [
-                    ...system.menus(),
+                    ...systemPage.menus(),
                 ]
             },
             {
                 type: 'item', label: '_i.page.member.member', icon: 'supervisor_account', items: [
-                    ...members.menus(),
+                    ...membersPage.menus(),
                 ]
             }
         ]
@@ -98,13 +96,13 @@ const o: AppOptions = {
     locales: {
         messages: {
             'en': [
-                async () => { return (await import('@cmfx/components/messages/en.lang')).default; },
-                async () => { return (await import('@cmfx/admin/messages/en.lang')).default; },
+                async () => { return (await import('@cmfx/components/messages/en.lang.js')).default; },
+                async () => { return (await import('@cmfx/admin/messages/en.lang.js')).default; },
                 async () => { return (await import('./locales/en')).default; },
             ],
             'zh-Hans': [
-                async () => { return (await import('@cmfx/components/messages/zh-Hans.lang')).default; },
-                async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang')).default; },
+                async () => { return (await import('@cmfx/components/messages/zh-Hans.lang.js')).default; },
+                async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang.js')).default; },
                 async () => { return (await import('./locales/zh-Hans')).default; },
             ],
         },
@@ -125,7 +123,7 @@ const o: AppOptions = {
     aside: {
         menus: menus,
     },
-    userMenus: current.menus()
+    userMenus: currentPage.menus()
 };
 
 createApp('app', o);

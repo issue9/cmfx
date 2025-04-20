@@ -31,13 +31,6 @@ export default defineConfig({
             '@cmfx/components/demo': fileURLToPath(new URL('../../packages/components/src/demo', import.meta.url)), // demo 始终指向 components/src
             '@components': fileURLToPath(new URL('../../packages/components/src', import.meta.url)),
             '@core': fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
-
-            '@cmfx/components': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../../packages/components/lib', import.meta.url))
-                : fileURLToPath(new URL('../../packages/components/src', import.meta.url)),
-            '@cmfx/core': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../../packages/core/lib', import.meta.url))
-                : fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
         }
     },
 

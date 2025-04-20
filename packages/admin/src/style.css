@@ -7,7 +7,6 @@
 @import 'tailwindcss' source('.');
 @import 'material-symbols';
 
-@import '@cmfx/components/style.css';
 @import '@cmfx/components/tailwind.css';
 
 @import './pages/style.css';

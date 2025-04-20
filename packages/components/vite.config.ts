@@ -57,15 +57,6 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            /* 
-            '@cmfx/core/style.css': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../core/lib/style.css', import.meta.url))
-                : fileURLToPath(new URL('../core/src/theme/theme.css', import.meta.url)),
-            '@cmfx/core': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../core/lib', import.meta.url))
-                : fileURLToPath(new URL('../core/src', import.meta.url)),
-                */
-
             '@components': fileURLToPath(new URL('./src', import.meta.url)),
         }
     },
