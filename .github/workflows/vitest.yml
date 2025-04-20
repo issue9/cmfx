@@ -2,40 +2,55 @@ name: Vitest
 on: [push, pull_request]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+    test:
+        runs-on: ubuntu-latest
 
-    permissions:
-      # Required to checkout the code
-      contents: read
-      # Required to put a comment into the pull-request
-      pull-requests: write
+        permissions:
+            # Required to checkout the code
+            contents: read
+            # Required to put a comment into the pull-request
+            pull-requests: write
 
-    steps:
-      - uses: actions/checkout@v4
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Install Node
-        uses: actions/setup-node@v4
-        with:
-            node-version: "23.x"
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "23.x"
 
-      - name: Install Deps
-        run: npm install
+            - name: Install Deps
+              run: npm install
 
-      - name: Test-core
-        run: npm run test -w=@cmfx/core
+              # core
 
-      - name: Upload @cmfx/core test to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-            token: ${{secrets.CODECOV_TOKEN}}
-            files: ./packages/core/coverage/report.json
+            - name: Test-core
+              run: npm run test -w=@cmfx/core
 
-      - name: Test-admin
-        run: npm run test -w=@cmfx/admin
+            - name: Upload @cmfx/core test to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  files: ./packages/core/coverage/report.json
 
-      - name: Upload @cmfx/admin test to Codecov
-        uses: codecov/codecov-action@v5
-        with:
-            token: ${{secrets.CODECOV_TOKEN}}
-            files: ./packages/admin/coverage/report.json
+              # components
+
+            - name: Test-components
+              run: npm run test -w=@cmfx/components
+
+            - name: Upload @cmfx/components test to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  files: ./packages/components/coverage/report.json
+
+              # admin
+
+            - name: Test-admin
+              run: npm run test -w=@cmfx/admin
+
+            - name: Upload @cmfx/admin test to Codecov
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  files: ./packages/admin/coverage/report.json
