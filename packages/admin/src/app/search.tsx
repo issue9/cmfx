@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, TextField, TextFieldRef } from '@cmfx/components';
 import { Locale } from '@cmfx/core';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
-import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, MenuItem, TextField, TextFieldRef, useApp, useOptions } from '@admin/components';
+import { MenuItem, useAdmin, useOptions } from '@admin/context';
 
 interface Item {
     value: string;
@@ -20,7 +21,7 @@ export interface Props {
  * 顶部搜索框
  */
 export function Search(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
     let dlgRef: DialogRef;
     let listRef: HTMLUListElement;

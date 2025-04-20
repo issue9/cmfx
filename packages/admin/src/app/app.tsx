@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Drawer, Hotkey, List, registerChartLocales } from '@cmfx/components';
 import { API, Locale } from '@cmfx/core';
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, Drawer, Hotkey, List, registerChartLocales, useApp, useOptions } from '@admin/components';
-import { buildContext, OptContext } from '@admin/components/context/context';
-import { buildOptions } from '@admin/components/context/options';
+import { AppOptions, useAdmin, useOptions } from '@admin/context';
+import { buildContext, OptContext } from '@admin/context/context';
+import { buildOptions } from '@admin/context/options';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
@@ -85,7 +86,7 @@ type PrivateProps = ParentProps<MenuVisibleProps & {
 }>;
 
 function Private(props: PrivateProps): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
 
     return <Switch>

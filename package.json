@@ -18,8 +18,10 @@
     "license": "MIT",
     "workspaces": [
         "cmd/admin",
-        "packages/admin",
-        "packages/core"
+        "cmd/components",
+        "packages/core",
+        "packages/components",
+        "packages/admin"
     ],
     "scripts": {
         "lint": "eslint"

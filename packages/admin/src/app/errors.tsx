@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, ErrorProps, Error as XError } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { Button, ErrorProps, Error as XError, useApp, useOptions } from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 
 export function NotFound(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
     const nav = useNavigate();
 
@@ -22,7 +23,7 @@ export function NotFound(): JSX.Element {
  * 一些未知的错误统一使用此方法
  */
 export function Unknown(err: any) {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
     const nav = useNavigate();
 

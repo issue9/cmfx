@@ -1,10 +1,9 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
+import { IconSymbol, Page } from '@cmfx/components';
 import { JSX, ParentProps } from 'solid-js';
-
-import { IconSymbol, Page } from '@admin/components';
 
 export function Dashboard(props: ParentProps): JSX.Element {
     return <Page title='_i.page.current.dashboard' class="p--dashboard">

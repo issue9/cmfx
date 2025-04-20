@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import {
+    Button, Choice, Divider, file2Base64, Form, FormAccessor, Icon,
+    Page, TextField, translateEnums2Options, Upload, UploadRef
+} from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import {
-    buildEnumsOptions, Button, Choice, Divider, file2Base64, Form,
-    FormAccessor, Icon, Page, TextField, Upload, UploadRef, useApp, useOptions,
-    User
-} from '@admin/components';
+import { useAdmin, useOptions, User } from '@admin/context';
 import { Passport, Sex, sexesMap } from '@admin/pages/common';
 import { PassportComponents } from './passports';
 
@@ -18,7 +18,7 @@ interface Props {
 
 export function Profile(props: Props): JSX.Element {
     const opt = useOptions();
-    const ctx = useApp();
+    const ctx = useAdmin();
     let uploadRef: UploadRef;
 
     const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, ctx, (obj)=>{
@@ -115,7 +115,7 @@ export function Profile(props: Props): JSX.Element {
         <Form formAccessor={infoAccess} class="form">
             <TextField class="w-full" label={ctx.locale().t('_i.page.current.name')} accessor={nameA} />
             <TextField class="w-full" label={ctx.locale().t('_i.page.current.nickname')} accessor={nicknameA} />
-            <Choice class="w-full" label={ctx.locale().t('_i.page.sex')} accessor={sexA} options={buildEnumsOptions(sexesMap, ctx)} />
+            <Choice class="w-full" label={ctx.locale().t('_i.page.sex')} accessor={sexA} options={translateEnums2Options(sexesMap, ctx)} />
 
             <div class="actions">
                 <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.reset')}</Button>

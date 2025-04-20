@@ -58,15 +58,7 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            '@cmfx/core/style.css': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../core/lib/style.css', import.meta.url))
-                : fileURLToPath(new URL('../core/src/theme/theme.css', import.meta.url)),
-            '@cmfx/core': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../core/lib', import.meta.url))
-                : fileURLToPath(new URL('../core/src', import.meta.url)),
-
             '@admin': fileURLToPath(new URL('./src', import.meta.url)),
-            '@core': fileURLToPath(new URL('../core/src', import.meta.url)), // 解决 @cmfx/core 在 dev 环境下的引用问题
         }
     },
 
@@ -77,7 +69,6 @@ export default defineConfig({
         lib: {
             entry: {
                 'index': './src/index.ts',
-                'pages': './src/pages/index.ts',
                 'messages/en.lang': './src/messages/en.lang.ts',
                 'messages/zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
             },
@@ -87,7 +78,7 @@ export default defineConfig({
         },
         rollupOptions: {
             // 不需要打包的内容
-            external: ['solid-js', 'solid-js/web']
+            external: ['solid-js', 'solid-js/web', '@cmfx/core', '@cmfx/components']
         }
     }
 });

@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import {
+    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
+    Icon, Label, RemoteTable, RemoteTableRef, TextField
+} from '@cmfx/components';
 import { Token } from '@cmfx/core';
 import { base64urlnopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
 
-import {
-    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, Label, RemoteTable, RemoteTableRef, TextField, useApp, useOptions
-} from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 export class Webauthn implements PassportComponents {
@@ -26,7 +27,7 @@ export class Webauthn implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const ctx = useApp();
+        const ctx = useAdmin();
         const opt = useOptions();
         const nav = useNavigate();
         const account = FieldAccessor('account', '', true);
@@ -93,7 +94,7 @@ export class Webauthn implements PassportComponents {
     }
 
     Actions(f: RefreshFunc): JSX.Element {
-        const ctx = useApp();
+        const ctx = useAdmin();
         let dialogRef: DialogRef;
         let tableRef: RemoteTableRef<Credential>;
 

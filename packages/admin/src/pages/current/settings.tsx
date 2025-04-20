@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioGroup } from '@cmfx/components';
 import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { Choice, Description, Divider, FieldAccessor, Options, Page, RadioGroup, useApp, useOptions } from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 
 export function Settings(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
 
     const modeFA = FieldAccessor<Mode>('mode', Theme.mode());
@@ -17,7 +18,7 @@ export function Settings(): JSX.Element {
     const contrastFA = FieldAccessor<Contrast>('contrast', Theme.contrast());
     contrastFA.onChange((m) => { Theme.setContrast(m); });
 
-    const schemesOptions: Options<number> = [];
+    const schemesOptions: FieldOptions<number> = [];
     for (const s of opt.theme.schemes) {
         schemesOptions.push([s.primary, <ColorBlock s={s} />]);
     }

@@ -29,19 +29,26 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            '@cmfx/admin/demo': fileURLToPath(new URL('../../packages/admin/src/demo', import.meta.url)), // demo 始终指向 admin/src
-            '@admin': fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
-            '@core': fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
+            '@cmfx/admin/style.css': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../packages/admin/lib/style.css', import.meta.url))
+                : fileURLToPath(new URL('../../packages/admin/src/style.css', import.meta.url)),
+            '@cmfx/components/tailwind.css': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../packages/components/lib/tailwind.css', import.meta.url))
+                : fileURLToPath(new URL('../../packages/components/src/tailwind.css', import.meta.url)),
 
-            '@cmfx/core/style.css': process.env.NODE_ENV == 'production'
-                ? fileURLToPath(new URL('../../packages/core/lib/style.css', import.meta.url))
-                : fileURLToPath(new URL('../../packages/core/src/theme/theme.css', import.meta.url)),
             '@cmfx/core': process.env.NODE_ENV == 'production'
                 ? fileURLToPath(new URL('../../packages/core/lib', import.meta.url))
                 : fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
             '@cmfx/admin': process.env.NODE_ENV == 'production'
                 ? fileURLToPath(new URL('../../packages/admin/lib', import.meta.url))
                 : fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
+            '@cmfx/components': process.env.NODE_ENV == 'production'
+                ? fileURLToPath(new URL('../../packages/components/lib', import.meta.url))
+                : fileURLToPath(new URL('../../packages/components/src', import.meta.url)),
+
+            '@admin': fileURLToPath(new URL('../../packages/admin/src', import.meta.url)),
+            '@core': fileURLToPath(new URL('../../packages/core/src', import.meta.url)),
+            '@components': fileURLToPath(new URL('../../packages/components/src', import.meta.url)),
         }
     },
 

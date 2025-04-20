@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Description } from '@cmfx/components';
 import { JSX, createSignal, onMount } from 'solid-js';
 
-import { Description, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 
 export function MemStatistic(): JSX.Element {
     const [statistic, setStatistic] = createSignal<Statistic>({
@@ -16,7 +17,7 @@ export function MemStatistic(): JSX.Element {
         day: 0,
     });
     
-    const ctx = useApp();
+    const ctx = useAdmin();
     
     onMount(async () => {
         const r = await ctx.api.get<Statistic>('/statistic/member');

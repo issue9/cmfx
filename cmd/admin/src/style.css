@@ -1,11 +1,16 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 /* 项目中必须引入此文件，否则像 basis-1/2 之类的会不启作用 */
 @import 'tailwindcss' source('.');
+
+@import '@cmfx/core/style.css';
+@import '@cmfx/components/style.css';
+@import '@cmfx/components/tailwind.css';
+@import '@cmfx/admin/style.css';
 
 .test {
     color: red;

@@ -2,16 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Choice, ChoiceProps, FieldOptions } from '@cmfx/components';
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { Choice, ChoiceProps, Options, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 import { Role } from './roles';
 
 export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;
 
 export function Selector<M extends boolean>(props: Props<M>): JSX.Element {
-    const [roles, setRoles] = createSignal<Options<string>>([]);
-    const ctx = useApp();
+    const [roles, setRoles] = createSignal<FieldOptions<string>>([]);
+    const ctx = useAdmin();
 
     onMount(async () => {
         const r = await ctx.api.get<Array<Role>>('/roles');
@@ -20,7 +21,7 @@ export function Selector<M extends boolean>(props: Props<M>): JSX.Element {
             return;
         }
 
-        const rs: Options<string> = [];
+        const rs: FieldOptions<string> = [];
         for (const o of r.body!) {
             rs.push([o.id!, o.name]);
         }

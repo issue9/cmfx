@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Page } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
-import { Page, useApp, useOptions } from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 
 export function Logout(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const nav = useNavigate();
     const opt = useOptions();
 

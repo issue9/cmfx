@@ -7,7 +7,7 @@
 前端部分提供了后台的管理的基本框架，可通过以下命令安装依赖：
 
 ```bash
-npm i @cmfx/admin
+npm i @cmfx/admin @cmfx/core @cmfx/components
 ```
 
 当然也可以直接在当前项目的 [cmd/admin](/cmd/admin) 下作开发。
@@ -32,6 +32,15 @@ npm i @cmfx/admin
 - surface
 
 各个组件可通过指定 palette 属性指定其颜色。
+
+### 样式
+
+样式表需要引用各个包中的 CSS 文件：
+
+ - @cmfx/core/style.css
+ - @cmfx/components/style.css
+ - @cmfx/components/tailwind.css tailwindcss 的一些自定义属性
+ - @cmfx/admin/style.css
 
 ## 后端
 

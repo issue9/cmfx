@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField, useApp, useOptions } from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 interface PasswordAccount {
@@ -34,7 +35,7 @@ export class Pwd implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const ctx = useApp();
+        const ctx = useAdmin();
         const opt = useOptions();
         const nav = useNavigate();
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
@@ -61,7 +62,7 @@ export class Pwd implements PassportComponents {
 
     Actions(__: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
-        const ctx = useApp();
+        const ctx = useAdmin();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
 
         return <>

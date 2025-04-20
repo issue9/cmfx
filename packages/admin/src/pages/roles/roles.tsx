@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX } from 'solid-js';
-import { Return } from '@cmfx/core';
-
 import {
     Button, Column, Dialog, DialogRef, LinkButton, ObjectAccessor,
-    Page, RemoteTable, RemoteTableRef, TextArea, TextField, useApp
-} from '@admin/components';
+    Page, RemoteTable, RemoteTableRef, TextArea, TextField
+} from '@cmfx/components';
+import { Return } from '@cmfx/core';
+import { JSX } from 'solid-js';
+
+import { useAdmin } from '@admin/context';
 
 export interface Role {
     id?: string;
@@ -25,7 +26,7 @@ interface Props {
 }
 
 export function Roles(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     let tableRef: RemoteTableRef<Role>;
     let dialogRef: DialogRef;
     const current = new ObjectAccessor({} as Role);

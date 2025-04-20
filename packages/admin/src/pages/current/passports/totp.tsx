@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
+import {
+    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
+    Icon, ObjectAccessor, QRCode, TextField
+} from '@cmfx/components';
 import { base32nopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, JSX, Show } from 'solid-js';
 
-import {
-    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, ObjectAccessor, QRCode, TextField, useApp, useOptions
-} from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 // 登录框的字段
@@ -40,7 +41,7 @@ export class TOTP implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const ctx = useApp();
+        const ctx = useAdmin();
         const opt = useOptions();
         const nav = useNavigate();
 
@@ -68,7 +69,7 @@ export class TOTP implements PassportComponents {
     }
 
     Actions(f: RefreshFunc, username?: string): JSX.Element {
-        const ctx = useApp();
+        const ctx = useAdmin();
         const opt = useOptions();
         
         let dialogRef: DialogRef;

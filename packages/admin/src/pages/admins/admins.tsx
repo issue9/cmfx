@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@admin/pages/common';
 
 interface Props {
@@ -22,7 +23,7 @@ interface Q extends Query {
 }
 
 export function Admins(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
 
     const q: Q = {
         text: '',

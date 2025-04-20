@@ -22,11 +22,27 @@ describe('Locale', async () => {
         await Locale.addDict('cmn-Hans', async () => { return { 'lang': 'cmn-Hans' }; });
         expect(Locale.languageSize()).toEqual(2);
 
-        await Locale.addDict('en', async () => { return { 'lang': 'en-US' }; });
+        await Locale.addDict('en', async () => { return { 'lang': { '1': { '11': '11' } } }; });
         expect(Locale.languageSize()).toEqual(2);
+        expect(Locale.translate('en', 'lang.1.11')).toEqual('11');
+
+        await Locale.addDict('en', async () => { return { 'lang': { '1': { '22': '22' } } }; });
+        expect(Locale.languageSize()).toEqual(2);
+        expect(Locale.translate('en', 'lang.1.11')).toEqual('11');
+        expect(Locale.translate('en', 'lang.1.22')).toEqual('22');// 应该是合并而不是覆盖
+
+        // 一次传递多个加载函数，应该是合并而不是覆盖
+        await Locale.addDict('en', 
+            async () => { return { 'lang': { '2': { '11': '11' } } }; },
+            async () => { return { 'lang': { '2': { '22': '22' } } }; },
+        );
+        expect(Locale.translate('en', 'lang.2.11')).toEqual('11');
+        expect(Locale.translate('en', 'lang.2.22')).toEqual('22');
     });
 
-    test('t/tt', () => {
+    test('t/tt', async () => {
+        await Locale.addDict('en', async () => { return { 'lang': 'en-US' }; });
+
         let l = new Locale(c, 'cmn-Hans', 'narrow');
         expect(l).not.toBeUndefined();
         expect(l.tt('cmn-Hans', 'lang')).toEqual('cmn-Hans');

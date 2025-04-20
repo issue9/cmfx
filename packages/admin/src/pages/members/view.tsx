@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { Page, useApp, useOptions } from '@admin/components';
+import { useAdmin, useOptions } from '@admin/context';
 import { Passport, sexesMap, statesMap } from '@admin/pages/common';
 import { Member } from './types';
 
@@ -25,7 +26,7 @@ export interface Props {
 }
 
 export function View(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const opt = useOptions();
     const id = parseInt(useParams().id);
     const [member, setMember] = createSignal<Member>({

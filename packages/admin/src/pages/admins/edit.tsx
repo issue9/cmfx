@@ -2,10 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
-import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField, useApp, User } from '@admin/components';
+import { useAdmin, User } from '@admin/context';
 import { Passport, Sex, SexSelector } from '@admin/pages/common';
 import { roles } from '@admin/pages/roles';
 
@@ -17,7 +18,7 @@ interface Props {
 }
 
 export function Edit(props: Props): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
     const ps = useParams<{id: string}>();
 
     const [passports, setPassports] = createSignal<Array<Passport>>([]);

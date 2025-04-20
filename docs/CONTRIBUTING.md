@@ -78,6 +78,7 @@ fi
 1. `make init` 初始化项目的数据库等信息；
 1. `make watch-server` 热编译后端代码，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
 1. `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
+1. `make watch-components` 热编译前端组件库代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
 1. 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
 
 ## 开发
@@ -88,10 +89,13 @@ fi
 - cmfx 后端源码的主目录；
 - docs 文档；
 - packages 前端相关的代码；
+- packages/core 前端的核心代码库；
+- packages/components 前端组件库；
+- packages/admin 前端的后台管理界面；
 
 ### 本地化
 
-后端的本地化信息在 `cmfx/locales` 目录之下；前端的本地化信息在 `packages/admin/src/messages` 目录之下。
+后端的本地化信息在 `cmfx/locales` 目录之下；前端的本地化信息在 `packages/**/src/messages` 目录之下。
 
 ### 前端
 

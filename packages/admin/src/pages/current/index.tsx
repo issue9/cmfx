@@ -4,7 +4,7 @@
 
 import { Component, JSX } from 'solid-js';
 
-import { MenuItem, Route } from '@admin/components';
+import { MenuItem, Route } from '@admin/context';
 import { Pages } from '@admin/pages/pages';
 import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';

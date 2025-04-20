@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Page, RemoteTable, TextField } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { Page, RemoteTable, TextField, useApp } from '@admin/components';
+import { useAdmin } from '@admin/context';
 
 interface SecurityLog {
     content: string;
@@ -16,7 +17,7 @@ interface SecurityLog {
 }
 
 export function SecurityLogs(): JSX.Element {
-    const ctx = useApp();
+    const ctx = useAdmin();
 
     const q: Query = {
         page: 1,

@@ -2,10 +2,16 @@
     "files": [],
     "references": [
         {
+            "path": "./packages/core/tsconfig.json"
+        },
+        {
+            "path": "./packages/components/tsconfig.json"
+        },
+        {
             "path": "./packages/admin/tsconfig.json"
         },
         {
-            "path": "./packages/core/tsconfig.json"
+            "path": "./cmd/components/tsconfig.json"
         },
         {
             "path": "./cmd/admin/tsconfig.json"
