@@ -32,7 +32,7 @@ const locales = [
     'AR',
     'CS',
     'DE',
-    //'EN', // echarts 已经默认导入
+    'EN', // echarts 已经默认导入，但是还需要作语言匹配，所以不能省略。
     'ES',
     'FA',
     'FI',
@@ -52,7 +52,7 @@ const locales = [
     'TR',
     'UK',
     'VI',
-    //'ZH', // echarts 已经默认导入
+    'ZH', 
 ] as const;
 
 type LocaleID = typeof locales[number];

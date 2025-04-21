@@ -7,6 +7,8 @@
 前端部分提供了后台的管理的基本框架，可通过以下命令安装依赖：
 
 ```bash
+npm i typescript vite vite-plugin-solid @tailwindcss/vite
+npm i @solidjs/router @solidjs/router solid-js
 npm i @cmfx/admin @cmfx/core @cmfx/components
 ```
 
