@@ -1,0 +1,33 @@
+packages:
+  - packages/**
+  - cmd/components
+  - cmd/admin
+
+catalog:
+  '@types/node': ^22.14.1
+  '@vitest/coverage-v8': ^3.1.1
+  jsdom: ^26.1.0
+  typescript: ^5.8.3
+  vite: ^6.3.2
+  vite-plugin-dts: ^4.5.3
+  vite-plugin-static-copy: ^2.3.1
+  vitest: ^3.1.1
+  vitest-fetch-mock: ^0.4.5
+  vite-plugin-solid: ^2.11.6
+  postcss: ^8.5.3
+  autoprefixer: ^10.4.21
+  cssnano: ^7.0.6
+  '@tailwindcss/vite': ^4.1.4
+  '@solidjs/testing-library': ^0.8.10
+  '@testing-library/jest-dom': ^6.6.3
+  '@testing-library/user-event': ^14.6.1
+  solid-devtools: ^0.34.0
+  '@formatjs/intl-durationformat': ^0.7.4
+  intl-messageformat: ^10.7.16
+  '@solidjs/router': ^0.15.3
+  solid-js: ^1.9.5
+  tailwindcss: ^4.1.4
+  material-symbols: ^0.31.2
+
+onlyBuiltDependencies:
+  - esbuild

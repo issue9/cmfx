@@ -77,7 +77,7 @@ export default defineConfig({
         },
         rollupOptions: {
             // 不需要打包的内容
-            external: ['solid-js', 'solid-js/web', '@cmfx/core', '@cmfx/components']
+            external: ['solid-js', 'solid-js/web', '@cmfx/core', '@cmfx/components', 'material-symbols']
         }
     }
 });

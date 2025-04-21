@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: gen build-cmd build-ts install init watch-server watch-admin watch-components watch test test-go test-ts
+.PHONY: gen build-cmd build-ts install install-ts install-go init watch-server watch-admin watch-components watch test test-go test-ts
 
 ROOT = .
 CMD = $(ROOT)/cmd
@@ -17,16 +17,20 @@ gen:
 # 编译测试项目
 build-cmd:
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
-	npm run build -w=@cmfx/admin-demo -w=@cmfx/components-demo
+	pnpm --filter=./cmd/admin --filter=./cmd/components run build
 
 # 编译项目内容
 build-ts:
-	npm run build -w=@cmfx/core -w=@cmfx/components -w=@cmfx/admin
+	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
+	
+install-ts:
+	pnpm install
+
+install-go:
+	go mod download
 
 # 安装依赖
-install:
-	go mod download
-	npm install
+install: install-go install-ts
 
 # 安装基本数据，依赖 build 生成的测试项目
 init: build-cmd
@@ -36,10 +40,10 @@ watch-server:
 	web watch -app=-a=serve $(CMD_SERVER)
 
 watch-admin:
-	npm run dev -w=@cmfx/admin-demo
+	pnpm --filter=./cmd/admin run dev
 
 watch-components:
-	npm run dev -w=@cmfx/components-demo
+	pnpm --filter=./cmd/components run dev
 
 # 运行测试内容
 #
@@ -54,8 +58,8 @@ test-go:
 
 # 执行 TypeScript 测试
 test-ts: build-ts
-	npm run lint
-	npm run test-nowatch -w=@cmfx/core -w=@cmfx/components -w=@cmfx/admin
+	pnpm run lint
+	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin test-nowatch
 
 # 执行测试内容
 test: test-go test-ts
