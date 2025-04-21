@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: gen build-cmd build install init watch-server watch-admin watch-components watch test
+.PHONY: gen build-cmd build-ts install init watch-server watch-admin watch-components watch test test-go test-ts
 
 ROOT = .
 CMD = $(ROOT)/cmd
@@ -17,14 +17,11 @@ gen:
 # 编译测试项目
 build-cmd:
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
-	npm run build -w=@cmfx/admin-demo
-	npm run build -w=@cmfx/components-demo
+	npm run build -w=@cmfx/admin-demo -w=@cmfx/components-demo
 
 # 编译项目内容
-build:
-	npm run build -w=@cmfx/core
-	npm run build -w=@cmfx/components
-	npm run build -w=@cmfx/admin
+build-ts:
+	npm run build -w=@cmfx/core -w=@cmfx/components -w=@cmfx/admin
 
 # 安装依赖
 install:
@@ -50,10 +47,15 @@ watch-components:
 #  make watch -j2
 watch: watch-server watch-admin
 
-# 执行测试内容
-test:
-	go test ./... -count=1 -p=1 -parallel=1
+# 执行 Go 测试
+test-go:
+	go vet -v ./...
+	go test -v -coverprofile='coverage.txt' -p=1 -parallel=1 -covermode=atomic ./...
+
+# 执行 TypeScript 测试
+test-ts: build-ts
 	npm run lint
-	npm run test-nowatch -w=@cmfx/core
-	npm run test-nowatch -w=@cmfx/components
-	npm run test-nowatch -w=@cmfx/admin
+	npm run test-nowatch -w=@cmfx/core -w=@cmfx/components -w=@cmfx/admin
+
+# 执行测试内容
+test: test-go test-ts

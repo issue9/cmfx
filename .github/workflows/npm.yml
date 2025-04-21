@@ -21,12 +21,10 @@ jobs:
             - name: Install Deps
               run: npm install
 
-            - run: npm ci
+            - name: build
+              run: make build-ts
 
             # build @cmfx/core
-
-            - name: build @cmfx/core
-              run: npm run build -w=@cmfx/core
 
             - name: publish @cmfx/core
               run: npm publish --access=public -w=@cmfx/core
@@ -35,18 +33,12 @@ jobs:
 
             # build @cmfx/components
 
-            - name: build @cmfx/components
-              run: npm run build -w=@cmfx/components
-
             - name: publish @cmfx/components
               run: npm publish --access=public -w=@cmfx/components
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
 
             # build @cmfx/admin
-
-            - name: build @cmfx/admin
-              run: npm run build -w=@cmfx/admin
 
             - name: publish @cmfx/admin
               run: npm publish --access=public -w=@cmfx/admin

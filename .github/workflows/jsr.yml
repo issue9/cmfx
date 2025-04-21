@@ -23,12 +23,13 @@ jobs:
                   node-version: 23
                   registry-url: https://registry.npmjs.org/
 
-            - run: npm ci
+            - name: Install Deps
+              run: npm install
+
+            - name: test
+              run: make build-ts
 
             # @cmfx/core
-
-            - name: build @cmfx/core
-              run: npm run build -w=@cmfx/core
 
             - run: cd packages/core
 
@@ -37,24 +38,14 @@ jobs:
 
             # @cmfx/components
 
-            - run: cd ../../
-
-            - name: build @cmfx/components
-              run: npm run build -w=@cmfx/components
-
-            - run: cd packages/components
+            - run: cd ../../packages/components
 
             - name: Publish package @cmfx/components
               run: npx jsr publish
 
             # @cmfx/admin
 
-            - run: cd ../../
-
-            - name: build @cmfx/admin
-              run: npm run build -w=@cmfx/admin
-
-            - run: cd packages/admin
+            - run: cd ../../packages/admin
 
             - name: Publish package @cmfx/admin
               run: npx jsr publish

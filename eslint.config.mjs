@@ -11,10 +11,16 @@ import { fileURLToPath } from 'node:url';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const gitignorePath = path.resolve(__dirname, '.gitignore');
 
 export default [
-    includeIgnoreFile(gitignorePath),
+    includeIgnoreFile(path.resolve(__dirname, '.gitignore')),
+
+    includeIgnoreFile(path.resolve(__dirname, 'packages/core/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'packages/components/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'packages/admin/.gitignore')),
+
+    includeIgnoreFile(path.resolve(__dirname, 'cmd/admin/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'cmd/components/.gitignore')),
     {
         languageOptions: {
             globals: globals.browser,

@@ -22,10 +22,10 @@ jobs:
             - name: Install Deps
               run: npm install
 
-              # core
+            - name: test
+              run: make test-ts
 
-            - name: Test-core
-              run: npm run test -w=@cmfx/core
+              # core
 
             - name: Upload @cmfx/core test to Codecov
               uses: codecov/codecov-action@v5
@@ -35,9 +35,6 @@ jobs:
 
               # components
 
-            - name: Test-components
-              run: npm run test -w=@cmfx/components
-
             - name: Upload @cmfx/components test to Codecov
               uses: codecov/codecov-action@v5
               with:
@@ -45,9 +42,6 @@ jobs:
                   files: ./packages/components/coverage/report.json
 
               # admin
-
-            - name: Test-admin
-              run: npm run test -w=@cmfx/admin
 
             - name: Upload @cmfx/admin test to Codecov
               uses: codecov/codecov-action@v5

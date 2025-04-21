@@ -21,13 +21,8 @@ jobs:
                   go-version: ${{ matrix.go }}
               id: go
 
-            - name: Vet
-              run: go vet -v ./...
-
-            - name: Test
-              env:
-                  LANG: en
-              run: go test -v -coverprofile='coverage.txt' -p=1 -parallel=1 -covermode=atomic ./...
+            - name: test
+              run: make test-go
 
             - name: Upload Coverage report
               uses: codecov/codecov-action@v5
