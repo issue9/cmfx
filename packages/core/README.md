@@ -10,7 +10,7 @@
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 [![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
 
-提供了 cmfx 前后端通信的一些核心功能
+提供了 [cmfx](https://github.com/issue9/cmfx) 前后端通信的一些核心功能
 
 ## 开发
 

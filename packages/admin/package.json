@@ -43,7 +43,7 @@
     "scripts": {
         "build": "vite build",
         "test": "vitest --coverage.enabled true",
-        "test-nowatch": "vitest run"
+        "test-nowatch": "vitest run --coverage.enabled true"
     },
     "dependencies": {
         "@cmfx/core": "^0.9.2",
