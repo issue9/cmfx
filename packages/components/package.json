@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/components",
-    "version": "0.9.2",
+    "version": "0.10.0",
     "type": "module",
     "description": "适用于 cmfx 的组件",
     "author": {
