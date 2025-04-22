@@ -30,26 +30,8 @@ jobs:
             - name: test
               run: make test-ts
 
-              # core
-
-            - name: Upload @cmfx/core test to Codecov
+            - name: Upload Codecov
               uses: codecov/codecov-action@v5
               with:
                   token: ${{secrets.CODECOV_TOKEN}}
-                  files: ./packages/core/coverage/report.json
-
-              # components
-
-            - name: Upload @cmfx/components test to Codecov
-              uses: codecov/codecov-action@v5
-              with:
-                  token: ${{secrets.CODECOV_TOKEN}}
-                  files: ./packages/components/coverage/report.json
-
-              # admin
-
-            - name: Upload @cmfx/admin test to Codecov
-              uses: codecov/codecov-action@v5
-              with:
-                  token: ${{secrets.CODECOV_TOKEN}}
-                  files: ./packages/admin/coverage/report.json
+                  files: ./coverage/report.json
