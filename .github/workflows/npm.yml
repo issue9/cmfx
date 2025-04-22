@@ -18,29 +18,20 @@ jobs:
                   node-version: 23
                   registry-url: https://registry.npmjs.org/
 
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: latest
+
             - name: Install Deps
-              run: npm install
+              run: make install-ts
 
             - name: build
               run: make build-ts
 
-            # build @cmfx/core
+            # publish to npm
 
-            - name: publish @cmfx/core
-              run: npm publish --access=public -w=@cmfx/core
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
-
-            # build @cmfx/components
-
-            - name: publish @cmfx/components
-              run: npm publish --access=public -w=@cmfx/components
-              env:
-                  NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}
-
-            # build @cmfx/admin
-
-            - name: publish @cmfx/admin
-              run: npm publish --access=public -w=@cmfx/admin
+            - name: 发布到 npm
+              run: make publish-npm
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_PUBLISH }}

@@ -8,7 +8,7 @@ import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show }
 import { BaseProps } from '@components/base';
 import { useComponents } from '@components/context';
 
-type Field = 'days' | 'hours' | 'minutes' | 'seconds';
+export type Field = 'days' | 'hours' | 'minutes' | 'seconds';
 
 export const fields: ReadonlyMap<Field, number> = new Map<Field, number>([
     ['seconds', 0],

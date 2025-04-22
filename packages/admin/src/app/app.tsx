@@ -79,10 +79,7 @@ function App(props: {opt: OptContext, api: API}): JSX.Element {
 }
 
 type PrivateProps = ParentProps<MenuVisibleProps & {
-    /*
-     *获取当前侧边栏选中的菜单项
-     */
-    selected: Accessor<string>;
+    selected: Accessor<string>; // 获取当前侧边栏选中的菜单项
 }>;
 
 function Private(props: PrivateProps): JSX.Element {

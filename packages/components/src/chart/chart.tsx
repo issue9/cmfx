@@ -9,6 +9,8 @@ import { BaseProps } from '@components/base';
 import { useComponents } from '@components/context';
 import { matchLocale } from './locale';
 
+export type ChartsOption = echarts.EChartsOption;
+
 export interface Props extends BaseProps {
     /**
      * 是否扩大可点击元素的响应范围。null 表示对移动设备开启；true 表示总是开启；false 表示总是不开启。
@@ -43,7 +45,7 @@ export interface Props extends BaseProps {
      *
      * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--bg) 等以适应主题的变化。
      */
-    o: echarts.EChartsOption;
+    o: ChartsOption;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {

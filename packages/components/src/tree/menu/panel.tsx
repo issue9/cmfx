@@ -41,7 +41,7 @@ export const presetProps: Readonly<Partial<Props>> = {
     direction: 'right'
 };
 
-export default function (props: Props): JSX.Element {
+export default function Panel (props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [selected, setSelected] = createSignal<string>();
 

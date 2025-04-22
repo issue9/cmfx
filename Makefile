@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: gen build-cmd build-ts install install-ts install-go init watch-server watch-admin watch-components watch test test-go test-ts
+.PHONY: gen build-cmd build-ts install install-ts install-go init watch-server watch-admin watch-components watch test test-go test-ts publish-npm
 
 ROOT = .
 CMD = $(ROOT)/cmd
@@ -63,3 +63,6 @@ test-ts: build-ts
 
 # 执行测试内容
 test: test-go test-ts
+
+publish-npm: build-ts
+    pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public

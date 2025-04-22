@@ -14,5 +14,6 @@ declare global {
     }
 }
 
-export { default as Timer } from './timer';
-export type { Props as TimerProps, Ref as TimerRef } from './timer';
+export { default as Timer, fields as timerFields } from './timer';
+export type { Field as TimerField, Props as TimerProps, Ref as TimerRef } from './timer';
+
