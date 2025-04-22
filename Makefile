@@ -57,7 +57,7 @@ test-go:
 	go test -v -coverprofile='coverage.txt' -p=1 -parallel=1 -covermode=atomic ./...
 
 # 执行 TypeScript 测试
-test-ts:
+test-ts: build-ts
 	pnpm run lint
 	pnpm run test-nowatch
 
