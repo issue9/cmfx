@@ -33,19 +33,19 @@ jobs:
 
             - run: cd packages/core
 
-            - name: Publish package @cmfx/core
+            - name: 发布 @cmfx/core
               run: npx jsr publish
 
             # @cmfx/components
 
             - run: cd ../../packages/components
 
-            - name: Publish package @cmfx/components
+            - name: 发布 @cmfx/components
               run: npx jsr publish
 
             # @cmfx/admin
 
             - run: cd ../../packages/admin
 
-            - name: Publish package @cmfx/admin
+            - name: 发布 @cmfx/admin
               run: npx jsr publish

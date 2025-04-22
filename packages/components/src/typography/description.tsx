@@ -4,8 +4,8 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { IconSymbol } from '@components/icon';
+import { BaseProps } from '@/base';
+import { IconSymbol } from '@/icon';
 import { Label } from './label';
 
 export interface Props extends BaseProps, ParentProps {

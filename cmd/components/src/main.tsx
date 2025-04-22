@@ -10,7 +10,7 @@ import { render } from 'solid-js/web';
 
 import './style.css';
 
-import { routes } from '@cmfx/components/demo';
+import { routes } from './demo';
 
 // 调用的 API.build 需要 await，目前顶层代码不是允许的，
 // 所以用 main 进行一次包装。
@@ -34,11 +34,11 @@ async function main() {
             pageSize: 20,
             api: api,
             outputProblem: function <P>(p?: Problem<P>): Promise<void> {
-                throw new Error('Function not implemented.');
+                throw new Error(p?.title);
             }
         });
         const menuItems: Array<Item> = [];
-        routes.sort().forEach((r) => {
+        routes.forEach((r) => {
             menuItems.push({
                 type: 'item',
                 label: r.path as string,
@@ -48,9 +48,7 @@ async function main() {
 
         const Root = (p: RouteSectionProps) => {
             return <ret.Provider>
-                <Drawer main={p.children}>
-                    <List anchor>{menuItems}</List>
-                </Drawer>
+                <Drawer main={p.children}><List anchor>{menuItems}</List></Drawer>
             </ret.Provider>;
         };
 

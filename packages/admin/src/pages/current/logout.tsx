@@ -6,7 +6,7 @@ import { Page } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
+import { useAdmin, useOptions } from '@/context';
 
 export function Logout(): JSX.Element {
     const ctx = useAdmin();

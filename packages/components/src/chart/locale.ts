@@ -14,7 +14,7 @@ export async function registerLocales(l: string) {
         return;
     }
 
-    const obj = (await import(`../../../../node_modules/echarts/lib/i18n/lang${id}.js`)).default;
+    const obj = (await import(`../../node_modules/echarts/lib/i18n/lang${id}.js`)).default;
     echarts.registerLocale(id, obj);
 }
 

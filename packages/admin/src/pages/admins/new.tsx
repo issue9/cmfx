@@ -5,9 +5,9 @@
 import { Button, Form, FormAccessor, Icon, LinkButton, Page, Password, TextField } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
-import { Sex, SexSelector } from '@admin/pages/common';
-import { roles } from '@admin/pages/roles';
+import { useAdmin } from '@/context';
+import { Sex, SexSelector } from '@/pages/common';
+import { roles } from '@/pages/roles';
 
 interface Props {
     /**

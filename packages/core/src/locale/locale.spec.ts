@@ -4,8 +4,8 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { API } from '@core/api';
-import { Config } from '@core/config';
+import { API } from '@/api';
+import { Config } from '@/config';
 import { Locale } from './locale';
 
 describe('Locale', async () => {

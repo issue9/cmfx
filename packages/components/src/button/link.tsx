@@ -6,7 +6,7 @@
 import { A } from '@solidjs/router';
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
-import { IconSymbol } from '@components/icon';
+import { IconSymbol } from '@/icon';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 /**

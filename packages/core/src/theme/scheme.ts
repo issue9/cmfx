@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@core/config';
+import { Config } from '@/config';
 
 const key = 'theme_scheme';
 

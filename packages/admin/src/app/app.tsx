@@ -8,9 +8,9 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, useAdmin, useOptions } from '@admin/context';
-import { buildContext, OptContext } from '@admin/context/context';
-import { buildOptions } from '@admin/context/options';
+import { AppOptions, useAdmin, useOptions } from '@/context';
+import { buildContext, OptContext } from '@/context/context';
+import { buildOptions } from '@/context/options';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
@@ -79,10 +79,7 @@ function App(props: {opt: OptContext, api: API}): JSX.Element {
 }
 
 type PrivateProps = ParentProps<MenuVisibleProps & {
-    /*
-     *获取当前侧边栏选中的菜单项
-     */
-    selected: Accessor<string>;
+    selected: Accessor<string>; // 获取当前侧边栏选中的菜单项
 }>;
 
 function Private(props: PrivateProps): JSX.Element {

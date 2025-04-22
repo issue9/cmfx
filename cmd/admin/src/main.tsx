@@ -9,7 +9,6 @@ import { Card, Label } from '@cmfx/components';
 
 import { default as Test } from './pages/test';
 
-//const urlBase = 'http://192.168.10.10:8080/admin';
 const urlBase = 'http://localhost:8080/admin';
 
 const rolesPage = roles.build('/roles');

@@ -5,8 +5,8 @@
 import { sleep, Theme } from '@cmfx/core';
 import { JSX, onMount, Show } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { Icon } from '@components/icon';
+import { BaseProps } from '@/base';
+import { Icon } from '@/icon';
 import { createTimer } from './timer';
 
 export interface Props extends BaseProps {

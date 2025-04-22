@@ -4,9 +4,9 @@
 
 import { createEffect, JSX, ParentProps, Show, splitProps } from 'solid-js';
 
-import { BackTop } from '@components/backtop';
-import { BaseProps } from '@components/base';
-import { useComponents } from '@components/context';
+import { BackTop } from '@/backtop';
+import { BaseProps } from '@/base';
+import { useComponents } from '@/context';
 
 export interface Props extends BaseProps, ParentProps {
     /**

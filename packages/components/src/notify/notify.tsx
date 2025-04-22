@@ -6,7 +6,7 @@ import { sleep } from '@cmfx/core';
 import { createSignal, createUniqueId, For, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { Palette } from '@components/base';
+import { Palette } from '@/base';
 import { Alert, Props as AlertProps } from './alert';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;

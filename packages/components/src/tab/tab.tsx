@@ -5,8 +5,8 @@
 
 import { createSignal, For, JSX } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { Button } from '@components/button';
+import { BaseProps } from '@/base';
+import { Button } from '@/button';
 
 export interface Props<T extends string | number> extends BaseProps {
     rounded?: boolean;

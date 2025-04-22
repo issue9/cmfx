@@ -57,7 +57,7 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            '@components': fileURLToPath(new URL('./src', import.meta.url)),
+            '@': fileURLToPath(new URL('./src', import.meta.url)),
         }
     },
 
@@ -77,7 +77,7 @@ export default defineConfig({
         },
         rollupOptions: {
             // 不需要打包的内容
-            external: ['solid-js', 'solid-js/web', '@solidjs/router', '@cmfx/core']
+            external: ['solid-js', '@solidjs/router', '@cmfx/core', 'material-symbols']
         }
     }
 });

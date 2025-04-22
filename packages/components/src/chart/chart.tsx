@@ -5,9 +5,11 @@
 import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { useComponents } from '@components/context';
+import { BaseProps } from '@/base';
+import { useComponents } from '@/context';
 import { matchLocale } from './locale';
+
+export type ChartsOption = echarts.EChartsOption;
 
 export interface Props extends BaseProps {
     /**
@@ -43,7 +45,7 @@ export interface Props extends BaseProps {
      *
      * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--bg) 等以适应主题的变化。
      */
-    o: echarts.EChartsOption;
+    o: ChartsOption;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {

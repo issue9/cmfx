@@ -6,8 +6,8 @@ import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, trans
 import { Query } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
-import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@admin/pages/common';
+import { useAdmin } from '@/context';
+import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
 
 interface Props {
     /**

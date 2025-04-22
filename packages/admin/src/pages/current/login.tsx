@@ -6,8 +6,8 @@ import { Choice, FieldAccessor, Page, translateEnums2Options } from '@cmfx/compo
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
-import { Passport } from '@admin/pages/common';
+import { useAdmin, useOptions } from '@/context';
+import { Passport } from '@/pages/common';
 import { PassportComponents } from './passports';
 
 export interface Props {

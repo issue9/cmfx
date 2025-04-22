@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Context } from '@components/context';
+import { Context } from '@/context';
 
 /**
  * 枚举类型

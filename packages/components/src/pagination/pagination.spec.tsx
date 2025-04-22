@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import { ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
-import { build } from '@components/context/context';
+import { build } from '@/context/context';
 import { Pagination } from './pagination';
 
 test('pagination', async () => {

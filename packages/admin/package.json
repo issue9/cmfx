@@ -46,31 +46,32 @@
         "test-nowatch": "vitest run --coverage.enabled true"
     },
     "dependencies": {
-        "@cmfx/core": "^0.9.2",
-        "@cmfx/components": "^0.9.2",
+        "@cmfx/core": "workspace:*",
+        "@cmfx/components": "workspace:*",
         "@scure/base": "^1.2.4",
-        "@solidjs/router": "^0.15.3",
+        "@solidjs/router": "catalog:",
         "bowser": "^2.11.0",
-        "solid-js": "^1.9.5",
-        "tailwindcss": "^4.1.4"
+        "solid-js": "catalog:",
+        "material-symbols": "catalog:",
+        "tailwindcss": "catalog:"
     },
     "devDependencies": {
-        "@solidjs/testing-library": "^0.8.10",
-        "@tailwindcss/vite": "^4.1.4",
-        "@testing-library/jest-dom": "^6.6.3",
-        "@testing-library/user-event": "^14.6.1",
-        "@types/node": "^22.14.1",
-        "@vitest/coverage-v8": "^3.1.1",
-        "autoprefixer": "^10.4.21",
-        "cssnano": "^7.0.6",
-        "jsdom": "^26.1.0",
-        "postcss": "^8.5.3",
-        "typescript": "^5.8.3",
-        "vite": "^6.3.2",
-        "vite-plugin-dts": "^4.5.3",
-        "vite-plugin-solid": "^2.11.6",
-        "vite-plugin-static-copy": "^2.3.1",
-        "vitest": "^3.1.1"
+        "@solidjs/testing-library": "catalog:",
+        "@tailwindcss/vite": "catalog:",
+        "@testing-library/jest-dom": "catalog:",
+        "@testing-library/user-event": "catalog:",
+        "@types/node": "catalog:",
+        "@vitest/coverage-v8": "catalog:",
+        "autoprefixer": "catalog:",
+        "cssnano": "catalog:",
+        "jsdom": "catalog:",
+        "postcss": "catalog:",
+        "typescript": "catalog:",
+        "vite": "catalog:",
+        "vite-plugin-dts": "catalog:",
+        "vite-plugin-solid": "catalog:",
+        "vite-plugin-static-copy": "catalog:",
+        "vitest": "catalog:"
     },
     "overrides": {
         "@asamuzakjp/css-color": "3.0.12"

@@ -19,8 +19,13 @@ jobs:
               with:
                   node-version: "23.x"
 
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: latest
+
             - name: Install Deps
-              run: npm install
+              run: make install-ts
 
             - name: test
               run: make test-ts

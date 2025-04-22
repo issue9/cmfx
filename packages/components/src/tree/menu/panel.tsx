@@ -6,10 +6,10 @@ import { A } from '@solidjs/router';
 import { createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { Divider } from '@components/divider';
-import { Icon } from '@components/icon';
-import type { Props as ContainerProps } from '@components/tree/container';
-import { Item } from '@components/tree/item';
+import { Divider } from '@/divider';
+import { Icon } from '@/icon';
+import type { Props as ContainerProps } from '@/tree/container';
+import { Item } from '@/tree/item';
 
 export type Ref = HTMLMenuElement;
 
@@ -41,7 +41,7 @@ export const presetProps: Readonly<Partial<Props>> = {
     direction: 'right'
 };
 
-export default function (props: Props): JSX.Element {
+export default function Panel (props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [selected, setSelected] = createSignal<string>();
 

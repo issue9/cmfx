@@ -6,7 +6,7 @@ import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, TextField, TextF
 import { Locale } from '@cmfx/core';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
-import { MenuItem, useAdmin, useOptions } from '@admin/context';
+import { MenuItem, useAdmin, useOptions } from '@/context';
 
 interface Item {
     value: string;

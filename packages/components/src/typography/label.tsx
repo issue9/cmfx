@@ -5,8 +5,8 @@
 import { JSX, mergeProps, ParentProps, Show, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { BaseProps } from '@components/base';
-import { Icon, IconSymbol } from '@components/icon';
+import { BaseProps } from '@/base';
+import { Icon, IconSymbol } from '@/icon';
 
 export interface Props extends BaseProps, ParentProps {
     /**

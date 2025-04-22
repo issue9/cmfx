@@ -4,9 +4,9 @@
 
 import { JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { Button, ButtonRef } from '@components/button';
-import { IconSymbol } from '@components/icon';
+import { BaseProps } from '@/base';
+import { Button, ButtonRef } from '@/button';
+import { IconSymbol } from '@/icon';
 
 export interface Props extends BaseProps {
     /**

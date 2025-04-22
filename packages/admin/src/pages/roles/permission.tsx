@@ -6,7 +6,7 @@ import { Button, Checkbox, Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 
 interface Resource {
     id: string;

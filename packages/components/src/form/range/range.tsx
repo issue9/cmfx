@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { Accessor, Field, FieldBaseProps } from '@components/form/field';
+import { Accessor, Field, FieldBaseProps } from '@/form/field';
 
 export interface Props extends FieldBaseProps {
     min?: number;

@@ -5,8 +5,8 @@
 import { Choice, ChoiceProps, translateEnums2Options } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
-import { useAdmin, User } from '@admin/context';
-import { MessagesKey } from '@admin/messages';
+import { useAdmin, User } from '@/context';
+import { MessagesKey } from '@/messages';
 
 export type Sex = User['sex'];
 

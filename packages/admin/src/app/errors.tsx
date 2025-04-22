@@ -6,7 +6,7 @@ import { Button, ErrorProps, Error as XError } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
+import { useAdmin, useOptions } from '@/context';
 
 export function NotFound(): JSX.Element {
     const ctx = useAdmin();

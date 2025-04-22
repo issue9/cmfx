@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@core/config';
+import { Config } from '@/config';
 
 export const modes = ['system', 'dark', 'light'] as const;
 

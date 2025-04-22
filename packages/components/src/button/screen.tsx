@@ -4,7 +4,7 @@
 
 import { createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { IconSymbol } from '@components/icon';
+import { IconSymbol } from '@/icon';
 import { Props as BaseProps, Button, presetProps } from './button';
 
 export interface Props extends Omit<BaseProps, 'onClick' | 'children'> {

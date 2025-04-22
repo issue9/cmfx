@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Config } from '@core/config';
+import { Config } from '@/config';
 import { changeMode, getMode } from './mode';
 
 describe('mode', () => {

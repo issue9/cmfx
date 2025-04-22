@@ -28,7 +28,7 @@
         "noFallthroughCasesInSwitch": true,
         "composite": true,
         "paths": {
-            "@core/*": [
+            "@/*": [
                 "src/*"
             ]
         }

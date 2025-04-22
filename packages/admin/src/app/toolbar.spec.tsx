@@ -8,8 +8,8 @@ import { render } from '@solidjs/testing-library';
 import { createSignal, ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
-import { buildContext } from '@admin/context/context';
-import { options } from '@admin/context/options/options.spec';
+import { buildContext } from '@/context/context';
+import { options } from '@/context/options/options.spec';
 import Toolbar from './toolbar';
 
 test('toolbar', async () => {

@@ -21,20 +21,22 @@
         "preview": "vite preview"
     },
     "dependencies": {
-        "@cmfx/components": "0.9.2",
-        "@solidjs/router": "^0.15.3",
-        "tailwindcss": "^4.1.4",
-        "solid-js": "^1.9.5"
+        "@cmfx/components": "workspace:*",
+        "@cmfx/core": "workspace:*",
+        "@solidjs/router": "catalog:",
+        "tailwindcss": "catalog:",
+        "solid-js": "catalog:",
+        "material-symbols": "catalog:"
     },
     "devDependencies": {
-        "@types/node": "^22.14.1",
-        "autoprefixer": "^10.4.21",
-        "cssnano": "^7.0.6",
-        "postcss": "^8.5.3",
-        "solid-devtools": "^0.34.0",
-        "@tailwindcss/vite": "^4.1.4",
-        "typescript": "^5.8.3",
-        "vite": "^6.3.2",
-        "vite-plugin-solid": "^2.11.6"
+        "@types/node": "catalog:",
+        "autoprefixer": "catalog:",
+        "cssnano": "catalog:",
+        "postcss": "catalog:",
+        "solid-devtools": "catalog:",
+        "@tailwindcss/vite": "catalog:",
+        "typescript": "catalog:",
+        "vite": "catalog:",
+        "vite-plugin-solid": "catalog:"
     }
 }

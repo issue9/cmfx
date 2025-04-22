@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from '@admin/context';
-import { Pages } from '@admin/pages/pages';
+import { MenuItem, Route } from '@/context';
+import { Pages } from '@/pages/pages';
 import { Permission } from './permission';
 import { Roles } from './roles';
 import { Selector } from './selector';
