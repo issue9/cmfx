@@ -9,7 +9,7 @@ import {
 import { Return } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 
 export interface Role {
     id?: string;

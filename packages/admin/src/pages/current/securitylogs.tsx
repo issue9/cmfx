@@ -7,7 +7,7 @@ import { Query } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 
 interface SecurityLog {
     content: string;

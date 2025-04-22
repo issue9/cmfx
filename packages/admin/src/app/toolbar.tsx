@@ -6,7 +6,7 @@ import { Button, Item, Label, Menu } from '@cmfx/components';
 import { Locale } from '@cmfx/core';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
-import { MenuItem, useAdmin, useOptions } from '@admin/context';
+import { MenuItem, useAdmin, useOptions } from '@/context';
 import { Search } from './search';
 
 export interface MenuVisibleProps {

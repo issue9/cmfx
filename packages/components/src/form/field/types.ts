@@ -4,8 +4,8 @@
 
 import { JSX } from 'solid-js';
 
-import { BaseProps, Enums } from '@components/base';
-import { Context } from '@components/context';
+import { BaseProps, Enums } from '@/base';
+import { Context } from '@/context';
 
 export interface Props extends BaseProps {
     title?: string;

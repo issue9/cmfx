@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { sleep } from '@core/time';
+import { sleep } from '@/time';
 import { Token, delToken, getToken, state, writeToken } from './token';
 
 test('token', () => {

@@ -6,7 +6,7 @@ import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField } 
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
+import { useAdmin, useOptions } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 interface PasswordAccount {

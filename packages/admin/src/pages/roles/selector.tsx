@@ -5,7 +5,7 @@
 import { Choice, ChoiceProps, FieldOptions } from '@cmfx/components';
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 import { Role } from './roles';
 
 export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;

@@ -5,7 +5,7 @@
 import { AxisChart, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 
 const mb = 1024 * 1024;
 

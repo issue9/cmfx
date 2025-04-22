@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Accessor, Field, FieldBaseProps, Options } from '@components/form/field';
+import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 import { Checkbox } from './checkbox';
 
 export interface Props<T> extends FieldBaseProps {

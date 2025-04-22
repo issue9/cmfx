@@ -11,7 +11,7 @@ import { base64urlnopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
+import { useAdmin, useOptions } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 export class Webauthn implements PassportComponents {

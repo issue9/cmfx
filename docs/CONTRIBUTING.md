@@ -103,6 +103,8 @@ fi
 
 - 组件和页面的 CSS 样式，类型名必须以 `c--` 或是 `p--` 开头，防止不小心类名之间相互覆盖；
 - 所有组件都要有明确的返回值，否则在生成 `.d.ts` 文件时可能会出错；
+- solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route. ` 的错误，
+所以在所有的 vite.config.ts 中都将 solid-router 加入到 rollupOptions.external，只在主项目中真实导入；
 
 ### 后端
 

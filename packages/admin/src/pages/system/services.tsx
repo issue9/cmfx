@@ -6,8 +6,8 @@ import { Column, Label, LoaderTable, Page, translateEnum } from '@cmfx/component
 import { Query } from '@cmfx/core';
 import { JSX, createMemo } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
-import { MessagesKey } from '@admin/messages';
+import { useAdmin } from '@/context';
+import { MessagesKey } from '@/messages';
 
 interface Service {
     jobs: Array<Job>;

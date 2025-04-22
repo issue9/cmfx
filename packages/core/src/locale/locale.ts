@@ -4,9 +4,9 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { API } from '@core/api';
-import { Config } from '@core/config';
-import { Duration, formatDuration, parseDuration } from '@core/time';
+import { API } from '@/api';
+import { Config } from '@/config';
+import { Duration, formatDuration, parseDuration } from '@/time';
 import { Dict, flatten, Keys, Loader } from './dict';
 import { match } from './match';
 

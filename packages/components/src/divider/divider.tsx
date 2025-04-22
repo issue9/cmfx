@@ -4,7 +4,7 @@
 
 import { JSX, Match, mergeProps, ParentProps, Switch } from 'solid-js';
 
-import { BaseProps } from '@components/base';
+import { BaseProps } from '@/base';
 import { Style } from './types';
 
 export type Props = ParentProps<{

@@ -8,8 +8,8 @@ import {
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { useAdmin, useOptions, User } from '@admin/context';
-import { Passport, Sex, sexesMap } from '@admin/pages/common';
+import { useAdmin, useOptions, User } from '@/context';
+import { Passport, Sex, sexesMap } from '@/pages/common';
 import { PassportComponents } from './passports';
 
 interface Props {

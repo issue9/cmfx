@@ -6,7 +6,7 @@ import { Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
-import { Context } from '@components/context';
+import { Context } from '@/context';
 import { Accessor, ChangeFunc } from './field';
 
 // Form 中保存错误的类型

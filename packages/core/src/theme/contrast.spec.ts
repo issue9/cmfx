@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { Config } from '@core/config';
+import { Config } from '@/config';
 import { changeContrast, Contrast, getContrast } from './contrast';
 
 test('contrast', () => {

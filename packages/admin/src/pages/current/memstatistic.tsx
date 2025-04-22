@@ -5,7 +5,7 @@
 import { Description } from '@cmfx/components';
 import { JSX, createSignal, onMount } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 
 export function MemStatistic(): JSX.Element {
     const [statistic, setStatistic] = createSignal<Statistic>({

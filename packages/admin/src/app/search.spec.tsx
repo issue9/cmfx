@@ -9,9 +9,9 @@ import userEvent from '@testing-library/user-event';
 import { createSignal, ParentProps } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { MenuItem } from '@admin/context';
-import { buildContext } from '@admin/context/context';
-import { options } from '@admin/context/options/options.spec';
+import { MenuItem } from '@/context';
+import { buildContext } from '@/context/context';
+import { options } from '@/context/options/options.spec';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {

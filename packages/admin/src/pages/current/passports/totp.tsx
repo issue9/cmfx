@@ -10,7 +10,7 @@ import { base32nopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, JSX, Show } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
+import { useAdmin, useOptions } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 // 登录框的字段

@@ -6,8 +6,8 @@ import { Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
-import { Passport, sexesMap, statesMap } from '@admin/pages/common';
+import { useAdmin, useOptions } from '@/context';
+import { Passport, sexesMap, statesMap } from '@/pages/common';
 import { Member } from './types';
 
 

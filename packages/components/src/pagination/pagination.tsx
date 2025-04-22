@@ -4,9 +4,9 @@
 
 import { createEffect, createSignal, For, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { Button } from '@components/button';
-import { useComponents } from '@components/context';
+import { BaseProps } from '@/base';
+import { Button } from '@/button';
+import { useComponents } from '@/context';
 
 export interface Props extends BaseProps {
     /**

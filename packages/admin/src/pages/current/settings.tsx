@@ -6,7 +6,7 @@ import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioG
 import { Contrast, Mode, Scheme, Theme, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { useAdmin, useOptions } from '@admin/context';
+import { useAdmin, useOptions } from '@/context';
 
 export function Settings(): JSX.Element {
     const ctx = useAdmin();

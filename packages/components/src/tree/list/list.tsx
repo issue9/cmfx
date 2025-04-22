@@ -7,10 +7,10 @@ import { A, useLocation } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch, untrack } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
-import { Divider } from '@components/divider';
-import { Icon } from '@components/icon';
-import type { Props as ContainerProps } from '@components/tree/container';
-import { findItems, type Item } from '@components/tree/item';
+import { Divider } from '@/divider';
+import { Icon } from '@/icon';
+import type { Props as ContainerProps } from '@/tree/container';
+import { findItems, type Item } from '@/tree/item';
 
 export interface Props extends ContainerProps {
     /**

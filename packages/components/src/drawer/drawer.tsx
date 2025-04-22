@@ -6,7 +6,7 @@ import { Breakpoint } from '@cmfx/core';
 import { createEffect, createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
-import { BaseProps } from '@components/base';
+import { BaseProps } from '@/base';
 
 export interface Props extends BaseProps {
     /**

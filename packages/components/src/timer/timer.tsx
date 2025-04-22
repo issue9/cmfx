@@ -5,8 +5,8 @@
 import { Duration, formatDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { useComponents } from '@components/context';
+import { BaseProps } from '@/base';
+import { useComponents } from '@/context';
 
 export type Field = 'days' | 'hours' | 'minutes' | 'seconds';
 

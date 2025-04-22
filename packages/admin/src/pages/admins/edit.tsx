@@ -6,9 +6,9 @@ import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField 
 import { useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
-import { useAdmin, User } from '@admin/context';
-import { Passport, Sex, SexSelector } from '@admin/pages/common';
-import { roles } from '@admin/pages/roles';
+import { useAdmin, User } from '@/context';
+import { Passport, Sex, SexSelector } from '@/pages/common';
+import { roles } from '@/pages/roles';
 
 interface Props {
     /**

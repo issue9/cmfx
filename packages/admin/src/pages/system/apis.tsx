@@ -6,7 +6,7 @@ import { Column, Label, Page, RemoteTable } from '@cmfx/components';
 import { Duration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { useAdmin } from '@admin/context';
+import { useAdmin } from '@/context';
 
 interface API {
     method: string;

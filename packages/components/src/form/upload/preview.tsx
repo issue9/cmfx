@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, JSX } from 'solid-js';
 
-import { Icon } from '@components/icon';
+import { Icon } from '@/icon';
 
 export interface URLProps {
     size: string;

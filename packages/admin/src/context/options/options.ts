@@ -4,7 +4,7 @@
 
 import { Contrast, Theme as CoreTheme, DictLoader, Mode, Scheme, UnitStyle } from '@cmfx/core';
 
-import type { LocaleID } from '@admin/messages';
+import type { LocaleID } from '@/messages';
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
 import { presetAside } from './aside';

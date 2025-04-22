@@ -5,8 +5,8 @@
 import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps } from '@components/base';
-import { useComponents } from '@components/context';
+import { BaseProps } from '@/base';
+import { useComponents } from '@/context';
 import { matchLocale } from './locale';
 
 export type ChartsOption = echarts.EChartsOption;

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options } from '@components/form/field';
+import { Options } from '@/form/field';
 
 /**
  * 月份，0 表示一月。
