@@ -15,11 +15,11 @@ gen:
 	go generate $(ROOT)/...
 
 # 编译测试项目
-build-cmd:
+build-cmd: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 	pnpm --filter=./cmd/admin --filter=./cmd/components run build
 
-# 编译项目内容
+# 编译前端项目内容
 build-ts:
 	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
 	
@@ -65,4 +65,4 @@ test-ts: build-ts
 test: test-go test-ts
 
 publish-npm: build-ts
-    pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public
