@@ -35,9 +35,7 @@
         "./style.css": "./lib/style.css"
     },
     "scripts": {
-        "build": "vite build",
-        "test": "vitest --coverage.enabled true",
-        "test-nowatch": "vitest run --coverage.enabled true"
+        "build": "vite build"
     },
     "dependencies": {
         "@formatjs/intl-durationformat": "catalog:",
@@ -48,14 +46,12 @@
     },
     "devDependencies": {
         "@types/node": "catalog:",
-        "@vitest/coverage-v8": "catalog:",
-        "jsdom": "catalog:",
         "typescript": "catalog:",
         "vite": "catalog:",
         "vite-plugin-dts": "catalog:",
         "vite-plugin-static-copy": "catalog:",
-        "vitest": "catalog:",
-        "vitest-fetch-mock": "catalog:"
+        "vitest-fetch-mock": "catalog:",
+        "vitest": "catalog:"
     },
     "overrides": {
         "@asamuzakjp/css-color": "3.0.12"

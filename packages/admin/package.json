@@ -41,9 +41,7 @@
         }
     },
     "scripts": {
-        "build": "vite build",
-        "test": "vitest --coverage.enabled true",
-        "test-nowatch": "vitest run --coverage.enabled true"
+        "build": "vite build"
     },
     "dependencies": {
         "@cmfx/core": "workspace:*",
@@ -56,15 +54,10 @@
         "tailwindcss": "catalog:"
     },
     "devDependencies": {
-        "@solidjs/testing-library": "catalog:",
         "@tailwindcss/vite": "catalog:",
-        "@testing-library/jest-dom": "catalog:",
-        "@testing-library/user-event": "catalog:",
         "@types/node": "catalog:",
-        "@vitest/coverage-v8": "catalog:",
         "autoprefixer": "catalog:",
         "cssnano": "catalog:",
-        "jsdom": "catalog:",
         "postcss": "catalog:",
         "typescript": "catalog:",
         "vite": "catalog:",

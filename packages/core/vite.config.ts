@@ -13,14 +13,7 @@ export default defineConfig({
     test: {
         setupFiles: ['./src/vitest_setup.ts'],
         environment: 'jsdom',
-        exclude: ['**/lib/**'],
-        coverage: {
-            exclude: ['**/lib/**', '**/demo.tsx', '**/vite.config.ts'],
-            reporter: ['text', 'json-summary', ['json', {file: 'report.json'}]],
-            reportOnFailure: true,
-        }
     },
-
     plugins: [
         dts({
             entryRoot: './src',

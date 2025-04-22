@@ -86,21 +86,42 @@ importers:
       '@eslint/compat':
         specifier: ^1.2.8
         version: 1.2.8(eslint@9.25.0(jiti@2.4.2))
+      '@solidjs/testing-library':
+        specifier: 'catalog:'
+        version: 0.8.10(@solidjs/router@0.15.3(solid-js@1.9.5))(solid-js@1.9.5)
       '@stylistic/eslint-plugin-ts':
         specifier: ^4.2.0
         version: 4.2.0(eslint@9.25.0(jiti@2.4.2))(typescript@5.8.3)
+      '@testing-library/jest-dom':
+        specifier: 'catalog:'
+        version: 6.6.3
+      '@testing-library/user-event':
+        specifier: 'catalog:'
+        version: 14.6.1(@testing-library/dom@10.4.0)
       '@typescript-eslint/parser':
         specifier: ^8.31.0
         version: 8.31.0(eslint@9.25.0(jiti@2.4.2))(typescript@5.8.3)
+      '@vitest/coverage-v8':
+        specifier: 'catalog:'
+        version: 3.1.1(vitest@3.1.1(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1))
       eslint:
         specifier: ^9.24.0
         version: 9.25.0(jiti@2.4.2)
       globals:
         specifier: ^16.0.0
         version: 16.0.0
+      jsdom:
+        specifier: 'catalog:'
+        version: 26.1.0
       typescript-eslint:
         specifier: ^8.30.1
         version: 8.30.1(eslint@9.25.0(jiti@2.4.2))(typescript@5.8.3)
+      vite-plugin-solid:
+        specifier: 'catalog:'
+        version: 2.11.6(@testing-library/jest-dom@6.6.3)(solid-js@1.9.5)(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
+      vitest:
+        specifier: 'catalog:'
+        version: 3.1.1(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1)
 
   cmd/admin:
     dependencies:
@@ -233,33 +254,18 @@ importers:
         specifier: 'catalog:'
         version: 4.1.4
     devDependencies:
-      '@solidjs/testing-library':
-        specifier: 'catalog:'
-        version: 0.8.10(@solidjs/router@0.15.3(solid-js@1.9.5))(solid-js@1.9.5)
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.1.4(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.6.3
-      '@testing-library/user-event':
-        specifier: 'catalog:'
-        version: 14.6.1(@testing-library/dom@10.4.0)
       '@types/node':
         specifier: 'catalog:'
         version: 22.14.1
-      '@vitest/coverage-v8':
-        specifier: 'catalog:'
-        version: 3.1.1(vitest@3.1.1(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1))
       autoprefixer:
         specifier: 'catalog:'
         version: 10.4.21(postcss@8.5.3)
       cssnano:
         specifier: 'catalog:'
         version: 7.0.6(postcss@8.5.3)
-      jsdom:
-        specifier: 'catalog:'
-        version: 26.1.0
       postcss:
         specifier: 'catalog:'
         version: 8.5.3
@@ -318,33 +324,18 @@ importers:
         specifier: 'catalog:'
         version: 4.1.4
     devDependencies:
-      '@solidjs/testing-library':
-        specifier: 'catalog:'
-        version: 0.8.10(@solidjs/router@0.15.3(solid-js@1.9.5))(solid-js@1.9.5)
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.1.4(vite@6.3.2(@types/node@22.14.1)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
-      '@testing-library/jest-dom':
-        specifier: 'catalog:'
-        version: 6.6.3
-      '@testing-library/user-event':
-        specifier: 'catalog:'
-        version: 14.6.1(@testing-library/dom@10.4.0)
       '@types/node':
         specifier: 'catalog:'
         version: 22.14.1
-      '@vitest/coverage-v8':
-        specifier: 'catalog:'
-        version: 3.1.1(vitest@3.1.1(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1))
       autoprefixer:
         specifier: 'catalog:'
         version: 10.4.21(postcss@8.5.3)
       cssnano:
         specifier: 'catalog:'
         version: 7.0.6(postcss@8.5.3)
-      jsdom:
-        specifier: 'catalog:'
-        version: 26.1.0
       postcss:
         specifier: 'catalog:'
         version: 8.5.3
@@ -388,12 +379,6 @@ importers:
       '@types/node':
         specifier: 'catalog:'
         version: 22.14.1
-      '@vitest/coverage-v8':
-        specifier: 'catalog:'
-        version: 3.1.1(vitest@3.1.1(@types/node@22.14.1)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1))
-      jsdom:
-        specifier: 'catalog:'
-        version: 26.1.0
       typescript:
         specifier: 'catalog:'
         version: 5.8.3
