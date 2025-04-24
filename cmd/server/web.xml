@@ -44,12 +44,12 @@
     </encodings>
 
     <mimetypes>
-        <mimetype type="application/json" target="json" problem="application/problem+json" />
-        <mimetype type="application/yaml" target="yaml" problem="application/problem+yaml" />
-        <mimetype type="application/xml" target="xml" problem="application/problem+xml" />
-        <mimetype type="application/cbor" target="cbor" problem="application/problem+cbor" />
-        <mimetype type="text/xml" target="xml" problem="text/problem+xml" />
-        <mimetype type="text/html" target="html" problem="text/html" />
+        <mimetype type="application/json" target="json" problem="application/problem+json" accept="request,response" />
+        <mimetype type="application/yaml" target="yaml" problem="application/problem+yaml" accept="request,response" />
+        <mimetype type="application/xml" target="xml" problem="application/problem+xml" accept="request,response" />
+        <mimetype type="application/cbor" target="cbor" problem="application/problem+cbor" accept="request,response" />
+        <mimetype type="text/xml" target="xml" problem="text/problem+xml" accept="request,response" />
+        <mimetype type="text/html" target="html" problem="text/html" accept="response" />
         <mimetype type="text/event-stream" target="nop" />
         <mimetype type="multipart/form-data" target="nop" />
     </mimetypes>

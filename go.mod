@@ -15,14 +15,14 @@ require (
 	github.com/issue9/errwrap v0.3.2
 	github.com/issue9/events v0.9.1
 	github.com/issue9/logs/v7 v7.6.6
-	github.com/issue9/mux/v9 v9.1.4
+	github.com/issue9/mux/v9 v9.2.0
 	github.com/issue9/orm/v6 v6.0.0-beta.3.0.20250409063549-96127c63a57d
 	github.com/issue9/rands/v3 v3.1.0
 	github.com/issue9/scheduled v0.22.1
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.3.0
-	github.com/issue9/web v0.103.2
-	github.com/issue9/webuse/v7 v7.0.0-20250410073754-21625f803dca
+	github.com/issue9/web v0.104.0
+	github.com/issue9/webuse/v7 v7.0.0-20250424010614-8ba084a94356
 	github.com/kardianos/service v1.2.2
 	github.com/mattn/go-sqlite3 v1.14.27
 	github.com/shirou/gopsutil/v4 v4.25.3
@@ -44,7 +44,7 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.2.2 // indirect
 	github.com/google/go-tpm v0.9.3 // indirect
 	github.com/google/uuid v1.6.0 // indirect
-	github.com/issue9/localeutil v0.29.4 // indirect
+	github.com/issue9/localeutil v0.30.0 // indirect
 	github.com/issue9/query/v3 v3.1.3 // indirect
 	github.com/issue9/source v0.12.5 // indirect
 	github.com/issue9/term/v3 v3.4.1 // indirect
@@ -65,7 +65,7 @@ require (
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/net v0.38.0 // indirect
+	golang.org/x/net v0.39.0 // indirect
 	golang.org/x/sync v0.13.0 // indirect
 	golang.org/x/sys v0.32.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect

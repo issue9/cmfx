@@ -65,4 +65,4 @@ test-ts: build-ts
 test: test-go test-ts
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public --no-git-checks

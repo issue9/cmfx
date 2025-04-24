@@ -14,21 +14,27 @@ mimetypes:
     - type: "application/json"
       target: json
       problem: "application/problem+json"
+      accept: response,request
     - type: "application/yaml"
       target: yaml
       problem: "application/problem+yaml"
+      accept: response,request
     - type: "application/cbor"
       target: cbor
       problem: "application/problem+cbor"
+      accept: response,request
     - type: "application/xml"
       target: xml
       problem: "application/problem+xml"
+      accept: response,request
     - type: "text/xml"
       target: xml
       problem: "text/problem+xml"
+      accept: response,request
     - type: "text/html"
       target: html
       problem: "text/html"
+      accept: response
     - type: "text/event-stream"
       target: nop
     - type: "multipart/form-data"

@@ -23,10 +23,15 @@ jobs:
                   node-version: 23
                   registry-url: https://registry.npmjs.org/
 
-            - name: Install Deps
-              run: npm install
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: latest
 
-            - name: test
+            - name: Install Deps
+              run: make install-ts
+
+            - name: build
               run: make build-ts
 
             # @cmfx/core
