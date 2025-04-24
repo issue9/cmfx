@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/core",
-    "version": "0.10.0",
+    "version": "0.10.1",
     "type": "module",
     "description": "提供 cmfx 的前端核心功能",
     "author": {
