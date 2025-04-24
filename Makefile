@@ -2,13 +2,25 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: gen build-cmd build-ts install install-ts install-go init watch-server watch-admin watch-components watch test test-go test-ts publish-npm
+.PHONY: gen mk-coverage build-cmd build-ts install install-ts install-go init watch-server watch-admin watch-components watch test test-go test-ts publish-npm
 
 ROOT = .
 CMD = $(ROOT)/cmd
 
 CMD_SERVER = $(CMD)/server
 SERVER_BIN = server
+
+########################### mk-coverage ###################################
+
+COVERAGE = $(ROOT)/coverage
+ifeq ($(OS),Windows_NT)
+	MKCOVERAGE = mkdir "$(COVERAGE)" 2>NUL || exit 0
+else
+	MKCOVERAGE = mkdir -p $(COVERAGE)
+endif
+
+mk-coverage:
+	$(MKCOVERAGE)
 
 # 生成中间代码
 gen:
@@ -60,12 +72,12 @@ watch: watch-server watch-admin
 ########################### test ###################################
 
 # 执行 Go 测试
-test-go:
+test-go: mk-coverage
 	go vet -v ./...
-	go test -v -coverprofile='coverage.txt' -p=1 -parallel=1 -covermode=atomic ./...
+	go test -v -coverprofile='coverage/go.txt' -p=1 -parallel=1 -covermode=atomic ./...
 
 # 执行 TypeScript 测试
-test-ts: build-ts
+test-ts: build-ts mk-coverage
 	pnpm run lint
 	pnpm run test-nowatch
 

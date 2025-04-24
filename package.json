@@ -1,5 +1,5 @@
 {
-    "name": "@cmfx/demo",
+    "name": "@cmfx/root",
     "version": "0.10.0",
     "type": "module",
     "private": true,

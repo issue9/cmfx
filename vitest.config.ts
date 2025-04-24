@@ -14,9 +14,11 @@ export default defineConfig({
         environment: 'jsdom',
         exclude: exclude,
         coverage: {
+            clean: false,
+            reportsDirectory: './coverage',
             provider: 'v8',
             exclude: exclude,
-            reporter: ['text', 'json-summary', ['json', { file: 'report.json' }]],
+            reporter: ['text', 'text-summary', ['json', { file: 'vitest.json' }]],
             reportOnFailure: true,
         }
     },
