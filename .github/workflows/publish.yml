@@ -1,7 +1,7 @@
-name: NPM-Publish
+name: Publish
 
 on:
-    create:
+    push:
         tags:
             - "v*"
             - "!v*-alpha"
@@ -9,7 +9,9 @@ on:
 
 jobs:
     publish-npm:
+        name: publish-npm
         runs-on: ubuntu-latest
+
         steps:
             - uses: actions/checkout@v4
 
