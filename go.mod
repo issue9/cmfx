@@ -2,8 +2,6 @@ module github.com/issue9/cmfx
 
 go 1.24.0
 
-toolchain go1.24.1
-
 require (
 	github.com/fxamacker/cbor/v2 v2.8.0
 	github.com/go-webauthn/webauthn v0.12.3
@@ -22,7 +20,7 @@ require (
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v3 v3.3.0
 	github.com/issue9/web v0.104.0
-	github.com/issue9/webuse/v7 v7.0.0-20250424010614-8ba084a94356
+	github.com/issue9/webuse/v7 v7.0.0-20250424012023-36e8ec4a2e32
 	github.com/kardianos/service v1.2.2
 	github.com/mattn/go-sqlite3 v1.14.27
 	github.com/shirou/gopsutil/v4 v4.25.3

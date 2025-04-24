@@ -83,8 +83,8 @@ github.com/issue9/watermark v1.2.5 h1:mdZp+eSpj6ezyv+v36j1jDmQVbwaOcDPtv4657CPga
 github.com/issue9/watermark v1.2.5/go.mod h1:RRhdNANxa6cmEMOZjEoaH7C5aChuBGBBrG/MCbPv8R8=
 github.com/issue9/web v0.104.0 h1:6KquXQ4b9lMygr+H3Pkw450yHGnTPavAYPTcM37ZheA=
 github.com/issue9/web v0.104.0/go.mod h1:Kcf1846g8DiNqUrg70g0LWuUaTEu7xDHAp4A7sKHIcY=
-github.com/issue9/webuse/v7 v7.0.0-20250424010614-8ba084a94356 h1:B3ZncNjOaNfqUMo71LzYAs8z4eF9WSmHcGraxXndLBQ=
-github.com/issue9/webuse/v7 v7.0.0-20250424010614-8ba084a94356/go.mod h1:EvJf7aA52kbmTSU/4mNr2INKnAd1brxDcboQVipsZ14=
+github.com/issue9/webuse/v7 v7.0.0-20250424012023-36e8ec4a2e32 h1:tvsYTe+1XDGP6PR7BK+3lGRFwG0rrAkW0RHPoJX3clE=
+github.com/issue9/webuse/v7 v7.0.0-20250424012023-36e8ec4a2e32/go.mod h1:EvJf7aA52kbmTSU/4mNr2INKnAd1brxDcboQVipsZ14=
 github.com/jellydator/ttlcache/v3 v3.3.0 h1:BdoC9cE81qXfrxeb9eoJi9dWrdhSuwXMAnHTbnBm4Wc=
 github.com/jellydator/ttlcache/v3 v3.3.0/go.mod h1:bj2/e0l4jRnQdrnSTaGTsh4GSXvMjQcy41i7th0GVGw=
 github.com/kardianos/service v1.2.2 h1:ZvePhAHfvo0A7Mftk/tEzqEZ7Q4lgnR8sGz4xu1YX60=

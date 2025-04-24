@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2022-2024 caixw
+// SPDX-FileCopyrightText: 2022-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -132,9 +132,9 @@ func newServer(a *assert.Assertion) *cmfx.Module {
 		Language: language.SimplifiedChinese,
 		Logs:     logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
 		Codec: web.NewCodec().
-			AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype).
-			AddMimetype(yaml.Mimetype, yaml.Marshal, yaml.Unmarshal, yaml.ProblemMimetype).
-			AddMimetype(cbor.Mimetype, cbor.Marshal, cbor.Unmarshal, cbor.ProblemMimetype),
+			AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype, true, true).
+			AddMimetype(yaml.Mimetype, yaml.Marshal, yaml.Unmarshal, yaml.ProblemMimetype, true, true).
+			AddMimetype(cbor.Mimetype, cbor.Marshal, cbor.Unmarshal, cbor.ProblemMimetype, true, true),
 		HTTPServer: &http.Server{Addr: ":8080"},
 		Config:     config.Dir(s, "./"),
 	})

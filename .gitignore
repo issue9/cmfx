@@ -6,6 +6,7 @@
 *.dylib
 *.test
 *.out
+coverage.txt
 
 # 前端
 node_modules/

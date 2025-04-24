@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -27,7 +27,7 @@ func TestNewModule(t *testing.T) {
 	srv, err := server.NewHTTP("test", "1.0.0", &server.Options{
 		Language:   language.SimplifiedChinese,
 		Logs:       logs.New(logs.NewTermHandler(os.Stdout, nil), logs.WithLevels(logs.AllLevels()...), logs.WithCreated(logs.NanoLayout)),
-		Codec:      web.NewCodec().AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype),
+		Codec:      web.NewCodec().AddMimetype(json.Mimetype, json.Marshal, json.Unmarshal, json.ProblemMimetype, true, true),
 		HTTPServer: &http.Server{Addr: ":8080"},
 	})
 	a.NotError(err).NotNil(srv)
