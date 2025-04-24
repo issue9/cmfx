@@ -1,0 +1,69 @@
+name: Vitest
+on: [push, pull_request]
+
+jobs:
+    # 测试 typescript
+    test-ts:
+        name: test-ts
+        runs-on: ubuntu-latest
+
+        permissions:
+            # Required to checkout the code
+            contents: read
+            # Required to put a comment into the pull-request
+            pull-requests: write
+
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Install Node
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "23.x"
+
+            - name: Install pnpm
+              uses: pnpm/action-setup@v2
+              with:
+                  version: latest
+
+            - name: Install Deps
+              run: make install-ts
+
+            - name: test
+              run: make test-ts
+
+    # 测试 Go
+    test-go:
+        name: test-go
+        runs-on: ${{ matrix.os }}
+
+        strategy:
+            matrix:
+                os: [ubuntu-latest, macOS-latest, windows-latest]
+                go: ["1.24.x"]
+
+        steps:
+            - name: Check out code into the Go module directory
+              uses: actions/checkout@v4
+
+            - name: Set up Go ${{ matrix.go }}
+              uses: actions/setup-go@v5
+              with:
+                  go-version: ${{ matrix.go }}
+              id: go
+
+            - name: test
+              run: make test-go
+
+    # 上传覆盖率文件
+    upload:
+        name: upload
+        runs-on: ubuntu-latest
+        needs: [test-ts, test-go]
+
+        steps:
+            - name: Upload Coverage report
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  files: ./coverage/go.txt,./coverage/vitest.json
