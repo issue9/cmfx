@@ -18,7 +18,7 @@ export default defineConfig({
             reportsDirectory: './coverage',
             provider: 'v8',
             exclude: exclude,
-            reporter: ['text', 'text-summary', ['json', { file: 'vitest.json' }]],
+            reporter: ['text', 'text-summary', ['json', { file: 'ts.json' }]],
             reportOnFailure: true,
         }
     },

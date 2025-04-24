@@ -1,7 +1,8 @@
-name: Vitest
+name: test
 on: [push, pull_request]
 
 jobs:
+
     # 测试 typescript
     test-ts:
         name: test-ts
@@ -32,6 +33,12 @@ jobs:
             - name: test
               run: make test-ts
 
+            - name: Upload Coverage report
+              uses: codecov/codecov-action@v5
+              with:
+                  token: ${{secrets.CODECOV_TOKEN}}
+                  files: ./coverage/ts.json
+
     # 测试 Go
     test-go:
         name: test-go
@@ -55,15 +62,9 @@ jobs:
             - name: test
               run: make test-go
 
-    # 上传覆盖率文件
-    upload:
-        name: upload
-        runs-on: ubuntu-latest
-        needs: [test-ts, test-go]
-
-        steps:
             - name: Upload Coverage report
               uses: codecov/codecov-action@v5
               with:
                   token: ${{secrets.CODECOV_TOKEN}}
-                  files: ./coverage/go.txt,./coverage/vitest.json
+                  files: ./coverage/go.txt
+    
