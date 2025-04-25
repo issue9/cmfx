@@ -2,14 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, initNotify, notify, NotifyType, notifyTypes } from '@cmfx/components';
+import { Button, notify, NotifyType, notifyTypes } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
 import { Demo } from './base';
 
 export default function() {
-    initNotify(true);
-
     const [title, setTitle] = createSignal('title');
     const [body, setBody] = createSignal('body');
     const [timeout, setTimeout] = createSignal<number>(5000);

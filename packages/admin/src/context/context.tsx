@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { NotifyType, build, initDialog, initNotify, notify } from '@cmfx/components';
+import { NotifyType, build, notify } from '@cmfx/components';
 import { API, Config, Problem, Return, Theme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate, useParams } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
@@ -74,6 +74,9 @@ export function buildContext(opt: OptContext, f: API) {
         titleSeparator: opt.titleSeparator,
         pageSizes: opt.api.pageSizes,
         pageSize: opt.api.presetSize,
+        logo:opt.logo,
+        systemDialog: opt.system.dialog,
+        systemNotify: opt.system.notification,
         api: f,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) {
@@ -233,8 +236,6 @@ export function buildContext(opt: OptContext, f: API) {
         return <optContext.Provider value={opt}>
             <appContext.Provider value={ctx}>
                 <lp.Provider>
-                    {initNotify(opt.system.notification, opt.logo, 'error')}
-                    {initDialog(opt.title, opt.system.dialog, 'surface')}
                     {props.children}
                 </lp.Provider>
             </appContext.Provider>

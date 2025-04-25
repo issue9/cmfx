@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* 项目中必须引入此文件，否则像 basis-1/2 之类的会不启作用 */
+/* 项目中必须引入此文件，否则当前项目中的 tailwind CSS 类不启作用 */
 @import 'tailwindcss' source('.');
 
 @import '@cmfx/core/style.css';

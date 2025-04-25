@@ -42,11 +42,13 @@ export async function notify(title: string, body?: string, type?: Type, lang?: s
  *
  * 尽可能早地调用该组件，以使当前方法处于可用状态。
  *
+ * NOTE: 这也是一个组件，如果想以函数的形式调用，
+ * 需要在 SolidJS 初始化之后调用，比如在 HashRouter 的 Root 组件中。
+ *
  * @param system 是否将通知发送到操作系统的通知栏上；
  * @param icon 如果 system 为 true，该参数指定弹出框上的图标；
- * @param palette 默认的主题色，后续会被 notify 的 type 覆盖；
  */
-export function initNotify(system?: boolean, icon?: string, palette: Palette = 'error'): JSX.Element {
+export function initNotify(system?: boolean, icon?: string): JSX.Element {
     const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps, 'del'>>>([]);
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout = 5000) => {
@@ -61,7 +63,7 @@ export function initNotify(system?: boolean, icon?: string, palette: Palette = '
     };
 
     return <Portal>
-        <div class={palette ? `c--notify palette--${palette}` : 'c--notify'}>
+        <div class='c--notify'>
             <For each={msgs()}>
                 {item =>(
                     <Alert {...item} del={(id)=>{

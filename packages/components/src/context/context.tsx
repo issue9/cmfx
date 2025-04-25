@@ -5,6 +5,8 @@
 import { Config, Locale, Problem, UnitStyle } from '@cmfx/core';
 import { createContext, createResource, ParentProps, useContext } from 'solid-js';
 
+import { initDialog } from '@/dialog/system';
+import { initNotify } from '@/notify/notify';
 import { Options } from './options';
 
 const context = createContext<Context>();
@@ -89,6 +91,8 @@ export function build(conf: Config, o: Options) {
 
     const p = (props: ParentProps) => (
         <context.Provider value={val}>
+            { initDialog(o.title, o.systemDialog) }
+            { initNotify(o.systemNotify, o.logo) }
             <optionsContext.Provider value={o}>
                 {props.children}
             </optionsContext.Provider>

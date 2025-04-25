@@ -5,7 +5,7 @@
 import { createSignal, JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps, Palette } from '@/base';
+import { BaseProps } from '@/base';
 import { FieldAccessor, TextField } from '@/form';
 import { Dialog, Ref } from './dialog';
 
@@ -21,11 +21,13 @@ interface Props extends BaseProps {
  *
  * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  *
+ * NOTE: 这也是一个组件，如果想以函数的形式调用，
+ * 需要在 SolidJS 初始化之后调用，比如在 HashRouter 的 Root 组件中。
+ *
  * @param system 是否替换浏览器的默认弹出框；
  * @param title 浏览器弹出框的标题；
- * @param palette 浏览器弹出框的主题；
  */
-export function initDialog(title: string, system?: boolean, palette?: Palette): JSX.Element {
+export function initDialog(title: string, system?: boolean): JSX.Element {
     if (system) {
         window.alert = alert;
         window.confirm = confirm as any;
@@ -33,9 +35,9 @@ export function initDialog(title: string, system?: boolean, palette?: Palette): 
     }
 
     return <Portal>
-        <Alert header={/*@once*/title} palette={/*@once*/palette} />
-        <Confirm header={/*@once*/title} palette={/*@once*/palette} />
-        <Prompt header={/*@once*/title} palette={/*@once*/palette} />
+        <Alert header={/*@once*/title} palette='surface' />
+        <Confirm header={/*@once*/title} palette='surface' />
+        <Prompt header={/*@once*/title} palette='surface' />
     </Portal>;
 }
 
