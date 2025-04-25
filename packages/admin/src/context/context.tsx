@@ -64,7 +64,7 @@ export function buildContext(opt: OptContext, f: API) {
         console.error(r.body?.title);
     });
 
-    let uid = sessionStorage.getItem(currentKey) ?? '';
+    let uid = sessionStorage.getItem(opt.id+currentKey) ?? '';
 
     const conf = new Config(uid, opt.storage);
     Theme.init(conf, opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
@@ -147,7 +147,7 @@ export function buildContext(opt: OptContext, f: API) {
             if (ret === true) {
                 await userData.refetch();
                 uid = this.user()!.id!.toString();
-                sessionStorage.setItem(currentKey, uid);
+                sessionStorage.setItem(opt.id+currentKey, uid);
                 const conf = new Config(uid, opt.storage);
                 Theme.switchConfig(conf);
             }
@@ -159,7 +159,7 @@ export function buildContext(opt: OptContext, f: API) {
          */
         async logout() {
             await f.logout();
-            sessionStorage.removeItem(currentKey);
+            sessionStorage.removeItem(opt.id+currentKey);
             await userData.refetch();
             const conf = new Config(uid, opt.storage);
             Theme.switchConfig(conf);

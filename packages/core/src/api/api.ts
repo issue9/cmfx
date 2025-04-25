@@ -12,6 +12,8 @@ import { Method, Problem, Query, Return } from './types';
  * 封装了 API 访问的基本功能
  */
 export class API {
+    // NOTE: API 可能存在多个不同配置的实例，在添加静态属性时要注意。
+
     readonly #tokenStorage: Storage;
     readonly #tokenPath: string;
     readonly #tokenName: string;

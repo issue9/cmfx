@@ -22,7 +22,8 @@ test('pagination', async () => {
     const { container, unmount } = render(() => <Pagination count={5} value={3} onChange={(val) => curr=val} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
-                const { Provider } = init(new Config('id'), {
+                const { Provider } = init({
+                    config: new Config('id'),
                     title: 'title',
                     titleSeparator: '-',
                     pageSize: 20,
