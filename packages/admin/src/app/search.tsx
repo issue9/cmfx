@@ -4,6 +4,7 @@
 
 import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, TextField, TextFieldRef } from '@cmfx/components';
 import { Locale } from '@cmfx/core';
+import { useNavigate } from '@solidjs/router';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
 import { MenuItem, useAdmin, useOptions } from '@/context';
@@ -74,6 +75,7 @@ export function Search(props: Props): JSX.Element {
         inputRef.onkeydown = handleKeyDown;
     });
 
+    const nav = useNavigate();
     return <>
         <Dialog ref={el => dlgRef = el} class="app-search" actions={
             <div class="w-full">
@@ -92,7 +94,7 @@ export function Search(props: Props): JSX.Element {
                 <For each={items()}>{(item) => (
                     <li onClick={()=>{
                         props.switch(item.value);
-                        ctx.navigate()(item.value);
+                        nav(item.value);
                         dlgRef.close('');
                     }}>{ item.label }</li>
                 )}</For>

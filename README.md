@@ -4,7 +4,7 @@
 
 # cmfx
 
-![GitHub Tag](https://img.shields.io/github/v/tag/issue9/cmfx?label=version)
+![Version](https://img.shields.io/github/v/tag/issue9/cmfx?label=version)
 [![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/issue9/cmfx)](https://pkg.go.dev/github.com/issue9/cmfx)
 [![Go version](https://img.shields.io/github/go-mod/go-version/issue9/cmfx)](https://pkg.go.dev/github.com/issue9/cmfx)

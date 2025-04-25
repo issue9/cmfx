@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField } from '@cmfx/components';
-import { useParams } from '@solidjs/router';
+import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
 import { useAdmin, User } from '@/context';
@@ -23,9 +23,10 @@ export function Edit(props: Props): JSX.Element {
 
     const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
+    const nav = useNavigate();
     const form = new FormAccessor<Admin>(zeroAdmin(), ctx,
         async (obj) => { return await ctx.api.patch(`/admins/${ps.id}`, obj); },
-        () => { ctx.navigate()(props.backURL); }
+        () => { nav(props.backURL); }
     );
     const formPassports = form.accessor<Admin['passports']>('passports');
 

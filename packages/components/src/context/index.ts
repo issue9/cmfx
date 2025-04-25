@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { build, useComponents } from './context';
+export { init, useComponents } from './context';
 export type { Context } from './context';
 
 export type { Options } from './options';

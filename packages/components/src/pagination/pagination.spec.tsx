@@ -9,7 +9,7 @@ import userEvent from '@testing-library/user-event';
 import { ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
-import { build } from '@/context/context';
+import { init } from '@/context/context';
 import { Pagination } from './pagination';
 
 test('pagination', async () => {
@@ -22,7 +22,7 @@ test('pagination', async () => {
     const { container, unmount } = render(() => <Pagination count={5} value={3} onChange={(val) => curr=val} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
-                const { Provider } = build(new Config('id'), {
+                const { Provider } = init(new Config('id'), {
                     title: 'title',
                     titleSeparator: '-',
                     pageSize: 20,

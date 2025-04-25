@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Item, List, build } from '@cmfx/components';
+import { Drawer, Item, List, init } from '@cmfx/components';
 import { API, Config, Dict, Locale, Problem, Theme } from '@cmfx/core';
 import { HashRouter, RouteSectionProps } from '@solidjs/router';
 import { JSX } from 'solid-js';
@@ -27,7 +27,8 @@ async function main() {
     );
 
     function App(): JSX.Element {
-        const ret = build(conf, {
+        const ret = init({
+            config: conf,
             title: 'title',
             titleSeparator: '-',
             pageSizes: [10, 20, 50, 100, 200, 500],

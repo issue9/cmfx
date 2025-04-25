@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config, Locale, Problem, UnitStyle } from '@cmfx/core';
+import { Locale, Problem, UnitStyle } from '@cmfx/core';
 import { createContext, createResource, ParentProps, useContext } from 'solid-js';
 
 import { initDialog } from '@/dialog/system';
-import { initNotify } from '@/notify/notify';
+import { initNotify, notify, Type as NotifyType } from '@/notify/notify';
 import { Options } from './options';
 
 const context = createContext<Context>();
 
 const optionsContext = createContext<Options>();
 
-export type Context = ReturnType<typeof build>['context'];
+export type Context = ReturnType<typeof init>['context'];
 
 /**
  * 内部使用配置项
@@ -37,12 +37,17 @@ export function useComponents(): Context {
     return ctx;
 }
 
-export function build(conf: Config, o: Options) {
+/**
+ * 初始化当前组件的环境
+ *
+ * @param o 初始化参数；
+ */
+export function init(o: Options) {
     let localeID: string | undefined;
     let unitStyle: UnitStyle | undefined;
 
     const [locale, localeData] = createResource<Locale>(() => {
-        return new Locale(conf, localeID, unitStyle);
+        return new Locale(o.config, localeID, unitStyle);
     });
 
     const val = {
@@ -79,6 +84,18 @@ export function build(conf: Config, o: Options) {
         switchUnitStyle(style: UnitStyle) {
             unitStyle = style;
             localeData.refetch();
+        },
+
+        /**
+         * 发送一条通知给用户
+         *
+         * @param title 标题；
+         * @param body 具体内容，如果为空则只显示标题；
+         * @param type 类型，仅对非系统通知的情况下有效；
+         * @param timeout 如果大于 0，超过此毫秒数时将自动关闭提法；
+         */
+        async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5000) {
+            await notify(title, body, type, this.locale().locale.language, timeout);
         },
 
         /**

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { NotifyType, build, notify } from '@cmfx/components';
+import { NotifyType, init } from '@cmfx/components';
 import { API, Config, Problem, Return, Theme, Token, UnitStyle } from '@cmfx/core';
-import { useLocation, useNavigate, useParams } from '@solidjs/router';
+import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, createContext, createResource, useContext } from 'solid-js';
 
 import { buildOptions } from './options';
@@ -68,8 +68,8 @@ export function buildContext(opt: OptContext, f: API) {
 
     const conf = new Config(uid, opt.storage);
     Theme.init(conf, opt.theme.schemes[0], opt.theme.mode, opt.theme.contrast);
-    Theme.switchConfig(conf);
-    const lp = build(conf, {
+    const lp = init({
+        config: conf,
         title: opt.title,
         titleSeparator: opt.titleSeparator,
         pageSizes: opt.api.pageSizes,
@@ -83,43 +83,17 @@ export function buildContext(opt: OptContext, f: API) {
                 throw '发生了一个未知的错误，请联系管理员！';
             }
 
+            const loc = useLocation();
+            const nav = useNavigate();
             if ((p.status === 401) && (opt.routes.public.home !== loc.pathname)) {
                 nav(opt.routes.public.home);
             } else {
-                await notify(p.title, p.detail);
+                await lp.context.notify(p.title, p.detail);
             }
         }
     }); 
 
-    const nav = useNavigate();
-    const loc = useLocation();
-    const params = useParams();
-
     const ctx = {
-        /**
-         * 返回 {@link useParams} 的返回对象
-         *
-         * 在新项目中直接使用 {@link useParams} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useParams} 的地方可直接使用此方法的返回对象。
-         */
-        params() { return params; },
-
-        /**
-         * 返回 {@link useLocation} 的返回对象
-         *
-         * 在新项目中直接使用 {@link useLocation} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useLocation} 的地方可直接使用此方法的返回对象。
-         */
-        location() { return loc; },
-
-        /**
-         * 返回 {@link useNavigate} 的返回对象
-         *
-         * 在新项目中直接使用 {@link useNavigate} 会与当前框架的存在冲突。
-         * 所有需要使用 {@link useNavigate} 的地方可直接使用此方法的返回对象。
-         */
-        navigate() { return nav; },
-
         /**
          * 是否已经登录
          */
@@ -146,7 +120,7 @@ export function buildContext(opt: OptContext, f: API) {
 
             await f.logout();
 
-            nav(opt.routes.public.home);
+            useNavigate()(opt.routes.public.home);
         },
 
         /**
@@ -204,17 +178,10 @@ export function buildContext(opt: OptContext, f: API) {
         set title(v: string) { lp.context.title = v; },
 
         /**
-        * 发送一条通知给用户
-        *
-        * NOTE: 在组件还未初始化完成时，可能会发送到控制台。
-        *
-        * @param title 标题；
-        * @param body 具体内容，如果为空则只显示标题；
-        * @param type 类型，仅对非系统通知的情况下有效；
-        * @param timeout 如果大于 0，超过此毫秒数时将自动关闭提法；
-        */
+         * 发送一条通知给用户
+         */
         async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5000) {
-            await notify(title, body, type, this.locale().locale.language, timeout);
+            await lp.context.notify(title, body, type, timeout);
         },
 
         /**

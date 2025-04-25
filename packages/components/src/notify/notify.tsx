@@ -30,10 +30,9 @@ let notifyInst: { (title: string, body?: string, type?: Type, lang?: string, tim
  * @param type 类型，仅对非系统通知的情况下有效；
  * @param lang 语言，采用系统通知的时候会用到此值；
  * @param timeout 如果大于 0，超过此毫秒数时将自动关闭提法；
- *
- * NOTE: 需要调用 {@link initNotify} 方法初始化之后才有效。
  */
 export async function notify(title: string, body?: string, type?: Type, lang?: string, timeout?: number): Promise<void> {
+    // 需要调用 initNotify 方法初始化之后才有效
     return await notifyInst(title, body, type, lang, timeout);
 }
 

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Form, FormAccessor, Icon, LinkButton, Page, Password, TextField } from '@cmfx/components';
+import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
 import { useAdmin } from '@/context';
@@ -23,7 +24,7 @@ export function New(props: Props): JSX.Element {
         return await ctx.api.post('/admins', obj);
     }, async () => {
         await ctx.notify(ctx.locale().t('_i.page.admin.addSuccessful'), undefined, 'success');
-        ctx.navigate()(-1);
+        useNavigate()(-1);
     });
 
     return <Page title="_i.page.admin.admin" class="max-w-xs">

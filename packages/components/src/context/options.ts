@@ -2,9 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Problem } from '@cmfx/core';
+import { API, Config, Problem } from '@cmfx/core';
 
 export interface Options {
+    /**
+     * 保存浏览器配置内容的接口
+     */
+    config: Config;
+
     /**
      * 网站的标题
      *
