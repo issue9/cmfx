@@ -2,7 +2,7 @@
     "name": "@cmfx/components",
     "version": "0.10.1",
     "type": "module",
-    "description": "适用于 cmfx 的组件",
+    "description": "适用于 cmfx 的组件库",
     "author": {
         "name": "caixw",
         "url": "https://caixw.io"

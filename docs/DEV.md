@@ -39,10 +39,10 @@ npm i @cmfx/admin @cmfx/core @cmfx/components
 
 样式表需要引用各个包中的 CSS 文件：
 
- - @cmfx/core/style.css
- - @cmfx/components/style.css
- - @cmfx/components/tailwind.css tailwindcss 的一些自定义属性
- - @cmfx/admin/style.css
+- @cmfx/core/style.css
+- @cmfx/components/style.css
+- @cmfx/components/tailwind.css tailwindcss 的一些自定义属性
+- @cmfx/admin/style.css
 
 ## 后端
 

@@ -47,32 +47,12 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 #### 校验方法
 
-```bash
-#!/bin/sh
-
-# 获取当前提交的 commit msg
-commit_msg=`cat $1`
-msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert)(\(.+\))?: .{1,80}"
-if [[ ! $commit_msg =~ $msg_reg ]]
-then
-    echo "\n不合法的消息格式，请使用正确的格式\n <type>(<scope>): <subject>"
-    exit 1
-fi
-```
-
-可以将以上内容添加到项目 `.git/hooks` 之下，并命名为 `commit-msg`，可以在每次提交之前对提交信息格式进行检测，
+可以将 `./scripts/commit-msg.sh` 添加到项目 `.git/hooks` 之下，并命名为 `commit-msg`，可以在每次提交之前对提交信息格式进行检测，
 部分系统可能还需要为 `commit-msg` 添加可执行权限，比如 macOS 下需要执行 `chmod +x .git/hooks/commit-msg`。
 
 ## 测试环境搭建
 
-依赖以下的基本环境：
-
-- node 22
-- go: `go.mod` 中标明了最低的版本需求
-- gcc: 部分 Go 库需要 cgo 的支持
-- make
-
-之后可以通过在根目录下执行以下命令初始开发环境：
+如果支持 Makefile 的使用，可以使用以下命令进行初始化：
 
 1. `make install` 安装环境；
 1. `make init` 初始化项目的数据库等信息；

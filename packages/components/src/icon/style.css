@@ -6,7 +6,7 @@
 
 @layer components {
 
-    /* 指定包含的内容为一个图标，这是对 material-symbols-outlined 的重定义 */
+    /* 重定义了 material-symbols-outlined 的部分属性 */
     .c--icon {
         @apply flex-grow-0 flex-shrink-0 align-bottom;
         font-size: inherit !important;

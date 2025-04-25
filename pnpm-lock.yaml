@@ -236,8 +236,8 @@ importers:
         specifier: workspace:*
         version: link:../core
       '@scure/base':
-        specifier: ^1.2.4
-        version: 1.2.4
+        specifier: ^1.2.5
+        version: 1.2.5
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.15.3(solid-js@1.9.5)
@@ -953,8 +953,8 @@ packages:
   '@rushstack/ts-command-line@4.23.7':
     resolution: {integrity: sha512-Gr9cB7DGe6uz5vq2wdr89WbVDKz0UeuFEn5H2CfWDe7JvjFFaiV15gi6mqDBTbHhHCWS7w8mF1h3BnIfUndqdA==}
 
-  '@scure/base@1.2.4':
-    resolution: {integrity: sha512-5Yy9czTO47mqz+/J8GM6GIId4umdCk1wc1q8rKERQulIoc8VP9pzDcghv10Tl2E7R96ZUx/PhND3ESYUQX8NuQ==}
+  '@scure/base@1.2.5':
+    resolution: {integrity: sha512-9rE6EOVeIQzt5TSu4v+K523F8u6DhBsoZWPGKlnCshhlDhy0kJzUX4V+tr2dWmzF1GdekvThABoEQBGBQI7xZw==}
 
   '@solid-devtools/debugger@0.27.0':
     resolution: {integrity: sha512-z0mqbjKmPUZ3x3mlEVTSbMmlMP+DTHjrk4P2L1Bk6352Oy7CkgAL6UNWuxVGlWGueK+9pL60n53045A0ofoEFQ==}
@@ -3488,7 +3488,7 @@ snapshots:
     transitivePeerDependencies:
       - '@types/node'
 
-  '@scure/base@1.2.4': {}
+  '@scure/base@1.2.5': {}
 
   '@solid-devtools/debugger@0.27.0(solid-js@1.9.5)':
     dependencies:

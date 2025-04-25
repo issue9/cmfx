@@ -3,6 +3,9 @@
     "version": "0.10.1",
     "type": "module",
     "private": true,
+    "engines": {
+        "node": ">=23.0.0"
+    },
     "author": {
         "name": "caixw",
         "url": "https://caixw.io"
