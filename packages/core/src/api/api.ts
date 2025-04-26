@@ -82,7 +82,7 @@ export class API {
      */
     setLocale(v: string) {
         this.#locale = v;
-        this.clearCache();
+        this.clearCache().then(()=>{});
     }
 
     /**
@@ -194,7 +194,7 @@ export class API {
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
-        return this.#withArgument<R,PE>(path, method, token, body ? true : false, body);
+        return this.#withArgument<R,PE>(path, method, token, !!body, body);
     }
 
     /**
@@ -443,7 +443,7 @@ export class API {
 
         // watch 返回 Promise 和 Connect 两个对象，
         // Promise 监视 Connect.val 的变化，直到其变为 true，Promise 才会 resolve。
-        interface Connect { val: boolean; };
+        interface Connect { val: boolean; }
         const watch = ():[Promise<unknown>, Connect] => {
             const connect: Connect = { val: false };
             let proxy: Connect;

@@ -103,7 +103,7 @@ export function formatDuration(nano: number): Intl.DurationInput {
             nano -= rem;
         }
         if (!nano) { break; }
-    };
+    }
 
     if (!hasField) { obj.nanoseconds = 0; } // 至少需要一个字段
 

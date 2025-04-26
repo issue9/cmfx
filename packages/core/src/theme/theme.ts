@@ -25,6 +25,7 @@ export class Theme {
     /**
      * 初始化主题
      *
+     * @param conf 保存配置的接口；
      * @param scheme 默认的主题值；
      * @param mode 默认的模式；
      * @param contrast 默认的对比度；
@@ -40,7 +41,7 @@ export class Theme {
      * 获取动画的过滤时间，即 CSS 的 --transition-duration 变量的值。
      *
      * @param preset 默认值，找不到时返回该值，单位为毫秒；
-     * @param 返回以毫秒为单位的数值；
+     * @returns 返回以毫秒为单位的数值；
      */
     static transitionDuration(preset: number): number {
         let val = getComputedStyle(document.documentElement).getPropertyValue('--transition-duration');
