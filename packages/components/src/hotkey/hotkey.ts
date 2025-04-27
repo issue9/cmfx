@@ -26,6 +26,7 @@ const eventName = 'keyup';
  */
 export class Hotkey {
     static #handlers: Map<Hotkey, Handler> = new Map();
+    static #inited = false;
 
     static #onkeyup = (e: KeyboardEvent) => {
         for (const [hk, h] of Hotkey.#handlers) {
@@ -39,15 +40,25 @@ export class Hotkey {
      * 初始化环境
      */
     static init(): void {
+        if (Hotkey.#inited) {
+            return;
+        }
+
         document.addEventListener(eventName, Hotkey.#onkeyup);
+        Hotkey.#inited = true;
     }
 
     /**
      * 注销环境
      */
     static destroy(): void {
+        if (!Hotkey.#inited) {
+            return;
+        }
+
         document.removeEventListener(eventName, Hotkey.#onkeyup);
         Hotkey.#handlers.clear();
+        Hotkey.#inited = false;
     }
 
     /**

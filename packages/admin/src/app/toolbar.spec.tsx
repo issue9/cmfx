@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Locale } from '@cmfx/core';
+import { API, Config, Locale } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import { createSignal, ParentProps } from 'solid-js';
@@ -14,15 +14,16 @@ import Toolbar from './toolbar';
 
 test('toolbar', async () => {
     const ao = options.api;
-    const api = await API.build(options.id, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans', localStorage);
-    Locale.init('en', api);
+    const conf = new Config(options.id, '');
+    const api = await API.build(conf, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans');
+    Locale.init(conf, 'en', api);
     const menus = createSignal(false);
     const [_, setSwitch] = createSignal('');
+    const { Provider } = await buildContext(options);
 
     const { container, unmount } = render(() => <Toolbar switch={setSwitch} menuVisible={menus} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
-                const { Provider } = buildContext(options, api);
                 return <Provider>{props.children}</Provider>;
             };
 

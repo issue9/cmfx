@@ -9,10 +9,10 @@ import { Config } from '@/config';
 import { Locale } from './locale';
 
 describe('Locale', async () => {
-    const api = await API.build('cmfx-admin', 'https://api.example.com', 'token', 'application/json', 'application/json', 'zh-Hans', sessionStorage);
-    const c = new Config('');
+    const c = new Config('admin', '');
+    const api = await API.build(c, 'https://api.example.com', 'token', 'application/json', 'application/json', 'zh-Hans');
 
-    Locale.init('en', api);
+    Locale.init(c, 'en', api);
     expect(Locale.languageSize()).toEqual(0);
 
     test('addDict', async () => {
@@ -43,30 +43,37 @@ describe('Locale', async () => {
     test('t/tt', async () => {
         await Locale.addDict('en', async () => { return { 'lang': 'en-US' }; });
 
-        let l = new Locale(c, 'cmn-Hans', 'narrow');
+        let l = new Locale(); // 默认值
+        expect(l).not.toBeUndefined();
+
+        Locale.switchLocale('cmn-Hans');
+        Locale.switchUnitStyle('narrow');
+        l = new Locale();
         expect(l).not.toBeUndefined();
         expect(l.tt('cmn-Hans', 'lang')).toEqual('cmn-Hans');
         expect(l.t('lang')).toEqual('cmn-Hans');
 
-        l = new Locale(c); // 默认值
-        expect(l).not.toBeUndefined();
-
-        l = new Locale(c, 'en');
+        Locale.switchLocale('en');
+        l = new Locale();
         expect(l).not.toBeUndefined();
         expect(l.t('lang')).toEqual('en-US');
 
-        l = new Locale(c, 'en-US');
+        Locale.switchLocale('en-US');
         expect(l).not.toBeUndefined();
         expect(l.t('lang')).toEqual('en-US');
     });
 
     test('locales', () => {
-        const l = new Locale(c, 'cmn-Hans', 'short');
+        Locale.switchLocale('cmn-Hans');
+        Locale.switchUnitStyle('short');
+        const l = new Locale();
         expect(l.locales.length).equal(2);
     });
 
     test('bytes', () => {
-        const l = new Locale(c, 'en', 'full');
+        Locale.switchLocale('en');
+        Locale.switchUnitStyle('full');
+        const l = new Locale();
         expect(l.bytes(1022)).equal('1,022 bytes');
         expect(l.bytes(1026)).equal('1.002 kilobytes');
         expect(l.bytes(10261111)).equal('9.786 megabytes');
@@ -75,18 +82,24 @@ describe('Locale', async () => {
     });
 
     test('duration', () => {
-        const l = new Locale(c, 'en', 'narrow');
+        Locale.switchLocale('en');
+        Locale.switchUnitStyle('narrow');
+        const l = new Locale();
         expect(l.duration(111), '111ns');
         expect(l.duration(11111111111), '111.111ms');
     });
 
     test('date', ()=>{
-        const l = new Locale(c, 'en', 'short');
+        Locale.switchLocale('en');
+        Locale.switchUnitStyle('short');
+        const l = new Locale();
         expect(l.date('2021-01-02'), '2021-01-02');
     });
 
     test('datetime', ()=>{
-        const l = new Locale(c, 'en', 'short');
+        Locale.switchLocale('en');
+        Locale.switchUnitStyle('short');
+        const l = new Locale();
         expect(l.datetime('2021-01-02 1:2'), '2021-01-02 1:2');
     });
 });

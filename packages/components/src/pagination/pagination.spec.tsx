@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Locale, Problem } from '@cmfx/core';
+import { API, Config, Locale, Problem, Theme } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
@@ -13,26 +13,31 @@ import { init } from '@/context/context';
 import { Pagination } from './pagination';
 
 test('pagination', async () => {
-    const api = await API.build('token', 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-Hans', localStorage);
-    Locale.init('en', api);
+    const conf = new Config('admin', '');
+    const api = await API.build(conf, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-Hans');
+    Locale.init(conf, 'en', api);
 
     const user = userEvent.setup();
     let curr: number;
 
+    const { Provider } = await init({
+        scheme: Theme.genScheme(5),
+        locale: 'zh-Hans',
+        messages: {'zh-Hans': [async()=>(await import('@/messages/zh-Hans.lang')).default]},
+        config: conf,
+        title: 'title',
+        titleSeparator: '-',
+        pageSize: 20,
+        pageSizes: [10, 20, 30],
+        api: api,
+        outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+            console.error(p);
+        },
+    });
+
     const { container, unmount } = render(() => <Pagination count={5} value={3} onChange={(val) => curr=val} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
-                const { Provider } = init({
-                    config: new Config('id'),
-                    title: 'title',
-                    titleSeparator: '-',
-                    pageSize: 20,
-                    pageSizes: [10, 20, 30],
-                    api: api,
-                    outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
-                        console.error(p);
-                    }
-                });
                 return <Provider>{props.children}</Provider>;
             };
 

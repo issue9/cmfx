@@ -27,14 +27,13 @@ export class Theme {
      *
      * @param conf 保存配置的接口；
      * @param scheme 默认的主题值；
-     * @param mode 默认的模式；
-     * @param contrast 默认的对比度；
      */
-    static init(conf: Config, scheme: Scheme, mode: Mode = 'system', contrast: Contrast = 'nopreference') {
+    static init(conf: Config, scheme: Scheme) {
+        Theme.#config = conf;
         Theme.#scheme = scheme;
-        Theme.#mode = mode;
-        Theme.#contrast = contrast;
-        Theme.switchConfig(conf);
+        Theme.#mode = 'system';
+        Theme.#contrast = 'nopreference';
+        Theme.switchConfig();
     }
 
     /**
@@ -59,21 +58,19 @@ export class Theme {
     }
 
     /**
-     * 切换配置
+     * 通知配置对象已切换，需要主题对象对此作出反映
      */
-    static switchConfig(conf: Config) {
-        Theme.#config = conf;
-
-        const s = getScheme(conf, Theme.#scheme);
-        changeScheme(conf, s);
+    static switchConfig() {
+        const s = getScheme(Theme.#config, Theme.#scheme);
+        changeScheme(Theme.#config, s);
         Theme.#scheme = s;
 
-        const m = getMode(conf, Theme.#mode);
-        changeMode(conf, m);
+        const m = getMode(Theme.#config, Theme.#mode);
+        changeMode(Theme.#config, m);
         Theme.#mode = m;
 
-        const c = getContrast(conf, Theme.#contrast);
-        changeContrast(conf, c);
+        const c = getContrast(Theme.#config, Theme.#contrast);
+        changeContrast(Theme.#config, c);
         Theme.#contrast = c;
     }
 

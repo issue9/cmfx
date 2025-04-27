@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Locale } from '@cmfx/core';
+import { API, Config, Locale } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { describe, expect, test } from 'vitest';
 
@@ -12,11 +12,12 @@ import { options } from './options/options.spec';
 describe('context', async () => {
     test('buildContext', async () => {
         const ao = options.api;
-        const api = await API.build(options.id, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans', localStorage);
-        Locale.init('en', api);
+        const conf = new Config('admin', '');
+        const api = await API.build(conf, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans');
+        Locale.init(conf, 'en', api);
+        const ret = await buildContext(options);
 
         const Root = ()=>{
-            const ret = buildContext(options, api);
             expect(ret.ctx.api).toEqual(api);
             expect(ret.ctx.locale()).not.toBeUndefined();
             return <p>root</p>;

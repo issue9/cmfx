@@ -16,9 +16,10 @@ import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {
     const ao = options.api;
-    const api = await API.build(options.id, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans', localStorage);
-    Locale.init('en', api);
-    const l = new Locale(new Config('admin', sessionStorage));
+    const conf = new Config(options.id, '');
+    const api = await API.build(conf, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans');
+    Locale.init(conf, 'en', api);
+    const l = new Locale();
     const menus: Array<MenuItem> = [
         {'type': 'divider'},
         {'type': 'item', label: 'item-1'},
@@ -47,6 +48,7 @@ describe('search', async () => {
     test('Search', async () => {
         window.HTMLLIElement.prototype.scrollIntoView = function() {};
         const user = userEvent.setup();
+        const { Provider } = await buildContext(options);
 
         const [_, setSwitch] = createSignal('');
         const { container, unmount } = render(() => <Search switch={setSwitch} />, {
@@ -54,7 +56,6 @@ describe('search', async () => {
                 const Root = () => {
                     const opt = { ...options };
                     opt.aside.menus = menus; // 替换菜单项
-                    const { Provider } = buildContext(opt, api);
                     return <Provider>{props.children}</Provider>;
                 };
 

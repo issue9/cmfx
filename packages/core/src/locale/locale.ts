@@ -40,6 +40,7 @@ export class Locale {
     static #fallback: string;
     static #messages: Map<string, Map<string, IntlMessageFormat>>;
     static #api: API;
+    static #config: Config;
 
     /**
      * 初始化
@@ -47,10 +48,11 @@ export class Locale {
      * @param fallback 在找不到对应在的语言时采用的默认值；
      * @param api 切换语言时会同时切换 api 的 accept-language 报头；
      */
-    static init(fallback: string, api: API) {
+    static init(c: Config, fallback: string, api: API) {
         Locale.#fallback = fallback;
         Locale.#messages = new Map();
         Locale.#api = api;
+        Locale.#config = c;
     }
 
     /**
@@ -109,6 +111,10 @@ export class Locale {
         }
     }
 
+    static switchLocale(id: string) { Locale.#config.set(localeKey, id); }
+
+    static switchUnitStyle(s: UnitStyle) { Locale.#config.set(unitStyleKey, s); }
+
     #current: Map<string, IntlMessageFormat>;
     readonly #locale: Intl.Locale;
     readonly #unitStyle: UnitStyle;
@@ -125,29 +131,18 @@ export class Locale {
     #duration: Intl.DurationFormat;
     #displayNames: Intl.DisplayNames;
 
-    /**
-     * 构造函数
-     *
-     * @param c 配置对象；
-     * @param locale 语言 ID，如果为空则从 c 中获取，如果 c 中也不存在则采用浏览器 {@link navigator.language} 变量；
-     * @param unitStyle 各种单位的显示风格，如果为空则从 c 中获取，如果也不存在于 c，则采用 'narrow' 作为默认值；
-     */
-    constructor(c: Config, locale?: string, unitStyle?: UnitStyle) {
-        if (!locale) {
-            locale = c.get<string>(localeKey);
-        }
+    constructor() {
+        let locale = Locale.#config.get<string>(localeKey);
         if (!locale) {
             locale = navigator.language;
+            Locale.#config.set(localeKey, locale);
         }
-        c.set(localeKey, locale);
 
-        if (!unitStyle) {
-            unitStyle = c.get<UnitStyle>(unitStyleKey);
-        }
+        let unitStyle = Locale.#config.get<UnitStyle>(unitStyleKey);
         if (!unitStyle) {
             unitStyle = 'narrow';
+            Locale.#config.set(unitStyleKey, unitStyle);
         }
-        c.set(unitStyleKey, unitStyle);
 
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
         const curr = Locale.#messages.get(locale);

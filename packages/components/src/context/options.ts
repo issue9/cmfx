@@ -2,13 +2,33 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Problem } from '@cmfx/core';
+import { API, Config, DictLoader, Problem, Scheme } from '@cmfx/core';
 
 export interface Options {
     /**
      * 保存浏览器配置内容的接口
      */
     config: Config;
+
+    /**
+     * 默认的主题
+     */
+    scheme: Scheme;
+
+    /**
+     * 初始的本地化语言 ID
+     */
+    locale: string;
+
+    /**
+     * 当前支持的语言列表以及加载方法
+     */
+    messages: Record<string, Array<DictLoader>>;
+    
+    /**
+     * API 访问的基地址
+     */
+    api: API;
 
     /**
      * 网站的标题
@@ -30,11 +50,6 @@ export interface Options {
      * 表格等需要分页对象的每页默认数量
      */
     pageSize: number;
-
-    /**
-     * 用于操作与后端操作的 API 对象
-     */
-    api: API;
 
     /**
      * 是否采用系统级别的通知

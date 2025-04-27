@@ -7,6 +7,7 @@ import type { Mimetype, Serializer } from './serializer';
 import { serializers } from './serializer';
 import { delToken, getToken, SSEToken, state, Token, writeToken } from './token';
 import { Method, Problem, Query, Return } from './types';
+import { Config } from '@/config';
 
 /**
  * 封装了 API 访问的基本功能
@@ -14,9 +15,8 @@ import { Method, Problem, Query, Return } from './types';
 export class API {
     // NOTE: API 可能存在多个不同配置的实例，在添加静态属性时要注意。
 
-    readonly #tokenStorage: Storage;
     readonly #tokenPath: string;
-    readonly #tokenName: string;
+    readonly #config: Config;
     #token: Token | undefined;
 
     readonly #baseURL: string;
@@ -44,20 +44,15 @@ export class API {
      * @param locale 请求报头 accept-language 的内容；
      * @param s 保存令牌的对象，如果为空会采用 {@link window#localStorage}；
      */
-    static async build(tokenName: string, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, s?: Storage): Promise<API> {
+    static async build(conf: Config, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
         // NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
-        return new API(tokenName, baseURL, tokenPath, contentType, accept, locale, await newCache(tokenName), s);
+        return new API(conf, baseURL, tokenPath, contentType, accept, locale, await newCache(conf.prefix));
     }
 
-    private constructor(tokenName: string, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache, s?: Storage) {
-        if (!s) {
-            s = window.localStorage;
-        }
-
-        this.#tokenStorage = s;
+    private constructor(conf: Config, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache) {
         this.#tokenPath = tokenPath;
-        this.#tokenName = tokenName;
-        this.#token = getToken(this.#tokenStorage, this.#tokenName);
+        this.#config = conf;
+        this.#token = getToken(conf);
 
         this.#baseURL = baseURL;
         this.#locale = locale;
@@ -221,7 +216,7 @@ export class API {
             return ret.body;
         }
 
-        this.#token = writeToken(this.#tokenStorage, ret.body!, this.#tokenName);
+        this.#token = writeToken(ret.body!, this.#config);
         await this.clearCache();
 
         return true;
@@ -235,7 +230,7 @@ export class API {
     async logout() {
         await this.delete(this.#tokenPath);
         this.#token = undefined;
-        delToken(this.#tokenStorage, this.#tokenName);
+        delToken(this.#config);
         await this.clearCache();
 
         // 关闭需要登录的 EventSource
@@ -282,7 +277,7 @@ export class API {
                 return undefined;
             }
 
-            this.#token = writeToken(this.#tokenStorage, ret.body!, this.#tokenName);
+            this.#token = writeToken(ret.body!, this.#config);
             return this.#token.access_token;
         }
         }
@@ -363,7 +358,7 @@ export class API {
 
             if (resp.status === 401) {
                 this.#token = undefined;
-                delToken(this.#tokenStorage, this.#tokenName);
+                delToken(this.#config);
             }
             return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {

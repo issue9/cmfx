@@ -2,18 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale, Problem, UnitStyle } from '@cmfx/core';
+import { Locale, Problem, Theme, UnitStyle } from '@cmfx/core';
 import { createContext, createResource, ParentProps, useContext } from 'solid-js';
 
 import { initDialog } from '@/dialog/system';
 import { initNotify, notify, Type as NotifyType } from '@/notify/notify';
 import { Options } from './options';
+import { Hotkey } from '@/hotkey/hotkey';
+import { registerLocales } from '@/chart/locale';
 
 const context = createContext<Context>();
 
 const optionsContext = createContext<Options>();
 
-export type Context = ReturnType<typeof init>['context'];
+export type Context = Awaited<ReturnType<typeof init>>['context'];
 
 /**
  * 内部使用配置项
@@ -42,12 +44,19 @@ export function useComponents(): Context {
  *
  * @param o 初始化参数；
  */
-export function init(o: Options) {
-    let localeID: string | undefined;
-    let unitStyle: UnitStyle | undefined;
+export async function init(o: Options) {
+    Theme.init(o.config, o.scheme);
+    Hotkey.init(); // 初始化快捷键。
+
+    // 加载本地化语言
+    Locale.init(o.config, o.locale, o.api);
+    for(const [key, loaders] of Object.entries(o.messages)) {
+        await Locale.addDict(key, ...loaders);
+        await registerLocales(key); // 加载图表组件的本地化语言
+    }
 
     const [locale, localeData] = createResource<Locale>(() => {
-        return new Locale(o.config, localeID, unitStyle);
+        return new Locale();
     });
 
     const val = {
@@ -67,12 +76,23 @@ export function init(o: Options) {
         get api() { return o.api; },
 
         /**
+         * 切换配置
+         *
+         * @param id 新配置的 ID；
+         */
+        switchConfig(id: string | number) {
+            o.config.switch(id);
+            localeData.refetch();
+            Theme.switchConfig();
+        },
+
+        /**
          * 切换语言
          *
          * @param id 新语言的 ID
          */
         switchLocale(id: string): void {
-            localeID = id;
+            Locale.switchLocale(id);
             localeData.refetch();
         },
 
@@ -82,7 +102,7 @@ export function init(o: Options) {
          * @param style 单位样式
          */
         switchUnitStyle(style: UnitStyle) {
-            unitStyle = style;
+            Locale.switchUnitStyle(style);
             localeData.refetch();
         },
 

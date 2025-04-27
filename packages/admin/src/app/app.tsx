@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Hotkey, List, registerChartLocales } from '@cmfx/components';
-import { API, Locale } from '@cmfx/core';
+import { Drawer, List } from '@cmfx/components';
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
@@ -22,41 +21,24 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  */
 export async function create(elementID: string, o: AppOptions): Promise<void> {
     const opt = buildOptions(o);
-    const ao = opt.api;
-
-    const api = await API.build(o.id, ao.base, ao.token, ao.contentType, ao.acceptType, opt.locales.fallback, opt.storage);
-    await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
-    api.cache(opt.api.info);
-
-    // 加载本地化语言
-    Locale.init(opt.locales.fallback, api);
-    for(const item of Object.entries(opt.locales.messages)) {
-        await Locale.addDict(item[0], ...item[1]);
-        registerChartLocales(item[0]); // 加载图表组件的本地化语言
-    }
-
-    Hotkey.init(); // 初始化快捷键。
-
-    render(() => (<App opt={opt} api={api} />), document.getElementById(elementID)!);
+    const { Provider } = await buildContext(opt);
+    render(() => (<App opt={opt} p={Provider} />), document.getElementById(elementID)!);
 }
 
 /**
  * 项目的根组件
  */
-function App(props: {opt: OptContext, api: API}): JSX.Element {
+function App(props: {opt: OptContext, p: { (props: { children: JSX.Element; }): JSX.Element;}}): JSX.Element {
     const menuVisible = createSignal(true);
     const [selected, setSelected] = createSignal<string>('');
 
     const Root = (p: RouteSectionProps) => {
-        // buildContext 中使用了 useNavigate 和 useLocation，必须得 Router 之内使用。
-        const { Provider } = buildContext(props.opt, props.api);
-
-        return <Provider>
+        return <props.p>
             <div class="app palette--surface">
                 <Toolbar menuVisible={menuVisible} switch={setSelected} />
                 <main class="app-main">{p.children}</main>
             </div>
-        </Provider>;
+        </props.p>;
     };
 
     const routes = [

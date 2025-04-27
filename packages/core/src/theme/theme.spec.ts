@@ -9,7 +9,7 @@ import { Theme } from './theme';
 import './theme.css';
 
 describe('Theme', () => {
-    Theme.init(new Config('id'), Theme.genScheme(10));
+    Theme.init(new Config('admin', 'id'), Theme.genScheme(10));
 
     test('transitionDuration', () => {
         expect(Theme.transitionDuration(100)).toEqual(100);
