@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@/config';
-
 export interface SSEToken {
     token: string;
     expire: number;
@@ -34,22 +32,22 @@ export interface Token {
  *
  * @returns 返回的令牌是由 {@link buildToken} 处理之后的。
  */
-export function getToken(c: Config): Token | undefined {
-    const s = c.storage.getItem(c.prefix);
-    if (!s) {
+export function getToken(id: string, s: Storage): Token | undefined {
+    const t = s.getItem(id);
+    if (!t) {
         return;
     }
-    return JSON.parse(s) as Token;
+    return JSON.parse(t) as Token;
 }
 
-export function delToken(c: Config) { c.storage.removeItem(c.prefix); }
+export function delToken(id: string, s: Storage) { s.removeItem(id); }
 
 /**
  * 保存令牌至缓存，会调用 {@link buildToken} 对令牌进行二次处理。
  */
-export function writeToken(t: Token, c: Config): Token {
+export function writeToken(t: Token, id: string, s: Storage): Token {
     t = buildToken(t);
-    c.storage.setItem(c.prefix, JSON.stringify(t));
+    s.setItem(id, JSON.stringify(t));
     return t;
 }
 

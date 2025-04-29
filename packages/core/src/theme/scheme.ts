@@ -2,10 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config } from '@/config';
-
-const key = 'theme_scheme';
-
 /**
  * 定义主题中与颜色相关的变量
  *
@@ -19,27 +15,17 @@ export interface Scheme {
     error?: number;
 }
 
-export function getScheme(c: Config, preset: Scheme) {
-    let ret = c.get<Scheme>(key);
-    if (!ret) {
-        ret = preset;
-    }
-    return ret;
-}
-
 /**
  * 改变主题色
  *
  * 此方法提供了动态改变主题色的方法，发生在 theme.css 应用之后。
  */
-export function changeScheme(c: Config, s: Scheme) {
+export function changeScheme(elem: HTMLElement, s: Scheme) {
     Object.entries(s).forEach((o)=>{
         if (o[1] !== undefined) {
-            document.documentElement.style.setProperty('--'+o[0], o[1]);
+            elem.style.setProperty('--'+o[0], o[1]);
         }
     });
-
-    c.set(key, s);
 }
 
 export function genScheme(primary: number, error?: number, step = 60): Scheme {

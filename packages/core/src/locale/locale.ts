@@ -5,13 +5,9 @@
 import IntlMessageFormat from 'intl-messageformat';
 
 import { API } from '@/api';
-import { Config } from '@/config';
 import { Duration, formatDuration, parseDuration } from '@/time';
 import { Dict, flatten, Keys, Loader } from './dict';
 import { match } from './match';
-
-const localeKey = 'locale';
-const unitStyleKey = 'unit_style';
 
 export const unitStyles = ['full', 'short', 'narrow'] as const;
 
@@ -40,7 +36,6 @@ export class Locale {
     static #fallback: string;
     static #messages: Map<string, Map<string, IntlMessageFormat>>;
     static #api: API;
-    static #config: Config;
 
     /**
      * 初始化
@@ -48,11 +43,10 @@ export class Locale {
      * @param fallback 在找不到对应在的语言时采用的默认值；
      * @param api 切换语言时会同时切换 api 的 accept-language 报头；
      */
-    static init(c: Config, fallback: string, api: API) {
+    static init(fallback: string, api: API) {
         Locale.#fallback = fallback;
         Locale.#messages = new Map();
         Locale.#api = api;
-        Locale.#config = c;
     }
 
     /**
@@ -111,10 +105,6 @@ export class Locale {
         }
     }
 
-    static switchLocale(id: string) { Locale.#config.set(localeKey, id); }
-
-    static switchUnitStyle(s: UnitStyle) { Locale.#config.set(unitStyleKey, s); }
-
     #current: Map<string, IntlMessageFormat>;
     readonly #locale: Intl.Locale;
     readonly #unitStyle: UnitStyle;
@@ -131,18 +121,9 @@ export class Locale {
     #duration: Intl.DurationFormat;
     #displayNames: Intl.DisplayNames;
 
-    constructor() {
-        let locale = Locale.#config.get<string>(localeKey);
-        if (!locale) {
-            locale = navigator.language;
-            Locale.#config.set(localeKey, locale);
-        }
-
-        let unitStyle = Locale.#config.get<UnitStyle>(unitStyleKey);
-        if (!unitStyle) {
-            unitStyle = 'narrow';
-            Locale.#config.set(unitStyleKey, unitStyle);
-        }
+    constructor(locale?: string, style?: UnitStyle) {
+        locale = locale || navigator.language;
+        style = style || 'narrow';
 
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
         const curr = Locale.#messages.get(locale);
@@ -152,7 +133,7 @@ export class Locale {
             this.#current = new Map();
         }
 
-        this.#unitStyle = unitStyle;
+        this.#unitStyle = style;
         this.#locale = new Intl.Locale(locale);
         Locale.#api.setLocale(locale);
 
@@ -160,7 +141,7 @@ export class Locale {
         let byteStyle: Intl.NumberFormatOptions['unitDisplay'] = 'narrow';
         let durationStyle: Intl.DurationFormatOptions['style'] = 'narrow';
 
-        switch (unitStyle) {
+        switch (style) {
         case 'full':
             dtStyle = 'full';
             byteStyle = 'long';
@@ -177,7 +158,7 @@ export class Locale {
             durationStyle = 'narrow';
             break;
         default:
-            throw `无效的参数 ${unitStyle}`;
+            throw `参数 style 的值无效 ${style}`;
         }
 
 

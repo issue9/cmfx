@@ -1,17 +1,19 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { expect, test } from 'vitest';
 
-import { Config } from '@/config';
-import { changeContrast, Contrast, getContrast } from './contrast';
+import { changeContrast, contrastValues } from './contrast';
 
 test('contrast', () => {
-    const c = new Config('');
+    const parent = document.createElement('div');
+    const child = document.createElement('div');
+    parent.appendChild(child);
 
-    expect(getContrast(c, 'less')).toEqual<Contrast>('less');
+    changeContrast(parent, 'more');
+    changeContrast(child, 'less');
 
-    changeContrast(c, 'more');
-    expect(getContrast(c, 'less')).toEqual<Contrast>('more');
+    expect(parent.style.getPropertyValue('--lightness')).toEqual(contrastValues.get('more')!.toString());
+    expect(child.style.getPropertyValue('--lightness')).toEqual(contrastValues.get('less')!.toString());
 });

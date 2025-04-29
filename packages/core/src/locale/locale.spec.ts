@@ -5,14 +5,14 @@
 import { describe, expect, test } from 'vitest';
 
 import { API } from '@/api';
-import { Config } from '@/config';
 import { Locale } from './locale';
 
 describe('Locale', async () => {
-    const c = new Config('admin', '');
-    const api = await API.build(c, 'https://api.example.com', 'token', 'application/json', 'application/json', 'zh-Hans');
+    const id = 'admin';
+    const s = window.localStorage;
+    const api = await API.build(id, s, 'https://api.example.com', 'token', 'application/json', 'application/json', 'zh-Hans');
 
-    Locale.init(c, 'en', api);
+    Locale.init('en', api);
     expect(Locale.languageSize()).toEqual(0);
 
     test('addDict', async () => {
@@ -46,34 +46,27 @@ describe('Locale', async () => {
         let l = new Locale(); // 默认值
         expect(l).not.toBeUndefined();
 
-        Locale.switchLocale('cmn-Hans');
-        Locale.switchUnitStyle('narrow');
-        l = new Locale();
+        l = new Locale('cmn-Hans', 'narrow');
         expect(l).not.toBeUndefined();
         expect(l.tt('cmn-Hans', 'lang')).toEqual('cmn-Hans');
         expect(l.t('lang')).toEqual('cmn-Hans');
 
-        Locale.switchLocale('en');
-        l = new Locale();
+        l = new Locale('en');
         expect(l).not.toBeUndefined();
         expect(l.t('lang')).toEqual('en-US');
 
-        Locale.switchLocale('en-US');
+        l = new Locale('en-US');
         expect(l).not.toBeUndefined();
         expect(l.t('lang')).toEqual('en-US');
     });
 
     test('locales', () => {
-        Locale.switchLocale('cmn-Hans');
-        Locale.switchUnitStyle('short');
-        const l = new Locale();
+        const l = new Locale('cmn-Hans', 'short');
         expect(l.locales.length).equal(2);
     });
 
     test('bytes', () => {
-        Locale.switchLocale('en');
-        Locale.switchUnitStyle('full');
-        const l = new Locale();
+        const l = new Locale('en', 'full');
         expect(l.bytes(1022)).equal('1,022 bytes');
         expect(l.bytes(1026)).equal('1.002 kilobytes');
         expect(l.bytes(10261111)).equal('9.786 megabytes');
@@ -82,24 +75,18 @@ describe('Locale', async () => {
     });
 
     test('duration', () => {
-        Locale.switchLocale('en');
-        Locale.switchUnitStyle('narrow');
-        const l = new Locale();
+        const l = new Locale('en', 'narrow');
         expect(l.duration(111), '111ns');
         expect(l.duration(11111111111), '111.111ms');
     });
 
     test('date', ()=>{
-        Locale.switchLocale('en');
-        Locale.switchUnitStyle('short');
-        const l = new Locale();
+        const l = new Locale('en', 'short');
         expect(l.date('2021-01-02'), '2021-01-02');
     });
 
     test('datetime', ()=>{
-        Locale.switchLocale('en');
-        Locale.switchUnitStyle('short');
-        const l = new Locale();
+        const l = new Locale('en', 'short');
         expect(l.datetime('2021-01-02 1:2'), '2021-01-02 1:2');
     });
 });

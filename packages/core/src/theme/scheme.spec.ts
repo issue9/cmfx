@@ -1,10 +1,22 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { expect, test } from 'vitest';
 
-import { genScheme, genSchemes } from './scheme';
+import { changeScheme, genScheme, genSchemes } from './scheme';
+
+test('changeScheme', () => {
+    const parent = document.createElement('div');
+    const child = document.createElement('div');
+    parent.appendChild(child);
+
+    changeScheme(parent, genScheme(20));
+    changeScheme(child, genScheme(40));
+
+    expect(parent.style.getPropertyValue('--primary')).toEqual('20');
+    expect(child.style.getPropertyValue('--primary')).toEqual('40');
+});
 
 test('genScheme', () => {
     let s = genScheme(20);
