@@ -63,9 +63,9 @@ export class Theme {
         changeContrast(elem, t.#contrast);
     }
 
-    #scheme: Scheme;
-    #contrast: Contrast;
-    #mode: Mode;
+    #scheme?: Scheme;
+    #contrast?: Contrast;
+    #mode?: Mode;
 
     /**
      * 修改主题
@@ -75,10 +75,10 @@ export class Theme {
      * @param mode 模式值；
      * @param contrast 对比度值；
      */
-    constructor(scheme: Scheme|number, mode?: Mode, contrast?: Contrast) {
-        this.#scheme = typeof(scheme) === 'number' ? genScheme(scheme) :  scheme;
-        this.#mode = mode || 'system';
-        this.#contrast = contrast || 'nopreference';
+    constructor(scheme?: Scheme|number, mode?: Mode, contrast?: Contrast) {
+        this.#scheme = scheme === undefined ? undefined : typeof(scheme) === 'number' ? genScheme(scheme) :  scheme;
+        this.#mode = mode;
+        this.#contrast = contrast;
     }
 
     get mode() { return this.#mode; }

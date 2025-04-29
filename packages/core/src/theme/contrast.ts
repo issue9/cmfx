@@ -14,7 +14,8 @@ export type Contrast = typeof contrasts[number];
 /**
  * 调整对比度
  */
-export function changeContrast(elem: HTMLElement, c: Contrast) {
+export function changeContrast(elem: HTMLElement, c?: Contrast) {
+    if (!c) { return; }
     const l = contrastValues.get(c)!;
     elem.style.setProperty('--lightness', l.toString());
 }

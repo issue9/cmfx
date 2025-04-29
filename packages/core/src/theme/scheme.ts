@@ -20,7 +20,8 @@ export interface Scheme {
  *
  * 此方法提供了动态改变主题色的方法，发生在 theme.css 应用之后。
  */
-export function changeScheme(elem: HTMLElement, s: Scheme) {
+export function changeScheme(elem: HTMLElement, s?: Scheme) {
+    if (!s) { return; }
     Object.entries(s).forEach((o)=>{
         if (o[1] !== undefined) {
             elem.style.setProperty('--'+o[0], o[1]);

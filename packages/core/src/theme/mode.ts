@@ -20,6 +20,7 @@ export const modeValues: ReadonlyMap<Mode, string> = new Map<Mode, string>([
  *
  * NOTE: 主题模式会记录在当前浏览器环境，下次启动时会自动读取。
  */
-export function changeMode(elem: HTMLElement, mode: Mode) {
+export function changeMode(elem: HTMLElement, mode?: Mode) {
+    if (!mode) { return; }
     elem.style.setProperty('color-scheme', modeValues.get(mode)!);
 }

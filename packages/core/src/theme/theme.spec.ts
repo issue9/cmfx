@@ -4,8 +4,8 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Contrast, contrastValues } from './contrast';
-import { Mode, modeValues } from './mode';
+import { contrastValues } from './contrast';
+import { modeValues } from './mode';
 import { Theme } from './theme';
 import './theme.css';
 
@@ -24,17 +24,29 @@ describe('Theme', () => {
     });
 
     test('constructor', () => {
-        const t = new Theme(10);
+        let t = new Theme(10);
 
-        expect(t.contrast).toEqual<Contrast>('nopreference');
-        expect(t.mode).toEqual<Mode>('system');
-        expect(t.scheme.primary).toEqual<number>(10);
+        expect(t.contrast).toBeUndefined();
+        expect(t.mode).toBeUndefined();
+        expect(t.scheme!.primary).toEqual<number>(10);
 
-        const div = document.createElement('div');
+        let div = document.createElement('div');
         Theme.apply(div, t);
 
-        expect(div.style.getPropertyValue('--lightness')).toEqual(contrastValues.get('nopreference')!.toString());
-        expect(div.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('system'));
+        expect(div.style.getPropertyValue('--lightness')).toBeFalsy();
+        expect(div.style.getPropertyValue('color-scheme')).toBeFalsy();
+        expect(div.style.getPropertyValue('--primary')).toEqual('10');
+
+        t = new Theme(10, 'dark', 'more');
+
+        expect(t.contrast).toEqual('more');
+        expect(t.mode).toEqual('dark');
+        expect(t.scheme!.primary).toEqual<number>(10);
+
+        div = document.createElement('div');
+        Theme.apply(div, t);
+        expect(div.style.getPropertyValue('--lightness')).toEqual(contrastValues.get('more')!.toString());
+        expect(div.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('dark'));
         expect(div.style.getPropertyValue('--primary')).toEqual('10');
     });
 });

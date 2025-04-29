@@ -8,12 +8,16 @@ import { changeMode, modeValues } from './mode';
 
 test('changeMode', () => {
     const parent = document.createElement('div');
-    const child = document.createElement('div');
-    parent.appendChild(child);
+    const child1 = document.createElement('div');
+    const child2 = document.createElement('div');
+    parent.appendChild(child1);
+    child1.appendChild(child2);
 
     changeMode(parent, 'dark');
-    changeMode(child, 'system');
+    changeMode(child1, 'system');
+    changeMode(child2);
 
     expect(parent.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('dark'));
-    expect(child.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('system'));
+    expect(child1.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('system'));
+    expect(child2.style.getPropertyValue('color-scheme')).toBeFalsy();
 });
