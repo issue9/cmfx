@@ -2,48 +2,53 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Locale, Problem, Theme } from '@cmfx/core';
+import { Problem, sleep, Theme } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
-import { init } from '@/context/context';
+import { Options, OptionsProvider } from '@/context';
 import { Pagination } from './pagination';
 
 test('pagination', async () => {
-    const conf = new Config('admin', '');
-    const api = await API.build(conf, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-Hans');
-    Locale.init(conf, 'en', api);
-
     const user = userEvent.setup();
     let curr: number;
 
-    const { Provider } = await init({
+    const o: Options = {
+        id: 'admin',
+        storage: window.localStorage,
+        configName: '',
         scheme: Theme.genScheme(5),
+        contrast: 'more',
+        mode: 'dark',
         locale: 'zh-Hans',
+        unitStyle: 'full',
         messages: {'zh-Hans': [async()=>(await import('@/messages/zh-Hans.lang')).default]},
-        config: conf,
+        apiBase: 'http://localhost:3000',
+        apiToken: '/login',
+        apiAcceptType: 'application/cbor',
+        apiContentType: 'application/cbor',
         title: 'title',
         titleSeparator: '-',
         pageSize: 20,
         pageSizes: [10, 20, 30],
-        api: api,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             console.error(p);
         },
-    });
+    };
 
     const { container, unmount } = render(() => <Pagination count={5} value={3} onChange={(val) => curr=val} />, {
         wrapper: (props: ParentProps) => {
             const Root = () => {
-                return <Provider>{props.children}</Provider>;
+                return <OptionsProvider {...o}>{props.children}</OptionsProvider>;
             };
 
             return <HashRouter root={Root}>{[]}</HashRouter>;
         },
     });
+    await sleep(500); // OptionsProvider 是异步的，需要等待其完成加载。
     const c = container.children.item(0)!;
     expect(c).toHaveClass('c--pagination');
 
