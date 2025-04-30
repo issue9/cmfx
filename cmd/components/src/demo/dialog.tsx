@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Form, FormAccessor, alert, confirm, prompt, useActions } from '@cmfx/components';
+import { Button, Dialog, DialogRef, Form, FormAccessor, alert, confirm, prompt, use } from '@cmfx/components';
 
 import { Demo, paletteSelector } from './base';
 
 export default function() {
-    const act = useActions();
+    const [, act] = use();
     const [paletteS, palette] = paletteSelector('primary');
 
     let dlg1: DialogRef;

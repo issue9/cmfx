@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, useActions } from '@cmfx/components';
+import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, use } from '@cmfx/components';
 
 import { Demo, paletteSelector } from './base';
 
 export default function() {
-    const act = useActions();
+    const [, act] = use();
     const [paletteS, palette] = paletteSelector('secondary');
 
     const f = new FormAccessor({

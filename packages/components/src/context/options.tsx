@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { API, Config, Contrast, DictLoader, Locale, Mimetype, Mode, Problem, Scheme, Theme, UnitStyle } from '@cmfx/core';
-import { createContext, createResource, JSX, onMount, ParentProps, Show, splitProps, useContext } from 'solid-js';
+import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { Portal } from 'solid-js/web';
 
@@ -12,7 +12,6 @@ import { initDialog } from '@/dialog/system';
 import { Hotkey } from '@/hotkey';
 import { initNotify } from '@/notify/notify';
 import { LocaleProvider } from './locale';
-import { ThemeProvider } from './theme';
 
 /**
 * 组件库的全局配置项
@@ -29,27 +28,34 @@ export interface Options {
     storage: Storage;
 
     /**
-     * 默认的主题样式
+     * 默认的配置名
+     *
+     * 当处于多用户环境时，每个用户可能有不同的本地配置，此值可作为默认值使用。
+     */
+    configName: string | number;
+
+    /**
+     * 默认的主题样式，当在 storage 中存在时，当前值将被忽略。
      */
     scheme: Scheme | number;
 
     /**
-     * 默认的主题明暗度
+     * 默认的主题明暗度，当在 storage 中存在时，当前值将被忽略。
      */
     contrast: Contrast;
 
     /**
-     * 默认的主题模式
+     * 默认的主题模式，当在 storage 中存在时，当前值将被忽略。
      */
     mode: Mode;
 
     /**
-     * 初始的本地化语言 ID
+     * 初始的本地化语言 ID，当在 storage 中存在时，当前值将被忽略。
      */
     locale: string;
 
     /**
-     * 本地化的量词风格
+     * 本地化的量词风格，当在 storage 中存在时，当前值将被忽略。
      */
     unitStyle: UnitStyle;
 
@@ -123,96 +129,18 @@ export interface Options {
     outputProblem<P>(p?: Problem<P>): Promise<void>;
 }
 
+// 添加了部分仅内部可见的属性
 type InternalOptions = Options & {
     api?: API;
     config?: Config;
-    uid?: number | string; // 仅用于 switchConfig 中的状态更换
 };
 
-type OptionsContext = ReturnType<typeof createStore<InternalOptions>>;
+type InternalOptionsContext = ReturnType<typeof createStore<InternalOptions>>;
 
-const optionsContext = createContext<OptionsContext>();
+const internalOptionsContext = createContext<InternalOptionsContext>();
 
-/**
- * 返回 API 对象
- */
-export function useAPI(): API {
-    const ctx = useInternalOptions();
-    return ctx[0].api!;
-}
-
-/**
- * 返回组件提供的一些常规操作
- */
-export function useActions () {
-    const ctx = useInternalOptions();
-    const setOptions = ctx[1];
-    const options = ctx[0];
-
-    return {
-        /**
-         * 设置 HTML 文档的标题
-         */
-        set title(v: string) {
-            if (!v) { v = v + options.titleSeparator + options.title; }
-            document.title = v;
-        },
-
-        /**
-         * 切换配置
-         *
-         * @param id 新配置的 ID；
-         */
-        switchConfig(id: string | number) {
-            options.config!.switch(id);
-            setOptions({ uid: id });
-        },
-
-        /**
-         * 切换语言
-         *
-         * @param id 新语言的 ID
-         */
-        switchLocale(id: string): void { setOptions({ locale: id }); },
-
-        /**
-         * 切换单位样式
-         *
-         * @param style 单位样式
-         */
-        switchUnitStyle(style: UnitStyle) { setOptions({ unitStyle: style }); },
-
-        /**
-         * 切换主题色
-         */
-        switchScheme(scheme: Scheme) { setOptions({ scheme: scheme }); },
-
-        /**
-         * 切换主题模式
-         */
-        switchMode(mode: Mode) { setOptions({ mode: mode }); },
-
-        /**
-         * 切换主题的明亮度
-         */
-        switchContrast(contrast: Contrast) { setOptions({ contrast: contrast }); },
-
-        /**
-         * 输出 Problem 类型的数据
-         */
-        async outputProblem<T = unknown>(problem?: Problem<T>): Promise<void> {
-            await options.outputProblem(problem);
-        }
-    };
-}
-
-/**
- * 返回初始化时传递的选项
- */
-export function useOptions() { return useInternalOptions()[0]; }
-
-function useInternalOptions(): OptionsContext {
-    const ctx = useContext(optionsContext);
+export function useInternalOptions(): InternalOptionsContext {
+    const ctx = useContext(internalOptionsContext);
     if (!ctx) {
         throw '未找到正确的 optionsContext';
     }
@@ -224,43 +152,44 @@ function useInternalOptions(): OptionsContext {
  */
 export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     Hotkey.init(); // 初始化快捷键。
+    Locale.init(props.locale);
 
     const [_, p] = splitProps(props, ['children']);
     const obj = createStore<InternalOptions>(p);
 
     // 加载本地化语言
-    Locale.init(props.locale);
     const [data] = createResource(true, async () => {
         for (const [key, loaders] of Object.entries(props.messages)) {
             await Locale.addDict(key, ...loaders);
             await registerLocales(key); // 加载图表组件的本地化语言
         }
 
-        const api = await API.build(props.id, props.storage, props.apiBase, props.apiToken, props.apiContentType, props.apiAcceptType, props.locale);
+        const api = await API.build(props.id+'-token', props.storage, props.apiBase, props.apiToken, props.apiContentType, props.apiAcceptType, props.locale);
         await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
-        obj[1]({ api: api, config: new Config(props.id, '', props.storage) });
+
+        obj[1]({ api: api, config: new Config(props.id, props.configName, props.storage) });
         return obj[0];
     }, {initialValue: p});
 
-    onMount(() => { // 确保根元素的主题是正常的
+    createEffect(() => {
         const t = new Theme(data()!.scheme, data()!.mode, data()!.contrast);
         Theme.apply(document.documentElement, t);
     });
 
-    return <optionsContext.Provider value={obj}>
+    // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件
+
+    return <internalOptionsContext.Provider value={obj}>
         <Show when={!data.loading}>
-            <ThemeProvider scheme={data()!.scheme} contrast={data()!.contrast} mode={data()!.mode}>
-                <LocaleProvider id={data()!.locale} unitStyle={data()!.unitStyle}>
-                    <Portal>
-                        {initDialog(data()!.title, data()!.systemDialog)}
-                        {initNotify(data()!.systemNotify, data()!.logo)}
-                    </Portal>
-                    {props.children}
-                </LocaleProvider>
-            </ThemeProvider>
+            <LocaleProvider id={data()!.locale} unitStyle={data()!.unitStyle}>
+                <Portal>
+                    {initDialog(data()!.title, data()!.systemDialog)}
+                    {initNotify(data()!.systemNotify, data()!.logo)}
+                </Portal>
+                {props.children}
+            </LocaleProvider>
         </Show>
         <Show when={data.loading}>
             <div>Loading...</div>
         </Show>
-    </optionsContext.Provider>;
+    </internalOptionsContext.Provider>;
 }

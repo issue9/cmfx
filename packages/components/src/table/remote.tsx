@@ -6,7 +6,7 @@ import { API, Page, Query, query2Search } from '@cmfx/core';
 import { JSX, onMount, splitProps } from 'solid-js';
 
 import { ConfirmButton } from '@/button';
-import { useAPI, useActions, useLocale } from '@/context';
+import { use, useLocale } from '@/context';
 import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 
 export interface Ref<T extends object> extends LoaderRef<T> {
@@ -43,8 +43,7 @@ export interface Props<T extends object, Q extends Query> extends Omit<LoaderPro
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
 export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>) {
-    const api = useAPI();
-    const act = useActions();
+    const [api, act,] = use();
     const l = useLocale();
 
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
@@ -80,7 +79,7 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
     return <LoaderTable ref={(el)=>ref=el} {...tableProps} load={load as any} />;
 }
 
-function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof useActions>, path: string) {
+function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof use>[1], path: string) {
     return async (q: Q): Promise<Page<T> | undefined> => {
         const ret = await api.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
@@ -93,7 +92,7 @@ function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, action
     };
 }
 
-function buildNoPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof useActions>, path: string) {
+function buildNoPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof use>[1], path: string) {
     return async (q: Q): Promise<Array<T> | undefined> => {
         const ret = await api.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {

@@ -8,7 +8,7 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 
 import { Palette } from '@/base';
 import { Button, FitScreenButton, PrintButton, SplitButton } from '@/button';
-import { useLocale, useOptions } from '@/context';
+import { use, useLocale } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { ObjectAccessor } from '@/form';
@@ -121,7 +121,7 @@ const presetProps = {
  * @template Q 为查询参数的类型；
  */
 export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q>) {
-    const opt = useOptions();
+    const [, , opt] = use();
     const l = useLocale();
     let ref: HTMLElement;
 

@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { OptionsProvider, useActions, useAPI, useOptions } from './options';
+export { OptionsProvider } from './options';
 export type { Options } from './options';
+
+export { use } from './context';
 
 export { LocaleProvider, useLocale } from './locale';
 export type { Props as LocaleProps } from './locale';

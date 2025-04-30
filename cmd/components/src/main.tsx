@@ -17,10 +17,10 @@ import { routes } from './demo';
 async function main() {
     const o: Options = {
         id: 'admin',
+        configName: '',
         storage: window.sessionStorage,
         scheme: Theme.genScheme(10),
         contrast: 'nopreference',
-        notifyTimeout: 5000,
         mode: 'dark',
         locale: 'zh-Hans',
         unitStyle: 'full',

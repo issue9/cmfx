@@ -5,7 +5,7 @@
 import { JSX, mergeProps, Show } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { useActions } from '@/context';
+import { use } from '@/context';
 
 export interface Props extends BaseProps {
     /**
@@ -38,7 +38,7 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export  function Error(props: Props) {
     props = mergeProps(presetProps, props);
-    const act = useActions();
+    const [, act,] = use();
     act.title = props.header ?? '';
 
     return <div class={props.palette ? `c--error palette--${props.palette}` : 'c--error'}>

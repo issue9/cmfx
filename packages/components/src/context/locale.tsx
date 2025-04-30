@@ -5,6 +5,8 @@
 import { Locale, UnitStyle } from '@cmfx/core';
 import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
 
+import { use } from './context';
+
 export type Props = ParentProps<{
     id: string;
     unitStyle: UnitStyle;
@@ -18,7 +20,8 @@ const localeContext = createContext<Props>({ id: 'en', unitStyle: 'narrow' });
 export function useLocale() {
     const ctx = useContext(localeContext);
     if (!ctx) {
-        throw '未找到正确的 localeContext';
+        const [, , o] = use();
+        return new Locale(o.locale, o.unitStyle);
     }
     return new Locale(ctx.id, ctx.unitStyle);
 }
