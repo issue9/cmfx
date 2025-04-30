@@ -33,6 +33,7 @@ describe('Theme', () => {
         let div = document.createElement('div');
         Theme.apply(div, t);
 
+        expect(Theme.hasTheme(div)).toBeTruthy();
         expect(div.style.getPropertyValue('--lightness')).toBeFalsy();
         expect(div.style.getPropertyValue('color-scheme')).toBeFalsy();
         expect(div.style.getPropertyValue('--primary')).toEqual('10');

@@ -6,7 +6,7 @@ import { createEffect, createSignal, For, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
 import { Button } from '@/button';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 
 export interface Props extends BaseProps {
     /**
@@ -44,7 +44,7 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export function Pagination(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const ctx = useComponents();
+    const l = useLocale();
 
     const [prevs, setPrevs] = createSignal<Array<number>>([]);
     const [nexts, setNexts] = createSignal<Array<number>>([]);
@@ -93,11 +93,11 @@ export function Pagination(props: Props): JSX.Element {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Button icon onclick={()=>change(1)} class="item"
-            aria-label={ctx.locale().t('_i.pagination.firstPage')}
+            aria-label={l.t('_i.pagination.firstPage')}
             disabled={current()===1}>first_page</Button>
 
         <Button icon onclick={()=>change(current()-1)} class="item" disabled={current()===1}
-            aria-label={ctx.locale().t('_i.pagination.prev')}>chevron_left</Button>
+            aria-label={l.t('_i.pagination.prev')}>chevron_left</Button>
 
         <For each={prevs()}>
             {(item)=>(
@@ -114,11 +114,11 @@ export function Pagination(props: Props): JSX.Element {
         </For>
 
         <Button icon onclick={()=>change(current()+1)} class="item"
-            aria-label={ctx.locale().t('_i.pagination.next')}
+            aria-label={l.t('_i.pagination.next')}
             disabled={current() >= props.count}>chevron_right</Button>
 
         <Button icon onclick={()=>change(props.count)} class="item"
-            aria-label={ctx.locale().t('_i.pagination.lastPage')}
+            aria-label={l.t('_i.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</Button>
     </nav>;
 }

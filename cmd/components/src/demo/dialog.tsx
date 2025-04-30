@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Form, FormAccessor, alert, confirm, prompt, useComponents } from '@cmfx/components';
+import { Button, Dialog, DialogRef, Form, FormAccessor, alert, confirm, prompt, useActions } from '@cmfx/components';
 
 import { Demo, paletteSelector } from './base';
 
 export default function() {
-    const ctx = useComponents();
+    const act = useActions();
     const [paletteS, palette] = paletteSelector('primary');
 
     let dlg1: DialogRef;
     let dlg2: DialogRef;
 
-    const fa = new FormAccessor({}, ctx, async (_) => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; });
+    const fa = new FormAccessor({}, act, async (_) => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; });
 
     return <Demo settings={
         <>

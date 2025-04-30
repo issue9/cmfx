@@ -58,9 +58,17 @@ export class Theme {
      * 将主题 t 应用到元素 elem
      */
     static apply(elem: HTMLElement, t: Theme) {
+        elem.setAttribute('data-theme', '1');
         changeScheme(elem, t.#scheme);
         changeMode(elem, t.#mode);
         changeContrast(elem, t.#contrast);
+    }
+
+    /**
+     * 判断元素 elem 上是否被应用了主题
+     */
+    static hasTheme(elem: HTMLElement): boolean {
+        return elem.hasAttribute('data-theme');
     }
 
     #scheme?: Scheme;

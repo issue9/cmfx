@@ -8,7 +8,7 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 
 import { Palette } from '@/base';
 import { Button, FitScreenButton, PrintButton, SplitButton } from '@/button';
-import { useComponents, useOptions } from '@/context/context';
+import { useLocale, useOptions } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { ObjectAccessor } from '@/form';
@@ -122,7 +122,7 @@ const presetProps = {
  */
 export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q>) {
     const opt = useOptions();
-    const ctx = useComponents();
+    const l = useLocale();
     let ref: HTMLElement;
 
     let load = props.load;
@@ -170,9 +170,9 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
         delete q.page;
 
         await e.fetch(load, q);
-        const filename = await prompt(ctx.locale().t('_i.table.downloadFilename'), props.filename);
+        const filename = await prompt(l.t('_i.table.downloadFilename'), props.filename);
         if (filename) {
-            e.export(filename, ext, ctx.locale().locale.language);
+            e.export(filename, ext, l.locale.language);
         }
     };
 
@@ -203,27 +203,27 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                     <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
                         {
                             type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon="csv">
-                                {ctx.locale().t('_i.table.exportTo', { type: 'CSV' })}
+                                {l.t('_i.table.exportTo', { type: 'CSV' })}
                             </Label>
                         },
                         {
                             type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon="horizontal_split">
-                                {ctx.locale().t('_i.table.exportTo', { type: 'Excel' })}
+                                {l.t('_i.table.exportTo', { type: 'Excel' })}
                             </Label>
                         },
                         {
                             type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon="ods">
-                                {ctx.locale().t('_i.table.exportTo', { type: 'ODS' })}
+                                {l.t('_i.table.exportTo', { type: 'ODS' })}
                             </Label>
                         },
                         { type: 'divider' },
                         {
                             type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon='restart_alt'>
-                                {ctx.locale().t('_i.reset')}
+                                {l.t('_i.reset')}
                             </Label>
                         },
                     ]}>
-                        {ctx.locale().t('_i.search')}
+                        {l.t('_i.search')}
                     </SplitButton>
                 </div>
             </form>
@@ -271,7 +271,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                     type: 'item', value: 'hoverable',
                                     label: <label class="menu-item">
                                         <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
-                                        {ctx.locale().t('_i.table.hoverable')}</label>
+                                        {l.t('_i.table.hoverable')}</label>
                                 },
                                 { type: 'divider' },
                                 {
@@ -281,41 +281,41 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                             setSticky(sticky() === undefined ? '0px' : undefined);
                                             e.stopPropagation();
                                         }}/>
-                                        {ctx.locale().t('_i.table.stickyHeader')}</label>
+                                        {l.t('_i.table.stickyHeader')}</label>
                                 },
                                 { type: 'divider' },
                                 {
                                     type: 'item', value: '0',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{ctx.locale().t('_i.table.noStriped')}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{l.t('_i.table.noStriped')}</label>,
                                 },
                                 {
                                     type: 'item', value: '2',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{ctx.locale().t('_i.table.striped', { 'num': 2 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{l.t('_i.table.striped', { 'num': 2 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '3',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{ctx.locale().t('_i.table.striped', { 'num': 3 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{l.t('_i.table.striped', { 'num': 3 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '4',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{ctx.locale().t('_i.table.striped', { 'num': 4 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{l.t('_i.table.striped', { 'num': 4 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '5',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{ctx.locale().t('_i.table.striped', { 'num': 5 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{l.t('_i.table.striped', { 'num': 5 })}</label>,
                                 },
                             ]}
                         </Menu>
                         <Button icon rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
-                            aria-label={ctx.locale().t('_i.refresh')}
-                            title={ctx.locale().t('_i.refresh')}>refresh</Button>
+                            aria-label={l.t('_i.refresh')}
+                            title={l.t('_i.refresh')}>refresh</Button>
                         <FitScreenButton rounded kind='fill' palette='tertiary' expand='expand_content' collapse='collapse_content' container={()=>ref}
-                            aria-title={ctx.locale().t('_i.table.fitScreen')}
-                            title={ctx.locale().t('_i.table.fitScreen')} />
+                            aria-title={l.t('_i.table.fitScreen')}
+                            title={l.t('_i.table.fitScreen')} />
                         <PrintButton icon rounded kind='fill' palette='tertiary' container={()=>ref.querySelector('table')!}
                             cssText='table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left} .no-print{display:none}'
-                            aria-label={ctx.locale().t('_i.print')}
-                            title={ctx.locale().t('_i.print')}>print</PrintButton>
+                            aria-label={l.t('_i.print')}
+                            title={l.t('_i.print')}>print</PrintButton>
                     </div>
                 </Show>
             </div>

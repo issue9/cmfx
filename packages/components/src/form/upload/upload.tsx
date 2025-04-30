@@ -4,7 +4,7 @@
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { useComponents } from '@/context';
+import { useActions, useAPI } from '@/context';
 import { FieldBaseProps } from '@/form/field';
 
 /**
@@ -72,7 +72,8 @@ export interface Props extends FieldBaseProps {
  * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
  */
 export function Upload(props: Props): JSX.Element {
-    const ctx = useComponents();
+    const api = useAPI();
+    const actions = useActions();
 
     let inputRef: HTMLInputElement;
     const [files, setFiles] = createSignal<Array<File>>([]);
@@ -143,9 +144,9 @@ export function Upload(props: Props): JSX.Element {
                 data.append(props.fieldName, item);
             }
 
-            const ret = await ctx.api.upload<Array<string>>(props.action, data);
+            const ret = await api.upload<Array<string>>(props.action, data);
             if (!ret.ok) {
-                await ctx.outputProblem(ret.body);
+                await actions.outputProblem(ret.body);
                 return;
             }
 

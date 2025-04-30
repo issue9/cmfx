@@ -6,7 +6,7 @@ import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 import { matchLocale } from './locale';
 
 export type ChartsOption = echarts.EChartsOption;
@@ -62,7 +62,7 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function Chart(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const ctx = useComponents();
+    const l = useLocale();
 
     let ref: HTMLDivElement;
     let inst: echarts.ECharts;
@@ -71,7 +71,7 @@ export function Chart(props: Props): JSX.Element {
 
     onMount(() => {
         inst = echarts.init(ref, null, {
-            locale: matchLocale(ctx.locale().locale.toString()),
+            locale: matchLocale(l.locale.toString()),
             height: props.height,
             width: props.width,
             renderer: 'svg',

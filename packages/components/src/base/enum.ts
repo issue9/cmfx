@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Context } from '@/context';
+import { Locale } from '@cmfx/core';
 
 /**
  * 枚举类型
@@ -24,8 +24,8 @@ export type Enums<T extends string | number> = Array<Enum<T>>;
  * @param ctx 组件系统的上下文环境，用于翻译内容；
  * @param item 需要被翻译的枚举值；
  */
-export function translateEnum<T extends string|number>(enums: Enums<T>, ctx: Context, item: T): string|undefined {
+export function translateEnum<T extends string|number>(enums: Enums<T>, l: Locale, item: T): string|undefined {
     const val = enums.find((v) => v[0] === item);
-    return val ? (ctx.locale().t(val[1]) as string ?? val[1]) : undefined;
+    return val ? (l.t(val[1]) as string ?? val[1]) : undefined;
 }
 

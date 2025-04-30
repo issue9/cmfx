@@ -6,7 +6,7 @@ import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps } from '@/base';
 import { Button } from '@/button';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 import { Icon } from '@/icon';
 
 /**
@@ -99,7 +99,7 @@ export interface Props extends BaseProps {
  * 采用的是 html 标准中的 dialog 标签。
  */
 export function Dialog(props: Props): JSX.Element {
-    const ctx = useComponents();
+    const l = useLocale();
     let ref: HTMLDialogElement;
 
     props.ref({
@@ -144,11 +144,11 @@ export function Dialog(props: Props): JSX.Element {
         },
 
         CancelAction(click?: ClickFunc): JSX.Element {
-            return this.Action(ctx.locale().t('_i.cancel'), click);
+            return this.Action(l.t('_i.cancel'), click);
         },
 
         OKAction(click?: ClickFunc): JSX.Element {
-            return this.Action(ctx.locale().t('_i.ok'), click, true);
+            return this.Action(l.t('_i.ok'), click, true);
         },
 
         DefaultActions(ok:ClickFunc, cancel?:ClickFunc): JSX.Element {

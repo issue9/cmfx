@@ -4,15 +4,10 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { API } from '@/api';
 import { Locale } from './locale';
 
 describe('Locale', async () => {
-    const id = 'admin';
-    const s = window.localStorage;
-    const api = await API.build(id, s, 'https://api.example.com', 'token', 'application/json', 'application/json', 'zh-Hans');
-
-    Locale.init('en', api);
+    Locale.init('en');
     expect(Locale.languageSize()).toEqual(0);
 
     test('addDict', async () => {
@@ -43,19 +38,16 @@ describe('Locale', async () => {
     test('t/tt', async () => {
         await Locale.addDict('en', async () => { return { 'lang': 'en-US' }; });
 
-        let l = new Locale(); // 默认值
-        expect(l).not.toBeUndefined();
-
-        l = new Locale('cmn-Hans', 'narrow');
+        let l = new Locale('cmn-Hans', 'narrow');
         expect(l).not.toBeUndefined();
         expect(l.tt('cmn-Hans', 'lang')).toEqual('cmn-Hans');
         expect(l.t('lang')).toEqual('cmn-Hans');
 
-        l = new Locale('en');
+        l = new Locale('en', 'full');
         expect(l).not.toBeUndefined();
         expect(l.t('lang')).toEqual('en-US');
 
-        l = new Locale('en-US');
+        l = new Locale('en-US', 'full');
         expect(l).not.toBeUndefined();
         expect(l.t('lang')).toEqual('en-US');
     });

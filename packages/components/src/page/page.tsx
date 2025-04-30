@@ -6,7 +6,7 @@ import { createEffect, JSX, ParentProps, Show, splitProps } from 'solid-js';
 
 import { BackTop } from '@/backtop';
 import { BaseProps } from '@/base';
-import { useComponents } from '@/context';
+import { useActions, useLocale } from '@/context';
 
 export interface Props extends BaseProps, ParentProps {
     /**
@@ -30,10 +30,11 @@ export interface Props extends BaseProps, ParentProps {
  * 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
 export function Page (props: Props): JSX.Element {
-    const ctx = useComponents();
+    const ctx = useActions();
+    const l = useLocale();
 
     createEffect(() => {
-        ctx.title = ctx.locale().t(props.title);
+        ctx.title = l.t(props.title);
     });
 
     const [_, other] = splitProps(props, ['title', 'children', 'disableBacktop', 'classList', 'palette']);

@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX } from 'solid-js';
-import { Portal } from 'solid-js/web';
 
 import { BaseProps } from '@/base';
 import { FieldAccessor, TextField } from '@/form';
@@ -34,11 +33,11 @@ export function initDialog(title: string, system?: boolean): JSX.Element {
         window.prompt = prompt as any;
     }
 
-    return <Portal>
+    return <>
         <Alert header={/*@once*/title} palette='surface' />
         <Confirm header={/*@once*/title} palette='surface' />
         <Prompt header={/*@once*/title} palette='surface' />
-    </Portal>;
+    </>;
 }
 
 /************************ alert *****************************/

@@ -5,7 +5,7 @@
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { useComponents, useOptions } from '@/context/context';
+import { useLocale, useOptions } from '@/context';
 import { Choice, FieldAccessor, FieldOptions } from '@/form';
 import { Pagination } from './pagination';
 
@@ -64,7 +64,7 @@ export function PaginationBar(props: Props): JSX.Element {
         throw `参数 props.size:${props.size} 必须存在于 props.sizes: ${props.sizes}`;
     }
 
-    const ctx = useComponents();
+    const l = useLocale();
 
     const sizesOptions = createMemo(() => {
         const items: FieldOptions<number> = [];
@@ -113,7 +113,7 @@ export function PaginationBar(props: Props): JSX.Element {
         'c--pagination-bar': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        {ctx.locale().t('_i.pagination.items', translateItems())}
+        {l.t('_i.pagination.items', translateItems())}
         <div class="flex gap-2">
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
             <Pagination spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />

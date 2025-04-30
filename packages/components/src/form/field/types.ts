@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Locale } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 import { BaseProps, Enums } from '@/base';
-import { Context } from '@/context';
 
 export interface Props extends BaseProps {
     title?: string;
@@ -67,6 +67,6 @@ export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 
 /**
  * 将枚举值转换成 {Options} 类型
  */
-export function translateEnums2Options<T extends string|number>(e: Enums<T>, ctx: Context): Options<T> {
-    return e.map((v) => [v[0], ctx.locale().t(v[1]) as string]);
+export function translateEnums2Options<T extends string|number>(e: Enums<T>, l: Locale): Options<T> {
+    return e.map((v) => [v[0], l.t(v[1]) as string]);
 }

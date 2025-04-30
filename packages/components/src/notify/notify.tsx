@@ -4,7 +4,6 @@
 
 import { sleep } from '@cmfx/core';
 import { createSignal, createUniqueId, For, JSX } from 'solid-js';
-import { Portal } from 'solid-js/web';
 
 import { Palette } from '@/base';
 import { Alert, Props as AlertProps } from './alert';
@@ -25,14 +24,15 @@ let notifyInst: { (title: string, body?: string, type?: Type, lang?: string, tim
 /**
  * 发送一条通知给用户
  *
+ * 需要调用 initNotify 方法初始化之后才有效
+ *
  * @param title 标题；
  * @param body 具体内容，如果为空则只显示标题；
  * @param type 类型，仅对非系统通知的情况下有效；
- * @param lang 语言，采用系统通知的时候会用到此值；
- * @param timeout 如果大于 0，超过此毫秒数时将自动关闭提法；
+ * @param lang 语言，仅对系统通知的情况下有效；
+ * @param timeout 如果大于 0，超过此毫秒数时将自动关闭提示框；
  */
 export async function notify(title: string, body?: string, type?: Type, lang?: string, timeout?: number): Promise<void> {
-    // 需要调用 initNotify 方法初始化之后才有效
     return await notifyInst(title, body, type, lang, timeout);
 }
 
@@ -61,19 +61,17 @@ export function initNotify(system?: boolean, icon?: string): JSX.Element {
         setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
     };
 
-    return <Portal>
-        <div class='c--notify'>
-            <For each={msgs()}>
-                {item =>(
-                    <Alert {...item} del={(id)=>{
-                        setMsgs((prev) => {
-                            return [...prev.filter((n) => { return n.id !== id; })];
-                        });
-                    }} />
-                )}
-            </For>
-        </div>
-    </Portal>;
+    return <div class='c--notify'>
+        <For each={msgs()}>
+            {item => (
+                <Alert {...item} del={(id) => {
+                    setMsgs((prev) => {
+                        return [...prev.filter((n) => { return n.id !== id; })];
+                    });
+                }} />
+            )}
+        </For>
+    </div>;
 }
 
 /**

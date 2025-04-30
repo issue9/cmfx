@@ -5,7 +5,7 @@
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 import { Spin } from '@/spin';
 import { Column } from './column';
 
@@ -72,7 +72,7 @@ const presetProps = {
 export function BasicTable<T extends object>(props: Props<T>) {
     props = mergeProps(presetProps, props);
 
-    const ctx = useComponents();
+    const l = useLocale();
 
     if (props.striped !== undefined && props.striped < 0) {
         throw 'striped 必须大于或是等于 0';
@@ -127,7 +127,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 </Show>
                 <Show when={!props.items || props.items.length===0}>
                     <tr>
-                        <td class="nodata" colSpan={props.columns.length}>{ ctx.locale().t('_i.table.nodata') }</td>
+                        <td class="nodata" colSpan={props.columns.length}>{ l.t('_i.table.nodata') }</td>
                     </tr>
                 </Show>
             </tbody>
