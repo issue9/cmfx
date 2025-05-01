@@ -33,6 +33,15 @@ build-cmd: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 	pnpm --filter=./cmd/admin --filter=./cmd/components run build
 
+build-ts-core:
+	pnpm --filter=./packages/core run build
+
+build-ts-components:
+	pnpm --filter=./packages/components run build
+
+build-ts-admin:
+	pnpm --filter=./packages/admin run build
+
 # 编译前端项目内容
 build-ts:
 	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
@@ -75,6 +84,18 @@ watch: watch-server watch-admin
 test-go: mk-coverage
 	go vet -v ./...
 	go test -v -coverprofile='coverage/go.txt' -p=1 -parallel=1 -covermode=atomic ./...
+
+test-ts-core: mk-coverage
+	pnpm run lint
+	pnpm run test --project=@cmfx/core
+
+test-ts-components: mk-coverage build-ts-core
+	pnpm run lint
+	pnpm run test --project=@cmfx/components
+
+test-ts-admin: mk-coverage build-ts-components
+	pnpm run lint
+	pnpm run test --project=@cmfx/admin
 
 # 执行 TypeScript 测试
 test-ts: build-ts mk-coverage

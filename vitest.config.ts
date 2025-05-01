@@ -6,7 +6,7 @@ import solidPlugin from 'vite-plugin-solid';
 import { defineConfig } from 'vitest/config';
 
 // 需要排除的文件，同时作用在 test.exclude 和 test.coverage.exclude 字段。
-const exclude = ['**/lib/**', '**/node_modules/**', 'cmd/**', '**/vite.config.ts', '**/vitest.config.ts', 'eslint.config.mjs'];
+const exclude = ['**/lib/**', '**/node_modules/**', 'cmd/**', '**/vite.config.ts', '**/vitest.config.ts', '**/vitest_setup.ts', 'eslint.config.mjs'];
 
 export default defineConfig({
     test: {
