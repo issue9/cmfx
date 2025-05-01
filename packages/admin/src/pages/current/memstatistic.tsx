@@ -5,7 +5,7 @@
 import { Description } from '@cmfx/components';
 import { JSX, createSignal, onMount } from 'solid-js';
 
-import { useAdmin } from '@/context';
+import { use, useLocale } from '@/context';
 
 export function MemStatistic(): JSX.Element {
     const [statistic, setStatistic] = createSignal<Statistic>({
@@ -16,35 +16,36 @@ export function MemStatistic(): JSX.Element {
         week: 0,
         day: 0,
     });
-    
-    const ctx = useAdmin();
+
+    const l = useLocale();
+    const [api, act] = use();
     
     onMount(async () => {
-        const r = await ctx.api.get<Statistic>('/statistic/member');
+        const r = await api.get<Statistic>('/statistic/member');
         if (!r.ok) {
-            await ctx.outputProblem(r.body);
+            await act.outputProblem(r.body);
             return;
         }
         setStatistic(r.body!);
     });
     
     return <div class="c--memstatistic">
-        <Description class="item" icon='group' title={ctx.locale().t('_i.page.current.allMembers')}>
+        <Description class="item" icon='group' title={l.t('_i.page.current.allMembers')}>
             <p class="text-5xl">{statistic().all}</p>
         </Description>
-        <Description class="item" icon='calendar_month' title={ctx.locale().t('_i.page.current.monthMembers')}>
+        <Description class="item" icon='calendar_month' title={l.t('_i.page.current.monthMembers')}>
             <p class="text-5xl">{statistic().month}</p>
         </Description>
-        <Description class="item" icon='calendar_view_week' title={ctx.locale().t('_i.page.current.weekMembers')}>
+        <Description class="item" icon='calendar_view_week' title={l.t('_i.page.current.weekMembers')}>
             <p class="text-5xl">{statistic().week}</p>
         </Description>
-        <Description class="item" icon='calendar_today' title={ctx.locale().t('_i.page.current.dayMembers')}>
+        <Description class="item" icon='calendar_today' title={l.t('_i.page.current.dayMembers')}>
             <p class="text-5xl">{statistic().day}</p>
         </Description>
-        <Description class="item" icon='person_check' title={ctx.locale().t('_i.page.current.activeMembers')}>
+        <Description class="item" icon='person_check' title={l.t('_i.page.current.activeMembers')}>
             <p class="text-5xl">{statistic().active}</p>
         </Description>
-        <Description class="item" icon='record_voice_over' title={ctx.locale().t('_i.page.current.onlineMembers')}>
+        <Description class="item" icon='record_voice_over' title={l.t('_i.page.current.onlineMembers')}>
             <p class="text-5xl">{statistic().online}</p>
         </Description>
     </div>;

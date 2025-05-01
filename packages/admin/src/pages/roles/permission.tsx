@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Checkbox, Page } from '@cmfx/components';
+import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { useAdmin } from '@/context';
+import { use } from '@/context';
 
 interface Resource {
     id: string;
@@ -20,7 +20,8 @@ interface RoleResource {
 }
 
 export function Permission(): JSX.Element {
-    const ctx = useAdmin();
+    const [api, act] = use();
+    const l = useLocale();
     const ps = useParams<{id: string}>();
     const nav = useNavigate();
     const [parent, setParent] = createSignal<Array<string>>([], {equals: false});
@@ -28,13 +29,13 @@ export function Permission(): JSX.Element {
     const [resources, setResources] = createSignal<Array<Resource>>([], {equals: false});
 
     const [roleResource] = createResource(async () => {
-        const ret = await ctx.api.get<RoleResource>(`/roles/${ps.id}/resources`);
+        const ret = await api.get<RoleResource>(`/roles/${ps.id}/resources`);
         if (!ret.ok) {
             if (ret.status === 404) {
                 return;
             }
 
-            await ctx.outputProblem(ret.body);
+            await act.outputProblem(ret.body);
             return;
         }
 
@@ -47,9 +48,9 @@ export function Permission(): JSX.Element {
             setParent(b ? (b.parent ?? []) : []);
             setCurrent(b ? (b.current ?? []) : []);
 
-            const ret = await ctx.api.get<Array<Resource>>('/resources');
+            const ret = await api.get<Array<Resource>>('/resources');
             if (!ret.ok) {
-                await ctx.outputProblem(ret.body);
+                await act.outputProblem(ret.body);
                 return;
             }
             setResources(ret.body!);
@@ -57,9 +58,9 @@ export function Permission(): JSX.Element {
     });
 
     const save = async()=>{
-        const ret = await ctx.api.put(`/roles/${ps.id}/resources`, current());
+        const ret = await api.put(`/roles/${ps.id}/resources`, current());
         if (!ret.ok) {
-            await ctx.outputProblem(ret.body);
+            await act.outputProblem(ret.body);
             return;
         }
         nav(-1);
@@ -95,8 +96,8 @@ export function Permission(): JSX.Element {
             </For>
 
             <div class="flex justify-end gap-2">
-                <Button palette='secondary' onClick={()=>nav(-1)}>{ctx.locale().t('_i.cancel')}</Button>
-                <Button palette='primary' onClick={()=>save()}>{ctx.locale().t('_i.ok')}</Button>
+                <Button palette='secondary' onClick={()=>nav(-1)}>{l.t('_i.cancel')}</Button>
+                <Button palette='primary' onClick={()=>save()}>{l.t('_i.ok')}</Button>
             </div>
         </div>
     </Page>;

@@ -8,7 +8,7 @@ import {
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { useAdmin, useOptions, User } from '@/context';
+import { use, useLocale, User } from '@/context';
 import { Passport, Sex, sexesMap } from '@/pages/common';
 import { PassportComponents } from './passports';
 
@@ -17,20 +17,20 @@ interface Props {
 }
 
 export function Profile(props: Props): JSX.Element {
-    const opt = useOptions();
-    const ctx = useAdmin();
+    const [api, act, opt] = use();
+    const l = useLocale();
     let uploadRef: UploadRef;
 
-    const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, ctx, (obj)=>{
-        return ctx.api.patch(opt.api.info, obj);
+    const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, act, (obj)=>{
+        return api.patch(opt.api.info, obj);
     }, async () => {
-        await ctx.refetchUser();
+        await act.refetchUser();
     }, (obj) => {
         if (!obj.name) {
-            return new Map([['name', ctx.locale().t('_i.error.canNotBeEmpty')]]);
+            return new Map([['name', l.t('_i.error.canNotBeEmpty')]]);
         }
         if (!obj.nickname) {
-            return new Map([['nickname', ctx.locale().t('_i.error.canNotBeEmpty')]]);
+            return new Map([['nickname', l.t('_i.error.canNotBeEmpty')]]);
         }
     });
 
@@ -45,7 +45,7 @@ export function Profile(props: Props): JSX.Element {
     let originAvatar = ''; // 原始的头像内容，在取消上传头像时，可以从此值恢复。
 
     createEffect(() => {
-        const u = ctx.user();
+        const u = act.user();
         if (!u) { return; }
 
         infoAccess.setPreset(u);
@@ -66,9 +66,9 @@ export function Profile(props: Props): JSX.Element {
     });
 
     onMount(async () => {
-        const r = await ctx.api.get<Array<Passport>>('/passports');
+        const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            await ctx.outputProblem(r.body);
+            await act.outputProblem(r.body);
             return;
         }
         setPassports(r.body!);
@@ -79,11 +79,11 @@ export function Profile(props: Props): JSX.Element {
         <div class="flex gap-4">
             <img class="avatar" alt="avatar" src={avatar()} />
             <div class="name">
-                <p class="text-2xl">{ctx.user()?.name}</p>
+                <p class="text-2xl">{act.user()?.name}</p>
                 <Show when={uploadRef!.files().length === 0}>
                     <Button palette='tertiary' onClick={async () => {
                         uploadRef.pick();
-                    }}>{ctx.locale().t('_i.page.current.pickAvatar')}</Button>
+                    }}>{l.t('_i.page.current.pickAvatar')}</Button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
                     <div class="flex gap-2">
@@ -93,18 +93,18 @@ export function Profile(props: Props): JSX.Element {
                                 return;
                             }
                             setAvatar(ret[0]);
-                            const r = await ctx.api.patch('/info', { 'avatar': ret[0] });
+                            const r = await api.patch('/info', { 'avatar': ret[0] });
                             if (!r.ok) {
-                                await ctx.outputProblem(r.body);
+                                await act.outputProblem(r.body);
                                 return;
                             }
-                            await ctx.refetchUser();
-                        }}>{ctx.locale().t('_i.page.save')}</Button>
+                            await act.refetchUser();
+                        }}>{l.t('_i.page.save')}</Button>
 
                         <Button palette='error' onClick={() => {
                             setAvatar(originAvatar);
                             uploadRef.delete(0);
-                        }}>{ctx.locale().t('_i.cancel')}</Button>
+                        }}>{l.t('_i.cancel')}</Button>
                     </div>
                 </Show>
             </div>
@@ -113,25 +113,25 @@ export function Profile(props: Props): JSX.Element {
         <Divider padding='4px' />
 
         <Form formAccessor={infoAccess} class="form">
-            <TextField class="w-full" label={ctx.locale().t('_i.page.current.name')} accessor={nameA} />
-            <TextField class="w-full" label={ctx.locale().t('_i.page.current.nickname')} accessor={nicknameA} />
-            <Choice class="w-full" label={ctx.locale().t('_i.page.sex')} accessor={sexA} options={translateEnums2Options(sexesMap, ctx)} />
+            <TextField class="w-full" label={l.t('_i.page.current.name')} accessor={nameA} />
+            <TextField class="w-full" label={l.t('_i.page.current.nickname')} accessor={nicknameA} />
+            <Choice class="w-full" label={l.t('_i.page.sex')} accessor={sexA} options={translateEnums2Options(sexesMap, l)} />
 
             <div class="actions">
-                <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.reset')}</Button>
-                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{ctx.locale().t('_i.page.save')}</Button>
+                <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_i.reset')}</Button>
+                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_i.page.save')}</Button>
             </div>
         </Form>
 
-        <Divider padding='8px'>{ctx.locale().t('_i.page.admin.passport')}</Divider>
+        <Divider padding='8px'>{l.t('_i.page.admin.passport')}</Divider>
 
         <fieldset class="c--table">
             <table>
                 <thead>
                     <tr>
-                        <th>{ctx.locale().t('_i.page.admin.passportType')}</th>
-                        <th>{ctx.locale().t('_i.page.current.username')}</th>
-                        <th>{ctx.locale().t('_i.page.actions')}</th>
+                        <th>{l.t('_i.page.admin.passportType')}</th>
+                        <th>{l.t('_i.page.current.username')}</th>
+                        <th>{l.t('_i.page.actions')}</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -147,7 +147,7 @@ export function Profile(props: Props): JSX.Element {
 
                                 <td>{username()}</td>
                                 <td class="flex gap-2">
-                                    {props.passports.get(item.id)?.Actions(async()=>await ctx.refetchUser(), username())}
+                                    {props.passports.get(item.id)?.Actions(async()=>await act.refetchUser(), username())}
                                 </td>
                             </tr>;
                         }}

@@ -7,7 +7,7 @@ import { Locale } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
-import { MenuItem, useAdmin, useOptions } from '@/context';
+import { MenuItem, use, useLocale } from '@/context';
 
 interface Item {
     value: string;
@@ -22,15 +22,15 @@ export interface Props {
  * 顶部搜索框
  */
 export function Search(props: Props): JSX.Element {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const l = useLocale();
+    const [, , opt] = use();
     let dlgRef: DialogRef;
     let listRef: HTMLUListElement;
-    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(ctx.locale(), opt.aside.menus, ''));
+    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(l, opt.aside.menus, ''));
 
     const input = FieldAccessor('search', '', false);
     input.onChange((val: string) => {
-        setItems(buildItemsWithSearch(ctx.locale(), opt.aside.menus, val));
+        setItems(buildItemsWithSearch(l, opt.aside.menus, val));
     });
 
     const showSearch = () => {
@@ -79,10 +79,10 @@ export function Search(props: Props): JSX.Element {
     return <>
         <Dialog ref={el => dlgRef = el} class="app-search" actions={
             <div class="w-full">
-                <div class="w-full text-left" innerHTML={ctx.locale().t('_i.app.keyDesc')}></div>
+                <div class="w-full text-left" innerHTML={l.t('_i.app.keyDesc')}></div>
             </div>
         }>
-            <TextField ref={el=>inputRef=el} class='mb-3 border-0' accessor={input} placeholder={ctx.locale().t('_i.app.searchAtSidebar')} suffix={
+            <TextField ref={el=>inputRef=el} class='mb-3 border-0' accessor={input} placeholder={l.t('_i.app.searchAtSidebar')} suffix={
                 <Show when={input.getValue() !== ''}>
                     <Icon icon='close' class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
                 </Show>
@@ -102,7 +102,7 @@ export function Search(props: Props): JSX.Element {
         </Dialog>
 
         <Button icon type='button' kind='flat' rounded
-            title={ctx.locale().t('_i.search')}
+            title={l.t('_i.search')}
             onClick={showSearch}>search</Button>
     </>;
 }

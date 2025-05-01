@@ -7,8 +7,7 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, useAdmin, useOptions } from '@/context';
-import { buildContext, OptContext } from '@/context/context';
+import { AppOptions, Provider, use, useLocale } from '@/context';
 import { buildOptions } from '@/context/options';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
@@ -20,26 +19,15 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  * @param o 项目的初始化选项；
  */
 export async function create(elementID: string, o: AppOptions): Promise<void> {
-    const opt = buildOptions(o);
-    const { Provider } = await buildContext(opt);
-    render(() => (<App opt={opt} p={Provider} />), document.getElementById(elementID)!);
+    render(() => (<App opt={buildOptions(o)} />), document.getElementById(elementID)!);
 }
 
 /**
  * 项目的根组件
  */
-function App(props: {opt: OptContext, p: { (props: { children: JSX.Element; }): JSX.Element;}}): JSX.Element {
+function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
     const menuVisible = createSignal(true);
     const [selected, setSelected] = createSignal<string>('');
-
-    const Root = (p: RouteSectionProps) => {
-        return <props.p>
-            <div class="app palette--surface">
-                <Toolbar menuVisible={menuVisible} switch={setSelected} />
-                <main class="app-main">{p.children}</main>
-            </div>
-        </props.p>;
-    };
 
     const routes = [
         {
@@ -57,7 +45,12 @@ function App(props: {opt: OptContext, p: { (props: { children: JSX.Element; }): 
         }
     ];
 
-    return <HashRouter root={Root}>{/*@once*/routes}</HashRouter>;
+    return  <Provider {...props.opt}><HashRouter root={(p: RouteSectionProps)=>
+        <div class="app palette--surface">
+            <Toolbar menuVisible={menuVisible} switch={setSelected} />
+            <main class="app-main">{p.children}</main>
+        </div>
+    }>{/*@once*/routes}</HashRouter></Provider>;
 }
 
 type PrivateProps = ParentProps<MenuVisibleProps & {
@@ -65,20 +58,20 @@ type PrivateProps = ParentProps<MenuVisibleProps & {
 }>;
 
 function Private(props: PrivateProps): JSX.Element {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const l = useLocale();
+    const [api, act, opt] = use();
 
     return <Switch>
-        <Match when={!ctx.isLogin()}>
+        <Match when={!api.isLogin()}>
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
-        <Match when={ctx.isLogin()}>
+        <Match when={act.isLogin()}>
             <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' mainID='main-content'
                 close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor selected={props.selected()}>{buildItems(ctx.locale(), opt.aside.menus)}</List>
+                <List anchor selected={props.selected()}>{buildItems(l, opt.aside.menus)}</List>
             </Drawer>
         </Match>
     </Switch>;

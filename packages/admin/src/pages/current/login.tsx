@@ -6,7 +6,7 @@ import { Choice, FieldAccessor, Page, translateEnums2Options } from '@cmfx/compo
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
-import { useAdmin, useOptions } from '@/context';
+import { use, useLocale } from '@/context';
 import { Passport } from '@/pages/common';
 import { PassportComponents } from './passports';
 
@@ -33,29 +33,29 @@ interface Link {
  * 登录页面
  */
 export function Login(props: Props): JSX.Element {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const [, act, opt] = use();
 
     return <Switch>
-        <Match when={ctx.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
-        <Match when={!ctx.isLogin()}><LoginBox {...props} /></Match>
+        <Match when={act.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
+        <Match when={!act.isLogin()}><LoginBox {...props} /></Match>
     </Switch>;
 }
 
 function LoginBox(props: Props): JSX.Element {
-    const ctx = useAdmin();
+    const [api, act] = use();
+    const l = useLocale();
     const [q,setQ] = useSearchParams<{ type: string }>();
 
-    ctx.api.cache('/passports');
+    api.cache('/passports');
 
     const [passports, setPassports] = createSignal<Array<[string,string]>>([]);
     const passport = FieldAccessor('passport', q.type ?? 'password');
     passport.onChange((n) => setQ({ type: n }));
 
     onMount(async () => {
-        const r = await ctx.api.get<Array<Passport>>('/passports');
+        const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            await ctx.outputProblem(r.body);
+            await act.outputProblem(r.body);
             return;
         }
         setPassports(r.body!.map((v)=>[v.id,v.desc]));
@@ -64,8 +64,8 @@ function LoginBox(props: Props): JSX.Element {
     return <Page title="_i.page.current.login" class="p--login" style={{ 'background-image': props.bg }}>
         <div class="form">
             <div class="title">
-                <p class="text-2xl">{ctx.locale().t('_i.page.current.login')}</p>
-                <Choice class='min-w-40' accessor={passport} options={translateEnums2Options(passports(), ctx)} />
+                <p class="text-2xl">{l.t('_i.page.current.login')}</p>
+                <Choice class='min-w-40' accessor={passport} options={translateEnums2Options(passports(), l)} />
             </div>
             {props.passports.get(passport.getValue())?.Login()}
         </div>
