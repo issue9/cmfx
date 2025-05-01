@@ -15,7 +15,7 @@ import (
 )
 
 // Version 表示当前框架的版本
-const Version = "0.10.1"
+const Version = "0.11.0"
 
 // 400
 const (
