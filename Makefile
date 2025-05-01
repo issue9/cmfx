@@ -49,7 +49,7 @@ build-ts:
 ########################### install ###################################
 
 install-ts:
-	pnpm install -w
+	pnpm install
 
 install-go:
 	go mod download
@@ -80,26 +80,25 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
+lint-ts:
+	pnpm run lint
+
 # 执行 Go 测试
 test-go: mk-coverage
 	go vet -v ./...
 	go test -v -coverprofile='coverage/go.txt' -p=1 -parallel=1 -covermode=atomic ./...
 
-test-ts-core: mk-coverage
-	pnpm run lint
+test-ts-core: lint-ts mk-coverage
 	pnpm run test --project=@cmfx/core
 
-test-ts-components: mk-coverage build-ts-core
-	pnpm run lint
+test-ts-components: lint-ts mk-coverage build-ts-core
 	pnpm run test --project=@cmfx/components
 
-test-ts-admin: mk-coverage build-ts-components
-	pnpm run lint
+test-ts-admin: lint-ts mk-coverage build-ts-components
 	pnpm run test --project=@cmfx/admin
 
 # 执行 TypeScript 测试
-test-ts: build-ts mk-coverage
-	pnpm run lint
+test-ts: lint-ts build-ts mk-coverage
 	pnpm run test-nowatch
 
 # 执行测试内容

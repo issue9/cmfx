@@ -2,7 +2,6 @@ name: test
 on: [push, pull_request]
 
 jobs:
-
     # 测试 typescript
     test-ts:
         name: test-ts
@@ -67,4 +66,3 @@ jobs:
               with:
                   token: ${{secrets.CODECOV_TOKEN}}
                   files: ./coverage/go.txt
-    
