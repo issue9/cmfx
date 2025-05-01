@@ -49,7 +49,7 @@ build-ts:
 ########################### install ###################################
 
 install-ts:
-	pnpm install
+	pnpm install -w
 
 install-go:
 	go mod download
