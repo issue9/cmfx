@@ -6,7 +6,7 @@ import { Duration, formatDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 
 export type Field = 'days' | 'hours' | 'minutes' | 'seconds';
 
@@ -162,7 +162,7 @@ export default function Timer(props: Props): JSX.Element {
         });
     }
 
-    const ctx = useComponents();
+    const l = useLocale();
 
     const format = (n: number): string => {
         const s = n.toString();
@@ -179,7 +179,7 @@ export default function Timer(props: Props): JSX.Element {
         <Show when={fields.get(props.startField!)! >= fields.get('days')!}>
             <div class="item">
                 <span class="text">{format(dur().days ?? 0)}</span>
-                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.days')}</span></Show>
+                <Show when={props.unit}><span class="unit">{l.t('_i.timer.days')}</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
@@ -189,7 +189,7 @@ export default function Timer(props: Props): JSX.Element {
                 <span class="text">{
                     format((dur().hours ?? 0) + (props.startField! === 'hours' ? (dur().days ?? 0) * 24 : 0))
                 }</span>
-                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.hours')}</span></Show>
+                <Show when={props.unit}><span class="unit">{l.t('_i.timer.hours')}</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
@@ -202,7 +202,7 @@ export default function Timer(props: Props): JSX.Element {
                         (props.startField! === 'minutes' ? ((dur().days ?? 0) * 24*60 + (dur().hours ?? 0) * 60) : 0)
                     )
                 }</span>
-                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.minutes')}</span></Show>
+                <Show when={props.unit}><span class="unit">{l.t('_i.timer.minutes')}</span></Show>
             </div>
             <div class="sep">{props.separator}</div>
         </Show>
@@ -215,7 +215,7 @@ export default function Timer(props: Props): JSX.Element {
                         (props.startField === 'seconds' ? ((dur().days ?? 0) * 24*60*60 + (dur().hours ?? 0) * 60*60 + (dur().minutes ?? 0) * 60) : 0)
                     )
                 }</span>
-                <Show when={props.unit}><span class="unit">{ctx.locale().t('_i.timer.seconds')}</span></Show>
+                <Show when={props.unit}><span class="unit">{l.t('_i.timer.seconds')}</span></Show>
             </div>
         </Show>
     </div>;

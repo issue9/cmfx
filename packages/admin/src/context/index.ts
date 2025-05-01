@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { useAdmin, useOptions } from './context';
-export type { AppContext } from './context';
+export { useLocale } from '@cmfx/components';
+
+export { Provider, use } from './context';
 
 export type { User } from './user';
 

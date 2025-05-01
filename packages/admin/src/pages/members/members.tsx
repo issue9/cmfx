@@ -6,7 +6,7 @@ import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, trans
 import { Query } from '@cmfx/core';
 import { Component, JSX, Show } from 'solid-js';
 
-import { useAdmin } from '@/context';
+import { use, useLocale } from '@/context';
 import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
 import { Member } from './types';
 
@@ -49,7 +49,8 @@ interface Q extends Query {
  * 会员列表组件
  */
 export function Members(props: Props): JSX.Element {
-    const ctx = useAdmin();
+    const [api, act] = use();
+    const l = useLocale();
 
     const q: Q = {
         text: '',
@@ -68,34 +69,34 @@ export function Members(props: Props): JSX.Element {
                 <SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
-            { id: 'id', label: ctx.locale().t('_i.page.id') },
-            { id: 'no', label: ctx.locale().t('_i.page.no') },
+            { id: 'id', label: l.t('_i.page.id') },
+            { id: 'no', label: l.t('_i.page.no') },
             {
-                id: 'sex', label: ctx.locale().t('_i.page.sex'), content: ((_: string, v) => {
-                    return translateEnum(sexesMap, ctx, v as Sex);
+                id: 'sex', label: l.t('_i.page.sex'), content: ((_: string, v) => {
+                    return translateEnum(sexesMap, l, v as Sex);
                 })
             },
-            { id: 'nickname', label: ctx.locale().t('_i.page.nickname') },
-            { id: 'created', label: ctx.locale().t('_i.page.created'), content: (_, v)=> ctx.locale().datetime(v as string) },
+            { id: 'nickname', label: l.t('_i.page.nickname') },
+            { id: 'created', label: l.t('_i.page.created'), content: (_, v)=> l.datetime(v as string) },
             {
-                id: 'state', label: ctx.locale().t('_i.page.state'), content: (_, v) => {
-                    return translateEnum(statesMap, ctx, v as State);
+                id: 'state', label: l.t('_i.page.state'), content: (_, v) => {
+                    return translateEnum(statesMap, l, v as State);
                 }
             },
             {
-                id: 'actions', cellClass:'no-print', label: ctx.locale().t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
+                id: 'actions', cellClass:'no-print', label: l.t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={ctx.locale().t('_i.page.member.view')}>visibility</LinkButton>
+                                title={l.t('_i.page.member.view')}>visibility</LinkButton>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
-                            <Button icon rounded palette='error' title={ctx.locale().t('_i.page.admin.lockUser')} onClick={async () => {
-                                const r = await ctx.api.post(`/members/${obj!['id']}/locked`);
+                            <Button icon rounded palette='error' title={l.t('_i.page.admin.lockUser')} onClick={async () => {
+                                const r = await api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await ctx.outputProblem(r.body);
+                                    await act.outputProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();
@@ -103,10 +104,10 @@ export function Members(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button icon rounded palette='tertiary' title={ctx.locale().t('_i.page.admin.unlockUser')} onClick={async () => {
-                                const r = await ctx.api.delete(`/members/${obj!['id']}/locked`);
+                            <Button icon rounded palette='tertiary' title={l.t('_i.page.admin.unlockUser')} onClick={async () => {
+                                const r = await api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await ctx.outputProblem(r.body);
+                                    await act.outputProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();

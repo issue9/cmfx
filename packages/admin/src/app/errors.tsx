@@ -6,16 +6,16 @@ import { Button, ErrorProps, Error as XError } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { useAdmin, useOptions } from '@/context';
+import { use, useLocale } from '@/context';
 
 export function NotFound(): JSX.Element {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const l = useLocale();
+    const [, , opt] = use();
     const nav = useNavigate();
 
-    return <XError header="404" title={ctx.locale().t('_i.error.pageNotFound')}>
-        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ ctx.locale().t('_i.error.backHome') }</Button>
-        <Button palette='primary' onClick={() => { nav(-1); }}>{ ctx.locale().t('_i.error.backPrev') }</Button>
+    return <XError header="404" title={l.t('_i.error.pageNotFound')}>
+        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_i.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_i.error.backPrev') }</Button>
     </XError>;
 }
 
@@ -23,8 +23,8 @@ export function NotFound(): JSX.Element {
  * 一些未知的错误统一使用此方法
  */
 export function Unknown(err: any) {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const l = useLocale();
+    const [, , opt] = use();
     const nav = useNavigate();
 
     const props: ErrorProps = {};
@@ -36,9 +36,9 @@ export function Unknown(err: any) {
         props.title = err.toString();
     }
 
-    return <XError header={props.header ?? ctx.locale().t('_i.error.unknownError')} title={props.title} detail={props.detail}>
-        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ ctx.locale().t('_i.error.backHome') }</Button>
-        <Button palette='primary' onClick={() => { nav(-1); }}>{ ctx.locale().t('_i.error.backPrev') }</Button>
-        <Button palette='primary' onClick={() => window.location.reload()}>{ctx.locale().t('_i.refresh')}</Button>
+    return <XError header={props.header ?? l.t('_i.error.unknownError')} title={props.title} detail={props.detail}>
+        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_i.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_i.error.backPrev') }</Button>
+        <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_i.refresh')}</Button>
     </XError>;
 }

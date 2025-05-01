@@ -6,7 +6,7 @@ import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField } 
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
-import { useAdmin, useOptions } from '@/context';
+import { use, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 interface PasswordAccount {
@@ -35,55 +35,56 @@ export class Pwd implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const ctx = useAdmin();
-        const opt = useOptions();
+        const l = useLocale();
+        const [api, act, opt] = use();
         const nav = useNavigate();
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
 
         return <form onReset={() => account.reset()} onSubmit={async () => {
-            const r = await ctx.api.post(`/passports/${this.#id}/login`, account.object());
-            const ret = await ctx.login(r);
+            const r = await api.post(`/passports/${this.#id}/login`, account.object());
+            const ret = await act.login(r);
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
-                await ctx.outputProblem(ret);
+                await act.outputProblem(ret);
             }
         }}>
             <TextField prefix={<Icon class="!py-0 !px-1 !flex items-center" icon='person' />}
-                placeholder={ctx.locale().t('_i.page.current.username')} accessor={account.accessor('username', true)} />
+                placeholder={l.t('_i.page.current.username')} accessor={account.accessor('username', true)} />
 
-            <Password icon='password_2' placeholder={ctx.locale().t('_i.page.current.password')} accessor={account.accessor('password', true)} />
+            <Password icon='password_2' placeholder={l.t('_i.page.current.password')} accessor={account.accessor('password', true)} />
 
-            <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
+            <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_i.ok')}</Button>
         
-            <Button palette='secondary' disabled={account.isPreset()} type="reset" > {ctx.locale().t('_i.reset')} </Button>
+            <Button palette='secondary' disabled={account.isPreset()} type="reset" > {l.t('_i.reset')} </Button>
         </form>;
     }
 
     Actions(__: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
-        const ctx = useAdmin();
+        const l = useLocale();
+        const [api, act] = use();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
 
         return <>
-            <Button icon rounded title={ctx.locale().t('_i.page.current.changePassword')} onClick={() => {
+            <Button icon rounded title={l.t('_i.page.current.changePassword')} onClick={() => {
                 dialogRef.showModal();
             }}>passkey</Button>
 
-            <Dialog ref={(el) => dialogRef = el} header={ctx.locale().t('_i.page.current.changePassword')}
+            <Dialog ref={(el) => dialogRef = el} header={l.t('_i.page.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {
-                    const r = await ctx.api.put(`/passports/${this.#id}`, pwd.object());
+                    const r = await api.put(`/passports/${this.#id}`, pwd.object());
                     if (!r.ok) {
-                        await ctx.outputProblem(r.body);
+                        await act.outputProblem(r.body);
                         return undefined;
                     }
 
-                    await ctx.refetchUser();
+                    await act.refetchUser();
                     return undefined;
                 })}>
                 <form class="flex flex-col gap-2">
-                    <TextField placeholder={ctx.locale().t('_i.page.current.oldPassword')} accessor={pwd.accessor<string>('old')} />
-                    <TextField placeholder={ctx.locale().t('_i.page.current.newPassword')} accessor={pwd.accessor<string>('new')} />
+                    <TextField placeholder={l.t('_i.page.current.oldPassword')} accessor={pwd.accessor<string>('old')} />
+                    <TextField placeholder={l.t('_i.page.current.newPassword')} accessor={pwd.accessor<string>('new')} />
                 </form>
             </Dialog>
         </>;

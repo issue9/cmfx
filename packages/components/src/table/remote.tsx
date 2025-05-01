@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, Query, query2Search } from '@cmfx/core';
+import { API, Page, Query, query2Search } from '@cmfx/core';
 import { JSX, onMount, splitProps } from 'solid-js';
 
 import { ConfirmButton } from '@/button';
-import { Context, useComponents } from '@/context';
+import { use, useLocale } from '@/context';
 import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 
 export interface Ref<T extends object> extends LoaderRef<T> {
@@ -43,9 +43,11 @@ export interface Props<T extends object, Q extends Query> extends Omit<LoaderPro
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
 export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>) {
-    const ctx = useComponents();
+    const [api, act,] = use();
+    const l = useLocale();
+
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
-    const load = props.paging ? buildPagingLoadFunc(ctx, props.path) : buildNoPagingLoadFunc(ctx, props.path);
+    const load = props.paging ? buildPagingLoadFunc(api, act, props.path) : buildNoPagingLoadFunc(api, act, props.path);
     let ref: LoaderRef<T>;
 
     onMount(() => {
@@ -56,9 +58,9 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
                 element: ref!.element,
 
                 async delete<T extends string | number>(id: T): Promise<void> {
-                    const ret = await ctx.api.delete(`${props.path}/${id}`);
+                    const ret = await api.delete(`${props.path}/${id}`);
                     if (!ret.ok) {
-                        await ctx.outputProblem(ret.body);
+                        await act.outputProblem(ret.body);
                         return;
                     }
                     await ref.refresh();
@@ -66,7 +68,7 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
 
                 DeleteAction(id: string | number) {
                     return <ConfirmButton icon rounded palette='error'
-                        title={ctx.locale().t('_i.page.deleteItem')}
+                        title={l.t('_i.page.deleteItem')}
                         onClick={async () => { await this.delete(id); }}
                     >delete</ConfirmButton>;
                 },
@@ -77,12 +79,12 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
     return <LoaderTable ref={(el)=>ref=el} {...tableProps} load={load as any} />;
 }
 
-function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: Context, path: string) {
+function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof use>[1], path: string) {
     return async (q: Q): Promise<Page<T> | undefined> => {
-        const ret = await ctx.api.get<Page<T>>(path + query2Search(q));
+        const ret = await api.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
             if (ret.status !== 404) {
-                await ctx.outputProblem(ret.body);
+                await actions.outputProblem(ret.body);
             }
             return { count: 0, current: [] };
         }
@@ -90,12 +92,12 @@ function buildPagingLoadFunc<T extends object, Q extends Query>(ctx: Context, pa
     };
 }
 
-function buildNoPagingLoadFunc<T extends object, Q extends Query>(ctx: Context, path: string) {
+function buildNoPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof use>[1], path: string) {
     return async (q: Q): Promise<Array<T> | undefined> => {
-        const ret = await ctx.api.get<Array<T>>(path + query2Search(q));
+        const ret = await api.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {
             if (ret.status !== 404) {
-                await ctx.outputProblem(ret.body);
+                await actions.outputProblem(ret.body);
             }
             return [];
         }

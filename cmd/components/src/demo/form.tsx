@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, useComponents } from '@cmfx/components';
+import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, use } from '@cmfx/components';
 
 import { Demo, paletteSelector } from './base';
 
 export default function() {
-    const ctx = useComponents();
+    const [, act] = use();
     const [paletteS, palette] = paletteSelector('secondary');
 
     const f = new FormAccessor({
@@ -15,7 +15,7 @@ export default function() {
         5: 5,
         date: '2021-01-02T15:31',
         textarea: 'textarea',
-    }, ctx, async (_) => { return { ok: false, status: 500 }; });
+    }, act, async (_) => { return { ok: false, status: 500, body: {type: '500', title: '请求未处理', status: 500} }; });
 
     return <Demo settings={
         <>

@@ -2,22 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, expect, test } from 'vitest';
+import { expect, test } from 'vitest';
 
-import { Config } from '@/config';
-import { changeMode, getMode } from './mode';
+import { changeMode, modeValues } from './mode';
 
-describe('mode', () => {
-    const c = new Config(10);
+test('changeMode', () => {
+    const parent = document.createElement('div');
+    const child1 = document.createElement('div');
+    const child2 = document.createElement('div');
+    parent.appendChild(child1);
+    child1.appendChild(child2);
 
-    test('getMode', async () => {
-        const v = getMode(c, 'light');
-        expect(v).toEqual('light');
-    });
+    changeMode(parent, 'dark');
+    changeMode(child1, 'system');
+    changeMode(child2);
 
-    test('changeMode', () => {
-        changeMode(c, 'dark');
-        const v = getMode(c, 'light');
-        expect(v).toEqual('dark');
-    });
+    expect(parent.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('dark'));
+    expect(child1.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('system'));
+    expect(child2.style.getPropertyValue('color-scheme')).toBeFalsy();
 });

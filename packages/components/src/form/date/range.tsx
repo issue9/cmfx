@@ -5,7 +5,7 @@
 import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { calcPopoverPos } from '@/base';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 import { Accessor, Field, FieldAccessor } from '@/form/field';
 import { Icon, IconSymbol } from '@/icon';
 import { DatePanel, presetProps as presetPickerProps } from './panel';
@@ -28,7 +28,7 @@ const presetProps = {
 } as const;
 
 export function DateRangePicker(props: Props): JSX.Element {
-    const ctx = useComponents();
+    const l = useLocale();
 
     props = mergeProps(presetProps, props);
     const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
@@ -84,7 +84,7 @@ export function DateRangePicker(props: Props): JSX.Element {
             }}
         >
             <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? ctx.locale().datetime(ac1.getValue()) : ctx.locale().date(ac1.getValue())
+                props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())
             } onFocus={(e)=>{
                 togglePop(e, popRef);
 
@@ -93,7 +93,7 @@ export function DateRangePicker(props: Props): JSX.Element {
             }} />
             <Icon icon='arrow_forward' class="px-1" />
             <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? ctx.locale().datetime(ac2.getValue()) : ctx.locale().date(ac2.getValue())
+                props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())
             } onFocus={(e)=>{
                 togglePop(e, popRef);
 

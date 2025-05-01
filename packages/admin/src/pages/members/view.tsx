@@ -6,7 +6,7 @@ import { Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { useAdmin, useOptions } from '@/context';
+import { use, useLocale } from '@/context';
 import { Passport, sexesMap, statesMap } from '@/pages/common';
 import { Member } from './types';
 
@@ -26,8 +26,8 @@ export interface Props {
 }
 
 export function View(props: Props): JSX.Element {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const [api, act, opt] = use();
+    const l = useLocale();
     const id = parseInt(useParams().id);
     const [member, setMember] = createSignal<Member>({
         id: 0,
@@ -40,9 +40,9 @@ export function View(props: Props): JSX.Element {
     const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
     onMount(async () => {
-        const r = await ctx.api.get<Member>(`/members/${id}`);
+        const r = await api.get<Member>(`/members/${id}`);
         if (!r.ok) {
-            await ctx.outputProblem(r.body);
+            await act.outputProblem(r.body);
             return;
         }
 
@@ -52,9 +52,9 @@ export function View(props: Props): JSX.Element {
         }
         setMember(r.body!);
 
-        const r2 = await ctx.api.get<Array<Passport>>('/passports');
+        const r2 = await api.get<Array<Passport>>('/passports');
         if (!r2.ok) {
-            await ctx.outputProblem(r2.body);
+            await act.outputProblem(r2.body);
             return;
         }
         setPassports(r2.body!);
@@ -65,24 +65,24 @@ export function View(props: Props): JSX.Element {
             <img class="avatar" src={ member().avatar } alt="avatar" />
 
             <div class="item">
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.id')}</dt><dd>{ member().id }</dd></dl>
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.no')}</dt><dd>{ member().no }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.id')}</dt><dd>{ member().id }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.no')}</dt><dd>{ member().no }</dd></dl>
             </div>
 
             <div class="item">
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.created')}</dt><dd>{ ctx.locale().datetime(member().created) }</dd></dl>
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.member.birthday')}</dt><dd>{ ctx.locale().datetime(member().birthday) }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.created')}</dt><dd>{ l.datetime(member().created) }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.member.birthday')}</dt><dd>{l.datetime(member().birthday) }</dd></dl>
             </div>
 
             <div class="item">
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.nickname')}</dt><dd>{ member().nickname }</dd></dl>
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.sex')}</dt><dd>{ ctx.locale().t(sexesMap.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.nickname')}</dt><dd>{ member().nickname }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.sex')}</dt><dd>{ l.t(sexesMap.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
             </div>
 
             <div class="item">
-                <dl><dt class="mr-2">{ctx.locale().t('_i.page.state')}</dt><dd>{ ctx.locale().t(statesMap.find((v)=>v[0]===member().state)![1]) }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.page.state')}</dt><dd>{ l.t(statesMap.find((v)=>v[0]===member().state)![1]) }</dd></dl>
                 <dl>
-                    <dt class="mr-2">{ctx.locale().t('_i.page.member.passports')}</dt>
+                    <dt class="mr-2">{l.t('_i.page.member.passports')}</dt>
                     <dd class="flex gap-2">
                         <For each={passports()}>
                             {(item)=>(

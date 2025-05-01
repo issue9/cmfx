@@ -6,7 +6,7 @@ import { Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
-import { Context } from '@/context';
+import { use } from '@/context';
 import { Accessor, ChangeFunc } from './field';
 
 // Form 中保存错误的类型
@@ -205,7 +205,7 @@ interface Request<T extends object, R = never, P = never> {
 export class FormAccessor<T extends object, R = never, P = never> {
     #object: ObjectAccessor<T>;
     readonly #validation?: Validation<T>;
-    #ctx: Context;
+    #act: ReturnType<typeof use>[1];
     #request: Request<T,R,P>;
     readonly #success?: SuccessFunc<R>;
     #submitting: Signal<boolean>;
@@ -214,17 +214,18 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * 构造函数
      *
      * @param preset 初始值；
+     * @param act 由 {@link use} 返回的的第二个参数；
      * @param success 在接口正常返回时调用的方法；
      * @param validation 提交前对数据的验证方法；
      * @param req 提交数据的方法；
      */
-    constructor(preset: T, ctx: Context, req: Request<T, R, P>);
-    constructor(preset: T, ctx: Context, req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>);
-    constructor(preset: T, ctx: Context, req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>) {
+    constructor(preset: T, act: ReturnType<typeof use>[1], req: Request<T, R, P>);
+    constructor(preset: T, act: ReturnType<typeof use>[1], req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>);
+    constructor(preset: T, act: ReturnType<typeof use>[1], req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>) {
         // NOTE: ctx 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
         this.#validation = validation;
-        this.#ctx = ctx;
+        this.#act = act;
         this.#request = req;
         this.#success = success;
         this.#submitting = createSignal<boolean>(false);
@@ -281,7 +282,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
         }
 
         this.#object.errorsFromProblem(ret.body);
-        await this.#ctx.outputProblem(ret.body);
+        await this.#act.outputProblem(ret.body);
         return false;
     }
 

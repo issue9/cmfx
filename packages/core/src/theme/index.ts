@@ -11,5 +11,4 @@ export type { Scheme } from './scheme';
 export { Theme } from './theme';
 export type { Breakpoint } from './theme';
 
-
 import './theme.css';

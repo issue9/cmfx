@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Item, List, init } from '@cmfx/components';
-import { API, Config, Dict, Locale, Problem, Theme } from '@cmfx/core';
+import { Drawer, Item, List, Options, OptionsProvider } from '@cmfx/components';
+import { Problem, Theme } from '@cmfx/core';
 import { HashRouter, RouteSectionProps } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import { render } from 'solid-js/web';
@@ -15,29 +15,38 @@ import { routes } from './demo';
 // 调用的 API.build 需要 await，目前顶层代码不是允许的，
 // 所以用 main 进行一次包装。
 async function main() {
-    const conf = new Config('id');
-    const api = await API.build('token', 'http://localhost:8080', '/login', 'application/json', 'application/json', 'zh-Hans');
-    Theme.init(conf, Theme.genScheme(10));
-    Locale.init('zh-Hans', api);
-    await Locale.addDict('zh-Hans',
-        async (): Promise<Dict> => { return (await import('@cmfx/components/messages/zh-Hans.lang.js')).default; },
-    );
-    await Locale.addDict('en-US',
-        async (): Promise<Dict> => { return (await import('@cmfx/components/messages/en.lang.js')).default; },
-    );
+    const o: Options = {
+        id: 'admin',
+        configName: '',
+        storage: window.sessionStorage,
+        scheme: Theme.genScheme(10),
+        contrast: 'nopreference',
+        mode: 'dark',
+        locale: 'zh-Hans',
+        unitStyle: 'full',
+        messages: {
+            'en': [
+                async () => (await import('@cmfx/components/messages/en.lang.js')).default
+            ],
+            'zh-Hans': [
+                async () => (await import('@cmfx/components/messages/zh-Hans.lang.js')).default
+            ],
+        },
+
+        apiBase: 'http://localhost:8080',
+        apiToken: '/login',
+        apiAcceptType: 'application/json',
+        apiContentType: 'application/json',
+        title: 'title',
+        titleSeparator: '-',
+        pageSizes: [10, 20, 50, 100, 200, 500],
+        pageSize: 20,
+        outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+            console.error(p ? p.title : '');
+        }
+    };
 
     function App(): JSX.Element {
-        const ret = init({
-            config: conf,
-            title: 'title',
-            titleSeparator: '-',
-            pageSizes: [10, 20, 50, 100, 200, 500],
-            pageSize: 20,
-            api: api,
-            outputProblem: function <P>(p?: Problem<P>): Promise<void> {
-                throw new Error(p?.title);
-            }
-        });
         const menuItems: Array<Item> = [];
         routes.forEach((r) => {
             menuItems.push({
@@ -48,9 +57,9 @@ async function main() {
         });
 
         const Root = (p: RouteSectionProps) => {
-            return <ret.Provider>
+            return <OptionsProvider {...o}>
                 <Drawer main={p.children}><List anchor>{menuItems}</List></Drawer>
-            </ret.Provider>;
+            </OptionsProvider>;
         };
 
         return <HashRouter root={Root}>{routes}</HashRouter>;

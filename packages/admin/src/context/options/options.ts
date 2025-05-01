@@ -22,6 +22,8 @@ export interface AppOptions {
      */
     id: string;
 
+    configName?: string | number;
+
     /**
      * 网站的标题
      */
@@ -76,6 +78,8 @@ export interface AppOptions {
      * 与本地化相关的一些设置
      */
     locales: Locales;
+
+    notifyTimeout?: number;
 }
 
 /**
@@ -112,7 +116,7 @@ export interface Locales {
     /**
      * 支持的语言
      */
-    locales: Array<LocaleID>;
+    locales: Array<LocaleID>; // TODO
 
     /**
      * 备用的本地化 ID
@@ -153,12 +157,14 @@ export interface Theme {
 
 const presetOptions: Readonly<PickOptional<AppOptions>> = {
     storage: window.localStorage,
+    configName: 0,
     system: {
         dialog: true,
         notification: true,
     },
     titleSeparator: ' | ',
     theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
+    notifyTimeout: 5000,
 } as const;
 
 

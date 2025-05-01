@@ -6,7 +6,7 @@ import { Button, Item, Label, Menu } from '@cmfx/components';
 import { Locale } from '@cmfx/core';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
-import { MenuItem, useAdmin, useOptions } from '@/context';
+import { MenuItem, use, useLocale } from '@/context';
 import { Search } from './search';
 
 export interface MenuVisibleProps {
@@ -22,8 +22,7 @@ type Props = MenuVisibleProps & {
  * 顶部工具栏
  */
 export default function Toolbar(props: Props) {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const [, act, opt] = use();
 
     createEffect(() => {
         if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
@@ -36,7 +35,7 @@ export default function Toolbar(props: Props) {
         </div>
 
         <div class="menu-icon">
-            <Show when={ctx.isLogin()}>
+            <Show when={act.isLogin()}>
                 <Button icon rounded type="button" kind='flat'
                     classList={{
                         'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
@@ -53,9 +52,9 @@ export default function Toolbar(props: Props) {
         </div>
 
         <div class="system-bar">
-            <Show when={ctx.user()}><Search switch={props.switch} /></Show>
+            <Show when={act.user()}><Search switch={props.switch} /></Show>
             <Fullscreen />
-            <Show when={ctx.user()}><Username /></Show>
+            <Show when={act.user()}><Username /></Show>
         </div>
     </header>;
 }
@@ -64,18 +63,18 @@ export default function Toolbar(props: Props) {
  * 用户名及其下拉菜单
  */
 function Username(): JSX.Element {
-    const ctx = useAdmin();
-    const opt = useOptions();
+    const [, act, opt] = use();
+    const l = useLocale();
     const [visible, setVisible] = createSignal(false);
 
     const activator = <Button class="pl-1 rounded-full"
         onClick={()=>setVisible(!visible())}>
-        <img alt='avatar' class="w-6 h-6 rounded-full mr-1" src={ ctx.user()?.avatar } />
-        {ctx.user()?.name}
+        <img alt='avatar' class="w-6 h-6 rounded-full mr-1" src={ act.user()?.avatar } />
+        {act.user()?.name}
     </Button>;
 
     return <Menu hoverable anchor direction='left' activator={activator}>
-        {buildItems(ctx.locale(), opt.userMenus)}
+        {buildItems(l, opt.userMenus)}
     </Menu>;
 }
 
@@ -83,7 +82,7 @@ function Username(): JSX.Element {
  * 顶部全屏按钮
  */
 function Fullscreen(): JSX.Element {
-    const ctx = useAdmin();
+    const l = useLocale();
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
 
     const toggleFullscreen = async() => {
@@ -99,7 +98,7 @@ function Fullscreen(): JSX.Element {
     };
 
     return <Button icon type='button' kind='flat' rounded
-        onClick={toggleFullscreen} title={ctx.locale().t('_i.fullscreen')}>
+        onClick={toggleFullscreen} title={l.t('_i.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
 }

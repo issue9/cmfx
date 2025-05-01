@@ -4,9 +4,9 @@
 
 import { Column, Label, LoaderTable, Page, translateEnum } from '@cmfx/components';
 import { Query } from '@cmfx/core';
-import { JSX, createMemo } from 'solid-js';
+import { createMemo, JSX } from 'solid-js';
 
-import { useAdmin } from '@/context';
+import { use, useLocale } from '@/context';
 import { MessagesKey } from '@/messages';
 
 interface Service {
@@ -37,12 +37,13 @@ export const stateMap: Array<[State, MessagesKey]> = [
  * 服务列表页面
  */
 export function Services(): JSX.Element {
-    const ctx = useAdmin();
+    const [api, act] = use();
+    const l = useLocale();
 
     const items = createMemo(async()=>{
-        const ret = await ctx.api.get<Service>('/system/services');
+        const ret = await api.get<Service>('/system/services');
         if (!ret.ok) {
-            await ctx.outputProblem(ret.body);
+            await act.outputProblem(ret.body);
             return;
         }
         return ret.body;
@@ -50,28 +51,28 @@ export function Services(): JSX.Element {
 
     return <Page title='_i.page.system.serviceViewer' class="max-w-lg">
         <fieldset>
-            <Label icon='subtitles_gear' tag='legend'>{ctx.locale().t('_i.page.system.services')}</Label>
+            <Label icon='subtitles_gear' tag='legend'>{l.t('_i.page.system.services')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
-                {id: 'title', label: ctx.locale().t('_i.page.system.title')},
-                {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
-                    return translateEnum(stateMap, ctx, v!);
+                {id: 'title', label: l.t('_i.page.system.title')},
+                {id: 'state', label: l.t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
+                    return translateEnum(stateMap, l, v!);
                 }) as Column<Task>['content']},
-                {id: 'err', label: ctx.locale().t('_i.page.system.error')},
+                {id: 'err', label: l.t('_i.page.system.error')},
             ]} />
         </fieldset>
 
         <br />
 
         <fieldset>
-            <Label icon='task' tag='legend'>{ctx.locale().t('_i.page.system.jobs')}</Label>
+            <Label icon='task' tag='legend'>{l.t('_i.page.system.jobs')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
-                {id: 'title', label: ctx.locale().t('_i.page.system.title')},
-                {id: 'state', label: ctx.locale().t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
-                    return translateEnum(stateMap, ctx, v!);
+                {id: 'title', label: l.t('_i.page.system.title')},
+                {id: 'state', label: l.t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
+                    return translateEnum(stateMap, l, v!);
                 }) as Column<Job>['content']},
-                {id: 'err', label: ctx.locale().t('_i.page.system.error')},
-                {id: 'next', label: ctx.locale().t('_i.page.system.next'), content: (_: string, val?: string) => { return ctx.locale().datetime(val); }},
-                {id: 'prev', label: ctx.locale().t('_i.page.system.prev'), content: (_: string, val?: string) => { return ctx.locale().datetime(val); }},
+                {id: 'err', label: l.t('_i.page.system.error')},
+                {id: 'next', label: l.t('_i.page.system.next'), content: (_: string, val?: string) => { return l.datetime(val); }},
+                {id: 'prev', label: l.t('_i.page.system.prev'), content: (_: string, val?: string) => { return l.datetime(val); }},
             ]} />
         </fieldset>
     </Page>;

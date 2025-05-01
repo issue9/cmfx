@@ -2,71 +2,60 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { NotifyType, init } from '@cmfx/components';
-import { API, Config, Problem, Return, Token, UnitStyle } from '@cmfx/core';
+import { Options, OptionsProvider, notify, use as useComponents } from '@cmfx/components';
+import { API, Contrast, Mode, Problem, Return, Scheme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
-import { JSX, createContext, createResource, useContext } from 'solid-js';
+import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
 import { buildOptions } from './options';
 import { User } from './user';
 
 export type OptContext = ReturnType<typeof buildOptions>;
 
-export type AppContext = Awaited<ReturnType<typeof buildContext>>['ctx'];
+type InternalOptions = OptContext & {
+    coreAPI: API;
+    actions: ReturnType<typeof buildActions>;
+};
 
-const appContext = createContext<AppContext>();
-
-const optContext = createContext<OptContext>();
+const optContext = createContext<InternalOptions>();
 
 // 保存于 sessionStorage 中的表示当前登录用户的 id
-const currentKey = 'current';
+const currentKey = 'uid';
 
-/**
- * 提供应用内的全局操作方法
- */
-export function useAdmin(): AppContext {
-    const ctx = useContext(appContext);
-    if (!ctx) {
-        throw '未找到正确的 appContext';
-    }
-    return ctx;
-}
-
-/**
- * 提供应用初始化时的选项
- */
-export function useOptions(): OptContext {
+export function use() {
     const ctx = useContext(optContext);
     if (!ctx) {
         throw '未找到正确的 optContext';
     }
-    return ctx;
+    return [ctx.coreAPI, ctx.actions, ctx] as [api: API, actions: ReturnType<typeof buildActions>, options: OptContext];
 }
 
-export async function buildContext(opt: OptContext) {
-    let uid = sessionStorage.getItem(opt.id+currentKey) ?? '';
-    const conf = new Config(opt.id, uid, opt.storage);
-    const oa = opt.api;
+export function Provider(props: ParentProps<OptContext>): JSX.Element {
+    const o: Options = {
+        id: props.id,
+        storage: props.storage,
+        configName: props.configName,
 
-    const api = await API.build(conf, oa.base, oa.token, oa.contentType, oa.acceptType, opt.locales.fallback);
-    await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
-    api.cache(opt.api.info);
+        scheme: props.theme.schemes[0],
+        contrast: props.theme.contrast,
+        mode: props.theme.mode,
 
-    const lp = await init({
-        config: conf,
-        api: api,
-        
-        locale: opt.locales.fallback,
-        messages: opt.locales.messages,
+        locale: props.locales.fallback,
+        unitStyle: props.locales.unitStyle!,
+        messages: props.locales.messages,
 
-        scheme: opt.theme?.schemes[0], // TODO
-        title: opt.title,
-        titleSeparator: opt.titleSeparator,
-        pageSizes: opt.api.pageSizes,
-        pageSize: opt.api.presetSize,
-        logo:opt.logo,
-        systemDialog: opt.system.dialog,
-        systemNotify: opt.system.notification,
+        apiBase: props.api.base,
+        apiToken: props.api.token,
+        apiAcceptType: props.api.acceptType,
+        apiContentType: props.api.contentType,
+
+        title: props.title,
+        titleSeparator: props.titleSeparator,
+        pageSizes: props.api.pageSizes,
+        pageSize: props.api.presetSize,
+        logo:props.logo,
+        systemDialog: props.system.dialog,
+        systemNotify: props.system.notification,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
@@ -74,14 +63,30 @@ export async function buildContext(opt: OptContext) {
 
             const loc = useLocation();
             const nav = useNavigate();
-            if ((p.status === 401) && (opt.routes.public.home !== loc.pathname)) {
-                nav(opt.routes.public.home);
+            if ((p.status === 401) && (props.routes.public.home !== loc.pathname)) {
+                nav(props.routes.public.home);
             } else {
-                await lp.context.notify(p.title, p.detail);
+                await notify(p.title, p.detail, 'error', props.locales.fallback, props.notifyTimeout);
             }
         }
-    }); 
+    }; 
 
+    const child = () => {
+        const [api, act] = useComponents();
+        const p = mergeProps(props, {
+            coreAPI: api,
+            actions: buildActions(api, act, props),
+        });
+
+        return <optContext.Provider value={p}>
+            {props.children}
+        </optContext.Provider>;
+    };
+
+    return <OptionsProvider {...o}>{child()}</OptionsProvider>;
+}
+
+function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext) {
     const [user, userData] = createResource(async () => {
         if (!api.isLogin()) {
             return;
@@ -102,7 +107,7 @@ export async function buildContext(opt: OptContext) {
         console.error(r.body?.title);
     });
 
-    const ctx = {
+    return {
         /**
          * 是否已经登录
          */
@@ -132,19 +137,17 @@ export async function buildContext(opt: OptContext) {
         },
 
         /**
-         * API 接口操作接口
-         */
-        get api() { return api; },
-
-        /**
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
          *
          * @param p 如果该值空，则会抛出异常；
          */
-        async outputProblem<P>(p?: Problem<P>): Promise<void> { await lp.context.outputProblem(p); },
+        async outputProblem<P>(p?: Problem<P>): Promise<void> { await act.outputProblem(p); },
 
         /**
          * 设置登录状态并刷新 user
+         *
+         * 相较于 {@link API#login} 此方法除了登录，还执行一些额外的操作。
+         *
          * @param r 登录接口返回的数据
          * @returns true 表示登录成功，其它情况表示错误信息
          */
@@ -152,21 +155,24 @@ export async function buildContext(opt: OptContext) {
             const ret = await api.login(r);
             if (ret === true) {
                 await userData.refetch();
-                uid = this.user()!.id!.toString();
-                sessionStorage.setItem(opt.id+currentKey, uid);
-                lp.context.switchConfig(uid);
+                const uid = this.user()!.id!.toString();
+                sessionStorage.setItem(opt.id + currentKey, uid);
+                act.switchConfig(uid);
             }
             return ret;
         },
 
         /**
          * 退出登录并刷新 user
+         *
+         * 相较于 {@link API#logout} 此方法除了登录，还执行一些额外的操作。
+         *
          */
         async logout() {
             await api.logout();
-            sessionStorage.removeItem(opt.id+currentKey);
+            sessionStorage.removeItem(opt.id + currentKey);
             await userData.refetch();
-            // lp.context.switchConfig(uid); // 退出登录时，不切换配置项。
+            act.switchConfig(opt.configName);
         },
 
         /**
@@ -179,41 +185,32 @@ export async function buildContext(opt: OptContext) {
          */
         async refetchUser() { await userData.refetch(); },
 
-        set title(v: string) { lp.context.title = v; },
+        set title(v: string) { act.title = v; },
+
+        switchConfig(id: string | number): void { act.switchConfig(id); },
 
         /**
-         * 发送一条通知给用户
+         * 切换主题色
          */
-        async notify(title: string, body?: string, type: NotifyType = 'error', timeout = 5000) {
-            await lp.context.notify(title, body, type, timeout);
-        },
+        switchScheme(scheme: Scheme) { act.switchScheme(scheme); },
 
         /**
-         * 获取本地化的接口对象
+         * 切换主题模式
          */
-        locale() { return lp.context.locale()!; },
+        switchMode(mode: Mode) { act.switchMode(mode); },
 
-        switchConfig(id: string | number): void { lp.context.switchConfig(id); },
+        /**
+         * 切换主题的明亮度
+         */
+        switchContrast(contrast: Contrast) { act.switchContrast(contrast); },
 
         /**
          * 切换本地化对象
          *
          * @param id 本地化 ID
          */
-        switchLocale(id: string) { lp.context.switchLocale(id); },
+        switchLocale(id: string) { act.switchLocale(id); },
 
-        switchUnitStyle(style: UnitStyle) { lp.context.switchUnitStyle(style); },
+        switchUnitStyle(style: UnitStyle) { act.switchUnitStyle(style); },
     };
-
-    const Provider = (props: { children: JSX.Element }): JSX.Element => {
-        return <optContext.Provider value={opt}>
-            <appContext.Provider value={ctx}>
-                <lp.Provider>
-                    {props.children}
-                </lp.Provider>
-            </appContext.Provider>
-        </optContext.Provider>;
-    };
-
-    return { ctx, Provider };
 }

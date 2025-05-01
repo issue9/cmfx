@@ -12,6 +12,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/button', component: lazy(() => import('./button')) },
     { path: '/card', component: lazy(() => import('./card')) },
     { path: '/chart', component: lazy(() => import('./chart')) },
+    { path: '/context', component: lazy(() => import('./context')) },
     { path: '/dialog', component: lazy(() => import('./dialog')) },
     { path: '/divider', component: lazy(() => import('./divider')) },
     { path: '/errors', component: lazy(() => import('./error')) },

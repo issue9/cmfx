@@ -5,7 +5,7 @@
 import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { calcPopoverPos } from '@/base';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 import { Field } from '@/form/field';
 import { Icon } from '@/icon';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
@@ -28,7 +28,7 @@ function togglePop(anchor: Element, pop: HTMLElement): boolean {
 }
 
 export function DatePicker(props: Props): JSX.Element {
-    const ctx = useComponents();
+    const l = useLocale();
 
     props = mergeProps(presetProps, props);
     const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
@@ -75,7 +75,7 @@ export function DatePicker(props: Props): JSX.Element {
             }}
         >
             <input class="input" tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? ctx.locale().datetime(ac.getValue()) : ctx.locale().date(ac.getValue())
+                props.time ? l.datetime(ac.getValue()) : l.date(ac.getValue())
             } />
             <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={() => {
                 props.accessor.setValue(undefined);

@@ -5,7 +5,7 @@
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { calcPopoverPos, handleEvent } from '@/base';
-import { useComponents } from '@/context';
+import { useLocale } from '@/context';
 import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
 
 export interface Props extends BaseProps {
@@ -37,7 +37,7 @@ export interface Props extends BaseProps {
  */
 export function ConfirmButton(props: Props) {
     props = mergeProps(presetProps, props);
-    const ctx = useComponents();
+    const l = useLocale();
     let pop: HTMLDivElement;
     let btn: ButtonRef;
 
@@ -66,10 +66,10 @@ export function ConfirmButton(props: Props) {
             calcPopoverPos(pop, btn.getBoundingClientRect());
         }}>{props.children}</Button>
         <div popover="manual" ref={el=>pop=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
-            {props.prompt ?? ctx.locale().t('_i.areYouSure')}
+            {props.prompt ?? l.t('_i.areYouSure')}
             <div class="actions">
-                <Button palette='secondary' onClick={() => pop.hidePopover()}>{props.cancel ?? ctx.locale().t('_i.cancel')}</Button>
-                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? ctx.locale().t('_i.ok')}</Button>
+                <Button palette='secondary' onClick={() => pop.hidePopover()}>{props.cancel ?? l.t('_i.cancel')}</Button>
+                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? l.t('_i.ok')}</Button>
             </div>
         </div>
     </>;

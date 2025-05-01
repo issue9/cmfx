@@ -6,13 +6,12 @@ import { expect, test } from 'vitest';
 
 import { sleep } from '@/time';
 import { Token, delToken, getToken, state, writeToken } from './token';
-import { Config } from '@/config';
 
 test('token', () => {
-    const c = new Config('cmfx-token-name', '');
-
-    expect(getToken(c)).toBeUndefined();
-    expect(delToken(c));
+    const id = 'cmfx-token-name';
+    const s = window.sessionStorage;
+    expect(getToken(id, s)).toBeUndefined();
+    expect(delToken(id, s));
 
     const t: Token = {
         access_token: 'access',
@@ -20,23 +19,25 @@ test('token', () => {
         refresh_token: 'refresh',
         refresh_exp: 3
     };
-    const tk = writeToken(t, c);
+
+    const tk = writeToken(t, id, s);
     expect(tk.access_token).toEqual('access');
 
     const now = Date.now().valueOf();
-    const rt = getToken(c) as Token;
+    const rt = getToken(id, s)!;
 
     expect(rt.access_token).toEqual('access');
     expect(rt.refresh_token).toEqual('refresh');
     expect(rt.access_exp).toBeGreaterThan(now);
     expect(rt.refresh_exp).toBeGreaterThan(rt.access_exp);
 
-    expect(delToken(c));
-    expect(getToken(c)).toBeUndefined();
+    expect(delToken(id, s));
+    expect(getToken(id, s)).toBeUndefined();
 });
 
 test('state', async () => {
-    const c = new Config('cmfx-token-name', '');
+    const id = 'cmfx-token-name';
+    const s = window.sessionStorage;
 
     const t: Token = {
         access_token: 'access',
@@ -44,8 +45,8 @@ test('state', async () => {
         refresh_token: 'refresh',
         refresh_exp: 2
     };
-    expect(writeToken(t, c));
-    const rt = getToken(c)!;
+    expect(writeToken(t, id, s));
+    const rt = getToken(id, s)!;
 
     expect(state(rt)).toEqual('normal');
     await sleep(1000);

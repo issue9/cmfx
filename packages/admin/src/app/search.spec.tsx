@@ -2,24 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Locale } from '@cmfx/core';
+import { Locale, sleep } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { createSignal, ParentProps } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { MenuItem } from '@/context';
-import { buildContext } from '@/context/context';
+import { MenuItem, Provider } from '@/context';
 import { options } from '@/context/options/options.spec';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {
-    const ao = options.api;
-    const conf = new Config(options.id, '');
-    const api = await API.build(conf, ao.base, ao.token, ao.contentType, ao.acceptType, 'zh-Hans');
-    Locale.init(conf, 'en', api);
-    const l = new Locale();
+    Locale.init('en');
+    const l = new Locale('en', 'full');
     const menus: Array<MenuItem> = [
         {'type': 'divider'},
         {'type': 'item', label: 'item-1'},
@@ -48,23 +44,20 @@ describe('search', async () => {
     test('Search', async () => {
         window.HTMLLIElement.prototype.scrollIntoView = function() {};
         const user = userEvent.setup();
-        const { Provider } = await buildContext(options);
 
         const [_, setSwitch] = createSignal('');
         const { container, unmount } = render(() => <Search switch={setSwitch} />, {
             wrapper: (props: ParentProps) => {
-                const Root = () => {
-                    const opt = { ...options };
-                    opt.aside.menus = menus; // 替换菜单项
-                    return <Provider>{props.children}</Provider>;
-                };
-
-                return <HashRouter root={Root}>{[]}</HashRouter>;
+                const opt = { ...options }; // NOTE: structedClone 是无法复制 Storage 类型的。
+                opt.aside.menus = menus; // 替换菜单项
+                return <Provider {...opt}>
+                    <HashRouter root={()=>props.children}>{[]}</HashRouter>
+                </Provider>;
             },
         });
 
-        const c = container.children.item(0);
-        expect(c).toHaveClass('app-search');
+        await sleep(500); // Provider 需要等待其 API 初始化完成。
+        expect(container.querySelector('.app-search')).toBeTruthy();
 
         // 默认为空
         let ul = container.querySelector('.list');

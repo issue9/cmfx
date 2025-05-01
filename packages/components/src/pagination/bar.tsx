@@ -5,7 +5,7 @@
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { useComponents, useOptions } from '@/context/context';
+import { use, useLocale } from '@/context';
 import { Choice, FieldAccessor, FieldOptions } from '@/form';
 import { Pagination } from './pagination';
 
@@ -52,7 +52,7 @@ export interface Props extends BaseProps {
  * 相对于 {@link Pagination} 变成了按照数据总量进行计算分页，而不是直接按照页数。
  */
 export function PaginationBar(props: Props): JSX.Element {
-    const opt = useOptions();
+    const [, , opt] = use();
     props = mergeProps({
         total: opt.pageSize,
         spans: 3,
@@ -64,7 +64,7 @@ export function PaginationBar(props: Props): JSX.Element {
         throw `参数 props.size:${props.size} 必须存在于 props.sizes: ${props.sizes}`;
     }
 
-    const ctx = useComponents();
+    const l = useLocale();
 
     const sizesOptions = createMemo(() => {
         const items: FieldOptions<number> = [];
@@ -113,7 +113,7 @@ export function PaginationBar(props: Props): JSX.Element {
         'c--pagination-bar': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        {ctx.locale().t('_i.pagination.items', translateItems())}
+        {l.t('_i.pagination.items', translateItems())}
         <div class="flex gap-2">
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
             <Pagination spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />

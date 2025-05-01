@@ -4,14 +4,14 @@
 
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, Label, RemoteTable, RemoteTableRef, TextField
+    Icon, Label, RemoteTable, RemoteTableRef, TextField, useLocale
 } from '@cmfx/components';
 import { Token } from '@cmfx/core';
 import { base64urlnopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
 
-import { useAdmin, useOptions } from '@/context';
+import { use } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 export class Webauthn implements PassportComponents {
@@ -27,19 +27,19 @@ export class Webauthn implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const ctx = useAdmin();
-        const opt = useOptions();
+        const [api, act, opt] = use();
+        const l = useLocale();
         const nav = useNavigate();
         const account = FieldAccessor('account', '', true);
 
         return <form class="!gap-5" onReset={() => account.reset()} onSubmit={async () => {
-            const r1 = await ctx.api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
+            const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
             if (!r1.ok) {
                 if (r1.status === 401) {
-                    account.setError(ctx.locale().t('_i.page.current.invalidAccount'));
+                    account.setError(l.t('_i.page.current.invalidAccount'));
                     return;
                 }
-                ctx.outputProblem(r1.body);
+                act.outputProblem(r1.body);
                 return;
             }
 
@@ -64,21 +64,21 @@ export class Webauthn implements PassportComponents {
                     userHandle: credential.response.userHandle ? bufferToBase64URL(credential.response.userHandle) : null
                 }
             };
-            const r2 = await ctx.api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
+            const r2 = await api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
             if (!r2.ok) {
                 if (r1.status === 401) {
-                    account.setError(ctx.locale().t('_i.page.current.invalidAccount'));
+                    account.setError(l.t('_i.page.current.invalidAccount'));
                     return;
                 }
-                ctx.outputProblem(r2.body);
+                act.outputProblem(r2.body);
                 return;
             }
 
-            const ret = await ctx.login(r2);
+            const ret = await api.login(r2);
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
-                await ctx.outputProblem(ret);
+                await act.outputProblem(ret);
             }
         }}>
             <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='person' />}
@@ -87,37 +87,38 @@ export class Webauthn implements PassportComponents {
                         <Icon class="!py-0 !px-1 !flex !items-center" icon='close' onClick={()=>account.setValue('')} />
                     </Show>
                 }
-                placeholder={ctx.locale().t('_i.page.current.username')} accessor={account} />
+                placeholder={l.t('_i.page.current.username')} accessor={account} />
 
-            <Button palette='primary' disabled={account.getValue() == ''} type="submit">{ctx.locale().t('_i.ok')}</Button>
+            <Button palette='primary' disabled={account.getValue() == ''} type="submit">{l.t('_i.ok')}</Button>
         </form>;
     }
 
     Actions(f: RefreshFunc): JSX.Element {
-        const ctx = useAdmin();
+        const l = useLocale();
+        const [api, act] = use();
         let dialogRef: DialogRef;
         let tableRef: RemoteTableRef<Credential>;
 
         return <>
-            <Button icon rounded title={ctx.locale().t('_i.page.current.bindWebauthn')} onClick={async () => {
+            <Button icon rounded title={l.t('_i.page.current.bindWebauthn')} onClick={async () => {
                 dialogRef.showModal();
             }}>credit_card_gear</Button>
 
             <Dialog class="w-[80%]" ref={(el) => dialogRef = el} header={
-                <Label icon='credit_card_gear'>{ctx.locale().t('_i.page.current.webauthnCredentials')}</Label>
+                <Label icon='credit_card_gear'>{l.t('_i.page.current.webauthnCredentials')}</Label>
             }>
                 <div class="overflow-auto">
                     <RemoteTable<Credential, {}> ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
                         columns={[
-                            { id: 'id', label: ctx.locale().t('_i.page.id') },
-                            { id: 'ua', label: ctx.locale().t('_i.page.current.ua') },
-                            { id: 'last', label: ctx.locale().t('_i.page.current.lastUsed'), content: (_, val) => ctx.locale().datetime(val) },
+                            { id: 'id', label: l.t('_i.page.id') },
+                            { id: 'ua', label: l.t('_i.page.current.ua') },
+                            { id: 'last', label: l.t('_i.page.current.lastUsed'), content: (_, val) => l.datetime(val) },
                             {
-                                id: 'id', label: ctx.locale().t('_i.page.actions'), renderContent: (_, val) => (
-                                    <ConfirmButton icon rounded palette='error' title={ctx.locale().t('_i.page.current.unbindWebauthn')} onClick={async () => {
-                                        const r1 = await ctx.api.delete(`/passports/${this.#id}/credentials/${val}`);
+                                id: 'id', label: l.t('_i.page.actions'), renderContent: (_, val) => (
+                                    <ConfirmButton icon rounded palette='error' title={l.t('_i.page.current.unbindWebauthn')} onClick={async () => {
+                                        const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
                                         if (!r1.ok) {
-                                            ctx.outputProblem(r1.body);
+                                            act.outputProblem(r1.body);
                                             return;
                                         }
 
@@ -129,9 +130,9 @@ export class Webauthn implements PassportComponents {
                         ]}
                         toolbar={<div class="flex gap-2">
                             <Button palette='primary' rounded onClick={async () => {
-                                const r1 = await ctx.api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
+                                const r1 = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
                                 if (!r1.ok) {
-                                    ctx.outputProblem(r1.body);
+                                    act.outputProblem(r1.body);
                                     return;
                                 }
 
@@ -152,24 +153,24 @@ export class Webauthn implements PassportComponents {
                                     }
                                 };
 
-                                const r2 = await ctx.api.post(`/passports/${this.#id}/register`, pc);
+                                const r2 = await api.post(`/passports/${this.#id}/register`, pc);
                                 if (!r2.ok) {
-                                    ctx.outputProblem(r2.body);
+                                    act.outputProblem(r2.body);
                                     return;
                                 }
 
                                 tableRef.refresh();
                                 await f();
-                            }}><Icon icon='add_link' />&#160;{ctx.locale().t('_i.page.current.bindWebauthn')}</Button>
+                            }}><Icon icon='add_link' />&#160;{l.t('_i.page.current.bindWebauthn')}</Button>
 
                             <ConfirmButton palette='secondary' rounded onClick={async () => {
-                                const r1 = await ctx.api.delete(`/passports/${this.#id}`);
+                                const r1 = await api.delete(`/passports/${this.#id}`);
                                 if (!r1.ok) {
-                                    ctx.outputProblem(r1.body);
+                                    act.outputProblem(r1.body);
                                     return;
                                 }
                                 await f();
-                            }}><Icon icon='link_off' />&#160;{ctx.locale().t('_i.page.current.unbindAllWebauthn')}</ConfirmButton>
+                            }}><Icon icon='link_off' />&#160;{l.t('_i.page.current.unbindAllWebauthn')}</ConfirmButton>
                         </div>}
                     />
                 </div>

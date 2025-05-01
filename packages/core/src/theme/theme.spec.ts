@@ -4,13 +4,12 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Config } from '@/config';
+import { contrastValues } from './contrast';
+import { modeValues } from './mode';
 import { Theme } from './theme';
 import './theme.css';
 
 describe('Theme', () => {
-    Theme.init(new Config('admin', 'id'), Theme.genScheme(10));
-
     test('transitionDuration', () => {
         expect(Theme.transitionDuration(100)).toEqual(100);
 
@@ -24,30 +23,31 @@ describe('Theme', () => {
         expect(Theme.transitionDuration(100)).toEqual(300);
     });
 
-    test('mode', () => {
-        Theme.setMode('dark');
-        expect(Theme.mode()).toEqual('dark');
+    test('constructor', () => {
+        let t = new Theme(10);
 
-        Theme.setMode('system');
-        expect(Theme.mode()).toEqual('system');
+        expect(t.contrast).toBeUndefined();
+        expect(t.mode).toBeUndefined();
+        expect(t.scheme!.primary).toEqual<number>(10);
 
-        Theme.setMode('light');
-        expect(Theme.mode()).toEqual('light');
-    });
+        let div = document.createElement('div');
+        Theme.apply(div, t);
 
-    test('contrast', () => {
-        Theme.setContrast('less');
-        expect(Theme.contrast()).toEqual('less');
+        expect(Theme.hasTheme(div)).toBeTruthy();
+        expect(div.style.getPropertyValue('--lightness')).toBeFalsy();
+        expect(div.style.getPropertyValue('color-scheme')).toBeFalsy();
+        expect(div.style.getPropertyValue('--primary')).toEqual('10');
 
-        Theme.setContrast('more');
-        expect(Theme.contrast()).toEqual('more');
-    });
+        t = new Theme(10, 'dark', 'more');
 
-    test('scheme', () => {
-        Theme.setScheme(Theme.genScheme(10));
-        expect(Theme.scheme().primary).toEqual(10);
+        expect(t.contrast).toEqual('more');
+        expect(t.mode).toEqual('dark');
+        expect(t.scheme!.primary).toEqual<number>(10);
 
-        Theme.setScheme(Theme.genScheme(100));
-        expect(Theme.scheme().primary).toEqual(100);
+        div = document.createElement('div');
+        Theme.apply(div, t);
+        expect(div.style.getPropertyValue('--lightness')).toEqual(contrastValues.get('more')!.toString());
+        expect(div.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('dark'));
+        expect(div.style.getPropertyValue('--primary')).toEqual('10');
     });
 });

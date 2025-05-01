@@ -7,7 +7,7 @@ import { Query } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { useAdmin } from '@/context';
+import { useLocale } from '@/context';
 
 interface SecurityLog {
     content: string;
@@ -17,7 +17,7 @@ interface SecurityLog {
 }
 
 export function SecurityLogs(): JSX.Element {
-    const ctx = useAdmin();
+    const l = useLocale();
 
     const q: Query = {
         page: 1,
@@ -29,12 +29,12 @@ export function SecurityLogs(): JSX.Element {
 
     return <Page title="_i.page.current.securitylog">
         <RemoteTable<SecurityLog, Query> path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
-            { id: 'content', label: ctx.locale().t('_i.page.current.content') },
-            { id: 'ip', label: ctx.locale().t('_i.page.current.ip') },
-            { id: 'ua', label: ctx.locale().t('_i.page.current.ua'), content:(_: string, val?: string)=>{
+            { id: 'content', label: l.t('_i.page.current.content') },
+            { id: 'ip', label: l.t('_i.page.current.ip') },
+            { id: 'ua', label: l.t('_i.page.current.ua'), content:(_: string, val?: string)=>{
                 if (!val) { return ''; }
                 const info = Bowser.parse(val);
-                return ctx.locale().t('_i.page.current.uaInfo', {
+                return l.t('_i.page.current.uaInfo', {
                     browser: info.browser.name,
                     browserVersion: info.browser.version,
                     os: info.os.name,
@@ -43,8 +43,8 @@ export function SecurityLogs(): JSX.Element {
                     kernelVersion: info.engine.version,
                 });
             } },
-            { id: 'created', label: ctx.locale().t('_i.page.created'), content:(_: string, val?: string)=>{
-                return ctx.locale().datetime(val);
+            { id: 'created', label: l.t('_i.page.created'), content:(_: string, val?: string)=>{
+                return l.datetime(val);
             } },
         ]} queryForm={(qa)=>(
             <>

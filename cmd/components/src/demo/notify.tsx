@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, notify, NotifyType, notifyTypes } from '@cmfx/components';
+import { Button, notify, NotifyType, notifyTypes, useLocale } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
 import { Demo } from './base';
@@ -12,9 +12,10 @@ export default function() {
     const [body, setBody] = createSignal('body');
     const [timeout, setTimeout] = createSignal<number>(5000);
     const [type, setType] = createSignal<NotifyType>('success');
+    const l = useLocale();
 
     const notify1 = async(): Promise<void> => {
-        await notify(title(), body(), type(), 'zh-Hans', timeout());
+        await notify(title(), body(), type(), l.locale.toString(), timeout());
     };
 
     return <Demo>
