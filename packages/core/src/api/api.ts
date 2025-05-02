@@ -14,6 +14,22 @@ import { Method, Problem, Query, Return } from './types';
 export class API {
     // NOTE: API 可能存在多个不同配置的实例，在添加静态属性时要注意。
 
+    /**
+     * 构建一个用于访问 API 的对象
+     *
+     * @param id 保存令牌时的名称，在多实例中，通完此值判定不同的令牌；
+     * @param s 保存令牌的对象；
+     * @param baseURL API 的基地址，不能以 / 结尾；
+     * @param contentType 请求内容的类型；
+     * @param accept mimetype 返回内容的类型；
+     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
+     * @param locale 请求报头 accept-language 的内容；
+     */
+    static async build(id: string, s: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
+        // NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
+        return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id));
+    }
+
     readonly #id: string;
     readonly #storage: Storage;
     readonly #tokenPath: string;
@@ -32,22 +48,6 @@ export class API {
     readonly #contentSerializer: Serializer;
     readonly #acceptType: Mimetype;
     readonly #acceptSerializer: Serializer;
-
-    /**
-     * 构建一个用于访问 API 的对象
-     *
-     * @param id 保存令牌时的名称，在多实例中，通完此值判定不同的令牌；
-     * @param s 保存令牌的对象；
-     * @param baseURL API 的基地址，不能以 / 结尾；
-     * @param contentType 请求内容的类型；
-     * @param accept mimetype 返回内容的类型；
-     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
-     * @param locale 请求报头 accept-language 的内容；
-     */
-    static async build(id: string, s: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
-        // NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
-        return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id));
-    }
 
     private constructor(id: string, s: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache) {
         this.#tokenPath = tokenPath;
@@ -74,7 +74,7 @@ export class API {
     get baseURL(): string { return this.#baseURL; }
 
     /**
-     * 切换语言
+     * 切换语言并清空缓存
      */
     setLocale(v: string) {
         this.#locale = v;

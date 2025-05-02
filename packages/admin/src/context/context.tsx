@@ -10,20 +10,26 @@ import { JSX, ParentProps, createContext, createResource, mergeProps, useContext
 import { buildOptions } from './options';
 import { User } from './user';
 
-export type OptContext = ReturnType<typeof buildOptions>;
+type OptContext = ReturnType<typeof buildOptions>;
 
 type InternalOptions = OptContext & {
     coreAPI: API;
     actions: ReturnType<typeof buildActions>;
 };
 
-const optContext = createContext<InternalOptions>();
+const internalOptContext = createContext<InternalOptions>();
 
 // 保存于 sessionStorage 中的表示当前登录用户的 id
 const currentKey = 'uid';
 
+/**
+ * @returns 返回一个元组，包含以下属性：
+ * - 0: API 对象，这是一个全局对象，需要注意一些属性的修改，比如本地化信息；
+ * - 1: 组件库提供的其它方法；
+ * - 2: 组件库初始化时的选项；
+ */
 export function use() {
-    const ctx = useContext(optContext);
+    const ctx = useContext(internalOptContext);
     if (!ctx) {
         throw '未找到正确的 optContext';
     }
@@ -78,9 +84,9 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
             actions: buildActions(api, act, props),
         });
 
-        return <optContext.Provider value={p}>
+        return <internalOptContext.Provider value={p}>
             {props.children}
-        </optContext.Provider>;
+        </internalOptContext.Provider>;
     };
 
     return <OptionsProvider {...o}>{child()}</OptionsProvider>;

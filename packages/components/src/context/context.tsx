@@ -14,6 +14,12 @@ import { initNotify } from '@/notify/notify';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
 
+const localeKey = 'locale';
+const unitStyleKey = 'unit-style';
+const schemeKey = 'scheme';
+const contrastKey = 'contrast';
+const modeKey = 'mode';
+
 type Actions = ReturnType<typeof buildActions>;
 
 // 添加了部分仅内部可见的属性
@@ -70,7 +76,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
         Theme.apply(document.documentElement, t);
     });
 
-    // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件
+    // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件。
 
     return <internalOptionsContext.Provider value={obj}>
         <Show when={!data.loading}>
@@ -92,7 +98,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
  * 获取组件库的顶层配置项及期衍生出来的一些操作方法
  *
  * @returns 返回一个元组，包含以下属性：
- * - 0: API 对象；
+ * - 0: API 对象，这是一个全局对象，需要注意一些属性的修改，比如本地化信息；
  * - 1: 组件库提供的其它方法；
  * - 2: 组件库初始化时的选项；
  */
@@ -120,21 +126,14 @@ function buildActions(ctx: InternalOptionsContext) {
          * @param id 新配置的 ID；
          */
         switchConfig(id: string | number) {
-            // 保存旧配置
-            options.config!.set('scheme', options.scheme);
-            options.config!.set('contrast', options.contrast);
-            options.config!.set('mode', options.mode);
-            options.config!.set('locale', options.locale);
-            options.config!.set('unit-style', options.unitStyle);
-
             options.config!.switch(id);
 
-            setOptions({// 写入新配置
-                scheme: options.config!.get('scheme') ?? options.scheme,
-                contrast: options.config!.get('contrast') ?? options.contrast,
-                mode: options.config!.get('mode') ?? options.mode,
-                locale: options.config!.get('locale') ?? options.locale,
-                unitStyle: options.config!.get('unit-style') ?? options.unitStyle,
+            setOptions({// 读取新配置
+                scheme: options.config!.get(schemeKey) ?? options.scheme,
+                contrast: options.config!.get(contrastKey) ?? options.contrast,
+                mode: options.config!.get(modeKey) ?? options.mode,
+                locale: options.config!.get(localeKey) ?? options.locale,
+                unitStyle: options.config!.get(unitStyleKey) ?? options.unitStyle,
             });
         },
 
@@ -143,29 +142,42 @@ function buildActions(ctx: InternalOptionsContext) {
          *
          * @param id 新语言的 ID
          */
-        switchLocale(id: string): void { setOptions({ locale: id }); },
+        switchLocale(id: string): void {
+            setOptions({ locale: id });
+            options.config!.set(localeKey, id);
+        },
 
         /**
          * 切换单位样式
-         *
-         * @param style 单位样式
          */
-        switchUnitStyle(style: UnitStyle) { setOptions({ unitStyle: style }); },
+        switchUnitStyle(style: UnitStyle) {
+            setOptions({ unitStyle: style });
+            options.config!.set(unitStyleKey, style);
+        },
 
         /**
          * 切换主题色
          */
-        switchScheme(scheme: Scheme | number) { setOptions({ scheme: scheme }); },
+        switchScheme(scheme: Scheme | number) {
+            setOptions({ scheme: scheme });
+            options.config!.set(schemeKey, scheme);
+        },
 
         /**
          * 切换主题模式
          */
-        switchMode(mode: Mode) { setOptions({ mode: mode }); },
+        switchMode(mode: Mode) {
+            setOptions({ mode: mode });
+            options.config!.set(modeKey, mode);
+        },
 
         /**
          * 切换主题的明亮度
          */
-        switchContrast(contrast: Contrast) { setOptions({ contrast: contrast }); },
+        switchContrast(contrast: Contrast) {
+            setOptions({ contrast: contrast });
+            options.config!.set(contrastKey, contrast);
+        },
 
         /**
          * 输出 Problem 类型的数据

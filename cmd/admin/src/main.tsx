@@ -4,7 +4,7 @@
 
 import './style.css';
 
-import { admins, AppOptions, createApp, current, members, MenuItem, roles, Routes, system } from '@cmfx/admin';
+import { admins, createApp, current, members, MenuItem, Options, roles, Routes, system } from '@cmfx/admin';
 import { Card, Label } from '@cmfx/components';
 
 import { default as Test } from './pages/test';
@@ -82,8 +82,9 @@ const menus: Array<MenuItem> = [
     },
 ];
 
-const o: AppOptions = {
+const o: Options = {
     id: 'admin-demo',
+    storage: window.localStorage,
 
     routes,
 

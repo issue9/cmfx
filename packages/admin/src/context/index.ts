@@ -8,4 +8,5 @@ export { Provider, use } from './context';
 
 export type { User } from './user';
 
-export type { AppOptions, Locales, MenuItem, Route, Routes } from './options';
+export type { Locales, MenuItem, Options, Route, Routes } from './options';
+

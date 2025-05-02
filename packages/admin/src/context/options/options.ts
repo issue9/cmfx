@@ -14,7 +14,7 @@ import { PickOptional } from './types';
 /**
  * 项目的基本配置
  */
-export interface AppOptions {
+export interface Options {
     /**
      * 该 app 的 ID
      *
@@ -155,7 +155,7 @@ export interface Theme {
     schemes: Array<Scheme>;
 }
 
-const presetOptions: Readonly<PickOptional<AppOptions>> = {
+const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,
     configName: 0,
     system: {
@@ -168,14 +168,14 @@ const presetOptions: Readonly<PickOptional<AppOptions>> = {
 } as const;
 
 
-type ReqOptions = Required<Omit<AppOptions, 'api'>> & { api: Required<API> };
+type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
 
 /**
- * 根据 o 生成一个完整的 {@link AppOptions} 对象，且会检测字段是否正确。
+ * 根据 o 生成一个完整的 {@link Options} 对象，且会检测字段是否正确。
  *
  * @param o 原始的对象
  */
-export function build(o: AppOptions): ReqOptions {
+export function build(o: Options): ReqOptions {
     if (o.id.length === 0) {
         throw 'id 不能为空';
     }
@@ -188,7 +188,7 @@ export function build(o: AppOptions): ReqOptions {
         throw 'logo 不能为空';
     }
 
-    const opt = Object.assign({}, presetOptions, o) as Required<AppOptions>;
+    const opt = Object.assign({}, presetOptions, o) as Required<Options>;
     opt.aside = Object.assign({}, presetAside, opt.aside);
 
     if (!opt.titleSeparator) {

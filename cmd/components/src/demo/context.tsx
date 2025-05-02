@@ -14,6 +14,7 @@ export default function() {
 
     return <Demo>
         <Stage title="locale provider">
+            <Button>{useLocale().t('_i.ok')}</Button>
             <LocaleProvider id='zh-hans' unitStyle='narrow'>
                 <Button>{useLocale().t('_i.ok')}</Button>
                 <LocaleProvider id='en' unitStyle='narrow'>

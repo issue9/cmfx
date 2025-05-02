@@ -7,7 +7,7 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { AppOptions, Provider, use, useLocale } from '@/context';
+import { Options, Provider, use, useLocale } from '@/context';
 import { buildOptions } from '@/context/options';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
@@ -18,7 +18,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  * @param elementID 挂载的元素 ID；
  * @param o 项目的初始化选项；
  */
-export async function create(elementID: string, o: AppOptions): Promise<void> {
+export function create(elementID: string, o: Options) {
     render(() => (<App opt={buildOptions(o)} />), document.getElementById(elementID)!);
 }
 
