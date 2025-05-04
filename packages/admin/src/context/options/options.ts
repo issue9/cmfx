@@ -148,12 +148,23 @@ export interface Theme {
     /**
      * 可用的主题列表
      *
-     * 第一个元素的将被当作默认的主题使用。可由 {@link CoreTheme#genScheme} 和 {@link CoreTheme#genSchemes} 生成主题数据。
+     * 可由 {@link CoreTheme#genScheme} 和 {@link CoreTheme#genSchemes} 生成主题数据。
      *
      * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
     schemes: Array<Scheme>;
+    
+    // NOTE: scheme 不采用在 schemes 中的索引，而是对应的实例值，
+    // 这样的做的好处是在改变 schemes 的值时，scheme 依然是有意义的。
+    // 且在 @cmfx/components 的配置中也是采用 Scheme 对象的值保存的。
+
+    /**
+     * 当前使用的主题，必须存在于 schemes 中。
+     */
+    scheme: Scheme;
 }
+
+const presetSchemes = CoreTheme.genSchemes(20);
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,
@@ -163,7 +174,12 @@ const presetOptions: Readonly<PickOptional<Options>> = {
         notification: true,
     },
     titleSeparator: ' | ',
-    theme: { mode: 'system', contrast: 'nopreference', schemes: CoreTheme.genSchemes(20) },
+    theme: {
+        mode: 'system',
+        contrast: 'nopreference',
+        schemes: presetSchemes,
+        scheme: presetSchemes[0]
+    },
     notifyTimeout: 5000,
 } as const;
 

@@ -2,32 +2,33 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioGroup } from '@cmfx/components';
+import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioGroup, use as useC } from '@cmfx/components';
 import { Contrast, Mode, Scheme, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 import { use, useLocale } from '@/context';
 
 export function Settings(): JSX.Element {
-    const [, act, opt] = use();
+    const [, act, opt] = useC();
+    const [, , o] = use();
     const l = useLocale();
 
-    const modeFA = FieldAccessor<Mode>('mode', opt.theme.mode);
+    const modeFA = FieldAccessor<Mode>('mode', opt.mode);
     modeFA.onChange((m) => { act.switchMode(m); });
 
-    const contrastFA = FieldAccessor<Contrast>('contrast', opt.theme.contrast);
+    const contrastFA = FieldAccessor<Contrast>('contrast', opt.contrast);
     contrastFA.onChange((m) => { act.switchContrast(m); });
 
     const schemesOptions: FieldOptions<number> = [];
-    for (const s of opt.theme.schemes) {
+    for (const s of o.theme.schemes) {
         schemesOptions.push([s.primary, <ColorBlock s={s} />]);
     }
-    const schemeFA = FieldAccessor<number>('scheme', opt.theme.schemes[0].primary); // TODO
+    const schemeFA = FieldAccessor<number>('scheme', (typeof opt.scheme === 'number') ? opt.scheme : opt.scheme.primary);
     schemeFA.onChange((c) => {
-        act.switchScheme(opt.theme.schemes.find((s) => s.primary === c)!);
+        act.switchScheme(o.theme.schemes.find((s) => s.primary === c)!);
     });
 
-    const localeFA = FieldAccessor<string>('locale', l.match(opt.locales.locales), false);
+    const localeFA = FieldAccessor<string>('locale', l.match(o.locales.locales), false);
     localeFA.onChange((v) => { act.switchLocale(v); });
 
     const unitFA = FieldAccessor<UnitStyle>('unit', l.unitStyle);

@@ -11,10 +11,11 @@ import { Demo, Stage } from './base';
 export default function() {
     const [, act, opt] = use();
     const [mode, setMode] = createSignal<Mode>('system');
+    const l = useLocale();
 
     return <Demo>
         <Stage title="locale provider">
-            <Button>{useLocale().t('_i.ok')}</Button>
+            <Button>{l.t('_i.ok')}</Button>
             <LocaleProvider id='zh-hans' unitStyle='narrow'>
                 <Button>{useLocale().t('_i.ok')}</Button>
                 <LocaleProvider id='en' unitStyle='narrow'>
@@ -33,7 +34,7 @@ export default function() {
         </Stage>
 
         <Stage title="全局配置">
-            <Button>{ useLocale().t('_i.ok') }</Button>
+            <Button>{ l.t('_i.ok') }</Button>
             <select onchange={(e) => {
                 const value = e.target.value;
                 act.switchLocale(value);

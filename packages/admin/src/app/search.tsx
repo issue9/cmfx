@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, TextField, TextFieldRef } from '@cmfx/components';
-import { Locale } from '@cmfx/core';
+import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, Locale, TextField, TextFieldRef } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 

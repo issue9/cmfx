@@ -73,14 +73,14 @@ export function Members(props: Props): JSX.Element {
             { id: 'no', label: l.t('_i.page.no') },
             {
                 id: 'sex', label: l.t('_i.page.sex'), content: ((_: string, v) => {
-                    return translateEnum(sexesMap, l, v as Sex);
+                    return translateEnum<Sex>(sexesMap, l, v as Sex);
                 })
             },
             { id: 'nickname', label: l.t('_i.page.nickname') },
             { id: 'created', label: l.t('_i.page.created'), content: (_, v)=> l.datetime(v as string) },
             {
                 id: 'state', label: l.t('_i.page.state'), content: (_, v) => {
-                    return translateEnum(statesMap, l, v as State);
+                    return translateEnum<State>(statesMap, l, v as State);
                 }
             },
             {

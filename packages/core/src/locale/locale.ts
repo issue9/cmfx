@@ -102,21 +102,21 @@ export class Locale {
         }
     }
 
-    #current: Map<string, IntlMessageFormat>;
+    readonly #current: Map<string, IntlMessageFormat>;
     readonly #locale: Intl.Locale;
     readonly #unitStyle: UnitStyle;
 
-    #datetime: Intl.DateTimeFormat;
-    #date: Intl.DateTimeFormat;
+    readonly #datetime: Intl.DateTimeFormat;
+    readonly #date: Intl.DateTimeFormat;
 
-    #B: Intl.NumberFormat;
-    #kB: Intl.NumberFormat;
-    #mB: Intl.NumberFormat;
-    #gB: Intl.NumberFormat;
-    #tB: Intl.NumberFormat;
+    readonly #B: Intl.NumberFormat;
+    readonly #kB: Intl.NumberFormat;
+    readonly #mB: Intl.NumberFormat;
+    readonly #gB: Intl.NumberFormat;
+    readonly #tB: Intl.NumberFormat;
 
-    #duration: Intl.DurationFormat;
-    #displayNames: Intl.DisplayNames;
+    readonly #duration: Intl.DurationFormat;
+    readonly #displayNames: Intl.DisplayNames;
 
     constructor(locale: string, style: UnitStyle) {
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项

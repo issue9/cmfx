@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Item, Label, Menu } from '@cmfx/components';
-import { Locale } from '@cmfx/core';
+import { Button, Item, Label, Locale, Menu } from '@cmfx/components';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
 import { MenuItem, use, useLocale } from '@/context';
@@ -73,9 +72,7 @@ function Username(): JSX.Element {
         {act.user()?.name}
     </Button>;
 
-    return <Menu hoverable anchor direction='left' activator={activator}>
-        {buildItems(l, opt.userMenus)}
-    </Menu>;
+    return <Menu hoverable anchor direction='left' activator={activator}>{buildItems(l, opt.userMenus)}</Menu>;
 }
 
 /**

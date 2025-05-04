@@ -55,7 +55,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: l.t('_i.page.system.title')},
                 {id: 'state', label: l.t('_i.page.system.serviceState'), content: ((_: string, v?: State) => {
-                    return translateEnum(stateMap, l, v!);
+                    return translateEnum<State>(stateMap, l, v!);
                 }) as Column<Task>['content']},
                 {id: 'err', label: l.t('_i.page.system.error')},
             ]} />
@@ -68,7 +68,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: l.t('_i.page.system.title')},
                 {id: 'state', label: l.t('_i.page.system.serviceState'),content: ((_: string, v?: State) => {
-                    return translateEnum(stateMap, l, v!);
+                    return translateEnum<State>(stateMap, l, v!);
                 }) as Column<Job>['content']},
                 {id: 'err', label: l.t('_i.page.system.error')},
                 {id: 'next', label: l.t('_i.page.system.next'), content: (_: string, val?: string) => { return l.datetime(val); }},

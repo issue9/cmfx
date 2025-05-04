@@ -22,24 +22,23 @@ export const statesMap: Array<[State, MessagesKey]> = [
     ['normal', '_i.page.states.normal'],
     ['locked', '_i.page.states.locked'],
     ['deleted', '_i.page.states.deleted'],
-];
+] as const;
 
-export type SexSelectorProps<M extends boolean> = Omit<ChoiceProps<Sex, M>,'options'>;
+export type SexSelectorProps<M extends boolean> = Omit<ChoiceProps<Sex, M>, 'options'>;
 
 /**
  * 性别选择框
  */
 export function SexSelector<M extends boolean>(props: SexSelectorProps<M>): JSX.Element {
     const l = useLocale();
-    return <Choice options={translateEnums2Options(sexesMap, l)} {...props} />;
+    return <Choice options={translateEnums2Options<Sex>(sexesMap, l)} {...props} />;
 }
 
-export type StateSelectorProps<M extends boolean> = Omit<ChoiceProps<State, M>,'options'>;
+export type StateSelectorProps<M extends boolean> = Omit<ChoiceProps<State, M>, 'options'>;
 
 /**
  * 用户状态选择框
  */
 export function StateSelector<M extends boolean>(props: StateSelectorProps<M>): JSX.Element {
-    const l = useLocale();
-    return <Choice options={translateEnums2Options(statesMap, l)} {...props} />;
+    return <Choice options={translateEnums2Options<State>(statesMap, useLocale())} {...props} />;
 }

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 import { BaseProps, Enums } from '@/base';
+import { Locale } from '@/context';
 
 export interface Props extends BaseProps {
     title?: string;
@@ -65,7 +65,9 @@ export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 
 
 
 /**
- * 将枚举值转换成 {Options} 类型
+ * 将枚举值转换成 {@link Options} 类型
+ *
+ * @template T 表示的是选择项的值类型，要求唯一且可比较。
  */
 export function translateEnums2Options<T extends string|number>(e: Enums<T>, l: Locale): Options<T> {
     return e.map((v) => [v[0], l.t(v[1]) as string]);
