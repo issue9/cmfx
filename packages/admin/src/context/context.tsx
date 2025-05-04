@@ -36,7 +36,11 @@ export function use() {
     return [ctx.coreAPI, ctx.actions, ctx] as [api: API, actions: ReturnType<typeof buildActions>, options: OptContext];
 }
 
+// NOTE: 需要保证在 Router 组件之内
 export function Provider(props: ParentProps<OptContext>): JSX.Element {
+    const loc = useLocation();
+    const nav = useNavigate();
+
     const o: Options = {
         id: props.id,
         storage: props.storage,
@@ -67,8 +71,6 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
                 throw '发生了一个未知的错误，请联系管理员！';
             }
 
-            const loc = useLocation();
-            const nav = useNavigate();
             if ((p.status === 401) && (props.routes.public.home !== loc.pathname)) {
                 nav(props.routes.public.home);
             } else {
@@ -81,7 +83,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         const [api, act] = useComponents();
         const p = mergeProps(props, {
             coreAPI: api,
-            actions: buildActions(api, act, props),
+            actions: buildActions(api, act, props, nav),
         });
 
         return <internalOptContext.Provider value={p}>
@@ -92,7 +94,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
     return <OptionsProvider {...o}>{child()}</OptionsProvider>;
 }
 
-function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext) {
+function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
     const [user, userData] = createResource(async () => {
         if (!api.isLogin()) {
             return;
@@ -139,7 +141,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
 
             await api.logout();
 
-            useNavigate()(opt.routes.public.home);
+            nav(opt.routes.public.home);
         },
 
         /**

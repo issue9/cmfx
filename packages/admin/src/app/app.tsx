@@ -7,7 +7,8 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Options, Provider, use, useLocale } from '@/context';
+import { Options, use, useLocale } from '@/context';
+import { Provider } from '@/context/context';
 import { buildOptions } from '@/context/options';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
@@ -45,12 +46,16 @@ function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
         }
     ];
 
-    return  <Provider {...props.opt}><HashRouter root={(p: RouteSectionProps)=>
-        <div class="app palette--surface">
-            <Toolbar menuVisible={menuVisible} switch={setSelected} />
-            <main class="app-main">{p.children}</main>
-        </div>
-    }>{/*@once*/routes}</HashRouter></Provider>;
+    const root = (p: RouteSectionProps) => {
+        return <Provider {...props.opt}>
+            <div class="app palette--surface">
+                <Toolbar menuVisible={menuVisible} switch={setSelected} />
+                <main class="app-main">{p.children}</main>
+            </div>
+        </Provider>;
+    };
+
+    return <HashRouter root={root}>{/*@once*/routes}</HashRouter>;
 }
 
 type PrivateProps = ParentProps<MenuVisibleProps & {

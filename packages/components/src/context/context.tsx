@@ -44,7 +44,7 @@ function useInternalOptions(): InternalOptionsContext {
 /**
  * 初始化当前组件的环境
  *
- * NOTE: 这是用于初始化项目的最外层组件，不保存任何属性是否有响应状态。
+ * NOTE: 这是用于初始化项目的最外层组件，不保证任何属性是否有响应状态。
  */
 export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     Hotkey.init(); // 初始化快捷键。
