@@ -25,12 +25,14 @@ export const routes: Array<RouteDefinition> = [
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
     { path: '/timer', component: lazy(() => import('./timer')) },
-    { path: '/tour', component: lazy(() => import('./tour')) },
 
     { path: '/tree-list', component: lazy(() => import('./tree/list')) },
     { path: '/tree-menu', component: lazy(() => import('./tree/menu')) },
     
     { path: '/typography', component: lazy(() => import('./typography')) },
+
+    { path: '/wizard-stepper', component: lazy(() => import('./wizard/stepper')) },
+    { path: '/wizard-tour', component: lazy(() => import('./wizard/tour')) },
 
     { path: '/form', component: lazy(() => import('./form')) },
     { path: '/form-checkbox', component: lazy(() => import('./form/checkbox')) },

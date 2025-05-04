@@ -5,27 +5,10 @@
 import { JSX } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
+import { Step as BaseStep, Ref } from '@/wizard/step';
 
-/**
- * 每一步教程的属性
- */
-export interface Step {
-    /**
-     * 指向的组件 ID
-     *
-     * 如果为空，则是以对话框的形式弹出在页面中间。
-     */
-    id?: string; 
-
-    /**
-     * 弹出框的详细内容
-     */
-    content: string;
-
-    /**
-     * 标题
-     */
-    title?: string;
+export interface Step extends BaseStep {
+    // TODO
 }
 
 export interface Props extends BaseProps {
@@ -58,6 +41,8 @@ export interface Props extends BaseProps {
      * 下一页的按钮
      */
     next?: JSX.Element;
+
+    ref?: { (el: Ref): void; };
 }
 
 /**

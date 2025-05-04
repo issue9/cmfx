@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { BackTop, IconSymbol } from '@cmfx/components';
-import { For } from 'solid-js';
+import { For, JSX } from 'solid-js';
 
 import { Demo, paletteSelector } from './base';
 
-export default function() {
+export default function(): JSX.Element {
     const [paletteS, palette] = paletteSelector();
     const len: Array<number> = [];
     for (var i = 0; i<100; i++) {

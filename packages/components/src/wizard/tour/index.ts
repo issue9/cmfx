@@ -3,4 +3,5 @@
 // SPDX-License-Identifier: MIT
 
 export { default as Tour } from './tour';
-export type { Props as TourProps, Step as TourStepProps } from './tour';
+export type { Props as TourProps, Step as TourStep } from './tour';
+
