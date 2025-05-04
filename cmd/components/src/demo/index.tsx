@@ -25,6 +25,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
     { path: '/timer', component: lazy(() => import('./timer')) },
+    { path: '/tour', component: lazy(() => import('./tour')) },
 
     { path: '/tree-list', component: lazy(() => import('./tree/list')) },
     { path: '/tree-menu', component: lazy(() => import('./tree/menu')) },

@@ -1,13 +1,14 @@
-/*
- * SPDX-FileCopyrightText: 2025 caixw
- *
- * SPDX-License-Identifier: MIT
- */
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
 
+/**
+ * 每一步教程的属性
+ */
 export interface Step {
     /**
      * 指向的组件 ID
@@ -59,6 +60,9 @@ export interface Props extends BaseProps {
     next?: JSX.Element;
 }
 
+/**
+ * 显示教程的组件
+ */
 export default function Tour(props: Props): JSX.Element {
     // TODO
 }
