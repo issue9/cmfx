@@ -6,7 +6,7 @@
 
 import { JSX } from 'solid-js';
 
-import { BaseProps, Palette } from '@/components/base';
+import { BaseProps, Palette } from '@/base';
 
 export interface Step {
     /**
