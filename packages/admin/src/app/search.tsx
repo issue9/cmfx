@@ -25,11 +25,11 @@ export function Search(props: Props): JSX.Element {
     const [, , opt] = use();
     let dlgRef: DialogRef;
     let listRef: HTMLUListElement;
-    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(l, opt.aside.menus, ''));
+    const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(l.t, opt.aside.menus, ''));
 
     const input = FieldAccessor('search', '', false);
     input.onChange((val: string) => {
-        setItems(buildItemsWithSearch(l, opt.aside.menus, val));
+        setItems(buildItemsWithSearch(l.t, opt.aside.menus, val));
     });
 
     const showSearch = () => {
@@ -109,12 +109,12 @@ export function Search(props: Props): JSX.Element {
 /**
 * 根据搜索的内容生成一个平级的菜单列表
 *
-* @param l 本地化对象，所有菜单都将由此进行初始化；
+* @param t 本地化对象，所有菜单都将由此进行初始化；
 * @param menus 所有菜单项，结果从此菜单中筛选；
 * @param search 需要搜索的内容；
 * @returns 包含搜索内容的所有菜单项；
 */
-export function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: string) {
+export function buildItemsWithSearch(t: Locale['t'], menus: Array<MenuItem>, search: string) {
     const items: Array<Item> = [];
 
     if (!search) {
@@ -126,19 +126,19 @@ export function buildItemsWithSearch(l: Locale, menus: Array<MenuItem>, search: 
         case 'divider':
             return;
         case 'group':
-            const c = buildItemsWithSearch(l, mi.items, search);
+            const c = buildItemsWithSearch(t, mi.items, search);
             if (c.length > 0) {
                 items.push(...c);
             }
             break;
         case 'item':
             if (mi.items && mi.items.length > 0) {
-                const cc = buildItemsWithSearch(l, mi.items, search);
+                const cc = buildItemsWithSearch(t, mi.items, search);
                 if (cc.length > 0) {
                     items.push(...cc);
                 }
             } else {
-                const label = l.t(mi.label);
+                const label = t(mi.label);
                 if (label.toLowerCase().includes(search.toLowerCase())) {
                     items.push({
                         label: <Label icon={mi.icon}>{label}</Label>,

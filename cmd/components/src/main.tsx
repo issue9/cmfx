@@ -12,9 +12,7 @@ import './style.css';
 
 import { routes } from './demo';
 
-// 调用的 API.build 需要 await，目前顶层代码不是允许的，
-// 所以用 main 进行一次包装。
-async function main() {
+function main() {
     const o: Options = {
         id: 'admin',
         configName: '',

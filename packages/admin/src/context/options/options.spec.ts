@@ -20,7 +20,6 @@ const locales: Locales = {
         'en': [async () => { return (await import('@/messages/en.lang')).default; }],
         'zh-Hans': [async () => { return (await import('@/messages/zh-Hans.lang')).default; }],
     },
-    locales: ['en', 'zh-Hans'],
     fallback: 'en'
 };
 

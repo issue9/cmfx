@@ -2,20 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale, sleep } from '@cmfx/core';
+import { Dict, Locale, sleep } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { createSignal, ParentProps } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { MenuItem, Provider } from '@/context';
+import { MenuItem } from '@/context';
+import { Provider } from '@/context/context';
 import { options } from '@/context/options/options.spec';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {
     Locale.init('en');
+    await Locale.addDict('en', async (): Promise<Dict> => { return {}; });
     const l = new Locale('en', 'full');
+    const t = (key: string)=>l.t(key);
     const menus: Array<MenuItem> = [
         {'type': 'divider'},
         {'type': 'item', label: 'item-1'},
@@ -31,14 +34,14 @@ describe('search', async () => {
     ];
 
     test('buildItemsWithSearch', async () => {
-        expect(buildItemsWithSearch(l, menus, '')).toHaveLength(0);
-        expect(buildItemsWithSearch(l, menus, 'not-exists')).toHaveLength(0);
+        expect(buildItemsWithSearch(t, menus, '')).toHaveLength(0);
+        expect(buildItemsWithSearch(t, menus, 'not-exists')).toHaveLength(0);
 
-        expect(buildItemsWithSearch(l, menus, 'item-3')).toHaveLength(1);
-        expect(buildItemsWithSearch(l, menus, 'item-2')).toHaveLength(2);
-        expect(buildItemsWithSearch(l, menus, 'item-2-2')).toHaveLength(1);
-        expect(buildItemsWithSearch(l, menus, 'group-1')).toHaveLength(2);
-        expect(buildItemsWithSearch(l, menus, 'Group')).toHaveLength(2); // 忽略大小写
+        expect(buildItemsWithSearch(t, menus, 'item-3')).toHaveLength(1);
+        expect(buildItemsWithSearch(t, menus, 'item-2')).toHaveLength(2);
+        expect(buildItemsWithSearch(t, menus, 'item-2-2')).toHaveLength(1);
+        expect(buildItemsWithSearch(t, menus, 'group-1')).toHaveLength(2);
+        expect(buildItemsWithSearch(t, menus, 'Group')).toHaveLength(2); // 忽略大小写
     });
 
     test('Search', async () => {
@@ -50,9 +53,9 @@ describe('search', async () => {
             wrapper: (props: ParentProps) => {
                 const opt = { ...options }; // NOTE: structedClone 是无法复制 Storage 类型的。
                 opt.aside.menus = menus; // 替换菜单项
-                return <Provider {...opt}>
-                    <HashRouter root={()=>props.children}>{[]}</HashRouter>
-                </Provider>;
+                return <HashRouter root={() => (
+                    <Provider {...opt}>{props.children}</Provider>
+                )}>{[]}</HashRouter>;
             },
         });
 

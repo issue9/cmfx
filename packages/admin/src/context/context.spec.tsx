@@ -10,6 +10,6 @@ import { options } from './options/options.spec';
 
 describe('context', async () => {
     test('buildContext', async () => {
-        <Provider {...options}><HashRouter root={()=>'root'}></HashRouter></Provider>;
+        <HashRouter root={()=><Provider {...options}>root</Provider>}></HashRouter>;
     });
 });

@@ -8,7 +8,7 @@ import { render } from '@solidjs/testing-library';
 import { createSignal, ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
-import { Provider } from '@/context';
+import { Provider } from '@/context/context';
 import { options } from '@/context/options/options.spec';
 import Toolbar from './toolbar';
 
@@ -18,7 +18,7 @@ test('toolbar', async () => {
 
     const { container, unmount } = render(() => <Toolbar switch={setSwitch} menuVisible={menus} />, {
         wrapper: (props: ParentProps) => {
-            return <Provider {...options}><HashRouter root={()=>props.children}>{[]}</HashRouter></Provider>;
+            return <HashRouter root={() => <Provider {...options}>{ props.children }</Provider>}>{[]}</HashRouter>;
         },
     });
 

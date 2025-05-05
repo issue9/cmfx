@@ -114,11 +114,6 @@ export interface Locales {
     messages: Record<string, Array<DictLoader>>;
 
     /**
-     * 支持的语言
-     */
-    locales: Array<LocaleID>; // TODO
-
-    /**
      * 备用的本地化 ID
      *
      * 在所需的本地化 ID 无法找到时，会采用该值。
@@ -209,10 +204,6 @@ export function build(o: Options): ReqOptions {
 
     if (!opt.titleSeparator) {
         throw 'titleSeparator 不能为空';
-    }
-
-    if (opt.locales.locales.length === 0) {
-        throw 'locales.locales 不能为空';
     }
 
     if (!opt.locales.unitStyle) {

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioGroup, use as useC } from '@cmfx/components';
-import { Contrast, Mode, Scheme, UnitStyle } from '@cmfx/core';
+import { Contrast, Locale, Mode, Scheme, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 import { use, useLocale } from '@/context';
@@ -28,7 +28,7 @@ export function Settings(): JSX.Element {
         act.switchScheme(o.theme.schemes.find((s) => s.primary === c)!);
     });
 
-    const localeFA = FieldAccessor<string>('locale', l.match(o.locales.locales), false);
+    const localeFA = FieldAccessor<string>('locale', l.match(Locale.languages()), false);
     localeFA.onChange((v) => { act.switchLocale(v); });
 
     const unitFA = FieldAccessor<UnitStyle>('unit', l.unitStyle);
