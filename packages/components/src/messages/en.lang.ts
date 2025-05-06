@@ -63,7 +63,12 @@ const messages = {
             oldNewPasswordCanNotBeEqual: 'The old passowrd and new password can not be equal',
             newConfirmPasswordMustBeEqual: 'The new passowrd and confirm password must be equal',
         },
-        
+        tour: {
+            prev: 'Prev',
+            next: 'Next',
+            start: 'Start',
+            complete: 'Complete'
+        }
     }
 };
 

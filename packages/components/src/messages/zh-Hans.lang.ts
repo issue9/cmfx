@@ -65,6 +65,12 @@ const messages: typeof m = {
             oldNewPasswordCanNotBeEqual: '新密码不能与旧密码相同',
             newConfirmPasswordMustBeEqual: '确认密码与新密码并不相同',
         },
+        tour: {
+            prev: '前一项',
+            next: '下一项',
+            start: '开始',
+            complete: '完成'
+        }
     }
 };
 

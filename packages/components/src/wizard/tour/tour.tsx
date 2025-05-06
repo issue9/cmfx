@@ -2,18 +2,33 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createMemo, createSignal } from 'solid-js';
+import { JSX, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
 import { Button } from '@/button';
+import { useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
 import { IconSymbol } from '@/icon';
 import { Label } from '@/typography';
-import { Step, Ref as WizardRef } from '@/wizard/step';
+import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
 
 export interface Ref extends WizardRef {
+    /**
+     * 显示教程组件，即打开组件对话框。
+     */
     start(): void;
+
+    /**
+     * 完成教程组件，即关闭组件对话框。
+     */
     complete(): void;
+}
+
+export interface Step extends WizardStep {
+    /**
+     * 关联的元素 ID
+     */
+    id: string;
 }
 
 export interface Props extends BaseProps {
@@ -47,7 +62,7 @@ export interface Props extends BaseProps {
      */
     next?: JSX.Element;
 
-    ref?: { (el: Ref): void; };
+    ref: { (el: Ref): void; };
 }
 
 /**
@@ -55,41 +70,68 @@ export interface Props extends BaseProps {
  */
 export default function Tour(props: Props): JSX.Element {
     let ref: DialogRef;
+    const l = useLocale();
     const [index, setIndex] = createSignal(0);
     const curr = createMemo(() => props.steps[index()]);
+    const [open, setOpen] = createSignal(false);
 
     const header = createMemo(() => {
-        const s = index().toString() + '/' + props.steps.length.toString();
+        const s = (index()+1).toString() + '/' + props.steps.length.toString();
         if (curr().title) {
             return curr().title+'('+s+')';
         }
         return s;
     });
 
-    if (props.ref) {
-        props.ref({
-            start: () => {
-                setIndex(0);
-                ref.showModal();
-            },
+    props.ref({
+        start: () => {
+            setIndex(0);
+            ref.showModal();
+            setOpen(true);
+        },
 
-            next: () => setIndex(index() + 1),
+        next: () => setIndex(index() + 1),
 
-            prev: () => setIndex(index() - 1),
+        prev: () => setIndex(index() - 1),
 
-            complete: () => {
-                setIndex(props.steps.length - 1);
-                ref.close();
+        complete: () => {
+            setIndex(props.steps.length - 1);
+            ref.close();
+            setOpen(false);
+        }
+    });
+
+    const removeFocusClass = () => {
+        for (let i = 0; i < props.steps.length; i++) {
+            const el = document.getElementById(props.steps[i].id);
+            if (el) { el.classList.remove('c--tour-focus'); }
+        }
+    };
+
+    onMount(() => ref.addEventListener('close', removeFocusClass));
+    onCleanup(() => ref.removeEventListener('close', removeFocusClass));
+
+    createEffect(() => {
+        for (let i = 0; i < props.steps.length; i++) {
+            const el = document.getElementById(props.steps[i].id);
+            if (!el) { continue; }
+
+            if (i === index() && open()) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                el.classList.add('c--tour-focus');
+            } else {
+                el.classList.remove('c--tour-focus');
             }
-        });
-    }
+        }
+    });
 
     return <Dialog class="c--tour" ref={el => ref = el}
         header={<Label icon={(curr() && curr().icon && curr().icon !== true) ? curr().icon as IconSymbol : undefined}>{header()}</Label>}
         actions={<>
-            {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || '上一步'}</Button>}
-            {index() < props.steps.length - 1 && <Button onClick={() => setIndex(index() + 1)}>{props.next || '下一步'}</Button>}
-            {index() === props.steps.length - 1 && <Button onClick={() => ref.close()}>{props.complete || '完成'}</Button>}
+            {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_i.tour.prev')}</Button>}
+            {index() == 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_i.tour.start')}</Button>}
+            {index() < props.steps.length - 1 && index() > 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_i.tour.next')}</Button>}
+            {index() === props.steps.length - 1 && <Button palette={props.accentPalette} onClick={() => ref.close()}>{props.complete || l.t('_i.tour.complete')}</Button>}
         </>}
     >
         {curr()!.content}

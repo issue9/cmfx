@@ -8,4 +8,8 @@
     .c--tour {
         @apply min-w-48;
     }
+
+    .c--tour-focus {
+        @apply outline-palette-fg-high outline-double;
+    }
 }
