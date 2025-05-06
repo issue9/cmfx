@@ -12,7 +12,7 @@ export interface Props extends BaseProps {
     steps: Array<Step>;
 
     /**
-     * 指定已完成的步骤
+     * 指定已完成的步骤，非响应式的属性。
      */
     index?: number;
 
@@ -45,6 +45,7 @@ export default function Stepper(props: Props): JSX.Element {
             },
         });
     }
+
     return <div class="c--stepper">
         <header>
             <For each={props.steps}>
@@ -64,6 +65,6 @@ export default function Stepper(props: Props): JSX.Element {
                 )}
             </For>
         </header>
-        <div>{props.steps[index()].content}</div>
+        <div class="content">{props.steps[index()].content}</div>
     </div>;
 }

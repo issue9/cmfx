@@ -7,10 +7,10 @@
 @layer components {
     .c--stepper {
         >header {
-            @apply flex gap-1;
+            @apply flex gap-1 items-start;
 
             .step {
-                @apply flex gap-1 flex-1 items-center text-palette-fg-low;
+                @apply flex gap-1 flex-1 items-center justify-end text-palette-fg-low;
 
                 .dot {
                     @apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
@@ -25,7 +25,7 @@
                 }
 
                 .title {
-                    @apply shrink-0 grow whitespace-nowrap;
+                    @apply shrink-0 grow-0 whitespace-nowrap;
                 }
             }
 
@@ -35,7 +35,7 @@
 
             .step:not(:first-child)::before {
                 content: '';
-                @apply h-1 w-full bg-palette-bg-low;
+                @apply !h-1 w-full grow bg-palette-bg-low block;
             }
 
             .step.completed {
@@ -57,6 +57,10 @@
             .step.completed::before {
                 @apply bg-palette-bg-high;
             }
+        }
+
+        .content {
+            @apply mt-2;
         }
     }
 }

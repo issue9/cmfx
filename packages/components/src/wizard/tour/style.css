@@ -6,6 +6,6 @@
 
 @layer components {
     .c--tour {
-        /**/
+        @apply min-w-48;
     }
 }

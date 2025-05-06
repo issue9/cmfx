@@ -16,7 +16,7 @@ export default function(): JSX.Element {
         <Stage title='icon=dot' class='w-full'>
             <Stepper ref={el => ref1 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1' },
-                { title: 'Step 2', content: 'Content for Step 2' },
+                { title: 'Step 2222222', content: 'Content for Step 2' },
                 { title: 'Step 3', content: 'Content for Step 3' },
             ]} />
 
@@ -27,7 +27,7 @@ export default function(): JSX.Element {
         <Stage title='icon=icon' class='w-full'>
             <Stepper ref={el => ref2 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: 'person' },
-                { title: 'Step 2', content: 'Content for Step 2', icon: 'chat' },
+                { title: 'Step 2222222', content: 'Content for Step 2', icon: 'chat' },
                 { title: 'Step 3', content: 'Content for Step 3', icon: 'check' },
             ]} />
 
