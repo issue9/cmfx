@@ -107,7 +107,6 @@ const o: Options = {
             ],
         },
         fallback: 'en',
-        locales: ['en', 'zh-Hans']
     },
 
     api: {

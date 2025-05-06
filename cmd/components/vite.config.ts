@@ -4,30 +4,40 @@
 
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
+import path from 'path';
 import devtools from 'solid-devtools/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    root: './',
-    server: {
-        host: true
-    },
+export default defineConfig(({ mode }) => {
+    return {
+        root: './',
+        server: {
+            host: true
+        },
 
-    build: {
-        sourcemap: true
-    },
+        build: {
+            sourcemap: true
+        },
 
-    css: {
-        postcss: {
-            plugins: [cssnano()]
-        }
-    },
+        css: {
+            postcss: {
+                plugins: [cssnano()]
+            }
+        },
 
-    plugins: [
-        devtools(),
-        solidPlugin(),
-        tailwindcss(),
-    ]
+        resolve: mode === 'development' ? {
+            alias: [
+                { find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
+                { find: '@', replacement: path.resolve(__dirname, '../../packages/components/src') }, // 解决 components 中的 @ 符号
+            ],
+        } : undefined,
+
+        plugins: [
+            devtools(),
+            solidPlugin(),
+            tailwindcss(),
+        ]
+    };
 });

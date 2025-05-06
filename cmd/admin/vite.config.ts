@@ -5,37 +5,47 @@
 //import basicSsl from '@vitejs/plugin-basic-ssl';
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
+import path from 'path';
 import devtools from 'solid-devtools/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
 // https://vitejs.dev/config/
-export default defineConfig({
-    root: './',
-    server: {
-        host: true
-    },
+export default defineConfig(({ mode }) => {
+    return {
+        root: './',
+        server: {
+            host: true
+        },
 
-    build: {
-        sourcemap: true
-    },
+        build: {
+            sourcemap: true
+        },
 
-    css: {
-        postcss: {
-            plugins: [cssnano()]
-        }
-    },
+        css: {
+            postcss: {
+                plugins: [cssnano()]
+            }
+        },
 
-    plugins: [
-        devtools(),
-        solidPlugin(),
-        tailwindcss(),
-        /*
-        basicSsl({
-            name: 'test',
-            domains: ['localhost'],
-            certDir: './ssl'
-        })
-        */
-    ]
+        resolve: mode === 'development' ? {
+            alias: [
+                { find: '@cmfx/admin', replacement: path.resolve(__dirname, '../../packages/admin/src') },
+                { find: '@', replacement: path.resolve(__dirname, '../../packages/admin/src') }, // 解决 admin 中的 @ 符号
+            ],
+        } : undefined,
+
+        plugins: [
+            devtools(),
+            solidPlugin(),
+            tailwindcss(),
+            /*
+            basicSsl({
+                name: 'test',
+                domains: ['localhost'],
+                certDir: './ssl'
+            })
+            */
+        ]
+    };
 });
