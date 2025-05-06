@@ -57,7 +57,7 @@ function Alert(props: Props): JSX.Element {
         });
     };
 
-    return <Dialog {...props} ref={el => dlg = el} class='w-60' actions={
+    return <Dialog movable {...props} ref={el => dlg = el} class='w-60' actions={
         dlg!.OKAction(async() => { return 'ok'; })
     }>
         {msg()}
@@ -89,7 +89,7 @@ function Confirm(props: Props): JSX.Element {
         });
     };
 
-    return <Dialog {...props} class='w-60' ref={el => dlg = el} actions={ dlg!.DefaultActions(async()=>'true')}>
+    return <Dialog movable {...props} class='w-60' ref={el => dlg = el} actions={ dlg!.DefaultActions(async()=>'true')}>
         <p>{msg()}</p>
     </Dialog>;
 }
@@ -122,7 +122,7 @@ function Prompt(props: Props): JSX.Element {
         });
     };
 
-    return <Dialog {...props} ref={el => dlg = el} class='w-60' actions={ dlg!.DefaultActions(async()=>access.getValue())}>
+    return <Dialog movable {...props} ref={el => dlg = el} class='w-60' actions={ dlg!.DefaultActions(async()=>access.getValue())}>
         <TextField label={msg()} accessor={access} />
     </Dialog>;
 }

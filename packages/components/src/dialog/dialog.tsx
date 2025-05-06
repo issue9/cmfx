@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { CancelMovable, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps } from '@/base';
@@ -90,6 +91,11 @@ export interface Props extends BaseProps {
      */
     class?: string;
 
+    /**
+     * 是否是可拖拽移动的
+     */
+    movable?: boolean;
+
     children: JSX.Element;
 }
 
@@ -159,12 +165,21 @@ export function Dialog(props: Props): JSX.Element {
         }
     });
 
+    let toolbar: HTMLElement;
+    let cancel: CancelMovable;
+    onMount(() => {
+        if (props.movable) {
+            cancel = movable(toolbar, ref);
+        }
+    });
+    onCleanup(() => { cancel(); });
+
     return <dialog class={props.class} ref={(el)=>ref=el} classList={{
         'c--dialog': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Show when={props.header}>
-            <header>
+            <header ref={el => toolbar = el}>
                 {props.header}
                 <Icon class="cursor-pointer" icon="close" onClick={()=>ref.close('close')} />
             </header>

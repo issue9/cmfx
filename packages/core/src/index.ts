@@ -18,6 +18,7 @@ export * from './api';
 export * from './api/export';
 export * from './config';
 export * from './locale';
+export * from './movable';
 export * from './theme';
 export * from './time';
 
