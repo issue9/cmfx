@@ -48,30 +48,30 @@ export function Edit(props: Props): JSX.Element {
         setPassports(r2.body!);
     });
 
-    return <Page title="_i.page.admin.admin" class="max-w-xs">
+    return <Page title="_i.admin.admin" class="max-w-xs">
         <Form formAccessor={form} class="flex flex-col">
-            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.page.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.page.nickname')} />
-            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.page.roles.roles')} />
-            <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} label={l.t('_i.page.sex')} />
+            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.admin.name')} />
+            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.nickname')} />
+            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.roles.roles')} />
+            <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} label={l.t('_i.sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} type="button" palette='secondary'>
                     <Icon icon='arrow_back_ios' />
-                    {l.t('_i.page.back')}
+                    {l.t('_i.back')}
                 </LinkButton>
                 <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_i.reset')}</Button>
                 <Button disabled={form.isPreset()} type="submit" palette='primary'>{l.t('_i.ok')}</Button>
             </div>
         </Form>
 
-        <Divider padding='8px'>{l.t('_i.page.admin.passport')}</Divider>
+        <Divider padding='8px'>{l.t('_i.admin.passport')}</Divider>
 
         <fieldset class="c--table">
             <table>
                 <thead>
                     <tr>
-                        <th>{l.t('_i.page.admin.passportType')}</th>
-                        <th>{l.t('_i.page.current.username')}</th>
+                        <th>{l.t('_i.admin.passportType')}</th>
+                        <th>{l.t('_i.current.username')}</th>
                     </tr>
                 </thead>
                 <tbody>

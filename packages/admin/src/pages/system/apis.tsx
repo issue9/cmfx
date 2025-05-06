@@ -39,22 +39,22 @@ export function APIs(): JSX.Element {
         text: ''
     };
 
-    return <Page title="_i.page.system.apiViewer">
+    return <Page title="_i.system.apiViewer">
         <RemoteTable systemToolbar queries={queries} path='/system/apis'
-            toolbar={<Label icon='api'>{ l.t('_i.page.system.apis') }</Label>}
+            toolbar={<Label icon='api'>{ l.t('_i.system.apis') }</Label>}
             columns={[
-                { id: 'router', label: l.t('_i.page.system.router') },
-                { id: 'method', label: l.t('_i.page.system.method') },
-                { id: 'pattern', label: l.t('_i.page.system.pattern') },
+                { id: 'router', label: l.t('_i.system.router') },
+                { id: 'method', label: l.t('_i.system.method') },
+                { id: 'pattern', label: l.t('_i.system.pattern') },
     
-                { id: 'count', label: l.t('_i.page.system.count') },
-                { id: 'last', label: l.t('_i.page.system.last'), content: (_: string, val: string) => { return l.datetime(val); } },
-                { id: 'serverErrors', label: l.t('_i.page.system.serverErrors') },
-                { id: 'userErrors', label: l.t('_i.page.system.userErrors') },
+                { id: 'count', label: l.t('_i.system.count') },
+                { id: 'last', label: l.t('_i.system.last'), content: (_: string, val: string) => { return l.datetime(val); } },
+                { id: 'serverErrors', label: l.t('_i.system.serverErrors') },
+                { id: 'userErrors', label: l.t('_i.system.userErrors') },
     
-                { id: 'max', label: l.t('_i.page.system.max'), content: (_: string, val: Duration) => { l.duration(val); } },
-                { id: 'min', label: l.t('_i.page.system.min'), content: (_: string, val: Duration) => { return l.duration(val); } },
-                { id: 'spend', label: l.t('_i.page.system.spend'), content: (_: string, val: Duration, api?: API) => {
+                { id: 'max', label: l.t('_i.system.max'), content: (_: string, val: Duration) => { l.duration(val); } },
+                { id: 'min', label: l.t('_i.system.min'), content: (_: string, val: Duration) => { return l.duration(val); } },
+                { id: 'spend', label: l.t('_i.system.spend'), content: (_: string, val: Duration, api?: API) => {
                     const count = api?.count!;
                     val = count > 0 ? parseDuration(val) / count : 0;
                     return l.duration(val);

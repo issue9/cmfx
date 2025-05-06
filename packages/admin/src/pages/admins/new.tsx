@@ -24,17 +24,17 @@ export function New(props: Props): JSX.Element {
     const form = new FormAccessor<Admin>(zeroAdmin(), act, async (obj) => {
         return await api.post('/admins', obj);
     }, async () => {
-        await notify(l.t('_i.page.admin.addSuccessful'), undefined, 'success');
+        await notify(l.t('_i.admin.addSuccessful'), undefined, 'success');
         useNavigate()(-1);
     });
 
-    return <Page title="_i.page.admin.admin" class="max-w-xs">
+    return <Page title="_i.admin.admin" class="max-w-xs">
         <Form formAccessor={form} class="flex flex-col">
-            <TextField class='w-full' accessor={form.accessor<string>('username')} label={l.t('_i.page.current.username')} />
-            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.page.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.page.nickname')} />
-            <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={l.t('_i.page.current.password')} />
-            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.page.roles.roles')} />
+            <TextField class='w-full' accessor={form.accessor<string>('username')} label={l.t('_i.current.username')} />
+            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.admin.name')} />
+            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.nickname')} />
+            <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={l.t('_i.current.password')} />
+            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.roles.roles')} />
             <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} palette='secondary'>

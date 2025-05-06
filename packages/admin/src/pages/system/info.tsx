@@ -25,7 +25,7 @@ export function Info(): JSX.Element {
     const db = createMemo(() => { return info()?.db; });
     const allowedMaxConnections = createMemo(() => {
         const c = db()?.maxOpenConnections;
-        return (c && c > 0) ? c : l.t('_i.page.system.unlimited')!;
+        return (c && c > 0) ? c : l.t('_i.system.unlimited')!;
     });
 
     // backup
@@ -122,39 +122,39 @@ export function Info(): JSX.Element {
         await api.delete('/system/systat');
     });
 
-    return <Page title="_i.page.system.info" class="!max-w-lg p--system-info">
+    return <Page title="_i.system.info" class="!max-w-lg p--system-info">
         <fieldset class="panel w-[45%] max-sm:w-full">
-            <Label icon="info" tag='legend'>{l.t('_i.page.system.info')}</Label>
-            <dl><dt>{l.t('_i.page.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
+            <Label icon="info" tag='legend'>{l.t('_i.system.info')}</Label>
+            <dl><dt>{l.t('_i.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
+            <dl><dt>{l.t('_i.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.cpus')}</dt><dd>{info()?.cpus}</dd></dl>
+            <dl><dt>{l.t('_i.system.cpus')}</dt><dd>{info()?.cpus}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.go')}</dt><dd>{info()?.go}</dd></dl>
+            <dl><dt>{l.t('_i.system.go')}</dt><dd>{info()?.go}</dd></dl>
 
             <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.uptime')}</dt><dd>{l.datetime(info()?.uptime)}</dd></dl>
+            <dl><dt>{l.t('_i.system.uptime')}</dt><dd>{l.datetime(info()?.uptime)}</dd></dl>
 
             <Divider padding='.5rem'><Icon class="mr-1" icon="dataset" />{l.t('_i.os')}</Divider>
 
-            <dl><dt>{l.t('_i.page.system.platform')}</dt><dd>{info()?.os.platform}</dd></dl>
+            <dl><dt>{l.t('_i.system.platform')}</dt><dd>{info()?.os.platform}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.family')}</dt><dd>{info()?.os.family}</dd></dl>
+            <dl><dt>{l.t('_i.system.family')}</dt><dd>{info()?.os.family}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.version')}</dt><dd>{info()?.os.version}</dd></dl>
+            <dl><dt>{l.t('_i.system.version')}</dt><dd>{info()?.os.version}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.uptime')}</dt><dd>{l.datetime(info()?.os.boot)}</dd></dl>
+            <dl><dt>{l.t('_i.system.uptime')}</dt><dd>{l.datetime(info()?.os.boot)}</dd></dl>
 
             <Divider padding='.5rem'><Icon class="mr-1" icon="database" />{l.t('_i.database')}</Divider>
 
             <dl><dt>{l.t('_i.database')}</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 
             <dl>
-                <dt>{l.t('_i.page.system.connections')}</dt>
+                <dt>{l.t('_i.system.connections')}</dt>
                 <dd title={
-                    l.t('_i.page.system.connectionsHelp', {
+                    l.t('_i.system.connectionsHelp', {
                         maxOpenConnections: allowedMaxConnections(),
                         openConnections: db()?.openConnections!,
                         idle: db()?.idle!,
@@ -165,18 +165,18 @@ export function Info(): JSX.Element {
                 </dd>
             </dl>
 
-            <dl><dt>{l.t('_i.page.system.waitCount')}</dt><dd>{db()?.waitCount}</dd></dl>
+            <dl><dt>{l.t('_i.system.waitCount')}</dt><dd>{db()?.waitCount}</dd></dl>
 
-            <dl><dt>{l.t('_i.page.system.waitDuration')}</dt><dd>{db()?.waitDuration}</dd></dl>
+            <dl><dt>{l.t('_i.system.waitDuration')}</dt><dd>{db()?.waitDuration}</dd></dl>
         </fieldset>
 
         <fieldset class="panel w-[45%] max-sm:w-full">
-            <Label icon='action_key' tag='legend'>{l.t('_i.page.actions')}</Label>
+            <Label icon='action_key' tag='legend'>{l.t('_i.actions')}</Label>
 
             <ConfirmButton palette='secondary' onClick={async () => await act.clearCache()}>
-                <Icon class="mr-1" icon="clear_all" />{l.t('_i.page.system.clearCache')}
+                <Icon class="mr-1" icon="clear_all" />{l.t('_i.system.clearCache')}
             </ConfirmButton>
-            <span class="mt-1">{l.t('_i.page.system.clearCacheHelp')}</span>
+            <span class="mt-1">{l.t('_i.system.clearCacheHelp')}</span>
 
             <Divider padding='1rem' />
             <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onClick={async () => {
@@ -187,9 +187,9 @@ export function Info(): JSX.Element {
                 }
                 await refetch();
             }}>
-                <Icon class="mr-1" icon="backup" />{l.t('_i.page.system.backupDB')}
+                <Icon class="mr-1" icon="backup" />{l.t('_i.system.backupDB')}
             </ConfirmButton>
-            <span class="mt-1">{l.t('_i.page.system.backupDBHelp', { cron: backup()?.cron! })}</span>
+            <span class="mt-1">{l.t('_i.system.backupDBHelp', { cron: backup()?.cron! })}</span>
             <ul class="backup_list">
                 <For each={backup()?.list}>
                     {(item) => (
@@ -202,7 +202,7 @@ export function Info(): JSX.Element {
                                     return;
                                 }
                                 await refetch();
-                            }}>{l.t('_i.page.deleteItem')}</ConfirmButton>
+                            }}>{l.t('_i.deleteItem')}</ConfirmButton>
                         </li>
                     )}
                 </For>
@@ -210,12 +210,12 @@ export function Info(): JSX.Element {
         </fieldset>
 
         <fieldset class="panel w-full">
-            <Label icon='ssid_chart' tag='legend'>{l.t('_i.page.system.states')}</Label>
+            <Label icon='ssid_chart' tag='legend'>{l.t('_i.system.states')}</Label>
             <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
                 ['cpu', l.t('_i.cpu') + ' (%)'],
                 ['memory', l.t('_i.memory') + ' (MB)'],
-                ['connections', l.t('_i.page.system.connections')],
-                ['goroutines', l.t('_i.page.system.goroutines')],
+                ['connections', l.t('_i.system.connections')],
+                ['goroutines', l.t('_i.system.goroutines')],
             ]} />
             <AxisChart ref={(el) => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
                 series={[

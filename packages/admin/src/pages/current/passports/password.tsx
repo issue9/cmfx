@@ -50,9 +50,9 @@ export class Pwd implements PassportComponents {
             }
         }}>
             <TextField prefix={<Icon class="!py-0 !px-1 !flex items-center" icon='person' />}
-                placeholder={l.t('_i.page.current.username')} accessor={account.accessor('username', true)} />
+                placeholder={l.t('_i.current.username')} accessor={account.accessor('username', true)} />
 
-            <Password icon='password_2' placeholder={l.t('_i.page.current.password')} accessor={account.accessor('password', true)} />
+            <Password icon='password_2' placeholder={l.t('_i.current.password')} accessor={account.accessor('password', true)} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_i.ok')}</Button>
         
@@ -67,11 +67,11 @@ export class Pwd implements PassportComponents {
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
 
         return <>
-            <Button icon rounded title={l.t('_i.page.current.changePassword')} onClick={() => {
+            <Button icon rounded title={l.t('_i.current.changePassword')} onClick={() => {
                 dialogRef.showModal();
             }}>passkey</Button>
 
-            <Dialog ref={(el) => dialogRef = el} header={l.t('_i.page.current.changePassword')}
+            <Dialog ref={(el) => dialogRef = el} header={l.t('_i.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {
                     const r = await api.put(`/passports/${this.#id}`, pwd.object());
                     if (!r.ok) {
@@ -83,8 +83,8 @@ export class Pwd implements PassportComponents {
                     return undefined;
                 })}>
                 <form class="flex flex-col gap-2">
-                    <TextField placeholder={l.t('_i.page.current.oldPassword')} accessor={pwd.accessor<string>('old')} />
-                    <TextField placeholder={l.t('_i.page.current.newPassword')} accessor={pwd.accessor<string>('new')} />
+                    <TextField placeholder={l.t('_i.current.oldPassword')} accessor={pwd.accessor<string>('old')} />
+                    <TextField placeholder={l.t('_i.current.newPassword')} accessor={pwd.accessor<string>('new')} />
                 </form>
             </Dialog>
         </>;

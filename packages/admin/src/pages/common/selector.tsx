@@ -13,15 +13,15 @@ export type Sex = User['sex'];
 export type State = User['state'];
 
 export const sexesMap: Array<[Sex, MessagesKey]> = [
-    ['male', '_i.page.sexes.male'],
-    ['female', '_i.page.sexes.female'],
-    ['unknown', '_i.page.sexes.unknown'],
+    ['male', '_i.sexes.male'],
+    ['female', '_i.sexes.female'],
+    ['unknown', '_i.sexes.unknown'],
 ] as const;
 
 export const statesMap: Array<[State, MessagesKey]> = [
-    ['normal', '_i.page.states.normal'],
-    ['locked', '_i.page.states.locked'],
-    ['deleted', '_i.page.states.deleted'],
+    ['normal', '_i.states.normal'],
+    ['locked', '_i.states.locked'],
+    ['deleted', '_i.states.deleted'],
 ] as const;
 
 export type SexSelectorProps<M extends boolean> = Omit<ChoiceProps<Sex, M>, 'options'>;

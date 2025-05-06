@@ -47,9 +47,9 @@ export class system implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: 'api', label: '_i.page.system.apis', path: this.#prefix+'/apis' },
-            { type: 'item', icon: 'settings_slow_motion', label: '_i.page.system.services', path: this.#prefix+'/services' },
-            { type: 'item', icon: 'help', label: '_i.page.system.info', path: this.#prefix+'/info' },
+            { type: 'item', icon: 'api', label: '_i.system.apis', path: this.#prefix+'/apis' },
+            { type: 'item', icon: 'settings_slow_motion', label: '_i.system.services', path: this.#prefix+'/services' },
+            { type: 'item', icon: 'help', label: '_i.system.info', path: this.#prefix+'/info' },
         ];
     }
 }

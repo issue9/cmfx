@@ -34,45 +34,45 @@ export function Settings(): JSX.Element {
     const unitFA = FieldAccessor<UnitStyle>('unit', l.unitStyle);
     unitFA.onChange((v) => { act.switchUnitStyle(v); });
 
-    return <Page title='_i.page.current.settings' class="max-w-sm p--settings">
-        <Description icon={/*@once*/'settings_night_sight'} title={l.t('_i.theme.mode')!}>
-            {l.t('_i.theme.modeDesc')! }
+    return <Page title='_i.current.settings' class="max-w-sm p--settings">
+        <Description icon={/*@once*/'settings_night_sight'} title={l.t('_i.settings.mode')!}>
+            {l.t('_i.settings.modeDesc')! }
         </Description>
 
         <RadioGroup itemHorizontal accessor={modeFA} block={/*@once*/false}
             options={/*@once*/[
-                ['system', l.t('_i.theme.system')],
-                ['dark', l.t('_i.theme.dark')],
-                ['light', l.t('_i.theme.light')]
+                ['system', l.t('_i.settings.system')],
+                ['dark', l.t('_i.settings.dark')],
+                ['light', l.t('_i.settings.light')]
             ]}
         />
 
         <Divider />
 
-        <Description icon={/*@once*/'contrast'} title={l.t('_i.theme.contrast')!}>
-            {l.t('_i.theme.contrastDesc')! }
+        <Description icon={/*@once*/'contrast'} title={l.t('_i.settings.contrast')!}>
+            {l.t('_i.settings.contrastDesc')! }
         </Description>
 
         <RadioGroup itemHorizontal accessor={contrastFA} block={/*@once*/false}
             options={/*@once*/[
-                ['more', l.t('_i.theme.more')],
-                ['nopreference', l.t('_i.theme.nopreference')],
-                ['less', l.t('_i.theme.less')]
+                ['more', l.t('_i.settings.more')],
+                ['nopreference', l.t('_i.settings.nopreference')],
+                ['less', l.t('_i.settings.less')]
             ]}
         />
 
         <Divider />
 
-        <Description icon={/*@once*/'palette'} title={l.t('_i.theme.color')!}>
-            {l.t('_i.theme.colorDesc')! }
+        <Description icon={/*@once*/'palette'} title={l.t('_i.settings.color')!}>
+            {l.t('_i.settings.colorDesc')! }
         </Description>
 
         <RadioGroup itemHorizontal accessor={schemeFA} block={/*@once*/true} options={/*@once*/schemesOptions}/>
 
         <Divider />
 
-        <Description icon={/*@once*/'translate'} title={l.t('_i.locale.locale')!}>
-            {l.t('_i.locale.localeDesc')! }
+        <Description icon={/*@once*/'translate'} title={l.t('_i.settings.locale')!}>
+            {l.t('_i.settings.localeDesc')! }
         </Description>
 
         <div class="w-60">
@@ -81,14 +81,14 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/'format_letter_spacing_2'} title={l.t('_i.locale.unitStyle')!}>
-            {l.t('_i.locale.unitStyleDesc')! }
+        <Description icon={/*@once*/'format_letter_spacing_2'} title={l.t('_i.settings.unitStyle')!}>
+            {l.t('_i.settings.unitStyleDesc')! }
         </Description>
 
         <RadioGroup itemHorizontal accessor={unitFA} block={/*@once*/false} options={/*@once*/[
-            ['narrow', l.t('_i.locale.narrow')],
-            ['short', l.t('_i.locale.short')],
-            ['full', l.t('_i.locale.long')],
+            ['narrow', l.t('_i.settings.narrow')],
+            ['short', l.t('_i.settings.short')],
+            ['full', l.t('_i.settings.long')],
         ]}/>
 
         <div class="ml-1 pl-2 border-l-2 border-palette-bg-low">

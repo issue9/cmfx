@@ -35,9 +35,9 @@ export function Admins(props: Props): JSX.Element {
 
     let ref: RemoteTableRef<Admin>;
 
-    return <Page title="_i.page.admin.adminsManager">
+    return <Page title="_i.admin.adminsManager">
         <RemoteTable<Admin, Q> ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
-            <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{l.t('_i.page.newItem')}</LinkButton>
+            <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{l.t('_i.newItem')}</LinkButton>
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
@@ -45,32 +45,32 @@ export function Admins(props: Props): JSX.Element {
                 <SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
-            { id: 'id', label: l.t('_i.page.id') },
-            { id: 'no', label: l.t('_i.page.no') },
+            { id: 'id', label: l.t('_i.id') },
+            { id: 'no', label: l.t('_i.no') },
             {
-                id: 'sex', label: l.t('_i.page.sex'), content: ((_: string, v) => {
+                id: 'sex', label: l.t('_i.sex'), content: ((_: string, v) => {
                     return translateEnum<Sex>(sexesMap, l, v as Sex);
                 })
             },
-            { id: 'name', label: l.t('_i.page.admin.name') },
-            { id: 'nickname', label: l.t('_i.page.nickname') },
-            { id: 'created', label: l.t('_i.page.created'), content: (_, v)=> l.datetime(v as string) },
+            { id: 'name', label: l.t('_i.admin.name') },
+            { id: 'nickname', label: l.t('_i.nickname') },
+            { id: 'created', label: l.t('_i.created'), content: (_, v)=> l.datetime(v as string) },
             {
-                id: 'state', label: l.t('_i.page.state'), content: (_, v) => {
+                id: 'state', label: l.t('_i.state'), content: (_, v) => {
                     return translateEnum<State>(statesMap, l, v as State);
                 }
             },
             {
-                id: 'actions', cellClass: 'no-print', label: l.t('_i.page.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
+                id: 'actions', cellClass: 'no-print', label: l.t('_i.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={l.t('_i.page.editItem')}>edit</LinkButton>
+                                title={l.t('_i.editItem')}>edit</LinkButton>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state!=='deleted'}>
-                            <Button icon rounded palette='error' title={l.t('_i.page.admin.lockUser')} onClick={async()=>{
+                            <Button icon rounded palette='error' title={l.t('_i.admin.lockUser')} onClick={async()=>{
                                 const r = await api.post(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);
@@ -81,7 +81,7 @@ export function Admins(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button icon rounded palette='tertiary' title={l.t('_i.page.admin.unlockUser')} onClick={async()=>{
+                            <Button icon rounded palette='tertiary' title={l.t('_i.admin.unlockUser')} onClick={async()=>{
                                 const r = await api.delete(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);

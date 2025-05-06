@@ -6,7 +6,7 @@ import { IconSymbol, Page } from '@cmfx/components';
 import { JSX, ParentProps } from 'solid-js';
 
 export function Dashboard(props: ParentProps): JSX.Element {
-    return <Page title='_i.page.current.dashboard' class="p--dashboard">
+    return <Page title='_i.current.dashboard' class="p--dashboard">
         {props.children}
     </Page>;
 }

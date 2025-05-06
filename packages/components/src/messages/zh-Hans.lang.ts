@@ -65,36 +65,6 @@ const messages: typeof m = {
             oldNewPasswordCanNotBeEqual: '新密码不能与旧密码相同',
             newConfirmPasswordMustBeEqual: '确认密码与新密码并不相同',
         },
-        theme: {
-            mode: '主题模式',
-            modeDesc: '自定义页面的主题模式',
-            dark: '深色主题',
-            light: '浅色主题',
-            system: '跟随系统',
-            color: '主色调',
-            colorDesc: '自定义页面的主色调',
-            contrast: '对比度',
-            contrastDesc: '调整页面的对比度',
-            nopreference: '正常',
-            less: '减少对比度',
-            more: '加大对比度'
-        },
-        contrast: {
-            contrast: '对比度',
-            standard: '正常对比度',
-            medium: '中等对比度',
-            high: '更高的对比度'
-        },
-        locale: {
-            locale: '本地化',
-            localeDesc: '设置页面的界面语言',
-            uiLanguage: '界面语言',
-            unitStyle: '显示形式',
-            unitStyleDesc: '设置各类数据的显示形式',
-            long: '完整格式',
-            short: '短格式',
-            narrow: '精简格式'
-        }
     }
 };
 

@@ -58,7 +58,7 @@ const routes: Routes = {
 };
 
 const menus: Array<MenuItem> = [
-    { type: 'item', icon: 'dashboard', label: '_i.page.current.dashboard', path: '/current/dashboard' },
+    { type: 'item', icon: 'dashboard', label: '_i.current.dashboard', path: '/current/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test/5/test' },
     {
         type: 'group', label: 'system', items: [
@@ -69,12 +69,12 @@ const menus: Array<MenuItem> = [
                 ]
             },
             {
-                type: 'item', label: '_i.page.system.system', icon: 'host', items: [
+                type: 'item', label: '_i.system.system', icon: 'host', items: [
                     ...systemPage.menus(),
                 ]
             },
             {
-                type: 'item', label: '_i.page.member.member', icon: 'supervisor_account', items: [
+                type: 'item', label: '_i.member.member', icon: 'supervisor_account', items: [
                     ...membersPage.menus(),
                 ]
             }

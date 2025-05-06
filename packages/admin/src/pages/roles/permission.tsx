@@ -66,7 +66,7 @@ export function Permission(): JSX.Element {
         nav(-1);
     };
 
-    return <Page title='_i.page.roles.permission'>
+    return <Page title='_i.roles.permission'>
         <div class="p--roles-permissions">
             <For each={resources()}>
                 {(res)=>(

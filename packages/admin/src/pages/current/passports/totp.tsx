@@ -57,10 +57,10 @@ export class TOTP implements PassportComponents {
             }
         }}>
             <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='person' />}
-                placeholder={l.t('_i.page.current.username')} accessor={account.accessor('username', true)} />
+                placeholder={l.t('_i.current.username')} accessor={account.accessor('username', true)} />
 
             <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='pin' />}
-                placeholder={l.t('_i.page.current.verifyCode')} accessor={account.accessor('code', true)} />
+                placeholder={l.t('_i.current.verifyCode')} accessor={account.accessor('code', true)} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_i.ok')}</Button>
 
@@ -78,7 +78,7 @@ export class TOTP implements PassportComponents {
 
         return <>
             <Show when={username}>
-                <ConfirmButton palette='error' icon rounded title={l.t('_i.page.current.unbindTOTP')} onClick={async () => {
+                <ConfirmButton palette='error' icon rounded title={l.t('_i.current.unbindTOTP')} onClick={async () => {
                     const r = await api.delete(`/passports/${this.#id}`);
                     if (!r.ok) {
                         act.outputProblem(r.body);
@@ -89,7 +89,7 @@ export class TOTP implements PassportComponents {
             </Show>
 
             <Show when={!username}>
-                <Button icon rounded title={l.t('_i.page.current.bindTOTP')} onClick={async () => {
+                <Button icon rounded title={l.t('_i.current.bindTOTP')} onClick={async () => {
                     const r = await api.post<Secret>(`/passports/${this.#id}/secret`);
                     if (!r.ok) {
                         act.outputProblem(r.body);
@@ -102,11 +102,11 @@ export class TOTP implements PassportComponents {
                     dialogRef.showModal();
                 }}>add_link</Button>
 
-                <Dialog ref={(el) => dialogRef = el} header={l.t('_i.page.current.bindTOTP')}
+                <Dialog ref={(el) => dialogRef = el} header={l.t('_i.current.bindTOTP')}
                     actions={dialogRef!.DefaultActions(async () => {
                         const r = await api.post(`/passports/${this.#id}`, {'code': code.getValue()});
                         if (!r.ok) {
-                            code.setError(l.t('_i.page.current.invalidCode'));
+                            code.setError(l.t('_i.current.invalidCode'));
                             return false;
                         }
 
@@ -117,7 +117,7 @@ export class TOTP implements PassportComponents {
                             <QRCode type='rounded' value={qr()} />
                         </p>
                         <br />
-                        <TextField placeholder={l.t('_i.page.current.verifyCode')} accessor={code} />
+                        <TextField placeholder={l.t('_i.current.verifyCode')} accessor={code} />
                     </form>
                 </Dialog>
             </Show>

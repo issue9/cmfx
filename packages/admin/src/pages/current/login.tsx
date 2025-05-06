@@ -61,10 +61,10 @@ function LoginBox(props: Props): JSX.Element {
         setPassports(r.body!.map((v)=>[v.id,v.desc]));
     });
 
-    return <Page title="_i.page.current.login" class="p--login" style={{ 'background-image': props.bg }}>
+    return <Page title="_i.current.login" class="p--login" style={{ 'background-image': props.bg }}>
         <div class="form">
             <div class="title">
-                <p class="text-2xl">{l.t('_i.page.current.login')}</p>
+                <p class="text-2xl">{l.t('_i.current.login')}</p>
                 <Choice class='min-w-40' accessor={passport} options={translateEnums2Options<string>(passports(), l)} />
             </div>
             {props.passports.get(passport.getValue())?.Login()}

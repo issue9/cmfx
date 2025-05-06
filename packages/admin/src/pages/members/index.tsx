@@ -54,7 +54,7 @@ export class members implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: 'group', label: '_i.page.member.member', path: this.#prefix },
+            { type: 'item', icon: 'group', label: '_i.member.member', path: this.#prefix },
         ];
     }
 }
