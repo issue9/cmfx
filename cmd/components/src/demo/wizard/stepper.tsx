@@ -19,7 +19,7 @@ export default function(): JSX.Element {
                 { title: 'Step 2', content: 'Content for Step 2' },
                 { title: 'Step 3', content: 'Content for Step 3' },
             ]} />
-            
+
             <Button onclick={() => ref1.prev()}>prev</Button>
             <Button onclick={() => ref1.next()}>next</Button>
         </Stage>
@@ -30,7 +30,7 @@ export default function(): JSX.Element {
                 { title: 'Step 2', content: 'Content for Step 2', icon: 'chat' },
                 { title: 'Step 3', content: 'Content for Step 3', icon: 'check' },
             ]} />
-            
+
             <Button onclick={() => ref2.prev()}>prev</Button>
             <Button onclick={() => ref2.next()}>next</Button>
         </Stage>
@@ -41,7 +41,7 @@ export default function(): JSX.Element {
                 { title: 'Step 2', content: 'Content for Step 2', icon: true },
                 { title: 'Step 3', content: 'Content for Step 3', icon: true },
             ]} />
-            
+
             <Button onclick={() => ref3.prev()}>prev</Button>
             <Button onclick={() => ref3.next()}>next</Button>
         </Stage>

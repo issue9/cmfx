@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Ref as StepRef } from './step';
+export type { Ref as WizardRef, Step as WizardStep } from './step';
 
 export * from './stepper';
 export * from './tour';

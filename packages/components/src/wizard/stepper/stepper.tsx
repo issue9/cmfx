@@ -2,19 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, Match, createSignal } from 'solid-js';
+import { For, JSX, Match, Switch, createSignal } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
 import { Icon, IconSymbol } from '@/icon';
-import { Step as BaseStep, Ref } from '@/wizard/step';
-import { Switch } from 'solid-js';
-
-export interface Step extends BaseStep {
-    /**
-     * 图标，如果值为 true，表示采用数字，否则为图标，如果其它空值表示不需要，显示为一个小点。
-     */
-    icon?: IconSymbol | true;
-}
+import { Ref, Step } from '@/wizard/step';
 
 export interface Props extends BaseProps {
     steps: Array<Step>;
@@ -39,7 +31,7 @@ export default function Stepper(props: Props): JSX.Element {
         props.ref({
             next: () => {
                 const i = index() + 1;
-                if (i > props.steps.length) {
+                if (i > props.steps.length - 1) {
                     return;
                 }
                 setIndex(i);
@@ -67,10 +59,11 @@ export default function Stepper(props: Props): JSX.Element {
                                 <Icon class="icon" icon={step.icon as IconSymbol} />
                             </Match>
                         </Switch>
-                        <div>{step.title}</div>
+                        <div class="title">{step.title}</div>
                     </div>
                 )}
             </For>
         </header>
+        <div>{props.steps[index()].content}</div>
     </div>;
 }
