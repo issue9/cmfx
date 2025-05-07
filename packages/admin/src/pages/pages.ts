@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { MenuItem, Route } from '@/context';
+import { MenuItem, Route } from '@/options';
 
 /**
  * 定义一个页面集合需要提供的接口

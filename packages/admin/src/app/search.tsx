@@ -6,7 +6,8 @@ import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, Locale, TextFiel
 import { useNavigate } from '@solidjs/router';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 
-import { MenuItem, use, useLocale } from '@/context';
+import { use, useLocale } from '@/context';
+import { MenuItem } from '@/options';
 
 interface Item {
     value: string;
