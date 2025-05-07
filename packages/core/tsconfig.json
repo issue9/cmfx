@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "erasableSyntaxOnly": true,
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
@@ -31,7 +32,8 @@
             "@/*": [
                 "src/*"
             ]
-        }
+        },
+        "outDir": "./lib"
     },
     "include": [
         "src/**/*.ts",
@@ -43,7 +45,6 @@
     "exclude": [
         "lib",
     ],
-    "outDir": "./lib",
     "references": [
         {
             "path": "./tsconfig.node.json"

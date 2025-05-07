@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "erasableSyntaxOnly": true,
         "declaration": true,
         "declarationMap": true,
         "sourceMap": true,
@@ -34,7 +35,8 @@
             "@/*": [
                 "src/*"
             ]
-        }
+        },
+        "outDir": "./lib"
     },
     "include": [
         "src/**/*.ts",

@@ -364,7 +364,8 @@ export class API {
             return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
         } catch(e) {
             const p: Problem<PE> = { type: '500', status: 500, title: 'error' };
-            p.detail = e instanceof Error ? e.message : (<any>e).toString();
+            // TODO: 采用 Error.isError https://caniuse.com/?search=isError
+            p.detail = e instanceof Error ? e.message : (e as any).toString();
             return { status: 500, ok: false, body: p };
         }
     }

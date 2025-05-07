@@ -172,7 +172,7 @@ export function Dialog(props: Props): JSX.Element {
             cancel = movable(toolbar, ref);
         }
     });
-    onCleanup(() => { cancel(); });
+    onCleanup(() => { cancel && cancel(); });
 
     return <dialog class={props.class} ref={(el)=>ref=el} classList={{
         'c--dialog': true,

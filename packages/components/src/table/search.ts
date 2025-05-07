@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { SetParams, useSearchParams } from '@solidjs/router';
 import { Query } from '@cmfx/core';
+import { SetParams, useSearchParams } from '@solidjs/router';
 
 /**
  * 根据 T 生成其值类型为字符串的对象
@@ -32,16 +32,16 @@ export function fromSearch<Q extends Query>(preset: Q, searchParamsGetter: Retur
             if (Array.isArray(pv)) {
                 switch (typeof pv[0]) {
                 case 'string':
-                    preset[key] = (<string>val).split(',') as any;
+                    preset[key] = (val as string).split(',') as any;
                     break;
                 case 'number':
-                    preset[key] = (<string>val).split(',').map((v) => { return parseInt(v); }) as any;
+                    preset[key] = (val as string).split(',').map((v) => { return parseInt(v); }) as any;
                     break;
                 case 'boolean':
-                    preset[key] = (<string>val).split(',').map((v) => { return v !== 'false'; }) as any;
+                    preset[key] = (val as string).split(',').map((v) => { return v !== 'false'; }) as any;
                     break;
                 default:
-                    preset[key] = (<string>val).split(',') as any;
+                    preset[key] = (val as string).split(',') as any;
                 }
             } else {
                 switch (typeof pv) {
