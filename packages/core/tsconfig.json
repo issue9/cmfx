@@ -1,33 +1,10 @@
 {
+    "extends": "../tsconfig.base.json",
     "compilerOptions": {
-        "erasableSyntaxOnly": true,
-        "declaration": true,
-        "declarationMap": true,
-        "sourceMap": true,
         "baseUrl": ".",
-        "target": "ESNext",
-        "useDefineForClassFields": true,
-        "module": "ESNext",
-        "lib": [
-            "ESNext",
-            "DOM",
-            "DOM.Iterable"
-        ],
-        "skipLibCheck": true,
-        "moduleResolution": "bundler",
-        "allowImportingTsExtensions": true,
-        "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
         "types": [
             "vite/client"
         ],
-        /* Linting */
-        "strict": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": true,
-        "noFallthroughCasesInSwitch": true,
-        "composite": true,
         "paths": {
             "@/*": [
                 "src/*"
