@@ -7,9 +7,9 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { Options, use, useLocale } from '@/context';
+import { use, useLocale } from '@/context';
 import { Provider } from '@/context/context';
-import { buildOptions } from '@/context/options';
+import { build as buildOptions, Options } from '@/options/options';
 import * as errors from './errors';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 

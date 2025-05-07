@@ -4,7 +4,6 @@
 
 import { Contrast, Theme as CoreTheme, DictLoader, Mode, Scheme, UnitStyle } from '@cmfx/core';
 
-import type { LocaleID } from '@/messages';
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
 import { presetAside } from './aside';
@@ -22,6 +21,9 @@ export interface Options {
      */
     id: string;
 
+    /**
+     * 配置内容在 storage 中的名称
+     */
     configName?: string | number;
 
     /**
@@ -118,7 +120,7 @@ export interface Locales {
      *
      * 在所需的本地化 ID 无法找到时，会采用该值。
      */
-    fallback: LocaleID;
+    fallback: string;
 
     /**
      * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link UnitStyle}

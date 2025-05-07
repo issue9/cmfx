@@ -28,7 +28,7 @@ export function Unknown(err: any) {
     const nav = useNavigate();
 
     const props: ErrorProps = {};
-    if (err instanceof Error) {
+    if (err instanceof Error) { // TODO: 改为 Error.isError https://caniuse.com/?search=isError
         props.header = err.name;
         props.title = err.message;
         props.detail = err.stack;

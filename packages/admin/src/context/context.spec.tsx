@@ -5,8 +5,8 @@
 import { HashRouter } from '@solidjs/router';
 import { describe, test } from 'vitest';
 
+import { options } from '@/options/options.spec';
 import { Provider } from './context';
-import { options } from './options/options.spec';
 
 describe('context', async () => {
     test('buildContext', async () => {

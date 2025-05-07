@@ -9,7 +9,7 @@ import { createSignal, ParentProps } from 'solid-js';
 import { expect, test } from 'vitest';
 
 import { Provider } from '@/context/context';
-import { options } from '@/context/options/options.spec';
+import { options } from '@/options/options.spec';
 import Toolbar from './toolbar';
 
 test('toolbar', async () => {

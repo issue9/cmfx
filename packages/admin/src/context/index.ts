@@ -5,8 +5,5 @@
 export { useLocale } from '@cmfx/components';
 
 export { use } from './context';
-
 export type { User } from './user';
-
-export type { Locales, MenuItem, Options, Route, Routes } from './options';
 

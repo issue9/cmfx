@@ -7,6 +7,9 @@ import { Breakpoint } from '@cmfx/core';
 import type { MenuItem } from './route';
 import { PickOptional } from './types';
 
+/**
+ * 侧边栏的配置对象
+ */
 export interface Aside {
     /**
      * 左侧的导航菜单

@@ -11,7 +11,7 @@ import { describe, expect, test } from 'vitest';
 
 import { MenuItem } from '@/context';
 import { Provider } from '@/context/context';
-import { options } from '@/context/options/options.spec';
+import { options } from '@/options/options.spec';
 import { buildItemsWithSearch, Search } from './search';
 
 describe('search', async () => {

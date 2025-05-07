@@ -7,7 +7,7 @@ import { API, Contrast, Mode, Problem, Return, Scheme, Token, UnitStyle } from '
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
-import { buildOptions } from './options';
+import { build as buildOptions } from '@/options/options';
 import { User } from './user';
 
 type OptContext = ReturnType<typeof buildOptions>;
