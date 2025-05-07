@@ -9,7 +9,7 @@ import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLButtonElement;
 
-export interface Props extends BaseProps, JSX.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface Props extends BaseProps, Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
     /**
      * 是否为图标按钮
      *

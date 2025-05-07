@@ -4,129 +4,131 @@
  * SPDX-License-Identifier: MIT
  */
 
-.c--date-activator {
-    .c--date-activator-container {
-        @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none;
-        @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
+@layer components {
+    .c--date-activator {
+        .c--date-activator-container {
+            @apply rounded-md border border-[var(--fg-low)] flex items-center px-2 py-1 cursor-pointer outline-none;
+            @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
-        .input {
-            @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
-            @apply disabled:cursor-not-allowed read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
+            .input {
+                @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
+                @apply disabled:cursor-not-allowed read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
+            }
+
+            .input.range {
+                @apply focus-within:text-palette-fg-high;
+            }
         }
 
-        .input.range {
-            @apply focus-within:text-palette-fg-high;
+        .c--date-activator-container:focus {
+            @apply border-[var(--fg-high)];
+        }
+
+        .c--date-activator-container.rounded {
+            @apply rounded-full;
         }
     }
 
-    .c--date-activator-container:focus {
-        @apply border-[var(--fg-high)];
+    .c--date-panel {
+        @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border flex flex-col gap-1;
+
+        .title {
+            @apply flex justify-between items-center mb-1;
+        }
+
+        table {
+            colgroup {
+                .weekend {
+                    @apply bg-palette-bg-low;
+                }
+            }
+
+            th,
+            td {
+                @apply p-[2px];
+
+                button {
+                    @apply border border-transparent outline-none rounded-full text-sm p-1 min-w-7 cursor-pointer;
+                    line-height: 1.28;
+                }
+
+                button.selected {
+                    @apply bg-[var(--bg-high)];
+                }
+
+                button:disabled {
+                    @apply text-[var(--fg-low)];
+                }
+            }
+        }
+
+        .main {
+            @apply flex flex-row;
+
+            .time {
+                @apply h-10 flex flex-row pl-1;
+
+                ul.item {
+                    @apply overflow-y-scroll h-full w-10;
+
+                    li {
+                        @apply rounded-sm;
+                    }
+
+                    li.selected {
+                        @apply bg-palette-bg-low;
+                    }
+                }
+            }
+        }
+
+        .actions {
+            @apply flex justify-between items-center pt-1 border-t-palette-bg-low border-t-[1px];
+
+            .left {
+                @apply flex justify-start items-center;
+            }
+
+            .right {
+                @apply flex justify-end items-center;
+            }
+
+            .action {
+                @apply px-1 rounded-sm text-palette-fg;
+            }
+        }
     }
 
-    .c--date-activator-container.rounded {
-        @apply rounded-full;
-    }
-}
+    .c--date-panel:enabled {
+        .title button:hover {
+            @apply text-palette-fg-high;
+        }
 
-.c--date-panel {
-    @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border flex flex-col gap-1;
-
-    .title {
-        @apply flex justify-between items-center mb-1;
-    }
-
-    table {
-        colgroup {
-            .weekend {
-                @apply bg-palette-bg-low;
+        .main {
+            .time {
+                li:hover {
+                    @apply bg-palette-bg-low cursor-pointer;
+                }
             }
         }
 
         th,
         td {
-            @apply p-[2px];
-
-            button {
-                @apply border border-transparent outline-none rounded-full text-sm p-1 min-w-7 cursor-pointer;
-                line-height: 1.28;
+            button:enabled {
+                @apply hover:bg-palette-bg-high hover:border-palette-bg-low;
+                @apply focus:bg-palette-bg-high focus:border-palette-bg-low;
             }
+        }
 
-            button.selected {
-                @apply bg-[var(--bg-high)];
-            }
-
-            button:disabled {
-                @apply text-[var(--fg-low)];
+        .actions {
+            .action {
+                @apply hover:text-palette-fg-high hover:bg-palette-bg-high cursor-pointer;
             }
         }
     }
 
-    .main {
-        @apply flex flex-row;
-
-        .time {
-            @apply h-10 flex flex-row pl-1;
-
-            ul.item {
-                @apply overflow-y-scroll h-full w-10;
-
-                li {
-                    @apply rounded-sm;
-                }
-
-                li.selected {
-                    @apply bg-palette-bg-low;
-                }
-            }
-        }
+    .c--date-panel:disabled,
+    .c--date-panel:disabled * {
+        @apply cursor-not-allowed text-palette-fg-low;
     }
-
-    .actions {
-        @apply flex justify-between items-center pt-1 border-t-palette-bg-low border-t-[1px];
-
-        .left {
-            @apply flex justify-start items-center;
-        }
-
-        .right {
-            @apply flex justify-end items-center;
-        }
-
-        .action {
-            @apply px-1 rounded-sm text-palette-fg;
-        }
-    }
-}
-
-.c--date-panel:enabled {
-    .title button:hover {
-        @apply text-palette-fg-high;
-    }
-
-    .main {
-        .time {
-            li:hover {
-                @apply bg-palette-bg-low cursor-pointer;
-            }
-        }
-    }
-
-    th,
-    td {
-        button:enabled {
-            @apply hover:bg-palette-bg-high hover:border-palette-bg-low;
-            @apply focus:bg-palette-bg-high focus:border-palette-bg-low;
-        }
-    }
-
-    .actions {
-        .action {
-            @apply hover:text-palette-fg-high hover:bg-palette-bg-high cursor-pointer;
-        }
-    }
-}
-
-.c--date-panel:disabled,
-.c--date-panel:disabled * {
-    @apply cursor-not-allowed text-palette-fg-low;
 }

@@ -12,7 +12,7 @@ export type IconSymbol = MaterialSymbol;
 
 export type Props = {
     icon: IconSymbol;
-} & JSX.HTMLAttributes<HTMLSpanElement>;
+} & Omit<JSX.HTMLAttributes<HTMLSpanElement>, 'children'>;
 
 const presetProps: Readonly<Partial<Props>> = {
     role: 'img',

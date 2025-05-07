@@ -12,7 +12,7 @@ import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 /**
  * 将 {@link A} 以按钮的形式展示
  */
-export interface Props extends BaseProps, JSX.AnchorHTMLAttributes<HTMLAnchorElement> {
+export interface Props extends BaseProps, Omit<JSX.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
     /**
      * 跳转的链接
      */
