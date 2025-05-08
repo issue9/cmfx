@@ -26,6 +26,7 @@ export * from './qrcode';
 export * from './spin';
 export * from './tab';
 export * from './table';
+export * from './theme';
 export * from './timer';
 export * from './tree';
 export * from './typography';

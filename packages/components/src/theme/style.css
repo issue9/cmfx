@@ -1,0 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--scheme-builder {
+        @apply bg-palette-bg text-palette-fg p-2;
+
+        .blocks {
+            @apply flex flex-wrap gap-3;
+
+            .block {
+                @apply text-left;
+
+                span {
+                    @apply w-40 h-8 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
+                }
+            }
+        }
+    }
+}
