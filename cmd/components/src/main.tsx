@@ -19,7 +19,7 @@ function main() {
         storage: window.sessionStorage,
         scheme: Theme.genScheme(10),
         contrast: 'nopreference',
-        mode: 'dark',
+        mode: 'system',
         locale: 'zh-Hans',
         unitStyle: 'full',
         messages: {
@@ -56,7 +56,7 @@ function main() {
 
         const Root = (p: RouteSectionProps) => {
             return <OptionsProvider {...o}>
-                <Drawer main={p.children}><List anchor>{menuItems}</List></Drawer>
+                <Drawer palette='tertiary' main={p.children}><List anchor>{menuItems}</List></Drawer>
             </OptionsProvider>;
         };
 

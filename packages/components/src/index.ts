@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import './style.css';
+
 export * from './backtop';
 export * from './badge';
 export * from './base';
@@ -27,5 +29,3 @@ export * from './table';
 export * from './timer';
 export * from './tree';
 export * from './typography';
-
-import './style.css';

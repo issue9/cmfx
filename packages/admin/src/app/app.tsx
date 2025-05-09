@@ -71,7 +71,7 @@ function Private(props: PrivateProps): JSX.Element {
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={act.isLogin()}>
-            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' mainID='main-content'
+            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary'
                 close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
                 main={
                     <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>

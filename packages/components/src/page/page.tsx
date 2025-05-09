@@ -45,8 +45,6 @@ export function Page (props: Props): JSX.Element {
         [`palette--${props.palette}`]: !!props.palette,
     }}>
         {props.children}
-        <Show when={!props.disableBacktop}>
-            <BackTop scroller='main-content' />
-        </Show>
+        <Show when={!props.disableBacktop}><BackTop /></Show>
     </div>;
 }
