@@ -6,7 +6,9 @@ import { Contrast, changeContrast, contrasts } from './contrast';
 import { Mode, changeMode, modes } from './mode';
 import { Scheme, changeScheme, genScheme, genSchemes } from './scheme';
 
-export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
+
+export type Breakpoint = typeof breakpoints[number];
 
 /**
  * 提供与主题相关的接口
@@ -14,6 +16,7 @@ export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 export class Theme {
     static readonly contrasts = contrasts;
     static readonly modes = modes;
+    static readonly breakpoints = breakpoints;
 
     /**
      * 根据给定的颜色值生成 Scheme 对象

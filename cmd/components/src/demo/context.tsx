@@ -5,6 +5,7 @@
 import { Button, LocaleProvider, ThemeProvider, use, useLocale } from '@cmfx/components';
 import { Contrast, Locale, Mode, Theme } from '@cmfx/core';
 import { createSignal, For } from 'solid-js';
+import { createStore } from 'solid-js/store';
 
 import { Demo, Stage } from './base';
 
@@ -12,6 +13,9 @@ export default function() {
     const [, act, opt] = use();
     const [mode, setMode] = createSignal<Mode>('system');
     const l = useLocale();
+
+    const [theme, setTheme] = createStore(Theme.genScheme(20));
+    const [contrast, setContrast] = createSignal<Contrast>('nopreference');
 
     return <Demo>
         <Stage title="locale provider">
@@ -27,8 +31,25 @@ export default function() {
         <Stage title="theme provider">
             <ThemeProvider mode='dark' contrast='less' scheme={Theme.genScheme(70)}>
                 <Button>button</Button>
-                <ThemeProvider mode={mode()} contrast='less' scheme={Theme.genScheme(50)}>
-                    <Button onclick={()=>setMode(mode() === 'dark' ? 'light' : 'dark')}>toggle</Button>
+                <ThemeProvider mode={mode()} contrast={contrast()} scheme={theme}>
+                    <Button palette='secondary' onclick={()=>setMode(mode() === 'dark' ? 'light' : 'dark')}>toggle</Button>
+                    <Button palette='primary'>primary</Button>
+                    <select onChange={(e) => {
+                        const value = e.target.value;
+                        setTheme(Theme.genScheme(parseInt(value)));
+                    }}>
+                        <option value={20}>20</option>
+                        <option value={50}>50</option>
+                        <option value={100}>100</option>
+                    </select>
+                    <select value={contrast()} onChange={(e) => {
+                        const value = e.target.value as Contrast;
+                        setContrast(value);
+                    }}>
+                        <option value='more'>more</option>
+                        <option value='less'>less</option>
+                        <option value='nopreference'>nopreference</option>
+                    </select>
                 </ThemeProvider>
             </ThemeProvider>
         </Stage>

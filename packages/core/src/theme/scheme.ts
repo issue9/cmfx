@@ -22,11 +22,34 @@ export interface Scheme {
  */
 export function changeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
+
     Object.entries(s).forEach((o)=>{
         if (o[1] !== undefined) {
             elem.style.setProperty('--'+o[0], o[1]);
         }
     });
+
+    /*
+     * 将 :root 中所有的变量复制到当前元素中
+     * 因为部分变量本身又引用了其它变量，为了重新计算这些变量，需要将未计算的变量值复制到当前元素。
+     */
+    for (const sheet of document.styleSheets) {
+        for (const rule of sheet.cssRules) {
+            if (rule instanceof CSSStyleRule) {
+                if (rule.selectorText === ':root') {
+                    Object.entries(rule.style).forEach(([_, key]) => {
+                        if (!key.startsWith('--') || key.startsWith('--bg') || key.startsWith('--fg')) {
+                            return;
+                        }
+
+                        if (!elem.style.getPropertyValue(key)) { // 如果已经存在，说明上面的 Object.entries.foreach 已经设置过了。
+                            elem.style.setProperty(key, rule.style.getPropertyValue(key));
+                        }
+                    });
+                }
+            }
+        }
+    }
 }
 
 export function genScheme(primary: number, error?: number, step = 60): Scheme {
