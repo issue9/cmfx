@@ -7,7 +7,7 @@ import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps } from '@/base';
 import { Button } from '@/button';
-import { useLocale } from '@/context';
+import { Locale, useLocale } from '@/context';
 import { Icon } from '@/icon';
 
 /**
@@ -21,17 +21,7 @@ interface ClickFunc {
     (): Promise<false | string | undefined>;
 }
 
-export interface Ref {
-    get open(): boolean;
-    get returnValue(): string;
-    close(returnValue?: string): void;
-    show(): void;
-    showModal(): void;
-    addEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | AddEventListenerOptions): void;
-    addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
-    removeEventListener<K extends keyof HTMLElementEventMap>(type: K, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any, options?: boolean | EventListenerOptions): void;
-    removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
-
+export interface Ref extends HTMLDialogElement {
     /**
      * 移动对话框的位置
      *
@@ -106,28 +96,8 @@ export interface Props extends BaseProps {
     children: JSX.Element;
 }
 
-/**
- * 对话框组件
- *
- * 采用的是 html 标准中的 dialog 标签。
- */
-export function Dialog(props: Props): JSX.Element {
-    const l = useLocale();
-    let ref: HTMLDialogElement;
-
-    props.ref({
-        get open() { return ref.open; },
-        get returnValue() { return ref.returnValue; },
-        close(returnValue?: string) { ref.close(returnValue); },
-        show() { ref.show(); },
-        showModal() { ref.showModal(); },
-        addEventListener<K extends keyof HTMLElementEventMap>(type: K|string, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any|EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void {
-            ref.addEventListener(type as any, listener, options);
-        },
-        removeEventListener<K extends keyof HTMLElementEventMap>(type: K|string, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any|EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
-            ref.removeEventListener(type as any, listener, options);
-        },
-
+function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
+    return Object.assign(ref!, {
         move(p?: { x: number | string, y: number | string }): void {
             if (!p) {
                 ref.style.left = '50%';
@@ -135,12 +105,12 @@ export function Dialog(props: Props): JSX.Element {
                 ref.style.translate = 'var(--tw-translate-x) var(--tw-translate-y)';
                 return;
             }
-
+    
             ref.style.translate = '0px 0px';
-            ref.style.left = typeof p.x === 'string' ? p.x : p.x.toString()+'px';
-            ref.style.top = typeof p.y === 'string' ? p.y : p.y.toString()+'px';
+            ref.style.left = typeof p.x === 'string' ? p.x : p.x.toString() + 'px';
+            ref.style.top = typeof p.y === 'string' ? p.y : p.y.toString() + 'px';
         },
-
+    
         Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element {
             const btnClick = async () => {
                 if (click) {
@@ -150,40 +120,49 @@ export function Dialog(props: Props): JSX.Element {
                 }
                 return ref.close(''); // dialog 常驻，需要取消上一次的 returnValue 值。
             };
-
+    
             if (def) {
                 const handler = async (e: KeyboardEvent) => {
                     if (e.key === 'Enter' && e.target === ref) {
                         await btnClick();
                     }
                 };
-
-                const self = this;
+    
                 onMount(() => {
-                    self.addEventListener('keydown', handler);
+                    ref.addEventListener('keydown', handler);
                 });
-                onCleanup(()=>{
-                    self.removeEventListener('keydown', handler);
+                onCleanup(() => {
+                    ref.removeEventListener('keydown', handler);
                 });
             }
             return <Button type={def ? 'submit' : 'button'} palette={def ? 'primary' : 'secondary'} onClick={btnClick}>{title}</Button>;
         },
-
+    
         CancelAction(click?: ClickFunc): JSX.Element {
             return this.Action(l.t('_i.cancel'), click);
         },
-
+    
         OKAction(click?: ClickFunc): JSX.Element {
             return this.Action(l.t('_i.ok'), click, true);
         },
-
-        DefaultActions(ok:ClickFunc, cancel?:ClickFunc): JSX.Element {
+    
+        DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element {
             return <>
                 {this.CancelAction(cancel)}
                 {this.OKAction(ok)}
             </>;
         }
     });
+}
+
+/**
+ * 对话框组件
+ *
+ * 采用的是 html 标准中的 dialog 标签。
+ */
+export function Dialog(props: Props): JSX.Element {
+    const l = useLocale();
+    let ref: HTMLDialogElement;
 
     let toolbar: HTMLElement;
     let cancel: CancelMovable;
@@ -194,7 +173,7 @@ export function Dialog(props: Props): JSX.Element {
     });
     onCleanup(() => { cancel && cancel(); });
 
-    return <dialog class={props.class} ref={(el)=>ref=el} classList={{
+    return <dialog class={props.class} ref={(el) => { props.ref(buildRef(el, l)); ref = el; }} classList={{
         'c--dialog': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
