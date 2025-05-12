@@ -33,6 +33,13 @@ export interface Ref {
     removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 
     /**
+     * 移动对话框的位置
+     *
+     * @param p 如果为 undefined，那么将会剧中显示，否则显示在指定位置。
+     */
+    move(p?: { x: number | string, y: number | string }): void;
+
+    /**
      * 生成对话框上的按钮
      *
      * @param title 按钮内容；
@@ -119,6 +126,19 @@ export function Dialog(props: Props): JSX.Element {
         },
         removeEventListener<K extends keyof HTMLElementEventMap>(type: K|string, listener: (this: HTMLDialogElement, ev: HTMLElementEventMap[K]) => any|EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void {
             ref.removeEventListener(type as any, listener, options);
+        },
+
+        move(p?: { x: number | string, y: number | string }): void {
+            if (!p) {
+                ref.style.left = '50%';
+                ref.style.top = '50%';
+                ref.style.translate = 'var(--tw-translate-x) var(--tw-translate-y)';
+                return;
+            }
+
+            ref.style.translate = '0px 0px';
+            ref.style.left = typeof p.x === 'string' ? p.x : p.x.toString()+'px';
+            ref.style.top = typeof p.y === 'string' ? p.y : p.y.toString()+'px';
         },
 
         Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element {

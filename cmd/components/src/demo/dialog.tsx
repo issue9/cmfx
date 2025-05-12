@@ -51,9 +51,14 @@ export default function() {
 
                             <hr />
                             <div class="flex">
-                                <button value='submit' type="submit" class="mr-8">submit</button>
-                                <button value='reset' type="reset" class="mr-8">reset</button>
-                                <button value='button' type="button">button</button>
+                                <Button value='submit' type="submit" class="mr-8">submit</Button>
+                                <Button value='reset' type="reset" class="mr-8">reset</Button>
+                                <Button value='button' type="button" onClick={()=>{
+                                    dlg2.move({ x: 8, y: 8 });
+                                }}>move(8,8)</Button>
+                                <Button value='button' type="button" onClick={()=>{
+                                    dlg2.move();
+                                }}>move to center</Button>
                             </div>
                         </div>
                     </Form>

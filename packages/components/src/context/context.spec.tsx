@@ -1,0 +1,41 @@
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { Problem, Theme } from '@cmfx/core';
+import { HashRouter } from '@solidjs/router';
+import { ParentProps } from 'solid-js';
+
+import { OptionsProvider } from './context';
+import { Options } from './options';
+
+// 提供用于测试的配置项
+const options: Options = {
+    id: 'admin',
+    storage: window.localStorage,
+    configName: '',
+    scheme: Theme.genScheme(5),
+    contrast: 'more',
+    mode: 'dark',
+    locale: 'zh-Hans',
+    unitStyle: 'full',
+    messages: { 'zh-Hans': [async () => (await import('@/messages/zh-Hans.lang')).default] },
+    apiBase: 'http://localhost:3000',
+    apiToken: '/login',
+    apiAcceptType: 'application/cbor',
+    apiContentType: 'application/cbor',
+    title: 'title',
+    titleSeparator: '-',
+    pageSize: 20,
+    pageSizes: [10, 20, 30],
+    outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+        console.error(p);
+    },
+};
+
+export function Provider(props: ParentProps) {
+    const Root = () => {
+        return <OptionsProvider {...options}>{props.children}</OptionsProvider>;
+    };
+    return <HashRouter root={Root}>{[]}</HashRouter>;
+}
