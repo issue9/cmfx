@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Stepper, StepRef } from '@cmfx/components';
+import { Button, Stepper, StepperRef } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { Demo, Stage } from '../base';
 
 export default function(): JSX.Element {
-    let ref1: StepRef;
-    let ref2: StepRef;
-    let ref3: StepRef;
+    let ref1: StepperRef;
+    let ref2: StepperRef;
+    let ref3: StepperRef;
 
     return <Demo>
         <Stage title='icon=dot' class='w-full'>
@@ -37,8 +37,8 @@ export default function(): JSX.Element {
 
         <Stage title='icon=true' class='w-full'>
             <Stepper ref={el => ref3 = el} accentPalette='primary' steps={[
-                { title: 'Step 1', content: 'Content for Step 1', icon: true },
-                { title: 'Step 2', content: 'Content for Step 2', icon: true },
+                { title: 'Step 1', content: 'Content for Step 1', icon: (c?: boolean)=> c ? 'check' : true },
+                { title: 'Step 2', content: 'Content for Step 2', icon: (c?: boolean)=> c ? 'check' : true },
                 { title: 'Step 3', content: 'Content for Step 3', icon: true },
             ]} />
 

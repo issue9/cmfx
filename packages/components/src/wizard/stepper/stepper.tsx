@@ -2,11 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, Match, Switch, createSignal } from 'solid-js';
+import { For, JSX, Match, Switch, createMemo, createSignal } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
 import { Icon, IconSymbol } from '@/icon';
-import { Ref, Step } from '@/wizard/step';
+import { Ref, Step as WizardStep } from '@/wizard/step';
+
+export type { Ref } from '@/wizard/step';
+
+export interface Step extends WizardStep {
+    /**
+     * 图标，如果值为 true，表示采用数字，否则为图标。
+     */
+    icon?: IconSymbol | true | { (completed?: boolean): IconSymbol | true };
+}
 
 export interface Props extends BaseProps {
     steps: Array<Step>;
@@ -49,20 +58,21 @@ export default function Stepper(props: Props): JSX.Element {
     return <div class="c--stepper">
         <header>
             <For each={props.steps}>
-                {(step, idx) => (
-                    <div classList={{ 'step': true, 'completed': idx() <= index() }}>
+                {(step, idx) => {
+                    const completed = createMemo(() => idx() <= index());
+                    return <div classList={{ 'step': true, 'completed': completed() }}>
                         <Switch>
                             <Match when={!step.icon}><span class="dot" /></Match>
-                            <Match when={step.icon === true}>
+                            <Match when={step.icon && (step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>
                                 <span class="number">{idx() + 1}</span>
                             </Match>
-                            <Match when={typeof step.icon === 'string'}>
-                                <Icon class="icon" icon={step.icon as IconSymbol} />
+                            <Match when={step.icon && ((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
+                                {(icon) => (<Icon class="icon" icon={icon() as IconSymbol} />)}
                             </Match>
                         </Switch>
                         <div class="title">{step.title}</div>
-                    </div>
-                )}
+                    </div>;
+                }}
             </For>
         </header>
         <div class="content">{props.steps[index()].content}</div>

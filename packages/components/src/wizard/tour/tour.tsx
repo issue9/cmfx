@@ -35,6 +35,8 @@ export interface Step extends WizardStep {
      * 弹出框相对于关联元素的位置
      */
     pos: PopPos;
+    
+    icon?: IconSymbol;
 }
 
 export interface Props extends BaseProps {
@@ -134,7 +136,7 @@ export default function Tour(props: Props): JSX.Element {
     });
 
     return <Dialog class="c--tour" ref={el => ref = el}
-        header={<Label icon={(curr() && curr().icon && curr().icon !== true) ? curr().icon as IconSymbol : undefined}>{header()}</Label>}
+        header={<Label icon={curr().icon}>{header()}</Label>}
         actions={<>
             {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_i.tour.prev')}</Button>}
             {index() == 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_i.tour.start')}</Button>}
