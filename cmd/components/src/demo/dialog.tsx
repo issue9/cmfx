@@ -12,6 +12,7 @@ export default function() {
 
     let dlg1: DialogRef;
     let dlg2: DialogRef;
+    let dlg3: DialogRef;
 
     const fa = new FormAccessor({}, act, async (_) => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; });
 
@@ -48,7 +49,7 @@ export default function() {
                     <Form formAccessor={fa} inDialog>
                         <div class="flex flex-col">
                             <div class="py-3">form</div>
-
+                            <Button onclick={() => dlg3.showModal()}>show modal</Button>
                             <hr />
                             <div class="flex">
                                 <Button value='submit' type="submit" class="mr-8">submit</Button>
@@ -59,10 +60,15 @@ export default function() {
                                 <Button value='button' type="button" onClick={()=>{
                                     dlg2.move();
                                 }}>move to center</Button>
+                                <Button value='button' type="button">button</Button>
                             </div>
                         </div>
                     </Form>
                 </div>
+            </Dialog>
+
+            <Dialog ref={(el) => dlg3 = el} header="header">
+                <div>dialog 3</div>
             </Dialog>
         </div>
     </Demo>;

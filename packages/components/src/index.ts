@@ -29,3 +29,4 @@ export * from './table';
 export * from './timer';
 export * from './tree';
 export * from './typography';
+export * from './wizard';

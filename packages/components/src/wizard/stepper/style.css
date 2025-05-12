@@ -1,0 +1,66 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--stepper {
+        >header {
+            @apply flex gap-1 items-start;
+
+            .step {
+                @apply flex gap-1 flex-1 items-center justify-end text-palette-fg-low;
+
+                .dot {
+                    @apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
+                }
+
+                .number {
+                    @apply w-8 h-8 shrink-0 rounded-full bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
+                }
+
+                .icon {
+                    @apply w-8 h-8 !shrink-0 !rounded-full bg-palette-bg-low text-palette-fg-low !flex !items-center !justify-center;
+                }
+
+                .title {
+                    @apply shrink-0 grow-0 whitespace-nowrap;
+                }
+            }
+
+            .step:first-child {
+                @apply grow-0 shrink-0;
+            }
+
+            .step:not(:first-child)::before {
+                content: '';
+                @apply !h-1 w-full grow bg-palette-bg-low block;
+            }
+
+            .step.completed {
+                @apply text-palette-fg-high;
+
+                .dot {
+                    @apply bg-palette-bg-high;
+                }
+
+                .number {
+                    @apply bg-palette-bg-high text-palette-fg-high;
+                }
+
+                .icon {
+                    @apply bg-palette-bg-high text-palette-fg-high;
+                }
+            }
+
+            .step.completed::before {
+                @apply bg-palette-bg-high;
+            }
+        }
+
+        .content {
+            @apply mt-2;
+        }
+    }
+}
