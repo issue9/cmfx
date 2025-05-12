@@ -97,7 +97,7 @@ export interface Props extends BaseProps {
 }
 
 function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
-    return Object.assign(ref!, {
+    return Object.assign(ref, {
         move(p?: { x: number | string, y: number | string }): void {
             if (!p) {
                 ref.style.left = '50%';

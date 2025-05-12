@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { pop } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { useLocale } from '@/context';
@@ -54,12 +55,10 @@ export function DateRangePicker(props: Props): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
-    const togglePop = (e: {target: HTMLInputElement}, pop: HTMLElement) => {
+    const togglePop = (e: {target: HTMLInputElement}) => {
         popRef.hidePopover();
- 
-        const anchorRef = e.target;
-        const ab = anchorRef.getBoundingClientRect();
-        pop(pop, ab, 8);
+        const ab = e.target.getBoundingClientRect();
+        pop(popRef, ab, 8);
         popRef.showPopover();
     };
 
@@ -85,7 +84,7 @@ export function DateRangePicker(props: Props): JSX.Element {
             <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())
             } onFocus={(e)=>{
-                togglePop(e, popRef);
+                togglePop(e);
 
                 curr = ac1;
                 panelVal.setValue(ac1.getValue());
@@ -94,7 +93,7 @@ export function DateRangePicker(props: Props): JSX.Element {
             <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())
             } onFocus={(e)=>{
-                togglePop(e, popRef);
+                togglePop(e);
 
                 curr = ac2;
                 panelVal.setValue(ac2.getValue());

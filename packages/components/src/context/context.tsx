@@ -107,7 +107,7 @@ export function use() {
     return [options.api, options.actions, options] as [api: API, actions: Actions, options: Options];
 }
 
-function buildActions(ctx: InternalOptionsContext) {
+export function buildActions(ctx: InternalOptionsContext) {
     const options = ctx[0];
     const setOptions = ctx[1];
 

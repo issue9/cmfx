@@ -5,8 +5,10 @@
 import { Problem, Theme } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { ParentProps } from 'solid-js';
+import { createStore } from 'solid-js/store';
+import { expect, test } from 'vitest';
 
-import { OptionsProvider } from './context';
+import { buildActions, OptionsProvider } from './context';
 import { Options } from './options';
 
 // 提供用于测试的配置项
@@ -35,7 +37,15 @@ const options: Options = {
 
 export function Provider(props: ParentProps) {
     const Root = () => {
-        return <OptionsProvider {...options}>{props.children}</OptionsProvider>;
+        return <OptionsProvider {...options }>{props.children}</OptionsProvider>;
     };
     return <HashRouter root={Root}>{[]}</HashRouter>;
 }
+
+test('buildActions',  () => {
+    const act = buildActions(createStore({...options}));
+    expect(act).not.toBeUndefined();
+
+    act.title = 't';
+    expect(document.title, 't' + options.titleSeparator + options.title);
+});
