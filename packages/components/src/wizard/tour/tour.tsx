@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createEffect, createMemo, createSignal, onCleanup, onMount } from 'solid-js';
+import { calcPopoverPos, PopPos } from '@cmfx/core';
+import { createEffect, createMemo, createSignal, JSX, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
 import { Button } from '@/button';
@@ -29,6 +30,11 @@ export interface Step extends WizardStep {
      * 关联的元素 ID
      */
     id: string;
+
+    /**
+     * 弹出框相对于关联元素的位置
+     */
+    pos: PopPos;
 }
 
 export interface Props extends BaseProps {
@@ -113,16 +119,14 @@ export default function Tour(props: Props): JSX.Element {
 
     createEffect(() => {
         for (let i = 0; i < props.steps.length; i++) {
-            const el = document.getElementById(props.steps[i].id);
+            const step = props.steps[i];
+            const el = document.getElementById(step.id);
             if (!el) { continue; }
 
             if (i === index() && open()) {
                 el.scrollIntoView({ behavior: 'smooth' });
                 el.classList.add('c--tour-focus');
-                const rect = el.getBoundingClientRect();
-                const x = rect.right + window.scrollX;
-                const y = rect.bottom + window.scrollY;
-                ref.move({ x, y });
+                ref.move(calcPopoverPos(ref, el.getBoundingClientRect(), step.pos, 8));
             } else {
                 el.classList.remove('c--tour-focus');
             }
