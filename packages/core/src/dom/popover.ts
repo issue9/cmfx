@@ -25,7 +25,7 @@ export function pop(pop: HTMLElement, anchor: DOMRect, padding?: number) {
  * @param pos pop 相对 anchor 的位置；
  * @param padding pop 与 anchor 两者之间的间隙；
  */
-export function calcPopoverPos(pop: HTMLElement, anchor: DOMRect, pos: Pos, padding?: number): Point {
+export function calcPopoverPos(pop: HTMLElement, anchor: DOMRect, pos: PopPos, padding?: number): Point {
     const popRect = pop.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。
     padding = padding ?? 0;
 
@@ -54,8 +54,8 @@ export function calcPopoverPos(pop: HTMLElement, anchor: DOMRect, pos: Pos, padd
 }
 
 interface Point {
-    x: number | string;
-    y: number | string;
+    x: number;
+    y: number;
 }
 
-type Pos = 'top' | 'bottom' | 'left' | 'right';
+export type PopPos = 'top' | 'bottom' | 'left' | 'right';
