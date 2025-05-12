@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPos } from '@cmfx/core';
+import { pop } from '@cmfx/core';
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
 import { cloneElement } from '@/base';
@@ -23,7 +23,7 @@ export interface Props<T extends Value, M extends boolean> extends FieldBaseProp
  * 用以替代 select 组件
  */
 export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): JSX.Element {
-    let pop: HTMLUListElement;
+    let ul: HTMLUListElement;
 
     // multiple 为 false 时的输入框样式。
     const SingleActivator = (p: {access: Accessor<T>}) => {
@@ -52,7 +52,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
 
     const handleClick = (e: MouseEvent) => {
         if (!fieldRef.contains(e.target as Node)) {
-            pop.hidePopover();
+            ul.hidePopover();
         }
     };
     onMount(() => {
@@ -64,15 +64,15 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
 
     const calcPos = () => {
         const ab = anchorRef.getBoundingClientRect();
-        pop.style.minWidth = ab.width + 'px';
-        pop.style.width = ab.width + 'px';
-        calcPopoverPos(pop, DOMRect.fromRect(ab), '2px');
+        ul.style.minWidth = ab.width + 'px';
+        ul.style.width = ab.width + 'px';
+        pop(ul, DOMRect.fromRect(ab), 2);
     };
 
     const clickInput = (e?: MouseEvent) => {
         if (props.disabled) { return; }
 
-        if (pop.togglePopover()) {
+        if (ul.togglePopover()) {
             calcPos();
             scrollIntoView();
         }
@@ -149,7 +149,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
                             p.ac.setValue(item[0]);
                             p.ac.setError();
                         }
-                        pop.hidePopover();
+                        ul.hidePopover();
                     }}>
                         {cloneElement(item[1])}
                         <Icon icon='check' classList={{
@@ -190,7 +190,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
             <Icon class="expand" icon="expand_all" />
         </div>
 
-        <ul popover="manual" ref={el => pop = el} classList={{
+        <ul popover="manual" ref={el => ul = el} classList={{
             'c--choice-options': true,
             [`palette--${props.palette}`]: !!props.palette,
         }}>

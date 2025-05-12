@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPos } from '@cmfx/core';
+import { pop } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { handleEvent } from '@/base';
@@ -39,14 +39,14 @@ export interface Props extends BaseProps {
 export function ConfirmButton(props: Props) {
     props = mergeProps(presetProps, props);
     const l = useLocale();
-    let pop: HTMLDivElement;
+    let popElem: HTMLDivElement;
     let btn: ButtonRef;
 
     const [_, btnProps] = splitProps(props, ['children', 'onClick', 'prompt', 'palette', 'ok', 'cancel']);
 
     const handleClick = (e: MouseEvent) => {
-        if (!pop.contains(e.target as Node) && !btn.contains(e.target as Node)) {
-            pop.hidePopover();
+        if (!popElem.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+            popElem.hidePopover();
         }
     };
     onMount(() => {
@@ -58,18 +58,18 @@ export function ConfirmButton(props: Props) {
 
     const confirm: BaseProps['onClick'] = (e) => {
         handleEvent(props.onClick, e);
-        pop.hidePopover();
+        popElem.hidePopover();
     };
 
     return <>
         <Button ref={(el)=>btn=el} {...btnProps} palette={props.palette} onClick={() => {
-            pop.togglePopover();
-            calcPopoverPos(pop, btn.getBoundingClientRect());
+            popElem.togglePopover();
+            pop(popElem, btn.getBoundingClientRect());
         }}>{props.children}</Button>
-        <div popover="manual" ref={el=>pop=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
+        <div popover="manual" ref={el=>popElem=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
             {props.prompt ?? l.t('_i.areYouSure')}
             <div class="actions">
-                <Button palette='secondary' onClick={() => pop.hidePopover()}>{props.cancel ?? l.t('_i.cancel')}</Button>
+                <Button palette='secondary' onClick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_i.cancel')}</Button>
                 <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? l.t('_i.ok')}</Button>
             </div>
         </div>

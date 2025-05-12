@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPos } from '@cmfx/core';
+import { pop } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { useLocale } from '@/context';
@@ -20,10 +20,10 @@ export interface Props extends PanelProps {
     max?: Date;
 }
 
-function togglePop(anchor: Element, pop: HTMLElement): boolean {
+function togglePop(anchor: Element, popElem: HTMLElement): boolean {
     const ab = anchor.getBoundingClientRect();
-    const ret = pop.togglePopover();
-    calcPopoverPos(pop, ab, '2px');
+    const ret = popElem.togglePopover();
+    pop(popElem, ab, 2);
     return ret;
 }
 

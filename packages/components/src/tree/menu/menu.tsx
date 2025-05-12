@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPos } from '@cmfx/core';
+import { pop } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { default as HoverMenu, Props as HoverProps } from './hover';
@@ -28,12 +28,12 @@ export function Menu(props: Props): JSX.Element {
         return <HoverMenu {...hp}>{props.children}</HoverMenu>;
     }
 
-    let pop: PanelRef;
+    let popRef: PanelRef;
     let activator: HTMLSpanElement;
 
     const handleClick = (e: MouseEvent) => {
-        if (!pop.contains(e.target as Node) && !activator.contains(e.target as Node)) {
-            pop.hidePopover();
+        if (!popRef.contains(e.target as Node) && !activator.contains(e.target as Node)) {
+            popRef.hidePopover();
         }
     };
     onMount(() => {
@@ -48,25 +48,25 @@ export function Menu(props: Props): JSX.Element {
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
         onchange = (selected?: string, old?: string) => {
-            if (!props.onChange!(selected, old) && pop.hidePopover) {
-                pop.hidePopover();
+            if (!props.onChange!(selected, old) && popRef.hidePopover) {
+                popRef.hidePopover();
             }
         };
     } else {
-        onchange = () => { pop.hidePopover(); };
+        onchange = () => { popRef.hidePopover(); };
     }
 
     return <div class="w-fit">
         <span ref={el=>activator=el} classList={{[`palette--${props.palette}`]: !!props.palette}} onClick={()=>{
-            if (pop.togglePopover) {
-                pop.togglePopover();
+            if (popRef.togglePopover) {
+                popRef.togglePopover();
             }
 
             const rect = activator.getBoundingClientRect();
-            const x = props.direction === 'right' ? rect.right - pop.getBoundingClientRect().width : rect.left;
-            calcPopoverPos(pop, new DOMRect(x, rect.y, rect.width, rect.height), '2px');
+            const x = props.direction === 'right' ? rect.right - popRef.getBoundingClientRect().width : rect.left;
+            pop(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
         }}>{props.activator}</span>
 
-        <Panel popover="manual" ref={el=>pop=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
+        <Panel popover="manual" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
     </div>;
 }

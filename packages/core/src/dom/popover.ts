@@ -1,31 +1,61 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 /**
- * 计算弹出对象的位置
- *
- * 默认是与锚定对象的左边对齐，但如果整个弹出对象超出了屏幕的右边，则改用锚定对象的右侧对齐。
+ * 弹出 pop 元素
  *
  * @param pop 弹出对象，必须得是可见状态的；
  * @param anchor 锚定对象的范围；
- * @param padding pop 与 anchor 两者之间的间隙，CSS 的 margin-top 或 margin-bottom 值；
+ * @param padding pop 与 anchor 两者之间的间隙；
  */
-export function calcPopoverPos(pop: HTMLElement, anchor: DOMRect, padding?: string) {
+export function pop(pop: HTMLElement, anchor: DOMRect, padding?: number) {
     // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
 
-    pop.style.top = anchor.bottom + 'px';
-    pop.style.left = anchor.left + 'px';
-    const pr = pop.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。
-
-    if (pr.right > window.innerWidth) {
-        pop.style.left = (anchor.right - pr.width) + 'px';
-    }
-
-    if (pr.bottom > window.innerHeight) {
-        pop.style.top = (anchor.top - pr.height) + 'px';
-        pop.style.marginBottom = padding ?? '';
-    } else {
-        pop.style.marginTop = padding ?? '';
-    }
+    const p = calcPopoverPos(pop, anchor, 'bottom', padding);
+    pop.style.top = p.y + 'px';
+    pop.style.left = p.x + 'px';
 }
+
+/**
+ * 计算弹出对象的位置
+ *
+ * @param pop 弹出对象，必须得是可见状态的；
+ * @param anchor 锚定对象的范围；
+ * @param pos pop 相对 anchor 的位置；
+ * @param padding pop 与 anchor 两者之间的间隙；
+ */
+export function calcPopoverPos(pop: HTMLElement, anchor: DOMRect, pos: Pos, padding?: number): Point {
+    const popRect = pop.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。
+    padding = padding ?? 0;
+
+    const p: Point = { x: 0, y: 0 };
+
+    switch (pos) {
+    case 'left':
+        p.x = anchor.left - popRect.width - padding;
+        p.y = anchor.top;
+        break;
+    case 'right':
+        p.x = anchor.right + padding;
+        p.y = anchor.top;
+        break;
+    case 'top':
+        p.x = anchor.left;
+        p.y = anchor.top - popRect.height - padding;
+        break;
+    case 'bottom':
+        p.x = anchor.left;
+        p.y = anchor.bottom + padding;
+        break;
+    }
+
+    return p;
+}
+
+interface Point {
+    x: number | string;
+    y: number | string;
+}
+
+type Pos = 'top' | 'bottom' | 'left' | 'right';

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPos } from '@cmfx/core';
+import { pop } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
 import { Props as BaseProps, Button, presetProps } from './button';
@@ -26,12 +26,12 @@ export interface Props extends BaseProps {
 */
 export function SplitButton(props: Props) {
     props = mergeProps(presetProps, props);
-    let pop: HTMLDivElement;
+    let popElem: HTMLDivElement;
     let group: GroupRef;
 
     const handleClick = (e: MouseEvent) => {
-        if (!pop.contains(e.target as Node) && !group.contains(e.target as Node)) {
-            pop.hidePopover();
+        if (!popElem.contains(e.target as Node) && !group.contains(e.target as Node)) {
+            popElem.hidePopover();
         }
     };
     onMount(() => {
@@ -46,14 +46,14 @@ export function SplitButton(props: Props) {
     const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
         <Button class="split" icon={/*@once*/true} onClick={() => {
-            pop.togglePopover();
-            calcPopoverPos(pop, group.getBoundingClientRect());
+            popElem.togglePopover();
+            pop(popElem, group.getBoundingClientRect());
         }}>keyboard_arrow_down</Button>
     </ButtonGroup>;
 
     return <>
         {activator}
-        <div ref={el=>pop=el} popover="manual" classList={{ 'c--split-button_content':true, [`palette--${props.palette}`]:!!props.palette}}>
+        <div ref={el=>popElem=el} popover="manual" classList={{ 'c--split-button_content':true, [`palette--${props.palette}`]:!!props.palette}}>
             <For each={props.menus}>
                 {(item) => (
                     <Switch>
@@ -63,7 +63,7 @@ export function SplitButton(props: Props) {
                         <Match when={item.type === 'item'}>
                             <Button kind='flat' disabled={(item as any).disabled} class="item" onClick={() => {
                                 (item as any).onClick();
-                                pop.hidePopover();
+                                popElem.hidePopover();
                             }}>{(item as any).label}</Button>
                         </Match>
                     </Switch>

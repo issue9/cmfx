@@ -7,5 +7,5 @@ export type { Cancel as CancelMovable } from './movable';
 
 export { getScollableParent } from './scrollable';
 
-export { calcPopoverPos } from './popover';
+export { calcPopoverPos, pop } from './popover';
 
