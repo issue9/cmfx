@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { calcPopoverPos } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { calcPopoverPos, handleEvent } from '@/base';
+import { handleEvent } from '@/base';
 import { useLocale } from '@/context';
 import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
 

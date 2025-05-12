@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { calcPopoverPos } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { calcPopoverPos } from '@/base';
 import { default as HoverMenu, Props as HoverProps } from './hover';
 import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
 

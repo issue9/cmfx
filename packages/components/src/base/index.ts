@@ -10,4 +10,3 @@ export type { Props as BaseProps, Corner, Palette } from './types';
 export { translateEnum } from './enum';
 export type { Enum, Enums } from './enum';
 
-export { calcPopoverPos } from './popover';

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { calcPopoverPos } from '@cmfx/core';
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
-import { calcPopoverPos, cloneElement } from '@/base';
+import { cloneElement } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 import { Icon } from '@/icon';
 
