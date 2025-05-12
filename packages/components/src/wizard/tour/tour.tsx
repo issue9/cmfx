@@ -119,6 +119,10 @@ export default function Tour(props: Props): JSX.Element {
             if (i === index() && open()) {
                 el.scrollIntoView({ behavior: 'smooth' });
                 el.classList.add('c--tour-focus');
+                const rect = el.getBoundingClientRect();
+                const x = rect.right + window.scrollX;
+                const y = rect.bottom + window.scrollY;
+                ref.move({ x, y });
             } else {
                 el.classList.remove('c--tour-focus');
             }
