@@ -141,8 +141,7 @@ export class ObjectAccessor<T extends object> {
      * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
      *  其它情况下都将返回当前表单的最新值。
      */
-    object(): T;
-    object(validation?: Validation<T>): T | undefined;
+    object(validation?: Validation<T>): T;
     object(validation?: Validation<T>): T | undefined {
         const v: T = this.#valGetter;
 
