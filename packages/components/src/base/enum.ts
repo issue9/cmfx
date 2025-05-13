@@ -7,8 +7,8 @@ import { Locale } from '@/context';
 /**
  * 枚举类型
  *
- * [0] 为枚举值；
- * [1] 为枚举值对应名称的翻译项；
+ *  - 0 为枚举值；
+ *  - 1 为枚举值对应名称的翻译项；
  */
 export type Enum<T extends string | number> = [T, string];
 
@@ -21,7 +21,7 @@ export type Enums<T extends string | number> = Array<Enum<T>>;
  * 从 enums 中查找 item 对应的名称
  *
  * @param enums 表示枚举集合；
- * @param ctx 组件系统的上下文环境，用于翻译内容；
+ * @param l 本地化对象；
  * @param item 需要被翻译的枚举值；
  */
 export function translateEnum<T extends string|number>(enums: Enums<T>, l: Locale, item: T): string|undefined {

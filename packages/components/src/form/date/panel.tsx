@@ -88,9 +88,13 @@ export function DatePanel(props: Props): JSX.Element {
     const scrollTimer = () => {
         if (props.time) {
             const items = timeRef.querySelectorAll('.item>li.selected');
-            if (items) {
+            if (items && items.length > 0) {
                 for (const item of items) {
-                    item.scrollIntoView({ block: 'start', behavior: 'smooth' });
+                    const p = item.parentElement;
+                    const top = item.getBoundingClientRect().top - p!.getBoundingClientRect().top;
+
+                    // scrollBy 与 scrollIntoView 不同点在于，scrollBy 并不会让整个 p 出现在页面的可见范围之内。
+                    p!.scrollBy({ top: top, behavior: 'smooth' });
                 }
             }
         }
@@ -117,8 +121,8 @@ export function DatePanel(props: Props): JSX.Element {
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
-            const height = entries[0]!.borderBoxSize[0].blockSize;
-            timeRef.style.height = height + 'px';
+            const height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+            timeRef.style.height = height;
             scrollTimer();
         });
 

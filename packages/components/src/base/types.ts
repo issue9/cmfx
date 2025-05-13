@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-
 import { Scheme } from '@cmfx/core';
 
 /**
