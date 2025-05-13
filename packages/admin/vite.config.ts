@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-/// <reference types="vitest" />
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';

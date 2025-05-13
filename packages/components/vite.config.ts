@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-/// <reference types="vitest" />
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
@@ -13,10 +12,6 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    test: {
-        setupFiles: ['./vitest_setup.ts'],
-        environment: 'jsdom',
-    },
     plugins: [
         solidPlugin(),
         dts({

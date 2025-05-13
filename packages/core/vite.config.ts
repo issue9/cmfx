@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-/// <reference types="vitest" />
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
@@ -10,10 +9,6 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    test: {
-        setupFiles: ['./src/vitest_setup.ts'],
-        environment: 'jsdom',
-    },
     plugins: [
         dts({
             entryRoot: './src',
