@@ -13,6 +13,10 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 // https://vitejs.dev/config/
 export default defineConfig({
+    test: {
+        setupFiles: ['./vitest_setup.ts'],
+        environment: 'jsdom',
+    },
     plugins: [
         solidPlugin(),
         dts({
