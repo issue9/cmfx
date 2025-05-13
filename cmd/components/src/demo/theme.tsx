@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, FieldAccessor, palettes, SchemeBuilder } from '@cmfx/components';
+import { Button, DatePanel, FieldAccessor, Number, palettes, SchemeBuilder } from '@cmfx/components';
 import { For } from 'solid-js';
 
 import { boolSelector, Demo } from './base';
@@ -10,6 +10,7 @@ import { boolSelector, Demo } from './base';
 export default function () {
     const [actionsS, actions] = boolSelector('actions', true);
     const dateFA = FieldAccessor('date', '2025-01-02');
+    const numberFA = FieldAccessor('num', 0);
 
     return <Demo settings={<>
         {actionsS}
@@ -22,6 +23,7 @@ export default function () {
                         {(p)=>(<Button palette={p}>button</Button>)}
                     </For>
                 </div>
+                <Number accessor={numberFA} />
             </div>
         </SchemeBuilder>
     </Demo>;
