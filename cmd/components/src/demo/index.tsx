@@ -24,6 +24,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/spin', component: lazy(() => import('./spin')) },
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
+    { path: '/theme', component: lazy(() => import('./theme')) },
     { path: '/timer', component: lazy(() => import('./timer')) },
 
     { path: '/tree-list', component: lazy(() => import('./tree/list')) },

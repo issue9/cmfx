@@ -28,6 +28,7 @@
 @import './spin/style.css';
 @import './tab/style.css';
 @import './table/style.css';
+@import './theme/style.css';
 @import './timer/style.css';
 @import './typography/style.css';
 @import './tree/style.css';
