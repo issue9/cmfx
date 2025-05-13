@@ -6,13 +6,21 @@
 
 @layer components {
     .c--scheme-builder {
-        @apply bg-palette-bg text-palette-fg p-2;
+        @apply bg-palette-bg text-palette-fg p-4 rounded-md;
+
+        .toolbar {
+            @apply flex gap-5 flex-wrap;
+
+            .last {
+                @apply justify-self-end flex ml-auto gap-5;
+            }
+        }
 
         .blocks {
             @apply flex flex-wrap gap-3;
 
             .block {
-                @apply text-left;
+                @apply text-left w-40;
 
                 span {
                     @apply w-40 h-8 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
