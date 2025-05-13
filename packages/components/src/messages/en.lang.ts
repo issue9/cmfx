@@ -18,29 +18,6 @@ const messages = {
         refresh: 'Refresh',
         print: 'Print',
         areYouSure: 'Are you sure?',
-        timer: {
-            seconds: 'Seconds',
-            minutes: 'Minutes',
-            hours: 'Hours',
-            days: 'Days'
-        },
-        table: {
-            nodata: 'No data',
-            exportTo: 'Export to {type}',
-            hoverable: 'Hoverable',
-            striped: 'Striped {num}',
-            noStriped: 'No striped',
-            stickyHeader: 'Sticky header',
-            fitScreen: 'Fit screen',
-            downloadFilename: 'The filename of download',
-        },
-        pagination: {
-            prev: 'Prev',
-            next: 'Next',
-            firstPage: 'First page',
-            lastPage: 'Last page',
-            items: '{ start }-{ end } of { count }'
-        },
         date: {
             clear: 'Clear',
             today: 'Today',
@@ -62,6 +39,40 @@ const messages = {
             canNotBeEmpty: 'Can not be empty',
             oldNewPasswordCanNotBeEqual: 'The old passowrd and new password can not be equal',
             newConfirmPasswordMustBeEqual: 'The new passowrd and confirm password must be equal',
+        },
+        pagination: {
+            prev: 'Prev',
+            next: 'Next',
+            firstPage: 'First page',
+            lastPage: 'Last page',
+            items: '{ start }-{ end } of { count }'
+        },
+        table: {
+            nodata: 'No data',
+            exportTo: 'Export to {type}',
+            hoverable: 'Hoverable',
+            striped: 'Striped {num}',
+            noStriped: 'No striped',
+            stickyHeader: 'Sticky header',
+            fitScreen: 'Fit screen',
+            downloadFilename: 'The filename of download',
+        },
+        timer: {
+            seconds: 'Seconds',
+            minutes: 'Minutes',
+            hours: 'Hours',
+            days: 'Days'
+        },
+        theme: {
+            mode: 'Theme mode',
+            dark: 'Dark',
+            light: 'Light',
+            contrast: 'Contrast',
+            nopreference: 'No preference',
+            less: 'Less',
+            more: 'More',
+            export: 'Export',
+            apply: 'Apply',
         },
         tour: {
             prev: 'Prev',

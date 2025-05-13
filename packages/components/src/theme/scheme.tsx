@@ -10,7 +10,7 @@ import { Button } from '@/button';
 import { ThemeProvider, useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
 import { Divider } from '@/divider';
-import { FieldAccessor, FieldOptions, ObjectAccessor, RadioGroup, translateEnums2Options } from '@/form';
+import { Accessor, FieldAccessor, FieldOptions, ObjectAccessor, RadioGroup, Range, translateEnums2Options } from '@/form';
 import { Label } from '@/typography';
 
 export interface Ref {
@@ -48,10 +48,10 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     const schemeFA = new ObjectAccessor<Scheme>(Theme.genScheme(80));
     const contrastFA = FieldAccessor<Contrast>('contrast', 'nopreference');
     const modes: FieldOptions<Mode> = translateEnums2Options<Mode>([
-        ['dark', 'dark'], ['light', 'light']
+        ['dark', '_i.theme.dark'], ['light', '_i.theme.light']
     ], l);
     const contrasts: FieldOptions<Contrast> = translateEnums2Options<Contrast>([
-        ['nopreference', 'nopreference'], ['more', 'more'], ['less', 'less']
+        ['nopreference', '_i.theme.nopreference'], ['more', '_i.theme.more'], ['less', '_i.theme.less']
     ], l);
 
     let dlg: DialogRef;
@@ -77,29 +77,25 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     return <ThemeProvider mode={modeFA.getValue()} contrast={contrastFA.getValue()} scheme={schemeFA.object()}>
         <div class="c--scheme-builder">
             <div class="toolbar">
-                <RadioGroup horizontal itemHorizontal accessor={modeFA} label='mode' options={modes} />
-                <RadioGroup horizontal itemHorizontal accessor={contrastFA} label='contrast' options={contrasts} />
+                <RadioGroup horizontal itemHorizontal accessor={modeFA} label={l.t('_i.theme.mode')} options={modes} />
+                <RadioGroup horizontal itemHorizontal accessor={contrastFA} label={l.t('_i.theme.contrast')} options={contrasts} />
                 <Show when={props.actions}>
                     <div class="last">
-                        <Button palette='secondary' onClick={() => ref.reset()}>reset</Button>
-                        <Button palette='primary' onClick={() => ref.apply()}>apply</Button>
-                        <Button palette='primary' onClick={()=>dlg.showModal()}>export</Button>
+                        <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_i.reset') }</Button>
+                        <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_i.theme.apply') }</Button>
+                        <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_i.theme.export') }</Button>
                     </div>
                 </Show>
             </div>
             <Divider padding='8px' />
 
             <For each={palettes}>
-                {(p) => { return paletteBlock(p); }}
+                {(p) => { return paletteBlock(p, schemeFA.accessor(p)); }}
             </For>
 
-            <Show when={props.children}>
-                <Label class='text-xxl mt-4'>demo</Label>
-                <Divider padding='8px' />
-                {props.children}
-            </Show>
+            {props.children}
         </div>
-        <Dialog ref={el=>dlg=el} header={<Label icon='open_in_new'>export scheme</Label>}>
+        <Dialog ref={el => dlg = el} header={<Label icon='open_in_new'>{ l.t('_i.theme.export') }</Label>}>
             <pre>
                 {JSON.stringify(schemeFA.object(), null, 4)}
             </pre>
@@ -107,9 +103,15 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     </ThemeProvider>;
 }
 
-function paletteBlock(p: Palette): JSX.Element {
+function paletteBlock(p: Palette, a: Accessor<number>): JSX.Element {
     return <>
-        <Label class='text-xxl mt-4' icon="palette">{p}</Label>
+        <Label class='text-xxl mt-4' icon="palette">{
+            <>
+                {p}
+                <Range class='mx-2' min={0} max={360} accessor={a} />
+                <span>{a.getValue()}</span>
+            </>
+        }</Label>
         <Divider padding='8px' />
         <div class="blocks">
             <div class="block">

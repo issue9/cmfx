@@ -12,7 +12,7 @@ import { Scheme } from '@cmfx/core';
  * 具体可参考 /core/theme/theme.css 中的 palette--primary 等相关的定义。
  */
 export const palettes: Array<Palette> = ['primary' , 'secondary' , 'tertiary' , 'error', 'surface'] as const;
-// TODO 有什么办法可以直接将 Scheme 的所有字段名转换为数组？
+// TODO: 有什么办法可以直接将 Scheme 的所有字段名转换为数组？
 
 export type Palette = keyof Scheme;
 

@@ -5,7 +5,7 @@
  */
 
 input[type=range] {
-    @apply w-full my-2 bg-palette-bg text-palette-fg h-2 appearance-none rounded-full cursor-pointer border-[1px] border-palette-bg-low;
+    @apply w-full my-2 bg-palette-bg-low text-palette-fg h-2 appearance-none rounded-full cursor-pointer border-[1px] border-palette-bg-high;
 
     &::-webkit-slider-thumb,
     &::-moz-range-thumb {

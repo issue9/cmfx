@@ -20,29 +20,6 @@ const messages: typeof m = {
         refresh: '刷新',
         print: '打印',
         areYouSure: '你确定要这么做吗？',
-        timer: {
-            seconds: '秒',
-            minutes: '分',
-            hours: '小时',
-            days: '天'
-        },
-        table: {
-            nodata: '没有数据',
-            exportTo: '导出为 {type}',
-            hoverable: '悬停效果',
-            striped: '条纹间隔 {num}',
-            noStriped: '无',
-            stickyHeader: '固定表格头',
-            fitScreen: '扩展至整个屏幕大小',
-            downloadFilename: '下载的文件名',
-        },
-        pagination: {
-            prev: '前一页',
-            next: '下一页',
-            firstPage: '首页',
-            lastPage: '末页',
-            items: '{ start }-{ end } / { count }'
-        },
         date: {
             clear: '清除',
             today: '今日',
@@ -64,6 +41,40 @@ const messages: typeof m = {
             canNotBeEmpty: '不能为空',
             oldNewPasswordCanNotBeEqual: '新密码不能与旧密码相同',
             newConfirmPasswordMustBeEqual: '确认密码与新密码并不相同',
+        },
+        pagination: {
+            prev: '前一页',
+            next: '下一页',
+            firstPage: '首页',
+            lastPage: '末页',
+            items: '{ start }-{ end } / { count }'
+        },
+        table: {
+            nodata: '没有数据',
+            exportTo: '导出为 {type}',
+            hoverable: '悬停效果',
+            striped: '条纹间隔 {num}',
+            noStriped: '无',
+            stickyHeader: '固定表格头',
+            fitScreen: '扩展至整个屏幕大小',
+            downloadFilename: '下载的文件名',
+        },
+        timer: {
+            seconds: '秒',
+            minutes: '分',
+            hours: '小时',
+            days: '天'
+        },
+        theme: {
+            mode: '模式',
+            dark: '深色',
+            light: '浅色',
+            contrast: '对比度',
+            nopreference: '正常',
+            less: '低',
+            more: '高',
+            export: '导出配置',
+            apply: '应用主题',
         },
         tour: {
             prev: '前一项',

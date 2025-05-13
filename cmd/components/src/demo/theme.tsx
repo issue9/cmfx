@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, FieldAccessor, Number, palettes, SchemeBuilder } from '@cmfx/components';
+import { Button, DatePanel, Divider, FieldAccessor, Number, palettes, SchemeBuilder } from '@cmfx/components';
 import { For } from 'solid-js';
 
 import { boolSelector, Demo } from './base';
@@ -16,6 +16,7 @@ export default function () {
         {actionsS}
     </>}>
         <SchemeBuilder actions={actions()}>
+            <Divider padding='12px'>demo</Divider>
             <div class="flex gap-4 items-start">
                 <DatePanel time accessor={dateFA} />
                 <div class="flex flex-wrap gap-4">
