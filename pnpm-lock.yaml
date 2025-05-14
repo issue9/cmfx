@@ -70,8 +70,8 @@ catalogs:
       specifier: ^2.11.6
       version: 2.11.6
     vite-plugin-static-copy:
-      specifier: ^2.3.1
-      version: 2.3.1
+      specifier: ^3.0.0
+      version: 3.0.0
     vitest:
       specifier: ^3.1.3
       version: 3.1.3
@@ -116,6 +116,9 @@ importers:
       typescript-eslint:
         specifier: ^8.32.0
         version: 8.32.0(eslint@9.26.0(jiti@2.4.2))(typescript@5.8.3)
+      vite:
+        specifier: 'catalog:'
+        version: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1)
       vite-plugin-solid:
         specifier: 'catalog:'
         version: 2.11.6(@testing-library/jest-dom@6.6.3)(solid-js@1.9.6)(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
@@ -283,7 +286,7 @@ importers:
         version: 2.11.6(@testing-library/jest-dom@6.6.3)(solid-js@1.9.6)(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
       vite-plugin-static-copy:
         specifier: 'catalog:'
-        version: 2.3.1(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
+        version: 3.0.0(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
       vitest:
         specifier: 'catalog:'
         version: 3.1.3(@types/node@22.15.17)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1)
@@ -353,7 +356,7 @@ importers:
         version: 2.11.6(@testing-library/jest-dom@6.6.3)(solid-js@1.9.6)(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
       vite-plugin-static-copy:
         specifier: 'catalog:'
-        version: 2.3.1(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
+        version: 3.0.0(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
       vitest:
         specifier: 'catalog:'
         version: 3.1.3(@types/node@22.15.17)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1)
@@ -364,8 +367,8 @@ importers:
         specifier: 'catalog:'
         version: 0.7.4
       cbor2:
-        specifier: ^1.12.0
-        version: 1.12.0
+        specifier: ^2.0.0
+        version: 2.0.0
       intl-messageformat:
         specifier: 'catalog:'
         version: 10.7.16
@@ -390,7 +393,7 @@ importers:
         version: 4.5.3(@types/node@22.15.17)(rollup@4.40.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
       vite-plugin-static-copy:
         specifier: 'catalog:'
-        version: 2.3.1(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
+        version: 3.0.0(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1))
       vitest:
         specifier: 'catalog:'
         version: 3.1.3(@types/node@22.15.17)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.29.2)(yaml@2.7.1)
@@ -528,6 +531,10 @@ packages:
   '@csstools/css-tokenizer@3.0.3':
     resolution: {integrity: sha512-UJnjoFsmxfKUdNYdWgOB0mWUypuLvAfQPH1+pyvRJs6euowbFkFC6P13w1l8mJyi3vxYMxc9kld5jZEGRQs6bw==}
     engines: {node: '>=18'}
+
+  '@cto.af/wtf8@0.0.2':
+    resolution: {integrity: sha512-ATm4UQiKrdm5GnU6BvIwUDN+LDEtt23zuzKFpnfDT59ULAd0aMYm/nSFzbSO02garLcXumRC13PzNfa7BsfvSg==}
+    engines: {node: '>=20'}
 
   '@esbuild/aix-ppc64@0.25.2':
     resolution: {integrity: sha512-wCIboOL2yXZym2cgm6mlA742s9QeJ8DjGVaL39dLN4rRwrOgOyYSnOaFPhKZGLb2ngj4EyfAFjsNJwPXZvseag==}
@@ -1516,9 +1523,9 @@ packages:
   caniuse-lite@1.0.30001717:
     resolution: {integrity: sha512-auPpttCq6BDEG8ZAuHJIplGw6GODhjw+/11e7IjpnYCxZcW/ONgPs0KVBJ0d1bY3e2+7PRe5RCLyP+PfwVgkYw==}
 
-  cbor2@1.12.0:
-    resolution: {integrity: sha512-3Cco8XQhi27DogSp9Ri6LYNZLi/TBY/JVnDe+mj06NkBjW/ZYOtekaEU4wZ4xcRMNrFkDv8KNtOAqHyDfz3lYg==}
-    engines: {node: '>=18.7'}
+  cbor2@2.0.0:
+    resolution: {integrity: sha512-vpBSXXEkP/Dd6AE3bx2d+u3DjZcr9OtratbubliPanplBh3Bo7y4gFXU9ZWryuLu07XgY4hXFX6L2wV/7cNxNA==}
+    engines: {node: '>=20'}
 
   chai@5.2.0:
     resolution: {integrity: sha512-mCuXncKXk5iCLhfhwTc0izo0gtEmpz5CtG2y8GiOINBlMVS6v8TMRc5TaLWKS6692m9+dVVfzgeVxR5UxWHTYw==}
@@ -3102,8 +3109,8 @@ packages:
       '@testing-library/jest-dom':
         optional: true
 
-  vite-plugin-static-copy@2.3.1:
-    resolution: {integrity: sha512-EfsPcBm3ewg3UMG8RJaC0ADq6/qnUZnokXx4By4+2cAcipjT9i0Y0owIJGqmZI7d6nxk4qB1q5aXOwNuSyPdyA==}
+  vite-plugin-static-copy@3.0.0:
+    resolution: {integrity: sha512-Uki9pPUQ4ZnoMEdIFabvoh9h6Bh9Q1m3iF7BrZvoiF30reREpJh2gZb4jOnW1/uYFzyRiLCmFSkM+8hwiq1vWQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0
@@ -3449,6 +3456,8 @@ snapshots:
       '@csstools/css-tokenizer': 3.0.3
 
   '@csstools/css-tokenizer@3.0.3': {}
+
+  '@cto.af/wtf8@0.0.2': {}
 
   '@esbuild/aix-ppc64@0.25.2':
     optional: true
@@ -4475,7 +4484,9 @@ snapshots:
 
   caniuse-lite@1.0.30001717: {}
 
-  cbor2@1.12.0: {}
+  cbor2@2.0.0:
+    dependencies:
+      '@cto.af/wtf8': 0.0.2
 
   chai@5.2.0:
     dependencies:
@@ -6103,13 +6114,13 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vite-plugin-static-copy@2.3.1(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1)):
+  vite-plugin-static-copy@3.0.0(vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1)):
     dependencies:
       chokidar: 3.6.0
-      fast-glob: 3.3.3
       fs-extra: 11.3.0
       p-map: 7.0.3
       picocolors: 1.1.1
+      tinyglobby: 0.2.13
       vite: 6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1)
 
   vite@6.3.5(@types/node@22.15.17)(jiti@2.4.2)(lightningcss@1.29.2)(yaml@2.7.1):

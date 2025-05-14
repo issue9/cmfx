@@ -43,6 +43,7 @@
         "@testing-library/user-event": "catalog:",
         "vite-plugin-solid": "catalog:",
         "jsdom": "catalog:",
+        "vite": "catalog:",
         "vitest": "catalog:",
         "@vitest/coverage-v8": "catalog:"
     }
