@@ -6,7 +6,7 @@
 
 @layer components {
     .c--scheme-builder {
-        @apply bg-palette-bg text-palette-fg p-4 rounded-md;
+        @apply bg-palette-bg text-palette-fg p-4 rounded-md flex flex-col items-center;
 
         .toolbar {
             @apply flex gap-5 flex-wrap;
@@ -20,10 +20,10 @@
             @apply flex flex-wrap gap-3;
 
             .block {
-                @apply text-left w-40;
+                @apply text-left w-25;
 
                 span {
-                    @apply w-40 h-8 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
+                    @apply w-25 h-6 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
                 }
             }
         }

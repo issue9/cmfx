@@ -2,8 +2,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-.PHONY: gen mk-coverage build-cmd build-ts install install-ts install-go init watch-server watch-admin watch-components watch test test-go test-ts publish-npm
-
 ROOT = .
 CMD = $(ROOT)/cmd
 
@@ -11,6 +9,8 @@ CMD_SERVER = $(CMD)/server
 SERVER_BIN = server
 
 ########################### mk-coverage ###################################
+
+.PHONY: mk-coverage gen
 
 COVERAGE = $(ROOT)/coverage
 ifeq ($(OS),Windows_NT)
@@ -27,6 +27,8 @@ gen:
 	go generate $(ROOT)/...
 
 ########################### build ###################################
+
+.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin
 
 # 编译测试项目
 build-cmd: gen
@@ -48,6 +50,8 @@ build-ts:
 	
 ########################### install ###################################
 
+.PHONY: install install-ts install-go init
+
 install-ts:
 	pnpm install
 
@@ -62,6 +66,8 @@ init: build-cmd
 	cd $(CMD_SERVER) && ./server -a=install
 
 ########################### watch ###################################
+
+.PHONY: watch-server watch-admin watch-components watch
 
 watch-server:
 	web watch -app=-a=serve $(CMD_SERVER)
@@ -79,6 +85,8 @@ watch-components:
 watch: watch-server watch-admin
 
 ########################### test ###################################
+
+.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin
 
 lint-ts:
 	pnpm run lint
@@ -105,6 +113,8 @@ test-ts: lint-ts build-ts mk-coverage
 test: test-go test-ts
 
 ########################### publish ###################################
+
+.PHONY: publish-npm
 
 publish-npm: build-ts
 	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public --no-git-checks

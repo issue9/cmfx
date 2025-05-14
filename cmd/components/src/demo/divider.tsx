@@ -2,24 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Divider, DividerProps, DividerStyle, dividerStyles } from '@cmfx/components';
-import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
+import { Divider, DividerProps } from '@cmfx/components';
+import { createSignal, For } from 'solid-js';
 
-import { arraySelector, Demo, paletteSelector } from './base';
-
-export function styleSelector(v: DividerStyle = 'solid'): [JSX.Element, Accessor<DividerStyle>, Setter<DividerStyle>] {
-    return arraySelector('风格', dividerStyles, v);
-}
+import { Demo, paletteSelector, boolSelector } from './base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
-    const [styleS, style] = styleSelector();
+    const [verticalS, vertical] = boolSelector('vertical');
     const [pos, setPos] = createSignal<DividerProps['pos']>('start');
 
     return <Demo settings={
         <>
             {paletteS}
-            {styleS}
+            {verticalS}
             <fieldset class="border-2">
                 <legend>位置</legend>
                 <For each={new Array<DividerProps['pos']>('start', 'center', 'end')}>
@@ -32,12 +28,12 @@ export default function() {
             </fieldset>
         </>
     }>
-        <div class="w-56">
-            <Divider style={style()} palette={palette()} pos={pos()}><span class="c--icon material-symbols-outlined">face</span>起始位置</Divider>
+        <div class="w-56 h-56">
+            <Divider vertical={vertical()} palette={palette()} pos={pos()}><span class="c--icon material-symbols-outlined">face</span>起始位置</Divider>
         </div>
 
-        <div class="w-56">
-            <Divider style={style()} palette={palette()} pos={pos()}></Divider>
+        <div class="w-56 h-56">
+            <Divider vertical={vertical()} palette={palette()} pos={pos()}></Divider>
         </div>
     </Demo>;
 }

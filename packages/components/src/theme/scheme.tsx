@@ -86,8 +86,8 @@ export default function SchemeBuilder(props: Props): JSX.Element {
                         <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_i.theme.export') }</Button>
                     </div>
                 </Show>
+                <Divider padding='8px' />
             </div>
-            <Divider padding='8px' />
 
             <For each={palettes}>
                 {(p) => { return paletteBlock(p, schemeFA.accessor(p)); }}
@@ -104,7 +104,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 }
 
 function paletteBlock(p: Palette, a: Accessor<number>): JSX.Element {
-    return <>
+    return <div>
         <Label class='text-xxl mt-4' icon="palette">{
             <>
                 {p}
@@ -116,30 +116,29 @@ function paletteBlock(p: Palette, a: Accessor<number>): JSX.Element {
         <div class="blocks">
             <div class="block">
                 <span style={{ 'background': `var(--${p}-bg-low)` }}></span>
-                {`--${p}-bg-low`}
+                {'--bg-low'}
             </div>
             <div class="block">
-                <span style={{ 'background': `var(--${p}-fg-low)` }}></span>
-                {`--${p}-fg-low`}
+                <span style={{ 'background': `var(--${p}-bg)` }}></span>
+                {'--bg'}
+            </div>
+            <div class="block">
+                <span style={{ 'background': `var(--${p}-bg-high)` }}></span>
+                {'--bg-high'}
             </div>
 
             <div class="block">
-                <span style={{ 'background': `var(--${p}-bg)` }}></span>
-                {`--${p}-bg`}
+                <span style={{ 'background': `var(--${p}-fg-low)` }}></span>
+                {'--fg-low'}
             </div>
             <div class="block">
                 <span style={{ 'background': `var(--${p}-fg)` }}></span>
-                {`--${p}-fg`}
-            </div>
-
-            <div class="block">
-                <span style={{ 'background': `var(--${p}-bg-high)` }}></span>
-                {`--${p}-bg-high`}
+                {'--fg'}
             </div>
             <div class="block">
                 <span style={{ 'background': `var(--${p}-fg-high)` }}></span>
-                {`--${p}-fg-high`}
+                {'--fg-high'}
             </div>
         </div>
-    </>;
+    </div>;
 }

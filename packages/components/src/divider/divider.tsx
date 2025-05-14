@@ -2,21 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Match, mergeProps, ParentProps, Switch } from 'solid-js';
+import { JSX, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
-import { Style } from './types';
 
 export type Props = ParentProps<{
     /**
-     * 如果存在文字，表示文字的位置
+     * 如果存在文字，表示文字的位置，否则该值无意义。
+     *
+     * 在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。
      */
     pos?: 'start' | 'center' | 'end';
-
-    /**
-     * 线的风格。
-     */
-    style?: Style;
 
     /**
      * 交叉轴上的留白
@@ -25,7 +21,6 @@ export type Props = ParentProps<{
 } & BaseProps>;
 
 const presetProps: Readonly<Props> = {
-    style: 'solid',
     pos: 'start'
 };
 
@@ -37,18 +32,9 @@ export function Divider(props: Props): JSX.Element {
 
     return <div role="separator" aria-orientation="horizontal" style={{'padding-block': props.padding}} classList={{
         'c--divider': true,
+        [`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]: true,
         [`palette--${props.palette}`]: !!props.palette,
     }}>
-        <Switch fallback={<hr style={{'border-style': props.style}} class="w-full" />}>
-            <Match when={props.pos === 'start' && props.children}>
-                {props.children}<hr style={{ 'border-style': props.style }} class="flex-1 ml-2" />
-            </Match>
-            <Match when={props.pos === 'center' && props.children}>
-                <hr style={{ 'border-style': props.style }} class="flex-1 mr-2" />{props.children}<hr style={{ 'border-style': props.style }} class="flex-1 ml-2" />
-            </Match>
-            <Match when={props.pos === 'end' && props.children}>
-                <hr style={{ 'border-style': props.style }} class="flex-1 mr-2" />{props.children}
-            </Match>
-        </Switch>
+        {props.children}
     </div>;
 }

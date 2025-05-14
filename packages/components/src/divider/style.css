@@ -1,15 +1,40 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 @layer components {
     .c--divider {
-        @apply flex content-center items-center text-[var(--bg-low)];
+        @apply flex items-center text-palette-bg-low whitespace-nowrap w-full;
+    }
 
-        hr {
-            @apply border-[var(--bg-low)];
-        }
+    .c--divider::before,
+    .c--divider::after {
+        @apply w-full grow-1 h-[1px] bg-palette-bg-low;
+    }
+
+    .c--divider.pos-start::after,
+    .c--divider.pos-center::after {
+        @apply ml-1;
+    }
+
+    .c--divider.pos-center::before,
+    .c--divider.pos-end::before {
+        @apply mr-1;
+    }
+
+    .c--divider.pos-none::before,
+    .c--divider.pos-none::after,
+    .c--divider.pos-center::before,
+    .c--divider.pos-center::after,
+    .c--divider.pos-start::after,
+    .c--divider.pos-end::before {
+        content: '';
+    }
+
+    .c--divider.pos-start::before,
+    .c--divider.pos-end::after {
+        content: none;
     }
 }
