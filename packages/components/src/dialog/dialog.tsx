@@ -5,9 +5,9 @@
 import { CancelMovable, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, Locale } from '@/base';
 import { Button } from '@/button';
-import { Locale, useLocale } from '@/context';
+import { useLocale } from '@/context';
 import { Icon } from '@/icon';
 
 /**

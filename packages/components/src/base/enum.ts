@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale } from '@/context';
+import { Locale } from './locale';
 
 /**
  * 枚举类型
