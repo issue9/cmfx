@@ -25,6 +25,8 @@ export interface Props<T> extends FieldBaseProps {
 export function RadioGroup<T extends string | number | undefined> (props: Props<T>): JSX.Element {
     props = mergeProps({
         tabindex: 0,
+        layout: 'horizontal' as Layout,
+        itemLayout: 'horizontal' as Layout,
     }, props);
     const access = props.accessor;
     

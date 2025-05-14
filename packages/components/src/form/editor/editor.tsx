@@ -18,6 +18,8 @@ export interface Props extends FieldBaseProps {
  * WYSIWYG 编辑器
  */
 export function Editor(props: Props): JSX.Element {
+    if (props.layout === undefined) { props.layout = 'horizontal'; }
+
     const options: QuillOptions = {
         theme: 'snow',
 

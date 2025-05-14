@@ -4,6 +4,7 @@
 
 import { createUniqueId, JSX, mergeProps } from 'solid-js';
 
+import { Layout } from '@/base';
 import { Accessor, Field, FieldBaseProps, InputMode } from '@/form/field';
 
 type Value = string | number | Array<string>;
@@ -20,7 +21,10 @@ export interface Props<T> extends FieldBaseProps {
  * @template T 文本框内容的类型
  */
 export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
-    props = mergeProps({type:'text'}, props) as Props<T>; // 指定默认值
+    props = mergeProps({
+        type:'text',
+        layout: 'horizontal' as Layout,
+    }, props) as Props<T>; // 指定默认值
     const access = props.accessor;
     const id = createUniqueId();
 

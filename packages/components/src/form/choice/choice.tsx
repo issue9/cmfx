@@ -23,6 +23,8 @@ export interface Props<T extends Value, M extends boolean> extends FieldBaseProp
  * 用以替代 select 组件
  */
 export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): JSX.Element {
+    if (props.layout === undefined) { props.layout = 'horizontal'; }
+
     let ul: HTMLUListElement;
 
     // multiple 为 false 时的输入框样式。

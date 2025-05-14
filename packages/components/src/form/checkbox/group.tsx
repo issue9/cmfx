@@ -26,7 +26,8 @@ export interface Props<T> extends FieldBaseProps {
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {
     props = mergeProps({
         icon: true,
-        layout: 'horizontal' as Layout
+        layout: 'horizontal' as Layout,
+        itemLayout: 'horizontal' as Layout,
     }, props);
 
     const access = props.accessor;

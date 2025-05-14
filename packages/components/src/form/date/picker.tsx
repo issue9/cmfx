@@ -5,12 +5,15 @@
 import { pop } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
+import { Layout } from '@/base';
 import { useLocale } from '@/context';
 import { Field } from '@/form/field';
 import { Icon } from '@/icon';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {
+    layout?: Layout;
+
     placeholder?: string;
 
     rounded?: boolean;

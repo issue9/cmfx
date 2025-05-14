@@ -41,6 +41,7 @@ export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
 
 const presetProps: Readonly<Partial<Props>> = {
     itemSize: '72px',
+    layout: 'horizontal',
 };
 
 export function Album(props: Props): JSX.Element {

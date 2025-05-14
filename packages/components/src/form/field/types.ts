@@ -19,7 +19,11 @@ export interface Props extends BaseProps {
  * 所有表单元素共有的属性
  */
 export type FieldBaseProps = Props & {
-    layout?: Layout; // 内容排版方式，一般会影响 label 与主体内容的排列。
+    /**
+     * 内容排版方式，一般会影响 label 与主体内容的排列。
+     */
+    layout?: Layout; 
+
     disabled?: boolean;
     readonly?: boolean;
     tabindex?: number;

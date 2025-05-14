@@ -31,6 +31,8 @@ export interface Props extends FieldBaseProps {
  * 相当于 <input type="range" />
  */
 export default function Range(props: Props): JSX.Element {
+    if (props.layout === undefined) { props.layout = 'horizontal'; }
+
     const access = props.accessor;
     const [marks, setMarks] = createSignal<Props['marks']>([]);
     let fieldRef: HTMLDivElement;
