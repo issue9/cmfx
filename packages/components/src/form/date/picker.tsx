@@ -56,7 +56,7 @@ export function DatePicker(props: Props): JSX.Element {
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
         help={props.help}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}

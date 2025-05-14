@@ -39,7 +39,7 @@ export function Settings(): JSX.Element {
             {l.t('_i.settings.modeDesc')! }
         </Description>
 
-        <RadioGroup itemHorizontal accessor={modeFA} block={/*@once*/false}
+        <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false}
             options={/*@once*/[
                 ['system', l.t('_i.settings.system')],
                 ['dark', l.t('_i.settings.dark')],
@@ -53,7 +53,7 @@ export function Settings(): JSX.Element {
             {l.t('_i.settings.contrastDesc')! }
         </Description>
 
-        <RadioGroup itemHorizontal accessor={contrastFA} block={/*@once*/false}
+        <RadioGroup itemLayout='horizontal' accessor={contrastFA} block={/*@once*/false}
             options={/*@once*/[
                 ['more', l.t('_i.settings.more')],
                 ['nopreference', l.t('_i.settings.nopreference')],
@@ -67,7 +67,7 @@ export function Settings(): JSX.Element {
             {l.t('_i.settings.colorDesc')! }
         </Description>
 
-        <RadioGroup itemHorizontal accessor={schemeFA} block={/*@once*/true} options={/*@once*/schemesOptions}/>
+        <RadioGroup itemLayout='horizontal' accessor={schemeFA} block={/*@once*/true} options={/*@once*/schemesOptions}/>
 
         <Divider />
 
@@ -85,7 +85,7 @@ export function Settings(): JSX.Element {
             {l.t('_i.settings.unitStyleDesc')! }
         </Description>
 
-        <RadioGroup itemHorizontal accessor={unitFA} block={/*@once*/false} options={/*@once*/[
+        <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false} options={/*@once*/[
             ['narrow', l.t('_i.settings.narrow')],
             ['short', l.t('_i.settings.short')],
             ['full', l.t('_i.settings.long')],

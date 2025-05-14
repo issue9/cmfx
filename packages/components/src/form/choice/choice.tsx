@@ -165,7 +165,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--choice-activator'}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout ==='horizontal' ? 'middle-left' : 'top-center' }}
         help={props.help}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}

@@ -67,7 +67,7 @@ export function Album(props: Props): JSX.Element {
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout ==='horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         hasHelp={access.hasHelp}
         help={props.help}

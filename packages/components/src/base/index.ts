@@ -10,3 +10,6 @@ export type { Props as BaseProps, Palette } from './types';
 export { translateEnum } from './enum';
 export type { Enum, Enums } from './enum';
 
+export { layouts } from './types';
+export type { Layout } from './types';
+

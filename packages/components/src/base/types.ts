@@ -15,6 +15,13 @@ export const palettes: Array<Palette> = ['primary' , 'secondary' , 'tertiary' , 
 
 export type Palette = keyof Scheme;
 
+export const layouts = ['horizontal', 'vertical'] as const;
+
+/**
+ * 组件布局方向
+ */
+export type Layout = typeof layouts[number];
+
 /**
  * 所有组件的基本属性
  */

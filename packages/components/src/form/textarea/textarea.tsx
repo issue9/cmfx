@@ -27,7 +27,7 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         help={props.help}
         classList={props.classList}
         hasHelp={access.hasHelp}

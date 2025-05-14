@@ -5,25 +5,25 @@
 import { FieldAccessor, TextArea } from '@cmfx/components';
 import { For } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined } from '../base';
+import { boolSelector, Demo, layoutSelector, palettesWithUndefined } from '../base';
 
 export default function() {
     const f = FieldAccessor('name', '5', true);
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
-    const [horizontalS, horizontal] = boolSelector('horizontal', true);
+    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <Demo settings={
         <>
             {readonlyS}
             {disabledS}
-            {horizontalS}
+            {layoutS}
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <For each={palettesWithUndefined}>
             {(item) => (
-                <TextArea horizontal={horizontal()} palette={item} label={item?item:'undefined'} title={item?item:'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
+                <TextArea layout={layout()} palette={item} label={item?item:'undefined'} title={item?item:'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </Demo>;

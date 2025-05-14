@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Palette, palettes } from '@cmfx/components';
+import { Layout, layouts, Palette, palettes } from '@cmfx/components';
 import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'solid-js';
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
@@ -25,6 +25,10 @@ export function boolSelector(label: string, preset: boolean = false):[JSX.Elemen
  */
 export function paletteSelector(preset?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
     return arraySelector<Palette|undefined>('颜色', palettesWithUndefined, preset);
+}
+
+export function layoutSelector(label: string, preset?: Layout): [JSX.Element, Accessor<Layout|undefined>, Setter<Layout|undefined>] {
+    return arraySelector(label, layouts, preset);
 }
 
 export function arraySelector<T extends string|number|undefined>(label: string, array: ReadonlyArray<T>, preset: T): [JSX.Element, Accessor<T>, Setter<T>] {

@@ -63,7 +63,7 @@ export default function Range(props: Props): JSX.Element {
     return <Field ref={el=>fieldRef=el} class={props.class + ' c--range'}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}
