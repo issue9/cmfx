@@ -4,7 +4,14 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, Corner } from '@/base';
+import { BaseProps } from '@/base';
+
+/**
+ * 组件的四个角
+ */
+export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
+
+export type Corner = typeof corners[number];
 
 export interface Props extends BaseProps {
     /**

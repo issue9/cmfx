@@ -16,13 +16,6 @@ export const palettes: Array<Palette> = ['primary' , 'secondary' , 'tertiary' , 
 export type Palette = keyof Scheme;
 
 /**
- * 组件的四个角
- */
-export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as const;
-
-export type Corner = typeof corners[number];
-
-/**
  * 所有组件的基本属性
  */
 export interface Props {

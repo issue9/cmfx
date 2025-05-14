@@ -1,7 +1,7 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { Badge } from './badge';
-export type { Props as BadgeProps } from './badge';
+export { Badge, corners as badgeCorners } from './badge';
+export type { Corner as BadgeCorner, Props as BadgeProps } from './badge';
 

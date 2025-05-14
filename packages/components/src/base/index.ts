@@ -4,8 +4,8 @@
 
 export { cloneElement, handleEvent } from './func';
 
-export { corners, palettes } from './types';
-export type { Props as BaseProps, Corner, Palette } from './types';
+export { palettes } from './types';
+export type { Props as BaseProps, Palette } from './types';
 
 export { translateEnum } from './enum';
 export type { Enum, Enums } from './enum';
