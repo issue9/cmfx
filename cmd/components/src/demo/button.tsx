@@ -84,7 +84,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <ButtonGroup class="flex-col" rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
+                    <ButtonGroup layout='vertical' rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
                         <Button>abc</Button>
                         <Button>def</Button>
                         <Button>hij</Button>

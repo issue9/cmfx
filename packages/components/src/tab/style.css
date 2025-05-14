@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -16,6 +16,10 @@
         .item.item-icon {
             @apply p-2;
         }
+    }
+
+    .c--tab.vertical {
+        @apply flex-col;
     }
 
     .c--tab.c--tab-rounded {

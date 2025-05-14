@@ -26,7 +26,7 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <Tab class="flex-col" rounded={rounded()} palette={c} disabled={disabled()} items={[['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3']]} />
+                    <Tab layout='vertical' rounded={rounded()} palette={c} disabled={disabled()} items={[['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3']]} />
                     <br />
                 </>
             )}

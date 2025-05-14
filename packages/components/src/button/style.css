@@ -72,6 +72,10 @@
         }
     }
 
+    .c--button-group.vertical {
+        @apply flex-col;
+    }
+
     .c--button-group.c--button-group-rounded {
         @apply rounded-l-full rounded-r-full;
     }
