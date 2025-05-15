@@ -4,6 +4,7 @@
 
 import { For, JSX, mergeProps, splitProps } from 'solid-js';
 
+import { Layout } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 import { Checkbox } from './checkbox';
 
@@ -14,9 +15,9 @@ export interface Props<T> extends FieldBaseProps {
     block?: boolean;
 
     /**
-     * 所有 checkbox 项是否横排
+     * 子项的布局方式
      */
-    itemHorizontal?: boolean;
+    itemLayout?: Layout;
 
     accessor: Accessor<Array<T>>;
     options: Options<T>;
@@ -25,6 +26,8 @@ export interface Props<T> extends FieldBaseProps {
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {
     props = mergeProps({
         icon: true,
+        layout: 'horizontal' as Layout,
+        itemLayout: 'horizontal' as Layout,
     }, props);
 
     const access = props.accessor;
@@ -34,7 +37,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}
@@ -44,7 +47,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
         palette={props.palette}>
         <div classList={{
             'c--checkbox-group-content': true,
-            'flex-col': !props.itemHorizontal
+            'flex-col': props.itemLayout === 'vertical'
         }}>
             <For each={props.options}>
                 {(item) =>

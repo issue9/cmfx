@@ -4,7 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { BaseProps, Enums, Locale } from '@/base';
+import { BaseProps, Enums, Layout, Locale } from '@/base';
 
 export interface Props extends BaseProps {
     title?: string;
@@ -18,7 +18,11 @@ export interface Props extends BaseProps {
  * 所有表单元素共有的属性
  */
 export type FieldBaseProps = Props & {
-    horizontal?: boolean; // 内容排版方式，一般会影响 label 与主体内容的排列。
+    /**
+     * 内容排版方式，一般会影响 label 与主体内容的排列。
+     */
+    layout?: Layout; 
+
     disabled?: boolean;
     readonly?: boolean;
     tabindex?: number;

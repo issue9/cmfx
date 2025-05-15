@@ -5,12 +5,15 @@
 import { pop } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
+import { Layout } from '@/base';
 import { useLocale } from '@/context';
 import { Field } from '@/form/field';
 import { Icon } from '@/icon';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {
+    layout?: Layout;
+
     placeholder?: string;
 
     rounded?: boolean;
@@ -56,7 +59,7 @@ export function DatePicker(props: Props): JSX.Element {
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
         help={props.help}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}

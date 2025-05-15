@@ -5,13 +5,13 @@
 import { Checkbox, CheckboxGroup, FieldAccessor, FieldOptions } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined, Stage } from '../base';
+import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
 
 export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
-    const [horizontalS, horizontal] = boolSelector('horizontal', true);
-    const [itemHorizontalS, itemHorizontal] = boolSelector('item-horizontal', true);
+    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+    const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
     const [blockS, block] = boolSelector('block');
 
     const groupFA = FieldAccessor('checkbox', ['1'], true);
@@ -28,8 +28,8 @@ export default function() {
         <>
             {readonlyS}
             {disabledS}
-            {horizontalS}
-            {itemHorizontalS}
+            {layoutS}
+            {itemLayoutS}
             {blockS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
@@ -52,7 +52,7 @@ export default function() {
         </Stage>
 
         <Stage title="checkbox Group">
-            <CheckboxGroup help="help text" horizontal={horizontal()} itemHorizontal={itemHorizontal()}
+            <CheckboxGroup help="help text" layout={layout()} itemLayout={itemLayout()}
                 block={block()} disabled={disabled()} readonly={readonly()} label="group" palette="primary"
                 options={groupOptions} accessor={groupFA}
             />

@@ -6,7 +6,7 @@
 
 @layer components {
     .c--divider {
-        @apply flex items-center text-palette-bg-low whitespace-nowrap w-full;
+        @apply flex items-center text-palette-bg-low whitespace-nowrap w-full h-[1px];
     }
 
     .c--divider::before,
@@ -36,5 +36,26 @@
     .c--divider.pos-start::before,
     .c--divider.pos-end::after {
         content: none;
+    }
+
+    /*************************** vertical ********************************/
+
+    .c--divider.vertical {
+        @apply flex-col h-full w-[1px];
+    }
+
+    .c--divider.vertical::before,
+    .c--divider.vertical::after {
+        @apply h-full grow-1 w-[1px];
+    }
+
+    .c--divider.vertical.pos-start::after,
+    .c--divider.vertical.pos-center::after {
+        @apply mt-1 ml-0;
+    }
+
+    .c--divider.vertical.pos-center::before,
+    .c--divider.vertical.pos-end::before {
+        @apply mb-1 mr-0;
     }
 }

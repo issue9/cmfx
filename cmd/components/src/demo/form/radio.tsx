@@ -6,7 +6,7 @@
 import { FieldAccessor, FieldOptions, Palette, RadioGroup } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, palettesWithUndefined, Stage } from '../base';
+import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
@@ -14,8 +14,8 @@ export default function() {
     f.onChange((v,o)=>setChange(`new: ${v}, old: ${o}`));
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
-    const [horizontalS, horizontal] = boolSelector('horizontal');
-    const [itemHorizontalS, itemHorizontal] = boolSelector('item-horizontal');
+    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+    const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
     const [blockS, block] = boolSelector('block');
 
     const options: FieldOptions<Palette|undefined> = [];
@@ -27,15 +27,15 @@ export default function() {
         <>
             {readonlyS}
             {disabledS}
-            {horizontalS}
-            {itemHorizontalS}
+            {layoutS}
+            {itemLayoutS}
             {blockS}
 
             <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <Stage title="radio group">
-            <RadioGroup label='test' block={block()} itemHorizontal={itemHorizontal()} horizontal={horizontal()} palette={f.getValue()}
+            <RadioGroup label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
             />
             <span>{change()}</span>

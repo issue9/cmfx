@@ -4,6 +4,7 @@
 
 import { For, JSX, mergeProps } from 'solid-js';
 
+import { Layout } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 
 export interface Props<T> extends FieldBaseProps {
@@ -13,9 +14,9 @@ export interface Props<T> extends FieldBaseProps {
     block?: boolean;
 
     /**
-     * 所有 checkbox 项是否横排
+     * 所有 checkbox 项的布局
      */
-    itemHorizontal?: boolean;
+    itemLayout?: Layout;
 
     accessor: Accessor<T>;
     options: Options<T>;
@@ -24,13 +25,15 @@ export interface Props<T> extends FieldBaseProps {
 export function RadioGroup<T extends string | number | undefined> (props: Props<T>): JSX.Element {
     props = mergeProps({
         tabindex: 0,
+        layout: 'horizontal' as Layout,
+        itemLayout: 'horizontal' as Layout,
     }, props);
     const access = props.accessor;
     
     return <Field class={props.class}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}
@@ -40,7 +43,7 @@ export function RadioGroup<T extends string | number | undefined> (props: Props<
         palette={props.palette}>
         <div classList={{
             'c--radio-group-content': true,
-            'flex-col': !props.itemHorizontal
+            'flex-col': props.itemLayout === 'vertical'
         }}>
             <For each={props.options}>
                 {(item) =>

@@ -31,6 +31,8 @@ export interface Props extends FieldBaseProps {
  * 相当于 <input type="range" />
  */
 export default function Range(props: Props): JSX.Element {
+    if (props.layout === undefined) { props.layout = 'horizontal'; }
+
     const access = props.accessor;
     const [marks, setMarks] = createSignal<Props['marks']>([]);
     let fieldRef: HTMLDivElement;
@@ -63,7 +65,7 @@ export default function Range(props: Props): JSX.Element {
     return <Field ref={el=>fieldRef=el} class={props.class + ' c--range'}
         inputArea={{ pos: 'middle-center' }}
         helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.horizontal ? 'middle-left' : 'top-center' }}
+        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}

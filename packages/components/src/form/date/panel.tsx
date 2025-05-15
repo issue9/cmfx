@@ -10,7 +10,7 @@ import { useLocale } from '@/context';
 import { Accessor, FieldBaseProps } from '@/form/field';
 import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
 
-export interface Props extends FieldBaseProps {
+export interface Props extends Omit<FieldBaseProps, 'layout'> {
     /**
      * 一些突出操作的样式色盘
      */
