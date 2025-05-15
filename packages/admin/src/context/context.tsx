@@ -20,7 +20,7 @@ type InternalOptions = OptContext & {
 const internalOptContext = createContext<InternalOptions>();
 
 // 保存于 sessionStorage 中的表示当前登录用户的 id
-const currentKey = 'uid';
+const currentKey = '-uid';
 
 /**
  * @returns 返回一个元组，包含以下属性：
@@ -85,6 +85,9 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
             coreAPI: api,
             actions: buildActions(api, act, props, nav),
         });
+
+        const uid = parseInt(sessionStorage.getItem(o.id + currentKey) ?? '0');
+        p.actions.switchConfig(uid);
 
         return <internalOptContext.Provider value={p}>
             {props.children}
