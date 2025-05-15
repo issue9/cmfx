@@ -7,7 +7,7 @@ import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, default as Panel, presetProps, Ref } from './panel';
 
-export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref' | 'direction'> {
+export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
     /**
      * 触发按钮上的内容
      */
@@ -46,7 +46,8 @@ export function ContextMenu(props: Props): JSX.Element {
             e.preventDefault();
             popRef.hidePopover();
             popRef.showPopover();
-            pop(popRef, new DOMRect(e.clientX, e.clientY, 1, 1));
+            const x = props.direction === 'right' ? e.clientX : e.clientX - popRef.getBoundingClientRect().width;
+            pop(popRef, new DOMRect(x, e.clientY, 1, 1));
         }}>{props.activator}</span>
 
         <Panel popover="auto" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>

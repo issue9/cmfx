@@ -45,7 +45,7 @@ export default function(props: Props): JSX.Element {
     const onmouseenter = () => {
         popRef.showPopover();
         const rect = activator.getBoundingClientRect();
-        const x = props.direction === 'right' ? rect.right - popRef.getBoundingClientRect().width : rect.left;
+        const x = props.direction === 'right' ? rect.left : rect.right - popRef.getBoundingClientRect().width;
         pop(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
     };
 

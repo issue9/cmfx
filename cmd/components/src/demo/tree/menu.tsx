@@ -65,7 +65,7 @@ export default function() {
         </Stage>
 
         <Stage class="w-80 mt-4">
-            <ContextMenu selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
+            <ContextMenu direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
                 {items}
             </ContextMenu>
         </Stage>

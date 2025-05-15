@@ -36,12 +36,14 @@ const presetProps: Readonly<Props> = {
 export function Divider(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <div role="separator" aria-orientation={props.layout} style={{'padding-block': props.padding}} classList={{
-        'c--divider': true,
-        'vertical': props.layout !== 'horizontal',
-        [`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]: true,
-        [`palette--${props.palette}`]: !!props.palette,
-    }}>
+    return <div role="separator" aria-orientation={props.layout}
+        style={{ [props.layout === 'horizontal' ? 'padding-block' : 'padding-inline']: props.padding }}
+        classList={{
+            'c--divider': true,
+            'vertical': props.layout !== 'horizontal',
+            [`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]: true,
+            [`palette--${props.palette}`]: !!props.palette,
+        }}>
         {props.children}
     </div>;
 }

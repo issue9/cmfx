@@ -137,7 +137,7 @@ export function Info(): JSX.Element {
 
             <dl><dt>{l.t('_i.system.uptime')}</dt><dd>{l.datetime(info()?.uptime)}</dd></dl>
 
-            <Divider padding='.5rem'><Icon class="mr-1" icon="dataset" />{l.t('_i.os')}</Divider>
+            <Divider padding='1rem'><Icon class="mr-1" icon="dataset" />{l.t('_i.os')}</Divider>
 
             <dl><dt>{l.t('_i.system.platform')}</dt><dd>{info()?.os.platform}</dd></dl>
 
@@ -147,7 +147,7 @@ export function Info(): JSX.Element {
 
             <dl><dt>{l.t('_i.system.uptime')}</dt><dd>{l.datetime(info()?.os.boot)}</dd></dl>
 
-            <Divider padding='.5rem'><Icon class="mr-1" icon="database" />{l.t('_i.database')}</Divider>
+            <Divider padding='1rem'><Icon class="mr-1" icon="database" />{l.t('_i.database')}</Divider>
 
             <dl><dt>{l.t('_i.database')}</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 

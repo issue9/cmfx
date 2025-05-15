@@ -8,11 +8,12 @@
  * @param pop 弹出对象，必须得是可见状态的；
  * @param anchor 锚定对象的范围；
  * @param padding pop 与 anchor 两者之间的间隙；
+ * @param pos 相对于 anchor 的弹出位置；
  */
-export function pop(pop: HTMLElement, anchor: DOMRect, padding?: number) {
+export function pop(pop: HTMLElement, anchor: DOMRect, padding?: number, pos: PopPos = 'bottom') {
     // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
 
-    const p = calcPopoverPos(pop, anchor, 'bottom', padding);
+    const p = calcPopoverPos(pop, anchor, pos, padding);
     pop.style.top = p.y + 'px';
     pop.style.left = p.x + 'px';
 }
@@ -48,6 +49,23 @@ export function calcPopoverPos(pop: HTMLElement, anchor: DOMRect, pos: PopPos, p
         p.x = anchor.left;
         p.y = anchor.bottom + padding;
         break;
+    }
+
+    // 计算交叉轴的位置
+    if (pos === 'left' || pos === 'right') {
+        const delta = p.y + popRect.height - window.innerHeight;
+        if (delta > 0) {
+            p.y -= delta;
+        }
+
+        if (p.y < 0) { p.y = 0; }
+    } else {
+        const delta = p.x + popRect.width - window.innerWidth;
+        if (delta > 0) {
+            p.x -= delta;
+        }
+
+        if (p.x < 0) { p.x = 0; }
     }
 
     return p;
