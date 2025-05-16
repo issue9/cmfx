@@ -35,7 +35,7 @@ export function Spin(props: Props) {
     }} disabled={props.spinning}>
         {props.children}
 
-        <Show when={props.indicator}>
+        <Show when={props.spinning}>
             <div class="indicator">{props.indicator}</div>
         </Show>
     </fieldset>;

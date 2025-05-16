@@ -89,7 +89,9 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
             </LocaleProvider>
         </Show>
         <Show when={data.loading}>
-            <div>Loading...</div>
+            <div class="w-full h-full flex justify-center items-center animate-spin text-7xl">
+                <span class="c--icon material-symbols-outlined">progress_activity</span>
+            </div>
         </Show>
     </internalOptionsContext.Provider>;
 }
