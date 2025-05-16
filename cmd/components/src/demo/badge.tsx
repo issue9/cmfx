@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Badge, Button, corners } from '@cmfx/components';
+import { Badge, badgeCorners, Button } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
 import { Demo, paletteSelector } from './base';
@@ -17,7 +17,7 @@ export default function () {
             <input type="text" placeholder='text' onInput={(e)=>setText(e.target.value)} />
         </>
     }>
-        <For each={corners}>
+        <For each={badgeCorners}>
             {(pos) => (
                 <Badge pos={ pos } palette={ palette() } text={ text() }>
                     <Button palette='primary'>{pos}</Button>
