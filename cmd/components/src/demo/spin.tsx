@@ -16,7 +16,7 @@ export default function () {
             {spinningS}
         </>
     }>
-        <Spin palette={palette()} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2">
+        <Spin palette={palette()} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2 rounded-md">
             <button>btn1</button>
             <button>btn2</button>
         </Spin>

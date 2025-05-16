@@ -1,21 +1,17 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 .c--spin {
     @apply relative;
-
-    .indicator {
-        @apply px-4 items-center justify-center w-full h-full top-0 left-0 absolute hidden;
-    }
 }
 
 .c--spin:disabled {
-    @apply cursor-wait;
-    
     .indicator {
-        @apply flex;
+        @apply cursor-wait;
+        @apply px-4 items-center justify-center w-full h-full top-0 left-0 absolute flex;
+        @apply bg-transparent;
     }
 }
