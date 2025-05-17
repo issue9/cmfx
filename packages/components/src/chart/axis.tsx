@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
+import * as echarts from 'echarts/types/dist/echarts';
 import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';

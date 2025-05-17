@@ -140,7 +140,7 @@ export function List(props: Props): JSX.Element {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 
                         if (props.onChange && p.item.value) {
-                            oldValue = selected(); // 只有 onchage 时，oldValue 才会被赋值。
+                            oldValue = selected(); // 只有 onchange 时，oldValue 才会被赋值。
                             props.onChange(p.item.value, oldValue);
                         }
 
