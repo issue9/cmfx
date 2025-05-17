@@ -11,7 +11,7 @@ export interface Props {
     scheme?: Scheme | number;
     contrast?: Contrast;
     mode?: Mode;
-};
+}
 
 const themeContext = createContext<Props>({ scheme: Theme.genScheme(10), contrast: 'nopreference', mode: 'system' });
 

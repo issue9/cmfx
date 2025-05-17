@@ -121,8 +121,7 @@ export function DatePanel(props: Props): JSX.Element {
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
-            const height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
-            timeRef.style.height = height;
+            timeRef.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
             scrollTimer();
         });
 

@@ -91,7 +91,7 @@ export function Upload(props: Props): JSX.Element {
         }
 
         const newFiles: Array<File> = [];
-        for (var i = 0; i < fs.length; i++) {
+        for (let i = 0; i < fs.length; i++) {
             newFiles.push(fs.item(i)!);
         }
         setFiles((prev) => { return [...prev, ...newFiles]; });

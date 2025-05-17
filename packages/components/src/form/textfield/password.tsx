@@ -11,7 +11,7 @@ import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfiled'
 export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'> {
     icon?: IconSymbol;
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
-};
+}
 
 /**
  * 密码输入组件

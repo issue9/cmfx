@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { getScollableParent } from '@cmfx/core';
+import { getScrollableParent } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/base';
@@ -43,7 +43,7 @@ export function BackTop(props: Props): JSX.Element {
 
     onMount(() => {
         setTimeout(() => {
-            scroller = getScollableParent('y', btn);
+            scroller = getScrollableParent('y', btn);
             if (!scroller) { return; }
 
             scroll(); // 初始化状态

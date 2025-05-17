@@ -37,8 +37,8 @@ const messages = {
 
             // 以下为一些内置的错误提示信息
             canNotBeEmpty: 'Can not be empty',
-            oldNewPasswordCanNotBeEqual: 'The old passowrd and new password can not be equal',
-            newConfirmPasswordMustBeEqual: 'The new passowrd and confirm password must be equal',
+            oldNewPasswordCanNotBeEqual: 'The old password and new password can not be equal',
+            newConfirmPasswordMustBeEqual: 'The new password and confirm password must be equal',
         },
         pagination: {
             prev: 'Prev',

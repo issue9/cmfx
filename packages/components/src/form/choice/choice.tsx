@@ -84,7 +84,7 @@ export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): 
 
     let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
     const scrollIntoView = () => {
-        for (var i = 0; i < props.options.length; i++) {
+        for (let i = 0; i < props.options.length; i++) {
             const elem = li[i];
             if (elem && elem.ariaSelected === 'true') {
                 elem.scrollIntoView({ block: 'center', behavior: 'smooth' });
