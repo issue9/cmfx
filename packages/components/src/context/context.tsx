@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Contrast, Locale, Mode, Problem, Scheme, Theme, UnitStyle } from '@cmfx/core';
+import { API, Config, Contrast, Hotkey, Locale, Mode, Problem, Scheme, Theme, UnitStyle } from '@cmfx/core';
 import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { Portal } from 'solid-js/web';
 
 import { registerLocales } from '@/chart/locale';
 import { initDialog } from '@/dialog/system';
-import { Hotkey } from '@/hotkey';
 import { initNotify } from '@/notify/notify';
 import { LocaleProvider } from './locale';
 import { Options } from './options';

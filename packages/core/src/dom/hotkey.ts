@@ -63,9 +63,10 @@ export class Hotkey {
 
     /**
      * 绑定快捷键
-     * @param handler 处理函数
-     * @param key 快捷键
-     * @param modifiers 修饰符
+     *
+     * @param handler 处理函数；
+     * @param key 快捷键；
+     * @param modifiers 修饰符；
      */
     static bindKeys(handler: Handler, key: string, ...modifiers: Modifiers): void {
         Hotkey.bind(new Hotkey(key, ...modifiers), handler);
@@ -73,8 +74,9 @@ export class Hotkey {
 
     /**
      * 绑定快捷键
-     * @param hotkey 快捷键
-     * @param handler 快捷键处理函数
+     *
+     * @param hotkey 快捷键；
+     * @param handler 快捷键处理函数；
      */
     static bind(hotkey: Hotkey, handler: Handler): void {
         for (const [hk] of Hotkey.#handlers) {
@@ -88,11 +90,10 @@ export class Hotkey {
 
     /**
      * 解绑快捷键
-     * @param hotkey 快捷键
+     *
+     * @param hotkey 快捷键；
      */
-    static unbind(hotkey: Hotkey): void {
-        Hotkey.#handlers.delete(hotkey);
-    }
+    static unbind(hotkey: Hotkey): void { Hotkey.#handlers.delete(hotkey); }
 
     /********************* 以下为实例方法 ***********************/
 
@@ -116,8 +117,7 @@ export class Hotkey {
     }
 
     /**
-     * 判断两个快捷键是否相等
-     * @param e 
+     * 判断 e 是否与当前实例相等
      */
     equal(e: Hotkey): boolean { return e.key == this.key && e.modifiers == this.modifiers; }
 
@@ -125,8 +125,8 @@ export class Hotkey {
      * 判断事件 e 的按键是否与当前匹配
      */
     match(e: KeyboardEvent): boolean {
-        if (e.key.toLocaleLowerCase() !== this.key) {return false;}
-            
+        if (e.key.toLocaleLowerCase() !== this.key) { return false; }
+
         let count = 0;
         if (e.metaKey) {count +=1;}
         if (e.altKey) {count +=2;}
@@ -151,7 +151,5 @@ export class Hotkey {
         return keys;
     }
 
-    toString(): string {
-        return this.keys().join('+');
-    }
+    toString(): string { return this.keys().join('+'); }
 }
