@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, splitProps } from 'solid-js';
+import { Hotkey } from '@cmfx/core';
+import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { IconSymbol } from '@/icon';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
@@ -39,8 +40,16 @@ export const presetProps: Readonly<Partial<Props>> = {
 export function Button(props: Props) {
     props = mergeProps(presetProps, props);
     const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'icon', 'children', 'classList']);
+    let ref: HTMLButtonElement;
 
-    return <button {...btnProps} classList={{
+    if (props.hotkey && props.onClick) {
+        onMount(() => {
+            Hotkey.bind(props.hotkey!, () => { ref.click(); });
+        });
+        onCleanup(() => Hotkey.unbind(props.hotkey!));
+    }
+
+    return <button ref={el=>ref=el} {...btnProps} classList={{
         'c--button': true,
         'c--icon': props.icon,
         'material-symbols-outlined': props.icon,

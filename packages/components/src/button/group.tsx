@@ -9,7 +9,7 @@ import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLFieldSetElement;
 
-export interface Props extends BaseProps {
+export interface Props extends Omit<BaseProps, 'hotkey'> {
     /**
      * 子元素，必须得是 Button 或是 LinkButton 类型。
      */

@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { Hotkey, pop } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
-import { Props as BaseProps, Button, presetProps } from './button';
+import { Props as BaseProps, Button, presetProps, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 
 type Item = { type: 'divider' } | {
@@ -28,6 +28,7 @@ export function SplitButton(props: Props) {
     props = mergeProps(presetProps, props);
     let popElem: HTMLDivElement;
     let group: GroupRef;
+    let downRef: Ref;
 
     const handleClick = (e: MouseEvent) => {
         if (!popElem.contains(e.target as Node) && !group.contains(e.target as Node)) {
@@ -36,16 +37,22 @@ export function SplitButton(props: Props) {
     };
     onMount(() => {
         document.body.addEventListener('click', handleClick);
+        if (props.hotkey) {
+            Hotkey.bind(props.hotkey, downRef.click);
+        }
     });
     onCleanup(() => {
         document.body.removeEventListener('click', handleClick);
+        if (props.hotkey) {
+            Hotkey.unbind(props.hotkey);
+        }
     });
 
     const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette', 'menus']);
 
     const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
-        <Button class="split" icon={/*@once*/true} onClick={() => {
+        <Button class="split" ref={el=>downRef=el} icon={/*@once*/true} onClick={() => {
             popElem.togglePopover();
             pop(popElem, group.getBoundingClientRect());
         }}>keyboard_arrow_down</Button>
