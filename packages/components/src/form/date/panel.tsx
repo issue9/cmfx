@@ -285,7 +285,7 @@ export function DatePanel(props: Props): JSX.Element {
                 <button tabIndex={props.tabindex} classList={{ 'action': true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
                     props.accessor.setValue(untrack(panelValue).toISOString());
                     if (props.ok) { props.ok(); }
-                }}>{l.t(props.time ? '_i.ok' : '_i.ok')}</button>
+                }}>{l.t('_i.ok')}</button>
             </div>
         </div>
     </fieldset>;

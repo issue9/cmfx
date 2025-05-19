@@ -126,12 +126,12 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
             if (max && max < now) {
                 enabled = false;
             }
-            
+
             days.push([enabled, mm.month, i]);
         }
     }
 
-    // 将天以 7 为单位进行分割并存入 weeks。
+    // 将天以 7 为单位进行分割并存入 weeks
     const weeks: Array<Array<[boolean, Month, number]>> = [];
     for (let i = 0; i < days.length; i += 7) {
         weeks.push(days.slice(i, i + 7));
@@ -144,12 +144,12 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
  *
  * @param date 需要计算的月份；
  * @param weekStart 每周的起始；
- * @returns 以 7 为一组的数据，每个元素包含以下三个字段：
+ * @returns 以 7 天为一组的数据，每个元素包含以下三个字段：
  *  - 0 是否为禁用；
  *  - 1 月份；
  *  - 2 在当前月份中的日期；
  */
-export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[boolean, Month, number]>> {
+export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[enabled: boolean, month: Month, day: number]>> {
     return getWeekDays(monthDays(date, weekStart), min, max);
 }
 
@@ -178,7 +178,7 @@ export const hoursOptions: Options<number> = [
     [21, '21'],
     [22, '22'],
     [23, '23'],
-];
+] as const;
 
 export const minutesOptions: Options<number> = [
     [0, '00'],
@@ -241,4 +241,4 @@ export const minutesOptions: Options<number> = [
     [57, '57'],
     [58, '58'],
     [59, '59'],
-];
+] as const;
