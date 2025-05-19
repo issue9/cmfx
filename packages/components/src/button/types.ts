@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Hotkey } from '@cmfx/core';
+
 import { BaseProps } from '@/base';
 
 /**
@@ -18,6 +20,8 @@ export interface Props extends BaseProps {
     kind?: Kind;
 
     rounded?: boolean;
+
+    hotkey?: Hotkey;
 }
 
 export const presetProps: Readonly<Props> = { kind: 'fill' };

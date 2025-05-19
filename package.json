@@ -39,7 +39,7 @@
         "globals": "^16.0.0",
         "typescript-eslint": "^8.32.0",
         "@solidjs/testing-library": "catalog:",
-        "@testing-library/jest-dom": "catalog:",
+        "@testing-library/dom": "catalog:",
         "@testing-library/user-event": "catalog:",
         "vite-plugin-solid": "catalog:",
         "jsdom": "catalog:",

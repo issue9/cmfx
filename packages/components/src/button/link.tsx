@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import { A } from '@solidjs/router';
-import { JSX, mergeProps, splitProps } from 'solid-js';
+import { Hotkey } from '@cmfx/core';
+import { A, useNavigate } from '@solidjs/router';
+import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { IconSymbol } from '@/icon';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
@@ -43,6 +43,14 @@ export const presetProps: Readonly<Partial<Props>> = {
 export function LinkButton(props: Props) {
     props = mergeProps(presetProps, props);
     const [_, linkProps] = splitProps(props, ['icon', 'children', 'disabled', 'kind', 'rounded']);
+
+    if (props.hotkey) {
+        onMount(() => {
+            Hotkey.bind(props.hotkey!, () => { useNavigate()(props.href); });
+        });
+        onCleanup(() => Hotkey.unbind(props.hotkey!));
+    }
+
 
     // A.href 无法设置为 javascript:void(0)
     return <A {...linkProps} onClick={

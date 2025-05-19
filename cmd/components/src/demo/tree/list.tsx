@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Item, List } from '@cmfx/components';
+import { Hotkey } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 
 import { arraySelector, Demo, paletteSelector, Stage } from '../base';
@@ -18,7 +19,6 @@ export default function() {
     const items: Array<Item> = [
         {type: 'item', value: 'v1', label: 'v1'},
         {type: 'item', value: 'v2', label: 'v2'},
-        {type: 'item', value: 'v3', label: 'v3'},
         {type: 'divider'},
         {type: 'group', label: 'group', items: [
             {type: 'item', value: 'v22', label: 'v22'},
@@ -33,6 +33,16 @@ export default function() {
                 ]},
             ]},
         ]},
+    ];
+
+    const items2: Array<Item> = [
+        ...items,
+        { type: 'item', value: 'v3', label: 'v3(control+alt+b)', hotkey: new Hotkey('b', 'control', 'alt') },
+    ];
+    
+    const items3: Array<Item> = [
+        ...items,
+        { type: 'item', value: 'v3', label: 'v3(control+c)', hotkey: new Hotkey('c', 'control') },
     ];
 
     const [selected, setSelected] = createSignal<string>();
@@ -55,15 +65,11 @@ export default function() {
         </Stage>
 
         <Stage class="w-80 mt-4" title="不指定 onchange，但是有默认值">
-            <List selectedClass={selectedCls()} palette={palette()} selected={selected()}>
-                {items}
-            </List>
+            <List selectedClass={selectedCls()} palette={palette()} selected={selected()}>{items2}</List>
         </Stage>
 
         <Stage class="w-80 mt-4" title="anchor=true">
-            <List anchor selectedClass={selectedCls()} palette={palette()} selected={selected()}>
-                {items}
-            </List>
+            <List anchor selectedClass={selectedCls()} palette={palette()} selected={selected()}>{items3}</List>
         </Stage>
     </Demo>;
 }

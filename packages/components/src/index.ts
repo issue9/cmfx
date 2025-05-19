@@ -16,7 +16,6 @@ export * from './divider';
 export * from './drawer';
 export * from './error';
 export * from './form';
-export * from './hotkey';
 export * from './icon';
 export * from './messages';
 export * from './notify';
@@ -31,3 +30,4 @@ export * from './timer';
 export * from './tree';
 export * from './typography';
 export * from './wizard';
+

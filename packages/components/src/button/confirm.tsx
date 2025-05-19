@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { Hotkey, pop } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { handleEvent } from '@/base';
@@ -40,20 +40,22 @@ export function ConfirmButton(props: Props) {
     props = mergeProps(presetProps, props);
     const l = useLocale();
     let popElem: HTMLDivElement;
-    let btn: ButtonRef;
+    let ref: ButtonRef;
 
     const [_, btnProps] = splitProps(props, ['children', 'onClick', 'prompt', 'palette', 'ok', 'cancel']);
 
-    const handleClick = (e: MouseEvent) => {
-        if (!popElem.contains(e.target as Node) && !btn.contains(e.target as Node)) {
+    const hidePopover = (e: MouseEvent) => {
+        if (!popElem.contains(e.target as Node) && !ref.contains(e.target as Node)) {
             popElem.hidePopover();
         }
     };
     onMount(() => {
-        document.body.addEventListener('click', handleClick);
+        document.body.addEventListener('click', hidePopover);
+        if (props.hotkey) { Hotkey.bind(props.hotkey, () => { ref.click(); }); }
     });
     onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
+        document.body.removeEventListener('click', hidePopover);
+        if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
     const confirm: BaseProps['onClick'] = (e) => {
@@ -62,9 +64,9 @@ export function ConfirmButton(props: Props) {
     };
 
     return <>
-        <Button ref={(el)=>btn=el} {...btnProps} palette={props.palette} onClick={() => {
+        <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onClick={() => {
             popElem.togglePopover();
-            pop(popElem, btn.getBoundingClientRect());
+            pop(popElem, ref.getBoundingClientRect());
         }}>{props.children}</Button>
         <div popover="manual" ref={el=>popElem=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
             {props.prompt ?? l.t('_i.areYouSure')}

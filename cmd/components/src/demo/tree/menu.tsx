@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, ContextMenu, Item, Menu, MenuPanel } from '@cmfx/components';
+import { Hotkey } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector, Stage } from '../base';
@@ -16,7 +17,6 @@ export default function() {
     const items: Array<Item> = [
         {type: 'item', value: 'v1', label: 'v1'},
         {type: 'item', value: 'v2', label: 'v2'},
-        {type: 'item', value: 'v3', label: 'v3'},
         {type: 'divider'},
         {type: 'group', label: 'group', items: [
             {type: 'item', value: 'v22', label: 'v22'},
@@ -31,6 +31,11 @@ export default function() {
                 ]},
             ]},
         ]},
+    ];
+
+    const items2: Array<Item> = [
+        ...items,
+        { type: 'item', value: 'v3', label: 'v3(control+a)', hotkey: new Hotkey('a', 'control') },
     ];
 
     const [selected, setSelected] = createSignal<string>();
@@ -51,10 +56,9 @@ export default function() {
             <div>{selected()}</div>
         </Stage>
 
-
         <Stage class="w-80 mt-4">
             <Menu direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>click</Button>}>
-                {items}
+                {items2}
             </Menu>
         </Stage>
 
