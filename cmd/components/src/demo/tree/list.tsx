@@ -37,7 +37,7 @@ export default function() {
 
     const items2: Array<Item> = [
         ...items,
-        { type: 'item', value: 'v3', label: 'v3(control+b)', hotkey: new Hotkey('b', 'control') },
+        { type: 'item', value: 'v3', label: 'v3(control+alt+b)', hotkey: new Hotkey('b', 'control', 'alt') },
     ];
     
     const items3: Array<Item> = [

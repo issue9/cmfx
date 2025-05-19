@@ -102,7 +102,7 @@ export function Search(props: Props): JSX.Element {
             </ul>
         </Dialog>
 
-        <Button icon type='button' kind='flat' rounded hotkey={new Hotkey('k','control')}
+        <Button icon type='button' kind='flat' rounded hotkey={new Hotkey('k', 'control')}
             title={l.t('_i.search')}
             onClick={showSearch}>search</Button>
     </>;

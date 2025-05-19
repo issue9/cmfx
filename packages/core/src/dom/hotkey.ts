@@ -115,6 +115,7 @@ export class Hotkey {
     /********************* 以下为实例方法 ***********************/
 
     readonly key: string;
+    readonly #keyS: string;
     readonly modifiers: number;
 
     constructor(key: string, ...modifiers: Modifiers) {
@@ -129,20 +130,21 @@ export class Hotkey {
         for(const m of modifiers) {
             code += modifierCodes.get(m)!;
         }
-        this.key = key.toLocaleLowerCase();
+        this.key = key;
+        this.#keyS = 'Key' + key.toUpperCase();
         this.modifiers = code;
     }
 
     /**
      * 判断 e 是否与当前实例相等
      */
-    equal(e: Hotkey): boolean { return e.key == this.key && e.modifiers == this.modifiers; }
+    equal(e: Hotkey): boolean { return e.#keyS == this.#keyS && e.modifiers == this.modifiers; }
 
     /**
      * 判断事件 e 的按键是否与当前匹配
      */
     match(e: KeyboardEvent): boolean {
-        if (e.key.toLocaleLowerCase() !== this.key) { return false; }
+        if (e.code !== this.#keyS) { return false; }
 
         let count = 0;
         if (e.metaKey) {count +=1;}
