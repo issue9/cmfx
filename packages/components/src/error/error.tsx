@@ -38,7 +38,7 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export  function Error(props: Props) {
     props = mergeProps(presetProps, props);
-    const [, act,] = use();
+    const [, act] = use();
     act.title = props.header ?? '';
 
     return <div class={props.palette ? `c--error palette--${props.palette}` : 'c--error'}>
@@ -55,9 +55,7 @@ export  function Error(props: Props) {
         </Show>
 
         <Show when={props.children}>
-            <div class="flex flex-wrap gap-5 justify-center mt-5">
-                {props.children}
-            </div>
+            <div class="content">{props.children}</div>
         </Show>
     </div>;
 }

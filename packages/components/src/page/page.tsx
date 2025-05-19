@@ -10,12 +10,12 @@ import { use, useLocale } from '@/context';
 
 export interface Props extends BaseProps, ParentProps {
     /**
-     * 指定页面标题，可以是翻译 ID
+     * 指定页面标题，可以是翻译 ID。
      */
     title: string;
 
     /**
-     * 是否禁止内置的 BackTop 组件。
+     * 是否禁止内置的 BackTop 组件
      */
     disableBacktop?: boolean;
 

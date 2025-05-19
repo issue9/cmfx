@@ -89,9 +89,7 @@ export default function Range(props: Props): JSX.Element {
             <div class="marks">
                 <For each={marks()}>
                     {(item) => (
-                        <>
-                            <span class="item" style={{ 'left': (item[0] / scale!).toString() + '%' }}>{item[1]}</span>
-                        </>
+                        <span class="item" style={{ 'left': (item[0] / scale!).toString() + '%' }}>{item[1]}</span>
                     )}
                 </For>
             </div>

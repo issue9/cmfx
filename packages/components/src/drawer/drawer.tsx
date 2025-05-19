@@ -43,11 +43,6 @@ export interface Props extends BaseProps {
      * 主元素区的内容
      */
     main: JSX.Element;
-
-    /**
-     * 包含主元素区的元素 ID
-     */
-    mainID?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -107,10 +102,10 @@ export function Drawer(props: Props) {
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />
-                <main id={props.mainID}><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
+                <main><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
             </Match>
             <Match when={props.pos === 'right'}>
-                <main id={props.mainID}><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
+                <main><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
                 <Aside />
             </Match>
         </Switch>
