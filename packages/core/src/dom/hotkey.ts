@@ -9,7 +9,7 @@ export type Modifier = 'meta' | 'alt' | 'control' | 'shift';
 
 export type Modifiers = [Modifier, ...Modifier[]];
 
-export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier,number>([
+export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier, number>([
     ['meta', 1],
     ['alt', 2],
     ['control', 4],
@@ -110,13 +110,21 @@ export class Hotkey {
      *
      * @param hotkey 快捷键；
      */
-    static unbind(hotkey: Hotkey): void { Hotkey.#handlers.delete(hotkey); }
+    static unbind(hotkey: Hotkey): void {
+        for (const [hk] of Hotkey.#handlers) {
+            if (hk.equal(hotkey)) {
+                Hotkey.#handlers.delete(hk);
+                break;
+            }
+        }
+    }
 
     /********************* 以下为实例方法 ***********************/
 
     readonly key: string;
-    readonly #keyS: string;
+    readonly #keyCode: string;
     readonly modifiers: number;
+    readonly #keys: Array<string>;
 
     constructor(key: string, ...modifiers: Modifiers) {
         modifiers = modifiers.sort();
@@ -131,20 +139,36 @@ export class Hotkey {
             code += modifierCodes.get(m)!;
         }
         this.key = key;
-        this.#keyS = 'Key' + key.toUpperCase();
+        this.#keyCode = 'Key' + key.toUpperCase();
         this.modifiers = code;
+        this.#keys = this.#buildKeys();
+    }
+
+    /**
+     * 获取当前快捷键的按键字符串
+     */
+    #buildKeys(): string[] {
+        const keys: string[] = [];
+        for (const [k, v] of modifierCodes) {
+            if ((this.modifiers & v) === v) {
+                keys.push(k);
+            }
+        }
+        keys.push(this.key);
+
+        return keys;
     }
 
     /**
      * 判断 e 是否与当前实例相等
      */
-    equal(e: Hotkey): boolean { return e.#keyS == this.#keyS && e.modifiers == this.modifiers; }
+    equal(e: Hotkey): boolean { return e.#keyCode == this.#keyCode && e.modifiers == this.modifiers; }
 
     /**
      * 判断事件 e 的按键是否与当前匹配
      */
     match(e: KeyboardEvent): boolean {
-        if (e.code !== this.#keyS) { return false; }
+        if (e.code !== this.#keyCode) { return false; }
 
         let count = 0;
         if (e.metaKey) {count +=1;}
@@ -157,18 +181,7 @@ export class Hotkey {
     /**
      * 获取当前快捷键的按键字符串
      */
-    keys(): string[] {
-        const keys: string[] = [];
-        for (const [k, v] of modifierCodes) {
-            if ((this.modifiers & v) === v) {
-                keys.push(k);
-            }
-        }
+    keys(): string[] { return this.#keys; }
 
-        keys.push(this.key);
-
-        return keys;
-    }
-
-    toString(): string { return this.keys().join('+'); }
+    toString(): string { return this.#keys.join('+'); }
 }
