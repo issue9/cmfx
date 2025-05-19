@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep, Theme } from '@cmfx/core';
+import { Hotkey, sleep, Theme } from '@cmfx/core';
 import { A, useLocation } from '@solidjs/router';
-import { createEffect, createSignal, For, JSX, Match, mergeProps, Show, Switch, untrack } from 'solid-js';
+import { createEffect, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch, untrack } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { Divider } from '@/divider';
@@ -109,6 +109,12 @@ export function List(props: Props): JSX.Element {
                 setRef(ref);
             }
         });
+
+        if (p.item.hotkey) {
+            const hk = p.item.hotkey;
+            onMount(() => { Hotkey.bind(hk, () => { ref.click(); }); });
+            onCleanup(() => { Hotkey.unbind(hk); });
+        }
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>

@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 /**
@@ -49,6 +50,11 @@ export type Item = {
      * 是否禁用该项
      */
     disabled?: boolean;
+
+    /**
+     * 快捷键
+     */
+    hotkey?: Hotkey;
 };
 
 /**

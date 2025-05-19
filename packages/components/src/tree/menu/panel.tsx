@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Hotkey } from '@cmfx/core';
 import { A } from '@solidjs/router';
-import { createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
+import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { Divider } from '@/divider';
@@ -70,6 +71,14 @@ export default function Panel (props: Props): JSX.Element {
             throw 'item.type 只能是 item';
         }
 
+        let ref: HTMLElement;
+
+        if (p.item.hotkey) {
+            const hk = p.item.hotkey;
+            onMount(() => { Hotkey.bind(hk, () => { ref.click(); }); });
+            onCleanup(() => { Hotkey.unbind(hk); });
+        }
+
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
                 <li class="item">
@@ -81,7 +90,7 @@ export default function Panel (props: Props): JSX.Element {
                 </li>
             </Match>
             <Match when={!p.item.items}>
-                <Dynamic component={props.anchor ? A : 'span'}
+                <Dynamic component={props.anchor ? A : 'span'} ref={(el:HTMLElement)=>ref=el}
                     activeClass={props.selectedClass}
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
                     classList={{

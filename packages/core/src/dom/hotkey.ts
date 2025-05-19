@@ -62,6 +62,23 @@ export class Hotkey {
     }
 
     /**
+     * 是否存在指定的快捷键
+     */
+    static hasKeys(key: string, ...modifiers: Modifiers): boolean {
+        return Hotkey.has(new Hotkey(key, ...modifiers));
+    }
+
+    /**
+     * 是否存在指定的快捷键
+     */
+    static has(hotkey: Hotkey): boolean {
+        for (const [hk] of Hotkey.#handlers) {
+            if (hk.equal(hotkey)) { return true; }
+        }
+        return false;
+    }
+
+    /**
      * 绑定快捷键
      *
      * @param handler 处理函数；
