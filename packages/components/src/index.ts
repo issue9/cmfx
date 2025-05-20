@@ -8,6 +8,7 @@ export * from './backtop';
 export * from './badge';
 export * from './base';
 export * from './button';
+export * from './calendar';
 export * from './card';
 export * from './chart';
 export * from './context';
