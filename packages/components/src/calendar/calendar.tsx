@@ -7,7 +7,7 @@ import { For, JSX, createMemo, createSignal, mergeProps } from 'solid-js';
 import { BaseProps } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
-import { Week, weekDay, weekDays, weeks } from '@/form/date/utils';
+import { Week, sunday, weekDay, weekDays, weeks } from '@/form/date/utils';
 import { Plugin } from './plugin';
 
 /**
@@ -35,21 +35,24 @@ export interface Props extends BaseProps {
     current?: Date;
 
     /**
+     * 选中项
+     */
+    selected?: Date;
+
+    /**
+     * 用户改变选中项时触发的事件
+     */
+    onSelected?: { (val: Date, old?: Date): void; };
+
+    /**
      * 插件列表
      */
     plugins?: Array<Plugin>;
-
-    /**
-     * 改变用户点击的日期方格
-     */
-    onchange?: { (d: Date): void; };
 
     class?: string;
     classList?: JSX.CustomAttributes<HTMLElement>['classList'];
     style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
-
-const weekBase = new Date('2024-10-20'); // 这是星期天，作为计算星期的基准日期。
 
 const presetProps: Props = {
     weekBase: 0,
@@ -73,6 +76,8 @@ export default function Calendar(props: Props): JSX.Element {
 
     const now = new Date();
 
+    const [selected, setSelected] = createSignal(props.selected);
+
     return <div class={props.class} style={props.style} classList={{
         ...props.classList,
         'c--calendar': true,
@@ -94,7 +99,7 @@ export default function Calendar(props: Props): JSX.Element {
                 <tr>
                     <For each={weeks}>
                         {(w) => (
-                            <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate() + weekDay(w, props.weekBase)))}</th>
+                            <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
                         )}
                     </For>
                 </tr>
@@ -106,16 +111,22 @@ export default function Calendar(props: Props): JSX.Element {
                             <For each={week}>
                                 {(day) => {
                                     const d = new Date(year(), day[1], day[2], 8);
+
                                     return <td onclick={()=>{
-                                        if (props.onchange) { props.onchange(d); }
-                                        setCurr(d);
+                                        if (props.onSelected) { props.onSelected(d, selected()); }
+                                        setSelected(d);
                                     }} classList={{
                                         'disabled': !day[0],
-                                        'current': (curr().getMonth() === week[1] as unknown as number) && (day[2] === curr().getDate())
+                                        'current': selected()
+                                            && (selected()!.getMonth() == day[1] as unknown as number)
+                                            && (day[2] === selected()!.getDate())
+                                            && (curr().getFullYear() === selected()!.getFullYear())
                                     }}>
                                         <span classList={{
                                             'day': true,
-                                            'today': (curr().getMonth() === now.getMonth()) && (curr().getFullYear() === now.getFullYear()) && (day[2] === now.getDate())
+                                            'today': (curr().getMonth() === now.getMonth())
+                                                && (curr().getFullYear() === now.getFullYear())
+                                                && (day[2] === now.getDate())
                                         }}>{day[2]}</span>
                                         <For each={props.plugins}>
                                             {(plugin) => { return plugin(d); }}

@@ -4,6 +4,8 @@
 
 import { Options } from '@/form/field';
 
+export const sunday = new Date('2024-10-20'); // 这是星期天，作为计算星期的基准日期。
+
 /**
  * 月份，0 表示一月。
  */

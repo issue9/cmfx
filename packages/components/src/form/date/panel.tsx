@@ -8,7 +8,7 @@ import { Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Accessor, FieldBaseProps } from '@/form/field';
-import { hoursOptions, minutesOptions, Week, weekDay, weekDays, weeks } from './utils';
+import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from './utils';
 
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
     /**
@@ -71,8 +71,6 @@ export const presetProps: Partial<Props> = {
     accentPalette: 'primary',
     weekBase: 0,
 } as const;
-
-const weekBase = new Date('2024-10-20'); // 这是星期天，作为计算星期的基准日期。
 
 /**
  * 日期选择的面板
@@ -226,7 +224,7 @@ export function DatePanel(props: Props): JSX.Element {
             <tr>
                 <For each={weeks}>
                     {(w) => (
-                        <th>{weekFormat().format((new Date(weekBase)).setDate(weekBase.getDate() + weekDay(w, props.weekBase)))}</th>
+                        <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
                     )}
                 </For>
             </tr>

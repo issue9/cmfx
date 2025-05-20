@@ -25,7 +25,7 @@
 
             thead tr,
             tbody tr:not(:last-child) {
-                @apply border-b border-palette-bg-low;
+                @apply border-b border-b-palette-bg-low;
             }
 
             td {
@@ -49,12 +49,12 @@
             }
 
             td.current {
-                @apply border-b-2 border-palette-fg-high;
+                @apply bg-palette-bg-high;
             }
 
             th:not(:last-child),
             td:not(:last-child) {
-                @apply border-r border-palette-bg-low;
+                @apply border-r border-r-palette-bg-low;
             }
 
             td.disabled {

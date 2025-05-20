@@ -6,6 +6,8 @@ import { JSX } from 'solid-js';
 
 /**
  * 日历的插件接口
+ *
+ * 可以在日历的每个方格上显示一些额外的信息，例如农历、节假日等。
  */
 export interface Plugin {
     (date: Date): JSX.Element;
