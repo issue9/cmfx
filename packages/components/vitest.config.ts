@@ -7,7 +7,7 @@ import viteConfig from './vite.config';
 
 export default mergeConfig(viteConfig, defineConfig({
     test: {
-        setupFiles: ['./vitest_setup.ts'],
+        setupFiles: ['./src/vitest_setup.ts'],
         environment: 'jsdom',
     },
 }));

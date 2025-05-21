@@ -77,6 +77,8 @@ export class API {
      * 切换语言并清空缓存
      */
     setLocale(v: string) {
+        if (this.#locale === v) { return; }
+
         this.#locale = v;
         this.clearCache().then(()=>{});
     }

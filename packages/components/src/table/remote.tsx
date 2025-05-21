@@ -43,7 +43,7 @@ export interface Props<T extends object, Q extends Query> extends Omit<LoaderPro
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
 export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>) {
-    const [api, act,] = use();
+    const [api, act] = use();
     const l = useLocale();
 
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
