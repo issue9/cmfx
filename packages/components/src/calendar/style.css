@@ -1,0 +1,66 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--calendar {
+        @apply flex flex-col gap-1 h-full;
+
+        header {
+            @apply flex justify-between items-center mb-1;
+
+            .title {
+                @apply text-xl;
+            }
+        }
+
+        table.calendar {
+            @apply border border-palette-bg-low w-full h-full;
+
+            thead tr {
+                line-height: 1.1;
+            }
+
+            thead tr,
+            tbody tr:not(:last-child) {
+                @apply border-b border-b-palette-bg-low;
+            }
+
+            td {
+                @apply min-w-[50px] min-h-[50px] w-1/7 px-[4px] py-[7px] cursor-pointer align-top;
+
+                .day {
+                    @apply mr-1 p-1;
+                }
+
+                .day.today {
+                    @apply rounded-full bg-palette-bg-low;
+                }
+            }
+
+            td:hover {
+                @apply bg-palette-bg-low;
+
+                .day.today {
+                    @apply bg-palette-bg-high;
+                }
+            }
+
+            td.current {
+                @apply bg-palette-bg-high;
+            }
+
+            th:not(:last-child),
+            td:not(:last-child) {
+                @apply border-r border-r-palette-bg-low;
+            }
+
+            td.disabled {
+                @apply text-palette-bg-low;
+                @apply hover:text-palette-fg;
+            }
+        }
+    }
+}
