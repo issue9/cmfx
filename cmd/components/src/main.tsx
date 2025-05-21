@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Item, List, Notify, OptionsProvider } from '@cmfx/components';
+import { Drawer, Item, List, Notify, OptionsProvider, SystemDialog } from '@cmfx/components';
 import { HashRouter, RouteSectionProps } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import { render } from 'solid-js/web';
@@ -23,9 +23,11 @@ routes.forEach((r) => {
 function App(): JSX.Element {
     const Root = (p: RouteSectionProps) => {
         return <OptionsProvider {...options}>
-            <Notify system timeout={5000} palette='error'>
-                <Drawer palette='tertiary' main={p.children}><List anchor>{menuItems}</List></Drawer>
-            </Notify>
+            <SystemDialog header='system dialog title'>
+                <Notify system timeout={5000} palette='error'>
+                    <Drawer palette='tertiary' main={p.children}><List anchor>{menuItems}</List></Drawer>
+                </Notify>
+            </SystemDialog>
         </OptionsProvider>;
     };
 

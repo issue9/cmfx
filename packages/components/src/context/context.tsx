@@ -5,10 +5,8 @@
 import { API, Config, Contrast, Hotkey, Locale, Mode, Problem, Scheme, Theme, UnitStyle } from '@cmfx/core';
 import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { Portal } from 'solid-js/web';
 
 import { registerLocales } from '@/chart/locale';
-import { initDialog } from '@/dialog/system';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
 
@@ -79,9 +77,6 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     return <internalOptionsContext.Provider value={obj}>
         <Show when={!data.loading}>
             <LocaleProvider id={data()!.locale} unitStyle={data()!.unitStyle}>
-                <Portal>
-                    {initDialog(data()!.title, data()!.systemDialog)}
-                </Portal>
                 {props.children}
             </LocaleProvider>
         </Show>

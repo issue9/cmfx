@@ -5,5 +5,6 @@
 export { Dialog } from './dialog';
 export type { Props as DialogProps, Ref as DialogRef } from './dialog';
 
-export { alert, confirm, prompt } from './system';
+export { alert, confirm, prompt, default as SystemDialog } from './system';
+export type { Props as SystemDialogProps } from './system';
 

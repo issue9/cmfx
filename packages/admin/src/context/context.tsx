@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Notify, Options, OptionsProvider, notify, use as useComponents } from '@cmfx/components';
+import { Notify, Options, OptionsProvider, SystemDialog, notify, use as useComponents } from '@cmfx/components';
 import { API, Contrast, Mode, Problem, Return, Scheme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -63,7 +63,6 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         titleSeparator: props.titleSeparator,
         pageSizes: props.api.pageSizes,
         pageSize: props.api.presetSize,
-        systemDialog: props.system.dialog,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
@@ -93,9 +92,11 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
     };
 
     return <OptionsProvider {...o}>
-        <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo} timeout={props.notifyTimeout}>
-            {child()}
-        </Notify>
+        <SystemDialog system={props.system.dialog} header={props.title}>
+            <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo} timeout={props.notifyTimeout}>
+                {child()}
+            </Notify>
+        </SystemDialog>
     </OptionsProvider>;
 }
 

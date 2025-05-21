@@ -40,7 +40,7 @@
     "dependencies": {
         "@formatjs/intl-durationformat": "catalog:",
         "intl-messageformat": "catalog:",
-        "cbor2": "^2.0.0",
+        "cbor2": "^2.0.1",
         "yaml": "^2.8.0",
         "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
     },

@@ -2,13 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, JSX, ParentProps } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { BaseProps } from '@/base';
 import { FieldAccessor, TextField } from '@/form';
 import { Dialog, Ref } from './dialog';
 
-interface Props extends BaseProps {
+export interface Props extends BaseProps, ParentProps {
+    /**
+     * 是否同时替换系统对话框
+     */
+    system?: boolean;
+
     /**
      * 系统弹出框的标题
      */
@@ -16,33 +22,28 @@ interface Props extends BaseProps {
 }
 
 /**
- * 初始化弹出框的基本功能
- *
  * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
- *
- * NOTE: 这也是一个组件，如果想以函数的形式调用，
- * 需要在 SolidJS 初始化之后调用，比如在 HashRouter 的 Root 组件中。
- *
- * @param system 是否替换浏览器的默认弹出框；
- * @param title 浏览器弹出框的标题；
  */
-export function initDialog(title: string, system?: boolean): JSX.Element {
-    if (system) {
+export default function SystemDialog(props: Props): JSX.Element {
+    if (props.system) {
         window.alert = alert;
         window.confirm = confirm as any;
         window.prompt = prompt as any;
     }
 
     return <>
-        <Alert header={/*@once*/title} palette='surface' />
-        <Confirm header={/*@once*/title} palette='surface' />
-        <Prompt header={/*@once*/title} palette='surface' />
+        <Portal>
+            <Alert header={props.header} palette={props.palette} />
+            <Confirm header={props.header} palette={props.palette} />
+            <Prompt header={props.header} palette={props.palette} />
+        </Portal>
+        {props.children}
     </>;
 }
 
 /************************ alert *****************************/
 
-let alertInst: { (msg: string): Promise<void> };
+let alertInst: typeof alert;
 
 function Alert(props: Props): JSX.Element {
     let dlg: Ref;
@@ -72,7 +73,7 @@ export async function alert(msg: string): Promise<void> { await alertInst(msg); 
 
 /************************ confirm *****************************/
 
-let confirmInst: { (msg?: string): Promise<boolean> };
+let confirmInst: typeof confirm;
 
 function Confirm(props: Props): JSX.Element {
     let dlg: Ref;
@@ -102,7 +103,7 @@ export async function confirm(msg?: string): Promise<boolean> { return await con
 
 /************************ prompt *****************************/
 
-let promptInst: { (msg?: string, val?: string): Promise<string | null> };
+let promptInst: typeof prompt;
 
 function Prompt(props: Props): JSX.Element {
     let dlg: Ref;

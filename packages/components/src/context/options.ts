@@ -98,11 +98,6 @@ export interface Options {
     pageSize: number;
 
     /**
-     * 是否替换浏览器提供的 alert、prompt 和 confirm 三个对话框
-     */
-    systemDialog?: boolean;
-
-    /**
      * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
      *
      * @param p 如果该值空，则会抛出异常；
