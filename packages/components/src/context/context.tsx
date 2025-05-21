@@ -9,7 +9,6 @@ import { Portal } from 'solid-js/web';
 
 import { registerLocales } from '@/chart/locale';
 import { initDialog } from '@/dialog/system';
-import { initNotify } from '@/notify/notify';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
 
@@ -82,7 +81,6 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
             <LocaleProvider id={data()!.locale} unitStyle={data()!.unitStyle}>
                 <Portal>
                     {initDialog(data()!.title, data()!.systemDialog)}
-                    {initNotify(data()!.systemNotify, data()!.logo)}
                 </Portal>
                 {props.children}
             </LocaleProvider>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options, OptionsProvider, notify, use as useComponents } from '@cmfx/components';
+import { Notify, Options, OptionsProvider, notify, use as useComponents } from '@cmfx/components';
 import { API, Contrast, Mode, Problem, Return, Scheme, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -63,9 +63,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         titleSeparator: props.titleSeparator,
         pageSizes: props.api.pageSizes,
         pageSize: props.api.presetSize,
-        logo:props.logo,
         systemDialog: props.system.dialog,
-        systemNotify: props.system.notification,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
@@ -74,7 +72,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
             if ((p.status === 401) && (props.routes.public.home !== loc.pathname)) {
                 nav(props.routes.public.home);
             } else {
-                await notify(p.title, p.detail, 'error', props.locales.fallback, props.notifyTimeout);
+                await notify(p.title, p.detail, 'error');
             }
         }
     }; 
@@ -94,7 +92,11 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         </internalOptContext.Provider>;
     };
 
-    return <OptionsProvider {...o}>{child()}</OptionsProvider>;
+    return <OptionsProvider {...o}>
+        <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo} timeout={props.notifyTimeout}>
+            {child()}
+        </Notify>
+    </OptionsProvider>;
 }
 
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {

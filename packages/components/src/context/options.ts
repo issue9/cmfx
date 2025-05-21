@@ -88,11 +88,6 @@ export interface Options {
     titleSeparator: string;
 
     /**
-     * 网页 LOGO
-     */
-    logo?: string;
-
-    /**
      * 分页符中页码选项的默认值
      */
     pageSizes: Array<number>;
@@ -101,11 +96,6 @@ export interface Options {
      * 表格等需要分页对象的每页默认数量
      */
     pageSize: number;
-
-    /**
-     * 是否采用系统级别的通知
-     */
-    systemNotify?: boolean;
 
     /**
      * 是否替换浏览器提供的 alert、prompt 和 confirm 三个对话框

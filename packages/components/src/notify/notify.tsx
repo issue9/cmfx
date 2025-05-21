@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
-import { createSignal, createUniqueId, For, JSX } from 'solid-js';
+import { createSignal, createUniqueId, For, JSX, mergeProps, ParentProps } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
-import { Palette } from '@/base';
+import { BaseProps, Palette } from '@/base';
 import { Alert, Props as AlertProps } from './alert';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
@@ -19,12 +20,12 @@ export const type2Palette: ReadonlyMap<Type, Palette> = new Map<Type, Palette>([
     ['info', 'secondary'],
 ]);
 
-let notifyInst: { (title: string, body?: string, type?: Type, lang?: string, timeout?: number): Promise<void>; };
+let notifyInst: typeof notify;
 
 /**
  * 发送一条通知给用户
  *
- * 需要调用 initNotify 方法初始化之后才有效
+ * NOTE: 仅可在 {@link Notify} 组件之内使用。
  *
  * @param title 标题；
  * @param body 具体内容，如果为空则只显示标题；
@@ -36,22 +37,56 @@ export async function notify(title: string, body?: string, type?: Type, lang?: s
     return await notifyInst(title, body, type, lang, timeout);
 }
 
+export interface Props extends BaseProps, ParentProps {
+    /**
+     * 是否将通知发送到操作系统的通知栏上
+     */
+    system?: boolean;
+    
+    /**
+     * 指定弹出框上的图标，仅在 system 为 true 时有效。
+     */
+    icon?: string;
+
+    /**
+     * 语言，仅在 system 为 true 时有效，该值在 {@link notify} 参数中可修改。
+     */
+    lang?: string;
+
+    /**
+     * 通知的自动关闭时间，如果大于 0，超过此毫秒数时将自动关闭提示框，该值在 {@link notify} 参数中可修改。
+     */
+    timeout: number;
+}
+
+const presetProps:Props = {
+    timeout: 5000,
+    palette: 'error',
+} as const;
+
 /**
  * 注册全局通知组件
  *
- * 尽可能早地调用该组件，以使当前方法处于可用状态。
+ * 尽可能早地调用该组件，以使 {@link notify} 处于可用状态。
  *
- * NOTE: 这也是一个组件，如果想以函数的形式调用，
- * 需要在 SolidJS 初始化之后调用，比如在 HashRouter 的 Root 组件中。
- *
- * @param system 是否将通知发送到操作系统的通知栏上；
- * @param icon 如果 system 为 true，该参数指定弹出框上的图标；
+ * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
-export function initNotify(system?: boolean, icon?: string): JSX.Element {
+export default function Notify(props: Props): JSX.Element {
+    props = mergeProps(presetProps, props);
+    return <>
+        <Portal>{initNotify(props)}</Portal>
+        {props.children}
+    </>;
+}
+
+function initNotify(p: Props): JSX.Element {
     const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps, 'del'>>>([]);
 
-    notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout = 5000) => {
-        if (system && await systemNotify(title, body, icon, lang, timeout)) {
+    notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout?: number) => {
+        lang = lang ?? p.lang;
+        timeout = timeout ?? p.timeout;
+
+        if (p.system && await systemNotify(title, body, p.icon, lang, timeout)) {
             return;
         }
  
@@ -61,7 +96,7 @@ export function initNotify(system?: boolean, icon?: string): JSX.Element {
         setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
     };
 
-    return <div class='c--notify'>
+    return <div classList={{'c--notify': true, [`palette--${p.palette}`]: !!p.palette }}>
         <For each={msgs()}>
             {item => (
                 <Alert {...item} del={(id) => {
