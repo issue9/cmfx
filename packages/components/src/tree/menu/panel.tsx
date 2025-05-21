@@ -40,7 +40,7 @@ export interface Props extends ContainerProps {
 export const presetProps: Readonly<Partial<Props>> = {
     selectedClass: 'selected',
     direction: 'right'
-};
+} as const;
 
 export default function Panel (props: Props): JSX.Element {
     props = mergeProps(presetProps, props);

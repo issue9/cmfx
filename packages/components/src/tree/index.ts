@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Item } from './item';
+export type { Item as TreeItem } from './item';
 
 export * from './list';
 export * from './menu';

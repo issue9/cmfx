@@ -9,5 +9,5 @@ export { ContextMenu } from './context';
 export type { Props as ContextMenuProps } from './context';
 
 export { default as MenuPanel } from './panel';
-export type { Props as MenuPanelProps } from './panel';
+export type { Props as MenuPanelProps, Ref as MenuPanelRef } from './panel';
 

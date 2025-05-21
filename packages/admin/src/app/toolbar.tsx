@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Item, Label, Locale, Menu } from '@cmfx/components';
+import { Button, Label, Locale, Menu, TreeItem } from '@cmfx/components';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 
 import { use, useLocale } from '@/context';
@@ -102,7 +102,7 @@ function Fullscreen(): JSX.Element {
 }
 
 export function buildItems(l: Locale, menus: Array<MenuItem>) {
-    const items: Array<Item> = [];
+    const items: Array<TreeItem> = [];
     menus.forEach((mi) => {
         switch (mi.type) {
         case 'divider':
@@ -116,7 +116,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
             });
             break;
         case 'item':
-            const i: Item = {
+            const i: TreeItem = {
                 type: 'item',
                 label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
                 value: mi.path,

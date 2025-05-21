@@ -5,19 +5,30 @@
 import { Hotkey, pop } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 
-import { Props as BaseProps, Button, presetProps, Ref } from './button';
+import { Props as BaseProps, presetProps as basePrsetProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 
-type Item = { type: 'divider' } | {
+export type Item = { type: 'divider' } | {
     type: 'item';
     label: JSX.Element;
     onClick: NonNullable<BaseProps['onClick']>;
     disabled?: boolean;
+    hotkey?: Hotkey;
 };
 
 export interface Props extends BaseProps {
     menus: Array<Item>;
+
+    /**
+     * 菜单展开的方向
+     */
+    direction?: 'left' | 'right';
 }
+
+const presetProps: Readonly<Partial<Props>> = {
+    ...basePrsetProps,
+    direction: 'right'
+} as const;
 
 /**
  * 带有一个默认操作的一组按钮
@@ -54,7 +65,13 @@ export function SplitButton(props: Props) {
         <Button {...btnProps}>{props.children}</Button>
         <Button class="split" ref={el=>downRef=el} icon={/*@once*/true} onClick={() => {
             popElem.togglePopover();
-            pop(popElem, group.getBoundingClientRect());
+
+            const anchor = group.getBoundingClientRect();
+            if (props.direction === 'left') {
+                anchor.x = anchor.right - popElem.getBoundingClientRect().width;
+            }
+
+            pop(popElem, anchor, 0, 'bottom');
         }}>keyboard_arrow_down</Button>
     </ButtonGroup>;
 
@@ -62,19 +79,25 @@ export function SplitButton(props: Props) {
         {activator}
         <div ref={el=>popElem=el} popover="manual" classList={{ 'c--split-button_content':true, [`palette--${props.palette}`]:!!props.palette}}>
             <For each={props.menus}>
-                {(item) => (
-                    <Switch>
+                {(item) => {
+                    let ref: Ref;
+                    if (item.type ==='item' && item.hotkey) {
+                        const hk = item.hotkey;
+                        onMount(() => { Hotkey.bind(hk, () => { ref.click(); }); });
+                        onCleanup(() => { Hotkey.unbind(hk); });
+                    }
+                    return <Switch>
                         <Match when={item.type === 'divider'}>
                             <hr class="border-palette-bg-low" />
                         </Match>
                         <Match when={item.type === 'item'}>
-                            <Button kind='flat' disabled={(item as any).disabled} class="item" onClick={() => {
+                            <Button ref={el=>ref=el} kind='flat' disabled={(item as any).disabled} class="item" onClick={() => {
                                 (item as any).onClick();
                                 popElem.hidePopover();
                             }}>{(item as any).label}</Button>
                         </Match>
-                    </Switch>
-                )}
+                    </Switch>;
+                }}
             </For>
         </div>
     </>;
