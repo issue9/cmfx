@@ -54,7 +54,7 @@ export default function Toolbar(props: Props) {
         <div class="system-bar">
             <Show when={act.user()}><Search switch={props.switch} /></Show>
             <Fullscreen />
-            <Show when={act.user()}><Username /></Show>
+            <Show when={act.user()}><UserMenu /></Show>
         </div>
     </header>;
 }
@@ -62,7 +62,7 @@ export default function Toolbar(props: Props) {
 /**
  * 用户名及其下拉菜单
  */
-function Username(): JSX.Element {
+function UserMenu(): JSX.Element {
     const [, act, opt] = use();
     const l = useLocale();
     const [visible, setVisible] = createSignal(false);
@@ -120,6 +120,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
                 type: 'item',
                 label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
                 value: mi.path,
+                hotkey: mi.hotkey,
             };
             if (mi.items) {
                 i.items = buildItems(l, mi.items);

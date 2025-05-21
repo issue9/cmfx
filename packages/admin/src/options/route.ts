@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Hotkey } from '@cmfx/core';
 import { RouteSectionProps } from '@solidjs/router';
 import { MaterialSymbol } from 'material-symbols';
 import { Component } from 'solid-js';
@@ -78,10 +79,15 @@ export type MenuItem = {
     /**
      * 路由的跳转路径，如果是分组项，此值为空。
      */
-    path?: string
+    path?: string;
 
     /**
      * 子菜单
      */
-    items?: Array<MenuItem>
+    items?: Array<MenuItem>;
+
+    /**
+     * 快捷键
+     */
+    hotkey?: Hotkey;
 };
