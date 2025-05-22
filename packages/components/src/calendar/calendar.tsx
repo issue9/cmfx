@@ -113,6 +113,8 @@ export default function Calendar(props: Props): JSX.Element {
                                     const d = new Date(year(), day[1], day[2], 8);
 
                                     return <td onclick={()=>{
+                                        if (!day[0]) { return; }
+
                                         if (props.onSelected) { props.onSelected(d, selected()); }
                                         setSelected(d);
                                     }} classList={{
