@@ -3,15 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { useLocale } from '@/context';
 import { Accessor, Field, FieldAccessor } from '@/form/field';
 import { Icon, IconSymbol } from '@/icon';
-import { DatePanel, presetProps as presetPickerProps } from './panel';
+import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
-
-type ValueType = string | number | undefined;
 
 export interface Props extends Omit<PickerProps, 'accessor'> {
     accessor: Accessor<[ValueType, ValueType]>;
@@ -32,6 +30,9 @@ export function DateRangePicker(props: Props): JSX.Element {
 
     props = mergeProps(presetProps, props);
     const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
+
+    const [min, setMin] = createSignal(props.min);
+    const [max, setMax] = createSignal(props.max);
 
     const ac = props.accessor;
     const ac1 = FieldAccessor('start', ac.getValue()[0]);
@@ -86,6 +87,10 @@ export function DateRangePicker(props: Props): JSX.Element {
             } onFocus={(e)=>{
                 togglePop(e);
 
+                setMin(props.min);
+                const ac2V = ac2.getValue();
+                setMax(ac2V ? new Date(ac2V) : props.max);
+
                 curr = ac1;
                 panelVal.setValue(ac1.getValue());
             }} />
@@ -94,6 +99,10 @@ export function DateRangePicker(props: Props): JSX.Element {
                 props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())
             } onFocus={(e)=>{
                 togglePop(e);
+
+                setMax(props.max);
+                const ac1V = ac1.getValue();
+                setMin(ac1V ? new Date(ac1V) : props.min);
 
                 curr = ac2;
                 panelVal.setValue(ac2.getValue());
@@ -107,7 +116,7 @@ export function DateRangePicker(props: Props): JSX.Element {
             </Show>
         </div>
 
-        <DatePanel popover="manual" ref={el=>popRef=el} accessor={panelVal} {...panelProps}
+        <DatePanel popover="manual" min={min()} max={max()} ref={el=>popRef=el} accessor={panelVal} {...panelProps}
             ok={() => {
                 curr.setValue(panelVal.getValue());
                 popRef.hidePopover();

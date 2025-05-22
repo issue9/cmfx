@@ -4,8 +4,8 @@
 
 import { sleep } from '@cmfx/core';
 import { render } from '@solidjs/testing-library';
-import { expect, test } from 'vitest';
 import userEvent from '@testing-library/user-event';
+import { expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
 import { default as Calendar } from './calendar';
@@ -21,11 +21,11 @@ test('Calendar', async () => {
     const c = container.children.item(0)! as HTMLElement;
     expect(c).toHaveClass('c--calendar');
     
-    const tds = c.querySelectorAll('tbody>tr');
-    expect(tds.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
+    const trs = c.querySelectorAll('tbody>tr');
+    expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
 
     expect(curr).toBeUndefined(); // 未点击
-    await user.click(tds[2].firstChild as HTMLElement);
+    await user.click(trs[2].firstChild as HTMLElement);
     expect(curr).toBeTruthy();
     
     unmount();

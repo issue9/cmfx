@@ -10,6 +10,8 @@ import { useLocale } from '@/context';
 import { Accessor, FieldBaseProps } from '@/form/field';
 import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from './utils';
 
+export type ValueType = string | number | undefined;
+
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
     /**
      * 一些突出操作的样式色盘
@@ -45,7 +47,7 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
      * 如果是字符串，表示一个能被 {@link Date.parse} 识别的日期格式，
      * 如果是 number，则表示微秒。
      */
-    accessor: Accessor<string | number | undefined>;
+    accessor: Accessor<ValueType>;
 
     popover?: boolean | 'manual' | 'auto';
 
@@ -268,7 +270,9 @@ export function DatePanel(props: Props): JSX.Element {
         <div class="actions">
             <div class="left">
                 <button tabIndex={props.tabindex} class="action" onClick={() => {
-                    setValue(new Date());
+                    const now = new Date();
+                    if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
+                    setValue(now);
                     if (props.now) { props.now(); }
                 }}>{l.t(props.time ? '_i.date.now' : '_i.date.today')}</button>
             </div>
