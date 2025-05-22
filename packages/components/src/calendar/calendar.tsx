@@ -87,9 +87,9 @@ export default function Calendar(props: Props): JSX.Element {
             <p class="title">{titleFormat()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}>arrow_back_ios</Button>
+                    <Button title={l.t('_i.date.prevMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}>arrow_back_ios</Button>
                     <Button onClick={() => setCurr(new Date())}>{l.t('_i.date.today')}</Button>
-                    <Button icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}>arrow_forward_ios</Button>
+                    <Button title={l.t('_i.date.nextMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}>arrow_forward_ios</Button>
                 </ButtonGroup>
             </div>
         </header>
