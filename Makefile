@@ -118,3 +118,15 @@ test: test-go test-ts
 
 publish-npm: build-ts
 	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public --no-git-checks
+
+########################### version ###################################
+
+# 用于修正各个前端包中 package.json 的 version 字段。
+# 包含一个参数 target，用以指定需要升级的版本号，可以是 patch、minor 和 major 三个值，默认值为 patch。
+#
+# NOTE: 大版本号的更新会清零小版本号。
+
+.PHONY: version-ts
+target = patch
+version-ts:
+	pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces --include-workspace-root --workspaces-update=false

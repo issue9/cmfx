@@ -56,9 +56,9 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 1. `make install` 安装环境；
 1. `make init` 初始化项目的数据库等信息；
+1. `make watch-components` 热编译前端组件库代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
 1. `make watch-server` 热编译后端代码，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
 1. `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
-1. `make watch-components` 热编译前端组件库代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
 1. 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
 
 ## 开发
