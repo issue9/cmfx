@@ -8,22 +8,26 @@
     .c--scheme-builder {
         @apply bg-palette-bg text-palette-fg p-4 rounded-md flex flex-col items-center;
 
-        .toolbar {
-            @apply flex gap-5 flex-wrap;
+        .content {
+            @apply flex flex-col items-center;
 
-            .last {
-                @apply justify-self-end flex ml-auto gap-5;
+            .toolbar {
+                @apply flex gap-4 flex-wrap w-full;
+
+                .last {
+                    @apply justify-self-end flex ml-auto gap-4;
+                }
             }
-        }
 
-        .blocks {
-            @apply flex flex-wrap gap-3;
+            .blocks {
+                @apply flex flex-wrap gap-4;
 
-            .block {
-                @apply text-left w-25;
+                .block {
+                    @apply text-left w-25;
 
-                span {
-                    @apply w-25 h-6 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
+                    span {
+                        @apply w-25 h-6 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
+                    }
                 }
             }
         }

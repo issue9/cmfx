@@ -76,22 +76,24 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     return <ThemeProvider mode={modeFA.getValue()} contrast={contrastFA.getValue()} scheme={schemeFA.object()}>
         <div class="c--scheme-builder">
-            <div class="toolbar">
-                <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_i.theme.mode')} options={modes} />
-                <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={contrastFA} label={l.t('_i.theme.contrast')} options={contrasts} />
-                <Show when={props.actions}>
-                    <div class="last">
-                        <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_i.reset') }</Button>
-                        <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_i.theme.apply') }</Button>
-                        <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_i.theme.export') }</Button>
-                    </div>
-                </Show>
-                <Divider padding='8px' />
-            </div>
+            <div class="content">
+                <div class="toolbar">
+                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_i.theme.mode')} options={modes} />
+                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={contrastFA} label={l.t('_i.theme.contrast')} options={contrasts} />
+                    <Show when={props.actions}>
+                        <div class="last">
+                            <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_i.reset') }</Button>
+                            <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_i.theme.apply') }</Button>
+                            <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_i.theme.export') }</Button>
+                        </div>
+                    </Show>
+                    <Divider padding='8px' />
+                </div>
 
-            <For each={palettes}>
-                {(p) => { return paletteBlock(p, schemeFA.accessor(p)); }}
-            </For>
+                <For each={palettes}>
+                    {(p) => { return paletteBlock(p, schemeFA.accessor(p)); }}
+                </For>
+            </div>
 
             {props.children}
         </div>
