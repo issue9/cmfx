@@ -4,10 +4,10 @@
 
 import { For, JSX, mergeProps } from 'solid-js';
 
-import { Layout } from '@/base';
+import { AvailableEnumType, Layout } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
     /**
      * 是否显示为块
      */
@@ -22,7 +22,7 @@ export interface Props<T> extends FieldBaseProps {
     options: Options<T>;
 }
 
-export function RadioGroup<T extends string | number | undefined> (props: Props<T>): JSX.Element {
+export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.Element {
     props = mergeProps({
         tabindex: 0,
         layout: 'horizontal' as Layout,

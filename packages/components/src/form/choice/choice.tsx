@@ -5,24 +5,22 @@
 import { pop } from '@cmfx/core';
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 
-import { cloneElement } from '@/base';
+import { AvailableEnumType, cloneElement } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 import { Icon } from '@/icon';
 
-type Value = string | number | undefined;
-
-export interface Props<T extends Value, M extends boolean> extends FieldBaseProps {
+export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
     placeholder?: string;
     rounded?: boolean;
     options: Options<T>;
     multiple?: M;
-    accessor: M extends true ? Accessor<Array<T>> : Accessor<T>;
+    accessor: M extends true ? Accessor<Array<T|undefined>> : Accessor<T|undefined>;
 }
 
 /**
  * 用以替代 select 组件
  */
-export function Choice<T extends Value, M extends boolean>(props: Props<T, M>): JSX.Element {
+export function Choice<T extends AvailableEnumType, M extends boolean>(props: Props<T, M>): JSX.Element {
     if (props.layout === undefined) { props.layout = 'horizontal'; }
 
     let ul: HTMLUListElement;

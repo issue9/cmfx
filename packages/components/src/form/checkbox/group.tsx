@@ -4,11 +4,11 @@
 
 import { For, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Layout } from '@/base';
+import { AvailableEnumType, Layout } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
 import { Checkbox } from './checkbox';
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
     /**
      * 是否显示为块
      */
