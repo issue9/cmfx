@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, Label, LoaderTable, Page, translateEnum } from '@cmfx/components';
+import { Column, Label, LoaderTable, Page, translateEnums } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX } from 'solid-js';
 
@@ -49,13 +49,15 @@ export function Services(): JSX.Element {
         return ret.body;
     });
 
+    const states = createMemo(() => { return translateEnums<State>(stateMap, l); });
+
     return <Page title='_i.system.serviceViewer' class="max-w-lg">
         <fieldset>
             <Label icon='subtitles_gear' tag='legend'>{l.t('_i.system.services')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: l.t('_i.system.title')},
                 {id: 'state', label: l.t('_i.system.serviceState'), content: ((_: string, v?: State) => {
-                    return translateEnum<State>(stateMap, l, v!);
+                    return states().find((val) => val[0] === v)?.[1];
                 }) as Column<Task>['content']},
                 {id: 'err', label: l.t('_i.system.error')},
             ]} />
@@ -68,7 +70,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: l.t('_i.system.title')},
                 {id: 'state', label: l.t('_i.system.serviceState'),content: ((_: string, v?: State) => {
-                    return translateEnum<State>(stateMap, l, v!);
+                    return states().find((val) => val[0] === v)?.[1];
                 }) as Column<Job>['content']},
                 {id: 'err', label: l.t('_i.system.error')},
                 {id: 'next', label: l.t('_i.system.next'), content: (_: string, val?: string) => { return l.datetime(val); }},

@@ -5,7 +5,7 @@
 import { Locale as CoreLocale, Dict } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
-import { Enums, translateEnum, translateEnums } from './enum';
+import { Enums, translateEnums } from './enum';
 import { buildLocale } from './locale';
 
 describe('enum', async () => {
@@ -23,10 +23,5 @@ describe('enum', async () => {
 
     test('translateEnums', () => {
         expect(translateEnums<string>(enums, l)).toEqual([['k1', '确定'], ['k2', '取消']]);
-    });
-
-    test('translateEnum', () => {
-        expect(translateEnum<string>(enums, l, 'k1')).toEqual('确定');
-        expect(translateEnum<string>(enums, l, 'k10')).toBeUndefined();
     });
 });

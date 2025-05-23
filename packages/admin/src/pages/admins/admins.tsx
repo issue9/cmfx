@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnum, useLocale } from '@cmfx/components';
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnums, useLocale } from '@cmfx/components';
 import { Query } from '@cmfx/core';
-import { JSX, Show } from 'solid-js';
+import { createMemo, JSX, Show } from 'solid-js';
 
 import { user } from '@/components';
 import { use } from '@/context';
@@ -35,6 +35,9 @@ export function Admins(props: Props): JSX.Element {
 
     let ref: RemoteTableRef<Admin>;
 
+    const sexes = createMemo(() => { return translateEnums<user.Sex>(user.sexes, l); });
+    const states = createMemo(() => { return translateEnums<user.State>(user.states, l); });
+
     return <Page title="_i.admin.adminsManager">
         <RemoteTable<Admin, Q> ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
             <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{l.t('_i.newItem')}</LinkButton>
@@ -49,7 +52,7 @@ export function Admins(props: Props): JSX.Element {
             { id: 'no', label: l.t('_i.no') },
             {
                 id: 'sex', label: l.t('_i.sex'), content: ((_: string, v) => {
-                    return translateEnum<user.Sex>(user.sexes, l, v as user.Sex);
+                    return sexes().find((val) => val[0] === v)?.[1];
                 })
             },
             { id: 'name', label: l.t('_i.admin.name') },
@@ -57,7 +60,7 @@ export function Admins(props: Props): JSX.Element {
             { id: 'created', label: l.t('_i.created'), content: (_, v)=> l.datetime(v as string) },
             {
                 id: 'state', label: l.t('_i.state'), content: (_, v) => {
-                    return translateEnum<user.State>(user.states, l, v as user.State);
+                    return states().find((val) => val[0] === v)?.[1];
                 }
             },
             {
