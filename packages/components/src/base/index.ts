@@ -7,7 +7,7 @@ export { cloneElement, handleEvent } from './func';
 export { layouts, palettes } from './types';
 export type { Props as BaseProps, Layout, Palette } from './types';
 
-export { translateEnum } from './enum';
-export type { Enum, Enums } from './enum';
+export { translateEnum, translateEnums } from './enum';
+export type { AvailableEnumType, Enum, Enums } from './enum';
 
 export type { Locale } from './locale';

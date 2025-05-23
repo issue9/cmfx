@@ -11,6 +11,7 @@ import { ThemeProvider, useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
 import { Divider } from '@/divider';
 import { Accessor, FieldAccessor, FieldOptions, ObjectAccessor, RadioGroup, Range, translateEnums2Options } from '@/form';
+import { MessagesKey } from '@/messages';
 import { Label } from '@/typography';
 
 export interface Ref {
@@ -47,10 +48,10 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     const modeFA = FieldAccessor<Mode>('mode', 'dark');
     const schemeFA = new ObjectAccessor<Scheme>(Theme.genScheme(80));
     const contrastFA = FieldAccessor<Contrast>('contrast', 'nopreference');
-    const modes: FieldOptions<Mode> = translateEnums2Options<Mode>([
+    const modes: FieldOptions<Mode> = translateEnums2Options<Mode, MessagesKey>([
         ['dark', '_i.theme.dark'], ['light', '_i.theme.light']
     ], l);
-    const contrasts: FieldOptions<Contrast> = translateEnums2Options<Contrast>([
+    const contrasts: FieldOptions<Contrast> = translateEnums2Options<Contrast, MessagesKey>([
         ['nopreference', '_i.theme.nopreference'], ['more', '_i.theme.more'], ['less', '_i.theme.less']
     ], l);
 

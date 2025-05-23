@@ -4,7 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { BaseProps, Enums, Layout, Locale } from '@/base';
+import { AvailableEnumType, BaseProps, Enums, Layout, Locale } from '@/base';
 
 export interface Props extends BaseProps {
     title?: string;
@@ -38,14 +38,19 @@ export type FieldBaseProps = Props & {
 /**
  * 定义了 radio、choice 等选项类型中每个选择项的类型。
  *
- * @template T 表示的是选择项的值类型，要求唯一且可比较。
+ *  - 0 为选择项的值；
+ *  - 1 为选择项对应的显示对象；
+ *
+ * @template K 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<T> = [T, JSX.Element];
+export type Option<K extends AvailableEnumType> = [key: K, title: JSX.Element];
 
 /**
  * 选择项的数据类型
+ *
+ * @template K 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Options<T> = Array<Option<T>>;
+export type Options<T extends AvailableEnumType> = Array<Option<T>>;
 
 /**
  * input 组件的 inputMode 属性的可选值
@@ -70,8 +75,9 @@ export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 
 /**
  * 将枚举值转换成 {@link Options} 类型
  *
- * @template T 表示的是选择项的值类型，要求唯一且可比较。
+ * @template K 表示的是选择项的值类型，要求唯一且可比较。
+ * @template T 枚举值对应名称的翻译 ID；
  */
-export function translateEnums2Options<T extends string|number>(e: Enums<T>, l: Locale): Options<T> {
-    return e.map((v) => [v[0], l.t(v[1]) as string]);
+export function translateEnums2Options<K extends string | number, T extends string = string>(e: Enums<K, T>, l: Locale): Options<K> {
+    return e.map(v => [v[0], l.t(v[1])]);
 }
