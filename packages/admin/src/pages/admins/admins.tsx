@@ -6,8 +6,8 @@ import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, trans
 import { Query } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 
+import { user } from '@/components';
 import { use } from '@/context';
-import { Sex, sexesMap, SexSelector, State, StateSelector, statesMap } from '@/pages/common';
 
 interface Props {
     /**
@@ -18,8 +18,8 @@ interface Props {
 
 interface Q extends Query {
     text: string;
-    state: Array<State>;
-    sex: Array<Sex>;
+    state: Array<user.State>;
+    sex: Array<user.Sex>;
 }
 
 export function Admins(props: Props): JSX.Element {
@@ -41,15 +41,15 @@ export function Admins(props: Props): JSX.Element {
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
-                <StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
-                <SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
+                <user.StateSelector multiple accessor={qa.accessor<Array<user.State>>('state')} />
+                <user.SexSelector multiple accessor={qa.accessor<Array<user.Sex>>('sex')} />
             </>
         )} columns={[
             { id: 'id', label: l.t('_i.id') },
             { id: 'no', label: l.t('_i.no') },
             {
                 id: 'sex', label: l.t('_i.sex'), content: ((_: string, v) => {
-                    return translateEnum<Sex>(sexesMap, l, v as Sex);
+                    return translateEnum<user.Sex>(user.sexes, l, v as user.Sex);
                 })
             },
             { id: 'name', label: l.t('_i.admin.name') },
@@ -57,7 +57,7 @@ export function Admins(props: Props): JSX.Element {
             { id: 'created', label: l.t('_i.created'), content: (_, v)=> l.datetime(v as string) },
             {
                 id: 'state', label: l.t('_i.state'), content: (_, v) => {
-                    return translateEnum<State>(statesMap, l, v as State);
+                    return translateEnum<user.State>(user.states, l, v as user.State);
                 }
             },
             {
@@ -104,10 +104,10 @@ export function Admins(props: Props): JSX.Element {
 export interface Admin {
     id?: number;
     no?: string;
-    sex: Sex;
+    sex: user.Sex;
     name: string;
     nickname: string;
     avatar?: string;
     created?: string;
-    state: State;
+    state: user.State;
 }

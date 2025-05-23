@@ -6,8 +6,8 @@ import { Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
+import { user } from '@/components';
 import { use, useLocale } from '@/context';
-import { Passport, sexesMap, statesMap } from '@/pages/common';
 import { Member } from './types';
 
 
@@ -37,7 +37,7 @@ export function View(props: Props): JSX.Element {
         state: 'normal'
     });
 
-    const [passports, setPassports] = createSignal<Array<Passport>>([]);
+    const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     onMount(async () => {
         const r = await api.get<Member>(`/members/${id}`);
@@ -52,7 +52,7 @@ export function View(props: Props): JSX.Element {
         }
         setMember(r.body!);
 
-        const r2 = await api.get<Array<Passport>>('/passports');
+        const r2 = await api.get<Array<user.Passport>>('/passports');
         if (!r2.ok) {
             await act.outputProblem(r2.body);
             return;
@@ -76,11 +76,11 @@ export function View(props: Props): JSX.Element {
 
             <div class="item">
                 <dl><dt class="mr-2">{l.t('_i.nickname')}</dt><dd>{ member().nickname }</dd></dl>
-                <dl><dt class="mr-2">{l.t('_i.sex')}</dt><dd>{ l.t(sexesMap.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.sex')}</dt><dd>{ l.t(user.sexes.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
             </div>
 
             <div class="item">
-                <dl><dt class="mr-2">{l.t('_i.state')}</dt><dd>{ l.t(statesMap.find((v)=>v[0]===member().state)![1]) }</dd></dl>
+                <dl><dt class="mr-2">{l.t('_i.state')}</dt><dd>{ l.t(user.states.find((v)=>v[0]===member().state)![1]) }</dd></dl>
                 <dl>
                     <dt class="mr-2">{l.t('_i.member.passports')}</dt>
                     <dd class="flex gap-2">

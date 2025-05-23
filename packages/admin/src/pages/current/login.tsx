@@ -6,8 +6,8 @@ import { Choice, FieldAccessor, Page, translateEnums2Options } from '@cmfx/compo
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
+import { user } from '@/components';
 import { use, useLocale } from '@/context';
-import { Passport } from '@/pages/common';
 import { PassportComponents } from './passports';
 
 export interface Props {
@@ -53,7 +53,7 @@ function LoginBox(props: Props): JSX.Element {
     passport.onChange((n) => setQ({ type: n }));
 
     onMount(async () => {
-        const r = await api.get<Array<Passport>>('/passports');
+        const r = await api.get<Array<user.Passport>>('/passports');
         if (!r.ok) {
             await act.outputProblem(r.body);
             return;

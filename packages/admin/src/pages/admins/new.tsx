@@ -6,8 +6,8 @@ import { Button, Form, FormAccessor, Icon, LinkButton, notify, Page, Password, T
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 
+import { user } from '@/components';
 import { use, useLocale } from '@/context';
-import { Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
 interface Props {
@@ -35,7 +35,7 @@ export function New(props: Props): JSX.Element {
             <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.nickname')} />
             <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={l.t('_i.current.password')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.roles.roles')} />
-            <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} />
+            <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} palette='secondary'>
                     <Icon icon='arrow_back_ios' />
@@ -48,7 +48,7 @@ export function New(props: Props): JSX.Element {
 }
 
 interface Admin {
-    sex: Sex;
+    sex: user.Sex;
     name: string;
     nickname: string;
     roles: Array<string>;

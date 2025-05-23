@@ -10,8 +10,8 @@ import {
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
+import { user } from '@/components';
 import { use, useLocale, User } from '@/context';
-import { Passport, Sex, SexSelector } from '@/pages/common';
 import { PassportComponents } from './passports';
 
 interface Props {
@@ -38,10 +38,10 @@ export function Profile(props: Props): JSX.Element {
 
     const nameA = infoAccess.accessor<string>('name');
     const nicknameA = infoAccess.accessor<string>('nickname');
-    const sexA = infoAccess.accessor<Sex>('sex');
+    const sexA = infoAccess.accessor<user.Sex>('sex');
     const passportA = infoAccess.accessor<User['passports']>('passports');
 
-    const [passports, setPassports] = createSignal<Array<Passport>>([]);
+    const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     const [avatar, setAvatar] = createSignal('');
     let originAvatar = ''; // 原始的头像内容，在取消上传头像时，可以从此值恢复。
@@ -68,7 +68,7 @@ export function Profile(props: Props): JSX.Element {
     });
 
     onMount(async () => {
-        const r = await api.get<Array<Passport>>('/passports');
+        const r = await api.get<Array<user.Passport>>('/passports');
         if (!r.ok) {
             await act.outputProblem(r.body);
             return;
@@ -117,7 +117,7 @@ export function Profile(props: Props): JSX.Element {
         <Form formAccessor={infoAccess} class="form">
             <TextField class="w-full" label={l.t('_i.current.name')} accessor={nameA} />
             <TextField class="w-full" label={l.t('_i.nickname')} accessor={nicknameA} />
-            <SexSelector class="w-full" label={l.t('_i.sex')} accessor={sexA} />
+            <user.SexSelector class="w-full" label={l.t('_i.sex')} accessor={sexA} />
 
             <div class="actions">
                 <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_i.reset')}</Button>

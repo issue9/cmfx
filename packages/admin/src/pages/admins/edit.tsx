@@ -6,8 +6,8 @@ import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField 
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 
+import { user } from '@/components';
 import { use, useLocale, User } from '@/context';
-import { Passport, Sex, SexSelector } from '@/pages/common';
 import { roles } from '@/pages/roles';
 
 interface Props {
@@ -22,7 +22,7 @@ export function Edit(props: Props): JSX.Element {
     const l = useLocale();
     const ps = useParams<{id: string}>();
 
-    const [passports, setPassports] = createSignal<Array<Passport>>([]);
+    const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     const nav = useNavigate();
     const form = new FormAccessor<Admin>(zeroAdmin(), act,
@@ -40,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
             await act.outputProblem(r1.body);
         }
 
-        const r2 = await api.get<Array<Passport>>('/passports');
+        const r2 = await api.get<Array<user.Passport>>('/passports');
         if (!r2.ok) {
             await act.outputProblem(r2.body);
             return;
@@ -53,7 +53,7 @@ export function Edit(props: Props): JSX.Element {
             <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.admin.name')} />
             <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.nickname')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.roles.roles')} />
-            <SexSelector class='w-full' accessor={form.accessor<Sex>('sex')} label={l.t('_i.sex')} />
+            <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} label={l.t('_i.sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} type="button" palette='secondary'>
                     <Icon icon='arrow_back_ios' />
@@ -94,7 +94,7 @@ export function Edit(props: Props): JSX.Element {
 }
 
 interface Admin {
-    sex: Sex;
+    sex: user.Sex;
     name: string;
     nickname: string;
     roles: Array<string>;
