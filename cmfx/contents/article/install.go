@@ -16,7 +16,7 @@ import (
 // Install 安装数据
 //
 // mod 所属模块；tablePrefix 表名前缀；ts 关联的标签列表；
-func Install(mod *cmfx.Module, tablePrefix string, ts ...string) *Module {
+func Install(mod *cmfx.Module, tablePrefix string, ts ...string) *Articles {
 	linkage.Install(mod, tablePrefix+"_"+topicsTableName, &linkage.Linkage{Title: "topics"})
 	tag.Install(mod, tablePrefix+"_"+tagsTableName, ts...)
 	relationship.Install[int64, int64](mod, tablePrefix+"_article_topic")
@@ -27,5 +27,5 @@ func Install(mod *cmfx.Module, tablePrefix string, ts ...string) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	return Load(mod, tablePrefix)
+	return NewArticles(mod, tablePrefix)
 }

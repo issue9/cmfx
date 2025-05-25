@@ -22,7 +22,7 @@ import (
 )
 
 type Module struct {
-	user      *user.Module
+	user      *user.Users
 	roleGroup *rbac.RoleGroup
 	sse       *sse.Server[int64]
 	temp      *temporary.Temporary[*user.User]
@@ -34,7 +34,7 @@ type Module struct {
 // up 上传模块；
 func Load(mod *cmfx.Module, o *Config, up *upload.Module) *Module {
 	m := &Module{
-		user: user.Load(mod, o.User),
+		user: user.NewUsers(mod, o.User),
 		sse:  sse.NewServer[int64](mod.Server(), o.SSE.Retry.Duration(), o.SSE.KeepAlive.Duration(), o.SSE.Cap, web.Phrase("admin sse server")),
 		temp: temporary.New[*user.User](mod.Server(), time.Minute, true, "token", cmfx.UnauthorizedInvalidToken, web.ProblemInternalServerError),
 	}
@@ -207,7 +207,7 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 	return m.user.AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 
-func (m *Module) UserModule() *user.Module { return m.user }
+func (m *Module) UserModule() *user.Users { return m.user }
 
 // 手动添加一个新的管理员
 func (m *Module) addAdmin(data *infoWithAccountTO, ip, ua, content string) error {

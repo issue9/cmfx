@@ -33,7 +33,7 @@ type OverviewVO struct {
 }
 
 type OverviewQuery struct {
-	m *Module
+	m *Articles
 	query.Text
 	Created time.Time `query:"created"`
 	Tags    []int64   `query:"tag"`
@@ -47,7 +47,7 @@ func (q *OverviewQuery) Filter(ctx *web.FilterContext) {
 }
 
 type TopicOverviewQuery struct {
-	m *Module
+	m *Articles
 	query.Text
 	Created time.Time `query:"created"`
 	Tags    []int64   `query:"tag"`
@@ -59,7 +59,7 @@ func (q *TopicOverviewQuery) Filter(ctx *web.FilterContext) {
 }
 
 type TagOverviewQuery struct {
-	m *Module
+	m *Articles
 	query.Text
 	Created time.Time `query:"created"`
 	Topics  []int64   `query:"topic"`
@@ -73,7 +73,7 @@ func (q *TagOverviewQuery) Filter(ctx *web.FilterContext) {
 // HandleGetArticles 获取文章列表
 //
 // 查询参数为 [OverviewQuery]，返回对象为 [query.Page[OverviewVO]]
-func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
+func (m *Articles) HandleGetArticles(ctx *web.Context) web.Responser {
 	q := &OverviewQuery{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -114,7 +114,7 @@ func (m *Module) HandleGetArticles(ctx *web.Context) web.Responser {
 // HandleGetArticlesByTopic 获取文章列表
 //
 // 查询参数为 [TopicOverviewQuery]，返回对象为 [query.Page[OverviewVO]]
-func (m *Module) HandleGetArticlesByTopic(ctx *web.Context, topic int64) web.Responser {
+func (m *Articles) HandleGetArticlesByTopic(ctx *web.Context, topic int64) web.Responser {
 	q := &OverviewQuery{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -149,7 +149,7 @@ func (m *Module) HandleGetArticlesByTopic(ctx *web.Context, topic int64) web.Res
 // HandleGetArticlesByTag 获取文章列表
 //
 // 查询参数为 [TagOverviewQuery]，返回对象为 [query.Page[OverviewVO]]
-func (m *Module) HandleGetArticlesByTag(ctx *web.Context, tag int64) web.Responser {
+func (m *Articles) HandleGetArticlesByTag(ctx *web.Context, tag int64) web.Responser {
 	q := &OverviewQuery{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -212,7 +212,7 @@ type ArticleVO struct {
 //
 // 返回参数的实际类型为 [ArticleVO]；
 // article 为文章的 ID，使用都需要确保值的正确性；
-func (m *Module) HandleGetArticle(ctx *web.Context, article int64) web.Responser {
+func (m *Articles) HandleGetArticle(ctx *web.Context, article int64) web.Responser {
 	a := &ArticleVO{}
 	size, err := m.db.SQLBuilder().Select().From(orm.TableName(&articlePO{}), "a").
 		Column("a.id,a.slug,a.views,a.{order},a.created,a.modified,a.last").
@@ -237,7 +237,7 @@ func (m *Module) HandleGetArticle(ctx *web.Context, article int64) web.Responser
 }
 
 type ArticleTO struct {
-	m *Module
+	m *Articles
 
 	XMLName  struct{} `xml:"article" json:"-" yaml:"-" cbor:"-"`
 	Author   string   `json:"author" yaml:"author" cbor:"author" xml:"author"`
@@ -268,7 +268,7 @@ func (to *ArticleTO) Filter(ctx *web.FilterContext) {
 //
 // creator 为创建者的 ID，调用者需要确保值的正确性；
 // 提交类型为 [ArticleTO]；
-func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Responser {
+func (m *Articles) HandlePostArticle(ctx *web.Context, creator int64) web.Responser {
 	a := &ArticleTO{m: m}
 	if resp := ctx.Read(true, a, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -329,7 +329,7 @@ func (m *Module) HandlePostArticle(ctx *web.Context, creator int64) web.Response
 }
 
 type ArticlePatchTO struct {
-	m *Module
+	m *Articles
 
 	XMLName  struct{} `xml:"article" json:"-" yaml:"-" cbor:"-"`
 	Author   string   `json:"author" yaml:"author" cbor:"author" xml:"author"`
@@ -351,7 +351,7 @@ func (to *ArticlePatchTO) Filter(ctx *web.FilterContext) {
 //
 // article 为文章的 ID；
 // modifier 为修改者的 ID，调用者需要确保值的正确性；
-func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) web.Responser {
+func (m *Articles) HandlePatchArticle(ctx *web.Context, article, modifier int64) web.Responser {
 	ar := &articlePO{ID: article}
 	found, err := m.db.Select(ar)
 	if err != nil {
@@ -416,7 +416,7 @@ func (m *Module) HandlePatchArticle(ctx *web.Context, article, modifier int64) w
 //
 // article 为文章的 ID；
 // deleter 为删除者的 ID，调用者需要确保值的正确性；
-func (m *Module) HandleDeleteArticle(ctx *web.Context, article, deleter int64) web.Responser {
+func (m *Articles) HandleDeleteArticle(ctx *web.Context, article, deleter int64) web.Responser {
 	a := &articlePO{ID: article}
 	found, err := m.db.Select(a)
 	if err != nil {
@@ -463,7 +463,7 @@ type SnapshotOverviewVO struct {
 //
 // article 文章 ID；
 // 返回 []OverviewVO；
-func (m *Module) HandleGetSnapshots(ctx *web.Context, article int64) web.Responser {
+func (m *Articles) HandleGetSnapshots(ctx *web.Context, article int64) web.Responser {
 	q := &query.Text{}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -504,7 +504,7 @@ type SnapshotVO struct {
 // NOTE: 关联的文章一旦删除，快照也将不可获取。
 //
 // snapshot 为快照的 ID；
-func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Responser {
+func (m *Articles) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Responser {
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
 		Column("a.id as article,a.slug").
 		Column("s.author,s.created,s.title,s.images,s.summary,s.content,s.id").
@@ -524,7 +524,7 @@ func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Respons
 	return web.OK(a)
 }
 
-func (m *Module) getArticleAttribute(article int64) (topics, tags []int64, err error) {
+func (m *Articles) getArticleAttribute(article int64) (topics, tags []int64, err error) {
 	tags, err = m.tagRel.ListV2(article)
 	if err != nil {
 		return nil, nil, err

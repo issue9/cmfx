@@ -23,7 +23,7 @@ type tokens = token.Token[*User]
 // 如果状态为非 [StateNormal]，那么也将会被禁止登录。
 //
 // NOTE: 需要保证 u.ID、u.State 和 u.NO 是有效的。
-func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
+func (m *Users) SetState(tx *orm.Tx, u *User, s State) error {
 	if u.State == s {
 		return nil
 	}
@@ -43,7 +43,7 @@ func (m *Module) SetState(tx *orm.Tx, u *User, s State) error {
 }
 
 // 清空与 uid 相关的所有登录信息
-func (m *Module) deleteUser(u *User) error {
+func (m *Users) deleteUser(u *User) error {
 	for _, p := range m.passports {
 		if err := p.Delete(u.ID); err != nil {
 			return err
@@ -55,7 +55,7 @@ func (m *Module) deleteUser(u *User) error {
 }
 
 // CreateToken 为用户 u 生成登录令牌
-func (m *Module) CreateToken(ctx *web.Context, u *User, p Passport) web.Responser {
+func (m *Users) CreateToken(ctx *web.Context, u *User, p Passport) web.Responser {
 	if u.State != StateNormal {
 		return ctx.Problem(cmfx.UnauthorizedInvalidState)
 	}
@@ -74,7 +74,7 @@ func (m *Module) CreateToken(ctx *web.Context, u *User, p Passport) web.Response
 	return m.token.New(ctx, u, http.StatusCreated)
 }
 
-func (m *Module) logout(ctx *web.Context) web.Responser {
+func (m *Users) logout(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx) // 先拿到用户数据再执行 logout
 
 	if err := m.token.Logout(ctx); err != nil {
@@ -91,7 +91,7 @@ func (m *Module) logout(ctx *web.Context) web.Responser {
 }
 
 // RefreshToken 刷新令牌
-func (m *Module) refreshToken(ctx *web.Context) web.Responser {
+func (m *Users) refreshToken(ctx *web.Context) web.Responser {
 	u := m.CurrentUser(ctx)
 	if u == nil {
 		return web.Status(http.StatusUnauthorized)
@@ -105,12 +105,12 @@ func (m *Module) refreshToken(ctx *web.Context) web.Responser {
 }
 
 // Middleware 验证是否登录
-func (m *Module) Middleware(next web.HandlerFunc, method, path, router string) web.HandlerFunc {
+func (m *Users) Middleware(next web.HandlerFunc, method, path, router string) web.HandlerFunc {
 	return m.token.Middleware(next, method, path, router)
 }
 
 // CurrentUser 获取当前登录的用户信息
-func (m *Module) CurrentUser(ctx *web.Context) *User {
+func (m *Users) CurrentUser(ctx *web.Context) *User {
 	if u, found := m.token.GetInfo(ctx); found {
 		return u
 	}
@@ -124,7 +124,7 @@ func (m *Module) CurrentUser(ctx *web.Context) *User {
 // ip 客户的 IP；
 // ua 客户端的标记；
 // content 添加时的备注；
-func (m *Module) New(s State, username, password string, ip, ua, content string) (*User, error) {
+func (m *Users) New(s State, username, password string, ip, ua, content string) (*User, error) {
 	if s == StateDeleted {
 		return nil, web.NewLocaleError("can not add user with %s state", StateDeleted)
 	}

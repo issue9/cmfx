@@ -27,7 +27,7 @@ func (l *LinkageTO) Filter(ctx *web.FilterContext) {
 }
 
 // HandlePostLinkage 向 ID 指向的对象添加子项
-func (m *Module) HandlePostLinkage(ctx *web.Context, idKey string) web.Responser {
+func (m *Linkages) HandlePostLinkage(ctx *web.Context, idKey string) web.Responser {
 	id, resp := ctx.PathID(idKey, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
@@ -49,7 +49,7 @@ func (m *Module) HandlePostLinkage(ctx *web.Context, idKey string) web.Responser
 }
 
 // HandlePutLinkage 修改 ID 指向的对象
-func (m *Module) HandlePutLinkage(ctx *web.Context, idKey string) web.Responser {
+func (m *Linkages) HandlePutLinkage(ctx *web.Context, idKey string) web.Responser {
 	id, resp := ctx.PathID(idKey, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
@@ -71,7 +71,7 @@ func (m *Module) HandlePutLinkage(ctx *web.Context, idKey string) web.Responser 
 }
 
 // HandleDeleteLinkage 删除指向 ID 的对象
-func (m *Module) HandleDeleteLinkage(ctx *web.Context, idKey string) web.Responser {
+func (m *Linkages) HandleDeleteLinkage(ctx *web.Context, idKey string) web.Responser {
 	id, resp := ctx.PathID(idKey, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
@@ -88,7 +88,7 @@ func (m *Module) HandleDeleteLinkage(ctx *web.Context, idKey string) web.Respons
 }
 
 // HandleGetLinkages 返回所有的对象
-func (m *Module) HandleGetLinkages(ctx *web.Context) web.Responser {
+func (m *Linkages) HandleGetLinkages(ctx *web.Context) web.Responser {
 	l, err := m.Get()
 	if err != nil {
 		return ctx.Error(err, "")

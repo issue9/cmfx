@@ -21,7 +21,7 @@ func (t *TagTO) Filter(ctx *web.FilterContext) {
 }
 
 // HandlePostTags 添加子元素
-func (m *Module) HandlePostTags(ctx *web.Context) web.Responser {
+func (m *Tags) HandlePostTags(ctx *web.Context) web.Responser {
 	data := &TagTO{}
 	if resp := ctx.Read(true, data, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -37,7 +37,7 @@ func (m *Module) HandlePostTags(ctx *web.Context) web.Responser {
 // HandlePutTag 更新指定 ID 项的路由
 //
 // idKey 路由中表示标签 ID 的名称；
-func (m *Module) HandlePutTag(ctx *web.Context, idKey string) web.Responser {
+func (m *Tags) HandlePutTag(ctx *web.Context, idKey string) web.Responser {
 	id, resp := ctx.PathID(idKey, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return resp
@@ -56,7 +56,7 @@ func (m *Module) HandlePutTag(ctx *web.Context, idKey string) web.Responser {
 }
 
 // HandleGetTags 获取所有标签项的路由
-func (m *Module) HandleGetTags(ctx *web.Context) web.Responser {
+func (m *Tags) HandleGetTags(ctx *web.Context) web.Responser {
 	l, err := m.Get()
 	if err != nil {
 		return ctx.Error(err, "")

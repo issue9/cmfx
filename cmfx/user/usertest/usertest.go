@@ -19,10 +19,10 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-// NewModule 声明一个用于测试的 [user.Module] 实例
+// NewModule 声明一个用于测试的 [user.Users] 实例
 //
 // 提供了一个账号和密码分别为 u1 和 123 的测试数据。
-func NewModule(s *test.Suite) *user.Module {
+func NewModule(s *test.Suite) *user.Users {
 	mod := s.NewModule("user")
 
 	user.Install(mod)
@@ -34,7 +34,7 @@ func NewModule(s *test.Suite) *user.Module {
 	}
 	s.Assertion().NotError(o.SanitizeConfig())
 
-	m := user.Load(mod, o)
+	m := user.NewUsers(mod, o)
 	s.Assertion().NotNil(m)
 
 	_, err := m.New(user.StateNormal, "u1", "123", "", "", "add user")
@@ -43,7 +43,7 @@ func NewModule(s *test.Suite) *user.Module {
 }
 
 // GetToken 获得访问令牌
-func GetToken(s *test.Suite, m *user.Module) string {
+func GetToken(s *test.Suite, m *user.Users) string {
 	r := &token.Response{}
 	s.Post(m.URLPrefix()+"/passports/password/login", []byte(`{"username":"u1","password":"123"}`)).
 		Header(header.ContentType, header.JSON+";charset=utf-8").

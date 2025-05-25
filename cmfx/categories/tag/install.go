@@ -12,7 +12,7 @@ import (
 )
 
 // Install 安装数据库以及相关的初始数据
-func Install(mod *cmfx.Module, tableName string, tag ...string) *Module {
+func Install(mod *cmfx.Module, tableName string, tag ...string) *Tags {
 	db := buildDB(mod, tableName)
 
 	if err := db.Create(&TagPO{}); err != nil {
@@ -32,5 +32,5 @@ func Install(mod *cmfx.Module, tableName string, tag ...string) *Module {
 		}
 	}
 
-	return Load(mod, tableName)
+	return NewTags(mod, tableName)
 }

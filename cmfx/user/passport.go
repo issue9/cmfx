@@ -34,7 +34,7 @@ type Passport interface {
 	Delete(uid int64) error
 }
 
-func (m *Module) AddPassport(adp Passport) {
+func (m *Users) AddPassport(adp Passport) {
 	if slices.IndexFunc(m.passports, func(a Passport) bool { return a.ID() == adp.ID() }) >= 0 {
 		panic(fmt.Sprintf("已经存在同名 %s 的验证器", adp.ID()))
 	}
@@ -47,7 +47,7 @@ type passportVO struct {
 	Desc    string   `json:"desc" cbor:"desc" xml:"desc" yaml:"desc" comment:"The description of passport"`
 }
 
-func (m *Module) getPassports(ctx *web.Context) web.Responser {
+func (m *Users) getPassports(ctx *web.Context) web.Responser {
 	passports := make([]*passportVO, 0, len(m.passports))
 
 	for _, a := range m.passports {
@@ -72,7 +72,7 @@ type IdentityVO struct {
 // Identities 获取 uid 已经关联的适配器
 //
 // 返回值键名为验证器 id，键值为该适配器对应的账号。
-func (m *Module) Identities(uid int64) iter.Seq[*IdentityVO] {
+func (m *Users) Identities(uid int64) iter.Seq[*IdentityVO] {
 	return func(yield func(id *IdentityVO) bool) {
 		for _, p := range m.passports {
 			identity, state := p.Identity(uid)

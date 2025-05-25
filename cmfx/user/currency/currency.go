@@ -15,6 +15,12 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
+type Currency struct {
+	user *user.Users
+	id   string
+	db   *orm.DB
+}
+
 type OverviewsVO struct {
 	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"overview"`
 
@@ -33,8 +39,46 @@ type overviewsPO struct {
 	Username string `orm:"name(username)"`
 }
 
+// New 声明 [Currency]
+//
+// u 所属的模块；
+// id 该货币的 ID；
+func New(u *user.Users, id string) *Currency {
+	m := &Currency{
+		user: u,
+		id:   id,
+		db:   buildDB(u.Module().DB(), id),
+	}
+
+	u.OnAdd(func(u *user.User) { m.initOverview(nil, u.ID) }) // 添加用户时创建一个关联的初始表
+
+	return m
+}
+
+func (m *Currency) initOverview(tx *orm.Tx, u int64) *overviewPO {
+	e := m.engine(tx)
+
+	id, err := e.LastInsertID(&overviewPO{UID: u})
+	if err != nil {
+		m.user.Module().Server().Logs().ERROR().Error(err)
+	}
+
+	return &overviewPO{ID: id, UID: u}
+}
+
+func buildDB(db *orm.DB, id string) *orm.DB {
+	return db.New(db.TablePrefix() + "_" + id)
+}
+
+func (m *Currency) engine(tx *orm.Tx) orm.Engine {
+	if tx == nil {
+		return m.db
+	}
+	return tx.NewEngine(m.db.TablePrefix())
+}
+
 // GetOverviews 获取所有用户的摘要信息
-func (m *Module) GetOverviews(q *query.Text) (*query.Page[OverviewsVO], error) {
+func (m *Currency) GetOverviews(q *query.Text) (*query.Page[OverviewsVO], error) {
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&overviewPO{}), "ov")
 
 	m.user.LeftJoin(sql, "u", "u.id=ov.uid", []user.State{user.StateLocked, user.StateNormal})
@@ -67,7 +111,7 @@ type OverviewExpireVO struct {
 // GetOverview 获取用户 u 的摘要信息
 //
 // expire Expire 字段返回在此之前过期的积分，如果为空，则 Expire 不返回；
-func (m *Module) GetOverview(uid int64, expire time.Time) (*OverviewVO, error) {
+func (m *Currency) GetOverview(uid int64, expire time.Time) (*OverviewVO, error) {
 	p := &overviewPO{ID: uid}
 	if found, err := m.db.Select(p); err != nil {
 		return nil, err
@@ -107,7 +151,7 @@ func (m *Module) GetOverview(uid int64, expire time.Time) (*OverviewVO, error) {
 // Add 添加金额
 //
 // expire 如果不为空值，表示该积分在到达该时间还未被使用时，将不能再使用。
-func (m *Module) Add(tx *orm.Tx, uid int64, val uint, memo string, expire time.Time) error {
+func (m *Currency) Add(tx *orm.Tx, uid int64, val uint, memo string, expire time.Time) error {
 	isExpire := !expire.IsZero()
 	e := m.engine(tx)
 
@@ -170,7 +214,7 @@ func (m *Module) Add(tx *orm.Tx, uid int64, val uint, memo string, expire time.T
 }
 
 // Del 减少金额
-func (m *Module) Del(tx *orm.Tx, uid int64, val uint, memo string) error {
+func (m *Currency) Del(tx *orm.Tx, uid int64, val uint, memo string) error {
 	e := m.engine(tx)
 	v := int64(val)
 
@@ -259,7 +303,7 @@ func (m *Module) Del(tx *orm.Tx, uid int64, val uint, memo string) error {
 // Freeze 冻结资金
 //
 // 会过期的资金无法冻结
-func (m *Module) Freeze(tx *orm.Tx, u *user.User, val uint, memo string) error {
+func (m *Currency) Freeze(tx *orm.Tx, u *user.User, val uint, memo string) error {
 	e := m.engine(tx)
 
 	overview := &overviewPO{UID: u.ID}
@@ -293,7 +337,7 @@ func (m *Module) Freeze(tx *orm.Tx, u *user.User, val uint, memo string) error {
 	return err
 }
 
-func (m *Module) Unfreeze(tx *orm.Tx, u *user.User, val int64, memo string) error {
+func (m *Currency) Unfreeze(tx *orm.Tx, u *user.User, val int64, memo string) error {
 	e := m.engine(tx)
 
 	overview := &overviewPO{UID: u.ID}
@@ -332,7 +376,7 @@ type LogQuery struct {
 }
 
 // GetLogs 查询日志
-func (m *Module) GetLogs(u *user.User, q *LogQuery) (*query.Page[LogPO], error) {
+func (m *Currency) GetLogs(u *user.User, q *LogQuery) (*query.Page[LogPO], error) {
 	sql := m.db.SQLBuilder().Select().Where("uid=?", u.ID).From(orm.TableName(&LogPO{}))
 	if q.Text.Text != "" {
 		text := "%" + q.Text.Text + "%"

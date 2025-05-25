@@ -11,7 +11,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-func Install(u *user.Module) *Module {
+func Install(u *user.Users) *Notices {
 	mod := u.Module()
 
 	tag.Install(mod, typesKey, "平台公告", "活动通知")
@@ -20,5 +20,5 @@ func Install(u *user.Module) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	return Load(u)
+	return NewNotices(u)
 }

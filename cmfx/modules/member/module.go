@@ -24,21 +24,21 @@ import (
 
 // Module 不带权限功能的会员管理模块
 type Module struct {
-	user  *user.Module
+	user  *user.Users
 	admin *admin.Module
 
-	levels *tag.Module
-	types  *tag.Module
+	levels *tag.Tags
+	types  *tag.Tags
 }
 
 // Load 加载模块
 func Load(mod *cmfx.Module, conf *Config, up *upload.Module, adminMod *admin.Module) *Module {
 	m := &Module{
-		user:  user.Load(mod, conf.User),
+		user:  user.NewUsers(mod, conf.User),
 		admin: adminMod,
 
-		levels: tag.Load(mod, levelsTableName),
-		types:  tag.Load(mod, typesTableName),
+		levels: tag.NewTags(mod, levelsTableName),
+		types:  tag.NewTags(mod, typesTableName),
 	}
 
 	resGroup := adminMod.NewResourceGroup(mod)
@@ -183,7 +183,7 @@ func (m *Module) AddSecurityLogWithContext(tx *orm.Tx, uid int64, ctx *web.Conte
 	return m.UserModule().AddSecurityLogFromContext(tx, uid, ctx, content)
 }
 
-func (m *Module) UserModule() *user.Module { return m.user }
+func (m *Module) UserModule() *user.Users { return m.user }
 
 type RegisterInfo struct {
 	Username string

@@ -12,7 +12,7 @@ import (
 )
 
 // Install 安装数据
-func Install(mod *cmfx.Module, prefix string) *Module {
+func Install(mod *cmfx.Module, prefix string) *Products {
 	db := buildDB(mod, prefix)
 
 	if err := db.Create(&snapshotPO{}, &productPO{}); err != nil {
@@ -21,5 +21,5 @@ func Install(mod *cmfx.Module, prefix string) *Module {
 
 	eav.Install(mod, prefix)
 
-	return Load(mod, prefix)
+	return NewProducts(mod, prefix)
 }

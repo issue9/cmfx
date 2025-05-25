@@ -23,14 +23,6 @@ type State int8
 
 func (State) PrimitiveType() core.PrimitiveType { return core.String }
 
-type LogVO struct {
-	XMLName   struct{}  `xml:"log" json:"-" cbor:"-" yaml:"-"`
-	Content   string    `json:"content" xml:",cdata" cbor:"content" yaml:"content" comment:"log content"`
-	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip" yaml:"ip" comment:"log IP"`
-	UserAgent string    `json:"ua" xml:"ua" cbor:"ua" yaml:"ua" comment:"log user agent"`
-	Created   time.Time `xml:"created" json:"created" cbor:"created" yaml:"created" comment:"created time"`
-}
-
 //--------------------------------------- user ---------------------------------------
 
 type User struct {
@@ -38,12 +30,10 @@ type User struct {
 
 	State   State     `orm:"name(state)" json:"state" xml:"state,attr" cbor:"state" yaml:"state" comment:"user state"`             // 状态
 	Created time.Time `orm:"name(created)" json:"created" xml:"created,attr" cbor:"created" yaml:"created" comment:"created time"` // 添加时间
-	Last    time.Time `orm:"name(last)" json:"last,omitzero" xml:"last,omitzero" cbor:"last,omitzero" yaml:"last,omitempty"`    // 末次登录时间
+	Last    time.Time `orm:"name(last)" json:"last,omitzero" xml:"last,omitzero" cbor:"last,omitzero" yaml:"last,omitempty"`       // 末次登录时间
 
-	// 用户的自增 ID
-	ID int64 `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" yaml:"id" comment:"user id"`
-	// 用户编号，唯一且无序。
-	NO string `orm:"name(no);len(32);unique(no)" json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"`
+	ID int64  `orm:"name(id);ai" json:"id" xml:"id,attr" cbor:"id" yaml:"id" comment:"user id"`            // 用户的自增 ID
+	NO string `orm:"name(no);len(32);unique(no)" json:"no" xml:"no" cbor:"no" yaml:"no" comment:"user no"` // 用户编号，唯一且无序。
 
 	// 登录信息，username 不唯一，保证在标记为删除的情况下，不影响相同值的数据添加。
 	Username string `orm:"name(username);len(32)" json:"username,omitempty" yaml:"username,omitempty" xml:"username,omitempty" cbor:"username,omitempty" comment:"username"`
@@ -60,7 +50,15 @@ func (u *User) BeforeInsert() error {
 	return nil
 }
 
-//--------------------------------- modelLog ---------------------------------------------
+//--------------------------------- log ---------------------------------------------
+
+type LogVO struct {
+	XMLName   struct{}  `xml:"log" json:"-" cbor:"-" yaml:"-"`
+	Content   string    `json:"content" xml:",cdata" cbor:"content" yaml:"content" comment:"log content"`
+	IP        string    `json:"ip" xml:"ip,attr" cbor:"ip" yaml:"ip" comment:"log IP"`
+	UserAgent string    `json:"ua" xml:"ua" cbor:"ua" yaml:"ua" comment:"log user agent"`
+	Created   time.Time `xml:"created" json:"created" cbor:"created" yaml:"created" comment:"created time"`
+}
 
 type logPO struct {
 	ID      int64     `orm:"name(id);ai"`

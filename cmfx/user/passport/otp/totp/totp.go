@@ -34,7 +34,7 @@ const (
 )
 
 type totp struct {
-	user *user.Module
+	user *user.Users
 	db   *orm.DB
 	id   string
 	desc web.LocaleStringer
@@ -43,7 +43,7 @@ type totp struct {
 // Init 向 user 注册 [TOTP] 的验证方式
 //
 // [TOTP]: https://datatracker.ietf.org/doc/html/rfc6238
-func Init(user *user.Module, id string, desc web.LocaleStringer) user.Passport {
+func Init(user *user.Users, id string, desc web.LocaleStringer) user.Passport {
 	initProblems(user.Module().Server()) // 私有的错误码
 
 	p := &totp{

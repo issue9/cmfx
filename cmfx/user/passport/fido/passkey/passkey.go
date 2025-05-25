@@ -24,7 +24,7 @@ import (
 
 type passkey struct {
 	db    *orm.DB
-	user  *user.Module
+	user  *user.Users
 	id    string
 	desc  web.LocaleStringer
 	wa    *webauthn.WebAuthn
@@ -37,7 +37,7 @@ type passkey struct {
 // id 表示模块的 ID；
 // ttl 表示 passkey 从 begin 到 finish 的有效时间；
 // url 表示 webauthn 的 origins 参数，其中第一个元素的域名将作为 RPID 值；
-func Init(u *user.Module, id string, desc web.LocaleStringer, ttl time.Duration, url ...string) user.Passport {
+func Init(u *user.Users, id string, desc web.LocaleStringer, ttl time.Duration, url ...string) user.Passport {
 	s := u.Module().Server()
 
 	uu, err := nu.Parse(url[0])

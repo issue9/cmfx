@@ -33,13 +33,13 @@ type code struct {
 	gen     Generator
 	id      string
 	desc    web.LocaleStringer
-	user    *user.Module
+	user    *user.Users
 	newUser func(*user.User) error
 }
 
 // Init 声明基于验证码的验证方法
 func Init(
-	user *user.Module,
+	user *user.Users,
 	expired, resend time.Duration, // 表示验证码的过期时间以及可以重新发送的时间
 	gen Generator, sender Sender, // 验证码的生成和发送
 	id string, // 该适配器的唯一 ID，同时也作为表名的一部分，不应该包含特殊字符

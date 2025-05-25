@@ -31,7 +31,7 @@ type OverviewQuery struct {
 	Merchant []int64 `query:"merchant"`
 }
 
-func (m *Module) HandleGetProducts(ctx *web.Context) web.Responser {
+func (m *Products) HandleGetProducts(ctx *web.Context) web.Responser {
 	// TODO
 	return ctx.NotImplemented()
 }
@@ -44,7 +44,7 @@ type MerchantOverviewQuery struct {
 	ModifiedEnd   time.Time `query:"modified-end"`
 }
 
-func (m *Module) HandleGetProductsByMerchant(ctx *web.Context, merchant int64) web.Responser {
+func (m *Products) HandleGetProductsByMerchant(ctx *web.Context, merchant int64) web.Responser {
 	// TODO
 	return ctx.NotImplemented()
 }
@@ -63,17 +63,17 @@ type ProductVO struct {
 	Modified time.Time     `orm:"name(modified)" json:"modified" yaml:"modified" cbor:"modified" xml:"modified"`
 }
 
-func (m *Module) HandleGetProduct(ctx *web.Context, id int64) web.Responser {
+func (m *Products) HandleGetProduct(ctx *web.Context, id int64) web.Responser {
 	// TODO
 	return ctx.NotImplemented()
 }
 
-func (m *Module) HandleGetProductByNO(ctx *web.Context, no string) web.Responser {
+func (m *Products) HandleGetProductByNO(ctx *web.Context, no string) web.Responser {
 	// TODO
 	return ctx.NotImplemented()
 }
 
-func (m *Module) HandleGetAttributes(ctx *web.Context, no string) web.Responser {
+func (m *Products) HandleGetAttributes(ctx *web.Context, no string) web.Responser {
 	attrs, err := m.attrs.GetAttributes()
 	if err != nil {
 		return ctx.Error(err, "")

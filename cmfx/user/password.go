@@ -25,7 +25,7 @@ const (
 )
 
 type password struct {
-	mod *Module
+	mod *Users
 }
 
 type accountTO struct {
@@ -39,7 +39,7 @@ func (c *accountTO) Filter(v *web.FilterContext) {
 		Add(filters.NotEmpty("password", &c.Password))
 }
 
-func initPassword(mod *Module) {
+func initPassword(mod *Users) {
 	p := &password{mod: mod}
 	router := mod.Module().Router().Prefix(mod.URLPrefix() + "/passports/" + passwordMode)
 

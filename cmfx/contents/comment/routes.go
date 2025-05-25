@@ -33,7 +33,7 @@ type CommentVO struct {
 }
 
 type CommentQuery struct {
-	m *Module
+	m *Comments
 	query.Text
 	Created time.Time `query:"created"`
 	State   []State   `query:"state,visible,top"`
@@ -45,7 +45,7 @@ func (q *CommentQuery) Filter(ctx *web.FilterContext) {
 }
 
 // HandleSetState 设置状态
-func (m *Module) HandleSetState(ctx *web.Context, comment int64, s State, status int) web.Responser {
+func (m *Comments) HandleSetState(ctx *web.Context, comment int64, s State, status int) web.Responser {
 	po := &commentPO{ID: comment}
 	if _, err := m.db.Select(po); err != nil {
 		return ctx.Error(err, "")
@@ -60,7 +60,7 @@ func (m *Module) HandleSetState(ctx *web.Context, comment int64, s State, status
 // HandleGetComments 获取评论列表
 //
 // 查询参数为 [CommentQuery]，返回对象为 [query.Page[CommentVO]]
-func (m *Module) HandleGetComments(ctx *web.Context) web.Responser {
+func (m *Comments) HandleGetComments(ctx *web.Context) web.Responser {
 	q := &CommentQuery{m: m}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -92,7 +92,7 @@ func (m *Module) HandleGetComments(ctx *web.Context) web.Responser {
 // HandleGetCommentsByTarget 获取指定对象的评论列表
 //
 // 查询参数为 [query.Limit]，返回对象为 [query.Page[CommentVO]]，只返回不 hidden 的条目。
-func (m *Module) HandleGetCommentsByTarget(ctx *web.Context, target int64) web.Responser {
+func (m *Comments) HandleGetCommentsByTarget(ctx *web.Context, target int64) web.Responser {
 	buildSQL := func(parent int64) *sqlbuilder.SelectStmt {
 		return m.db.SQLBuilder().Select().From(orm.TableName(&commentPO{}), "c").
 			Column("c.id,c.created,c.modified,s.content").
@@ -125,7 +125,7 @@ func (m *Module) HandleGetCommentsByTarget(ctx *web.Context, target int64) web.R
 //
 // 返回参数的实际类型为 [CommentVO]；
 // comment 为评论的 ID，使用都需要确保值的正确性；
-func (m *Module) HandleGetComment(ctx *web.Context, comment int64) web.Responser {
+func (m *Comments) HandleGetComment(ctx *web.Context, comment int64) web.Responser {
 	a := &CommentVO{}
 	size, err := m.db.SQLBuilder().Select().From(orm.TableName(&commentPO{}), "c").
 		Column("c.id,c.created,c.modified,s.rate,s.content,c.author").
@@ -144,7 +144,7 @@ func (m *Module) HandleGetComment(ctx *web.Context, comment int64) web.Responser
 }
 
 type CommentTO struct {
-	m *Module
+	m *Comments
 
 	XMLName struct{} `xml:"comment" json:"-" yaml:"-" cbor:"-"`
 	Content string   `json:"content" yaml:"content" cbor:"content" xml:"content"`
@@ -183,7 +183,7 @@ func (to *CommentTO) Filter(ctx *web.FilterContext) {
 //
 // creator 为创建者的 ID，调用者需要确保值的正确性；target 为评论对象的 ID；
 // 提交类型为 [CommentTO]；
-func (m *Module) HandlePostComment(ctx *web.Context, creator, target int64) web.Responser {
+func (m *Comments) HandlePostComment(ctx *web.Context, creator, target int64) web.Responser {
 	a := &CommentTO{m: m}
 	if resp := ctx.Read(true, a, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -227,7 +227,7 @@ func (m *Module) HandlePostComment(ctx *web.Context, creator, target int64) web.
 //
 // comment 为评论的 ID；
 // creator 作者，必须与添加时的 creator 一致；
-func (m *Module) HandlePatchComment(ctx *web.Context, creator, comment int64) web.Responser {
+func (m *Comments) HandlePatchComment(ctx *web.Context, creator, comment int64) web.Responser {
 	ar := &commentPO{ID: comment}
 	found, err := m.db.Select(ar)
 	if err != nil {
@@ -272,7 +272,7 @@ func (m *Module) HandlePatchComment(ctx *web.Context, creator, comment int64) we
 //
 // comment 为评论的 ID；
 // creator 作者，必须与添加时的 creator 一致；
-func (m *Module) HandleDeleteComment(ctx *web.Context, creator, comment int64) web.Responser {
+func (m *Comments) HandleDeleteComment(ctx *web.Context, creator, comment int64) web.Responser {
 	a := &commentPO{ID: comment}
 	found, err := m.db.Select(a)
 	if err != nil {
@@ -310,7 +310,7 @@ type SnapshotVO struct {
 //
 // comment 评论的 ID；
 // 返回 []SnapshotVO；
-func (m *Module) HandleGetSnapshots(ctx *web.Context, comment int64) web.Responser {
+func (m *Comments) HandleGetSnapshots(ctx *web.Context, comment int64) web.Responser {
 	q := &query.Text{}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -335,7 +335,7 @@ func (m *Module) HandleGetSnapshots(ctx *web.Context, comment int64) web.Respons
 // NOTE: 关联的评论一旦删除，快照也将不可获取。
 //
 // snapshot 为快照的 ID；
-func (m *Module) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Responser {
+func (m *Comments) HandleGetSnapshot(ctx *web.Context, snapshot int64) web.Responser {
 	sql := m.db.SQLBuilder().Select().From(orm.TableName(&snapshotPO{}), "s").
 		Column("a.id as comment").
 		Column("s.created,s.content,s.rate,s.id").

@@ -27,7 +27,7 @@ func (noticeKind) OpenAPISchema(s *openapi.Schema) {
 }
 
 type NoticeDetailTO struct {
-	m       *Module
+	m       *Notices
 	XMLName struct{} `json:"-" yaml:"-" cbor:"-" xml:"notice"`
 
 	Kind       noticeKind `json:"kind" yaml:"kind" cbor:"kind" xml:"kind,attr"`
@@ -65,7 +65,7 @@ func (n *NoticeDetailTO) Filter(ctx *web.FilterContext) {
 }
 
 // HandlePostNotices 创建通知
-func (m *Module) HandlePostNotices(ctx *web.Context, creator int64) web.Responser {
+func (m *Notices) HandlePostNotices(ctx *web.Context, creator int64) web.Responser {
 	to := &NoticeDetailTO{m: m}
 	if resp := ctx.Read(true, to, cmfx.BadRequestInvalidBody); resp != nil {
 		return resp
@@ -122,7 +122,7 @@ func (m *Module) HandlePostNotices(ctx *web.Context, creator int64) web.Response
 }
 
 // HandleGetFilters 获取所有注册的过滤器
-func (m *Module) HandleGetFilters(ctx *web.Context) web.Responser {
+func (m *Notices) HandleGetFilters(ctx *web.Context) web.Responser {
 	p := ctx.LocalePrinter()
 
 	filters := make(map[string]string, len(m.filters))
@@ -167,7 +167,7 @@ func newNoticeDetail(po *noticePO) *NoticeDetailVO {
 	}
 }
 
-func (m *Module) HandleGetNotices(ctx *web.Context) web.Responser {
+func (m *Notices) HandleGetNotices(ctx *web.Context) web.Responser {
 	q := &NoticeDetailQuery{}
 	if resp := ctx.QueryObject(true, q, cmfx.BadRequestInvalidQuery); resp != nil {
 		return resp
@@ -199,7 +199,7 @@ func (m *Module) HandleGetNotices(ctx *web.Context) web.Responser {
 }
 
 // idKey 表示路径中表示用户 ID 的参数名称
-func (m *Module) HandleGetNotice(ctx *web.Context, idKey string) web.Responser {
+func (m *Notices) HandleGetNotice(ctx *web.Context, idKey string) web.Responser {
 	notice, resp := m.getNoticeByIDKey(ctx, idKey)
 	if resp != nil {
 		return resp
@@ -207,7 +207,7 @@ func (m *Module) HandleGetNotice(ctx *web.Context, idKey string) web.Responser {
 	return web.OK(newNoticeDetail(notice))
 }
 
-func (m *Module) getNoticeByIDKey(ctx *web.Context, idKey string) (*noticePO, web.Responser) {
+func (m *Notices) getNoticeByIDKey(ctx *web.Context, idKey string) (*noticePO, web.Responser) {
 	id, resp := ctx.PathID(idKey, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return nil, resp
@@ -256,7 +256,7 @@ func newNotice(po *noticePO) *NoticeVO {
 }
 
 // HandleGetUserNotices 获取当前用户的所有通知
-func (m *Module) HandleGetUserNotices(ctx *web.Context) web.Responser {
+func (m *Notices) HandleGetUserNotices(ctx *web.Context) web.Responser {
 	type noticeR struct {
 		noticePO
 		Read sql.NullTime `orm:"name(read);nullable"`
@@ -298,7 +298,7 @@ func (m *Module) HandleGetUserNotices(ctx *web.Context) web.Responser {
 // HandleGetUserNotice 获取当前用户的某条通知
 //
 // NOTE: 需要有用户牌登录状态
-func (m *Module) HandleGetUserNotice(ctx *web.Context, noKey string) web.Responser {
+func (m *Notices) HandleGetUserNotice(ctx *web.Context, noKey string) web.Responser {
 	n, g, resp := m.getUserNotice(ctx, noKey)
 	if resp != nil {
 		return resp
@@ -312,7 +312,7 @@ func (m *Module) HandleGetUserNotice(ctx *web.Context, noKey string) web.Respons
 // HandlePostUserNoticeRead 让当前用户的某条通知状态改为已读
 //
 // NOTE: 需要有用户牌登录状态
-func (m *Module) HandlePostUserNoticeRead(ctx *web.Context, noKey string) web.Responser {
+func (m *Notices) HandlePostUserNoticeRead(ctx *web.Context, noKey string) web.Responser {
 	_, g, resp := m.getUserNotice(ctx, noKey)
 	if resp != nil {
 		return resp
@@ -327,7 +327,7 @@ func (m *Module) HandlePostUserNoticeRead(ctx *web.Context, noKey string) web.Re
 // HandleDeleteUserNoticeRead 让当前用户的某条通知状态改为未读
 //
 // NOTE: 需要有用户牌登录状态
-func (m *Module) HandleDeleteUserNoticeRead(ctx *web.Context, noKey string) web.Responser {
+func (m *Notices) HandleDeleteUserNoticeRead(ctx *web.Context, noKey string) web.Responser {
 	_, g, resp := m.getUserNotice(ctx, noKey)
 	if resp != nil {
 		return resp
@@ -340,7 +340,7 @@ func (m *Module) HandleDeleteUserNoticeRead(ctx *web.Context, noKey string) web.
 }
 
 // NOTE: 需要有用户牌登录状态
-func (m *Module) getUserNotice(ctx *web.Context, noKey string) (*noticePO, *groupPO, web.Responser) {
+func (m *Notices) getUserNotice(ctx *web.Context, noKey string) (*noticePO, *groupPO, web.Responser) {
 	no, resp := ctx.PathString(noKey, cmfx.NotFoundInvalidPath)
 	if resp != nil {
 		return nil, nil, resp

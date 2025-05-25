@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,7 +12,7 @@ import (
 )
 
 // Install 安装数据库以及相关的初始数据
-func Install(mod *cmfx.Module, tableName string, linkage *Linkage) *Module {
+func Install(mod *cmfx.Module, tableName string, linkage *Linkage) *Linkages {
 	db := buildDB(mod, tableName)
 
 	if err := db.Create(&linkagePO{}); err != nil {
@@ -30,7 +30,7 @@ func Install(mod *cmfx.Module, tableName string, linkage *Linkage) *Module {
 		panic(web.SprintError(mod.Server().Locale().Printer(), true, err))
 	}
 
-	return Load(mod, tableName)
+	return NewLinkages(mod, tableName)
 }
 
 func install(tx *orm.Tx, linkage *Linkage, parent int64) error {
