@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Form, FormAccessor, alert, confirm, prompt, use } from '@cmfx/components';
+import { alert, Button, confirm, Dialog, DialogRef, Form, FormAccessor, prompt, use } from '@cmfx/components';
 
 import { Demo, paletteSelector } from './base';
 
@@ -22,15 +22,15 @@ export default function() {
         </>
     }>
         <Button onClick={async () => { await alert('msg'); console.log('alert'); }}>alert</Button>
-        <Button onClick={async () => { console.log('confirm:', await confirm('msg')); }}>confirm</Button>
+        <Button onClick={async () => { console.log('confirm:', await confirm('这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！')); }}>confirm</Button>
         <Button onClick={async () => { console.log('prompt:', await prompt('msg', 'def')); }}>prompt</Button>
 
-        <Button onClick={async () => { await window.alert('msg'); console.log('alert'); }}>system.alert</Button>
-        <Button onClick={async () => { console.log('confirm:', await window.confirm('msg')); }}>system.confirm</Button>
-        <Button onClick={async () => { console.log('prompt:', await window.prompt('msg', 'def')); }}>system.prompt</Button>
+        <Button onClick={() => { window.alert('msg'); console.log('alert'); }}>system.alert</Button>
+        <Button onClick={() => { console.log('confirm:', window.confirm('msg')); }}>system.confirm</Button>
+        <Button onClick={() => { console.log('prompt:', window.prompt('msg', 'def')); }}>system.prompt</Button>
 
         <div>
-            <Dialog palette={palette()} ref={(el) => dlg1 = el} header="header" actions={
+            <Dialog class="min-w-5" movable palette={palette()} ref={(el) => dlg1 = el} header="header" actions={
                 <>
                     <button value='submit' type="submit" class="mr-8">submit</button>
                     <button value='reset' type="reset" class="mr-8">reset</button>
@@ -44,14 +44,13 @@ export default function() {
 
         <div>
             <Button onClick={() => dlg2.showModal()} palette={palette()}>showModal</Button>
-            <Dialog palette={palette()} ref={el => dlg2 = el} header="header">
+            <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
                 <div>
                     <Form formAccessor={fa} inDialog>
                         <div class="flex flex-col">
                             <div class="py-3">form</div>
-                            <Button onclick={() => dlg3.showModal()}>show modal</Button>
-                            <hr />
                             <div class="flex">
+                                <Button onclick={() => dlg3.showModal()}>show modal</Button>
                                 <Button value='submit' type="submit" class="mr-8">submit</Button>
                                 <Button value='reset' type="reset" class="mr-8">reset</Button>
                                 <Button value='button' type="button" onClick={()=>{
@@ -67,7 +66,7 @@ export default function() {
                 </div>
             </Dialog>
 
-            <Dialog ref={(el) => dlg3 = el} header="header">
+            <Dialog movable ref={(el) => dlg3 = el} header="header">
                 <div>dialog 3</div>
             </Dialog>
         </div>

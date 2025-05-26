@@ -97,9 +97,9 @@ interface System {
 
     /**
      * 将浏览器的对话框代替为框架内的实现，目前支持以下几种：
-     *  -window.alert
-     *  -window.prompt
-     *  -window.confirm
+     *  - window.alert
+     *  - window.prompt
+     *  - window.confirm
      */
     dialog?: boolean;
 }

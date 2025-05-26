@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Item, List, Notify, OptionsProvider, SystemDialog } from '@cmfx/components';
+import { Drawer, List, Notify, OptionsProvider, SystemDialog, TreeItem } from '@cmfx/components';
 import { HashRouter, RouteSectionProps } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import { render } from 'solid-js/web';
@@ -11,7 +11,7 @@ import { routes } from './demo';
 import { options } from './options';
 import './style.css';
 
-const menuItems: Array<Item> = [];
+const menuItems: Array<TreeItem> = [];
 routes.forEach((r) => {
     menuItems.push({
         type: 'item',

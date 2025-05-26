@@ -166,12 +166,19 @@ export function Dialog(props: Props): JSX.Element {
 
     let toolbar: HTMLElement;
     let cancel: CancelMovable;
+    
+    const dialogToggle = () => { // movable 需要容器牌可见状态，否则宽度不固定。
+        if (!cancel && ref.open) { cancel = movable(toolbar, ref); }
+    };
     onMount(() => {
         if (props.movable) {
-            cancel = movable(toolbar, ref);
+            ref.addEventListener('toggle', dialogToggle);
         }
     });
-    onCleanup(() => { cancel && cancel(); });
+    onCleanup(() => {
+        cancel && cancel();
+        ref.removeEventListener('toggle', dialogToggle);
+    });
 
     return <dialog class={props.class} ref={(el) => { props.ref(buildRef(el, l)); ref = el; }} classList={{
         'c--dialog': true,
@@ -180,7 +187,7 @@ export function Dialog(props: Props): JSX.Element {
         <Show when={props.header}>
             <header ref={el => toolbar = el}>
                 {props.header}
-                <Icon class="cursor-pointer" icon="close" onClick={()=>ref.close('close')} />
+                <Icon class="close" icon="close" onClick={()=>ref.close('close')} />
             </header>
         </Show>
 

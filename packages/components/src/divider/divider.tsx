@@ -21,6 +21,11 @@ export type Props = ParentProps<{
 
     /**
      * 交叉轴上的留白
+     *
+     * 语法与 CSS 中的 padding-block 和 padding-inline 相同。可以用一个值或是两个值：
+     *  - padding: 10px；
+     *  - padding: 10px 10px；
+     *  - padding: 5% 10%；
      */
     padding?: string;
 } & BaseProps>;

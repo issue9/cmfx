@@ -21,6 +21,8 @@ export interface Props extends BaseProps, ParentProps {
     header?: string;
 }
 
+interface DialogProps extends BaseProps { header?: string; }
+
 /**
  * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  */
@@ -45,42 +47,49 @@ export default function SystemDialog(props: Props): JSX.Element {
 
 let alertInst: typeof alert;
 
-function Alert(props: Props): JSX.Element {
+function Alert(props: DialogProps): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<any>();
+    const [title, setTitle] = createSignal(props.header);
 
-    alertInst = async (msg?: any): Promise<void> => {
+    alertInst = async (msg?: any, title?: string): Promise<void> => {
         setMsg(msg);
+        if (title) { setTitle(title); }
         dlg.showModal();
 
-        return new Promise<void>(resolve=>{
+        return new Promise<void>(resolve => {
             dlg.addEventListener('close', () => resolve());
         });
     };
 
-    return <Dialog movable {...props} ref={el => dlg = el} class='w-60' actions={
-        dlg!.OKAction(async() => { return 'ok'; })
-    }>
-        {msg()}
-    </Dialog>;
+    return <Dialog movable palette={props.palette} header={title()} ref={el => dlg = el} class='min-w-60' actions={
+        dlg!.OKAction(async () => { return 'ok'; })
+    }>{msg()}</Dialog>;
 }
 
 /**
  * 提供了与 {@link window#alert} 相同的功能，但是在行为上有些不同。
  * {@link window#alert} 是阻塞模式的，而当前函数则是异步函数。
+ *
+ * @param msg 提示框的内容；
+ * @param title 提示框的标题，如果为空则采用 {@link SystemDialog} 的 {@link Props#header} 作为默认值；
  */
-export async function alert(msg: string): Promise<void> { await alertInst(msg); }
+export async function alert(msg: any, title?: string): Promise<void> {
+    await alertInst(msg, title);
+}
 
 /************************ confirm *****************************/
 
 let confirmInst: typeof confirm;
 
-function Confirm(props: Props): JSX.Element {
+function Confirm(props: DialogProps): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
+    const [title, setTitle] = createSignal(props.header);
 
-    confirmInst = (msg?: string): Promise<boolean> => {
+    confirmInst = (msg?: string, title?: string): Promise<boolean> => {
         setMsg(msg);
+        if (title) { setTitle(title); }
         dlg.showModal();
 
         return new Promise<boolean>(resolve=>{
@@ -90,7 +99,8 @@ function Confirm(props: Props): JSX.Element {
         });
     };
 
-    return <Dialog movable {...props} class='w-60' ref={el => dlg = el} actions={ dlg!.DefaultActions(async()=>'true')}>
+    return <Dialog movable palette={props.palette} header={title()} class='m-w-60' ref={el => dlg = el}
+        actions={dlg!.DefaultActions(async () => 'true')}>
         <p>{msg()}</p>
     </Dialog>;
 }
@@ -98,20 +108,27 @@ function Confirm(props: Props): JSX.Element {
 /**
  * 提供了与 {@link window#confirm} 相同的功能，但是在行为上有些不同。
  * {@link window#confirm} 是阻塞模式的，而当前函数则是异步函数。
+ *
+ * @param msg 提示框的内容；
+ * @param title 提示框的标题，如果为空则采用 {@link SystemDialog} 的 {@link Props#header} 作为默认值；
  */
-export async function confirm(msg?: string): Promise<boolean> { return await confirmInst(msg); }
+export async function confirm(msg?: string, title?: string): Promise<boolean> {
+    return await confirmInst(msg, title);
+}
 
 /************************ prompt *****************************/
 
 let promptInst: typeof prompt;
 
-function Prompt(props: Props): JSX.Element {
+function Prompt(props: DialogProps): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
+    const [title, setTitle] = createSignal(props.header);
     const access = FieldAccessor('prompt', '', false);
 
-    promptInst = (msg?: string, val?: string): Promise<string | null> => {
+    promptInst = (msg?: string, val?: string, title?: string): Promise<string | null> => {
         setMsg(msg);
+        if (title) { setTitle(title); }
         access.setValue(val ?? '');
         dlg.showModal();
 
@@ -123,13 +140,20 @@ function Prompt(props: Props): JSX.Element {
         });
     };
 
-    return <Dialog movable {...props} ref={el => dlg = el} class='w-60' actions={ dlg!.DefaultActions(async()=>access.getValue())}>
-        <TextField label={msg()} accessor={access} />
+    return <Dialog movable palette={props.palette} header={title()} ref={el => dlg = el} class='min-w-60'
+        actions={dlg!.DefaultActions(async () => access.getValue())}>
+        <TextField class='w-full' layout='vertical' label={msg()} accessor={access} />
     </Dialog>;
 }
 
 /**
  * 提供了与 {@link window#prompt} 相同的功能，但是在行为上有些不同。
  * {@link window#prompt} 是阻塞模式的，而当前函数则是异步函数。
+ *
+ * @param msg 对话框的内容；
+ * @param val 对话框中的默认值；
+ * @param title 对话框的标题，如果为空则采用 {@link SystemDialog} 的 {@link Props#header} 作为默认值；
  */
-export async function prompt(msg?: string, val?: string): Promise<string | null> { return await promptInst(msg, val); }
+export async function prompt(msg?: string, val?: string, title?: string): Promise<string | null> {
+    return await promptInst(msg, val, title);
+}
