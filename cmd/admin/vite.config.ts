@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 //import basicSsl from '@vitejs/plugin-basic-ssl';
+import { about } from '@cmfx/vite-plugin-about';
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import path from 'path';
@@ -39,6 +40,11 @@ export default defineConfig(({ mode }) => {
             devtools(),
             solidPlugin(),
             tailwindcss(),
+            about({
+                packages: ['./package.json'],
+                gomods: ['../../go.mod']
+            }),
+
             /*
             basicSsl({
                 name: 'test',

@@ -19,6 +19,9 @@ export interface Options {
     packages: Array<string>;
 }
 
+/**
+ * 附加在环境变量上的名称
+ */
 export const __CMFX_ABOUT__ = '__CMFX_ABOUT__';
 
 /**

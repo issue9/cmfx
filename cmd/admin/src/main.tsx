@@ -13,7 +13,7 @@ const urlBase = 'http://localhost:8080/admin';
 
 const rolesPage = roles.build('/roles');
 const adminsPage = admins.build('/admins');
-const systemPage = system.build('/system');
+const systemPage = system.build('/system', true);
 const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {
     return <>

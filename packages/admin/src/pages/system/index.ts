@@ -4,6 +4,7 @@
 
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
+import { About } from './about';
 import { APIs } from './apis';
 import { Info } from './info';
 import { Services } from './services';
@@ -21,6 +22,11 @@ export class system implements Pages {
      * 系统服务页面
      */
     static Services = Services;
+    
+    /**
+     * 关于页面
+     */
+    static About = About;
 
     /**
      * 系统信息
@@ -28,28 +34,46 @@ export class system implements Pages {
     static Info = Info;
 
     readonly #prefix: string;
+    readonly #about?: boolean;
 
-    static build(prefix: string) {
-        return new system(prefix);
+    /**
+     * 构建 {@link system} 对象
+     *
+     * @param prefix 路由地址前缀；
+     * @param about 是否显示关于页面；
+     */
+    static build(prefix: string, about?: boolean) {
+        return new system(prefix, about);
     }
 
-    private constructor(p: string) {
+    private constructor(p: string, about?: boolean) {
         this.#prefix = p;
+        this.#about = about;
     }
 
     routes(): Array<Route> {
-        return [
-            { path: this.#prefix+'/apis', component: APIs },
-            { path: this.#prefix+'/services', component: Services },
-            { path: this.#prefix+'/info', component: Info },
+        const routes: Array<Route> = [
+            { path: this.#prefix + '/apis', component: APIs },
+            { path: this.#prefix + '/services', component: Services },
+            { path: this.#prefix + '/info', component: Info },
         ];
+        if (this.#about) {
+            routes.push({ path: this.#prefix + '/about', component: About });
+        }
+
+        return routes;
     }
 
     menus(): Array<MenuItem> {
-        return [
-            { type: 'item', icon: 'api', label: '_i.system.apis', path: this.#prefix+'/apis' },
-            { type: 'item', icon: 'settings_slow_motion', label: '_i.system.services', path: this.#prefix+'/services' },
-            { type: 'item', icon: 'help', label: '_i.system.info', path: this.#prefix+'/info' },
+        const menus: Array<MenuItem> = [
+            { type: 'item', icon: 'api', label: '_i.system.apis', path: this.#prefix + '/apis' },
+            { type: 'item', icon: 'settings_slow_motion', label: '_i.system.services', path: this.#prefix + '/services' },
+            { type: 'item', icon: 'help', label: '_i.system.info', path: this.#prefix + '/info' },
         ];
+        if (this.#about) {
+            menus.push({ type: 'item', icon: 'page_info', label: '_i.system.about', path: this.#prefix + '/about' });
+        }
+
+        return menus;
     }
 }

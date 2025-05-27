@@ -269,6 +269,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      '@cmfx/vite-plugin-about':
+        specifier: workspace:*
+        version: link:../../build/vite-plugin-about
       '@scure/base':
         specifier: ^1.2.5
         version: 1.2.5

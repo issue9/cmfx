@@ -32,4 +32,15 @@
             }
         }
     }
+
+    .p--about {
+        >fieldset {
+            @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-palette-bg-low rounded-md px-4 py-3;
+
+            .item {
+                @apply flex flex-col p-2 hover:cursor-pointer border border-transparent;
+                @apply hover:border-palette-bg-low;
+            }
+        }
+    }
 }

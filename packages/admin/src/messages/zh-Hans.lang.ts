@@ -122,6 +122,10 @@ const messages: typeof m = {
             connectionsHelp: '允许最大的连接数: {maxOpenConnections}\n当前打开的连接数: {openConnections}\n使用中的连接: {inUse}\n空闲的连接: {idle}',
             waitCount: '待连接的数量',
             waitDuration: '待连接的时间',
+            about: '关于',
+            srvDeps: '服务端环境依赖',
+            devDeps: '开发环境依赖',
+            prodDeps: '生产环境依赖',
         },
         admin: {
             admin: '管理员',
