@@ -28,12 +28,15 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin
+.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about
 
 # 编译测试项目
 build-cmd: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 	pnpm --filter=./cmd/admin --filter=./cmd/components run build
+
+build-ts-vite-plugin-about:
+	pnpm --filter=./build/vite-plugin-about run build
 
 build-ts-core:
 	pnpm --filter=./packages/core run build
@@ -46,7 +49,7 @@ build-ts-admin:
 
 # 编译前端项目内容
 build-ts:
-	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
+	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about run build
 	
 ########################### install ###################################
 
@@ -86,7 +89,7 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
-.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin
+.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin test-ts-vite-plugin-about
 
 lint-ts:
 	pnpm run lint
@@ -96,13 +99,16 @@ test-go: mk-coverage
 	go vet -v ./...
 	go test -v -coverprofile='coverage/go.txt' -p=1 -parallel=1 -covermode=atomic ./...
 
-test-ts-core: lint-ts mk-coverage
+test-ts-vite-plugin-about: mk-coverage
+	pnpm run test --project=@cmfx/vite-plugin-about
+
+test-ts-core: mk-coverage
 	pnpm run test --project=@cmfx/core
 
-test-ts-components: lint-ts mk-coverage build-ts-core
+test-ts-components: mk-coverage build-ts-core
 	pnpm run test --project=@cmfx/components
 
-test-ts-admin: lint-ts mk-coverage build-ts-components
+test-ts-admin: mk-coverage build-ts-components
 	pnpm run test --project=@cmfx/admin
 
 # 执行 TypeScript 测试
@@ -117,7 +123,7 @@ test: test-go test-ts
 .PHONY: publish-npm
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --access=public --no-git-checks
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about --access=public --no-git-checks
 
 ########################### version ###################################
 

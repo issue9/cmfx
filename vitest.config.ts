@@ -25,11 +25,11 @@ export default mergeConfig(
     }),
     defineConfig({
         test: {
-            workspace: ['packages/core', 'packages/components', 'packages/admin'],
+            workspace: ['packages/core', 'packages/components', 'packages/admin', 'build/vite-plugin-about'],
             environment: 'jsdom',
             exclude: exclude,
             coverage: {
-                include: ['packages/**/*.ts', 'packages/**/*.tsx'],
+                include: ['packages/**/*.ts', 'packages/**/*.tsx', 'build/vite-plugin-*/**/*.ts', 'build/vite-plugin-*/**/*.tsx'],
                 clean: false,
                 reportsDirectory: './coverage',
                 provider: 'v8',

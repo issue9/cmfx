@@ -45,12 +45,7 @@ export default defineConfig({
             fileName: (_, name) => `${name}.js`,
         },
         rollupOptions: {
-            external: ['vite', 'fs'], // 避免打包 Vite 本身
-            output: {
-                globals: {
-                    vite: 'Vite',
-                },
-            },
+            external: ['vite', 'node:fs', 'node:process', 'node:path']
         }
     }
 });

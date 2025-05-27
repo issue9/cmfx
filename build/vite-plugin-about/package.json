@@ -39,11 +39,14 @@
         "build": "vite build"
     },
     "devDependencies": {
-        "vite": "catalog:",
         "@types/node": "catalog:",
         "typescript": "catalog:",
+        "vite": "catalog:",
         "vite-plugin-dts": "catalog:",
         "vite-plugin-static-copy": "catalog:",
         "vitest": "catalog:"
+    },
+    "dependencies": {
+        "yaml": "catalog:"
     }
 }
