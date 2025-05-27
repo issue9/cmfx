@@ -1,5 +1,6 @@
 packages:
     - packages/**
+    - build/vite-plugin-about
     - cmd/components
     - cmd/admin
 
