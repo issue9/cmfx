@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { VoidComponent } from 'solid-js';
+
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { About } from './about';
@@ -34,19 +36,19 @@ export class system implements Pages {
     static Info = Info;
 
     readonly #prefix: string;
-    readonly #about?: boolean;
+    readonly #about?: VoidComponent;
 
     /**
      * 构建 {@link system} 对象
      *
      * @param prefix 路由地址前缀；
-     * @param about 是否显示关于页面；
+     * @param about 关于页面的附加内容，如果是 undefined 表示不显示关于页面；
      */
-    static build(prefix: string, about?: boolean) {
+    static build(prefix: string, about?: VoidComponent) {
         return new system(prefix, about);
     }
 
-    private constructor(p: string, about?: boolean) {
+    private constructor(p: string, about?: VoidComponent) {
         this.#prefix = p;
         this.#about = about;
     }
@@ -58,7 +60,7 @@ export class system implements Pages {
             { path: this.#prefix + '/info', component: Info },
         ];
         if (this.#about) {
-            routes.push({ path: this.#prefix + '/about', component: About });
+            routes.push({ path: this.#prefix + '/about', component: () => About({ description: this.#about }) });
         }
 
         return routes;
