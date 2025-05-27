@@ -22,6 +22,7 @@
     "workspaces": [
         "cmd/admin",
         "cmd/components",
+        "build/vite-plugin-about",
         "packages/core",
         "packages/components",
         "packages/admin"

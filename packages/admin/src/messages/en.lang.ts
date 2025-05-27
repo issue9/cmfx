@@ -120,6 +120,10 @@ const messages = {
             connectionsHelp: 'Allow max open connections: {maxOpenConnections}\nopen connections: {openConnections}\nin use: {inUse}\nidle: {idle}',
             waitCount: 'Wait count',
             waitDuration: 'Wait duration',
+            about: 'About',
+            srvDeps: 'Server dependencies',
+            devDeps: 'Development dependencies',
+            prodDeps: 'Production dependencies',
         },
         admin: {
             admin: 'Administrator',

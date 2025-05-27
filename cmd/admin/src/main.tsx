@@ -5,7 +5,7 @@
 import './style.css';
 
 import { admins, createApp, current, members, MenuItem, Options, roles, Routes, system } from '@cmfx/admin';
-import { Card, Label } from '@cmfx/components';
+import { Card, Label, useLocale } from '@cmfx/components';
 
 import { default as Test } from './pages/test';
 
@@ -13,7 +13,10 @@ const urlBase = 'http://localhost:8080/admin';
 
 const rolesPage = roles.build('/roles');
 const adminsPage = admins.build('/admins');
-const systemPage = system.build('/system');
+const systemPage = system.build('/system', () => {
+    const l = useLocale();
+    return <p>{l.t('_i.system.system')}</p>;
+});
 const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {
     return <>

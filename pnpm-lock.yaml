@@ -78,6 +78,9 @@ catalogs:
     vitest-fetch-mock:
       specifier: ^0.4.5
       version: 0.4.5
+    yaml:
+      specifier: ^2.8.0
+      version: 2.8.0
 
 importers:
 
@@ -126,6 +129,31 @@ importers:
         specifier: 'catalog:'
         version: 3.1.4(@types/node@22.15.21)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(yaml@2.8.0)
 
+  build/vite-plugin-about:
+    dependencies:
+      yaml:
+        specifier: 'catalog:'
+        version: 2.8.0
+    devDependencies:
+      '@types/node':
+        specifier: 'catalog:'
+        version: 22.15.21
+      typescript:
+        specifier: 'catalog:'
+        version: 5.8.3
+      vite:
+        specifier: 'catalog:'
+        version: 6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.8.0)
+      vite-plugin-dts:
+        specifier: 'catalog:'
+        version: 4.5.4(@types/node@22.15.21)(rollup@4.40.0)(typescript@5.8.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.8.0))
+      vite-plugin-static-copy:
+        specifier: 'catalog:'
+        version: 3.0.0(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.8.0))
+      vitest:
+        specifier: 'catalog:'
+        version: 3.1.4(@types/node@22.15.21)(jiti@2.4.2)(jsdom@26.1.0)(lightningcss@1.30.1)(yaml@2.8.0)
+
   cmd/admin:
     dependencies:
       '@cmfx/admin':
@@ -150,6 +178,9 @@ importers:
         specifier: 'catalog:'
         version: 4.1.7
     devDependencies:
+      '@cmfx/vite-plugin-about':
+        specifier: workspace:*
+        version: link:../../build/vite-plugin-about
       '@tailwindcss/vite':
         specifier: 'catalog:'
         version: 4.1.7(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(lightningcss@1.30.1)(yaml@2.8.0))
@@ -238,6 +269,9 @@ importers:
       '@cmfx/core':
         specifier: workspace:*
         version: link:../core
+      '@cmfx/vite-plugin-about':
+        specifier: workspace:*
+        version: link:../../build/vite-plugin-about
       '@scure/base':
         specifier: ^1.2.5
         version: 1.2.5
@@ -376,7 +410,7 @@ importers:
         specifier: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
         version: https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz
       yaml:
-        specifier: ^2.8.0
+        specifier: 'catalog:'
         version: 2.8.0
     devDependencies:
       '@types/node':
