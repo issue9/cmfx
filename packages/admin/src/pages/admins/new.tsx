@@ -24,24 +24,24 @@ export function New(props: Props): JSX.Element {
     const form = new FormAccessor<Admin>(zeroAdmin(), act, async (obj) => {
         return await api.post('/admins', obj);
     }, async () => {
-        await notify(l.t('_i.admin.addSuccessful'), undefined, 'success');
+        await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
         useNavigate()(-1);
     });
 
-    return <Page title="_i.admin.admin" class="max-w-xs">
+    return <Page title="_p.admin.admin" class="max-w-xs">
         <Form formAccessor={form} class="flex flex-col">
-            <TextField class='w-full' accessor={form.accessor<string>('username')} label={l.t('_i.current.username')} />
-            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.nickname')} />
-            <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={l.t('_i.current.password')} />
-            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.roles.roles')} />
+            <TextField class='w-full' accessor={form.accessor<string>('username')} label={l.t('_p.current.username')} />
+            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_p.admin.name')} />
+            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+            <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={l.t('_p.current.password')} />
+            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
             <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} palette='secondary'>
                     <Icon icon='arrow_back_ios' />
-                    {l.t('_i.cancel')}
+                    {l.t('_p.cancel')}
                 </LinkButton>
-                <Button type="submit" palette='primary'>{l.t('_i.ok')}</Button>
+                <Button type="submit" palette='primary'>{l.t('_p.ok')}</Button>
             </div>
         </Form>
     </Page>;

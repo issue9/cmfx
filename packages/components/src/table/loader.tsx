@@ -170,7 +170,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
         delete q.page;
 
         await e.fetch(load, q);
-        const filename = await prompt(l.t('_i.table.downloadFilename'), props.filename);
+        const filename = await prompt(l.t('_c.table.downloadFilename'), props.filename);
         if (filename) {
             e.export(filename, ext, l.locale.language);
         }
@@ -203,27 +203,27 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                     <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
                         {
                             type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon="csv">
-                                {l.t('_i.table.exportTo', { type: 'CSV' })}
+                                {l.t('_c.table.exportTo', { type: 'CSV' })}
                             </Label>
                         },
                         {
                             type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon="horizontal_split">
-                                {l.t('_i.table.exportTo', { type: 'Excel' })}
+                                {l.t('_c.table.exportTo', { type: 'Excel' })}
                             </Label>
                         },
                         {
                             type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon="ods">
-                                {l.t('_i.table.exportTo', { type: 'ODS' })}
+                                {l.t('_c.table.exportTo', { type: 'ODS' })}
                             </Label>
                         },
                         { type: 'divider' },
                         {
                             type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon='restart_alt'>
-                                {l.t('_i.reset')}
+                                {l.t('_c.reset')}
                             </Label>
                         },
                     ]}>
-                        {l.t('_i.search')}
+                        {l.t('_c.search')}
                     </SplitButton>
                 </div>
             </form>
@@ -271,7 +271,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                     type: 'item', value: 'hoverable',
                                     label: <label class="menu-item">
                                         <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
-                                        {l.t('_i.table.hoverable')}</label>
+                                        {l.t('_c.table.hoverable')}</label>
                                 },
                                 { type: 'divider' },
                                 {
@@ -281,41 +281,41 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                             setSticky(sticky() === undefined ? '0px' : undefined);
                                             e.stopPropagation();
                                         }}/>
-                                        {l.t('_i.table.stickyHeader')}</label>
+                                        {l.t('_c.table.stickyHeader')}</label>
                                 },
                                 { type: 'divider' },
                                 {
                                     type: 'item', value: '0',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{l.t('_i.table.noStriped')}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{l.t('_c.table.noStriped')}</label>,
                                 },
                                 {
                                     type: 'item', value: '2',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{l.t('_i.table.striped', { 'num': 2 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{l.t('_c.table.striped', { 'num': 2 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '3',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{l.t('_i.table.striped', { 'num': 3 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{l.t('_c.table.striped', { 'num': 3 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '4',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{l.t('_i.table.striped', { 'num': 4 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{l.t('_c.table.striped', { 'num': 4 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '5',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{l.t('_i.table.striped', { 'num': 5 })}</label>,
+                                    label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{l.t('_c.table.striped', { 'num': 5 })}</label>,
                                 },
                             ]}
                         </Menu>
                         <Button icon rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
-                            aria-label={l.t('_i.refresh')}
-                            title={l.t('_i.refresh')}>refresh</Button>
+                            aria-label={l.t('_c.refresh')}
+                            title={l.t('_c.refresh')}>refresh</Button>
                         <FitScreenButton rounded kind='fill' palette='tertiary' expand='expand_content' collapse='collapse_content' container={()=>ref}
-                            aria-title={l.t('_i.table.fitScreen')}
-                            title={l.t('_i.table.fitScreen')} />
+                            aria-title={l.t('_c.table.fitScreen')}
+                            title={l.t('_c.table.fitScreen')} />
                         <PrintButton icon rounded kind='fill' palette='tertiary' container={()=>ref.querySelector('table')!}
                             cssText='table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left} .no-print{display:none}'
-                            aria-label={l.t('_i.print')}
-                            title={l.t('_i.print')}>print</PrintButton>
+                            aria-label={l.t('_c.print')}
+                            title={l.t('_c.print')}>print</PrintButton>
                     </div>
                 </Show>
             </div>

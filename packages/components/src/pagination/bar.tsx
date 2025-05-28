@@ -113,7 +113,7 @@ export function PaginationBar(props: Props): JSX.Element {
         'c--pagination-bar': true,
         [`palette--${props.palette}`]: !!props.palette
     }}>
-        {l.t('_i.pagination.items', translateItems())}
+        {l.t('_c.pagination.items', translateItems())}
         <div class="flex gap-2">
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
             <Pagination spans={props.spans} onChange={pageChange} value={props.page} count={pages()} />

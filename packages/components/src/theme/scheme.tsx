@@ -49,10 +49,10 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     const schemeFA = new ObjectAccessor<Scheme>(Theme.genScheme(80));
     const contrastFA = FieldAccessor<Contrast>('contrast', 'nopreference');
     const modes: FieldOptions<Mode> = translateEnums2Options<Mode, MessagesKey>([
-        ['dark', '_i.theme.dark'], ['light', '_i.theme.light']
+        ['dark', '_c.theme.dark'], ['light', '_c.theme.light']
     ], l);
     const contrasts: FieldOptions<Contrast> = translateEnums2Options<Contrast, MessagesKey>([
-        ['nopreference', '_i.theme.nopreference'], ['more', '_i.theme.more'], ['less', '_i.theme.less']
+        ['nopreference', '_c.theme.nopreference'], ['more', '_c.theme.more'], ['less', '_c.theme.less']
     ], l);
 
     let dlg: DialogRef;
@@ -79,13 +79,13 @@ export default function SchemeBuilder(props: Props): JSX.Element {
         <div class="c--scheme-builder">
             <div class="content">
                 <div class="toolbar">
-                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_i.theme.mode')} options={modes} />
-                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={contrastFA} label={l.t('_i.theme.contrast')} options={contrasts} />
+                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_c.theme.mode')} options={modes} />
+                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={contrastFA} label={l.t('_c.theme.contrast')} options={contrasts} />
                     <Show when={props.actions}>
                         <div class="last">
-                            <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_i.reset') }</Button>
-                            <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_i.theme.apply') }</Button>
-                            <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_i.theme.export') }</Button>
+                            <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_c.reset') }</Button>
+                            <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_c.theme.apply') }</Button>
+                            <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_c.theme.export') }</Button>
                         </div>
                     </Show>
                     <Divider padding='8px' />
@@ -98,7 +98,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
             {props.children}
         </div>
-        <Dialog ref={el => dlg = el} header={<Label icon='open_in_new'>{ l.t('_i.theme.export') }</Label>}>
+        <Dialog ref={el => dlg = el} header={<Label icon='open_in_new'>{ l.t('_c.theme.export') }</Label>}>
             <pre>
                 {JSON.stringify(schemeFA.object(), null, 4)}
             </pre>

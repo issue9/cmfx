@@ -11,9 +11,9 @@ import { MessagesKey } from '@/messages';
 export type Sex = User['sex'];
 
 export const sexes: Enums<Sex, MessagesKey> = [
-    ['male', '_i.sexes.male'],
-    ['female', '_i.sexes.female'],
-    ['unknown', '_i.sexes.unknown'],
+    ['male', '_p.sexes.male'],
+    ['female', '_p.sexes.female'],
+    ['unknown', '_p.sexes.unknown'],
 ] as const;
 
 export type SexSelectorProps<M extends boolean> = Omit<ChoiceProps<Sex, M>, 'options'>;

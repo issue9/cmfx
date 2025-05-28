@@ -36,7 +36,7 @@ export class Webauthn implements PassportComponents {
             const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
             if (!r1.ok) {
                 if (r1.status === 401) {
-                    account.setError(l.t('_i.current.invalidAccount'));
+                    account.setError(l.t('_p.current.invalidAccount'));
                     return;
                 }
                 act.outputProblem(r1.body);
@@ -67,7 +67,7 @@ export class Webauthn implements PassportComponents {
             const r2 = await api.post<Token>(`/passports/${this.#id}/login/${account.getValue()}`, pc);
             if (!r2.ok) {
                 if (r1.status === 401) {
-                    account.setError(l.t('_i.current.invalidAccount'));
+                    account.setError(l.t('_p.current.invalidAccount'));
                     return;
                 }
                 act.outputProblem(r2.body);
@@ -87,9 +87,9 @@ export class Webauthn implements PassportComponents {
                         <Icon class="!py-0 !px-1 !flex !items-center" icon='close' onClick={()=>account.setValue('')} />
                     </Show>
                 }
-                placeholder={l.t('_i.current.username')} accessor={account} />
+                placeholder={l.t('_p.current.username')} accessor={account} />
 
-            <Button palette='primary' disabled={account.getValue() == ''} type="submit">{l.t('_i.ok')}</Button>
+            <Button palette='primary' disabled={account.getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
         </form>;
     }
 
@@ -100,22 +100,22 @@ export class Webauthn implements PassportComponents {
         let tableRef: RemoteTableRef<Credential>;
 
         return <>
-            <Button icon rounded title={l.t('_i.current.bindWebauthn')} onClick={async () => {
+            <Button icon rounded title={l.t('_p.current.bindWebauthn')} onClick={async () => {
                 dialogRef.showModal();
             }}>credit_card_gear</Button>
 
             <Dialog class="w-[80%]" ref={(el) => dialogRef = el} header={
-                <Label icon='credit_card_gear'>{l.t('_i.current.webauthnCredentials')}</Label>
+                <Label icon='credit_card_gear'>{l.t('_p.current.webauthnCredentials')}</Label>
             }>
                 <div class="overflow-auto">
                     <RemoteTable<Credential, {}> ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
                         columns={[
-                            { id: 'id', label: l.t('_i.id') },
-                            { id: 'ua', label: l.t('_i.current.ua') },
-                            { id: 'last', label: l.t('_i.current.lastUsed'), content: (_, val) => l.datetime(val) },
+                            { id: 'id', label: l.t('_p.id') },
+                            { id: 'ua', label: l.t('_p.current.ua') },
+                            { id: 'last', label: l.t('_p.current.lastUsed'), content: (_, val) => l.datetime(val) },
                             {
-                                id: 'id', label: l.t('_i.actions'), renderContent: (_, val) => (
-                                    <ConfirmButton icon rounded palette='error' title={l.t('_i.current.unbindWebauthn')} onClick={async () => {
+                                id: 'id', label: l.t('_p.actions'), renderContent: (_, val) => (
+                                    <ConfirmButton icon rounded palette='error' title={l.t('_p.current.unbindWebauthn')} onClick={async () => {
                                         const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
                                         if (!r1.ok) {
                                             act.outputProblem(r1.body);
@@ -161,7 +161,7 @@ export class Webauthn implements PassportComponents {
 
                                 tableRef.refresh();
                                 await f();
-                            }}><Icon icon='add_link' />&#160;{l.t('_i.current.bindWebauthn')}</Button>
+                            }}><Icon icon='add_link' />&#160;{l.t('_p.current.bindWebauthn')}</Button>
 
                             <ConfirmButton palette='secondary' rounded onClick={async () => {
                                 const r1 = await api.delete(`/passports/${this.#id}`);
@@ -170,7 +170,7 @@ export class Webauthn implements PassportComponents {
                                     return;
                                 }
                                 await f();
-                            }}><Icon icon='link_off' />&#160;{l.t('_i.current.unbindAllWebauthn')}</ConfirmButton>
+                            }}><Icon icon='link_off' />&#160;{l.t('_p.current.unbindAllWebauthn')}</ConfirmButton>
                         </div>}
                     />
                 </div>

@@ -16,14 +16,14 @@ test('buildLocale', async () => {
     let l = buildLocale(c);
     expect(l.locale.toString()).toEqual('zh-Hans');
     expect(l.unitStyle).toEqual('full');
-    expect(l.t('_i.ok')).toEqual('确定');
-    expect(l.tt('en', '_i.ok')).toEqual('OK');
+    expect(l.t('_c.ok')).toEqual('确定');
+    expect(l.tt('en', '_c.ok')).toEqual('OK');
 
     l.changeLocale(new CoreLocale('en', 'short'));
     expect(l.locale.toString()).toEqual('en');
     expect(l.unitStyle).toEqual('short');
-    expect(l.t('_i.ok')).toEqual('OK');
-    expect(l.tt('zh-Hans', '_i.ok')).toEqual('确定');
+    expect(l.t('_c.ok')).toEqual('OK');
+    expect(l.tt('zh-Hans', '_c.ok')).toEqual('确定');
     expect(l.bytes(2048)).toEqual('2 kB');
 
     expect(l.match(['zh', 'en'])).toEqual('en');

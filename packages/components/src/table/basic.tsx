@@ -127,7 +127,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 </Show>
                 <Show when={!props.items || props.items.length===0}>
                     <tr>
-                        <td class="nodata" colSpan={props.columns.length}>{ l.t('_i.table.nodata') }</td>
+                        <td class="nodata" colSpan={props.columns.length}>{ l.t('_c.table.nodata') }</td>
                     </tr>
                 </Show>
             </tbody>

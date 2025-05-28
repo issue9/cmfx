@@ -5,7 +5,7 @@
 import { default as m } from './en.lang';
 
 const messages: typeof m = {
-    _i: {
+    _p: {
         app: {
             keyDesc: '\'<kbd>\'&#8593;\'</kbd>\' \'<kbd>\'&#8595;\'</kbd>\' 选择项；\'<kbd>\'Enter\'</kbd>\' 确定选择；\'<kbd>\'ESC\'</kbd>\' 关闭。',
             searchAtSidebar: '搜索侧边栏菜单',

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 const messages = {
-    _i: {
+    _c: {
         fullscreen: 'Full screen',
         successful: 'Successful',
         ok: 'OK',

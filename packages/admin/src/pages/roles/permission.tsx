@@ -66,7 +66,7 @@ export function Permission(): JSX.Element {
         nav(-1);
     };
 
-    return <Page title='_i.roles.permission'>
+    return <Page title='_p.roles.permission'>
         <div class="p--roles-permissions">
             <For each={resources()}>
                 {(res)=>(
@@ -96,8 +96,8 @@ export function Permission(): JSX.Element {
             </For>
 
             <div class="flex justify-end gap-2">
-                <Button palette='secondary' onClick={()=>nav(-1)}>{l.t('_i.cancel')}</Button>
-                <Button palette='primary' onClick={()=>save()}>{l.t('_i.ok')}</Button>
+                <Button palette='secondary' onClick={()=>nav(-1)}>{l.t('_c.cancel')}</Button>
+                <Button palette='primary' onClick={()=>save()}>{l.t('_c.ok')}</Button>
             </div>
         </div>
     </Page>;

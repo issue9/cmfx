@@ -14,8 +14,8 @@ describe('enum', async () => {
     await CoreLocale.addDict('en', async (): Promise<Dict> => (await import('@/messages/en.lang')).default);
 
     const enums: Enums<string, string> = [
-        ['k1', '_i.ok'],
-        ['k2', '_i.cancel'],
+        ['k1', '_c.ok'],
+        ['k2', '_c.cancel'],
     ];
 
     let c = new CoreLocale('zh-Hans', 'full');

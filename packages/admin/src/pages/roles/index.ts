@@ -46,7 +46,7 @@ export class roles implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: 'groups', label: '_i.roles.roles', path: this.#prefix },
+            { type: 'item', icon: 'groups', label: '_p.roles.roles', path: this.#prefix },
         ];
     }
 }

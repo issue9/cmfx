@@ -139,11 +139,11 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
         },
     
         CancelAction(click?: ClickFunc): JSX.Element {
-            return this.Action(l.t('_i.cancel'), click);
+            return this.Action(l.t('_c.cancel'), click);
         },
     
         OKAction(click?: ClickFunc): JSX.Element {
-            return this.Action(l.t('_i.ok'), click, true);
+            return this.Action(l.t('_c.ok'), click, true);
         },
     
         DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element {

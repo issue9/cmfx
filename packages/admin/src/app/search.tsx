@@ -80,10 +80,10 @@ export function Search(props: Props): JSX.Element {
     return <>
         <Dialog ref={el => dlgRef = el} class="app-search" actions={
             <div class="w-full">
-                <div class="w-full text-left" innerHTML={l.t('_i.app.keyDesc')}></div>
+                <div class="w-full text-left" innerHTML={l.t('_p.app.keyDesc')}></div>
             </div>
         }>
-            <TextField ref={el=>inputRef=el} class='mb-3 border-0' accessor={input} placeholder={l.t('_i.app.searchAtSidebar')} suffix={
+            <TextField ref={el=>inputRef=el} class='mb-3 border-0' accessor={input} placeholder={l.t('_p.app.searchAtSidebar')} suffix={
                 <Show when={input.getValue() !== ''}>
                     <Icon icon='close' class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
                 </Show>
@@ -103,7 +103,7 @@ export function Search(props: Props): JSX.Element {
         </Dialog>
 
         <Button icon type='button' kind='flat' rounded hotkey={new Hotkey('k', 'control')}
-            title={l.t('_i.search')}
+            title={l.t('_p.search')}
             onClick={showSearch}>search</Button>
     </>;
 }

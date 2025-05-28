@@ -69,10 +69,10 @@ export function ConfirmButton(props: Props) {
             pop(popElem, ref.getBoundingClientRect());
         }}>{props.children}</Button>
         <div popover="manual" ref={el=>popElem=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
-            {props.prompt ?? l.t('_i.areYouSure')}
+            {props.prompt ?? l.t('_c.areYouSure')}
             <div class="actions">
-                <Button palette='secondary' onClick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_i.cancel')}</Button>
-                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? l.t('_i.ok')}</Button>
+                <Button palette='secondary' onClick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>
+                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
             </div>
         </div>
     </>;

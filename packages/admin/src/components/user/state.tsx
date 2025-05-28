@@ -11,9 +11,9 @@ import { MessagesKey } from '@/messages';
 export type State = User['state'];
 
 export const states: Enums<State, MessagesKey> = [
-    ['normal', '_i.states.normal'],
-    ['locked', '_i.states.locked'],
-    ['deleted', '_i.states.deleted'],
+    ['normal', '_p.states.normal'],
+    ['locked', '_p.states.locked'],
+    ['deleted', '_p.states.deleted'],
 ] as const;
 
 export type StateSelectorProps<M extends boolean> = Omit<ChoiceProps<State, M>, 'options'>;

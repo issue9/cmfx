@@ -27,14 +27,14 @@ export function SecurityLogs(): JSX.Element {
         //'created.end'?: string;
     };
 
-    return <Page title="_i.current.securitylog">
+    return <Page title="_p.current.securitylog">
         <RemoteTable<SecurityLog, Query> path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
-            { id: 'content', label: l.t('_i.current.content') },
-            { id: 'ip', label: l.t('_i.current.ip') },
-            { id: 'ua', label: l.t('_i.current.ua'), content:(_: string, val?: string)=>{
+            { id: 'content', label: l.t('_p.current.content') },
+            { id: 'ip', label: l.t('_p.current.ip') },
+            { id: 'ua', label: l.t('_p.current.ua'), content:(_: string, val?: string)=>{
                 if (!val) { return ''; }
                 const info = Bowser.parse(val);
-                return l.t('_i.current.uaInfo', {
+                return l.t('_p.current.uaInfo', {
                     browser: info.browser.name,
                     browserVersion: info.browser.version,
                     os: info.os.name,
@@ -43,7 +43,7 @@ export function SecurityLogs(): JSX.Element {
                     kernelVersion: info.engine.version,
                 });
             } },
-            { id: 'created', label: l.t('_i.created'), content:(_: string, val?: string)=>{
+            { id: 'created', label: l.t('_p.created'), content:(_: string, val?: string)=>{
                 return l.datetime(val);
             } },
         ]} queryForm={(qa)=>(

@@ -26,19 +26,19 @@ export function About(props: Props): JSX.Element {
     const l = useLocale();
     const f = __CMFX_ABOUT__;
 
-    return <Page title='_i.system.about' class="p--about">
+    return <Page title='_p.system.about' class="p--about">
         {props.description && props.description({})}
 
         <Show when={f.serverDependencies}>
-            {renderPackage(l.t('_i.system.srvDeps'), f.serverDependencies, 'host')}
+            {renderPackage(l.t('_p.system.srvDeps'), f.serverDependencies, 'host')}
         </Show>
 
         <Show when={f.dependencies}>
-            {renderPackage(l.t('_i.system.prodDeps'), f.dependencies, 'automation')}
+            {renderPackage(l.t('_p.system.prodDeps'), f.dependencies, 'automation')}
         </Show>
 
         <Show when={f.devDependencies}>
-            {renderPackage(l.t('_i.system.devDeps'), f.devDependencies, 'folder_code')}
+            {renderPackage(l.t('_p.system.devDeps'), f.devDependencies, 'folder_code')}
         </Show>
     </Page>;
 }

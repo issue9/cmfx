@@ -48,30 +48,30 @@ export function Edit(props: Props): JSX.Element {
         setPassports(r2.body!);
     });
 
-    return <Page title="_i.admin.admin" class="max-w-xs">
+    return <Page title="_p.admin.admin" class="max-w-xs">
         <Form formAccessor={form} class="flex flex-col">
-            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_i.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_i.nickname')} />
-            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_i.roles.roles')} />
-            <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} label={l.t('_i.sex')} />
+            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_p.admin.name')} />
+            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
+            <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} label={l.t('_p.sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} type="button" palette='secondary'>
                     <Icon icon='arrow_back_ios' />
-                    {l.t('_i.back')}
+                    {l.t('_p.back')}
                 </LinkButton>
-                <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_i.reset')}</Button>
-                <Button disabled={form.isPreset()} type="submit" palette='primary'>{l.t('_i.ok')}</Button>
+                <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_p.reset')}</Button>
+                <Button disabled={form.isPreset()} type="submit" palette='primary'>{l.t('_p.ok')}</Button>
             </div>
         </Form>
 
-        <Divider padding='8px'>{l.t('_i.admin.passport')}</Divider>
+        <Divider padding='8px'>{l.t('_p.admin.passport')}</Divider>
 
         <fieldset class="c--table">
             <table>
                 <thead>
                     <tr>
-                        <th>{l.t('_i.admin.passportType')}</th>
-                        <th>{l.t('_i.current.username')}</th>
+                        <th>{l.t('_p.admin.passportType')}</th>
+                        <th>{l.t('_p.current.username')}</th>
                     </tr>
                 </thead>
                 <tbody>

@@ -138,10 +138,10 @@ export default function Tour(props: Props): JSX.Element {
     return <Dialog class="c--tour" ref={el => ref = el}
         header={<Label icon={curr().icon}>{header()}</Label>}
         actions={<>
-            {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_i.tour.prev')}</Button>}
-            {index() == 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_i.tour.start')}</Button>}
-            {index() < props.steps.length - 1 && index() > 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_i.tour.next')}</Button>}
-            {index() === props.steps.length - 1 && <Button palette={props.accentPalette} onClick={() => ref.close()}>{props.complete || l.t('_i.tour.complete')}</Button>}
+            {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}
+            {index() == 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_c.tour.start')}</Button>}
+            {index() < props.steps.length - 1 && index() > 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_c.tour.next')}</Button>}
+            {index() === props.steps.length - 1 && <Button palette={props.accentPalette} onClick={() => ref.close()}>{props.complete || l.t('_c.tour.complete')}</Button>}
         </>}
     >
         {curr()!.content}

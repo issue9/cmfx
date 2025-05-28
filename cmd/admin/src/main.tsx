@@ -15,7 +15,7 @@ const rolesPage = roles.build('/roles');
 const adminsPage = admins.build('/admins');
 const systemPage = system.build('/system', () => {
     const l = useLocale();
-    return <p>{l.t('_i.system.system')}</p>;
+    return <p>{l.t('_p.system.system')}</p>;
 });
 const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {
@@ -61,7 +61,7 @@ const routes: Routes = {
 };
 
 const menus: Array<MenuItem> = [
-    { type: 'item', icon: 'dashboard', label: '_i.current.dashboard', path: '/current/dashboard' },
+    { type: 'item', icon: 'dashboard', label: '_p.current.dashboard', path: '/current/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test/5/test' },
     {
         type: 'group', label: 'system', items: [
@@ -72,12 +72,12 @@ const menus: Array<MenuItem> = [
                 ]
             },
             {
-                type: 'item', label: '_i.system.system', icon: 'host', items: [
+                type: 'item', label: '_p.system.system', icon: 'host', items: [
                     ...systemPage.menus(),
                 ]
             },
             {
-                type: 'item', label: '_i.member.member', icon: 'supervisor_account', items: [
+                type: 'item', label: '_p.member.member', icon: 'supervisor_account', items: [
                     ...membersPage.menus(),
                 ]
             }

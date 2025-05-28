@@ -13,9 +13,9 @@ export function NotFound(): JSX.Element {
     const [, , opt] = use();
     const nav = useNavigate();
 
-    return <XError header="404" title={l.t('_i.error.pageNotFound')}>
-        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_i.error.backHome') }</Button>
-        <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_i.error.backPrev') }</Button>
+    return <XError header="404" title={l.t('_p.error.pageNotFound')}>
+        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_p.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_p.error.backPrev') }</Button>
     </XError>;
 }
 
@@ -36,9 +36,9 @@ export function Unknown(err: any) {
         props.title = err.toString();
     }
 
-    return <XError header={props.header ?? l.t('_i.error.unknownError')} title={props.title} detail={props.detail}>
-        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_i.error.backHome') }</Button>
-        <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_i.error.backPrev') }</Button>
-        <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_i.refresh')}</Button>
+    return <XError header={props.header ?? l.t('_p.error.unknownError')} title={props.title} detail={props.detail}>
+        <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_p.error.backHome') }</Button>
+        <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_p.error.backPrev') }</Button>
+        <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_p.refresh')}</Button>
     </XError>;
 }

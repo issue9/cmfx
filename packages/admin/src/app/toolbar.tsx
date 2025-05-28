@@ -96,7 +96,7 @@ function Fullscreen(): JSX.Element {
     };
 
     return <Button icon type='button' kind='flat' rounded
-        onClick={toggleFullscreen} title={l.t('_i.fullscreen')}>
+        onClick={toggleFullscreen} title={l.t('_p.fullscreen')}>
         {fs() ? 'fullscreen_exit' : 'fullscreen'}
     </Button>;
 }

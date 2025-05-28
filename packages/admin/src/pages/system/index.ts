@@ -68,12 +68,12 @@ export class system implements Pages {
 
     menus(): Array<MenuItem> {
         const menus: Array<MenuItem> = [
-            { type: 'item', icon: 'api', label: '_i.system.apis', path: this.#prefix + '/apis' },
-            { type: 'item', icon: 'settings_slow_motion', label: '_i.system.services', path: this.#prefix + '/services' },
-            { type: 'item', icon: 'help', label: '_i.system.info', path: this.#prefix + '/info' },
+            { type: 'item', icon: 'api', label: '_p.system.apis', path: this.#prefix + '/apis' },
+            { type: 'item', icon: 'settings_slow_motion', label: '_p.system.services', path: this.#prefix + '/services' },
+            { type: 'item', icon: 'help', label: '_p.system.info', path: this.#prefix + '/info' },
         ];
         if (this.#about) {
-            menus.push({ type: 'item', icon: 'page_info', label: '_i.system.about', path: this.#prefix + '/about' });
+            menus.push({ type: 'item', icon: 'page_info', label: '_p.system.about', path: this.#prefix + '/about' });
         }
 
         return menus;

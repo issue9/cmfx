@@ -5,7 +5,7 @@
 import { default as m } from './en.lang';
 
 const messages: typeof m = {
-    _i: {
+    _c: {
         fullscreen: '全屏',
         successful: '成功',
         ok: '确定',

@@ -29,10 +29,10 @@ export function Profile(props: Props): JSX.Element {
         await act.refetchUser();
     }, (obj) => {
         if (!obj.name) {
-            return new Map([['name', l.t('_i.error.canNotBeEmpty')]]);
+            return new Map([['name', l.t('_p.error.canNotBeEmpty')]]);
         }
         if (!obj.nickname) {
-            return new Map([['nickname', l.t('_i.error.canNotBeEmpty')]]);
+            return new Map([['nickname', l.t('_p.error.canNotBeEmpty')]]);
         }
     });
 
@@ -76,7 +76,7 @@ export function Profile(props: Props): JSX.Element {
         setPassports(r.body!);
     });
 
-    return <Page title='_i.current.profile' class="p--profile">
+    return <Page title='_p.current.profile' class="p--profile">
         <Upload ref={el => uploadRef = el} fieldName='files' action='/uploads' />
         <div class="flex gap-4">
             <img class="avatar" alt="avatar" src={avatar()} />
@@ -85,7 +85,7 @@ export function Profile(props: Props): JSX.Element {
                 <Show when={uploadRef!.files().length === 0}>
                     <Button palette='tertiary' onClick={async () => {
                         uploadRef.pick();
-                    }}>{l.t('_i.current.pickAvatar')}</Button>
+                    }}>{l.t('_p.current.pickAvatar')}</Button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
                     <div class="flex gap-2">
@@ -101,12 +101,12 @@ export function Profile(props: Props): JSX.Element {
                                 return;
                             }
                             await act.refetchUser();
-                        }}>{l.t('_i.save')}</Button>
+                        }}>{l.t('_p.save')}</Button>
 
                         <Button palette='error' onClick={() => {
                             setAvatar(originAvatar);
                             uploadRef.delete(0);
-                        }}>{l.t('_i.cancel')}</Button>
+                        }}>{l.t('_o.cancel')}</Button>
                     </div>
                 </Show>
             </div>
@@ -115,25 +115,25 @@ export function Profile(props: Props): JSX.Element {
         <Divider padding='4px' />
 
         <Form formAccessor={infoAccess} class="form">
-            <TextField class="w-full" label={l.t('_i.current.name')} accessor={nameA} />
-            <TextField class="w-full" label={l.t('_i.nickname')} accessor={nicknameA} />
-            <user.SexSelector class="w-full" label={l.t('_i.sex')} accessor={sexA} />
+            <TextField class="w-full" label={l.t('_p.current.name')} accessor={nameA} />
+            <TextField class="w-full" label={l.t('_p.nickname')} accessor={nicknameA} />
+            <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={sexA} />
 
             <div class="actions">
-                <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_i.reset')}</Button>
-                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_i.save')}</Button>
+                <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_c.reset')}</Button>
+                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_c.save')}</Button>
             </div>
         </Form>
 
-        <Divider padding='8px'>{l.t('_i.admin.passport')}</Divider>
+        <Divider padding='8px'>{l.t('_p.admin.passport')}</Divider>
 
         <fieldset class="c--table">
             <table>
                 <thead>
                     <tr>
-                        <th>{l.t('_i.admin.passportType')}</th>
-                        <th>{l.t('_i.current.username')}</th>
-                        <th>{l.t('_i.actions')}</th>
+                        <th>{l.t('_p.admin.passportType')}</th>
+                        <th>{l.t('_p.current.username')}</th>
+                        <th>{l.t('_p.actions')}</th>
                     </tr>
                 </thead>
                 <tbody>

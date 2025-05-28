@@ -132,7 +132,7 @@ export function DatePanel(props: Props): JSX.Element {
     const title = <div class="title">
         <div>
             <Button tabIndex={props.tabindex} icon rounded kind='flat' class="!p-1"
-                title={l.t('_i.date.prevYear')} aria-label={l.t('_i.date.prevYear')}
+                title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -141,7 +141,7 @@ export function DatePanel(props: Props): JSX.Element {
                     setValue(dt);
                 }}>keyboard_double_arrow_left</Button>
             <Button tabIndex={props.tabindex} icon rounded kind='flat' class="!p-1"
-                title={l.t('_i.date.prevMonth')} aria-label={l.t('_i.date.prevMonth')}
+                title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -155,7 +155,7 @@ export function DatePanel(props: Props): JSX.Element {
 
         <div>
             <Button tabIndex={props.tabindex} icon rounded kind="flat" class="!p-1"
-                title={l.t('_i.date.nextMonth')} aria-label={l.t('_i.date.nextMonth')}
+                title={l.t('_c.date.nextMonth')} aria-label={l.t('_c.date.nextMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -164,7 +164,7 @@ export function DatePanel(props: Props): JSX.Element {
                     setValue(dt);
                 }}>chevron_right</Button>
             <Button tabIndex={props.tabindex} icon rounded kind="flat" class="!p-1"
-                title={l.t('_i.date.nextYear')} aria-label={l.t('_i.date.nextYear')}
+                title={l.t('_c.date.nextYear')} aria-label={l.t('_c.date.nextYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
@@ -274,7 +274,7 @@ export function DatePanel(props: Props): JSX.Element {
                     if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
                     setValue(now);
                     if (props.now) { props.now(); }
-                }}>{l.t(props.time ? '_i.date.now' : '_i.date.today')}</button>
+                }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</button>
             </div>
 
             <div class="right">
@@ -282,12 +282,12 @@ export function DatePanel(props: Props): JSX.Element {
                     // 清除只对 accessor 的内容任务清除，panelValue 不变。
                     props.accessor.setValue(undefined);
                     if (props.clear) { props.clear(); }
-                }}>{l.t('_i.date.clear')}</button>
+                }}>{l.t('_c.date.clear')}</button>
 
                 <button tabIndex={props.tabindex} classList={{ 'action': true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
                     props.accessor.setValue(untrack(panelValue).toISOString());
                     if (props.ok) { props.ok(); }
-                }}>{l.t('_i.ok')}</button>
+                }}>{l.t('_c.ok')}</button>
             </div>
         </div>
     </fieldset>;

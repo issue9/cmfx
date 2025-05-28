@@ -64,7 +64,7 @@ export function Members(props: Props): JSX.Element {
     const sexes = createMemo(() => { return translateEnums<user.Sex>(user.sexes, l); });
     const states = createMemo(() => { return translateEnums<user.State>(user.states, l); });
 
-    return <Page title="_i.member.membersManager">
+    return <Page title="_p.member.membersManager">
         <RemoteTable<Member, Q> ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
@@ -72,31 +72,31 @@ export function Members(props: Props): JSX.Element {
                 <user.SexSelector multiple accessor={qa.accessor<Array<user.Sex>>('sex')} />
             </>
         )} columns={[
-            { id: 'id', label: l.t('_i.id') },
-            { id: 'no', label: l.t('_i.no') },
+            { id: 'id', label: l.t('_p.id') },
+            { id: 'no', label: l.t('_p.no') },
             {
-                id: 'sex', label: l.t('_i.sex'), content: ((_: string, v) => {
+                id: 'sex', label: l.t('_p.sex'), content: ((_: string, v) => {
                     return sexes().find((val) => val[0] === v)?.[1];
                 })
             },
-            { id: 'nickname', label: l.t('_i.nickname') },
-            { id: 'created', label: l.t('_i.created'), content: (_, v)=> l.datetime(v as string) },
+            { id: 'nickname', label: l.t('_p.nickname') },
+            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetime(v as string) },
             {
-                id: 'state', label: l.t('_i.state'), content: (_, v) => {
+                id: 'state', label: l.t('_p.state'), content: (_, v) => {
                     return states().find((val) => val[0] === v)?.[1];
                 }
             },
             {
-                id: 'actions', cellClass:'no-print', label: l.t('_i.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
+                id: 'actions', cellClass:'no-print', label: l.t('_p.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={l.t('_i.member.view')}>visibility</LinkButton>
+                                title={l.t('_p.member.view')}>visibility</LinkButton>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
-                            <Button icon rounded palette='error' title={l.t('_i.admin.lockUser')} onClick={async () => {
+                            <Button icon rounded palette='error' title={l.t('_p.admin.lockUser')} onClick={async () => {
                                 const r = await api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);
@@ -107,7 +107,7 @@ export function Members(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button icon rounded palette='tertiary' title={l.t('_i.admin.unlockUser')} onClick={async () => {
+                            <Button icon rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onClick={async () => {
                                 const r = await api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);

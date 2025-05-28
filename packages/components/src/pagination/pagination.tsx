@@ -93,11 +93,11 @@ export function Pagination(props: Props): JSX.Element {
         [`palette--${props.palette}`]: !!props.palette
     }}>
         <Button icon onclick={()=>change(1)} class="item"
-            aria-label={l.t('_i.pagination.firstPage')}
+            aria-label={l.t('_c.pagination.firstPage')}
             disabled={current()===1}>first_page</Button>
 
         <Button icon onclick={()=>change(current()-1)} class="item" disabled={current()===1}
-            aria-label={l.t('_i.pagination.prev')}>chevron_left</Button>
+            aria-label={l.t('_c.pagination.prev')}>chevron_left</Button>
 
         <For each={prevs()}>
             {(item)=>(
@@ -114,11 +114,11 @@ export function Pagination(props: Props): JSX.Element {
         </For>
 
         <Button icon onclick={()=>change(current()+1)} class="item"
-            aria-label={l.t('_i.pagination.next')}
+            aria-label={l.t('_c.pagination.next')}
             disabled={current() >= props.count}>chevron_right</Button>
 
         <Button icon onclick={()=>change(props.count)} class="item"
-            aria-label={l.t('_i.pagination.lastPage')}
+            aria-label={l.t('_c.pagination.lastPage')}
             disabled={current() >= props.count}>last_page</Button>
     </nav>;
 }
