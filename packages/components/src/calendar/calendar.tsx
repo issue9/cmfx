@@ -120,13 +120,13 @@ export default function Calendar(props: Props): JSX.Element {
                                     }} classList={{
                                         'disabled': !day[0],
                                         'current': selected()
-                                            && (selected()!.getMonth() == day[1] as unknown as number)
+                                            && (selected()!.getMonth() === day[1])
                                             && (day[2] === selected()!.getDate())
                                             && (curr().getFullYear() === selected()!.getFullYear())
                                     }}>
                                         <span classList={{
                                             'day': true,
-                                            'today': (curr().getMonth() === now.getMonth())
+                                            'today': (day[1] === now.getMonth())
                                                 && (curr().getFullYear() === now.getFullYear())
                                                 && (day[2] === now.getDate())
                                         }}>{day[2]}</span>
