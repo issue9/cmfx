@@ -44,13 +44,13 @@ export function About(props: Props): JSX.Element {
 }
 
 function renderPackage(title: string, pkgs: Array<Package>, icon?: IconSymbol): JSX.Element {
-    return <fieldset>
+    return <fieldset class="palette--tertiary">
         <Label class='px-1 text-lg' icon={icon} tag='legend'>{title}</Label>
         <For each={pkgs}>
             {(item) => (
                 <div class="item">
                     <span>{item.name}</span>
-                    <span>{item.version}</span>
+                    <span class="version">{item.version}</span>
                 </div>
             )}
         </For>

@@ -70,7 +70,7 @@ export class system implements Pages {
         const menus: Array<MenuItem> = [
             { type: 'item', icon: 'api', label: '_p.system.apis', path: this.#prefix + '/apis' },
             { type: 'item', icon: 'settings_slow_motion', label: '_p.system.services', path: this.#prefix + '/services' },
-            { type: 'item', icon: 'help', label: '_p.system.info', path: this.#prefix + '/info' },
+            { type: 'item', icon: 'help', label: '_p.system.serverInfo', path: this.#prefix + '/info' },
         ];
         if (this.#about) {
             menus.push({ type: 'item', icon: 'page_info', label: '_p.system.about', path: this.#prefix + '/about' });

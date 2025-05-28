@@ -122,9 +122,9 @@ export function Info(): JSX.Element {
         await api.delete('/system/systat');
     });
 
-    return <Page title="_p.system.info" class="!max-w-lg p--system-info">
+    return <Page title="_p.system.serverInfo" class="!max-w-lg p--system-info">
         <fieldset class="panel w-[45%] max-sm:w-full">
-            <Label icon="info" tag='legend'>{l.t('_p.system.info')}</Label>
+            <Label icon="info" tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
             <dl><dt>{l.t('_p.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
@@ -212,15 +212,15 @@ export function Info(): JSX.Element {
         <fieldset class="panel w-full">
             <Label icon='ssid_chart' tag='legend'>{l.t('_p.system.states')}</Label>
             <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
-                ['cpu', l.t('_p.cpu') + ' (%)'],
-                ['memory', l.t('_p.memory') + ' (MB)'],
+                ['cpu', l.t('_c.cpu') + ' (%)'],
+                ['memory', l.t('_c.memory') + ' (MB)'],
                 ['connections', l.t('_p.system.connections')],
                 ['goroutines', l.t('_p.system.goroutines')],
             ]} />
             <AxisChart ref={(el) => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
                 series={[
-                    { type: 'line', key: 'os', name: l.t('_p.os'), area: true, smooth: true },
-                    { type: 'line', key: 'process', name: l.t('_p.process'), area: true, smooth: true },
+                    { type: 'line', key: 'os', name: l.t('_c.os'), area: true, smooth: true },
+                    { type: 'line', key: 'process', name: l.t('_c.process'), area: true, smooth: true },
                 ]}
                 data={data()}
             />

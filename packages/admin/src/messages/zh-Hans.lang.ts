@@ -101,7 +101,7 @@ const messages: typeof m = {
             next: '下次执行时间',
             prev: '上次执行时间',
 
-            info: '信息',
+            serverInfo: '服务器信息',
             states: '状态',
             system: '系统',
             backupDB: '备份数据库',

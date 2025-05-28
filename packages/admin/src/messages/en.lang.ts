@@ -99,7 +99,7 @@ const messages = {
             next: 'Next',
             prev: 'Prev',
 
-            info: 'Info',
+            serverInfo: 'Server info',
             states: 'States',
             system: 'System',
             backupDB: 'Backup database',
