@@ -23,6 +23,7 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 { src: '../../LICENSE', dest: '../' },
+                { src: './src/global.d.ts', dest: '../lib' },
             ]
         })
     ],

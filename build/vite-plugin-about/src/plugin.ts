@@ -5,7 +5,8 @@
 import { readFileSync } from 'node:fs';
 import { Plugin } from 'vite';
 
-import { initPnpmVersionSearch, Package, parseGomods } from './files';
+import { initPnpmVersionSearch, parseGomods } from './files';
+import { About } from './global';
 
 export interface Options {
     /**
@@ -19,36 +20,6 @@ export interface Options {
     packages: Array<string>;
 }
 
-/**
- * 附加在环境变量上的名称
- */
-export const __CMFX_ABOUT__ = '__CMFX_ABOUT__';
-
-/**
- * 生成的关于页面的数据
- */
-export interface About {
-    /**
-     * 前端的生产环境依赖列表
-     */
-    dependencies: Array<Package>;
-
-    /**
-    * 前端的开发环境依赖列表
-    */
-    devDependencies: Array<Package>;
-
-    /**
-     * 后端的依赖列表
-     */
-    serverDependencies: Array<Package>;
-
-    /**
-     * 软件版本
-     */
-    version: string;
-}
-
 // 描述 package.json 的格式
 interface PackageJSON {
     version: string;
@@ -57,7 +28,12 @@ interface PackageJSON {
 }
 
 /**
- * 用于生成关于页面的数据，这些数据通过环境变量 {@link __CMFX_ABOUT__} 传递给该页面。
+ * 用于生成关于页面的数据
+ *
+ * 这些数据可通过全局变量 __CMFX_ABOUT__ 获取。如果是 ts 环境，需要 __CMFX_ABOUT__
+ * 的类型，可通过以下两种方式获取：
+ *  - /// <reference types="@cmfx/vite-plugin-about" /> 单个文件中使用；
+ *  - 在 vite.config.ts 的 compilerOptions.types 添加 @cmfx/vite-plugin-about，则是整个项目都可使用；
  */
 export function about(options: Options): Plugin {
     const about: About = {
@@ -109,7 +85,7 @@ export function about(options: Options): Plugin {
 
             return {
                 define: {
-                    [__CMFX_ABOUT__]: about
+                    '__CMFX_ABOUT__': about
                 }
             };
         }

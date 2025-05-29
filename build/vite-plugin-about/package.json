@@ -19,6 +19,8 @@
     },
     "keywords": [
         "cmfx",
+        "vite",
+        "plugin",
         "vite-plugin"
     ],
     "license": "MIT",

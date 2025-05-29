@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { __CMFX_ABOUT__, about } from './plugin';
-export type { About, Options } from './plugin';
+export { about } from './plugin';
+export type { Options } from './plugin';
 
-export type { Package } from './files';
+export type { About, Package } from './global';
 

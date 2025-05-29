@@ -49,7 +49,7 @@ build-ts-admin:
 
 # 编译前端项目内容
 build-ts:
-	pnpm --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about run build
+	pnpm --filter=./build/vite-plugin-about --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
 	
 ########################### install ###################################
 

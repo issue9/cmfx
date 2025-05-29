@@ -3,12 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { IconSymbol, Label, Page, useLocale } from '@cmfx/components';
-import type { About, Package } from '@cmfx/vite-plugin-about';
+import type { Package } from '@cmfx/vite-plugin-about';
 import { For, JSX, Show, VoidComponent } from 'solid-js';
-
-declare global {
-    const __CMFX_ABOUT__: About;
-}
 
 interface Props {
     /**
