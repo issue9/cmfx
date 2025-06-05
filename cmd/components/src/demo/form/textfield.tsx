@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { cloneElement, FieldAccessor, Number, Password, TextField } from '@cmfx/components';
+import IconFace from '~icons/material-symbols/face';
+
 import { boolSelector, Demo, layoutSelector, paletteSelector } from '../base';
 
 export default function() {
@@ -38,9 +40,9 @@ export default function() {
 
         <div class="flex flex-col gap-2 w-80">
             <Number layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Number layout={layout()} placeholder='placeholder' label="icon" icon="face" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Number layout={layout()} placeholder='placeholder' label="range:[1,10]" icon="face" min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Password layout={layout()} placeholder='placeholder' label="password" icon="face" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
+            <Number layout={layout()} placeholder='placeholder' label="icon" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Number layout={layout()} placeholder='placeholder' label="range:[1,10]" icon={IconFace} min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Password layout={layout()} placeholder='placeholder' label="password" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
         </div>
     </Demo>;
 }

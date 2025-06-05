@@ -6,7 +6,6 @@ import { Hotkey } from '@cmfx/core';
 import { A, useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { IconSymbol } from '@/icon';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 /**
@@ -28,7 +27,7 @@ export interface Props extends BaseProps, Omit<JSX.AnchorHTMLAttributes<HTMLAnch
     /**
      * 按钮内容，如果 icon 为 true，那么内容应该是图标名称，否则不能显示为正确图标。
      */
-    children: JSX.Element | IconSymbol;
+    children: JSX.Element;
 
     disabled?: boolean;
 }
@@ -57,8 +56,6 @@ export function LinkButton(props: Props) {
         !props.disabled ? undefined : e => e.preventDefault()
     } classList={{
         'c--button': true,
-        'c--icon': props.icon,
-        'material-symbols-outlined': props.icon,
         'c--button-icon': props.icon,
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,

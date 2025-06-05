@@ -23,7 +23,7 @@
             }
 
             .expand {
-                @apply ml-auto items-center;
+                @apply ml-auto;
             }
         }
 

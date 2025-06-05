@@ -1,7 +1,6 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-export { Icon } from './icon';
-export type { Props as IconProps, IconSymbol } from './icon';
+export type { IconComponent, Props as IconComponentProps } from './icon';
 

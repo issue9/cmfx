@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, FieldAccessor, Icon, Label, Locale, TextField, TextFieldRef } from '@cmfx/components';
+import { Button, Dialog, DialogRef, FieldAccessor, Label, Locale, TextField, TextFieldRef } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
+import IconClose from '~icons/material-symbols/close';
+import IconSearch from '~icons/material-symbols/search';
 
 import { use, useLocale } from '@/context';
 import { MenuItem } from '@/options';
@@ -85,10 +87,10 @@ export function Search(props: Props): JSX.Element {
         }>
             <TextField ref={el=>inputRef=el} class='mb-3 border-0' accessor={input} placeholder={l.t('_p.app.searchAtSidebar')} suffix={
                 <Show when={input.getValue() !== ''}>
-                    <Icon icon='close' class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
+                    <IconClose class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
                 </Show>
             } prefix={
-                <Icon icon='search' class="!flex !items-center ms-1" />
+                <IconSearch class="!flex !items-center ms-1" />
             } />
 
             <ul ref={el=>listRef=el} onKeyDown={handleKeyDown} tabindex={-1} class="list">
@@ -103,8 +105,8 @@ export function Search(props: Props): JSX.Element {
         </Dialog>
 
         <Button icon type='button' kind='flat' rounded hotkey={new Hotkey('k', 'control')}
-            title={l.t('_p.search')}
-            onClick={showSearch}>search</Button>
+            title={l.t('_c.search')}
+            onClick={showSearch}><IconSearch /></Button>
     </>;
 }
 

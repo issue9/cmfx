@@ -5,6 +5,8 @@
 import { API, Config, Contrast, Hotkey, Locale, Mode, Problem, Scheme, Theme, UnitStyle } from '@cmfx/core';
 import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
+import IconProgress from '~icons/material-symbols/progress-activity';
+
 
 import { registerLocales } from '@/chart/locale';
 import { LocaleProvider } from './locale';
@@ -82,7 +84,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
         </Show>
         <Show when={data.loading}>
             <div class="w-full h-full flex justify-center items-center animate-spin text-7xl">
-                <span class="c--icon material-symbols-outlined">progress_activity</span>
+                <IconProgress />
             </div>
         </Show>
     </internalOptionsContext.Provider>;

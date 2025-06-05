@@ -5,6 +5,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
+import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
@@ -14,6 +15,7 @@ import { viteStaticCopy } from 'vite-plugin-static-copy';
 export default defineConfig({
     plugins: [
         solidPlugin(),
+        Icons({ compiler: 'solid', scale: 1 }),
         dts({
             entryRoot: './src',
             insertTypesEntry: true,
@@ -65,7 +67,7 @@ export default defineConfig({
         },
         rollupOptions: {
             // 不需要打包的内容
-            external: ['solid-js', '@solidjs/router', '@cmfx/core', '@cmfx/components', 'material-symbols']
+            external: ['solid-js', '@solidjs/router', '@cmfx/core', '@cmfx/components']
         }
     }
 });

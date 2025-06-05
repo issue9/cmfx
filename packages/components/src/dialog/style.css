@@ -12,7 +12,7 @@
             @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low;
 
             .close {
-                @apply p-1 cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-full;
+                @apply p-[1px] cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-full;
             }
         }
 

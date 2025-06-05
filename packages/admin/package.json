@@ -51,10 +51,11 @@
         "@solidjs/router": "catalog:",
         "bowser": "^2.11.0",
         "solid-js": "catalog:",
-        "material-symbols": "catalog:",
-        "tailwindcss": "catalog:"
+        "tailwindcss": "catalog:",
+        "@iconify/json": "catalog:"
     },
     "devDependencies": {
+        "unplugin-icons": "catalog:",
         "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",

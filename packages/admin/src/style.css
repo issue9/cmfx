@@ -5,7 +5,6 @@
  */
 
 @import 'tailwindcss' source('.');
-@import 'material-symbols';
 
 @import '@cmfx/components/tailwind.css';
 

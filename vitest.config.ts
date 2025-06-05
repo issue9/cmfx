@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import Icons from 'unplugin-icons/vite';
 import { defineConfig as defineViteConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import { defineConfig, mergeConfig } from 'vitest/config';
@@ -20,12 +21,13 @@ const exclude = [
 export default mergeConfig(
     defineViteConfig({
         plugins: [
+            Icons({ compiler: 'solid', scale: 1 }),
             solidPlugin() // 必须要有，否则所有测试的 isServer 始终为 true。
         ]
     }),
     defineConfig({
         test: {
-            workspace: ['packages/core', 'packages/components', 'packages/admin', 'build/vite-plugin-about'],
+            projects: ['packages/core', 'packages/components', 'packages/admin', 'build/vite-plugin-about'],
             environment: 'jsdom',
             exclude: exclude,
             coverage: {

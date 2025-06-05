@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import IconAccount from '~icons/material-symbols/manage-accounts';
+
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { Admins } from './admins';
@@ -50,7 +52,7 @@ export class admins implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: 'manage_accounts', label: '_p.admin.admin', path: this.#prefix },
+            { type: 'item', icon: IconAccount, label: '_p.admin.admin', path: this.#prefix },
         ];
     }
 }

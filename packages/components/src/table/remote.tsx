@@ -4,6 +4,7 @@
 
 import { API, Page, Query, query2Search } from '@cmfx/core';
 import { JSX, onMount, splitProps } from 'solid-js';
+import IconDelete from '~icons/material-symbols/delete';
 
 import { ConfirmButton } from '@/button';
 import { use, useLocale } from '@/context';
@@ -68,9 +69,9 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
 
                 DeleteAction(id: string | number) {
                     return <ConfirmButton icon rounded palette='error'
-                        title={l.t('_c.deleteItem')}
+                        title={l.t('_c.deleteRow')}
                         onClick={async () => { await this.delete(id); }}
-                    >delete</ConfirmButton>;
+                    ><IconDelete /></ConfirmButton>;
                 },
             });
         }

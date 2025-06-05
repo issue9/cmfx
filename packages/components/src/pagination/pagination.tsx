@@ -3,6 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, For, JSX, mergeProps } from 'solid-js';
+import IconPrev from '~icons/material-symbols/chevron-left';
+import IconNext from '~icons/material-symbols/chevron-right';
+import IconFirst from '~icons/material-symbols/first-page';
+import IconLast from '~icons/material-symbols/last-page';
 
 import { BaseProps } from '@/base';
 import { Button } from '@/button';
@@ -94,10 +98,10 @@ export function Pagination(props: Props): JSX.Element {
     }}>
         <Button icon onclick={()=>change(1)} class="item"
             aria-label={l.t('_c.pagination.firstPage')}
-            disabled={current()===1}>first_page</Button>
+            disabled={current()===1}><IconFirst /></Button>
 
         <Button icon onclick={()=>change(current()-1)} class="item" disabled={current()===1}
-            aria-label={l.t('_c.pagination.prev')}>chevron_left</Button>
+            aria-label={l.t('_c.pagination.prev')}><IconPrev /></Button>
 
         <For each={prevs()}>
             {(item)=>(
@@ -115,10 +119,10 @@ export function Pagination(props: Props): JSX.Element {
 
         <Button icon onclick={()=>change(current()+1)} class="item"
             aria-label={l.t('_c.pagination.next')}
-            disabled={current() >= props.count}>chevron_right</Button>
+            disabled={current() >= props.count}><IconNext /></Button>
 
         <Button icon onclick={()=>change(props.count)} class="item"
             aria-label={l.t('_c.pagination.lastPage')}
-            disabled={current() >= props.count}>last_page</Button>
+            disabled={current() >= props.count}><IconLast /></Button>
     </nav>;
 }

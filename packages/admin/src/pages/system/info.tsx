@@ -2,8 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AxisChart, AxisRef, ConfirmButton, Divider, Icon, Label, Page, Tab } from '@cmfx/components';
+import { AxisChart, AxisRef, ConfirmButton, Divider, Label, Page, Tab } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
+import IconAction from '~icons/material-symbols/action-key';
+import IconBackup from '~icons/material-symbols/backup';
+import IconClear from '~icons/material-symbols/clear-all';
+import IconDatabase from '~icons/material-symbols/database';
+import IconDataset from '~icons/material-symbols/dataset';
+import IconInfo from '~icons/material-symbols/info';
+import IconChart from '~icons/material-symbols/ssid-chart';
 
 import { use, useLocale } from '@/context';
 
@@ -124,7 +131,7 @@ export function Info(): JSX.Element {
 
     return <Page title="_p.system.serverInfo" class="!max-w-lg p--system-info">
         <fieldset class="panel w-[45%] max-sm:w-full">
-            <Label icon="info" tag='legend'>{l.t('_p.system.serverInfo')}</Label>
+            <Label icon={IconInfo} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
             <dl><dt>{l.t('_p.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
@@ -137,7 +144,7 @@ export function Info(): JSX.Element {
 
             <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetime(info()?.uptime)}</dd></dl>
 
-            <Divider padding='1rem'><Icon class="mr-1" icon="dataset" />{l.t('_c.os')}</Divider>
+            <Divider padding='1rem'><IconDataset class="mr-1" />{l.t('_c.os')}</Divider>
 
             <dl><dt>{l.t('_p.system.platform')}</dt><dd>{info()?.os.platform}</dd></dl>
 
@@ -147,7 +154,7 @@ export function Info(): JSX.Element {
 
             <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetime(info()?.os.boot)}</dd></dl>
 
-            <Divider padding='1rem'><Icon class="mr-1" icon="database" />{l.t('_c.database')}</Divider>
+            <Divider padding='1rem'><IconDatabase class="mr-1" />{l.t('_c.database')}</Divider>
 
             <dl><dt>{l.t('_c.database')}</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 
@@ -171,10 +178,10 @@ export function Info(): JSX.Element {
         </fieldset>
 
         <fieldset class="panel w-[45%] max-sm:w-full">
-            <Label icon='action_key' tag='legend'>{l.t('_p.actions')}</Label>
+            <Label icon={IconAction} tag='legend'>{l.t('_p.actions')}</Label>
 
             <ConfirmButton palette='secondary' onClick={async () => await act.clearCache()}>
-                <Icon class="mr-1" icon="clear_all" />{l.t('_p.system.clearCache')}
+                <IconClear class="mr-1" />{l.t('_p.system.clearCache')}
             </ConfirmButton>
             <span class="mt-1">{l.t('_p.system.clearCacheHelp')}</span>
 
@@ -187,7 +194,7 @@ export function Info(): JSX.Element {
                 }
                 await refetch();
             }}>
-                <Icon class="mr-1" icon="backup" />{l.t('_p.system.backupDB')}
+                <IconBackup class="mr-1" />{l.t('_p.system.backupDB')}
             </ConfirmButton>
             <span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron! })}</span>
             <ul class="backup_list">
@@ -210,7 +217,7 @@ export function Info(): JSX.Element {
         </fieldset>
 
         <fieldset class="panel w-full">
-            <Label icon='ssid_chart' tag='legend'>{l.t('_p.system.states')}</Label>
+            <Label icon={IconChart} tag='legend'>{l.t('_p.system.states')}</Label>
             <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
                 ['cpu', l.t('_c.cpu') + ' (%)'],
                 ['memory', l.t('_c.memory') + ' (MB)'],

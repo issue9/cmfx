@@ -3,6 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { VoidComponent } from 'solid-js';
+import IconAPI from '~icons/material-symbols/api';
+import IconHelp from '~icons/material-symbols/help';
+import IconInfo from '~icons/material-symbols/page-info';
+import IconSettings from '~icons/material-symbols/settings-slow-motion';
+
 
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
@@ -68,12 +73,12 @@ export class system implements Pages {
 
     menus(): Array<MenuItem> {
         const menus: Array<MenuItem> = [
-            { type: 'item', icon: 'api', label: '_p.system.apis', path: this.#prefix + '/apis' },
-            { type: 'item', icon: 'settings_slow_motion', label: '_p.system.services', path: this.#prefix + '/services' },
-            { type: 'item', icon: 'help', label: '_p.system.serverInfo', path: this.#prefix + '/info' },
+            { type: 'item', icon: IconAPI, label: '_p.system.apis', path: this.#prefix + '/apis' },
+            { type: 'item', icon: IconSettings, label: '_p.system.services', path: this.#prefix + '/services' },
+            { type: 'item', icon: IconHelp, label: '_p.system.serverInfo', path: this.#prefix + '/info' },
         ];
         if (this.#about) {
-            menus.push({ type: 'item', icon: 'page_info', label: '_p.system.about', path: this.#prefix + '/about' });
+            menus.push({ type: 'item', icon: IconInfo, label: '_p.system.about', path: this.#prefix + '/about' });
         }
 
         return menus;

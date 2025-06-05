@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAccessor, Icon, LinkButton, notify, Page, Password, TextField } from '@cmfx/components';
+import { Button, Form, FormAccessor, LinkButton, notify, Page, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
+import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
 import { user } from '@/components';
 import { use, useLocale } from '@/context';
@@ -38,7 +39,7 @@ export function New(props: Props): JSX.Element {
             <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} palette='secondary'>
-                    <Icon icon='arrow_back_ios' />
+                    <IconArrowBack />
                     {l.t('_p.cancel')}
                 </LinkButton>
                 <Button type="submit" palette='primary'>{l.t('_p.ok')}</Button>

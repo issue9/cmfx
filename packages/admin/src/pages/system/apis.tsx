@@ -5,6 +5,7 @@
 import { Column, Label, Page, RemoteTable } from '@cmfx/components';
 import { Duration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
+import IconAPI from '~icons/material-symbols/api';
 
 import { useLocale } from '@/context';
 
@@ -41,7 +42,7 @@ export function APIs(): JSX.Element {
 
     return <Page title="_p.system.apiViewer">
         <RemoteTable systemToolbar queries={queries} path='/system/apis'
-            toolbar={<Label icon='api'>{ l.t('_p.system.apis') }</Label>}
+            toolbar={<Label icon={IconAPI}>{ l.t('_p.system.apis') }</Label>}
             columns={[
                 { id: 'router', label: l.t('_p.system.router') },
                 { id: 'method', label: l.t('_p.system.method') },

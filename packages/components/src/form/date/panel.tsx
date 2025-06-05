@@ -3,6 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, Show, untrack } from 'solid-js';
+import IconChevronLeft from '~icons/material-symbols/chevron-left';
+import IconChevronRight from '~icons/material-symbols/chevron-right';
+import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
+import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
 import { Palette } from '@/base';
 import { Button } from '@/button';
@@ -130,7 +134,7 @@ export function DatePanel(props: Props): JSX.Element {
     });
 
     const title = <div class="title">
-        <div>
+        <div class="flex">
             <Button tabIndex={props.tabindex} icon rounded kind='flat' class="!p-1"
                 title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
                 onClick={() => {
@@ -139,7 +143,7 @@ export function DatePanel(props: Props): JSX.Element {
                     const dt = new Date(panelValue());
                     dt.setFullYear(dt.getFullYear() - 1);
                     setValue(dt);
-                }}>keyboard_double_arrow_left</Button>
+                }}><IconArrowLeft /></Button>
             <Button tabIndex={props.tabindex} icon rounded kind='flat' class="!p-1"
                 title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
                 onClick={() => {
@@ -148,12 +152,12 @@ export function DatePanel(props: Props): JSX.Element {
                     const dt = new Date(panelValue());
                     dt.setMonth(dt.getMonth() - 1);
                     setValue(dt);
-                }}>chevron_left</Button>
+                }}><IconChevronLeft /></Button>
         </div>
 
         <div>{titleFormat()}</div>
 
-        <div>
+        <div class="flex">
             <Button tabIndex={props.tabindex} icon rounded kind="flat" class="!p-1"
                 title={l.t('_c.date.nextMonth')} aria-label={l.t('_c.date.nextMonth')}
                 onClick={() => {
@@ -162,7 +166,7 @@ export function DatePanel(props: Props): JSX.Element {
                     const dt = new Date(panelValue());
                     dt.setMonth(dt.getMonth() + 1);
                     setValue(dt);
-                }}>chevron_right</Button>
+                }}><IconChevronRight /></Button>
             <Button tabIndex={props.tabindex} icon rounded kind="flat" class="!p-1"
                 title={l.t('_c.date.nextYear')} aria-label={l.t('_c.date.nextYear')}
                 onClick={() => {
@@ -171,7 +175,7 @@ export function DatePanel(props: Props): JSX.Element {
                     const dt = new Date(panelValue());
                     dt.setFullYear(dt.getFullYear() + 1);
                     setValue(dt);
-                }}>keyboard_double_arrow_right</Button>
+                }}><IconArrowRight /></Button>
         </div>
     </div>;
 

@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { IconComponent } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { RouteSectionProps } from '@solidjs/router';
-import { MaterialSymbol } from 'material-symbols';
 import { Component } from 'solid-js';
 
 /**
@@ -69,7 +69,7 @@ export type MenuItem = {
     /**
      * 图标名称
      */
-    icon?: MaterialSymbol;
+    icon?: IconComponent;
 
     /**
      * 菜单的标题

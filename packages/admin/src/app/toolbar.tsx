@@ -4,6 +4,10 @@
 
 import { Button, Label, Locale, Menu, TreeItem } from '@cmfx/components';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
+import IconFullScreen from '~icons/material-symbols/fullscreen';
+import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
+import IconMenu from '~icons/material-symbols/menu';
+import IconMenuOpen from '~icons/material-symbols/menu-open';
 
 import { use, useLocale } from '@/context';
 import { MenuItem } from '@/options';
@@ -46,7 +50,7 @@ export default function Toolbar(props: Props) {
                         '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
                     }}
                     onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
-                    {props.menuVisible[0]() ? 'menu_open' : 'menu'}
+                    {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
                 </Button>
             </Show>
         </div>
@@ -96,8 +100,8 @@ function Fullscreen(): JSX.Element {
     };
 
     return <Button icon type='button' kind='flat' rounded
-        onClick={toggleFullscreen} title={l.t('_p.fullscreen')}>
-        {fs() ? 'fullscreen_exit' : 'fullscreen'}
+        onClick={toggleFullscreen} title={l.t('_c.fullscreen')}>
+        {fs() ? <IconFullScreenExit /> : <IconFullScreen />}
     </Button>;
 }
 

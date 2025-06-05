@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, JSX } from 'solid-js';
-
-import { Icon } from '@/icon';
+import IconClose from '~icons/material-symbols/close';
 
 export interface URLProps {
     size: string;
@@ -22,7 +21,7 @@ export function PreviewURL(props: URLProps): JSX.Element {
         'background-image': isImageURL(props.url) ? props.url : '',
         'background-size': '100% 100%',
     }}>
-        <Icon class="close" icon="close" onClick={props.del} />
+        <IconClose class="close" onClick={props.del} />
     </div>;
 }
 
@@ -52,7 +51,7 @@ export function PreviewFile(props: FileProps): JSX.Element {
         'background-image': bg(),
         'background-size': '100% 100%',
     }}>
-        <Icon class="close" icon="close" onClick={props.del} />
+        <IconClose class="close" onClick={props.del} />
     </div>;
 }
 

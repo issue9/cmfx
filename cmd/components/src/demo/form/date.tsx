@@ -55,7 +55,7 @@ export default function() {
         </Stage>
 
         <Stage title="range">
-            <DateRangePicker class="w-[400px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={range} weekBase={week()} time={time()} />
+            <DateRangePicker class="w-[500px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={range} weekBase={week()} time={time()} />
         </Stage>
     </Demo>;
 }

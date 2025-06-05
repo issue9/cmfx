@@ -4,6 +4,8 @@
 
 import { Contrast, Mode, Scheme, Theme } from '@cmfx/core';
 import { For, JSX, ParentProps, Show } from 'solid-js';
+import IconPalette from '~icons/material-symbols/palette';
+import IconExport from '~icons/tabler/table-export';
 
 import { BaseProps, Palette, palettes } from '@/base';
 import { Button } from '@/button';
@@ -98,7 +100,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
             {props.children}
         </div>
-        <Dialog ref={el => dlg = el} header={<Label icon='open_in_new'>{ l.t('_c.theme.export') }</Label>}>
+        <Dialog ref={el => dlg = el} header={<Label icon={IconExport}>{ l.t('_c.theme.export') }</Label>}>
             <pre>
                 {JSON.stringify(schemeFA.object(), null, 4)}
             </pre>
@@ -108,7 +110,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
 function paletteBlock(p: Palette, a: Accessor<number>): JSX.Element {
     return <div>
-        <Label class='text-xxl mt-4' icon="palette">{
+        <Label class='text-xxl mt-4' icon={IconPalette}>{
             <>
                 {p}
                 <Range class='mx-2' min={0} max={360} accessor={a} />

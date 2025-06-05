@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import Printd from 'printd';
-import { mergeProps, splitProps, JSX } from 'solid-js';
+import { JSX, mergeProps, splitProps } from 'solid-js';
+import IconPrint from '~icons/material-symbols/print';
 
 import { Props as BaseProps, Button, presetProps } from './button';
 
-export interface Props extends Omit<BaseProps, 'onClick'> {
+export interface Props extends Omit<BaseProps, 'onClick' | 'children' | 'icon'> {
     /**
      * 获取需要被打印的容器
      */
@@ -36,5 +37,5 @@ export function PrintButton(props: Props): JSX.Element {
             arg.launchPrint();
             arg.iframe.remove();
         });
-    }}>print</Button>;
+    }}><IconPrint /></Button>;
 }

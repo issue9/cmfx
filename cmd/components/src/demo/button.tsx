@@ -2,8 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, ButtonKind, buttonKinds, ConfirmButton, FitScreenButton, Icon, LinkButton, PrintButton, SplitButton, SplitButtonItem } from '@cmfx/components';
+import { Button, ButtonGroup, ButtonKind, buttonKinds, ConfirmButton, FitScreenButton, LinkButton, PrintButton, SplitButton, SplitButtonItem } from '@cmfx/components';
 import { Accessor, For, JSX, Setter } from 'solid-js';
+import IconClose from '~icons/material-symbols/close';
+import IconFace from '~icons/material-symbols/face';
+import IconSync from '~icons/material-symbols/sync';
+import IconTask from '~icons/material-symbols/task-alt';
+
 
 import { Hotkey } from '@cmfx/core';
 import { arraySelector, boolSelector, Demo, palettesWithUndefined, Stage } from './base';
@@ -24,7 +29,7 @@ export default function() {
             )}
         </For>
         <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
-            <Icon class="!mr-1" icon="face" />with icon
+            <IconFace class="!mr-1" />with icon
         </LinkButton>
 
         <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
@@ -37,7 +42,7 @@ export default function() {
             )}
         </For>
         <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
-            <span class="c--icon mr-1">face</span>with icon
+            <IconFace class="mr-1" />with icon
         </Button>
 
         <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary'>confirm button</ConfirmButton>
@@ -46,11 +51,11 @@ export default function() {
     const IconButtons = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}>sync</Button>
+                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}><IconSync /></Button>
             )}
         </For>
         <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
-        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary' icon ok={<><span class="c--icon mr-2">task_alt</span>OK</>} cancel='cancel'>recommend</ConfirmButton>
+        <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary' ok={<><IconTask />OK</>} cancel='cancel'>recommend</ConfirmButton>
     </div>;
 
     const SplitButtons = () => <div class="flex flex-wrap items-center gap-2">
@@ -105,9 +110,9 @@ export default function() {
             {(c)=>(
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
-                        <Button icon>face</Button>
-                        <Button icon>close</Button>
-                        <Button icon>sync</Button>
+                        <Button icon><IconFace /></Button>
+                        <Button icon><IconClose /></Button>
+                        <Button icon><IconSync /></Button>
                     </ButtonGroup>
                     <br />
                 </>
@@ -135,9 +140,9 @@ export default function() {
             {(c) => (
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
-                        <LinkButton icon href="">face</LinkButton>
-                        <LinkButton icon href="">close</LinkButton>
-                        <LinkButton icon href="">sync</LinkButton>
+                        <LinkButton icon href=""><IconFace /></LinkButton>
+                        <LinkButton icon href=""><IconClose /></LinkButton>
+                        <LinkButton icon href=""><IconSync /></LinkButton>
                     </ButtonGroup>
                     <br />
                 </>
@@ -149,7 +154,7 @@ export default function() {
         <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette='primary'>block</Button>
 
         <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
-            <span class="c--icon mr-1">face</span>with icon
+            <IconFace />with icon
         </Button>
 
         <ButtonGroup rounded={rounded()} palette='primary' kind={kind()} disabled={disabled()}>
@@ -165,7 +170,7 @@ export default function() {
             {(c) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <FitScreenButton expand='expand' collapse='collapse' disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <FitScreenButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
                     <p>line1</p>
                     <p>line2</p>
                 </div>;
@@ -178,7 +183,7 @@ export default function() {
             {(c) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <PrintButton icon disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c}>print</PrintButton>
+                    <PrintButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
                     <p>line1</p>
                     <p>line2</p>
                 </div>;

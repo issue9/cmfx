@@ -26,9 +26,10 @@
         "@solidjs/router": "catalog:",
         "tailwindcss": "catalog:",
         "solid-js": "catalog:",
-        "material-symbols": "catalog:"
+        "@iconify/json": "catalog:"
     },
     "devDependencies": {
+        "unplugin-icons": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",
         "cssnano": "catalog:",

@@ -4,12 +4,18 @@
 
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, Label, RemoteTable, RemoteTableRef, TextField, useLocale
+    Label, RemoteTable, RemoteTableRef, TextField, useLocale
 } from '@cmfx/components';
 import { Token } from '@cmfx/core';
 import { base64urlnopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { JSX, Show } from 'solid-js';
+import IconAddLink from '~icons/material-symbols/add-link';
+import IconClose from '~icons/material-symbols/close';
+import IconCredit from '~icons/material-symbols/credit-card-gear';
+import IconDelete from '~icons/material-symbols/delete';
+import IconLinkOff from '~icons/material-symbols/link-off';
+import IconPerson from '~icons/material-symbols/person';
 
 import { use } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
@@ -81,10 +87,10 @@ export class Webauthn implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='person' />}
+            <TextField prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
                 suffix={
                     <Show when={account.getValue()!==''}>
-                        <Icon class="!py-0 !px-1 !flex !items-center" icon='close' onClick={()=>account.setValue('')} />
+                        <IconClose class="!py-0 !px-1 !flex !items-center" onClick={()=>account.setValue('')} />
                     </Show>
                 }
                 placeholder={l.t('_p.current.username')} accessor={account} />
@@ -102,10 +108,10 @@ export class Webauthn implements PassportComponents {
         return <>
             <Button icon rounded title={l.t('_p.current.bindWebauthn')} onClick={async () => {
                 dialogRef.showModal();
-            }}>credit_card_gear</Button>
+            }}><IconCredit /></Button>
 
             <Dialog class="w-[80%]" ref={(el) => dialogRef = el} header={
-                <Label icon='credit_card_gear'>{l.t('_p.current.webauthnCredentials')}</Label>
+                <Label icon={IconCredit}>{l.t('_p.current.webauthnCredentials')}</Label>
             }>
                 <div class="overflow-auto">
                     <RemoteTable<Credential, {}> ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
@@ -124,7 +130,7 @@ export class Webauthn implements PassportComponents {
 
                                         tableRef.refresh();
                                         await f();
-                                    }}>delete</ConfirmButton>
+                                    }}><IconDelete /></ConfirmButton>
                                 )
                             },
                         ]}
@@ -161,7 +167,7 @@ export class Webauthn implements PassportComponents {
 
                                 tableRef.refresh();
                                 await f();
-                            }}><Icon icon='add_link' />&#160;{l.t('_p.current.bindWebauthn')}</Button>
+                            }}><IconAddLink />&#160;{l.t('_p.current.bindWebauthn')}</Button>
 
                             <ConfirmButton palette='secondary' rounded onClick={async () => {
                                 const r1 = await api.delete(`/passports/${this.#id}`);
@@ -170,7 +176,7 @@ export class Webauthn implements PassportComponents {
                                     return;
                                 }
                                 await f();
-                            }}><Icon icon='link_off' />&#160;{l.t('_p.current.unbindAllWebauthn')}</ConfirmButton>
+                            }}><IconLinkOff />&#160;{l.t('_p.current.unbindAllWebauthn')}</ConfirmButton>
                         </div>}
                     />
                 </div>

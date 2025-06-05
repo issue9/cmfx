@@ -5,6 +5,12 @@
 import { Exporter, Page, Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import IconExcel from '~icons/icon-park-twotone/excel';
+import IconCSV from '~icons/material-symbols/csv';
+import IconODS from '~icons/material-symbols/ods';
+import IconRefresh from '~icons/material-symbols/refresh';
+import IconReset from '~icons/material-symbols/restart-alt';
+import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette } from '@/base';
 import { Button, FitScreenButton, PrintButton, SplitButton } from '@/button';
@@ -202,23 +208,23 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                 <div class="actions">
                     <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
                         {
-                            type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon="csv">
+                            type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon={IconCSV}>
                                 {l.t('_c.table.exportTo', { type: 'CSV' })}
                             </Label>
                         },
                         {
-                            type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon="horizontal_split">
+                            type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon={IconExcel}>
                                 {l.t('_c.table.exportTo', { type: 'Excel' })}
                             </Label>
                         },
                         {
-                            type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon="ods">
+                            type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon={IconODS}>
                                 {l.t('_c.table.exportTo', { type: 'ODS' })}
                             </Label>
                         },
                         { type: 'divider' },
                         {
-                            type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon='restart_alt'>
+                            type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon={IconReset}>
                                 {l.t('_c.reset')}
                             </Label>
                         },
@@ -239,7 +245,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                 <Show when={props.systemToolbar}>
                     <div class="system-toolbar">
                         <Menu hoverable direction='left' selectedClass='' activator={
-                            <Button icon rounded kind='fill' palette='tertiary'>table_rows_narrow</Button>
+                            <Button icon rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
                         } onChange={(v) => {
                             switch (v) {
                             case 'hoverable':
@@ -308,14 +314,14 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                         </Menu>
                         <Button icon rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
-                            title={l.t('_c.refresh')}>refresh</Button>
-                        <FitScreenButton rounded kind='fill' palette='tertiary' expand='expand_content' collapse='collapse_content' container={()=>ref}
+                            title={l.t('_c.refresh')}><IconRefresh /></Button>
+                        <FitScreenButton rounded kind='fill' palette='tertiary' container={()=>ref}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />
-                        <PrintButton icon rounded kind='fill' palette='tertiary' container={()=>ref.querySelector('table')!}
+                        <PrintButton rounded kind='fill' palette='tertiary' container={()=>ref.querySelector('table')!}
                             cssText='table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left} .no-print{display:none}'
                             aria-label={l.t('_c.print')}
-                            title={l.t('_c.print')}>print</PrintButton>
+                            title={l.t('_c.print')} />
                     </div>
                 </Show>
             </div>

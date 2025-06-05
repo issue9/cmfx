@@ -56,6 +56,7 @@ const messages = {
             stickyHeader: 'Sticky header',
             fitScreen: 'Fit screen',
             downloadFilename: 'The filename of download',
+            deleteRow: 'Delete row',
         },
         timer: {
             seconds: 'Seconds',

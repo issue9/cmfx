@@ -6,9 +6,9 @@ import { Hotkey } from '@cmfx/core';
 import { A } from '@solidjs/router';
 import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
+import IconChevronRight from '~icons/material-symbols/chevron-right';
 
 import { Divider } from '@/divider';
-import { Icon } from '@/icon';
 import type { Props as ContainerProps } from '@/tree/container';
 import { Item } from '@/tree/item';
 
@@ -83,7 +83,7 @@ export default function Panel (props: Props): JSX.Element {
             <Match when={p.item.items && p.item.items.length > 0}>
                 <li class="item">
                     {p.item.label}
-                    <Icon class="expand" icon="chevron_right" />
+                    <IconChevronRight class="expand" />
                     <menu classList={{ 'c--menu': true, [props.direction!]: true }}>
                         <All items={p.item.items as Array<Item>} />
                     </menu>
