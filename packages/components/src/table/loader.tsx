@@ -8,7 +8,9 @@ import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
 import IconODS from '~icons/material-symbols/ods';
+import IconRefresh from '~icons/material-symbols/refresh';
 import IconReset from '~icons/material-symbols/restart-alt';
+import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette } from '@/base';
 import { Button, FitScreenButton, PrintButton, SplitButton } from '@/button';
@@ -243,7 +245,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                 <Show when={props.systemToolbar}>
                     <div class="system-toolbar">
                         <Menu hoverable direction='left' selectedClass='' activator={
-                            <Button icon rounded kind='fill' palette='tertiary'>table_rows_narrow</Button>
+                            <Button icon rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
                         } onChange={(v) => {
                             switch (v) {
                             case 'hoverable':
@@ -312,7 +314,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                         </Menu>
                         <Button icon rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
-                            title={l.t('_c.refresh')}>refresh</Button>
+                            title={l.t('_c.refresh')}><IconRefresh /></Button>
                         <FitScreenButton rounded kind='fill' palette='tertiary' container={()=>ref}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />

@@ -58,6 +58,7 @@ const messages: typeof m = {
             stickyHeader: '固定表格头',
             fitScreen: '扩展至整个屏幕大小',
             downloadFilename: '下载的文件名',
+            deleteRow: '删除',
         },
         timer: {
             seconds: '秒',

@@ -7,6 +7,7 @@ import { Query } from '@cmfx/core';
 import { Component, createMemo, JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpen from '~icons/material-symbols/lock-open-right';
+import IconVisibility from '~icons/material-symbols/visibility';
 
 import { user } from '@/components';
 import { use, useLocale } from '@/context';
@@ -94,7 +95,7 @@ export function Members(props: Props): JSX.Element {
                         <Show when={obj?.state !== 'deleted'}>
                             <LinkButton icon rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={l.t('_p.member.view')}>visibility</LinkButton>
+                                title={l.t('_p.member.view')}><IconVisibility /></LinkButton>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
