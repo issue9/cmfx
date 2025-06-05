@@ -19,7 +19,7 @@
         }
 
         .action {
-            @apply relative border border-palette-bg-low p-1 rounded-sm order-11;
+            @apply relative border border-palette-bg-low p-1 rounded-sm order-11 flex items-center justify-center;
             @apply text-2xl text-palette-fg-low;
         }
 

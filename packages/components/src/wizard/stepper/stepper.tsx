@@ -5,7 +5,7 @@
 import { For, JSX, Match, Switch, createMemo, createSignal } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
-import { Icon, IconSymbol } from '@/icon';
+import { IconComponent } from '@/icon';
 import { Ref, Step as WizardStep } from '@/wizard/step';
 
 export type { Ref } from '@/wizard/step';
@@ -14,7 +14,7 @@ export interface Step extends WizardStep {
     /**
      * 图标，如果值为 true，表示采用数字，否则为图标。
      */
-    icon?: IconSymbol | true | { (completed?: boolean): IconSymbol | true };
+    icon?: IconComponent | true | { (completed?: boolean): IconComponent | true };
 }
 
 export interface Props extends BaseProps {
@@ -67,7 +67,7 @@ export default function Stepper(props: Props): JSX.Element {
                                 <span class="number">{idx() + 1}</span>
                             </Match>
                             <Match when={step.icon && ((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
-                                {(icon) => (<Icon class="icon" icon={icon() as IconSymbol} />)}
+                                {(icon) => (icon() as IconComponent)({class:'icon'})}
                             </Match>
                         </Switch>
                         <div class="title">{step.title}</div>

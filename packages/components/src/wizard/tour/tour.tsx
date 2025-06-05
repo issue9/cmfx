@@ -9,7 +9,7 @@ import { BaseProps, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
-import { IconSymbol } from '@/icon';
+import { IconComponent } from '@/icon';
 import { Label } from '@/typography';
 import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
 
@@ -35,8 +35,8 @@ export interface Step extends WizardStep {
      * 弹出框相对于关联元素的位置
      */
     pos: PopPos;
-    
-    icon?: IconSymbol;
+
+    icon?: IconComponent;
 }
 
 export interface Props extends BaseProps {

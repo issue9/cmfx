@@ -6,7 +6,7 @@
 
 @layer components {
     .c--text-field {
-        @apply rounded-md border border-[var(--fg-low)] flex justify-between items-stretch text-center;
+        @apply rounded-md border border-[var(--fg-low)] flex justify-between text-center;
         @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
 
         >:first-child {
@@ -15,6 +15,10 @@
 
         >:last-child {
             @apply !rounded-r-md;
+        }
+
+        .prefix-icon {
+            @apply px-1 !py-0 shrink-0 self-center w-auto;
         }
 
         .input {

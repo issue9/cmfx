@@ -6,9 +6,10 @@ import { Hotkey, sleep, Theme } from '@cmfx/core';
 import { A, useLocation } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch, untrack } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
+import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
+import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
 import { Divider } from '@/divider';
-import { Icon } from '@/icon';
 import type { Props as ContainerProps } from '@/tree/container';
 import { findItems, type Item } from '@/tree/item';
 
@@ -121,7 +122,9 @@ export function List(props: Props): JSX.Element {
                 <div class="details">
                     <div class="summary item" onclick={() => setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
                         {p.item.label}
-                        <Icon class="expand" icon={open() ? 'keyboard_arrow_up' : 'keyboard_arrow_down'} />
+                        <Show when={open()} fallback={<IconArrowDown class="expand" />}>
+                            <IconArrowUp class="expand" />
+                        </Show>
                     </div>
                     <Show when={p.item.items}>
                         <menu classList={{ 'hidden-menu': !open() }}>

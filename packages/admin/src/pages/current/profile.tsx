@@ -2,13 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    Button,
-    Divider, file2Base64, Form, FormAccessor, Icon,
-    Page, TextField,
-    Upload, UploadRef
-} from '@cmfx/components';
+import { Button, Divider, file2Base64, Form, FormAccessor, Page, TextField, Upload, UploadRef } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
+import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
 import { use, useLocale, User } from '@/context';
@@ -144,7 +140,7 @@ export function Profile(props: Props): JSX.Element {
                             return <tr>
                                 <td class="flex items-center">
                                     {item.id}
-                                    <Icon icon='help' title={item.desc} class="ml-1 cursor-help" />
+                                    <span title={item.desc} class="ml-1 cursor-help"><IconHelp /></span>
                                 </td>
 
                                 <td>{username()}</td>

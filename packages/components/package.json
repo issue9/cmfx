@@ -48,15 +48,16 @@
         "@formatjs/intl-durationformat": "catalog:",
         "@solidjs/router": "catalog:",
         "echarts": "^5.6.0",
-        "material-symbols": "catalog:",
         "printd": "^1.6.0",
         "qr-code-styling": "^1.9.2",
         "quill": "^2.0.3",
         "solid-js": "catalog:",
         "solid-transition-group": "^0.3.0",
-        "tailwindcss": "catalog:"
+        "tailwindcss": "catalog:",
+        "@iconify/json": "catalog:"
     },
     "devDependencies": {
+        "unplugin-icons": "catalog:",
         "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",

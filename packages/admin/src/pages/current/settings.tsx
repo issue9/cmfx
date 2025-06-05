@@ -5,6 +5,11 @@
 import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioGroup, use as useC } from '@cmfx/components';
 import { Contrast, Locale, Mode, Scheme, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
+import IconContrast from '~icons/material-symbols/contrast';
+import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
+import IconPalette from '~icons/material-symbols/palette';
+import IconSettings from '~icons/material-symbols/settings-night-sight';
+import IconTranslate from '~icons/material-symbols/translate';
 
 import { use, useLocale } from '@/context';
 
@@ -35,7 +40,7 @@ export function Settings(): JSX.Element {
     unitFA.onChange((v) => { act.switchUnitStyle(v); });
 
     return <Page title='_p.current.settings' class="max-w-sm p--settings">
-        <Description icon={/*@once*/'settings_night_sight'} title={l.t('_p.settings.mode')!}>
+        <Description icon={/*@once*/IconSettings} title={l.t('_p.settings.mode')!}>
             {l.t('_p.settings.modeDesc')! }
         </Description>
 
@@ -49,7 +54,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/'contrast'} title={l.t('_p.settings.contrast')!}>
+        <Description icon={/*@once*/IconContrast} title={l.t('_p.settings.contrast')!}>
             {l.t('_p.settings.contrastDesc')! }
         </Description>
 
@@ -63,7 +68,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/'palette'} title={l.t('_p.settings.color')!}>
+        <Description icon={/*@once*/IconPalette} title={l.t('_p.settings.color')!}>
             {l.t('_p.settings.colorDesc')! }
         </Description>
 
@@ -71,7 +76,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/'translate'} title={l.t('_p.settings.locale')!}>
+        <Description icon={/*@once*/IconTranslate} title={l.t('_p.settings.locale')!}>
             {l.t('_p.settings.localeDesc')! }
         </Description>
 
@@ -81,7 +86,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/'format_letter_spacing_2'} title={l.t('_p.settings.unitStyle')!}>
+        <Description icon={/*@once*/IconFormat} title={l.t('_p.settings.unitStyle')!}>
             {l.t('_p.settings.unitStyleDesc')! }
         </Description>
 

@@ -4,6 +4,12 @@
 
 import { Description } from '@cmfx/components';
 import { JSX, createSignal, onMount } from 'solid-js';
+import IconCalendar from '~icons/material-symbols/calendar-month';
+import IconToday from '~icons/material-symbols/calendar-today';
+import IconWeek from '~icons/material-symbols/calendar-view-week';
+import IconGroup from '~icons/material-symbols/group';
+import IconPersonChk from '~icons/material-symbols/person-check';
+import IconRecord from '~icons/material-symbols/record-voice-over';
 
 import { use, useLocale } from '@/context';
 
@@ -19,7 +25,7 @@ export function MemStatistic(): JSX.Element {
 
     const l = useLocale();
     const [api, act] = use();
-    
+
     onMount(async () => {
         const r = await api.get<Statistic>('/statistic/member');
         if (!r.ok) {
@@ -28,24 +34,24 @@ export function MemStatistic(): JSX.Element {
         }
         setStatistic(r.body!);
     });
-    
+
     return <div class="c--memstatistic">
-        <Description class="item" icon='group' title={l.t('_p.current.allMembers')}>
+        <Description class="item" icon={IconGroup} title={l.t('_p.current.allMembers')}>
             <p class="text-5xl">{statistic().all}</p>
         </Description>
-        <Description class="item" icon='calendar_month' title={l.t('_p.current.monthMembers')}>
+        <Description class="item" icon={IconCalendar} title={l.t('_p.current.monthMembers')}>
             <p class="text-5xl">{statistic().month}</p>
         </Description>
-        <Description class="item" icon='calendar_view_week' title={l.t('_p.current.weekMembers')}>
+        <Description class="item" icon={IconWeek} title={l.t('_p.current.weekMembers')}>
             <p class="text-5xl">{statistic().week}</p>
         </Description>
-        <Description class="item" icon='calendar_today' title={l.t('_p.current.dayMembers')}>
+        <Description class="item" icon={IconToday} title={l.t('_p.current.dayMembers')}>
             <p class="text-5xl">{statistic().day}</p>
         </Description>
-        <Description class="item" icon='person_check' title={l.t('_p.current.activeMembers')}>
+        <Description class="item" icon={IconPersonChk} title={l.t('_p.current.activeMembers')}>
             <p class="text-5xl">{statistic().active}</p>
         </Description>
-        <Description class="item" icon='record_voice_over' title={l.t('_p.current.onlineMembers')}>
+        <Description class="item" icon={IconRecord} title={l.t('_p.current.onlineMembers')}>
             <p class="text-5xl">{statistic().online}</p>
         </Description>
     </div>;

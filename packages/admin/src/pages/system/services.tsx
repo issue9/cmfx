@@ -5,6 +5,8 @@
 import { Column, Label, LoaderTable, Page, translateEnums } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX } from 'solid-js';
+import IconSubtitle from '~icons/material-symbols/subtitles-gear';
+import IconTask from '~icons/material-symbols/task';
 
 import { use, useLocale } from '@/context';
 import { MessagesKey } from '@/messages';
@@ -53,7 +55,7 @@ export function Services(): JSX.Element {
 
     return <Page title='_p.system.serviceViewer' class="max-w-lg">
         <fieldset>
-            <Label icon='subtitles_gear' tag='legend'>{l.t('_p.system.services')}</Label>
+            <Label icon={IconSubtitle} tag='legend'>{l.t('_p.system.services')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: l.t('_p.system.title')},
                 {id: 'state', label: l.t('_p.system.serviceState'), content: ((_: string, v?: State) => {
@@ -66,7 +68,7 @@ export function Services(): JSX.Element {
         <br />
 
         <fieldset>
-            <Label icon='task' tag='legend'>{l.t('_p.system.jobs')}</Label>
+            <Label icon={IconTask} tag='legend'>{l.t('_p.system.jobs')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: l.t('_p.system.title')},
                 {id: 'state', label: l.t('_p.system.serviceState'),content: ((_: string, v?: State) => {

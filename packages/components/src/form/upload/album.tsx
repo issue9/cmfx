@@ -3,6 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
+import IconAdd from '~icons/material-symbols/add';
+import IconUpload from '~icons/material-symbols/upload';
+import IconUploadFile from '~icons/material-symbols/upload-file';
 
 import { Accessor, Field } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
@@ -101,17 +104,17 @@ export function Album(props: Props): JSX.Element {
                 }}
             </For>
             <Show when={props.auto && (props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                <button style={size()} class={'c--icon action' + (props.reverse ? ' start' : '')} onClick={async () => {
+                <button style={size()} class={'action' + (props.reverse ? ' start' : '')} onClick={async () => {
                     uploadRef.pick();
                     await uploadRef.upload();
-                }}>upload_file</button>
+                }}><IconUploadFile /></button>
             </Show>
             <Show when={!props.auto}>
                 <Show when={(props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                    <button style={size()} class={'c--icon action' + (props.reverse ? ' start' : '')} onClick={() => uploadRef.pick()}>add</button>
+                    <button style={size()} class={'action' + (props.reverse ? ' start' : '')} onClick={() => uploadRef.pick()}><IconAdd /></button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
-                    <button style={size()} class={'c--icon action' + (props.reverse ? ' start' : '')} onClick={() => uploadRef!.upload()}>upload</button>
+                    <button style={size()} class={'action' + (props.reverse ? ' start' : '')} onClick={() => uploadRef!.upload()}><IconUpload /></button>
                 </Show>
             </Show>
         </fieldset>

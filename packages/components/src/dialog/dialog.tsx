@@ -4,11 +4,11 @@
 
 import { CancelMovable, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
+import IconClose from '~icons/material-symbols/close';
 
 import { BaseProps, Locale } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
-import { Icon } from '@/icon';
 
 /**
  * {@link Props#actions} 元素中的点击事件
@@ -187,7 +187,7 @@ export function Dialog(props: Props): JSX.Element {
         <Show when={props.header}>
             <header ref={el => toolbar = el}>
                 {props.header}
-                <Icon class="close" icon="close" onClick={()=>ref.close('close')} />
+                <IconClose class="close" onClick={()=>ref.close('close')} />
             </header>
         </Show>
 

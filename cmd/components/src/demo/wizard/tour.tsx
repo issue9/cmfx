@@ -4,6 +4,7 @@
 
 import { Button, Tour, TourRef } from '@cmfx/components';
 import { JSX } from 'solid-js';
+import IconPersion from '~icons/material-symbols/person';
 
 import { Demo, Stage } from '../base';
 
@@ -12,7 +13,7 @@ export default function(): JSX.Element {
     return <Demo>
         <Stage title='tour'>
             <Tour ref={el=>ref=el} accentPalette='primary' steps={[
-                { title: 'Step 1', content: 'Content for Step 1', icon: 'person', id: 'b1', pos: 'right' },
+                { title: 'Step 1', content: 'Content for Step 1', icon: IconPersion, id: 'b1', pos: 'right' },
                 { title: 'Step 2222222', content: 'Content for Step 2', id: 'b2', pos: 'right' },
                 { title: 'Step 3', content: 'Content for Step 3', id: 'b3', pos: 'left' },
             ]}></Tour>

@@ -3,13 +3,16 @@
 // SPDX-License-Identifier: MIT
 
 import { JSX, mergeProps, Show, splitProps } from 'solid-js';
+import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
+import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
+
 
 import { Button } from '@/button';
-import { Icon, IconSymbol } from '@/icon';
+import { IconComponent } from '@/icon';
 import { Props as BaseProps, TextField } from './textfiled';
 
 export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'|'inputMode'> {
-    icon?: IconSymbol;
+    icon?: IconComponent;
     min?: number;
     max?: number;
     step?: number;
@@ -53,12 +56,12 @@ export function Number(props: Props): JSX.Element {
 
     return <TextField {...fieldProps} type="number" prefix={
         <Show when={props.icon}>
-            <Icon icon={props.icon!} class="px-1 !py-0 !flex !items-center" />
+            {(icon)=>icon()({class:'prefix-icon'})}
         </Show>
     } suffix={
         <>
-            <Button type='button' kind='flat' class="!px-1 !py-0 rounded-none" icon disabled={props.disabled} onClick={()=>step(props.step!)}>arrow_drop_up</Button>
-            <Button type='button' kind='flat' class="!px-1 !py-0 rounded-none" icon disabled={props.disabled} onClick={()=>step(-props.step!)}>arrow_drop_down</Button>
+            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={()=>step(props.step!)}><IconArrowUp /></Button>
+            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={()=>step(-props.step!)}><IconArrowDown /></Button>
         </>
     } />;
 }

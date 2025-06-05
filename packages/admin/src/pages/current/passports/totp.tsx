@@ -4,11 +4,15 @@
 
 import {
     Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
-    Icon, ObjectAccessor, QRCode, TextField,
+    ObjectAccessor, QRCode, TextField
 } from '@cmfx/components';
 import { base32nopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, JSX, Show } from 'solid-js';
+import IconAddLink from '~icons/material-symbols/add-link';
+import IconLinkOff from '~icons/material-symbols/link-off';
+import IconPerson from '~icons/material-symbols/person';
+import IconPin from '~icons/material-symbols/pin';
 
 import { use, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
@@ -56,10 +60,10 @@ export class TOTP implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='person' />}
+            <TextField prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
                 placeholder={l.t('_p.current.username')} accessor={account.accessor('username', true)} />
 
-            <TextField prefix={<Icon class="!py-0 !px-1 !flex !items-center" icon='pin' />}
+            <TextField prefix={<IconPin class="!py-0 !px-1 !flex !items-center" />}
                 placeholder={l.t('_p.current.verifyCode')} accessor={account.accessor('code', true)} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
@@ -85,7 +89,7 @@ export class TOTP implements PassportComponents {
                         return;
                     }
                     await f();
-                }}>link_off</ConfirmButton>
+                }}><IconLinkOff /></ConfirmButton>
             </Show>
 
             <Show when={!username}>
@@ -100,7 +104,7 @@ export class TOTP implements PassportComponents {
                     s.secret = base32nopad.encode(new TextEncoder().encode(s.secret));
                     setQR(`otpauth://totp/${opt.title}:${s.username}?secret=${s.secret}&issuer=${opt.title}`);
                     dialogRef.showModal();
-                }}>add_link</Button>
+                }}><IconAddLink /></Button>
 
                 <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.bindTOTP')}
                     actions={dialogRef!.DefaultActions(async () => {

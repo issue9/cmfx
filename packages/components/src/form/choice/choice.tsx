@@ -4,10 +4,11 @@
 
 import { pop } from '@cmfx/core';
 import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
+import IconCheck from '~icons/material-symbols/check';
+import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { AvailableEnumType, cloneElement } from '@/base';
 import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
-import { Icon } from '@/icon';
 
 export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
     placeholder?: string;
@@ -119,7 +120,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
                         p.ac.setError();
                     }}>
                         {cloneElement(item[1])}
-                        <Icon icon="check" classList={{
+                        <IconCheck classList={{
                             'tail': true,
                             '!hidden': !selected()
                         }} />
@@ -152,7 +153,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
                         ul.hidePopover();
                     }}>
                         {cloneElement(item[1])}
-                        <Icon icon='check' classList={{
+                        <IconCheck classList={{
                             '!hidden': !selected(),
                             'tail': true,
                         }} />
@@ -187,7 +188,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
                     <Match when={!props.multiple && props.accessor.getValue()}><SingleActivator access={props.accessor as Accessor<T>} /></Match>
                 </Switch>
             </div>
-            <Icon class="expand" icon="expand_all" />
+            <IconExpandAll class="expand" />
         </div>
 
         <ul popover="manual" ref={el => ul = el} classList={{

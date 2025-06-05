@@ -12,7 +12,7 @@
     }
 
     .c--button.c--button-icon {
-        @apply p-2;
+        @apply !p-2;
     }
 
     .c--button.c--button-fill {

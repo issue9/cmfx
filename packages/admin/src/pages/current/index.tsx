@@ -3,6 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Component, JSX } from 'solid-js';
+import IconDashboard from '~icons/material-symbols/dashboard';
+import IconIDCard from '~icons/material-symbols/id-card';
+import IconLogout from '~icons/material-symbols/logout';
+import IconSecurity from '~icons/material-symbols/security';
+import IconSettings from '~icons/material-symbols/settings';
 
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
@@ -108,12 +113,12 @@ export class current implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_p.current.dashboard', path: this.#prefix + '/dashboard', icon: 'dashboard' },
-            { type: 'item', label: '_p.current.profile', path: this.#prefix + '/profile', icon: 'id_card' },
-            { type: 'item', label: '_p.current.settings', path: this.#prefix + '/settings', icon: 'settings' },
-            { type: 'item', label: '_p.current.securitylog', path: this.#prefix + '/securitylogs', icon: 'security' },
+            { type: 'item', label: '_p.current.dashboard', path: this.#prefix + '/dashboard', icon: IconDashboard },
+            { type: 'item', label: '_p.current.profile', path: this.#prefix + '/profile', icon: IconIDCard },
+            { type: 'item', label: '_p.current.settings', path: this.#prefix + '/settings', icon: IconSettings },
+            { type: 'item', label: '_p.current.securitylog', path: this.#prefix + '/securitylogs', icon: IconSecurity },
             { type: 'divider' },
-            { type: 'item', label: '_p.current.logout', path: this.#prefix + '/logout', icon: 'logout' },
+            { type: 'item', label: '_p.current.logout', path: this.#prefix + '/logout', icon: IconLogout },
         ];
     }
 }

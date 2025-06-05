@@ -3,12 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import IconClose from '~icons/material-symbols/close';
+import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { Layout } from '@/base';
 import { useLocale } from '@/context';
 import { Field } from '@/form/field';
-import { Icon } from '@/icon';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {
@@ -54,6 +55,7 @@ export function DatePicker(props: Props): JSX.Element {
     });
 
     const [hover, setHover] = createSignal(false);
+    const close = () => { props.accessor.setValue(undefined); };
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
         inputArea={{ pos: 'middle-center' }}
@@ -80,9 +82,9 @@ export function DatePicker(props: Props): JSX.Element {
             <input class="input" tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac.getValue()) : l.date(ac.getValue())
             } />
-            <Icon icon={hover() && ac.getValue() ? 'close' : 'expand_all'} onClick={() => {
-                props.accessor.setValue(undefined);
-            }} />
+            <Show when={hover() && ac.getValue()} fallback={<IconClose onClick={close} />}>
+                <IconExpandAll onClick={close} />
+            </Show>
         </div>
 
         <DatePanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}

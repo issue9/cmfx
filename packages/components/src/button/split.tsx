@@ -4,6 +4,7 @@
 
 import { Hotkey, pop } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
+import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { Props as BaseProps, presetProps as basePrsetProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
@@ -63,7 +64,7 @@ export function SplitButton(props: Props) {
 
     const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
-        <Button class="split" ref={el=>downRef=el} icon={/*@once*/true} onClick={() => {
+        <Button class="split" ref={el=>downRef=el} icon onClick={() => {
             popElem.togglePopover();
 
             const anchor = group.getBoundingClientRect();
@@ -72,7 +73,7 @@ export function SplitButton(props: Props) {
             }
 
             pop(popElem, anchor, 0, 'bottom');
-        }}>keyboard_arrow_down</Button>
+        }}><IconArrowDown /></Button>
     </ButtonGroup>;
 
     return <>

@@ -4,9 +4,9 @@
 
 import { sleep, Theme } from '@cmfx/core';
 import { JSX, onMount, Show } from 'solid-js';
+import IconClose from '~icons/material-symbols/close';
 
 import { BaseProps } from '@/base';
-import { Icon } from '@/icon';
 import { createTimer } from './timer';
 
 export interface Props extends BaseProps {
@@ -55,7 +55,7 @@ export function Alert(props: Props): JSX.Element {
         <div class="title">
             <p>{props.title}</p>
             <div class="close-wrap" ref={el=>wrapRef=el}>
-                <Icon onClick={del} class="close" icon="close" />
+                <IconClose onClick={del} class="close" />
             </div>
         </div>
         <Show when={props.body}>

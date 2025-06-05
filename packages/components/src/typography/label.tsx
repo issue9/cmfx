@@ -6,13 +6,13 @@ import { JSX, mergeProps, ParentProps, Show, ValidComponent } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 
 import { BaseProps } from '@/base';
-import { Icon, IconSymbol } from '@/icon';
+import { IconComponent } from '@/icon';
 
 export interface Props extends BaseProps, ParentProps {
     /**
      * 图标
      */
-    icon?: IconSymbol;
+    icon?: IconComponent;
 
     /**
      * 标签，默认为 p
@@ -31,7 +31,7 @@ export function Label(props: Props): JSX.Element {
 
     return <Dynamic component={props.tag} class={'c--label '+ (props.class ?? '') + ' ' +(props.palette ? `palette--${props.palette}` : '')}>
         <Show when={props.icon}>
-            <Icon class="mr-1" icon={props.icon!} />
+            {props.icon!({class:'mr-1'})}
         </Show>
 
         { props.children }

@@ -7,7 +7,8 @@ import { JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps } from '@/base';
 import { Button, ButtonRef } from '@/button';
-import { IconSymbol } from '@/icon';
+import { IconComponent } from '@/icon';
+import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
 export interface Props extends BaseProps {
     /**
@@ -15,7 +16,7 @@ export interface Props extends BaseProps {
      */
     distance?: number;
 
-    children?: IconSymbol;
+    children?: IconComponent;
 
     class?: string;
     classList?: JSX.CustomAttributes<HTMLElement>['classList'];
@@ -24,7 +25,7 @@ export interface Props extends BaseProps {
 
 const presetProps: Partial<Props> = {
     distance: 10,
-    children: 'vertical_align_top'
+    children: IconVerticalAlignTop
 } as const;
 
 /**
@@ -61,5 +62,5 @@ export function BackTop(props: Props): JSX.Element {
             ...props.classList
         }} onclick={() => {
             scroller && scroller.scrollTo({ top: 0, behavior: 'smooth' });
-        }}>{props.children}</Button>;
+        }}>{props.children!({})}</Button>;
 }

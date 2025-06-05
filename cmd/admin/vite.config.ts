@@ -8,6 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import path from 'path';
 import devtools from 'solid-devtools/vite';
+import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
@@ -39,6 +40,7 @@ export default defineConfig(({ mode }) => {
         plugins: [
             devtools(),
             solidPlugin(),
+            Icons({ compiler: 'solid', scale: 1 }),
             tailwindcss(),
             about({
                 packages: ['./package.json'],

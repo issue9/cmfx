@@ -3,21 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX, mergeProps, splitProps } from 'solid-js';
+import IconCollapse from '~icons/material-symbols/collapse-content';
+import IconExpand from '~icons/material-symbols/expand-content';
 
-import { IconSymbol } from '@/icon';
 import { Props as BaseProps, Button, presetProps } from './button';
 
-export interface Props extends Omit<BaseProps, 'onClick' | 'children'> {
-    /**
-     * 展开状态下的内容
-     */
-    collapse: IconSymbol | string;
-
-    /**
-     * 未展开状态下的内容
-     */
-    expand: IconSymbol | string;
-
+export interface Props extends Omit<BaseProps, 'onClick' | 'children' | 'icon'> {
     /**
      * 获取需要被全屏的容器
      */
@@ -42,5 +33,5 @@ export function FitScreenButton(props: Props): JSX.Element {
         } else {
             props.container().classList.remove('c--fit-screen');
         }
-    }}>{fit() ? props.collapse : props.expand}</Button>;
+    }}>{fit() ? IconExpand({}) : IconCollapse({})}</Button>;
 }

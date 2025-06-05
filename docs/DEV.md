@@ -8,7 +8,7 @@
 
 ```bash
 npm i typescript vite vite-plugin-solid @tailwindcss/vite
-npm i @solidjs/router solid-js material-symbols
+npm i @solidjs/router solid-js
 npm i @cmfx/admin @cmfx/core @cmfx/components
 ```
 

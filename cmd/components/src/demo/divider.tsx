@@ -4,6 +4,7 @@
 
 import { Divider, DividerProps } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
+import IconFace from '~icons/material-symbols/face';
 
 import { Demo, layoutSelector, paletteSelector } from './base';
 
@@ -30,13 +31,13 @@ export default function() {
     }>
         <div class="w-56 h-56">
             <Divider layout={layout()} palette={palette()} pos={pos()}>
-                <span class="c--icon material-symbols-outlined">face</span>起始位置
+                <IconFace />起始位置
             </Divider>
         </div>
 
         <div class="w-56 h-56">
             <Divider layout={layout()} palette={palette()} pos={pos()}>
-                <span class="c--icon material-symbols-outlined">face</span>english
+                <IconFace />english
             </Divider>
         </div>
 
@@ -49,7 +50,7 @@ export default function() {
         <div class="w-56 h-56">
             <Divider layout={layout()} palette={palette()} pos={pos()}>
                 <span style={{'writing-mode': 'vertical-rl', 'text-orientation': 'upright', 'display': 'flex', 'align-items': 'center'}}>
-                    english<span class="c--icon material-symbols-outlined">face</span>
+                    english<IconFace />
                 </span>
             </Divider>
         </div>

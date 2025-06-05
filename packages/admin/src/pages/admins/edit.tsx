@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, FormAccessor, Icon, LinkButton, Page, TextField } from '@cmfx/components';
+import { Button, Divider, Form, FormAccessor, LinkButton, Page, TextField } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
+import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
+import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
 import { use, useLocale, User } from '@/context';
@@ -56,7 +58,7 @@ export function Edit(props: Props): JSX.Element {
             <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} label={l.t('_p.sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} type="button" palette='secondary'>
-                    <Icon icon='arrow_back_ios' />
+                    <IconArrowBack />
                     {l.t('_p.back')}
                 </LinkButton>
                 <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_p.reset')}</Button>
@@ -81,7 +83,7 @@ export function Edit(props: Props): JSX.Element {
                             return <tr>
                                 <td class="flex items-center">
                                     {item.id}
-                                    <Icon icon='help' title={item.desc} class="ml-1 cursor-help" />
+                                    <span class="ml-1 cursor-help" title={item.desc}><IconHelp /></span>
                                 </td>
                                 <td>{uid}</td>
                             </tr>;

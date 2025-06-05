@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Component } from 'solid-js';
+import IconGroup from '~icons/material-symbols/group';
 
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
@@ -54,7 +55,7 @@ export class members implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: 'group', label: '_p.member.member', path: this.#prefix },
+            { type: 'item', icon: IconGroup, label: '_p.member.member', path: this.#prefix },
         ];
     }
 }

@@ -6,7 +6,8 @@
         "jsxImportSource": "solid-js",
         "types": [
             "vite/client",
-            "@testing-library/jest-dom"
+            "@testing-library/jest-dom",
+            "unplugin-icons/types/solid"
         ],
         "paths": {
             "@/*": [

@@ -4,10 +4,12 @@
 
 import { pop } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import IconArrowRight from '~icons/bxs/right-arrow';
+import IconClose from '~icons/material-symbols/close';
 
 import { useLocale } from '@/context';
 import { Accessor, Field, FieldAccessor } from '@/form/field';
-import { Icon, IconSymbol } from '@/icon';
+import { IconComponent } from '@/icon';
 import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
 
@@ -17,12 +19,12 @@ export interface Props extends Omit<PickerProps, 'accessor'> {
     /**
      * 中间的箭头
      */
-    arrowIcon?: IconSymbol;
+    arrowIcon?: IconComponent;
 }
 
 const presetProps = {
     ...presetPickerProps,
-    arrowIcon: 'arrow_forward'
+    arrowIcon: IconArrowRight
 } as const;
 
 export function DateRangePicker(props: Props): JSX.Element {
@@ -94,7 +96,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 curr = ac1;
                 panelVal.setValue(ac1.getValue());
             }} />
-            <Icon icon='arrow_forward' class="px-1" />
+            {props.arrowIcon!({class:'px-1 shrink-0'})}
             <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())
             } onFocus={(e)=>{
@@ -108,7 +110,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 panelVal.setValue(ac2.getValue());
             }} />
             <Show when={ac1.getValue() || ac2.getValue()}>
-                <Icon tabIndex={props.tabindex} icon='close' onClick={() => {
+                <IconClose class="shrink-0" tabIndex={props.tabindex} onClick={() => {
                     ac1.setValue(undefined);
                     ac2.setValue(undefined);
                     props.accessor.setValue([undefined, undefined]);

@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Button, Spin } from '@cmfx/components';
+import IconFace from '~icons/material-symbols/face';
 
 import { Demo, boolSelector, paletteSelector } from './base';
 
@@ -26,13 +27,13 @@ export default function () {
             <Button>btn2</Button>
         </Spin>
 
-        <Spin palette={palette()} indicator={<span class="c--icon material-symbols-outlined">face</span>} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2">
+        <Spin palette={palette()} indicator={<IconFace />} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2">
             <Button>btn1</Button>
             <p>indicator</p>
             <Button>btn2</Button>
         </Spin>
 
-        <Spin palette={palette()} indicator={<span class="c--icon material-symbols-outlined animate-spin">progress_activity</span>} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2">
+        <Spin palette={palette()} indicator={<IconFace class="animate-spin" />} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2">
             <Button>btn1</Button>
             <p>animate-spin indicator</p>
             <Button>btn2</Button>

@@ -5,6 +5,8 @@
 import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnums, useLocale } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX, Show } from 'solid-js';
+import IconLock from '~icons/material-symbols/lock';
+import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
 import { user } from '@/components';
 import { use } from '@/context';
@@ -80,7 +82,7 @@ export function Admins(props: Props): JSX.Element {
                                     return;
                                 }
                                 await ref.refresh();
-                            }}>lock</Button>
+                            }}><IconLock /></Button>
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
@@ -91,7 +93,7 @@ export function Admins(props: Props): JSX.Element {
                                     return;
                                 }
                                 await ref.refresh();
-                            }}>lock_open_right</Button>
+                            }}><IconLockOpenRight /></Button>
                         </Show>
 
                         <Show when={obj?.state !== 'deleted'}>

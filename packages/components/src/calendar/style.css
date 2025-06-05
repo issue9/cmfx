@@ -32,20 +32,16 @@
                 @apply min-w-[50px] min-h-[50px] w-1/7 px-[4px] py-[7px] cursor-pointer align-top;
 
                 .day {
-                    @apply mr-1 p-1;
+                    @apply mr-1 py-1 px-2 border-b border-b-transparent;
                 }
 
                 .day.today {
-                    @apply rounded-full bg-palette-bg-low;
+                    @apply border-b-palette-fg;
                 }
             }
 
             td:hover {
                 @apply bg-palette-bg-low;
-
-                .day.today {
-                    @apply bg-palette-bg-high;
-                }
             }
 
             td.current {

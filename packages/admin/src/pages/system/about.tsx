@@ -2,9 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { IconSymbol, Label, Page, useLocale } from '@cmfx/components';
+import { IconComponent, Label, Page, useLocale } from '@cmfx/components';
 import type { Package } from '@cmfx/vite-plugin-about';
 import { For, JSX, Show, VoidComponent } from 'solid-js';
+import IconAutomation from '~icons/material-symbols/automation';
+import IconFolderCode from '~icons/material-symbols/folder-code';
+import IconHost from '~icons/material-symbols/host';
 
 interface Props {
     /**
@@ -26,20 +29,20 @@ export function About(props: Props): JSX.Element {
         {props.description && props.description({})}
 
         <Show when={f.serverDependencies}>
-            {renderPackage(l.t('_p.system.srvDeps'), f.serverDependencies, 'host')}
+            {renderPackage(l.t('_p.system.srvDeps'), f.serverDependencies, IconHost)}
         </Show>
 
         <Show when={f.dependencies}>
-            {renderPackage(l.t('_p.system.prodDeps'), f.dependencies, 'automation')}
+            {renderPackage(l.t('_p.system.prodDeps'), f.dependencies, IconAutomation)}
         </Show>
 
         <Show when={f.devDependencies}>
-            {renderPackage(l.t('_p.system.devDeps'), f.devDependencies, 'folder_code')}
+            {renderPackage(l.t('_p.system.devDeps'), f.devDependencies, IconFolderCode)}
         </Show>
     </Page>;
 }
 
-function renderPackage(title: string, pkgs: Array<Package>, icon?: IconSymbol): JSX.Element {
+function renderPackage(title: string, pkgs: Array<Package>, icon?: IconComponent): JSX.Element {
     return <fieldset class="palette--tertiary">
         <Label class='px-1 text-lg' icon={icon} tag='legend'>{title}</Label>
         <For each={pkgs}>

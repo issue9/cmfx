@@ -3,6 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { For, JSX, createMemo, createSignal, mergeProps } from 'solid-js';
+import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
+import IconArrowForward from '~icons/material-symbols/arrow-forward-ios';
 
 import { BaseProps } from '@/base';
 import { Button, ButtonGroup } from '@/button';
@@ -87,9 +89,9 @@ export default function Calendar(props: Props): JSX.Element {
             <p class="title">{titleFormat()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}>arrow_back_ios</Button>
+                    <Button title={l.t('_c.date.prevMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconArrowBack /></Button>
                     <Button onClick={() => setCurr(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.nextMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}>arrow_forward_ios</Button>
+                    <Button title={l.t('_c.date.nextMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconArrowForward /></Button>
                 </ButtonGroup>
             </div>
         </header>

@@ -2,9 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Icon, ObjectAccessor, Password, TextField } from '@cmfx/components';
+import { Button, Dialog, DialogRef, ObjectAccessor, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
+import IconPasskey from '~icons/material-symbols/passkey';
+import IconPassword from '~icons/material-symbols/password-2';
+import IconPerson from '~icons/material-symbols/person';
 
 import { use, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
@@ -49,10 +52,10 @@ export class Pwd implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<Icon class="!py-0 !px-1 !flex items-center" icon='person' />}
+            <TextField prefix={<IconPerson class="!py-0 !px-1 !flex items-center" />}
                 placeholder={l.t('_p.current.username')} accessor={account.accessor('username', true)} />
 
-            <Password icon='password_2' placeholder={l.t('_p.current.password')} accessor={account.accessor('password', true)} />
+            <Password icon={IconPassword} placeholder={l.t('_p.current.password')} accessor={account.accessor('password', true)} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
         
@@ -69,7 +72,7 @@ export class Pwd implements PassportComponents {
         return <>
             <Button icon rounded title={l.t('_p.current.changePassword')} onClick={() => {
                 dialogRef.showModal();
-            }}>passkey</Button>
+            }}><IconPasskey /></Button>
 
             <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {

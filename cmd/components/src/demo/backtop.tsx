@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BackTop, IconSymbol } from '@cmfx/components';
+import { BackTop } from '@cmfx/components';
 import { For, JSX } from 'solid-js';
+import IconNav from '~icons/material-symbols/navigation';
 
 import { Demo, paletteSelector } from './base';
 
@@ -30,7 +31,7 @@ export default function(): JSX.Element {
                     <>{i} <br /></>
                 )}
             </For>
-            <BackTop palette={palette()} class="mb-10">{'navigation' as IconSymbol}</BackTop>
+            <BackTop palette={palette()} class="mb-10">{IconNav}</BackTop>
         </div>
     </Demo>;
 }

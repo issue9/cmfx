@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import IconGroups from '~icons/material-symbols/groups';
+
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { Permission } from './permission';
@@ -46,7 +48,7 @@ export class roles implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: 'groups', label: '_p.roles.roles', path: this.#prefix },
+            { type: 'item', icon: IconGroups, label: '_p.roles.roles', path: this.#prefix },
         ];
     }
 }
