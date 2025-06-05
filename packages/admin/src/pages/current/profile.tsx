@@ -117,7 +117,7 @@ export function Profile(props: Props): JSX.Element {
 
             <div class="actions">
                 <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_c.reset')}</Button>
-                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_c.save')}</Button>
+                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_p.save')}</Button>
             </div>
         </Form>
 

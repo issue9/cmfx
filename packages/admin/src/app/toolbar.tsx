@@ -11,6 +11,7 @@ import IconMenuOpen from '~icons/material-symbols/menu-open';
 
 import { use, useLocale } from '@/context';
 import { MenuItem } from '@/options';
+import { Hotkey } from '@cmfx/core';
 import { Search } from './search';
 
 export interface MenuVisibleProps {
@@ -55,9 +56,13 @@ export default function Toolbar(props: Props) {
             </Show>
         </div>
 
-        <div class="system-bar">
-            <Show when={act.user()}><Search switch={props.switch} /></Show>
-            <Fullscreen />
+        <div class="toolbar">
+            <Show when={act.user() ? opt.toolbar.get('search') : false}>
+                {(hk) => <Search switch={props.switch} hotkey={hk()} />}
+            </Show>
+            <Show when={opt.toolbar.get('fullscreen')}>
+                {(hk) => fullscreen(hk())}
+            </Show>
             <Show when={act.user()}><UserMenu /></Show>
         </div>
     </header>;
@@ -83,7 +88,7 @@ function UserMenu(): JSX.Element {
 /**
  * 顶部全屏按钮
  */
-function Fullscreen(): JSX.Element {
+function fullscreen(hotkey?: Hotkey): JSX.Element {
     const l = useLocale();
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
 
@@ -99,7 +104,7 @@ function Fullscreen(): JSX.Element {
         });
     };
 
-    return <Button icon type='button' kind='flat' rounded
+    return <Button hotkey={hotkey} icon type='button' kind='flat' rounded
         onClick={toggleFullscreen} title={l.t('_c.fullscreen')}>
         {fs() ? <IconFullScreenExit /> : <IconFullScreen />}
     </Button>;

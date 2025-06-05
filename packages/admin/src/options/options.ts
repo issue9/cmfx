@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Theme as CoreTheme, DictLoader, Mode, Scheme, UnitStyle } from '@cmfx/core';
+import { Contrast, Theme as CoreTheme, DictLoader, Hotkey, Mode, Scheme, UnitStyle } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
@@ -70,6 +70,20 @@ export interface Options {
      * 侧边栏的设置
      */
     aside?: Aside;
+
+    /**
+     * 定义了工具样上的按钮
+     *
+     * 键名定义了需要在工具栏上出现的按钮；
+     * 键值则定义了该工具栏对应的快捷键；
+     *
+     * 目前的按钮可以是以下值：
+     *  - fullscreen 全屏；
+     *  - search 搜索，登录之后有效；
+     *
+     * NOTE: 默认为显示全部的按钮，如果不想显示任何按钮，应该赋值一个长度为零的空对象。
+     */
+    toolbar?: Map<'fullscreen' | 'search', Hotkey | undefined>;
 
     /**
      * 用户菜单
@@ -177,6 +191,10 @@ const presetOptions: Readonly<PickOptional<Options>> = {
         schemes: presetSchemes,
         scheme: presetSchemes[0]
     },
+    toolbar: new Map([
+        ['fullscreen', new Hotkey('f', 'control')],
+        ['search', new Hotkey('k', 'control')],
+    ]),
     notifyTimeout: 5000,
 } as const;
 

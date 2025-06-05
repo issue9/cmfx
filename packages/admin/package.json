@@ -47,7 +47,7 @@
         "@cmfx/core": "workspace:*",
         "@cmfx/components": "workspace:*",
         "@cmfx/vite-plugin-about": "workspace:*",
-        "@scure/base": "^1.2.5",
+        "@scure/base": "^1.2.6",
         "@solidjs/router": "catalog:",
         "bowser": "^2.11.0",
         "solid-js": "catalog:",

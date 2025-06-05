@@ -27,7 +27,7 @@
                 @apply flex items-center flex-1 mx-4;
             }
 
-            .system-bar {
+            .toolbar {
                 @apply flex gap-2 items-center;
 
                 .app-search {

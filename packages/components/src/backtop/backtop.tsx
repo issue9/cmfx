@@ -4,11 +4,11 @@
 
 import { getScrollableParent } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
 import { BaseProps } from '@/base';
 import { Button, ButtonRef } from '@/button';
 import { IconComponent } from '@/icon';
-import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
 export interface Props extends BaseProps {
     /**
@@ -56,7 +56,7 @@ export function BackTop(props: Props): JSX.Element {
         scroller && scroller.removeEventListener('scroll', scroll);
     });
 
-    return <Button icon rounded palette={props.palette} ref={el=>btn=el}
+    return <Button icon rounded palette={props.palette} ref={el => btn = el}
         class={props.class} style={props.style} classList={{
             'c--backtop': true,
             ...props.classList

@@ -19,6 +19,7 @@ interface Item {
 
 export interface Props {
     switch: Setter<string>;
+    hotkey?: Hotkey;
 }
 
 /**
@@ -89,9 +90,8 @@ export function Search(props: Props): JSX.Element {
                 <Show when={input.getValue() !== ''}>
                     <IconClose class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
                 </Show>
-            } prefix={
-                <IconSearch class="!flex !items-center ms-1" />
-            } />
+            } prefix={<IconSearch class="ms-1 self-center w-auto" />}
+            />
 
             <ul ref={el=>listRef=el} onKeyDown={handleKeyDown} tabindex={-1} class="list">
                 <For each={items()}>{(item) => (
@@ -104,7 +104,7 @@ export function Search(props: Props): JSX.Element {
             </ul>
         </Dialog>
 
-        <Button icon type='button' kind='flat' rounded hotkey={new Hotkey('k', 'control')}
+        <Button icon type='button' kind='flat' rounded hotkey={props.hotkey}
             title={l.t('_c.search')}
             onClick={showSearch}><IconSearch /></Button>
     </>;

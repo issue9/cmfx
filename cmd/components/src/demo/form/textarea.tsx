@@ -23,7 +23,7 @@ export default function() {
     }>
         <For each={palettesWithUndefined}>
             {(item) => (
-                <TextArea layout={layout()} palette={item} label={item?item:'undefined'} title={item?item:'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
+                <TextArea layout={layout()} palette={item} label={item ? item : 'undefined'} title={item ? item : 'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </Demo>;

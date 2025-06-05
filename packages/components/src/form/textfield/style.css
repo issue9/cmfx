@@ -1,13 +1,13 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
 
 @layer components {
     .c--text-field {
-        @apply rounded-md border border-[var(--fg-low)] flex justify-between text-center;
-        @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
+        @apply rounded-md border border-palette-fg-low flex justify-between text-center;
+        @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
 
         >:first-child {
             @apply !rounded-l-md;
@@ -38,7 +38,7 @@
     }
 
     .c--text-field:has(:disabled) {
-        @apply border-[var(--bg-low)] text-palette-bg-high;
+        @apply border-palette-bg-low text-palette-bg-high;
     }
 
     .c--text-field.c--text-field-rounded {
