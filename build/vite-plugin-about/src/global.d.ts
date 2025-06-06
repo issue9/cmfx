@@ -34,4 +34,4 @@ export interface About {
 
 declare global {
     const __CMFX_ABOUT__: About;
-};
+}

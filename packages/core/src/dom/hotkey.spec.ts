@@ -4,8 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { Hotkey, modifierCodes, eventName } from './hotkey';
-import { sleep } from '@/time';
+import { Hotkey, modifierCodes } from './hotkey';
 
 describe('HotKey', () => {
     Hotkey.init();

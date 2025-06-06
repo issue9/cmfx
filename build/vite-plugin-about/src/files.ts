@@ -50,7 +50,7 @@ export function parseGomods(paths?: Array<string>): Array<Package> {
 function parseGomod(path: string): Array<Package> {
     const lines = readFileSync(path, { encoding: 'utf-8' }).split('\n');
     const ret: Array<Package> = [];
-    
+
     let require = false;
     for(let line of lines) {
         line = line.trim();
@@ -64,7 +64,7 @@ function parseGomod(path: string): Array<Package> {
             require = false;
             continue;
         }
-        
+
         if (require) {
             const kv = line.split(' ');
             ret.push({ name: kv[0], version: kv[1] });
@@ -90,7 +90,7 @@ export async function initPnpmVersionSearch(): Promise<Search> {
     } else {
         workspace = YAML.parse(data);
     }
-    
+
     return (s: string)=>{
         const item = Object.entries(workspace.catalog).find((item) => item[0] === s);
         return item ? item[1] : '';

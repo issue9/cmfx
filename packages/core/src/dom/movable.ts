@@ -38,7 +38,7 @@ export function movable(toolbar: HTMLElement, container: HTMLElement): Cancel {
     toolbar.addEventListener('mouseup', mouseFree);
     toolbar.addEventListener('mouseout', mouseFree);
     toolbar.style.cursor = 'move';
-    
+
     return () => {
         toolbar.removeEventListener('mousedown', mouseDown);
         toolbar.removeEventListener('mousemove', mouseMove);
