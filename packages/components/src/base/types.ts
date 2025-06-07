@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Scheme } from '@cmfx/core';
+import { Scheme } from './theme';
 
 /**
  * 组件可用的几种色盘

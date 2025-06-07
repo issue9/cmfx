@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Contrast, Hotkey, Locale, Mode, Problem, Scheme, Theme, UnitStyle } from '@cmfx/core';
+import { API, Config, Hotkey, Locale, Problem, UnitStyle } from '@cmfx/core';
 import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
-
+import { applyTheme, Contrast, Mode, Scheme } from '@/base';
 import { registerLocales } from '@/chart/locale';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
@@ -70,8 +70,12 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     }, {initialValue: p});
 
     createEffect(() => {
-        const t = new Theme(data()!.scheme, data()!.mode, data()!.contrast);
-        Theme.apply(document.documentElement, t);
+        const d = data()!;
+        applyTheme(document.documentElement, {
+            scheme: d.scheme,
+            mode: d.mode,
+            contrast: d.contrast
+        });
     });
 
     // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件。
@@ -154,7 +158,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换主题色
          */
-        switchScheme(scheme: Scheme | number) {
+        switchScheme(scheme: Scheme) {
             setOptions({ scheme: scheme });
             options.config!.set(schemeKey, scheme);
         },

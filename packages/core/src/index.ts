@@ -19,6 +19,5 @@ export * from './api/export';
 export * from './config';
 export * from './dom';
 export * from './locale';
-export * from './theme';
 export * from './time';
 

@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey, sleep, Theme } from '@cmfx/core';
+import { Hotkey, sleep } from '@cmfx/core';
 import { A, useLocation } from '@solidjs/router';
 import { createEffect, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch, untrack } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
+import { transitionDuration } from '@/base';
 import { Divider } from '@/divider';
 import type { Props as ContainerProps } from '@/tree/container';
 import { findItems, type Item } from '@/tree/item';
@@ -60,7 +61,7 @@ export function List(props: Props): JSX.Element {
 
     createEffect(() => {
         if (ref()) {
-            sleep(Theme.transitionDuration(300)).then(() => { // 等待动画完成，再滚动。否则先滚动到指定位置，再展开，将显示错位。
+            sleep(transitionDuration(300)).then(() => { // 等待动画完成，再滚动。否则先滚动到指定位置，再展开，将显示错位。
                 ref()!.scrollIntoView({ block: 'center', behavior: 'smooth' });
             });
         }
