@@ -7,7 +7,7 @@
 @layer components {
     .c--backtop {
         @apply hover:opacity-100 opacity-40 fixed right-4 bottom-4;
-        @apply transition-opacity duration-(--transition-duration);
+        @apply transition-opacity;
         @apply print:hidden;
     }
 }

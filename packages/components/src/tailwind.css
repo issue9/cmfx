@@ -49,10 +49,10 @@
     --color-palette-fg-low: var(--fg-low);
     --color-palette-fg-high: var(--fg-high);
 
-    --default-transition-duration: var(--transition-duration);
+    --default-transition-duration: 300ms;
 
     /*
-     * NOTE: 需要保证与 core/theme.ts 中 Breakpoint 类型的取值相对应
+     * NOTE: 需要保证与 base/theme/theme.ts 中 Breakpoint 类型的取值相对应
      *
      * 断点的值必须得是一个标准的 CSS 值，而不能是变量，@media var(--bp-xs) 并不是一个有效的方式。
      */

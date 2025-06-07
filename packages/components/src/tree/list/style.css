@@ -31,7 +31,7 @@
 
             >menu {
                 @apply grid grid-rows-[1fr] overflow-hidden;
-                transition: all var(--transition-duration) ease;
+                transition: all var(--default-transition-duration) ease;
 
                 .menus {
                     @apply flex flex-col min-h-0;

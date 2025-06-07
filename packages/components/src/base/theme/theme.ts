@@ -9,13 +9,13 @@ export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
 export type Breakpoint = typeof breakpoints[number];
 
 /**
- * 获取动画的过滤时间，即 CSS 的 --transition-duration 变量的值。
+ * 获取动画的过滤时间，即 CSS 的 --default-transition-duration 变量的值。
  *
  * @param preset 默认值，找不到时返回该值，单位为毫秒；
  * @returns 返回以毫秒为单位的数值；
  */
 export function transitionDuration(preset: number): number {
-    let val = getComputedStyle(document.documentElement).getPropertyValue('--transition-duration');
+    let val = getComputedStyle(document.documentElement).getPropertyValue('--default-transition-duration');
     if (!val) {
         return preset;
     }

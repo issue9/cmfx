@@ -10,7 +10,7 @@
         @apply border-[2px] border-palette-fg hover:border-palette-fg-high !rounded-[.1rem];
         vertical-align: middle;
         font-size: 0.5rem;
-        transition: all var(--transition-duration) ease;
+        transition: all var(--default-transition-duration) ease;
     }
 
     input[type="checkbox"]:disabled {
@@ -24,7 +24,7 @@
         border-bottom: 2px solid var(--fg);
         transform: rotate(45deg);
         transform-origin: center center;
-        transition: all var(--transition-duration) ease;
+        transition: all var(--default-transition-duration) ease;
     }
 
     input[type="checkbox"]:disabled:after {
