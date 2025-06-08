@@ -9,7 +9,6 @@
 
 @import './global.css';
 
-@import './base/style.css';
 @import './backtop/style.css';
 @import './badge/style.css';
 @import './button/style.css';

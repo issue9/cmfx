@@ -14,4 +14,3 @@ export type { Scheme } from './scheme';
 export { applyTheme, breakpoints, hasTheme, transitionDuration } from './theme';
 export type { Breakpoint, Theme } from './theme';
 
-import './theme.css';

@@ -9,7 +9,7 @@ import { modeValues } from './mode';
 import { genScheme } from './scheme';
 import { applyTheme, hasTheme, Theme, transitionDuration } from './theme';
 
-import './theme.css'; // 启用样式表
+import '../../tailwind.css'; // 启用样式表
 
 test('transitionDuration', () => {
     expect(transitionDuration(100)).toEqual(100);
