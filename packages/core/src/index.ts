@@ -16,6 +16,7 @@ declare global {
 
 export * from './api';
 export * from './api/export';
+export * from './clipboard';
 export * from './config';
 export * from './dom';
 export * from './locale';
