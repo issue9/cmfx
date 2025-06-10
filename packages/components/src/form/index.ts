@@ -13,6 +13,7 @@ export type { Accessor, AutoComplete, FieldBaseProps, Option as FieldOption, Opt
 
 export * from './checkbox';
 export * from './choice';
+export * from './color';
 export * from './date';
 export * from './editor';
 export * from './radio';

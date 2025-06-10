@@ -1,0 +1,17 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@layer components {
+    .c--color-panel {
+        @apply border border-palette-bg-low flex flex-col p-1;
+
+        .color-block {
+            @apply h-8 w-full border border-palette-bg-low text-center leading-8;
+        }
+
+        .wcag {}
+    }
+}
