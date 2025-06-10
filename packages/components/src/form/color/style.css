@@ -5,13 +5,17 @@
  */
 
 @layer components {
-    .c--color-panel {
+    .c--oklch-panel {
         @apply border border-palette-bg-low flex flex-col p-1;
 
         .color-block {
             @apply h-8 w-full border border-palette-bg-low text-center leading-8;
         }
+    }
 
-        .wcag {}
+    .c--oklch-activator {}
+
+    .c--oklch-activator-block {
+        @apply h-8 w-8 rounded-[4px] cursor-pointer border border-palette-fg;
     }
 }

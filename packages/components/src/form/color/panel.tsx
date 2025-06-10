@@ -9,6 +9,10 @@ import { Range } from '@/form/range';
 
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
     accessor: Accessor<string>;
+
+    popover?: boolean | 'manual' | 'auto';
+
+    ref?: { (el: HTMLElement): void; };
 }
 
 /**
@@ -34,7 +38,8 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         access.setValue(`oklch(${l.getValue()}% ${c.getValue()} ${h.getValue()})`);
     });
 
-    return <fieldset disabled={props.disabled} class="c--color-panel">
+    return <fieldset popover={props.popover} disabled={props.disabled} class="c--oklch-panel"
+        ref={el => { if (props.ref) { props.ref(el); } }}>
         <Range label='L:' fitHeight accessor={l} min={0} max={100} step={0.1} />
         <Range label='C:' fitHeight accessor={c} min={0} max={0.37} step={0.001} />
         <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
