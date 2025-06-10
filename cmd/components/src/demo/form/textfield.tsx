@@ -34,7 +34,7 @@ export default function() {
         <div class="flex flex-col gap-2 w-80">
             <TextField layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             <TextField layout={layout()} placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-            <TextField layout={layout()} placeholder='placeholder' label="prefix" prefix={<IconFace />} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+            <TextField layout={layout()} placeholder='placeholder' label="prefix" prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
             <TextField layout={layout()} placeholder='placeholder' label="prefix+suffix" prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
         </div>
 

@@ -52,7 +52,7 @@ export class Pwd implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<IconPerson class="!py-0 !px-1 !flex items-center" />}
+            <TextField prefix={<IconPerson class="!py-0 !px-1 self-center" />}
                 placeholder={l.t('_p.current.username')} accessor={account.accessor('username', true)} />
 
             <Password icon={IconPassword} placeholder={l.t('_p.current.password')} accessor={account.accessor('password', true)} />

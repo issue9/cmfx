@@ -29,7 +29,7 @@ const presetProps: Partial<Props> = {
  */
 export function Number(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const [_, fieldProps] = splitProps(props, ['icon','min','max','step']);
+    const [_, fieldProps] = splitProps(props, ['icon', 'min', 'max', 'step']);
 
     if (props.step === 0) {
         throw 'step 不能为零';
