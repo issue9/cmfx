@@ -53,8 +53,11 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         await navigator.clipboard.writeText(access.getValue());
     };
 
-    return <fieldset popover={props.popover} disabled={props.disabled} class="c--oklch-panel"
-        ref={el => { if (props.ref) { props.ref(el); } }}>
+    return <fieldset popover={props.popover} disabled={props.disabled} classList={{
+        'c--oklch-panel': true,
+        ['palette--'+props.palette]: !!props.palette
+    }}
+    ref={el => { if (props.ref) { props.ref(el); } }}>
         <Range label='L:' fitHeight accessor={l} min={0} max={100} step={0.1} />
         <Range label='C:' fitHeight accessor={c} min={0} max={0.37} step={0.001} />
         <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
