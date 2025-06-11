@@ -11,7 +11,7 @@
 
         vertical-align: middle;
         font-size: 0.5rem;
-        transition: all var(--transition-duration) ease;
+        transition: all var(--default-transition-duration) ease;
     }
 
     input[type="radio"]:disabled {
@@ -23,7 +23,7 @@
         @apply inline-block absolute left-1/2 top-1/2 bg-palette-fg rounded-full w-2 h-2 opacity-0;
         content: '';
         transform: translate(-50%, -50%);
-        transition: all var(--transition-duration) ease;
+        transition: all var(--default-transition-duration) ease;
         transform-origin: center center;
         pointer-events: none;
     }

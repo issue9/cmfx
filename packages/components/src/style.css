@@ -5,8 +5,8 @@
  */
 
 @import 'tailwindcss' source('.');
-
 @import './tailwind.css';
+
 @import './global.css';
 
 @import './backtop/style.css';

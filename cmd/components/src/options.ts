@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options } from '@cmfx/components';
-import { Problem, Theme } from '@cmfx/core';
+import { Options, genScheme } from '@cmfx/components';
+import { Problem } from '@cmfx/core';
 
 export const options: Options = {
     id: 'admin',
     configName: '',
     storage: window.sessionStorage,
-    scheme: Theme.genScheme(10),
+    scheme: genScheme(10),
     contrast: 'nopreference',
     mode: 'system',
     locale: 'zh-Hans',

@@ -39,6 +39,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/form', component: lazy(() => import('./form')) },
     { path: '/form-checkbox', component: lazy(() => import('./form/checkbox')) },
     { path: '/form-choice', component: lazy(() => import('./form/choice')) },
+    { path: '/form-color', component: lazy(() => import('./form/color')) },
     { path: '/form-date', component: lazy(() => import('./form/date')) },
     { path: '/form-editor', component: lazy(() => import('./form/editor')) },
     { path: '/form-radio', component: lazy(() => import('./form/radio')) },

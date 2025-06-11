@@ -8,7 +8,7 @@ import { expect, test } from 'vitest';
 
 import { palettes } from '@/base';
 import { Provider } from '@/context/context.spec';
-import SchemeBuilder from './scheme';
+import SchemeBuilder from './builder';
 
 test('SchemeBuilder', async () => {
     const { container, unmount } = render(() => <SchemeBuilder>abc</SchemeBuilder>, {

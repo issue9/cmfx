@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Theme as CoreTheme, DictLoader, Hotkey, Mode, Scheme, UnitStyle } from '@cmfx/core';
+import { Contrast, genSchemes, Mode, Scheme } from '@cmfx/components';
+import { DictLoader, Hotkey, UnitStyle } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
@@ -175,7 +176,7 @@ export interface Theme {
     scheme: Scheme;
 }
 
-const presetSchemes = CoreTheme.genSchemes(20);
+const presetSchemes = genSchemes(20);
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,

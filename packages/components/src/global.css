@@ -39,14 +39,14 @@ kbd {
     opacity: 0;
 
     /* 两个属性同时发生变化，但是 visibility 没有过渡动画，等待时间到之后直接改变其属性。 */
-    transition: visibility 0s var(--transition-duration), opacity var(--transition-duration) ease-in;
+    transition: visibility 0s var(--default-transition-duration), opacity var(--default-transition-duration) ease-in;
 }
 
 /* 弹出框打开状态下应用的样式 */
 @utility popopen {
     visibility: visible;
     opacity: 1;
-    transition: opacity var(--transition-duration) ease-in;
+    transition: opacity var(--default-transition-duration) ease-in;
 }
 
 /******************* 对话框 ****************/
@@ -61,7 +61,7 @@ dialog[open] {
 
 dialog::backdrop {
     background: rgba(0, 0, 0, 0.5);
-    transition: opacity var(--transition-duration) linear;
+    transition: opacity var(--default-transition-duration) linear;
 }
 
 /********************* popover *******************/

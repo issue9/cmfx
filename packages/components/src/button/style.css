@@ -16,7 +16,7 @@
     }
 
     .c--button.c--button-fill {
-        @apply text-(--fg) bg-palette-bg border-(--bg);
+        @apply text-palette-fg bg-palette-bg border-palette-bg;
     }
 
     .c--button.c--button-fill:enabled:hover,
@@ -27,7 +27,7 @@
     }
 
     .c--button.c--button-border {
-        @apply text-[var(--fg)] bg-transparent border-[var(--fg)];
+        @apply text-palette-fg bg-transparent border-palette-fg;
     }
 
     .c--button.c--button-border:enabled:hover,

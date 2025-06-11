@@ -37,7 +37,7 @@ export function Badge(props: Props) {
     return <div class="c--badge">
         {props.children}
         <span classList={{
-            'content': true,
+            'point': true,
             [props.pos as string]: true,
             [`palette--${props.palette}`]: !!props.palette,
         }}>{ props.text }</span>

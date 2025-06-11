@@ -11,7 +11,7 @@
         position: absolute;
         transform-origin: left;
         transform: scaleX(1);
-        transition: transform var(--transition-duration) ease-in-out;
+        transition: transform var(--default-transition-duration) ease-in-out;
     }
 
     >aside.aside-hidden {
@@ -40,7 +40,7 @@
 
         .drawer-fade-enter-active,
         .drawer-fade-exit-active {
-            transition: opacity var(--transition-duration), transform var(--transition-duration);
+            transition: opacity var(--default-transition-duration), transform var(--default-transition-duration);
         }
 
         .drawer-fade-enter,

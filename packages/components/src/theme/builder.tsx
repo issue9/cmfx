@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Mode, Scheme, Theme } from '@cmfx/core';
 import { For, JSX, ParentProps, Show } from 'solid-js';
 import IconPalette from '~icons/material-symbols/palette';
 import IconExport from '~icons/tabler/table-export';
 
-import { BaseProps, Palette, palettes } from '@/base';
+import { BaseProps, Contrast, Mode, Palette, Scheme, applyTheme, genScheme, palettes } from '@/base';
 import { Button } from '@/button';
 import { ThemeProvider, useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
@@ -48,7 +47,7 @@ export interface Props extends BaseProps, ParentProps {
 export default function SchemeBuilder(props: Props): JSX.Element {
     const l = useLocale();
     const modeFA = FieldAccessor<Mode>('mode', 'dark');
-    const schemeFA = new ObjectAccessor<Scheme>(Theme.genScheme(80));
+    const schemeFA = new ObjectAccessor<Scheme>(genScheme(80));
     const contrastFA = FieldAccessor<Contrast>('contrast', 'nopreference');
     const modes: FieldOptions<Mode> = translateEnums2Options<Mode, MessagesKey>([
         ['dark', '_c.theme.dark'], ['light', '_c.theme.light']
@@ -69,13 +68,11 @@ export default function SchemeBuilder(props: Props): JSX.Element {
             schemeFA.reset();
         },
         apply: () => {
-            Theme.apply(document.documentElement, new Theme(schemeFA.object(), modeFA.getValue(), contrastFA.getValue()));
+            applyTheme(document.documentElement, { scheme: schemeFA.object(), mode: modeFA.getValue(), contrast: contrastFA.getValue() });
         },
     };
 
-    if (props.ref) {
-        props.ref(ref);
-    }
+    if (props.ref) { props.ref(ref); }
 
     return <ThemeProvider mode={modeFA.getValue()} contrast={contrastFA.getValue()} scheme={schemeFA.object()}>
         <div class="c--scheme-builder">

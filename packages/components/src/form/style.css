@@ -14,6 +14,7 @@
 @import './date/style.css';
 @import './upload/style.css';
 @import './range/style.css';
+@import './color/style.css';
 
 @layer components {
     .c--form {

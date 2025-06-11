@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LocaleProvider, ThemeProvider, use, useLocale } from '@cmfx/components';
-import { Contrast, Locale, Mode, Theme } from '@cmfx/core';
+import { Button, Contrast, genScheme, LocaleProvider, Mode, ThemeProvider, use, useLocale } from '@cmfx/components';
+import { Locale } from '@cmfx/core';
 import { createSignal, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
@@ -14,29 +14,29 @@ export default function() {
     const [mode, setMode] = createSignal<Mode>('system');
     const l = useLocale();
 
-    const [theme, setTheme] = createStore(Theme.genScheme(20));
+    const [theme, setTheme] = createStore(genScheme(20));
     const [contrast, setContrast] = createSignal<Contrast>('nopreference');
 
     return <Demo>
         <Stage title="locale provider">
-            <Button>{l.t('_i.ok')}</Button>
+            <Button>{l.t('_c.ok')}</Button>
             <LocaleProvider id='zh-hans' unitStyle='narrow'>
-                <Button>{useLocale().t('_i.ok')}</Button>
+                <Button>{useLocale().t('_c.ok')}</Button>
                 <LocaleProvider id='en' unitStyle='narrow'>
-                    <Button>{useLocale().t('_i.ok')}</Button>
+                    <Button>{useLocale().t('_c.ok')}</Button>
                 </LocaleProvider>
             </LocaleProvider>
         </Stage>
 
         <Stage title="theme provider">
-            <ThemeProvider mode='dark' contrast='less' scheme={Theme.genScheme(70)}>
+            <ThemeProvider mode='dark' contrast='less' scheme={genScheme(70)}>
                 <Button>button</Button>
                 <ThemeProvider mode={mode()} contrast={contrast()} scheme={theme}>
                     <Button palette='secondary' onclick={()=>setMode(mode() === 'dark' ? 'light' : 'dark')}>toggle</Button>
                     <Button palette='primary'>primary</Button>
                     <select onChange={(e) => {
                         const value = e.target.value;
-                        setTheme(Theme.genScheme(parseInt(value)));
+                        setTheme(genScheme(parseInt(value)));
                     }}>
                         <option value={20}>20</option>
                         <option value={50}>50</option>
@@ -55,7 +55,7 @@ export default function() {
         </Stage>
 
         <Stage title="全局配置">
-            <Button>{ l.t('_i.ok') }</Button>
+            <Button>{ l.t('_c.ok') }</Button>
             <select onchange={(e) => {
                 const value = e.target.value;
                 act.switchLocale(value);
@@ -69,7 +69,7 @@ export default function() {
             
             <select onChange={(e) => {
                 const value = e.target.value;
-                act.switchScheme(parseInt(value));
+                act.switchScheme(genScheme(parseInt(value)));
             }}>
                 <option value={20}>20</option>
                 <option value={50}>50</option>

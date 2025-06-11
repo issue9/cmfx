@@ -11,7 +11,7 @@
 
         .message {
             @apply bg-palette-bg text-palette-fg rounded-md block w-full h-auto overflow-y-hidden;
-            @apply transition-all duration-[var(--transition-duration)];
+            @apply transition-all;
 
             hr {
                 @apply border-palette-bg-low;

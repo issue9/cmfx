@@ -46,24 +46,25 @@
     "dependencies": {
         "@cmfx/core": "workspace:*",
         "@formatjs/intl-durationformat": "catalog:",
+        "@iconify/json": "catalog:",
         "@solidjs/router": "catalog:",
+        "colorjs.io": "^0.5.2",
         "echarts": "^5.6.0",
         "printd": "^1.6.0",
         "qr-code-styling": "^1.9.2",
         "quill": "^2.0.3",
         "solid-js": "catalog:",
         "solid-transition-group": "^0.3.0",
-        "tailwindcss": "catalog:",
-        "@iconify/json": "catalog:"
+        "tailwindcss": "catalog:"
     },
     "devDependencies": {
-        "unplugin-icons": "catalog:",
         "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",
         "cssnano": "catalog:",
         "postcss": "catalog:",
         "typescript": "catalog:",
+        "unplugin-icons": "catalog:",
         "vite": "catalog:",
         "vite-plugin-dts": "catalog:",
         "vite-plugin-solid": "catalog:",

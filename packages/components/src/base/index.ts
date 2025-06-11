@@ -11,3 +11,5 @@ export { translateEnums } from './enum';
 export type { AvailableEnumType, Enum, Enums } from './enum';
 
 export type { Locale } from './locale';
+
+export * from './theme';

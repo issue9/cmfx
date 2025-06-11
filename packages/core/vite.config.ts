@@ -45,8 +45,7 @@ export default defineConfig({
                 'index': './src/index.ts',
             },
             formats: ['es'],
-            fileName: (_, name) => `${name}.js`,
-            cssFileName: 'style',
+            fileName: (_, name) => `${name}.js`
         }
     }
 });

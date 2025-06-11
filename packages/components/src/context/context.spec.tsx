@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Problem, Theme } from '@cmfx/core';
+import { Problem } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { ParentProps } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { expect, test } from 'vitest';
 
+import { genScheme } from '@/base';
 import { buildActions, OptionsProvider } from './context';
 import { Options } from './options';
 
@@ -16,7 +17,7 @@ const options: Options = {
     id: 'admin',
     storage: window.localStorage,
     configName: '',
-    scheme: Theme.genScheme(5),
+    scheme: genScheme(5),
     contrast: 'more',
     mode: 'dark',
     locale: 'zh-Hans',
