@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: 2024 caixw
+ * SPDX-FileCopyrightText: 2024-2025 caixw
  *
  * SPDX-License-Identifier: MIT
  */
@@ -8,8 +8,8 @@
     .c--badge {
         @apply relative;
 
-        .content {
-            @apply bg-[var(--bg)] text-[var(--fg)] absolute rounded-full px-1 text-xs min-w-[14px] min-h-[14px];
+        .point {
+            @apply bg-palette-bg text-palette-fg absolute rounded-full text-xs min-w-[14px] min-h-[14px];
             @apply inline-flex text-center justify-center;
         }
 

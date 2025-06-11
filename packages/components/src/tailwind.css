@@ -87,7 +87,7 @@
     color-scheme: dark;
 
     --dark-primary-bg-low: oklch(var(--l-low) .45 var(--primary));
-    --dark-primary-bg: oklch(var(--l) .4 var(--primary)));
+    --dark-primary-bg: oklch(var(--l) .4 var(--primary));
     --dark-primary-bg-high: oklch(var(--l-high) .45 var(--primary));
     --dark-primary-fg-low: oklch(var(--invert-l-low) .2 var(--primary));
     --dark-primary-fg: oklch(var(--invert-l) .2 var(--primary));

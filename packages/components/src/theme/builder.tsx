@@ -72,9 +72,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
         },
     };
 
-    if (props.ref) {
-        props.ref(ref);
-    }
+    if (props.ref) { props.ref(ref); }
 
     return <ThemeProvider mode={modeFA.getValue()} contrast={contrastFA.getValue()} scheme={schemeFA.object()}>
         <div class="c--scheme-builder">
