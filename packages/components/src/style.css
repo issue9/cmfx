@@ -29,6 +29,7 @@
 @import './table/style.css';
 @import './theme/style.css';
 @import './timer/style.css';
+@import './tooltip/style.css';
 @import './typography/style.css';
 @import './tree/style.css';
 @import './wizard/style.css';

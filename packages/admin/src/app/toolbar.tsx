@@ -33,7 +33,7 @@ export default function Toolbar(props: Props) {
         if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
     });
 
-    return <header class="app-bar palette--tertiary">
+    return <header role='toolbar' class="app-bar palette--tertiary">
         <div class="title">
             <img alt="logo" class="logo" src={opt.logo} />
             <span class="name">{opt.title}</span>

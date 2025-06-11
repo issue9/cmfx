@@ -28,6 +28,7 @@ export * from './tab';
 export * from './table';
 export * from './theme';
 export * from './timer';
+export * from './tooltip';
 export * from './tree';
 export * from './typography';
 export * from './wizard';

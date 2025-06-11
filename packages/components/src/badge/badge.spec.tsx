@@ -17,7 +17,7 @@ describe('Badge', async () => {
 
         const span = c.lastChild;
         expect(span).toHaveTextContent('text');
-        expect(span).toHaveClass('content');
+        expect(span).toHaveClass('point');
         expect(span).toHaveClass('topright');
         expect(span).not.toHaveClass('palette-/');
 
@@ -33,7 +33,7 @@ describe('Badge', async () => {
 
         const span = c.lastChild;
         expect(span).toHaveTextContent('text');
-        expect(span).toHaveClass('content');
+        expect(span).toHaveClass('point');
         expect(span).toHaveClass('bottomleft');
         expect(span).not.toHaveClass('palette--primary');
 

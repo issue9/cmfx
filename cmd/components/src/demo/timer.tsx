@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Button, Timer, timerFields, TimerRef } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { Button, Timer, timerFields, TimerRef } from '@cmfx/components';
 import { arraySelector, boolSelector, Demo, Stage } from './base';
 
 export default function () {

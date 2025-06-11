@@ -2,11 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
 import { createEffect, JSX, Show } from 'solid-js';
 
 import { Accessor, FieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
+import { Tooltip, TooltipRef } from '@/tooltip';
 
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
     accessor: Accessor<string>;
@@ -49,8 +51,12 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         access.setValue(`oklch(${l.getValue()}% ${c.getValue()} ${h.getValue()})`);
     });
 
+    let tooltip: TooltipRef;
+    let colorBlock: HTMLDivElement;
     const copy = async () => {
-        await navigator.clipboard.writeText(access.getValue());
+        await write2Clipboard(access.getValue(), ()=>{
+            tooltip.show(colorBlock, 'right');
+        });
     };
 
     return <fieldset popover={props.popover} disabled={props.disabled} classList={{
@@ -61,9 +67,10 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         <Range label='L:' fitHeight accessor={l} min={0} max={100} step={0.1} />
         <Range label='C:' fitHeight accessor={c} min={0} max={0.37} step={0.001} />
         <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
-        <div onClick={copy} class="color-block"
+        <div ref={el=>colorBlock=el} onClick={copy} class="color-block"
             style={{ 'background': access.getValue(), 'color': props.wcag }}
         >{access.getValue()}</div>
+        <Tooltip ref={el=>tooltip=el}>asdfasdsd</Tooltip>
         <Show when={props.wcag}>
             {(wcag)=>(
                 <div class="wcag">WCAG: <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span></div>

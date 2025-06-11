@@ -3,9 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { Layout, layouts, Palette, palettes } from '@cmfx/components';
+import { PopPos } from '@cmfx/core';
 import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'solid-js';
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
+
+export function posSelector(preset: PopPos = 'right'): [JSX.Element, Accessor<PopPos>, Setter<PopPos>] {
+    return arraySelector('pos', ['left', 'right', 'top', 'bottom'], preset);
+}
 
 /**
  * 创建一个 bool 选择项

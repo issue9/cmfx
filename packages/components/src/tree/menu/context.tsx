@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { JSX, mergeProps, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Props as BaseProps, default as Panel, presetProps, Ref } from './panel';
 
@@ -41,6 +41,18 @@ export function ContextMenu(props: Props): JSX.Element {
         onchange = () => { popRef.hidePopover(); };
     }
 
+    const handleClick = (e: MouseEvent) => {
+        if (!popRef.contains(e.target as Node)) {
+            popRef.hidePopover();
+        }
+    };
+    onMount(() => {
+        document.body.addEventListener('click', handleClick);
+    });
+    onCleanup(() => {
+        document.body.removeEventListener('click', handleClick);
+    });
+
     return <>
         <span classList={{[`palette--${props.palette}`]:!!props.palette}} onContextMenu={(e)=>{
             e.preventDefault();
@@ -50,6 +62,6 @@ export function ContextMenu(props: Props): JSX.Element {
             pop(popRef, new DOMRect(x, e.clientY, 1, 1));
         }}>{props.activator}</span>
 
-        <Panel popover="auto" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
+        <Panel popover="manual" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
     </>;
 }
