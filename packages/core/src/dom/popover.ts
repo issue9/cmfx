@@ -5,7 +5,7 @@
 /**
  * 弹出 pop 元素
  *
- * @param popRef 弹出对象，必须得是可见状态的；
+ * @param popRef 弹出对象，必须得是可见状态且有一个明确的 display 属性；
  * @param anchor 锚定对象的范围；
  * @param padding popRef 与 anchor 两者之间的间隙；
  * @param pos 相对于 anchor 的弹出位置；
