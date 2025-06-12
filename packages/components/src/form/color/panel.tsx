@@ -6,6 +6,7 @@ import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
 import { createEffect, JSX, Show } from 'solid-js';
 
+import { useLocale } from '@/context';
 import { Accessor, FieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
 import { Tooltip, TooltipRef } from '@/tooltip';
@@ -32,6 +33,8 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
  * oklch 颜色调整面板
  */
 export default function OKLCHPanel(props: Props): JSX.Element {
+    const loc = useLocale();
+
     const l = FieldAccessor<number>('l', 0);
     const c = FieldAccessor<number>('c', 0);
     const h = FieldAccessor<number>('h', 0);
@@ -70,7 +73,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         <div ref={el=>colorBlock=el} onClick={copy} class="color-block"
             style={{ 'background': access.getValue(), 'color': props.wcag }}
         >{access.getValue()}</div>
-        <Tooltip ref={el=>tooltip=el}>asdfasdsd</Tooltip>
+        <Tooltip ref={el => tooltip = el}>{ loc.t('_c.copied') }</Tooltip>
         <Show when={props.wcag}>
             {(wcag)=>(
                 <div class="wcag">WCAG: <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span></div>
