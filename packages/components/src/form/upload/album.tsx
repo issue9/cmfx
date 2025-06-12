@@ -7,7 +7,7 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { Accessor, Field } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import { Props as BaseProps, Ref, Upload } from './upload';
 
@@ -69,9 +69,7 @@ export function Album(props: Props): JSX.Element {
     });
     
     return <Field class={props.class}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout ==='horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         classList={props.classList}
         hasHelp={access.hasHelp}
         help={props.help}

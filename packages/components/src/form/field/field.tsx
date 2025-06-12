@@ -4,6 +4,7 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
+import { Layout } from '@/base';
 import { Accessor } from './access';
 import type { Props } from './types';
 
@@ -24,7 +25,13 @@ export interface FieldArea {
     cols?: 1 | 2 | 3;
 }
 
-export type FieldProps<T> = ParentProps<Props & {
+interface FieldAreas {
+    helpArea: FieldArea;
+    labelArea: FieldArea;
+    inputArea: FieldArea;
+}
+
+export type FieldProps<T> = ParentProps<Props & FieldAreas & {
     hasHelp: Accessor<T>['hasHelp'],
     getError: Accessor<T>['getError'],
     
@@ -35,10 +42,6 @@ export type FieldProps<T> = ParentProps<Props & {
      */
     help?: JSX.Element;
 
-    helpArea: FieldArea;
-    labelArea: FieldArea;
-    inputArea: FieldArea;
-
     ref?: { (el: HTMLDivElement): void; };
 }>;
 
@@ -47,6 +50,29 @@ function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
         'grid-area': area.pos,
         'grid-column-end': area.cols ? 'span ' + area.cols : undefined,
     };
+}
+
+/**
+ * 根据布局 l 生成通用的各个字段位置。
+ */
+export function calcLayoutFieldAreas(l: Layout): FieldAreas {
+    // NOTE: grid 中如果一个列或是行，即使其宽或是高度为 0，gap 也不会消失，
+    // 所以得根据 layout 计算位置并填充多余的列。
+
+    switch (l) {
+    case 'horizontal':
+        return {
+            inputArea: { pos: 'middle-center', cols: 2 },
+            labelArea: { pos: 'middle-left' },
+            helpArea: { pos: 'bottom-center', cols: 2 }
+        };
+    case 'vertical':
+        return {
+            inputArea: { pos: 'middle-left', cols: 3 },
+            labelArea: { pos: 'top-left', cols: 3 },
+            helpArea: { pos: 'bottom-left', cols: 3 }
+        };
+    }
 }
 
 /**

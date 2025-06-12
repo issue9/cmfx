@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { Accessor, Field, FieldBaseProps } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps } from '@/form/field';
 
 export interface Props extends FieldBaseProps {
     min?: number;
@@ -63,9 +63,7 @@ export default function Range(props: Props): JSX.Element {
     });
 
     return <Field ref={el=>fieldRef=el} class={props.class}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         classList={{ ...props.classList, 'c--range': true }}
         help={props.help}
         hasHelp={access.hasHelp}

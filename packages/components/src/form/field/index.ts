@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as Field } from './field';
+export { calcLayoutFieldAreas, default as Field } from './field';
 export type { FieldArea, FieldProps } from './field';
 
 export { FieldAccessor } from './access';

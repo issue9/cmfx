@@ -6,7 +6,7 @@ import { pop } from '@cmfx/core';
 import { JSX, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Layout } from '@/base';
-import { Field } from '@/form/field';
+import { Field, calcLayoutFieldAreas } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
 
 export interface Props extends PanelProps {
@@ -41,10 +41,8 @@ export default function OKLCHPicker(props: Props): JSX.Element {
     });
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--oklch-activator'}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}

@@ -8,7 +8,7 @@ import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { AvailableEnumType, cloneElement } from '@/base';
-import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
 
 export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
     placeholder?: string;
@@ -164,9 +164,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
     };
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--choice-activator'}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout ==='horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}

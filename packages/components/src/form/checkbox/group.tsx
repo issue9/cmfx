@@ -5,7 +5,7 @@
 import { For, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, Layout } from '@/base';
-import { Accessor, Field, FieldBaseProps, Options } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
 import { Checkbox } from './checkbox';
 
 export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
@@ -35,9 +35,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block']);
 
     return <Field class={props.class}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}

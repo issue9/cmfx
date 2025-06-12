@@ -5,7 +5,7 @@
 import { createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
 import { Layout } from '@/base';
-import { Accessor, AutoComplete, Field, FieldBaseProps, InputMode } from '@/form/field';
+import { Accessor, AutoComplete, calcLayoutFieldAreas, Field, FieldBaseProps, InputMode } from '@/form/field';
 
 type Value = string | number | Array<string> | undefined;
 
@@ -23,7 +23,7 @@ export interface Props<T> extends FieldBaseProps {
     suffix?: JSX.Element;
 
     placeholder?: string;
-    
+
     /**
      * 内容类型
      *
@@ -53,9 +53,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     const id = createUniqueId();
 
     return <Field class={props.class}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}

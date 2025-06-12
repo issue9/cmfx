@@ -9,7 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { Layout } from '@/base';
 import { useLocale } from '@/context';
-import { Field } from '@/form/field';
+import { calcLayoutFieldAreas, Field } from '@/form/field';
 import { DatePanel, Props as PanelProps, presetProps } from './panel';
 
 export interface Props extends PanelProps {
@@ -58,10 +58,8 @@ export function DatePicker(props: Props): JSX.Element {
     const close = () => { props.accessor.setValue(undefined); };
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}

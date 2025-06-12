@@ -8,7 +8,7 @@ import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 
 import { useLocale } from '@/context';
-import { Accessor, Field, FieldAccessor } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldAccessor } from '@/form/field';
 import { IconComponent } from '@/icon';
 import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
@@ -66,9 +66,7 @@ export function DateRangePicker(props: Props): JSX.Element {
     };
 
     return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         classList={props.classList}
         hasHelp={props.accessor.hasHelp}

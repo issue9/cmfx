@@ -5,7 +5,7 @@
 import { createUniqueId, JSX, mergeProps } from 'solid-js';
 
 import { Layout } from '@/base';
-import { Accessor, Field, FieldBaseProps, InputMode } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, InputMode } from '@/form/field';
 
 type Value = string | number | Array<string>;
 
@@ -29,9 +29,7 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     const id = createUniqueId();
 
     return <Field class={props.class}
-        inputArea={{ pos: 'middle-center' }}
-        helpArea={{ pos: 'bottom-center' }}
-        labelArea={{ pos: props.layout === 'horizontal' ? 'middle-left' : 'top-center' }}
+        {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         classList={props.classList}
         hasHelp={access.hasHelp}
