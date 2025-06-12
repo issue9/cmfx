@@ -36,7 +36,7 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function Button(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'classList']);
+    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'classList', 'square']);
     let ref: HTMLButtonElement;
 
     if (props.hotkey && props.onClick) {
@@ -48,7 +48,7 @@ export function Button(props: Props) {
 
     return <button ref={el => ref = el} {...btnProps} classList={{
         'c--button': true,
-        'c--button-icon': props.square,
+        'c--button-square': props.square,
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,
         'rounded-full': props.rounded,

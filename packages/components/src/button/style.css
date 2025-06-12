@@ -11,7 +11,7 @@
         @apply flex items-center justify-center text-center;
     }
 
-    .c--button.c--button-icon {
+    .c--button.c--button-square {
         @apply aspect-square !p-2;
     }
 

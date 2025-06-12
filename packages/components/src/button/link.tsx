@@ -22,7 +22,7 @@ export interface Props extends BaseProps, Omit<JSX.AnchorHTMLAttributes<HTMLAnch
      *
      * 如果为 true，表示将 children 作为图标内容进行解析。
      */
-    icon?: boolean;
+    square?: boolean;
 
     /**
      * 按钮内容，如果 icon 为 true，那么内容应该是图标名称，否则不能显示为正确图标。
@@ -41,7 +41,7 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function LinkButton(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, linkProps] = splitProps(props, ['icon', 'children', 'disabled', 'kind', 'rounded']);
+    const [_, linkProps] = splitProps(props, ['square', 'children', 'disabled', 'kind', 'rounded']);
 
     if (props.hotkey) {
         onMount(() => {
@@ -56,7 +56,7 @@ export function LinkButton(props: Props) {
         !props.disabled ? undefined : e => e.preventDefault()
     } classList={{
         'c--button': true,
-        'c--button-icon': props.icon,
+        'c--button-square': props.square,
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,
         'rounded-full': props.rounded,
