@@ -31,7 +31,7 @@ export function PrintButton(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, btnProps] = splitProps(props, ['container']);
 
-    return <Button icon {...btnProps} onClick={() => {
+    return <Button square {...btnProps} onClick={() => {
         const d = new Printd();
         d.print(props.container(), props.cssText ? [props.cssText] : undefined, undefined, (arg)=>{
             arg.launchPrint();

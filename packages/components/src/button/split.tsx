@@ -64,7 +64,7 @@ export function SplitButton(props: Props) {
 
     const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
-        <Button class="split" ref={el=>downRef=el} icon onClick={() => {
+        <Button class="split" ref={el=>downRef=el} square onClick={() => {
             popElem.togglePopover();
 
             const anchor = group.getBoundingClientRect();

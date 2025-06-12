@@ -28,7 +28,7 @@ export function Password(props: Props): JSX.Element {
             {props.icon!({class:'prefix-icon'})}
         </Show>
     } suffix={
-        <Button kind='flat' disabled={props.disabled} icon class="!px-1 !py-0 rounded-none"
+        <Button kind='flat' disabled={props.disabled} square class="!px-1 !py-0 rounded-none"
             onClick={() => {
                 setVisible(!visible());
                 ref.type = visible() ? 'text' : 'password';

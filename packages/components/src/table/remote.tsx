@@ -68,7 +68,7 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
                 },
 
                 DeleteAction(id: string | number) {
-                    return <ConfirmButton icon rounded palette='error'
+                    return <ConfirmButton square rounded palette='error'
                         title={l.t('_c.deleteRow')}
                         onClick={async () => { await this.delete(id); }}
                     ><IconDelete /></ConfirmButton>;

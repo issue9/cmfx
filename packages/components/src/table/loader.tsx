@@ -245,7 +245,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                 <Show when={props.systemToolbar}>
                     <div class="system-toolbar">
                         <Menu hoverable direction='left' selectedClass='' activator={
-                            <Button icon rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
+                            <Button square rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
                         } onChange={(v) => {
                             switch (v) {
                             case 'hoverable':
@@ -312,7 +312,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                 },
                             ]}
                         </Menu>
-                        <Button icon rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
+                        <Button square rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
                             title={l.t('_c.refresh')}><IconRefresh /></Button>
                         <FitScreenButton rounded kind='fill' palette='tertiary' container={()=>ref}

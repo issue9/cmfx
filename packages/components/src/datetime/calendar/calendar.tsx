@@ -91,11 +91,11 @@ export default function Calendar(props: Props): JSX.Element {
             <p class="title">{titleFormat()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevYear')} icon onClick={() => setCurr(new Date(curr().getFullYear() - 1, curr().getMonth(), 1))}><IconArrowLeft /></Button>
-                    <Button title={l.t('_c.date.prevMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconChevronLeft /></Button>
+                    <Button title={l.t('_c.date.prevYear')} square onClick={() => setCurr(new Date(curr().getFullYear() - 1, curr().getMonth(), 1))}><IconArrowLeft /></Button>
+                    <Button title={l.t('_c.date.prevMonth')} square onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconChevronLeft /></Button>
                     <Button onClick={() => setCurr(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.nextMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconChevronRight /></Button>
-                    <Button title={l.t('_c.date.nextYear')} icon onClick={() => setCurr(new Date(curr().getFullYear() + 1, curr().getMonth(), 1))}><IconArrowRight /></Button>
+                    <Button title={l.t('_c.date.nextMonth')} square onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconChevronRight /></Button>
+                    <Button title={l.t('_c.date.nextYear')} square onClick={() => setCurr(new Date(curr().getFullYear() + 1, curr().getMonth(), 1))}><IconArrowRight /></Button>
                 </ButtonGroup>
             </div>
         </header>

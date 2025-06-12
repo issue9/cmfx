@@ -56,7 +56,7 @@ export function BackTop(props: Props): JSX.Element {
         scroller && scroller.removeEventListener('scroll', scroll);
     });
 
-    return <Button icon rounded palette={props.palette} ref={el => btn = el}
+    return <Button square rounded palette={props.palette} ref={el => btn = el}
         class={props.class} style={props.style} classList={{
             'c--backtop': true,
             ...props.classList

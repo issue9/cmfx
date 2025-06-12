@@ -11,11 +11,9 @@ export type Ref = HTMLButtonElement;
 
 export interface Props extends BaseProps, Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
     /**
-     * 是否仅包含一个图标
-     *
-     * 如果该值为 true，会调整按钮的的边距，使按钮成为一个正方形。
+     * 是否为一个长宽比为 1:1 的按钮，比如图标之类可能需要此属性。
      */
-    icon?: boolean;
+    square?: boolean;
 
     /**
      * 按钮内容
@@ -50,7 +48,7 @@ export function Button(props: Props) {
 
     return <button ref={el => ref = el} {...btnProps} classList={{
         'c--button': true,
-        'c--button-icon': props.icon,
+        'c--button-icon': props.square,
         [`c--button-${props.kind}`]: true,
         [`palette--${props.palette}`]: !!props.palette,
         'rounded-full': props.rounded,
