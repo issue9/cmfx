@@ -11,6 +11,3 @@ export type { Props as DateRangePickerProps } from './range';
 export { DatePanel } from './panel';
 export type { Props as DatePanelProps } from './panel';
 
-export { months, weekDays, weeks } from './utils';
-export type { Month, Week } from './utils';
-

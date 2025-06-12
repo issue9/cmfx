@@ -12,7 +12,7 @@
     }
 
     .c--button.c--button-icon {
-        @apply !p-2;
+        @apply aspect-square !p-2;
     }
 
     .c--button.c--button-fill {
@@ -65,10 +65,6 @@
 
         .c--button.split {
             border-left: 1px solid var(--bg-low) !important;
-        }
-
-        .c--button.c--button-icon {
-            @apply p-2;
         }
     }
 

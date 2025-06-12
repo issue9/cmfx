@@ -32,11 +32,11 @@
                 @apply min-w-[50px] min-h-[50px] w-1/7 px-[4px] py-[7px] cursor-pointer align-top;
 
                 .day {
-                    @apply mr-1 py-1 px-2 border-b border-b-transparent;
+                    @apply mr-1 aspect-square w-8 text-center inline-flex items-center justify-center;
                 }
 
                 .day.today {
-                    @apply border-b-palette-fg;
+                    @apply rounded-full bg-palette-bg-low;
                 }
             }
 

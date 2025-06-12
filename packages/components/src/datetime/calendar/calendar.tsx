@@ -9,7 +9,7 @@ import IconArrowForward from '~icons/material-symbols/arrow-forward-ios';
 import { BaseProps } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
-import { Week, sunday, weekDay, weekDays, weeks } from '@/form/date/utils';
+import { Week, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
 import { Plugin } from './plugin';
 
 /**
