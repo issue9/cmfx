@@ -3,8 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { For, JSX, createMemo, createSignal, mergeProps } from 'solid-js';
-import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
-import IconArrowForward from '~icons/material-symbols/arrow-forward-ios';
+import IconChevronLeft from '~icons/material-symbols/chevron-left';
+import IconChevronRight from '~icons/material-symbols/chevron-right';
+import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
+import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
 import { BaseProps } from '@/base';
 import { Button, ButtonGroup } from '@/button';
@@ -89,9 +91,11 @@ export default function Calendar(props: Props): JSX.Element {
             <p class="title">{titleFormat()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconArrowBack /></Button>
+                    <Button title={l.t('_c.date.prevYear')} icon onClick={() => setCurr(new Date(curr().getFullYear() - 1, curr().getMonth(), 1))}><IconArrowLeft /></Button>
+                    <Button title={l.t('_c.date.prevMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconChevronLeft /></Button>
                     <Button onClick={() => setCurr(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.nextMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconArrowForward /></Button>
+                    <Button title={l.t('_c.date.nextMonth')} icon onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconChevronRight /></Button>
+                    <Button title={l.t('_c.date.nextYear')} icon onClick={() => setCurr(new Date(curr().getFullYear() + 1, curr().getMonth(), 1))}><IconArrowRight /></Button>
                 </ButtonGroup>
             </div>
         </header>
