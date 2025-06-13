@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -8,7 +8,7 @@ import { BaseProps } from '@/base';
 
 export interface Props extends BaseProps, ParentProps {
     /**
-     * 卡版的标题部分
+     * 卡片的标题部分
      */
     header?: JSX.Element;
 

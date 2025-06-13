@@ -30,7 +30,7 @@ catalog:
     intl-messageformat: ^10.7.16
     "@solidjs/router": ^0.15.3
     solid-js: ^1.9.7
-    tailwindcss: ^4.1.8
+    tailwindcss: ^4.1.10
 
 onlyBuiltDependencies:
     - esbuild

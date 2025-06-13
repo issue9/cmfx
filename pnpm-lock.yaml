@@ -55,8 +55,8 @@ catalogs:
       specifier: ^1.9.7
       version: 1.9.7
     tailwindcss:
-      specifier: ^4.1.8
-      version: 4.1.8
+      specifier: ^4.1.10
+      version: 4.1.10
     typescript:
       specifier: ^5.8.3
       version: 5.8.3
@@ -185,7 +185,7 @@ importers:
         version: 1.9.7
       tailwindcss:
         specifier: 'catalog:'
-        version: 4.1.8
+        version: 4.1.10
     devDependencies:
       '@cmfx/vite-plugin-about':
         specifier: workspace:*
@@ -243,7 +243,7 @@ importers:
         version: 1.9.7
       tailwindcss:
         specifier: 'catalog:'
-        version: 4.1.8
+        version: 4.1.10
     devDependencies:
       '@tailwindcss/vite':
         specifier: 'catalog:'
@@ -304,7 +304,7 @@ importers:
         version: 1.9.7
       tailwindcss:
         specifier: 'catalog:'
-        version: 4.1.8
+        version: 4.1.10
     devDependencies:
       '@tailwindcss/vite':
         specifier: 'catalog:'
@@ -380,7 +380,7 @@ importers:
         version: 0.3.0(solid-js@1.9.7)
       tailwindcss:
         specifier: 'catalog:'
-        version: 4.1.8
+        version: 4.1.10
     devDependencies:
       '@tailwindcss/vite':
         specifier: 'catalog:'
@@ -2824,9 +2824,6 @@ packages:
 
   tailwindcss@4.1.10:
     resolution: {integrity: sha512-P3nr6WkvKV/ONsTzj6Gb57sWPMX29EPNPopo7+FcpkQaNsrNpZ1pv8QmrYI2RqEKD7mlGqLnGovlcYnBK0IqUA==}
-
-  tailwindcss@4.1.8:
-    resolution: {integrity: sha512-kjeW8gjdxasbmFKpVGrGd5T4i40mV5J2Rasw48QARfYeQ8YS9x02ON9SFWax3Qf616rt4Cp3nVNIj6Hd1mP3og==}
 
   tapable@2.2.2:
     resolution: {integrity: sha512-Re10+NauLTMCudc7T5WLFLAwDhQ0JWdrMK+9B2M8zR5hRExKmsRDCBA7/aV/pNJFltmBFO5BAMlQFi/vq3nKOg==}
@@ -5593,8 +5590,6 @@ snapshots:
   symbol-tree@3.2.4: {}
 
   tailwindcss@4.1.10: {}
-
-  tailwindcss@4.1.8: {}
 
   tapable@2.2.2: {}
 
