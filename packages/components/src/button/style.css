@@ -65,6 +65,7 @@
 
         .c--button.split {
             border-left: 1px solid var(--bg-low) !important;
+            box-sizing: content-box;
         }
     }
 

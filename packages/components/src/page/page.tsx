@@ -5,7 +5,7 @@
 import { createEffect, JSX, ParentProps, Show, splitProps } from 'solid-js';
 
 import { BackTop } from '@/backtop';
-import { BaseProps } from '@/base';
+import { BaseProps, classList } from '@/base';
 import { use, useLocale } from '@/context';
 
 export interface Props extends BaseProps, ParentProps {
@@ -32,15 +32,15 @@ export interface Props extends BaseProps, ParentProps {
 export function Page (props: Props): JSX.Element {
     const [, ctx] = use();
     const l = useLocale();
-    const [_, other] = splitProps(props, ['title', 'children', 'disableBacktop', 'classList', 'palette']);
+    const [_, other] = splitProps(props, ['title', 'children', 'disableBacktop', 'classList', 'class', 'palette']);
 
     createEffect(() => { ctx.title = l.t(props.title); });
 
-    return <div {...other} classList={{
+    return <div {...other} class={classList(props.class, {
         ...props.classList,
         'c--page': true,
         [`palette--${props.palette}`]: !!props.palette,
-    }}>
+    })}>
         {props.children}
         <Show when={!props.disableBacktop}><BackTop /></Show>
     </div>;

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -6,7 +6,9 @@ import { JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
 /**
- * 复制整个 {@link JSX#Element} 元素。
+ * 复制整个 {@link JSX#Element} 元素
+ *
+ * NOTE: 仅复制元素，对于响应方式可能并不会有效果。
  */
 export function cloneElement(e: JSX.Element): JSX.Element {
     if (e instanceof Element) {
@@ -37,4 +39,28 @@ export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, 
     } else {
         h[0](h[1], e);
     }
+}
+
+/**
+ * 将 solidjs 中的 classList 内容转换为 class 属性
+ *
+ * @param cls 组件的 class 属性；
+ * @param list 组件的 classList 对象；
+ * @returns 转换而来的 class 属性值；
+ */
+export function classList(cls?: string, list?: JSX.CustomAttributes<HTMLElement>['classList']): string | undefined {
+    if (!list) { return cls; }
+
+    const entries = Object.entries(list);
+    if (entries.length === 0) { return cls; }
+
+    let ret = '';
+    entries.forEach(item => {
+        if (item[1]) { ret += item[0] + ' '; }
+    });
+    
+    if (cls) {
+        ret += cls;
+    }
+    return ret;
 }

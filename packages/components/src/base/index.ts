@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { cloneElement, handleEvent } from './func';
+export { classList, cloneElement, handleEvent } from './func';
 
 export { layouts, palettes } from './types';
 export type { Props as BaseProps, Layout, Palette } from './types';

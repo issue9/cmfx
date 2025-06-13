@@ -8,7 +8,7 @@ import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { BaseProps } from '@/base';
+import { BaseProps, classList } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
 import { Week, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
@@ -82,11 +82,11 @@ export default function Calendar(props: Props): JSX.Element {
 
     const [selected, setSelected] = createSignal(props.selected);
 
-    return <div class={props.class} style={props.style} classList={{
-        ...props.classList,
+    return <div style={props.style} class={classList(props.class, {
         'c--calendar': true,
         [`palette--${props.palette}`]: !!props.palette,
-    }}>
+        ...props.classList,
+    })}>
         <header>
             <p class="title">{titleFormat()}</p>
             <div>

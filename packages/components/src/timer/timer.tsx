@@ -5,7 +5,7 @@
 import { Duration, formatDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, classList } from '@/base';
 import { useLocale } from '@/context';
 
 export type Field = 'days' | 'hours' | 'minutes' | 'seconds';
@@ -172,10 +172,10 @@ export default function Timer(props: Props): JSX.Element {
         return s;
     };
 
-    return <div class={props.class} classList={{
+    return <div class={classList(props.class, {
         ...props.classList,
         'c--timer': true,
-    }}>
+    })}>
         <Show when={fields.get(props.startField!)! >= fields.get('days')!}>
             <div class="item">
                 <span class="text">{format(dur().days ?? 0)}</span>

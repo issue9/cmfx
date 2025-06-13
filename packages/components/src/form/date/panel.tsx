@@ -134,8 +134,8 @@ export function DatePanel(props: Props): JSX.Element {
     });
 
     const title = <div class="title">
-        <div class="flex">
-            <Button tabIndex={props.tabindex} square rounded kind='flat' class="!p-1"
+        <div class="flex justify-center items-center">
+            <Button tabIndex={props.tabindex} square rounded kind='flat' class="btn"
                 title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -144,7 +144,7 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setFullYear(dt.getFullYear() - 1);
                     setValue(dt);
                 }}><IconArrowLeft /></Button>
-            <Button tabIndex={props.tabindex} square rounded kind='flat' class="!p-1"
+            <Button tabIndex={props.tabindex} square rounded kind='flat' class="btn"
                 title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -158,7 +158,7 @@ export function DatePanel(props: Props): JSX.Element {
         <div>{titleFormat()}</div>
 
         <div class="flex">
-            <Button tabIndex={props.tabindex} square rounded kind="flat" class="!p-1"
+            <Button tabIndex={props.tabindex} square rounded kind="flat" class="btn"
                 title={l.t('_c.date.nextMonth')} aria-label={l.t('_c.date.nextMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -167,7 +167,7 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setMonth(dt.getMonth() + 1);
                     setValue(dt);
                 }}><IconChevronRight /></Button>
-            <Button tabIndex={props.tabindex} square rounded kind="flat" class="!p-1"
+            <Button tabIndex={props.tabindex} square rounded kind="flat" class="btn"
                 title={l.t('_c.date.nextYear')} aria-label={l.t('_c.date.nextYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }

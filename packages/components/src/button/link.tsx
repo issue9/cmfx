@@ -6,7 +6,8 @@ import { Hotkey } from '@cmfx/core';
 import { A, useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { Props as BaseProps, presetProps as presetBaseProps } from './types';
+import { classList } from '@/base';
+import { Props as BaseProps, presetProps } from './types';
 
 /**
  * 将 {@link A} 以按钮的形式展示
@@ -32,16 +33,12 @@ export interface Props extends BaseProps, Omit<JSX.AnchorHTMLAttributes<HTMLAnch
     disabled?: boolean;
 }
 
-export const presetProps: Readonly<Partial<Props>> = {
-    ...presetBaseProps,
-};
-
 /**
  * 普通的按钮组件
  */
 export function LinkButton(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, linkProps] = splitProps(props, ['square', 'children', 'disabled', 'kind', 'rounded']);
+    const [_, linkProps] = splitProps(props, ['square', 'children', 'disabled', 'kind', 'rounded', 'class']);
 
     if (props.hotkey) {
         onMount(() => {
@@ -50,11 +47,10 @@ export function LinkButton(props: Props) {
         onCleanup(() => Hotkey.unbind(props.hotkey!));
     }
 
-
     // A.href 无法设置为 javascript:void(0)
     return <A {...linkProps} onClick={
         !props.disabled ? undefined : e => e.preventDefault()
-    } classList={{
+    } class={classList(props.class, {
         'c--button': true,
         'c--button-square': props.square,
         [`c--button-${props.kind}`]: true,
@@ -62,5 +58,5 @@ export function LinkButton(props: Props) {
         'rounded-full': props.rounded,
         'link-enabled': !props.disabled,
         'link-disabled': props.disabled
-    }}>{props.children}</A>;
+    })}>{props.children}</A>;
 }

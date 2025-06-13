@@ -83,6 +83,8 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 - 组件和页面的 CSS 样式，类型名必须以 `c--` 或是 `p--` 开头，防止不小心类名之间相互覆盖；
 - 所有组件都要有明确的返回值，否则在生成 `.d.ts` 文件时可能会出错；
+- 组件属性中不推荐直接使用 classList 属性，而是应该使用 classList 函数转换为字符串然后传递给 class 属性；
+- 注意 CSS 中不同 layer 的优先级；
 - solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route. ` 的错误，
 所以在所有的 vite.config.ts 中都将 solid-router 加入到 rollupOptions.external，只在主项目中真实导入；
 

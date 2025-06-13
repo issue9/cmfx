@@ -51,7 +51,7 @@ export default function() {
     const IconButtons = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
-                <Button icon title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}><IconSync /></Button>
+                <Button square title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}><IconSync /></Button>
             )}
         </For>
         <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
@@ -110,9 +110,9 @@ export default function() {
             {(c)=>(
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
-                        <Button icon><IconFace /></Button>
-                        <Button icon><IconClose /></Button>
-                        <Button icon><IconSync /></Button>
+                        <Button square><IconFace /></Button>
+                        <Button square><IconClose /></Button>
+                        <Button square><IconSync /></Button>
                     </ButtonGroup>
                     <br />
                 </>
@@ -140,9 +140,9 @@ export default function() {
             {(c) => (
                 <>
                     <ButtonGroup rounded={rounded()} palette={c} kind={kind()} disabled={disabled()}>
-                        <LinkButton icon href=""><IconFace /></LinkButton>
-                        <LinkButton icon href=""><IconClose /></LinkButton>
-                        <LinkButton icon href=""><IconSync /></LinkButton>
+                        <LinkButton square href=""><IconFace /></LinkButton>
+                        <LinkButton square href=""><IconClose /></LinkButton>
+                        <LinkButton square href=""><IconSync /></LinkButton>
                     </ButtonGroup>
                     <br />
                 </>

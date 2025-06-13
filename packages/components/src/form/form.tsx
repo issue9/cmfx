@@ -1,10 +1,10 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { JSX } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, classList } from '@/base';
 import { Spin } from '@/spin';
 import { FormAccessor } from './access';
 
@@ -28,11 +28,11 @@ export interface Props<T extends object, R = never, P = never> extends BaseProps
  * 表单组件
  */
 export function Form<T extends object, R = never, P = never>(props: Props<T,R,P>) {
-    return <form method={props.inDialog ? 'dialog' : undefined} class={props.class} {...props.formAccessor.events()} classList={{
+    return <form method={props.inDialog ? 'dialog' : undefined} {...props.formAccessor.events()} class={classList(props.class, {
         ...props.classList,
         'c--form':true,
         [`palette--${props.palette}`]: !!props.palette,
-    }}>
+    })}>
         <Spin spinning={props.formAccessor.submitting()}>{props.children}</Spin>
     </form>;
 }

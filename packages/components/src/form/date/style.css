@@ -33,7 +33,11 @@
         @apply border border-palette-fg-low rounded-md text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border flex flex-col gap-1;
 
         .title {
-            @apply flex justify-between items-center mb-1;
+            @apply flex justify-between items-center mb-2 text-lg;
+
+            .btn {
+                @apply !p-1;
+            }
         }
 
         table {

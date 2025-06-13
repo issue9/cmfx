@@ -5,6 +5,7 @@
 import { Hotkey } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
+import { classList } from '@/base';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLButtonElement;
@@ -36,7 +37,7 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function Button(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'classList', 'square']);
+    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'classList', 'square', 'class']);
     let ref: HTMLButtonElement;
 
     if (props.hotkey && props.onClick) {
@@ -46,7 +47,7 @@ export function Button(props: Props) {
         onCleanup(() => Hotkey.unbind(props.hotkey!));
     }
 
-    return <button ref={el => ref = el} {...btnProps} classList={{
+    return <button ref={el => ref = el} {...btnProps} class={classList(props.class, {
         'c--button': true,
         'c--button-square': props.square,
         [`c--button-${props.kind}`]: true,
@@ -54,7 +55,7 @@ export function Button(props: Props) {
         'rounded-full': props.rounded,
         'checked': props.checked,
         ...props.classList
-    }}>
+    })}>
         {props.children}
     </button>;
 }
