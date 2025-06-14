@@ -23,7 +23,7 @@ export default function(): JSX.Element {
             {reverseS}
             {autoS}
             {layoutS}
-            <button class="c--button c--button-fill palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <Stage title='basic'>

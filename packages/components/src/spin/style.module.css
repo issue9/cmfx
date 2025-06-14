@@ -1,0 +1,21 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .spin {
+        @apply relative;
+    }
+
+    .spin:disabled {
+        .indicator {
+            @apply cursor-wait;
+            @apply px-4 items-center justify-center w-full h-full top-0 left-0 absolute flex;
+            @apply bg-transparent;
+        }
+    }
+}

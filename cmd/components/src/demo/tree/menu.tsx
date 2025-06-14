@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ContextMenu, Item, Menu, MenuPanel } from '@cmfx/components';
+import { Button, ContextMenu, Menu, MenuPanel, TreeItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 
@@ -10,11 +10,11 @@ import { boolSelector, Demo, paletteSelector, Stage } from '../base';
 import { selectedClassSelector } from './list';
 
 export default function() {
-    const [paletteS,palette] = paletteSelector('primary');
+    const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
     const [rightS, right] = boolSelector('right');
 
-    const items: Array<Item> = [
+    const items: Array<TreeItem> = [
         {type: 'item', value: 'v1', label: 'v1'},
         {type: 'item', value: 'v2', label: 'v2'},
         {type: 'divider'},
@@ -33,7 +33,7 @@ export default function() {
         ]},
     ];
 
-    const items2: Array<Item> = [
+    const items2: Array<TreeItem> = [
         ...items,
         { type: 'item', value: 'v3', label: 'v3(control+a)', hotkey: new Hotkey('a', 'control') },
     ];

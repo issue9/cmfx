@@ -1,0 +1,56 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .menu {
+        @apply text-[var(--fg)] bg-[var(--bg)] gap-y-1 min-w-[200px] rounded-md overflow-visible;
+        @apply flex flex-col border border-palette-bg-low z-[500];
+
+        :first-child {
+            @apply rounded-t-md;
+        }
+
+        :last-child {
+            @apply rounded-b-md;
+        }
+
+        .item {
+            @apply p-2 hover:bg-[var(--bg-low)] cursor-pointer relative flex items-center;
+
+            .expand {
+                @apply ml-auto flex items-center;
+            }
+
+            >.menu.left {
+                @apply right-[100%];
+            }
+
+            >.menu.right {
+                @apply left-[100%];
+            }
+
+            >.menu {
+                @apply absolute top-0 flex-col flex pop;
+            }
+        }
+
+        .item:hover {
+            >.menu {
+                @apply popopen;
+            }
+        }
+
+        .group {
+            @apply text-[var(--fg-low)] cursor-default px-2;
+        }
+
+        .item.selected {
+            @apply bg-[var(--bg-high)] text-[var(--fg-high)];
+        }
+    }
+}

@@ -5,7 +5,8 @@
 import { createEffect, createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
-import { BaseProps, Breakpoint } from '@/base';
+import { BaseProps, Breakpoint, classList } from '@/base';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -82,29 +83,37 @@ export function Drawer(props: Props) {
         });
     }
 
-    const Aside = ()=><aside ref={(el)=>asideRef=el} classList={{
-        [`palette--${props.palette}`]: !!props.palette,
-        'aside-hidden': !props.visible,
-        'pos-right': floating() && props.pos === 'right',
-    }}>{props.children}</aside>;
+    const Aside = ()=><aside ref={(el)=>asideRef=el} class={classList({
+        'cmfx-drawer__aside-hidden': !props.visible,
+        'cmfx-drawer__aside-right': floating() && props.pos === 'right',
+    }, props.palette ? `palette--${props.palette}` : undefined)}>{props.children}</aside>;
 
-    return <div ref={(el)=>mainRef=el} classList={{
-        'c--drawer': true,
-        'c--drawer-floating': !floatCls() && floating(),
-        'max-xs:c--drawer-floating': floatCls() == 'xs',
-        'max-sm:c--drawer-floating': floatCls() == 'sm',
-        'max-md:c--drawer-floating': floatCls() == 'md',
-        'max-lg:c--drawer-floating': floatCls() == 'lg',
-        'max-xl:c--drawer-floating': floatCls() == 'xl',
-        'max-2xl:c--drawer-floating': floatCls() == '2xl',
-    }}>
+    return <div ref={(el) => mainRef = el} class={classList({
+        'cmfx--drawer-floating': !floatCls() && floating(),
+        'max-xs:cmfx--drawer-floating': floatCls() == 'xs',
+        'max-sm:cmfx--drawer-floating': floatCls() == 'sm',
+        'max-md:cmfx--drawer-floating': floatCls() == 'md',
+        'max-lg:cmfx--drawer-floating': floatCls() == 'lg',
+        'max-xl:cmfx--drawer-floating': floatCls() == 'xl',
+        'max-2xl:cmfx--drawer-floating': floatCls() == '2xl',
+    }, styles.drawer)}>
         <Switch>
             <Match when={props.pos === 'left'}>
                 <Aside />
-                <main><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
+                <main>
+                    <Transition mode='outin'
+                        exitActiveClass={styles['drawer-fade-exit-active']}
+                        enterClass={styles['drawer-fade-enter']}
+                        exitToClass={styles['drawer-fade-exit-to']}
+                        enterActiveClass={styles['drawer-fade-enter-active']}>{props.main}</Transition>
+                </main>
             </Match>
             <Match when={props.pos === 'right'}>
-                <main><Transition mode='outin' name='drawer-fade'>{props.main}</Transition></main>
+                <main><Transition mode='outin' 
+                    exitActiveClass={styles['drawer-fade-exit-active']}
+                    enterClass={styles['drawer-fade-enter']}
+                    exitToClass={styles['drawer-fade-exit-to']}
+                    enterActiveClass={styles['drawer-fade-enter-active']}>{props.main}</Transition></main>
                 <Aside />
             </Match>
         </Switch>

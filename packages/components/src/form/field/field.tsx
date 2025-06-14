@@ -4,8 +4,9 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { Layout } from '@/base';
+import { classList, joinClass, Layout } from '@/base';
 import { Accessor } from './access';
+import styles from './style.module.css';
 import type { Props } from './types';
 
 /**
@@ -48,7 +49,7 @@ export type FieldProps<T> = ParentProps<Props & FieldAreas & {
 function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
     return {
         'grid-area': area.pos,
-        'grid-column-end': area.cols ? 'span ' + area.cols : undefined,
+        'grid-column-end': area.cols ? ('span ' + area.cols.toString()) : undefined,
     };
 }
 
@@ -88,23 +89,19 @@ export function calcLayoutFieldAreas(l: Layout): FieldAreas {
  * @template T 表示当前组件的值类型。
  */
 export default function Field<T>(props: FieldProps<T>): JSX.Element {
-    return <div class={props.class} ref={(el) => { if (props.ref) { props.ref(el); }}} classList={{
-        'c--field': true,
-        [`palette--${props.palette}`]: !!props.palette,
-        ...props.classList,
-    }}>
+    return <div class={classList(props.classList, styles.field, props.class, props.palette ? `palette--${props.palette}` : undefined)}
+        ref={(el) => { if (props.ref) { props.ref(el); } }}>
         <Show when={props.label}>
             <div style={fieldArea2Style(props.labelArea)}>{props.label}</div>
         </Show>
 
-        <div class="c--field-content" style={fieldArea2Style(props.inputArea)}>
+        <div class={styles.content} style={fieldArea2Style(props.inputArea)}>
             {props.children}
         </div>
         <Show when={props.hasHelp()}>
-            <p style={fieldArea2Style(props.helpArea)} role="alert" classList={{
-                'c--field_help': true,
-                'c--field_error': !!props.getError(),
-            }}>{props.getError() ?? props.help}</p>
+            <p style={fieldArea2Style(props.helpArea)} role="alert" class={joinClass(styles.help, props.getError() ? styles.error : undefined)}>
+                {props.getError() ?? props.help}
+            </p>
         </Show>
     </div>;
 }

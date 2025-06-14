@@ -1,0 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2024 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .label {
+        @apply flex items-center text-palette-fg;
+    }
+
+    .description {
+        @apply rounded-md flex flex-col text-palette-fg bg-palette-bg;
+
+        .title {
+            @apply px-3 pt-2 pb-0;
+        }
+
+        .desc {
+            @apply px-3 py-2 text-xs;
+        }
+    }
+}

@@ -22,7 +22,7 @@ export default function () {
     }>
         <Stage title="-1">
             <Timer unit={unit()} ref={el=>ref=el} duration={'23m34s'} startField={field()} interval={-1} autoStart />
-            <Button palette="primary" onClick={()=>ref!.toggle()}>toggle</Button>
+            <Button palette="primary" onClick={()=>ref!.toggle()}>切换暂停和启动状态</Button>
         </Stage>
 
         <Stage title="event:-1">

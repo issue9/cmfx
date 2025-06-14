@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Notify, Options, OptionsProvider, SystemDialog, notify, use as useComponents } from '@cmfx/components';
-import { API, Contrast, Mode, Problem, Return, Scheme, Token, UnitStyle } from '@cmfx/core';
+import { Contrast, Mode, Notify, Options, OptionsProvider, Scheme, SystemDialog, notify, use as useComponents } from '@cmfx/components';
+import { API, Problem, Return, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
@@ -199,7 +199,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
          */
         async refetchUser() { await userData.refetch(); },
 
-        set title(v: string) { act.title = v; },
+        setTitle(v: string) { act.setTitle(v); },
 
         switchConfig(id: string | number): void { act.switchConfig(id); },
 

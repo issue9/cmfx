@@ -7,11 +7,13 @@ import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } f
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 
+import { classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Accessor, calcLayoutFieldAreas, Field, FieldAccessor } from '@/form/field';
 import { IconComponent } from '@/icon';
 import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
+import styles from './style.module.css';
 
 export interface Props extends Omit<PickerProps, 'accessor'> {
     accessor: Accessor<[ValueType, ValueType]>;
@@ -65,10 +67,9 @@ export function DateRangePicker(props: Props): JSX.Element {
         popRef.showPopover();
     };
 
-    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
+    return <Field ref={(el) => fieldRef = el} class={classList(props.classList, props.class,styles.activator)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
@@ -78,11 +79,11 @@ export function DateRangePicker(props: Props): JSX.Element {
     >
         <div ref={el => anchorRef = el}
             classList={{
-                'c--date-activator-container': true,
-                'rounded': props.rounded
+                [styles['activator-container']]: true,
+                [styles.rounded]: props.rounded
             }}
         >
-            <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
+            <input tabIndex={props.tabindex} class={joinClass(styles.input, styles.range)} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())
             } onFocus={(e)=>{
                 togglePop(e);
@@ -95,7 +96,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 panelVal.setValue(ac1.getValue());
             }} />
             {props.arrowIcon!({class:'px-1 shrink-0'})}
-            <input tabIndex={props.tabindex} class="input range" disabled={props.disabled} readOnly placeholder={props.placeholder} value={
+            <input tabIndex={props.tabindex} class={joinClass(styles.input, styles.range)} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())
             } onFocus={(e)=>{
                 togglePop(e);

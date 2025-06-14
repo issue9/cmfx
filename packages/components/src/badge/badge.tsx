@@ -4,7 +4,8 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, classList } from '@/base';
+import styles from './style.module.css';
 
 /**
  * 组件的四个角
@@ -34,12 +35,10 @@ const presetProps: Readonly<Partial<Props>> = {
 export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
 
-    return <div class="c--badge">
+    return <div class={styles.badge}>
         {props.children}
-        <span classList={{
-            'point': true,
-            [props.pos as string]: true,
+        <span class={classList({
             [`palette--${props.palette}`]: !!props.palette,
-        }}>{ props.text }</span>
+        }, styles[props.pos!], styles.point)}>{ props.text }</span>
     </div>;
 }

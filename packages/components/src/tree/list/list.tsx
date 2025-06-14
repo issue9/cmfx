@@ -9,10 +9,11 @@ import { Dynamic } from 'solid-js/web';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { transitionDuration } from '@/base';
+import { joinClass, transitionDuration } from '@/base';
 import { Divider } from '@/divider';
 import type { Props as ContainerProps } from '@/tree/container';
 import { findItems, type Item } from '@/tree/item';
+import styles from './style.module.css';
 
 export interface Props extends ContainerProps {
     /**
@@ -39,7 +40,7 @@ export interface Props extends ContainerProps {
 }
 
 const presetProps: Readonly<Partial<Props>> = {
-    selectedClass: 'selected'
+    selectedClass: styles.selected
 };
 
 /**
@@ -120,16 +121,16 @@ export function List(props: Props): JSX.Element {
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
-                <div class="details">
-                    <div class="summary item" onclick={() => setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
+                <div class={styles.details}>
+                    <div class={joinClass(styles.summary, styles.item)} onclick={() => setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
                         {p.item.label}
-                        <Show when={open()} fallback={<IconArrowDown class="expand" />}>
-                            <IconArrowUp class="expand" />
+                        <Show when={open()} fallback={<IconArrowDown class={styles.expand} />}>
+                            <IconArrowUp class={styles.expand} />
                         </Show>
                     </div>
                     <Show when={p.item.items}>
-                        <menu classList={{ 'hidden-menu': !open() }}>
-                            <div class="menus">
+                        <menu classList={{ [styles['hidden-menu']]: !open() }}>
+                            <div class={styles.menus}>
                                 <All items={p.item.items!} indent={p.indent + 1} selectedIndex={p.selectedIndex} />
                             </div>
                         </menu>
@@ -142,7 +143,7 @@ export function List(props: Props): JSX.Element {
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
                     style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
                     classList={{
-                        'item': true,
+                        [styles.item]: true,
                         // anchor 的类型定义在 activeClass 属性
                         [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value,
                     }}
@@ -164,10 +165,7 @@ export function List(props: Props): JSX.Element {
         </Switch>;
     };
 
-    return <menu role="menu" classList={{
-        'c--list': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
+    return <menu role="menu" class={joinClass(styles.list, props.palette ? `palette--${props.palette}` : undefined)}>
         <All items={props.children} indent={1} selectedIndex={0} />
     </menu>;
 }

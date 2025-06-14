@@ -6,8 +6,9 @@ import { sleep } from '@cmfx/core';
 import { createSignal, createUniqueId, For, JSX, mergeProps, ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps, Palette } from '@/base';
+import { BaseProps, joinClass, Palette } from '@/base';
 import { Alert, Props as AlertProps } from './alert';
+import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
 
@@ -96,7 +97,7 @@ function initNotify(p: Props): JSX.Element {
         setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
     };
 
-    return <div classList={{'c--notify': true, [`palette--${p.palette}`]: !!p.palette }}>
+    return <div class={joinClass(styles.notify, p.palette ? `palette--${p.palette}` : undefined)}>
         <For each={msgs()}>
             {item => (
                 <Alert {...item} del={(id) => {

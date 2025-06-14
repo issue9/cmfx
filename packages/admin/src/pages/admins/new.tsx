@@ -39,10 +39,9 @@ export function New(props: Props): JSX.Element {
             <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <LinkButton href={props.backURL} palette='secondary'>
-                    <IconArrowBack />
-                    {l.t('_p.cancel')}
+                    <IconArrowBack />{l.t('_c.cancel')}
                 </LinkButton>
-                <Button type="submit" palette='primary'>{l.t('_p.ok')}</Button>
+                <Button type="submit" palette='primary'>{l.t('_c.ok')}</Button>
             </div>
         </Form>
     </Page>;

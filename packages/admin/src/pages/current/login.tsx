@@ -9,6 +9,7 @@ import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 import { user } from '@/components';
 import { use, useLocale } from '@/context';
 import { PassportComponents } from './passports';
+import styles from './style.module.css';
 
 export interface Props {
     /**
@@ -61,9 +62,9 @@ function LoginBox(props: Props): JSX.Element {
         setPassports(r.body!.map((v)=>[v.id,v.desc]));
     });
 
-    return <Page title="_p.current.login" class="p--login" style={{ 'background-image': props.bg }}>
-        <div class="form">
-            <div class="title">
+    return <Page title="_p.current.login" class={styles.login} style={{ 'background-image': props.bg }}>
+        <div class={styles.form}>
+            <div class={styles.title}>
                 <p class="text-2xl">{l.t('_p.current.login')}</p>
                 <Choice class='min-w-40' accessor={passport} options={translateEnums2Options<string>(passports(), l)} />
             </div>

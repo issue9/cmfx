@@ -1,0 +1,57 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .text-field {
+        @apply rounded-md border border-palette-fg-low flex justify-between text-center;
+        @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
+
+        >:first-child {
+            @apply !rounded-l-md;
+        }
+
+        >:last-child {
+            @apply !rounded-r-md;
+        }
+
+        .prefix-icon {
+            @apply px-1 !py-0 shrink-0 self-center w-auto;
+        }
+
+        .input {
+            @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
+
+            -webkit-appearance: textfield;
+            -moz-appearance: textfield;
+            appearance: textfield;
+
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    }
+
+    .text-field:has(:disabled) {
+        @apply border-palette-bg-low text-palette-bg-high;
+    }
+
+    .text-field.rounded {
+        @apply rounded-full;
+
+        >:first-child {
+            @apply !rounded-l-full;
+        }
+
+        >:last-child {
+            @apply !rounded-r-full;
+        }
+    }
+}

@@ -7,6 +7,7 @@ import IconCollapse from '~icons/material-symbols/collapse-content';
 import IconExpand from '~icons/material-symbols/expand-content';
 
 import { Props as BaseProps, Button, presetProps } from './button';
+import styles from './style.module.css';
 
 export interface Props extends Omit<BaseProps, 'onClick' | 'children' | 'icon'> {
     /**
@@ -29,9 +30,9 @@ export function FitScreenButton(props: Props): JSX.Element {
     return <Button square {...btnProps} onClick={() => {
         setFit(!fit());
         if (fit()) {
-            props.container().classList.add('c--fit-screen');
+            props.container().classList.add(styles['fit-screen']);
         } else {
-            props.container().classList.remove('c--fit-screen');
+            props.container().classList.remove(styles['fit-screen']);
         }
     }}>{fit() ? IconCollapse({}) : IconExpand({})}</Button>;
 }

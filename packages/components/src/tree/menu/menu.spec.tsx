@@ -8,6 +8,7 @@ import { describe, expect, test } from 'vitest';
 
 import { Item } from '@/tree/item';
 import { Menu } from './menu';
+import styles from './style.module.css';
 
 describe('Menu', async () => {
     const items: Array<Item> = [
@@ -41,7 +42,7 @@ describe('Menu', async () => {
     test('preset', async () => {
         const { container, unmount } = render(() => <Menu activator={<button>click</button>}>{[...items]}</Menu>);
         const c = container.children.item(0)!.lastChild;
-        expect(c).toHaveClass('c--menu');
+        expect(c).toHaveClass(styles.menu);
 
         unmount();
     });

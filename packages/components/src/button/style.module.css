@@ -1,0 +1,176 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    /************************* button ******************************/
+
+    .button {
+        @apply cursor-pointer py-1 px-3 text-nowrap text-palette-fg;
+        @apply border border-transparent outline-none rounded-md;
+        @apply flex items-center justify-center text-center;
+    }
+
+    .button.rounded {
+        @apply rounded-full;
+    }
+
+    .button.square {
+        @apply aspect-square !p-2;
+    }
+
+    .button.fill {
+        @apply text-palette-fg bg-palette-bg border-palette-bg;
+    }
+
+    .button.fill:enabled:hover,
+    .button.fill.checked,
+    .button.fill.link-enabled:hover,
+    .button.fill:focus-visible {
+        @apply !bg-(--bg-high);
+    }
+
+    .button.border {
+        @apply text-palette-fg bg-transparent border-palette-fg;
+    }
+
+    .button.border:enabled:hover,
+    .button.border.checked,
+    .button.border.link-enabled:hover,
+    .button.border:focus-visible {
+        @apply !bg-[var(--bg)];
+    }
+
+    .button.flat {
+        @apply bg-transparent;
+    }
+
+    .button.flat:enabled:hover,
+    .button.flat.checked,
+    .button.flat.link-enabled:hover,
+    .button.flat:focus-visible {
+        @apply !bg-[var(--bg-high)] border-[var(--bg-high)];
+    }
+
+    .button.link-disabled,
+    .button:disabled {
+        @apply cursor-not-allowed text-[var(--bg-low)];
+    }
+
+    /************************* group ******************************/
+
+    .group {
+        @apply text-[var(--fg)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
+        @apply overflow-clip;
+
+        .button {
+            @apply rounded-none border-none flex-1 py-1 px-3 text-[var(--fg)] outline-none;
+        }
+
+        .button.split {
+            @apply !border-l !border-palette-bg-low box-content;
+        }
+    }
+
+    .group.vertical {
+        @apply flex-col;
+    }
+
+    .group.rounded {
+        @apply rounded-full;
+    }
+
+    .group.fill {
+        @apply bg-[var(--bg-low)];
+
+        .button {
+            @apply bg-[var(--bg)];
+        }
+
+        .button:enabled:hover,
+        .button.link-enabled:hover,
+        .button:focus-visible {
+            @apply bg-[var(--bg-high)];
+        }
+    }
+
+    .group.border {
+        @apply text-[var(--bg)] bg-transparent border border-[var(--bg)];
+
+        .button {
+            @apply bg-transparent border-transparent;
+        }
+
+        .button:enabled:hover,
+        .button.link-enabled:hover,
+        .button:focus-visible {
+            @apply bg-[var(--bg)];
+        }
+
+        .button.split:enabled {
+            @apply !border-l-palette-bg;
+        }
+    }
+
+    .group.flat {
+        @apply bg-transparent text-[var(--bg)] pointer-events-none;
+
+        .button {
+            @apply bg-transparent border-transparent pointer-events-auto;
+        }
+
+        .button:enabled:hover,
+        .button.link-enabled:hover,
+        .button:focus-visible {
+            @apply bg-[var(--bg)];
+        }
+
+        .button.split:enabled {
+            @apply !border-l-transparent;
+        }
+    }
+
+    .group.flat:hover {
+        @apply !border-[var(--bg)];
+    }
+
+    .button.link-disabled *,
+    .group:disabled * {
+        @apply cursor-not-allowed text-palette-bg-low;
+    }
+
+    /************************* confirm ******************************/
+
+    .confirm-panel {
+        @apply p-4 gap-2 bg-palette-bg text-palette-fg mt-1 rounded-md m-0;
+
+    }
+
+    .confirm-actions {
+        @apply flex justify-end gap-2 mt-4;
+    }
+
+    .confirm-panel:popover-open {
+        @apply flex flex-col;
+    }
+
+    /************************* split ******************************/
+
+    .split-content {
+        @apply bg-palette-bg gap-y-1 rounded-md mt-1 border border-palette-bg-low m-0 flex flex-col;
+
+        .split-item {
+            @apply whitespace-nowrap justify-start rounded-none;
+        }
+    }
+
+    /********************* fit-screen **********************/
+
+    .fit-screen {
+        @apply !fixed !top-0 !left-0 !w-full !h-full !bg-palette-bg !z-[1000] p-4 overflow-y-scroll;
+    }
+}

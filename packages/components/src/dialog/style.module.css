@@ -1,0 +1,29 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .dialog {
+        @apply bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low;
+
+        >header {
+            @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low;
+
+            .close {
+                @apply p-[1px] cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-full;
+            }
+        }
+
+        >main {
+            @apply p-2;
+        }
+
+        >footer {
+            @apply flex justify-end p-2 gap-2 border-t border-t-palette-bg-low;
+        }
+    }
+}

@@ -8,28 +8,3 @@
 @import './tailwind.css';
 
 @import './global.css';
-
-@import './backtop/style.css';
-@import './badge/style.css';
-@import './button/style.css';
-@import './datetime/style.css';
-@import './card/style.css';
-@import './chart/style.css';
-@import './dialog/style.css';
-@import './divider/style.css';
-@import './drawer/style.css';
-@import './error/style.css';
-@import './form/style.css';
-@import './notify/style.css';
-@import './page/style.css';
-@import './pagination/style.css';
-@import './qrcode/style.css';
-@import './spin/style.css';
-@import './tab/style.css';
-@import './table/style.css';
-@import './theme/style.css';
-@import './timer/style.css';
-@import './tooltip/style.css';
-@import './typography/style.css';
-@import './tree/style.css';
-@import './wizard/style.css';

@@ -8,9 +8,10 @@ import IconNext from '~icons/material-symbols/chevron-right';
 import IconFirst from '~icons/material-symbols/first-page';
 import IconLast from '~icons/material-symbols/last-page';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -92,36 +93,33 @@ export function Pagination(props: Props): JSX.Element {
         setNexts(nv);
     });
 
-    return <nav classList={{
-        'c--pagination': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <Button square onclick={()=>change(1)} class="item"
+    return <nav class={joinClass(styles.pagination, props.palette ? `palette--${props.palette}`: undefined)}>
+        <Button square onclick={() => change(1)} class={styles.item}
             aria-label={l.t('_c.pagination.firstPage')}
             disabled={current()===1}><IconFirst /></Button>
 
-        <Button square onclick={()=>change(current()-1)} class="item" disabled={current()===1}
+        <Button square onclick={() => change(current() - 1)} class={styles.item} disabled={current()===1}
             aria-label={l.t('_c.pagination.prev')}><IconPrev /></Button>
 
         <For each={prevs()}>
             {(item)=>(
-                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</Button>
+                <Button aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
             )}
         </For>
 
-        <Button aria-label={current().toString()} aria-selected='true' class="item current">{current()}</Button>
+        <Button aria-label={current().toString()} aria-selected='true' class={joinClass(styles.item, styles.current)}>{current()}</Button>
 
         <For each={nexts()}>
             {(item)=>(
-                <Button aria-label={item.toString()} onclick={()=>change(item)} class="item">{item}</Button>
+                <Button aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
             )}
         </For>
 
-        <Button square onclick={()=>change(current()+1)} class="item"
+        <Button square onclick={()=>change(current()+1)}  class={styles.item}
             aria-label={l.t('_c.pagination.next')}
             disabled={current() >= props.count}><IconNext /></Button>
 
-        <Button square onclick={()=>change(props.count)} class="item"
+        <Button square onclick={()=>change(props.count)} class={styles.item}
             aria-label={l.t('_c.pagination.lastPage')}
             disabled={current() >= props.count}><IconLast /></Button>
     </nav>;

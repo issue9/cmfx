@@ -18,7 +18,7 @@ export default function() {
             {readonlyS}
             {disabledS}
             {layoutS}
-            <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <For each={palettesWithUndefined}>

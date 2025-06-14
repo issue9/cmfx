@@ -8,6 +8,7 @@ import { describe, expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
 import { Dialog, Ref } from './dialog';
+import styles from './style.module.css';
 
 describe('Dialog', () => {
     test('move', async () => {
@@ -17,7 +18,7 @@ describe('Dialog', () => {
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
         const c = container.children.item(0)! as HTMLElement;
-        expect(c).toHaveClass('c--dialog');
+        expect(c).toHaveClass(styles.dialog);
 
         ref!.move({ x: 10, y: 10 });
         expect(c.style.left).toEqual('10px');

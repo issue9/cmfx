@@ -82,7 +82,7 @@ export class TOTP implements PassportComponents {
 
         return <>
             <Show when={username}>
-                <ConfirmButton palette='error' icon rounded title={l.t('_p.current.unbindTOTP')} onClick={async () => {
+                <ConfirmButton palette='error' square rounded title={l.t('_p.current.unbindTOTP')} onClick={async () => {
                     const r = await api.delete(`/passports/${this.#id}`);
                     if (!r.ok) {
                         act.outputProblem(r.body);
@@ -93,7 +93,7 @@ export class TOTP implements PassportComponents {
             </Show>
 
             <Show when={!username}>
-                <Button icon rounded title={l.t('_p.current.bindTOTP')} onClick={async () => {
+                <Button square rounded title={l.t('_p.current.bindTOTP')} onClick={async () => {
                     const r = await api.post<Secret>(`/passports/${this.#id}/secret`);
                     if (!r.ok) {
                         act.outputProblem(r.body);

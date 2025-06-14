@@ -6,10 +6,12 @@ import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
 import { createEffect, JSX, Show } from 'solid-js';
 
+import { joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Accessor, FieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
 import { Tooltip, TooltipRef } from '@/tooltip';
+import styles from './style.module.css';
 
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
     accessor: Accessor<string>;
@@ -62,21 +64,18 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         });
     };
 
-    return <fieldset popover={props.popover} disabled={props.disabled} classList={{
-        'c--oklch-panel': true,
-        ['palette--'+props.palette]: !!props.palette
-    }}
-    ref={el => { if (props.ref) { props.ref(el); } }}>
+    return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
+        ref={el => { if (props.ref) { props.ref(el); } }}>
         <Range label='L:' fitHeight accessor={l} min={0} max={100} step={0.1} />
         <Range label='C:' fitHeight accessor={c} min={0} max={0.37} step={0.001} />
         <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
-        <div ref={el=>colorBlock=el} onClick={copy} class="color-block"
+        <div ref={el => colorBlock = el} onClick={copy} class={styles['color-block']}
             style={{ 'background': access.getValue(), 'color': props.wcag }}
         >{access.getValue()}</div>
         <Tooltip ref={el => tooltip = el}>{ loc.t('_c.copied') }</Tooltip>
         <Show when={props.wcag}>
             {(wcag)=>(
-                <div class="wcag">WCAG: <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span></div>
+                <div class={styles.wcag}>WCAG: <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span></div>
             )}
         </Show>
     </fieldset>;

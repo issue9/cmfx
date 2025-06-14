@@ -6,6 +6,7 @@ import { pop, PopPos } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
+import styles from './style.module.css';
 
 export interface Ref {
     /**
@@ -52,7 +53,7 @@ export default function Tooltip(props: Props): JSX.Element {
         }
     });
 
-    return <div popover='manual' class="c--tooltip" ref={el => ref = el}>
+    return <div popover='manual' class={styles.tooltip} ref={el => ref = el}>
         {props.children}
     </div>;
 }

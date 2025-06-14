@@ -4,7 +4,8 @@
 
 import { JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, Layout } from '@/base';
+import { BaseProps, classList, Layout } from '@/base';
+import styles from './style.module.css';
 
 export type Props = ParentProps<{
     /**
@@ -43,12 +44,10 @@ export function Divider(props: Props): JSX.Element {
 
     return <div role="separator" aria-orientation={props.layout}
         style={{ [props.layout === 'horizontal' ? 'padding-block' : 'padding-inline']: props.padding }}
-        classList={{
-            'c--divider': true,
-            'vertical': props.layout !== 'horizontal',
-            [`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]: true,
-            [`palette--${props.palette}`]: !!props.palette,
-        }}>
+        class={classList({
+            [styles.vertical]: props.layout !== 'horizontal',
+            [styles[`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]]: true,
+        }, styles.divider, props.palette ? `palette--${props.palette}` : undefined)}>
         {props.children}
     </div>;
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Label, Locale, Menu, TreeItem } from '@cmfx/components';
+import { Button, joinClass, Label, Locale, Menu, TreeItem } from '@cmfx/components';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
@@ -13,6 +13,7 @@ import { use, useLocale } from '@/context';
 import { MenuItem } from '@/options';
 import { Hotkey } from '@cmfx/core';
 import { Search } from './search';
+import styles from './style.module.css';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
@@ -33,15 +34,15 @@ export default function Toolbar(props: Props) {
         if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
     });
 
-    return <header role='toolbar' class="app-bar palette--tertiary">
-        <div class="title">
-            <img alt="logo" class="logo" src={opt.logo} />
-            <span class="name">{opt.title}</span>
+    return <header role='toolbar' class={joinClass(styles.appbar, 'palette--tertiary')}>
+        <div class={styles.title}>
+            <img alt="logo" class={styles.logo} src={opt.logo} />
+            <span class={styles.name}>{opt.title}</span>
         </div>
 
-        <div class="menu-icon">
+        <div class={styles.icon}>
             <Show when={act.isLogin()}>
-                <Button icon rounded type="button" kind='flat'
+                <Button square rounded type="button" kind='flat'
                     classList={{
                         'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
                         'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
@@ -56,7 +57,7 @@ export default function Toolbar(props: Props) {
             </Show>
         </div>
 
-        <div class="toolbar">
+        <div class={styles.toolbar}>
             <Show when={act.user() ? opt.toolbar.get('search') : false}>
                 {(hk) => <Search switch={props.switch} hotkey={hk()} />}
             </Show>
@@ -104,7 +105,7 @@ function fullscreen(hotkey?: Hotkey): JSX.Element {
         });
     };
 
-    return <Button hotkey={hotkey} icon type='button' kind='flat' rounded
+    return <Button hotkey={hotkey} square type='button' kind='flat' rounded
         onClick={toggleFullscreen} title={l.t('_c.fullscreen')}>
         {fs() ? <IconFullScreenExit /> : <IconFullScreen />}
     </Button>;

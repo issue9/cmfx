@@ -1,0 +1,35 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .field {
+        display: grid;
+        grid-template-rows: minmax(0, auto) 1fr minmax(0, auto);
+        grid-template-columns: minmax(0, auto) 1fr minmax(0, auto);
+        column-gap: 4px;
+        row-gap: 2px;
+        grid-template-areas: 'top-left top-center top-right'
+            'middle-left middle-center middle-right'
+            'bottom-left bottom-center bottom-right';
+        align-items: center;
+        justify-items: start;
+
+        .content {
+            @apply w-full h-full flex flex-col justify-center;
+        }
+
+        .help {
+            @apply text-sm text-palette-fg-low min-h-5;
+        }
+
+        /* 表单字段的错误提示组件 */
+        .error {
+            @apply text-error-fg;
+        }
+    }
+}

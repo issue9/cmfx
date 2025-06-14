@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Breakpoint } from '@cmfx/core';
+import { Breakpoint } from '@cmfx/components';
 
 import type { MenuItem } from './route';
 import { PickOptional } from './types';

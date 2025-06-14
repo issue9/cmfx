@@ -13,6 +13,7 @@ import { Provider } from '@/context/context';
 import { MenuItem } from '@/options';
 import { options } from '@/options/options.spec';
 import { buildItemsWithSearch, Search } from './search';
+import styles from './style.module.css';
 
 describe('search', async () => {
     Locale.init('en');
@@ -60,7 +61,7 @@ describe('search', async () => {
         });
 
         await sleep(500); // Provider 需要等待其 API 初始化完成。
-        expect(container.querySelector('.app-search')).toBeTruthy();
+        expect(container.querySelector('.'+styles.search)).toBeTruthy();
 
         // 默认为空
         let ul = container.querySelector('.list');
@@ -69,13 +70,13 @@ describe('search', async () => {
         // 搜索不存在的内容
         let input = container.querySelector('input');
         await user.type(input!, 'not-exists');
-        ul = container.querySelector('.list');
+        ul = container.querySelector('.'+styles.list);
         expect(ul!.children.length).toEqual(0);
 
         // 搜索存在的内容
         input!.value = ''; // 重置内容为空
         await user.type(input!, 'item');
-        ul = container.querySelector('.list');
+        ul = container.querySelector('.'+styles.llist);
         expect(ul!.children.length).toBeGreaterThan(0);
 
         unmount();

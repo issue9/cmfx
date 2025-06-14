@@ -7,6 +7,7 @@ import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
 import { use, useLocale } from '@/context';
+import styles from './style.module.css';
 
 export function Logout(): JSX.Element {
     const [, ctx, opt] = use();
@@ -19,7 +20,7 @@ export function Logout(): JSX.Element {
     });
 
     // 在网络不通时，ctx.logout 可能会非常耗时，所以此处展示一个简单的提示页面。
-    return <Page title="_p.current.logout" class="p--logout">
+    return <Page title="_p.current.logout" class={styles.logout}>
         {l.t('_p.current.loggingOut')}
     </Page>;
 }

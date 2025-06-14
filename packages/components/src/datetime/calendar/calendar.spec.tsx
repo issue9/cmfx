@@ -9,6 +9,7 @@ import { expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
 import { default as Calendar } from './calendar';
+import styles from './style.module.css';
 
 test('Calendar', async () => {
     const user = userEvent.setup();
@@ -19,7 +20,7 @@ test('Calendar', async () => {
     });
     await sleep(500); // Provider 是异步的，需要等待其完成加载。
     const c = container.children.item(0)! as HTMLElement;
-    expect(c).toHaveClass('c--calendar');
+    expect(c).toHaveClass(styles.calendar);
     
     const trs = c.querySelectorAll('tbody>tr');
     expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生

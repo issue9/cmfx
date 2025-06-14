@@ -10,6 +10,7 @@ import { expect, test } from 'vitest';
 
 import { Provider } from '@/context/context';
 import { options } from '@/options/options.spec';
+import styles from './style.module.css';
 import Toolbar from './toolbar';
 
 test('toolbar', async () => {
@@ -23,7 +24,7 @@ test('toolbar', async () => {
     });
 
     await sleep(500); // Provider 需要等待其 API 初始化完成。
-    expect(container.querySelector('.app-bar')).toBeTruthy();
+    expect(container.querySelector('.'+styles.appbar)).toBeTruthy();
 
     unmount();
 });

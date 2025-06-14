@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, Match, Switch, createMemo, createSignal } from 'solid-js';
+import { createMemo, createSignal, For, JSX, Match, Switch } from 'solid-js';
 
-import { BaseProps, Palette } from '@/base';
+import { BaseProps, joinClass, Palette } from '@/base';
 import { IconComponent } from '@/icon';
 import { Ref, Step as WizardStep } from '@/wizard/step';
+import styles from './style.module.css';
 
 export type { Ref } from '@/wizard/step';
 
@@ -55,26 +56,25 @@ export default function Stepper(props: Props): JSX.Element {
         });
     }
 
-    return <div class="c--stepper">
+    return <div class={styles.stepper}>
         <header>
             <For each={props.steps}>
                 {(step, idx) => {
                     const completed = createMemo(() => idx() <= index());
-                    return <div classList={{ 'step': true, 'completed': completed() }}>
-                        <Switch>
-                            <Match when={!step.icon}><span class="dot" /></Match>
-                            <Match when={step.icon && (step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>
-                                <span class="number">{idx() + 1}</span>
+                    return <div class={joinClass(styles.step, completed() ? styles.completed : undefined)}>
+                        <Switch fallback={<span class={styles.dot} />}>
+                            <Match when={(step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>
+                                <span class={styles.number}>{idx() + 1}</span>
                             </Match>
-                            <Match when={step.icon && ((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
-                                {(icon) => (icon() as IconComponent)({class:'icon'})}
+                            <Match when={((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
+                                {(componentFunc) => (componentFunc as IconComponent)({ class: styles.icon })}
                             </Match>
                         </Switch>
-                        <div class="title">{step.title}</div>
+                        <div class={styles.title}>{step.title}</div>
                     </div>;
                 }}
             </For>
         </header>
-        <div class="content">{props.steps[index()].content}</div>
+        <div class={styles.content}>{props.steps[index()].content}</div>
     </div>;
 }

@@ -4,10 +4,11 @@
 
 import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { use, useLocale } from '@/context';
 import { Choice, FieldAccessor, FieldOptions } from '@/form';
 import { Pagination } from './pagination';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -109,10 +110,7 @@ export function PaginationBar(props: Props): JSX.Element {
         };
     });
 
-    return <div class={props.class} classList={{
-        'c--pagination-bar': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
+    return <div class={joinClass(props.class, styles.bar, props.palette ? `palette--${props.palette}` : undefined)}>
         {l.t('_c.pagination.items', translateItems())}
         <div class="flex gap-2">
             <Choice accessor={sizeAccessor} options={sizesOptions()} />

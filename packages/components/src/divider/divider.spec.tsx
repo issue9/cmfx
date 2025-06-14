@@ -5,14 +5,16 @@
 import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
+import { joinClass } from '@/base';
 import { Divider } from './divider';
+import styles from './style.module.css';
 
 describe('Divider', async () => {
     test('pos=undefined', async () => {
         const { container, unmount } = render(() => <Divider>abc</Divider>);
         const c = container.children.item(0)!;
 
-        expect(c).toHaveClass('c--divider');
+        expect(c).toHaveClass(styles.divider);
         expect(c).toHaveTextContent('abc');
 
         unmount();
@@ -22,7 +24,7 @@ describe('Divider', async () => {
         const { container, unmount } = render(() => <Divider pos='end'>abc</Divider>);
         const c = container.children.item(0)!;
 
-        expect(c).toHaveClass('c--divider pos-end');
+        expect(c).toHaveClass(joinClass(styles.divider, styles['pos-end'])!);
         expect(c).toHaveTextContent('abc');
 
         unmount();
@@ -32,7 +34,7 @@ describe('Divider', async () => {
         const { container, unmount } = render(() => <Divider pos='center'>abc</Divider>);
         const c = container.children.item(0)!;
 
-        expect(c).toHaveClass('c--divider pos-center');
+        expect(c).toHaveClass(joinClass(styles.divider, styles['pos-center'])!);
         expect(c).toHaveTextContent('abc');
 
         unmount();

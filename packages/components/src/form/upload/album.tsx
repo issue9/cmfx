@@ -7,8 +7,10 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
+import { classList, joinClass } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
+import styles from './style.module.css';
 import { Props as BaseProps, Ref, Upload } from './upload';
 
 export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
@@ -68,9 +70,8 @@ export function Album(props: Props): JSX.Element {
         return { 'height': props.itemSize, 'width': props.itemSize };
     });
     
-    return <Field class={props.class}
+    return <Field class={classList(props.classList, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
-        classList={props.classList}
         hasHelp={access.hasHelp}
         help={props.help}
         getError={access.getError}
@@ -78,7 +79,7 @@ export function Album(props: Props): JSX.Element {
         label={props.label}
         palette={props.palette}
     >
-        <fieldset ref={el => dropRef = el} class="c--upload-content">
+        <fieldset ref={el => dropRef = el} class={styles['upload-content']}>
             <Upload ref={el => uploadRef = el}
                 fieldName={props.fieldName}
                 multiple={props.multiple}
@@ -102,17 +103,17 @@ export function Album(props: Props): JSX.Element {
                 }}
             </For>
             <Show when={props.auto && (props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                <button style={size()} class={'action' + (props.reverse ? ' start' : '')} onClick={async () => {
+                <button style={size()} class={joinClass(styles.action, props.reverse ? styles.start : '')} onClick={async () => {
                     uploadRef.pick();
                     await uploadRef.upload();
                 }}><IconUploadFile /></button>
             </Show>
             <Show when={!props.auto}>
                 <Show when={(props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                    <button style={size()} class={'action' + (props.reverse ? ' start' : '')} onClick={() => uploadRef.pick()}><IconAdd /></button>
+                    <button style={size()} class={joinClass(styles.action, props.reverse ? styles.start : '')} onClick={() => uploadRef.pick()}><IconAdd /></button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
-                    <button style={size()} class={'action' + (props.reverse ? ' start' : '')} onClick={() => uploadRef!.upload()}><IconUpload /></button>
+                    <button style={size()} class={joinClass(styles.action, props.reverse ? styles.start : '')} onClick={() => uploadRef!.upload()}><IconUpload /></button>
                 </Show>
             </Show>
         </fieldset>

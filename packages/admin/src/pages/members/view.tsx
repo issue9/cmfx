@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page } from '@cmfx/components';
+import { joinClass, Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
 import { user } from '@/components';
 import { use, useLocale } from '@/context';
+import styles from './style.module.css';
 import { Member } from './types';
-
 
 export interface PanelProps {
     /**
@@ -60,26 +60,26 @@ export function View(props: Props): JSX.Element {
         setPassports(r2.body!);
     });
 
-    return <Page title='_p.member.view' class="max-w-lg p--member-view">
-        <div class="info">
-            <img class="avatar" src={ member().avatar } alt="avatar" />
+    return <Page title='_p.member.view' class={ joinClass('max-w-lg', styles.view) }>
+        <div class={styles.info}>
+            <img class={styles.avatar} src={ member().avatar } alt="avatar" />
 
-            <div class="item">
+            <div class={styles.item}>
                 <dl><dt class="mr-2">{l.t('_p.id')}</dt><dd>{ member().id }</dd></dl>
                 <dl><dt class="mr-2">{l.t('_p.no')}</dt><dd>{ member().no }</dd></dl>
             </div>
 
-            <div class="item">
+            <div class={styles.item}>
                 <dl><dt class="mr-2">{l.t('_p.created')}</dt><dd>{ l.datetime(member().created) }</dd></dl>
                 <dl><dt class="mr-2">{l.t('_p.member.birthday')}</dt><dd>{l.datetime(member().birthday) }</dd></dl>
             </div>
 
-            <div class="item">
+            <div class={styles.item}>
                 <dl><dt class="mr-2">{l.t('_p.nickname')}</dt><dd>{ member().nickname }</dd></dl>
                 <dl><dt class="mr-2">{l.t('_p.sex')}</dt><dd>{ l.t(user.sexes.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
             </div>
 
-            <div class="item">
+            <div class={styles.item}>
                 <dl><dt class="mr-2">{l.t('_p.state')}</dt><dd>{ l.t(user.states.find((v)=>v[0]===member().state)![1]) }</dd></dl>
                 <dl>
                     <dt class="mr-2">{l.t('_p.member.passports')}</dt>

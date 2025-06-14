@@ -12,6 +12,7 @@ import IconPersonChk from '~icons/material-symbols/person-check';
 import IconRecord from '~icons/material-symbols/record-voice-over';
 
 import { use, useLocale } from '@/context';
+import styles from './style.module.css';
 
 export function MemStatistic(): JSX.Element {
     const [statistic, setStatistic] = createSignal<Statistic>({
@@ -35,23 +36,23 @@ export function MemStatistic(): JSX.Element {
         setStatistic(r.body!);
     });
 
-    return <div class="c--memstatistic">
-        <Description class="item" icon={IconGroup} title={l.t('_p.current.allMembers')}>
+    return <div class={styles.memstatistic}>
+        <Description class={styles.item} icon={IconGroup} title={l.t('_p.current.allMembers')}>
             <p class="text-5xl">{statistic().all}</p>
         </Description>
-        <Description class="item" icon={IconCalendar} title={l.t('_p.current.monthMembers')}>
+        <Description class={styles.item} icon={IconCalendar} title={l.t('_p.current.monthMembers')}>
             <p class="text-5xl">{statistic().month}</p>
         </Description>
-        <Description class="item" icon={IconWeek} title={l.t('_p.current.weekMembers')}>
+        <Description class={styles.item} icon={IconWeek} title={l.t('_p.current.weekMembers')}>
             <p class="text-5xl">{statistic().week}</p>
         </Description>
-        <Description class="item" icon={IconToday} title={l.t('_p.current.dayMembers')}>
+        <Description class={styles.item} icon={IconToday} title={l.t('_p.current.dayMembers')}>
             <p class="text-5xl">{statistic().day}</p>
         </Description>
-        <Description class="item" icon={IconPersonChk} title={l.t('_p.current.activeMembers')}>
+        <Description class={styles.item} icon={IconPersonChk} title={l.t('_p.current.activeMembers')}>
             <p class="text-5xl">{statistic().active}</p>
         </Description>
-        <Description class="item" icon={IconRecord} title={l.t('_p.current.onlineMembers')}>
+        <Description class={styles.item} icon={IconRecord} title={l.t('_p.current.onlineMembers')}>
             <p class="text-5xl">{statistic().online}</p>
         </Description>
     </div>;

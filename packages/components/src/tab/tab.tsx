@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-
 import { createSignal, For, JSX } from 'solid-js';
 
-import { BaseProps, Layout } from '@/base';
+import { BaseProps, classList, Layout } from '@/base';
 import { Button } from '@/button';
+import styles from './style.module.css';
 
 export interface Props<T extends string | number> extends BaseProps {
     rounded?: boolean;
@@ -42,15 +42,14 @@ export function Tab<T extends string | number>(props: Props<T>) {
         setVal(()=>v);
     };
 
-    return <fieldset role="group" class={props.class} disabled={props.disabled} classList={{
-        'c--tab': true,
-        'c--tab-rounded': props.rounded,
-        'vertical': props.layout === 'vertical',
+    return <fieldset role="group" disabled={props.disabled} class={classList({
+        [styles.rounded]: props.rounded,
+        [styles.vertical]: props.layout === 'vertical',
         [`palette--${props.palette}`]: !!props.palette
-    }}>
+    }, props.class, styles.tab)}>
         <For each={props.items}>
             {(item)=>(
-                <Button class="rounded-none" checked={val() == item[0]}
+                <Button class="!rounded-none" checked={val() == item[0]}
                     onClick={() => { change(item[0], props.value); }}
                 >{item[1]}</Button>
             )}

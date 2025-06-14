@@ -1,0 +1,27 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .oklch-panel {
+        @apply border border-palette-bg-low flex flex-col p-1 text-palette-fg bg-palette-bg rounded-[4px];
+
+        .color-block {
+            @apply h-8 w-full border border-palette-bg-low text-center leading-8 rounded-[4px] cursor-pointer mt-1;
+        }
+
+        .wcag {
+            @apply flex flex-row justify-between px-[1px] mt-1;
+        }
+    }
+
+    .oklch-activator {}
+
+    .oklch-activator-block {
+        @apply h-8 w-8 rounded-[4px] cursor-pointer border border-palette-fg;
+    }
+}

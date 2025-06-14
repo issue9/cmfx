@@ -9,3 +9,11 @@
 
 @import '@cmfx/components/style.css';
 @import '@cmfx/components/tailwind.css';
+
+@layer components {
+
+    /* 菜单项用到此内容 */
+    .selected {
+        @apply bg-primary-bg-high text-primary-fg-high;
+    }
+}

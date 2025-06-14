@@ -24,6 +24,7 @@ import { Label } from '@/typography';
 import type { Props as BaseProps } from './basic';
 import { BasicTable } from './basic';
 import { fromSearch, Params, saveSearch } from './search';
+import styles from './style.module.css';
 
 export interface Ref<T extends object> {
     /**
@@ -191,7 +192,7 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
             size.setValue(opt.pageSizes[1]);
         }
 
-        footer = <PaginationBar class="footer" palette={props.accentPalette}
+        footer = <PaginationBar class={styles.footer} palette={props.accentPalette}
             onPageChange={async(p) => { page.setValue(p); await refetch(); }}
             onSizeChange={async(s) => { size.setValue(s); await refetch(); }}
             page={page.getValue()} size={size.getValue()} sizes={props.pageSizes} total={total()} />;
@@ -201,11 +202,11 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
     const [striped, setStriped] = createSignal(props.striped);
     const [sticky, setSticky] = createSignal(props.stickyHeader);
 
-    const header = <header class="header">
+    const header = <header class={styles.header}>
         <Show when={props.queryForm}>
-            <form class="search">
+            <form class={styles.search}>
                 {props.queryForm!(queries)}
-                <div class="actions">
+                <div class={styles.actions}>
                     <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
                         {
                             type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon={IconCSV}>
@@ -240,10 +241,10 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
         </Show>
 
         <Show when={props.toolbar || props.systemToolbar}>
-            <div class="toolbar">
+            <div class={styles.toolbar}>
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
-                    <div class="system-toolbar">
+                    <div class={styles['system-toolbar']}>
                         <Menu hoverable direction='left' selectedClass='' activator={
                             <Button square rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
                         } onChange={(v) => {
@@ -275,14 +276,14 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                             {[
                                 {
                                     type: 'item', value: 'hoverable',
-                                    label: <label class="menu-item">
+                                    label: <label class={styles['menu-item']}>
                                         <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
                                         {l.t('_c.table.hoverable')}</label>
                                 },
                                 { type: 'divider' },
                                 {
                                     type: 'item', value: 'sticky-header',
-                                    label: <label class="menu-item">
+                                    label: <label class={styles['menu-item']}>
                                         <input type="checkbox" checked={sticky() !== undefined} onClick={(e) => {
                                             setSticky(sticky() === undefined ? '0px' : undefined);
                                             e.stopPropagation();
@@ -292,23 +293,23 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
                                 { type: 'divider' },
                                 {
                                     type: 'item', value: '0',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 0} />{l.t('_c.table.noStriped')}</label>,
+                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 0} />{l.t('_c.table.noStriped')}</label>,
                                 },
                                 {
                                     type: 'item', value: '2',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 2} />{l.t('_c.table.striped', { 'num': 2 })}</label>,
+                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 2} />{l.t('_c.table.striped', { 'num': 2 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '3',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 3} />{l.t('_c.table.striped', { 'num': 3 })}</label>,
+                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 3} />{l.t('_c.table.striped', { 'num': 3 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '4',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 4} />{l.t('_c.table.striped', { 'num': 4 })}</label>,
+                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 4} />{l.t('_c.table.striped', { 'num': 4 })}</label>,
                                 },
                                 {
                                     type: 'item', value: '5',
-                                    label: <label class="menu-item"><input type="radio" checked={striped() == 5} />{l.t('_c.table.striped', { 'num': 5 })}</label>,
+                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 5} />{l.t('_c.table.striped', { 'num': 5 })}</label>,
                                 },
                             ]}
                         </Menu>

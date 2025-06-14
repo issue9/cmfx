@@ -4,8 +4,9 @@
 
 import { JSX, mergeProps, Show } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { use } from '@/context';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -39,23 +40,23 @@ const presetProps: Readonly<Partial<Props>> = {
 export  function Error(props: Props) {
     props = mergeProps(presetProps, props);
     const [, act] = use();
-    act.title = props.header ?? '';
+    act.setTitle(props.header ?? '');
 
-    return <div class={props.palette ? `c--error palette--${props.palette}` : 'c--error'}>
+    return <div class={joinClass(styles.error, props.palette ? `palette--${props.palette}` : undefined)}>
         <Show when={props.header}>
             <h1>{props.header}</h1>
         </Show>
 
         <Show when={props.title}>
-            <p class="title">{props.title}</p>
+            <p class={styles.title}>{props.title}</p>
         </Show>
 
         <Show when={props.detail}>
-            <p class="detail">{props.detail}</p>
+            <p class={styles.detail}>{props.detail}</p>
         </Show>
 
         <Show when={props.children}>
-            <div class="content">{props.children}</div>
+            <div class={styles.content}>{props.children}</div>
         </Show>
     </div>;
 }

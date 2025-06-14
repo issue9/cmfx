@@ -6,8 +6,10 @@ import { Hotkey, pop } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
+import { classList } from '@/base';
 import { Props as BaseProps, presetProps as basePrsetProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
+import styles from './style.module.css';
 
 export type Item = { type: 'divider' } | {
     type: 'item';
@@ -64,7 +66,7 @@ export function SplitButton(props: Props) {
 
     const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
         <Button {...btnProps}>{props.children}</Button>
-        <Button class="split" ref={el=>downRef=el} square onClick={() => {
+        <Button class={styles.split} ref={el=>downRef=el} square onClick={() => {
             popElem.togglePopover();
 
             const anchor = group.getBoundingClientRect();
@@ -78,7 +80,7 @@ export function SplitButton(props: Props) {
 
     return <>
         {activator}
-        <div ref={el=>popElem=el} popover="manual" classList={{ 'c--split-button_content':true, [`palette--${props.palette}`]:!!props.palette}}>
+        <div ref={el=>popElem=el} popover="manual" class={classList({[`palette--${props.palette}`]:!!props.palette}, styles['split-content'])}>
             <For each={props.menus}>
                 {(item) => {
                     let ref: Ref;
@@ -92,7 +94,7 @@ export function SplitButton(props: Props) {
                             <hr class="border-palette-bg-low" />
                         </Match>
                         <Match when={item.type === 'item'}>
-                            <Button ref={el=>ref=el} kind='flat' disabled={(item as any).disabled} class="item" onClick={() => {
+                            <Button ref={el=>ref=el} kind='flat' disabled={(item as any).disabled} class={styles['split-item']} onClick={() => {
                                 (item as any).onClick();
                                 popElem.hidePopover();
                             }}>{(item as any).label}</Button>

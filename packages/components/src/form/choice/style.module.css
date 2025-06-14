@@ -1,0 +1,64 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .activator {
+        .activator-container {
+            @apply rounded-md border border-[var(--fg-low)] flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
+            @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
+
+            .input {
+                @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer items-center peer-read-only:cursor-default;
+
+                .chip {
+                    @apply rounded-full bg-[var(--bg-high)] px-2 flex flex-col justify-center hover:bg-[var(--bg-low)];
+                }
+
+                .placeholder {
+                    @apply text-[var(--fg-low)];
+                }
+            }
+
+            .expand {
+                @apply ml-auto;
+            }
+        }
+
+        .activator-container:has(:disabled) {
+            @apply cursor-not-allowed border-palette-bg-low;
+
+            .input {
+                @apply cursor-not-allowed text-palette-bg-low;
+            }
+
+            .expand {
+                @apply ml-auto items-center text-palette-bg-low;
+            }
+        }
+
+        .activator-container:focus {
+            @apply border-[var(--fg-high)];
+        }
+    }
+
+    .options {
+        @apply border border-palette-fg-low bg-palette-bg rounded-md max-h-[240px] overflow-y-auto box-border block;
+
+        li {
+            @apply p-2 hover:bg-palette-bg-high flex items-center cursor-pointer;
+
+            .tail {
+                margin-left: auto;
+            }
+        }
+
+        li.selected {
+            @apply bg-palette-bg-low hover:bg-palette-bg-high;
+        }
+    }
+}

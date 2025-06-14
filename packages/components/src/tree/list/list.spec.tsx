@@ -8,6 +8,7 @@ import { describe, expect, test } from 'vitest';
 
 import { Item } from '@/tree/item';
 import { List } from './list';
+import styles from './style.module.css';
 
 describe('List', async () => {
     const items: Array<Item> = [
@@ -41,7 +42,7 @@ describe('List', async () => {
     test('preset', async () => {
         const { container, unmount } = render(() => <List>{[...items]}</List>);
         const c = container.children.item(0)!;
-        expect(c).toHaveClass('c--list');
+        expect(c).toHaveClass(styles.list);
 
         unmount();
     });

@@ -28,7 +28,7 @@ export default function() {
             {roundedS}
             {disabledS}
             {layoutS}
-            <button class="c--button c--button-fill palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="palette--primary" onClick={() => txt.setError(txt.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <div class="flex flex-col gap-2 w-80">

@@ -10,6 +10,7 @@ import { expect, test } from 'vitest';
 import { Provider } from '@/context/context.spec';
 import { FieldAccessor } from '@/form/field';
 import { DatePanel } from './panel';
+import styles from './style.module.css';
 
 test('DatePanel', async () => {
     const user = userEvent.setup();
@@ -21,17 +22,17 @@ test('DatePanel', async () => {
     });
     await sleep(500); // Provider 是异步的，需要等待其完成加载。
     const c = container.children.item(0)! as HTMLElement;
-    expect(c).toHaveClass('c--date-panel');
+    expect(c).toHaveClass(styles.panel);
     
     const trs = c.querySelectorAll('tbody>tr');
     expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
 
     expect(curr).toBeUndefined(); // 未点击
-    await user.click(c.querySelector('.actions .left button') as HTMLElement); // 点击今日按钮
+    await user.click(c.querySelector(`.${styles.actions} .${styles.left} button`) as HTMLElement); // 点击今日按钮
     expect(parseInt(access.getValue().substring(0, 4))).toEqual(2024); // 未点击确认
     expect(curr).toEqual(1);
     
-    await user.click(c.querySelectorAll('.actions .right button').item(1) as HTMLElement); // 点击确认按钮
+    await user.click(c.querySelectorAll(`.${styles.actions} .${styles.right} button`).item(1) as HTMLElement); // 点击确认按钮
     expect(curr).toEqual(1);
     expect(parseInt(access.getValue().substring(0, 4))).toBeGreaterThan(2024);
 

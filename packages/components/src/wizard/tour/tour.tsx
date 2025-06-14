@@ -12,6 +12,7 @@ import { Dialog, DialogRef } from '@/dialog';
 import { IconComponent } from '@/icon';
 import { Label } from '@/typography';
 import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
+import styles from './style.module.css';
 
 export interface Ref extends WizardRef {
     /**
@@ -112,7 +113,7 @@ export default function Tour(props: Props): JSX.Element {
     const removeFocusClass = () => {
         for (let i = 0; i < props.steps.length; i++) {
             const el = document.getElementById(props.steps[i].id);
-            if (el) { el.classList.remove('c--tour-focus'); }
+            if (el) { el.classList.remove(styles.focus); }
         }
     };
 
@@ -127,15 +128,15 @@ export default function Tour(props: Props): JSX.Element {
 
             if (i === index() && open()) {
                 el.scrollIntoView({ behavior: 'smooth' });
-                el.classList.add('c--tour-focus');
+                el.classList.add(styles.focus);
                 ref.move(calcPopoverPos(ref, el.getBoundingClientRect(), step.pos, 8));
             } else {
-                el.classList.remove('c--tour-focus');
+                el.classList.remove(styles.focus);
             }
         }
     });
 
-    return <Dialog class="c--tour" ref={el => ref = el}
+    return <Dialog class={styles.tour} ref={el => ref = el}
         header={<Label icon={curr().icon}>{header()}</Label>}
         actions={<>
             {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}

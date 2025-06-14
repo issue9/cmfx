@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .tooltip {
+        @apply block px-3 py-2 text-sm rounded-sm border border-palette-bg-low bg-palette-bg text-palette-fg;
+    }
+}

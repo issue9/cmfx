@@ -7,6 +7,7 @@ import { A, useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { classList } from '@/base';
+import styles from './style.module.css';
 import { Props as BaseProps, presetProps } from './types';
 
 /**
@@ -50,13 +51,11 @@ export function LinkButton(props: Props) {
     // A.href 无法设置为 javascript:void(0)
     return <A {...linkProps} onClick={
         !props.disabled ? undefined : e => e.preventDefault()
-    } class={classList(props.class, {
-        'c--button': true,
-        'c--button-square': props.square,
-        [`c--button-${props.kind}`]: true,
+    } class={classList( {
+        [styles.square]: props.square,
         [`palette--${props.palette}`]: !!props.palette,
-        'rounded-full': props.rounded,
-        'link-enabled': !props.disabled,
-        'link-disabled': props.disabled
-    })}>{props.children}</A>;
+        [styles.rounded]: props.rounded,
+        [styles['link-enabled']]: !props.disabled,
+        [styles['link-disabled']]: props.disabled
+    },props.class, styles.button, styles[props.kind!])}>{props.children}</A>;
 }

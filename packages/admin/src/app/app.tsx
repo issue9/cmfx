@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, List } from '@cmfx/components';
+import { Drawer, joinClass, List } from '@cmfx/components';
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
@@ -11,6 +11,7 @@ import { use, useLocale } from '@/context';
 import { Provider } from '@/context/context';
 import { build as buildOptions, Options } from '@/options/options';
 import * as errors from './errors';
+import styles from './style.module.css';
 import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 
 /**
@@ -48,9 +49,9 @@ function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
 
     const root = (p: RouteSectionProps) => {
         return <Provider {...props.opt}>
-            <div class="app palette--surface">
+            <div class={ joinClass(styles.app, 'palette-surface') }>
                 <Toolbar menuVisible={menuVisible} switch={setSelected} />
-                <main class="app-main">{p.children}</main>
+                <main class={styles.main}>{p.children}</main>
             </div>
         </Provider>;
     };

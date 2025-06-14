@@ -2,21 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Item, List } from '@cmfx/components';
+import { List, TreeItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 
 import { arraySelector, Demo, paletteSelector, Stage } from '../base';
 
-export function selectedClassSelector(v?: string) {
-    return arraySelector('selected class', ['selected', '', undefined], v);
+export function selectedClassSelector(preset?: string) {
+    return arraySelector('selected class', ['selected', '', undefined], preset);
 }
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
 
-    const items: Array<Item> = [
+    const items: Array<TreeItem> = [
         {type: 'item', value: 'v1', label: 'v1'},
         {type: 'item', value: 'v2', label: 'v2'},
         {type: 'divider'},
@@ -35,12 +35,12 @@ export default function() {
         ]},
     ];
 
-    const items2: Array<Item> = [
+    const items2: Array<TreeItem> = [
         ...items,
         { type: 'item', value: 'v3', label: 'v3(control+alt+b)', hotkey: new Hotkey('b', 'control', 'alt') },
     ];
     
-    const items3: Array<Item> = [
+    const items3: Array<TreeItem> = [
         ...items,
         { type: 'item', value: 'v3', label: 'v3(control+c)', hotkey: new Hotkey('c', 'control') },
     ];

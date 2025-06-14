@@ -14,6 +14,7 @@ import { Divider } from '@/divider';
 import { Accessor, FieldAccessor, FieldOptions, ObjectAccessor, RadioGroup, Range, translateEnums2Options } from '@/form';
 import { MessagesKey } from '@/messages';
 import { Label } from '@/typography';
+import styles from './style.module.css';
 
 export interface Ref {
     /**
@@ -75,13 +76,13 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     if (props.ref) { props.ref(ref); }
 
     return <ThemeProvider mode={modeFA.getValue()} contrast={contrastFA.getValue()} scheme={schemeFA.object()}>
-        <div class="c--scheme-builder">
-            <div class="content">
-                <div class="toolbar">
+        <div class={styles.builder}>
+            <div class={styles.content}>
+                <div class={styles.toolbar}>
                     <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_c.theme.mode')} options={modes} />
                     <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={contrastFA} label={l.t('_c.theme.contrast')} options={contrasts} />
                     <Show when={props.actions}>
-                        <div class="last">
+                        <div class={styles.last}>
                             <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_c.reset') }</Button>
                             <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_c.theme.apply') }</Button>
                             <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_c.theme.export') }</Button>
@@ -115,29 +116,29 @@ function paletteBlock(p: Palette, a: Accessor<number>): JSX.Element {
             </>
         }</Label>
         <Divider padding='8px' />
-        <div class="blocks">
-            <div class="block">
+        <div class={styles.blocks}>
+            <div class={styles.block}>
                 <span style={{ 'background': `var(--${p}-bg-low)` }}></span>
                 {'--bg-low'}
             </div>
-            <div class="block">
+            <div class={styles.block}>
                 <span style={{ 'background': `var(--${p}-bg)` }}></span>
                 {'--bg'}
             </div>
-            <div class="block">
+            <div class={styles.block}>
                 <span style={{ 'background': `var(--${p}-bg-high)` }}></span>
                 {'--bg-high'}
             </div>
 
-            <div class="block">
+            <div class={styles.block}>
                 <span style={{ 'background': `var(--${p}-fg-low)` }}></span>
                 {'--fg-low'}
             </div>
-            <div class="block">
+            <div class={styles.block}>
                 <span style={{ 'background': `var(--${p}-fg)` }}></span>
                 {'--fg'}
             </div>
-            <div class="block">
+            <div class={styles.block}>
                 <span style={{ 'background': `var(--${p}-fg-high)` }}></span>
                 {'--fg-high'}
             </div>

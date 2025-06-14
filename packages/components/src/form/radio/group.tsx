@@ -4,8 +4,9 @@
 
 import { For, JSX, mergeProps } from 'solid-js';
 
-import { AvailableEnumType, Layout } from '@/base';
+import { AvailableEnumType, classList, Layout } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
+import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
     /**
@@ -30,9 +31,8 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
     }, props);
     const access = props.accessor;
     
-    return <Field class={props.class}
+    return <Field class={classList(props.classList, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
-        classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}
         getError={access.getError}
@@ -40,12 +40,12 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         label={props.label}
         palette={props.palette}>
         <div classList={{
-            'c--radio-group-content': true,
+            [styles['group-content']]: true,
             'flex-col': props.itemLayout === 'vertical'
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <label classList={{ 'border': props.block }} tabIndex={props.tabindex}>
+                    <label classList={{ [styles.border]: props.block }} tabIndex={props.tabindex}>
                         <input type="radio" class={props.block ? '!hidden' : undefined}
                             readOnly={props.readonly}
                             checked={item[0] === access.getValue()}

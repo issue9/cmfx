@@ -1,0 +1,103 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .login {
+        @apply justify-center h-full items-center;
+
+        background-image:
+            radial-gradient(circle at 85% 5%,
+                color-mix(in lch, var(--surface-bg), transparent) 0%,
+                color-mix(in lch, var(--surface-bg-low), transparent) 50%,
+                color-mix(in lch, var(--surface-bg-high), transparent) 50%,
+                color-mix(in lch, var(--surface-bg), transparent) 100%),
+            radial-gradient(circle at 15% 15%,
+                color-mix(in lch, var(--secondary-bg), transparent) 0%,
+                color-mix(in lch, var(--secondary-bg-low), transparent) 50%,
+                color-mix(in lch, var(--secondary-bg-high), transparent) 50%,
+                color-mix(in lch, var(--secondary-bg), transparent) 100%),
+            radial-gradient(circle at 75% 95%,
+                color-mix(in lch, var(--tertiary-bg), transparent) 0%,
+                color-mix(in lch, var(--tertiary-bg-low), transparent) 50%,
+                color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
+                color-mix(in lch, var(--tertiary-bg), transparent) 100%);
+
+        .form {
+            @apply flex justify-center flex-col gap-2 w-full xs:w-96 p-5;
+            @apply border border-palette-bg-low rounded-md bg-palette-bg shadow-md shadow-palette-bg-low;
+
+            form {
+                @apply flex justify-center flex-col gap-2 w-full;
+            }
+
+            .title {
+                @apply flex justify-between mb-8;
+            }
+        }
+
+        footer {
+            @apply flex gap-2 w-full xs:w-96 justify-between flex-wrap;
+
+            a:hover {
+                @apply text-palette-fg-low;
+            }
+
+            a:active {
+                @apply text-palette-fg-high;
+            }
+        }
+    }
+
+    .profile {
+        @apply max-w-xs;
+
+        .avatar {
+            @apply rounded-full border border-palette-bg-low w-24 h-24;
+        }
+
+        .name {
+            @apply flex flex-col my-4 items-start justify-center gap-2;
+        }
+
+        .form {
+            @apply flex flex-col w-full;
+
+            .actions {
+                @apply w-full flex justify-end gap-5;
+            }
+        }
+    }
+
+    .logout {
+        @apply items-center justify-center;
+    }
+
+    .dashboard {
+        .panel {
+            @apply flex flex-col rounded-md border border-palette-bg-low px-3 py-2;
+        }
+    }
+
+    .memstatistic {
+        @apply flex flex-row flex-wrap gap-5 items-center justify-center;
+
+        .item {
+            @apply flex-grow border border-palette-bg-low rounded-md text-center;
+        }
+    }
+
+    .settings {
+        .color-block {
+            @apply flex flex-wrap w-10;
+
+            span {
+                @apply w-5 h-5;
+            }
+        }
+    }
+}

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AxisChart, AxisRef, ConfirmButton, Divider, Label, Page, Tab } from '@cmfx/components';
+import { AxisChart, AxisRef, ConfirmButton, Divider, joinClass, Label, Page, Tab } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 import IconAction from '~icons/material-symbols/action-key';
 import IconBackup from '~icons/material-symbols/backup';
@@ -13,6 +13,7 @@ import IconInfo from '~icons/material-symbols/info';
 import IconChart from '~icons/material-symbols/ssid-chart';
 
 import { use, useLocale } from '@/context';
+import styles from './style.module.css';
 
 const mb = 1024 * 1024;
 
@@ -129,8 +130,8 @@ export function Info(): JSX.Element {
         await api.delete('/system/systat');
     });
 
-    return <Page title="_p.system.serverInfo" class="!max-w-lg p--system-info">
-        <fieldset class="panel w-[45%] max-sm:w-full">
+    return <Page title="_p.system.serverInfo" class={ joinClass('!max-w-lg', styles.info)}>
+        <fieldset class={joinClass(styles.panel, 'w-[45%]', 'max-sm:w-full')}>
             <Label icon={IconInfo} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
@@ -177,7 +178,7 @@ export function Info(): JSX.Element {
             <dl><dt>{l.t('_p.system.waitDuration')}</dt><dd>{db()?.waitDuration}</dd></dl>
         </fieldset>
 
-        <fieldset class="panel w-[45%] max-sm:w-full">
+        <fieldset class={joinClass(styles.panel, 'w-[45%]', 'max-sm:w-full')}>
             <Label icon={IconAction} tag='legend'>{l.t('_p.actions')}</Label>
 
             <ConfirmButton palette='secondary' onClick={async () => await act.clearCache()}>
@@ -197,7 +198,7 @@ export function Info(): JSX.Element {
                 <IconBackup class="mr-1" />{l.t('_p.system.backupDB')}
             </ConfirmButton>
             <span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron! })}</span>
-            <ul class="backup_list">
+            <ul class={styles.backup_list}>
                 <For each={backup()?.list}>
                     {(item) => (
                         <li>
@@ -216,7 +217,7 @@ export function Info(): JSX.Element {
             </ul>
         </fieldset>
 
-        <fieldset class="panel w-full">
+        <fieldset class={joinClass(styles.panel, 'w-full') }>
             <Label icon={IconChart} tag='legend'>{l.t('_p.system.states')}</Label>
             <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
                 ['cpu', l.t('_c.cpu') + ' (%)'],

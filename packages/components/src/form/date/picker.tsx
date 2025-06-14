@@ -7,10 +7,11 @@ import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } f
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { Layout } from '@/base';
+import { classList, Layout } from '@/base';
 import { useLocale } from '@/context';
 import { calcLayoutFieldAreas, Field } from '@/form/field';
-import { DatePanel, Props as PanelProps, presetProps } from './panel';
+import { DatePanel, Props as PanelProps, presetProps as prsetBaseProps } from './panel';
+import styles from './style.module.css';
 
 export interface Props extends PanelProps {
     layout?: Layout;
@@ -30,6 +31,11 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
     pop(popElem, ab, 2);
     return ret;
 }
+
+const presetProps: Partial<Props> = {
+    ...prsetBaseProps,
+    layout: 'horizontal' as Layout
+} as const;
 
 export function DatePicker(props: Props): JSX.Element {
     const l = useLocale();
@@ -57,10 +63,9 @@ export function DatePicker(props: Props): JSX.Element {
     const [hover, setHover] = createSignal(false);
     const close = () => { props.accessor.setValue(undefined); };
 
-    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--date-activator'}
+    return <Field ref={(el) => fieldRef = el} class={classList(props.classList, props.class, styles.activator)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
@@ -73,11 +78,11 @@ export function DatePicker(props: Props): JSX.Element {
             onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
             classList={{
-                'c--date-activator-container': true,
-                'rounded': props.rounded
+                [styles['activator-container']]: true,
+                [styles.rounded]: props.rounded
             }}
         >
-            <input class="input" tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
+            <input class={styles.input} tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac.getValue()) : l.date(ac.getValue())
             } />
             <Show when={hover() && ac.getValue()} fallback={<IconClose onClick={close} />}>
@@ -85,7 +90,7 @@ export function DatePicker(props: Props): JSX.Element {
             </Show>
         </div>
 
-        <DatePanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps}
+        <DatePanel class={styles.fixed} popover="manual" ref={el => panelRef = el} {...panelProps}
             ok={() => panelRef.hidePopover()}
             clear={() => panelRef.hidePopover()}
         />

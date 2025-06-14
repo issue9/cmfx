@@ -5,9 +5,10 @@
 import { Hotkey, pop } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { handleEvent } from '@/base';
+import { classList, handleEvent } from '@/base';
 import { useLocale } from '@/context';
 import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -68,9 +69,9 @@ export function ConfirmButton(props: Props) {
             popElem.togglePopover();
             pop(popElem, ref.getBoundingClientRect());
         }}>{props.children}</Button>
-        <div popover="manual" ref={el=>popElem=el} classList={{'c--confirm-button-panel':true, [`palette--${props.palette}`]:!!props.palette }}>
+        <div popover="manual" ref={el=>popElem=el} class={classList(undefined, props.palette ? `palette--${props.palette}`:undefined, styles['confirm-panel'])}>
             {props.prompt ?? l.t('_c.areYouSure')}
-            <div class="actions">
+            <div class={styles['confirm-actions']}>
                 <Button palette='secondary' onClick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>
                 <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
             </div>

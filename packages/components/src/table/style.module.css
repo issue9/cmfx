@@ -1,0 +1,84 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .table {
+        @apply bg-palette-bg text-palette-fg w-full rounded-md;
+
+        >table {
+            @apply w-full border-t border-b border-palette-fg-low;
+
+            .nodata {
+                @apply text-center w-full text-xl py-10;
+            }
+
+            tr {
+                @apply border-b border-palette-fg-low;
+            }
+
+            th,
+            td {
+                @apply px-2 py-1 text-left;
+            }
+
+            tbody tr:last-of-type {
+                @apply border-0;
+            }
+
+            thead th {
+                @apply py-2 bg-palette-bg-high;
+            }
+
+            tbody.hoverable {
+                tr.striped {
+                    @apply bg-palette-bg-low;
+                }
+
+                tr:hover {
+                    @apply bg-palette-bg-high;
+                }
+            }
+
+            tbody tr.striped {
+                @apply bg-palette-bg-low;
+            }
+        }
+
+        >table.fixed-layout {
+            table-layout: fixed;
+        }
+
+        .header {
+            @apply flex flex-col mb-2 print:hidden;
+
+            .search {
+                @apply flex flex-wrap items-center gap-2;
+
+                .actions {
+                    @apply ml-auto flex gap-2;
+                }
+            }
+
+            .toolbar {
+                @apply flex justify-start items-center;
+
+                .system-toolbar {
+                    @apply ml-auto flex gap-1;
+
+                    .menu-item {
+                        @apply flex cursor-pointer items-center gap-[2px];
+                    }
+                }
+            }
+        }
+
+        .footer {
+            @apply mt-2 print:hidden;
+        }
+    }
+}

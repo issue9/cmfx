@@ -1,0 +1,63 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .divider {
+        @apply flex items-center text-palette-bg-low whitespace-nowrap w-full h-[1px];
+    }
+
+    .divider::before,
+    .divider::after {
+        @apply w-full grow-1 h-[1px] bg-palette-bg-low;
+    }
+
+    .divider.pos-start::after,
+    .divider.pos-center::after {
+        @apply ml-1;
+    }
+
+    .divider.pos-center::before,
+    .divider.pos-end::before {
+        @apply mr-1;
+    }
+
+    .divider.pos-none::before,
+    .divider.pos-none::after,
+    .divider.pos-center::before,
+    .divider.pos-center::after,
+    .divider.pos-start::after,
+    .divider.pos-end::before {
+        content: '';
+    }
+
+    .divider.pos-start::before,
+    .divider.pos-end::after {
+        content: none;
+    }
+
+    /*************************** vertical ********************************/
+
+    .divider.vertical {
+        @apply flex-col h-full w-[1px];
+    }
+
+    .divider.vertical::before,
+    .divider.vertical::after {
+        @apply h-full grow-1 w-[1px];
+    }
+
+    .divider.vertical.pos-start::after,
+    .divider.vertical.pos-center::after {
+        @apply mt-1 ml-0;
+    }
+
+    .divider.vertical.pos-center::before,
+    .divider.vertical.pos-end::before {
+        @apply mb-1 mr-0;
+    }
+}

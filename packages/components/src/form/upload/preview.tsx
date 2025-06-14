@@ -1,9 +1,11 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, JSX } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
+
+import styles from './style.module.css';
 
 export interface URLProps {
     size: string;
@@ -15,13 +17,13 @@ export interface URLProps {
  * 根据 URL 生成的预览图
  */
 export function PreviewURL(props: URLProps): JSX.Element {
-    return <div class="preview" style={{
+    return <div class={styles.preview} style={{
         'width': props.size,
         'height': props.size,
         'background-image': isImageURL(props.url) ? props.url : '',
         'background-size': '100% 100%',
     }}>
-        <IconClose class="close" onClick={props.del} />
+        <IconClose class={styles.close} onClick={props.del} />
     </div>;
 }
 
@@ -45,13 +47,13 @@ export function PreviewFile(props: FileProps): JSX.Element {
         }
     });
 
-    return <div class="preview" style={{
+    return <div class={styles.preview} style={{
         'width': props.size,
         'height': props.size,
         'background-image': bg(),
         'background-size': '100% 100%',
     }}>
-        <IconClose class="close" onClick={props.del} />
+        <IconClose class={styles.close} onClick={props.del} />
     </div>;
 }
 

@@ -4,7 +4,8 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, classList, joinClass } from '@/base';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps, ParentProps {
     /**
@@ -13,7 +14,27 @@ export interface Props extends BaseProps, ParentProps {
     header?: JSX.Element;
 
     /**
-     * 自定义的 CSS 类
+     * 为标题容器追加新的 CSS 样式类
+     */
+    headerClass?: string;
+
+    /**
+     * 卡片的页脚部分
+     */
+    footer?: JSX.Element;
+
+    /**
+     * 为页脚容器追加新的 CSS 样式类
+     */
+    footerClass?: string;
+
+    /**
+     * 为内容容器追加新的 CSS 样式类
+     */
+    mainClass?: string;
+
+    /**
+     * 为整个组件容器追加新的 CSS 样式类
      */
     class?: string;
 }
@@ -22,13 +43,17 @@ export interface Props extends BaseProps, ParentProps {
  * 简单的卡片组件
  */
 export function Card(props: Props): JSX.Element {
-    return <div class={'c--card ' + (props.class ?? '') + ' ' +(props.palette ? `palette--${props.palette}` : '')}>
+    return <div class={classList({[`palette--${props.palette}`]: !!props.palette}, styles.card, props.class)}>
         <Show when={props.header}>
-            <div class="header">{ props.header }</div>
+            <header class={joinClass(styles.header, props.headerClass)}>{props.header}</header>
         </Show>
 
-        <div class="desc">
-            { props.children }
-        </div>
+        <main class={joinClass(styles.main, props.mainClass)}>
+            {props.children}
+        </main>
+
+        <Show when={props.footer}>
+            <footer class={joinClass(styles.footeer, props.footerClass)}>{props.footer}</footer>
+        </Show>
     </div>;
 }

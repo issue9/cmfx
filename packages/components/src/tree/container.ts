@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -15,9 +15,7 @@ export interface Props extends BaseProps {
     children: Array<Item>;
 
     /**
-     * 选中项的 CSS 类
-     *
-     * 默认值为 selected，如果不需要，则可以设置为 ''。
+     * 选中项的 CSS 类，如果不需要，则可以设置为 ''。
      */
     selectedClass?: string;
 }

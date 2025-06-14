@@ -4,8 +4,9 @@
 
 import { createUniqueId, JSX, mergeProps } from 'solid-js';
 
-import { Layout } from '@/base';
+import { classList, Layout } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, InputMode } from '@/form/field';
+import styles from './style.module.css';
 
 type Value = string | number | Array<string>;
 
@@ -28,16 +29,15 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     const access = props.accessor;
     const id = createUniqueId();
 
-    return <Field class={props.class}
+    return <Field class={classList(props.classList, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        classList={props.classList}
         hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={<label for={id}>{props.label}</label>}
         palette={props.palette}>
-        <textarea id={id} class="c--textarea" inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
+        <textarea id={id} class={styles.textarea} inputMode={props.inputMode} tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly} placeholder={props.placeholder}
             value={access.getValue()}
             onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />
     </Field>;

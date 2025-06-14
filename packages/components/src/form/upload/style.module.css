@@ -1,0 +1,54 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .upload-content {
+        @apply w-fit h-fit border rounded-md border-palette-fg-low;
+        @apply flex flex-wrap gap-2 p-2 items-center justify-start content-start;
+
+        .preview {
+            @apply relative border border-palette-bg-low p-1 rounded-sm order-10;
+
+            .close {
+                @apply absolute right-1 top-1 text-palette-fg;
+                @apply hover:text-palette-fg-high hover:cursor-pointer;
+            }
+        }
+
+        .action {
+            @apply relative border border-palette-bg-low p-1 rounded-sm order-11 flex items-center justify-center;
+            @apply text-2xl text-palette-fg-low;
+        }
+
+        .action.start {
+            @apply !order-1;
+        }
+    }
+
+    .upload-content:enabled {
+        .preview {
+            @apply hover:border-palette-fg-low;
+        }
+
+        .action {
+            @apply hover:enabled:border-palette-fg-low hover:disabled:cursor-not-allowed;
+        }
+    }
+
+    .upload-content:disabled {
+        @apply cursor-not-allowed text-palette-bg-low border-palette-bg-low;
+
+        .preview {
+            @apply cursor-not-allowed;
+        }
+
+        .action {
+            @apply cursor-not-allowed;
+        }
+    }
+}

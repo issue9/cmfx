@@ -8,6 +8,7 @@ import { describe, expect, test } from 'vitest';
 import { Provider } from '@/context/context.spec';
 import { sleep } from '@cmfx/core';
 import { Error } from './error';
+import styles from './style.module.css';
 
 describe('Error', () => {
     test('title', async () => {
@@ -16,9 +17,9 @@ describe('Error', () => {
         });
         await sleep(500);
         const c = container.children.item(0)!;
-        expect(c).toHaveClass('c--error');
+        expect(c).toHaveClass(styles.error);
         expect(c).toHaveTextContent('abc');
-        expect(c.querySelector('.title')).toHaveTextContent('title');
+        expect(c.querySelector('.'+styles.title)).toHaveTextContent('title');
 
         unmount();
     });
@@ -29,8 +30,8 @@ describe('Error', () => {
         });
         await sleep(500);
         const c = container.children.item(0)!;
-        expect(c).toHaveClass('c--error');
-        expect(c.querySelector('.detail')).toHaveTextContent('detail');
+        expect(c).toHaveClass(styles.error);
+        expect(c.querySelector('.'+styles.detail)).toHaveTextContent('detail');
 
         unmount();
     });

@@ -9,6 +9,8 @@ import IconAutomation from '~icons/material-symbols/automation';
 import IconFolderCode from '~icons/material-symbols/folder-code';
 import IconHost from '~icons/material-symbols/host';
 
+import styles from './style.module.css';
+
 interface Props {
     /**
      * 自定义关于页面的描述信息
@@ -25,7 +27,7 @@ export function About(props: Props): JSX.Element {
     const l = useLocale();
     const f = __CMFX_ABOUT__;
 
-    return <Page title='_p.system.about' class="p--about">
+    return <Page title='_p.system.about' class={styles.about}>
         {props.description && props.description({})}
 
         <Show when={f.serverDependencies}>
@@ -47,9 +49,9 @@ function renderPackage(title: string, pkgs: Array<Package>, icon?: IconComponent
         <Label class='px-1 text-lg' icon={icon} tag='legend'>{title}</Label>
         <For each={pkgs}>
             {(item) => (
-                <div class="item">
+                <div class={styles.item}>
                     <span>{item.name}</span>
-                    <span class="version">{item.version}</span>
+                    <span class={styles.version}>{item.version}</span>
                 </div>
             )}
         </For>

@@ -4,7 +4,9 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
+import { classList } from '@/base';
 import { FieldBaseProps } from '@/form/field';
+import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
     /**
@@ -30,12 +32,11 @@ const presetProps: Readonly<Props> = {
 export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <label tabIndex={props.tabindex} title={props.title} class={props.class} classList={{
+    return <label tabIndex={props.tabindex} title={props.title} class={classList({
         ...props.classList,
-        'c--checkbox': true,
-        'c--checkbox-border': props.block,
+        [styles.border]: props.block,
         [`palette--${props.palette}`]: !!props.palette
-    }}>
+    },props.class, styles.checkbox)}>
         <input type="checkbox"
             readOnly={props.readonly}
             disabled={props.disabled}

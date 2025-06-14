@@ -32,7 +32,7 @@ export default function() {
             {itemLayoutS}
             {blockS}
 
-            <button class="c--button c--button-fill palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
         </>
 
     }>

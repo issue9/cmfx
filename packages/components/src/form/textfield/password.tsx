@@ -8,6 +8,7 @@ import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
 import { Button } from '@/button';
 import { IconComponent } from '@/icon';
+import styles from './style.module.css';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfiled';
 
 export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'> {
@@ -25,7 +26,7 @@ export function Password(props: Props): JSX.Element {
 
     return <TextField {...fieldProps} type="password" ref={el=>ref=el} prefix={
         <Show when={props.icon}>
-            {props.icon!({class:'prefix-icon'})}
+            {props.icon!({class:styles['prefix-icon']})}
         </Show>
     } suffix={
         <Button kind='flat' disabled={props.disabled} square class="!px-1 !py-0 rounded-none"

@@ -9,6 +9,7 @@ import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
 import { Button } from '@/button';
 import { IconComponent } from '@/icon';
+import styles from './style.module.css';
 import { Props as BaseProps, TextField } from './textfiled';
 
 export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'|'inputMode'> {
@@ -56,7 +57,7 @@ export function Number(props: Props): JSX.Element {
 
     return <TextField {...fieldProps} type="number" prefix={
         <Show when={props.icon}>
-            {(icon)=>icon()({class:'prefix-icon'})}
+            {(icon)=>icon()({class:styles['prefix-icon']})}
         </Show>
     } suffix={
         <>

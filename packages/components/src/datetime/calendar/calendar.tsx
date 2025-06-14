@@ -13,6 +13,7 @@ import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
 import { Week, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
 import { Plugin } from './plugin';
+import styles from './style.module.css';
 
 /**
  * 日历 {@link Calendar} 的属性值
@@ -82,13 +83,9 @@ export default function Calendar(props: Props): JSX.Element {
 
     const [selected, setSelected] = createSignal(props.selected);
 
-    return <div style={props.style} class={classList(props.class, {
-        'c--calendar': true,
-        [`palette--${props.palette}`]: !!props.palette,
-        ...props.classList,
-    })}>
+    return <div style={props.style} class={classList(props.classList, styles.calendar, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <header>
-            <p class="title">{titleFormat()}</p>
+            <p class={styles.title}>{titleFormat()}</p>
             <div>
                 <ButtonGroup kind='fill'>
                     <Button title={l.t('_c.date.prevYear')} square onClick={() => setCurr(new Date(curr().getFullYear() - 1, curr().getMonth(), 1))}><IconArrowLeft /></Button>
@@ -100,7 +97,7 @@ export default function Calendar(props: Props): JSX.Element {
             </div>
         </header>
 
-        <table class="calendar">
+        <table class={styles.table}>
             <thead>
                 <tr>
                     <For each={weeks}>
@@ -123,19 +120,19 @@ export default function Calendar(props: Props): JSX.Element {
 
                                         if (props.onSelected) { props.onSelected(d, selected()); }
                                         setSelected(d);
-                                    }} classList={{
-                                        'disabled': !day[0],
-                                        'current': selected()
+                                    }} class={classList({
+                                        [styles.disabled]: !day[0],
+                                        [styles.current]: selected()
                                             && (selected()!.getMonth() === day[1])
                                             && (day[2] === selected()!.getDate())
                                             && (curr().getFullYear() === selected()!.getFullYear())
-                                    }}>
-                                        <span classList={{
-                                            'day': true,
-                                            'today': (day[1] === now.getMonth())
+                                    })}>
+                                        <span class={classList({
+                                            [styles.day]: true,
+                                            [styles.today]: (day[1] === now.getMonth())
                                                 && (curr().getFullYear() === now.getFullYear())
                                                 && (day[2] === now.getDate())
-                                        }}>{day[2]}</span>
+                                        })}>{day[2]}</span>
                                         <For each={props.plugins}>
                                             {(plugin) => { return plugin(d); }}
                                         </For>

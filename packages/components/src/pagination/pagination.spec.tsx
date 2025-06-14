@@ -9,6 +9,7 @@ import { expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
 import { Pagination } from './pagination';
+import styles from './style.module.css';
 
 test('pagination', async () => {
     const user = userEvent.setup();
@@ -19,7 +20,7 @@ test('pagination', async () => {
     });
     await sleep(500); // Provider 是异步的，需要等待其完成加载。
     const c = container.children.item(0)!;
-    expect(c).toHaveClass('c--pagination');
+    expect(c).toHaveClass(styles.pagination);
 
     await user.click(c.firstChild as HTMLElement);
     expect(curr!).toEqual(1);

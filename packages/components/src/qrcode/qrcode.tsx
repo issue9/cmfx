@@ -5,7 +5,8 @@
 import QRCodeStyling, { CornerDotType, CornerSquareType, DotType, ErrorCorrectionLevel, FileExtension, Options } from 'qr-code-styling';
 import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
+import styles from './style.module.css';
 
 export interface Ref {
     /**
@@ -134,8 +135,5 @@ export function QRCode(props: Props): JSX.Element {
         });
     }
 
-    return <span ref={setRef} classList={{
-        [`palette--${props.palette}`]: !!props.palette,
-        'c--qrcode': true,
-    }} />;
+    return <span ref={setRef} class={joinClass(styles.qrcode, props.palette ? `palette--${props.palette}` : undefined)} />;
 }

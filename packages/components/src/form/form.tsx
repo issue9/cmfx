@@ -7,6 +7,7 @@ import { JSX } from 'solid-js';
 import { BaseProps, classList } from '@/base';
 import { Spin } from '@/spin';
 import { FormAccessor } from './access';
+import styles from './style.module.css';
 
 export interface Props<T extends object, R = never, P = never> extends BaseProps {
     formAccessor: FormAccessor<T, R, P>;
@@ -28,11 +29,8 @@ export interface Props<T extends object, R = never, P = never> extends BaseProps
  * 表单组件
  */
 export function Form<T extends object, R = never, P = never>(props: Props<T,R,P>) {
-    return <form method={props.inDialog ? 'dialog' : undefined} {...props.formAccessor.events()} class={classList(props.class, {
-        ...props.classList,
-        'c--form':true,
-        [`palette--${props.palette}`]: !!props.palette,
-    })}>
+    return <form method={props.inDialog ? 'dialog' : undefined} {...props.formAccessor.events()}
+        class={classList(props.classList, styles.form, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <Spin spinning={props.formAccessor.submitting()}>{props.children}</Spin>
     </form>;
 }

@@ -8,6 +8,7 @@ import { BaseProps } from '@/base';
 import { useLocale } from '@/context';
 import { Spin } from '@/spin';
 import { Column } from './column';
+import styles from './style.module.css';
 
 export interface Props<T extends object> extends BaseProps {
     /**
@@ -80,17 +81,17 @@ export function BasicTable<T extends object>(props: Props<T>) {
 
     const hasCol = props.columns.findIndex((v) => !!v.colClass) >= 0;
 
-    return <Spin spinning={props.loading} palette={props.palette} class='c--table'
-        ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); }}}>
+    return <Spin spinning={props.loading} palette={props.palette} class={styles.table}
+        ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}>
         <Show when={props.extraHeader}>
             {props.extraHeader}
         </Show>
 
-        <table classList={{'fixed-layout': props.fixedLayout}}>
+        <table class={props.fixedLayout ? styles['fixed-layout'] : undefined}>
             <Show when={hasCol}>
                 <colgroup>
                     <For each={props.columns}>
-                        {(item)=>(<col class={item.colClass} />)}
+                        {(item) => (<col class={item.colClass} />)}
                     </For>
                 </colgroup>
             </Show>
@@ -101,23 +102,23 @@ export function BasicTable<T extends object>(props: Props<T>) {
             }}>
                 <tr>
                     <For each={props.columns}>
-                        {(item)=>(
-                            <th class={item.headClass ?? item.cellClass}>{ item.renderLabel ?? (item.label ?? item.id) }</th>
+                        {(item) => (
+                            <th class={item.headClass ?? item.cellClass}>{item.renderLabel ?? (item.label ?? item.id)}</th>
                         )}
                     </For>
                 </tr>
             </thead>
 
-            <tbody class={props.hoverable ? 'hoverable' : undefined}>
-                <Show when={props.items && props.items.length>0}>
+            <tbody class={props.hoverable ? styles.hoverable : undefined}>
+                <Show when={props.items && props.items.length > 0}>
                     <For each={props.items}>
-                        {(item, index)=>(
-                            <tr class={(props.striped && index() % props.striped === 0) ? 'striped' : undefined}>
+                        {(item, index) => (
+                            <tr class={(props.striped && index() % props.striped === 0) ? styles.striped : undefined}>
                                 <For each={props.columns}>
                                     {(h) => {
                                         const i = h.id in item ? (item as any)[h.id] : undefined;
                                         return <td class={h.cellClass}>
-                                            {h.renderContent ? h.renderContent(h.id, i, item) : (h.content ? h.content(h.id, i,item) : i)}
+                                            {h.renderContent ? h.renderContent(h.id, i, item) : (h.content ? h.content(h.id, i, item) : i)}
                                         </td>;
                                     }}
                                 </For>
@@ -125,9 +126,9 @@ export function BasicTable<T extends object>(props: Props<T>) {
                         )}
                     </For>
                 </Show>
-                <Show when={!props.items || props.items.length===0}>
+                <Show when={!props.items || props.items.length === 0}>
                     <tr>
-                        <td class="nodata" colSpan={props.columns.length}>{ l.t('_c.table.nodata') }</td>
+                        <td class={styles.nodata} colSpan={props.columns.length}>{l.t('_c.table.nodata')}</td>
                     </tr>
                 </Show>
             </tbody>

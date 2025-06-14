@@ -4,8 +4,9 @@
 
 import { createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { Layout } from '@/base';
+import { classList, Layout } from '@/base';
 import { Accessor, AutoComplete, calcLayoutFieldAreas, Field, FieldBaseProps, InputMode } from '@/form/field';
+import styles from './style.module.css';
 
 type Value = string | number | Array<string> | undefined;
 
@@ -52,9 +53,8 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     const access = props.accessor;
     const id = createUniqueId();
 
-    return <Field class={props.class}
+    return <Field class={classList(props.classList, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
-        classList={props.classList}
         help={props.help}
         hasHelp={access.hasHelp}
         getError={access.getError}
@@ -62,11 +62,11 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
         label={<label for={id}>{props.label}</label>}
         palette={props.palette}>
         <div classList={{
-            'c--text-field': true,
-            'c--text-field-rounded': props.rounded,
+            [styles['text-field']]: true,
+            [styles.rounded]: props.rounded,
         }}>
             <Show when={props.prefix}>{props.prefix}</Show>
-            <input id={id} class="input" type={props.type}
+            <input id={id} class={styles.input} type={props.type}
                 ref={el => { if (props.ref) { props.ref(el); } }}
                 inputMode={props.inputMode}
                 autocomplete={props.autocomplete}

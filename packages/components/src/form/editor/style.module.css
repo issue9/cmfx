@@ -1,0 +1,40 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .editor {
+        .ql-toolbar {
+            border-top-color: var(--fg-low) !important;
+            border-left-color: var(--fg-low) !important;
+            border-right-color: var(--fg-low) !important;
+            @apply rounded-t-md;
+        }
+
+        .ql-container {
+            border-bottom-color: var(--fg-low) !important;
+            border-left-color: var(--fg-low) !important;
+            border-right-color: var(--fg-low) !important;
+            @apply rounded-b-md;
+        }
+    }
+
+    .editor:has([contenteditable=true]):hover,
+    .editor:focus-within {
+        .ql-toolbar {
+            border-top-color: var(--fg-high) !important;
+            border-left-color: var(--fg-high) !important;
+            border-right-color: var(--fg-high) !important;
+        }
+
+        .ql-container {
+            border-bottom-color: var(--fg-high) !important;
+            border-left-color: var(--fg-high) !important;
+            border-right-color: var(--fg-high) !important;
+        }
+    }
+}

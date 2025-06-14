@@ -6,9 +6,10 @@ import { CancelMovable, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, Locale } from '@/base';
+import { BaseProps, classList, Locale } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
+import styles from './style.module.css';
 
 /**
  * {@link Props#actions} 元素中的点击事件
@@ -180,14 +181,12 @@ export function Dialog(props: Props): JSX.Element {
         ref.removeEventListener('toggle', dialogToggle);
     });
 
-    return <dialog class={props.class} ref={(el) => { props.ref(buildRef(el, l)); ref = el; }} classList={{
-        'c--dialog': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}>
+    return <dialog ref={(el) => { props.ref(buildRef(el, l)); ref = el; }}
+        class={classList(undefined, props.class, styles.dialog, props.palette ? `palette--${props.palette}` : undefined)}>
         <Show when={props.header}>
             <header ref={el => toolbar = el}>
                 {props.header}
-                <IconClose class="close" onClick={()=>ref.close('close')} />
+                <IconClose class={styles.close} onClick={() => ref.close('close')} />
             </header>
         </Show>
 

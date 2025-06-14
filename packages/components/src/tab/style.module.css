@@ -1,0 +1,30 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .tab {
+        @apply text-palette-bg bg-palette-bg-low flex border-solid border border-transparent rounded-l-md rounded-r-md;
+        @apply overflow-clip;
+
+        .item {
+            @apply rounded-none border-none flex flex-1 py-1 px-3 outline-none items-center justify-center text-center text-nowrap text-palette-fg;
+        }
+
+        .item.item-icon {
+            @apply p-2;
+        }
+    }
+
+    .tab.vertical {
+        @apply flex-col;
+    }
+
+    .tab.rounded {
+        @apply rounded-full;
+    }
+}

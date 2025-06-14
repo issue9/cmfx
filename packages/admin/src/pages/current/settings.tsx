@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Description, Divider, FieldAccessor, FieldOptions, Page, RadioGroup, use as useC } from '@cmfx/components';
-import { Contrast, Locale, Mode, Scheme, UnitStyle } from '@cmfx/core';
+import { Choice, Contrast, Description, Divider, FieldAccessor, FieldOptions, joinClass, Mode, Page, RadioGroup, Scheme, use as useC } from '@cmfx/components';
+import { Locale, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import IconContrast from '~icons/material-symbols/contrast';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
@@ -12,6 +12,7 @@ import IconSettings from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
 
 import { use, useLocale } from '@/context';
+import styles from './style.module.css';
 
 export function Settings(): JSX.Element {
     const [, act, opt] = useC();
@@ -39,7 +40,7 @@ export function Settings(): JSX.Element {
     const unitFA = FieldAccessor<UnitStyle>('unit', l.unitStyle);
     unitFA.onChange((v) => { act.switchUnitStyle(v); });
 
-    return <Page title='_p.current.settings' class="max-w-sm p--settings">
+    return <Page title='_p.current.settings' class={ joinClass('max-w-sm', styles.settings) }>
         <Description icon={/*@once*/IconSettings} title={l.t('_p.settings.mode')!}>
             {l.t('_p.settings.modeDesc')! }
         </Description>
@@ -106,7 +107,7 @@ export function Settings(): JSX.Element {
 
 function ColorBlock(props: {s: Scheme}): JSX.Element {
     // NOTE: 颜色的取值需与 core/theme/theme.css 中的设置相同。
-    return <div class="color-block">
+    return <div class={styles['color-block']}>
         <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .2 ${props.s.primary}), oklch(var(--l-low) .4 ${props.s.primary}))`}} />
         <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .2 ${props.s.secondary}), oklch(var(--l-low) .4 ${props.s.secondary}))`}} />
         <span style={{'background-color': `light-dark(oklch(var(--invert-l-low) .2 ${props.s.tertiary}), oklch(var(--l-low) .4 ${props.s.tertiary}))`}} />

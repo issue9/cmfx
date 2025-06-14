@@ -1,0 +1,15 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .backtop {
+        @apply hover:opacity-100 opacity-40 fixed right-4 bottom-4;
+        @apply transition-opacity;
+        @apply print:hidden;
+    }
+}

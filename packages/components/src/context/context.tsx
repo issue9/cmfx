@@ -115,7 +115,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 设置 HTML 文档的标题
          */
-        set title(v: string) {
+        setTitle(v: string) {
             if (!v) { v = v + options.titleSeparator + options.title; }
             document.title = v;
         },

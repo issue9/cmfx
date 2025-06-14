@@ -106,7 +106,7 @@ export class Webauthn implements PassportComponents {
         let tableRef: RemoteTableRef<Credential>;
 
         return <>
-            <Button icon rounded title={l.t('_p.current.bindWebauthn')} onClick={async () => {
+            <Button square rounded title={l.t('_p.current.bindWebauthn')} onClick={async () => {
                 dialogRef.showModal();
             }}><IconCredit /></Button>
 
@@ -121,7 +121,7 @@ export class Webauthn implements PassportComponents {
                             { id: 'last', label: l.t('_p.current.lastUsed'), content: (_, val) => l.datetime(val) },
                             {
                                 id: 'id', label: l.t('_p.actions'), renderContent: (_, val) => (
-                                    <ConfirmButton icon rounded palette='error' title={l.t('_p.current.unbindWebauthn')} onClick={async () => {
+                                    <ConfirmButton square rounded palette='error' title={l.t('_p.current.unbindWebauthn')} onClick={async () => {
                                         const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
                                         if (!r1.ok) {
                                             act.outputProblem(r1.body);

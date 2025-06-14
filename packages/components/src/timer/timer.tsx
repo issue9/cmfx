@@ -7,6 +7,7 @@ import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show }
 
 import { BaseProps, classList } from '@/base';
 import { useLocale } from '@/context';
+import styles from './style.module.css';
 
 export type Field = 'days' | 'hours' | 'minutes' | 'seconds';
 
@@ -172,50 +173,47 @@ export default function Timer(props: Props): JSX.Element {
         return s;
     };
 
-    return <div class={classList(props.class, {
-        ...props.classList,
-        'c--timer': true,
-    })}>
+    return <div class={classList(props.classList, styles.timer, props.class)}>
         <Show when={fields.get(props.startField!)! >= fields.get('days')!}>
-            <div class="item">
-                <span class="text">{format(dur().days ?? 0)}</span>
-                <Show when={props.unit}><span class="unit">{l.t('_c.timer.days')}</span></Show>
+            <div class={styles.item}>
+                <span class={styles.text}>{format(dur().days ?? 0)}</span>
+                <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.days')}</span></Show>
             </div>
-            <div class="sep">{props.separator}</div>
+            <div class={styles.sep}>{props.separator}</div>
         </Show>
 
         <Show when={fields.get(props.startField!)! >= fields.get('hours')!}>
-            <div class="item">
-                <span class="text">{
+            <div class={styles.item}>
+                <span class={styles.text}>{
                     format((dur().hours ?? 0) + (props.startField! === 'hours' ? (dur().days ?? 0) * 24 : 0))
                 }</span>
-                <Show when={props.unit}><span class="unit">{l.t('_c.timer.hours')}</span></Show>
+                <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.hours')}</span></Show>
             </div>
-            <div class="sep">{props.separator}</div>
+            <div class={styles.sep}>{props.separator}</div>
         </Show>
 
         <Show when={fields.get(props.startField!)! >= fields.get('minutes')!}>
-            <div class="item">
-                <span class="text">{
+            <div class={styles.item}>
+                <span class={styles.text}>{
                     format(
                         (dur().minutes ?? 0) +
                         (props.startField! === 'minutes' ? ((dur().days ?? 0) * 24*60 + (dur().hours ?? 0) * 60) : 0)
                     )
                 }</span>
-                <Show when={props.unit}><span class="unit">{l.t('_c.timer.minutes')}</span></Show>
+                <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.minutes')}</span></Show>
             </div>
-            <div class="sep">{props.separator}</div>
+            <div class={styles.sep}>{props.separator}</div>
         </Show>
 
         <Show when={fields.get(props.startField!)! >= fields.get('seconds')!}>
-            <div class="item">
-                <span class="text">{
+            <div class={styles.item}>
+                <span class={styles.text}>{
                     format(
                         (dur().seconds ?? 0) +
                         (props.startField === 'seconds' ? ((dur().days ?? 0) * 24*60*60 + (dur().hours ?? 0) * 60*60 + (dur().minutes ?? 0) * 60) : 0)
                     )
                 }</span>
-                <Show when={props.unit}><span class="unit">{l.t('_c.timer.seconds')}</span></Show>
+                <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.seconds')}</span></Show>
             </div>
         </Show>
     </div>;

@@ -8,11 +8,12 @@ import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { Palette } from '@/base';
+import { classList, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
 import { Accessor, FieldBaseProps } from '@/form/field';
+import styles from './style.module.css';
 
 export type ValueType = string | number | undefined;
 
@@ -133,9 +134,9 @@ export function DatePanel(props: Props): JSX.Element {
         onCleanup(() => { resizeObserver.disconnect(); });
     });
 
-    const title = <div class="title">
+    const title = <div class={styles.title}>
         <div class="flex justify-center items-center">
-            <Button tabIndex={props.tabindex} square rounded kind='flat' class="btn"
+            <Button tabIndex={props.tabindex} square rounded kind='flat' class={styles.btn}
                 title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -144,7 +145,7 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setFullYear(dt.getFullYear() - 1);
                     setValue(dt);
                 }}><IconArrowLeft /></Button>
-            <Button tabIndex={props.tabindex} square rounded kind='flat' class="btn"
+            <Button tabIndex={props.tabindex} square rounded kind='flat' class={styles.btn}
                 title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -158,7 +159,7 @@ export function DatePanel(props: Props): JSX.Element {
         <div>{titleFormat()}</div>
 
         <div class="flex">
-            <Button tabIndex={props.tabindex} square rounded kind="flat" class="btn"
+            <Button tabIndex={props.tabindex} square rounded kind="flat" class={styles.btn}
                 title={l.t('_c.date.nextMonth')} aria-label={l.t('_c.date.nextMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -167,7 +168,7 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setMonth(dt.getMonth() + 1);
                     setValue(dt);
                 }}><IconChevronRight /></Button>
-            <Button tabIndex={props.tabindex} square rounded kind="flat" class="btn"
+            <Button tabIndex={props.tabindex} square rounded kind="flat" class={styles.btn}
                 title={l.t('_c.date.nextYear')} aria-label={l.t('_c.date.nextYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -180,14 +181,14 @@ export function DatePanel(props: Props): JSX.Element {
     </div>;
 
     const timer = <div ref={el => timeRef = el} classList={{
-        'time': true,
+        [styles.time]: true,
         '!flex': props.time,
         '!hidden': !props.time,
     }}>
-        <ul class="item">
+        <ul class={styles.item}>
             <For each={hoursOptions}>
                 {(item) => (
-                    <li classList={{ 'selected': panelValue().getHours() == item[0] }}
+                    <li classList={{ [styles.selected]: panelValue().getHours() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
                             const dt = new Date(panelValue());
@@ -199,10 +200,10 @@ export function DatePanel(props: Props): JSX.Element {
             </For>
         </ul>
 
-        <ul class="item">
+        <ul class={styles.item}>
             <For each={minutesOptions}>
                 {(item) => (
-                    <li classList={{ 'selected': panelValue().getMinutes() == item[0] }}
+                    <li classList={{ [styles.selected]: panelValue().getMinutes() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
                             const dt = new Date(panelValue());
@@ -220,7 +221,7 @@ export function DatePanel(props: Props): JSX.Element {
             <colgroup>
                 <For each={weeks}>
                     {(w) => (
-                        <col classList={{ 'weekend': weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
+                        <col classList={{ [styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
                     )}
                 </For>
             </colgroup>
@@ -243,7 +244,7 @@ export function DatePanel(props: Props): JSX.Element {
                         <For each={week}>
                             {(day) => (
                                 <td>
-                                    <button tabIndex={props.tabindex} classList={{ 'selected': day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
+                                    <button tabIndex={props.tabindex} classList={{ [styles.selected]: day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
                                         disabled={!day[0] || props.disabled}
                                         onClick={() => {
                                             if (props.readonly || props.disabled) { return; }
@@ -261,19 +262,18 @@ export function DatePanel(props: Props): JSX.Element {
         </tbody>
     </table>;
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled} class={props.class} classList={{
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled} class={classList({
         ...props.classList,
-        'c--date-panel': true,
         [`palette--${props.palette}`]: !!props.palette
-    }}>
-        <div class="main">
+    }, styles.panel, props.class)}>
+        <div class={styles.main}>
             <div ref={el => dateRef = el}>{title}{daysSelector}</div>
             {timer}
         </div>
 
-        <div class="actions">
-            <div class="left">
-                <button tabIndex={props.tabindex} class="action" onClick={() => {
+        <div class={styles.actions}>
+            <div class={styles.left}>
+                <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
                     const now = new Date();
                     if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
                     setValue(now);
@@ -281,14 +281,14 @@ export function DatePanel(props: Props): JSX.Element {
                 }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</button>
             </div>
 
-            <div class="right">
-                <button tabIndex={props.tabindex} class="action" onClick={() => {
+            <div class={styles.right}>
+                <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
                     // 清除只对 accessor 的内容任务清除，panelValue 不变。
                     props.accessor.setValue(undefined);
                     if (props.clear) { props.clear(); }
                 }}>{l.t('_c.date.clear')}</button>
 
-                <button tabIndex={props.tabindex} classList={{ 'action': true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
+                <button tabIndex={props.tabindex} classList={{ [styles.action]: true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
                     props.accessor.setValue(untrack(panelValue).toISOString());
                     if (props.ok) { props.ok(); }
                 }}>{l.t('_c.ok')}</button>

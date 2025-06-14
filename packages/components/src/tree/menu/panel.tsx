@@ -8,9 +8,11 @@ import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Switch }
 import { Dynamic } from 'solid-js/web';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 
+import { joinClass } from '@/base';
 import { Divider } from '@/divider';
 import type { Props as ContainerProps } from '@/tree/container';
 import { Item } from '@/tree/item';
+import styles from './style.module.css';
 
 export type Ref = HTMLMenuElement;
 
@@ -38,7 +40,7 @@ export interface Props extends ContainerProps {
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
-    selectedClass: 'selected',
+    selectedClass: styles.selected,
     direction: 'right'
 } as const;
 
@@ -54,7 +56,7 @@ export default function Panel (props: Props): JSX.Element {
                         <Divider />
                     </Match>
                     <Match when={item.type === 'group'}>
-                        <p class="group">{(item as any).label}</p>
+                        <p class={styles.group}>{(item as any).label}</p>
                         <All items={(item as any).items} />
                     </Match>
                     <Match when={item.type === 'item'}>
@@ -81,10 +83,10 @@ export default function Panel (props: Props): JSX.Element {
 
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
-                <li class="item">
+                <li class={styles.item}>
                     {p.item.label}
-                    <IconChevronRight class="expand" />
-                    <menu classList={{ 'c--menu': true, [props.direction!]: true }}>
+                    <IconChevronRight class={styles.expand} />
+                    <menu class={joinClass(styles.menu, styles[props.direction!])}>
                         <All items={p.item.items as Array<Item>} />
                     </menu>
                 </li>
@@ -94,7 +96,7 @@ export default function Panel (props: Props): JSX.Element {
                     activeClass={props.selectedClass}
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
                     classList={{
-                        'item': true,
+                        [styles.item]: true,
                         // anchor 的类型定义在 activeClass 属性
                         [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value,
                     }}
@@ -118,8 +120,8 @@ export default function Panel (props: Props): JSX.Element {
         </Switch>;
     };
 
-    return <menu popover={props.popover} role="menu" ref={(el: Ref) => { if (props.ref) { props.ref(el); }}} classList={{
-        'c--menu': true,
-        [`palette--${props.palette}`]: !!props.palette
-    }}><All items={props.children} /></menu>;
+    return <menu popover={props.popover} role="menu" ref={(el: Ref) => { if (props.ref) { props.ref(el); }}}
+        class={joinClass(styles.menu, props.palette ? `palette--${props.palette}` : undefined)}>
+        <All items={props.children} />
+    </menu>;
 }

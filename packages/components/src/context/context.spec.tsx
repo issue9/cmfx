@@ -47,6 +47,6 @@ test('buildActions',  () => {
     const act = buildActions(createStore({...options}));
     expect(act).not.toBeUndefined();
 
-    act.title = 't';
+    act.setTitle('t');
     expect(document.title, 't' + options.titleSeparator + options.title);
 });

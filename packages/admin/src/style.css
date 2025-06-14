@@ -5,11 +5,7 @@
  */
 
 @import 'tailwindcss' source('.');
-
 @import '@cmfx/components/tailwind.css';
-
-@import './pages/style.css';
-@import './app/style.css';
 
 .view-full {
     width: 100dvw;

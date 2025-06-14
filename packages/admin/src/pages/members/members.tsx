@@ -93,13 +93,13 @@ export function Members(props: Props): JSX.Element {
                 id: 'actions', cellClass:'no-print', label: l.t('_p.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
-                            <LinkButton icon rounded palette='tertiary'
+                            <LinkButton square rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
                                 title={l.t('_p.member.view')}><IconVisibility /></LinkButton>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
-                            <Button icon rounded palette='error' title={l.t('_p.admin.lockUser')} onClick={async () => {
+                            <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onClick={async () => {
                                 const r = await api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);
@@ -110,7 +110,7 @@ export function Members(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button icon rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onClick={async () => {
+                            <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onClick={async () => {
                                 const r = await api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);

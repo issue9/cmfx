@@ -40,7 +40,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
-    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' c--oklch-activator'}
+    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' oklch-activator'}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         classList={props.classList}
@@ -55,7 +55,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
             onClick={() => togglePop(anchorRef, panelRef)}
             style={{ 'background': props.accessor.getValue() }}
             classList={{
-                'c--oklch-activator-block': true,
+                'oklch-activator-block': true,
                 'rounded-full': props.rounded
             }}
         />

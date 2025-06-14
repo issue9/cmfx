@@ -4,9 +4,10 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { IconComponent } from '@/icon';
 import { Label } from './label';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps, ParentProps {
     /**
@@ -26,11 +27,11 @@ export interface Props extends BaseProps, ParentProps {
  * 一长段内容的描述信息，可带一个标题。
  */
 export function Description(props: Props): JSX.Element {
-    return <div class={'c--description ' + (props.class ?? '') + ' ' +(props.palette ? `palette--${props.palette}` : '')}>
+    return <div class={joinClass(styles.description, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <Show when={props.icon || props.title}>
-            <Label class="title" palette={props.palette} icon={props.icon}>{ props.title }</Label>
+            <Label class={styles.title} palette={props.palette} icon={props.icon}>{ props.title }</Label>
         </Show>
-        <div class="desc">
+        <div class={styles.desc}>
             { props.children }
         </div>
     </div>;

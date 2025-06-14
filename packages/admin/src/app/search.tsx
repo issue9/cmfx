@@ -11,6 +11,7 @@ import IconSearch from '~icons/material-symbols/search';
 
 import { use, useLocale } from '@/context';
 import { MenuItem } from '@/options';
+import styles from './style.module.css';
 
 interface Item {
     value: string;
@@ -49,7 +50,7 @@ export function Search(props: Props): JSX.Element {
         if (!currItem) { currItem = listRef.firstChild as HTMLElement; }
         if (!currItem) { return; } // 不存在符合条件的元素，直接返回。
 
-        currItem.classList.remove('selected');
+        currItem.classList.remove(styles.selected);
 
         switch (e.key) {
         case 'ArrowDown':
@@ -67,7 +68,7 @@ export function Search(props: Props): JSX.Element {
         }
 
         if (currItem) { // 如果没有候选项的话，currItem 此时为空。
-            currItem.classList.add('selected');
+            currItem.classList.add(styles.selected);
             currItem.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
 
@@ -81,7 +82,7 @@ export function Search(props: Props): JSX.Element {
 
     const nav = useNavigate();
     return <>
-        <Dialog ref={el => dlgRef = el} class="app-search" actions={
+        <Dialog ref={el => dlgRef = el} class={styles.search} actions={
             <div class="w-full">
                 <div class="w-full text-left" innerHTML={l.t('_p.app.keyDesc')}></div>
             </div>
@@ -93,7 +94,7 @@ export function Search(props: Props): JSX.Element {
             } prefix={<IconSearch class="ms-1 self-center w-auto" />}
             />
 
-            <ul ref={el=>listRef=el} onKeyDown={handleKeyDown} tabindex={-1} class="list">
+            <ul ref={el => listRef = el} onKeyDown={handleKeyDown} tabindex={-1} class={styles.list}>
                 <For each={items()}>{(item) => (
                     <li onClick={()=>{
                         props.switch(item.value);
@@ -104,7 +105,7 @@ export function Search(props: Props): JSX.Element {
             </ul>
         </Dialog>
 
-        <Button icon type='button' kind='flat' rounded hotkey={props.hotkey}
+        <Button square type='button' kind='flat' rounded hotkey={props.hotkey}
             title={l.t('_c.search')}
             onClick={showSearch}><IconSearch /></Button>
     </>;

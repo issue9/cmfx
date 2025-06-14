@@ -44,23 +44,27 @@ export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, 
 /**
  * 将 solidjs 中的 classList 内容转换为 class 属性
  *
- * @param cls 组件的 class 属性；
  * @param list 组件的 classList 对象；
+ * @param cls CSS 类名列表；
  * @returns 转换而来的 class 属性值；
  */
-export function classList(cls?: string, list?: JSX.CustomAttributes<HTMLElement>['classList']): string | undefined {
-    if (!list) { return cls; }
+export function classList(list?: JSX.CustomAttributes<HTMLElement>['classList'], ...cls: Array<string|undefined>): string | undefined {
+    if (!list) { return joinClass(...cls); }
 
     const entries = Object.entries(list);
-    if (entries.length === 0) { return cls; }
+    if (entries.length === 0) { return joinClass(...cls); }
 
-    let ret = '';
-    entries.forEach(item => {
-        if (item[1]) { ret += item[0] + ' '; }
-    });
-    
-    if (cls) {
-        ret += cls;
-    }
-    return ret;
+    const items = entries.map(item => item[1] ? item[0] : undefined);
+    items.push(...cls);
+
+    return joinClass(...items);
+}
+
+/**
+ * 将多个 CSS 的类名组合成 class 属性值
+ */
+export function joinClass(...cls: Array<string|undefined>): string | undefined {
+    if (!cls) { return; }
+    cls = cls.filter(v => v !== undefined);
+    return cls.length > 0 ? cls.join(' ') : undefined;
 }

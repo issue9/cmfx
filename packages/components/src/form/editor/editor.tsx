@@ -7,7 +7,9 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { createEffect, createUniqueId, JSX, onMount } from 'solid-js';
 
+import { classList } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps } from '@/form/field';
+import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
     placeholder?: string;
@@ -51,10 +53,9 @@ export function Editor(props: Props): JSX.Element {
         }
     });
 
-    return <Field class={props.class}
+    return <Field class={classList(props.classList, styles.editor, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}

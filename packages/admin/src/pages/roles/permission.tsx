@@ -7,6 +7,7 @@ import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
 import { use } from '@/context';
+import styles from './style.module.css';
 
 interface Resource {
     id: string;
@@ -67,12 +68,12 @@ export function Permission(): JSX.Element {
     };
 
     return <Page title='_p.roles.permission'>
-        <div class="p--roles-permissions">
+        <div class={styles.permissions}>
             <For each={resources()}>
                 {(res)=>(
-                    <details class="p--roles-permission">
+                    <details class={styles.permission}>
                         <summary>{ res.title }</summary>
-                        <div class="content">
+                        <div class={styles.content}>
                             <For each={res.items}>
                                 {(item)=>(
                                     <Checkbox label={item.title}

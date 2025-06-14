@@ -36,7 +36,8 @@ export interface Column<T extends object> extends ExportColumn<T> {
     /**
      * 为每个单元格指定类型。包括表头和普通的数据单元。
      *
-     * NOTE: 如果存在 {@link Column#headClass}，那么 cellClass 将不会对表头中的单元格起作用。
+     * NOTE: 如果存在 {@link Column#headClass}，那么 cellClass 将不会对表头中的单元格起作用；
+     * NOTE: 不需要打印的列，可用 no-print 样式；
      */
     cellClass?: string;
 

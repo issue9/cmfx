@@ -6,7 +6,8 @@ import { sleep } from '@cmfx/core';
 import { JSX, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, transitionDuration } from '@/base';
+import { BaseProps, joinClass, transitionDuration } from '@/base';
+import styles from './style.module.css';
 import { createTimer } from './timer';
 
 export interface Props extends BaseProps {
@@ -48,14 +49,12 @@ export function Alert(props: Props): JSX.Element {
         }
     });
 
-    return <div ref={el=>ref=el} id={props.id} role="alert" classList={{
-        'message': true,
-        [`palette--${props.palette}`]: !!props.palette,
-    }}>
-        <div class="title">
+    return <div ref={el=>ref=el} id={props.id} role="alert"
+        class={joinClass(styles.message, props.palette ? `palette--${props.palette}` : undefined)}>
+        <div class={styles.title}>
             <p>{props.title}</p>
-            <div class="close-wrap" ref={el=>wrapRef=el}>
-                <IconClose onClick={del} class="close" />
+            <div class={styles['close-wrap']} ref={el=>wrapRef=el}>
+                <IconClose onClick={del} class={styles.close} />
             </div>
         </div>
         <Show when={props.body}>

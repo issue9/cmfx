@@ -44,7 +44,7 @@ export default function() {
             {roundedS}
             {layoutS}
 
-            <button class="c--button c--button-fill palette--primary" onClick={() => {
+            <button class="palette--primary" onClick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
                 mfa.setError(mfa.getError() ? undefined : 'error');
             }}>toggle error</button>

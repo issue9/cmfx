@@ -9,6 +9,7 @@ import {
 import { Return } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
+import IconPasskey from '~icons/material-symbols/passkey';
 
 import { use, useLocale } from '@/context';
 
@@ -89,8 +90,8 @@ export function Roles(props: Props): JSX.Element {
             { id: 'description', label: l.t('_p.roles.description') },
             {
                 id: 'actions', cellClass: 'no-print', label: l.t('_p.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
-                    <Button icon rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={l.t('_p.editItem')}><IconEdit /></Button>
-                    <LinkButton icon rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={l.t('_p.roles.editPermission')}>passkey</LinkButton>
+                    <Button square rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={l.t('_p.editItem')}><IconEdit /></Button>
+                    <LinkButton square rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={l.t('_p.roles.editPermission')}><IconPasskey /></LinkButton>
                     {tableRef.DeleteAction(obj!['id']!)}
                 </div>) as Column<Role>['renderContent']
             },

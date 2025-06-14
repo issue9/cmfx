@@ -4,7 +4,9 @@
 
 import { createEffect, createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js';
 
+import { classList } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps } from '@/form/field';
+import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
     min?: number;
@@ -62,9 +64,8 @@ export default function Range(props: Props): JSX.Element {
         }
     });
 
-    return <Field ref={el=>fieldRef=el} class={props.class}
+    return <Field ref={el=>fieldRef=el} class={classList(props.classList, styles.range, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
-        classList={{ ...props.classList, 'c--range': true }}
         help={props.help}
         hasHelp={access.hasHelp}
         getError={access.getError}
@@ -73,7 +74,7 @@ export default function Range(props: Props): JSX.Element {
         palette={props.palette}
     >
         <input type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
-            classList={{'fit-height': props.fitHeight }}
+            classList={{[styles['fit-height']]: props.fitHeight }}
             readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={(e) => {
                 if (!props.readonly && !props.disabled) {
                     let v = parseFloat(e.target.value);
@@ -84,10 +85,10 @@ export default function Range(props: Props): JSX.Element {
         />
 
         <Show when={marks()}>
-            <div class="marks">
+            <div class={styles.marks}>
                 <For each={marks()}>
                     {(item) => (
-                        <span class="item" style={{ 'left': (item[0] / scale!).toString() + '%' }}>{item[1]}</span>
+                        <span class={styles.item} style={{ 'left': (item[0] / scale!).toString() + '%' }}>{item[1]}</span>
                     )}
                 </For>
             </div>

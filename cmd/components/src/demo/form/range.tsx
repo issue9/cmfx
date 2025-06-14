@@ -21,7 +21,7 @@ export default function () {
             {disabledS}
             {layoutS}
             {fitHeightS}
-            <button class="c--button c--button-fill palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <Stage title="palette">

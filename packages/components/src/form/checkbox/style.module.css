@@ -1,0 +1,73 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+*/
+
+@reference '../../style.css';
+
+@layer components {
+    input[type="checkbox"] {
+        @apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
+        @apply border-[2px] border-palette-fg hover:border-palette-fg-high !rounded-[.1rem];
+        vertical-align: middle;
+        font-size: 0.5rem;
+        transition: all var(--default-transition-duration) ease;
+    }
+
+    input[type="checkbox"]:disabled {
+        @apply cursor-not-allowed border-palette-bg-low;
+    }
+
+    input[type="checkbox"]:after {
+        @apply block absolute opacity-0 w-[.4rem] h-[.7rem] left-[.2rem] top-[-.1rem];
+        content: '';
+        border-right: 2px solid var(--fg);
+        border-bottom: 2px solid var(--fg);
+        transform: rotate(45deg);
+        transform-origin: center center;
+        transition: all var(--default-transition-duration) ease;
+    }
+
+    input[type="checkbox"]:disabled:after {
+        @apply cursor-not-allowed border-palette-bg-low;
+    }
+
+    input[type="checkbox"]:checked:after {
+        opacity: 1;
+    }
+
+    /* 以上重新定义了 checkbox 的样式 */
+
+    .checkbox {
+        @apply border-2 border-transparent flex items-center text-palette-fg;
+
+        input {
+            @apply mr-[2px]
+        }
+    }
+
+    .checkbox.border {
+        @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+    }
+
+    .checkbox:focus-visible {
+        outline: none;
+    }
+
+    .checkbox:has(:enabled):hover {
+        cursor: pointer;
+    }
+
+    .checkbox.border:has(:enabled):hover {
+        @apply border-[var(--bg-high)];
+    }
+
+    .checkbox:has(:disabled) {
+        @apply cursor-not-allowed text-[var(--bg-low)];
+    }
+
+    .group-content {
+        @apply flex flex-wrap gap-1;
+    }
+}

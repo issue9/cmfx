@@ -9,6 +9,7 @@ import IconHelp from '~icons/material-symbols/help';
 import { user } from '@/components';
 import { use, useLocale, User } from '@/context';
 import { PassportComponents } from './passports';
+import styles from './style.module.css';
 
 interface Props {
     passports: Map<string, PassportComponents>;
@@ -72,11 +73,11 @@ export function Profile(props: Props): JSX.Element {
         setPassports(r.body!);
     });
 
-    return <Page title='_p.current.profile' class="p--profile">
+    return <Page title='_p.current.profile' class={styles.profile}>
         <Upload ref={el => uploadRef = el} fieldName='files' action='/uploads' />
         <div class="flex gap-4">
-            <img class="avatar" alt="avatar" src={avatar()} />
-            <div class="name">
+            <img class={styles.avatar} alt="avatar" src={avatar()} />
+            <div class={styles.name}>
                 <p class="text-2xl">{act.user()?.name}</p>
                 <Show when={uploadRef!.files().length === 0}>
                     <Button palette='tertiary' onClick={async () => {
@@ -110,12 +111,12 @@ export function Profile(props: Props): JSX.Element {
 
         <Divider padding='4px' />
 
-        <Form formAccessor={infoAccess} class="form">
+        <Form formAccessor={infoAccess} class={styles.form}>
             <TextField class="w-full" label={l.t('_p.current.name')} accessor={nameA} />
             <TextField class="w-full" label={l.t('_p.nickname')} accessor={nicknameA} />
             <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={sexA} />
 
-            <div class="actions">
+            <div class={styles.actions}>
                 <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_c.reset')}</Button>
                 <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_p.save')}</Button>
             </div>

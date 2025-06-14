@@ -1,0 +1,37 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .pagination {
+        @apply flex rounded-md bg-palette-bg;
+
+        :first-child {
+            @apply !rounded-l-md;
+        }
+
+        :last-child {
+            @apply !rounded-r-md;
+        }
+
+        .item {
+            @apply px-2 py-[2px] outline-none rounded-xs;
+        }
+
+        .item:focus-visible {
+            @apply bg-palette-bg-low;
+        }
+
+        .current {
+            @apply bg-palette-bg-high;
+        }
+    }
+
+    .bar {
+        @apply flex justify-between items-center;
+    }
+}
