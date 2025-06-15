@@ -7,7 +7,7 @@ import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
-import { classList, joinClass } from '@/base';
+import { joinClass } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import styles from './style.module.css';
@@ -70,7 +70,7 @@ export function Album(props: Props): JSX.Element {
         return { 'height': props.itemSize, 'width': props.itemSize };
     });
     
-    return <Field class={classList(props.classList, props.class)}
+    return <Field class={props.class}
         {...calcLayoutFieldAreas(props.layout!)}
         hasHelp={access.hasHelp}
         help={props.help}

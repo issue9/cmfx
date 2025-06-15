@@ -89,7 +89,5 @@ export function Chart(props: Props): JSX.Element {
         inst.setOption(props.o);
     });
 
-    return <div classList={{
-        [`palette--${props.palette}`]: !!props.palette,
-    }} ref={el => ref = el}></div>;
+    return <div class={props.palette ? `palette--${props.palette}` : undefined} ref={el => ref = el} />;
 }

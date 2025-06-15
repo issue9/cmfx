@@ -7,7 +7,7 @@ import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { AvailableEnumType, classList, cloneElement, joinClass } from '@/base';
+import { AvailableEnumType, cloneElement, joinClass } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
 import styles from './style.module.css';
 
@@ -158,7 +158,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         </>;
     };
 
-    return <Field ref={(el) => fieldRef = el} class={classList(props.classList, props.class, styles.activator)}
+    return <Field ref={(el) => fieldRef = el} class={joinClass(styles.activator, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={props.accessor.hasHelp}

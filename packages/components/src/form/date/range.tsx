@@ -7,7 +7,7 @@ import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } f
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 
-import { classList, joinClass } from '@/base';
+import { joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Accessor, calcLayoutFieldAreas, Field, FieldAccessor } from '@/form/field';
 import { IconComponent } from '@/icon';
@@ -67,7 +67,7 @@ export function DateRangePicker(props: Props): JSX.Element {
         popRef.showPopover();
     };
 
-    return <Field ref={(el) => fieldRef = el} class={classList(props.classList, props.class,styles.activator)}
+    return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles.activator)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={props.accessor.hasHelp}

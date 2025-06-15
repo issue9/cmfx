@@ -9,9 +9,7 @@ import { AvailableEnumType, BaseProps, Enums, Layout, Locale } from '@/base';
 export interface Props extends BaseProps {
     title?: string;
     label?: JSX.Element;
-
     class?: string;
-    classList?: JSX.CustomAttributes<HTMLElement>['classList'];
 }
 
 /**

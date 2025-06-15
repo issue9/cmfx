@@ -4,7 +4,7 @@
 
 import { createEffect, createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { classList } from '@/base';
+import { joinClass } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps } from '@/form/field';
 import styles from './style.module.css';
 
@@ -64,7 +64,7 @@ export default function Range(props: Props): JSX.Element {
         }
     });
 
-    return <Field ref={el=>fieldRef=el} class={classList(props.classList, styles.range, props.class)}
+    return <Field ref={el=>fieldRef=el} class={joinClass(styles.range, props.class)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={access.hasHelp}

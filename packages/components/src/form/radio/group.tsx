@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps } from 'solid-js';
 
-import { AvailableEnumType, classList, Layout } from '@/base';
+import { AvailableEnumType, Layout } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
 import styles from './style.module.css';
 
@@ -31,7 +31,7 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
     }, props);
     const access = props.accessor;
     
-    return <Field class={classList(props.classList, props.class)}
+    return <Field class={props.class}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={access.hasHelp}

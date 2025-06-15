@@ -19,7 +19,7 @@
         }
 
         .item {
-            @apply px-2 py-[2px] outline-none rounded-xs;
+            @apply px-2 outline-none rounded-xs;
         }
 
         .item:focus-visible {
@@ -33,5 +33,9 @@
 
     .bar {
         @apply flex justify-between items-center;
+
+        .right {
+            @apply flex gap-2 items-center justify-stretch;
+        }
     }
 }

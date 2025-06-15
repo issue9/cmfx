@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { AvailableEnumType, classList, Layout } from '@/base';
+import { AvailableEnumType, joinClass, Layout } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
@@ -35,7 +35,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
 
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block']);
 
-    return <Field class={classList(props.classList, props.class)}
+    return <Field class={props.class}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={access.hasHelp}
@@ -43,10 +43,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
         title={props.title}
         label={props.label}
         palette={props.palette}>
-        <div classList={{
-            [styles['group-content']]: true,
-            'flex-col': props.itemLayout === 'vertical'
-        }}>
+        <div class={joinClass(styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : undefined)}>
             <For each={props.options}>
                 {(item) =>
                     <Checkbox {...chkProps} label={item[1]} checked={!!access.getValue().find((v) => v === item[0])}

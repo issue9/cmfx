@@ -8,7 +8,7 @@ import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { classList, Palette } from '@/base';
+import { joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
@@ -262,10 +262,8 @@ export function DatePanel(props: Props): JSX.Element {
         </tbody>
     </table>;
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled} class={classList({
-        ...props.classList,
-        [`palette--${props.palette}`]: !!props.palette
-    }, styles.panel, props.class)}>
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
+        class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <div class={styles.main}>
             <div ref={el => dateRef = el}>{title}{daysSelector}</div>
             {timer}

@@ -7,7 +7,7 @@ import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } f
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { classList, Layout } from '@/base';
+import { joinClass, Layout } from '@/base';
 import { useLocale } from '@/context';
 import { calcLayoutFieldAreas, Field } from '@/form/field';
 import { DatePanel, Props as PanelProps, presetProps as prsetBaseProps } from './panel';
@@ -63,7 +63,7 @@ export function DatePicker(props: Props): JSX.Element {
     const [hover, setHover] = createSignal(false);
     const close = () => { props.accessor.setValue(undefined); };
 
-    return <Field ref={(el) => fieldRef = el} class={classList(props.classList, props.class, styles.activator)}
+    return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles.activator)}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={props.accessor.hasHelp}

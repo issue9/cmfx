@@ -33,7 +33,6 @@ export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     return <label tabIndex={props.tabindex} title={props.title} class={classList({
-        ...props.classList,
         [styles.border]: props.block,
         [`palette--${props.palette}`]: !!props.palette
     },props.class, styles.checkbox)}>
@@ -41,7 +40,7 @@ export function Checkbox(props: Props): JSX.Element {
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={props.checked}
-            classList={{ '!hidden': props.block }}
+            class={props.block ? '!hidden' : undefined }
             onClick={(e)=>{
                 if (props.readonly) { e.preventDefault(); }
             }}

@@ -5,9 +5,10 @@
 import { pop } from '@cmfx/core';
 import { JSX, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { Layout } from '@/base';
-import { Field, calcLayoutFieldAreas } from '@/form/field';
+import { joinClass, Layout } from '@/base';
+import { calcLayoutFieldAreas, Field } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
+import styles from './style.module.css';
 
 export interface Props extends PanelProps {
     layout?: Layout;
@@ -40,10 +41,9 @@ export default function OKLCHPicker(props: Props): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
-    return <Field ref={(el) => fieldRef = el} class={(props.class ?? '') + ' oklch-activator'}
+    return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles['oklch-activator'])}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
-        classList={props.classList}
         hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
@@ -55,7 +55,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
             onClick={() => togglePop(anchorRef, panelRef)}
             style={{ 'background': props.accessor.getValue() }}
             classList={{
-                'oklch-activator-block': true,
+                [styles['oklch-activator-block']]: true,
                 'rounded-full': props.rounded
             }}
         />

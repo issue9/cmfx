@@ -4,7 +4,7 @@
 
 import { createUniqueId, JSX, mergeProps } from 'solid-js';
 
-import { classList, Layout } from '@/base';
+import { Layout } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, InputMode } from '@/form/field';
 import styles from './style.module.css';
 
@@ -29,7 +29,7 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     const access = props.accessor;
     const id = createUniqueId();
 
-    return <Field class={classList(props.classList, props.class)}
+    return <Field class={props.class}
         {...calcLayoutFieldAreas(props.layout!)}
         help={props.help}
         hasHelp={access.hasHelp}

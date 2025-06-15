@@ -6,7 +6,7 @@ import { CancelMovable, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, classList, Locale } from '@/base';
+import { BaseProps, joinClass, Locale } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import styles from './style.module.css';
@@ -182,7 +182,7 @@ export function Dialog(props: Props): JSX.Element {
     });
 
     return <dialog ref={(el) => { props.ref(buildRef(el, l)); ref = el; }}
-        class={classList(undefined, props.class, styles.dialog, props.palette ? `palette--${props.palette}` : undefined)}>
+        class={joinClass(props.class, styles.dialog, props.palette ? `palette--${props.palette}` : undefined)}>
         <Show when={props.header}>
             <header ref={el => toolbar = el}>
                 {props.header}

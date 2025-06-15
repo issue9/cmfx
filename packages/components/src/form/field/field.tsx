@@ -4,7 +4,7 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { classList, joinClass, Layout } from '@/base';
+import { joinClass, Layout } from '@/base';
 import { Accessor } from './access';
 import styles from './style.module.css';
 import type { Props } from './types';
@@ -89,7 +89,7 @@ export function calcLayoutFieldAreas(l: Layout): FieldAreas {
  * @template T 表示当前组件的值类型。
  */
 export default function Field<T>(props: FieldProps<T>): JSX.Element {
-    return <div class={classList(props.classList, styles.field, props.class, props.palette ? `palette--${props.palette}` : undefined)}
+    return <div class={joinClass(styles.field, props.class, props.palette ? `palette--${props.palette}` : undefined)}
         ref={(el) => { if (props.ref) { props.ref(el); } }}>
         <Show when={props.label}>
             <div style={fieldArea2Style(props.labelArea)}>{props.label}</div>

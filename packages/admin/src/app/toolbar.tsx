@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, joinClass, Label, Locale, Menu, TreeItem } from '@cmfx/components';
+import { Button, classList, joinClass, Label, Locale, Menu, TreeItem } from '@cmfx/components';
 import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
@@ -42,16 +42,15 @@ export default function Toolbar(props: Props) {
 
         <div class={styles.icon}>
             <Show when={act.isLogin()}>
-                <Button square rounded type="button" kind='flat'
-                    classList={{
-                        'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
-                        'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
-                        'md:!hidden': opt.aside.floatingMinWidth == 'md',
-                        'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
-                        'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
-                        '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
-                    }}
-                    onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+                <Button square rounded type="button" kind='flat' class={classList({
+                    'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
+                    'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
+                    'md:!hidden': opt.aside.floatingMinWidth == 'md',
+                    'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
+                    'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
+                    '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
+                })}
+                onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                     {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
                 </Button>
             </Show>

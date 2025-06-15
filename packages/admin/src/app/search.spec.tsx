@@ -64,7 +64,7 @@ describe('search', async () => {
         expect(container.querySelector('.'+styles.search)).toBeTruthy();
 
         // 默认为空
-        let ul = container.querySelector('.list');
+        let ul = container.querySelector('.'+styles.list);
         expect(ul!.children.length).toEqual(0);
 
         // 搜索不存在的内容

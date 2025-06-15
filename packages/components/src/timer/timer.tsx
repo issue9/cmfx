@@ -5,7 +5,7 @@
 import { Duration, formatDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps, classList } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import styles from './style.module.css';
 
@@ -75,7 +75,6 @@ export interface Props extends BaseProps {
     ref?: { (el: Ref): void; };
 
     class?: string;
-    classList?: JSX.CustomAttributes<HTMLElement>['classList'];
 }
 
 const presetProps: Partial<Props> = {
@@ -173,7 +172,7 @@ export default function Timer(props: Props): JSX.Element {
         return s;
     };
 
-    return <div class={classList(props.classList, styles.timer, props.class)}>
+    return <div class={joinClass(styles.timer, props.class)}>
         <Show when={fields.get(props.startField!)! >= fields.get('days')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{format(dur().days ?? 0)}</span>
