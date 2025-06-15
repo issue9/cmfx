@@ -4,7 +4,7 @@
 
 import { For, JSX, mergeProps, Show } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Spin } from '@/spin';
 import { Column } from './column';
@@ -87,7 +87,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
             {props.extraHeader}
         </Show>
 
-        <table class={props.fixedLayout ? styles['fixed-layout'] : undefined}>
+        <table class={joinClass('cmfx-table', props.fixedLayout ? styles['fixed-layout'] : undefined)}>
             <Show when={hasCol}>
                 <colgroup>
                     <For each={props.columns}>

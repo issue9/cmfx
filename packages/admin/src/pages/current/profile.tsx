@@ -124,35 +124,33 @@ export function Profile(props: Props): JSX.Element {
 
         <Divider padding='8px'>{l.t('_p.admin.passport')}</Divider>
 
-        <fieldset class="c--table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>{l.t('_p.admin.passportType')}</th>
-                        <th>{l.t('_p.current.username')}</th>
-                        <th>{l.t('_p.actions')}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <For each={passports()}>
-                        {(item) => {
-                            const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
+        <table class="cmfx-table">
+            <thead>
+                <tr>
+                    <th>{l.t('_p.admin.passportType')}</th>
+                    <th>{l.t('_p.current.username')}</th>
+                    <th>{l.t('_p.actions')}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <For each={passports()}>
+                    {(item) => {
+                        const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
 
-                            return <tr>
-                                <td class="flex items-center">
-                                    {item.id}
-                                    <span title={item.desc} class="ml-1 cursor-help"><IconHelp /></span>
-                                </td>
+                        return <tr>
+                            <td class="flex items-center">
+                                {item.id}
+                                <span title={item.desc} class="ml-1 cursor-help"><IconHelp /></span>
+                            </td>
 
-                                <td>{username()}</td>
-                                <td class="flex gap-2">
-                                    {props.passports.get(item.id)?.Actions(async()=>await act.refetchUser(), username())}
-                                </td>
-                            </tr>;
-                        }}
-                    </For>
-                </tbody>
-            </table>
-        </fieldset>
+                            <td>{username()}</td>
+                            <td class="flex gap-2">
+                                {props.passports.get(item.id)?.Actions(async () => await act.refetchUser(), username())}
+                            </td>
+                        </tr>;
+                    }}
+                </For>
+            </tbody>
+        </table>
     </Page>;
 }

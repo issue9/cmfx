@@ -43,6 +43,10 @@ npm i @cmfx/admin @cmfx/core @cmfx/components
 - @cmfx/components/tailwind.css tailwindcss 的一些自定义属性
 - @cmfx/admin/style.css
 
+`@cmfx/components` 提供了一些全局的 CSS 样式：
+
+- cmfx-table 与表格式组件相同的表格样式，可直接应用在 `<table>` 元素上；
+
 ## 后端
 
 可采用以下代码安装：

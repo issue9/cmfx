@@ -10,45 +10,6 @@
     .table {
         @apply bg-palette-bg text-palette-fg w-full rounded-md;
 
-        >table {
-            @apply w-full border-t border-b border-palette-fg-low;
-
-            .nodata {
-                @apply text-center w-full text-xl py-10;
-            }
-
-            tr {
-                @apply border-b border-palette-fg-low;
-            }
-
-            th,
-            td {
-                @apply px-2 py-1 text-left;
-            }
-
-            tbody tr:last-of-type {
-                @apply border-0;
-            }
-
-            thead th {
-                @apply py-2 bg-palette-bg-high;
-            }
-
-            tbody.hoverable {
-                tr.striped {
-                    @apply bg-palette-bg-low;
-                }
-
-                tr:hover {
-                    @apply bg-palette-bg-high;
-                }
-            }
-
-            tbody tr.striped {
-                @apply bg-palette-bg-low;
-            }
-        }
-
         >table.fixed-layout {
             table-layout: fixed;
         }
@@ -79,6 +40,45 @@
 
         .footer {
             @apply mt-2 print:hidden;
+        }
+    }
+
+    :global(.cmfx-table) {
+        @apply w-full border-t border-b border-palette-fg-low;
+
+        .nodata {
+            @apply text-center w-full text-xl py-10;
+        }
+
+        tr {
+            @apply border-b border-palette-fg-low;
+        }
+
+        th,
+        td {
+            @apply px-2 py-1 text-left;
+        }
+
+        tbody tr:last-of-type {
+            @apply border-0;
+        }
+
+        thead th {
+            @apply py-2 bg-palette-bg-high;
+        }
+
+        tbody.hoverable {
+            tr.striped {
+                @apply bg-palette-bg-low;
+            }
+
+            tr:hover {
+                @apply bg-palette-bg-high;
+            }
+        }
+
+        tbody tr.striped {
+            @apply bg-palette-bg-low;
         }
     }
 }

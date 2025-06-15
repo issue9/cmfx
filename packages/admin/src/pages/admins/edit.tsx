@@ -61,37 +61,35 @@ export function Edit(props: Props): JSX.Element {
                     <IconArrowBack />
                     {l.t('_p.back')}
                 </LinkButton>
-                <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_p.reset')}</Button>
-                <Button disabled={form.isPreset()} type="submit" palette='primary'>{l.t('_p.ok')}</Button>
+                <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_c.reset')}</Button>
+                <Button disabled={form.isPreset()} type="submit" palette='primary'>{l.t('_c.ok')}</Button>
             </div>
         </Form>
 
         <Divider padding='8px'>{l.t('_p.admin.passport')}</Divider>
 
-        <fieldset class="c--table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>{l.t('_p.admin.passportType')}</th>
-                        <th>{l.t('_p.current.username')}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <For each={passports()}>
-                        {(item) => {
-                            const uid = formPassports.getValue()!.find((v) => v.id == item.id)?.id;
-                            return <tr>
-                                <td class="flex items-center">
-                                    {item.id}
-                                    <span class="ml-1 cursor-help" title={item.desc}><IconHelp /></span>
-                                </td>
-                                <td>{uid}</td>
-                            </tr>;
-                        }}
-                    </For>
-                </tbody>
-            </table>
-        </fieldset>
+        <table class="cmfx-table">
+            <thead>
+                <tr>
+                    <th>{l.t('_p.admin.passportType')}</th>
+                    <th>{l.t('_p.current.username')}</th>
+                </tr>
+            </thead>
+            <tbody>
+                <For each={passports()}>
+                    {(item) => {
+                        const uid = formPassports.getValue()!.find((v) => v.id == item.id)?.id;
+                        return <tr>
+                            <td class="flex items-center">
+                                {item.id}
+                                <span class="ml-1 cursor-help" title={item.desc}><IconHelp /></span>
+                            </td>
+                            <td>{uid}</td>
+                        </tr>;
+                    }}
+                </For>
+            </tbody>
+        </table>
     </Page>;
 }
 
