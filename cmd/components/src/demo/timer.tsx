@@ -4,12 +4,13 @@
 
 import { Button, Timer, timerFields, TimerRef } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import IconFace from '~icons/material-symbols/face';
 
 import { arraySelector, boolSelector, Demo, Stage } from './base';
 
 export default function () {
     const [unitS, unit] = boolSelector('unit');
-    const [fieldS, field] = arraySelector('field', Array.from(timerFields.keys()), 'minutes');
+    const [fieldS, field] = arraySelector('field', timerFields, 'minutes');
     const [msg, setMsg] = createSignal('');
 
     let ref: TimerRef;
@@ -31,7 +32,7 @@ export default function () {
         </Stage>
 
         <Stage title="+1">
-            <Timer unit={unit()} duration={'23m34s'} startField={field()} interval={1} autoStart />
+            <Timer separator={<IconFace />} unit={unit()} duration={'23m34s'} startField={field()} interval={1} autoStart />
         </Stage>
     </Demo>;
 }

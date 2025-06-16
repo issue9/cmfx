@@ -3,20 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Duration, formatDuration, parseDuration, second } from '@cmfx/core';
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import styles from './style.module.css';
 
-export type Field = 'days' | 'hours' | 'minutes' | 'seconds';
+export const fields = ['seconds', 'minutes', 'hours', 'days'] as const;
 
-export const fields: ReadonlyMap<Field, number> = new Map<Field, number>([
-    ['seconds', 0],
-    ['minutes', 1],
-    ['hours', 2],
-    ['days', 3],
-]);
+export type Field = typeof fields[number];
 
 /**
  * 倒计时的计时器
@@ -58,12 +53,12 @@ export interface Props extends BaseProps {
     autoStart?: boolean;
 
     /**
-     * 每一步倒计时触发
+     * 每一步倒计时触发的事件
      */
     onTick?: { (): void; };
 
     /**
-     * 每一步倒计时触发
+     * 是否显示单位
      */
     unit?: boolean;
 
@@ -126,7 +121,8 @@ export default function Timer(props: Props): JSX.Element {
         }
     };
 
-    let intervalID: any;
+    let intervalID: any; // setInterval 的句柄
+
     const start = () => {
         if (nano() > 0) {
             intervalID = setInterval(tick, 1000 * Math.abs(props.interval!));
@@ -172,8 +168,16 @@ export default function Timer(props: Props): JSX.Element {
         return s;
     };
 
+    const getFieldIndex = (f: string) => {
+        return fields.findIndex(num => num === f);
+    };
+
+    const startField = createMemo(() => {
+        return getFieldIndex(props.startField!); // 由 mergeProps 决定 startField 必然存在。
+    });
+
     return <div class={joinClass(styles.timer, props.class)}>
-        <Show when={fields.get(props.startField!)! >= fields.get('days')!}>
+        <Show when={startField() >= getFieldIndex('days')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{format(dur().days ?? 0)}</span>
                 <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.days')}</span></Show>
@@ -181,7 +185,7 @@ export default function Timer(props: Props): JSX.Element {
             <div class={styles.sep}>{props.separator}</div>
         </Show>
 
-        <Show when={fields.get(props.startField!)! >= fields.get('hours')!}>
+        <Show when={startField() >= getFieldIndex('hours')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{
                     format((dur().hours ?? 0) + (props.startField! === 'hours' ? (dur().days ?? 0) * 24 : 0))
@@ -191,7 +195,7 @@ export default function Timer(props: Props): JSX.Element {
             <div class={styles.sep}>{props.separator}</div>
         </Show>
 
-        <Show when={fields.get(props.startField!)! >= fields.get('minutes')!}>
+        <Show when={startField() >= getFieldIndex('minutes')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{
                     format(
@@ -204,7 +208,7 @@ export default function Timer(props: Props): JSX.Element {
             <div class={styles.sep}>{props.separator}</div>
         </Show>
 
-        <Show when={fields.get(props.startField!)! >= fields.get('seconds')!}>
+        <Show when={startField() >= getFieldIndex('seconds')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{
                     format(

@@ -9,26 +9,28 @@
 @layer components {
     .badge {
         @apply relative;
-    }
 
-    .point {
-        @apply bg-palette-bg text-palette-fg absolute rounded-full text-xs min-w-[14px] min-h-[14px];
-        @apply inline-flex text-center justify-center;
-    }
+        --badge-size: calc(-1 * 1rem / 2 + 2px);
 
-    .topleft {
-        @apply top-[-5px] left-[-5px];
-    }
+        .point {
+            @apply bg-palette-bg text-palette-fg absolute rounded-full text-xs min-w-4 min-h-4;
+            @apply inline-flex text-center justify-center;
+        }
 
-    .topright {
-        @apply top-[-5px] right-[-5px];
-    }
+        .topleft {
+            @apply top-[var(--badge-size)] left-[var(--badge-size)];
+        }
 
-    .bottomleft {
-        @apply bottom-[-5px] left-[-5px];
-    }
+        .topright {
+            @apply top-[var(--badge-size)] right-[var(--badge-size)];
+        }
 
-    .bottomright {
-        @apply bottom-[-5px] right-[-5px];
+        .bottomleft {
+            @apply bottom-[var(--badge-size)] left-[var(--badge-size)];
+        }
+
+        .bottomright {
+            @apply bottom-[var(--badge-size)] right-[var(--badge-size)];
+        }
     }
 }

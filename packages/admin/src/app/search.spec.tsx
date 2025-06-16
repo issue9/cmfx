@@ -76,7 +76,7 @@ describe('search', async () => {
         // 搜索存在的内容
         input!.value = ''; // 重置内容为空
         await user.type(input!, 'item');
-        ul = container.querySelector('.'+styles.llist);
+        ul = container.querySelector('.'+styles.list);
         expect(ul!.children.length).toBeGreaterThan(0);
 
         unmount();
