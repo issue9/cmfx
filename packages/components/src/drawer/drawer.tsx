@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, Match, mergeProps, onCleanup, onMount, Switch } from 'solid-js';
+import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
 import { BaseProps, Breakpoint, classList } from '@/base';
@@ -11,6 +11,9 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     /**
      * 是否显示侧边栏的内容
+     *
+     * NOTE: 仅在 floating !== false 时有效果，
+     * 当 floating === false 时，表示侧边栏始终是可见的。
      */
     visible?: boolean;
 
@@ -55,19 +58,22 @@ export function Drawer(props: Props) {
     let asideRef: HTMLElement;
     let mainRef: HTMLElement;
 
-    const [floating, setFloating] = createSignal(false);
+    const [canFloating, setCanFloating] = createSignal(false);
     const [floatCls, setFloatCls] = createSignal('');
 
     createEffect(() => {
-        setFloating(props.floating !== false);
+        setCanFloating(props.floating !== false);
+
         if (typeof props.floating === 'string') {
             setFloatCls(props.floating);
+        } else {
+            setFloatCls('');
         }
     });
 
     if (props.close) {
         const handleClick = (e: MouseEvent) => {
-            if (!floating() || !props.visible) { return; }
+            if (!canFloating() || !props.visible) { return; }
 
             const node = e.target as HTMLElement;
             if (mainRef.contains(node) && !asideRef.contains(node)) {
@@ -83,39 +89,29 @@ export function Drawer(props: Props) {
         });
     }
 
-    const Aside = ()=><aside ref={(el)=>asideRef=el} class={classList({
-        'cmfx-drawer__aside-hidden': !props.visible,
-        'cmfx-drawer__aside-right': floating() && props.pos === 'right',
+    const Aside = () => <aside ref={(el) => asideRef = el} class={classList({
+        ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
     }, props.palette ? `palette--${props.palette}` : undefined)}>{props.children}</aside>;
 
+    const Main = () => <main>
+        <Transition mode='outin'
+            exitActiveClass={styles['drawer-fade-exit-active']}
+            enterClass={styles['drawer-fade-enter']}
+            exitToClass={styles['drawer-fade-exit-to']}
+            enterActiveClass={styles['drawer-fade-enter-active']}>{props.main}</Transition>
+    </main>;
+
+    // NOTE: 如果不放在 classList 中，tailwind 无法解析对应的值。
     return <div ref={(el) => mainRef = el} class={classList({
-        'cmfx--drawer-floating': !floatCls() && floating(),
-        'max-xs:cmfx--drawer-floating': floatCls() == 'xs',
-        'max-sm:cmfx--drawer-floating': floatCls() == 'sm',
-        'max-md:cmfx--drawer-floating': floatCls() == 'md',
-        'max-lg:cmfx--drawer-floating': floatCls() == 'lg',
-        'max-xl:cmfx--drawer-floating': floatCls() == 'xl',
-        'max-2xl:cmfx--drawer-floating': floatCls() == '2xl',
-    }, styles.drawer)}>
-        <Switch>
-            <Match when={props.pos === 'left'}>
-                <Aside />
-                <main>
-                    <Transition mode='outin'
-                        exitActiveClass={styles['drawer-fade-exit-active']}
-                        enterClass={styles['drawer-fade-enter']}
-                        exitToClass={styles['drawer-fade-exit-to']}
-                        enterActiveClass={styles['drawer-fade-enter-active']}>{props.main}</Transition>
-                </main>
-            </Match>
-            <Match when={props.pos === 'right'}>
-                <main><Transition mode='outin' 
-                    exitActiveClass={styles['drawer-fade-exit-active']}
-                    enterClass={styles['drawer-fade-enter']}
-                    exitToClass={styles['drawer-fade-exit-to']}
-                    enterActiveClass={styles['drawer-fade-enter-active']}>{props.main}</Transition></main>
-                <Aside />
-            </Match>
-        </Switch>
+        'cmfx-drawer-floating': !floatCls() && canFloating(),
+        'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
+        'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
+        'max-md:cmfx-drawer-floating': floatCls() == 'md',
+        'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
+        'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
+        'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
+    }, styles.drawer, props.pos === 'right' ? styles.right : undefined)}>
+        <Aside />
+        <Main />
     </div>;
 }

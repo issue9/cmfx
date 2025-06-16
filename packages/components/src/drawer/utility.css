@@ -1,0 +1,18 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+/* NOTE: @utility 直接写在 module.css 中无效？ */
+
+@utility cmfx-drawer-floating {
+    >aside {
+        position: absolute;
+    }
+
+    >aside.cmfx-drawer-hidden-aside {
+        transform: scaleX(0);
+        flex-basis: 0px;
+    }
+}

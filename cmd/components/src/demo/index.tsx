@@ -16,6 +16,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/context', component: lazy(() => import('./context')) },
     { path: '/dialog', component: lazy(() => import('./dialog')) },
     { path: '/divider', component: lazy(() => import('./divider')) },
+    { path: '/drawer', component: lazy(() => import('./drawer')) },
     { path: '/errors', component: lazy(() => import('./error')) },
     { path: '/icon', component: lazy(() => import('./icon')) },
     { path: '/notify', component: lazy(() => import('./notify')) },
