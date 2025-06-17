@@ -46,10 +46,6 @@
     :global(.cmfx-table) {
         @apply w-full border-t border-b border-palette-fg-low;
 
-        .nodata {
-            @apply text-center w-full text-xl py-10;
-        }
-
         tr {
             @apply border-b border-palette-fg-low;
         }

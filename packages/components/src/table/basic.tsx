@@ -6,6 +6,7 @@ import { For, JSX, mergeProps, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
+import { Empty } from '@/empty';
 import { Spin } from '@/spin';
 import { Column } from './column';
 import styles from './style.module.css';
@@ -128,7 +129,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 </Show>
                 <Show when={!props.items || props.items.length === 0}>
                     <tr>
-                        <td class={styles.nodata} colSpan={props.columns.length}>{l.t('_c.table.nodata')}</td>
+                        <td colSpan={props.columns.length}><Empty palette={props.palette}>{l.t('_c.table.nodata')}</Empty></td>
                     </tr>
                 </Show>
             </tbody>
