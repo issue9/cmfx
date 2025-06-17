@@ -83,14 +83,6 @@
         }
     }
 
-    .memstatistic {
-        @apply flex flex-row flex-wrap gap-5 items-center justify-center;
-
-        .item {
-            @apply flex-grow border border-palette-bg-low rounded-md text-center;
-        }
-    }
-
     .settings {
         .color-block {
             @apply flex flex-wrap w-10;

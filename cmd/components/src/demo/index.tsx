@@ -26,6 +26,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/page', component: lazy(() => import('./page')) },
     { path: '/qrcode', component: lazy(() => import('./qrcode')) },
     { path: '/spin', component: lazy(() => import('./spin')) },
+    { path: '/statistics', component: lazy(() => import('./statistics')) },
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
     { path: '/theme', component: lazy(() => import('./theme')) },

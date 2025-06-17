@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Description } from '@cmfx/components';
+import { Statistics } from '@cmfx/components';
 import { JSX, createSignal, onMount } from 'solid-js';
 import IconCalendar from '~icons/material-symbols/calendar-month';
 import IconToday from '~icons/material-symbols/calendar-today';
@@ -12,10 +12,9 @@ import IconPersonChk from '~icons/material-symbols/person-check';
 import IconRecord from '~icons/material-symbols/record-voice-over';
 
 import { use, useLocale } from '@/context';
-import styles from './style.module.css';
 
 export function MemStatistic(): JSX.Element {
-    const [statistic, setStatistic] = createSignal<Statistic>({
+    const [s, setStatistic] = createSignal<Statistic>({
         online: 0,
         active: 0,
         all: 0,
@@ -36,26 +35,14 @@ export function MemStatistic(): JSX.Element {
         setStatistic(r.body!);
     });
 
-    return <div class={styles.memstatistic}>
-        <Description class={styles.item} icon={IconGroup} title={l.t('_p.current.allMembers')}>
-            <p class="text-5xl">{statistic().all}</p>
-        </Description>
-        <Description class={styles.item} icon={IconCalendar} title={l.t('_p.current.monthMembers')}>
-            <p class="text-5xl">{statistic().month}</p>
-        </Description>
-        <Description class={styles.item} icon={IconWeek} title={l.t('_p.current.weekMembers')}>
-            <p class="text-5xl">{statistic().week}</p>
-        </Description>
-        <Description class={styles.item} icon={IconToday} title={l.t('_p.current.dayMembers')}>
-            <p class="text-5xl">{statistic().day}</p>
-        </Description>
-        <Description class={styles.item} icon={IconPersonChk} title={l.t('_p.current.activeMembers')}>
-            <p class="text-5xl">{statistic().active}</p>
-        </Description>
-        <Description class={styles.item} icon={IconRecord} title={l.t('_p.current.onlineMembers')}>
-            <p class="text-5xl">{statistic().online}</p>
-        </Description>
-    </div>;
+    return <Statistics items={[
+        [l.t('_p.current.allMembers'), s().all, IconGroup],
+        [l.t('_p.current.monthMembers'), s().month, IconCalendar],
+        [l.t('_p.current.weekMembers'), s().week, IconWeek],
+        [l.t('_p.current.dayMembers'), s().day, IconToday],
+        [l.t('_p.current.activeMembers'), s().active, IconPersonChk],
+        [l.t('_p.current.onlineMembers'), s().online, IconRecord],
+    ]} />;
 }
 
 interface Statistic {

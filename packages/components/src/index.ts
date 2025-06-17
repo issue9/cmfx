@@ -26,6 +26,7 @@ export * from './page';
 export * from './pagination';
 export * from './qrcode';
 export * from './spin';
+export * from './statistics';
 export * from './tab';
 export * from './table';
 export * from './theme';
