@@ -6,6 +6,7 @@ import { RouteDefinition } from '@solidjs/router';
 import { lazy } from 'solid-js';
 
 export const routes: Array<RouteDefinition> = [
+    { path: '/appbar', component: lazy(() => import('./appbar')) },
     { path: '/backtop', component: lazy(() => import('./backtop')) },
     { path: '/badge', component: lazy(() => import('./badge')) },
     { path: '/base', component: lazy(() => import('./base')) },

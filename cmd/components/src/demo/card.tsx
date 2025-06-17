@@ -15,14 +15,14 @@ export default function() {
             {paletteS}
         </>
     }>
-        <Stage title="Description" class="w-full">
+        <Stage title="Card" class="w-full">
             <Card palette={palette()} header={<Label icon={IconEye}>title</Label>}>
                 <p>这是一行文字</p>
                 <Button palette='primary'>button</Button>
             </Card>
                 
-            <Card palette={palette()}>
-                <p>不带标题</p>
+            <Card palette={palette()} footer={<><Button>OK</Button> <Button>Cancel</Button></>}>
+                <p>不带标题，但是页脚。</p>
                 <Button palette='primary'>button</Button>
             </Card>
         </Stage>

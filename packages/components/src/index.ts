@@ -4,6 +4,7 @@
 
 import './style.css';
 
+export * from './appbar';
 export * from './backtop';
 export * from './badge';
 export * from './base';

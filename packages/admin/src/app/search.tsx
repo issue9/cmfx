@@ -132,16 +132,12 @@ export function buildItemsWithSearch(t: Locale['t'], menus: Array<MenuItem>, sea
             return;
         case 'group':
             const c = buildItemsWithSearch(t, mi.items, search);
-            if (c.length > 0) {
-                items.push(...c);
-            }
+            if (c.length > 0) { items.push(...c); }
             break;
         case 'item':
             if (mi.items && mi.items.length > 0) {
                 const cc = buildItemsWithSearch(t, mi.items, search);
-                if (cc.length > 0) {
-                    items.push(...cc);
-                }
+                if (cc.length > 0) { items.push(...cc); }
             } else {
                 const label = t(mi.label);
                 if (label.toLowerCase().includes(search.toLowerCase())) {

@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, classList, joinClass, Label, Locale, Menu, TreeItem } from '@cmfx/components';
-import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
+import { Appbar, Button, classList, Label, Locale, Menu, TreeItem } from '@cmfx/components';
+import { Hotkey } from '@cmfx/core';
+import { createEffect, createSignal, JSX, onCleanup, onMount, Setter, Show, Signal } from 'solid-js';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 import IconMenu from '~icons/material-symbols/menu';
@@ -11,17 +12,14 @@ import IconMenuOpen from '~icons/material-symbols/menu-open';
 
 import { use, useLocale } from '@/context';
 import { MenuItem } from '@/options';
-import { Hotkey } from '@cmfx/core';
 import { Search } from './search';
-import styles from './style.module.css';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
 }
 
 type Props = MenuVisibleProps & {
-    // 切换侧边栏菜单的操作
-    switch: Setter<string>;
+    switch: Setter<string>; // 切换侧边栏菜单的操作
 };
 
 /**
@@ -34,29 +32,8 @@ export default function Toolbar(props: Props) {
         if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
     });
 
-    return <header role='toolbar' class={joinClass(styles.appbar, 'palette--tertiary')}>
-        <div class={styles.title}>
-            <img alt="logo" class={styles.logo} src={opt.logo} />
-            <span class={styles.name}>{opt.title}</span>
-        </div>
-
-        <div class={styles.icon}>
-            <Show when={act.isLogin()}>
-                <Button square rounded type="button" kind='flat' class={classList({
-                    'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
-                    'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
-                    'md:!hidden': opt.aside.floatingMinWidth == 'md',
-                    'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
-                    'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
-                    '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
-                })}
-                onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
-                    {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
-                </Button>
-            </Show>
-        </div>
-
-        <div class={styles.toolbar}>
+    return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
+        <>
             <Show when={act.user() ? opt.toolbar.get('search') : false}>
                 {(hk) => <Search switch={props.switch} hotkey={hk()} />}
             </Show>
@@ -64,8 +41,22 @@ export default function Toolbar(props: Props) {
                 {(hk) => fullscreen(hk())}
             </Show>
             <Show when={act.user()}><UserMenu /></Show>
-        </div>
-    </header>;
+        </>
+    }>
+        <Show when={act.isLogin()}>
+            <Button square rounded type="button" kind='flat' class={classList({
+                'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
+                'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
+                'md:!hidden': opt.aside.floatingMinWidth == 'md',
+                'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
+                'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
+                '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
+            })}
+            onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+                {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
+            </Button>
+        </Show>
+    </Appbar>;
 }
 
 /**
@@ -76,7 +67,7 @@ function UserMenu(): JSX.Element {
     const l = useLocale();
     const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button class="pl-1 rounded-full"
+    const activator = <Button rounded class="pl-1"
         onClick={()=>setVisible(!visible())}>
         <img alt='avatar' class="w-6 h-6 rounded-full mr-1" src={ act.user()?.avatar } />
         {act.user()?.name}
@@ -92,16 +83,17 @@ function fullscreen(hotkey?: Hotkey): JSX.Element {
     const l = useLocale();
     const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
 
+    // 有可能浏览器通过其它方式控制全屏功能
+    const change = () => { setFS(!!document.fullscreenElement); };
+    onMount(() => { document.addEventListener('fullscreenchange', change); });
+    onCleanup(() => { document.removeEventListener('fullscreenchange', change); });
+
     const toggleFullscreen = async() => {
         if (document.fullscreenElement) {
             await document.exitFullscreen();
         } else {
             await document.body.requestFullscreen();
         }
-
-        document.addEventListener('fullscreenchange', () => { // 有可能浏览器通过其它方式退出全屏。
-            setFS(!!document.fullscreenElement);
-        });
     };
 
     return <Button hotkey={hotkey} square type='button' kind='flat' rounded

@@ -8,8 +8,7 @@
 
 @layer components {
     .drawer {
-        @apply h-full w-full flex overflow-hidden;
-        @apply relative;
+        @apply h-full w-full flex overflow-hidden relative;
 
         >aside {
             @apply h-full bg-[var(--bg)] text-[var(--fg)] z-50 overflow-y-auto;

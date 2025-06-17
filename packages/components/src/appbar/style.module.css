@@ -1,0 +1,35 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .appbar {
+        @apply bg-palette-bg text-palette-fg;
+        @apply border-b border-b-palette-bg-high;
+        @apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
+
+        .title {
+            @apply flex items-center gap-2;
+
+            .logo {
+                @apply inline-block max-w-6 max-h-6;
+            }
+
+            .name {
+                @apply inline-block ml-2 text-lg font-bold;
+            }
+        }
+
+        .main {
+            @apply flex flex-1 justify-start;
+        }
+
+        .actions {
+            @apply flex gap-2 items-center justify-between;
+        }
+    }
+}
