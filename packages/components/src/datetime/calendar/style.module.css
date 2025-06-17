@@ -21,8 +21,8 @@
         .table {
             @apply border border-palette-bg-low w-full h-full;
 
-            thead tr {
-                line-height: 1.1;
+            thead tr>th {
+                @apply py-1 font-bold;
             }
 
             thead tr,

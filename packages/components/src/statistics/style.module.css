@@ -16,7 +16,7 @@
             @apply flex flex-col justify-center flex-grow;
 
             .value {
-                @apply text-3xl text-center font-mono;
+                @apply sm:text-2xl lg:text-3xl text-center font-mono;
             }
         }
     }
