@@ -21,6 +21,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/empty', component: lazy(() => import('./empty')) },
     { path: '/errors', component: lazy(() => import('./error')) },
     { path: '/icon', component: lazy(() => import('./icon')) },
+    { path: '/illustrations', component: lazy(() => import('./illustrations')) },
     { path: '/notify', component: lazy(() => import('./notify')) },
     { path: '/pagination', component: lazy(() => import('./pagination')) },
     { path: '/page', component: lazy(() => import('./page')) },

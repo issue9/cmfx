@@ -20,6 +20,7 @@ export * from './empty';
 export * from './error';
 export * from './form';
 export * from './icon';
+export * from './illustrations';
 export * from './messages';
 export * from './notify';
 export * from './page';
