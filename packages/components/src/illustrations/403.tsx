@@ -51,7 +51,7 @@ export default function Error403(props: ComponentProps<'svg'>): JSX.Element {
                     <path d="M134.28,395.32l-13.85,8v7.33l-7.81,4.51-3.7-2.14V165.44a11,11,0,0,1,1.6-5.35l23.58,13.62Z" style="fill:#263238" />
                     <path d="M112.62,167.59V415.14l7.81-4.5v-7.32l96-55.42,6.34,3.66,7.81-4.5V99.48c0-3.47-2.43-4.85-5.4-3.13L118,158.21A12,12,0,0,0,112.62,167.59Z" style="fill:#455a64" />
                     <polygon points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" style="fill:currentColor"></polygon>
-                    <polygon points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" style="fill:#fff;opacity:0.7"></polygon>
+                    <polygon points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" style="fill:#fff;opacity:0.5"></polygon>
                     <g style="opacity:0.43">
                         <path d="M137.25,377.26V178.61l65-37.54V339.71ZM140,180.19V372.53l59.59-34.4V145.8Z" style="fill:currentColor" />
                         <path d="M137.25,178.61V377.26l65-37.55V141.07Zm62.31,159.52L140,372.53V180.19l59.59-34.39Z" style="opacity:0.1" />
