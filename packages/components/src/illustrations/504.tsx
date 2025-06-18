@@ -1,4 +1,4 @@
-// 图片源码来源于 https://storyset.com/amico 遵循其身的软件许可
+// 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
 import { ComponentProps, JSX } from 'solid-js';
 

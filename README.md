@@ -24,4 +24,7 @@ cmfx 是基于 [Go](https://go.dev) + [solidjs](https://www.solidjs.com/) 的快
 ## 版权
 
 本项目采用 [MIT](https://opensource.org/licenses/MIT) 开源授权许可证，完整的授权说明可在 [LICENSE](https://github.com/issue9/cmfx/blob/master/LICENSE) 文件中找到。
-图标源自项目 [iconfiy](https://github.com/iconify/icon-sets)，每个图标可能有不同许可证。
+
+图标源文件来自项目 [iconfiy](https://github.com/iconify/icon-sets)，每个图标可能有不同许可证。
+
+插画源码来自 [storyset](https://storyset.com/amico)，其许可证可参考 [term](https://storyset.com/terms)。
