@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { includeIgnoreFile } from '@eslint/compat';
-import stylisticTs from '@stylistic/eslint-plugin-ts';
+import stylistic from '@stylistic/eslint-plugin';
 import parserTs from '@typescript-eslint/parser';
 import globals from 'globals';
 import path from 'node:path';
@@ -28,13 +28,13 @@ export default [
         },
         files: ['**/*.ts', '**/*.mts', '**/*.mjs', '**/*.tsx'],
         plugins: {
-            '@stylistic/ts': stylisticTs
+            '@stylistic': stylistic
         },
         rules: {
-            '@stylistic/ts/indent': ['error', 4, { 'SwitchCase': 0 }],
-            '@stylistic/ts/quotes': ['error', 'single'],
-            '@stylistic/ts/semi': ['error', 'always'],
-            '@stylistic/ts/space-before-blocks': 'error'
+            '@stylistic/indent': ['error', 4, { 'SwitchCase': 0 }],
+            '@stylistic/quotes': ['error', 'single'],
+            '@stylistic/semi': ['error', 'always'],
+            '@stylistic/space-before-blocks': 'error'
         }
     }
 ];
