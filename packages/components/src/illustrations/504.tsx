@@ -1,16 +1,14 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其身的软件许可
 
-import { JSX } from 'solid-js';
-
-import { BaseProps, joinClass } from '@/base';
+import { ComponentProps, JSX } from 'solid-js';
 
 /**
  * 表示 504 错误的 SVG 插画组件
  *
  * https://storyset.com/illustration/504-error-gateway-timeout/amico
  */
-export default function Error504(props: BaseProps): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={joinClass(props.palette ? `palette--${props.palette}` : undefined, 'text-palette-fg')}>
+export default function Error504(props: ComponentProps<'svg'>): JSX.Element {
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-155">
             <ellipse id="freepik--floor--inject-155" cx="243" cy="376.24" rx="204.85" ry="105.8" style="fill:var(--surface-bg-low)" />
         </g>

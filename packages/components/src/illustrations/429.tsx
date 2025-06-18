@@ -1,16 +1,14 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其身的软件许可
 
-import { JSX } from 'solid-js';
-
-import { BaseProps, joinClass } from '@/base';
+import { ComponentProps, JSX } from 'solid-js';
 
 /**
  * 表示 429 错误的 SVG 插画组件
  *
  * https://storyset.com/illustration/error-429/amico
  */
-export default function Error429(props: BaseProps): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={joinClass(props.palette ? `palette--${props.palette}` : undefined, 'text-palette-fg')}>
+export default function Error429(props: ComponentProps<'svg'>): JSX.Element {
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-33">
             <path d="M413.86,248c-91.09-52.59-238.29-52.59-328.79,0s-90,137.85,1.07,190.44,238.29,52.6,328.79,0S505,300.58,413.86,248Z" style="fill:var(--surface-bg-low)" />
         </g>

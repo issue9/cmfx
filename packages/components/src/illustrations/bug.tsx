@@ -1,16 +1,14 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其身的软件许可
 
-import { JSX } from 'solid-js';
-
-import { BaseProps, joinClass } from '@/base';
+import { ComponentProps, JSX } from 'solid-js';
 
 /**
- * 表示 未知错误的 SVG 插画组件
+ * 表示未知错误的 SVG 插画组件
  *
  * https://storyset.com/illustration/bug-fixing/amico
  */
-export default function BUG(props: BaseProps): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={joinClass(props.palette ? `palette--${props.palette}` : undefined, 'text-palette-fg')}>
+export default function BUG(props: ComponentProps<'svg'>): JSX.Element {
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-142">
             <path d="M414.43,250.84c91.41,51.64,91.89,135.35,1.08,187s-238.53,51.64-329.94,0-91.89-135.36-1.08-187S323,199.2,414.43,250.84Z" style="fill:var(--surface-bg-low)" />
         </g>

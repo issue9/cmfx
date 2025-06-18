@@ -1,16 +1,14 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其身的软件许可
 
-import { JSX } from 'solid-js';
-
-import { BaseProps, joinClass } from '@/base';
+import { ComponentProps, JSX } from 'solid-js';
 
 /**
  * 表示 403 错误的 SVG 插画组件
  *
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
-export default function Error403(props: BaseProps): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={joinClass(props.palette ? `palette--${props.palette}` : undefined, 'text-palette-fg')}>
+export default function Error403(props: ComponentProps<'svg'>): JSX.Element {
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-121">
             <ellipse id="freepik--floor--inject-121" cx="250" cy="384.61" rx="209.73" ry="94.79" style="fill:var(--surface-bg-low)" />
         </g>
