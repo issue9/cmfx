@@ -31,6 +31,10 @@ export default function() {
                 <illustrations.Error404 palette={palette()} />
             </Stage>
 
+            <Stage title="429" class="w-70 p-4 bg-palette-bg">
+                <illustrations.Error429 palette={palette()} />
+            </Stage>
+
             <Stage title="500" class="w-70 p-4 bg-palette-bg">
                 <illustrations.Error500 palette={palette()} />
             </Stage>
@@ -41,6 +45,14 @@ export default function() {
 
             <Stage title="504" class="w-70 p-4 bg-palette-bg">
                 <illustrations.Error504 palette={palette()} />
+            </Stage>
+
+            <Stage title="bug" class="w-70 p-4 bg-palette-bg">
+                <illustrations.BUG palette={palette()} />
+            </Stage>
+
+            <Stage title="building" class="w-70 p-4 bg-palette-bg">
+                <illustrations.Building palette={palette()} />
             </Stage>
         </ThemeProvider>
     </Demo>;

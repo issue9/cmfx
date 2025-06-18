@@ -1,9 +1,14 @@
-// 图片源码来源于 https://storyset.com/amico，遵循其身的软件许可。
+// 图片源码来源于 https://storyset.com/amico 遵循其身的软件许可
 
 import { JSX } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 
+/**
+ * 表示 503 错误的 SVG 插画组件
+ *
+ * https://storyset.com/illustration/503-error-service-unavailable/amico
+ */
 export default function Error503(props: BaseProps): JSX.Element {
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" class={joinClass(props.palette ? `palette--${props.palette}` : undefined, 'text-palette-fg')}>
         <g id="freepik--Floor--inject-109">
