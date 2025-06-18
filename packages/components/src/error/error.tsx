@@ -10,19 +10,16 @@ import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
-     *标题
+     * 显示可选的插画
+     *
+     * NOTE: 这里会假定你添加的插画是一个正方形。
      */
-    header?: string;
+    illustration?: JSX.Element;
 
     /**
-     * 简要说明
+     * 页面标题
      */
     title?: string;
-
-    /**
-     * 错误的详细描述
-     */
-    detail?: string;
 
     /**
      * 指定一些自定义的操作
@@ -40,21 +37,11 @@ const presetProps: Readonly<Partial<Props>> = {
 export  function Error(props: Props) {
     props = mergeProps(presetProps, props);
     const [, act] = use();
-    act.setTitle(props.header ?? '');
+
+    act.setTitle(props.title ?? '');
 
     return <div class={joinClass(styles.error, props.palette ? `palette--${props.palette}` : undefined)}>
-        <Show when={props.header}>
-            <h1>{props.header}</h1>
-        </Show>
-
-        <Show when={props.title}>
-            <p class={styles.title}>{props.title}</p>
-        </Show>
-
-        <Show when={props.detail}>
-            <p class={styles.detail}>{props.detail}</p>
-        </Show>
-
+        {props.illustration }
         <Show when={props.children}>
             <div class={styles.content}>{props.children}</div>
         </Show>

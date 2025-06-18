@@ -28,19 +28,6 @@ const messages = {
             nextMonth: 'Next month',
             nextYear: 'Next year',
         },
-        error: {
-            backHome: 'Back home',
-            backPrev: 'Back prev page',
-            unknownError: 'Unknown error',
-            pageNotFound: 'Page not found',
-            forbidden: 'Forbidden',
-            internalServerError: 'Server error',
-
-            // 以下为一些内置的错误提示信息
-            canNotBeEmpty: 'Can not be empty',
-            oldNewPasswordCanNotBeEqual: 'The old password and new password can not be equal',
-            newConfirmPasswordMustBeEqual: 'The new password and confirm password must be equal',
-        },
         pagination: {
             prev: 'Prev',
             next: 'Next',

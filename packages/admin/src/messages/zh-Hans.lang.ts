@@ -33,6 +33,19 @@ const messages: typeof m = {
             female: '女',
             unknown: '未知'
         },
+        error: {
+            backHome: '返回首页',
+            backPrev: '返回上一页',
+            unknownError: '未知错误',
+            pageNotFound: '页面不存在',
+            forbidden: '无权访问当前页面',
+            internalServerError: '服务端错误',
+
+            // 以下为一些内置的错误提示信息
+            canNotBeEmpty: '不能为空',
+            oldNewPasswordCanNotBeEqual: '新密码不能与旧密码相同',
+            newConfirmPasswordMustBeEqual: '确认密码与新密码并不相同',
+        },
         current: {
             dashboard: '控制台',
             logout: '退出',
