@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Layout, layouts, Palette, palettes } from '@cmfx/components';
+import { joinClass, Layout, layouts, Palette, palettes } from '@cmfx/components';
 import { PopPos } from '@cmfx/core';
 import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'solid-js';
 
@@ -69,12 +69,12 @@ export interface DemoProps {
 }
 
 export function Stage(props: ParentProps<{title?: string, class?: string}>) {
-    return <div class={'flex flex-col gap-4 '+ (props.class ?? '')}>
+    return <fieldset class={joinClass('border border-palette-fg p-2 flex flex-col gap-4 ',props.class)}>
         <Show when={props.title}>
-            <p>{props.title}</p>
+            <legend>{props.title}</legend>
         </Show>
         {props.children}
-    </div>;
+    </fieldset>;
 }
 
 /**
