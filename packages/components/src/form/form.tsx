@@ -28,8 +28,11 @@ export interface Props<T extends object, R = never, P = never> extends BaseProps
  * 表单组件
  */
 export function Form<T extends object, R = never, P = never>(props: Props<T,R,P>) {
-    return <form method={props.inDialog ? 'dialog' : undefined} {...props.formAccessor.events()}
-        class={joinClass(styles.form, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
-        <Spin spinning={props.formAccessor.submitting()}>{props.children}</Spin>
-    </form>;
+    return <Spin spinning={props.formAccessor.submitting()} palette={props.palette}>
+        <form class={joinClass(styles.form, props.class)}
+            method={props.inDialog ? 'dialog' : undefined}
+            {...props.formAccessor.events()}>
+            {props.children}
+        </form>
+    </Spin>;
 }

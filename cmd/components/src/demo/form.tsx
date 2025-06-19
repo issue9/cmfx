@@ -22,8 +22,7 @@ export default function() {
             {paletteS}
         </>
     }>
-        <p>flex</p>
-        <Form class="flex items-center" formAccessor={f} palette={palette()} {...f.events()}>
+        <Form formAccessor={f} palette={palette()} {...f.events()}>
             <TextField accessor={f.accessor('f1')} />
             <Number accessor={f.accessor(5)} />
             <DatePicker accessor={f.accessor('date')} />

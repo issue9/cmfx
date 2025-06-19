@@ -31,7 +31,7 @@ export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
 export function Spin(props: Props) {
     const [_, contProps] = splitProps(props, ['spinning', 'indicator', 'palette', 'class']);
     return <fieldset {...contProps} disabled={props.spinning}
-        class={joinClass(props.class, styles.spin, props.palette ? `palette--${props.palette}` : undefined)}>
+        class={joinClass(styles.spin, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
         {props.children}
 
         <Show when={props.spinning}>
