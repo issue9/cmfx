@@ -24,6 +24,11 @@ export interface FieldArea {
      * 向后跨的列数
      */
     cols?: 1 | 2 | 3;
+
+    /**
+     * 向下跨的行数
+     */
+    rows?: 1 | 2 | 3;
 }
 
 interface FieldAreas {
@@ -36,9 +41,7 @@ export type FieldProps<T> = ParentProps<Props & FieldAreas & {
     getError: Accessor<T>['getError'],
 
     /**
-     * 提示信息
-     *
-     * 该内容显示在 helpArea 区别。
+     * 显示在 helpArea 区域的提示信息
      */
     help?: JSX.Element;
 
@@ -49,6 +52,7 @@ function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
     return {
         'grid-area': area.pos,
         'grid-column-end': area.cols ? (`span ${area.cols}`) : undefined,
+        'grid-row-end': area.rows ? (`span ${area.rows}`) : undefined,
     };
 }
 
@@ -69,32 +73,54 @@ export function calcLayoutFieldAreas(l: Layout, hasHelp: boolean, hasLabel: bool
 
 function  calcHorizontalFieldAreas(hasHelp: boolean, hasLabel: boolean): FieldAreas {
     if (hasLabel) {
+        if (hasHelp) {
+            return {
+                labelArea: { pos: 'top-left' }, // label 只需要与 input 横向对齐，所以 rows 应该保持与 input 一样。
+                inputArea: { pos: 'top-center', cols: 2 },
+                helpArea: { pos: 'middle-center', cols: 2, rows: 2 }
+            };
+        }
+
         return {
-            inputArea: { pos: 'middle-center', cols: 2 },
-            labelArea: { pos: 'middle-left' },
-            helpArea: { pos: 'bottom-center', cols: 2 }
+            labelArea: { pos: 'top-left', rows: 3 },
+            inputArea: { pos: 'top-center', cols: 2, rows: 3 },
         };
     }
 
-    return {
-        inputArea: { pos: 'middle-left', cols: 3 },
-        helpArea: { pos: 'bottom-left', cols: 3 }
-    };
+    if (hasHelp) {
+        return {
+            inputArea: { pos: 'top-left', cols: 3 },
+            helpArea: { pos: 'middle-left', cols: 3, rows: 2 }
+        };
+    }
+
+    return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
 function  calcVerticalFieldAreas(hasHelp: boolean, hasLabel: boolean): FieldAreas {
     if (hasLabel) {
+        if (hasHelp) {
+            return {
+                labelArea: { pos: 'top-left', cols: 3 },
+                inputArea: { pos: 'middle-left', cols: 3 },
+                helpArea: { pos: 'bottom-left', cols: 3 }
+            };
+        }
+
         return {
-            inputArea: { pos: 'middle-left', cols: 3 },
             labelArea: { pos: 'top-left', cols: 3 },
-            helpArea: { pos: 'bottom-left', cols: 3 }
+            inputArea: { pos: 'middle-left', cols: 3, rows: 2 },
         };
     }
 
-    return {
-        inputArea: { pos: 'top-left', cols: 3 },
-        helpArea: { pos: 'middle-left', cols: 3 }
-    };
+    if (hasHelp) {
+        return {
+            inputArea: { pos: 'top-left', cols: 3 },
+            helpArea: { pos: 'middle-left', cols: 3, rows: 2 }
+        };
+    }
+
+    return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
 /**
@@ -117,12 +143,13 @@ export default function Field<T>(props: FieldProps<T>): JSX.Element {
     return <div class={joinClass(styles.field, props.class, props.palette ? `palette--${props.palette}` : undefined)}
         ref={(el) => { if (props.ref) { props.ref(el); } }}>
         <Show when={props.labelArea}>
-            {(area)=>(<div style={fieldArea2Style(area())}>{props.label}</div>)}
+            {(area)=>(<label style={fieldArea2Style(area())}>{props.label}</label>)}
         </Show>
 
         <div class={styles.content} style={fieldArea2Style(props.inputArea)}>
             {props.children}
         </div>
+
         <Show when={props.helpArea}>
             {(area)=>(
                 <p style={fieldArea2Style(area())} role="alert" class={joinClass(styles.help, props.getError() ? styles.error : undefined)}>
