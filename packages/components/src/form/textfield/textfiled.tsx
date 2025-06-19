@@ -54,9 +54,8 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     const id = createUniqueId();
 
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!)}
+        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         help={props.help}
-        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={<label for={id}>{props.label}</label>}

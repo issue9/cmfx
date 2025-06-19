@@ -54,9 +54,8 @@ export function Editor(props: Props): JSX.Element {
     });
 
     return <Field class={joinClass(styles.editor, props.class)}
-        {...calcLayoutFieldAreas(props.layout!)}
+        {...calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label)}
         help={props.help}
-        hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
         label={<label onClick={()=>editor.focus()}>{props.label}</label>}

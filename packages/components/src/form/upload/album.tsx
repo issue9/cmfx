@@ -71,8 +71,7 @@ export function Album(props: Props): JSX.Element {
     });
     
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!)}
-        hasHelp={access.hasHelp}
+        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         help={props.help}
         getError={access.getError}
         title={props.title}

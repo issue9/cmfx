@@ -36,9 +36,8 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block']);
 
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!)}
+        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         help={props.help}
-        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={props.label}

@@ -42,9 +42,8 @@ export default function OKLCHPicker(props: Props): JSX.Element {
     });
 
     return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles['oklch-activator'])}
-        {...calcLayoutFieldAreas(props.layout!)}
+        {...calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label)}
         help={props.help}
-        hasHelp={props.accessor.hasHelp}
         getError={props.accessor.getError}
         title={props.title}
         label={<label onClick={() => togglePop(anchorRef, panelRef)}>{props.label}</label>}

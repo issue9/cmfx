@@ -65,9 +65,8 @@ export default function Range(props: Props): JSX.Element {
     });
 
     return <Field ref={el=>fieldRef=el} class={joinClass(styles.range, props.class)}
-        {...calcLayoutFieldAreas(props.layout!)}
+        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         help={props.help}
-        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={props.label}

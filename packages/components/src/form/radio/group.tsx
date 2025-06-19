@@ -32,9 +32,8 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
     const access = props.accessor;
     
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!)}
+        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         help={props.help}
-        hasHelp={access.hasHelp}
         getError={access.getError}
         title={props.title}
         label={props.label}
