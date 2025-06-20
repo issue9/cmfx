@@ -9,7 +9,7 @@
 @layer components {
     .list {
         /* 组件中引用此值 */
-        --item-space: theme('spacing.2');
+        --item-space: --spacing(2);
 
         @apply text-[var(--fg)] bg-[var(--bg)] flex flex-col gap-1 min-w-[200px];
 
