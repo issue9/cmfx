@@ -8,8 +8,8 @@ export type { Mode } from './mode';
 export { changeContrast, contrasts } from './contrast';
 export type { Contrast } from './contrast';
 
-export { changeScheme, genScheme, genSchemes } from './scheme';
-export type { Scheme } from './scheme';
+export { changeScheme, genScheme, genSchemes, palettes } from './scheme';
+export type { Palette, Scheme } from './scheme';
 
 export { applyTheme, breakpoints, hasTheme, transitionDuration } from './theme';
 export type { Breakpoint, Theme } from './theme';
