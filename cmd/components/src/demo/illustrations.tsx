@@ -55,6 +55,10 @@ export default function() {
                 <Stage title="building" class="w-150 p-4 bg-palette-bg">
                     <illustrations.Building />
                 </Stage>
+
+                <Stage title="login" class="w-150 p-4 bg-palette-bg">
+                    <illustrations.Login />
+                </Stage>
             </div>
         </ThemeProvider>
     </Demo>;
