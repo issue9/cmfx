@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Contrast, genScheme, LocaleProvider, Mode, ThemeProvider, use, useLocale } from '@cmfx/components';
+import { Button, genScheme, LocaleProvider, Mode, ThemeProvider, use, useLocale } from '@cmfx/components';
 import { Locale } from '@cmfx/core';
 import { createSignal, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -15,7 +15,6 @@ export default function() {
     const l = useLocale();
 
     const [scheme, setScheme] = createStore(genScheme(20));
-    const [contrast, setContrast] = createSignal<Contrast>('nopreference');
     const [locale, setLocale] = createSignal<string>('zh-Hans');
 
     return <Demo>
@@ -45,7 +44,7 @@ export default function() {
             <span>全局</span>
             <Button>button</Button>
             <fieldset class="p-2 border border-palette-fg">
-                <ThemeProvider mode={mode()} contrast={contrast()} scheme={scheme}>
+                <ThemeProvider mode={mode()} scheme={scheme}>
                     <Button palette='primary'>primary</Button>
                     <br />
 
@@ -60,18 +59,6 @@ export default function() {
                             <option value={20}>20</option>
                             <option value={50}>50</option>
                             <option value={100}>100</option>
-                        </select>
-                    </label>
-                    <br />
-
-                    <label> 对比度
-                        <select value={contrast()} onChange={(e) => {
-                            const value = e.target.value as Contrast;
-                            setContrast(value);
-                        }}>
-                            <option value='more'>more</option>
-                            <option value='less'>less</option>
-                            <option value='nopreference'>nopreference</option>
                         </select>
                     </label>
                 </ThemeProvider>
@@ -98,15 +85,6 @@ export default function() {
                 <option value={20}>20</option>
                 <option value={50}>50</option>
                 <option value={100}>100</option>
-            </select>
-
-            <select value={opt.contrast} onChange={(e) => {
-                const value = e.target.value as Contrast;
-                act.switchContrast(value);
-            }}>
-                <option value='more'>more</option>
-                <option value='less'>less</option>
-                <option value='nopreference'>nopreference</option>
             </select>
 
             <select value={opt.mode} onChange={(e) => {

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, genSchemes, Mode, Scheme } from '@cmfx/components';
+import { genSchemes, Mode, Scheme } from '@cmfx/components';
 import { DictLoader, Hotkey, UnitStyle } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
@@ -153,11 +153,6 @@ export interface Theme {
     mode: Mode;
 
     /**
-     * 对比度
-     */
-    contrast: Contrast;
-
-    /**
      * 可用的主题列表
      *
      * 可由 {@link genScheme} 和 {@link genSchemes} 生成主题数据。
@@ -188,7 +183,6 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     titleSeparator: ' | ',
     theme: {
         mode: 'system',
-        contrast: 'nopreference',
         schemes: presetSchemes,
         scheme: presetSchemes[0]
     },

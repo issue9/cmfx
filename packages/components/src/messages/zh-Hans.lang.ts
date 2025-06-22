@@ -59,7 +59,6 @@ const messages: typeof m = {
             mode: '模式',
             dark: '深色',
             light: '浅色',
-            contrast: '对比度',
             nopreference: '正常',
             less: '低',
             more: '高',

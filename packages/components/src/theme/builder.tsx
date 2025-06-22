@@ -6,7 +6,7 @@ import { For, JSX, ParentProps, Show } from 'solid-js';
 import IconPalette from '~icons/material-symbols/palette';
 import IconExport from '~icons/tabler/table-export';
 
-import { BaseProps, Contrast, Mode, Palette, Scheme, applyTheme, genScheme, palettes } from '@/base';
+import { BaseProps, Mode, Palette, Scheme, applyTheme, genScheme, palettes } from '@/base';
 import { Button } from '@/button';
 import { ThemeProvider, useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
@@ -49,12 +49,8 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     const l = useLocale();
     const modeFA = FieldAccessor<Mode>('mode', 'dark');
     const schemeFA = new ObjectAccessor<Scheme>(genScheme(80));
-    const contrastFA = FieldAccessor<Contrast>('contrast', 'nopreference');
     const modes: FieldOptions<Mode> = translateEnums2Options<Mode, MessagesKey>([
         ['dark', '_c.theme.dark'], ['light', '_c.theme.light']
-    ], l);
-    const contrasts: FieldOptions<Contrast> = translateEnums2Options<Contrast, MessagesKey>([
-        ['nopreference', '_c.theme.nopreference'], ['more', '_c.theme.more'], ['less', '_c.theme.less']
     ], l);
 
     let dlg: DialogRef;
@@ -65,22 +61,20 @@ export default function SchemeBuilder(props: Props): JSX.Element {
         },
         reset: () => {
             modeFA.reset();
-            contrastFA.reset();
             schemeFA.reset();
         },
         apply: () => {
-            applyTheme(document.documentElement, { scheme: schemeFA.object(), mode: modeFA.getValue(), contrast: contrastFA.getValue() });
+            applyTheme(document.documentElement, { scheme: schemeFA.object(), mode: modeFA.getValue() });
         },
     };
 
     if (props.ref) { props.ref(ref); }
 
-    return <ThemeProvider mode={modeFA.getValue()} contrast={contrastFA.getValue()} scheme={schemeFA.object()}>
+    return <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
         <div class={styles.builder}>
             <div class={styles.content}>
                 <div class={styles.toolbar}>
                     <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_c.theme.mode')} options={modes} />
-                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={contrastFA} label={l.t('_c.theme.contrast')} options={contrasts} />
                     <Show when={props.actions}>
                         <div class={styles.last}>
                             <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_c.reset') }</Button>

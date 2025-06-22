@@ -18,7 +18,6 @@ const options: Options = {
     storage: window.localStorage,
     configName: '',
     scheme: genScheme(5),
-    contrast: 'more',
     mode: 'dark',
     locale: 'zh-Hans',
     unitStyle: 'full',

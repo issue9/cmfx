@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Contrast, Description, Divider, FieldAccessor, FieldOptions, joinClass, Mode, Page, RadioGroup, Scheme, use as useC } from '@cmfx/components';
+import { Choice, Description, Divider, FieldAccessor, FieldOptions, joinClass, Mode, Page, RadioGroup, Scheme, use as useC } from '@cmfx/components';
 import { Locale, UnitStyle } from '@cmfx/core';
 import { JSX } from 'solid-js';
-import IconContrast from '~icons/material-symbols/contrast';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconPalette from '~icons/material-symbols/palette';
 import IconSettings from '~icons/material-symbols/settings-night-sight';
@@ -21,9 +20,6 @@ export function Settings(): JSX.Element {
 
     const modeFA = FieldAccessor<Mode>('mode', opt.mode);
     modeFA.onChange((m) => { act.switchMode(m); });
-
-    const contrastFA = FieldAccessor<Contrast>('contrast', opt.contrast);
-    contrastFA.onChange((m) => { act.switchContrast(m); });
 
     const schemesOptions: FieldOptions<number> = [];
     for (const s of o.theme.schemes) {
@@ -50,20 +46,6 @@ export function Settings(): JSX.Element {
                 ['system', l.t('_p.settings.system')],
                 ['dark', l.t('_p.settings.dark')],
                 ['light', l.t('_p.settings.light')]
-            ]}
-        />
-
-        <Divider />
-
-        <Description icon={/*@once*/IconContrast} title={l.t('_p.settings.contrast')!}>
-            {l.t('_p.settings.contrastDesc')! }
-        </Description>
-
-        <RadioGroup itemLayout='horizontal' accessor={contrastFA} block={/*@once*/false}
-            options={/*@once*/[
-                ['more', l.t('_p.settings.more')],
-                ['nopreference', l.t('_p.settings.nopreference')],
-                ['less', l.t('_p.settings.less')]
             ]}
         />
 

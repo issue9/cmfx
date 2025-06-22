@@ -10,7 +10,6 @@ export const options: Options = {
     configName: '',
     storage: window.sessionStorage,
     scheme: genScheme(10),
-    contrast: 'nopreference',
     mode: 'system',
     locale: 'zh-Hans',
     unitStyle: 'full',

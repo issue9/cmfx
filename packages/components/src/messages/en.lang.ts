@@ -57,7 +57,6 @@ const messages = {
             mode: 'Theme mode',
             dark: 'Dark',
             light: 'Light',
-            contrast: 'Contrast',
             nopreference: 'No preference',
             less: 'Less',
             more: 'More',

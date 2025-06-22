@@ -172,8 +172,6 @@ const messages = {
             system: 'System',
             color: 'Primary color',
             colorDesc: 'Customize the theme primary color of the page',
-            contrast: 'Contrast',
-            contrastDesc: 'Customize the theme contrast of the page',
             nopreference: 'No preference',
             less: 'Less',
             more: 'More',

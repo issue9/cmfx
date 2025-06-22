@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Mode, Notify, Options, OptionsProvider, Scheme, SystemDialog, notify, use as useComponents } from '@cmfx/components';
+import { Mode, Notify, Options, OptionsProvider, Scheme, SystemDialog, notify, use as useComponents } from '@cmfx/components';
 import { API, Problem, Return, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -47,7 +47,6 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         configName: props.configName,
 
         scheme: props.theme.schemes[0],
-        contrast: props.theme.contrast,
         mode: props.theme.mode,
 
         locale: props.locales.fallback,
@@ -212,11 +211,6 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
          * 切换主题模式
          */
         switchMode(mode: Mode) { act.switchMode(mode); },
-
-        /**
-         * 切换主题的明亮度
-         */
-        switchContrast(contrast: Contrast) { act.switchContrast(contrast); },
 
         /**
          * 切换本地化对象
