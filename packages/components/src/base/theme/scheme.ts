@@ -21,10 +21,10 @@ export interface Scheme {
     /**
      * 表示 tailwind 中 --radius-xs 的数值，默认是 0.125
      */
-    radius?: number;
+    radius?: Radius;
 
     /**
-     * 表示 tailwind 中 --radius-xs 的数值，默认是 0.25
+     * 表示 tailwind 中 --spacing 的数值，默认是 0.25
      */
     spacing?: number;
 
@@ -35,6 +35,17 @@ export interface Scheme {
 
     dark: Colors;
     light: Colors;
+}
+
+export interface Radius {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    '2xl': number;
+    '3xl': number;
+    '4xl': number;
 }
 
 export interface Colors {
@@ -103,14 +114,11 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
             elem.style.setProperty('--spacing', `${v}rem`);
             return;
         case 'radius':
-            elem.style.setProperty('--radius-xs', `${v}rem`);
-            elem.style.setProperty('--radius-sm', `${v*2}rem`);
-            elem.style.setProperty('--radius-md', `${v*3}rem`);
-            elem.style.setProperty('--radius-lg', `${v*4}rem`);
-            elem.style.setProperty('--radius-xl', `${v*5}rem`);
-            elem.style.setProperty('--radius-2xl', `${v*6}rem`);
-            elem.style.setProperty('--radius-3xl', `${v*7}rem`);
-            elem.style.setProperty('--radius-4xl', `${v*8}rem`);
+            Object.entries<string>(v).forEach(([k2, v2]) => {
+                if (v2 !== undefined) {
+                    elem.style.setProperty(`--radius-${k2}`, `${v2}rem`);
+                }
+            });
             return;
         case 'transitionDuration':
             elem.style.setProperty('--default-transition-duration', `${v}ms`);
@@ -184,9 +192,19 @@ export function genScheme(primary: number, error?: number, step = 60, fontSize?:
     const invertL = lightness - l;
     const invertLHigh = lightness - lHigh;
 
+    const radius = rand(0.005, 2, 3);
     return {
         fontSize: fontSize,
-        radius: rand(0.005, 2, 3),
+        radius: {
+            xs: radius,
+            sm: radius * 2,
+            md: radius * 3,
+            lg: radius * 4,
+            xl: radius * 5,
+            '2xl': radius * 6,
+            '3xl': radius * 7,
+            '4xl': radius * 8,
+        },
         spacing: rand(0.05, 0.5, 3),
         transitionDuration: rand(300, 1000, 0),
         dark: {
