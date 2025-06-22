@@ -160,7 +160,7 @@ export interface Theme {
     /**
      * 可用的主题列表
      *
-     * 可由 {@link CoreTheme#genScheme} 和 {@link CoreTheme#genSchemes} 生成主题数据。
+     * 可由 {@link genScheme} 和 {@link genSchemes} 生成主题数据。
      *
      * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
