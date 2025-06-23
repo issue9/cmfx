@@ -3,13 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { genSchemes, Mode, Scheme } from '@cmfx/components';
-import { DictLoader, Hotkey, UnitStyle } from '@cmfx/core';
+import { DictLoader, Hotkey, PickOptional, UnitStyle } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
 import { presetAside } from './aside';
 import type { MenuItem, Routes } from './route';
-import { PickOptional } from './types';
 
 /**
  * 项目的基本配置

@@ -4,14 +4,14 @@
 
 import { expect, test } from 'vitest';
 
-import { flatten } from './dict';
+import { dictFlatten } from './dict';
 
-test('flatten', () => {
+test('dictFlatten', () => {
     const o1 = { x: '1' };
-    expect(flatten(o1)).toEqual({ 'x': '1' });
+    expect(dictFlatten(o1)).toEqual({ 'x': '1' });
 
     const o2 = { x: '1', y: { z: '2' } };
-    expect(flatten(o2)).toEqual({ 'x': '1', 'y.z': '2' });
+    expect(dictFlatten(o2)).toEqual({ 'x': '1', 'y.z': '2' });
 
     const o3 = {
         x: '1',
@@ -22,5 +22,5 @@ test('flatten', () => {
         zz: '4',
         zzz: '5'
     };
-    expect(flatten(o3)).toEqual({ 'x': '1', 'y.z': '2', 'yy.z': '3', 'yy.zz.z': '4', 'zz': '4', zzz: '5' });
+    expect(dictFlatten(o3)).toEqual({ 'x': '1', 'y.z': '2', 'yy.z': '3', 'yy.zz.z': '4', 'zz': '4', zzz: '5' });
 });
