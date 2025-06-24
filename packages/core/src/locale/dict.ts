@@ -17,13 +17,12 @@ export type DictKeys<T extends Dict> = FlattenKeys<T>;
 /**
  * 每个翻译对象扁平化的表示
  */
-export type DictFlatten<T extends Dict> = Flatten<T>;
-
+export type DictFlatten<T extends Dict> = Flatten<T, string>;
 
 /**
  * 将翻译对象 dict 转换为一个扁平的对象
  */
-export function dictFlatten<T extends Dict>(dict: T) {
+export function dictFlatten<T extends Dict>(dict: T): DictFlatten<T> {
     return flatten<T, string>(dict);
 }
 
