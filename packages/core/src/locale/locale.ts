@@ -90,7 +90,7 @@ export class Locale {
         }
 
         for (const l of loaders) {
-            Object.entries(dictFlatten(await l())).forEach((item) => {
+            Object.entries<string>(dictFlatten(await l())).forEach((item) => {
                 try {
                     msgs.set(item[0], new IntlMessageFormat(item[1], locale));
                 } catch (err) {

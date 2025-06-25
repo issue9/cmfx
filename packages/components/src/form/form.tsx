@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { FlattenObject } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
@@ -9,7 +10,7 @@ import { Spin } from '@/spin';
 import { FormAccessor } from './access';
 import styles from './style.module.css';
 
-export interface Props<T extends object, R = never, P = never> extends BaseProps {
+export interface Props<T extends FlattenObject, R = never, P = never> extends BaseProps {
     formAccessor: FormAccessor<T, R, P>;
 
     class?: string;
@@ -27,7 +28,7 @@ export interface Props<T extends object, R = never, P = never> extends BaseProps
 /**
  * 表单组件
  */
-export function Form<T extends object, R = never, P = never>(props: Props<T,R,P>) {
+export function Form<T extends FlattenObject, R = never, P = never>(props: Props<T,R,P>) {
     return <Spin spinning={props.formAccessor.submitting()} palette={props.palette}>
         <form class={joinClass(styles.form, props.class)}
             method={props.inDialog ? 'dialog' : undefined}
