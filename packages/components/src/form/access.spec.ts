@@ -2,25 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { ExpandType, FlattenKeys } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ObjectAccessor } from './access';
 import { Accessor } from './field';
 
-describe('object access', () => {
+describe('ObjectAccessor', () => {
     interface Object {
+        [k: string]: unknown;
         f1: number;
         f2: string;
     }
 
-    const f = new ObjectAccessor<Object>({ 'f1': 5, 'f2': 'f2' });
+    const f = new ObjectAccessor<ExpandType<Object>>({ 'f1': 5, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(true);
     t(f.accessor('f1'));
     expect(f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(false);
 
     test('validation', () => {
-        const v = (_: Object) => { return new Map<keyof Object, string>([['f1', 'err']]); };
+        const v = (_: Object) => { return new Map<FlattenKeys<ExpandType<Object>>, string>([['f1', 'err']]); };
         expect(f.object(v)).toBeUndefined();
         expect(f.accessor('f1').getError(), 'err');
 
@@ -45,6 +47,14 @@ describe('object access', () => {
         f.setObject({ 'f1': 11, 'f2': '22' });
         expect(f.accessor('f1').getValue()).toEqual(11);
         expect(f.accessor('f2').getValue()).toEqual('22');
+    });
+    
+    test('children', () => {
+        const a = f.accessor<number>('not.exists' as any);
+        expect(a.getValue()).toBeUndefined();
+        
+        a.setValue(5);
+        expect(a.getValue()).toEqual(5);
     });
 });
 

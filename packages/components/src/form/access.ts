@@ -4,7 +4,7 @@
 
 import { FlattenKeys, FlattenObject, Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
-import { createStore, unwrap } from 'solid-js/store';
+import { createStore, produce, unwrap } from 'solid-js/store';
 
 import { use } from '@/context';
 import { Accessor, ChangeFunc } from './field';
@@ -24,7 +24,7 @@ export interface Validation<T extends FlattenObject> {
 /**
  * 将一组 {@link Accessor} 存储至一个对象中
  *
- * T 表示当前存储的对象类型；
+ * @template T 表示当前存储的对象类型，该对象要求必须是可由 {@link structuredClone} 复制的；
  */
 export class ObjectAccessor<T extends FlattenObject> {
     #preset: T;
@@ -47,7 +47,7 @@ export class ObjectAccessor<T extends FlattenObject> {
         this.#preset = preset;
         this.#isPreset = createSignal(true);
 
-        [this.#valGetter, this.#valSetter] = createStore<T>(preset);
+        [this.#valGetter, this.#valSetter] = createStore<T>(structuredClone(preset)); // 复制对象，防止与默认对象冲突。
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
 
         this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown>>();
@@ -120,7 +120,7 @@ export class ObjectAccessor<T extends FlattenObject> {
                 if (path.length === 1) { return self.#valGetter[name] as FT; }
 
                 return path.reduce<FT | T>((acc, key) => {
-                    return key ? ((acc as T)[key]) as FT : acc;
+                    return key && acc ? (acc as T)[key] as FT : acc;
                 }, self.#valGetter) as FT;
             },
 
@@ -129,8 +129,14 @@ export class ObjectAccessor<T extends FlattenObject> {
                 if (old !== val) {
                     changes.forEach((f) => { f(val, old); });
 
-                    // TODO: 还有更好的方法实现调用 self.#valSetter(...[...path, val]) ？
-                    (self.#valSetter as (...args: any[]) => void).apply(null, [...path, val]);
+                    self.#valSetter(produce((draft) => {
+                        let target = draft as any; // as any 去掉只读属性！
+                        for (let i = 0; i < path.length - 1; i++) {
+                            target[path[i]] ??= {};
+                            target = target[path[i]];
+                        }
+                        target[path[path.length - 1]] = val;
+                    }));
                 }
 
                 self.#checkPreset();
