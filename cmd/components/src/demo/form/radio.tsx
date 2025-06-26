@@ -34,6 +34,10 @@ export default function() {
             <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
+        <Stage title="radio">
+            <input type="radio" name="radio1" value="option1" readonly={readonly()} disabled={disabled()} />
+            <input type="radio" name="radio1" value="option2" readonly={readonly()} disabled={disabled()} />
+        </Stage>
         <Stage title="radio group">
             <RadioGroup label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}

@@ -94,7 +94,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
                 </div>
             </header>
 
-            <Dialog ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
+            <Dialog scrollable ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
                 <pre>{JSON.stringify(schemeFA.object(), null, 4)}</pre>
             </Dialog>
 

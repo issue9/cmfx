@@ -54,8 +54,8 @@
     .demo {
         @apply p-4 rounded-lg bg-palette-bg text-palette-fg;
 
-        header {
-            @apply flex flex-wrap gap-2 justify-between w-full mb-4;
+        >header {
+            @apply flex flex-wrap gap-2 justify-between items-center w-full mb-4;
 
             .actions {
                 @apply flex gap-2;
