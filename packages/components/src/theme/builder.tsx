@@ -2,18 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, ParentProps, Show } from 'solid-js';
-import IconPalette from '~icons/material-symbols/palette';
-import IconExport from '~icons/tabler/table-export';
+import { ExpandType } from '@cmfx/core';
+import { JSX, ParentProps } from 'solid-js';
+import IconApply from '~icons/fluent/text-change-accept-20-filled';
+import IconDark from '~icons/material-symbols/dark-mode';
+import IconExport from '~icons/material-symbols/export-notes';
+import IconLight from '~icons/material-symbols/light-mode';
+import IconReset from '~icons/material-symbols/reset-settings';
 
-import { BaseProps, Mode, Palette, Scheme, applyTheme, genScheme, palettes } from '@/base';
-import { Button } from '@/button';
+import { applyTheme, BaseProps, genScheme, Mode, Scheme } from '@/base';
+import { Button, ButtonGroup } from '@/button';
 import { ThemeProvider, useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
-import { Divider } from '@/divider';
-import { Accessor, FieldAccessor, FieldOptions, ObjectAccessor, RadioGroup, Range, translateEnums2Options } from '@/form';
-import { MessagesKey } from '@/messages';
+import { Drawer } from '@/drawer';
+import { FieldAccessor, ObjectAccessor } from '@/form';
 import { Label } from '@/typography';
+import { Components } from './demo';
+import { params } from './params';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -47,13 +52,9 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function SchemeBuilder(props: Props): JSX.Element {
     const l = useLocale();
-    const modeFA = FieldAccessor<Mode>('mode', 'dark');
-    const schemeFA = new ObjectAccessor<Scheme>(genScheme(80));
-    const modes: FieldOptions<Mode> = translateEnums2Options<Mode, MessagesKey>([
-        ['dark', '_c.theme.dark'], ['light', '_c.theme.light']
-    ], l);
-
     let dlg: DialogRef;
+    const modeFA = FieldAccessor<Mode>('mode', 'dark');
+    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(genScheme(80));
 
     const ref: Ref = {
         export: (): Scheme => {
@@ -70,72 +71,36 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     if (props.ref) { props.ref(ref); }
 
-    return <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
-        <div class={styles.builder}>
-            <div class={styles.content}>
-                <div class={styles.toolbar}>
-                    <RadioGroup layout='horizontal' itemLayout='horizontal' accessor={modeFA} label={l.t('_c.theme.mode')} options={modes} />
-                    <Show when={props.actions}>
-                        <div class={styles.last}>
-                            <Button palette='secondary' onClick={() => ref.reset()}>{l.t('_c.reset') }</Button>
-                            <Button palette='primary' onClick={() => ref.apply()}>{ l.t('_c.theme.apply') }</Button>
-                            <Button palette='primary' onClick={()=>dlg.showModal()}>{ l.t('_c.theme.export') }</Button>
-                        </div>
-                    </Show>
-                    <Divider padding='8px' />
+    const Main = () => <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
+        <div class={styles.demo}>
+            <header>
+                <p class="text-2xl">{l.t('_c.theme.componentsDemo')}</p>
+                <div class={styles.actions}>
+                    <ButtonGroup rounded>
+                        <Button square title={l.t('_c.theme.light')}
+                            checked={modeFA.getValue() === 'light'} onClick={() => modeFA.setValue('light')}>
+                            <IconLight />
+                        </Button>
+                        <Button square title={l.t('_c.theme.dark')}
+                            checked={modeFA.getValue() === 'dark'} onClick={() => modeFA.setValue('dark')}>
+                            <IconDark />
+                        </Button>
+                    </ButtonGroup>
+                    <ButtonGroup rounded>
+                        <Button square onClick={ref.reset} title={l.t('_c.reset')}><IconReset /></Button>
+                        <Button square onClick={() => ref.apply()} title={l.t('_c.theme.apply')}><IconApply /></Button>
+                        <Button square onClick={() => dlg.showModal()} title={l.t('_c.theme.export')}><IconExport /></Button>
+                    </ButtonGroup>
                 </div>
+            </header>
 
-                <For each={palettes}>
-                    {(p) => { return paletteBlock(p, schemeFA.accessor(p)); }}
-                </For>
-            </div>
+            <Dialog ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
+                <pre>{JSON.stringify(schemeFA.object(), null, 4)}</pre>
+            </Dialog>
 
-            {props.children}
+            <Components />
         </div>
-        <Dialog ref={el => dlg = el} header={<Label icon={IconExport}>{ l.t('_c.theme.export') }</Label>}>
-            <pre>
-                {JSON.stringify(schemeFA.object(), null, 4)}
-            </pre>
-        </Dialog>
     </ThemeProvider>;
-}
 
-function paletteBlock(p: Palette, a: Accessor<number>): JSX.Element {
-    return <div>
-        <Label class='text-xxl mt-4' icon={IconPalette}>{
-            <>
-                {p}
-                <Range class='mx-2' min={0} max={360} accessor={a} />
-                <span>{a.getValue()}</span>
-            </>
-        }</Label>
-        <Divider padding='8px' />
-        <div class={styles.blocks}>
-            <div class={styles.block}>
-                <span style={{ 'background': `var(--${p}-bg-low)` }}></span>
-                {'--bg-low'}
-            </div>
-            <div class={styles.block}>
-                <span style={{ 'background': `var(--${p}-bg)` }}></span>
-                {'--bg'}
-            </div>
-            <div class={styles.block}>
-                <span style={{ 'background': `var(--${p}-bg-high)` }}></span>
-                {'--bg-high'}
-            </div>
-
-            <div class={styles.block}>
-                <span style={{ 'background': `var(--${p}-fg-low)` }}></span>
-                {'--fg-low'}
-            </div>
-            <div class={styles.block}>
-                <span style={{ 'background': `var(--${p}-fg)` }}></span>
-                {'--fg'}
-            </div>
-            <div class={styles.block}>
-                <span style={{ 'background': `var(--${p}-fg-high)` }}></span>
-                {'--fg-high'}
-            </div>
-        </div>
-    </div>;
+    return <Drawer mainPalette={props.palette} main={<Main />}>{ params(schemeFA) }</Drawer>;
 }

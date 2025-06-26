@@ -7,30 +7,66 @@
 @reference '../style.css';
 
 @layer components {
-    .builder {
-        @apply bg-palette-bg text-palette-fg p-4 rounded-md flex flex-col items-center;
+    .params {
+        @apply flex flex-col gap-8 p-4 min-w-50;
 
-        .content {
-            @apply flex flex-col items-center;
+        .param {
+            @apply flex flex-col gap-4;
 
-            .toolbar {
-                @apply flex gap-4 flex-wrap w-full;
+            .font-number {
+                @apply aspect-square text-center align-middle;
+            }
 
-                .last {
-                    @apply justify-self-end flex ml-auto gap-4;
+            .palette {
+                @apply flex flex-col justify-start;
+
+                .blocks {
+                    @apply flex justify-between items-end gap-2;
+
+                    .block {
+                        @apply flex flex-wrap gap-2 justify-center items-center;
+
+                        .title {
+                            @apply text-center;
+                        }
+                    }
                 }
             }
 
-            .blocks {
-                @apply flex flex-wrap gap-4;
+            .radius {
+                @apply flex justify-between;
 
-                .block {
-                    @apply text-left w-25;
+                .title {
+                    @apply min-w-8 inline-block;
+                }
 
-                    span {
-                        @apply w-25 h-6 block border border-palette-fg cursor-pointer hover:border-palette-fg-high;
+                .btns {
+                    @apply aspect-square w-10 relative overflow-clip gap-1;
+
+                    >div {
+                        @apply absolute top-1/3 left-1/3 w-20 aspect-square border-2;
                     }
                 }
+            }
+        }
+    }
+
+    .demo {
+        @apply p-4 rounded-lg bg-palette-bg text-palette-fg;
+
+        header {
+            @apply flex flex-wrap gap-2 justify-between w-full mb-4;
+
+            .actions {
+                @apply flex gap-2;
+            }
+        }
+
+        .components {
+            @apply flex flex-wrap gap-4 w-full;
+
+            .item {
+                @apply w-50;
             }
         }
     }

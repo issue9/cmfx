@@ -64,6 +64,12 @@ const messages: typeof m = {
             more: '高',
             export: '导出配置',
             apply: '应用主题',
+            componentsDemo: '组件展示',
+            fontSize: '字体大小',
+            colors: '颜色',
+            radius: '圆角',
+            spacing: '间距',
+            transitionDuration: '动画时长',
         },
         tour: {
             prev: '前一项',

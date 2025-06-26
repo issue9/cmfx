@@ -62,6 +62,12 @@ const messages = {
             more: 'More',
             export: 'Export',
             apply: 'Apply',
+            componentsDemo: 'Components Demo',
+            fontSize: 'Font size',
+            colors: 'Colors',
+            radius: 'Radius',
+            spacing: 'Spacing',
+            transitionDuration: 'transition duration',
         },
         tour: {
             prev: 'Prev',

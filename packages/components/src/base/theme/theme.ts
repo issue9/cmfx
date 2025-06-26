@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
  
 import { changeMode, Mode } from './mode';
-import { changeScheme, Scheme } from './scheme';
+import { changeScheme, Scheme, transitionDurationName } from './scheme';
 
 export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
 
@@ -16,7 +16,7 @@ export type Breakpoint = typeof breakpoints[number];
  * @returns 返回以毫秒为单位的数值；
  */
 export function transitionDuration(preset: number): number {
-    let val = getComputedStyle(document.documentElement).getPropertyValue('--default-transition-duration');
+    let val = getComputedStyle(document.documentElement).getPropertyValue(transitionDurationName);
     if (!val) {
         return preset;
     }

@@ -4,10 +4,14 @@
 
 import { rand } from '@cmfx/core';
 
+export const transitionDurationName = '--default-transition-duration';
+
 /**
  * 定义主题相关的各类变量
  */
 export interface Scheme {
+    [k: string]: any;
+
     // 对主题的修改，大部分是对 tailwind 主题的修改，其字段来源于：
     // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
 
@@ -100,15 +104,17 @@ export type Palette = typeof palettes[number];
  */
 export function changeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
-    
+
     Object.entries(s).forEach(([k, v]) => {
         if (v === undefined) {
             return;
         }
-        
+
         switch (k) {
         case 'fontSize':
-            document.documentElement.style.fontSize = v;
+            if (v) {
+                document.documentElement.style.fontSize = v;
+            }
             return;
         case 'spacing':
             elem.style.setProperty('--spacing', `${v}rem`);
@@ -121,7 +127,7 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
             });
             return;
         case 'transitionDuration':
-            elem.style.setProperty('--default-transition-duration', `${v}ms`);
+            elem.style.setProperty(transitionDurationName, `${v}ms`);
             return;
         case 'dark':
         case 'light':
