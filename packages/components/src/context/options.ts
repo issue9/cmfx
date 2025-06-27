@@ -30,12 +30,17 @@ export interface Options {
     /**
      * 默认的主题样式，当在 storage 中存在时，当前值将被忽略。
      */
-    scheme: Scheme;
+    scheme?: string;
+
+    /**
+     * 支持的主题列表
+     */
+    schemes?: Map<string, Scheme>;
 
     /**
      * 默认的主题模式，当在 storage 中存在时，当前值将被忽略。
      */
-    mode: Mode;
+    mode?: Mode;
 
     /**
      * 初始的本地化语言 ID，当在 storage 中存在时，当前值将被忽略。

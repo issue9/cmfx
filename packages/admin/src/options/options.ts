@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { genSchemes, Mode, Scheme } from '@cmfx/components';
+import { Mode, Scheme } from '@cmfx/components';
 import { DictLoader, Hotkey, PickOptional, UnitStyle } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
@@ -158,7 +158,7 @@ export interface Theme {
      *
      * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
-    schemes: Array<Scheme>;
+    schemes?: Map<string, Scheme>;
     
     // NOTE: scheme 不采用在 schemes 中的索引，而是对应的实例值，
     // 这样的做的好处是在改变 schemes 的值时，scheme 依然是有意义的。
@@ -167,10 +167,8 @@ export interface Theme {
     /**
      * 当前使用的主题，必须存在于 schemes 中。
      */
-    scheme: Scheme;
+    scheme?: string;
 }
-
-const presetSchemes = genSchemes(20);
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,
@@ -182,8 +180,6 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     titleSeparator: ' | ',
     theme: {
         mode: 'system',
-        schemes: presetSchemes,
-        scheme: presetSchemes[0]
     },
     toolbar: new Map([
         ['fullscreen', new Hotkey('f', 'control')],

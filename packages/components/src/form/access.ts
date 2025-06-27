@@ -119,9 +119,11 @@ export class ObjectAccessor<T extends FlattenObject> {
             getValue(): FT {
                 if (path.length === 1) { return self.#valGetter[name] as FT; }
 
-                return path.reduce<FT | T>((acc, key) => {
+                const v = path.reduce<FT | T>((acc, key) => {
                     return key && acc ? (acc as T)[key] as FT : acc;
-                }, self.#valGetter) as FT;
+                }, self.#valGetter);
+
+                return (v ?? '') as FT;
             },
 
             setValue(val: FT) {

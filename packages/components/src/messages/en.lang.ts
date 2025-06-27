@@ -68,6 +68,7 @@ const messages = {
             radius: 'Radius',
             spacing: 'Spacing',
             transitionDuration: 'transition duration',
+            random: 'Random',
         },
         tour: {
             prev: 'Prev',

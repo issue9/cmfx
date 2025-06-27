@@ -33,6 +33,14 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
 
 /**
  * oklch 颜色调整面板
+ *
+ * 仅支持直接使用数值表示的颜色值，比如：
+ *  - oklch(100% 0.1 0)
+ *  - oklch(1 0 0)
+ *  - oklch(1 100% 0)
+ * 如果包含了计算或是变量，无法正确解析，比如以下格式不支持：
+ *  - oklch(100% calc(100% - 50%) 0)
+ *  - oklch(100% var(--color) 0)
  */
 export default function OKLCHPanel(props: Props): JSX.Element {
     const loc = useLocale();
@@ -47,7 +55,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         const v = access.getValue().trim();
         const vals = v.substring(6, v.length - 1).split(/\s/i);
 
-        l.setValue(parseFloat(vals[0].substring(0, vals[0].length - 1)));
+        l.setValue(parseFloat(vals[0]));
         c.setValue(parseFloat(vals[1]));
         h.setValue(parseFloat(vals[2]));
     });

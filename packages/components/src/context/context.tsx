@@ -7,7 +7,7 @@ import { createContext, createEffect, createResource, JSX, ParentProps, Show, sp
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
-import { applyTheme, Mode, Scheme } from '@/base';
+import { applyTheme, Mode } from '@/base';
 import { registerLocales } from '@/chart/locale';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
@@ -69,11 +69,13 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     }, {initialValue: p});
 
     createEffect(() => {
-        const d = data()!;
-        applyTheme(document.documentElement, {
-            scheme: d.scheme,
-            mode: d.mode,
-        });
+        const d = data();
+        if (d && d.schemes && d.scheme) {
+            applyTheme(document.documentElement, {
+                scheme: d.schemes.get(d.scheme),
+                mode: d.mode,
+            });
+        }
     });
 
     // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件。
@@ -155,7 +157,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换主题色
          */
-        switchScheme(scheme: Scheme) {
+        switchScheme(scheme: string) {
             setOptions({ scheme: scheme });
             options.config!.set(schemeKey, scheme);
         },

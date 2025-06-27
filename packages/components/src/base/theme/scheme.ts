@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { rand } from '@cmfx/core';
 
 export const transitionDurationName = '--default-transition-duration';
 
@@ -37,8 +36,8 @@ export interface Scheme {
      */
     transitionDuration?: number;
 
-    dark: Colors;
-    light: Colors;
+    dark?: Colors;
+    light?: Colors;
 }
 
 export interface Radius {
@@ -166,140 +165,42 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
 }
 
 /**
- * 根据给定的颜色值生成 Scheme 对象
- *
- * @param primary 主色调的色像值，[0-360] 之间，除去 error 之外的颜色都将根据此值自动生成；
- * @param error 指定 error 色盘的色像值，如果未指定，则采用默认值，不会根据 primary 而变化；
- * @param step 用于计算其它辅助色色像的步长；
- * @param fontSize 字体大小，如果未指定，则采用默认值；
+ * 从 HTML 元素中获取默认的主题方案
  */
-export function genScheme(primary: number, error?: number, step = 60, fontSize?: string): Scheme {
-    if (step > 180) {
-        throw '参数 step 不能大于 180';
-    }
+export function initSchemeFromHTML(): Scheme {
+    const s: Partial<Scheme> = {
+        radius: {} as Radius,
+        light: {} as Colors,
+        dark: {} as Colors,
+    };
 
-    let inc = (): number => {
-        primary += step;
-        if (primary > 360) {
-            primary -= 360;
+    const style = getComputedStyle(document.documentElement);
+    for (const sheet of document.styleSheets) {
+        for (const rule of sheet.cssRules) {
+            if (rule instanceof CSSStyleRule) {
+                if (rule.selectorText === ':root') {
+                    Object.entries(rule.style).forEach(([_, key]) => {
+                        const val = style.getPropertyValue(key);
+
+                        if (key.startsWith('--dark-')) {
+                            const k = key.substring('--dark-'.length) as keyof Colors;
+                            s.dark![k] = val;
+                        } else if (key.startsWith('--light-')) {
+                            const k = key.substring('--light-'.length) as keyof Colors;
+                            s.light![k] = val;
+                        } else if (key === 'font-size') {
+                            s.fontSize = val;
+                        } else if (key === '--spacing') {
+                            s.spacing = parseFloat(val);
+                        } else if (key.startsWith('--radius-')) {
+                            const k = key.substring('--radius-'.length) as keyof Radius;
+                            s.radius![k] = parseFloat(val);
+                        }
+                    });
+                }
+            }
         }
-        return primary;
-    };
-
-    const secondary = inc();
-    const tertiary = inc();
-    const surface = inc();
-
-    const lightness = 1;
-    const lLow = .3;
-    const l = .2;
-    const lHigh = .1;
-    const invertLLow= lightness - lLow;
-    const invertL = lightness - l;
-    const invertLHigh = lightness - lHigh;
-
-    const radius = rand(0.005, 2, 3);
-    return {
-        fontSize: fontSize,
-        radius: {
-            xs: radius,
-            sm: radius * 2,
-            md: radius * 3,
-            lg: radius * 4,
-            xl: radius * 5,
-            '2xl': radius * 6,
-            '3xl': radius * 7,
-            '4xl': radius * 8,
-        },
-        spacing: rand(0.05, 0.5, 3),
-        transitionDuration: rand(300, 1000, 0),
-        dark: {
-            'primary-bg-low': `oklch(${lLow} .2 ${primary})`,
-            'primary-bg': `oklch(${l} .2 ${primary})`,
-            'primary-bg-high': `oklch(${invertLHigh} .2 ${primary})`,
-            'primary-fg-low': `oklch(${lLow} .4 ${primary})`,
-            'primary-fg': `oklch(${l} .4 ${primary})`,
-            'primary-fg-high': `oklch(${lHigh} .4 ${primary})`,
-
-            'secondary-bg-low': `oklch(${invertLLow} .2 ${secondary})`,
-            'secondary-bg': `oklch(${invertL} .2 ${secondary})`,
-            'secondary-bg-high': `oklch(${invertLHigh} .2 ${secondary})`,
-            'secondary-fg-low': `oklch(${lLow} .4 ${secondary})`,
-            'secondary-fg': `oklch(${l} .4 ${secondary})`,
-            'secondary-fg-high': `oklch(${lHigh} .4 ${secondary})`,
-
-            'tertiary-bg-low': `oklch(${invertLLow} .2 ${tertiary})`,
-            'tertiary-bg': `oklch(${invertL} .2 ${tertiary})`,
-            'tertiary-bg-high': `oklch(${invertLHigh} .2 ${tertiary})`,
-            'tertiary-fg-low': `oklch(${lLow} .4 ${tertiary})`,
-            'tertiary-fg': `oklch(${l} .4 ${tertiary})`,
-            'tertiary-fg-high': `oklch(${lHigh} .4 ${tertiary})`,
-
-            'surface-bg-low': `oklch(${invertLLow} .01 ${surface})`,
-            'surface-bg': `oklch(${invertL} .01 ${surface})`,
-            'surface-bg-high': `oklch(${invertLHigh} .01 ${surface})`,
-            'surface-fg-low': `oklch(${lLow} .1 ${surface})`,
-            'surface-fg': `oklch(${l} .1 ${surface})`,
-            'surface-fg-high': `oklch(${lHigh} .1 ${surface})`,
-        
-            'error-bg-low': `oklch(${invertLLow} .2 ${error})`,
-            'error-bg': `oklch(${invertL} .2 ${error})`,
-            'error-bg-high': `oklch(${invertLHigh} .2 ${error})`,
-            'error-fg-low': `oklch(${lLow} .4 ${error})`,
-            'error-fg': `oklch(${l} .4 ${error})`,
-            'error-fg-high': `oklch(${lHigh} .4 ${error})`,
-        },
-
-        light: {
-            'primary-bg-low': `oklch(${invertLLow} .2 ${primary})`,
-            'primary-bg': `oklch(${invertL} .2 ${primary})`,
-            'primary-bg-high': `oklch(${invertLHigh} .2 ${primary})`,
-            'primary-fg-low': `oklch(${lLow} .4 ${primary})`,
-            'primary-fg': `oklch(${l} .4 ${primary})`,
-            'primary-fg-high': `oklch(${lHigh} .4 ${primary})`,
-
-            'secondary-bg-low': `oklch(${invertLLow} .2 ${secondary})`,
-            'secondary-bg': `oklch(${invertL} .2 ${secondary})`,
-            'secondary-bg-high': `oklch(${invertLHigh} .2 ${secondary})`,
-            'secondary-fg-low': `oklch(${lLow} .4 ${secondary})`,
-            'secondary-fg': `oklch(${l} .4 ${secondary})`,
-            'secondary-fg-high': `oklch(${lHigh} .4 ${secondary})`,
-
-            'tertiary-bg-low': `oklch(${invertLLow} .2 ${tertiary})`,
-            'tertiary-bg': `oklch(${invertL} .2 ${tertiary})`,
-            'tertiary-bg-high': `oklch(${invertLHigh} .2 ${tertiary})`,
-            'tertiary-fg-low': `oklch(${lLow} .4 ${tertiary})`,
-            'tertiary-fg': `oklch(${l} .4 ${tertiary})`,
-            'tertiary-fg-high': `oklch(${lHigh} .4 ${tertiary})`,
-
-            'surface-bg-low': `oklch(${invertLLow} .01 ${surface})`,
-            'surface-bg': `oklch(${invertL} .01 ${surface})`,
-            'surface-bg-high': `oklch(${invertLHigh} .01 ${surface})`,
-            'surface-fg-low': `oklch(${lLow} .1 ${surface})`,
-            'surface-fg': `oklch(${l} .1 ${surface})`,
-            'surface-fg-high': `oklch(${lHigh} .1 ${surface})`,
-
-            'error-bg-low': `oklch(${invertLLow} .2 ${error})`,
-            'error-bg': `oklch(${invertL} .2 ${error})`,
-            'error-bg-high': `oklch(${invertLHigh} .2 ${error})`,
-            'error-fg-low': `oklch(${lLow} .4 ${error})`,
-            'error-fg': `oklch(${l} .4 ${error})`,
-            'error-fg-high': `oklch(${lHigh} .4 ${error})`,
-        },
-    };
-}
-
-/**
- * 生成一组主题数据
- *
- * @param primary 第一个主题的主色调；
- * @param size 生成的量；
- * @param step 用于计算每一组主题色的辅助色色像步长；
- */
-export function genSchemes(primary: number, size = 16, step = 60): Array<Scheme> {
-    const schemes: Array<Scheme> = [];
-    for (let i = 0; i < size; i++) {
-        schemes.push(genScheme(primary + i * 48, undefined, step));
     }
-    return schemes;
+
+    return s;
 }

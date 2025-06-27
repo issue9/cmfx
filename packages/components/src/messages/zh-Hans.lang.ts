@@ -70,6 +70,7 @@ const messages: typeof m = {
             radius: '圆角',
             spacing: '间距',
             transitionDuration: '动画时长',
+            random: '随机',
         },
         tour: {
             prev: '前一项',

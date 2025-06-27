@@ -4,39 +4,18 @@
 
 import { ExpandType } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
-import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconDark from '~icons/material-symbols/dark-mode';
-import IconExport from '~icons/material-symbols/export-notes';
 import IconLight from '~icons/material-symbols/light-mode';
-import IconReset from '~icons/material-symbols/reset-settings';
 
-import { applyTheme, BaseProps, genScheme, Mode, Scheme } from '@/base';
+import { applyTheme, BaseProps, initSchemeFromHTML, Mode, Scheme } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { ThemeProvider, useLocale } from '@/context';
-import { Dialog, DialogRef } from '@/dialog';
 import { Drawer } from '@/drawer';
 import { FieldAccessor, ObjectAccessor } from '@/form';
-import { Label } from '@/typography';
 import { Components } from './demo';
 import { params } from './params';
+import { Ref } from './ref';
 import styles from './style.module.css';
-
-export interface Ref {
-    /**
-     * 导出 Scheme 对象
-     */
-    export(): Scheme;
-
-    /**
-     * 重置对象
-     */
-    reset(): void;
-
-    /**
-     * 将当前主题应用到全局
-     */
-    apply(): void;
-}
 
 export interface Props extends BaseProps, ParentProps {
     ref?: { (el: Ref): void; };
@@ -52,9 +31,8 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function SchemeBuilder(props: Props): JSX.Element {
     const l = useLocale();
-    let dlg: DialogRef;
     const modeFA = FieldAccessor<Mode>('mode', 'dark');
-    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(genScheme(80));
+    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(initSchemeFromHTML());
 
     const ref: Ref = {
         export: (): Scheme => {
@@ -86,21 +64,12 @@ export default function SchemeBuilder(props: Props): JSX.Element {
                             <IconDark />
                         </Button>
                     </ButtonGroup>
-                    <ButtonGroup rounded>
-                        <Button square onClick={ref.reset} title={l.t('_c.reset')}><IconReset /></Button>
-                        <Button square onClick={() => ref.apply()} title={l.t('_c.theme.apply')}><IconApply /></Button>
-                        <Button square onClick={() => dlg.showModal()} title={l.t('_c.theme.export')}><IconExport /></Button>
-                    </ButtonGroup>
                 </div>
             </header>
-
-            <Dialog scrollable ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
-                <pre>{JSON.stringify(schemeFA.object(), null, 4)}</pre>
-            </Dialog>
 
             <Components />
         </div>
     </ThemeProvider>;
 
-    return <Drawer mainPalette={props.palette} main={<Main />}>{ params(schemeFA) }</Drawer>;
+    return <Drawer palette='secondary' mainPalette={props.palette} main={<Main />}>{ params(schemeFA, ref) }</Drawer>;
 }

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, Notify, Options, OptionsProvider, Scheme, SystemDialog, notify, use as useComponents } from '@cmfx/components';
+import { Mode, Notify, Options, OptionsProvider, SystemDialog, notify, use as useComponents } from '@cmfx/components';
 import { API, Problem, Return, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -205,7 +205,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
         /**
          * 切换主题色
          */
-        switchScheme(scheme: Scheme) { act.switchScheme(scheme); },
+        switchScheme(scheme: string) { act.switchScheme(scheme); },
 
         /**
          * 切换主题模式

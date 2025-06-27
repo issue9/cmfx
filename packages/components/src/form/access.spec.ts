@@ -34,7 +34,6 @@ describe('ObjectAccessor', () => {
         expect(f1).toEqual(f.accessor('f1')); // 同一个 Accessor 接口只有一个对象
     });
 
-
     test('setPreset', () => {
         f.setPreset({ 'f1': 1, 'f2': '2' });
         expect(f.isPreset()).toBeFalsy();
@@ -48,11 +47,11 @@ describe('ObjectAccessor', () => {
         expect(f.accessor('f1').getValue()).toEqual(11);
         expect(f.accessor('f2').getValue()).toEqual('22');
     });
-    
+
     test('children', () => {
         const a = f.accessor<number>('not.exists' as any);
-        expect(a.getValue()).toBeUndefined();
-        
+        expect(a.getValue()).toEqual('');
+
         a.setValue(5);
         expect(a.getValue()).toEqual(5);
     });
