@@ -1,0 +1,19 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .code {
+        @apply font-mono w-full h-full overflow-auto rounded-lg relative p-2;
+        @apply border border-palette-bg-low;
+        @apply text-palette-fg bg-palette-bg;
+
+        .action {
+            @apply flex justify-end absolute top-0 right-0 !py-1 !px-2;
+        }
+    }
+}

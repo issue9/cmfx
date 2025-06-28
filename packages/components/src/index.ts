@@ -11,6 +11,7 @@ export * from './base';
 export * from './button';
 export * from './card';
 export * from './chart';
+export * from './code';
 export * from './context';
 export * from './datetime';
 export * from './dialog';

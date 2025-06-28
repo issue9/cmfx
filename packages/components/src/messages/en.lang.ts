@@ -19,6 +19,7 @@ const messages = {
         print: 'Print',
         areYouSure: 'Are you sure?',
         copied: 'Copied',
+        copy: 'Copy',
         date: {
             clear: 'Clear',
             today: 'Today',

@@ -21,6 +21,7 @@ const messages: typeof m = {
         print: '打印',
         areYouSure: '你确定要这么做吗？',
         copied: '已复制',
+        copy: '复制',
         date: {
             clear: '清除',
             today: '今日',
