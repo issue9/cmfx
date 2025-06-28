@@ -2,43 +2,41 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Problem, Return } from '@cmfx/core';
+import { FlattenKeys, FlattenObject, Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
-import { createStore, SetStoreFunction, Store, unwrap } from 'solid-js/store';
+import { createStore, produce, unwrap } from 'solid-js/store';
 
 import { use } from '@/context';
 import { Accessor, ChangeFunc } from './field';
 
-// Form 中保存错误的类型
-type Err<T extends object> = {
-    [K in keyof T]?: string;
-};
+// ObjectAccessor 中保存错误的类型
+type Err<T extends FlattenObject> = Record<FlattenKeys<T>, string | undefined>;
 
 /**
  * 验证数据 obj 的函数签名
  *
  * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 map。
  */
-export interface Validation<T extends object> {
-    (obj: T): Map<keyof T, string> | undefined;
+export interface Validation<T extends FlattenObject> {
+    (obj: T): Map<FlattenKeys<T>, string> | undefined;
 }
 
 /**
  * 将一组 {@link Accessor} 存储至一个对象中
  *
- * T 表示当前存储的对象类型；
+ * @template T 表示当前存储的对象类型，该对象要求必须是可由 {@link structuredClone} 复制的；
  */
-export class ObjectAccessor<T extends object> {
+export class ObjectAccessor<T extends FlattenObject> {
     #preset: T;
     readonly #isPreset: Signal<boolean>;
 
-    readonly #valGetter: Store<T>;
-    readonly #valSetter: SetStoreFunction<T>;
+    readonly #valGetter: ReturnType<typeof createStore<T>>[0];
+    readonly #valSetter: ReturnType<typeof createStore<T>>[1];
 
-    readonly #errGetter: Store<Err<T>>;
-    readonly #errSetter: SetStoreFunction<Err<T>>;
+    readonly #errGetter: ReturnType<typeof createStore<Err<T>>>[0];
+    readonly #errSetter: ReturnType<typeof createStore<Err<T>>>[1];
 
-    #accessor: Map<keyof T, Accessor<T[keyof T]>>;
+    #accessors: Map<FlattenKeys<T>, Accessor<unknown>>;
 
     /**
      * 构造函数
@@ -49,10 +47,10 @@ export class ObjectAccessor<T extends object> {
         this.#preset = preset;
         this.#isPreset = createSignal(true);
 
-        [this.#valGetter, this.#valSetter] = createStore<T>({...preset});
-        [this.#errGetter, this.#errSetter] = createStore<Err<T>>({});
+        [this.#valGetter, this.#valSetter] = createStore<T>(structuredClone(preset)); // 复制对象，防止与默认对象冲突。
+        [this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
 
-        this.#accessor = new Map<keyof T, Accessor<T[keyof T]>>();
+        this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown>>();
     }
 
     /**
@@ -70,6 +68,11 @@ export class ObjectAccessor<T extends object> {
      */
     isPreset() { return this.#isPreset[0](); }
 
+    /**
+     * 检测是否所有值都是默认值
+     *
+     * @returns 如果都是默认值则返回 true
+     */
     #checkPreset() {
         const keys = Object.keys(this.#preset) as Array<keyof T>;
         const vals = unwrap(this.#valGetter);
@@ -90,15 +93,17 @@ export class ObjectAccessor<T extends object> {
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
      * @template FT 表示 name 字段的类型；
-     * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法；
+     * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法，
+     * 嵌套字段可以用 . 相连，比如 a.b.c；
      * @param hasHelp 是否需要展示错误信息，对应 {@link Accessor#hasHelp} 方法；
      */
-    accessor<FT = T[keyof T]>(name: keyof T, hasHelp?: boolean): Accessor<FT> {
-        let a: Accessor<FT>|undefined = this.#accessor.get(name)as Accessor<FT>;
+    accessor<FT = unknown>(name: FlattenKeys<T>, hasHelp?: boolean): Accessor<FT> {
+        let a: Accessor<FT> | undefined = this.#accessors.get(name) as Accessor<FT>;
         if (a) { return a as Accessor<FT>; }
 
         const self = this;
         const changes: Array<ChangeFunc<FT>> = [];
+        const path = (name as string).split('.');
 
         a = {
             name(): string { return name as string; },
@@ -111,13 +116,29 @@ export class ObjectAccessor<T extends object> {
 
             onChange(change) { changes.push(change); },
 
-            getValue(): FT { return self.#valGetter[name] as FT; },
+            getValue(): FT {
+                if (path.length === 1) { return self.#valGetter[name] as FT; }
+
+                const v = path.reduce<FT | T>((acc, key) => {
+                    return key && acc ? (acc as T)[key] as FT : acc;
+                }, self.#valGetter);
+
+                return (v ?? '') as FT;
+            },
 
             setValue(val: FT) {
                 const old = untrack(this.getValue);
                 if (old !== val) {
                     changes.forEach((f) => { f(val, old); });
-                    self.#valSetter({ [name]: val } as any);
+
+                    self.#valSetter(produce((draft) => {
+                        let target = draft as any; // as any 去掉只读属性！
+                        for (let i = 0; i < path.length - 1; i++) {
+                            target[path[i]] ??= {};
+                            target = target[path[i]];
+                        }
+                        target[path[path.length - 1]] = val;
+                    }));
                 }
 
                 self.#checkPreset();
@@ -128,7 +149,7 @@ export class ObjectAccessor<T extends object> {
                 this.setValue(self.#preset[name] as FT);
             }
         };
-        this.#accessor.set(name, a as Accessor<T[keyof T]>);
+        this.#accessors.set(name, a as Accessor<T[keyof T]>);
         return a;
     }
 
@@ -161,7 +182,7 @@ export class ObjectAccessor<T extends object> {
      */
     setObject(obj: T) {
         Object.entries(obj).forEach(([k, v]) => {
-            this.accessor(k as keyof T).setValue(v);
+            this.accessor(k as FlattenKeys<T>).setValue(v);
         });
     }
 
@@ -171,7 +192,7 @@ export class ObjectAccessor<T extends object> {
     errorsFromProblem<PE = never>(p?: Problem<PE>) {
         if (p && p.params) {
             p.params.forEach((param)=>{
-                this.accessor(param.name as keyof T).setError(param.reason);
+                this.accessor(param.name as FlattenKeys<T>).setError(param.reason);
             });
         }
     }
@@ -180,7 +201,7 @@ export class ObjectAccessor<T extends object> {
      * 重置所有字段的状态和值
      */
     reset() {
-        this.#errSetter({});
+        this.#errSetter({} as any);
         this.#valSetter(this.#preset);
         this.#checkPreset();
     }
@@ -190,7 +211,7 @@ interface SuccessFunc<T> {
     (r?: Return<T, never>): void;
 }
 
-interface Request<T extends object, R = never, P = never> {
+interface Request<T extends FlattenObject, R = never, P = never> {
     (obj: T): Promise<Return<R, P>>;
 }
 
@@ -201,11 +222,11 @@ interface Request<T extends object, R = never, P = never> {
  * @template R 表示服务端返回的类型；
  * @template P 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class FormAccessor<T extends object, R = never, P = never> {
+export class FormAccessor<T extends FlattenObject, R = never, P = never> {
     #object: ObjectAccessor<T>;
     readonly #validation?: Validation<T>;
     #act: ReturnType<typeof use>[1];
-    #request: Request<T,R,P>;
+    #request: Request<T, R, P>;
     readonly #success?: SuccessFunc<R>;
     #submitting: Signal<boolean>;
 
@@ -241,7 +262,7 @@ export class FormAccessor<T extends object, R = never, P = never> {
      * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      */
-    accessor<FT = T[keyof T]>(name: keyof T): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
+    accessor<FT = unknown>(name: FlattenKeys<T>): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
 
     setPreset(v: T) { return this.#object.setPreset(v); }
 

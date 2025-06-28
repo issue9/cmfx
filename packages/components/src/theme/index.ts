@@ -2,6 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as SchemeBuilder } from './builder';
-export type { Props as SchemeBuilderProps, Ref as SchemeBuilderRef } from './builder';
+export * from './builder';
+export * from './selector';
 

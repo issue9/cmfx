@@ -5,7 +5,7 @@
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import { Transition } from 'solid-transition-group';
 
-import { BaseProps, Breakpoint, classList } from '@/base';
+import { BaseProps, Breakpoint, classList, Palette } from '@/base';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -46,6 +46,8 @@ export interface Props extends BaseProps {
      * 主元素区的内容
      */
     main: JSX.Element;
+
+    mainPalette?: Palette;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -89,11 +91,11 @@ export function Drawer(props: Props) {
         });
     }
 
-    const Aside = () => <aside ref={(el) => asideRef = el} class={classList({
+    const Aside = () => <aside ref={(el) => asideRef = el} classList={{
         ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
-    }, props.palette ? `palette--${props.palette}` : undefined)}>{props.children}</aside>;
+    }}>{props.children}</aside>;
 
-    const Main = () => <main>
+    const Main = () => <main classList={{[`palette--${props.mainPalette}`]: !!props.mainPalette}}>
         <Transition mode='outin'
             exitActiveClass={styles['drawer-fade-exit-active']}
             enterClass={styles['drawer-fade-enter']}
@@ -110,7 +112,7 @@ export function Drawer(props: Props) {
         'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
         'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
         'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
-    }, styles.drawer, props.pos === 'right' ? styles.right : undefined)}>
+    }, styles.drawer, props.pos === 'right' ? styles.right : undefined, props.palette ? `palette--${props.palette}` : undefined)}>
         <Aside />
         <Main />
     </div>;

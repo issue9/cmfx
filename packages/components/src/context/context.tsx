@@ -7,7 +7,7 @@ import { createContext, createEffect, createResource, JSX, ParentProps, Show, sp
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
-import { applyTheme, Contrast, Mode, Scheme } from '@/base';
+import { applyTheme, Mode } from '@/base';
 import { registerLocales } from '@/chart/locale';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
@@ -15,7 +15,6 @@ import { Options } from './options';
 const localeKey = 'locale';
 const unitStyleKey = 'unit-style';
 const schemeKey = 'scheme';
-const contrastKey = 'contrast';
 const modeKey = 'mode';
 
 type Actions = ReturnType<typeof buildActions>;
@@ -70,12 +69,13 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     }, {initialValue: p});
 
     createEffect(() => {
-        const d = data()!;
-        applyTheme(document.documentElement, {
-            scheme: d.scheme,
-            mode: d.mode,
-            contrast: d.contrast
-        });
+        const d = data();
+        if (d && d.schemes && d.scheme) {
+            applyTheme(document.documentElement, {
+                scheme: d.schemes.get(d.scheme),
+                mode: d.mode,
+            });
+        }
     });
 
     // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件。
@@ -130,7 +130,6 @@ export function buildActions(ctx: InternalOptionsContext) {
 
             setOptions({// 读取新配置
                 scheme: options.config!.get(schemeKey) ?? options.scheme,
-                contrast: options.config!.get(contrastKey) ?? options.contrast,
                 mode: options.config!.get(modeKey) ?? options.mode,
                 locale: options.config!.get(localeKey) ?? options.locale,
                 unitStyle: options.config!.get(unitStyleKey) ?? options.unitStyle,
@@ -158,7 +157,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换主题色
          */
-        switchScheme(scheme: Scheme) {
+        switchScheme(scheme: string) {
             setOptions({ scheme: scheme });
             options.config!.set(schemeKey, scheme);
         },
@@ -169,14 +168,6 @@ export function buildActions(ctx: InternalOptionsContext) {
         switchMode(mode: Mode) {
             setOptions({ mode: mode });
             options.config!.set(modeKey, mode);
-        },
-
-        /**
-         * 切换主题的明亮度
-         */
-        switchContrast(contrast: Contrast) {
-            setOptions({ contrast: contrast });
-            options.config!.set(contrastKey, contrast);
         },
 
         /**

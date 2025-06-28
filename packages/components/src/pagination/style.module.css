@@ -8,18 +8,10 @@
 
 @layer components {
     .pagination {
-        @apply flex rounded-md bg-palette-bg;
-
-        :first-child {
-            @apply !rounded-l-md;
-        }
-
-        :last-child {
-            @apply !rounded-r-md;
-        }
+        @apply flex rounded-md bg-palette-bg overflow-clip;
 
         .item {
-            @apply px-2 outline-none rounded-xs;
+            @apply px-2 outline-none;
         }
 
         .item:focus-visible {

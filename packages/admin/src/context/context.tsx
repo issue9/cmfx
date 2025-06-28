@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, Mode, Notify, Options, OptionsProvider, Scheme, SystemDialog, notify, use as useComponents } from '@cmfx/components';
+import { Mode, Notify, Options, OptionsProvider, SystemDialog, notify, use as useComponents } from '@cmfx/components';
 import { API, Problem, Return, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -46,8 +46,8 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         storage: props.storage,
         configName: props.configName,
 
-        scheme: props.theme.schemes[0],
-        contrast: props.theme.contrast,
+        scheme: props.theme.scheme,
+        schemes: props.theme.schemes,
         mode: props.theme.mode,
 
         locale: props.locales.fallback,
@@ -74,7 +74,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
                 await notify(p.title, p.detail, 'error');
             }
         }
-    }; 
+    };
 
     const child = () => {
         const [api, act] = useComponents();
@@ -101,9 +101,9 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
 }
 
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
-    const [user, userData] = createResource(async () => {
+    const [user, userData] = createResource(async (): Promise<User | undefined> => {
         if (!api.isLogin()) {
-            return;
+            return {} as User; // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         }
 
         // 依然可能 401，比如由服务器导致的用户退出，f.isLogin 是检测不出来的。
@@ -206,17 +206,12 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
         /**
          * 切换主题色
          */
-        switchScheme(scheme: Scheme) { act.switchScheme(scheme); },
+        switchScheme(scheme: string) { act.switchScheme(scheme); },
 
         /**
          * 切换主题模式
          */
         switchMode(mode: Mode) { act.switchMode(mode); },
-
-        /**
-         * 切换主题的明亮度
-         */
-        switchContrast(contrast: Contrast) { act.switchContrast(contrast); },
 
         /**
          * 切换本地化对象

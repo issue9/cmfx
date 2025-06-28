@@ -4,9 +4,6 @@
 
 import { expect, test } from 'vitest';
 
-import { contrastValues } from './contrast';
-import { modeValues } from './mode';
-import { genScheme } from './scheme';
 import { applyTheme, hasTheme, Theme, transitionDuration } from './theme';
 
 import '../../tailwind.css'; // 启用样式表
@@ -25,33 +22,18 @@ test('transitionDuration', () => {
 });
 
 test('theme', () => {
-    let t: Theme = {scheme: genScheme(10)};
+    let t: Theme = { scheme: {} };
 
-    expect(t.contrast).toBeUndefined();
     expect(t.mode).toBeUndefined();
-    expect(t.scheme!.primary).toEqual<number>(10);
 
     let div = document.createElement('div');
     applyTheme(div, t);
-
     expect(hasTheme(div)).toBeTruthy();
-    expect(div.style.getPropertyValue('--lightness')).toBeFalsy();
-    expect(div.style.getPropertyValue('color-scheme')).toBeFalsy();
-    expect(div.style.getPropertyValue('--primary')).toEqual('10');
 
-    t = {
-        scheme: genScheme(10),
-        mode: 'dark',
-        contrast: 'more'
-    };
-
-    expect(t.contrast).toEqual('more');
+    t = { scheme: {}, mode: 'dark' };
     expect(t.mode).toEqual('dark');
-    expect(t.scheme!.primary).toEqual<number>(10);
 
     div = document.createElement('div');
     applyTheme(div, t);
-    expect(div.style.getPropertyValue('--lightness')).toEqual(contrastValues.get('more')!.toString());
-    expect(div.style.getPropertyValue('color-scheme')).toEqual(modeValues.get('dark'));
-    expect(div.style.getPropertyValue('--primary')).toEqual('10');
+    expect(hasTheme(div)).toBeTruthy();
 });

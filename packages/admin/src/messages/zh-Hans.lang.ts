@@ -174,8 +174,6 @@ const messages: typeof m = {
             system: '跟随系统',
             color: '主色调',
             colorDesc: '自定义页面的主色调',
-            contrast: '对比度',
-            contrastDesc: '调整页面的对比度',
             nopreference: '正常',
             less: '减少对比度',
             more: '加大对比度',

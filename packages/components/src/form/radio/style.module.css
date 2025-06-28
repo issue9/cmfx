@@ -8,11 +8,10 @@
 
 @layer components {
     input[type="radio"] {
-        @apply appearance-none relative inline-block w-4 h-4 !rounded-full cursor-pointer;
+        @apply appearance-none relative inline-block w-3 h-3 !rounded-full cursor-pointer;
         @apply p-0 border-[2px] border-palette-fg outline-0 hover:border-palette-fg-high;
 
         vertical-align: middle;
-        font-size: 0.5rem;
         transition: all var(--default-transition-duration) ease;
     }
 
@@ -21,10 +20,10 @@
         cursor: not-allowed;
     }
 
+    /* 内部实心圆 */
     input[type="radio"]:after {
-        @apply inline-block absolute left-1/2 top-1/2 bg-palette-fg rounded-full w-2 h-2 opacity-0;
+        @apply inline-block absolute left-1/4 top-1/4 bg-palette-fg rounded-full w-1/2 h-1/2 opacity-0;
         content: '';
-        transform: translate(-50%, -50%);
         transition: all var(--default-transition-duration) ease;
         transform-origin: center center;
         pointer-events: none;

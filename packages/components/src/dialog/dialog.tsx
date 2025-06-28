@@ -85,7 +85,7 @@ export interface Props extends BaseProps {
     /**
      * 整个对话框的样式
      *
-     * NOTE: 可能会与已有的样式有冲突。
+     * NOTE: 可能会与已有的样式有冲突
      */
     class?: string;
 
@@ -95,6 +95,11 @@ export interface Props extends BaseProps {
     movable?: boolean;
 
     children: JSX.Element;
+
+    /**
+     * 内容是否可滚动
+     */
+    scrollable?: boolean;
 }
 
 function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
@@ -106,12 +111,12 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
                 ref.style.translate = 'var(--tw-translate-x) var(--tw-translate-y)';
                 return;
             }
-    
+
             ref.style.translate = '0px 0px';
             ref.style.left = typeof p.x === 'string' ? p.x : p.x.toString() + 'px';
             ref.style.top = typeof p.y === 'string' ? p.y : p.y.toString() + 'px';
         },
-    
+
         Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element {
             const btnClick = async () => {
                 if (click) {
@@ -121,14 +126,14 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
                 }
                 return ref.close(''); // dialog 常驻，需要取消上一次的 returnValue 值。
             };
-    
+
             if (def) {
                 const handler = async (e: KeyboardEvent) => {
                     if (e.key === 'Enter' && e.target === ref) {
                         await btnClick();
                     }
                 };
-    
+
                 onMount(() => {
                     ref.addEventListener('keydown', handler);
                 });
@@ -138,15 +143,15 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
             }
             return <Button type={def ? 'submit' : 'button'} palette={def ? 'primary' : 'secondary'} onClick={btnClick}>{title}</Button>;
         },
-    
+
         CancelAction(click?: ClickFunc): JSX.Element {
             return this.Action(l.t('_c.cancel'), click);
         },
-    
+
         OKAction(click?: ClickFunc): JSX.Element {
             return this.Action(l.t('_c.ok'), click, true);
         },
-    
+
         DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element {
             return <>
                 {this.CancelAction(cancel)}
@@ -190,10 +195,8 @@ export function Dialog(props: Props): JSX.Element {
             </header>
         </Show>
 
-        <main>{props.children}</main>
+        <main classList={{ 'overflow-scroll': props.scrollable }}>{props.children}</main>
 
-        <Show when={props.actions}>
-            <footer>{props.actions}</footer>
-        </Show>
+        <Show when={props.actions}><footer>{props.actions}</footer></Show>
     </dialog>;
 }

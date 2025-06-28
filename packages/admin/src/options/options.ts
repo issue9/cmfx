@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Contrast, genSchemes, Mode, Scheme } from '@cmfx/components';
-import { DictLoader, Hotkey, UnitStyle } from '@cmfx/core';
+import { Mode, Scheme } from '@cmfx/components';
+import { DictLoader, Hotkey, PickOptional, UnitStyle } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
 import { presetAside } from './aside';
 import type { MenuItem, Routes } from './route';
-import { PickOptional } from './types';
 
 /**
  * 项目的基本配置
@@ -153,18 +152,13 @@ export interface Theme {
     mode: Mode;
 
     /**
-     * 对比度
-     */
-    contrast: Contrast;
-
-    /**
      * 可用的主题列表
      *
-     * 可由 {@link CoreTheme#genScheme} 和 {@link CoreTheme#genSchemes} 生成主题数据。
+     * 可由 {@link genScheme} 和 {@link genSchemes} 生成主题数据。
      *
      * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
-    schemes: Array<Scheme>;
+    schemes?: Map<string, Scheme>;
     
     // NOTE: scheme 不采用在 schemes 中的索引，而是对应的实例值，
     // 这样的做的好处是在改变 schemes 的值时，scheme 依然是有意义的。
@@ -173,10 +167,8 @@ export interface Theme {
     /**
      * 当前使用的主题，必须存在于 schemes 中。
      */
-    scheme: Scheme;
+    scheme?: string;
 }
-
-const presetSchemes = genSchemes(20);
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,
@@ -188,9 +180,6 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     titleSeparator: ' | ',
     theme: {
         mode: 'system',
-        contrast: 'nopreference',
-        schemes: presetSchemes,
-        scheme: presetSchemes[0]
     },
     toolbar: new Map([
         ['fullscreen', new Hotkey('f', 'control')],

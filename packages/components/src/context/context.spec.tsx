@@ -8,7 +8,6 @@ import { ParentProps } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import { expect, test } from 'vitest';
 
-import { genScheme } from '@/base';
 import { buildActions, OptionsProvider } from './context';
 import { Options } from './options';
 
@@ -17,8 +16,7 @@ const options: Options = {
     id: 'admin',
     storage: window.localStorage,
     configName: '',
-    scheme: genScheme(5),
-    contrast: 'more',
+    scheme: 'def',
     mode: 'dark',
     locale: 'zh-Hans',
     unitStyle: 'full',

@@ -4,10 +4,10 @@
 
 import { children, createContext, createMemo, JSX, ParentProps, splitProps, useContext } from 'solid-js';
 
-import { applyTheme, genScheme, hasTheme, Theme } from '@/base';
+import { applyTheme, hasTheme, Theme } from '@/base';
 import { use } from './context';
 
-const themeContext = createContext<Theme>({ scheme: genScheme(10), contrast: 'nopreference', mode: 'system' });
+const themeContext = createContext<Theme>({});
 
 /**
  * 返回主题设置的参数
@@ -16,7 +16,10 @@ export function useTheme(): Theme {
     const ctx = useContext(themeContext);
     if (!ctx) {
         const [, , o] = use();
-        return { scheme: o.scheme, contrast: o.contrast, mode: o.mode };
+        return {
+            scheme: o.scheme && o.schemes ? o.schemes.get(o.scheme) : undefined,
+            mode: o.mode
+        };
     }
     return ctx;
 }

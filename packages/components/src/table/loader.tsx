@@ -127,7 +127,7 @@ const presetProps = {
  * @template T 为数据中每一条数据的类型；
  * @template Q 为查询参数的类型；
  */
-export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q>) {
+export function LoaderTable<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
     const [, , opt] = use();
     const l = useLocale();
     let ref: HTMLElement;
@@ -186,8 +186,8 @@ export function LoaderTable<T extends object, Q extends Query>(props: Props<T, Q
     let footer: JSX.Element | undefined;
 
     if (props.paging) {
-        const page = queries.accessor<number>('page');
-        const size = queries.accessor<number>('size');
+        const page = queries.accessor<number>('page' as any); // Q 是泛型对象，无法展开获取 accessor 的参数类型。
+        const size = queries.accessor<number>('size' as any);
         if (size.getValue()===0) {
             size.setValue(opt.pageSizes[1]);
         }

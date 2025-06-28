@@ -8,7 +8,7 @@
 
 @layer components {
     .divider {
-        @apply flex items-center text-palette-bg-low whitespace-nowrap w-full h-[1px];
+        @apply flex items-center justify-center text-palette-bg-low whitespace-nowrap w-full h-[1px];
     }
 
     .divider::before,

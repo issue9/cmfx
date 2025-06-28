@@ -2,7 +2,7 @@
 为了链接的正确性，所有的链接都应该是绝对链接。
 -->
 
-# cmfx
+# cmfx/components
 
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@cmfx/components)
 [![test](https://github.com/issue9/cmfx/actions/workflows/vitest.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)

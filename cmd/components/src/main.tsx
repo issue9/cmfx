@@ -25,7 +25,7 @@ function App(): JSX.Element {
         return <OptionsProvider {...options}>
             <SystemDialog header='system dialog title'>
                 <Notify system timeout={5000} palette='error'>
-                    <Drawer visible palette='tertiary' main={p.children}><List anchor>{menuItems}</List></Drawer>
+                    <Drawer visible palette='secondary' mainPalette='tertiary'  main={p.children}><List anchor>{menuItems}</List></Drawer>
                 </Notify>
             </SystemDialog>
         </OptionsProvider>;

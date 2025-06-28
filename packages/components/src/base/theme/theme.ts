@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
  
-import { changeContrast, changeMode, changeScheme, Contrast, Mode, Scheme } from '@/base';
+import { changeMode, Mode } from './mode';
+import { changeScheme, Scheme, transitionDurationName } from './scheme';
 
 export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
 
@@ -15,7 +16,7 @@ export type Breakpoint = typeof breakpoints[number];
  * @returns 返回以毫秒为单位的数值；
  */
 export function transitionDuration(preset: number): number {
-    let val = getComputedStyle(document.documentElement).getPropertyValue('--default-transition-duration');
+    let val = getComputedStyle(document.documentElement).getPropertyValue(transitionDurationName);
     if (!val) {
         return preset;
     }
@@ -36,7 +37,6 @@ export function applyTheme(elem: HTMLElement, t: Theme) {
     elem.setAttribute('data-theme', '1');
     changeScheme(elem, t.scheme);
     changeMode(elem, t.mode);
-    changeContrast(elem, t.contrast);
 }
 
 /**
@@ -51,6 +51,5 @@ export function hasTheme(elem: HTMLElement): boolean {
  */
 export interface Theme {
     scheme?: Scheme;
-    contrast?: Contrast;
     mode?: Mode;
 }

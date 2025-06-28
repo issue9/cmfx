@@ -103,15 +103,15 @@ export function Pagination(props: Props): JSX.Element {
 
         <For each={prevs()}>
             {(item)=>(
-                <Button aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
+                <Button square aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
             )}
         </For>
 
-        <Button aria-label={current().toString()} aria-selected='true' class={joinClass(styles.item, styles.current)}>{current()}</Button>
+        <Button square aria-label={current().toString()} aria-selected='true' class={joinClass(styles.item, styles.current)}>{current()}</Button>
 
         <For each={nexts()}>
             {(item)=>(
-                <Button aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
+                <Button square aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
             )}
         </For>
 

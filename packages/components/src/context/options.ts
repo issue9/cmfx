@@ -4,7 +4,7 @@
 
 import { DictLoader, Mimetype, Problem, UnitStyle } from '@cmfx/core';
 
-import { Contrast, Mode, Scheme } from '@/base';
+import { Mode, Scheme } from '@/base';
 
 /**
 * 组件库的全局配置项
@@ -30,17 +30,17 @@ export interface Options {
     /**
      * 默认的主题样式，当在 storage 中存在时，当前值将被忽略。
      */
-    scheme: Scheme;
+    scheme?: string;
 
     /**
-     * 默认的主题明暗度，当在 storage 中存在时，当前值将被忽略。
+     * 支持的主题列表
      */
-    contrast: Contrast;
+    schemes?: Map<string, Scheme>;
 
     /**
      * 默认的主题模式，当在 storage 中存在时，当前值将被忽略。
      */
-    mode: Mode;
+    mode?: Mode;
 
     /**
      * 初始的本地化语言 ID，当在 storage 中存在时，当前值将被忽略。

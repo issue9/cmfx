@@ -2,30 +2,142 @@
 //
 // SPDX-License-Identifier: MIT
 
+
+export const transitionDurationName = '--default-transition-duration';
+
 /**
- * 定义主题中与颜色相关的变量
- *
- * 各个字段与 theme.css 中的同名的变量对应。
+ * 定义主题相关的各类变量
  */
 export interface Scheme {
-    primary: number;
-    secondary?: number;
-    tertiary?: number;
-    surface?: number;
-    error?: number;
+    [k: string]: any;
+
+    // 对主题的修改，大部分是对 tailwind 主题的修改，其字段来源于：
+    // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
+
+    /**
+     * 全局字体的大小，该值将会修改 html 下的 font-size 属性。默认值为 16 px。
+     */
+    fontSize?: string;
+
+    // TODO: shadow?: string;
+
+    /**
+     * 表示 tailwind 中 --radius-xs 的数值，默认是 0.125
+     */
+    radius?: Radius;
+
+    /**
+     * 表示 tailwind 中 --spacing 的数值，默认是 0.25
+     */
+    spacing?: number;
+
+    /**
+     * 动画的时长，默认为 300，单位为 ms。
+     */
+    transitionDuration?: number;
+
+    dark?: Colors;
+    light?: Colors;
+}
+
+export interface Radius {
+    xs: number;
+    sm: number;
+    md: number;
+    lg: number;
+    xl: number;
+    '2xl': number;
+    '3xl': number;
+    '4xl': number;
+}
+
+export interface Colors {
+    'primary-fg': string;
+    'primary-fg-low': string;
+    'primary-fg-high': string;
+    'primary-bg': string;
+    'primary-bg-low': string;
+    'primary-bg-high': string;
+
+    'secondary-fg': string;
+    'secondary-fg-low': string;
+    'secondary-fg-high': string;
+    'secondary-bg': string;
+    'secondary-bg-low': string;
+    'secondary-bg-high': string;
+
+    'tertiary-fg': string;
+    'tertiary-fg-low': string;
+    'tertiary-fg-high': string;
+    'tertiary-bg': string;
+    'tertiary-bg-low': string;
+    'tertiary-bg-high': string;
+
+    'error-fg': string;
+    'error-fg-low': string;
+    'error-fg-high': string;
+    'error-bg': string;
+    'error-bg-low': string;
+    'error-bg-high': string;
+
+    'surface-fg': string;
+    'surface-fg-low': string;
+    'surface-fg-high': string;
+    'surface-bg': string;
+    'surface-bg-low': string;
+    'surface-bg-high': string;
 }
 
 /**
- * 改变主题色
+ * 组件可用的几种色盘
  *
- * 此方法提供了动态改变主题色的方法，发生在 theme.css 应用之后。
+ * 当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，
+ * 具体可参考 /tailwind.css 中的 palette--primary 等相关的定义。
+ */
+export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surface'] as const;
+
+export type Palette = typeof palettes[number];
+
+/**
+ * 改变主题色
  */
 export function changeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
 
-    Object.entries(s).forEach((o)=>{
-        if (o[1] !== undefined) {
-            elem.style.setProperty('--'+o[0], o[1]);
+    Object.entries(s).forEach(([k, v]) => {
+        if (v === undefined) {
+            return;
+        }
+
+        switch (k) {
+        case 'fontSize':
+            if (v) {
+                document.documentElement.style.fontSize = v;
+            }
+            return;
+        case 'spacing':
+            elem.style.setProperty('--spacing', `${v}rem`);
+            return;
+        case 'radius':
+            Object.entries<string>(v).forEach(([k2, v2]) => {
+                if (v2 !== undefined) {
+                    elem.style.setProperty(`--radius-${k2}`, `${v2}rem`);
+                }
+            });
+            return;
+        case 'transitionDuration':
+            elem.style.setProperty(transitionDurationName, `${v}ms`);
+            return;
+        case 'dark':
+        case 'light':
+            Object.entries<string>(v).forEach(([k2, v2]) => {
+                if (v2 !== undefined) {
+                    elem.style.setProperty(`--${k}-${k2}`, v2);
+                }
+            });
+            return;
+        default:
+            elem.style.setProperty(k, v);
         }
     });
 
@@ -53,45 +165,42 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
 }
 
 /**
- * 根据给定的颜色值生成 Scheme 对象
- *
- * @param primary 主色调的色像值，[0-360] 之间，除去 error 之外的颜色都将根据此值自动生成；
- * @param error 指定 error 色盘的色像值，如果未指定，则采用默认值，不会根据 primary 而变化；
- * @param step 用于计算其它辅助色色像的步长；
+ * 从 HTML 元素中获取默认的主题方案
  */
-export function genScheme(primary: number, error?: number, step = 60): Scheme {
-    if (step > 180) {
-        throw '参数 step 不能大于 180';
-    }
+export function initSchemeFromHTML(): Scheme {
+    const s: Partial<Scheme> = {
+        radius: {} as Radius,
+        light: {} as Colors,
+        dark: {} as Colors,
+    };
 
-    let inc = (): number => {
-        primary += step;
-        if (primary > 360) {
-            primary -= 360;
+    const style = getComputedStyle(document.documentElement);
+    for (const sheet of document.styleSheets) {
+        for (const rule of sheet.cssRules) {
+            if (rule instanceof CSSStyleRule) {
+                if (rule.selectorText === ':root') {
+                    Object.entries(rule.style).forEach(([_, key]) => {
+                        const val = style.getPropertyValue(key);
+
+                        if (key.startsWith('--dark-')) {
+                            const k = key.substring('--dark-'.length) as keyof Colors;
+                            s.dark![k] = val;
+                        } else if (key.startsWith('--light-')) {
+                            const k = key.substring('--light-'.length) as keyof Colors;
+                            s.light![k] = val;
+                        } else if (key === 'font-size') {
+                            s.fontSize = val;
+                        } else if (key === '--spacing') {
+                            s.spacing = parseFloat(val);
+                        } else if (key.startsWith('--radius-')) {
+                            const k = key.substring('--radius-'.length) as keyof Radius;
+                            s.radius![k] = parseFloat(val);
+                        }
+                    });
+                }
+            }
         }
-        return primary;
-    };
-
-    return {
-        primary: primary,
-        secondary: inc(),
-        tertiary: inc(),
-        surface: inc(),
-        error: error
-    };
-}
-
-/**
- * 生成一组主题数据
- *
- * @param primary 第一个主题的主色调；
- * @param size 生成的量；
- * @param step 用于计算每一组主题色的辅助色色像步长；
- */
-export function genSchemes(primary: number, size = 16, step = 60): Array<Scheme> {
-    const schemes: Array<Scheme> = [];
-    for (let i = 0; i < size; i++) {
-        schemes.push(genScheme(primary + i * 48, undefined, step));
     }
-    return schemes;
+
+    return s;
 }

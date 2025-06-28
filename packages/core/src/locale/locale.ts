@@ -5,7 +5,7 @@
 import IntlMessageFormat from 'intl-messageformat';
 
 import { Duration, formatDuration, parseDuration } from '@/time';
-import { Dict, flatten, Keys, Loader } from './dict';
+import { Dict, dictFlatten, DictKeys, Loader } from './dict';
 import { match } from './match';
 
 export const unitStyles = ['full', 'short', 'narrow'] as const;
@@ -61,7 +61,7 @@ export class Locale {
      *
      * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    static translate<D extends Dict>(locale: string, key: string | Keys<D>, args?: TranslateArgs): string {
+    static translate<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
         const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
         if (!msgs) { return key as string; }
 
@@ -90,7 +90,7 @@ export class Locale {
         }
 
         for (const l of loaders) {
-            Object.entries(flatten(await l())).forEach((item) => {
+            Object.entries<string>(dictFlatten(await l())).forEach((item) => {
                 try {
                     msgs.set(item[0], new IntlMessageFormat(item[1], locale));
                 } catch (err) {
@@ -261,7 +261,7 @@ export class Locale {
      *
      * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    t<D extends Dict>(key: string | Keys<D>, args?: TranslateArgs): string {
+    t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string {
         const f = this.#current.get(key as string);
         return (f ? f.format(args) : key) as string;
     }
@@ -271,7 +271,7 @@ export class Locale {
      *
      * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    tt<D extends Dict>(locale: string, key: string | Keys<D>, args?: TranslateArgs): string {
+    tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
         return Locale.translate(locale, key, args);
     }
 }

@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-/* 重新定义了 tailwind 中的一些配置项 */
+/* 定义了主题变量 */
 
 /*
  * 颜色被分为 primary、secondary、tertiary、surface 和 error 五个色盘，
@@ -20,32 +20,27 @@
  * 颜色的取值范围为 [0,360]，具体说明可参考：https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value/lch#%E5%8F%96%E5%80%BC。
  */
 :root {
-    --primary: 0;
-    --error: 20;
-    --secondary: calc(var(--primary) + 60);
-    --tertiary: calc(var(--primary) + 120);
-    --surface: calc(var(--primary) + 180);
-}
-
-/*
- * 定义了颜色的感知亮度
- *
- * --lightness 范围：[.5,1]，可通过改变此值调整页面的亮度。
- */
-:root {
-    --lightness: 1;
-
     --l-low: .3;
     --l: .2;
     --l-high: .1;
 
-    --invert-l-low: calc(var(--lightness) - var(--l-low));
-    --invert-l: calc(var(--lightness) - var(--l));
-    --invert-l-high: calc(var(--lightness) - var(--l-high));
-}
+    --invert-l-low: .7;
+    --invert-l: .8;
+    --invert-l-high: .9;
 
-:root {
-    color-scheme: light;
+    --primary: 0;
+    --error: 20;
+    --secondary: 60;
+    --tertiary: 120;
+    --surface: 180;
+
+    /****************************** 以下是主题变量 ***********************************/
+
+
+    --spacing: 0.25rem;
+
+    --default-transition-duration: 300ms;
+
 
     --light-primary-bg-low: oklch(var(--invert-l-low) .2 var(--primary));
     --light-primary-bg: oklch(var(--invert-l) .2 var(--primary));
@@ -81,10 +76,7 @@
     --light-error-fg-low: oklch(var(--l-low) .4 var(--error));
     --light-error-fg: oklch(var(--l) .4 var(--error));
     --light-error-fg-high: oklch(var(--l-high) .4 var(--error));
-}
 
-:root {
-    color-scheme: dark;
 
     --dark-primary-bg-low: oklch(var(--l-low) .45 var(--primary));
     --dark-primary-bg: oklch(var(--l) .4 var(--primary));
@@ -123,6 +115,8 @@
 }
 
 :root {
+    color-scheme: light dark;
+
     --primary-bg-low: light-dark(var(--light-primary-bg-low), var(--dark-primary-bg-low));
     --primary-bg: light-dark(var(--light-primary-bg), var(--dark-primary-bg));
     --primary-bg-high: light-dark(var(--light-primary-bg-high), var(--dark-primary-bg-high));
@@ -258,12 +252,10 @@
     --color-palette-fg-low: var(--fg-low);
     --color-palette-fg-high: var(--fg-high);
 
-    --default-transition-duration: 300ms;
-
     /*
      * NOTE: 需要保证与 base/theme/theme.ts 中 Breakpoint 类型的取值相对应
      *
-     * 断点的值必须得是一个标准的 CSS 值，而不能是变量，@media var(--bp-xs) 并不是一个有效的方式。
+     * 断点的值必须得是一个标准的 CSS 值，而不能是变量，@media var(--breakpoint-xs) 并不是一个有效的方式。
      */
 
     --breakpoint-xs: 34rem;

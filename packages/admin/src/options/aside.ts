@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { Breakpoint } from '@cmfx/components';
+import { PickOptional } from '@cmfx/core';
 
 import type { MenuItem } from './route';
-import { PickOptional } from './types';
 
 /**
  * 侧边栏的配置对象
