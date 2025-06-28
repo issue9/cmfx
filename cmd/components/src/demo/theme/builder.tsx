@@ -4,7 +4,7 @@
 
 import { SchemeBuilder } from '@cmfx/components';
 
-import { boolSelector, Demo, paletteSelector } from './base';
+import { boolSelector, Demo, paletteSelector } from '../base';
 
 export default function () {
     const [actionsS, actions] = boolSelector('actions', true);

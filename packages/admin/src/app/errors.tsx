@@ -30,7 +30,7 @@ export function Unknown(err: any): JSX.Element {
     let title: string;
     if (err instanceof Error) { // TODO: 改为 Error.isError https://caniuse.com/?search=isError
         title = err.name;
-        console.error(err.stack);
+        console.error(err.message, err.stack);
     }else{
         title = l.t('_p.error.unknownError');
         console.error(err.toString());
@@ -39,7 +39,7 @@ export function Unknown(err: any): JSX.Element {
     return <XError title={title} illustration={<illustrations.BUG />}>
         <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{ l.t('_p.error.backHome') }</Button>
         <Button palette='primary' onClick={() => { nav(-1); }}>{ l.t('_p.error.backPrev') }</Button>
-        <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_p.refresh')}</Button>
+        <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
     </XError>;
 }
 

@@ -18,14 +18,14 @@ export function Settings(): JSX.Element {
     const [, , o] = use();
     const l = useLocale();
 
-    const modeFA = FieldAccessor<Mode>('mode', opt.mode);
+    const modeFA = FieldAccessor<Mode>('mode', opt.mode ?? 'system');
     modeFA.onChange((m) => { act.switchMode(m); });
 
     const schemesOptions: FieldOptions<number> = [];
     for (const s of o.theme.schemes) {
         schemesOptions.push([s.primary, <ColorBlock s={s} />]);
     }
-    const schemeFA = FieldAccessor<number>('scheme', (typeof opt.scheme === 'number') ? opt.scheme : opt.scheme.primary);
+    const schemeFA = FieldAccessor<number>('scheme', opt.scheme);
     schemeFA.onChange((c) => {
         act.switchScheme(o.theme.schemes.find((s) => s.primary === c)!);
     });

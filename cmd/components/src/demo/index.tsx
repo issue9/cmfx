@@ -33,13 +33,16 @@ export const routes: Array<RouteDefinition> = [
     { path: '/statistics', component: lazy(() => import('./statistics')) },
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
-    { path: '/theme', component: lazy(() => import('./theme')) },
+
+    { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
+    { path: '/theme-selector', component: lazy(() => import('./theme/selector')) },
+
     { path: '/timer', component: lazy(() => import('./timer')) },
     { path: '/tooltip', component: lazy(() => import('./tooltip')) },
 
     { path: '/tree-list', component: lazy(() => import('./tree/list')) },
     { path: '/tree-menu', component: lazy(() => import('./tree/menu')) },
-    
+
     { path: '/typography', component: lazy(() => import('./typography')) },
 
     { path: '/wizard-stepper', component: lazy(() => import('./wizard/stepper')) },

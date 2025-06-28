@@ -1,0 +1,35 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .selector {
+        @apply flex flex-wrap gap-4 bg-palette-bg text-palette-fg border-palette-bg-low;
+
+        .option {
+            @apply flex justify-start items-center gap-4 p-1 grow-1 cursor-pointer;
+            @apply border border-transparent;
+            @apply hover:border-palette-bg-high rounded-sm;
+
+            .blocks {
+                @apply flex flex-wrap grow-1 w-10 h-10;
+
+                .block {
+                    @apply w-1/2 aspect-square;
+                }
+            }
+
+            .info {
+                @apply flex flex-col justify-between;
+            }
+        }
+
+        .option.selected {
+            @apply border-palette-bg-low;
+        }
+    }
+}

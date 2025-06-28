@@ -46,7 +46,8 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         storage: props.storage,
         configName: props.configName,
 
-        scheme: props.theme.schemes[0],
+        scheme: props.theme.scheme,
+        schemes: props.theme.schemes,
         mode: props.theme.mode,
 
         locale: props.locales.fallback,
@@ -73,7 +74,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
                 await notify(p.title, p.detail, 'error');
             }
         }
-    }; 
+    };
 
     const child = () => {
         const [api, act] = useComponents();
