@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, genScheme, LocaleProvider, Mode, ThemeProvider, use, useLocale } from '@cmfx/components';
-import { Locale } from '@cmfx/core';
+import { Button, Colors, LocaleProvider, Mode, Scheme, ThemeProvider, use, useLocale } from '@cmfx/components';
+import { Locale, rand } from '@cmfx/core';
 import { createSignal, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
@@ -14,7 +14,7 @@ export default function() {
     const [mode, setMode] = createSignal<Mode>('system');
     const l = useLocale();
 
-    const [scheme, setScheme] = createStore(genScheme(20));
+    const [scheme, setScheme] = createStore(genScheme());
     const [locale, setLocale] = createSignal<string>('zh-Hans');
 
     return <Demo>
@@ -51,16 +51,9 @@ export default function() {
                     <Button palette='secondary' onclick={()=>setMode(mode() === 'dark' ? 'light' : 'dark')}>light/dark</Button>
                     <br />
 
-                    <label> 颜色
-                        <select value={scheme.primary} onChange={(e) => {
-                            const value = e.target.value;
-                            setScheme(genScheme(parseInt(value)));
-                        }}>
-                            <option value={20}>20</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
-                    </label>
+                    <Button onClick={()=>{
+                        setScheme(genScheme());
+                    }}>switch scheme</Button>
                 </ThemeProvider>
             </fieldset>
         </Stage>
@@ -77,14 +70,15 @@ export default function() {
                     )}
                 </For>
             </select>
-            
+
             <select onChange={(e) => {
-                const value = e.target.value;
-                act.switchScheme(genScheme(parseInt(value)));
+                act.switchScheme(e.target.value);
             }}>
-                <option value={20}>20</option>
-                <option value={50}>50</option>
-                <option value={100}>100</option>
+                <For each={Array.from(opt.schemes!.entries())}>
+                    {(item)=>(
+                        <option value={item[0]}>{item[0]}</option>
+                    )}
+                </For>
             </select>
 
             <select value={opt.mode} onChange={(e) => {
@@ -101,4 +95,21 @@ export default function() {
         </Stage>
 
     </Demo>;
+}
+
+function genScheme(): Scheme {
+    return {
+        dark: {
+            'primary-bg': '#'+rand(111, 999, 0).toString(),
+            'secondary-bg': '#'+rand(111, 999, 0).toString(),
+            'tertiary-bg': '#'+rand(111, 999, 0).toString(),
+            'surface-bg': '#'+rand(111, 999, 0).toString(),
+        } as Colors,
+        light: {
+            'primary-bg': '#'+rand(111, 999, 0).toString(),
+            'secondary-bg': '#'+rand(111, 999, 0).toString(),
+            'tertiary-bg': '#'+rand(111, 999, 0).toString(),
+            'surface-bg': '#'+rand(111, 999, 0).toString(),
+        } as Colors,
+    };
 }

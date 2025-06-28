@@ -5,7 +5,7 @@
 import './style.css';
 
 import { admins, createApp, current, members, MenuItem, Options, roles, Routes, system } from '@cmfx/admin';
-import { Card, Label, useLocale } from '@cmfx/components';
+import { Card, Colors, Label, Scheme, useLocale } from '@cmfx/components';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
@@ -44,7 +44,7 @@ const routes: Routes = {
         home: '/login',
         routes: [
             { path: '/login', component: ()=><current.Login footer={[
-                {title: '&copy; 2024 by Example .Inc', link: 'https://example.com'},
+                {title: '&copy; 2024-2025 by Example .Inc', link: 'https://example.com'},
                 {title: 'text'},
                 {title: 'repo', link: 'https://github.com/issue/cmfx'},
             ]} /> },
@@ -98,6 +98,41 @@ const o: Options = {
     system: {
         dialog: true,
         notification: true
+    },
+
+    theme: {
+        mode: 'system',
+        scheme: 'default',
+        schemes: new Map<string, Scheme>([
+            ['default', {
+                dark: {
+                    'primary-bg': '#333',
+                    'secondary-bg': '#666',
+                    'tertiary-bg': '#999',
+                    'surface-bg': '#bbb',
+                } as Colors,
+                light: {
+                    'primary-bg': '#bbb',
+                    'secondary-bg': '#999',
+                    'tertiary-bg': '#666',
+                    'surface-bg': '#333',
+                } as Colors,
+            }],
+            ['default2', {
+                dark: {
+                    'primary-bg': '#333bbb',
+                    'secondary-bg': '#666999',
+                    'tertiary-bg': '#999666',
+                    'surface-bg': '#bbb333',
+                } as Colors,
+                light: {
+                    'primary-bg': '#bbb333',
+                    'secondary-bg': '#999666',
+                    'tertiary-bg': '#666999',
+                    'surface-bg': '#333bbb',
+                } as Colors,
+            }],
+        ])
     },
 
     locales: {

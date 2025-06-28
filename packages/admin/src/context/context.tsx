@@ -101,9 +101,9 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
 }
 
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
-    const [user, userData] = createResource(async () => {
+    const [user, userData] = createResource(async (): Promise<User | undefined> => {
         if (!api.isLogin()) {
-            return;
+            return {} as User; // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         }
 
         // 依然可能 401，比如由服务器导致的用户退出，f.isLogin 是检测不出来的。

@@ -16,6 +16,7 @@ import IconRand from '~icons/mingcute/random-line';
 
 import { Locale, Mode, Palette, Scheme } from '@/base';
 import { Button, ButtonGroup } from '@/button';
+import { Code } from '@/code';
 import { useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
 import { Divider } from '@/divider';
@@ -48,7 +49,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, ref: Ref): JSX.Ele
         {transitionParams(l, s)}
 
         <Dialog scrollable class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
-            <pre>{JSON.stringify(s.object(), null, 4)}</pre>
+            <Code copyable>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
 }

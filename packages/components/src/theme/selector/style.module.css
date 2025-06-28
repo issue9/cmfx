@@ -16,7 +16,7 @@
             @apply hover:border-palette-bg-high rounded-sm;
 
             .blocks {
-                @apply flex flex-wrap grow-1 w-10 h-10;
+                @apply flex flex-wrap w-10 h-10;
 
                 .block {
                     @apply w-1/2 aspect-square;

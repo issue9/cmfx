@@ -40,10 +40,10 @@ export default function() {
     ]);
 
     return <Demo settings={<>
-        { paletteS }
+        {paletteS}
     </>}>
         <Stage title="default">
-            <SchemeSelector palette={palette()} schemes={schemes} />
+            <SchemeSelector value='default' palette={palette()} schemes={schemes} />
         </Stage>
     </Demo>;
 }

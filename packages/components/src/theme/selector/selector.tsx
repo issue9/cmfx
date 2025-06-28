@@ -22,7 +22,7 @@ export interface Props extends BaseProps {
     /**
      * 修改主题值时触发的事件
      */
-    onChange: { (val: string, old: string): void; };
+    onChange?: { (val: string, old: string): void; };
 }
 
 /**
@@ -37,6 +37,8 @@ export function Selector(props: Props): JSX.Element {
                 const colors = scheme[1].dark!;
 
                 return <div tabIndex={0} class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)} onClick={() => {
+                    if (!props.onChange) { return; }
+
                     const old = value();
                     setValue(scheme[0]);
                     props.onChange(scheme[0], old);
