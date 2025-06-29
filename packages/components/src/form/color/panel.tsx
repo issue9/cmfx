@@ -46,21 +46,27 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     const loc = useLocale();
 
     const access = props.accessor;
-    const color = new Color(access.getValue());
 
+    const color = new Color(access.getValue());
     const l = FieldAccessor<number>('l', color.coords[0]);
     const c = FieldAccessor<number>('c', color.coords[1]);
     const h = FieldAccessor<number>('h', color.coords[2]);
+    const a = FieldAccessor<number>('a', color.alpha);
 
     createEffect(() => {
         const color = new Color(access.getValue());
         l.setValue(color.coords[0]);
         c.setValue(color.coords[1]);
         h.setValue(color.coords[2]);
+        a.setValue(color.alpha);
     });
 
     createEffect(() => {
-        access.setValue(`oklch(${l.getValue()} ${c.getValue()} ${h.getValue()})`);
+        if (a.getValue() < 1) {
+            access.setValue(`oklch(${l.getValue()} ${c.getValue()} ${h.getValue()} / ${a.getValue()})`);
+        } else {
+            access.setValue(`oklch(${l.getValue()} ${c.getValue()} ${h.getValue()})`);
+        }
     });
 
     let tooltip: TooltipRef;
@@ -73,9 +79,10 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
     return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
         ref={el => { if (props.ref) { props.ref(el); } }}>
-        <Range label='L:' fitHeight accessor={l} min={0} max={100} step={0.1} />
+        <Range label='L:' fitHeight accessor={l} min={0} max={1} step={0.001} />
         <Range label='C:' fitHeight accessor={c} min={0} max={0.4} step={0.001} />
         <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
+        <Range label='A:' fitHeight accessor={a} min={0} max={1} step={0.01} />
         <div ref={el => colorBlock = el} onClick={copy} class={styles['color-block']}
             style={{ 'background': access.getValue(), 'color': props.wcag }}
         >{access.getValue()}</div>
