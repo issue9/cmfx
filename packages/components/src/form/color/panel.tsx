@@ -45,29 +45,28 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
 export default function OKLCHPanel(props: Props): JSX.Element {
     const loc = useLocale();
 
-    const l = FieldAccessor<number>('l', 0);
-    const c = FieldAccessor<number>('c', 0);
-    const h = FieldAccessor<number>('h', 0);
-
     const access = props.accessor;
+    const color = new Color(access.getValue());
+
+    const l = FieldAccessor<number>('l', color.coords[0]);
+    const c = FieldAccessor<number>('c', color.coords[1]);
+    const h = FieldAccessor<number>('h', color.coords[2]);
 
     createEffect(() => {
-        const v = access.getValue().trim();
-        const vals = v.substring(6, v.length - 1).split(/\s/i);
-
-        l.setValue(parseFloat(vals[0]));
-        c.setValue(parseFloat(vals[1]));
-        h.setValue(parseFloat(vals[2]));
+        const color = new Color(access.getValue());
+        l.setValue(color.coords[0]);
+        c.setValue(color.coords[1]);
+        h.setValue(color.coords[2]);
     });
 
     createEffect(() => {
-        access.setValue(`oklch(${l.getValue()}% ${c.getValue()} ${h.getValue()})`);
+        access.setValue(`oklch(${l.getValue()} ${c.getValue()} ${h.getValue()})`);
     });
 
     let tooltip: TooltipRef;
     let colorBlock: HTMLDivElement;
     const copy = async () => {
-        await write2Clipboard(access.getValue(), ()=>{
+        await write2Clipboard(access.getValue(), () => {
             tooltip.show(colorBlock, 'right');
         });
     };
@@ -75,7 +74,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
         ref={el => { if (props.ref) { props.ref(el); } }}>
         <Range label='L:' fitHeight accessor={l} min={0} max={100} step={0.1} />
-        <Range label='C:' fitHeight accessor={c} min={0} max={0.37} step={0.001} />
+        <Range label='C:' fitHeight accessor={c} min={0} max={0.4} step={0.001} />
         <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
         <div ref={el => colorBlock = el} onClick={copy} class={styles['color-block']}
             style={{ 'background': access.getValue(), 'color': props.wcag }}

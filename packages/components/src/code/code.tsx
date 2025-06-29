@@ -7,9 +7,9 @@ import { JSX, Show } from 'solid-js';
 import IconCopy from '~icons/material-symbols/content-copy';
 
 import { BaseProps, joinClass, Palette } from '@/base';
-import styles from './style.module.css';
-import { useLocale } from '@/context';
 import { Button } from '@/button';
+import { useLocale } from '@/context';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -23,7 +23,7 @@ export interface Props extends BaseProps {
     accentPalette?: Palette;
 
     /**
-     * 代码，字符串中的 <> 会被转码。
+     * 代码，字符串中的 < 和 > 会被转码。
      */
     children: string;
 }
