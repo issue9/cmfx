@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX } from 'solid-js';
+import { For, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps, joinClass, Scheme } from '@/base';
 import { createSignal } from 'solid-js';
@@ -23,12 +23,20 @@ export interface Props extends BaseProps {
      * 修改主题值时触发的事件
      */
     onChange?: { (val: string, old: string): void; };
+
+    tabIndex?: number;
 }
+
+const presetProps: Partial<Props> = {
+    tabIndex: 0
+} as const;
 
 /**
  * 主题选择组件
  */
 export function Selector(props: Props): JSX.Element {
+    props = mergeProps(presetProps, props);
+
     const [value, setValue] = createSignal(props.value);
 
     return <div class={joinClass(styles.selector, props.palette ? `palette--${props.palette}` : undefined)}>
@@ -36,7 +44,7 @@ export function Selector(props: Props): JSX.Element {
             {(scheme) => {
                 const colors = scheme[1].dark!;
 
-                return <div tabIndex={0} class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)} onClick={() => {
+                return <div tabIndex={props.tabIndex} class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)} onClick={() => {
                     if (!props.onChange) { return; }
 
                     const old = value();
