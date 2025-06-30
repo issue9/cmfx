@@ -7,8 +7,10 @@ import { JSX, Show } from 'solid-js';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconAnimation from '~icons/material-symbols/animation';
 import IconColors from '~icons/material-symbols/colors';
+import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
 import IconSpacing from '~icons/material-symbols/format-letter-spacing';
+import IconLight from '~icons/material-symbols/light-mode';
 import IconReset from '~icons/material-symbols/reset-settings';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
@@ -28,18 +30,31 @@ import styles from './style.module.css';
 /**
  * 参数面板
  */
-export function params(s: ObjectAccessor<ExpandType<Scheme>>, ref: Ref): JSX.Element {
+export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>, ref: Ref): JSX.Element {
     const l = useLocale();
     let dlg: DialogRef;
 
     return <div class={styles.params}>
         <div class={styles.toolbar}>
-            <Button kind='border' rounded square title={l.t('_c.theme.random')} onclick={() => random(s)}><IconRand /></Button>
+            <div class={styles.actions}>
+                <Button kind='border' rounded square title={l.t('_c.theme.random')} onclick={() => random(s)}><IconRand /></Button>
+                <ButtonGroup rounded>
+                    <Button square title={l.t('_c.theme.light')}
+                        checked={m.getValue() === 'light'} onClick={() => m.setValue('light')}>
+                        <IconLight />
+                    </Button>
+                    <Button square title={l.t('_c.theme.dark')}
+                        checked={m.getValue() === 'dark'} onClick={() => m.setValue('dark')}>
+                        <IconDark />
+                    </Button>
+                </ButtonGroup>
+            </div>
             <ButtonGroup kind='border' rounded>
                 <Button square onClick={ref.reset} title={l.t('_c.reset')}><IconReset /></Button>
                 <Button square onClick={() => ref.apply()} title={l.t('_c.theme.apply')}><IconApply /></Button>
                 <Button square onClick={() => dlg.showModal()} title={l.t('_c.theme.export')}><IconExport /></Button>
             </ButtonGroup>
+
         </div>
 
         {fontSizeParams(l, s)}
@@ -118,7 +133,7 @@ function random(s: ObjectAccessor<ExpandType<Scheme>>) {
 // 设置圆角孤度参数面板
 function radiusParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconRadius />{l.t('_c.theme.radius')}</Divider>
+        <Divider><IconRadius class="mr-1" />{l.t('_c.theme.radius')}</Divider>
         {radius('xs', s.accessor<number>('radius.xs'))}
         {radius('sm', s.accessor<number>('radius.sm'))}
         {radius('md', s.accessor<number>('radius.md'))}
@@ -147,7 +162,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
 // 设置字体大小参数面板
 function fontSizeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconFontSize />{l.t('_c.theme.fontSize')}</Divider>
+        <Divider><IconFontSize class="mr-1" />{l.t('_c.theme.fontSize')}</Divider>
         {fontSize(s.accessor('fontSize'))}
     </div>;
 }
@@ -176,7 +191,7 @@ function fontSize(a: Accessor<string>): JSX.Element {
 // 颜色选择参数面板
 function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconColors />{l.t('_c.theme.colors')}</Divider>
+        <Divider><IconColors class="mr-1" />{l.t('_c.theme.colors')}</Divider>
         {palette('dark', 'primary', s)}
         {palette('dark', 'secondary', s)}
         {palette('dark', 'tertiary', s)}
@@ -209,7 +224,7 @@ const spacingValues = { min: 0.1, max: 0.5, step: 0.05 } as const;
 
 function spacingParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconSpacing />{l.t('_c.theme.spacing')}</Divider>
+        <Divider><IconSpacing class="mr-1" />{l.t('_c.theme.spacing')}</Divider>
         <div class="flex gap-2 items-center w-full">
             <Range class="flex-1" accessor={s.accessor('spacing')} {...spacingValues} />
             {s.accessor<number>('spacing').getValue()}rem
@@ -222,7 +237,7 @@ const transitionValues = { min: 100, max: 1000, step: 50 } as const;
 
 function transitionParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconAnimation />{l.t('_c.theme.transitionDuration')}</Divider>
+        <Divider><IconAnimation class="mr-1" />{l.t('_c.theme.transitionDuration')}</Divider>
         <div class="flex gap-2 items-center w-full">
             <Range class="flex-1" accessor={s.accessor('transitionDuration')} {...transitionValues} />
             {s.accessor<number>('transitionDuration').getValue()}ms

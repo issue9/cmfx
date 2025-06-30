@@ -47,14 +47,13 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
     const access = props.accessor;
 
-    const color = new Color(access.getValue());
-    const l = FieldAccessor<number>('l', color.coords[0]);
-    const c = FieldAccessor<number>('c', color.coords[1]);
-    const h = FieldAccessor<number>('h', color.coords[2]);
-    const a = FieldAccessor<number>('a', color.alpha);
+    const l = FieldAccessor<number>('l', 0);
+    const c = FieldAccessor<number>('c', 0);
+    const h = FieldAccessor<number>('h', 0);
+    const a = FieldAccessor<number>('a', 1);
 
     createEffect(() => {
-        const color = new Color(access.getValue());
+        const color = new Color(access.getValue() ? access.getValue() : 'oklch(100% 0 0)');
         l.setValue(color.coords[0]);
         c.setValue(color.coords[1]);
         h.setValue(color.coords[2]);

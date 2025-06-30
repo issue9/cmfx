@@ -11,7 +11,11 @@
         @apply flex flex-col gap-8 p-4 min-w-50;
 
         .toolbar {
-            @apply flex items-center justify-start gap-4;
+            @apply flex items-center justify-between gap-4;
+
+            .actions {
+                @apply flex gap-2;
+            }
         }
 
         .param {
@@ -60,10 +64,6 @@
 
         >header {
             @apply flex flex-wrap gap-2 justify-between items-center w-full mb-4;
-
-            .actions {
-                @apply flex gap-2;
-            }
         }
 
         .components {

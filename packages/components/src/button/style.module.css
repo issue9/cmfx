@@ -31,18 +31,18 @@
     .button.fill.checked,
     .button.fill.link-enabled:hover,
     .button.fill:focus-visible {
-        @apply !bg-(--bg-high);
+        @apply !bg-palette-bg-high;
     }
 
     .button.border {
-        @apply text-palette-fg bg-transparent border-palette-fg;
+        @apply text-palette-fg bg-transparent border-palette-bg-low;
     }
 
     .button.border:enabled:hover,
     .button.border.checked,
     .button.border.link-enabled:hover,
     .button.border:focus-visible {
-        @apply !bg-[var(--bg)];
+        @apply !bg-palette-bg-high;
     }
 
     .button.flat {
@@ -53,22 +53,22 @@
     .button.flat.checked,
     .button.flat.link-enabled:hover,
     .button.flat:focus-visible {
-        @apply !bg-[var(--bg-high)] border-[var(--bg-high)];
+        @apply !bg-palette-bg-high border-palette-bg-high;
     }
 
     .button.link-disabled,
     .button:disabled {
-        @apply cursor-not-allowed text-[var(--bg-low)];
+        @apply cursor-not-allowed text-palette-bg-low;
     }
 
     /************************* group ******************************/
 
     .group {
-        @apply text-[var(--fg)] bg-[var(--bg-low)] flex border-solid border border-transparent rounded-l-md rounded-r-md;
+        @apply text-palette-fg bg-palette-bg-low flex border-solid border border-transparent rounded-l-md rounded-r-md;
         @apply overflow-clip;
 
         .button {
-            @apply rounded-none border-none flex-1 py-1 px-3 text-[var(--fg)] outline-none;
+            @apply rounded-none border-none flex-1 py-1 px-3 text-palette-fg outline-none;
         }
 
         .button.split {
@@ -85,21 +85,21 @@
     }
 
     .group.fill {
-        @apply bg-[var(--bg-low)];
+        @apply bg-palette-bg-low;
 
         .button {
-            @apply bg-[var(--bg)];
+            @apply bg-palette-bg;
         }
 
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-[var(--bg-high)];
+            @apply bg-palette-bg-high;
         }
     }
 
     .group.border {
-        @apply text-[var(--bg)] bg-transparent border border-[var(--bg)];
+        @apply text-palette-bg bg-transparent border border-palette-bg-low;
 
         .button {
             @apply bg-transparent border-transparent;
@@ -108,7 +108,7 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-[var(--bg)];
+            @apply bg-palette-bg-high;
         }
 
         .button.split:enabled {
@@ -117,7 +117,7 @@
     }
 
     .group.flat {
-        @apply bg-transparent text-[var(--bg)] pointer-events-none;
+        @apply bg-transparent text-palette-bg pointer-events-none;
 
         .button {
             @apply bg-transparent border-transparent pointer-events-auto;
@@ -126,7 +126,7 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-[var(--bg)];
+            @apply bg-palette-bg-high;
         }
 
         .button.split:enabled {
@@ -135,7 +135,7 @@
     }
 
     .group.flat:hover {
-        @apply !border-[var(--bg)];
+        @apply !border-palette-bg;
     }
 
     .button.link-disabled *,
