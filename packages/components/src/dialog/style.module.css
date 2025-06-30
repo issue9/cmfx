@@ -11,7 +11,7 @@
         @apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low;
 
         >header {
-            @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low grow-0;
+            @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low grow-0 shrink-0;
 
             .close {
                 @apply p-[1px] cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-full;
@@ -19,11 +19,11 @@
         }
 
         >main {
-            @apply p-2 flex-1;
+            @apply p-2 flex-1 min-h-0;
         }
 
         >footer {
-            @apply flex justify-end p-2 gap-2 border-t border-t-palette-bg-low grow-0;
+            @apply flex justify-end p-2 gap-2 border-t border-t-palette-bg-low grow-0 shrink-0;
         }
     }
 

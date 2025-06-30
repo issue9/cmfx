@@ -63,8 +63,8 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         {spacingParams(l, s)}
         {transitionParams(l, s)}
 
-        <Dialog scrollable class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
-            <Code copyable>{JSON.stringify(s.object(), null, 4)}</Code>
+        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
+            <Code class="h-full" copyable>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
 }

@@ -13,6 +13,7 @@ export default function() {
     let dlg1: DialogRef;
     let dlg2: DialogRef;
     let dlg3: DialogRef;
+    let dlg4: DialogRef;
 
     const fa = new FormAccessor({}, act, async (_) => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; });
 
@@ -69,6 +70,31 @@ export default function() {
             <Dialog movable ref={(el) => dlg3 = el} header="header">
                 <div>dialog 3</div>
             </Dialog>
+
+            <div>
+                <Button onClick={() => dlg4.showModal()} palette={palette()}>scrollable</Button>
+                <Dialog movable scrollable ref={(el) => dlg4 = el} header="header" actions="footer" class="h-80 w-80">
+                    <div>
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                        长内容<br />
+                    </div>
+                </Dialog>
+            </div>
         </div>
     </Demo>;
 }

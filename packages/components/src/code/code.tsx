@@ -26,6 +26,8 @@ export interface Props extends BaseProps {
      * 代码，字符串中的 < 和 > 会被转码。
      */
     children: string;
+
+    class?: string;
 }
 
 /**
@@ -34,13 +36,13 @@ export interface Props extends BaseProps {
 export default function Code(props: Props): JSX.Element {
     const l = useLocale();
 
-    return <pre class={joinClass(styles.code, props.palette ? `palette--${props.palette}` : undefined)}>
-        {props.children}
+    return <div class={joinClass(styles.code, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
+        <pre>{props.children}</pre>
         <Show when={props.copyable}>
             <Button title={l.t('_c.copy')} onclick={() => write2Clipboard(props.children)}
                 class={joinClass(styles.action, props.accentPalette ? `palette--${props.accentPalette}` : undefined)}>
                 <IconCopy />
             </Button>
         </Show>
-    </pre>;
+    </div>;
 }
