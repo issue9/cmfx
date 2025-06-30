@@ -5,7 +5,7 @@
 import { createEffect, createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js';
 
 import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
@@ -24,7 +24,7 @@ export interface Props extends FieldBaseProps {
      * NOTE: 要求这些标记点必须在 {@link Props#min} 和 {@link Props#max} 之间。
      * 所以 marks 不为空时，min 和 max 是不能为空的。
      */
-    marks?: Array<[value: number, title: string]>;
+    marks?: Options<number>;
 
     accessor: Accessor<number>;
 }
@@ -36,16 +36,15 @@ export default function Range(props: Props): JSX.Element {
     if (props.layout === undefined) { props.layout = 'horizontal'; }
 
     const access = props.accessor;
-    const [marks, setMarks] = createSignal<Array<[val: number, title: string, offset: number]>>([]);
+    const [marks, setMarks] = createSignal<Array<[val: number, title: JSX.Element, offset: number]>>([]);
     let fieldRef: HTMLDivElement;
     let inputRef: HTMLInputElement;
 
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
-            const h = entries[0].target.scrollHeight;
-            const top = `calc(-${h}px - var(--spacing))`;// --spacing 对应的是 item::before 的高度。
-            fieldRef.style.setProperty('--range-marks-item-top', top);
+            const h = entries[0].contentBoxSize[0].blockSize / 2;
+            fieldRef.style.setProperty('--range-marks-item-top', `calc(-${h}px - 50%)`);
         });
 
         resizeObserver.observe(inputRef);
