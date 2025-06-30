@@ -42,7 +42,13 @@ export default function () {
 
         <Stage title="mark">
             <Range fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
-                step={20} min={5} max={110} marks={[[10, '15'], [50, '50'], [80, '80'], [110, 'last']]}
+                step={10} min={0} max={100} marks={[[0, '0'], [30, '30'], [50, '50'], [80, '80'], [100, 'last']]}
+            />
+        </Stage>
+
+        <Stage title="mark">
+            <Range class="min-w-90" fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
+                step={10} min={0} max={130} marks={[[0, '0'], [30, '30'], [50, '50'], [80, '80'], [130, 'last']]}
             />
         </Stage>
     </Demo>;

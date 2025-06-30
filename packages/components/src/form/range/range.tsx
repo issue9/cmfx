@@ -43,28 +43,23 @@ export default function Range(props: Props): JSX.Element {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
             const entry = entries[0];
-            const top = (-(entry.contentBoxSize[0].blockSize/2 + 2)).toString() + 'px';
-            fieldRef.style.setProperty('--top', top);
+            const top = (-(entry.contentBoxSize[0].blockSize / 2 + 2)).toString() + 'px';
+            fieldRef.style.setProperty('--range-marks-item-top', top);
         });
-        
+
         resizeObserver.observe(fieldRef!.firstElementChild!);
-        onCleanup(() => {resizeObserver.disconnect();});
+        onCleanup(() => { resizeObserver.disconnect(); });
     });
 
     let scale: number;
     createEffect(() => {// 根据 min 和 max 计算各个标记点的值
         if (props.marks && props.marks.length > 0) {
-            let marks = props.marks ? props.marks.sort((a, b) => a[0] - b[0]) : undefined;
-            marks = marks?.map((item) => {
-                item[0] -= props.min!;
-                return item;
-            });
-            setMarks(marks);
+            setMarks(props.marks.sort((a, b) => a[0] - b[0]));
             scale = (props.max! - props.min!) / 100;
         }
     });
 
-    return <Field ref={el=>fieldRef=el} class={joinClass(styles.range, props.class)}
+    return <Field ref={el => fieldRef = el} class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
         {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         help={props.help}
         getError={access.getError}
@@ -73,7 +68,7 @@ export default function Range(props: Props): JSX.Element {
         palette={props.palette}
     >
         <input type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
-            classList={{[styles['fit-height']]: props.fitHeight }}
+            classList={{ [styles['fit-height']]: props.fitHeight }}
             readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={(e) => {
                 if (!props.readonly && !props.disabled) {
                     let v = parseFloat(e.target.value);
@@ -83,11 +78,11 @@ export default function Range(props: Props): JSX.Element {
             }}
         />
 
-        <Show when={marks()}>
+        <Show when={marks() && marks()!.length > 0}>
             <div class={styles.marks}>
                 <For each={marks()}>
                     {(item) => (
-                        <span class={styles.item} style={{ 'left': (item[0] / scale!).toString() + '%' }}>{item[1]}</span>
+                        <span class={styles.item} style={{ 'left': `${item[0] / scale!}%` }}><div>{item[1]}</div></span>
                     )}
                 </For>
             </div>
