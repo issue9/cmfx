@@ -13,13 +13,13 @@ input[type=range] {
 
 /* 与 NOTE: ::moz-range-thumb 内容相同，但是无法与之合并，否则不启作用。 */
 input[type=range]::-webkit-slider-thumb {
-    @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
+    @apply appearance-none w-3 h-3 bg-palette-bg-low;
     @apply rounded-md border-3 border-palette-fg-high;
 }
 
 input[type=range]::-moz-range-thumb {
-    @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
-    @apply rounded-md border-3 border-palette-fg-high;
+    @apply appearance-none w-3 h-3 bg-palette-bg-low;
+    @apply rounded-md border-2 border-palette-fg-high;
 }
 
 @layer components {
@@ -31,25 +31,25 @@ input[type=range]::-moz-range-thumb {
         }
 
         .marks {
-            @apply relative flex;
+            @apply flex relative;
 
             /* 根据 thumb 计算标记栏的长度和起始位置 */
-            left: --spacing(2);
+            left: --spacing(2.5);
             width: calc(100% - --spacing(5));
 
             .item {
-                @apply absolute;
+                @apply flex justify-end relative;
 
-                >div {
+                >span {
                     /* 让文字居中 */
-                    @apply translate-x-[-50%];
+                    @apply translate-x-1/2 inline-block;
                 }
             }
 
             .item::before {
                 top: var(--range-marks-item-top);
                 content: '';
-                @apply absolute block w-1 h-1 rounded-full bg-palette-fg-high;
+                @apply translate-x-1/2 absolute block w-1 h-1 rounded-xs bg-palette-fg-high;
             }
         }
     }

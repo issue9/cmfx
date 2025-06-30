@@ -36,26 +36,31 @@ export default function Range(props: Props): JSX.Element {
     if (props.layout === undefined) { props.layout = 'horizontal'; }
 
     const access = props.accessor;
-    const [marks, setMarks] = createSignal<Props['marks']>([]);
+    const [marks, setMarks] = createSignal<Array<[val: number, title: string, offset: number]>>([]);
     let fieldRef: HTMLDivElement;
+    let inputRef: HTMLInputElement;
 
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
-            const entry = entries[0];
-            const top = (-(entry.contentBoxSize[0].blockSize / 2 + 2)).toString() + 'px';
+            const h = entries[0].target.scrollHeight;
+            const top = `calc(-${h}px - var(--spacing))`;// --spacing 对应的是 item::before 的高度。
             fieldRef.style.setProperty('--range-marks-item-top', top);
         });
 
-        resizeObserver.observe(fieldRef!.firstElementChild!);
+        resizeObserver.observe(inputRef);
         onCleanup(() => { resizeObserver.disconnect(); });
     });
 
-    let scale: number;
     createEffect(() => {// 根据 min 和 max 计算各个标记点的值
+        let prev = 0;
+        const scale = (props.max! - props.min!) / 100;
         if (props.marks && props.marks.length > 0) {
-            setMarks(props.marks.sort((a, b) => a[0] - b[0]));
-            scale = (props.max! - props.min!) / 100;
+            setMarks(props.marks.sort((a, b) => a[0] - b[0]).map(v=>{
+                const offset = (v[0] - prev) / scale; // 先取 prev，再赋值新值给 prev。
+                prev = v[0];
+                return [v[0], v[1], offset];
+            }));
         }
     });
 
@@ -67,7 +72,7 @@ export default function Range(props: Props): JSX.Element {
         label={props.label}
         palette={props.palette}
     >
-        <input type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
+        <input ref={el => inputRef = el} type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
             classList={{ [styles['fit-height']]: props.fitHeight }}
             readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={(e) => {
                 if (!props.readonly && !props.disabled) {
@@ -82,7 +87,7 @@ export default function Range(props: Props): JSX.Element {
             <div class={styles.marks}>
                 <For each={marks()}>
                     {(item) => (
-                        <span class={styles.item} style={{ 'left': `${item[0] / scale!}%` }}><div>{item[1]}</div></span>
+                        <span class={styles.item} style={{ 'width': `${item[2]}%` }}><span>{item[1]}</span></span>
                     )}
                 </For>
             </div>
