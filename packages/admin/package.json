@@ -67,8 +67,5 @@
         "vite-plugin-solid": "catalog:",
         "vite-plugin-static-copy": "catalog:",
         "vitest": "catalog:"
-    },
-    "overrides": {
-        "@asamuzakjp/css-color": "3.0.12"
     }
 }

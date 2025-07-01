@@ -14,9 +14,9 @@ export default function() {
     const [scaleS, scale] = boolSelector('缩放', false);
 
     const [cls, setCls] = createSignal(joinClass(scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
-    createEffect(()=>{
+    createEffect(() => {
         setCls(joinClass(scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
-    })
+    });
 
     return <Demo settings={<>
         {paletteS}
@@ -67,7 +67,7 @@ export default function() {
                 </Stage>
 
                 <Stage title="login" class={cls()}>
-                    <illustrations.Login text={custom() ? "欢迎回来" : undefined} />
+                    <illustrations.Login text={custom() ? '欢迎回来' : undefined} />
                 </Stage>
             </div>
         </ThemeProvider>

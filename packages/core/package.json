@@ -52,8 +52,5 @@
         "vite-plugin-static-copy": "catalog:",
         "vitest-fetch-mock": "catalog:",
         "vitest": "catalog:"
-    },
-    "overrides": {
-        "@asamuzakjp/css-color": "3.0.12"
     }
 }
