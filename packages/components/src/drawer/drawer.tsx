@@ -104,10 +104,6 @@ export function Drawer(props: Props) {
         });
     }
 
-    const Aside = () => <aside ref={(el) => asideRef = el} classList={{
-        ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
-    }}>{props.children}</aside>;
-
     // NOTE: 如果不放在 classList 中，tailwind 无法解析对应的值。
     return <div ref={(el) => mainRef = el} class={classList({
         'cmfx-drawer-floating': !floatCls() && canFloating(),
@@ -118,7 +114,9 @@ export function Drawer(props: Props) {
         'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
         'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
     }, styles.drawer, props.pos === 'right' ? styles.right : undefined, props.palette ? `palette--${props.palette}` : undefined)}>
-        <Aside />
+        <aside ref={(el) => asideRef = el} classList={{
+            ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
+        }}>{props.children}</aside>
         <main classList={{ [`palette--${props.mainPalette}`]: !!props.mainPalette }}>
             <Transition {...transition}>{props.main}</Transition>
         </main>

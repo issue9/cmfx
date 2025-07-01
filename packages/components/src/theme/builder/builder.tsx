@@ -41,12 +41,16 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     if (props.ref) { props.ref(ref); }
 
-    const Main = () => <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
-        <div class={styles.demo}>
-            <header><p class="text-2xl">{l.t('_c.theme.componentsDemo')}</p></header>
-            <Components />
-        </div>
-    </ThemeProvider>;
+    // 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
+    // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，出现 main 中同时出现在多个元素。
+    const Main = () => <div>
+        <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
+            <div class={styles.demo}>
+                <header><p class="text-2xl">{l.t('_c.theme.componentsDemo')}</p></header>
+                <Components />
+            </div>
+        </ThemeProvider>
+    </div>;
 
     return <Drawer palette='secondary' mainPalette={props.palette} main={<Main />}>
         {params(schemeFA, modeFA, ref)}

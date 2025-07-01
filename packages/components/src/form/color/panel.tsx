@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { write2Clipboard } from '@cmfx/core';
+import { floor, write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
 import { createEffect, JSX, Show } from 'solid-js';
 
@@ -62,9 +62,9 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
     createEffect(() => {
         if (a.getValue() < 1) {
-            access.setValue(`oklch(${l.getValue()} ${c.getValue()} ${h.getValue()} / ${a.getValue()})`);
+            access.setValue(`oklch(${floor(l.getValue(), 3)} ${floor(c.getValue(), 3)} ${floor(h.getValue(), 3)} / ${floor(a.getValue(), 2)})`);
         } else {
-            access.setValue(`oklch(${l.getValue()} ${c.getValue()} ${h.getValue()})`);
+            access.setValue(`oklch(${floor(l.getValue(), 3)} ${floor(c.getValue(), 3)} ${floor(h.getValue(), 3)})`);
         }
     });
 
