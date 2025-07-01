@@ -1,13 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { ComponentProps, JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps } from 'solid-js';
 
-type Props = ComponentProps<'svg'> & {
-    /**
-     * 按钮上的文字
-     */
-    text?: string;
-};
+import { Props } from './props';
 
 const presetProps: Props = { text: 'User Login' } as const;
 

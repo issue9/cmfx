@@ -27,11 +27,11 @@ export default function() {
         <ThemeProvider mode={mode()}>
             <div class={joinClass(palette() ? `palette--${palette()}` : undefined, 'flex flex-wrap gap-5')}>
                 <Stage title='400' class={cls()}>
-                    <illustrations.Error400 title={custom() ? '自定义错误信息' : undefined} />
+                    <illustrations.Error400 text={custom() ? '自定义错误信息' : undefined} />
                 </Stage>
 
                 <Stage title="401" class={cls()}>
-                    <illustrations.Error401 title={custom() ? '未验证的登录信息' : undefined} />
+                    <illustrations.Error401 text={custom() ? '未验证的登录信息' : undefined} />
                 </Stage>
 
                 <Stage title="403" class={cls()}>
@@ -39,15 +39,15 @@ export default function() {
                 </Stage>
 
                 <Stage title="404" class={cls()}>
-                    <illustrations.Error404 title={custom() ? '页面未找到' : undefined} />
+                    <illustrations.Error404 text={custom() ? '页面未找到' : undefined} />
                 </Stage>
 
                 <Stage title="429" class={cls()}>
-                    <illustrations.Error429 />
+                    <illustrations.Error429 text={custom() ? '请求过多' : undefined} />
                 </Stage>
 
                 <Stage title="500" class={cls()}>
-                    <illustrations.Error500 />
+                    <illustrations.Error500 text={custom() ? '服务器错误' : undefined} />
                 </Stage>
 
                 <Stage title="503" class={cls()}>
@@ -63,7 +63,7 @@ export default function() {
                 </Stage>
 
                 <Stage title="building" class={cls()}>
-                    <illustrations.Building title={custom() ? '升级中...' : undefined} />
+                    <illustrations.Building text={custom() ? '升级中...' : undefined} />
                 </Stage>
 
                 <Stage title="login" class={cls()}>

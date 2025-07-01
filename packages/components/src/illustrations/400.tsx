@@ -1,15 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { ComponentProps, JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps } from 'solid-js';
 
-type Props = ComponentProps<'svg'> & {
-    /**
-     * 提示文字
-     */
-    title?: string;
-};
+import { Props } from './props';
 
-const presetProps: Props = { title: 'BAD REQUEST' } as const;
+const presetProps: Props = { text: 'Bad Request' } as const;
 
 /**
  * 表示 400 错误的 SVG 插画组件
@@ -368,7 +363,7 @@ export default function Error400(props: Props): JSX.Element {
 
         <g id="freepik--error-400--inject-112">
             <g id="freepik--Text--inject-112">
-                <text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:#37474f">{ props.title }</text>
+                <text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:#37474f">{ props.text }</text>
                 <text x="253" y="80.5" text-anchor="middle" style="font-size:2.2rem;font-weight:bold;fill:currentColor">ERROR 400</text>
             </g>
         </g>
