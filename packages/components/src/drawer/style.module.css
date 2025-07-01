@@ -11,7 +11,7 @@
         @apply h-full w-full flex overflow-hidden relative bg-palette-bg text-palette-fg;
 
         >aside {
-            @apply h-full bg-[var(--bg)] text-[var(--fg)] z-50 overflow-y-auto;
+            @apply h-full bg-[var(--bg)] text-[var(--fg)] z-50 overflow-y-auto overflow-x-hidden;
             transform-origin: left;
             transform: scaleX(1);
             flex-basis: content;

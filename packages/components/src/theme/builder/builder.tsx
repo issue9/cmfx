@@ -9,7 +9,7 @@ import { applyTheme, BaseProps, initSchemeFromHTML, Mode, Scheme } from '@/base'
 import { ThemeProvider, useLocale } from '@/context';
 import { Drawer } from '@/drawer';
 import { FieldAccessor, ObjectAccessor } from '@/form';
-import { Components } from './demo';
+import { Components } from './components';
 import { params } from './params';
 import { Ref } from './ref';
 import styles from './style.module.css';
@@ -43,14 +43,12 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     const Main = () => <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
         <div class={styles.demo}>
-            <header>
-                <p class="text-2xl">{l.t('_c.theme.componentsDemo')}</p>
-
-            </header>
-
+            <header><p class="text-2xl">{l.t('_c.theme.componentsDemo')}</p></header>
             <Components />
         </div>
     </ThemeProvider>;
 
-    return <Drawer palette='secondary' mainPalette={props.palette} main={<Main />}>{ params(schemeFA, modeFA, ref) }</Drawer>;
+    return <Drawer palette='secondary' mainPalette={props.palette} main={<Main />}>
+        {params(schemeFA, modeFA, ref)}
+    </Drawer>;
 }
