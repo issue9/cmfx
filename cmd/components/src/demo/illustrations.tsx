@@ -27,7 +27,7 @@ export default function() {
         <ThemeProvider mode={mode()}>
             <div class={joinClass(palette() ? `palette--${palette()}` : undefined, 'flex flex-wrap gap-5')}>
                 <Stage title='400' class={cls()}>
-                    <illustrations.Error400 />
+                    <illustrations.Error400 title={custom() ? '自定义错误信息' : undefined} />
                 </Stage>
 
                 <Stage title="401" class={cls()}>
@@ -51,7 +51,7 @@ export default function() {
                 </Stage>
 
                 <Stage title="503" class={cls()}>
-                    <illustrations.Error503 />
+                    <illustrations.Error503 text={custom() ? '服 务 暂 不 可 用' : undefined} />
                 </Stage>
 
                 <Stage title="504" class={cls()}>
