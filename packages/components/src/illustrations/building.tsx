@@ -542,7 +542,7 @@ export default function Building(props: Props): JSX.Element {
                 <polygon points="289.93 340.29 288.82 339.65 295.58 335.76 296.68 336.39 289.93 340.29" style="fill:#fafafa" />
                 <polygon points="233.34 372.96 232.24 372.32 238.48 368.72 239.58 369.36 233.34 372.96" style="fill:#fafafa" />
                 <polygon points="234.03 377.05 235.86 387.91 303.86 348.65 302.04 337.79 234.03 377.05" style="fill:currentColor;opacity:0.5" />
-                <text x="268.68" y="522.63" text-anchor="middle" transform='skewY(-30)' style="font-size:.7rem;font-weight:bold;fill:#455a64">{ props.title }</text>
+                <text x="268.68" y="522.63" text-anchor="middle" transform='skewY(-30)' style="font-size:.7rem;font-weight:bold;fill:#fafafa">{ props.title }</text>
             </g>
         </g>
         <g id="freepik--Character--inject-143">
