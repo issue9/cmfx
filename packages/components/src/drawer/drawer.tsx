@@ -3,10 +3,23 @@
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
-import { Transition } from 'solid-transition-group';
+import { Transition, TransitionProps } from 'solid-transition-group';
 
 import { BaseProps, Breakpoint, classList, Palette } from '@/base';
 import styles from './style.module.css';
+
+const transition: TransitionProps = {
+    // NOTE: mode === outin 时，在嵌套 Transition 时会出现子元素无法显示的问题。
+    // inout 模式则切换动画看起来比较乱，所以采用默认值，表示两者同时进行。
+
+    enterActiveClass: styles['drawer-fade-enter-active'],
+    enterClass: styles['drawer-fade-enter'],
+    enterToClass: styles['drawer-fade-enter-to'],
+
+    exitActiveClass: styles['drawer-fade-exit-active'],
+    exitClass: styles['drawer-fade-exit'],
+    exitToClass: styles['drawer-fade-exit-to'],
+};
 
 export interface Props extends BaseProps {
     /**
@@ -95,14 +108,6 @@ export function Drawer(props: Props) {
         ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
     }}>{props.children}</aside>;
 
-    const Main = () => <main classList={{[`palette--${props.mainPalette}`]: !!props.mainPalette}}>
-        <Transition mode='outin'
-            exitActiveClass={styles['drawer-fade-exit-active']}
-            enterClass={styles['drawer-fade-enter']}
-            exitToClass={styles['drawer-fade-exit-to']}
-            enterActiveClass={styles['drawer-fade-enter-active']}>{props.main}</Transition>
-    </main>;
-
     // NOTE: 如果不放在 classList 中，tailwind 无法解析对应的值。
     return <div ref={(el) => mainRef = el} class={classList({
         'cmfx-drawer-floating': !floatCls() && canFloating(),
@@ -114,6 +119,8 @@ export function Drawer(props: Props) {
         'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
     }, styles.drawer, props.pos === 'right' ? styles.right : undefined, props.palette ? `palette--${props.palette}` : undefined)}>
         <Aside />
-        <Main />
+        <main classList={{ [`palette--${props.mainPalette}`]: !!props.mainPalette }}>
+            <Transition {...transition}>{props.main}</Transition>
+        </main>
     </div>;
 }

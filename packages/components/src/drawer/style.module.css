@@ -29,14 +29,17 @@
             transition: opacity var(--default-transition-duration), transform var(--default-transition-duration);
         }
 
+        /* 准备入场或是已经退出 */
         .drawer-fade-enter,
         .drawer-fade-exit-to {
             transform: translateX(10px);
             opacity: 0;
         }
 
-        .drawer-fade-enter {
-            transform: translateX(-10px);
+        /* 准备退出或是已经入场 */
+        .drawer-fade-exit,
+        .drawer-fade-enter-to {
+            transform: translateX(0px);
             opacity: 1;
         }
     }
