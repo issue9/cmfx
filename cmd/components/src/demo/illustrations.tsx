@@ -4,15 +4,17 @@
 
 import { illustrations, joinClass, modes, ThemeProvider } from '@cmfx/components';
 
-import { arraySelector, Demo, paletteSelector, Stage } from './base';
+import { arraySelector, boolSelector, Demo, paletteSelector, Stage } from './base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
     const [modeS, mode] = arraySelector('mode', modes, 'system');
-    
+    const [customS, custom] = boolSelector('自定义文字内容', false);
+
     return <Demo settings={<>
         {paletteS}
         {modeS}
+        {customS}
     </>}>
         <ThemeProvider mode={mode()}>
             <div class={joinClass(palette() ? `palette--${palette()}` : undefined, 'flex flex-wrap gap-5')}>
@@ -53,11 +55,11 @@ export default function() {
                 </Stage>
 
                 <Stage title="building" class="w-150 p-4 bg-palette-bg">
-                    <illustrations.Building />
+                    <illustrations.Building title={custom() ? '升级中...' : undefined} />
                 </Stage>
 
                 <Stage title="login" class="w-150 p-4 bg-palette-bg">
-                    <illustrations.Login />
+                    <illustrations.Login text={custom() ? "欢迎回来" : undefined} />
                 </Stage>
             </div>
         </ThemeProvider>
