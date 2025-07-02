@@ -37,9 +37,14 @@ const messages: typeof m = {
             backHome: '返回首页',
             backPrev: '返回上一页',
             unknownError: '未知错误',
-            pageNotFound: '页面不存在',
+            badRequest: '请求参数错误',
+            unauthorized: '需登录之后才能访问',
             forbidden: '无权访问当前页面',
+            pageNotFound: '访问的页面不存在',
+            tooManyRequests: '过多的请求',
             internalServerError: '服务端错误',
+            serverUnavailable: '服务暂不可用',
+            gatewayTimeout: '请求网关超时',
 
             // 以下为一些内置的错误提示信息
             canNotBeEmpty: '不能为空',

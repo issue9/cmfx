@@ -11,8 +11,6 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     /**
      * 显示可选的插画
-     *
-     * NOTE: 这里会假定你添加的插画是一个正方形。
      */
     illustration?: JSX.Element;
 

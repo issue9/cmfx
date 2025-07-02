@@ -12,15 +12,15 @@ import IconPerson from '~icons/material-symbols/person';
 import { use, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
-interface PasswordAccount {
+type PasswordAccount = {
     username: string;
     password: string;
-}
+};
 
-interface PasswordValue {
+type PasswordValue = {
     old: string;
     new: string;
-}
+};
 
 /**
  * 密码登录方式
@@ -52,13 +52,11 @@ export class Pwd implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<IconPerson class="!py-0 !px-1 self-center" />}
-                placeholder={l.t('_p.current.username')} accessor={account.accessor('username', true)} />
+            <TextField prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
+                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username', true)} />
+            <Password icon={IconPassword} placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password', true)} />
 
-            <Password icon={IconPassword} placeholder={l.t('_p.current.password')} accessor={account.accessor('password', true)} />
-
-            <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
-        
+            <Button palette='primary' disabled={account.accessor<string>('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
             <Button palette='secondary' disabled={account.isPreset()} type="reset" > {l.t('_c.reset')} </Button>
         </form>;
     }

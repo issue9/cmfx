@@ -75,7 +75,7 @@ function Private(props: PrivateProps): JSX.Element {
             <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary'
                 close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
                 main={
-                    <ErrorBoundary fallback={err=>errors.Unknown(err)}>{props.children}</ErrorBoundary>
+                    <ErrorBoundary fallback={err=>(<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
                 <List anchor selected={props.selected()}>{buildItems(l, opt.aside.menus)}</List>
             </Drawer>

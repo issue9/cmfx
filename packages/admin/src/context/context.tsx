@@ -7,6 +7,7 @@ import { API, Problem, Return, Token, UnitStyle } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
+import { HTTPError } from '@/app/errors';
 import { build as buildOptions } from '@/options/options';
 import { User } from './user';
 
@@ -70,6 +71,8 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
 
             if ((p.status === 401) && (props.routes.public.home !== loc.pathname)) {
                 nav(props.routes.public.home);
+            } else if (p.status >= 500) {
+                throw new HTTPError(p.status, p.title);
             } else {
                 await notify(p.title, p.detail, 'error');
             }

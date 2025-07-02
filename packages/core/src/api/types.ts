@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -9,7 +9,7 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  *
  * @template E 表示 extension 字段的类型，如果该字段空值，不需要指定。
  */
-export interface Problem<E> {
+export interface Problem<E = never> {
     type: string
     title: string
     status: number
@@ -33,10 +33,10 @@ export interface Param {
 /**
  * 接口返回的对象
  *
- * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
- * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
+ * @template R 表示在接口操作成功的情况下返回的类型，如果为空表示 never；
+ * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，表示为 never。
  */
-export type Return<R, PE> = {
+export type Return<R = never, PE = never> = {
     /**
      * 返回的报头
      */
@@ -80,6 +80,8 @@ export type Return<R, PE> = {
 
 /**
  * 分页接口返回的对象
+ *
+ * @template T 表示当前页的类型
  */
 export interface Page<T> {
     count: number;

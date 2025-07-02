@@ -35,9 +35,14 @@ const messages = {
             backHome: 'Back home',
             backPrev: 'Back prev page',
             unknownError: 'Unknown error',
-            pageNotFound: 'Page not found',
+            badRequest: 'Bad request',
+            unauthorized: 'Unauthorized',
             forbidden: 'Forbidden',
+            pageNotFound: 'Page not found',
+            tooManyRequests: 'Too many requests',
             internalServerError: 'Server error',
+            serverUnavailable: 'Server unavailable',
+            gatewayTimeout: 'Gateway timeout',
 
             // 以下为一些内置的错误提示信息
             canNotBeEmpty: 'Can not be empty',

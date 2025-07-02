@@ -41,7 +41,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     if (props.ref) { props.ref(ref); }
 
-    // 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
+    // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，出现 main 中同时出现在多个元素。
     const Main = () => <div>
         <ThemeProvider mode={modeFA.getValue()} scheme={schemeFA.object()}>
