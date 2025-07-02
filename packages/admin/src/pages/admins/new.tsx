@@ -47,14 +47,14 @@ export function New(props: Props): JSX.Element {
     </Page>;
 }
 
-interface Admin {
+type Admin = {
     sex: user.Sex;
     name: string;
     nickname: string;
     roles: Array<string>;
     username: string;
     password: string;
-}
+};
 
 export function zeroAdmin(): Admin {
     return {

@@ -93,13 +93,13 @@ export function Edit(props: Props): JSX.Element {
     </Page>;
 }
 
-interface Admin {
+type Admin = {
     sex: user.Sex;
     name: string;
     nickname: string;
     roles: Array<string>;
     passports?: User['passports'];
-}
+};
 
 function zeroAdmin(): Admin {
     return {

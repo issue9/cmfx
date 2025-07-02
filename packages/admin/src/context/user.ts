@@ -5,7 +5,7 @@
 /**
  * 用户的基本信息
  */
-export interface User {
+export type User = {
     id?: number;
     sex: 'male' | 'female' | 'unknown';
     state: 'normal' | 'locked' | 'deleted';
@@ -14,7 +14,7 @@ export interface User {
     avatar?: string;
     roles?: Array<string>;
     passports?: Array<Passport>;
-}
+};
 
 interface Passport {
     id: string;

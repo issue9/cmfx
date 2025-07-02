@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Page, RemoteTable, TextField } from '@cmfx/components';
-import { Query } from '@cmfx/core';
+import { Query as Q } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
@@ -16,6 +16,12 @@ interface SecurityLog {
     created: string;
 }
 
+interface Query extends Q {
+    text: string;
+    //'created.start'?: string;
+    //'created.end'?: string;
+}
+
 export function SecurityLogs(): JSX.Element {
     const l = useLocale();
 
@@ -23,8 +29,6 @@ export function SecurityLogs(): JSX.Element {
         page: 1,
         text: '',
         size: 20,
-        //'created.start'?: string;
-        //'created.end'?: string;
     };
 
     return <Page title="_p.current.securitylog">

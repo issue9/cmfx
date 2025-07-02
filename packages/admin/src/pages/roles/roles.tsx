@@ -13,12 +13,12 @@ import IconPasskey from '~icons/material-symbols/passkey';
 
 import { use, useLocale } from '@/context';
 
-export interface Role {
+export type Role = {
     id?: string;
     name: string;
     description: string;
     parent?: string;
-}
+};
 
 interface Props {
     /**

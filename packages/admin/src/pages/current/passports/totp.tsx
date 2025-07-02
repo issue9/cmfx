@@ -18,16 +18,16 @@ import { use, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 // 登录框的字段
-interface Account {
+type Account = {
     username: string;
     code: string;
-}
+};
 
 // 请求绑定时返回的字段
-interface Secret {
+type Secret = {
     secret: string;
     username: string;
-}
+};
 
 /**
  * TOTP 登录方式
@@ -61,13 +61,11 @@ export class TOTP implements PassportComponents {
             }
         }}>
             <TextField prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
-                placeholder={l.t('_p.current.username')} accessor={account.accessor('username', true)} />
-
+                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username', true)} />
             <TextField prefix={<IconPin class="!py-0 !px-1 !flex !items-center" />}
-                placeholder={l.t('_p.current.verifyCode')} accessor={account.accessor('code', true)} />
+                placeholder={l.t('_p.current.verifyCode')} accessor={account.accessor<string>('code', true)} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
-
             <Button palette='secondary' disabled={account.isPreset()} type="reset">{l.t('_c.reset')}</Button>
         </form>;
     }
