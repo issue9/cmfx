@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Editor, FieldAccessor } from '@cmfx/components';
+import { Editor, fieldAccessor } from '@cmfx/components';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector } from '../base';
 
 export default function () {
-    const txt = FieldAccessor('name', '<p style="color:red">red</p><br />line2', true);
+    const txt = fieldAccessor('name', '<p style="color:red">red</p><br />line2', true);
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [paletteS, palette] = paletteSelector();

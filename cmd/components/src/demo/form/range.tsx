@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { FieldAccessor, Range } from '@cmfx/components';
+import { fieldAccessor, Range } from '@cmfx/components';
 import { For } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
 
 export default function () {
-    const f = FieldAccessor('name', 5, true);
+    const f = fieldAccessor('name', 5, true);
 
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, FieldAccessor, Page, translateEnums2Options } from '@cmfx/components';
+import { Choice, fieldAccessor, Page, translateEnums2Options } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
@@ -50,7 +50,7 @@ function LoginBox(props: Props): JSX.Element {
     api.cache('/passports');
 
     const [passports, setPassports] = createSignal<Array<[string,string]>>([]);
-    const passport = FieldAccessor('passport', q.type ?? 'password');
+    const passport = fieldAccessor('passport', q.type ?? 'password');
     passport.onChange((n) => setQ({ type: n }));
 
     onMount(async () => {

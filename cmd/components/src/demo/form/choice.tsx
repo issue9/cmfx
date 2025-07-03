@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, FieldAccessor, FieldOptions, TextField } from '@cmfx/components';
+import { Choice, fieldAccessor, FieldOptions, TextField } from '@cmfx/components';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
 
 export default function() {
-    const fa = FieldAccessor<string|undefined>('choice', '1', true);
+    const fa = fieldAccessor<string|undefined>('choice', '1', true);
     const options: FieldOptions<string> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:green">green</div >],
@@ -15,7 +15,7 @@ export default function() {
     ];
 
 
-    const mfa = FieldAccessor<Array<number>>('choice', [1,2]);
+    const mfa = fieldAccessor<Array<number>>('choice', [1,2]);
     const multipleOptions: FieldOptions<number> = [
         [1, <div>abc</div>],
         [2, <div style="color:green">green</div >],
@@ -28,7 +28,7 @@ export default function() {
         [9, <div style="color:red">red5</div>],
     ];
 
-    const tf = FieldAccessor('textfield', '');
+    const tf = fieldAccessor('textfield', '');
 
     const [paletteS, palette] = paletteSelector();
     const [disabledS, disabled] = boolSelector('disabled');

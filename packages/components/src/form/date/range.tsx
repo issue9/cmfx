@@ -9,7 +9,7 @@ import IconClose from '~icons/material-symbols/close';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { Accessor, calcLayoutFieldAreas, Field, FieldAccessor } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldAccessor } from '@/form/field';
 import { IconComponent } from '@/icon';
 import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
@@ -39,10 +39,10 @@ export function DateRangePicker(props: Props): JSX.Element {
     const [max, setMax] = createSignal(props.max);
 
     const ac = props.accessor;
-    const ac1 = FieldAccessor('start', ac.getValue()[0]);
-    const ac2 = FieldAccessor('end', ac.getValue()[1]);
+    const ac1 = fieldAccessor('start', ac.getValue()[0]);
+    const ac2 = fieldAccessor('end', ac.getValue()[1]);
     let curr = ac1;
-    const panelVal = FieldAccessor('val', ac1.getValue());
+    const panelVal = fieldAccessor('val', ac1.getValue());
 
     let fieldRef: HTMLElement;
     let anchorRef: HTMLElement;

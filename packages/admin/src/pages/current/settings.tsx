@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Description, Divider, FieldAccessor, joinClass, Mode, Page, RadioGroup, SchemeSelector, use as useC } from '@cmfx/components';
+import { Choice, Description, Divider, fieldAccessor, joinClass, Mode, Page, RadioGroup, SchemeSelector, use as useC } from '@cmfx/components';
 import { Locale, UnitStyle } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
@@ -17,13 +17,13 @@ export function Settings(): JSX.Element {
     const [, act, opt] = useC();
     const l = useLocale();
 
-    const modeFA = FieldAccessor<Mode>('mode', opt.mode ?? 'system');
+    const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
     modeFA.onChange((m) => { act.switchMode(m); });
 
-    const localeFA = FieldAccessor<string>('locale', l.match(Locale.languages()), false);
+    const localeFA = fieldAccessor<string>('locale', l.match(Locale.languages()), false);
     localeFA.onChange((v) => { act.switchLocale(v); });
 
-    const unitFA = FieldAccessor<UnitStyle>('unit', l.unitStyle);
+    const unitFA = fieldAccessor<UnitStyle>('unit', l.unitStyle);
     unitFA.onChange((v) => { act.switchUnitStyle(v); });
 
     return <Page title='_p.current.settings' class={ joinClass('max-w-sm', styles.settings) }>

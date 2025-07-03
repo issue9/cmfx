@@ -3,15 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 
-import { FieldAccessor, FieldOptions, Palette, RadioGroup } from '@cmfx/components';
+import { fieldAccessor, FieldOptions, Palette, RadioGroup } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
-    const f = FieldAccessor<Palette>('name', 'primary', true);
-    f.onChange((v,o)=>setChange(`new: ${v}, old: ${o}`));
+    const f = fieldAccessor<Palette>('name', 'primary', true);
+    f.onChange((v, o) => setChange(`new: ${v}, old: ${o}`));
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');

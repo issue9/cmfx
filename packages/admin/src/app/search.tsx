@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, FieldAccessor, Label, Locale, TextField, TextFieldRef } from '@cmfx/components';
+import { Button, Dialog, DialogRef, fieldAccessor, Label, Locale, TextField, TextFieldRef } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
@@ -33,7 +33,7 @@ export function Search(props: Props): JSX.Element {
     let listRef: HTMLUListElement;
     const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(l.t, opt.aside.menus, ''));
 
-    const input = FieldAccessor('search', '', false);
+    const input = fieldAccessor('search', '', false);
     input.onChange((val: string) => {
         setItems(buildItemsWithSearch(l.t, opt.aside.menus, val));
     });

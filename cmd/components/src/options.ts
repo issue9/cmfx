@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Colors, Options, Scheme } from '@cmfx/components';
+import { Options, Palettes, Scheme } from '@cmfx/components';
 import { Problem } from '@cmfx/core';
 
 export const options: Options = {
@@ -29,13 +29,13 @@ export const options: Options = {
                 'secondary-bg': '#666',
                 'tertiary-bg': '#999',
                 'surface-bg': '#bbb',
-            } as Colors,
+            } as Palettes,
             light: {
                 'primary-bg': '#bbb',
                 'secondary-bg': '#999',
                 'tertiary-bg': '#666',
                 'surface-bg': '#333',
-            } as Colors,
+            } as Palettes,
         }],
         ['default2', {
             dark: {
@@ -43,13 +43,13 @@ export const options: Options = {
                 'secondary-bg': '#666999',
                 'tertiary-bg': '#999666',
                 'surface-bg': '#bbb333',
-            } as Colors,
+            } as Palettes,
             light: {
                 'primary-bg': '#bbb333',
                 'secondary-bg': '#999666',
                 'tertiary-bg': '#666999',
                 'surface-bg': '#333bbb',
-            } as Colors,
+            } as Palettes,
         }]
     ]),
 

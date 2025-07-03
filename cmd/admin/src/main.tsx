@@ -5,7 +5,7 @@
 import './style.css';
 
 import { admins, createApp, current, members, MenuItem, Options, roles, Routes, system } from '@cmfx/admin';
-import { Card, Colors, Label, Scheme, useLocale } from '@cmfx/components';
+import { Card, Label, Palettes, Scheme, useLocale } from '@cmfx/components';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
@@ -110,13 +110,13 @@ const o: Options = {
                     'secondary-bg': '#666',
                     'tertiary-bg': '#999',
                     'surface-bg': '#bbb',
-                } as Colors,
+                } as Palettes,
                 light: {
                     'primary-bg': '#bbb',
                     'secondary-bg': '#999',
                     'tertiary-bg': '#666',
                     'surface-bg': '#333',
-                } as Colors,
+                } as Palettes,
             }],
             ['default2', {
                 dark: {
@@ -124,13 +124,13 @@ const o: Options = {
                     'secondary-bg': '#666999',
                     'tertiary-bg': '#999666',
                     'surface-bg': '#bbb333',
-                } as Colors,
+                } as Palettes,
                 light: {
                     'primary-bg': '#bbb333',
                     'secondary-bg': '#999666',
                     'tertiary-bg': '#666999',
                     'surface-bg': '#333bbb',
-                } as Colors,
+                } as Palettes,
             }],
         ])
     },

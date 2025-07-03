@@ -5,11 +5,11 @@
 import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
-import { FieldAccessor } from './access';
+import { fieldAccessor } from './access';
 
-describe('FieldAccessor', () => {
+describe('fieldAccessor', () => {
     test('value', () => {
-        const a = FieldAccessor('name', 5);
+        const a = fieldAccessor('name', 5);
 
         expect(a.getError()).toBeUndefined();
         expect(a.getValue()).toEqual<number>(5);
@@ -30,7 +30,7 @@ describe('FieldAccessor', () => {
     });
 
     test('signal', () => {
-        const a = FieldAccessor('name', createSignal(5));
+        const a = fieldAccessor('name', createSignal(5));
 
         expect(a.getError()).toBeUndefined();
         expect(a.getValue()).toEqual<number>(5);

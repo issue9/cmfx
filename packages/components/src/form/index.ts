@@ -8,7 +8,7 @@ export type { Validation } from './access';
 export { Form } from './form';
 export type { Props as FormProps } from './form';
 
-export { FieldAccessor, translateEnums2Options } from './field';
+export { fieldAccessor, translateEnums2Options } from './field';
 export type { Accessor, AutoComplete, FieldBaseProps, Option as FieldOption, Options as FieldOptions, InputMode } from './field';
 
 export * from './checkbox';

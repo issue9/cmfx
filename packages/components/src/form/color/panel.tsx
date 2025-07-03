@@ -8,7 +8,7 @@ import { createEffect, JSX, Show } from 'solid-js';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { Accessor, FieldAccessor, FieldBaseProps } from '@/form/field';
+import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
 import { Tooltip, TooltipRef } from '@/tooltip';
 import styles from './style.module.css';
@@ -47,10 +47,10 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
     const access = props.accessor;
 
-    const l = FieldAccessor<number>('l', 0);
-    const c = FieldAccessor<number>('c', 0);
-    const h = FieldAccessor<number>('h', 0);
-    const a = FieldAccessor<number>('a', 1);
+    const l = fieldAccessor<number>('l', 0);
+    const c = fieldAccessor<number>('c', 0);
+    const h = fieldAccessor<number>('h', 0);
+    const a = fieldAccessor<number>('a', 1);
 
     createEffect(() => {
         const color = new Color(access.getValue() ? access.getValue() : 'oklch(100% 0 0)');

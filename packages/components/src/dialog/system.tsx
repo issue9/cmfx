@@ -6,7 +6,7 @@ import { createSignal, JSX, ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { BaseProps } from '@/base';
-import { FieldAccessor, TextField } from '@/form';
+import { fieldAccessor, TextField } from '@/form';
 import { Dialog, Ref } from './dialog';
 
 export interface Props extends BaseProps, ParentProps {
@@ -124,7 +124,7 @@ function Prompt(props: DialogProps): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
     const [title, setTitle] = createSignal(props.header);
-    const access = FieldAccessor('prompt', '', false);
+    const access = fieldAccessor('prompt', '', false);
 
     promptInst = (msg?: string, val?: string, title?: string): Promise<string | null> => {
         setMsg(msg);

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
+    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor,
     Label, RemoteTable, RemoteTableRef, TextField, useLocale
 } from '@cmfx/components';
 import { Token } from '@cmfx/core';
@@ -36,7 +36,7 @@ export class Webauthn implements PassportComponents {
         const [api, act, opt] = use();
         const l = useLocale();
         const nav = useNavigate();
-        const account = FieldAccessor('account', '', true);
+        const account = fieldAccessor('account', '', true);
 
         return <form class="!gap-5" onReset={() => account.reset()} onSubmit={async () => {
             const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);

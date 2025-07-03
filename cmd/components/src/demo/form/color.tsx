@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { FieldAccessor, OKLCHPanel, OKLCHPicker } from '@cmfx/components';
+import { fieldAccessor, OKLCHPanel, OKLCHPicker } from '@cmfx/components';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
 
@@ -12,8 +12,8 @@ export default function() {
     const [apcaS, apca] = boolSelector('APCA');
     const [paletteS, palette] = paletteSelector();
 
-    const color = FieldAccessor('color', 'oklch(1% 0.3 100)');
-    const wcag = FieldAccessor('wcag', 'oklch(1% 0.11 10)');
+    const color = fieldAccessor('color', 'oklch(1% 0.3 100)');
+    const wcag = fieldAccessor('wcag', 'oklch(1% 0.11 10)');
 
     return <Demo settings={
         <>

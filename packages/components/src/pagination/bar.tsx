@@ -6,7 +6,7 @@ import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { use, useLocale } from '@/context';
-import { Choice, FieldAccessor, FieldOptions } from '@/form';
+import { Choice, fieldAccessor, FieldOptions } from '@/form';
 import { Pagination } from './pagination';
 import styles from './style.module.css';
 
@@ -77,7 +77,7 @@ export function PaginationBar(props: Props): JSX.Element {
 
     const [page, setPage] = createSignal(props.page);
 
-    const sizeAccessor = FieldAccessor('size', props.size!);
+    const sizeAccessor = fieldAccessor('size', props.size!);
     sizeAccessor.onChange((val: number, old?: number) => {
         if (page() >= pages()) {
             pageChange(pages(), page());

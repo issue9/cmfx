@@ -5,7 +5,7 @@
 export { calcLayoutFieldAreas, default as Field } from './field';
 export type { FieldArea, FieldProps } from './field';
 
-export { FieldAccessor } from './access';
+export { fieldAccessor } from './access';
 export type { Accessor, ChangeFunc } from './access';
 
 export { translateEnums2Options } from './types';

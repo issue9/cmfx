@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePanel, DatePicker, DateRangePicker, FieldAccessor, Week } from '@cmfx/components';
+import { DatePanel, DatePicker, DateRangePicker, fieldAccessor, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
 
 export default function() {
-    const ac = FieldAccessor('dp', '2024-01-02T15:34', true);
-    const range = FieldAccessor<[string, string]>('range', ['2024-01-02T15:34', '2025-01-02T15:34'], true);
-    
+    const ac = fieldAccessor('dp', '2024-01-02T15:34', true);
+    const range = fieldAccessor<[string, string]>('range', ['2024-01-02T15:34', '2025-01-02T15:34'], true);
+
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
     const [paletteS, palette] = paletteSelector('primary');
@@ -40,7 +40,7 @@ export default function() {
             <DatePanel label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
             <p>{ac.getValue()}</p>
         </Stage>
-        
+
         <Stage title="panel with time">
             <DatePanel label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time />
             <p>{ac.getValue()}</p>

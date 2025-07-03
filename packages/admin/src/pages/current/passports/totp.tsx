@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ConfirmButton, Dialog, DialogRef, FieldAccessor,
+    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor,
     ObjectAccessor, QRCode, TextField
 } from '@cmfx/components';
 import { base32nopad } from '@scure/base';
@@ -75,7 +75,7 @@ export class TOTP implements PassportComponents {
         const l = useLocale();
 
         let dialogRef: DialogRef;
-        const code = FieldAccessor('code', '', true);
+        const code = fieldAccessor('code', '', true);
         const [qr, setQR] = createSignal<string>('');
 
         return <>

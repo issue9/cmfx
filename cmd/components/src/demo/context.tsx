@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Colors, LocaleProvider, Mode, Scheme, ThemeProvider, use, useLocale } from '@cmfx/components';
+import { Button, LocaleProvider, Mode, Palettes, Scheme, ThemeProvider, use, useLocale } from '@cmfx/components';
 import { Locale, rand } from '@cmfx/core';
 import { createSignal, For } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -104,12 +104,12 @@ function genScheme(): Scheme {
             'secondary-bg': '#'+rand(111, 999, 0).toString(),
             'tertiary-bg': '#'+rand(111, 999, 0).toString(),
             'surface-bg': '#'+rand(111, 999, 0).toString(),
-        } as Colors,
+        } as Palettes,
         light: {
             'primary-bg': '#'+rand(111, 999, 0).toString(),
             'secondary-bg': '#'+rand(111, 999, 0).toString(),
             'tertiary-bg': '#'+rand(111, 999, 0).toString(),
             'surface-bg': '#'+rand(111, 999, 0).toString(),
-        } as Colors,
+        } as Palettes,
     };
 }

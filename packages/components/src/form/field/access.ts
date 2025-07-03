@@ -70,7 +70,7 @@ export interface ChangeFunc<T> {
  * @param hasHelp 是否显示错误信息的占位栏；
  * @template T 关联的值类型；
  */
-export function FieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boolean): Accessor<T> {
+export function fieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boolean): Accessor<T> {
     let preset: T;
 
     let s: Signal<T>;

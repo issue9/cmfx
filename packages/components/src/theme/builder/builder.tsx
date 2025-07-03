@@ -8,7 +8,7 @@ import { JSX, ParentProps } from 'solid-js';
 import { applyTheme, BaseProps, initSchemeFromHTML, Mode, Scheme } from '@/base';
 import { ThemeProvider, useLocale } from '@/context';
 import { Drawer } from '@/drawer';
-import { FieldAccessor, ObjectAccessor } from '@/form';
+import { fieldAccessor, ObjectAccessor } from '@/form';
 import { Components } from './components';
 import { params } from './params';
 import { Ref } from './ref';
@@ -23,7 +23,7 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function SchemeBuilder(props: Props): JSX.Element {
     const l = useLocale();
-    const modeFA = FieldAccessor<Mode>('mode', 'dark');
+    const modeFA = fieldAccessor<Mode>('mode', 'dark');
     const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(initSchemeFromHTML());
 
     const ref: Ref = {

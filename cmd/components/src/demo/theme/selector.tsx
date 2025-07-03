@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Colors, Scheme, SchemeSelector } from '@cmfx/components';
+import { Palettes, Scheme, SchemeSelector } from '@cmfx/components';
 
 import { Demo, paletteSelector, Stage } from '../base';
 
@@ -15,13 +15,13 @@ export default function() {
                 'secondary-bg': '#666',
                 'tertiary-bg': '#999',
                 'surface-bg': '#bbb',
-            } as Colors,
+            } as Palettes,
             light: {
                 'primary-bg': '#bbb',
                 'secondary-bg': '#999',
                 'tertiary-bg': '#666',
                 'surface-bg': '#333',
-            } as Colors,
+            } as Palettes,
         }],
         ['default2', {
             dark: {
@@ -29,13 +29,13 @@ export default function() {
                 'secondary-bg': '#666999',
                 'tertiary-bg': '#999666',
                 'surface-bg': '#bbb333',
-            } as Colors,
+            } as Palettes,
             light: {
                 'primary-bg': '#bbb333',
                 'secondary-bg': '#999666',
                 'tertiary-bg': '#666999',
                 'surface-bg': '#333bbb',
-            } as Colors,
+            } as Palettes,
         }]
     ]);
 

@@ -5,13 +5,13 @@
 import { JSX } from 'solid-js';
 
 import { joinClass } from '@/base';
-import { DatePanel, FieldAccessor } from '@/form';
+import { DatePanel, fieldAccessor } from '@/form';
 import { BasicTable, Column } from '@/table';
 import styles from './style.module.css';
 
 // 展示的组件
 export function Components(): JSX.Element {
-    const dateAccess = FieldAccessor('date', Date(), false);
+    const dateAccess = fieldAccessor('date', Date(), false);
 
     const items = [
         { id: 1, name: 'name1', address: 'address1' },

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Checkbox, CheckboxGroup, FieldAccessor, FieldOptions } from '@cmfx/components';
+import { Checkbox, CheckboxGroup, fieldAccessor, FieldOptions } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
@@ -14,13 +14,13 @@ export default function() {
     const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
     const [blockS, block] = boolSelector('block');
 
-    const groupFA = FieldAccessor('checkbox', ['1'], true);
+    const groupFA = fieldAccessor('checkbox', ['1'], true);
     const groupOptions: FieldOptions<string> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:red">red</div >],
         ['3', <div style="color:red">red<br/>red<br/>red</div>],
     ];
-    
+
     const [chk, setChk] = createSignal<boolean>();
     const onchange = (v?: boolean): void => { setChk(v); };
 
@@ -45,7 +45,7 @@ export default function() {
                 )}
             </For>
         </Stage>
-        
+
         <Stage title="change">
             <Checkbox title='onchange' label='onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
             <div>{ chk() ? 'checked' : 'unchecked' }</div>

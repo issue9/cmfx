@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, FieldAccessor } from '@cmfx/components';
+import { Album, fieldAccessor } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
@@ -14,7 +14,7 @@ export default function(): JSX.Element {
     const [autoS, auto] = boolSelector('auto');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
-    const basicA = FieldAccessor('upload', ['../../../../../cmd/admin/public/icon.svg', './test.jpg'], true);
+    const basicA = fieldAccessor('upload', ['../../../../../cmd/admin/public/icon.svg', './test.jpg'], true);
 
     return <Demo settings={
         <>

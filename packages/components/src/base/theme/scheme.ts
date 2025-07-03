@@ -9,8 +9,6 @@ export const transitionDurationName = '--default-transition-duration';
  * 定义主题相关的各类变量
  */
 export interface Scheme {
-    [k: string]: any;
-
     // 对主题的修改，大部分是对 tailwind 主题的修改，其字段来源于：
     // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
 
@@ -22,7 +20,7 @@ export interface Scheme {
     // TODO: shadow?: string;
 
     /**
-     * 表示 tailwind 中 --radius-xs 的数值，默认是 0.125
+     * 表示 tailwind 中 --radius-* 的数值，默认是 0.125
      */
     radius?: Radius;
 
@@ -36,8 +34,8 @@ export interface Scheme {
      */
     transitionDuration?: number;
 
-    dark?: Colors;
-    light?: Colors;
+    dark?: Palettes;
+    light?: Palettes;
 }
 
 export interface Radius {
@@ -51,7 +49,7 @@ export interface Radius {
     '4xl': number;
 }
 
-export interface Colors {
+export interface Palettes {
     'primary-fg': string;
     'primary-fg-low': string;
     'primary-fg-high': string;
@@ -170,8 +168,8 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
 export function initSchemeFromHTML(): Scheme {
     const s: Partial<Scheme> = {
         radius: {} as Radius,
-        light: {} as Colors,
-        dark: {} as Colors,
+        light: {} as Palettes,
+        dark: {} as Palettes,
     };
 
     const style = getComputedStyle(document.documentElement);
@@ -183,10 +181,10 @@ export function initSchemeFromHTML(): Scheme {
                         const val = style.getPropertyValue(key);
 
                         if (key.startsWith('--dark-')) {
-                            const k = key.substring('--dark-'.length) as keyof Colors;
+                            const k = key.substring('--dark-'.length) as keyof Palettes;
                             s.dark![k] = val;
                         } else if (key.startsWith('--light-')) {
-                            const k = key.substring('--light-'.length) as keyof Colors;
+                            const k = key.substring('--light-'.length) as keyof Palettes;
                             s.light![k] = val;
                         } else if (key === 'font-size') {
                             s.fontSize = val;

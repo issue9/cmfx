@@ -2,15 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { cloneElement, FieldAccessor, Number, Password, TextField } from '@cmfx/components';
+import { cloneElement, fieldAccessor, Number, Password, TextField } from '@cmfx/components';
 import IconFace from '~icons/material-symbols/face';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector } from '../base';
 
 export default function() {
-    const txt = FieldAccessor('name', 'text', true);
-    const pwd = FieldAccessor('name', 'pwd', true);
-    const num = FieldAccessor('name', 5, true);
+    const txt = fieldAccessor('name', 'text', true);
+    const pwd = fieldAccessor('name', 'pwd', true);
+    const num = fieldAccessor('name', 5, true);
 
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
