@@ -17,23 +17,23 @@ describe('rand', () => {
 
     test('decimals=1', () => {
         const v = rand(0.1, 10.1, 1);
-        expect(v).toBeGreaterThanOrEqual(0);
-        expect(v).toBeLessThanOrEqual(10);
+        expect(v).toBeGreaterThanOrEqual(0.1);
+        expect(v).toBeLessThanOrEqual(10.1);
         const index = v.toString().lastIndexOf('.');
         expect(v.toString().substring(index).length).toEqual(2);
     });
 
     test('decimals=3', () => {
         const v = rand(0.1, 10.1, 3);
-        expect(v).toBeGreaterThanOrEqual(0);
-        expect(v).toBeLessThanOrEqual(10);
+        expect(v).toBeGreaterThanOrEqual(0.1);
+        expect(v).toBeLessThanOrEqual(10.1);
         const index = v.toString().lastIndexOf('.');
         expect(v.toString().substring(index).length).toEqual(4);
     });
 
     test('decimals=0', () => {
         const v = rand(1, 10, 0);
-        expect(v).toBeGreaterThanOrEqual(0);
+        expect(v).toBeGreaterThanOrEqual(1);
         expect(v).toBeLessThanOrEqual(10);
         const index = v.toString().lastIndexOf('.');
         expect(index).toEqual(-1);

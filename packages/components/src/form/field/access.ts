@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, untrack } from 'solid-js';
+import { createSignal, Signal, untrack } from 'solid-js';
 
 /**
  * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
@@ -12,6 +12,8 @@ import { createSignal, untrack } from 'solid-js';
 export interface Accessor<T> {
     /**
      * 字段的名称
+     *
+     * 该字段会被用在 input 的 name 属性中。
      */
     name(): string;
 
@@ -64,13 +66,23 @@ export interface ChangeFunc<T> {
  * 当一个表单元素是单独使用的，可以传递此函数生成的对象。
  *
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
- * @param v 初始化的值；
+ * @param v 初始化的值或是直接由 {@link createSignal} 创建的可响应对象；
  * @param hasHelp 是否显示错误信息的占位栏；
- * @template T 关联的值类型
+ * @template T 关联的值类型；
  */
-export function FieldAccessor<T>(name: string, v: T, hasHelp?: boolean): Accessor<T> {
+export function FieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boolean): Accessor<T> {
+    let preset: T;
+
+    let s: Signal<T>;
+    if (Array.isArray(v)) {
+        s = v;
+        preset = s[0]();
+    } else {
+        s = createSignal<T>(v);
+        preset = v;
+    }
+
     const [err, errSetter] = createSignal<string>();
-    const [val, valSetter] = createSignal<T>(v);
     const changes: Array<ChangeFunc<T>> = [];
 
     return {
@@ -84,20 +96,20 @@ export function FieldAccessor<T>(name: string, v: T, hasHelp?: boolean): Accesso
 
         onChange(change) { changes.push(change); },
 
-        getValue(): T { return val(); },
+        getValue(): T { return s[0](); },
 
         setValue(vv: T) {
-            const old = untrack(val);
+            const old = untrack(s[0]);
             if (old === vv) { return; }
 
-            valSetter(vv as any);
+            s[1](vv as any);
             changes.forEach((f) => {
                 f(vv, old);
             });
         },
 
         reset() {
-            this.setValue(v);
+            this.setValue(preset);
             errSetter();
         }
     };

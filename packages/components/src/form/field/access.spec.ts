@@ -2,27 +2,51 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { expect, test } from 'vitest';
+import { createSignal } from 'solid-js';
+import { describe, expect, test } from 'vitest';
 
 import { FieldAccessor } from './access';
 
-test('FieldAccessor', () => {
-    const a = FieldAccessor('name', 5);
+describe('FieldAccessor', () => {
+    test('value', () => {
+        const a = FieldAccessor('name', 5);
 
-    expect(a.getError()).toBeUndefined();
-    expect(a.getValue()).toEqual<number>(5);
+        expect(a.getError()).toBeUndefined();
+        expect(a.getValue()).toEqual<number>(5);
 
-    a.setError('error');
-    expect(a.getError()).toEqual<string>('error');
+        a.setError('error');
+        expect(a.getError()).toEqual<string>('error');
 
-    a.setValue(7);
-    expect(a.getValue()).toEqual<number>(7);
-    expect(a.getError()).toEqual<string>('error');
-    a.setError('error');
+        a.setValue(7);
+        expect(a.getValue()).toEqual<number>(7);
+        expect(a.getError()).toEqual<string>('error');
+        a.setError('error');
 
-    a.reset();
-    expect(a.getValue()).toEqual<number>(5);
-    expect(a.getError()).toBeUndefined();
+        a.reset();
+        expect(a.getValue()).toEqual<number>(5);
+        expect(a.getError()).toBeUndefined();
 
-    a.setValue(7);
+        a.setValue(7);
+    });
+
+    test('signal', () => {
+        const a = FieldAccessor('name', createSignal(5));
+
+        expect(a.getError()).toBeUndefined();
+        expect(a.getValue()).toEqual<number>(5);
+
+        a.setError('error');
+        expect(a.getError()).toEqual<string>('error');
+
+        a.setValue(7);
+        expect(a.getValue()).toEqual<number>(7);
+        expect(a.getError()).toEqual<string>('error');
+        a.setError('error');
+
+        a.reset();
+        expect(a.getValue()).toEqual<number>(5);
+        expect(a.getError()).toBeUndefined();
+
+        a.setValue(7);
+    });
 });
