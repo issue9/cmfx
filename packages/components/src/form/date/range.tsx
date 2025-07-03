@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { createSignal, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { Accessor, calcLayoutFieldAreas, Field, fieldAccessor } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldAccessor, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import { IconComponent } from '@/icon';
 import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
@@ -45,7 +45,6 @@ export function DateRangePicker(props: Props): JSX.Element {
     const panelVal = fieldAccessor('val', ac1.getValue());
 
     let fieldRef: HTMLElement;
-    let anchorRef: HTMLElement;
     let popRef: HTMLElement;
 
     const handleClick = (e: MouseEvent) => {
@@ -67,46 +66,53 @@ export function DateRangePicker(props: Props): JSX.Element {
         popRef.showPopover();
     };
 
+    const id = createUniqueId();
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
     return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles.activator)}
-        {...calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={props.accessor.getError}
         title={props.title}
-        label={<label onClick={() => anchorRef.click()}>{props.label}</label>}
         palette={props.palette}
         aria-haspopup
     >
-        <div ref={el => anchorRef = el}
-            classList={{
-                [styles['activator-container']]: true,
-                [styles.rounded]: props.rounded
-            }}
-        >
-            <input tabIndex={props.tabindex} class={joinClass(styles.input, styles.range)} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())
-            } onFocus={(e)=>{
-                togglePop(e);
+        <Show when={areas().labelArea}>
+            {area => <label for={id} style={fieldArea2Style(area())}>{props.label}</label>}
+        </Show>
 
-                setMin(props.min);
-                const ac2V = ac2.getValue();
-                setMax(ac2V ? new Date(ac2V) : props.max);
+        <div style={fieldArea2Style(areas().inputArea)} classList={{
+            [styles['activator-container']]: true,
+            [styles.rounded]: props.rounded
+        }}>
+            <input id={id} readOnly
+                tabIndex={props.tabindex}
+                class={joinClass(styles.input, styles.range)}
+                disabled={props.disabled}
+                placeholder={props.placeholder}
+                value={props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())}
+                onFocus={e => {
+                    togglePop(e);
 
-                curr = ac1;
-                panelVal.setValue(ac1.getValue());
-            }} />
-            {props.arrowIcon!({class:'px-1 shrink-0'})}
-            <input tabIndex={props.tabindex} class={joinClass(styles.input, styles.range)} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())
-            } onFocus={(e)=>{
-                togglePop(e);
+                    setMin(props.min);
+                    const ac2V = ac2.getValue();
+                    setMax(ac2V ? new Date(ac2V) : props.max);
 
-                setMax(props.max);
-                const ac1V = ac1.getValue();
-                setMin(ac1V ? new Date(ac1V) : props.min);
+                    curr = ac1;
+                    panelVal.setValue(ac1.getValue());
+                }} />
+            {props.arrowIcon!({ class: 'px-1 shrink-0' })}
+            <input tabIndex={props.tabindex} readOnly
+                class={joinClass(styles.input, styles.range)}
+                disabled={props.disabled}
+                placeholder={props.placeholder}
+                value={props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())}
+                onFocus={e => {
+                    togglePop(e);
 
-                curr = ac2;
-                panelVal.setValue(ac2.getValue());
-            }} />
+                    setMax(props.max);
+                    const ac1V = ac1.getValue();
+                    setMin(ac1V ? new Date(ac1V) : props.min);
+
+                    curr = ac2;
+                    panelVal.setValue(ac2.getValue());
+                }} />
             <Show when={ac1.getValue() || ac2.getValue()}>
                 <IconClose class="shrink-0" tabIndex={props.tabindex} onClick={() => {
                     ac1.setValue(undefined);
@@ -114,17 +120,21 @@ export function DateRangePicker(props: Props): JSX.Element {
                     props.accessor.setValue([undefined, undefined]);
                 }} />
             </Show>
+
+            <DatePanel popover="manual" min={min()} max={max()} ref={el => popRef = el} accessor={panelVal} {...panelProps}
+                ok={() => {
+                    curr.setValue(panelVal.getValue());
+                    popRef.hidePopover();
+                }}
+                clear={() => {
+                    curr.setValue(panelVal.getValue());
+                    popRef.hidePopover();
+                }}
+            />
         </div>
 
-        <DatePanel popover="manual" min={min()} max={max()} ref={el=>popRef=el} accessor={panelVal} {...panelProps}
-            ok={() => {
-                curr.setValue(panelVal.getValue());
-                popRef.hidePopover();
-            }}
-            clear={() => {
-                curr.setValue(panelVal.getValue());
-                popRef.hidePopover();
-            }}
-        />
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

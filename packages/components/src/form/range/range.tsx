@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, For, JSX, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, createUniqueId, For, JSX, onCleanup, onMount, Show } from 'solid-js';
 
-import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
+import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options } from '@/form/field';
+import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
@@ -27,6 +27,11 @@ export interface Props extends FieldBaseProps {
     marks?: Options<number>;
 
     accessor: Accessor<number>;
+
+    /**
+     * 如果需要显示当前值，可以通过此字段进行格式化。
+     */
+    value?: (value: number) => JSX.Element;
 }
 
 /**
@@ -37,25 +42,25 @@ export default function Range(props: Props): JSX.Element {
 
     const access = props.accessor;
     const [marks, setMarks] = createSignal<Array<[val: number, title: JSX.Element, offset: number]>>([]);
-    let fieldRef: HTMLDivElement;
+    let wrapRef: HTMLDivElement;
     let inputRef: HTMLInputElement;
 
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
             const h = entries[0].contentBoxSize[0].blockSize / 2;
-            fieldRef.style.setProperty('--range-marks-item-top', `calc(-${h}px - 50%)`);
+            wrapRef.style.setProperty('--range-marks-item-top', `calc(-${h}px - 50%)`);
         });
 
         resizeObserver.observe(inputRef);
         onCleanup(() => { resizeObserver.disconnect(); });
     });
 
-    createEffect(() => {// 根据 min 和 max 计算各个标记点的值
+    createEffect(() => { // 根据 min 和 max 计算各个标记点的值
         let prev = 0;
         const scale = (props.max! - props.min!) / 100;
         if (props.marks && props.marks.length > 0) {
-            setMarks(props.marks.sort((a, b) => a[0] - b[0]).map(v=>{
+            setMarks(props.marks.sort((a, b) => a[0] - b[0]).map(v => {
                 const offset = (v[0] - prev) / scale; // 先取 prev，再赋值新值给 prev。
                 prev = v[0];
                 return [v[0], v[1], offset];
@@ -63,33 +68,46 @@ export default function Range(props: Props): JSX.Element {
         }
     });
 
-    return <Field ref={el => fieldRef = el} class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
-        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={access.getError}
-        title={props.title}
-        label={props.label}
-        palette={props.palette}
-    >
-        <input ref={el => inputRef = el} type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
-            classList={{ [styles['fit-height']]: props.fitHeight }}
-            readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={(e) => {
-                if (!props.readonly && !props.disabled) {
-                    let v = parseFloat(e.target.value);
-                    access.setValue(v);
-                    access.setError();
-                }
-            }}
-        />
+    const id = createUniqueId();
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label, !!props.value));
+    return <Field class={props.class} title={props.title} palette={props.palette}>
+        <Show when={areas().labelArea}>
+            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+        </Show>
 
-        <Show when={marks() && marks()!.length > 0}>
-            <div class={styles.marks}>
-                <For each={marks()}>
-                    {(item) => (
-                        <span class={styles.item} style={{ 'width': `${item[2]}%` }}><span>{item[1]}</span></span>
-                    )}
-                </For>
-            </div>
+        <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}>
+            <input ref={el => inputRef = el} type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
+                classList={{ [styles['fit-height']]: props.fitHeight }}
+                readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={e => {
+                    if (!props.readonly && !props.disabled) {
+                        let v = parseFloat(e.target.value);
+                        access.setValue(v);
+                        access.setError();
+                    }
+                }}
+            />
+
+            <Show when={marks() && marks()!.length > 0}>
+                <div class={styles.marks}>
+                    <For each={marks()}>
+                        {item => (
+                            <span class={styles.item} style={{ 'width': `${item[2]}%` }}><span>{item[1]}</span></span>
+                        )}
+                    </For>
+                </div>
+            </Show>
+        </div>
+
+        <Show when={areas().valueArea}>
+            {area =>
+                <div style={fieldArea2Style(area())} class={styles.value}>
+                    {props.value!(access.getValue())}
+                </div>
+            }
+        </Show>
+
+        <Show when={areas().helpArea}>
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

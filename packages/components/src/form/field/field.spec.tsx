@@ -57,14 +57,12 @@ describe('calcLayoutFieldAreas', () => {
 });
 
 describe('Field', () => {
-    const getError = () => 'error';
-
     test('!help && !label', async () => {
-        const { container, unmount } = render(() => <Field getError={getError} {...calcLayoutFieldAreas('horizontal', false, false)}>input</Field>, {
+        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, false)}>input</Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
-    
+
         const c = container.children.item(0)!;
         expect(c.querySelector('.' + styles.content)).toBeTruthy();
         expect(c.querySelector('.' + styles.help)).toBeFalsy();
@@ -73,7 +71,7 @@ describe('Field', () => {
     });
 
     test('help && !label', async () => {
-        const { container, unmount } = render(() => <Field getError={getError} {...calcLayoutFieldAreas('horizontal', true, false)}>input</Field>, {
+        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', true, false)}>input</Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
@@ -86,11 +84,11 @@ describe('Field', () => {
     });
 
     test('!help && label', async () => {
-        const { container, unmount } = render(() => <Field getError={getError} {...calcLayoutFieldAreas('horizontal', false, true)}>input</Field>, {
+        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, true)}>input</Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
-        
+
         const c = container.children.item(0)!;
         expect(c.querySelector('.' + styles.content)).toBeTruthy();
         expect(c.querySelector('.' + styles.help)).toBeFalsy();
@@ -99,7 +97,7 @@ describe('Field', () => {
     });
 
     test('help && label', async () => {
-        const { container, unmount } = render(() => <Field getError={getError} {...calcLayoutFieldAreas('horizontal', true, true)}>input</Field>, {
+        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', true, true)}>input</Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
