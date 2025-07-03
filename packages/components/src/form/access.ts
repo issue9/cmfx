@@ -41,9 +41,10 @@ export class ObjectAccessor<T extends FlattenObject> {
     /**
      * 构造函数
      *
-     * @pram preset 初始值；
+     * @pram preset 初始值，该对象要求必须是可由 {@link structuredClone} 进行复制的；
      */
     constructor(preset: T) {
+        // NOTE: 如果 preset 是一个 createStore 创建的对象，无法复制其中的值作为默认值。
         this.#preset = preset;
         this.#isPreset = createSignal(true);
 

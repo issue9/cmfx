@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { JSX, onCleanup, onMount, splitProps } from 'solid-js';
+import { createMemo, createUniqueId, JSX, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
 import { joinClass, Layout } from '@/base';
-import { calcLayoutFieldAreas, Field } from '@/form/field';
+import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
 import styles from './style.module.css';
 
@@ -41,24 +41,32 @@ export default function OKLCHPicker(props: Props): JSX.Element {
         document.body.removeEventListener('click', handleClick);
     });
 
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const id = createUniqueId();
     return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles['oklch-activator'])}
-        {...calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={props.accessor.getError}
         title={props.title}
-        label={<label onClick={() => togglePop(anchorRef, panelRef)}>{props.label}</label>}
         palette={props.palette}
         aria-haspopup
     >
+        <Show when={areas().labelArea}>
+            {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+        </Show>
+
         <div ref={el => anchorRef = el}
             onClick={() => togglePop(anchorRef, panelRef)}
-            style={{ 'background': props.accessor.getValue() }}
+            style={{ 'background': props.accessor.getValue(), ...fieldArea2Style(areas().inputArea) }}
             classList={{
                 [styles['oklch-activator-block']]: true,
                 'rounded-full': props.rounded
             }}
-        />
+        >
+            <input id={id} onClick={e=>e.preventDefault()} type="color" class="hidden" disabled={props.disabled} readOnly={props.readonly} />
+        </div>
 
         <OKLCHPanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps} />
+
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

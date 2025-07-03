@@ -8,7 +8,7 @@ import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
 import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import styles from './style.module.css';
 import { Props as BaseProps, Ref, Upload } from './upload';
@@ -69,16 +69,18 @@ export function Album(props: Props): JSX.Element {
     const size = createMemo((): JSX.CSSProperties => {
         return { 'height': props.itemSize, 'width': props.itemSize };
     });
-    
+
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
     return <Field class={props.class}
         {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={access.getError}
         title={props.title}
-        label={props.label}
         palette={props.palette}
     >
-        <fieldset ref={el => dropRef = el} class={styles['upload-content']}>
+        <Show when={areas().labelArea}>
+            {(area) => <label style={fieldArea2Style(area())}>{props.label}</label>}
+        </Show>
+
+        <fieldset style={fieldArea2Style(areas().inputArea)} ref={el => dropRef = el} class={styles['upload-content']}>
             <Upload ref={el => uploadRef = el}
                 fieldName={props.fieldName}
                 multiple={props.multiple}
@@ -116,5 +118,9 @@ export function Album(props: Props): JSX.Element {
                 </Show>
             </Show>
         </fieldset>
+
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

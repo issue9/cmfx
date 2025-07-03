@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createMemo, createUniqueId, For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
 import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { AvailableEnumType, cloneElement, joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
+import { AvailableEnumType, classList, cloneElement, joinClass } from '@/base';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
@@ -158,19 +158,23 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         </>;
     };
 
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+
+    const id = createUniqueId();
     return <Field ref={(el) => fieldRef = el} class={joinClass(styles.activator, props.class)}
-        {...calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={props.accessor.getError}
         title={props.title}
-        label={<label onClick={clickInput}>{props.label}</label>}
         palette={props.palette}
         aria-haspopup>
-        <div ref={el=>anchorRef=el} onClick={clickInput} tabIndex={props.tabindex} classList={{
-            [styles['activator-container']]: true,
-            'rounded-full': props.rounded
-        }}>
-            <input tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
+        <Show when={areas().labelArea}>
+            {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+        </Show>
+
+        <div style={fieldArea2Style(areas().inputArea)} ref={el=>anchorRef=el} onClick={clickInput} tabIndex={props.tabindex}
+            class={classList({
+                [styles['activator-container']]: true,
+                'rounded-full': props.rounded
+            })}>
+            <input id={id} tabIndex={props.tabindex} class="hidden peer" disabled={props.disabled} readOnly={props.readonly} />
             <div class={styles.input}>
                 <Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
                     <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
@@ -180,16 +184,20 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
                 </Switch>
             </div>
             <IconExpandAll class={styles.expand} />
+
+            <ul popover="manual" ref={el => ul = el} classList={{
+                [styles.options]: true,
+                [`palette--${props.palette}`]: !!props.palette,
+            }}>
+                <Switch>
+                    <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
+                    <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
+                </Switch>
+            </ul>
         </div>
 
-        <ul popover="manual" ref={el => ul = el} classList={{
-            [styles.options]: true,
-            [`palette--${props.palette}`]: !!props.palette,
-        }}>
-            <Switch>
-                <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
-                <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
-            </Switch>
-        </ul>
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

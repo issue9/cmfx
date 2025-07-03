@@ -74,12 +74,12 @@ export function fieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boole
     let preset: T;
 
     let s: Signal<T>;
-    if (Array.isArray(v)) {
+    if (Array.isArray(v) && v.length === 2  && typeof v[0] === 'function' && typeof v[1] === 'function') {
         s = v;
         preset = s[0]();
     } else {
-        s = createSignal<T>(v);
-        preset = v;
+        s = createSignal<T>(v as T);
+        preset = v as T;
     }
 
     const [err, errSetter] = createSignal<string>();

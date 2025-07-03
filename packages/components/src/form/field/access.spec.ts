@@ -30,21 +30,25 @@ describe('fieldAccessor', () => {
     });
 
     test('signal', () => {
-        const a = fieldAccessor('name', createSignal(5));
+        const v = createSignal(5);
+        const a = fieldAccessor('name', v);
 
         expect(a.getError()).toBeUndefined();
         expect(a.getValue()).toEqual<number>(5);
+        expect(a.getValue()).toEqual<number>(v[0]());
 
         a.setError('error');
         expect(a.getError()).toEqual<string>('error');
 
         a.setValue(7);
         expect(a.getValue()).toEqual<number>(7);
+        expect(a.getValue()).toEqual<number>(v[0]());
         expect(a.getError()).toEqual<string>('error');
         a.setError('error');
 
         a.reset();
         expect(a.getValue()).toEqual<number>(5);
+        expect(a.getValue()).toEqual<number>(v[0]());
         expect(a.getError()).toBeUndefined();
 
         a.setValue(7);

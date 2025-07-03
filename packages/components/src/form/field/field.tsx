@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, ParentProps, Show } from 'solid-js';
+import { JSX, ParentProps } from 'solid-js';
 
 import { joinClass, Layout } from '@/base';
 import { Accessor } from './access';
@@ -10,7 +10,7 @@ import styles from './style.module.css';
 import type { Props } from './types';
 
 /**
- * 用于表示子组件所处的位置
+ * 子组件所处的位置
  */
 export interface FieldArea {
     /**
@@ -31,24 +31,16 @@ export interface FieldArea {
     rows?: 1 | 2 | 3;
 }
 
-interface FieldAreas {
+export interface FieldAreas {
     helpArea?: FieldArea;
     labelArea?: FieldArea;
     inputArea: FieldArea;
 }
 
-export type FieldProps<T> = ParentProps<Props & FieldAreas & {
-    getError: Accessor<T>['getError'],
-
-    /**
-     * 显示在 helpArea 区域的提示信息
-     */
-    help?: JSX.Element;
-
-    ref?: { (el: HTMLDivElement): void; };
-}>;
-
-function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
+/**
+ * 将 FieldArea 转换为 CSS 样式
+ */
+export function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
     return {
         'grid-area': area.pos,
         'grid-column-end': area.cols ? (`span ${area.cols}`) : undefined,
@@ -123,39 +115,42 @@ function  calcVerticalFieldAreas(hasHelp: boolean, hasLabel: boolean): FieldArea
     return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
+export type FieldProps = ParentProps<Omit<Props, 'label'> & {
+    ref?: { (el: HTMLDivElement): void; };
+}>;
+
 /**
  * 表单字段的基本结构
  *
  * 所有的表单字段可基于此组件作二次开发，以达到样式上的统一。
  *
- * Field 需要指定错误信息、输入和标签三个组件所在的位置，可指定的位置如下：
+ * 组件内的各个子组件，需要通过 style 属性指定位置，可指定的位置如下：
  *  top-left    | top-center    | top-right
  *  middle-left | middle-center | middle-right
  *  bottom-left | bottom-center | bottom-right
- *
- * @template T 表示当前组件的值类型。
  */
-export default function Field<T>(props: FieldProps<T>): JSX.Element {
+export default function Field(props: FieldProps): JSX.Element {
     // NOTE: 采用 grid 主要是方便对齐方式的实现。
     // 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
     // help 应该与 input 左对齐，而不是与 label 左对齐。
 
     return <div class={joinClass(styles.field, props.class, props.palette ? `palette--${props.palette}` : undefined)}
         ref={(el) => { if (props.ref) { props.ref(el); } }}>
-        <Show when={props.labelArea}>
-            {(area)=>(<label style={fieldArea2Style(area())}>{props.label}</label>)}
-        </Show>
-
-        <div class={styles.content} style={fieldArea2Style(props.inputArea)}>
-            {props.children}
-        </div>
-
-        <Show when={props.helpArea}>
-            {(area)=>(
-                <p style={fieldArea2Style(area())} role="alert" class={joinClass(styles.help, props.getError() ? styles.error : undefined)}>
-                    {props.getError() ?? props.help}
-                </p>
-            )}
-        </Show>
+        {props.children}
     </div>;
+}
+
+interface HelpAreaProps {
+    getError: Accessor<any>['getError'];
+    help?: JSX.Element;
+    area: FieldArea;
+}
+
+/**
+ * 可在 {@link Field} 中显示帮助和错误信息的子组件
+ */
+export function HelpArea(props: HelpAreaProps): JSX.Element {
+    return <p style={fieldArea2Style(props.area)} role="alert" class={joinClass(styles.help, props.getError() ? styles.error : undefined)}>
+        {props.getError() ?? props.help}
+    </p>;
 }

@@ -24,6 +24,7 @@ import { Dialog, DialogRef } from '@/dialog';
 import { Divider } from '@/divider';
 import { Accessor, FieldOption, ObjectAccessor, OKLCHPicker, RadioGroup, Range } from '@/form';
 import { Label } from '@/typography';
+import { randColor } from './oklch';
 import { Ref } from './ref';
 import styles from './style.module.css';
 
@@ -72,29 +73,64 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
  * 生成随机参数
  */
 function random(s: ObjectAccessor<ExpandType<Scheme>>) {
-    const primary = rand(0, 360, 0);
-    const secondary = rand(0, 360, 0);
-    const tertiary = rand(0, 360, 0);
-    const error = rand(0, 360, 0);
-    const surface = rand(0, 360, 0);
-
     batch(() => {
         // 字体不生成随机，改字体会直接作用在整个页面上。
         // s.accessor<string>('fontSize').setValue(`${fontSizeValues[rand(0, fontSizeValues.length, 0)]}px`);
 
-        s.accessor<string>('dark.error-bg').setValue(`oklch(.2 .45 ${error})`);
-        s.accessor<string>('dark.error-fg').setValue(`oklch(.8 .2 ${error})`);
-        s.accessor<string>('dark.error-bg-low').setValue(`oklch(.3 .45 ${error})`);
-        s.accessor<string>('dark.error-fg-low').setValue(`oklch(.7 .2 ${error})`);
-        s.accessor<string>('dark.error-bg-high').setValue(`oklch(.1 .45 ${error})`);
-        s.accessor<string>('dark.error-fg-high').setValue(`oklch(.9 .2 ${error})`);
+        let h = rand(0, 360, 3);
+        let c = randColor(h);
+        s.accessor<string>('dark.error-bg').setValue(c[1].toString());
+        s.accessor<string>('dark.error-fg').setValue(c[0].toString());
+        c = randColor(h, 'low');
+        s.accessor<string>('dark.error-bg-low').setValue(c[1].toString());
+        s.accessor<string>('dark.error-fg-low').setValue(c[0].toString());
+        c = randColor(h, 'high');
+        s.accessor<string>('dark.error-bg-high').setValue(c[1].toString());
+        s.accessor<string>('dark.error-fg-high').setValue(c[0].toString());
 
-        s.accessor<string>('dark.surface-bg').setValue(`oklch(.2 .45 ${surface})`);
-        s.accessor<string>('dark.surface-fg').setValue(`oklch(.8 .2 ${surface})`);
-        s.accessor<string>('dark.surface-bg-low').setValue(`oklch(.3 .45 ${surface})`);
-        s.accessor<string>('dark.surface-fg-low').setValue(`oklch(.7 .2 ${surface})`);
-        s.accessor<string>('dark.surface-bg-high').setValue(`oklch(.1 .45 ${surface})`);
-        s.accessor<string>('dark.surface-fg-high').setValue(`oklch(.9 .2 ${surface})`);
+        h += rand(20, 40, 3) % 360;
+        c = randColor(h);
+        s.accessor<string>('dark.surface-bg').setValue(c[1].toString());
+        s.accessor<string>('dark.surface-fg').setValue(c[0].toString());
+        c = randColor(h, 'low');
+        s.accessor<string>('dark.surface-bg-low').setValue(c[1].toString());
+        s.accessor<string>('dark.surface-fg-low').setValue(c[0].toString());
+        c = randColor(h, 'high');
+        s.accessor<string>('dark.surface-bg-high').setValue(c[1].toString());
+        s.accessor<string>('dark.surface-fg-high').setValue(c[0].toString());
+
+        h += rand(20, 40, 3) % 360;
+        c = randColor(h);
+        s.accessor<string>('dark.primary-bg').setValue(c[1].toString());
+        s.accessor<string>('dark.primary-fg').setValue(c[0].toString());
+        c = randColor(h, 'low');
+        s.accessor<string>('dark.primary-bg-low').setValue(c[1].toString());
+        s.accessor<string>('dark.primary-fg-low').setValue(c[0].toString());
+        c = randColor(h, 'high');
+        s.accessor<string>('dark.primary-bg-high').setValue(c[1].toString());
+        s.accessor<string>('dark.primary-fg-high').setValue(c[0].toString());
+
+        h += rand(20, 40, 3) % 360;
+        c = randColor(h);
+        s.accessor<string>('dark.secondary-bg').setValue(c[1].toString());
+        s.accessor<string>('dark.secondary-fg').setValue(c[0].toString());
+        c = randColor(h, 'low');
+        s.accessor<string>('dark.secondary-bg-low').setValue(c[1].toString());
+        s.accessor<string>('dark.secondary-fg-low').setValue(c[0].toString());
+        c = randColor(h, 'high');
+        s.accessor<string>('dark.secondary-bg-high').setValue(c[1].toString());
+        s.accessor<string>('dark.secondary-fg-high').setValue(c[0].toString());
+
+        h += rand(20, 40, 3) % 360;
+        c = randColor(h);
+        s.accessor<string>('dark.tertiary-bg').setValue(c[1].toString());
+        s.accessor<string>('dark.tertiary-fg').setValue(c[0].toString());
+        c = randColor(h, 'low');
+        s.accessor<string>('dark.tertiary-bg-low').setValue(c[1].toString());
+        s.accessor<string>('dark.tertiary-fg-low').setValue(c[0].toString());
+        c = randColor(h, 'high');
+        s.accessor<string>('dark.tertiary-bg-high').setValue(c[1].toString());
+        s.accessor<string>('dark.tertiary-fg-high').setValue(c[0].toString());
 
         s.accessor<number>('radius.xs').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.sm').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
@@ -107,26 +143,6 @@ function random(s: ObjectAccessor<ExpandType<Scheme>>) {
 
         s.accessor<number>('spacing').setValue(rand(spacingValues.min, spacingValues.max, 2));
         s.accessor<number>('transitionDuration').setValue(rand(transitionValues.min, transitionValues.max, 0));
-        s.accessor<string>('dark.primary-bg').setValue(`oklch(.2 .45 ${primary})`);
-        s.accessor<string>('dark.primary-fg').setValue(`oklch(.8 .2 ${primary})`);
-        s.accessor<string>('dark.primary-bg-low').setValue(`oklch(.3 .45 ${primary})`);
-        s.accessor<string>('dark.primary-fg-low').setValue(`oklch(.7 .2 ${primary})`);
-        s.accessor<string>('dark.primary-bg-high').setValue(`oklch(.1 .45 ${primary})`);
-        s.accessor<string>('dark.primary-fg-high').setValue(`oklch(.9 .2 ${primary})`);
-
-        s.accessor<string>('dark.secondary-bg').setValue(`oklch(.2 .45 ${secondary})`);
-        s.accessor<string>('dark.secondary-fg').setValue(`oklch(.8 .2 ${secondary})`);
-        s.accessor<string>('dark.secondary-bg-low').setValue(`oklch(.3 .45 ${secondary})`);
-        s.accessor<string>('dark.secondary-fg-low').setValue(`oklch(.7 .2 ${secondary})`);
-        s.accessor<string>('dark.secondary-bg-high').setValue(`oklch(.1 .45 ${secondary})`);
-        s.accessor<string>('dark.secondary-fg-high').setValue(`oklch(.9 .2 ${secondary})`);
-
-        s.accessor<string>('dark.tertiary-bg').setValue(`oklch(.2 .45 ${tertiary})`);
-        s.accessor<string>('dark.tertiary-fg').setValue(`oklch(.8 .2 ${tertiary})`);
-        s.accessor<string>('dark.tertiary-bg-low').setValue(`oklch(.3 .45 ${tertiary})`);
-        s.accessor<string>('dark.tertiary-fg-low').setValue(`oklch(.7 .2 ${tertiary})`);
-        s.accessor<string>('dark.tertiary-bg-high').setValue(`oklch(.1 .45 ${tertiary})`);
-        s.accessor<string>('dark.tertiary-fg-high').setValue(`oklch(.9 .2 ${tertiary})`);
     });
 }
 

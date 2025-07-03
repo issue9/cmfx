@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createUniqueId, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { Layout } from '@/base';
-import { Accessor, AutoComplete, calcLayoutFieldAreas, Field, FieldBaseProps, InputMode } from '@/form/field';
+import { classList, Layout } from '@/base';
+import { Accessor, AutoComplete, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode } from '@/form/field';
 import styles from './style.module.css';
 
 type Value = string | number | Array<string> | undefined;
@@ -50,20 +50,20 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
         color: undefined,
         layout: 'horizontal' as Layout,
     }, props) as Props<T>;
+
     const access = props.accessor;
     const id = createUniqueId();
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
 
-    return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={access.getError}
-        title={props.title}
-        label={<label for={id}>{props.label}</label>}
-        palette={props.palette}>
-        <div classList={{
+    return <Field title={props.title} palette={props.palette}>
+        <Show when={areas().labelArea}>
+            {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+        </Show>
+
+        <div style={fieldArea2Style(areas().inputArea)} class={classList({
             [styles['text-field']]: true,
             [styles.rounded]: props.rounded,
-        }}>
+        }, props.class)}>
             <Show when={props.prefix}>{props.prefix}</Show>
             <input id={id} class={styles.input} type={props.type}
                 ref={el => { if (props.ref) { props.ref(el); } }}
@@ -86,5 +86,9 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
             />
             <Show when={props.suffix}>{props.suffix}</Show>
         </div>
+
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

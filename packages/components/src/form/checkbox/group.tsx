@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps, splitProps } from 'solid-js';
+import { For, JSX, Show, createMemo, mergeProps, splitProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass, Layout } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
+import { AvailableEnumType, Layout, joinClass } from '@/base';
+import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style } from '@/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
 
@@ -34,15 +34,19 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
     const access = props.accessor;
 
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block']);
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
 
     return <Field class={props.class}
         {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={access.getError}
         title={props.title}
-        label={props.label}
         palette={props.palette}>
-        <div class={joinClass(styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : undefined)}>
+        <Show when={areas().labelArea}>
+            {(area) => <label style={fieldArea2Style(area())}>{props.label}</label>}
+        </Show>
+
+        <div style={fieldArea2Style(areas().inputArea)}
+            class={joinClass(styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : undefined)}
+        >
             <For each={props.options}>
                 {(item) =>
                     <Checkbox {...chkProps} label={item[1]} checked={!!access.getValue().find((v) => v === item[0])}
@@ -58,5 +62,9 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
                 }
             </For>
         </div>
+
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

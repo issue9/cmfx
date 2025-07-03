@@ -8,6 +8,8 @@
 
 @layer components {
     .editor {
+        @apply w-full h-full flex flex-col justify-stretch;
+
         .ql-toolbar {
             border-top-color: var(--fg-low) !important;
             border-left-color: var(--fg-low) !important;

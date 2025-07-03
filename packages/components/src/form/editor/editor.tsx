@@ -5,10 +5,9 @@
 import type { QuillOptions, } from 'quill';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import { createEffect, createUniqueId, JSX, onMount } from 'solid-js';
+import { createEffect, createMemo, createUniqueId, JSX, onMount, Show } from 'solid-js';
 
-import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
@@ -53,15 +52,18 @@ export function Editor(props: Props): JSX.Element {
         }
     });
 
-    return <Field class={joinClass(styles.editor, props.class)}
-        {...calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={props.accessor.getError}
-        title={props.title}
-        label={<label onClick={()=>editor.focus()}>{props.label}</label>}
-        palette={props.palette}
-        aria-haspopup
-    >
-        <div ref={el => ref = el} id={'editor-' + createUniqueId()}></div>
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    return <Field class={props.class} title={props.title} palette={props.palette}>
+        <Show when={areas().labelArea}>
+            {(area) => <label style={fieldArea2Style(area())} onClick={() => editor.focus()}>{props.label}</label>}
+        </Show>
+
+        <div class={styles.editor} style={fieldArea2Style(areas().inputArea)}>
+            <div ref={el => ref = el} id={'editor-' + createUniqueId()} />
+        </div>
+
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

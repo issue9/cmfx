@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps } from 'solid-js';
+import { For, JSX, Show, createMemo, mergeProps } from 'solid-js';
 
 import { AvailableEnumType, Layout } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, FieldBaseProps, Options } from '@/form/field';
+import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
@@ -29,16 +29,18 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         layout: 'horizontal' as Layout,
         itemLayout: 'horizontal' as Layout,
     }, props);
+
     const access = props.accessor;
-    
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
+
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
-        help={props.help}
-        getError={access.getError}
         title={props.title}
-        label={props.label}
         palette={props.palette}>
-        <div classList={{
+        <Show when={areas().labelArea}>
+            {(area)=><label style={fieldArea2Style(area())}>{props.label}</label>}
+        </Show>
+
+        <div style={fieldArea2Style(areas().inputArea)} classList={{
             [styles['group-content']]: true,
             'flex-col': props.itemLayout === 'vertical'
         }}>
@@ -62,5 +64,9 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
                 }
             </For>
         </div>
+
+        <Show when={areas().helpArea}>
+            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+        </Show>
     </Field>;
 }

@@ -8,7 +8,7 @@
 
 @layer components {
     .text-field {
-        @apply rounded-md border border-palette-fg-low flex justify-between text-center;
+        @apply rounded-md border border-palette-fg-low flex justify-between text-center w-full h-full;
         @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
 
         >:first-child {
@@ -29,7 +29,6 @@
             -webkit-appearance: textfield;
             -moz-appearance: textfield;
             appearance: textfield;
-
         }
 
         input::-webkit-outer-spin-button,
