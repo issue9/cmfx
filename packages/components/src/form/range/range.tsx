@@ -62,6 +62,8 @@ export default function Range(props: Props): JSX.Element {
         onCleanup(() => { resizeObserver.disconnect(); });
     });
 
+    createEffect(() => { setValue(access.getValue()); });
+
     createEffect(() => { // 根据 min 和 max 计算各个标记点的值
         let prev = 0;
         const scale = (props.max! - props.min!) / 100;

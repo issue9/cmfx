@@ -6,20 +6,9 @@
 
 /* 定义了主题变量 */
 
-/*
- * 颜色被分为 primary、secondary、tertiary、surface 和 error 五个色盘，
- * 每个色盘衍生出 bg、bg-low、bg-high、fg、fg-low 和 fg-high 六种颜色。
- *
- * 对于使用者，可以直接通过 var(--primary-bg) 等变量直接调用颜色，
- * 或是采用 var(--bg) 读取当前上下文中色盘中的衍生颜色。
- * 两种方式，前者颜色固定，后者向上查找最近定义的 .palette--* 类型，从中获取值。
- *
- * 可通过定义这些颜色值改变整体的页面颜色。其中只有 --primary 是必须指定的，
- * 其它的颜色会根据 --primary 自动调整，当然也可以所有颜色都直接指定。
- *
- * 颜色的取值范围为 [0,360]，具体说明可参考：https://developer.mozilla.org/zh-CN/docs/Web/CSS/color_value/lch#%E5%8F%96%E5%80%BC。
- */
 :root {
+    color-scheme: light dark;
+
     --l-low: .3;
     --l: .2;
     --l-high: .1;
@@ -34,7 +23,7 @@
     --tertiary: 120;
     --surface: 180;
 
-    /****************************** 以下是主题变量 ***********************************/
+    /****************************** 以下对应主题变量 ***********************************/
 
 
     --default-transition-duration: 300ms;
@@ -110,10 +99,8 @@
     --dark-error-fg-low: oklch(var(--invert-l-low) .2 var(--error));
     --dark-error-fg: oklch(var(--invert-l) .2 var(--error));
     --dark-error-fg-high: oklch(var(--invert-l-high) .2 var(--error));
-}
 
-:root {
-    color-scheme: light dark;
+    /****************************** 根据主题变量生成的调色盘 ***********************************/
 
     --primary-bg-low: light-dark(var(--light-primary-bg-low), var(--dark-primary-bg-low));
     --primary-bg: light-dark(var(--light-primary-bg), var(--dark-primary-bg));

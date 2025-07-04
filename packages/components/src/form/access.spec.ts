@@ -40,6 +40,9 @@ describe('ObjectAccessor', () => {
         f.reset();
         expect(f.isPreset()).toBeTruthy();
         expect(f.accessor('f1').getValue()).toEqual(1);
+
+        f.accessor('f1').setValue(2);
+        expect(f.isPreset()).toBeFalsy();
     });
 
     test('setObject', () => {

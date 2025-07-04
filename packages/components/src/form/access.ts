@@ -58,7 +58,7 @@ export class ObjectAccessor<T extends FlattenObject> {
      * 指定默认值，该功能与构造函数的 preset 参数功能是相同的。
      */
     setPreset(v: T) {
-        this.#preset = v;
+        this.#preset = structuredClone(v);
         this.#checkPreset();
     }
 
@@ -155,7 +155,7 @@ export class ObjectAccessor<T extends FlattenObject> {
     }
 
     /**
-     * 返回需要提交的对象
+     * 返回当前对象的值
      *
      * @param validation 是对返回之前对数据进行验证，如果此值非空，
      *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
@@ -203,7 +203,7 @@ export class ObjectAccessor<T extends FlattenObject> {
      */
     reset() {
         this.#errSetter({} as any);
-        this.#valSetter(this.#preset);
+        this.#valSetter(structuredClone(this.#preset));
         this.#checkPreset();
     }
 }

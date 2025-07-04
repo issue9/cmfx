@@ -4,6 +4,7 @@
 
 import { ExpandType } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 
 import { applyTheme, BaseProps, joinClass, Mode, Scheme } from '@/base';
 import { Drawer } from '@/drawer';
@@ -27,7 +28,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({});
     random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
-    schemeFA.setPreset(schemeFA.object()); // 作为默认值
+    schemeFA.setPreset(unwrap(schemeFA.object())); // 作为默认值
 
     const ref: Ref = {
         export: (): Scheme => {
