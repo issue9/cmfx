@@ -41,6 +41,6 @@
 
     .oklch-activator-block {
         @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-fg;
-        @apply flex justify-center items-center;
+        @apply flex justify-center items-center font-bold;
     }
 }

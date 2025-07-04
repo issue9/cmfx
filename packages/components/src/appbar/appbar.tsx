@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, ParentProps } from 'solid-js';
+import { JSX, ParentProps, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import styles from './style.module.css';
@@ -35,7 +35,9 @@ export interface Props extends BaseProps, ParentProps {
 export default function Appbar(props: Props): JSX.Element {
     return <header role="toolbar" class={joinClass(styles.appbar, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
         <div class={styles.title}>
-            <img alt="LOGO" class={styles.logo} src={props.logo} />
+            <Show when={props.logo}>
+                <img alt="LOGO" class={styles.logo} src={props.logo} />
+            </Show>
             <h1 class={styles.name}>{props.title}</h1>
         </div>
 

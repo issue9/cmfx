@@ -57,7 +57,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         </div>
 
         {fontSizeParams(l, s)}
-        {colorsParams(l, s)}
+        {colorsParams(l, m, s)}
         {radiusParams(l, s)}
         {otherParams(l, s)}
 
@@ -79,56 +79,86 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
         let c = randColor(h);
         s.accessor<string>('dark.error-bg').setValue(c[1].toString());
         s.accessor<string>('dark.error-fg').setValue(c[0].toString());
+        s.accessor<string>('light.error-bg').setValue(c[0].toString());
+        s.accessor<string>('light.error-fg').setValue(c[1].toString());
         c = randColor(h, 'low');
         s.accessor<string>('dark.error-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.error-fg-low').setValue(c[0].toString());
+        s.accessor<string>('light.error-bg-low').setValue(c[0].toString());
+        s.accessor<string>('light.error-fg-low').setValue(c[1].toString());
         c = randColor(h, 'high');
         s.accessor<string>('dark.error-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.error-fg-high').setValue(c[0].toString());
+        s.accessor<string>('light.error-bg-high').setValue(c[0].toString());
+        s.accessor<string>('light.error-fg-high').setValue(c[1].toString());
 
         h += rand(20, 40, 3) % 360;
         c = randColor(h);
         s.accessor<string>('dark.surface-bg').setValue(c[1].toString());
         s.accessor<string>('dark.surface-fg').setValue(c[0].toString());
+        s.accessor<string>('light.surface-bg').setValue(c[0].toString());
+        s.accessor<string>('light.surface-fg').setValue(c[1].toString());
         c = randColor(h, 'low');
         s.accessor<string>('dark.surface-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.surface-fg-low').setValue(c[0].toString());
+        s.accessor<string>('light.surface-bg-low').setValue(c[0].toString());
+        s.accessor<string>('light.surface-fg-low').setValue(c[1].toString());
         c = randColor(h, 'high');
         s.accessor<string>('dark.surface-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.surface-fg-high').setValue(c[0].toString());
+        s.accessor<string>('light.surface-bg-high').setValue(c[0].toString());
+        s.accessor<string>('light.surface-fg-high').setValue(c[1].toString());
 
         h += rand(20, 40, 3) % 360;
         c = randColor(h);
         s.accessor<string>('dark.primary-bg').setValue(c[1].toString());
         s.accessor<string>('dark.primary-fg').setValue(c[0].toString());
+        s.accessor<string>('light.primary-bg').setValue(c[0].toString());
+        s.accessor<string>('light.primary-fg').setValue(c[1].toString());
         c = randColor(h, 'low');
         s.accessor<string>('dark.primary-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.primary-fg-low').setValue(c[0].toString());
+        s.accessor<string>('light.primary-bg-low').setValue(c[0].toString());
+        s.accessor<string>('light.primary-fg-low').setValue(c[1].toString());
         c = randColor(h, 'high');
         s.accessor<string>('dark.primary-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.primary-fg-high').setValue(c[0].toString());
+        s.accessor<string>('light.primary-bg-high').setValue(c[0].toString());
+        s.accessor<string>('light.primary-fg-high').setValue(c[1].toString());
 
         h += rand(20, 40, 3) % 360;
         c = randColor(h);
         s.accessor<string>('dark.secondary-bg').setValue(c[1].toString());
         s.accessor<string>('dark.secondary-fg').setValue(c[0].toString());
+        s.accessor<string>('light.secondary-bg').setValue(c[0].toString());
+        s.accessor<string>('light.secondary-fg').setValue(c[1].toString());
         c = randColor(h, 'low');
         s.accessor<string>('dark.secondary-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.secondary-fg-low').setValue(c[0].toString());
+        s.accessor<string>('light.secondary-bg-low').setValue(c[0].toString());
+        s.accessor<string>('light.secondary-fg-low').setValue(c[1].toString());
         c = randColor(h, 'high');
         s.accessor<string>('dark.secondary-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.secondary-fg-high').setValue(c[0].toString());
+        s.accessor<string>('light.secondary-bg-high').setValue(c[0].toString());
+        s.accessor<string>('light.secondary-fg-high').setValue(c[1].toString());
 
         h += rand(20, 40, 3) % 360;
         c = randColor(h);
         s.accessor<string>('dark.tertiary-bg').setValue(c[1].toString());
         s.accessor<string>('dark.tertiary-fg').setValue(c[0].toString());
+        s.accessor<string>('light.tertiary-bg').setValue(c[0].toString());
+        s.accessor<string>('light.tertiary-fg').setValue(c[1].toString());
         c = randColor(h, 'low');
         s.accessor<string>('dark.tertiary-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.tertiary-fg-low').setValue(c[0].toString());
+        s.accessor<string>('light.tertiary-bg-low').setValue(c[0].toString());
+        s.accessor<string>('light.tertiary-fg-low').setValue(c[1].toString());
         c = randColor(h, 'high');
         s.accessor<string>('dark.tertiary-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.tertiary-fg-high').setValue(c[0].toString());
+        s.accessor<string>('light.tertiary-bg-high').setValue(c[0].toString());
+        s.accessor<string>('light.tertiary-fg-high').setValue(c[1].toString());
 
         s.accessor<number>('radius.xs').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.sm').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
@@ -168,7 +198,9 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
     };
 
     return <div class={styles.radius}>
-        <RadioGroup class="w-full" label={<span class={styles.title}>{title}</span>} accessor={a} block options={radiusValues.map((v) => [v, radiusLabel(v)])} />
+        <RadioGroup class="w-full" accessor={a} block
+            label={<span class={styles.title}>{title}</span>}
+            options={radiusValues.map((v) => [v, radiusLabel(v)])} />
     </div>;
 }
 
@@ -202,23 +234,26 @@ function fontSize(a: Accessor<string>): JSX.Element {
 }
 
 // 颜色选择参数面板
-function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function colorsParams(l: Locale, m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconColors class="mr-1" />{l.t('_c.theme.colors')}</Divider>
-        {palette('dark', 'primary', s)}
-        {palette('dark', 'secondary', s)}
-        {palette('dark', 'tertiary', s)}
-        {palette('dark', 'error', s)}
-        {palette('dark', 'surface', s)}
+        {palette(m.getValue(), 'primary', s)}
+        {palette(m.getValue(), 'secondary', s)}
+        {palette(m.getValue(), 'tertiary', s)}
+        {palette(m.getValue(), 'error', s)}
+        {palette(m.getValue(), 'surface', s)}
     </div>;
 }
 
 function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const block = (name: string) => {
+        const bg = s.accessor<string>(`${mode}.${palette}-bg${name ? '-' + name : ''}` as any);
+        const fg = s.accessor<string>(`${mode}.${palette}-fg${name ? '-' + name : ''}` as any);
+
         return <div class={styles.block}>
             <Show when={name}><div class={styles.title}>{name}</div></Show>
-            <OKLCHPicker accessor={s.accessor<string>(`${mode}.${palette}-bg${name ? '-' + name : ''}` as any)} />
-            <OKLCHPicker accessor={s.accessor<string>(`${mode}.${palette}-fg${name ? '-' + name : ''}` as any)} />
+            <OKLCHPicker accessor={bg} />
+            <OKLCHPicker accessor={fg} wcag={bg.getValue()} />
         </div>;
     };
 
@@ -235,8 +270,11 @@ function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Sche
 function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconOptions class="mr-1" />{l.t('_c.theme.otherParams')}</Divider>
-        <Range layout='vertical' label={l.t('_c.theme.spacing')} accessor={s.accessor('spacing')} {...spacingValues} value={v => `${v}rem`} />
-        <Range layout='vertical' label={l.t('_c.theme.transitionDuration')} accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
+
+        <Range layout='vertical' label={l.t('_c.theme.spacing')}
+            accessor={s.accessor('spacing')} {...spacingValues} value={v => `${v}rem`} />
+        <Range layout='vertical' label={l.t('_c.theme.transitionDuration')}
+            accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
     </div>;
 }
 

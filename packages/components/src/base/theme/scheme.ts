@@ -146,7 +146,7 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
             if (rule instanceof CSSStyleRule) {
                 if (rule.selectorText === ':root') {
                     Object.entries(rule.style).forEach(([_, key]) => {
-                        if (!key.startsWith('--') || key.startsWith('--bg') || key.startsWith('--fg')) {
+                        if (!key.startsWith('--')) {
                             return;
                         }
 

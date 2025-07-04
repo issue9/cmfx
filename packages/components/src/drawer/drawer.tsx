@@ -61,6 +61,8 @@ export interface Props extends BaseProps {
     main: JSX.Element;
 
     mainPalette?: Palette;
+
+    class?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -105,15 +107,20 @@ export function Drawer(props: Props) {
     }
 
     // NOTE: 如果不放在 classList 中，tailwind 无法解析对应的值。
-    return <div ref={(el) => mainRef = el} class={classList({
-        'cmfx-drawer-floating': !floatCls() && canFloating(),
-        'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
-        'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
-        'max-md:cmfx-drawer-floating': floatCls() == 'md',
-        'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
-        'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
-        'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
-    }, styles.drawer, props.pos === 'right' ? styles.right : undefined, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <div ref={(el) => mainRef = el} class={
+        classList({
+            'cmfx-drawer-floating': !floatCls() && canFloating(),
+            'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
+            'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
+            'max-md:cmfx-drawer-floating': floatCls() == 'md',
+            'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
+            'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
+            'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
+        },
+        props.pos === 'right' ? styles.right : undefined,
+        props.palette ? `palette--${props.palette}` : undefined,
+        styles.drawer, props.class)
+    }>
         <aside ref={(el) => asideRef = el} classList={{
             ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
         }}>{props.children}</aside>

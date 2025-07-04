@@ -2,15 +2,35 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { ExpandType } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { joinClass } from '@/base';
-import { DatePanel, fieldAccessor } from '@/form';
+import { Appbar } from '@/appbar';
+import { joinClass, Mode, Scheme } from '@/base';
+import { ThemeProvider, useLocale } from '@/context';
+import { Accessor, DatePanel, fieldAccessor, ObjectAccessor } from '@/form';
 import { BasicTable, Column } from '@/table';
 import styles from './style.module.css';
 
-// 展示的组件
-export function Components(): JSX.Element {
+/**
+ * 组件演示
+ */
+export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+    const l = useLocale();
+
+    // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
+    // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，出现 main 中同时出现在多个元素。
+    return <div class="w-full h-full">
+        <ThemeProvider mode={props.m.getValue()} scheme={props.s.object()}>
+            <div class={styles.demo}>
+                <Appbar title={l.t('_c.theme.componentsDemo')} />
+                <Components />
+            </div>
+        </ThemeProvider>
+    </div>;
+}
+
+function Components(): JSX.Element {
     const dateAccess = fieldAccessor('date', Date(), false);
 
     const items = [
