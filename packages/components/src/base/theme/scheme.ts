@@ -17,8 +17,6 @@ export interface Scheme {
      */
     fontSize?: string;
 
-    // TODO: shadow?: string;
-
     /**
      * 表示 tailwind 中 --radius-* 的数值，默认是 0.125
      */
@@ -160,45 +158,4 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
             }
         }
     }
-}
-
-/**
- * 从 HTML 元素中获取默认的主题方案
- */
-export function initSchemeFromHTML(): Scheme {
-    const s: Partial<Scheme> = {
-        radius: {} as Radius,
-        light: {} as Palettes,
-        dark: {} as Palettes,
-    };
-
-    const style = getComputedStyle(document.documentElement);
-    for (const sheet of document.styleSheets) {
-        for (const rule of sheet.cssRules) {
-            if (rule instanceof CSSStyleRule) {
-                if (rule.selectorText === ':root') {
-                    Object.entries(rule.style).forEach(([_, key]) => {
-                        const val = style.getPropertyValue(key);
-
-                        if (key.startsWith('--dark-')) {
-                            const k = key.substring('--dark-'.length) as keyof Palettes;
-                            s.dark![k] = val;
-                        } else if (key.startsWith('--light-')) {
-                            const k = key.substring('--light-'.length) as keyof Palettes;
-                            s.light![k] = val;
-                        } else if (key === 'font-size') {
-                            s.fontSize = val;
-                        } else if (key === '--spacing') {
-                            s.spacing = parseFloat(val);
-                        } else if (key.startsWith('--radius-')) {
-                            const k = key.substring('--radius-'.length) as keyof Radius;
-                            s.radius![k] = parseFloat(val);
-                        }
-                    });
-                }
-            }
-        }
-    }
-
-    return s;
 }

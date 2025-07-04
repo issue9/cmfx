@@ -56,11 +56,11 @@ dialog {
 }
 
 dialog[open] {
-    @apply popopen block;
+    @apply popopen block shadow-sm shadow-palette-bg;
 }
 
 dialog::backdrop {
-    background: rgba(0, 0, 0, 0.5);
+    background: oklch(0 0 0 / 0.5);
     transition: opacity var(--default-transition-duration) linear;
 }
 
@@ -72,5 +72,5 @@ dialog::backdrop {
 }
 
 [popover]:popover-open {
-    @apply popopen;
+    @apply popopen shadow-sm shadow-palette-bg;
 }

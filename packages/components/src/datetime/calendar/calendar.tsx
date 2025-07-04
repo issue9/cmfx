@@ -96,52 +96,54 @@ export default function Calendar(props: Props): JSX.Element {
             </div>
         </header>
 
-        <table class={styles.table}>
-            <thead>
-                <tr>
-                    <For each={weeks}>
-                        {(w) => (
-                            <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
+        <div class={styles.table}>
+            <table>
+                <thead>
+                    <tr>
+                        <For each={weeks}>
+                            {(w) => (
+                                <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
+                            )}
+                        </For>
+                    </tr>
+                </thead>
+                <tbody>
+                    <For each={weekDays(curr(), props.weekBase!, props.min, props.max)}>
+                        {(week) => (
+                            <tr>
+                                <For each={week}>
+                                    {(day) => {
+                                        const d = new Date(year(), day[1], day[2], 8);
+
+                                        return <td onclick={() => {
+                                            if (!day[0]) { return; }
+
+                                            if (props.onSelected) { props.onSelected(d, selected()); }
+                                            setSelected(d);
+                                        }} class={classList({
+                                            [styles.disabled]: !day[0],
+                                            [styles.current]: selected()
+                                                && (selected()!.getMonth() === day[1])
+                                                && (day[2] === selected()!.getDate())
+                                                && (curr().getFullYear() === selected()!.getFullYear())
+                                        })}>
+                                            <span class={classList({
+                                                [styles.day]: true,
+                                                [styles.today]: (day[1] === now.getMonth())
+                                                    && (curr().getFullYear() === now.getFullYear())
+                                                    && (day[2] === now.getDate())
+                                            })}>{day[2]}</span>
+                                            <For each={props.plugins}>
+                                                {(plugin) => { return plugin(d); }}
+                                            </For>
+                                        </td>;
+                                    }}
+                                </For>
+                            </tr>
                         )}
                     </For>
-                </tr>
-            </thead>
-            <tbody>
-                <For each={weekDays(curr(), props.weekBase!, props.min, props.max)}>
-                    {(week) => (
-                        <tr>
-                            <For each={week}>
-                                {(day) => {
-                                    const d = new Date(year(), day[1], day[2], 8);
-
-                                    return <td onclick={()=>{
-                                        if (!day[0]) { return; }
-
-                                        if (props.onSelected) { props.onSelected(d, selected()); }
-                                        setSelected(d);
-                                    }} class={classList({
-                                        [styles.disabled]: !day[0],
-                                        [styles.current]: selected()
-                                            && (selected()!.getMonth() === day[1])
-                                            && (day[2] === selected()!.getDate())
-                                            && (curr().getFullYear() === selected()!.getFullYear())
-                                    })}>
-                                        <span class={classList({
-                                            [styles.day]: true,
-                                            [styles.today]: (day[1] === now.getMonth())
-                                                && (curr().getFullYear() === now.getFullYear())
-                                                && (day[2] === now.getDate())
-                                        })}>{day[2]}</span>
-                                        <For each={props.plugins}>
-                                            {(plugin) => { return plugin(d); }}
-                                        </For>
-                                    </td>;
-                                }}
-                            </For>
-                        </tr>
-                    )}
-                </For>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
+        </div>
     </div>;
 }

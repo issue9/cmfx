@@ -5,12 +5,12 @@
 import { ExpandType } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
-import { applyTheme, BaseProps, initSchemeFromHTML, Mode, Scheme } from '@/base';
+import { applyTheme, BaseProps, Mode, Scheme } from '@/base';
 import { ThemeProvider, useLocale } from '@/context';
 import { Drawer } from '@/drawer';
 import { fieldAccessor, ObjectAccessor } from '@/form';
 import { Components } from './components';
-import { params } from './params';
+import { params, random } from './params';
 import { Ref } from './ref';
 import styles from './style.module.css';
 
@@ -24,7 +24,9 @@ export interface Props extends BaseProps, ParentProps {
 export default function SchemeBuilder(props: Props): JSX.Element {
     const l = useLocale();
     const modeFA = fieldAccessor<Mode>('mode', 'dark');
-    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(initSchemeFromHTML());
+
+    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({});
+    random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
 
     const ref: Ref = {
         export: (): Scheme => {

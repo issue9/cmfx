@@ -72,7 +72,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 /**
  * 生成随机参数
  */
-function random(s: ObjectAccessor<ExpandType<Scheme>>) {
+export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
     batch(() => {
         // 字体不生成随机，改字体会直接作用在整个页面上。
         // s.accessor<string>('fontSize').setValue(`${fontSizeValues[rand(0, fontSizeValues.length, 0)]}px`);
