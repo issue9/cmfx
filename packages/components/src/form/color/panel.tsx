@@ -4,9 +4,10 @@
 
 import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
-import { createEffect, JSX, Show } from 'solid-js';
+import { createEffect, createMemo, For, JSX, Show } from 'solid-js';
+import IconAccessibility from '~icons/material-symbols/accessibility';
 
-import { joinClass } from '@/base';
+import { classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
@@ -29,6 +30,13 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
     popover?: boolean | 'manual' | 'auto';
 
     ref?: { (el: HTMLElement): void; };
+
+    /**
+     * 预设的一些颜色值，需要使用 oklch 格式的颜色值，比如：
+     *  - oklch(1 0 0) // 白色
+     *  - oklch(0 0 0) // 黑色
+     */
+    presets?: Array<string>;
 }
 
 /**
@@ -72,21 +80,44 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         });
     };
 
+    // 转换为 Color 再转换为字符串，防止不同格式的数据造成混乱。
+    const presets = createMemo(() => {
+        return props.presets?.map(v => (new Color(v)).toString());
+    });
+
     return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
         ref={el => { if (props.ref) { props.ref(el); } }}>
-        <Range label='L:' fitHeight accessor={l} min={0} max={1} step={0.001} />
-        <Range label='C:' fitHeight accessor={c} min={0} max={0.4} step={0.001} />
-        <Range label='H:' fitHeight accessor={h} min={0} max={360} step={0.001} />
-        <Range label='A:' fitHeight accessor={a} min={0} max={1} step={0.01} />
-        <div ref={el => colorBlock = el} onClick={copy} class={styles['color-block']}
-            style={{ 'background': access.getValue(), 'color': props.wcag }}
-        >{access.getValue()}</div>
-        <Tooltip ref={el => tooltip = el}>{ loc.t('_c.copied') }</Tooltip>
-        <Show when={props.wcag}>
-            {(wcag)=>(
-                <div class={styles.wcag}>WCAG: <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span></div>
-            )}
+        <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} value={v => `${(v * 100).toFixed(2)}%`} label={loc.t('_c.color.lightness')} />
+        <Range layout='vertical' fitHeight accessor={c} min={0} max={0.4} step={0.001} value={v => `${v.toFixed(3)}`} label={loc.t('_c.color.chroma')} />
+        <Range layout='vertical' fitHeight accessor={h} min={0} max={360} step={0.01} value={v => `${v.toFixed(2)}°`} label={loc.t('_c.color.hue')} />
+        <Range layout='vertical' fitHeight accessor={a} min={0} max={1} step={0.01} value={v => v.toFixed(2)} label={loc.t('_c.color.alpha')} />
+
+        <Show when={presets() && presets()!.length > 0}>
+            <div class={styles.blocks}>
+                <For each={presets()}>
+                    {color =>
+                        <div style={{ 'background': color.toString() }} onclick={() => access.setValue(color)}
+                            class={classList({[styles.selected]: access.getValue() === color}, styles.block)}
+                        />
+                    }
+                </For>
+            </div>
         </Show>
+
+        <div class={styles.info}>
+            <div class={styles.current} ref={el => colorBlock = el} onClick={copy}
+                style={{ 'background': access.getValue(), 'color': props.wcag }}
+            >{access.getValue()}</div>
+            <Tooltip ref={el => tooltip = el}>{loc.t('_c.copied')}</Tooltip>
+
+            <Show when={props.wcag}>
+                {wcag => (
+                    <div title='WCAG' class={styles.wcag}><IconAccessibility />:
+                        <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span>
+                    </div>
+                )}
+            </Show>
+        </div>
     </fieldset>;
 }
 

@@ -29,6 +29,12 @@ const messages = {
             nextMonth: 'Next month',
             nextYear: 'Next year',
         },
+        color: {
+            lightness: 'Lightness',
+            chroma: 'Chroma',
+            hue: 'Hue',
+            alpha: 'Alpha',
+        },
         pagination: {
             prev: 'Prev',
             next: 'Next',

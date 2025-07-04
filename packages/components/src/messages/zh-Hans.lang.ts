@@ -31,6 +31,12 @@ const messages: typeof m = {
             nextMonth: '下个月',
             nextYear: '下一年',
         },
+        color: {
+            lightness: '亮度(L)',
+            chroma: '色度(C)',
+            hue: '色相(H)',
+            alpha: '透明度(A)',
+        },
         pagination: {
             prev: '前一页',
             next: '下一页',

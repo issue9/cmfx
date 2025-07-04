@@ -5,7 +5,7 @@
 import { pop } from '@cmfx/core';
 import { createMemo, createUniqueId, JSX, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { joinClass, Layout } from '@/base';
+import { Layout } from '@/base';
 import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
 import styles from './style.module.css';
@@ -43,7 +43,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
     const id = createUniqueId();
-    return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles['oklch-activator'])}
+    return <Field ref={(el) => fieldRef = el} class={props.class}
         title={props.title}
         palette={props.palette}
         aria-haspopup
@@ -52,15 +52,17 @@ export default function OKLCHPicker(props: Props): JSX.Element {
             {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div ref={el => anchorRef = el}
-            onClick={() => togglePop(anchorRef, panelRef)}
-            style={{ 'background': props.accessor.getValue(), ...fieldArea2Style(areas().inputArea) }}
-            classList={{
-                [styles['oklch-activator-block']]: true,
-                'rounded-full': props.rounded
-            }}
-        >
-            <input id={id} onClick={e=>e.preventDefault()} type="color" class="hidden" disabled={props.disabled} readOnly={props.readonly} />
+        <div style={fieldArea2Style(areas().inputArea)}>
+            <div ref={el => anchorRef = el}
+                onClick={() => togglePop(anchorRef, panelRef)}
+                style={{ 'background': props.accessor.getValue() }}
+                classList={{
+                    [styles['oklch-activator-block']]: true,
+                    'rounded-full': props.rounded
+                }}
+            >
+                <input id={id} onClick={e=>e.preventDefault()} type="color" class="hidden" disabled={props.disabled} readOnly={props.readonly} />
+            </div>
         </div>
 
         <OKLCHPanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps} />

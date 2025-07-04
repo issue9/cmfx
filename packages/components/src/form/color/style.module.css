@@ -8,20 +8,37 @@
 
 @layer components {
     .oklch-panel {
-        @apply border border-palette-bg-low flex flex-col p-1 text-palette-fg bg-palette-bg rounded-sm;
+        @apply border border-palette-bg-low flex flex-col p-2 text-palette-fg bg-palette-bg rounded-lg gap-1 max-w-80 min-w-70;
 
-        .color-block {
-            @apply h-8 w-full border border-palette-bg-low text-center leading-8 rounded-sm cursor-pointer mt-1;
+        .blocks {
+            @apply flex flex-wrap justify-between gap-1 items-center mt-1;
+
+            .block {
+                @apply aspect-square w-6 border border-palette-bg-low rounded-sm cursor-pointer;
+            }
+
+            .block.selected {
+                @apply border border-palette-fg-high;
+            }
         }
 
-        .wcag {
-            @apply flex flex-row justify-between px-[1px] mt-1;
+        .info {
+            @apply flex justify-between items-center gap-1 mt-2;
+
+            .wcag {
+                @apply flex justify-between items-center gap-1 text-lg;
+            }
+
+            .current {
+                @apply text-sm;
+                @apply h-8 w-full cursor-pointer;
+                @apply flex justify-center items-center;
+                @apply border border-palette-bg-low rounded-sm;
+            }
         }
     }
 
-    .oklch-activator {}
-
     .oklch-activator-block {
-        @apply h-8 w-8 rounded-sm cursor-pointer border border-palette-fg;
+        @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-fg;
     }
 }

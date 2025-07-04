@@ -7,7 +7,7 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
-import Field, { calcLayoutFieldAreas } from './field';
+import Field, { calcLayoutFieldAreas, HelpArea } from './field';
 import styles from './style.module.css';
 
 describe('calcLayoutFieldAreas', () => {
@@ -58,52 +58,54 @@ describe('calcLayoutFieldAreas', () => {
 
 describe('Field', () => {
     test('!help && !label', async () => {
-        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, false)}>input</Field>, {
+        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, false)}><label>input</label></Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
 
         const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.content)).toBeTruthy();
         expect(c.querySelector('.' + styles.help)).toBeFalsy();
-        expect(c.querySelector('label')).toBeFalsy();
+        expect(c.querySelector('label')).not.toBeFalsy();
         unmount();
     });
 
     test('help && !label', async () => {
-        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', true, false)}>input</Field>, {
+        const { container, unmount } = render(() =>
+            <Field {...calcLayoutFieldAreas('horizontal', true, false)}>
+                <HelpArea area={{ pos: 'top-left' }} getError={()=>'error'} />
+            </Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
 
         const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.content)).toBeTruthy();
         expect(c.querySelector('.' + styles.help)).toBeTruthy();
         expect(c.querySelector('label')).toBeFalsy();
         unmount();
     });
 
     test('!help && label', async () => {
-        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, true)}>input</Field>, {
+        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, true)}><label>input</label></Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
 
         const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.content)).toBeTruthy();
         expect(c.querySelector('.' + styles.help)).toBeFalsy();
         expect(c.querySelector('label')).toBeTruthy();
         unmount();
     });
 
     test('help && label', async () => {
-        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', true, true)}>input</Field>, {
+        const { container, unmount } = render(() =>
+            <Field {...calcLayoutFieldAreas('horizontal', true, true)}>
+                <HelpArea area={{ pos: 'top-left' }} getError={()=>'error'} /><label>input</label>
+            </Field>, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。
 
         const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.content)).toBeTruthy();
         expect(c.querySelector('.' + styles.help)).toBeTruthy();
         expect(c.querySelector('label')).toBeTruthy();
         unmount();

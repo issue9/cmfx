@@ -29,7 +29,12 @@ export default function() {
 
         <Stage title='wcag'>
             <OKLCHPicker palette={palette()} layout={layout()} accessor={wcag} label='wcag' rounded={rounded()} />
-            <OKLCHPanel palette={palette()} apca={apca()} accessor={color} wcag={wcag.getValue()} />
+            <OKLCHPanel palette={palette()} apca={apca()} accessor={color} wcag={wcag.getValue()} presets={[
+                'oklch(1 0 0)', 'oklch(0 0 0)', 'oklch(.5 .2 20)', 'oklch(.5 .2 40)', 'oklch(.5 .2 60)',
+                'oklch(.5 .2 80)', 'oklch(.5 .2 100)', 'oklch(.5 .2 120)', 'oklch(.5 .2 140)', 'oklch(.5 .2 160)',
+                'oklch(.5 .2 180)', 'oklch(.5 .2 200)', 'oklch(.5 .2 220)', 'oklch(.5 .2 240)', 'oklch(.5 .2 260)',
+                'oklch(.5 .2 280)', 'oklch(.5 .2 300)', 'oklch(.5 .2 320)', 'oklch(.5 .2 340)', 'oklch(.5 .2 360)',
+            ]} />
         </Stage>
 
         <Stage title='picker'>
