@@ -41,12 +41,13 @@
         @apply border-2 border-transparent flex items-center text-palette-fg;
 
         input {
-            @apply mr-[2px]
+            @apply mr-[2px];
         }
     }
 
-    .checkbox.border {
-        @apply border-[var(--fg-low)] rounded-sm has-[:checked]:border-[var(--bg)];
+    .checkbox.block {
+        @apply border-palette-fg-low rounded-sm has-[:checked]:border-palette-bg;
+        @apply min-w-[1rem] min-h-[1rem];
     }
 
     .checkbox:focus-visible {
@@ -57,12 +58,12 @@
         cursor: pointer;
     }
 
-    .checkbox.border:has(:enabled):hover {
-        @apply border-[var(--bg-high)];
+    .checkbox.block:has(:enabled):hover {
+        @apply border-palette-bg-high;
     }
 
     .checkbox:has(:disabled) {
-        @apply cursor-not-allowed text-[var(--bg-low)];
+        @apply cursor-not-allowed text-palette-bg-low;
     }
 
     .group-content {

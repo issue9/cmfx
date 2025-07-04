@@ -33,7 +33,7 @@ export function Checkbox(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     return <label tabIndex={props.tabindex} title={props.title} class={classList({
-        [styles.border]: props.block,
+        [styles.block]: props.block,
         [`palette--${props.palette}`]: !!props.palette
     },props.class, styles.checkbox)}>
         <input type="checkbox"

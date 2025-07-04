@@ -2,15 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { SchemeBuilder } from '@cmfx/components';
+import { modes, SchemeBuilder, use } from '@cmfx/components';
+import { createEffect } from 'solid-js';
 
-import { Demo, paletteSelector } from '../base';
+import { arraySelector, Demo, paletteSelector } from '../base';
 
 export default function () {
     const [paletteS, palette] = paletteSelector();
+    const [modeS, mode] = arraySelector('mode', modes, 'system');
+    const [, act] = use();
+
+    createEffect(() => {
+        act.switchMode(mode());
+    });
 
     return <Demo settings={<>
         {paletteS}
+        {modeS}
     </>}>
         <SchemeBuilder palette={palette()} />
     </Demo>;

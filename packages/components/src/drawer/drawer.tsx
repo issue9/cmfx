@@ -124,7 +124,7 @@ export function Drawer(props: Props) {
         <aside ref={(el) => asideRef = el} classList={{
             ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
         }}>{props.children}</aside>
-        <main classList={{ [`palette--${props.mainPalette}`]: !!props.mainPalette }}>
+        <main class={props.mainPalette ? `palette--${props.mainPalette}` : undefined}>
             <Transition {...transition}>{props.main}</Transition>
         </main>
     </div>;

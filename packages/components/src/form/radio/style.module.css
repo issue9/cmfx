@@ -52,7 +52,7 @@
             }
         }
 
-        label.border {
+        label.block {
             @apply border-palette-bg-low rounded-sm;
             @apply has-[:checked]:border-palette-fg-high;
         }
@@ -67,8 +67,8 @@
             cursor: pointer;
         }
 
-        label.border {
-            @apply hover:border-[var(--bg-high)];
+        label.block {
+            @apply hover:border-palette-bg-high;
         }
     }
 

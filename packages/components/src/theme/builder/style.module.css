@@ -10,7 +10,7 @@
     .builder {
         @apply text-palette-fg bg-palette-bg rounded-lg;
 
-        @apply .params {
+        .params {
             @apply flex flex-col gap-8 p-4 min-w-50;
 
             .toolbar {

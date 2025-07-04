@@ -27,6 +27,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({});
     random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
+    schemeFA.setPreset(schemeFA.object()); // 作为默认值
 
     const ref: Ref = {
         export: (): Scheme => {
@@ -43,7 +44,7 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     if (props.ref) { props.ref(ref); }
 
-    return <Drawer class={joinClass(styles.builder, props.class)} palette='secondary' mainPalette={props.palette} main={<Demo m={modeFA} s={schemeFA} />}>
+    return <Drawer class={joinClass(styles.builder, props.class)} palette={props.palette} main={<Demo m={modeFA} s={schemeFA} />}>
         {params(schemeFA, modeFA, ref)}
     </Drawer>;
 }

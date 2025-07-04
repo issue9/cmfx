@@ -72,7 +72,6 @@ const messages = {
             fontSize: 'Font size',
             colors: 'Colors',
             radius: 'Radius',
-            spacing: 'Spacing',
             transitionDuration: 'transition duration',
             random: 'Random',
             otherParams: 'Other params',

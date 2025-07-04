@@ -46,7 +46,7 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         }}>
             <For each={props.options}>
                 {(item) =>
-                    <label classList={{ [styles.border]: props.block }} tabIndex={props.tabindex}>
+                    <label classList={{ [styles.block]: props.block }} tabIndex={props.tabindex}>
                         <input type="radio" class={props.block ? '!hidden' : undefined}
                             readOnly={props.readonly}
                             checked={item[0] === access.getValue()}

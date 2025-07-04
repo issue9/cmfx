@@ -23,11 +23,6 @@ export interface Scheme {
     radius?: Radius;
 
     /**
-     * 表示 tailwind 中 --spacing 的数值，默认是 0.25
-     */
-    spacing?: number;
-
-    /**
      * 动画的时长，默认为 300，单位为 ms。
      */
     transitionDuration?: number;
@@ -110,9 +105,6 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
             if (v) {
                 document.documentElement.style.fontSize = v;
             }
-            return;
-        case 'spacing':
-            elem.style.setProperty('--spacing', `${v}rem`);
             return;
         case 'radius':
             Object.entries<string>(v).forEach(([k2, v2]) => {

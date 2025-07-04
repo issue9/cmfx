@@ -74,7 +74,6 @@ const messages: typeof m = {
             fontSize: '字体大小',
             colors: '颜色',
             radius: '圆角',
-            spacing: '间距',
             transitionDuration: '动画时长',
             random: '随机',
             otherParams: '其它参数',

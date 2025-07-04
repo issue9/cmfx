@@ -169,7 +169,6 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
         s.accessor<number>('radius.3xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.4xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
 
-        s.accessor<number>('spacing').setValue(rand(spacingValues.min, spacingValues.max, 2));
         s.accessor<number>('transitionDuration').setValue(rand(transitionValues.min, transitionValues.max, 0));
     });
 }
@@ -271,15 +270,10 @@ function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Elem
     return <div class={styles.param}>
         <Divider><IconOptions class="mr-1" />{l.t('_c.theme.otherParams')}</Divider>
 
-        <Range layout='vertical' label={l.t('_c.theme.spacing')}
-            accessor={s.accessor('spacing')} {...spacingValues} value={v => `${v}rem`} />
         <Range layout='vertical' label={l.t('_c.theme.transitionDuration')}
             accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
     </div>;
 }
-
-// spacing 可用的参数
-const spacingValues = { min: 0.1, max: 0.4, step: 0.05 } as const;
 
 // transition 可用的参数
 const transitionValues = { min: 100, max: 1000, step: 50 } as const;
