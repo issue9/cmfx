@@ -5,11 +5,10 @@
 import { ExpandType, rand } from '@cmfx/core';
 import { batch, JSX, Show } from 'solid-js';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
-import IconAnimation from '~icons/material-symbols/animation';
+import IconOptions from '~icons/ion/options';
 import IconColors from '~icons/material-symbols/colors';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
-import IconSpacing from '~icons/material-symbols/format-letter-spacing';
 import IconLight from '~icons/material-symbols/light-mode';
 import IconReset from '~icons/material-symbols/reset-settings';
 import IconRadius from '~icons/mingcute/border-radius-fill';
@@ -60,8 +59,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         {fontSizeParams(l, s)}
         {colorsParams(l, s)}
         {radiusParams(l, s)}
-        {spacingParams(l, s)}
-        {transitionParams(l, s)}
+        {otherParams(l, s)}
 
         <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
             <Code class="h-full" copyable>{JSON.stringify(s.object(), null, 4)}</Code>
@@ -75,7 +73,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
     batch(() => {
         // 字体不生成随机，改字体会直接作用在整个页面上。
-        // s.accessor<string>('fontSize').setValue(`${fontSizeValues[rand(0, fontSizeValues.length, 0)]}px`);
+        s.accessor<string>('fontSize').setValue('16px');
 
         let h = rand(0, 360, 3);
         let c = randColor(h);
@@ -170,8 +168,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
     };
 
     return <div class={styles.radius}>
-        <span class={styles.title}>{title}</span>
-        <RadioGroup accessor={a} block options={radiusValues.map((v) => [v, radiusLabel(v)])} />
+        <RadioGroup class="w-full" label={<span class={styles.title}>{title}</span>} accessor={a} block options={radiusValues.map((v) => [v, radiusLabel(v)])} />
     </div>;
 }
 
@@ -235,22 +232,16 @@ function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Sche
     </div>;
 }
 
-// spacing 可用的参数
-const spacingValues = { min: 0.1, max: 0.5, step: 0.05 } as const;
-
-function spacingParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconSpacing class="mr-1" />{l.t('_c.theme.spacing')}</Divider>
-        <Range class="flex-1" accessor={s.accessor('spacing')} {...spacingValues} value={v => `${v}rem`} />
+        <Divider><IconOptions class="mr-1" />{l.t('_c.theme.otherParams')}</Divider>
+        <Range layout='vertical' label={l.t('_c.theme.spacing')} accessor={s.accessor('spacing')} {...spacingValues} value={v => `${v}rem`} />
+        <Range layout='vertical' label={l.t('_c.theme.transitionDuration')} accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
     </div>;
 }
+
+// spacing 可用的参数
+const spacingValues = { min: 0.1, max: 0.4, step: 0.05 } as const;
 
 // transition 可用的参数
 const transitionValues = { min: 100, max: 1000, step: 50 } as const;
-
-function transitionParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    return <div class={styles.param}>
-        <Divider><IconAnimation class="mr-1" />{l.t('_c.theme.transitionDuration')}</Divider>
-        <Range class="flex-1" accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
-    </div>;
-}

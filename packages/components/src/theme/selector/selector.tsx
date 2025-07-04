@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps } from 'solid-js';
+import { createSignal, For, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps, joinClass, Scheme } from '@/base';
-import { createSignal } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -45,11 +44,12 @@ export function Selector(props: Props): JSX.Element {
                 const colors = scheme[1].dark!;
 
                 return <div tabIndex={props.tabIndex} class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)} onClick={() => {
-                    if (!props.onChange) { return; }
-
                     const old = value();
                     setValue(scheme[0]);
-                    props.onChange(scheme[0], old);
+
+                    if (props.onChange) {
+                        props.onChange(scheme[0], old);
+                    }
                 }}>
                     <div class={styles.blocks}>
                         <div class={styles.block} style={{ 'background-color': colors['primary-bg'] }}></div>

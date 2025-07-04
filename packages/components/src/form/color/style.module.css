@@ -8,13 +8,15 @@
 
 @layer components {
     .oklch-panel {
-        @apply border border-palette-bg-low flex flex-col p-2 text-palette-fg bg-palette-bg rounded-lg gap-1 max-w-80 min-w-70;
+        @apply flex flex-col gap-1 max-w-80 min-w-75;
+        @apply border border-palette-bg-low rounded-lg p-2;
+        @apply text-palette-fg bg-palette-bg;
 
         .blocks {
             @apply flex flex-wrap justify-between gap-1 items-center mt-1;
 
             .block {
-                @apply aspect-square w-6 border border-palette-bg-low rounded-sm cursor-pointer;
+                @apply aspect-square w-5 border border-palette-bg-low rounded-sm cursor-pointer;
             }
 
             .block.selected {
@@ -23,16 +25,15 @@
         }
 
         .info {
-            @apply flex justify-between items-center gap-1 mt-2;
+            @apply flex justify-between items-center gap-4 mt-2;
 
             .wcag {
-                @apply flex justify-between items-center gap-1 text-lg;
+                @apply flex justify-between items-center gap-1 text-lg cursor-default;
             }
 
             .current {
-                @apply text-sm;
-                @apply h-8 w-full cursor-pointer;
-                @apply flex justify-center items-center;
+                @apply text-sm cursor-pointer;
+                @apply flex justify-center items-center h-8 w-full;
                 @apply border border-palette-bg-low rounded-sm;
             }
         }
@@ -40,5 +41,6 @@
 
     .oklch-activator-block {
         @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-fg;
+        @apply flex justify-center items-center;
     }
 }

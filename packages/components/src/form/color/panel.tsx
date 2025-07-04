@@ -5,7 +5,7 @@
 import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
 import { createEffect, createMemo, For, JSX, Show } from 'solid-js';
-import IconAccessibility from '~icons/material-symbols/accessibility';
+import IconAccessibility from '~icons/octicon/accessibility-inset-24';
 
 import { classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
@@ -19,6 +19,10 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
 
     /**
      * 指定一个用于计算 WCAG 值的颜色
+     *
+     * 如果该值不为空，那么在颜色展示区域上的文字会以此颜色值显示，否则使用默认颜色值或是没有文字。
+     *
+     * NOTE: 该值应该是 oklch 格式，比如 oklch(1 0 0)，否则可能无法正确计算 WCAG 值。
      */
     wcag?: string;
 
@@ -146,8 +150,9 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
             <Show when={props.wcag}>
                 {wcag => (
-                    <div title='WCAG' class={styles.wcag}><IconAccessibility />:
-                        <span>{calcWCAG(access.getValue(), wcag(), props.apca).toFixed(2)}</span>
+                    <div title={props.apca ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'} class={styles.wcag}>
+                        <IconAccessibility />
+                        <span>{calcWCAG(access.getValue(), wcag(), props.apca)}</span>
                     </div>
                 )}
             </Show>
@@ -155,10 +160,14 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     </fieldset>;
 }
 
-function calcWCAG(c1: string, c2: string, apca?: boolean): number {
+function calcWCAG(c1: string, c2: string, apca?: boolean): string {
     const cc1 = new Color(c1);
     const cc2 = new Color(c2);
-    return Math.abs(apca ? cc1.contrastAPCA(cc2) : cc1.contrastWCAG21(cc2));
+    // apca 中正数表示深色文字在浅色背景上，负数表示浅色文字在深色背景上，所以要做绝对值。
+
+    return apca
+        ? Math.abs(cc1.contrastAPCA(cc2)).toFixed(0)
+        : cc1.contrastWCAG21(cc2).toFixed(1);
 }
 
 function fmtColor(l: number, c: number, h: number, a: number): string {

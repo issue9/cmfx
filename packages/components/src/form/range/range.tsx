@@ -29,7 +29,7 @@ export interface Props extends FieldBaseProps {
     accessor: Accessor<number>;
 
     /**
-     * 如果需要显示当前值，可以通过此字段进行格式化。
+     * 如果需要显示滑块的当前值，可以通过此字段进行格式化。
      */
     value?: (value: number) => JSX.Element;
 
@@ -47,6 +47,7 @@ export default function Range(props: Props): JSX.Element {
 
     const access = props.accessor;
     const [marks, setMarks] = createSignal<Array<[val: number, title: JSX.Element, offset: number]>>([]);
+    const [value, setValue] = createSignal<number>(access.getValue());
     let wrapRef: HTMLDivElement;
     let inputRef: HTMLInputElement;
 
@@ -82,13 +83,16 @@ export default function Range(props: Props): JSX.Element {
 
         <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}>
             <input ref={el => inputRef = el} type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
-                style={{'background': props.bg}} classList={{ [styles['fit-height']]: props.fitHeight }}
+                style={{ 'background': props.bg }} classList={{ [styles['fit-height']]: props.fitHeight }}
                 readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={e => {
                     if (!props.readonly && !props.disabled) {
                         let v = parseFloat(e.target.value);
                         access.setValue(v);
                         access.setError();
                     }
+                }} onInput={e => {
+                    if (!props.value) { return; }
+                    setValue(parseFloat(e.target.value));
                 }}
             />
 
@@ -106,7 +110,7 @@ export default function Range(props: Props): JSX.Element {
         <Show when={areas().valueArea}>
             {area =>
                 <div style={fieldArea2Style(area())} class={styles.value}>
-                    {props.value!(access.getValue())}
+                    {props.value!(value())}
                 </div>
             }
         </Show>

@@ -66,6 +66,6 @@
     }
 
     .group-content {
-        @apply flex flex-wrap gap-1;
+        @apply flex flex-wrap gap-1 justify-between w-full;
     }
 }

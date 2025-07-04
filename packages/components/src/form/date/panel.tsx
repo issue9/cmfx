@@ -245,7 +245,7 @@ export function DatePanel(props: Props): JSX.Element {
                         <For each={week}>
                             {(day) => (
                                 <td>
-                                    <button tabIndex={props.tabindex} classList={{ [styles.selected]: day[2] === panelValue().getDate() && day[1] === panelValue().getMonth(), 'aspect-square': true }}
+                                    <button tabIndex={props.tabindex} classList={{ [styles.selected]: day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
                                         disabled={!day[0] || props.disabled}
                                         onClick={() => {
                                             if (props.readonly || props.disabled) { return; }

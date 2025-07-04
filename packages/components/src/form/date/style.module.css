@@ -54,8 +54,9 @@
                 @apply p-[2px];
 
                 button {
-                    @apply border border-transparent outline-none rounded-full text-sm p-1 min-w-7 cursor-pointer;
-                    line-height: 1.28;
+                    @apply flex justify-center items-center;
+                    @apply aspect-square border border-transparent outline-none rounded-sm cursor-pointer;
+                    @apply p-1 w-8 min-w-6;
                 }
 
                 button.selected {

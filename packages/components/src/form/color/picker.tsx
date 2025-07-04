@@ -5,7 +5,7 @@
 import { pop } from '@cmfx/core';
 import { createMemo, createUniqueId, JSX, onCleanup, onMount, Show, splitProps } from 'solid-js';
 
-import { Layout } from '@/base';
+import { joinClass, Layout } from '@/base';
 import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
 import styles from './style.module.css';
@@ -27,7 +27,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
     let fieldRef: HTMLElement;
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
-    const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor']);
+    const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor', 'wcag', 'apca', 'presets']);
 
     const handleClick = (e: MouseEvent) => {
         if (!fieldRef.contains(e.target as Node)) {
@@ -49,23 +49,24 @@ export default function OKLCHPicker(props: Props): JSX.Element {
         aria-haspopup
     >
         <Show when={areas().labelArea}>
-            {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)}>
             <div ref={el => anchorRef = el}
                 onClick={() => togglePop(anchorRef, panelRef)}
-                style={{ 'background': props.accessor.getValue() }}
-                classList={{
-                    [styles['oklch-activator-block']]: true,
-                    'rounded-full': props.rounded
+                class={joinClass(styles['oklch-activator-block'], props.rounded ? 'rounded-full' : undefined)}
+                style={{
+                    'background': props.accessor.getValue(),
+                    'color': props.wcag,
                 }}
             >
-                <input id={id} onClick={e=>e.preventDefault()} type="color" class="hidden" disabled={props.disabled} readOnly={props.readonly} />
+                <Show when={props.wcag}>A</Show>
+                <input id={id} onClick={e => e.preventDefault()} type="color" class="hidden" disabled={props.disabled} readOnly={props.readonly} />
             </div>
         </div>
 
-        <OKLCHPanel class="fixed" popover="manual" ref={el => panelRef = el} {...panelProps} />
+        <OKLCHPanel popover="manual" ref={el => panelRef = el} {...panelProps} />
 
         <Show when={areas().helpArea}>
             {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

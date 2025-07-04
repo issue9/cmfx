@@ -75,6 +75,7 @@ const messages = {
             spacing: 'Spacing',
             transitionDuration: 'transition duration',
             random: 'Random',
+            otherParams: 'Other params',
         },
         tour: {
             prev: 'Prev',

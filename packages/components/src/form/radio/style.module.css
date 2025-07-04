@@ -41,7 +41,7 @@
     }
 
     .group-content {
-        @apply flex flex-wrap gap-1;
+        @apply flex flex-wrap gap-1 justify-between w-full;
 
         label {
             @apply border-2 border-transparent flex items-center text-palette-fg box-border;

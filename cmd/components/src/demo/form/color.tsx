@@ -38,7 +38,7 @@ export default function() {
         </Stage>
 
         <Stage title='picker'>
-            <OKLCHPicker palette={palette()} layout={layout()} accessor={color} label='picker label' rounded={rounded()} />
+            <OKLCHPicker wcag='oklch(1 0 0)' apca={apca()} palette={palette()} layout={layout()} accessor={color} label='picker label' rounded={rounded()} />
         </Stage>
     </Demo>;
 }

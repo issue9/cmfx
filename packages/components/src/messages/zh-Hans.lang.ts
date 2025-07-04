@@ -77,6 +77,7 @@ const messages: typeof m = {
             spacing: '间距',
             transitionDuration: '动画时长',
             random: '随机',
+            otherParams: '其它参数',
         },
         tour: {
             prev: '前一项',
