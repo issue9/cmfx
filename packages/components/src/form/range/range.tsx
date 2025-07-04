@@ -32,6 +32,11 @@ export interface Props extends FieldBaseProps {
      * 如果需要显示当前值，可以通过此字段进行格式化。
      */
     value?: (value: number) => JSX.Element;
+
+    /**
+     * 滑轨的背景颜色，该值应用在 background-color 属性上。
+     */
+    bg?: string;
 }
 
 /**
@@ -77,7 +82,7 @@ export default function Range(props: Props): JSX.Element {
 
         <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}>
             <input ref={el => inputRef = el} type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
-                classList={{ [styles['fit-height']]: props.fitHeight }}
+                style={{'background': props.bg}} classList={{ [styles['fit-height']]: props.fitHeight }}
                 readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={e => {
                     if (!props.readonly && !props.disabled) {
                         let v = parseFloat(e.target.value);

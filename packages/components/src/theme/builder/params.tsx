@@ -241,10 +241,7 @@ const spacingValues = { min: 0.1, max: 0.5, step: 0.05 } as const;
 function spacingParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconSpacing class="mr-1" />{l.t('_c.theme.spacing')}</Divider>
-        <div class="flex gap-2 items-center w-full">
-            <Range class="flex-1" accessor={s.accessor('spacing')} {...spacingValues} />
-            {s.accessor<number>('spacing').getValue()}rem
-        </div>
+        <Range class="flex-1" accessor={s.accessor('spacing')} {...spacingValues} value={v => `${v}rem`} />
     </div>;
 }
 
@@ -254,9 +251,6 @@ const transitionValues = { min: 100, max: 1000, step: 50 } as const;
 function transitionParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconAnimation class="mr-1" />{l.t('_c.theme.transitionDuration')}</Divider>
-        <div class="flex gap-2 items-center w-full">
-            <Range class="flex-1" accessor={s.accessor('transitionDuration')} {...transitionValues} />
-            {s.accessor<number>('transitionDuration').getValue()}ms
-        </div>
+        <Range class="flex-1" accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
     </div>;
 }

@@ -85,19 +85,53 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         return props.presets?.map(v => (new Color(v)).toString());
     });
 
+    const bg = createMemo(() => {
+        const ll = l.getValue();
+        const cc = c.getValue();
+        const hh = h.getValue();
+        const aa = a.getValue();
+        return [
+            // l
+            `linear-gradient(to right, ${fmtColor(0, cc, hh, aa)}, ${fmtColor(.1, cc, hh, aa)}, ${fmtColor(.2, cc, hh, aa)},
+            ${fmtColor(.3, cc, hh, aa)}, ${fmtColor(.4, cc, hh, aa)}, ${fmtColor(.5, cc, hh, aa)}, ${fmtColor(.6, cc, hh, aa)},
+            ${fmtColor(.7, cc, hh, aa)}, ${fmtColor(.8, cc, hh, aa)}, ${fmtColor(.9, cc, hh, aa)}, ${fmtColor(1, cc, hh, aa)})`,
+
+            // c
+            `linear-gradient(to right, ${fmtColor(ll, 0, hh, aa)}, ${fmtColor(ll, 0.04, hh, aa)}, ${fmtColor(ll, 0.08, hh, aa)},
+            ${fmtColor(ll, 0.12, hh, aa)}, ${fmtColor(ll, 0.16, hh, aa)}, ${fmtColor(ll, 0.20, hh, aa)}, ${fmtColor(ll, 0.24, hh, aa)},
+            ${fmtColor(ll, 0.28, hh, aa)}, ${fmtColor(ll, 0.32, hh, aa)}, ${fmtColor(ll, 0.36, hh, aa)}, ${fmtColor(ll, 0.4, hh, aa)})`,
+
+            // h
+            `linear-gradient(to right, ${fmtColor(ll, cc, 0, aa)}, ${fmtColor(ll, cc, 20, aa)}, ${fmtColor(ll, cc, 40, aa)}, ${fmtColor(ll, cc, 60, aa)},
+            ${fmtColor(ll, cc, 80, aa)}, ${fmtColor(ll, cc, 100, aa)}, ${fmtColor(ll, cc, 120, aa)}, ${fmtColor(ll, cc, 140, aa)},
+            ${fmtColor(ll, cc, 160, aa)}, ${fmtColor(ll, cc, 180, aa)}, ${fmtColor(ll, cc, 200, aa)}, ${fmtColor(ll, cc, 220, aa)},
+            ${fmtColor(ll, cc, 240, aa)}, ${fmtColor(ll, cc, 260, aa)}, ${fmtColor(ll, cc, 280, aa)}, ${fmtColor(ll, cc, 300, aa)},
+            ${fmtColor(ll, cc, 320, aa)}, ${fmtColor(ll, cc, 340, aa)}, ${fmtColor(ll, cc, 360, aa)})`,
+
+            // a
+            `linear-gradient(to right, ${fmtColor(ll, cc, hh, 0)}, ${fmtColor(ll, cc, hh, .1)}, ${fmtColor(ll, cc, hh, .2)},
+            ${fmtColor(ll, cc, hh, .3)}, ${fmtColor(ll, cc, hh, .4)}, ${fmtColor(ll, cc, hh, .5)}, ${fmtColor(ll, cc, hh, .6)},
+            ${fmtColor(ll, cc, hh, .7)}, ${fmtColor(ll, cc, hh, .8)}, ${fmtColor(ll, cc, hh, .9)}, ${fmtColor(ll, cc, hh, 1)})`,
+        ];
+    });
+
     return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
         ref={el => { if (props.ref) { props.ref(el); } }}>
-        <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} value={v => `${(v * 100).toFixed(2)}%`} label={loc.t('_c.color.lightness')} />
-        <Range layout='vertical' fitHeight accessor={c} min={0} max={0.4} step={0.001} value={v => `${v.toFixed(3)}`} label={loc.t('_c.color.chroma')} />
-        <Range layout='vertical' fitHeight accessor={h} min={0} max={360} step={0.01} value={v => `${v.toFixed(2)}°`} label={loc.t('_c.color.hue')} />
-        <Range layout='vertical' fitHeight accessor={a} min={0} max={1} step={0.01} value={v => v.toFixed(2)} label={loc.t('_c.color.alpha')} />
+        <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} bg={bg()[0]}
+            value={v => `${(v * 100).toFixed(2)}%`} label={loc.t('_c.color.lightness')} />
+        <Range layout='vertical' fitHeight accessor={c} min={0} max={0.4} step={0.001} bg={bg()[1]}
+            value={v => `${v.toFixed(3)}`} label={loc.t('_c.color.chroma')} />
+        <Range layout='vertical' fitHeight accessor={h} min={0} max={360} step={0.01} bg={bg()[2]}
+            value={v => `${v.toFixed(2)}°`} label={loc.t('_c.color.hue')} />
+        <Range layout='vertical' fitHeight accessor={a} min={0} max={1} step={0.01} bg={bg()[3]}
+            value={v => v.toFixed(2)} label={loc.t('_c.color.alpha')} />
 
         <Show when={presets() && presets()!.length > 0}>
             <div class={styles.blocks}>
                 <For each={presets()}>
                     {color =>
                         <div style={{ 'background': color.toString() }} onclick={() => access.setValue(color)}
-                            class={classList({[styles.selected]: access.getValue() === color}, styles.block)}
+                            class={classList({ [styles.selected]: access.getValue() === color }, styles.block)}
                         />
                     }
                 </For>
@@ -125,4 +159,8 @@ function calcWCAG(c1: string, c2: string, apca?: boolean): number {
     const cc1 = new Color(c1);
     const cc2 = new Color(c2);
     return Math.abs(apca ? cc1.contrastAPCA(cc2) : cc1.contrastWCAG21(cc2));
+}
+
+function fmtColor(l: number, c: number, h: number, a: number): string {
+    return new Color('oklch', [l, c, h], a).toString();
 }
