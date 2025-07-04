@@ -86,13 +86,16 @@ export function DatePanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
 
+    let dateRef: HTMLDivElement;
+    let timeRef: HTMLDivElement;
+
     // 当前面板上的值
     const val = props.accessor.getValue();
     const [panelValue, setPanelValue] = createSignal<Date>(val !== undefined ? new Date(val) : new Date());
 
     const scrollTimer = () => {
         if (props.time) {
-            const items = timeRef.querySelectorAll('.item>li.selected');
+            const items = timeRef.querySelectorAll(`.${styles.item}>li.${styles.selected}`);
             if (items && items.length > 0) {
                 for (const item of items) {
                     const p = item.parentElement;
@@ -121,8 +124,6 @@ export function DatePanel(props: Props): JSX.Element {
 
     const weekFormat = createMemo(() => { return l.dateTimeFormat({ weekday: 'narrow' }); });
 
-    let dateRef: HTMLDivElement;
-    let timeRef: HTMLDivElement;
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
@@ -248,7 +249,7 @@ export function DatePanel(props: Props): JSX.Element {
                                         disabled={!day[0] || props.disabled}
                                         onClick={() => {
                                             if (props.readonly || props.disabled) { return; }
-    
+
                                             const dt = new Date(panelValue());
                                             dt.setDate(day[2]);
                                             setValue(dt);

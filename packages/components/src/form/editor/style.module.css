@@ -10,14 +10,14 @@
     .editor {
         @apply w-full h-full flex flex-col justify-stretch;
 
-        .ql-toolbar {
+        :global(.ql-toolbar) {
             border-top-color: var(--fg-low) !important;
             border-left-color: var(--fg-low) !important;
             border-right-color: var(--fg-low) !important;
             @apply rounded-t-md;
         }
 
-        .ql-container {
+        :global(.ql-container) {
             border-bottom-color: var(--fg-low) !important;
             border-left-color: var(--fg-low) !important;
             border-right-color: var(--fg-low) !important;
@@ -27,13 +27,13 @@
 
     .editor:has([contenteditable=true]):hover,
     .editor:focus-within {
-        .ql-toolbar {
+        :global(.ql-toolbar) {
             border-top-color: var(--fg-high) !important;
             border-left-color: var(--fg-high) !important;
             border-right-color: var(--fg-high) !important;
         }
 
-        .ql-container {
+        :global(.ql-container) {
             border-bottom-color: var(--fg-high) !important;
             border-left-color: var(--fg-high) !important;
             border-right-color: var(--fg-high) !important;

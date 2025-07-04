@@ -22,14 +22,14 @@ describe('calcLayoutFieldAreas', () => {
         });
 
         expect(calcLayoutFieldAreas('horizontal', true, false)).toEqual({
-            inputArea: { pos: 'top-left', cols: 3 },
-            helpArea: { pos: 'middle-left', cols: 3, rows: 2 }
+            inputArea: { pos: 'top-left', cols: 3, rows: 2 },
+            helpArea: { pos: 'bottom-left', cols: 3 }
         });
 
         expect(calcLayoutFieldAreas('horizontal', true, true)).toEqual({
-            labelArea: { pos: 'top-left' },
-            inputArea: { pos: 'top-center', cols: 2 },
-            helpArea: { pos: 'middle-center', cols: 2, rows: 2 }
+            labelArea: { pos: 'top-left', rows: 2 },
+            inputArea: { pos: 'top-center', cols: 2 ,rows: 2 },
+            helpArea: { pos: 'bottom-center', cols: 2 }
         });
     });
 
