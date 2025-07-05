@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { default as HoverMenu, Props as HoverProps } from './hover';
 import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
@@ -31,18 +31,6 @@ export function Menu(props: Props): JSX.Element {
     let popRef: PanelRef;
     let activator: HTMLSpanElement;
 
-    const handleClick = (e: MouseEvent) => {
-        if (!popRef.contains(e.target as Node) && !activator.contains(e.target as Node)) {
-            popRef.hidePopover();
-        }
-    };
-    onMount(() => {
-        document.body.addEventListener('click', handleClick);
-    });
-    onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
-    });
-
     const [_, panelProps] = splitProps(props, ['activator', 'onChange', 'children']);
 
     let onchange: BaseProps['onChange'];
@@ -67,6 +55,6 @@ export function Menu(props: Props): JSX.Element {
             pop(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
         }}>{props.activator}</span>
 
-        <Panel popover="manual" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
+        <Panel popover="auto" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
     </div>;
 }

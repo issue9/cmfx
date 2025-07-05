@@ -44,19 +44,12 @@ export function SplitButton(props: Props) {
     let group: GroupRef;
     let downRef: Ref;
 
-    const handleClick = (e: MouseEvent) => {
-        if (!popElem.contains(e.target as Node) && !group.contains(e.target as Node)) {
-            popElem.hidePopover();
-        }
-    };
     onMount(() => {
-        document.body.addEventListener('click', handleClick);
         if (props.hotkey) {
             Hotkey.bind(props.hotkey, downRef.click);
         }
     });
     onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
         if (props.hotkey) {
             Hotkey.unbind(props.hotkey);
         }
@@ -80,7 +73,7 @@ export function SplitButton(props: Props) {
 
     return <>
         {activator}
-        <div ref={el=>popElem=el} popover="manual" class={classList({[`palette--${props.palette}`]:!!props.palette}, styles['split-content'])}>
+        <div ref={el=>popElem=el} popover="auto" class={classList({[`palette--${props.palette}`]:!!props.palette}, styles['split-content'])}>
             <For each={props.menus}>
                 {(item) => {
                     let ref: Ref;

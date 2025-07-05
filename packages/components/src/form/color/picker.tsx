@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { createMemo, createUniqueId, JSX, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { createMemo, createUniqueId, JSX, Show, splitProps } from 'solid-js';
 
 import { joinClass, Layout } from '@/base';
 import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
@@ -24,30 +24,13 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export default function OKLCHPicker(props: Props): JSX.Element {
-    let fieldRef: HTMLElement;
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
     const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor', 'wcag', 'apca', 'presets']);
 
-    const handleClick = (e: MouseEvent) => {
-        if (!fieldRef.contains(e.target as Node)) {
-            panelRef.hidePopover();
-        }
-    };
-    onMount(() => {
-        document.body.addEventListener('click', handleClick);
-    });
-    onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
-    });
-
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
     const id = createUniqueId();
-    return <Field ref={(el) => fieldRef = el} class={props.class}
-        title={props.title}
-        palette={props.palette}
-        aria-haspopup
-    >
+    return <Field class={props.class} title={props.title} palette={props.palette} aria-haspopup>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
@@ -66,7 +49,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
             </div>
         </div>
 
-        <OKLCHPanel popover="manual" ref={el => panelRef = el} {...panelProps} />
+        <OKLCHPanel popover="auto" ref={el => panelRef = el} {...panelProps} />
 
         <Show when={areas().helpArea}>
             {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

@@ -53,9 +53,7 @@ export default function Tooltip(props: Props): JSX.Element {
         }
     });
 
-    return <div popover='manual' class={styles.tooltip} ref={el => ref = el}>
-        {props.children}
-    </div>;
+    return <div popover='auto' class={styles.tooltip} ref={el => ref = el}>{props.children}</div>;
 }
 
 function calcPos(pos: PopPos, poprect: DOMRect, anchor: DOMRect): DOMRect {

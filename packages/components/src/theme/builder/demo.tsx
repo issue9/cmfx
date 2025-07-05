@@ -20,7 +20,7 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
 
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，出现 main 中同时出现在多个元素。
-    return <div class="w-full h-full">
+    return <div class="w-full h-full p-2">
         <ThemeProvider mode={props.m.getValue()} scheme={props.s.object()}>
             <div class={styles.demo}>
                 <Appbar title={l.t('_c.theme.componentsDemo')} />

@@ -52,6 +52,6 @@ export default function(props: Props): JSX.Element {
     return <div class="w-fit" onmouseenter={onmouseenter} onmouseleave={()=>{popRef.hidePopover();}}>
         <span ref={el=>activator=el} classList={{[`palette--${props.palette}`]: !!props.palette}}>{props.activator}</span>
 
-        <Panel popover="manual" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
+        <Panel popover="auto" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>
     </div>;
 }

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { createMemo, createUniqueId, For, JSX, Match, onCleanup, onMount, Show, Switch } from 'solid-js';
+import { createMemo, createUniqueId, For, JSX, Match, Show, Switch } from 'solid-js';
 import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
@@ -49,20 +49,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         </For>;
     };
 
-    let fieldRef: HTMLDivElement;
     let anchorRef: HTMLElement;
-
-    const handleClick = (e: MouseEvent) => {
-        if (!fieldRef.contains(e.target as Node)) {
-            ul.hidePopover();
-        }
-    };
-    onMount(() => {
-        document.body.addEventListener('click', handleClick);
-    });
-    onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
-    });
 
     const calcPos = () => {
         const ab = anchorRef.getBoundingClientRect();
@@ -161,7 +148,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
 
     const id = createUniqueId();
-    return <Field ref={(el) => fieldRef = el} class={joinClass(styles.activator, props.class)}
+    return <Field class={joinClass(styles.activator, props.class)}
         title={props.title}
         palette={props.palette}
         aria-haspopup>
@@ -185,7 +172,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
             </div>
             <IconExpandAll class={styles.expand} />
 
-            <ul popover="manual" ref={el => ul = el} classList={{
+            <ul popover="auto" ref={el => ul = el} classList={{
                 [styles.options]: true,
                 [`palette--${props.palette}`]: !!props.palette,
             }}>

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { pop } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
@@ -45,31 +45,14 @@ export function DatePicker(props: Props): JSX.Element {
 
     const ac = props.accessor;
     let panelRef: HTMLElement;
-    let fieldRef: HTMLElement;
     let anchorRef: HTMLElement;
-
-    const handleClick = (e: MouseEvent) => {
-        if (!fieldRef.contains(e.target as Node)) {
-            panelRef.hidePopover();
-        }
-    };
-    onMount(() => {
-        document.body.addEventListener('click', handleClick);
-    });
-    onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
-    });
 
     const [hover, setHover] = createSignal(false);
     const close = () => { props.accessor.setValue(undefined); };
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
-    return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles.activator)}
-        title={props.title}
-        palette={props.palette}
-        aria-haspopup
-    >
+    return <Field class={joinClass(props.class, styles.activator)} title={props.title} palette={props.palette} aria-haspopup>
         <Show when={areas().labelArea}>
             {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
@@ -91,7 +74,7 @@ export function DatePicker(props: Props): JSX.Element {
             </Show>
         </div>
 
-        <DatePanel class={styles.fixed} popover="manual" ref={el => panelRef = el} {...panelProps}
+        <DatePanel class={styles.fixed} popover="auto" ref={el => panelRef = el} {...panelProps}
             ok={() => panelRef.hidePopover()}
             clear={() => panelRef.hidePopover()}
         />

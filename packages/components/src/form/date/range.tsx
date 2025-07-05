@@ -48,18 +48,21 @@ export function DateRangePicker(props: Props): JSX.Element {
     let popRef: HTMLElement;
 
     const handleClick = (e: MouseEvent) => {
-        if (!fieldRef.contains(e.target as Node)) {
-            popRef.hidePopover();
-        }
+        if (!fieldRef.contains(e.target as Node)) { popRef.hidePopover(); }
+    };
+    const handleKeydown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') { popRef.hidePopover(); }
     };
     onMount(() => {
         document.body.addEventListener('click', handleClick);
+        document.addEventListener('keydown', handleKeydown);
     });
     onCleanup(() => {
         document.body.removeEventListener('click', handleClick);
+        document.removeEventListener('keydown', handleKeydown);
     });
 
-    const togglePop = (e: {target: HTMLInputElement}) => {
+    const showPopover = (e: {target: HTMLInputElement}) => {
         popRef.hidePopover();
         const ab = e.target.getBoundingClientRect();
         pop(popRef, ab, 8);
@@ -88,7 +91,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 placeholder={props.placeholder}
                 value={props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())}
                 onFocus={e => {
-                    togglePop(e);
+                    showPopover(e);
 
                     setMin(props.min);
                     const ac2V = ac2.getValue();
@@ -104,7 +107,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 placeholder={props.placeholder}
                 value={props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())}
                 onFocus={e => {
-                    togglePop(e);
+                    showPopover(e);
 
                     setMax(props.max);
                     const ac1V = ac1.getValue();

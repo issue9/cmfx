@@ -46,11 +46,16 @@ export function ContextMenu(props: Props): JSX.Element {
             popRef.hidePopover();
         }
     };
+    const handleKeydown = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') { popRef.hidePopover(); }
+    };
     onMount(() => {
-        document.body.addEventListener('click', handleClick);
+        document.addEventListener('click', handleClick);
+        document.addEventListener('keydown', handleKeydown);
     });
     onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
+        document.removeEventListener('click', handleClick);
+        document.removeEventListener('keydown', handleKeydown);
     });
 
     return <>
