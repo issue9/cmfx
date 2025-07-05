@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, createUniqueId, For, JSX, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options } from '@/form/field';
 import { calcLayoutFieldAreas } from './area';
@@ -39,17 +39,34 @@ export interface Props extends FieldBaseProps {
     bg?: string;
 }
 
+const presetProps: Partial<Props> = {
+    layout: 'horizontal'
+} as const;
+
 /**
  * 相当于 <input type="range" />
  */
 export default function Range(props: Props): JSX.Element {
-    if (props.layout === undefined) { props.layout = 'horizontal'; }
+    props = mergeProps(presetProps, props);
 
     const access = props.accessor;
     const [marks, setMarks] = createSignal<Array<[val: number, title: JSX.Element, offset: number]>>([]);
     const [value, setValue] = createSignal<number>(access.getValue());
     let wrapRef: HTMLDivElement;
     let inputRef: HTMLInputElement;
+
+    const wheel = (e: WheelEvent) => {
+        if (props.readonly || props.disabled) { return; }
+
+        e.preventDefault();
+        const step = props.step ?? 1;
+
+        let v = access.getValue() + (e.deltaY > 0 ? step : -step);
+        if ((props.max !== undefined) && (v > props.max)) { v = props.max; }
+        if ((props.min !== undefined) && (v < props.min)) { v = props.min; }
+        access.setValue(v);
+        access.setError();
+    };
 
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
@@ -84,8 +101,10 @@ export default function Range(props: Props): JSX.Element {
         </Show>
 
         <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}>
-            <input ref={el => inputRef = el} type="range" min={props.min} max={props.max} step={props.step} value={access.getValue()}
+            <input ref={el => inputRef = el} type="range" min={props.min} max={props.max}
+                step={props.step} value={access.getValue()}
                 style={{ 'background': props.bg }} classList={{ [styles['fit-height']]: props.fitHeight }}
+                onwheel={wheel}
                 readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={e => {
                     if (!props.readonly && !props.disabled) {
                         let v = parseFloat(e.target.value);

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
@@ -10,7 +10,7 @@ import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 import { Button } from '@/button';
 import { IconComponent } from '@/icon';
 import styles from './style.module.css';
-import { Props as BaseProps, TextField } from './textfiled';
+import { Props as BaseProps, TextField, Ref } from './textfiled';
 
 export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'|'inputMode'> {
     icon?: IconComponent;
@@ -55,7 +55,23 @@ export function Number(props: Props): JSX.Element {
         access.setError();
     };
 
-    return <TextField {...fieldProps} type="number" prefix={
+    let ref: Ref;
+
+    const wheel = (e: WheelEvent)=>{
+        e.preventDefault();
+        const stepV = props.step ?? 1;
+        step(e.deltaY > 0 ? stepV : -stepV);
+    };
+
+    onMount(()=>{
+        ref.addEventListener('wheel', wheel);
+    });
+
+    onCleanup(()=>{
+        ref.removeEventListener('wheel', wheel);
+    });
+
+    return <TextField ref={el=>ref=el} {...fieldProps} type="number" prefix={
         <Show when={props.icon}>
             {(icon)=>icon()({class:styles['prefix-icon']})}
         </Show>

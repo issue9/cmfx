@@ -37,6 +37,9 @@ export interface Props<T> extends FieldBaseProps {
     autocomplete?: AutoComplete;
     'aria-autocomplete'?: JSX.FormHTMLAttributes<HTMLInputElement>['aria-autocomplete'];
 
+    /**
+     * 这是对 Input 对象的引用
+     */
     ref?: { (el: Ref): void };
 }
 
