@@ -5,9 +5,10 @@
 import { rand } from '@cmfx/core';
 import Color from 'colorjs.io';
 
-export function randColor(h: number, typ?: 'low' | 'high'): [light: Color, dark: Color] {
+export function randOklchColor(h: number, typ?: 'low' | 'high'): [light: Color, dark: Color] {
     let light: Color;
     let dark: Color;
+
     switch (typ) {
     case 'low':
         light = new Color('oklch', [rand(.955, .965, 3), rand(.165, .175, 3), h]);

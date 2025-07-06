@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { ExpandType } from '@cmfx/core';
-import { JSX, ParentProps } from 'solid-js';
+import { JSX, ParentProps, untrack } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
 import { BaseProps, joinClass, Mode, Scheme } from '@/base';
@@ -42,8 +42,8 @@ export default function SchemeBuilder(props: Props): JSX.Element {
             schemeFA.reset();
         },
         apply: () => {
-            act.switchScheme(schemeFA.object());
-            act.switchMode(modeFA.getValue());
+            act.switchScheme(unwrap(schemeFA.object()));
+            act.switchMode(untrack(modeFA.getValue));
         },
     };
 
