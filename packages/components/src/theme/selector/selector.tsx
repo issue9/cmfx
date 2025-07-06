@@ -40,17 +40,17 @@ export function Selector(props: Props): JSX.Element {
 
     return <div class={joinClass(styles.selector, props.palette ? `palette--${props.palette}` : undefined)}>
         <For each={Array.from(props.schemes.entries())}>
-            {(scheme) => {
+            {scheme => {
                 const colors = scheme[1].dark!;
 
-                return <div tabIndex={props.tabIndex} class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)} onClick={() => {
-                    const old = value();
-                    setValue(scheme[0]);
+                return <button tabIndex={props.tabIndex}
+                    class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)}
+                    onClick={() => {
+                        const old = value();
+                        setValue(scheme[0]);
 
-                    if (props.onChange) {
-                        props.onChange(scheme[0], old);
-                    }
-                }}>
+                        if (props.onChange) { props.onChange(scheme[0], old); }
+                    }}>
                     <div class={styles.blocks}>
                         <div class={styles.block} style={{ 'background-color': colors['primary-bg'] }}></div>
                         <div class={styles.block} style={{ 'background-color': colors['secondary-bg'] }}></div>
@@ -61,7 +61,7 @@ export function Selector(props: Props): JSX.Element {
                         <div>{scheme[0]}</div>
                         <div>WCAG: TODO </div>
                     </div>
-                </div>;
+                </button>;
             }}
         </For>
     </div>;

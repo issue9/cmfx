@@ -31,7 +31,12 @@
     .button.fill.checked,
     .button.fill.link-enabled:hover,
     .button.fill:focus-visible {
-        @apply !bg-palette-bg-high;
+        @apply !bg-palette-bg-high text-palette-fg-high;
+    }
+
+    .button.fill:enabled:active,
+    .button.fill.link-enabled:active {
+        @apply !bg-palette-bg-low text-palette-fg-low;
     }
 
     .button.border {
@@ -42,7 +47,12 @@
     .button.border.checked,
     .button.border.link-enabled:hover,
     .button.border:focus-visible {
-        @apply !bg-palette-bg-high;
+        @apply !bg-palette-bg-high text-palette-fg-high;
+    }
+
+    .button.border:enabled:active,
+    .button.border.link-enabled:active {
+        @apply !bg-palette-bg-low text-palette-fg-low;
     }
 
     .button.flat {
@@ -54,6 +64,11 @@
     .button.flat.link-enabled:hover,
     .button.flat:focus-visible {
         @apply !bg-palette-bg-high border-palette-bg-high;
+    }
+
+    .button.flat:enabled:active,
+    .button.flat.link-enabled:active {
+        @apply !bg-palette-bg-low text-palette-fg-low border-palette-bg-low;
     }
 
     .button.link-disabled,
@@ -94,7 +109,12 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high;
+            @apply bg-palette-bg-high text-palette-fg-high;
+        }
+
+        .button:enabled:active,
+        .button.link-enabled:active {
+            @apply bg-palette-bg-low text-palette-fg-low;
         }
     }
 
@@ -108,7 +128,12 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high;
+            @apply bg-palette-bg-high text-palette-bg-high;
+        }
+
+        .button:enabled:active,
+        .button.link-enabled:active {
+            @apply bg-palette-bg-low text-palette-fg-low;
         }
 
         .button.split:enabled {
@@ -126,7 +151,12 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high;
+            @apply bg-palette-bg-high text-palette-bg-high;
+        }
+
+        .button:enabled:active,
+        .button.link-enabled:active {
+            @apply bg-palette-bg-low text-palette-fg-low;
         }
 
         .button.split:enabled {

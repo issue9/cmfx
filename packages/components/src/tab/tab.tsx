@@ -43,7 +43,7 @@ export function Tab<T extends string | number>(props: Props<T>) {
     };
 
     return <fieldset role="group" disabled={props.disabled} class={classList({
-        [styles.rounded]: props.rounded,
+        ['rounded-full']: props.rounded,
         [styles.vertical]: props.layout === 'vertical',
         [`palette--${props.palette}`]: !!props.palette
     }, props.class, styles.tab)}>
