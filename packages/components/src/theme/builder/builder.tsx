@@ -6,7 +6,8 @@ import { ExpandType } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
-import { applyTheme, BaseProps, joinClass, Mode, Scheme } from '@/base';
+import { BaseProps, joinClass, Mode, Scheme } from '@/base';
+import { use } from '@/context';
 import { Drawer } from '@/drawer';
 import { fieldAccessor, ObjectAccessor } from '@/form';
 import { Demo } from './demo';
@@ -30,6 +31,8 @@ export default function SchemeBuilder(props: Props): JSX.Element {
     random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
     schemeFA.setPreset(unwrap(schemeFA.object())); // 作为默认值
 
+    const [, act] = use();
+
     const ref: Ref = {
         export: (): Scheme => {
             return schemeFA.object();
@@ -39,7 +42,8 @@ export default function SchemeBuilder(props: Props): JSX.Element {
             schemeFA.reset();
         },
         apply: () => {
-            applyTheme(document.documentElement, { scheme: schemeFA.object(), mode: modeFA.getValue() });
+            act.switchScheme(schemeFA.object());
+            act.switchMode(modeFA.getValue());
         },
     };
 

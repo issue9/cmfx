@@ -8,6 +8,6 @@ export type { Mode } from './mode';
 export { changeScheme, palettes } from './scheme';
 export type { Palette, Palettes, Scheme } from './scheme';
 
-export { applyTheme, breakpoints, hasTheme, transitionDuration } from './theme';
-export type { Breakpoint, Theme } from './theme';
+export { breakpoints, transitionDuration } from './theme';
+export type { Breakpoint } from './theme';
 

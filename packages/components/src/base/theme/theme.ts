@@ -1,9 +1,8 @@
 // SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
- 
-import { changeMode, Mode } from './mode';
-import { changeScheme, Scheme, transitionDurationName } from './scheme';
+
+import { transitionDurationName } from './scheme';
 
 export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
 
@@ -28,28 +27,4 @@ export function transitionDuration(preset: number): number {
     } else { // 其它直接当作数值处理
         return parseInt(val);
     }
-}
-
-/**
- * 将主题 t 应用到元素 elem
- */
-export function applyTheme(elem: HTMLElement, t: Theme) {
-    elem.setAttribute('data-theme', '1');
-    changeScheme(elem, t.scheme);
-    changeMode(elem, t.mode);
-}
-
-/**
- * 判断元素 elem 上是否被应用了主题
- */
-export function hasTheme(elem: HTMLElement): boolean {
-    return elem.hasAttribute('data-theme');
-}
-
-/**
- * 提供与主题相关的接口
- */
-export interface Theme {
-    scheme?: Scheme;
-    mode?: Mode;
 }

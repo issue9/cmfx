@@ -28,9 +28,11 @@ export interface Options {
     configName: string | number;
 
     /**
-     * 默认的主题样式，当在 storage 中存在时，当前值将被忽略。
+     * 默认的主题样式，当在 {@link Options#storage} 中存在时，当前值将被忽略。
+     *
+     * 如果是字符串，会尝试从 {@link Options#schemes} 中获取对应的 {@link Scheme} 对象。
      */
-    scheme?: string;
+    scheme?: string | Scheme;
 
     /**
      * 支持的主题列表

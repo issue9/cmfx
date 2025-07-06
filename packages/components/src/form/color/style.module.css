@@ -28,7 +28,7 @@
             @apply flex justify-between items-center gap-4 mt-2;
 
             .wcag {
-                @apply flex justify-between items-center gap-1 text-lg cursor-default;
+                @apply flex justify-between items-center gap-1 text-lg cursor-pointer;
             }
 
             .current {

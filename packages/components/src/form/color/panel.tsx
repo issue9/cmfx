@@ -4,7 +4,7 @@
 
 import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
-import { createEffect, createMemo, For, JSX, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, Show } from 'solid-js';
 import IconAccessibility from '~icons/octicon/accessibility-inset-24';
 
 import { classList, joinClass } from '@/base';
@@ -25,11 +25,6 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
      * NOTE: 该值应该是 oklch 格式，比如 oklch(1 0 0)，否则可能无法正确计算 WCAG 值。
      */
     wcag?: string;
-
-    /**
-     * WCAG 的对比度算法，默认是 WCAG 2.1，除非指定了此值为 true。
-     */
-    apca?: boolean;
 
     popover?: boolean | 'manual' | 'auto';
 
@@ -119,6 +114,8 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         ];
     });
 
+    const [apca, setApca] = createSignal(false);
+
     return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
         ref={el => { if (props.ref) { props.ref(el); } }}>
         <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} bg={bg()[0]}
@@ -150,9 +147,9 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
             <Show when={props.wcag}>
                 {wcag => (
-                    <div title={props.apca ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'} class={styles.wcag}>
+                    <div onClick={() => setApca(!apca())} title={apca() ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'} class={styles.wcag}>
                         <IconAccessibility />
-                        <span>{calcWCAG(access.getValue(), wcag(), props.apca)}</span>
+                        <span>{calcWCAG(access.getValue(), wcag(), apca())}</span>
                     </div>
                 )}
             </Show>

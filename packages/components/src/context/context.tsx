@@ -7,10 +7,11 @@ import { createContext, createEffect, createResource, JSX, ParentProps, Show, sp
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
-import { applyTheme, Mode } from '@/base';
+import { Mode, Scheme } from '@/base';
 import { registerLocales } from '@/chart/locale';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
+import { applyTheme } from './theme';
 
 const localeKey = 'locale';
 const unitStyleKey = 'unit-style';
@@ -47,8 +48,8 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     Hotkey.init(); // 初始化快捷键。
     Locale.init(props.locale);
 
-    const [_, p] = splitProps(props, ['children']);
-    const obj = createStore<InternalOptions>(p);
+    const [_, opt] = splitProps(props, ['children']);
+    const obj = createStore<InternalOptions>(opt);
     obj[1]({
         config: new Config(props.id, props.configName, props.storage),
         actions: buildActions(obj),
@@ -66,13 +67,13 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
         obj[1]({ api: api });
 
         return obj[0];
-    }, {initialValue: p});
+    }, {initialValue: opt});
 
     createEffect(() => {
         const d = data();
-        if (d && d.schemes && d.scheme) {
+        if (d && d.schemes && d.scheme) { // 如果没有这两个值，说明不需要主题。
             applyTheme(document.documentElement, {
-                scheme: d.schemes.get(d.scheme),
+                scheme: (typeof d.scheme === 'string') ? d.schemes.get(d.scheme) : d.scheme,
                 mode: d.mode,
             });
         }
@@ -157,9 +158,10 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换主题色
          */
-        switchScheme(scheme: string) {
-            setOptions({ scheme: scheme });
-            options.config!.set(schemeKey, scheme);
+        switchScheme(scheme: string | Scheme) {
+            const s = (typeof scheme === 'string') ? options!.schemes!.get(scheme) : scheme;
+            setOptions({ scheme: s });
+            options.config!.set(schemeKey, s);
         },
 
         /**
