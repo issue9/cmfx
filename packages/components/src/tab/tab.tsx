@@ -4,9 +4,8 @@
 
 import { createSignal, For, JSX } from 'solid-js';
 
-import { BaseProps, classList, Layout } from '@/base';
-import { Button } from '@/button';
-import styles from './style.module.css';
+import { BaseProps, Layout } from '@/base';
+import { Button, ButtonGroup } from '@/button';
 
 export interface Props<T extends string | number> extends BaseProps {
     rounded?: boolean;
@@ -39,20 +38,14 @@ export function Tab<T extends string | number>(props: Props<T>) {
         if (props.onChange) {
             props.onChange(v, old);
         }
-        setVal(()=>v);
+        setVal(() => v);
     };
 
-    return <fieldset role="group" disabled={props.disabled} class={classList({
-        ['rounded-full']: props.rounded,
-        [styles.vertical]: props.layout === 'vertical',
-        [`palette--${props.palette}`]: !!props.palette
-    }, props.class, styles.tab)}>
+    return <ButtonGroup rounded={props.rounded} class={props.class} layout={props.layout} disabled={props.disabled}>
         <For each={props.items}>
-            {(item)=>(
-                <Button class="!rounded-none" checked={val() == item[0]}
-                    onClick={() => { change(item[0], props.value); }}
-                >{item[1]}</Button>
+            {item => (
+                <Button checked={val() == item[0]} onClick={() => { change(item[0], props.value); }}>{item[1]}</Button>
             )}
         </For>
-    </fieldset>;
+    </ButtonGroup>;
 }

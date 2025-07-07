@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, For, JSX, Match, Switch } from 'solid-js';
+import { createMemo, createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { BaseProps, joinClass, Palette } from '@/base';
+import { BaseProps, classList, joinClass, Layout, Palette } from '@/base';
 import { IconComponent } from '@/icon';
 import { Ref, Step as WizardStep } from '@/wizard/step';
 import styles from './style.module.css';
@@ -31,10 +31,18 @@ export interface Props extends BaseProps {
      */
     accentPalette: Palette;
 
+    layout?: Layout;
+
     ref?: { (ref: Ref): void; };
 }
 
+const presetProps: Partial<Props> = {
+    layout: 'horizontal'
+} as const;
+
 export default function Stepper(props: Props): JSX.Element {
+    props = mergeProps(presetProps, props);
+
     const [index, setIndex] = createSignal(props.index ?? 0);
 
     if(props.ref) {
@@ -56,13 +64,16 @@ export default function Stepper(props: Props): JSX.Element {
         });
     }
 
-    return <div class={styles.stepper}>
-        <header>
+    return <div class={classList({
+        [`palette--${props.palette}`]: !!props.palette,
+        [styles.vertical]: props.layout === 'vertical',
+    }, styles.stepper)}>
+        <header class={props.layout === 'vertical' ? styles.vertical : undefined}>
             <For each={props.steps}>
                 {(step, idx) => {
                     const completed = createMemo(() => idx() <= index());
                     return <div class={joinClass(styles.step, completed() ? styles.completed : undefined)}>
-                        <div class={styles.circle}>
+                        <div class={styles.icon}>
                             <Switch fallback={<span class={styles.dot} />}>
                                 <Match when={(step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>
                                     {idx() + 1}

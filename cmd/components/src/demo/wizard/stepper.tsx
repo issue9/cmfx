@@ -8,16 +8,22 @@ import IconChat from '~icons/material-symbols/chat';
 import IconCheck from '~icons/material-symbols/check';
 import IconPersion from '~icons/material-symbols/person';
 
-import { Demo, Stage } from '../base';
+import { Demo, Stage, layoutSelector, paletteSelector } from '../base';
 
 export default function(): JSX.Element {
     let ref1: StepperRef;
     let ref2: StepperRef;
     let ref3: StepperRef;
 
-    return <Demo>
+    const [paletteS, palette] = paletteSelector();
+    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+
+    return <Demo settings={<>
+        {paletteS}
+        {layoutS}
+    </>}>
         <Stage title='icon=dot' class='w-full'>
-            <Stepper ref={el => ref1 = el} accentPalette='primary' steps={[
+            <Stepper layout={layout()} palette={palette()} ref={el => ref1 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1' },
                 { title: 'Step 2222222', content: 'Content for Step 2' },
                 { title: 'Step 3', content: 'Content for Step 3' },
@@ -28,7 +34,7 @@ export default function(): JSX.Element {
         </Stage>
 
         <Stage title='icon=icon' class='w-full'>
-            <Stepper ref={el => ref2 = el} accentPalette='primary' steps={[
+            <Stepper layout={layout()} palette={palette()} ref={el => ref2 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: IconPersion },
                 { title: 'Step 2222222', content: 'Content for Step 2', icon: IconChat },
                 { title: 'Step 3', content: 'Content for Step 3', icon: IconCheck },
@@ -39,7 +45,7 @@ export default function(): JSX.Element {
         </Stage>
 
         <Stage title='icon=true' class='w-full'>
-            <Stepper ref={el => ref3 = el} accentPalette='primary' steps={[
+            <Stepper layout={layout()} palette={palette()} ref={el => ref3 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: (c?: boolean)=> c ? IconCheck : true },
                 { title: 'Step 2', content: 'Content for Step 2', icon: (c?: boolean)=> c ? IconCheck : true },
                 { title: 'Step 3', content: 'Content for Step 3', icon: true },

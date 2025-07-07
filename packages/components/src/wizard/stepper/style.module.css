@@ -8,15 +8,20 @@
 
 @layer components {
     .stepper {
+        --stepper-icon-size: --spacing(3);
+
+        @apply flex flex-col;
+
         >header {
-            @apply flex gap-1 items-start;
+            @apply flex gap-1 items-start flex-1;
 
             .step {
                 @apply flex gap-1 flex-1 items-center justify-end text-palette-fg-low;
 
-                .circle {
-                    @apply w-8 aspect-square shrink-0 rounded-md bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
+                .icon {
+                    @apply aspect-square shrink-0 rounded-md bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
                     @apply has-[.dot]:bg-transparent;
+                    width: calc(2 * var(--stepper-icon-size));
 
                     .dot {
                         @apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
@@ -32,6 +37,7 @@
                 @apply grow-0 shrink-0;
             }
 
+            /* 横线 */
             .step:not(:first-child)::before {
                 content: '';
                 @apply !h-1 w-full grow bg-palette-bg-low block;
@@ -40,7 +46,7 @@
             .step.completed {
                 @apply text-palette-fg-high;
 
-                .circle {
+                .icon {
                     @apply text-palette-fg-high;
 
                     .dot {
@@ -54,8 +60,27 @@
             }
         }
 
-        .content {
-            @apply mt-2;
+        >.content {
+            @apply mt-2 flex-1;
+        }
+    }
+
+    .stepper.vertical {
+        @apply flex-row;
+
+        >header {
+            @apply !flex-col w-20 max-w-50;
+
+            .step {
+                @apply flex-col items-start;
+            }
+
+            /* 横线 */
+            .step:not(:first-child)::before {
+                content: '';
+                margin-left: calc(var(--stepper-icon-size) - --spacing(0.5));
+                @apply !h-5 w-1 grow block;
+            }
         }
     }
 }
