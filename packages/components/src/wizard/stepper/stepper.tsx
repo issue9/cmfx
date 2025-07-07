@@ -62,14 +62,16 @@ export default function Stepper(props: Props): JSX.Element {
                 {(step, idx) => {
                     const completed = createMemo(() => idx() <= index());
                     return <div class={joinClass(styles.step, completed() ? styles.completed : undefined)}>
-                        <Switch fallback={<span class={styles.dot} />}>
-                            <Match when={(step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>
-                                <span class={styles.number}>{idx() + 1}</span>
-                            </Match>
-                            <Match when={((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
-                                {(componentFunc) => (componentFunc as IconComponent)({ class: styles.icon })}
-                            </Match>
-                        </Switch>
+                        <div class={styles.circle}>
+                            <Switch fallback={<span class={styles.dot} />}>
+                                <Match when={(step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>
+                                    {idx() + 1}
+                                </Match>
+                                <Match when={((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
+                                    {(componentFunc) => (componentFunc as IconComponent)({})}
+                                </Match>
+                            </Switch>
+                        </div>
                         <div class={styles.title}>{step.title}</div>
                     </div>;
                 }}

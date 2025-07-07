@@ -14,16 +14,13 @@
             .step {
                 @apply flex gap-1 flex-1 items-center justify-end text-palette-fg-low;
 
-                .dot {
-                    @apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
-                }
+                .circle {
+                    @apply w-8 aspect-square shrink-0 rounded-md bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
+                    @apply has-[.dot]:bg-transparent;
 
-                .number {
-                    @apply w-8 h-8 shrink-0 rounded-full bg-palette-bg-low text-palette-fg-low flex items-center justify-center;
-                }
-
-                .icon {
-                    @apply w-8 h-8 !shrink-0 !rounded-full bg-palette-bg-low text-palette-fg-low !flex !items-center !justify-center;
+                    .dot {
+                        @apply w-2 h-2 shrink-0 rounded-full bg-palette-bg-low;
+                    }
                 }
 
                 .title {
@@ -43,16 +40,12 @@
             .step.completed {
                 @apply text-palette-fg-high;
 
-                .dot {
-                    @apply bg-palette-bg-high;
-                }
+                .circle {
+                    @apply text-palette-fg-high;
 
-                .number {
-                    @apply bg-palette-bg-high text-palette-fg-high;
-                }
-
-                .icon {
-                    @apply bg-palette-bg-high text-palette-fg-high;
+                    .dot {
+                        @apply bg-palette-bg-high;
+                    }
                 }
             }
 
