@@ -8,6 +8,7 @@ import IconOK from '~icons/material-symbols/check';
 import IconError from '~icons/material-symbols/error';
 
 import { transitionDuration } from '@/base';
+import styles from './style.module.css';
 
 /**
  * 复制内容到剪切版，并在 target 显示复制状态。
@@ -21,16 +22,12 @@ export async function copy2Clipboard(target: HTMLElement, text: string) {
 
         const overlay = document.createElement('div');
         document.body.append(overlay);
-        overlay.style.position = 'fixed';
+        overlay.className = styles.copied;
         overlay.style.top = `${rect.top}px`;
         overlay.style.left = `${rect.left}px`;
         overlay.style.width = `${rect.width}px`;
         overlay.style.height = `${rect.height}px`;
-        overlay.style.display = 'flex';
-        overlay.style.justifyContent = 'center';
-        overlay.style.alignItems = 'center';
         overlay.style.color = ok ? 'var(--primary-fg)' : 'var(--error-fg)';
-        overlay.style.transition = 'opacity var(--default-transition-duration) ease-in-out';
         overlay.style.opacity = '0';
 
         target.style.transition = 'opacity var(--default-transition-duration) ease-in-out';

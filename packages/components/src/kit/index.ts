@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { copy2Clipboard } from './copy';
+export { copy2Clipboard } from './clipboard';

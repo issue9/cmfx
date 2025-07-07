@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .copied {
+        @apply fixed flex justify-center items-center;
+        @apply transition-opacity;
+    }
+}
