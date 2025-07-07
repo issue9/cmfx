@@ -9,41 +9,28 @@ import Color from 'colorjs.io';
  * 生成随机的 oklch 颜色值
  *
  * @param hue 色相，取值范围 [0, 360]；
- * @param wcag WCAG 值，取值范围 [0, 100]；
+ * @param contrast 基于 APCA 的对比度，取值范围 [0, 100]：
  * - 75 对应 WCAG2 7:1
  * - 60 对应 WCAG2 4.5:1
  * - 45 对应 WCAG2 3:1
  */
-export function randOklchColor(hue: number, wcag?: number, typ?: 'low' | 'high'): [light: Color, dark: Color] {
-    let light: Color;
-    let dark: Color;
-
+export function randOklchColor(hue: number, contrast: 75 | 60 | 45 = 60, typ?: 'low' | 'high'): [light: Color, dark: Color] {
     switch (typ) {
-    case 'low':
-        light = new Color('oklch', [rand(.955, .965, 3), rand(.165, .175, 3), hue]);
-        dark = new Color(light.clone().darken(.55));
-        dark.c = rand(0.039, 0.044, 3);
-        break;
     case 'high':
-        light = new Color('oklch', [rand(.555, .650, 3), rand(.20, .35, 3), hue]);
-        dark = new Color(light.clone().darken(.60));
-        dark.c = rand(0.038, 0.043, 3);
-        break;
+        const hl = new Color('oklch', [rand(.955, .965, 3), rand(.065, .175, 3), hue]);
+        const hd = new Color(hl.clone().darken(.55));
+        return [hl, hd];
+    case 'low':
+        const ll = new Color('oklch', [rand(.555, .655, 3), rand(.020, .15, 3), hue]);
+        const ld = new Color(ll.clone().darken(.30));
+        return [ll, ld];
     default:
-        light = new Color('oklch', [rand(.855, .865, 3), rand(.20, .25, 3), hue]);
-        dark = new Color(light.clone().darken(.65));
-        dark.c = rand(0.037, 0.042, 3);
-    }
+        const l = new Color('oklch', [rand(.875, .885, 3), rand(.20, .25, 3), hue]);
+        const d = new Color(l.clone().darken(.65));
 
-    if (wcag) {
-        let apca = Math.abs(light.contrastAPCA(dark));
-        while (apca < wcag && dark.l <= 1) {
-            dark.l -= .01;
-            apca = Math.abs(light.contrastAPCA(dark));
-            console.log(dark.l, apca);
+        for (let apca = Math.abs(l.contrastAPCA(d)); apca < contrast && d.l > 0; apca = Math.abs(l.contrastAPCA(d))) {
+            d.l -= .01;
         }
+        return [l, d];
     }
-
-
-    return [light, dark];
 }

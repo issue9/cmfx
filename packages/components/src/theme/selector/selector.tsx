@@ -59,7 +59,7 @@ export function Selector(props: Props): JSX.Element {
                     </div>
                     <div class={styles.info}>
                         <div>{scheme[0]}</div>
-                        <div>WCAG: TODO </div>
+                        <div>WCAG: {scheme[1].contrast}</div>
                     </div>
                 </button>;
             }}

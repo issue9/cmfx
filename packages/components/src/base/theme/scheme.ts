@@ -13,6 +13,11 @@ export interface Scheme {
     // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
 
     /**
+     * 用于指示当前主题颜色的对比度
+     */
+    contrast: number;
+
+    /**
      * 全局字体的大小，该值将会修改 html 下的 font-size 属性。默认值为 16 px。
      */
     fontSize?: string;

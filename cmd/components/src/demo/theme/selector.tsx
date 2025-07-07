@@ -10,6 +10,7 @@ export default function() {
     const [paletteS, palette] = paletteSelector();
     const schemes = new Map<string, Scheme>([
         ['default', {
+            contrast: 85,
             dark: {
                 'primary-bg': '#333',
                 'secondary-bg': '#666',
@@ -24,6 +25,7 @@ export default function() {
             } as Palettes,
         }],
         ['default2', {
+            contrast: 65,
             dark: {
                 'primary-bg': '#333bbb',
                 'secondary-bg': '#666999',

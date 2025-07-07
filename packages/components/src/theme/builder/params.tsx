@@ -6,6 +6,9 @@ import { ExpandType, rand } from '@cmfx/core';
 import { batch, JSX, Show } from 'solid-js';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
+import IconRandLess from '~icons/material-symbols/brightness-4-rounded';
+import IconRandNormal from '~icons/material-symbols/brightness-6-rounded';
+import IconRandMore from '~icons/material-symbols/brightness-7-rounded';
 import IconColors from '~icons/material-symbols/colors';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
@@ -13,7 +16,6 @@ import IconLight from '~icons/material-symbols/light-mode';
 import IconReset from '~icons/material-symbols/reset-settings';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
-import IconRand from '~icons/mingcute/random-line';
 
 import { Locale, Mode, Palette, Scheme } from '@/base';
 import { Button, ButtonGroup } from '@/button';
@@ -37,7 +39,12 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
     return <div class={styles.params}>
         <div class={styles.toolbar}>
             <div class={styles.actions}>
-                <Button kind='border' rounded square title={l.t('_c.theme.random')} onclick={() => random(s)}><IconRand /></Button>
+                <ButtonGroup rounded>
+                    <Button kind='border' rounded square title={l.t('_c.theme.randomContrastLess')} onclick={() => random(s, 45)}><IconRandLess /></Button>
+                    <Button kind='border' rounded square title={l.t('_c.theme.randomContrastNormal')} onclick={() => random(s, 60)}><IconRandNormal /></Button>
+                    <Button kind='border' rounded square title={l.t('_c.theme.randomContrastMore')} onclick={() => random(s, 75)}><IconRandMore /></Button>
+                </ButtonGroup>
+
                 <ButtonGroup rounded>
                     <Button square title={l.t('_c.theme.light')}
                         checked={m.getValue() === 'light'} onClick={() => m.setValue('light')}>
@@ -49,7 +56,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
                     </Button>
                 </ButtonGroup>
             </div>
-            <ButtonGroup kind='border' rounded>
+            <ButtonGroup rounded>
                 <Button square onClick={ref.reset} title={l.t('_c.reset')}><IconReset /></Button>
                 <Button square onClick={() => ref.apply()} title={l.t('_c.theme.apply')}><IconApply /></Button>
                 <Button square onClick={() => dlg.showModal()} title={l.t('_c.theme.export')}><IconExport /></Button>
@@ -70,91 +77,93 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 /**
  * 生成随机参数
  */
-export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
+export function random(s: ObjectAccessor<ExpandType<Scheme>>, contrast: 75 | 60 | 45 = 60) {
     batch(() => {
         // 字体不生成随机，改字体会直接作用在整个页面上。
         s.accessor<string>('fontSize').setValue('16px');
 
-        let h = rand(0, 360, 3) % 360;
-        let c = randOklchColor(h);
+        s.accessor<number>('contrast').setValue(contrast);
+
+        let h = rand(0, 360, 3);
+        let c = randOklchColor(h, contrast);
         s.accessor<string>('dark.error-bg').setValue(c[1].toString());
         s.accessor<string>('dark.error-fg').setValue(c[0].toString());
         s.accessor<string>('light.error-bg').setValue(c[0].toString());
         s.accessor<string>('light.error-fg').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'low');
+        c = randOklchColor(h, contrast, 'low');
         s.accessor<string>('dark.error-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.error-fg-low').setValue(c[0].toString());
         s.accessor<string>('light.error-bg-low').setValue(c[0].toString());
         s.accessor<string>('light.error-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'high');
+        c = randOklchColor(h, contrast, 'high');
         s.accessor<string>('dark.error-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.error-fg-high').setValue(c[0].toString());
         s.accessor<string>('light.error-bg-high').setValue(c[0].toString());
         s.accessor<string>('light.error-fg-high').setValue(c[1].toString());
 
-        h += rand(h+20, 360, 3) % 360;
-        c = randOklchColor(h);
+        h = rand((h + 20) % 360, 360, 3);
+        c = randOklchColor(h, contrast);
         s.accessor<string>('dark.surface-bg').setValue(c[1].toString());
         s.accessor<string>('dark.surface-fg').setValue(c[0].toString());
         s.accessor<string>('light.surface-bg').setValue(c[0].toString());
         s.accessor<string>('light.surface-fg').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'low');
+        c = randOklchColor(h, contrast, 'low');
         s.accessor<string>('dark.surface-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.surface-fg-low').setValue(c[0].toString());
         s.accessor<string>('light.surface-bg-low').setValue(c[0].toString());
         s.accessor<string>('light.surface-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'high');
+        c = randOklchColor(h, contrast, 'high');
         s.accessor<string>('dark.surface-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.surface-fg-high').setValue(c[0].toString());
         s.accessor<string>('light.surface-bg-high').setValue(c[0].toString());
         s.accessor<string>('light.surface-fg-high').setValue(c[1].toString());
 
-        h += rand(h+20, 360, 3) % 360;
-        c = randOklchColor(h);
+        h = rand((h + 20) % 360, 360, 3);
+        c = randOklchColor(h, contrast);
         s.accessor<string>('dark.primary-bg').setValue(c[1].toString());
         s.accessor<string>('dark.primary-fg').setValue(c[0].toString());
         s.accessor<string>('light.primary-bg').setValue(c[0].toString());
         s.accessor<string>('light.primary-fg').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'low');
+        c = randOklchColor(h, contrast, 'low');
         s.accessor<string>('dark.primary-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.primary-fg-low').setValue(c[0].toString());
         s.accessor<string>('light.primary-bg-low').setValue(c[0].toString());
         s.accessor<string>('light.primary-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'high');
+        c = randOklchColor(h, contrast, 'high');
         s.accessor<string>('dark.primary-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.primary-fg-high').setValue(c[0].toString());
         s.accessor<string>('light.primary-bg-high').setValue(c[0].toString());
         s.accessor<string>('light.primary-fg-high').setValue(c[1].toString());
 
-        h += rand(h+20, 360, 3) % 360;
-        c = randOklchColor(h);
+        h = rand((h + 20) % 360, 360, 3);
+        c = randOklchColor(h, contrast);
         s.accessor<string>('dark.secondary-bg').setValue(c[1].toString());
         s.accessor<string>('dark.secondary-fg').setValue(c[0].toString());
         s.accessor<string>('light.secondary-bg').setValue(c[0].toString());
         s.accessor<string>('light.secondary-fg').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'low');
+        c = randOklchColor(h, contrast, 'low');
         s.accessor<string>('dark.secondary-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.secondary-fg-low').setValue(c[0].toString());
         s.accessor<string>('light.secondary-bg-low').setValue(c[0].toString());
         s.accessor<string>('light.secondary-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'high');
+        c = randOklchColor(h, contrast, 'high');
         s.accessor<string>('dark.secondary-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.secondary-fg-high').setValue(c[0].toString());
         s.accessor<string>('light.secondary-bg-high').setValue(c[0].toString());
         s.accessor<string>('light.secondary-fg-high').setValue(c[1].toString());
 
-        h += rand(h+20, 360, 3) % 360;
-        c = randOklchColor(h);
+        h = rand((h + 20) % 360, 360, 3);
+        c = randOklchColor(h, contrast);
         s.accessor<string>('dark.tertiary-bg').setValue(c[1].toString());
         s.accessor<string>('dark.tertiary-fg').setValue(c[0].toString());
         s.accessor<string>('light.tertiary-bg').setValue(c[0].toString());
         s.accessor<string>('light.tertiary-fg').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'low');
+        c = randOklchColor(h, contrast, 'low');
         s.accessor<string>('dark.tertiary-bg-low').setValue(c[1].toString());
         s.accessor<string>('dark.tertiary-fg-low').setValue(c[0].toString());
         s.accessor<string>('light.tertiary-bg-low').setValue(c[0].toString());
         s.accessor<string>('light.tertiary-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, 75, 'high');
+        c = randOklchColor(h, contrast, 'high');
         s.accessor<string>('dark.tertiary-bg-high').setValue(c[1].toString());
         s.accessor<string>('dark.tertiary-fg-high').setValue(c[0].toString());
         s.accessor<string>('light.tertiary-bg-high').setValue(c[0].toString());

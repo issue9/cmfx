@@ -73,7 +73,9 @@ const messages = {
             colors: 'Colors',
             radius: 'Radius',
             transitionDuration: 'transition duration',
-            random: 'Random',
+            randomContrastLess: 'Random less contrast',
+            randomContrastMore: 'Random more contrast',
+            randomContrastNormal: 'Random contrast',
             otherParams: 'Other params',
         },
         tour: {

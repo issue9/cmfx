@@ -75,7 +75,9 @@ const messages: typeof m = {
             colors: '颜色',
             radius: '圆角',
             transitionDuration: '动画时长',
-            random: '随机',
+            randomContrastLess: '生成低对比度主题',
+            randomContrastMore: '生成高对比度主题',
+            randomContrastNormal: '生成主题',
             otherParams: '其它参数',
         },
         tour: {
