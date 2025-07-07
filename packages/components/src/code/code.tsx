@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { write2Clipboard } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 import IconCopy from '~icons/material-symbols/content-copy';
 
 import { BaseProps, joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
+import { copy2Clipboard } from '@/kit';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -39,7 +39,7 @@ export default function Code(props: Props): JSX.Element {
     return <div class={joinClass(styles.code, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
         <pre>{props.children}</pre>
         <Show when={props.copyable}>
-            <Button title={l.t('_c.copy')} onclick={() => write2Clipboard(props.children)}
+            <Button title={l.t('_c.copy')} onclick={e => copy2Clipboard(e.currentTarget, props.children)}
                 class={joinClass(styles.action, props.accentPalette ? `palette--${props.accentPalette}` : undefined)}>
                 <IconCopy />
             </Button>

@@ -128,7 +128,7 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high text-palette-bg-high;
+            @apply bg-palette-bg-high text-palette-fg-high;
         }
 
         .button:enabled:active,
@@ -151,7 +151,7 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high text-palette-bg-high;
+            @apply bg-palette-bg-high text-palette-fg-high;
         }
 
         .button:enabled:active,

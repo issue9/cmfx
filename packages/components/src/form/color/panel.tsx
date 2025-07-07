@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { write2Clipboard } from '@cmfx/core';
 import Color from 'colorjs.io';
 import { createEffect, createMemo, createSignal, For, JSX, Show } from 'solid-js';
 import IconAccessibility from '~icons/octicon/accessibility-inset-24';
@@ -11,7 +10,7 @@ import { classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
-import { Tooltip, TooltipRef } from '@/tooltip';
+import { copy2Clipboard } from '@/kit';
 import styles from './style.module.css';
 
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
@@ -71,14 +70,6 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         access.setValue(new Color('oklch', [l.getValue(), c.getValue(), h.getValue()], a.getValue()).toString());
     });
 
-    let tooltip: TooltipRef;
-    let colorBlock: HTMLDivElement;
-    const copy = async () => {
-        await write2Clipboard(access.getValue(), () => {
-            tooltip.show(colorBlock, 'right');
-        });
-    };
-
     // 转换为 Color 再转换为字符串，防止不同格式的数据造成混乱。
     const presets = createMemo(() => {
         return props.presets?.map(v => (new Color(v)).toString());
@@ -115,6 +106,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     });
 
     const [apca, setApca] = createSignal(false);
+    let contentRef: HTMLDivElement;
 
     return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
         ref={el => { if (props.ref) { props.ref(el); } }}>
@@ -140,10 +132,9 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         </Show>
 
         <div class={styles.info}>
-            <div class={styles.current} ref={el => colorBlock = el} onClick={copy}
+            <div class={styles.current} ref={el=>contentRef=el} onClick={() => copy2Clipboard(contentRef, access.getValue())}
                 style={{ 'background': access.getValue(), 'color': props.wcag }}
             >{access.getValue()}</div>
-            <Tooltip ref={el => tooltip = el}>{loc.t('_c.copied')}</Tooltip>
 
             <Show when={props.wcag}>
                 {wcag => (

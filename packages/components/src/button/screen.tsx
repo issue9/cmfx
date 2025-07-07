@@ -34,5 +34,5 @@ export function FitScreenButton(props: Props): JSX.Element {
         } else {
             props.container().classList.remove(styles['fit-screen']);
         }
-    }}>{fit() ? IconCollapse({}) : IconExpand({})}</Button>;
+    }}>{fit() ? <IconCollapse /> : <IconExpand />}</Button>;
 }
