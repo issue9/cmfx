@@ -1,10 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props } from './props';
 
-const presetProps: Props = { text: 'FORBIDDEN' } as const;
+const presetText = 'FORBIDDEN';
 
 /**
  * 表示 403 错误的 SVG 插画组件
@@ -12,8 +12,6 @@ const presetProps: Props = { text: 'FORBIDDEN' } as const;
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
 export default function Error403(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
-
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-121">
             <ellipse id="freepik--floor--inject-121" cx="250" cy="384.61" rx="209.73" ry="94.79" style="fill:var(--surface-bg-low)" />
@@ -213,7 +211,7 @@ export default function Error403(props: Props): JSX.Element {
                     <path d="M293.58,128.6a8.93,8.93,0,0,0,4,7l3.28,1.89a9,9,0,0,0,7.37.33c-1.89.71-3.34-.36-3.34-2.65V104.38a8.2,8.2,0,0,1,1.18-4l-11.34-6.55a8.26,8.26,0,0,0-1.18,4Z" style="opacity:0.2" />
                     <path d="M389.94,54c-.47-1.71-2-2.25-3.89-1.18L309,97.41a7.84,7.84,0,0,0-2.84,3l-11.33-6.54a8,8,0,0,1,2.83-3l77.08-44.6a9,9,0,0,1,8.07,0l3.29,1.9A8.93,8.93,0,0,1,389.94,54Z" style="fill:#fff;opacity:0.5" />
                 </g>
-                <text x="347.5" y="203" text-anchor="middle" transform='skewY(-30) scale(1,1.5)' style="font-size:.8rem;font-weight:bold;fill:#455164">{ props.text }</text>
+                <text x="347.5" y="203" text-anchor="middle" transform='skewY(-30) scale(1,1.5)' style="font-size:.8rem;font-weight:bold;fill:var(--bg)">{ props.text ?? presetText }</text>
             </g>
         </g>
         <g id="freepik--Plant--inject-121">

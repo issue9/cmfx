@@ -1,18 +1,17 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props } from './props';
 
-const presetProps: Props = { text: 'SERVICE UNAVAILABLE' } as const;
+const presetText = 'SERVICE UNAVAILABLE';
+
 /**
  * 表示 503 错误的 SVG 插画组件
  *
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
 export default function Error503(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
-
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-109">
             <ellipse cx="250" cy="334.87" rx="238.81" ry="131.05" style="fill:var(--surface-bg-low)" />
@@ -209,7 +208,7 @@ export default function Error503(props: Props): JSX.Element {
                     <g id="freepik--Text--inject-109">
                         <text x="355" y="-75" text-anchor="middle" transform='skewY(30)' style="font-size:2.6rem;font-weight:bold;fill:currentColor">503</text>
                         <text x="355" y="-53" text-anchor="middle" transform='skewY(30)' style="font-size:1rem;font-weight:bold;fill:#455a64">ERROR</text>
-                        <text x="355" y="-34" text-anchor="middle" transform='skewY(30)' style="font-size:.6rem;fill:#455a64">{ props.text }</text>
+                        <text x="355" y="-34" text-anchor="middle" transform='skewY(30)' style="font-size:.6rem;fill:#455a64">{ props.text ?? presetText }</text>
                     </g>
                 </g>
                 <g id="freepik--Mouse--inject-109">

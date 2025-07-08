@@ -1,10 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props } from './props';
 
-const presetProps: Props = { text: 'Too Many Requests' } as const;
+const presetText = 'Too Many Requests';
 
 /**
  * 表示 429 错误的 SVG 插画组件
@@ -12,8 +12,6 @@ const presetProps: Props = { text: 'Too Many Requests' } as const;
  * https://storyset.com/illustration/error-429/amico
  */
 export default function Error429(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
-
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-33">
             <path d="M413.86,248c-91.09-52.59-238.29-52.59-328.79,0s-90,137.85,1.07,190.44,238.29,52.6,328.79,0S505,300.58,413.86,248Z" style="fill:var(--surface-bg-low)" />
@@ -75,7 +73,7 @@ export default function Error429(props: Props): JSX.Element {
                 <polygon points="155.66 174.52 158.31 176.03 152.17 186.66 158.34 190.18 155.72 194.72 149.54 191.21 143.41 201.83 140.76 200.33 146.9 189.7 140.72 186.18 143.35 181.63 149.53 185.14 155.66 174.52" style="fill:#fff" />
                 <polygon points="203.22 147.06 205.86 148.57 199.73 159.2 205.9 162.72 203.27 167.27 197.1 163.75 190.97 174.37 188.32 172.87 194.45 162.25 188.28 158.73 190.91 154.17 197.08 157.69 203.22 147.06" style="fill:#fff" />
             </g>
-            <text x="167" y="235.5" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#fafafa">{ props.text }</text>
+            <text x="167" y="235.5" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#fafafa">{ props.text ?? presetText }</text>
             <path d="M145.66,79l-4.28-8.19,0-.12,1.4-9.25a3.91,3.91,0,0,0-1.93-4L121.56,46.4a1.86,1.86,0,0,0-1.86,3.23L139,60.71l.09.2-1.39,9.26a3.92,3.92,0,0,0,.4,2.4l4.28,8.19v.16l-6.14,14.7a3.91,3.91,0,0,0-.3,1.51v2.81a.88.88,0,0,0,.53.84,2.94,2.94,0,0,0,2.65,0,.93.93,0,0,0,.55-.77l0-3,6.13-14.7A3.92,3.92,0,0,0,145.66,79Z" style="fill:currentColor" />
             <path d="M151,69.59v-.13l2.38-6.91a3.9,3.9,0,0,0,.13-2.06l-3.44-17a1.87,1.87,0,0,0-3.67.74l3.45,17.12-2.38,6.92a4,4,0,0,0,0,2.63l2.41,6.54v.12l-3.74,12.12a4.17,4.17,0,0,0-.17,1.16v2.64a.93.93,0,0,0,.54.76,2.88,2.88,0,0,0,2.65,0,.88.88,0,0,0,.54-.84V90.76l3.74-12.12a3.92,3.92,0,0,0-.07-2.51Z" style="fill:#455a64" />
             <path d="M184.56,53.08h-6.47a3.9,3.9,0,0,0-3.26,1.74l-3.62,5.41-.12.08-4.74,1.12a3.93,3.93,0,0,0-2.7,2.26,4,4,0,0,0-.15,2.72l.53,2a.2.2,0,0,1,0,.15.27.27,0,0,1-.12.09l-1.46.36a3.92,3.92,0,0,0-2.81,2.68l-4.51,15.07A3.86,3.86,0,0,0,155,87.9v2.32h0a.91.91,0,0,0,.54.77,2.94,2.94,0,0,0,2.65,0,.86.86,0,0,0,.53-.88V87.84l4.51-15.07.13-.13,1.46-.36A3.94,3.94,0,0,0,167.46,70a4.16,4.16,0,0,0,.14-2.7l-.54-2a.19.19,0,0,1,0-.15.14.14,0,0,1,.12-.09L172,64a4,4,0,0,0,2.37-1.64l3.61-5.41.16-.09h6.47a1.87,1.87,0,1,0,0-3.73Z" style="fill:currentColor" />

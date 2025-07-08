@@ -1,10 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props } from './props';
 
-const presetProps: Props = { text: 'UNAUTHORIZED' } as const;
+const presetText = 'UNAUTHORIZED';
 
 /**
  * 表示 401 错误的 SVG 插画组件
@@ -12,8 +12,6 @@ const presetProps: Props = { text: 'UNAUTHORIZED' } as const;
  * https://storyset.com/illustration/401-error-unauthorized/amico
  */
 export default function Error401(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
-
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-182">
             <ellipse cx="250" cy="344.33" rx="237.96" ry="135.52" style="fill:var(--surface-bg-low)" />
@@ -199,7 +197,7 @@ export default function Error401(props: Props): JSX.Element {
         </g>
         <g id="freepik--error-401--inject-182">
             <text x="142" y="210" text-anchor="middle" transform='skewY(-30)' style="font-size:3.7rem;font-weight:bold;fill:currentColor">401</text>
-            <text x="142" y="235" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#455a64">{ props.text }</text>
+            <text x="142" y="235" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:var(--fg-low)">{ props.text ?? presetText }</text>
         </g>
     </svg>;
 }

@@ -1,10 +1,10 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import { Props } from './props';
 
-const presetProps: Props = { text: 'PAGE NOT FOUND' } as const;
+const presetText = 'PAGE NOT FOUND';
 
 /**
  * 表示 404 错误的 SVG 插画组件
@@ -12,8 +12,6 @@ const presetProps: Props = { text: 'PAGE NOT FOUND' } as const;
  * https://storyset.com/illustration/404-error/amico
  */
 export default function Error404(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
-
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
         <g id="freepik--Floor--inject-79">
             <ellipse cx="250.56" cy="365.12" rx="240.31" ry="124.36" style="fill:var(--surface-bg-low)" />
@@ -152,7 +150,7 @@ export default function Error404(props: Props): JSX.Element {
                 <path d="M291.42,135.38a1.14,1.14,0,0,0-1.13.11L279,142a5.34,5.34,0,0,0-1.53,1.28l-8.12-4.69a5.29,5.29,0,0,1,1.52-1.28l11.28-6.51a1.1,1.1,0,0,1,1.19-.07Z" style="fill:#fff;opacity:0.4" />
                 <path d="M280.51,221.64a1.08,1.08,0,0,1-1.42-.1,2.47,2.47,0,0,1-.59-1.84V208L255,221.55a1.07,1.07,0,0,1-1.42-.1,2.44,2.44,0,0,1-.6-1.84V207.42a15.06,15.06,0,0,1,1-5.5l22.33-56.25a10.24,10.24,0,0,1,1.24-2.38A5.08,5.08,0,0,1,279,142l11.28-6.51a1.09,1.09,0,0,1,1.42.1,2.49,2.49,0,0,1,.59,1.84v44.16l6.43-3.71a1.09,1.09,0,0,1,1.42.1,2.51,2.51,0,0,1,.59,1.84V192a6,6,0,0,1-.59,2.53,3.78,3.78,0,0,1-1.42,1.74L292.31,200v11.73a6,6,0,0,1-.59,2.53A3.89,3.89,0,0,1,290.3,216Zm-1.64-32.29V168.19L268,195.65Z" style="fill:currentColor" />
             </g>
-            <text x="232" y="420" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#e0e0e0">{ props.text }</text>
+            <text x="232" y="420" text-anchor="middle" transform='skewY(-30)' style="font-size:.9rem;fill:#e0e0e0">{ props.text ?? presetText }</text>
         </g>
         <g id="freepik--speech-bubble--inject-79">
             <g id="freepik--speech-bubble--inject-79">
