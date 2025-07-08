@@ -57,17 +57,28 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
     popover?: boolean | 'manual' | 'auto';
 
     /**
+     * 是否在底部显示操作按钮
+     */
+    actions?: boolean;
+
+    /**
      * 对应确定操作按钮
+     *
+     * NOTE: 只有在 actions 为 true 时才有效
      */
     ok?: { (): void; };
 
     /**
      * 对应清除操作按钮
+     *
+     * NOTE: 只有在 actions 为 true 时才有效
      */
     clear?: { (): void; };
 
     /**
      * 对应今日操作按钮
+     *
+     * NOTE: 只有在 actions 为 true 时才有效
      */
     now?: { (): void; };
 
@@ -136,8 +147,8 @@ export function DatePanel(props: Props): JSX.Element {
     });
 
     const title = <div class={styles.title}>
-        <div class="flex justify-center items-center">
-            <Button tabIndex={props.tabindex} square rounded kind='flat' class={styles.btn}
+        <div class="flex">
+            <Button tabIndex={props.tabindex} square kind='flat' class={styles.btn}
                 title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -146,7 +157,7 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setFullYear(dt.getFullYear() - 1);
                     setValue(dt);
                 }}><IconArrowLeft /></Button>
-            <Button tabIndex={props.tabindex} square rounded kind='flat' class={styles.btn}
+            <Button tabIndex={props.tabindex} square kind='flat' class={styles.btn}
                 title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -160,7 +171,7 @@ export function DatePanel(props: Props): JSX.Element {
         <div>{titleFormat()}</div>
 
         <div class="flex">
-            <Button tabIndex={props.tabindex} square rounded kind="flat" class={styles.btn}
+            <Button tabIndex={props.tabindex} square kind="flat" class={styles.btn}
                 title={l.t('_c.date.nextMonth')} aria-label={l.t('_c.date.nextMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -169,7 +180,7 @@ export function DatePanel(props: Props): JSX.Element {
                     dt.setMonth(dt.getMonth() + 1);
                     setValue(dt);
                 }}><IconChevronRight /></Button>
-            <Button tabIndex={props.tabindex} square rounded kind="flat" class={styles.btn}
+            <Button tabIndex={props.tabindex} square kind="flat" class={styles.btn}
                 title={l.t('_c.date.nextYear')} aria-label={l.t('_c.date.nextYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
@@ -221,7 +232,7 @@ export function DatePanel(props: Props): JSX.Element {
         <Show when={props.weekend}>
             <colgroup>
                 <For each={weeks}>
-                    {(w) => (
+                    {w => (
                         <col classList={{ [styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
                     )}
                 </For>
@@ -231,7 +242,7 @@ export function DatePanel(props: Props): JSX.Element {
         <thead>
             <tr>
                 <For each={weeks}>
-                    {(w) => (
+                    {w => (
                         <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
                     )}
                 </For>
@@ -270,28 +281,30 @@ export function DatePanel(props: Props): JSX.Element {
             {timer}
         </div>
 
-        <div class={styles.actions}>
-            <div class={styles.left}>
-                <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
-                    const now = new Date();
-                    if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
-                    setValue(now);
-                    if (props.now) { props.now(); }
-                }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</button>
-            </div>
+        <Show when={props.actions}>
+            <div class={styles.actions}>
+                <div class={styles.left}>
+                    <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
+                        const now = new Date();
+                        if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
+                        setValue(now);
+                        if (props.now) { props.now(); }
+                    }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</button>
+                </div>
 
-            <div class={styles.right}>
-                <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
-                    // 清除只对 accessor 的内容任务清除，panelValue 不变。
-                    props.accessor.setValue(undefined);
-                    if (props.clear) { props.clear(); }
-                }}>{l.t('_c.date.clear')}</button>
+                <div class={styles.right}>
+                    <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
+                        // 清除只对 accessor 的内容任务清除，panelValue 不变。
+                        props.accessor.setValue(undefined);
+                        if (props.clear) { props.clear(); }
+                    }}>{l.t('_c.date.clear')}</button>
 
-                <button tabIndex={props.tabindex} classList={{ [styles.action]: true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
-                    props.accessor.setValue(untrack(panelValue).toISOString());
-                    if (props.ok) { props.ok(); }
-                }}>{l.t('_c.ok')}</button>
+                    <button tabIndex={props.tabindex} classList={{ [styles.action]: true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
+                        props.accessor.setValue(untrack(panelValue).toISOString());
+                        if (props.ok) { props.ok(); }
+                    }}>{l.t('_c.ok')}</button>
+                </div>
             </div>
-        </div>
+        </Show>
     </fieldset>;
 }

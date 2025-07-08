@@ -49,9 +49,13 @@
                 }
             }
 
+            thead>tr {
+                @apply border-b border-palette-bg-low;
+            }
+
             th,
             td {
-                @apply p-[2px];
+                @apply p-[--spacing(.5)];
 
                 button {
                     @apply flex justify-center items-center;

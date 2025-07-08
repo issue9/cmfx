@@ -41,7 +41,7 @@ export function DatePicker(props: Props): JSX.Element {
     const l = useLocale();
 
     props = mergeProps(presetProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max', 'actions']);
 
     const ac = props.accessor;
     let panelRef: HTMLElement;

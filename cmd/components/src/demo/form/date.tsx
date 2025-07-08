@@ -21,6 +21,7 @@ export default function() {
     const [weekendS, weekend] = boolSelector('weekend');
     const [timeS, time] = boolSelector('time');
     const [minmaxS, minmax] = boolSelector('minmax');
+    const [actionsS, actions] = boolSelector('actions');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <Demo settings={
@@ -33,25 +34,26 @@ export default function() {
             {roundedS}
             {minmaxS}
             {layoutS}
+            {actionsS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
         </>
     }>
         <Stage title="panel">
-            <DatePanel label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePanel actions={actions()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
             <p>{ac.getValue()}</p>
         </Stage>
 
         <Stage title="panel with time">
-            <DatePanel label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time />
+            <DatePanel actions={actions()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time />
             <p>{ac.getValue()}</p>
         </Stage>
 
         <Stage title="picker">
-            <DatePicker class="w-[400px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePicker actions={actions()} class="w-[400px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </Stage>
 
         <Stage title="min-width">
-            <DatePicker class="w-[200px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <DatePicker actions={actions()} class="w-[200px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </Stage>
 
         <Stage title="range">
