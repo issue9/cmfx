@@ -137,7 +137,7 @@ export default function Error504(props: Props): JSX.Element {
             </g>
             <g id="freepik--exclamation-marks--inject-155">
                 <path d="M290.78,63.07a1.05,1.05,0,0,1,.28-.77,1,1,0,0,1,.73-.34l4.95-.23a1.08,1.08,0,0,1,1.11,1l.18,4a1,1,0,0,1-.28.76,1,1,0,0,1-.73.35l-4.95.23A1.08,1.08,0,0,1,291,67Zm-1-21.43a1.08,1.08,0,0,1,1-1.11l4.95-.22a1,1,0,0,1,.76.28,1,1,0,0,1,.35.73l.77,16.94a1,1,0,0,1-.28.76,1,1,0,0,1-.73.35l-5,.23a1,1,0,0,1-.76-.28,1,1,0,0,1-.34-.74Z" style="fill:currentColor" />
-                <use href="#illustrations-504-2" fill="currentColor" /><use href="#illustrations-504-2" style="fill:#fff;opacity:0.6" />
+                <use href="#illustrations-504-2" fill="currentColor" /><use href="#illustrations-504-2" style="fill:#fff;opacity:.6" />
             </g>
         </g>
     </svg>;

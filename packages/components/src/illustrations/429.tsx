@@ -88,49 +88,49 @@ export default function Error429(props: Props): JSX.Element {
         <g id="freepik--Envelopes--inject-33">
             <polygon points="284.39 352.54 223.46 360.69 231.86 381.48 292.8 373.32 284.39 352.54" style="fill:currentColor" />
             <polygon points="284.39 352.54 260.75 370.56 223.46 360.69 284.39 352.54" style="fill:#fff;opacity:0.2" />
-            <polygon points="284.39 352.54 292.8 373.32 231.86 381.48 223.46 360.69 260.75 370.56 284.39 352.54" style="fill:#fff;opacity:0.1" />
+            <polygon points="284.39 352.54 292.8 373.32 231.86 381.48 223.46 360.69 260.75 370.56 284.39 352.54" style="fill:#fff;opacity:.1" />
             <polygon points="312.88 280.25 299.14 300.02 357.21 313.65 370.96 293.88 312.88 280.25" style="fill:currentColor" />
-            <polygon points="370.96 293.88 333.67 300.73 312.88 280.25 370.96 293.88" style="fill:#fff;opacity:0.3" />
-            <polygon points="370.96 293.88 357.21 313.65 299.14 300.02 312.88 280.25 333.67 300.73 370.96 293.88" style="fill:#fff;opacity:0.1" />
+            <polygon points="370.96 293.88 333.67 300.73 312.88 280.25 370.96 293.88" style="fill:#fff;opacity:.3" />
+            <polygon points="370.96 293.88 357.21 313.65 299.14 300.02 312.88 280.25 333.67 300.73 370.96 293.88" style="fill:#fff;opacity:.1" />
             <polygon points="181.12 314.9 167.37 334.67 225.44 348.3 239.19 328.53 181.12 314.9" style="fill:currentColor" />
-            <polygon points="239.19 328.53 201.9 335.38 181.12 314.9 239.19 328.53" style="fill:#fff;opacity:0.3" />
-            <polygon points="239.19 328.53 225.44 348.3 167.37 334.67 181.12 314.9 201.9 335.38 239.19 328.53" style="fill:#fff;opacity:0.1" />
+            <polygon points="239.19 328.53 201.9 335.38 181.12 314.9 239.19 328.53" style="fill:#fff;opacity:.3" />
+            <polygon points="239.19 328.53 225.44 348.3 167.37 334.67 181.12 314.9 201.9 335.38 239.19 328.53" style="fill:#fff;opacity:.1" />
             <polygon points="397.04 305.8 346.27 326.91 367.82 344.25 418.58 323.14 397.04 305.8" style="fill:currentColor" />
-            <polygon points="397.04 305.8 387.21 327.72 346.27 326.91 397.04 305.8" style="fill:#fff;opacity:0.5" />
-            <polygon points="397.04 305.8 418.58 323.14 367.82 344.25 346.27 326.91 387.21 327.72 397.04 305.8" style="fill:#fff;opacity:0.3" />
+            <polygon points="397.04 305.8 387.21 327.72 346.27 326.91 397.04 305.8" style="fill:#fff;opacity:.5" />
+            <polygon points="397.04 305.8 418.58 323.14 367.82 344.25 346.27 326.91 387.21 327.72 397.04 305.8" style="fill:#fff;opacity:.3" />
             <polygon points="299.79 314.9 279.22 332.56 331.14 352.9 351.7 335.25 299.79 314.9" style="fill:currentColor" />
-            <polygon points="351.7 335.25 312.76 337.43 299.79 314.9 351.7 335.25" style="fill:#fff;opacity:0.2" />
-            <polygon points="351.7 335.25 331.14 352.9 279.22 332.56 299.79 314.9 312.76 337.43 351.7 335.25" style="fill:#fff;opacity:0.1" />
+            <polygon points="351.7 335.25 312.76 337.43 299.79 314.9 351.7 335.25" style="fill:#fff;opacity:.2" />
+            <polygon points="351.7 335.25 331.14 352.9 279.22 332.56 299.79 314.9 312.76 337.43 351.7 335.25" style="fill:#fff;opacity:.1" />
             <polygon points="345.82 402.78 309.7 398.55 297.48 434.08 297.48 434.08 297.48 434.08 297.48 434.08 297.48 434.08 333.6 438.32 345.82 402.78" style="fill:currentColor" />
-            <polygon points="309.7 398.55 328.32 418.53 297.48 434.08 309.7 398.55" style="fill:#fff;opacity:0.5" />
-            <polygon points="333.6 438.32 297.48 434.08 328.32 418.53 309.7 398.55 345.82 402.78 333.6 438.32" style="fill:#fff;opacity:0.3" />
+            <polygon points="309.7 398.55 328.32 418.53 297.48 434.08 309.7 398.55" style="fill:#fff;opacity:.5" />
+            <polygon points="333.6 438.32 297.48 434.08 328.32 418.53 309.7 398.55 345.82 402.78 333.6 438.32" style="fill:#fff;opacity:.3" />
             <polygon points="282.75 423.27 229.29 442.02 248.44 460.29 301.9 441.54 282.75 423.27" style="fill:currentColor" />
-            <polygon points="282.75 423.27 270 444.69 229.29 442.02 282.75 423.27" style="fill:#fff;opacity:0.5" />
-            <polygon points="282.75 423.27 301.9 441.54 248.44 460.29 229.29 442.02 270 444.69 282.75 423.27" style="fill:#fff;opacity:0.3" />
+            <polygon points="282.75 423.27 270 444.69 229.29 442.02 282.75 423.27" style="fill:#fff;opacity:.5" />
+            <polygon points="282.75 423.27 301.9 441.54 248.44 460.29 229.29 442.02 270 444.69 282.75 423.27" style="fill:#fff;opacity:.3" />
             <polygon points="330.87 245.3 286.47 270.94 312.43 286.02 356.83 260.39 330.87 245.3" style="fill:currentColor" />
-            <polygon points="286.47 270.94 325.45 268.83 330.87 245.3 286.47 270.94" style="fill:#fff;opacity:0.5" />
-            <polygon points="286.47 270.94 312.43 286.02 356.83 260.39 330.87 245.3 325.45 268.83 286.47 270.94" style="fill:#fff;opacity:0.3" />
+            <polygon points="286.47 270.94 325.45 268.83 330.87 245.3 286.47 270.94" style="fill:#fff;opacity:.5" />
+            <polygon points="286.47 270.94 312.43 286.02 356.83 260.39 330.87 245.3 325.45 268.83 286.47 270.94" style="fill:#fff;opacity:.3" />
             <polygon points="272.26 314.44 225.76 336.03 250.28 353.36 296.78 331.77 272.26 314.44" style="fill:currentColor" />
-            <polygon points="225.76 336.03 264.78 337.39 272.26 314.44 225.76 336.03" style="fill:#fff;opacity:0.6" />
-            <polygon points="225.76 336.03 250.28 353.36 296.78 331.77 272.26 314.44 264.78 337.39 225.76 336.03" style="fill:#fff;opacity:0.4" />
+            <polygon points="225.76 336.03 264.78 337.39 272.26 314.44 225.76 336.03" style="fill:#fff;opacity:.6" />
+            <polygon points="225.76 336.03 250.28 353.36 296.78 331.77 272.26 314.44 264.78 337.39 225.76 336.03" style="fill:#fff;opacity:.4" />
             <polygon points="354.93 303.74 292.41 305.41 294.23 326.72 356.75 325.05 354.93 303.74" style="fill:currentColor" />
-            <polygon points="354.93 303.74 326.06 319 292.41 305.41 354.93 303.74" style="fill:#fff;opacity:0.5" />
-            <polygon points="354.93 303.74 356.75 325.05 294.23 326.72 292.41 305.41 326.06 319 354.93 303.74" style="fill:#fff;opacity:0.3" />
+            <polygon points="354.93 303.74 326.06 319 292.41 305.41 354.93 303.74" style="fill:#fff;opacity:.5" />
+            <polygon points="354.93 303.74 356.75 325.05 294.23 326.72 292.41 305.41 326.06 319 354.93 303.74" style="fill:#fff;opacity:.3" />
             <polygon points="259.87 298.83 197.35 300.5 199.17 321.81 261.68 320.14 259.87 298.83" style="fill:currentColor" />
             <polygon points="259.87 298.83 231 314.09 197.35 300.5 259.87 298.83" style="fill:#fff;opacity:0.5" />
-            <polygon points="259.87 298.83 261.68 320.14 199.17 321.81 197.35 300.5 231 314.09 259.87 298.83" style="fill:#fff;opacity:0.3" />
+            <polygon points="259.87 298.83 261.68 320.14 199.17 321.81 197.35 300.5 231 314.09 259.87 298.83" style="fill:#fff;opacity:.3" />
             <path d="M286.94,396.62,255,386h0l-31.13,31.39h0l32,10.68ZM257,392.76l4.65,15.55h0Z" style="fill:currentColor" />
-            <polygon points="254.99 385.95 261.68 408.31 223.86 417.34 254.99 385.95" style="fill:#fff;opacity:0.2" />
-            <polygon points="255.81 428.01 223.86 417.34 261.68 408.31 254.99 385.95 286.94 396.62 255.81 428.01" style="fill:#fff;opacity:0.1" />
+            <polygon points="254.99 385.95 261.68 408.31 223.86 417.34 254.99 385.95" style="fill:#fff;opacity:.2" />
+            <polygon points="255.81 428.01 223.86 417.34 261.68 408.31 254.99 385.95 286.94 396.62 255.81 428.01" style="fill:#fff;opacity:.1" />
             <polygon points="269.29 276.56 251.82 311.34 287.2 317.36 304.65 282.57 269.29 276.56" style="fill:currentColor" />
-            <polygon points="269.29 276.56 284.87 297.39 251.82 311.34 269.29 276.56" style="fill:#fff;opacity:0.5" />
-            <polygon points="287.2 317.36 251.82 311.34 284.87 297.39 269.29 276.56 304.65 282.57 287.2 317.36" style="fill:#fff;opacity:0.3" />
+            <polygon points="269.29 276.56 284.87 297.39 251.82 311.34 269.29 276.56" style="fill:#fff;opacity:.5" />
+            <polygon points="287.2 317.36 251.82 311.34 284.87 297.39 269.29 276.56 304.65 282.57 287.2 317.36" style="fill:#fff;opacity:.3" />
             <polygon points="319.58 342.24 288.17 353.33 320.87 384.31 352.27 373.22 319.58 342.24" style="fill:currentColor" />
             <polygon points="319.58 342.24 352.27 373.22 315.23 365.83 319.58 342.24" style="fill:#fff;opacity:0.5" />
-            <polygon points="319.58 342.24 315.23 365.83 352.27 373.22 320.87 384.31 288.17 353.33 319.58 342.24" style="fill:#fff;opacity:0.3" />
+            <polygon points="319.58 342.24 315.23 365.83 352.27 373.22 320.87 384.31 288.17 353.33 319.58 342.24" style="fill:#fff;opacity:.3" />
             <polygon points="299.05 367 254.65 392.64 280.61 407.73 325.01 382.09 299.05 367" style="fill:currentColor" />
             <polygon points="254.65 392.64 293.63 390.53 299.05 367 254.65 392.64" style="fill:#fff;opacity:0.6" />
-            <polygon points="254.65 392.64 280.61 407.73 325.01 382.09 299.05 367 293.63 390.53 254.65 392.64" style="fill:#fff;opacity:0.4" />
+            <polygon points="254.65 392.64 280.61 407.73 325.01 382.09 299.05 367 293.63 390.53 254.65 392.64" style="fill:#fff;opacity:.4" />
             <polygon points="197.61 382.55 165.61 393.05 196.59 424.61 228.6 414.11 197.61 382.55" style="fill:currentColor" />
             <polygon points="202.24 401.12 196.59 424.61 165.61 393.05 202.24 401.12" style="fill:#fff;opacity:0.5" />
             <polygon points="197.61 382.55 228.6 414.11 196.59 424.61 165.61 393.05 196.59 424.61 202.24 401.12 165.61 393.05 197.61 382.55" style="fill:#fff;opacity:0.3" />
@@ -142,17 +142,17 @@ export default function Error429(props: Props): JSX.Element {
             <polygon points="159.78 434.35 127.83 423.67 165.64 414.64 158.95 392.28 190.91 402.95 159.78 434.35" style="fill:#fff;opacity:0.4" />
             <polygon points="122.97 341.28 97.01 356.36 141.42 382 167.37 366.91 122.97 341.28" style="fill:currentColor" />
             <polygon points="167.37 366.91 128.39 364.8 122.97 341.28 167.37 366.91" style="fill:#fff;opacity:0.2" />
-            <polygon points="167.37 366.91 141.42 382 97.01 356.36 122.97 341.28 128.39 364.8 167.37 366.91" style="fill:#fff;opacity:0.1" />
+            <polygon points="167.37 366.91 141.42 382 97.01 356.36 122.97 341.28 128.39 364.8 167.37 366.91" style="fill:#fff;opacity:.1" />
             <polygon points="126.04 360.36 90.36 365.58 105.89 400.73 141.57 395.51 126.04 360.36" style="fill:currentColor" />
-            <polygon points="126.04 360.36 141.57 395.51 109.89 382.13 126.04 360.36" style="fill:#fff;opacity:0.5" />
-            <polygon points="126.04 360.36 109.89 382.13 141.57 395.51 105.89 400.73 90.36 365.58 126.04 360.36" style="fill:#fff;opacity:0.3" />
+            <polygon points="126.04 360.36 141.57 395.51 109.89 382.13 126.04 360.36" style="fill:#fff;opacity:.5" />
+            <polygon points="126.04 360.36 109.89 382.13 141.57 395.51 105.89 400.73 90.36 365.58 126.04 360.36" style="fill:#fff;opacity:.3" />
             <polygon points="226.53 344.04 164.22 347.33 167.68 368.58 229.99 365.29 226.53 344.04" style="fill:currentColor" />
             <polygon points="226.53 344.04 198.87 360.04 164.22 347.33 226.53 344.04" style="fill:#fff;opacity:0.6" />
-            <polygon points="226.53 344.04 229.99 365.29 167.68 368.58 164.22 347.33 198.87 360.04 226.53 344.04" style="fill:#fff;opacity:0.3" />
+            <polygon points="226.53 344.04 229.99 365.29 167.68 368.58 164.22 347.33 198.87 360.04 226.53 344.04" style="fill:#fff;opacity:.3" />
             <polygon points="223.57 283.62 214.38 288.93 197.03 298.94 242.21 316.63 262.77 298.97 223.57 283.62" style="opacity:0.1" />
             <polygon points="226.68 281.85 217.48 287.15 200.13 297.16 242.21 313.65 262.77 295.99 226.68 281.85" style="fill:currentColor" />
             <polygon points="223.83 298.17 262.77 295.99 226.68 281.85 217.48 287.15 223.83 298.17" style="fill:#fff;opacity:0.6" />
-            <polygon points="262.77 295.99 223.83 298.17 217.48 287.15 200.13 297.16 242.21 313.65 262.77 295.99" style="fill:#fff;opacity:0.4" />
+            <polygon points="262.77 295.99 223.83 298.17 217.48 287.15 200.13 297.16 242.21 313.65 262.77 295.99" style="fill:#fff;opacity:.4" />
         </g>
         <g id="freepik--Character--inject-33">
             <use href="#illustrations-429-17" fill="currentColor" /><use href="#illustrations-429-17" opacity=".1" />
@@ -176,13 +176,13 @@ export default function Error429(props: Props): JSX.Element {
             <path d="M392.79,189.48a12.85,12.85,0,0,1-7.48,1.12,7.17,7.17,0,0,0-2.36-3.72,7,7,0,0,0-2.61-1.36c0,.2,0,.41,0,.61a5.87,5.87,0,0,0,5.42,5.71A15.46,15.46,0,0,0,397.45,187a1.39,1.39,0,0,0,.22-1.63A12.93,12.93,0,0,1,392.79,189.48Z" style="fill:#f28f8f" />
             <path d="M386.7,229c-4,.07-8,.27-12.07.42l-.84,1.36,0,8.4A18.73,18.73,0,0,0,386.7,229Z" style="opacity:0.2" />
             <path d="M387.09,214.81l-26.72-7.57L383.9,196c3.42-6.26-2.85-11.59-8.17-10.82l-27.21,13.44a11.48,11.48,0,0,0-6.69,10.44h0a11.49,11.49,0,0,0,6.84,10.51l31,13.74C389,236.44,395.52,217.2,387.09,214.81Z" style="fill:currentColor" />
-            <path d="M360.37,207.24l-7.63-2.17h0a39.36,39.36,0,0,1,12-.57l1.12.12Z" style="opacity:0.2" />
+            <path d="M360.37,207.24l-7.63-2.17h0a39.36,39.36,0,0,1,12-.57l1.12.12Z" style="opacity:.2" />
         </g>
         <g id="freepik--speech-bubble--inject-33">
             <path d="M273.68,88l64.43,37.18a7.17,7.17,0,0,1,2.69,2.72,7.26,7.26,0,0,1,.93,3.53V171c0,4.84-4.11,8.12-9.52,5l-5.14-2.93h0l-1.05-.6-.23-.13h0l-34.44-20h0l-23.57-13.47a7.21,7.21,0,0,1-3.63-6.25V93C264.15,87.84,270.45,86.15,273.68,88Z" style="fill:currentColor" />
             <path d="M335,131.15a7.37,7.37,0,0,0-1.93-2.41h0a6.7,6.7,0,0,0-.87-.6L267.75,91a2.4,2.4,0,0,0-3.6,2.08c0-5.2,6.3-6.89,9.53-5l64.43,37.18a7.17,7.17,0,0,1,2.69,2.72Z" style="fill:#fff;opacity:0.4" />
             <path d="M335.8,173.93V134.39a6.11,6.11,0,0,0-.06-.86,7.68,7.68,0,0,0-.75-2.38l5.81-3.24a7.26,7.26,0,0,1,.93,3.53V171c0,4.84-4.11,8.12-9.52,5A2.4,2.4,0,0,0,335.8,173.93Z" style="fill:#fff;opacity:0.2" />
-            <use href="#illustrations-429-18" fill="currentColor" /><use href="#illustrations-429-18" style="fill:#fff;opacity:0.4" />
+            <use href="#illustrations-429-18" fill="currentColor" /><use href="#illustrations-429-18" style="fill:#fff;opacity:.4" />
             <path d="M265,113.13l-5.35,1.49a1.17,1.17,0,0,0-.48,2l5.56,5.15Z" style="fill:currentColor" />
             <text x="300" y="-26" text-anchor="middle" transform='skewY(30)' style="font-size:2.2rem;font-weight:bold;fill:#fff">429</text>
         </g>
