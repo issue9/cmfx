@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { adjustPopoverPosition } from '@cmfx/core';
 import { createMemo, createUniqueId, For, JSX, Match, Show, Switch } from 'solid-js';
 import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -55,7 +55,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         const ab = anchorRef.getBoundingClientRect();
         ul.style.minWidth = ab.width + 'px';
         ul.style.width = ab.width + 'px';
-        pop(ul, DOMRect.fromRect(ab), 2);
+        adjustPopoverPosition(ul, DOMRect.fromRect(ab), 2);
     };
 
     const clickInput = (e?: MouseEvent) => {

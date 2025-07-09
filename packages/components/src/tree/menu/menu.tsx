@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { adjustPopoverPosition } from '@cmfx/core';
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { default as HoverMenu, Props as HoverProps } from './hover';
@@ -52,7 +52,7 @@ export function Menu(props: Props): JSX.Element {
 
             const rect = activator.getBoundingClientRect();
             const x = props.direction === 'right' ? rect.left : rect.right - popRef.getBoundingClientRect().width;
-            pop(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
+            adjustPopoverPosition(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
         }}>{props.activator}</span>
 
         <Panel popover="auto" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>

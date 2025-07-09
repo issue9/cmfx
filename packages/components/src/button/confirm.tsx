@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey, pop } from '@cmfx/core';
+import { Hotkey, adjustPopoverPosition } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { handleEvent, joinClass } from '@/base';
@@ -60,7 +60,7 @@ export function ConfirmButton(props: Props) {
     return <>
         <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onClick={() => {
             popElem.togglePopover();
-            pop(popElem, ref.getBoundingClientRect());
+            adjustPopoverPosition(popElem, ref.getBoundingClientRect());
         }}>{props.children}</Button>
         <div popover="auto" ref={el=>popElem=el} class={joinClass(props.palette ? `palette--${props.palette}`:undefined, styles['confirm-panel'])}>
             {props.prompt ?? l.t('_c.areYouSure')}

@@ -2,18 +2,39 @@
 //
 // SPDX-License-Identifier: MIT
 
+const popParentPos: Array<string> = ['relative', 'absolute', 'fixed', 'sticky'] as const;
+
 /**
- * 弹出 pop 元素
+ * 调整弹出 popover 元素的位置
  *
  * @param popRef 弹出对象，必须得是可见状态且有一个明确的 display 属性；
  * @param anchor 锚定对象的范围；
  * @param padding popRef 与 anchor 两者之间的间隙；
  * @param pos 相对于 anchor 的弹出位置；
+ *
+ * NOTE: 该操作会在 popRef 显示期间调整其父元素的 position 属性。
  */
-export function pop(popRef: HTMLElement, anchor: DOMRect, padding?: number, pos: PopPos = 'bottom') {
+export function adjustPopoverPosition(popRef: HTMLElement, anchor: DOMRect, padding?: number, pos: PopoverPosition = 'bottom') {
     // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
 
-    const p = calcPopoverPos(popRef, anchor, pos, padding);
+    const parent = popRef.parentElement;
+    if (parent) {
+        const parentPos = parent.style.position;
+        if (!popParentPos.includes(parentPos ?? '')) {
+            parent.style.setProperty('position', 'relative');
+            popRef.style.setProperty('position', 'absolute'); // 只有 absolute 才会超出窗口大小时出现滚动条。
+
+            const toggle = () => {
+                if (!popRef.matches(':open')) {
+                    parent.style.setProperty('position', parentPos);
+                    popRef.removeEventListener('toggle', toggle);
+                }
+            };
+            popRef.addEventListener('toggle', toggle);
+        }
+    }
+
+    const p = calcPopoverPosition(popRef, anchor, pos, padding);
     popRef.style.top = p.y + 'px';
     popRef.style.left = p.x + 'px';
 }
@@ -21,12 +42,12 @@ export function pop(popRef: HTMLElement, anchor: DOMRect, padding?: number, pos:
 /**
  * 计算弹出对象的位置
  *
- * @param popRef 弹出对象，必须得是可见状态的，即已经调用 {@link HTMLElement#showPopover} 方法；
+ * @param popRef 弹出对象，必须得是可见状态的；
  * @param anchor 锚定对象的范围；
  * @param pos popRef 相对 anchor 的位置；
  * @param padding popRef 与 anchor 两者之间的间隙；
  */
-export function calcPopoverPos(popRef: HTMLElement, anchor: DOMRect, pos: PopPos, padding?: number): Point {
+export function calcPopoverPosition(popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, padding?: number): Point {
     const popRect = popRef.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。
     padding = padding ?? 0;
 
@@ -76,4 +97,4 @@ interface Point {
     y: number;
 }
 
-export type PopPos = 'top' | 'bottom' | 'left' | 'right';
+export type PopoverPosition = 'top' | 'bottom' | 'left' | 'right';

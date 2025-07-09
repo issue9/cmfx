@@ -8,7 +8,7 @@
 
 @layer components {
     .menu {
-        @apply text-[var(--fg)] bg-[var(--bg)] gap-y-1 min-w-[200px] rounded-md overflow-visible;
+        @apply text-palette-fg bg-palette-bg gap-y-1 min-w-50 rounded-md overflow-visible;
         @apply flex flex-col border border-palette-bg-low z-[500];
 
         :first-child {

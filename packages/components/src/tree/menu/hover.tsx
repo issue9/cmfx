@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { adjustPopoverPosition } from '@cmfx/core';
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
@@ -46,7 +46,7 @@ export default function(props: Props): JSX.Element {
         popRef.showPopover();
         const rect = activator.getBoundingClientRect();
         const x = props.direction === 'right' ? rect.left : rect.right - popRef.getBoundingClientRect().width;
-        pop(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
+        adjustPopoverPosition(popRef, new DOMRect(x, rect.y, rect.width, rect.height), 2);
     };
 
     return <div class="w-fit" onmouseenter={onmouseenter} onmouseleave={()=>{popRef.hidePopover();}}>

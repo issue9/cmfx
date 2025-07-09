@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop, PopPos } from '@cmfx/core';
+import { adjustPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
@@ -15,7 +15,7 @@ export interface Ref {
      * @param pos 相对 anchor 的位置；
      * @param timeout 自动关闭的时间，如果为空，采用默认值 1000，如果为负数表示不主动关闭；
      */
-    show(anchor: HTMLElement, pos: PopPos, timeout?: number): void;
+    show(anchor: HTMLElement, pos: PopoverPosition, timeout?: number): void;
 
     /**
      * 隐藏提示内容
@@ -34,11 +34,11 @@ export default function Tooltip(props: Props): JSX.Element {
     let ref: HTMLDivElement;
 
     props.ref({
-        show(anchor: HTMLElement, pos: PopPos, timeout?: number) {
+        show(anchor: HTMLElement, pos: PopoverPosition, timeout?: number) {
             ref.showPopover();
             const anchorRect = calcPos(pos, ref.getBoundingClientRect(), anchor.getBoundingClientRect());
 
-            pop(ref, anchorRect, 4, pos);
+            adjustPopoverPosition(ref, anchorRect, 4, pos);
             if (!timeout) {
                 timeout = 1000;
             }
@@ -56,7 +56,7 @@ export default function Tooltip(props: Props): JSX.Element {
     return <div popover='auto' class={styles.tooltip} ref={el => ref = el}>{props.children}</div>;
 }
 
-function calcPos(pos: PopPos, poprect: DOMRect, anchor: DOMRect): DOMRect {
+function calcPos(pos: PopoverPosition, poprect: DOMRect, anchor: DOMRect): DOMRect {
     switch (pos) {
     case 'left':
     case 'right':

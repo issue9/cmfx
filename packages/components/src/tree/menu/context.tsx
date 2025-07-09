@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { adjustPopoverPosition } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { Props as BaseProps, default as Panel, presetProps, Ref } from './panel';
@@ -64,7 +64,7 @@ export function ContextMenu(props: Props): JSX.Element {
             popRef.hidePopover();
             popRef.showPopover();
             const x = props.direction === 'right' ? e.clientX : e.clientX - popRef.getBoundingClientRect().width;
-            pop(popRef, new DOMRect(x, e.clientY, 1, 1));
+            adjustPopoverPosition(popRef, new DOMRect(x, e.clientY, 1, 1));
         }}>{props.activator}</span>
 
         <Panel popover="manual" ref={el=>popRef=el} onChange={onchange} {...panelProps}>{props.children}</Panel>

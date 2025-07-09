@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { calcPopoverPos, PopPos } from '@cmfx/core';
+import { calcPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, JSX, onCleanup, onMount } from 'solid-js';
 
 import { BaseProps, Palette } from '@/base';
@@ -35,7 +35,7 @@ export interface Step extends WizardStep {
     /**
      * 弹出框相对于关联元素的位置
      */
-    pos: PopPos;
+    pos: PopoverPosition;
 
     icon?: IconComponent;
 }
@@ -129,7 +129,7 @@ export default function Tour(props: Props): JSX.Element {
             if (i === index() && open()) {
                 el.scrollIntoView({ behavior: 'smooth' });
                 el.classList.add(styles.focus);
-                ref.move(calcPopoverPos(ref, el.getBoundingClientRect(), step.pos, 8));
+                ref.move(calcPopoverPosition(ref, el.getBoundingClientRect(), step.pos, 8));
             } else {
                 el.classList.remove(styles.focus);
             }

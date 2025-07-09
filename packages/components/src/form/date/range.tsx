@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { pop } from '@cmfx/core';
+import { adjustPopoverPosition } from '@cmfx/core';
 import { createMemo, createSignal, createUniqueId, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
@@ -65,7 +65,7 @@ export function DateRangePicker(props: Props): JSX.Element {
     const showPopover = (e: {target: HTMLInputElement}) => {
         popRef.hidePopover();
         const ab = e.target.getBoundingClientRect();
-        pop(popRef, ab, 8);
+        adjustPopoverPosition(popRef, ab, 8);
         popRef.showPopover();
     };
 

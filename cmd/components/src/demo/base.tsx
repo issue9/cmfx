@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { joinClass, Layout, layouts, Palette, palettes } from '@cmfx/components';
-import { PopPos } from '@cmfx/core';
+import { PopoverPosition } from '@cmfx/core';
 import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'solid-js';
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
 
-export function posSelector(preset: PopPos = 'right'): [JSX.Element, Accessor<PopPos>, Setter<PopPos>] {
+export function posSelector(preset: PopoverPosition = 'right'): [JSX.Element, Accessor<PopoverPosition>, Setter<PopoverPosition>] {
     return arraySelector('pos', ['left', 'right', 'top', 'bottom'], preset);
 }
 
@@ -38,7 +38,7 @@ export function layoutSelector(label: string, preset?: Layout): [JSX.Element, Ac
 
 export function arraySelector<T extends string|number|undefined>(label: string, array: ReadonlyArray<T>, preset: T): [JSX.Element, Accessor<T>, Setter<T>] {
     const [get, set] = createSignal<T>(preset);
-    
+
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
         <legend>{ label }</legend>
         <For each={array}>
@@ -52,7 +52,7 @@ export function arraySelector<T extends string|number|undefined>(label: string, 
             )}
         </For>
     </fieldset>;
-    
+
     return [elem, get, set];
 }
 

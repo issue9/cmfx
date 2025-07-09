@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey, pop } from '@cmfx/core';
+import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
@@ -67,7 +67,7 @@ export function SplitButton(props: Props) {
                 anchor.x = anchor.right - popElem.getBoundingClientRect().width;
             }
 
-            pop(popElem, anchor, 0, 'bottom');
+            adjustPopoverPosition(popElem, anchor, 0, 'bottom');
         }}><IconArrowDown /></Button>
     </ButtonGroup>;
 

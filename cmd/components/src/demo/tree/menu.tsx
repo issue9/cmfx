@@ -48,11 +48,10 @@ export default function() {
         </>
     }>
         <Stage class="w-80 mt-4">
-            <div class="absolute">
-                <MenuPanel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v?.toString() + '  ' + old?.toString()); return true; }}>
-                    {items}
-                </MenuPanel>
-            </div>
+            需要为 MenuPanel 指定为 absolute，否则 z-index 会失效。
+            <MenuPanel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v?.toString() + '  ' + old?.toString()); return true; }}>
+                {items}
+            </MenuPanel>
             <div>{selected()}</div>
         </Stage>
 
