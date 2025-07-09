@@ -128,11 +128,10 @@ export default function Calendar(props: Props): JSX.Element {
                                                 && (curr().getFullYear() === selected()!.getFullYear())
                                         })}>
                                             <span class={classList({
-                                                [styles.day]: true,
                                                 [styles.today]: (day[1] === now.getMonth())
                                                     && (curr().getFullYear() === now.getFullYear())
                                                     && (day[2] === now.getDate())
-                                            })}>{day[2]}</span>
+                                            }, styles.day)}>{day[2]}</span>
                                             <For each={props.plugins}>
                                                 {(plugin) => { return plugin(d); }}
                                             </For>

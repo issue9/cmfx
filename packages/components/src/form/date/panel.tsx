@@ -8,7 +8,7 @@ import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { joinClass, Palette } from '@/base';
+import { classList, joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
@@ -192,11 +192,10 @@ export function DatePanel(props: Props): JSX.Element {
         </div>
     </div>;
 
-    const timer = <div ref={el => timeRef = el} classList={{
-        [styles.time]: true,
+    const timer = <div ref={el => timeRef = el} class={classList({
         '!flex': props.time,
         '!hidden': !props.time,
-    }}>
+    }, styles.time)}>
         <ul class={styles.item}>
             <For each={hoursOptions}>
                 {(item) => (

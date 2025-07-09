@@ -37,14 +37,13 @@ export function DatePicker(props: Props): JSX.Element {
     const l = useLocale();
 
     props = mergeProps(presetProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max', 'actions']);
+    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
 
     const ac = props.accessor;
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
 
     const [hover, setHover] = createSignal(false);
-    const close = () => { props.accessor.setValue(undefined); };
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
@@ -65,12 +64,16 @@ export function DatePicker(props: Props): JSX.Element {
             <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
                 props.time ? l.datetime(ac.getValue()) : l.date(ac.getValue())
             } />
-            <Show when={hover() && ac.getValue()} fallback={<IconClose onClick={close} />}>
-                <IconExpandAll onClick={close} />
+            <Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
+                <IconClose onClick={e=>{
+                    e.stopPropagation();
+                    ac.setValue(undefined);
+                }} />
             </Show>
         </div>
 
         <DatePanel class={styles.fixed} popover="auto" ref={el => panelRef = el} {...panelProps}
+            actions={!props.readonly && !props.disabled}
             ok={() => panelRef.hidePopover()}
             clear={() => panelRef.hidePopover()}
         />
