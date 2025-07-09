@@ -5,7 +5,7 @@
 import { Calendar, lunarPlugin, notify, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { Demo, paletteSelector, Stage } from './base';
+import { Demo, paletteSelector, Stage } from '../base';
 
 export default function () {
     const [paletteS, palette] = paletteSelector();

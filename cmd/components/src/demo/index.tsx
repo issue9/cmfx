@@ -11,11 +11,14 @@ export const routes: Array<RouteDefinition> = [
     { path: '/badge', component: lazy(() => import('./badge')) },
     { path: '/base', component: lazy(() => import('./base')) },
     { path: '/button', component: lazy(() => import('./button')) },
-    { path: '/calendar', component: lazy(() => import('./calendar')) },
     { path: '/card', component: lazy(() => import('./card')) },
     { path: '/code', component: lazy(() => import('./code')) },
     { path: '/chart', component: lazy(() => import('./chart')) },
     { path: '/context', component: lazy(() => import('./context')) },
+
+    { path: '/datetime-calendar', component: lazy(() => import('./datetime/calendar')) },
+    { path: '/datetime-datepanel', component: lazy(() => import('./datetime/datepanel')) },
+
     { path: '/dialog', component: lazy(() => import('./dialog')) },
     { path: '/divider', component: lazy(() => import('./divider')) },
     { path: '/drawer', component: lazy(() => import('./drawer')) },

@@ -8,7 +8,8 @@ import { JSX } from 'solid-js';
 import { Appbar } from '@/appbar';
 import { joinClass, Mode, Scheme } from '@/base';
 import { ThemeProvider, useLocale } from '@/context';
-import { Accessor, DatePanel, fieldAccessor, ObjectAccessor } from '@/form';
+import { DatePanel } from '@/datetime';
+import { Accessor, fieldAccessor, ObjectAccessor } from '@/form';
 import { BasicTable, Column } from '@/table';
 import styles from './style.module.css';
 

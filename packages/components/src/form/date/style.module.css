@@ -31,70 +31,17 @@
         }
     }
 
+    /********************************** panel ********************************/
+
     .panel {
-        @apply border border-palette-fg-low rounded-lg text-center bg-[var(--bg)] text-[var(--fg)] p-2 box-border flex flex-col gap-1;
+        @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-col gap-1;
 
-        .title {
-            @apply flex justify-between items-center mb-2 text-lg;
-
-            .btn {
-                @apply !p-1;
-            }
-        }
-
-        table {
-            colgroup {
-                .weekend {
-                    @apply bg-palette-bg-low;
-                }
-            }
-
-            thead>tr {
-                @apply border-b border-palette-bg-low;
-            }
-
-            th,
-            td {
-                @apply p-[--spacing(.5)];
-
-                button {
-                    @apply flex justify-center items-center;
-                    @apply aspect-square border border-transparent outline-none rounded-sm cursor-pointer;
-                    @apply p-1 w-8 min-w-6;
-                }
-
-                button.selected {
-                    @apply bg-[var(--bg-high)];
-                }
-
-                button:disabled {
-                    @apply text-[var(--fg-low)];
-                }
-            }
-        }
-
-        .main {
-            @apply flex flex-row;
-
-            .time {
-                @apply h-10 flex flex-row pl-1;
-
-                ul.item {
-                    @apply overflow-y-scroll h-full w-10;
-
-                    li {
-                        @apply rounded-sm m-[1px];
-                    }
-
-                    li.selected {
-                        @apply bg-palette-bg-low;
-                    }
-                }
-            }
+        .dt-panel {
+            @apply !rounded-none !border-none;
         }
 
         .actions {
-            @apply flex justify-between items-center pt-1 border-t-palette-bg-low border-t-[1px];
+            @apply flex justify-between items-center pt-1 border-t-palette-bg-low border-t;
 
             .left {
                 @apply flex justify-start items-center;
@@ -104,42 +51,31 @@
                 @apply flex justify-end items-center;
             }
 
-            .action {
-                @apply px-1 rounded-sm text-palette-fg;
+            button {
+                @apply px-1 rounded-sm text-palette-fg cursor-pointer;
             }
         }
     }
 
-    .panel:enabled {
-        .title button:hover {
-            @apply text-palette-fg-high;
-        }
+    /********************************** range-panel ********************************/
 
-        .main {
-            .time {
-                li:hover {
-                    @apply bg-palette-bg-low cursor-pointer;
-                }
+    .range-panel {
+        @apply flex flex-col rounded-lg overflow-clip;
+        @apply border border-palette-fg-low;
+        @apply bg-palette-bg text-palette-fg;
+
+        .range-panels {
+            @apply flex flex-row flex-wrap;
+
+            .panel {
+                @apply !rounded-none !border-none;
             }
+
+            .panel:last-child {}
         }
 
-        th,
-        td {
-            button:enabled {
-                @apply hover:bg-palette-bg-high hover:border-palette-bg-low;
-                @apply focus:bg-palette-bg-high focus:border-palette-bg-low;
-            }
+        .range-actions {
+            @apply border-t border-t-palette-fg-low;
         }
-
-        .actions {
-            .action {
-                @apply hover:text-palette-fg-high hover:bg-palette-bg-high cursor-pointer;
-            }
-        }
-    }
-
-    .panel:disabled,
-    .panel:disabled * {
-        @apply cursor-not-allowed text-palette-fg-low;
     }
 }

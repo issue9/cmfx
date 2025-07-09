@@ -1,0 +1,86 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .panel {
+        @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-row gap-1;
+
+        .title {
+            @apply flex justify-between items-center mb-2 text-lg;
+
+            button {
+                @apply flex justify-center items-center;
+                @apply aspect-square p-1 w-8 min-w-6 rounded-sm;
+            }
+        }
+
+        table {
+            colgroup {
+                .weekend {
+                    @apply bg-palette-bg-low;
+                }
+            }
+
+            thead>tr {
+                @apply border-b border-palette-bg-low;
+            }
+
+            th,
+            td {
+                @apply p-[--spacing(1)];
+
+                button {
+                    @apply flex justify-center items-center;
+                    @apply aspect-square border border-transparent outline-none rounded-sm cursor-pointer;
+                    @apply p-1 w-8 min-w-6;
+                }
+
+                button.today {
+                    @apply border-b-palette-bg-low;
+                }
+
+                button:disabled {
+                    @apply text-[var(--fg-low)];
+                }
+            }
+        }
+
+        .time {
+            @apply h-10 flex flex-row pl-1;
+
+            ul.item {
+                @apply overflow-y-scroll h-full w-10;
+
+                li {
+                    @apply rounded-sm m-[1px];
+                }
+            }
+        }
+
+        .time ul li.selected,
+        table td button.selected {
+            @apply bg-palette-bg-high;
+        }
+    }
+
+    .panel:enabled {
+
+        table td button:enabled:hover,
+        .time li:hover,
+        .title button:enabled:hover {
+            @apply bg-palette-bg-low cursor-pointer;
+        }
+    }
+
+    .panel:disabled,
+    .panel:disabled * {
+        @apply cursor-not-allowed text-palette-fg-low;
+    }
+
+
+}

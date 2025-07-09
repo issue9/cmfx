@@ -9,15 +9,12 @@ import IconClose from '~icons/material-symbols/close';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { Accessor, calcLayoutFieldAreas, Field, fieldAccessor, fieldArea2Style, FieldHelpArea } from '@/form/field';
+import { calcLayoutFieldAreas, Field, fieldAccessor, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import { IconComponent } from '@/icon';
-import { DatePanel, presetProps as presetPickerProps, ValueType } from './panel';
 import { Props as PickerProps } from './picker';
 import styles from './style.module.css';
 
 export interface Props extends Omit<PickerProps, 'accessor'> {
-    accessor: Accessor<[ValueType, ValueType]>;
-
     /**
      * 中间的箭头
      */
@@ -25,11 +22,12 @@ export interface Props extends Omit<PickerProps, 'accessor'> {
 }
 
 const presetProps = {
-    ...presetPickerProps,
     arrowIcon: IconArrowRight
 } as const;
 
 export function DateRangePicker(props: Props): JSX.Element {
+    return <div>range</div>;
+
     const l = useLocale();
 
     props = mergeProps(presetProps, props);
@@ -124,7 +122,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 }} />
             </Show>
 
-            <DatePanel popover="manual" min={min()} max={max()} ref={el => popRef = el} accessor={panelVal} {...panelProps}
+            <Panel popover="manual" min={min()} max={max()} ref={el => popRef = el} accessor={panelVal} {...panelProps}
                 ok={() => {
                     curr.setValue(panelVal.getValue());
                     popRef.hidePopover();

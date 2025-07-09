@@ -2,26 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, Show, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconChevronLeft from '~icons/material-symbols/chevron-left';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { classList, joinClass, Palette } from '@/base';
-import { Button } from '@/button';
+import { BaseProps, classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
-import { Accessor, FieldBaseProps } from '@/form/field';
 import styles from './style.module.css';
 
-export type ValueType = string | number | undefined;
-
-export interface Props extends Omit<FieldBaseProps, 'layout'> {
-    /**
-     * 一些突出操作的样式色盘
-     */
-    accentPalette?: Palette;
+export interface Props extends BaseProps {
+    tabindex?: number;
+    disabled?: boolean;
+    readonly?: boolean;
 
     /**
      * 是否符带时间选择器
@@ -48,45 +43,28 @@ export interface Props extends Omit<FieldBaseProps, 'layout'> {
      */
     weekBase?: Week;
 
-    /**
-     * 如果是字符串，表示一个能被 {@link Date.parse} 识别的日期格式，
-     * 如果是 number，则表示微秒。
-     */
-    accessor: Accessor<ValueType>;
-
     popover?: boolean | 'manual' | 'auto';
 
     /**
-     * 是否在底部显示操作按钮
+     * 关联的值
      */
-    actions?: boolean;
+    value?: Date;
 
     /**
-     * 对应确定操作按钮
+     * 值发生改变时触发的事件
      *
-     * NOTE: 只有在 actions 为 true 时才有效
+     * 此方法只在以下条件下触发：
+     * - 点击天数始终触发；
+     * - 在已经点击过天数的情况下，点击小时和分钟也触发；
      */
-    ok?: { (): void; };
-
-    /**
-     * 对应清除操作按钮
-     *
-     * NOTE: 只有在 actions 为 true 时才有效
-     */
-    clear?: { (): void; };
-
-    /**
-     * 对应今日操作按钮
-     *
-     * NOTE: 只有在 actions 为 true 时才有效
-     */
-    now?: { (): void; };
+    onChange?: { (val: Date, old?: Date): void; };
 
     ref?: { (el: HTMLElement): void; };
+
+    class?: string;
 }
 
 export const presetProps: Partial<Props> = {
-    accentPalette: 'primary',
     weekBase: 0,
 } as const;
 
@@ -97,37 +75,44 @@ export function DatePanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
 
+    const [panelValue, setPanelValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
+    const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
+
+    createEffect(() => { setValue(props.value); });
+
     let dateRef: HTMLDivElement;
     let timeRef: HTMLDivElement;
 
-    // 当前面板上的值
-    const val = props.accessor.getValue();
-    const [panelValue, setPanelValue] = createSignal<Date>(val !== undefined ? new Date(val) : new Date());
-
     const scrollTimer = () => {
-        if (props.time) {
-            const items = timeRef.querySelectorAll(`.${styles.item}>li.${styles.selected}`);
-            if (items && items.length > 0) {
-                for (const item of items) {
-                    const p = item.parentElement;
-                    const top = item.getBoundingClientRect().top - p!.getBoundingClientRect().top;
+        if (!props.time) { return; }
 
-                    // scrollBy 与 scrollIntoView 不同点在于，scrollBy 并不会让整个 p 出现在页面的可见范围之内。
-                    p!.scrollBy({ top: top, behavior: 'smooth' });
-                }
+        const items = timeRef.querySelectorAll(`.${styles.item}>li.${styles.selected}`);
+        if (items && items.length > 0) {
+            for (const item of items) {
+                const p = item.parentElement;
+                const top = item.getBoundingClientRect().top - p!.getBoundingClientRect().top;
+
+                // scrollBy 与 scrollIntoView 不同点在于，scrollBy 并不会让整个 p 出现在页面的可见范围之内。
+                p!.scrollBy({ top: top, behavior: 'smooth' });
             }
         }
     };
 
-    const setValue = (dt: Date) => {
-        setPanelValue(dt);
+    const [today] = createSignal(new Date());
+
+    const changePanelValue = (val: Date) => {
+        setPanelValue(val);
         scrollTimer();
     };
 
-    createEffect(() => {
-        const v = props.accessor.getValue();
-        if (v !== undefined) { setValue(new Date(v)); }
-    });
+    // 改变值且触发 onchange 事件
+    const change = (val: Date) => {
+        changePanelValue(val);
+
+        const old = value();
+        setValue(val);
+        if (props.onChange) { props.onChange(val, old); }
+    };
 
     const titleFormat = createMemo(() => {
         return l.dateTimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
@@ -146,52 +131,54 @@ export function DatePanel(props: Props): JSX.Element {
         onCleanup(() => { resizeObserver.disconnect(); });
     });
 
+    // 年月标题
     const title = <div class={styles.title}>
         <div class="flex">
-            <Button tabIndex={props.tabindex} square kind='flat' class={styles.btn}
+            <button tabIndex={props.tabindex}
                 title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
                     const dt = new Date(panelValue());
                     dt.setFullYear(dt.getFullYear() - 1);
-                    setValue(dt);
-                }}><IconArrowLeft /></Button>
-            <Button tabIndex={props.tabindex} square kind='flat' class={styles.btn}
+                    changePanelValue(dt);
+                }}><IconArrowLeft /></button>
+            <button tabIndex={props.tabindex}
                 title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
                     const dt = new Date(panelValue());
                     dt.setMonth(dt.getMonth() - 1);
-                    setValue(dt);
-                }}><IconChevronLeft /></Button>
+                    changePanelValue(dt);
+                }}><IconChevronLeft /></button>
         </div>
 
         <div>{titleFormat()}</div>
 
         <div class="flex">
-            <Button tabIndex={props.tabindex} square kind="flat" class={styles.btn}
+            <button tabIndex={props.tabindex}
                 title={l.t('_c.date.nextMonth')} aria-label={l.t('_c.date.nextMonth')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
                     const dt = new Date(panelValue());
                     dt.setMonth(dt.getMonth() + 1);
-                    setValue(dt);
-                }}><IconChevronRight /></Button>
-            <Button tabIndex={props.tabindex} square kind="flat" class={styles.btn}
+                    changePanelValue(dt);
+                }}><IconChevronRight /></button>
+            <button tabIndex={props.tabindex}
                 title={l.t('_c.date.nextYear')} aria-label={l.t('_c.date.nextYear')}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
 
                     const dt = new Date(panelValue());
                     dt.setFullYear(dt.getFullYear() + 1);
-                    setValue(dt);
-                }}><IconArrowRight /></Button>
+                    changePanelValue(dt);
+                }}><IconArrowRight /></button>
         </div>
     </div>;
 
+    // 小时分钟选择器
     const timer = <div ref={el => timeRef = el} class={classList({
         '!flex': props.time,
         '!hidden': !props.time,
@@ -204,7 +191,12 @@ export function DatePanel(props: Props): JSX.Element {
                             if (props.disabled || props.readonly) { return; }
                             const dt = new Date(panelValue());
                             dt.setHours(item[0]);
-                            setValue(dt);
+
+                            if (value()) {
+                                change(dt);
+                            } else {
+                                changePanelValue(dt);
+                            }
                         }}
                     >{item[1]}</li>
                 )}
@@ -219,7 +211,12 @@ export function DatePanel(props: Props): JSX.Element {
                             if (props.disabled || props.readonly) { return; }
                             const dt = new Date(panelValue());
                             dt.setMinutes(item[0]);
-                            setValue(dt);
+
+                            if (value()) {
+                                change(dt);
+                            } else {
+                                changePanelValue(dt);
+                            }
                         }}
                     >{item[1]}</li>
                 )}
@@ -250,20 +247,28 @@ export function DatePanel(props: Props): JSX.Element {
 
         <tbody>
             <For each={weekDays(panelValue(), props.weekBase!, props.min, props.max)}>
-                {(week) => (
+                {week => (
                     <tr>
                         <For each={week}>
-                            {(day) => (
+                            {day => (
                                 <td>
-                                    <button tabIndex={props.tabindex} classList={{ [styles.selected]: day[2] === panelValue().getDate() && day[1] === panelValue().getMonth() }}
-                                        disabled={!day[0] || props.disabled}
-                                        onClick={() => {
-                                            if (props.readonly || props.disabled) { return; }
+                                    <button tabIndex={props.tabindex} classList={{
+                                        [styles.selected]: value()
+                                            && value()!.getDate() === day[2]
+                                            && value()!.getMonth() === day[1]
+                                            && value()!.getFullYear() === panelValue().getFullYear(),
+                                        [styles.today]: today().getDate() === day[2]
+                                            && today().getMonth() === day[1]
+                                            && today().getFullYear() === panelValue().getFullYear(),
+                                    }}
+                                    disabled={!day[0] || props.disabled}
+                                    onClick={() => {
+                                        if (props.readonly || props.disabled) { return; }
 
-                                            const dt = new Date(panelValue());
-                                            dt.setDate(day[2]);
-                                            setValue(dt);
-                                        }}>{day[2]}</button>
+                                        const dt = new Date(panelValue());
+                                        dt.setDate(day[2]);
+                                        change(dt);
+                                    }}>{day[2]}</button>
                                 </td>
                             )}
                         </For>
@@ -275,35 +280,7 @@ export function DatePanel(props: Props): JSX.Element {
 
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
-        <div class={styles.main}>
-            <div ref={el => dateRef = el}>{title}{daysSelector}</div>
-            {timer}
-        </div>
-
-        <Show when={props.actions}>
-            <div class={styles.actions}>
-                <div class={styles.left}>
-                    <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
-                        const now = new Date();
-                        if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
-                        setValue(now);
-                        if (props.now) { props.now(); }
-                    }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</button>
-                </div>
-
-                <div class={styles.right}>
-                    <button tabIndex={props.tabindex} class={styles.action} onClick={() => {
-                        // 清除只对 accessor 的内容任务清除，panelValue 不变。
-                        props.accessor.setValue(undefined);
-                        if (props.clear) { props.clear(); }
-                    }}>{l.t('_c.date.clear')}</button>
-
-                    <button tabIndex={props.tabindex} classList={{ [styles.action]: true, [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
-                        props.accessor.setValue(untrack(panelValue).toISOString());
-                        if (props.ok) { props.ok(); }
-                    }}>{l.t('_c.ok')}</button>
-                </div>
-            </div>
-        </Show>
+        <div ref={el => dateRef = el}>{title}{daysSelector}</div>
+        {timer}
     </fieldset>;
 }

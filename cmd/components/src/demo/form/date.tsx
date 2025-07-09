@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePanel, DatePicker, DateRangePicker, fieldAccessor, Week } from '@cmfx/components';
+import { DatePicker, DateRangePanel, DateRangePicker, fieldAccessor, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
@@ -38,22 +38,17 @@ export default function() {
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
         </>
     }>
-        <Stage title="panel">
-            <DatePanel actions={actions()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-            <p>{ac.getValue()}</p>
-        </Stage>
-
-        <Stage title="panel with time">
-            <DatePanel actions={actions()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time />
-            <p>{ac.getValue()}</p>
-        </Stage>
-
         <Stage title="picker">
             <DatePicker actions={actions()} class="w-[400px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
         </Stage>
 
         <Stage title="min-width">
             <DatePicker actions={actions()} class="w-[200px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+        </Stage>
+
+        <Stage title="range panel">
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+            <p>{range.getValue()}</p>
         </Stage>
 
         <Stage title="range">
