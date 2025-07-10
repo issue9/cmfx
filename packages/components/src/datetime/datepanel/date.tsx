@@ -264,7 +264,16 @@ export function DatePanel(props: Props): JSX.Element {
                                     disabled={!day[0] || props.disabled}
                                     onClick={() => {
                                         if (props.readonly || props.disabled) { return; }
-                                        change(day[1]);
+
+                                        const v = value();
+                                        if (!v) {
+                                            change(day[1]);
+                                        } else {
+                                            const d = new Date(day[1]);
+                                            d.setHours(v.getHours());
+                                            d.setMinutes(v.getMinutes());
+                                            change(d);
+                                        }
                                     }}>{day[1].getDate()}</button>
                                 </td>
                             )}
