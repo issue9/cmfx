@@ -101,9 +101,9 @@ test('getWeekDays', () => {
         { isCurrent: false, month: 5, start: 29, end: 30, year: 2024 },
         { isCurrent: true, month: 6, start: 1, end: 17, year: 2024 },
         { isCurrent: false, month: 7, start: 1, end: 2, year: 2024 }])
-    ).toEqual<Array<Array<[boolean, number, number, number]>>>([
-        [[false, 2024, 5, 29], [false, 2024, 5, 30], [true, 2024, 6, 1], [true, 2024, 6, 2], [true, 2024, 6, 3], [true, 2024, 6, 4], [true, 2024, 6, 5]],
-        [[true, 2024, 6, 6], [true, 2024, 6, 7], [true, 2024, 6, 8], [true, 2024, 6, 9], [true, 2024, 6, 10], [true, 2024, 6, 11], [true, 2024, 6, 12]],
-        [[true, 2024, 6, 13], [true, 2024, 6, 14], [true, 2024, 6, 15], [true, 2024, 6, 16], [true, 2024, 6, 17], [false, 2024, 7, 1], [false, 2024, 7, 2]]
+    ).toEqual<Array<Array<[boolean, Date]>>>([
+        [[false, new Date(2024, 5, 29)], [false, new Date(2024, 5, 30)], [true, new Date(2024, 6, 1)], [true, new Date(2024, 6, 2)], [true, new Date(2024, 6, 3)], [true, new Date(2024, 6, 4)], [true, new Date(2024, 6, 5)]],
+        [[true, new Date(2024, 6, 6)], [true, new Date(2024, 6, 7)], [true, new Date(2024, 6, 8)], [true, new Date(2024, 6, 9)], [true, new Date(2024, 6, 10)], [true, new Date(2024, 6, 11)], [true, new Date(2024, 6, 12)]],
+        [[true, new Date(2024, 6, 13)], [true, new Date(2024, 6, 14)], [true, new Date(2024, 6, 15)], [true, new Date(2024, 6, 16)], [true, new Date(2024, 6, 17)], [false, new Date(2024, 7, 1)], [false, new Date(2024, 7, 2)]]
     ]);
 });

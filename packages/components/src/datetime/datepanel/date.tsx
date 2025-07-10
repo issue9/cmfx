@@ -10,7 +10,7 @@ import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right'
 
 import { BaseProps, classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
+import { equalDate, hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
 import styles from './style.module.css';
 
 export interface DateChange {
@@ -258,22 +258,14 @@ export function DatePanel(props: Props): JSX.Element {
                             {day => (
                                 <td>
                                     <button tabIndex={props.tabindex} classList={{
-                                        [styles.selected]: value()
-                                            && value()!.getDate() === day[3]
-                                            && value()!.getMonth() === day[2]
-                                            && value()!.getFullYear() === day[1],
-                                        [styles.today]: today().getDate() === day[3]
-                                            && today().getMonth() === day[2]
-                                            && today().getFullYear() === day[1],
+                                        [styles.selected]: value() && equalDate(value()!, day[1]),
+                                        [styles.today]: equalDate(today(), day[1]),
                                     }}
                                     disabled={!day[0] || props.disabled}
                                     onClick={() => {
                                         if (props.readonly || props.disabled) { return; }
-
-                                        const dt = new Date(panelValue());
-                                        dt.setDate(day[3]);
-                                        change(dt);
-                                    }}>{day[3]}</button>
+                                        change(day[1]);
+                                    }}>{day[1].getDate()}</button>
                                 </td>
                             )}
                         </For>

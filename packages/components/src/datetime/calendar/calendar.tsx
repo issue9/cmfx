@@ -11,7 +11,7 @@ import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right'
 import { BaseProps, classList, joinClass } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
-import { Week, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
+import { Week, equalDate, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
 import { Plugin } from './plugin';
 import styles from './style.module.css';
 
@@ -112,27 +112,20 @@ export default function Calendar(props: Props): JSX.Element {
                             <tr>
                                 <For each={week}>
                                     {day => {
-                                        const d = new Date(day[1], day[2], day[3], 8);
-
                                         return <td onclick={() => {
                                             if (!day[0]) { return; }
 
-                                            if (props.onSelected) { props.onSelected(d, selected()); }
-                                            setSelected(d);
+                                            if (props.onSelected) { props.onSelected(day[1], selected()); }
+                                            setSelected(day[1]);
                                         }} class={classList({
                                             [styles.disabled]: !day[0],
-                                            [styles.current]: selected()
-                                                && (selected()!.getMonth() === day[2])
-                                                && (selected()!.getDate() === day[3])
-                                                && (selected()!.getFullYear() === day[1])
+                                            [styles.current]: selected() && equalDate(selected()!, day[1])
                                         })}>
                                             <span class={classList({
-                                                [styles.today]: (day[2] === now.getMonth())
-                                                    && (day[1] === now.getFullYear())
-                                                    && (day[3] === now.getDate())
-                                            }, styles.day)}>{day[3]}</span>
+                                                [styles.today]: equalDate(now, day[1])
+                                            }, styles.day)}>{day[1].getDate()}</span>
                                             <For each={props.plugins}>
-                                                {(plugin) => { return plugin(d); }}
+                                                {(plugin) => { return plugin(day[1]); }}
                                             </For>
                                         </td>;
                                     }}

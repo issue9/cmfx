@@ -115,14 +115,15 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
 /**
  * 将由 {@link monthDays} 的结果转换为以 7 天为一组的天数据
  */
-export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<Array<[boolean, number, Month, number]>> {
-    const days: Array<[boolean, number, Month, number]> = [];
+export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<Array<[boolean, Date]>> {
+    const days: Array<[boolean, Date]> = [];
     for (const mm of m) {
         if (mm.start === 0 && mm.start === mm.end) { continue; }
 
         for (let i = mm.start; i <= mm.end; i++) {
             let enabled = mm.isCurrent;
             const now = new Date(mm.year, mm.month, i);
+
             if (min && min > now) {
                 enabled = false;
             }
@@ -130,12 +131,12 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
                 enabled = false;
             }
 
-            days.push([enabled, mm.year, mm.month, i]);
+            days.push([enabled, now]);
         }
     }
 
     // 将天以 7 为单位进行分割并存入 weeks
-    const weeks: Array<Array<[boolean, number, Month, number]>> = [];
+    const weeks: Array<Array<[boolean, Date]>> = [];
     for (let i = 0; i < days.length; i += 7) {
         weeks.push(days.slice(i, i + 7));
     }
@@ -147,13 +148,18 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
  *
  * @param date 需要计算的月份；
  * @param weekStart 每周的起始；
- * @returns 以 7 天为一组的数据，每个元素包含以下三个字段：
+ * @returns 以 7 天为一组的数据，每个元素包含以下字段：
  *  - 0 是否为禁用；
- *  - 1 月份；
- *  - 2 在当前月份中的日期；
+ *  - 1 表示当前的日期，仅精确到天；
  */
-export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[enabled: boolean, year: number, month: Month, day: number]>> {
+export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[enabled: boolean, date: Date]>> {
     return getWeekDays(monthDays(date, weekStart), min, max);
+}
+
+export function equalDate(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate();
 }
 
 export const hoursOptions: Options<number> = [
