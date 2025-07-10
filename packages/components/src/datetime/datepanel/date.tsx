@@ -259,21 +259,21 @@ export function DatePanel(props: Props): JSX.Element {
                                 <td>
                                     <button tabIndex={props.tabindex} classList={{
                                         [styles.selected]: value()
-                                            && value()!.getDate() === day[2]
-                                            && value()!.getMonth() === day[1]
-                                            && value()!.getFullYear() === panelValue().getFullYear(),
-                                        [styles.today]: today().getDate() === day[2]
-                                            && today().getMonth() === day[1]
-                                            && today().getFullYear() === panelValue().getFullYear(),
+                                            && value()!.getDate() === day[3]
+                                            && value()!.getMonth() === day[2]
+                                            && value()!.getFullYear() === day[1],
+                                        [styles.today]: today().getDate() === day[3]
+                                            && today().getMonth() === day[2]
+                                            && today().getFullYear() === day[1],
                                     }}
                                     disabled={!day[0] || props.disabled}
                                     onClick={() => {
                                         if (props.readonly || props.disabled) { return; }
 
                                         const dt = new Date(panelValue());
-                                        dt.setDate(day[2]);
+                                        dt.setDate(day[3]);
                                         change(dt);
-                                    }}>{day[2]}</button>
+                                    }}>{day[3]}</button>
                                 </td>
                             )}
                         </For>

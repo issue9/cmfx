@@ -70,7 +70,6 @@ export default function Calendar(props: Props): JSX.Element {
 
     const l = useLocale();
     const [curr, setCurr] = createSignal(props.current ?? new Date());
-    const year = createMemo(() => curr().getFullYear());
 
     const weekFormat = createMemo(() => { return l.dateTimeFormat({ weekday: 'long' }); });
 
@@ -113,7 +112,7 @@ export default function Calendar(props: Props): JSX.Element {
                             <tr>
                                 <For each={week}>
                                     {day => {
-                                        const d = new Date(year(), day[1], day[2], 8);
+                                        const d = new Date(day[1], day[2], day[3], 8);
 
                                         return <td onclick={() => {
                                             if (!day[0]) { return; }
@@ -123,15 +122,15 @@ export default function Calendar(props: Props): JSX.Element {
                                         }} class={classList({
                                             [styles.disabled]: !day[0],
                                             [styles.current]: selected()
-                                                && (selected()!.getMonth() === day[1])
-                                                && (day[2] === selected()!.getDate())
-                                                && (curr().getFullYear() === selected()!.getFullYear())
+                                                && (selected()!.getMonth() === day[2])
+                                                && (selected()!.getDate() === day[3])
+                                                && (selected()!.getFullYear() === day[1])
                                         })}>
                                             <span class={classList({
-                                                [styles.today]: (day[1] === now.getMonth())
-                                                    && (curr().getFullYear() === now.getFullYear())
-                                                    && (day[2] === now.getDate())
-                                            }, styles.day)}>{day[2]}</span>
+                                                [styles.today]: (day[2] === now.getMonth())
+                                                    && (day[1] === now.getFullYear())
+                                                    && (day[3] === now.getDate())
+                                            }, styles.day)}>{day[3]}</span>
                                             <For each={props.plugins}>
                                                 {(plugin) => { return plugin(d); }}
                                             </For>

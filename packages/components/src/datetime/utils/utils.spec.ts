@@ -82,6 +82,18 @@ test('monthDays', () => {
         { isCurrent: true, month: 6, start: 1, end: 31, year: 2024 },
         { isCurrent: false, month: 7, start: 1, end: 9, year: 2024 }
     ]);
+
+    expect(monthDays(new Date(2025, 0, 2), 1)).toEqual([
+        { isCurrent: false, month: 11, start: 30, end: 31, year: 2024 },
+        { isCurrent: true, month: 0, start: 1, end: 31, year: 2025 },
+        { isCurrent: false, month: 1, start: 1, end: 9, year: 2025 }
+    ]);
+
+    expect(monthDays(new Date(2024, 11, 2), 1)).toEqual([
+        { isCurrent: false, month: 10, start: 25, end: 30, year: 2024 },
+        { isCurrent: true, month: 11, start: 1, end: 31, year: 2024 },
+        { isCurrent: false, month: 0, start: 1, end: 5, year: 2025 }
+    ]);
 });
 
 test('getWeekDays', () => {
@@ -89,9 +101,9 @@ test('getWeekDays', () => {
         { isCurrent: false, month: 5, start: 29, end: 30, year: 2024 },
         { isCurrent: true, month: 6, start: 1, end: 17, year: 2024 },
         { isCurrent: false, month: 7, start: 1, end: 2, year: 2024 }])
-    ).toEqual<Array<Array<[boolean, number, number]>>>([
-        [[false, 5, 29], [false, 5, 30], [true, 6, 1], [true, 6, 2], [true, 6, 3], [true, 6, 4], [true, 6, 5]],
-        [[true, 6, 6], [true, 6, 7], [true, 6, 8], [true, 6, 9], [true, 6, 10], [true, 6, 11], [true, 6, 12]],
-        [[true, 6, 13], [true, 6, 14], [true, 6, 15], [true, 6, 16], [true, 6, 17], [false, 7, 1], [false, 7, 2]]
+    ).toEqual<Array<Array<[boolean, number, number, number]>>>([
+        [[false, 2024, 5, 29], [false, 2024, 5, 30], [true, 2024, 6, 1], [true, 2024, 6, 2], [true, 2024, 6, 3], [true, 2024, 6, 4], [true, 2024, 6, 5]],
+        [[true, 2024, 6, 6], [true, 2024, 6, 7], [true, 2024, 6, 8], [true, 2024, 6, 9], [true, 2024, 6, 10], [true, 2024, 6, 11], [true, 2024, 6, 12]],
+        [[true, 2024, 6, 13], [true, 2024, 6, 14], [true, 2024, 6, 15], [true, 2024, 6, 16], [true, 2024, 6, 17], [false, 2024, 7, 1], [false, 2024, 7, 2]]
     ]);
 });
