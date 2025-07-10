@@ -21,5 +21,10 @@ const lunarFormatter = new Intl.DateTimeFormat('zh-CN-u-ca-chinese', { dateStyle
 export function lunarPlugin(date: Date): JSX.Element {
     const s = lunarFormatter.format(date);
     const d = s.slice(-2);
-    return d === '初一' ? s.slice(-4, -2) : d;
+    if (d !== '初一') { return d; }
+
+    const m = s.slice(-5, -2);
+    if (m === '十一月' || m === '十二月') { return m; }
+
+    return s.slice(-4, -2);
 }

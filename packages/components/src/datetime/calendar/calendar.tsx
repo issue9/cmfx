@@ -101,7 +101,7 @@ export default function Calendar(props: Props): JSX.Element {
                 <thead>
                     <tr>
                         <For each={weeks}>
-                            {(w) => (
+                            {w => (
                                 <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
                             )}
                         </For>
@@ -109,10 +109,10 @@ export default function Calendar(props: Props): JSX.Element {
                 </thead>
                 <tbody>
                     <For each={weekDays(curr(), props.weekBase!, props.min, props.max)}>
-                        {(week) => (
+                        {week => (
                             <tr>
                                 <For each={week}>
-                                    {(day) => {
+                                    {day => {
                                         const d = new Date(year(), day[1], day[2], 8);
 
                                         return <td onclick={() => {

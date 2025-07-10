@@ -13,6 +13,10 @@ import { useLocale } from '@/context';
 import { hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
 import styles from './style.module.css';
 
+export interface DateChange {
+    (val: Date, old?: Date): void;
+}
+
 export interface Props extends BaseProps {
     tabindex?: number;
     disabled?: boolean;
@@ -57,7 +61,7 @@ export interface Props extends BaseProps {
      * - 点击天数始终触发；
      * - 在已经点击过天数的情况下，点击小时和分钟也触发；
      */
-    onChange?: { (val: Date, old?: Date): void; };
+    onChange?: DateChange;
 
     ref?: { (el: HTMLElement): void; };
 
@@ -98,11 +102,12 @@ export function DatePanel(props: Props): JSX.Element {
         }
     };
 
-    const [today] = createSignal(new Date());
+    const [today, setToday] = createSignal(new Date());
 
     const changePanelValue = (val: Date) => {
         setPanelValue(val);
         scrollTimer();
+        setToday(new Date()); // 保证 today 的值始终是当前日期
     };
 
     // 改变值且触发 onchange 事件
