@@ -7,6 +7,8 @@
 @reference '../../style.css';
 
 @layer components {
+    /********************************* panel *************************************/
+
     .panel {
         @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-row gap-1;
 
@@ -32,21 +34,20 @@
 
             th,
             td {
-                @apply p-[--spacing(1)];
-
-                button {
-                    @apply flex justify-center items-center;
+                >span {
+                    @apply flex justify-center items-center m-1;
                     @apply aspect-square border border-transparent outline-none rounded-sm cursor-pointer;
                     @apply p-1 w-8 min-w-6;
                 }
 
-                button.today {
-                    @apply border-b-palette-bg-low;
-                }
+            }
 
-                button:disabled {
-                    @apply text-[var(--fg-low)];
-                }
+            td.disabled {
+                @apply text-palette-fg-low;
+            }
+
+            td.today td>span {
+                @apply border-b-palette-bg-low;
             }
         }
 
@@ -63,14 +64,15 @@
         }
 
         .time ul li.selected,
-        table td button.selected {
+        table td.selected>span {
             @apply bg-palette-bg-high;
         }
+
     }
 
     .panel:enabled {
 
-        table td button:enabled:hover,
+        table tbody td:not(.disabled) span:hover,
         .time li:hover,
         .title button:enabled:hover {
             @apply bg-palette-bg-low cursor-pointer;
@@ -82,5 +84,28 @@
         @apply cursor-not-allowed text-palette-fg-low;
     }
 
+    /********************************* range-panel *************************************/
 
+    .range {
+        @apply flex flex-col rounded-lg overflow-clip;
+        @apply border border-palette-fg-low;
+        @apply bg-palette-bg text-palette-fg;
+
+        .panels {
+            @apply flex flex-row flex-wrap;
+
+            .panel {
+                @apply !rounded-none !border-none;
+            }
+        }
+
+        .actions {
+            @apply border-t border-t-palette-bg-low p-2 flex gap-2;
+
+            >button {
+                @apply cursor-pointer px-1 rounded-sm;
+                @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
+            }
+        }
+    }
 }

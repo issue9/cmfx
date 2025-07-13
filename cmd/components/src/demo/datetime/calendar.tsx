@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Calendar, lunarPlugin, notify, Week } from '@cmfx/components';
+import { Calendar, datetimePluginLunar, notify, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { Demo, paletteSelector, Stage } from '../base';
@@ -18,7 +18,7 @@ export default function () {
         </>
     }>
         <Stage class="w-full h-[600px]">
-            <Calendar weekBase={week()} palette={palette()} plugins={[lunarPlugin]} onSelected={(d: Date) => notify(d.toString())} />
+            <Calendar weekBase={week()} palette={palette()} plugins={[datetimePluginLunar]} onSelected={(d: Date) => notify(d.toString())} />
         </Stage>
     </Demo>;
 }

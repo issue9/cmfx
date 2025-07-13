@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, DateRangePanel, DateRangePicker, fieldAccessor, Week } from '@cmfx/components';
+import { DatePicker, DateRangePicker, fieldAccessor, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
@@ -44,11 +44,6 @@ export default function() {
 
         <Stage title="min-width">
             <DatePicker actions={actions()} class="w-[200px]" placeholder='placeholder' layout={layout()} label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} tabindex={0} rounded={rounded()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-        </Stage>
-
-        <Stage title="range panel">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-            <p>{range.getValue()}</p>
         </Stage>
 
         <Stage title="range">

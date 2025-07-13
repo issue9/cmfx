@@ -2,17 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, createMemo, createSignal, mergeProps } from 'solid-js';
+import { JSX, createMemo, createSignal, mergeProps } from 'solid-js';
 import IconChevronLeft from '~icons/material-symbols/chevron-left';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { BaseProps, classList, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
-import { Week, equalDate, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
-import { Plugin } from './plugin';
+import { DateView, DateViewRef } from '@/datetime/dateview';
+import { DatetimePlugin } from '@/datetime/plugin';
+import { Week } from '@/datetime/utils';
 import styles from './style.module.css';
 
 /**
@@ -52,7 +53,12 @@ export interface Props extends BaseProps {
     /**
      * 插件列表
      */
-    plugins?: Array<Plugin>;
+    plugins?: Array<DatetimePlugin>;
+
+    /**
+     * 是否高亮周末的列
+     */
+    weekend?: boolean;
 
     class?: string;
     style?: JSX.HTMLAttributes<HTMLElement>['style'];
@@ -67,74 +73,47 @@ const presetProps: Props = {
  */
 export default function Calendar(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
+    let ref: DateViewRef;
 
     const l = useLocale();
-    const [curr, setCurr] = createSignal(props.current ?? new Date());
-
-    const weekFormat = createMemo(() => { return l.dateTimeFormat({ weekday: 'long' }); });
+    const [panelValue, setPanelValue] = createSignal(props.current ?? new Date());
+    const [selected, setSelected] = createSignal<Date>();
 
     const titleFormat = createMemo(() => {
-        return l.dateTimeFormat({ year: 'numeric', month: '2-digit' }).format(curr());
+        return l.datetimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
     });
-
-    const now = new Date();
-
-    const [selected, setSelected] = createSignal(props.selected);
 
     return <div style={props.style} class={joinClass(styles.calendar, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <header>
             <p class={styles.title}>{titleFormat()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevYear')} square onClick={() => setCurr(new Date(curr().getFullYear() - 1, curr().getMonth(), 1))}><IconArrowLeft /></Button>
-                    <Button title={l.t('_c.date.prevMonth')} square onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconChevronLeft /></Button>
-                    <Button onClick={() => setCurr(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.nextMonth')} square onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconChevronRight /></Button>
-                    <Button title={l.t('_c.date.nextYear')} square onClick={() => setCurr(new Date(curr().getFullYear() + 1, curr().getMonth(), 1))}><IconArrowRight /></Button>
+                    <Button title={l.t('_c.date.prevYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() - 1, panelValue().getMonth(), 1))}><IconArrowLeft /></Button>
+                    <Button title={l.t('_c.date.prevMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() - 1, 1))}><IconChevronLeft /></Button>
+                    <Button onClick={() => setPanelValue(new Date())}>{l.t('_c.date.today')}</Button>
+                    <Button title={l.t('_c.date.nextMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() + 1, 1))}><IconChevronRight /></Button>
+                    <Button title={l.t('_c.date.nextYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() + 1, panelValue().getMonth(), 1))}><IconArrowRight /></Button>
                 </ButtonGroup>
             </div>
         </header>
 
         <div class={styles.table}>
-            <table>
-                <thead>
-                    <tr>
-                        <For each={weeks}>
-                            {w => (
-                                <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
-                            )}
-                        </For>
-                    </tr>
-                </thead>
-                <tbody>
-                    <For each={weekDays(curr(), props.weekBase!, props.min, props.max)}>
-                        {week => (
-                            <tr>
-                                <For each={week}>
-                                    {day => {
-                                        return <td onclick={() => {
-                                            if (!day[0]) { return; }
+            <DateView ref={el => ref = el} value={panelValue} min={props.min} max={props.max} plugins={props.plugins}
+                weekend={props.weekend} weekBase={props.weekBase} weekName='long'
+                todayClass={styles.today} selectedClass={styles.selected} coveredClass={styles.covered} disabledClass={styles.disabled}
+                onClick={(d, disabled) => {
+                    if (disabled) return;
 
-                                            if (props.onSelected) { props.onSelected(day[1], selected()); }
-                                            setSelected(day[1]);
-                                        }} class={classList({
-                                            [styles.disabled]: !day[0],
-                                            [styles.current]: selected() && equalDate(selected()!, day[1])
-                                        })}>
-                                            <span class={classList({
-                                                [styles.today]: equalDate(now, day[1])
-                                            }, styles.day)}>{day[1].getDate()}</span>
-                                            <For each={props.plugins}>
-                                                {(plugin) => { return plugin(day[1]); }}
-                                            </For>
-                                        </td>;
-                                    }}
-                                </For>
-                            </tr>
-                        )}
-                    </For>
-                </tbody>
-            </table>
+                    const old = selected();
+                    if (old) { ref.unselect(old); }
+                    ref.select(d);
+                    setSelected(d);
+
+                    if (props.onSelected) {
+                        props.onSelected(d, old);
+                    }
+                }}
+            />
         </div>
     </div>;
 }

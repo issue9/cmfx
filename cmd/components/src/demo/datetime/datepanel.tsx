@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, Week } from '@cmfx/components';
+import { Button, DatePanel, DateRangePanel, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector, Stage } from '../base';
@@ -20,6 +20,9 @@ export default function() {
     const [val, setValue] = createSignal<Date | undefined>(undefined);
     const [valShow, setValShow] = createSignal<string>('');
 
+    const [start, setStart] = createSignal<Date | undefined>(undefined);
+    const [end, setEnd] = createSignal<Date | undefined>(undefined);
+
     return <Demo settings={
         <>
             {paletteS}
@@ -33,7 +36,7 @@ export default function() {
         </>
     }>
         <Stage title="panel" class="flex items-start">
-            <DatePanel label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={val()} weekBase={week()}
                 onChange={(val, old)=>{
                     setValShow(`new:${val}old:${old}`);
@@ -43,9 +46,29 @@ export default function() {
         </Stage>
 
         <Stage title="panel with time" class="flex items-start">
-            <DatePanel label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={val()} weekBase={week()} time
                 onChange={(val, old)=>{
+                    setValShow(`new:${val},old:${old}`);
+                    setValue(val);
+                }} />
+            <p>{valShow()}</p>
+        </Stage>
+
+        <Stage title="range panel" class="flex items-start">
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} start={start()} end={end()}
+                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
+                onStartChange={(val, old)=>{
+                    setValShow(`new:${val}old:${old}`);
+                    setValue(val);
+                }} />
+            <p>{valShow()}</p>
+        </Stage>
+
+        <Stage title="range panel with time" class="flex items-start">
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} start={start()} end={end()}
+                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()} time
+                onStartChange={(val, old)=>{
                     setValShow(`new:${val},old:${old}`);
                     setValue(val);
                 }} />

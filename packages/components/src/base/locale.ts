@@ -23,7 +23,7 @@ export function buildLocale(cl: CoreLocale) {
         /**
          * 创建 {@link Intl#DateTimeFormat} 对象
          */
-        dateTimeFormat(o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+        datetimeFormat(o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
             return l[0].l.dateTimeFormat(o);
         },
 

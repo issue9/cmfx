@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import IconChevronLeft from '~icons/material-symbols/chevron-left';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
@@ -10,7 +10,8 @@ import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right'
 
 import { BaseProps, classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { equalDate, hoursOptions, minutesOptions, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
+import { DateView, DateViewRef } from '@/datetime/dateview';
+import { hoursOptions, minutesOptions, Week } from '@/datetime/utils';
 import styles from './style.module.css';
 
 export interface DateChange {
@@ -78,6 +79,7 @@ export const presetProps: Partial<Props> = {
 export function DatePanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
+    let ref: DateViewRef;
 
     const [panelValue, setPanelValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
     const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
@@ -102,12 +104,9 @@ export function DatePanel(props: Props): JSX.Element {
         }
     };
 
-    const [today, setToday] = createSignal(new Date());
-
     const changePanelValue = (val: Date) => {
         setPanelValue(val);
         scrollTimer();
-        setToday(new Date()); // 保证 today 的值始终是当前日期
     };
 
     // 改变值且触发 onchange 事件
@@ -120,10 +119,8 @@ export function DatePanel(props: Props): JSX.Element {
     };
 
     const titleFormat = createMemo(() => {
-        return l.dateTimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
+        return l.datetimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
     });
-
-    const weekFormat = createMemo(() => { return l.dateTimeFormat({ weekday: 'narrow' }); });
 
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
@@ -190,7 +187,7 @@ export function DatePanel(props: Props): JSX.Element {
     }, styles.time)}>
         <ul class={styles.item}>
             <For each={hoursOptions}>
-                {(item) => (
+                {item => (
                     <li classList={{ [styles.selected]: panelValue().getHours() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
@@ -210,7 +207,7 @@ export function DatePanel(props: Props): JSX.Element {
 
         <ul class={styles.item}>
             <For each={minutesOptions}>
-                {(item) => (
+                {item => (
                     <li classList={{ [styles.selected]: panelValue().getMinutes() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
@@ -229,64 +226,27 @@ export function DatePanel(props: Props): JSX.Element {
         </ul>
     </div>;
 
-    const daysSelector = <table>
-        <Show when={props.weekend}>
-            <colgroup>
-                <For each={weeks}>
-                    {w => (
-                        <col classList={{ [styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
-                    )}
-                </For>
-            </colgroup>
-        </Show>
-
-        <thead>
-            <tr>
-                <For each={weeks}>
-                    {w => (
-                        <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
-                    )}
-                </For>
-            </tr>
-        </thead>
-
-        <tbody>
-            <For each={weekDays(panelValue(), props.weekBase!, props.min, props.max)}>
-                {week => (
-                    <tr>
-                        <For each={week}>
-                            {day => (
-                                <td>
-                                    <button tabIndex={props.tabindex} classList={{
-                                        [styles.selected]: value() && equalDate(value()!, day[1]),
-                                        [styles.today]: equalDate(today(), day[1]),
-                                    }}
-                                    disabled={!day[0] || props.disabled}
-                                    onClick={() => {
-                                        if (props.readonly || props.disabled) { return; }
-
-                                        const v = value();
-                                        if (!v) {
-                                            change(day[1]);
-                                        } else {
-                                            const d = new Date(day[1]);
-                                            d.setHours(v.getHours());
-                                            d.setMinutes(v.getMinutes());
-                                            change(d);
-                                        }
-                                    }}>{day[1].getDate()}</button>
-                                </td>
-                            )}
-                        </For>
-                    </tr>
-                )}
-            </For>
-        </tbody>
-    </table>;
-
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
-        <div ref={el => dateRef = el}>{title}{daysSelector}</div>
+        <div ref={el => dateRef = el}>
+            {title}
+            <DateView value={panelValue} ref={el=>ref=el} min={props.min} max={props.max}
+                selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today} disabledClass={styles.disabled}
+                weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
+                onClick={(d, disabled)=>{
+                    if (disabled) { return; }
+
+                    const old = value();
+                    if (old) { ref.unselect(old); }
+                    ref.select(d);
+                    setValue(d);
+
+                    if (props.onChange) {
+                        props.onChange(d, old);
+                    }
+                }}
+            />
+        </div>
         {timer}
     </fieldset>;
 }
