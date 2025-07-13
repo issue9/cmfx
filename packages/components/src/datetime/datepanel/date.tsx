@@ -15,7 +15,7 @@ import { hoursOptions, minutesOptions, Week } from '@/datetime/utils';
 import styles from './style.module.css';
 
 export interface DateChange {
-    (val: Date, old?: Date): void;
+    (val?: Date, old?: Date): void;
 }
 
 export interface Props extends BaseProps {
@@ -84,8 +84,6 @@ export function DatePanel(props: Props): JSX.Element {
     const [panelValue, setPanelValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
     const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
 
-    createEffect(() => { setValue(props.value); });
-
     let dateRef: HTMLDivElement;
     let timeRef: HTMLDivElement;
 
@@ -110,13 +108,17 @@ export function DatePanel(props: Props): JSX.Element {
     };
 
     // 改变值且触发 onchange 事件
-    const change = (val: Date) => {
-        changePanelValue(val);
+    const change = (val?: Date) => {
+        changePanelValue(val ?? new Date());
 
         const old = value();
+        if (old) { ref.unselect(old); }
+        if (val) { ref.select(val); }
         setValue(val);
         if (props.onChange) { props.onChange(val, old); }
     };
+
+    createEffect(() => { change(props.value); });
 
     const titleFormat = createMemo(() => {
         return l.datetimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
@@ -233,18 +235,7 @@ export function DatePanel(props: Props): JSX.Element {
             <DateView value={panelValue} ref={el=>ref=el} min={props.min} max={props.max}
                 selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today} disabledClass={styles.disabled}
                 weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
-                onClick={(d, disabled)=>{
-                    if (disabled) { return; }
-
-                    const old = value();
-                    if (old) { ref.unselect(old); }
-                    ref.select(d);
-                    setValue(d);
-
-                    if (props.onChange) {
-                        props.onChange(d, old);
-                    }
-                }}
+                onClick={(d, disabled) => { if (!disabled) { change(d); }}}
             />
         </div>
         {timer}

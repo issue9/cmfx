@@ -34,19 +34,15 @@
 
             th,
             td {
-                >span {
-                    @apply flex justify-center items-center m-1;
-                    @apply aspect-square border border-transparent outline-none rounded-sm cursor-pointer;
-                    @apply p-1 w-8 min-w-6;
-                }
-
+                @apply border border-transparent outline-none rounded-sm cursor-pointer;
+                @apply aspect-square m-1 p-1 w-8 min-w-6;
             }
 
             td.disabled {
                 @apply text-palette-fg-low;
             }
 
-            td.today td>span {
+            td.today {
                 @apply border-b-palette-bg-low;
             }
         }
@@ -64,7 +60,7 @@
         }
 
         .time ul li.selected,
-        table td.selected>span {
+        table td.selected {
             @apply bg-palette-bg-high;
         }
 
@@ -72,7 +68,7 @@
 
     .panel:enabled {
 
-        table tbody td:not(.disabled) span:hover,
+        table tbody td:not(.disabled):hover,
         .time li:hover,
         .title button:enabled:hover {
             @apply bg-palette-bg-low cursor-pointer;

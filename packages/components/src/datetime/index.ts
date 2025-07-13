@@ -8,4 +8,5 @@ export type { Month, Week } from './utils';
 export * from './calendar';
 export * from './datepanel';
 export * from './plugin';
+export * from './timer';
 

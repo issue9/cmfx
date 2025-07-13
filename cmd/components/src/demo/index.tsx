@@ -18,6 +18,7 @@ export const routes: Array<RouteDefinition> = [
 
     { path: '/datetime-calendar', component: lazy(() => import('./datetime/calendar')) },
     { path: '/datetime-datepanel', component: lazy(() => import('./datetime/datepanel')) },
+    { path: '/datetime-timer', component: lazy(() => import('./datetime/timer')) },
 
     { path: '/dialog', component: lazy(() => import('./dialog')) },
     { path: '/divider', component: lazy(() => import('./divider')) },
@@ -40,7 +41,6 @@ export const routes: Array<RouteDefinition> = [
     { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
     { path: '/theme-selector', component: lazy(() => import('./theme/selector')) },
 
-    { path: '/timer', component: lazy(() => import('./timer')) },
     { path: '/tooltip', component: lazy(() => import('./tooltip')) },
 
     { path: '/tree-list', component: lazy(() => import('./tree/list')) },

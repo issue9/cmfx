@@ -8,6 +8,8 @@
 
 @layer components {
     table {
+        @apply border-spacing-0 border-separate;
+
         colgroup {
             .weekend {
                 @apply bg-palette-bg-low;
@@ -16,15 +18,6 @@
 
         thead>tr {
             @apply border-b border-b-palette-bg-low font-bold;
-        }
-
-        th,
-        td {
-            >span {
-                @apply flex justify-center items-center m-1;
-                @apply aspect-square border border-transparent outline-none rounded-sm cursor-pointer;
-                @apply p-1 w-8 min-w-6;
-            }
         }
     }
 }

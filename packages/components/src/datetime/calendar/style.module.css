@@ -28,9 +28,14 @@
                     @apply py-1;
                 }
 
-                thead tr,
-                tbody tr:not(:last-child) {
+                th,
+                td {
                     @apply border-b border-b-palette-bg-low;
+                }
+
+                th:not(:last-child),
+                td:not(:last-child) {
+                    @apply border-r border-r-palette-bg-low;
                 }
 
                 td {
@@ -53,11 +58,6 @@
 
                 td.selected {
                     @apply bg-palette-bg-high;
-                }
-
-                th:not(:last-child),
-                td:not(:last-child) {
-                    @apply border-r border-r-palette-bg-low;
                 }
 
                 td.disabled {
