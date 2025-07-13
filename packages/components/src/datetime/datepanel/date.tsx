@@ -11,12 +11,8 @@ import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right'
 import { BaseProps, classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { DateView, DateViewRef } from '@/datetime/dateview';
-import { hoursOptions, minutesOptions, Week } from '@/datetime/utils';
+import { DateChange, hoursOptions, minutesOptions, Week } from '@/datetime/utils';
 import styles from './style.module.css';
-
-export interface DateChange {
-    (val?: Date, old?: Date): void;
-}
 
 export interface Props extends BaseProps {
     tabindex?: number;

@@ -28,21 +28,24 @@
                 }
             }
 
-            thead>tr {
-                @apply border-b border-palette-bg-low;
-            }
-
-            th,
-            td {
-                @apply border border-transparent outline-none rounded-sm cursor-pointer;
+            thead>tr>th,
+            tbody>tr>td {
                 @apply aspect-square m-1 p-1 w-8 min-w-6;
             }
 
-            td.disabled {
+            thead>tr>th {
+                @apply border-b border-b-palette-bg-low cursor-default;
+            }
+
+            tbody>tr>td {
+                @apply border border-transparent rounded-sm cursor-pointer outline-none;
+            }
+
+            tbody>tr>td.disabled {
                 @apply text-palette-fg-low;
             }
 
-            td.today {
+            tbody>tr>td.today {
                 @apply border-b-palette-bg-low;
             }
         }

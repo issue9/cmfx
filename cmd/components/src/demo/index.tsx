@@ -18,6 +18,7 @@ export const routes: Array<RouteDefinition> = [
 
     { path: '/datetime-calendar', component: lazy(() => import('./datetime/calendar')) },
     { path: '/datetime-datepanel', component: lazy(() => import('./datetime/datepanel')) },
+    { path: '/datetime-timepanel', component: lazy(() => import('./datetime/timepanel')) },
     { path: '/datetime-timer', component: lazy(() => import('./datetime/timer')) },
 
     { path: '/dialog', component: lazy(() => import('./dialog')) },
