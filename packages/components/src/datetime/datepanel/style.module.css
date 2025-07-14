@@ -13,7 +13,7 @@
         @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-row gap-1;
 
         .title {
-            @apply flex justify-between items-center mb-2 text-lg;
+            @apply flex justify-between items-center mb-2 text-lg border-b border-b-palette-bg-low pb-1;
 
             button {
                 @apply flex justify-center items-center;
@@ -34,11 +34,11 @@
             }
 
             thead>tr>th {
-                @apply border-b border-b-palette-bg-low cursor-default;
+                @apply cursor-default;
             }
 
             tbody>tr>td {
-                @apply border border-transparent rounded-sm cursor-pointer outline-none;
+                @apply border border-transparent rounded-sm cursor-pointer outline-none py-1;
             }
 
             tbody>tr>td.disabled {
@@ -50,19 +50,6 @@
             }
         }
 
-        .time {
-            @apply h-10 flex flex-row pl-1;
-
-            ul.item {
-                @apply overflow-y-scroll h-full w-10;
-
-                li {
-                    @apply rounded-sm m-[1px];
-                }
-            }
-        }
-
-        .time ul li.selected,
         table td.selected {
             @apply bg-palette-bg-high;
         }
@@ -72,7 +59,6 @@
     .panel:enabled {
 
         table tbody td:not(.disabled):hover,
-        .time li:hover,
         .title button:enabled:hover {
             @apply bg-palette-bg-low cursor-pointer;
         }

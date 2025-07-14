@@ -25,7 +25,7 @@ export interface Props extends BaseProps {
      */
     onChange?: DateChange;
 
-    ref?: { (el: HTMLElement): void; };
+    ref?: { (el: HTMLFieldSetElement): void; };
 
     class?: string;
 }

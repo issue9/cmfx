@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
 import IconChevronLeft from '~icons/material-symbols/chevron-left';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
@@ -12,7 +12,6 @@ import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { DateView, DateViewRef } from '@/datetime/dateview';
 import { DateChange, Week } from '@/datetime/utils';
-import { untrack } from 'solid-js';
 import { TimePanel } from '../timepanel';
 import styles from './style.module.css';
 
@@ -62,7 +61,7 @@ export interface Props extends BaseProps {
      */
     onChange?: DateChange;
 
-    ref?: { (el: HTMLElement): void; };
+    ref?: { (el: HTMLFieldSetElement): void; };
 
     class?: string;
 }
@@ -77,7 +76,6 @@ export const presetProps: Partial<Props> = {
 export function DatePanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
-    let ref: DateViewRef;
 
     const [panelValue, setPanelValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
     const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
@@ -85,6 +83,8 @@ export function DatePanel(props: Props): JSX.Element {
     const changePanelValue = (val: Date) => {
         setPanelValue(val);
     };
+
+    let dateViewRef: DateViewRef;
 
     // 改变值且触发 onchange 事件
     const change = (val?: Date) => {
@@ -94,8 +94,8 @@ export function DatePanel(props: Props): JSX.Element {
 
         if (old === val) { return; }
 
-        if (old) { ref.unselect(old); }
-        if (val) { ref.select(val); }
+        if (old) { dateViewRef.unselect(old); }
+        if (val) { dateViewRef.select(val); }
         setValue(val);
         if (props.onChange) { props.onChange(val, old); }
     };
@@ -109,17 +109,27 @@ export function DatePanel(props: Props): JSX.Element {
     });
 
     let dateRef: HTMLDivElement;
-    let timeRef: HTMLElement;
+    const [timeRef, setTimeRef] = createSignal<HTMLElement>();
+    let resizeObserver: ResizeObserver;
 
-    onMount(() => {
+    createEffect(() => {
+        if (resizeObserver) { resizeObserver.disconnect(); }
+
+        if (!timeRef()) { return; }
+
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
-        const resizeObserver = new ResizeObserver(entries => {
-            if (!props.time) { return; }
-            timeRef.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+        resizeObserver = new ResizeObserver(entries => {
+            const ref = timeRef();
+            if (ref) {
+                ref.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
+            }
         });
 
         resizeObserver.observe(dateRef!);
-        onCleanup(() => { resizeObserver.disconnect(); });
+    });
+
+    onCleanup(() => {
+        if (resizeObserver) { resizeObserver.disconnect(); }
     });
 
     // 年月标题
@@ -173,7 +183,7 @@ export function DatePanel(props: Props): JSX.Element {
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <div ref={el => dateRef = el}>
             {title}
-            <DateView value={panelValue} ref={el => ref = el} min={props.min} max={props.max}
+            <DateView value={panelValue} ref={el => dateViewRef = el} min={props.min} max={props.max}
                 selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today} disabledClass={styles.disabled}
                 weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
                 onClick={(d, disabled) => { if (!disabled) { change(d); } }}
@@ -181,7 +191,7 @@ export function DatePanel(props: Props): JSX.Element {
         </div>
 
         <Show when={props.time}>
-            <TimePanel ref={el => timeRef = el} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
+            <TimePanel ref={el =>setTimeRef(el)} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
                 onChange={d => {
                     if (props.disabled || props.readonly) { return; }
                     change(d);

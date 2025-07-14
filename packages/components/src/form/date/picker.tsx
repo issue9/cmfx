@@ -13,8 +13,6 @@ import { DatePanel, DatePanelProps } from '@/datetime';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
 import styles from './style.module.css';
 
-export type ValueType = string | number | undefined;
-
 export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
@@ -29,7 +27,7 @@ export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' |
      * 如果是字符串，表示一个能被 {@link Date.parse} 识别的日期格式，
      * 如果是 number，则表示微秒。
      */
-    accessor: Accessor<ValueType>;
+    accessor: Accessor<Date | undefined>;
 }
 
 export const presetProps: Partial<Props> = {
@@ -57,8 +55,8 @@ export function DatePicker(props: Props): JSX.Element {
     const ac = props.accessor;
     const [hover, setHover] = createSignal(false);
 
-    const change = (val: Date) => {
-        props.accessor.setValue(val.toISOString());
+    const change = (val?: Date) => {
+        props.accessor.setValue(val);
     };
 
     const id = createUniqueId();
@@ -90,7 +88,7 @@ export function DatePicker(props: Props): JSX.Element {
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel}>
 
             <DatePanel class={styles['dt-panel']} {...panelProps} onChange={change} tabindex={props.tabindex}
-                value={new Date(props.accessor.getValue()!)} />
+                value={props.accessor.getValue()} />
 
             <div class={styles.actions}>
                 <div class={styles.left}>

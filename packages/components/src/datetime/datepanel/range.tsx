@@ -6,40 +6,26 @@
 import { splitProps } from 'solid-js';
 
 import { joinClass } from '@/base';
-import { DateChange, DatePanel, Props as DatePanelProps } from './date';
+import { DatePanel, Props as DatePanelProps } from './date';
 import styles from './style.module.css';
 
+type ValueType = [start?: Date, end?: Date];
+
 export interface Props extends Omit<DatePanelProps, 'value' | 'onChange'> {
-    /**
-     * 起始时间
-     */
-    start?: Date;
+    value?: ValueType;
 
-    /**
-     * 结束时间
-     */
-    end?: Date;
-
-    /**
-     * start 修改时触发事件，触发条件可参考 {@link DatePanelProps#onChange} 字段。
-     */
-    onStartChange?: DateChange;
-
-    /**
-     * end 修改时触发事件，触发条件可参考 {@link DatePanelProps#onChange} 字段。
-     */
-    onEndChange?: DateChange;
+    onChange?: (value?: ValueType, old?: ValueType) => void;
 }
 
 export function DateRangePanel(props: Props) {
-    const [_, panelProps] = splitProps(props, ['start', 'end', 'onStartChange', 'onEndChange', 'popover', 'ref', 'class', 'min', 'max']);
+    const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'min', 'max']);
 
     return <fieldset class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
         disabled={props.disabled} popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }}
     >
         <div class={styles.panels}>
-            <DatePanel {...panelProps} value={props.start} min={props.min} max={props.end} />
-            <DatePanel {...panelProps} value={props.end} max={props.max} min={props.start} />
+            <DatePanel {...panelProps} value={props.value} min={props.min} max={props.end} class={styles.panel} />
+            <DatePanel {...panelProps} value={props.value} max={props.max} min={props.start} class={styles.panel} />
         </div>
 
         <div class={styles.actions}>
