@@ -6,6 +6,7 @@ import { For, createEffect, createSignal, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { DateChange, hoursOptions, minutesOptions } from '@/datetime/utils';
+import { createMemo } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -34,11 +35,13 @@ export interface Props extends BaseProps {
  */
 export default function TimePanel(props: Props) {
     let ref: HTMLFieldSetElement;
-    const [value, setValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
+    const zero = new Date(0);
+    zero.setHours(0, 0, 0, 0);
+
+    const [value, setValue] = createSignal<Date | undefined>(props.value);
 
     const scrollTimer = () => {
         const items = ref.querySelectorAll(`ul>li.${styles.selected}`);
-        console.log('items:', items);
         if (items && items.length > 0) {
             for (const item of items) {
                 const p = item.parentElement;
@@ -50,16 +53,24 @@ export default function TimePanel(props: Props) {
         }
     };
 
+    const val = createMemo(() => {
+        const v = value();
+        if (v === undefined) { return zero; }
+        return v;
+    });
+
     const change = (val?: Date) => {
         const old = untrack(value);
 
-        setValue(val ?? new Date());
+        setValue(val);
         requestIdleCallback(() => { scrollTimer(); }); // 保证在页面设置完之后，再进行滚动。
 
         if (props.onChange) { props.onChange(val, old); }
     };
 
-    createEffect(() => { change(props.value); });
+    createEffect(() => {
+        if (props.value !== value()) { change(props.value); }
+    });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.time, props.palette ? `palette--${props.palette}` : undefined, props.class)}
@@ -70,10 +81,10 @@ export default function TimePanel(props: Props) {
         <ul class={styles.item}>
             <For each={hoursOptions}>
                 {item => (
-                    <li classList={{ [styles.selected]: value().getHours() == item[0] }}
+                    <li classList={{ [styles.selected]: val().getHours() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
-                            const dt = new Date(value());
+                            const dt = new Date(val());
                             dt.setHours(item[0]);
                             change(dt);
                         }}
@@ -85,10 +96,10 @@ export default function TimePanel(props: Props) {
         <ul class={styles.item}>
             <For each={minutesOptions}>
                 {item => (
-                    <li classList={{ [styles.selected]: value().getMinutes() == item[0] }}
+                    <li classList={{ [styles.selected]: val().getMinutes() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
-                            const dt = new Date(value());
+                            const dt = new Date(val());
                             dt.setMinutes(item[0]);
                             change(dt);
                         }}
@@ -100,10 +111,10 @@ export default function TimePanel(props: Props) {
         <ul class={styles.item}>
             <For each={minutesOptions}>
                 {item => (
-                    <li classList={{ [styles.selected]: value().getSeconds() == item[0] }}
+                    <li classList={{ [styles.selected]: val().getSeconds() == item[0] }}
                         onClick={() => {
                             if (props.disabled || props.readonly) { return; }
-                            const dt = new Date(value());
+                            const dt = new Date(val());
                             dt.setSeconds(item[0]);
                             change(dt);
                         }}

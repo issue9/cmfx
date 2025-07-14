@@ -66,7 +66,7 @@ export default function Time(props: Props) {
             }}
         >
             <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder}
-                value={formatter().format(ac.getValue())}
+                value={ac.getValue() ? formatter().format(ac.getValue()) : ''}
             />
             <Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
                 <IconClose onClick={e => {

@@ -22,6 +22,7 @@ export default function() {
             {readonlyS}
             {roundedS}
             {layoutS}
+            <button class="palette--primary" onClick={() => ac.setError(ac.getError() ? undefined : 'error')}>toggle error</button>
         </>
     }>
         <Stage title="picker">

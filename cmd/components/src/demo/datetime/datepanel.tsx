@@ -18,7 +18,9 @@ export default function() {
     const [minmaxS, minmax] = boolSelector('minmax');
 
     const [val, setValue] = createSignal<Date | undefined>(undefined);
+    const [valWithTime, setValWithTime] = createSignal<Date | undefined>(undefined);
     const [valShow, setValShow] = createSignal<string>('');
+    const [valWithTimeShow, setValWithTimeShow] = createSignal<string>('');
 
     const [start, setStart] = createSignal<Date | undefined>(undefined);
     const [end, setEnd] = createSignal<Date | undefined>(undefined);
@@ -31,8 +33,8 @@ export default function() {
             {weekendS}
             {minmaxS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
-            <Button onClick={()=>setValue()}>set undefined</Button>
-            <Button onClick={()=>setValue(new Date())}>now</Button>
+            <Button onClick={() => { setValue(); setValWithTime(); }}>set undefined</Button>
+            <Button onClick={() => { setValue(new Date()); setValWithTime(new Date()); }}>now</Button>
         </>
     }>
         <Stage title="panel" class="flex items-start">
@@ -47,12 +49,12 @@ export default function() {
 
         <Stage title="panel with time" class="flex items-start">
             <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={val()} weekBase={week()} time
+                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={valWithTime()} weekBase={week()} time
                 onChange={(val, old)=>{
-                    setValShow(`new:${val},old:${old}`);
-                    setValue(val);
+                    setValWithTimeShow(`new:${val},old:${old}`);
+                    setValWithTime(val);
                 }} />
-            <p>{valShow()}</p>
+            <p>{valWithTimeShow()}</p>
         </Stage>
 
         <Stage title="range panel" class="flex items-start">

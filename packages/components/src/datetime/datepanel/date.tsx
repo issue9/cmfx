@@ -2,17 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconChevronLeft from '~icons/material-symbols/chevron-left';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { BaseProps, classList, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { DateView, DateViewRef } from '@/datetime/dateview';
-import { DateChange, hoursOptions, minutesOptions, Week } from '@/datetime/utils';
+import { DateChange, Week } from '@/datetime/utils';
 import { untrack } from 'solid-js';
+import { TimePanel } from '../timepanel';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -81,27 +82,8 @@ export function DatePanel(props: Props): JSX.Element {
     const [panelValue, setPanelValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
     const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
 
-    let dateRef: HTMLDivElement;
-    let timeRef: HTMLDivElement;
-
-    const scrollTimer = () => {
-        if (!props.time) { return; }
-
-        const items = timeRef.querySelectorAll(`.${styles.item}>li.${styles.selected}`);
-        if (items && items.length > 0) {
-            for (const item of items) {
-                const p = item.parentElement;
-                const top = item.getBoundingClientRect().top - p!.getBoundingClientRect().top;
-
-                // scrollBy 与 scrollIntoView 不同点在于，scrollBy 并不会让整个 p 出现在页面的可见范围之内。
-                p!.scrollBy({ top: top, behavior: 'smooth' });
-            }
-        }
-    };
-
     const changePanelValue = (val: Date) => {
         setPanelValue(val);
-        scrollTimer();
     };
 
     // 改变值且触发 onchange 事件
@@ -109,23 +91,31 @@ export function DatePanel(props: Props): JSX.Element {
         changePanelValue(val ?? new Date());
 
         const old = untrack(value);
+
+        if (old === val) { return; }
+
         if (old) { ref.unselect(old); }
         if (val) { ref.select(val); }
         setValue(val);
         if (props.onChange) { props.onChange(val, old); }
     };
 
-    createEffect(() => { change(props.value); });
+    createEffect(() => {
+        if (props.value !== value()) { change(props.value); }
+    });
 
     const titleFormat = createMemo(() => {
         return l.datetimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
     });
 
+    let dateRef: HTMLDivElement;
+    let timeRef: HTMLElement;
+
     onMount(() => {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         const resizeObserver = new ResizeObserver(entries => {
+            if (!props.time) { return; }
             timeRef.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px';
-            scrollTimer();
         });
 
         resizeObserver.observe(dateRef!);
@@ -179,62 +169,24 @@ export function DatePanel(props: Props): JSX.Element {
         </div>
     </div>;
 
-    // 小时分钟选择器
-    const timer = <div ref={el => timeRef = el} class={classList({
-        '!flex': props.time,
-        '!hidden': !props.time,
-    }, styles.time)}>
-        <ul class={styles.item}>
-            <For each={hoursOptions}>
-                {item => (
-                    <li classList={{ [styles.selected]: panelValue().getHours() == item[0] }}
-                        onClick={() => {
-                            if (props.disabled || props.readonly) { return; }
-                            const dt = new Date(panelValue());
-                            dt.setHours(item[0]);
-
-                            if (value()) {
-                                change(dt);
-                            } else {
-                                changePanelValue(dt);
-                            }
-                        }}
-                    >{item[1]}</li>
-                )}
-            </For>
-        </ul>
-
-        <ul class={styles.item}>
-            <For each={minutesOptions}>
-                {item => (
-                    <li classList={{ [styles.selected]: panelValue().getMinutes() == item[0] }}
-                        onClick={() => {
-                            if (props.disabled || props.readonly) { return; }
-                            const dt = new Date(panelValue());
-                            dt.setMinutes(item[0]);
-
-                            if (value()) {
-                                change(dt);
-                            } else {
-                                changePanelValue(dt);
-                            }
-                        }}
-                    >{item[1]}</li>
-                )}
-            </For>
-        </ul>
-    </div>;
-
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <div ref={el => dateRef = el}>
             {title}
-            <DateView value={panelValue} ref={el=>ref=el} min={props.min} max={props.max}
+            <DateView value={panelValue} ref={el => ref = el} min={props.min} max={props.max}
                 selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today} disabledClass={styles.disabled}
                 weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
-                onClick={(d, disabled) => { if (!disabled) { change(d); }}}
+                onClick={(d, disabled) => { if (!disabled) { change(d); } }}
             />
         </div>
-        {timer}
+
+        <Show when={props.time}>
+            <TimePanel ref={el => timeRef = el} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
+                onChange={d => {
+                    if (props.disabled || props.readonly) { return; }
+                    change(d);
+                }}
+            />
+        </Show>
     </fieldset>;
 }
