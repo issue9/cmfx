@@ -8,7 +8,8 @@
 
 @layer components {
     fieldset.time {
-        @apply h-25 flex flex-row p-1 border border-palette-fg-low rounded-md;
+        @apply h-40 border border-palette-fg-low rounded-md p-1;
+        @apply flex flex-row;
         @apply bg-palette-bg text-palette-fg;
 
         ul.item {

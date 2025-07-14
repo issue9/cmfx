@@ -62,5 +62,6 @@ export const routes: Array<RouteDefinition> = [
     { path: '/form-range', component: lazy(() => import('./form/range')) },
     { path: '/form-textfield', component: lazy(() => import('./form/textfield')) },
     { path: '/form-textarea', component: lazy(() => import('./form/textarea')) },
+    { path: '/form-time', component: lazy(() => import('./form/time')) },
     { path: '/form-upload', component: lazy(() => import('./form/upload')) },
 ] as const;

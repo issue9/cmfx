@@ -2,15 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, createEffect, createSignal } from 'solid-js';
+import { For, createEffect, createSignal, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { DateChange, hoursOptions, minutesOptions } from '@/datetime/utils';
-import { untrack } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
-    tabindex?: number;
     disabled?: boolean;
     readonly?: boolean;
 
@@ -39,7 +37,8 @@ export default function TimePanel(props: Props) {
     const [value, setValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
 
     const scrollTimer = () => {
-        const items = ref.querySelectorAll(`.${styles.item}>li.${styles.selected}`);
+        const items = ref.querySelectorAll(`ul>li.${styles.selected}`);
+        console.log('items:', items);
         if (items && items.length > 0) {
             for (const item of items) {
                 const p = item.parentElement;
@@ -55,16 +54,14 @@ export default function TimePanel(props: Props) {
         const old = untrack(value);
 
         setValue(val ?? new Date());
-        scrollTimer();
+        requestIdleCallback(() => { scrollTimer(); }); // 保证在页面设置完之后，再进行滚动。
 
         if (props.onChange) { props.onChange(val, old); }
     };
 
-    createEffect(() => {
-        change(props.value);
-    });
+    createEffect(() => { change(props.value); });
 
-    return <fieldset disabled={props.disabled}
+    return <fieldset disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.time, props.palette ? `palette--${props.palette}` : undefined, props.class)}
         ref={ el => {
             ref = el;
@@ -93,6 +90,21 @@ export default function TimePanel(props: Props) {
                             if (props.disabled || props.readonly) { return; }
                             const dt = new Date(value());
                             dt.setMinutes(item[0]);
+                            change(dt);
+                        }}
+                    >{item[1]}</li>
+                )}
+            </For>
+        </ul>
+
+        <ul class={styles.item}>
+            <For each={minutesOptions}>
+                {item => (
+                    <li classList={{ [styles.selected]: value().getSeconds() == item[0] }}
+                        onClick={() => {
+                            if (props.disabled || props.readonly) { return; }
+                            const dt = new Date(value());
+                            dt.setSeconds(item[0]);
                             change(dt);
                         }}
                     >{item[1]}</li>

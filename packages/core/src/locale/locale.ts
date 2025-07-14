@@ -12,7 +12,7 @@ export const unitStyles = ['full', 'short', 'narrow'] as const;
 
 /**
  * 一些与本地化相关的单位名称的显示方式
- * 
+ *
  *  - full 显示完整的名称；
  *  - short 显示简短的名称；
  *  - narrow 以最简单的方式显示；
@@ -39,7 +39,6 @@ export class Locale {
      * 初始化
      *
      * @param fallback 在找不到对应在的语言时采用的默认值；
-     * @param api 切换语言时会同时切换 api 的 accept-language 报头；
      */
     static init(fallback: string) {
         Locale.#fallback = fallback;

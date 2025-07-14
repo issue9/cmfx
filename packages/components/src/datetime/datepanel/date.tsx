@@ -12,6 +12,7 @@ import { BaseProps, classList, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { DateView, DateViewRef } from '@/datetime/dateview';
 import { DateChange, hoursOptions, minutesOptions, Week } from '@/datetime/utils';
+import { untrack } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -107,7 +108,7 @@ export function DatePanel(props: Props): JSX.Element {
     const change = (val?: Date) => {
         changePanelValue(val ?? new Date());
 
-        const old = value();
+        const old = untrack(value);
         if (old) { ref.unselect(old); }
         if (val) { ref.select(val); }
         setValue(val);

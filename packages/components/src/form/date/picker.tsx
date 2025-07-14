@@ -7,7 +7,7 @@ import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitP
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, Layout, Palette } from '@/base';
+import { joinClass, Palette } from '@/base';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
@@ -35,7 +35,7 @@ export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' |
 export const presetProps: Partial<Props> = {
     accentPalette: 'primary',
     weekBase: 0,
-    layout: 'horizontal' as Layout
+    layout: 'horizontal'
 } as const;
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {
