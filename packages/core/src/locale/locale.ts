@@ -4,7 +4,6 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { Duration, formatDuration, parseDuration } from '@/time';
 import { Dict, dictFlatten, DictKeys, Loader } from './dict';
 import { match } from './match';
 
@@ -107,6 +106,7 @@ export class Locale {
 
     readonly #datetime: Intl.DateTimeFormat;
     readonly #date: Intl.DateTimeFormat;
+    readonly #time: Intl.DateTimeFormat;
 
     readonly #B: Intl.NumberFormat;
     readonly #kB: Intl.NumberFormat;
@@ -155,6 +155,7 @@ export class Locale {
 
         this.#datetime = this.dateTimeFormat({ timeStyle: dtStyle, dateStyle: dtStyle });
         this.#date = this.dateTimeFormat({ dateStyle: dtStyle });
+        this.#time = this.dateTimeFormat({ timeStyle: dtStyle });
 
         this.#B = this.numberFormat({ style: 'unit', unit: 'byte', unitDisplay: byteStyle });
         this.#kB = this.numberFormat({ style: 'unit', unit: 'kilobyte', unitDisplay: byteStyle });
@@ -174,21 +175,21 @@ export class Locale {
     /**
      * 创建 {@link Intl#DateTimeFormat} 对象
      */
-    dateTimeFormat(o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+    dateTimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
         return new Intl.DateTimeFormat(this.locale, o);
     }
 
     /**
      * 创建 {@link Intl#NumberFormat} 对象
      */
-    numberFormat(o: Intl.NumberFormatOptions): Intl.NumberFormat {
+    numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat {
         return new Intl.NumberFormat(this.locale, o);
     }
 
     /**
      * 创建 {@link DurationFormat} 对象
      */
-    durationFormat(o: Intl.DurationFormatOptions): Intl.DurationFormat {
+    durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat {
         return new (Intl as any).DurationFormat(this.locale, o);
     }
 
@@ -211,31 +212,24 @@ export class Locale {
     }
 
     /**
-     * 返回本地化的时间
-     * @param d 时间，如果是 number 类型，表示的是毫秒；
-     * @returns 根据本地化格式的字符串
+     * 用于同时格式化日期和时间的对象
      */
-    datetime(d?: Date | string | number): string {
-        if (d === undefined) { return ''; }
-        return this.#datetime.format(new Date(d));
-    }
+    get datetime(): Intl.DateTimeFormat { return this.#datetime; }
 
     /**
-     * 返回本地化的日期
-     * @param d 时间，如果是 number 类型，表示的是毫秒；
-     * @returns 根据本地化格式的字符串
+     * 用于格式化时期部分的格式化对象
      */
-    date(d?: Date | string | number): string {
-        if (d === undefined) { return ''; }
-        return this.#date.format(new Date(d));
-    }
+    get date(): Intl.DateTimeFormat { return this.#date; }
 
     /**
-     *返回本地化的时间区间
+     * 用于格式化时间部分的格式化对象
      */
-    duration(val?: Duration): string {
-        return this.#duration.format(formatDuration(parseDuration(val)));
-    }
+    get time(): Intl.DateTimeFormat { return this.#time; }
+
+    /**
+     *返回本地化的时间区间的对象
+     */
+    get duration(): Intl.DurationFormat { return this.#duration; }
 
     /**
      * 返回本地化的字节数

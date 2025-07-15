@@ -4,6 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
+import { toIntlDuration } from '@/time';
 import { Locale } from './locale';
 
 describe('Locale', async () => {
@@ -27,7 +28,7 @@ describe('Locale', async () => {
         expect(Locale.translate('en', 'lang.1.22')).toEqual('22');// 应该是合并而不是覆盖
 
         // 一次传递多个加载函数，应该是合并而不是覆盖
-        await Locale.addDict('en', 
+        await Locale.addDict('en',
             async () => { return { 'lang': { '2': { '11': '11' } } }; },
             async () => { return { 'lang': { '2': { '22': '22' } } }; },
         );
@@ -68,17 +69,17 @@ describe('Locale', async () => {
 
     test('duration', () => {
         const l = new Locale('en', 'narrow');
-        expect(l.duration(111), '111ns');
-        expect(l.duration(11111111111), '111.111ms');
+        expect(l.duration.format(toIntlDuration(111)), '111ns');
+        expect(l.duration.format(toIntlDuration(11111111111)), '111.111ms');
     });
 
-    test('date', ()=>{
+    test('date', () => {
         const l = new Locale('en', 'short');
-        expect(l.date('2021-01-02'), '2021-01-02');
+        expect(l.date.format(new Date('2021-01-02')), '2021-01-02');
     });
 
-    test('datetime', ()=>{
+    test('datetime', () => {
         const l = new Locale('en', 'short');
-        expect(l.datetime('2021-01-02 1:2'), '2021-01-02 1:2');
+        expect(l.datetime.format(new Date('2021-01-02 1:2')), '2021-01-02 1:2');
     });
 });

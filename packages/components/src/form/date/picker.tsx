@@ -75,7 +75,7 @@ export function DatePicker(props: Props): JSX.Element {
             }}
         >
             <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? l.datetime(ac.getValue()) : l.date(ac.getValue())
+                props.time ? l.datetime.format(ac.getValue()) : l.date.format(ac.getValue())
             } />
             <Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
                 <IconClose onClick={e => {

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale as CoreLocale, Dict, DictKeys, Duration, TranslateArgs, UnitStyle } from '@cmfx/core';
+import { Locale as CoreLocale, Dict, DictKeys, TranslateArgs, UnitStyle } from '@cmfx/core';
 import { createStore } from 'solid-js/store';
 
 /**
@@ -23,19 +23,19 @@ export function buildLocale(cl: CoreLocale) {
         /**
          * 创建 {@link Intl#DateTimeFormat} 对象
          */
-        datetimeFormat(o: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+        datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
             return l[0].l.dateTimeFormat(o);
         },
 
         /**
          * 创建 {@link Intl#NumberFormat} 对象
          */
-        numberFormat(o: Intl.NumberFormatOptions): Intl.NumberFormat {return l[0].l.numberFormat(o); },
+        numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat {return l[0].l.numberFormat(o); },
 
         /**
          * 创建 {@link DurationFormat} 对象
          */
-        durationFormat(o: Intl.DurationFormatOptions): Intl.DurationFormat { return l[0].l.durationFormat(o); },
+        durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat { return l[0].l.durationFormat(o); },
 
         /**
          * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
@@ -48,23 +48,24 @@ export function buildLocale(cl: CoreLocale) {
         get locales(): Array<[string, string]> { return l[0].l.locales; },
 
         /**
-         * 返回本地化的时间
-         * @param d 时间，如果是 number 类型，表示的是毫秒；
-         * @returns 根据本地化格式的字符串
+         * 用于同时格式化日期和时间的对象
          */
-        datetime(d?: Date | string | number): string { return l[0].l.datetime(d); },
+        get datetime(): Intl.DateTimeFormat { return l[0].l.datetime; },
 
         /**
-         * 返回本地化的日期
-         * @param d 时间，如果是 number 类型，表示的是毫秒；
-         * @returns 根据本地化格式的字符串
+         * 用于格式化时期部分的格式化对象
          */
-        date(d?: Date | string | number): string { return l[0].l.date(d); },
+        get date(): Intl.DateTimeFormat { return l[0].l.date; },
 
         /**
-         *返回本地化的时间区间
+         * 用于格式化时间部分的格式化对象
          */
-        duration(val?: Duration): string { return l[0].l.duration(val); },
+        get time(): Intl.DateTimeFormat { return l[0].l.time; },
+
+        /**
+         *返回本地化的时间区间的对象
+         */
+        get duration(): Intl.DurationFormat { return l[0].l.duration; },
 
         /**
          * 返回本地化的字节数

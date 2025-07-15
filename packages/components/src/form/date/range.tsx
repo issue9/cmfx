@@ -87,7 +87,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 class={joinClass(styles.input, styles.range)}
                 disabled={props.disabled}
                 placeholder={props.placeholder}
-                value={props.time ? l.datetime(ac1.getValue()) : l.date(ac1.getValue())}
+                value={props.time ? l.datetime.format(ac1.getValue()) : l.date.format(ac1.getValue())}
                 onFocus={e => {
                     showPopover(e);
 
@@ -103,7 +103,7 @@ export function DateRangePicker(props: Props): JSX.Element {
                 class={joinClass(styles.input, styles.range)}
                 disabled={props.disabled}
                 placeholder={props.placeholder}
-                value={props.time ? l.datetime(ac2.getValue()) : l.date(ac2.getValue())}
+                value={props.time ? l.datetime.format(ac2.getValue()) : l.date.format(ac2.getValue())}
                 onFocus={e => {
                     showPopover(e);
 

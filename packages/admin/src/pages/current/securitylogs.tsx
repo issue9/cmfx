@@ -48,7 +48,7 @@ export function SecurityLogs(): JSX.Element {
                 });
             } },
             { id: 'created', label: l.t('_p.created'), content:(_: string, val?: string)=>{
-                return l.datetime(val);
+                return l.datetime.format(val);
             } },
         ]} queryForm={(qa)=>(
             <>

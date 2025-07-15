@@ -75,9 +75,9 @@ export function DateRangePanel(props: Props) {
         </main>
 
         <div class={styles.value}>
-            <Show when={values()[0]}>{start => { return l.datetime(start()); }}</Show>
+            <Show when={values()[0]}>{start => { return l.datetime.format(start()); }}</Show>
             -
-            <Show when={values()[1]}>{end => { return l.datetime(end()); }}</Show>
+            <Show when={values()[1]}>{end => { return l.datetime.format(end()); }}</Show>
         </div>
     </fieldset>;
 }
