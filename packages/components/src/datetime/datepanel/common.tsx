@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
-import IconChevronLeft from '~icons/material-symbols/chevron-left';
-import IconChevronRight from '~icons/material-symbols/chevron-right';
-import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
-import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
+import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
+import IconPrevMonth from '~icons/material-symbols/chevron-left';
+import IconNextMonth from '~icons/material-symbols/chevron-right';
+import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
+import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 
 import { BaseProps, joinClass } from '@/base';
+import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateView, DateViewRef } from '@/datetime/dateview';
 import { DateChange, Week } from '@/datetime/utils';
@@ -81,35 +82,24 @@ export function CommonPanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
 
-    const [panelValue, setPanelValue] = createSignal<Date>(props.value ?? new Date()); // 面板上当前页显示的时候
     const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
-
-    const changePanelValue = (val: Date) => {
-        setPanelValue(val);
-    };
-
-    let dateViewRef: DateViewRef;
+    const [dateViewRef, setDateViewRef] = createSignal<DateViewRef>();
 
     // 改变值且触发 onchange 事件
     const change = (val?: Date) => {
-        changePanelValue(val ?? new Date());
+        if (val) { dateViewRef()?.jump(val); }
 
         const old = untrack(value);
-
         if (old === val) { return; }
 
-        if (old) { dateViewRef.unselect(old); }
-        if (val) { dateViewRef.select(val); }
+        if (old) { dateViewRef()?.unselect(old); }
+        if (val) { dateViewRef()?.select(val); }
         setValue(val);
         if (props.onChange) { props.onChange(val, old); }
     };
 
     createEffect(() => {
         if (props.value !== value()) { change(props.value); }
-    });
-
-    const titleFormat = createMemo(() => {
-        return l.datetimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
     });
 
     let dateRef: HTMLDivElement;
@@ -139,43 +129,31 @@ export function CommonPanel(props: Props): JSX.Element {
     // 年月标题
     const title = <div class={styles.title}>
         <div class="flex">
-            <button title={l.t('_c.date.prevYear')} aria-label={l.t('_c.date.prevYear')}
+            <Button title={l.t('_c.date.prevYear')} square disabled={!dateViewRef()?.canOffset(-1, 0)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
-
-                    const dt = new Date(panelValue());
-                    dt.setFullYear(dt.getFullYear() - 1);
-                    changePanelValue(dt);
-                }}><IconArrowLeft /></button>
-            <button title={l.t('_c.date.prevMonth')} aria-label={l.t('_c.date.prevMonth')}
+                    dateViewRef()?.offset(-1, 0);
+                }}><IconPrevYear /></Button>
+            <Button title={l.t('_c.date.prevMonth')} square disabled={!dateViewRef()?.canOffset(0, -1)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
-
-                    const dt = new Date(panelValue());
-                    dt.setMonth(dt.getMonth() - 1);
-                    changePanelValue(dt);
-                }}><IconChevronLeft /></button>
+                    dateViewRef()?.offset(0, -1);
+                }}><IconPrevMonth /></Button>
         </div>
 
-        <div>{titleFormat()}</div>
+        <div>{dateViewRef()?.Title()}</div>
 
         <div class="flex">
-            <button title={l.t('_c.date.followingMonth')} aria-label={l.t('_c.date.followingMonth')}
+            <Button title={l.t('_c.date.followingMonth')} square disabled={!dateViewRef()?.canOffset(0, 1)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
-
-                    const dt = new Date(panelValue());
-                    dt.setMonth(dt.getMonth() + 1);
-                    changePanelValue(dt);
-                }}><IconChevronRight /></button>
-            <button title={l.t('_c.date.followingYear')} aria-label={l.t('_c.date.followingYear')}
+                    dateViewRef()?.offset(0, 1);
+                }}><IconNextMonth /></Button>
+            <Button title={l.t('_c.date.followingYear')} square disabled={!dateViewRef()?.canOffset(1, 0)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
-
-                    const dt = new Date(panelValue());
-                    dt.setFullYear(dt.getFullYear() + 1);
-                    changePanelValue(dt);
-                }}><IconArrowRight /></button>
+                    dateViewRef()?.offset(1, 0);
+                }}><IconNextYear /></Button>
         </div>
     </div>;
 
@@ -183,21 +161,21 @@ export function CommonPanel(props: Props): JSX.Element {
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <div class={styles.wrap} ref={el => dateRef = el}>
             {title}
-            <DateView value={panelValue} min={props.min} max={props.max} disabledClass={styles.disabled}
+            <DateView initValue={value() ?? new Date()} min={props.min} max={props.max} disabledClass={styles.disabled}
                 selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today}
                 weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
                 onClick={(d, disabled) => {
                     if (!disabled && !props.disabled && !props.readonly) { change(d); }
                 }}
                 ref={el => {
-                    dateViewRef = el;
+                    setDateViewRef(el);
                     if (props.viewRef) { props.viewRef(el); }
                 }}
             />
         </div>
 
         <Show when={props.time}>
-            <TimePanel ref={el =>setTimeRef(el)} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
+            <TimePanel ref={el => setTimeRef(el)} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
                 onChange={d => {
                     if (props.disabled || props.readonly) { return; }
                     change(d);

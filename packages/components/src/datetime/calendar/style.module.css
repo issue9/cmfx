@@ -19,7 +19,7 @@
         }
 
         .table {
-            @apply rounded-lg overflow-hidden border border-palette-bg-low w-full h-full;
+            @apply rounded-lg overflow-hidden border border-palette-fg-low w-full h-full;
 
             >table {
                 @apply w-full h-full;
@@ -29,13 +29,13 @@
                 }
 
                 th,
-                td {
-                    @apply border-b border-b-palette-bg-low;
+                tr:not(:last-child) td {
+                    @apply border-b border-b-palette-fg-low;
                 }
 
                 th:not(:last-child),
                 td:not(:last-child) {
-                    @apply border-r border-r-palette-bg-low;
+                    @apply border-r border-r-palette-fg-low;
                 }
 
                 td {

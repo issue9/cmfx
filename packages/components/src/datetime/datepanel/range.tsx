@@ -17,6 +17,11 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
     value?: ValueType;
 
     onChange?: (value?: ValueType, old?: ValueType) => void;
+
+    /**
+     * 是否显示快捷选择栏
+     */
+    shortcuts?: boolean;
 }
 
 export function DateRangePanel(props: Props) {
@@ -61,17 +66,19 @@ export function DateRangePanel(props: Props) {
                 />
             </div>
 
-            <div class={styles.shortcuts}>
-                <button onClick={() => setValues(setDay(-7))}>{ l.t('_c.date.lastMonth') }</button>
+            <Show when={props.shortcuts}>
+                <div class={styles.shortcuts}>
+                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastMonth')}</button>
 
-                <button onClick={() => setValues(setDay(-7))}>{ l.t('_c.date.lastQuarter') }</button>
-                <button onClick={() => setValues(setDay(-7))}>{ l.t('_c.date.thisQuarter') }</button>
-                <button onClick={() => setValues(setDay(30))}>{ l.t('_c.date.nextQuarter') }</button>
+                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastQuarter')}</button>
+                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisQuarter')}</button>
+                    <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextQuarter')}</button>
 
-                <button onClick={() => setValues(setDay(-7))}>{ l.t('_c.date.lastYear') }</button>
-                <button onClick={() => setValues(setDay(-7))}>{ l.t('_c.date.thisYear') }</button>
-                <button onClick={() => setValues(setDay(30))}>{ l.t('_c.date.nextYear') }</button>
-            </div>
+                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastYear')}</button>
+                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisYear')}</button>
+                    <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextYear')}</button>
+                </div>
+            </Show>
         </main>
 
         <div class={styles.value}>

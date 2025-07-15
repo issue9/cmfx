@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Accessor, createMemo, createSignal, For, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, createSignal, For, JSX, mergeProps, Show } from 'solid-js';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
@@ -33,6 +33,33 @@ export interface Ref {
      * 取消 {@link Ref#cover} 操作
      */
     uncover(): void;
+
+    /**
+     * 提供用于显示当前面板年月的组件
+     */
+    Title(): JSX.Element;
+
+    /**
+     * 跳转到指定的日期
+     */
+    jump(date: Date): void;
+
+    /**
+     * 是否能跳转到指定的日期，只有 {@link Props#min} 或 {@link Props#max} 有值时才有效。
+     */
+    canJump(date: Date): boolean;
+
+    /**
+     * 移动指定数量的年月，如果是负数，表示向前移动。
+     */
+    offset(year?: number, month?: number): void;
+
+    /**
+     * 能否移动到指定的日期，只有 {@link Props#min} 或 {@link Props#max} 有值时才有效。
+     * @param year 移动的年数，负数表示向前移动；
+     * @param month 移动的月数，负数表示向前移动；
+     */
+    canOffset(year?: number, month?: number): boolean;
 }
 
 export interface Props {
@@ -72,9 +99,11 @@ export interface Props {
     weekName: 'narrow' | 'long';
 
     /**
-     * 面板上的初始值
+     * 面板初始时显示的月份
+     *
+     * NOTE: 非响应式属性
      */
-    value: Accessor<Date>;
+    initValue: Date;
 
     /**
      * 点击日期时的回调函数
@@ -88,6 +117,8 @@ export interface Props {
      */
     plugins?: Array<DatetimePlugin>;
 
+    // 以下样式都将作用在 td 之上，用于表示单元格在不同状态下的样式。
+
     selectedClass: string;
     coveredClass: string;
     todayClass: string;
@@ -100,6 +131,23 @@ const presetProps: Partial<Props> = {
 
 function isSelected(d: Date, selected: Array<Date>) {
     return selected.some(v => equalDate(v, d));
+}
+
+/**
+ * 当 min 或 max 不为空时，判断 val 是否在 min 和 max 之间
+ */
+export function inRange(positive: boolean, val: Date, min?: Date, max?: Date): boolean {
+    max = max ? new Date(max) : undefined;
+    if (max !== undefined) { max.setMonth(max.getMonth() + 1); }
+
+    min = min ? new Date(min) : undefined;
+    if (min !== undefined) { min.setMonth(min.getMonth() - 1); }
+
+    if (positive) {
+        return (max ? max >= val : true) && true;
+    }
+
+    return (min ? min <= val : true) && true;
 }
 
 /**
@@ -125,11 +173,18 @@ export default function DateView(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
 
+    const [value, setValue] = createSignal(props.initValue);
     const [today, setToday] = createSignal(new Date());
 
     const weekFormat = createMemo(() => { return l.datetimeFormat({ weekday: props.weekName }); });
     const [selected, setSelected] = createSignal<Array<Date>>([]);
     const [covered, setCovered] = createSignal<[start?: Date, end?: Date]>([]);
+
+    const titleFormater = createMemo(() => {
+        return l.datetimeFormat({ year: 'numeric', month: '2-digit' });
+    });
+
+    const canJump = (date: Date) => { return inRange(date > value(), date, props.min, props.max); };
 
     props.ref({
         select(...d: Array<Date>) {
@@ -142,7 +197,7 @@ export default function DateView(props: Props): JSX.Element {
         },
 
         cover(start?: Date, end?: Date) {
-            const d = props.value();
+            const d = value();
             setCovered([
                 start ?? new Date(d.getFullYear(), d.getMonth(), 1),
                 end ?? new Date(d.getFullYear(), d.getMonth()+1, 0)
@@ -151,6 +206,26 @@ export default function DateView(props: Props): JSX.Element {
 
         uncover() {
             setCovered([]);
+        },
+
+        Title(): JSX.Element { return titleFormater().format(value()); },
+
+        jump(date) { setValue(date); },
+
+        canJump(date) { return canJump(date); },
+
+        offset(year, month) {
+            const v = new Date(value());
+            if (month !== undefined) { v.setMonth(v.getMonth() + month); }; // month 可以是负数，必须要与 undefined 比较。
+            if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
+            setValue(v);
+        },
+
+        canOffset(year, month) {
+            const v = new Date(value());
+            if (month !== undefined) { v.setMonth(v.getMonth() + month); };
+            if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
+            return canJump(v);
         }
     });
 
@@ -176,7 +251,7 @@ export default function DateView(props: Props): JSX.Element {
         </thead>
 
         <tbody>
-            <For each={weekDays(props.value(), props.weekBase!, props.min, props.max)}>
+            <For each={weekDays(value(), props.weekBase!, props.min, props.max)}>
                 {week => (
                     <tr>
                         <For each={week}>

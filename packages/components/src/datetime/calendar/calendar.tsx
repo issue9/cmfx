@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createMemo, createSignal, mergeProps } from 'solid-js';
-import IconChevronLeft from '~icons/material-symbols/chevron-left';
-import IconChevronRight from '~icons/material-symbols/chevron-right';
-import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
-import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
+import { JSX, createSignal, mergeProps } from 'solid-js';
+import IconPrevMonth from '~icons/material-symbols/chevron-left';
+import IconNextMonth from '~icons/material-symbols/chevron-right';
+import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
+import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 
 import { BaseProps, joinClass } from '@/base';
 import { Button, ButtonGroup } from '@/button';
@@ -73,40 +73,39 @@ const presetProps: Props = {
  */
 export default function Calendar(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    let ref: DateViewRef;
 
     const l = useLocale();
-    const [panelValue, setPanelValue] = createSignal(props.current ?? new Date());
+    const [ref, setRef] = createSignal<DateViewRef>();
     const [selected, setSelected] = createSignal<Date>();
-
-    const titleFormat = createMemo(() => {
-        return l.datetimeFormat({ year: 'numeric', month: '2-digit' }).format(panelValue());
-    });
 
     return <div style={props.style} class={joinClass(styles.calendar, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <header>
-            <p class={styles.title}>{titleFormat()}</p>
+            <p class={styles.title}>{ref()?.Title()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() - 1, panelValue().getMonth(), 1))}><IconArrowLeft /></Button>
-                    <Button title={l.t('_c.date.prevMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() - 1, 1))}><IconChevronLeft /></Button>
-                    <Button onClick={() => setPanelValue(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.followingMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() + 1, 1))}><IconChevronRight /></Button>
-                    <Button title={l.t('_c.date.followingYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() + 1, panelValue().getMonth(), 1))}><IconArrowRight /></Button>
+                    <Button title={l.t('_c.date.prevYear')} square disabled={!ref()?.canOffset(-1, 0)}
+                        onClick={() => ref()?.offset(-1, 0)}><IconPrevYear /></Button>
+                    <Button title={l.t('_c.date.prevMonth')} square disabled={!ref()?.canOffset(0, -1)}
+                        onClick={() => ref()?.offset(0, -1)}><IconPrevMonth /></Button>
+                    <Button onClick={() => ref()?.jump(new Date())}>{l.t('_c.date.today')}</Button>
+                    <Button title={l.t('_c.date.followingMonth')} square disabled={!ref()?.canOffset(0, 1)}
+                        onClick={() => ref()?.offset(0, 1)}><IconNextMonth /></Button>
+                    <Button title={l.t('_c.date.followingYear')} square disabled={!ref()?.canOffset(1, 0)}
+                        onClick={() => ref()?.offset(1, 0)}><IconNextYear /></Button>
                 </ButtonGroup>
             </div>
         </header>
 
         <div class={styles.table}>
-            <DateView ref={el => ref = el} value={panelValue} min={props.min} max={props.max} plugins={props.plugins}
+            <DateView ref={el => setRef(el)} initValue={props.current ?? new Date()} min={props.min} max={props.max} plugins={props.plugins}
                 weekend={props.weekend} weekBase={props.weekBase} weekName='long'
                 todayClass={styles.today} selectedClass={styles.selected} coveredClass={styles.covered} disabledClass={styles.disabled}
                 onClick={(d, disabled) => {
                     if (disabled) return;
 
                     const old = selected();
-                    if (old) { ref.unselect(old); }
-                    ref.select(d);
+                    if (old) { ref()?.unselect(old); }
+                    ref()?.select(d);
                     setSelected(d);
 
                     if (props.onSelected) {
