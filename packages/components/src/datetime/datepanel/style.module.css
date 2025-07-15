@@ -13,7 +13,7 @@
         @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-row gap-1;
 
         .title {
-            @apply flex justify-between items-center mb-2 text-lg border-b border-b-palette-bg-low pb-1;
+            @apply flex justify-between items-center mb-2 text-lg border-b border-b-palette-fg-low pb-1;
 
             button {
                 @apply flex justify-center items-center;
@@ -21,39 +21,44 @@
             }
         }
 
-        table {
-            colgroup {
-                .weekend {
-                    @apply bg-palette-bg-low;
+        .wrap {
+            @apply w-full;
+
+            table {
+                @apply w-full;
+
+                colgroup {
+                    .weekend {
+                        @apply bg-palette-bg-low;
+                    }
+                }
+
+                thead>tr>th,
+                tbody>tr>td {
+                    @apply aspect-square m-1 p-1 w-8 min-w-6;
+                }
+
+                thead>tr>th {
+                    @apply cursor-default;
+                }
+
+                tbody>tr>td {
+                    @apply border border-transparent rounded-sm cursor-pointer outline-none py-1;
+                }
+
+                tbody>tr>td.disabled {
+                    @apply text-palette-fg-low;
+                }
+
+                tbody>tr>td.today {
+                    @apply border-b-palette-bg-low;
                 }
             }
 
-            thead>tr>th,
-            tbody>tr>td {
-                @apply aspect-square m-1 p-1 w-8 min-w-6;
-            }
-
-            thead>tr>th {
-                @apply cursor-default;
-            }
-
-            tbody>tr>td {
-                @apply border border-transparent rounded-sm cursor-pointer outline-none py-1;
-            }
-
-            tbody>tr>td.disabled {
-                @apply text-palette-fg-low;
-            }
-
-            tbody>tr>td.today {
-                @apply border-b-palette-bg-low;
+            table td.selected {
+                @apply bg-palette-bg-high;
             }
         }
-
-        table td.selected {
-            @apply bg-palette-bg-high;
-        }
-
     }
 
     .panel:enabled {
@@ -76,21 +81,30 @@
         @apply border border-palette-fg-low;
         @apply bg-palette-bg text-palette-fg;
 
-        .panels {
-            @apply flex flex-row flex-wrap;
+        >main {
+            @apply flex;
 
-            .panel {
-                @apply !rounded-none !border-none;
+            .panels {
+                @apply flex flex-row flex-wrap;
+
+                .panel {
+                    @apply !rounded-none !border-none flex-1;
+                }
+            }
+
+            .shortcuts {
+                @apply flex flex-col shrink-0 p-2 gap-2 items-stretch;
+                @apply border-l border-palette-fg-low;
+
+                >button {
+                    @apply cursor-pointer px-2 rounded-sm text-left;
+                    @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
+                }
             }
         }
 
-        .actions {
-            @apply border-t border-t-palette-bg-low p-2 flex gap-2;
-
-            >button {
-                @apply cursor-pointer px-1 rounded-sm;
-                @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
-            }
+        .value {
+            @apply py-1 px-2 border-t border-palette-fg-low;
         }
     }
 }

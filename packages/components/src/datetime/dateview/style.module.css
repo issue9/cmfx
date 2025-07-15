@@ -17,7 +17,7 @@
         }
 
         thead>tr {
-            @apply border-b border-b-palette-bg-low font-bold;
+            @apply font-bold;
         }
     }
 }

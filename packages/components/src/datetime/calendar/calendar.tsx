@@ -91,8 +91,8 @@ export default function Calendar(props: Props): JSX.Element {
                     <Button title={l.t('_c.date.prevYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() - 1, panelValue().getMonth(), 1))}><IconArrowLeft /></Button>
                     <Button title={l.t('_c.date.prevMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() - 1, 1))}><IconChevronLeft /></Button>
                     <Button onClick={() => setPanelValue(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.nextMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() + 1, 1))}><IconChevronRight /></Button>
-                    <Button title={l.t('_c.date.nextYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() + 1, panelValue().getMonth(), 1))}><IconArrowRight /></Button>
+                    <Button title={l.t('_c.date.followingMonth')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear(), panelValue().getMonth() + 1, 1))}><IconChevronRight /></Button>
+                    <Button title={l.t('_c.date.followingYear')} square onClick={() => setPanelValue(new Date(panelValue().getFullYear() + 1, panelValue().getMonth(), 1))}><IconArrowRight /></Button>
                 </ButtonGroup>
             </div>
         </header>

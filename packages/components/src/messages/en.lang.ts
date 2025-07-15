@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+
 const messages = {
     _c: {
         fullscreen: 'Full screen',
@@ -24,9 +25,17 @@ const messages = {
             clear: 'Clear',
             today: 'Today',
             now: 'Now',
-            prevMonth: 'Prev month',
-            prevYear: 'Prev year',
-            nextMonth: 'Next month',
+            prevMonth: 'The previous month',
+            prevYear: 'The previous year',
+            followingMonth: 'The following month',
+            followingYear: 'The following year',
+
+            lastMonth: 'Last month',
+            lastQuarter: 'Last quarter',
+            thisQuarter: 'This quarter',
+            nextQuarter: 'Next quarter',
+            lastYear: 'Last year',
+            thisYear: 'This year',
             nextYear: 'Next year',
         },
         color: {
