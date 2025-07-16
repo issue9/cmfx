@@ -5,12 +5,14 @@
 import { createMemo, createSignal, Match, onMount, Show, splitProps, Switch, untrack } from 'solid-js';
 
 import { joinClass } from '@/base';
+import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateViewRef } from '@/datetime/dateview';
 import { CommonPanel, Props as CommonProps } from './common';
+import {
+    nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, RangeValueType, thisQuarter, thisYear
+} from './shortcuts';
 import styles from './style.module.css';
-
-export type RangeValueType = [start?: Date, end?: Date];
 
 export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onHover'> {
     value?: RangeValueType;
@@ -18,7 +20,7 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
     onChange?: (value?: RangeValueType, old?: RangeValueType) => void;
 
     /**
-     * 是否显示快捷选择栏
+     * 是否显示右侧快捷选择栏
      */
     shortcuts?: boolean;
 }
@@ -38,7 +40,7 @@ export function DateRangePanel(props: Props) {
     now.setMonth(now.getMonth() + 1);
     const [page2, setPage2] = createSignal<Date>(values()[1] ?? now);
 
-    const change = (value: Date) => {
+    const panelChange = (value: Date) => {
         const old = [...untrack(values)];
 
         switch (index) {
@@ -102,6 +104,18 @@ export function DateRangePanel(props: Props) {
         }
     };
 
+    const setShortcuts = (vals: RangeValueType) => {
+        setValues(vals);
+
+        viewRef1?.cover(vals as [Date, Date]);
+        viewRef2?.cover(vals as [Date, Date]);
+        viewRef1?.select(vals[0]!, vals[1]!);
+        viewRef2?.select(vals[0]!, vals[1]!);
+
+        if (vals[0]) { viewRef1.jump(vals[0]); }
+        if (vals[1]) { viewRef2.jump(vals[1]); }
+    };
+
     return <fieldset disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
         ref={el => { if (props.ref) { props.ref(el); } }}
@@ -109,7 +123,7 @@ export function DateRangePanel(props: Props) {
         <main>
             <div class={styles.panels}>
                 <CommonPanel {...panelProps} value={untrack(values)[0]} class={styles.panel}
-                    viewRef={el => viewRef1 = el} onChange={e => change(e!)} onHover={onHover}
+                    viewRef={el => viewRef1 = el} onChange={e => panelChange(e!)} onHover={onHover}
                     onPaging={val => {
                         setPage1(val);
                         if (page2() <= val) {
@@ -120,7 +134,7 @@ export function DateRangePanel(props: Props) {
                     }}
                 />
                 <CommonPanel {...panelProps} value={untrack(values)[1]} class={styles.panel}
-                    viewRef={el => viewRef2 = el} onChange={e => change(e!)} onHover={onHover}
+                    viewRef={el => viewRef2 = el} onChange={e => panelChange(e!)} onHover={onHover}
                     onPaging={val => {
                         setPage2(val);
                         if (page1() >= val) {
@@ -145,24 +159,30 @@ export function DateRangePanel(props: Props) {
 
         <Show when={props.shortcuts}>
             <div class={styles.shortcuts}>
-                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastMonth')}</button>
+                <Button class="justify-start" onClick={() => setShortcuts(prevMonth())}>
+                    {l.t('_c.date.lastMonth')}
+                </Button>
 
-                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastQuarter')}</button>
-                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisQuarter')}</button>
-                <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextQuarter')}</button>
+                <Button class="justify-start" onClick={() => setShortcuts(prevQuarter())}>
+                    {l.t('_c.date.lastQuarter')}
+                </Button>
+                <Button class="justify-start" onClick={() => setShortcuts(thisQuarter())}>
+                    {l.t('_c.date.thisQuarter')}
+                </Button>
+                <Button class="justify-start" onClick={() => setShortcuts(nextQuarter())}>
+                    {l.t('_c.date.nextQuarter')}
+                </Button>
 
-                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastYear')}</button>
-                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisYear')}</button>
-                <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextYear')}</button>
+                <Button class="justify-start" onClick={() => setShortcuts(prevYear())}>
+                    {l.t('_c.date.lastYear')}
+                </Button>
+                <Button class="justify-start" onClick={() => setShortcuts(thisYear())}>
+                    {l.t('_c.date.thisYear')}
+                </Button>
+                <Button class="justify-start" onClick={() => setShortcuts(nextYear())}>
+                    {l.t('_c.date.nextYear')}
+                </Button>
             </div>
         </Show>
     </fieldset>;
-}
-
-function setDay(delta: number): RangeValueType {
-    const start = new Date();
-    const end = new Date(start);
-    end.setDate(end.getDate() + delta);
-
-    return [start, end];
 }

@@ -161,6 +161,9 @@ export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): A
     return getWeekDays(monthDays(date, weekStart), min, max);
 }
 
+/**
+ * 比较日期是否相等，仅比较日期部分。
+ */
 export function equalDate(date1: Date, date2: Date): boolean {
     return date1.getFullYear() === date2.getFullYear() &&
         date1.getMonth() === date2.getMonth() &&

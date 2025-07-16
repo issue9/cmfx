@@ -135,11 +135,6 @@
         .shortcuts {
             @apply flex flex-col shrink-0 p-2 gap-2 items-stretch;
             @apply border-l border-palette-fg-low;
-
-            >button {
-                @apply cursor-pointer px-2 rounded-sm text-left;
-                @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
-            }
         }
     }
 }
