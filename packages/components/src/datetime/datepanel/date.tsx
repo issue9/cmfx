@@ -6,7 +6,7 @@ import { JSX } from 'solid-js';
 
 import { CommonPanel, Props as CommonProps } from './common';
 
-export type Props = Omit<CommonProps, 'viewRef'>;
+export type Props = Omit<CommonProps, 'viewRef' | 'onHover'>;
 
 /**
  * 日期选择的面板

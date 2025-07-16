@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, DateRangePanel, Week } from '@cmfx/components';
+import { Button, DatePanel, DateRangePanel, datetimePluginLunar, RangeValueType, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector, Stage } from '../base';
@@ -26,8 +26,8 @@ export default function() {
     const [valShow, setValShow] = createSignal<string>('');
     const [valWithTimeShow, setValWithTimeShow] = createSignal<string>('');
 
-    const [start, setStart] = createSignal<Date | undefined>(undefined);
-    const [end, setEnd] = createSignal<Date | undefined>(undefined);
+    const [range, setRange] = createSignal<RangeValueType>([undefined, undefined]);
+    const [rangeShow, setRangeShow] = createSignal<string>('');
 
     return <Demo settings={
         <>
@@ -56,6 +56,7 @@ export default function() {
         <Stage title="panel with time" class="flex items-start">
             <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} time={!time()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={valWithTime()} weekBase={week()}
+                plugins={[datetimePluginLunar]}
                 onChange={(val, old)=>{
                     setValWithTimeShow(`new:${val},old:${old}`);
                     setValWithTime(val);
@@ -64,21 +65,22 @@ export default function() {
         </Stage>
 
         <Stage title="range panel" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} start={start()} end={end()} shortcuts={shortcut()}
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} value={range()} shortcuts={shortcut()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
-                onStartChange={(val, old)=>{
-                    setValShow(`new:${val}old:${old}`);
-                    setValue(val);
+                plugins={[datetimePluginLunar]}
+                onChange={(val, old)=>{
+                    setRangeShow(`new:${val}old:${old}`);
+                    setRange(val);
                 }} />
             <p>{valShow()}</p>
         </Stage>
 
         <Stage title="range panel with time" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} start={start()} end={end()} shortcuts={shortcut()}
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()} time
-                onStartChange={(val, old)=>{
-                    setValShow(`new:${val},old:${old}`);
-                    setValue(val);
+                onChange={(val, old)=>{
+                    //setRangeShow(`new:${val},old:${old}`);
+                    //setRange(val);
                 }} />
             <p>{valShow()}</p>
         </Stage>

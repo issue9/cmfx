@@ -2,8 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-
-import { createSignal, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, Match, onMount, Show, splitProps, Switch, untrack } from 'solid-js';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
@@ -11,12 +10,12 @@ import { DateViewRef } from '@/datetime/dateview';
 import { CommonPanel, Props as CommonProps } from './common';
 import styles from './style.module.css';
 
-type ValueType = [start?: Date, end?: Date];
+export type RangeValueType = [start?: Date, end?: Date];
 
-export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef'> {
-    value?: ValueType;
+export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onHover'> {
+    value?: RangeValueType;
 
-    onChange?: (value?: ValueType, old?: ValueType) => void;
+    onChange?: (value?: RangeValueType, old?: RangeValueType) => void;
 
     /**
      * 是否显示快捷选择栏
@@ -25,71 +24,142 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
 }
 
 export function DateRangePanel(props: Props) {
-    const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'min', 'max']);
+    const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'palette']);
 
     const l = useLocale();
-    let viewRef: DateViewRef;
+    let viewRef1: DateViewRef;
+    let viewRef2: DateViewRef;
 
-    const [values, setValues] = createSignal<ValueType>(props.value ?? [undefined, undefined]);
+    const [values, setValues] = createSignal<RangeValueType>(props.value ?? [undefined, undefined]);
     let index = 0; // 当前设置的值属于 values 的哪个索引值
 
-    const change = (value?: Date) => {
+    const [page1, setPage1] = createSignal<Date>(values()[0] ?? new Date());
+    const now = new Date();
+    now.setMonth(now.getMonth() + 1);
+    const [page2, setPage2] = createSignal<Date>(values()[1] ?? now);
+
+    const change = (value: Date) => {
+        const old = [...untrack(values)];
+
         switch (index) {
         case 0:
             setValues([value, undefined]);
+
+            viewRef1?.uncover();
+            viewRef2?.uncover();
+            viewRef1?.unselect(...old);
+            viewRef2?.unselect(...old);
+
+            viewRef1?.select(value);
+            viewRef2?.select(value);
+
             break;
         case 1:
-            setValues([values()[0], value]);
+            setValues(prev => {
+                const cpy = [...prev];
+                cpy[1] = value;
+                cpy.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
+
+                viewRef1?.cover(cpy as [Date, Date]);
+                viewRef2?.cover(cpy as [Date, Date]);
+                viewRef1?.select(cpy[0]!, cpy[1]);
+                viewRef2?.select(cpy[0]!, cpy[1]);
+
+                return cpy as RangeValueType;
+            });
+
             break;
         }
+
         index = index === 0 ? 1 : 0;
 
-        if (props.onChange) { props.onChange(values(), props.value); }
+        if (props.onChange) { props.onChange(untrack(values), old as RangeValueType); }
     };
 
-    return <fieldset class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
-        disabled={props.disabled} popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }}
+    const valueFormater = createMemo(() => { return props.time ? l.datetime : l.date; });
+
+    onMount(() => {
+        const nextMonth = new Date();
+        nextMonth.setMonth(nextMonth.getMonth() + 1);
+
+        if (!props.value) {
+            viewRef2.jump(nextMonth);
+        } else if (!props.value[1]) {
+            if (!props.value[0]) {
+                viewRef2.jump(nextMonth);
+            } else {
+                const next = new Date(props.value[0]);
+                next.setMonth(next.getMonth() + 1);
+                viewRef2.jump(next);
+            }
+        }
+    });
+
+    const onHover = (e: Date) => {
+        if (index === 1) {
+            viewRef1.cover([values()[0]!, e]);
+            viewRef2.cover([values()[0]!, e]);
+        }
+    };
+
+    return <fieldset disabled={props.disabled} popover={props.popover}
+        class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+        ref={el => { if (props.ref) { props.ref(el); } }}
     >
         <main>
             <div class={styles.panels}>
-                <CommonPanel {...panelProps} value={values()[0]} min={props.min} max={values()[1]} class={styles.panel}
-                    onChange={(e, disabled) => {
-                        if (disabled) { return; }
-                        change(e);
+                <CommonPanel {...panelProps} value={untrack(values)[0]} class={styles.panel}
+                    viewRef={el => viewRef1 = el} onChange={e => change(e!)} onHover={onHover}
+                    onPaging={val => {
+                        setPage1(val);
+                        if (page2() <= val) {
+                            const v = new Date(val);
+                            v.setMonth(v.getMonth() + 1);
+                            viewRef2.jump(v);
+                        }
                     }}
                 />
-                <CommonPanel {...panelProps} value={values()[1]} max={props.max} min={values()[0]} class={styles.panel}
-                    onChange={(e, disabled) => {
-                        if (disabled) { return; }
-                        change(e);
+                <CommonPanel {...panelProps} value={untrack(values)[1]} class={styles.panel}
+                    viewRef={el => viewRef2 = el} onChange={e => change(e!)} onHover={onHover}
+                    onPaging={val => {
+                        setPage2(val);
+                        if (page1() >= val) {
+                            const v = new Date(val);
+                            v.setMonth(v.getMonth() - 1);
+                            viewRef1.jump(v);
+                        }
                     }}
                 />
             </div>
-
-            <Show when={props.shortcuts}>
-                <div class={styles.shortcuts}>
-                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastMonth')}</button>
-
-                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastQuarter')}</button>
-                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisQuarter')}</button>
-                    <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextQuarter')}</button>
-
-                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastYear')}</button>
-                    <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisYear')}</button>
-                    <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextYear')}</button>
-                </div>
-            </Show>
+            <div class={styles.value}>
+                <Switch>
+                    <Match when={values()[1]}>
+                        {valueFormater().formatRange(values()[0]!, values()[1]!)}
+                    </Match>
+                    <Match when={values()[0]}>
+                        {valueFormater().format(values()[0])}
+                    </Match>
+                </Switch>
+            </div>
         </main>
 
-        <div class={styles.value}>
-            <Show when={values()[0]}>{start => { return l.datetime.format(start()); }}</Show>
-            -
-            <Show when={values()[1]}>{end => { return l.datetime.format(end()); }}</Show>
-        </div>
+        <Show when={props.shortcuts}>
+            <div class={styles.shortcuts}>
+                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastMonth')}</button>
+
+                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastQuarter')}</button>
+                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisQuarter')}</button>
+                <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextQuarter')}</button>
+
+                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.lastYear')}</button>
+                <button onClick={() => setValues(setDay(-7))}>{l.t('_c.date.thisYear')}</button>
+                <button onClick={() => setValues(setDay(30))}>{l.t('_c.date.nextYear')}</button>
+            </div>
+        </Show>
     </fieldset>;
 }
 
-function setDay(delta: number): ValueType {
+function setDay(delta: number): RangeValueType {
     const start = new Date();
     const end = new Date(start);
     end.setDate(end.getDate() + delta);

@@ -26,7 +26,14 @@ export default function () {
         </>
     }>
         <Stage class="w-full h-[600px]">
-            <Calendar weekend={weekend()} weekBase={week()} palette={palette()} plugins={[datetimePluginLunar]}
+            <Calendar weekend={weekend()} weekBase={week()} palette={palette()}
+                min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+                onSelected={(d: Date) => notify(d.toString())} />
+        </Stage>
+
+        <Stage class="w-full h-[600px]" title="农历">
+            <Calendar weekend={weekend()} weekBase={week()} palette={palette()}
+                plugins={[datetimePluginLunar]}
                 min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 onSelected={(d: Date) => notify(d.toString())} />
         </Stage>

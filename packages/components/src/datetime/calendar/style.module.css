@@ -41,13 +41,13 @@
                 td {
                     @apply min-w-[50px] min-h-[50px] w-1/7 px-[4px] py-[7px] cursor-pointer align-top;
 
-                    >span {
+                    >time {
                         @apply mr-1 aspect-square w-8 text-center inline-flex items-center justify-center;
                     }
                 }
 
                 td.today {
-                    >span {
+                    >time {
                         @apply rounded-full bg-palette-bg-low;
                     }
                 }

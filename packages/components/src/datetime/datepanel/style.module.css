@@ -35,37 +35,68 @@
 
                 thead>tr>th,
                 tbody>tr>td {
-                    @apply aspect-square m-1 p-1 w-8 min-w-6;
+                    @apply aspect-square p-1 min-w-6;
                 }
+
+
 
                 thead>tr>th {
                     @apply cursor-default;
                 }
 
-                tbody>tr>td {
-                    @apply border border-transparent rounded-sm cursor-pointer outline-none py-1;
-                }
+                tbody tr {
 
-                tbody>tr>td.disabled {
-                    @apply text-palette-fg-low;
-                }
+                    td>time {
+                        @apply px-1 rounded-sm text-center inline-block;
+                    }
 
-                tbody>tr>td.today {
-                    @apply border-b-palette-bg-low;
-                }
-            }
+                    td>span {
+                        @apply inline-block text-center w-full;
+                    }
 
-            table td.selected {
-                @apply bg-palette-bg-high;
+                    td {
+                        @apply border border-transparent rounded-sm cursor-pointer py-1;
+                    }
+
+
+                    td.today {
+                        time {
+                            @apply text-palette-bg-low;
+                        }
+                    }
+
+                    td.selected,
+                    td.covered {
+                        @apply bg-palette-bg-high text-palette-fg-high;
+
+                        time {
+                            @apply text-palette-fg-high;
+                        }
+                    }
+
+                    td.disabled {
+                        @apply text-palette-fg-low;
+                    }
+
+                    td.disabled.selected,
+                    td.disabled.covered {
+                        @apply bg-palette-bg-low text-palette-fg-low;
+
+                        time {
+                            @apply text-palette-fg-low;
+                        }
+                    }
+                }
             }
         }
     }
 
     .panel:enabled {
 
-        table tbody td:not(.disabled):hover,
-        .title button:enabled:hover {
-            @apply bg-palette-bg-low cursor-pointer;
+        table tbody tr {
+            td:not(.disabled):hover {
+                @apply bg-palette-fg-low cursor-pointer;
+            }
         }
     }
 
@@ -77,34 +108,38 @@
     /********************************* range-panel *************************************/
 
     .range {
-        @apply flex flex-col rounded-lg overflow-clip;
+        @apply flex rounded-lg overflow-clip;
         @apply border border-palette-fg-low;
         @apply bg-palette-bg text-palette-fg;
 
         >main {
-            @apply flex;
+            @apply flex flex-col;
 
             .panels {
-                @apply flex flex-row flex-wrap;
+                @apply flex flex-wrap;
 
                 .panel {
                     @apply !rounded-none !border-none flex-1;
                 }
             }
 
-            .shortcuts {
-                @apply flex flex-col shrink-0 p-2 gap-2 items-stretch;
-                @apply border-l border-palette-fg-low;
+            .value {
+                @apply py-1 px-2 border-t border-palette-fg-low;
+            }
 
-                >button {
-                    @apply cursor-pointer px-2 rounded-sm text-left;
-                    @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
-                }
+            .value::before {
+                content: "\200B";
             }
         }
 
-        .value {
-            @apply py-1 px-2 border-t border-palette-fg-low;
+        .shortcuts {
+            @apply flex flex-col shrink-0 p-2 gap-2 items-stretch;
+            @apply border-l border-palette-fg-low;
+
+            >button {
+                @apply cursor-pointer px-2 rounded-sm text-left;
+                @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
+            }
         }
     }
 }

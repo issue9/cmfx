@@ -11,9 +11,10 @@ import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import { BaseProps, joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
-import { DateView, DateViewRef } from '@/datetime/dateview';
+import { DateView, DateViewProps, DateViewRef } from '@/datetime/dateview';
+import { DatetimePlugin } from '@/datetime/plugin';
+import { TimePanel } from '@/datetime/timepanel';
 import { DateChange, Week } from '@/datetime/utils';
-import { TimePanel } from '../timepanel';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -61,12 +62,28 @@ export interface Props extends BaseProps {
      */
     onChange?: DateChange;
 
+    /**
+     * 翻页时的回调函数
+     * @param val 新页面的日期；
+     * @param old 旧页面的日期；
+     */
+    onPaging?: DateViewProps['onPaging'];
+
+    onHover?: DateViewProps['onHover'];
+
     ref?: { (el: HTMLFieldSetElement): void; };
 
     /**
      * 获取 {@link DateViewRef} 接口
      */
     viewRef?: { (el: DateViewRef): void; };
+
+    /**
+     * 插件列表
+     *
+     * NOTE: 这是一个非响应式的属性。
+     */
+    plugins?: Array<DatetimePlugin>;
 
     class?: string;
 }
@@ -95,11 +112,12 @@ export function CommonPanel(props: Props): JSX.Element {
         if (old) { dateViewRef()?.unselect(old); }
         if (val) { dateViewRef()?.select(val); }
         setValue(val);
+
         if (props.onChange) { props.onChange(val, old); }
     };
 
     createEffect(() => {
-        if (props.value !== value()) { change(props.value); }
+        if (props.value !== untrack(value)) { change(props.value); }
     });
 
     let dateRef: HTMLDivElement;
@@ -164,6 +182,7 @@ export function CommonPanel(props: Props): JSX.Element {
             <DateView initValue={value() ?? new Date()} min={props.min} max={props.max} disabledClass={styles.disabled}
                 selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today}
                 weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
+                plugins={props.plugins} onHover={props.onHover} onPaging={props.onPaging}
                 onClick={(d, disabled) => {
                     if (!disabled && !props.disabled && !props.readonly) { change(d); }
                 }}
@@ -177,8 +196,7 @@ export function CommonPanel(props: Props): JSX.Element {
         <Show when={props.time}>
             <TimePanel ref={el => setTimeRef(el)} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
                 onChange={d => {
-                    if (props.disabled || props.readonly) { return; }
-                    change(d);
+                    if (!props.disabled && !props.readonly) { change(d); }
                 }}
             />
         </Show>

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, For, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
@@ -19,15 +19,13 @@ export interface Ref {
     /**
      * 取消选中项
      */
-    unselect(...d: Array<Date>): void;
+    unselect(...d: Array<Date | undefined>): void;
 
     /**
-     * 为指定范围的日期添加 {@link Props#selectedClass} 指定的样式
-     *
-     * @param start 开始日期
-     * @param end 结束日期
+     * 为指定范围的日期添加 {@link Props#coveredClass} 指定的样式
+     * @param range 要覆盖的日期范围，大小无所谓，会自动排序；
      */
-    cover(start?: Date, end?: Date): void;
+    cover(range: [Date, Date]): void;
 
     /**
      * 取消 {@link Ref#cover} 操作
@@ -108,12 +106,28 @@ export interface Props {
     /**
      * 点击日期时的回调函数
      * @param e 日期；
-     * @param disabled 是否禁用，只有当前月份是非禁用的；
+     * @param disabled 是否禁用；
      */
     onClick?: (e: Date, disabled?: boolean) => void;
 
     /**
+     * 鼠标悬停时的回调函数
+     * @param e 日期；
+     * @param disabled 是否禁用；
+     */
+    onHover?: (e: Date, disabled?: boolean) => void;
+
+    /**
+     * 翻页时的回调函数
+     * @param val 新页面的日期；
+     * @param old 旧页面的日期；
+     */
+    onPaging?: (val: Date, old?: Date) => void;
+
+    /**
      * 插件列表
+     *
+     * NOTE: 这是一个非响应式的属性。
      */
     plugins?: Array<DatetimePlugin>;
 
@@ -178,39 +192,40 @@ export default function DateView(props: Props): JSX.Element {
 
     const weekFormat = createMemo(() => { return l.datetimeFormat({ weekday: props.weekName }); });
     const [selected, setSelected] = createSignal<Array<Date>>([]);
-    const [covered, setCovered] = createSignal<[start?: Date, end?: Date]>([]);
+    const [covered, setCovered] = createSignal<[start: Date, end: Date] | undefined>();
 
     const titleFormater = createMemo(() => {
         return l.datetimeFormat({ year: 'numeric', month: '2-digit' });
     });
 
+    const jump = (date: Date) => {
+        const old = untrack(value);
+        setValue(date);
+        if (props.onPaging) { props.onPaging(date, old); }
+    };
+
     const canJump = (date: Date) => { return inRange(date > value(), date, props.min, props.max); };
 
     props.ref({
         select(...d: Array<Date>) {
-            setSelected(prev=>[...prev, ...d]);
+            setSelected(prev => [...prev, ...d]);
             setToday(new Date()); // 保持 today 的正确性
         },
 
-        unselect(...d: Array<Date>) {
-            setSelected(prev=>prev.filter(v=>!d.includes(v)));
+        unselect(...d: Array<Date | undefined>) {
+            setSelected(prev => prev.filter(v => !d.includes(v)));
         },
 
-        cover(start?: Date, end?: Date) {
-            const d = value();
-            setCovered([
-                start ?? new Date(d.getFullYear(), d.getMonth(), 1),
-                end ?? new Date(d.getFullYear(), d.getMonth()+1, 0)
-            ]);
+        cover(range: [start: Date, end: Date]) {
+            range.sort((a, b) => a.getTime() - b.getTime());
+            setCovered(range);
         },
 
-        uncover() {
-            setCovered([]);
-        },
+        uncover() { setCovered(); },
 
         Title(): JSX.Element { return titleFormater().format(value()); },
 
-        jump(date) { setValue(date); },
+        jump(date) { jump(date); },
 
         canJump(date) { return canJump(date); },
 
@@ -218,7 +233,7 @@ export default function DateView(props: Props): JSX.Element {
             const v = new Date(value());
             if (month !== undefined) { v.setMonth(v.getMonth() + month); }; // month 可以是负数，必须要与 undefined 比较。
             if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
-            setValue(v);
+            jump(v);
         },
 
         canOffset(year, month) {
@@ -260,16 +275,19 @@ export default function DateView(props: Props): JSX.Element {
                                     [props.selectedClass]: isSelected(day[1], selected()),
                                     [props.todayClass]: equalDate(today(), day[1]),
                                     [props.disabledClass]: !day[0],
-                                    [props.coveredClass]: covered().length > 0
-                                        && covered()[0]! >= day[1]
-                                        && covered()[1]! <= day[1],
-                                }} ref={el => {
+                                    [props.coveredClass]: covered() && covered()!.length > 0
+                                        && covered()![0]! <= day[1]
+                                        && covered()![1]! >= day[1],
+                                }} ref={el => { // 非响应
                                     if (!props.plugins || props.plugins.length === 0) { return; }
                                     props.plugins.forEach(p => p(day[1], el));
                                 }} onClick={() => {
                                     if (props.onClick) { props.onClick(day[1], !day[0]); }
-                                }}>
-                                    <span>{day[1].getDate()}</span>
+                                }} onMouseEnter={() => {
+                                    if (props.onHover) { props.onHover(day[1], !day[0]); }
+                                }}
+                                >
+                                    <time datetime={day[1].toISOString().split('T')[0]}>{day[1].getDate()}</time>
                                 </td>
                             )}
                         </For>

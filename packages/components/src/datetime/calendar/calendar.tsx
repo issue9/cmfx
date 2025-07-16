@@ -52,6 +52,8 @@ export interface Props extends BaseProps {
 
     /**
      * 插件列表
+     *
+     * NOTE: 这是一个非响应式的属性。
      */
     plugins?: Array<DatetimePlugin>;
 

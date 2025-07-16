@@ -29,5 +29,7 @@ export function lunar(date: Date, el: HTMLTableCellElement): void {
         txt = (m === '十一月' || m === '十二月') ? m : s.slice(-4, -2);
     }
 
-    el.append(txt);
+    const span = document.createElement('span');
+    span.append(txt);
+    el.append(span);
 }
