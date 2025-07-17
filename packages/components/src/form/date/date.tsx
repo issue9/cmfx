@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
@@ -11,7 +11,9 @@ import { joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
+import {
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea
+} from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
@@ -44,16 +46,13 @@ export function DatePicker(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const l = useLocale();
 
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
+    const [panelProps, _] = splitProps(props,
+        ['time', 'weekBase', 'accessor', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
 
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
 
     const [hover, setHover] = createSignal(false);
-
-    const change = (val?: Date) => {
-        props.accessor.setValue(val);
-    };
 
     const formater = createMemo(() => { return props.time ? l.datetime.format : l.date.format; });
 
@@ -85,8 +84,9 @@ export function DatePicker(props: Props): JSX.Element {
 
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
 
-            <DatePanel class={styles['dt-panel']} {...panelProps} value={props.accessor.getValue()}
-                onChange={change} />
+            <DatePanel class={styles['dt-panel']} {...panelProps}
+                value={untrack(props.accessor.getValue)} onChange={val=>props.accessor.setValue(val)}
+            />
 
             <div class={styles.actions}>
                 <div class={styles.left}>

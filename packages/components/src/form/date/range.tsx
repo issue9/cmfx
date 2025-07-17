@@ -4,18 +4,19 @@
 
 import { adjustPopoverPosition } from '@cmfx/core';
 import {
-    createMemo,
-    createUniqueId, JSX, mergeProps, onCleanup, onMount, Show, splitProps
+    createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack
 } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
+import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, Palette } from '@/base';
+import { joinClass } from '@/base';
+import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateRangePanel, RangeValueType } from '@/datetime';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import { IconComponent } from '@/icon';
-import { Props as PickerProps } from './date';
+import { presetProps as basePresetProps, Props as PickerProps } from './date';
 import styles from './style.module.css';
 
 export interface Props extends Omit<PickerProps, 'accessor'> {
@@ -24,84 +25,99 @@ export interface Props extends Omit<PickerProps, 'accessor'> {
      */
     arrowIcon?: IconComponent;
 
-    /**
-     * 一些突出操作的样式色盘
-     */
-    accentPalette?: Palette;
-
     accessor: Accessor<RangeValueType | undefined>;
 }
 
 const presetProps = {
-    accentPalette: 'primary',
+    ...basePresetProps,
     arrowIcon: IconArrowRight,
-    layout: 'horizontal',
-    weekBase: 0,
 } as const;
 
+function togglePop(anchor: Element, popElem: HTMLElement): boolean {
+    const ab = anchor.getBoundingClientRect();
+    const ret = popElem.togglePopover();
+    adjustPopoverPosition(popElem, ab, 2);
+    return ret;
+}
+
 export function DateRangePicker(props: Props): JSX.Element {
+    props = mergeProps(presetProps, props);
     const l = useLocale();
 
-    props = mergeProps(presetProps, props);
-    const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
+    const [panelProps, _] = splitProps(props,
+        ['time', 'weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
 
-    let fieldRef: HTMLElement;
-    let popRef: HTMLElement;
+    let panelRef: HTMLElement;
+    let anchorRef: HTMLElement;
 
-    const handleClick = (e: MouseEvent) => {
-        if (!fieldRef.contains(e.target as Node)) { popRef.hidePopover(); }
-    };
-    const handleKeydown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') { popRef.hidePopover(); }
-    };
-    onMount(() => {
-        document.body.addEventListener('click', handleClick);
-        document.addEventListener('keydown', handleKeydown);
-    });
-    onCleanup(() => {
-        document.body.removeEventListener('click', handleClick);
-        document.removeEventListener('keydown', handleKeydown);
-    });
+    const [hover, setHover] = createSignal(false);
 
-    const showPopover = (e: {target: HTMLInputElement}) => {
-        popRef.hidePopover();
-        const ab = e.target.getBoundingClientRect();
-        adjustPopoverPosition(popRef, ab, 8);
-        popRef.showPopover();
+    const change = (val?: RangeValueType) => {
+        props.accessor.setValue(val);
     };
+
+    const formater = createMemo(() => { return props.time ? l.datetime.format : l.date.format; });
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
-    return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles.activator)}
+    return <Field class={joinClass(styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
-            {area => <label for={id} style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div style={fieldArea2Style(areas().inputArea)} classList={{
-            [styles['activator-container']]: true,
-            [styles.rounded]: props.rounded
-        }}>
+        <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
+            onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
+            onClick={() => togglePop(anchorRef, panelRef)}
+            class={joinClass(styles['activator-container'], props.rounded ? styles.rounded : undefined)}
+        >
             <input id={id} readOnly disabled={props.disabled} placeholder={props.placeholder}
                 class={joinClass(styles.input, styles.range)}
-                value={props.time ? l.datetime.format(ac1.getValue()) : l.date.format(ac1.getValue())}
+                value={formater()(props.accessor.getValue()![0])}
             />
             {props.arrowIcon!({ class: 'px-1 shrink-0' })}
             <input readOnly disabled={props.disabled} placeholder={props.placeholder}
                 class={joinClass(styles.input, styles.range)}
-                value={props.time ? l.datetime.format(ac2.getValue()) : l.date.format(ac2.getValue())}
+                value={formater()(props.accessor.getValue()![1])}
             />
-            <Show when={ac1.getValue() || ac2.getValue()}>
-                <IconClose class="shrink-0" tabIndex={props.tabindex} onClick={() => {
-                    ac1.setValue(undefined);
-                    ac2.setValue(undefined);
-                    props.accessor.setValue([undefined, undefined]);
+
+            <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll class="shrink-0" />}>
+                <IconClose class="shrink-0" onClick={e => {
+                    e.stopPropagation();
+                    props.accessor.setValue(undefined);
                 }} />
             </Show>
-
-            <DateRangePanel popover="manual" ref={el => popRef = el} accessor={panelVal} {...panelProps} />
         </div>
+
+        <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
+
+            <DateRangePanel class={styles['dt-panel']} {...panelProps}
+                value={untrack(props.accessor.getValue)} onChange={change}
+            />
+
+            <div class={styles.actions}>
+                <div class={styles.left}>
+                    <Button kind='flat' class='py-0 px-1' onClick={() => {
+                        const now = new Date();
+                        if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
+                        props.accessor.setValue(now);
+                        panelRef.hidePopover();
+                    }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</Button>
+                </div>
+
+                <div class={styles.right}>
+                    <Button kind='flat' class='py-0 px-1' onClick={() => {
+                        props.accessor.setValue(undefined);
+                        panelRef.hidePopover();
+                    }}>{l.t('_c.date.clear')}</Button>
+
+                    <Button kind='flat' class='py-0 px-1' palette={props.accentPalette} onClick={() => {
+                        panelRef.hidePopover();
+                    }}>{l.t('_c.ok')}</Button>
+                </div>
+            </div>
+        </fieldset>
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

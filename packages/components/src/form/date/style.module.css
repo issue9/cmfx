@@ -53,26 +53,4 @@
             }
         }
     }
-
-    /********************************** range-panel ********************************/
-
-    .range-panel {
-        @apply flex flex-col rounded-lg overflow-clip;
-        @apply border border-palette-fg-low;
-        @apply bg-palette-bg text-palette-fg;
-
-        .range-panels {
-            @apply flex flex-row flex-wrap;
-
-            .panel {
-                @apply !rounded-none !border-none;
-            }
-
-            .panel:last-child {}
-        }
-
-        .range-actions {
-            @apply border-t border-t-palette-fg-low;
-        }
-    }
 }

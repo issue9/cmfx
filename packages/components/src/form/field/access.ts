@@ -103,9 +103,7 @@ export function fieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boole
             if (old === vv) { return; }
 
             s[1](vv as any);
-            changes.forEach((f) => {
-                f(vv, old);
-            });
+            changes.forEach(f => { f(vv, old); });
         },
 
         reset() {
