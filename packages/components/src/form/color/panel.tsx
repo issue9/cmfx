@@ -4,14 +4,23 @@
 
 import Color from 'colorjs.io';
 import { createEffect, createMemo, createSignal, For, JSX, Show } from 'solid-js';
+import IconPicker from '~icons/circum/picker-half';
 import IconAccessibility from '~icons/octicon/accessibility-inset-24';
 
 import { classList, joinClass } from '@/base';
+import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range } from '@/form/range';
 import { copy2Clipboard } from '@/kit';
 import styles from './style.module.css';
+
+declare global {
+    interface Window {
+        // TODO: https://caniuse.com/?search=EyeDropper
+        EyeDropper: any;
+    }
+}
 
 export interface Props extends Omit<FieldBaseProps, 'layout'> {
     accessor: Accessor<string>;
@@ -82,34 +91,41 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         const aa = a.getValue();
         return [
             // l
-            `linear-gradient(to right, ${fmtColor(0, cc, hh, aa)}, ${fmtColor(.1, cc, hh, aa)}, ${fmtColor(.2, cc, hh, aa)},
-            ${fmtColor(.3, cc, hh, aa)}, ${fmtColor(.4, cc, hh, aa)}, ${fmtColor(.5, cc, hh, aa)}, ${fmtColor(.6, cc, hh, aa)},
-            ${fmtColor(.7, cc, hh, aa)}, ${fmtColor(.8, cc, hh, aa)}, ${fmtColor(.9, cc, hh, aa)}, ${fmtColor(1, cc, hh, aa)})`,
+            `linear-gradient(to right, ${fmtColor(0, cc, hh, aa)}, ${fmtColor(.1, cc, hh, aa)},
+            ${fmtColor(.2, cc, hh, aa)}, ${fmtColor(.3, cc, hh, aa)}, ${fmtColor(.4, cc, hh, aa)},
+            ${fmtColor(.5, cc, hh, aa)}, ${fmtColor(.6, cc, hh, aa)}, ${fmtColor(.7, cc, hh, aa)},
+            ${fmtColor(.8, cc, hh, aa)}, ${fmtColor(.9, cc, hh, aa)}, ${fmtColor(1, cc, hh, aa)})`,
 
             // c
-            `linear-gradient(to right, ${fmtColor(ll, 0, hh, aa)}, ${fmtColor(ll, 0.04, hh, aa)}, ${fmtColor(ll, 0.08, hh, aa)},
-            ${fmtColor(ll, 0.12, hh, aa)}, ${fmtColor(ll, 0.16, hh, aa)}, ${fmtColor(ll, 0.20, hh, aa)}, ${fmtColor(ll, 0.24, hh, aa)},
-            ${fmtColor(ll, 0.28, hh, aa)}, ${fmtColor(ll, 0.32, hh, aa)}, ${fmtColor(ll, 0.36, hh, aa)}, ${fmtColor(ll, 0.4, hh, aa)})`,
+            `linear-gradient(to right, ${fmtColor(ll, 0, hh, aa)}, ${fmtColor(ll, 0.04, hh, aa)},
+            ${fmtColor(ll, 0.08, hh, aa)}, ${fmtColor(ll, 0.12, hh, aa)}, ${fmtColor(ll, 0.16, hh, aa)},
+            ${fmtColor(ll, 0.20, hh, aa)}, ${fmtColor(ll, 0.24, hh, aa)}, ${fmtColor(ll, 0.28, hh, aa)},
+            ${fmtColor(ll, 0.32, hh, aa)}, ${fmtColor(ll, 0.36, hh, aa)}, ${fmtColor(ll, 0.4, hh, aa)})`,
 
             // h
-            `linear-gradient(to right, ${fmtColor(ll, cc, 0, aa)}, ${fmtColor(ll, cc, 20, aa)}, ${fmtColor(ll, cc, 40, aa)}, ${fmtColor(ll, cc, 60, aa)},
-            ${fmtColor(ll, cc, 80, aa)}, ${fmtColor(ll, cc, 100, aa)}, ${fmtColor(ll, cc, 120, aa)}, ${fmtColor(ll, cc, 140, aa)},
-            ${fmtColor(ll, cc, 160, aa)}, ${fmtColor(ll, cc, 180, aa)}, ${fmtColor(ll, cc, 200, aa)}, ${fmtColor(ll, cc, 220, aa)},
-            ${fmtColor(ll, cc, 240, aa)}, ${fmtColor(ll, cc, 260, aa)}, ${fmtColor(ll, cc, 280, aa)}, ${fmtColor(ll, cc, 300, aa)},
-            ${fmtColor(ll, cc, 320, aa)}, ${fmtColor(ll, cc, 340, aa)}, ${fmtColor(ll, cc, 360, aa)})`,
+            `linear-gradient(to right, ${fmtColor(ll, cc, 0, aa)}, ${fmtColor(ll, cc, 20, aa)},
+            ${fmtColor(ll, cc, 40, aa)}, ${fmtColor(ll, cc, 60, aa)}, ${fmtColor(ll, cc, 80, aa)},
+            ${fmtColor(ll, cc, 100, aa)}, ${fmtColor(ll, cc, 120, aa)}, ${fmtColor(ll, cc, 140, aa)},
+            ${fmtColor(ll, cc, 160, aa)}, ${fmtColor(ll, cc, 180, aa)}, ${fmtColor(ll, cc, 200, aa)},
+            ${fmtColor(ll, cc, 220, aa)}, ${fmtColor(ll, cc, 240, aa)}, ${fmtColor(ll, cc, 260, aa)},
+            ${fmtColor(ll, cc, 280, aa)}, ${fmtColor(ll, cc, 300, aa)}, ${fmtColor(ll, cc, 320, aa)},
+            ${fmtColor(ll, cc, 340, aa)}, ${fmtColor(ll, cc, 360, aa)})`,
 
             // a
-            `linear-gradient(to right, ${fmtColor(ll, cc, hh, 0)}, ${fmtColor(ll, cc, hh, .1)}, ${fmtColor(ll, cc, hh, .2)},
-            ${fmtColor(ll, cc, hh, .3)}, ${fmtColor(ll, cc, hh, .4)}, ${fmtColor(ll, cc, hh, .5)}, ${fmtColor(ll, cc, hh, .6)},
-            ${fmtColor(ll, cc, hh, .7)}, ${fmtColor(ll, cc, hh, .8)}, ${fmtColor(ll, cc, hh, .9)}, ${fmtColor(ll, cc, hh, 1)})`,
+            `linear-gradient(to right, ${fmtColor(ll, cc, hh, 0)}, ${fmtColor(ll, cc, hh, .1)},
+            ${fmtColor(ll, cc, hh, .2)}, ${fmtColor(ll, cc, hh, .3)}, ${fmtColor(ll, cc, hh, .4)},
+            ${fmtColor(ll, cc, hh, .5)}, ${fmtColor(ll, cc, hh, .6)}, ${fmtColor(ll, cc, hh, .7)},
+            ${fmtColor(ll, cc, hh, .8)}, ${fmtColor(ll, cc, hh, .9)}, ${fmtColor(ll, cc, hh, 1)})`,
         ];
     });
 
     const [apca, setApca] = createSignal(false);
     let contentRef: HTMLDivElement;
 
-    return <fieldset popover={props.popover} disabled={props.disabled} class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
-        ref={el => { if (props.ref) { props.ref(el); } }}>
+    return <fieldset popover={props.popover} disabled={props.disabled}
+        class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
+        ref={el => { if (props.ref) { props.ref(el); } }}
+    >
         <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} bg={bg()[0]}
             value={v => `${(v * 100).toFixed(2)}%`} label={loc.t('_c.color.lightness')} />
         <Range layout='vertical' fitHeight accessor={c} min={0} max={0.4} step={0.001} bg={bg()[1]}
@@ -132,13 +148,23 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         </Show>
 
         <div class={styles.info}>
-            <div class={styles.current} ref={el=>contentRef=el} onClick={() => copy2Clipboard(contentRef, access.getValue())}
+            <Show when={'EyeDropper' in window}>
+                <Button kind='border' square onclick={async ()=>{
+                    const eye = new window.EyeDropper();
+                    const c = new Color((await eye.open()).sRGBHex);
+                    access.setValue(c.to('oklch').toString());
+                }}><IconPicker /></Button>
+            </Show>
+            <div class={styles.current} ref={el=>contentRef=el}
+                onClick={() => copy2Clipboard(contentRef, access.getValue())}
                 style={{ 'background': access.getValue(), 'color': props.wcag }}
             >{access.getValue()}</div>
 
             <Show when={props.wcag}>
                 {wcag => (
-                    <div onClick={() => setApca(!apca())} title={apca() ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'} class={styles.wcag}>
+                    <div onClick={() => setApca(!apca())} class={styles.wcag}
+                        title={apca() ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'}
+                    >
                         <IconAccessibility />
                         <span>{calcWCAG(access.getValue(), wcag(), apca())}</span>
                     </div>
