@@ -8,6 +8,7 @@ import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { joinClass, Palette } from '@/base';
+import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
@@ -23,10 +24,6 @@ export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' |
      */
     accentPalette?: Palette;
 
-    /**
-     * 如果是字符串，表示一个能被 {@link Date.parse} 识别的日期格式，
-     * 如果是 number，则表示微秒。
-     */
     accessor: Accessor<Date | undefined>;
 }
 
@@ -52,16 +49,19 @@ export function DatePicker(props: Props): JSX.Element {
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
 
-    const ac = props.accessor;
     const [hover, setHover] = createSignal(false);
 
     const change = (val?: Date) => {
         props.accessor.setValue(val);
     };
 
+    const formater = createMemo(() => { return props.time ? l.datetime.format : l.date.format; });
+
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
-    return <Field class={joinClass(styles.activator, props.class)} title={props.title} palette={props.palette} aria-haspopup>
+    return <Field class={joinClass(styles.activator, props.class)}
+        title={props.title} palette={props.palette} aria-haspopup
+    >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
@@ -69,46 +69,44 @@ export function DatePicker(props: Props): JSX.Element {
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
-            classList={{
-                [styles['activator-container']]: true,
-                [styles.rounded]: props.rounded
-            }}
+            class={joinClass(styles['activator-container'], props.rounded ? styles.rounded : undefined)}
         >
-            <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder} value={
-                props.time ? l.datetime.format(ac.getValue()) : l.date.format(ac.getValue())
-            } />
-            <Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
+            <input id={id} class={styles.input} tabIndex={props.tabindex}
+                disabled={props.disabled} readOnly placeholder={props.placeholder}
+                value={props.accessor.getValue() ? formater()(props.accessor.getValue()) : ''}
+            />
+            <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll />}>
                 <IconClose onClick={e => {
                     e.stopPropagation();
-                    ac.setValue(undefined);
+                    props.accessor.setValue(undefined);
                 }} />
             </Show>
         </div>
 
-        <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel}>
+        <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
 
-            <DatePanel class={styles['dt-panel']} {...panelProps} onChange={change} tabindex={props.tabindex}
-                value={props.accessor.getValue()} />
+            <DatePanel class={styles['dt-panel']} {...panelProps} value={props.accessor.getValue()}
+                onChange={change} />
 
             <div class={styles.actions}>
                 <div class={styles.left}>
-                    <button tabIndex={props.tabindex} onClick={() => {
+                    <Button onClick={() => {
                         const now = new Date();
                         if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
-                        change(now);
+                        props.accessor.setValue(now);
                         panelRef.hidePopover();
-                    }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</button>
+                    }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</Button>
                 </div>
 
                 <div class={styles.right}>
-                    <button tabIndex={props.tabindex} onClick={() => {
+                    <Button onClick={() => {
                         props.accessor.setValue(undefined);
                         panelRef.hidePopover();
-                    }}>{l.t('_c.date.clear')}</button>
+                    }}>{l.t('_c.date.clear')}</Button>
 
-                    <button tabIndex={props.tabindex} classList={{ [`palette--${props.accentPalette}`]: !!props.accentPalette }} onClick={() => {
+                    <Button palette={props.accentPalette} onClick={() => {
                         panelRef.hidePopover();
-                    }}>{l.t('_c.ok')}</button>
+                    }}>{l.t('_c.ok')}</Button>
                 </div>
             </div>
         </fieldset>

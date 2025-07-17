@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, createEffect, createSignal, untrack } from 'solid-js';
+import { For, createEffect, createMemo, createSignal, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
-import { DateChange, hoursOptions, minutesOptions } from '@/datetime/utils';
-import { createMemo } from 'solid-js';
+import { hoursOptions, minutesOptions } from '@/datetime/utils';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -23,7 +22,7 @@ export interface Props extends BaseProps {
     /**
      * 值发生改变时触发的事件
      */
-    onChange?: DateChange;
+    onChange?: { (val?: Date, old?: Date): void; };
 
     ref?: { (el: HTMLFieldSetElement): void; };
 

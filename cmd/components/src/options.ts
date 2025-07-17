@@ -24,6 +24,7 @@ export const options: Options = {
     scheme: 'default',
     schemes: new Map<string, Scheme>([
         ['default', {
+            contrast: 60,
             dark: {
                 'primary-bg': '#333',
                 'secondary-bg': '#666',
@@ -38,6 +39,7 @@ export const options: Options = {
             } as Palettes,
         }],
         ['default2', {
+            contrast: 60,
             dark: {
                 'primary-bg': '#333bbb',
                 'secondary-bg': '#666999',

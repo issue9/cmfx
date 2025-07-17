@@ -2,10 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export interface DateChange {
-    (val?: Date, old?: Date): void;
-}
-
 /**
  * 这是星期天，作为计算星期的基准日期。
  */

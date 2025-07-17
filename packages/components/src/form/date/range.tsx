@@ -3,15 +3,19 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import {
+    createMemo,
+    createUniqueId, JSX, mergeProps, onCleanup, onMount, Show, splitProps
+} from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 
-import { joinClass } from '@/base';
+import { joinClass, Palette } from '@/base';
 import { useLocale } from '@/context';
-import { calcLayoutFieldAreas, Field, fieldAccessor, fieldArea2Style, FieldHelpArea } from '@/form/field';
+import { DateRangePanel, RangeValueType } from '@/datetime';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
 import { IconComponent } from '@/icon';
-import { Props as PickerProps } from './picker';
+import { Props as PickerProps } from './date';
 import styles from './style.module.css';
 
 export interface Props extends Omit<PickerProps, 'accessor'> {
@@ -19,28 +23,27 @@ export interface Props extends Omit<PickerProps, 'accessor'> {
      * 中间的箭头
      */
     arrowIcon?: IconComponent;
+
+    /**
+     * 一些突出操作的样式色盘
+     */
+    accentPalette?: Palette;
+
+    accessor: Accessor<RangeValueType | undefined>;
 }
 
 const presetProps = {
-    arrowIcon: IconArrowRight
+    accentPalette: 'primary',
+    arrowIcon: IconArrowRight,
+    layout: 'horizontal',
+    weekBase: 0,
 } as const;
 
 export function DateRangePicker(props: Props): JSX.Element {
-    return <div>range</div>;
-
     const l = useLocale();
 
     props = mergeProps(presetProps, props);
     const [panelProps, _] = splitProps(props, ['time', 'weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
-
-    const [min, setMin] = createSignal(props.min);
-    const [max, setMax] = createSignal(props.max);
-
-    const ac = props.accessor;
-    const ac1 = fieldAccessor('start', ac.getValue()[0]);
-    const ac2 = fieldAccessor('end', ac.getValue()[1]);
-    let curr = ac1;
-    const panelVal = fieldAccessor('val', ac1.getValue());
 
     let fieldRef: HTMLElement;
     let popRef: HTMLElement;
@@ -70,9 +73,7 @@ export function DateRangePicker(props: Props): JSX.Element {
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
     return <Field ref={(el) => fieldRef = el} class={joinClass(props.class, styles.activator)}
-        title={props.title}
-        palette={props.palette}
-        aria-haspopup
+        title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
             {area => <label for={id} style={fieldArea2Style(area())}>{props.label}</label>}
@@ -82,38 +83,15 @@ export function DateRangePicker(props: Props): JSX.Element {
             [styles['activator-container']]: true,
             [styles.rounded]: props.rounded
         }}>
-            <input id={id} readOnly
-                tabIndex={props.tabindex}
+            <input id={id} readOnly disabled={props.disabled} placeholder={props.placeholder}
                 class={joinClass(styles.input, styles.range)}
-                disabled={props.disabled}
-                placeholder={props.placeholder}
                 value={props.time ? l.datetime.format(ac1.getValue()) : l.date.format(ac1.getValue())}
-                onFocus={e => {
-                    showPopover(e);
-
-                    setMin(props.min);
-                    const ac2V = ac2.getValue();
-                    setMax(ac2V ? new Date(ac2V) : props.max);
-
-                    curr = ac1;
-                    panelVal.setValue(ac1.getValue());
-                }} />
+            />
             {props.arrowIcon!({ class: 'px-1 shrink-0' })}
-            <input tabIndex={props.tabindex} readOnly
+            <input readOnly disabled={props.disabled} placeholder={props.placeholder}
                 class={joinClass(styles.input, styles.range)}
-                disabled={props.disabled}
-                placeholder={props.placeholder}
                 value={props.time ? l.datetime.format(ac2.getValue()) : l.date.format(ac2.getValue())}
-                onFocus={e => {
-                    showPopover(e);
-
-                    setMax(props.max);
-                    const ac1V = ac1.getValue();
-                    setMin(ac1V ? new Date(ac1V) : props.min);
-
-                    curr = ac2;
-                    panelVal.setValue(ac2.getValue());
-                }} />
+            />
             <Show when={ac1.getValue() || ac2.getValue()}>
                 <IconClose class="shrink-0" tabIndex={props.tabindex} onClick={() => {
                     ac1.setValue(undefined);
@@ -122,20 +100,11 @@ export function DateRangePicker(props: Props): JSX.Element {
                 }} />
             </Show>
 
-            <Panel popover="manual" min={min()} max={max()} ref={el => popRef = el} accessor={panelVal} {...panelProps}
-                ok={() => {
-                    curr.setValue(panelVal.getValue());
-                    popRef.hidePopover();
-                }}
-                clear={() => {
-                    curr.setValue(panelVal.getValue());
-                    popRef.hidePopover();
-                }}
-            />
+            <DateRangePanel popover="manual" ref={el => popRef = el} accessor={panelVal} {...panelProps} />
         </div>
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

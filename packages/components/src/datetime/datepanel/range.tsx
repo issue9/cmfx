@@ -25,6 +25,9 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
     shortcuts?: boolean;
 }
 
+/**
+ * 日期范围选择组件
+ */
 export function DateRangePanel(props: Props) {
     const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'palette']);
 
@@ -40,8 +43,20 @@ export function DateRangePanel(props: Props) {
     now.setMonth(now.getMonth() + 1);
     const [page2, setPage2] = createSignal<Date>(values()[1] ?? now);
 
-    const panelChange = (value: Date) => {
+    const panelChange = (value: Date, time?: boolean, start?: boolean) => {
         const old = [...untrack(values)];
+
+        if (time) { // 如果仅改变了时间部分，那么只需要修改值，而不是重置整个 values。
+            if (index === 1) { return; }
+
+            if (start) { // 第一个面板
+                setValues(prev => { return [value, prev[1]]; });
+            } else {
+                setValues(prev => { return [prev[0], value]; });
+            }
+
+            return;
+        }
 
         switch (index) {
         case 0:
@@ -123,7 +138,8 @@ export function DateRangePanel(props: Props) {
         <main>
             <div class={styles.panels}>
                 <CommonPanel {...panelProps} value={untrack(values)[0]} class={styles.panel}
-                    viewRef={el => viewRef1 = el} onChange={e => panelChange(e!)} onHover={onHover}
+                    viewRef={el => viewRef1 = el} onHover={onHover}
+                    onChange={(val, _, time) => panelChange(val!, time, true)}
                     onPaging={val => {
                         setPage1(val);
                         if (page2() <= val) {
@@ -134,7 +150,8 @@ export function DateRangePanel(props: Props) {
                     }}
                 />
                 <CommonPanel {...panelProps} value={untrack(values)[1]} class={styles.panel}
-                    viewRef={el => viewRef2 = el} onChange={e => panelChange(e!)} onHover={onHover}
+                    viewRef={el => viewRef2 = el} onHover={onHover}
+                    onChange={(val, _, time) => panelChange(val!, time, false)}
                     onPaging={val => {
                         setPage2(val);
                         if (page1() >= val) {

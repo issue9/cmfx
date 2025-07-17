@@ -12,17 +12,17 @@
     .panel {
         @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-row gap-1;
 
-        .title {
-            @apply flex justify-between items-center mb-2 text-lg border-b border-b-palette-fg-low pb-1;
-
-            button {
-                @apply flex justify-center items-center;
-                @apply aspect-square p-1 w-8 min-w-6 rounded-sm;
-            }
-        }
-
         .wrap {
             @apply w-full;
+
+            .title {
+                @apply flex justify-between items-center mb-2 text-lg border-b border-b-palette-fg-low pb-1;
+
+                button {
+                    @apply flex justify-center items-center;
+                    @apply aspect-square p-1 w-8 min-w-6 rounded-sm;
+                }
+            }
 
             table {
                 @apply w-full;
@@ -88,6 +88,10 @@
                     }
                 }
             }
+        }
+
+        .timer {
+            @apply rounded-none border-t-0 border-b-0 border-r-0;
         }
     }
 

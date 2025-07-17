@@ -14,7 +14,7 @@ import { useLocale } from '@/context';
 import { DateView, DateViewProps, DateViewRef } from '@/datetime/dateview';
 import { DatetimePlugin } from '@/datetime/plugin';
 import { TimePanel } from '@/datetime/timepanel';
-import { DateChange, Week } from '@/datetime/utils';
+import { Week } from '@/datetime/utils';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -56,11 +56,15 @@ export interface Props extends BaseProps {
     /**
      * 值发生改变时触发的事件
      *
+     * val 表示修改的新值；
+     * old 表示修改之前的值；
+     * time 是否只修改了时间部分，该值只有在 {@link Props#time} 为 true 时才有效；
+     *
      * 此方法只在以下条件下触发：
-     * - 点击天数始终触发；
-     * - 在已经点击过天数的情况下，点击小时和分钟也触发；
+     * - 点击天数；
+     * - 点击小时和分钟；
      */
-    onChange?: DateChange;
+    onChange?: { (val?: Date, old?: Date, time?: boolean): void; };
 
     /**
      * 翻页时的回调函数
@@ -103,17 +107,25 @@ export function CommonPanel(props: Props): JSX.Element {
     const [dateViewRef, setDateViewRef] = createSignal<DateViewRef>();
 
     // 改变值且触发 onchange 事件
-    const change = (val?: Date) => {
-        if (val) { dateViewRef()?.jump(val); }
-
+    const change = (val?: Date, time?: boolean) => {
         const old = untrack(value);
         if (old === val) { return; }
 
+        if (val && !time) {
+            if (old) { // 切换日期时，继承时间部分
+                val.setHours(old.getHours());
+                val.setMinutes(old.getMinutes());
+                val.setSeconds(old.getSeconds());
+            }
+
+            dateViewRef()?.jump(val);
+        }
+
+        setValue(val);
         if (old) { dateViewRef()?.unselect(old); }
         if (val) { dateViewRef()?.select(val); }
-        setValue(val);
 
-        if (props.onChange) { props.onChange(val, old); }
+        if (props.onChange) { props.onChange(val, old, time); }
     };
 
     createEffect(() => {
@@ -147,12 +159,12 @@ export function CommonPanel(props: Props): JSX.Element {
     // 年月标题
     const title = <div class={styles.title}>
         <div class="flex">
-            <Button title={l.t('_c.date.prevYear')} square disabled={!dateViewRef()?.canOffset(-1, 0)}
+            <Button kind='flat' title={l.t('_c.date.prevYear')} square disabled={!dateViewRef()?.canOffset(-1, 0)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
                     dateViewRef()?.offset(-1, 0);
                 }}><IconPrevYear /></Button>
-            <Button title={l.t('_c.date.prevMonth')} square disabled={!dateViewRef()?.canOffset(0, -1)}
+            <Button kind='flat' title={l.t('_c.date.prevMonth')} square disabled={!dateViewRef()?.canOffset(0, -1)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
                     dateViewRef()?.offset(0, -1);
@@ -162,12 +174,12 @@ export function CommonPanel(props: Props): JSX.Element {
         <div>{dateViewRef()?.Title()}</div>
 
         <div class="flex">
-            <Button title={l.t('_c.date.followingMonth')} square disabled={!dateViewRef()?.canOffset(0, 1)}
+            <Button kind='flat' title={l.t('_c.date.followingMonth')} square disabled={!dateViewRef()?.canOffset(0, 1)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
                     dateViewRef()?.offset(0, 1);
                 }}><IconNextMonth /></Button>
-            <Button title={l.t('_c.date.followingYear')} square disabled={!dateViewRef()?.canOffset(1, 0)}
+            <Button kind='flat' title={l.t('_c.date.followingYear')} square disabled={!dateViewRef()?.canOffset(1, 0)}
                 onClick={() => {
                     if (props.readonly || props.disabled) { return; }
                     dateViewRef()?.offset(1, 0);
@@ -175,7 +187,8 @@ export function CommonPanel(props: Props): JSX.Element {
         </div>
     </div>;
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
+    return <fieldset ref={el => { if (props.ref) { props.ref(el); } }}
+        disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <div class={styles.wrap} ref={el => dateRef = el}>
             {title}
@@ -194,9 +207,10 @@ export function CommonPanel(props: Props): JSX.Element {
         </div>
 
         <Show when={props.time}>
-            <TimePanel ref={el => setTimeRef(el)} disabled={props.disabled} readonly={props.readonly} value={value()} class="border-none"
+            <TimePanel ref={el => setTimeRef(el)} disabled={props.disabled} readonly={props.readonly}
+                value={value()} class={styles.timer}
                 onChange={d => {
-                    if (!props.disabled && !props.readonly) { change(d); }
+                    if (!props.disabled && !props.readonly) { change(d, true); }
                 }}
             />
         </Show>
