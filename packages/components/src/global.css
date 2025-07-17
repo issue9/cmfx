@@ -56,7 +56,7 @@ dialog {
 }
 
 dialog[open] {
-    @apply popopen block shadow-sm shadow-palette-bg;
+    @apply popopen block shadow-md shadow-palette-bg-low;
 }
 
 dialog::backdrop {
@@ -72,5 +72,5 @@ dialog::backdrop {
 }
 
 [popover]:popover-open {
-    @apply popopen shadow-sm shadow-palette-bg;
+    @apply popopen shadow-md shadow-palette-bg-low;
 }

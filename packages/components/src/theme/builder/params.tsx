@@ -221,7 +221,7 @@ function fontSizeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.E
 }
 
 // 可用的字体大小
-const fontSizeValues = [12, 16, 20, 24, 28, 32] as const;
+const fontSizeValues = [14, 16, 18, 20, 24, 28, 32] as const;
 
 function fontSize(a: Accessor<string>): JSX.Element {
     const max = fontSizeValues[fontSizeValues.length - 1];
