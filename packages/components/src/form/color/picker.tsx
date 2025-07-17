@@ -26,7 +26,7 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 export default function OKLCHPicker(props: Props): JSX.Element {
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
-    const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor', 'wcag', 'apca', 'presets']);
+    const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor', 'wcag', 'presets']);
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
     const id = createUniqueId();
@@ -45,14 +45,15 @@ export default function OKLCHPicker(props: Props): JSX.Element {
                 }}
             >
                 <Show when={props.wcag}>A</Show>
-                <input id={id} onClick={e => e.preventDefault()} type="color" class="hidden" disabled={props.disabled} readOnly={props.readonly} />
+                <input id={id} onClick={e => e.preventDefault()} type="color" class="hidden"
+                    disabled={props.disabled} readOnly={props.readonly} />
             </div>
         </div>
 
         <OKLCHPanel popover="auto" ref={el => panelRef = el} {...panelProps} />
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }
