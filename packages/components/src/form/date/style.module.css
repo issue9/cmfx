@@ -34,25 +34,22 @@
     /********************************** panel ********************************/
 
     .panel {
-        @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg p-2 box-border flex flex-col gap-1;
+        @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg box-border flex flex-col gap-1;
 
         .dt-panel {
             @apply !rounded-none !border-none;
         }
 
         .actions {
-            @apply flex justify-between items-center pt-1 border-t-palette-bg-low border-t;
+            @apply flex justify-between items-center border-t-palette-bg-low border-t;
+            @apply pt-1 px-1 pb-2;
 
             .left {
-                @apply flex justify-start items-center;
+                @apply flex justify-start items-center gap-1;
             }
 
             .right {
-                @apply flex justify-end items-center;
-            }
-
-            button {
-                @apply px-1 rounded-sm text-palette-fg cursor-pointer;
+                @apply flex justify-end items-center gap-1;
             }
         }
     }

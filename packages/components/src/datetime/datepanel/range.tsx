@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, Match, onMount, Show, splitProps, Switch, untrack } from 'solid-js';
+import {
+    createEffect, createMemo, createSignal, Match, onCleanup, onMount, Show, splitProps, Switch, untrack
+} from 'solid-js';
 
 import { joinClass } from '@/base';
 import { Button } from '@/button';
@@ -131,6 +133,33 @@ export function DateRangePanel(props: Props) {
         if (vals[1]) { viewRef2.jump(vals[1]); }
     };
 
+    /* 保证 flex-wrap 换行之后，边框显示的正确性 */
+
+    let resizeObserver: ResizeObserver;
+    const [panel1, setPanel1] = createSignal<HTMLFieldSetElement>();
+    let panel2: HTMLFieldSetElement;
+    createEffect(() => {
+        if (resizeObserver) { resizeObserver.disconnect(); }
+
+        // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
+        resizeObserver = new ResizeObserver(entries => {
+            const ref = panel1();
+            if (ref) {
+                const p2Left = (entries[0].target as HTMLElement).getBoundingClientRect().left;
+                if (p2Left === ref.getBoundingClientRect().left) {
+                    panel2.style.setProperty('border-top-color', 'var(--fg-low)');
+                    panel2.style.setProperty('border-left-color', 'transparent');
+                } else {
+                    panel2.style.setProperty('border-left-color', 'var(--fg-low)');
+                    panel2.style.setProperty('border-top-color', 'transparent');
+                }
+            }
+        });
+
+        if (panel1()) { resizeObserver.observe(panel2!); }
+    });
+    onCleanup(() => { if (resizeObserver) { resizeObserver.disconnect(); } });
+
     return <fieldset disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
         ref={el => { if (props.ref) { props.ref(el); } }}
@@ -138,7 +167,7 @@ export function DateRangePanel(props: Props) {
         <main>
             <div class={styles.panels}>
                 <CommonPanel {...panelProps} value={untrack(values)[0]} class={styles.panel}
-                    viewRef={el => viewRef1 = el} onHover={onHover}
+                    viewRef={el => viewRef1 = el} onHover={onHover} ref={el => setPanel1(el)}
                     onChange={(val, _, time) => panelChange(val!, time, true)}
                     onPaging={val => {
                         setPage1(val);
@@ -150,7 +179,7 @@ export function DateRangePanel(props: Props) {
                     }}
                 />
                 <CommonPanel {...panelProps} value={untrack(values)[1]} class={styles.panel}
-                    viewRef={el => viewRef2 = el} onHover={onHover}
+                    viewRef={el => viewRef2 = el} onHover={onHover} ref={el => panel2 = el}
                     onChange={(val, _, time) => panelChange(val!, time, false)}
                     onPaging={val => {
                         setPage2(val);
