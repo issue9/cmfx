@@ -60,7 +60,7 @@ export function Admins(props: Props): JSX.Element {
             },
             { id: 'name', label: l.t('_p.admin.name') },
             { id: 'nickname', label: l.t('_p.nickname') },
-            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetime(v as string) },
+            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetime.format(v as string) },
             {
                 id: 'state', label: l.t('_p.state'), content: (_, v) => {
                     return states().find((val) => val[0] === v)?.[1];

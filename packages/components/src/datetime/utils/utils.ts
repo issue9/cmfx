@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options } from '@/form/field';
-
-export const sunday = new Date('2024-10-20'); // 这是星期天，作为计算星期的基准日期。
+/**
+ * 这是星期天，作为计算星期的基准日期。
+ */
+export const sunday = new Date('2024-10-20');
 
 /**
- * 月份，0 表示一月。
+ * 月份，与 {@link Date#getMonth} 相同，0 表示一月。
  */
 export const months = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const;
 
@@ -77,7 +78,7 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
         prev.month = lastDay.getMonth() as Month;
         prev.start = last - days;
         prev.end = last;
-        prev.year = date.getFullYear();
+        prev.year = lastDay.getFullYear();
 
         count += days;
     }
@@ -95,10 +96,11 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
             days += 7;
         }
 
-        next.month = (new Date(date.getFullYear(), date.getMonth() + 1, 1)).getMonth() as Month;
+        const d = new Date(date.getFullYear(), date.getMonth() + 1, 1);
+        next.month = d.getMonth() as Month;
         next.start = 1;
         next.end = days;
-        next.year = date.getFullYear();
+        next.year = d.getFullYear();
     }
 
     const curr: MonthDays = {
@@ -114,14 +116,15 @@ export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
 /**
  * 将由 {@link monthDays} 的结果转换为以 7 天为一组的天数据
  */
-export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<Array<[boolean, Month, number]>> {
-    const days: Array<[boolean, Month, number]> = [];
+export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<Array<[boolean, Date]>> {
+    const days: Array<[boolean, Date]> = [];
     for (const mm of m) {
         if (mm.start === 0 && mm.start === mm.end) { continue; }
 
         for (let i = mm.start; i <= mm.end; i++) {
             let enabled = mm.isCurrent;
             const now = new Date(mm.year, mm.month, i);
+
             if (min && min > now) {
                 enabled = false;
             }
@@ -129,12 +132,12 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
                 enabled = false;
             }
 
-            days.push([enabled, mm.month, i]);
+            days.push([enabled, now]);
         }
     }
 
     // 将天以 7 为单位进行分割并存入 weeks
-    const weeks: Array<Array<[boolean, Month, number]>> = [];
+    const weeks: Array<Array<[boolean, Date]>> = [];
     for (let i = 0; i < days.length; i += 7) {
         weeks.push(days.slice(i, i + 7));
     }
@@ -146,101 +149,19 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
  *
  * @param date 需要计算的月份；
  * @param weekStart 每周的起始；
- * @returns 以 7 天为一组的数据，每个元素包含以下三个字段：
+ * @returns 以 7 天为一组的数据，每个元素包含以下字段：
  *  - 0 是否为禁用；
- *  - 1 月份；
- *  - 2 在当前月份中的日期；
+ *  - 1 表示当前的日期，仅精确到天；
  */
-export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[enabled: boolean, month: Month, day: number]>> {
+export function weekDays(date: Date, weekStart: Week, min?: Date, max?: Date): Array<Array<[enabled: boolean, date: Date]>> {
     return getWeekDays(monthDays(date, weekStart), min, max);
 }
 
-export const hoursOptions: Options<number> = [
-    [0, '00'],
-    [1, '01'],
-    [2, '02'],
-    [3, '03'],
-    [4, '04'],
-    [5, '05'],
-    [6, '06'],
-    [7, '07'],
-    [8, '08'],
-    [9, '09'],
-    [10, '10'],
-    [11, '11'],
-    [12, '12'],
-    [13, '13'],
-    [14, '14'],
-    [15, '15'],
-    [16, '16'],
-    [17, '17'],
-    [18, '18'],
-    [19, '19'],
-    [20, '20'],
-    [21, '21'],
-    [22, '22'],
-    [23, '23'],
-] as const;
-
-export const minutesOptions: Options<number> = [
-    [0, '00'],
-    [1, '01'],
-    [2, '02'],
-    [3, '03'],
-    [4, '04'],
-    [5, '05'],
-    [6, '06'],
-    [7, '07'],
-    [8, '08'],
-    [9, '09'],
-    [10, '10'],
-    [11, '11'],
-    [12, '12'],
-    [13, '13'],
-    [14, '14'],
-    [15, '15'],
-    [16, '16'],
-    [17, '17'],
-    [18, '18'],
-    [19, '19'],
-    [20, '20'],
-    [21, '21'],
-    [22, '22'],
-    [23, '23'],
-    [24, '24'],
-    [25, '25'],
-    [26, '26'],
-    [27, '27'],
-    [28, '28'],
-    [29, '29'],
-    [30, '30'],
-    [31, '31'],
-    [32, '32'],
-    [33, '33'],
-    [34, '34'],
-    [35, '35'],
-    [36, '36'],
-    [37, '37'],
-    [38, '38'],
-    [39, '39'],
-    [40, '40'],
-    [41, '41'],
-    [42, '42'],
-    [43, '43'],
-    [44, '44'],
-    [45, '45'],
-    [46, '46'],
-    [47, '47'],
-    [48, '48'],
-    [49, '49'],
-    [50, '50'],
-    [51, '51'],
-    [52, '52'],
-    [53, '53'],
-    [54, '54'],
-    [55, '55'],
-    [56, '56'],
-    [57, '57'],
-    [58, '58'],
-    [59, '59'],
-] as const;
+/**
+ * 比较日期是否相等，仅比较日期部分。
+ */
+export function equalDate(date1: Date, date2: Date): boolean {
+    return date1.getFullYear() === date2.getFullYear() &&
+        date1.getMonth() === date2.getMonth() &&
+        date1.getDate() === date2.getDate();
+}

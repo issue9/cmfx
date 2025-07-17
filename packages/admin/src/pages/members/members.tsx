@@ -18,12 +18,12 @@ export interface ActionProps {
      * 当前数据行的 ID
      */
     id: number;
-    
+
     /**
      * 当前数据行
      */
     member?: Member;
-    
+
     /**
      * 对整个表格的引用
      */
@@ -35,7 +35,7 @@ interface Props {
      * 路由基地址
      */
     routePrefix: string;
-    
+
     /**
      * 操作列中的组件
      */
@@ -83,7 +83,7 @@ export function Members(props: Props): JSX.Element {
                 })
             },
             { id: 'nickname', label: l.t('_p.nickname') },
-            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetime(v as string) },
+            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetime.format(v as string) },
             {
                 id: 'state', label: l.t('_p.state'), content: (_, v) => {
                     return states().find((val) => val[0] === v)?.[1];
@@ -123,7 +123,7 @@ export function Members(props: Props): JSX.Element {
                         <Show when={obj?.state !== 'deleted'}>
                             {ref.DeleteAction(obj!.id!)}
                         </Show>
-                        
+
                         <Show when={props.actions}>
                             {props.actions!({ id: obj?.id as number, member: obj, table: ref })}
                         </Show>

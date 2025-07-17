@@ -1,0 +1,23 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    table {
+        @apply border-spacing-0 border-separate;
+
+        colgroup {
+            .weekend {
+                @apply bg-palette-bg-low;
+            }
+        }
+
+        thead>tr {
+            @apply font-bold;
+        }
+    }
+}

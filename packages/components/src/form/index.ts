@@ -20,5 +20,6 @@ export * from './radio';
 export * from './range';
 export * from './textarea';
 export * from './textfield';
+export * from './time';
 export * from './upload';
 

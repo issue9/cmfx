@@ -1,0 +1,150 @@
+/*
+ * SPDX-FileCopyrightText: 2024-2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    /********************************* panel *************************************/
+
+    .panel {
+        @apply border border-palette-fg-low rounded-lg overflow-clip;
+        @apply text-center bg-palette-bg text-palette-fg box-border;
+        @apply flex flex-row;
+
+        .wrap {
+            @apply w-full;
+
+            .title {
+                @apply flex justify-between items-center text-lg border-b border-b-palette-fg-low;
+                @apply px-2 pb-1 pt-2 mb-2;
+
+                button {
+                    @apply !p-1;
+                }
+            }
+
+            table {
+                @apply w-full px-2 pb-2;
+
+                colgroup {
+                    .weekend {
+                        @apply bg-palette-bg-low;
+                    }
+                }
+
+                thead>tr>th,
+                tbody>tr>td {
+                    @apply aspect-square p-1 min-w-6;
+                }
+
+
+
+                thead>tr>th {
+                    @apply cursor-default;
+                }
+
+                tbody tr {
+
+                    td>time {
+                        @apply px-1 rounded-sm text-center inline-block;
+                    }
+
+                    td>span {
+                        @apply inline-block text-center w-full;
+                    }
+
+                    td {
+                        @apply border border-transparent rounded-sm cursor-pointer py-1;
+                    }
+
+
+                    td.today {
+                        time {
+                            @apply text-palette-bg-low;
+                        }
+                    }
+
+                    td.selected,
+                    td.covered {
+                        @apply bg-palette-bg-high text-palette-fg-high;
+
+                        time {
+                            @apply text-palette-fg-high;
+                        }
+                    }
+
+                    td.disabled {
+                        @apply text-palette-fg-low;
+                    }
+
+                    td.disabled.selected,
+                    td.disabled.covered {
+                        @apply bg-palette-bg-low text-palette-fg-low;
+
+                        time {
+                            @apply text-palette-fg-low;
+                        }
+                    }
+                }
+            }
+        }
+
+        .timer {
+            @apply rounded-none border-t-0 border-b-0 border-r-0 py-2 pr-2;
+        }
+    }
+
+    .panel:enabled {
+
+        table tbody tr {
+            td:not(.disabled):hover {
+                @apply bg-palette-fg-low cursor-pointer;
+            }
+        }
+    }
+
+    .panel:disabled,
+    .panel:disabled * {
+        @apply cursor-not-allowed text-palette-fg-low;
+    }
+
+    /********************************* range-panel *************************************/
+
+    .range {
+        @apply flex rounded-lg overflow-clip;
+        @apply border border-palette-fg-low;
+        @apply bg-palette-bg text-palette-fg;
+
+        >main {
+            @apply flex flex-col;
+
+            .panels {
+                @apply flex flex-wrap;
+
+                .panel {
+                    @apply !rounded-none border-transparent flex-1;
+                }
+
+                .panel:last-child {
+                    @apply border-l-palette-fg-low;
+                }
+            }
+
+            .value {
+                @apply py-1 px-2 border-t border-palette-fg-low;
+            }
+
+            .value::before {
+                content: "\200B";
+            }
+        }
+
+        .shortcuts {
+            @apply flex flex-col shrink-0 p-2 items-stretch;
+            @apply border-l border-palette-fg-low;
+        }
+    }
+}

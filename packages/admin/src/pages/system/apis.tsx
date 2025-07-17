@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Column, Label, Page, RemoteTable } from '@cmfx/components';
-import { Duration, Method, parseDuration, Query } from '@cmfx/core';
+import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import IconAPI from '~icons/material-symbols/api';
 
@@ -47,18 +47,18 @@ export function APIs(): JSX.Element {
                 { id: 'router', label: l.t('_p.system.router') },
                 { id: 'method', label: l.t('_p.system.method') },
                 { id: 'pattern', label: l.t('_p.system.pattern') },
-    
+
                 { id: 'count', label: l.t('_p.system.count') },
-                { id: 'last', label: l.t('_p.system.last'), content: (_: string, val: string) => { return l.datetime(val); } },
+                { id: 'last', label: l.t('_p.system.last'), content: (_: string, val: string) => { return l.datetime.format(val); } },
                 { id: 'serverErrors', label: l.t('_p.system.serverErrors') },
                 { id: 'userErrors', label: l.t('_p.system.userErrors') },
-    
-                { id: 'max', label: l.t('_p.system.max'), content: (_: string, val: Duration) => { l.duration(val); } },
-                { id: 'min', label: l.t('_p.system.min'), content: (_: string, val: Duration) => { return l.duration(val); } },
+
+                { id: 'max', label: l.t('_p.system.max'), content: (_: string, val: Duration) => { formatDuration(l.duration, val); } },
+                { id: 'min', label: l.t('_p.system.min'), content: (_: string, val: Duration) => { return formatDuration(l.duration, val); } },
                 { id: 'spend', label: l.t('_p.system.spend'), content: (_: string, val: Duration, api?: API) => {
                     const count = api?.count!;
                     val = count > 0 ? parseDuration(val) / count : 0;
-                    return l.duration(val);
+                    return formatDuration(l.duration, val);
                 } },
             ] as Array<Column<API>>} />
     </Page>;

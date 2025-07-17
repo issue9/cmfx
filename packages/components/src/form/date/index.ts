@@ -2,12 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { DatePicker } from './picker';
-export type { Props as DatePickerProps } from './picker';
+export { DatePicker } from './date';
+export type { Props as DatePickerProps } from './date';
 
 export { DateRangePicker } from './range';
 export type { Props as DateRangePickerProps } from './range';
-
-export { DatePanel } from './panel';
-export type { Props as DatePanelProps } from './panel';
 

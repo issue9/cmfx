@@ -1,0 +1,29 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .activator {
+        .activator-container {
+            @apply rounded-md border border-palette-fg-low flex items-center px-2 py-1 cursor-pointer outline-none;
+            @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
+
+            .input {
+                @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
+                @apply disabled:cursor-not-allowed read-only:cursor-default focus:outline-none focus-within:outline-none focus-visible:outline-none;
+            }
+        }
+
+        .activator-container:focus {
+            @apply border-palette-fg-high;
+        }
+
+        .activator-container.rounded {
+            @apply !rounded-full;
+        }
+    }
+}

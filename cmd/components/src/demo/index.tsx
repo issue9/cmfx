@@ -11,11 +11,16 @@ export const routes: Array<RouteDefinition> = [
     { path: '/badge', component: lazy(() => import('./badge')) },
     { path: '/base', component: lazy(() => import('./base')) },
     { path: '/button', component: lazy(() => import('./button')) },
-    { path: '/calendar', component: lazy(() => import('./calendar')) },
     { path: '/card', component: lazy(() => import('./card')) },
     { path: '/code', component: lazy(() => import('./code')) },
     { path: '/chart', component: lazy(() => import('./chart')) },
     { path: '/context', component: lazy(() => import('./context')) },
+
+    { path: '/datetime-calendar', component: lazy(() => import('./datetime/calendar')) },
+    { path: '/datetime-datepanel', component: lazy(() => import('./datetime/datepanel')) },
+    { path: '/datetime-timepanel', component: lazy(() => import('./datetime/timepanel')) },
+    { path: '/datetime-timer', component: lazy(() => import('./datetime/timer')) },
+
     { path: '/dialog', component: lazy(() => import('./dialog')) },
     { path: '/divider', component: lazy(() => import('./divider')) },
     { path: '/drawer', component: lazy(() => import('./drawer')) },
@@ -37,7 +42,6 @@ export const routes: Array<RouteDefinition> = [
     { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
     { path: '/theme-selector', component: lazy(() => import('./theme/selector')) },
 
-    { path: '/timer', component: lazy(() => import('./timer')) },
     { path: '/tooltip', component: lazy(() => import('./tooltip')) },
 
     { path: '/tree-list', component: lazy(() => import('./tree/list')) },
@@ -58,5 +62,6 @@ export const routes: Array<RouteDefinition> = [
     { path: '/form-range', component: lazy(() => import('./form/range')) },
     { path: '/form-textfield', component: lazy(() => import('./form/textfield')) },
     { path: '/form-textarea', component: lazy(() => import('./form/textarea')) },
+    { path: '/form-time', component: lazy(() => import('./form/time')) },
     { path: '/form-upload', component: lazy(() => import('./form/upload')) },
 ] as const;

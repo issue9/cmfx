@@ -75,8 +75,8 @@ export function Services(): JSX.Element {
                     return states().find((val) => val[0] === v)?.[1];
                 }) as Column<Job>['content']},
                 {id: 'err', label: l.t('_p.system.error')},
-                {id: 'next', label: l.t('_p.system.next'), content: (_: string, val?: string) => { return l.datetime(val); }},
-                {id: 'prev', label: l.t('_p.system.prev'), content: (_: string, val?: string) => { return l.datetime(val); }},
+                {id: 'next', label: l.t('_p.system.next'), content: (_: string, val?: string) => { return l.datetime.format(val); }},
+                {id: 'prev', label: l.t('_p.system.prev'), content: (_: string, val?: string) => { return l.datetime.format(val); }},
             ]} />
         </fieldset>
     </Page>;

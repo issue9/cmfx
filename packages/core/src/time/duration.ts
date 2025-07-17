@@ -90,7 +90,7 @@ export function parseDuration(val?: Duration): number {
  *
  * 该值可用于 Intl.DurationFormat.format 方法。
  */
-export function formatDuration(nano: number): Intl.DurationInput {
+export function toIntlDuration(nano: number): Intl.DurationInput {
     const obj: Intl.DurationInput = {};
     let hasField = false; // 是否有字段已经设置过值
     for (let i = 1; i < nameValues.length; i++) {
@@ -108,4 +108,12 @@ export function formatDuration(nano: number): Intl.DurationInput {
     if (!hasField) { obj.nanoseconds = 0; } // 至少需要一个字段
 
     return obj;
+}
+
+/**
+ * 格式化 Duration 对象
+ */
+export function formatDuration(formatter: Intl.DurationFormat, duration: Duration): string {
+    const nano = typeof duration === 'string' ? parseDuration(duration) : duration;
+    return formatter.format(toIntlDuration(nano));
 }

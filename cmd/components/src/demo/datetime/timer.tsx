@@ -6,7 +6,7 @@ import { Button, Timer, timerFields, TimerRef } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import IconFace from '~icons/material-symbols/face';
 
-import { arraySelector, boolSelector, Demo, Stage } from './base';
+import { arraySelector, boolSelector, Demo, Stage } from '../base';
 
 export default function () {
     const [unitS, unit] = boolSelector('unit');

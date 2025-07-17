@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Choice, Description, Divider, fieldAccessor, joinClass, Mode, Page, RadioGroup, SchemeSelector, use as useC } from '@cmfx/components';
-import { Locale, UnitStyle } from '@cmfx/core';
+import { formatDuration, Locale, UnitStyle } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconPalette from '~icons/material-symbols/palette';
@@ -72,8 +72,8 @@ export function Settings(): JSX.Element {
         ]}/>
 
         <div class="ml-1 pl-2 border-l-2 border-palette-bg-low">
-            <p>{ l.datetime(Date()) }</p>
-            <p>{ l.duration(1111111223245) }</p>
+            <p>{ l.datetime.format(Date()) }</p>
+            <p>{ formatDuration(l.duration, 1111111223245) }</p>
             <p>{ l.bytes(1111223245) }</p>
         </div>
     </Page>;

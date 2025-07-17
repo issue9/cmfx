@@ -28,8 +28,16 @@ const messages: typeof m = {
             now: '现在',
             prevMonth: '上个月',
             prevYear: '上一年',
-            nextMonth: '下个月',
-            nextYear: '下一年',
+            followingMonth: '下个月',
+            followingYear: '下一年',
+
+            lastMonth: '上月',
+            lastQuarter: '上季度',
+            thisQuarter: '本季度',
+            nextQuarter: '下季度',
+            lastYear: '去年',
+            thisYear: '今年',
+            nextYear: '明年',
         },
         color: {
             lightness: '亮度(L)',

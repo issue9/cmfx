@@ -2,17 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, createMemo, createSignal, mergeProps } from 'solid-js';
-import IconChevronLeft from '~icons/material-symbols/chevron-left';
-import IconChevronRight from '~icons/material-symbols/chevron-right';
-import IconArrowLeft from '~icons/material-symbols/keyboard-double-arrow-left';
-import IconArrowRight from '~icons/material-symbols/keyboard-double-arrow-right';
+import { JSX, createSignal, mergeProps } from 'solid-js';
+import IconPrevMonth from '~icons/material-symbols/chevron-left';
+import IconNextMonth from '~icons/material-symbols/chevron-right';
+import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
+import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 
-import { BaseProps, classList, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
-import { Week, sunday, weekDay, weekDays, weeks } from '@/datetime/utils';
-import { Plugin } from './plugin';
+import { DateView, DateViewRef } from '@/datetime/dateview';
+import { DatetimePlugin } from '@/datetime/plugin';
+import { Week } from '@/datetime/utils';
 import styles from './style.module.css';
 
 /**
@@ -51,8 +52,15 @@ export interface Props extends BaseProps {
 
     /**
      * 插件列表
+     *
+     * NOTE: 这是一个非响应式的属性。
      */
-    plugins?: Array<Plugin>;
+    plugins?: Array<DatetimePlugin>;
+
+    /**
+     * 是否高亮周末的列
+     */
+    weekend?: boolean;
 
     class?: string;
     style?: JSX.HTMLAttributes<HTMLElement>['style'];
@@ -69,80 +77,44 @@ export default function Calendar(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     const l = useLocale();
-    const [curr, setCurr] = createSignal(props.current ?? new Date());
-    const year = createMemo(() => curr().getFullYear());
-
-    const weekFormat = createMemo(() => { return l.dateTimeFormat({ weekday: 'long' }); });
-
-    const titleFormat = createMemo(() => {
-        return l.dateTimeFormat({ year: 'numeric', month: '2-digit' }).format(curr());
-    });
-
-    const now = new Date();
-
-    const [selected, setSelected] = createSignal(props.selected);
+    const [ref, setRef] = createSignal<DateViewRef>();
+    const [selected, setSelected] = createSignal<Date>();
 
     return <div style={props.style} class={joinClass(styles.calendar, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <header>
-            <p class={styles.title}>{titleFormat()}</p>
+            <p class={styles.title}>{ref()?.Title()}</p>
             <div>
                 <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevYear')} square onClick={() => setCurr(new Date(curr().getFullYear() - 1, curr().getMonth(), 1))}><IconArrowLeft /></Button>
-                    <Button title={l.t('_c.date.prevMonth')} square onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() - 1, 1))}><IconChevronLeft /></Button>
-                    <Button onClick={() => setCurr(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.nextMonth')} square onClick={() => setCurr(new Date(curr().getFullYear(), curr().getMonth() + 1, 1))}><IconChevronRight /></Button>
-                    <Button title={l.t('_c.date.nextYear')} square onClick={() => setCurr(new Date(curr().getFullYear() + 1, curr().getMonth(), 1))}><IconArrowRight /></Button>
+                    <Button title={l.t('_c.date.prevYear')} square disabled={!ref()?.canOffset(-1, 0)}
+                        onClick={() => ref()?.offset(-1, 0)}><IconPrevYear /></Button>
+                    <Button title={l.t('_c.date.prevMonth')} square disabled={!ref()?.canOffset(0, -1)}
+                        onClick={() => ref()?.offset(0, -1)}><IconPrevMonth /></Button>
+                    <Button onClick={() => ref()?.jump(new Date())}>{l.t('_c.date.today')}</Button>
+                    <Button title={l.t('_c.date.followingMonth')} square disabled={!ref()?.canOffset(0, 1)}
+                        onClick={() => ref()?.offset(0, 1)}><IconNextMonth /></Button>
+                    <Button title={l.t('_c.date.followingYear')} square disabled={!ref()?.canOffset(1, 0)}
+                        onClick={() => ref()?.offset(1, 0)}><IconNextYear /></Button>
                 </ButtonGroup>
             </div>
         </header>
 
         <div class={styles.table}>
-            <table>
-                <thead>
-                    <tr>
-                        <For each={weeks}>
-                            {(w) => (
-                                <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
-                            )}
-                        </For>
-                    </tr>
-                </thead>
-                <tbody>
-                    <For each={weekDays(curr(), props.weekBase!, props.min, props.max)}>
-                        {(week) => (
-                            <tr>
-                                <For each={week}>
-                                    {(day) => {
-                                        const d = new Date(year(), day[1], day[2], 8);
+            <DateView ref={el => setRef(el)} initValue={props.current ?? new Date()} min={props.min} max={props.max} plugins={props.plugins}
+                weekend={props.weekend} weekBase={props.weekBase} weekName='long'
+                todayClass={styles.today} selectedClass={styles.selected} coveredClass={styles.covered} disabledClass={styles.disabled}
+                onClick={(d, disabled) => {
+                    if (disabled) return;
 
-                                        return <td onclick={() => {
-                                            if (!day[0]) { return; }
+                    const old = selected();
+                    if (old) { ref()?.unselect(old); }
+                    ref()?.select(d);
+                    setSelected(d);
 
-                                            if (props.onSelected) { props.onSelected(d, selected()); }
-                                            setSelected(d);
-                                        }} class={classList({
-                                            [styles.disabled]: !day[0],
-                                            [styles.current]: selected()
-                                                && (selected()!.getMonth() === day[1])
-                                                && (day[2] === selected()!.getDate())
-                                                && (curr().getFullYear() === selected()!.getFullYear())
-                                        })}>
-                                            <span class={classList({
-                                                [styles.today]: (day[1] === now.getMonth())
-                                                    && (curr().getFullYear() === now.getFullYear())
-                                                    && (day[2] === now.getDate())
-                                            }, styles.day)}>{day[2]}</span>
-                                            <For each={props.plugins}>
-                                                {(plugin) => { return plugin(d); }}
-                                            </For>
-                                        </td>;
-                                    }}
-                                </For>
-                            </tr>
-                        )}
-                    </For>
-                </tbody>
-            </table>
+                    if (props.onSelected) {
+                        props.onSelected(d, old);
+                    }
+                }}
+            />
         </div>
     </div>;
 }
