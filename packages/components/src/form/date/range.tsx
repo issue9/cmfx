@@ -56,7 +56,9 @@ export function DateRangePicker(props: Props): JSX.Element {
         props.accessor.setValue(val);
     };
 
-    const formater = createMemo(() => { return props.time ? l.datetime.format : l.date.format; });
+    const formater = createMemo(() => {
+        return props.time ? l.datetimeFormat().format : l.dateFormat().format;
+    });
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
@@ -100,8 +102,11 @@ export function DateRangePicker(props: Props): JSX.Element {
                 <div class={styles.left}>
                     <Button kind='flat' class='py-0 px-1' onClick={() => {
                         const now = new Date();
+                        const next = new Date(now);
+                        next.setDate(1); // 保证不会因为 31 之类不存在于 next 的日期出现。
+                        next.setMonth(next.getMonth() + 1);
                         if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
-                        props.accessor.setValue(now);
+                        props.accessor.setValue([now, next]);
                         panelRef.hidePopover();
                     }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</Button>
                 </div>

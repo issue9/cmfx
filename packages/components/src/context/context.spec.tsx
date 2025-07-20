@@ -19,7 +19,7 @@ const options: Options = {
     scheme: 'def',
     mode: 'dark',
     locale: 'zh-Hans',
-    unitStyle: 'full',
+    displayStyle: 'full',
     messages: { 'zh-Hans': [async () => (await import('@/messages/zh-Hans.lang')).default] },
     apiBase: 'http://localhost:3000',
     apiToken: '/login',

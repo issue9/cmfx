@@ -2,8 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AxisChart, AxisRef, ConfirmButton, Divider, joinClass, Label, Page, Tab } from '@cmfx/components';
-import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
+import {
+    AxisChart, AxisRef, ConfirmButton, createBytesFormatter, Divider, joinClass, Label, Page, Tab
+} from '@cmfx/components';
+import {
+    createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount
+} from 'solid-js';
 import IconAction from '~icons/material-symbols/action-key';
 import IconBackup from '~icons/material-symbols/backup';
 import IconClear from '~icons/material-symbols/clear-all';
@@ -20,6 +24,7 @@ const mb = 1024 * 1024;
 export function Info(): JSX.Element {
     const [api, act] = use();
     const l = useLocale();
+    const bytesFormatter = createMemo(() => createBytesFormatter(l));
 
     const [info] = createResource(async()=>{
         const ret = await api.get<Info>('/system/info');
@@ -143,7 +148,7 @@ export function Info(): JSX.Element {
 
             <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-            <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetime.format(info()?.uptime)}</dd></dl>
+            <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetimeFormat().format(info()?.uptime)}</dd></dl>
 
             <Divider padding='1rem'><IconDataset class="mr-1" />{l.t('_c.os')}</Divider>
 
@@ -153,7 +158,7 @@ export function Info(): JSX.Element {
 
             <dl><dt>{l.t('_p.system.version')}</dt><dd>{info()?.os.version}</dd></dl>
 
-            <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetime.format(info()?.os.boot)}</dd></dl>
+            <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetimeFormat().format(info()?.os.boot)}</dd></dl>
 
             <Divider padding='1rem'><IconDatabase class="mr-1" />{l.t('_c.database')}</Divider>
 
@@ -202,7 +207,7 @@ export function Info(): JSX.Element {
                 <For each={backup()?.list}>
                     {(item) => (
                         <li>
-                            {item.path}&nbsp;({l.bytes(item.size)})
+                            {item.path}&nbsp;({bytesFormatter()(item.size)})
                             <ConfirmButton kind='flat' palette='error' onClick={async () => {
                                 const ret = await api.delete('/system/backup/' + item.path);
                                 if (!ret.ok) {

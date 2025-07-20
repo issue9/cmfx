@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Mode, Notify, Options, OptionsProvider, SystemDialog, notify, use as useComponents } from '@cmfx/components';
-import { API, Problem, Return, Token, UnitStyle } from '@cmfx/core';
+import { API, DisplayStyle, Problem, Return, Token } from '@cmfx/core';
 import { useLocation, useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
@@ -52,7 +52,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         mode: props.theme.mode,
 
         locale: props.locales.fallback,
-        unitStyle: props.locales.unitStyle!,
+        displayStyle: props.locales.displayStyle!,
         messages: props.locales.messages,
 
         apiBase: props.api.base,
@@ -223,6 +223,6 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
          */
         switchLocale(id: string) { act.switchLocale(id); },
 
-        switchUnitStyle(style: UnitStyle) { act.switchUnitStyle(style); },
+        switchDisplayStyle(style: DisplayStyle) { act.switchDisplayStyle(style); },
     };
 }

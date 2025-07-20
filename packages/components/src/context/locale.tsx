@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale as CoreLocale, UnitStyle } from '@cmfx/core';
+import { Locale as CoreLocale, DisplayStyle } from '@cmfx/core';
 import { createContext, createEffect, JSX, ParentProps, useContext } from 'solid-js';
 
 import { buildLocale, Locale } from '@/base/locale';
 
 export type Props = ParentProps<{
     id: string;
-    unitStyle: UnitStyle;
+    displayStyle: DisplayStyle;
 }>;
 
 const localeContext = createContext<Locale>();
@@ -29,10 +29,10 @@ export function useLocale(): Locale {
  * 指定新的本地化对象，其子类将采用此本地化对象。
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
-    const v = buildLocale(new CoreLocale(props.id, props.unitStyle));
+    const v = buildLocale(new CoreLocale(props.id, props.displayStyle));
 
     createEffect(() => {
-        v.changeLocale(new CoreLocale(props.id, props.unitStyle));
+        v.changeLocale(new CoreLocale(props.id, props.displayStyle));
     });
 
     return <localeContext.Provider value={v}>{props.children}</localeContext.Provider>;

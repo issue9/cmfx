@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DictLoader, Mimetype, Problem, UnitStyle } from '@cmfx/core';
+import { DictLoader, DisplayStyle, Mimetype, Problem } from '@cmfx/core';
 
 import { Mode, Scheme } from '@/base';
 
@@ -52,7 +52,7 @@ export interface Options {
     /**
      * 本地化的量词风格，当在 storage 中存在时，当前值将被忽略。
      */
-    unitStyle: UnitStyle;
+    displayStyle: DisplayStyle;
 
     /**
      * 当前支持的语言列表以及加载方法

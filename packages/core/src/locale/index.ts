@@ -4,8 +4,7 @@
 
 export type { Dict, DictKeys, Loader as DictLoader } from './dict';
 
-export { Locale, unitStyles } from './locale';
-export type { TranslateArgs, UnitStyle } from './locale';
+export { displayStyles, Locale } from './locale';
+export type { DisplayStyle, TranslateArgs } from './locale';
 
 export { match as matchLocales } from './match';
-

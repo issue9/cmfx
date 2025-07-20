@@ -24,7 +24,7 @@ export default function() {
 
             <fieldset class="p-2 border border-palette-fg">
                 <legend>zh-hans</legend>
-                <LocaleProvider id='zh-hans' unitStyle='narrow'>
+                <LocaleProvider id='zh-hans' displayStyle='narrow'>
                     <Button>{useLocale().t('_c.ok')}</Button>
                     <fieldset class="p-2 border border-palette-fg">
                         <legend>动态</legend>
@@ -32,7 +32,7 @@ export default function() {
                             <option value='zh-Hans'>zh-hans</option>
                             <option value='en'>en</option>
                         </select>
-                        <LocaleProvider id={locale()} unitStyle='narrow'>
+                        <LocaleProvider id={locale()} displayStyle='narrow'>
                             <Button>{useLocale().t('_c.ok')}</Button>
                         </LocaleProvider>
                     </fieldset>

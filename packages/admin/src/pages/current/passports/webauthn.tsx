@@ -118,7 +118,7 @@ export class Webauthn implements PassportComponents {
                         columns={[
                             { id: 'id', label: l.t('_p.id') },
                             { id: 'ua', label: l.t('_p.current.ua') },
-                            { id: 'last', label: l.t('_p.current.lastUsed'), content: (_, val) => l.datetime.format(val) },
+                            { id: 'last', label: l.t('_p.current.lastUsed'), content: (_, val) => l.datetimeFormat().format(val) },
                             {
                                 id: 'id', label: l.t('_p.actions'), renderContent: (_, val) => (
                                     <ConfirmButton square rounded palette='error' title={l.t('_p.current.unbindWebauthn')} onClick={async () => {

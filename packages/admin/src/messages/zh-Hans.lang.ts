@@ -184,8 +184,8 @@ const messages: typeof m = {
             more: '加大对比度',
             locale: '本地化',
             localeDesc: '设置页面的界面语言',
-            unitStyle: '显示形式',
-            unitStyleDesc: '设置各类数据的显示形式',
+            displayStyle: '显示形式',
+            displayStyleDesc: '设置各类数据的显示形式',
             long: '完整格式',
             short: '短格式',
             narrow: '精简格式'

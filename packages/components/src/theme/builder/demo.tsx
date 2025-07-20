@@ -9,7 +9,7 @@ import { Appbar } from '@/appbar';
 import { joinClass, Mode, Scheme } from '@/base';
 import { ThemeProvider, useLocale } from '@/context';
 import { DatePanel } from '@/datetime';
-import { Accessor, fieldAccessor, ObjectAccessor } from '@/form';
+import { Accessor, ObjectAccessor } from '@/form';
 import { BasicTable, Column } from '@/table';
 import styles from './style.module.css';
 
@@ -32,8 +32,6 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
 }
 
 function Components(): JSX.Element {
-    const dateAccess = fieldAccessor('date', Date(), false);
-
     const items = [
         { id: 1, name: 'name1', address: 'address1' },
         { id: 3, name: 'name3', address: '这是一行很长的数据，这是一行很长的数据，这是一行很长的数据，这是一行很长的数据。' },
@@ -52,7 +50,7 @@ function Components(): JSX.Element {
         </div>
 
         <div class={styles.item}>
-            <DatePanel accessor={dateAccess} />
+            <DatePanel value={new Date()} />
         </div>
     </div>;
 }

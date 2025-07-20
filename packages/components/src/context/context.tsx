@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Config, Hotkey, Locale, Problem, UnitStyle } from '@cmfx/core';
+import { API, Config, DisplayStyle, Hotkey, Locale, Problem } from '@cmfx/core';
 import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
@@ -14,7 +14,7 @@ import { Options } from './options';
 import { applyTheme } from './theme';
 
 const localeKey = 'locale';
-const unitStyleKey = 'unit-style';
+const displayStyleKey = 'display-style';
 const schemeKey = 'scheme';
 const modeKey = 'mode';
 
@@ -83,7 +83,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
 
     return <internalOptionsContext.Provider value={obj}>
         <Show when={!data.loading}>
-            <LocaleProvider id={data()!.locale} unitStyle={data()!.unitStyle}>
+            <LocaleProvider id={data()!.locale} displayStyle={data()!.displayStyle}>
                 {props.children}
             </LocaleProvider>
         </Show>
@@ -133,7 +133,7 @@ export function buildActions(ctx: InternalOptionsContext) {
                 scheme: options.config!.get(schemeKey) ?? options.scheme,
                 mode: options.config!.get(modeKey) ?? options.mode,
                 locale: options.config!.get(localeKey) ?? options.locale,
-                unitStyle: options.config!.get(unitStyleKey) ?? options.unitStyle,
+                displayStyle: options.config!.get(displayStyleKey) ?? options.displayStyle,
             });
         },
 
@@ -150,9 +150,9 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换单位样式
          */
-        switchUnitStyle(style: UnitStyle) {
-            setOptions({ unitStyle: style });
-            options.config!.set(unitStyleKey, style);
+        switchDisplayStyle(style: DisplayStyle) {
+            setOptions({ displayStyle: style });
+            options.config!.set(displayStyleKey, style);
         },
 
         /**

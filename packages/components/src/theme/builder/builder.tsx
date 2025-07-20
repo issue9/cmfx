@@ -27,7 +27,7 @@ export interface Props extends BaseProps, ParentProps {
 export default function SchemeBuilder(props: Props): JSX.Element {
     const modeFA = fieldAccessor<Mode>('mode', 'dark');
 
-    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({});
+    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({ contrast: 65 });
     random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
     schemeFA.setPreset(unwrap(schemeFA.object())); // 作为默认值
 

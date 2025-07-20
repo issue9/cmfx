@@ -95,7 +95,9 @@ export function DateRangePanel(props: Props) {
         if (props.onChange) { props.onChange(untrack(values), old as RangeValueType); }
     };
 
-    const valueFormater = createMemo(() => { return props.time ? l.datetime : l.date; });
+    const valueFormater = createMemo(() => {
+        return props.time ? l.datetimeFormat() : l.dateFormat();
+    });
 
     onMount(() => {
         const nextMonth = new Date();

@@ -58,28 +58,20 @@ describe('Locale', async () => {
         expect(l.locales.length).equal(2);
     });
 
-    test('bytes', () => {
-        const l = new Locale('en', 'full');
-        expect(l.bytes(1022)).equal('1,022 bytes');
-        expect(l.bytes(1026)).equal('1.002 kilobytes');
-        expect(l.bytes(10261111)).equal('9.786 megabytes');
-        expect(l.bytes(9999261111)).equal('9.313 gigabytes');
-        expect(l.bytes(99998888261111)).equal('90.948 terabytes');
-    });
-
     test('duration', () => {
         const l = new Locale('en', 'narrow');
-        expect(l.duration.format(toIntlDuration(111)), '111ns');
-        expect(l.duration.format(toIntlDuration(11111111111)), '111.111ms');
+        expect(l.durationFormat().format(toIntlDuration(111)), '111ns');
+        expect(l.durationFormat().format(toIntlDuration(11111111111)), '111.111ms');
     });
 
     test('date', () => {
         const l = new Locale('en', 'short');
-        expect(l.date.format(new Date('2021-01-02')), '2021-01-02');
+        expect(l.dateFormat({dateStyle: 'short'})
+            .format(new Date('2021-01-02')), '2021-01-02');
     });
 
     test('datetime', () => {
         const l = new Locale('en', 'short');
-        expect(l.datetime.format(new Date('2021-01-02 1:2')), '2021-01-02 1:2');
+        expect(l.datetimeFormat().format(new Date('2021-01-02 1:2')), '2021-01-02 1:2');
     });
 });

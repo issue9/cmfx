@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale as CoreLocale, Dict, DictKeys, TranslateArgs, UnitStyle } from '@cmfx/core';
+import { Locale as CoreLocale, Dict, DictKeys, DisplayStyle, TranslateArgs } from '@cmfx/core';
 import { createStore } from 'solid-js/store';
 
 /**
@@ -18,24 +18,53 @@ export function buildLocale(cl: CoreLocale) {
 
         get locale(): Intl.Locale { return l[0].l.locale; },
 
-        get unitStyle(): UnitStyle { return l[0].l.unitStyle; },
+        get displayStyle(): DisplayStyle  { return l[0].l.displayStyle; },
 
         /**
          * 创建 {@link Intl#DateTimeFormat} 对象
+         *
+         * NOTE: 如果 o.timeStyle 和 o.dateStyle 都未指定，则使用构造函数指定的 style 参数。
          */
         datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-            return l[0].l.dateTimeFormat(o);
+            return l[0].l.datetimeFormat(o);
+        },
+
+        /**
+         * 创建 {@link Intl#DateTimeFormat} 对象，只打印日期部分。
+         */
+        dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+            return l[0].l.dateFormat(o);
+        },
+
+        /**
+         * 创建 {@link Intl#DateTimeFormat} 对象，只打印时间部分。
+         */
+        timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+            return l[0].l.timeFormat(o);
         },
 
         /**
          * 创建 {@link Intl#NumberFormat} 对象
+         *
+         * NOTE: 如果 o.unitDisplay 未指定，则使用构造函数指定的 style 参数。
          */
         numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat {return l[0].l.numberFormat(o); },
 
         /**
          * 创建 {@link DurationFormat} 对象
+         *
+         * NOTE: 如果 o.style 未指定，则使用构造函数指定的 style 参数。
          */
         durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat { return l[0].l.durationFormat(o); },
+
+        /**
+         * 创建 {@link Intl#RelativeTimeFormat} 对象
+         *
+         * NOTE: 如果 o.style 未指定，则使用构造函数指定的 style 参数。
+         */
+        relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {
+            return l[0].l.relativeTimeFormat(o);
+        },
 
         /**
          * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
@@ -46,32 +75,6 @@ export function buildLocale(cl: CoreLocale) {
          * 返回支持的本地化列表
          */
         get locales(): Array<[string, string]> { return l[0].l.locales; },
-
-        /**
-         * 用于同时格式化日期和时间的对象
-         */
-        get datetime(): Intl.DateTimeFormat { return l[0].l.datetime; },
-
-        /**
-         * 用于格式化时期部分的格式化对象
-         */
-        get date(): Intl.DateTimeFormat { return l[0].l.date; },
-
-        /**
-         * 用于格式化时间部分的格式化对象
-         */
-        get time(): Intl.DateTimeFormat { return l[0].l.time; },
-
-        /**
-         *返回本地化的时间区间的对象
-         */
-        get duration(): Intl.DurationFormat { return l[0].l.duration; },
-
-        /**
-         * 返回本地化的字节数
-         * @param bytes 需要格式化的字节数量
-         */
-        bytes(bytes: number): string { return l[0].l.bytes(bytes); },
 
         /**
          * 翻译 key 指向的内容

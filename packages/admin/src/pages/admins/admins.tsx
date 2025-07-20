@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnums, useLocale } from '@cmfx/components';
+import {
+    Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnums, useLocale
+} from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX, Show } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
@@ -60,7 +62,7 @@ export function Admins(props: Props): JSX.Element {
             },
             { id: 'name', label: l.t('_p.admin.name') },
             { id: 'nickname', label: l.t('_p.nickname') },
-            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetime.format(v as string) },
+            { id: 'created', label: l.t('_p.created'), content: (_, v)=> l.datetimeFormat().format(v as string) },
             {
                 id: 'state', label: l.t('_p.state'), content: (_, v) => {
                     return states().find((val) => val[0] === v)?.[1];

@@ -5,22 +5,22 @@ packages:
     - cmd/admin
 
 catalog:
-    "@iconify/json": ^2.2.356
+    "@iconify/json": ^2.2.360
     unplugin-icons: ^22.1.0
-    "@types/node": ^24.0.12
+    "@types/node": ^24.0.15
     "@vitest/coverage-v8": ^3.2.4
     jsdom: ^26.1.0
     typescript: ^5.8.3
     vite: ^6.3.5
     vite-plugin-dts: ^4.5.4
-    vite-plugin-static-copy: ^3.1.0
+    vite-plugin-static-copy: ^3.1.1
     vitest: ^3.2.4
     vitest-fetch-mock: ^0.4.5
     vite-plugin-solid: ^2.11.7
-    yaml: "^2.8.0"
+    yaml: ^2.8.0
     postcss: ^8.5.6
     autoprefixer: ^10.4.21
-    cssnano: ^7.0.7
+    cssnano: ^7.1.0
     "@tailwindcss/vite": ^4.1.11
     "@solidjs/testing-library": ^0.8.10
     "@testing-library/jest-dom": ^6.6.3
@@ -32,8 +32,8 @@ catalog:
     solid-js: ^1.9.7
     tailwindcss: ^4.1.11
 
-onlyBuiltDependencies:
-    - esbuild
-
 ignoredBuiltDependencies:
     - "@tailwindcss/oxide"
+
+onlyBuiltDependencies:
+    - esbuild

@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, Description, Divider, fieldAccessor, joinClass, Mode, Page, RadioGroup, SchemeSelector, use as useC } from '@cmfx/components';
-import { formatDuration, Locale, UnitStyle } from '@cmfx/core';
+import { Choice, createBytesFormatter, Description, Divider, fieldAccessor, joinClass, Mode, Page, RadioGroup, SchemeSelector, use as useC } from '@cmfx/components';
+import { DisplayStyle, formatDuration, Locale } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconPalette from '~icons/material-symbols/palette';
@@ -23,8 +23,8 @@ export function Settings(): JSX.Element {
     const localeFA = fieldAccessor<string>('locale', l.match(Locale.languages()), false);
     localeFA.onChange((v) => { act.switchLocale(v); });
 
-    const unitFA = fieldAccessor<UnitStyle>('unit', l.unitStyle);
-    unitFA.onChange((v) => { act.switchUnitStyle(v); });
+    const unitFA = fieldAccessor<DisplayStyle>('unit', l.displayStyle);
+    unitFA.onChange((v) => { act.switchDisplayStyle(v); });
 
     return <Page title='_p.current.settings' class={ joinClass('max-w-sm', styles.settings) }>
         <Description icon={/*@once*/IconSettings} title={l.t('_p.settings.mode')!}>
@@ -61,8 +61,8 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/IconFormat} title={l.t('_p.settings.unitStyle')!}>
-            {l.t('_p.settings.unitStyleDesc')! }
+        <Description icon={/*@once*/IconFormat} title={l.t('_p.settings.displayStyle')!}>
+            {l.t('_p.settings.displayStyleDesc')! }
         </Description>
 
         <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false} options={/*@once*/[
@@ -72,9 +72,9 @@ export function Settings(): JSX.Element {
         ]}/>
 
         <div class="ml-1 pl-2 border-l-2 border-palette-bg-low">
-            <p>{ l.datetime.format(Date()) }</p>
-            <p>{ formatDuration(l.duration, 1111111223245) }</p>
-            <p>{ l.bytes(1111223245) }</p>
+            <p>{ l.datetimeFormat().format(new Date()) }</p>
+            <p>{ formatDuration(l.durationFormat(), 1111111223245) }</p>
+            <p>{ createBytesFormatter(l)(1111223245) }</p>
         </div>
     </Page>;
 }

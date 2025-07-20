@@ -54,7 +54,9 @@ export function DatePicker(props: Props): JSX.Element {
 
     const [hover, setHover] = createSignal(false);
 
-    const formater = createMemo(() => { return props.time ? l.datetime.format : l.date.format; });
+    const formater = createMemo(() => {
+        return props.time ? l.datetimeFormat().format : l.dateFormat().format;
+    });
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));

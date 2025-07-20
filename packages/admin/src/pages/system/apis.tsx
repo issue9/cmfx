@@ -49,16 +49,16 @@ export function APIs(): JSX.Element {
                 { id: 'pattern', label: l.t('_p.system.pattern') },
 
                 { id: 'count', label: l.t('_p.system.count') },
-                { id: 'last', label: l.t('_p.system.last'), content: (_: string, val: string) => { return l.datetime.format(val); } },
+                { id: 'last', label: l.t('_p.system.last'), content: (_: string, val: string) => { return l.datetimeFormat().format(val); } },
                 { id: 'serverErrors', label: l.t('_p.system.serverErrors') },
                 { id: 'userErrors', label: l.t('_p.system.userErrors') },
 
-                { id: 'max', label: l.t('_p.system.max'), content: (_: string, val: Duration) => { formatDuration(l.duration, val); } },
-                { id: 'min', label: l.t('_p.system.min'), content: (_: string, val: Duration) => { return formatDuration(l.duration, val); } },
+                { id: 'max', label: l.t('_p.system.max'), content: (_: string, val: Duration) => { formatDuration(l.durationFormat(), val); } },
+                { id: 'min', label: l.t('_p.system.min'), content: (_: string, val: Duration) => { return formatDuration(l.durationFormat(), val); } },
                 { id: 'spend', label: l.t('_p.system.spend'), content: (_: string, val: Duration, api?: API) => {
                     const count = api?.count!;
                     val = count > 0 ? parseDuration(val) / count : 0;
-                    return formatDuration(l.duration, val);
+                    return formatDuration(l.durationFormat(), val);
                 } },
             ] as Array<Column<API>>} />
     </Page>;

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Mode, Scheme } from '@cmfx/components';
-import { DictLoader, Hotkey, PickOptional, UnitStyle } from '@cmfx/core';
+import { DictLoader, DisplayStyle, Hotkey, PickOptional } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
 import type { Aside } from './aside';
@@ -137,9 +137,9 @@ export interface Locales {
     fallback: string;
 
     /**
-     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link UnitStyle}
+     * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link DisplayStyle}
      */
-    unitStyle?: UnitStyle;
+    displayStyle?: DisplayStyle;
 }
 
 /**
@@ -159,7 +159,7 @@ export interface Theme {
      * 如果为空，则采用 genSchemes(20) 生成主题数据。
      */
     schemes?: Map<string, Scheme>;
-    
+
     // NOTE: scheme 不采用在 schemes 中的索引，而是对应的实例值，
     // 这样的做的好处是在改变 schemes 的值时，scheme 依然是有意义的。
     // 且在 @cmfx/components 的配置中也是采用 Scheme 对象的值保存的。
@@ -216,8 +216,8 @@ export function build(o: Options): ReqOptions {
         throw 'titleSeparator 不能为空';
     }
 
-    if (!opt.locales.unitStyle) {
-        opt.locales.unitStyle = 'short';
+    if (!opt.locales.displayStyle) {
+        opt.locales.displayStyle = 'short';
     }
 
     opt.api = sanitizeAPI(opt.api);

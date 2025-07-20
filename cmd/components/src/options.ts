@@ -11,7 +11,7 @@ export const options: Options = {
     storage: window.sessionStorage,
     mode: 'system',
     locale: 'zh-Hans',
-    unitStyle: 'full',
+    displayStyle: 'full',
     messages: {
         'en': [
             async () => (await import('@cmfx/components/messages/en.lang.js')).default

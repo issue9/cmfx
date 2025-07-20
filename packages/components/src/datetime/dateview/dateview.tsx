@@ -190,12 +190,14 @@ export default function DateView(props: Props): JSX.Element {
     const [value, setValue] = createSignal(props.initValue);
     const [today, setToday] = createSignal(new Date());
 
-    const weekFormat = createMemo(() => { return l.datetimeFormat({ weekday: props.weekName }); });
+    const weekFormat = createMemo(() => {
+        return new Intl.DateTimeFormat(l.locale, { weekday: props.weekName });
+    });
     const [selected, setSelected] = createSignal<Array<Date>>([]);
     const [covered, setCovered] = createSignal<[start: Date, end: Date] | undefined>();
 
     const titleFormater = createMemo(() => {
-        return l.datetimeFormat({ year: 'numeric', month: '2-digit' });
+        return new Intl.DateTimeFormat(l.locale, { year: 'numeric', month: '2-digit' });
     });
 
     const jump = (date: Date) => {

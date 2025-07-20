@@ -182,8 +182,8 @@ const messages = {
             more: 'More',
             locale: 'Locale',
             localeDesc: 'Set the ui language of the page',
-            unitStyle: 'Unit display',
-            unitStyleDesc: 'Set the unit display style of page',
+            displayStyle: 'Display style',
+            displayStyleDesc: 'Set the display style of page',
             long: 'long',
             short: 'short',
             narrow: 'narrow'

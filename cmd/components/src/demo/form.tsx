@@ -12,8 +12,8 @@ export default function() {
 
     const f = new FormAccessor({
         f1: 'f1',
-        5: 5,
-        date: '2021-01-02T15:31',
+        f2: 5,
+        date: new Date('2021-01-02T15:31'),
         textarea: 'textarea',
     }, act, async (_) => { return { ok: false, status: 500, body: {type: '500', title: '请求未处理', status: 500} }; });
 
@@ -23,10 +23,10 @@ export default function() {
         </>
     }>
         <Form formAccessor={f} palette={palette()} {...f.events()}>
-            <TextField accessor={f.accessor('f1')} />
-            <Number accessor={f.accessor(5)} />
+            <TextField accessor={f.accessor<string>('f1')} />
+            <Number accessor={f.accessor('f2')} />
             <DatePicker accessor={f.accessor('date')} />
-            <TextArea class="flex-grow" accessor={f.accessor('textarea')} />
+            <TextArea class="flex-grow" accessor={f.accessor<string>('textarea')} />
             <div class="w-full flex justify-between">
                 <Button type="reset">reset</Button>
                 <Button type="submit">submit</Button>

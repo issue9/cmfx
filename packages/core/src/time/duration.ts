@@ -111,7 +111,7 @@ export function toIntlDuration(nano: number): Intl.DurationInput {
 }
 
 /**
- * 格式化 Duration 对象
+ * 格式化 {@link Duration} 对象
  */
 export function formatDuration(formatter: Intl.DurationFormat, duration: Duration): string {
     const nano = typeof duration === 'string' ? parseDuration(duration) : duration;

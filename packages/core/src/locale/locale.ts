@@ -7,7 +7,7 @@ import IntlMessageFormat from 'intl-messageformat';
 import { Dict, dictFlatten, DictKeys, Loader } from './dict';
 import { match } from './match';
 
-export const unitStyles = ['full', 'short', 'narrow'] as const;
+export const displayStyles = ['full', 'short', 'narrow'] as const;
 
 /**
  * 一些与本地化相关的单位名称的显示方式
@@ -18,12 +18,7 @@ export const unitStyles = ['full', 'short', 'narrow'] as const;
  *
  * 主要是针对 {@link Intl} 的一些预设，如果需要精细的控制，可自己实现。
  */
-export type UnitStyle = typeof unitStyles[number];
-
-const kb = 1024;
-const mb = kb * 1024;
-const gb = mb * 1024;
-const tb = gb * 1024;
+export type DisplayStyle = typeof displayStyles[number];
 
 /**
  * 提供本地化相关的功能
@@ -102,22 +97,15 @@ export class Locale {
 
     readonly #current: Map<string, IntlMessageFormat>;
     readonly #locale: Intl.Locale;
-    readonly #unitStyle: UnitStyle;
+    readonly #displayStyle: DisplayStyle;
 
-    readonly #datetime: Intl.DateTimeFormat;
-    readonly #date: Intl.DateTimeFormat;
-    readonly #time: Intl.DateTimeFormat;
+    readonly #dtStyle: Intl.DateTimeFormatOptions['timeStyle'];
+    readonly #durationStyle: Intl.RelativeTimeFormatOptions['style'];
+    readonly #numberStyle: Intl.NumberFormatOptions['unitDisplay'];
 
-    readonly #B: Intl.NumberFormat;
-    readonly #kB: Intl.NumberFormat;
-    readonly #mB: Intl.NumberFormat;
-    readonly #gB: Intl.NumberFormat;
-    readonly #tB: Intl.NumberFormat;
-
-    readonly #duration: Intl.DurationFormat;
     readonly #displayNames: Intl.DisplayNames;
 
-    constructor(locale: string, style: UnitStyle) {
+    constructor(locale: string, style: DisplayStyle) {
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
         const curr = Locale.#messages.get(locale);
         if (curr) {
@@ -126,71 +114,123 @@ export class Locale {
             this.#current = new Map();
         }
 
-        this.#unitStyle = style;
+        this.#displayStyle = style;
         this.#locale = new Intl.Locale(locale);
-
-        let dtStyle: Intl.DateTimeFormatOptions['timeStyle'] = 'medium';
-        let byteStyle: Intl.NumberFormatOptions['unitDisplay'] = 'narrow';
-        let durationStyle: Intl.DurationFormatOptions['style'] = 'narrow';
 
         switch (style) {
         case 'full':
-            dtStyle = 'full';
-            byteStyle = 'long';
-            durationStyle = 'long';
+            this.#dtStyle = 'full';
+            this.#durationStyle = 'long';
+            this.#numberStyle = 'long';
             break;
         case 'short':
-            dtStyle = 'medium';
-            byteStyle = 'short';
-            durationStyle = 'short';
+            this.#dtStyle = 'medium';
+            this.#durationStyle = 'short';
+            this.#numberStyle = 'short';
             break;
         case 'narrow':
-            dtStyle = 'short';
-            byteStyle = 'narrow';
-            durationStyle = 'narrow';
+            this.#dtStyle = 'short';
+            this.#durationStyle = 'narrow';
+            this.#numberStyle = 'narrow';
             break;
         default:
             throw `参数 style 的值无效 ${style}`;
         }
-
-        this.#datetime = this.dateTimeFormat({ timeStyle: dtStyle, dateStyle: dtStyle });
-        this.#date = this.dateTimeFormat({ dateStyle: dtStyle });
-        this.#time = this.dateTimeFormat({ timeStyle: dtStyle });
-
-        this.#B = this.numberFormat({ style: 'unit', unit: 'byte', unitDisplay: byteStyle });
-        this.#kB = this.numberFormat({ style: 'unit', unit: 'kilobyte', unitDisplay: byteStyle });
-        this.#mB = this.numberFormat({ style: 'unit', unit: 'megabyte', unitDisplay: byteStyle });
-        this.#gB = this.numberFormat({ style: 'unit', unit: 'gigabyte', unitDisplay: byteStyle });
-        this.#tB = this.numberFormat({ style: 'unit', unit: 'terabyte', unitDisplay: byteStyle });
-
-        this.#duration = this.durationFormat({style: durationStyle, fractionalDigits: 3});
 
         this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
     }
 
     get locale(): Intl.Locale { return this.#locale; }
 
-    get unitStyle(): UnitStyle { return this.#unitStyle; }
+    get displayStyle(): DisplayStyle { return this.#displayStyle; }
 
     /**
      * 创建 {@link Intl#DateTimeFormat} 对象
+     *
+     * NOTE: 如果 o.timeStyle 和 o.dateStyle 都未指定，则使用构造函数指定的 style 参数。
      */
-    dateTimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+    datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+        if (!o) {
+            o = { timeStyle: this.#dtStyle, dateStyle: this.#dtStyle };
+        } else {
+            if (!o.dateStyle) { o.dateStyle = this.#dtStyle; }
+            if (!o.timeStyle) { o.timeStyle = this.#dtStyle; }
+        }
+
+        return new Intl.DateTimeFormat(this.locale, o);
+    }
+
+    /**
+     * 创建 {@link Intl#DateTimeFormat} 对象，只打印日期部分。
+     */
+    dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+        if (!o) {
+            o = { dateStyle: this.#dtStyle };
+        } else {
+            if (!o.dateStyle) { o.dateStyle = this.#dtStyle; }
+        }
+        o.timeStyle = undefined;
+
+        return new Intl.DateTimeFormat(this.locale, o);
+    }
+
+    /**
+     * 创建 {@link Intl#DateTimeFormat} 对象，只打印时间部分。
+     */
+    timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+        if (!o) {
+            o = { timeStyle: this.#dtStyle };
+        } else {
+            if (!o.timeStyle) { o.timeStyle = this.#dtStyle; }
+        }
+        o.dateStyle = undefined;
+
         return new Intl.DateTimeFormat(this.locale, o);
     }
 
     /**
      * 创建 {@link Intl#NumberFormat} 对象
+     *
+     * NOTE: 如果 o.unitDisplay 未指定，则使用构造函数指定的 style 参数。
      */
     numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat {
+        if (!o) {
+            o = { unitDisplay: this.#numberStyle };
+        } else if (!o.unitDisplay) {
+            o.unitDisplay = this.#numberStyle;
+        }
+
         return new Intl.NumberFormat(this.locale, o);
     }
 
     /**
-     * 创建 {@link DurationFormat} 对象
+     * 创建 {@link Intl#DurationFormat} 对象
+     *
+     * NOTE: 如果 o.style 未指定，则使用构造函数指定的 style 参数。
      */
     durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat {
+        if (!o) {
+            o = { style: this.#durationStyle };
+        } else if (!o.style) {
+            o.style = this.#durationStyle;
+        }
+
         return new (Intl as any).DurationFormat(this.locale, o);
+    }
+
+    /**
+     * 创建 {@link Intl#RelativeTimeFormat} 对象
+     *
+     * NOTE: 如果 o.style 未指定，则使用构造函数指定的 style 参数。
+     */
+    relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {
+        if (!o) {
+            o = { style: this.#durationStyle };
+        } else if (!o.style) {
+            o.style = this.#durationStyle; // style 与 druationFormat 的取值相同
+        }
+
+        return new Intl.RelativeTimeFormat(this.locale, o);
     }
 
     /**
@@ -209,44 +249,6 @@ export class Locale {
             loc.push([key, this.#displayNames.of(key)!]);
         });
         return loc;
-    }
-
-    /**
-     * 用于同时格式化日期和时间的对象
-     */
-    get datetime(): Intl.DateTimeFormat { return this.#datetime; }
-
-    /**
-     * 用于格式化时期部分的格式化对象
-     */
-    get date(): Intl.DateTimeFormat { return this.#date; }
-
-    /**
-     * 用于格式化时间部分的格式化对象
-     */
-    get time(): Intl.DateTimeFormat { return this.#time; }
-
-    /**
-     *返回本地化的时间区间的对象
-     */
-    get duration(): Intl.DurationFormat { return this.#duration; }
-
-    /**
-     * 返回本地化的字节数
-     * @param bytes 需要格式化的字节数量
-     */
-    bytes(bytes: number): string {
-        if (bytes < kb) {
-            return this.#B.format(bytes);
-        } else if (bytes < mb) {
-            return this.#kB.format(bytes/kb);
-        } else if (bytes < gb) {
-            return this.#mB.format(bytes/mb);
-        } else if (bytes < tb) {
-            return this.#gB.format(bytes/gb);
-        } else {
-            return this.#tB.format(bytes/tb);
-        }
     }
 
     /**
