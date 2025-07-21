@@ -12,15 +12,15 @@ export function rand(min: number, max: number, decimals: number): number {
     const r = Math.random() * (max - min) + min;
 
     if (decimals <= 0) { return Math.floor(r); }
-    return floor(r, decimals);
+    return round(r, decimals);
 }
 
 /**
- * 丢弃多余的小数位，只留下 digits 指定的小数位数
- * @param num 数值
- * @param decimals 小数位数
+ * 四舍五入丢弃多余的小数位，只留下 digits 指定的小数位数
+ * @param num 数值；
+ * @param decimals 小数位数；
  */
-export function floor(num: number, decimals: number): number {
+export function round(num: number, decimals: number): number {
     const factor = Math.pow(10, decimals);
-    return Math.floor(num * factor) / factor;
+    return Math.round(num * factor) / factor;
 }

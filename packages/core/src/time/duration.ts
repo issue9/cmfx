@@ -4,6 +4,12 @@
 
 import '@formatjs/intl-durationformat/polyfill';
 
+/**
+ * 表示时间段
+ *
+ * - number 表示的是纳秒；
+ * - string Go 语言中表示时间段的字符串；
+ */
 export type Duration = number | string;
 
 export const us = 1000;
@@ -88,9 +94,9 @@ export function parseDuration(val?: Duration): number {
 /**
  * 将纳秒转换为 {@link Intl#DurationInput} 类型
  *
- * 该值可用于 Intl.DurationFormat.format 方法。
+ * 该值可用于 {@link Intl#DurationFormat#format} 方法。
  */
-export function toIntlDuration(nano: number): Intl.DurationInput {
+export function nano2IntlDuration(nano: number): Intl.DurationInput {
     const obj: Intl.DurationInput = {};
     let hasField = false; // 是否有字段已经设置过值
     for (let i = 1; i < nameValues.length; i++) {
@@ -115,5 +121,5 @@ export function toIntlDuration(nano: number): Intl.DurationInput {
  */
 export function formatDuration(formatter: Intl.DurationFormat, duration: Duration): string {
     const nano = typeof duration === 'string' ? parseDuration(duration) : duration;
-    return formatter.format(toIntlDuration(nano));
+    return formatter.format(nano2IntlDuration(nano));
 }

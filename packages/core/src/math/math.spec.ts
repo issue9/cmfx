@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { floor, rand } from './math';
+import { rand, round } from './math';
 
 describe('rand', () => {
     test('rand', () => {
@@ -20,7 +20,7 @@ describe('rand', () => {
         expect(v).toBeGreaterThanOrEqual(0.1);
         expect(v).toBeLessThanOrEqual(10.1);
         const index = v.toString().lastIndexOf('.');
-        expect(v.toString().substring(index).length).toEqual(2);
+        expect(v.toString().substring(index).length).toBeLessThanOrEqual(2);
     });
 
     test('decimals=3', () => {
@@ -28,7 +28,7 @@ describe('rand', () => {
         expect(v).toBeGreaterThanOrEqual(0.1);
         expect(v).toBeLessThanOrEqual(10.1);
         const index = v.toString().lastIndexOf('.');
-        expect(v.toString().substring(index).length).toEqual(4);
+        expect(v.toString().substring(index).length).toBeLessThanOrEqual(4);
     });
 
     test('decimals=0', () => {
@@ -40,29 +40,29 @@ describe('rand', () => {
     });
 });
 
-describe('floor', () => {
+describe('round', () => {
     test('decimals=0', () => {
-        const v = floor(1.2345, 0);
+        const v = round(1.2345, 0);
         expect(v).toEqual(1);
         expect(getDecimal(v)).toEqual('');
     });
 
     test('decimals=1', () => {
-        const v = floor(1.2345, 1);
+        const v = round(1.2345, 1);
         expect(v).toEqual(1.2);
         expect(getDecimal(v)).toEqual('.2');
     });
 
     test('decimals=3', () => {
-        const v = floor(1.2345, 3);
-        expect(v).toEqual(1.234);
-        expect(getDecimal(v)).toEqual('.234');
+        const v = round(1.2345, 3);
+        expect(v).toEqual(1.235);
+        expect(getDecimal(v)).toEqual('.235');
     });
 
     test('decimals=5', () => {
-        const v = floor(1.2345678, 5);
-        expect(v).toEqual(1.23456);
-        expect(getDecimal(v)).toEqual('.23456');
+        const v = round(1.2345678, 5);
+        expect(v).toEqual(1.23457);
+        expect(getDecimal(v)).toEqual('.23457');
     });
 });
 

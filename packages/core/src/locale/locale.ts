@@ -236,9 +236,7 @@ export class Locale {
     /**
      * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
      */
-    match(locales: Array<string>) {
-        return match(this.locale.toString(), locales, 'und');
-    }
+    match(locales: Array<string>) { return match(this.locale.toString(), locales, 'und'); }
 
     /**
      * 返回支持的本地化列表

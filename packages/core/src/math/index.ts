@@ -2,5 +2,5 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { floor, rand } from './math';
+export { rand, round } from './math';
 

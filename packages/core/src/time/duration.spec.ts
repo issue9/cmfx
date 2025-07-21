@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { hour, ms, parseDuration, second, toIntlDuration, us } from './duration';
+import { hour, ms, nano2IntlDuration, parseDuration, second, us } from './duration';
 
 test('parseDuration', () => {
     expect(parseDuration(99)).toEqual(99);
@@ -31,28 +31,28 @@ test('parseDuration', () => {
     expect(() => parseDuration('1h2us555nano')).toThrow('无法解析的单位名称 nano');
 });
 
-test('toIntlDuration', () => {
-    expect(toIntlDuration(parseDuration(99))).toEqual({ nanoseconds: 99 });
-    expect(toIntlDuration(parseDuration(99.9))).toEqual({ nanoseconds: 100 });
-    expect(toIntlDuration(parseDuration(99.1))).toEqual({ nanoseconds: 99 });
-    expect(toIntlDuration(parseDuration(9999))).toEqual({ nanoseconds: 999, microseconds: 9 });
-    expect(toIntlDuration(parseDuration(2000))).toEqual({ microseconds: 2 });
-    expect(toIntlDuration(parseDuration(9999999))).toEqual({ nanoseconds: 999, microseconds: 999, milliseconds: 9 });
-    expect(toIntlDuration(parseDuration())).toEqual({ nanoseconds: 0 });
+test('nano2IntlDuration', () => {
+    expect(nano2IntlDuration(parseDuration(99))).toEqual({ nanoseconds: 99 });
+    expect(nano2IntlDuration(parseDuration(99.9))).toEqual({ nanoseconds: 100 });
+    expect(nano2IntlDuration(parseDuration(99.1))).toEqual({ nanoseconds: 99 });
+    expect(nano2IntlDuration(parseDuration(9999))).toEqual({ nanoseconds: 999, microseconds: 9 });
+    expect(nano2IntlDuration(parseDuration(2000))).toEqual({ microseconds: 2 });
+    expect(nano2IntlDuration(parseDuration(9999999))).toEqual({ nanoseconds: 999, microseconds: 999, milliseconds: 9 });
+    expect(nano2IntlDuration(parseDuration())).toEqual({ nanoseconds: 0 });
 
-    expect(toIntlDuration(parseDuration('1h'))).toEqual({ hours: 1 });
-    expect(toIntlDuration(parseDuration('1h2s'))).toEqual({ hours: 1, seconds: 2 });
-    expect(toIntlDuration(parseDuration('1h2us'))).toEqual({ hours: 1, microseconds: 2 });
-    expect(toIntlDuration(parseDuration('3.9ms'))).toEqual({ milliseconds: 3, microseconds: 900 });
-    expect(toIntlDuration(parseDuration('.9ms'))).toEqual({ microseconds: 900 });
-    expect(toIntlDuration(parseDuration('16.089ms'))).toEqual({ milliseconds: 16, microseconds: 89 });
-    expect(toIntlDuration(parseDuration('3.9ms10'))).toEqual({ milliseconds: 3, microseconds: 900, nanoseconds: 10 });
-    expect(toIntlDuration(parseDuration('3.9ms10us'))).toEqual({ milliseconds: 3, microseconds: 910 });
-    expect(toIntlDuration(parseDuration('3.9ms800us'))).toEqual({ milliseconds: 4, microseconds: 700 });
-    expect(toIntlDuration(parseDuration('1h2us555'))).toEqual({ hours: 1, microseconds: 2, nanoseconds: 555 });
-    expect(toIntlDuration(parseDuration('999999999'))).toEqual({ milliseconds: 999, microseconds: 999, nanoseconds: 999 });
-    expect(toIntlDuration(parseDuration('5.426ms'))).toEqual({ milliseconds: 5, microseconds: 426 });
-    expect(toIntlDuration(parseDuration(NaN))).toEqual({ nanoseconds: 0 });
-    expect(() => toIntlDuration(parseDuration('1hour2us555'))).toThrow('无法解析的单位名称 hour');
-    expect(() => toIntlDuration(parseDuration('1h2us555nano'))).toThrow('无法解析的单位名称 nano');
+    expect(nano2IntlDuration(parseDuration('1h'))).toEqual({ hours: 1 });
+    expect(nano2IntlDuration(parseDuration('1h2s'))).toEqual({ hours: 1, seconds: 2 });
+    expect(nano2IntlDuration(parseDuration('1h2us'))).toEqual({ hours: 1, microseconds: 2 });
+    expect(nano2IntlDuration(parseDuration('3.9ms'))).toEqual({ milliseconds: 3, microseconds: 900 });
+    expect(nano2IntlDuration(parseDuration('.9ms'))).toEqual({ microseconds: 900 });
+    expect(nano2IntlDuration(parseDuration('16.089ms'))).toEqual({ milliseconds: 16, microseconds: 89 });
+    expect(nano2IntlDuration(parseDuration('3.9ms10'))).toEqual({ milliseconds: 3, microseconds: 900, nanoseconds: 10 });
+    expect(nano2IntlDuration(parseDuration('3.9ms10us'))).toEqual({ milliseconds: 3, microseconds: 910 });
+    expect(nano2IntlDuration(parseDuration('3.9ms800us'))).toEqual({ milliseconds: 4, microseconds: 700 });
+    expect(nano2IntlDuration(parseDuration('1h2us555'))).toEqual({ hours: 1, microseconds: 2, nanoseconds: 555 });
+    expect(nano2IntlDuration(parseDuration('999999999'))).toEqual({ milliseconds: 999, microseconds: 999, nanoseconds: 999 });
+    expect(nano2IntlDuration(parseDuration('5.426ms'))).toEqual({ milliseconds: 5, microseconds: 426 });
+    expect(nano2IntlDuration(parseDuration(NaN))).toEqual({ nanoseconds: 0 });
+    expect(() => nano2IntlDuration(parseDuration('1hour2us555'))).toThrow('无法解析的单位名称 hour');
+    expect(() => nano2IntlDuration(parseDuration('1h2us555nano'))).toThrow('无法解析的单位名称 nano');
 });

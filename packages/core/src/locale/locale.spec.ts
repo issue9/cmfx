@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { toIntlDuration } from '@/time';
+import { nano2IntlDuration } from '@/time';
 import { Locale } from './locale';
 
 describe('Locale', async () => {
@@ -60,8 +60,8 @@ describe('Locale', async () => {
 
     test('duration', () => {
         const l = new Locale('en', 'narrow');
-        expect(l.durationFormat().format(toIntlDuration(111)), '111ns');
-        expect(l.durationFormat().format(toIntlDuration(11111111111)), '111.111ms');
+        expect(l.durationFormat().format(nano2IntlDuration(111)), '111ns');
+        expect(l.durationFormat().format(nano2IntlDuration(11111111111)), '111.111ms');
     });
 
     test('date', () => {

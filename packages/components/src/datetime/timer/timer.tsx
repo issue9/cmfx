@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Duration, parseDuration, second, toIntlDuration } from '@cmfx/core';
+import { Duration, nano2IntlDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
@@ -102,13 +102,13 @@ export default function Timer(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     const [nano, setNano] = createSignal<number>(parseDuration(props.duration));
-    const [dur, setDur] = createSignal<Intl.DurationInput>(toIntlDuration(nano()));
+    const [dur, setDur] = createSignal<Intl.DurationInput>(nano2IntlDuration(nano()));
 
     createEffect(() => {
         setNano(parseDuration(props.duration));
     });
     createEffect(() => {
-        setDur(toIntlDuration(nano()));
+        setDur(nano2IntlDuration(nano()));
     });
 
     const tick = () => {
