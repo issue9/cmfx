@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createSignal, createUniqueId, mergeProps, Show } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, mergeProps, Show, untrack } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
@@ -46,7 +46,7 @@ export default function Time(props: Props) {
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
 
-    const formatter = createMemo(() => l.datetimeFormat({
+    const formatter = createMemo(() => new Intl.DateTimeFormat(l.locale, {
         hour: '2-digit',
         minute: '2-digit',
         second: '2-digit'
@@ -76,7 +76,11 @@ export default function Time(props: Props) {
             </Show>
         </div>
 
-        <TimePanel popover='auto' ref={el => panelRef = el} disabled={props.disabled} readonly={props.readonly} onChange={e => ac.setValue(e)} />
+        <TimePanel popover='auto' ref={el => panelRef = el} disabled={props.disabled} readonly={props.readonly}
+            value={ac.getValue()} onChange={val => {
+                if (untrack(ac.getValue) === val) { return; }
+                ac.setValue(val);
+            }} />
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={ac.getError} help={props.help} />}

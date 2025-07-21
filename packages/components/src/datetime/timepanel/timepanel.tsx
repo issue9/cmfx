@@ -6,6 +6,7 @@ import { For, createEffect, createMemo, createSignal, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { hoursOptions, minutesOptions } from '@/datetime/utils';
+import { onMount } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -70,6 +71,8 @@ export default function TimePanel(props: Props) {
     createEffect(() => {
         if (props.value !== value()) { change(props.value); }
     });
+
+    onMount(() => { scrollTimer(); });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.time, props.palette ? `palette--${props.palette}` : undefined, props.class)}
