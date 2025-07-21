@@ -7,12 +7,12 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
-import { Error } from './error';
+import { Result } from './result';
 import styles from './style.module.css';
 
-describe('Error', () => {
+describe('Result', () => {
     test('title', async () => {
-        const { container, unmount } = render(() => <Error title='title'>abc</Error>, {
+        const { container, unmount } = render(() => <Result title='title'>abc</Result>, {
             wrapper: Provider,
         });
         await sleep(500);

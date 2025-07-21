@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, illustrations, Error as XError } from '@cmfx/components';
+import { Button, illustrations, Result } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 
@@ -29,10 +29,10 @@ export function NotFound(): JSX.Element {
 
     const text = createMemo(() => { return l.t('_p.error.pageNotFound'); });
 
-    return <XError title={text()} illustration={<illustrations.Error404 text={text()} />}>
+    return <Result title={text()} illustration={<illustrations.Error404 text={text()} />}>
         <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
         <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
-    </XError>;
+    </Result>;
 }
 
 /**
@@ -45,11 +45,11 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
 
     // 未知错误
     const unknown = (title: string) => {
-        return <XError title={title} illustration={<illustrations.BUG />}>
+        return <Result title={title} illustration={<illustrations.BUG />}>
             <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
             <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
             <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-        </XError>;
+        </Result>;
     };
 
     const err = props.err;
@@ -60,52 +60,52 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
         switch (err.status) {
         case 400:
             text = l.t('_p.error.badRequest');
-            return <XError title={text} illustration={<illustrations.Error400 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error400 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         case 401:
             text = l.t('_p.error.unauthorized');
-            return <XError title={text} illustration={<illustrations.Error401 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error401 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         case 403:
             text = l.t('_p.error.forbidden');
-            return <XError title={text} illustration={<illustrations.Error403 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error403 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         case 404:
             return NotFound();
         case 429:
             text = l.t('_p.error.tooManyRequests');
-            return <XError title={text} illustration={<illustrations.Error429 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error429 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         case 500:
             text = l.t('_p.error.internalServerError');
-            return <XError title={text} illustration={<illustrations.Error500 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error500 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         case 503:
             text = l.t('_p.error.serverUnavailable');
-            return <XError title={text} illustration={<illustrations.Error503 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error503 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         case 504:
             text = l.t('_p.error.gatewayTimeout');
-            return <XError title={text} illustration={<illustrations.Error504 text={text} />}>
+            return <Result title={text} illustration={<illustrations.Error504 text={text} />}>
                 <Button palette='primary' onClick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
                 <Button palette='primary' onClick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onClick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
-            </XError>;
+            </Result>;
         default:
             return unknown(l.t('_p.error.unknownError'));
         }

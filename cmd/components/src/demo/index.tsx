@@ -25,19 +25,22 @@ export const routes: Array<RouteDefinition> = [
     { path: '/divider', component: lazy(() => import('./divider')) },
     { path: '/drawer', component: lazy(() => import('./drawer')) },
     { path: '/empty', component: lazy(() => import('./empty')) },
-    { path: '/errors-bug', component: lazy(() => import('./error/bug')) },
-    { path: '/errors-500', component: lazy(() => import('./error/500')) },
-    { path: '/errors-build', component: lazy(() => import('./error/build')) },
     { path: '/icon', component: lazy(() => import('./icon')) },
     { path: '/illustrations', component: lazy(() => import('./illustrations')) },
     { path: '/notify', component: lazy(() => import('./notify')) },
     { path: '/pagination', component: lazy(() => import('./pagination')) },
     { path: '/page', component: lazy(() => import('./page')) },
     { path: '/qrcode', component: lazy(() => import('./qrcode')) },
+
+    { path: '/result-bug', component: lazy(() => import('./result/bug')) },
+    { path: '/result-500', component: lazy(() => import('./result/500')) },
+    { path: '/result-build', component: lazy(() => import('./result/build')) },
+
     { path: '/spin', component: lazy(() => import('./spin')) },
     { path: '/statistics', component: lazy(() => import('./statistics')) },
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
+
 
     { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
     { path: '/theme-selector', component: lazy(() => import('./theme/selector')) },

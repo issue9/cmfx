@@ -30,11 +30,11 @@ export interface Props extends BaseProps, ParentProps {
  * 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
 export function Page (props: Props): JSX.Element {
-    const [, ctx] = use();
+    const [, act] = use();
     const l = useLocale();
     const [_, other] = splitProps(props, ['title', 'children', 'disableBacktop', 'class', 'palette']);
 
-    createEffect(() => { ctx.setTitle(l.t(props.title)); });
+    createEffect(() => { act.setTitle(l.t(props.title)); });
 
     return <div {...other} class={joinClass(props.class, styles.page, props.palette ? `palette--${props.palette}` : undefined)}>
         {props.children}

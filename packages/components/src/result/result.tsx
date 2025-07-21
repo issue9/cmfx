@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, Show } from 'solid-js';
+import { createEffect, JSX, mergeProps, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { use } from '@/context';
@@ -30,13 +30,13 @@ const presetProps: Readonly<Partial<Props>> = {
 };
 
 /**
- * 显示错误信息的组件
+ * 结果页面，此组件会修改页面的标题
  */
-export  function Error(props: Props) {
+export  function Result(props: Props) {
     props = mergeProps(presetProps, props);
     const [, act] = use();
 
-    act.setTitle(props.title ?? '');
+    createEffect(() => { act.setTitle(props.title ?? ''); });
 
     return <div class={joinClass(styles.error, props.palette ? `palette--${props.palette}` : undefined)}>
         {props.illustration }
