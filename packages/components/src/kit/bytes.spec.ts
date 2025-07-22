@@ -8,7 +8,10 @@ import { expect, test } from 'vitest';
 import { buildLocale } from '@/base/locale';
 import { createBytesFormatter } from './bytes';
 
-test('createBytesFormatter', () => {
+test('createBytesFormatter', async () => {
+    Locale.init('en');
+    await Locale.addDict('en', async () => { return { 'lang': 'en' }; });
+
     const ll = new Locale('en', 'full');
     const l = buildLocale(ll);
     const f = createBytesFormatter(l);

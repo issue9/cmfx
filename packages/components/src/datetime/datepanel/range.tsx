@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { arrayEqual } from '@cmfx/core';
 import {
     createEffect, createMemo, createSignal, Match, onCleanup, onMount, Show, splitProps, Switch, untrack
 } from 'solid-js';
@@ -45,55 +46,83 @@ export function DateRangePanel(props: Props) {
     now.setMonth(now.getMonth() + 1);
     const [page2, setPage2] = createSignal<Date>(values()[1] ?? now);
 
+    const changeTime = (value: Date, first?: boolean) => {
+        if (index === 1) { return; }
+
+        if (first) {
+            setValues(prev => { return [value, prev[1]]; });
+        } else {
+            setValues(prev => { return [prev[0], value]; });
+        }
+    };
+
     const panelChange = (value: Date, time?: boolean, start?: boolean) => {
-        const old = [...untrack(values)];
-
-        if (time) { // 如果仅改变了时间部分，那么只需要修改值，而不是重置整个 values。
-            if (index === 1) { return; }
-
-            if (start) { // 第一个面板
-                setValues(prev => { return [value, prev[1]]; });
-            } else {
-                setValues(prev => { return [prev[0], value]; });
-            }
-
+        if (time) { // 如果仅改变了时间部分，那么只需要修改值，而不是重新设置 cover。
+            changeTime(value, start);
             return;
         }
 
+        const old = [...untrack(values)] as RangeValueType;
+
         switch (index) {
         case 0:
-            setValues([value, undefined]);
+            if (old[0] === value) { return; }
 
+            setValues([value, undefined]);
             viewRef1?.uncover();
             viewRef2?.uncover();
             viewRef1?.unselect(...old);
             viewRef2?.unselect(...old);
-
-            viewRef1?.select(value);
-            viewRef2?.select(value);
-
             break;
         case 1:
+            if (old[1] === value) { return; }
+
             setValues(prev => {
-                const cpy = [...prev];
-                cpy[1] = value;
-                cpy.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
-
-                viewRef1?.cover(cpy as [Date, Date]);
-                viewRef2?.cover(cpy as [Date, Date]);
-                viewRef1?.select(cpy[0]!, cpy[1]);
-                viewRef2?.select(cpy[0]!, cpy[1]);
-
-                return cpy as RangeValueType;
+                const ret = [prev[0], value];
+                ret.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
+                return ret as RangeValueType;
             });
-
+            const vals = untrack(values) as [Date, Date];
+            viewRef1?.cover(vals);
+            viewRef2?.cover(vals);
             break;
         }
 
+        viewRef1?.select(value);
+        viewRef2?.select(value);
+
         index = index === 0 ? 1 : 0;
 
-        if (props.onChange) { props.onChange(untrack(values), old as RangeValueType); }
+        if (props.onChange) { props.onChange(values(), old); }
     };
+
+    // 监视外部直接通过 props.value 修改
+    createEffect(() => {
+        const vals = untrack(values);
+
+        if (props.value && arrayEqual(vals, props.value)) { return; }
+
+
+        viewRef1?.uncover();
+        viewRef2?.uncover();
+        viewRef1?.unselect(...vals);
+        viewRef2?.unselect(...vals);
+
+        if (!props.value || arrayEqual(props.value, [undefined, undefined])) {
+            setValues([undefined, undefined]);
+            index = 0;
+        } else {
+            viewRef1?.cover(props.value as [Date, Date]);
+            viewRef2?.cover(props.value as [Date, Date]);
+            viewRef1?.select(...props.value.filter(v => v !== undefined));
+            viewRef2?.select(...props.value.filter(v => v !== undefined));
+
+            setValues(props.value);
+            index = 0;
+        }
+
+        if (props.onChange) { props.onChange(props.value, vals); }
+    });
 
     const valueFormater = createMemo(() => {
         return props.time ? l.datetimeFormat() : l.dateFormat();

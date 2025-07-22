@@ -26,8 +26,7 @@ export default function() {
     const [valShow, setValShow] = createSignal<string>('');
     const [valWithTimeShow, setValWithTimeShow] = createSignal<string>('');
 
-    const [range, setRange] = createSignal<RangeValueType>([undefined, undefined]);
-    const [rangeShow, setRangeShow] = createSignal<string>('');
+    const [range, setRange] = createSignal<RangeValueType>();
 
     return <Demo settings={
         <>
@@ -39,14 +38,25 @@ export default function() {
             {timeS}
             {shortcutS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
-            <Button onClick={() => { setValue(); setValWithTime(); }}>set undefined</Button>
-            <Button onClick={() => { setValue(new Date()); setValWithTime(new Date()); }}>now</Button>
+            <Button onClick={() => {
+                setValue();
+                setValWithTime();
+                setRange();
+            }}>set undefined</Button>
+            <Button onClick={() => {
+                const now = new Date();
+                const next = new Date(now);
+                next.setMonth(next.getMonth() + 1);
+                setValue(now);
+                setValWithTime(now);
+                setRange([now, next]);
+            }}>now</Button>
         </>
     }>
         <Stage title="panel" class="flex items-start">
             <DatePanel time={time()} min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={val()} weekBase={week()}
-                onChange={(val, old)=>{
+                onChange={(val, old) => {
                     setValShow(`new:${val}old:${old}`);
                     setValue(val);
                 }} />
@@ -57,7 +67,7 @@ export default function() {
             <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} time={!time()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={valWithTime()} weekBase={week()}
                 plugins={[datetimePluginLunar]}
-                onChange={(val, old)=>{
+                onChange={(val, old) => {
                     setValWithTimeShow(`new:${val},old:${old}`);
                     setValWithTime(val);
                 }} />
@@ -65,24 +75,21 @@ export default function() {
         </Stage>
 
         <Stage title="range panel" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} value={range()} shortcuts={shortcut()}
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
-                plugins={[datetimePluginLunar]}
-                onChange={(val, old)=>{
-                    setRangeShow(`new:${val}old:${old}`);
+                plugins={[datetimePluginLunar]} value={range()}
+                onChange={(val, old) => {
                     setRange(val);
                 }} />
-            <p>{valShow()}</p>
         </Stage>
 
         <Stage title="range panel with time" class="flex items-start">
             <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()}
-                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()} time
-                onChange={(val, old)=>{
-                    //setRangeShow(`new:${val},old:${old}`);
-                    //setRange(val);
+                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
+                time value={range()}
+                onChange={(val, old) => {
+                    setRange(val);
                 }} />
-            <p>{valShow()}</p>
         </Stage>
     </Demo>;
 }

@@ -98,29 +98,15 @@ export function DateRangePicker(props: Props): JSX.Element {
                 value={untrack(props.accessor.getValue)} onChange={change}
             />
 
-            <div class={styles.actions}>
-                <div class={styles.left}>
-                    <Button kind='flat' class='py-0 px-1' onClick={() => {
-                        const now = new Date();
-                        const next = new Date(now);
-                        next.setDate(1); // 保证不会因为 31 之类不存在于 next 的日期出现。
-                        next.setMonth(next.getMonth() + 1);
-                        if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
-                        props.accessor.setValue([now, next]);
-                        panelRef.hidePopover();
-                    }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</Button>
-                </div>
+            <div class={joinClass(styles.actions, '!justify-end')}>
+                <Button kind='flat' class='py-0 px-1' onClick={() => {
+                    props.accessor.setValue([undefined, undefined]);
+                    panelRef.hidePopover();
+                }}>{l.t('_c.date.clear')}</Button>
 
-                <div class={styles.right}>
-                    <Button kind='flat' class='py-0 px-1' onClick={() => {
-                        props.accessor.setValue(undefined);
-                        panelRef.hidePopover();
-                    }}>{l.t('_c.date.clear')}</Button>
-
-                    <Button kind='flat' class='py-0 px-1' palette={props.accentPalette} onClick={() => {
-                        panelRef.hidePopover();
-                    }}>{l.t('_c.ok')}</Button>
-                </div>
+                <Button kind='flat' class='py-0 px-1' palette={props.accentPalette} onClick={() => {
+                    panelRef.hidePopover();
+                }}>{l.t('_c.ok')}</Button>
             </div>
         </fieldset>
 
