@@ -165,7 +165,7 @@
     }
 
     .group.flat:hover {
-        @apply !border-palette-bg;
+        @apply !border-palette-bg-low;
     }
 
     .button.link-disabled *,

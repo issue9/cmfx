@@ -3,14 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show, untrack } from 'solid-js';
-import IconPrevMonth from '~icons/material-symbols/chevron-left';
-import IconNextMonth from '~icons/material-symbols/chevron-right';
-import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
-import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 
 import { BaseProps, joinClass } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
 import { DateView, DateViewProps, DateViewRef } from '@/datetime/dateview';
 import { DatetimePlugin } from '@/datetime/plugin';
 import { TimePanel } from '@/datetime/timepanel';
@@ -48,8 +42,19 @@ export interface Props extends BaseProps {
 
     /**
      * 是否显示周数
+     *
+     * NOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。
+     * 如果 {@link Props#weekBase} 不为 1，那么周数指向的可能并不是当前行。
      */
     weeks?: boolean;
+
+    /**
+     * 点击周数时的回调函数
+     * @param week 周数；
+     * @param range 周数范围；
+     */
+    onWeekClick?: DateViewProps['onWeekClick'];
+
 
     popover?: boolean | 'manual' | 'auto';
 
@@ -136,7 +141,7 @@ export function CommonPanel(props: Props): JSX.Element {
         if (props.value !== untrack(value)) { change(props.value); }
     });
 
-    let dateRef: HTMLDivElement;
+    let dateRef: HTMLFieldSetElement;
     const [timeRef, setTimeRef] = createSignal<HTMLElement>();
     let resizeObserver: ResizeObserver;
 
@@ -149,82 +154,41 @@ export function CommonPanel(props: Props): JSX.Element {
             if (ref) { ref.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px'; }
         });
 
-        if (timeRef()) { resizeObserver.observe(dateRef!); }
+        if (timeRef()) { resizeObserver.observe(dateRef!.firstChild as HTMLElement); }
     });
 
     onCleanup(() => {
         if (resizeObserver) { resizeObserver.disconnect(); }
     });
 
-    return <fieldset ref={el => { if (props.ref) { props.ref(el); } }}
-        disabled={props.disabled} popover={props.popover}
-        class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
-        <div class={styles.wrap} ref={el => dateRef = el}>
-            <Title disabled={props.disabled} readonly={props.readonly} dateview={dateViewRef()} />
-            <DateView initValue={value() ?? new Date()} min={props.min} max={props.max} disabledClass={styles.disabled}
-                selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today}
-                weekend={props.weekend} weekBase={props.weekBase} weekName='narrow' weeks={props.weeks}
-                plugins={props.plugins} onHover={props.onHover} onPaging={props.onPaging}
-                onClick={(d, disabled) => {
-                    if (!disabled && !props.disabled && !props.readonly) { change(d); }
-                }}
-                ref={el => {
-                    setDateViewRef(el);
-                    if (props.viewRef) { props.viewRef(el); }
-                }}
-            />
-        </div>
+    return <fieldset disabled={props.disabled} popover={props.popover}
+        class={joinClass(styles.panel, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+        ref={el => {
+            if (props.ref) { props.ref(el); }
+            dateRef = el;
+        }}
+    >
+        <DateView initValue={value() ?? new Date()} min={props.min} max={props.max} disabledClass={styles.disabled}
+            selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today}
+            weekend={props.weekend} weekBase={props.weekBase} weekName='narrow' plugins={props.plugins}
+            weeks={props.weeks} onWeekClick={props.onWeekClick} onHover={props.onHover} onPaging={props.onPaging}
+            disabled={props.disabled} readonly={props.readonly} class={styles.dateview}
+            onClick={(d, disabled) => {
+                if (!disabled && !props.disabled && !props.readonly) { change(d); }
+            }}
+            ref={el => {
+                setDateViewRef(el);
+                if (props.viewRef) { props.viewRef(el); }
+            }}
+        />
 
         <Show when={props.time}>
-            <TimePanel ref={el => setTimeRef(el)} disabled={props.disabled} readonly={props.readonly}
-                value={value()} class={styles.timer}
+            <TimePanel disabled={props.disabled} readonly={props.readonly}
+                value={value()} class={styles.timer} ref={el=>setTimeRef(el)}
                 onChange={d => {
                     if (!props.disabled && !props.readonly) { change(d, true); }
                 }}
             />
         </Show>
     </fieldset>;
-}
-
-interface TitleProps {
-    disabled?: boolean;
-    readonly?: boolean;
-    dateview?: DateViewRef;
-}
-
-/**
- * 切换年月的组件
- */
-export function Title(props: TitleProps) {
-    const l = useLocale();
-
-    return <div class={styles.title}>
-        <div class="flex">
-            <Button kind='flat' title={l.t('_c.date.prevYear')} square disabled={!props.dateview?.canOffset(-1, 0)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    props.dateview?.offset(-1, 0);
-                }}><IconPrevYear /></Button>
-            <Button kind='flat' title={l.t('_c.date.prevMonth')} square disabled={!props.dateview?.canOffset(0, -1)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    props.dateview?.offset(0, -1);
-                }}><IconPrevMonth /></Button>
-        </div>
-
-        <div>{props.dateview?.Title()}</div>
-
-        <div class="flex">
-            <Button kind='flat' title={l.t('_c.date.followingMonth')} square disabled={!props.dateview?.canOffset(0, 1)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    props.dateview?.offset(0, 1);
-                }}><IconNextMonth /></Button>
-            <Button kind='flat' title={l.t('_c.date.followingYear')} square disabled={!props.dateview?.canOffset(1, 0)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    props.dateview?.offset(1, 0);
-                }}><IconNextYear /></Button>
-        </div>
-    </div>;
 }

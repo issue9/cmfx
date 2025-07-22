@@ -7,17 +7,33 @@
 @reference '../../style.css';
 
 @layer components {
-    table {
-        @apply border-spacing-0 border-separate;
+    fieldset.dateview {
+        @apply border border-palette-fg-low rounded-lg overflow-clip;
+        @apply text-center bg-palette-bg text-palette-fg box-border;
+        @apply flex flex-col;
 
-        colgroup {
-            .weekend {
-                @apply bg-palette-bg-low;
+        >header {
+            @apply flex gap-1 justify-between items-center text-lg;
+            @apply border-b border-b-palette-fg-low;
+            @apply px-2 pb-1 pt-2;
+
+            >p {
+                @apply font-bold text-xl;
             }
         }
 
-        thead>tr {
-            @apply font-bold;
+        >table {
+            @apply border-spacing-0 border-separate;
+
+            colgroup {
+                .weekend {
+                    @apply bg-palette-bg-low;
+                }
+            }
+
+            thead>tr {
+                @apply font-bold;
+            }
         }
     }
 }

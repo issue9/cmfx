@@ -4,8 +4,14 @@
 
 import { getISOWeek, getISOWeekRange } from '@cmfx/core';
 import { createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
+import IconPrevMonth from '~icons/material-symbols/chevron-left';
+import IconNextMonth from '~icons/material-symbols/chevron-right';
+import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
+import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
+import IconToday from '~icons/material-symbols/today';
 
-import { joinClass } from '@/base';
+import { BaseProps, joinClass } from '@/base';
+import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
 import { DatetimePlugin } from '@/datetime/plugin';
 import { equalDate, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
@@ -34,11 +40,6 @@ export interface Ref {
     uncover(): void;
 
     /**
-     * 提供用于显示当前面板年月的组件
-     */
-    Title(): JSX.Element;
-
-    /**
      * 跳转到指定的日期
      */
     jump(date: Date): void;
@@ -61,7 +62,10 @@ export interface Ref {
     canOffset(year?: number, month?: number): boolean;
 }
 
-export interface Props {
+export interface Props extends BaseProps {
+    disabled?: boolean;
+    readonly?: boolean;
+
     /**
      * 允许的最小日期
      */
@@ -91,12 +95,11 @@ export interface Props {
     weeks?: boolean;
 
     /**
-     * 点击周数时的回调函数
-     * @param day 该周所在行的中间列日期；
+     * 点击周数时的回调函数，仅在 {@link Props#weeks} 为 true 时有效。
      * @param week 周数；
-     * @returns
+     * @param range 周数范围；
      */
-    onWeekClick?: (day: Date, week: number) => void;
+    onWeekClick?: (week: number, range: [Date, Date]) => void;
 
     class?: string;
 
@@ -186,6 +189,11 @@ export function inRange(positive: boolean, val: Date, min?: Date, max?: Date): b
  *
  * 返回的是一个 table 组件，其中 thead 中包含了星期名称，而 tbody 中包含了日期，大致结构如下：
  * ```html
+ * <fieldset>
+ * <header>
+ *     <p>2025年7月</p>
+ *     <fieldset>actions</fieldset>
+ * </header>
  * <table>
  *     <thead>
  *         <tr>
@@ -194,10 +202,12 @@ export function inRange(positive: boolean, val: Date, min?: Date, max?: Date): b
  *     </thead>
  *     <tbody>
  *         <tr><!--*7-->
+ *             <th></th><!--周-->
  *             <td></td><!--*7-->
  *         </tr>
  *     </tbody>
  * </table>
+ * </fieldset>
  * ```
  */
 export default function DateView(props: Props): JSX.Element {
@@ -225,6 +235,20 @@ export default function DateView(props: Props): JSX.Element {
 
     const canJump = (date: Date) => { return inRange(date > value(), date, props.min, props.max); };
 
+    const offset = (year?: number, month?: number) => {
+        const v = new Date(value());
+        if (month !== undefined) { v.setMonth(v.getMonth() + month); }; // month 可以是负数，必须要与 undefined 比较。
+        if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
+        jump(v);
+    };
+
+    const canOffset = (year?: number, month?: number) => {
+        const v = new Date(value());
+        if (month !== undefined) { v.setMonth(v.getMonth() + month); };
+        if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
+        return canJump(v);
+    };
+
     props.ref({
         select(...d: Array<Date>) {
             setSelected(prev => [...prev, ...d]);
@@ -242,34 +266,52 @@ export default function DateView(props: Props): JSX.Element {
 
         uncover() { setCovered(); },
 
-        Title(): JSX.Element { return titleFormater().format(value()); },
-
         jump(date) { jump(date); },
 
         canJump(date) { return canJump(date); },
 
-        offset(year, month) {
-            const v = new Date(value());
-            if (month !== undefined) { v.setMonth(v.getMonth() + month); }; // month 可以是负数，必须要与 undefined 比较。
-            if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
-            jump(v);
-        },
+        offset(year, month) { offset(year, month); },
 
-        canOffset(year, month) {
-            const v = new Date(value());
-            if (month !== undefined) { v.setMonth(v.getMonth() + month); };
-            if (year !== undefined) { v.setFullYear(v.getFullYear() + year); };
-            return canJump(v);
-        }
+        canOffset(year, month) { return canOffset(year, month); }
     });
 
-    return <table class={joinClass(styles.panel, props.class)}>
+    const title = <header>
+        <p>{titleFormater().format(value())}</p>
+        <ButtonGroup kind='flat' disabled={props.disabled}>
+            <Button title={l.t('_c.date.prevYear')} square disabled={!canOffset(-1, 0)}
+                onClick={() => {
+                    if (!props.readonly && !props.disabled) { offset(-1, 0); }
+                }}><IconPrevYear /></Button>
+            <Button title={l.t('_c.date.prevMonth')} square disabled={!canOffset(0, -1)}
+                onClick={() => {
+                    if (!props.readonly && !props.disabled) { offset(0, -1); }
+                }}><IconPrevMonth /></Button>
+
+            <Button title={l.t('_c.date.thisMonth')} square disabled={!canJump(new Date())}
+                onClick={() => {
+                    if (!props.readonly && !props.disabled) { jump(new Date()); }
+                }}><IconToday /></Button>
+
+            <Button title={l.t('_c.date.followingMonth')} square disabled={!canOffset(0, 1)}
+                onClick={() => {
+                    if (!props.readonly && !props.disabled) { offset(0, 1); }
+                }}><IconNextMonth /></Button>
+            <Button title={l.t('_c.date.followingYear')} square disabled={!canOffset(1, 0)}
+                onClick={() => {
+                    if (!props.readonly && !props.disabled) { offset(1, 0); }
+                }}><IconNextYear /></Button>
+        </ButtonGroup>
+    </header>;
+
+    const table = <table>
         <Show when={props.weekend}>
             <colgroup>
                 <Show when={props.weeks}><col /></Show>
                 <For each={weeks}>
                     {w => (
-                        <col classList={{ [styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
+                        <col classList={{
+                            [styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6
+                        }} />
                     )}
                 </For>
             </colgroup>
@@ -280,7 +322,9 @@ export default function DateView(props: Props): JSX.Element {
                 <Show when={props.weeks}><th>{l.t('_c.date.week')}</th></Show>
                 <For each={weeks}>
                     {w => (
-                        <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
+                        <th>{
+                            weekFormat().format(sunday().setDate(sunday().getDate() + weekDay(w, props.weekBase)))
+                        }</th>
                     )}
                 </For>
             </tr>
@@ -296,7 +340,7 @@ export default function DateView(props: Props): JSX.Element {
                             <th onMouseEnter={() => { setCovered(weekRange); }} onMouseLeave={() => { setCovered(); }}
                                 onClick={() => {
                                     if (props.onWeekClick) {
-                                        props.onWeekClick(week[3][1], weekNum[1]);
+                                        props.onWeekClick(weekNum[1], weekRange);
                                     }
                                 }}
                             >{weekNum[1]}</th>
@@ -328,4 +372,10 @@ export default function DateView(props: Props): JSX.Element {
             </For>
         </tbody>
     </table>;
+
+    return <fieldset disabled={props.disabled}
+        class={joinClass(styles.dateview, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+    >
+        {title}{table}
+    </fieldset>;
 }

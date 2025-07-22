@@ -9,31 +9,15 @@
 @layer components {
     /********************************* panel *************************************/
 
-    .title {
-        @apply flex justify-between items-center text-lg border-b border-b-palette-fg-low;
-        @apply px-2 pb-1 pt-2 mb-2;
+    fieldset.panel {
+        @apply flex flex-row rounded-lg overflow-clip flex-1;
+        @apply border border-palette-fg-low;
 
-        button {
-            @apply !p-1;
-        }
-    }
-
-    .panel {
-        @apply border border-palette-fg-low rounded-lg overflow-clip;
-        @apply text-center bg-palette-bg text-palette-fg box-border;
-        @apply flex flex-row;
-
-        .wrap {
-            @apply w-full;
+        >fieldset.dateview {
+            @apply border-none rounded-none min-w-78 flex-1;
 
             table {
                 @apply w-full px-2 pb-2;
-
-                colgroup {
-                    .weekend {
-                        @apply bg-palette-bg-low;
-                    }
-                }
 
                 tr>th,
                 tbody>tr>td {
@@ -90,12 +74,12 @@
             }
         }
 
-        .timer {
+        >fieldset.timer {
             @apply rounded-none border-t-0 border-b-0 border-r-0 py-2 pr-2;
         }
     }
 
-    .panel:enabled {
+    fieldset.panel:enabled {
 
         table tbody tr {
             td:not(.disabled):hover {
@@ -104,8 +88,8 @@
         }
     }
 
-    .panel:disabled,
-    .panel:disabled * {
+    fieldset.panel:disabled,
+    fieldset.panel:disabled * {
         @apply cursor-not-allowed text-palette-fg-low;
     }
 
@@ -122,11 +106,11 @@
             .panels {
                 @apply flex flex-wrap;
 
-                .panel {
-                    @apply !rounded-none border-transparent flex-1;
+                >fieldset.panel {
+                    @apply !rounded-none border-transparent;
                 }
 
-                .panel:last-child {
+                >fieldset.panel:last-child {
                     @apply border-l-palette-fg-low;
                 }
             }

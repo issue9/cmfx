@@ -30,6 +30,7 @@ const messages: typeof m = {
             prevYear: '上一年',
             followingMonth: '下个月',
             followingYear: '下一年',
+            thisMonth: '当前月份',
 
             lastMonth: '上月',
             lastQuarter: '上季度',

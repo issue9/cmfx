@@ -5,7 +5,7 @@
 /**
  * 这是星期天，作为计算星期的基准日期。
  */
-export const sunday = new Date('2024-10-20');
+export function sunday() { return new Date('2024-10-20'); }
 
 /**
  * 月份，与 {@link Date#getMonth} 相同，0 表示一月。

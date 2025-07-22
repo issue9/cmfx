@@ -202,7 +202,7 @@ export function DateRangePanel(props: Props) {
                     onChange={(val, _, time) => panelChange(val!, time, true)}
                     onPaging={val => {
                         setPage1(val);
-                        if (page2() <= val) {
+                        if (compareMonth(page2(), val) <= 0) {
                             const v = new Date(val);
                             v.setMonth(v.getMonth() + 1);
                             viewRef2.jump(v);
@@ -214,7 +214,7 @@ export function DateRangePanel(props: Props) {
                     onChange={(val, _, time) => panelChange(val!, time, false)}
                     onPaging={val => {
                         setPage2(val);
-                        if (page1() >= val) {
+                        if (compareMonth(page1(), val) >= 0) {
                             const v = new Date(val);
                             v.setMonth(v.getMonth() - 1);
                             viewRef1.jump(v);
@@ -262,4 +262,8 @@ export function DateRangePanel(props: Props) {
             </div>
         </Show>
     </fieldset>;
+}
+
+function compareMonth(d1: Date, d2: Date): number {
+    return d1.getMonth() - d2.getMonth() + (d1.getFullYear() - d2.getFullYear()) * 12;
 }
