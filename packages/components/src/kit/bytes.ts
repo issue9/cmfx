@@ -49,9 +49,9 @@ export function createBytesFormatter(l: Locale): {(byte: number): string} {
         } else if (bytes < tb) {
             return g.format(bytes / gb);
         } else if (bytes < pb) {
-            return p.format(bytes / tb);
+            return t.format(bytes / tb);
         } else {
-            return t.format(bytes / pb);
+            return p.format(bytes / pb);
         }
     };
 }
