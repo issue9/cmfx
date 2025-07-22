@@ -38,6 +38,8 @@ const messages: typeof m = {
             lastYear: '去年',
             thisYear: '今年',
             nextYear: '明年',
+
+            week: '周',
         },
         color: {
             lightness: '亮度(L)',

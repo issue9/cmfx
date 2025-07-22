@@ -9,6 +9,15 @@
 @layer components {
     /********************************* panel *************************************/
 
+    .title {
+        @apply flex justify-between items-center text-lg border-b border-b-palette-fg-low;
+        @apply px-2 pb-1 pt-2 mb-2;
+
+        button {
+            @apply !p-1;
+        }
+    }
+
     .panel {
         @apply border border-palette-fg-low rounded-lg overflow-clip;
         @apply text-center bg-palette-bg text-palette-fg box-border;
@@ -16,15 +25,6 @@
 
         .wrap {
             @apply w-full;
-
-            .title {
-                @apply flex justify-between items-center text-lg border-b border-b-palette-fg-low;
-                @apply px-2 pb-1 pt-2 mb-2;
-
-                button {
-                    @apply !p-1;
-                }
-            }
 
             table {
                 @apply w-full px-2 pb-2;
@@ -35,14 +35,12 @@
                     }
                 }
 
-                thead>tr>th,
+                tr>th,
                 tbody>tr>td {
                     @apply aspect-square p-1 min-w-6;
                 }
 
-
-
-                thead>tr>th {
+                tr>th {
                     @apply cursor-default;
                 }
 

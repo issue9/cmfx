@@ -46,6 +46,11 @@ export interface Props extends BaseProps {
      */
     weekBase?: Week;
 
+    /**
+     * 是否显示周数
+     */
+    weeks?: boolean;
+
     popover?: boolean | 'manual' | 'auto';
 
     /**
@@ -101,7 +106,6 @@ export const presetProps: Partial<Props> = {
  */
 export function CommonPanel(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const l = useLocale();
 
     const [value, setValue] = createSignal<Date | undefined>(props.value); // 实际的值
     const [dateViewRef, setDateViewRef] = createSignal<DateViewRef>();
@@ -152,45 +156,14 @@ export function CommonPanel(props: Props): JSX.Element {
         if (resizeObserver) { resizeObserver.disconnect(); }
     });
 
-    // 年月标题
-    const title = <div class={styles.title}>
-        <div class="flex">
-            <Button kind='flat' title={l.t('_c.date.prevYear')} square disabled={!dateViewRef()?.canOffset(-1, 0)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    dateViewRef()?.offset(-1, 0);
-                }}><IconPrevYear /></Button>
-            <Button kind='flat' title={l.t('_c.date.prevMonth')} square disabled={!dateViewRef()?.canOffset(0, -1)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    dateViewRef()?.offset(0, -1);
-                }}><IconPrevMonth /></Button>
-        </div>
-
-        <div>{dateViewRef()?.Title()}</div>
-
-        <div class="flex">
-            <Button kind='flat' title={l.t('_c.date.followingMonth')} square disabled={!dateViewRef()?.canOffset(0, 1)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    dateViewRef()?.offset(0, 1);
-                }}><IconNextMonth /></Button>
-            <Button kind='flat' title={l.t('_c.date.followingYear')} square disabled={!dateViewRef()?.canOffset(1, 0)}
-                onClick={() => {
-                    if (props.readonly || props.disabled) { return; }
-                    dateViewRef()?.offset(1, 0);
-                }}><IconNextYear /></Button>
-        </div>
-    </div>;
-
     return <fieldset ref={el => { if (props.ref) { props.ref(el); } }}
         disabled={props.disabled} popover={props.popover}
         class={joinClass(styles.panel, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
         <div class={styles.wrap} ref={el => dateRef = el}>
-            {title}
+            <Title disabled={props.disabled} readonly={props.readonly} dateview={dateViewRef()} />
             <DateView initValue={value() ?? new Date()} min={props.min} max={props.max} disabledClass={styles.disabled}
                 selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today}
-                weekend={props.weekend} weekBase={props.weekBase} weekName='narrow'
+                weekend={props.weekend} weekBase={props.weekBase} weekName='narrow' weeks={props.weeks}
                 plugins={props.plugins} onHover={props.onHover} onPaging={props.onPaging}
                 onClick={(d, disabled) => {
                     if (!disabled && !props.disabled && !props.readonly) { change(d); }
@@ -211,4 +184,47 @@ export function CommonPanel(props: Props): JSX.Element {
             />
         </Show>
     </fieldset>;
+}
+
+interface TitleProps {
+    disabled?: boolean;
+    readonly?: boolean;
+    dateview?: DateViewRef;
+}
+
+/**
+ * 切换年月的组件
+ */
+export function Title(props: TitleProps) {
+    const l = useLocale();
+
+    return <div class={styles.title}>
+        <div class="flex">
+            <Button kind='flat' title={l.t('_c.date.prevYear')} square disabled={!props.dateview?.canOffset(-1, 0)}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+                    props.dateview?.offset(-1, 0);
+                }}><IconPrevYear /></Button>
+            <Button kind='flat' title={l.t('_c.date.prevMonth')} square disabled={!props.dateview?.canOffset(0, -1)}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+                    props.dateview?.offset(0, -1);
+                }}><IconPrevMonth /></Button>
+        </div>
+
+        <div>{props.dateview?.Title()}</div>
+
+        <div class="flex">
+            <Button kind='flat' title={l.t('_c.date.followingMonth')} square disabled={!props.dateview?.canOffset(0, 1)}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+                    props.dateview?.offset(0, 1);
+                }}><IconNextMonth /></Button>
+            <Button kind='flat' title={l.t('_c.date.followingYear')} square disabled={!props.dateview?.canOffset(1, 0)}
+                onClick={() => {
+                    if (props.readonly || props.disabled) { return; }
+                    props.dateview?.offset(1, 0);
+                }}><IconNextYear /></Button>
+        </div>
+    </div>;
 }

@@ -20,6 +20,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/datetime-datepanel', component: lazy(() => import('./datetime/datepanel')) },
     { path: '/datetime-timepanel', component: lazy(() => import('./datetime/timepanel')) },
     { path: '/datetime-timer', component: lazy(() => import('./datetime/timer')) },
+    { path: '/datetime-week', component: lazy(() => import('./datetime/week')) },
 
     { path: '/dialog', component: lazy(() => import('./dialog')) },
     { path: '/divider', component: lazy(() => import('./divider')) },

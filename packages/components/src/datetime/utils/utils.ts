@@ -50,7 +50,7 @@ interface MonthDays {
 // minDaySize 每个面板最小的日期数量
 //
 // 需要固定面板高度，底部可能出现一行多余的数据。
-const minDaySize = 41; // 6 行，每行 7 列。
+export const minDaySize = 41; // 6 行，每行 7 列。
 
 /**
  * 计算指定月份的天数范围

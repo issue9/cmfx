@@ -37,6 +37,8 @@ const messages = {
             lastYear: 'Last year',
             thisYear: 'This year',
             nextYear: 'Next year',
+
+            week: 'Week',
         },
         color: {
             lightness: 'Lightness',

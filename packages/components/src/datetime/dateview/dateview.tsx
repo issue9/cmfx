@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { getISOWeek, getISOWeekRange } from '@cmfx/core';
 import { createMemo, createSignal, For, JSX, mergeProps, Show, untrack } from 'solid-js';
 
 import { joinClass } from '@/base';
@@ -80,6 +81,22 @@ export interface Props {
      * 一周的开始，默认为 0，即周日。
      */
     weekBase?: Week;
+
+    /**
+     * 是否显示周数
+     *
+     * NOTE: 周数是依据 ISO 8601 拿所在行的中间列计算所得。
+     * 如果 {@link Props#weekBase} 不为 1，那么周数指向的可能并不是当前行。
+     */
+    weeks?: boolean;
+
+    /**
+     * 点击周数时的回调函数
+     * @param day 该周所在行的中间列日期；
+     * @param week 周数；
+     * @returns
+     */
+    onWeekClick?: (day: Date, week: number) => void;
 
     class?: string;
 
@@ -249,6 +266,7 @@ export default function DateView(props: Props): JSX.Element {
     return <table class={joinClass(styles.panel, props.class)}>
         <Show when={props.weekend}>
             <colgroup>
+                <Show when={props.weeks}><col /></Show>
                 <For each={weeks}>
                     {w => (
                         <col classList={{ [styles.weekend]: weekDay(w, props.weekBase) === 0 || weekDay(w, props.weekBase) === 6 }} />
@@ -259,6 +277,7 @@ export default function DateView(props: Props): JSX.Element {
 
         <thead>
             <tr>
+                <Show when={props.weeks}><th>{l.t('_c.date.week')}</th></Show>
                 <For each={weeks}>
                     {w => (
                         <th>{weekFormat().format((new Date(sunday)).setDate(sunday.getDate() + weekDay(w, props.weekBase)))}</th>
@@ -269,8 +288,19 @@ export default function DateView(props: Props): JSX.Element {
 
         <tbody>
             <For each={weekDays(value(), props.weekBase!, props.min, props.max)}>
-                {week => (
-                    <tr>
+                {week => {
+                    const weekNum = getISOWeek(week[3][1]);
+                    const weekRange = getISOWeekRange(week[3][1]);
+                    return <tr>
+                        <Show when={props.weeks}>
+                            <th onMouseEnter={() => { setCovered(weekRange); }} onMouseLeave={() => { setCovered(); }}
+                                onClick={() => {
+                                    if (props.onWeekClick) {
+                                        props.onWeekClick(week[3][1], weekNum[1]);
+                                    }
+                                }}
+                            >{weekNum[1]}</th>
+                        </Show>
                         <For each={week}>
                             {day => (
                                 <td classList={{
@@ -293,8 +323,8 @@ export default function DateView(props: Props): JSX.Element {
                                 </td>
                             )}
                         </For>
-                    </tr>
-                )}
+                    </tr>;
+                }}
             </For>
         </tbody>
     </table>;
