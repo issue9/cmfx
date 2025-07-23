@@ -3,14 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { JSX, createSignal, mergeProps } from 'solid-js';
-import IconPrevMonth from '~icons/material-symbols/chevron-left';
-import IconNextMonth from '~icons/material-symbols/chevron-right';
-import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
-import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 
 import { BaseProps, joinClass } from '@/base';
-import { Button, ButtonGroup } from '@/button';
-import { useLocale } from '@/context';
 import { DateView, DateViewRef } from '@/datetime/dateview';
 import { DatetimePlugin } from '@/datetime/plugin';
 import { Week } from '@/datetime/utils';
@@ -63,7 +57,6 @@ export interface Props extends BaseProps {
     weekend?: boolean;
 
     class?: string;
-    style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
 
 const presetProps: Props = {
@@ -76,45 +69,23 @@ const presetProps: Props = {
 export default function Calendar(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    const l = useLocale();
     const [ref, setRef] = createSignal<DateViewRef>();
     const [selected, setSelected] = createSignal<Date>();
 
-    return <div style={props.style} class={joinClass(styles.calendar, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
-        <header>
-            <p class={styles.title}>{ref()?.Title()}</p>
-            <div>
-                <ButtonGroup kind='fill'>
-                    <Button title={l.t('_c.date.prevYear')} square disabled={!ref()?.canOffset(-1, 0)}
-                        onClick={() => ref()?.offset(-1, 0)}><IconPrevYear /></Button>
-                    <Button title={l.t('_c.date.prevMonth')} square disabled={!ref()?.canOffset(0, -1)}
-                        onClick={() => ref()?.offset(0, -1)}><IconPrevMonth /></Button>
-                    <Button onClick={() => ref()?.jump(new Date())}>{l.t('_c.date.today')}</Button>
-                    <Button title={l.t('_c.date.followingMonth')} square disabled={!ref()?.canOffset(0, 1)}
-                        onClick={() => ref()?.offset(0, 1)}><IconNextMonth /></Button>
-                    <Button title={l.t('_c.date.followingYear')} square disabled={!ref()?.canOffset(1, 0)}
-                        onClick={() => ref()?.offset(1, 0)}><IconNextYear /></Button>
-                </ButtonGroup>
-            </div>
-        </header>
+    return <DateView ref={el => setRef(el)} initValue={props.current ?? new Date()} min={props.min} max={props.max}
+        plugins={props.plugins} class={joinClass(styles.calendar, props.class)}
+        weekend={props.weekend} weekBase={props.weekBase} weekName='long' palette={props.palette}
+        todayClass={styles.today} selectedClass={styles.selected}
+        coveredClass={styles.covered} disabledClass={styles.disabled}
+        onClick={(d, disabled) => {
+            if (disabled) return;
 
-        <div class={styles.table}>
-            <DateView ref={el => setRef(el)} initValue={props.current ?? new Date()} min={props.min} max={props.max} plugins={props.plugins}
-                weekend={props.weekend} weekBase={props.weekBase} weekName='long'
-                todayClass={styles.today} selectedClass={styles.selected} coveredClass={styles.covered} disabledClass={styles.disabled}
-                onClick={(d, disabled) => {
-                    if (disabled) return;
+            const old = selected();
+            if (old) { ref()?.unselect(old); }
+            ref()?.select(d);
+            setSelected(d);
 
-                    const old = selected();
-                    if (old) { ref()?.unselect(old); }
-                    ref()?.select(d);
-                    setSelected(d);
-
-                    if (props.onSelected) {
-                        props.onSelected(d, old);
-                    }
-                }}
-            />
-        </div>
-    </div>;
+            if (props.onSelected) { props.onSelected(d, old); }
+        }}
+    />;
 }

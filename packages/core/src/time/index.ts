@@ -7,4 +7,7 @@ export type { Duration } from './duration';
 
 export { formatDuration2RelativeTime, nano2IntlRelative } from './relative';
 
-export * from './time';
+export { sleep } from './time';
+
+export { endOfISOWeek, getISOWeek, getISOWeekRange, getISOWeekRangeByWeek, startOfISOWeek } from './week';
+

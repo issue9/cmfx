@@ -17,7 +17,7 @@ import {
 } from './shortcuts';
 import styles from './style.module.css';
 
-export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onHover'> {
+export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave'> {
     value?: RangeValueType;
 
     onChange?: (value?: RangeValueType, old?: RangeValueType) => void;
@@ -50,9 +50,17 @@ export function DateRangePanel(props: Props) {
         if (index === 1) { return; }
 
         if (first) {
-            setValues(prev => { return [value, prev[1]]; });
+            setValues(prev => {
+                const first = prev[0];
+                first?.setHours(value.getHours(), value.getMinutes(), value.getSeconds());
+                return [first, prev[1]];
+            });
         } else {
-            setValues(prev => { return [prev[0], value]; });
+            setValues(prev => {
+                const secondary = prev[1];
+                secondary?.setHours(value.getHours(), value.getMinutes(), value.getSeconds());
+                return [prev[0], secondary];
+            });
         }
     };
 
@@ -68,7 +76,13 @@ export function DateRangePanel(props: Props) {
         case 0:
             if (old[0] === value) { return; }
 
-            setValues([value, undefined]);
+            setValues(prev => {
+                const first = prev[0];
+                if (first) {
+                    value.setHours(first.getHours(), first.getMinutes(), first.getSeconds());
+                }
+                return [value, undefined];
+            });
             viewRef1?.uncover();
             viewRef2?.uncover();
             viewRef1?.unselect(...old);
@@ -78,6 +92,10 @@ export function DateRangePanel(props: Props) {
             if (old[1] === value) { return; }
 
             setValues(prev => {
+                const secondary = prev[1];
+                if (secondary) {
+                    value.setHours(secondary.getHours(), secondary.getMinutes(), secondary.getSeconds());
+                }
                 const ret = [prev[0], value];
                 ret.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
                 return ret as RangeValueType;
@@ -98,30 +116,31 @@ export function DateRangePanel(props: Props) {
 
     // 监视外部直接通过 props.value 修改
     createEffect(() => {
-        const vals = untrack(values);
+        const old = untrack(values);
 
-        if (props.value && arrayEqual(vals, props.value)) { return; }
-
+        if (props.value === old || (props.value && arrayEqual(old, props.value))) { return; }
 
         viewRef1?.uncover();
         viewRef2?.uncover();
-        viewRef1?.unselect(...vals);
-        viewRef2?.unselect(...vals);
+        viewRef1?.unselect(...old);
+        viewRef2?.unselect(...old);
 
         if (!props.value || arrayEqual(props.value, [undefined, undefined])) {
             setValues([undefined, undefined]);
-            index = 0;
+        } else if (props.value[0] !== undefined && props.value[1] === undefined) {
+            viewRef1?.select(...props.value.filter(v => v !== undefined));
+            viewRef2?.select(...props.value.filter(v => v !== undefined));
+            setValues(props.value);
         } else {
             viewRef1?.cover(props.value as [Date, Date]);
             viewRef2?.cover(props.value as [Date, Date]);
             viewRef1?.select(...props.value.filter(v => v !== undefined));
             viewRef2?.select(...props.value.filter(v => v !== undefined));
-
             setValues(props.value);
-            index = 0;
         }
 
-        if (props.onChange) { props.onChange(props.value, vals); }
+        index = 0;
+        if (props.onChange) { props.onChange(props.value, old); }
     });
 
     const valueFormater = createMemo(() => {
@@ -145,10 +164,17 @@ export function DateRangePanel(props: Props) {
         }
     });
 
-    const onHover = (e: Date) => {
+    const onEnter = (e: Date) => {
         if (index === 1) {
             viewRef1.cover([values()[0]!, e]);
             viewRef2.cover([values()[0]!, e]);
+        }
+    };
+
+    const onLeave = () => {
+        if (index === 1) {
+            viewRef1.uncover();
+            viewRef2.uncover();
         }
     };
 
@@ -198,11 +224,11 @@ export function DateRangePanel(props: Props) {
         <main>
             <div class={styles.panels}>
                 <CommonPanel {...panelProps} value={untrack(values)[0]} class={styles.panel}
-                    viewRef={el => viewRef1 = el} onHover={onHover} ref={el => setPanel1(el)}
-                    onChange={(val, _, time) => panelChange(val!, time, true)}
+                    viewRef={el => viewRef1 = el} onEnter={onEnter} onLeave={onLeave}
+                    ref={el => setPanel1(el)} onChange={(val, _, time) => panelChange(val!, time, true)}
                     onPaging={val => {
                         setPage1(val);
-                        if (page2() <= val) {
+                        if (compareMonth(page2(), val) <= 0) {
                             const v = new Date(val);
                             v.setMonth(v.getMonth() + 1);
                             viewRef2.jump(v);
@@ -210,11 +236,11 @@ export function DateRangePanel(props: Props) {
                     }}
                 />
                 <CommonPanel {...panelProps} value={untrack(values)[1]} class={styles.panel}
-                    viewRef={el => viewRef2 = el} onHover={onHover} ref={el => panel2 = el}
-                    onChange={(val, _, time) => panelChange(val!, time, false)}
+                    viewRef={el => viewRef2 = el} onEnter={onEnter} onLeave={onLeave}
+                    ref={el => panel2 = el} onChange={(val, _, time) => panelChange(val!, time, false)}
                     onPaging={val => {
                         setPage2(val);
-                        if (page1() >= val) {
+                        if (compareMonth(page1(), val) >= 0) {
                             const v = new Date(val);
                             v.setMonth(v.getMonth() - 1);
                             viewRef1.jump(v);
@@ -262,4 +288,8 @@ export function DateRangePanel(props: Props) {
             </div>
         </Show>
     </fieldset>;
+}
+
+function compareMonth(d1: Date, d2: Date): number {
+    return d1.getMonth() - d2.getMonth() + (d1.getFullYear() - d2.getFullYear()) * 12;
 }

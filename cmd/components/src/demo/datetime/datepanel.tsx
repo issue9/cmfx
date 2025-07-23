@@ -17,6 +17,7 @@ export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [weekendS, weekend] = boolSelector('weekend');
+    const [weeksS, weeks] = boolSelector('weeks');
     const [minmaxS, minmax] = boolSelector('minmax');
     const [timeS, time] = boolSelector('time');
     const [shortcutS, shortcut] = boolSelector('shortcuts(range)');
@@ -36,6 +37,7 @@ export default function() {
             {weekendS}
             {minmaxS}
             {timeS}
+            {weeksS}
             {shortcutS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
             <Button onClick={() => {
@@ -54,7 +56,7 @@ export default function() {
         </>
     }>
         <Stage title="panel" class="flex items-start">
-            <DatePanel time={time()} min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            <DatePanel time={time()} min={minmax() ? min : undefined} max={minmax() ? max : undefined} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={val()} weekBase={week()}
                 onChange={(val, old) => {
                     setValShow(`new:${val}old:${old}`);
@@ -64,7 +66,7 @@ export default function() {
         </Stage>
 
         <Stage title="panel with time" class="flex items-start">
-            <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} time={!time()}
+            <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} time={!time()} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={valWithTime()} weekBase={week()}
                 plugins={[datetimePluginLunar]}
                 onChange={(val, old) => {
@@ -75,7 +77,7 @@ export default function() {
         </Stage>
 
         <Stage title="range panel" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()}
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
                 plugins={[datetimePluginLunar]} value={range()}
                 onChange={(val, old) => {
@@ -84,7 +86,7 @@ export default function() {
         </Stage>
 
         <Stage title="range panel with time" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()}
+            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
                 time value={range()}
                 onChange={(val, old) => {

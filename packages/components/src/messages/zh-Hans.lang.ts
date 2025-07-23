@@ -30,6 +30,7 @@ const messages: typeof m = {
             prevYear: '上一年',
             followingMonth: '下个月',
             followingYear: '下一年',
+            thisMonth: '当前月份',
 
             lastMonth: '上月',
             lastQuarter: '上季度',
@@ -38,6 +39,8 @@ const messages: typeof m = {
             lastYear: '去年',
             thisYear: '今年',
             nextYear: '明年',
+
+            week: '周',
         },
         color: {
             lightness: '亮度(L)',

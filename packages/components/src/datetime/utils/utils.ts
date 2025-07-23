@@ -5,7 +5,7 @@
 /**
  * 这是星期天，作为计算星期的基准日期。
  */
-export const sunday = new Date('2024-10-20');
+export function sunday() { return new Date('2024-10-20'); }
 
 /**
  * 月份，与 {@link Date#getMonth} 相同，0 表示一月。
@@ -50,7 +50,7 @@ interface MonthDays {
 // minDaySize 每个面板最小的日期数量
 //
 // 需要固定面板高度，底部可能出现一行多余的数据。
-const minDaySize = 41; // 6 行，每行 7 列。
+export const minDaySize = 41; // 6 行，每行 7 列。
 
 /**
  * 计算指定月份的天数范围
@@ -164,4 +164,15 @@ export function equalDate(date1: Date, date2: Date): boolean {
     return date1.getFullYear() === date2.getFullYear() &&
         date1.getMonth() === date2.getMonth() &&
         date1.getDate() === date2.getDate();
+}
+
+/**
+ * 比较 d1 是否大于 d2，仅比较日期部分的大小。
+ */
+export function compareDate(d1: Date, d2: Date): number {
+    return d1.getFullYear() === d2.getFullYear()
+        ? d1.getMonth() === d2.getMonth()
+            ? d1.getDate() - d2.getDate()
+            : d1.getMonth() - d2.getMonth()
+        : d1.getFullYear() - d2.getFullYear();
 }

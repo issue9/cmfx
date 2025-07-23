@@ -29,6 +29,7 @@ const messages = {
             prevYear: 'The previous year',
             followingMonth: 'The following month',
             followingYear: 'The following year',
+            thisMonth: 'This month',
 
             lastMonth: 'Last month',
             lastQuarter: 'Last quarter',
@@ -37,6 +38,8 @@ const messages = {
             lastYear: 'Last year',
             thisYear: 'This year',
             nextYear: 'Next year',
+
+            week: 'Week',
         },
         color: {
             lightness: 'Lightness',
