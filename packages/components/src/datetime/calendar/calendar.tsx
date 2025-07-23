@@ -57,7 +57,6 @@ export interface Props extends BaseProps {
     weekend?: boolean;
 
     class?: string;
-    //style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
 
 const presetProps: Props = {

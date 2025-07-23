@@ -10,12 +10,17 @@ import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, classList, joinClass } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { useLocale } from '@/context';
 import { DatetimePlugin } from '@/datetime/plugin';
-import { equalDate, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
+import { compareDate, equalDate, sunday, Week, weekDay, weekDays, weeks } from '@/datetime/utils';
 import styles from './style.module.css';
+
+/**
+ * 用于表示周数，第一个元素为年份，第二个元素为在该年份中的周数。
+ */
+export type WeekValueType = ReturnType<typeof getISOWeek>;
 
 export interface Ref {
     /**
@@ -99,7 +104,7 @@ export interface Props extends BaseProps {
      * @param week 周数；
      * @param range 周数范围；
      */
-    onWeekClick?: (week: number, range: [Date, Date]) => void;
+    onWeekClick?: (week: WeekValueType, range: [Date, Date]) => void;
 
     class?: string;
 
@@ -131,11 +136,18 @@ export interface Props extends BaseProps {
     onClick?: (e: Date, disabled?: boolean) => void;
 
     /**
-     * 鼠标悬停时的回调函数
+     * 鼠标悬停在单元格上时的回调函数
      * @param e 日期；
-     * @param disabled 是否禁用；
+     * @param disabled 单元格是否处于禁用状态；
      */
-    onHover?: (e: Date, disabled?: boolean) => void;
+    onEnter?: (e: Date, disabled?: boolean) => void;
+
+    /**
+     * 鼠标从单元格离开时的回调函数
+     * @param e 日期；
+     * @param disabled 单元格是否处于禁用状态；
+     */
+    onLeave?: (e: Date, disabled?: boolean) => void;
 
     /**
      * 翻页时的回调函数
@@ -333,34 +345,36 @@ export default function DateView(props: Props): JSX.Element {
         <tbody>
             <For each={weekDays(value(), props.weekBase!, props.min, props.max)}>
                 {week => {
-                    const weekNum = getISOWeek(week[3][1]);
+                    const isoWeek = getISOWeek(week[3][1]);
                     const weekRange = getISOWeekRange(week[3][1]);
                     return <tr>
                         <Show when={props.weeks}>
                             <th onMouseEnter={() => { setCovered(weekRange); }} onMouseLeave={() => { setCovered(); }}
                                 onClick={() => {
                                     if (props.onWeekClick) {
-                                        props.onWeekClick(weekNum[1], weekRange);
+                                        props.onWeekClick(isoWeek, weekRange);
                                     }
                                 }}
-                            >{weekNum[1]}</th>
+                            >{isoWeek[1]}</th>
                         </Show>
                         <For each={week}>
                             {day => (
-                                <td classList={{
+                                <td class={classList({
                                     [props.selectedClass]: isSelected(day[1], selected()),
                                     [props.todayClass]: equalDate(today(), day[1]),
                                     [props.disabledClass]: !day[0],
                                     [props.coveredClass]: covered() && covered()!.length > 0
-                                        && covered()![0]! <= day[1]
-                                        && covered()![1]! >= day[1],
-                                }} ref={el => { // 非响应
+                                        && compareDate(covered()![0]!, day[1]) <= 0
+                                        && compareDate(covered()![1]!, day[1]) >= 0
+                                })} ref={el => { // 非响应
                                     if (!props.plugins || props.plugins.length === 0) { return; }
                                     props.plugins.forEach(p => p(day[1], el));
                                 }} onClick={() => {
                                     if (props.onClick) { props.onClick(day[1], !day[0]); }
                                 }} onMouseEnter={() => {
-                                    if (props.onHover) { props.onHover(day[1], !day[0]); }
+                                    if (props.onEnter) { props.onEnter(day[1], !day[0]); }
+                                }} onMouseLeave={() => {
+                                    if (props.onLeave) { props.onLeave(day[1], !day[0]); }
                                 }}
                                 >
                                     <time datetime={day[1].toISOString().split('T')[0]}>{day[1].getDate()}</time>

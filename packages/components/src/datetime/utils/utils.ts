@@ -165,3 +165,14 @@ export function equalDate(date1: Date, date2: Date): boolean {
         date1.getMonth() === date2.getMonth() &&
         date1.getDate() === date2.getDate();
 }
+
+/**
+ * 比较 d1 是否大于 d2，仅比较日期部分的大小。
+ */
+export function compareDate(d1: Date, d2: Date): number {
+    return d1.getFullYear() === d2.getFullYear()
+        ? d1.getMonth() === d2.getMonth()
+            ? d1.getDate() - d2.getDate()
+            : d1.getMonth() - d2.getMonth()
+        : d1.getFullYear() - d2.getFullYear();
+}

@@ -55,7 +55,6 @@ export interface Props extends BaseProps {
      */
     onWeekClick?: DateViewProps['onWeekClick'];
 
-
     popover?: boolean | 'manual' | 'auto';
 
     /**
@@ -83,7 +82,8 @@ export interface Props extends BaseProps {
      */
     onPaging?: DateViewProps['onPaging'];
 
-    onHover?: DateViewProps['onHover'];
+    onEnter?: DateViewProps['onEnter'];
+    onLeave?: DateViewProps['onLeave'];
 
     ref?: { (el: HTMLFieldSetElement): void; };
 
@@ -171,8 +171,8 @@ export function CommonPanel(props: Props): JSX.Element {
         <DateView initValue={value() ?? new Date()} min={props.min} max={props.max} disabledClass={styles.disabled}
             selectedClass={styles.selected} coveredClass={styles.covered} todayClass={styles.today}
             weekend={props.weekend} weekBase={props.weekBase} weekName='narrow' plugins={props.plugins}
-            weeks={props.weeks} onWeekClick={props.onWeekClick} onHover={props.onHover} onPaging={props.onPaging}
-            disabled={props.disabled} readonly={props.readonly} class={styles.dateview}
+            weeks={props.weeks} onWeekClick={props.onWeekClick} onEnter={props.onEnter} onLeave={props.onLeave}
+            onPaging={props.onPaging} disabled={props.disabled} readonly={props.readonly} class={styles.dateview}
             onClick={(d, disabled) => {
                 if (!disabled && !props.disabled && !props.readonly) { change(d); }
             }}
