@@ -5,6 +5,7 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { JSX, mergeProps, splitProps } from 'solid-js';
 
+import { AvailableEnumType } from '@/base';
 import { default as HoverMenu, Props as HoverProps } from './hover';
 import { Props as BaseProps, default as Panel, Ref as PanelRef, presetProps } from './panel';
 
@@ -35,7 +36,7 @@ export function Menu(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected?: string, old?: string) => {
+        onchange = (selected?: AvailableEnumType, old?: AvailableEnumType) => {
             if (!props.onChange!(selected, old) && popRef.hidePopover) {
                 popRef.hidePopover();
             }

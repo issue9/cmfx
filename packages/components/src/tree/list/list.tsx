@@ -4,12 +4,14 @@
 
 import { Hotkey, sleep } from '@cmfx/core';
 import { A, useLocation } from '@solidjs/router';
-import { createEffect, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch, untrack } from 'solid-js';
+import {
+    createEffect, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch, untrack
+} from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { joinClass, transitionDuration } from '@/base';
+import { AvailableEnumType, classList, joinClass, transitionDuration } from '@/base';
 import { Divider } from '@/divider';
 import type { Props as ContainerProps } from '@/tree/container';
 import { findItems, type Item } from '@/tree/item';
@@ -19,12 +21,12 @@ export interface Props extends ContainerProps {
     /**
      * 设置选中项
      */
-    selected?: string;
+    selected?: AvailableEnumType;
 
     /**
      * 当选择项发生变化时触发的事件
      */
-    onChange?: { (selected: string, old?: string): void };
+    onChange?: { (selected: AvailableEnumType, old?: AvailableEnumType): void };
 
     /**
      * 可点击的元素是否以 {@link A} 作为标签名
@@ -49,9 +51,10 @@ const presetProps: Readonly<Partial<Props>> = {
 export function List(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    let oldValue: string|undefined = undefined;
-    const [selected, setSelected] = createSignal<string|undefined>(props.selected ?? (props.anchor ? useLocation().pathname : undefined));
-    const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected()));// 选中项在每一层中的索引
+    let oldValue: AvailableEnumType | undefined;
+    const [selected, setSelected] = createSignal<AvailableEnumType | undefined>(
+        props.selected ?? (props.anchor ? useLocation().pathname : undefined));
+    const [selectedIndexes, setSelectedIndexes] = createSignal(findItems(props.children, selected())); // 选中项在每一层中的索引
     const [ref, setRef] = createSignal<HTMLElement>(); // 记录最终选中项
 
     createEffect(() => {
@@ -75,7 +78,10 @@ export function List(props: Props): JSX.Element {
                 const [selectedIndex, setSelectedIndex] = createSignal(-100);
 
                 createEffect(() => {
-                    setIsSelected(!!selectedIndexes() && (p.selectedIndex >= 0) && (index() >= 0) && (index() === selectedIndexes()![p.selectedIndex]));
+                    setIsSelected(!!selectedIndexes()
+                        && (p.selectedIndex >= 0)
+                        && (index() >= 0)
+                        && (index() === selectedIndexes()![p.selectedIndex]));
                     setSelectedIndex(untrack(isSelected) ? p.selectedIndex + 1 : -100);
                 });
 
@@ -88,7 +94,8 @@ export function List(props: Props): JSX.Element {
                         <All items={(item as any).items} indent={p.indent} selectedIndex={selectedIndex()} />
                     </Match>
                     <Match when={item.type === 'item'}>
-                        <Items item={item} indent={p.indent} selectedIndex={selectedIndex()} isSelected={isSelected()} />
+                        <Items item={item} indent={p.indent} selectedIndex={selectedIndex()}
+                            isSelected={isSelected()} />
                     </Match>
                 </Switch>;
             }}
@@ -122,7 +129,9 @@ export function List(props: Props): JSX.Element {
         return <Switch>
             <Match when={p.item.items && p.item.items.length > 0}>
                 <div class={styles.details}>
-                    <div class={joinClass(styles.summary, styles.item)} onclick={() => setOpen(!open())} style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}>
+                    <div class={joinClass(styles.summary, styles.item)} onclick={() => setOpen(!open())}
+                        style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
+                    >
                         {p.item.label}
                         <Show when={open()} fallback={<IconArrowDown class={styles.expand} />}>
                             <IconArrowUp class={styles.expand} />
@@ -142,11 +151,10 @@ export function List(props: Props): JSX.Element {
                     activeClass={props.anchor ? props.selectedClass : undefined}
                     href={props.anchor ? (p.item.value?.toString() ?? '') : ''}
                     style={{ 'padding-left': `calc(${p.indent} * var(--item-space))` }}
-                    classList={{
-                        [styles.item]: true,
+                    class={classList({
                         // anchor 的类型定义在 activeClass 属性
                         [props.anchor ? '' : props.selectedClass!]: !!props.selectedClass && selected() === p.item.value,
-                    }}
+                    }, styles.item)}
                     onClick={(e: MouseEvent) => {
                         if (p.item.type !== 'item') { throw 'p.item.type 必须为 item'; }
 

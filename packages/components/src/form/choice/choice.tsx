@@ -8,7 +8,9 @@ import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { AvailableEnumType, classList, cloneElement, joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options } from '@/form/field';
+import {
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options
+} from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
@@ -31,9 +33,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
     const SingleActivator = (p: {access: Accessor<T>}) => {
         return <For each={props.options}>
             {(item) => (
-                <Show when={p.access.getValue() === item[0]}>
-                    {cloneElement(item[1])}
-                </Show>
+                <Show when={p.access.getValue() === item[0]}>{cloneElement(item[1])}</Show>
             )}
         </For>;
     };
@@ -120,7 +120,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         return <>
             <For each={props.options}>
                 {(item, i) => {
-                    const selected = ()=>p.ac.getValue() === item[0];
+                    const selected = () => p.ac.getValue() === item[0];
                     return <li role="option" aria-selected={selected()} classList={{ [styles.selected]: selected() }} ref={el => {
                         if (i() >= props.options.length) {
                             li.push(el);
@@ -153,10 +153,10 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         palette={props.palette}
         aria-haspopup>
         <Show when={areas().labelArea}>
-            {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {(area) => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div style={fieldArea2Style(areas().inputArea)} ref={el=>anchorRef=el} onClick={clickInput} tabIndex={props.tabindex}
+        <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el} onClick={clickInput} tabIndex={props.tabindex}
             class={classList({
                 [styles['activator-container']]: true,
                 'rounded-full': props.rounded

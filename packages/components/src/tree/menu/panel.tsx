@@ -8,7 +8,7 @@ import { createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Switch }
 import { Dynamic } from 'solid-js/web';
 import IconChevronRight from '~icons/material-symbols/chevron-right';
 
-import { joinClass } from '@/base';
+import { AvailableEnumType, joinClass } from '@/base';
 import { Divider } from '@/divider';
 import type { Props as ContainerProps } from '@/tree/container';
 import { Item } from '@/tree/item';
@@ -20,7 +20,7 @@ export interface Props extends ContainerProps {
     /**
      * 当选择项发生变化时触发的事件
      */
-    onChange?: { (selected?: string, old?: string): void };
+    onChange?: { (selected?: AvailableEnumType, old?: AvailableEnumType): void };
 
     /**
      * 是否采用 {@link A} 标签
@@ -46,7 +46,7 @@ export const presetProps: Readonly<Partial<Props>> = {
 
 export default function Panel (props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const [selected, setSelected] = createSignal<string>();
+    const [selected, setSelected] = createSignal<AvailableEnumType>();
 
     const All = (p: { items: Array<Item> }): JSX.Element => {
         return <For each={p.items}>

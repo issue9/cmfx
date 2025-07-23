@@ -17,8 +17,8 @@ export default function() {
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
 
     const items: Array<TreeItem> = [
-        {type: 'item', value: 'v1', label: 'v1'},
-        {type: 'item', value: 'v2', label: 'v2'},
+        {type: 'item', value: 1, label: 'v1'},
+        {type: 'item', value: 2, label: 'v2'},
         {type: 'divider'},
         {type: 'group', label: 'group', items: [
             {type: 'item', value: 'v22', label: 'v22'},
@@ -39,7 +39,7 @@ export default function() {
         ...items,
         { type: 'item', value: 'v3', label: 'v3(control+alt+b)', hotkey: new Hotkey('b', 'control', 'alt') },
     ];
-    
+
     const items3: Array<TreeItem> = [
         ...items,
         { type: 'item', value: 'v3', label: 'v3(control+c)', hotkey: new Hotkey('c', 'control') },

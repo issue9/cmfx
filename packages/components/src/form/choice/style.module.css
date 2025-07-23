@@ -9,18 +9,18 @@
 @layer components {
     .activator {
         .activator-container {
-            @apply rounded-md border border-[var(--fg-low)] flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
-            @apply has-[:focus:enabled]:border-[var(--fg-high)] has-[:hover:enabled]:border-[var(--fg-high)];
+            @apply rounded-md border border-palette-fg-low flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
+            @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
 
             .input {
                 @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer items-center peer-read-only:cursor-default;
 
                 .chip {
-                    @apply rounded-full bg-[var(--bg-high)] px-2 flex flex-col justify-center hover:bg-[var(--bg-low)];
+                    @apply rounded-full bg-palette-bg-high px-2 flex flex-col justify-center hover:bg-palette-bg-low;
                 }
 
                 .placeholder {
-                    @apply text-[var(--fg-low)];
+                    @apply text-palette-fg-low;
                 }
             }
 
@@ -42,7 +42,7 @@
         }
 
         .activator-container:focus {
-            @apply border-[var(--fg-high)];
+            @apply border-palette-fg-high;
         }
     }
 

@@ -5,6 +5,8 @@
 import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
+import { AvailableEnumType } from '@/base';
+
 /**
  * 列表项
  */
@@ -32,7 +34,7 @@ export type Item = {
      *
      * NOTE: 该值为空时，{@link Item#items} 不能为空。
      */
-    value?: string;
+    value?: AvailableEnumType;
 
     /**
      * 子项
@@ -63,7 +65,7 @@ export type Item = {
 * @param value 查找的对象
 * @returns 如果找到了，返回 value 在 items 的索引值，如果嵌套层，则返回每一次的索引。
 */
-export function findItems(items: Array<Item>, value?: string): Array<number>|undefined {
+export function findItems(items: Array<Item>, value?: AvailableEnumType): Array<number>|undefined {
     if (value === undefined) {
         return;
     }

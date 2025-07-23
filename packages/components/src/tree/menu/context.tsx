@@ -5,6 +5,7 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
+import { AvailableEnumType } from '@/base';
 import { Props as BaseProps, default as Panel, presetProps, Ref } from './panel';
 
 export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
@@ -18,7 +19,7 @@ export interface Props extends Omit<BaseProps, 'onChange' | 'popover' | 'ref'> {
      *
      * 如果返回了 true，表示不需要关闭弹出的菜单，否则会自动关闭弹出菜单。
      */
-    onChange?: { (selected?: string, old?: string): boolean | undefined; };
+    onChange?: { (selected?: AvailableEnumType, old?: AvailableEnumType): boolean | undefined; };
 }
 
 /**
@@ -32,7 +33,7 @@ export function ContextMenu(props: Props): JSX.Element {
 
     let onchange: BaseProps['onChange'];
     if (props.onChange) {
-        onchange = (selected?: string, old?: string) => {
+        onchange = (selected?: AvailableEnumType, old?: AvailableEnumType) => {
             if (!props.onChange!(selected, old)) {
                 popRef.hidePopover();
             }
