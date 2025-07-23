@@ -52,3 +52,12 @@ export function getISOWeekRange(date: Date): [Date, Date] {
     const end = endOfISOWeek(date);
     return [start, end];
 }
+
+/**
+ * 根据周数找到对应的周的起止日期
+ */
+export function getISOWeekRangeByWeek(year: number, week: number): ReturnType<typeof getISOWeekRange> {
+    const target = new Date(year, 0, 4); // 一月4号必然在第一周
+    target.setDate(target.getDate() + (week - 1) * 7);
+    return getISOWeekRange(target);
+}

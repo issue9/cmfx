@@ -9,5 +9,5 @@ export { formatDuration2RelativeTime, nano2IntlRelative } from './relative';
 
 export { sleep } from './time';
 
-export { endOfISOWeek, getISOWeek, getISOWeekRange, startOfISOWeek } from './week';
+export { endOfISOWeek, getISOWeek, getISOWeekRange, getISOWeekRangeByWeek, startOfISOWeek } from './week';
 

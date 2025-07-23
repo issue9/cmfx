@@ -11,5 +11,5 @@ export type { Props as DateRangePanelProps } from './range';
 export type { RangeValueType } from './shortcuts';
 
 export { WeekPanel } from './week';
-export type { Props as WeekPanelProps, ValueType as WeekValueType } from './week';
+export type { Props as WeekPanelProps } from './week';
 
