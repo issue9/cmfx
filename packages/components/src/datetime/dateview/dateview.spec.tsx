@@ -62,7 +62,7 @@ test('DateView', async () => {
     });
     await sleep(500); // Provider 是异步的，需要等待其完成加载。
     const c = container.children.item(0)! as HTMLElement;
-    expect(c).toHaveClass(styles.panel);
+    expect(c).toHaveClass(styles.dateview);
 
     const trs = c.querySelectorAll('tbody>tr');
     expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
