@@ -54,6 +54,11 @@ export type Item = {
     disabled?: boolean;
 
     /**
+     * 是否处于选中状态
+     */
+    checked?: boolean;
+
+    /**
      * 快捷键
      */
     hotkey?: Hotkey;
@@ -61,9 +66,9 @@ export type Item = {
 
 /**
 * 从 items 中查找值为 value 的项
-* @param items 被查找对象
-* @param value 查找的对象
-* @returns 如果找到了，返回 value 在 items 的索引值，如果嵌套层，则返回每一次的索引。
+* @param items 被查找对象；
+* @param value 查找的对象；
+* @returns 如果找到了，返回 value 在 items 的索引值，如果嵌套层，则返回每一次的索引；
 */
 export function findItems(items: Array<Item>, value?: AvailableEnumType): Array<number>|undefined {
     if (value === undefined) {

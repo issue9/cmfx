@@ -1,0 +1,131 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+
+    nav.menu,
+    menu.menu {
+        @apply bg-palette-bg text-palette-fg border border-transparent;
+        @apply flex;
+
+        li {
+            @apply flex flex-col relative p-1;
+
+            >p {
+                @apply py-1 px-2 cursor-pointer rounded-md;
+                @apply flex flex-row items-center gap-1;
+
+                .icon {
+                    @apply aspect-square w-4;
+                }
+
+                .suffix {
+                    @apply ml-auto;
+                }
+            }
+
+            >ul {
+                @apply hidden;
+                @apply bg-palette-bg text-palette-fg;
+                @apply border border-palette-fg-low rounded-md;
+            }
+        }
+
+        li.group p {
+            @apply text-palette-fg-low cursor-default;
+        }
+
+        li.item:hover>p {
+            @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
+        }
+    }
+
+    nav.horizontal,
+    menu.horizontal {
+        @apply flex-row gap-2;
+
+        >li.divider {
+            @apply !px-0;
+        }
+
+        * li.divider {
+            @apply !py-0;
+        }
+
+        li {
+            >ul {
+                @apply min-w-max absolute;
+                @apply shadow-md shadow-surface-bg-low;
+            }
+        }
+
+        >li>p>.icon.none {
+            @apply hidden;
+        }
+
+        * li:hover {
+            >ul {
+                @apply flex flex-col;
+                @apply left-full top-0;
+            }
+        }
+
+        >li:hover {
+            >ul {
+                @apply flex flex-col;
+                @apply left-0 top-full;
+            }
+        }
+    }
+
+    nav.vertical,
+    menu.vertical {
+        @apply flex-col;
+
+        li {
+            >ul {
+                @apply min-w-max absolute;
+                @apply shadow-md shadow-surface-bg-low;
+            }
+        }
+
+        li.divider {
+            @apply !py-0;
+        }
+
+        li:hover {
+            >ul {
+                @apply flex flex-col;
+                @apply left-full top-0;
+            }
+        }
+    }
+
+    nav.inline,
+    menu.inline {
+        @apply flex-col;
+
+        >li>ul li {
+            @apply !px-0;
+        }
+
+        li {
+            >ul {
+                @apply flex flex-col !border-none;
+            }
+        }
+
+        >li.divider {
+            @apply !py-0;
+        }
+
+        * li.divider {
+            @apply !px-0;
+        }
+    }
+}

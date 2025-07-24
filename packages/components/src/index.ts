@@ -22,6 +22,7 @@ export * from './form';
 export * from './icon';
 export * from './illustrations';
 export * from './kit';
+export * from './menu';
 export * from './messages';
 export * from './notify';
 export * from './page';

@@ -2,20 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ContextMenu, Menu, MenuPanel, TreeItem } from '@cmfx/components';
+import { Menu, TreeItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { createSignal } from 'solid-js';
+import IconFace from '~icons/material-symbols/face';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '../base';
+import { arraySelector, boolSelector, Demo, paletteSelector, Stage } from '../base';
 import { selectedClassSelector } from './list';
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
-    const [rightS, right] = boolSelector('right');
+    const [multipleS, multiple] = boolSelector('multiple');
+    const [layoutS, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
 
     const items: Array<TreeItem> = [
-        {type: 'item', value: 'v1', label: 'v1'},
+        {type: 'item', value: 'v1', label: 'v1', icon: IconFace, disabled: true},
         {type: 'item', value: 'v2', label: 'v2'},
         {type: 'divider'},
         {type: 'group', label: 'group', items: [
@@ -31,11 +33,17 @@ export default function() {
                 ]},
             ]},
         ]},
-    ];
-
-    const items2: Array<TreeItem> = [
-        ...items,
         { type: 'item', value: 'v3', label: 'v3(control+a)', hotkey: new Hotkey('a', 'control') },
+        {type: 'item', value: 'v4', label: '很长很长很长的标题-v4', icon: IconFace, items: [
+            {type: 'item', value: 41, label: 'v41'},
+            {type: 'divider'},
+            {type: 'item', value: 42, label: 'v42', icon: IconFace, items: [
+                {type: 'item', value: 'v421', label: '很长很长很长的标题-v421'},
+                {type: 'item', value: 'v422', label: 'v422'},
+                {type: 'divider'},
+                {type: 'item', value: 'v423', label: 'v423'},
+            ]},
+        ]},
     ];
 
     const [selected, setSelected] = createSignal<string>();
@@ -44,33 +52,14 @@ export default function() {
         <>
             {paletteS}
             {selectedClsS}
-            {rightS}
+            {multipleS}
+            {layoutS}
         </>
     }>
-        <Stage class="w-80 mt-4">
-            需要为 MenuPanel 指定为 absolute，否则 z-index 会失效。
-            <MenuPanel direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} onChange={(v, old) => { setSelected(v?.toString() + '  ' + old?.toString()); return true; }}>
-                {items}
-            </MenuPanel>
-            <div>{selected()}</div>
-        </Stage>
-
-        <Stage class="w-80 mt-4">
-            <Menu direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>click</Button>}>
-                {items2}
-            </Menu>
-        </Stage>
-
-        <Stage class="w-80 mt-4">
-            <Menu hoverable direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<Button>hover</Button>}>
+        <Stage class="mt-4 min-w-120">
+            <Menu multiple={multiple()} layout={layout()} selectedClass={selectedCls()} palette={palette()}>
                 {items}
             </Menu>
-        </Stage>
-
-        <Stage class="w-80 mt-4">
-            <ContextMenu direction={right() ? 'right' : 'left'} selectedClass={selectedCls()} palette={palette()} activator={<div class="bg-palette-bg border border-palette-fg-low">context menu</div>}>
-                {items}
-            </ContextMenu>
         </Stage>
     </Demo>;
 }

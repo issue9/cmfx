@@ -17,7 +17,7 @@ export default function() {
     const [selectedClsS, selectedCls] = selectedClassSelector('selected');
 
     const items: Array<TreeItem> = [
-        {type: 'item', value: 1, label: 'v1'},
+        {type: 'item', value: 1, label: 'v1', disabled: true},
         {type: 'item', value: 2, label: 'v2'},
         {type: 'divider'},
         {type: 'group', label: 'group', items: [
