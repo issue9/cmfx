@@ -8,7 +8,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { AvailableEnumType, BaseProps, classList, joinClass, Layout } from '@/base';
 import { Divider } from '@/divider';
-import { buildRenderItemType, MenuItem } from './item';
+import { buildRenderItemType, RenderMenuItem } from './item';
 import styles from './style.module.css';
 
 export type Ref = HTMLMenuElement;
@@ -34,14 +34,14 @@ export interface Props extends BaseProps {
     /**
      * 是否采用 {@link A} 标签
      *
-     * 如果为 true，那为 {@link MenuItem#value} 将作为链接的值。
+     * 如果为 true，那为 {@link RenderMenuItem#value} 将作为链接的值。
      */
     anchor?: boolean;
 
     /**
      * 菜单项
      */
-    children: Array<MenuItem>;
+    children: Array<RenderMenuItem>;
 
     /**
      * 当选择项发生变化时触发的事件
@@ -73,12 +73,7 @@ export default function Menu(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [selected, setSelected] = createSignal<AvailableEnumType>();
 
-    const items = createMemo(() => {
-        const ret = buildRenderItemType(props.children, 0, props.selectedClass!, props.disabledClass!, selected());
-        return ret[0];
-    });
-
-    const buildMenuItem = (item: MenuItem, dividerLayout: Layout = 'horizontal'): JSX.Element => {
+    const buildMenuItem = (item: RenderMenuItem, dividerLayout: Layout = 'horizontal'): JSX.Element => {
         return <Switch>
             <Match when={item.type === 'divider'}>
                 <li class={styles.divider}><Divider padding='0' layout={dividerLayout} /></li>
@@ -101,7 +96,7 @@ export default function Menu(props: Props): JSX.Element {
                 {i => {
                     const [expanded, setExpanded] = createSignal(false);
 
-                    return <li class={styles.item} onClick={e => {
+                    return <li class={joinClass(styles.item, i().class)} onClick={e => {
                         if (props.layout !== 'inline') { return; }
                         setExpanded(!expanded());
                         e.preventDefault();
@@ -135,6 +130,11 @@ export default function Menu(props: Props): JSX.Element {
         </Switch>;
     };
 
+    const renderItems = createMemo(() => {
+        const ret = buildRenderItemType(props.children, 0, props.selectedClass!, props.disabledClass!, selected());
+        return ret[0];
+    });
+
     const dividerLayout = props.layout === 'horizontal' ? 'vertical' : 'horizontal';
     return <Dynamic component={props.tag}
         class={classList({
@@ -144,6 +144,6 @@ export default function Menu(props: Props): JSX.Element {
             [`palette--${props.palette}`]: !!props.palette,
         }, styles.menu, props.class)}
     >
-        <For each={items()}>{item => buildMenuItem(item, dividerLayout)}</For>
+        <For each={renderItems()}>{item => buildMenuItem(item, dividerLayout)}</For>
     </Dynamic>;
 }

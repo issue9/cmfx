@@ -10,7 +10,7 @@
 
     nav.menu,
     menu.menu {
-        @apply bg-palette-bg text-palette-fg border border-transparent;
+        @apply bg-palette-bg text-palette-fg;
         @apply flex;
 
         li {
@@ -32,7 +32,7 @@
             >ul {
                 @apply hidden;
                 @apply bg-palette-bg text-palette-fg;
-                @apply border border-palette-fg-low rounded-md;
+                @apply rounded-md;
             }
         }
 
@@ -40,8 +40,19 @@
             @apply text-palette-fg-low cursor-default;
         }
 
-        li.item:hover>p {
-            @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
+        li.item.disabled>p {
+            @apply bg-surface-bg-low text-surface-fg-low;
+            @apply cursor-not-allowed;
+        }
+
+        li.item:not(.disabled):hover {
+            >p {
+                @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
+            }
+
+            >p:active {
+                @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
+            }
         }
     }
 
@@ -55,6 +66,10 @@
 
         * li.divider {
             @apply !py-0;
+        }
+
+        >li>ul {
+            @apply w-full;
         }
 
         li {
@@ -116,7 +131,7 @@
 
         li {
             >ul {
-                @apply flex flex-col !border-none;
+                @apply flex flex-col;
             }
         }
 

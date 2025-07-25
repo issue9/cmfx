@@ -75,9 +75,14 @@ type RenderTypeItem = Omit<TypeItem, 'disabled'> & {
     class?: string;
     level: number;
     selected?: boolean;
+    items?: Array<RenderMenuItem>;
 };
 
-type RenderMenuItem = TypeDivider | TypeGroup | RenderTypeItem;
+type RenderTypeGroup = Omit<TypeGroup, 'items'> & {
+    items: Array<RenderMenuItem>;
+};
+
+export type RenderMenuItem = TypeDivider | RenderTypeGroup | RenderTypeItem;
 
 /**
  * 生成易于渲染的菜单项数据，主要是根据参数生成了 CSS 样式。
