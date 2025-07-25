@@ -55,6 +55,7 @@
         "quill": "^2.0.3",
         "solid-js": "catalog:",
         "solid-transition-group": "^0.3.0",
+        "svg-morpheus-ts": "^1.2.1",
         "tailwindcss": "catalog:"
     },
     "devDependencies": {
