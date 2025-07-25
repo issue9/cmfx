@@ -8,9 +8,8 @@
 
 @layer components {
     input[type="checkbox"] {
-        @apply appearance-none relative inline-block p-0 w-3 h-3 cursor-pointer outline-none;
+        @apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
         @apply border-2 border-palette-fg hover:border-palette-fg-high !rounded-xs;
-        vertical-align: middle;
     }
 
     input[type="checkbox"]:disabled {
@@ -38,11 +37,8 @@
     /* 以上重新定义了 checkbox 的样式 */
 
     .checkbox {
-        @apply border-2 border-transparent flex items-center text-palette-fg;
-
-        input {
-            @apply mr-[2px];
-        }
+        @apply border-2 border-transparent text-palette-fg;
+        @apply flex items-center justify-center gap-1;
     }
 
     .checkbox.block {
