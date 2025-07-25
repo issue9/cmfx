@@ -32,7 +32,7 @@
     "devDependencies": {
         "unplugin-icons": "catalog:",
         "@types/node": "catalog:",
-        "@vitejs/plugin-basic-ssl": "^2.0.0",
+        "@vitejs/plugin-basic-ssl": "^2.1.0",
         "autoprefixer": "catalog:",
         "cssnano": "catalog:",
         "@cmfx/vite-plugin-about": "workspace:*",
