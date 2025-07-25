@@ -47,7 +47,7 @@ export default function() {
         </Stage>
 
         <Stage title="change">
-            <Checkbox title='onchange' label='onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
+            <Checkbox title='onchange' label='事件：onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
             <div>{ chk() ? 'checked' : 'unchecked' }</div>
         </Stage>
 

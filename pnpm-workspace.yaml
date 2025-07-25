@@ -5,9 +5,9 @@ packages:
     - cmd/admin
 
 catalog:
-    "@iconify/json": ^2.2.360
+    "@iconify/json": ^2.2.362
     unplugin-icons: ^22.1.0
-    "@types/node": ^24.0.15
+    "@types/node": ^24.1.0
     "@vitest/coverage-v8": ^3.2.4
     jsdom: ^26.1.0
     typescript: ^5.8.3

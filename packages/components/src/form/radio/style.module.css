@@ -8,8 +8,8 @@
 
 @layer components {
     input[type="radio"] {
-        @apply appearance-none relative inline-block w-3 h-3 !rounded-full cursor-pointer;
-        @apply p-0 border-[2px] border-palette-fg outline-0 hover:border-palette-fg-high;
+        @apply appearance-none relative inline-block w-4 h-4 !rounded-full cursor-pointer;
+        @apply p-0 border-2 border-palette-fg outline-0 hover:border-palette-fg-high;
 
         vertical-align: middle;
         transition: all var(--default-transition-duration) ease;
@@ -44,12 +44,9 @@
         @apply flex flex-wrap gap-1 justify-between w-full;
 
         label {
-            @apply border-2 border-transparent flex items-center text-palette-fg box-border;
+            @apply border-2 border-transparent text-palette-fg box-border;
             @apply overflow-hidden cursor-pointer;
-
-            input {
-                @apply mr-[2px]
-            }
+            @apply flex items-center justify-center gap-1;
         }
 
         label.block {
