@@ -63,6 +63,8 @@ export interface Props extends BaseProps {
     rotation?: AnimationIconRotation;
 
     ref: { (ref: Ref): void; };
+
+    class?: string;
 }
 
 /**
@@ -81,8 +83,10 @@ export function AnimationIcon(props: Props): JSX.Element {
             maps[value[0]] = (value[1]({}) as HTMLElement)?.outerHTML;
         });
 
-        const el = await bundleSvgsString(maps, {id, style: ''});
-        setIcons(template(el)().cloneNode(true) as SVGSVGElement);
+        const el = await bundleSvgsString(maps, { id, style: '' });
+        const svg = template(el)().cloneNode(true) as SVGSVGElement;
+        if (props.class) { svg.setAttribute('class', props.class); }
+        setIcons(svg);
     });
 
     onMount(() => {

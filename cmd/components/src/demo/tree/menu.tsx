@@ -12,7 +12,7 @@ import { selectedClassSelector } from './list';
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
-    const [selectedClsS, selectedCls] = selectedClassSelector('selected');
+    const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
     const [multipleS, multiple] = boolSelector('multiple');
     const [layoutS, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
 
@@ -67,9 +67,14 @@ export default function() {
         </>
     }>
         <Stage class="mt-4 min-w-120">
-            <Menu multiple={multiple()} layout={layout()} selectedClass={selectedCls()} palette={palette()}>
+            <Menu multiple={multiple()} layout={layout()} selectedClass={selectedCls()} palette={palette()}
+                onChange={(val, old)=>{
+                    setSelected(`new:${val}, old:${old}`);
+                }}
+            >
                 {items}
             </Menu>
+            <p>{ selected() }</p>
         </Stage>
     </Demo>;
 }

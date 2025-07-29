@@ -14,10 +14,10 @@
         @apply flex;
 
         li {
-            @apply flex flex-col relative p-1;
+            @apply flex flex-col relative;
 
             >p {
-                @apply py-1 px-2 cursor-pointer rounded-md;
+                @apply m-1 py-[--spacing(1.5)] px-2 cursor-pointer rounded-md;
                 @apply flex flex-row items-center gap-1;
 
                 .icon {
@@ -30,8 +30,7 @@
             }
 
             >ul {
-                @apply hidden;
-                @apply bg-palette-bg text-palette-fg;
+                @apply hidden box-content;
                 @apply rounded-md;
             }
         }
@@ -41,8 +40,12 @@
         }
 
         li.item.disabled>p {
-            @apply bg-surface-bg-low text-surface-fg-low;
+            @apply bg-surface-bg-low/50 text-surface-fg-low/50;
             @apply cursor-not-allowed;
+        }
+
+        li.item.selected>p {
+            @apply bg-palette-bg-high text-palette-fg-high;
         }
 
         li.item:not(.disabled):hover {
@@ -51,10 +54,12 @@
             }
 
             >p:active {
-                @apply hover:bg-palette-bg-low hover:text-palette-fg-low;
+                @apply text-palette-fg-low;
             }
         }
     }
+
+    /******************************* horizontal **********************************/
 
     nav.horizontal,
     menu.horizontal {
@@ -76,27 +81,35 @@
             >ul {
                 @apply min-w-max absolute;
                 @apply shadow-md shadow-surface-bg-low;
+                @apply bg-palette-bg text-palette-fg;
             }
         }
 
-        >li>p>.icon.none {
-            @apply hidden;
+        >li>p {
+            @apply !mx-0;
+
+            >.icon.none {
+                /* 根菜单项不为图标留白 */
+                @apply hidden;
+            }
         }
 
-        * li:hover {
+        * li:not(.hide):hover {
             >ul {
                 @apply flex flex-col;
                 @apply left-full top-0;
             }
         }
 
-        >li:hover {
+        >li:not(.hide):hover {
             >ul {
-                @apply flex flex-col;
+                @apply !flex flex-col;
                 @apply left-0 top-full;
             }
         }
     }
+
+    /******************************* vertical **********************************/
 
     nav.vertical,
     menu.vertical {
@@ -106,6 +119,7 @@
             >ul {
                 @apply min-w-max absolute;
                 @apply shadow-md shadow-surface-bg-low;
+                @apply bg-palette-bg text-palette-fg;
             }
         }
 
@@ -113,25 +127,27 @@
             @apply !py-0;
         }
 
-        li:hover {
+        li:not(.hide):hover {
             >ul {
-                @apply flex flex-col;
+                @apply !flex flex-col;
                 @apply left-full top-0;
             }
         }
     }
 
+    /******************************* inline **********************************/
+
     nav.inline,
     menu.inline {
         @apply flex-col;
 
-        >li>ul li {
-            @apply !px-0;
+        >li>ul {
+            @apply bg-palette-bg-low/50;
         }
 
         li {
             >ul {
-                @apply flex flex-col;
+                @apply flex flex-col !rounded-none;
             }
         }
 

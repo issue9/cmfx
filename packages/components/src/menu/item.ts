@@ -5,7 +5,7 @@
 import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { AvailableEnumType, classList } from '@/base';
+import { AvailableEnumType } from '@/base';
 import { IconComponent } from '@/icon';
 
 /**
@@ -71,10 +71,8 @@ export interface TypeItem {
     hotkey?: Hotkey;
 }
 
-type RenderTypeItem = Omit<TypeItem, 'disabled'> & {
-    class?: string;
+type RenderTypeItem = TypeItem & {
     level: number;
-    selected?: boolean;
     items?: Array<RenderMenuItem>;
 };
 
@@ -82,6 +80,9 @@ type RenderTypeGroup = Omit<TypeGroup, 'items'> & {
     items: Array<RenderMenuItem>;
 };
 
+/**
+ * 经过处理后可直接用于渲染的菜单项
+ */
 export type RenderMenuItem = TypeDivider | RenderTypeGroup | RenderTypeItem;
 
 /**
@@ -89,43 +90,20 @@ export type RenderMenuItem = TypeDivider | RenderTypeGroup | RenderTypeItem;
  *
  * @param items 菜单项数据；
  * @param level 当前菜单项的层级；
- * @param selectedCls 选中样式类名；
- * @param disabledCls 禁用样式类名；
- * @param selected 选中项的值，通过此值判断是否需要添加 selectedCls 样式；
- * @returns 返回两个值，第一个是易于渲染的菜单项数据，第二个表示参数 items 中是否有选中项。
  */
-export function buildRenderItemType(
-    items: Array<MenuItem>, level: number, selectedCls: string, disabledCls: string, selected?: AvailableEnumType
-): [items: Array<RenderMenuItem>, hasSelected: boolean] {
-    let has: boolean = false;
-
-    const ret = items.map(item => {
+export function buildRenderItemType(items: Array<MenuItem>, level: number): Array<RenderMenuItem> {
+    return items.map(item => {
         switch (item.type) {
         case 'divider':
-            has = false;
             return item;
         case 'group':
-            const [items1, hasSelected1] = buildRenderItemType(item.items, level, selectedCls, disabledCls, selected);
-            has = hasSelected1;
-
-            return { ...item, items: items1 };
+            return { ...item, items: buildRenderItemType(item.items, level) };
         case 'item':
-            const [items, hasSelected] = item.items
-                ? buildRenderItemType(item.items, level + 1, selectedCls, disabledCls, selected)
-                : [, item.value === selected];
-            has ||= hasSelected;
-
             return {
                 ...item,
                 level,
-                class: classList({
-                    [disabledCls]: item.disabled,
-                    [selectedCls]: hasSelected,
-                }),
-                items: items,
+                items: item.items ? buildRenderItemType(item.items, level + 1) : undefined,
             };
         }
     });
-
-    return [ret, has];
 }

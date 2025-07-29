@@ -31,25 +31,24 @@ const items: Array<MenuItem> = [
 ];
 
 test('buildRenderItemType', () => {
-    const [items1, has] = buildRenderItemType(structuredClone(items), 0, 'selected', 'disabled', 'v233');
-    expect(has).toEqual(true);
+    const items1 = buildRenderItemType(structuredClone(items), 0);
 
     expect(items1).toStrictEqual([
-        { type: 'item', value: 'v1', label: 'v1', class: undefined, items: undefined, level: 0 },
-        { type: 'item', value: 'v2', label: 'v2', class: 'disabled', items: undefined, level: 0, disabled: true },
-        { type: 'item', value: 'v3', label: 'v3', class: undefined, items: undefined, level: 0 },
+        { type: 'item', value: 'v1', label: 'v1', items: undefined, level: 0 },
+        { type: 'item', value: 'v2', label: 'v2', items: undefined, level: 0, disabled: true },
+        { type: 'item', value: 'v3', label: 'v3', items: undefined, level: 0 },
         { type: 'divider' },
         {
             type: 'group', label: 'group', items: [
-                { type: 'item', value: 'v22', label: 'v22', class: undefined, items: undefined, level: 0 },
+                { type: 'item', value: 'v22', label: 'v22', items: undefined, level: 0 },
                 { type: 'divider' },
                 {
-                    type: 'item', value: 'v23', label: 'v23', class: 'selected', level: 0, items: [
-                        { type: 'item', value: 'v233', label: 'v233', class: 'selected', level: 1, items: undefined },
+                    type: 'item', value: 'v23', label: 'v23', level: 0, items: [
+                        { type: 'item', value: 'v233', label: 'v233', level: 1, items: undefined },
                         {
-                            type: 'item', label: 'v234', class: undefined, level: 1, items: [
-                                { type: 'item', value: 'v2341', class: undefined, level: 2, items: undefined, label: 'v2341' },
-                                { type: 'item', value: 'v2343', class: undefined, level: 2, items: undefined, label: 'v2343' },
+                            type: 'item', label: 'v234', level: 1, items: [
+                                { type: 'item', value: 'v2341', level: 2, items: undefined, label: 'v2341' },
+                                { type: 'item', value: 'v2343', level: 2, items: undefined, label: 'v2343' },
                             ]
                         },
                     ]
