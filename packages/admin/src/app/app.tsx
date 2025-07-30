@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, joinClass, List } from '@cmfx/components';
+import { Drawer, joinClass, Menu } from '@cmfx/components';
 import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
@@ -77,7 +77,7 @@ function Private(props: PrivateProps): JSX.Element {
                 main={
                     <ErrorBoundary fallback={err=>(<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
-                <List anchor selected={props.selected()}>{buildItems(l, opt.aside.menus)}</List>
+                <Menu layout='inline' anchor value={[props.selected()]} items={buildItems(l, opt.aside.menus)} />
             </Drawer>
         </Match>
     </Switch>;

@@ -71,7 +71,7 @@ export interface TypeItem {
     hotkey?: Hotkey;
 }
 
-type RenderTypeItem = TypeItem & {
+export type RenderTypeItem = TypeItem & {
     level: number;
     items?: Array<RenderMenuItem>;
 };

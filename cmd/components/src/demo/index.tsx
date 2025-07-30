@@ -26,6 +26,7 @@ export const routes: Array<RouteDefinition> = [
     { path: '/divider', component: lazy(() => import('./divider')) },
     { path: '/drawer', component: lazy(() => import('./drawer')) },
     { path: '/empty', component: lazy(() => import('./empty')) },
+    { path: '/menu', component: lazy(() => import('./menu')) },
     { path: '/icon', component: lazy(() => import('./icon')) },
     { path: '/illustrations', component: lazy(() => import('./illustrations')) },
     { path: '/notify', component: lazy(() => import('./notify')) },
@@ -47,9 +48,6 @@ export const routes: Array<RouteDefinition> = [
     { path: '/theme-selector', component: lazy(() => import('./theme/selector')) },
 
     { path: '/tooltip', component: lazy(() => import('./tooltip')) },
-
-    { path: '/tree-list', component: lazy(() => import('./tree/list')) },
-    { path: '/tree-menu', component: lazy(() => import('./tree/menu')) },
 
     { path: '/typography', component: lazy(() => import('./typography')) },
 

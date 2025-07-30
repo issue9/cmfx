@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, Button, classList, Label, Locale, Menu, TreeItem } from '@cmfx/components';
+import { Appbar, Button, classList, Dropdown, Locale, MenuItem as XMenuItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { createEffect, createSignal, JSX, onCleanup, onMount, Setter, Show, Signal } from 'solid-js';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
@@ -73,7 +73,9 @@ function UserMenu(): JSX.Element {
         {act.user()?.name}
     </Button>;
 
-    return <Menu hoverable anchor direction='left' activator={activator}>{buildItems(l, opt.userMenus)}</Menu>;
+    return <Dropdown hoverable anchor items={buildItems(l, opt.userMenus)}>
+        {activator}
+    </Dropdown>;
 }
 
 /**
@@ -102,8 +104,8 @@ function fullscreen(hotkey?: Hotkey): JSX.Element {
     </Button>;
 }
 
-export function buildItems(l: Locale, menus: Array<MenuItem>) {
-    const items: Array<TreeItem> = [];
+export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem> {
+    const items: Array<XMenuItem> = [];
     menus.forEach((mi) => {
         switch (mi.type) {
         case 'divider':
@@ -117,17 +119,14 @@ export function buildItems(l: Locale, menus: Array<MenuItem>) {
             });
             break;
         case 'item':
-            const i: TreeItem = {
+            items.push({
                 type: 'item',
-                label: <Label icon={mi.icon}>{l.t(mi.label)}</Label>,
+                icon: mi.icon,
+                label: l.t(mi.label),
                 value: mi.path,
                 hotkey: mi.hotkey,
-            };
-            if (mi.items) {
-                i.items = buildItems(l, mi.items);
-            }
-
-            items.push(i);
+                items: mi.items ? buildItems(l, mi.items) : undefined,
+            });
             break;
         }
     });
