@@ -6,6 +6,7 @@ import { adjustPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps } from '@/base';
+import { use } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -13,9 +14,8 @@ export interface Ref {
      * 显示提示框
      * @param anchor 用于定位提示框的元素；
      * @param pos 相对 anchor 的位置；
-     * @param timeout 自动关闭的时间，如果为空，采用默认值 1000，如果为负数表示不主动关闭；
      */
-    show(anchor: HTMLElement, pos: PopoverPosition, timeout?: number): void;
+    show(anchor: HTMLElement, pos: PopoverPosition): void;
 
     /**
      * 隐藏提示内容
@@ -24,6 +24,13 @@ export interface Ref {
 }
 
 export interface Props extends BaseProps, ParentProps {
+    /**
+     * 停留时间
+     *
+     * NOTE: 非响应属性
+     */
+    stays?: number;
+
     ref: { (ref: Ref): void; }
 }
 
@@ -32,25 +39,19 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function Tooltip(props: Props): JSX.Element {
     let ref: HTMLDivElement;
+    const [, , opt] = use();
+    const duration = props.stays ?? opt.stays;
 
     props.ref({
-        show(anchor: HTMLElement, pos: PopoverPosition, timeout?: number) {
+        show(anchor: HTMLElement, pos: PopoverPosition) {
             ref.showPopover();
             const anchorRect = calcPos(pos, ref.getBoundingClientRect(), anchor.getBoundingClientRect());
-
             adjustPopoverPosition(ref, anchorRect, 4, pos);
-            if (!timeout) {
-                timeout = 1000;
-            }
 
-            if (timeout >= 0) {
-                setTimeout(() => ref.hidePopover(), timeout);
-            }
+            if (duration >= 0) { setTimeout(() => ref.hidePopover(), duration); }
         },
 
-        hide() {
-            ref.hidePopover();
-        }
+        hide() { ref.hidePopover(); }
     });
 
     return <div popover='auto' class={styles.tooltip} ref={el => ref = el}>{props.children}</div>;

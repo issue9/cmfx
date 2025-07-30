@@ -64,6 +64,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         titleSeparator: props.titleSeparator,
         pageSizes: props.api.pageSizes,
         pageSize: props.api.presetSize,
+        stays: props.stays,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) {
                 throw '发生了一个未知的错误，请联系管理员！';
@@ -96,7 +97,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
 
     return <OptionsProvider {...o}>
         <SystemDialog system={props.system.dialog} header={props.title}>
-            <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo} timeout={props.notifyTimeout}>
+            <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo} timeout={props.stays}>
                 {child()}
             </Notify>
         </SystemDialog>

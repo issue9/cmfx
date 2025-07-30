@@ -102,6 +102,11 @@ export interface Options {
     pageSize: number;
 
     /**
+     * 提示框，通知栏等元素在界面上的默认停留时间，单位为 ms。
+     */
+    stays: number;
+
+    /**
      * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
      *
      * @param p 如果该值空，则会抛出异常；

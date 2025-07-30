@@ -95,7 +95,10 @@ export interface Options {
      */
     locales: Locales;
 
-    notifyTimeout?: number;
+    /**
+     * 通知等元素的停留时间
+     */
+    stays?: number;
 }
 
 /**
@@ -185,7 +188,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
         ['fullscreen', new Hotkey('f', 'control')],
         ['search', new Hotkey('k', 'control')],
     ]),
-    notifyTimeout: 5000,
+    stays: 5000,
 } as const;
 
 

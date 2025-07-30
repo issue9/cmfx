@@ -63,6 +63,7 @@ export const options: Options = {
     titleSeparator: '-',
     pageSizes: [10, 20, 50, 100, 200, 500],
     pageSize: 20,
+    stays: 2000,
     outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
         console.error(p ? p.title : '');
     }
