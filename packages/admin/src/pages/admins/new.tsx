@@ -22,9 +22,9 @@ export function New(props: Props): JSX.Element {
     const [api, act] = use();
     const l = useLocale();
 
-    const form = new FormAccessor<Admin>(zeroAdmin(), act, async (obj) => {
+    const form = new FormAccessor<Admin>(zeroAdmin(), async (obj) => {
         return await api.post('/admins', obj);
-    }, async () => {
+    }, act.outputProblem, async () => {
         await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
         useNavigate()(-1);
     });

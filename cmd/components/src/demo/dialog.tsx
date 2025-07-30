@@ -15,7 +15,7 @@ export default function() {
     let dlg3: DialogRef;
     let dlg4: DialogRef;
 
-    const fa = new FormAccessor({}, act, async (_) => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; });
+    const fa = new FormAccessor({}, async () => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; }, act.outputProblem);
 
     return <Demo settings={
         <>

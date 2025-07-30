@@ -27,8 +27,9 @@ export function Edit(props: Props): JSX.Element {
     const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     const nav = useNavigate();
-    const form = new FormAccessor<Admin>(zeroAdmin(), act,
+    const form = new FormAccessor<Admin>(zeroAdmin(),
         async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
+        act.outputProblem,
         () => { nav(props.backURL); }
     );
     const formPassports = form.accessor<Admin['passports']>('passports');

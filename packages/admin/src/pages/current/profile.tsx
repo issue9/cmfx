@@ -20,9 +20,9 @@ export function Profile(props: Props): JSX.Element {
     const l = useLocale();
     let uploadRef: UploadRef;
 
-    const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, act, (obj)=>{
+    const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, (obj)=>{
         return api.patch(opt.api.info, obj);
-    }, async () => {
+    }, act.outputProblem, async () => {
         await act.refetchUser();
     }, (obj) => {
         if (!obj.name) {

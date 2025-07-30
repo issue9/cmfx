@@ -6,7 +6,6 @@ import { FlattenKeys, FlattenObject, Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, unwrap } from 'solid-js/store';
 
-import { use } from '@/context';
 import { Accessor, ChangeFunc } from './field';
 
 // ObjectAccessor 中保存错误的类型
@@ -189,13 +188,16 @@ export class ObjectAccessor<T extends FlattenObject> {
 
     /**
      * 根据 {@link Problem} 设置当前对象的错误信息
+     *
+     * @returns 错误是否已经被处理；
      */
-    errorsFromProblem<PE = never>(p?: Problem<PE>) {
+    errorsFromProblem<PE = never>(p?: Problem<PE>):boolean {
         if (p && p.params) {
-            p.params.forEach((param)=>{
+            p.params.forEach(param => {
                 this.accessor(param.name as FlattenKeys<T>).setError(param.reason);
             });
         }
+        return !!p && !!p.params && p.params.length > 0;
     }
 
     /**
@@ -216,6 +218,10 @@ interface Request<T extends FlattenObject, R = never, P = never> {
     (obj: T): Promise<Return<R, P>>;
 }
 
+interface ProcessProblem<T = never> {
+    (p: Problem<T>): Promise<void>;
+}
+
 /**
  * 适用于表单的 {@link ObjectAccessor}
  *
@@ -224,31 +230,31 @@ interface Request<T extends FlattenObject, R = never, P = never> {
  * @template P 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
 export class FormAccessor<T extends FlattenObject, R = never, P = never> {
-    #object: ObjectAccessor<T>;
+    readonly #object: ObjectAccessor<T>;
     readonly #validation?: Validation<T>;
-    #act: ReturnType<typeof use>[1];
-    #request: Request<T, R, P>;
+    readonly #pp?: ProcessProblem<P>;
+    readonly #request: Request<T, R, P>;
     readonly #success?: SuccessFunc<R>;
-    #submitting: Signal<boolean>;
+    readonly #submitting: Signal<boolean>;
 
     /**
      * 构造函数
      *
      * @param preset 初始值；
-     * @param act 由 {@link use} 返回的的第二个参数；
-     * @param success 在接口正常返回时调用的方法；
-     * @param validation 提交前对数据的验证方法；
      * @param req 提交数据的方法；
+     * @param pp 如果服务端返回的错误未得到处理，则调用此方法作最后处理；
+     * @param succ 在接口正常返回时调用的方法；
+     * @param v 提交前对数据的验证方法；
      */
-    constructor(preset: T, act: ReturnType<typeof use>[1], req: Request<T, R, P>);
-    constructor(preset: T, act: ReturnType<typeof use>[1], req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>);
-    constructor(preset: T, act: ReturnType<typeof use>[1], req: Request<T, R, P>, success?: SuccessFunc<R>, validation?: Validation<T>) {
-        // NOTE: ctx 参数可以很好地限制此构造函数只能在组件中使用！
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>);
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validation<T>);
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validation<T>) {
+        // NOTE: act 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
-        this.#validation = validation;
-        this.#act = act;
+        this.#validation = v;
+        this.#pp = pp;
         this.#request = req;
-        this.#success = success;
+        this.#success = succ;
         this.#submitting = createSignal<boolean>(false);
     }
 
@@ -282,7 +288,7 @@ export class FormAccessor<T extends FlattenObject, R = never, P = never> {
     async submit(): Promise<boolean> {
         try {
             this.#submitting[1](true);
-            return await this.do();
+            return await this.req();
         } finally {
             this.#submitting[1](false);
         }
@@ -290,20 +296,22 @@ export class FormAccessor<T extends FlattenObject, R = never, P = never> {
 
     reset() { this.#object.reset(); }
 
-    private async do(): Promise<boolean> {
+    // 执行请求操作
+    private async req(): Promise<boolean> {
         const obj = this.#object.object(this.#validation);
         if (!obj) { return false; }
 
         const ret = await this.#request(unwrap(obj));
         if (ret.ok) {
-            if (this.#success) {
-                this.#success(ret);
-            }
+            if (this.#success) { this.#success(ret); }
             return true;
         }
 
-        this.#object.errorsFromProblem(ret.body);
-        await this.#act.outputProblem(ret.body);
+        if (!ret.body) { return true; }
+
+        if (!this.#object.errorsFromProblem(ret.body) && this.#pp) {
+            await this.#pp(ret.body);
+        }
         return false;
     }
 

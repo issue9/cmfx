@@ -179,7 +179,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 输出 Problem 类型的数据
          */
-        async outputProblem<T = unknown>(problem?: Problem<T>): Promise<void> {
+        async outputProblem<T = never>(problem?: Problem<T>): Promise<void> {
             await options.outputProblem(problem);
         }
     };

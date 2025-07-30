@@ -15,7 +15,7 @@ export default function() {
         f2: 5,
         date: new Date('2021-01-02T15:31'),
         textarea: 'textarea',
-    }, act, async (_) => { return { ok: false, status: 500, body: {type: '500', title: '请求未处理', status: 500} }; });
+    }, async () => { return { ok: false, status: 500, body: {type: '500', title: '请求未处理', status: 500} }; }, act.outputProblem);
 
     return <Demo settings={
         <>
