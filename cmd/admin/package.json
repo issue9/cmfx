@@ -12,7 +12,8 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/issue9/cmfx"
+        "url": "https://github.com/issue9/cmfx",
+        "directory": "cmd/admin"
     },
     "license": "MIT",
     "scripts": {

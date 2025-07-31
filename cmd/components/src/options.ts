@@ -14,10 +14,12 @@ export const options: Options = {
     displayStyle: 'full',
     messages: {
         'en': [
-            async () => (await import('@cmfx/components/messages/en.lang.js')).default
+            async () => (await import('@cmfx/components/messages/en.lang.js')).default,
+            async () => (await import('./messages/en.lang.js')).default,
         ],
         'zh-Hans': [
-            async () => (await import('@cmfx/components/messages/zh-Hans.lang.js')).default
+            async () => (await import('@cmfx/components/messages/zh-Hans.lang.js')).default,
+            async () => (await import('./messages/zh-Hans.lang.js')).default,
         ],
     },
 

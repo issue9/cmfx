@@ -45,7 +45,6 @@ export const routes: Array<RouteDefinition> = [
     { path: '/table', component: lazy(() => import('./table')) },
     { path: '/tab', component: lazy(() => import('./tab')) },
 
-
     { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
     { path: '/theme-selector', component: lazy(() => import('./theme/selector')) },
 

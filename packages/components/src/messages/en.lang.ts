@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-
 const messages = {
     _c: {
         fullscreen: 'Full screen',
