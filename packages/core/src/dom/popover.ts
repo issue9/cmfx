@@ -92,6 +92,14 @@ export function calcPopoverPosition(popRef: HTMLElement, anchor: DOMRect, pos: P
     return p;
 }
 
+/**
+ * 判断点是否在元素内
+ */
+export function pointInElement(x: number, y:number, elem: HTMLElement): boolean {
+    const rect = elem.getBoundingClientRect();
+    return x >= rect.left && x <= rect.right && y >= rect.top && y <= rect.bottom;
+}
+
 interface Point {
     x: number;
     y: number;

@@ -22,6 +22,7 @@ export * from './form';
 export * from './icon';
 export * from './illustrations';
 export * from './kit';
+export * from './menu';
 export * from './messages';
 export * from './notify';
 export * from './page';
@@ -34,7 +35,6 @@ export * from './tab';
 export * from './table';
 export * from './theme';
 export * from './tooltip';
-export * from './tree';
 export * from './typography';
 export * from './wizard';
 

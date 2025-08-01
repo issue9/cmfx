@@ -7,7 +7,7 @@ export type { Cancel as CancelMovable } from './movable';
 
 export { getScrollableParent } from './scrollable';
 
-export { adjustPopoverPosition, calcPopoverPosition } from './popover';
+export { adjustPopoverPosition, calcPopoverPosition, pointInElement } from './popover';
 export type { PopoverPosition } from './popover';
 
 export { Hotkey } from './hotkey';

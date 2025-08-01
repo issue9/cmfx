@@ -18,8 +18,8 @@ import { use, useLocale } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { ObjectAccessor } from '@/form';
+import { Dropdown } from '@/menu';
 import { PaginationBar } from '@/pagination';
-import { Menu } from '@/tree';
 import { Label } from '@/typography';
 import type { Props as BaseProps } from './basic';
 import { BasicTable } from './basic';
@@ -245,9 +245,45 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
                     <div class={styles['system-toolbar']}>
-                        <Menu hoverable direction='left' selectedClass='' activator={
-                            <Button square rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
-                        } onChange={(v) => {
+                        <Dropdown hoverable items={[
+                            {
+                                type: 'item', value: 'hoverable',
+                                label: <label class={styles['menu-item']}>
+                                    <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
+                                    {l.t('_c.table.hoverable')}</label>
+                            },
+                            { type: 'divider' },
+                            {
+                                type: 'item', value: 'sticky-header',
+                                label: <label class={styles['menu-item']}>
+                                    <input type="checkbox" checked={sticky() !== undefined} onClick={(e) => {
+                                        setSticky(sticky() === undefined ? '0px' : undefined);
+                                        e.stopPropagation();
+                                    }} />
+                                    {l.t('_c.table.stickyHeader')}</label>
+                            },
+                            { type: 'divider' },
+                            {
+                                type: 'item', value: '0',
+                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 0} />{l.t('_c.table.noStriped')}</label>,
+                            },
+                            {
+                                type: 'item', value: '2',
+                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 2} />{l.t('_c.table.striped', { 'num': 2 })}</label>,
+                            },
+                            {
+                                type: 'item', value: '3',
+                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 3} />{l.t('_c.table.striped', { 'num': 3 })}</label>,
+                            },
+                            {
+                                type: 'item', value: '4',
+                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 4} />{l.t('_c.table.striped', { 'num': 4 })}</label>,
+                            },
+                            {
+                                type: 'item', value: '5',
+                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 5} />{l.t('_c.table.striped', { 'num': 5 })}</label>,
+                            },
+                        ]} onChange={(v) => {
                             switch (v) {
                             case 'hoverable':
                                 setHoverable(!hoverable());
@@ -273,53 +309,15 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                             }
                             return true;
                         }}>
-                            {[
-                                {
-                                    type: 'item', value: 'hoverable',
-                                    label: <label class={styles['menu-item']}>
-                                        <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
-                                        {l.t('_c.table.hoverable')}</label>
-                                },
-                                { type: 'divider' },
-                                {
-                                    type: 'item', value: 'sticky-header',
-                                    label: <label class={styles['menu-item']}>
-                                        <input type="checkbox" checked={sticky() !== undefined} onClick={(e) => {
-                                            setSticky(sticky() === undefined ? '0px' : undefined);
-                                            e.stopPropagation();
-                                        }}/>
-                                        {l.t('_c.table.stickyHeader')}</label>
-                                },
-                                { type: 'divider' },
-                                {
-                                    type: 'item', value: '0',
-                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 0} />{l.t('_c.table.noStriped')}</label>,
-                                },
-                                {
-                                    type: 'item', value: '2',
-                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 2} />{l.t('_c.table.striped', { 'num': 2 })}</label>,
-                                },
-                                {
-                                    type: 'item', value: '3',
-                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 3} />{l.t('_c.table.striped', { 'num': 3 })}</label>,
-                                },
-                                {
-                                    type: 'item', value: '4',
-                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 4} />{l.t('_c.table.striped', { 'num': 4 })}</label>,
-                                },
-                                {
-                                    type: 'item', value: '5',
-                                    label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 5} />{l.t('_c.table.striped', { 'num': 5 })}</label>,
-                                },
-                            ]}
-                        </Menu>
+                            <Button square rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
+                        </Dropdown>
                         <Button square rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
                             title={l.t('_c.refresh')}><IconRefresh /></Button>
-                        <FitScreenButton rounded kind='fill' palette='tertiary' container={()=>ref}
+                        <FitScreenButton rounded kind='fill' palette='tertiary' container={() => ref}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />
-                        <PrintButton rounded kind='fill' palette='tertiary' container={()=>ref.querySelector('table')!}
+                        <PrintButton rounded kind='fill' palette='tertiary' container={() => ref.querySelector('table')!}
                             cssText='table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left} .no-print{display:none}'
                             aria-label={l.t('_c.print')}
                             title={l.t('_c.print')} />
