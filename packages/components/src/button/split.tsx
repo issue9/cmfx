@@ -45,19 +45,17 @@ export function SplitButton(props: Props) {
     let downRef: Ref;
 
     onMount(() => {
-        if (props.hotkey) {
-            Hotkey.bind(props.hotkey, downRef.click);
-        }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, downRef.click); }
     });
     onCleanup(() => {
-        if (props.hotkey) {
-            Hotkey.unbind(props.hotkey);
-        }
+        if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
     const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette', 'menus']);
 
-    const activator = <ButtonGroup palette={props.palette} ref={el=>group=el} kind={props.kind} rounded={props.rounded} disabled={props.disabled}>
+    const activator = <ButtonGroup palette={props.palette} ref={el=>group=el}
+        kind={props.kind} rounded={props.rounded} disabled={props.disabled}
+    >
         <Button {...btnProps}>{props.children}</Button>
         <Button class={styles.split} ref={el=>downRef=el} square onClick={() => {
             popElem.togglePopover();
@@ -73,7 +71,9 @@ export function SplitButton(props: Props) {
 
     return <>
         {activator}
-        <div ref={el=>popElem=el} popover="auto" class={classList({[`palette--${props.palette}`]:!!props.palette}, styles['split-content'])}>
+        <div ref={el=>popElem=el} popover="auto"
+            class={classList({[`palette--${props.palette}`]:!!props.palette}, styles['split-content'])}
+        >
             <For each={props.menus}>
                 {(item) => {
                     let ref: Ref;
@@ -87,10 +87,11 @@ export function SplitButton(props: Props) {
                             <hr class="border-palette-bg-low" />
                         </Match>
                         <Match when={item.type === 'item'}>
-                            <Button ref={el=>ref=el} kind='flat' disabled={(item as any).disabled} class={styles['split-item']} onClick={() => {
-                                (item as any).onClick();
-                                popElem.hidePopover();
-                            }}>{(item as any).label}</Button>
+                            <Button ref={el=>ref=el} kind='flat' disabled={(item as any).disabled}
+                                class={styles['split-item']} onClick={() => {
+                                    (item as any).onClick();
+                                    popElem.hidePopover();
+                                }}>{(item as any).label}</Button>
                         </Match>
                     </Switch>;
                 }}
