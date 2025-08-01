@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Checkbox, CheckboxGroup, fieldAccessor, FieldOptions } from '@cmfx/components';
+import { Button, Checkbox, CheckboxGroup, fieldAccessor, FieldOptions } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
@@ -23,6 +23,8 @@ export default function() {
 
     const [chk, setChk] = createSignal<boolean>();
     const onchange = (v?: boolean): void => { setChk(v); };
+
+    const [i, setI] = createSignal<boolean>(true);
 
     return <Demo settings={
         <>
@@ -47,7 +49,7 @@ export default function() {
         </Stage>
 
         <Stage title="change">
-            <Checkbox title='onchange' label='事件：onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
+            <Checkbox indeterminate title='onchange' label='事件：onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
             <div>{ chk() ? 'checked' : 'unchecked' }</div>
         </Stage>
 
@@ -57,6 +59,11 @@ export default function() {
                 options={groupOptions} accessor={groupFA}
             />
             <pre>{groupFA.getValue().toString()}</pre>
+        </Stage>
+
+        <Stage title="indeterminate">
+            <Checkbox indeterminate={i()} title='indeterminate' label='indeterminate' block={block()} disabled={disabled()} readonly={readonly()} />
+            <Button onclick={() => setI(!i())}>indeterminate - { i() ? 'true' : 'false' }</Button>
         </Stage>
     </Demo>;
 }

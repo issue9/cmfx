@@ -16,12 +16,20 @@
         @apply cursor-not-allowed border-palette-bg-low;
     }
 
-    input[type="checkbox"]:after {
+    input[type="checkbox"]:not(:indeterminate):after {
         @apply block absolute opacity-0 w-1/3 h-2/3 left-1/3 top-1/10;
         @apply border-r-2 border-r-palette-fg;
         @apply border-b-2 border-b-palette-fg;
         content: '';
         transform: rotate(45deg);
+        transform-origin: center center;
+        transition: all var(--default-transition-duration) ease;
+    }
+
+    input[type="checkbox"]:indeterminate:after {
+        @apply block absolute h-[2px] left-1/5 right-1/5 top-[calc(50%-1px)];
+        @apply bg-palette-fg;
+        content: '';
         transform-origin: center center;
         transition: all var(--default-transition-duration) ease;
     }
