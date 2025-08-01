@@ -64,21 +64,11 @@ export default function Dropdown(props: Props): JSX.Element {
         });
     }
 
-    const handleKeydown = (e: KeyboardEvent) => {
-        if (e.key === 'Escape') { popRef.hidePopover(); }
-    };
-    onMount(() => {
-        document.addEventListener('keydown', handleKeydown);
-    });
-    onCleanup(() => {
-        document.removeEventListener('keydown', handleKeydown);
-    });
-
     return <div aria-haspopup>
         <div ref={el => setTriggerRef(el)} class={styles.trigger}>{props.children}</div>
         <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
             ref={el => {
-                el.popover = 'manual';
+                el.popover = 'auto';
                 popRef = el;
                 if (props.ref) { props.ref(el); }
             }}

@@ -219,7 +219,7 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                                     ? `calc(var(--spacing) * (${i().level} * 4 + 2))` : undefined,
                             }}
                         >
-                            <Show when={i().icon} fallback={<span class={joinClass(styles.icon, styles.none)} />}>
+                            <Show when={i().icon}>
                                 {icon => { return icon()({ class: styles.icon }); }}
                             </Show>
                             {i().label}

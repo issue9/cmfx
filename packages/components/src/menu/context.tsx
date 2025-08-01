@@ -48,7 +48,7 @@ export default function ContextMenu(props: Props): JSX.Element {
         document.removeEventListener('keydown', handleKeydown);
     });
 
-    return <Menu layout='inline' tag='menu' {...menuProps} items={props.items} multiple={false}
+    return <Menu layout='vertical' tag='menu' {...menuProps} items={props.items} multiple={false}
         onChange={(val, old) => {
             if (props.onChange) { props.onChange(val, old); }
             ref()?.hidePopover();

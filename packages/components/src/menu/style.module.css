@@ -11,7 +11,7 @@
     nav.menu,
     menu.menu {
         @apply bg-palette-bg text-palette-fg;
-        @apply flex;
+        @apply flex overflow-visible;
 
         li {
             @apply flex flex-col relative;
@@ -35,8 +35,8 @@
             }
         }
 
-        li.group .title {
-            @apply text-palette-fg-low cursor-default;
+        li.group>.title {
+            @apply text-palette-fg-low cursor-default !ps-1;
         }
 
         li.item.disabled>.title {
@@ -79,7 +79,7 @@
 
         li {
             >ul {
-                @apply min-w-max absolute z-100;
+                @apply min-w-max absolute z-100 pop;
                 @apply shadow-md shadow-surface-bg-low;
                 @apply bg-palette-bg text-palette-fg;
             }
@@ -87,23 +87,18 @@
 
         >li>.title {
             @apply !mx-0;
-
-            >.icon.none {
-                /* 根菜单项不为图标留白 */
-                @apply hidden;
-            }
         }
 
         * li:not(.hide):hover {
             >ul {
-                @apply flex flex-col;
+                @apply flex flex-col popopen;
                 @apply left-full top-0;
             }
         }
 
         >li:not(.hide):hover {
             >ul {
-                @apply !flex flex-col;
+                @apply !flex flex-col popopen;
                 @apply left-0 top-full;
             }
         }
@@ -117,6 +112,7 @@
 
         li {
             >ul {
+                @apply pop;
                 @apply min-w-max absolute z-100;
                 @apply shadow-md shadow-surface-bg-low;
                 @apply bg-palette-bg text-palette-fg;
@@ -129,6 +125,7 @@
 
         li:not(.hide):hover {
             >ul {
+                @apply popopen;
                 @apply !flex flex-col;
                 @apply left-full top-0;
             }
