@@ -10,7 +10,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, classList, joinClass, Layout } from '@/base';
+import { AvailableEnumType, BaseProps, classList, joinClass, Layout, PropsError } from '@/base';
 import { Divider } from '@/divider';
 import { AnimationIconRef, IconComponent } from '@/icon';
 import { AnimationIcon } from '@/icon/animation';
@@ -132,7 +132,7 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
     const isMultiple = props.multiple ?? false;;
     const isAnchor = props.anchor ?? false;
     if (isAnchor && isMultiple) {
-        throw new Error('anchor 不能是多选的');
+        throw new PropsError('anchor', '与 multiple 不能同时使用');
     }
 
     const [selected, setSelected] = createSignal<Array<AvailableEnumType>>(props.value ?? []);

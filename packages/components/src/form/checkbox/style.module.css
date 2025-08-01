@@ -17,7 +17,7 @@
     }
 
     input[type="checkbox"]:after {
-        @apply block absolute opacity-0 w-1/3 h-2/3 left-1/3 top-1/8;
+        @apply block absolute opacity-0 w-1/3 h-2/3 left-1/3 top-1/10;
         @apply border-r-2 border-r-palette-fg;
         @apply border-b-2 border-b-palette-fg;
         content: '';

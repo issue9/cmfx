@@ -12,6 +12,6 @@ export type { AvailableEnumType, Enum, Enums } from './enum';
 
 export type { Locale } from './locale';
 
-export type { PropsError } from './errors';
+export { PropsError } from './errors';
 
 export * from './theme';
