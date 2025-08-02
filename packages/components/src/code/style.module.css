@@ -16,6 +16,12 @@
             @apply font-mono leading-5 overflow-auto h-full w-full;
         }
 
+        >pre.break {
+            word-wrap: break-word;
+            word-break: break-word;
+            white-space: pre-wrap;
+        }
+
         .action {
             @apply flex justify-end absolute top-0 right-0 !py-1 !px-2;
         }

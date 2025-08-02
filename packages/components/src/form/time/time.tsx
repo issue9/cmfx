@@ -14,7 +14,6 @@ import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps,
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
-    tabindex?: number;
     placeholder?: string;
 
     rounded?: boolean;
@@ -52,7 +51,9 @@ export default function Time(props: Props) {
         second: '2-digit'
     }));
 
-    return <Field class={joinClass(styles.activator, props.class)} title={props.title} palette={props.palette} aria-haspopup>
+    return <Field class={joinClass(styles.activator, props.class)}
+        title={props.title} palette={props.palette} aria-haspopup
+    >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
@@ -60,12 +61,10 @@ export default function Time(props: Props) {
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
-            classList={{
-                [styles['activator-container']]: true,
-                [styles.rounded]: props.rounded
-            }}
+            class={joinClass(styles['activator-container'], props.rounded ? styles.rounded : undefined)}
         >
-            <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled} readOnly placeholder={props.placeholder}
+            <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled}
+                readOnly placeholder={props.placeholder}
                 value={ac.getValue() ? formatter().format(ac.getValue()) : ''}
             />
             <Show when={hover() && ac.getValue()} fallback={<IconExpandAll />}>
