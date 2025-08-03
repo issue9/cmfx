@@ -12,6 +12,7 @@ import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
 import { AvailableEnumType, BaseProps, classList, joinClass, Layout, PropsError } from '@/base';
 import { Divider } from '@/divider';
+import { ChangeFunc } from '@/form/field';
 import { AnimationIconRef, IconComponent } from '@/icon';
 import { AnimationIcon } from '@/icon/animation';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
@@ -19,9 +20,8 @@ import styles from './style.module.css';
 
 export type Ref = HTMLElement;
 
-export interface ChangeFunc<M extends boolean = false, V = M extends true ? AvailableEnumType[] : AvailableEnumType> {
-    (selected?: V, old?: V): void;
-}
+type CF<M extends boolean = false, V = M extends true ? AvailableEnumType[] : AvailableEnumType>
+    = ChangeFunc<V>;
 
 export interface Props<M extends boolean = false> extends BaseProps {
     /**
@@ -62,7 +62,7 @@ export interface Props<M extends boolean = false> extends BaseProps {
      *
      * NOTE: 非响应属性
      */
-    onChange?: ChangeFunc<M>;
+    onChange?: CF<M>;
 
     ref?: { (el: Ref): void; };
 
@@ -188,14 +188,14 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                                     }
                                 });
                                 if (props.onChange) {
-                                    (props.onChange as ChangeFunc<true>)(selected(), old);
+                                    (props.onChange as CF<true>)(selected(), old);
                                 }
                             } else { // 单选
                                 ref.querySelector(`.${props.selectedClass!}`)?.classList.remove(props.selectedClass!);
                                 const old = selected();
                                 setSelected([val!]);
                                 if (props.onChange) {
-                                    (props.onChange as ChangeFunc<false>)(selected()[0], old[0]);
+                                    (props.onChange as CF<false>)(selected()[0], old[0]);
                                 }
 
                                 e.currentTarget.classList.add(props.selectedClass!);
