@@ -22,8 +22,22 @@
             white-space: pre-wrap;
         }
 
-        .action {
-            @apply flex justify-end absolute top-0 right-0 !py-1 !px-2;
+        >.action {
+            @apply hidden justify-end absolute top-0 right-0 !py-1 !px-2;
+        }
+
+        >.lang {
+            @apply inline absolute top-0 right-0 !py-1 !px-2 mr-2;
+        }
+    }
+
+    .code:hover {
+        >.action {
+            @apply flex;
+        }
+
+        >.lang {
+            @apply hidden;
         }
     }
 }
