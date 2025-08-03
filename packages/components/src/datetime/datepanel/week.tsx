@@ -5,6 +5,7 @@
 import { JSX, createEffect, createSignal, splitProps, untrack } from 'solid-js';
 
 import { DateViewRef, WeekValueType } from '@/datetime/dateview';
+import { ChangeFunc } from '@/form/field';
 import { getISOWeek, getISOWeekRange, getISOWeekRangeByWeek } from '@cmfx/core';
 import { CommonPanel, Props as CommonProps } from './common';
 
@@ -20,7 +21,7 @@ export type Props = Omit<CommonProps, 'viewRef' | 'onEnter' | 'onLeave' | 'weeks
      * val 表示修改的新值；
      * old 表示修改之前的值；
      */
-    onChange?: { (val?: WeekValueType, old?: WeekValueType): void; };
+    onChange?: ChangeFunc<WeekValueType>;
 };
 
 /**
