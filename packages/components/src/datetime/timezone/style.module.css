@@ -1,0 +1,26 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .timezone {
+        @apply bg-palette-bg text-palette-fg border border-palette-fg-low rounded-lg overflow-clip;
+
+        .tab {
+            @apply !border-none !rounded-none;
+        }
+
+        .panel {
+            @apply mt-2 p-2 gap-1;
+            @apply grid grid-cols-1 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8;
+
+            .item:hover {
+                @apply cursor-pointer bg-palette-bg text-palette-fg rounded-sm;
+            }
+        }
+    }
+}

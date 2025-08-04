@@ -10,4 +10,5 @@ export * from './datepanel';
 export * from './plugin';
 export * from './timepanel';
 export * from './timer';
+export * from './timezone';
 

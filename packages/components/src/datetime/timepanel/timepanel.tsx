@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, createEffect, createMemo, createSignal, untrack } from 'solid-js';
+import { For, createEffect, createMemo, createSignal, onMount, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { hoursOptions, minutesOptions } from '@/datetime/utils';
-import { onMount } from 'solid-js';
+import { ChangeFunc } from '@/form/field';
+import { JSX } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -23,7 +24,7 @@ export interface Props extends BaseProps {
     /**
      * 值发生改变时触发的事件
      */
-    onChange?: { (val?: Date, old?: Date): void; };
+    onChange?: ChangeFunc<Date>;
 
     ref?: { (el: HTMLFieldSetElement): void; };
 
@@ -33,7 +34,7 @@ export interface Props extends BaseProps {
 /**
  * 时间选择面板
  */
-export default function TimePanel(props: Props) {
+export default function TimePanel(props: Props): JSX.Element {
     let ref: HTMLFieldSetElement;
     const zero = new Date(0);
     zero.setHours(0, 0, 0, 0);
