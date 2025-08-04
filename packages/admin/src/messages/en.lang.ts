@@ -184,6 +184,8 @@ const messages = {
             localeDesc: 'Set the ui language of the page',
             displayStyle: 'Display style',
             displayStyleDesc: 'Set the display style of page',
+            timezone: 'Timezone',
+            timezoneDesc: 'Set the timezone of the page',
             long: 'long',
             short: 'short',
             narrow: 'narrow'

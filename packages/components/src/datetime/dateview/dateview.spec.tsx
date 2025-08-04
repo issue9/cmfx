@@ -61,14 +61,14 @@ test('DateView', async () => {
         wrapper: Provider,
     });
     await sleep(500); // Provider 是异步的，需要等待其完成加载。
-    const c = container.children.item(0)! as HTMLElement;
-    expect(c).toHaveClass(styles.panel);
+    const root = container.children.item(0)! as HTMLElement;
+    expect(root).toHaveClass(styles.dateview);
 
-    const trs = c.querySelectorAll('tbody>tr');
+    const trs = root.querySelectorAll('tbody>tr');
     expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
 
     expect(curr).toBeUndefined(); // 未点击
-    await user.click(trs[2].firstChild as HTMLTableCellElement);
+    await user.click(trs[2].children.item(2) as HTMLTableCellElement);
     expect(curr).toBeTruthy();
 
     unmount();

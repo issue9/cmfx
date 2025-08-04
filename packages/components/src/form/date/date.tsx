@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/core';
 import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -11,10 +10,9 @@ import { joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
-import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea
-} from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
 import styles from './style.module.css';
+import { togglePop } from './utils';
 
 export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
@@ -34,13 +32,6 @@ export const presetProps: Partial<Props> = {
     weekBase: 0,
     layout: 'horizontal'
 } as const;
-
-function togglePop(anchor: Element, popElem: HTMLElement): boolean {
-    const ab = anchor.getBoundingClientRect();
-    const ret = popElem.togglePopover();
-    adjustPopoverPosition(popElem, ab, 2);
-    return ret;
-}
 
 export function DatePicker(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);

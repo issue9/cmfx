@@ -2,13 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, createBytesFormatter, Description, Divider, fieldAccessor, joinClass, Mode, Page, RadioGroup, SchemeSelector, use as useC } from '@cmfx/components';
+import {
+    Choice, createBytesFormatter, Description, Divider, fieldAccessor,
+    joinClass, Mode, Page, RadioGroup, SchemeSelector, Timezone, use as useC
+} from '@cmfx/components';
 import { DisplayStyle, formatDuration, Locale } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconPalette from '~icons/material-symbols/palette';
 import IconSettings from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
+import IconTimezone from '~icons/mdi/timezone';
 
 import { useLocale } from '@/context';
 import styles from './style.module.css';
@@ -18,7 +22,7 @@ export function Settings(): JSX.Element {
     const l = useLocale();
 
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
-    modeFA.onChange((m) => { act.switchMode(m); });
+    modeFA.onChange(m => { act.switchMode(m); });
 
     const localeFA = fieldAccessor<string>('locale', l.match(Locale.languages()), false);
     localeFA.onChange((v) => { act.switchLocale(v); });
@@ -76,5 +80,13 @@ export function Settings(): JSX.Element {
             <p>{ formatDuration(l.durationFormat(), 1111111223245) }</p>
             <p>{ createBytesFormatter(l)(1111223245) }</p>
         </div>
+
+        <Divider />
+
+        <Description icon={/*@once*/IconTimezone} title={l.t('_p.settings.timezone')!}>
+            {l.t('_p.settings.timezoneDesc')! }
+        </Description>
+
+        <Timezone value={l.timezone} onChange={v=>{act.switchTimezone(v);console.log(v)}} />
     </Page>;
 }

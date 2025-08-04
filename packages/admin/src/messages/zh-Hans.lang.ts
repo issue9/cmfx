@@ -186,6 +186,8 @@ const messages: typeof m = {
             localeDesc: '设置页面的界面语言',
             displayStyle: '显示形式',
             displayStyleDesc: '设置各类数据的显示形式',
+            timezone: '时区',
+            timezoneDesc: '设置当前浏览器显示的时区，仅限当前浏览器有效果。',
             long: '完整格式',
             short: '短格式',
             narrow: '精简格式'

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, DateRangePicker, fieldAccessor, RangeValueType, Week } from '@cmfx/components';
+import { DatePicker, DateRangePicker, fieldAccessor, RangeValueType, Week, WeekPicker, WeekValueType } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
@@ -10,6 +10,7 @@ import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../b
 export default function() {
     const ac = fieldAccessor<Date>('dp', new Date('2024-01-02T15:34'), true);
     const range = fieldAccessor<RangeValueType>('range', [new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')], true);
+    const weekNum = fieldAccessor<WeekValueType>('week', [2025, 7], true);
 
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
@@ -22,6 +23,7 @@ export default function() {
     const [timeS, time] = boolSelector('time');
     const [minmaxS, minmax] = boolSelector('minmax');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
+    const [shortcutS, shortcut] = boolSelector('shortcuts(range)');
 
     return <Demo settings={
         <>
@@ -33,6 +35,7 @@ export default function() {
             {roundedS}
             {minmaxS}
             {layoutS}
+            {shortcutS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于'
                 value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
         </>
@@ -54,15 +57,29 @@ export default function() {
         <Stage title="range picker">
             <DateRangePicker class="w-[400px]" placeholder='placeholder' layout={layout()}
                 label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()}
+                weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
                 readonly={readonly()} disabled={disabled()} accessor={range} weekBase={week()} time={time()} />
         </Stage>
 
         <Stage title="range min-width">
             <DateRangePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
                 label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()}
+                weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
                 readonly={readonly()} disabled={disabled()} accessor={range} weekBase={week()} time={time()} />
+        </Stage>
+
+        <Stage title="week picker">
+            <WeekPicker class="w-[400px]" placeholder='placeholder' layout={layout()}
+                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+                weekend={weekend()} palette={palette()} rounded={rounded()}
+                readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
+        </Stage>
+
+        <Stage title="week picker min-width">
+            <WeekPicker class="w-[200px]" placeholder='placeholder' layout={layout()}
+                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+                weekend={weekend()} palette={palette()} rounded={rounded()}
+                readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
         </Stage>
     </Demo>;
 }
