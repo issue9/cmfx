@@ -20,6 +20,8 @@ export function buildLocale(cl: CoreLocale) {
 
         get displayStyle(): DisplayStyle  { return l[0].l.displayStyle; },
 
+        get timezone(): string { return l[0].l.timezone; },
+
         /**
          * 创建 {@link Intl#DateTimeFormat} 对象
          *

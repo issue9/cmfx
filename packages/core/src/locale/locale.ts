@@ -104,8 +104,15 @@ export class Locale {
     readonly #numberStyle: Intl.NumberFormatOptions['unitDisplay'];
 
     readonly #displayNames: Intl.DisplayNames;
+    readonly #timezone: string;
 
-    constructor(locale: string, style: DisplayStyle) {
+    /**
+     * 构造函数
+     * @param locale 本地化字符串；
+     * @param style 显示风格；
+     * @param tz 时区；
+     */
+    constructor(locale: string, style: DisplayStyle, tz?: string) {
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
         const curr = Locale.#messages.get(locale);
         if (curr) {
@@ -114,9 +121,9 @@ export class Locale {
             this.#current = new Map();
         }
 
-        this.#displayStyle = style;
         this.#locale = new Intl.Locale(locale);
 
+        this.#displayStyle = style;
         switch (style) {
         case 'full':
             this.#dtStyle = 'full';
@@ -136,25 +143,30 @@ export class Locale {
         default:
             throw `参数 style 的值无效 ${style}`;
         }
-
         this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
+
+        this.#timezone = tz || Intl.DateTimeFormat().resolvedOptions().timeZone;
     }
 
     get locale(): Intl.Locale { return this.#locale; }
 
     get displayStyle(): DisplayStyle { return this.#displayStyle; }
 
+    get timezone(): string { return this.#timezone; }
+
     /**
      * 创建 {@link Intl#DateTimeFormat} 对象
      *
      * NOTE: 如果 o.timeStyle 和 o.dateStyle 都未指定，则使用构造函数指定的 style 参数。
+     * 如果 o.timeZone 未指定，则使用构造函数指定的 timeZone 参数。
      */
     datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
         if (!o) {
-            o = { timeStyle: this.#dtStyle, dateStyle: this.#dtStyle };
+            o = { timeStyle: this.#dtStyle, dateStyle: this.#dtStyle, timeZone: this.timezone };
         } else {
             if (!o.dateStyle) { o.dateStyle = this.#dtStyle; }
             if (!o.timeStyle) { o.timeStyle = this.#dtStyle; }
+            if (!o.timeZone) { o.timeZone = this.timezone; }
         }
 
         return new Intl.DateTimeFormat(this.locale, o);
@@ -165,11 +177,13 @@ export class Locale {
      */
     dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
         if (!o) {
-            o = { dateStyle: this.#dtStyle };
+            o = { dateStyle: this.#dtStyle, timeZone: this.timezone };
         } else {
             if (!o.dateStyle) { o.dateStyle = this.#dtStyle; }
+            if (!o.timeZone) { o.timeZone = this.timezone; }
         }
         o.timeStyle = undefined;
+
 
         return new Intl.DateTimeFormat(this.locale, o);
     }
@@ -179,9 +193,10 @@ export class Locale {
      */
     timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
         if (!o) {
-            o = { timeStyle: this.#dtStyle };
+            o = { timeStyle: this.#dtStyle, timeZone: this.timezone };
         } else {
             if (!o.timeStyle) { o.timeStyle = this.#dtStyle; }
+            if (!o.timeZone) { o.timeZone = this.timezone; }
         }
         o.dateStyle = undefined;
 

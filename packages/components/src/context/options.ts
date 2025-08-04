@@ -55,6 +55,11 @@ export interface Options {
     displayStyle: DisplayStyle;
 
     /**
+     * 时区，当在 storage 中存在时，当前值将被忽略。
+     */
+    timezone?: string;
+
+    /**
      * 当前支持的语言列表以及加载方法
      */
     messages: Record<string, Array<DictLoader>>;

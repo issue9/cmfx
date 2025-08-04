@@ -17,6 +17,7 @@ const localeKey = 'locale';
 const displayStyleKey = 'display-style';
 const schemeKey = 'scheme';
 const modeKey = 'mode';
+const tzKey = 'timezone';
 
 type Actions = ReturnType<typeof buildActions>;
 
@@ -62,7 +63,8 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
             await registerLocales(key); // 加载图表组件的本地化语言
         }
 
-        const api = await API.build(props.id+'-token', props.storage, props.apiBase, props.apiToken, props.apiContentType, props.apiAcceptType, props.locale);
+        const api = await API.build(props.id+'-token', props.storage, props.apiBase,
+            props.apiToken, props.apiContentType, props.apiAcceptType, props.locale);
         await api.clearCache(); // 刷新或是重新打开之后，清除之前的缓存。
         obj[1]({ api: api });
 
@@ -129,11 +131,12 @@ export function buildActions(ctx: InternalOptionsContext) {
         switchConfig(id: string | number) {
             options.config!.switch(id);
 
-            setOptions({// 读取新配置
+            setOptions({ // 读取新配置
                 scheme: options.config!.get(schemeKey) ?? options.scheme,
                 mode: options.config!.get(modeKey) ?? options.mode,
                 locale: options.config!.get(localeKey) ?? options.locale,
                 displayStyle: options.config!.get(displayStyleKey) ?? options.displayStyle,
+                timezone: options.config!.get(tzKey) ?? options.timezone,
             });
         },
 
@@ -153,6 +156,14 @@ export function buildActions(ctx: InternalOptionsContext) {
         switchDisplayStyle(style: DisplayStyle) {
             setOptions({ displayStyle: style });
             options.config!.set(displayStyleKey, style);
+        },
+
+        /**
+         * 切换时区
+         */
+        switchTimezone(tz: string) {
+            setOptions({ timezone: tz });
+            options.config!.set(tzKey, tz);
         },
 
         /**
