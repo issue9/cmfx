@@ -389,7 +389,5 @@ export default function DateView(props: Props): JSX.Element {
 
     return <fieldset disabled={props.disabled}
         class={joinClass(styles.dateview, props.palette ? `palette--${props.palette}` : undefined, props.class)}
-    >
-        {title}{table}
-    </fieldset>;
+    >{title}{table}</fieldset>;
 }

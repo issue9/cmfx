@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { DisplayStyle } from '@cmfx/core';
 import { createMemo, createSignal, For, JSX, Show, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
@@ -11,7 +12,6 @@ import { Divider } from '@/divider';
 import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
 import { Tab } from '@/tab';
-import { DisplayStyle } from '@cmfx/core';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -62,6 +62,8 @@ export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Array<Re
 
 /**
  * 时区选择组件
+ *
+ * 这是基于浏览器的时区选择组件，不同的浏览器展示的数据会稍有不同。
  */
 export default function Timezone(props: Props): JSX.Element {
     const l = useLocale();
