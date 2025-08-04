@@ -11,7 +11,6 @@ import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateViewRef } from '@/datetime/dateview';
-import { ChangeFunc } from '@/form/field';
 import { CommonPanel, Props as CommonProps } from './common';
 import {
     nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, RangeValueType, thisQuarter, thisYear
@@ -21,7 +20,7 @@ import styles from './style.module.css';
 export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave'> {
     value?: RangeValueType;
 
-    onChange?: ChangeFunc<RangeValueType>;
+    onChange?: { (val?: RangeValueType, old?: RangeValueType): void; };
 
     /**
      * 是否显示右侧快捷选择栏
