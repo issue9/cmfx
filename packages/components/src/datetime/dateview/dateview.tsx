@@ -268,7 +268,7 @@ export default function DateView(props: Props): JSX.Element {
         },
 
         unselect(...d: Array<Date | undefined>) {
-            setSelected(prev => prev.filter(v => !d.includes(v)));
+            setSelected(prev => prev.filter(v => v && !d.includes(v)));
         },
 
         cover(range: [start: Date, end: Date]) {
@@ -363,9 +363,9 @@ export default function DateView(props: Props): JSX.Element {
                                     [props.selectedClass]: isSelected(day[1], selected()),
                                     [props.todayClass]: equalDate(today(), day[1]),
                                     [props.disabledClass]: !day[0],
-                                    [props.coveredClass]: covered() && covered()!.length > 0
-                                        && compareDate(covered()![0]!, day[1]) <= 0
-                                        && compareDate(covered()![1]!, day[1]) >= 0
+                                    [props.coveredClass]: covered() && (covered()!.length === 2)
+                                        && covered()![0] && compareDate(covered()![0]!, day[1]) <= 0
+                                        && covered()![1] && compareDate(covered()![1]!, day[1]) >= 0
                                 })} ref={el => { // 非响应
                                     if (!props.plugins || props.plugins.length === 0) { return; }
                                     props.plugins.forEach(p => p(day[1], el));

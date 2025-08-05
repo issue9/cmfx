@@ -71,7 +71,7 @@ export interface Props extends BaseProps {
      *
      * 此方法只在以下条件下触发：
      * - 点击天数；
-     * - 点击小时和分钟；
+     * - 点击小时、分钟和秒；
      */
     onChange?: { (val?: Date, old?: Date, time?: boolean): void; };
 
@@ -122,9 +122,7 @@ export function CommonPanel(props: Props): JSX.Element {
 
         if (val && !time) {
             if (old) { // 切换日期时，继承时间部分
-                val.setHours(old.getHours());
-                val.setMinutes(old.getMinutes());
-                val.setSeconds(old.getSeconds());
+                val.setHours(old.getHours(), old.getMinutes(), old.getSeconds());
             }
 
             dateViewRef()?.jump(val);

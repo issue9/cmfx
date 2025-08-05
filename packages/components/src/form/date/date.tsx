@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { joinClass, Palette } from '@/base';
+import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
@@ -19,16 +19,10 @@ export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' |
 
     rounded?: boolean;
 
-    /**
-     * 一些突出操作的样式色盘
-     */
-    accentPalette?: Palette;
-
     accessor: Accessor<Date | undefined>;
 }
 
 export const presetProps: Partial<Props> = {
-    accentPalette: 'primary',
     weekBase: 0,
     layout: 'horizontal'
 } as const;
@@ -78,7 +72,7 @@ export function DatePicker(props: Props): JSX.Element {
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
 
             <DatePanel class={styles['dt-panel']} {...panelProps}
-                value={untrack(props.accessor.getValue)} onChange={val=>props.accessor.setValue(val)}
+                value={props.accessor.getValue()} onChange={val=>props.accessor.setValue(val)}
             />
 
             <div class={styles.actions}>
@@ -97,9 +91,10 @@ export function DatePicker(props: Props): JSX.Element {
                         panelRef.hidePopover();
                     }}>{l.t('_c.date.clear')}</Button>
 
-                    <Button kind='flat' class='py-0 px-1' palette={props.accentPalette} onClick={() => {
+                    <Button kind='flat' class='py-0 px-1' onClick={() => {
+                        props.accessor.reset();
                         panelRef.hidePopover();
-                    }}>{l.t('_c.ok')}</Button>
+                    }}>{l.t('_c.reset')}</Button>
                 </div>
             </div>
         </fieldset>

@@ -52,11 +52,7 @@ export default function TimePanel(props: Props): JSX.Element {
         }
     };
 
-    const val = createMemo(() => {
-        const v = value();
-        if (v === undefined) { return zero; }
-        return v;
-    });
+    const val = createMemo(() => { return value() ?? zero; });
 
     const change = (val?: Date) => {
         const old = untrack(value);
