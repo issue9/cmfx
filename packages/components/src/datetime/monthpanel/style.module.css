@@ -1,0 +1,46 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .panel {
+        @apply border border-palette-fg-low rounded-md text-palette-fg bg-palette-bg;
+        @apply flex flex-col flex-wrap justify-center overflow-hidden;
+
+        header {
+            @apply flex gap-1 items-center p-2;
+
+            .actions {
+                button {
+                    @apply !p-1;
+                }
+            }
+        }
+
+        header.month {
+            @apply justify-center;
+
+            .title:hover {
+                @apply text-palette-fg-high cursor-pointer;
+            }
+        }
+
+        /* 保证顶栏为空时的高度不变 */
+        header.month::before {
+            content: "\200B";
+        }
+
+        header.year {
+            @apply justify-between;
+        }
+
+        .grid {
+            @apply grid grid-cols-3 gap-1 p-2 grow shrink;
+            @apply border-t border-t-palette-fg-low;
+        }
+    }
+}

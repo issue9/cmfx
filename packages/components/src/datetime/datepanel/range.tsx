@@ -11,7 +11,6 @@ import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateViewRef } from '@/datetime/dateview';
-import { ChangeFunc } from '@/form/field';
 import { CommonPanel, Props as CommonProps } from './common';
 import {
     nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, RangeValueType, thisQuarter, thisYear
@@ -21,7 +20,7 @@ import styles from './style.module.css';
 export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave'> {
     value?: RangeValueType;
 
-    onChange?: ChangeFunc<RangeValueType>;
+    onChange?: { (val?: RangeValueType, old?: RangeValueType): void; };
 
     /**
      * 是否显示右侧快捷选择栏
@@ -65,45 +64,53 @@ export function DateRangePanel(props: Props) {
         }
     };
 
-    const panelChange = (value: Date, time?: boolean, start?: boolean) => {
-        if (time) { // 如果仅改变了时间部分，那么只需要修改值，而不是重新设置 cover。
+    // 面板值发生变化时，触发的事件
+    //
+    // time 是否只修改时间部分；
+    // start 是否为修改第一个面板的值；
+    // onchange 是否触发 onChange 事件；
+    const panelChange = (value?: Date, time?: boolean, start?: boolean, onchange?: boolean) => {
+        const old = [...untrack(values)] as RangeValueType;
+
+        if (!value) { // 只有在 Props.value === [undefined, undefined] 时才会有可能 !value 成立。
+            viewRef1?.unselect(...old);
+            viewRef2?.unselect(...old);
+            viewRef1?.uncover();
+            viewRef2?.uncover();
+            return;
+        }
+
+        if (time) { // 对时间部分作了修改
             changeTime(value, start);
             return;
         }
 
-        const old = [...untrack(values)] as RangeValueType;
+        viewRef1?.unselect(...old);
+        viewRef2?.unselect(...old);
 
         switch (index) {
         case 0:
-            if (old[0] === value) { return; }
-
             setValues(prev => {
-                const first = prev[0];
-                if (first) {
+                const first = start ? prev[0] : prev[1];
+                if (first) { // 改变日期，则继承之前的时间。
                     value.setHours(first.getHours(), first.getMinutes(), first.getSeconds());
                 }
-                return [value, undefined];
+                return start ? [value, undefined] : [undefined, value];
             });
             viewRef1?.uncover();
             viewRef2?.uncover();
-            viewRef1?.unselect(...old);
-            viewRef2?.unselect(...old);
             break;
         case 1:
-            if (old[1] === value) { return; }
-
             setValues(prev => {
-                const secondary = prev[1];
-                if (secondary) {
-                    value.setHours(secondary.getHours(), secondary.getMinutes(), secondary.getSeconds());
-                }
-                const ret = [prev[0], value];
+                const ret = prev[0] ? [prev[0], value] : [value, prev[1]];
                 ret.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
                 return ret as RangeValueType;
             });
             const vals = untrack(values) as [Date, Date];
             viewRef1?.cover(vals);
             viewRef2?.cover(vals);
+            viewRef1.jump(vals[0]!);
+            viewRef2.jump(vals[1]!);
             break;
         }
 
@@ -112,36 +119,47 @@ export function DateRangePanel(props: Props) {
 
         index = index === 0 ? 1 : 0;
 
-        if (props.onChange) { props.onChange(values(), old); }
+        if (props.onChange && onchange) { props.onChange(values(), old); }
     };
 
     // 监视外部直接通过 props.value 修改
     createEffect(() => {
         const old = untrack(values);
-
         if (props.value === old || (props.value && arrayEqual(old, props.value))) { return; }
 
-        viewRef1?.uncover();
-        viewRef2?.uncover();
         viewRef1?.unselect(...old);
         viewRef2?.unselect(...old);
 
-        if (!props.value || arrayEqual(props.value, [undefined, undefined])) {
-            setValues([undefined, undefined]);
-        } else if (props.value[0] !== undefined && props.value[1] === undefined) {
-            viewRef1?.select(...props.value.filter(v => v !== undefined));
-            viewRef2?.select(...props.value.filter(v => v !== undefined));
-            setValues(props.value);
-        } else {
-            viewRef1?.cover(props.value as [Date, Date]);
-            viewRef2?.cover(props.value as [Date, Date]);
-            viewRef1?.select(...props.value.filter(v => v !== undefined));
-            viewRef2?.select(...props.value.filter(v => v !== undefined));
-            setValues(props.value);
+        const v = props.value || [undefined, undefined];
+        if (arrayEqual(v, [undefined, undefined])) {
+            viewRef1?.uncover();
+            viewRef2?.uncover();
+
+            setValues(v);
+            index = 0;
+            if (props.onChange) { props.onChange(values(), old); }
+
+            return;
         }
 
+        const vals = v as [Date, Date];
+        viewRef1?.cover(vals);
+        viewRef2?.cover(vals);
+
+        if (vals[0]) {
+            viewRef1.jump(vals[0]);
+            viewRef1?.select(vals[0]);
+            changeTime(vals[0], true);
+        }
+        if (vals[1]) {
+            viewRef2.jump(vals[1]);
+            viewRef2?.select(vals[1]);
+            changeTime(vals[1], false);
+        }
+
+        setValues(vals);
         index = 0;
-        if (props.onChange) { props.onChange(props.value, old); }
+        if (props.onChange) { props.onChange(values(), old); }
     });
 
     const valueFormater = createMemo(() => {
@@ -167,8 +185,10 @@ export function DateRangePanel(props: Props) {
 
     const onEnter = (e: Date) => {
         if (index === 1) {
-            viewRef1.cover([values()[0]!, e]);
-            viewRef2.cover([values()[0]!, e]);
+            const v = values();
+            const f = v[0] ?? v[1]!; // 由 index === 1 保证至少有一个值非 undefined 值
+            viewRef1.cover([f, e]);
+            viewRef2.cover([f, e]);
         }
     };
 
@@ -186,9 +206,8 @@ export function DateRangePanel(props: Props) {
         viewRef2?.cover(vals as [Date, Date]);
         viewRef1?.select(vals[0]!, vals[1]!);
         viewRef2?.select(vals[0]!, vals[1]!);
-
-        if (vals[0]) { viewRef1.jump(vals[0]); }
-        if (vals[1]) { viewRef2.jump(vals[1]); }
+        viewRef1.jump(vals[0]!);
+        viewRef2.jump(vals[1]!);
     };
 
     /* 保证 flex-wrap 换行之后，边框显示的正确性 */
@@ -214,7 +233,7 @@ export function DateRangePanel(props: Props) {
             }
         });
 
-        if (panel1()) { resizeObserver.observe(panel2!); }
+        if (panel1()) { resizeObserver.observe(panel2); }
     });
     onCleanup(() => { if (resizeObserver) { resizeObserver.disconnect(); } });
 
@@ -224,24 +243,30 @@ export function DateRangePanel(props: Props) {
     >
         <main>
             <div class={styles.panels}>
-                <CommonPanel {...panelProps} value={untrack(values)[0]} class={styles.panel}
+                <CommonPanel {...panelProps} value={values()[0]} class={styles.panel}
                     viewRef={el => viewRef1 = el} onEnter={onEnter} onLeave={onLeave}
-                    ref={el => setPanel1(el)} onChange={(val, _, time) => panelChange(val!, time, true)}
+                    ref={el => setPanel1(el)} onChange={(val, _, time) => {
+                        if (val === values()[0]) { return; }
+                        panelChange(val, time, true, true);
+                    }}
                     onPaging={val => {
                         setPage1(val);
-                        if (compareMonth(page2(), val) <= 0) {
+                        if (compareMonth(page2(), val) < 0) {
                             const v = new Date(val);
                             v.setMonth(v.getMonth() + 1);
                             viewRef2.jump(v);
                         }
                     }}
                 />
-                <CommonPanel {...panelProps} value={untrack(values)[1]} class={styles.panel}
+                <CommonPanel {...panelProps} value={values()[1]} class={styles.panel}
                     viewRef={el => viewRef2 = el} onEnter={onEnter} onLeave={onLeave}
-                    ref={el => panel2 = el} onChange={(val, _, time) => panelChange(val!, time, false)}
+                    ref={el => panel2 = el} onChange={(val, _, time) => {
+                        if (val === values()[1]) { return; }
+                        panelChange(val, time, false, true);
+                    }}
                     onPaging={val => {
                         setPage2(val);
-                        if (compareMonth(page1(), val) >= 0) {
+                        if (compareMonth(page1(), val) > 0) {
                             const v = new Date(val);
                             v.setMonth(v.getMonth() - 1);
                             viewRef1.jump(v);
@@ -251,11 +276,11 @@ export function DateRangePanel(props: Props) {
             </div>
             <div class={styles.value}>
                 <Switch>
-                    <Match when={values()[1]}>
+                    <Match when={values()[0] && values()[1]}>
                         {valueFormater().formatRange(values()[0]!, values()[1]!)}
                     </Match>
-                    <Match when={values()[0]}>
-                        {valueFormater().format(values()[0])}
+                    <Match when={values()[0] || values()[1]}>
+                        {val => { return valueFormater().format(val()); }}
                     </Match>
                 </Switch>
             </div>

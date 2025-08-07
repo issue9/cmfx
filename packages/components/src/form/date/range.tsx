@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps, untrack } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -91,7 +91,7 @@ export function DateRangePicker(props: Props): JSX.Element {
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
 
             <DateRangePanel class={styles['dt-panel']} {...panelProps}
-                value={untrack(props.accessor.getValue)} onChange={change}
+                value={props.accessor.getValue()} onChange={change}
             />
 
             <div class={joinClass(styles.actions, '!justify-end')}>
@@ -100,9 +100,10 @@ export function DateRangePicker(props: Props): JSX.Element {
                     panelRef.hidePopover();
                 }}>{l.t('_c.date.clear')}</Button>
 
-                <Button kind='flat' class='py-0 px-1' palette={props.accentPalette} onClick={() => {
+                <Button kind='flat' class='py-0 px-1' onClick={() => {
+                    props.accessor.reset();
                     panelRef.hidePopover();
-                }}>{l.t('_c.ok')}</Button>
+                }}>{l.t('_c.reset')}</Button>
             </div>
         </fieldset>
 

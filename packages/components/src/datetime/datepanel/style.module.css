@@ -119,6 +119,7 @@
                 @apply py-1 px-2 border-t border-palette-fg-low text-left;
             }
 
+            /* 保证内容为空时的高度不变 */
             .value::before {
                 content: "\200B";
             }
