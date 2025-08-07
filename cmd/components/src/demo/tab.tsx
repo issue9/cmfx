@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Tab } from '@cmfx/components';
+import { FieldOptions, Tab } from '@cmfx/components';
 import { For } from 'solid-js';
 
 import { boolSelector, Demo, palettesWithUndefined, Stage } from './base';
@@ -10,12 +10,14 @@ import { boolSelector, Demo, palettesWithUndefined, Stage } from './base';
 export default function() {
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
+    const items: FieldOptions<string>
+        = [['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3'], ['k4', 'K4']];
 
     const TabH = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <Tab rounded={rounded()} palette={c} disabled={disabled()} items={[['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3']]} />
+                    <Tab rounded={rounded()} palette={c} disabled={disabled()} items={structuredClone(items)} />
                     <br />
                 </>
             )}
@@ -26,13 +28,14 @@ export default function() {
         <For each={palettesWithUndefined}>
             {(c)=>(
                 <>
-                    <Tab layout='vertical' rounded={rounded()} palette={c} disabled={disabled()} items={[['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3']]} />
+                    <Tab layout='vertical' rounded={rounded()} palette={c}
+                        disabled={disabled()}  items={structuredClone(items)} />
                     <br />
                 </>
             )}
         </For>
     </div>;
-    
+
     return <Demo settings={
         <>
             {disabledS}
