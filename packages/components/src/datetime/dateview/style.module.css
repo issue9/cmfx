@@ -18,7 +18,21 @@
             @apply px-2 pb-1 pt-2;
 
             >p {
-                @apply font-bold text-xl;
+                @apply flex;
+
+                >span {
+                    @apply cursor-pointer;
+                }
+
+                >span:hover {
+                    @apply text-palette-fg-high;
+                }
+            }
+
+            .actions {
+                button {
+                    @apply !p-1;
+                }
             }
         }
 

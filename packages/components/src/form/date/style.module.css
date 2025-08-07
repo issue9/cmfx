@@ -34,7 +34,9 @@
     /********************************** panel ********************************/
 
     .panel {
-        @apply border border-palette-fg-low rounded-lg text-center bg-palette-bg text-palette-fg box-border flex flex-col gap-1;
+        @apply border border-palette-fg-low rounded-lg;
+        @apply text-center bg-palette-bg text-palette-fg box-border flex flex-col gap-1;
+        @apply overflow-hidden;
 
         .dt-panel {
             @apply !rounded-none !border-none;

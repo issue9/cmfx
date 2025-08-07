@@ -233,7 +233,7 @@ export function DateRangePanel(props: Props) {
             }
         });
 
-        if (panel1()) { resizeObserver.observe(panel2!); }
+        if (panel1()) { resizeObserver.observe(panel2); }
     });
     onCleanup(() => { if (resizeObserver) { resizeObserver.disconnect(); } });
 
