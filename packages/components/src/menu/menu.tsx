@@ -13,8 +13,7 @@ import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 import { AvailableEnumType, BaseProps, classList, joinClass, Layout, PropsError } from '@/base';
 import { Divider } from '@/divider';
 import { ChangeFunc } from '@/form/field';
-import { AnimationIconRef, IconComponent } from '@/icon';
-import { AnimationIcon } from '@/icon/animation';
+import { AnimationIcon, AnimationIconRef, IconComponent } from '@/icon';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
 import styles from './style.module.css';
 
@@ -238,7 +237,7 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                                     </Match>
                                     <Match when={props.layout === 'inline'}>
                                         <AnimationIcon ref={el => iconRef = el} rotation='none'
-                                            class={joinClass(styles.icon, styles.suffix)}
+                                            class={joinClass(styles.icon, styles.suffix)} palette={props.palette}
                                             icons={{ 'up': props.arrowUp!, 'down': props.arrowDown! }}
                                         />
                                     </Match>

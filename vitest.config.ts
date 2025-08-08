@@ -31,7 +31,12 @@ export default mergeConfig(
             environment: 'jsdom',
             exclude: exclude,
             coverage: {
-                include: ['packages/**/*.ts', 'packages/**/*.tsx', 'build/vite-plugin-*/**/*.ts', 'build/vite-plugin-*/**/*.tsx'],
+                include: [
+                    'packages/**/*.ts',
+                    'packages/**/*.tsx',
+                    'build/vite-plugin-*/**/*.ts',
+                    'build/vite-plugin-*/**/*.tsx'
+                ],
                 clean: false,
                 reportsDirectory: './coverage',
                 provider: 'v8',

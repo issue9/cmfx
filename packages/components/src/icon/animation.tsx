@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, createUniqueId, JSX, onMount } from 'solid-js';
+import { bundleSvgsString, easings, Rotation, rotations, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
+import { createEffect, createResource, createUniqueId, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
-import { bundleSvgsString, SVGMorpheus } from 'svg-morpheus-ts';
 
-import { BaseProps, transitionDuration } from '@/base';
+import { BaseProps, joinClass, transitionDuration } from '@/base';
 import { IconComponent } from './icon';
 
 export interface Ref {
@@ -18,15 +18,9 @@ export interface Ref {
     to(gid: string): void;
 }
 
-/**
- * 可用的旋转方式
- */
-export const animationIconRotations = ['clock', 'counterclock', 'none', 'random'] as const;
+export const animationIconRotations = rotations;
 
-/**
- * 动画图标的旋转方式
- */
-export type AnimationIconRotation = typeof animationIconRotations[number];
+export const animationIconEasings = Object.keys(easings);
 
 export interface Props extends BaseProps {
     /**
@@ -53,14 +47,14 @@ export interface Props extends BaseProps {
      *
      * NOTE: 非响应属性
      */
-    easing?: string;
+    easing?: keyof typeof easings;
 
     /**
      * 旋转方式
      *
      * NOTE: 非响应属性
      */
-    rotation?: AnimationIconRotation;
+    rotation?: Rotation;
 
     ref: { (ref: Ref): void; };
 
@@ -73,30 +67,38 @@ export interface Props extends BaseProps {
  * 可以一次性指定多个图标，通过 {@link Ref#to} 实现跳转到另一个图标且带有动画效果。
  */
 export function AnimationIcon(props: Props): JSX.Element {
-    const [icons, setIcons] = createSignal<SVGSVGElement>();
     const id = createUniqueId();
+    let m: SVGMorpheus;
 
-    createEffect(async () => {
+    const [icons] = createResource(async () => { // 主要是为了 await 功能
         const maps: Record<string, string> = {};
 
-        Object.entries(props.icons).forEach((value) => {
+        Object.entries(props.icons).forEach(value => {
             maps[value[0]] = (value[1]({}) as HTMLElement)?.outerHTML;
         });
 
         const el = await bundleSvgsString(maps, { id, style: '' });
-        const svg = template(el)().cloneNode(true) as SVGSVGElement;
-        if (props.class) { svg.setAttribute('class', props.class); }
-        setIcons(svg);
+        return template(el)().cloneNode(true) as SVGSVGElement;
     });
 
-    onMount(() => {
+    createEffect(() => {
+        if ((props.class || props.palette) && !icons.loading) {
+            const cls = joinClass(props.palette ? `palette--${props.palette}` : undefined, props.class);
+            icons()!.setAttribute('class', cls!);
+
+            // 如果更新了样式，调用 to 以同步更新样式。
+            if (m) { m.to(m.currIconId()); }
+        }
+    });
+
+    createEffect(() => { // 保证在创建组件之后执行
         requestIdleCallback(() => {
-            const m = new SVGMorpheus('#' + icons()?.id, {
+            m = new SVGMorpheus('#' + icons()?.id, {
                 iconId: props.preset,
                 duration: transitionDuration(300),
                 easing: props.easing,
                 rotation: props.rotation,
-            }, ()=>{
+            }, () => {
                 props.ref({
                     to: (gid) => { m.to(gid); }
                 });
