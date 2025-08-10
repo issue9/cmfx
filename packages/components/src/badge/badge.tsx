@@ -4,7 +4,7 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { BaseProps, classList } from '@/base';
+import { BaseProps, classList, joinClass } from '@/base';
 import styles from './style.module.css';
 
 /**
@@ -35,7 +35,7 @@ const presetProps: Readonly<Partial<Props>> = {
 export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
 
-    return <div class={styles.badge}>
+    return <div class={joinClass(styles.badge, props.class)}>
         {props.children}
         <span class={classList({
             [`palette--${props.palette}`]: !!props.palette,

@@ -22,8 +22,6 @@ export interface Props extends BaseProps, ParentProps {
      * 尾部的按钮列表
      */
     actions?: JSX.Element;
-
-    class?: string;
 }
 
 /**

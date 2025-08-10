@@ -1,8 +1,9 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
 
-import { Props } from './props';
+import { JSX, splitProps } from 'solid-js';
+
+import { Props, buildClass } from './props';
 
 const presetText = 'UNAUTHORIZED';
 
@@ -12,7 +13,8 @@ const presetText = 'UNAUTHORIZED';
  * https://storyset.com/illustration/401-error-unauthorized/amico
  */
 export default function Error401(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-401-1" d="M357.63,100.63a.9.9,0,0,1-.31-.67,1,1,0,0,1,.24-.71l3.07-3.37a1,1,0,0,1,1.38-.07l2.7,2.46A.91.91,0,0,1,365,99a.94.94,0,0,1-.24.7L361.71,103a1,1,0,0,1-1.38.07ZM343,87.38A1,1,0,0,1,343,86L346,82.63a1,1,0,0,1,1.38-.07L359,93a1,1,0,0,1,.06,1.38L356,97.79a1,1,0,0,1-.68.32,1,1,0,0,1-.7-.25Z" />
             <path id="illustrations-401-2" d="M369.68,237.08,304.19,199.3a2.69,2.69,0,0,0-2.74-.29c-.68.36-3,1.67-4.19,2.4l-.18.1a1.31,1.31,0,0,0-.47.4,2.79,2.79,0,0,0-.36.47.29.29,0,0,1-.08.18c0,.14-.1.33-.13.51a3.58,3.58,0,0,0-.12,1V347.38a8.51,8.51,0,0,0,3.9,6.74L365.32,392a3.4,3.4,0,0,0,1.34.46,2,2,0,0,0,1.26-.13c.07,0,.1,0,.18-.08l4.33-2.5a2.7,2.7,0,0,0,1.15-2.53V243.87A8.66,8.66,0,0,0,369.68,237.08Zm-28.86,6.46-16.63-9.6a9.85,9.85,0,0,1-4.6-7.61c0-2.74,2.06-3.8,4.6-2.31l1.94,1.11,14.69,8.48A9.83,9.83,0,0,1,345,239a6.6,6.6,0,0,1,.43,2.27C345.4,244,343.34,245,340.82,243.54Z" />

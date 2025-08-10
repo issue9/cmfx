@@ -19,8 +19,6 @@ export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
      * 在加载状态下的指示器
      */
     indicator?: JSX.Element;
-
-    class?: string;
 }
 
 /**
@@ -31,7 +29,7 @@ export interface Props extends ParentProps, JSX.AriaAttributes, BaseProps {
 export function Spin(props: Props) {
     const [_, contProps] = splitProps(props, ['spinning', 'indicator', 'palette', 'class']);
     return <fieldset {...contProps} disabled={props.spinning}
-        class={joinClass(styles.spin, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
+        class={joinClass(styles.spin, props.palette ? `palette--${props.palette}` : '', props.class)}>
         {props.children}
 
         <Show when={props.spinning}>

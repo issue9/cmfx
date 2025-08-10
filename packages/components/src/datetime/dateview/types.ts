@@ -97,8 +97,6 @@ export interface Props extends BaseProps {
      */
     onWeekClick?: (week: WeekValueType, range: [Date, Date]) => void;
 
-    class?: string;
-
     /**
      * 非响应式属性
      */

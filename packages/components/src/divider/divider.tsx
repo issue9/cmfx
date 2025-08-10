@@ -47,7 +47,7 @@ export function Divider(props: Props): JSX.Element {
         class={classList({
             [styles.vertical]: props.layout !== 'horizontal',
             [styles[`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]]: true,
-        }, styles.divider, props.palette ? `palette--${props.palette}` : undefined)}>
+        }, styles.divider, props.palette ? `palette--${props.palette}` : '', props.class)}>
         {props.children}
     </div>;
 }

@@ -61,8 +61,6 @@ export interface Props extends BaseProps {
     main: JSX.Element;
 
     mainPalette?: Palette;
-
-    class?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {

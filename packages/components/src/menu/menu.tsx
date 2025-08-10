@@ -107,11 +107,6 @@ export interface Props<M extends boolean = false> extends BaseProps {
      * NOTE: 非响应式属性
      */
     arrowRight?: IconComponent;
-
-    /**
-     * 根元素的样式
-     */
-    class?: string;
 }
 
 /**

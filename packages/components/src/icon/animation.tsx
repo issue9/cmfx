@@ -57,8 +57,6 @@ export interface Props extends BaseProps {
     rotation?: Rotation;
 
     ref: { (ref: Ref): void; };
-
-    class?: string;
 }
 
 /**
@@ -83,7 +81,7 @@ export function AnimationIcon(props: Props): JSX.Element {
 
     createEffect(() => {
         if ((props.class || props.palette) && !icons.loading) {
-            const cls = joinClass(props.palette ? `palette--${props.palette}` : undefined, props.class);
+            const cls = joinClass(props.palette ? `palette--${props.palette}` : '', props.class);
             icons()!.setAttribute('class', cls!);
 
             // 如果更新了样式，调用 to 以同步更新样式。

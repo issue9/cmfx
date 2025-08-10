@@ -14,8 +14,6 @@ import styles from './style.module.css';
 export interface Props<T extends FlattenObject, R = never, P = never> extends BaseProps {
     formAccessor: FormAccessor<T, R, P>;
 
-    class?: string;
-
     /**
      * 表单位于对话框中
      *

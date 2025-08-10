@@ -43,7 +43,7 @@ export interface Props extends BaseProps, ParentProps {
      * 是否将通知发送到操作系统的通知栏上
      */
     system?: boolean;
-    
+
     /**
      * 指定弹出框上的图标，仅在 system 为 true 时有效。
      */
@@ -90,14 +90,14 @@ function initNotify(p: Props): JSX.Element {
         if (p.system && await systemNotify(title, body, p.icon, lang, timeout)) {
             return;
         }
- 
+
         const id = createUniqueId();
         let palette: Palette | undefined;
         if (type) { palette = type2Palette.get(type); }
         setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
     };
 
-    return <div class={joinClass(styles.notify, p.palette ? `palette--${p.palette}` : undefined)}>
+    return <div class={joinClass(styles.notify, p.palette ? `palette--${p.palette}` : '', p.class)}>
         <For each={msgs()}>
             {item => (
                 <Alert {...item} del={(id) => {

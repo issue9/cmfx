@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Props } from './props';
+import { Props, buildClass } from './props';
 
 const presetText = 'PAGE NOT FOUND';
 
@@ -12,7 +12,8 @@ const presetText = 'PAGE NOT FOUND';
  * https://storyset.com/illustration/404-error/amico
  */
 export default function Error404(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-404-1" d="M173.82,456.14v2.38a2.09,2.09,0,0,1-.88,2l-1.44.84-.06,0a2.09,2.09,0,0,0,.94-2V457a6.21,6.21,0,0,0-.89-3l1.44-.83A6.18,6.18,0,0,1,173.82,456.14Z" />
             <path id="illustrations-404-2" d="M167.77,453.74a2.4,2.4,0,0,1,.07-.57h0c-.87-.24-1.51.31-1.51,1.4a4.49,4.49,0,0,0,2,3.52c.94.55,1.74.26,2-.62a1.72,1.72,0,0,1-.52-.21A4.49,4.49,0,0,1,167.77,453.74Z" />

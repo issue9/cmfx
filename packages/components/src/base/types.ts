@@ -21,4 +21,9 @@ export interface Props {
      * 如果是 undefined，则表示从父元素继承。
      */
     palette?: Palette;
+
+    /**
+     * 为组件的根元素指定 CSS 类名
+     */
+    class?: string;
 }

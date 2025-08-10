@@ -25,49 +25,49 @@ export default function() {
         {scaleS}
     </>}>
         <ThemeProvider mode={mode()}>
-            <div class={joinClass(palette() ? `palette--${palette()}` : undefined, 'flex flex-wrap gap-5')}>
+            <div class='flex flex-wrap gap-5'>
                 <Stage title='400' class={cls()}>
-                    <illustrations.Error400 text={custom() ? '自定义错误信息' : undefined} />
+                    <illustrations.Error400 palette={palette()} text={custom() ? '自定义错误信息' : undefined} />
                 </Stage>
 
                 <Stage title="401" class={cls()}>
-                    <illustrations.Error401 text={custom() ? '未验证的登录信息' : undefined} />
+                    <illustrations.Error401 palette={palette()} text={custom() ? '未验证的登录信息' : undefined} />
                 </Stage>
 
                 <Stage title="403" class={cls()}>
-                    <illustrations.Error403 text={custom() ? '禁 止 访 问' : undefined} />
+                    <illustrations.Error403 palette={palette()} text={custom() ? '禁 止 访 问' : undefined} />
                 </Stage>
 
                 <Stage title="404" class={cls()}>
-                    <illustrations.Error404 text={custom() ? '页面未找到' : undefined} />
+                    <illustrations.Error404 palette={palette()} text={custom() ? '页面未找到' : undefined} />
                 </Stage>
 
                 <Stage title="429" class={cls()}>
-                    <illustrations.Error429 text={custom() ? '请求过多' : undefined} />
+                    <illustrations.Error429 palette={palette()} text={custom() ? '请求过多' : undefined} />
                 </Stage>
 
                 <Stage title="500" class={cls()}>
-                    <illustrations.Error500 text={custom() ? '服务器错误' : undefined} />
+                    <illustrations.Error500 palette={palette()} text={custom() ? '服务器错误' : undefined} />
                 </Stage>
 
                 <Stage title="503" class={cls()}>
-                    <illustrations.Error503 text={custom() ? '服 务 暂 不 可 用' : undefined} />
+                    <illustrations.Error503 palette={palette()} text={custom() ? '服 务 暂 不 可 用' : undefined} />
                 </Stage>
 
                 <Stage title="504" class={cls()}>
-                    <illustrations.Error504 text={custom() ? '网 关 超 时' : undefined} />
+                    <illustrations.Error504 palette={palette()} text={custom() ? '网 关 超 时' : undefined} />
                 </Stage>
 
                 <Stage title="bug" class={cls()}>
-                    <illustrations.BUG />
+                    <illustrations.BUG palette={palette()} />
                 </Stage>
 
                 <Stage title="building" class={cls()}>
-                    <illustrations.Building text={custom() ? '升级中...' : undefined} />
+                    <illustrations.Building palette={palette()} text={custom() ? '升级中...' : undefined} />
                 </Stage>
 
                 <Stage title="login" class={cls()}>
-                    <illustrations.Login text={custom() ? '欢迎回来' : undefined} />
+                    <illustrations.Login palette={palette()} text={custom() ? '欢迎回来' : undefined} />
                 </Stage>
             </div>
         </ThemeProvider>

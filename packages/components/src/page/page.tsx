@@ -19,9 +19,6 @@ export interface Props extends BaseProps, ParentProps {
      * 是否禁止内置的 BackTop 组件
      */
     disableBacktop?: boolean;
-
-    class?: string;
-    style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
 
 /**
@@ -36,7 +33,7 @@ export function Page (props: Props): JSX.Element {
 
     createEffect(() => { act.setTitle(l.t(props.title)); });
 
-    return <div {...other} class={joinClass(props.class, styles.page, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <div {...other} class={joinClass(styles.page, props.palette ? `palette--${props.palette}` : '', props.class)}>
         {props.children}
         <Show when={!props.disableBacktop}><BackTop /></Show>
     </div>;

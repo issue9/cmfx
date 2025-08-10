@@ -12,7 +12,7 @@ import styles from './style.module.css';
 export interface Props extends BaseProps, ParentProps {
     /**
      * 自定义图标
-     * 
+     *
      * 默认为 oui/index-close
      */
     icon?: IconComponent;
@@ -28,7 +28,7 @@ const presetProps: Props = {
 export default function Empty(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <div class={joinClass(styles.nodata, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <div class={joinClass(styles.nodata, props.palette ? `palette--${props.palette}` : '', props.class)}>
         {props.icon!({ class: styles.icon })}
         {props.children}
     </div>;

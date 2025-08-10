@@ -67,7 +67,7 @@ export default function Stepper(props: Props): JSX.Element {
     return <div class={classList({
         [`palette--${props.palette}`]: !!props.palette,
         [styles.vertical]: props.layout === 'vertical',
-    }, styles.stepper)}>
+    }, styles.stepper, props.class)}>
         <header class={props.layout === 'vertical' ? styles.vertical : undefined}>
             <For each={props.steps}>
                 {(step, idx) => {

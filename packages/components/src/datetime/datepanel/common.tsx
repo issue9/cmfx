@@ -98,8 +98,6 @@ export interface Props extends BaseProps {
      * NOTE: 这是一个非响应式的属性。
      */
     plugins?: Array<DatetimePlugin>;
-
-    class?: string;
 }
 
 export const presetProps: Partial<Props> = {

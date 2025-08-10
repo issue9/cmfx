@@ -32,11 +32,6 @@ export interface Props extends BaseProps, ParentProps {
      * 为内容容器追加新的 CSS 样式类
      */
     mainClass?: string;
-
-    /**
-     * 为整个组件容器追加新的 CSS 样式类
-     */
-    class?: string;
 }
 
 /**

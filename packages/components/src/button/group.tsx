@@ -20,8 +20,6 @@ export interface Props extends Omit<BaseProps, 'hotkey'> {
 
     ref?: { (el: Ref): void; };
 
-    class?: string;
-
     layout?: Layout;
 }
 
@@ -38,8 +36,8 @@ export function ButtonGroup(props: Props) {
             [styles.rounded]: props.rounded,
             [styles.vertical]: props.layout === 'vertical',
             [`palette--${props.palette}`]: !!props.palette
-        }, props.class, styles.group, styles[props.kind!])}
+        }, styles.group, styles[props.kind!], props.class)}
     >
         {props.children}
-    </fieldset >;
+    </fieldset>;
 }

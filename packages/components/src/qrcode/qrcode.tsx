@@ -135,5 +135,7 @@ export function QRCode(props: Props): JSX.Element {
         });
     }
 
-    return <span ref={setRef} class={joinClass(styles.qrcode, props.palette ? `palette--${props.palette}` : undefined)} />;
+    return <span ref={setRef}
+        class={joinClass(styles.qrcode, props.palette ? `palette--${props.palette}` : '', props.class)}
+    />;
 }

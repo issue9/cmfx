@@ -5,7 +5,7 @@
 import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { matchLocale } from './locale';
 
@@ -89,5 +89,5 @@ export function Chart(props: Props): JSX.Element {
         inst.setOption(props.o);
     });
 
-    return <div class={props.palette ? `palette--${props.palette}` : undefined} ref={el => ref = el} />;
+    return <div class={joinClass(props.palette ? `palette--${props.palette}` : '', props.class)} ref={el => ref = el} />;
 }

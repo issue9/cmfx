@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Props } from './props';
+import { Props, buildClass } from './props';
 
 const presetText = 'Bad Request';
 
@@ -12,7 +12,8 @@ const presetText = 'Bad Request';
  * https://storyset.com/illustration/400-error-bad-request/amico
  */
 export default function Error400(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-400-1" d="M129.93,192.64c-2.16-3.67-6.42-10.13-10.35-12.46a9.07,9.07,0,0,0-5.6-1.73v1.48s3.28.87,7,5a24.83,24.83,0,0,1,5,7.88Z" />
             <path id="illustrations-400-2" d="M100.18,180.48c-.44.51-.61,2.72-.29,6.11s.91,10.19.91,10.19l-4.4,1.3s-.26-6.38,0-12,1.71-7.09,3.75-7.65Z" />

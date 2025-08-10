@@ -5,7 +5,7 @@
 import { adjustPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
-import { BaseProps } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { use } from '@/context';
 import styles from './style.module.css';
 
@@ -54,7 +54,9 @@ export default function Tooltip(props: Props): JSX.Element {
         hide() { ref.hidePopover(); }
     });
 
-    return <div popover='auto' class={styles.tooltip} ref={el => ref = el}>{props.children}</div>;
+    return <div popover='auto' class={joinClass(styles.tooltip, props.class)}
+        ref={el => ref = el}
+    >{props.children}</div>;
 }
 
 function calcPos(pos: PopoverPosition, poprect: DOMRect, anchor: DOMRect): DOMRect {

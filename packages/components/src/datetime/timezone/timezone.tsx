@@ -21,8 +21,6 @@ export interface Props extends BaseProps {
      * 值发生改变时触发的事件
      */
     onChange?: ChangeFunc<string>;
-
-    class?: string;
 }
 
 interface TZ {

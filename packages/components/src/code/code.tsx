@@ -47,8 +47,6 @@ export interface Props extends BaseProps {
      * 高亮的语言名称，如果为空则不会有高亮。
      */
     lang?: BundledLanguage;
-
-    class?: string;
 }
 
 const shikiStyle = {

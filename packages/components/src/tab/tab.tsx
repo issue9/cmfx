@@ -14,11 +14,6 @@ export interface Props<T extends AvailableEnumType> extends BaseProps {
 
     disabled?: boolean;
 
-    /**
-     * 应用在根元素的类名
-     */
-    class?: string;
-
     items: FieldOptions<T>;
 
     layout?: Layout;

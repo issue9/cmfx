@@ -38,13 +38,13 @@ export function Selector(props: Props): JSX.Element {
 
     const [value, setValue] = createSignal(props.value);
 
-    return <div class={joinClass(styles.selector, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <div class={joinClass(styles.selector, props.palette ? `palette--${props.palette}` : '', props.class)}>
         <For each={Array.from(props.schemes.entries())}>
             {scheme => {
                 const colors = scheme[1].dark!;
 
                 return <button tabIndex={props.tabIndex}
-                    class={joinClass(styles.option, value() === scheme[0] ? styles.selected : undefined)}
+                    class={joinClass(styles.option, value() === scheme[0] ? styles.selected : '')}
                     onClick={() => {
                         const old = value();
                         setValue(scheme[0]);

@@ -83,13 +83,6 @@ export interface Props extends BaseProps {
     actions?: JSX.Element;
 
     /**
-     * 整个对话框的样式
-     *
-     * NOTE: 可能会与已有的样式有冲突
-     */
-    class?: string;
-
-    /**
      * 是否是可拖拽移动的
      */
     movable?: boolean;
@@ -172,7 +165,7 @@ export function Dialog(props: Props): JSX.Element {
 
     let toolbar: HTMLElement;
     let cancel: CancelMovable;
-    
+
     const dialogToggle = () => { // movable 需要容器牌可见状态，否则宽度不固定。
         if (!cancel && ref.open) { cancel = movable(toolbar, ref); }
     };
@@ -186,8 +179,8 @@ export function Dialog(props: Props): JSX.Element {
         ref.removeEventListener('toggle', dialogToggle);
     });
 
-    return <dialog ref={(el) => { props.ref(buildRef(el, l)); ref = el; }}
-        class={joinClass(props.class, styles.dialog, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <dialog closedby={undefined} ref={(el) => { props.ref(buildRef(el, l)); ref = el; }}
+        class={joinClass(styles.dialog, props.palette ? `palette--${props.palette}` : '', props.class)}>
         <Show when={props.header}>
             <header ref={el => toolbar = el}>
                 {props.header}

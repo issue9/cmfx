@@ -19,8 +19,6 @@ export interface Props extends BaseProps, ParentProps {
      * 标签，默认为 p
      */
     tag?: ValidComponent;
-
-    class?: string;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -30,10 +28,10 @@ const presetProps: Readonly<Partial<Props>> = {
 export function Label(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <Dynamic component={props.tag} class={joinClass(styles.label, props.class, props.palette ? `palette--${props.palette}` : undefined)}>
-        <Show when={props.icon}>
-            {props.icon!({class:'mr-1'})}
-        </Show>
+    return <Dynamic component={props.tag}
+        class={joinClass(styles.label, props.palette ? `palette--${props.palette}` : '', props.class)}
+    >
+        <Show when={props.icon}>{props.icon!({class:'mr-1'})}</Show>
         { props.children }
     </Dynamic>;
 }

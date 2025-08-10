@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Props } from './props';
+import { Props, buildClass } from './props';
 
 const presetText = 'SERVICE UNAVAILABLE';
 
@@ -12,7 +12,8 @@ const presetText = 'SERVICE UNAVAILABLE';
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
 export default function Error503(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <polygon id="illustrations-503-1" points="259.14 154.86 259.14 151.1 259.14 151.1 259.14 122.41 255.83 120.56 255.83 153.02 165.07 205.5 165.07 209.33 255.83 156.78 255.83 229.69 259.14 231.54 259.14 154.86 259.14 154.86" />
             <path id="illustrations-503-2" d="M161.76,175v3.76h0V287.92l3.32-2V213l94.06-54.47v73l3.32-1.85V116.8Zm97.38-20.17-94.06,54.47V183.78l94.06-54.17Z" />
@@ -50,7 +51,7 @@ export default function Error503(props: Props): JSX.Element {
             <path id="illustrations-503-34" d="M200.05,112.43l-4.54-10.37,3.66-10.56V85L188,91.5V98l4.81,10.15a.76.76,0,0,0,.33.29h0Z" />
             <path id="illustrations-503-35" d="M437.79,341a27.55,27.55,0,0,1-14.38.53c-8.25-1.78-13.3-9.49-13.3-9.49s8.92-3.57,14.13-3.92a46,46,0,0,0-15.63.33s-4.78-1.77-3.87-9.84c0,0,4.49-3.31,14.84-2,0,0-5.19-3.7-14.28-4.79-.71,0,.26-10.5,1.12-15.18s2.59-4,6.31-3.56,14.71,2.91,16.1,5.61,0,9.57,0,9.57a15.77,15.77,0,0,0,3-9,24.39,24.39,0,0,1,6.35,3.47,14.55,14.55,0,0,1,3.95,4.95c-.51,3.69-2.25,9.31-4.68,12.45a16.77,16.77,0,0,0,6.73-10.05,22.7,22.7,0,0,1,4.34,12.82C448.55,331.15,444.89,337.27,437.79,341Z" />
         </defs>
-        
+
         <ellipse id="freepik--Floor--inject-109" cx="250" cy="334.87" rx="238.81" ry="131.05" style="fill:var(--surface-bg-low)" />
         <g id="freepik--Shadows--inject-109">
             <path d="M31.61,349.49c15.14,13.42,51.1,29,72.46,39.39a9.39,9.39,0,0,0,6,.44c29.9-9.48,54.08-23.46,73.81-40.9a2.46,2.46,0,0,0-.24-4C162.73,329.7,124,317.79,95.86,312.69a16.22,16.22,0,0,0-6.32.34q-37.86,11.12-58.13,32A3.09,3.09,0,0,0,31.61,349.49Z" style="fill:var(--surface-bg)" />

@@ -5,7 +5,7 @@
 import { calcPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, JSX, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, Palette } from '@/base';
+import { BaseProps, joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
@@ -136,7 +136,7 @@ export default function Tour(props: Props): JSX.Element {
         }
     });
 
-    return <Dialog class={styles.tour} ref={el => ref = el}
+    return <Dialog class={joinClass(styles.tour, props.class)} ref={el => ref = el}
         header={<Label icon={curr().icon}>{header()}</Label>}
         actions={<>
             {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}

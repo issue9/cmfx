@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Props } from './props';
+import { Props, buildClass } from './props';
 
 const presetText = 'INTERNAL SERVER ERROR';
 
@@ -12,7 +12,8 @@ const presetText = 'INTERNAL SERVER ERROR';
  * https://storyset.com/illustration/500-internal-server-error/amico
  */
 export default function Error500(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <polygon id="illustrations-500-1" points="146.37 316.88 205.12 350.8 259.12 319.62 200.37 285.7 146.37 316.88" />
             <path id="illustrations-500-2" d="M51,160.56V359.38a4.87,4.87,0,0,0,2.19,3.79L118.62,401a4.36,4.36,0,0,0,2.19.53V197.62a4.49,4.49,0,0,1-2.19-.53L53.16,159.3l-.6-.5-.78-.64A4.57,4.57,0,0,0,51,160.56Z" />

@@ -68,8 +68,6 @@ export interface Props extends BaseProps {
     onComplete?: { (): void; };
 
     ref?: { (el: Ref): void; };
-
-    class?: string;
 }
 
 const presetProps: Partial<Props> = {

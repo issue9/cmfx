@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Props } from './props';
+import { Props, buildClass } from './props';
 
 const presetText = 'FORBIDDEN';
 
@@ -12,7 +12,8 @@ const presetText = 'FORBIDDEN';
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
 export default function Error403(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <polygon id="illustrations-403-1" points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" />
             <polygon id="illustrations-403-2" points="112.53 366.54 108.35 364.1 108.36 376.55 112.53 378.99 112.53 366.54" />

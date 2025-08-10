@@ -55,8 +55,6 @@ export interface Props extends BaseProps {
      * 是否高亮周末的列
      */
     weekend?: boolean;
-
-    class?: string;
 }
 
 const presetProps: Props = {

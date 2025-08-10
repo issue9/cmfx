@@ -18,9 +18,6 @@ export interface Props extends BaseProps {
     distance?: number;
 
     children?: IconComponent;
-
-    class?: string;
-    style?: JSX.HTMLAttributes<HTMLElement>['style'];
 }
 
 const presetProps: Partial<Props> = {
@@ -57,7 +54,7 @@ export function BackTop(props: Props): JSX.Element {
     });
 
     return <Button square rounded palette={props.palette} ref={el => btn = el}
-        class={joinClass(styles.backtop, props.class)} style={props.style}
+        class={joinClass(styles.backtop, props.class)}
         onclick={() => {
             scroller && scroller.scrollTo({ top: 0, behavior: 'smooth' });
         }}>{props.children!({})}</Button>;

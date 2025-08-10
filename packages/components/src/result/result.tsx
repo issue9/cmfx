@@ -38,7 +38,7 @@ export  function Result(props: Props) {
 
     createEffect(() => { act.setTitle(props.title ?? ''); });
 
-    return <div class={joinClass(styles.error, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <div class={joinClass(styles.error, props.palette ? `palette--${props.palette}` : '', props.class)}>
         {props.illustration }
         <Show when={props.children}>
             <div class={styles.content}>{props.children}</div>

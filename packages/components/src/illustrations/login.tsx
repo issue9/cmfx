@@ -1,8 +1,8 @@
 // 图片源码来源于 https://storyset.com/amico 遵循其自身的软件许可
 
-import { JSX } from 'solid-js';
+import { JSX, splitProps } from 'solid-js';
 
-import { Props } from './props';
+import { Props, buildClass } from './props';
 
 const presetText = 'User Login';
 
@@ -12,7 +12,8 @@ const presetText = 'User Login';
  * https://storyset.com/illustration/login/amico
  */
 export default function Login(props: Props): JSX.Element {
-    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props} class="text-palette-fg">
+    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-login-1" d="M216.2,356.64l34.94-20.2c3.6-2.08,5.4-4.8,5.4-7.53s0-4.86,0-4.86l-36.24-20.44a7.64,7.64,0,0,1-3.48-6V254.52l-61,35.26v43.07a7.7,7.7,0,0,0,3.48,6l30.84,17.76C197.32,360.8,209,360.8,216.2,356.64Z" />
             <path id="illustrations-login-2" d="M160,330.43a7.68,7.68,0,0,0,3.48,6l26.62,15.34c7.2,4.15,18.88,4.16,26.09,0l35-20.2c7.21-4.16,7.21-10.9,0-15.06l-26.64-15.34a7.69,7.69,0,0,1-3.47-6V261.51l-61,35.26Z" />

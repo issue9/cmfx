@@ -16,8 +16,6 @@ import { Ref } from './ref';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps, ParentProps {
-    class?: string;
-
     ref?: { (el: Ref): void; };
 }
 
@@ -49,7 +47,9 @@ export default function SchemeBuilder(props: Props): JSX.Element {
 
     if (props.ref) { props.ref(ref); }
 
-    return <Drawer class={joinClass(styles.builder, props.class)} palette={props.palette} main={<Demo m={modeFA} s={schemeFA} />}>
+    return <Drawer class={joinClass(styles.builder, props.class)}
+        palette={props.palette} main={<Demo m={modeFA} s={schemeFA} />}
+    >
         {params(schemeFA, modeFA, ref)}
     </Drawer>;
 }

@@ -43,8 +43,6 @@ export interface Props extends BaseProps {
      * 按钮的数量
      */
     spans?: number;
-
-    class?: string;
 }
 
 /**
@@ -110,7 +108,7 @@ export function PaginationBar(props: Props): JSX.Element {
         };
     });
 
-    return <div class={joinClass(props.class, styles.bar, props.palette ? `palette--${props.palette}` : undefined)}>
+    return <div class={joinClass(styles.bar, props.palette ? `palette--${props.palette}` : '', props.class)}>
         {l.t('_c.pagination.items', translateItems())}
         <div class={styles.right}>
             <Choice accessor={sizeAccessor} options={sizesOptions()} />
