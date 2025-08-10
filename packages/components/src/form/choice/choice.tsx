@@ -15,7 +15,6 @@ import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
     placeholder?: string;
-    rounded?: boolean;
     options: Options<T>;
     multiple?: M;
     accessor: M extends true ? Accessor<Array<T | undefined>> : Accessor<T | undefined>;

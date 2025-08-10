@@ -22,8 +22,6 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
 
     accessor: Accessor<T>;
     options: Options<T>;
-
-    rounded?: boolean;
 }
 
 export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.Element {

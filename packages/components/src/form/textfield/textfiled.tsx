@@ -34,7 +34,6 @@ export interface Props<T> extends FieldBaseProps {
      * 只有在此值为 number 时，内容才会被当作数值处理。
      */
     type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
-    rounded?: boolean;
     accessor: Accessor<T>;
     inputMode?: InputMode;
     autocomplete?: AutoComplete;

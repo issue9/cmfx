@@ -10,7 +10,7 @@ import { createEffect, createMemo, createUniqueId, JSX, mergeProps, onMount, Sho
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useFormContext } from '@/form/field';
 import styles from './style.module.css';
 
-export interface Props extends FieldBaseProps {
+export interface Props extends Omit<FieldBaseProps, 'rounded'> {
     placeholder?: string;
     accessor: Accessor<string>;
 }

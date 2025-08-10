@@ -16,8 +16,6 @@ import styles from './style.module.css';
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
-    rounded?: boolean;
-
     accessor: Accessor<Date | undefined>;
 }
 

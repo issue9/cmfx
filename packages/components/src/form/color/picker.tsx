@@ -14,6 +14,8 @@ export interface Props extends PanelProps {
     layout?: Layout;
 
     rounded?: boolean;
+
+    hasHelp?: boolean;
 }
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {

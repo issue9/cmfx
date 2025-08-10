@@ -19,8 +19,6 @@ import { togglePop } from './utils';
 export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
-    rounded?: boolean;
-
     accessor: Accessor<Date | undefined>;
 }
 

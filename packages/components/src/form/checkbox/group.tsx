@@ -24,7 +24,6 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
 
     accessor: Accessor<Array<T>>;
     options: Options<T>;
-    rounded?: boolean;
 }
 
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {

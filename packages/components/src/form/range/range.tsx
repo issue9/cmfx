@@ -99,6 +99,7 @@ export default function Range(props: Props): JSX.Element {
 
         <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}>
             <input ref={el => inputRef = el} type="range" min={props.min} max={props.max}
+                class={props.rounded ? styles.rounded : ''}
                 step={props.step} value={access.getValue()}
                 style={{ 'background': props.bg }} classList={{ [styles['fit-height']]: props.fitHeight }}
                 onwheel={wheel}

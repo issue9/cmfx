@@ -16,7 +16,6 @@ export interface Props<T> extends FieldBaseProps {
     placeholder?: string;
     accessor: Accessor<T>;
     inputMode?: InputMode;
-    rounded?: boolean;
 }
 
 /**

@@ -38,7 +38,7 @@ export interface Ref {
     upload(): Promise<Array<string>|undefined>;
 }
 
-export interface Props extends FieldBaseProps {
+export interface Props extends Omit<FieldBaseProps, 'rounded'> {
     /**
      * 上传文件在表单中的名称
      */

@@ -27,8 +27,6 @@ export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
     checked?: boolean;
 
     onChange?: { (v?: boolean): void };
-
-    rounded?: boolean;
 }
 
 const presetProps: Readonly<Props> = {
