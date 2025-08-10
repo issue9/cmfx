@@ -14,7 +14,7 @@ type Err<T extends FlattenObject> = Record<FlattenKeys<T>, string | undefined>;
 /**
  * 验证数据 obj 的函数签名
  *
- * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 map。
+ * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 Map。
  */
 export interface Validation<T extends FlattenObject> {
     (obj: T): Map<FlattenKeys<T>, string> | undefined;
@@ -35,7 +35,7 @@ export class ObjectAccessor<T extends FlattenObject> {
     readonly #errGetter: ReturnType<typeof createStore<Err<T>>>[0];
     readonly #errSetter: ReturnType<typeof createStore<Err<T>>>[1];
 
-    #accessors: Map<FlattenKeys<T>, Accessor<unknown>>;
+    readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown>>;
 
     /**
      * 构造函数
