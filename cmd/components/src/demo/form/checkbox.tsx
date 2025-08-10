@@ -13,6 +13,7 @@ export default function() {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
     const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
     const [blockS, block] = boolSelector('block');
+    const [roundedS, rounded] = boolSelector('rounded');
 
     const groupFA = fieldAccessor('checkbox', ['1'], true);
     const groupOptions: FieldOptions<string> = [
@@ -33,6 +34,7 @@ export default function() {
             {layoutS}
             {itemLayoutS}
             {blockS}
+            {roundedS}
 
             <button class="palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
         </>
@@ -41,20 +43,21 @@ export default function() {
         <Stage title="checkbox">
             <For each={palettesWithUndefined}>
                 {(item) => (
-                    <Checkbox
-                        title={item ? item : 'undefined'} label='test' block={block()} palette={item} disabled={disabled()} readonly={readonly()}
+                    <Checkbox rounded={rounded()} title={item ? item : 'undefined'} label='test'
+                    block={block()} palette={item} disabled={disabled()} readonly={readonly()}
                     />
                 )}
             </For>
         </Stage>
 
         <Stage title="change">
-            <Checkbox indeterminate title='onchange' label='事件：onchange' onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
+            <Checkbox rounded={rounded()} indeterminate title='onchange' label='事件：onchange'
+            onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
             <div>{ chk() ? 'checked' : 'unchecked' }</div>
         </Stage>
 
         <Stage title="checkbox Group">
-            <CheckboxGroup help="help text" layout={layout()} itemLayout={itemLayout()}
+            <CheckboxGroup help="help text" layout={layout()} itemLayout={itemLayout()} rounded={rounded()}
                 block={block()} disabled={disabled()} readonly={readonly()} label="group" palette="primary"
                 options={groupOptions} accessor={groupFA}
             />
@@ -62,7 +65,8 @@ export default function() {
         </Stage>
 
         <Stage title="indeterminate">
-            <Checkbox indeterminate={i()} title='indeterminate' label='indeterminate' block={block()} disabled={disabled()} readonly={readonly()} />
+            <Checkbox indeterminate={i()} title='indeterminate' rounded={rounded()}
+                label='indeterminate' block={block()} disabled={disabled()} readonly={readonly()} />
             <Button onclick={() => setI(!i())}>indeterminate - { i() ? 'true' : 'false' }</Button>
         </Stage>
     </Demo>;

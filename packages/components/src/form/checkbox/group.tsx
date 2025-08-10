@@ -5,7 +5,9 @@
 import { For, JSX, Show, createMemo, mergeProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, Layout, joinClass } from '@/base';
-import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useFormContext } from '@/form/field';
+import {
+    Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useFormContext
+} from '@/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
 
@@ -22,33 +24,32 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
 
     accessor: Accessor<Array<T>>;
     options: Options<T>;
+    rounded?: boolean;
 }
 
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {
     const form = useFormContext();
-    props = mergeProps({
-        icon: true,
-        itemLayout: 'horizontal' as Layout,
-    }, form, props);
+    props = mergeProps(form, props);
 
-    const access = props.accessor;
 
-    const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block']);
+    const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block', 'rounded']);
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
+    const access = props.accessor;
     return <Field class={props.class}
         title={props.title}
         palette={props.palette}>
         <Show when={areas().labelArea}>
-            {(area) => <label style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)}
             class={joinClass(styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : undefined)}
         >
             <For each={props.options}>
-                {(item) =>
-                    <Checkbox {...chkProps} label={item[1]} checked={!!access.getValue().find((v) => v === item[0])}
+                {item =>
+                    <Checkbox {...chkProps} label={item[1]} rounded={props.rounded}
+                        checked={!!access.getValue().find((v) => v === item[0])}
                         onChange={(v) => {
                             if (v) {
                                 access.setValue([...access.getValue(), item[0]]);

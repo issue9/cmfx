@@ -15,6 +15,10 @@
         transition: all var(--default-transition-duration) ease;
     }
 
+    input[type="radio"].rounded {
+        @apply !rounded-full;
+    }
+
     input[type="radio"]:disabled {
         border-color: var(--bg-low);
         cursor: not-allowed;
@@ -35,45 +39,39 @@
 
     /* 以上代码重定义了默认的 radio 样式 */
 
-    .group-content[type="radio"]:disabled:after {
-        cursor: not-allowed;
-        background: var(--bg-low);
+
+    .radio {
+        @apply border-2 border-transparent text-palette-fg box-border;
+        @apply overflow-hidden cursor-pointer;
+        @apply flex items-center justify-center gap-1;
+        cursor: pointer;
+    }
+
+    .radio.block {
+        @apply border-palette-fg-low rounded-sm has-[:checked]:border-palette-bg;
+        @apply min-w-[1rem] min-h-[1rem];
+
+        @apply border-palette-bg-low rounded-sm;
+        @apply has-[:checked]:border-palette-fg-high;
+    }
+
+    .radio:focus-visible {
+        outline: none;
+    }
+
+    .radio:has(:enabled):hover {
+        cursor: pointer;
+    }
+
+    .radio.block:has(:enabled):hover {
+        @apply border-palette-bg-high;
+    }
+
+    .radio:has(:disabled) {
+        @apply cursor-not-allowed text-palette-bg-low;
     }
 
     .group-content {
         @apply flex flex-wrap gap-1 justify-between items-start w-full;
-
-        label {
-            @apply border-2 border-transparent text-palette-fg box-border;
-            @apply overflow-hidden cursor-pointer;
-            @apply flex items-center justify-center gap-1;
-        }
-
-        label.block {
-            @apply border-palette-bg-low rounded-sm;
-            @apply has-[:checked]:border-palette-fg-high;
-        }
-
-        .content {
-            @apply flex flex-wrap gap-1;
-        }
-    }
-
-    .group-content:enabled {
-        label {
-            cursor: pointer;
-        }
-
-        label.block {
-            @apply hover:border-palette-bg-high;
-        }
-    }
-
-    .group-content:disabled {
-        @apply cursor-not-allowed;
-
-        label {
-            @apply cursor-not-allowed text-palette-bg-low;
-        }
     }
 }

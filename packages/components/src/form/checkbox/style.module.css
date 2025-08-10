@@ -12,6 +12,10 @@
         @apply border-2 border-palette-fg hover:border-palette-fg-high !rounded-xs;
     }
 
+    input[type="checkbox"].rounded {
+        @apply !rounded-full;
+    }
+
     input[type="checkbox"]:disabled {
         @apply cursor-not-allowed border-palette-bg-low;
     }
