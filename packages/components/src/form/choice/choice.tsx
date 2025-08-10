@@ -147,7 +147,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         </For>;
     };
 
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
     const id = createUniqueId();
     return <Field class={joinClass(styles.activator, props.class)}

@@ -5,7 +5,7 @@
 import { For, JSX, Show, createMemo, mergeProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, Layout, joinClass } from '@/base';
-import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style } from '@/form/field';
+import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useFormContext } from '@/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
 
@@ -25,19 +25,18 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
 }
 
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {
+    const form = useFormContext();
     props = mergeProps({
         icon: true,
-        layout: 'horizontal' as Layout,
         itemLayout: 'horizontal' as Layout,
-    }, props);
+    }, form, props);
 
     const access = props.accessor;
 
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block']);
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         title={props.title}
         palette={props.palette}>
         <Show when={areas().labelArea}>

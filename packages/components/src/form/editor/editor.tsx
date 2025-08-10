@@ -53,7 +53,7 @@ export function Editor(props: Props): JSX.Element {
         }
     });
 
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={props.class} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
             {(area) => <label style={fieldArea2Style(area())} onClick={() => editor.focus()}>{props.label}</label>}

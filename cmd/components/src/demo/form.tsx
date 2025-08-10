@@ -29,10 +29,10 @@ export default function() {
         </>
     }>
         <Form formAccessor={f} palette={palette()} {...f.events()} rounded={rounded()} layout={layout()} hasHelp={help()}>
-            <TextField label="textField" accessor={f.accessor<string>('f1')} />
-            <Number label="number" accessor={f.accessor('f2')} />
-            <DatePicker label="date" accessor={f.accessor('date')} />
-            <TextArea label="textarea" class="flex-grow" accessor={f.accessor<string>('textarea')} />
+            <TextField label="textField" accessor={f.accessor<string>('f1')} help="这是一个帮助文本" />
+            <Number label="number" accessor={f.accessor('f2')} help="这是一个帮助文本" />
+            <DatePicker label="date" accessor={f.accessor('date')} help="这是一个帮助文本" />
+            <TextArea label="textarea" class="flex-grow" accessor={f.accessor<string>('textarea')} help="这是一个帮助文本" />
             <div class="w-full flex justify-between">
                 <Button type="reset">reset</Button>
                 <Button type="submit">submit</Button>

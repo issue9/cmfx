@@ -30,10 +30,9 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
 
     const access = props.accessor;
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         title={props.title}
         palette={props.palette}>
         <Show when={areas().labelArea}>

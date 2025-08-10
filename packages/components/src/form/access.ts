@@ -95,9 +95,8 @@ export class ObjectAccessor<T extends FlattenObject> {
      * @template FT 表示 name 字段的类型；
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法，
      * 嵌套字段可以用 . 相连，比如 a.b.c；
-     * @param hasHelp 是否需要展示错误信息，对应 {@link Accessor#hasHelp} 方法；
      */
-    accessor<FT = unknown>(name: FlattenKeys<T>, hasHelp?: boolean): Accessor<FT> {
+    accessor<FT = unknown>(name: FlattenKeys<T>): Accessor<FT> {
         let a: Accessor<FT> | undefined = this.#accessors.get(name) as Accessor<FT>;
         if (a) { return a as Accessor<FT>; }
 
@@ -107,8 +106,6 @@ export class ObjectAccessor<T extends FlattenObject> {
 
         a = {
             name(): string { return name as string; },
-
-            hasHelp(): boolean { return hasHelp ?? false; },
 
             getError(): string | undefined { return self.#errGetter[name]; },
 
@@ -169,7 +166,7 @@ export class ObjectAccessor<T extends FlattenObject> {
         if (validation) {
             const errors = validation(v);
             if (errors) {
-                errors.forEach((err, name) => { this.accessor(name, true).setError(err); });
+                errors.forEach((err, name) => { this.accessor(name).setError(err); });
                 return;
             }
         }
@@ -269,7 +266,7 @@ export class FormAccessor<T extends FlattenObject, R = never, P = never> {
      * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      */
-    accessor<FT = unknown>(name: FlattenKeys<T>): Accessor<FT> { return this.#object.accessor<FT>(name, true); }
+    accessor<FT = unknown>(name: FlattenKeys<T>): Accessor<FT> { return this.#object.accessor<FT>(name); }
 
     setPreset(v: T) { return this.#object.setPreset(v); }
 

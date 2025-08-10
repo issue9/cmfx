@@ -30,9 +30,9 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         itemLayout: 'horizontal' as Layout,
     }, form, props);
 
-    const access = props.accessor;
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
+    const access = props.accessor;
     return <Field class={props.class}
         title={props.title}
         palette={props.palette}>

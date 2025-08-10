@@ -40,7 +40,7 @@ export default function Time(props: Props) {
     let anchorRef: HTMLElement;
 
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
     const formatter = createMemo(() => new Intl.DateTimeFormat(l.locale, {
         hour: '2-digit',

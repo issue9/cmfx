@@ -58,7 +58,7 @@ export function DateRangePicker(props: Props): JSX.Element {
     });
 
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={joinClass(styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
