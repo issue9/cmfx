@@ -33,11 +33,13 @@ const presetProps: Readonly<Partial<Props>> = {
 export function ButtonGroup(props: Props) {
     props = mergeProps(presetProps, props);
 
-    return <fieldset role="group" ref={(el) => { if (props.ref) { props.ref(el); } }} disabled={props.disabled} class={classList({
-        [styles.rounded]: props.rounded,
-        [styles.vertical]: props.layout === 'vertical',
-        [`palette--${props.palette}`]: !!props.palette
-    }, props.class, styles.group, styles[props.kind!])}>
+    return <fieldset role="group" ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
+        class={classList({
+            [styles.rounded]: props.rounded,
+            [styles.vertical]: props.layout === 'vertical',
+            [`palette--${props.palette}`]: !!props.palette
+        }, props.class, styles.group, styles[props.kind!])}
+    >
         {props.children}
     </fieldset >;
 }

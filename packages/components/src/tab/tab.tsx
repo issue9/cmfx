@@ -4,16 +4,19 @@
 
 import { createSignal, For } from 'solid-js';
 
-import { BaseProps, Layout } from '@/base';
+import { AvailableEnumType, BaseProps, Layout } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
 
-export interface Props<T extends string | number> extends BaseProps {
+export interface Props<T extends AvailableEnumType> extends BaseProps {
     rounded?: boolean;
 
     disabled?: boolean;
 
+    /**
+     * 应用在根元素的类名
+     */
     class?: string;
 
     items: FieldOptions<T>;
@@ -31,15 +34,11 @@ export interface Props<T extends string | number> extends BaseProps {
     onChange?: ChangeFunc<T>;
 }
 
-export function Tab<T extends string | number>(props: Props<T>) {
-    if (!props.layout) { props.layout = 'horizontal'; }
-
+export function Tab<T extends AvailableEnumType>(props: Props<T>) {
     const [val, setVal] = createSignal<T>(props.value ?? props.items[0][0]);
 
     const change = (v: T, old?: T): void => {
-        if (props.onChange) {
-            props.onChange(v, old);
-        }
+        if (props.onChange) { props.onChange(v, old); }
         setVal(() => v);
     };
 

@@ -18,7 +18,8 @@ export interface Props<T extends FlattenObject, R = never, P = never> extends Ba
     /**
      * 表单位于对话框中
      *
-     * 如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，且 submit 按钮的 value 属性会传递给 dialog.returnValue。
+     * 如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，
+     * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
      */
     inDialog?: boolean;
 
@@ -28,7 +29,7 @@ export interface Props<T extends FlattenObject, R = never, P = never> extends Ba
 /**
  * 表单组件
  */
-export function Form<T extends FlattenObject, R = never, P = never>(props: Props<T,R,P>) {
+export function Form<T extends FlattenObject, R = never, P = never>(props: Props<T, R, P>) {
     return <Spin spinning={props.formAccessor.submitting()} palette={props.palette}>
         <form class={joinClass(styles.form, props.class)}
             method={props.inDialog ? 'dialog' : undefined}
