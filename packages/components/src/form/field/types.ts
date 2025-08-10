@@ -16,11 +16,6 @@ export interface Props extends BaseProps {
  * 所有表单元素共有的属性
  */
 export type FieldBaseProps = Props & {
-    /**
-     * 内容排版方式，一般会影响 label 与主体内容的排列。
-     */
-    layout?: Layout; 
-
     disabled?: boolean;
     readonly?: boolean;
     tabindex?: number;
@@ -28,9 +23,24 @@ export type FieldBaseProps = Props & {
     /**
      * 提示信息
      *
-     * 该内容显示在 helpArea 区别。
+     * 该内容显示在 helpArea 区别，只有 {@link FieldBaseProps#hasHelp} 为真时才会显示。
      */
     help?: JSX.Element;
+
+    /**
+     * 内容排版方式，一般会影响 label 与主体内容的排列。
+     */
+    layout?: Layout;
+
+    /**
+     * 组件是否为圆角
+     */
+    rounded?: boolean;
+
+    /**
+    * 是否预留帮助信息的区域，如果为否，那么 {@link FieldBaseProps#help} 和错误信息都将不会被显示。
+    */
+    hasHelp?: boolean;
 };
 
 /**

@@ -10,20 +10,14 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { TimePanel, TimePanelProps } from '@/datetime/timepanel';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useFormContext } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
-    rounded?: boolean;
-
     accessor: Accessor<Date | undefined>;
 }
-
-export const presetProps: Partial<Props> = {
-    layout: 'horizontal'
-} as const;
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {
     const ab = anchor.getBoundingClientRect();
@@ -33,7 +27,8 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export default function Time(props: Props) {
-    props = mergeProps(presetProps, props);
+    const form = useFormContext();
+    props = mergeProps(form, props);
     const l = useLocale();
 
     const ac = props.accessor;
@@ -43,7 +38,7 @@ export default function Time(props: Props) {
     let anchorRef: HTMLElement;
 
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
     const formatter = createMemo(() => new Intl.DateTimeFormat(l.locale, {
         hour: '2-digit',

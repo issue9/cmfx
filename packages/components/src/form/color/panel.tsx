@@ -22,7 +22,7 @@ declare global {
     }
 }
 
-export interface Props extends Omit<FieldBaseProps, 'layout'> {
+export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'rounded'> {
     accessor: Accessor<string>;
 
     /**

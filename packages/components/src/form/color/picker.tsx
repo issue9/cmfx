@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition } from '@cmfx/core';
-import { createMemo, createUniqueId, JSX, Show, splitProps } from 'solid-js';
+import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { joinClass, Layout } from '@/base';
-import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
+import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useFormContext } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
 import styles from './style.module.css';
 
@@ -14,6 +14,8 @@ export interface Props extends PanelProps {
     layout?: Layout;
 
     rounded?: boolean;
+
+    hasHelp?: boolean;
 }
 
 function togglePop(anchor: Element, popElem: HTMLElement): boolean {
@@ -24,11 +26,14 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export default function OKLCHPicker(props: Props): JSX.Element {
+    const form = useFormContext();
+    props = mergeProps(form, props);
+
     let panelRef: HTMLElement;
     let anchorRef: HTMLElement;
     const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor', 'wcag', 'presets']);
 
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     const id = createUniqueId();
     return <Field class={props.class} title={props.title} palette={props.palette} aria-haspopup>
         <Show when={areas().labelArea}>

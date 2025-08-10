@@ -12,6 +12,9 @@
         @apply focus:border-[var(--fg-high)] hover:enabled:border-[var(--fg-high)] read-only:cursor-default;
     }
 
+    .textarea.rounded {
+        @apply rounded-full;
+    }
 
     .textarea:disabled {
         @apply cursor-not-allowed text-[var(--bg-low)];

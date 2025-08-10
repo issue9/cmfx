@@ -7,15 +7,14 @@ import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch }
 import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { AvailableEnumType, cloneElement, joinClass, Layout } from '@/base';
+import { AvailableEnumType, cloneElement, joinClass } from '@/base';
 import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options, useFormContext
 } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
     placeholder?: string;
-    rounded?: boolean;
     options: Options<T>;
     multiple?: M;
     accessor: M extends true ? Accessor<Array<T | undefined>> : Accessor<T | undefined>;
@@ -25,7 +24,8 @@ export interface Props<T extends AvailableEnumType, M extends boolean> extends F
  * 用以替代 select 组件
  */
 export function Choice<T extends AvailableEnumType, M extends boolean>(props: Props<T, M>): JSX.Element {
-    props = mergeProps({ layout: 'horizontal' as Layout }, props);
+    const form = useFormContext();
+    props = mergeProps(form, props);
 
     // multiple 为 false 时的输入框样式。
     const SingleActivator = (p: { access: Accessor<T> }) => {
@@ -146,7 +146,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         </For>;
     };
 
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.accessor.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
     const id = createUniqueId();
     return <Field class={joinClass(styles.activator, props.class)}

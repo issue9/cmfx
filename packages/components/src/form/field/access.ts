@@ -33,13 +33,6 @@ export interface Accessor<T> {
     onChange(change: ChangeFunc<T>): void;
 
     /**
-     * 是否需要给帮助信息预留位置
-     *
-     * 只有此值为 true 时，错误信息才会正确显示。
-     */
-    hasHelp(): boolean;
-
-    /**
      * 返回当前组件的错误信息
      */
     getError(): string | undefined;
@@ -67,10 +60,9 @@ export interface ChangeFunc<T> {
  *
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v 初始化的值或是直接由 {@link createSignal} 创建的可响应对象；
- * @param hasHelp 是否显示错误信息的占位栏；
  * @template T 关联的值类型；
  */
-export function fieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boolean): Accessor<T> {
+export function fieldAccessor<T>(name: string, v: T | Signal<T>): Accessor<T> {
     let preset: T;
 
     let s: Signal<T>;
@@ -87,8 +79,6 @@ export function fieldAccessor<T>(name: string, v: T | Signal<T>, hasHelp?: boole
 
     return {
         name(): string { return name; },
-
-        hasHelp(): boolean { return !!hasHelp; },
 
         getError(): string | undefined { return err(); },
 

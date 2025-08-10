@@ -1,19 +1,14 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX, mergeProps } from 'solid-js';
+import { JSX, mergeProps } from 'solid-js';
 
 import { classList, joinClass } from '@/base';
 import { FieldBaseProps } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
-    /**
-     * 设置为不确定状态，只负责样式控制。
-     */
-    indeterminate?: boolean;
-
     /**
      * 是否显示为块
      *
@@ -27,6 +22,10 @@ export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
     checked?: boolean;
 
     onChange?: { (v?: boolean): void };
+
+    rounded?: boolean;
+
+    name?: string;
 }
 
 const presetProps: Readonly<Props> = {
@@ -34,23 +33,22 @@ const presetProps: Readonly<Props> = {
 };
 
 /**
- * 带文本提示的复选框
+ * 带文本提示的单选框
  */
-export function Checkbox(props: Props): JSX.Element {
+export function Radio(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    let ref: HTMLInputElement;
-
-    createEffect(() => { ref.indeterminate = !!props.indeterminate; });
 
     return <label tabIndex={props.tabindex} title={props.title} class={classList({
         [styles.block]: props.block,
         [`palette--${props.palette}`]: !!props.palette
-    }, styles.checkbox, props.class)}>
-        <input type="checkbox" ref={el => ref = el}
+    }, styles.radio, props.class)}>
+        <input type="radio"
+            name={props.name}
+            title={props.title}
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={props.checked}
-            class={joinClass(props.block ? '!hidden' : undefined, props.rounded ? styles.rounded : '')}
+            class={joinClass(props.block ? '!hidden' : '', props.rounded ? styles.rounded : '', props.class)}
             onClick={(e) => {
                 if (props.readonly) { e.preventDefault(); }
             }}

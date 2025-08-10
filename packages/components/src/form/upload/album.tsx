@@ -8,7 +8,7 @@ import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
 import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useFormContext } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import styles from './style.module.css';
 import { Props as BaseProps, Ref, Upload } from './upload';
@@ -46,11 +46,11 @@ export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
 
 const presetProps: Readonly<Partial<Props>> = {
     itemSize: '72px',
-    layout: 'horizontal',
 };
 
 export function Album(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const form = useFormContext();
+    props = mergeProps(presetProps, form, props);
     const access = props.accessor;
 
     let dropRef: HTMLFieldSetElement;
@@ -70,9 +70,8 @@ export function Album(props: Props): JSX.Element {
         return { 'height': props.itemSize, 'width': props.itemSize };
     });
 
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={props.class}
-        {...calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label)}
         title={props.title}
         palette={props.palette}
     >

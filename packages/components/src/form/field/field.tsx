@@ -55,7 +55,7 @@ export function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
  * @param hasHelp 是否需要计算显示帮助信息的区域；
  * @param hasLabel 是否需要计算标题区域；
  */
-export function calcLayoutFieldAreas(l: Layout, hasHelp: boolean, hasLabel: boolean): FieldAreas {
+export function calcLayoutFieldAreas(l: Layout, hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     // NOTE: grid 中如果一个列或是行，即使其宽或是高度为 0，gap 也不会消失，
     // 所以得根据 layout 计算位置并填充多余的列。
 
@@ -63,7 +63,7 @@ export function calcLayoutFieldAreas(l: Layout, hasHelp: boolean, hasLabel: bool
     return calcVerticalFieldAreas(hasHelp, hasLabel);
 }
 
-function  calcHorizontalFieldAreas(hasHelp: boolean, hasLabel: boolean): FieldAreas {
+function  calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     if (hasLabel) {
         if (hasHelp) {
             return {
@@ -89,7 +89,7 @@ function  calcHorizontalFieldAreas(hasHelp: boolean, hasLabel: boolean): FieldAr
     return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
-function  calcVerticalFieldAreas(hasHelp: boolean, hasLabel: boolean): FieldAreas {
+function  calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     if (hasLabel) {
         if (hasHelp) {
             return {

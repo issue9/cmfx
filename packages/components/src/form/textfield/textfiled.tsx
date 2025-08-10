@@ -4,8 +4,11 @@
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { classList, Layout } from '@/base';
-import { Accessor, AutoComplete, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode } from '@/form/field';
+import { classList } from '@/base';
+import {
+    Accessor, AutoComplete, calcLayoutFieldAreas, Field,
+    fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useFormContext
+} from '@/form/field';
 import styles from './style.module.css';
 
 type Value = string | number | Array<string> | undefined;
@@ -31,7 +34,6 @@ export interface Props<T> extends FieldBaseProps {
      * 只有在此值为 number 时，内容才会被当作数值处理。
      */
     type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
-    rounded?: boolean;
     accessor: Accessor<T>;
     inputMode?: InputMode;
     autocomplete?: AutoComplete;
@@ -49,14 +51,12 @@ export interface Props<T> extends FieldBaseProps {
  * @template T 文本框内容的类型
  */
 export function TextField<T extends Value>(props: Props<T>):JSX.Element {
-    props = mergeProps({
-        color: undefined,
-        layout: 'horizontal' as Layout,
-    }, props) as Props<T>;
+    const form = useFormContext();
+    props = mergeProps(form, props);
 
     const access = props.accessor;
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, access.hasHelp(), !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
     return <Field title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>

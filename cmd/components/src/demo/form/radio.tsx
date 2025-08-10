@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 
-import { fieldAccessor, FieldOptions, Palette, RadioGroup } from '@cmfx/components';
+import { fieldAccessor, FieldOptions, Palette, Radio, RadioGroup } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
@@ -17,8 +17,9 @@ export default function() {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
     const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
     const [blockS, block] = boolSelector('block');
+    const [roundedS, rounded] = boolSelector('rounded');
 
-    const options: FieldOptions<Palette|undefined> = [];
+    const options: FieldOptions<Palette | undefined> = [];
     palettesWithUndefined.forEach((item) => {
         options.push([item, item ? item : 'undefined']);
     });
@@ -30,6 +31,7 @@ export default function() {
             {layoutS}
             {itemLayoutS}
             {blockS}
+            {roundedS}
 
             <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
         </>
@@ -37,9 +39,10 @@ export default function() {
         <Stage title="radio">
             <input type="radio" name="radio1" value="option1" readonly={readonly()} disabled={disabled()} />
             <input type="radio" name="radio1" value="option2" readonly={readonly()} disabled={disabled()} />
+            <Radio name="radio1" label="Radio" block={block()} rounded={rounded()} value="option2" readonly={readonly()} disabled={disabled()} />
         </Stage>
         <Stage title="radio group">
-            <RadioGroup label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
+            <RadioGroup rounded={rounded()} label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
             />
             <span>{change()}</span>

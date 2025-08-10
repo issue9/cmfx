@@ -4,11 +4,14 @@
 
 import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, use } from '@cmfx/components';
 
-import { Demo, paletteSelector } from './base';
+import { boolSelector, Demo, layoutSelector, paletteSelector } from './base';
 
 export default function() {
     const [, act] = use();
     const [paletteS, palette] = paletteSelector('secondary');
+    const [roundedS, rounded] = boolSelector('rounded');
+    const [helpS, help] = boolSelector('help');
+    const [layoutS, layout] = layoutSelector('layout');
 
     const f = new FormAccessor({
         f1: 'f1',
@@ -20,13 +23,16 @@ export default function() {
     return <Demo settings={
         <>
             {paletteS}
+            {roundedS}
+            {helpS}
+            {layoutS}
         </>
     }>
-        <Form formAccessor={f} palette={palette()} {...f.events()}>
-            <TextField accessor={f.accessor<string>('f1')} />
-            <Number accessor={f.accessor('f2')} />
-            <DatePicker accessor={f.accessor('date')} />
-            <TextArea class="flex-grow" accessor={f.accessor<string>('textarea')} />
+        <Form formAccessor={f} palette={palette()} {...f.events()} rounded={rounded()} layout={layout()} hasHelp={help()}>
+            <TextField label="textField" accessor={f.accessor<string>('f1')} help="这是一个帮助文本" />
+            <Number label="number" accessor={f.accessor('f2')} help="这是一个帮助文本" />
+            <DatePicker label="date" accessor={f.accessor('date')} help="这是一个帮助文本" />
+            <TextArea label="textarea" class="flex-grow" accessor={f.accessor<string>('textarea')} help="这是一个帮助文本" />
             <div class="w-full flex justify-between">
                 <Button type="reset">reset</Button>
                 <Button type="submit">submit</Button>

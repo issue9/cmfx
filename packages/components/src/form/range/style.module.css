@@ -11,6 +11,10 @@ input[type=range] {
     @apply border-2 border-palette-bg-high;
 }
 
+input[type=range].rounded {
+    @apply rounded-full;
+}
+
 /* 与 NOTE: ::moz-range-thumb 内容相同，但是无法与之合并，否则不启作用。 */
 input[type=range]::-webkit-slider-thumb {
     @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
@@ -20,6 +24,14 @@ input[type=range]::-webkit-slider-thumb {
 input[type=range]::-moz-range-thumb {
     @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
     @apply rounded-md border-2 border-palette-bg-high;
+}
+
+input[type=range].rounded::-webkit-slider-thumb {
+    @apply rounded-full;
+}
+
+input[type=range].rounded::-moz-range-thumb {
+    @apply rounded-full;
 }
 
 @layer components {
