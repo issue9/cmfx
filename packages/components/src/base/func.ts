@@ -48,7 +48,9 @@ export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, 
  * @param cls CSS 类名列表；
  * @returns 转换而来的 class 属性值；
  */
-export function classList(list?: JSX.CustomAttributes<HTMLElement>['classList'], ...cls: Array<string|undefined>): string | undefined {
+export function classList(
+    list?: JSX.CustomAttributes<HTMLElement>['classList'], ...cls: Array<string|undefined>
+): string | undefined {
     if (!list) { return joinClass(...cls); }
 
     const entries = Object.entries(list);
@@ -65,6 +67,6 @@ export function classList(list?: JSX.CustomAttributes<HTMLElement>['classList'],
  */
 export function joinClass(...cls: Array<string|undefined>): string | undefined {
     if (!cls) { return; }
-    cls = cls.filter(v => v !== undefined);
+    cls = cls.filter(v => v !== undefined && v !== '');
     return cls.length > 0 ? cls.join(' ') : undefined;
 }
