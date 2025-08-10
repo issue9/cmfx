@@ -19,7 +19,12 @@ export type FieldBaseProps = Props & {
     /**
      * 内容排版方式，一般会影响 label 与主体内容的排列。
      */
-    layout?: Layout; 
+    layout?: Layout;
+
+    /**
+    * 是否预留帮助信息的区域，如果为否，那么 {@link FieldBaseProps#help} 和错误信息都将不会被显示。
+    */
+    hasHelp?: boolean;
 
     disabled?: boolean;
     readonly?: boolean;

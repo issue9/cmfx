@@ -4,8 +4,11 @@
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { classList, Layout } from '@/base';
-import { Accessor, AutoComplete, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode } from '@/form/field';
+import { classList } from '@/base';
+import {
+    Accessor, AutoComplete, calcLayoutFieldAreas, Field,
+    fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useFormContext
+} from '@/form/field';
 import styles from './style.module.css';
 
 type Value = string | number | Array<string> | undefined;
@@ -49,10 +52,8 @@ export interface Props<T> extends FieldBaseProps {
  * @template T 文本框内容的类型
  */
 export function TextField<T extends Value>(props: Props<T>):JSX.Element {
-    props = mergeProps({
-        color: undefined,
-        layout: 'horizontal' as Layout,
-    }, props) as Props<T>;
+    const form = useFormContext();
+    props = mergeProps(form, props);
 
     const access = props.accessor;
     const id = createUniqueId();

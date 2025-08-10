@@ -4,7 +4,7 @@
 
 import { createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options } from '@/form/field';
+import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options, useFormContext } from '@/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
@@ -39,15 +39,12 @@ export interface Props extends FieldBaseProps {
     bg?: string;
 }
 
-const presetProps: Partial<Props> = {
-    layout: 'horizontal'
-} as const;
-
 /**
  * 相当于 <input type="range" />
  */
 export default function Range(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const form = useFormContext();
+    props = mergeProps(form, props);
 
     const access = props.accessor;
     const [marks, setMarks] = createSignal<Array<[val: number, title: JSX.Element, offset: number]>>([]);

@@ -5,7 +5,7 @@
 import { createEffect, JSX, mergeProps } from 'solid-js';
 
 import { classList } from '@/base';
-import { FieldBaseProps } from '@/form/field';
+import { FieldBaseProps, useFormContext } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
@@ -36,12 +36,11 @@ const presetProps: Readonly<Props> = {
  * 带文本提示的复选框
  */
 export function Checkbox(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const form = useFormContext();
+    props = mergeProps(presetProps, form, props);
     let ref: HTMLInputElement;
 
-    createEffect(() => {
-        ref.indeterminate = !!props.indeterminate;
-    });
+    createEffect(() => { ref.indeterminate = !!props.indeterminate; });
 
     return <label tabIndex={props.tabindex} title={props.title} class={classList({
         [styles.block]: props.block,

@@ -8,8 +8,11 @@ export type { Validation } from './access';
 export { Form } from './form';
 export type { Props as FormProps } from './form';
 
-export { fieldAccessor, translateEnums2Options } from './field';
-export type { Accessor, AutoComplete, FieldBaseProps, Option as FieldOption, Options as FieldOptions, InputMode } from './field';
+// field 部分内容仅内部使用
+export { fieldAccessor, FormProvider, translateEnums2Options, useFormContext } from './field';
+export type {
+    Accessor, AutoComplete, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext, InputMode
+} from './field';
 
 export * from './checkbox';
 export * from './choice';

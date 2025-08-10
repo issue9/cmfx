@@ -5,9 +5,9 @@
 import type { QuillOptions, } from 'quill';
 import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
-import { createEffect, createMemo, createUniqueId, JSX, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, createUniqueId, JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useFormContext } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps {
@@ -19,7 +19,8 @@ export interface Props extends FieldBaseProps {
  * WYSIWYG 编辑器
  */
 export function Editor(props: Props): JSX.Element {
-    if (props.layout === undefined) { props.layout = 'horizontal'; }
+    const form = useFormContext();
+    props = mergeProps(form, props);
 
     const options: QuillOptions = {
         theme: 'snow',

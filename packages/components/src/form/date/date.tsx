@@ -10,7 +10,9 @@ import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea } from '@/form/field';
+import {
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useFormContext
+} from '@/form/field';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
@@ -24,11 +26,12 @@ export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' |
 
 export const presetProps: Partial<Props> = {
     weekBase: 0,
-    layout: 'horizontal'
 } as const;
 
 export function DatePicker(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const form = useFormContext();
+    props = mergeProps(presetProps, form, props);
+
     const l = useLocale();
 
     const [panelProps, _] = splitProps(props,

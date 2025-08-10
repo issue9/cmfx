@@ -11,7 +11,7 @@ import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateRangePanel, RangeValueType } from '@/datetime';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useFormContext } from '@/form/field';
 import { IconComponent } from '@/icon';
 import { presetProps as basePresetProps, Props as PickerProps } from './date';
 import styles from './style.module.css';
@@ -37,7 +37,8 @@ const presetProps = {
 } as const;
 
 export function DateRangePicker(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const form = useFormContext();
+    props = mergeProps(presetProps, form, props);
     const l = useLocale();
 
     const [panelProps, _] = splitProps(props,
