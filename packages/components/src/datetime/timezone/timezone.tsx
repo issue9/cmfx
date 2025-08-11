@@ -8,7 +8,6 @@ import { createMemo, createSignal, For, JSX, Show, untrack } from 'solid-js';
 import { BaseProps, joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
-import { Divider } from '@/divider';
 import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
 import { Tab } from '@/tab';
@@ -76,6 +75,10 @@ export default function Timezone(props: Props): JSX.Element {
     // 监视 props.value 变化
     createEffect(() => {
         setSelected(props.value);
+        if (props.value) {
+            const s = props.value.split('/');
+            setTab(s[0]);
+        }
     });
 
     const change = (value: string) => {
@@ -83,28 +86,36 @@ export default function Timezone(props: Props): JSX.Element {
         if (old === value) { return; }
 
         setSelected(value);
+        if (props.value) {
+            const s = props.value.split('/');
+            setTab(s[0]);
+        }
+
         if (props.onChange) { props.onChange(value, old); }
     };
 
     return <div class={joinClass(styles.timezone, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
-        <Tab class={styles.tab} items={tabs} onChange={v => setTab(v)} />
-        <Divider palette={props.palette} />
-        <div class={styles.panel}>
-            <For each={regions()}>
-                {region => (
-                    <Show when={region.id === tab() ? region.timezones : undefined}>
-                        {timezones => (
-                            <For each={timezones()}>
-                                {item => (
-                                    <Button checked={selected() === item.id} kind='flat' class='justify-start'
-                                        onClick={() => change(item.id)}
-                                    >{item.displayName}</Button>
-                                )}
-                            </For>
-                        )}
-                    </Show>
-                )}
-            </For>
-        </div>
+        <Tab value={tab()} class={styles.tab} items={tabs} onChange={v => setTab(v)}>
+            <div class={styles.panel}>
+                <For each={regions()}>
+                    {region => (
+                        <Show when={region.id === tab() ? region.timezones : undefined}>
+                            {timezones => (
+                                <For each={timezones()}>
+                                    {item => (
+                                        <Button checked={selected() === item.id} kind='flat' class={styles.item}
+                                            onClick={() => change(item.id)}
+                                        >
+                                            <span class={styles.line}>{item.displayName}</span>
+                                            <span class={styles.line} title={item.id}>{item.id}</span>
+                                        </Button>
+                                    )}
+                                </For>
+                            )}
+                        </Show>
+                    )}
+                </For>
+            </div>
+        </Tab>
     </div>;
 }

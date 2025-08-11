@@ -15,11 +15,15 @@
         }
 
         .panel {
-            @apply mt-2 p-2 gap-1;
-            @apply grid grid-cols-1 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8;
+            @apply mt-2 p-2 gap-1 h-50 overflow-y-auto;
+            @apply grid content-start grid-cols-1 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8;
 
-            .item:hover {
-                @apply cursor-pointer bg-palette-bg text-palette-fg rounded-sm;
+            .item {
+                @apply justify-start items-start flex-col;
+
+                .line {
+                    @apply w-full text-left text-ellipsis overflow-x-hidden;
+                }
             }
         }
     }

@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .tab {
+        @apply flex flex-col;
+    }
+}

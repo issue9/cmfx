@@ -32,6 +32,7 @@ export function ButtonGroup(props: Props) {
     props = mergeProps(presetProps, props);
 
     return <fieldset role="group" ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
+        aria-orientation={props.layout}
         class={classList({
             [styles.rounded]: props.rounded,
             [styles.vertical]: props.layout === 'vertical',
