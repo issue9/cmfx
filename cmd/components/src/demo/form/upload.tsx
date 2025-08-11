@@ -14,7 +14,7 @@ export default function(): JSX.Element {
     const [autoS, auto] = boolSelector('auto');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
-    const basicA = fieldAccessor('upload', ['../../../../../cmd/admin/public/icon.svg', './test.jpg'], true);
+    const basicA = fieldAccessor('upload', ['../../../../../cmd/admin/public/icon.svg', './test.jpg']);
 
     return <Demo settings={
         <>
@@ -27,12 +27,12 @@ export default function(): JSX.Element {
         </>
     }>
         <Stage title='basic'>
-            <Album layout={layout()} fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
+            <Album hasHelp layout={layout()} fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
                 action='./' accessor={basicA} />
         </Stage>
 
         <Stage title='basic+drop'>
-            <Album layout={layout()} fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
+            <Album hasHelp layout={layout()} fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
                 action='./' accessor={basicA} />
         </Stage>
     </Demo>;

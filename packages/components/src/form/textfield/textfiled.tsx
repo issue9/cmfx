@@ -15,7 +15,7 @@ type Value = string | number | Array<string> | undefined;
 
 export type Ref = HTMLInputElement;
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T extends Value> extends FieldBaseProps {
     /**
      * 文本框内顶部的内容
      */
@@ -34,7 +34,12 @@ export interface Props<T> extends FieldBaseProps {
      * 只有在此值为 number 时，内容才会被当作数值处理。
      */
     type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
+
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<T>;
+
     inputMode?: InputMode;
     autocomplete?: AutoComplete;
     'aria-autocomplete'?: JSX.FormHTMLAttributes<HTMLInputElement>['aria-autocomplete'];
@@ -78,7 +83,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
                 readOnly={props.readonly}
                 placeholder={props.placeholder}
                 value={access.getValue() ?? ''} // 正常处理 undefined
-                onInput={(e) => {
+                onInput={e => {
                     let v = e.target.value as T;
                     if (props.type === 'number') {
                         v = parseInt(e.target.value) as T;

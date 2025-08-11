@@ -148,7 +148,10 @@ export function Info(): JSX.Element {
 
             <dl><dt>goroutines</dt><dd>{info()?.goroutines}</dd></dl>
 
-            <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetimeFormat().format(info()?.uptime)}</dd></dl>
+            <dl>
+                <dt>{l.t('_p.system.uptime')}</dt>
+                <dd>{info()?.uptime ? l.datetimeFormat().format(new Date(info()?.uptime!)) : ''}</dd>
+            </dl>
 
             <Divider padding='1rem'><IconDataset class="mr-1" />{l.t('_c.os')}</Divider>
 
@@ -158,7 +161,10 @@ export function Info(): JSX.Element {
 
             <dl><dt>{l.t('_p.system.version')}</dt><dd>{info()?.os.version}</dd></dl>
 
-            <dl><dt>{l.t('_p.system.uptime')}</dt><dd>{l.datetimeFormat().format(info()?.os.boot)}</dd></dl>
+            <dl>
+                <dt>{l.t('_p.system.uptime')}</dt>
+                <dd>{info()?.os.boot ? l.datetimeFormat().format(new Date(info()?.os.boot!)) : ''}</dd>
+            </dl>
 
             <Divider padding='1rem'><IconDatabase class="mr-1" />{l.t('_c.database')}</Divider>
 

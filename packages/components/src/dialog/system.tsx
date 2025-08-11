@@ -124,7 +124,7 @@ function Prompt(props: DialogProps): JSX.Element {
     let dlg: Ref;
     const [msg, setMsg] = createSignal<string>();
     const [title, setTitle] = createSignal(props.header);
-    const access = fieldAccessor('prompt', '', false);
+    const access = fieldAccessor('prompt', '');
 
     promptInst = (msg?: string, val?: string, title?: string): Promise<string | null> => {
         setMsg(msg);

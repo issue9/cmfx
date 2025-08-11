@@ -14,7 +14,12 @@ type Value = string | number | Array<string>;
 
 export interface Props<T> extends FieldBaseProps {
     placeholder?: string;
+
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<T>;
+
     inputMode?: InputMode;
 }
 

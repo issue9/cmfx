@@ -49,7 +49,10 @@ export function APIs(): JSX.Element {
                 { id: 'pattern', label: l.t('_p.system.pattern') },
 
                 { id: 'count', label: l.t('_p.system.count') },
-                { id: 'last', label: l.t('_p.system.last'), content: (_: string, val: string) => { return l.datetimeFormat().format(val); } },
+                {
+                    id: 'last', label: l.t('_p.system.last'),
+                    content: (_: string, val: string) => { return l.datetimeFormat().format(new Date(val)); }
+                },
                 { id: 'serverErrors', label: l.t('_p.system.serverErrors') },
                 { id: 'userErrors', label: l.t('_p.system.userErrors') },
 

@@ -8,9 +8,9 @@ import IconFace from '~icons/material-symbols/face';
 import { boolSelector, Demo, layoutSelector, paletteSelector } from '../base';
 
 export default function() {
-    const txt = fieldAccessor('name', 'text', true);
-    const pwd = fieldAccessor('name', 'pwd', true);
-    const num = fieldAccessor('name', 5, true);
+    const txt = fieldAccessor('name', 'text');
+    const pwd = fieldAccessor('name', 'pwd');
+    const num = fieldAccessor('name', 5);
 
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
@@ -32,17 +32,17 @@ export default function() {
         </>
     }>
         <div class="flex flex-col gap-2 w-80">
-            <TextField layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-            <TextField layout={layout()} placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-            <TextField layout={layout()} placeholder='placeholder' label="prefix" prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
-            <TextField layout={layout()} placeholder='placeholder' label="prefix+suffix" prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+            <TextField hasHelp layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+            <TextField hasHelp layout={layout()} placeholder='placeholder' label="label" palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+            <TextField hasHelp layout={layout()} placeholder='placeholder' label="prefix" prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
+            <TextField hasHelp layout={layout()} placeholder='placeholder' label="prefix+suffix" prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
         </div>
 
         <div class="flex flex-col gap-2 w-80">
-            <Number layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Number layout={layout()} placeholder='placeholder' label="icon" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Number layout={layout()} placeholder='placeholder' label="range:[1,10]" icon={IconFace} min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Password layout={layout()} placeholder='placeholder' label="password" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
+            <Number hasHelp layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Number hasHelp layout={layout()} placeholder='placeholder' label="icon" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Number hasHelp layout={layout()} placeholder='placeholder' label="range:[1,10]" icon={IconFace} min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Password hasHelp layout={layout()} placeholder='placeholder' label="password" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
         </div>
     </Demo>;
 }

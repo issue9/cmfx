@@ -9,7 +9,6 @@ import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../b
 export default function() {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
     const [roundedS, rounded] = boolSelector('rounded');
-    const [apcaS, apca] = boolSelector('APCA');
     const [paletteS, palette] = paletteSelector();
 
     const color = fieldAccessor('color', 'oklch(1% 0.3 100)');
@@ -20,7 +19,6 @@ export default function() {
             {paletteS}
             {layoutS}
             {roundedS}
-            {apcaS}
         </>
     }>
         <Stage title='panel'>
@@ -29,7 +27,7 @@ export default function() {
 
         <Stage title='wcag'>
             <OKLCHPicker palette={palette()} layout={layout()} accessor={wcag} label='wcag' rounded={rounded()} />
-            <OKLCHPanel palette={palette()} apca={apca()} accessor={color} wcag={wcag.getValue()} presets={[
+            <OKLCHPanel palette={palette()} accessor={color} wcag={wcag.getValue()} presets={[
                 'oklch(1 0 0)', 'oklch(0 0 0)', 'oklch(.5 .2 20)', 'oklch(.5 .2 40)', 'oklch(.5 .2 60)',
                 'oklch(.5 .2 80)', 'oklch(.5 .2 100)', 'oklch(.5 .2 120)', 'oklch(.5 .2 140)', 'oklch(.5 .2 160)',
                 'oklch(.5 .2 180)', 'oklch(.5 .2 200)', 'oklch(.5 .2 220)', 'oklch(.5 .2 240)', 'oklch(.5 .2 260)',
@@ -38,7 +36,7 @@ export default function() {
         </Stage>
 
         <Stage title='picker'>
-            <OKLCHPicker wcag='oklch(1 0 0)' apca={apca()} palette={palette()} layout={layout()} accessor={color} label='picker label' rounded={rounded()} />
+            <OKLCHPicker wcag='oklch(1 0 0)' palette={palette()} layout={layout()} accessor={color} label='picker label' rounded={rounded()} />
         </Stage>
     </Demo>;
 }

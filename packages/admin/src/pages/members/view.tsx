@@ -70,8 +70,14 @@ export function View(props: Props): JSX.Element {
             </div>
 
             <div class={styles.item}>
-                <dl><dt class="mr-2">{l.t('_p.created')}</dt><dd>{ l.datetimeFormat().format(member().created) }</dd></dl>
-                <dl><dt class="mr-2">{l.t('_p.member.birthday')}</dt><dd>{l.datetimeFormat().format(member().birthday) }</dd></dl>
+                <dl>
+                    <dt class="mr-2">{l.t('_p.created')}</dt>
+                    <dd>{ member().created ? l.datetimeFormat().format(new Date(member().created!)) : '' }</dd>
+                </dl>
+                <dl>
+                    <dt class="mr-2">{l.t('_p.member.birthday')}</dt>
+                    <dd>{member().birthday ? l.datetimeFormat().format(new Date(member().birthday!)) : '' }</dd>
+                </dl>
             </div>
 
             <div class={styles.item}>

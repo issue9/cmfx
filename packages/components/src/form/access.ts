@@ -35,7 +35,7 @@ export class ObjectAccessor<T extends FlattenObject> {
     readonly #errGetter: ReturnType<typeof createStore<Err<T>>>[0];
     readonly #errSetter: ReturnType<typeof createStore<Err<T>>>[1];
 
-    readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown>>;
+    readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown, string>>;
 
     /**
      * 构造函数
@@ -50,7 +50,7 @@ export class ObjectAccessor<T extends FlattenObject> {
         [this.#valGetter, this.#valSetter] = createStore<T>(structuredClone(preset)); // 复制对象，防止与默认对象冲突。
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
 
-        this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown>>();
+        this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown, string>>();
     }
 
     /**
@@ -93,18 +93,23 @@ export class ObjectAccessor<T extends FlattenObject> {
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
      * @template FT 表示 name 字段的类型；
+     * @template K 这是对 T 的描述，当 T 的实际值为 undefined 等时，
+     * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
      * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法，
      * 嵌套字段可以用 . 相连，比如 a.b.c；
+     * @param kind 指定 {@link Accessor#kind} 的值；
      */
-    accessor<FT = unknown>(name: FlattenKeys<T>): Accessor<FT> {
-        let a: Accessor<FT> | undefined = this.#accessors.get(name) as Accessor<FT>;
-        if (a) { return a as Accessor<FT>; }
+    accessor<FT = unknown, K extends string = string>(name: FlattenKeys<T>, kind?: K): Accessor<FT, K> {
+        let a: Accessor<FT, K> | undefined = this.#accessors.get(name) as Accessor<FT, K>;
+        if (a) { return a as Accessor<FT, K>; }
 
         const self = this;
         const changes: Array<ChangeFunc<FT>> = [];
         const path = (name as string).split('.');
 
         a = {
+            kind(): K | undefined { return kind; },
+
             name(): string { return name as string; },
 
             getError(): string | undefined { return self.#errGetter[name]; },
@@ -146,7 +151,7 @@ export class ObjectAccessor<T extends FlattenObject> {
                 this.setValue(self.#preset[name] as FT);
             }
         };
-        this.#accessors.set(name, a as Accessor<T[keyof T]>);
+        this.#accessors.set(name, a as Accessor<T[keyof T], K>);
         return a;
     }
 
@@ -266,7 +271,9 @@ export class FormAccessor<T extends FlattenObject, R = never, P = never> {
      * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      */
-    accessor<FT = unknown>(name: FlattenKeys<T>): Accessor<FT> { return this.#object.accessor<FT>(name); }
+    accessor<FT = unknown, K extends string = string>(name: FlattenKeys<T>, kind?: K): Accessor<FT, K> {
+        return this.#object.accessor<FT, K>(name, kind);
+    }
 
     setPreset(v: T) { return this.#object.setPreset(v); }
 

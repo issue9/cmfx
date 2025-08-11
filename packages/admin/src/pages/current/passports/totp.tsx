@@ -60,10 +60,10 @@ export class TOTP implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
-                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username', true)} />
-            <TextField prefix={<IconPin class="!py-0 !px-1 !flex !items-center" />}
-                placeholder={l.t('_p.current.verifyCode')} accessor={account.accessor<string>('code', true)} />
+            <TextField hasHelp prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
+                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username')} />
+            <TextField hasHelp prefix={<IconPin class="!py-0 !px-1 !flex !items-center" />}
+                placeholder={l.t('_p.current.verifyCode')} accessor={account.accessor<string>('code')} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
             <Button palette='secondary' disabled={account.isPreset()} type="reset">{l.t('_c.reset')}</Button>
@@ -75,7 +75,7 @@ export class TOTP implements PassportComponents {
         const l = useLocale();
 
         let dialogRef: DialogRef;
-        const code = fieldAccessor('code', '', true);
+        const code = fieldAccessor('code', '');
         const [qr, setQR] = createSignal<string>('');
 
         return <>
@@ -119,7 +119,7 @@ export class TOTP implements PassportComponents {
                             <QRCode type='rounded' value={qr()} />
                         </p>
                         <br />
-                        <TextField placeholder={l.t('_p.current.verifyCode')} accessor={code} />
+                        <TextField hasHelp placeholder={l.t('_p.current.verifyCode')} accessor={code} />
                     </form>
                 </Dialog>
             </Show>

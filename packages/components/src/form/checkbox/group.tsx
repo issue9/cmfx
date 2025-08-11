@@ -22,7 +22,11 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
      */
     itemLayout?: Layout;
 
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<Array<T>>;
+
     options: Options<T>;
 }
 

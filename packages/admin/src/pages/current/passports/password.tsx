@@ -52,9 +52,9 @@ export class Pwd implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
-                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username', true)} />
-            <Password icon={IconPassword} placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password', true)} />
+            <TextField hasHelp prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
+                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username')} />
+            <Password hasHelp icon={IconPassword} placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password')} />
 
             <Button palette='primary' disabled={account.accessor<string>('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
             <Button palette='secondary' disabled={account.isPreset()} type="reset" > {l.t('_c.reset')} </Button>

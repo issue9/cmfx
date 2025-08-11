@@ -10,6 +10,7 @@ import { buildLocale, Locale } from '@/base/locale';
 export type Props = ParentProps<{
     id: string;
     displayStyle: DisplayStyle;
+    timezone?: string;
 }>;
 
 const localeContext = createContext<Locale>();
@@ -32,7 +33,7 @@ export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
     const v = buildLocale(new CoreLocale(props.id, props.displayStyle));
 
     createEffect(() => {
-        v.changeLocale(new CoreLocale(props.id, props.displayStyle));
+        v.changeLocale(new CoreLocale(props.id, props.displayStyle, props.timezone));
     });
 
     return <localeContext.Provider value={v}>{props.children}</localeContext.Provider>;

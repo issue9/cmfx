@@ -12,6 +12,10 @@ import styles from './style.module.css';
 
 export interface Props extends Omit<FieldBaseProps, 'rounded'> {
     placeholder?: string;
+
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<string>;
 }
 

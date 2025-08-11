@@ -28,6 +28,8 @@ export interface Props extends Omit<BaseProps,'dropzone'|'ref'> {
 
     /**
      * 逆向显示内容，这将会导致上传按钮显示在最前面。
+     *
+     * NOTE: 非响应式属性
      */
     reverse?: boolean;
 

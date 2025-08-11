@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, DateRangePicker, fieldAccessor, RangeValueType, Week, WeekPicker, WeekValueType } from '@cmfx/components';
+import { DatePicker, DateRangePicker, fieldAccessor, Week, WeekPicker, WeekValueType } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
 
 export default function() {
-    const ac = fieldAccessor<Date>('dp', new Date('2024-01-02T15:34'), true);
-    const range = fieldAccessor<RangeValueType>('range', [new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')], true);
-    const weekNum = fieldAccessor<WeekValueType>('week', [2025, 7], true);
+    const ac = fieldAccessor<Date, 'date'>('dp', new Date('2024-01-02T15:34'));
+    const ac2 = fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
+    const range = fieldAccessor<[Date, Date], 'date'>('range', [new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')]);
+    const weekNum = fieldAccessor<WeekValueType>('week', [2025, 7]);
 
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
@@ -51,7 +52,8 @@ export default function() {
             <DatePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
                 label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 weekend={weekend()} palette={palette()} rounded={rounded()}
-                readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
+                readonly={readonly()} disabled={disabled()} accessor={ac2} weekBase={week()} time={time()} />
+            <p>{ ac2.getValue() }</p>
         </Stage>
 
         <Stage title="range picker">

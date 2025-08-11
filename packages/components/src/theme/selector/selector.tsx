@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, For, JSX, mergeProps } from 'solid-js';
+import equal from 'fast-deep-equal';
+import { createEffect, createSignal, For, JSX } from 'solid-js';
 
 import { BaseProps, joinClass, Scheme } from '@/base';
 import styles from './style.module.css';
@@ -16,34 +17,41 @@ export interface Props extends BaseProps {
     /**
      * 当前的主题值
      */
-    value: string;
+    value: string | Scheme;
 
     /**
      * 修改主题值时触发的事件
      */
-    onChange?: { (val: string, old: string): void; };
-
-    tabIndex?: number;
+    onChange?: { (val: string, old?: string): void; };
 }
-
-const presetProps: Partial<Props> = {
-    tabIndex: 0
-} as const;
 
 /**
  * 主题选择组件
  */
 export function Selector(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const [value, setValue] = createSignal<string>();
 
-    const [value, setValue] = createSignal(props.value);
+    // 监视外部变化
+    createEffect(() => {
+        if (typeof props.value === 'string') {
+            setValue(props.value);
+        } else {
+            const v = props.schemes.entries().some(s => {
+                if (equal(s[1], props.value)) {
+                    setValue(s[0]);
+                    return true;
+                }
+            });
+            if (!v) { setValue(undefined); }
+        }
+    });
 
     return <div class={joinClass(styles.selector, props.palette ? `palette--${props.palette}` : '', props.class)}>
         <For each={Array.from(props.schemes.entries())}>
             {scheme => {
                 const colors = scheme[1].dark!;
 
-                return <button tabIndex={props.tabIndex}
+                return <button
                     class={joinClass(styles.option, value() === scheme[0] ? styles.selected : '')}
                     onClick={() => {
                         const old = value();

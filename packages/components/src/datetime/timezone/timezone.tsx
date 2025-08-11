@@ -12,6 +12,7 @@ import { Divider } from '@/divider';
 import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
 import { Tab } from '@/tab';
+import { createEffect } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -34,6 +35,7 @@ interface Region {
     timezones: Array<TZ>;
 }
 
+// 返回本地化的区域列表
 export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Array<Region> {
     const fmt = (tz: string): string => {
         const formatter = new Intl.DateTimeFormat(l, {
@@ -69,7 +71,12 @@ export default function Timezone(props: Props): JSX.Element {
 
     const tabs = regions().map(v => [v.id, v.id]) as FieldOptions<string>;
     const [tab, setTab] = createSignal<string | undefined>(tabs[0][0]);
-    const [selected, setSelected] = createSignal<string | undefined>(undefined);
+    const [selected, setSelected] = createSignal<string | undefined>(props.value);
+
+    // 监视 props.value 变化
+    createEffect(() => {
+        setSelected(props.value);
+    });
 
     const change = (value: string) => {
         const old = untrack(selected);

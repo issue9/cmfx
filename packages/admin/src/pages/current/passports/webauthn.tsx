@@ -36,7 +36,7 @@ export class Webauthn implements PassportComponents {
         const [api, act, opt] = use();
         const l = useLocale();
         const nav = useNavigate();
-        const account = fieldAccessor('account', '', true);
+        const account = fieldAccessor('account', '');
 
         return <form class="!gap-5" onReset={() => account.reset()} onSubmit={async () => {
             const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
@@ -87,7 +87,7 @@ export class Webauthn implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
+            <TextField hasHelp prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
                 suffix={
                     <Show when={account.getValue()!==''}>
                         <IconClose class="!py-0 !px-1 !flex !items-center" onClick={()=>account.setValue('')} />
@@ -118,19 +118,24 @@ export class Webauthn implements PassportComponents {
                         columns={[
                             { id: 'id', label: l.t('_p.id') },
                             { id: 'ua', label: l.t('_p.current.ua') },
-                            { id: 'last', label: l.t('_p.current.lastUsed'), content: (_, val) => l.datetimeFormat().format(val) },
+                            {
+                                id: 'last', label: l.t('_p.current.lastUsed'),
+                                content: (_, val) => l.datetimeFormat().format(new Date(val as string))
+                            },
                             {
                                 id: 'id', label: l.t('_p.actions'), renderContent: (_, val) => (
-                                    <ConfirmButton square rounded palette='error' title={l.t('_p.current.unbindWebauthn')} onClick={async () => {
-                                        const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
-                                        if (!r1.ok) {
-                                            act.outputProblem(r1.body);
-                                            return;
-                                        }
+                                    <ConfirmButton square rounded palette='error' title={l.t('_p.current.unbindWebauthn')}
+                                        onClick={async () => {
+                                            const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
+                                            if (!r1.ok) {
+                                                act.outputProblem(r1.body);
+                                                return;
+                                            }
 
-                                        tableRef.refresh();
-                                        await f();
-                                    }}><IconDelete /></ConfirmButton>
+                                            tableRef.refresh();
+                                            await f();
+                                        }}
+                                    ><IconDelete /></ConfirmButton>
                                 )
                             },
                         ]}

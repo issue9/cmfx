@@ -4,7 +4,7 @@
 
 import {
     Choice, createBytesFormatter, Description, Divider, fieldAccessor,
-    joinClass, Mode, Page, RadioGroup, SchemeSelector, Timezone, use as useC
+    joinClass, Mode, Page, RadioGroup, SchemeSelector, Timezone, use
 } from '@cmfx/components';
 import { DisplayStyle, formatDuration, Locale } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
@@ -17,17 +17,20 @@ import IconTimezone from '~icons/mdi/timezone';
 import { useLocale } from '@/context';
 import styles from './style.module.css';
 
+/**
+ * 设置页面
+ */
 export function Settings(): JSX.Element {
-    const [, act, opt] = useC();
+    const [, act, opt] = use();
     const l = useLocale();
 
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
     modeFA.onChange(m => { act.switchMode(m); });
 
-    const localeFA = fieldAccessor<string>('locale', l.match(Locale.languages()), false);
+    const localeFA = fieldAccessor<string>('locale', Locale.matchLanguage(opt.locale));
     localeFA.onChange((v) => { act.switchLocale(v); });
 
-    const unitFA = fieldAccessor<DisplayStyle>('unit', l.displayStyle);
+    const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
     unitFA.onChange((v) => { act.switchDisplayStyle(v); });
 
     return <Page title='_p.current.settings' class={ joinClass('max-w-sm', styles.settings) }>
@@ -50,7 +53,7 @@ export function Settings(): JSX.Element {
                 {l.t('_p.settings.colorDesc')! }
             </Description>
 
-            <SchemeSelector schemes={opt.schemes!} value={opt.scheme!} onChange={(val)=> act.switchScheme(val)} />
+            <SchemeSelector schemes={opt.schemes!} value={opt.scheme!} onChange={val=> act.switchScheme(val)} />
         </Show>
 
         <Divider />
@@ -87,6 +90,6 @@ export function Settings(): JSX.Element {
             {l.t('_p.settings.timezoneDesc')! }
         </Description>
 
-        <Timezone value={l.timezone} onChange={v=>{act.switchTimezone(v);console.log(v)}} />
+        <Timezone value={opt.timezone} onChange={v => { act.switchTimezone(v); }} />
     </Page>;
 }

@@ -8,7 +8,7 @@ import { For } from 'solid-js';
 import { boolSelector, Demo, layoutSelector, palettesWithUndefined } from '../base';
 
 export default function() {
-    const f = fieldAccessor('name', '5', true);
+    const f = fieldAccessor('name', '5');
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
@@ -23,7 +23,7 @@ export default function() {
     }>
         <For each={palettesWithUndefined}>
             {(item) => (
-                <TextArea layout={layout()} palette={item} label={item ? item : 'undefined'} title={item ? item : 'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
+                <TextArea hasHelp layout={layout()} palette={item} label={item ? item : 'undefined'} title={item ? item : 'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
             )}
         </For>
     </Demo>;

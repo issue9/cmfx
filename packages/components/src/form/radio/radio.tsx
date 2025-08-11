@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { JSX } from 'solid-js';
 
-import { classList, joinClass } from '@/base';
+import { AvailableEnumType, classList, joinClass } from '@/base';
 import { FieldBaseProps } from '@/form/field';
 import styles from './style.module.css';
 
@@ -26,19 +26,15 @@ export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
     rounded?: boolean;
 
     name?: string;
-}
 
-const presetProps: Readonly<Props> = {
-    tabindex: 0,
-};
+    value?: AvailableEnumType;
+}
 
 /**
  * 带文本提示的单选框
  */
 export function Radio(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
-
-    return <label tabIndex={props.tabindex} title={props.title} class={classList({
+    return <label title={props.title} class={classList({
         [styles.block]: props.block,
         [`palette--${props.palette}`]: !!props.palette
     }, styles.radio, props.class)}>

@@ -7,7 +7,7 @@ import { Choice, fieldAccessor, FieldOptions, TextField } from '@cmfx/components
 import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
 
 export default function() {
-    const fa = fieldAccessor<string|undefined>('choice', '1', true);
+    const fa = fieldAccessor<string|undefined>('choice', '1');
     const options: FieldOptions<string> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:green">green</div >],
@@ -51,7 +51,7 @@ export default function() {
         </>
     }>
         <Stage title="label" class="flex flex-row gap-5">
-            <Choice layout={layout()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
+            <Choice hasHelp layout={layout()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
             <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
         </Stage>
 

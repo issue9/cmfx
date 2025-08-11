@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, DateRangePanel, datetimePluginLunar, RangeValueType, Week } from '@cmfx/components';
+import { Button, DatePanel, DateRangePanel, DateRangeValueType, datetimePluginLunar, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 import { boolSelector, Demo, paletteSelector, Stage } from '../base';
@@ -27,7 +27,7 @@ export default function() {
     const [valShow, setValShow] = createSignal<string>('');
     const [valWithTimeShow, setValWithTimeShow] = createSignal<string>('');
 
-    const [range, setRange] = createSignal<RangeValueType>();
+    const [range, setRange] = createSignal<DateRangeValueType>();
 
     return <Demo settings={
         <>

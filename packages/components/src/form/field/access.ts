@@ -7,9 +7,21 @@ import { createSignal, Signal, untrack } from 'solid-js';
 /**
  * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
  *
- * @template T 关联的值类型
+ * @template T 关联的值类型；
+ * @template K 这是对 T 的描述，当 T 的实际值为 undefined 等时，
+ * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
  */
-export interface Accessor<T> {
+export interface Accessor<T, K extends string = string> {
+    /**
+     * 这是对类型 T 的补充说明
+     *
+     * 当 T 无法说明类型时，比如 undefined，由 kind 返回具体的类型说明。
+     *
+     * NOTE: 当 Accessor 支持多种类型时，比如 Accessor<string|date|undefined>，
+     * 在初始化时传递的是 undefined，就无法真正确定类型是什么，此时可以通过此方法进行类型识别。
+     */
+    kind(): K | undefined;
+
     /**
      * 字段的名称
      *
@@ -60,9 +72,17 @@ export interface ChangeFunc<T> {
  *
  * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v 初始化的值或是直接由 {@link createSignal} 创建的可响应对象；
+ * @param kind 指定 {@link Accessor#kind} 的值；
  * @template T 关联的值类型；
+ * @template K 这是对 T 的描述，当 T 的实际值为 undefined 等时，
+ * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
+ *
+ * @example
+ * ```ts
+ * const date = fieldAccessor<Date|string|undefined, 'date'|'string'>('created_time', undefined, 'string');
+ * ```
  */
-export function fieldAccessor<T>(name: string, v: T | Signal<T>): Accessor<T> {
+export function fieldAccessor<T, K extends string = string>(name: string, v: T | Signal<T>, kind?: K): Accessor<T, K> {
     let preset: T;
 
     let s: Signal<T>;
@@ -78,6 +98,8 @@ export function fieldAccessor<T>(name: string, v: T | Signal<T>): Accessor<T> {
     const changes: Array<ChangeFunc<T>> = [];
 
     return {
+        kind(): K | undefined { return kind; },
+
         name(): string { return name; },
 
         getError(): string | undefined { return err(); },

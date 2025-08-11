@@ -13,14 +13,16 @@ import { useLocale } from '@/context';
 import { DateViewRef } from '@/datetime/dateview';
 import { CommonPanel, Props as CommonProps } from './common';
 import {
-    nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, RangeValueType, thisQuarter, thisYear
+    DateRangeValueType,
+    nextQuarter, nextYear, prevMonth, prevQuarter, prevYear,
+    thisQuarter, thisYear
 } from './shortcuts';
 import styles from './style.module.css';
 
 export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef' | 'onEnter' | 'onLeave'> {
-    value?: RangeValueType;
+    value?: DateRangeValueType;
 
-    onChange?: { (val?: RangeValueType, old?: RangeValueType): void; };
+    onChange?: { (val?: DateRangeValueType, old?: DateRangeValueType): void; };
 
     /**
      * 是否显示右侧快捷选择栏
@@ -38,7 +40,7 @@ export function DateRangePanel(props: Props) {
     let viewRef1: DateViewRef;
     let viewRef2: DateViewRef;
 
-    const [values, setValues] = createSignal<RangeValueType>(props.value ?? [undefined, undefined]);
+    const [values, setValues] = createSignal<DateRangeValueType>(props.value ?? [undefined, undefined]);
     let index = 0; // 当前设置的值属于 values 的哪个索引值
 
     const [page1, setPage1] = createSignal<Date>(values()[0] ?? new Date());
@@ -70,7 +72,7 @@ export function DateRangePanel(props: Props) {
     // start 是否为修改第一个面板的值；
     // onchange 是否触发 onChange 事件；
     const panelChange = (value?: Date, time?: boolean, start?: boolean, onchange?: boolean) => {
-        const old = [...untrack(values)] as RangeValueType;
+        const old = [...untrack(values)] as DateRangeValueType;
 
         if (!value) { // 只有在 Props.value === [undefined, undefined] 时才会有可能 !value 成立。
             viewRef1?.unselect(...old);
@@ -104,7 +106,7 @@ export function DateRangePanel(props: Props) {
             setValues(prev => {
                 const ret = prev[0] ? [prev[0], value] : [value, prev[1]];
                 ret.sort((a, b) => (a ? a.getTime() : 0) - (b ? b.getTime() : 0));
-                return ret as RangeValueType;
+                return ret as DateRangeValueType;
             });
             const vals = untrack(values) as [Date, Date];
             viewRef1?.cover(vals);
@@ -199,7 +201,7 @@ export function DateRangePanel(props: Props) {
         }
     };
 
-    const setShortcuts = (vals: RangeValueType) => {
+    const setShortcuts = (vals: DateRangeValueType) => {
         setValues(vals);
 
         viewRef1?.cover(vals as [Date, Date]);

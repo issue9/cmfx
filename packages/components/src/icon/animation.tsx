@@ -43,7 +43,7 @@ export interface Props extends BaseProps {
     /**
      * 缓动函数
      *
-     * 如果需要自定义缓动函数，可以通过 svg-morpheus-ts 包使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
+     * 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
      *
      * NOTE: 非响应属性
      */
@@ -84,8 +84,7 @@ export function AnimationIcon(props: Props): JSX.Element {
             const cls = joinClass(props.palette ? `palette--${props.palette}` : '', props.class);
             icons()!.setAttribute('class', cls!);
 
-            // 如果更新了样式，调用 to 以同步更新样式。
-            if (m) { m.to(m.currIconId()); }
+            if (m) { m.to(m.currIconId()); } // 如果更新了样式，调用 to 以同步更新样式。
         }
     });
 

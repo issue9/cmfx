@@ -7,6 +7,7 @@ export type { Month, Week } from './utils';
 
 export * from './calendar';
 export * from './datepanel';
+export * from './dateview';
 export * from './monthpanel';
 export * from './plugin';
 export * from './timepanel';

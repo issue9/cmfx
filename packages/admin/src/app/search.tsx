@@ -33,7 +33,7 @@ export function Search(props: Props): JSX.Element {
     let listRef: HTMLUListElement;
     const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(l.t, opt.aside.menus, ''));
 
-    const input = fieldAccessor('search', '', false);
+    const input = fieldAccessor('search', '');
     input.onChange((val: string) => {
         setItems(buildItemsWithSearch(l.t, opt.aside.menus, val));
     });

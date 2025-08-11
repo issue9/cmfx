@@ -26,6 +26,9 @@ export interface Props extends FieldBaseProps {
      */
     marks?: Options<number>;
 
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<number>;
 
     /**

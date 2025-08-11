@@ -16,6 +16,9 @@ import styles from './style.module.css';
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<Date | undefined>;
 }
 

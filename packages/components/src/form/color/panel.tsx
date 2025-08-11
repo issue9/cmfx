@@ -23,6 +23,9 @@ declare global {
 }
 
 export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'rounded'> {
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<string>;
 
     /**

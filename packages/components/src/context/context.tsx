@@ -85,7 +85,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
 
     return <internalOptionsContext.Provider value={obj}>
         <Show when={!data.loading}>
-            <LocaleProvider id={data()!.locale} displayStyle={data()!.displayStyle}>
+            <LocaleProvider id={data()!.locale} displayStyle={data()!.displayStyle} timezone={data()!.timezone}>
                 {props.children}
             </LocaleProvider>
         </Show>
@@ -169,9 +169,8 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换主题色
          *
-         * @param scheme 新主题色的 ID 或 Scheme 对象，
-         * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，
-         * 防止外部修改时，引起主题变化。
+         * @param scheme 新主题色的 ID 或 {@link Scheme} 对象，
+         * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
          */
         switchScheme(scheme: string | Scheme) {
             const s = structuredClone((typeof scheme === 'string') ? options!.schemes!.get(scheme) : scheme);

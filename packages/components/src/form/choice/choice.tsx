@@ -17,6 +17,10 @@ export interface Props<T extends AvailableEnumType, M extends boolean> extends F
     placeholder?: string;
     options: Options<T>;
     multiple?: M;
+
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: M extends true ? Accessor<Array<T | undefined>> : Accessor<T | undefined>;
 }
 

@@ -16,10 +16,16 @@ import {
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
+// 允许的日期类型
+export type DateType = Date | string | number;
+
 export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
-    accessor: Accessor<Date | undefined>;
+    /**
+     * NOTE: 非响应式属性
+     */
+    accessor: Accessor<DateType | undefined, 'number' | 'string' | 'date'>;
 }
 
 export const presetProps: Partial<Props> = {
@@ -44,6 +50,33 @@ export function DatePicker(props: Props): JSX.Element {
         return props.time ? l.datetimeFormat().format : l.dateFormat().format;
     });
 
+    const getValue = (): Date | undefined => {
+        const v = props.accessor.getValue();
+        if (v === undefined) { return v; }
+
+        switch (props.accessor.kind()) {
+        case 'string':
+        case 'number':
+            return new Date(v);
+        default:
+            return v as Date;
+        }
+    };
+
+    const setValue = (value?: Date) => {
+        switch (props.accessor.kind()) {
+        case 'string':
+            props.accessor.setValue(value?.toISOString());
+            break;
+        case 'number':
+            props.accessor.setValue(value?.getTime());
+            break;
+        default:
+            props.accessor.setValue(value);
+            break;
+        }
+    };
+
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={joinClass(styles.activator, props.class)}
@@ -60,7 +93,7 @@ export function DatePicker(props: Props): JSX.Element {
         >
             <input id={id} class={styles.input} tabIndex={props.tabindex}
                 disabled={props.disabled} readOnly placeholder={props.placeholder}
-                value={props.accessor.getValue() ? formater()(props.accessor.getValue()) : ''}
+                value={props.accessor.getValue() ? formater()(getValue()) : ''}
             />
             <Show when={hover() && props.accessor.getValue()} fallback={<IconExpandAll />}>
                 <IconClose onClick={e => {
@@ -73,7 +106,7 @@ export function DatePicker(props: Props): JSX.Element {
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
 
             <DatePanel class={styles['dt-panel']} {...panelProps}
-                value={props.accessor.getValue()} onChange={val=>props.accessor.setValue(val)}
+                value={getValue()} onChange={val => setValue(val)}
             />
 
             <div class={styles.actions}>

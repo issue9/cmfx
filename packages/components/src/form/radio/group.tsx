@@ -20,7 +20,11 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
      */
     itemLayout?: Layout;
 
+    /**
+     * NOTE: 非响应式属性
+     */
     accessor: Accessor<T>;
+
     options: Options<T>;
 }
 
@@ -33,7 +37,7 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
     const access = props.accessor;
     return <Field class={props.class} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
-            {(area)=><label style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)} classList={{
@@ -43,8 +47,8 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
             <For each={props.options}>
                 {item =>
                     <Radio readonly={props.readonly} label={item[1]} block={props.block}
-                        checked={item[0] === access.getValue()} rounded={props.rounded}
-                        name={props.accessor.name()} onChange={()=>{
+                        checked={item[0] === access.getValue()} rounded={props.rounded} value={access.getValue()}
+                        name={props.accessor.name()} onChange={() => {
                             if (!props.readonly && !props.disabled && access.getValue() !== item[0]) {
                                 access.setValue(item[0]);
                                 access.setError();

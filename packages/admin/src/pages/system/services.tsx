@@ -41,6 +41,9 @@ export const stateMap: Array<[State, MessagesKey]> = [
 export function Services(): JSX.Element {
     const [api, act] = use();
     const l = useLocale();
+    const f = createMemo(() => {
+        return l.datetimeFormat().format;
+    });
 
     const items = createMemo(async()=>{
         const ret = await api.get<Service>('/system/services');
@@ -75,8 +78,14 @@ export function Services(): JSX.Element {
                     return states().find((val) => val[0] === v)?.[1];
                 }) as Column<Job>['content']},
                 {id: 'err', label: l.t('_p.system.error')},
-                {id: 'next', label: l.t('_p.system.next'), content: (_: string, val?: string) => { return l.datetime.format(val); }},
-                {id: 'prev', label: l.t('_p.system.prev'), content: (_: string, val?: string) => { return l.datetime.format(val); }},
+                {
+                    id: 'next', label: l.t('_p.system.next'),
+                    content: (_: string, val?: string) => { return val ? f()(new Date(val)) : ''; }
+                },
+                {
+                    id: 'prev', label: l.t('_p.system.prev'),
+                    content: (_: string, val?: string) => { return val ? f()(new Date(val)) : ''; }
+                },
             ]} />
         </fieldset>
     </Page>;

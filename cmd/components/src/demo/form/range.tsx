@@ -12,7 +12,7 @@ function formatValue(value: number): JSX.Element {
 }
 
 export default function () {
-    const f = fieldAccessor('name', 5, true);
+    const f = fieldAccessor('name', 5);
 
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
@@ -41,24 +41,24 @@ export default function () {
         </Stage>
 
         <Stage title="bg">
-            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
+            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
                 bg='linear-gradient(to right, oklch(.5 .5 0), oklch(.5 .5 90), oklch(.5 .5 180), oklch(.5 .5 360))'
                 disabled={disabled()} readonly={readonly()} layout={layout()} />
         </Stage>
 
         <Stage title="float step">
-            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
+            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
                 step={0.5} min={0} max={100} disabled={disabled()} readonly={readonly()} layout={layout()} />
         </Stage>
 
         <Stage title="mark">
-            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
+            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
                 step={10} min={0} max={100} marks={[[0, '0'], [30, '30'], [50, '50'], [80, '80'], [100, 'last']]}
             />
         </Stage>
 
         <Stage title="mark">
-            <Range rounded={rounded()} value={value() ? formatValue : undefined} class="min-w-90" fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
+            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} class="min-w-90" fitHeight={fitHeight()} accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
                 step={10} min={0} max={130} marks={[[0, '0'], [30, '30'], [50, '50'], [80, '80'], [130, 'last']]}
             />
         </Stage>

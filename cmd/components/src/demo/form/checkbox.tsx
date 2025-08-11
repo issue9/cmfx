@@ -15,7 +15,7 @@ export default function() {
     const [blockS, block] = boolSelector('block');
     const [roundedS, rounded] = boolSelector('rounded');
 
-    const groupFA = fieldAccessor('checkbox', ['1'], true);
+    const groupFA = fieldAccessor('checkbox', ['1']);
     const groupOptions: FieldOptions<string> = [
         ['1', <div>abc</div>],
         ['2', <div style="color:red">red</div >],
@@ -44,7 +44,7 @@ export default function() {
             <For each={palettesWithUndefined}>
                 {(item) => (
                     <Checkbox rounded={rounded()} title={item ? item : 'undefined'} label='test'
-                    block={block()} palette={item} disabled={disabled()} readonly={readonly()}
+                        block={block()} palette={item} disabled={disabled()} readonly={readonly()}
                     />
                 )}
             </For>
@@ -52,12 +52,12 @@ export default function() {
 
         <Stage title="change">
             <Checkbox rounded={rounded()} indeterminate title='onchange' label='事件：onchange'
-            onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
+                onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
             <div>{ chk() ? 'checked' : 'unchecked' }</div>
         </Stage>
 
         <Stage title="checkbox Group">
-            <CheckboxGroup help="help text" layout={layout()} itemLayout={itemLayout()} rounded={rounded()}
+            <CheckboxGroup hasHelp help="help text" layout={layout()} itemLayout={itemLayout()} rounded={rounded()}
                 block={block()} disabled={disabled()} readonly={readonly()} label="group" palette="primary"
                 options={groupOptions} accessor={groupFA}
             />
