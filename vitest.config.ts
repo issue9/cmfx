@@ -27,7 +27,14 @@ export default mergeConfig(
     }),
     defineConfig({
         test: {
-            projects: ['packages/core', 'packages/components', 'packages/admin', 'build/vite-plugin-about'],
+            projects: [
+                'packages/core',
+                'packages/components',
+                'packages/admin',
+
+                'build/vite-plugin-about',
+                'build/vite-plugin-api'
+            ],
             environment: 'jsdom',
             exclude: exclude,
             coverage: {

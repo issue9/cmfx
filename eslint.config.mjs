@@ -21,6 +21,9 @@ export default [
 
     includeIgnoreFile(path.resolve(__dirname, 'cmd/admin/.gitignore')),
     includeIgnoreFile(path.resolve(__dirname, 'cmd/components/.gitignore')),
+
+    includeIgnoreFile(path.resolve(__dirname, 'build/vite-plugin-about/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'build/vite-plugin-api/.gitignore')),
     {
         languageOptions: {
             globals: globals.browser,

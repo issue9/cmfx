@@ -86,6 +86,7 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 - 注意 CSS 中不同 layer 的优先级；
 - solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route. ` 的错误，
 所以在所有的 vite.config.ts 中都将 solid-router 加入到 rollupOptions.external，只在主项目中真实导入；
+- 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容。
 
 ### 后端
 

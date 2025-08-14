@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { api } from '@cmfx/vite-plugin-api';
 import tailwindcss from '@tailwindcss/vite';
 import cssnano from 'cssnano';
 import path from 'path';
@@ -36,6 +37,10 @@ export default defineConfig(({ mode }) => {
         } : undefined,
 
         plugins: [
+            api({
+                components: '../../packages/components',
+                root: './src/demo',
+            }),
             devtools(),
             solidPlugin(),
             Icons({ compiler: 'solid', scale: 1 }),

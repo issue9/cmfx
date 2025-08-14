@@ -1,8 +1,9 @@
 {
-    "name": "@cmfx/admin",
+    "name": "@cmfx/vite-plugin-api",
     "version": "0.12.0",
     "type": "module",
-    "description": "适用于 cmfx 的后台管理框架",
+    "main": "./lib/index.js",
+    "description": "为 cmfx 组件库提取 API 文档",
     "author": {
         "name": "caixw",
         "url": "https://caixw.io"
@@ -14,12 +15,15 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/issue9/cmfx",
-        "directory": "packages/admin"
+        "directory": "build/vite-plugin-api"
     },
     "keywords": [
         "cmfx",
-        "admin",
-        "dashboard"
+        "vite",
+        "plugin",
+        "vite-plugin",
+        "api",
+        "doc"
     ],
     "license": "MIT",
     "files": [
@@ -33,39 +37,22 @@
         ".": {
             "types": "./lib/index.d.ts",
             "import": "./lib/index.js"
-        },
-        "./style.css": "./lib/style.css",
-        "./messages/": {
-            "require": "./lib/messages/",
-            "import": "./lib/messages/"
         }
     },
     "scripts": {
         "build": "vite build"
     },
-    "dependencies": {
-        "@cmfx/core": "workspace:*",
-        "@cmfx/components": "workspace:*",
-        "@cmfx/vite-plugin-about": "workspace:*",
-        "@scure/base": "^1.2.6",
-        "@solidjs/router": "catalog:",
-        "bowser": "^2.12.0",
-        "solid-js": "catalog:",
-        "tailwindcss": "catalog:",
-        "@iconify/json": "catalog:"
-    },
     "devDependencies": {
-        "unplugin-icons": "catalog:",
-        "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
-        "autoprefixer": "catalog:",
-        "cssnano": "catalog:",
-        "postcss": "catalog:",
-        "typescript": "catalog:",
         "vite": "catalog:",
         "vite-plugin-dts": "catalog:",
-        "vite-plugin-solid": "catalog:",
         "vite-plugin-static-copy": "catalog:",
+        "typescript": "catalog:",
         "vitest": "catalog:"
+    },
+    "dependencies": {
+        "@microsoft/tsdoc": "^0.15.1",
+        "ts-morph": "^26.0.0",
+        "yaml": "catalog:"
     }
 }

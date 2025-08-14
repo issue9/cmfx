@@ -40,7 +40,7 @@ export function arraySelector<T extends string|number|undefined>(label: string, 
     const [get, set] = createSignal<T>(preset);
 
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
-        <legend>{ label }</legend>
+        <legend>{label}</legend>
         <For each={array}>
             {(item) => (
                 <label class="mr-4">

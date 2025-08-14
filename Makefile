@@ -28,7 +28,7 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about
+.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api
 
 # 编译测试项目
 build-cmd: gen
@@ -37,6 +37,9 @@ build-cmd: gen
 
 build-ts-vite-plugin-about:
 	pnpm --filter=./build/vite-plugin-about run build
+
+build-ts-vite-plugin-api:
+	pnpm --filter=./build/vite-plugin-api run build
 
 build-ts-core:
 	pnpm --filter=./packages/core run build
@@ -49,8 +52,8 @@ build-ts-admin:
 
 # 编译前端项目内容
 build-ts:
-	pnpm --filter=./build/vite-plugin-about --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
-	
+	pnpm --filter=./build/vite-plugin-about --filter=./build/vite-plugin-api --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
+
 ########################### install ###################################
 
 .PHONY: install install-ts install-go init
@@ -89,7 +92,7 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
-.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin test-ts-vite-plugin-about
+.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin test-ts-vite-plugin-about test-ts-vite-plugin-api
 
 lint-ts:
 	pnpm run lint
@@ -101,6 +104,9 @@ test-go: mk-coverage
 
 test-ts-vite-plugin-about: mk-coverage
 	pnpm run test --project=@cmfx/vite-plugin-about
+
+test-ts-vite-plugin-api: mk-coverage
+	pnpm run test --project=@cmfx/vite-plugin-api
 
 test-ts-core: mk-coverage
 	pnpm run test --project=@cmfx/core
@@ -123,7 +129,7 @@ test: test-go test-ts
 .PHONY: publish-npm
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about --access=public --no-git-checks
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about --filter=./build/vite-plugin-api --access=public --no-git-checks
 
 ########################### version ###################################
 

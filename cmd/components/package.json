@@ -30,6 +30,7 @@
         "@iconify/json": "catalog:"
     },
     "devDependencies": {
+        "@cmfx/vite-plugin-api": "workspace:*",
         "unplugin-icons": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",
