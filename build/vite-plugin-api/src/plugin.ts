@@ -9,6 +9,9 @@ import YAML from 'yaml';
 
 import { Parser } from './parser';
 
+// 配置文件名
+const filename = 'api';
+
 /**
  * 插件配置项
  */
@@ -19,7 +22,7 @@ export interface Options {
     components: string;
 
     /**
-     * 定义了 api.yaml 文件的根目录，将只从该目录下查找 api.yaml 文件，并生成 api.tsx 组件。
+     * 文档项目中所有 api 文档的公共根目录
      */
     root: string;
 }
@@ -42,7 +45,7 @@ export default function api(o: Options): Plugin {
                 const objs = parser.prorps(props);
 
                 const dir = path.dirname(f);
-                writeFileSync(path.join(dir, 'api.json'), JSON.stringify(objs, null, 2));
+                writeFileSync(path.join(dir, `${filename}.json`), JSON.stringify(objs, null, 2));
             }
         }
     };
@@ -59,7 +62,7 @@ function findAPIFile(dir: string): string[] {
 
             if (stat.isDirectory()) {
                 walk(itemPath); // 递归子目录
-            } else if (item === 'api.yaml') {
+            } else if (item === `${filename}.yaml`) {
                 result.push(itemPath); // 匹配名称
             }
         }

@@ -77,7 +77,7 @@ export default function Stage(props: Props) {
         </div>
 
         <Show when={props.source}>
-            <Code copyable class={joinClass(styles.code, code() ? 'block' : 'hidden')}>
+            <Code lang='tsx' class={joinClass(styles.code, code() ? 'block' : 'hidden')}>
                 {props.source}
             </Code>
         </Show>
