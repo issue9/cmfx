@@ -24,13 +24,13 @@
     "dependencies": {
         "@cmfx/components": "workspace:*",
         "@cmfx/core": "workspace:*",
+        "@cmfx/vite-plugin-api": "workspace:*",
         "@solidjs/router": "catalog:",
         "tailwindcss": "catalog:",
         "solid-js": "catalog:",
         "@iconify/json": "catalog:"
     },
     "devDependencies": {
-        "@cmfx/vite-plugin-api": "workspace:*",
         "unplugin-icons": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",

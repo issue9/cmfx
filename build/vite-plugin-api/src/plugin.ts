@@ -42,7 +42,7 @@ export default function api(o: Options): Plugin {
                 const objs = parser.prorps(props);
 
                 const dir = path.dirname(f);
-                writeFileSync(path.join(dir, 'api.json'), JSON.stringify(objs));
+                writeFileSync(path.join(dir, 'api.json'), JSON.stringify(objs, null, 2));
             }
         }
     };

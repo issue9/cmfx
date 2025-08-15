@@ -3,13 +3,17 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    DocCodeSpan, DocLinkTag, DocNode, DocParagraph, DocPlainText, DocSection, TSDocParser
+    DocCodeSpan, DocLinkTag, DocNode, DocParagraph, DocPlainText, DocSection,
+    StandardTags, TSDocConfiguration, TSDocParser, TSDocTagDefinition, TSDocTagSyntaxKind
 } from '@microsoft/tsdoc';
 import path from 'node:path';
 import {
     CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration,
     ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags
 } from 'ts-morph';
+
+const reactiveTag = '@reactive';
+const defaultTag = '@default';
 
 /**
  * 类型的文档对象
@@ -23,7 +27,7 @@ export interface Object {
     /**
      * 对应在的文档
      */
-    doc?: string;
+    summary?: string;
 
     /**
      * 备注信息
@@ -53,7 +57,7 @@ export interface Field {
     /**
      * 对应在的文档
      */
-    doc?: string;
+    summary?: string;
 
     /**
      * 字段的备注信息
@@ -99,7 +103,30 @@ export class Parser {
         this.#exported = dts.getExportedDeclarations();
         this.#checker = project.getTypeChecker();
 
-        this.#parser = new TSDocParser();
+        /****************** 以下定义 TSDocParser ************************/
+
+        const reactiveTagDef = new TSDocTagDefinition({
+            tagName: reactiveTag,
+            syntaxKind: TSDocTagSyntaxKind.ModifierTag
+        });
+
+        const defaultTagDef = new TSDocTagDefinition({
+            tagName: defaultTag,
+            syntaxKind: TSDocTagSyntaxKind.BlockTag
+        });
+
+        const conf = new TSDocConfiguration();
+
+        conf.addTagDefinition(reactiveTagDef);
+        conf.setSupportForTag(reactiveTagDef, true);
+
+        conf.addTagDefinition(defaultTagDef);
+        conf.setSupportForTag(defaultTagDef, true);
+
+        conf.addTagDefinition(StandardTags.defaultValue);
+        conf.setSupportForTag(StandardTags.defaultValue, true);
+
+        this.#parser = new TSDocParser(conf);
     }
 
     /**
@@ -125,7 +152,7 @@ export class Parser {
             const jsdoc = this.#parser.parseString(txt ?? '').docComment;
             const obj: Object = {
                 name: decl.getName() ?? '',
-                doc: comment2String(jsdoc.summarySection),
+                summary: comment2String(jsdoc.summarySection),
                 remarks: comment2String(jsdoc.remarksBlock?.content),
             };
 
@@ -155,19 +182,15 @@ export class Parser {
             const fdoc = this.#parser.parseString(ftxt ?? '').docComment;
 
             let preset: string | undefined = undefined;
-            let reactive = false;
+            let reactive: boolean = false;
             if (fdoc) {
                 fdoc.customBlocks.forEach(blk => {
-                    switch (blk.blockTag.tagName) {
-                    case '@defaultValue':
-                    case '@default':
+                    if (blk.blockTag.tagName === StandardTags.defaultValue.tagName
+                        || blk.blockTag.tagName === defaultTag) {
                         preset = comment2String(blk);
-                        break;
-                    case '@reactive':
-                        reactive = true;
-                        break;
                     }
                 });
+                reactive = fdoc.modifierTagSet.hasTagName(reactiveTag);
             }
 
             if (f instanceof ConstructSignatureDeclaration
@@ -178,12 +201,12 @@ export class Parser {
 
             return {
                 name: f.getName(),
-                doc: comment2String(fdoc.summarySection),
+                summary: comment2String(fdoc.summarySection),
                 remarks: comment2String(fdoc.remarksBlock?.content),
                 type: f.getType().getText(f, TypeFormatFlags.UseAliasDefinedOutsideCurrentScope),
                 preset,
                 reactive
-            };
+            } as Field;
         }).filter(v => !!v);
     }
 

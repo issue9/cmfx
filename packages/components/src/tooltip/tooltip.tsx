@@ -30,7 +30,8 @@ export interface Props extends BaseProps, ParentProps {
     /**
      * 停留时间
      *
-     * @noReactive
+     * @defaultValue 采用 {@link ../context#Options.stays}
+     * @reactive
      */
     stays?: number;
 

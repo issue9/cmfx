@@ -5,7 +5,14 @@
 const messages = {
     _d: {
         stages:{
-            codeDemo: 'Code Demo'
+            codeDemo: 'Code Demo',
+
+            api: 'API',
+            param: 'Parameter',
+            type: 'Type',
+            preset: 'Preset value',
+            reactive: 'Reactive',
+            desc: 'Description',
         }
     }
 };
