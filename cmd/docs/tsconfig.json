@@ -26,7 +26,8 @@
         "noUnusedLocals": true,
         "noUnusedParameters": true,
         "noFallthroughCasesInSwitch": true,
-        "composite": true
+        "composite": true,
+        "outDir": "../../docs"
     },
     "include": [
         "src/**/*.ts",

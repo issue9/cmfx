@@ -28,12 +28,15 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api
+.PHONY: build build-go build-ts-docs build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api
 
-# 编译测试项目
-build-cmd: gen
+build: build-go build-ts
+
+build-go: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
-	pnpm --filter=./cmd/admin --filter=./cmd/components run build
+
+build-ts-docs:
+	pnpm --filter=./cmd/docs run build
 
 build-ts-vite-plugin-about:
 	pnpm --filter=./build/vite-plugin-about run build
@@ -51,8 +54,8 @@ build-ts-admin:
 	pnpm --filter=./packages/admin run build
 
 # 编译前端项目内容
-build-ts:
-	pnpm --filter=./build/vite-plugin-about --filter=./build/vite-plugin-api --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
+build-ts: build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-docs
+	pnpm --filter=./cmd/admin run build
 
 ########################### install ###################################
 
@@ -73,7 +76,7 @@ init: build-cmd
 
 ########################### watch ###################################
 
-.PHONY: watch-server watch-admin watch-components watch
+.PHONY: watch-server watch-admin watch-docs watch
 
 watch-server:
 	web watch -app=-a=serve $(CMD_SERVER)
@@ -81,8 +84,8 @@ watch-server:
 watch-admin:
 	pnpm --filter=./cmd/admin run dev
 
-watch-components:
-	pnpm --filter=./cmd/components run dev
+watch-docs:
+	pnpm --filter=./cmd/docs run dev
 
 # 运行测试内容
 #

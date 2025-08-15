@@ -20,7 +20,7 @@ export default [
     includeIgnoreFile(path.resolve(__dirname, 'packages/admin/.gitignore')),
 
     includeIgnoreFile(path.resolve(__dirname, 'cmd/admin/.gitignore')),
-    includeIgnoreFile(path.resolve(__dirname, 'cmd/components/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'cmd/docs/.gitignore')),
 
     includeIgnoreFile(path.resolve(__dirname, 'build/vite-plugin-about/.gitignore')),
     includeIgnoreFile(path.resolve(__dirname, 'build/vite-plugin-api/.gitignore')),

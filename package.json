@@ -21,7 +21,7 @@
     "license": "MIT",
     "workspaces": [
         "cmd/admin",
-        "cmd/components",
+        "cmd/docs",
         "build/vite-plugin-about",
         "build/vite-plugin-api",
         "packages/core",

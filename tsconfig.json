@@ -17,7 +17,7 @@
             "path": "./build/vite-plugin-api/tsconfig.json"
         },
         {
-            "path": "./cmd/components/tsconfig.json"
+            "path": "./cmd/docs/tsconfig.json"
         },
         {
             "path": "./cmd/admin/tsconfig.json"
