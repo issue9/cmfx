@@ -23,11 +23,14 @@ export interface Ref {
     hide(): void;
 }
 
+/**
+ * Tooltip 组件的属性
+ */
 export interface Props extends BaseProps, ParentProps {
     /**
      * 停留时间
      *
-     * NOTE: 非响应属性
+     * @noReactive
      */
     stays?: number;
 

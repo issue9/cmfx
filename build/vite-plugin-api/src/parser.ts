@@ -6,22 +6,76 @@ import {
     DocCodeSpan, DocLinkTag, DocNode, DocParagraph, DocPlainText, DocSection, TSDocParser
 } from '@microsoft/tsdoc';
 import path from 'node:path';
-import { ModuledNode, Node, Project, PropertySignature, Type, TypeChecker } from 'ts-morph';
+import {
+    CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration,
+    ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags
+} from 'ts-morph';
 
-interface Object {
+/**
+ * 类型的文档对象
+ */
+export interface Object {
+    /**
+     * 类型名称
+     */
     name: string;
+
+    /**
+     * 对应在的文档
+     */
     doc?: string;
+
+    /**
+     * 备注信息
+     */
     remarks?: string;
+
+    /**
+     * 如果是联合类型，此值用于表示具体的类型值。
+     */
+    type?: string;
+
+    /**
+     * 类型的字段列表，可能是 union 类型，没有字段。
+     */
     fields?: Array<Field>;
 }
 
-interface Field {
+/**
+ * 类型的字段对象
+ */
+export interface Field {
+    /**
+     * 字段名称
+     */
     name: string;
+
+    /**
+     * 对应在的文档
+     */
     doc?: string;
+
+    /**
+     * 字段的备注信息
+     */
     remarks?: string;
-    type?: string;
+
+    /**
+     * 类型名称
+     */
+    type: string;
+
+    /**
+     * 默认值
+     *
+     * 如果是 undefined，则表示文档中没有明确指定。
+     */
     preset?: string;
-    reactive?: boolean;
+
+    /**
+     * 是否为响应式字段
+     */
+    reactive: boolean;
 }
 
 /**
@@ -49,7 +103,7 @@ export class Parser {
     }
 
     /**
-     * 查找指定名称的类并返回对应的文档
+     * 查找指定类型的文档描述
      */
     prorps(props: Array<string>): Array<Object> {
         const result: Array<Object> = [];
@@ -61,88 +115,122 @@ export class Parser {
                 Node.isEnumDeclaration(d) ||
                 Node.isClassDeclaration(d)
             );
-            if (!decls || decls.length === 0) { continue; } // TODO 错误信息
+            if (!decls || decls.length === 0) {
+                throw new TypeError(`Type ${prop} not found`);
+            }
 
             const decl = decls[0];
-            const fields = this.getNodePropertySignatures(decl);
 
             const txt = decl.getJsDocs()[0]?.getFullText();
             const jsdoc = this.#parser.parseString(txt ?? '').docComment;
-            result.push({
+            const obj: Object = {
                 name: decl.getName() ?? '',
                 doc: comment2String(jsdoc.summarySection),
                 remarks: comment2String(jsdoc.remarksBlock?.content),
-                fields: fields.map(f => {
-                    const ftxt = f.getJsDocs()[0]?.getFullText();
-                    const fdoc = this.#parser.parseString(ftxt ?? '').docComment;
+            };
 
-                    let preset: string | undefined = undefined;
-                    let reactive = true;
-                    if (fdoc) {
-                        fdoc.customBlocks.forEach(blk => {
-                            switch (blk.blockTag.tagName) {
-                            case '@defaultValue':
-                            case '@default':
-                                preset = comment2String(blk);
-                                preset = preset === 'undefined' ? undefined : preset;
-                                break;
-                            case '@noReactive':
-                                reactive = false;
-                                break;
-                            }
-                        });
-                    }
+            const mem = this.buildFields(decl);
+            if (typeof mem === 'string') {
+                obj.type = mem;
+            } else {
+                obj.fields = mem;
+            }
 
-                    return {
-                        name: f.getName(),
-                        doc: comment2String(fdoc.summarySection),
-                        remarks: comment2String(fdoc.remarksBlock?.content),
-                        type: f.getType().getText(),
-                        preset,
-                        reactive
-                    };
-                }),
-            });
+            result.push(obj);
         }
+
         return result;
     }
 
-    private getNodePropertySignatures(node: Node): Array<PropertySignature> {
+    /**
+     * 生成类型字段列表
+     */
+    private buildFields(node: Node):Array<Field> | string | undefined {
+        const mems = this.getNodeMember(node);
+
+        if (typeof mems === 'string') { return mems; }
+
+        return mems.map(f => {
+            const ftxt = f.getJsDocs()[0]?.getFullText();
+            const fdoc = this.#parser.parseString(ftxt ?? '').docComment;
+
+            let preset: string | undefined = undefined;
+            let reactive = false;
+            if (fdoc) {
+                fdoc.customBlocks.forEach(blk => {
+                    switch (blk.blockTag.tagName) {
+                    case '@defaultValue':
+                    case '@default':
+                        preset = comment2String(blk);
+                        break;
+                    case '@reactive':
+                        reactive = true;
+                        break;
+                    }
+                });
+            }
+
+            if (f instanceof ConstructSignatureDeclaration
+                || f instanceof CallSignatureDeclaration
+                || f instanceof IndexSignatureDeclaration) {
+                return undefined;
+            }
+
+            return {
+                name: f.getName(),
+                doc: comment2String(fdoc.summarySection),
+                remarks: comment2String(fdoc.remarksBlock?.content),
+                type: f.getType().getText(f, TypeFormatFlags.UseAliasDefinedOutsideCurrentScope),
+                preset,
+                reactive
+            };
+        }).filter(v => !!v);
+    }
+
+    /**
+     * 获取节点 node 的字段或是对应的类型
+     */
+    private getNodeMember(node: Node): Array<TypeElementTypes> | string {
         if (Node.isInterfaceDeclaration(node)) { // 如果本身是接口
-            const props = node.getProperties();
+            const props = node.getMembers();
             for(const b of node.getBaseTypes()) {
-                props.push(...getTypePropertySignatures(b));
+                props.push(...getTypeMember(b));
             }
             return props;
         }
 
-        if (Node.isTypeAliasDeclaration(node)) { // 如果是类型别名，且右侧是对象字面量类型
-            const typeNode = node.getTypeNode();
-            if (typeNode && Node.isTypeLiteral(typeNode)) {
-                return typeNode.getProperties();
+        if (Node.isTypeAliasDeclaration(node)) { // 如果是类型别名
+            const typ = this.#checker.getTypeAtLocation(node);
+
+            // 右侧都是字面量组成的对象
+            const lit = typ.isUnion() && typ.getUnionTypes().every(t => t.isLiteral())
+                || typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral());
+            if (lit) {
+                return typ.getText();
             }
 
-            // 如果不是直接字面量（例如 type X = SomeOtherType），用类型检查器解析
-            const type = this.#checker.getTypeAtLocation(node);
-
-            return getTypePropertySignatures(type);
+            // 右侧不都是直接字面量（例如 type X = SomeOtherType），用类型检查器解析
+            return getTypeMember(typ);
         }
 
         return [];
     }
 }
 
-function getTypePropertySignatures(typ: Type): Array<PropertySignature> {
+/**
+ * 获取类型 typ 的所有成员
+ */
+function getTypeMember(typ: Type): Array<TypeElementTypes> {
     const props = typ.getProperties()
         .map(sym => {
             const decl = sym.getDeclarations()?.[0];
-            return Node.isPropertySignature(decl) ? decl : undefined;
+            return Node.isTypeElement(decl) ? decl : undefined;
         })
-        .filter((p): p is PropertySignature => !!p);
+        .filter((p): p is TypeElementTypes => !!p);
 
     const bases = typ.getBaseTypes();
     for(const b of bases) {
-        const baseProps = getTypePropertySignatures(b);
+        const baseProps = getTypeMember(b);
         props.push(...baseProps);
     }
 

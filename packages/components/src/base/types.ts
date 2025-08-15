@@ -24,6 +24,7 @@ export interface Props {
      * @remarks
      * 如果指定了此值，那么在组件内部的 CSS 引用的诸如 `--bg` 等 CSS 变量都将使用此色盘对应的颜色。
      * 如果是 undefined，则表示从父元素继承。
+     * @reactive
      */
     palette?: Palette;
 
@@ -35,6 +36,7 @@ export interface Props {
      * 以保证此类能启作用，当然也有可能会修改组件的定义的一些 CSS 样式。
      *
      * @defaultValue undefined
+     * @reactive
      */
     class?: string;
 }
