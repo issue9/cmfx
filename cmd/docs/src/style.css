@@ -5,15 +5,7 @@
  */
 
 /* 项目中必须引入此文件，否则当前项目中的 tailwind CSS 类不启作用 */
-@import 'tailwindcss' source('.');
+@import 'tailwindcss';
 
 @import '@cmfx/components/style.css';
 @import '@cmfx/components/tailwind.css';
-
-@layer components {
-
-    /* 菜单项用到此内容 */
-    .selected {
-        @apply bg-primary-bg-high text-primary-fg-high;
-    }
-}

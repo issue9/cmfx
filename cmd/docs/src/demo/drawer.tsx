@@ -10,9 +10,10 @@ import { arraySelector, Demo, paletteSelector } from './base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
-    const [breakpointS, breakpoint] = arraySelector<Breakpoint|'true'|'false'>('breakpoint', [...breakpoints, 'true', 'false'], 'md');
+    const [breakpointS, breakpoint]
+        = arraySelector<Breakpoint | 'true' | 'false'>('breakpoint', [...breakpoints, 'true', 'false'], 'md');
     const [posS, pos] = arraySelector('pos', ['left', 'right'], 'left');
-    
+
     const bp = createMemo(() => {
         const v = breakpoint();
         switch (v) {
@@ -24,7 +25,7 @@ export default function() {
             return v;
         }
     });
-    
+
     const [visible, setVisible] = createSignal(true);
     return <Demo settings={
         <>

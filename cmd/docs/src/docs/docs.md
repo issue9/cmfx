@@ -46,6 +46,7 @@ npm i @cmfx/admin @cmfx/core @cmfx/components
 `@cmfx/components` 提供了一些全局的 CSS 样式：
 
 - cmfx-table 与表格式组件相同的表格样式，可直接应用在 `<table>` 元素上；
+- TODO: 图标
 
 ## 后端
 

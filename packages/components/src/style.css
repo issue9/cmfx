@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-@import 'tailwindcss' source('.');
+@import 'tailwindcss';
 @import './tailwind.css';
 
 @import './global.css';

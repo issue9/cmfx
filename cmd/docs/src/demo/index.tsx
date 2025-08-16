@@ -2,10 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Drawer, Menu, MenuItem } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
-import { lazy } from 'solid-js';
+import { lazy, ParentProps } from 'solid-js';
 
-export const routes: Array<RouteDefinition> = [
+const routes: Array<RouteDefinition> = [
+    { path: '/', component: lazy(() => import('./home')) },
     { path: '/appbar', component: lazy(() => import('./appbar')) },
     { path: '/backtop', component: lazy(() => import('./backtop')) },
     { path: '/badge', component: lazy(() => import('./badge')) },
@@ -68,3 +70,26 @@ export const routes: Array<RouteDefinition> = [
     { path: '/form-time', component: lazy(() => import('./form/time')) },
     { path: '/form-upload', component: lazy(() => import('./form/upload')) },
 ] as const;
+
+/**
+ * 组件预览的路由定义
+ */
+export default function route(prefix: string): RouteDefinition {
+    const menuItems: Array<MenuItem> = [];
+    routes.forEach((r) => {
+        menuItems.push({
+            type: 'item',
+            label: r.path as string,
+            value: prefix + r.path
+        });
+    });
+
+    return {
+        path: prefix,
+        component: (props: ParentProps) =>
+            <Drawer visible palette='secondary' mainPalette='tertiary' main={props.children}>
+                <Menu layout='inline' anchor items={menuItems} />
+            </Drawer>,
+        children: routes
+    };
+}
