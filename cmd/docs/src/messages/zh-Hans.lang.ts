@@ -17,14 +17,18 @@ const messages: typeof m = {
             desc: '描述',
         },
         main: {
-            'home': '首页',
-            'docs': '文档',
-            'components': '组件',
-            'dark': '深色模式',
-            'light': '浅色模式',
-            'system': '跟随系统',
-            'themeBuilder': '主题编辑器',
-        }
+            home: '首页',
+            docs: '文档',
+            components: '组件',
+            dark: '深色模式',
+            light: '浅色模式',
+            system: '跟随系统',
+            themeBuilder: '主题编辑器',
+        },
+        home: {
+            desc: '一款基于 {go} 和 {solidjs} 的快速后台管理开发框架',
+            start: '开始使用',
+        },
     }
 };
 

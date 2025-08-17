@@ -61,7 +61,7 @@ export const options: Options = {
     apiToken: '/login',
     apiAcceptType: 'application/json',
     apiContentType: 'application/json',
-    title: 'title',
+    title: 'CMFX',
     titleSeparator: '-',
     pageSizes: [10, 20, 50, 100, 200, 500],
     pageSize: 20,

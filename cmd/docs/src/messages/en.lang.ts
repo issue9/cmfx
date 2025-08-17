@@ -15,14 +15,18 @@ const messages = {
             desc: 'Description',
         },
         main: {
-            'home': 'Home',
-            'docs': 'Documentation',
-            'components': 'Components',
-            'dark': 'Dark',
-            'light': 'Light',
-            'system': 'System',
-            'themeBuilder': 'Theme Builder',
-        }
+            home: 'Home',
+            docs: 'Documentation',
+            components: 'Components',
+            dark: 'Dark',
+            light: 'Light',
+            system: 'System',
+            themeBuilder: 'Theme Builder',
+        },
+        home: {
+            desc: 'A framework based on {go} and {solidjs}',
+            start: 'Start',
+        },
     }
 };
 

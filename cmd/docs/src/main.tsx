@@ -6,13 +6,13 @@ import {
     Appbar, Button, Dropdown, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
-import { JSX, lazy, ParentProps } from 'solid-js';
+import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
 import { render } from 'solid-js/web';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconLanguage from '~icons/material-symbols/language';
 import IconTheme from '~icons/material-symbols/palette';
-import IconLTR from '~icons/picon/ltr';
-//import IconRTL from '~icons/picon/rtl';
+import IconLTR from '~icons/ooui/text-flow-ltr';
+import IconRTL from '~icons/ooui/text-flow-rtl';
 
 import { default as demoRoute } from './demo';
 import { options } from './options';
@@ -41,8 +41,9 @@ function App(): JSX.Element {
 function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
     const [, act, opt] = use();
+    const [ltr, setLTR] = createSignal(true);
 
-    return <>
+    return <div class="flex flex-col h-full w-full">
         <Appbar title={options.title} actions={
             <>
                 <Dropdown hoverable value={[l.locale.toString()]} onChange={e=>act.switchLocale(e)}
@@ -65,7 +66,12 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square rounded><IconTheme /></Button>
                 </Dropdown>
 
-                <Button kind='flat' square rounded><IconLTR /></Button>
+                <Button kind='flat' square rounded onClick={e=>{
+                    setLTR(!ltr());
+                    // TODO
+                }}>
+                    {ltr() ? <IconLTR /> : <IconRTL />}
+                </Button>
 
                 <LinkButton kind='flat' square rounded href='https://github.com/issue9/cmfx'>
                     <IconGithub />
@@ -73,13 +79,13 @@ function InternalApp(props: ParentProps): JSX.Element {
             </>
         }>
             <Menu class='ml-5' anchor layout='horizontal' items={[
-                { type: 'item', label: l.t('_d.main.home'), value: '/home' },
+                { type: 'item', label: l.t('_d.main.home'), value: '/' },
                 { type: 'item', label: l.t('_d.main.docs'), value: '/docs' },
                 { type: 'item', label: l.t('_d.main.components'), value: '/demo' },
             ]} />
         </Appbar>
         {props.children}
-    </>;
+    </div>;
 }
 
 render(() => (<App />), document.getElementById('app')!);
