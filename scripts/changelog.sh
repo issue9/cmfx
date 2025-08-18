@@ -53,12 +53,11 @@ print_section "perf" "性能优化"
 
 # 如果 CHANGELOG.md 不存在，直接创建。
 if [ ! -f "$CHANGELOG_FILE" ]; then
-  cat "$TMP_CHANGELOG" > "$CHANGELOG_FILE"
+  cat "$TMP_CHANGELOG" | sed '$d' > "$CHANGELOG_FILE"
 else
   # 插入到文件顶部（保留原内容）
   cat "$TMP_CHANGELOG" > "${CHANGELOG_FILE}.new"
-  echo "" >> "${CHANGELOG_FILE}.new"
-  cat "$CHANGELOG_FILE" >> "${CHANGELOG_FILE}.new"
+  cat "$CHANGELOG_FILE" | sed '1,2d' >> "${CHANGELOG_FILE}.new"
   mv "${CHANGELOG_FILE}.new" "$CHANGELOG_FILE"
 fi
 
