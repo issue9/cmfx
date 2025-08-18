@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BundledLanguage, codeToHtml } from 'shiki/bundle/full';
+import { BundledLanguage } from 'shiki/bundle/full';
 import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import { template } from 'solid-js/web';
 import IconCopy from '~icons/material-symbols/content-copy';
@@ -11,6 +11,7 @@ import { BaseProps, joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { copy2Clipboard } from '@/kit';
+import { highlightCode } from './shiki';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -44,42 +45,10 @@ export interface Props extends BaseProps {
     break?: boolean;
 
     /**
-     * 高亮的语言名称，如果为空则不会有高亮。
+     * 高亮的语言名称，如果为空则为 text。
      */
     lang?: BundledLanguage;
 }
-
-const shikiStyle = {
-    name: 'light',
-    bg: 'var(--bg)',
-    fg: 'var(--fg)',
-    settings: [
-        {
-            scope: ['keyword'],
-            settings: { foreground: 'var(--primary-fg)' }
-        },
-        {
-            scope: ['constant'],
-            settings: { foreground: 'var(--primary-fg-high)' }
-        },
-        {
-            scope: ['parameter'],
-            settings: { foreground: 'var(--secondary-fg)' }
-        },
-        {
-            scope: ['function', 'string-expression'],
-            settings: { foreground: 'var(--error-fg)' }
-        },
-        {
-            scope: ['string', 'comment'],
-            settings: { foreground: 'var(--tertiary-fg)' }
-        },
-        {
-            scope: ['link', 'punctuation'],
-            settings: { foreground: 'var(--surface-fg)' }
-        },
-    ]
-};
 
 /**
  * 代码显示组件，并没有高亮功能。
@@ -89,14 +58,7 @@ export default function Code(props: Props): JSX.Element {
     const [html, setHTML] = createSignal<HTMLElement>();
 
     createEffect(async () => {
-        const el = template(await codeToHtml(props.children, {
-            lang: props.lang || 'plaintext',
-            themes: {
-                light: structuredClone(shikiStyle),
-                dark: structuredClone(shikiStyle),
-            },
-        }))() as HTMLElement;
-
+        const el = template(await highlightCode(props.children, props.lang))() as HTMLElement;
         setHTML(el);
     });
 

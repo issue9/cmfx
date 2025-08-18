@@ -27,6 +27,16 @@ const messages = {
             desc: 'A framework based on {go} and {solidjs}',
             start: 'Start',
         },
+        docs: {
+            intro: 'Introduction',
+            usage: 'Usage',
+            install: 'Install',
+            platform: 'Supported platform',
+            faq: 'FAQ',
+            advance: 'Advanced',
+            theme: 'Theme',
+            locale: 'Locale',
+        },
     }
 };
 

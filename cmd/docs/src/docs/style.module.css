@@ -1,0 +1,33 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    article.doc {
+        @apply p-2;
+
+        h1 {
+            @apply text-3xl font-bold mb-4;
+        }
+
+        h2 {
+            @apply text-2xl font-bold mb-2 mt-5;
+        }
+
+        h3 {
+            @apply text-xl font-bold mb-1 mt-4;
+        }
+
+        p {
+            @apply py-1;
+        }
+
+        ul {
+            @apply ps-1 list-inside list-disc;
+        }
+    }
+}

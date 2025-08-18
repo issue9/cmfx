@@ -15,12 +15,13 @@ import IconLTR from '~icons/ooui/text-flow-ltr';
 import IconRTL from '~icons/ooui/text-flow-rtl';
 
 import { default as demoRoute } from './demo';
+import { default as docsRoute } from './docs';
 import { options } from './options';
 import './style.css';
 
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
-    { path: '/docs', component: lazy(() => import('./docs')) },
+    docsRoute('/docs'),
     demoRoute('/demo'),
 ];
 
@@ -45,7 +46,7 @@ function InternalApp(props: ParentProps): JSX.Element {
 
     return <div class="flex flex-col h-full w-full">
         <Appbar title={options.title} actions={
-            <>
+            <div class="flex gap-2 mr-2">
                 <Dropdown hoverable value={[l.locale.toString()]} onChange={e=>act.switchLocale(e)}
                     items={l.locales.map(locale => ({
                         type: 'item',
@@ -76,7 +77,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                 <LinkButton kind='flat' square rounded href='https://github.com/issue9/cmfx'>
                     <IconGithub />
                 </LinkButton>
-            </>
+            </div>
         }>
             <Menu class='ml-5' anchor layout='horizontal' items={[
                 { type: 'item', label: l.t('_d.main.home'), value: '/' },

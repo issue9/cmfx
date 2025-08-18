@@ -29,6 +29,16 @@ const messages: typeof m = {
             desc: '一款基于 {go} 和 {solidjs} 的快速后台管理开发框架',
             start: '开始使用',
         },
+        docs: {
+            intro: '介绍',
+            usage: '使用',
+            install: '安装',
+            platform: '支持的平台',
+            faq: '常见问题',
+            advance: '高级',
+            theme: '主题',
+            locale: '国际化',
+        },
     }
 };
 
