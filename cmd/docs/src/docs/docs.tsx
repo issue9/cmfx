@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Locale, Menu, MenuItem, useLocale } from '@cmfx/components';
+import { Drawer, Locale, Menu, MenuItem, MenuItemGroup, useLocale } from '@cmfx/components';
+import { ArrayElement } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { marked } from 'marked';
 import { JSX, ParentProps, createEffect, createMemo, createSignal } from 'solid-js';
@@ -31,7 +32,6 @@ marked.use(markedShiki());
 // NOTE: 增删文件，需要同时修改以下几处：
 //  - maps
 //  - routes
-//  - buildMenus
 
 // 外层键名为语言 ID，内层键名为文档 ID，值为文档内容。
 const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
@@ -57,37 +57,48 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
     ])],
 ]);
 
+type Kind = 'intro' | 'usage' | 'advance';
+
 // 定义了所有文章的路由
-const routes: Array<RouteDefinition> = [
-    { path: ['/', '/intro'], component: () => <Markdown article='intro' /> },
+const routes: Array<RouteDefinition & {kind:Kind, id: string}> = [
+    { path: ['/', '/intro'], id: 'intro', kind: 'intro', component: () => <Markdown article='intro' /> },
 
-    { path: '/usage/install', component: () => <Markdown article='usage/install' /> },
-    { path: '/usage/platform', component: () => <Markdown article='usage/platform' /> },
-    { path: '/usage/faq', component: () => <Markdown article='usage/faq' /> },
+    { path: '/usage/install', id: 'install', kind: 'usage', component: () => <Markdown article='usage/install' /> },
+    { path: '/usage/platform', id: 'platform', kind: 'usage', component: () => <Markdown article='usage/platform' /> },
+    { path: '/usage/faq', id: 'faq', kind: 'usage', component: () => <Markdown article='usage/faq' /> },
 
-    { path: '/advance/theme', component: () => <Markdown article='advance/theme' /> },
-    { path: '/advance/locale', component: () => <Markdown article='advance/locale' /> },
+    { path: '/advance/theme', id: 'theme', kind: 'advance', component: () => <Markdown article='advance/theme' /> },
+    { path: '/advance/locale', id: 'locale', kind: 'advance', component: () => <Markdown article='advance/locale' /> },
 ];
 
 // 生成 Drawer 组件的侧边栏菜单
 function buildMenus(l: Locale, prefix: string): Array<MenuItem> {
-    return [
-        { type: 'group', label: l.t('_d.docs.intro'), items: [
-            { type: 'item', label: 'cmfx', value: prefix + '/intro' },
-        ]},
-
-        { type: 'group', label: l.t('_d.docs.usage'), items: [
-            { type: 'item', label: l.t('_d.docs.install'), value: prefix + '/usage/install' },
-            { type: 'item', label: l.t('_d.docs.platform'), value: prefix + '/usage/platform' },
-            { type: 'item', label: l.t('_d.docs.faq'), value: prefix + '/usage/faq' },
-        ]},
-
-        { type: 'group', label: l.t('_d.docs.advance'), items: [
-            { type: 'item', label: l.t('_d.docs.theme'), value: prefix + '/advance/theme' },
-            { type: 'item', label: l.t('_d.docs.locale'), value: prefix + '/advance/locale' },
-        ]},
-
+    const menus: Array<MenuItemGroup> = [
+        { type: 'group', label: l.t('_d.docs.intro'), items: [] },
+        { type: 'group', label: l.t('_d.docs.usage'), items: [] },
+        { type: 'group', label: l.t('_d.docs.advance'), items: [] },
     ];
+
+    const append = (group: MenuItemGroup, r: ArrayElement<typeof routes>) => {
+        const p = Array.isArray(r.path) ? r.path[0] : r.path;
+        group.items.push({ type: 'item', label: l.t('_d.docs.' + r.id), value: prefix + p });
+    };
+
+    routes.forEach(r => {
+        switch(r.kind) {
+        case 'intro':
+            append(menus[0], r);
+            break;
+        case 'usage':
+            append(menus[1], r);
+            break;
+        case 'advance':
+            append(menus[2], r);
+            break;
+        }
+    });
+
+    return menus;
 }
 
 const localesID = Array.from(maps.keys());

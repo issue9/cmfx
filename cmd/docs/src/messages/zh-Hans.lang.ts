@@ -39,6 +39,15 @@ const messages: typeof m = {
             theme: '主题',
             locale: '国际化',
         },
+        demo: {
+            general: '通用',
+            layout: '布局',
+            navigation: '导航',
+            dataInput: '数据输入',
+            dataDisplay: '数据展示',
+            feedback: '反馈',
+            config: '配置',
+        }
     }
 };
 

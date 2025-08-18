@@ -37,6 +37,15 @@ const messages = {
             theme: 'Theme',
             locale: 'Locale',
         },
+        demo: {
+            general: 'General',
+            layout: 'Layout',
+            navigation: 'Navigation',
+            dataInput: 'Data Input',
+            dataDisplay: 'Data Display',
+            feedback: 'Feedback',
+            config: 'Configuration',
+        }
     }
 };
 

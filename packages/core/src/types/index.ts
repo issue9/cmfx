@@ -10,4 +10,5 @@ export type { OmitOptional, OptionalKeys, PickOptional } from './optional';
 export type { Expand as ExpandType, RemoveIndexSignature } from './types';
 
 export { arrayEqual } from './array';
+export type { ArrayElement } from './array';
 
