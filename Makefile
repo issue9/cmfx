@@ -28,7 +28,9 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build build-go build-ts-docs build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api
+.PHONY: build build-go build-ts
+.PHONY: build-ts-vite-plugin-about build-ts-vite-plugin-api
+.PHONY: build-ts-docs build-ts-core build-ts-components build-ts-admin
 
 build: build-go build-ts
 
@@ -95,7 +97,9 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
-.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin test-ts-vite-plugin-about test-ts-vite-plugin-api
+.PHONY: lint-ts test test-go test-ts
+.PHONY: test-ts-core test-ts-components test-ts-admin
+.PHONY: test-ts-vite-plugin-about test-ts-vite-plugin-api
 
 lint-ts:
 	pnpm run lint
@@ -127,12 +131,28 @@ test-ts: lint-ts build-ts mk-coverage
 # 执行测试内容
 test: test-go test-ts
 
+############################# changelog ###############################
+
+# 生成 CHANGELOG.md 文件，接受 from 和 to 参数，用于指定生成的范围。
+#
+# 如果不指定参数
+# to 表示最新的提交
+# from 表示第一个提交
+
+.PHONY: changelog
+to = 'HEAD'
+from = $$(git rev-list --max-parents=0 HEAD)
+changelog:
+	bash ./scripts/changelog.sh $(from) $(to)
+
 ########################### publish ###################################
 
 .PHONY: publish-npm
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about --filter=./build/vite-plugin-api --access=public --no-git-checks
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin \
+	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
+	--access=public --no-git-checks
 
 ########################### version ###################################
 
@@ -144,4 +164,5 @@ publish-npm: build-ts
 .PHONY: version-ts
 target = patch
 version-ts:
-	pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces --include-workspace-root --workspaces-update=false
+	pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces \
+	--include-workspace-root --workspaces-update=false
