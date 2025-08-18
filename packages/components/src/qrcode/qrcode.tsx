@@ -19,7 +19,7 @@ export interface Props extends BaseProps {
     /**
      * 需要生成图片的值
      *
-     * 根据 {@link Props#type} 的不同，对值的要求也是不同的。
+     * 根据 {@link "type"} 的不同，对值的要求也是不同的。
      */
     value: string;
 

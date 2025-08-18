@@ -15,9 +15,9 @@ export type Params<T extends Query> = Record<keyof T, string>;
 /**
  * 从地址的查询参数中获取值
  *
- * @template Q 查询参数的类型；
- * @param preset 默认值，必须包含所有字段，哪怕是零值，否则与 searchParamsGetter 中的字段存在类型冲突时，无法处理；
- * @param searchParamsGetter {@link useSearchParams} 返回值的第一个元素；
+ * @typeParam Q - 查询参数的类型；
+ * @param preset - 默认值，必须包含所有字段，哪怕是零值，否则与 searchParamsGetter 中的字段存在类型冲突时，无法处理；
+ * @param searchParamsGetter - {@link useSearchParams} 返回值的第一个元素；
  * @returns 结合 preset 和从地址中获取的参数合并的参数对象
  */
 export function fromSearch<Q extends Query>(preset: Q, searchParamsGetter: ReturnType<typeof useSearchParams<Params<Q>>>[0]): Q {
@@ -67,9 +67,9 @@ export function fromSearch<Q extends Query>(preset: Q, searchParamsGetter: Retur
 /**
  * 将查询参数写入地址中
  *
- * @template Q 查询参数的类型；
- * @param q 查询参数；
- * @param searchSetter {@link useSearchParams} 返回值的第二个元素；
+ * @typeParam Q - 查询参数的类型；
+ * @param q - 查询参数；
+ * @param searchSetter - {@link useSearchParams} 返回值的第二个元素；
  */
 export function saveSearch<Q extends Query>(q: Q, searchSetter: ReturnType<typeof useSearchParams<Params<Q>>>[1]): void {
     const s: SetParams = {};

@@ -114,9 +114,9 @@ export function Search(props: Props): JSX.Element {
 /**
 * 根据搜索的内容生成一个平级的菜单列表
 *
-* @param t 本地化对象，所有菜单都将由此进行初始化；
-* @param menus 所有菜单项，结果从此菜单中筛选；
-* @param search 需要搜索的内容；
+* @param t - 本地化对象，所有菜单都将由此进行初始化；
+* @param menus - 所有菜单项，结果从此菜单中筛选；
+* @param search - 需要搜索的内容；
 * @returns 包含搜索内容的所有菜单项；
 */
 export function buildItemsWithSearch(t: Locale['t'], menus: Array<MenuItem>, search: string) {

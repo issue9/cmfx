@@ -45,7 +45,9 @@ const presetProps: Readonly<Partial<Props>> = {
  * 分页组件
  *
  * 大致布局如下：
+ * ```
  *  [<<,<,1,2,...,current...,7,8,>,>>]
+ * ```
  */
 export function Pagination(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);

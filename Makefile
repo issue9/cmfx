@@ -28,15 +28,23 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build-cmd build-ts build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about
+.PHONY: build build-go build-ts
+.PHONY: build-ts-vite-plugin-about build-ts-vite-plugin-api
+.PHONY: build-ts-docs build-ts-core build-ts-components build-ts-admin
 
-# 编译测试项目
-build-cmd: gen
+build: build-go build-ts
+
+build-go: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
-	pnpm --filter=./cmd/admin --filter=./cmd/components run build
+
+build-ts-docs:
+	pnpm --filter=./cmd/docs run build
 
 build-ts-vite-plugin-about:
 	pnpm --filter=./build/vite-plugin-about run build
+
+build-ts-vite-plugin-api:
+	pnpm --filter=./build/vite-plugin-api run build
 
 build-ts-core:
 	pnpm --filter=./packages/core run build
@@ -48,9 +56,9 @@ build-ts-admin:
 	pnpm --filter=./packages/admin run build
 
 # 编译前端项目内容
-build-ts:
-	pnpm --filter=./build/vite-plugin-about --filter=./packages/core --filter=./packages/components --filter=./packages/admin run build
-	
+build-ts: build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-docs
+	pnpm --filter=./cmd/admin run build
+
 ########################### install ###################################
 
 .PHONY: install install-ts install-go init
@@ -70,7 +78,7 @@ init: build-cmd
 
 ########################### watch ###################################
 
-.PHONY: watch-server watch-admin watch-components watch
+.PHONY: watch-server watch-admin watch-docs watch
 
 watch-server:
 	web watch -app=-a=serve $(CMD_SERVER)
@@ -78,8 +86,8 @@ watch-server:
 watch-admin:
 	pnpm --filter=./cmd/admin run dev
 
-watch-components:
-	pnpm --filter=./cmd/components run dev
+watch-docs:
+	pnpm --filter=./cmd/docs run dev
 
 # 运行测试内容
 #
@@ -89,7 +97,9 @@ watch: watch-server watch-admin
 
 ########################### test ###################################
 
-.PHONY: lint-ts test test-go test-ts test-ts-core test-ts-components test-ts-admin test-ts-vite-plugin-about
+.PHONY: lint-ts test test-go test-ts
+.PHONY: test-ts-core test-ts-components test-ts-admin
+.PHONY: test-ts-vite-plugin-about test-ts-vite-plugin-api
 
 lint-ts:
 	pnpm run lint
@@ -101,6 +111,9 @@ test-go: mk-coverage
 
 test-ts-vite-plugin-about: mk-coverage
 	pnpm run test --project=@cmfx/vite-plugin-about
+
+test-ts-vite-plugin-api: mk-coverage
+	pnpm run test --project=@cmfx/vite-plugin-api
 
 test-ts-core: mk-coverage
 	pnpm run test --project=@cmfx/core
@@ -118,12 +131,28 @@ test-ts: lint-ts build-ts mk-coverage
 # 执行测试内容
 test: test-go test-ts
 
+############################# changelog ###############################
+
+# 生成 CHANGELOG.md 文件，接受 from 和 to 参数，用于指定生成的范围。
+#
+# 如果不指定参数
+# to 表示最新的提交
+# from 表示第一个提交
+
+.PHONY: changelog
+to = 'HEAD'
+from = $$(git rev-list --max-parents=0 HEAD)
+changelog:
+	bash ./scripts/changelog.sh $(from) $(to)
+
 ########################### publish ###################################
 
 .PHONY: publish-npm
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./build/vite-plugin-about --access=public --no-git-checks
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin \
+	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
+	--access=public --no-git-checks
 
 ########################### version ###################################
 
@@ -135,4 +164,5 @@ publish-npm: build-ts
 .PHONY: version-ts
 target = patch
 version-ts:
-	pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces --include-workspace-root --workspaces-update=false
+	pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces \
+	--include-workspace-root --workspaces-update=false

@@ -126,7 +126,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换配置
          *
-         * @param id 新配置的 ID；
+         * @param id - 新配置的 ID；
          */
         switchConfig(id: string | number) {
             options.config!.switch(id);
@@ -143,7 +143,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换语言
          *
-         * @param id 新语言的 ID
+         * @param id - 新语言的 ID
          */
         switchLocale(id: string): void {
             setOptions({ locale: id });
@@ -169,7 +169,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 切换主题色
          *
-         * @param scheme 新主题色的 ID 或 {@link Scheme} 对象，
+         * @param scheme - 新主题色的 ID 或 {@link Scheme} 对象，
          * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
          */
         switchScheme(scheme: string | Scheme) {

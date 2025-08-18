@@ -94,7 +94,7 @@ export function parseDuration(val?: Duration): number {
 /**
  * 将纳秒转换为 {@link Intl#DurationInput} 类型
  *
- * 该值可用于 {@link Intl#DurationFormat#format} 方法。
+ * 该值可用于 {@link Intl#DurationFormat.format} 方法。
  */
 export function nano2IntlDuration(nano: number): Intl.DurationInput {
     const obj: Intl.DurationInput = {};

@@ -32,7 +32,7 @@ export class Locale {
     /**
      * 初始化
      *
-     * @param fallback 在找不到对应在的语言时采用的默认值；
+     * @param fallback - 在找不到对应在的语言时采用的默认值；
      */
     static init(fallback: string) {
         Locale.#fallback = fallback;
@@ -52,7 +52,7 @@ export class Locale {
     /**
      * 以 locale 的指定的语言翻译 key 指向的内容
      *
-     * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+     * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
     static translate<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
         const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
@@ -108,9 +108,9 @@ export class Locale {
 
     /**
      * 构造函数
-     * @param locale 本地化字符串；
-     * @param style 显示风格；
-     * @param tz 时区；
+     * @param locale - 本地化字符串；
+     * @param style - 显示风格；
+     * @param tz - 时区；
      */
     constructor(locale: string, style: DisplayStyle, tz?: string) {
         locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
@@ -267,7 +267,7 @@ export class Locale {
     /**
      * 翻译 key 指向的内容
      *
-     * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+     * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
     t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string {
         const f = this.#current.get(key as string);
@@ -277,7 +277,7 @@ export class Locale {
     /**
      * 以 locale 的指定的语言翻译 key 指向的内容
      *
-     * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+     * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
     tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
         return Locale.translate(locale, key, args);

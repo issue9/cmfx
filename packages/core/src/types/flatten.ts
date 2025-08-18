@@ -19,7 +19,7 @@ type Requiredify<T> = {
 /**
  * 对象的类型
  *
- * @template T 对象字段的类型；
+ * @typeParam T - 对象字段的类型；
  */
 export type Object<T extends unknown = unknown> = { [k: string]: T | Object<T>; };
 
@@ -49,8 +49,8 @@ type FlattenT<T extends Object<F>, F extends unknown = unknown, P = {}, TT = Rem
 /**
  * 扁平化之后的所有字段名联合类型
  *
- * @template T 对象类型；
- * @template FT T 对象的字段类型；
+ * @typeParam T - 对象类型；
+ * @typeParam FT - T 对象的字段类型；
  *
  * NOTE: 该类型不等价于 keyof Flatten，只包含字符串类型的字段名。
  */
@@ -75,11 +75,11 @@ function visitObj<T extends Object<F>, F extends unknown = unknown>(flat: Record
 /**
  * 将对象 dict 转换为一个扁平的对象
  *
- * @template F 如果对象类型单一，可以在此指定，比如翻译对象，其字段可能永远都是字符串；
- * @template T 需要被转换的对象类型。可以接受以下几种类型：
- *  - type xx = {...}
- *  - interface zz ={[k: string]: unknown, ...}
- *  - interface yy ={...}，如果该类型不符合 T 的类型需求，可以用 {@link Expand} 包装一下 Example<yy> 即可。
+ * @typeParam F - 如果对象类型单一，可以在此指定，比如翻译对象，其字段可能永远都是字符串；
+ * @typeParam T - 需要被转换的对象类型。可以接受以下几种类型：
+ *  - `type xx = {...}`
+ *  - `interface zz ={[k: string]: unknown, ...}`
+ *  - `interface yy ={...}`，如果该类型不符合 T 的类型需求，可以用 {@link Expand} 包装一下 `Example<yy>` 即可。
  *
  * 该操作，会将所有嵌套的字段转换为以 . 拼接的字符串字段名称，比如：
  * ```ts

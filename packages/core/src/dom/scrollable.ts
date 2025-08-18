@@ -5,8 +5,8 @@
 /**
  * 向上查找可滚动的容器
  *
- * @param direction 检测滚动条的方向；
- * @param el 从 el 开始向上查找；
+ * @param direction - 检测滚动条的方向；
+ * @param el - 从 el 开始向上查找；
  */
 export function getScrollableParent(direction?: 'x' | 'y' | 'any', el?: HTMLElement | null): HTMLElement | undefined {
     if (!el) { return; }

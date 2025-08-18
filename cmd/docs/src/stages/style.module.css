@@ -1,0 +1,68 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .page {
+        @apply flex !gap-1;
+
+        h2 {
+            @apply text-5xl;
+        }
+
+        h3 {
+            @apply text-2xl mt-3;
+        }
+
+        h4 {
+            @apply text-xl;
+        }
+
+        .apis {
+            @apply mt-2 flex flex-col gap-2;
+
+            .api {
+                @apply flex flex-col gap-1;
+
+                table th {
+                    white-space: nowrap;
+                }
+            }
+        }
+
+        .stages {
+            @apply flex flex-row flex-wrap gap-3 justify-start items-start;
+
+            fieldset.stage {
+                @apply border border-palette-fg rounded-lg overflow-clip;
+                @apply flex flex-col flex-1;
+                @apply min-w-full md:min-w-1/2 lg:min-w-1/3;
+
+                legend {
+                    @apply ml-2 px-1;
+                }
+
+                .desc {
+                    @apply px-2 pb-2 border-b border-b-palette-fg-low;
+                }
+
+                .component {
+                    @apply w-full p-2;
+                }
+
+                .toolbar {
+                    @apply w-full px-2 py-1 border-y border-y-palette-fg-low;
+                    @apply flex gap-2 justify-center;
+                }
+
+                .code {
+                    @apply w-full border-transparent hidden;
+                }
+            }
+        }
+    }
+}

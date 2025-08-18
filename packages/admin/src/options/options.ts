@@ -197,7 +197,7 @@ type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
 /**
  * 根据 o 生成一个完整的 {@link Options} 对象，且会检测字段是否正确。
  *
- * @param o 原始的对象
+ * @param o - 原始的对象
  */
 export function build(o: Options): ReqOptions {
     if (o.id.length === 0) {

@@ -33,7 +33,9 @@ interface PackageJSON {
  * 这些数据可通过全局变量 __CMFX_ABOUT__ 获取。如果是 ts 环境，需要 __CMFX_ABOUT__
  * 的类型，可通过以下两种方式获取：
  *  - /// <reference types="@cmfx/vite-plugin-about" /> 单个文件中使用；
- *  - 在 vite.config.ts 的 compilerOptions.types 添加 @cmfx/vite-plugin-about，则是整个项目都可使用；
+ *  - 在 vite.config.ts 的 compilerOptions.types 添加 `@cmfx/vite-plugin-about`，则是整个项目都可使用；
+ *
+ * @returns vite 插件
  */
 export function about(options: Options): Plugin {
     const about: About = {
@@ -43,7 +45,7 @@ export function about(options: Options): Plugin {
         serverDependencies: parseGomods(options.gomods)
     };
 
-    for(const p of options.packages) {
+    for (const p of options.packages) {
         const file = JSON.parse(readFileSync(p, { encoding: 'utf-8' })) as PackageJSON;
 
         if (!about.version && file.version) {
@@ -70,13 +72,13 @@ export function about(options: Options): Plugin {
             const search = await initPnpmVersionSearch();
 
             // 替换 catalog 为真实的版本号
-            for(const item of about.dependencies) {
+            for (const item of about.dependencies) {
                 if (item.version === 'catalog:') {
                     const ver = search(item.name);
                     item.version = ver ? ver : item.version;
                 }
             }
-            for(const item of about.devDependencies) {
+            for (const item of about.devDependencies) {
                 if (item.version === 'catalog:') {
                     const ver = search(item.name);
                     item.version = ver ? ver : item.version;

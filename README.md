@@ -17,9 +17,22 @@ cmfx 是基于 [Go](https://go.dev) + [solidjs](https://www.solidjs.com/) 的快
 
 ## 开发
 
-基于此项目的项目，可参考 [DEV](https://github.com/issue9/cmfx/blob/master/docs/DEV.md)。
+### 支持的平台和环境
 
-若要参与此项目的开发，可参考 [CONTRIBUTING](https://github.com/issue9/cmfx/blob/master/docs/CONTRIBUTING.md)。
+- Firefox、Chrome 和 Safari 内核的最新两个版本，其它内核的浏览器未作测试；
+- Go >= 1.24；
+- Node >= 23；
+- gcc Go 需要用到 cgo 支持；
+
+### 本地化
+
+后端采用 <https://pkg.go.dev/github.com/issue9/localeutil> 作为生成国际化的工具，
+可通过 `web locale` 子命令导出国际化的文件。
+
+前端则是 <https://www.npmjs.com/package/intl-messageformat> 作为国际化的方法，
+用户需要手动维护本地化的文件。
+
+若要参与此项目的开发，可参考 [CONTRIBUTING](https://github.com/issue9/cmfx/blob/master/CONTRIBUTING.md)。
 
 ## 版权
 

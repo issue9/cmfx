@@ -4,8 +4,8 @@
 
 export interface AfterWrite2Clipboard {
     /**
-     * @param ok 是否写入成功；
-     * @param text 写入的文本；
+     * @param ok - 是否写入成功；
+     * @param text - 写入的文本；
      */
     (ok?: boolean, text?: string): void;
 }
@@ -13,8 +13,8 @@ export interface AfterWrite2Clipboard {
 /**
  * 将内容 text 写入剪切板
  *
- * @param text 写入的文本，可以是字符串或是一个返回字符串的方法；
- * @param after 写入完成之后执行的操作；
+ * @param text - 写入的文本，可以是字符串或是一个返回字符串的方法；
+ * @param after - 写入完成之后执行的操作；
  */
 export async function write2Clipboard(text: string | { (): string; }, after?: AfterWrite2Clipboard): Promise<void> {
     let t: string;

@@ -51,9 +51,9 @@ export function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
 /**
  * 根据布局 l 生成通用的各个字段位置
  *
- * @param l 布局方式；
- * @param hasHelp 是否需要计算显示帮助信息的区域；
- * @param hasLabel 是否需要计算标题区域；
+ * @param l - 布局方式；
+ * @param hasHelp - 是否需要计算显示帮助信息的区域；
+ * @param hasLabel - 是否需要计算标题区域；
  */
 export function calcLayoutFieldAreas(l: Layout, hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     // NOTE: grid 中如果一个列或是行，即使其宽或是高度为 0，gap 也不会消失，

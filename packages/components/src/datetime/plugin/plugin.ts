@@ -9,8 +9,8 @@
  */
 export interface Plugin {
     /**
-     * @param date 日期；
-     * @param el 单元格对象；
+     * @param date - 日期；
+     * @param el - 单元格对象；
      */
     (date: Date, el: HTMLTableCellElement): void;
 }

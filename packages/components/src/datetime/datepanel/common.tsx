@@ -50,8 +50,8 @@ export interface Props extends BaseProps {
 
     /**
      * 点击周数时的回调函数
-     * @param week 周数；
-     * @param range 周数范围；
+     * @param week - 周数；
+     * @param range - 周数范围；
      */
     onWeekClick?: DateViewProps['onWeekClick'];
 
@@ -77,8 +77,8 @@ export interface Props extends BaseProps {
 
     /**
      * 翻页时的回调函数
-     * @param val 新页面的日期；
-     * @param old 旧页面的日期；
+     * @param val - 新页面的日期；
+     * @param old - 旧页面的日期；
      */
     onPaging?: DateViewProps['onPaging'];
 

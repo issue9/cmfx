@@ -17,8 +17,8 @@ const nameValues: Array<[Intl.RelativeTimeFormatUnit, number]> = [
 ] as const;
 
 /**
- * 将纳秒转换为 {@link Intl#RelativeTimeFormat#format} 可用的参数
- * @param nano 纳秒，如果为负数表示过去的时间；
+ * 将纳秒转换为 {@link Intl#RelativeTimeFormat.format} 可用的参数
+ * @param nano - 纳秒，如果为负数表示过去的时间；
  */
 export function nano2IntlRelative(nano: number): [number, Intl.RelativeTimeFormatUnit] {
     let prevUnit: Intl.RelativeTimeFormatUnit = 'seconds';

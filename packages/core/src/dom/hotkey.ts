@@ -81,9 +81,9 @@ export class Hotkey {
     /**
      * 绑定快捷键
      *
-     * @param handler 处理函数；
-     * @param key 快捷键；
-     * @param modifiers 修饰符；
+     * @param handler - 处理函数；
+     * @param key - 快捷键；
+     * @param modifiers - 修饰符；
      */
     static bindKeys(handler: Handler, key: string, ...modifiers: Modifiers): void {
         Hotkey.bind(new Hotkey(key, ...modifiers), handler);
@@ -92,8 +92,8 @@ export class Hotkey {
     /**
      * 绑定快捷键
      *
-     * @param hotkey 快捷键；
-     * @param handler 快捷键处理函数；
+     * @param hotkey - 快捷键；
+     * @param handler - 快捷键处理函数；
      */
     static bind(hotkey: Hotkey, handler: Handler): void {
         for (const [hk] of Hotkey.#handlers) {
@@ -108,7 +108,7 @@ export class Hotkey {
     /**
      * 解绑快捷键
      *
-     * @param hotkey 快捷键；
+     * @param hotkey - 快捷键；
      */
     static unbind(hotkey: Hotkey): void {
         for (const [hk] of Hotkey.#handlers) {

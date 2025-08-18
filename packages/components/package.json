@@ -55,7 +55,7 @@
         "printd": "^1.6.0",
         "qr-code-styling": "^1.9.2",
         "quill": "^2.0.3",
-        "shiki": "^3.9.2",
+        "shiki": "catalog:",
         "solid-js": "catalog:",
         "solid-transition-group": "^0.3.0",
         "tailwindcss": "catalog:"

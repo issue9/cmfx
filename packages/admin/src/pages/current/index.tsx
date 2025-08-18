@@ -25,7 +25,7 @@ import { Settings } from './settings';
  */
 export class current implements Pages {
     static #passports: Map<string, PassportComponents> = components;
-    
+
     /**
      * 会员统计信息面板
      */
@@ -86,8 +86,8 @@ export class current implements Pages {
     /**
      * 生成 {@link Pages} 对象
      *
-     * @param prefix 路由前缀
-     * @param dashboardChildren 仪表盘内的组件
+     * @param prefix - 路由前缀
+     * @param dashboardChildren - 仪表盘内的组件
      */
     static build(prefix: string, dashboardChildren?: Component<{}>) {
         return new current(prefix, dashboardChildren);

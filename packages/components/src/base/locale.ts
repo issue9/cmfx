@@ -81,7 +81,7 @@ export function buildLocale(cl: CoreLocale) {
         /**
          * 翻译 key 指向的内容
          *
-         * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+         * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
          */
         t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string {
             return l[0].l.t(key, args);
@@ -90,7 +90,7 @@ export function buildLocale(cl: CoreLocale) {
         /**
          * 以 locale 的指定的语言翻译 key 指向的内容
          *
-         * @template D 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
+         * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
          */
         tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
             return l[0].l.tt(locale, key, args);

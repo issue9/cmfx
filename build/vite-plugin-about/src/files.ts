@@ -10,8 +10,8 @@ import { Package } from './global';
 
 /**
  * 向上查找指定的文件，如果存在则返回该文件的路径。
- * @param filenames 需要查找的文件列表；
- * @param dir 起始目录；
+ * @param filenames - 需要查找的文件列表；
+ * @param dir - 起始目录；
  */
 export function findUp(filenames: Array<string>, dir = process.cwd()): string | undefined {
     // NOTE: 有现在的方法 find-up，但是在 vite 中引用第三方库包含 nodejs 模块时会比较麻烦。

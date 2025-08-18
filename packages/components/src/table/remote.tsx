@@ -14,7 +14,7 @@ export interface Ref<T extends object> extends LoaderRef<T> {
     /**
      * 删除指定数据并刷新当前表
      *
-     * @param id 需要删除数据的 id，该值相对于 {@link Props#path} 属性生成删除地址。
+     * @param id - 需要删除数据的 id，该值相对于 {@link Props#path} 属性生成删除地址。
      */
     delete<T extends string|number>(id: T): Promise<void>;
 

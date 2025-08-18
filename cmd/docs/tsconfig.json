@@ -1,0 +1,47 @@
+{
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "module": "ESNext",
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "types": [
+            "vite/client",
+            "unplugin-icons/types/solid"
+        ],
+        "skipLibCheck": true,
+        /* Bundler mode */
+        "moduleResolution": "bundler",
+        "allowImportingTsExtensions": true,
+        "resolveJsonModule": true,
+        "isolatedModules": true,
+        "noEmit": true,
+        "jsx": "preserve",
+        "jsxImportSource": "solid-js",
+        /* Linting */
+        "strict": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": true,
+        "noFallthroughCasesInSwitch": true,
+        "composite": true,
+        "outDir": "../../docs"
+    },
+    "include": [
+        "src/**/*.ts",
+        "src/**/*.mts",
+        "src/**/*.mjs",
+        "src/**/*.js",
+        "src/**/*.tsx",
+        "postcss.config.mjs",
+        "../../pakcages/**/*.tsx",
+        "../../pakcages/**/*.ts",
+    ],
+    "references": [
+        {
+            "path": "./tsconfig.node.json"
+        }
+    ]
+}

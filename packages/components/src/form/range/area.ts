@@ -12,10 +12,10 @@ type RangeAreas = FieldAreas & {
 /**
  * 根据布局 l 生成通用的各个字段位置
  *
- * @param l 布局方式；
- * @param hasHelp 是否需要计算显示帮助信息的区域；
- * @param hasLabel 是否需要计算标题区域；
- * @param hasValue 是否需要计算显示值的区域；
+ * @param l - 布局方式；
+ * @param hasHelp - 是否需要计算显示帮助信息的区域；
+ * @param hasLabel - 是否需要计算标题区域；
+ * @param hasValue - 是否需要计算显示值的区域；
  */
 export function calcLayoutFieldAreas(l: Layout, hasHelp: boolean, hasLabel: boolean, hasValue: boolean): RangeAreas {
     if (l === 'horizontal') { return calcHorizontalFieldAreas(hasHelp, hasLabel, hasValue); }

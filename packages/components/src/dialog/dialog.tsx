@@ -26,38 +26,38 @@ export interface Ref extends HTMLDialogElement {
     /**
      * 移动对话框的位置
      *
-     * @param p 如果为 undefined，那么将会剧中显示，否则显示在指定位置。
+     * @param p - 如果为 undefined，那么将会剧中显示，否则显示在指定位置。
      */
     move(p?: { x: number | string, y: number | string }): void;
 
     /**
      * 生成对话框上的按钮
      *
-     * @param title 按钮内容；
-     * @param click 点击事件；
-     * @param def 是否为默认按钮，如果是则会响应回车事件；
+     * @param title - 按钮内容；
+     * @param click - 点击事件；
+     * @param def - 是否为默认按钮，如果是则会响应回车事件；
      */
     Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element;
 
     /**
      * 生成取消按钮的组件
      *
-     * @param click 如果不为空，则在关闭对话框之前执行该方法，如果返回 false，则会中断关闭对话框。
+     * @param click - 如果不为空，则在关闭对话框之前执行该方法，如果返回 false，则会中断关闭对话框。
      */
     CancelAction(click?: ClickFunc): JSX.Element;
 
     /**
      * 生成确定的按钮
      *
-     * @param click 点击事件
+     * @param click - 点击事件
      */
     OKAction(click: ClickFunc): JSX.Element;
 
     /**
      * 生成带有确认和取消两个按钮的操作栏
      *
-     * @param ok 确定按钮的事件
-     * @param cancel 取消按钮的事件
+     * @param ok - 确定按钮的事件
+     * @param cancel - 取消按钮的事件
      */
     DefaultActions(ok: ClickFunc, cancel?: ClickFunc): JSX.Element;
 }

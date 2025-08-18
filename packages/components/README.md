@@ -14,7 +14,7 @@
 
 ## 开发
 
-若要参与此项目的开发，可参考 [CONTRIBUTING](https://github.com/issue9/cmfx/blob/master/docs/CONTRIBUTING.md)。
+若要参与此项目的开发，可参考 [CONTRIBUTING](https://github.com/issue9/cmfx/blob/master/CONTRIBUTING.md)。
 
 ## 版权
 

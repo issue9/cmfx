@@ -5,7 +5,7 @@
 /**
  * 定义导出列的相关信息
  *
- * @template T 导出数据中每条数据的类型
+ * @typeParam T - 导出数据中每条数据的类型
  */
 export interface Column<T extends object> {
     /**
@@ -34,9 +34,9 @@ export interface Column<T extends object> {
  */
 export interface CellRenderFunc<T extends object> {
     /**
-     * @param id 对应当前列 {@link Column#id} 的值；
-     * @param val 如果该 id 存在于 T 中，那返回其在 T 中的值，如果不存在则是 undefined；
-     * @param obj 表示是当前行的对象，其类型为 T；
+     * @param id - 对应当前列 {@link Column#id} 的值；
+     * @param val - 如果该 id 存在于 T 中，那返回其在 T 中的值，如果不存在则是 undefined；
+     * @param obj - 表示是当前行的对象，其类型为 T；
      */
     <K extends keyof T>(id: string | K, val?: T[K], obj?: T): string | number | undefined;
 }

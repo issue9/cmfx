@@ -13,8 +13,8 @@ import styles from './style.module.css';
 /**
  * 复制内容到剪切版，并在 target 显示复制状态。
  *
- * @param target 显示复制状态的对象，状态会显示在该对象之上，并会控制 target 的 opacity 属性让其暂时隐藏；
- * @param text 复制的内容；
+ * @param target - 显示复制状态的对象，状态会显示在该对象之上，并会控制 target 的 opacity 属性让其暂时隐藏；
+ * @param text - 复制的内容；
  */
 export async function copy2Clipboard(target: HTMLElement, text: string) {
     await write2Clipboard(text, async (ok?: boolean) => {

@@ -7,7 +7,7 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
 /**
  * 接口错误返回的对象
  *
- * @template E 表示 extension 字段的类型，如果该字段空值，不需要指定。
+ * @typeParam E - 表示 extension 字段的类型，如果该字段空值，不需要指定。
  */
 export interface Problem<E = never> {
     type: string
@@ -33,8 +33,8 @@ export interface Param {
 /**
  * 接口返回的对象
  *
- * @template R 表示在接口操作成功的情况下返回的类型，如果为空表示 never；
- * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，表示为 never。
+ * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果为空表示 never；
+ * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，表示为 never。
  */
 export type Return<R = never, PE = never> = {
     /**
@@ -81,7 +81,7 @@ export type Return<R = never, PE = never> = {
 /**
  * 分页接口返回的对象
  *
- * @template T 表示当前页的类型
+ * @typeParam T - 表示当前页的类型
  */
 export interface Page<T> {
     count: number;

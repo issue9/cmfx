@@ -7,10 +7,10 @@ const popParentPos: Array<string> = ['relative', 'absolute', 'fixed', 'sticky'] 
 /**
  * 调整弹出 popover 元素的位置
  *
- * @param popRef 弹出对象，必须得是可见状态且有一个明确的 display 属性；
- * @param anchor 锚定对象的范围；
- * @param padding popRef 与 anchor 两者之间的间隙；
- * @param pos 相对于 anchor 的弹出位置；
+ * @param popRef - 弹出对象，必须得是可见状态且有一个明确的 display 属性；
+ * @param anchor - 锚定对象的范围；
+ * @param padding - popRef 与 anchor 两者之间的间隙；
+ * @param pos - 相对于 anchor 的弹出位置；
  *
  * NOTE: 该操作会在 popRef 显示期间调整其父元素的 position 属性。
  */
@@ -42,10 +42,10 @@ export function adjustPopoverPosition(popRef: HTMLElement, anchor: DOMRect, padd
 /**
  * 计算弹出对象的位置
  *
- * @param popRef 弹出对象，必须得是可见状态的；
- * @param anchor 锚定对象的范围；
- * @param pos popRef 相对 anchor 的位置；
- * @param padding popRef 与 anchor 两者之间的间隙；
+ * @param popRef - 弹出对象，必须得是可见状态的；
+ * @param anchor - 锚定对象的范围；
+ * @param pos - popRef 相对 anchor 的位置；
+ * @param padding - popRef 与 anchor 两者之间的间隙；
  */
 export function calcPopoverPosition(popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, padding?: number): Point {
     const popRect = popRef.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。

@@ -1,0 +1,58 @@
+{
+    "name": "@cmfx/vite-plugin-api",
+    "version": "0.12.0",
+    "type": "module",
+    "main": "./lib/index.js",
+    "description": "为 cmfx 组件库提取 API 文档",
+    "author": {
+        "name": "caixw",
+        "url": "https://caixw.io"
+    },
+    "homepage": "https://github.com/issue9/cmfx",
+    "bugs": {
+        "url": "https://github.com/issue9/cmfx/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/issue9/cmfx",
+        "directory": "build/vite-plugin-api"
+    },
+    "keywords": [
+        "cmfx",
+        "vite",
+        "plugin",
+        "vite-plugin",
+        "api",
+        "doc"
+    ],
+    "license": "MIT",
+    "files": [
+        "lib/",
+        "README.md",
+        "LICENSE"
+    ],
+    "types": "./lib/index.d.ts",
+    "module": "./lib/index.js",
+    "exports": {
+        ".": {
+            "types": "./lib/index.d.ts",
+            "import": "./lib/index.js"
+        }
+    },
+    "scripts": {
+        "build": "vite build"
+    },
+    "devDependencies": {
+        "@types/node": "catalog:",
+        "vite": "catalog:",
+        "vite-plugin-dts": "catalog:",
+        "vite-plugin-static-copy": "catalog:",
+        "typescript": "catalog:",
+        "vitest": "catalog:"
+    },
+    "dependencies": {
+        "@microsoft/tsdoc": "^0.15.1",
+        "ts-morph": "^26.0.0",
+        "yaml": "catalog:"
+    }
+}

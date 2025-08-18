@@ -62,7 +62,7 @@ const presetAPI: Readonly<PickOptional<API>> = {
 /**
  * 检测 API 是否都有值
  *
- * @param api 检测对象
+ * @param api - 检测对象
  */
 export function sanitizeAPI(api: API): Required<API> {
     const a = Object.assign(presetAPI, api);
@@ -81,7 +81,7 @@ export function sanitizeAPI(api: API): Required<API> {
         throw 'presetSize 必须存在于 pageSizes 之中';
     }
 
-    
+
     return a as Required<API>;
 }
 

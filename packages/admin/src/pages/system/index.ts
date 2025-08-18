@@ -29,7 +29,7 @@ export class system implements Pages {
      * 系统服务页面
      */
     static Services = Services;
-    
+
     /**
      * 关于页面
      */
@@ -46,8 +46,8 @@ export class system implements Pages {
     /**
      * 构建 {@link system} 对象
      *
-     * @param prefix 路由地址前缀；
-     * @param about 关于页面的附加内容，如果是 undefined 表示不显示关于页面；
+     * @param prefix - 路由地址前缀；
+     * @param about - 关于页面的附加内容，如果是 undefined 表示不显示关于页面；
      */
     static build(prefix: string, about?: VoidComponent) {
         return new system(prefix, about);

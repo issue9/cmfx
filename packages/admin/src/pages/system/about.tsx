@@ -21,7 +21,7 @@ interface Props {
 /**
  * 关于页面
  *
- * 此页面需要 {@link @cmfx/vite-plugin-about} 插件生成数据。
+ * 此页面需要 {@link https://www.npmjs.com/@cmfx/vite-plugin-about|vite-plugin-about} 插件生成数据。
  */
 export function About(props: Props): JSX.Element {
     const l = useLocale();

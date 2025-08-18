@@ -12,8 +12,8 @@ export class PropsError extends Error {
     /**
      * 初始化表示组件属性错误的对象
      *
-     * @param prop 组件属性名称；
-     * @param msg 错误信息；
+     * @param prop - 组件属性名称；
+     * @param msg - 错误信息；
      */
     constructor(prop: string, msg: any) {
         super(msg);

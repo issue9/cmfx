@@ -5,6 +5,7 @@
 import { includeIgnoreFile } from '@eslint/compat';
 import stylistic from '@stylistic/eslint-plugin';
 import parserTs from '@typescript-eslint/parser';
+import tsdoc from 'eslint-plugin-tsdoc';
 import globals from 'globals';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +21,10 @@ export default [
     includeIgnoreFile(path.resolve(__dirname, 'packages/admin/.gitignore')),
 
     includeIgnoreFile(path.resolve(__dirname, 'cmd/admin/.gitignore')),
-    includeIgnoreFile(path.resolve(__dirname, 'cmd/components/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'cmd/docs/.gitignore')),
+
+    includeIgnoreFile(path.resolve(__dirname, 'build/vite-plugin-about/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'build/vite-plugin-api/.gitignore')),
     {
         languageOptions: {
             globals: globals.browser,
@@ -28,13 +32,15 @@ export default [
         },
         files: ['**/*.ts', '**/*.mts', '**/*.mjs', '**/*.tsx'],
         plugins: {
-            '@stylistic': stylistic
+            '@stylistic': stylistic,
+            '@tsdoc': tsdoc
         },
         rules: {
             '@stylistic/indent': ['error', 4, { 'SwitchCase': 0 }],
             '@stylistic/quotes': ['error', 'single'],
             '@stylistic/semi': ['error', 'always'],
-            '@stylistic/space-before-blocks': 'error'
+            '@stylistic/space-before-blocks': 'error',
+            '@tsdoc/syntax': 'warn',
         }
     }
 ];
