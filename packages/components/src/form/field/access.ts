@@ -7,8 +7,8 @@ import { createSignal, Signal, untrack } from 'solid-js';
 /**
  * 每个表单元素通过调用此接口实现对表单数据的存取和一些基本信息的控制
  *
- * @template T 关联的值类型；
- * @template K 这是对 T 的描述，当 T 的实际值为 undefined 等时，
+ * @typeParam T - 关联的值类型；
+ * @typeParam K - 这是对 T 的描述，当 T 的实际值为 undefined 等时，
  * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
  */
 export interface Accessor<T, K extends string = string> {
@@ -17,7 +17,7 @@ export interface Accessor<T, K extends string = string> {
      *
      * 当 T 无法说明类型时，比如 undefined，由 kind 返回具体的类型说明。
      *
-     * NOTE: 当 Accessor 支持多种类型时，比如 Accessor<string|date|undefined>，
+     * NOTE: 当 Accessor 支持多种类型时，比如 `Accessor<string|date|undefined>`，
      * 在初始化时传递的是 undefined，就无法真正确定类型是什么，此时可以通过此方法进行类型识别。
      */
     kind(): K | undefined;
@@ -51,7 +51,7 @@ export interface Accessor<T, K extends string = string> {
 
     /**
      * 设置当前组件的错误信息
-     * @param string 错误信息
+     * @param string - 错误信息
      */
     setError(string?: string): void;
 
@@ -70,11 +70,11 @@ export interface ChangeFunc<T> {
  *
  * 当一个表单元素是单独使用的，可以传递此函数生成的对象。
  *
- * @param name 字段的名称，比如 radio 可能需要使用此值进行分组。
- * @param v 初始化的值或是直接由 {@link createSignal} 创建的可响应对象；
- * @param kind 指定 {@link Accessor#kind} 的值；
- * @template T 关联的值类型；
- * @template K 这是对 T 的描述，当 T 的实际值为 undefined 等时，
+ * @param name - 字段的名称，比如 radio 可能需要使用此值进行分组。
+ * @param v - 初始化的值或是直接由 {@link createSignal} 创建的可响应对象；
+ * @param kind - 指定 {@link Accessor#kind} 的值；
+ * @typeParam T - 关联的值类型；
+ * @typeParam K - 这是对 T 的描述，当 T 的实际值为 undefined 等时，
  * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
  *
  * @example

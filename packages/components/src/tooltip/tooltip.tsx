@@ -12,8 +12,8 @@ import styles from './style.module.css';
 export interface Ref {
     /**
      * 显示提示框
-     * @param anchor 用于定位提示框的元素；
-     * @param pos 相对 anchor 的位置；
+     * @param anchor - 用于定位提示框的元素；
+     * @param pos - 相对 anchor 的位置；
      */
     show(anchor: HTMLElement, pos: PopoverPosition): void;
 

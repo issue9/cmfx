@@ -13,7 +13,7 @@ export interface Ref {
     /**
      * 跳转至新图标
      *
-     * @param gid 跳转至新图标的 ID，该值必须是图标集中的一个，如果不存在则不执行任何操作；
+     * @param gid - 跳转至新图标的 ID，该值必须是图标集中的一个，如果不存在则不执行任何操作；
      */
     to(gid: string): void;
 }

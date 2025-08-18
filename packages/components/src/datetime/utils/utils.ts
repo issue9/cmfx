@@ -55,8 +55,8 @@ export const minDaySize = 41; // 6 行，每行 7 列。
 /**
  * 计算指定月份的天数范围
  *
- * @param weekStart 每周的起始；
- * @param date 需要计算的月份；
+ * @param weekStart - 每周的起始；
+ * @param date - 需要计算的月份；
  * @returns 返回的 {@link MonthDays} 列表；
  */
 export function monthDays(date: Date, weekStart: Week): Array<MonthDays> {
@@ -147,8 +147,8 @@ export function getWeekDays(m: Array<MonthDays>, min?: Date, max?: Date): Array<
 /**
  * 将 date 所在的月份以及前后一星期以 7 天为一组进行分组
  *
- * @param date 需要计算的月份；
- * @param weekStart 每周的起始；
+ * @param date - 需要计算的月份；
+ * @param weekStart - 每周的起始；
  * @returns 以 7 天为一组的数据，每个元素包含以下字段：
  *  - 0 是否为禁用；
  *  - 1 表示当前的日期，仅精确到天；

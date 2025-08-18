@@ -26,7 +26,7 @@ export interface Props<T> extends FieldBaseProps {
 /**
  * 多行文本框
  *
- * @template T 文本框内容的类型
+ * @typeParam T - 文本框内容的类型
  */
 export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     const form = useFormContext();

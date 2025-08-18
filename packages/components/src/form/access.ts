@@ -23,7 +23,7 @@ export interface Validation<T extends FlattenObject> {
 /**
  * 将一组 {@link Accessor} 存储至一个对象中
  *
- * @template T 表示当前存储的对象类型，该对象要求必须是可由 {@link structuredClone} 复制的；
+ * @typeParam T - 表示当前存储的对象类型，该对象要求必须是可由 {@link structuredClone} 复制的；
  */
 export class ObjectAccessor<T extends FlattenObject> {
     #preset: T;
@@ -40,7 +40,7 @@ export class ObjectAccessor<T extends FlattenObject> {
     /**
      * 构造函数
      *
-     * @pram preset 初始值，该对象要求必须是可由 {@link structuredClone} 进行复制的；
+     * @param preset - 初始值，该对象要求必须是可由 {@link structuredClone} 进行复制的；
      */
     constructor(preset: T) {
         // NOTE: 如果 preset 是一个 createStore 创建的对象，无法复制其中的值作为默认值。
@@ -92,12 +92,12 @@ export class ObjectAccessor<T extends FlattenObject> {
      * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
-     * @template FT 表示 name 字段的类型；
-     * @template K 这是对 T 的描述，当 T 的实际值为 undefined 等时，
+     * @typeParam FT - 表示 name 字段的类型；
+     * @typeParam K - 这是对 T 的描述，当 T 的实际值为 undefined 等时，
      * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
-     * @param name 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法，
+     * @param name - 字段名称，根据此值查找对应的字段，同时也对应 {@link Accessor#name} 方法，
      * 嵌套字段可以用 . 相连，比如 a.b.c；
-     * @param kind 指定 {@link Accessor#kind} 的值；
+     * @param kind - 指定 {@link Accessor#kind} 的值；
      */
     accessor<FT = unknown, K extends string = string>(name: FlattenKeys<T>, kind?: K): Accessor<FT, K> {
         let a: Accessor<FT, K> | undefined = this.#accessors.get(name) as Accessor<FT, K>;
@@ -158,7 +158,7 @@ export class ObjectAccessor<T extends FlattenObject> {
     /**
      * 返回当前对象的值
      *
-     * @param validation 是对返回之前对数据进行验证，如果此值非空，
+     * @param validation - 是对返回之前对数据进行验证，如果此值非空，
      *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
      *
      * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
@@ -227,9 +227,9 @@ interface ProcessProblem<T = never> {
 /**
  * 适用于表单的 {@link ObjectAccessor}
  *
- * @template T 表示需要提交的对象类型；
- * @template R 表示服务端返回的类型；
- * @template P 表示服务端出错是返回的 {@link Problem#extension} 类型；
+ * @typeParam T - 表示需要提交的对象类型；
+ * @typeParam R - 表示服务端返回的类型；
+ * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
 export class FormAccessor<T extends FlattenObject, R = never, P = never> {
     readonly #object: ObjectAccessor<T>;
@@ -242,11 +242,11 @@ export class FormAccessor<T extends FlattenObject, R = never, P = never> {
     /**
      * 构造函数
      *
-     * @param preset 初始值；
-     * @param req 提交数据的方法；
-     * @param pp 如果服务端返回的错误未得到处理，则调用此方法作最后处理；
-     * @param succ 在接口正常返回时调用的方法；
-     * @param v 提交前对数据的验证方法；
+     * @param preset - 初始值；
+     * @param req - 提交数据的方法；
+     * @param pp - 如果服务端返回的错误未得到处理，则调用此方法作最后处理；
+     * @param succ - 在接口正常返回时调用的方法；
+     * @param v - 提交前对数据的验证方法；
      */
     constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>);
     constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validation<T>);

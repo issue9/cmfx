@@ -10,8 +10,8 @@ import { Column } from './column';
 /**
  * 从服务器获取数据的函数签名
  *
- * @template T 返回的行数据类型；
- * @template Q 查询参数的类型；
+ * @typeParam T - 返回的行数据类型；
+ * @typeParam Q - 查询参数的类型；
  */
 export interface FetchFunc<T extends object, Q extends Query> {
     (q: Q): Promise<Page<T> | Array<T> | undefined>;
@@ -20,8 +20,8 @@ export interface FetchFunc<T extends object, Q extends Query> {
 /**
  * 提供从 API 分页接口导出数据的方法
  *
- * @template T 每一行数据的类型；
- * @template Q 查询参数的类型；
+ * @typeParam T - 每一行数据的类型；
+ * @typeParam Q - 查询参数的类型；
  */
 export class Exporter<T extends object, Q extends Query> {
     readonly #sheet: xlsx.WorkSheet;
@@ -30,7 +30,7 @@ export class Exporter<T extends object, Q extends Query> {
     /**
      * 构造函数
      *
-     * @param cols 对列的定义
+     * @param cols - 对列的定义
      */
     constructor(cols: Array<Column<T>>) {
         this.#columns = cols;
@@ -83,11 +83,11 @@ export class Exporter<T extends object, Q extends Query> {
      *
      * 将 {@link Exporter#fetch} 下载的数据导出给用户。
      *
-     * @param filename 文件名，如果是 excel，也作为工作表的名称；
-     * @param lang 语言；
-     * @param ext 后缀名，根据此值生成不同类型的文件；
-     * @param appName 应用名称；
-     * @param appVersion 应用版本；
+     * @param filename - 文件名，如果是 excel，也作为工作表的名称；
+     * @param lang - 语言；
+     * @param ext - 后缀名，根据此值生成不同类型的文件；
+     * @param appName - 应用名称；
+     * @param appVersion - 应用版本；
      *
      * NOTE: 这将通过浏览器创建一个自动下载的功能。
      */

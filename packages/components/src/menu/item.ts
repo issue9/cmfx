@@ -88,8 +88,8 @@ export type RenderMenuItem = TypeDivider | RenderTypeGroup | RenderTypeItem;
 /**
  * 生成易于渲染的菜单项数据，主要是根据参数生成了 CSS 样式。
  *
- * @param items 菜单项数据；
- * @param level 当前菜单项的层级；
+ * @param items - 菜单项数据；
+ * @param level - 当前菜单项的层级；
  */
 export function buildRenderItemType(items: Array<MenuItem>, level: number): Array<RenderMenuItem> {
     return items.map(item => {

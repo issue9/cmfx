@@ -5,6 +5,7 @@
 import { includeIgnoreFile } from '@eslint/compat';
 import stylistic from '@stylistic/eslint-plugin';
 import parserTs from '@typescript-eslint/parser';
+import tsdoc from 'eslint-plugin-tsdoc';
 import globals from 'globals';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -31,13 +32,15 @@ export default [
         },
         files: ['**/*.ts', '**/*.mts', '**/*.mjs', '**/*.tsx'],
         plugins: {
-            '@stylistic': stylistic
+            '@stylistic': stylistic,
+            '@tsdoc': tsdoc
         },
         rules: {
             '@stylistic/indent': ['error', 4, { 'SwitchCase': 0 }],
             '@stylistic/quotes': ['error', 'single'],
             '@stylistic/semi': ['error', 'always'],
-            '@stylistic/space-before-blocks': 'error'
+            '@stylistic/space-before-blocks': 'error',
+            '@tsdoc/syntax': 'warn',
         }
     }
 ];

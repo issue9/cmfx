@@ -65,7 +65,7 @@ type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'ite
     /**
      * 查询参数的默认值
      *
-     * 如果没有查询参数可以使用 {} 代替。
+     * 如果没有查询参数可以使用 `{}` 代替。
      *
      * NOTE: 如果 {@link Props#inSearch} 为 true，那么地址中的参数将覆盖此参数中的相同名称的字段。
      */
@@ -124,8 +124,8 @@ const presetProps = {
 /**
  * 基于加载方法加载数据的表格
  *
- * @template T 为数据中每一条数据的类型；
- * @template Q 为查询参数的类型；
+ * @typeParam T - 为数据中每一条数据的类型；
+ * @typeParam Q - 为查询参数的类型；
  */
 export function LoaderTable<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
     const [, , opt] = use();

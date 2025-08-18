@@ -21,7 +21,7 @@ export interface Props extends BaseProps {
     accentPalette?: Palette;
 
     /**
-     * 代码，字符串中的 < 和 > 会被转码。
+     * 代码，字符串中的 `<` 和 `>` 会被转码。
      */
     children: string;
 

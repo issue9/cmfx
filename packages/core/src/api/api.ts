@@ -17,13 +17,13 @@ export class API {
     /**
      * 构建一个用于访问 API 的对象
      *
-     * @param id 保存令牌时的名称，在多实例中，通完此值判定不同的令牌；
-     * @param s 保存令牌的对象；
-     * @param baseURL API 的基地址，不能以 / 结尾；
-     * @param contentType 请求内容的类型；
-     * @param accept mimetype 返回内容的类型；
-     * @param tokenPath 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
-     * @param locale 请求报头 accept-language 的内容；
+     * @param id - 保存令牌时的名称，在多实例中，通完此值判定不同的令牌；
+     * @param s - 保存令牌的对象；
+     * @param baseURL - API 的基地址，不能以 / 结尾；
+     * @param contentType - 请求内容的类型；
+     * @param accept - mimetype 返回内容的类型；
+     * @param tokenPath - 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
+     * @param locale - 请求报头 accept-language 的内容；
      */
     static async build(id: string, s: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
         // NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
@@ -94,8 +94,8 @@ export class API {
      *  - 调用参数 deps 中的非 GET 请求；
      *  - token 发生变化；
      *
-     * @param path 相对于 {@link API#baseURL} 的接口地址；
-     * @param deps 缓存的依赖接口，这些依赖项的非 GET 接口一旦被调用，将更新当前的缓存项。
+     * @param path - 相对于 {@link API#baseURL} 的接口地址；
+     * @param deps - 缓存的依赖接口，这些依赖项的非 GET 接口一旦被调用，将更新当前的缓存项。
      *  支持在尾部以 * 作为通配符，用以匹配任意字符。
      *
      * NOTE: 查询的数据应该是不带分页的，否则可能会造成数据混乱。
@@ -111,7 +111,7 @@ export class API {
     /**
      * 清除指定的缓存项
      *
-     * @param path 相对于 {@link API#baseURL} 的接口地址；
+     * @param path - 相对于 {@link API#baseURL} 的接口地址；
      */
     async uncache(path: string): Promise<void> {
         this.#cachePaths.delete(path);
@@ -131,7 +131,7 @@ export class API {
     /**
      * 将 path 包装为一个 API 的 URL
      *
-     * @param path 相对于 {@link API#baseURL} 的地址
+     * @param path - 相对于 {@link API#baseURL} 的地址
      */
     buildURL(path: string): string {
         if (path.length === 0) {
@@ -182,12 +182,12 @@ export class API {
     /**
      * 执行普通的 API 请求
      *
-     * @param path 请求地址，相对于 {@link API#baseURL}；
-     * @param method 请求方法；
-     * @param obj 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
-     * @param withToken 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌；
-     * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
-     * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
+     * @param path - 请求地址，相对于 {@link API#baseURL}；
+     * @param method - 请求方法；
+     * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌；
+     * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+     * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
     async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
@@ -198,10 +198,10 @@ export class API {
     /**
      * 执行上传操作
      *
-     * @param path 上传地址，相对于 {@link API#baseURL}；
-     * @param obj 上传的对象；
-     * @param withToken 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
-     * @param method 请求方法；
+     * @param path - 上传地址，相对于 {@link API#baseURL}；
+     * @param obj - 上传的对象；
+     * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
+     * @param method - 请求方法；
      */
     async upload<R=never,PE=never>(path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
@@ -211,7 +211,7 @@ export class API {
     /**
      * 设置登录状态
      *
-     * @param ret 表示执行登录操作之后返回的对象；
+     * @param ret - 表示执行登录操作之后返回的对象；
      * @returns 如果返回 true，表示操作成功，否则表示错误信息；
      */
     async login(ret: Return<Token, never>): Promise<Problem<never>|undefined|true> {
@@ -289,11 +289,11 @@ export class API {
     /**
      * 对 {@link API#fetch} 的二次包装，可以指定一些关键参数。
      *
-     * @param path 请求路径，相对于 baseURL 的路径；
-     * @param method 请求方法；
-     * @param token 携带的令牌，如果为空，表示不需要令牌；
-     * @param ct 是否需要指定 content-type 报头；
-     * @param body 提交的内容，如果没有可以为空；
+     * @param path - 请求路径，相对于 baseURL 的路径；
+     * @param method - 请求方法；
+     * @param token - 携带的令牌，如果为空，表示不需要令牌；
+     * @param ct - 是否需要指定 content-type 报头；
+     * @param body - 提交的内容，如果没有可以为空；
      */
     async #withArgument<R=never,PE=never>(path: string, method: Method, token?: string, ct?: boolean, body?: BodyInit): Promise<Return<R,PE>> {
         const h = new Headers({
@@ -316,12 +316,12 @@ export class API {
     }
 
     /**
-     * 相当于标准库的 {#link window#fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
+     * 相当于标准库的 {@link window.fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
-     * @param path 地址，相对于 {@link API#baseURL}；
-     * @param req 相关的参数；
-     * @template R 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
-     * @template PE 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
+     * @param path - 地址，相对于 {@link API#baseURL}；
+     * @param req - 相关的参数；
+     * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+     * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
     async #fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
         // NOTE: req 的不同，可能需要返回不同的结果，对于缓存的接口，
@@ -395,8 +395,8 @@ export class API {
     /**
      * 获取用于订阅 SSE 的对象
      *
-     * @param path SSE 服务的地址；
-     * @param needLogin 是否需要登录状态才能访问。
+     * @param path - SSE 服务的地址；
+     * @param needLogin - 是否需要登录状态才能访问。
      * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
      */
     async eventSource(path: string, needLogin?: boolean): Promise<Pick<EventSource, 'addEventListener' | 'removeEventListener'> | undefined> {

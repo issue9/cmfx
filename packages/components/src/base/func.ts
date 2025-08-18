@@ -27,7 +27,7 @@ export function cloneElement(e: JSX.Element): JSX.Element {
 /**
  * 处理事件
  *
- * solidjs 可以处理像 onClick={[handler, item.id]} 这种非标准的事件类型，
+ * solidjs 可以处理像 `onClick={[handler, item.id]}` 这种非标准的事件类型，
  * 此方法用于将非标准模式下的方法转换为标准的事件行为。
  *
  * NOTE: 并不是所有的事件都是 {@link JSX#EventHandlerUnion} 类型的，
@@ -44,8 +44,8 @@ export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, 
 /**
  * 将 solidjs 中的 classList 内容转换为 class 属性
  *
- * @param list 组件的 classList 对象；
- * @param cls CSS 类名列表；
+ * @param list - 组件的 classList 对象；
+ * @param cls - CSS 类名列表；
  * @returns 转换而来的 class 属性值；
  */
 export function classList(

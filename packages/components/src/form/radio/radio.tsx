@@ -11,8 +11,6 @@ import styles from './style.module.css';
 export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
     /**
      * 是否显示为块
-     *
-     * NOTE: 该模式下 {Props#indeterminate} 无法有效地表示。
      */
     block?: boolean;
 

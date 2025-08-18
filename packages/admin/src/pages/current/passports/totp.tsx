@@ -38,7 +38,7 @@ export class TOTP implements PassportComponents {
     /**
      * 构造函数
      *
-     * @param id 组件的 ID；
+     * @param id - 组件的 ID；
      */
     constructor(id: string) {
         this.#id = id;

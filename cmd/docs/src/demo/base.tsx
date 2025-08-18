@@ -15,8 +15,8 @@ export function posSelector(preset: PopoverPosition = 'right'): [JSX.Element, Ac
 /**
  * 创建一个 bool 选择项
  *
- * @param label 标题
- * @param preset 默认值
+ * @param label - 标题
+ * @param preset - 默认值
  */
 export function boolSelector(label: string, preset: boolean = false):[JSX.Element, Accessor<boolean>, Setter<boolean>] {
     const [get, set] = createSignal(preset);
@@ -26,7 +26,7 @@ export function boolSelector(label: string, preset: boolean = false):[JSX.Elemen
 
 /**
  * 创建色盘选择工具
- * @param preset 默认值
+ * @param preset - 默认值
  */
 export function paletteSelector(preset?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
     return arraySelector<Palette|undefined>('颜色', palettesWithUndefined, preset);

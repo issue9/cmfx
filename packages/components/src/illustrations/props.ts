@@ -14,5 +14,5 @@ export type Props = ComponentProps<'svg'> & BaseProps & {
 };
 
 export function buildClass(props: Props): string | undefined {
-    return joinClass(props.palette ? `palette--${props.palette}` : '', 'text-palette-fg', props.class)
+    return joinClass(props.palette ? `palette--${props.palette}` : '', 'text-palette-fg', props.class);
 }

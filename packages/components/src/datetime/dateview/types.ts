@@ -26,7 +26,7 @@ export interface Ref {
 
     /**
      * 为指定范围的日期添加 {@link Props#coveredClass} 指定的样式
-     * @param range 要覆盖的日期范围，大小无所谓，会自动排序；
+     * @param range - 要覆盖的日期范围，大小无所谓，会自动排序；
      */
     cover(range: [Date, Date]): void;
 
@@ -52,8 +52,8 @@ export interface Ref {
 
     /**
      * 能否移动到指定的日期，只有 {@link Props#min} 或 {@link Props#max} 有值时才有效。
-     * @param year 移动的年数，负数表示向前移动；
-     * @param month 移动的月数，负数表示向前移动；
+     * @param year - 移动的年数，负数表示向前移动；
+     * @param month - 移动的月数，负数表示向前移动；
      */
     canOffset(year?: number, month?: number): boolean;
 }
@@ -92,8 +92,8 @@ export interface Props extends BaseProps {
 
     /**
      * 点击周数时的回调函数，仅在 {@link Props#weeks} 为 true 时有效。
-     * @param week 周数；
-     * @param range 周数范围；
+     * @param week - 周数；
+     * @param range - 周数范围；
      */
     onWeekClick?: (week: WeekValueType, range: [Date, Date]) => void;
 
@@ -119,29 +119,29 @@ export interface Props extends BaseProps {
 
     /**
      * 点击日期时的回调函数
-     * @param e 日期；
-     * @param disabled 是否禁用；
+     * @param e - 日期；
+     * @param disabled - 是否禁用；
      */
     onClick?: (e: Date, disabled?: boolean) => void;
 
     /**
      * 鼠标悬停在单元格上时的回调函数
-     * @param e 日期；
-     * @param disabled 单元格是否处于禁用状态；
+     * @param e - 日期；
+     * @param disabled - 单元格是否处于禁用状态；
      */
     onEnter?: (e: Date, disabled?: boolean) => void;
 
     /**
      * 鼠标从单元格离开时的回调函数
-     * @param e 日期；
-     * @param disabled 单元格是否处于禁用状态；
+     * @param e - 日期；
+     * @param disabled - 单元格是否处于禁用状态；
      */
     onLeave?: (e: Date, disabled?: boolean) => void;
 
     /**
      * 翻页时的回调函数
-     * @param val 新页面的日期；
-     * @param old 旧页面的日期；
+     * @param val - 新页面的日期；
+     * @param old - 旧页面的日期；
      */
     onPaging?: (val: Date, old?: Date) => void;
 

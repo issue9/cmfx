@@ -17,8 +17,8 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
 /**
  * 初始化整个项目
  *
- * @param elementID 挂载的元素 ID；
- * @param o 项目的初始化选项；
+ * @param elementID - 挂载的元素 ID；
+ * @param o - 项目的初始化选项；
  */
 export function create(elementID: string, o: Options) {
     render(() => (<App opt={buildOptions(o)} />), document.getElementById(elementID)!);

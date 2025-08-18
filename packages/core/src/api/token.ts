@@ -53,7 +53,7 @@ export function writeToken(t: Token, id: string, s: Storage): Token {
 
 /**
  * 获得令牌的状态
- * @param t 令牌，必须得是由 {@link buildToken} 处理之后的对象。
+ * @param t - 令牌，必须得是由 {@link buildToken} 处理之后的对象。
  * @returns 令牌的状态
  */
 export function state(t: Token): TokenState {
@@ -73,7 +73,7 @@ export function state(t: Token): TokenState {
  *
  * 此方法会改变 access_exp 和 refresh_exp 的表示，表示令牌的过期时间点的毫秒数。
  *
- * @param t 服务端返回的令牌
+ * @param t - 服务端返回的令牌
  * @returns 处理后的令牌
  */
 function buildToken(t: Token): Token {

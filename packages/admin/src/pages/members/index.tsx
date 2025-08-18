@@ -38,9 +38,9 @@ export class members implements Pages {
     /**
      * 构建 members 对象
      *
-     * @param prefix 页面路由的统一前缀。以 / 开头但是不能以 / 结尾；
-     * @param memActions 列表页 Members 组件中，操作列的组件，用户可以在此添加一些额外的操作按钮；
-     * @param viewPanels 查看详情页中的额外面板组件；
+     * @param prefix - 页面路由的统一前缀。以 / 开头但是不能以 / 结尾；
+     * @param memActions - 列表页 Members 组件中，操作列的组件，用户可以在此添加一些额外的操作按钮；
+     * @param viewPanels - 查看详情页中的额外面板组件；
      */
     static build(prefix: string, memActions?: Component<ActionProps>, viewPanels?: Component<PanelProps>) {
         return new members(prefix, memActions, viewPanels);

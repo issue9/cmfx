@@ -8,8 +8,8 @@ import Color from 'colorjs.io';
 /**
  * 生成随机的 oklch 颜色值
  *
- * @param hue 色相，取值范围 [0, 360]；
- * @param contrast 基于 APCA 的对比度，取值范围 [0, 100]：
+ * @param hue - 色相，取值范围 [0, 360]；
+ * @param contrast - 基于 APCA 的对比度，取值范围 [0, 100]：
  * - 75 对应 WCAG2 7:1
  * - 60 对应 WCAG2 4.5:1
  * - 45 对应 WCAG2 3:1

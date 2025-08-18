@@ -13,9 +13,9 @@ export class Config {
     /**
      * 构造函数
      *
-     * @param prefix 配置项的命名前缀，用于区分不同模块的配置；
-     * @param id 表示此配置对象的唯一 ID，一般为用户的 ID；
-     * @param s 存储位置，默认为 {window#localStorage}；
+     * @param prefix - 配置项的命名前缀，用于区分不同模块的配置；
+     * @param id - 表示此配置对象的唯一 ID，一般为用户的 ID；
+     * @param s - 存储位置，默认为 {@link window#localStorage}；
      */
     constructor(prefix: string, id: string | number, s?: Storage) {
         this.#prefix = prefix;
@@ -30,8 +30,8 @@ export class Config {
 
     /**
      * 切换配置对象
-     * 
-     * @param id 新对象的 ID，一般为用户的 ID。
+     *
+     * @param id - 新对象的 ID，一般为用户的 ID。
      */
     switch (id: string | number): void {
         this.#id = this.#prefix + '--' + ((typeof id === 'number') ? id.toString() : id) + '--';

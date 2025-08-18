@@ -157,7 +157,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
         /**
          * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
          *
-         * @param p 如果该值空，则会抛出异常；
+         * @param p - 如果该值空，则会抛出异常；
          */
         async outputProblem<P>(p?: Problem<P>): Promise<void> { await act.outputProblem(p); },
 
@@ -166,7 +166,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
          *
          * 相较于 {@link API#login} 此方法除了登录，还执行一些额外的操作。
          *
-         * @param r 登录接口返回的数据
+         * @param r - 登录接口返回的数据
          * @returns true 表示登录成功，其它情况表示错误信息
          */
         async login(r: Return<Token, never>) {
@@ -220,7 +220,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
         /**
          * 切换本地化对象
          *
-         * @param id 本地化 ID
+         * @param id - 本地化 ID
          */
         switchLocale(id: string) { act.switchLocale(id); },
 

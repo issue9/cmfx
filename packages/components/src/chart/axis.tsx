@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
 import * as echarts from 'echarts/types/dist/echarts';
+import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
 import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
@@ -119,7 +119,7 @@ const presetProps = {
 /**
  * 带坐标系的图表组件
  *
- * @template T 每一条数据的类型
+ * @typeParam T - 每一条数据的类型
  */
 export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
     props = mergeProps(presetProps, props);

@@ -9,8 +9,8 @@ export interface Cancel {
 /**
  * 使一个容器成为一个可拖拽移动的对象
  *
- * @param toolbar 鼠标控制区域；
- * @param container 被移动的窗口，需要保证 toolbar 参数包含在 container 之内，且要 container 处于在可见状态；
+ * @param toolbar - 鼠标控制区域；
+ * @param container - 被移动的窗口，需要保证 toolbar 参数包含在 container 之内，且要 container 处于在可见状态；
  * @returns 销毁所有注册的事件；
  */
 export function movable(toolbar: HTMLElement, container: HTMLElement): Cancel {

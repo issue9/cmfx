@@ -9,10 +9,10 @@ interface Options {
 /**
  * 从 availables 中查找最符合 requested 的语言 ID
  *
- * @param requested 匹配的值；
- * @param availables 被匹配的列表；
- * @param preset 默认值，未找到时采用此值返回；
- * @param options 可用的选项，只有一个字段 localeMatcher，该字段有以下两种取值：
+ * @param requested - 匹配的值；
+ * @param availables - 被匹配的列表；
+ * @param preset - 默认值，未找到时采用此值返回；
+ * @param options - 可用的选项，只有一个字段 localeMatcher，该字段有以下两种取值：
  *  - lookup；
  *  - best fit；
  */
