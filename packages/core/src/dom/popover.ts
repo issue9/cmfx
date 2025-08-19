@@ -24,8 +24,8 @@ export function adjustPopoverPosition(popRef: HTMLElement, anchor: DOMRect, padd
             parent.style.setProperty('position', 'relative');
             popRef.style.setProperty('position', 'absolute'); // 只有 absolute 才会超出窗口大小时出现滚动条。
 
-            const toggle = () => {
-                if (!popRef.matches(':open')) {
+            const toggle = (e: ToggleEvent) => {
+                if (e.newState !== 'open') {
                     parent.style.setProperty('position', parentPos);
                     popRef.removeEventListener('toggle', toggle);
                 }
