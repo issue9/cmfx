@@ -141,9 +141,16 @@ test: test-go test-ts
 
 .PHONY: changelog
 to = 'HEAD'
-from = $$(git rev-list --max-parents=0 HEAD)
+from = '$(shell git rev-list --max-parents=0 HEAD)'
+
+ifeq ($(OS),Windows_NT)
+	GEN_CHANGELOG = pwsh -ExecutionPolicy Bypass -File ./scripts/changelog.ps1 $(from) $(to)
+else
+	GEN_CHANGELOG = bash ./scripts/changelog.sh $(from) $(to)
+endif
+
 changelog:
-	bash ./scripts/changelog.sh $(from) $(to)
+	$(GEN_CHANGELOG)
 
 ########################### publish ###################################
 
