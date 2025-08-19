@@ -30,6 +30,7 @@
         "outDir": "../../docs"
     },
     "include": [
+        "src/**/api.json",
         "src/**/*.ts",
         "src/**/*.mts",
         "src/**/*.mjs",

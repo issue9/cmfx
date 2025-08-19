@@ -51,7 +51,7 @@ type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'ite
     /**
      * 下载的文件名
      *
-     * NOTE: 这是一个静态数据，无法在运行过程中改变。
+     * @defaultValue 'download'
      */
     filename?: string;
 
@@ -59,6 +59,8 @@ type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'ite
      * 构建查询参数组件
      *
      * 可以为空，可能存在只有分页的情况。
+     *
+     * @reactive
      */
     queryForm?: { (oa: ObjectAccessor<Q>): JSX.Element };
 
@@ -68,6 +70,8 @@ type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'ite
      * 如果没有查询参数可以使用 `{}` 代替。
      *
      * NOTE: 如果 {@link Props#inSearch} 为 true，那么地址中的参数将覆盖此参数中的相同名称的字段。
+     *
+     * @reactive
      */
     queries: Q;
 
@@ -75,16 +79,23 @@ type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'ite
      * 工具栏的内容
      *
      * 此属性提供的内容显示在左侧部分。工具栏右侧部分为框架自身提供的功能。
+     *
+     * @reactive
      */
     toolbar?: JSX.Element;
 
     /**
      * 是否需要展示框架自身提供的工具栏功能
+     *
+     * @reactive
      */
     systemToolbar?: boolean;
 
     /**
      * 一些突出元素的主题色，默认值为 primary。
+     *
+     * @reactive
+     * @defaultValue 'primary'
      */
     accentPalette?: Palette;
 };
@@ -92,15 +103,11 @@ type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'ite
 export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
     /**
      * 加载数据的方法
-     *
-     * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     load: { (q: Q): Promise<Page<T> | undefined>; };
 
     /**
      * 数据是否分页展示
-     *
-     * NOTE: 这是一个静态数据，无法在运行过程中改变。
      */
     paging: true;
 
@@ -117,7 +124,6 @@ export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
 
 const presetProps = {
     filename: 'download',
-    striped: 0,
     accentPalette: 'primary' as Palette,
 } as const;
 

@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2024 caixw
+// SPDX-FileCopyrightText: 2024-2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
@@ -12,3 +12,7 @@ export { RemoteTable } from './remote';
 export type { Props as RemoteTableProps, Ref as RemoteTableRef } from './remote';
 
 export type { Column } from './column';
+
+export { Table } from './table';
+export type { Props as TableProps } from './table';
+

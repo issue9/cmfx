@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, useLocale } from '@cmfx/components';
+import { Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import IconChecked from '~icons/material-symbols/select-check-box';
@@ -58,7 +58,7 @@ export default function Stages(props: Props):JSX.Element {
                             <p>{api.remarks}</p>
                             <Switch fallback={<code>{ api.type }</code>}>
                                 <Match when={api.fields}>
-                                    <table class="cmfx-table">
+                                    <Table hoverable>
                                         <thead>
                                             <tr>
                                                 <th>{ l.t('_d.stages.param') }</th>
@@ -83,7 +83,7 @@ export default function Stages(props: Props):JSX.Element {
                                                 )}
                                             </For>
                                         </tbody>
-                                    </table>
+                                    </Table>
                                 </Match>
                             </Switch>
                         </section>

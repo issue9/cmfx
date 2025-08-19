@@ -43,8 +43,9 @@
         }
     }
 
-    :global(.cmfx-table) {
+    table.cmfx-table {
         @apply w-full border-t border-b border-palette-fg-low;
+        @apply bg-palette-bg text-palette-fg;
 
         tr {
             @apply border-b border-palette-fg-low;
@@ -62,19 +63,94 @@
         thead th {
             @apply py-2 bg-palette-bg-high;
         }
+    }
 
-        tbody.hoverable {
-            tr.striped {
-                @apply bg-palette-bg-low;
-            }
-
+    table.cmfx-table.hoverable {
+        tbody {
             tr:hover {
                 @apply bg-palette-bg-high;
             }
         }
+    }
 
-        tbody tr.striped {
-            @apply bg-palette-bg-low;
+    table.cmfx-table.striped-1 {
+        tbody {
+            tr:nth-child(1n) {
+                @apply bg-palette-bg-low;
+            }
         }
     }
+
+    table.cmfx-table.striped-2 {
+        tbody {
+            tr:nth-child(2n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-3 {
+        tbody {
+            tr:nth-child(3n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-4 {
+        tbody {
+            tr:nth-child(4n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-5 {
+        tbody {
+            tr:nth-child(5n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-6 {
+        tbody {
+            tr:nth-child(6n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-7 {
+        tbody {
+            tr:nth-child(7n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-8 {
+        tbody {
+            tr:nth-child(8n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-9 {
+        tbody {
+            tr:nth-child(9n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
+    table.cmfx-table.striped-10 {
+        tbody {
+            tr:nth-child(10n) {
+                @apply bg-palette-bg-low;
+            }
+        }
+    }
+
 }

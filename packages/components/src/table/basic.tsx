@@ -2,48 +2,42 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, mergeProps, Show } from 'solid-js';
+import { For, JSX, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Empty } from '@/empty';
 import { Spin } from '@/spin';
 import { Column } from './column';
 import styles from './style.module.css';
+import { Table, Props as TableProps } from './table';
 
-export interface Props<T extends object> extends BaseProps {
+export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
     /**
-     * 是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，
-     * 但是可能会造成空间的巨大浪费。具体可查看：
-     * https://developer.mozilla.org/zh-CN/docs/Web/CSS/table-layout 。
+     * 是否加载状态
+     *
+     * @reactive
      */
-    fixedLayout?: boolean;
-
     loading?: boolean;
 
     /**
      * 列的定义
+     *
+     * @reactive
      */
     columns: Array<Column<T>>;
 
     /**
      * 表格的数据
+     *
+     * @reactive
      */
     items?: Array<T>;
 
     /**
-     * 指定条纹色的间隔
-     * - 0 表示没有；
-     */
-    striped?: number;
-
-    /**
-     * tr 是否响应 hover 事件
-     */
-    hoverable?: boolean;
-
-    /**
      * 固定表格头部位于指定的位置，如果为 undefined，表示不固定。
+     *
+     * @reactive
      */
     stickyHeader?: string;
 
@@ -51,6 +45,8 @@ export interface Props<T extends object> extends BaseProps {
      * 表格顶部的扩展空间
      *
      * NOTE: 该区域不属于 table 空间。
+     *
+     * @reactive
      */
     extraHeader?: JSX.Element;
 
@@ -58,29 +54,21 @@ export interface Props<T extends object> extends BaseProps {
      * 表格底部的扩展空间
      *
      * NOTE: 该区域不属于 table 空间。
+     *
+     * @reactive
      */
     extraFooter?: JSX.Element;
 
     ref?: { (el: HTMLElement): void };
 }
 
-const presetProps = {
-    striped: 0
-} as const;
-
 /**
  * 基础的表格组件
  */
 export function BasicTable<T extends object>(props: Props<T>) {
-    props = mergeProps(presetProps, props);
-
     const l = useLocale();
 
-    if (props.striped !== undefined && props.striped < 0) {
-        throw 'striped 必须大于或是等于 0';
-    }
-
-    const hasCol = props.columns.findIndex((v) => !!v.colClass) >= 0;
+    const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
     return <Spin spinning={props.loading} palette={props.palette} class={joinClass(styles.table, props.class)}
         ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}>
@@ -88,7 +76,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
             {props.extraHeader}
         </Show>
 
-        <table class={joinClass('cmfx-table', props.fixedLayout ? styles['fixed-layout'] : undefined)}>
+        <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable} striped={props.striped}>
             <Show when={hasCol}>
                 <colgroup>
                     <For each={props.columns}>
@@ -110,11 +98,11 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 </tr>
             </thead>
 
-            <tbody class={props.hoverable ? styles.hoverable : undefined}>
+            <tbody>
                 <Show when={props.items && props.items.length > 0}>
                     <For each={props.items}>
-                        {(item, index) => (
-                            <tr class={(props.striped && index() % props.striped === 0) ? styles.striped : undefined}>
+                        {item => (
+                            <tr>
                                 <For each={props.columns}>
                                     {(h) => {
                                         const i = h.id in item ? (item as any)[h.id] : undefined;
@@ -133,7 +121,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
                     </tr>
                 </Show>
             </tbody>
-        </table>
+        </Table>
 
         <Show when={props.extraFooter}>{props.extraFooter}</Show>
     </Spin>;
