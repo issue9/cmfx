@@ -7,6 +7,8 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+import pkg from './package.json';
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -45,6 +47,17 @@ export default defineConfig({
             fileName: (_, name) => `${name}.js`,
         },
         rollupOptions: {
+            output: {
+                banner: chunk => {
+                    if (chunk.isEntry) {
+                        return `/*!
+ * ${pkg.name} v${pkg.version}
+ * ${pkg.homepage}
+ * ${pkg.license} licensed
+ */`;
+                    } else { return ''; }
+                }
+            },
             // ts-morph 必须要加上，否则调用方无法正确编译。
             external: ['vite', 'node:fs', 'node:path', 'ts-morph']
         }

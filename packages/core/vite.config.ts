@@ -7,6 +7,8 @@ import { defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+import pkg from './package.json';
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -46,6 +48,20 @@ export default defineConfig({
             },
             formats: ['es'],
             fileName: (_, name) => `${name}.js`
+        },
+        rollupOptions: {
+            output: {
+                banner: chunk => {
+                    if (chunk.isEntry) {
+                        return `/*!
+ * ${pkg.name} v${pkg.version}
+ * ${pkg.homepage}
+ * ${pkg.license} licensed
+ */`;
+                    } else { return ''; }
+                }
+
+            }
         }
     }
 });

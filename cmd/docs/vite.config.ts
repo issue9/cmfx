@@ -11,6 +11,8 @@ import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 
+import pkg from './package.json';
+
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     return {
@@ -21,7 +23,20 @@ export default defineConfig(({ mode }) => {
 
         build: {
             minify: true,
-            outDir: '../../docs'
+            outDir: '../../docs',
+            rollupOptions: {
+                output: {
+                    banner: chunk => {
+                        if (chunk.isEntry) {
+                            return `/*!
+ * ${pkg.name} v${pkg.version}
+ * ${pkg.homepage}
+ * ${pkg.license} licensed
+ */`;
+                        } else { return ''; }
+                    }
+                }
+            }
         },
 
         css: {

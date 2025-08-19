@@ -11,6 +11,8 @@ import dts from 'vite-plugin-dts';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
+import pkg from './package.json';
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
@@ -66,6 +68,17 @@ export default defineConfig({
             cssFileName: 'style',
         },
         rollupOptions: {
+            output: {
+                banner: chunk => {
+                    if (chunk.isEntry) {
+                        return `/*!
+ * ${pkg.name} v${pkg.version}
+ * ${pkg.homepage}
+ * ${pkg.license} licensed
+ */`;
+                    } else { return ''; }
+                }
+            },
             // 不需要打包的内容
             external: ['solid-js', '@solidjs/router', '@cmfx/core']
         }
