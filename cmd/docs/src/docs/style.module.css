@@ -10,6 +10,11 @@
     article.doc {
         @apply p-2;
 
+        p:first-of-type {
+            /* 应用在 README.md 中的 badge 图标上 */
+            @apply flex flex-wrap gap-2 mb-3;
+        }
+
         h1 {
             @apply text-3xl font-bold mb-4;
         }
@@ -28,6 +33,11 @@
 
         ul {
             @apply ps-1 list-inside list-disc;
+        }
+
+        a:link,
+        a:visited {
+            @apply text-palette-fg-high;
         }
     }
 }

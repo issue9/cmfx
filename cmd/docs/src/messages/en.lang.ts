@@ -36,6 +36,7 @@ const messages = {
             advance: 'Advanced',
             theme: 'Theme',
             locale: 'Locale',
+            changelog: 'Changelog',
         },
         demo: {
             general: 'General',

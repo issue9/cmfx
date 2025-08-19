@@ -35,7 +35,8 @@
             @apply text-xl;
         }
 
-        a:link {
+        a:link,
+        a:visited {
             @apply text-palette-fg-high;
         }
     }

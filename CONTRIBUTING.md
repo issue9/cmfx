@@ -65,7 +65,9 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 ### 目录结构
 
-- cmd 包含了用于测试的前后端；
+- cmd/server 简单的后端服务；
+- cmd/admin 适配 `cmd/server` 的后台管理；
+- cmd/docs 生成文档；
 - cmfx 后端源码的主目录；
 - docs 文档；
 - packages 前端相关的代码；

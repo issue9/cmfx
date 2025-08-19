@@ -8,8 +8,8 @@ import { RouteDefinition } from '@solidjs/router';
 import { marked } from 'marked';
 import { JSX, ParentProps, createEffect, createMemo, createSignal } from 'solid-js';
 
-import introEN from './intro/intro.en.md?raw';
-import introZHHans from './intro/intro.zh-Hans.md?raw';
+import introChangeLog from '../../../../CHANGELOG.md?raw';
+import introReadme from '../../../../README.md?raw';
 
 import usageFAQEN from './usage/faq.en.md?raw';
 import usageFAQZHHans from './usage/faq.zh-Hans.md?raw';
@@ -36,7 +36,8 @@ marked.use(markedShiki());
 // 外层键名为语言 ID，内层键名为文档 ID，值为文档内容。
 const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
     ['en', new Map([
-        ['intro', introEN],
+        ['intro/readme', introReadme],
+        ['intro/changelog', introChangeLog],
 
         ['usage/install', usageInstallEN],
         ['usage/platform', usagePlatformEN],
@@ -46,7 +47,8 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
         ['advance/locale', advanceLocaleEN]
     ])],
     ['zh-Hans', new Map([
-        ['intro', introZHHans],
+        ['intro/readme', introReadme],
+        ['intro/changelog', introChangeLog],
 
         ['usage/install', usageInstallZHHans],
         ['usage/platform', usagePlatformZHHans],
@@ -60,8 +62,12 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
 type Kind = 'intro' | 'usage' | 'advance';
 
 // 定义了所有文章的路由
+//
+// id: 在翻译文件中 _d.docs 下对应在的 id；
+// kind 表示文章类型，用于区分不同类型的文档；
 const routes: Array<RouteDefinition & {kind:Kind, id: string}> = [
-    { path: ['/', '/intro'], id: 'intro', kind: 'intro', component: () => <Markdown article='intro' /> },
+    { path: ['/', '/intro/readme'], id: 'intro', kind: 'intro', component: () => <Markdown article='intro/readme' /> },
+    { path: '/intro/changelog', id: 'changelog', kind: 'intro', component: () => <Markdown article='intro/changelog' /> },
 
     { path: '/usage/install', id: 'install', kind: 'usage', component: () => <Markdown article='usage/install' /> },
     { path: '/usage/platform', id: 'platform', kind: 'usage', component: () => <Markdown article='usage/platform' /> },
