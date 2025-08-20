@@ -30,5 +30,9 @@
     dialog.dialog[open] {
         /* dialog 的 open 会强制将 display 设置为 block，此值用于将其改回来 */
         display: flex !important;
+
+        .scrollable {
+            @apply overflow-auto;
+        }
     }
 }

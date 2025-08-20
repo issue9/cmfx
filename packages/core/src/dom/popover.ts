@@ -20,17 +20,21 @@ export function adjustPopoverPosition(popRef: HTMLElement, anchor: DOMRect, padd
     const parent = popRef.parentElement;
     if (parent) {
         const parentPos = parent.style.position;
-        if (!popParentPos.includes(parentPos ?? '')) {
+        if (!popParentPos.includes(parentPos)) {
             parent.style.setProperty('position', 'relative');
+
+            const pos = popRef.style.position;
             popRef.style.setProperty('position', 'absolute'); // 只有 absolute 才会超出窗口大小时出现滚动条。
 
             const toggle = (e: ToggleEvent) => {
-                if (e.newState !== 'open') {
+                if (e.newState !== 'open') { // 关闭时恢复原有样式
                     parent.style.setProperty('position', parentPos);
-                    popRef.removeEventListener('toggle', toggle);
+                    popRef.style.setProperty('position', pos);
+
+                    popRef.removeEventListener('beforetoggle', toggle);
                 }
             };
-            popRef.addEventListener('toggle', toggle);
+            popRef.addEventListener('beforetoggle', toggle);
         }
     }
 

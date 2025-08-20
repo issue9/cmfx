@@ -47,6 +47,18 @@ body 可选项，此次更改的具体信息，如果是多行，每行应该保
 
 footer 可选项，一般为关闭 issue 等附加的信息。
 
+BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 type 之后加上`!`，比如：
+
+```
+fix!: subject
+```
+
+或是
+
+```
+fix(scope)!: subject
+```
+
 #### 校验方法
 
 可以将 `./scripts/commit-msg.sh` 添加到项目 `.git/hooks` 之下，并命名为 `commit-msg`，可以在每次提交之前对提交信息格式进行检测，
@@ -54,16 +66,23 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 ## 测试环境搭建
 
-如果支持 Makefile 的使用，可以使用以下命令进行初始化：
+首先必须安装以下工具：
 
-1. `make install` 安装环境；
-1. `make init` 初始化项目的数据库等信息；
-1. `make watch-docs` 热编译前端组件库代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
-1. `make watch-server` 热编译后端代码，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
-1. `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
-1. 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
+- [Node.js](https://nodejs.org/zh-cn)
+- [pnpm](https://pnpm.io/zh/)
+- [Go](https://go.dev/)
+- Git
 
-windows 环境下，最好是使用 [PowerShell 7.x](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)。
+如果有 **GNU Make**，可以使用以下命令进行初始化：
+
+- `make install` 安装环境；
+- `make init` 初始化项目的数据库等信息；
+- `make watch-docs` 热编译前端组件库代码，之后可通过 `http://localhost:5173` 访问组件库的示例界面；
+- `make watch-server` 热编译后端代码，之后可通过 `http://localhost:8080` 作为后端接口的基地址；
+- `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
+- 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
+
+在 windows 环境下，部分 make 命令需要 [PowerShell 7.x](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)。
 
 ## 开发
 

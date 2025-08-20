@@ -188,7 +188,7 @@ export function Dialog(props: Props): JSX.Element {
             </header>
         </Show>
 
-        <main classList={{ 'overflow-scroll': props.scrollable }}>{props.children}</main>
+        <main class={props.scrollable ? styles.scrollable : ''}>{props.children}</main>
 
         <Show when={props.actions}><footer>{props.actions}</footer></Show>
     </dialog>;

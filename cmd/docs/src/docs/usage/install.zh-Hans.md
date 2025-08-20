@@ -2,9 +2,9 @@
 
 在安装项目之前需要具备基本的开发环境：
 
-- Node.js
-- npm
-- Go
+- [Node.js](https://nodejs.org/zh-cn)
+- [pnpm](https://pnpm.io/zh/)
+- [Go](https://go.dev/)
 - Git
 
 如果只是作一个简单的项目，可以跳过以下安装步骤，直接在 `cmd` 下作开发：
