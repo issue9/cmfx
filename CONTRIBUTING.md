@@ -36,6 +36,8 @@ type 取值如下：
 - ci: 对集成测试等内容的修改；
 - chore: 其它一些非代码的修改；
 - revert: 回滚到指定版本；
+- build：对构建系统或者外部依赖项进行了修改；
+- release：发布新版本；
 
 scope 表示修改的范围，目录结构，可以为空。
 
@@ -61,6 +63,8 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 1. `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
 1. 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
 
+windows 环境下，最好是使用 [PowerShell 7.x](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)。
+
 ## 开发
 
 ### 目录结构
@@ -77,7 +81,8 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 
 ### 本地化
 
-后端的本地化信息在 `cmfx/locales` 目录之下；前端的本地化信息在 `packages/**/src/messages` 目录之下。
+后端的本地化信息在 `cmfx/locales` 目录之下；
+前端的本地化信息在 `packages/**/src/messages` 目录之下。
 
 ### 前端
 
@@ -86,7 +91,7 @@ footer 可选项，一般为关闭 issue 等附加的信息。
 - 所有组件都要有明确的返回值，否则在生成 `.d.ts` 文件时可能会出错；
 - 组件属性中不推荐直接使用 classList 属性，而是应该使用 classList 函数转换为字符串然后传递给 class 属性；
 - 注意 CSS 中不同 layer 的优先级；
-- solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route. ` 的错误，
+- solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route.` 的错误，
 所以在所有的 vite.config.ts 中都将 solid-router 加入到 rollupOptions.external，只在主项目中真实导入；
 - 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容；
 - 文档采用 [tsdoc](https://tsdoc.org/) 标准；

@@ -2,7 +2,7 @@
 
 # 获取当前提交的 commit msg
 commit_msg=$(cat "$1")
-msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert)(\(.+\))?: .{1,80}"
+msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert|build|release)(\(.+\))?: .{1,80}"
 
 case "$commit_msg" in
   *"$msg_reg"*) # 匹配成功时的操作
