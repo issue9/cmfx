@@ -17,7 +17,7 @@ Go 采用 `gofmt` 进行格式化，无须手动处理，在 `gofmt` 允许的�
 提交消息的格式如下：
 
 ```text
-<type>(<scope>): <subject>
+<type>(<scope>)(!): <subject>
 
 <body>
 
@@ -36,26 +36,35 @@ type 取值如下：
 - ci: 对集成测试等内容的修改；
 - chore: 其它一些非代码的修改；
 - revert: 回滚到指定版本；
+- typo: 修正代码或文档的拼写错误；
+- community: 社区相关的修改，如修改 Github Issue 模板等；
 - build：对构建系统或者外部依赖项进行了修改；
 - release：发布新版本；
 
-scope 表示修改的范围，目录结构，可以为空。
+scope 表示修改的范围，可以为空，不作强制要求，但应该尽量简短明了，推荐使用以下值：
 
-subject 对此次变更的简要描述，一般不超过 80 个字符。
+- core: 对 `/packages/core` 进行了修改；
+- component: 对 `/packages/component` 进行了修改；
+- admin: 对 `/packages/admin` 进行了修改；
+- server: 对 `/cmfx` 进行了修改；
+- plugin-about: 对 `/build/vite-plugin-about` 进行了修改；
+- plugin-api: 对 `/build/vite-plugin-api` 进行了修改；
 
-body 可选项，此次更改的具体信息，如果是多行，每行应该保持在 80 个字符之内。
+subject 对此次变更的简要描述，一般不超过 **80 个字符**。
+
+body 可选项，此次更改的具体信息，如果是多行，每行应该保持在 **80 个字符**之内。
 
 footer 可选项，一般为关闭 issue 等附加的信息。
 
 BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 type 之后加上`!`，比如：
 
-```
+```git-commit
 fix!: subject
 ```
 
 或是
 
-```
+```git-commit
 fix(scope)!: subject
 ```
 
@@ -108,12 +117,12 @@ fix(scope)!: subject
 前端的一些注意事项：
 
 - 所有组件都要有明确的返回值，否则在生成 `.d.ts` 文件时可能会出错；
-- 组件属性中不推荐直接使用 classList 属性，而是应该使用 classList 函数转换为字符串然后传递给 class 属性；
+- 组件属性中不推荐直接使用 `classList` 属性，而是应该使用 `classList` 函数转换为字符串然后传递给 `class` 属性；
 - 注意 CSS 中不同 layer 的优先级；
 - solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route.` 的错误，
-所以在所有的 vite.config.ts 中都将 solid-router 加入到 rollupOptions.external，只在主项目中真实导入；
+所以在所有的 `vite.config.ts` 中都将 `solid-router` 加入到 `rollupOptions.external`，只在主项目中真实导入；
 - 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容；
-- 文档采用 [tsdoc](https://tsdoc.org/) 标准；
+- 文档采用 [tsdoc](https://tsdoc.org/) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等；
 
 ### 后端
 
