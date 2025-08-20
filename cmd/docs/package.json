@@ -27,6 +27,7 @@
         "@cmfx/vite-plugin-api": "workspace:*",
         "@iconify/json": "catalog:",
         "@solidjs/router": "catalog:",
+        "colorjs.io": "catalog:",
         "marked": "^16.1.2",
         "shiki": "catalog:",
         "solid-js": "catalog:",

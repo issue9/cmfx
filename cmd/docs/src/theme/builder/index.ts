@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * from './selector';
+export { default } from './builder';

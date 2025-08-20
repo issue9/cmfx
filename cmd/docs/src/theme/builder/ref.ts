@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 
-import { Scheme } from '@/base';
+import { Scheme } from '@cmfx/components';
 
 export interface Ref {
     /**

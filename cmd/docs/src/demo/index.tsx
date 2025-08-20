@@ -54,7 +54,6 @@ const routes: Array<RouteDefinition & { id: string, kind: Kind }> = [
     { path: '/table', id: 'table', kind: 'data-display', component: lazy(() => import('./table')) },
     { path: '/tab', id: 'tab', kind: 'navigation', component: lazy(() => import('./tab')) },
 
-    { path: '/theme-builder', id: 'theme-builder', kind: 'general', component: lazy(() => import('./theme/builder')) },
     { path: '/theme-selector', id: 'theme-selector', kind: 'general', component: lazy(() => import('./theme/selector')) },
 
     { path: '/tooltip', id: 'tooltip', kind: 'feedback', component: lazy(() => import('./tooltip')) },

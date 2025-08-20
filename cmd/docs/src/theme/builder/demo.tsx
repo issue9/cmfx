@@ -2,15 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
+import {
+    Accessor, Appbar, BasicTable, Column, DatePanel, joinClass, Mode, ObjectAccessor, Scheme, ThemeProvider, useLocale
+} from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
-import { Appbar } from '@/appbar';
-import { joinClass, Mode, Scheme } from '@/base';
-import { ThemeProvider, useLocale } from '@/context';
-import { DatePanel } from '@/datetime';
-import { Accessor, ObjectAccessor } from '@/form';
-import { BasicTable, Column } from '@/table';
 import styles from './style.module.css';
 
 /**

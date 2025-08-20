@@ -2,6 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import {
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, FieldOption, Label,
+    Locale, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useLocale
+} from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
 import { batch, JSX, Show } from 'solid-js';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
@@ -17,14 +21,6 @@ import IconReset from '~icons/material-symbols/reset-settings';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { Locale, Mode, Palette, Scheme } from '@/base';
-import { Button, ButtonGroup } from '@/button';
-import { Code } from '@/code';
-import { useLocale } from '@/context';
-import { Dialog, DialogRef } from '@/dialog';
-import { Divider } from '@/divider';
-import { Accessor, FieldOption, ObjectAccessor, OKLCHPicker, RadioGroup, Range } from '@/form';
-import { Label } from '@/typography';
 import { randOklchColor } from './oklch';
 import { Ref } from './ref';
 import styles from './style.module.css';

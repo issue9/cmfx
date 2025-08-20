@@ -5,7 +5,7 @@
 import {
     Appbar, Button, Dropdown, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale
 } from '@cmfx/components';
-import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
+import { HashRouter, RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
 import { render } from 'solid-js/web';
 import IconGithub from '~icons/icon-park-outline/github';
@@ -21,6 +21,7 @@ import './style.css';
 
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
+    { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
     docsRoute('/docs'),
     demoRoute('/demo'),
 ];
@@ -43,6 +44,7 @@ function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
     const [, act, opt] = use();
     const [ltr, setLTR] = createSignal(true);
+    const nav = useNavigate();
 
     return <div class="flex flex-col h-full w-full">
         <Appbar title={options.title} actions={
@@ -56,14 +58,20 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square rounded><IconLanguage /></Button>
                 </Dropdown>
 
-                <Dropdown hoverable value={opt.mode ? [opt.mode] : []} onChange={e=>act.switchMode(e)}
-                    items={[
-                        { type: 'item', label: l.t('_d.main.dark'), value: 'dark' },
-                        { type: 'item', label: l.t('_d.main.light'), value: 'light' },
-                        { type: 'item', label: l.t('_d.main.system'), value: 'system' },
-                        { type: 'divider' },
-                        { type: 'item', label: l.t('_d.main.themeBuilder'), value: 'theme-builder' },
-                    ]}>
+                <Dropdown hoverable value={opt.mode ? [opt.mode] : []} onChange={e => {
+                    if (e === 'theme-builder') {
+                        nav('/theme-builder');
+                    } else {
+                        act.switchMode(e);
+                    }
+                }}
+                items={[
+                    { type: 'item', label: l.t('_d.main.dark'), value: 'dark' },
+                    { type: 'item', label: l.t('_d.main.light'), value: 'light' },
+                    { type: 'item', label: l.t('_d.main.system'), value: 'system' },
+                    { type: 'divider' },
+                    { type: 'item', label: l.t('_d.main.themeBuilder'), value: 'theme-builder' },
+                ]}>
                     <Button kind='flat' square rounded><IconTheme /></Button>
                 </Dropdown>
 

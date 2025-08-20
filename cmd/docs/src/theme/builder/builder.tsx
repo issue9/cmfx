@@ -2,14 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { BaseProps, Drawer, fieldAccessor, joinClass, Mode, ObjectAccessor, Scheme, use } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { JSX, ParentProps, untrack } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
-import { BaseProps, joinClass, Mode, Scheme } from '@/base';
-import { use } from '@/context';
-import { Drawer } from '@/drawer';
-import { fieldAccessor, ObjectAccessor } from '@/form';
 import { Demo } from './demo';
 import { params, random } from './params';
 import { Ref } from './ref';
