@@ -5,7 +5,7 @@
  */
 
 /* 项目中必须引入此文件，否则当前项目中的 tailwind CSS 类不启作用 */
-@import 'tailwindcss';
+@import 'tailwindcss' source('.');
 
 @import '@cmfx/components/style.css';
 @import '@cmfx/components/tailwind.css';

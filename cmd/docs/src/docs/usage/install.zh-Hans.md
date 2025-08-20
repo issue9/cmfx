@@ -48,7 +48,7 @@ npm i @cmfx/admin @cmfx/core @cmfx/components
 对 tailwind 的进行了部分自定义，**必须**在项目的样式表中引入相关定义：
 
 ```css
-@import 'tailwindcss';
+@import 'tailwindcss' source('.');
 @import '@cmfx/components/style.css';
 @import '@cmfx/components/tailwind.css';
 ```
