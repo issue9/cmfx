@@ -133,7 +133,8 @@ test: test-go test-ts
 
 ############################# changelog ###############################
 
-# 生成 CHANGELOG.md 文件，接受 from 和 to 参数，用于指定生成的范围。
+# 生成 CHANGELOG.md 文件，接受 from 和 to 参数，用于指定生成的范围，一般为 git tag 值。
+# to 同时也会作为版本号写入 CHANGELOG.md 文件。
 #
 # 如果不指定参数
 # to 表示最新的提交

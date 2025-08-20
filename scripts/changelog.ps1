@@ -55,10 +55,10 @@ Print-Section "fix" "修复问题"
 Print-Section "perf" "性能优化"
 
 if (-not (Test-Path $ChangelogFile)) { # 文件不存在
-    Get-Content $TmpChangelog | Select-Object -SkipLast 1 | Set-Content $ChangelogFile
+    (Get-Content $TmpChangelog | Select-Object -SkipLast 1) -join "`n" | Set-Content $ChangelogFile
 } else { # 文件存在
     $NewFile = "${ChangelogFile}.new"
-    Get-Content $TmpChangelog | Set-Content $NewFile
+    (Get-Content $TmpChangelog) -join "`n" | Set-Content $NewFile
     Get-Content $ChangelogFile | Select-Object -Skip 2 | Add-Content $NewFile
     Move-Item -Force $NewFile $ChangelogFile
 }
