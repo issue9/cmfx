@@ -46,6 +46,22 @@ const messages = {
             dataDisplay: 'Data Display',
             feedback: 'Feedback',
             config: 'Configuration',
+        },
+        theme: {
+            builder: 'Theme Builder',
+            dark: 'Dark',
+            light: 'Light',
+            export: 'Export',
+            apply: 'Apply',
+            componentsDemo: 'Components Demo',
+            fontSize: 'Font size',
+            colors: 'Colors',
+            radius: 'Radius',
+            transitionDuration: 'transition duration',
+            randomContrastLess: 'Random less contrast',
+            randomContrastMore: 'Random more contrast',
+            randomContrastNormal: 'Random contrast',
+            otherParams: 'Other params',
         }
     }
 };

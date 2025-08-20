@@ -48,6 +48,22 @@ const messages: typeof m = {
             dataDisplay: '数据展示',
             feedback: '反馈',
             config: '配置',
+        },
+        theme: {
+            builder: '主题编辑器',
+            dark: '深色',
+            light: '浅色',
+            export: '导出配置',
+            apply: '应用主题',
+            componentsDemo: '组件展示',
+            fontSize: '字体大小',
+            colors: '颜色',
+            radius: '圆角',
+            transitionDuration: '动画时长',
+            randomContrastLess: '生成低对比度主题',
+            randomContrastMore: '生成高对比度主题',
+            randomContrastNormal: '生成主题',
+            otherParams: '其它参数',
         }
     }
 };

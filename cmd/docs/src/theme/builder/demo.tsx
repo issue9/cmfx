@@ -21,7 +21,7 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
     return <div class="w-full h-full p-2">
         <ThemeProvider mode={props.m.getValue()} scheme={props.s.object()}>
             <div class={styles.demo}>
-                <Appbar title={l.t('_c.theme.componentsDemo')} />
+                <Appbar title={l.t('_d.theme.componentsDemo')} />
                 <Components />
             </div>
         </ThemeProvider>

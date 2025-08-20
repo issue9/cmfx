@@ -47,7 +47,7 @@ function InternalApp(props: ParentProps): JSX.Element {
     const nav = useNavigate();
 
     return <div class="flex flex-col h-full w-full">
-        <Appbar title={options.title} actions={
+        <Appbar palette='secondary' title={options.title} actions={
             <div class="flex gap-2 mr-2">
                 <Dropdown hoverable value={[l.locale.toString()]} onChange={e=>act.switchLocale(e)}
                     items={l.locales.map(locale => ({

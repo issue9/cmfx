@@ -36,17 +36,17 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         <div class={styles.toolbar}>
             <div class={styles.actions}>
                 <ButtonGroup rounded>
-                    <Button kind='border' rounded square title={l.t('_c.theme.randomContrastLess')} onclick={() => random(s, 45)}><IconRandLess /></Button>
-                    <Button kind='border' rounded square title={l.t('_c.theme.randomContrastNormal')} onclick={() => random(s, 60)}><IconRandNormal /></Button>
-                    <Button kind='border' rounded square title={l.t('_c.theme.randomContrastMore')} onclick={() => random(s, 75)}><IconRandMore /></Button>
+                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastLess')} onclick={() => random(s, 45)}><IconRandLess /></Button>
+                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastNormal')} onclick={() => random(s, 60)}><IconRandNormal /></Button>
+                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastMore')} onclick={() => random(s, 75)}><IconRandMore /></Button>
                 </ButtonGroup>
 
                 <ButtonGroup rounded>
-                    <Button square title={l.t('_c.theme.light')}
+                    <Button square title={l.t('_d.theme.light')}
                         checked={m.getValue() === 'light'} onClick={() => m.setValue('light')}>
                         <IconLight />
                     </Button>
-                    <Button square title={l.t('_c.theme.dark')}
+                    <Button square title={l.t('_d.theme.dark')}
                         checked={m.getValue() === 'dark'} onClick={() => m.setValue('dark')}>
                         <IconDark />
                     </Button>
@@ -54,8 +54,8 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
             </div>
             <ButtonGroup rounded>
                 <Button square onClick={ref.reset} title={l.t('_c.reset')}><IconReset /></Button>
-                <Button square onClick={() => ref.apply()} title={l.t('_c.theme.apply')}><IconApply /></Button>
-                <Button square onClick={() => dlg.showModal()} title={l.t('_c.theme.export')}><IconExport /></Button>
+                <Button square onClick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
+                <Button square onClick={() => dlg.showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
             </ButtonGroup>
         </div>
 
@@ -64,7 +64,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         {radiusParams(l, s)}
         {otherParams(l, s)}
 
-        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_c.theme.export')}</Label>}>
+        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_d.theme.export')}</Label>}>
             <Code class="h-full">{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
@@ -181,7 +181,7 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>, contrast: 75 | 60 
 // 设置圆角孤度参数面板
 function radiusParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconRadius class="mr-1" />{l.t('_c.theme.radius')}</Divider>
+        <Divider><IconRadius class="mr-1" />{l.t('_d.theme.radius')}</Divider>
         {radius('xs', s.accessor<number>('radius.xs'))}
         {radius('sm', s.accessor<number>('radius.sm'))}
         {radius('md', s.accessor<number>('radius.md'))}
@@ -211,7 +211,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
 // 设置字体大小参数面板
 function fontSizeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconFontSize class="mr-1" />{l.t('_c.theme.fontSize')}</Divider>
+        <Divider><IconFontSize class="mr-1" />{l.t('_d.theme.fontSize')}</Divider>
         {fontSize(s.accessor('fontSize'))}
     </div>;
 }
@@ -240,7 +240,7 @@ function fontSize(a: Accessor<string>): JSX.Element {
 // 颜色选择参数面板
 function colorsParams(l: Locale, m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconColors class="mr-1" />{l.t('_c.theme.colors')}</Divider>
+        <Divider><IconColors class="mr-1" />{l.t('_d.theme.colors')}</Divider>
         {palette(m.getValue(), 'primary', s)}
         {palette(m.getValue(), 'secondary', s)}
         {palette(m.getValue(), 'tertiary', s)}
@@ -273,9 +273,9 @@ function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Sche
 
 function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconOptions class="mr-1" />{l.t('_c.theme.otherParams')}</Divider>
+        <Divider><IconOptions class="mr-1" />{l.t('_d.theme.otherParams')}</Divider>
 
-        <Range layout='vertical' label={l.t('_c.theme.transitionDuration')}
+        <Range layout='vertical' label={l.t('_d.theme.transitionDuration')}
             accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />
     </div>;
 }

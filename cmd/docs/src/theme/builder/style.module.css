@@ -8,7 +8,7 @@
 
 @layer components {
     .builder {
-        @apply text-palette-fg bg-palette-bg rounded-lg;
+        @apply text-palette-fg bg-palette-bg;
 
         .params {
             @apply flex flex-col gap-8 p-4 min-w-50;

@@ -19,7 +19,7 @@
         }
 
         >main {
-            @apply overflow-y-auto h-full flex-1;
+            @apply overflow-y-auto h-full flex-1 text-palette-fg bg-palette-bg;
         }
 
         /* Transition 动画 */

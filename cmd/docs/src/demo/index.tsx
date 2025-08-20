@@ -132,7 +132,7 @@ export default function route(prefix: string): RouteDefinition {
         path: prefix,
         component: (props: ParentProps) => {
             const l = useLocale();
-            return <Drawer visible palette='secondary' mainPalette='tertiary' main={props.children}>
+            return <Drawer visible palette='secondary' mainPalette='surface' main={props.children}>
                 <Menu layout='inline' anchor items={buildMenus(l, prefix)} />
             </Drawer>;
         },

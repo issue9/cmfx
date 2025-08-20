@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps, Drawer, fieldAccessor, joinClass, Mode, ObjectAccessor, Scheme, use } from '@cmfx/components';
+import { Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, use, useLocale } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
-import { JSX, ParentProps, untrack } from 'solid-js';
+import { createEffect, JSX, untrack } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
 import { Demo } from './demo';
@@ -12,21 +12,21 @@ import { params, random } from './params';
 import { Ref } from './ref';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
-    ref?: { (el: Ref): void; };
-}
-
 /**
  * 主题生成器
  */
-export default function SchemeBuilder(props: Props): JSX.Element {
+export default function SchemeBuilder(): JSX.Element {
     const modeFA = fieldAccessor<Mode>('mode', 'dark');
+    const l = useLocale();
+    const [, act] = use();
+
+    createEffect(() => {
+        act.setTitle(l.t('_d.theme.builder'));
+    });
 
     const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({ contrast: 65 });
     random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
     schemeFA.setPreset(unwrap(schemeFA.object())); // 作为默认值
-
-    const [, act] = use();
 
     const ref: Ref = {
         export: (): Scheme => {
@@ -42,10 +42,8 @@ export default function SchemeBuilder(props: Props): JSX.Element {
         },
     };
 
-    if (props.ref) { props.ref(ref); }
-
-    return <Drawer class={joinClass(styles.builder, props.class)}
-        palette={props.palette} main={<Demo m={modeFA} s={schemeFA} />}
+    return <Drawer class={styles.builder}
+        palette='secondary' mainPalette='surface' main={<Demo m={modeFA} s={schemeFA} />}
     >
         {params(schemeFA, modeFA, ref)}
     </Drawer>;
