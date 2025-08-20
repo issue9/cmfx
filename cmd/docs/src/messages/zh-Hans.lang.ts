@@ -38,6 +38,7 @@ const messages: typeof m = {
             advance: '高级',
             theme: '主题',
             locale: '国际化',
+            changelog: '变更日志',
         },
         demo: {
             general: '通用',

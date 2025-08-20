@@ -35,9 +35,10 @@
         }
 
         .stages {
-            @apply flex flex-row flex-wrap gap-3 justify-start items-start;
+            @apply columns-1 lg:columns-2 2xl:columns-3 gap-4;
 
             fieldset.stage {
+                break-inside: avoid;
                 @apply border border-palette-fg rounded-lg overflow-clip;
                 @apply flex flex-col flex-1;
                 @apply min-w-full md:min-w-1/2 lg:min-w-1/3;
