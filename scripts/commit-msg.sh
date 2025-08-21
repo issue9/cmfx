@@ -2,7 +2,7 @@
 
 # 获取当前提交的 commit msg
 commit_msg=$(cat "$1")
-msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert|typo|community|build|release)(\(.+\))?!?: .{1,80}"
+msg_reg="^(feat|fix|docs|style|refactor|perf|test|ci|chore|revert|typo|community|build|release|deps)(\(.+\))?!?: .{1,80}"
 
 if echo "$commit_msg" | grep -Eq "$msg_reg"; then
     exit 0

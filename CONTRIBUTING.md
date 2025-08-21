@@ -40,12 +40,14 @@ type 取值如下：
 - community: 社区相关的修改，如修改 Github Issue 模板等；
 - build：对构建系统或者外部依赖项进行了修改；
 - release：发布新版本；
+- deps: 对依赖项进行了修改；
 
-scope 表示修改的范围，可以为空，不作强制要求，但应该尽量简短明了，推荐使用以下值：
+scope 表示修改的范围，可以为空，不作强制要求，但应该尽量简短明了，可以同时指定多个值，使用逗号分隔。推荐使用以下值：
 
 - core: 对 `/packages/core` 进行了修改；
 - component: 对 `/packages/component` 进行了修改；
 - admin: 对 `/packages/admin` 进行了修改；
+- docs: 对 `/cmd/docs` 进行了修改；
 - server: 对 `/cmfx` 进行了修改；
 - plugin-about: 对 `/build/vite-plugin-about` 进行了修改；
 - plugin-api: 对 `/build/vite-plugin-api` 进行了修改；
