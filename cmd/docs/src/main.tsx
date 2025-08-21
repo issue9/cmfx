@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, Dropdown, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale
+    Appbar, Button, Dropdown, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale,
+    useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
@@ -42,14 +43,15 @@ function App(): JSX.Element {
 
 function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
-    const [, act, opt] = use();
+    const [, act,o] = use();
     const [ltr, setLTR] = createSignal(true);
     const nav = useNavigate();
+    const theme = useTheme();
 
     return <div class="flex flex-col h-full w-full">
         <Appbar palette='secondary' title={options.title} actions={
             <div class="flex gap-2 mr-2">
-                <Dropdown hoverable value={[l.locale.toString()]} onChange={e=>act.switchLocale(e)}
+                <Dropdown hoverable value={[o.locale.toString()]} onChange={e=>act.switchLocale(e)}
                     items={l.locales.map(locale => ({
                         type: 'item',
                         label: locale[1],
@@ -58,7 +60,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square rounded><IconLanguage /></Button>
                 </Dropdown>
 
-                <Dropdown hoverable value={opt.mode ? [opt.mode] : []} onChange={e => {
+                <Dropdown hoverable value={theme.mode ? [theme.mode] : []} onChange={e => {
                     if (e === 'theme-builder') {
                         nav('/theme-builder');
                     } else {

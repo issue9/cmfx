@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle } from '@cmfx/core';
-import { createMemo, createSignal, For, JSX, Show, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, Show, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { Button } from '@/button';
@@ -11,7 +11,6 @@ import { useLocale } from '@/context';
 import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
 import { Tab } from '@/tab';
-import { createEffect } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {

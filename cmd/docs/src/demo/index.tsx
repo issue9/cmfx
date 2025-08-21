@@ -23,7 +23,10 @@ const routes: Array<RouteDefinition & { id: string, kind: Kind }> = [
     { path: '/card', id: 'card', kind: 'general', component: lazy(() => import('./card')) },
     { path: '/code', id: 'code', kind: 'data-display', component: lazy(() => import('./code')) },
     { path: '/chart', id: 'chart', kind: 'data-display', component: lazy(() => import('./chart')) },
-    { path: '/context', id: 'context', kind: 'config', component: lazy(() => import('./context')) },
+
+    { path: '/config/theme', id: 'configTheme', kind: 'config', component: lazy(() => import('./config/theme')) },
+    { path: '/config/options', id: 'configOptions', kind: 'config', component: lazy(() => import('./config/options')) },
+    { path: '/config/locale', id: 'configLocale', kind: 'config', component: lazy(() => import('./config/locale')) },
 
     { path: '/datetime-calendar', id: 'calendar', kind: 'data-display', component: lazy(() => import('./datetime/calendar')) },
     { path: '/datetime-datepanel', id: 'datepanel', kind: 'data-display', component: lazy(() => import('./datetime/datepanel')) },

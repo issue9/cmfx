@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { API, Config, DisplayStyle, Hotkey, Locale, Problem } from '@cmfx/core';
-import { createContext, createEffect, createResource, JSX, ParentProps, Show, splitProps, useContext } from 'solid-js';
+import { createContext, createEffect, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
@@ -11,7 +11,8 @@ import { Mode, Scheme } from '@/base';
 import { registerLocales } from '@/chart/locale';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
-import { applyTheme } from './theme';
+import styles from './style.module.css';
+import { applyTheme, ThemeProvider } from './theme';
 
 const localeKey = 'locale';
 const displayStyleKey = 'display-style';
@@ -19,7 +20,10 @@ const schemeKey = 'scheme';
 const modeKey = 'mode';
 const tzKey = 'timezone';
 
-type Actions = ReturnType<typeof buildActions>;
+/**
+ * 提供了对全局配置的更改
+ */
+export type Actions = ReturnType<typeof buildActions>;
 
 // 添加了部分仅内部可见的属性
 type InternalOptions = Options & {
@@ -84,16 +88,23 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件。
 
     return <internalOptionsContext.Provider value={obj}>
-        <Show when={!data.loading}>
-            <LocaleProvider id={data()!.locale} displayStyle={data()!.displayStyle} timezone={data()!.timezone}>
-                {props.children}
-            </LocaleProvider>
-        </Show>
-        <Show when={data.loading}>
-            <div class="w-full h-full flex justify-center items-center animate-spin text-7xl">
-                <IconProgress />
-            </div>
-        </Show>
+        <Switch fallback={<div class={styles.loading}><IconProgress /></div>}>
+            <Match when={!data.loading ? data() : undefined}>
+                {d =>
+                    <ThemeProvider mode={d().mode} styleElement={document.documentElement}
+                        scheme={
+                            typeof d().scheme === 'string'
+                                ? d().schemes?.get(d().scheme as string)
+                                : d().scheme as Scheme
+                        }
+                    >
+                        <LocaleProvider id={d().locale} displayStyle={d().displayStyle} timezone={d().timezone}>
+                            {props.children}
+                        </LocaleProvider>
+                    </ThemeProvider>
+                }
+            </Match>
+        </Switch>
     </internalOptionsContext.Provider>;
 }
 
@@ -148,6 +159,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         switchLocale(id: string): void {
             setOptions({ locale: id });
             options.config!.set(localeKey, id);
+            document.documentElement.lang = id;
         },
 
         /**

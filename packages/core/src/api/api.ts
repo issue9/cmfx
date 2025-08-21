@@ -25,7 +25,10 @@ export class API {
      * @param tokenPath - 相对于 baseURL 的登录地址，该地址应该包含 DELETE 和 PUT 两个请求，分别代表退出和刷新令牌；
      * @param locale - 请求报头 accept-language 的内容；
      */
-    static async build(id: string, s: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string): Promise<API> {
+    static async build(
+        id: string, s: Storage, baseURL: string, tokenPath: string,
+        contentType: Mimetype, accept: Mimetype, locale: string
+    ): Promise<API> {
         // NOTE: 构造函数不能为 async，所以由一个静态方法代替构造函数。
         return new API(id, s, baseURL, tokenPath, contentType, accept, locale, await newCache(id));
     }
@@ -49,7 +52,10 @@ export class API {
     readonly #acceptType: Mimetype;
     readonly #acceptSerializer: Serializer;
 
-    private constructor(id: string, s: Storage, baseURL: string, tokenPath: string, contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache) {
+    private constructor(
+        id: string, s: Storage, baseURL: string, tokenPath: string,
+        contentType: Mimetype, accept: Mimetype, locale: string, cache: Cache
+    ) {
         this.#tokenPath = tokenPath;
         this.#id = id;
         this.#storage = s;
@@ -189,7 +195,9 @@ export class API {
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
-    async request<R=never,PE=never>(path: string, method: Method, obj?: unknown, withToken = true): Promise<Return<R,PE>> {
+    async request<R=never,PE=never>(
+        path: string, method: Method, obj?: unknown, withToken = true
+    ): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
         return this.#withArgument<R,PE>(path, method, token, !!body, body);
@@ -203,7 +211,9 @@ export class API {
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
      * @param method - 请求方法；
      */
-    async upload<R=never,PE=never>(path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true): Promise<Return<R,PE>> {
+    async upload<R=never,PE=never>(
+        path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true
+    ): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
         return this.#withArgument<R,PE>(path, method, token, false, obj);
     }
@@ -295,7 +305,9 @@ export class API {
      * @param ct - 是否需要指定 content-type 报头；
      * @param body - 提交的内容，如果没有可以为空；
      */
-    async #withArgument<R=never,PE=never>(path: string, method: Method, token?: string, ct?: boolean, body?: BodyInit): Promise<Return<R,PE>> {
+    async #withArgument<R=never,PE=never>(
+        path: string, method: Method, token?: string, ct?: boolean, body?: BodyInit
+    ): Promise<Return<R,PE>> {
         const h = new Headers({
             'Accept': this.#acceptType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
@@ -399,7 +411,9 @@ export class API {
      * @param needLogin - 是否需要登录状态才能访问。
      * 如果该值为 true，那么需要 path 参数提供的地址应该包含一 POST 请求，用于获取一个临时的访问令牌；
      */
-    async eventSource(path: string, needLogin?: boolean): Promise<Pick<EventSource, 'addEventListener' | 'removeEventListener'> | undefined> {
+    async eventSource(
+        path: string, needLogin?: boolean
+    ): Promise<Pick<EventSource, 'addEventListener' | 'removeEventListener'> | undefined> {
         // NOTE: 刷新页面可能导致 EventSource 无效
 
         if (this.#events.has(path)) {

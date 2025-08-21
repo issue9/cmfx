@@ -8,8 +8,27 @@ import { createContext, createEffect, JSX, ParentProps, useContext } from 'solid
 import { buildLocale, Locale } from '@/base/locale';
 
 export type Props = ParentProps<{
+    /**
+     * 语言 ID
+     *
+     * @reactive
+     */
     id: string;
+
+    /**
+     * 一些数据的显示风格
+     *
+     * @reactive
+     */
     displayStyle: DisplayStyle;
+
+    /**
+     * 时区信息
+     *
+     * 该值必须是当前浏览器的 `Intl.supportedValuesOf('timeZone')` 的返回值之一。
+     *
+     * @reactive
+     */
     timezone?: string;
 }>;
 
