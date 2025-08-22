@@ -5,7 +5,7 @@
 const popParentPos: Array<string> = ['relative', 'absolute', 'fixed', 'sticky'] as const;
 
 /**
- * 调整弹出 popover 元素的位置
+ * 调整弹出元素 popRef 的位置
  *
  * @param popRef - 弹出对象，必须得是可见状态且有一个明确的 display 属性；
  * @param anchor - 锚定对象的范围；
@@ -14,7 +14,9 @@ const popParentPos: Array<string> = ['relative', 'absolute', 'fixed', 'sticky'] 
  *
  * NOTE: 该操作会在 popRef 显示期间调整其父元素的 position 属性。
  */
-export function adjustPopoverPosition(popRef: HTMLElement, anchor: DOMRect, padding?: number, pos: PopoverPosition = 'bottom') {
+export function adjustPopoverPosition(
+    popRef: HTMLElement, anchor: DOMRect, padding?: number, pos: PopoverPosition = 'bottom'
+) {
     // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
 
     const parent = popRef.parentElement;
@@ -51,7 +53,9 @@ export function adjustPopoverPosition(popRef: HTMLElement, anchor: DOMRect, padd
  * @param pos - popRef 相对 anchor 的位置；
  * @param padding - popRef 与 anchor 两者之间的间隙；
  */
-export function calcPopoverPosition(popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, padding?: number): Point {
+export function calcPopoverPosition(
+    popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, padding?: number
+): Point {
     const popRect = popRef.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。
     padding = padding ?? 0;
 

@@ -56,7 +56,8 @@ test('DateView', async () => {
     let curr: Date | undefined;
 
     const { container, unmount } = render(() => <DateView ref={() => { }} onClick={d => curr = d}
-        weekName='long' initValue={new Date()} todayClass='today' coveredClass='cover' selectedClass='sel' disabledClass='disabled'
+        weekName='long' initValue={new Date()} todayClass='today'
+        coveredClass='cover' selectedClass='sel' disabledClass='disabled'
     />, {
         wrapper: Provider,
     });

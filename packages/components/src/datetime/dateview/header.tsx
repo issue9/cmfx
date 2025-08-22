@@ -23,11 +23,12 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
     });
 
     let month: HTMLFieldSetElement;
+    let monthVisible = false;
 
     return <header>
         <p>
             <span tabIndex={0} onClick={e => {
-                month.togglePopover();
+                monthVisible = month.togglePopover();
                 adjustPopoverPosition(month, e.currentTarget.getBoundingClientRect());
             }}>{monthFormatter().format(value())}</span>
         </p>
@@ -37,7 +38,10 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
             onChange={m => {
                 if (!m) { return; }
                 ref.jump(m);
-                month.hidePopover();
+                if (monthVisible) {
+                    month.hidePopover();
+                    monthVisible = false;
+                }
             }}
         />
 
