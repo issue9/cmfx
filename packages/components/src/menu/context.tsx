@@ -28,7 +28,6 @@ export default function ContextMenu(props: Props): JSX.Element {
         if (!r) { return; }
 
         e.preventDefault();
-        r.hidePopover();
         r.showPopover();
         adjustPopoverPosition(r, new DOMRect(e.clientX, e.clientY, 1, 1));
     });

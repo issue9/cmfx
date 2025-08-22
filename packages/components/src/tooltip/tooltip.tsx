@@ -49,8 +49,7 @@ export default function Tooltip(props: Props): JSX.Element {
     props.ref({
         show(anchor: HTMLElement, pos: PopoverPosition) {
             ref.showPopover();
-            const anchorRect = calcPos(pos, ref.getBoundingClientRect(), anchor.getBoundingClientRect());
-            adjustPopoverPosition(ref, anchorRect, 4, pos);
+            adjustPopoverPosition(ref, anchor.getBoundingClientRect(), 4, pos, 'center');
 
             if (duration >= 0) { setTimeout(() => ref.hidePopover(), duration); }
         },
@@ -61,17 +60,4 @@ export default function Tooltip(props: Props): JSX.Element {
     return <div popover='auto' class={joinClass(styles.tooltip, props.class)}
         ref={el => ref = el}
     >{props.children}</div>;
-}
-
-function calcPos(pos: PopoverPosition, poprect: DOMRect, anchor: DOMRect): DOMRect {
-    switch (pos) {
-    case 'left':
-    case 'right':
-        const y =  anchor.y - (poprect.height - anchor.height) / 2;
-        return new DOMRect(anchor.x, y, anchor.width, anchor.height);
-    case 'top':
-    case 'bottom':
-        const x =  anchor.x - (poprect.width - anchor.width) / 2;
-        return new DOMRect(x, anchor.y, anchor.width, anchor.height);
-    }
 }
