@@ -3,15 +3,20 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, Dropdown, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale,
-    useTheme
+    Appbar, Button, Dropdown, IconComponent, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
 import { render } from 'solid-js/web';
+import IconZH from '~icons/icon-park-outline/chinese';
+import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
+import IconSystem from '~icons/material-symbols/brightness-4';
+import IconDark from '~icons/material-symbols/dark-mode';
 import IconLanguage from '~icons/material-symbols/language';
+import IconLight from '~icons/material-symbols/light-mode';
 import IconTheme from '~icons/material-symbols/palette';
+import IconBuilder from '~icons/mdi/theme';
 import IconLTR from '~icons/ooui/text-flow-ltr';
 import IconRTL from '~icons/ooui/text-flow-rtl';
 
@@ -19,6 +24,11 @@ import { default as demoRoute } from './demo';
 import { default as docsRoute } from './docs';
 import { options } from './options';
 import './style.css';
+
+const languageIcons: ReadonlyMap<string, IconComponent> = new Map([
+    ['en', IconEN],
+    ['zh-Hans', IconZH],
+]);
 
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
@@ -56,6 +66,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                         type: 'item',
                         label: locale[1],
                         value: locale[0],
+                        icon: languageIcons.get(locale[0]) ?? IconLanguage,
                     }))}>
                     <Button kind='flat' square rounded><IconLanguage /></Button>
                 </Dropdown>
@@ -68,11 +79,11 @@ function InternalApp(props: ParentProps): JSX.Element {
                     }
                 }}
                 items={[
-                    { type: 'item', label: l.t('_d.main.dark'), value: 'dark' },
-                    { type: 'item', label: l.t('_d.main.light'), value: 'light' },
-                    { type: 'item', label: l.t('_d.main.system'), value: 'system' },
+                    { type: 'item', label: l.t('_d.main.dark'), value: 'dark', icon: IconDark },
+                    { type: 'item', label: l.t('_d.main.light'), value: 'light', icon: IconLight },
+                    { type: 'item', label: l.t('_d.main.system'), value: 'system', icon: IconSystem },
                     { type: 'divider' },
-                    { type: 'item', label: l.t('_d.main.themeBuilder'), value: 'theme-builder' },
+                    { type: 'item', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: IconBuilder },
                 ]}>
                     <Button kind='flat' square rounded><IconTheme /></Button>
                 </Dropdown>

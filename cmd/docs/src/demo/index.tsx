@@ -22,7 +22,7 @@ export default function route(prefix: string): RouteDefinition {
             </Drawer>;
         },
         children: [
-            { path: '/', component: () => overview(prefix) },
+            { path: '/', component: () => overview(prefix) }, // 指向 overview
             ...routes
         ]
     };

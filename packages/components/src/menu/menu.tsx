@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey, sleep } from '@cmfx/core';
-import { A } from '@solidjs/router';
+import { A, useMatch } from '@solidjs/router';
 import { createMemo, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
@@ -28,6 +28,8 @@ export interface Props<M extends boolean = false> extends BaseProps {
      *  - horizontal 横向菜单，子菜单以弹出形式展示；
      *  - vertical 纵向菜单，子菜单以弹出形式展示；
      *  - inline 内联菜单，纵向菜单的变体，子菜单内嵌在组件之内；
+     *
+     * @reactive
      */
     layout?: Layout | 'inline';
 
@@ -35,22 +37,23 @@ export interface Props<M extends boolean = false> extends BaseProps {
      * 多选模式，在该模式下，点击并不会主动关闭弹出的菜单。
      *
      * 不能与  {@link Props#anchor} 同时使用。
-     *
-     * NOTE: 非响应属性
      */
     multiple?: M;
 
     /**
      * 是否采用 {@link A} 标签
      *
+     * @remarks
      * 如果为 true，那么 {@link RenderMenuItem#value} 将作为链接的值。
-     *
-     * NOTE: 非响应属性
+     * 作为链接值时，如果**不是**以 / 作为结尾，在使用 {@link useMatch} 作匹配时，
+     * 会加上 /*?，以匹配以此值开头的路径。
      */
     anchor?: M extends true ? false : boolean;
 
     /**
      * 菜单项
+     *
+     * @reactive
      */
     items: Array<MenuItem>;
 
@@ -58,8 +61,6 @@ export interface Props<M extends boolean = false> extends BaseProps {
      * 当选择项发生变化时触发的事件
      *
      * 当 {@link Props#anchor} 为 true 时，点击菜单项将不会触发该事件。
-     *
-     * NOTE: 非响应属性
      */
     onChange?: CF<M>;
 
@@ -67,13 +68,13 @@ export interface Props<M extends boolean = false> extends BaseProps {
 
     /**
      * 初始的选中项
+     *
+     * @reactive
      */
     value?: Array<AvailableEnumType>;
 
     /**
      * 根元素的标签类型
-     *
-     * NOTE: 非响应式属性
      */
     tag?: 'nav' | 'menu';
 
@@ -89,22 +90,16 @@ export interface Props<M extends boolean = false> extends BaseProps {
 
     /**
      * 自定义向上的箭头
-     *
-     * NOTE: 非响应式属性
      */
     arrowUp?: IconComponent;
 
     /**
      * 自定义向下的箭头
-     *
-     * NOTE: 非响应式属性
      */
     arrowDown?: IconComponent;
 
     /**
      * 自定义向右的箭头
-     *
-     * NOTE: 非响应式属性
      */
     arrowRight?: IconComponent;
 }
@@ -130,7 +125,6 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
     }
 
     const [selected, setSelected] = createSignal<Array<AvailableEnumType>>(props.value ?? []);
-    let ref: HTMLElement;
 
     /**
      * 生成菜单项以及其子项的内容
@@ -159,25 +153,38 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                         onCleanup(() => { Hotkey.unbind(hk); });
                     }
 
+                    const val = i().value;
+
                     let iconRef: AnimationIconRef;
                     const [expanded, setExpanded] = createSignal(false);
                     const hasItems = i().items && i().items!.length > 0;
-                    const cls = joinClass(styles.item, i().disabled ? props.disabledClass : undefined);
 
-                    return <li ref={el => liRef = el} class={cls} onClick={async e => {
+                    const isSelected = createMemo(() => {
+                        if (!val) { return false; }
+
+                        const vs = val.toString();
+                        return (!isAnchor && selected().includes(vs))
+                            || (isAnchor && !!useMatch(() => vs[vs.length - 1] === '/' ? vs : `${vs}/*?`)());
+                    });
+                    const cls = createMemo(() => joinClass(
+                        styles.item,
+                        i().disabled ? props.disabledClass : undefined,
+                        isSelected() ? props.selectedClass : undefined,
+                    ));
+
+                    return <li ref={el => liRef = el} class={cls()} onClick={async e => {
                         if (i().disabled) { return; }
                         e.stopPropagation();
 
                         if (!hasItems) {
-                            const val = i().value;
                             if (isMultiple) { // 多选
                                 const old = selected();
                                 setSelected(prev => {
                                     if (prev.includes(val!)) {
-                                        e.currentTarget.classList.remove(props.selectedClass!);
+                                        //e.currentTarget.classList.remove(props.selectedClass!);
                                         return prev.filter(item => item !== val);
                                     } else {
-                                        e.currentTarget.classList.add(props.selectedClass!);
+                                        //e.currentTarget.classList.add(props.selectedClass!);
                                         return [...prev, val!];
                                     }
                                 });
@@ -185,14 +192,14 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                                     (props.onChange as CF<true>)(selected(), old);
                                 }
                             } else { // 单选
-                                ref.querySelector(`.${props.selectedClass!}`)?.classList.remove(props.selectedClass!);
+                                //ref.querySelector(`.${props.selectedClass!}`)?.classList.remove(props.selectedClass!);
                                 const old = selected();
                                 setSelected([val!]);
                                 if (props.onChange) {
                                     (props.onChange as CF<false>)(selected()[0], old[0]);
                                 }
 
-                                e.currentTarget.classList.add(props.selectedClass!);
+                                //e.currentTarget.classList.add(props.selectedClass!);
                                 if (props.layout !== 'inline') { // 单选，还得处理弹出内容关闭的问题
                                     if (i().level > 0) {
                                         e.currentTarget.parentElement?.parentElement?.classList.add(styles.hide);
@@ -261,16 +268,13 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
     });
 
     const dividerLayout = props.layout === 'horizontal' ? 'vertical' : 'horizontal';
-    return <Dynamic component={props.tag} ref={(el: HTMLElement) => {
-        ref = el;
-        if (props.ref) { props.ref(el); }
-    }}
-    class={classList({
-        [styles.horizontal]: props.layout === 'horizontal',
-        [styles.vertical]: props.layout === 'vertical',
-        [styles.inline]: props.layout === 'inline',
-        [`palette--${props.palette}`]: !!props.palette,
-    }, styles.menu, props.class)}
+    return <Dynamic component={props.tag} ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}
+        class={classList({
+            [styles.horizontal]: props.layout === 'horizontal',
+            [styles.vertical]: props.layout === 'vertical',
+            [styles.inline]: props.layout === 'inline',
+            [`palette--${props.palette}`]: !!props.palette,
+        }, styles.menu, props.class)}
     >
         <For each={renderRootItems()}>{item => buildMenuItem(item, dividerLayout)}</For>
     </Dynamic>;
