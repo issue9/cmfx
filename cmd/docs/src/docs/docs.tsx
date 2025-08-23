@@ -66,15 +66,15 @@ type Kind = 'intro' | 'usage' | 'advance';
 // id: 在翻译文件中 _d.docs 下对应在的 id；
 // kind 表示文章类型，用于区分不同类型的文档；
 const routes: Array<RouteDefinition & {kind:Kind, id: string}> = [
-    { path: ['/', '/intro/readme'], id: 'intro', kind: 'intro', component: () => <Markdown article='intro/readme' /> },
-    { path: '/intro/changelog', id: 'changelog', kind: 'intro', component: () => <Markdown article='intro/changelog' /> },
+    { kind: 'intro', path: ['/', '/intro/readme'], id: 'intro', component: () => <Markdown article='intro/readme' /> },
+    { kind: 'intro', path: '/intro/changelog', id: 'changelog', component: () => <Markdown article='intro/changelog' /> },
 
-    { path: '/usage/install', id: 'install', kind: 'usage', component: () => <Markdown article='usage/install' /> },
-    { path: '/usage/platform', id: 'platform', kind: 'usage', component: () => <Markdown article='usage/platform' /> },
-    { path: '/usage/faq', id: 'faq', kind: 'usage', component: () => <Markdown article='usage/faq' /> },
+    { kind: 'usage', path: '/usage/install', id: 'install', component: () => <Markdown article='usage/install' /> },
+    { kind: 'usage', path: '/usage/platform', id: 'platform', component: () => <Markdown article='usage/platform' /> },
+    { kind: 'usage', path: '/usage/faq', id: 'faq', component: () => <Markdown article='usage/faq' /> },
 
-    { path: '/advance/theme', id: 'theme', kind: 'advance', component: () => <Markdown article='advance/theme' /> },
-    { path: '/advance/locale', id: 'locale', kind: 'advance', component: () => <Markdown article='advance/locale' /> },
+    { kind: 'advance', path: '/advance/theme', id: 'theme', component: () => <Markdown article='advance/theme' /> },
+    { kind: 'advance', path: '/advance/locale', id: 'locale', component: () => <Markdown article='advance/locale' /> },
 ];
 
 // 生成 Drawer 组件的侧边栏菜单
@@ -141,7 +141,7 @@ export default function route(prefix: string): RouteDefinition {
             const l = useLocale();
 
             return <Drawer visible palette='secondary' mainPalette='surface' main={props.children}>
-                <Menu class="min-w-50" layout='inline' anchor items={buildMenus(l, prefix)} />
+                <Menu class="min-w-60" layout='inline' anchor items={buildMenus(l, prefix)} />
             </Drawer>;
         },
         children: routes

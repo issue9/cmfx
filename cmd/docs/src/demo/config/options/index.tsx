@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../../stages';
@@ -12,7 +13,9 @@ import { default as s1 } from './options.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages title='options' api={api} stages={[
+    const l = useLocale();
+
+    return <Stages title={l.t('_d.demo.optionsConfig')} api={api} stages={[
         { component: <C1 />, source: s1, title: 'config' },
     ]}>
         通过组件 `OptionsProvider` 可以为全局提供配置信息，这应该是整个项目的根组件，

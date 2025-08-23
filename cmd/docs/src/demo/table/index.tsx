@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -21,7 +22,9 @@ import { default as s4 } from './paging.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages title='demo' api={api} stages={[
+    const l = useLocale();
+
+    return <Stages title={l.t('_d.demo.table')} api={api} stages={[
         { component: <C1 />, source: s1, title: '表格', desc: '基本的表格功能，与 HTML 的 table 相同，加上了部分控制功能。' },
         { component: <C2 />, source: s2, title: '数据表格', desc: '用于展示数据，但是不支持分页。' },
         { component: <C3 />, source: s3, title: '数据表格', desc: '用于展示数据，可通过方法加载数据内容，支持分页。' },

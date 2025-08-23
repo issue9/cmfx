@@ -210,7 +210,7 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                             href={(isAnchor && !i().disabled) ? (i().value?.toString() ?? '') : ''}
                             style={{
                                 'padding-inline-start': props.layout === 'inline'
-                                    ? `calc(var(--spacing) * (${i().level} * 4 + 2))` : undefined,
+                                    ? `calc(var(--spacing) * (${i().level} * 4 + 3))` : undefined,
                             }}
                         >
                             <Show when={i().icon}>

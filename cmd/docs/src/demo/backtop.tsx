@@ -22,7 +22,7 @@ export default function(): JSX.Element {
                     <>{i} <br /></>
                 )}
             </For>
-            <BackTop palette={palette()} class="mb-10 left-[300px] !bottom-4" style={{ 'right': 'unset' }} />
+            <BackTop palette={palette()} class="mb-10 left-[300px] !bottom-4 right-[unset]" />
         </div>
 
         <div class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">

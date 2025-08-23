@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../../stages';
@@ -18,7 +19,9 @@ import { default as s3 } from './datetime.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages title='LocaleProvider' api={api} stages={[
+    const l = useLocale();
+
+    return <Stages title={l.t('_d.demo.localeConfig')} api={api} stages={[
         { component: <C1 />, source: s1, title: 'LocaleProvider', desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。' },
         { component: <C2 />, source: s2, title: 'Action.switchLocale', desc: '可通过 `Action.switchLocale` 修改全局的本地化内容。' },
         { component: <C3 />, source: s3, title: '其它属性' },
