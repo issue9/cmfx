@@ -129,7 +129,7 @@ export default function Tour(props: Props): JSX.Element {
             if (i === index() && open()) {
                 el.scrollIntoView({ behavior: 'smooth' });
                 el.classList.add(styles.focus);
-                ref.move(calcPopoverPosition(ref, el.getBoundingClientRect(), step.pos, 8));
+                ref.move(calcPopoverPosition(ref, el.getBoundingClientRect(), step.pos, 'start', 8));
             } else {
                 el.classList.remove(styles.focus);
             }

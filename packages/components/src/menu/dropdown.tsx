@@ -5,25 +5,29 @@
 import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
 import { createEffect, createSignal, JSX, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
+import { AvailableEnumType } from '@/base';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
 import styles from './style.module.css';
 
 export type { Ref } from './menu';
 
-export interface Props<M extends boolean = false> extends ParentProps,
-    Omit<MenuProps<M>, 'layout' | 'tag' | 'arrowUp' | 'arrowDown' | 'arrowRight'> {
+export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends ParentProps,
+    Omit<MenuProps<M, T>, 'layout' | 'tag' | 'arrowUp' | 'arrowDown' | 'arrowRight'> {
     /**
      * 响应 hover 事件展开菜单
-     *
-     * NOTE: 非响应属性
      */
     hoverable?: boolean;
 }
 
 /**
  * 下拉菜单
+ *
+ * @typeParam M - 是否多选；
+ * @typeParam T - 选项类型；
  */
-export default function Dropdown(props: Props): JSX.Element {
+export default function Dropdown<M extends boolean = false, T extends AvailableEnumType = string>(
+    props: Props<M, T>
+): JSX.Element {
     const [_, menuProps] = splitProps(props, ['hoverable', 'children', 'items', 'ref', 'onChange']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
     let popRef: MenuRef;

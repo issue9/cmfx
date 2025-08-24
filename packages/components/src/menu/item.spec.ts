@@ -6,7 +6,7 @@ import { expect, test } from 'vitest';
 
 import { MenuItem, buildRenderItemType } from './item';
 
-const items: Array<MenuItem> = [
+const items: Array<MenuItem<string>> = [
     { type: 'item', value: 'v1', label: 'v1' },
     { type: 'item', value: 'v2', label: 'v2', disabled: true },
     { type: 'item', value: 'v3', label: 'v3' },

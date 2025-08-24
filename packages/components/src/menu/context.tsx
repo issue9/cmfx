@@ -5,21 +5,25 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { createSignal, JSX, onCleanup, onMount, splitProps } from 'solid-js';
 
+import { AvailableEnumType } from '@/base';
 import { default as Menu, Props as MenuProps, Ref } from './menu';
 
 export type { Ref } from './menu';
 
-export type Props = Omit<MenuProps<false>, 'layout' | 'tag' | 'multiple' | 'arrowUp' | 'arrowDown' | 'arrowRight'> & {
-    /**
-     * 用于触发右键的元素
-     */
-    target: HTMLElement;
-};
+export type Props<T extends AvailableEnumType = string>
+    = Omit<MenuProps<false, T>, 'layout' | 'tag' | 'multiple' | 'arrowUp' | 'arrowDown' | 'arrowRight'> & {
+        /**
+        * 用于触发右键的元素
+        */
+        target: HTMLElement;
+    };
 
 /**
  * 右键菜单
+ *
+ * @typeParam T - 选项类型；
  */
-export default function ContextMenu(props: Props): JSX.Element {
+export default function ContextMenu<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
     const [_, menuProps] = splitProps(props, ['items', 'ref', 'target', 'onChange']);
     const [ref, setRef] = createSignal<Ref>();
 

@@ -3,9 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, Dropdown, IconComponent, LinkButton, Menu, Notify, OptionsProvider, SystemDialog, use, useLocale, useTheme
+    Appbar, Button, Dropdown, IconComponent, LinkButton, Menu, Mode,
+    Notify, OptionsProvider, SystemDialog, use, useLocale, useTheme
 } from '@cmfx/components';
-import { HashRouter, RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
+import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
 import { render } from 'solid-js/web';
 import IconZH from '~icons/icon-park-outline/chinese';
@@ -53,15 +54,19 @@ function App(): JSX.Element {
 
 function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
-    const [, act,o] = use();
+    const [, act] = use();
     const [ltr, setLTR] = createSignal(true);
-    const nav = useNavigate();
     const theme = useTheme();
+
+    // 主题菜单可能要出现同时两个菜单项同时选中的状态，比如打开了主题编辑器时。
+    // 当前变量用于在打开主题编辑器时，将菜单的选中项设置为旧值。
+    const [mode, setMode] = createSignal<Mode>(theme.mode ?? 'system', { equals: false });
 
     return <div class="flex flex-col h-full w-full">
         <Appbar palette='secondary' title={options.title} actions={
             <div class="flex gap-2 mr-2">
-                <Dropdown hoverable value={[o.locale.toString()]} onChange={e=>act.switchLocale(e)}
+                <Dropdown hoverable value={[l.match(Array.from(languageIcons.keys()))]}
+                    onChange={e=>act.switchLocale(e)}
                     items={l.locales.map(locale => ({
                         type: 'item',
                         label: locale[1],
@@ -71,11 +76,11 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square rounded><IconLanguage /></Button>
                 </Dropdown>
 
-                <Dropdown hoverable value={theme.mode ? [theme.mode] : []} onChange={e => {
-                    if (e === 'theme-builder') {
-                        nav('/theme-builder');
+                <Dropdown hoverable value={[mode()]} onChange={(val, old) => {
+                    if (val === 'theme-builder') {
+                        setMode(old ? (old == 'theme-builder' ? 'system' : old) : 'system');
                     } else {
-                        act.switchMode(e);
+                        act.switchMode(val);
                     }
                 }}
                 items={[
@@ -83,7 +88,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     { type: 'item', label: l.t('_d.main.light'), value: 'light', icon: IconLight },
                     { type: 'item', label: l.t('_d.main.system'), value: 'system', icon: IconSystem },
                     { type: 'divider' },
-                    { type: 'item', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: IconBuilder },
+                    { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: IconBuilder },
                 ]}>
                     <Button kind='flat' square rounded><IconTheme /></Button>
                 </Dropdown>
@@ -100,10 +105,10 @@ function InternalApp(props: ParentProps): JSX.Element {
                 </LinkButton>
             </div>
         }>
-            <Menu class='ml-5' anchor layout='horizontal' items={[
-                { type: 'item', label: l.t('_d.main.home'), value: '/' },
-                { type: 'item', label: l.t('_d.main.docs'), value: '/docs' },
-                { type: 'item', label: l.t('_d.main.components'), value: '/demo' },
+            <Menu class='ml-5' layout='horizontal' items={[
+                { type: 'a', label: l.t('_d.main.home'), value: '/' },
+                { type: 'a', label: l.t('_d.main.docs'), value: '/docs' },
+                { type: 'a', label: l.t('_d.main.components'), value: '/demo' },
             ]} />
         </Appbar>
         {props.children}

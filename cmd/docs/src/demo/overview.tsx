@@ -15,7 +15,7 @@ export default function(prefix: string): JSX.Element {
 
     return <div class={styles.overview}>
         <For each={items.filter(item => item.type === 'group')}>
-            {(group: MenuItemGroup) =>
+            {(group: MenuItemGroup<string>) =>
                 <fieldset class={styles.group}>
                     <legend>{group.label} <span>{ group.items.length }</span></legend>
                     <For each={group.items}>

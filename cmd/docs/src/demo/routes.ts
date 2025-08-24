@@ -128,9 +128,9 @@ export const routes: Array<RouteDefinition & { id: string, kind: Kind, icon?: Ic
 ] as const;
 
 // 生成 Drawer 组件的侧边栏菜单
-export function buildMenus(l: Locale, prefix: string): Array<MenuItem> {
-    const menus: Array<MenuItem> = [
-        { type: 'item', label: l.t('_d.demo.overview'), value: prefix + '/' }, // 指向 overview
+export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
+    const menus: Array<MenuItem<string>> = [
+        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/' }, // 指向 overview
         { type: 'group', label: l.t('_d.demo.general'), items: [] },
         { type: 'group', label: l.t('_d.demo.layout'), items: [] },
         { type: 'group', label: l.t('_d.demo.navigation'), items: [] },
@@ -140,10 +140,10 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem> {
         { type: 'group', label: l.t('_d.demo.config'), items: [] },
     ];
 
-    const append = (group: MenuItem, r: ArrayElement<typeof routes>) => {
+    const append = (group: MenuItem<string>, r: ArrayElement<typeof routes>) => {
         const p = Array.isArray(r.path) ? r.path[0] : r.path;
-        (group as MenuItemGroup).items.push({
-            type: 'item',
+        (group as MenuItemGroup<string>).items.push({
+            type: 'a',
             label: l.t('_d.demo.' + r.id),
             value: prefix + p,
             icon: r.icon ?? IconPresetComponent,

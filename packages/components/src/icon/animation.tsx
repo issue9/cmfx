@@ -28,15 +28,11 @@ export interface Props extends BaseProps {
      *
      * 键名为图标的 ID；
      * 键值为图标实例；
-     *
-     * NOTE: 非响应属性
      */
     icons: Record<string, IconComponent>;
 
     /**
      * 默认显示的图标，如果未指定，则采用 {@link Props#icons} 中的最后一个。
-     *
-     * NOTE: 非响应属性
      */
     preset?: string;
 
@@ -44,15 +40,11 @@ export interface Props extends BaseProps {
      * 缓动函数
      *
      * 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
-     *
-     * NOTE: 非响应属性
      */
     easing?: keyof typeof easings;
 
     /**
      * 旋转方式
-     *
-     * NOTE: 非响应属性
      */
     rotation?: Rotation;
 

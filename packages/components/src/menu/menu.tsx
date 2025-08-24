@@ -4,13 +4,15 @@
 
 import { Hotkey, sleep } from '@cmfx/core';
 import { A, useMatch } from '@solidjs/router';
-import { createMemo, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch } from 'solid-js';
+import {
+    createEffect, createMemo, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch
+} from 'solid-js';
 import { Dynamic } from 'solid-js/web';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, classList, joinClass, Layout, PropsError } from '@/base';
+import { AvailableEnumType, BaseProps, classList, joinClass, Layout } from '@/base';
 import { Divider } from '@/divider';
 import { ChangeFunc } from '@/form/field';
 import { AnimationIcon, AnimationIconRef, IconComponent } from '@/icon';
@@ -19,10 +21,10 @@ import styles from './style.module.css';
 
 export type Ref = HTMLElement;
 
-type CF<M extends boolean = false, V = M extends true ? AvailableEnumType[] : AvailableEnumType>
+type CF<M extends boolean = false, T extends AvailableEnumType = string, V = M extends true ? T[] : T>
     = ChangeFunc<V>;
 
-export interface Props<M extends boolean = false> extends BaseProps {
+export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends BaseProps {
     /**
      * 组件布局方式，可以有以下取值：
      *  - horizontal 横向菜单，子菜单以弹出形式展示；
@@ -41,28 +43,16 @@ export interface Props<M extends boolean = false> extends BaseProps {
     multiple?: M;
 
     /**
-     * 是否采用 {@link A} 标签
-     *
-     * @remarks
-     * 如果为 true，那么 {@link RenderMenuItem#value} 将作为链接的值。
-     * 作为链接值时，如果**不是**以 / 作为结尾，在使用 {@link useMatch} 作匹配时，
-     * 会加上 /*?，以匹配以此值开头的路径。
-     */
-    anchor?: M extends true ? false : boolean;
-
-    /**
      * 菜单项
      *
      * @reactive
      */
-    items: Array<MenuItem>;
+    items: Array<MenuItem<T>>;
 
     /**
      * 当选择项发生变化时触发的事件
-     *
-     * 当 {@link Props#anchor} 为 true 时，点击菜单项将不会触发该事件。
      */
-    onChange?: CF<M>;
+    onChange?: CF<M, T>;
 
     ref?: { (el: Ref): void; };
 
@@ -71,7 +61,7 @@ export interface Props<M extends boolean = false> extends BaseProps {
      *
      * @reactive
      */
-    value?: Array<AvailableEnumType>;
+    value?: Array<T>;
 
     /**
      * 根元素的标签类型
@@ -106,8 +96,13 @@ export interface Props<M extends boolean = false> extends BaseProps {
 
 /**
  * 菜单组件
+ *
+ * @typeParam M - 是否多选；
+ * @typeParam T - 选项类型；
  */
-export default function Menu<M extends boolean = false>(props: Props<M>): JSX.Element {
+export default function Menu<M extends boolean = false, T extends AvailableEnumType = string>(
+    props: Props<M, T>
+): JSX.Element {
     props = mergeProps({
         tag: 'nav' as Props['tag'],
         selectedClass: styles.selected,
@@ -119,17 +114,13 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
     }, props);
 
     const isMultiple = props.multiple ?? false;;
-    const isAnchor = props.anchor ?? false;
-    if (isAnchor && isMultiple) {
-        throw new PropsError('anchor', '与 multiple 不能同时使用');
-    }
-
-    const [selected, setSelected] = createSignal<Array<AvailableEnumType>>(props.value ?? []);
+    const [selected, setSelected] = createSignal<Array<T>>(props.value ?? []);
+    createEffect(() => { setSelected(props.value ?? []); }); // 监视外部变化
 
     /**
      * 生成菜单项以及其子项的内容
      */
-    const buildMenuItem = (item: RenderMenuItem, dividerLayout: Layout = 'horizontal'): JSX.Element => {
+    const buildMenuItem = (item: RenderMenuItem<T>, dividerLayout: Layout = 'horizontal'): JSX.Element => {
         return <Switch>
             <Match when={item.type === 'divider'}>
                 <li class={styles.divider}><Divider padding='0' layout={dividerLayout} /></li>
@@ -144,7 +135,7 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                 }
             </Match>
 
-            <Match when={item.type === 'item' ? item : undefined}>
+            <Match when={(item.type === 'item' || item.type === 'a') ? item : undefined}>
                 {i => {
                     const hk = i().hotkey;
                     let liRef: HTMLLIElement | undefined;
@@ -158,12 +149,14 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                     let iconRef: AnimationIconRef;
                     const [expanded, setExpanded] = createSignal(false);
                     const hasItems = i().items && i().items!.length > 0;
+                    const isAnchor = item.type === 'a';
 
                     const isSelected = createMemo(() => {
                         if (!val) { return false; }
 
+                        // AvailableEnumType 只能是 string 和 number，用 toString 没问题
                         const vs = val.toString();
-                        return (!isAnchor && selected().includes(vs))
+                        return (!isAnchor && selected().includes(val))
                             || (isAnchor && !!useMatch(() => vs[vs.length - 1] === '/' ? vs : `${vs}/*?`)());
                     });
                     const cls = createMemo(() => joinClass(
@@ -181,25 +174,21 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                                 const old = selected();
                                 setSelected(prev => {
                                     if (prev.includes(val!)) {
-                                        //e.currentTarget.classList.remove(props.selectedClass!);
                                         return prev.filter(item => item !== val);
                                     } else {
-                                        //e.currentTarget.classList.add(props.selectedClass!);
                                         return [...prev, val!];
                                     }
                                 });
                                 if (props.onChange) {
-                                    (props.onChange as CF<true>)(selected(), old);
+                                    (props.onChange as CF<true, T>)(selected(), old);
                                 }
                             } else { // 单选
-                                //ref.querySelector(`.${props.selectedClass!}`)?.classList.remove(props.selectedClass!);
                                 const old = selected();
                                 setSelected([val!]);
                                 if (props.onChange) {
-                                    (props.onChange as CF<false>)(selected()[0], old[0]);
+                                    (props.onChange as CF<false, T>)(val!, old[0]);
                                 }
 
-                                //e.currentTarget.classList.add(props.selectedClass!);
                                 if (props.layout !== 'inline') { // 单选，还得处理弹出内容关闭的问题
                                     if (i().level > 0) {
                                         e.currentTarget.parentElement?.parentElement?.classList.add(styles.hide);
@@ -214,7 +203,7 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
                         }
                     }}>
                         <Dynamic class={styles.title} component={(isAnchor && !hasItems) ? A : 'p' }
-                            href={(isAnchor && !i().disabled) ? (i().value?.toString() ?? '') : ''}
+                            href={(isAnchor && !i().disabled) ? (val?.toString() ?? '') : ''}
                             style={{
                                 'padding-inline-start': props.layout === 'inline'
                                     ? `calc(var(--spacing) * (${i().level} * 4 + 3))` : undefined,
@@ -262,12 +251,6 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
         </Switch>;
     };
 
-    const renderRootItems = createMemo(() => {
-        setSelected(props.value ?? []);
-        return buildRenderItemType(props.items, 0);
-    });
-
-    const dividerLayout = props.layout === 'horizontal' ? 'vertical' : 'horizontal';
     return <Dynamic component={props.tag} ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}
         class={classList({
             [styles.horizontal]: props.layout === 'horizontal',
@@ -276,6 +259,8 @@ export default function Menu<M extends boolean = false>(props: Props<M>): JSX.El
             [`palette--${props.palette}`]: !!props.palette,
         }, styles.menu, props.class)}
     >
-        <For each={renderRootItems()}>{item => buildMenuItem(item, dividerLayout)}</For>
+        <For each={buildRenderItemType(props.items, 0)}>
+            {item => buildMenuItem(item, props.layout === 'horizontal' ? 'vertical' : 'horizontal')}
+        </For>
     </Dynamic>;
 }

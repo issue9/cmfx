@@ -87,7 +87,7 @@ function buildMenus(l: Locale, prefix: string): Array<MenuItem> {
 
     const append = (group: MenuItemGroup, r: ArrayElement<typeof routes>) => {
         const p = Array.isArray(r.path) ? r.path[0] : r.path;
-        group.items.push({ type: 'item', label: l.t('_d.docs.' + r.id), value: prefix + p });
+        group.items.push({ type: 'a', label: l.t('_d.docs.' + r.id), value: prefix + p });
     };
 
     routes.forEach(r => {

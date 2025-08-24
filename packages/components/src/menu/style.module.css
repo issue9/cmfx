@@ -17,7 +17,7 @@
             @apply flex flex-col relative;
 
             >.title {
-                @apply m-1 py-[--spacing(1.5)] px-2 cursor-pointer rounded-md;
+                @apply m-1 py-[--spacing(1.5)] pr-2 ps-3 cursor-pointer rounded-md;
                 @apply flex flex-row items-center gap-1;
 
                 .icon {
@@ -156,8 +156,4 @@
             @apply !px-0;
         }
     }
-
-    /******************************* dropdown **********************************/
-
-    .trigger {}
 }
