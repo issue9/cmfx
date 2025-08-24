@@ -17,41 +17,53 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     /**
      * 按钮的调色盘
+     *
+     * @reactive
      */
     accentPalette?: Palette;
 
     /**
-     * 代码，字符串中的 `<` 和 `>` 会被转码。
+     * 代码
+     *
+     * @reactive
      */
     children: string;
 
     /**
      * 是否可编辑
      *
-     * NOTE: 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
+     * @remarks 编辑内容并不会重新渲染内容，一些高亮内容可能不再准确。
+     * @reactive
      */
     editable?: boolean;
 
     /**
      * 修改内容触发的事件
      *
-     * NOTE: 仅在 {@link Props#editable} 为 true 时生效。
+     * @remarks 仅在 {@link Props#editable} 为 true 时生效。
      */
     oninput?: { (value: string): void; };
 
     /**
      * 内容自动换行
+     *
+     * @reactive
      */
     break?: boolean;
 
     /**
      * 高亮的语言名称，如果为空则为 text。
+     *
+     * @reactive
      */
     lang?: BundledLanguage;
 }
 
 /**
  * 代码显示组件，并没有高亮功能。
+ *
+ * @remarks 采用 [shiki/bundle/full](https://shiki.tmrs.site/) 作为语法高亮功能。
+ * 当前库并没有打包 shiki/bundle/full，用户需要自己在 package.json 的 dependencies 中导入该包才有高亮功能。
  */
 export default function Code(props: Props): JSX.Element {
     const l = useLocale();

@@ -6,34 +6,34 @@ packages:
   - cmd/admin
 
 catalog:
-  '@iconify/json': ^2.2.376
-  unplugin-icons: ^22.2.0
+  '@formatjs/intl-durationformat': ^0.7.4
+  '@iconify/json': ^2.2.377
+  '@solidjs/router': ^0.15.3
+  '@solidjs/testing-library': ^0.8.10
+  '@tailwindcss/vite': ^4.1.12
+  '@testing-library/jest-dom': ^6.8.0
+  '@testing-library/user-event': ^14.6.1
   '@types/node': ^24.3.0
   '@vitest/coverage-v8': ^3.2.4
+  autoprefixer: ^10.4.21
   colorjs.io: ^0.5.2
+  cssnano: ^7.1.1
+  intl-messageformat: ^10.7.16
   jsdom: ^26.1.0
+  postcss: ^8.5.6
+  shiki: ^3.11.0
+  solid-devtools: ^0.34.3
+  solid-js: ^1.9.9
+  tailwindcss: ^4.1.12
   typescript: ^5.9.2
+  unplugin-icons: ^22.2.0
   vite: ^7.1.3
   vite-plugin-dts: ^4.5.4
+  vite-plugin-solid: ^2.11.8
   vite-plugin-static-copy: ^3.1.2
   vitest: ^3.2.4
   vitest-fetch-mock: ^0.4.5
-  vite-plugin-solid: ^2.11.8
   yaml: ^2.8.1
-  postcss: ^8.5.6
-  autoprefixer: ^10.4.21
-  cssnano: ^7.1.0
-  '@tailwindcss/vite': ^4.1.12
-  '@solidjs/testing-library': ^0.8.10
-  '@testing-library/jest-dom': ^6.8.0
-  '@testing-library/user-event': ^14.6.1
-  solid-devtools: ^0.34.3
-  '@formatjs/intl-durationformat': ^0.7.4
-  shiki: ^3.11.0
-  intl-messageformat: ^10.7.16
-  '@solidjs/router': ^0.15.3
-  solid-js: ^1.9.9
-  tailwindcss: ^4.1.12
 
 ignoredBuiltDependencies:
   - '@tailwindcss/oxide'

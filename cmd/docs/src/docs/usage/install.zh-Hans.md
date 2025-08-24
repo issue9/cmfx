@@ -22,6 +22,12 @@ npm i @solidjs/router solid-js
 npm i @cmfx/admin @cmfx/core @cmfx/components
 ```
 
+如果需要高亮功能，还需要安装 `shiki/bundle/full`：
+
+```bash
+npm i shiki
+```
+
 ### 可继承的属性
 
 #### browserslist

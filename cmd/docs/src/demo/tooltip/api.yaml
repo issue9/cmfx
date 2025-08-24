@@ -1,4 +1,6 @@
-# api.yaml
+# SPDX-FileCopyrightText: 2025 caixw
+#
+# SPDX-License-Identifier: MIT
 
 - TooltipRef
 - TooltipProps

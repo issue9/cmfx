@@ -1,0 +1,40 @@
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { Code } from '@cmfx/components';
+
+import { boolSelector, paletteSelector } from '../base';
+
+export default function() {
+    const [paletteS, palette] = paletteSelector();
+    const [editableS, editable] = boolSelector('可编辑');
+    const [breakS, breakk] = boolSelector('自动换行');
+
+    return <div>
+        {paletteS}
+        {editableS}
+        {breakS}
+        <Code editable={editable()} break={breakk()} palette={palette()} class="h-50" lang="css">
+            {`/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .code {
+        @apply font-mono w-full h-full overflow-auto rounded-lg relative;
+        @apply border border-palette-bg-low;
+
+        .action {
+            @apply flex justify-end absolute top-0 right-0;
+        }
+    }
+}
+`}
+        </Code>
+    </div>;
+}

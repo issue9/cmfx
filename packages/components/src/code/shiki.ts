@@ -42,7 +42,7 @@ const shikiStyle = {
  * @param lang - 语言名称，默认为 text；
  * @returns 高亮后的 HTML 代码
  */
-export async function highlightCode(code: string, lang?: BundledLanguage) {
+export async function highlightCode(code: string, lang?: BundledLanguage): Promise<string> {
     return await codeToHtml(code, {
         lang: lang || 'text',
         themes: {

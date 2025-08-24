@@ -36,9 +36,12 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         <div class={styles.toolbar}>
             <div class={styles.actions}>
                 <ButtonGroup rounded>
-                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastLess')} onclick={() => random(s, 45)}><IconRandLess /></Button>
-                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastNormal')} onclick={() => random(s, 60)}><IconRandNormal /></Button>
-                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastMore')} onclick={() => random(s, 75)}><IconRandMore /></Button>
+                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastLess')}
+                        onclick={() => random(s, 45)}><IconRandLess /></Button>
+                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastNormal')}
+                        onclick={() => random(s, 60)}><IconRandNormal /></Button>
+                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastMore')}
+                        onclick={() => random(s, 75)}><IconRandMore /></Button>
                 </ButtonGroup>
 
                 <ButtonGroup rounded>
@@ -65,7 +68,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         {otherParams(l, s)}
 
         <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_d.theme.export')}</Label>}>
-            <Code class="h-full">{JSON.stringify(s.object(), null, 4)}</Code>
+            <Code lang='css' class="h-full">{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
 }
