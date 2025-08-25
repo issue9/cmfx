@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, classList, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import styles from './style.module.css';
 
 /**
@@ -14,31 +14,50 @@ export const corners = ['topleft', 'topright', 'bottomleft', 'bottomright'] as c
 
 export type Corner = typeof corners[number];
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, ParentProps {
     /**
      * 位置
+     *
+     * @reactive
      */
     pos?: Corner;
 
     /**
-     * 角上的内容
+     * 微标是否为圆形
+     *
+     * @reactive
      */
-    text?: string | number;
+    rounded?: boolean;
 
-    children: JSX.Element;
+    /**
+     * 角上的内容
+     *
+     * @reactive
+     */
+    content?: JSX.Element;
 }
 
 const presetProps: Readonly<Partial<Props>> = {
     pos: 'topright'
 };
 
+/**
+ * 微标组件
+ */
 export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
 
+    const cls = createMemo(()=>{
+        return joinClass(
+            props.palette ? `palette--${props.palette}` : '',
+            props.rounded ? 'rounded-full' : '',
+            styles[props.pos!],
+            styles.point,
+        );
+    });
+
     return <div class={joinClass(styles.badge, props.class)}>
         {props.children}
-        <span class={classList({
-            [`palette--${props.palette}`]: !!props.palette,
-        }, styles[props.pos!], styles.point)}>{ props.text }</span>
+        <span class={cls()}>{ props.content }</span>
     </div>;
 }

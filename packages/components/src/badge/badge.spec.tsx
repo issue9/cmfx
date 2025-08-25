@@ -10,7 +10,7 @@ import styles from './style.module.css';
 
 describe('Badge', async () => {
     test('pos=undefined,palette=undefined', async () => {
-        const { container, unmount } = render(() => <Badge text={'text'}>abc</Badge>);
+        const { container, unmount } = render(() => <Badge content={'text'}>abc</Badge>);
         const c = container.children.item(0)!;
 
         expect(c).toHaveClass(styles.badge);
@@ -26,7 +26,7 @@ describe('Badge', async () => {
     });
 
     test('pos=bottomleft,palette=primary', async () => {
-        const { container, unmount } = render(() => <Badge pos='bottomleft' text={'text'}>abc</Badge>);
+        const { container, unmount } = render(() => <Badge pos='bottomleft' content={'text'}>abc</Badge>);
         const c = container.children.item(0)!;
 
         expect(c).toHaveClass(styles.badge);
