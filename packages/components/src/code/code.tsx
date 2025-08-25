@@ -62,8 +62,8 @@ export interface Props extends BaseProps {
 /**
  * 代码显示组件，并没有高亮功能。
  *
- * @remarks 采用 [shiki/bundle/full](https://shiki.tmrs.site/) 作为语法高亮功能。
- * 当前库并没有打包 shiki/bundle/full，用户需要自己在 package.json 的 dependencies 中导入该包才有高亮功能。
+ * @remarks 用户需要自己在 package.json 的 dependencies 中导入
+ * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
 export default function Code(props: Props): JSX.Element {
     const l = useLocale();

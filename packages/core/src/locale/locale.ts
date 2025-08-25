@@ -40,7 +40,7 @@ export class Locale {
     }
 
     /**
-     * 支持几种语言
+     * 支持的语言数量
      */
     static languageSize(): number { return Locale.#messages.size; }
 

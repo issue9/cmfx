@@ -7,7 +7,6 @@
  */
 export class PropsError extends Error {
     readonly #prop: string;
-    readonly #msg: any;
 
     /**
      * 初始化表示组件属性错误的对象
@@ -17,9 +16,8 @@ export class PropsError extends Error {
      */
     constructor(prop: string, msg: any) {
         super(msg);
-        this.name = 'PropsError';
+        super.name = 'PropsError';
 
-        this.#msg = msg;
         this.#prop = prop;
     }
 
@@ -27,9 +25,4 @@ export class PropsError extends Error {
      * 获取错误的属性名称
      */
     get prop(): string { return this.#prop; }
-
-    /**
-     * 获取错误信息
-     */
-    get message(): any { return this.#msg; }
 }

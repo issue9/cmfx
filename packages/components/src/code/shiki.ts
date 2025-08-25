@@ -38,9 +38,13 @@ const shikiStyle = {
 
 /**
  * 高亮代码
+ *
  * @param code - 代码文本；
  * @param lang - 语言名称，默认为 text；
  * @returns 高亮后的 HTML 代码
+ *
+ * @remarks 用户需要自己在 package.json 的 dependencies 中导入
+ * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
 export async function highlightCode(code: string, lang?: BundledLanguage): Promise<string> {
     return await codeToHtml(code, {
