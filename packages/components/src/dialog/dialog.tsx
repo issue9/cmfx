@@ -26,7 +26,7 @@ export interface Ref extends HTMLDialogElement {
     /**
      * 移动对话框的位置
      *
-     * @param p - 如果为 undefined，那么将会剧中显示，否则显示在指定位置。
+     * @param p - 如果为 undefined，那么将会居中显示，否则显示在指定位置。
      */
     move(p?: { x: number | string, y: number | string }): void;
 
@@ -99,15 +99,15 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
     return Object.assign(ref, {
         move(p?: { x: number | string, y: number | string }): void {
             if (!p) {
-                ref.style.left = '50%';
-                ref.style.top = '50%';
+                ref.style.insetInlineStart = '50%';
+                ref.style.insetBlockStart = '50%';
                 ref.style.translate = 'var(--tw-translate-x) var(--tw-translate-y)';
                 return;
             }
 
             ref.style.translate = '0px 0px';
-            ref.style.left = typeof p.x === 'string' ? p.x : p.x.toString() + 'px';
-            ref.style.top = typeof p.y === 'string' ? p.y : p.y.toString() + 'px';
+            ref.style.insetInlineStart = typeof p.x === 'string' ? p.x : p.x.toString() + 'px';
+            ref.style.insetBlockStart = typeof p.y === 'string' ? p.y : p.y.toString() + 'px';
         },
 
         Action(title?: JSX.Element, click?: ClickFunc, def?: boolean): JSX.Element {

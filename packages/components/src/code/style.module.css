@@ -24,10 +24,14 @@
 
         >.action {
             @apply hidden justify-end absolute top-0 right-0 !py-1 !px-2;
+            @apply rtl:left-0 rtl:right-auto;
+            @apply ltr:right-0 ltr:left-auto;
         }
 
         >.lang {
-            @apply inline absolute top-0 right-0 !py-1 !px-2 mr-2;
+            @apply inline absolute right-0 top-0 !py-1 !px-2 me-2;
+            @apply rtl:left-0 rtl:right-auto;
+            @apply ltr:right-0 ltr:left-auto;
         }
     }
 

@@ -153,7 +153,7 @@ export function Info(): JSX.Element {
                 <dd>{info()?.uptime ? l.datetimeFormat().format(new Date(info()?.uptime!)) : ''}</dd>
             </dl>
 
-            <Divider padding='1rem'><IconDataset class="mr-1" />{l.t('_c.os')}</Divider>
+            <Divider padding='1rem'><IconDataset class="me-1" />{l.t('_c.os')}</Divider>
 
             <dl><dt>{l.t('_p.system.platform')}</dt><dd>{info()?.os.platform}</dd></dl>
 
@@ -166,7 +166,7 @@ export function Info(): JSX.Element {
                 <dd>{info()?.os.boot ? l.datetimeFormat().format(new Date(info()?.os.boot!)) : ''}</dd>
             </dl>
 
-            <Divider padding='1rem'><IconDatabase class="mr-1" />{l.t('_c.database')}</Divider>
+            <Divider padding='1rem'><IconDatabase class="me-1" />{l.t('_c.database')}</Divider>
 
             <dl><dt>{l.t('_c.database')}</dt><dd>{db()?.name}&nbsp;({db()?.version})</dd></dl>
 
@@ -193,7 +193,7 @@ export function Info(): JSX.Element {
             <Label icon={IconAction} tag='legend'>{l.t('_p.actions')}</Label>
 
             <ConfirmButton palette='secondary' onClick={async () => await act.clearCache()}>
-                <IconClear class="mr-1" />{l.t('_p.system.clearCache')}
+                <IconClear class="me-1" />{l.t('_p.system.clearCache')}
             </ConfirmButton>
             <span class="mt-1">{l.t('_p.system.clearCacheHelp')}</span>
 
@@ -206,7 +206,7 @@ export function Info(): JSX.Element {
                 }
                 await refetch();
             }}>
-                <IconBackup class="mr-1" />{l.t('_p.system.backupDB')}
+                <IconBackup class="me-1" />{l.t('_p.system.backupDB')}
             </ConfirmButton>
             <span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron! })}</span>
             <ul class={styles.backup_list}>

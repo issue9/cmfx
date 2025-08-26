@@ -78,7 +78,7 @@ export function Settings(): JSX.Element {
             ['full', l.t('_p.settings.long')],
         ]}/>
 
-        <div class="ml-1 pl-2 border-l-2 border-palette-bg-low">
+        <div class="ms-1 ps-2 border-l-2 border-palette-bg-low">
             <p>{ l.datetimeFormat().format(new Date()) }</p>
             <p>{ formatDuration(l.durationFormat(), 1111111223245) }</p>
             <p>{ createBytesFormatter(l)(1111223245) }</p>

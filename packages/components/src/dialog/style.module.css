@@ -6,8 +6,23 @@
 
 @reference '../style.css';
 
+dialog {
+    @apply start-1/2 -translate-1/2 fixed pop;
+    inset-block-start: 50%;
+    @apply rtl:translate-x-1/2;
+}
+
+dialog[open] {
+    @apply popopen shadow-md shadow-palette-bg-low;
+}
+
+dialog::backdrop {
+    background: oklch(0 0 0 / 0.5);
+    transition: opacity var(--default-transition-duration) linear;
+}
+
 @layer components {
-    .dialog {
+    dialog.dialog {
         @apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low;
 
         >header {
@@ -28,9 +43,6 @@
     }
 
     dialog.dialog[open] {
-        /* dialog 的 open 会强制将 display 设置为 block，此值用于将其改回来 */
-        display: flex !important;
-
         .scrollable {
             @apply overflow-auto;
         }

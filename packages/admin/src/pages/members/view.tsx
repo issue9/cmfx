@@ -65,30 +65,30 @@ export function View(props: Props): JSX.Element {
             <img class={styles.avatar} src={ member().avatar } alt="avatar" />
 
             <div class={styles.item}>
-                <dl><dt class="mr-2">{l.t('_p.id')}</dt><dd>{ member().id }</dd></dl>
-                <dl><dt class="mr-2">{l.t('_p.no')}</dt><dd>{ member().no }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.id')}</dt><dd>{ member().id }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.no')}</dt><dd>{ member().no }</dd></dl>
             </div>
 
             <div class={styles.item}>
                 <dl>
-                    <dt class="mr-2">{l.t('_p.created')}</dt>
+                    <dt class="me-2">{l.t('_p.created')}</dt>
                     <dd>{ member().created ? l.datetimeFormat().format(new Date(member().created!)) : '' }</dd>
                 </dl>
                 <dl>
-                    <dt class="mr-2">{l.t('_p.member.birthday')}</dt>
+                    <dt class="me-2">{l.t('_p.member.birthday')}</dt>
                     <dd>{member().birthday ? l.datetimeFormat().format(new Date(member().birthday!)) : '' }</dd>
                 </dl>
             </div>
 
             <div class={styles.item}>
-                <dl><dt class="mr-2">{l.t('_p.nickname')}</dt><dd>{ member().nickname }</dd></dl>
-                <dl><dt class="mr-2">{l.t('_p.sex')}</dt><dd>{ l.t(user.sexes.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.nickname')}</dt><dd>{ member().nickname }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.sex')}</dt><dd>{ l.t(user.sexes.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
             </div>
 
             <div class={styles.item}>
-                <dl><dt class="mr-2">{l.t('_p.state')}</dt><dd>{ l.t(user.states.find((v)=>v[0]===member().state)![1]) }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.state')}</dt><dd>{ l.t(user.states.find((v)=>v[0]===member().state)![1]) }</dd></dl>
                 <dl>
-                    <dt class="mr-2">{l.t('_p.member.passports')}</dt>
+                    <dt class="me-2">{l.t('_p.member.passports')}</dt>
                     <dd class="flex gap-2">
                         <For each={passports()}>
                             {(item)=>(

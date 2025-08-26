@@ -140,7 +140,7 @@ export function Profile(props: Props): JSX.Element {
                         return <tr>
                             <td class="flex items-center">
                                 {item.id}
-                                <span title={item.desc} class="ml-1 cursor-help"><IconHelp /></span>
+                                <span title={item.desc} class="ms-1 cursor-help"><IconHelp /></span>
                             </td>
 
                             <td>{username()}</td>

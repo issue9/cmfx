@@ -40,22 +40,22 @@ export interface Options {
     schemes?: Map<string, Scheme>;
 
     /**
-     * 默认的主题模式，当在 storage 中存在时，当前值将被忽略。
+     * 默认的主题模式，当在 {@link storage} 中存在时，当前值将被忽略。
      */
     mode?: Mode;
 
     /**
-     * 初始的本地化语言 ID，当在 storage 中存在时，当前值将被忽略。
+     * 初始的本地化语言 ID，当在 {@link storage} 中存在时，当前值将被忽略。
      */
     locale: string;
 
     /**
-     * 本地化的量词风格，当在 storage 中存在时，当前值将被忽略。
+     * 本地化的量词风格，当在 {@link storage} 中存在时，当前值将被忽略。
      */
     displayStyle: DisplayStyle;
 
     /**
-     * 时区，当在 storage 中存在时，当前值将被忽略。
+     * 时区，当在 {@link storage} 中存在时，当前值将被忽略。
      */
     timezone?: string;
 

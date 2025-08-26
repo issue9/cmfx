@@ -20,8 +20,8 @@ export default function(): JSX.Element {
             <Button id="b1" onClick={() => ref.start()}>start</Button>
             <Button id="b2">2222</Button>
             <Button id="b3">3333</Button>
-            <Button class="ml-[200px]" id="b4">4444</Button>
+            <Button class="ms-[200px]" id="b4">4444</Button>
         </Stage>
-        
+
     </Demo>;
 }

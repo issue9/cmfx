@@ -24,14 +24,14 @@
 
             th:not(:last-child),
             td:not(:last-child) {
-                @apply border-r border-r-palette-fg-low;
+                @apply border-e border-e-palette-fg-low;
             }
 
             td {
                 @apply min-w-[50px] min-h-[50px] w-1/7 px-1 py-[7px] cursor-pointer align-top text-left;
 
                 >time {
-                    @apply mr-1 aspect-square w-8 text-center inline-flex items-center justify-center;
+                    @apply me-1 aspect-square w-8 text-center inline-flex items-center justify-center;
                 }
             }
 

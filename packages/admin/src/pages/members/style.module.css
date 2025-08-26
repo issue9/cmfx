@@ -22,7 +22,7 @@
                     @apply flex justify-between hover:bg-secondary-bg hover:text-secondary-fg px-2 rounded-sm;
 
                     dt {
-                        @apply mr-2;
+                        @apply me-2;
                     }
                 }
             }

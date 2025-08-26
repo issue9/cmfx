@@ -89,7 +89,7 @@ export function Search(props: Props): JSX.Element {
         }>
             <TextField ref={el=>inputRef=el} class='mb-3 border-0' accessor={input} placeholder={l.t('_p.app.searchAtSidebar')} suffix={
                 <Show when={input.getValue() !== ''}>
-                    <IconClose class="!flex !items-center cursor-pointer mr-1" onClick={() => input.setValue('')} />
+                    <IconClose class="!flex !items-center cursor-pointer me-1" onClick={() => input.setValue('')} />
                 </Show>
             } prefix={<IconSearch class="ms-1 self-center w-auto" />}
             />

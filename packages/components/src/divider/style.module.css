@@ -18,12 +18,12 @@
 
     .divider.pos-start::after,
     .divider.pos-center::after {
-        @apply ml-1;
+        @apply ms-1;
     }
 
     .divider.pos-center::before,
     .divider.pos-end::before {
-        @apply mr-1;
+        @apply me-1;
     }
 
     .divider.pos-none::before,
@@ -53,11 +53,11 @@
 
     .divider.vertical.pos-start::after,
     .divider.vertical.pos-center::after {
-        @apply mt-1 ml-0;
+        @apply mt-1 ms-0;
     }
 
     .divider.vertical.pos-center::before,
     .divider.vertical.pos-end::before {
-        @apply mb-1 mr-0;
+        @apply mb-1 me-0;
     }
 }

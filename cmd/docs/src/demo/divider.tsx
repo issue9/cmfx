@@ -21,8 +21,8 @@ export default function() {
                 <legend>位置</legend>
                 <For each={new Array<DividerProps['pos']>('start', 'center', 'end')}>
                     {(item) => (
-                        <label class="mr-4">
-                            <input class="mr-1" type="radio" name="type" value={item} onClick={() => setPos(item)} checked={pos() === item} />{item}
+                        <label class="me-4">
+                            <input class="me-1" type="radio" name="type" value={item} onClick={() => setPos(item)} checked={pos() === item} />{item}
                         </label>
                     )}
                 </For>

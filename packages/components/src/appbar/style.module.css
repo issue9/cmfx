@@ -20,7 +20,7 @@
             }
 
             .name {
-                @apply inline-block ml-2 text-lg font-bold;
+                @apply inline-block ms-2 text-lg font-bold;
             }
         }
 
