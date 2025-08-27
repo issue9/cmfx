@@ -6,7 +6,7 @@ import { ContextMenu, MenuItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import IconFace from '~icons/material-symbols/face';
 
-import { arraySelector, Demo, paletteSelector } from '../base';
+import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
@@ -17,7 +17,7 @@ export default function() {
     const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
 
-    const items2: Array<MenuItem<string>> = [
+    const items: Array<MenuItem<string>> = [
         { type: 'item', value: 'v1', label: 'v1', icon: IconFace, disabled: true },
         { type: 'item', value: 'v2', label: 'v2' },
         { type: 'divider' },
@@ -59,10 +59,10 @@ export default function() {
 
     let contextTarget: HTMLElement | null;
 
-    return <Demo>
+    return <div>
         {paletteS}
         {selectedClsS}
         <div class="bg-primary-bg text-primary-fg w-10 h-10" ref={el => contextTarget = el}>right click</div>
-        <ContextMenu selectedClass={selectedCls()} palette={palette()} items={items2} target={contextTarget!} />
-    </Demo>;
+        <ContextMenu selectedClass={selectedCls()} palette={palette()} items={items} target={contextTarget!} />
+    </div>;
 }

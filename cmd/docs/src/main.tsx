@@ -14,12 +14,14 @@ import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconSystem from '~icons/material-symbols/brightness-4';
 import IconDark from '~icons/material-symbols/dark-mode';
+import IconAlign from '~icons/material-symbols/format-align-center-rounded';
+import IconAuto from '~icons/material-symbols/format-align-justify-rounded';
+import IconLTR from '~icons/material-symbols/format-align-left-rounded';
+import IconRTL from '~icons/material-symbols/format-align-right-rounded';
 import IconLanguage from '~icons/material-symbols/language';
 import IconLight from '~icons/material-symbols/light-mode';
 import IconTheme from '~icons/material-symbols/palette';
 import IconBuilder from '~icons/mdi/theme';
-import IconLTR from '~icons/ooui/text-flow-ltr';
-import IconRTL from '~icons/ooui/text-flow-rtl';
 
 import { default as demoRoute } from './demo';
 import { default as docsRoute } from './docs';
@@ -55,7 +57,7 @@ function App(): JSX.Element {
 function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
     const [, act] = use();
-    const [dir, setDir] = createSignal<'ltr' | 'rtl'>('ltr');
+    const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
     const theme = useTheme();
 
     // 主题菜单可能要出现同时两个菜单项同时选中的状态，比如打开了主题编辑器时。
@@ -89,16 +91,23 @@ function InternalApp(props: ParentProps): JSX.Element {
                     { type: 'item', label: l.t('_d.main.system'), value: 'system', icon: IconSystem },
                     { type: 'divider' },
                     { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: IconBuilder },
-                ]}>
+                ]}
+                >
                     <Button kind='flat' square rounded><IconTheme /></Button>
                 </Dropdown>
 
-                <Button kind='flat' square rounded onClick={() => {
-                    setDir(dir() === 'ltr' ? 'rtl' : 'ltr');
+                <Dropdown hoverable value={[dir()]} onChange={e => {
+                    setDir(e);
                     document.documentElement.setAttribute('dir', dir());
-                }}>
-                    {dir() === 'ltr' ? <IconLTR /> : <IconRTL />}
-                </Button>
+                }}
+                items={[
+                    { type: 'item', label: l.t('_d.main.ltr'), value: 'ltr', icon: IconLTR },
+                    { type: 'item', label: l.t('_d.main.rtl'), value: 'rtl', icon: IconRTL },
+                    { type: 'item', label: l.t('_d.main.auto'), value: 'auto', icon: IconAuto }
+                ]}
+                >
+                    <Button kind='flat' square rounded><IconAlign /></Button>
+                </Dropdown>
 
                 <LinkButton kind='flat' square rounded href='https://github.com/issue9/cmfx'>
                     <IconGithub />
