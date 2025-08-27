@@ -42,7 +42,7 @@ export async function copy2Clipboard(target: HTMLElement, text: string) {
         await sleep(2000);
         overlay.style.opacity = '0';
         target.style.opacity = '1';
-        await sleep(transitionDuration(300));
+        await sleep(transitionDuration());
         overlay.remove();
     });
 }

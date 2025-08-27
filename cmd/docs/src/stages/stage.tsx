@@ -70,7 +70,7 @@ export default function Stage(props: Props) {
                 }} />
             </Button>
 
-            <Button square checked={mode() === 'dark'} onClick={() => {
+            <Button square onClick={() => {
                 setMode(mode() === 'light' ? 'dark' : 'light');
                 modeAnimation.to(mode());
             }}>

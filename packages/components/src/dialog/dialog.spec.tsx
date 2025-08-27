@@ -21,13 +21,13 @@ describe('Dialog', () => {
         expect(c).toHaveClass(styles.dialog);
 
         ref!.move({ x: 10, y: 10 });
-        expect(c.style.left).toEqual('10px');
-        expect(c.style.top).toEqual('10px');
+        expect(c.style.insetInlineStart).toEqual('10px');
+        expect(c.style.insetBlockStart).toEqual('10px');
         expect(c.style.translate).toEqual('0px 0px');
 
         ref!.move();
-        expect(c.style.left).toEqual('50%');
-        expect(c.style.top).toEqual('50%');
+        expect(c.style.insetInlineStart).toEqual('50%');
+        expect(c.style.insetBlockStart).toEqual('50%');
         expect(c.style.translate).toEqual('var(--tw-translate-x) var(--tw-translate-y)');
 
         unmount();

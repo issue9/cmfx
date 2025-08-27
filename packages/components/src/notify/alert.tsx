@@ -27,7 +27,7 @@ export function Alert(props: Props): JSX.Element {
 
     const del = async () => {
         ref.style.height = '0px'; // 触发 CSS 动画
-        await sleep(transitionDuration(300)); // 等待动画完成才真正地从 DOM 中删除节点
+        await sleep(transitionDuration()); // 等待动画完成才真正地从 DOM 中删除节点
         props.del(props.id);
     };
 
