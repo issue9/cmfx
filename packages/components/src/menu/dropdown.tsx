@@ -12,7 +12,7 @@ import styles from './style.module.css';
 export type { Ref } from './menu';
 
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends ParentProps,
-    Omit<MenuProps<M, T>, 'layout' | 'tag' | 'arrowUp' | 'arrowDown' | 'arrowRight'> {
+    Omit<MenuProps<M, T>, 'layout' | 'tag'> {
     /**
      * 响应 hover 事件展开菜单
      */

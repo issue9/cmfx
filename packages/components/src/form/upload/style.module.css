@@ -15,7 +15,7 @@
             @apply relative border border-palette-bg-low p-1 rounded-sm order-10;
 
             .close {
-                @apply absolute right-1 top-1 text-palette-fg;
+                @apply absolute end-1 top-1 text-palette-fg;
                 @apply hover:text-palette-fg-high hover:cursor-pointer;
             }
         }

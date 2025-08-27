@@ -201,6 +201,6 @@
     /********************* fit-screen **********************/
 
     .fit-screen {
-        @apply !fixed !top-0 !left-0 !w-full !h-full !bg-palette-bg !z-[1000] p-4 overflow-y-scroll;
+        @apply !fixed !top-0 !start-0 !w-full !h-full !bg-palette-bg !z-[1000] p-4 overflow-y-scroll;
     }
 }

@@ -13,6 +13,12 @@
         @apply bg-palette-bg text-palette-fg;
         @apply flex overflow-visible;
 
+        /* 显示下一级菜单的箭头 */
+        .more-arrow {
+            @apply rtl:rotate-180;
+            @apply ltr:rotate-0;
+        }
+
         li {
             @apply flex flex-col relative;
 
@@ -31,7 +37,7 @@
 
             >ul {
                 @apply hidden box-content;
-                @apply rounded-md;
+                @apply rounded-md
             }
         }
 
@@ -86,20 +92,20 @@
         }
 
         >li>.title {
-            @apply !mx-0;
+            @apply !mx-0 text-nowrap;
         }
 
         * li:not(.hide):hover {
             >ul {
                 @apply flex flex-col popopen;
-                @apply left-full top-0;
+                @apply start-full top-0;
             }
         }
 
         >li:not(.hide):hover {
             >ul {
                 @apply !flex flex-col popopen;
-                @apply left-0 top-full;
+                @apply top-full start-0;
             }
         }
     }
@@ -127,7 +133,7 @@
             >ul {
                 @apply popopen;
                 @apply !flex flex-col;
-                @apply left-full top-0;
+                @apply top-0 start-full;
             }
         }
     }

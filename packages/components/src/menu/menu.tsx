@@ -15,7 +15,7 @@ import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 import { AvailableEnumType, BaseProps, classList, joinClass, Layout } from '@/base';
 import { Divider } from '@/divider';
 import { ChangeFunc } from '@/form/field';
-import { AnimationIcon, AnimationIconRef, IconComponent } from '@/icon';
+import { AnimationIcon, AnimationIconRef } from '@/icon';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
 import styles from './style.module.css';
 
@@ -77,21 +77,6 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * 禁用项的样式
      */
     disabledClass?: string;
-
-    /**
-     * 自定义向上的箭头
-     */
-    arrowUp?: IconComponent;
-
-    /**
-     * 自定义向下的箭头
-     */
-    arrowDown?: IconComponent;
-
-    /**
-     * 自定义向右的箭头
-     */
-    arrowRight?: IconComponent;
 }
 
 /**
@@ -108,9 +93,6 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         selectedClass: styles.selected,
         disabledClass: styles.disabled,
         layout: 'inline' as Layout,
-        arrowUp: IconArrowUp,
-        arrowDown: IconArrowDown,
-        arrowRight: IconArrowRight
     }, props);
 
     const isMultiple = props.multiple ?? false;;
@@ -215,21 +197,21 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             {i().label}
                             <Show when={i().suffix}>{i().suffix}</Show>
                             <Show when={hasItems}>
-                                <Switch fallback={props.arrowRight!({class:joinClass(styles.icon, styles.suffix)})}>
+                                <Switch fallback={<IconArrowRight class={joinClass(styles.icon, styles.suffix, styles['more-arrow'])} />}>
                                     <Match when={props.layout === 'horizontal'}>
                                         <Switch>
                                             <Match when={i().level === 0}>
-                                                {props.arrowDown!({class:joinClass(styles.icon, styles.suffix)})}
+                                                {<IconArrowDown class={joinClass(styles.icon, styles.suffix)} />}
                                             </Match>
                                             <Match when={i().level > 0}>
-                                                {props.arrowRight!({class:joinClass(styles.icon, styles.suffix)})}
+                                                {<IconArrowRight class={joinClass(styles.icon, styles.suffix, styles['more-arrow'])} />}
                                             </Match>
                                         </Switch>
                                     </Match>
                                     <Match when={props.layout === 'inline'}>
                                         <AnimationIcon ref={el => iconRef = el} rotation='none'
                                             class={joinClass(styles.icon, styles.suffix)} palette={props.palette}
-                                            icons={{ 'up': props.arrowUp!, 'down': props.arrowDown! }}
+                                            icons={{ 'up': IconArrowUp, 'down': IconArrowDown }}
                                         />
                                     </Match>
                                 </Switch>

@@ -11,7 +11,7 @@ import { default as Menu, Props as MenuProps, Ref } from './menu';
 export type { Ref } from './menu';
 
 export type Props<T extends AvailableEnumType = string>
-    = Omit<MenuProps<false, T>, 'layout' | 'tag' | 'multiple' | 'arrowUp' | 'arrowDown' | 'arrowRight'> & {
+    = Omit<MenuProps<false, T>, 'layout' | 'tag' | 'multiple'> & {
         /**
         * 用于触发右键的元素
         */
