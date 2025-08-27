@@ -87,7 +87,7 @@
         }
 
         .button.split {
-            @apply !border-l !border-palette-bg-low box-content;
+            @apply !border-s !border-s-palette-bg-low box-content;
         }
     }
 
@@ -137,7 +137,7 @@
         }
 
         .button.split:enabled {
-            @apply !border-l-palette-bg;
+            @apply !border-s-palette-bg;
         }
     }
 
@@ -160,7 +160,7 @@
         }
 
         .button.split:enabled {
-            @apply !border-l-transparent;
+            @apply !border-s-transparent;
         }
     }
 
@@ -201,6 +201,6 @@
     /********************* fit-screen **********************/
 
     .fit-screen {
-        @apply !fixed !top-0 !left-0 !w-full !h-full !bg-palette-bg !z-[1000] p-4 overflow-y-scroll;
+        @apply !fixed !top-0 !start-0 !w-full !h-full !bg-palette-bg !z-[1000] p-4 overflow-y-scroll;
     }
 }

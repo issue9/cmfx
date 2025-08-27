@@ -51,9 +51,12 @@ export function adjustPopoverPosition(
         }
     }
 
-    const p = calcPopoverPosition(popRef, anchor, pos, align, padding);
+    const rtl = window.getComputedStyle(popRef).direction === 'rtl';
+    const p = calcPopoverPosition(popRef, anchor, pos, align, padding, rtl);
     popRef.style.top = p.y + 'px';
+    popRef.style.bottom = 'unset';
     popRef.style.left = p.x + 'px';
+    popRef.style.right = 'unset';
 }
 
 /**
@@ -63,11 +66,12 @@ export function adjustPopoverPosition(
  * @param anchor - 锚定对象的范围；
  * @param pos - popRef 相对 anchor 的位置；
  * @param padding - popRef 与 anchor 两者之间的间隙；
+ * @param rtl - 是否是右到左的布局；
  *
  * @remarks 不考虑越界问题，只考虑位置和对齐方式。
  */
 export function calcPopoverPosition(
-    popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, align: PopoverAlign, padding?: number
+    popRef: HTMLElement, anchor: DOMRect, pos: PopoverPosition, align: PopoverAlign, padding?: number, rtl = false
 ): Point {
     const popRect = popRef.getBoundingClientRect(); // 需要先设置 top 和 left，才能得到正确的 Rect。
     padding = padding ?? 0;
@@ -107,17 +111,33 @@ export function calcPopoverPosition(
             break;
         }
     } else if (pos === 'bottom' || pos === 'top') {
-        switch (align) {
-        case 'start':
-            p.x = anchor.left;
-            break;
-        case 'center':
-            p.x = anchor.left + (anchor.width - popRect.width) / 2;
-            break;
-        case 'end':
-            p.x = anchor.right - popRect.width;
-            break;
+        if (rtl) {
+            switch (align) {
+            case 'start':
+                p.x = anchor.right - popRect.width;
+                break;
+            case 'center':
+                p.x = anchor.left + (anchor.width - popRect.width) / 2;
+                break;
+            case 'end':
+                p.x = anchor.left;
+                break;
+            }
+        } else {
+            switch (align) {
+            case 'start':
+                p.x = anchor.left;
+                break;
+            case 'center':
+                p.x = anchor.left + (anchor.width - popRect.width) / 2;
+                break;
+            case 'end':
+                p.x = anchor.right - popRect.width;
+                break;
+            }
         }
+
+        if (p.x < 0) { p.x = 0; }
     }
 
     return p;

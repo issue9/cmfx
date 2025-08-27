@@ -75,7 +75,7 @@
         }
 
         >fieldset.timer {
-            @apply rounded-none border-t-0 border-b-0 border-r-0 py-2 pr-2;
+            @apply rounded-none border-t-0 border-b-0 border-e-0 py-2 pe-2;
         }
     }
 
@@ -111,7 +111,7 @@
                 }
 
                 >fieldset.panel:last-child {
-                    @apply border-l-palette-fg-low;
+                    @apply border-s-palette-fg-low;
                 }
             }
 
@@ -127,7 +127,7 @@
 
         .shortcuts {
             @apply flex flex-col shrink-0 p-2 items-stretch;
-            @apply border-l border-palette-fg-low;
+            @apply border-s border-s-palette-fg-low;
         }
     }
 }

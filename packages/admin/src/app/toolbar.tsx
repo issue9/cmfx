@@ -67,9 +67,9 @@ function UserMenu(): JSX.Element {
     const l = useLocale();
     const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button rounded class="pl-1"
+    const activator = <Button rounded class="ps-1"
         onClick={()=>setVisible(!visible())}>
-        <img alt='avatar' class="w-6 h-6 rounded-full mr-1" src={ act.user()?.avatar } />
+        <img alt='avatar' class="w-6 h-6 rounded-full me-1" src={ act.user()?.avatar } />
         {act.user()?.name}
     </Button>;
 

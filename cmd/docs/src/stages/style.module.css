@@ -44,7 +44,7 @@
                 @apply min-w-full md:min-w-1/2 lg:min-w-1/3;
 
                 legend {
-                    @apply ml-2 px-1;
+                    @apply ms-2 px-1;
                 }
 
                 .desc {

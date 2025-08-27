@@ -83,7 +83,7 @@ export function Edit(props: Props): JSX.Element {
                         return <tr>
                             <td class="flex items-center">
                                 {item.id}
-                                <span class="ml-1 cursor-help" title={item.desc}><IconHelp /></span>
+                                <span class="ms-1 cursor-help" title={item.desc}><IconHelp /></span>
                             </td>
                             <td>{uid}</td>
                         </tr>;

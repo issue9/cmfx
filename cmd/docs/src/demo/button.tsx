@@ -29,7 +29,7 @@ export default function() {
             )}
         </For>
         <LinkButton href="./" disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
-            <IconFace class="!mr-1" />with icon
+            <IconFace class="!me-1" />with icon
         </LinkButton>
 
         <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
@@ -42,7 +42,7 @@ export default function() {
             )}
         </For>
         <Button disabled={disabled()} rounded={rounded()} kind={kind()} palette="primary">
-            <IconFace class="mr-1" />with icon
+            <IconFace class="me-1" />with icon
         </Button>
 
         <ConfirmButton onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary'>confirm button</ConfirmButton>
@@ -89,7 +89,7 @@ export default function() {
             )}
         </For>
     </div>;
-    
+
     const ButtonGroupsV = () => <div class="flex flex-wrap items-center gap-2">
         <For each={palettesWithUndefined}>
             {(c) => (
@@ -190,7 +190,7 @@ export default function() {
             }}
         </For>
     </div>;
-    
+
     return <Demo settings={
         <>
             {kindS}

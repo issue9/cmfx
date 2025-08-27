@@ -43,8 +43,8 @@ export function arraySelector<T extends string|number|undefined>(label: string, 
         <legend>{label}</legend>
         <For each={array}>
             {(item) => (
-                <label class="mr-4">
-                    <input class="mr-1" type="radio" name={label}
+                <label class="me-4">
+                    <input class="me-1" type="radio" name={label}
                         value={item} onClick={() => set(item as any)}
                         checked={get() === item}
                     />{item !== undefined ? item : 'undefined'}

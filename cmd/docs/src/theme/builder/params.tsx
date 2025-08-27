@@ -184,7 +184,7 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>, contrast: 75 | 60 
 // 设置圆角孤度参数面板
 function radiusParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconRadius class="mr-1" />{l.t('_d.theme.radius')}</Divider>
+        <Divider><IconRadius class="me-1" />{l.t('_d.theme.radius')}</Divider>
         {radius('xs', s.accessor<number>('radius.xs'))}
         {radius('sm', s.accessor<number>('radius.sm'))}
         {radius('md', s.accessor<number>('radius.md'))}
@@ -214,7 +214,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
 // 设置字体大小参数面板
 function fontSizeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconFontSize class="mr-1" />{l.t('_d.theme.fontSize')}</Divider>
+        <Divider><IconFontSize class="me-1" />{l.t('_d.theme.fontSize')}</Divider>
         {fontSize(s.accessor('fontSize'))}
     </div>;
 }
@@ -243,7 +243,7 @@ function fontSize(a: Accessor<string>): JSX.Element {
 // 颜色选择参数面板
 function colorsParams(l: Locale, m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconColors class="mr-1" />{l.t('_d.theme.colors')}</Divider>
+        <Divider><IconColors class="me-1" />{l.t('_d.theme.colors')}</Divider>
         {palette(m.getValue(), 'primary', s)}
         {palette(m.getValue(), 'secondary', s)}
         {palette(m.getValue(), 'tertiary', s)}
@@ -276,7 +276,7 @@ function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Sche
 
 function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
-        <Divider><IconOptions class="mr-1" />{l.t('_d.theme.otherParams')}</Divider>
+        <Divider><IconOptions class="me-1" />{l.t('_d.theme.otherParams')}</Divider>
 
         <Range layout='vertical' label={l.t('_d.theme.transitionDuration')}
             accessor={s.accessor('transitionDuration')} {...transitionValues} value={v => `${v}ms`} />

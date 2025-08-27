@@ -33,7 +33,7 @@ kbd {
     @apply border border-palette-fg-low rounded-sm bg-palette-bg-low px-1 py-[1px];
 }
 
-/* 弹出框默认状态下的样式 */
+/* 弹出框默认状态下的动画效果 */
 @utility pop {
     visibility: hidden;
     opacity: 0;
@@ -42,26 +42,11 @@ kbd {
     transition: visibility 0s var(--default-transition-duration), opacity var(--default-transition-duration) ease-in;
 }
 
-/* 弹出框打开状态下应用的样式 */
+/* 弹出框打开状态下的动画效果 */
 @utility popopen {
     visibility: visible;
     opacity: 1;
     transition: opacity var(--default-transition-duration) ease-in;
-}
-
-/******************* 对话框 ****************/
-
-dialog {
-    @apply top-1/2 left-1/2 translate-[-50%] shadow-lg block fixed pop;
-}
-
-dialog[open] {
-    @apply popopen block shadow-md shadow-palette-bg-low;
-}
-
-dialog::backdrop {
-    background: oklch(0 0 0 / 0.5);
-    transition: opacity var(--default-transition-duration) linear;
 }
 
 /********************* popover *******************/

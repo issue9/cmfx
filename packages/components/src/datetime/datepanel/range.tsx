@@ -227,9 +227,9 @@ export function DateRangePanel(props: Props) {
                 const p2Left = (entries[0].target as HTMLElement).getBoundingClientRect().left;
                 if (p2Left === ref.getBoundingClientRect().left) {
                     panel2.style.setProperty('border-top-color', 'var(--fg-low)');
-                    panel2.style.setProperty('border-left-color', 'transparent');
+                    panel2.style.setProperty('border-inline-start-color', 'transparent');
                 } else {
-                    panel2.style.setProperty('border-left-color', 'var(--fg-low)');
+                    panel2.style.setProperty('border-inline-start-color', 'var(--fg-low)');
                     panel2.style.setProperty('border-top-color', 'transparent');
                 }
             }

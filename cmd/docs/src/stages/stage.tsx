@@ -6,8 +6,9 @@ import { AnimationIcon, AnimationIconRef, Button, Code, joinClass, ThemeProvider
 import { createSignal, JSX, Show } from 'solid-js';
 import IconCode from '~icons/material-symbols/code-rounded';
 import IconDark from '~icons/material-symbols/dark-mode';
-import IconLTR from '~icons/picon/ltr';
-import IconRTL from '~icons/picon/rtl';
+import IconLTR from '~icons/material-symbols/format-align-left-rounded';
+import IconRTL from '~icons/material-symbols/format-align-right-rounded';
+import IconLight from '~icons/material-symbols/light-mode';
 
 import styles from './style.module.css';
 
@@ -37,10 +38,15 @@ export interface Props {
  * 用于展示组件的舞台
  */
 export default function Stage(props: Props) {
-    const [mode, setMode] = createSignal<'light' | 'dark'>('light');
     const [code, setCode] = createSignal(false);
-    const [rtl, setRTL] = createSignal(false);
+
+    const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
+    const [dir, setDir] = createSignal<'ltr' | 'rtl'>(initDir);
     let rtlAnimation: AnimationIconRef;
+
+    const initMode = 'light';
+    const [mode, setMode] = createSignal<'light' | 'dark'>(initMode);
+    let modeAnimation: AnimationIconRef;
 
     return <fieldset class={styles.stage}>
         <Show when={props.title}>{title => <legend>{title()}</legend>}</Show>
@@ -50,26 +56,29 @@ export default function Stage(props: Props) {
         }</Show>
 
         <ThemeProvider mode={mode()}>
-            <div class={styles.component}>
-                {props.component}
-            </div>
+            <div class={styles.component} dir={dir()}>{props.component}</div>
         </ThemeProvider>
 
         <div class={joinClass(styles.toolbar, code() ? undefined : '!border-b-transparent')}>
             <Button square onClick={() => {
-                // TODO
-                setRTL(!rtl());
-                rtlAnimation.to(rtl() ? 'rtl' : 'ltr');
+                setDir(dir() === 'ltr' ? 'rtl' : 'ltr');
+                rtlAnimation.to(dir());
             }}>
-                <AnimationIcon ref={el => rtlAnimation = el} preset={'ltr'} icons={{
-                    'rtl': IconRTL,
-                    'ltr': IconLTR,
+                <AnimationIcon class='aspect-square w-4' rotation='clock' ref={el => rtlAnimation = el} preset={initDir} icons={{
+                    rtl: IconRTL,
+                    ltr: IconLTR,
                 }} />
             </Button>
 
             <Button square checked={mode() === 'dark'} onClick={() => {
                 setMode(mode() === 'light' ? 'dark' : 'light');
-            }}><IconDark /></Button>
+                modeAnimation.to(mode());
+            }}>
+                <AnimationIcon class='aspect-square w-4' rotation='clock' ref={el => modeAnimation = el} preset={initMode} icons={{
+                    dark: IconDark,
+                    light: IconLight,
+                }} />
+            </Button>
 
             <Show when={props.source}>
                 <Button square checked={code()} onClick={() => { setCode(!code()); }}><IconCode /></Button>

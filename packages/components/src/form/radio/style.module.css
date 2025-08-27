@@ -26,7 +26,7 @@
 
     /* 内部实心圆 */
     input[type="radio"]:after {
-        @apply inline-block absolute left-1/4 top-1/4 bg-palette-fg rounded-sm w-1/2 h-1/2 opacity-0;
+        @apply inline-block absolute start-1/4 top-1/4 bg-palette-fg rounded-sm w-1/2 h-1/2 opacity-0;
         content: '';
         transition: all var(--default-transition-duration) ease;
         transform-origin: center center;

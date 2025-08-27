@@ -31,7 +31,7 @@ export function Label(props: Props): JSX.Element {
     return <Dynamic component={props.tag}
         class={joinClass(styles.label, props.palette ? `palette--${props.palette}` : '', props.class)}
     >
-        <Show when={props.icon}>{props.icon!({class:'mr-1'})}</Show>
+        <Show when={props.icon}>{props.icon!({class:'me-1'})}</Show>
         { props.children }
     </Dynamic>;
 }

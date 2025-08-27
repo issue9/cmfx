@@ -54,7 +54,7 @@ export function Button(props: Props) {
         [styles.rounded]: props.rounded,
         [styles.checked]: props.checked,
         ...props.classList
-    }, props.class, styles.button, styles[props.kind!])}>
+    }, styles.button, styles[props.kind!], props.class)}>
         {props.children}
     </button>;
 }

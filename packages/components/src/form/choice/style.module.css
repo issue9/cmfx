@@ -25,7 +25,7 @@
             }
 
             .expand {
-                @apply ml-auto;
+                @apply ms-auto;
             }
         }
 
@@ -37,7 +37,7 @@
             }
 
             .expand {
-                @apply ml-auto items-center text-palette-bg-low;
+                @apply ms-auto items-center text-palette-bg-low;
             }
         }
 

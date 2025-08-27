@@ -14,7 +14,7 @@
     .spin:disabled {
         .indicator {
             @apply cursor-wait;
-            @apply px-4 items-center justify-center w-full h-full top-0 left-0 absolute flex;
+            @apply px-4 items-center justify-center w-full h-full top-0 start-0 absolute flex;
             @apply bg-transparent;
         }
     }

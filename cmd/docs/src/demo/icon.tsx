@@ -30,7 +30,9 @@ export default function() {
                 </For>
             </select>
 
-            <AnimationIcon ref={el => aref = el} icons={{ face: IconFace, close: IconClose }} rotation={rotation()} />
+            <Button>
+                <AnimationIcon ref={el => aref = el} icons={{ face: IconFace, close: IconClose }} rotation={rotation()} />
+            </Button>
 
             <Button onClick={() => aref?.to('face')}>face</Button>
             <Button onClick={() => aref?.to('close')}>close</Button>

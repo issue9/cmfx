@@ -23,6 +23,9 @@ const messages = {
             light: 'Light',
             system: 'System',
             themeBuilder: 'Theme Builder',
+            ltr: 'LTR',
+            rtl: 'RTL',
+            auto: 'Auto',
         },
         home: {
             desc: 'A framework based on {go} and {solidjs}',
