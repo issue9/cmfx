@@ -5,8 +5,9 @@
 import { adjustPopoverPosition } from '@cmfx/core';
 import { createSignal, JSX, onCleanup, onMount, splitProps } from 'solid-js';
 
-import { AvailableEnumType } from '@/base';
+import { AvailableEnumType, joinClass } from '@/base';
 import { default as Menu, Props as MenuProps, Ref } from './menu';
+import styles from './style.module.css';
 
 export type { Ref } from './menu';
 
@@ -24,7 +25,7 @@ export type Props<T extends AvailableEnumType = string>
  * @typeParam T - 选项类型；
  */
 export default function ContextMenu<T extends AvailableEnumType = string>(props: Props<T>): JSX.Element {
-    const [_, menuProps] = splitProps(props, ['items', 'ref', 'target', 'onChange']);
+    const [_, menuProps] = splitProps(props, ['items', 'ref', 'target', 'onChange', 'class']);
     const [ref, setRef] = createSignal<Ref>();
 
     props.target.addEventListener('contextmenu', e => {
@@ -52,6 +53,7 @@ export default function ContextMenu<T extends AvailableEnumType = string>(props:
     });
 
     return <Menu layout='vertical' tag='menu' {...menuProps} items={props.items} multiple={false}
+        class={joinClass(styles.context, props.class)}
         onChange={(val, old) => {
             if (props.onChange) { props.onChange(val, old); }
             ref()?.hidePopover();

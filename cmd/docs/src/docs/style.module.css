@@ -27,6 +27,18 @@
             @apply text-xl font-bold mb-1 mt-4;
         }
 
+        h4 {
+            @apply text-lg font-bold mb-1 mt-4;
+        }
+
+        h5 {
+            @apply text-lg font-bold mb-1 mt-4;
+        }
+
+        h6 {
+            @apply text-base font-bold mb-1 mt-4;
+        }
+
         p {
             @apply py-1;
         }
@@ -38,6 +50,11 @@
         a:link,
         a:visited {
             @apply text-palette-fg-high;
+        }
+
+        /* 代码块的样式 */
+        pre {
+            @apply !bg-palette-bg-low !text-palette-fg rounded-md p-2;
         }
     }
 }

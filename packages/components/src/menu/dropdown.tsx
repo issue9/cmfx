@@ -5,7 +5,7 @@
 import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
 import { createEffect, createSignal, JSX, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { AvailableEnumType } from '@/base';
+import { AvailableEnumType, joinClass } from '@/base';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
 import styles from './style.module.css';
 
@@ -28,7 +28,7 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 export default function Dropdown<M extends boolean = false, T extends AvailableEnumType = string>(
     props: Props<M, T>
 ): JSX.Element {
-    const [_, menuProps] = splitProps(props, ['hoverable', 'children', 'items', 'ref', 'onChange']);
+    const [_, menuProps] = splitProps(props, ['hoverable', 'children', 'items', 'ref', 'onChange', 'class']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
     let popRef: MenuRef;
 
@@ -36,7 +36,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         createEffect(() => {
             triggerRef()?.addEventListener('mouseenter', () => {
                 popRef.showPopover();
-                adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect());
+                adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
             });
             triggerRef()?.addEventListener('mouseleave', e => {
                 if (!pointInElement(e.clientX, e.clientY, popRef)) { popRef.hidePopover(); }
@@ -50,7 +50,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
             triggerRef()!.addEventListener('click', e => {
                 e.preventDefault();
                 popRef.showPopover();
-                adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect());
+                adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
             });
         });
 
@@ -69,8 +69,9 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
     }
 
     return <div aria-haspopup>
-        <div ref={el => setTriggerRef(el)} class={styles.trigger}>{props.children}</div>
+        <div ref={el => setTriggerRef(el)}>{props.children}</div>
         <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
+            class={joinClass(styles.context, props.class)}
             ref={el => {
                 el.popover = 'auto';
                 popRef = el;

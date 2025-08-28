@@ -24,10 +24,10 @@ export default function() {
 
 import { Code } from '@cmfx/components';
 
-import { createSignal } from 'solid-js';
+import { createSignal, JSX } from 'solid-js';
 import { boolSelector, Demo, paletteSelector, Stage } from './base';
 
-export default function() {
+export default function(props: Props): JSX.Element {
     const [paletteS, palette] = paletteSelector();
     const [editableS, editable] = boolSelector('可编辑');
     const [breakS, breakk] = boolSelector('自动换行');

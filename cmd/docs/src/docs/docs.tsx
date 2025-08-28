@@ -78,14 +78,14 @@ const routes: Array<RouteDefinition & {kind:Kind, id: string}> = [
 ];
 
 // 生成 Drawer 组件的侧边栏菜单
-function buildMenus(l: Locale, prefix: string): Array<MenuItem> {
-    const menus: Array<MenuItemGroup> = [
+function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
+    const menus: Array<MenuItemGroup<string>> = [
         { type: 'group', label: l.t('_d.docs.intro'), items: [] },
         { type: 'group', label: l.t('_d.docs.usage'), items: [] },
         { type: 'group', label: l.t('_d.docs.advance'), items: [] },
     ];
 
-    const append = (group: MenuItemGroup, r: ArrayElement<typeof routes>) => {
+    const append = (group: MenuItemGroup<string>, r: ArrayElement<typeof routes>) => {
         const p = Array.isArray(r.path) ? r.path[0] : r.path;
         group.items.push({ type: 'a', label: l.t('_d.docs.' + r.id), value: prefix + p });
     };
@@ -141,7 +141,7 @@ export default function route(prefix: string): RouteDefinition {
             const l = useLocale();
 
             return <Drawer visible palette='secondary' mainPalette='surface' main={props.children}>
-                <Menu class="min-w-60" layout='inline' anchor items={buildMenus(l, prefix)} />
+                <Menu class="min-w-60" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;
         },
         children: routes

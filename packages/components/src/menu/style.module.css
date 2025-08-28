@@ -162,4 +162,10 @@
             @apply !px-0;
         }
     }
+
+    /************************************************* context ********************/
+    .context,
+    .dropdown {
+        @apply border border-palette-bg-low rounded-md;
+    }
 }
