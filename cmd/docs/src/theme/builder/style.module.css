@@ -66,11 +66,7 @@
             @apply px-4 pb-4 rounded-lg bg-palette-bg text-palette-fg overflow-y-scroll;
 
             .components {
-                @apply flex flex-wrap gap-4 w-full;
-
-                .item {
-                    @apply w-50;
-                }
+                @apply flex flex-wrap gap-4 w-full items-start;
             }
         }
     }

@@ -48,7 +48,7 @@ export function Card(props: Props): JSX.Element {
         </main>
 
         <Show when={props.footer}>
-            <footer class={joinClass(styles.footeer, props.footerClass)}>{props.footer}</footer>
+            <footer class={joinClass(styles.footer, props.footerClass)}>{props.footer}</footer>
         </Show>
     </div>;
 }

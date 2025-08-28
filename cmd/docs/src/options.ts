@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options, Palettes, Scheme } from '@cmfx/components';
+import { Options, Palettes, Scheme, schemes } from '@cmfx/components';
 import { Problem } from '@cmfx/core';
 
 export const options: Options = {
@@ -25,21 +25,7 @@ export const options: Options = {
 
     scheme: 'default',
     schemes: new Map<string, Scheme>([
-        ['default', {
-            contrast: 60,
-            dark: {
-                'primary-bg': '#333',
-                'secondary-bg': '#666',
-                'tertiary-bg': '#999',
-                'surface-bg': '#bbb',
-            } as Palettes,
-            light: {
-                'primary-bg': '#bbb',
-                'secondary-bg': '#999',
-                'tertiary-bg': '#666',
-                'surface-bg': '#333',
-            } as Palettes,
-        }],
+        ['default', schemes.preset],
         ['default2', {
             contrast: 60,
             dark: {

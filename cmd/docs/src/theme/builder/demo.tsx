@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Appbar, BasicTable, Column, DatePanel, joinClass, Mode, ObjectAccessor, Scheme, ThemeProvider, useLocale
+    Accessor, Appbar, BasicTable, Button, Card, Column, DatePanel, Form, FormAccessor,
+    Menu, Mode, ObjectAccessor, Password, Scheme, TextField, ThemeProvider, useLocale
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { JSX } from 'solid-js';
@@ -41,13 +42,34 @@ function Components(): JSX.Element {
         { id: 'action', renderLabel: 'ACTIONS', renderContent: () => { return <button>...</button>; }, isUnexported: true }
     ];
 
-    return <div class={styles.components}>
-        <div class={joinClass(styles.item, '!w-full')}>
-            <BasicTable items={items} columns={columns} />
-        </div>
+    const regUserAccessor = new FormAccessor({
+        username: '',
+        password: ''
+    }, 0 as any);
 
-        <div class={styles.item}>
-            <DatePanel value={new Date()} />
-        </div>
+    return <div class={styles.components}>
+        <BasicTable class="!w-full" items={items} columns={columns} />
+
+        <DatePanel value={new Date()} />
+
+        <Card header='注册用户'
+            footerClass='flex justify-between'
+            footer={<><Button palette='primary'>重置</Button><Button palette='primary'>注册</Button></>}
+        >
+            <Form formAccessor={regUserAccessor} layout='vertical'>
+                <TextField accessor={regUserAccessor.accessor<string>('username')} label='用户名' placeholder='请输入用户名' />
+                <Password accessor={regUserAccessor.accessor<string>('password')} label='密码' placeholder='请输入密码' />
+            </Form>
+        </Card>
+
+        <Menu class="min-w-50 border border-palette-fg-low rounded-md" layout='inline' items={[
+            { type: 'item', label: 'Item 1', value: '1' },
+            { type: 'item', label: 'Item 2', value: '2' },
+            { type: 'item', label: 'Item 3', value: '3' },
+            { type: 'group', label: 'group', items: [
+                { type: 'item', label: 'Item 1', value: '41' },
+                { type: 'item', label: 'Item 2', value: '42' },
+            ] },
+        ]} />
     </div>;
 }

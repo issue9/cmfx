@@ -23,7 +23,7 @@ export interface Scheme {
     fontSize?: string;
 
     /**
-     * 表示 tailwind 中 --radius-* 的数值，默认是 0.125
+     * 表示 tailwind 中 --radius-* 的数值
      */
     radius?: Radius;
 
@@ -36,6 +36,9 @@ export interface Scheme {
     light?: Palettes;
 }
 
+/**
+ * 圆角参数的设置，单位为 rem。
+ */
 export interface Radius {
     xs: number;
     sm: number;

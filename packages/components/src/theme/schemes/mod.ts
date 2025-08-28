@@ -2,6 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export * from './schemes';
-export * from './selector';
-
+export { default as preset } from './preset';

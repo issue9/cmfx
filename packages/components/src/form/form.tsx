@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { FlattenObject } from '@cmfx/core';
-import { JSX, mergeProps } from 'solid-js';
+import { mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout } from '@/base';
 import { Spin } from '@/spin';
@@ -11,7 +11,7 @@ import { FormAccessor } from './access';
 import { FormProvider } from './field';
 import styles from './style.module.css';
 
-export interface Props<T extends FlattenObject, R = never, P = never> extends BaseProps {
+export interface Props<T extends FlattenObject, R = never, P = never> extends BaseProps, ParentProps {
     formAccessor: FormAccessor<T, R, P>;
 
     /**
@@ -22,22 +22,27 @@ export interface Props<T extends FlattenObject, R = never, P = never> extends Ba
      */
     inDialog?: boolean;
 
-    children: JSX.Element;
-
     // 以下为 FormContext 的属性
 
     /**
      * 子组件的 layout 属性的默认值
+     *
+     * @remarks 同时也影响整个 Form 组件的布局。
+     * @reactive
      */
     layout?: Layout;
 
     /**
      * 子组件的 hasHelp 属性的默认值
+     *
+     * @reactive
      */
     hasHelp?: boolean;
 
     /**
      * 子组件的 rounded 属性的默认值
+     *
+     * @reactive
      */
     rounded?: boolean;
 }
@@ -55,7 +60,7 @@ export function Form<T extends FlattenObject, R = never, P = never>(props: Props
 
     return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>
         <Spin spinning={props.formAccessor.submitting()} palette={props.palette}>
-            <form class={joinClass(styles.form, props.class)}
+            <form class={joinClass(styles.form, props.class, props.layout === 'vertical' ? 'flex-col' : '')}
                 method={props.inDialog ? 'dialog' : undefined}
                 {...props.formAccessor.events()}>
                 {props.children}
