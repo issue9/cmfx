@@ -77,7 +77,7 @@ function Private(props: PrivateProps): JSX.Element {
                 main={
                     <ErrorBoundary fallback={err=>(<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
-                <Menu layout='inline' anchor value={[props.selected()]} items={buildItems(l, opt.aside.menus)} />
+                <Menu layout='inline' value={[props.selected()]} items={buildItems(l, opt.aside.menus)} />
             </Drawer>
         </Match>
     </Switch>;

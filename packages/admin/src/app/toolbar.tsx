@@ -73,7 +73,7 @@ function UserMenu(): JSX.Element {
         {act.user()?.name}
     </Button>;
 
-    return <Dropdown hoverable anchor items={buildItems(l, opt.userMenus)}>
+    return <Dropdown hoverable items={buildItems(l, opt.userMenus)}>
         {activator}
     </Dropdown>;
 }
@@ -104,8 +104,8 @@ function fullscreen(hotkey?: Hotkey): JSX.Element {
     </Button>;
 }
 
-export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem> {
-    const items: Array<XMenuItem> = [];
+export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<string>> {
+    const items: Array<XMenuItem<string>> = [];
     menus.forEach((mi) => {
         switch (mi.type) {
         case 'divider':
@@ -120,7 +120,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem> 
             break;
         case 'item':
             items.push({
-                type: 'item',
+                type: 'a',
                 icon: mi.icon,
                 label: l.t(mi.label),
                 value: mi.path,

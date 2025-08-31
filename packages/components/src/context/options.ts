@@ -36,6 +36,8 @@ export interface Options {
 
     /**
      * 支持的主题列表
+     *
+     * {@link ../theme/schemes#schemes} 下定义部分主题可以直接在此处使用。
      */
     schemes?: Map<string, Scheme>;
 

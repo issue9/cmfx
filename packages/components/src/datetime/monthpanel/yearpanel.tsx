@@ -36,7 +36,7 @@ export interface Props extends BaseProps {
 /**
  * 年份选择面板
  */
-export default function (props: Props): JSX.Element {
+export default function YearPanel(props: Props): JSX.Element {
     const now = new Date();
     const [panelValue, setPanelValue] = createSignal(props.value ?? now.getFullYear());
     const [value, setValue] = createSignal(props.value ?? now.getFullYear());
