@@ -48,7 +48,7 @@ export const options: Options = {
     apiAcceptType: 'application/json',
     apiContentType: 'application/json',
     title: 'CMFX',
-    titleSeparator: '-',
+    titleSeparator: ' - ',
     pageSizes: [10, 20, 50, 100, 200, 500],
     pageSize: 20,
     stays: 2000,

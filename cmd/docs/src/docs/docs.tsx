@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Locale, Menu, MenuItem, MenuItemGroup, useLocale } from '@cmfx/components';
+import { Drawer, Locale, Menu, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
 import { ArrayElement } from '@cmfx/core';
-import { RouteDefinition } from '@solidjs/router';
+import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { marked } from 'marked';
 import { JSX, ParentProps, createEffect, createMemo, createSignal } from 'solid-js';
 
@@ -63,19 +63,54 @@ type Kind = 'intro' | 'usage' | 'advance';
 
 // 定义了所有文章的路由
 //
-// id: 在翻译文件中 _d.docs 下对应在的 id；
+// title: 在翻译文件中对应的翻译项 id；
 // kind 表示文章类型，用于区分不同类型的文档；
-const routes: Array<RouteDefinition & {kind:Kind, id: string}> = [
-    { kind: 'intro', path: ['/', '/intro/readme'], id: 'intro', component: () => <Markdown article='intro/readme' /> },
-    { kind: 'intro', path: '/intro/changelog', id: 'changelog', component: () => <Markdown article='intro/changelog' /> },
+const routes: Array<RouteDefinition & { kind: Kind }> = [
+    {
+        kind: 'intro',
+        path: ['/', '/intro/readme'],
+        info: { title: '_d.docs.intro' },
+        component: () => <Markdown article='intro/readme' />
+    },
+    {
+        kind: 'intro',
+        path: '/intro/changelog',
+        info: { title: '_d.docs.changelog' },
+        component: () => <Markdown article='intro/changelog' />
+    },
 
-    { kind: 'usage', path: '/usage/install', id: 'install', component: () => <Markdown article='usage/install' /> },
-    { kind: 'usage', path: '/usage/platform', id: 'platform', component: () => <Markdown article='usage/platform' /> },
-    { kind: 'usage', path: '/usage/faq', id: 'faq', component: () => <Markdown article='usage/faq' /> },
+    {
+        kind: 'usage',
+        path: '/usage/install',
+        info: { title: '_d.docs.install' },
+        component: () => <Markdown article='usage/install' />
+    },
+    {
+        kind: 'usage',
+        path: '/usage/platform',
+        info: { title: '_d.docs.platform' },
+        component: () => <Markdown article='usage/platform' />
+    },
+    {
+        kind: 'usage',
+        path: '/usage/faq',
+        info: { title: '_d.docs.faq' },
+        component: () => <Markdown article='usage/faq' />
+    },
 
-    { kind: 'advance', path: '/advance/theme', id: 'theme', component: () => <Markdown article='advance/theme' /> },
-    { kind: 'advance', path: '/advance/locale', id: 'locale', component: () => <Markdown article='advance/locale' /> },
-];
+    {
+        kind: 'advance',
+        path: '/advance/theme',
+        info: { title: '_d.docs.theme' },
+        component: () => <Markdown article='advance/theme' />
+    },
+    {
+        kind: 'advance',
+        path: '/advance/locale',
+        info: { title: '_d.docs.locale' },
+        component: () => <Markdown article='advance/locale' />
+    },
+] as const;
 
 // 生成 Drawer 组件的侧边栏菜单
 function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
@@ -87,7 +122,7 @@ function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
 
     const append = (group: MenuItemGroup<string>, r: ArrayElement<typeof routes>) => {
         const p = Array.isArray(r.path) ? r.path[0] : r.path;
-        group.items.push({ type: 'a', label: l.t('_d.docs.' + r.id), value: prefix + p });
+        group.items.push({ type: 'a', label: l.t(r.info?.title), value: prefix + p });
     };
 
     routes.forEach(r => {
@@ -111,8 +146,8 @@ const localesID = Array.from(maps.keys());
 
 // 加载 Markdown 文档
 //
-// article 对应的是 maps 中的文章 ID
-function Markdown(props: {article:string}): JSX.Element {
+// article 对应的是 maps 中的文章 ID；
+function Markdown(props: { article: string }): JSX.Element {
     const l = useLocale();
 
     // 返回当前语言的文档映射
@@ -128,7 +163,11 @@ function Markdown(props: {article:string}): JSX.Element {
         if (data) { setHTML(await marked.parse(data)); }
     });
 
-    return <article class={styles.doc} innerHTML={html()} />;
+
+    const route = useCurrentMatches()();
+    const title = route[route.length - 1].route.info?.title;
+
+    return <Page title={title}><article class={styles.doc} innerHTML={html()} /></Page>;
 }
 
 /**

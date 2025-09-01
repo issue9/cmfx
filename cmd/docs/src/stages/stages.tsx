@@ -4,6 +4,7 @@
 
 import { Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
+import { useCurrentMatches } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
 import IconChecked from '~icons/material-symbols/select-check-box';
 
@@ -11,11 +12,6 @@ import { default as Stage, Props as StageProps } from './stage';
 import styles from './style.module.css';
 
 export interface Props extends ParentProps {
-    /**
-     * 页面标题
-     */
-    title: string;
-
     /**
      * 所有展示舞台
      */
@@ -35,8 +31,11 @@ export interface Props extends ParentProps {
 export default function Stages(props: Props):JSX.Element {
     const l = useLocale();
 
-    return <Page title={props.title} class={styles.page}>
-        <h2>{props.title}</h2>
+    const route = useCurrentMatches()();
+    const title = route[route.length - 1].route.info?.title;
+
+    return <Page class={styles.page} title={title}>
+        <h2>{l.t(title)}</h2>
 
         <div>{props.children}</div>
 

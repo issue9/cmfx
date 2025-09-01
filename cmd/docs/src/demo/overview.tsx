@@ -2,18 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Card, MenuItemGroup, useLocale } from '@cmfx/components';
+import { Card, MenuItemGroup, Page, useLocale } from '@cmfx/components';
 import { A } from '@solidjs/router';
 import { For, JSX } from 'solid-js';
 
 import { buildMenus } from './routes';
 import styles from './style.module.css';
 
-export default function(prefix: string): JSX.Element {
+export default function Overview(prefix: string): JSX.Element {
     const l = useLocale();
     const items = buildMenus(l, prefix);
 
-    return <div class={styles.overview}>
+    return <Page class={styles.overview} title={l.t('_d.demo.overview')}>
         <For each={items.filter(item => item.type === 'group')}>
             {(group: MenuItemGroup<string>) =>
                 <fieldset class={styles.group}>
@@ -28,5 +28,5 @@ export default function(prefix: string): JSX.Element {
                 </fieldset>
             }
         </For>
-    </div>;
+    </Page>;
 }

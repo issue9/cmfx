@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { default as api } from './api.json';
@@ -16,9 +15,7 @@ import { default as s2 } from './animation.tsx?raw';
 import { Stages } from '../../stages';
 
 export default function(): JSX.Element {
-    const l = useLocale();
-
-    return <Stages api={api} title={l.t('_d.demo.icon')} stages={[
+    return <Stages api={api} stages={[
         { component: <C1 />, source: s1, title: '与文本的排版' },
         { component: <C2 />, source: s2, title: '动画图标' },
     ]}>

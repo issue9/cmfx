@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { Stages } from '../../stages';
@@ -19,9 +18,7 @@ import { default as s3 } from './multiple.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    const l = useLocale();
-
-    return <Stages title={l.t('_d.demo.code')} api={api} stages={[
+    return <Stages api={api} stages={[
         { component: <C1 />, source: s1, title: '基本功能' },
         { component: <C2 />, source: s2, title: '可滚动' },
         { component: <C3 />, source: s3, title: '多行不可滚动' },
