@@ -57,6 +57,10 @@ export type MenuItem = {
     type: 'divider';
 } | {
     type: 'group';
+
+    /**
+     * 翻译 ID
+     */
     label: string;
 
     /**
@@ -72,7 +76,7 @@ export type MenuItem = {
     icon?: IconComponent;
 
     /**
-     * 菜单的标题
+     * 菜单的标题的翻译 ID
      */
     label: string;
 
@@ -90,4 +94,6 @@ export type MenuItem = {
      * 快捷键
      */
     hotkey?: Hotkey;
+
+    suffix?: string | number;
 };

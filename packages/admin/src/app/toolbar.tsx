@@ -126,6 +126,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<s
                 value: mi.path,
                 hotkey: mi.hotkey,
                 items: mi.items ? buildItems(l, mi.items) : undefined,
+                suffix: mi.suffix,
             });
             break;
         }

@@ -195,7 +195,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                 {icon => { return icon()({ class: styles.icon }); }}
                             </Show>
                             {i().label}
-                            <Show when={i().suffix}>{i().suffix}</Show>
+                            <Show when={i().suffix}><span class={styles.suffix}>{i().suffix}</span></Show>
                             <Show when={hasItems}>
                                 <Switch fallback={<IconArrowRight class={joinClass(styles.icon, styles.suffix, styles['more-arrow'])} />}>
                                     <Match when={props.layout === 'horizontal'}>

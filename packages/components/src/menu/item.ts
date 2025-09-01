@@ -60,6 +60,8 @@ export interface TypeItem<T extends AvailableEnumType> {
 
     /**
      * 菜单项尾部的内容
+     *
+     * @remarks 当 {@link MenuItem#items} 不为空时，该值无效。
      */
     suffix?: JSX.Element
 

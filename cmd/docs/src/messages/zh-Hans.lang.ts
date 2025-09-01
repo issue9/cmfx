@@ -61,7 +61,6 @@ const messages: typeof m = {
             appbar: 'Appbar 应用栏',
             backtop: 'Backtop 返回顶部',
             badge: 'Badge 微标',
-            base: 'Base 基本功能',
             button: 'Button 按钮',
             calendar: 'Calendar 日历',
             card: 'Card 卡片',

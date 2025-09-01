@@ -73,10 +73,6 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.appbar', icon: IconAppbar },
     },
     {
-        kind: 'general', path: '/base', component: lazy(() => import('./base')),
-        info: { title: '_d.demo.base' },
-    },
-    {
         kind: 'general', path: '/button', component: lazy(() => import('./button')),
         info: { title: '_d.demo.button', icon: IconButton },
     },
@@ -283,7 +279,7 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
 // 生成 Drawer 组件的侧边栏菜单
 export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
     const menus: Array<MenuItem<string>> = [
-        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/' }, // 指向 overview
+        { type: 'a', label: l.t('_d.demo.overview'), value: prefix + '/', suffix: routes.length }, // 指向 overview
         { type: 'group', label: l.t('_d.demo.general'), items: [] },
         { type: 'group', label: l.t('_d.demo.layout'), items: [] },
         { type: 'group', label: l.t('_d.demo.navigation'), items: [] },

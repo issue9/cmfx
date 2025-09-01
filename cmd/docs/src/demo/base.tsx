@@ -91,24 +91,3 @@ export function Demo(props: DemoProps) {
         </div>
     </div>;
 }
-
-export default function() {
-    const [paletteS, palette] = paletteSelector('primary');
-
-    return <Demo settings={paletteS}>
-        <button class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
-            [`palette--${palette()}`]: !!palette()
-        }}>button</button>
-
-        <span class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
-            [`palette--${palette()}`]: !!palette()
-        }}>span</span>
-
-        <fieldset class="w-full text-[var(--fg)] bg-[var(--bg)]" classList={{
-            [`palette--${palette()}`]: !!palette()
-        }}>
-            <legend>fieldset</legend>
-            content
-        </fieldset>
-    </Demo>;
-}

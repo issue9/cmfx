@@ -60,7 +60,6 @@ const messages = {
             appbar: 'Appbar',
             backtop: 'Backtop',
             badge: 'Badge',
-            base: 'Base',
             button: 'Button',
             calendar: 'Calendar',
             card: 'Card',
