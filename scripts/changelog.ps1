@@ -5,7 +5,7 @@
 # 当前脚本是对 ./changelog.sh 的 powershell 翻译。
 # 适合 powershell 7.x，其它版本未测试。
 
-# 用法: .\changelog.ps1 起始tag 结束tag
+# 用法: .\changelog.ps1 [起始 tag] [结束 tag]
 # 示例: .\changelog.ps1 v1.0.0 v1.1.0
 
 param (
@@ -39,7 +39,7 @@ function Print-Section {
     $Log = git log "$FromTag..$ToTag" --pretty=format:"- %s (%h)" --encoding=gbk --no-merges `
         --regexp-ignore-case -E --grep="^$Type\([^)]*\)!?:" |
         ForEach-Object {
-            $_ -replace "- $Type\(([^)]*)\)!?:(.*)", '$1:$2`n'
+            ($_ -replace "- $Type\(([^)]*)\)!?:(.*)", '$1:$2') + "`n"
         }
 
     if ($Log) {
