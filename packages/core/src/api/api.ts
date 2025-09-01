@@ -200,7 +200,7 @@ export class API {
     ): Promise<Return<R,PE>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
-        return this.#withArgument<R,PE>(path, method, token, !!body, body);
+        return this.#withArgument<R,PE>(path, method, token, !!body, body as BodyInit);
     }
 
     /**

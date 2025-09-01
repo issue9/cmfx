@@ -34,7 +34,7 @@ class YAMLImpl implements Serializer {
     stringify<T = unknown>(o: T): Uint8Array { return textEncoder.encode(YAML.stringify(o)); }
 }
 
-export const serializers: Readonly<Map<Mimetype, Serializer>> = new Map<Mimetype, Serializer>([
+export const serializers: ReadonlyMap<Mimetype, Serializer> = new Map<Mimetype, Serializer>([
     ['application/json', new JSONImpl()],
     ['application/yaml', new YAMLImpl()],
     ['application/cbor', new CBORImpl()],
