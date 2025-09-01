@@ -35,8 +35,8 @@ function print_section() {
     local TITLE=$2
 
     local LOG=$(git log "$FROM_TAG..$TO_TAG" --pretty=format:"- %s (%h)" --no-merges \
-        --regexp-ignore-case -E --grep="^$TYPE\([^)]*\)!?:" \
-        | sed -E "s/- $TYPE\(([^)]*)\)!?:(.*)/\1:\2\n/")
+        --regexp-ignore-case -E --grep="^$TYPE(\([^)]*\))?!?:" \
+        | sed -E "s/- $TYPE(\(([^)]*)\))?!?:(.*)/\2:\3\n/; s/^:[[:space:]]//g")
 
     if [ -n "$LOG" ]; then
         echo "### $TITLE" >> "$TMP_CHANGELOG"

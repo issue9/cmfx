@@ -35,18 +35,17 @@ function Print-Section {
         [string]$Title
     )
 
-    # 必须要带上 --encoding=gbk 否则会乱码
+    # 必须要带上 --encoding=gbk 否则中文会乱码
     $Log = git log "$FromTag..$ToTag" --pretty=format:"- %s (%h)" --encoding=gbk --no-merges `
-        --regexp-ignore-case -E --grep="^$Type\([^)]*\)!?:" |
+        --regexp-ignore-case -E --grep="^$Type(\([^)]*\))?!?:" |
         ForEach-Object {
-            ($_ -replace "- $Type\(([^)]*)\)!?:(.*)", '$1:$2') + "`n"
+             ($_ -replace "- $Type(\(([^)]*)\))?!?:(.*)", '$2:$3' -replace '^:\s+', '') + "`n"
         }
 
     if ($Log) {
         Add-Content $TmpChangelog "### $Title"
         Add-Content $TmpChangelog ""
         $Log | ForEach-Object { Add-Content $TmpChangelog $_ }
-        Add-Content $TmpChangelog ""
     }
 }
 
