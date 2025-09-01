@@ -39,7 +39,7 @@ function Print-Section {
     $Log = git log "$FromTag..$ToTag" --pretty=format:"- %s (%h)" --encoding=gbk --no-merges `
         --regexp-ignore-case -E --grep="^$Type\([^)]*\)!?:" |
         ForEach-Object {
-            $_ -replace "- $Type\(([^)]*)\)!?:(.*)", '$1:$2'
+            $_ -replace "- $Type\(([^)]*)\)!?:(.*)", '$1:$2`n'
         }
 
     if ($Log) {
