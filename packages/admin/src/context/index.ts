@@ -4,6 +4,6 @@
 
 export { useLocale } from '@cmfx/components';
 
-export { use } from './context';
+export { useAdmin } from './context';
 export type { User } from './user';
 

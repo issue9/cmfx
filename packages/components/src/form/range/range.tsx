@@ -2,9 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import {
+    createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show
+} from 'solid-js';
 
-import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options, useFormContext } from '@/form/field';
+import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options, useForm } from '@/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
@@ -46,7 +48,7 @@ export interface Props extends FieldBaseProps {
  * 相当于 <input type="range" />
  */
 export default function Range(props: Props): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(form, props);
 
     const access = props.accessor;

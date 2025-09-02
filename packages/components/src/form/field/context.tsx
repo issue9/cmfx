@@ -41,6 +41,6 @@ export function FormProvider(props: ParentProps<FormContext>): JSX.Element {
 /**
  * 获取最近一个表单的上下文环境
  */
-export function useFormContext(): FormContext {
+export function useForm(): FormContext {
     return useContext(ctx);
 }

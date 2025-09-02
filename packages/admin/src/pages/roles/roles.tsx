@@ -11,7 +11,7 @@ import { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 
 export type Role = {
     id?: string;
@@ -28,7 +28,7 @@ interface Props {
 }
 
 export function Roles(props: Props): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
     let tableRef: RemoteTableRef<Role>;
     let dialogRef: DialogRef;

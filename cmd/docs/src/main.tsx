@@ -4,7 +4,7 @@
 
 import {
     Appbar, Button, Dropdown, IconComponent, LinkButton, Menu, Mode,
-    Notify, OptionsProvider, SystemDialog, use, useLocale, useTheme
+    Notify, OptionsProvider, SystemDialog, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
@@ -56,7 +56,7 @@ function App(): JSX.Element {
 
 function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
-    const [, act] = use();
+    const [, act] = useComponents();
     const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
     const theme = useTheme();
 

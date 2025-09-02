@@ -11,7 +11,7 @@ import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DatePanel, DatePanelProps } from '@/datetime';
 import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useFormContext
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
 import styles from './style.module.css';
 import { togglePop } from './utils';
@@ -33,7 +33,7 @@ export const presetProps: Partial<Props> = {
 } as const;
 
 export function DatePicker(props: Props): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(presetProps, form, props);
 
     const l = useLocale();

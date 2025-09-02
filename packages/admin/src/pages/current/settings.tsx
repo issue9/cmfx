@@ -4,7 +4,7 @@
 
 import {
     Choice, createBytesFormatter, Description, Divider, fieldAccessor,
-    joinClass, Mode, Page, RadioGroup, SchemeSelector, Timezone, use
+    joinClass, Mode, Page, RadioGroup, SchemeSelector, Timezone, useComponents
 } from '@cmfx/components';
 import { DisplayStyle, formatDuration, Locale } from '@cmfx/core';
 import { JSX, Show } from 'solid-js';
@@ -21,7 +21,7 @@ import styles from './style.module.css';
  * 设置页面
  */
 export function Settings(): JSX.Element {
-    const [, act, opt] = use();
+    const [, act, opt] = useComponents();
     const l = useLocale();
 
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');

@@ -6,7 +6,7 @@ import { adjustPopoverPosition } from '@cmfx/core';
 import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
 import { joinClass, Layout } from '@/base';
-import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useFormContext } from '@/form/field';
+import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
 import OKLCHPanel, { Props as PanelProps } from './panel';
 import styles from './style.module.css';
 
@@ -26,7 +26,7 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export default function OKLCHPicker(props: Props): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(form, props);
 
     let panelRef: HTMLElement;

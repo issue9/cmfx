@@ -5,14 +5,14 @@
 import { Choice, ChoiceProps, FieldOptions } from '@cmfx/components';
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { use } from '@/context';
+import { useAdmin } from '@/context';
 import { Role } from './roles';
 
 export type Props<M extends boolean> = Omit<ChoiceProps<string, M>, 'options'>;
 
 export function Selector<M extends boolean>(props: Props<M>): JSX.Element {
     const [roles, setRoles] = createSignal<FieldOptions<string>>([]);
-    const [api, act] = use();
+    const [api, act] = useAdmin();
 
     onMount(async () => {
         const r = await api.get<Array<Role>>('/roles');

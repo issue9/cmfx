@@ -16,13 +16,13 @@ import IconDataset from '~icons/material-symbols/dataset';
 import IconInfo from '~icons/material-symbols/info';
 import IconChart from '~icons/material-symbols/ssid-chart';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import styles from './style.module.css';
 
 const mb = 1024 * 1024;
 
 export function Info(): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
     const bytesFormatter = createMemo(() => createBytesFormatter(l));
 

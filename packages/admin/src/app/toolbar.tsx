@@ -10,7 +10,7 @@ import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { MenuItem } from '@/options';
 import { Search } from './search';
 
@@ -26,7 +26,7 @@ type Props = MenuVisibleProps & {
  * 顶部工具栏
  */
 export default function Toolbar(props: Props) {
-    const [, act, opt] = use();
+    const [, act, opt] = useAdmin();
 
     createEffect(() => {
         if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
@@ -63,7 +63,7 @@ export default function Toolbar(props: Props) {
  * 用户名及其下拉菜单
  */
 function UserMenu(): JSX.Element {
-    const [, act, opt] = use();
+    const [, act, opt] = useAdmin();
     const l = useLocale();
     const [visible, setVisible] = createSignal(false);
 

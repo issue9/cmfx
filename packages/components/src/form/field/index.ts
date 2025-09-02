@@ -11,6 +11,6 @@ export type { Accessor, ChangeFunc } from './access';
 export { translateEnums2Options } from './types';
 export type { AutoComplete, FieldBaseProps, InputMode, Option, Options } from './types';
 
-export { FormProvider, useFormContext } from './context';
+export { FormProvider, useForm } from './context';
 export type { FormContext } from './context';
 

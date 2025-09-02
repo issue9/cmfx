@@ -12,7 +12,7 @@ import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
 import { user } from '@/components';
-import { use } from '@/context';
+import { useAdmin } from '@/context';
 
 interface Props {
     /**
@@ -29,7 +29,7 @@ interface Q extends Query {
 
 export function Admins(props: Props): JSX.Element {
     const l = useLocale();
-    const [api, act] = use();
+    const [api, act] = useAdmin();
 
     const q: Q = {
         text: '',

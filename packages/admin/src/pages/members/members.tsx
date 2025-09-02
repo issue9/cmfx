@@ -10,7 +10,7 @@ import IconLockOpen from '~icons/material-symbols/lock-open-right';
 import IconVisibility from '~icons/material-symbols/visibility';
 
 import { user } from '@/components';
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { Member } from './types';
 
 export interface ActionProps {
@@ -52,7 +52,7 @@ interface Q extends Query {
  * 会员列表组件
  */
 export function Members(props: Props): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
 
     const q: Q = {

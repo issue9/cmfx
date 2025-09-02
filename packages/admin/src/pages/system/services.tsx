@@ -8,7 +8,7 @@ import { createMemo, JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { MessagesKey } from '@/messages';
 
 interface Service {
@@ -39,7 +39,7 @@ export const stateMap: Array<[State, MessagesKey]> = [
  * 服务列表页面
  */
 export function Services(): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
     const f = createMemo(() => {
         return l.datetimeFormat().format;

@@ -10,7 +10,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { TimePanel, TimePanelProps } from '@/datetime/timepanel';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useFormContext } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
@@ -30,7 +30,7 @@ function togglePop(anchor: Element, popElem: HTMLElement): boolean {
 }
 
 export default function Time(props: Props) {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(form, props);
     const l = useLocale();
 

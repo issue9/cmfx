@@ -8,7 +8,7 @@ import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
 
 import { joinClass } from '@/base';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useFormContext } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
 import { PreviewFile, PreviewURL } from './preview';
 import styles from './style.module.css';
 import { Props as BaseProps, Ref, Upload } from './upload';
@@ -51,7 +51,7 @@ const presetProps: Readonly<Partial<Props>> = {
 };
 
 export function Album(props: Props): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(presetProps, form, props);
     const access = props.accessor;
 

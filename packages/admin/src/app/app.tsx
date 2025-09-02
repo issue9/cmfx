@@ -7,7 +7,7 @@ import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { Provider } from '@/context/context';
 import { build as buildOptions, Options } from '@/options/options';
 import * as errors from './errors';
@@ -65,7 +65,7 @@ type PrivateProps = ParentProps<MenuVisibleProps & {
 
 function Private(props: PrivateProps): JSX.Element {
     const l = useLocale();
-    const [api, act, opt] = use();
+    const [api, act, opt] = useAdmin();
 
     return <Switch>
         <Match when={!api.isLogin()}>

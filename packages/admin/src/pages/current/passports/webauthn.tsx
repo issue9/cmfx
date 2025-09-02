@@ -17,7 +17,7 @@ import IconDelete from '~icons/material-symbols/delete';
 import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 
-import { use } from '@/context';
+import { useAdmin } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 export class Webauthn implements PassportComponents {
@@ -33,7 +33,7 @@ export class Webauthn implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const [api, act, opt] = use();
+        const [api, act, opt] = useAdmin();
         const l = useLocale();
         const nav = useNavigate();
         const account = fieldAccessor('account', '');
@@ -101,7 +101,7 @@ export class Webauthn implements PassportComponents {
 
     Actions(f: RefreshFunc): JSX.Element {
         const l = useLocale();
-        const [api, act] = use();
+        const [api, act] = useAdmin();
         let dialogRef: DialogRef;
         let tableRef: RemoteTableRef<Credential>;
 

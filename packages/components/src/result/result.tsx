@@ -5,7 +5,7 @@
 import { createEffect, JSX, mergeProps, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
-import { use } from '@/context';
+import { useComponents } from '@/context';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -34,7 +34,7 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export  function Result(props: Props) {
     props = mergeProps(presetProps, props);
-    const [, act] = use();
+    const [, act] = useComponents();
 
     createEffect(() => { act.setTitle(props.title ?? ''); });
 

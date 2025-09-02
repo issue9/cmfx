@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { API, Config, DisplayStyle, Hotkey, Locale, Problem } from '@cmfx/core';
-import { createContext, createEffect, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
+import {
+    createContext, createEffect, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext
+} from 'solid-js';
 import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
@@ -116,7 +118,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
  * - 1: 组件库提供的其它方法；
  * - 2: 组件库初始化时的选项；
  */
-export function use() {
+export function useComponents() {
     const options = useInternalOptions()[0];
     return [options.api, options.actions, options] as [api: API, actions: Actions, options: Options];
 }

@@ -6,7 +6,7 @@ import { Button, illustrations, Result } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 
 export class HTTPError extends Error {
     #status: number;
@@ -24,7 +24,7 @@ export class HTTPError extends Error {
  */
 export function NotFound(): JSX.Element {
     const l = useLocale();
-    const [, , opt] = use();
+    const [, , opt] = useAdmin();
     const nav = useNavigate();
 
     const text = createMemo(() => { return l.t('_p.error.pageNotFound'); });
@@ -39,7 +39,7 @@ export function NotFound(): JSX.Element {
  * 错误处理方法，尽可能地抛出 {@link HTTPError} 对象，可以显示更明确的错误页面。
  */
 export function ErrorHandler(props: { err: Error | any }): JSX.Element {
-    const [, , opt] = use();
+    const [, , opt] = useAdmin();
     const nav = useNavigate();
     const l = useLocale();
 

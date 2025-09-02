@@ -7,11 +7,11 @@ import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import styles from './style.module.css';
 
 export function Logout(): JSX.Element {
-    const [, ctx, opt] = use();
+    const [, ctx, opt] = useAdmin();
     const l = useLocale();
     const nav = useNavigate();
 

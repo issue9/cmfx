@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LocaleProvider, use, useLocale } from '@cmfx/components';
+import { Button, LocaleProvider, useComponents, useLocale } from '@cmfx/components';
 import { DisplayStyle } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 
 export default function() {
-    const [, , opt] = use();
+    const [, , opt] = useComponents();
     const l = useLocale();
     const now = new Date();
 

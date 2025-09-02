@@ -6,7 +6,7 @@ import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { use } from '@/context';
+import { useAdmin } from '@/context';
 import styles from './style.module.css';
 
 interface Resource {
@@ -21,7 +21,7 @@ interface RoleResource {
 }
 
 export function Permission(): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
     const ps = useParams<{id: string}>();
     const nav = useNavigate();

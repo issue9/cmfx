@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, use, useLocale } from '@cmfx/components';
+import { Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { createEffect, JSX, untrack } from 'solid-js';
 import { unwrap } from 'solid-js/store';
@@ -18,7 +18,7 @@ import styles from './style.module.css';
 export default function SchemeBuilder(): JSX.Element {
     const modeFA = fieldAccessor<Mode>('mode', 'dark');
     const l = useLocale();
-    const [, act] = use();
+    const [, act] = useComponents();
 
     createEffect(() => {
         act.setTitle(l.t('_d.theme.builder'));

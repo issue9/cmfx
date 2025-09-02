@@ -9,7 +9,7 @@ import { createSignal, For, JSX, onMount, Setter, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconSearch from '~icons/material-symbols/search';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { MenuItem } from '@/options';
 import styles from './style.module.css';
 
@@ -28,7 +28,7 @@ export interface Props {
  */
 export function Search(props: Props): JSX.Element {
     const l = useLocale();
-    const [, , opt] = use();
+    const [, , opt] = useAdmin();
     let dlgRef: DialogRef;
     let listRef: HTMLUListElement;
     const [items, setItems] = createSignal<Array<Item>>(buildItemsWithSearch(l.t, opt.aside.menus, ''));

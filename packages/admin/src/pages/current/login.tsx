@@ -7,7 +7,7 @@ import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
 import { user } from '@/components';
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -34,7 +34,7 @@ interface Link {
  * 登录页面
  */
 export function Login(props: Props): JSX.Element {
-    const [, act, opt] = use();
+    const [, act, opt] = useAdmin();
 
     return <Switch>
         <Match when={act.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
@@ -43,7 +43,7 @@ export function Login(props: Props): JSX.Element {
 }
 
 function LoginBox(props: Props): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
     const [q,setQ] = useSearchParams<{ type: string }>();
 

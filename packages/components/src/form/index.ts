@@ -9,7 +9,7 @@ export { Form } from './form';
 export type { Props as FormProps } from './form';
 
 // field 部分内容仅内部使用
-export { fieldAccessor, FormProvider, translateEnums2Options, useFormContext } from './field';
+export { fieldAccessor, FormProvider, translateEnums2Options, useForm } from './field';
 export type {
     Accessor, AutoComplete, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext, InputMode
 } from './field';

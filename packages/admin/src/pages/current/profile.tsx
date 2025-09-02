@@ -7,7 +7,7 @@ import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 
 import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
-import { use, useLocale, User } from '@/context';
+import { useAdmin, useLocale, User } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function Profile(props: Props): JSX.Element {
-    const [api, act, opt] = use();
+    const [api, act, opt] = useAdmin();
     const l = useLocale();
     let uploadRef: UploadRef;
 

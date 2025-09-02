@@ -6,7 +6,7 @@ import { adjustPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
-import { use } from '@/context';
+import { useComponents } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -43,7 +43,7 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function Tooltip(props: Props): JSX.Element {
     let ref: HTMLDivElement;
-    const [, , opt] = use();
+    const [, , opt] = useComponents();
     const duration = props.stays ?? opt.stays;
 
     props.ref({

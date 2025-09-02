@@ -6,7 +6,7 @@ import { For, JSX, Show, createMemo, mergeProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, Layout, joinClass } from '@/base';
 import {
-    Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useFormContext
+    Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useForm
 } from '@/form/field';
 import { Checkbox } from './checkbox';
 import styles from './style.module.css';
@@ -31,7 +31,7 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
 }
 
 export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(form, props);
 
 

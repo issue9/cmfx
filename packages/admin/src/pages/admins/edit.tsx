@@ -9,7 +9,7 @@ import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
-import { use, useLocale, User } from '@/context';
+import { useAdmin, useLocale, User } from '@/context';
 import { roles } from '@/pages/roles';
 
 interface Props {
@@ -20,7 +20,7 @@ interface Props {
 }
 
 export function Edit(props: Props): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
     const ps = useParams<{id: string}>();
 

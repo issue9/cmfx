@@ -11,7 +11,7 @@ import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateRangePanel, DateRangeValueType } from '@/datetime';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useFormContext } from '@/form/field';
+import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
 import { IconComponent } from '@/icon';
 import { arrayEqual } from '@cmfx/core';
 import { presetProps as basePresetProps, DateType, Props as PickerProps } from './date';
@@ -44,7 +44,7 @@ const presetProps = {
 } as const;
 
 export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(presetProps, form, props);
     const l = useLocale();
 

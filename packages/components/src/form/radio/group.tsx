@@ -5,7 +5,7 @@
 import { For, JSX, Show, createMemo, mergeProps } from 'solid-js';
 
 import { AvailableEnumType, Layout } from '@/base';
-import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useFormContext } from '@/form/field';
+import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useForm } from '@/form/field';
 import { Radio } from './radio';
 import styles from './style.module.css';
 
@@ -29,7 +29,7 @@ export interface Props<T extends AvailableEnumType> extends FieldBaseProps {
 }
 
 export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps({ tabindex: 0 }, form, props);
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));

@@ -4,8 +4,8 @@
 
 import { createSignal, JSX, onMount } from 'solid-js';
 
-import { use } from '@/context';
-import { FieldBaseProps, useFormContext } from '@/form/field';
+import { useComponents } from '@/context';
+import { FieldBaseProps, useForm } from '@/form/field';
 import { mergeProps } from 'solid-js';
 
 /**
@@ -73,10 +73,10 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'> {
  * 提供了文件上传组件的基本功能，但是并未提供对应的 UI 功能。
  */
 export function Upload(props: Props): JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(form, props);
 
-    const [api, actions,] = use();
+    const [api, actions] = useComponents();
 
     let inputRef: HTMLInputElement;
     const [files, setFiles] = createSignal<Array<File>>([]);

@@ -7,7 +7,7 @@ import { useParams } from '@solidjs/router';
 import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
 import { user } from '@/components';
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import styles from './style.module.css';
 import { Member } from './types';
 
@@ -26,7 +26,7 @@ export interface Props {
 }
 
 export function View(props: Props): JSX.Element {
-    const [api, act, opt] = use();
+    const [api, act, opt] = useAdmin();
     const l = useLocale();
     const id = parseInt(useParams().id);
     const [member, setMember] = createSignal<Member>({

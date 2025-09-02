@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DictKeys } from '@cmfx/admin/core';
+import { DictKeys } from '@cmfx/core';
 import { Message } from './en';
 
 export type { Message };

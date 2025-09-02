@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, use } from '@cmfx/components';
+import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, useComponents } from '@cmfx/components';
 
 import { boolSelector, Demo, layoutSelector, paletteSelector } from './base';
 
 export default function() {
-    const [, act] = use();
+    const [, act] = useComponents();
     const [paletteS, palette] = paletteSelector('secondary');
     const [roundedS, rounded] = boolSelector('rounded');
     const [helpS, help] = boolSelector('help');

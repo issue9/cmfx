@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { LinkButton, use, useLocale } from '@cmfx/components';
+import { LinkButton, useComponents, useLocale } from '@cmfx/components';
 
 import styles from './style.module.css';
 
 export default function Home() {
-    const [, , opt] = use();
+    const [, , opt] = useComponents();
     const l = useLocale();
 
     return <div class={styles.home}>

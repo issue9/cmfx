@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Scheme, ThemeProvider, use, useTheme } from '@cmfx/components';
+import { Button, Divider, Scheme, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
 export default function() {
-    const [, , opt] = use();
+    const [, , opt] = useComponents();
     const [s, setScheme] = createSignal<Scheme | undefined>(typeof opt.scheme === 'string' ? opt.schemes?.get(opt.scheme) : opt.scheme);
     const [m, setMode] = createSignal(opt.mode);
     const g = useTheme();

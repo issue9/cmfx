@@ -14,7 +14,7 @@ import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 import IconPin from '~icons/material-symbols/pin';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 // 登录框的字段
@@ -46,7 +46,7 @@ export class TOTP implements PassportComponents {
 
     Login(): JSX.Element {
         const l = useLocale();
-        const [api, act, opt] = use();
+        const [api, act, opt] = useAdmin();
         const nav = useNavigate();
 
         const account = new ObjectAccessor<Account>({ username: '', code: '' });
@@ -71,7 +71,7 @@ export class TOTP implements PassportComponents {
     }
 
     Actions(f: RefreshFunc, username?: string): JSX.Element {
-        const [api, act, opt] = use();
+        const [api, act, opt] = useAdmin();
         const l = useLocale();
 
         let dialogRef: DialogRef;

@@ -9,7 +9,7 @@ import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
 
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 
 type PasswordAccount = {
@@ -39,7 +39,7 @@ export class Pwd implements PassportComponents {
 
     Login(): JSX.Element {
         const l = useLocale();
-        const [api, act, opt] = use();
+        const [api, act, opt] = useAdmin();
         const nav = useNavigate();
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
 
@@ -64,7 +64,7 @@ export class Pwd implements PassportComponents {
     Actions(__: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
         const l = useLocale();
-        const [api, act] = use();
+        const [api, act] = useAdmin();
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
 
         return <>

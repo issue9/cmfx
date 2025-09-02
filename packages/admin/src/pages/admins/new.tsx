@@ -8,7 +8,7 @@ import { JSX } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
 import { user } from '@/components';
-import { use, useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 import { roles } from '@/pages/roles';
 
 interface Props {
@@ -19,7 +19,7 @@ interface Props {
 }
 
 export function New(props: Props): JSX.Element {
-    const [api, act] = use();
+    const [api, act] = useAdmin();
     const l = useLocale();
 
     const form = new FormAccessor<Admin>(zeroAdmin(), async (obj) => {

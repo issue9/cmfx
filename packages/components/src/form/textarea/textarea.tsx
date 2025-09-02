@@ -6,7 +6,7 @@ import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
 import { joinClass } from '@/base';
 import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useFormContext
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useForm
 } from '@/form/field';
 import styles from './style.module.css';
 
@@ -29,7 +29,7 @@ export interface Props<T> extends FieldBaseProps {
  * @typeParam T - 文本框内容的类型
  */
 export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
-    const form = useFormContext();
+    const form = useForm();
     props = mergeProps(form, props);
 
     const access = props.accessor;
