@@ -13,7 +13,7 @@ export default function() {
     return <div>
         {paletteS}
         {editableS}
-        <Code lang="tsx" palette={palette()} editable={editable()} oninput={v => console.log(v)}>
+        <Code lang="tsx" palette={palette()} ln={11} editable={editable()} oninput={v => console.log(v)}>
             {'<Button>Button</Button>'}
         </Code>
     </div>;

@@ -9,13 +9,13 @@ import { boolSelector, paletteSelector } from '../base';
 export default function() {
     const [paletteS, palette] = paletteSelector();
     const [editableS, editable] = boolSelector('可编辑');
-    const [breakS, breakk] = boolSelector('自动换行');
+    const [wrapS, wrap] = boolSelector('自动换行');
 
     return <div>
         {paletteS}
         {editableS}
-        {breakS}
-        <Code break={breakk()} palette={palette()} lang="tsx" editable={editable()} oninput={v => console.log(v)}>
+        {wrapS}
+        <Code wrap={wrap()} ln={21} palette={palette()} lang="tsx" editable={editable()} oninput={v => console.log(v)}>
             {`/*
  * SPDX-FileCopyrightText: 2025 caixw
  *

@@ -60,7 +60,7 @@ export function classList(
 /**
  * 将多个 CSS 的类名组合成 class 属性值
  */
-export function joinClass(...cls: Array<string|undefined>): string | undefined {
+export function joinClass(...cls: Array<string|undefined|null>): string | undefined {
     if (!cls) { return; }
     cls = cls.filter(v => v !== undefined && v !== '');
     return cls.length > 0 ? cls.join(' ') : undefined;

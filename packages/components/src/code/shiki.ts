@@ -2,12 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { copy2Clipboard } from '@/kit';
 import { BundledLanguage, ThemeRegistrationRaw, codeToHtml } from 'shiki/bundle/full';
+
+import { joinClass } from '@/base';
+import styles from './style.module.css';
+
+window.copyShikiCode2Clipboard = copy2Clipboard;
+
+declare global {
+    namespace globalThis {
+        var copyShikiCode2Clipboard: typeof copy2Clipboard;
+    }
+}
 
 // 以下变量的定义来源于：
 // https://github.com/shikijs/shiki/blob/9260f3fd109eca7bece80c92196f627ccae202d0/packages/core/src/theme-css-variables.ts
 const shikiStyle: ThemeRegistrationRaw = {
-    name: 'cmfx',
+    name: styles.shiki,
     bg: 'var(--bg)',
     fg: 'var(--fg)',
     settings: [{
@@ -206,17 +218,77 @@ const shikiStyle: ThemeRegistrationRaw = {
  *
  * @param code - 代码文本；
  * @param lang - 语言名称，默认为 text；
- * @returns 高亮后的 HTML 代码
+ * @param ln - 起始行号，不需要则为 undefined；
+ * @param wrap - 是否自动换行；
+ * @param cls - 传递给 pre 标签的 CSS 类名；
+ * @returns 高亮后的 HTML 代码；
  *
  * @remarks 用户需要自己在 package.json 的 dependencies 中导入
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
-export async function highlightCode(code: string, lang?: BundledLanguage): Promise<string> {
+export async function highlightCode(
+    code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string,
+): Promise<string> {
+    const w = ln !== undefined
+        ? code.split('\n').length + ln // 二行代码，但是从 9 开始计算行号，还是得有 2 位长度。
+        : 0;
+
     return await codeToHtml(code, {
         lang: lang || 'text',
-        themes: {
-            light: structuredClone(shikiStyle),
-            dark: structuredClone(shikiStyle),
-        },
+        theme: shikiStyle,
+        transformers: [
+            {
+                pre(node) {
+                    node.properties.class = joinClass(
+                        node.properties.class as string | null | undefined,
+                        ln !== undefined ? styles.ln : '',
+                        wrap ? styles.wrap : '',
+                        cls,
+                    );
+                    node.properties.style += `;--line-number-start: ${ln};--line-number-width: ${w.toString().length}ch`;
+
+                    if (lang) { // 显示语言标签
+                        node.children.unshift({
+                            type: 'element',
+                            tagName: 'i',
+                            properties: { class: styles.lang },
+                            children: [{ type: 'text', value: lang }]
+                        });
+                    }
+
+                    node.children.push({ // 复制按钮
+                        type: 'element',
+                        tagName: 'button',
+                        properties: {
+                            class: styles.action,
+                            onclick:`window.copyShikiCode2Clipboard(this, '${code.replace(/'/g, '\\\'').replace(/\n/g, '\\\n')}')`
+                        },
+                        children: [
+                            {
+                                // 图标：material-symbols:content-copy
+                                type: 'element',
+                                tagName: 'svg',
+                                properties: {
+                                    width: '24',
+                                    height: '24',
+                                    viewBox: '0 0 24 24'
+                                },
+                                children: [
+                                    {
+                                        type: 'element',
+                                        tagName: 'path',
+                                        properties: {
+                                            fill: 'currentColor',
+                                            d: 'M9 18q-.825 0-1.412-.587T7 16V4q0-.825.588-1.412T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.587 1.413T18 18zm-4 4q-.825 0-1.412-.587T3 20V6h2v14h11v2z'
+                                        },
+                                        children: []
+                                    },
+                                ]
+                            },
+                        ]
+                    });
+                }
+            }
+        ]
     });
 }

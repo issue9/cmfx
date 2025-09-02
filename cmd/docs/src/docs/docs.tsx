@@ -151,10 +151,7 @@ function Markdown(props: { article: string }): JSX.Element {
     const l = useLocale();
 
     // 返回当前语言的文档映射
-    const curr = createMemo(() => {
-        const id = l.match(localesID);
-        return maps.get(id);
-    });
+    const curr = createMemo(() => { return maps.get(l.match(localesID)); });
 
     const [html, setHTML] = createSignal(curr()?.get(props.article));
 

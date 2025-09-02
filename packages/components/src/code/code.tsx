@@ -3,16 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { BundledLanguage } from 'shiki/bundle/full';
-import { createEffect, createSignal, JSX, Show } from 'solid-js';
+import { createEffect, createSignal, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
-import IconCopy from '~icons/material-symbols/content-copy';
 
 import { BaseProps, joinClass, Palette } from '@/base';
-import { Button } from '@/button';
-import { useLocale } from '@/context';
-import { copy2Clipboard } from '@/kit';
 import { highlightCode } from './shiki';
-import styles from './style.module.css';
 
 export interface Props extends BaseProps {
     /**
@@ -49,7 +44,7 @@ export interface Props extends BaseProps {
      *
      * @reactive
      */
-    break?: boolean;
+    wrap?: boolean;
 
     /**
      * 高亮的语言名称，如果为空则为 text。
@@ -57,6 +52,13 @@ export interface Props extends BaseProps {
      * @reactive
      */
     lang?: BundledLanguage;
+
+    /**
+     * 是否显示行号如果为 Number 类型则表示起始行号。
+     *
+     * @reactive
+     */
+    ln?: number;
 }
 
 /**
@@ -66,11 +68,11 @@ export interface Props extends BaseProps {
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
 export default function Code(props: Props): JSX.Element {
-    const l = useLocale();
     const [html, setHTML] = createSignal<HTMLElement>();
 
     createEffect(async () => {
-        const el = template(await highlightCode(props.children, props.lang))() as HTMLElement;
+        const cls = joinClass(props.palette ? `palette--${props.palette}` : undefined, props.class);
+        const el = template(await highlightCode(props.children, props.lang, props.ln, props.wrap, cls))() as HTMLElement;
         setHTML(el);
     });
 
@@ -78,28 +80,13 @@ export default function Code(props: Props): JSX.Element {
         const el = html();
         if (!el) { return; }
 
-        if (props.break) {
-            el.classList.add(styles.break);
-        } else {
-            el.classList.remove(styles.break);
-        }
-
         el.contentEditable = props.editable ? 'plaintext-only' : 'false';
         el.addEventListener('input', e => {
-            if (props.oninput) { props.oninput((e.currentTarget as HTMLElement).innerText); }
+            const txt = (e.currentTarget as HTMLElement).innerText;
+            props.children = txt;
+            if (props.oninput) { props.oninput(txt); }
         });
     });
 
-    return <div class={joinClass(styles.code, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
-        <Show when={props.lang}>
-            <span class={styles.lang}>{props.lang}</span>
-        </Show>
-
-        <Button title={l.t('_c.copy')} onclick={e => copy2Clipboard(e.currentTarget, props.children)}
-            class={joinClass(styles.action, props.accentPalette ? `palette--${props.accentPalette}` : undefined)}>
-            <IconCopy />
-        </Button>
-
-        {html()}
-    </div>;
+    return <>{html()}</>;
 }

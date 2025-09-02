@@ -7,41 +7,69 @@
 @reference '../style.css';
 
 @layer components {
-    .code {
-        @apply rounded-lg relative p-2 overflow-clip;
-        @apply border border-palette-bg-low;
+    .shiki {
+        @apply font-mono leading-5 overflow-clip relative;
+        @apply rounded-lg border border-palette-bg-low p-1;
         @apply text-palette-fg bg-palette-bg;
 
-        >pre {
-            @apply font-mono leading-5 overflow-auto h-full w-full;
+        >code {
+            @apply block overflow-auto w-full h-full;
         }
 
-        >pre.break {
-            word-wrap: break-word;
-            word-break: break-word;
-            white-space: pre-wrap;
+        >.lang,
+        >.action {
+            @apply absolute top-0 !py-1 !px-2 start-auto end-0 text-sm;
         }
 
         >.action {
-            @apply hidden justify-end absolute top-0 !py-1 !px-2;
-            @apply rtl:left-0 rtl:right-auto;
-            @apply ltr:right-0 ltr:left-auto;
-        }
-
-        >.lang {
-            @apply inline absolute top-0 !py-1 !px-2 me-2;
-            @apply rtl:left-0 rtl:right-auto;
-            @apply ltr:right-0 ltr:left-auto;
+            @apply hidden hover:text-palette-fg-low active:text-palette-fg-high;
         }
     }
 
-    .code:hover {
-        >.action {
-            @apply flex;
-        }
-
+    .shiki:hover {
         >.lang {
             @apply hidden;
         }
+
+        >.action {
+            @apply block cursor-pointer;
+        }
+    }
+
+    .shiki.ln {
+        --line-number-start: 0;
+        --line-number-width: 2ch;
+
+        /* 3 表示的是 ::before 的 px-1 和 me-1 */
+        --line-number-margin: calc(var(--line-number-width) + --spacing(3));
+
+        >code {
+            counter-reset: line var(--line-number-start);
+        }
+
+        >code>span {
+            /* inline-block 可以保证换行不会侵占行号的空间 */
+            display: inline-block;
+
+            /* width 可以保证行号的 sticky 属性是可用的 */
+            width: calc(100% - var(--line-number-margin));
+
+            counter-increment: line;
+            margin-inline-start: var(--line-number-margin);
+        }
+
+        >code>span::before {
+            margin-inline-start: calc(-1 * var(--line-number-margin));
+            @apply font-mono w-[var(--line-number-width)] px-1 me-1 box-content;
+            @apply inline-block bg-palette-bg-low text-palette-fg-low start-0 top-0 sticky;
+            content: counter(line);
+        }
+    }
+
+    .shiki.wrap>code {
+        width: fit-content;
+        word-wrap: break-word;
+        word-break: break-word;
+        white-space: pre-wrap;
     }
 }

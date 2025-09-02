@@ -5,7 +5,7 @@
 import { IconComponent } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { RouteSectionProps } from '@solidjs/router';
-import { Component } from 'solid-js';
+import { Component, JSX } from 'solid-js';
 
 /**
  * 对路由的定义
@@ -95,5 +95,5 @@ export type MenuItem = {
      */
     hotkey?: Hotkey;
 
-    suffix?: string | number;
+    suffix?: JSX.Element;
 };
