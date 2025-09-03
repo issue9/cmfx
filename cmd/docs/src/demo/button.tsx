@@ -54,7 +54,7 @@ export default function() {
                 <Button square title={c ? c : 'undefined'} disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}><IconSync /></Button>
             )}
         </For>
-        <Button rounded kind='fill' palette='tertiary'>对比按钮</Button>
+        <Button rounded kind='fill' palette='tertiary'>a</Button>
         <ConfirmButton prompt={<p>这是一段比较长的文字内容</p>} onClick={() => alert('confirm')} disabled={disabled()} rounded={rounded()} kind={kind()} palette='tertiary' ok={<><IconTask />OK</>} cancel='cancel'>recommend</ConfirmButton>
     </div>;
 

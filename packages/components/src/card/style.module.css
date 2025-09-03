@@ -11,7 +11,7 @@
         @apply rounded-lg flex flex-col text-palette-fg bg-palette-bg border border-palette-bg-low;
 
         .header {
-            @apply px-3 py-2 border-b-palette-bg-low border-b;
+            @apply px-3 py-2 border-b-palette-bg-low border-b flex;
         }
 
         .main {
@@ -19,7 +19,7 @@
         }
 
         .footer {
-            @apply px-3 py-2 border-t-palette-bg-low border-t;
+            @apply px-3 py-2 border-t-palette-bg-low border-t flex;
         }
     }
 }

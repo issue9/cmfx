@@ -13,7 +13,10 @@ export type Ref = HTMLButtonElement;
 
 export interface Props extends BaseProps, Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
     /**
-     * 是否为一个长宽比为 1:1 的按钮，比如图标之类可能需要此属性。
+     * 是否为一个长宽比为 1:1 的按钮
+     *
+     * @remarks 比如图标之类可能需要此属性，
+     * 但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。
      */
     square?: boolean;
 

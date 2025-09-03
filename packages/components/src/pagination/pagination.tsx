@@ -95,33 +95,35 @@ export function Pagination(props: Props): JSX.Element {
         setNexts(nv);
     });
 
-    return <nav class={joinClass(styles.pagination, props.palette ? `palette--${props.palette}`: '', props.class)}>
-        <Button square onclick={() => change(1)} class={styles.item}
+    return <nav class={joinClass(styles.pagination, props.palette ? `palette--${props.palette}` : '', props.class)}
+        aria-orientation='horizontal'
+    >
+        <Button square onclick={() => change(1)}
             aria-label={l.t('_c.pagination.firstPage')}
-            disabled={current()===1}><IconFirst /></Button>
+            disabled={current() === 1}><IconFirst /></Button>
 
-        <Button square onclick={() => change(current() - 1)} class={styles.item} disabled={current()===1}
+        <Button square onclick={() => change(current() - 1)} disabled={current() === 1}
             aria-label={l.t('_c.pagination.prev')}><IconPrev /></Button>
 
         <For each={prevs()}>
-            {(item)=>(
-                <Button square aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
+            {item => (
+                <Button aria-label={item.toString()}onclick={() => change(item)}>{item}</Button>
             )}
         </For>
 
-        <Button square aria-label={current().toString()} aria-selected='true' class={joinClass(styles.item, styles.current)}>{current()}</Button>
+        <Button aria-label={current().toString()} class={joinClass(styles.current)}>{current()}</Button>
 
         <For each={nexts()}>
-            {(item)=>(
-                <Button square aria-label={item.toString()} onclick={()=>change(item)} class={styles.item}>{item}</Button>
+            {item => (
+                <Button aria-label={item.toString()}onclick={() => change(item)}>{item}</Button>
             )}
         </For>
 
-        <Button square onclick={()=>change(current()+1)}  class={styles.item}
+        <Button square onclick={() => change(current() + 1)}
             aria-label={l.t('_c.pagination.next')}
             disabled={current() >= props.count}><IconNext /></Button>
 
-        <Button square onclick={()=>change(props.count)} class={styles.item}
+        <Button square onclick={() => change(props.count)}
             aria-label={l.t('_c.pagination.lastPage')}
             disabled={current() >= props.count}><IconLast /></Button>
     </nav>;

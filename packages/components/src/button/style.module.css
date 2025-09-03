@@ -20,7 +20,7 @@
     }
 
     .button.square {
-        @apply aspect-square !p-2;
+        @apply aspect-square p-2;
     }
 
     .button.fill {
@@ -84,6 +84,10 @@
 
         .button {
             @apply rounded-none border-none flex-1 py-1 px-3 text-palette-fg outline-none;
+        }
+
+        .button.square {
+            @apply aspect-square p-2;
         }
 
         .button.split {

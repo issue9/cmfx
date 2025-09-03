@@ -10,14 +10,6 @@
     .pagination {
         @apply flex rounded-md bg-palette-bg overflow-clip;
 
-        .item {
-            @apply px-2 outline-none;
-        }
-
-        .item:focus-visible {
-            @apply bg-palette-bg-low;
-        }
-
         .current {
             @apply bg-palette-bg-high;
         }
