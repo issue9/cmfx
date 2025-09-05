@@ -7,6 +7,7 @@ import { createEffect, createResource, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { BaseProps, joinClass, transitionDuration } from '@/base';
+import { useTheme } from '@/context';
 import { IconComponent } from './icon';
 
 export interface Ref {
@@ -95,6 +96,13 @@ export function AnimationIcon(props: Props): JSX.Element {
             icons()!.setAttribute('class', cls!);
 
             if (m) { m.to(m.currIconId()); } // 如果更新了样式，调用 to 以同步更新样式。
+        }
+    });
+
+    const theme = useTheme();
+    createEffect(() => { // 监视主题变化
+        if ((theme.mode || theme.scheme) && !icons.loading) {
+            if (m) { m.to(m.currIconId()); }
         }
     });
 
