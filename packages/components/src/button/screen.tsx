@@ -19,7 +19,7 @@ export interface Props extends Omit<BaseProps, 'onClick' | 'children' | 'icon'> 
 /**
  * 将指定的容器扩展至整个屏幕大小
  *
- * NOTE: 需要保证当前组件必须在 [Props#container] 之内，否则可能会无法退回原来状态的可能。
+ * NOTE: 需要保证当前组件必须在 {@link Props#container} 之内，否则可能会无法退回原来状态的可能。
  */
 export function FitScreenButton(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);

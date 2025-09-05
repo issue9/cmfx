@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AnimationIcon, AnimationIconRef, Button, Code, joinClass, Layout, ThemeProvider } from '@cmfx/components';
+import { AnimationIcon, AnimationIconRef, Button, Code, FitScreenButton, joinClass, Layout, ThemeProvider } from '@cmfx/components';
 import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
@@ -77,7 +77,7 @@ export default function Stage(props: Props) {
 
         <div class={joinClass(styles.stage, props.layout === 'vertical' ? styles.vertical : '')} ref={setStageRef}>
             <div class={styles.demo} ref={setDemoRef}
-                style={{height: typeof props.height === 'number' ? `${props.height}px` : props.height}}
+                style={{ height: typeof props.height === 'number' ? `${props.height}px` : props.height }}
             >
                 <div class={styles.toolbar}>
                     <Button square onClick={() => {
@@ -101,6 +101,8 @@ export default function Stage(props: Props) {
                                 light: IconLight,
                             }} />
                     </Button>
+
+                    <FitScreenButton container={() => demoRef()!} />
                 </div>
 
                 <ThemeProvider mode={mode()}>
