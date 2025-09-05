@@ -6,17 +6,10 @@ import { BundledLanguage } from 'shiki/bundle/full';
 import { createEffect, createSignal, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, joinClass, Palette } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { highlightCode } from './shiki';
 
 export interface Props extends BaseProps {
-    /**
-     * 按钮的调色盘
-     *
-     * @reactive
-     */
-    accentPalette?: Palette;
-
     /**
      * 代码
      *

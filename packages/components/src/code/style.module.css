@@ -67,7 +67,7 @@
     }
 
     .shiki.wrap>code {
-        width: fit-content;
+        width: 100%;
         word-wrap: break-word;
         word-break: break-word;
         white-space: pre-wrap;

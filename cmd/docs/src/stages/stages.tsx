@@ -35,11 +35,11 @@ export default function Stages(props: Props):JSX.Element {
     const title = route[route.length - 1].route.info?.title;
 
     return <Page class={styles.page} title={title}>
-        <h2>{l.t(title)}</h2>
+        <h1>{l.t(title)}</h1>
 
         <div>{props.children}</div>
 
-        <h3>{l.t('_d.stages.codeDemo')}</h3>
+        <h2>{l.t('_d.stages.codeDemo')}</h2>
         <div class={styles.stages}>
             <For each={props.stages}>
                 {stage => <Stage {...stage} />}
@@ -48,11 +48,11 @@ export default function Stages(props: Props):JSX.Element {
 
         <Show when={props.api}>
             <article class={styles.apis}>
-                <h3>{ l.t('_d.stages.api') }</h3>
+                <h2>{ l.t('_d.stages.api') }</h2>
                 <For each={props.api}>
                     {api => (
                         <section class={styles.api}>
-                            <h4>{api.name}</h4>
+                            <h3>{api.name}</h3>
                             <p>{api.summary}</p>
                             <p>{api.remarks}</p>
                             <Switch fallback={<code>{ api.type }</code>}>
@@ -93,7 +93,7 @@ export default function Stages(props: Props):JSX.Element {
 
         <Show when={props.faq}>
             <article>
-                <h3>FAQ</h3>
+                <h2>FAQ</h2>
                 {props.faq}
             </article>
         </Show>

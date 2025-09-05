@@ -15,7 +15,7 @@ export default function() {
         {paletteS}
         {editableS}
         {wrapS}
-        <Code wrap={wrap()} ln={21} palette={palette()} lang="tsx" editable={editable()} oninput={v => console.log(v)}>
+        <Code wrap={wrap()} ln={21} class="w-100" palette={palette()} lang="tsx" editable={editable()} oninput={v => console.log(v)}>
             {`/*
  * SPDX-FileCopyrightText: 2025 caixw
  *

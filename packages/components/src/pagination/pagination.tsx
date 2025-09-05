@@ -111,7 +111,7 @@ export function Pagination(props: Props): JSX.Element {
             )}
         </For>
 
-        <Button aria-label={current().toString()} class={joinClass(styles.current)}>{current()}</Button>
+        <Button aria-label={current().toString()} class={styles.current}>{current()}</Button>
 
         <For each={nexts()}>
             {item => (

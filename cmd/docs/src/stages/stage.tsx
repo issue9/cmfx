@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AnimationIcon, AnimationIconRef, Button, Code, joinClass, ThemeProvider } from '@cmfx/components';
-import { createSignal, JSX, Show } from 'solid-js';
-import IconCode from '~icons/material-symbols/code-rounded';
+import { AnimationIcon, AnimationIconRef, Button, Code, joinClass, Layout, ThemeProvider } from '@cmfx/components';
+import { createEffect, createSignal, JSX, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
 import IconRTL from '~icons/material-symbols/format-align-right-rounded';
 import IconLight from '~icons/material-symbols/light-mode';
 
+import { mergeProps } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props {
@@ -32,13 +32,20 @@ export interface Props {
      * 对当前演示代码的描述
      */
     desc?: JSX.Element;
+
+    /**
+     * 组件内的演示内容高度
+     */
+    height?: number;
+
+    layout?: Layout;
 }
 
 /**
  * 用于展示组件的舞台
  */
 export default function Stage(props: Props) {
-    const [code, setCode] = createSignal(false);
+    props = mergeProps({ layout: 'horizontal' as Layout }, props);
 
     const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
     const [dir, setDir] = createSignal<'ltr' | 'rtl'>(initDir);
@@ -48,47 +55,62 @@ export default function Stage(props: Props) {
     const [mode, setMode] = createSignal<'light' | 'dark'>(initMode);
     let modeAnimation: AnimationIconRef;
 
-    return <fieldset class={styles.stage}>
-        <Show when={props.title}>{title => <legend>{title()}</legend>}</Show>
+    const [demoRef, setDemoRef] = createSignal<HTMLDivElement>();
+    const [stageRef, setStageRef] = createSignal<HTMLDivElement>();
+    createEffect(() => {
+        if (props.layout === 'vertical') { return; }
+
+        if (demoRef() && stageRef()) {
+            requestIdleCallback(() => {
+                // 4 可以让实际的演示内容与底部的工具栏之间有一定的空隙
+                stageRef()!.style.height = (demoRef()!.offsetHeight + 4) + 'px';
+            });
+        }
+    });
+
+    return <>
+        <Show when={props.title}>{title => <h3>{title()}</h3>}</Show>
 
         <Show when={props.desc}>{desc =>
-            <div class={styles.desc}>{desc()}</div>
+            <article class={styles.desc}>{desc()}</article>
         }</Show>
 
-        <ThemeProvider mode={mode()}>
-            <div class={styles.component} dir={dir()}>{props.component}</div>
-        </ThemeProvider>
+        <div class={joinClass(styles.stage, props.layout === 'vertical' ? styles.vertical : '')} ref={setStageRef}>
+            <div class={styles.demo} ref={setDemoRef}
+                style={{height: typeof props.height === 'number' ? `${props.height}px` : props.height}}
+            >
+                <div class={styles.toolbar}>
+                    <Button square onClick={() => {
+                        setDir(dir() === 'ltr' ? 'rtl' : 'ltr');
+                        rtlAnimation.to(dir());
+                    }}>
+                        <AnimationIcon class='aspect-square w-4' rotation='clock'
+                            ref={el => rtlAnimation = el} preset={initDir} icons={{
+                                rtl: IconRTL,
+                                ltr: IconLTR,
+                            }} />
+                    </Button>
 
-        <div class={joinClass(styles.toolbar, code() ? undefined : '!border-b-transparent')}>
-            <Button square onClick={() => {
-                setDir(dir() === 'ltr' ? 'rtl' : 'ltr');
-                rtlAnimation.to(dir());
-            }}>
-                <AnimationIcon class='aspect-square w-4' rotation='clock' ref={el => rtlAnimation = el} preset={initDir} icons={{
-                    rtl: IconRTL,
-                    ltr: IconLTR,
-                }} />
-            </Button>
+                    <Button square onClick={() => {
+                        setMode(mode() === 'light' ? 'dark' : 'light');
+                        modeAnimation.to(mode());
+                    }}>
+                        <AnimationIcon class='aspect-square w-4' rotation='clock'
+                            ref={el => modeAnimation = el} preset={initMode} icons={{
+                                dark: IconDark,
+                                light: IconLight,
+                            }} />
+                    </Button>
+                </div>
 
-            <Button square onClick={() => {
-                setMode(mode() === 'light' ? 'dark' : 'light');
-                modeAnimation.to(mode());
-            }}>
-                <AnimationIcon class='aspect-square w-4' rotation='clock' ref={el => modeAnimation = el} preset={initMode} icons={{
-                    dark: IconDark,
-                    light: IconLight,
-                }} />
-            </Button>
+                <ThemeProvider mode={mode()}>
+                    <div class={styles.component} dir={dir()}>{props.component}</div>
+                </ThemeProvider>
+            </div>
 
             <Show when={props.source}>
-                <Button square checked={code()} onClick={() => { setCode(!code()); }}><IconCode /></Button>
+                <Code wrap ln={0} lang='tsx' class={styles.code}>{props.source}</Code>
             </Show>
         </div>
-
-        <Show when={props.source}>
-            <Code lang='tsx' class={joinClass(styles.code, code() ? 'block' : 'hidden')}>
-                {props.source}
-            </Code>
-        </Show>
-    </fieldset>;
+    </>;
 }
