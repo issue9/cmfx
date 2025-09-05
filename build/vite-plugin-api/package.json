@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/vite-plugin-api",
-    "version": "0.12.0",
+    "version": "0.13.0",
     "type": "module",
     "main": "./lib/index.js",
     "description": "为 cmfx 组件库提取 API 文档",
