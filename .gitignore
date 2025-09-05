@@ -12,6 +12,7 @@ node_modules/
 *.tsbuildinfo
 vite.config.ts.timestamp-*.mjs
 coverage/
+/docs/
 
 # IDE
 .vs/

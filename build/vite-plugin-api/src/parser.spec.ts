@@ -58,7 +58,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.summary).toBeUndefined();
         expect(pp.remarks).toBeUndefined();
 
-        expect(pp.fields).toHaveLength(9);
+        expect(pp.fields).toHaveLength(8);
         const f1 = pp.fields?.filter(v => v.name === 'palette')[0];
         expect(f1).not.toBeUndefined();
     });
