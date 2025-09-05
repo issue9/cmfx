@@ -98,15 +98,21 @@ export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surfac
 export type Palette = typeof palettes[number];
 
 /**
+ * 计算与 p 不同的另一个色盘
+ */
+export function nextPalette(p: Palette): Palette {
+    const index = palettes.indexOf(p);
+    return palettes[(index + 1) % palettes.length];
+}
+
+/**
  * 改变主题色
  */
 export function changeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
 
     Object.entries(s).forEach(([k, v]) => {
-        if (v === undefined) {
-            return;
-        }
+        if (v === undefined) { return; }
 
         switch (k) {
         case 'fontSize':
@@ -150,7 +156,8 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
                             return;
                         }
 
-                        if (!elem.style.getPropertyValue(key)) { // 如果已经存在，说明上面的 Object.entries.foreach 已经设置过了。
+                        // 如果已经存在，说明上面的 Object.entries.foreach 已经设置过了。
+                        if (!elem.style.getPropertyValue(key)) {
                             elem.style.setProperty(key, rule.style.getPropertyValue(key));
                         }
                     });

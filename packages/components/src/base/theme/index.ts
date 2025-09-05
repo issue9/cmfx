@@ -5,7 +5,7 @@
 export { changeMode, modes } from './mode';
 export type { Mode } from './mode';
 
-export { changeScheme, palettes } from './scheme';
+export { changeScheme, nextPalette, palettes } from './scheme';
 export type { Palette, Palettes, Scheme } from './scheme';
 
 export { breakpoints, transitionDuration } from './theme';

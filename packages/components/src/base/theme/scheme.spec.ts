@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { changeScheme } from './scheme';
+import { changeScheme, nextPalette, Scheme } from './scheme';
 
 test('changeScheme', () => {
     const parent = document.createElement('div');
@@ -13,11 +13,17 @@ test('changeScheme', () => {
     parent.appendChild(child1);
     child1.appendChild(child2);
 
-    changeScheme(parent, {'--dark-primary-bg': '#000'});
-    changeScheme(child1, {'--dark-primary-bg': '#111'});
+    changeScheme(parent, { dark: { 'primary-bg': '#000' } } as Scheme);
+    changeScheme(child1, { dark: { 'primary-bg': '#111' } } as Scheme);
     changeScheme(child2);
 
     expect(parent.style.getPropertyValue('--dark-primary-bg')).toEqual('#000');
     expect(child1.style.getPropertyValue('--dark-primary-bg')).toEqual('#111');
     expect(child2.style.getPropertyValue('--dark-primary-bg')).toBeFalsy();
+});
+
+test('nextPalette', () => {
+    expect(nextPalette('error')).toEqual('surface');
+    expect(nextPalette('surface')).toEqual('primary');
+    expect(nextPalette('secondary')).toEqual('tertiary');
 });
