@@ -10,15 +10,15 @@
     .page {
         @apply flex !gap-1;
 
-        h1 {
+        h2 {
             @apply text-4xl;
         }
 
-        h2 {
+        h3 {
             @apply text-2xl mt-4;
         }
 
-        h3 {
+        h4 {
             @apply text-xl mt-4;
         }
 

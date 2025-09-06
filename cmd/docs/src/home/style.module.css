@@ -10,24 +10,27 @@
     .home {
         @apply flex flex-col items-center justify-center h-full gap-5;
 
-        background-image:
-            radial-gradient(circle at 85% 5%,
-                color-mix(in lch, var(--surface-bg), transparent) 0%,
-                color-mix(in lch, var(--surface-bg-low), transparent) 50%,
-                color-mix(in lch, var(--surface-bg-high), transparent) 50%,
-                color-mix(in lch, var(--surface-bg), transparent) 100%),
-            radial-gradient(circle at 15% 15%,
-                color-mix(in lch, var(--secondary-bg), transparent) 0%,
-                color-mix(in lch, var(--secondary-bg-low), transparent) 50%,
-                color-mix(in lch, var(--secondary-bg-high), transparent) 50%,
-                color-mix(in lch, var(--secondary-bg), transparent) 100%),
-            radial-gradient(circle at 75% 95%,
-                color-mix(in lch, var(--tertiary-bg), transparent) 0%,
-                color-mix(in lch, var(--tertiary-bg-low), transparent) 50%,
-                color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
-                color-mix(in lch, var(--tertiary-bg), transparent) 100%);
+        >nav {
+            @apply flex items-center justify-center gap-5;
+        }
 
-        h1 {
+        background-image: radial-gradient(circle at 85% 5%,
+            color-mix(in lch, var(--surface-bg), transparent) 0%,
+            color-mix(in lch, var(--surface-bg-low), transparent) 50%,
+            color-mix(in lch, var(--surface-bg-high), transparent) 50%,
+            color-mix(in lch, var(--surface-bg), transparent) 100%),
+        radial-gradient(circle at 15% 15%,
+            color-mix(in lch, var(--secondary-bg), transparent) 0%,
+            color-mix(in lch, var(--secondary-bg-low), transparent) 50%,
+            color-mix(in lch, var(--secondary-bg-high), transparent) 50%,
+            color-mix(in lch, var(--secondary-bg), transparent) 100%),
+        radial-gradient(circle at 75% 95%,
+            color-mix(in lch, var(--tertiary-bg), transparent) 0%,
+            color-mix(in lch, var(--tertiary-bg-low), transparent) 50%,
+            color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
+            color-mix(in lch, var(--tertiary-bg), transparent) 100%);
+
+        h2 {
             @apply text-6xl font-bold;
         }
 

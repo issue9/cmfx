@@ -69,7 +69,7 @@ export default function Stage(props: Props) {
     });
 
     return <>
-        <Show when={props.title}>{title => <h3>{title()}</h3>}</Show>
+        <Show when={props.title}>{title => <h4>{title()}</h4>}</Show>
 
         <Show when={props.desc}>{desc =>
             <article class={styles.desc}>{desc()}</article>

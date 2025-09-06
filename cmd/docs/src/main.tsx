@@ -23,6 +23,7 @@ import IconLight from '~icons/material-symbols/light-mode';
 import IconTheme from '~icons/material-symbols/palette';
 import IconBuilder from '~icons/mdi/theme';
 
+import pkg from '../package.json';
 import { default as demoRoute } from './demo';
 import { default as docsRoute } from './docs';
 import { options } from './options';
@@ -65,7 +66,7 @@ function InternalApp(props: ParentProps): JSX.Element {
     const [mode, setMode] = createSignal<Mode>(theme.mode ?? 'system', { equals: false });
 
     return <div class="flex flex-col h-full w-full">
-        <Appbar palette='secondary' title={options.title} actions={
+        <Appbar href='/' palette='secondary' title={options.title} actions={
             <div class="flex gap-2 me-2">
                 <Dropdown hoverable value={[l.match(Array.from(languageIcons.keys()))]}
                     onChange={e => act.switchLocale(e)}
@@ -109,9 +110,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square rounded><IconAlign /></Button>
                 </Dropdown>
 
-                <LinkButton kind='flat' square rounded href='https://github.com/issue9/cmfx'>
-                    <IconGithub />
-                </LinkButton>
+                <LinkButton kind='flat' square rounded href={pkg.homepage}><IconGithub /></LinkButton>
             </div>
         }>
             <Menu class='ms-5' layout='horizontal' items={[

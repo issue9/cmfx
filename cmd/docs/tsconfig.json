@@ -39,6 +39,7 @@
         "postcss.config.mjs",
         "../../pakcages/**/*.tsx",
         "../../pakcages/**/*.ts",
+        "./package.json",
     ],
     "references": [
         {

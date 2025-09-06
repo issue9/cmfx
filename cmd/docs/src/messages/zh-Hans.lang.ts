@@ -26,7 +26,7 @@ const messages: typeof m = {
             themeBuilder: '主题编辑器',
             ltr: 'LTR',
             rtl: 'RTL',
-            auto: '采用默认值',
+            auto: '跟随系统',
         },
         home: {
             desc: '一款基于 {go} 和 {solidjs} 的快速后台管理开发框架',
