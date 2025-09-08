@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale } from '@cmfx/components';
+import { Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale, useTheme } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { createEffect, JSX, untrack } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 
 import { Demo } from './demo';
-import { params, random } from './params';
+import { params } from './params';
 import { Ref } from './ref';
 import styles from './style.module.css';
 
@@ -20,13 +20,10 @@ export default function SchemeBuilder(): JSX.Element {
     const l = useLocale();
     const [, act] = useComponents();
 
-    createEffect(() => {
-        act.setTitle(l.t('_d.theme.builder'));
-    });
+    const t = useTheme();
+    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(t.scheme!);
 
-    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>({ contrast: 65 });
-    random(schemeFA); // 只有 random 生成的数据才能保证在参数面板上都有选项可用。
-    schemeFA.setPreset(unwrap(schemeFA.object())); // 作为默认值
+    createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
     const ref: Ref = {
         export: (): Scheme => {

@@ -3,14 +3,19 @@
 // SPDX-License-Identifier: MIT
 
 import { LinkButton, useComponents, useLocale } from '@cmfx/components';
+import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
 import pkg from '../../package.json';
 import styles from './style.module.css';
 
 export default function Home() {
-    const [, , opt] = useComponents();
+    const [, act, opt] = useComponents();
     const l = useLocale();
+
+    createEffect(() => {
+        act.setTitle(l.t('_d.main.home'));
+    });
 
     return <div class={styles.home}>
         <h2>{opt.title}</h2>
