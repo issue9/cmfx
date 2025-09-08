@@ -33,7 +33,6 @@
         "src/**/*.mjs",
         "src/**/*.js",
         "src/**/*.tsx",
-        "postcss.config.mjs",
         "../../pakcages/**/*.tsx",
         "../../pakcages/**/*.ts",
     ],

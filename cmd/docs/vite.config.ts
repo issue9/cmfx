@@ -4,9 +4,7 @@
 
 import { api } from '@cmfx/vite-plugin-api';
 import tailwindcss from '@tailwindcss/vite';
-import cssnano from 'cssnano';
 import path from 'path';
-import devtools from 'solid-devtools/vite';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
@@ -40,12 +38,6 @@ export default defineConfig(({ mode }) => {
             }
         },
 
-        css: {
-            postcss: {
-                plugins: [cssnano()]
-            }
-        },
-
         resolve: mode === 'development' ? {
             alias: [
                 { find: '@cmfx/components', replacement: path.resolve(__dirname, '../../packages/components/src') },
@@ -58,7 +50,6 @@ export default defineConfig(({ mode }) => {
                 components: '../../packages/components',
                 root: './src/demo',
             }),
-            devtools(),
             solidPlugin(),
             Icons({ compiler: 'solid', scale: 1 }),
             tailwindcss(),

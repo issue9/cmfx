@@ -64,8 +64,6 @@
         "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",
-        "cssnano": "catalog:",
-        "postcss": "catalog:",
         "typescript": "catalog:",
         "unplugin-icons": "catalog:",
         "vite": "catalog:",

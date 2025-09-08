@@ -59,8 +59,6 @@
         "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
         "autoprefixer": "catalog:",
-        "cssnano": "catalog:",
-        "postcss": "catalog:",
         "typescript": "catalog:",
         "vite": "catalog:",
         "vite-plugin-dts": "catalog:",

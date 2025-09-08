@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 import tailwindcss from '@tailwindcss/vite';
-import cssnano from 'cssnano';
 import { fileURLToPath, URL } from 'node:url';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
@@ -38,12 +37,6 @@ export default defineConfig({
         }),
         tailwindcss()
     ],
-
-    css: {
-        postcss: {
-            plugins: [cssnano()]
-        }
-    },
 
     define: { 'process.env': {} },
 

@@ -50,12 +50,26 @@ npm i shiki
 
 #### tailwind
 
-对 tailwind 的进行了部分自定义，**必须**在项目的样式表中引入相关定义：
+对 tailwind 的进行了部分自定义，**必须**在项目的样式文件中引入相关定义：
 
 ```css
-@import 'tailwindcss' source('.');
-@import '@cmfx/components/style.css';
-@import '@cmfx/components/tailwind.css';
+/* style.css */
+
+@source '.';                              /* 指定 tailwind 扫描的根目录 */
+@import 'tailwindcss';                    /* 导入 tailwind */
+@import '@cmfx/components/style.css';     /* 导入组件样式 */
+@import '@cmfx/components/tailwind.css';  /* 导入组件库中对 tailwind 样式的修改 */
+```
+
+项目中，**必须**第一个引用样式文件，否则可能存在部分样式文件失效的情况：
+
+```ts
+/* index.ts */
+import './style.css'; // 第一个引入项目的样式文件
+
+import 'other.ts';
+
+// TODO
 ```
 
 ## 后端

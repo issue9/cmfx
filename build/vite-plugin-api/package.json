@@ -52,7 +52,7 @@
     },
     "dependencies": {
         "@microsoft/tsdoc": "^0.15.1",
-        "ts-morph": "^26.0.0",
+        "ts-morph": "^27.0.0",
         "yaml": "catalog:"
     }
 }

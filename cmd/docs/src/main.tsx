@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import './style.css';
+
 import {
     Appbar, Button, Dropdown, IconComponent, LinkButton, Menu, Mode,
     Notify, OptionsProvider, SystemDialog, useComponents, useLocale, useTheme
@@ -27,7 +29,6 @@ import pkg from '../package.json';
 import { default as demoRoute } from './demo';
 import { default as docsRoute } from './docs';
 import { options } from './options';
-import './style.css';
 
 const languageIcons: ReadonlyMap<string, IconComponent> = new Map([
     ['en', IconEN],
