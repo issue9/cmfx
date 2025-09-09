@@ -21,7 +21,7 @@ export default function SchemeBuilder(): JSX.Element {
     const [, act] = useComponents();
 
     const t = useTheme();
-    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(t.scheme!);
+    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(unwrap(t.scheme!)); // t.scheme 可能是 Proxy
 
     createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 

@@ -21,14 +21,14 @@ export interface Ref {
     /**
      * 显示下一个图标
      *
-     * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
+     * @remarks 图标的顺序与 {@link Props.icons} 的顺序是相同的。
      */
     next(): void;
 
     /**
      * 显示上一个图标
      *
-     * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
+     * @remarks 图标的顺序与 {@link Props.icons} 的顺序是相同的。
      */
     prev(): void;
 }
@@ -47,7 +47,7 @@ export interface Props extends BaseProps {
     icons: Record<string, IconComponent>;
 
     /**
-     * 默认显示的图标，如果未指定，则采用 {@link Props#icons} 中的最后一个。
+     * 默认显示的图标，如果未指定，则采用 {@link Props.icons} 中的最后一个。
      */
     preset?: string;
 
@@ -69,7 +69,7 @@ export interface Props extends BaseProps {
 /**
  * 动画图标
  *
- * 可以一次性指定多个图标，通过 {@link Ref#to} 实现跳转到另一个图标且带有动画效果。
+ * 可以一次性指定多个图标，通过 {@link Ref.to} 实现跳转到另一个图标且带有动画效果。
  */
 export function AnimationIcon(props: Props): JSX.Element {
     let m: SVGMorpheus;
