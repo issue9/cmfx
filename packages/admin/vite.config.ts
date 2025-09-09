@@ -31,7 +31,6 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 { src: '../../LICENSE', dest: '../' },
-                { src: '../../README.md', dest: '../' },
                 { src: '../../.browserslistrc', dest: '../' },
             ]
         }),

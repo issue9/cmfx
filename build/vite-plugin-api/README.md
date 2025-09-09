@@ -7,7 +7,7 @@
 [![Test](https://github.com/issue9/cmfx/actions/workflows/test.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 
-提取 [@cmfx/components](https://www.jsdocs.io/package/@cmfx/components) 的 API 文档。
+提取 [@cmfx/components](https://www.jsdocs.io/package/@cmfx/components) 的 API 文档
 
 ## 版权
 

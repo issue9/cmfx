@@ -1,7 +1,3 @@
-<!--
-该文件会被复制在 packages/admin 目录，为了链接的正确性，所有的链接都应该是绝对链接。
--->
-
 # cmfx
 
 ![Version](https://img.shields.io/github/v/tag/issue9/cmfx?label=version)
@@ -11,7 +7,7 @@
 [![Test](https://github.com/issue9/cmfx/actions/workflows/test.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 
-cmfx 是基于 [Go](https://go.dev) + [solidjs](https://www.solidjs.com/) 的快速后台管理开发框架。
+cmfx 是基于 [Go](https://go.dev) + [Solid](https://www.solidjs.com) 的快速后台管理开发框架。
 
 ## 开发
 

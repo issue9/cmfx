@@ -7,7 +7,7 @@
 [![Test](https://github.com/issue9/cmfx/actions/workflows/test.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 
-为 [@cmfx/admin](https://www.jsdocs.io/package/@cmfx/admin) 的关于页面提供了数据生成功能。
+为 [@cmfx/admin](https://www.jsdocs.io/package/@cmfx/admin) 的关于页面提供了数据生成功能
 
 ## 版权
 

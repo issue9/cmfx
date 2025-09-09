@@ -14,7 +14,7 @@ import pkg from './package.json';
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
     return {
-        base: '/cmfx/',
+        base: '/cmfx/', // 项目地址是 https://issue9.github.io/cmfx/
         root: './',
         server: {
             host: true

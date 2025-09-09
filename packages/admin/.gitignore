@@ -3,5 +3,4 @@ lib/
 
 # 以下几个文件是从根目录复制的
 /LICENSE
-/README.md
 /.browserslistrc
