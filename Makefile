@@ -28,11 +28,15 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build build-go build-ts
-.PHONY: build-ts-vite-plugin-about build-ts-vite-plugin-api
+.PHONY: build build-go build-ts build-cmd
+.PHONY: build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-plugin
 .PHONY: build-ts-docs build-ts-core build-ts-components build-ts-admin
 
 build: build-go build-ts
+
+build-cmd: build-go build-ts-admin build-ts-docs
+
+build-ts-plugin: build-ts-vite-plugin-about build-ts-vite-plugin-api
 
 build-go: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
@@ -144,14 +148,8 @@ test: test-go test-ts
 to = 'HEAD'
 from = '$(shell git rev-list --max-parents=0 HEAD)'
 
-ifeq ($(OS),Windows_NT)
-	GEN_CHANGELOG = pwsh -ExecutionPolicy Bypass -File ./scripts/changelog.ps1 $(from) $(to)
-else
-	GEN_CHANGELOG = bash ./scripts/changelog.sh $(from) $(to)
-endif
-
 changelog:
-	$(GEN_CHANGELOG)
+	bash ./scripts/changelog.sh $(from) $(to)
 
 ########################### publish ###################################
 

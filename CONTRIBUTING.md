@@ -93,7 +93,7 @@ fix(scope)!: subject
 - `make watch-admin` 热编译前端代码，之后可通过 `http://localhost:5173` 访问后台界面；
 - 如果需要同时执行前后端代码，则可采用 `make watch -j2`；
 
-在 windows 环境下，部分 make 命令需要 [PowerShell 7.x](https://docs.microsoft.com/en-us/powershell/scripting/install/installing-powershell)。
+在 windows 环境下，部分 `make` 命令需要 `bash` 环境，默认情况下，Git 自带了 `bash` 环境。
 
 ## 开发
 
@@ -101,10 +101,8 @@ fix(scope)!: subject
 
 - cmd/server 简单的后端服务；
 - cmd/admin 适配 `cmd/server` 的后台管理；
-- cmd/docs 生成文档；
+- cmd/docs 生成项目文档；
 - cmfx 后端源码的主目录；
-- docs 文档；
-- packages 前端相关的代码；
 - packages/core 前端的核心代码库；
 - packages/components 前端组件库；
 - packages/admin 前端的后台管理界面；
@@ -124,7 +122,7 @@ fix(scope)!: subject
 - solid-router 只能有一个实例对象，否则会出现 `Error: <A> and 'use' router primitives can be only used inside a Route.` 的错误，
 所以在所有的 `vite.config.ts` 中都将 `solid-router` 加入到 `rollupOptions.external`，只在主项目中真实导入；
 - 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容；
-- 文档采用 [tsdoc](https://tsdoc.org/) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等；
+- 文档采用 [tsdoc](https://tsdoc.org) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等；
 
 ### 后端
 
