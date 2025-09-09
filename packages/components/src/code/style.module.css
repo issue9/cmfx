@@ -37,6 +37,8 @@
     }
 
     .shiki.ln {
+        @apply !ps-0;
+
         --line-number-start: 0;
         --line-number-width: 2ch;
 

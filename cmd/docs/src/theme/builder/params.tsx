@@ -68,7 +68,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         {otherParams(l, s)}
 
         <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_d.theme.export')}</Label>}>
-            <Code lang='json' class="h-full">{JSON.stringify(s.object(), null, 4)}</Code>
+            <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
 }
