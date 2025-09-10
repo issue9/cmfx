@@ -21,10 +21,9 @@ func NewModule(suite *test.Suite, id string) *upload.Module {
 }
 
 func NewSaver(suite *test.Suite, baseURL string) xupload.Saver {
+	suite.Assertion().NotError(os.MkdirAll("./upload", fs.ModePerm))
 	root, err := os.OpenRoot("./upload")
-	if err != nil {
-		panic(err)
-	}
+	suite.Assertion().NotError(err).NotNil(root)
 
 	s, err := xupload.NewLocalSaver(root, baseURL, xupload.Day, func(dir fs.FS, filename, ext string) string {
 		return suite.Module().Server().ID() + ext // filename 可能带非英文字符
