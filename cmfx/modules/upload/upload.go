@@ -8,7 +8,7 @@ package upload
 import (
 	"errors"
 
-	"github.com/issue9/upload/v3"
+	"github.com/issue9/upload/v4"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
 	"github.com/issue9/webuse/v7/handlers/static"

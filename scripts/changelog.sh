@@ -4,8 +4,6 @@
 #
 # SPDX-License-Identifier: MIT
 
-# NOTE: 当前脚本仅适用于 *nix 系统。
-
 # 用法: ./changelog.sh [起始 tag] [结束 tag]
 # 示例: ./changelog.sh v1.0.0 v1.1.0
 
@@ -60,4 +58,4 @@ fi
 
 rm "$TMP_CHANGELOG"
 
-echo "CHANGELOG 已更新到 $CHANGELOG_FILE"
+echo "已更新到 $CHANGELOG_FILE"

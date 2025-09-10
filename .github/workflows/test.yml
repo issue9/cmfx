@@ -19,7 +19,7 @@ jobs:
             - name: Install Node
               uses: actions/setup-node@v4
               with:
-                  node-version: "23.x"
+                  node-version: 24
 
             - name: Install pnpm
               uses: pnpm/action-setup@v4
@@ -46,7 +46,7 @@ jobs:
         strategy:
             matrix:
                 os: [ubuntu-latest, macOS-latest, windows-latest]
-                go: ["1.24.x"]
+                go: ["1.25.x"]
 
         steps:
             - name: Check out code into the Go module directory

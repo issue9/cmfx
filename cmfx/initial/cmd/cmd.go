@@ -8,10 +8,11 @@ package cmd
 import (
 	"flag"
 	"fmt"
-	"path/filepath"
+	"io/fs"
+	"os"
 	"time"
 
-	xupload "github.com/issue9/upload/v3"
+	xupload "github.com/issue9/upload/v4"
 	"github.com/issue9/web"
 	"github.com/issue9/web/mimetype/cbor"
 	"github.com/issue9/web/mimetype/json"
@@ -88,8 +89,12 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	if err != nil {
 		return nil, err
 	}
-	uploadSaver, err := xupload.NewLocalSaver("./uploads", url, xupload.Day, func(dir, filename, ext string) string {
-		return filepath.Join(dir, s.UniqueID()+ext) // filename 可能带非英文字符
+	upRoot, err := os.OpenRoot("./uploads")
+	if err != nil {
+		return nil, err
+	}
+	uploadSaver, err := xupload.NewLocalSaver(upRoot, url, xupload.Day, func(dir fs.FS, filename, ext string) string {
+		return s.UniqueID() + ext // filename 可能带非英文字符
 	})
 	if err != nil {
 		return nil, err
