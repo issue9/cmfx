@@ -67,9 +67,10 @@ export interface Props extends BaseProps {
 }
 
 /**
- * 动画图标
+ * 提供多图标的动画切换效果
  *
- * 可以一次性指定多个图标，通过 {@link Ref.to} 实现跳转到另一个图标且带有动画效果。
+ * @remarks 可以一次性指定多个图标，通过 {@link Ref.to} 实现跳转到另一个图标且带有动画效果。
+ * 应该尽量避免纯图标表示的状态切换，纯粹的图标很难告诉用户当前的图标是表示当前状态还是点击之后的状态。
  */
 export function AnimationIcon(props: Props): JSX.Element {
     let m: SVGMorpheus;

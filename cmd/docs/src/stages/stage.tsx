@@ -2,14 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AnimationIcon, AnimationIconRef, Button, Code, FitScreenButton, joinClass, Layout, ThemeProvider } from '@cmfx/components';
-import { createEffect, createSignal, JSX, Show } from 'solid-js';
+import { Button, ButtonGroup, Code, FitScreenButton, joinClass, Layout, ThemeProvider } from '@cmfx/components';
+import { createEffect, createSignal, JSX, mergeProps, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
 import IconRTL from '~icons/material-symbols/format-align-right-rounded';
 import IconLight from '~icons/material-symbols/light-mode';
 
-import { mergeProps } from 'solid-js';
 import styles from './style.module.css';
 
 export interface Props {
@@ -49,11 +48,7 @@ export default function Stage(props: Props) {
 
     const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
     const [dir, setDir] = createSignal<'ltr' | 'rtl'>(initDir);
-    let rtlAnimation: AnimationIconRef;
-
-    const initMode = 'light';
-    const [mode, setMode] = createSignal<'light' | 'dark'>(initMode);
-    let modeAnimation: AnimationIconRef;
+    const [mode, setMode] = createSignal<'light' | 'dark'>('light');
 
     const [demoRef, setDemoRef] = createSignal<HTMLDivElement>();
     const [stageRef, setStageRef] = createSignal<HTMLDivElement>();
@@ -80,27 +75,23 @@ export default function Stage(props: Props) {
                 style={{ height: typeof props.height === 'number' ? `${props.height}px` : props.height }}
             >
                 <div class={styles.toolbar}>
-                    <Button square onClick={() => {
-                        setDir(dir() === 'ltr' ? 'rtl' : 'ltr');
-                        rtlAnimation.to(dir());
-                    }}>
-                        <AnimationIcon class='aspect-square w-4' rotation='clock'
-                            ref={el => rtlAnimation = el} preset={initDir} icons={{
-                                rtl: IconRTL,
-                                ltr: IconLTR,
-                            }} />
-                    </Button>
+                    <ButtonGroup>
+                        <Button square checked={dir() === 'rtl'} onClick={() => { setDir('rtl'); }}>
+                            <IconRTL />
+                        </Button>
+                        <Button square checked={dir() === 'ltr'} onClick={() => { setDir('ltr'); }}>
+                            <IconLTR />
+                        </Button>
+                    </ButtonGroup>
 
-                    <Button square onClick={() => {
-                        setMode(mode() === 'light' ? 'dark' : 'light');
-                        modeAnimation.to(mode());
-                    }}>
-                        <AnimationIcon class='aspect-square w-4' rotation='clock'
-                            ref={el => modeAnimation = el} preset={initMode} icons={{
-                                dark: IconDark,
-                                light: IconLight,
-                            }} />
-                    </Button>
+                    <ButtonGroup>
+                        <Button square checked={mode() === 'dark'} onClick={() => { setMode('dark'); }}>
+                            <IconDark />
+                        </Button>
+                        <Button square checked={mode() === 'light'} onClick={() => { setMode('light'); }}>
+                            <IconLight />
+                        </Button>
+                    </ButtonGroup>
 
                     <FitScreenButton container={() => demoRef()!} />
                 </div>
