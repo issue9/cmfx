@@ -94,4 +94,16 @@ describe('Parser', {timeout: 20000}, () => {
         expect(f1).not.toBeUndefined();
         expect(f1?.preset).not.toBeUndefined();
     });
+
+    // ButtonRef = HTMLButtonElement，引用了标准库的，不应该解析字段
+    test('ButtonRef', () => {
+        const props = p.prorps(['ButtonRef']);
+        expect(props).toHaveLength(1);
+
+        const pp = props[0];
+        expect(pp.name).toEqual('ButtonRef');
+
+        expect(pp.fields).toBeFalsy();
+        expect(pp.type).toEqual('HTMLButtonElement');
+    });
 });

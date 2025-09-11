@@ -11,6 +11,7 @@ import {
     CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration,
     ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags
 } from 'ts-morph';
+import ts from 'typescript';
 
 const reactiveTag = '@reactive';
 const defaultTag = '@default';
@@ -222,12 +223,18 @@ export class Parser {
             return props;
         }
 
+        const isStd = (t: Node<ts.Node>): boolean => {
+            const sourceFile = t.getSourceFile();
+            return sourceFile.getFilePath().includes('typescript/lib/lib.');
+        };
+
         if (Node.isTypeAliasDeclaration(node)) { // 如果是类型别名
             const typ = this.#checker.getTypeAtLocation(node);
 
-            // 右侧都是字面量组成的对象
+            // 右侧都是字面量类型或是标准库中的类型
             const lit = typ.isUnion() && typ.getUnionTypes().every(t => t.isLiteral())
-                || typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral());
+                || typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral())
+                || typ.getSymbol()?.getDeclarations().every(isStd);
             if (lit) {
                 return typ.getText();
             }

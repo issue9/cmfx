@@ -55,7 +55,7 @@ export default function Stages(props: Props):JSX.Element {
                             <h4>{api.name}</h4>
                             <p>{api.summary}</p>
                             <p>{api.remarks}</p>
-                            <Switch fallback={<code>{ api.type }</code>}>
+                            <Switch fallback={<code>{ `${api.name} = ${api.type}` }</code>}>
                                 <Match when={api.fields}>
                                     <Table hoverable>
                                         <thead>
