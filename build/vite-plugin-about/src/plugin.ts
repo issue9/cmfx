@@ -5,9 +5,13 @@
 import { readFileSync } from 'node:fs';
 import { Plugin } from 'vite';
 
+import pkg from '../package.json';
 import { initPnpmVersionSearch, parseGomods } from './files';
-import { About } from './global';
+import { About, Package } from './global';
 
+/**
+ * 初始化插件的选项
+ */
 export interface Options {
     /**
      * go.mod 列表
@@ -30,8 +34,8 @@ interface PackageJSON {
 /**
  * 用于生成关于页面的数据
  *
- * @remarks 这些数据可通过全局变量 __CMFX_ABOUT__ 获取。如果是 ts 环境，需要 __CMFX_ABOUT__
- * 的类型，可通过以下两种方式获取：
+ * @remarks 当前插件会将项目的依赖信息以 {@link About} 类型写到全局变量 __CMFX_ABOUT__ 中。
+ * 如果是 ts 环境，需要 __CMFX_ABOUT__ 的类型，可通过以下两种方式获取：
  *
  *  - /// <reference types="@cmfx/vite-plugin-about" /> 单个文件中使用；
  *  - 在 vite.config.ts 的 compilerOptions.types 添加 `@cmfx/vite-plugin-about`，则是整个项目都可使用；
@@ -49,9 +53,7 @@ export function about(options: Options): Plugin {
     for (const p of options.packages) {
         const file = JSON.parse(readFileSync(p, { encoding: 'utf-8' })) as PackageJSON;
 
-        if (!about.version && file.version) {
-            about.version = file.version;
-        }
+        if (!about.version && file.version) { about.version = file.version; }
 
         if (file.dependencies) {
             Object.entries(file.dependencies).forEach((item) => {
@@ -72,19 +74,23 @@ export function about(options: Options): Plugin {
         config: async () => {
             const search = await initPnpmVersionSearch();
 
-            // 替换 catalog 为真实的版本号
-            for (const item of about.dependencies) {
-                if (item.version === 'catalog:') {
-                    const ver = search(item.name);
-                    item.version = ver ? ver : item.version;
+            // 替换依赖项的 catalog 和 workspace 为真实的版本号
+            const replaceVersion = (deps: Array<Package>) => {
+                for (const item of deps) {
+                    switch (item.version) {
+                    case 'catalog:':
+                        const ver = search(item.name);
+                        item.version = ver ?? item.version;
+                        break;
+                    case 'workspace:*':
+                        item.version = pkg.version; // 所有包采用相同的版本号，所以直接拿当前包的版本号使用。
+                        break;
+                    }
                 }
-            }
-            for (const item of about.devDependencies) {
-                if (item.version === 'catalog:') {
-                    const ver = search(item.name);
-                    item.version = ver ? ver : item.version;
-                }
-            }
+            };
+
+            replaceVersion(about.dependencies);
+            replaceVersion(about.devDependencies);
 
             return {
                 define: {

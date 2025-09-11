@@ -2,8 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
+/**
+ * 每个依赖包的信息
+ */
 export interface Package {
+    /**
+     * 包名称
+     */
     name: string;
+
+    /**
+     * 包的版本号
+     */
     version: string;
 }
 
