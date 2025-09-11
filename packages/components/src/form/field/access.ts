@@ -72,7 +72,7 @@ export interface ChangeFunc<T> {
  *
  * @param name - 字段的名称，比如 radio 可能需要使用此值进行分组。
  * @param v - 初始化的值或是直接由 {@link createSignal} 创建的可响应对象；
- * @param kind - 指定 {@link Accessor#kind} 的值；
+ * @param kind - 指定 {@link Accessor.kind} 的值；
  * @typeParam T - 关联的值类型；
  * @typeParam K - 这是对 T 的描述，当 T 的实际值为 undefined 等时，
  * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
@@ -82,7 +82,9 @@ export interface ChangeFunc<T> {
  * const date = fieldAccessor<Date|string|undefined, 'date'|'string'>('created_time', undefined, 'string');
  * ```
  */
-export function fieldAccessor<T, K extends string = string>(name: string, v: T | Signal<T>, kind?: K): Accessor<T, K> {
+export function fieldAccessor<T, K extends string = string>(
+    name: string, v: T | Signal<T>, kind?: K
+): Accessor<T, K> {
     let preset: T;
 
     let s: Signal<T>;

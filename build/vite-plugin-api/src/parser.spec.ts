@@ -106,4 +106,17 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.fields).toBeFalsy();
         expect(pp.type).toEqual('HTMLButtonElement');
     });
+
+    // 函数
+    test('joinClass', () => {
+        const props = p.prorps(['joinClass']);
+        expect(props).toHaveLength(1);
+
+        const pp = props[0];
+        expect(pp.name).toEqual('joinClass');
+        expect(pp.summary).toEqual('将多个 CSS 的类名组合成 class 属性值');
+
+        expect(pp.fields).toBeFalsy();
+        expect(pp.type).toEqual('function joinClass(...cls: Array<string | undefined | null>): string | undefined;');
+    });
 });

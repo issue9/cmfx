@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { copy2Clipboard } from '@/kit';
 import { BundledLanguage, ThemeRegistrationRaw, codeToHtml } from 'shiki/bundle/full';
 
 import { joinClass } from '@/base';
+import { copy2Clipboard } from '@/kit';
 import styles from './style.module.css';
 
 window.copyShikiCode2Clipboard = copy2Clipboard;
@@ -236,59 +236,53 @@ export async function highlightCode(
     return await codeToHtml(code, {
         lang: lang || 'text',
         theme: shikiStyle,
-        transformers: [
-            {
-                pre(node) {
-                    node.properties.class = joinClass(
-                        node.properties.class as string | null | undefined,
-                        ln !== undefined ? styles.ln : '',
-                        wrap ? styles.wrap : '',
-                        cls,
-                    );
-                    node.properties.style += `;--line-number-start: ${ln};--line-number-width: ${w.toString().length}ch`;
+        transformers: [{
+            pre(node) {
+                node.properties.class = joinClass(
+                    node.properties.class as string | null | undefined,
+                    ln !== undefined ? styles.ln : '',
+                    wrap ? styles.wrap : '',
+                    cls,
+                );
+                node.properties.style += `;--line-number-start: ${ln};--line-number-width: ${w.toString().length}ch`;
 
-                    if (lang) { // 显示语言标签
-                        node.children.unshift({
-                            type: 'element',
-                            tagName: 'i',
-                            properties: { class: styles.lang },
-                            children: [{ type: 'text', value: lang }]
-                        });
-                    }
-
-                    node.children.push({ // 复制按钮
+                if (lang) { // 显示语言标签
+                    node.children.unshift({
                         type: 'element',
-                        tagName: 'button',
-                        properties: {
-                            class: styles.action,
-                            onclick:`window.copyShikiCode2Clipboard(this, '${code.replace(/'/g, '\\\'').replace(/\n/g, '\\\n')}')`
-                        },
-                        children: [
-                            {
-                                // 图标：material-symbols:content-copy
-                                type: 'element',
-                                tagName: 'svg',
-                                properties: {
-                                    width: '24',
-                                    height: '24',
-                                    viewBox: '0 0 24 24'
-                                },
-                                children: [
-                                    {
-                                        type: 'element',
-                                        tagName: 'path',
-                                        properties: {
-                                            fill: 'currentColor',
-                                            d: 'M9 18q-.825 0-1.412-.587T7 16V4q0-.825.588-1.412T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.587 1.413T18 18zm-4 4q-.825 0-1.412-.587T3 20V6h2v14h11v2z'
-                                        },
-                                        children: []
-                                    },
-                                ]
-                            },
-                        ]
+                        tagName: 'i',
+                        properties: { class: styles.lang },
+                        children: [{ type: 'text', value: lang }]
                     });
                 }
-            }
-        ]
+
+                node.children.push({ // 复制按钮
+                    type: 'element',
+                    tagName: 'button',
+                    properties: {
+                        class: styles.action,
+                        onclick: `window.copyShikiCode2Clipboard(this, '${code.replace(/'/g, '\\\'').replace(/\n/g, '\\\n')}')`
+                    },
+                    children: [{
+                        // 图标：material-symbols:content-copy
+                        type: 'element',
+                        tagName: 'svg',
+                        properties: {
+                            width: '24',
+                            height: '24',
+                            viewBox: '0 0 24 24'
+                        },
+                        children: [{
+                            type: 'element',
+                            tagName: 'path',
+                            properties: {
+                                fill: 'currentColor',
+                                d: 'M9 18q-.825 0-1.412-.587T7 16V4q0-.825.588-1.412T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.587 1.413T18 18zm-4 4q-.825 0-1.412-.587T3 20V6h2v14h11v2z'
+                            },
+                            children: []
+                        }]
+                    }]
+                });
+            } // end pre()
+        }]
     });
 }

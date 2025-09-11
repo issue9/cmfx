@@ -36,12 +36,16 @@ export interface Object {
     remarks?: string;
 
     /**
-     * 如果是联合类型，此值用于表示具体的类型值。
+     * 如果是联合类型或是其它不用解析的类型，此值用于表示具体的类型值。
+     *
+     * @remarks 如果 {@link fields} 不为空，此值应该为空。
      */
     type?: string;
 
     /**
-     * 类型的字段列表，可能是 union 类型，没有字段。
+     * 类型的字段列表
+     *
+     * @remarks 如果 {@link "type"} 不为空，此值应该为空。
      */
     fields?: Array<Field>;
 }
@@ -141,7 +145,9 @@ export class Parser {
                 Node.isInterfaceDeclaration(d) ||
                 Node.isTypeAliasDeclaration(d) ||
                 Node.isEnumDeclaration(d) ||
-                Node.isClassDeclaration(d)
+                Node.isClassDeclaration(d) ||
+                Node.isFunctionDeclaration(d) ||
+                Node.isFunctionExpression(d)
             );
             if (!decls || decls.length === 0) {
                 throw new TypeError(`Type ${prop} not found`);
@@ -156,13 +162,7 @@ export class Parser {
                 summary: comment2String(jsdoc.summarySection),
                 remarks: comment2String(jsdoc.remarksBlock?.content),
             };
-
-            const mem = this.buildFields(decl);
-            if (typeof mem === 'string') {
-                obj.type = mem;
-            } else {
-                obj.fields = mem;
-            }
+            this.buildNodeType(obj, decl);
 
             result.push(obj);
         }
@@ -171,14 +171,19 @@ export class Parser {
     }
 
     /**
-     * 生成类型字段列表
+     * 生成类型字段列表或是对应的类型名称
      */
-    private buildFields(node: Node):Array<Field> | string | undefined {
-        const mems = this.getNodeMember(node);
+    private buildNodeType(obj: Object, node: Node): void {
+        const mems = this.getNodeType(node);
 
-        if (typeof mems === 'string') { return mems; }
+        if (!mems) { return; }
 
-        return mems.map(f => {
+        if (typeof mems === 'string') {
+            obj.type = mems;
+            return;
+        }
+
+        obj.fields = mems.map(f => {
             const ftxt = f.getJsDocs()[0]?.getFullText();
             const fdoc = this.#parser.parseString(ftxt ?? '').docComment;
 
@@ -214,36 +219,48 @@ export class Parser {
     /**
      * 获取节点 node 的字段或是对应的类型
      */
-    private getNodeMember(node: Node): Array<TypeElementTypes> | string {
-        if (Node.isInterfaceDeclaration(node)) { // 如果本身是接口
+    private getNodeType(node?: Node): Array<TypeElementTypes> | string | undefined {
+        if (!node) { return; }
+
+        if (Node.isFunctionDeclaration(node) || Node.isFunctionExpression(node)) { // 函数
+            return node.getText().replace(/export\s*declare\s*/, '');
+        }
+
+        if (Node.isInterfaceDeclaration(node)) { // 接口
             const props = node.getMembers();
-            for(const b of node.getBaseTypes()) {
+            for (const b of node.getBaseTypes()) {
                 props.push(...getTypeMember(b));
             }
             return props;
         }
 
+        if (Node.isTypeAliasDeclaration(node)) { // 类型别名
+            const typ = this.#checker.getTypeAtLocation(node);
+            return this.getAliasType(typ);
+        }
+    }
+
+    /**
+     * 获取类型别名的真实类型 typ 的字段或是类型声明
+     */
+    private getAliasType(typ: Type): Array<TypeElementTypes> | string | undefined {
+        if (typ.getCallSignatures().length > 0) { // 函数
+            return typ.getText().replace(/export\s*declare\s*/, '');
+        }
+
+        // 判断 t 是否为标准库的类型
         const isStd = (t: Node<ts.Node>): boolean => {
             const sourceFile = t.getSourceFile();
             return sourceFile.getFilePath().includes('typescript/lib/lib.');
         };
 
-        if (Node.isTypeAliasDeclaration(node)) { // 如果是类型别名
-            const typ = this.#checker.getTypeAtLocation(node);
+        // 右侧都是字面量类型或是标准库中的类型
+        const lit = typ.isUnion() && typ.getUnionTypes().every(t => t.isLiteral())
+            || typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral())
+            || typ.getSymbol()?.getDeclarations().every(isStd); // 标准库
+        if (lit) { return typ.getText(); }
 
-            // 右侧都是字面量类型或是标准库中的类型
-            const lit = typ.isUnion() && typ.getUnionTypes().every(t => t.isLiteral())
-                || typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral())
-                || typ.getSymbol()?.getDeclarations().every(isStd);
-            if (lit) {
-                return typ.getText();
-            }
-
-            // 右侧不都是直接字面量（例如 type X = SomeOtherType），用类型检查器解析
-            return getTypeMember(typ);
-        }
-
-        return [];
+        return getTypeMember(typ);
     }
 }
 

@@ -63,7 +63,7 @@ export function calcLayoutFieldAreas(l: Layout, hasHelp?: boolean, hasLabel?: bo
     return calcVerticalFieldAreas(hasHelp, hasLabel);
 }
 
-function  calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
+function calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     if (hasLabel) {
         if (hasHelp) {
             return {
@@ -89,7 +89,7 @@ function  calcHorizontalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): Field
     return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
-function  calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
+function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAreas {
     if (hasLabel) {
         if (hasHelp) {
             return {

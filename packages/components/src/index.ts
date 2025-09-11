@@ -4,7 +4,7 @@
 
 import './style.css';
 
-// TODO: safari 支持 requestIdleCallback，后期可删除。
+// TODO: safari 不支持 requestIdleCallback，后期可删除。
 // https://caniuse.com/?search=requestIdleCallback
 window.requestIdleCallback = window.requestIdleCallback ||
     function (cb) {
