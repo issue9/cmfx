@@ -17,7 +17,7 @@ import { Button, FitScreenButton, PrintButton, SplitButton } from '@/button';
 import { useComponents, useLocale } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
-import { ObjectAccessor } from '@/form';
+import { Checkbox, ObjectAccessor, Radio } from '@/form';
 import { Dropdown } from '@/menu';
 import { PaginationBar } from '@/pagination';
 import { Label } from '@/typography';
@@ -254,42 +254,35 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                         <Dropdown hoverable items={[
                             {
                                 type: 'item', value: 'hoverable',
-                                label: <label class={styles['menu-item']}>
-                                    <input type="checkbox" checked={hoverable()} onClick={(e) => { setHoverable(!hoverable()); e.stopPropagation(); }} />
-                                    {l.t('_c.table.hoverable')}</label>
+                                label: <Checkbox readonly label={l.t('_c.table.hoverable')} checked={hoverable()} />
                             },
                             { type: 'divider' },
                             {
                                 type: 'item', value: 'sticky-header',
-                                label: <label class={styles['menu-item']}>
-                                    <input type="checkbox" checked={sticky() !== undefined} onClick={(e) => {
-                                        setSticky(sticky() === undefined ? '0px' : undefined);
-                                        e.stopPropagation();
-                                    }} />
-                                    {l.t('_c.table.stickyHeader')}</label>
+                                label: <Checkbox readonly label={l.t('_c.table.stickyHeader')} checked={sticky() !== undefined} />
                             },
                             { type: 'divider' },
                             {
                                 type: 'item', value: '0',
-                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 0} />{l.t('_c.table.noStriped')}</label>,
+                                label: <Radio name="striped" readonly value={0} checked={striped() === 0 || striped() === undefined} label={l.t('_c.table.noStriped')} />
                             },
                             {
                                 type: 'item', value: '2',
-                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 2} />{l.t('_c.table.striped', { 'num': 2 })}</label>,
+                                label: <Radio name="striped" readonly value={2} checked={striped() === 2} label={l.t('_c.table.striped', { 'num': 2 })} />
                             },
                             {
                                 type: 'item', value: '3',
-                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 3} />{l.t('_c.table.striped', { 'num': 3 })}</label>,
+                                label: <Radio name="striped" readonly value={3} checked={striped() === 3} label={l.t('_c.table.striped', { 'num': 3 })} />
                             },
                             {
                                 type: 'item', value: '4',
-                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 4} />{l.t('_c.table.striped', { 'num': 4 })}</label>,
+                                label: <Radio name="striped" readonly value={4} checked={striped() === 4} label={l.t('_c.table.striped', { 'num': 4 })} />
                             },
                             {
                                 type: 'item', value: '5',
-                                label: <label class={styles['menu-item']}><input type="radio" checked={striped() == 5} />{l.t('_c.table.striped', { 'num': 5 })}</label>,
+                                label: <Radio name="striped" readonly value={5} checked={striped() === 5} label={l.t('_c.table.striped', { 'num': 5 })} />
                             },
-                        ]} onChange={(v) => {
+                        ]} onChange={v => {
                             switch (v) {
                             case 'hoverable':
                                 setHoverable(!hoverable());

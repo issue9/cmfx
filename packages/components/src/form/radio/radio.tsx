@@ -43,12 +43,15 @@ export function Radio(props: Props): JSX.Element {
             disabled={props.disabled}
             checked={props.checked}
             class={joinClass(props.block ? '!hidden' : '', props.rounded ? styles.rounded : '', props.class)}
-            onClick={(e) => {
+            onclick={e => {
+                if (e.target !== e.currentTarget) { return; }
+
                 if (props.readonly) { e.preventDefault(); }
+                e.stopPropagation();
             }}
-            onChange={(e) => {
+            onChange={e => {
                 if (!props.readonly && !props.disabled && props.onChange) {
-                    props.onChange(e.target.checked);
+                    props.onChange(e.currentTarget.checked);
                 }
             }}
         />

@@ -30,10 +30,6 @@
 
                 .system-toolbar {
                     @apply ms-auto flex gap-1;
-
-                    .menu-item {
-                        @apply flex cursor-pointer items-center gap-[2px];
-                    }
                 }
             }
         }

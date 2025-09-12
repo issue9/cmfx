@@ -29,7 +29,7 @@ export function cloneElement(e: JSX.Element): JSX.Element {
  * 但是都大同小异，其它的类型可根据此方法自行处理。
  */
 export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, e: Parameters<JSX.EventHandler<T,E>>[0]) {
-    if (typeof h ===  'function') {
+    if (typeof h === 'function') {
         h(e);
     } else {
         h[0](h[1], e);

@@ -35,7 +35,9 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
     items?: Array<T>;
 
     /**
-     * 固定表格头部位于指定的位置，如果为 undefined，表示不固定。
+     * 固定表格头部位于指定的位置
+     *
+     * @remarks 如果为 undefined，表示不固定，其它值表示离顶部的距离。
      *
      * @reactive
      */
