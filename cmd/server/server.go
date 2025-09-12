@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	if err := cmd.Exec("cmfx", cmfx.Version); err != nil {
+	if err := cmd.Exec("cmfx", cmfx.Version()); err != nil {
 		panic(err)
 	}
 }

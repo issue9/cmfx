@@ -162,13 +162,17 @@ publish-npm: build-ts
 
 ########################### version ###################################
 
-# 用于修正各个前端包中 package.json 的 version 字段。
+# 用于修正当前项目的版本号
+#
 # 包含一个参数 target，用以指定需要升级的版本号，可以是 patch、minor 和 major 三个值，默认值为 patch。
+#
+# 该操作会同时更新所有 package.json 中的版本号以及 cmfx/VERSION 的内容，后者为服务端项目的版本号。
 #
 # NOTE: 大版本号的更新会清零小版本号。
 
-.PHONY: version-ts
+.PHONY: version
 target = patch
-version-ts:
-	pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces \
-	--include-workspace-root --workspaces-update=false
+version:
+	@VER=$$(pnpm version $(target) --commit-hooks=false --git-tag-version=false --workspaces \
+	--include-workspace-root --workspaces-update=false | tail -n 1 | sed 's/^v//'); \
+	echo $$VER > cmfx/VERSION
