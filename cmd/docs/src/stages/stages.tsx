@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, Table, useLocale } from '@cmfx/components';
+import { Checkbox, Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
 import { useCurrentMatches } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
-import IconChecked from '~icons/material-symbols/select-check-box';
 
 import { default as Stage, Props as StageProps } from './stage';
 import styles from './style.module.css';
@@ -75,7 +74,9 @@ export default function Stages(props: Props):JSX.Element {
                                                         <td>{field.type}</td>
                                                         <td>{field.preset}</td>
                                                         <td>
-                                                            <Show when={field.reactive}><IconChecked /></Show>
+                                                            <Show when={field.reactive} fallback={<Checkbox readonly />}>
+                                                                <Checkbox checked readonly />
+                                                            </Show>
                                                         </td>
                                                         <td>{field.summary}<br />{field.remarks}</td>
                                                     </tr>
