@@ -2,4 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default as preset } from './preset';
+export { default as green } from './green';
+export { default as purple } from './purple';
+

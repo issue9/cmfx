@@ -68,7 +68,7 @@ export function ThemeProvider(props: Props): JSX.Element {
     });
 
     return <themeContext.Provider value={theme}>
-        <For each={children(()=>props.children).toArray()}>
+        <For each={children(() => props.children).toArray()}>
             {(item, index) => {
                 if (index() === 0) { // chindren 发生了变化，重置 list
                     list = [];

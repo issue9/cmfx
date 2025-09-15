@@ -51,6 +51,8 @@ export interface Radius {
 }
 
 export interface Palettes {
+    [key: string]: string;
+
     'primary-fg': string;
     'primary-fg-low': string;
     'primary-fg-high': string;

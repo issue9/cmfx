@@ -16,7 +16,7 @@ import styles from './style.module.css';
  * 主题生成器
  */
 export default function SchemeBuilder(): JSX.Element {
-    const modeFA = fieldAccessor<Mode>('mode', 'dark');
+    const modeFA = fieldAccessor<Mode>('mode', 'light');
     const l = useLocale();
     const [, act] = useComponents();
 

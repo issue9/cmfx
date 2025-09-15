@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+// 采用 oklch 作为颜色值
+
 import { Scheme } from '@/base';
 
 export default {

@@ -102,9 +102,10 @@ const o: Options = {
 
     theme: {
         mode: 'system',
-        scheme: 'default',
+        scheme: 'green',
         schemes: new Map<string, Scheme>([
-            ['default', schemes.preset],
+            ['green', schemes.green],
+            ['purple', schemes.purple],
         ]),
     },
 

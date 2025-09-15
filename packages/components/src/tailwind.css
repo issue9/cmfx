@@ -9,96 +9,82 @@
 :root {
     color-scheme: light dark;
 
-    --l-low: .3;
-    --l: .2;
-    --l-high: .1;
-
-    --invert-l-low: .7;
-    --invert-l: .8;
-    --invert-l-high: .9;
-
-    --primary: 0;
-    --error: 20;
-    --secondary: 60;
-    --tertiary: 120;
-    --surface: 180;
-
     /****************************** 以下对应主题变量 ***********************************/
 
 
     --default-transition-duration: 300ms;
 
 
-    --light-primary-bg-low: oklch(var(--invert-l-low) .2 var(--primary));
-    --light-primary-bg: oklch(var(--invert-l) .2 var(--primary));
-    --light-primary-bg-high: oklch(var(--invert-l-high) .2 var(--primary));
-    --light-primary-fg-low: oklch(var(--l-low) .4 var(--primary));
-    --light-primary-fg: oklch(var(--l) .4 var(--primary));
-    --light-primary-fg-high: oklch(var(--l-high) .4 var(--primary));
+    --dark-primary-bg-low: var(--color-blue-800);
+    --dark-primary-bg: var(--color-blue-900);
+    --dark-primary-bg-high: var(--color-blue-950);
+    --dark-primary-fg-low: var(--color-blue-100);
+    --dark-primary-fg: var(--color-blue-300);
+    --dark-primary-fg-high: var(--color-blue-400);
 
-    --light-secondary-bg-low: oklch(var(--invert-l-low) .2 var(--secondary));
-    --light-secondary-bg: oklch(var(--invert-l) .2 var(--secondary));
-    --light-secondary-bg-high: oklch(var(--invert-l-high) .2 var(--secondary));
-    --light-secondary-fg-low: oklch(var(--l-low) .4 var(--secondary));
-    --light-secondary-fg: oklch(var(--l) .4 var(--secondary));
-    --light-secondary-fg-high: oklch(var(--l-high) .4 var(--secondary));
+    --dark-secondary-bg-low: var(--color-teal-800);
+    --dark-secondary-bg: var(--color-teal-900);
+    --dark-secondary-bg-high: var(--color-teal-950);
+    --dark-secondary-fg-low: var(--color-teal-100);
+    --dark-secondary-fg: var(--color-teal-300);
+    --dark-secondary-fg-high: var(--color-teal-400);
 
-    --light-tertiary-bg-low: oklch(var(--invert-l-low) .2 var(--tertiary));
-    --light-tertiary-bg: oklch(var(--invert-l) .2 var(--tertiary));
-    --light-tertiary-bg-high: oklch(var(--invert-l-high) .2 var(--tertiary));
-    --light-tertiary-fg-low: oklch(var(--l-low) .4 var(--tertiary));
-    --light-tertiary-fg: oklch(var(--l) .4 var(--tertiary));
-    --light-tertiary-fg-high: oklch(var(--l-high) .4 var(--tertiary));
+    --dark-tertiary-bg-low: var(--color-indigo-800);
+    --dark-tertiary-bg: var(--color-indigo-900);
+    --dark-tertiary-bg-high: var(--color-indigo-950);
+    --dark-tertiary-fg-low: var(--color-indigo-100);
+    --dark-tertiary-fg: var(--color-indigo-300);
+    --dark-tertiary-fg-high: var(--color-indigo-400);
 
-    --light-surface-bg-low: oklch(var(--invert-l-low) .01 var(--surface));
-    --light-surface-bg: oklch(var(--invert-l) .01 var(--surface));
-    --light-surface-bg-high: oklch(var(--invert-l-high) .01 var(--surface));
-    --light-surface-fg-low: oklch(var(--l-low) .1 var(--surface));
-    --light-surface-fg: oklch(var(--l) .1 var(--surface));
-    --light-surface-fg-high: oklch(var(--l-high) .1 var(--surface));
+    --dark-surface-bg-low: var(--color-slate-800);
+    --dark-surface-bg: var(--color-slate-900);
+    --dark-surface-bg-high: var(--color-slate-950);
+    --dark-surface-fg-low: var(--color-slate-100);
+    --dark-surface-fg: var(--color-slate-300);
+    --dark-surface-fg-high: var(--color-slate-400);
 
-    --light-error-bg-low: oklch(var(--invert-l-low) .2 var(--error));
-    --light-error-bg: oklch(var(--invert-l) .2 var(--error));
-    --light-error-bg-high: oklch(var(--invert-l-high) .2 var(--error));
-    --light-error-fg-low: oklch(var(--l-low) .4 var(--error));
-    --light-error-fg: oklch(var(--l) .4 var(--error));
-    --light-error-fg-high: oklch(var(--l-high) .4 var(--error));
+    --dark-error-bg-low: var(--color-red-800);
+    --dark-error-bg: var(--color-red-900);
+    --dark-error-bg-high: var(--color-red-950);
+    --dark-error-fg-low: var(--color-red-100);
+    --dark-error-fg: var(--color-red-300);
+    --dark-error-fg-high: var(--color-red-400);
 
+    --light-primary-bg-low: var(--color-blue-100);
+    --light-primary-bg: var(--color-blue-300);
+    --light-primary-bg-high: var(--color-blue-400);
+    --light-primary-fg-low: var(--color-blue-800);
+    --light-primary-fg: var(--color-blue-900);
+    --light-primary-fg-high: var(--color-blue-950);
 
-    --dark-primary-bg-low: oklch(var(--l-low) .45 var(--primary));
-    --dark-primary-bg: oklch(var(--l) .4 var(--primary));
-    --dark-primary-bg-high: oklch(var(--l-high) .45 var(--primary));
-    --dark-primary-fg-low: oklch(var(--invert-l-low) .2 var(--primary));
-    --dark-primary-fg: oklch(var(--invert-l) .2 var(--primary));
-    --dark-primary-fg-high: oklch(var(--invert-l-high) .2 var(--primary));
+    --light-secondary-bg-low: var(--color-teal-100);
+    --light-secondary-bg: var(--color-teal-300);
+    --light-secondary-bg-high: var(--color-teal-400);
+    --light-secondary-fg-low: var(--color-teal-800);
+    --light-secondary-fg: var(--color-teal-900);
+    --light-secondary-fg-high: var(--color-teal-950);
 
-    --dark-secondary-bg-low: oklch(var(--l-low) .45 var(--secondary));
-    --dark-secondary-bg: oklch(var(--l) .4 var(--secondary));
-    --dark-secondary-bg-high: oklch(var(--l-high) .45 var(--secondary));
-    --dark-secondary-fg-low: oklch(var(--invert-l-low) .2 var(--secondary));
-    --dark-secondary-fg: oklch(var(--invert-l) .2 var(--secondary));
-    --dark-secondary-fg-high: oklch(var(--invert-l-high) .2 var(--secondary));
+    --light-tertiary-bg-low: var(--color-indigo-100);
+    --light-tertiary-bg: var(--color-indigo-300);
+    --light-tertiary-bg-high: var(--color-indigo-400);
+    --light-tertiary-fg-low: var(--color-indigo-800);
+    --light-tertiary-fg: var(--color-indigo-900);
+    --light-tertiary-fg-high: var(--color-indigo-950);
 
-    --dark-tertiary-bg-low: oklch(var(--l-low) .45 var(--tertiary));
-    --dark-tertiary-bg: oklch(var(--l) .4 var(--tertiary));
-    --dark-tertiary-bg-high: oklch(var(--l-high) .45 var(--tertiary));
-    --dark-tertiary-fg-low: oklch(var(--invert-l-low) .2 var(--tertiary));
-    --dark-tertiary-fg: oklch(var(--invert-l) .2 var(--tertiary));
-    --dark-tertiary-fg-high: oklch(var(--invert-l-high) .2 var(--tertiary));
+    --light-surface-bg-low: var(--color-slate-100);
+    --light-surface-bg: var(--color-slate-300);
+    --light-surface-bg-high: var(--color-slate-400);
+    --light-surface-fg-low: var(--color-slate-800);
+    --light-surface-fg: var(--color-slate-900);
+    --light-surface-fg-high: var(--color-slate-950);
 
-    --dark-surface-bg-low: oklch(var(--l-low) .1 var(--surface));
-    --dark-surface-bg: oklch(var(--l) .03 var(--surface));
-    --dark-surface-bg-high: oklch(var(--l-high) .2 var(--surface));
-    --dark-surface-fg-low: oklch(var(--invert-l-low) .2 var(--surface));
-    --dark-surface-fg: oklch(var(--invert-l) .1 var(--surface));
-    --dark-surface-fg-high: oklch(var(--invert-l-high) .2 var(--surface));
+    --light-error-bg-low: var(--color-red-100);
+    --light-error-bg: var(--color-red-300);
+    --light-error-bg-high: var(--color-red-400);
+    --light-error-fg-low: var(--color-red-800);
+    --light-error-fg: var(--color-red-900);
+    --light-error-fg-high: var(--color-red-950);
 
-    --dark-error-bg-low: oklch(var(--l-low) .45 var(--error));
-    --dark-error-bg: oklch(var(--l) .4 var(--error));
-    --dark-error-bg-high: oklch(var(--l-high) .45 var(--error));
-    --dark-error-fg-low: oklch(var(--invert-l-low) .2 var(--error));
-    --dark-error-fg: oklch(var(--invert-l) .2 var(--error));
-    --dark-error-fg-high: oklch(var(--invert-l-high) .2 var(--error));
 
     /****************************** 根据主题变量生成的调色盘 ***********************************/
 

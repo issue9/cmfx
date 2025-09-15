@@ -255,7 +255,16 @@ function colorsParams(l: Locale, m: Accessor<Mode>, s: ObjectAccessor<ExpandType
 function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const block = (name: string) => {
         const bg = s.accessor<string>(`${mode}.${palette}-bg${name ? '-' + name : ''}` as any);
+        const bgV = bg.getValue();
+        if (bgV.startsWith('var(--')) {
+            bg.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(bgV.slice(4, -1)));
+        }
+
         const fg = s.accessor<string>(`${mode}.${palette}-fg${name ? '-' + name : ''}` as any);
+        const fgV = fg.getValue();
+        if (fgV.startsWith('var(--')) {
+            fg.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(fgV.slice(4, -1)));
+        }
 
         return <div class={styles.block}>
             <Show when={name}><div class={styles.title}>{name}</div></Show>
