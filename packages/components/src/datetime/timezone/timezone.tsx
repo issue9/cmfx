@@ -8,9 +8,8 @@ import { createEffect, createMemo, createSignal, For, JSX, Show, untrack } from 
 import { BaseProps, joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
-import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
-import { Tab } from '@/tab';
+import { Tab, TabItem } from '@/tab';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {
@@ -61,14 +60,14 @@ export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Array<Re
 /**
  * 时区选择组件
  *
- * 这是基于浏览器的时区选择组件，不同的浏览器展示的数据会稍有不同。
+ * @remarks 这是基于浏览器的时区选择组件，不同的浏览器展示的数据会稍有不同。
  */
 export default function Timezone(props: Props): JSX.Element {
     const l = useLocale();
     const regions = createMemo(() => { return buildLocaleRegion(l.locale, l.displayStyle); });
 
-    const tabs = regions().map(v => [v.id, v.id]) as FieldOptions<string>;
-    const [tab, setTab] = createSignal<string | undefined>(tabs[0][0]);
+    const tabs = regions().map(v => { return { id: v.id, label: v.displayName }; }) as Array<TabItem>;
+    const [tab, setTab] = createSignal<string | undefined>(tabs[0].id);
     const [selected, setSelected] = createSignal<string | undefined>(props.value);
 
     // 监视 props.value 变化
@@ -93,28 +92,26 @@ export default function Timezone(props: Props): JSX.Element {
         if (props.onChange) { props.onChange(value, old); }
     };
 
-    return <div class={joinClass(styles.timezone, props.palette ? `palette--${props.palette}` : undefined, props.class)}>
-        <Tab value={tab()} class={styles.tab} items={tabs} onChange={v => setTab(v)}>
-            <div class={styles.panel}>
-                <For each={regions()}>
-                    {region => (
-                        <Show when={region.id === tab() ? region.timezones : undefined}>
-                            {timezones => (
-                                <For each={timezones()}>
-                                    {item => (
-                                        <Button checked={selected() === item.id} kind='flat' class={styles.item}
-                                            onClick={() => change(item.id)}
-                                        >
-                                            <span class={styles.line}>{item.displayName}</span>
-                                            <span class={styles.line} title={item.id}>{item.id}</span>
-                                        </Button>
-                                    )}
-                                </For>
-                            )}
-                        </Show>
-                    )}
-                </For>
-            </div>
+    return <div class={joinClass(props.palette ? `palette--${props.palette}` : undefined, props.class)}>
+        <Tab value={tab()} items={tabs} onChange={v => setTab(v)} panelClass={styles.panel}>
+            <For each={regions()}>
+                {region => (
+                    <Show when={region.id === tab() ? region.timezones : undefined}>
+                        {timezones => (
+                            <For each={timezones()}>
+                                {item => (
+                                    <Button checked={selected() === item.id} kind='flat' class={styles.item}
+                                        onClick={() => change(item.id)}
+                                    >
+                                        <span class={styles.line}>{item.displayName}</span>
+                                        <span class={styles.line} title={item.id}>{item.id}</span>
+                                    </Button>
+                                )}
+                            </For>
+                        )}
+                    </Show>
+                )}
+            </For>
         </Tab>
     </div>;
 }

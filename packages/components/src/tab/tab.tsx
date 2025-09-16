@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, JSX, mergeProps, ParentProps, Show } from 'solid-js';
+import {
+    createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, ParentProps, Show
+} from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
@@ -49,6 +51,11 @@ export interface Props extends BaseProps, ParentProps {
      */
     value?: Item['id'];
 
+    /**
+     * 应用在标签面板上的样式
+     */
+    panelClass?: string;
+
     onChange?: ChangeFunc<Item['id']>;
 }
 
@@ -73,15 +80,21 @@ export function Tab(props: Props) {
 
     const [isOverflow, setIsOverflow] = createSignal(false);
     const [tabsRef, setTabsRef] = createSignal<HTMLDivElement>();
-    createEffect(() => {
-        const ref = tabsRef();
-        if (!ref) { return; }
 
-        setIsOverflow(false);
-        setIsOverflow(layout === 'horizontal'
-            ? ref.scrollWidth > ref.clientWidth
-            : ref.scrollHeight > ref.clientHeight);
+    onMount(() => {
+        const observer = new ResizeObserver(() => {
+            const ref = tabsRef();
+            if (!ref) { return; }
+
+            setIsOverflow(layout === 'horizontal'
+                ? Array.from(ref.children).reduce((acc, curr) => acc + curr.scrollWidth, 0) > ref.clientWidth
+                : Array.from(ref.children).reduce((acc, curr) => acc + curr.scrollHeight, 0) > ref.clientHeight);
+        });
+        observer.observe(tabsRef()!);
+
+        onCleanup(() => { observer.disconnect(); });
     });
+
 
     // 组件根元素的 css
     const cls = createMemo(() => {
@@ -123,10 +136,10 @@ export function Tab(props: Props) {
     return <div role="tablist" aria-orientation={layout} class={cls()}>
         <div ref={setTabsRef} class={joinClass(styles.tabs, props.children ? styles['has-panel'] : '')}>
             <Show when={isOverflow()}>
-                <button class={styles.prev} onclick={e=>scroll(e, -40)}>
+                <button class={styles.prev} onclick={e => scroll(e, -40)}>
                     <IconPrev class={layout === 'vertical' ? 'rotate-90' : ''} />
                 </button>
-                <div class={styles.scroller} onwheel={wheel} ref={el=>scrollerRef=el}>
+                <div class={styles.scroller} onwheel={wheel} ref={el => scrollerRef = el}>
                     <For each={props.items}>
                         {item => (
                             <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
@@ -138,7 +151,7 @@ export function Tab(props: Props) {
                         )}
                     </For>
                 </div>
-                <button class={styles.next} onclick={e=>scroll(e, 40)}>
+                <button class={styles.next} onclick={e => scroll(e, 40)}>
                     <IconNext class={layout === 'vertical' ? 'rotate-90' : ''} />
                 </button>
             </Show>
@@ -157,7 +170,7 @@ export function Tab(props: Props) {
         </div>
 
         <Show when={props.children}>
-            <div role="tabpanel">{props.children}</div>
+            <div role="tabpanel" class={props.panelClass}>{props.children}</div>
         </Show>
     </div>;
 }

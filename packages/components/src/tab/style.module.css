@@ -8,7 +8,7 @@
 
 @layer components {
     .tab {
-        @apply flex flex-col border border-palette-fg-low rounded-lg overflow-clip;
+        @apply flex flex-col border border-palette-fg-low rounded-lg overflow-clip text-palette-fg bg-palette-bg;
 
         >.tabs {
             @apply flex flex-row;

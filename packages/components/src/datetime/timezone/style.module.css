@@ -7,23 +7,16 @@
 @reference '../../style.css';
 
 @layer components {
-    .timezone {
-        @apply bg-palette-bg text-palette-fg border border-palette-fg-low rounded-lg overflow-clip;
+    .panel {
+        @apply mt-2 p-2 gap-1 h-50 overflow-y-auto;
+        @apply grid content-start;
+        grid-template-columns: repeat(auto-fill, minmax(--spacing(50), 1fr));
 
-        .tab {
-            @apply !border-none !rounded-none;
-        }
+        .item {
+            @apply justify-start items-start flex-col;
 
-        .panel {
-            @apply mt-2 p-2 gap-1 h-50 overflow-y-auto;
-            @apply grid content-start grid-cols-1 md:grid-cols-4 xl:grid-cols-6 2xl:grid-cols-8;
-
-            .item {
-                @apply justify-start items-start flex-col;
-
-                .line {
-                    @apply w-full text-left text-ellipsis overflow-x-hidden;
-                }
+            .line {
+                @apply w-full text-left text-ellipsis overflow-x-hidden;
             }
         }
     }
