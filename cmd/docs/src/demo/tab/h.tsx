@@ -5,21 +5,17 @@
 import { FieldOptions, Tab } from '@cmfx/components';
 import { For } from 'solid-js';
 
-import { boolSelector, palettesWithUndefined } from '../base';
+import { palettesWithUndefined } from '../base';
 
 export default function() {
-    const [disabledS, disabled] = boolSelector('disabled');
-    const [roundedS, rounded] = boolSelector('rounded');
     const items: FieldOptions<string>
         = [['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3'], ['k4', 'K4']];
 
     return <div>
-        {disabledS}
-        {roundedS}
         <For each={palettesWithUndefined}>
             {(c) => (
                 <>
-                    <Tab rounded={rounded()} palette={c} disabled={disabled()} items={structuredClone(items)} />
+                    <Tab palette={c} items={structuredClone(items)} />
                     <br />
                 </>
             )}

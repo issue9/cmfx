@@ -2,29 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, For, ParentProps, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, mergeProps, ParentProps, Show } from 'solid-js';
+import IconPrev from '~icons/material-symbols/chevron-left';
+import IconNext from '~icons/material-symbols/chevron-right';
 
 import { AvailableEnumType, BaseProps, joinClass, Layout } from '@/base';
-import { Button, ButtonGroup } from '@/button';
 import { FieldOptions } from '@/form';
 import { ChangeFunc } from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props<T extends AvailableEnumType> extends BaseProps, ParentProps {
-    /**
-     * 是否圆角
-     *
-     * @reactive
-     */
-    rounded?: boolean;
-
-    /**
-     * 是否禁用状态
-     *
-     * @reactive
-     */
-    disabled?: boolean;
-
     /**
      * 所有的 tab 项
      *
@@ -35,7 +22,7 @@ export interface Props<T extends AvailableEnumType> extends BaseProps, ParentPro
     /**
      * 布局
      *
-     * @reactive
+     * @defaultValue 'horizontal'
      */
     layout?: Layout;
 
@@ -53,6 +40,9 @@ export interface Props<T extends AvailableEnumType> extends BaseProps, ParentPro
  * Tab 组件
  */
 export function Tab<T extends AvailableEnumType>(props: Props<T>) {
+    props = mergeProps({ layout: 'horizontal' as Layout }, props);
+    const layout = props.layout!;
+
     const [val, setVal] = createSignal<T>(props.value ?? props.items[0][0]);
 
     const change = (v: T, old?: T): void => {
@@ -65,20 +55,90 @@ export function Tab<T extends AvailableEnumType>(props: Props<T>) {
         setVal(() => props.value ?? props.items[0][0]);
     });
 
-    return <div role="tablist" aria-orientation={props.layout}
-        class={joinClass(styles.tab, props.palette ? `palette--${props.palette}` : '', props.class)}
-    >
-        <ButtonGroup rounded={props.rounded} disabled={props.disabled} layout={props.layout}>
-            <For each={props.items}>
-                {item => (
-                    <Button role='tab' checked={val() == item[0]} aria-selected={val() == item[0]}
-                        onClick={() => { change(item[0], props.value); }}
-                    >
-                        {item[1]}
-                    </Button>
-                )}
-            </For>
-        </ButtonGroup>
+    const [isOverflow, setIsOverflow] = createSignal(false);
+    const [tabsRef, setTabsRef] = createSignal<HTMLDivElement>();
+    createEffect(() => {
+        const ref = tabsRef();
+        if (!ref) { return; }
+
+        setIsOverflow(false);
+        setIsOverflow(layout === 'horizontal'
+            ? ref.scrollWidth > ref.clientWidth
+            : ref.scrollHeight > ref.clientHeight);
+    });
+
+    // 组件根元素的 css
+    const cls = createMemo(() => {
+        return joinClass(styles.tab,
+            props.palette ? `palette--${props.palette}` : '',
+            layout === 'vertical' ? styles.vertical : styles.horizontal,
+            props.class);
+    });
+
+    let scrollerRef: HTMLDivElement | undefined;
+
+    // 鼠标滚轮事件
+    const wheel = (e: WheelEvent) => {
+        if (!scrollerRef) { return; }
+
+        e.preventDefault();
+        if (e.deltaY === 0) { return; }
+
+        if (layout === 'horizontal') {
+            scrollerRef.scrollBy({ left: e.deltaY, behavior: 'smooth' });
+        }else{
+            scrollerRef.scrollBy({ top: e.deltaY, behavior: 'smooth' });
+        }
+    };
+
+    // 两侧按钮的事件，delta 表示滚动去方向，负数向前，正数向后。
+    const scroll = (e: MouseEvent, delta: number) => {
+        if (!scrollerRef) { return; }
+
+        e.preventDefault();
+
+        if (layout === 'horizontal') {
+            scrollerRef.scrollBy({ left: delta, behavior: 'smooth' });
+        } else {
+            scrollerRef.scrollBy({ top: delta, behavior: 'smooth' });
+        }
+    };
+
+    return <div role="tablist" aria-orientation={layout} class={cls()}>
+        <div ref={setTabsRef} class={joinClass(styles.tabs, props.children ? styles['has-panel'] : '')}>
+            <Show when={isOverflow()}>
+                <button class={styles.prev} onclick={e=>scroll(e, -40)}>
+                    <IconPrev class={layout === 'vertical' ? 'rotate-90' : ''} />
+                </button>
+                <div class={styles.scroller} onwheel={wheel} ref={el=>scrollerRef=el}>
+                    <For each={props.items}>
+                        {item => (
+                            <button role='tab' aria-selected={val() == item[0]}
+                                class={joinClass(styles.item, val() === item[0] ? styles.select : '')}
+                                onClick={() => { change(item[0], props.value); }}
+                            >
+                                {item[1]}
+                            </button>
+                        )}
+                    </For>
+                </div>
+                <button class={styles.next} onclick={e=>scroll(e, 40)}>
+                    <IconNext class={layout === 'vertical' ? 'rotate-90' : ''} />
+                </button>
+            </Show>
+            <Show when={!isOverflow()}>
+                <For each={props.items}>
+                    {item => (
+                        <button role='tab' aria-selected={val() == item[0]}
+                            class={joinClass(styles.item, val() === item[0] ? styles.select : '')}
+                            onClick={() => { change(item[0], props.value); }}
+                        >
+                            {item[1]}
+                        </button>
+                    )}
+                </For>
+            </Show>
+        </div>
 
         <Show when={props.children}>
             <div role="tabpanel">{props.children}</div>

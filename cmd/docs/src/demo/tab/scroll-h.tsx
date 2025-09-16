@@ -5,14 +5,13 @@
 import { FieldOptions, Tab } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-
 export default function() {
     const items: FieldOptions<string>
-        = [['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3'], ['k4', 'K4']];
+        = [['k1', 'K1'], ['k2', 'K2'], ['k3', 'K3'], ['k4', 'K4'], ['k5', 'K5'], ['k6', 'K6']];
     const [tab, setTab] = createSignal<string>('k1');
 
     return <div>
-        <Tab palette="primary" items={structuredClone(items)} onChange={e=>setTab(e)}>
+        <Tab layout='horizontal' palette="primary" items={structuredClone(items)} onChange={e=>setTab(e)} class='w-50'>
             <p>TabPanel:{tab()}</p>
         </Tab>
     </div>;
