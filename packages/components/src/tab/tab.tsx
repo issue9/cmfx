@@ -2,22 +2,38 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, createSignal, For, mergeProps, ParentProps, Show } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, mergeProps, ParentProps, Show } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
 
-import { AvailableEnumType, BaseProps, joinClass, Layout } from '@/base';
-import { FieldOptions } from '@/form';
+import { BaseProps, joinClass, Layout } from '@/base';
 import { ChangeFunc } from '@/form/field';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType> extends BaseProps, ParentProps {
+export interface Item {
+    /**
+     * 该 Tab 的唯一 ID
+     */
+    id: string;
+
+    /**
+     * Tab 标签上的内容
+     */
+    label?: JSX.Element;
+
+    /**
+     * 该标签处于禁用状态
+     */
+    disabled?: boolean;
+}
+
+export interface Props extends BaseProps, ParentProps {
     /**
      * 所有的 tab 项
      *
      * @reactive
      */
-    items: FieldOptions<T>;
+    items: Array<Item>;
 
     /**
      * 布局
@@ -31,28 +47,28 @@ export interface Props<T extends AvailableEnumType> extends BaseProps, ParentPro
      *
      * @reactive
      */
-    value?: T;
+    value?: Item['id'];
 
-    onChange?: ChangeFunc<T>;
+    onChange?: ChangeFunc<Item['id']>;
 }
 
 /**
  * Tab 组件
  */
-export function Tab<T extends AvailableEnumType>(props: Props<T>) {
+export function Tab(props: Props) {
     props = mergeProps({ layout: 'horizontal' as Layout }, props);
     const layout = props.layout!;
 
-    const [val, setVal] = createSignal<T>(props.value ?? props.items[0][0]);
+    const [val, setVal] = createSignal<Item['id']>(props.value ?? props.items[0].id);
 
-    const change = (v: T, old?: T): void => {
+    const change = (v: Item['id'], old?: Item['id']): void => {
         if (props.onChange) { props.onChange(v, old); }
         setVal(() => v);
     };
 
     // 监视 props.value 的变化
     createEffect(() => {
-        setVal(() => props.value ?? props.items[0][0]);
+        setVal(() => props.value ?? props.items[0].id);
     });
 
     const [isOverflow, setIsOverflow] = createSignal(false);
@@ -113,11 +129,11 @@ export function Tab<T extends AvailableEnumType>(props: Props<T>) {
                 <div class={styles.scroller} onwheel={wheel} ref={el=>scrollerRef=el}>
                     <For each={props.items}>
                         {item => (
-                            <button role='tab' aria-selected={val() == item[0]}
-                                class={joinClass(styles.item, val() === item[0] ? styles.select : '')}
-                                onClick={() => { change(item[0], props.value); }}
+                            <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
+                                class={joinClass(styles.item, val() === item.id ? styles.select : '')}
+                                onClick={() => { change(item.id, props.value); }}
                             >
-                                {item[1]}
+                                {item.label}
                             </button>
                         )}
                     </For>
@@ -129,11 +145,11 @@ export function Tab<T extends AvailableEnumType>(props: Props<T>) {
             <Show when={!isOverflow()}>
                 <For each={props.items}>
                     {item => (
-                        <button role='tab' aria-selected={val() == item[0]}
-                            class={joinClass(styles.item, val() === item[0] ? styles.select : '')}
-                            onClick={() => { change(item[0], props.value); }}
+                        <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
+                            class={joinClass(styles.item, val() === item.id ? styles.select : '')}
+                            onClick={() => { change(item.id, props.value); }}
                         >
-                            {item[1]}
+                            {item.label}
                         </button>
                     )}
                 </For>

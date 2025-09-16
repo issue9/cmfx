@@ -14,7 +14,16 @@
             @apply flex flex-row;
 
             .item {
-                @apply px-4 py-2 cursor-pointer text-center;
+                @apply px-4 py-2 text-center;
+            }
+
+            .item:disabled {
+                @apply cursor-not-allowed;
+                @apply text-palette-fg-low;
+            }
+
+            .item:enabled {
+                @apply cursor-pointer;
                 @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
                 @apply focus:bg-palette-bg-high focus:text-palette-fg-high;
                 @apply active:bg-palette-bg-low active:text-palette-fg-low;
@@ -26,7 +35,7 @@
 
             >button.prev,
             >button.next {
-                @apply w-10 cursor-pointer;
+                @apply w-12 cursor-pointer flex justify-center items-center;
                 @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
                 @apply active:bg-palette-bg-low active:text-palette-fg-low;
             }
@@ -67,7 +76,7 @@
 
             >button.prev,
             >button.next {
-                @apply w-full flex justify-center;
+                @apply w-full flex justify-center items-center h-12;
             }
 
             >button.prev {
@@ -76,6 +85,10 @@
 
             >button.next {
                 @apply border-t border-t-palette-fg-low;
+            }
+
+            .item {
+                @apply text-start;
             }
 
             .item:not(:last-child) {
