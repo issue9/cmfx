@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, Label,
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label,
     Locale, MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useComponents, useLocale
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
@@ -18,7 +18,6 @@ import IconColors from '~icons/material-symbols/colors';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
 import IconLight from '~icons/material-symbols/light-mode';
-import IconReset from '~icons/material-symbols/reset-settings';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
@@ -31,21 +30,32 @@ import styles from './style.module.css';
  */
 export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>, ref: Ref): JSX.Element {
     const l = useLocale();
+    const [, , opt] = useComponents();
     let dlg: DialogRef;
 
+    const schemes = Array.from(opt.schemes!).
+        map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
+
     return <div class={styles.params}>
-        <div class={styles.toolbar}>
+        <div class={joinClass(styles.toolbar, 'palette--primary')}>
             <div class={styles.actions}>
-                <ButtonGroup rounded>
-                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastLess')}
+                <ButtonGroup rounded kind='border'>
+                    <Dropdown selectedClass='' items={schemes} onChange={e => {
+                        s.setObject(opt.schemes?.get(e)!);
+                    }}>
+                        <Button kind='border' rounded square title={l.t('_d.theme.loadPredefinedSchemes')}>
+                            <IconLoad />
+                        </Button>
+                    </Dropdown>
+                    <Button rounded square title={l.t('_d.theme.randomContrastLess')}
                         onclick={() => random(s, 45)}><IconRandLess /></Button>
-                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastNormal')}
+                    <Button rounded square title={l.t('_d.theme.randomContrastNormal')}
                         onclick={() => random(s, 60)}><IconRandNormal /></Button>
-                    <Button kind='border' rounded square title={l.t('_d.theme.randomContrastMore')}
+                    <Button rounded square title={l.t('_d.theme.randomContrastMore')}
                         onclick={() => random(s, 75)}><IconRandMore /></Button>
                 </ButtonGroup>
 
-                <ButtonGroup rounded>
+                <ButtonGroup rounded kind='border'>
                     <Button square title={l.t('_d.theme.light')}
                         checked={m.getValue() === 'light'} onClick={() => m.setValue('light')}>
                         <IconLight />
@@ -56,37 +66,23 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
                     </Button>
                 </ButtonGroup>
             </div>
-            <ButtonGroup rounded>
-                <Button square onClick={ref.reset} title={l.t('_c.reset')}><IconReset /></Button>
+
+            <ButtonGroup rounded kind='border'>
                 <Button square onClick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
                 <Button square onClick={() => dlg.showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
             </ButtonGroup>
         </div>
 
-        {themeParams(l, s)}
-        {fontSizeParams(l, s)}
-        {colorsParams(l, m, s)}
-        {radiusParams(l, s)}
-        {otherParams(l, s)}
+        <div class={styles.ps}>
+            {fontSizeParams(l, s)}
+            {colorsParams(l, m, s)}
+            {radiusParams(l, s)}
+            {otherParams(l, s)}
+        </div>
 
         <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_d.theme.export')}</Label>}>
             <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
-    </div>;
-}
-
-function themeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    const [, , opt] = useComponents();
-    const schemes = Array.from(opt.schemes!).
-        map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
-
-    return <div class={styles.theme}>
-        <span>{l.t('_d.theme.loadPredefinedSchemes')}</span>
-        <Dropdown selectedClass='' items={schemes} onChange={e => {
-            s.setObject(opt.schemes?.get(e)!);
-        }}>
-            <Button square><IconLoad /></Button>
-        </Dropdown>
     </div>;
 }
 

@@ -27,6 +27,9 @@ export interface Props extends ParentProps {
     api?: Array<Object>;
 }
 
+/**
+ * 组件展示组件
+ */
 export default function Stages(props: Props):JSX.Element {
     const l = useLocale();
 

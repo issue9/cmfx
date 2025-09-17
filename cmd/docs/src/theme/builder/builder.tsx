@@ -29,10 +29,6 @@ export default function SchemeBuilder(): JSX.Element {
         export: (): Scheme => {
             return schemeFA.object();
         },
-        reset: () => {
-            modeFA.reset();
-            schemeFA.reset();
-        },
         apply: () => {
             act.switchScheme(unwrap(schemeFA.object()));
             act.switchMode(untrack(modeFA.getValue));

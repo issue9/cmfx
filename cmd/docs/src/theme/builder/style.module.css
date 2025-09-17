@@ -11,56 +11,55 @@
         @apply text-palette-fg bg-palette-bg;
 
         .params {
-            @apply flex flex-col gap-8 px-4 pb-4 min-w-45 relative;
+            @apply min-w-45 h-full overflow-clip flex flex-col border-e border-e-palette-fg-low;
 
             .toolbar {
-                @apply flex items-center justify-between gap-4 bg-palette-bg py-4 border-b border-b-palette-bg-low;
-                @apply sticky start-0 top-0;
+                @apply flex items-center justify-between gap-4 bg-palette-bg px-4 py-3 border-b border-b-palette-bg-low;
 
                 .actions {
                     @apply flex gap-2;
                 }
             }
 
-            .theme {
-                @apply flex gap-4 justify-between items-center;
-            }
+            .ps {
+                @apply flex flex-col gap-8 px-4 pb-4 pt-8 overflow-y-scroll h-full flex-1;
 
-            .param {
-                @apply flex flex-col gap-4;
+                .param {
+                    @apply flex flex-col gap-4;
 
-                .font-number {
-                    @apply aspect-square text-center align-middle;
-                }
+                    .font-number {
+                        @apply aspect-square text-center align-middle;
+                    }
 
-                .palette {
-                    @apply flex flex-col justify-start;
+                    .palette {
+                        @apply flex flex-col justify-start;
 
-                    .blocks {
-                        @apply flex justify-between items-center gap-2;
+                        .blocks {
+                            @apply flex justify-between items-center gap-2;
 
-                        .block {
-                            @apply flex flex-wrap gap-1 justify-center items-center;
+                            .block {
+                                @apply flex flex-wrap gap-1 justify-center items-center;
 
-                            .title {
-                                @apply text-end;
+                                .title {
+                                    @apply text-end;
+                                }
                             }
                         }
                     }
-                }
 
-                .radius {
-                    @apply flex justify-between;
+                    .radius {
+                        @apply flex justify-between;
 
-                    .title {
-                        @apply min-w-8 inline-block;
-                    }
+                        .title {
+                            @apply min-w-8 inline-block;
+                        }
 
-                    .btns {
-                        @apply aspect-square w-8 relative overflow-clip gap-1;
+                        .btns {
+                            @apply aspect-square w-8 relative overflow-clip gap-1;
 
-                        >div {
-                            @apply absolute top-1/3 left-1/3 w-20 aspect-square border-2;
+                            >div {
+                                @apply absolute top-1/3 left-1/3 w-20 aspect-square border-2;
+                            }
                         }
                     }
                 }

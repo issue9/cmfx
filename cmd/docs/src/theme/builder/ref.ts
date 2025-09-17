@@ -12,11 +12,6 @@ export interface Ref {
     export(): Scheme;
 
     /**
-     * 重置对象
-     */
-    reset(): void;
-
-    /**
      * 将当前主题应用到全局
      */
     apply(): void;
