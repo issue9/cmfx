@@ -8,6 +8,7 @@ import {
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
 import { batch, JSX, Show } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
@@ -41,7 +42,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
             <div class={styles.actions}>
                 <ButtonGroup rounded kind='border'>
                     <Dropdown selectedClass='' items={schemes} onChange={e => {
-                        s.setObject(opt.schemes?.get(e)!);
+                        s.setObject(unwrap(opt.schemes?.get(e)!));
                     }}>
                         <Button kind='border' rounded square title={l.t('_d.theme.loadPredefinedSchemes')}>
                             <IconLoad />
