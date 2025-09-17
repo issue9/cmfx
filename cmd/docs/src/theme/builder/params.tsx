@@ -3,13 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, FieldOption, Label,
-    Locale, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useLocale
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, Label,
+    Locale, MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useComponents, useLocale
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
 import { batch, JSX, Show } from 'solid-js';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
+import IconLoad from '~icons/material-symbols/arrow-upload-progress';
 import IconRandLess from '~icons/material-symbols/brightness-4-rounded';
 import IconRandNormal from '~icons/material-symbols/brightness-6-rounded';
 import IconRandMore from '~icons/material-symbols/brightness-7-rounded';
@@ -62,6 +63,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
             </ButtonGroup>
         </div>
 
+        {themeParams(l, s)}
         {fontSizeParams(l, s)}
         {colorsParams(l, m, s)}
         {radiusParams(l, s)}
@@ -70,6 +72,21 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_d.theme.export')}</Label>}>
             <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
+    </div>;
+}
+
+function themeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+    const [, , opt] = useComponents();
+    const schemes = Array.from(opt.schemes!).
+        map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
+
+    return <div class={styles.theme}>
+        <span>{l.t('_d.theme.loadPredefinedSchemes')}</span>
+        <Dropdown selectedClass='' items={schemes} onChange={e => {
+            s.setObject(opt.schemes?.get(e)!);
+        }}>
+            <Button square><IconLoad /></Button>
+        </Dropdown>
     </div>;
 }
 
@@ -220,7 +237,7 @@ function fontSizeParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.E
 }
 
 // 可用的字体大小
-const fontSizeValues = [14, 16, 18, 20, 24, 28, 32] as const;
+const fontSizeValues = [14, 16, 18, 20, 24, 28] as const;
 
 function fontSize(a: Accessor<string>): JSX.Element {
     const max = fontSizeValues[fontSizeValues.length - 1];

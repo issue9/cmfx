@@ -109,6 +109,7 @@ const messages = {
             weekPanel: 'Week Panel',
         },
         theme: {
+            loadPredefinedSchemes: 'load predefined schemes',
             builder: 'Theme Builder',
             dark: 'Dark',
             light: 'Light',

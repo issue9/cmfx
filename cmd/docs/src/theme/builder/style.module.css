@@ -11,14 +11,19 @@
         @apply text-palette-fg bg-palette-bg;
 
         .params {
-            @apply flex flex-col gap-8 p-4 min-w-50;
+            @apply flex flex-col gap-8 px-4 pb-4 min-w-45 relative;
 
             .toolbar {
-                @apply flex items-center justify-between gap-4;
+                @apply flex items-center justify-between gap-4 bg-palette-bg py-4 border-b border-b-palette-bg-low;
+                @apply sticky start-0 top-0;
 
                 .actions {
                     @apply flex gap-2;
                 }
+            }
+
+            .theme {
+                @apply flex gap-4 justify-between items-center;
             }
 
             .param {
@@ -35,10 +40,10 @@
                         @apply flex justify-between items-center gap-2;
 
                         .block {
-                            @apply flex flex-wrap gap-2 justify-center items-center;
+                            @apply flex flex-wrap gap-1 justify-center items-center;
 
                             .title {
-                                @apply text-center;
+                                @apply text-end;
                             }
                         }
                     }

@@ -110,6 +110,7 @@ const messages: typeof m = {
             weekPanel: 'Week Panel 周面板',
         },
         theme: {
+            loadPredefinedSchemes: '加载预定义的主题',
             builder: '主题编辑器',
             dark: '深色',
             light: '浅色',

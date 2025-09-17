@@ -11,7 +11,7 @@ export type Props = ParentProps<{
     /**
      * 如果存在文字，表示文字的位置，否则该值无意义。
      *
-     * 在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。
+     * @remarks 在 children 不为空的情况下，如果未指定 pos，会初始化 'start'。
      */
     pos?: 'start' | 'center' | 'end';
 
@@ -23,7 +23,7 @@ export type Props = ParentProps<{
     /**
      * 交叉轴上的留白
      *
-     * 语法与 CSS 中的 padding-block 和 padding-inline 相同。可以用一个值或是两个值：
+     * @remarks 语法与 CSS 中的 padding-block 和 padding-inline 相同。可以用一个值或是两个值：
      *  - padding: 10px；
      *  - padding: 10px 10px；
      *  - padding: 5% 10%；
