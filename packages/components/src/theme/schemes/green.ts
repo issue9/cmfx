@@ -82,14 +82,14 @@ export default {
         'error-fg-high': 'var(--color-red-950)',
     },
     radius: {
-        'xs': 0.5,
-        'sm': 0.5,
-        'md': 0.5,
-        'lg': 0.5,
+        'xs': 0,
+        'sm': 0,
+        'md': 0,
+        'lg': 0,
         'xl': 0.5,
         '2xl': 0.5,
         '3xl': 1,
-        '4xl': 1
+        '4xl': 1,
     },
-    'transitionDuration': 500
+    'transitionDuration': 300
 } as Scheme;

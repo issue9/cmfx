@@ -2,8 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Scheme, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
+import { AnimationIcon, AnimationIconRef, Button, Divider, Scheme, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import IconClose from '~icons/material-symbols/close';
+import IconFace from '~icons/material-symbols/face';
+import IconPerson from '~icons/material-symbols/person';
 
 export default function() {
     const [, , opt] = useComponents();
@@ -13,19 +16,28 @@ export default function() {
 
     const [m2, setMode2] = createSignal(opt.mode);
 
+    let ref: AnimationIconRef;
+
     return <div>
-        <Button>这是继承全局的主题: {g.mode}, {g.scheme?.light?.['primary-bg'] }</Button>
+        <Button>这是继承全局的主题: {g.mode}, {g.scheme?.light?.['primary-bg']}</Button>
         <Divider />
 
         <ThemeProvider mode={m()} scheme={s()}>
             <Button>这是当前主题 {useTheme().mode}, {useTheme().scheme?.light?.['primary-bg']}</Button>
 
-            <Button onClick={() => setScheme(opt.schemes?.get('default'))}>主题1</Button>
-            <Button onClick={() => setScheme(opt.schemes?.get('default2'))}>主题2</Button>
+            <Button onClick={() => setScheme(opt.schemes?.get('purple'))}>主题-purple</Button>
+            <Button onClick={() => setScheme(opt.schemes?.get('green'))}>主题-green</Button>
 
             <Button onClick={() => setMode('light')}>浅色</Button>
             <Button onClick={() => setMode('dark')}>深色</Button>
             <Button onClick={() => setMode('system')}>跟随系统</Button>
+            <Button onClick={() => ref.next()} class="w-16">
+                <AnimationIcon ref={el=>ref=el} icons={{
+                    face: IconFace,
+                    close: IconClose,
+                    person: IconPerson,
+                }} />
+            </Button>
 
             <ThemeProvider mode={m2()}>
                 <Divider />

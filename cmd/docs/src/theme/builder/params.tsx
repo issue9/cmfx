@@ -40,23 +40,23 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
     return <div class={styles.params}>
         <div class={joinClass(styles.toolbar, 'palette--primary')}>
             <div class={styles.actions}>
-                <ButtonGroup rounded kind='border'>
+                <ButtonGroup kind='border'>
                     <Dropdown selectedClass='' items={schemes} onChange={e => {
                         s.setObject(unwrap(opt.schemes?.get(e)!));
                     }}>
-                        <Button kind='border' rounded square title={l.t('_d.theme.loadPredefinedSchemes')}>
+                        <Button kind='border' square title={l.t('_d.theme.loadPredefinedSchemes')}>
                             <IconLoad />
                         </Button>
                     </Dropdown>
-                    <Button rounded square title={l.t('_d.theme.randomContrastLess')}
+                    <Button square title={l.t('_d.theme.randomContrastLess')}
                         onclick={() => random(s, 45)}><IconRandLess /></Button>
-                    <Button rounded square title={l.t('_d.theme.randomContrastNormal')}
+                    <Button square title={l.t('_d.theme.randomContrastNormal')}
                         onclick={() => random(s, 60)}><IconRandNormal /></Button>
-                    <Button rounded square title={l.t('_d.theme.randomContrastMore')}
+                    <Button square title={l.t('_d.theme.randomContrastMore')}
                         onclick={() => random(s, 75)}><IconRandMore /></Button>
                 </ButtonGroup>
 
-                <ButtonGroup rounded kind='border'>
+                <ButtonGroup kind='border'>
                     <Button square title={l.t('_d.theme.light')}
                         checked={m.getValue() === 'light'} onClick={() => m.setValue('light')}>
                         <IconLight />
@@ -68,7 +68,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
                 </ButtonGroup>
             </div>
 
-            <ButtonGroup rounded kind='border'>
+            <ButtonGroup kind='border'>
                 <Button square onClick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
                 <Button square onClick={() => dlg.showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
             </ButtonGroup>

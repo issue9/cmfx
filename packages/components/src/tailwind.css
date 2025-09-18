@@ -9,119 +9,42 @@
 :root {
     color-scheme: light dark;
 
-    /****************************** 以下对应主题变量 ***********************************/
 
 
-    --default-transition-duration: 300ms;
+    --primary-bg-low: light-dark(var(--color-blue-100), var(--color-blue-800));
+    --primary-bg: light-dark(var(--color-blue-300), var(--color-blue-900));
+    --primary-bg-high: light-dark(var(--color-blue-400), var(--color-blue-950));
+    --primary-fg-low: light-dark(var(--color-blue-800), var(--color-blue-100));
+    --primary-fg: light-dark(var(--color-blue-900), var(--color-blue-300));
+    --primary-fg-high: light-dark(var(--color-blue-950), var(--color-blue-400));
 
+    --secondary-bg-low: light-dark(var(--color-teal-100), var(--color-teal-800));
+    --secondary-bg: light-dark(var(--color-teal-300), var(--color-teal-900));
+    --secondary-bg-high: light-dark(var(--color-teal-400), var(--color-teal-950));
+    --secondary-fg-low: light-dark(var(--color-teal-800), var(--color-teal-100));
+    --secondary-fg: light-dark(var(--color-teal-900), var(--color-teal-300));
+    --secondary-fg-high: light-dark(var(--color-teal-950), var(--color-teal-400));
 
-    --dark-primary-bg-low: var(--color-blue-800);
-    --dark-primary-bg: var(--color-blue-900);
-    --dark-primary-bg-high: var(--color-blue-950);
-    --dark-primary-fg-low: var(--color-blue-100);
-    --dark-primary-fg: var(--color-blue-300);
-    --dark-primary-fg-high: var(--color-blue-400);
+    --tertiary-bg-low: light-dark(var(--color-indigo-100), var(--color-indigo-800));
+    --tertiary-bg: light-dark(var(--color-indigo-300), var(--color-indigo-900));
+    --tertiary-bg-high: light-dark(var(--color-indigo-400), var(--color-indigo-950));
+    --tertiary-fg-low: light-dark(var(--color-indigo-800), var(--color-indigo-100));
+    --tertiary-fg: light-dark(var(--color-indigo-900), var(--color-indigo-300));
+    --tertiary-fg-high: light-dark(var(--color-indigo-950), var(--color-indigo-400));
 
-    --dark-secondary-bg-low: var(--color-teal-800);
-    --dark-secondary-bg: var(--color-teal-900);
-    --dark-secondary-bg-high: var(--color-teal-950);
-    --dark-secondary-fg-low: var(--color-teal-100);
-    --dark-secondary-fg: var(--color-teal-300);
-    --dark-secondary-fg-high: var(--color-teal-400);
+    --surface-bg-low: light-dark(var(--color-slate-100), var(--color-slate-800));
+    --surface-bg: light-dark(var(--color-slate-300), var(--color-slate-900));
+    --surface-bg-high: light-dark(var(--color-slate-400), var(--color-slate-950));
+    --surface-fg-low: light-dark(var(--color-slate-800), var(--color-slate-100));
+    --surface-fg: light-dark(var(--color-slate-900), var(--color-slate-300));
+    --surface-fg-high: light-dark(var(--color-slate-950), var(--color-slate-400));
 
-    --dark-tertiary-bg-low: var(--color-indigo-800);
-    --dark-tertiary-bg: var(--color-indigo-900);
-    --dark-tertiary-bg-high: var(--color-indigo-950);
-    --dark-tertiary-fg-low: var(--color-indigo-100);
-    --dark-tertiary-fg: var(--color-indigo-300);
-    --dark-tertiary-fg-high: var(--color-indigo-400);
-
-    --dark-surface-bg-low: var(--color-slate-800);
-    --dark-surface-bg: var(--color-slate-900);
-    --dark-surface-bg-high: var(--color-slate-950);
-    --dark-surface-fg-low: var(--color-slate-100);
-    --dark-surface-fg: var(--color-slate-300);
-    --dark-surface-fg-high: var(--color-slate-400);
-
-    --dark-error-bg-low: var(--color-red-800);
-    --dark-error-bg: var(--color-red-900);
-    --dark-error-bg-high: var(--color-red-950);
-    --dark-error-fg-low: var(--color-red-100);
-    --dark-error-fg: var(--color-red-300);
-    --dark-error-fg-high: var(--color-red-400);
-
-    --light-primary-bg-low: var(--color-blue-100);
-    --light-primary-bg: var(--color-blue-300);
-    --light-primary-bg-high: var(--color-blue-400);
-    --light-primary-fg-low: var(--color-blue-800);
-    --light-primary-fg: var(--color-blue-900);
-    --light-primary-fg-high: var(--color-blue-950);
-
-    --light-secondary-bg-low: var(--color-teal-100);
-    --light-secondary-bg: var(--color-teal-300);
-    --light-secondary-bg-high: var(--color-teal-400);
-    --light-secondary-fg-low: var(--color-teal-800);
-    --light-secondary-fg: var(--color-teal-900);
-    --light-secondary-fg-high: var(--color-teal-950);
-
-    --light-tertiary-bg-low: var(--color-indigo-100);
-    --light-tertiary-bg: var(--color-indigo-300);
-    --light-tertiary-bg-high: var(--color-indigo-400);
-    --light-tertiary-fg-low: var(--color-indigo-800);
-    --light-tertiary-fg: var(--color-indigo-900);
-    --light-tertiary-fg-high: var(--color-indigo-950);
-
-    --light-surface-bg-low: var(--color-slate-100);
-    --light-surface-bg: var(--color-slate-300);
-    --light-surface-bg-high: var(--color-slate-400);
-    --light-surface-fg-low: var(--color-slate-800);
-    --light-surface-fg: var(--color-slate-900);
-    --light-surface-fg-high: var(--color-slate-950);
-
-    --light-error-bg-low: var(--color-red-100);
-    --light-error-bg: var(--color-red-300);
-    --light-error-bg-high: var(--color-red-400);
-    --light-error-fg-low: var(--color-red-800);
-    --light-error-fg: var(--color-red-900);
-    --light-error-fg-high: var(--color-red-950);
-
-
-    /****************************** 根据主题变量生成的调色盘 ***********************************/
-
-    --primary-bg-low: light-dark(var(--light-primary-bg-low), var(--dark-primary-bg-low));
-    --primary-bg: light-dark(var(--light-primary-bg), var(--dark-primary-bg));
-    --primary-bg-high: light-dark(var(--light-primary-bg-high), var(--dark-primary-bg-high));
-    --primary-fg-low: light-dark(var(--light-primary-fg-low), var(--dark-primary-fg-low));
-    --primary-fg: light-dark(var(--light-primary-fg), var(--dark-primary-fg));
-    --primary-fg-high: light-dark(var(--light-primary-fg-high), var(--dark-primary-fg-high));
-
-    --secondary-bg-low: light-dark(var(--light-secondary-bg-low), var(--dark-secondary-bg-low));
-    --secondary-bg: light-dark(var(--light-secondary-bg), var(--dark-secondary-bg));
-    --secondary-bg-high: light-dark(var(--light-secondary-bg-high), var(--dark-secondary-bg-high));
-    --secondary-fg-low: light-dark(var(--light-secondary-fg-low), var(--dark-secondary-fg-low));
-    --secondary-fg: light-dark(var(--light-secondary-fg), var(--dark-secondary-fg));
-    --secondary-fg-high: light-dark(var(--light-secondary-fg-high), var(--dark-secondary-fg-high));
-
-    --tertiary-bg-low: light-dark(var(--light-tertiary-bg-low), var(--dark-tertiary-bg-low));
-    --tertiary-bg: light-dark(var(--light-tertiary-bg), var(--dark-tertiary-bg));
-    --tertiary-bg-high: light-dark(var(--light-tertiary-bg-high), var(--dark-tertiary-bg-high));
-    --tertiary-fg-low: light-dark(var(--light-tertiary-fg-low), var(--dark-tertiary-fg-low));
-    --tertiary-fg: light-dark(var(--light-tertiary-fg), var(--dark-tertiary-fg));
-    --tertiary-fg-high: light-dark(var(--light-tertiary-fg-high), var(--dark-tertiary-fg-high));
-
-    --surface-bg-low: light-dark(var(--light-surface-bg-low), var(--dark-surface-bg-low));
-    --surface-bg: light-dark(var(--light-surface-bg), var(--dark-surface-bg));
-    --surface-bg-high: light-dark(var(--light-surface-bg-high), var(--dark-surface-bg-high));
-    --surface-fg-low: light-dark(var(--light-surface-fg-low), var(--dark-surface-fg-low));
-    --surface-fg: light-dark(var(--light-surface-fg), var(--dark-surface-fg));
-    --surface-fg-high: light-dark(var(--light-surface-fg-high), var(--dark-surface-fg-high));
-
-    --error-bg-low: light-dark(var(--light-error-bg-low), var(--dark-error-bg-low));
-    --error-bg: light-dark(var(--light-error-bg), var(--dark-error-bg));
-    --error-bg-high: light-dark(var(--light-error-bg-high), var(--dark-error-bg-high));
-    --error-fg-low: light-dark(var(--light-error-fg-low), var(--dark-error-fg-low));
-    --error-fg: light-dark(var(--light-error-fg), var(--dark-error-fg));
-    --error-fg-high: light-dark(var(--light-error-fg-high), var(--dark-error-fg-high));
+    --error-bg-low: light-dark(var(--color-red-100), var(--color-red-800));
+    --error-bg: light-dark(var(--color-red-300), var(--color-red-900));
+    --error-bg-high: light-dark(var(--color-red-400), var(--color-red-950));
+    --error-fg-low: light-dark(var(--color-red-800), var(--color-red-100));
+    --error-fg: light-dark(var(--color-red-900), var(--color-red-300));
+    --error-fg-high: light-dark(var(--color-red-950), var(--color-red-400));
 
     --bg: var(--surface-bg);
     --bg-low: var(--surface-bg-low);
@@ -181,6 +104,9 @@
 /****************** tailwind *********************/
 
 @theme inline {
+
+    --default-transition-duration: 300ms;
+
     --color-primary-bg-low: var(--primary-bg-low);
     --color-primary-bg: var(--primary-bg);
     --color-primary-bg-high: var(--primary-bg-high);

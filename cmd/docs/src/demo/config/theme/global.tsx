@@ -11,11 +11,11 @@ export default function() {
     return <div>
         <Button>这是继承全局的主题: {t.mode}, {t.scheme?.light?.['primary-bg'] }</Button>
 
-        <ThemeProvider mode='light' scheme={opt.schemes?.get('default')}>
-            <Button>这是当前固定的主题1</Button>
+        <ThemeProvider mode='light' scheme={opt.schemes?.get('green')}>
+            <Button>这是当前固定的主题-green</Button>
 
-            <Button onClick={() => act.switchScheme('default')}>主题1</Button>
-            <Button onClick={() => act.switchScheme('default2')}>主题2</Button>
+            <Button onClick={() => act.switchScheme('purple')}>主题-purple</Button>
+            <Button onClick={() => act.switchScheme('green')}>主题-green</Button>
 
             <Button onClick={() => act.switchMode('light')}>浅色</Button>
             <Button onClick={() => act.switchMode('dark')}>深色</Button>

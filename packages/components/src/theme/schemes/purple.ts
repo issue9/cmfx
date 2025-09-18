@@ -83,5 +83,5 @@ export default {
         '3xl': 1,
         '4xl': 1
     },
-    'transitionDuration': 500
+    'transitionDuration': 800
 } as Scheme;

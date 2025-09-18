@@ -2,7 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale, useTheme } from '@cmfx/components';
+import {
+    Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale, useTheme
+} from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { createEffect, JSX, untrack } from 'solid-js';
 import { unwrap } from 'solid-js/store';

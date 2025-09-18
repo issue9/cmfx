@@ -17,8 +17,13 @@ export interface Scheme {
      */
     contrast: number;
 
+    // NOTE: 主题颜色值是必须要定义的，不能从父元素继承。
+
+    dark: Palettes;
+    light: Palettes;
+
     /**
-     * 全局字体的大小，该值将会修改 html 下的 font-size 属性。默认值为 16 px。
+     * 全局字体的大小，该值将会修改 html 下的 font-size 属性。默认值为 16px。
      */
     fontSize?: string;
 
@@ -31,9 +36,6 @@ export interface Scheme {
      * 动画的时长，默认为 300，单位为 ms。
      */
     transitionDuration?: number;
-
-    dark?: Palettes;
-    light?: Palettes;
 }
 
 /**
@@ -133,11 +135,8 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
             elem.style.setProperty(transitionDurationName, `${v}ms`);
             return;
         case 'dark':
-        case 'light':
             Object.entries<string>(v).forEach(([k2, v2]) => {
-                if (v2 !== undefined) {
-                    elem.style.setProperty(`--${k}-${k2}`, v2);
-                }
+                elem.style.setProperty(`--${k2}`, `light-dark(${s.light[k2]}, ${v2})`);
             });
             return;
         default:
@@ -145,10 +144,8 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
         }
     });
 
-    /*
-     * 将 :root 中所有的变量复制到当前元素中
-     * 因为部分变量本身又引用了其它变量，为了重新计算这些变量，需要将未计算的变量值复制到当前元素。
-     */
+    // --bg 等变量引用的值 --primary-bg 已经改变。
+    // 需要复制这些变量到当前元素，让元素重新计算 --bg 等变量的值。
     for (const sheet of document.styleSheets) {
         for (const rule of sheet.cssRules) {
             if (rule instanceof CSSStyleRule) {
@@ -158,7 +155,7 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
                             return;
                         }
 
-                        // 如果已经存在，说明上面的 Object.entries.foreach 已经设置过了。
+                        // 如果已经存在，说明当前主题中有定义，不需要复制。
                         if (!elem.style.getPropertyValue(key)) {
                             elem.style.setProperty(key, rule.style.getPropertyValue(key));
                         }
