@@ -5,7 +5,8 @@
 import {
     Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale, useTheme
 } from '@cmfx/components';
-import { createEffect, JSX, untrack } from 'solid-js';
+import { createEffect, JSX } from 'solid-js';
+import { unwrap } from 'solid-js/store';
 
 import { Demo } from './demo';
 import { params } from './params';
@@ -21,7 +22,7 @@ export default function SchemeBuilder(): JSX.Element {
     const [, act] = useComponents();
 
     const t = useTheme();
-    const schemeFA = new ObjectAccessor<Scheme>(t.scheme!);
+    const schemeFA = new ObjectAccessor<Scheme>(unwrap(t.scheme!));
 
     createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
@@ -31,7 +32,6 @@ export default function SchemeBuilder(): JSX.Element {
         },
         apply: () => {
             act.switchScheme(schemeFA.object());
-            act.switchMode(untrack(modeFA.getValue));
         },
     };
 

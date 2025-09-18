@@ -77,7 +77,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                         value: locale[0],
                         icon: languageIcons.get(locale[0]) ?? IconLanguage,
                     }))}>
-                    <Button kind='flat' square rounded><IconLanguage /></Button>
+                    <Button kind='flat' square><IconLanguage /></Button>
                 </Dropdown>
 
                 <Dropdown hoverable value={[mode()]} onChange={(val, old) => {
@@ -95,7 +95,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: IconBuilder },
                 ]}
                 >
-                    <Button kind='flat' square rounded><IconTheme /></Button>
+                    <Button kind='flat' square><IconTheme /></Button>
                 </Dropdown>
 
                 <Dropdown hoverable value={[dir()]} onChange={e => {
@@ -108,10 +108,10 @@ function InternalApp(props: ParentProps): JSX.Element {
                     { type: 'item', label: l.t('_d.main.auto'), value: 'auto', icon: IconAuto }
                 ]}
                 >
-                    <Button kind='flat' square rounded><IconAlign /></Button>
+                    <Button kind='flat' square><IconAlign /></Button>
                 </Dropdown>
 
-                <LinkButton kind='flat' square rounded href={pkg.homepage}><IconGithub /></LinkButton>
+                <LinkButton kind='flat' square href={pkg.homepage}><IconGithub /></LinkButton>
             </div>
         }>
             <Menu class='ms-5' layout='horizontal' items={[

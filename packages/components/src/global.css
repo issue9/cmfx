@@ -57,5 +57,5 @@ kbd {
 }
 
 [popover]:popover-open {
-    @apply popopen shadow-md shadow-palette-bg-low;
+    @apply popopen shadow-md;
 }

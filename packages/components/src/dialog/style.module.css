@@ -13,7 +13,7 @@ dialog {
 }
 
 dialog[open] {
-    @apply popopen shadow-md shadow-palette-bg-low;
+    @apply popopen shadow-lg;
 }
 
 dialog::backdrop {
@@ -29,7 +29,7 @@ dialog::backdrop {
             @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low grow-0 shrink-0;
 
             .close {
-                @apply p-[1px] cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-full;
+                @apply p-[1px] cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-xs;
             }
         }
 
