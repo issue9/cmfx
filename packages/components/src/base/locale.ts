@@ -11,14 +11,14 @@ import { createStore } from 'solid-js/store';
 export type Locale = ReturnType<typeof buildLocale>;
 
 export function buildLocale(cl: CoreLocale) {
-    const l = createStore<{ l: CoreLocale }>({l:cl});
+    const l = createStore<{ l: CoreLocale }>({ l: cl });
 
     return {
         changeLocale(cl: CoreLocale) { l[1]({ l: cl }); },
 
         get locale(): Intl.Locale { return l[0].l.locale; },
 
-        get displayStyle(): DisplayStyle  { return l[0].l.displayStyle; },
+        get displayStyle(): DisplayStyle { return l[0].l.displayStyle; },
 
         get timezone(): string { return l[0].l.timezone; },
 

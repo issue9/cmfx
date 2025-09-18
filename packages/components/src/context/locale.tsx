@@ -49,7 +49,7 @@ export function useLocale(): Locale {
  * 指定新的本地化对象，其子类将采用此本地化对象。
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
-    const v = buildLocale(new CoreLocale(props.id, props.displayStyle));
+    const v = buildLocale(new CoreLocale(props.id, props.displayStyle, props.timezone));
 
     createEffect(() => {
         v.changeLocale(new CoreLocale(props.id, props.displayStyle, props.timezone));

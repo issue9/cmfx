@@ -6,7 +6,7 @@ import { children, createContext, createEffect, For, JSX, ParentProps, splitProp
 
 import { changeMode, changeScheme, Mode, Scheme } from '@/base';
 
-const themeContext = createContext<Theme>({});
+const themeContext = createContext<Theme>();
 
 /**
  * 返回主题设置的参数
