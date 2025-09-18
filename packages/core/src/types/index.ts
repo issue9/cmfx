@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export { flatten } from './flatten';
-export type { Flatten, Keys as FlattenKeys, Object as FlattenObject } from './flatten';
+export type { Flatten, Object as Flattenable, Keys as FlattenKeys } from './flatten';
 
 export type { OmitOptional, OptionalKeys, PickOptional } from './optional';
 

@@ -9,6 +9,8 @@ export const transitionDurationName = '--default-transition-duration';
  * 定义主题相关的各类变量
  */
 export interface Scheme {
+    [k: string]: any;
+
     // 对主题的修改，大部分是对 tailwind 主题的修改，其字段来源于：
     // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
 

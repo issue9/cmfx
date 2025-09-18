@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { FlattenObject } from '@cmfx/core';
+import { Flattenable } from '@cmfx/core';
 import { mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout } from '@/base';
@@ -11,7 +11,7 @@ import { FormAccessor } from './access';
 import { FormProvider } from './field';
 import styles from './style.module.css';
 
-export interface Props<T extends FlattenObject, R = never, P = never> extends BaseProps, ParentProps {
+export interface Props<T extends Flattenable, R = never, P = never> extends BaseProps, ParentProps {
     formAccessor: FormAccessor<T, R, P>;
 
     /**
@@ -55,7 +55,7 @@ const preset = {
 /**
  * 表单组件
  */
-export function Form<T extends FlattenObject, R = never, P = never>(props: Props<T, R, P>) {
+export function Form<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>) {
     props = mergeProps(preset, props);
 
     return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>

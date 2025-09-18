@@ -5,9 +5,7 @@
 import {
     Drawer, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale, useTheme
 } from '@cmfx/components';
-import { ExpandType } from '@cmfx/core';
 import { createEffect, JSX, untrack } from 'solid-js';
-import { unwrap } from 'solid-js/store';
 
 import { Demo } from './demo';
 import { params } from './params';
@@ -23,7 +21,7 @@ export default function SchemeBuilder(): JSX.Element {
     const [, act] = useComponents();
 
     const t = useTheme();
-    const schemeFA = new ObjectAccessor<ExpandType<Scheme>>(unwrap(t.scheme!)); // t.scheme 可能是 Proxy
+    const schemeFA = new ObjectAccessor<Scheme>(t.scheme!); // t.scheme 可能是 Proxy
 
     createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
@@ -32,7 +30,7 @@ export default function SchemeBuilder(): JSX.Element {
             return schemeFA.object();
         },
         apply: () => {
-            act.switchScheme(unwrap(schemeFA.object()));
+            act.switchScheme(schemeFA.object());
             act.switchMode(untrack(modeFA.getValue));
         },
     };

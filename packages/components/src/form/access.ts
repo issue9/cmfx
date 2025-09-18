@@ -2,21 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { FlattenKeys, FlattenObject, Problem, Return } from '@cmfx/core';
+import { Flattenable, FlattenKeys, Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
-import { createStore, produce, unwrap } from 'solid-js/store';
+import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
 import { Accessor, ChangeFunc } from './field';
 
 // ObjectAccessor 中保存错误的类型
-type Err<T extends FlattenObject> = Record<FlattenKeys<T>, string | undefined>;
+type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
 
 /**
  * 验证数据 obj 的函数签名
  *
  * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 Map。
  */
-export interface Validation<T extends FlattenObject> {
+export interface Validation<T extends Flattenable> {
     (obj: T): Map<FlattenKeys<T>, string> | undefined;
 }
 
@@ -25,15 +25,15 @@ export interface Validation<T extends FlattenObject> {
  *
  * @typeParam T - 表示当前存储的对象类型，该对象要求必须是可由 {@link structuredClone} 复制的；
  */
-export class ObjectAccessor<T extends FlattenObject> {
+export class ObjectAccessor<T extends Flattenable> {
     #preset: T;
     readonly #isPreset: Signal<boolean>;
 
-    readonly #valGetter: ReturnType<typeof createStore<T>>[0];
-    readonly #valSetter: ReturnType<typeof createStore<T>>[1];
+    readonly #valGetter: Store<T>;
+    readonly #valSetter: SetStoreFunction<T>;
 
-    readonly #errGetter: ReturnType<typeof createStore<Err<T>>>[0];
-    readonly #errSetter: ReturnType<typeof createStore<Err<T>>>[1];
+    readonly #errGetter: Store<Err<T>>;
+    readonly #errSetter: SetStoreFunction<Err<T>>;
 
     readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown, string>>;
 
@@ -166,7 +166,7 @@ export class ObjectAccessor<T extends FlattenObject> {
      */
     object(validation?: Validation<T>): T;
     object(validation?: Validation<T>): T | undefined {
-        const v: T = this.#valGetter;
+        const v: T = unwrap<T>(this.#valGetter);
 
         if (validation) {
             const errors = validation(v);
@@ -216,7 +216,7 @@ interface SuccessFunc<T> {
     (r?: Return<T, never>): void;
 }
 
-interface Request<T extends FlattenObject, R = never, P = never> {
+interface Request<T extends Flattenable, R = never, P = never> {
     (obj: T): Promise<Return<R, P>>;
 }
 
@@ -231,7 +231,7 @@ interface ProcessProblem<T = never> {
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class FormAccessor<T extends FlattenObject, R = never, P = never> {
+export class FormAccessor<T extends Flattenable, R = never, P = never> {
     readonly #object: ObjectAccessor<T>;
     readonly #validation?: Validation<T>;
     readonly #pp?: ProcessProblem<P>;

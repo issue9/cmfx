@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flatten, flatten, FlattenKeys, FlattenObject } from '@/types';
+import { Flatten, flatten, Flattenable, FlattenKeys } from '@/types';
 
 /**
  * 翻译对象
  */
-export type Dict = FlattenObject<string>;
+export type Dict = Flattenable<string>;
 
 /**
  * 翻译对象所有字段的联合类型

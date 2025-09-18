@@ -17,7 +17,7 @@ type Requiredify<T> = {
 };
 
 /**
- * 对象的类型
+ * 可转换为扁平对象的类型
  *
  * @typeParam T - 对象字段的类型；
  */

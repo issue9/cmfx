@@ -6,7 +6,7 @@ import { API, Config, DisplayStyle, Hotkey, Locale, Problem } from '@cmfx/core';
 import {
     createContext, createEffect, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext
 } from 'solid-js';
-import { createStore, unwrap } from 'solid-js/store';
+import { createStore } from 'solid-js/store';
 import IconProgress from '~icons/material-symbols/progress-activity';
 
 import { Mode, Scheme } from '@/base';
@@ -187,7 +187,7 @@ export function buildActions(ctx: InternalOptionsContext) {
          * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
          */
         switchScheme(scheme: string | Scheme) {
-            const s = structuredClone((typeof scheme === 'string') ? unwrap(options.schemes!.get(scheme)) : scheme);
+            const s = structuredClone((typeof scheme === 'string') ? options.schemes!.get(scheme) : scheme);
             setOptions({ scheme: s });
             options.config!.set(schemeKey, s);
         },
