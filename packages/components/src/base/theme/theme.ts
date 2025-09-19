@@ -23,7 +23,7 @@ export function transitionDuration(el?: Element): number {
     if (val.endsWith('ms')) {
         return parseInt(val.substring(0, val.length - 2));
     } else if (val.endsWith('s')) {
-        return parseInt(val.substring(0, val.length - 1))*1000;
+        return parseInt(val.substring(0, val.length - 1)) * 1000;
     } else { // 其它直接当作数值处理
         return parseInt(val);
     }

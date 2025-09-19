@@ -85,7 +85,7 @@
 
         li {
             >ul {
-                @apply min-w-max absolute z-100 pop;
+                @apply min-w-max absolute z-popover pop;
                 @apply shadow-md shadow-surface-bg-low;
                 @apply bg-palette-bg text-palette-fg;
             }
@@ -119,7 +119,7 @@
         li {
             >ul {
                 @apply pop;
-                @apply min-w-max absolute z-100;
+                @apply min-w-max absolute z-popover;
                 @apply shadow-md shadow-surface-bg-low;
                 @apply bg-palette-bg text-palette-fg;
             }

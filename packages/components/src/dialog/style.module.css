@@ -7,7 +7,7 @@
 @reference '../style.css';
 
 dialog {
-    @apply start-1/2 -translate-1/2 fixed pop;
+    @apply start-1/2 -translate-1/2 fixed pop z-dialog;
     inset-block-start: 50%;
     @apply rtl:translate-x-1/2;
 }

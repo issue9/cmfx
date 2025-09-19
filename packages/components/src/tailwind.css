@@ -9,8 +9,6 @@
 :root {
     color-scheme: light dark;
 
-
-
     --primary-bg-low: light-dark(var(--color-blue-100), var(--color-blue-800));
     --primary-bg: light-dark(var(--color-blue-300), var(--color-blue-900));
     --primary-bg-high: light-dark(var(--color-blue-400), var(--color-blue-950));
@@ -168,4 +166,29 @@
     --container-lg: 64rem;
     --container-xl: 80rem;
     --container-2xl: 96rem;
+}
+
+/* 界面上固定的按钮 */
+@utility z-affix {
+    z-index: 1000;
+}
+
+/* 提示信息 */
+@utility z-tooltip {
+    z-index: 2000;
+}
+
+/* 一此普通的弹出元素 */
+@utility z-popover {
+    z-index: 3000;
+}
+
+/* 通知类型的弹出元素 */
+@utility z-notify {
+    z-index: 5000;
+}
+
+/* 弹出对话框 */
+@utility z-dialog {
+    z-index: 7000;
 }

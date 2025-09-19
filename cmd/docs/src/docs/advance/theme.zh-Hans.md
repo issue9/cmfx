@@ -26,3 +26,13 @@
 - fg-low
 
 在 tailwind 中可以使用 `bg-{palette/primary/secondary/tertiary/error/surface}-{bg/fg}-{low/high/}` 等对颜色进行访问。
+
+## z-index
+
+定义了以下几个通用的 z-index 值：
+
+- z-affix
+- z-tooltip
+- z-popover
+- z-notify
+- z-dialog

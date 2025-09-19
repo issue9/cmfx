@@ -8,7 +8,7 @@
 
 @layer components {
     .notify {
-        @apply absolute top-4 end-4 start-4 flex flex-col z-[1000] gap-4;
+        @apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-4;
         @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto sm:start-auto;
 
         .message {
