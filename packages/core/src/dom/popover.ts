@@ -16,13 +16,13 @@ export type PopoverAlign = 'start' | 'center' | 'end';
 /**
  * 调整弹出元素 popRef 的位置
  *
- * @param popRef - 弹出对象，必须得是可见状态且有一个明确的 display 属性；
+ * @param popRef - 弹出对象，必须得是可见状态且有一个明确的 display 属性，必须得是一个具有 popover 属性的元素；
  * @param anchor - 锚定对象的范围；
  * @param padding - popRef 与 anchor 两者之间的间隙；
  * @param pos - 相对于 anchor 的弹出位置；
  * @param align - popRef 与 anchor 两者之间的对齐方式；
  *
- * NOTE: 该操作会在 popRef 显示期间调整其父元素的 position 属性。
+ * @remarks 该操作会在 popRef 显示期间调整其父元素的 position 属性。
  */
 export function adjustPopoverPosition(
     popRef: HTMLElement, anchor: DOMRect, padding?: number,
@@ -65,6 +65,7 @@ export function adjustPopoverPosition(
  * @param popRef - 弹出对象，必须得是可见状态的；
  * @param anchor - 锚定对象的范围；
  * @param pos - popRef 相对 anchor 的位置；
+ * @param align - popRef 相对 anchor 的对齐方式；
  * @param padding - popRef 与 anchor 两者之间的间隙；
  * @param rtl - 是否是右到左的布局；
  *

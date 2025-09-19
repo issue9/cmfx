@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey, sleep } from '@cmfx/core';
+import { calcPopoverPosition, Hotkey, sleep } from '@cmfx/core';
 import { A, useMatch } from '@solidjs/router';
 import {
     createEffect, createMemo, createSignal, For, JSX, Match, mergeProps, onCleanup, onMount, Show, Switch
@@ -148,7 +148,35 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         isSelected() ? props.selectedClass : undefined,
                     ));
 
-                    return <li ref={el => liRef = el} class={cls()} onClick={async e => {
+                    return <li ref={el => liRef = el} class={cls()} onMouseEnter={e => {
+                        if (props.layout === 'inline') { return; }
+
+                        const curr = e.currentTarget as HTMLLIElement;
+                        const ul = curr.querySelector(':scope>ul') as HTMLUListElement;
+                        if (!ul) { return; }
+
+                        ul.style.display = 'flex';
+                        const rtl = window.getComputedStyle(ul).direction === 'rtl';
+                        const p = i().level === 0
+                            ? calcPopoverPosition(ul, curr.getBoundingClientRect(),
+                                props.layout === 'vertical' ? 'right' : 'bottom', 'start', 0, rtl)
+                            : calcPopoverPosition(ul, curr.getBoundingClientRect(), 'right', 'start', 0, rtl);
+
+                        ul.style.top = p.y + 'px';
+                        ul.style.bottom = 'unset';
+                        ul.style.left = p.x + 'px';
+                        ul.style.right = 'unset';
+                        e.preventDefault();
+                    }} onMouseLeave={e => {
+                        if (props.layout === 'inline') { return; }
+
+                        const curr = e.currentTarget as HTMLLIElement;
+                        const ul = curr.querySelector(':scope>ul') as HTMLUListElement;
+                        if (!ul) { return; }
+
+                        ul.style.display = 'none';
+                        e.preventDefault();
+                    }} onClick={async e => {
                         if (i().disabled) { return; }
                         e.stopPropagation();
 
@@ -185,7 +213,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             iconRef.to(expanded() ? 'up' : 'down');
                         }
                     }}>
-                        <Dynamic class={styles.title} component={(isAnchor && !hasItems) ? A : 'p' }
+                        <Dynamic class={styles.title} component={(isAnchor && !hasItems) ? A : 'p'}
                             href={(isAnchor && !i().disabled) ? (val?.toString() ?? '') : ''}
                             style={{
                                 'padding-inline-start': props.layout === 'inline'
