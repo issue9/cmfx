@@ -71,13 +71,13 @@ export function SplitButton(props: Props) {
 
     return <>
         {activator}
-        <div ref={el=>popElem=el} popover="auto"
-            class={classList({[`palette--${props.palette}`]:!!props.palette}, styles['split-content'])}
+        <div ref={el => popElem = el} popover="auto"
+            class={classList({ [`palette--${props.palette}`]: !!props.palette }, styles['split-content'])}
         >
             <For each={props.menus}>
                 {(item) => {
                     let ref: Ref;
-                    if (item.type ==='item' && item.hotkey) {
+                    if (item.type === 'item' && item.hotkey) {
                         const hk = item.hotkey;
                         onMount(() => { Hotkey.bind(hk, () => { ref.click(); }); });
                         onCleanup(() => { Hotkey.unbind(hk); });
@@ -87,7 +87,7 @@ export function SplitButton(props: Props) {
                             <hr class="border-palette-bg-low" />
                         </Match>
                         <Match when={item.type === 'item'}>
-                            <Button ref={el=>ref=el} kind='flat' disabled={(item as any).disabled}
+                            <Button ref={el => ref = el} kind='flat' disabled={(item as any).disabled}
                                 class={styles['split-item']} onClick={() => {
                                     (item as any).onClick();
                                     popElem.hidePopover();

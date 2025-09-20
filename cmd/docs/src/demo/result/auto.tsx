@@ -8,7 +8,8 @@ import { paletteSelector } from '../base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
-    return <Result title='internal server error' palette={palette()} illustration={<illustrations.Error500 />}>
+    return <Result title='网站更新中' layout='auto' palette={palette()} illustration={<illustrations.Error404 />}>
+        <div>网站更新中......</div>
         {paletteS}
     </Result>;
 }

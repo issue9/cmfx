@@ -7,17 +7,60 @@
 @reference '../style.css';
 
 @layer components {
-    .error {
-        @apply text-palette-fg p-8 mx-auto w-full h-full overflow-y-auto text-wrap whitespace-break-spaces;
-        @apply flex flex-col items-center justify-center gap-10;
+    .result {
+        @apply text-palette-fg p-8 mx-auto w-full h-full text-wrap whitespace-break-spaces;
+        @apply flex items-center justify-center;
 
-        svg,
-        img {
-            @apply h-1/2 aspect-square;
+        .illustration {
+            @apply h-1/2 w-1/2 flex justify-end;
         }
 
         .content {
-            @apply flex flex-wrap gap-5 justify-center mt-5;
+            @apply flex justify-start flex-col gap-5 h-1/2 w-1/2;
+
+            h2.title {
+                @apply text-4xl font-bold;
+            }
+
+            p.description {
+                @apply text-wrap wrap-break-word;
+            }
+        }
+    }
+
+    .result.horizontal {
+        @apply flex-row;
+
+        .illustration {
+            @apply h-full w-1/2;
+        }
+
+        .content {
+            @apply items-start h-full w-1/2;
+        }
+    }
+
+    .result.vertical {
+        @apply flex-col overflow-y-auto;
+
+        .illustration {
+            @apply h-1/2 w-full justify-center;
+        }
+
+        .content {
+            @apply items-center w-full h-1/2;
+        }
+    }
+
+    .result.auto {
+        @apply flex flex-row flex-wrap;
+
+        .illustration {
+            @apply min-w-fit flex-1;
+        }
+
+        .content {
+            @apply flex-1 w-fit;
         }
     }
 }

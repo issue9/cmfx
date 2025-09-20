@@ -2,46 +2,96 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, JSX, mergeProps, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
-import { useComponents } from '@/context';
+import { BaseProps, joinClass, Layout, PropsError } from '@/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, ParentProps {
     /**
      * 显示可选的插画
+     *
+     * @reactive
      */
     illustration?: JSX.Element;
 
     /**
      * 页面标题
+     *
+     * @reactive
      */
     title?: string;
 
     /**
-     * 指定一些自定义的操作
+     * 描述内容
+     *
+     * @reactive
      */
-    children?: JSX.Element;
+    description?: string;
+
+    /**
+     * 布局
+     *
+     * @remarks 可以有以下取值：
+     * - `vertical`：垂直布局，插画在上方，标题和描述内容在下方；
+     * - `horizontal`：水平布局，插画在左侧，标题和描述内容在右侧；
+     * - `auto`：自动选择布局，根据内容的长度来决定是水平还是垂直布局；
+     *
+     * @reactive
+     * @defaultValue 'auto'
+     */
+    layout?: Layout | 'auto';
+
+    /**
+     * 插画和文本内容之间的间距
+     *
+     * @reactive
+     * @defaultValue '2.5rem'
+     */
+    gap?: string;
 }
 
-const presetProps: Readonly<Partial<Props>> = {
-    palette: 'error',
-};
+const presetProps: Readonly<Props> = {
+    layout: 'auto',
+    gap: '2.5rem'
+} as const;
 
 /**
- * 结果页面，此组件会修改页面的标题
+ * 结果页面
+ *
+ * @remarks 组件件会被分成两部分，插图和文本内容，两都可以为空，但不能同时为空。
  */
-export  function Result(props: Props) {
+export default function Result(props: Props) {
     props = mergeProps(presetProps, props);
-    const [, act] = useComponents();
 
-    createEffect(() => { act.setTitle(props.title ?? ''); });
+    if (!props.illustration && !props.children) {
+        throw new PropsError('children,illustration', '不能为空');
+    }
 
-    return <div class={joinClass(styles.error, props.palette ? `palette--${props.palette}` : '', props.class)}>
-        {props.illustration }
-        <Show when={props.children}>
-            <div class={styles.content}>{props.children}</div>
+    const cls = createMemo(() => {
+        return joinClass(
+            styles.result,
+            props.palette ? `palette--${props.palette}` : '',
+            props.layout === 'auto' ? styles.auto : (props.layout === 'vertical' ? styles.vertical : styles.horizontal),
+            props.class,
+        );
+    });
+
+    return <div class={cls()} style={{'gap': props.gap}}>
+        <Show when={props.illustration}>
+            <div aria-hidden="true" class={styles.illustration}>{props.illustration}</div>
+        </Show>
+
+        <Show when={props.children || props.title || props.description}>
+            <div class={styles.content}>
+                <Show when={props.title}>
+                    <h2 class={styles.title}>{props.title}</h2>
+                </Show>
+                <Show when={props.description}>
+                    <p class={styles.description}>{props.description}</p>
+                </Show>
+                {props.children}
+            </div>
         </Show>
     </div>;
 }

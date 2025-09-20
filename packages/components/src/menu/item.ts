@@ -13,12 +13,14 @@ import { IconComponent } from '@/icon';
  */
 export type MenuItem<T extends AvailableEnumType> = TypeDivider | TypeGroup<T> | TypeItem<T>;
 
+// 分隔符
 export interface TypeDivider {
     type: 'divider';
 }
 
+// 分组
 export interface TypeGroup<T extends AvailableEnumType> {
-    type: 'group'; // 分组
+    type: 'group';
 
     label: JSX.Element;
 
@@ -37,7 +39,8 @@ export interface TypeItem<T extends AvailableEnumType> {
     /**
      * 表示当前项的唯一值
      *
-     * @remarks 该值为空时，{@link MenuItem#items} 不能为空。
+     * @remarks 该值为空时，{@link MenuItem#items} 不能为空，
+     * 如果 {@link "type"} 为 a 时，当前值表示链接的地址。
      */
     value?: T;
 

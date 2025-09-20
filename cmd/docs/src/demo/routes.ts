@@ -35,7 +35,6 @@ import IconTimezone from '~icons/mdi/timezone';
 import IconTooltip from '~icons/mdi/tooltip-text';
 import IconTimePanel from '~icons/mingcute/calendar-time-add-fill';
 import IconCode from '~icons/mingcute/code-fill';
-import IconEmpty from '~icons/mingcute/empty-box-fill';
 import IconQRCode from '~icons/mingcute/qrcode-2-fill';
 import IconStatistics from '~icons/octicon/number-16';
 import IconSpin from '~icons/pepicons-pop/arrow-spin-circle';
@@ -219,10 +218,6 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'data-display', path: '/datetime-week', component: lazy(() => import('./datetime/week')),
         info: { title: '_d.demo.weekPanel', icon: IconWeekPanel, },
-    },
-    {
-        kind: 'data-display', path: '/empty', component: lazy(() => import('./empty')),
-        info: { title: '_d.demo.empty', icon: IconEmpty },
     },
     {
         kind: 'data-display', path: '/qrcode', component: lazy(() => import('./qrcode')),

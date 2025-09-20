@@ -6,7 +6,7 @@ import { For, JSX, Show } from 'solid-js';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { Empty } from '@/empty';
+import { Empty } from '@/result';
 import { Spin } from '@/spin';
 import { Column } from './column';
 import styles from './style.module.css';
@@ -82,7 +82,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
             <Show when={hasCol}>
                 <colgroup>
                     <For each={props.columns}>
-                        {(item) => (<col class={item.colClass} />)}
+                        {item => (<col class={item.colClass} />)}
                     </For>
                 </colgroup>
             </Show>
@@ -93,7 +93,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
             }}>
                 <tr>
                     <For each={props.columns}>
-                        {(item) => (
+                        {item => (
                             <th class={item.headClass ?? item.cellClass}>{item.renderLabel ?? (item.label ?? item.id)}</th>
                         )}
                     </For>
@@ -106,7 +106,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
                         {item => (
                             <tr>
                                 <For each={props.columns}>
-                                    {(h) => {
+                                    {h => {
                                         const i = h.id in item ? (item as any)[h.id] : undefined;
                                         return <td class={h.cellClass}>
                                             {h.renderContent ? h.renderContent(h.id, i, item) : (h.content ? h.content(h.id, i, item) : i)}

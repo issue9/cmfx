@@ -8,7 +8,7 @@ import { paletteSelector } from '../base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
-    return <Result title='page not found' palette={palette()} illustration={<illustrations.BUG />}>
+    return <Result layout='vertical' title='page not found' palette={palette()} illustration={<illustrations.Error404 />}>
         {paletteS}
     </Result>;
 }

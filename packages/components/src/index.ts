@@ -32,7 +32,6 @@ export * from './datetime';
 export * from './dialog';
 export * from './divider';
 export * from './drawer';
-export * from './empty';
 export * from './form';
 export * from './icon';
 export * from './illustrations';
