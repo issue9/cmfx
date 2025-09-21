@@ -36,12 +36,12 @@ export function MemStatistic(): JSX.Element {
     });
 
     return <Statistics items={[
-        [l.t('_p.current.allMembers'), s().all, IconGroup],
-        [l.t('_p.current.monthMembers'), s().month, IconCalendar],
-        [l.t('_p.current.weekMembers'), s().week, IconWeek],
-        [l.t('_p.current.dayMembers'), s().day, IconToday],
-        [l.t('_p.current.activeMembers'), s().active, IconPersonChk],
-        [l.t('_p.current.onlineMembers'), s().online, IconRecord],
+        [l.t('_p.current.allMembers'), s().all, <IconGroup />],
+        [l.t('_p.current.monthMembers'), s().month, <IconCalendar />],
+        [l.t('_p.current.weekMembers'), s().week, <IconWeek />],
+        [l.t('_p.current.dayMembers'), s().day, <IconToday />],
+        [l.t('_p.current.activeMembers'), s().active, <IconPersonChk />],
+        [l.t('_p.current.onlineMembers'), s().online, <IconRecord />],
     ]} />;
 }
 

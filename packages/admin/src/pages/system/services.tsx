@@ -58,7 +58,7 @@ export function Services(): JSX.Element {
 
     return <Page title='_p.system.serviceViewer' class="max-w-lg">
         <fieldset>
-            <Label icon={IconSubtitle} tag='legend'>{l.t('_p.system.services')}</Label>
+            <Label icon={<IconSubtitle />} tag='legend'>{l.t('_p.system.services')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: l.t('_p.system.title')},
                 {id: 'state', label: l.t('_p.system.serviceState'), content: ((_: string, v?: State) => {
@@ -71,7 +71,7 @@ export function Services(): JSX.Element {
         <br />
 
         <fieldset>
-            <Label icon={IconTask} tag='legend'>{l.t('_p.system.jobs')}</Label>
+            <Label icon={<IconTask />} tag='legend'>{l.t('_p.system.jobs')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: l.t('_p.system.title')},
                 {id: 'state', label: l.t('_p.system.serviceState'),content: ((_: string, v?: State) => {

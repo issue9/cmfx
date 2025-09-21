@@ -5,8 +5,8 @@
 import './style.css';
 
 import {
-    Appbar, Button, Dropdown, IconComponent, LinkButton, Menu, Mode,
-    Notify, OptionsProvider, SystemDialog, useComponents, useLocale, useTheme
+    Appbar, Button, Dropdown, LinkButton, Menu, Mode, Notify,
+    OptionsProvider, SystemDialog, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
@@ -30,9 +30,9 @@ import { default as demoRoute } from './demo';
 import { default as docsRoute } from './docs';
 import { options } from './options';
 
-const languageIcons: ReadonlyMap<string, IconComponent> = new Map([
-    ['en', IconEN],
-    ['zh-Hans', IconZH],
+const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
+    ['en', <IconEN />],
+    ['zh-Hans', <IconZH />],
 ]);
 
 const routes: Array<RouteDefinition> = [
@@ -75,7 +75,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                         type: 'item',
                         label: locale[1],
                         value: locale[0],
-                        icon: languageIcons.get(locale[0]) ?? IconLanguage,
+                        icon: languageIcons.get(locale[0]) ?? <IconLanguage />,
                     }))}>
                     <Button kind='flat' square><IconLanguage /></Button>
                 </Dropdown>
@@ -88,11 +88,11 @@ function InternalApp(props: ParentProps): JSX.Element {
                     }
                 }}
                 items={[
-                    { type: 'item', label: l.t('_d.main.dark'), value: 'dark', icon: IconDark },
-                    { type: 'item', label: l.t('_d.main.light'), value: 'light', icon: IconLight },
-                    { type: 'item', label: l.t('_d.main.system'), value: 'system', icon: IconSystem },
+                    { type: 'item', label: l.t('_d.main.dark'), value: 'dark', icon: <IconDark /> },
+                    { type: 'item', label: l.t('_d.main.light'), value: 'light', icon: <IconLight /> },
+                    { type: 'item', label: l.t('_d.main.system'), value: 'system', icon: <IconSystem /> },
                     { type: 'divider' },
-                    { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: IconBuilder },
+                    { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', icon: <IconBuilder /> },
                 ]}
                 >
                     <Button kind='flat' square><IconTheme /></Button>
@@ -103,9 +103,9 @@ function InternalApp(props: ParentProps): JSX.Element {
                     document.documentElement.setAttribute('dir', dir());
                 }}
                 items={[
-                    { type: 'item', label: l.t('_d.main.ltr'), value: 'ltr', icon: IconLTR },
-                    { type: 'item', label: l.t('_d.main.rtl'), value: 'rtl', icon: IconRTL },
-                    { type: 'item', label: l.t('_d.main.auto'), value: 'auto', icon: IconAuto }
+                    { type: 'item', label: l.t('_d.main.ltr'), value: 'ltr', icon: <IconLTR /> },
+                    { type: 'item', label: l.t('_d.main.rtl'), value: 'rtl', icon: <IconRTL /> },
+                    { type: 'item', label: l.t('_d.main.auto'), value: 'auto', icon: <IconAuto /> }
                 ]}
                 >
                     <Button kind='flat' square><IconAlign /></Button>

@@ -19,10 +19,6 @@
             @apply !rounded-r-md;
         }
 
-        .prefix-icon {
-            @apply px-1 !py-0 shrink-0 self-center w-auto;
-        }
-
         .input {
             @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
 

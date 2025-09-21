@@ -113,12 +113,12 @@ export class current implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', label: '_p.current.dashboard', path: this.#prefix + '/dashboard', icon: IconDashboard },
-            { type: 'item', label: '_p.current.profile', path: this.#prefix + '/profile', icon: IconIDCard },
-            { type: 'item', label: '_p.current.settings', path: this.#prefix + '/settings', icon: IconSettings },
-            { type: 'item', label: '_p.current.securitylog', path: this.#prefix + '/securitylogs', icon: IconSecurity },
+            { type: 'item', label: '_p.current.dashboard', path: this.#prefix + '/dashboard', icon: <IconDashboard /> },
+            { type: 'item', label: '_p.current.profile', path: this.#prefix + '/profile', icon: <IconIDCard /> },
+            { type: 'item', label: '_p.current.settings', path: this.#prefix + '/settings', icon: <IconSettings /> },
+            { type: 'item', label: '_p.current.securitylog', path: this.#prefix + '/securitylogs', icon: <IconSecurity /> },
             { type: 'divider' },
-            { type: 'item', label: '_p.current.logout', path: this.#prefix + '/logout', icon: IconLogout },
+            { type: 'item', label: '_p.current.logout', path: this.#prefix + '/logout', icon: <IconLogout /> },
         ];
     }
 }

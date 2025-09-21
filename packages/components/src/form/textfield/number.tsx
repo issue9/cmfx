@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, onCleanup, onMount, Show, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
 
+import { PropsError } from '@/base';
 import { Button } from '@/button';
-import { IconComponent } from '@/icon';
-import styles from './style.module.css';
-import { Props as BaseProps, TextField, Ref } from './textfiled';
+import { Ref, TextField, Props as TextFieldProps } from './textfield';
 
-export interface Props extends Omit<BaseProps<number|undefined>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'|'aria-autocomplete'|'inputMode'> {
-    icon?: IconComponent;
+type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete' | 'aria-autocomplete' | 'inputMode';
+export interface Props extends Omit<TextFieldProps<number | undefined>, omitFields> {
     min?: number;
     max?: number;
     step?: number;
@@ -30,10 +29,10 @@ const presetProps: Partial<Props> = {
  */
 export function Number(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const [_, fieldProps] = splitProps(props, ['icon', 'min', 'max', 'step']);
+    const [_, fieldProps] = splitProps(props, ['min', 'max', 'step']);
 
     if (props.step === 0) {
-        throw 'step 不能为零';
+        throw new PropsError('step', '不能为零');
     }
 
     const access = props.accessor;
@@ -71,14 +70,10 @@ export function Number(props: Props): JSX.Element {
         ref.removeEventListener('wheel', wheel);
     });
 
-    return <TextField ref={el=>ref=el} {...fieldProps} type="number" prefix={
-        <Show when={props.icon}>
-            {(icon)=>icon()({class:styles['prefix-icon']})}
-        </Show>
-    } suffix={
+    return <TextField ref={el => ref = el} {...fieldProps} type="number" suffix={
         <>
-            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={()=>step(props.step!)}><IconArrowUp /></Button>
-            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={()=>step(-props.step!)}><IconArrowDown /></Button>
+            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={() => step(props.step!)}><IconArrowUp /></Button>
+            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={() => step(-props.step!)}><IconArrowDown /></Button>
         </>
     } />;
 }

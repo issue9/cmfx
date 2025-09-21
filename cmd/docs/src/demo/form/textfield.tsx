@@ -40,9 +40,9 @@ export default function() {
 
         <div class="flex flex-col gap-2 w-80">
             <Number hasHelp layout={layout()} placeholder='placeholder' palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Number hasHelp layout={layout()} placeholder='placeholder' label="icon" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Number hasHelp layout={layout()} placeholder='placeholder' label="range:[1,10]" icon={IconFace} min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
-            <Password hasHelp layout={layout()} placeholder='placeholder' label="password" icon={IconFace} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
+            <Number hasHelp layout={layout()} placeholder='placeholder' label="icon" prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Number hasHelp layout={layout()} placeholder='placeholder' label="range:[1,10]" prefix={<IconFace class='self-center' />} min={1} max={10} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={num} />
+            <Password hasHelp layout={layout()} placeholder='placeholder' label="password" prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={pwd} />
         </div>
     </Demo>;
 }

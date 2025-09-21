@@ -121,7 +121,7 @@ export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<s
         case 'item':
             items.push({
                 type: 'a',
-                icon: mi.icon,
+                prefix: mi.icon,
                 label: l.t(mi.label),
                 value: mi.path,
                 hotkey: mi.hotkey,

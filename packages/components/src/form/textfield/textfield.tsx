@@ -18,14 +18,23 @@ export type Ref = HTMLInputElement;
 export interface Props<T extends Value> extends FieldBaseProps {
     /**
      * 文本框内顶部的内容
+     *
+     * @reactive
      */
     prefix?: JSX.Element;
 
     /**
      * 文本框内尾部的内容
+     *
+     * @reactive
      */
     suffix?: JSX.Element;
 
+    /**
+     * placeholder
+     *
+     * @reactive
+     */
     placeholder?: string;
 
     /**
@@ -40,8 +49,20 @@ export interface Props<T extends Value> extends FieldBaseProps {
      */
     accessor: Accessor<T>;
 
+    /**
+     * 键盘的输入模式
+     *
+     * @reactive
+     */
     inputMode?: InputMode;
+
+    /**
+     * autocomplete
+     *
+     * @reactive
+     */
     autocomplete?: AutoComplete;
+
     'aria-autocomplete'?: JSX.FormHTMLAttributes<HTMLInputElement>['aria-autocomplete'];
 
     /**
@@ -65,7 +86,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
 
     return <Field title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
-            {(area)=><label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)} class={classList({
@@ -96,7 +117,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
         </div>
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

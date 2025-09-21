@@ -137,7 +137,7 @@ export function Info(): JSX.Element {
 
     return <Page title="_p.system.serverInfo" class={ joinClass('!max-w-lg', styles.info)}>
         <fieldset class={joinClass(styles.panel, 'w-[45%]', 'max-sm:w-full')}>
-            <Label icon={IconInfo} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
+            <Label icon={<IconInfo />} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
             <dl><dt>{l.t('_p.system.arch')}</dt><dd>{info()?.arch}</dd></dl>
@@ -190,7 +190,7 @@ export function Info(): JSX.Element {
         </fieldset>
 
         <fieldset class={joinClass(styles.panel, 'w-[45%]', 'max-sm:w-full')}>
-            <Label icon={IconAction} tag='legend'>{l.t('_p.actions')}</Label>
+            <Label icon={<IconAction />} tag='legend'>{l.t('_p.actions')}</Label>
 
             <ConfirmButton palette='secondary' onClick={async () => await act.clearCache()}>
                 <IconClear class="me-1" />{l.t('_p.system.clearCache')}
@@ -229,12 +229,12 @@ export function Info(): JSX.Element {
         </fieldset>
 
         <fieldset class={joinClass(styles.panel, 'w-full') }>
-            <Label icon={IconChart} tag='legend'>{l.t('_p.system.states')}</Label>
+            <Label icon={<IconChart />} tag='legend'>{l.t('_p.system.states')}</Label>
             <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
-                ['cpu', l.t('_c.cpu') + ' (%)'],
-                ['memory', l.t('_c.memory') + ' (MB)'],
-                ['connections', l.t('_p.system.connections')],
-                ['goroutines', l.t('_p.system.goroutines')],
+                { id: 'cpu', label: l.t('_c.cpu') + ' (%)' },
+                { id: 'memory', label: l.t('_c.memory') + ' (MB)' },
+                { id: 'connections', label: l.t('_p.system.connections') },
+                { id: 'goroutines', label: l.t('_p.system.goroutines') },
             ]} />
             <AxisChart ref={(el) => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
                 series={[

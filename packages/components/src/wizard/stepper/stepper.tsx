@@ -5,7 +5,6 @@
 import { createMemo, createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 
 import { BaseProps, classList, joinClass, Layout, Palette } from '@/base';
-import { IconComponent } from '@/icon';
 import { Ref, Step as WizardStep } from '@/wizard/step';
 import styles from './style.module.css';
 
@@ -15,7 +14,7 @@ export interface Step extends WizardStep {
     /**
      * 图标，如果值为 true，表示采用数字，否则为图标。
      */
-    icon?: IconComponent | true | { (completed?: boolean): IconComponent | true };
+    icon?: JSX.Element | true | { (completed?: boolean): JSX.Element | true };
 }
 
 export interface Props extends BaseProps {
@@ -28,9 +27,16 @@ export interface Props extends BaseProps {
 
     /**
      * 已完成项的色盘
+     *
+     * @reactive
      */
     accentPalette: Palette;
 
+    /**
+     * 布局
+     *
+     * @reactive
+     */
     layout?: Layout;
 
     ref?: { (ref: Ref): void; };
@@ -79,7 +85,7 @@ export default function Stepper(props: Props): JSX.Element {
                                     {idx() + 1}
                                 </Match>
                                 <Match when={((typeof step.icon === 'function' ? step.icon(completed()) : step.icon))}>
-                                    {(componentFunc) => (componentFunc as IconComponent)({})}
+                                    {componentFunc => componentFunc()}
                                 </Match>
                             </Switch>
                         </div>

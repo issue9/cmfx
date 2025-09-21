@@ -52,7 +52,7 @@ export class admins implements Pages {
 
     menus(): Array<MenuItem> {
         return [
-            { type: 'item', icon: IconAccount, label: '_p.admin.admin', path: this.#prefix },
+            { type: 'item', icon: <IconAccount />, label: '_p.admin.admin', path: this.#prefix },
         ];
     }
 }

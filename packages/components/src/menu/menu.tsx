@@ -220,8 +220,8 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                     ? `calc(var(--spacing) * (${i().level} * 4 + 3))` : undefined,
                             }}
                         >
-                            <Show when={i().icon}>
-                                {icon => { return icon()({ class: styles.icon }); }}
+                            <Show when={i().prefix}>
+                                {icon => <div class={styles.icon}>{icon()}</div> }
                             </Show>
                             {i().label}
                             <Show when={i().suffix}><span class={styles.suffix}>{i().suffix}</span></Show>
@@ -240,7 +240,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                     <Match when={props.layout === 'inline'}>
                                         <AnimationIcon ref={el => iconRef = el} rotation='none'
                                             class={joinClass(styles.icon, styles.suffix)} palette={props.palette}
-                                            icons={{ 'up': IconArrowUp, 'down': IconArrowDown }}
+                                            icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
                                         />
                                     </Match>
                                 </Switch>

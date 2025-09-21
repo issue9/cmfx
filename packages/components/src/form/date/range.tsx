@@ -12,7 +12,6 @@ import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { DateRangePanel, DateRangeValueType } from '@/datetime';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
-import { IconComponent } from '@/icon';
 import { arrayEqual } from '@cmfx/core';
 import { presetProps as basePresetProps, DateType, Props as PickerProps } from './date';
 import styles from './style.module.css';
@@ -24,7 +23,7 @@ export interface Props<T extends DateType> extends Omit<PickerProps, 'accessor'>
     /**
      * 中间的箭头
      */
-    arrowIcon?: IconComponent;
+    arrowIcon?: JSX.Element;
 
     // 类型约束在泛型 T 上，而不是 accessor 属性，可以保证 Accessor 的 start 和 end 是同一类型的。
     /**
@@ -38,14 +37,12 @@ export interface Props<T extends DateType> extends Omit<PickerProps, 'accessor'>
     shortcuts?: boolean;
 }
 
-const presetProps = {
-    ...basePresetProps,
-    arrowIcon: IconArrowRight,
-} as const;
-
 export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Element {
     const form = useForm();
-    props = mergeProps(presetProps, form, props);
+    props = mergeProps({
+        ...basePresetProps,
+        arrowIcon: <IconArrowRight />,
+    }, form, props);
     const l = useLocale();
 
     const [panelProps, _] = splitProps(props,
@@ -118,7 +115,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
                 class={joinClass(styles.input, styles.range)}
                 value={formater()(getValue()?.[0])}
             />
-            {props.arrowIcon!({ class: 'px-1 shrink-0' })}
+            <div class="px-1 shrink-0">{props.arrowIcon}</div>
             <input readOnly disabled={props.disabled} placeholder={props.placeholder}
                 class={joinClass(styles.input, styles.range)}
                 value={formater()(getValue()?.[1])}

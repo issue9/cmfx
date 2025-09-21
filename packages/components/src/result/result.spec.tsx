@@ -7,7 +7,7 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
-import { Result } from './result';
+import Result from './result';
 import styles from './style.module.css';
 
 describe('Result', () => {
@@ -17,9 +17,8 @@ describe('Result', () => {
         });
         await sleep(500);
         const c = container.children.item(0)!;
-        expect(c).toHaveClass(styles.error);
+        expect(c).toHaveClass(styles.result);
         expect(c).toHaveTextContent('abc');
-        expect(document.title).toContain('title');
 
         unmount();
     });

@@ -34,7 +34,7 @@ export function Settings(): JSX.Element {
     unitFA.onChange((v) => { act.switchDisplayStyle(v); });
 
     return <Page title='_p.current.settings' class={ joinClass('max-w-sm', styles.settings) }>
-        <Description icon={/*@once*/IconSettings} title={l.t('_p.settings.mode')!}>
+        <Description icon={/*@once*/<IconSettings />} title={l.t('_p.settings.mode')!}>
             {l.t('_p.settings.modeDesc')! }
         </Description>
 
@@ -49,7 +49,7 @@ export function Settings(): JSX.Element {
         <Show when={opt.schemes && opt.scheme}>
             <Divider />
 
-            <Description icon={/*@once*/IconPalette} title={l.t('_p.settings.color')!}>
+            <Description icon={/*@once*/<IconPalette />} title={l.t('_p.settings.color')!}>
                 {l.t('_p.settings.colorDesc')! }
             </Description>
 
@@ -58,7 +58,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/IconTranslate} title={l.t('_p.settings.locale')!}>
+        <Description icon={/*@once*/<IconTranslate />} title={l.t('_p.settings.locale')!}>
             {l.t('_p.settings.localeDesc')! }
         </Description>
 
@@ -68,7 +68,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/IconFormat} title={l.t('_p.settings.displayStyle')!}>
+        <Description icon={/*@once*/<IconFormat />} title={l.t('_p.settings.displayStyle')!}>
             {l.t('_p.settings.displayStyleDesc')! }
         </Description>
 
@@ -86,7 +86,7 @@ export function Settings(): JSX.Element {
 
         <Divider />
 
-        <Description icon={/*@once*/IconTimezone} title={l.t('_p.settings.timezone')!}>
+        <Description icon={/*@once*/<IconTimezone />} title={l.t('_p.settings.timezone')!}>
             {l.t('_p.settings.timezoneDesc')! }
         </Description>
 

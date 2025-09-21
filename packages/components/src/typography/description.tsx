@@ -5,18 +5,21 @@
 import { JSX, ParentProps, Show } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
-import { IconComponent } from '@/icon';
 import { Label } from './label';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps, ParentProps {
     /**
      * 图标
+     *
+     * @reactive
      */
-    icon?: IconComponent;
+    icon?: JSX.Element;
 
     /**
      * 标题
+     *
+     * @reactive
      */
     title?: string;
 }

@@ -8,7 +8,7 @@ import IconChat from '~icons/material-symbols/chat';
 import IconCheck from '~icons/material-symbols/check';
 import IconPersion from '~icons/material-symbols/person';
 
-import { Demo, Stage, layoutSelector, paletteSelector } from '../base';
+import { Demo, Stage, layoutSelector, paletteSelector } from '../../base';
 
 export default function(): JSX.Element {
     let ref1: StepperRef;
@@ -35,9 +35,9 @@ export default function(): JSX.Element {
 
         <Stage title='icon=icon' class='w-full'>
             <Stepper layout={layout()} palette={palette()} ref={el => ref2 = el} accentPalette='primary' steps={[
-                { title: 'Step 1', content: 'Content for Step 1', icon: IconPersion },
-                { title: 'Step 2222222', content: 'Content for Step 2', icon: IconChat },
-                { title: 'Step 3', content: 'Content for Step 3', icon: IconCheck },
+                { title: 'Step 1', content: 'Content for Step 1', icon: <IconPersion /> },
+                { title: 'Step 2222222', content: 'Content for Step 2', icon: <IconChat /> },
+                { title: 'Step 3', content: 'Content for Step 3', icon: <IconCheck /> },
             ]} />
 
             <Button onclick={() => ref2.prev()}>prev</Button>
@@ -46,8 +46,8 @@ export default function(): JSX.Element {
 
         <Stage title='icon=true' class='w-full'>
             <Stepper layout={layout()} palette={palette()} ref={el => ref3 = el} accentPalette='primary' steps={[
-                { title: 'Step 1', content: 'Content for Step 1', icon: (c?: boolean)=> c ? IconCheck : true },
-                { title: 'Step 2', content: 'Content for Step 2', icon: (c?: boolean)=> c ? IconCheck : true },
+                { title: 'Step 1', content: 'Content for Step 1', icon: (c?: boolean)=> c ? <IconCheck /> : true },
+                { title: 'Step 2', content: 'Content for Step 2', icon: (c?: boolean)=> c ? <IconCheck /> : true },
                 { title: 'Step 3', content: 'Content for Step 3', icon: true },
             ]} />
 

@@ -12,6 +12,6 @@ export default function() {
 
     return <div>
         {paletteS}
-        <Empty palette={palette()} icon={IconEye}>说点什么呢？</Empty>
+        <Empty palette={palette()} icon={<IconEye class="text-5xl" />}>说点什么呢？</Empty>
     </div>;
 }

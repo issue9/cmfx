@@ -8,7 +8,6 @@ import { template } from 'solid-js/web';
 
 import { BaseProps, joinClass, transitionDuration } from '@/base';
 import { useTheme } from '@/context';
-import { IconComponent } from './icon';
 
 export interface Ref {
     /**
@@ -41,10 +40,9 @@ export interface Props extends BaseProps {
     /**
      * 图标集
      *
-     * 键名为图标的 ID；
-     * 键值为图标实例；
+     * @remarks 键名为图标的 ID，键值为图标实例；
      */
-    icons: Record<string, IconComponent>;
+    icons: Record<string, JSX.Element>;
 
     /**
      * 默认显示的图标，如果未指定，则采用 {@link Props.icons} 中的最后一个。
@@ -54,7 +52,7 @@ export interface Props extends BaseProps {
     /**
      * 缓动函数
      *
-     * 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
+     * @remarks 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
      */
     easing?: keyof typeof easings;
 
@@ -82,7 +80,7 @@ export function AnimationIcon(props: Props): JSX.Element {
         const maps: Record<string, string> = {};
 
         Object.entries(props.icons).forEach(value => {
-            maps[value[0]] = (value[1]({}) as HTMLElement)?.outerHTML;
+            maps[value[0]] = (value[1] as HTMLElement)?.outerHTML;
         });
 
         const el = await bundleSvgsString(maps, { style: '' });

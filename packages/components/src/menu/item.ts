@@ -6,7 +6,6 @@ import { Hotkey } from '@cmfx/core';
 import { JSX } from 'solid-js';
 
 import { AvailableEnumType } from '@/base';
-import { IconComponent } from '@/icon';
 
 /**
  * 菜单项
@@ -57,9 +56,9 @@ export interface TypeItem<T extends AvailableEnumType> {
     label: JSX.Element;
 
     /**
-     * 图标
+     * 菜单项前置的内容，一般为图标
      */
-    icon?: IconComponent;
+    prefix?: JSX.Element;
 
     /**
      * 菜单项尾部的内容

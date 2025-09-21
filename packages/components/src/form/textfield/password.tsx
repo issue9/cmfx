@@ -2,17 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, Show, createSignal, splitProps } from 'solid-js';
+import { JSX, Show, createSignal } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
 import { Button } from '@/button';
-import { IconComponent } from '@/icon';
-import styles from './style.module.css';
-import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfiled';
+import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
 
-export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|'ref'|'autocomplete'> {
-    icon?: IconComponent;
+export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref' | 'autocomplete'> {
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
 }
 
@@ -21,14 +18,9 @@ export interface Props extends Omit<BaseProps<string>, 'prefix'|'suffix'|'type'|
  */
 export function Password(props: Props): JSX.Element {
     const [visible, setVisible] = createSignal(false);
-    const [_, fieldProps] = splitProps(props, ['icon']);
     let ref: TextFieldRef;
 
-    return <TextField {...fieldProps} type="password" ref={el=>ref=el} prefix={
-        <Show when={props.icon}>
-            {props.icon!({class:styles['prefix-icon']})}
-        </Show>
-    } suffix={
+    return <TextField {...props} type="password" ref={el=>ref=el} suffix={
         <Button kind='flat' disabled={props.disabled} square class="!px-1 !py-0 rounded-none"
             onClick={() => {
                 setVisible(!visible());

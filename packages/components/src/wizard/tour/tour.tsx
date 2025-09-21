@@ -9,7 +9,6 @@ import { BaseProps, joinClass, Palette } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Dialog, DialogRef } from '@/dialog';
-import { IconComponent } from '@/icon';
 import { Label } from '@/typography';
 import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
 import styles from './style.module.css';
@@ -37,12 +36,14 @@ export interface Step extends WizardStep {
      */
     pos: PopoverPosition;
 
-    icon?: IconComponent;
+    icon?: JSX.Element;
 }
 
 export interface Props extends BaseProps {
     /**
      * 指定所有教程步骤
+     *
+     * @reactive
      */
     steps: Array<Step>;
 
@@ -53,21 +54,29 @@ export interface Props extends BaseProps {
 
     /**
      * 第一个页面的开始按钮上的内容
+     *
+     * @reactive
      */
     start?: JSX.Element;
 
     /**
      * 最后一页的结束按钮上的内容
+     *
+     * @reactive
      */
     complete?: JSX.Element;
 
     /**
      * 上一页的按钮上的内容
+     *
+     * @reactive
      */
     prev?: JSX.Element;
 
     /**
      * 下一页的按钮上的内容
+     *
+     * @reactive
      */
     next?: JSX.Element;
 

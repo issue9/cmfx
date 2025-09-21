@@ -33,9 +33,9 @@ export default function() {
             <Button onClick={() => setMode('system')}>跟随系统</Button>
             <Button onClick={() => ref.next()} class="w-16">
                 <AnimationIcon ref={el=>ref=el} icons={{
-                    face: IconFace,
-                    close: IconClose,
-                    person: IconPerson,
+                    face: <IconFace />,
+                    close: <IconClose />,
+                    person: <IconPerson />,
                 }} />
             </Button>
 

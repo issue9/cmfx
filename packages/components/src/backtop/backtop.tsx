@@ -3,26 +3,23 @@
 // SPDX-License-Identifier: MIT
 
 import { getScrollableParent } from '@cmfx/core';
-import { JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, ParentProps } from 'solid-js';
 import IconVerticalAlignTop from '~icons/material-symbols/vertical-align-top';
 
 import { BaseProps, joinClass } from '@/base';
 import { Button, ButtonRef } from '@/button';
-import { IconComponent } from '@/icon';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, ParentProps {
     /**
      * 当容器顶部不可见区域达到此值时才会显示按钮，默认为 10。
      */
     distance?: number;
-
-    children?: IconComponent;
 }
 
 const presetProps: Partial<Props> = {
     distance: 10,
-    children: IconVerticalAlignTop
+    children: <IconVerticalAlignTop />
 } as const;
 
 /**
@@ -57,5 +54,5 @@ export function BackTop(props: Props): JSX.Element {
         class={joinClass(styles.backtop, props.class)}
         onclick={() => {
             scroller && scroller.scrollTo({ top: 0, behavior: 'smooth' });
-        }}>{props.children!({})}</Button>;
+        }}>{props.children}</Button>;
 }

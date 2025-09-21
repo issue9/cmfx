@@ -215,23 +215,23 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                 <div class={styles.actions}>
                     <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
                         {
-                            type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon={IconCSV}>
+                            type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon={<IconCSV />}>
                                 {l.t('_c.table.exportTo', { type: 'CSV' })}
                             </Label>
                         },
                         {
-                            type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon={IconExcel}>
+                            type: 'item', onClick: async () => { await exports('.xlsx'); }, label: <Label icon={<IconExcel />}>
                                 {l.t('_c.table.exportTo', { type: 'Excel' })}
                             </Label>
                         },
                         {
-                            type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon={IconODS}>
+                            type: 'item', onClick: async () => { await exports('.ods'); }, label: <Label icon={<IconODS />}>
                                 {l.t('_c.table.exportTo', { type: 'ODS' })}
                             </Label>
                         },
                         { type: 'divider' },
                         {
-                            type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon={IconReset}>
+                            type: 'item', onClick: () => { queries.reset(); }, disabled: queries.isPreset(), label: <Label icon={<IconReset />}>
                                 {l.t('_c.reset')}
                             </Label>
                         },

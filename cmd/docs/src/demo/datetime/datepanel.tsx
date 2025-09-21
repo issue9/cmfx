@@ -80,7 +80,7 @@ export default function() {
             <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
                 plugins={[datetimePluginLunar]} value={range()}
-                onChange={(val, old) => {
+                onChange={(val) => {
                     setRange(val);
                 }} />
         </Stage>
@@ -89,7 +89,7 @@ export default function() {
             <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
                 time value={range()}
-                onChange={(val, old) => {
+                onChange={(val) => {
                     setRange(val);
                 }} />
         </Stage>
