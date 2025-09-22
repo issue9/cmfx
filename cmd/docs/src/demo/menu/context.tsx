@@ -63,6 +63,6 @@ export default function() {
         {paletteS}
         {selectedClsS}
         <div class="bg-primary-bg text-primary-fg w-10 h-10" ref={el => contextTarget = el}>right click</div>
-        <ContextMenu selectedClass={selectedCls()} palette={palette()} items={items} target={contextTarget!} />
+        <ContextMenu selectedClass={selectedCls()} palette={palette()} items={items} target={contextTarget!} onPopover={e=>console.log('visible:', e)} />
     </div>;
 }

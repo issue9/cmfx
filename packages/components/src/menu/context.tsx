@@ -11,13 +11,17 @@ import styles from './style.module.css';
 
 export type { Ref } from './menu';
 
-export type Props<T extends AvailableEnumType = string>
-    = Omit<MenuProps<false, T>, 'layout' | 'tag' | 'multiple'> & {
-        /**
-        * 用于触发右键的元素
-        */
-        target: HTMLElement;
-    };
+export type Props<T extends AvailableEnumType = string> = Omit<MenuProps<false, T>, 'layout' | 'tag' | 'multiple'> & {
+    /**
+     * 用于触发右键的元素
+     */
+    target: HTMLElement;
+
+    /**
+     * 下拉菜单弹出时的回调函数
+     */
+    onPopover?: { (visible: boolean): void; }
+};
 
 /**
  * 右键菜单
@@ -60,8 +64,11 @@ export default function ContextMenu<T extends AvailableEnumType = string>(props:
         }}
         ref={el => {
             el.popover = 'manual';
+            el.ontoggle = (e: ToggleEvent) => {
+                if (props.onPopover) { props.onPopover(e.newState === 'open'); }
+            };
             setRef(el);
             if (props.ref) { props.ref(el); }
         }}
-    />;
+    ></Menu>;
 }

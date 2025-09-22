@@ -60,6 +60,6 @@ export default function() {
     return <div>
         {paletteS}
         {selectedClsS}
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} hoverable>dropdown</Dropdown>
+        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} hoverable onPopover={e=>console.log('visible:', e)}>dropdown</Dropdown>
     </div>;
 }
