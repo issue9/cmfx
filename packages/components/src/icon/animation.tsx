@@ -97,8 +97,7 @@ export function AnimationIcon(props: Props): JSX.Element {
         if ((cls || p || mode || scheme) && !icons.loading) {
             // 此处的 !text-palette-fg 必不可少的，如果不强制设置颜色，svg 的默认色可能是 currentColor。
             // 它会从父类查找颜色，如果父类设置了 :active 等伪类的颜色值，那么它可能获取的是伪类状态下的颜色。
-            const c = joinClass(p ? `palette--${p}` : '', '!text-palette-fg', cls);
-            icons()!.setAttribute('class', c!);
+            icons()!.setAttribute('class', joinClass(p ? `palette--${p}` : '', '!text-palette-fg', cls)!);
 
             if (m) { m.to(m.currIconId(), { rotation: 'none' }); } // 如果更新了样式，调用 to 以同步更新样式。
         }

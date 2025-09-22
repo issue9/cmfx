@@ -53,19 +53,6 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                 adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
             });
         });
-
-        const handleClick = (e: MouseEvent) => {
-            if (!pointInElement(e.clientX, e.clientY, popRef)
-                && !pointInElement(e.clientX, e.clientY, triggerRef()!)) {
-                popRef.hidePopover();
-            }
-        };
-        onMount(() => {
-            document.addEventListener('click', handleClick);
-        });
-        onCleanup(() => {
-            document.removeEventListener('click', handleClick);
-        });
     }
 
     return <div aria-haspopup>

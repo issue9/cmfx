@@ -19,7 +19,7 @@ export default function() {
     let ref: AnimationIconRef;
 
     return <div>
-        <Button>这是继承全局的主题: {g.mode}, {g.scheme?.light?.['primary-bg']}</Button>
+        <Button>这是继承上一层的主题: {g.mode}, {g.scheme?.light?.['primary-bg']}</Button>
         <Divider />
 
         <ThemeProvider mode={m()} scheme={s()}>
