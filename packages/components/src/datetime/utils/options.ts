@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options } from '@/form/field';
 
 /**
  * 小时对应的显示文字
  */
-export const hoursOptions: Options<number> = [
+export const hoursOptions: Array<[number, string]> = [
     [0, '00'],
     [1, '01'],
     [2, '02'],
@@ -37,7 +36,7 @@ export const hoursOptions: Options<number> = [
 /**
  * 分钟和秒数对应的文本
  */
-export const minutesOptions: Options<number> = [
+export const minutesOptions: Array<[number, string]> = [
     [0, '00'],
     [1, '01'],
     [2, '02'],

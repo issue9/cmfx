@@ -6,7 +6,7 @@ import {
     createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show
 } from 'solid-js';
 
-import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options, useForm } from '@/form/field';
+import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
@@ -26,7 +26,7 @@ export interface Props extends FieldBaseProps {
      * NOTE: 要求这些标记点必须在 {@link Props#min} 和 {@link Props#max} 之间。
      * 所以 marks 不为空时，min 和 max 是不能为空的。
      */
-    marks?: Options<number>;
+    marks?: Array<[number, string]>;
 
     /**
      * NOTE: 非响应式属性

@@ -5,7 +5,9 @@
 import { For, JSX, Show, createMemo, mergeProps } from 'solid-js';
 
 import { AvailableEnumType, Layout } from '@/base';
-import { Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useForm } from '@/form/field';
+import {
+    Accessor, Field, FieldBaseProps, FieldHelpArea, Options, calcLayoutFieldAreas, fieldArea2Style, useForm
+} from '@/form/field';
 import { Radio } from './radio';
 import styles from './style.module.css';
 
@@ -46,11 +48,11 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         }}>
             <For each={props.options}>
                 {item =>
-                    <Radio readonly={props.readonly} label={item[1]} block={props.block}
-                        checked={item[0] === access.getValue()} rounded={props.rounded} value={access.getValue()}
+                    <Radio readonly={props.readonly} label={item.label} block={props.block}
+                        checked={item.value === access.getValue()} rounded={props.rounded} value={access.getValue()}
                         name={props.accessor.name()} onChange={() => {
-                            if (!props.readonly && !props.disabled && access.getValue() !== item[0]) {
-                                access.setValue(item[0]);
+                            if (!props.readonly && !props.disabled && access.getValue() !== item.value) {
+                                access.setValue(item.value);
                                 access.setError();
                             }
                         }}
@@ -60,7 +62,7 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         </div>
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

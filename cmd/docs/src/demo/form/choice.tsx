@@ -16,7 +16,7 @@ export default function() {
 
 
     const mfa = fieldAccessor<Array<number>>('choice', [1,2]);
-    const multipleOptions: Array<ChoiceOption> = [
+    const multipleOptions: Array<ChoiceOption<number>> = [
         { type: 'item', value: 1, label: <div>abc</div> },
         { type: 'item', value: 2, label: <div style="color:green">green</div > },
         { type: 'divider' },

@@ -17,9 +17,9 @@ export default function() {
 
     const groupFA = fieldAccessor('checkbox', ['1']);
     const groupOptions: FieldOptions<string> = [
-        ['1', <div>abc</div>],
-        ['2', <div style="color:red">red</div >],
-        ['3', <div style="color:red">red<br/>red<br/>red</div>],
+        { value: '1', label: <div>abc</div> },
+        { value: '2', label: <div style="color:red">red</div> },
+        { value: '3', label: <div style="color:red">red<br />red<br />red</div> },
     ];
 
     const [chk, setChk] = createSignal<boolean>();

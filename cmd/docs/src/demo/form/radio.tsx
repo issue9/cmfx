@@ -20,8 +20,12 @@ export default function() {
     const [roundedS, rounded] = boolSelector('rounded');
 
     const options: FieldOptions<Palette | 'undefined'> = [];
-    palettesWithUndefined.forEach((item) => {
-        options.push([item ?? 'undefined', item ? item : 'undefined']);
+    palettesWithUndefined.forEach(item => {
+        if (item) {
+            options.push({ value: item, label: item });
+        } else {
+            options.push({ value: 'undefined', label: 'undefined' });
+        }
     });
 
     return <Demo settings={

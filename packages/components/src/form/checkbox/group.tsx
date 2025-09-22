@@ -51,13 +51,13 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
         >
             <For each={props.options}>
                 {item =>
-                    <Checkbox {...chkProps} label={item[1]} rounded={props.rounded}
-                        checked={!!access.getValue().find((v) => v === item[0])}
+                    <Checkbox {...chkProps} label={item.label} rounded={props.rounded}
+                        checked={!!access.getValue().find((v) => v === item.value)}
                         onChange={(v) => {
                             if (v) {
-                                access.setValue([...access.getValue(), item[0]]);
+                                access.setValue([...access.getValue(), item.value]);
                             } else {
-                                access.setValue([...access.getValue().filter((v) => v !== item[0])]);
+                                access.setValue([...access.getValue().filter((v) => v !== item.value)]);
                             }
                             access.setError();
                         }}
@@ -67,7 +67,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
         </div>
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

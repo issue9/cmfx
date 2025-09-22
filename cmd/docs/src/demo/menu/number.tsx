@@ -20,7 +20,7 @@ export default function() {
     const [layoutS, layout] = arraySelector('layout', ['horizontal', 'vertical', 'inline'], 'inline');
 
     const items: Array<MenuItem<number>> = [
-        { type: 'item', value: 1, label: 'v1', icon: IconFace, disabled: true },
+        { type: 'item', value: 1, label: 'v1', prefix: <IconFace />, disabled: true },
         { type: 'item', value: 2, label: 'v2' },
         { type: 'divider' },
         {
@@ -44,11 +44,11 @@ export default function() {
         },
         { type: 'item', value: 3, label: 'v3(control+a)', hotkey: new Hotkey('a', 'control') },
         {
-            type: 'item', value: 4, label: '很长很长很长的标题-v4', icon: IconFace, items: [
+            type: 'item', value: 4, label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 41, label: 'v41' },
                 { type: 'divider' },
                 {
-                    type: 'item', value: 42, label: 'v42', icon: IconFace, items: [
+                    type: 'item', value: 42, label: 'v42', prefix: <IconFace />, items: [
                         { type: 'item', value: 421, label: '很长很长很长的标题-v421' },
                         { type: 'item', value: 422, label: 'v422' },
                         { type: 'divider' },

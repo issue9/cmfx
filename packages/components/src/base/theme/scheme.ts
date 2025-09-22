@@ -110,8 +110,7 @@ export type Palette = typeof palettes[number];
  * 计算与 p 不同的另一个色盘
  */
 export function nextPalette(p: Palette): Palette {
-    const index = palettes.indexOf(p);
-    return palettes[(index + 1) % palettes.length];
+    return palettes[(palettes.indexOf(p) + 1) % palettes.length];
 }
 
 /**
@@ -125,15 +124,11 @@ export function changeScheme(elem: HTMLElement, s?: Scheme) {
 
         switch (k) {
         case 'fontSize':
-            if (v) {
-                document.documentElement.style.fontSize = v;
-            }
+            if (v) { document.documentElement.style.fontSize = v; }
             return;
         case 'radius':
             Object.entries<string>(v).forEach(([k2, v2]) => {
-                if (v2 !== undefined) {
-                    elem.style.setProperty(`--radius-${k2}`, `${v2}rem`);
-                }
+                if (v2 !== undefined) { elem.style.setProperty(`--radius-${k2}`, `${v2}rem`); }
             });
             return;
         case 'transitionDuration':

@@ -45,12 +45,13 @@ export type FieldBaseProps = Props & {
 /**
  * 定义了 radio、choice 等选项类型中每个选择项的类型。
  *
- *  - 0 为选择项的值；
- *  - 1 为选择项对应的显示对象；
- *
  * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
  */
-export type Option<K extends AvailableEnumType> = [key: K, title: JSX.Element];
+export type Option<K extends AvailableEnumType> = {
+    value: K;
+    label: JSX.Element;
+    disabled?: boolean;
+};
 
 /**
  * 选择项的数据类型

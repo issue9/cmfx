@@ -40,9 +40,9 @@ export function Settings(): JSX.Element {
 
         <RadioGroup itemLayout='horizontal' accessor={modeFA} block={/*@once*/false}
             options={/*@once*/[
-                ['system', l.t('_p.settings.system')],
-                ['dark', l.t('_p.settings.dark')],
-                ['light', l.t('_p.settings.light')]
+                { value: 'system', label: l.t('_p.settings.system') },
+                { value: 'dark', label: l.t('_p.settings.dark') },
+                { value: 'light', label: l.t('_p.settings.light') }
             ]}
         />
 
@@ -73,9 +73,9 @@ export function Settings(): JSX.Element {
         </Description>
 
         <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false} options={/*@once*/[
-            ['narrow', l.t('_p.settings.narrow')],
-            ['short', l.t('_p.settings.short')],
-            ['full', l.t('_p.settings.long')],
+            { value: 'narrow', label: l.t('_p.settings.narrow') },
+            { value: 'short', label: l.t('_p.settings.short') },
+            { value: 'full', label: l.t('_p.settings.long') },
         ]} />
 
         <div class="ms-1 ps-2 border-l-2 border-palette-bg-low">
