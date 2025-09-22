@@ -77,9 +77,10 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                 popRef = el;
                 if (props.ref) { props.ref(el); }
             }}
-            onChange={(val, old)=>{
+            onChange={(val, old) => {
                 if (props.onChange) { props.onChange(val, old); }
-                popRef.hidePopover();
+
+                if (!props.multiple) { popRef.hidePopover(); }
             }}
         />
     </div>;

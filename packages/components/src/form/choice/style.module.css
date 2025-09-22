@@ -46,19 +46,7 @@
         }
     }
 
-    .options {
-        @apply border border-palette-fg-low bg-palette-bg rounded-md max-h-[240px] overflow-y-auto box-border block;
-
-        li {
-            @apply p-2 hover:bg-palette-bg-high flex items-center cursor-pointer;
-
-            .tail {
-                margin-left: auto;
-            }
-        }
-
-        li.selected {
-            @apply bg-palette-bg-low hover:bg-palette-bg-high;
-        }
+    .pop {
+        @apply max-h-60 !overflow-y-auto;
     }
 }

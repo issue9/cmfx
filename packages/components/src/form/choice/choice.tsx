@@ -2,75 +2,92 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/core';
 import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
-import IconCheck from '~icons/material-symbols/check';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { AvailableEnumType, cloneElement, joinClass } from '@/base';
 import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, Options, useForm
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
+import { Dropdown, MenuItem, MenuItemItem } from '@/menu';
 import styles from './style.module.css';
 
-export interface Props<T extends AvailableEnumType, M extends boolean> extends FieldBaseProps {
+/**
+ * 单个选择项的类型
+ *
+ * @remarks 直接采用了与 {@link MenuItem | 菜单项} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
+ */
+export type Option<T extends AvailableEnumType = string> = MenuItem<T>;
+
+export interface Props<T extends AvailableEnumType = string, M extends boolean = false> extends FieldBaseProps {
     placeholder?: string;
-    options: Options<T>;
+
+    /**
+     * 选择项
+     *
+     * @reactive
+     */
+    options: Array<Option<T>>;
+
+    /**
+     * 是否多选
+     *
+     * @reactive
+     */
     multiple?: M;
 
     /**
      * NOTE: 非响应式属性
      */
-    accessor: M extends true ? Accessor<Array<T | undefined>> : Accessor<T | undefined>;
+    accessor: M extends true ? Accessor<Array<T> | undefined> : Accessor<T | undefined>;
 }
 
 /**
  * 用以替代 select 组件
  */
-export function Choice<T extends AvailableEnumType, M extends boolean>(props: Props<T, M>): JSX.Element {
+export function Choice<T extends AvailableEnumType = string, M extends boolean = false>(props: Props<T, M>): JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
-    // multiple 为 false 时的输入框样式。
-    const SingleActivator = (p: { access: Accessor<T> }) => {
-        return <For each={props.options}>
-            {item => (
-                <Show when={p.access.getValue() === item[0]}>{cloneElement(item[1])}</Show>
-            )}
-        </For>;
+    const wlak = (f: { (val: MenuItemItem<T>): void; }, opts?: Array<Option<T>>) => {
+        if (!opts || opts.length === 0) { return; }
+
+        opts.forEach(o => {
+            switch (o.type) {
+            case 'group':
+                wlak(f, o.items);
+                break;
+            case 'item':
+                if (o.items && o.items.length > 0) {
+                    wlak(f, o.items);
+                } else {
+                    f(o);
+                }
+                break;
+            // NOTE: 自动忽略 a
+            }
+        });
     };
 
-    // multiple 为 true 时的输入框样式。
-    const MultipleActivator = (p: { access: Accessor<Array<T>> }) => {
-        return <For each={props.options}>
-            {item => (
-                <Show when={p.access.getValue().indexOf(item[0]) >= 0}>
-                    <span class={styles.chip}>{cloneElement(item[1])}</span>
-                </Show>
-            )}
-        </For>;
+    const getSingleItem = (val: T): MenuItemItem<T> | undefined => {
+        let item: MenuItemItem<T> | undefined = undefined;
+        wlak(i => {
+            if (i.value === val) {
+                item = i;
+            }
+        }, props.options);
+        return item;
     };
 
-    let ul: HTMLUListElement;
-    let anchorRef: HTMLElement;
-
-    const calcPos = () => {
-        const ab = anchorRef.getBoundingClientRect();
-        ul.style.minWidth = ab.width + 'px';
-        ul.style.width = ab.width + 'px';
-        adjustPopoverPosition(ul, DOMRect.fromRect(ab), 2);
+    const getMultipleItems = (vals: Array<T>): Array<MenuItemItem<T>> => {
+        let items: Array<MenuItemItem<T>> = [];
+        wlak(i => {
+            if (vals.includes(i.value!)) {
+                items.push(i);
+            }
+        }, props.options);
+        return items;
     };
-
-    const clickInput = (e?: MouseEvent) => {
-        if (props.disabled) { return; }
-
-        if (ul.togglePopover()) {
-            calcPos();
-            scrollIntoView();
-        }
-        e?.stopPropagation();
-    };
-
 
     let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
     const scrollIntoView = () => {
@@ -83,74 +100,7 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
         }
     };
 
-    // multiple 为 true 时的候选框的组件
-    const MultipleOptions = (p: { ac: Accessor<Array<T>> }) => {
-        return <For each={props.options}>
-            {(item, i) => {
-                const selected = (): boolean => { return p.ac.getValue().indexOf(item[0]) >= 0; };
-                return <li aria-selected={selected()} role="option" classList={{ [styles.selected]: selected() }}
-                    ref={el => {
-                        if (i() >= props.options.length) {
-                            li.push(el);
-                        } else {
-                            li[i()] = el;
-                        }
-                    }}
-                    onClick={e => {
-                        if (props.readonly || props.disabled) { return; }
-                        e.stopPropagation();
-
-                        let items = [...p.ac.getValue()];
-                        const index = items.indexOf(item[0]);
-                        if (index < 0) { // 不存在则添加
-                            items.push(item[0]);
-                        } else { // 已存在则删除
-                            items.splice(index, 1);
-                        }
-                        p.ac.setValue(items);
-                        calcPos(); // 多选的情况下，改变值可能引起宽度变化。
-                        p.ac.setError();
-                    }}
-                >
-                    {cloneElement(item[1])}
-                    <IconCheck class={joinClass(styles.tail, selected() ? undefined : '!hidden')} />
-                </li>;
-            }}
-        </For>;
-    };
-
-    // multiple 为 false 时的候选框的组件
-    const SingleOptions = (p: { ac: Accessor<T> }) => {
-        return <For each={props.options}>
-            {(item, i) => {
-                const selected = () => p.ac.getValue() === item[0];
-                return <li role="option" aria-selected={selected()} classList={{ [styles.selected]: selected() }}
-                    ref={el => {
-                        if (i() >= props.options.length) {
-                            li.push(el);
-                        } else {
-                            li[i()] = el;
-                        }
-                    }}
-                    onClick={e => {
-                        if (props.readonly || props.disabled) { return; }
-                        e.stopPropagation();
-
-                        if (!selected()) {
-                            p.ac.setValue(item[0]);
-                            p.ac.setError();
-                        }
-                        ul.hidePopover();
-                    }}
-                >
-                    {cloneElement(item[1])}
-                    <IconCheck class={joinClass(styles.tail, selected() ? undefined : '!hidden')} />
-                </li>;
-            }}
-        </For>;
-    };
-
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
     const id = createUniqueId();
     return <Field class={joinClass(styles.activator, props.class)}
@@ -160,31 +110,33 @@ export function Choice<T extends AvailableEnumType, M extends boolean>(props: Pr
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
-            onClick={clickInput} tabIndex={props.tabindex}
-            class={joinClass(styles['activator-container'], props.rounded ? 'rounded-full' : undefined)}>
-            <input id={id} tabIndex={props.tabindex} class="hidden peer"
-                disabled={props.disabled} readOnly={props.readonly}
-            />
-            <div class={styles.input}>
-                <Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
-                    <Match when={props.multiple && (props.accessor.getValue() as Array<T>).length > 0}>
-                        <MultipleActivator access={props.accessor as Accessor<Array<T>>} />
-                    </Match>
-                    <Match when={!props.multiple && props.accessor.getValue()}>
-                        <SingleActivator access={props.accessor as Accessor<T>} />
-                    </Match>
-                </Switch>
+        <Dropdown class={styles.pop} items={props.options} multiple={props.multiple} onChange={e => {
+            props.accessor.setValue(e as any);
+        }}>
+            <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}
+                class={joinClass(styles['activator-container'], props.rounded ? 'rounded-full' : '')}>
+                <input id={id} tabIndex={props.tabindex} class="hidden peer"
+                    disabled={props.disabled} readOnly={props.readonly}
+                />
+                <div class={styles.input}>
+                    <Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
+                        <Match when={(props.multiple && (props.accessor.getValue() as Array<T>).length > 0) ? props.accessor.getValue() as Array<T> : undefined}>
+                            {val =>
+                                <For each={getMultipleItems(val())}>
+                                    {item =>
+                                        <span class={styles.chip}>{cloneElement(item.label)}</span>
+                                    }
+                                </For>
+                            }
+                        </Match>
+                        <Match when={!props.multiple && props.accessor.getValue() ? props.accessor.getValue() as T : undefined}>
+                            {val =><>{cloneElement(getSingleItem(val())?.label)}</>}
+                        </Match>
+                    </Switch>
+                </div>
+                <IconExpandAll class={styles.expand} />
             </div>
-            <IconExpandAll class={styles.expand} />
-
-            <ul popover="auto" ref={el => ul = el} class={styles.options}>
-                <Switch>
-                    <Match when={props.multiple}><MultipleOptions ac={props.accessor as Accessor<Array<T>>} /></Match>
-                    <Match when={!props.multiple}><SingleOptions ac={props.accessor as Accessor<T>} /></Match>
-                </Switch>
-            </ul>
-        </div>
+        </Dropdown>
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, translateEnums } from '@cmfx/components';
+import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { Component, createMemo, JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
@@ -64,8 +64,8 @@ export function Members(props: Props): JSX.Element {
 
     let ref: RemoteTableRef<Member>;
 
-    const sexes = createMemo(() => { return translateEnums<user.Sex>(user.sexes, l); });
-    const states = createMemo(() => { return translateEnums<user.State>(user.states, l); });
+    const sexes = createMemo(() => { return user.sexes.map(sex => ({ type: 'item', value: sex[0], label: l.t(sex[1]) })); });
+    const states = createMemo(() => { return user.states.map(state => ({ type: 'item', value: state[0], label: l.t(state[1]) })); });
 
     return <Page title="_p.member.membersManager">
         <RemoteTable<Member, Q> ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={(qa) => (
@@ -79,7 +79,7 @@ export function Members(props: Props): JSX.Element {
             { id: 'no', label: l.t('_p.no') },
             {
                 id: 'sex', label: l.t('_p.sex'), content: ((_: string, v) => {
-                    return sexes().find((val) => val[0] === v)?.[1];
+                    return sexes().find(val => val.value === v)?.label;
                 })
             },
             { id: 'nickname', label: l.t('_p.nickname') },
@@ -89,7 +89,7 @@ export function Members(props: Props): JSX.Element {
             },
             {
                 id: 'state', label: l.t('_p.state'), content: (_, v) => {
-                    return states().find((val) => val[0] === v)?.[1];
+                    return states().find(val => val.value === v)?.label;
                 }
             },
             {

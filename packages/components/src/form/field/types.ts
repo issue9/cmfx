@@ -4,7 +4,7 @@
 
 import { JSX } from 'solid-js';
 
-import { AvailableEnumType, BaseProps, Enums, Layout, Locale } from '@/base';
+import { AvailableEnumType, BaseProps, Layout } from '@/base';
 
 export interface Props extends BaseProps {
     title?: string;
@@ -77,14 +77,3 @@ export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 
     | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language'
     | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'url' | 'photo' | 'tel' | 'tel-country-code' | 'tel-national'
     | 'tel-area-code' | 'tel-local' | 'tel-local-prefix' | 'tel-local-suffix' | 'tel-extension' | 'email' | 'impp';
-
-
-/**
- * 将枚举值转换成 {@link Options} 类型
- *
- * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
- * @typeParam T - 枚举值对应名称的翻译 ID；
- */
-export function translateEnums2Options<K extends string | number, T extends string = string>(e: Enums<K, T>, l: Locale): Options<K> {
-    return e.map(v => [v[0], l.t(v[1])]);
-}

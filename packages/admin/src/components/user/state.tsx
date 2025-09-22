@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceProps, Enums, translateEnums2Options, useLocale } from '@cmfx/components';
+import { Choice, ChoiceProps, Enums, useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
 import { User } from '@/context';
@@ -22,5 +22,6 @@ export type StateSelectorProps<M extends boolean> = Omit<ChoiceProps<State, M>, 
  * 用户状态选择框
  */
 export function StateSelector<M extends boolean>(props: StateSelectorProps<M>): JSX.Element {
-    return <Choice options={translateEnums2Options<State>(states, useLocale())} {...props} />;
+    const l = useLocale();
+    return <Choice options={states.map(([value, key]) => ({ type: 'item', value, label: l.t(key) }))} {...props} />;
 }

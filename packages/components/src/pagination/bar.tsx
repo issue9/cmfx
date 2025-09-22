@@ -6,7 +6,7 @@ import { createMemo, createSignal, JSX, mergeProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import { useComponents, useLocale } from '@/context';
-import { Choice, fieldAccessor, FieldOptions } from '@/form';
+import { Choice, ChoiceOption, fieldAccessor } from '@/form';
 import { Pagination } from './pagination';
 import styles from './style.module.css';
 
@@ -66,11 +66,9 @@ export function PaginationBar(props: Props): JSX.Element {
     const l = useLocale();
 
     const sizesOptions = createMemo(() => {
-        const items: FieldOptions<number> = [];
-        props.sizes?.forEach((v) => {
-            items.push([v, v]);
+        return props.sizes!.map(v => { // 由 opt 保证 props.sizes 不为空
+            return { type: 'item', value: v, label: v.toString() } as ChoiceOption<number>;
         });
-        return items;
     });
 
     const [page, setPage] = createSignal(props.page);

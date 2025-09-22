@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, fieldAccessor, Page, translateEnums2Options } from '@cmfx/components';
+import { Choice, fieldAccessor, Page } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
@@ -66,7 +66,9 @@ function LoginBox(props: Props): JSX.Element {
         <div class={styles.form}>
             <div class={styles.title}>
                 <p class="text-2xl">{l.t('_p.current.login')}</p>
-                <Choice class='min-w-40' accessor={passport} options={translateEnums2Options<string>(passports(), l)} />
+                <Choice class='min-w-40' accessor={passport} options={passports()
+                    .map(v => ({ type: 'item', value: v[0], label: l.t(v[1]) }))}
+                />
             </div>
             {props.passports.get(passport.getValue())?.Login()}
         </div>

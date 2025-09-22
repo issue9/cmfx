@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, Label, LoaderTable, Page, translateEnums } from '@cmfx/components';
+import { Column, Label, LoaderTable, Page } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
@@ -54,7 +54,7 @@ export function Services(): JSX.Element {
         return ret.body;
     });
 
-    const states = createMemo(() => { return translateEnums<State>(stateMap, l); });
+    const states = createMemo(() => { return stateMap.map(v => ({ type: 'item', value: v[0], label: l.t(v[1]) })); });
 
     return <Page title='_p.system.serviceViewer' class="max-w-lg">
         <fieldset>
@@ -62,7 +62,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
                 {id: 'title', label: l.t('_p.system.title')},
                 {id: 'state', label: l.t('_p.system.serviceState'), content: ((_: string, v?: State) => {
-                    return states().find((val) => val[0] === v)?.[1];
+                    return states().find(val => val.value === v)?.label;
                 }) as Column<Task>['content']},
                 {id: 'err', label: l.t('_p.system.error')},
             ]} />
@@ -75,7 +75,7 @@ export function Services(): JSX.Element {
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.jobs} queries={{}} columns={[
                 {id: 'title', label: l.t('_p.system.title')},
                 {id: 'state', label: l.t('_p.system.serviceState'),content: ((_: string, v?: State) => {
-                    return states().find((val) => val[0] === v)?.[1];
+                    return states().find(val => val.value === v)?.label;
                 }) as Column<Job>['content']},
                 {id: 'err', label: l.t('_p.system.error')},
                 {
