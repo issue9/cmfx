@@ -8,7 +8,9 @@ import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'sol
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
 
-export function posSelector(preset: PopoverPosition = 'right'): [JSX.Element, Accessor<PopoverPosition>, Setter<PopoverPosition>] {
+export function posSelector(
+    preset: PopoverPosition = 'right'
+): [JSX.Element, Accessor<PopoverPosition>, Setter<PopoverPosition>] {
     return arraySelector('pos', ['left', 'right', 'top', 'bottom'], preset);
 }
 
@@ -18,9 +20,10 @@ export function posSelector(preset: PopoverPosition = 'right'): [JSX.Element, Ac
  * @param label - 标题
  * @param preset - 默认值
  */
-export function boolSelector(label: string, preset: boolean = false):[JSX.Element, Accessor<boolean>, Setter<boolean>] {
+export function boolSelector(
+    label: string, preset: boolean = false
+): [JSX.Element, Accessor<boolean>, Setter<boolean>] {
     const [get, set] = createSignal(preset);
-
     return [<label><input checked={get()} type="checkbox" onChange={() => set(!get())} />{label}</label>, get, set];
 }
 
@@ -28,15 +31,21 @@ export function boolSelector(label: string, preset: boolean = false):[JSX.Elemen
  * 创建色盘选择工具
  * @param preset - 默认值
  */
-export function paletteSelector(preset?: Palette): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
-    return arraySelector<Palette|undefined>('颜色', palettesWithUndefined, preset);
+export function paletteSelector(
+    preset?: Palette
+): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
+    return arraySelector<Palette | undefined>('颜色', palettesWithUndefined, preset);
 }
 
-export function layoutSelector(label: string, preset?: Layout): [JSX.Element, Accessor<Layout|undefined>, Setter<Layout|undefined>] {
+export function layoutSelector(
+    label: string, preset?: Layout
+): [JSX.Element, Accessor<Layout|undefined>, Setter<Layout|undefined>] {
     return arraySelector(label, layouts, preset);
 }
 
-export function arraySelector<T extends string|number|undefined>(label: string, array: ReadonlyArray<T>, preset: T): [JSX.Element, Accessor<T>, Setter<T>] {
+export function arraySelector<T extends string|number|undefined>(
+    label: string, array: ReadonlyArray<T>, preset: T
+): [JSX.Element, Accessor<T>, Setter<T>] {
     const [get, set] = createSignal<T>(preset);
 
     const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
@@ -69,7 +78,7 @@ export interface DemoProps {
 }
 
 export function Stage(props: ParentProps<{title?: string, class?: string}>) {
-    return <fieldset class={joinClass('border border-palette-fg p-2 flex flex-col gap-4 ',props.class)}>
+    return <fieldset class={joinClass(undefined, 'border border-palette-fg p-2 flex flex-col gap-4 ',props.class)}>
         <Show when={props.title}>
             <legend>{props.title}</legend>
         </Show>

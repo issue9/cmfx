@@ -57,7 +57,7 @@ export default function ContextMenu<T extends AvailableEnumType = string>(props:
     });
 
     return <Menu layout='vertical' tag='menu' {...menuProps} items={props.items} multiple={false}
-        class={joinClass(styles.context, props.class)}
+        class={joinClass(undefined, styles.context, props.class)}
         onChange={(val, old) => {
             if (props.onChange) { props.onChange(val, old); }
             ref()?.hidePopover();

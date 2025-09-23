@@ -22,7 +22,7 @@ export interface Props extends BaseProps {
  * 提供显示一组统计数据
  */
 export default function Statistics(props: Props): JSX.Element {
-    return <div class={joinClass(styles.statistics, props.palette ? `palette--${props.palette}` : '', props.class)}>
+    return <div class={joinClass(props.palette, styles.statistics, props.class)}>
         <For each={props.items}>
             {item => (
                 <div class={styles.statistic}>

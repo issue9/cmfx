@@ -33,7 +33,7 @@ export function Settings(): JSX.Element {
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
     unitFA.onChange((v) => { act.switchDisplayStyle(v); });
 
-    return <Page title='_p.current.settings' class={joinClass('max-w-sm', styles.settings)}>
+    return <Page title='_p.current.settings' class={joinClass(undefined, 'max-w-sm', styles.settings)}>
         <Description icon={/*@once*/<IconSettings />} title={l.t('_p.settings.mode')!}>
             {l.t('_p.settings.modeDesc')!}
         </Description>

@@ -30,9 +30,9 @@ const currentPage = current.build('/current', () => {
             <Card class="basis-1/2">1/2</Card>
         </div>
         <div class="flex gap-4">
-            <Card class="basis-1/3" header={<Label icon={IconDashboard}>dashboard</Label>}>1/3</Card>
+            <Card class="basis-1/3" header={<Label icon={<IconDashboard />}>dashboard</Label>}>1/3</Card>
             <div class="basis-2/3 flex flex-col gap-4">
-                <Card header={<Label icon={IconDashboard}>dashboard</Label>}>line 1</Card>
+                <Card header={<Label icon={<IconDashboard />}>dashboard</Label>}>line 1</Card>
                 <Card>line 2</Card>
             </div>
         </div>
@@ -65,23 +65,23 @@ const routes: Routes = {
 };
 
 const menus: Array<MenuItem> = [
-    { type: 'item', icon: IconDashboard, label: '_p.current.dashboard', path: '/current/dashboard' },
+    { type: 'item', icon: <IconDashboard />, label: '_p.current.dashboard', path: '/current/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test/5/test' },
     {
         type: 'group', label: 'system', items: [
             {
-                type: 'item', label: 'administrator', icon: IconSettings, items: [
+                type: 'item', label: 'administrator', icon: <IconSettings />, items: [
                     ...rolesPage.menus(),
                     ...adminsPage.menus(),
                 ]
             },
             {
-                type: 'item', label: '_p.system.system', icon: IconHost, items: [
+                type: 'item', label: '_p.system.system', icon: <IconHost />, items: [
                     ...systemPage.menus(),
                 ]
             },
             {
-                type: 'item', label: '_p.member.member', icon: IconAccount, items: [
+                type: 'item', label: '_p.member.member', icon: <IconAccount />, items: [
                     ...membersPage.menus(),
                 ]
             }

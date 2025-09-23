@@ -50,7 +50,7 @@ export function Alert(props: Props): JSX.Element {
     });
 
     return <div ref={el=>ref=el} id={props.id} role="alert"
-        class={joinClass(styles.message, props.palette ? `palette--${props.palette}` : '', props.class)}>
+        class={joinClass(props.palette, styles.message, props.class)}>
         <div class={styles.title}>
             <p>{props.title}</p>
             <div class={styles['close-wrap']} ref={el=>wrapRef=el}>

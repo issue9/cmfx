@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
+import { JSX, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import styles from './style.module.css';
@@ -47,17 +47,10 @@ const presetProps: Readonly<Partial<Props>> = {
 export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
 
-    const cls = createMemo(()=>{
-        return joinClass(
-            props.palette ? `palette--${props.palette}` : '',
-            props.rounded ? 'rounded-full' : '',
-            styles[props.pos!],
-            styles.point,
-        );
-    });
-
-    return <div class={joinClass(styles.badge, props.class)}>
+    return <div class={joinClass(undefined, styles.badge, props.class)}>
         {props.children}
-        <span class={cls()}>{ props.content }</span>
+        <span class={joinClass(props.palette,props.rounded ? 'rounded-full' : '',styles[props.pos!],styles.point)}>
+            { props.content }
+        </span>
     </div>;
 }

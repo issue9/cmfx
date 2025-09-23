@@ -89,5 +89,5 @@ export function Chart(props: Props): JSX.Element {
         inst.setOption(props.o);
     });
 
-    return <div class={joinClass(props.palette ? `palette--${props.palette}` : '', props.class)} ref={el => ref = el} />;
+    return <div class={joinClass(props.palette, props.class)} ref={el => ref = el} />;
 }

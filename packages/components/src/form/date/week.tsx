@@ -41,7 +41,7 @@ export function WeekPicker(props: Props): JSX.Element {
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={joinClass(styles.activator, props.class)}
+    return <Field class={joinClass(undefined, styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
@@ -51,10 +51,10 @@ export function WeekPicker(props: Props): JSX.Element {
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
-            class={joinClass(styles['activator-container'], props.rounded ? styles.rounded : undefined)}
+            class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : undefined)}
         >
             <input id={id} readOnly disabled={props.disabled} placeholder={props.placeholder}
-                class={joinClass(styles.input, styles.range)}
+                class={joinClass(undefined, styles.input, styles.range)}
                 value={format(props.accessor.getValue()!)}
             />
 

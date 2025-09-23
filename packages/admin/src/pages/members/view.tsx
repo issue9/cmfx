@@ -60,7 +60,7 @@ export function View(props: Props): JSX.Element {
         setPassports(r2.body!);
     });
 
-    return <Page title='_p.member.view' class={ joinClass('max-w-lg', styles.view) }>
+    return <Page title='_p.member.view' class={ joinClass(undefined, 'max-w-lg', styles.view) }>
         <div class={styles.info}>
             <img class={styles.avatar} src={ member().avatar } alt="avatar" />
 

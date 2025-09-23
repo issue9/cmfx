@@ -37,7 +37,7 @@ export function Page (props: Props): JSX.Element {
 
     createEffect(() => { act.setTitle(l.t(props.title)); });
 
-    return <div class={joinClass(styles.page, props.palette ? `palette--${props.palette}` : '', props.class)}>
+    return <div class={joinClass(props.palette, styles.page, props.class)}>
         {props.children}
         <Switch>
             <Match when={props.backtop === undefined}><BackTop /></Match>

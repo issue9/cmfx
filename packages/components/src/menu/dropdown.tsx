@@ -59,7 +59,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
             }
         }}>{props.children}</div>
         <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
-            class={joinClass(styles.context, props.class)}
+            class={joinClass(undefined, styles.context, props.class)}
             ref={el => {
                 el.popover = 'auto';
                 popRef = el;

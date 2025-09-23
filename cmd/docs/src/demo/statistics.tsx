@@ -22,9 +22,9 @@ export default function() {
 
         <Stage title="icon" class="w-full">
             <Statistics palette={palette()} items={[
-                ['statistic1', 5, IconEye],
-                ['statistic2', 5000, IconEye],
-                ['statistic3', '5/500', IconEye],
+                ['statistic1', 5, <IconEye />],
+                ['statistic2', 5000, <IconEye />],
+                ['statistic3', '5/500', <IconEye />],
             ]} />
         </Stage>
     </Demo>;

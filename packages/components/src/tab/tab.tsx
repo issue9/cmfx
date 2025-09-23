@@ -98,8 +98,8 @@ export function Tab(props: Props) {
 
     // 组件根元素的 css
     const cls = createMemo(() => {
-        return joinClass(styles.tab,
-            props.palette ? `palette--${props.palette}` : '',
+        return joinClass(props.palette,
+            styles.tab,
             layout === 'vertical' ? styles.vertical : styles.horizontal,
             props.class);
     });
@@ -134,7 +134,7 @@ export function Tab(props: Props) {
     };
 
     return <div role="tablist" aria-orientation={layout} class={cls()}>
-        <div ref={setTabsRef} class={joinClass(styles.tabs, props.children ? styles['has-panel'] : '')}>
+        <div ref={setTabsRef} class={joinClass(undefined, styles.tabs, props.children ? styles['has-panel'] : '')}>
             <Show when={isOverflow()}>
                 <button class={styles.prev} onclick={e => scroll(e, -40)}>
                     <IconPrev class={layout === 'vertical' ? 'rotate-90' : ''} />
@@ -143,7 +143,7 @@ export function Tab(props: Props) {
                     <For each={props.items}>
                         {item => (
                             <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
-                                class={joinClass(styles.item, val() === item.id ? styles.select : '')}
+                                class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
                                 onClick={() => { change(item.id, props.value); }}
                             >
                                 {item.label}
@@ -159,7 +159,7 @@ export function Tab(props: Props) {
                 <For each={props.items}>
                     {item => (
                         <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
-                            class={joinClass(styles.item, val() === item.id ? styles.select : '')}
+                            class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
                             onClick={() => { change(item.id, props.value); }}
                         >
                             {item.label}

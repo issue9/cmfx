@@ -4,6 +4,8 @@
 
 import { JSX } from 'solid-js';
 
+import { Palette } from './theme';
+
 /**
  * 复制整个 {@link JSX#Element} 元素
  *
@@ -39,29 +41,37 @@ export function handleEvent<T, E extends Event>(h: JSX.EventHandlerUnion<T, E>, 
 /**
  * 将 solidjs 中的 classList 内容转换为 class 属性
  *
+ * @param palette - 颜色主题；
  * @param list - 组件的 classList 对象；
  * @param cls - CSS 类名列表；
- * @returns 转换而来的 class 属性值；
+ * @returns 由参数组合的 class 属性值；
  */
 export function classList(
-    list?: JSX.CustomAttributes<HTMLElement>['classList'], ...cls: Array<string|undefined>
+    palette?: Palette,
+    list?: JSX.CustomAttributes<HTMLElement>['classList'],
+    ...cls: Array<string|undefined|null>
 ): string | undefined {
-    if (!list) { return joinClass(...cls); }
+    if (!list) { return joinClass(palette, ...cls); }
 
     const entries = Object.entries(list);
-    if (entries.length === 0) { return joinClass(...cls); }
+    if (entries.length === 0) { return joinClass(palette, ...cls); }
 
-    const items = entries.map(item => item[1] ? item[0] : undefined);
-    items.push(...cls);
-
-    return joinClass(...items);
+    return joinClass(palette, ...entries.map(item => item[1] ? item[0] : undefined), ...cls);
 }
 
 /**
  * 将多个 CSS 的类名组合成 class 属性值
+ *
+ * @param palette - 颜色主题；
+ * @param cls - CSS 类名列表；
+ * @returns 由参数组合的 class 属性值；
  */
-export function joinClass(...cls: Array<string|undefined|null>): string | undefined {
-    if (!cls) { return; }
-    cls = cls.filter(v => v !== undefined && v !== '');
-    return cls.length > 0 ? cls.join(' ') : undefined;
+export function joinClass(palette?: Palette, ...cls: Array<string|undefined|null>): string | undefined {
+    if (cls) {
+        cls = cls.filter(v => v !== undefined && v !== '' && v !== null);
+    }
+
+    return cls && cls.length > 0
+        ? ((palette ? `palette--${palette} ` : '') + cls.join(' '))
+        : (palette ? `palette--${palette}` : undefined);
 }

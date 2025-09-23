@@ -32,9 +32,8 @@ export interface Props extends Omit<FieldBaseProps, 'layout' | 'hasHelp'> {
  * 带文本提示的单选框
  */
 export function Radio(props: Props): JSX.Element {
-    return <label title={props.title} class={classList({
+    return <label title={props.title} class={classList(props.palette, {
         [styles.block]: props.block,
-        [`palette--${props.palette}`]: !!props.palette
     }, styles.radio, props.class)}>
         <input type="radio"
             name={props.name}
@@ -42,7 +41,7 @@ export function Radio(props: Props): JSX.Element {
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={props.checked}
-            class={joinClass(props.block ? '!hidden' : '', props.rounded ? styles.rounded : '', props.class)}
+            class={joinClass(undefined, props.block ? '!hidden' : '', props.rounded ? styles.rounded : '', props.class)}
             onclick={e => {
                 if (e.target !== e.currentTarget) { return; }
 

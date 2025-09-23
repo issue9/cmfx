@@ -44,7 +44,7 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
         </Show>
 
         <textarea style={fieldArea2Style(areas().inputArea)} id={id} inputMode={props.inputMode}
-            class={joinClass(styles.textarea, props.rounded ? styles.rounded : '')}
+            class={joinClass(undefined, styles.textarea, props.rounded ? styles.rounded : '')}
             tabIndex={props.tabindex} disabled={props.disabled} readOnly={props.readonly}
             placeholder={props.placeholder} value={access.getValue()}
             onInput={(e) => { access.setValue(e.target.value as T); access.setError(); }} />

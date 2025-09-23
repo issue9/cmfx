@@ -55,11 +55,11 @@ export default function () {
             <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f}
                 palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
                 step={10} min={0} max={100} marks={[
-                    { value: 0, label: '0' },
-                    { value: 30, label: '30' },
-                    { value: 50, label: '50' },
-                    { value: 80, label: '80' },
-                    { value: 100, label: 'last' },
+                    [0, '0'],
+                    [30, '30'],
+                    [50, '50'],
+                    [80, '80'],
+                    [100, 'last'],
                 ]}
             />
         </Stage>
@@ -68,11 +68,11 @@ export default function () {
             <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} class="min-w-90" fitHeight={fitHeight()}
                 accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
                 step={10} min={0} max={130} marks={[
-                    { value: 0, label: '0' },
-                    { value: 30, label: '30' },
-                    { value: 50, label: '50' },
-                    { value: 80, label: '80' },
-                    { value: 130, label: 'last' },
+                    [0, '0'],
+                    [30, '30'],
+                    [50, '50'],
+                    [80, '80'],
+                    [130, 'last'],
                 ]}
             />
         </Stage>

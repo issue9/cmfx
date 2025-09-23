@@ -105,17 +105,20 @@ export function Album(props: Props): JSX.Element {
                 }}
             </For>
             <Show when={props.auto && (props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                <button style={size()} class={joinClass(styles.action, props.reverse ? styles.start : '')} onClick={async () => {
-                    uploadRef.pick();
-                    await uploadRef.upload();
-                }}><IconUploadFile /></button>
+                <button style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
+                    onClick={async () => {
+                        uploadRef.pick();
+                        await uploadRef.upload();
+                    }}><IconUploadFile /></button>
             </Show>
             <Show when={!props.auto}>
                 <Show when={(props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                    <button style={size()} class={joinClass(styles.action, props.reverse ? styles.start : '')} onClick={() => uploadRef.pick()}><IconAdd /></button>
+                    <button style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
+                        onClick={() => uploadRef.pick()}><IconAdd /></button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
-                    <button style={size()} class={joinClass(styles.action, props.reverse ? styles.start : '')} onClick={() => uploadRef!.upload()}><IconUpload /></button>
+                    <button style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
+                        onClick={() => uploadRef!.upload()}><IconUpload /></button>
                 </Show>
             </Show>
         </fieldset>

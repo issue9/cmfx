@@ -126,7 +126,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     let contentRef: HTMLDivElement;
 
     return <fieldset popover={props.popover} disabled={props.disabled}
-        class={joinClass(styles['oklch-panel'], props.palette ? `palette--${props.palette}` : undefined)}
+        class={joinClass(props.palette, styles['oklch-panel'], props.class)}
         ref={el => { if (props.ref) { props.ref(el); } }}
     >
         <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} bg={bg()[0]}
@@ -143,7 +143,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
                 <For each={presets()}>
                     {color =>
                         <div style={{ 'background': color.toString() }} onclick={() => access.setValue(color)}
-                            class={classList({ [styles.selected]: access.getValue() === color }, styles.block)}
+                            class={classList(undefined, { [styles.selected]: access.getValue() === color }, styles.block)}
                         />
                     }
                 </For>

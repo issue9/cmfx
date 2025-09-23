@@ -174,7 +174,7 @@ export default function Timer(props: Props): JSX.Element {
         return getFieldIndex(props.startField!); // 由 mergeProps 决定 startField 必然存在。
     });
 
-    return <div class={joinClass(styles.timer, props.class)}>
+    return <div class={joinClass(props.palette, styles.timer, props.class)}>
         <Show when={startField() >= getFieldIndex('days')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{format(dur().days ?? 0)}</span>

@@ -106,7 +106,7 @@ export function Drawer(props: Props) {
 
     // NOTE: 如果不放在 classList 中，tailwind 无法解析对应的值。
     return <div ref={(el) => mainRef = el} class={
-        classList({
+        classList(props.palette, {
             'cmfx-drawer-floating': !floatCls() && canFloating(),
             'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
             'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
@@ -116,7 +116,6 @@ export function Drawer(props: Props) {
             'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
         },
         props.pos === 'right' ? styles.right : undefined,
-        props.palette ? `palette--${props.palette}` : undefined,
         styles.drawer, props.class)
     }>
         <aside ref={(el) => asideRef = el} classList={{

@@ -70,8 +70,8 @@ export default function Result(props: Props) {
 
     const cls = createMemo(() => {
         return joinClass(
+            props.palette,
             styles.result,
-            props.palette ? `palette--${props.palette}` : '',
             props.layout === 'auto' ? styles.auto : (props.layout === 'vertical' ? styles.vertical : styles.horizontal),
             props.class,
         );

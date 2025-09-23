@@ -95,7 +95,7 @@ export function Pagination(props: Props): JSX.Element {
         setNexts(nv);
     });
 
-    return <nav class={joinClass(styles.pagination, props.palette ? `palette--${props.palette}` : '', props.class)}
+    return <nav class={joinClass(props.palette, styles.pagination, props.class)}
         aria-orientation='horizontal'
     >
         <Button square onclick={() => change(1)}

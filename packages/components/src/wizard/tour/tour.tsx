@@ -145,7 +145,7 @@ export default function Tour(props: Props): JSX.Element {
         }
     });
 
-    return <Dialog class={joinClass(styles.tour, props.class)} ref={el => ref = el}
+    return <Dialog class={joinClass(undefined, styles.tour, props.class)} ref={el => ref = el}
         header={<Label icon={curr().icon}>{header()}</Label>}
         actions={<>
             {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}

@@ -15,7 +15,7 @@ export default function(): JSX.Element {
     let ref2: StepperRef;
     let ref3: StepperRef;
 
-    const [paletteS, palette] = paletteSelector();
+    const [paletteS, palette] = paletteSelector('surface');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <Demo settings={<>

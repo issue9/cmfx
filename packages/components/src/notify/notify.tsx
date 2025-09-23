@@ -34,7 +34,9 @@ let notifyInst: typeof notify;
  * @param lang - 语言，仅对系统通知的情况下有效；
  * @param timeout - 如果大于 0，超过此毫秒数时将自动关闭提示框；
  */
-export async function notify(title: string, body?: string, type?: Type, lang?: string, timeout?: number): Promise<void> {
+export async function notify(
+    title: string, body?: string, type?: Type, lang?: string, timeout?: number
+): Promise<void> {
     return await notifyInst(title, body, type, lang, timeout);
 }
 
@@ -97,7 +99,7 @@ function initNotify(p: Props): JSX.Element {
         setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
     };
 
-    return <div class={joinClass(styles.notify, p.palette ? `palette--${p.palette}` : '', p.class)}>
+    return <div class={joinClass(p.palette, styles.notify, p.class)}>
         <For each={msgs()}>
             {item => (
                 <Alert {...item} del={(id) => {
@@ -115,7 +117,9 @@ function initNotify(p: Props): JSX.Element {
  *
  * @returns 如果发送成功返回 true，否则返回 false。
  */
-async function systemNotify(title: string, body?: string, icon?: string, lang?: string, timeout?: number): Promise<boolean> {
+async function systemNotify(
+    title: string, body?: string, icon?: string, lang?: string, timeout?: number
+): Promise<boolean> {
     if (!('Notification' in window)) { // 不支持
         return false;
     } else if (Notification.permission == 'denied') { // 明确拒绝

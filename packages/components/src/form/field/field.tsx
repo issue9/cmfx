@@ -134,7 +134,7 @@ export default function Field(props: FieldProps): JSX.Element {
     // 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
     // help 应该与 input 左对齐，而不是与 label 左对齐。
 
-    return <div class={joinClass(styles.field, props.class, props.palette ? `palette--${props.palette}` : undefined)}
+    return <div class={joinClass(props.palette, styles.field, props.class)}
         ref={(el) => { if (props.ref) { props.ref(el); } }}>
         {props.children}
     </div>;
@@ -150,7 +150,9 @@ interface HelpAreaProps {
  * 可在 {@link Field} 中显示帮助和错误信息的子组件
  */
 export function HelpArea(props: HelpAreaProps): JSX.Element {
-    return <p style={fieldArea2Style(props.area)} role="alert" class={joinClass(styles.help, props.getError() ? styles.error : undefined)}>
+    return <p style={fieldArea2Style(props.area)} role="alert"
+        class={joinClass(undefined, styles.help, props.getError() ? styles.error : '')}
+    >
         {props.getError() ?? props.help}
     </p>;
 }

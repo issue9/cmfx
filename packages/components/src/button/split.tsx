@@ -6,7 +6,7 @@ import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
-import { classList } from '@/base';
+import { joinClass } from '@/base';
 import { Props as BaseProps, presetProps as basePrsetProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 import styles from './style.module.css';
@@ -71,9 +71,7 @@ export function SplitButton(props: Props) {
 
     return <>
         {activator}
-        <div ref={el => popElem = el} popover="auto"
-            class={classList({ [`palette--${props.palette}`]: !!props.palette }, styles['split-content'])}
-        >
+        <div ref={el => popElem = el} popover="auto" class={joinClass(props.palette, styles['split-content'])}>
             <For each={props.menus}>
                 {(item) => {
                     let ref: Ref;

@@ -10,7 +10,9 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { TimePanel, TimePanelProps } from '@/datetime/timepanel';
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
+import {
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
+} from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends FieldBaseProps, Omit<TimePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
@@ -49,7 +51,7 @@ export default function Time(props: Props) {
         second: '2-digit'
     }));
 
-    return <Field class={joinClass(styles.activator, props.class)}
+    return <Field class={joinClass(undefined, styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
@@ -59,7 +61,7 @@ export default function Time(props: Props) {
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
-            class={joinClass(styles['activator-container'], props.rounded ? styles.rounded : undefined)}
+            class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
         >
             <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled}
                 readOnly placeholder={props.placeholder}

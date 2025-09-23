@@ -62,7 +62,7 @@ export function ConfirmButton(props: Props) {
             popElem.togglePopover();
             adjustPopoverPosition(popElem, ref.getBoundingClientRect());
         }}>{props.children}</Button>
-        <div popover="auto" ref={el=>popElem=el} class={joinClass(props.palette ? `palette--${props.palette}`:undefined, styles['confirm-panel'])}>
+        <div popover="auto" ref={el=>popElem=el} class={joinClass(props.palette, styles['confirm-panel'])}>
             {props.prompt ?? l.t('_c.areYouSure')}
             <div class={styles['confirm-actions']}>
                 <Button palette='secondary' onClick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>

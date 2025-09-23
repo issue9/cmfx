@@ -57,7 +57,7 @@ export default function Tooltip(props: Props): JSX.Element {
         hide() { ref.hidePopover(); }
     });
 
-    return <div popover='auto' class={joinClass(styles.tooltip, props.class)}
+    return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)}
         ref={el => ref = el}
     >{props.children}</div>;
 }

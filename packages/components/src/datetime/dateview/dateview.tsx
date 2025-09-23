@@ -166,7 +166,7 @@ export default function DateView(props: Props): JSX.Element {
                         </Show>
                         <For each={week}>
                             {day => (
-                                <td class={classList({
+                                <td class={classList(undefined, {
                                     [props.selectedClass]: isSelected(day[1], selected()),
                                     [props.todayClass]: equalDate(today(), day[1]),
                                     [props.disabledClass]: !day[0],
@@ -195,7 +195,7 @@ export default function DateView(props: Props): JSX.Element {
     </table>;
 
     return <fieldset disabled={props.disabled}
-        class={joinClass(styles.dateview, props.palette ? `palette--${props.palette}` : '', props.class)}
+        class={joinClass(props.palette, styles.dateview, props.class)}
     >
         {buildHeader(l, value, ref, props)}
         {table}

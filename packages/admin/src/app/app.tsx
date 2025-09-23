@@ -49,7 +49,7 @@ function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
 
     const root = (p: RouteSectionProps) => {
         return <Provider {...props.opt}>
-            <div class={ joinClass(styles.app, 'palette-surface') }>
+            <div class={ joinClass('surface', styles.app) }>
                 <Toolbar menuVisible={menuVisible} switch={setSelected} />
                 <main class={styles.main}>{p.children}</main>
             </div>

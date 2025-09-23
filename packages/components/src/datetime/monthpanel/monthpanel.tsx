@@ -69,8 +69,7 @@ export default function MonthPanel(props: Props): JSX.Element {
     let yearRef: HTMLFieldSetElement | undefined;
 
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }}
-        disabled={props.disabled}
-        class={joinClass(styles.panel, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+        disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)}
     >
         <header class={styles.month}>
             <span class={styles.title} onClick={e => {

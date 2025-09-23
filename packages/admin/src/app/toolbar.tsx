@@ -44,7 +44,7 @@ export default function Toolbar(props: Props) {
         </>
     }>
         <Show when={act.isLogin()}>
-            <Button square rounded type="button" kind='flat' class={classList({
+            <Button square rounded type="button" kind='flat' class={classList(undefined, {
                 'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
                 'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
                 'md:!hidden': opt.aside.floatingMinWidth == 'md',

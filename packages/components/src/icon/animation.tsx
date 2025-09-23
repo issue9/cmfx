@@ -98,7 +98,7 @@ export function AnimationIcon(props: Props): JSX.Element {
         if ((cls || p || mode || scheme) && !icons.loading) {
             // 此处的 !text-palette-fg 必不可少的，如果不强制设置颜色，svg 的默认色可能是 currentColor。
             // 它会从父类查找颜色，如果父类设置了 :active 等伪类的颜色值，那么它可能获取的是伪类状态下的颜色。
-            icons()!.setAttribute('class', joinClass(p ? `palette--${p}` : '', '!text-palette-fg', 'w-4', cls)!);
+            icons()!.setAttribute('class', joinClass(p, '!text-palette-fg', 'w-4', cls)!);
 
             if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
         }
@@ -112,7 +112,7 @@ export function AnimationIcon(props: Props): JSX.Element {
             const i = icons();
             const dur = transitionDuration(i);
 
-            // 此时 i 可能并未完全加载到 DOM 中，`new SVGMorpheus` 会返回错误。
+            // BUG: 此时 i 可能并未完全加载到 DOM 中，`new SVGMorpheus` 会返回错误。
 
             requestIdleCallback(() => {
                 morpheus = new SVGMorpheus(i!, {

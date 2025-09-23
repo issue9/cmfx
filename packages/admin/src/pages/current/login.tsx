@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, fieldAccessor, Page } from '@cmfx/components';
+import { Choice, fieldAccessor, joinClass, Page } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
@@ -62,7 +62,7 @@ function LoginBox(props: Props): JSX.Element {
         setPassports(r.body!.map((v)=>[v.id,v.desc]));
     });
 
-    return <Page title="_p.current.login" class={styles.login} style={{ 'background-image': props.bg }}>
+    return <Page title="_p.current.login" class={joinClass(undefined, styles.login, `bg-[${props.bg}]`)}>
         <div class={styles.form}>
             <div class={styles.title}>
                 <p class="text-2xl">{l.t('_p.current.login')}</p>

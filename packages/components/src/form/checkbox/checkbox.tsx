@@ -4,7 +4,7 @@
 
 import { createEffect, JSX, mergeProps } from 'solid-js';
 
-import { classList, joinClass } from '@/base';
+import { joinClass } from '@/base';
 import { FieldBaseProps } from '@/form/field';
 import styles from './style.module.css';
 
@@ -42,15 +42,14 @@ export function Checkbox(props: Props): JSX.Element {
 
     createEffect(() => { ref.indeterminate = !!props.indeterminate; });
 
-    return <label tabIndex={props.tabindex} title={props.title} class={classList({
-        [styles.block]: props.block,
-        [`palette--${props.palette}`]: !!props.palette
-    }, styles.checkbox, props.class)}>
+    return <label tabIndex={props.tabindex} title={props.title}
+        class={joinClass(props.palette, props.block ? styles.block : '', styles.checkbox, props.class)}
+    >
         <input type="checkbox" ref={el => ref = el}
             readOnly={props.readonly}
             disabled={props.disabled}
             checked={props.checked}
-            class={joinClass(props.block ? '!hidden' : undefined, props.rounded ? styles.rounded : '')}
+            class={joinClass(undefined, props.block ? '!hidden' : '', props.rounded ? styles.rounded : '')}
             onClick={e => {
                 if (e.target !== e.currentTarget) { return; }
 

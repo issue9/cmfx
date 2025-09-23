@@ -70,7 +70,7 @@ export default function Stage(props: Props) {
             <article class={styles.desc}>{desc()}</article>
         }</Show>
 
-        <div class={joinClass(styles.stage, props.layout === 'vertical' ? styles.vertical : '')} ref={setStageRef}>
+        <div class={joinClass(undefined, styles.stage, props.layout === 'vertical' ? styles.vertical : '')} ref={setStageRef}>
             <div class={styles.demo} ref={setDemoRef}
                 style={{ height: typeof props.height === 'number' ? `${props.height}px` : props.height }}
             >

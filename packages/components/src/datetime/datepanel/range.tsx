@@ -13,9 +13,7 @@ import { useLocale } from '@/context';
 import { DateViewRef } from '@/datetime/dateview';
 import { CommonPanel, Props as CommonProps } from './common';
 import {
-    DateRangeValueType,
-    nextQuarter, nextYear, prevMonth, prevQuarter, prevYear,
-    thisQuarter, thisYear
+    DateRangeValueType, nextQuarter, nextYear, prevMonth, prevQuarter, prevYear, thisQuarter, thisYear
 } from './shortcuts';
 import styles from './style.module.css';
 
@@ -240,7 +238,7 @@ export function DateRangePanel(props: Props) {
     onCleanup(() => { if (resizeObserver) { resizeObserver.disconnect(); } });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
-        class={joinClass(styles.range, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+        class={joinClass(props.palette, styles.range, props.class)}
         ref={el => { if (props.ref) { props.ref(el); } }}
     >
         <main>

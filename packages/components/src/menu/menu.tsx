@@ -169,9 +169,10 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             || (isAnchor && !!useMatch(() => vs[vs.length - 1] === '/' ? vs : `${vs}/*?`)());
                     });
                     const cls = createMemo(() => joinClass(
+                        undefined,
                         styles.item,
-                        i().disabled ? props.disabledClass : undefined,
-                        isSelected() ? props.selectedClass : undefined,
+                        i().disabled ? props.disabledClass : '',
+                        isSelected() ? props.selectedClass : '',
                     ));
 
                     return <li ref={el => liRef = el} class={cls()} onMouseEnter={e => {
@@ -252,20 +253,20 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             {i().label}
                             <Show when={i().suffix}><span class={styles.suffix}>{i().suffix}</span></Show>
                             <Show when={hasItems}>
-                                <Switch fallback={<IconArrowRight class={joinClass(styles.icon, styles.suffix, styles['more-arrow'])} />}>
+                                <Switch fallback={<IconArrowRight class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])} />}>
                                     <Match when={props.layout === 'horizontal'}>
                                         <Switch>
                                             <Match when={i().level === 0}>
-                                                {<IconArrowDown class={joinClass(styles.icon, styles.suffix)} />}
+                                                {<IconArrowDown class={joinClass(undefined, styles.icon, styles.suffix)} />}
                                             </Match>
                                             <Match when={i().level > 0}>
-                                                {<IconArrowRight class={joinClass(styles.icon, styles.suffix, styles['more-arrow'])} />}
+                                                {<IconArrowRight class={joinClass(undefined, styles.icon, styles.suffix, styles['more-arrow'])} />}
                                             </Match>
                                         </Switch>
                                     </Match>
                                     <Match when={props.layout === 'inline'}>
                                         <AnimationIcon ref={el => iconRef = el} rotation='none'
-                                            class={joinClass(styles.icon, styles.suffix)} palette={props.palette}
+                                            class={joinClass(undefined, styles.icon, styles.suffix)} palette={props.palette}
                                             icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
                                         />
                                     </Match>
@@ -292,11 +293,10 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         ref = el;
         if (props.ref) { props.ref(el); }
     }}
-    class={classList({
+    class={classList(props.palette, {
         [styles.horizontal]: props.layout === 'horizontal',
         [styles.vertical]: props.layout === 'vertical',
         [styles.inline]: props.layout === 'inline',
-        [`palette--${props.palette}`]: !!props.palette,
     }, styles.menu, props.class)}
     >
         <For each={buildRenderItemType(props.items, 0)}>

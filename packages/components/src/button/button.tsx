@@ -51,9 +51,8 @@ export function Button(props: Props) {
         onCleanup(() => Hotkey.unbind(props.hotkey!));
     }
 
-    return <button ref={el => ref = el} {...btnProps} class={classList({
+    return <button ref={el => ref = el} {...btnProps} class={classList(props.palette, {
         [styles.square]: props.square,
-        [`palette--${props.palette}`]: !!props.palette,
         [styles.rounded]: props.rounded,
         [styles.checked]: props.checked,
         ...props.classList

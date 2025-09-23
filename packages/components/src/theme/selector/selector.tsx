@@ -46,13 +46,13 @@ export function Selector(props: Props): JSX.Element {
         }
     });
 
-    return <div class={joinClass(styles.selector, props.palette ? `palette--${props.palette}` : '', props.class)}>
+    return <div class={joinClass(props.palette, styles.selector, props.class)}>
         <For each={Array.from(props.schemes.entries())}>
             {scheme => {
                 const colors = scheme[1].dark!;
 
                 return <button
-                    class={joinClass(styles.option, value() === scheme[0] ? styles.selected : '')}
+                    class={joinClass(undefined, styles.option, value() === scheme[0] ? styles.selected : '')}
                     onClick={() => {
                         const old = value();
                         setValue(scheme[0]);

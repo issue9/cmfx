@@ -103,18 +103,22 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
     const id = createUniqueId();
-    return <Field class={joinClass(styles.activator, props.class)}
+    return <Field class={joinClass(undefined, styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <Dropdown class={styles.pop} items={props.options} multiple={props.multiple} onChange={e => {
+        <Dropdown class={styles.pop} items={props.options} multiple={props.multiple} onPopover={e=>{
+            if (e) {
+                scrollIntoView();
+            }
+        }} onChange={e => {
             props.accessor.setValue(e as any);
         }}>
             <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}
-                class={joinClass(styles['activator-container'], props.rounded ? 'rounded-full' : '')}>
+                class={joinClass(undefined, styles['activator-container'], props.rounded ? 'rounded-full' : '')}>
                 <input id={id} tabIndex={props.tabindex} class="hidden peer"
                     disabled={props.disabled} readOnly={props.readonly}
                 />

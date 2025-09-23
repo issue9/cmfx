@@ -33,10 +33,9 @@ export function ButtonGroup(props: Props) {
 
     return <fieldset role="group" ref={el => { if (props.ref) { props.ref(el); } }} disabled={props.disabled}
         aria-orientation={props.layout}
-        class={classList({
+        class={classList(props.palette, {
             [styles.rounded]: props.rounded,
             [styles.vertical]: props.layout === 'vertical',
-            [`palette--${props.palette}`]: !!props.palette
         }, styles.group, styles[props.kind!], props.class)}
     >
         {props.children}

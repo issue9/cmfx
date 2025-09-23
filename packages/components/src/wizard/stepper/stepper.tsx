@@ -70,15 +70,14 @@ export default function Stepper(props: Props): JSX.Element {
         });
     }
 
-    return <div class={classList({
-        [`palette--${props.palette}`]: !!props.palette,
+    return <div class={classList(props.palette, {
         [styles.vertical]: props.layout === 'vertical',
     }, styles.stepper, props.class)}>
         <header class={props.layout === 'vertical' ? styles.vertical : undefined}>
             <For each={props.steps}>
                 {(step, idx) => {
                     const completed = createMemo(() => idx() <= index());
-                    return <div class={joinClass(styles.step, completed() ? styles.completed : undefined)}>
+                    return <div class={joinClass(undefined, styles.step, completed() ? styles.completed : undefined)}>
                         <div class={styles.icon}>
                             <Switch fallback={<span class={styles.dot} />}>
                                 <Match when={(step.icon === true || (typeof step.icon === 'function' && step.icon(completed()) === true))}>

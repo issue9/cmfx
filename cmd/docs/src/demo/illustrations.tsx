@@ -13,9 +13,9 @@ export default function() {
     const [customS, custom] = boolSelector('自定义文字内容', false);
     const [scaleS, scale] = boolSelector('缩放', false);
 
-    const [cls, setCls] = createSignal(joinClass(scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
+    const [cls, setCls] = createSignal(joinClass(undefined, scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
     createEffect(() => {
-        setCls(joinClass(scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
+        setCls(joinClass(undefined, scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
     });
 
     return <Demo settings={<>

@@ -72,7 +72,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
 
     const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
-    return <Spin spinning={props.loading} palette={props.palette} class={joinClass(styles.table, props.class)}
+    return <Spin spinning={props.loading} palette={props.palette} class={joinClass(undefined, styles.table, props.class)}
         ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}>
         <Show when={props.extraHeader}>
             {props.extraHeader}

@@ -4,7 +4,6 @@
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
-import { classList } from '@/base';
 import {
     Accessor, AutoComplete, calcLayoutFieldAreas, Field,
     fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useForm
@@ -84,15 +83,15 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
-    return <Field title={props.title} palette={props.palette}>
+    return <Field title={props.title} palette={props.palette} class={props.class}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div style={fieldArea2Style(areas().inputArea)} class={classList({
+        <div style={fieldArea2Style(areas().inputArea)} classList={{
             [styles['text-field']]: true,
             [styles.rounded]: props.rounded,
-        }, props.class)}>
+        }}>
             <Show when={props.prefix}>{props.prefix}</Show>
             <input id={id} class={styles.input} type={props.type}
                 ref={el => { if (props.ref) { props.ref(el); } }}

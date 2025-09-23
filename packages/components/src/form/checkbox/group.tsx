@@ -47,7 +47,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)}
-            class={joinClass(styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : undefined)}
+            class={joinClass(undefined, styles['group-content'], props.itemLayout === 'vertical' ? 'flex-col' : '')}
         >
             <For each={props.options}>
                 {item =>

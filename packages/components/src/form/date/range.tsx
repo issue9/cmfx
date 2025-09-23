@@ -99,7 +99,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={joinClass(styles.activator, props.class)}
+    return <Field class={joinClass(undefined, styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
@@ -109,15 +109,15 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
             onClick={() => togglePop(anchorRef, panelRef)}
-            class={joinClass(styles['activator-container'], props.rounded ? styles.rounded : undefined)}
+            class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : undefined)}
         >
             <input id={id} readOnly disabled={props.disabled} placeholder={props.placeholder}
-                class={joinClass(styles.input, styles.range)}
+                class={joinClass(undefined, styles.input, styles.range)}
                 value={formater()(getValue()?.[0])}
             />
             <div class="px-1 shrink-0">{props.arrowIcon}</div>
             <input readOnly disabled={props.disabled} placeholder={props.placeholder}
-                class={joinClass(styles.input, styles.range)}
+                class={joinClass(undefined, styles.input, styles.range)}
                 value={formater()(getValue()?.[1])}
             />
 
@@ -135,7 +135,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
                 value={getValue()} onChange={change}
             />
 
-            <div class={joinClass(styles.actions, '!justify-end')}>
+            <div class={joinClass(undefined, styles.actions, '!justify-end')}>
                 <Button kind='flat' class='py-0 px-1' onClick={() => {
                     props.accessor.setValue([undefined, undefined]);
                     panelRef.hidePopover();

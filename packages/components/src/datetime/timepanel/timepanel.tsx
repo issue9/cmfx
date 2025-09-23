@@ -68,7 +68,7 @@ export default function TimePanel(props: Props): JSX.Element {
     onMount(() => { scrollTimer(); });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
-        class={joinClass(styles.time, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+        class={joinClass(props.palette, styles.time, props.class)}
         ref={ el => {
             ref = el;
             if (props.ref) { props.ref(el); }

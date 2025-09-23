@@ -60,7 +60,7 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
 
     return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>
         <Spin spinning={props.formAccessor.submitting()} palette={props.palette}>
-            <form class={joinClass(styles.form, props.class, props.layout === 'vertical' ? 'flex-col' : '')}
+            <form class={joinClass(undefined, styles.form, props.class, props.layout === 'vertical' ? 'flex-col' : '')}
                 method={props.inDialog ? 'dialog' : undefined}
                 {...props.formAccessor.events()}>
                 {props.children}

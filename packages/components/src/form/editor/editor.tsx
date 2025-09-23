@@ -60,7 +60,7 @@ export function Editor(props: Props): JSX.Element {
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={props.class} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
-            {(area) => <label style={fieldArea2Style(area())} onClick={() => editor.focus()}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())} onClick={() => editor.focus()}>{props.label}</label>}
         </Show>
 
         <div class={styles.editor} style={fieldArea2Style(areas().inputArea)}>
@@ -68,7 +68,7 @@ export function Editor(props: Props): JSX.Element {
         </div>
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

@@ -158,7 +158,7 @@ export function CommonPanel(props: Props): JSX.Element {
     });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
-        class={joinClass(styles.panel, props.palette ? `palette--${props.palette}` : undefined, props.class)}
+        class={joinClass(props.palette, styles.panel, props.class)}
         ref={el => {
             if (props.ref) { props.ref(el); }
             dateRef = el;

@@ -44,10 +44,10 @@ export function Divider(props: Props): JSX.Element {
 
     return <div role="separator" aria-orientation={props.layout}
         style={{ [props.layout === 'horizontal' ? 'padding-block' : 'padding-inline']: props.padding }}
-        class={classList({
+        class={classList(props.palette, {
             [styles.vertical]: props.layout !== 'horizontal',
             [styles[`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]]: true,
-        }, styles.divider, props.palette ? `palette--${props.palette}` : '', props.class)}>
+        }, styles.divider, props.class)}>
         {props.children}
     </div>;
 }

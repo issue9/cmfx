@@ -54,7 +54,7 @@ export class Pwd implements PassportComponents {
         }}>
             <TextField hasHelp prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
                 placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username')} />
-            <Password hasHelp prefix={<IconPassword />} placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password')} />
+            <Password hasHelp prefix={<IconPassword class="px-1 !py-0 shrink-0 self-center w-auto" />} placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password')} />
 
             <Button palette='primary' disabled={account.accessor<string>('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
             <Button palette='secondary' disabled={account.isPreset()} type="reset" > {l.t('_c.reset')} </Button>

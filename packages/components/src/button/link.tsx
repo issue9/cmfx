@@ -51,9 +51,8 @@ export function LinkButton(props: Props) {
     // A.href 无法设置为 javascript:void(0)
     return <A {...linkProps} onClick={
         !props.disabled ? undefined : e => e.preventDefault()
-    } class={classList( {
+    } class={classList(props.palette, {
         [styles.square]: props.square,
-        [`palette--${props.palette}`]: !!props.palette,
         [styles.rounded]: props.rounded,
         [styles['link-enabled']]: !props.disabled,
         [styles['link-disabled']]: props.disabled
