@@ -99,6 +99,32 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
     const isMultiple = props.multiple ?? false;;
     const [selected, setSelected] = createSignal<Array<T>>(props.value ?? []);
     createEffect(() => { setSelected(props.value ?? []); }); // 监视外部变化
+    let ref: HTMLElement;
+
+    const handleKeydown = (event: KeyboardEvent) => {
+        const active = document.activeElement as HTMLElement | null;
+        if (!ref || !active || !ref.contains(active)) { return; }
+
+        if (event.key === 'Enter') { // 处理回车
+            if (props.layout === 'inline') {
+                active.click();
+            } else {
+                // 模拟 hover 操作
+                const enterEvent = new MouseEvent('mouseenter', { bubbles: true, cancelable: true });
+                active.dispatchEvent(enterEvent);
+
+                active.click();
+
+                // 没有子菜单，则要取消 Hover 操作
+                if (!active.parentElement?.querySelector(':scope>ul')) {
+                    const leaveEvent = new MouseEvent('mouseleave', { bubbles: true, cancelable: true });
+                    active.dispatchEvent(leaveEvent);
+                }
+            }
+        }
+    };
+    onMount(() => { document.addEventListener('keydown', handleKeydown); });
+    onCleanup(() => { document.removeEventListener('keydown', handleKeydown); });
 
     /**
      * 生成菜单项以及其子项的内容
@@ -213,7 +239,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                             iconRef.to(expanded() ? 'up' : 'down');
                         }
                     }}>
-                        <Dynamic class={styles.title} component={(isAnchor && !hasItems) ? A : 'p'}
+                        <Dynamic class={styles.title} tabindex={0} component={(isAnchor && !hasItems) ? A : 'p'}
                             href={(isAnchor && !i().disabled) ? (val?.toString() ?? '') : ''}
                             style={{
                                 'padding-inline-start': props.layout === 'inline'
@@ -262,13 +288,16 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         </Switch>;
     };
 
-    return <Dynamic component={props.tag} ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}
-        class={classList({
-            [styles.horizontal]: props.layout === 'horizontal',
-            [styles.vertical]: props.layout === 'vertical',
-            [styles.inline]: props.layout === 'inline',
-            [`palette--${props.palette}`]: !!props.palette,
-        }, styles.menu, props.class)}
+    return <Dynamic component={props.tag} ref={(el: HTMLElement) => {
+        ref = el;
+        if (props.ref) { props.ref(el); }
+    }}
+    class={classList({
+        [styles.horizontal]: props.layout === 'horizontal',
+        [styles.vertical]: props.layout === 'vertical',
+        [styles.inline]: props.layout === 'inline',
+        [`palette--${props.palette}`]: !!props.palette,
+    }, styles.menu, props.class)}
     >
         <For each={buildRenderItemType(props.items, 0)}>
             {item => buildMenuItem(item, props.layout === 'horizontal' ? 'vertical' : 'horizontal')}
