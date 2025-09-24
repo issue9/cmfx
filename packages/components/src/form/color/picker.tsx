@@ -43,7 +43,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
         <div style={fieldArea2Style(areas().inputArea)}>
             <div ref={el => anchorRef = el}
                 onClick={() => togglePop(anchorRef, panelRef)}
-                class={joinClass(styles['oklch-activator-block'], props.rounded ? 'rounded-full' : undefined)}
+                class={joinClass(undefined, styles['oklch-activator-block'], props.rounded ? 'rounded-full' : '')}
                 style={{
                     'background': props.accessor.getValue(),
                     'color': props.wcag,

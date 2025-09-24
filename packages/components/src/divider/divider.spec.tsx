@@ -24,7 +24,7 @@ describe('Divider', async () => {
         const { container, unmount } = render(() => <Divider pos='end'>abc</Divider>);
         const c = container.children.item(0)!;
 
-        expect(c).toHaveClass(joinClass(styles.divider, styles['pos-end'])!);
+        expect(c).toHaveClass(joinClass(undefined, styles.divider, styles['pos-end'])!);
         expect(c).toHaveTextContent('abc');
 
         unmount();
@@ -34,7 +34,7 @@ describe('Divider', async () => {
         const { container, unmount } = render(() => <Divider pos='center'>abc</Divider>);
         const c = container.children.item(0)!;
 
-        expect(c).toHaveClass(joinClass(styles.divider, styles['pos-center'])!);
+        expect(c).toHaveClass(joinClass(undefined, styles.divider, styles['pos-center'])!);
         expect(c).toHaveTextContent('abc');
 
         unmount();

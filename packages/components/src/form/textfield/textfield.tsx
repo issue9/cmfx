@@ -62,8 +62,6 @@ export interface Props<T extends Value> extends FieldBaseProps {
      */
     autocomplete?: AutoComplete;
 
-    'aria-autocomplete'?: JSX.FormHTMLAttributes<HTMLInputElement>['aria-autocomplete'];
-
     /**
      * 这是对 Input 对象的引用
      */
@@ -97,7 +95,6 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
                 ref={el => { if (props.ref) { props.ref(el); } }}
                 inputMode={props.inputMode}
                 autocomplete={props.autocomplete}
-                aria-autocomplete={props['aria-autocomplete']}
                 tabIndex={props.tabindex}
                 disabled={props.disabled}
                 readOnly={props.readonly}

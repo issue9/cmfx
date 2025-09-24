@@ -117,6 +117,6 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.summary).toEqual('将多个 CSS 的类名组合成 class 属性值');
 
         expect(pp.fields).toBeFalsy();
-        expect(pp.type).toEqual('function joinClass(...cls: Array<string | undefined | null>): string | undefined;');
+        expect(pp.type).toEqual('function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined;');
     });
 });
