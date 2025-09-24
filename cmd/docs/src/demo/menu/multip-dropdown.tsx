@@ -60,6 +60,8 @@ export default function() {
     return <div>
         {paletteS}
         {selectedClsS}
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>click</Dropdown>
+        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>
+            <div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
+        </Dropdown>
     </div>;
 }

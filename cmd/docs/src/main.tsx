@@ -69,7 +69,7 @@ function InternalApp(props: ParentProps): JSX.Element {
     return <div class="flex flex-col h-full w-full">
         <Appbar href='/' palette='secondary' title={options.title} actions={
             <div class="flex gap-2 me-2">
-                <Dropdown hoverable value={[l.match(Array.from(languageIcons.keys()))]}
+                <Dropdown trigger='hover' value={[l.match(Array.from(languageIcons.keys()))]}
                     onChange={e => act.switchLocale(e)}
                     items={l.locales.map(locale => ({
                         type: 'item',
@@ -80,7 +80,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square><IconLanguage /></Button>
                 </Dropdown>
 
-                <Dropdown hoverable value={[mode()]} onChange={(val, old) => {
+                <Dropdown trigger='hover' value={[mode()]} onChange={(val, old) => {
                     if (val === 'theme-builder') {
                         setMode(old ? (old == 'theme-builder' ? 'system' : old) : 'system');
                     } else {
@@ -98,7 +98,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square><IconTheme /></Button>
                 </Dropdown>
 
-                <Dropdown hoverable value={[dir()]} onChange={e => {
+                <Dropdown trigger='hover' value={[dir()]} onChange={e => {
                     setDir(e);
                     document.documentElement.setAttribute('dir', dir());
                 }}

@@ -73,7 +73,7 @@ function UserMenu(): JSX.Element {
         {act.user()?.name}
     </Button>;
 
-    return <Dropdown hoverable items={buildItems(l, opt.userMenus)}>
+    return <Dropdown trigger='hover' items={buildItems(l, opt.userMenus)}>
         {activator}
     </Dropdown>;
 }

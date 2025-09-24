@@ -3,29 +3,44 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
-import { createSignal, JSX, ParentProps, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass } from '@/base';
-import { mergeProps } from 'solid-js';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
 import styles from './style.module.css';
 
-export type { Ref } from './menu';
+export interface Ref {
+    /**
+     * 显示下拉的菜单
+     */
+    show(): void;
 
-export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends ParentProps,
-    Omit<MenuProps<M, T>, 'layout' | 'tag'> {
+    /**
+     * 隐藏下拉的菜单
+     */
+    hide(): void;
+}
+
+export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
+    extends ParentProps, Omit<MenuProps<M, T>, 'layout' | 'tag' | 'ref'> {
     /**
      * 触发方式
      *
      * @defaultValue 'click'
-     * @remarks 下拉菜单的打开的方式，在移动端不支持 hover 事件。
+     * @remarks 下拉菜单的打开的方式，可以是以下值：
+     *  - click 鼠标点击；
+     *  - hover 鼠标悬停，*移动端不支持*；
+     *  - contextmenu 右键菜单；
+     *  - custom 自定义，可通过 {@link Ref} 控制；
      */
-    trigger: 'click' | 'hover' | 'contextmenu';
+    trigger: 'click' | 'hover' | 'contextmenu' | 'custom';
 
     /**
      * 下拉菜单弹出时的回调函数
      */
-    onPopover?: { (visible: boolean): void; }
+    onPopover?: { (visible: boolean): void; };
+
+    ref?: { (el: Ref): void; };
 }
 
 /**
@@ -41,57 +56,68 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
 
     const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
-    let popRef: MenuRef;
+    let menuRef: MenuRef;
     let isOpen = false;
 
     return <>
-        <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={()=>{
-            if (props.trigger !== 'hover') { return; }
+        <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={() => {
+            if (props.trigger !== 'hover' || !menuRef) { return; }
 
-            popRef.showPopover();
-            adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
-        }} onmouseleave={e=>{
-            if (props.trigger !== 'hover') { return; }
+            menuRef.showPopover();
+            adjustPopoverPosition(menuRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+        }} onmouseleave={e => {
+            if (props.trigger !== 'hover' || !menuRef) { return; }
 
-            if (!pointInElement(e.clientX, e.clientY, popRef)) { popRef.hidePopover(); }
-        }} oncontextmenu={e=>{
-            if (props.trigger !== 'contextmenu') { return; }
+            if (!pointInElement(e.clientX, e.clientY, menuRef)) { menuRef.hidePopover(); }
+        }} oncontextmenu={e => {
+            if (props.trigger !== 'contextmenu' || !menuRef) { return; }
 
             e.preventDefault();
-            popRef.showPopover();
-            adjustPopoverPosition(popRef, new DOMRect(e.clientX, e.clientY, 1, 1));
-        }} onclick={e=>{
-            if (props.trigger !== 'click') { return; }
+            menuRef.showPopover();
+            adjustPopoverPosition(menuRef, new DOMRect(e.clientX, e.clientY, 1, 1));
+        }} onclick={e => {
+            if (props.trigger !== 'click' || !menuRef) { return; }
 
             e.preventDefault();
             e.stopPropagation();
             if (!isOpen) {
-                popRef.showPopover();
-                adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+                menuRef.showPopover();
+                adjustPopoverPosition(menuRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
             }
         }}>{props.children}</div>
-        <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
-            class={joinClass(undefined, styles.dropdown, props.class)}
-            ref={el => {
-                el.popover = 'auto';
-                popRef = el;
 
-                popRef.onmouseleave = e => {
-                    if (props.trigger !== 'hover') { return; }
-                    if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) { el.hidePopover(); }
-                };
+        <Show when={props.items}>
+            <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
+                class={joinClass(undefined, styles.dropdown, props.class)}
+                ref={el => {
+                    el.popover = 'auto';
+                    menuRef = el;
 
-                popRef.ontoggle = (e: ToggleEvent) => {
-                    isOpen = e.newState === 'open';
-                    if (props.onPopover) { props.onPopover(isOpen); }
-                };
+                    menuRef.onmouseleave = e => {
+                        if (props.trigger !== 'hover') { return; }
+                        if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) { el.hidePopover(); }
+                    };
 
-                if (props.ref) { props.ref(el); }
-            }}
-            onChange={(val, old) => {
-                if (props.onChange) { props.onChange(val, old); }
-                if (!props.multiple) { popRef.hidePopover(); }
-            }}
-        />
+                    menuRef.ontoggle = (e: ToggleEvent) => {
+                        isOpen = e.newState === 'open';
+                        if (props.onPopover) { props.onPopover(isOpen); }
+                    };
+
+                    if (props.ref) {
+                        props.ref({
+                            show: () => {
+                                menuRef.showPopover();
+                                adjustPopoverPosition(menuRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+                            },
+                            hide: () => menuRef.hidePopover()
+                        });
+                    }
+                }}
+                onChange={(val, old) => {
+                    if (props.onChange) { props.onChange(val, old); }
+                    if (!props.multiple) { menuRef.hidePopover(); }
+                }}
+            />
+        </Show>
     </>;
 }

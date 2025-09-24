@@ -1,9 +1,8 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, MenuItem } from '@cmfx/components';
-import { Hotkey } from '@cmfx/core';
+import { Button, Dropdown, DropdownRef, MenuItem } from '@cmfx/components';
 import IconFace from '~icons/material-symbols/face';
 
 import { arraySelector, paletteSelector } from '../base';
@@ -40,7 +39,7 @@ export default function() {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3(control+q)', hotkey: new Hotkey('q', 'control') },
+        { type: 'item', value: 'v3', label: 'v3' },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },
@@ -57,12 +56,17 @@ export default function() {
         },
     ];
 
+    let ref: DropdownRef;
+
     return <div>
         {paletteS}
         {selectedClsS}
-        <Dropdown selectedClass={selectedCls()} palette={palette()}
-            items={items} trigger='hover' onPopover={e=>console.log('visible:', e)}>
-            <div class="bg-primary-bg text-primary-fg w-full h-full">hover</div>
+        <Button onClick={() => ref.show()}>show</Button>
+        <Button onClick={() => ref.hide()}>hide</Button>
+        <br />
+        <Dropdown selectedClass={selectedCls()} palette={palette()} ref={el => ref = el}
+            items={items} trigger='custom' onPopover={e => console.log('visible:', e)}>
+            <div class="bg-primary-bg text-primary-fg w-full h-full">custom</div>
         </Dropdown>
     </div>;
 }

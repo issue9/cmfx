@@ -251,7 +251,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                 {props.toolbar}
                 <Show when={props.systemToolbar}>
                     <div class={styles['system-toolbar']}>
-                        <Dropdown hoverable items={[
+                        <Dropdown trigger='hover' items={[
                             {
                                 type: 'item', value: 'hoverable',
                                 label: <Checkbox readonly label={l.t('_c.table.hoverable')} checked={hoverable()} />

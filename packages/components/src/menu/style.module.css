@@ -141,6 +141,6 @@
     /************************************************* context ********************/
     .context,
     .dropdown {
-        @apply border border-palette-bg-low rounded-md;
+        @apply border border-palette-fg-low rounded-md;
     }
 }
