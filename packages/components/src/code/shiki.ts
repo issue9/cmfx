@@ -239,6 +239,7 @@ export async function highlightCode(
         transformers: [{
             pre(node) {
                 node.properties.class = joinClass(
+                    undefined,
                     node.properties.class as string | null | undefined,
                     ln !== undefined ? styles.ln : '',
                     wrap ? styles.wrap : '',

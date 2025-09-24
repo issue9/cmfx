@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ContextMenu, MenuItem } from '@cmfx/components';
+import { Dropdown, MenuItem } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import IconFace from '~icons/material-symbols/face';
 
@@ -57,12 +57,13 @@ export default function() {
         },
     ];
 
-    let contextTarget: HTMLElement | null;
 
     return <div>
         {paletteS}
         {selectedClsS}
-        <div class="bg-primary-bg text-primary-fg w-10 h-10" ref={el => contextTarget = el}>right click</div>
-        <ContextMenu selectedClass={selectedCls()} palette={palette()} items={items} target={contextTarget!} onPopover={e=>console.log('visible:', e)} />
+        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items}
+            trigger='contextmenu' onPopover={e=>console.log('visible:', e)}>
+            <div class="bg-primary-bg text-primary-fg w-10 h-10">right click</div>
+        </Dropdown>
     </div>;
 }

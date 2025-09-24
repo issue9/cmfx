@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
 import {
     Accessor, AutoComplete, calcLayoutFieldAreas, Field,
@@ -63,9 +63,14 @@ export interface Props<T extends Value> extends FieldBaseProps {
     autocomplete?: AutoComplete;
 
     /**
-     * 这是对 Input 对象的引用
+     * 这是对 {@link HTMLInputElement} 对象的引用
      */
     ref?: { (el: Ref): void };
+
+    /**
+     * 提供候选词列表
+     */
+    onSearch?: { (text: T): Array<T>; };
 }
 
 /**
@@ -80,6 +85,7 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
     const access = props.accessor;
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
+    const [candidate, setCandidate] = createSignal<Array<T>>([]);
 
     return <Field title={props.title} palette={props.palette} class={props.class}>
         <Show when={areas().labelArea}>
@@ -107,6 +113,10 @@ export function TextField<T extends Value>(props: Props<T>):JSX.Element {
                     }
                     access.setValue(v);
                     access.setError();
+
+                    if (props.onSearch) {
+                        setCandidate(props.onSearch(v));
+                    }
                 }}
             />
             <Show when={props.suffix}>{props.suffix}</Show>

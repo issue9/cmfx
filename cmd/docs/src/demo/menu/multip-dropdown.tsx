@@ -60,6 +60,6 @@ export default function() {
     return <div>
         {paletteS}
         {selectedClsS}
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>dropdown</Dropdown>
+        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>click</Dropdown>
     </div>;
 }

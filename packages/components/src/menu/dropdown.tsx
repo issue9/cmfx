@@ -6,6 +6,7 @@ import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
 import { createSignal, JSX, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass } from '@/base';
+import { mergeProps } from 'solid-js';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
 import styles from './style.module.css';
 
@@ -14,9 +15,12 @@ export type { Ref } from './menu';
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends ParentProps,
     Omit<MenuProps<M, T>, 'layout' | 'tag'> {
     /**
-     * 响应 hover 事件展开菜单
+     * 触发方式
+     *
+     * @defaultValue 'click'
+     * @remarks 下拉菜单的打开的方式，在移动端不支持 hover 事件。
      */
-    hoverable?: boolean;
+    trigger: 'click' | 'hover' | 'contextmenu';
 
     /**
      * 下拉菜单弹出时的回调函数
@@ -33,23 +37,31 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 export default function Dropdown<M extends boolean = false, T extends AvailableEnumType = string>(
     props: Props<M, T>
 ): JSX.Element {
-    const [_, menuProps] = splitProps(props, ['hoverable', 'children', 'items', 'ref', 'onChange', 'class']);
+    props = mergeProps({ trigger: 'click' }, props);
+
+    const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
     let popRef: MenuRef;
     let isOpen = false;
 
-    return <div aria-haspopup>
-        <div ref={el => setTriggerRef(el)} onmouseenter={()=>{
-            if (!props.hoverable) { return; }
+    return <>
+        <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={()=>{
+            if (props.trigger !== 'hover') { return; }
 
             popRef.showPopover();
             adjustPopoverPosition(popRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
         }} onmouseleave={e=>{
-            if (!props.hoverable) { return; }
+            if (props.trigger !== 'hover') { return; }
 
             if (!pointInElement(e.clientX, e.clientY, popRef)) { popRef.hidePopover(); }
+        }} oncontextmenu={e=>{
+            if (props.trigger !== 'contextmenu') { return; }
+
+            e.preventDefault();
+            popRef.showPopover();
+            adjustPopoverPosition(popRef, new DOMRect(e.clientX, e.clientY, 1, 1));
         }} onclick={e=>{
-            if (props.hoverable) { return; }
+            if (props.trigger !== 'click') { return; }
 
             e.preventDefault();
             e.stopPropagation();
@@ -65,7 +77,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                 popRef = el;
 
                 popRef.onmouseleave = e => {
-                    if (!props.hoverable) { return; }
+                    if (props.trigger !== 'hover') { return; }
                     if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) { el.hidePopover(); }
                 };
 
@@ -81,5 +93,5 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                 if (!props.multiple) { popRef.hidePopover(); }
             }}
         />
-    </div>;
+    </>;
 }
