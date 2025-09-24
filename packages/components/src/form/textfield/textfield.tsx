@@ -2,19 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, mergeProps, onMount, Show } from 'solid-js';
 
+import { joinClass } from '@/base';
 import {
     Accessor, AutoComplete, calcLayoutFieldAreas, Field,
     fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useForm
 } from '@/form/field';
+import { Dropdown, DropdownRef, MenuItemItem } from '@/menu';
 import styles from './style.module.css';
 
-type Value = string | number | Array<string> | undefined;
+type Value = string | number | undefined;
 
 export type Ref = HTMLInputElement;
 
-export interface Props<T extends Value> extends FieldBaseProps {
+export interface Props<T extends Value = string> extends FieldBaseProps {
     /**
      * 文本框内顶部的内容
      *
@@ -70,7 +72,7 @@ export interface Props<T extends Value> extends FieldBaseProps {
     /**
      * 提供候选词列表
      */
-    onSearch?: { (text: T): Array<T>; };
+    onSearch?: { (text: T): Array<Exclude<T, undefined>>; };
 }
 
 /**
@@ -78,48 +80,56 @@ export interface Props<T extends Value> extends FieldBaseProps {
  *
  * @typeParam T - 文本框内容的类型
  */
-export function TextField<T extends Value>(props: Props<T>):JSX.Element {
+export function TextField<T extends Value = string>(props: Props<T>):JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
     const access = props.accessor;
     const id = createUniqueId();
-    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
-    const [candidate, setCandidate] = createSignal<Array<T>>([]);
+    const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
+    const [candidate, setCandidate] = createSignal<Array<MenuItemItem<Exclude<T, undefined>>>>([]);
+
+    let dropdownRef: DropdownRef;
+    let triggerRef: HTMLDivElement;
+
+    onMount(() => {
+        dropdownRef.element().style.width = triggerRef.getBoundingClientRect().width + 'px';
+    });
 
     return <Field title={props.title} palette={props.palette} class={props.class}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div style={fieldArea2Style(areas().inputArea)} classList={{
-            [styles['text-field']]: true,
-            [styles.rounded]: props.rounded,
-        }}>
-            <Show when={props.prefix}>{props.prefix}</Show>
-            <input id={id} class={styles.input} type={props.type}
-                ref={el => { if (props.ref) { props.ref(el); } }}
-                inputMode={props.inputMode}
-                autocomplete={props.autocomplete}
-                tabIndex={props.tabindex}
-                disabled={props.disabled}
-                readOnly={props.readonly}
-                placeholder={props.placeholder}
-                value={access.getValue() ?? ''} // 正常处理 undefined
-                onInput={e => {
-                    let v = e.target.value as T;
-                    if (props.type === 'number') {
-                        v = parseInt(e.target.value) as T;
-                    }
-                    access.setValue(v);
-                    access.setError();
+        <div style={fieldArea2Style(areas().inputArea)}>
+            <Dropdown trigger='custom' items={candidate()} ref={el => dropdownRef = el}
+                onChange={e => props.accessor.setValue(e)}>
+                <div ref={el => triggerRef = el}
+                    class={joinClass(undefined, styles['text-field'], props.rounded ? styles.rounded : '')}
+                >
+                    <Show when={props.prefix}>{props.prefix}</Show>
+                    <input id={id} class={styles.input} type={props.type}
+                        ref={el => { if (props.ref) { props.ref(el); } }} inputMode={props.inputMode}
+                        autocomplete={props.autocomplete} tabIndex={props.tabindex} disabled={props.disabled}
+                        readOnly={props.readonly} placeholder={props.placeholder}
+                        value={access.getValue() ?? ''} // 正常处理 undefined
+                        onInput={e => {
+                            let v = e.target.value as T;
+                            if (props.type === 'number') {
+                                v = parseInt(e.target.value) as T;
+                            }
+                            access.setValue(v);
+                            access.setError();
 
-                    if (props.onSearch) {
-                        setCandidate(props.onSearch(v));
-                    }
-                }}
-            />
-            <Show when={props.suffix}>{props.suffix}</Show>
+                            if (props.onSearch) {
+                                setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
+                                dropdownRef.show();
+                            }
+                        }}
+                    />
+                    <Show when={props.suffix}>{props.suffix}</Show>
+                </div>
+            </Dropdown>
         </div>
 
         <Show when={areas().helpArea}>

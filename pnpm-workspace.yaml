@@ -1,3 +1,7 @@
+# SPDX-FileCopyrightText: 2024-2025 caixw
+#
+# SPDX-License-Identifier: MIT
+
 packages:
   - packages/**
   - build/vite-plugin-about

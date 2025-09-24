@@ -19,7 +19,7 @@
             @apply !rounded-r-md;
         }
 
-        .input {
+        >input {
             @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
 
             -webkit-appearance: textfield;
@@ -27,8 +27,8 @@
             appearance: textfield;
         }
 
-        input::-webkit-outer-spin-button,
-        input::-webkit-inner-spin-button {
+        >input::-webkit-outer-spin-button,
+        >input::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }

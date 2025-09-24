@@ -19,7 +19,12 @@ import { AnimationIcon, AnimationIconRef } from '@/icon';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
 import styles from './style.module.css';
 
-export type Ref = HTMLElement;
+export interface Ref {
+    /**
+     * 返回关联的 menu 或是 nav 对象
+     */
+    element(): HTMLMenuElement | HTMLElement;
+}
 
 type CF<M extends boolean = false, T extends AvailableEnumType = string, V = M extends true ? T[] : T>
     = ChangeFunc<V>;
@@ -289,9 +294,11 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         </Switch>;
     };
 
-    return <Dynamic component={props.tag} ref={(el: HTMLElement) => {
+    return <Dynamic component={props.tag} ref={(el: HTMLMenuElement | HTMLElement) => {
         ref = el;
-        if (props.ref) { props.ref(el); }
+        if (props.ref) { props.ref({
+            element: () => el,
+        }); }
     }}
     class={classList(props.palette, {
         [styles.horizontal]: props.layout === 'horizontal',

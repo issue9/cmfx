@@ -19,6 +19,8 @@ export interface Ref {
      * 隐藏下拉的菜单
      */
     hide(): void;
+
+    element(): HTMLMenuElement | HTMLElement;
 }
 
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
@@ -59,63 +61,63 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
     let menuRef: MenuRef;
     let isOpen = false;
 
+    const show = () => {
+        menuRef.element().showPopover();
+        adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+    };
+
     return <>
         <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={() => {
             if (props.trigger !== 'hover' || !menuRef) { return; }
-
-            menuRef.showPopover();
-            adjustPopoverPosition(menuRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+            show();
         }} onmouseleave={e => {
             if (props.trigger !== 'hover' || !menuRef) { return; }
 
-            if (!pointInElement(e.clientX, e.clientY, menuRef)) { menuRef.hidePopover(); }
+            if (!pointInElement(e.clientX, e.clientY, menuRef.element())) { menuRef.element().hidePopover(); }
         }} oncontextmenu={e => {
             if (props.trigger !== 'contextmenu' || !menuRef) { return; }
 
             e.preventDefault();
-            menuRef.showPopover();
-            adjustPopoverPosition(menuRef, new DOMRect(e.clientX, e.clientY, 1, 1));
+            menuRef.element().showPopover();
+            adjustPopoverPosition(menuRef.element(), new DOMRect(e.clientX, e.clientY, 1, 1));
         }} onclick={e => {
             if (props.trigger !== 'click' || !menuRef) { return; }
 
             e.preventDefault();
             e.stopPropagation();
-            if (!isOpen) {
-                menuRef.showPopover();
-                adjustPopoverPosition(menuRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
-            }
+            if (!isOpen) { show(); }
         }}>{props.children}</div>
 
         <Show when={props.items}>
             <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
                 class={joinClass(undefined, styles.dropdown, props.class)}
                 ref={el => {
-                    el.popover = 'auto';
+                    el.element().popover = 'auto';
                     menuRef = el;
 
-                    menuRef.onmouseleave = e => {
+                    el.element().onmouseleave = e => {
                         if (props.trigger !== 'hover') { return; }
-                        if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) { el.hidePopover(); }
+                        if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) {
+                            el.element().hidePopover();
+                        }
                     };
 
-                    menuRef.ontoggle = (e: ToggleEvent) => {
+                    el.element().ontoggle = (e: ToggleEvent) => {
                         isOpen = e.newState === 'open';
                         if (props.onPopover) { props.onPopover(isOpen); }
                     };
 
                     if (props.ref) {
                         props.ref({
-                            show: () => {
-                                menuRef.showPopover();
-                                adjustPopoverPosition(menuRef, triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
-                            },
-                            hide: () => menuRef.hidePopover()
+                            show: show,
+                            hide: () => el.element().hidePopover(),
+                            element: ()=>el.element(),
                         });
                     }
                 }}
                 onChange={(val, old) => {
                     if (props.onChange) { props.onChange(val, old); }
-                    if (!props.multiple) { menuRef.hidePopover(); }
+                    if (!props.multiple) { menuRef.element().hidePopover(); }
                 }}
             />
         </Show>
