@@ -69,205 +69,205 @@ type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' 
 export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'general', path: '/appbar', component: lazy(() => import('./appbar')),
-        info: { title: '_d.demo.appbar', icon: IconAppbar },
+        info: { title: '_d.demo.appbar', icon: <IconAppbar /> },
     },
     {
         kind: 'general', path: '/button', component: lazy(() => import('./button')),
-        info: { title: '_d.demo.button', icon: IconButton },
+        info: { title: '_d.demo.button', icon: <IconButton /> },
     },
     {
         kind: 'general', path: '/card', component: lazy(() => import('./card')),
-        info: { title: '_d.demo.card', icon: IconCard },
+        info: { title: '_d.demo.card', icon: <IconCard /> },
     },
     {
         kind: 'general', path: '/icon', component: lazy(() => import('./icon')),
-        info: { title: '_d.demo.icon', icon: IconIcon },
+        info: { title: '_d.demo.icon', icon: <IconIcon /> },
     },
     {
         kind: 'general', path: '/illustrations', component: lazy(() => import('./illustrations')),
-        info: { title: '_d.demo.illustrations', icon: IconIllustration },
+        info: { title: '_d.demo.illustrations', icon: <IconIllustration /> },
     },
     {
         kind: 'general', path: '/theme-selector', component: lazy(() => import('./theme/selector')),
-        info: { title: '_d.demo.themeSelector', icon: IconTheme },
+        info: { title: '_d.demo.themeSelector', icon: <IconTheme /> },
     },
     {
         kind: 'general', path: '/typography', component: lazy(() => import('./typography')),
-        info: { title: '_d.demo.typography', icon: IconTypography },
+        info: { title: '_d.demo.typography', icon: <IconTypography /> },
     },
 
     {
         kind: 'layout', path: '/divider', component: lazy(() => import('./divider')),
-        info: { title: '_d.demo.divider', icon: IconDivider },
+        info: { title: '_d.demo.divider', icon: <IconDivider /> },
     },
     {
         kind: 'layout', path: '/drawer', component: lazy(() => import('./drawer')),
-        info: { title: '_d.demo.drawer', icon: IconDrawer },
+        info: { title: '_d.demo.drawer', icon: <IconDrawer /> },
     },
     {
         kind: 'layout', path: '/page', component: lazy(() => import('./page')),
-        info: { title: '_d.demo.page', icon: IconPage },
+        info: { title: '_d.demo.page', icon: <IconPage /> },
     },
 
     {
         kind: 'navigation', path: '/backtop', component: lazy(() => import('./backtop')),
-        info: { title: '_d.demo.backtop', icon: IconBacktop },
+        info: { title: '_d.demo.backtop', icon: <IconBacktop /> },
     },
     {
         kind: 'navigation', path: '/menu', component: lazy(() => import('./menu')),
-        info: { title: '_d.demo.menu', icon: IconMenu },
+        info: { title: '_d.demo.menu', icon: <IconMenu /> },
     },
     {
         kind: 'navigation', path: '/tab', component: lazy(() => import('./tab')),
-        info: { title: '_d.demo.tab', icon: IconTab },
+        info: { title: '_d.demo.tab', icon: <IconTab /> },
     },
     {
         kind: 'navigation', path: '/pagination', component: lazy(() => import('./pagination')),
-        info: { title: '_d.demo.pagination', icon: IconPagination }
+        info: { title: '_d.demo.pagination', icon: <IconPagination /> },
     },
     {
         kind: 'navigation', path: '/wizard-stepper', component: lazy(() => import('./wizard/stepper')),
-        info: { title: '_d.demo.stepper', icon: IconStepper },
+        info: { title: '_d.demo.stepper', icon: <IconStepper /> },
     },
     {
         kind: 'navigation', path: '/wizard-tour', component: lazy(() => import('./wizard/tour')),
-        info: { title: '_d.demo.tour', icon: IconTour },
+        info: { title: '_d.demo.tour', icon: <IconTour /> },
     },
 
     {
         kind: 'data-input', path: '/form-checkbox', component: lazy(() => import('./form/checkbox')),
-        info: { title: '_d.demo.checkbox', icon: IconCheckbox },
+        info: { title: '_d.demo.checkbox', icon: <IconCheckbox /> },
     },
     {
         kind: 'data-input', path: '/form-choice', component: lazy(() => import('./form/choice')),
-        info: { title: '_d.demo.choice', icon: IconChoice },
+        info: { title: '_d.demo.choice', icon: <IconChoice /> },
     },
     {
         kind: 'data-input', path: '/form-color', component: lazy(() => import('./form/color')),
-        info: { title: '_d.demo.color', icon: IconColor },
+        info: { title: '_d.demo.color', icon: <IconColor /> },
     },
     {
         kind: 'data-input', path: '/form-date', component: lazy(() => import('./form/date')),
-        info: { title: '_d.demo.date', icon: IconDate },
+        info: { title: '_d.demo.date', icon: <IconDate /> },
     },
     {
         kind: 'data-input', path: '/form-editor', component: lazy(() => import('./form/editor')),
-        info: { title: '_d.demo.editor', icon: IconEditor },
+        info: { title: '_d.demo.editor', icon: <IconEditor /> },
     },
     {
         kind: 'data-input', path: '/form', component: lazy(() => import('./form')),
-        info: { title: '_d.demo.form', icon: IconForm },
+        info: { title: '_d.demo.form', icon: <IconForm /> },
     },
     {
         kind: 'data-input', path: '/form-radio', component: lazy(() => import('./form/radio')),
-        info: { title: '_d.demo.radio', icon: IconRadio },
+        info: { title: '_d.demo.radio', icon: <IconRadio /> },
     },
     {
         kind: 'data-input', path: '/form-range', component: lazy(() => import('./form/range')),
-        info: { title: '_d.demo.range', icon: IconRange }
+        info: { title: '_d.demo.range', icon: <IconRange /> },
     },
     {
         kind: 'data-input', path: '/form-textfield', component: lazy(() => import('./form/textfield')),
-        info: { title: '_d.demo.textfield', icon: IconTextfield },
+        info: { title: '_d.demo.textfield', icon: <IconTextfield /> },
     },
     {
         kind: 'data-input', path: '/form-textarea', component: lazy(() => import('./form/textarea')),
-        info: { title: '_d.demo.textarea', icon: IconTextarea },
+        info: { title: '_d.demo.textarea', icon: <IconTextarea /> },
     },
     {
         kind: 'data-input', path: '/form-time', component: lazy(() => import('./form/time')),
-        info: { title: '_d.demo.time', icon: IconTime },
+        info: { title: '_d.demo.time', icon: <IconTime /> },
     },
     {
         kind: 'data-input', path: '/form-upload', component: lazy(() => import('./form/upload')),
-        info: { title: '_d.demo.upload', icon: IconUpload },
+        info: { title: '_d.demo.upload', icon: <IconUpload /> },
     },
 
     {
         kind: 'data-display', path: '/code', component: lazy(() => import('./code')),
-        info: { title: '_d.demo.code', icon: IconCode },
+        info: { title: '_d.demo.code', icon: <IconCode /> },
     },
     {
         kind: 'data-display', path: '/chart', component: lazy(() => import('./chart')),
-        info: { title: '_d.demo.chart', icon: IconChart },
+        info: { title: '_d.demo.chart', icon: <IconChart /> },
     },
     {
         kind: 'data-display', path: '/datetime-calendar', component: lazy(() => import('./datetime/calendar')),
-        info: { title: '_d.demo.calendar', icon: IconCalendar },
+        info: { title: '_d.demo.calendar', icon: <IconCalendar /> },
     },
     {
         kind: 'data-display', path: '/datetime-datepanel', component: lazy(() => import('./datetime/datepanel')),
-        info: { title: '_d.demo.datepanel', icon: IconDatePanel },
+        info: { title: '_d.demo.datepanel', icon: <IconDatePanel /> },
     },
     {
         kind: 'data-display', path: '/datetime-monthpanel', component: lazy(() => import('./datetime/month')),
-        info: { title: '_d.demo.monthpanel', icon: IconMonthPanel },
+        info: { title: '_d.demo.monthpanel', icon: <IconMonthPanel /> },
     },
     {
         kind: 'data-display', path: '/datetime-timepanel', component: lazy(() => import('./datetime/timepanel')),
-        info: { title: '_d.demo.timepanel', icon: IconTimePanel },
+        info: { title: '_d.demo.timepanel', icon: <IconTimePanel /> },
     },
     {
         kind: 'data-display', path: '/datetime-timer', component: lazy(() => import('./datetime/timer')),
-        info: { title: '_d.demo.timer', icon: IconTimer },
+        info: { title: '_d.demo.timer', icon: <IconTimer /> },
     },
     {
         kind: 'data-display', path: '/datetime-timezone', component: lazy(() => import('./datetime/timezone')),
-        info: { title: '_d.demo.timezone', icon: IconTimezone },
+        info: { title: '_d.demo.timezone', icon: <IconTimezone /> },
     },
     {
         kind: 'data-display', path: '/datetime-week', component: lazy(() => import('./datetime/week')),
-        info: { title: '_d.demo.weekPanel', icon: IconWeekPanel, },
+        info: { title: '_d.demo.weekPanel', icon: <IconWeekPanel />, },
     },
     {
         kind: 'data-display', path: '/qrcode', component: lazy(() => import('./qrcode')),
-        info: { title: '_d.demo.qrcode', icon: IconQRCode },
+        info: { title: '_d.demo.qrcode', icon: <IconQRCode /> },
     },
     {
         kind: 'data-display', path: '/statistics', component: lazy(() => import('./statistics')),
-        info: { title: '_d.demo.statistics', icon: IconStatistics },
+        info: { title: '_d.demo.statistics', icon: <IconStatistics /> },
     },
     {
         kind: 'data-display', path: '/table', component: lazy(() => import('./table')),
-        info: { title: '_d.demo.table', icon: IconTable },
+        info: { title: '_d.demo.table', icon: <IconTable /> },
     },
 
     {
         kind: 'feedback', path: '/badge', component: lazy(() => import('./badge')),
-        info: { title: '_d.demo.badge', icon: IconBadge },
+        info: { title: '_d.demo.badge', icon: <IconBadge /> },
     },
     {
         kind: 'feedback', path: '/dialog', component: lazy(() => import('./dialog')),
-        info: { title: '_d.demo.dialog', icon: IconDialog },
+        info: { title: '_d.demo.dialog', icon: <IconDialog /> },
     },
     {
         kind: 'feedback', path: '/notify', component: lazy(() => import('./notify')),
-        info: { title: '_d.demo.notify', icon: IconNotify },
+        info: { title: '_d.demo.notify', icon: <IconNotify /> },
     },
     {
         kind: 'feedback', path: '/spin', component: lazy(() => import('./spin')),
-        info: { title: '_d.demo.spin', icon: IconSpin },
+        info: { title: '_d.demo.spin', icon: <IconSpin /> },
     },
     {
         kind: 'feedback', path: '/result', component: lazy(() => import('./result')),
-        info: { title: '_d.demo.result', icon: IconResult },
+        info: { title: '_d.demo.result', icon: <IconResult /> },
     },
     {
         kind: 'feedback', path: '/tooltip', component: lazy(() => import('./tooltip')),
-        info: { title: '_d.demo.tooltip', icon: IconTooltip },
+        info: { title: '_d.demo.tooltip', icon: <IconTooltip /> },
     },
 
     {
         kind: 'config', path: '/config/locale', component: lazy(() => import('./config/locale')),
-        info: { title: '_d.demo.localeConfig', icon: IconLocaleConfig },
+        info: { title: '_d.demo.localeConfig', icon: <IconLocaleConfig /> },
     },
     {
         kind: 'config', path: '/config/options', component: lazy(() => import('./config/options')),
-        info: { title: '_d.demo.optionsConfig', icon: IconOptionsConfig },
+        info: { title: '_d.demo.optionsConfig', icon: <IconOptionsConfig /> },
     },
     {
         kind: 'config', path: '/config/theme', component: lazy(() => import('./config/theme')),
-        info: { title: '_d.demo.themeConfig', icon: IconThemeConfig },
+        info: { title: '_d.demo.themeConfig', icon: <IconThemeConfig /> },
     },
 ] as const;
 
@@ -290,7 +290,7 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
             type: 'a',
             label: l.t(r.info?.title),
             value: prefix + p,
-            icon: r.info?.icon ?? IconPresetComponent,
+            prefix: r.info?.icon ?? <IconPresetComponent />,
         });
     };
 

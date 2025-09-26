@@ -31,5 +31,10 @@
         .main {
             @apply relative h-full flex-1 overflow-y-hidden;
         }
+
+        .search-icon {
+            @apply self-center aspect-square w-6;
+        }
+
     }
 }

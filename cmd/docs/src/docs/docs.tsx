@@ -113,7 +113,7 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 ] as const;
 
 // 生成 Drawer 组件的侧边栏菜单
-function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
+export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
     const menus: Array<MenuItemGroup<string>> = [
         { type: 'group', label: l.t('_d.docs.intro'), items: [] },
         { type: 'group', label: l.t('_d.docs.usage'), items: [] },
@@ -170,7 +170,7 @@ function Markdown(props: { article: string }): JSX.Element {
 /**
  * 提供了文档浏览的路由定义
  */
-export default function route(prefix: string): RouteDefinition {
+export function buildRoute(prefix: string): RouteDefinition {
     return {
         path: prefix,
         component: (props: ParentProps) => {

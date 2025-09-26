@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
-import { createSignal, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass } from '@/base';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
@@ -20,7 +20,15 @@ export interface Ref {
      */
     hide(): void;
 
-    element(): HTMLMenuElement | HTMLElement;
+    /**
+     * 组件的根元素
+     */
+    element(): HTMLDivElement;
+
+    /**
+     * 下拉菜单的元素
+     */
+    menu(): MenuRef;
 }
 
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
@@ -35,7 +43,7 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      *  - contextmenu 右键菜单；
      *  - custom 自定义，可通过 {@link Ref} 控制；
      */
-    trigger: 'click' | 'hover' | 'contextmenu' | 'custom';
+    trigger?: 'click' | 'hover' | 'contextmenu' | 'custom';
 
     /**
      * 下拉菜单弹出时的回调函数
@@ -54,11 +62,12 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 export default function Dropdown<M extends boolean = false, T extends AvailableEnumType = string>(
     props: Props<M, T>
 ): JSX.Element {
-    props = mergeProps({ trigger: 'click' }, props);
+    props = mergeProps({ trigger: 'click' as Props['trigger'] }, props);
 
     const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
     let menuRef: MenuRef;
+    let rootRef: HTMLDivElement;
     let isOpen = false;
 
     const show = () => {
@@ -66,7 +75,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
     };
 
-    return <>
+    return <div class={props.class} ref={el => rootRef = el}>
         <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={() => {
             if (props.trigger !== 'hover' || !menuRef) { return; }
             show();
@@ -88,38 +97,37 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
             if (!isOpen) { show(); }
         }}>{props.children}</div>
 
-        <Show when={props.items}>
-            <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
-                class={joinClass(undefined, styles.dropdown, props.class)}
-                ref={el => {
-                    el.element().popover = 'auto';
-                    menuRef = el;
+        <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
+            class={joinClass(undefined, styles.dropdown)}
+            ref={el => {
+                el.element().popover = 'auto';
+                menuRef = el;
 
-                    el.element().onmouseleave = e => {
-                        if (props.trigger !== 'hover') { return; }
-                        if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) {
-                            el.element().hidePopover();
-                        }
-                    };
-
-                    el.element().ontoggle = (e: ToggleEvent) => {
-                        isOpen = e.newState === 'open';
-                        if (props.onPopover) { props.onPopover(isOpen); }
-                    };
-
-                    if (props.ref) {
-                        props.ref({
-                            show: show,
-                            hide: () => el.element().hidePopover(),
-                            element: ()=>el.element(),
-                        });
+                el.element().onmouseleave = e => {
+                    if (props.trigger !== 'hover') { return; }
+                    if (!pointInElement(e.clientX, e.clientY, triggerRef()!)) {
+                        el.element().hidePopover();
                     }
-                }}
-                onChange={(val, old) => {
-                    if (props.onChange) { props.onChange(val, old); }
-                    if (!props.multiple) { menuRef.element().hidePopover(); }
-                }}
-            />
-        </Show>
-    </>;
+                };
+
+                el.element().ontoggle = (e: ToggleEvent) => {
+                    isOpen = e.newState === 'open';
+                    if (props.onPopover) { props.onPopover(isOpen); }
+                };
+
+                if (props.ref) {
+                    props.ref({
+                        show: show,
+                        hide: () => el.element().hidePopover(),
+                        element: () => rootRef,
+                        menu: () => el,
+                    });
+                }
+            }}
+            onChange={(val, old) => {
+                if (props.onChange) { props.onChange(val, old); }
+                if (!props.multiple) { menuRef.element().hidePopover(); }
+            }}
+        />
+    </div>;
 }

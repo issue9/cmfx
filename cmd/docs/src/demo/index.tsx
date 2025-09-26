@@ -12,7 +12,7 @@ import { buildMenus, routes } from './routes';
 /**
  * 组件预览的路由定义
  */
-export default function route(prefix: string): RouteDefinition {
+export function buildRoute(prefix: string): RouteDefinition {
     return {
         path: prefix,
         component: (props: ParentProps) => {
@@ -27,3 +27,5 @@ export default function route(prefix: string): RouteDefinition {
         ]
     };
 }
+
+export { buildMenus } from './routes';

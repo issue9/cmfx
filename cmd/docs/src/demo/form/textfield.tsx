@@ -45,7 +45,7 @@ export default function() {
                 prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt} />
 
-            <TextField hasHelp layout={layout()} placeholder='placeholder' label="onsearch"
+            <TextField hasHelp layout={layout()} placeholder='placeholder' label="onsearch" class="w-100"
                 prefix={cloneElement(prefix)} suffix={cloneElement(suffix)} palette={palette()}
                 disabled={disabled()} rounded={rounded()} readonly={readonly()} accessor={txt}
                 onSearch={v=>{

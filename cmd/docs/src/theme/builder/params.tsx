@@ -38,10 +38,10 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
         map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
 
     return <div class={styles.params}>
-        <div class={joinClass(styles.toolbar, 'palette--primary')}>
+        <div class={joinClass('primary', styles.toolbar)}>
             <div class={styles.actions}>
                 <ButtonGroup kind='border'>
-                    <Dropdown selectedClass='' items={schemes} onChange={e => {
+                    <Dropdown trigger='click' selectedClass='' items={schemes} onChange={e => {
                         s.setObject(unwrap(opt.schemes?.get(e)!));
                     }}>
                         <Button kind='border' square title={l.t('_d.theme.loadPredefinedSchemes')}>
@@ -81,7 +81,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
             {otherParams(l, s)}
         </div>
 
-        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={IconExport}>{l.t('_d.theme.export')}</Label>}>
+        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}>
             <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
@@ -221,7 +221,7 @@ function radius(title: string, a: Accessor<number>): JSX.Element {
     return <div class={styles.radius}>
         <RadioGroup class="w-full" accessor={a} block
             label={<span class={styles.title}>{title}</span>}
-            options={radiusValues.map((v) => [v, radiusLabel(v)])} />
+            options={radiusValues.map((v) => ({ value: v, label: radiusLabel(v) }))} />
     </div>;
 }
 
@@ -240,15 +240,15 @@ function fontSize(a: Accessor<string>): JSX.Element {
     const max = fontSizeValues[fontSizeValues.length - 1];
 
     const option = (size: number): FieldOption<string> => {
-        return [
-            `${size}px`,
-            <span class={styles['font-number']} style={{
+        return {
+            value: `${size}px`,
+            label: <span class={styles['font-number']} style={{
                 'font-size': `${size}px`,
                 'width': `${max + 8}px`,
                 'height': `${max + 8}px`,
                 'line-height': `${max + 8}px`,
             }}>{size}</span>
-        ];
+        };
     };
 
     return <RadioGroup accessor={a} block layout='vertical' options={fontSizeValues.map(v => option(v))} />;

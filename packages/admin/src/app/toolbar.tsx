@@ -2,17 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, Button, classList, Dropdown, Locale, MenuItem as XMenuItem } from '@cmfx/components';
+import {
+    Appbar, Button, classList, Dropdown, DropdownRef, fieldAccessor,
+    Locale, MenuItemItem, TextField, MenuItem as XMenuItem
+} from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { createEffect, createSignal, JSX, onCleanup, onMount, Setter, Show, Signal } from 'solid-js';
+import IconClear from '~icons/material-symbols/close';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
+import IconSearch from '~icons/material-symbols/search';
 
 import { useAdmin, useLocale } from '@/context';
 import { MenuItem } from '@/options';
-import { Search } from './search';
+
+import styles from './style.module.css';
 
 export interface MenuVisibleProps {
     menuVisible: Signal<boolean>;
@@ -27,6 +33,31 @@ type Props = MenuVisibleProps & {
  */
 export default function Toolbar(props: Props) {
     const [, act, opt] = useAdmin();
+    const l = useLocale();
+
+    const [candidate, setCandidate] = createSignal<Array<MenuItemItem<string>>>([]);
+    let dropdownRef: DropdownRef;
+    const searchFA = fieldAccessor('search', '');
+    searchFA.onChange(value => {
+        const items: Array<MenuItemItem<string>> = [];
+        const menus = buildItems(l, opt.aside.menus);
+
+        for (const m of menus) {
+            if (m.type === 'a' && m.label && (m.label as string).toLowerCase().includes(value.toLowerCase())) {
+                items.push({ type: 'a', value: m.value, label: m.label });
+            } else if (m.type === 'group' && m.items) {
+                // 目前只有两级菜单
+                for (const mm of m.items) {
+                    if (mm.type === 'a' && mm.label && (mm.label as string).toLowerCase().includes(value.toLowerCase())) {
+                        items.push({ type: 'a', value: mm.value, label: mm.label });
+                    }
+                }
+            }
+        }
+
+        setCandidate(items);
+        if (items.length > 0) { dropdownRef.show(); }
+    });
 
     createEffect(() => {
         if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
@@ -35,10 +66,26 @@ export default function Toolbar(props: Props) {
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
         <>
             <Show when={act.user() ? opt.toolbar.get('search') : false}>
-                {(hk) => <Search switch={props.switch} hotkey={hk()} />}
+                {hk =>
+                    (<Dropdown class="w-60 self-center" trigger='custom' items={candidate()} ref={el => {
+                        dropdownRef = el;
+                        dropdownRef.menu().element().style.height = '240px';
+                        dropdownRef.menu().element().style.overflowY = 'auto';
+                    }} onPopover={visible => {
+                        if (visible) {
+                            dropdownRef.menu().element().style.width
+                                = dropdownRef.element().getBoundingClientRect().width + 'px';
+                        }
+                    }}>
+                        <TextField placeholder={l.t('_c.search')} accessor={searchFA}
+                            prefix={<IconSearch class={styles['search-icon']} />}
+                            suffix={<IconClear onclick={() => searchFA.setValue('')} class={styles['search-icon']} />}
+                        />
+                    </Dropdown>)
+                }
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>
-                {(hk) => fullscreen(hk())}
+                {hk => fullscreen(hk())}
             </Show>
             <Show when={act.user()}><UserMenu /></Show>
         </>
@@ -52,7 +99,7 @@ export default function Toolbar(props: Props) {
                 'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
                 '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
             })}
-            onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+                onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                 {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
             </Button>
         </Show>

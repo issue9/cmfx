@@ -139,7 +139,7 @@
     }
 
     /************************************************* context ********************/
-    .context,
+
     .dropdown {
         @apply border border-palette-fg-low rounded-md;
     }

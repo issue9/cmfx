@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
 import { joinClass } from '@/base';
 import {
@@ -71,6 +71,8 @@ export interface Props<T extends Value = string> extends FieldBaseProps {
 
     /**
      * 提供候选词列表
+     *
+     * @remarks 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
      */
     onSearch?: { (text: T): Array<Exclude<T, undefined>>; };
 }
@@ -90,47 +92,59 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
     const [candidate, setCandidate] = createSignal<Array<MenuItemItem<Exclude<T, undefined>>>>([]);
 
     let dropdownRef: DropdownRef;
-    let triggerRef: HTMLDivElement;
 
-    onMount(() => {
-        dropdownRef.element().style.width = triggerRef.getBoundingClientRect().width + 'px';
-    });
+    const Trigger = (p: {style?: JSX.CSSProperties}) => {
+        return <div style={p.style}
+            class={joinClass(undefined, styles['text-field'], props.rounded ? styles.rounded : '')}
+        >
+            <Show when={props.prefix}>{props.prefix}</Show>
+            <input id={id} class={styles.input} type={props.type}
+                ref={el => { if (props.ref) { props.ref(el); } }} inputMode={props.inputMode}
+                autocomplete={props.autocomplete} tabIndex={props.tabindex} disabled={props.disabled}
+                readOnly={props.readonly} placeholder={props.placeholder}
+                value={access.getValue() ?? ''} // 正常处理 undefined
+                onInput={e => {
+                    let v = e.target.value as T;
+                    if (props.type === 'number') {
+                        v = parseInt(e.target.value) as T;
+                    }
+                    access.setValue(v);
+                    access.setError();
+
+                    if (props.onSearch) {
+                        setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
+                        dropdownRef.show();
+                    }
+                }}
+            />
+            <Show when={props.suffix}>{props.suffix}</Show>
+        </div>;
+    };
 
     return <Field title={props.title} palette={props.palette} class={props.class}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div style={fieldArea2Style(areas().inputArea)}>
-            <Dropdown trigger='custom' items={candidate()} ref={el => dropdownRef = el}
-                onChange={e => props.accessor.setValue(e)}>
-                <div ref={el => triggerRef = el}
-                    class={joinClass(undefined, styles['text-field'], props.rounded ? styles.rounded : '')}
-                >
-                    <Show when={props.prefix}>{props.prefix}</Show>
-                    <input id={id} class={styles.input} type={props.type}
-                        ref={el => { if (props.ref) { props.ref(el); } }} inputMode={props.inputMode}
-                        autocomplete={props.autocomplete} tabIndex={props.tabindex} disabled={props.disabled}
-                        readOnly={props.readonly} placeholder={props.placeholder}
-                        value={access.getValue() ?? ''} // 正常处理 undefined
-                        onInput={e => {
-                            let v = e.target.value as T;
-                            if (props.type === 'number') {
-                                v = parseInt(e.target.value) as T;
-                            }
-                            access.setValue(v);
-                            access.setError();
-
-                            if (props.onSearch) {
-                                setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
-                                dropdownRef.show();
-                            }
-                        }}
-                    />
-                    <Show when={props.suffix}>{props.suffix}</Show>
+        <Switch fallback={<Trigger style={fieldArea2Style(areas().inputArea)} />}>
+            <Match when={props.onSearch}>
+                <div style={fieldArea2Style(areas().inputArea)} class="w-full">
+                    <Dropdown trigger='custom' items={candidate()} ref={el => {
+                        dropdownRef = el;
+                        const style = dropdownRef.menu().element().style;
+                        style.height = '240px';
+                        style.overflowY = 'auto';
+                    }} onPopover={visible => {
+                        if (visible) {
+                            dropdownRef.menu().element().style.width
+                                = dropdownRef.element().getBoundingClientRect().width + 'px';
+                        }
+                    }} onChange={e => { props.accessor.setValue(e); }}>
+                        <Trigger />
+                    </Dropdown>
                 </div>
-            </Dropdown>
-        </div>
+            </Match>
+        </Switch>
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

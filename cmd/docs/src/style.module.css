@@ -1,0 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference './style.css';
+
+@layer components {
+    .main {
+        @apply flex flex-col h-full w-full;
+
+        .actions {
+            @apply flex gap-2 me-2;
+        }
+    }
+
+    .search-dropdown {
+        @apply w-60 self-center;
+    }
+
+    .search-icon {
+        @apply self-center aspect-square w-6;
+    }
+}

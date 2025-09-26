@@ -21,7 +21,7 @@ import styles from './style.module.css';
 
 export interface Ref {
     /**
-     * 返回关联的 menu 或是 nav 对象
+     * 返回组件的根元素
      */
     element(): HTMLMenuElement | HTMLElement;
 }

@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { default } from './docs';
+export { buildMenus, buildRoute } from './docs';
