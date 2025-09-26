@@ -12,6 +12,18 @@ import { Column } from './column';
 import styles from './style.module.css';
 import { Table, Props as TableProps } from './table';
 
+export interface Ref {
+    /**
+     * 组件根元素
+     */
+    element(): HTMLElement;
+
+    /**
+     * 组件中的表格元素
+     */
+    table(): HTMLTableElement;
+}
+
 export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
     /**
      * 是否加载状态
@@ -61,7 +73,7 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
      */
     extraFooter?: JSX.Element;
 
-    ref?: { (el: HTMLElement): void };
+    ref?: { (el: Ref): void };
 }
 
 /**
@@ -69,16 +81,24 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
  */
 export function BasicTable<T extends object>(props: Props<T>) {
     const l = useLocale();
+    let tableRef: HTMLTableElement;
 
     const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
     return <Spin spinning={props.loading} palette={props.palette} class={joinClass(undefined, styles.table, props.class)}
-        ref={(el: HTMLElement) => { if (props.ref) { props.ref(el); } }}>
+        ref={(el: HTMLElement) => {
+            if (props.ref) {
+                props.ref({
+                    element: () => el,
+                    table: () => tableRef,
+                });
+            }
+        }}>
         <Show when={props.extraHeader}>
             {props.extraHeader}
         </Show>
 
-        <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable} striped={props.striped}>
+        <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable} striped={props.striped} ref={el => tableRef = el}>
             <Show when={hasCol}>
                 <colgroup>
                     <For each={props.columns}>

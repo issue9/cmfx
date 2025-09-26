@@ -30,6 +30,8 @@ export interface Ref {
      * @remarks 图标的顺序与 {@link Props.icons} 的顺序是相同的。
      */
     prev(): void;
+
+    element(): SVGSVGElement;
 }
 
 export const animationIconRotations = rotations;
@@ -138,6 +140,8 @@ export function AnimationIcon(props: Props): JSX.Element {
                             if (index < 0) { index = keys.length - 1; }
                             morpheus.to(keys[index], { duration: dur });
                         },
+
+                        element: () => i!,
                     });
                 });
             });

@@ -79,7 +79,11 @@ export default function Toolbar(props: Props) {
                     }}>
                         <TextField placeholder={l.t('_c.search')} accessor={searchFA}
                             prefix={<IconSearch class={styles['search-icon']} />}
-                            suffix={<IconClear onclick={() => searchFA.setValue('')} class={styles['search-icon']} />}
+                            suffix={
+                                <Show when={searchFA.getValue()}>
+                                    <IconClear onclick={() => searchFA.setValue('')} class={styles['search-clear']} />
+                                </Show>
+                            }
                         />
                     </Dropdown>)
                 }
@@ -98,8 +102,7 @@ export default function Toolbar(props: Props) {
                 'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
                 'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
                 '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
-            })}
-                onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+            })} onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                 {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
             </Button>
         </Show>

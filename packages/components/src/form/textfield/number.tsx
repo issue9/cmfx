@@ -63,11 +63,11 @@ export function Number(props: Props): JSX.Element {
     };
 
     onMount(()=>{
-        ref.addEventListener('wheel', wheel);
+        ref.input().addEventListener('wheel', wheel);
     });
 
     onCleanup(()=>{
-        ref.removeEventListener('wheel', wheel);
+        ref.input().removeEventListener('wheel', wheel);
     });
 
     return <TextField ref={el => ref = el} {...fieldProps} type="number" suffix={

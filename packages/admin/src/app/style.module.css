@@ -36,5 +36,8 @@
             @apply self-center aspect-square w-6;
         }
 
+        .search-clear {
+            @apply self-center aspect-square w-6 cursor-pointer;
+        }
     }
 }

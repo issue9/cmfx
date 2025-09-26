@@ -38,7 +38,7 @@ export interface FieldAreas {
 }
 
 /**
- * 将 FieldArea 转换为 CSS 样式
+ * 将 {@link FieldArea} 转换为 CSS 样式
  */
 export function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
     return {

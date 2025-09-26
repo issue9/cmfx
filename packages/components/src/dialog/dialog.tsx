@@ -22,7 +22,12 @@ interface ClickFunc {
     (): Promise<false | string | undefined>;
 }
 
-export interface Ref extends HTMLDialogElement {
+export interface Ref {
+    /**
+     * 返回组件的根元素
+     */
+    element(): HTMLDialogElement;
+
     /**
      * 移动对话框的位置
      *
@@ -96,7 +101,11 @@ export interface Props extends BaseProps {
 }
 
 function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
-    return Object.assign(ref, {
+    return {
+        element(): HTMLDialogElement {
+            return ref;
+        },
+
         move(p?: { x: number | string, y: number | string }): void {
             if (!p) {
                 ref.style.insetInlineStart = '50%';
@@ -151,7 +160,7 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
                 {this.OKAction(ok)}
             </>;
         }
-    });
+    };
 }
 
 /**

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export { BasicTable } from './basic';
-export type { Props as BasicTableProps } from './basic';
+export type { Props as BasicTableProps, Ref as BasicTableRef } from './basic';
 
 export { LoaderTable } from './loader';
 export type { Props as LoaderTableProps, Ref as LoaderTableRef } from './loader';

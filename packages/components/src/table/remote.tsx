@@ -55,8 +55,8 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
         if (props.ref) {
             props.ref({
                 items() { return ref.items(); },
+
                 async refresh(): Promise<void> { await ref.refresh(); },
-                element: ref!.element,
 
                 async delete<T extends string | number>(id: T): Promise<void> {
                     const ret = await api.delete(`${props.path}/${id}`);
@@ -73,11 +73,15 @@ export function RemoteTable<T extends object, Q extends Query>(props: Props<T,Q>
                         onClick={async () => { await this.delete(id); }}
                     ><IconDelete /></ConfirmButton>;
                 },
+
+                table() { return ref.table(); },
+
+                element() { return ref.element(); }
             });
         }
     });
 
-    return <LoaderTable ref={(el)=>ref=el} {...tableProps} load={load as any} />;
+    return <LoaderTable ref={(el) => ref = el} {...tableProps} load={load as any} />;
 }
 
 function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {

@@ -35,23 +35,23 @@ export default function() {
                 <>
                     <button value='submit' type="submit" class="me-8">submit</button>
                     <button value='reset' type="reset" class="me-8">reset</button>
-                    <button value='button' type="button" onClick={() => dlg1.close('close')}>close</button>
+                    <button value='button' type="button" onClick={() => dlg1.element().close('close')}>close</button>
                 </>
             }>
                 content
             </Dialog>
-            <Button onClick={() => dlg1.show()} palette={palette()}>show</Button>
+            <Button onClick={() => dlg1.element().show()} palette={palette()}>show</Button>
         </div>
 
         <div>
-            <Button onClick={() => dlg2.showModal()} palette={palette()}>showModal</Button>
+            <Button onClick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>
             <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
                 <div>
                     <Form formAccessor={fa} inDialog>
                         <div class="flex flex-col">
                             <div class="py-3">form</div>
                             <div class="flex">
-                                <Button onclick={() => dlg3.showModal()}>show modal</Button>
+                                <Button onclick={() => dlg3.element().showModal()}>show modal</Button>
                                 <Button value='submit' type="submit" class="me-8">submit</Button>
                                 <Button value='reset' type="reset" class="me-8">reset</Button>
                                 <Button value='button' type="button" onClick={()=>{

@@ -1,7 +1,3 @@
-# SPDX-FileCopyrightText: 2024-2025 caixw
-#
-# SPDX-License-Identifier: MIT
-
 packages:
   - packages/**
   - build/vite-plugin-about
@@ -11,7 +7,7 @@ packages:
 
 catalog:
   '@formatjs/intl-durationformat': ^0.7.4
-  '@iconify/json': ^2.2.387
+  '@iconify/json': ^2.2.388
   '@solidjs/router': ^0.15.3
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.1.13

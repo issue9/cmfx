@@ -55,10 +55,10 @@ function Alert(props: DialogProps): JSX.Element {
     alertInst = async (msg?: any, title?: string): Promise<void> => {
         setMsg(msg);
         if (title) { setTitle(title); }
-        dlg.showModal();
+        dlg.element().showModal();
 
         return new Promise<void>(resolve => {
-            dlg.addEventListener('close', () => resolve());
+            dlg.element().addEventListener('close', () => resolve());
         });
     };
 
@@ -90,11 +90,11 @@ function Confirm(props: DialogProps): JSX.Element {
     confirmInst = (msg?: string, title?: string): Promise<boolean> => {
         setMsg(msg);
         if (title) { setTitle(title); }
-        dlg.showModal();
+        dlg.element().showModal();
 
         return new Promise<boolean>(resolve=>{
-            dlg.addEventListener('close', () => {
-                resolve(dlg.returnValue === 'true');
+            dlg.element().addEventListener('close', () => {
+                resolve(dlg.element().returnValue === 'true');
             });
         });
     };
@@ -130,11 +130,11 @@ function Prompt(props: DialogProps): JSX.Element {
         setMsg(msg);
         if (title) { setTitle(title); }
         access.setValue(val ?? '');
-        dlg.showModal();
+        dlg.element().showModal();
 
         return new Promise<string | null>(resolve => {
-            dlg.addEventListener('close', () => {
-                resolve(dlg.returnValue ?? null);
+            dlg.element().addEventListener('close', () => {
+                resolve(dlg.element().returnValue ?? null);
                 access.setValue('');
             });
         });

@@ -32,4 +32,17 @@ describe('Dialog', () => {
 
         unmount();
     });
+
+    test('ref', async () => {
+        let ref: Ref;
+        const { unmount } = render(() => <Dialog ref={el => ref = el}>abc</Dialog>, {
+            wrapper: Provider,
+        });
+
+        await sleep(500); // Provider 是异步的，需要等待其完成加载。
+
+        expect(ref!.element()).not.toBeUndefined();
+
+        unmount();
+    });
 });

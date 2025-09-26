@@ -14,7 +14,17 @@ import styles from './style.module.css';
 
 type Value = string | number | undefined;
 
-export type Ref = HTMLInputElement;
+export interface Ref {
+    /**
+     * 组件的根元素
+     */
+    element(): HTMLDivElement;
+
+    /**
+     * 组件中实际用于输入的 input 元素
+     */
+    input(): HTMLInputElement;
+}
 
 export interface Props<T extends Value = string> extends FieldBaseProps {
     /**
@@ -64,9 +74,6 @@ export interface Props<T extends Value = string> extends FieldBaseProps {
      */
     autocomplete?: AutoComplete;
 
-    /**
-     * 这是对 {@link HTMLInputElement} 对象的引用
-     */
     ref?: { (el: Ref): void };
 
     /**
@@ -91,6 +98,7 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     const [candidate, setCandidate] = createSignal<Array<MenuItemItem<Exclude<T, undefined>>>>([]);
 
+    let rootRef: HTMLDivElement;
     let dropdownRef: DropdownRef;
 
     const Trigger = (p: {style?: JSX.CSSProperties}) => {
@@ -99,11 +107,18 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
         >
             <Show when={props.prefix}>{props.prefix}</Show>
             <input id={id} class={styles.input} type={props.type}
-                ref={el => { if (props.ref) { props.ref(el); } }} inputMode={props.inputMode}
-                autocomplete={props.autocomplete} tabIndex={props.tabindex} disabled={props.disabled}
+                inputMode={props.inputMode} autocomplete={props.autocomplete}
+                tabIndex={props.tabindex} disabled={props.disabled}
                 readOnly={props.readonly} placeholder={props.placeholder}
                 value={access.getValue() ?? ''} // 正常处理 undefined
-                onInput={e => {
+                ref={el => {
+                    if (props.ref) {
+                        props.ref({
+                            element:()=>rootRef,
+                            input: () => el,
+                        });
+                    }
+                }} onInput={e => {
                     let v = e.target.value as T;
                     if (props.type === 'number') {
                         v = parseInt(e.target.value) as T;
@@ -121,7 +136,7 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
         </div>;
     };
 
-    return <Field title={props.title} palette={props.palette} class={props.class}>
+    return <Field title={props.title} ref={el => rootRef = el} palette={props.palette} class={props.class}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>

@@ -21,12 +21,12 @@ import { Checkbox, ObjectAccessor, Radio } from '@/form';
 import { Dropdown } from '@/menu';
 import { PaginationBar } from '@/pagination';
 import { Label } from '@/typography';
-import type { Props as BaseProps } from './basic';
+import type { Props as BaseProps, Ref as BasicTableRef } from './basic';
 import { BasicTable } from './basic';
 import { fromSearch, Params, saveSearch } from './search';
 import styles from './style.module.css';
 
-export interface Ref<T extends object> {
+export interface Ref<T extends object> extends BasicTableRef {
     /**
      * 表格当前页的数据
      */
@@ -36,8 +36,6 @@ export interface Ref<T extends object> {
      * 刷新表格中的数据
      */
     refresh(): Promise<void>;
-
-    element: HTMLElement;
 }
 
 type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'> & {
@@ -136,7 +134,7 @@ const presetProps = {
 export function LoaderTable<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
     const [, , opt] = useComponents();
     const l = useLocale();
-    let ref: HTMLElement;
+    let ref: BasicTableRef;
 
     let load = props.load;
     props = mergeProps(presetProps, { pageSizes: opt.pageSizes }, props);
@@ -172,7 +170,8 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
         props.ref({
             items: () => { return items(); },
             refresh: async () => { await refetch(); },
-            element: ref!,
+            element: () => ref!.element(),
+            table: () => ref!.table(),
         });
     }
 
@@ -313,10 +312,10 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                         <Button square rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
                             title={l.t('_c.refresh')}><IconRefresh /></Button>
-                        <FitScreenButton rounded kind='fill' palette='tertiary' container={() => ref}
+                        <FitScreenButton rounded kind='fill' palette='tertiary' container={() => ref.element()}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />
-                        <PrintButton rounded kind='fill' palette='tertiary' container={() => ref.querySelector('table')!}
+                        <PrintButton rounded kind='fill' palette='tertiary' container={() => ref.element().querySelector('table')!}
                             cssText='table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left} .no-print{display:none}'
                             aria-label={l.t('_c.print')}
                             title={l.t('_c.print')} />

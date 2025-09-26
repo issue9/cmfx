@@ -9,7 +9,7 @@ import {
     OptionsProvider, SystemDialog, TextField, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
-import { createSignal, JSX, lazy, ParentProps } from 'solid-js';
+import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';
 import { render } from 'solid-js/web';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
@@ -157,7 +157,11 @@ function InternalApp(props: ParentProps): JSX.Element {
             }}>
                 <TextField placeholder={l.t('_c.search')} accessor={searchFA}
                     prefix={<IconSearch class={styles['search-icon']} />}
-                    suffix={<IconClear onclick={() => searchFA.setValue('')} class={styles['search-icon']} />}
+                    suffix={
+                        <Show when={searchFA.getValue()}>
+                            <IconClear onclick={() => searchFA.setValue('')} class={styles['search-clear']} />
+                        </Show>
+                    }
                 />
             </Dropdown>
         </Appbar>

@@ -26,7 +26,7 @@ export function Password(props: Props): JSX.Element {
         <Button kind='flat' disabled={props.disabled} square class="!px-1 !py-0 rounded-none"
             onClick={() => {
                 setVisible(!visible());
-                ref.type = visible() ? 'text' : 'password';
+                ref.input().type = visible() ? 'text' : 'password';
                 aref.to(visible() ? 'visible' : 'hidden');
             }}>
             <AnimationIcon ref={el=>aref=el} icons={{
