@@ -5,8 +5,8 @@
 import './style.css';
 
 import {
-    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, Notify,
-    OptionsProvider, SystemDialog, TextField, useComponents, useLocale, useTheme
+    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode,
+    Notify, OptionsProvider, SystemDialog, TextField, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';
@@ -41,10 +41,11 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 
 const docsRoute = '/docs';
 const demoRoute = '/demo';
+const themeRoute = '/theme-builder';
 
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
-    { path: '/theme-builder', component: lazy(() => import('./theme/builder')) },
+    { path: themeRoute, component: lazy(() => import('./theme/builder')) },
     buildDemoRoute(demoRoute),
     buildDocsRoute(docsRoute),
 ];
@@ -53,7 +54,7 @@ function App(): JSX.Element {
     const Root = (props: RouteSectionProps) => {
         return <OptionsProvider {...options}>
             <SystemDialog header={options.title}>
-                <Notify system timeout={5000} palette='error'><InternalApp {...props} /></Notify>
+                <Notify system timeout={options.stays} palette='error'><InternalApp {...props} /></Notify>
             </SystemDialog>
         </OptionsProvider>;
     };
@@ -80,7 +81,10 @@ function InternalApp(props: ParentProps): JSX.Element {
             } else if (m.type === 'group' && m.items) {
                 // 目前只有两级菜单
                 for (const mm of m.items) {
-                    if (mm.type === 'a' && mm.label && (mm.label as string).toLowerCase().includes(value.toLowerCase())) {
+                    const match = mm.type === 'a'
+                        && mm.label
+                        && (mm.label as string).toLowerCase().includes(value.toLowerCase());
+                    if (match) {
                         items.push({ type: 'a', value: mm.value, label: mm.label });
                     }
                 }
@@ -136,7 +140,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square><IconAlign /></Button>
                 </Dropdown>
 
-                <LinkButton kind='flat' square href={pkg.homepage}><IconGithub /></LinkButton>
+                <LinkButton kind='flat' square href={pkg.repository.url}><IconGithub /></LinkButton>
             </div>
         }>
             <Menu class='ms-5 me-5' layout='horizontal' items={[
@@ -155,7 +159,7 @@ function InternalApp(props: ParentProps): JSX.Element {
                         = dropdownRef.element().getBoundingClientRect().width + 'px';
                 }
             }}>
-                <TextField placeholder={l.t('_c.search')} accessor={searchFA}
+                <TextField autocomplete='off' placeholder={l.t('_c.search')} accessor={searchFA}
                     prefix={<IconSearch class={styles['search-icon']} />}
                     suffix={
                         <Show when={searchFA.getValue()}>

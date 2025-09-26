@@ -11,7 +11,7 @@ export type Breakpoint = typeof breakpoints[number];
 /**
  * 获取动画的过滤时间，即 CSS 的 --default-transition-duration 变量的值。
  *
- * @param el - 获取该 CSS 变量的元素，如果为 undefined，则使用 document.documentElement 即根主题中定义的值；
+ * @param el - 获取该 CSS 变量的元素，如果为 undefined，则使用 {@link document.documentElement} 即根主题中定义的值；
  * @returns 返回以毫秒为单位的数值；
  */
 export function transitionDuration(el?: Element): number {

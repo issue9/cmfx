@@ -70,7 +70,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 
             <ButtonGroup kind='border'>
                 <Button square onClick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
-                <Button square onClick={() => dlg.showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
+                <Button square onClick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
             </ButtonGroup>
         </div>
 
