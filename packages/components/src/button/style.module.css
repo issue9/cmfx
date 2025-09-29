@@ -24,35 +24,41 @@
     }
 
     .button.fill {
-        @apply text-palette-fg bg-palette-bg border-palette-bg;
+        @apply text-palette-fg bg-palette-bg border-palette-border;
     }
 
     .button.fill:enabled:hover,
-    .button.fill.checked,
     .button.fill.link-enabled:hover,
     .button.fill:focus-visible {
-        @apply !bg-palette-bg-high text-palette-fg-high;
+        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+    }
+
+    .button.fill.checked {
+        @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
     }
 
     .button.fill:enabled:active,
     .button.fill.link-enabled:active {
-        @apply !bg-palette-bg-low text-palette-fg-low;
+        @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
     }
 
     .button.border {
-        @apply text-palette-fg bg-transparent border-palette-bg-low;
+        @apply text-palette-fg bg-transparent border-palette-border;
     }
 
     .button.border:enabled:hover,
-    .button.border.checked,
     .button.border.link-enabled:hover,
     .button.border:focus-visible {
-        @apply !bg-palette-bg-high text-palette-fg-high;
+        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+    }
+
+    .button.border.checked {
+        @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
     }
 
     .button.border:enabled:active,
     .button.border.link-enabled:active {
-        @apply !bg-palette-bg-low text-palette-fg-low;
+        @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
     }
 
     .button.flat {
@@ -60,30 +66,34 @@
     }
 
     .button.flat:enabled:hover,
-    .button.flat.checked,
     .button.flat.link-enabled:hover,
     .button.flat:focus-visible {
-        @apply !bg-palette-bg-high border-palette-bg-high;
+        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+    }
+
+    .button.flat.checked {
+        @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
     }
 
     .button.flat:enabled:active,
     .button.flat.link-enabled:active {
-        @apply !bg-palette-bg-low text-palette-fg-low border-palette-bg-low;
+        @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
     }
 
     .button.link-disabled,
     .button:disabled {
-        @apply cursor-not-allowed text-palette-bg-low;
+        @apply cursor-not-allowed;
+        @apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
     }
 
     /************************* group ******************************/
 
     .group {
-        @apply text-palette-fg bg-palette-bg-low flex border-solid border border-transparent rounded-l-md rounded-r-md;
+        @apply text-palette-fg bg-palette-bg flex border-solid border border-transparent rounded-l-md rounded-r-md;
         @apply overflow-clip;
 
         .button {
-            @apply rounded-none border-none flex-1 py-1 px-3 text-palette-fg outline-none;
+            @apply rounded-none border-none flex-1 py-1 px-3 outline-none bg-transparent;
         }
 
         .button.square {
@@ -91,7 +101,7 @@
         }
 
         .button.split {
-            @apply !border-s !border-s-palette-bg-low box-content;
+            @apply !border-s !border-s-palette-border box-content;
         }
     }
 
@@ -104,26 +114,22 @@
     }
 
     .group.fill {
-        @apply bg-palette-bg-low;
-
-        .button {
-            @apply bg-palette-bg;
-        }
+        @apply bg-palette-bg-low border-palette-border;
 
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high text-palette-fg-high;
+            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
         }
 
         .button:enabled:active,
         .button.link-enabled:active {
-            @apply bg-palette-bg-low text-palette-fg-low;
+            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
         }
     }
 
     .group.border {
-        @apply text-palette-bg bg-transparent border border-palette-bg-low;
+        @apply text-palette-bg bg-transparent border border-palette-border;
 
         .button {
             @apply bg-transparent border-transparent;
@@ -132,16 +138,16 @@
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high text-palette-fg-high;
+            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
         }
 
         .button:enabled:active,
         .button.link-enabled:active {
-            @apply bg-palette-bg-low text-palette-fg-low;
+            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
         }
 
         .button.split:enabled {
-            @apply !border-s-palette-bg;
+            @apply !border-s-palette-border;
         }
     }
 
@@ -149,18 +155,18 @@
         @apply bg-transparent text-palette-bg pointer-events-none;
 
         .button {
-            @apply bg-transparent border-transparent pointer-events-auto;
+            @apply border-transparent pointer-events-auto;
         }
 
         .button:enabled:hover,
         .button.link-enabled:hover,
         .button:focus-visible {
-            @apply bg-palette-bg-high text-palette-fg-high;
+            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
         }
 
         .button:enabled:active,
         .button.link-enabled:active {
-            @apply bg-palette-bg-low text-palette-fg-low;
+            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
         }
 
         .button.split:enabled {
@@ -168,13 +174,14 @@
         }
     }
 
-    .group.flat:hover {
-        @apply !border-palette-bg-low;
+    .group.flat:enabled:hover {
+        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
     }
 
-    .button.link-disabled *,
-    .group:disabled * {
-        @apply cursor-not-allowed text-palette-bg-low;
+    .button.link-disabled,
+    .group:disabled {
+        @apply cursor-not-allowed;
+        @apply bg-palette-bg-disabled text-palette-fg-disabled border-palette-border-disabled;
     }
 
     /************************* confirm ******************************/
@@ -195,7 +202,7 @@
     /************************* split ******************************/
 
     .split-content {
-        @apply bg-palette-bg gap-y-1 rounded-md mt-1 border border-palette-bg-low m-0 flex flex-col;
+        @apply bg-palette-bg gap-y-1 rounded-md mt-1 border border-palette-border m-0 flex flex-col;
 
         .split-item {
             @apply whitespace-nowrap justify-start rounded-none;

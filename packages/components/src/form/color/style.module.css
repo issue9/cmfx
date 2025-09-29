@@ -9,18 +9,18 @@
 @layer components {
     .oklch-panel {
         @apply flex flex-col gap-1 max-w-80 min-w-75;
-        @apply border border-palette-bg-low rounded-lg p-2;
+        @apply border border-palette-border rounded-lg p-2;
         @apply text-palette-fg bg-palette-bg;
 
         .blocks {
             @apply flex flex-wrap justify-between gap-1 items-center mt-1;
 
             .block {
-                @apply aspect-square w-5 border border-palette-bg-low rounded-sm cursor-pointer;
+                @apply aspect-square w-5 border border-palette-border rounded-sm cursor-pointer;
             }
 
             .block.selected {
-                @apply border border-palette-fg-high;
+                @apply border border-palette-fg-selected;
             }
         }
 
@@ -35,13 +35,13 @@
                 @apply text-sm cursor-pointer;
                 @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
                 @apply flex justify-center items-center h-8 w-full;
-                @apply border border-palette-bg-low rounded-sm;
+                @apply border border-palette-border rounded-sm;
             }
         }
     }
 
     .oklch-activator-block {
-        @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-fg;
+        @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
         @apply flex justify-center items-center font-bold;
     }
 }

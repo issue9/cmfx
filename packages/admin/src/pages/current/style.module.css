@@ -29,7 +29,7 @@
 
         .form {
             @apply flex justify-center flex-col gap-2 w-full xs:w-96 p-5;
-            @apply border border-palette-bg-low rounded-md bg-palette-bg shadow-md shadow-palette-bg-low;
+            @apply border border-palette-border rounded-md bg-palette-bg shadow-md shadow-palette-border;
 
             form {
                 @apply flex justify-center flex-col gap-2 w-full;
@@ -57,7 +57,7 @@
         @apply max-w-xs;
 
         .avatar {
-            @apply rounded-full border border-palette-bg-low w-24 h-24;
+            @apply rounded-full border border-palette-border w-24 h-24;
         }
 
         .name {
@@ -79,7 +79,7 @@
 
     .dashboard {
         .panel {
-            @apply flex flex-col rounded-md border border-palette-bg-low px-3 py-2;
+            @apply flex flex-col rounded-md border border-palette-border px-3 py-2;
         }
     }
 

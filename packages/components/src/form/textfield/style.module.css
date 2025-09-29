@@ -8,8 +8,8 @@
 
 @layer components {
     .text-field {
-        @apply rounded-md border border-palette-fg-low flex justify-between text-center w-full h-full;
-        @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
+        @apply rounded-md border border-palette-border flex justify-between text-center w-full h-full;
+        @apply has-[:focus:enabled]:border-palette-border-focused has-[:hover:enabled]:border-palette-border-focused;
 
         >:first-child {
             @apply !rounded-l-md;
@@ -35,7 +35,7 @@
     }
 
     .text-field:has(:disabled) {
-        @apply border-palette-bg-low text-palette-bg-high;
+        @apply border-palette-border-disabled text-palette-fg-disabled;
     }
 
     .text-field.rounded {

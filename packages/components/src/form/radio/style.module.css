@@ -9,7 +9,7 @@
 @layer components {
     input[type="radio"] {
         @apply appearance-none relative inline-block w-4 h-4 !rounded-sm cursor-pointer;
-        @apply p-0 border-2 border-palette-fg outline-0 hover:border-palette-fg-high;
+        @apply p-0 border-2 border-palette-border outline-0 hover:border-palette-border-focused;
 
         vertical-align: middle;
         transition: all var(--default-transition-duration) ease;
@@ -20,8 +20,7 @@
     }
 
     input[type="radio"]:disabled {
-        border-color: var(--bg-low);
-        cursor: not-allowed;
+        @apply cursor-not-allowed border-palette-border-disabled;
     }
 
     /* 内部实心圆 */
@@ -48,11 +47,10 @@
     }
 
     .radio.block {
-        @apply border-palette-fg-low rounded-sm has-[:checked]:border-palette-bg;
         @apply min-w-[1rem] min-h-[1rem];
 
-        @apply border-palette-bg-low rounded-sm;
-        @apply has-[:checked]:border-palette-fg-high;
+        @apply border-palette-border rounded-sm;
+        @apply has-[:checked]:border-palette-border-selected;
     }
 
     .radio:focus-visible {
@@ -64,11 +62,11 @@
     }
 
     .radio.block:has(:enabled):hover {
-        @apply border-palette-bg-high;
+        @apply border-palette-border-focused;
     }
 
     .radio:has(:disabled) {
-        @apply cursor-not-allowed text-palette-bg-low;
+        @apply cursor-not-allowed text-palette-fg-disabled;
     }
 
     .group-content {

@@ -8,6 +8,11 @@ import { BaseProps } from '@/base';
 
 /**
  * 组件的风格
+ *
+ * @remarks 组件的展示风格，包含以下几种取值：
+ *  - flat 无背景，无边框；
+ *  - border 无背景，有边框；
+ *  - fill 有背景，有边框；
  */
 export const kinds = ['flat' , 'border' , 'fill'] as const;
 
@@ -25,4 +30,3 @@ export interface Props extends BaseProps {
 }
 
 export const presetProps: Readonly<Props> = { kind: 'fill' };
-

@@ -31,8 +31,8 @@
 
 定义了以下几个通用的 z-index 值：
 
-- z-affix
-- z-tooltip
-- z-popover
-- z-notify
-- z-dialog
+- z-affix: 界面上固定的按钮；
+- z-tooltip: 提示信息；
+- z-popover: 一此普通的弹出元素；
+- z-notify: 通知类型的弹出元素；
+- z-dialog: 弹出对话框；

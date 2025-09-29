@@ -12,7 +12,7 @@
 
         .statistic {
             @apply text-palette-fg bg-palette-bg;
-            @apply border border-palette-bg-low rounded-md px-2 py-1;
+            @apply border border-palette-border rounded-md px-2 py-1;
             @apply flex flex-col justify-center flex-grow;
 
             .value {

@@ -49,7 +49,7 @@
 
         a:link,
         a:visited {
-            @apply text-palette-fg-high;
+            @apply text-palette-fg-focused;
         }
 
         /* 代码块的样式 */

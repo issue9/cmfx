@@ -9,7 +9,7 @@
 @layer components {
     .shiki {
         @apply font-mono leading-5 overflow-clip relative;
-        @apply rounded-lg border border-palette-bg-low p-1;
+        @apply rounded-lg border border-palette-border p-1;
         @apply text-palette-fg bg-palette-bg;
 
         >code {

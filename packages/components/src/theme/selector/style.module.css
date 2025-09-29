@@ -8,12 +8,12 @@
 
 @layer components {
     .selector {
-        @apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-bg-low p-2 rounded-md;
+        @apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-border p-2 rounded-md;
 
         button.option {
             @apply flex justify-start items-center gap-4 p-1 grow-1 cursor-pointer;
             @apply border border-transparent;
-            @apply hover:border-palette-bg-high rounded-md;
+            @apply hover:border-palette-border rounded-md;
 
             .blocks {
                 @apply flex flex-wrap w-10 h-10;
@@ -28,14 +28,17 @@
             }
         }
 
-        button.option.selected,
         button.option:enabled:focus-visible,
         button.option:enabled:hover {
-            @apply bg-palette-bg-high text-palette-fg-high border-palette-bg-low;
+            @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+        }
+
+        button.option.selected {
+            @apply bg-palette-bg-selected text-palette-fg-selected border-palette-border-selected;
         }
 
         button.option:enabled:active {
-            @apply bg-palette-bg-low text-palette-fg-low border-palette-bg-high;
+            @apply bg-palette-bg-actived text-palette-fg-actived border-palette-border-actived;
         }
     }
 }

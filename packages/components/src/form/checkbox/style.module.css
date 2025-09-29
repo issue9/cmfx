@@ -9,7 +9,7 @@
 @layer components {
     input[type="checkbox"] {
         @apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
-        @apply border-2 border-palette-fg hover:border-palette-fg-high !rounded-xs;
+        @apply border-2 border-palette-border hover:border-palette-border-focused !rounded-xs;
     }
 
     input[type="checkbox"].rounded {
@@ -17,13 +17,13 @@
     }
 
     input[type="checkbox"]:disabled {
-        @apply cursor-not-allowed border-palette-bg-low;
+        @apply cursor-not-allowed border-palette-border-disabled;
     }
 
     input[type="checkbox"]:not(:indeterminate):after {
         @apply block absolute opacity-0 w-1/3 h-2/3 left-1/3 top-1/10;
-        @apply border-r-2 border-r-palette-fg;
-        @apply border-b-2 border-b-palette-fg;
+        @apply border-r-2 border-r-palette-border;
+        @apply border-b-2 border-b-palette-border;
         content: '';
         transform: rotate(45deg);
         transform-origin: center center;
@@ -39,7 +39,7 @@
     }
 
     input[type="checkbox"]:disabled:after {
-        @apply cursor-not-allowed border-palette-bg-low;
+        @apply cursor-not-allowed border-palette-border-disabled;
     }
 
     input[type="checkbox"]:checked:after {
@@ -54,7 +54,7 @@
     }
 
     .checkbox.block {
-        @apply border-palette-fg-low rounded-sm has-[:checked]:border-palette-bg;
+        @apply border-palette-border rounded-sm has-[:checked]:border-palette-border-selected;
         @apply min-w-[1rem] min-h-[1rem];
     }
 
@@ -67,11 +67,11 @@
     }
 
     .checkbox.block:has(:enabled):hover {
-        @apply border-palette-bg-high;
+        @apply border-palette-border-focused;
     }
 
     .checkbox:has(:disabled) {
-        @apply cursor-not-allowed text-palette-bg-low;
+        @apply cursor-not-allowed text-palette-fg-disabled;
     }
 
     .group-content {

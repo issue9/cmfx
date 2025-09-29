@@ -19,7 +19,7 @@
                 @apply flex flex-col gap-4 flex-grow;
 
                 dl {
-                    @apply flex justify-between hover:bg-secondary-bg hover:text-secondary-fg px-2 rounded-sm;
+                    @apply flex justify-between hover:bg-secondary-bg-focused hover:text-secondary-fg-focused px-2 rounded-sm;
 
                     dt {
                         @apply me-2;

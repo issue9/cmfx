@@ -8,8 +8,8 @@
 
 @layer components {
     .textarea {
-        @apply rounded-md outline-none bg-transparent border border-[var(--fg-low)] flex px-2 py-2 w-full text-left;
-        @apply focus:border-[var(--fg-high)] hover:enabled:border-[var(--fg-high)] read-only:cursor-default;
+        @apply rounded-md outline-none bg-transparent border border-palette-border flex px-2 py-2 w-full text-left;
+        @apply focus:border-palette-border-focused hover:enabled:border-palette-border-focused read-only:cursor-default;
     }
 
     .textarea.rounded {

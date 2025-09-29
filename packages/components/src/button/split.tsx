@@ -53,11 +53,11 @@ export function SplitButton(props: Props) {
 
     const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette', 'menus']);
 
-    const activator = <ButtonGroup palette={props.palette} ref={el=>group=el}
+    const activator = <ButtonGroup palette={props.palette} ref={el => group = el}
         kind={props.kind} rounded={props.rounded} disabled={props.disabled}
     >
         <Button {...btnProps}>{props.children}</Button>
-        <Button class={styles.split} ref={el=>downRef=el} square onClick={() => {
+        <Button class={styles.split} ref={el => downRef = el} square onClick={() => {
             popElem.togglePopover();
 
             const anchor = group.getBoundingClientRect();
@@ -73,7 +73,7 @@ export function SplitButton(props: Props) {
         {activator}
         <div ref={el => popElem = el} popover="auto" class={joinClass(props.palette, styles['split-content'])}>
             <For each={props.menus}>
-                {(item) => {
+                {item => {
                     let ref: Ref;
                     if (item.type === 'item' && item.hotkey) {
                         const hk = item.hotkey;

@@ -40,11 +40,11 @@
     }
 
     table.cmfx-table {
-        @apply w-full border-t border-b border-palette-fg-low;
+        @apply w-full border-t border-b border-palette-border;
         @apply bg-palette-bg text-palette-fg;
 
         tr {
-            @apply border-b border-palette-fg-low;
+            @apply border-b border-palette-border;
         }
 
         th,
@@ -64,7 +64,7 @@
     table.cmfx-table.hoverable {
         tbody {
             tr:hover {
-                @apply bg-palette-bg-high;
+                @apply bg-palette-bg-focused;
             }
         }
     }

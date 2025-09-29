@@ -9,8 +9,8 @@
 @layer components {
     .activator {
         .activator-container {
-            @apply rounded-md border border-palette-fg-low flex items-center px-2 py-1 cursor-pointer outline-none;
-            @apply has-[:focus:enabled]:border-palette-fg-high has-[:hover:enabled]:border-palette-fg-high;
+            @apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none;
+            @apply has-[:focus:enabled]:border-palette-border-focused has-[:hover:enabled]:border-palette-border-focused;
 
             .input {
                 @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer outline-none;
@@ -23,7 +23,7 @@
         }
 
         .activator-container:focus {
-            @apply border-palette-fg-high;
+            @apply border-palette-border-focused;
         }
 
         .activator-container.rounded {
@@ -34,7 +34,7 @@
     /********************************** panel ********************************/
 
     .panel {
-        @apply border border-palette-fg-low rounded-lg;
+        @apply border border-palette-border rounded-lg;
         @apply text-center bg-palette-bg text-palette-fg box-border flex flex-col gap-1;
         @apply overflow-hidden;
 
@@ -43,7 +43,7 @@
         }
 
         .actions {
-            @apply flex justify-between items-center border-t-palette-bg-low border-t;
+            @apply flex justify-between items-center border-t-palette-border border-t;
             @apply pt-1 px-1 pb-2;
 
             .left {

@@ -8,13 +8,13 @@
 
 @layer components {
     fieldset.dateview {
-        @apply border border-palette-fg-low rounded-lg overflow-clip;
+        @apply border border-palette-border rounded-lg overflow-clip;
         @apply text-center bg-palette-bg text-palette-fg box-border;
         @apply flex flex-col;
 
         >header {
             @apply flex gap-1 justify-between items-center text-lg;
-            @apply border-b border-b-palette-fg-low;
+            @apply border-b border-b-palette-border;
             @apply px-2 pb-1 pt-2;
 
             >p {

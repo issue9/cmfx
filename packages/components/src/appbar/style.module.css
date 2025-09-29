@@ -9,7 +9,7 @@
 @layer components {
     .appbar {
         @apply bg-palette-bg text-palette-fg;
-        @apply border-b border-b-palette-bg-high;
+        @apply border-b border-b-palette-border;
         @apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
 
         .title {

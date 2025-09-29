@@ -23,13 +23,13 @@ dialog::backdrop {
 
 @layer components {
     dialog.dialog {
-        @apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-fg-low;
+        @apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-border;
 
         >header {
-            @apply flex items-center justify-between p-2 border-b border-b-palette-bg-low grow-0 shrink-0;
+            @apply flex items-center justify-between p-2 border-b border-b-palette-border grow-0 shrink-0;
 
             .close {
-                @apply p-[1px] cursor-pointer hover:bg-palette-fg-low hover:text-palette-fg-high rounded-xs;
+                @apply p-[1px] cursor-pointer hover:bg-palette-fg-focused hover:text-palette-fg-focused rounded-xs;
             }
         }
 
@@ -38,7 +38,7 @@ dialog::backdrop {
         }
 
         >footer {
-            @apply flex justify-end p-2 gap-2 border-t border-t-palette-bg-low grow-0 shrink-0;
+            @apply flex justify-end p-2 gap-2 border-t border-t-palette-border grow-0 shrink-0;
         }
     }
 

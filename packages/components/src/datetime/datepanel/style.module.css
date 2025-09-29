@@ -11,7 +11,7 @@
 
     fieldset.panel {
         @apply flex flex-row rounded-lg overflow-clip flex-1;
-        @apply border border-palette-fg-low;
+        @apply border border-palette-border;
 
         >fieldset.dateview {
             @apply border-none rounded-none min-w-78 flex-1;
@@ -51,7 +51,7 @@
 
                     td.selected,
                     td.covered {
-                        @apply bg-palette-bg-high text-palette-fg-high;
+                        @apply bg-palette-bg-selected text-palette-fg-selected;
 
                         time {
                             @apply text-palette-fg-high;
@@ -59,12 +59,12 @@
                     }
 
                     td.disabled {
-                        @apply text-palette-fg-low;
+                        @apply text-palette-fg-disabled;
                     }
 
                     td.disabled.selected,
                     td.disabled.covered {
-                        @apply bg-palette-bg-low text-palette-fg-low;
+                        @apply bg-palette-bg-selected text-palette-fg-selected;
 
                         time {
                             @apply text-palette-fg-low;
@@ -88,16 +88,15 @@
         }
     }
 
-    fieldset.panel:disabled,
-    fieldset.panel:disabled * {
-        @apply cursor-not-allowed text-palette-fg-low;
+    fieldset.panel:disabled {
+        @apply cursor-not-allowed text-palette-fg-disabled bg-palette-bg-disabled;
     }
 
     /********************************* range-panel *************************************/
 
     .range {
         @apply flex rounded-lg overflow-clip;
-        @apply border border-palette-fg-low;
+        @apply border border-palette-border;
         @apply bg-palette-bg text-palette-fg;
 
         >main {
@@ -111,12 +110,12 @@
                 }
 
                 >fieldset.panel:last-child {
-                    @apply border-s-palette-fg-low;
+                    @apply border-s-palette-border;
                 }
             }
 
             .value {
-                @apply py-1 px-2 border-t border-palette-fg-low text-left;
+                @apply py-1 px-2 border-t border-palette-border text-left;
             }
 
             /* 保证内容为空时的高度不变 */
@@ -127,7 +126,7 @@
 
         .shortcuts {
             @apply flex flex-col shrink-0 p-2 items-stretch;
-            @apply border-s border-s-palette-fg-low;
+            @apply border-s border-s-palette-border;
         }
     }
 }

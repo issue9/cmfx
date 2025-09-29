@@ -8,7 +8,7 @@
 
 @layer components {
     .calendar {
-        @apply rounded-lg overflow-hidden border border-palette-fg-low w-full h-full;
+        @apply rounded-lg overflow-hidden border border-palette-border w-full h-full;
 
         >table {
             @apply !w-full !h-full;
@@ -19,12 +19,12 @@
 
             th,
             tr:not(:last-child) td {
-                @apply border-b border-b-palette-fg-low;
+                @apply border-b border-b-palette-border;
             }
 
             th:not(:last-child),
             td:not(:last-child) {
-                @apply border-e border-e-palette-fg-low;
+                @apply border-e border-e-palette-border;
             }
 
             td {
@@ -42,15 +42,15 @@
             }
 
             td:not(.disabled):hover {
-                @apply bg-palette-bg-low;
+                @apply bg-palette-bg-focused;
             }
 
             td.selected {
-                @apply bg-palette-bg-high;
+                @apply bg-palette-bg-selected;
             }
 
             td.disabled {
-                @apply text-palette-bg-low;
+                @apply text-palette-bg-disabled;
             }
         }
     }

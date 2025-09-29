@@ -8,7 +8,7 @@
 
 @layer components {
     .panel {
-        @apply border border-palette-fg-low rounded-md text-palette-fg bg-palette-bg;
+        @apply border border-palette-border rounded-md text-palette-fg bg-palette-bg;
         @apply flex flex-col flex-wrap justify-center overflow-hidden;
 
         header {
@@ -25,7 +25,7 @@
             @apply justify-center;
 
             .title:hover {
-                @apply text-palette-fg-high cursor-pointer;
+                @apply text-palette-fg-focused cursor-pointer;
             }
         }
 
@@ -40,7 +40,7 @@
 
         .grid {
             @apply grid grid-cols-3 gap-1 p-2 grow shrink;
-            @apply border-t border-t-palette-fg-low;
+            @apply border-t border-t-palette-border;
         }
     }
 }

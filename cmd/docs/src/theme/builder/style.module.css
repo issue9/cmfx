@@ -11,10 +11,10 @@
         @apply text-palette-fg bg-palette-bg;
 
         .params {
-            @apply min-w-45 h-full overflow-clip flex flex-col border-e border-e-palette-fg-low;
+            @apply min-w-45 h-full overflow-clip flex flex-col border-e border-e-palette-border;
 
             .toolbar {
-                @apply flex items-center justify-between gap-4 bg-palette-bg px-4 py-3 border-b border-b-palette-bg-low;
+                @apply flex items-center justify-between gap-4 bg-palette-bg px-4 py-3 border-b border-b-palette-border;
 
                 .actions {
                     @apply flex gap-2;

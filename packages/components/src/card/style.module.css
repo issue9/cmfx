@@ -8,10 +8,10 @@
 
 @layer components {
     .card {
-        @apply rounded-lg flex flex-col text-palette-fg bg-palette-bg border border-palette-bg-low;
+        @apply rounded-lg flex flex-col text-palette-fg bg-palette-bg border border-palette-border;
 
         .header {
-            @apply px-3 py-2 border-b-palette-bg-low border-b flex;
+            @apply px-3 py-2 border-b-palette-border border-b flex;
         }
 
         .main {
@@ -19,7 +19,7 @@
         }
 
         .footer {
-            @apply px-3 py-2 border-t-palette-bg-low border-t flex;
+            @apply px-3 py-2 border-t-palette-border border-t flex;
         }
     }
 }

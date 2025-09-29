@@ -8,7 +8,7 @@
 
 @layer components {
     .tab {
-        @apply flex flex-col border border-palette-fg-low rounded-lg overflow-clip text-palette-fg bg-palette-bg;
+        @apply flex flex-col border border-palette-border rounded-lg overflow-clip text-palette-fg bg-palette-bg;
 
         >.tabs {
             @apply flex flex-row;
@@ -24,9 +24,9 @@
 
             .item:enabled {
                 @apply cursor-pointer;
-                @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
-                @apply focus:bg-palette-bg-high focus:text-palette-fg-high;
-                @apply active:bg-palette-bg-low active:text-palette-fg-low;
+                @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+                @apply focus:bg-palette-bg-focused focus:text-palette-fg-focused;
+                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
             }
 
             .item.select {
@@ -36,8 +36,8 @@
             >button.prev,
             >button.next {
                 @apply w-12 cursor-pointer flex justify-center items-center;
-                @apply hover:bg-palette-bg-high hover:text-palette-fg-high;
-                @apply active:bg-palette-bg-low active:text-palette-fg-low;
+                @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
             }
 
             >.scroller {
@@ -46,7 +46,7 @@
         }
 
         >.tabs.has-panel {
-            @apply border-b border-b-palette-fg-low;
+            @apply border-b border-b-palette-border;
         }
 
         >.tabpanel {}
@@ -55,15 +55,15 @@
     .tab.horizontal {
         >.tabs {
             >button.prev {
-                @apply border-e border-e-palette-fg-low;
+                @apply border-e border-e-palette-border;
             }
 
             >button.next {
-                @apply border-s border-s-palette-fg-low;
+                @apply border-s border-s-palette-border;
             }
 
             .item:not(:last-child) {
-                @apply border-e border-e-palette-fg-low;
+                @apply border-e border-e-palette-border;
             }
         }
     }
@@ -80,11 +80,11 @@
             }
 
             >button.prev {
-                @apply border-b border-b-palette-fg-low;
+                @apply border-b border-b-palette-border;
             }
 
             >button.next {
-                @apply border-t border-t-palette-fg-low;
+                @apply border-t border-t-palette-border;
             }
 
             .item {
@@ -92,7 +92,7 @@
             }
 
             .item:not(:last-child) {
-                @apply border-b border-b-palette-fg-low;
+                @apply border-b border-b-palette-border;
             }
 
             >.scroller {
@@ -101,7 +101,7 @@
         }
 
         >.tabs.has-panel {
-            @apply border-e border-e-palette-fg-low;
+            @apply border-e border-e-palette-border;
         }
 
     }

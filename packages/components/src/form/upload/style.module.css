@@ -8,20 +8,20 @@
 
 @layer components {
     .upload-content {
-        @apply w-fit h-fit border rounded-md border-palette-fg-low;
+        @apply w-fit h-fit border rounded-md border-palette-border;
         @apply flex flex-wrap gap-2 p-2 items-center justify-start content-start;
 
         .preview {
-            @apply relative border border-palette-bg-low p-1 rounded-sm order-10;
+            @apply relative border border-palette-border p-1 rounded-sm order-10;
 
             .close {
                 @apply absolute end-1 top-1 text-palette-fg;
-                @apply hover:text-palette-fg-high hover:cursor-pointer;
+                @apply hover:text-palette-fg-focused hover:cursor-pointer;
             }
         }
 
         .action {
-            @apply relative border border-palette-bg-low p-1 rounded-sm order-11 flex items-center justify-center;
+            @apply relative border border-palette-border p-1 rounded-sm order-11 flex items-center justify-center;
             @apply text-2xl text-palette-fg-low;
         }
 
@@ -32,16 +32,16 @@
 
     .upload-content:enabled {
         .preview {
-            @apply hover:border-palette-fg-low;
+            @apply hover:border-palette-border;
         }
 
         .action {
-            @apply hover:enabled:border-palette-fg-low hover:disabled:cursor-not-allowed;
+            @apply hover:enabled:border-palette-border-focused hover:disabled:cursor-not-allowed;
         }
     }
 
     .upload-content:disabled {
-        @apply cursor-not-allowed text-palette-bg-low border-palette-bg-low;
+        @apply cursor-not-allowed text-palette-bg-low border-palette-border-disabled;
 
         .preview {
             @apply cursor-not-allowed;

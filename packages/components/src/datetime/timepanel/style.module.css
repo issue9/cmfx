@@ -8,7 +8,7 @@
 
 @layer components {
     fieldset.time {
-        @apply h-40 border border-palette-fg-low rounded-md p-1;
+        @apply h-40 border border-palette-border rounded-md p-1;
         @apply flex overflow-auto;
         @apply bg-palette-bg text-palette-fg;
 
@@ -20,7 +20,7 @@
             }
 
             li.selected {
-                @apply bg-palette-bg-high;
+                @apply bg-palette-bg-selected;
             }
         }
     }
@@ -30,7 +30,7 @@
             @apply overflow-y-scroll;
 
             li:hover {
-                @apply bg-palette-bg-low cursor-pointer;
+                @apply bg-palette-bg-focused cursor-pointer;
             }
         }
     }

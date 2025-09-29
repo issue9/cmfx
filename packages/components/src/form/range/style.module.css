@@ -8,7 +8,7 @@
 
 input[type=range] {
     @apply appearance-none w-full my-2 bg-palette-bg-low text-palette-fg h-2 rounded-md cursor-pointer;
-    @apply border-2 border-palette-bg-high;
+    @apply border-2 border-palette-border;
 }
 
 input[type=range].rounded {
@@ -18,12 +18,12 @@ input[type=range].rounded {
 /* 与 NOTE: ::moz-range-thumb 内容相同，但是无法与之合并，否则不启作用。 */
 input[type=range]::-webkit-slider-thumb {
     @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
-    @apply rounded-md border-2 border-palette-bg-high;
+    @apply rounded-md border-2 border-palette-border;
 }
 
 input[type=range]::-moz-range-thumb {
     @apply appearance-none w-4 h-4 bg-palette-bg-low box-border;
-    @apply rounded-md border-2 border-palette-bg-high;
+    @apply rounded-md border-2 border-palette-border;
 }
 
 input[type=range].rounded::-webkit-slider-thumb {

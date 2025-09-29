@@ -44,21 +44,21 @@
         }
 
         li.item.disabled>.title {
-            @apply bg-surface-bg-low/50 text-surface-fg-low/50;
+            @apply bg-palette-bg-disabled text-palette-fg-disabled;
             @apply cursor-not-allowed;
         }
 
         li.item.selected>.title {
-            @apply bg-palette-bg-high text-palette-fg-high;
+            @apply bg-palette-bg-selected text-palette-fg-selected;
         }
 
         li.item:not(.disabled):hover {
             >.title {
-                @apply bg-palette-bg-high text-palette-fg-high;
+                @apply bg-palette-bg-focused text-palette-fg-focused;
             }
 
             >.title:active {
-                @apply text-palette-fg-low;
+                @apply text-palette-fg-actived;
             }
         }
     }
@@ -84,7 +84,7 @@
         li>ul {
             @apply min-w-max z-popover pop fixed rounded-md shadow-md;
             @apply bg-palette-bg text-palette-fg;
-            @apply border border-palette-fg-low;
+            @apply border border-palette-border;
         }
 
         li:not(.hide)>ul {
@@ -105,7 +105,7 @@
         li>ul {
             @apply min-w-max z-popover pop fixed rounded-md shadow-md;
             @apply bg-palette-bg text-palette-fg;
-            @apply border border-palette-fg-low;
+            @apply border border-palette-border;
         }
 
         li:not(.hide)>ul {
@@ -141,6 +141,6 @@
     /************************************************* context ********************/
 
     .dropdown {
-        @apply border border-palette-fg-low rounded-md;
+        @apply border border-palette-border rounded-md;
     }
 }
