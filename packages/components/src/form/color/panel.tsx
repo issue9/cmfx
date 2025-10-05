@@ -125,25 +125,33 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     const [apca, setApca] = createSignal(false);
     let contentRef: HTMLDivElement;
 
-    return <fieldset popover={props.popover} disabled={props.disabled}
+    return <fieldset popover={props.popover}
+        aria-readonly={props.readonly} disabled={props.disabled}
         class={joinClass(props.palette, styles['oklch-panel'], props.class)}
         ref={el => { if (props.ref) { props.ref(el); } }}
     >
-        <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001} bg={bg()[0]}
+        <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001}
+            bg={bg()[0]} readonly={props.readonly}
             value={v => `${(v * 100).toFixed(2)}%`} label={loc.t('_c.color.lightness')} />
-        <Range layout='vertical' fitHeight accessor={c} min={0} max={0.4} step={0.001} bg={bg()[1]}
+        <Range layout='vertical' fitHeight accessor={c} min={0} max={0.4} step={0.001}
+            bg={bg()[1]} readonly={props.readonly}
             value={v => `${v.toFixed(3)}`} label={loc.t('_c.color.chroma')} />
-        <Range layout='vertical' fitHeight accessor={h} min={0} max={360} step={0.01} bg={bg()[2]}
+        <Range layout='vertical' fitHeight accessor={h} min={0} max={360} step={0.01}
+            bg={bg()[2]} readonly={props.readonly}
             value={v => `${v.toFixed(2)}°`} label={loc.t('_c.color.hue')} />
-        <Range layout='vertical' fitHeight accessor={a} min={0} max={1} step={0.01} bg={bg()[3]}
+        <Range layout='vertical' fitHeight accessor={a} min={0} max={1} step={0.01}
+            bg={bg()[3]} readonly={props.readonly}
             value={v => v.toFixed(2)} label={loc.t('_c.color.alpha')} />
 
         <Show when={presets() && presets()!.length > 0}>
             <div class={styles.blocks}>
                 <For each={presets()}>
                     {color =>
-                        <div style={{ 'background': color.toString() }} onclick={() => access.setValue(color)}
-                            class={classList(undefined, { [styles.selected]: access.getValue() === color }, styles.block)}
+                        <div style={{ 'background': color.toString() }} onclick={() => {
+                            if (props.readonly || props.disabled) { return; }
+                            access.setValue(color);
+                        }}
+                        class={classList(undefined, { [styles.selected]: access.getValue() === color }, styles.block)}
                         />
                     }
                 </For>
@@ -152,13 +160,13 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
         <div class={styles.info}>
             <Show when={'EyeDropper' in window}>
-                <Button kind='border' square onclick={async ()=>{
+                <Button kind='border' square onclick={async () => {
                     const eye = new window.EyeDropper();
                     const c = new Color((await eye.open()).sRGBHex);
                     access.setValue(c.to('oklch').toString());
                 }}><IconPicker /></Button>
             </Show>
-            <div class={styles.current} ref={el=>contentRef=el}
+            <div class={styles.current} ref={el => contentRef = el}
                 onClick={() => copy2Clipboard(contentRef, access.getValue())}
                 style={{ 'background': access.getValue(), 'color': props.wcag }}
             >{access.getValue()}</div>

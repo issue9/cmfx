@@ -49,4 +49,8 @@
             @apply !rounded-r-full;
         }
     }
+
+    .number-spin {
+        @apply !px-[1px] !py-0 rounded-none;
+    }
 }

@@ -40,6 +40,12 @@
         }
     }
 
+    .oklch-panel:disabled {
+        .block {
+            @apply cursor-not-allowed;
+        }
+    }
+
     .oklch-activator-block {
         @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
         @apply flex justify-center items-center font-bold;

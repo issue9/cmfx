@@ -41,9 +41,9 @@ export default function() {
         </>
     }>
         <Stage title="radio">
-            <input type="radio" name="radio1" value="option1" readonly={readonly()} disabled={disabled()} />
-            <input type="radio" name="radio1" value="option2" readonly={readonly()} disabled={disabled()} />
-            <Radio name="radio1" label="Radio" block={block()} rounded={rounded()} value="option3" readonly={readonly()} disabled={disabled()} />
+            <input type="radio" name="radio1" value="option1" tabindex={0} readonly={readonly()} disabled={disabled()} />
+            <input type="radio" name="radio1" value="option2" tabindex={0} readonly={readonly()} disabled={disabled()} />
+            <Radio name="radio1" label="Radio" block={block()} tabindex={0} rounded={rounded()} value="option3" readonly={readonly()} disabled={disabled()} />
         </Stage>
         <Stage title="radio group">
             <RadioGroup hasHelp rounded={rounded()} label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}

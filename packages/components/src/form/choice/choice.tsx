@@ -72,9 +72,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
     const getSingleItem = (val: T): MenuItemItem<T> | undefined => {
         let item: MenuItemItem<T> | undefined = undefined;
         wlak(i => {
-            if (i.value === val) {
-                item = i;
-            }
+            if (i.value === val) { item = i; }
         }, props.options);
         return item;
     };
@@ -82,9 +80,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
     const getMultipleItems = (vals: Array<T>): Array<MenuItemItem<T>> => {
         let items: Array<MenuItemItem<T>> = [];
         wlak(i => {
-            if (vals.includes(i.value!)) {
-                items.push(i);
-            }
+            if (vals.includes(i.value!)) { items.push(i); }
         }, props.options);
         return items;
     };
@@ -110,11 +106,16 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <Dropdown class={styles.pop} items={props.options} multiple={props.multiple} onPopover={e=>{
+        <Dropdown class={styles.pop} items={props.options} multiple={props.multiple} onPopover={e => {
+            if (props.disabled) { return true; } // disabled 模式下不弹出菜单
+
             if (e) {
                 scrollIntoView();
             }
+            return false;
         }} onChange={e => {
+            if (props.readonly || props.disabled) { return; }
+
             props.accessor.setValue(e as any);
         }}>
             <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}
@@ -134,7 +135,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
                             }
                         </Match>
                         <Match when={!props.multiple && props.accessor.getValue() ? props.accessor.getValue() as T : undefined}>
-                            {val =><>{cloneElement(getSingleItem(val())?.label)}</>}
+                            {val => <>{cloneElement(getSingleItem(val())?.label)}</>}
                         </Match>
                     </Switch>
                 </div>

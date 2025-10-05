@@ -6,9 +6,9 @@ import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/arrow-drop-down';
 import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
-
 import { PropsError } from '@/base';
 import { Button } from '@/button';
+import styles from './style.module.css';
 import { Ref, TextField, Props as TextFieldProps } from './textfield';
 
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete' | 'inputMode';
@@ -72,8 +72,14 @@ export function Number(props: Props): JSX.Element {
 
     return <TextField ref={el => ref = el} {...fieldProps} type="number" suffix={
         <>
-            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={() => step(props.step!)}><IconArrowUp /></Button>
-            <Button type='button' kind='flat' class="!px-[1px] !py-0 rounded-none" disabled={props.disabled} onClick={() => step(-props.step!)}><IconArrowDown /></Button>
+            <Button kind='flat' class={styles['number-spin']} disabled={props.disabled || props.readonly}
+                onClick={() => step(props.step!)}>
+                <IconArrowUp />
+            </Button>
+            <Button kind='flat' class={styles['number-spin']} disabled={props.disabled || props.readonly}
+                onClick={() => step(-props.step!)}>
+                <IconArrowDown />
+            </Button>
         </>
     } />;
 }

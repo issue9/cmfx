@@ -10,7 +10,7 @@
     .activator {
         .activator-container {
             @apply rounded-md border border-palette-border flex place-items-center px-2 py-1 cursor-pointer outline-none box-border;
-            @apply has-[:focus:enabled]:border-palette-border-focused has-[:hover:enabled]:border-palette-border-focused;
+            @apply has-[:focus:enabled]:border-palette-border-focused has-[:hover:enabled]:border-palette-border-focused has-[:active:enabled]:border-palette-border-actived;
 
             .input {
                 @apply bg-transparent flex flex-wrap px-1 w-full gap-1 cursor-pointer items-center peer-read-only:cursor-default;

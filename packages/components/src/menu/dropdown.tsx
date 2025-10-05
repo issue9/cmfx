@@ -51,7 +51,7 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * @remarks 下拉菜单弹出时的回调函数，其原型为 `(visible: boolean): boolean`，
      * visible 参数表示当前是否为可见状态，返回值为 `true` 时，将阻止下拉菜单的弹出。
      */
-    onPopover?: { (visible: boolean): boolean; };
+    onPopover?: { (visible: boolean): boolean | undefined; };
 
     ref?: { (el: Ref): void; };
 }

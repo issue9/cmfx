@@ -8,7 +8,13 @@
 
 input[type=range] {
     @apply appearance-none w-full my-2 bg-palette-bg-low text-palette-fg h-2 rounded-md cursor-pointer;
-    @apply border-2 border-palette-border;
+    @apply border-2 border-palette-border outline-none;
+
+    @apply active:border-palette-border-actived;
+    @apply hover:border-palette-border-focused;
+    @apply focus:border-palette-border-focused;
+    @apply active:border-palette-border-actived;
+    @apply disabled:cursor-not-allowed disabled:border-palette-border-disabled;
 }
 
 input[type=range].rounded {
@@ -42,6 +48,13 @@ input[type=range].rounded::-moz-range-thumb {
 
         input.fit-height {
             @apply !h-5;
+        }
+    }
+
+    .range[aria-readonly=true] {
+        input {
+            pointer-events: none;
+            touch-action: none;
         }
     }
 

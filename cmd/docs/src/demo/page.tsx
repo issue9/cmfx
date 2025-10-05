@@ -21,7 +21,7 @@ export default function() {
             {disableBackTopS}
         </>
     }>
-        <Page title='title' palette={palette()} backtop={disableBackTop() === true ? undefined : false}>
+        <Page title='title' palette={palette()} backtop={disableBackTop() === true ? false : undefined}>
             <For each={len}>
                 {(i) => (
                     <>{i} <br /></>

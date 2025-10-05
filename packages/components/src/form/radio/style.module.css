@@ -9,7 +9,12 @@
 @layer components {
     input[type="radio"] {
         @apply appearance-none relative inline-block w-4 h-4 !rounded-sm cursor-pointer;
-        @apply p-0 border-2 border-palette-border outline-0 hover:border-palette-border-focused;
+        @apply p-0 border-2 border-palette-fg outline-none;
+        @apply hover:border-palette-fg-focused;
+        @apply checked:border-palette-fg-selected;
+        @apply focus:border-palette-fg-focused;
+        @apply active:border-palette-fg-actived;
+        @apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
 
         vertical-align: middle;
         transition: all var(--default-transition-duration) ease;
@@ -17,10 +22,6 @@
 
     input[type="radio"].rounded {
         @apply !rounded-full;
-    }
-
-    input[type="radio"]:disabled {
-        @apply cursor-not-allowed border-palette-border-disabled;
     }
 
     /* 内部实心圆 */
@@ -36,36 +37,67 @@
         opacity: 1;
     }
 
+    input[type="radio"]:disabled:after {
+        @apply cursor-not-allowed bg-palette-fg-disabled;
+    }
+
     /* 以上代码重定义了默认的 radio 样式 */
 
 
     .radio {
         @apply border-2 border-transparent text-palette-fg box-border;
-        @apply overflow-hidden cursor-pointer;
+        @apply overflow-hidden cursor-pointer outline-none;
         @apply flex items-center justify-center gap-1;
-        cursor: pointer;
     }
 
     .radio.block {
-        @apply min-w-[1rem] min-h-[1rem];
-
+        @apply min-w-4 min-h-4;
         @apply border-palette-border rounded-sm;
-        @apply has-[:checked]:border-palette-border-selected;
+
+        input {
+            @apply hidden;
+        }
     }
 
-    .radio:focus-visible {
-        outline: none;
+    .radio.block.rounded {
+        @apply rounded-full;
     }
 
-    .radio:has(:enabled):hover {
-        cursor: pointer;
+    .radio.block:has(:checked) {
+        @apply text-palette-fg-selected;
+        @apply border-palette-border-selected;
     }
 
-    .radio.block:has(:enabled):hover {
+    .radio.block:has(:enabled):not([aria-readonly="true"]):focus-within {
+        /* 需要在 checked 之后，否则可能无效？ */
+        @apply text-palette-fg-focused;
         @apply border-palette-border-focused;
     }
 
-    .radio:has(:disabled) {
+    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):focus-within {
+        @apply text-palette-fg-focused;
+    }
+
+    .radio.block:has(:enabled):not([aria-readonly="true"]):hover {
+        @apply border-palette-border-focused;
+    }
+
+    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):hover {
+        @apply text-palette-fg-focused;
+    }
+
+    /* NOTE: active 要在 hover 之后，否则 hover 始终覆盖 active 的效果。 */
+
+    .radio.block:has(:enabled):not([aria-readonly="true"]):active {
+        @apply text-palette-fg-actived border-palette-border-actived;
+    }
+
+    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):active {
+        @apply text-palette-fg-actived;
+    }
+
+    .radio:has(:disabled),
+    .radio.block:has(:disabled) {
         @apply cursor-not-allowed text-palette-fg-disabled;
     }
 

@@ -102,13 +102,14 @@ export default function Range(props: Props): JSX.Element {
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}>
+        <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}
+            aria-readonly={props.readonly} aria-disabled={props.disabled}
+        >
             <input ref={el => inputRef = el} type="range" min={props.min} max={props.max}
                 class={props.rounded ? styles.rounded : ''}
-                step={props.step} value={access.getValue()}
+                step={props.step} value={access.getValue()} readOnly={props.readonly}
                 style={{ 'background': props.bg }} classList={{ [styles['fit-height']]: props.fitHeight }}
-                onwheel={wheel}
-                readOnly={props.readonly} disabled={props.disabled} name={access.name()} onChange={e => {
+                onwheel={wheel} disabled={props.disabled} name={access.name()} onChange={e => {
                     if (!props.readonly && !props.disabled) {
                         let v = parseFloat(e.target.value);
                         access.setValue(v);

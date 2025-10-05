@@ -23,7 +23,7 @@ export function Password(props: Props): JSX.Element {
     let aref: AnimationIconRef;
 
     return <TextField {...props} type="password" ref={el=>ref=el} suffix={
-        <Button kind='flat' disabled={props.disabled} square class="!px-1 !py-0 rounded-none"
+        <Button kind='flat' disabled={props.disabled || props.readonly} square class="!px-1 !py-0 rounded-none"
             onClick={() => {
                 setVisible(!visible());
                 ref.input().type = visible() ? 'text' : 'password';

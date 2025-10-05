@@ -39,9 +39,7 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
     const access = props.accessor;
-    return <Field class={props.class}
-        title={props.title}
-        palette={props.palette}>
+    return <Field class={props.class} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
         </Show>
