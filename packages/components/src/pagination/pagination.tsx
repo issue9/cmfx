@@ -39,7 +39,7 @@ export interface Props extends BaseProps {
 
 const presetProps: Readonly<Partial<Props>> = {
     spans: 3
-};
+} as const;
 
 /**
  * 分页组件
@@ -107,7 +107,7 @@ export function Pagination(props: Props): JSX.Element {
 
         <For each={prevs()}>
             {item => (
-                <Button aria-label={item.toString()}onclick={() => change(item)}>{item}</Button>
+                <Button aria-label={item.toString()} onclick={() => change(item)}>{item}</Button>
             )}
         </For>
 
@@ -115,7 +115,7 @@ export function Pagination(props: Props): JSX.Element {
 
         <For each={nexts()}>
             {item => (
-                <Button aria-label={item.toString()}onclick={() => change(item)}>{item}</Button>
+                <Button aria-label={item.toString()} onclick={() => change(item)}>{item}</Button>
             )}
         </For>
 

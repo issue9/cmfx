@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
-import { createSignal, JSX, mergeProps, ParentProps, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass } from '@/base';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
@@ -47,8 +47,11 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
 
     /**
      * 下拉菜单弹出时的回调函数
+     *
+     * @remarks 下拉菜单弹出时的回调函数，其原型为 `(visible: boolean): boolean`，
+     * visible 参数表示当前是否为可见状态，返回值为 `true` 时，将阻止下拉菜单的弹出。
      */
-    onPopover?: { (visible: boolean): void; };
+    onPopover?: { (visible: boolean): boolean; };
 
     ref?: { (el: Ref): void; };
 }
@@ -75,6 +78,28 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
     };
 
+    // 右键菜单需要对弹出和隐藏进行额外控制
+    if (props.trigger === 'contextmenu') {
+        const handleEsc = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') { menuRef.element().hidePopover(); }
+        };
+
+        const click = (e: MouseEvent) => {
+            if (!menuRef.element().contains(e.target as HTMLElement)) {
+                menuRef.element().hidePopover();
+            }
+        };
+
+        onMount(() => {
+            document.addEventListener('keydown', handleEsc);
+            document.addEventListener('click', click);
+        });
+        onCleanup(() => {
+            document.removeEventListener('keydown', handleEsc);
+            document.removeEventListener('click', click);
+        });
+    }
+
     return <div class={props.class} ref={el => rootRef = el}>
         <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={() => {
             if (props.trigger !== 'hover' || !menuRef) { return; }
@@ -100,7 +125,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
             class={joinClass(undefined, styles.dropdown)}
             ref={el => {
-                el.element().popover = 'auto';
+                el.element().popover = props.trigger === 'contextmenu' ? 'manual' : 'auto';
                 menuRef = el;
 
                 el.element().onmouseleave = e => {
@@ -110,9 +135,10 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                     }
                 };
 
-                el.element().ontoggle = (e: ToggleEvent) => {
-                    isOpen = e.newState === 'open';
-                    if (props.onPopover) { props.onPopover(isOpen); }
+                el.element().onbeforetoggle = (e: ToggleEvent) => {
+                    if (props.onPopover && props.onPopover(e.newState === 'open')) {
+                        e.preventDefault();
+                    }
                 };
 
                 if (props.ref) {

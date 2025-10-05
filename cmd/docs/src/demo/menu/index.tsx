@@ -30,6 +30,9 @@ import { default as s7 } from './empty-dropdown.tsx?raw';
 import { default as C8 } from './custom';
 import { default as s8 } from './custom.tsx?raw';
 
+import { default as C9 } from './onpopover';
+import { default as s9 } from './onpopover.tsx?raw';
+
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
@@ -42,6 +45,7 @@ export default function(): JSX.Element {
         { component: <C6 />, source: s6, title: 'context' },
         { component: <C7 />, source: s7, title: 'empty-dropdown', desc: '下拉菜单内容为空' },
         { component: <C8 />, source: s8, title: 'custom', desc: '自定义触发条件' },
+        { component: <C9 />, source: s9, title: 'onpopover', desc: '由 onPopover 阻止弹出菜单' },
     ]}>
     </Stages>;
 }
