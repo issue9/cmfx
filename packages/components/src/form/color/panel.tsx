@@ -22,6 +22,10 @@ declare global {
     }
 }
 
+export interface Ref {
+    element(): HTMLFieldSetElement;
+}
+
 export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'rounded'> {
     /**
      * NOTE: 非响应式属性
@@ -37,9 +41,7 @@ export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'round
      */
     wcag?: string;
 
-    popover?: boolean | 'manual' | 'auto';
-
-    ref?: { (el: HTMLElement): void; };
+    ref?: { (el: Ref): void; };
 
     /**
      * 预设的一些颜色值，需要使用 oklch 格式的颜色值，比如：
@@ -52,7 +54,7 @@ export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'round
 /**
  * oklch 颜色调整面板
  *
- * 仅支持直接使用数值表示的颜色值，比如：
+ * @remarks 仅支持直接使用数值表示的颜色值，比如：
  *  - oklch(100% 0.1 0)
  *  - oklch(1 0 0)
  *  - oklch(1 100% 0)
@@ -125,10 +127,11 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     const [apca, setApca] = createSignal(false);
     let contentRef: HTMLDivElement;
 
-    return <fieldset popover={props.popover}
-        aria-readonly={props.readonly} disabled={props.disabled}
+    return <fieldset aria-readonly={props.readonly} disabled={props.disabled}
         class={joinClass(props.palette, styles['oklch-panel'], props.class)}
-        ref={el => { if (props.ref) { props.ref(el); } }}
+        ref={el => {
+            if (props.ref) { props.ref({ element: () => el }); }
+        }}
     >
         <Range layout='vertical' fitHeight accessor={l} min={0} max={1} step={0.001}
             bg={bg()[0]} readonly={props.readonly}

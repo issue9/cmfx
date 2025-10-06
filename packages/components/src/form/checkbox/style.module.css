@@ -74,14 +74,17 @@
         @apply rounded-full;
     }
 
+    .checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
+        @apply text-palette-fg-focused;
+    }
+
+    .checkbox.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
+        @apply text-palette-fg-focused border-palette-border-focused;
+    }
+
     .checkbox.block:has(:checked) {
         @apply text-palette-fg-selected;
         @apply border-palette-border-selected;
-    }
-
-    .checkbox:not(.block):has(:enabled):not([aria-readonly="true"]):focus-within,
-    .checkbox:has(:enabled):not([aria-readonly="true"]):focus-within {
-        @apply text-palette-fg-focused;
     }
 
     .checkbox[aria-readonly="true"]:has(:enabled):hover {

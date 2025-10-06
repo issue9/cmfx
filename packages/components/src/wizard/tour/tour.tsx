@@ -104,7 +104,7 @@ export default function Tour(props: Props): JSX.Element {
     props.ref({
         start: () => {
             setIndex(0);
-            ref.showModal();
+            ref.element().showModal();
             setOpen(true);
         },
 
@@ -114,7 +114,7 @@ export default function Tour(props: Props): JSX.Element {
 
         complete: () => {
             setIndex(props.steps.length - 1);
-            ref.close();
+            ref.element().close();
             setOpen(false);
         }
     });
@@ -126,8 +126,8 @@ export default function Tour(props: Props): JSX.Element {
         }
     };
 
-    onMount(() => ref.addEventListener('close', removeFocusClass));
-    onCleanup(() => ref.removeEventListener('close', removeFocusClass));
+    onMount(() => ref.element().addEventListener('close', removeFocusClass));
+    onCleanup(() => ref.element().removeEventListener('close', removeFocusClass));
 
     createEffect(() => {
         for (let i = 0; i < props.steps.length; i++) {
@@ -138,7 +138,7 @@ export default function Tour(props: Props): JSX.Element {
             if (i === index() && open()) {
                 el.scrollIntoView({ behavior: 'smooth' });
                 el.classList.add(styles.focus);
-                ref.move(calcPopoverPosition(ref, el.getBoundingClientRect(), step.pos, 'start', 8));
+                ref.move(calcPopoverPosition(ref.element(), el.getBoundingClientRect(), step.pos, 'start', 8));
             } else {
                 el.classList.remove(styles.focus);
             }
@@ -151,7 +151,7 @@ export default function Tour(props: Props): JSX.Element {
             {index() > 0 && <Button onClick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}
             {index() == 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_c.tour.start')}</Button>}
             {index() < props.steps.length - 1 && index() > 0 && <Button palette={props.accentPalette} onClick={() => setIndex(index() + 1)}>{props.next || l.t('_c.tour.next')}</Button>}
-            {index() === props.steps.length - 1 && <Button palette={props.accentPalette} onClick={() => ref.close()}>{props.complete || l.t('_c.tour.complete')}</Button>}
+            {index() === props.steps.length - 1 && <Button palette={props.accentPalette} onClick={() => ref.element().close()}>{props.complete || l.t('_c.tour.complete')}</Button>}
         </>}
     >
         {curr()!.content}

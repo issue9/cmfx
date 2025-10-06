@@ -68,13 +68,13 @@
         @apply border-palette-border-selected;
     }
 
-    .radio.block:has(:enabled):not([aria-readonly="true"]):focus-within {
+    .radio.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
         /* 需要在 checked 之后，否则可能无效？ */
         @apply text-palette-fg-focused;
         @apply border-palette-border-focused;
     }
 
-    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):focus-within {
+    .radio:not(.block):has(:enabled):not([aria-readonly="true"]):focus-visible {
         @apply text-palette-fg-focused;
     }
 

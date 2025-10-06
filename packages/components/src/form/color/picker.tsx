@@ -7,7 +7,7 @@ import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 's
 
 import { joinClass, Layout } from '@/base';
 import { calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
-import OKLCHPanel, { Props as PanelProps } from './panel';
+import OKLCHPanel, { Props as PanelProps, Ref as PanelRef } from './panel';
 import styles from './style.module.css';
 
 export interface Props extends PanelProps {
@@ -29,7 +29,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
-    let panelRef: HTMLElement;
+    let panelRef: PanelRef;
     let anchorRef: HTMLElement;
     const [panelProps, _] = splitProps(props, ['disabled', 'readonly', 'palette', 'accessor', 'wcag', 'presets']);
 
@@ -42,7 +42,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
 
         <div style={fieldArea2Style(areas().inputArea)}>
             <div ref={el => anchorRef = el}
-                onClick={() => togglePop(anchorRef, panelRef)}
+                onClick={() => togglePop(anchorRef, panelRef.element())}
                 class={joinClass(undefined, styles['oklch-activator-block'], props.rounded ? 'rounded-full' : '')}
                 style={{
                     'background': props.accessor.getValue(),
@@ -55,7 +55,10 @@ export default function OKLCHPicker(props: Props): JSX.Element {
             </div>
         </div>
 
-        <OKLCHPanel popover="auto" ref={el => panelRef = el} {...panelProps} />
+        <OKLCHPanel {...panelProps} ref={el => {
+            panelRef = el;
+            el.element().popover = 'auto';
+        }} />
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

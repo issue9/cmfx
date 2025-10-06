@@ -154,6 +154,7 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
                             dropdownRef.menu().element().style.width
                                 = dropdownRef.element().getBoundingClientRect().width + 'px';
                         }
+                        return false;
                     }} onChange={e => { props.accessor.setValue(e); }}>
                         <Trigger />
                     </Dropdown>

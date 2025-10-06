@@ -134,8 +134,8 @@ export default function Field(props: FieldProps): JSX.Element {
     // 比如 label 应该是与 input 对象居中对齐，而不是 input+help 的整个元素；
     // help 应该与 input 左对齐，而不是与 label 左对齐。
 
-    return <div role={props.role} class={joinClass(props.palette, styles.field, props.class)}
-        ref={(el) => { if (props.ref) { props.ref(el); } }}>
+    return <div class={joinClass(props.palette, styles.field, props.class)}
+        ref={el => { if (props.ref) { props.ref(el); } }}>
         {props.children}
     </div>;
 }

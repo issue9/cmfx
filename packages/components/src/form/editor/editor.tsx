@@ -7,7 +7,9 @@ import Quill from 'quill';
 import 'quill/dist/quill.snow.css';
 import { createEffect, createMemo, createUniqueId, JSX, mergeProps, onMount, Show } from 'solid-js';
 
-import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
+import {
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
+} from '@/form/field';
 import styles from './style.module.css';
 
 export interface Props extends Omit<FieldBaseProps, 'rounded'> {
