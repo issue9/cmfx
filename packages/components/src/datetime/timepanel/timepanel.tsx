@@ -2,13 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { For, JSX, createEffect, createMemo, createSignal, onMount, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, onMount, untrack } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import { hoursOptions, minutesOptions } from '@/datetime/utils';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+    element(): HTMLFieldSetElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
     disabled?: boolean;
     readonly?: boolean;
 
@@ -23,8 +27,6 @@ export interface Props extends BaseProps {
      * 值发生改变时触发的事件
      */
     onChange?: { (val?: Date, old?: Date): void; };
-
-    ref?: { (el: HTMLFieldSetElement): void; };
 }
 
 /**
@@ -71,7 +73,7 @@ export default function TimePanel(props: Props): JSX.Element {
         class={joinClass(props.palette, styles.time, props.class)}
         ref={ el => {
             ref = el;
-            if (props.ref) { props.ref(el); }
+            if (props.ref) { props.ref({ element() { return el; }}); }
         }}>
         <ul class={styles.item}>
             <For each={hoursOptions}>

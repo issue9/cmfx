@@ -7,7 +7,7 @@ import { createEffect, createSignal, JSX, mergeProps, onCleanup, Show, untrack }
 import { BaseProps, joinClass } from '@/base';
 import { DateView, DateViewProps, DateViewRef } from '@/datetime/dateview';
 import { DatetimePlugin } from '@/datetime/plugin';
-import { TimePanel } from '@/datetime/timepanel';
+import { TimePanel, TimePanelRef } from '@/datetime/timepanel';
 import { Week } from '@/datetime/utils';
 import styles from './style.module.css';
 
@@ -138,7 +138,7 @@ export function CommonPanel(props: Props): JSX.Element {
     });
 
     let dateRef: HTMLFieldSetElement;
-    const [timeRef, setTimeRef] = createSignal<HTMLElement>();
+    const [timeRef, setTimeRef] = createSignal<TimePanelRef>();
     let resizeObserver: ResizeObserver;
 
     createEffect(() => {
@@ -147,7 +147,7 @@ export function CommonPanel(props: Props): JSX.Element {
         // TODO: [CSS anchor](https://caniuse.com/?search=anchor) 支持全面的话，可以用 CSS 代替。
         resizeObserver = new ResizeObserver(entries => {
             const ref = timeRef();
-            if (ref) { ref.style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px'; }
+            if (ref) { ref.element().style.height = entries[0]!.borderBoxSize[0].blockSize.toString() + 'px'; }
         });
 
         if (timeRef()) { resizeObserver.observe(dateRef!.firstChild as HTMLElement); }

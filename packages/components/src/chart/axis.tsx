@@ -6,6 +6,7 @@ import * as echarts from 'echarts/types/dist/echarts';
 import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
 import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
+import { RefProps } from '@/base';
 import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
 
 export interface Ref<T extends object> {
@@ -20,7 +21,7 @@ export interface Ref<T extends object> {
     clear(): void;
 }
 
-export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
+export interface Props<T extends object> extends Omit<BaseProps, 'o'>, RefProps<Ref<T>> {
     /**
      * X 轴的设置
      */
@@ -59,8 +60,6 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'> {
     * 最大的数据量，当图表中的数据大于此值时，会删除顶部的数据。
     */
     size?: number;
-
-    ref?: { (el: Ref<T>): void; };
 }
 
 export interface XAxis<T extends object> {

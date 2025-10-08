@@ -4,7 +4,7 @@
 
 import { createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 
-import { joinClass } from '@/base';
+import { joinClass, RefProps } from '@/base';
 import {
     Accessor, AutoComplete, calcLayoutFieldAreas, Field,
     fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useForm
@@ -26,7 +26,7 @@ export interface Ref {
     input(): HTMLInputElement;
 }
 
-export interface Props<T extends Value = string> extends FieldBaseProps {
+export interface Props<T extends Value = string> extends FieldBaseProps, RefProps<Ref> {
     /**
      * 文本框内顶部的内容
      *
@@ -73,8 +73,6 @@ export interface Props<T extends Value = string> extends FieldBaseProps {
      * @reactive
      */
     autocomplete?: AutoComplete;
-
-    ref?: { (el: Ref): void };
 
     /**
      * 提供候选词列表

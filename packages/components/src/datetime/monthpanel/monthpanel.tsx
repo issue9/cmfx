@@ -4,15 +4,19 @@
 
 import { createEffect, createMemo, createSignal, For, JSX, untrack } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { months } from '@/datetime/utils';
 import { adjustPopoverPosition } from '@cmfx/core';
 import styles from './style.module.css';
-import { default as YearPanel } from './yearpanel';
+import { default as YearPanel, Ref as YearPanelRef } from './yearpanel';
 
-export interface Props extends BaseProps {
+export interface Ref {
+    element(): HTMLFieldSetElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
     disabled?: boolean;
     readonly?: boolean;
 
@@ -30,8 +34,6 @@ export interface Props extends BaseProps {
      * 值发生改变时触发的事件
      */
     onChange?: { (val?: Date, old?: Date): void; };
-
-    ref?: { (el: HTMLFieldSetElement): void; };
 }
 
 /**
@@ -66,15 +68,15 @@ export default function MonthPanel(props: Props): JSX.Element {
         return (new Intl.DateTimeFormat(l.locale.toString(), { month: s })).format;
     });
 
-    let yearRef: HTMLFieldSetElement | undefined;
+    let yearRef: YearPanelRef | undefined;
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); } }}
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({element: () => el}); } }}
         disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)}
     >
         <header class={styles.month}>
             <span class={styles.title} onClick={e => {
-                yearRef!.togglePopover();
-                adjustPopoverPosition(yearRef!, e.currentTarget.getBoundingClientRect());
+                yearRef!.element().togglePopover();
+                adjustPopoverPosition(yearRef!.element(), e.currentTarget.getBoundingClientRect());
             }}>{year()}</span>
 
             <YearPanel popover='auto' ref={el => yearRef = el} palette={props.palette} value={value()?.getFullYear()}
@@ -84,7 +86,7 @@ export default function MonthPanel(props: Props): JSX.Element {
                     if (!v) { return; }
 
                     setYear(v);
-                    yearRef!.hidePopover();
+                    yearRef!.element().hidePopover();
                 }} />
         </header>
 

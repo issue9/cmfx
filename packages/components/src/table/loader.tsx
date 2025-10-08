@@ -13,7 +13,7 @@ import IconRefresh from '~icons/material-symbols/refresh';
 import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
-import { Palette } from '@/base';
+import { Palette, RefProps } from '@/base';
 import { Button, FitScreenButton, SplitButton } from '@/button';
 import { useComponents, useLocale } from '@/context';
 import { prompt } from '@/dialog';
@@ -39,9 +39,8 @@ export interface Ref<T extends object> extends BasicTableRef {
     refresh(): Promise<void>;
 }
 
-type BaseTableProps<T extends object, Q extends Query> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'> & {
-    ref?: { (el: Ref<T>): void };
-
+type OBP<T extends object> = Omit<BaseProps<T>, 'items' | 'extraHeader' | 'extraFooter' | 'ref'>;
+type BaseTableProps<T extends object, Q extends Query> = OBP<T> & RefProps<Ref<T>> & {
     /**
      * 是否需要将参数反映在地址的查询参数中
      */

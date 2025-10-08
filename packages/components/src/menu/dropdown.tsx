@@ -5,7 +5,7 @@
 import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { AvailableEnumType, joinClass } from '@/base';
+import { AvailableEnumType, joinClass, RefProps } from '@/base';
 import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
 import styles from './style.module.css';
 
@@ -32,7 +32,7 @@ export interface Ref {
 }
 
 export interface Props<M extends boolean = false, T extends AvailableEnumType = string>
-    extends ParentProps, Omit<MenuProps<M, T>, 'layout' | 'tag' | 'ref'> {
+    extends ParentProps, Omit<MenuProps<M, T>, 'layout' | 'tag' | 'ref'>, RefProps<Ref> {
     /**
      * 触发方式
      *
@@ -52,8 +52,6 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * visible 参数表示当前是否为可见状态，返回值为 `true` 时，将阻止下拉菜单的弹出。
      */
     onPopover?: { (visible: boolean): boolean | undefined; };
-
-    ref?: { (el: Ref): void; };
 }
 
 /**

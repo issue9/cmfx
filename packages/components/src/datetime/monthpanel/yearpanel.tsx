@@ -7,11 +7,15 @@ import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps {
+export interface Ref {
+    element(): HTMLFieldSetElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
     disabled?: boolean;
     readonly?: boolean;
 
@@ -29,8 +33,6 @@ export interface Props extends BaseProps {
      * 值发生改变时触发的事件
      */
     onChange?: { (val?: number, old?: number): void; };
-
-    ref?: { (el: HTMLFieldSetElement): void; };
 }
 
 /**
@@ -48,7 +50,7 @@ export default function YearPanel(props: Props): JSX.Element {
     });
     const years = createMemo(() => { return genYears(panelValue()); });
 
-    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref(el); }}}
+    return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({ element() { return el; }}); }}}
         disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)}
     >
         <header class={styles.year}>

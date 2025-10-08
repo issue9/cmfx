@@ -5,7 +5,7 @@
 import { Hotkey } from '@cmfx/core';
 import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { classList } from '@/base';
+import { classList, RefProps } from '@/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
@@ -13,7 +13,7 @@ export interface Ref {
     element(): HTMLButtonElement;
 }
 
-export interface Props extends BaseProps, ParentProps {
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 是否为一个长宽比为 1:1 的按钮
      *
@@ -37,8 +37,6 @@ export interface Props extends BaseProps, ParentProps {
     onclick?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['onclick'];
 
     autofocus?: boolean;
-
-    ref?: { (m: Ref): void };
 
     disabled?: boolean;
 

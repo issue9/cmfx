@@ -42,3 +42,10 @@ export interface Props {
      */
     class?: string;
 }
+
+/**
+ * 用于指定 ref 的组件属性
+ */
+export interface RefProps<T> {
+    ref?: { (m: T): void };
+}

@@ -3,9 +3,15 @@
 # SPDX-License-Identifier: MIT
 
 - TableProps
+- TableRef
+
 - BasicTableProps
+- BasicTableRef
+
 - LoaderTableProps
-- RemoteTableProps
 - LoaderTableRef
+
+- RemoteTableProps
 - RemoteTableRef
+
 - Column

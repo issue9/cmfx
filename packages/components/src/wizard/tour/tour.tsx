@@ -23,6 +23,8 @@ export interface Ref extends WizardRef {
      * 完成教程组件，即关闭组件对话框。
      */
     complete(): void;
+
+    element(): DialogRef;
 }
 
 export interface Step extends WizardStep {
@@ -116,7 +118,9 @@ export default function Tour(props: Props): JSX.Element {
             setIndex(props.steps.length - 1);
             ref.element().close();
             setOpen(false);
-        }
+        },
+
+        element: () => ref,
     });
 
     const removeFocusClass = () => {

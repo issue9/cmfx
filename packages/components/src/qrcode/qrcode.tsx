@@ -7,7 +7,7 @@ import QRCodeStyling, {
 } from 'qr-code-styling';
 import { createEffect, createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -15,9 +15,14 @@ export interface Ref {
      * 提供下载图片的功能
      */
     download(name?: string, ext?: FileExtension): Promise<void>;
+
+    /**
+     * 获取组件的根元素
+     */
+    element(): HTMLSpanElement;
 }
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 需要生成图片的值
      *
@@ -56,8 +61,6 @@ export interface Props extends BaseProps {
     height?: number;
 
     padding?: number;
-
-    ref?: { (el: Ref): void; };
 }
 
 const presetProps: Readonly<Partial<Props>> = {
@@ -129,13 +132,17 @@ export function QRCode(props: Props): JSX.Element {
     createEffect(init);
     onMount(init);
 
-    if (props.ref) {
-        props.ref({
-            async download(name, ext): Promise<void> {
-                return await download(name, ext);
-            }
-        });
-    }
+    return <span class={joinClass(props.palette, styles.qrcode, props.class)} ref={el => {
+        setRef(el);
 
-    return <span ref={setRef} class={joinClass(props.palette, styles.qrcode, props.class)} />;
+        if (props.ref) {
+            props.ref({
+                async download(name, ext): Promise<void> {
+                    return await download(name, ext);
+                },
+
+                element() { return el; }
+            });
+        }
+    }} />;
 }

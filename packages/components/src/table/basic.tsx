@@ -4,13 +4,13 @@
 
 import { For, JSX, Show } from 'solid-js';
 
-import { joinClass } from '@/base';
+import { joinClass, RefProps } from '@/base';
 import { useLocale } from '@/context';
 import { Empty } from '@/result';
 import { Spin } from '@/spin';
 import { Column } from './column';
 import styles from './style.module.css';
-import { Table, Props as TableProps } from './table';
+import { Table, Props as TableProps, Ref as TableRef } from './table';
 
 export interface Ref {
     /**
@@ -21,10 +21,10 @@ export interface Ref {
     /**
      * 组件中的表格元素
      */
-    table(): HTMLTableElement;
+    table(): TableRef;
 }
 
-export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
+export interface Props<T extends object> extends Omit<TableProps, 'ref'>, RefProps<Ref> {
     /**
      * 是否加载状态
      *
@@ -72,8 +72,6 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
      * @reactive
      */
     extraFooter?: JSX.Element;
-
-    ref?: { (el: Ref): void };
 }
 
 /**
@@ -81,7 +79,7 @@ export interface Props<T extends object> extends Omit<TableProps, 'ref'> {
  */
 export function BasicTable<T extends object>(props: Props<T>) {
     const l = useLocale();
-    let tableRef: HTMLTableElement;
+    let tableRef: TableRef;
 
     const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 

@@ -12,7 +12,7 @@ import IconToday from '~icons/material-symbols/today';
 
 import { Locale } from '@/base';
 import { Button, ButtonGroup } from '@/button';
-import { MonthPanel } from '@/datetime/monthpanel';
+import { MonthPanel, MonthPanelRef } from '@/datetime/monthpanel';
 import styles from './style.module.css';
 import { Props, Ref } from './types';
 
@@ -22,14 +22,14 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
         return new Intl.DateTimeFormat(l.locale, { month: s, year: 'numeric' });
     });
 
-    let month: HTMLFieldSetElement;
+    let month: MonthPanelRef;
     let monthVisible = false;
 
     return <header>
         <p>
             <span tabIndex={0} onClick={e => {
-                monthVisible = month.togglePopover();
-                adjustPopoverPosition(month, e.currentTarget.getBoundingClientRect());
+                monthVisible = month.element().togglePopover();
+                adjustPopoverPosition(month.element(), e.currentTarget.getBoundingClientRect());
             }}>{monthFormatter().format(value())}</span>
         </p>
 
@@ -39,7 +39,7 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
                 if (!m) { return; }
                 ref.jump(m);
                 if (monthVisible) {
-                    month.hidePopover();
+                    month.element().hidePopover();
                     monthVisible = false;
                 }
             }}

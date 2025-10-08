@@ -4,11 +4,13 @@
 
 import { createMemo, createSignal, For, JSX, Match, mergeProps, Switch } from 'solid-js';
 
-import { BaseProps, classList, joinClass, Layout, Palette } from '@/base';
-import { Ref, Step as WizardStep } from '@/wizard/step';
+import { BaseProps, joinClass, Layout, Palette, RefProps } from '@/base';
+import { Ref as WizardRef, Step as WizardStep } from '@/wizard/step';
 import styles from './style.module.css';
 
-export type { Ref } from '@/wizard/step';
+export interface Ref extends WizardRef {
+    element(): HTMLDivElement;
+}
 
 export interface Step extends WizardStep {
     /**
@@ -17,7 +19,7 @@ export interface Step extends WizardStep {
     icon?: JSX.Element | true | { (completed?: boolean): JSX.Element | true };
 }
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, RefProps<Ref> {
     steps: Array<Step>;
 
     /**
@@ -38,8 +40,6 @@ export interface Props extends BaseProps {
      * @reactive
      */
     layout?: Layout;
-
-    ref?: { (ref: Ref): void; };
 }
 
 const presetProps: Partial<Props> = {
@@ -48,31 +48,31 @@ const presetProps: Partial<Props> = {
 
 export default function Stepper(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-
     const [index, setIndex] = createSignal(props.index ?? 0);
 
-    if(props.ref) {
-        props.ref({
-            next: () => {
-                const i = index() + 1;
-                if (i > props.steps.length - 1) {
-                    return;
-                }
-                setIndex(i);
-            },
-            prev: () => {
-                const i = index() - 1;
-                if (i < 0) {
-                    return;
-                }
-                setIndex(i);
-            },
-        });
-    }
-
-    return <div class={classList(props.palette, {
-        [styles.vertical]: props.layout === 'vertical',
-    }, styles.stepper, props.class)}>
+    return <div class={joinClass(props.palette, props.layout === 'vertical' ? styles.vertical : '', styles.stepper, props.class)}
+        ref={el => {
+            if (props.ref) {
+                props.ref({
+                    next: () => {
+                        const i = index() + 1;
+                        if (i > props.steps.length - 1) {
+                            return;
+                        }
+                        setIndex(i);
+                    },
+                    prev: () => {
+                        const i = index() - 1;
+                        if (i < 0) {
+                            return;
+                        }
+                        setIndex(i);
+                    },
+                    element: () => el
+                });
+            }
+        }}
+    >
         <header class={props.layout === 'vertical' ? styles.vertical : undefined}>
             <For each={props.steps}>
                 {(step, idx) => {

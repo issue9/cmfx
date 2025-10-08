@@ -4,21 +4,19 @@
 
 import { JSX, mergeProps } from 'solid-js';
 
-import { classList, Layout } from '@/base';
+import { classList, Layout, RefProps } from '@/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
 export type Ref = HTMLFieldSetElement;
 
-export interface Props extends Omit<BaseProps, 'hotkey'> {
+export interface Props extends Omit<BaseProps, 'hotkey'>, RefProps<Ref> {
     /**
      * 子元素，必须得是 Button 或是 LinkButton 类型。
      */
     children: JSX.Element;
 
     disabled?: boolean;
-
-    ref?: { (el: Ref): void; };
 
     layout?: Layout;
 }

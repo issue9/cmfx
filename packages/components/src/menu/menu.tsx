@@ -12,7 +12,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, classList, joinClass, Layout } from '@/base';
+import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps } from '@/base';
 import { Divider } from '@/divider';
 import { ChangeFunc } from '@/form/field';
 import { AnimationIcon, AnimationIconRef } from '@/icon';
@@ -29,7 +29,7 @@ export interface Ref {
 type CF<M extends boolean = false, T extends AvailableEnumType = string, V = M extends true ? T[] : T>
     = ChangeFunc<V>;
 
-export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends BaseProps {
+export interface Props<M extends boolean = false, T extends AvailableEnumType = string> extends BaseProps, RefProps<Ref> {
     /**
      * 组件布局方式，可以有以下取值：
      *
@@ -59,8 +59,6 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * 当选择项发生变化时触发的事件
      */
     onChange?: CF<M, T>;
-
-    ref?: { (el: Ref): void; };
 
     /**
      * 初始的选中项

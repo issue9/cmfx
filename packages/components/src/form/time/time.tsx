@@ -9,7 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { TimePanel, TimePanelProps } from '@/datetime/timepanel';
+import { TimePanel, TimePanelProps, TimePanelRef } from '@/datetime/timepanel';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
@@ -39,7 +39,7 @@ export default function Time(props: Props) {
     const ac = props.accessor;
     const [hover, setHover] = createSignal(false);
 
-    let panelRef: HTMLElement;
+    let panelRef: TimePanelRef;
     let anchorRef: HTMLElement;
 
     const id = createUniqueId();
@@ -60,7 +60,7 @@ export default function Time(props: Props) {
 
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}
             onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}
-            onClick={() => togglePop(anchorRef, panelRef)}
+            onClick={() => togglePop(anchorRef, panelRef.element())}
             class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}
         >
             <input id={id} class={styles.input} tabIndex={props.tabindex} disabled={props.disabled}

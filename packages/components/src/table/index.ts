@@ -14,5 +14,5 @@ export type { Props as RemoteTableProps, Ref as RemoteTableRef } from './remote'
 export type { Column } from './column';
 
 export { Table } from './table';
-export type { Props as TableProps } from './table';
+export type { Props as TableProps, Ref as TableRef } from './table';
 

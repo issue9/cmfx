@@ -5,7 +5,7 @@
 import { Duration, nano2IntlDuration, parseDuration, second } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import { useLocale } from '@/context';
 import styles from './style.module.css';
 
@@ -16,7 +16,7 @@ export type Field = typeof fields[number];
 /**
  * 倒计时的计时器
  */
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 时间段
      *
@@ -66,8 +66,6 @@ export interface Props extends BaseProps {
      * 完成时触发
      */
     onComplete?: { (): void; };
-
-    ref?: { (el: Ref): void; };
 }
 
 const presetProps: Partial<Props> = {
@@ -91,6 +89,8 @@ export interface Ref {
      * 暂停计数
      */
     pause(): void;
+
+    element(): HTMLDivElement;
 }
 
 /**
@@ -140,22 +140,6 @@ export default function Timer(props: Props): JSX.Element {
         }
     });
 
-    if (props.ref) {
-        props.ref({
-            toggle() {
-                if (intervalID) {
-                    pause();
-                } else {
-                    start();
-                }
-            },
-
-            start() { start(); },
-
-            pause() { pause(); }
-        });
-    }
-
     const l = useLocale();
 
     const format = (n: number): string => {
@@ -174,7 +158,25 @@ export default function Timer(props: Props): JSX.Element {
         return getFieldIndex(props.startField!); // 由 mergeProps 决定 startField 必然存在。
     });
 
-    return <div class={joinClass(props.palette, styles.timer, props.class)}>
+    return <div class={joinClass(props.palette, styles.timer, props.class)} ref={el => {
+        if (props.ref) {
+            props.ref({
+                toggle() {
+                    if (intervalID) {
+                        pause();
+                    } else {
+                        start();
+                    }
+                },
+
+                start() { start(); },
+
+                pause() { pause(); },
+
+                element() { return el; }
+            });
+        }
+    }}>
         <Show when={startField() >= getFieldIndex('days')!}>
             <div class={styles.item}>
                 <span class={styles.text}>{format(dur().days ?? 0)}</span>
@@ -198,7 +200,7 @@ export default function Timer(props: Props): JSX.Element {
                 <span class={styles.text}>{
                     format(
                         (dur().minutes ?? 0) +
-                        (props.startField! === 'minutes' ? ((dur().days ?? 0) * 24*60 + (dur().hours ?? 0) * 60) : 0)
+                        (props.startField! === 'minutes' ? ((dur().days ?? 0) * 24 * 60 + (dur().hours ?? 0) * 60) : 0)
                     )
                 }</span>
                 <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.minutes')}</span></Show>
@@ -211,7 +213,7 @@ export default function Timer(props: Props): JSX.Element {
                 <span class={styles.text}>{
                     format(
                         (dur().seconds ?? 0) +
-                        (props.startField === 'seconds' ? ((dur().days ?? 0) * 24*60*60 + (dur().hours ?? 0) * 60*60 + (dur().minutes ?? 0) * 60) : 0)
+                        (props.startField === 'seconds' ? ((dur().days ?? 0) * 24 * 60 * 60 + (dur().hours ?? 0) * 60 * 60 + (dur().minutes ?? 0) * 60) : 0)
                     )
                 }</span>
                 <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.seconds')}</span></Show>

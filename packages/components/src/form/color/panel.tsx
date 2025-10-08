@@ -7,7 +7,7 @@ import { createEffect, createMemo, createSignal, For, JSX, Show } from 'solid-js
 import IconPicker from '~icons/circum/picker-half';
 import IconAccessibility from '~icons/octicon/accessibility-inset-24';
 
-import { classList, joinClass } from '@/base';
+import { classList, joinClass, RefProps } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
@@ -26,7 +26,7 @@ export interface Ref {
     element(): HTMLFieldSetElement;
 }
 
-export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'rounded'> {
+export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'rounded'>, RefProps<Ref> {
     /**
      * NOTE: 非响应式属性
      */
@@ -40,8 +40,6 @@ export interface Props extends Omit<FieldBaseProps, 'layout'| 'hasHelp' | 'round
      * NOTE: 该值应该是 oklch 格式，比如 oklch(1 0 0)，否则可能无法正确计算 WCAG 值。
      */
     wcag?: string;
-
-    ref?: { (el: Ref): void; };
 
     /**
      * 预设的一些颜色值，需要使用 oklch 格式的颜色值，比如：
@@ -66,7 +64,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     const loc = useLocale();
 
     const access = props.accessor;
-    
+
     const l = fieldAccessor<number>('l', 1);
     const c = fieldAccessor<number>('c', 0);
     const h = fieldAccessor<number>('h', 0);

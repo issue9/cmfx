@@ -6,6 +6,7 @@ import { API, Page, Query, query2Search } from '@cmfx/core';
 import { JSX, onMount, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
+import { RefProps } from '@/base';
 import { ConfirmButton } from '@/button';
 import { useComponents, useLocale } from '@/context';
 import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
@@ -26,13 +27,11 @@ export interface Ref<T extends object> extends LoaderRef<T> {
     DeleteAction<T extends string|number>(id: T): JSX.Element;
 }
 
-export interface Props<T extends object, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'> {
-    ref?: { (el: Ref<T>): void; };
-
+export interface Props<T extends object, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'>, RefProps<Ref<T>> {
     /**
      * 数据的加载地址
      *
-     * 由 {@link Ref#DeleteAction} 生成的组件也会基于此值作删除操作
+     * 由 {@link Ref.DeleteAction} 生成的组件也会基于此值作删除操作
      */
     path: string
 }

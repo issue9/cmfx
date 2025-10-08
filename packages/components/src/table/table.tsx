@@ -4,10 +4,14 @@
 
 import { ParentProps } from 'solid-js';
 
-import { BaseProps, classList } from '@/base';
+import { BaseProps, classList, RefProps } from '@/base';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
+    element(): HTMLTableElement;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 是否根据第一行数据或是 col 的定义固定列的宽度，这可以提升一些渲染性能，
      * 但是可能会造成空间的巨大浪费。具体可查看：
@@ -31,8 +35,6 @@ export interface Props extends BaseProps, ParentProps {
      * @reactive
      */
     hoverable?: boolean;
-
-    ref?: { (el: HTMLTableElement): void };
 }
 
 /**
@@ -41,7 +43,7 @@ export interface Props extends BaseProps, ParentProps {
  * 所有的依赖和限制与内置的 table 元素相同
  */
 export function Table(props: Props) {
-    return <table ref={el=>props.ref?.(el)} class={classList(props.palette, {
+    return <table ref={el => { if (props.ref) { props.ref({ element: () => el }); }}} class={classList(props.palette, {
         [styles['fixed-layout']]: props.fixedLayout,
         [styles.hoverable]: props.hoverable,
         [styles[`striped-${props.striped}`]]: !!props.striped
