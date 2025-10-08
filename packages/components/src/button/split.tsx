@@ -14,7 +14,7 @@ import styles from './style.module.css';
 export type Item = { type: 'divider' } | {
     type: 'item';
     label: JSX.Element;
-    onClick: NonNullable<BaseProps['onClick']>;
+    onClick: NonNullable<BaseProps['onclick']>;
     disabled?: boolean;
     hotkey?: Hotkey;
 };
@@ -45,19 +45,19 @@ export function SplitButton(props: Props) {
     let downRef: Ref;
 
     onMount(() => {
-        if (props.hotkey) { Hotkey.bind(props.hotkey, downRef.click); }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, downRef.element().click); }
     });
     onCleanup(() => {
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
-    const [_, btnProps] = splitProps(props, ['style', 'rounded', 'disabled', 'palette', 'menus']);
+    const [_, btnProps] = splitProps(props, ['rounded', 'disabled', 'palette', 'menus']);
 
     const activator = <ButtonGroup palette={props.palette} ref={el => group = el}
         kind={props.kind} rounded={props.rounded} disabled={props.disabled}
     >
         <Button {...btnProps}>{props.children}</Button>
-        <Button class={styles.split} ref={el => downRef = el} square onClick={() => {
+        <Button class={styles.split} ref={el => downRef = el} square onclick={() => {
             popElem.togglePopover();
 
             const anchor = group.getBoundingClientRect();
@@ -77,16 +77,16 @@ export function SplitButton(props: Props) {
                     let ref: Ref;
                     if (item.type === 'item' && item.hotkey) {
                         const hk = item.hotkey;
-                        onMount(() => { Hotkey.bind(hk, () => { ref.click(); }); });
+                        onMount(() => { Hotkey.bind(hk, () => { ref.element().click(); }); });
                         onCleanup(() => { Hotkey.unbind(hk); });
                     }
                     return <Switch>
                         <Match when={item.type === 'divider'}>
-                            <hr class="border-palette-bg-low" />
+                            <hr class="border-palette-border" />
                         </Match>
                         <Match when={item.type === 'item'}>
                             <Button ref={el => ref = el} kind='flat' disabled={(item as any).disabled}
-                                class={styles['split-item']} onClick={() => {
+                                class={styles['split-item']} onclick={() => {
                                     (item as any).onClick();
                                     popElem.hidePopover();
                                 }}>{(item as any).label}</Button>

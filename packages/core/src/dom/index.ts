@@ -13,3 +13,5 @@ export type { PopoverAlign, PopoverPosition } from './popover';
 export { Hotkey } from './hotkey';
 export type { Handler as HotkeyHandler, Modifier as ModifierKey, Modifiers as ModifierKeys } from './hotkey';
 
+export { printElement } from './print';
+

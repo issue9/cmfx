@@ -77,8 +77,8 @@ export function Admins(props: Props): JSX.Element {
                                 title={l.t('_p.editItem')}><IconEdit /></LinkButton>
                         </Show>
 
-                        <Show when={obj?.state !== 'locked' && obj?.state!=='deleted'}>
-                            <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onClick={async()=>{
+                        <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
+                            <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onclick={async () => {
                                 const r = await api.post(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);
@@ -89,7 +89,7 @@ export function Admins(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onClick={async()=>{
+                            <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onclick={async () => {
                                 const r = await api.delete(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);

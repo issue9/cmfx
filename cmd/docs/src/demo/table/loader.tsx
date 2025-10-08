@@ -37,7 +37,7 @@ export default function () {
         { id: 'id' },
         { id: 'name' },
         { id: 'address' },
-        { id: 'action', renderLabel: 'ACTIONS', renderContent: () => { return <button>...</button>; }, isUnexported: true }
+        { id: 'action', renderLabel: 'ACTIONS', renderContent: () => { return <button>...</button>; }, isUnexported: true, cellClass:'no-print' }
     ];
 
     return <>

@@ -20,9 +20,6 @@ export type { Item as SplitButtonItem, Props as SplitButtonProps } from './split
 export { FitScreenButton } from './screen';
 export type { Props as FitScreenProps } from './screen';
 
-export { PrintButton } from './print';
-export type { Props as PrintButtonProps } from './print';
-
 export { kinds as buttonKinds } from './types';
 export type { Kind as ButtonKind } from './types';
 

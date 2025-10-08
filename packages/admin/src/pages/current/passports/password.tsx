@@ -68,8 +68,8 @@ export class Pwd implements PassportComponents {
         const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
 
         return <>
-            <Button square rounded title={l.t('_p.current.changePassword')} onClick={() => {
-                dialogRef.showModal();
+            <Button square rounded title={l.t('_p.current.changePassword')} onclick={() => {
+                dialogRef.element().showModal();
             }}><IconPasskey /></Button>
 
             <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}

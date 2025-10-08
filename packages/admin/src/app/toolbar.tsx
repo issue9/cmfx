@@ -76,6 +76,7 @@ export default function Toolbar(props: Props) {
                             dropdownRef.menu().element().style.width
                                 = dropdownRef.element().getBoundingClientRect().width + 'px';
                         }
+                        return false;
                     }}>
                         <TextField placeholder={l.t('_c.search')} accessor={searchFA}
                             prefix={<IconSearch class={styles['search-icon']} />}
@@ -102,7 +103,7 @@ export default function Toolbar(props: Props) {
                 'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
                 'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
                 '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
-            })} onClick={() => props.menuVisible[1](!props.menuVisible[0]())}>
+            })} onclick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                 {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
             </Button>
         </Show>
@@ -118,7 +119,7 @@ function UserMenu(): JSX.Element {
     const [visible, setVisible] = createSignal(false);
 
     const activator = <Button rounded class="ps-1"
-        onClick={()=>setVisible(!visible())}>
+        onclick={()=>setVisible(!visible())}>
         <img alt='avatar' class="w-6 h-6 rounded-full me-1" src={ act.user()?.avatar } />
         {act.user()?.name}
     </Button>;
@@ -149,7 +150,7 @@ function fullscreen(hotkey?: Hotkey): JSX.Element {
     };
 
     return <Button hotkey={hotkey} square type='button' kind='flat' rounded
-        onClick={toggleFullscreen} title={l.t('_c.fullscreen')}>
+        onclick={toggleFullscreen} title={l.t('_c.fullscreen')}>
         {fs() ? <IconFullScreenExit /> : <IconFullScreen />}
     </Button>;
 }

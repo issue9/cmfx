@@ -101,7 +101,7 @@ export default function Timezone(props: Props): JSX.Element {
                             <For each={timezones()}>
                                 {item => (
                                     <Button checked={selected() === item.id} kind='flat' class={styles.item}
-                                        onClick={() => change(item.id)}
+                                        onclick={() => change(item.id)}
                                     >
                                         <span class={styles.line}>{item.displayName}</span>
                                         <span class={styles.line} title={item.id}>{item.id}</span>

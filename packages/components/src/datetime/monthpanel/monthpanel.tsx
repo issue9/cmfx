@@ -96,7 +96,7 @@ export default function MonthPanel(props: Props): JSX.Element {
                             && ((props.min && (new Date(year(), month, 1)) < props.min)
                             || (props.max && (new Date(year(), month, 1)) > props.max))
                         }
-                        onClick={() => { change(new Date(year(), month)); }}
+                        onclick={() => { change(new Date(year(), month)); }}
                     >
                         {monthFomatter()(new Date(2000, month, 1))}
                     </Button>;

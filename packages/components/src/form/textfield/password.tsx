@@ -24,7 +24,7 @@ export function Password(props: Props): JSX.Element {
 
     return <TextField {...props} type="password" ref={el=>ref=el} suffix={
         <Button kind='flat' disabled={props.disabled || props.readonly} square class="!px-1 !py-0 rounded-none"
-            onClick={() => {
+            onclick={() => {
                 setVisible(!visible());
                 ref.input().type = visible() ? 'text' : 'password';
                 aref.to(visible() ? 'visible' : 'hidden');

@@ -3,15 +3,17 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { classList } from '@/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
-export type Ref = HTMLButtonElement;
+export interface Ref {
+    element(): HTMLButtonElement;
+}
 
-export interface Props extends BaseProps, Omit<JSX.ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+export interface Props extends BaseProps, ParentProps {
     /**
      * 是否为一个长宽比为 1:1 的按钮
      *
@@ -29,6 +31,18 @@ export interface Props extends BaseProps, Omit<JSX.ButtonHTMLAttributes<HTMLButt
      * 是否处于选中状态
      */
     checked?: boolean;
+
+    type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
+
+    onclick?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['onclick'];
+
+    autofocus?: boolean;
+
+    ref?: { (m: Ref): void };
+
+    disabled?: boolean;
+
+    title?: string;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
@@ -41,22 +55,25 @@ export const presetProps: Readonly<Partial<Props>> = {
  */
 export function Button(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'classList', 'square', 'class']);
-    let ref: HTMLButtonElement;
+    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'square', 'class', 'ref']);
+    let ref: Ref;
 
-    if (props.hotkey && props.onClick) {
+    if (props.hotkey && props.onclick) {
         onMount(() => {
-            Hotkey.bind(props.hotkey!, () => { ref.click(); });
+            Hotkey.bind(props.hotkey!, () => { ref!.element().click(); });
         });
         onCleanup(() => Hotkey.unbind(props.hotkey!));
     }
 
-    return <button ref={el => ref = el} {...btnProps} class={classList(props.palette, {
+    return <button {...btnProps} class={classList(props.palette, {
         [styles.square]: props.square,
         [styles.rounded]: props.rounded,
         [styles.checked]: props.checked,
-        ...props.classList
-    }, styles.button, styles[props.kind!], props.class)}>
+    }, styles.button, styles[props.kind!], props.class)} ref={el => {
+        if (!props.ref) { return; }
+        props.ref({ element: () => el });
+    }}
+    >
         {props.children}
     </button>;
 }

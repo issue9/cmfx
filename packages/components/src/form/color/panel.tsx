@@ -66,8 +66,8 @@ export default function OKLCHPanel(props: Props): JSX.Element {
     const loc = useLocale();
 
     const access = props.accessor;
-
-    const l = fieldAccessor<number>('l', 0);
+    
+    const l = fieldAccessor<number>('l', 1);
     const c = fieldAccessor<number>('c', 0);
     const h = fieldAccessor<number>('h', 0);
     const a = fieldAccessor<number>('a', 1);
@@ -84,7 +84,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
         access.setValue(new Color('oklch', [l.getValue(), c.getValue(), h.getValue()], a.getValue()).toString());
     });
 
-    // 转换为 Color 再转换为字符串，防止不同格式的数据造成混乱。
+    // 将 presets 转换为 Color 再转换为字符串，防止不同格式的数据造成混乱。
     const presets = createMemo(() => {
         return props.presets?.map(v => (new Color(v)).toString());
     });

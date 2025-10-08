@@ -28,9 +28,6 @@ export interface Props extends FieldBaseProps {
      */
     marks?: Array<[number, string]>;
 
-    /**
-     * NOTE: 非响应式属性
-     */
     accessor: Accessor<number>;
 
     /**

@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, ButtonKind, buttonKinds, ConfirmButton, FitScreenButton, LinkButton, PrintButton, SplitButton, SplitButtonItem } from '@cmfx/components';
+import {
+    Button, ButtonGroup, ButtonKind, buttonKinds, ConfirmButton,
+    FitScreenButton, LinkButton, SplitButton, SplitButtonItem
+} from '@cmfx/components';
 import { Accessor, For, JSX, Setter } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -178,19 +181,6 @@ export default function() {
         </For>
     </div>;
 
-    const Prints = () => <div class="flex flex-wrap gap-5">
-        <For each={palettesWithUndefined}>
-            {(c) => {
-                let screenElement: HTMLElement;
-                return <div class="w-10" ref={el => screenElement = el}>
-                    <PrintButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
-                    <p>line1</p>
-                    <p>line2</p>
-                </div>;
-            }}
-        </For>
-    </div>;
-
     return <Demo settings={
         <>
             {kindS}
@@ -201,10 +191,6 @@ export default function() {
 
         <Stage title="fit screen">
             <FitScreen />
-        </Stage>
-
-        <Stage title="printer">
-            <Prints />
         </Stage>
 
         <Stage title="button">

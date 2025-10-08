@@ -47,25 +47,25 @@ export function buildHeader(l: Locale, value: Accessor<Date>, ref: Ref, props: P
 
         <ButtonGroup kind='flat' disabled={props.disabled} class={styles.actions}>
             <Button title={l.t('_c.date.prevYear')} square disabled={!ref.canOffset(-1, 0)}
-                onClick={() => {
+                onclick={() => {
                     if (!props.readonly && !props.disabled) { ref.offset(-1, 0); }
                 }}><IconPrevYear /></Button>
             <Button title={l.t('_c.date.prevMonth')} square disabled={!ref.canOffset(0, -1)}
-                onClick={() => {
+                onclick={() => {
                     if (!props.readonly && !props.disabled) { ref.offset(0, -1); }
                 }}><IconPrevMonth /></Button>
 
             <Button title={l.t('_c.date.thisMonth')} square disabled={!ref.canJump(new Date())}
-                onClick={() => {
+                onclick={() => {
                     if (!props.readonly && !props.disabled) { ref.jump(new Date()); }
                 }}><IconToday /></Button>
 
             <Button title={l.t('_c.date.followingMonth')} square disabled={!ref.canOffset(0, 1)}
-                onClick={() => {
+                onclick={() => {
                     if (!props.readonly && !props.disabled) { ref.offset(0, 1); }
                 }}><IconNextMonth /></Button>
             <Button title={l.t('_c.date.followingYear')} square disabled={!ref.canOffset(1, 0)}
-                onClick={() => {
+                onclick={() => {
                     if (!props.readonly && !props.disabled) { ref.offset(1, 0); }
                 }}><IconNextYear /></Button>
         </ButtonGroup>

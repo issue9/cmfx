@@ -71,7 +71,7 @@ export function Roles(props: Props): JSX.Element {
             current.accessor('parent').setValue('');
         }
 
-        dialogRef.showModal();
+        dialogRef.element().showModal();
     };
 
     return <Page title="_p.roles.rolesManager" class="max-w-lg">
@@ -90,13 +90,13 @@ export function Roles(props: Props): JSX.Element {
             { id: 'description', label: l.t('_p.roles.description') },
             {
                 id: 'actions', cellClass: 'no-print', label: l.t('_p.actions'), renderContent: ((_, __, obj) => <div class="flex gap-x-2">
-                    <Button square rounded palette='tertiary' onClick={()=>edit(obj!['id']!)} title={l.t('_p.editItem')}><IconEdit /></Button>
+                    <Button square rounded palette='tertiary' onclick={()=>edit(obj!['id']!)} title={l.t('_p.editItem')}><IconEdit /></Button>
                     <LinkButton square rounded palette='tertiary' href={`${props.routePrefix}/${obj!['id']}/permission`} title={l.t('_p.roles.editPermission')}><IconPasskey /></LinkButton>
                     {tableRef.DeleteAction(obj!['id']!)}
                 </div>) as Column<Role>['renderContent']
             },
         ]} toolbar={
-            <Button palette='primary' onClick={() => edit('')}>{l.t('_p.newItem')}</Button>
+            <Button palette='primary' onclick={() => edit('')}>{l.t('_p.newItem')}</Button>
         } />
     </Page>;
 }

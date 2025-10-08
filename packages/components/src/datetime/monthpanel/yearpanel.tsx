@@ -54,15 +54,15 @@ export default function YearPanel(props: Props): JSX.Element {
         <header class={styles.year}>
             {years()[0]}-{years()[years().length - 1]}
             <ButtonGroup kind='flat' class={styles.actions}>
-                <Button square onClick={() => { setPanelValue(panelValue() - 12); }}
+                <Button square onclick={() => { setPanelValue(panelValue() - 12); }}
                     disabled={value() !== undefined && ((props.min !== undefined) && (years()[0] - 12) < props.min)}
                 >
                     <IconPrevYear />
                 </Button>
 
-                <Button square onClick={() => { setPanelValue(new Date().getFullYear()); }}><IconToday /></Button>
+                <Button square onclick={() => { setPanelValue(new Date().getFullYear()); }}><IconToday /></Button>
 
-                <Button square onClick={() => { setPanelValue(panelValue() - 12); }}
+                <Button square onclick={() => { setPanelValue(panelValue() - 12); }}
                     disabled={value() !== undefined
                         && ((props.max !== undefined) && (years()[years().length - 1] + 12) > props.max)
                     }
@@ -80,7 +80,7 @@ export default function YearPanel(props: Props): JSX.Element {
                             && (((props.min !== undefined) && year < props.min)
                             || ((props.max !== undefined) && year > props.max))
                         }
-                        onClick={() => {
+                        onclick={() => {
                             const old = untrack(value);
                             setValue(year);
                             if (props.onChange) { props.onChange(year, old); }

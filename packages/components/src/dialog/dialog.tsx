@@ -143,7 +143,7 @@ function buildRef(ref: HTMLDialogElement, l: Locale): Ref {
                     ref.removeEventListener('keydown', handler);
                 });
             }
-            return <Button type={def ? 'submit' : 'button'} palette={def ? 'primary' : 'secondary'} onClick={btnClick}>{title}</Button>;
+            return <Button type={def ? 'submit' : 'button'} palette={def ? 'primary' : 'secondary'} onclick={btnClick}>{title}</Button>;
         },
 
         CancelAction(click?: ClickFunc): JSX.Element {

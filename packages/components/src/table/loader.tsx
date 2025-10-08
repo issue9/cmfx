@@ -2,18 +2,19 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Exporter, Page, Query } from '@cmfx/core';
+import { Exporter, Page, printElement, Query } from '@cmfx/core';
 import { useSearchParams } from '@solidjs/router';
 import { createResource, createSignal, JSX, mergeProps, Show, splitProps } from 'solid-js';
 import IconExcel from '~icons/icon-park-twotone/excel';
 import IconCSV from '~icons/material-symbols/csv';
 import IconODS from '~icons/material-symbols/ods';
+import IconPrint from '~icons/material-symbols/print';
 import IconRefresh from '~icons/material-symbols/refresh';
 import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette } from '@/base';
-import { Button, FitScreenButton, PrintButton, SplitButton } from '@/button';
+import { Button, FitScreenButton, SplitButton } from '@/button';
 import { useComponents, useLocale } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
@@ -212,7 +213,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
             <form class={styles.search}>
                 {props.queryForm!(queries)}
                 <div class={styles.actions}>
-                    <SplitButton palette='primary' type='submit' onClick={async () => await refetch()} menus={[
+                    <SplitButton palette='primary' type='submit' onclick={async () => await refetch()} menus={[
                         {
                             type: 'item', onClick: async () => { await exports('.csv'); }, label: <Label icon={<IconCSV />}>
                                 {l.t('_c.table.exportTo', { type: 'CSV' })}
@@ -309,16 +310,18 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                         }}>
                             <Button square rounded kind='fill' palette='tertiary'><IconTableRows /></Button>
                         </Dropdown>
-                        <Button square rounded kind='fill' palette='tertiary' onClick={async () => await refetch()}
+                        <Button square rounded kind='fill' palette='tertiary' onclick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
                             title={l.t('_c.refresh')}><IconRefresh /></Button>
                         <FitScreenButton rounded kind='fill' palette='tertiary' container={() => ref.element()}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />
-                        <PrintButton rounded kind='fill' palette='tertiary' container={() => ref.element().querySelector('table')!}
-                            cssText='table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left} .no-print{display:none}'
-                            aria-label={l.t('_c.print')}
-                            title={l.t('_c.print')} />
+                        <Button rounded square kind='fill' palette='tertiary'
+                            aria-label={l.t('_c.print')} title={l.t('_c.print')} onclick={() => {
+                                const css = 'table {border-collapse: collapse; width: 100%} tr{border-bottom: 1px solid black;} th,td {text-align: left}';
+                                printElement(ref.element().querySelector('table')!, css);
+                            }}
+                        ><IconPrint /></Button>
                     </div>
                 </Show>
             </div>

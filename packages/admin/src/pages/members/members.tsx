@@ -102,7 +102,7 @@ export function Members(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
-                            <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onClick={async () => {
+                            <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onclick={async () => {
                                 const r = await api.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);
@@ -113,7 +113,7 @@ export function Members(props: Props): JSX.Element {
                         </Show>
 
                         <Show when={obj?.state === 'locked'}>
-                            <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onClick={async () => {
+                            <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onclick={async () => {
                                 const r = await api.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
                                     await act.outputProblem(r.body);

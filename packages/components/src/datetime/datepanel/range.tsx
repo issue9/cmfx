@@ -288,27 +288,27 @@ export function DateRangePanel(props: Props) {
 
         <Show when={props.shortcuts}>
             <div class={styles.shortcuts}>
-                <Button class="justify-start" onClick={() => setShortcuts(prevMonth())}>
+                <Button class="justify-start" onclick={() => setShortcuts(prevMonth())}>
                     {l.t('_c.date.lastMonth')}
                 </Button>
 
-                <Button class="justify-start" onClick={() => setShortcuts(prevQuarter())}>
+                <Button class="justify-start" onclick={() => setShortcuts(prevQuarter())}>
                     {l.t('_c.date.lastQuarter')}
                 </Button>
-                <Button class="justify-start" onClick={() => setShortcuts(thisQuarter())}>
+                <Button class="justify-start" onclick={() => setShortcuts(thisQuarter())}>
                     {l.t('_c.date.thisQuarter')}
                 </Button>
-                <Button class="justify-start" onClick={() => setShortcuts(nextQuarter())}>
+                <Button class="justify-start" onclick={() => setShortcuts(nextQuarter())}>
                     {l.t('_c.date.nextQuarter')}
                 </Button>
 
-                <Button class="justify-start" onClick={() => setShortcuts(prevYear())}>
+                <Button class="justify-start" onclick={() => setShortcuts(prevYear())}>
                     {l.t('_c.date.lastYear')}
                 </Button>
-                <Button class="justify-start" onClick={() => setShortcuts(thisYear())}>
+                <Button class="justify-start" onclick={() => setShortcuts(thisYear())}>
                     {l.t('_c.date.thisYear')}
                 </Button>
-                <Button class="justify-start" onClick={() => setShortcuts(nextYear())}>
+                <Button class="justify-start" onclick={() => setShortcuts(nextYear())}>
                     {l.t('_c.date.nextYear')}
                 </Button>
             </div>

@@ -106,8 +106,8 @@ export class Webauthn implements PassportComponents {
         let tableRef: RemoteTableRef<Credential>;
 
         return <>
-            <Button square rounded title={l.t('_p.current.bindWebauthn')} onClick={async () => {
-                dialogRef.showModal();
+            <Button square rounded title={l.t('_p.current.bindWebauthn')} onclick={async () => {
+                dialogRef.element().showModal();
             }}><IconCredit /></Button>
 
             <Dialog class="w-[80%]" ref={(el) => dialogRef = el} header={
@@ -140,7 +140,7 @@ export class Webauthn implements PassportComponents {
                             },
                         ]}
                         toolbar={<div class="flex gap-2">
-                            <Button palette='primary' rounded onClick={async () => {
+                            <Button palette='primary' rounded onclick={async () => {
                                 const r1 = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
                                 if (!r1.ok) {
                                     act.outputProblem(r1.body);

@@ -27,7 +27,7 @@ export function FitScreenButton(props: Props): JSX.Element {
 
     const [_, btnProps] = splitProps(props, ['container']);
 
-    return <Button square {...btnProps} onClick={() => {
+    return <Button square {...btnProps} onclick={() => {
         setFit(!fit());
         if (fit()) {
             props.container().classList.add(styles['fit-screen']);

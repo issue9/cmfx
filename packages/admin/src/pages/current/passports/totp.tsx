@@ -91,7 +91,7 @@ export class TOTP implements PassportComponents {
             </Show>
 
             <Show when={!username}>
-                <Button square rounded title={l.t('_p.current.bindTOTP')} onClick={async () => {
+                <Button square rounded title={l.t('_p.current.bindTOTP')} onclick={async () => {
                     const r = await api.post<Secret>(`/passports/${this.#id}/secret`);
                     if (!r.ok) {
                         act.outputProblem(r.body);
@@ -101,7 +101,7 @@ export class TOTP implements PassportComponents {
                     const s = r.body! as Secret;
                     s.secret = base32nopad.encode(new TextEncoder().encode(s.secret));
                     setQR(`otpauth://totp/${opt.title}:${s.username}?secret=${s.secret}&issuer=${opt.title}`);
-                    dialogRef.showModal();
+                    dialogRef.element().showModal();
                 }}><IconAddLink /></Button>
 
                 <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.bindTOTP')}

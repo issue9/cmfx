@@ -80,13 +80,13 @@ export function Profile(props: Props): JSX.Element {
             <div class={styles.name}>
                 <p class="text-2xl">{act.user()?.name}</p>
                 <Show when={uploadRef!.files().length === 0}>
-                    <Button palette='tertiary' onClick={async () => {
+                    <Button palette='tertiary' onclick={async () => {
                         uploadRef.pick();
                     }}>{l.t('_p.current.pickAvatar')}</Button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
                     <div class="flex gap-2">
-                        <Button palette='primary' onClick={async () => {
+                        <Button palette='primary' onclick={async () => {
                             const ret = await uploadRef.upload();
                             if (!ret) {
                                 return;
@@ -100,7 +100,7 @@ export function Profile(props: Props): JSX.Element {
                             await act.refetchUser();
                         }}>{l.t('_p.save')}</Button>
 
-                        <Button palette='error' onClick={() => {
+                        <Button palette='error' onclick={() => {
                             setAvatar(originAvatar);
                             uploadRef.delete(0);
                         }}>{l.t('_o.cancel')}</Button>

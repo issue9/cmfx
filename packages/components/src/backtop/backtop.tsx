@@ -33,12 +33,12 @@ export function BackTop(props: Props): JSX.Element {
     let scroller: HTMLElement | undefined;
 
     const scroll = () => {
-        btn.style.visibility = scroller!.scrollTop > props.distance! ? 'visible' : 'hidden';
+        btn.element().style.visibility = scroller!.scrollTop > props.distance! ? 'visible' : 'hidden';
     };
 
     onMount(() => {
         setTimeout(() => {
-            scroller = getScrollableParent('y', btn);
+            scroller = getScrollableParent('y', btn.element());
             if (!scroller) { return; }
 
             scroll(); // 初始化状态

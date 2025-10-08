@@ -97,8 +97,8 @@ export function Permission(): JSX.Element {
             </For>
 
             <div class="flex justify-end gap-2">
-                <Button palette='secondary' onClick={()=>nav(-1)}>{l.t('_c.cancel')}</Button>
-                <Button palette='primary' onClick={()=>save()}>{l.t('_c.ok')}</Button>
+                <Button palette='secondary' onclick={()=>nav(-1)}>{l.t('_c.cancel')}</Button>
+                <Button palette='primary' onclick={()=>save()}>{l.t('_c.ok')}</Button>
             </div>
         </div>
     </Page>;

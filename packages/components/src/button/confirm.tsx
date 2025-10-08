@@ -31,7 +31,7 @@ export interface Props extends BaseProps {
      *
      * 这将在用户点击确认按钮之后执行。
      */
-    onClick: NonNullable<BaseProps['onClick']>; // 此处重新声明只是为了将可选字段变为必填字段。
+    onClick: NonNullable<BaseProps['onclick']>; // 此处重新声明只是为了将可选字段变为必填字段。
 }
 
 /**
@@ -43,30 +43,30 @@ export function ConfirmButton(props: Props) {
     let popElem: HTMLDivElement;
     let ref: ButtonRef;
 
-    const [_, btnProps] = splitProps(props, ['children', 'onClick', 'prompt', 'palette', 'ok', 'cancel']);
+    const [_, btnProps] = splitProps(props, ['children', 'onClick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
 
     onMount(() => {
-        if (props.hotkey) { Hotkey.bind(props.hotkey, () => { ref.click(); }); }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, () => { ref!.element().click(); }); }
     });
     onCleanup(() => {
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
-    const confirm: BaseProps['onClick'] = (e) => {
+    const confirm: BaseProps['onclick'] = e => {
         handleEvent(props.onClick, e);
         popElem.hidePopover();
     };
 
     return <>
-        <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onClick={() => {
+        <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onclick={() => {
             popElem.togglePopover();
-            adjustPopoverPosition(popElem, ref.getBoundingClientRect());
+            adjustPopoverPosition(popElem, ref.element().getBoundingClientRect());
         }}>{props.children}</Button>
         <div popover="auto" ref={el=>popElem=el} class={joinClass(props.palette, styles['confirm-panel'])}>
             {props.prompt ?? l.t('_c.areYouSure')}
             <div class={styles['confirm-actions']}>
-                <Button palette='secondary' onClick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>
-                <Button palette='primary' autofocus onClick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
+                <Button palette='secondary' onclick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>
+                <Button palette='primary' autofocus onclick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
             </div>
         </div>
     </>;

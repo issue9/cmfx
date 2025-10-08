@@ -111,7 +111,7 @@ export function DatePicker(props: Props): JSX.Element {
 
             <div class={styles.actions}>
                 <div class={styles.left}>
-                    <Button kind='flat' class='py-0 px-1' onClick={() => {
+                    <Button kind='flat' class='py-0 px-1' onclick={() => {
                         const now = new Date();
                         if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
                         props.accessor.setValue(now);
@@ -120,12 +120,12 @@ export function DatePicker(props: Props): JSX.Element {
                 </div>
 
                 <div class={styles.right}>
-                    <Button kind='flat' class='py-0 px-1' onClick={() => {
+                    <Button kind='flat' class='py-0 px-1' onclick={() => {
                         props.accessor.setValue(undefined);
                         panelRef.hidePopover();
                     }}>{l.t('_c.date.clear')}</Button>
 
-                    <Button kind='flat' class='py-0 px-1' onClick={() => {
+                    <Button kind='flat' class='py-0 px-1' onclick={() => {
                         props.accessor.reset();
                         panelRef.hidePopover();
                     }}>{l.t('_c.reset')}</Button>
