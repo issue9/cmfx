@@ -16,8 +16,8 @@ export default function () {
 
     return <>
         {posS}
-        <input type="number" min={-1} max={5000} step={100} onChange={e=>setTimeout(parseInt(e.target.value))} />
-        <Button ref={el => btn1 = el} onclick={() => ref1.show(btn1, pos())}>show</Button>
+        <input type="number" min={-1} max={5000} step={100} onChange={e => setTimeout(parseInt(e.target.value))} />
+        <Button ref={el => btn1 = el} onclick={() => ref1.show(btn1.element(), pos())}>show</Button>
         <Tooltip ref={el => ref1 = el} stays={timeout()}>
             <p>tooltip/tooltip</p>
             <p>line1<br />line2</p>

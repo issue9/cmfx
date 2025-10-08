@@ -21,6 +21,8 @@ export interface Ref {
      * 隐藏提示内容
      */
     hide(): void;
+
+    element(): HTMLDivElement;
 }
 
 /**
@@ -42,22 +44,22 @@ export interface Props extends BaseProps, ParentProps {
  * 小型的弹出提示框
  */
 export default function Tooltip(props: Props): JSX.Element {
-    let ref: HTMLDivElement;
     const [, , opt] = useComponents();
     const duration = props.stays ?? opt.stays;
 
-    props.ref({
-        show(anchor: HTMLElement, pos: PopoverPosition) {
-            ref.showPopover();
-            adjustPopoverPosition(ref, anchor.getBoundingClientRect(), 4, pos, 'center');
+    return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)} ref={el => {
+        props.ref({
+            show(anchor: HTMLElement, pos: PopoverPosition) {
+                el.showPopover();
+                adjustPopoverPosition(el, anchor.getBoundingClientRect(), 4, pos, 'center');
 
-            if (duration >= 0) { setTimeout(() => ref.hidePopover(), duration); }
-        },
+                if (duration >= 0) { setTimeout(() => el.hidePopover(), duration); }
+            },
 
-        hide() { ref.hidePopover(); }
-    });
+            hide() { el.hidePopover(); },
 
-    return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)}
-        ref={el => ref = el}
+            element() { return el; }
+        });
+    }}
     >{props.children}</div>;
 }
