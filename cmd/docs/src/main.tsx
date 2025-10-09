@@ -153,11 +153,12 @@ function InternalApp(props: ParentProps): JSX.Element {
                 dropdownRef = el;
                 dropdownRef.menu().element().style.height = '240px';
                 dropdownRef.menu().element().style.overflowY = 'auto';
-            }} onPopover={visible=>{
+            }} onPopover={visible => {
                 if (visible) {
                     dropdownRef.menu().element().style.width
                         = dropdownRef.element().getBoundingClientRect().width + 'px';
                 }
+                return false;
             }}>
                 <TextField autocomplete='off' placeholder={l.t('_c.search')} accessor={searchFA}
                     prefix={<IconSearch class={styles['search-icon']} />}

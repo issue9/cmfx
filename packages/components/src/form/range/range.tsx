@@ -6,11 +6,24 @@ import {
     createEffect, createMemo, createSignal, createUniqueId, For, JSX, mergeProps, onCleanup, onMount, Show
 } from 'solid-js';
 
+import { RefProps } from '@/base';
 import { Accessor, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
 import { calcLayoutFieldAreas } from './area';
 import styles from './style.module.css';
 
-export interface Props extends FieldBaseProps {
+export interface Ref {
+    /**
+     * 组件的根元素
+     */
+    element(): HTMLDivElement;
+
+    /**
+     * 组件中实际用于输入的 input 元素
+     */
+    input(): HTMLInputElement;
+}
+
+export interface Props extends FieldBaseProps, RefProps<Ref> {
     min?: number;
     max?: number;
     step?: number;
@@ -34,11 +47,6 @@ export interface Props extends FieldBaseProps {
      * 如果需要显示滑块的当前值，可以通过此字段进行格式化。
      */
     value?: (value: number) => JSX.Element;
-
-    /**
-     * 滑轨的背景颜色，该值应用在 background-color 属性上。
-     */
-    bg?: string;
 }
 
 /**
@@ -102,10 +110,19 @@ export default function Range(props: Props): JSX.Element {
         <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}
             aria-readonly={props.readonly} aria-disabled={props.disabled}
         >
-            <input ref={el => inputRef = el} type="range" min={props.min} max={props.max}
+            <input type="range" min={props.min} max={props.max}
                 class={props.rounded ? styles.rounded : ''}
                 step={props.step} value={access.getValue()} readOnly={props.readonly}
-                style={{ 'background': props.bg }} classList={{ [styles['fit-height']]: props.fitHeight }}
+                classList={{ [styles['fit-height']]: props.fitHeight }}
+                ref={el => {
+                    inputRef = el;
+                    if (props.ref) {
+                        props.ref({
+                            element() { return wrapRef; },
+                            input() { return el; }
+                        });
+                    }
+                }}
                 onwheel={wheel} disabled={props.disabled} name={access.name()} onChange={e => {
                     if (!props.readonly && !props.disabled) {
                         let v = parseFloat(e.target.value);

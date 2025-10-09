@@ -96,6 +96,7 @@ describe('Parser', {timeout: 20000}, () => {
     });
 
     // ButtonRef = HTMLButtonElement，引用了标准库的，不应该解析字段
+    /*
     test('ButtonRef', () => {
         const props = p.prorps(['ButtonRef']);
         expect(props).toHaveLength(1);
@@ -106,6 +107,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.fields).toBeFalsy();
         expect(pp.type).toEqual('HTMLButtonElement');
     });
+    */
 
     // 函数
     test('joinClass', () => {

@@ -40,12 +40,6 @@ export default function () {
             </For>
         </Stage>
 
-        <Stage title="bg">
-            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
-                bg='linear-gradient(to right, oklch(.5 .5 0), oklch(.5 .5 90), oklch(.5 .5 180), oklch(.5 .5 360))'
-                disabled={disabled()} readonly={readonly()} layout={layout()} />
-        </Stage>
-
         <Stage title="float step">
             <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
                 step={0.5} min={0} max={100} disabled={disabled()} readonly={readonly()} layout={layout()} />

@@ -2,5 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export type { Props as RangeProps } from './range';
 export { default as Range } from './range';
+export type { Props as RangeProps, Ref as RangeRef } from './range';
+
