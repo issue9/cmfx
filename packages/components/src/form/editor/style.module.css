@@ -8,7 +8,9 @@
 
 @layer components {
     .editor {
-        @apply w-full h-full flex flex-col justify-stretch;
+        .editor-wrap {
+            @apply w-full h-full flex flex-col justify-stretch;
+        }
 
         :global(.ql-toolbar) {
             @apply !border-palette-border;
@@ -16,7 +18,7 @@
         }
 
         :global(.ql-container) {
-            @apply !border-palette-border;
+            @apply !border-palette-border border;
             @apply rounded-b-md;
         }
     }
@@ -29,6 +31,16 @@
 
         :global(.ql-container) {
             @apply !border-palette-border-focused;
+        }
+    }
+
+    .editor[aria-disabled=true] {
+        :global(.ql-toolbar) {
+            @apply cursor-not-allowed !border-palette-border-disabled;
+        }
+
+        :global(.ql-container) {
+            @apply cursor-not-allowed !border-palette-border-disabled;
         }
     }
 }
