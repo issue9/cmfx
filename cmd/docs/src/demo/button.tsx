@@ -4,7 +4,9 @@
 
 import {
     Button, ButtonGroup, ButtonKind, buttonKinds, ConfirmButton,
-    FitScreenButton, LinkButton, SplitButton, SplitButtonItem
+    LinkButton, SplitButton, SplitButtonItem,
+    ToggleButton,
+    ToggleFitScreenButton
 } from '@cmfx/components';
 import { Accessor, For, JSX, Setter } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
@@ -173,9 +175,22 @@ export default function() {
             {(c) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <FitScreenButton disabled={disabled()} rounded={rounded()} kind={kind()} container={() => screenElement} palette={c} />
+                    <ToggleFitScreenButton square disabled={disabled()} rounded={rounded()} kind={kind()} container={screenElement!} palette={c} />
                     <p>line1</p>
                     <p>line2</p>
+                </div>;
+            }}
+        </For>
+    </div>;
+
+    let toggleFlag = false;
+    const ToggleButtons = () => <div class="flex flex-wrap gap-5">
+        <For each={palettesWithUndefined}>
+            {(c,index) => {
+                return <div class="w-10">
+                    <ToggleButton animation={index()%2} square disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}
+                        on={<IconClose />} off={<IconFace />} toggle={async() => toggleFlag = !toggleFlag} />
+                    <p>a={index()%2}</p>
                 </div>;
             }}
         </For>
@@ -191,6 +206,10 @@ export default function() {
 
         <Stage title="fit screen">
             <FitScreen />
+        </Stage>
+
+        <Stage title="toggle button">
+            <ToggleButtons />
         </Stage>
 
         <Stage title="button">

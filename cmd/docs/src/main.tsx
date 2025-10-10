@@ -5,8 +5,8 @@
 import './style.css';
 
 import {
-    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode,
-    Notify, OptionsProvider, SystemDialog, TextField, useComponents, useLocale, useTheme
+    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, Notify,
+    OptionsProvider, SystemDialog, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';
@@ -139,6 +139,8 @@ function InternalApp(props: ParentProps): JSX.Element {
                 ]}>
                     <Button kind='flat' square><IconAlign /></Button>
                 </Dropdown>
+
+                <ToggleFullscreenButton kind='flat' square title={l.t('_c.fullscreen')} />
 
                 <LinkButton kind='flat' square href={pkg.repository.url}><IconGithub /></LinkButton>
             </div>

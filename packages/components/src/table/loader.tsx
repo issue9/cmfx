@@ -14,7 +14,7 @@ import IconReset from '~icons/material-symbols/restart-alt';
 import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette, RefProps } from '@/base';
-import { Button, FitScreenButton, SplitButton } from '@/button';
+import { Button, SplitButton, ToggleFitScreenButton } from '@/button';
 import { useComponents, useLocale } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
@@ -312,7 +312,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
                         <Button square rounded kind='fill' palette='tertiary' onclick={async () => await refetch()}
                             aria-label={l.t('_c.refresh')}
                             title={l.t('_c.refresh')}><IconRefresh /></Button>
-                        <FitScreenButton rounded kind='fill' palette='tertiary' container={() => ref.element()}
+                        <ToggleFitScreenButton square rounded kind='fill' palette='tertiary' container={ref!.element()}
                             aria-title={l.t('_c.table.fitScreen')}
                             title={l.t('_c.table.fitScreen')} />
                         <Button rounded square kind='fill' palette='tertiary'

@@ -4,13 +4,10 @@
 
 import {
     Appbar, Button, classList, Dropdown, DropdownRef, fieldAccessor,
-    Locale, MenuItemItem, TextField, MenuItem as XMenuItem
+    Locale, MenuItemItem, TextField, ToggleFullscreenButton, MenuItem as XMenuItem
 } from '@cmfx/components';
-import { Hotkey } from '@cmfx/core';
-import { createEffect, createSignal, JSX, onCleanup, onMount, Setter, Show, Signal } from 'solid-js';
+import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
-import IconFullScreen from '~icons/material-symbols/fullscreen';
-import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 import IconSearch from '~icons/material-symbols/search';
@@ -90,7 +87,10 @@ export default function Toolbar(props: Props) {
                 }
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>
-                {hk => fullscreen(hk())}
+                {hk =>
+                    <ToggleFullscreenButton hotkey={hk()} square type='button' kind='flat'
+                        rounded title={l.t('_c.fullscreen')} />
+                }
             </Show>
             <Show when={act.user()}><UserMenu /></Show>
         </>
@@ -127,32 +127,6 @@ function UserMenu(): JSX.Element {
     return <Dropdown trigger='hover' items={buildItems(l, opt.userMenus)}>
         {activator}
     </Dropdown>;
-}
-
-/**
- * 顶部全屏按钮
- */
-function fullscreen(hotkey?: Hotkey): JSX.Element {
-    const l = useLocale();
-    const [fs, setFS] = createSignal<boolean>(!!document.fullscreenElement);
-
-    // 有可能浏览器通过其它方式控制全屏功能
-    const change = () => { setFS(!!document.fullscreenElement); };
-    onMount(() => { document.addEventListener('fullscreenchange', change); });
-    onCleanup(() => { document.removeEventListener('fullscreenchange', change); });
-
-    const toggleFullscreen = async() => {
-        if (document.fullscreenElement) {
-            await document.exitFullscreen();
-        } else {
-            await document.body.requestFullscreen();
-        }
-    };
-
-    return <Button hotkey={hotkey} square type='button' kind='flat' rounded
-        onclick={toggleFullscreen} title={l.t('_c.fullscreen')}>
-        {fs() ? <IconFullScreenExit /> : <IconFullScreen />}
-    </Button>;
 }
 
 export function buildItems(l: Locale, menus: Array<MenuItem>): Array<XMenuItem<string>> {

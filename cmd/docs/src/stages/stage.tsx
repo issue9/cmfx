@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, Code, FitScreenButton, joinClass, Layout, ThemeProvider } from '@cmfx/components';
+import { Button, ButtonGroup, Code, joinClass, Layout, ThemeProvider, ToggleFitScreenButton } from '@cmfx/components';
 import { createEffect, createSignal, JSX, mergeProps, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
@@ -76,24 +76,24 @@ export default function Stage(props: Props) {
             >
                 <div class={styles.toolbar}>
                     <ButtonGroup>
-                        <Button square checked={dir() === 'rtl'} onClick={() => { setDir('rtl'); }}>
+                        <Button square checked={dir() === 'rtl'} onclick={() => { setDir('rtl'); }}>
                             <IconRTL />
                         </Button>
-                        <Button square checked={dir() === 'ltr'} onClick={() => { setDir('ltr'); }}>
+                        <Button square checked={dir() === 'ltr'} onclick={() => { setDir('ltr'); }}>
                             <IconLTR />
                         </Button>
                     </ButtonGroup>
 
                     <ButtonGroup>
-                        <Button square checked={mode() === 'dark'} onClick={() => { setMode('dark'); }}>
+                        <Button square checked={mode() === 'dark'} onclick={() => { setMode('dark'); }}>
                             <IconDark />
                         </Button>
-                        <Button square checked={mode() === 'light'} onClick={() => { setMode('light'); }}>
+                        <Button square checked={mode() === 'light'} onclick={() => { setMode('light'); }}>
                             <IconLight />
                         </Button>
                     </ButtonGroup>
 
-                    <FitScreenButton container={() => demoRef()!} />
+                    <ToggleFitScreenButton square container={demoRef()!} />
                 </div>
 
                 <ThemeProvider mode={mode()}>
