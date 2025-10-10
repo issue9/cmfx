@@ -25,22 +25,22 @@ export interface Props extends BaseProps {
     /**
      * 是否显示侧边栏的内容
      *
-     * NOTE: 仅在 floating !== false 时有效果，
+     * @remarks 仅在 floating !== false 时有效果，
      * 当 floating === false 时，表示侧边栏始终是可见的。
+     *
+     * @reactive
      */
     visible?: boolean;
 
     /**
      * 当 floating 为 true 时，点击遮罩层将调用此方法关闭侧边栏。
-     *
-     * NOTE: 这不是响应式的属性。
      */
     close?: { (): void };
 
     /**
-     * 侧边栏是以浮动的形式出现，默认值为 false。
+     * 侧边栏是以浮动的形式出现
      *
-     * 如果是 true 或是 false 表示始终保持一种状态，
+     * @remarks 默认值为 false。如果是 true 或是 false 表示始终保持一种状态，
      * 其它的值表示在整个页面小于此值时才变为浮动状态。
      */
     floating?: boolean | Breakpoint;
@@ -97,26 +97,24 @@ export function Drawer(props: Props) {
         };
 
         onMount(() => {
-            document.body.addEventListener('click', handleClick);
+            document.addEventListener('click', handleClick);
         });
         onCleanup(() => {
-            document.body.removeEventListener('click', handleClick);
+            document.removeEventListener('click', handleClick);
         });
     }
 
-    // NOTE: 如果不放在 classList 中，tailwind 无法解析对应的值。
-    return <div ref={(el) => mainRef = el} class={
-        classList(props.palette, {
-            'cmfx-drawer-floating': !floatCls() && canFloating(),
-            'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
-            'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
-            'max-md:cmfx-drawer-floating': floatCls() == 'md',
-            'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
-            'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
-            'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
-        },
-        props.pos === 'right' ? styles.right : undefined,
-        styles.drawer, props.class)
+    return <div ref={el => mainRef = el} class={classList(props.palette, {
+        'cmfx-drawer-floating': !floatCls() && canFloating(),
+        'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
+        'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
+        'max-md:cmfx-drawer-floating': floatCls() == 'md',
+        'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
+        'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
+        'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
+    },
+    props.pos === 'right' ? styles.right : '',
+    styles.drawer, props.class)
     }>
         <aside ref={(el) => asideRef = el} classList={{
             ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),

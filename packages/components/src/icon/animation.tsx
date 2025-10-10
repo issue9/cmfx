@@ -114,8 +114,6 @@ export function AnimationIcon(props: Props): JSX.Element {
             const i = icons();
             const dur = transitionDuration(i);
 
-            // BUG: 此时 i 可能并未完全加载到 DOM 中，`new SVGMorpheus` 会返回错误。
-
             requestIdleCallback(() => {
                 morpheus = new SVGMorpheus(i!, {
                     iconId: props.preset,
