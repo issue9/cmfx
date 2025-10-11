@@ -18,7 +18,8 @@
     },
     "keywords": [
         "cmfx",
-        "components"
+        "components",
+        "ui"
     ],
     "license": "MIT",
     "files": [

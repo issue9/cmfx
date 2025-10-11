@@ -26,6 +26,7 @@
         "build/vite-plugin-api",
         "packages/core",
         "packages/components",
+        "packages/illustrations",
         "packages/admin"
     ],
     "scripts": {

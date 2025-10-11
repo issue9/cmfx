@@ -19,7 +19,8 @@
     "keywords": [
         "cmfx",
         "admin",
-        "dashboard"
+        "dashboard",
+        "ui"
     ],
     "license": "MIT",
     "files": [
