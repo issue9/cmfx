@@ -1,8 +1,8 @@
 {
-    "name": "@cmfx/admin",
+    "name": "@cmfx/illustrations",
     "version": "0.13.0",
     "type": "module",
-    "description": "适用于 cmfx 的后台管理框架",
+    "description": "提供 cmfx 前端的插图",
     "author": {
         "name": "caixw",
         "url": "https://caixw.io"
@@ -14,12 +14,11 @@
     "repository": {
         "type": "git",
         "url": "git+https://github.com/issue9/cmfx",
-        "directory": "packages/admin"
+        "directory": "packages/illustrations"
     },
     "keywords": [
         "cmfx",
-        "admin",
-        "dashboard"
+        "illustrations"
     ],
     "license": "MIT",
     "files": [
@@ -33,37 +32,20 @@
         ".": {
             "types": "./lib/index.d.ts",
             "import": "./lib/index.js"
-        },
-        "./style.css": "./lib/style.css",
-        "./messages/": {
-            "require": "./lib/messages/",
-            "import": "./lib/messages/"
         }
     },
     "scripts": {
         "build": "vite build"
     },
     "dependencies": {
-        "@cmfx/core": "workspace:*",
         "@cmfx/components": "workspace:*",
-        "@cmfx/illustrations": "workspace:*",
-        "@cmfx/vite-plugin-about": "workspace:*",
-        "@scure/base": "^2.0.0",
-        "@solidjs/router": "catalog:",
-        "bowser": "^2.12.1",
-        "solid-js": "catalog:",
-        "tailwindcss": "catalog:",
-        "@iconify/json": "catalog:"
+        "solid-js": "catalog:"
     },
     "devDependencies": {
-        "unplugin-icons": "catalog:",
-        "@tailwindcss/vite": "catalog:",
         "@types/node": "catalog:",
-        "autoprefixer": "catalog:",
         "typescript": "catalog:",
         "vite": "catalog:",
         "vite-plugin-dts": "catalog:",
-        "vite-plugin-solid": "catalog:",
         "vite-plugin-static-copy": "catalog:",
         "vitest": "catalog:"
     }

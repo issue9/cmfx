@@ -30,6 +30,7 @@ export default mergeConfig(
             projects: [
                 'packages/core',
                 'packages/components',
+                'packages/illustrations',
                 'packages/admin',
 
                 'build/vite-plugin-about',

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, illustrations, Result } from '@cmfx/components';
+import { Button, Result } from '@cmfx/components';
+import * as illustrations from '@cmfx/illustrations';
 import { useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 

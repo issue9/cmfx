@@ -34,7 +34,6 @@ export * from './divider';
 export * from './drawer';
 export * from './form';
 export * from './icon';
-export * from './illustrations';
 export * from './kit';
 export * from './menu';
 export * from './messages';

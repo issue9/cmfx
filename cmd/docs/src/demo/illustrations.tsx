@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { illustrations, joinClass, modes, ThemeProvider } from '@cmfx/components';
+import { joinClass, modes, ThemeProvider } from '@cmfx/components';
+import * as illustrations from '@cmfx/illustrations';
 
 import { createEffect, createSignal } from 'solid-js';
 import { arraySelector, boolSelector, Demo, paletteSelector, Stage } from './base';

@@ -45,7 +45,8 @@ type 取值如下：
 scope 表示修改的范围，可以为空，不作强制要求，但应该尽量简短明了，可以同时指定多个值，使用逗号分隔。推荐使用以下值：
 
 - core: 对 `/packages/core` 进行了修改；
-- component: 对 `/packages/component` 进行了修改；
+- components: 对 `/packages/components` 进行了修改；
+- illustrations: 对 `/packages/illustrations` 进行了修改；
 - admin: 对 `/packages/admin` 进行了修改；
 - docs: 对 `/cmd/docs` 进行了修改；
 - server: 对 `/cmfx` 进行了修改；
@@ -105,6 +106,7 @@ fix(scope)!: subject
 - cmfx 后端源码的主目录；
 - packages/core 前端的核心代码库；
 - packages/components 前端组件库；
+- packages/illustrations 为前端组件库提供的插图；
 - packages/admin 前端的后台管理界面；
 
 ### 本地化

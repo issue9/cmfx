@@ -30,7 +30,7 @@ gen:
 
 .PHONY: build build-go build-ts build-cmd
 .PHONY: build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-plugin
-.PHONY: build-ts-docs build-ts-core build-ts-components build-ts-admin
+.PHONY: build-ts-docs build-ts-core build-ts-components build-ts-illustrations build-ts-admin
 
 build: build-go build-ts
 
@@ -56,11 +56,14 @@ build-ts-core:
 build-ts-components:
 	pnpm --filter=./packages/components run build
 
+build-ts-illustrations:
+	pnpm --filter=./packages/illustrations run build
+
 build-ts-admin:
 	pnpm --filter=./packages/admin run build
 
 # 编译前端项目内容
-build-ts: build-ts-core build-ts-components build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-docs
+build-ts: build-ts-core build-ts-components build-ts-illustrations build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-docs
 	pnpm --filter=./cmd/admin run build
 
 ########################### install ###################################

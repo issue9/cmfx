@@ -2,15 +2,15 @@
 为了链接的正确性，所有的链接都应该是绝对链接。
 -->
 
-# cmfx/core
+# cmfx/illustrations
 
-[![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@cmfx/core)
+[![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@cmfx/illustrations)
 [![test](https://github.com/issue9/cmfx/actions/workflows/vitest.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
-[![NPM Version](https://img.shields.io/npm/v/%40cmfx%2Fcore)](https://www.npmjs.com/package/@cmfx/core)
+[![NPM Version](https://img.shields.io/npm/v/%40cmfx%2Fillustrations)](https://www.npmjs.com/package/@cmfx/illustrations)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 [![License](https://img.shields.io/github/license/issue9/cmfx)](https://opensource.org/licenses/MIT)
 
-提供了 [cmfx](https://github.com/issue9/cmfx) 前后端通信以及一些核心功能
+提供了 [cmfx](https://github.com/issue9/cmfx) 提供插图组件
 
 ## 开发
 

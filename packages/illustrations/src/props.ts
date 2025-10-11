@@ -4,7 +4,7 @@
 
 import { ComponentProps } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass } from '@cmfx/components';
 
 export type Props = ComponentProps<'svg'> & BaseProps & {
     /**

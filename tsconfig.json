@@ -8,6 +8,9 @@
             "path": "./packages/components/tsconfig.json"
         },
         {
+            "path": "./packages/illustrations/tsconfig.json"
+        },
+        {
             "path": "./packages/admin/tsconfig.json"
         },
         {

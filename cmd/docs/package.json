@@ -23,6 +23,7 @@
     },
     "dependencies": {
         "@cmfx/components": "workspace:*",
+        "@cmfx/illustrations": "workspace:*",
         "@cmfx/core": "workspace:*",
         "@cmfx/vite-plugin-api": "workspace:*",
         "@iconify/json": "catalog:",

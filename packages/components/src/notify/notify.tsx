@@ -7,6 +7,7 @@ import { createSignal, createUniqueId, For, JSX, mergeProps, ParentProps } from 
 import { Portal } from 'solid-js/web';
 
 import { BaseProps, joinClass, Palette } from '@/base';
+import { useComponents } from '@/context';
 import { Alert, Props as AlertProps } from './alert';
 import styles from './style.module.css';
 
@@ -26,7 +27,7 @@ let notifyInst: typeof notify;
 /**
  * 发送一条通知给用户
  *
- * NOTE: 仅可在 {@link Notify} 组件之内使用。
+ * @remarks 仅可在 {@link Notify} 组件之内使用。
  *
  * @param title - 标题；
  * @param body - 具体内容，如果为空则只显示标题；
@@ -62,11 +63,6 @@ export interface Props extends BaseProps, ParentProps {
     timeout: number;
 }
 
-const presetProps:Props = {
-    timeout: 5000,
-    palette: 'error',
-} as const;
-
 /**
  * 注册全局通知组件
  *
@@ -75,7 +71,8 @@ const presetProps:Props = {
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
 export default function Notify(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const [, , opt] = useComponents();
+    props = mergeProps({timeout: opt.stays, palette: 'error' as Palette}, props);
     return <>
         <Portal>{initNotify(props)}</Portal>
         {props.children}
@@ -89,9 +86,7 @@ function initNotify(p: Props): JSX.Element {
         lang = lang ?? p.lang;
         timeout = timeout ?? p.timeout;
 
-        if (p.system && await systemNotify(title, body, p.icon, lang, timeout)) {
-            return;
-        }
+        if (p.system && await systemNotify(title, body, p.icon, lang, timeout)) { return; }
 
         const id = createUniqueId();
         let palette: Palette | undefined;

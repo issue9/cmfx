@@ -9,27 +9,35 @@
 @layer components {
     .notify {
         @apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-4;
-        @apply sm:min-w-60 sm:max-w-[500px] sm:w-auto sm:start-auto;
+
+        /* 通知会 Portal 到 body 之下，必然是针对整个页面的，没必要做容器查询。 */
+        @apply sm:min-w-60 sm:max-w-125 sm:w-auto sm:start-auto;
 
         .message {
             @apply bg-palette-bg text-palette-fg rounded-md block w-full h-auto overflow-y-hidden;
             @apply transition-all;
-
-            hr {
-                @apply border-palette-border;
-            }
 
             .title {
                 @apply p-3 flex justify-between items-center;
 
                 /* 比 close 大一圈，用以显示进度 */
                 .close-wrap {
-                    @apply flex items-center justify-center p-[2px] bg-palette-bg-low rounded-full;
+                    @apply flex items-center justify-center p-[--spacing(.5)] rounded-xs bg-palette-bg text-base;
 
                     .close {
-                        @apply hover:cursor-pointer hover:text-palette-fg-focused rounded-full p-[1px] bg-palette-bg;
+                        @apply bg-palette-bg text-palette-fg p-[--spacing(.5)];
+                        @apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
+                        @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
                         @apply transition;
                     }
+                }
+            }
+
+            .body {
+                @apply border-t border-palette-border;
+
+                >p {
+                    @apply p-3;
                 }
             }
         }
