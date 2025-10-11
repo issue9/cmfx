@@ -20,6 +20,10 @@
             th,
             tr:not(:last-child) td {
                 @apply border-b border-b-palette-border;
+
+                @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+                @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+                @apply transition;
             }
 
             th:not(:last-child),

@@ -22,6 +22,10 @@
                 tr>th,
                 tbody>tr>td {
                     @apply aspect-square p-1 min-w-6;
+
+                    @apply hover:bg-palette-bg-focused hover:text-palette-fg-focused;
+                    @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
+                    @apply transition;
                 }
 
                 tr>th {

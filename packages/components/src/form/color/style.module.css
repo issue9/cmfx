@@ -17,6 +17,9 @@
 
             .block {
                 @apply aspect-square w-5 border border-palette-border rounded-sm cursor-pointer;
+                @apply transition;
+                @apply hover:border-palette-border-focused;
+                @apply active:border-palette-border-actived;
             }
 
             .block.selected {
@@ -36,6 +39,9 @@
                 @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
                 @apply flex justify-center items-center h-8 w-full;
                 @apply border border-palette-border rounded-sm;
+                @apply hover:border-palette-border-focused;
+                @apply active:border-palette-border-actived;
+                @apply transition;
             }
         }
     }
@@ -49,5 +55,9 @@
     .oklch-activator-block {
         @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
         @apply flex justify-center items-center font-bold;
+
+        @apply transition;
+        @apply hover:border-palette-border-focused;
+        @apply active:border-palette-border-actived;
     }
 }

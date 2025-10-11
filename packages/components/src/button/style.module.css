@@ -14,6 +14,7 @@
         @apply border border-transparent outline-none rounded-md;
         @apply flex items-center justify-center text-center;
         @apply cursor-pointer;
+        @apply transition;
     }
 
     .button.rounded {
@@ -97,6 +98,7 @@
     .group {
         @apply text-palette-fg bg-palette-bg flex border-solid border border-transparent rounded-l-md rounded-r-md;
         @apply overflow-clip;
+        @apply transition;
 
         .button {
             @apply rounded-none border-none flex-1 py-1 px-3 outline-none bg-transparent;

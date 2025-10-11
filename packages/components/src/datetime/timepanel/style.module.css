@@ -17,6 +17,7 @@
 
             li {
                 @apply rounded-sm m-[1px] text-center cursor-default;
+                @apply transition;
             }
 
             li.selected {

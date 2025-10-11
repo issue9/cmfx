@@ -45,6 +45,7 @@
 
         tr {
             @apply border-b border-palette-border;
+            @apply transition;
         }
 
         th,

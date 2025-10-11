@@ -36,6 +36,8 @@ export interface Ref {
      * 上传 {@link Ref#files} 中的文件
      */
     upload(): Promise<Array<string>|undefined>;
+
+    element(): HTMLInputElement;
 }
 
 export interface Props extends Omit<FieldBaseProps, 'rounded'> {
@@ -100,11 +102,6 @@ export function Upload(props: Props): JSX.Element {
     };
 
     onMount(() => {
-        inputRef.addEventListener('change', (e) => {
-            const target = e.target as HTMLInputElement;
-            add(target.files);
-        });
-
         if (props.dropzone) {
             props.dropzone.addEventListener('dragover', (e) => {
                 e.dataTransfer!.dropEffect = 'copy';
@@ -125,36 +122,41 @@ export function Upload(props: Props): JSX.Element {
         }
     });
 
-    props.ref({
-        pick(): void { inputRef.click(); },
+    return <input type="file" class="hidden" name={props.fieldName} multiple={props.multiple} ref={el => {
+        props.ref({
+            pick(): void { el.click(); },
 
-        files(): Array<File> { return files(); },
+            files(): Array<File> { return files(); },
 
-        delete(index: number): void {
-            setFiles((prev) => {
-                prev.splice(index, 1);
-                return [...prev];
-            });
-        },
+            delete(index: number): void {
+                setFiles((prev) => {
+                    prev.splice(index, 1);
+                    return [...prev];
+                });
+            },
 
-        clear(): void { setFiles([]); },
+            clear(): void { setFiles([]); },
 
-        async upload(): Promise<Array<string> | undefined> {
-            const data = new FormData();
-            for (const item of files()) {
-                data.append(props.fieldName, item);
-            }
+            async upload(): Promise<Array<string> | undefined> {
+                const data = new FormData();
+                for (const item of files()) {
+                    data.append(props.fieldName, item);
+                }
 
-            const ret = await api.upload<Array<string>>(props.action, data);
-            if (!ret.ok) {
-                await actions.outputProblem(ret.body);
-                return;
-            }
+                const ret = await api.upload<Array<string>>(props.action, data);
+                if (!ret.ok) {
+                    await actions.outputProblem(ret.body);
+                    return;
+                }
 
-            setFiles([]);
-            return ret.body;
-        }
-    });
+                setFiles([]);
+                return ret.body;
+            },
 
-    return <input type="file" class="hidden" name={props.fieldName} multiple={props.multiple} ref={el => inputRef = el} />;
+            element(): HTMLInputElement {return el;},
+        });
+    }} onchange={e=>{
+        const target = e.target as HTMLInputElement;
+        add(target.files);
+    }} />;
 }

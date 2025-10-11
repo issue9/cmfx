@@ -29,7 +29,8 @@ dialog::backdrop {
             @apply flex items-center justify-between p-2 border-b border-b-palette-border grow-0 shrink-0;
 
             .close {
-                @apply p-[1px] cursor-pointer hover:bg-palette-fg-focused hover:text-palette-fg-focused rounded-xs;
+                @apply p-[1px] cursor-pointer hover:bg-palette-bg-focused hover:text-palette-fg-focused rounded-xs;
+                @apply transition;
             }
         }
 

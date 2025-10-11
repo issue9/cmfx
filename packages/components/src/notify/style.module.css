@@ -28,6 +28,7 @@
 
                     .close {
                         @apply hover:cursor-pointer hover:text-palette-fg-focused rounded-full p-[1px] bg-palette-bg;
+                        @apply transition;
                     }
                 }
             }

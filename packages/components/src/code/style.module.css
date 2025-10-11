@@ -19,6 +19,7 @@
         >.lang,
         >.action {
             @apply absolute top-0 !py-1 !px-2 start-auto end-0 text-sm;
+            @apply transition;
         }
 
         >.action {

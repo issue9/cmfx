@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
+import { createEffect, createMemo, For, JSX, mergeProps, onMount, Show } from 'solid-js';
 import IconAdd from '~icons/material-symbols/add';
 import IconUpload from '~icons/material-symbols/upload';
 import IconUploadFile from '~icons/material-symbols/upload-file';
@@ -55,6 +55,7 @@ export function Album(props: Props): JSX.Element {
     props = mergeProps(presetProps, form, props);
     const access = props.accessor;
 
+    let rootRef: HTMLDivElement;
     let dropRef: HTMLFieldSetElement;
     let uploadRef: Ref;
 
@@ -68,17 +69,19 @@ export function Album(props: Props): JSX.Element {
         }
     });
 
+    createEffect(() => {
+        rootRef.ariaDisabled = props.disabled ? 'true' : 'false';
+        rootRef.ariaReadOnly = props.readonly ? 'true' : 'false';
+    });
+
     const size = createMemo((): JSX.CSSProperties => {
         return { 'height': props.itemSize, 'width': props.itemSize };
     });
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={props.class}
-        title={props.title}
-        palette={props.palette}
-    >
+    return <Field class={props.class} ref={el => rootRef = el} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
-            {(area) => <label style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
         </Show>
 
         <fieldset style={fieldArea2Style(areas().inputArea)} ref={el => dropRef = el} class={styles['upload-content']}>
@@ -90,7 +93,7 @@ export function Album(props: Props): JSX.Element {
                 dropzone={dropRef!} />
 
             <For each={access.getValue()}>
-                {(item) => (
+                {item => (
                     <PreviewURL size={props.itemSize!} url={item} del={() => {
                         access.setValue(access.getValue().filter((v) => v !== item));
                     }} />
@@ -105,7 +108,7 @@ export function Album(props: Props): JSX.Element {
                 }}
             </For>
             <Show when={props.auto && (props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                <button style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
+                <button disabled={props.disabled} style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
                     onClick={async () => {
                         uploadRef.pick();
                         await uploadRef.upload();
@@ -113,18 +116,18 @@ export function Album(props: Props): JSX.Element {
             </Show>
             <Show when={!props.auto}>
                 <Show when={(props.multiple || (access.getValue().length + uploadRef!.files().length) === 0)}>
-                    <button style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
+                    <button disabled={props.disabled} style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
                         onClick={() => uploadRef.pick()}><IconAdd /></button>
                 </Show>
                 <Show when={uploadRef!.files().length > 0}>
-                    <button style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
+                    <button disabled={props.disabled} style={size()} class={joinClass(undefined, styles.action, props.reverse ? styles.start : '')}
                         onClick={() => uploadRef!.upload()}><IconUpload /></button>
                 </Show>
             </Show>
         </fieldset>
 
         <Show when={areas().helpArea}>
-            {(area) => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
+            {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}
         </Show>
     </Field>;
 }

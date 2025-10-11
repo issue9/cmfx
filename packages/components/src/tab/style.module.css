@@ -15,6 +15,7 @@
 
             .item {
                 @apply px-4 py-2 text-center;
+                @apply transition;
             }
 
             .item:disabled {

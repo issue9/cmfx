@@ -15,11 +15,13 @@
         :global(.ql-toolbar) {
             @apply !border-palette-border;
             @apply rounded-t-md;
+            @apply transition;
         }
 
         :global(.ql-container) {
             @apply !border-palette-border border;
             @apply rounded-b-md;
+            @apply transition;
         }
     }
 

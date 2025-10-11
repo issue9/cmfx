@@ -8,7 +8,7 @@ import IconChat from '~icons/material-symbols/chat';
 import IconCheck from '~icons/material-symbols/check';
 import IconPersion from '~icons/material-symbols/person';
 
-import { Demo, Stage, layoutSelector, paletteSelector } from '../../base';
+import { layoutSelector, paletteSelector } from '../../base';
 
 export default function(): JSX.Element {
     let ref1: StepperRef;
@@ -18,11 +18,12 @@ export default function(): JSX.Element {
     const [paletteS, palette] = paletteSelector('surface');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
-    return <Demo settings={<>
+    return <div>
         {paletteS}
         {layoutS}
-    </>}>
-        <Stage title='icon=dot' class='w-full'>
+
+        <div class='w-full'>
+            <p>icon=dot</p>
             <Stepper layout={layout()} palette={palette()} ref={el => ref1 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1' },
                 { title: 'Step 2222222', content: 'Content for Step 2' },
@@ -31,9 +32,10 @@ export default function(): JSX.Element {
 
             <Button onclick={() => ref1.prev()}>prev</Button>
             <Button onclick={() => ref1.next()}>next</Button>
-        </Stage>
+        </div>
 
-        <Stage title='icon=icon' class='w-full'>
+        <div class='w-full'>
+            <p>icon=icon</p>
             <Stepper layout={layout()} palette={palette()} ref={el => ref2 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: <IconPersion /> },
                 { title: 'Step 2222222', content: 'Content for Step 2', icon: <IconChat /> },
@@ -42,9 +44,10 @@ export default function(): JSX.Element {
 
             <Button onclick={() => ref2.prev()}>prev</Button>
             <Button onclick={() => ref2.next()}>next</Button>
-        </Stage>
+        </div>
 
-        <Stage title='icon=true' class='w-full'>
+        <div class='w-full'>
+            <p>w-full</p>
             <Stepper layout={layout()} palette={palette()} ref={el => ref3 = el} accentPalette='primary' steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: (c?: boolean)=> c ? <IconCheck /> : true },
                 { title: 'Step 2', content: 'Content for Step 2', icon: (c?: boolean)=> c ? <IconCheck /> : true },
@@ -53,6 +56,6 @@ export default function(): JSX.Element {
 
             <Button onclick={() => ref3.prev()}>prev</Button>
             <Button onclick={() => ref3.next()}>next</Button>
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

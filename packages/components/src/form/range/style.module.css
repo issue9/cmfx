@@ -15,6 +15,8 @@ input[type=range] {
     @apply focus:border-palette-border-focused;
     @apply active:border-palette-border-actived;
     @apply disabled:cursor-not-allowed disabled:border-palette-border-disabled;
+
+    @apply transition;
 }
 
 input[type=range].rounded {
