@@ -19,8 +19,6 @@ export type Field = typeof fields[number];
 export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 时间段
-     *
-     * 如果是 number 类型，表示的是纳秒。
      */
     duration: Duration;
 

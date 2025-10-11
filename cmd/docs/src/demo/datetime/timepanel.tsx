@@ -20,8 +20,8 @@ export default function() {
             {paletteS}
             {disabledS}
             {readonlyS}
-            <Button onClick={() => setValue()}>set undefined</Button>
-            <Button onClick={() => setValue(new Date())}>now</Button>
+            <Button onclick={() => setValue()}>set undefined</Button>
+            <Button onclick={() => setValue(new Date())}>now</Button>
         </>
     }>
         <Stage title="panel" class="flex items-start">

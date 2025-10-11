@@ -31,7 +31,7 @@ export default function(): JSX.Element {
                     <>{i} <br /></>
                 )}
             </For>
-            <BackTop palette={palette()} class="mb-10">{IconNav}</BackTop>
+            <BackTop palette={palette()} class="mb-10">{<IconNav />}</BackTop>
         </div>
     </Demo>;
 }

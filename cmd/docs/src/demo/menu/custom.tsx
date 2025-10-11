@@ -61,11 +61,11 @@ export default function() {
     return <div>
         {paletteS}
         {selectedClsS}
-        <Button onClick={() => ref.show()}>show</Button>
-        <Button onClick={() => ref.hide()}>hide</Button>
+        <Button onclick={() => ref.show()}>show</Button>
+        <Button onclick={() => ref.hide()}>hide</Button>
         <br />
         <Dropdown selectedClass={selectedCls()} palette={palette()} ref={el => ref = el}
-            items={items} trigger='custom' onPopover={e => console.log('visible:', e)}>
+            items={items} trigger='custom' onPopover={e => { console.log('visible:', e); return false; }}>
             <div class="bg-primary-bg text-primary-fg w-full h-full">custom</div>
         </Dropdown>
     </div>;

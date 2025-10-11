@@ -26,8 +26,8 @@ export default function() {
             {disabledS}
             {readonlyS}
             {minmaxS}
-            <Button onClick={() => setMonthValue()}>set undefined</Button>
-            <Button onClick={() => setMonthValue(new Date())}>current</Button>
+            <Button onclick={() => setMonthValue()}>set undefined</Button>
+            <Button onclick={() => setMonthValue(new Date())}>current</Button>
         </>
     }>
         <Stage title="panel" class="flex items-start">

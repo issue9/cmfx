@@ -23,7 +23,7 @@ export default function() {
     }>
         <Page title='title' palette={palette()} backtop={disableBackTop() === true ? false : undefined}>
             <For each={len}>
-                {(i) => (
+                {i => (
                     <>{i} <br /></>
                 )}
             </For>

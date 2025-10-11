@@ -25,13 +25,13 @@ export default function() {
         <ThemeProvider mode={m()} scheme={s()}>
             <Button>这是当前主题 {useTheme().mode}, {useTheme().scheme?.light?.['primary-bg']}</Button>
 
-            <Button onClick={() => setScheme(opt.schemes?.get('purple'))}>主题-purple</Button>
-            <Button onClick={() => setScheme(opt.schemes?.get('green'))}>主题-green</Button>
+            <Button onclick={() => setScheme(opt.schemes?.get('purple'))}>主题-purple</Button>
+            <Button onclick={() => setScheme(opt.schemes?.get('green'))}>主题-green</Button>
 
-            <Button onClick={() => setMode('light')}>浅色</Button>
-            <Button onClick={() => setMode('dark')}>深色</Button>
-            <Button onClick={() => setMode('system')}>跟随系统</Button>
-            <Button onClick={() => ref.next()} class="w-16">
+            <Button onclick={() => setMode('light')}>浅色</Button>
+            <Button onclick={() => setMode('dark')}>深色</Button>
+            <Button onclick={() => setMode('system')}>跟随系统</Button>
+            <Button onclick={() => ref.next()} class="w-16">
                 <AnimationIcon ref={el=>ref=el} icons={{
                     face: <IconFace />,
                     close: <IconClose />,
@@ -42,9 +42,9 @@ export default function() {
             <ThemeProvider mode={m2()}>
                 <Divider />
                 <Button>这是另一个嵌套的主题 {useTheme().mode}</Button>
-                <Button onClick={() => setMode2('light')}>浅色</Button>
-                <Button onClick={() => setMode2('dark')}>深色</Button>
-                <Button onClick={() => setMode2('system')}>跟随系统</Button>
+                <Button onclick={() => setMode2('light')}>浅色</Button>
+                <Button onclick={() => setMode2('dark')}>深色</Button>
+                <Button onclick={() => setMode2('system')}>跟随系统</Button>
             </ThemeProvider>
         </ThemeProvider>
     </div>;

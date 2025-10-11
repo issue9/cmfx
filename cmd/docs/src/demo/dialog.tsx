@@ -22,13 +22,13 @@ export default function() {
             {paletteS}
         </>
     }>
-        <Button onClick={async () => { await alert('msg'); console.log('alert'); }}>alert</Button>
-        <Button onClick={async () => { console.log('confirm:', await confirm('这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！')); }}>confirm</Button>
-        <Button onClick={async () => { console.log('prompt:', await prompt('msg', 'def')); }}>prompt</Button>
+        <Button onclick={async () => { await alert('msg'); console.log('alert'); }}>alert</Button>
+        <Button onclick={async () => { console.log('confirm:', await confirm('这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！这是一段非常非常长的文字内容！')); }}>confirm</Button>
+        <Button onclick={async () => { console.log('prompt:', await prompt('msg', 'def')); }}>prompt</Button>
 
-        <Button onClick={() => { window.alert('msg'); console.log('alert'); }}>system.alert</Button>
-        <Button onClick={() => { console.log('confirm:', window.confirm('msg')); }}>system.confirm</Button>
-        <Button onClick={() => { console.log('prompt:', window.prompt('msg', 'def')); }}>system.prompt</Button>
+        <Button onclick={() => { window.alert('msg'); console.log('alert'); }}>system.alert</Button>
+        <Button onclick={() => { console.log('confirm:', window.confirm('msg')); }}>system.confirm</Button>
+        <Button onclick={() => { console.log('prompt:', window.prompt('msg', 'def')); }}>system.prompt</Button>
 
         <div>
             <Dialog class="min-w-5" movable palette={palette()} ref={el => dlg1 = el} header="header" actions={
@@ -40,11 +40,11 @@ export default function() {
             }>
                 content
             </Dialog>
-            <Button onClick={() => dlg1.element().show()} palette={palette()}>show</Button>
+            <Button onclick={() => dlg1.element().show()} palette={palette()}>show</Button>
         </div>
 
         <div>
-            <Button onClick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>
+            <Button onclick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>
             <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
                 <div>
                     <Form formAccessor={fa} inDialog>
@@ -52,15 +52,15 @@ export default function() {
                             <div class="py-3">form</div>
                             <div class="flex">
                                 <Button onclick={() => dlg3.element().showModal()}>show modal</Button>
-                                <Button value='submit' type="submit" class="me-8">submit</Button>
-                                <Button value='reset' type="reset" class="me-8">reset</Button>
-                                <Button value='button' type="button" onClick={()=>{
+                                <Button ref={el => el.element().value = 'submit'} type="submit" class="me-8">submit</Button>
+                                <Button ref={el => el.element().value = 'reset'} type="reset" class="me-8">reset</Button>
+                                <Button ref={el => el.element().value = 'button'} type="button" onclick={() => {
                                     dlg2.move({ x: 8, y: 8 });
                                 }}>move(8,8)</Button>
-                                <Button value='button' type="button" onClick={()=>{
+                                <Button ref={el => el.element().value = 'button'} type="button" onclick={() => {
                                     dlg2.move();
                                 }}>move to center</Button>
-                                <Button value='button' type="button">button</Button>
+                                <Button ref={el => el.element().value = 'button'} type="button">button</Button>
                             </div>
                         </div>
                     </Form>
@@ -72,7 +72,7 @@ export default function() {
             </Dialog>
 
             <div>
-                <Button onClick={() => dlg4.showModal()} palette={palette()}>scrollable</Button>
+                <Button onclick={() => dlg4.element().showModal()} palette={palette()}>scrollable</Button>
                 <Dialog movable scrollable ref={(el) => dlg4 = el} header="header" actions="footer" class="h-80 w-80">
                     <div>
                         长内容<br />

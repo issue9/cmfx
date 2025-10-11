@@ -40,12 +40,12 @@ export default function() {
             {weeksS}
             {shortcutS}
             <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
-            <Button onClick={() => {
+            <Button onclick={() => {
                 setValue();
                 setValWithTime();
                 setRange();
             }}>set undefined</Button>
-            <Button onClick={() => {
+            <Button onclick={() => {
                 const now = new Date();
                 const next = new Date(now);
                 next.setMonth(next.getMonth() + 1);

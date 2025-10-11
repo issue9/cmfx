@@ -61,7 +61,7 @@ export default function() {
         {paletteS}
         {selectedClsS}
         <Dropdown selectedClass={selectedCls()} palette={palette()} items={items}
-            trigger='contextmenu' onPopover={e=>console.log('visible:', e)}>
+            trigger='contextmenu' onPopover={e => { console.log('visible:', e); return false; }}>
             <div class="bg-primary-bg text-primary-fg w-10 h-10">right click</div>
         </Dropdown>
     </div>;

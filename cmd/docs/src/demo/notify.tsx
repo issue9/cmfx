@@ -28,7 +28,7 @@ export default function() {
             <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
             <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
             <input type="number" step={500} onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
-            <Button palette='primary' onClick={notify1}>notify</Button>
+            <Button palette='primary' onclick={notify1}>notify</Button>
         </div>
     </Demo>;
 }

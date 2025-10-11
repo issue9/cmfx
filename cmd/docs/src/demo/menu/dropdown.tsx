@@ -61,7 +61,7 @@ export default function() {
         {paletteS}
         {selectedClsS}
         <Dropdown selectedClass={selectedCls()} palette={palette()}
-            items={items} trigger='hover' onPopover={e=>console.log('visible:', e)}>
+            items={items} trigger='hover' onPopover={e => { console.log('visible:', e); return false; }}>
             <div class="bg-primary-bg text-primary-fg w-full h-full">hover</div>
         </Dropdown>
     </div>;

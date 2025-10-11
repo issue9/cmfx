@@ -25,20 +25,20 @@ export default function() {
 
             <div class="flex flex-col">
                 <div class="flex">
-                    <Button onClick={() => setLocale('en')}>en</Button>
-                    <Button onClick={() => setLocale('zh-Hans')}>zh-Hans</Button>
+                    <Button onclick={() => setLocale('en')}>en</Button>
+                    <Button onclick={() => setLocale('zh-Hans')}>zh-Hans</Button>
                 </div>
 
                 <div class="flex">
-                    <Button onClick={() => setStyle('full')}>full</Button>
-                    <Button onClick={() => setStyle('short')}>short</Button>
-                    <Button onClick={() => setStyle('narrow')}>narrow</Button>
+                    <Button onclick={() => setStyle('full')}>full</Button>
+                    <Button onclick={() => setStyle('short')}>short</Button>
+                    <Button onclick={() => setStyle('narrow')}>narrow</Button>
                 </div>
 
                 <div class="flex">
-                    <Button onClick={() => setTZ('Asia/Shanghai')}>Asia/Shanghai</Button>
-                    <Button onClick={() => setTZ('Africa/Abidjan')}>Africa/Abidjan</Button>
-                    <Button onClick={() => setTZ('UTC')}>UTC</Button>
+                    <Button onclick={() => setTZ('Asia/Shanghai')}>Asia/Shanghai</Button>
+                    <Button onclick={() => setTZ('Africa/Abidjan')}>Africa/Abidjan</Button>
+                    <Button onclick={() => setTZ('UTC')}>UTC</Button>
                 </div>
             </div>
         </LocaleProvider>

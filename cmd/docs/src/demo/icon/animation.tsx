@@ -29,11 +29,11 @@ export default function() {
             }} rotation={rotation()} />
         </Button>
 
-        <Button onClick={() => aref?.to('face')}>face</Button>
-        <Button onClick={() => aref?.to('close')}>close</Button>
-        <Button onClick={() => aref?.to('not-exists')}>not-exists</Button>
+        <Button onclick={() => aref?.to('face')}>face</Button>
+        <Button onclick={() => aref?.to('close')}>close</Button>
+        <Button onclick={() => aref?.to('not-exists')}>not-exists</Button>
 
-        <Button onClick={() => aref?.next()}>next</Button>
-        <Button onClick={() => aref?.prev()}>prev</Button>
+        <Button onclick={() => aref?.next()}>next</Button>
+        <Button onclick={() => aref?.prev()}>prev</Button>
     </div>;
 }
