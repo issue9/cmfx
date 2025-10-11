@@ -12,7 +12,7 @@
 
         @apply focus:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
         @apply hover:enabled:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
-        @apply active:enabled:border-palette-border-active active:enabled:bg-palette-bg-active;
+        @apply active:enabled:border-palette-border-actived active:enabled:bg-palette-bg-actived;
         @apply read-only:cursor-default;
         @apply transition;
 
