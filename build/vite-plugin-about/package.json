@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/vite-plugin-about",
-    "version": "0.13.0",
+    "version": "0.14.0",
     "type": "module",
     "main": "./lib/index.js",
     "description": "为 cmfx 生成 about 页面的数据",

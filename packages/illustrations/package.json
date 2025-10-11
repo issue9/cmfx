@@ -1,6 +1,6 @@
 {
     "name": "@cmfx/illustrations",
-    "version": "0.13.0",
+    "version": "0.14.0",
     "type": "module",
     "description": "提供 cmfx 前端的插图",
     "author": {
