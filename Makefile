@@ -29,42 +29,44 @@ gen:
 ########################### build ###################################
 
 .PHONY: build build-go build-ts build-cmd
-.PHONY: build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-plugin
-.PHONY: build-ts-docs build-ts-core build-ts-components build-ts-illustrations build-ts-admin
+.PHONY: build-ts-plugin-about build-ts-plugin-api build-ts-plugin
+.PHONY: build-ts-docs build-ts-admin-demo build-ts-core build-ts-components build-ts-illustrations build-ts-admin
 
 build: build-go build-ts
 
 build-cmd: build-go build-ts-admin build-ts-docs
 
-build-ts-plugin: build-ts-vite-plugin-about build-ts-vite-plugin-api
+build-ts-plugin: build-ts-plugin-about build-ts-plugin-api
 
 build-go: gen
 	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
 
-build-ts-docs:
+build-ts-docs: build-ts-admin-demo
 	pnpm --filter=./cmd/docs run build
 
-build-ts-vite-plugin-about:
+build-ts-plugin-about:
 	pnpm --filter=./build/vite-plugin-about run build
 
-build-ts-vite-plugin-api:
+build-ts-plugin-api:
 	pnpm --filter=./build/vite-plugin-api run build
 
 build-ts-core:
 	pnpm --filter=./packages/core run build
 
-build-ts-components:
+build-ts-components: build-ts-core
 	pnpm --filter=./packages/components run build
 
-build-ts-illustrations:
+build-ts-illustrations: build-ts-components
 	pnpm --filter=./packages/illustrations run build
 
-build-ts-admin:
+build-ts-admin: build-ts-plugin build-ts-components build-ts-illustrations
 	pnpm --filter=./packages/admin run build
 
-# 编译前端项目内容
-build-ts: build-ts-core build-ts-components build-ts-illustrations build-ts-admin build-ts-vite-plugin-about build-ts-vite-plugin-api build-ts-docs
+build-ts-admin-demo: build-ts-admin
 	pnpm --filter=./cmd/admin run build
+
+# 编译前端项目内容
+build-ts: build-ts-docs
 
 ########################### install ###################################
 
@@ -106,7 +108,7 @@ watch: watch-server watch-admin
 
 .PHONY: lint-ts test test-go test-ts
 .PHONY: test-ts-core test-ts-components test-ts-admin
-.PHONY: test-ts-vite-plugin-about test-ts-vite-plugin-api
+.PHONY: test-ts-plugin-about test-ts-plugin-api
 
 lint-ts:
 	pnpm run lint
@@ -116,10 +118,10 @@ test-go: mk-coverage
 	go vet -v ./...
 	go test -v -coverprofile='coverage/go.txt' -p=1 -parallel=1 -covermode=atomic ./...
 
-test-ts-vite-plugin-about: mk-coverage
+test-ts-plugin-about: mk-coverage
 	pnpm run test --project=@cmfx/vite-plugin-about
 
-test-ts-vite-plugin-api: mk-coverage
+test-ts-plugin-api: mk-coverage
 	pnpm run test --project=@cmfx/vite-plugin-api
 
 test-ts-core: mk-coverage
@@ -159,7 +161,7 @@ changelog:
 .PHONY: publish-npm
 
 publish-npm: build-ts
-	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin \
+	pnpm publish --filter=./packages/core --filter=./packages/components --filter=./packages/admin --filter=./packages/illustrations \
 	--filter=./build/vite-plugin-about --filter=./build/vite-plugin-api \
 	--access=public --no-git-checks
 

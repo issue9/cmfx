@@ -19,7 +19,7 @@
 ```bash
 npm i typescript vite vite-plugin-solid @tailwindcss/vite
 npm i @solidjs/router solid-js
-npm i @cmfx/admin @cmfx/core @cmfx/components
+npm i @cmfx/admin @cmfx/core @cmfx/components @cmfx/illustrations
 ```
 
 如果需要高亮功能，还需要安装 `shiki/bundle/full`：
