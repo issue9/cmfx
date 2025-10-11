@@ -148,6 +148,10 @@ test: test-go test-ts
 # 如果不指定参数
 # to 表示最新的提交
 # from 表示第一个提交
+#
+# 用法：
+# make changelog
+# make changelog from=v1.0.0 to=v1.1.0
 
 .PHONY: changelog
 to = 'HEAD'
@@ -170,6 +174,7 @@ publish-npm: build-ts
 # 用于修正当前项目的版本号
 #
 # 包含一个参数 target，用以指定需要升级的版本号，可以是 patch、minor 和 major 三个值，默认值为 patch。
+# 比如：`make version` 或是 `make version target=minor`
 #
 # 该操作会同时更新所有 package.json 中的版本号以及 cmfx/VERSION 的内容，后者为服务端项目的版本号。
 #
