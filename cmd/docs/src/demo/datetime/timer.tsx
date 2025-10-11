@@ -22,12 +22,12 @@ export default function () {
         </>
     }>
         <Stage title="-1">
-            <Timer unit={unit()} ref={el=>ref=el} duration={'23m34s'} startField={field()} interval={-1} autoStart />
-            <Button palette="primary" onclick={()=>ref!.toggle()}>切换暂停和启动状态</Button>
+            <Timer unit={unit()} ref={el => ref = el} duration={'23m34s'} startField={field()} interval={-1} />
+            <Button palette="primary" onclick={() => ref!.toggle()}>切换暂停和启动状态</Button>
         </Stage>
 
         <Stage title="event:-1">
-            <Timer unit={unit()} onTick={()=>setMsg('tick')} onComplete={()=>setMsg('complete')} duration={'10s'} startField={field()} interval={-1} autoStart />
+            <Timer unit={unit()} onTick={() => setMsg('tick')} onComplete={() => setMsg('complete')} duration={'10s'} startField={field()} interval={-1} autoStart />
             <div>{msg()}</div>
         </Stage>
 

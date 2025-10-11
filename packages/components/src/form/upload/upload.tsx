@@ -79,13 +79,8 @@ export function Upload(props: Props): JSX.Element {
     props = mergeProps(form, props);
 
     const [api, actions] = useComponents();
-
-    let inputRef: HTMLInputElement;
     const [files, setFiles] = createSignal<Array<File>>([]);
 
-    /**
-     * 将 fs 内的文件添加至 unupload
-     */
     const add = (fs: FileList | null) => {
         if (!fs || fs.length === 0) { return; }
 
@@ -115,9 +110,7 @@ export function Upload(props: Props): JSX.Element {
             props.dropzone.addEventListener('drop', (e) => {
                 e.preventDefault();
 
-                if (e.dataTransfer) {
-                    add(e.dataTransfer.files);
-                }
+                if (e.dataTransfer) { add(e.dataTransfer.files); }
             });
         }
     });

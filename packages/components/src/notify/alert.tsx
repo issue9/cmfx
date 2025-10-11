@@ -2,13 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { JSX, onMount, Show } from 'solid-js';
+import { createTimer, sleep } from '@cmfx/core';
+import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
 import { BaseProps, joinClass, transitionDuration } from '@/base';
 import styles from './style.module.css';
-import { createTimer } from './timer';
 
 export interface Props extends BaseProps {
     title: string;
@@ -34,26 +33,28 @@ export function Alert(props: Props): JSX.Element {
     onMount(() => {
         if (props.timeout) {
             const timeout = props.timeout;
-            let timer = createTimer(del, timeout, 100, (t: number) => {
+            const timer = createTimer(timeout, -100, (t: number) => {
                 const p = (timeout - t) / timeout * 100;
                 wrapRef.style.background = `conic-gradient(var(--bg-low) 0% ${p}%, var(--bg-high) ${p}% 100%)`;
+                if (t <= 0) { del(); }
             });
+            timer.start();
 
-            ref.addEventListener('mouseover', () => {
-                timer.pause();
-            });
+            ref.addEventListener('mouseover', timer.pause);
+            ref.addEventListener('mouseout', timer.start);
 
-            ref.addEventListener('mouseout', () => {
-                timer.start();
+            onCleanup(() => {
+                ref.removeEventListener('mouseover', timer.pause);
+                ref.removeEventListener('mouseout', timer.start);
             });
         }
     });
 
-    return <div ref={el=>ref=el} id={props.id} role="alert"
+    return <div ref={el => ref = el} id={props.id} role="alert"
         class={joinClass(props.palette, styles.message, props.class)}>
         <div class={styles.title}>
             <p>{props.title}</p>
-            <div class={styles['close-wrap']} ref={el=>wrapRef=el}>
+            <div class={styles['close-wrap']} ref={el => wrapRef = el}>
                 <IconClose onClick={del} class={styles.close} />
             </div>
         </div>

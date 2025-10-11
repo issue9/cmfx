@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Duration, nano2IntlDuration, parseDuration, second } from '@cmfx/core';
-import { createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import { createTimer, Duration, ms, nano2IntlDuration, parseDuration } from '@cmfx/core';
+import { createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps, joinClass, RefProps } from '@/base';
 import { useLocale } from '@/context';
@@ -30,8 +30,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 需要显示的最小字段名称
      *
-     * 默认为 minutes，即只显示分钟和秒数。
-     *
+     * @remarks 默认为 minutes，即只显示分钟和秒数。
      * 当指定的单位无法全部显示指定的值时，大于此单位的数值会换算累加到该单位上。
      * 比如：当只指定了 seconds，但是表示分钟的值也不为空，则分钟会转换为秒数累加在秒之上。
      */
@@ -40,7 +39,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 频率
      *
-     * 最小单位为秒，负数为减少 duration，直到为零。正数为增加。
+     * @remarks 最小单位为秒，负数为减少 duration，直到为零。正数为增加。
      * 默认为 -1。
      */
     interval?: number;
@@ -91,61 +90,34 @@ export interface Ref {
     element(): HTMLDivElement;
 }
 
+const minutesInDay = 24 * 60;
+const secondsInDay = minutesInDay * 60;
+const secondsInHour = 60 * 60;
+
 /**
- * 倒计时组件
+ * 计时组件
  */
 export default function Timer(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    const [nano, setNano] = createSignal<number>(parseDuration(props.duration));
-    const [dur, setDur] = createSignal<Intl.DurationInput>(nano2IntlDuration(nano()));
+    const [dur, setDur] = createSignal<Intl.DurationInput>(nano2IntlDuration(parseDuration(props.duration)));
 
-    createEffect(() => {
-        setNano(parseDuration(props.duration));
+    const timer = createMemo(() => {
+        return createTimer(parseDuration(props.duration) / ms, props.interval! * 1000, t => {
+            setDur(nano2IntlDuration(t * ms));
+            if (props.onTick) { props.onTick(); }
+            if (t <= 0 && props.onComplete) { props.onComplete(); }
+        });
     });
-    createEffect(() => {
-        setDur(nano2IntlDuration(nano()));
-    });
 
-    const tick = () => {
-        setNano((old) => old + props.interval! * second);
-        props.onTick && props.onTick();
-
-        if (nano() <= 0) {
-            pause();
-            props.onComplete && props.onComplete();
-        }
-    };
-
-    let intervalID: any; // setInterval 的句柄
-
-    const start = () => {
-        if (nano() > 0) {
-            intervalID = setInterval(tick, 1000 * Math.abs(props.interval!));
-        }
-    };
-    const pause = () => {
-        clearInterval(intervalID);
-        intervalID = 0;
-    };
-
-    if (props.autoStart) {
-        onMount(start);
-    }
-    onCleanup(() => {
-        if (intervalID) { // 非 autoStart 时，此值可能为空，需要进行一次判断。
-            pause();
-        }
-    });
+    if (props.autoStart) { onMount(() => timer().start()); }
+    onCleanup(() => timer().stop());
 
     const l = useLocale();
 
     const format = (n: number): string => {
         const s = n.toString();
-        if (s.length < 2) {
-            return s.padStart(2, '0');
-        }
-        return s;
+        return s.length < 2 ? s.padStart(2, '0') : s;
     };
 
     const getFieldIndex = (f: string) => {
@@ -159,18 +131,9 @@ export default function Timer(props: Props): JSX.Element {
     return <div class={joinClass(props.palette, styles.timer, props.class)} ref={el => {
         if (props.ref) {
             props.ref({
-                toggle() {
-                    if (intervalID) {
-                        pause();
-                    } else {
-                        start();
-                    }
-                },
-
-                start() { start(); },
-
-                pause() { pause(); },
-
+                toggle() { timer().toggle(); },
+                start() { timer().start(); },
+                pause() { timer().pause(); },
                 element() { return el; }
             });
         }
@@ -198,7 +161,7 @@ export default function Timer(props: Props): JSX.Element {
                 <span class={styles.text}>{
                     format(
                         (dur().minutes ?? 0) +
-                        (props.startField! === 'minutes' ? ((dur().days ?? 0) * 24 * 60 + (dur().hours ?? 0) * 60) : 0)
+                        (props.startField! === 'minutes' ? ((dur().days ?? 0) * minutesInDay + (dur().hours ?? 0) * 60) : 0)
                     )
                 }</span>
                 <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.minutes')}</span></Show>
@@ -211,7 +174,9 @@ export default function Timer(props: Props): JSX.Element {
                 <span class={styles.text}>{
                     format(
                         (dur().seconds ?? 0) +
-                        (props.startField === 'seconds' ? ((dur().days ?? 0) * 24 * 60 * 60 + (dur().hours ?? 0) * 60 * 60 + (dur().minutes ?? 0) * 60) : 0)
+                        (props.startField === 'seconds'
+                            ? ((dur().days ?? 0) * secondsInDay + (dur().hours ?? 0) * secondsInHour + (dur().minutes ?? 0) * 60)
+                            : 0)
                     )
                 }</span>
                 <Show when={props.unit}><span class={styles.unit}>{l.t('_c.timer.seconds')}</span></Show>
