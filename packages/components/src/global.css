@@ -18,8 +18,19 @@ kbd {
     @apply border border-palette-fg-low rounded-sm bg-palette-bg-low px-1 py-[1px];
 }
 
-/* 减少动画 */
+/*********************************** 减少动画 *******************************/
+
 @media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        transition-property: none !important;
+        animation: none !important;
+    }
+}
+
+.prefers-reduced-motion {
 
     *,
     *::before,

@@ -21,7 +21,7 @@ export default function Overview(prefix: string): JSX.Element {
                     <For each={group.items}>
                         {item =>
                             <A href={(item as any).value}>
-                                <Card header={(item as any).label} class="hover:border-palette-border-focused">
+                                <Card header={(item as any).label} class={styles.card}>
                                     <div class={styles.icon}>{cloneElement((item as any).prefix)}</div>
                                 </Card>
                             </A>

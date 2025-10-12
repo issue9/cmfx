@@ -23,8 +23,13 @@
                 }
             }
 
-            .icon {
-                @apply text-7xl flex items-center justify-center;
+            .card {
+                @apply hover:border-palette-border-focused;
+                @apply transition;
+
+                .icon {
+                    @apply text-7xl flex items-center justify-center;
+                }
             }
         }
     }

@@ -37,8 +37,8 @@ interface PackageJSON {
  * @remarks 当前插件会将项目的依赖信息以 {@link About} 类型写到全局变量 __CMFX_ABOUT__ 中。
  * 如果是 ts 环境，需要 __CMFX_ABOUT__ 的类型，可通过以下两种方式获取：
  *
- *  - /// <reference types="@cmfx/vite-plugin-about" /> 单个文件中使用；
- *  - 在 vite.config.ts 的 compilerOptions.types 添加 `@cmfx/vite-plugin-about`，则是整个项目都可使用；
+ *  1. /// <reference types="@cmfx/vite-plugin-about" /> 单个文件中使用；
+ *  2. 在 vite.config.ts 的 compilerOptions.types 添加 `@cmfx/vite-plugin-about`，则是整个项目都可使用；
  *
  * @returns vite 插件
  */

@@ -5,7 +5,7 @@
 import './style.css';
 
 import {
-    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, Notify,
+    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes, Notify,
     OptionsProvider, SystemDialog, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
@@ -14,6 +14,7 @@ import { render } from 'solid-js/web';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
+import IconAnimation from '~icons/material-symbols/animation';
 import IconSystem from '~icons/material-symbols/brightness-4';
 import IconClear from '~icons/material-symbols/close';
 import IconDark from '~icons/material-symbols/dark-mode';
@@ -95,9 +96,8 @@ function InternalApp(props: ParentProps): JSX.Element {
         if (items.length > 0) { dropdownRef.show(); }
     });
 
-    // 主题菜单可能要出现同时两个菜单项同时选中的状态，比如打开了主题编辑器时。
-    // 当前变量用于在打开主题编辑器时，将菜单的选中项设置为旧值。
-    const [mode, setMode] = createSignal<Mode>(theme.mode ?? 'system', { equals: false });
+    const [themeValues, setThemeValues] = createSignal<Array<Mode | 'reduced-motion'>>([theme.mode ?? 'system'], { equals: false });
+    let themeDropdown: DropdownRef;
 
     return <div class={styles.main}>
         <Appbar href='/' palette='secondary' title={options.title} actions={
@@ -113,16 +113,31 @@ function InternalApp(props: ParentProps): JSX.Element {
                     <Button kind='flat' square><IconLanguage /></Button>
                 </Dropdown>
 
-                <Dropdown trigger='hover' value={[mode()]} onChange={(val, old) => {
-                    if (val === 'theme-builder') {
-                        setMode(old ? (old == 'theme-builder' ? 'system' : old) : 'system');
-                    } else {
-                        act.switchMode(val);
+                <Dropdown ref={el => themeDropdown = el} trigger='hover' multiple value={themeValues()} onChange={(val, old) => {
+                    const n = val.filter(v => modes.includes(v as any)); // 提取新值中的有关 Mode 类型的
+                    const o = old ? old.filter(v => modes.includes(v as any)) : []; // 提取旧值中的有关 Mode 类型的
+                    const m = n.filter(v => !o.includes(v)); // 提取只存在于新值中的 Mode 类型值
+                    if (m && m.length > 0) { // 如果存在 m，则删除 val 中所有的 Mode 值，并添加 m 至 val。
+                        const v = val.filter(v => !modes.includes(v as any));
+                        const mode = m[0];
+                        v.push(mode);
+                        setThemeValues(v as any);
+                        act.switchMode(mode as Mode);
                     }
+
+                    if (val.includes('reduced-motion')) {
+                        document.documentElement.classList.add('prefers-reduced-motion');
+                    } else {
+                        document.documentElement.classList.remove('prefers-reduced-motion');
+                    }
+
+                    themeDropdown.hide();
                 }} items={[
                     { type: 'item', label: l.t('_d.main.dark'), value: 'dark', prefix: <IconDark /> },
                     { type: 'item', label: l.t('_d.main.light'), value: 'light', prefix: <IconLight /> },
                     { type: 'item', label: l.t('_d.main.system'), value: 'system', prefix: <IconSystem /> },
+                    { type: 'divider' },
+                    { type: 'item', label: l.t('_d.main.reducedMotion'), value: 'reduced-motion', prefix: <IconAnimation /> },
                     { type: 'divider' },
                     { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', prefix: <IconBuilder /> },
                 ]}>

@@ -22,6 +22,7 @@ const messages = {
             dark: 'Dark',
             light: 'Light',
             system: 'System',
+            reducedMotion: 'Reduced motion',
             themeBuilder: 'Theme Builder',
             ltr: 'LTR',
             rtl: 'RTL',
