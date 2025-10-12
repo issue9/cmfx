@@ -29,6 +29,8 @@ describe('createTimer', () => {
         await sleep(700);
         expect(tick > 4).toBeTruthy();
 
+        t.stop();
+
         expect(() => createTimer(500, 500)).toThrow('timeout 的值最起码是 2*step');
     });
 
@@ -52,5 +54,7 @@ describe('createTimer', () => {
 
         await sleep(700);
         expect(tick > 4).toBeTruthy();
+
+        t.stop();
     });
 });

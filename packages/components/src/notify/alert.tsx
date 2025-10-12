@@ -46,6 +46,7 @@ export function Alert(props: Props): JSX.Element {
             onCleanup(() => {
                 ref.removeEventListener('mouseover', timer.pause);
                 ref.removeEventListener('mouseout', timer.start);
+                timer.stop();
             });
         }
     });

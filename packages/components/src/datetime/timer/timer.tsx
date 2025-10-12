@@ -102,7 +102,9 @@ export default function Timer(props: Props): JSX.Element {
 
     const [dur, setDur] = createSignal<Intl.DurationInput>(nano2IntlDuration(parseDuration(props.duration)));
 
-    const timer = createMemo(() => {
+    const timer = createMemo(() => { // 监视 props.duration 和 props.interval 的变化
+        if (timer()) { timer().stop(); }
+
         return createTimer(parseDuration(props.duration) / ms, props.interval! * 1000, t => {
             setDur(nano2IntlDuration(t * ms));
             if (props.onTick) { props.onTick(); }
