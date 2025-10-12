@@ -14,7 +14,7 @@ Go 采用 `gofmt` 进行格式化，无须手动处理，在 `gofmt` 允许的�
 
 ### commit-msg
 
-提交消息的格式如下：
+提交消息采用 [Conventional Commits](https://www.conventionalcommits.org/zh-hans/) 规范，其格式如下：
 
 ```text
 <type>(<scope>)(!): <subject>
@@ -59,16 +59,27 @@ body 可选项，此次更改的具体信息，如果是多行，每行应该保
 
 footer 可选项，一般为关闭 issue 等附加的信息。
 
-BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 type 之后加上`!`，比如：
+BREAKING CHANGE: 如果此次变更对旧版本有破坏性变更，需要在 type 之后加上`!`，并在 body 中以 BREAKING CHANGE: 为开头注明每一项破坏性修改，比如：
 
 ```git-commit
 fix!: subject
+
+BREAKING CHANGE: change1
+
+BREAKING CHANGE: change2
 ```
 
 或是
 
 ```git-commit
 fix(scope)!: subject
+
+BREAKING CHANGE: change1
+line2
+
+BREAKING CHANGE: change2
+
+close #1
 ```
 
 #### 校验方法

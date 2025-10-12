@@ -26,6 +26,20 @@ printf "# CHANGELOG\n\n" >> "$TMP_CHANGELOG"
 # 输出当前版本的标题
 printf "## %s\n\n" "$TO_TAG ($DATE)" >> "$TMP_CHANGELOG"
 
+function print_break_change() {
+    local LOG
+
+    LOG=$(git log "$FROM_TAG..$TO_TAG" --pretty=format:"%B" --no-merges \
+        --regexp-ignore-case -E --grep="^.+(.+)!:" \
+        | sed -n '/^BREAKING CHANGE:/,/^$/p' | sed 's/^BREAKING CHANGE:[ ]*/- /')
+
+    if [ -n "$LOG" ]; then
+        printf "### 破坏性变更\n\n" >> "$TMP_CHANGELOG"
+
+        printf "%s\n\n" "$LOG" >> "$TMP_CHANGELOG"
+    fi
+}
+
 function print_section() {
     local TYPE=$1
     local TITLE=$2
@@ -41,6 +55,8 @@ function print_section() {
         printf "%s\n\n" "$LOG" >> "$TMP_CHANGELOG"
     fi
 }
+
+print_break_change
 
 print_section "feat" "新功能"
 print_section "fix" "修复问题"
