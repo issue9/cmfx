@@ -6,19 +6,15 @@ import { createSignal, JSX, ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
 import { BaseProps } from '@/base';
+import { useComponents } from '@/context';
 import { fieldAccessor, TextField } from '@/form';
 import { Dialog, Ref } from './dialog';
 
 export interface Props extends BaseProps, ParentProps {
     /**
-     * 是否同时替换系统对话框
+     * 挂载位置，默认为 body
      */
-    system?: boolean;
-
-    /**
-     * 系统弹出框的标题
-     */
-    header?: string;
+    mount?: Node;
 }
 
 interface DialogProps extends BaseProps { header?: string; }
@@ -27,17 +23,19 @@ interface DialogProps extends BaseProps { header?: string; }
  * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  */
 export default function SystemDialog(props: Props): JSX.Element {
-    if (props.system) {
+    const [, , o] = useComponents();
+
+    if (o.systemDialog) {
         window.alert = alert;
         window.confirm = confirm as any;
         window.prompt = prompt as any;
     }
 
     return <>
-        <Portal>
-            <Alert header={props.header} palette={props.palette} />
-            <Confirm header={props.header} palette={props.palette} />
-            <Prompt header={props.header} palette={props.palette} />
+        <Portal mount={props.mount}>
+            <Alert header={o.title} palette={props.palette} />
+            <Confirm header={o.title} palette={props.palette} />
+            <Prompt header={o.title} palette={props.palette} />
         </Portal>
         {props.children}
     </>;

@@ -62,7 +62,7 @@ export default function Toolbar(props: Props) {
 
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
         <>
-            <Show when={act.user() ? opt.toolbar.get('search') : false}>
+            <Show when={act.user() ? opt.toolbar.get('search') : undefined}>
                 {hk =>
                     (<Dropdown class="w-60 self-center" trigger='custom' items={candidate()} ref={el => {
                         dropdownRef = el;

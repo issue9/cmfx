@@ -5,10 +5,11 @@
 import './style.css';
 
 import {
-    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes, Notify,
-    run, SystemDialog, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
+    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes,
+    run,
+    TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
-import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
+import { RouteDefinition } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
@@ -178,10 +179,4 @@ const routes: Array<RouteDefinition> = [
     buildDocsRoute(docsRoute),
 ];
 
-const Root = (props: RouteSectionProps) => {
-    return <SystemDialog header={options.title}>
-        <Notify system palette='error'><InternalApp {...props} /></Notify>
-    </SystemDialog>;
-};
-
-run(Root, routes, document.getElementById('app')!, options);
+run(InternalApp, routes, document.getElementById('app')!, options);

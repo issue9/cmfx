@@ -87,10 +87,10 @@ export class Webauthn implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField hasHelp prefix={<IconPerson class="!py-0 !px-1 !flex !items-center" />}
+            <TextField hasHelp prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
                 suffix={
                     <Show when={account.getValue()!==''}>
-                        <IconClose class="!py-0 !px-1 !flex !items-center" onClick={()=>account.setValue('')} />
+                        <IconClose class="px-1 !py-0 shrink-0 self-center w-auto" onClick={()=>account.setValue('')} />
                     </Show>
                 }
                 placeholder={l.t('_p.current.username')} accessor={account} />

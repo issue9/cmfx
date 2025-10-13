@@ -7,7 +7,11 @@
 @reference '../style.css';
 
 @layer components {
-    .loading {
-        @apply w-full h-full flex justify-center items-center animate-spin text-7xl;
+    .root {
+        @apply @container/root;
+
+        .loading {
+            @apply w-full h-full flex justify-center items-center animate-spin text-7xl;
+        }
     }
 }

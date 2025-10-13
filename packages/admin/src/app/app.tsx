@@ -45,6 +45,9 @@ export function create(elementID: string, o: Options) {
         id: opt.id,
         storage: opt.storage,
         configName: opt.configName,
+        logo: opt.logo,
+        systemNotify: !!opt.system.notification,
+        systemDialog: !!opt.system.dialog,
 
         scheme: opt.theme.scheme,
         schemes: opt.theme.schemes,

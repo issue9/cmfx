@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, Notify, SystemDialog, useComponents } from '@cmfx/components';
+import { Mode, useComponents } from '@cmfx/components';
 import { API, DisplayStyle, Problem, Return, Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -38,30 +38,21 @@ export function useAdmin() {
     return [ctx.coreAPI, ctx.actions, ctx] as [api: API, actions: ReturnType<typeof buildActions>, options: OptContext];
 }
 
-// NOTE: 需要保证在 Router 组件之内
+// NOTE: 需要保证在 {@link OptionsProvider} 组件之内
 export function Provider(props: ParentProps<OptContext>): JSX.Element {
     const nav = useNavigate();
+    const [api, act, opt] = useComponents();
+    const p = mergeProps(props, {
+        coreAPI: api,
+        actions: buildActions(api, act, props, nav),
+    });
 
-    const child = () => {
-        const [api, act] = useComponents();
-        const p = mergeProps(props, {
-            coreAPI: api,
-            actions: buildActions(api, act, props, nav),
-        });
+    const uid = parseInt(sessionStorage.getItem(opt.id + currentKey) ?? '0');
+    p.actions.switchConfig(uid);
 
-        const uid = parseInt(sessionStorage.getItem(props.id + currentKey) ?? '0');
-        p.actions.switchConfig(uid);
-
-        return <internalOptContext.Provider value={p}>
-            {props.children}
-        </internalOptContext.Provider>;
-    };
-
-    return <SystemDialog system={props.system.dialog} header={props.title}>
-        <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo}>
-            {child()}
-        </Notify>
-    </SystemDialog>;
+    return <internalOptContext.Provider value={p}>
+        {props.children}
+    </internalOptContext.Provider>;
 }
 
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {

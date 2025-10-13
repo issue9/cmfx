@@ -8,7 +8,7 @@
 
 @layer components {
     .app {
-        @apply flex flex-col box-border overflow-hidden h-full bg-[var(--bg)] text-[var(--fg)] @container/root;
+        @apply flex flex-col box-border overflow-hidden h-full bg-[var(--bg)] text-[var(--fg)];
 
         .main {
             @apply relative h-full flex-1 overflow-y-hidden;

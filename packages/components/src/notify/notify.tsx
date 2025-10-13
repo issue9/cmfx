@@ -43,19 +43,9 @@ export async function notify(
 
 export interface Props extends BaseProps, ParentProps {
     /**
-     * 是否将通知发送到操作系统的通知栏上
+     * 挂载位置，默认为 body
      */
-    system?: boolean;
-
-    /**
-     * 指定弹出框上的图标，仅在 system 为 true 时有效。
-     */
-    icon?: string;
-
-    /**
-     * 语言，仅在 system 为 true 时有效，该值在 {@link notify} 参数中可修改。
-     */
-    lang?: string;
+    mount?: Node;
 }
 
 /**
@@ -68,7 +58,7 @@ export interface Props extends BaseProps, ParentProps {
 export default function Notify(props: Props): JSX.Element {
     props = mergeProps({palette: 'error' as Palette}, props);
     return <>
-        <Portal>{initNotify(props)}</Portal>
+        <Portal mount={props.mount}>{initNotify(props)}</Portal>
         {props.children}
     </>;
 }
@@ -78,10 +68,9 @@ function initNotify(p: Props): JSX.Element {
     let ref: HTMLDivElement;
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout?: number) => {
-        lang = lang ?? p.lang;
         timeout = timeout ?? opt.stays;
 
-        if (p.system && await systemNotify(title, body, p.icon, lang, timeout)) { return; }
+        if (opt.systemNotify && await systemNotify(title, body, opt.logo, lang ?? opt.locale, timeout)) { return; }
 
         const palette = type ? type2Palette.get(type) : undefined;
         render(() => <Alert {...{ title, body, type, timeout, palette }} />, ref);

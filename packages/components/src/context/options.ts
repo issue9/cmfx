@@ -16,6 +16,21 @@ export interface Options {
     id: string;
 
     /**
+     * 项目的 LOGO
+     */
+    logo: string;
+
+    /**
+     * 是否采用系统对话框
+     */
+    systemDialog: boolean;
+
+    /**
+     * 是否采用系统通知
+     */
+    systemNotify: boolean;
+
+    /**
      * 一些配置项的保存位置
      */
     storage: Storage;

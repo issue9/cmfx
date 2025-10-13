@@ -4,7 +4,7 @@
 
 主题采用 tailwind 作为样式管理，所有与主题相关的自定义属性也是通过修改 tailwind 的配置文件来实现的。
 
-支持容器媒体查询，默认为 `@cmfx/admin` 的根元素提供了 `@container/root`。
+支持容器媒体查询，由 `run` 创建的组件的根元素提供了 `@container/root`。
 
 ## 颜色
 
