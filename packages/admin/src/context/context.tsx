@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, Notify, Options, OptionsProvider, SystemDialog, notify, useComponents } from '@cmfx/components';
+import { Mode, Notify, SystemDialog, useComponents } from '@cmfx/components';
 import { API, DisplayStyle, Problem, Return, Token } from '@cmfx/core';
-import { useLocation, useNavigate } from '@solidjs/router';
+import { useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
-import { HTTPError } from '@/app/errors';
 import { build as buildOptions } from '@/options/options';
 import { User } from './user';
 
@@ -41,46 +40,7 @@ export function useAdmin() {
 
 // NOTE: 需要保证在 Router 组件之内
 export function Provider(props: ParentProps<OptContext>): JSX.Element {
-    const loc = useLocation();
     const nav = useNavigate();
-
-    const o: Options = {
-        id: props.id,
-        storage: props.storage,
-        configName: props.configName,
-
-        scheme: props.theme.scheme,
-        schemes: props.theme.schemes,
-        mode: props.theme.mode,
-
-        locale: props.locales.fallback,
-        displayStyle: props.locales.displayStyle!,
-        messages: props.locales.messages,
-
-        apiBase: props.api.base,
-        apiToken: props.api.token,
-        apiAcceptType: props.api.acceptType,
-        apiContentType: props.api.contentType,
-
-        title: props.title,
-        titleSeparator: props.titleSeparator,
-        pageSizes: props.api.pageSizes,
-        pageSize: props.api.presetSize,
-        stays: props.stays,
-        outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
-            if (!p) {
-                throw '发生了一个未知的错误，请联系管理员！';
-            }
-
-            if ((p.status === 401) && (props.routes.public.home !== loc.pathname)) {
-                nav(props.routes.public.home);
-            } else if (p.status >= 500) {
-                throw new HTTPError(p.status, p.title);
-            } else {
-                await notify(p.title, p.detail, 'error');
-            }
-        }
-    };
 
     const child = () => {
         const [api, act] = useComponents();
@@ -89,7 +49,7 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
             actions: buildActions(api, act, props, nav),
         });
 
-        const uid = parseInt(sessionStorage.getItem(o.id + currentKey) ?? '0');
+        const uid = parseInt(sessionStorage.getItem(props.id + currentKey) ?? '0');
         p.actions.switchConfig(uid);
 
         return <internalOptContext.Provider value={p}>
@@ -97,13 +57,11 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
         </internalOptContext.Provider>;
     };
 
-    return <OptionsProvider {...o}>
-        <SystemDialog system={props.system.dialog} header={props.title}>
-            <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo} timeout={props.stays}>
-                {child()}
-            </Notify>
-        </SystemDialog>
-    </OptionsProvider>;
+    return <SystemDialog system={props.system.dialog} header={props.title}>
+        <Notify system={props.system.notification} lang={props.locales.fallback} icon={props.logo}>
+            {child()}
+        </Notify>
+    </SystemDialog>;
 }
 
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {

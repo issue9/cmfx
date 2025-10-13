@@ -4,7 +4,7 @@
 
 import { Button, Result } from '@cmfx/components';
 import * as illustrations from '@cmfx/illustrations';
-import { useNavigate } from '@solidjs/router';
+import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 
 import { useAdmin, useLocale } from '@/context';
@@ -66,6 +66,11 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
                 <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
             </Result>;
         case 401:
+            const loc = useLocation();
+            if (loc.pathname !== opt.routes.public.home) {
+                return <Navigate href={/*@once*/opt.routes.public.home} />;
+            }
+
             text = l.t('_p.error.unauthorized');
             return <Result title={text} illustration={<illustrations.Error401 text={text} />}>
                 <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>

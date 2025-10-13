@@ -13,3 +13,4 @@ export type { Props as LocaleProps } from './locale';
 export { ThemeProvider, useTheme } from './theme';
 export type { Props as ThemeProps } from './theme';
 
+export { run } from './run';

@@ -6,11 +6,10 @@ import './style.css';
 
 import {
     Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes, Notify,
-    OptionsProvider, SystemDialog, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
+    run, SystemDialog, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
-import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
+import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';
-import { render } from 'solid-js/web';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
@@ -43,25 +42,6 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 const docsRoute = '/docs';
 const demoRoute = '/demo';
 const themeRoute = '/theme-builder';
-
-const routes: Array<RouteDefinition> = [
-    { path: '/', component: lazy(() => import('./home')) },
-    { path: themeRoute, component: lazy(() => import('./theme/builder')) },
-    buildDemoRoute(demoRoute),
-    buildDocsRoute(docsRoute),
-];
-
-function App(): JSX.Element {
-    const Root = (props: RouteSectionProps) => {
-        return <OptionsProvider {...options}>
-            <SystemDialog header={options.title}>
-                <Notify system timeout={options.stays} palette='error'><InternalApp {...props} /></Notify>
-            </SystemDialog>
-        </OptionsProvider>;
-    };
-
-    return <HashRouter root={Root}>{routes}</HashRouter>;
-}
 
 function InternalApp(props: ParentProps): JSX.Element {
     const l = useLocale();
@@ -191,4 +171,17 @@ function InternalApp(props: ParentProps): JSX.Element {
     </div>;
 }
 
-render(() => (<App />), document.getElementById('app')!);
+const routes: Array<RouteDefinition> = [
+    { path: '/', component: lazy(() => import('./home')) },
+    { path: themeRoute, component: lazy(() => import('./theme/builder')) },
+    buildDemoRoute(demoRoute),
+    buildDocsRoute(docsRoute),
+];
+
+const Root = (props: RouteSectionProps) => {
+    return <SystemDialog header={options.title}>
+        <Notify system palette='error'><InternalApp {...props} /></Notify>
+    </SystemDialog>;
+};
+
+run(Root, routes, document.getElementById('app')!, options);

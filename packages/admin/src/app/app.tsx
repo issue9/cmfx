@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, joinClass, Menu } from '@cmfx/components';
-import { HashRouter, Navigate, RouteSectionProps } from '@solidjs/router';
+import { Drawer, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
+import { Problem } from '@cmfx/core';
+import { Navigate, RouteSectionProps } from '@solidjs/router';
 import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
-import { render } from 'solid-js/web';
 
 import { useAdmin, useLocale } from '@/context';
 import { Provider } from '@/context/context';
@@ -21,13 +21,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  * @param o - 项目的初始化选项；
  */
 export function create(elementID: string, o: Options) {
-    render(() => (<App opt={buildOptions(o)} />), document.getElementById(elementID)!);
-}
-
-/**
- * 项目的根组件
- */
-function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
+    const opt = buildOptions(o);
     const menuVisible = createSignal(true);
     const [selected, setSelected] = createSignal<string>('');
 
@@ -35,20 +29,58 @@ function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
         {
             path: '/',
             component: (props: { children?: JSX.Element }) => <>{props.children}</>,
-            children: props.opt.routes.public.routes
+            children: opt.routes.public.routes
         },
         {
             path: '/',
-            component: (props: { children?: JSX.Element })=>
-                <Private menuVisible={menuVisible} selected={selected}>{ props.children }</Private>,
+            component: (props: { children?: JSX.Element }) =>
+                <Private menuVisible={menuVisible} selected={selected}>{props.children}</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
-            children: [...props.opt.routes.private.routes, { path: '*', component: errors.NotFound }]
+            children: [...opt.routes.private.routes, { path: '*', component: errors.NotFound }]
         }
     ];
 
+    const oo: XOptions = {
+        id: opt.id,
+        storage: opt.storage,
+        configName: opt.configName,
+
+        scheme: opt.theme.scheme,
+        schemes: opt.theme.schemes,
+        mode: opt.theme.mode,
+
+        locale: opt.locales.fallback,
+        displayStyle: opt.locales.displayStyle!,
+        messages: opt.locales.messages,
+
+        apiBase: opt.api.base,
+        apiToken: opt.api.token,
+        apiAcceptType: opt.api.acceptType,
+        apiContentType: opt.api.contentType,
+
+        title: opt.title,
+        titleSeparator: opt.titleSeparator,
+        pageSizes: opt.api.pageSizes,
+        pageSize: opt.api.presetSize,
+        stays: opt.stays,
+        outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+            if (!p) {
+                throw '发生了一个未知的错误，请联系管理员！';
+            }
+
+            if (p.status === 401) {
+                throw new errors.HTTPError(401, p.title);
+            } else if (p.status >= 500) {
+                throw new errors.HTTPError(p.status, p.title);
+            } else { // 其它 4XX 错误弹出提示框
+                await notify(p.title, p.detail, 'error');
+            }
+        }
+    };
+
     const root = (p: RouteSectionProps) => {
-        return <Provider {...props.opt}>
+        return <Provider {...opt}>
             <div class={ joinClass('surface', styles.app) }>
                 <Toolbar menuVisible={menuVisible} switch={setSelected} />
                 <main class={styles.main}>{p.children}</main>
@@ -56,7 +88,7 @@ function App(props: { opt: ReturnType<typeof buildOptions> }): JSX.Element {
         </Provider>;
     };
 
-    return <HashRouter root={root}>{/*@once*/routes}</HashRouter>;
+    run(root, routes, document.getElementById(elementID)!, oo);
 }
 
 type PrivateProps = ParentProps<MenuVisibleProps & {
