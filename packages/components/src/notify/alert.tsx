@@ -12,9 +12,7 @@ import styles from './style.module.css';
 export interface Props extends BaseProps {
     title: string;
     body?: string;
-    id: string;
     timeout?: number; // 单位为毫秒
-    del: { (id: string): void; };
 }
 
 /**
@@ -25,12 +23,14 @@ export function Alert(props: Props): JSX.Element {
     let wrapRef: HTMLDivElement;
 
     const del = async () => {
-        ref.style.height = '0px'; // 触发 CSS 动画
-        await sleep(transitionDuration(ref)); // 等待动画完成才真正地从 DOM 中删除节点
-        props.del(props.id);
+        ref.style.height = '0';
+        sleep(transitionDuration(ref)).then(() => ref.remove());
     };
 
     onMount(() => {
+        const h = ref.getBoundingClientRect().height;
+        ref.style.height = `${h}px`; // 只有明确的高度，transition 动画才能触发。
+
         if (props.timeout) {
             const timeout = props.timeout;
             const timer = createTimer(timeout, -100, (t: number) => {
@@ -51,7 +51,7 @@ export function Alert(props: Props): JSX.Element {
         }
     });
 
-    return <div ref={el => ref = el} id={props.id} role="alert"
+    return <div ref={el => ref = el} role="alert"
         class={joinClass(props.palette, styles.message, props.class)}>
         <div class={styles.title}>
             <p>{props.title}</p>

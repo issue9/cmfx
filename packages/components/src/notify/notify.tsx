@@ -3,12 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { sleep } from '@cmfx/core';
-import { createSignal, createUniqueId, For, JSX, mergeProps, ParentProps } from 'solid-js';
-import { Portal } from 'solid-js/web';
+import { JSX, mergeProps, ParentProps } from 'solid-js';
+import { Portal, render } from 'solid-js/web';
 
 import { BaseProps, joinClass, Palette } from '@/base';
 import { useComponents } from '@/context';
-import { Alert, Props as AlertProps } from './alert';
+import { Alert } from './alert';
 import styles from './style.module.css';
 
 export const types = ['error', 'warning', 'success', 'info'] as const;
@@ -56,11 +56,6 @@ export interface Props extends BaseProps, ParentProps {
      * 语言，仅在 system 为 true 时有效，该值在 {@link notify} 参数中可修改。
      */
     lang?: string;
-
-    /**
-     * 通知的自动关闭时间，如果大于 0，超过此毫秒数时将自动关闭提示框，该值在 {@link notify} 参数中可修改。
-     */
-    timeout: number;
 }
 
 /**
@@ -71,8 +66,7 @@ export interface Props extends BaseProps, ParentProps {
  * NOTE: 不可多次调用，仅用于初始化通知组件。
  */
 export default function Notify(props: Props): JSX.Element {
-    const [, , opt] = useComponents();
-    props = mergeProps({timeout: opt.stays, palette: 'error' as Palette}, props);
+    props = mergeProps({palette: 'error' as Palette}, props);
     return <>
         <Portal>{initNotify(props)}</Portal>
         {props.children}
@@ -80,31 +74,20 @@ export default function Notify(props: Props): JSX.Element {
 }
 
 function initNotify(p: Props): JSX.Element {
-    const [msgs, setMsgs] = createSignal<Array<Omit<AlertProps, 'del'>>>([]);
+    const [, , opt] = useComponents();
+    let ref: HTMLDivElement;
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout?: number) => {
         lang = lang ?? p.lang;
-        timeout = timeout ?? p.timeout;
+        timeout = timeout ?? opt.stays;
 
         if (p.system && await systemNotify(title, body, p.icon, lang, timeout)) { return; }
 
-        const id = createUniqueId();
-        let palette: Palette | undefined;
-        if (type) { palette = type2Palette.get(type); }
-        setMsgs((prev) => [...prev, { title, body, type, id, timeout, palette: palette }]);
+        const palette = type ? type2Palette.get(type) : undefined;
+        render(() => <Alert {...{ title, body, type, timeout, palette }} />, ref);
     };
 
-    return <div class={joinClass(p.palette, styles.notify, p.class)}>
-        <For each={msgs()}>
-            {item => (
-                <Alert {...item} del={(id) => {
-                    setMsgs((prev) => {
-                        return [...prev.filter((n) => { return n.id !== id; })];
-                    });
-                }} />
-            )}
-        </For>
-    </div>;
+    return <div ref={el => ref = el} class={joinClass(p.palette, styles.notify, p.class)} />;
 }
 
 /**
