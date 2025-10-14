@@ -178,7 +178,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         isSelected() ? props.selectedClass : '',
                     ));
 
-                    return <li ref={el => liRef = el} class={cls()} onMouseEnter={e => {
+                    return <li ref={el => liRef = el} aria-selected={isSelected()} class={cls()} onMouseEnter={e => {
                         if (props.layout === 'inline') { return; }
 
                         const curr = e.currentTarget as HTMLLIElement;

@@ -5,11 +5,12 @@
 import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
-import { AvailableEnumType, cloneElement, joinClass } from '@/base';
+import { AvailableEnumType, cloneElement, joinClass, transitionDuration } from '@/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
-import { Dropdown, MenuItem, MenuItemItem } from '@/menu';
+import { Dropdown, DropdownRef, MenuItem, MenuItemItem } from '@/menu';
+import { sleep } from '@cmfx/core';
 import styles from './style.module.css';
 
 /**
@@ -71,26 +72,21 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 
     const getSingleItem = (val: T): MenuItemItem<T> | undefined => {
         let item: MenuItemItem<T> | undefined = undefined;
-        wlak(i => {
-            if (i.value === val) { item = i; }
-        }, props.options);
+        wlak(i => { if (i.value === val) { item = i; } }, props.options);
         return item;
     };
 
     const getMultipleItems = (vals: Array<T>): Array<MenuItemItem<T>> => {
         let items: Array<MenuItemItem<T>> = [];
-        wlak(i => {
-            if (vals.includes(i.value!)) { items.push(i); }
-        }, props.options);
+        wlak(i => { if (vals.includes(i.value!)) { items.push(i); } }, props.options);
         return items;
     };
 
-    let li: Array<HTMLLIElement> = new Array<HTMLLIElement>(props.options.length);
-    const scrollIntoView = () => {
-        for (let i = 0; i < props.options.length; i++) {
-            const elem = li[i];
-            if (elem && elem.ariaSelected === 'true') {
-                elem.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    let liList: NodeListOf<HTMLLIElement>;
+    const scrollIntoView = () => { // 滚动到第一个选中项，如果选中项是子菜单，则无效。
+        for (const li of liList) {
+            if (li && li.ariaSelected === 'true') {
+                li.scrollIntoView({ block: 'center', behavior: 'smooth' });
                 return;
             }
         }
@@ -98,7 +94,13 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
+    const value = createMemo(() => { // 生成下拉菜单的选中项
+        const v = props.accessor.getValue();
+        return v ? (Array.isArray(v) ? v : [v]) : undefined;
+    });
+
     const id = createUniqueId();
+    let dropdownRef: DropdownRef;
     return <Field class={joinClass(undefined, styles.activator, props.class)}
         title={props.title} palette={props.palette} aria-haspopup
     >
@@ -106,11 +108,19 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <Dropdown class={styles.pop} items={props.options} multiple={props.multiple} onPopover={e => {
+        <Dropdown value={value()} items={props.options} multiple={props.multiple} ref={el => {
+            const s = el.menu().element().style;
+            s.maxHeight = '240px';
+            s.overflowY = 'auto';
+
+            liList = el.menu().element().querySelectorAll('li');
+
+            dropdownRef = el;
+        }} onPopover={e => {
             if (props.disabled) { return true; } // disabled 模式下不弹出菜单
 
             if (e) {
-                scrollIntoView();
+                sleep(transitionDuration(dropdownRef.element())).then(() => { scrollIntoView(); });
             }
             return false;
         }} onChange={e => {
@@ -125,7 +135,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
                 />
                 <div class={styles.input}>
                     <Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
-                        <Match when={(props.multiple && (props.accessor.getValue() as Array<T>).length > 0) ? props.accessor.getValue() as Array<T> : undefined}>
+                        <Match when={props.multiple ? (value() && value()!.length > 0 ? value() : undefined) : undefined}>
                             {val =>
                                 <For each={getMultipleItems(val())}>
                                     {item =>
@@ -134,7 +144,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
                                 </For>
                             }
                         </Match>
-                        <Match when={!props.multiple && props.accessor.getValue() ? props.accessor.getValue() as T : undefined}>
+                        <Match when={!props.multiple ? (value() && value()!.length > 0 ? value()![0] : undefined) : undefined}>
                             {val => <>{cloneElement(getSingleItem(val())?.label)}</>}
                         </Match>
                     </Switch>

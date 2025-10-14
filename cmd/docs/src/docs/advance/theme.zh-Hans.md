@@ -36,3 +36,14 @@
 - z-popover: 一此普通的弹出元素；
 - z-notify: 通知类型的弹出元素；
 - z-dialog: 弹出对话框；
+
+## 全局 CSS
+
+### `.prefers-reduced-motion`
+
+减少动画效果，与 `@media (prefers-reduced-motion: reduce)` 一样的效果，但是此类可以用于局部。
+系统级别的设置可参考[设置](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media/prefers-reduced-motion#%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD)
+
+### `.no-print`
+
+通过 `@cmfx/core` 下的 `printElement` 打印内容的，可通过为子元素添加此类名以达到不打印的目的。
