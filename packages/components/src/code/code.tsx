@@ -55,9 +55,9 @@ export interface Props extends BaseProps {
 }
 
 /**
- * 代码显示组件，并没有高亮功能。
+ * 代码显示组件
  *
- * @remarks 用户需要自己在 package.json 的 dependencies 中导入
+ * @remarks 默认并没有高亮功能，用户需要自己在 package.json 的 dependencies 中导入
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
 export default function Code(props: Props): JSX.Element {

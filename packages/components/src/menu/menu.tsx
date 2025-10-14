@@ -185,7 +185,8 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         const ul = curr.querySelector(':scope>ul') as HTMLUListElement;
                         if (!ul) { return; }
 
-                        ul.style.display = 'flex';
+                        ul.classList.remove('pop');
+                        ul.classList.add('popopen');
                         const rtl = window.getComputedStyle(ul).direction === 'rtl';
                         const p = i().level === 0
                             ? calcPopoverPosition(ul, curr.getBoundingClientRect(),
@@ -204,7 +205,8 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         const ul = curr.querySelector(':scope>ul') as HTMLUListElement;
                         if (!ul) { return; }
 
-                        ul.style.display = 'none';
+                        ul.classList.remove('popopen');
+                        ul.classList.add('pop');
                         e.preventDefault();
                     }} onClick={async e => {
                         if (i().disabled) { return; }

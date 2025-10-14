@@ -23,17 +23,17 @@
         }
 
         >.action {
-            @apply hidden hover:text-palette-fg-low active:text-palette-fg-high;
+            @apply opacity-0 hover:text-palette-fg-focused active:text-palette-fg-actived;
         }
     }
 
     .shiki:hover {
         >.lang {
-            @apply hidden;
+            @apply opacity-0;
         }
 
         >.action {
-            @apply block cursor-pointer;
+            @apply block cursor-pointer opacity-100;
         }
     }
 

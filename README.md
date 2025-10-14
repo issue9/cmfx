@@ -2,10 +2,8 @@
 
 ![Version](https://img.shields.io/github/v/tag/issue9/cmfx?label=version)
 [![Go version](https://img.shields.io/github/go-mod/go-version/issue9/cmfx)](https://pkg.go.dev/github.com/issue9/cmfx)
-
 [![PkgGoDev](https://pkg.go.dev/badge/github.com/issue9/cmfx)](https://pkg.go.dev/github.com/issue9/cmfx)
 [![jsDocs.io](https://img.shields.io/badge/jsDocs.io-reference-blue)](https://www.jsdocs.io/package/@cmfx/admin)
-
 [![Test](https://github.com/issue9/cmfx/actions/workflows/test.yml/badge.svg)](https://github.com/issue9/cmfx/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/issue9/cmfx/graph/badge.svg?token=D5y3FOJk8A)](https://codecov.io/gh/issue9/cmfx)
 
