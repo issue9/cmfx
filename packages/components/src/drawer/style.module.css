@@ -15,7 +15,7 @@
             transform-origin: left;
             transform: scaleX(1);
             flex-basis: content;
-            transition: transform var(--default-transition-duration) ease-in-out;
+            @apply transition-transform ease-in-out;
         }
 
         >main {

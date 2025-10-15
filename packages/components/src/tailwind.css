@@ -9,6 +9,14 @@
 :root {
     color-scheme: light dark;
 
+    /*
+     * 重定义了 tailwind 的默认变量
+     *
+     * 默认值与 @theme 中定义的值是不相同的，默认值写在 @theme 中不起作用。
+     */
+
+    --default-transition-duration: 300ms;
+
     --primary-bg-low: light-dark(var(--color-blue-100), var(--color-blue-800));
     --primary-bg: light-dark(var(--color-blue-300), var(--color-blue-900));
     --primary-bg-high: light-dark(var(--color-blue-400), var(--color-blue-950));
@@ -102,8 +110,6 @@
 /****************** tailwind *********************/
 
 @theme inline {
-    --default-transition-duration: 300ms;
-
     --color-primary-bg-low: var(--primary-bg-low);
     --color-primary-bg: var(--primary-bg);
     --color-primary-bg-high: var(--primary-bg-high);

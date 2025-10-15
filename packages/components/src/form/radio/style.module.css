@@ -15,9 +15,9 @@
         @apply focus:border-palette-fg-focused;
         @apply active:border-palette-fg-actived;
         @apply disabled:cursor-not-allowed disabled:border-palette-fg-disabled;
+        @apply transition;
 
         vertical-align: middle;
-        transition: all var(--default-transition-duration) ease;
     }
 
     input[type="radio"].rounded {
@@ -26,9 +26,9 @@
 
     /* 内部实心圆 */
     input[type="radio"]:after {
+        @apply transition;
         @apply inline-block absolute start-1/4 top-1/4 bg-palette-fg rounded-sm w-1/2 h-1/2 opacity-0;
         content: '';
-        transition: all var(--default-transition-duration) ease;
         transform-origin: center center;
         pointer-events: none;
     }
@@ -53,6 +53,7 @@
     .radio.block {
         @apply min-w-4 min-h-4;
         @apply border-palette-border rounded-sm;
+        @apply transition;
 
         input {
             @apply hidden;
