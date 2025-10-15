@@ -8,8 +8,8 @@ import {
     Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes,
     run, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
-import { RouteDefinition } from '@solidjs/router';
-import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';
+import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
+import { createSignal, JSX, lazy, Show } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
@@ -43,7 +43,7 @@ const docsRoute = '/docs';
 const demoRoute = '/demo';
 const themeRoute = '/theme-builder';
 
-function InternalApp(props: ParentProps): JSX.Element {
+function InternalApp(props: RouteSectionProps): JSX.Element {
     const l = useLocale();
     const [, act] = useComponents();
     const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
@@ -178,4 +178,4 @@ const routes: Array<RouteDefinition> = [
     buildDocsRoute(docsRoute),
 ];
 
-run(InternalApp, routes, document.getElementById('app')!, options);
+run((props: RouteSectionProps) => <InternalApp {...props} />, routes, document.getElementById('app')!, options);

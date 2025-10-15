@@ -38,7 +38,7 @@
             }
 
             >ul {
-                @apply box-content flex pop;
+                @apply flex;
             }
 
             >ul.pop {
@@ -93,7 +93,7 @@
         }
 
         li>ul {
-            @apply min-w-max z-popover fixed rounded-md shadow-md;
+            @apply min-w-max z-popover fixed rounded-md shadow-md pop;
             @apply bg-palette-bg text-palette-fg;
             @apply border border-palette-border;
         }
@@ -114,7 +114,7 @@
         }
 
         li>ul {
-            @apply min-w-max z-popover fixed rounded-md shadow-md;
+            @apply min-w-max z-popover fixed rounded-md shadow-md pop;
             @apply bg-palette-bg text-palette-fg;
             @apply border border-palette-border;
         }
@@ -136,7 +136,7 @@
 
         li {
             >ul {
-                @apply flex flex-col !rounded-none;
+                @apply flex-col !rounded-none;
             }
         }
 
@@ -149,7 +149,7 @@
         }
     }
 
-    /************************************************* context ********************/
+    /********************************* dropdown *******************************/
 
     .dropdown {
         @apply border border-palette-border rounded-md;
