@@ -11,7 +11,7 @@
         @apply h-full w-full flex overflow-hidden relative bg-palette-bg text-palette-fg;
 
         >aside {
-            @apply h-full bg-[var(--bg)] text-[var(--fg)] z-affix overflow-y-auto overflow-x-hidden;
+            @apply h-full bg-palette-bg text-palette-fg z-affix overflow-y-auto overflow-x-hidden;
             transform-origin: left;
             transform: scaleX(1);
             flex-basis: content;
@@ -44,7 +44,7 @@
         }
     }
 
-    .drawer.right {
+    .drawer.end {
         @apply flex-row-reverse;
 
         >aside {

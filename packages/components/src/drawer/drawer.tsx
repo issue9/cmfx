@@ -5,7 +5,7 @@
 import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import { Transition, TransitionProps } from 'solid-transition-group';
 
-import { BaseProps, Breakpoint, classList, Palette } from '@/base';
+import { BaseProps, Breakpoint, classList, joinClass, Palette } from '@/base';
 import styles from './style.module.css';
 
 const transition: TransitionProps = {
@@ -46,9 +46,9 @@ export interface Props extends BaseProps {
     floating?: boolean | Breakpoint;
 
     /**
-     * 位置，默认值为 left
+     * 位置，默认值为 start
      */
-    pos?: 'left' | 'right';
+    pos?: 'start' | 'end';
 
     /**
      * 侧边栏的内容
@@ -64,7 +64,7 @@ export interface Props extends BaseProps {
 }
 
 const presetProps: Readonly<Partial<Props>> = {
-    pos: 'left',
+    pos: 'start',
     floating: false
 };
 
@@ -106,20 +106,18 @@ export function Drawer(props: Props) {
 
     return <div ref={el => mainRef = el} class={classList(props.palette, {
         'cmfx-drawer-floating': !floatCls() && canFloating(),
-        'max-xs:cmfx-drawer-floating': floatCls() == 'xs',
-        'max-sm:cmfx-drawer-floating': floatCls() == 'sm',
-        'max-md:cmfx-drawer-floating': floatCls() == 'md',
-        'max-lg:cmfx-drawer-floating': floatCls() == 'lg',
-        'max-xl:cmfx-drawer-floating': floatCls() == 'xl',
-        'max-2xl:cmfx-drawer-floating': floatCls() == '2xl',
-    },
-    props.pos === 'right' ? styles.right : '',
-    styles.drawer, props.class)
-    }>
-        <aside ref={(el) => asideRef = el} classList={{
-            ['cmfx-drawer-hidden-aside']: !props.visible && canFloating(),
-        }}>{props.children}</aside>
-        <main class={props.mainPalette ? `palette--${props.mainPalette}` : undefined}>
+        '@max-xs/root:cmfx-drawer-floating': floatCls() == 'xs',
+        '@max-sm/root:cmfx-drawer-floating': floatCls() == 'sm',
+        '@max-md/root:cmfx-drawer-floating': floatCls() == 'md',
+        '@max-lg/root:cmfx-drawer-floating': floatCls() == 'lg',
+        '@max-xl/root:cmfx-drawer-floating': floatCls() == 'xl',
+        '@max-2xl/root:cmfx-drawer-floating': floatCls() == '2xl',
+    }, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
+    >
+        <aside ref={(el) => asideRef = el}
+            class={!props.visible && canFloating() ? 'cmfx-drawer-hidden-aside' : undefined}
+        >{props.children}</aside>
+        <main class={joinClass(props.mainPalette)}>
             <Transition {...transition}>{props.main}</Transition>
         </main>
     </div>;

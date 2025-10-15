@@ -6,8 +6,7 @@ import './style.css';
 
 import {
     Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes,
-    run,
-    TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
+    run, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
 import { createSignal, JSX, lazy, ParentProps, Show } from 'solid-js';

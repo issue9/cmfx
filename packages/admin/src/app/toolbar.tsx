@@ -97,12 +97,12 @@ export default function Toolbar(props: Props) {
     }>
         <Show when={act.isLogin()}>
             <Button square rounded type="button" kind='flat' class={classList(undefined, {
-                'xs:!hidden': opt.aside.floatingMinWidth == 'xs',
-                'sm:!hidden': opt.aside.floatingMinWidth == 'sm',
-                'md:!hidden': opt.aside.floatingMinWidth == 'md',
-                'lg:!hidden': opt.aside.floatingMinWidth == 'lg',
-                'xl:!hidden': opt.aside.floatingMinWidth == 'xl',
-                '2xl:!hidden': opt.aside.floatingMinWidth == '2xl',
+                '@xs/root:!hidden': opt.aside.floatingMinWidth == 'xs',
+                '@sm/root:!hidden': opt.aside.floatingMinWidth == 'sm',
+                '@md/root:!hidden': opt.aside.floatingMinWidth == 'md',
+                '@lg/root:!hidden': opt.aside.floatingMinWidth == 'lg',
+                '@xl/root:!hidden': opt.aside.floatingMinWidth == 'xl',
+                '@2xl/root:!hidden': opt.aside.floatingMinWidth == '2xl',
             })} onclick={() => props.menuVisible[1](!props.menuVisible[0]())}>
                 {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
             </Button>
