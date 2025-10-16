@@ -92,4 +92,12 @@
             }
         }
     }
+
+    .memstatistic {
+        @apply flex flex-wrap justify-between gap-1;
+
+        .item {
+            @apply flex-1;
+        }
+    }
 }

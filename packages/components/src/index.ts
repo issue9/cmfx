@@ -44,7 +44,7 @@ export * from './pagination';
 export * from './qrcode';
 export * from './result';
 export * from './spin';
-export * from './statistics';
+export * from './statistic';
 export * from './tab';
 export * from './table';
 export * from './theme';

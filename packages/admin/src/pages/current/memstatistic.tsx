@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Statistics } from '@cmfx/components';
+import { Statistic as XS } from '@cmfx/components';
 import { JSX, createSignal, onMount } from 'solid-js';
 import IconCalendar from '~icons/material-symbols/calendar-month';
 import IconToday from '~icons/material-symbols/calendar-today';
@@ -12,6 +12,7 @@ import IconPersonChk from '~icons/material-symbols/person-check';
 import IconRecord from '~icons/material-symbols/record-voice-over';
 
 import { useAdmin, useLocale } from '@/context';
+import styles from './style.module.css';
 
 export function MemStatistic(): JSX.Element {
     const [s, setStatistic] = createSignal<Statistic>({
@@ -35,14 +36,14 @@ export function MemStatistic(): JSX.Element {
         setStatistic(r.body!);
     });
 
-    return <Statistics items={[
-        [l.t('_p.current.allMembers'), s().all, <IconGroup />],
-        [l.t('_p.current.monthMembers'), s().month, <IconCalendar />],
-        [l.t('_p.current.weekMembers'), s().week, <IconWeek />],
-        [l.t('_p.current.dayMembers'), s().day, <IconToday />],
-        [l.t('_p.current.activeMembers'), s().active, <IconPersonChk />],
-        [l.t('_p.current.onlineMembers'), s().online, <IconRecord />],
-    ]} />;
+    return <div class={styles.memstatistic}>
+        <XS class={styles.item} label={l.t('_p.current.allMembers')} icon={<IconGroup />} value={s().all} />
+        <XS class={styles.item} label={l.t('_p.current.monthMembers')} icon={<IconCalendar />} value={s().month} />
+        <XS class={styles.item} label={l.t('_p.current.weekMembers')} icon={<IconWeek />} value={s().week} />
+        <XS class={styles.item} label={l.t('_p.current.dayMembers')} icon={<IconToday />} value={s().day} />
+        <XS class={styles.item} label={l.t('_p.current.activeMembers')} icon={<IconPersonChk />} value={s().active} />
+        <XS class={styles.item} label={l.t('_p.current.onlineMembers')} icon={<IconRecord />} value={s().online} />
+    </div>;
 }
 
 interface Statistic {

@@ -92,7 +92,7 @@ const messages = {
             range: 'Range',
             result: 'Result',
             spin: 'Spin',
-            statistics: 'Statistics',
+            statistic: 'Statistic',
             stepper: 'Stepper',
             tab: 'Tab',
             table: 'Table',

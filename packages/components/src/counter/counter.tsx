@@ -48,7 +48,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
 
 const presetProps: Readonly<Partial<Props>> = {
     start: 0,
-    formatter: (v: number): string => v.toString(),
+    formatter: (v: number): string => v.toFixed(0),
     frequency: 20,
 } as const;
 
@@ -83,7 +83,6 @@ export default function Counter(props: Props): JSX.Element {
         const s = props.start;
         play();
     });
-
 
     return <div class={joinClass(props.palette, styles.counter, props.class)} ref={el => {
         dur = transitionDuration(el); // 当前对象的主题可能与全局的不一样。

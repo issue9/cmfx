@@ -37,7 +37,7 @@ import IconTooltip from '~icons/mdi/tooltip-text';
 import IconTimePanel from '~icons/mingcute/calendar-time-add-fill';
 import IconCode from '~icons/mingcute/code-fill';
 import IconQRCode from '~icons/mingcute/qrcode-2-fill';
-import IconStatistics from '~icons/octicon/number-16';
+import IconStatistic from '~icons/octicon/number-16';
 import IconSpin from '~icons/pepicons-pop/arrow-spin-circle';
 import IconDivider from '~icons/pixel/divider-solid';
 import IconTypography from '~icons/proicons/text-typography';
@@ -229,8 +229,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.qrcode', icon: <IconQRCode /> },
     },
     {
-        kind: 'data-display', path: '/statistics', component: lazy(() => import('./statistics')),
-        info: { title: '_d.demo.statistics', icon: <IconStatistics /> },
+        kind: 'data-display', path: '/statistic', component: lazy(() => import('./statistic')),
+        info: { title: '_d.demo.statistic', icon: <IconStatistic /> },
     },
     {
         kind: 'data-display', path: '/table', component: lazy(() => import('./table')),

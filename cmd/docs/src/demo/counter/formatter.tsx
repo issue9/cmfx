@@ -17,7 +17,7 @@ export default function() {
     return <div>
         {paletteS}
         <Number accessor={fa} />
-        <Counter ref={el => ref = el} palette={palette()} value={500} formatter={(v:number)=>`${v.toFixed(2)}%`} frequency={freq[0]()}  />
+        <Counter start={999} ref={el => ref = el} palette={palette()} value={500} formatter={(v:number)=>`${v.toFixed(2)}%`} frequency={freq[0]()}  />
         <Button onclick={() => ref.play()}>play</Button>
     </div>;
 }
