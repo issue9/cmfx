@@ -21,12 +21,12 @@
             }
 
             .unit {
-                @apply text-palette-fg-low text-sm;
+                @apply text-palette-fg/50 text-sm;
             }
         }
 
         .sep {
-            @apply text-palette-fg-low;
+            @apply text-palette-fg/50;
         }
     }
 }

@@ -65,6 +65,7 @@ const messages = {
             calendar: 'Calendar',
             card: 'Card',
             code: 'Code',
+            counter: 'Counter',
             chart: 'Chart',
             checkbox: 'Checkbox',
             choice: 'Choice',

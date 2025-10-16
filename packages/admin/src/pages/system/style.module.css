@@ -36,9 +36,11 @@
     }
 
     .about {
+        @apply @container/about;
+
         >fieldset {
-            @apply grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border border-palette-border rounded-md px-4 py-3;
-            @apply bg-palette-bg;
+            @apply grid grid-cols-1 border border-palette-border rounded-md px-4 py-3 bg-palette-bg;
+            @apply @sm/about:grid-cols-2 @md/about:grid-cols-3 @lg/about:grid-cols-4;
 
             .item {
                 @apply flex flex-col p-2 hover:cursor-pointer border border-transparent text-palette-fg;

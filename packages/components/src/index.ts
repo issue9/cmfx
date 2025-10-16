@@ -28,6 +28,7 @@ export * from './card';
 export * from './chart';
 export * from './code';
 export * from './context';
+export * from './counter';
 export * from './datetime';
 export * from './dialog';
 export * from './divider';

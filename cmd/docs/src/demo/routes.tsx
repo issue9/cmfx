@@ -20,6 +20,7 @@ import IconTimer from '~icons/fluent/timer-10-24-filled';
 import IconForm from '~icons/icon-park-outline/form';
 import IconPage from '~icons/icon-park-outline/page';
 import IconPresetComponent from '~icons/iconamoon/component-fill'; // 组件的默认图标
+import IconCounter from '~icons/ix/counter';
 import IconDate from '~icons/lets-icons/date-range-light';
 import IconTable from '~icons/lets-icons/table';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
@@ -186,6 +187,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'data-display', path: '/code', component: lazy(() => import('./code')),
         info: { title: '_d.demo.code', icon: <IconCode /> },
+    },
+    {
+        kind: 'data-display', path: '/counter', component: lazy(() => import('./counter')),
+        info: { title: '_d.demo.counter', icon: <IconCounter /> },
     },
     {
         kind: 'data-display', path: '/chart', component: lazy(() => import('./chart')),

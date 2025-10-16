@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createTimer, Duration, ms, nano2IntlDuration, parseDuration } from '@cmfx/core';
-import { createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
+import { Accessor, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 
 import { BaseProps, joinClass, RefProps } from '@/base';
 import { useLocale } from '@/context';
@@ -102,8 +102,9 @@ export default function Timer(props: Props): JSX.Element {
 
     const [dur, setDur] = createSignal<Intl.DurationInput>(nano2IntlDuration(parseDuration(props.duration)));
 
-    const timer = createMemo(() => { // 监视 props.duration 和 props.interval 的变化
-        if (timer()) { timer().stop(); }
+    let timer: Accessor<ReturnType<typeof createTimer>>;
+    timer = createMemo(() => { // 监视 props.duration 和 props.interval 的变化
+        if (timer) { timer().stop(); }
 
         return createTimer(parseDuration(props.duration) / ms, props.interval! * 1000, t => {
             setDur(nano2IntlDuration(t * ms));
