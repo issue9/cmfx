@@ -38,7 +38,7 @@ export function useAdmin() {
     return [ctx.coreAPI, ctx.actions, ctx] as [api: API, actions: ReturnType<typeof buildActions>, options: OptContext];
 }
 
-// NOTE: 需要保证在 {@link OptionsProvider} 组件之内
+// NOTE: 需要保证在 {@link run} 之内运行
 export function Provider(props: ParentProps<OptContext>): JSX.Element {
     const nav = useNavigate();
     const [api, act, opt] = useComponents();

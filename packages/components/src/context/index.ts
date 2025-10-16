@@ -4,7 +4,7 @@
 
 export type { Options } from './options';
 
-export { OptionsProvider, useComponents } from './context';
+export { useComponents } from './context';
 export type { Actions } from './context';
 
 export { LocaleProvider, useLocale } from './locale';

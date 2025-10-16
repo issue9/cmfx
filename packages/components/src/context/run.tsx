@@ -6,8 +6,8 @@ import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router'
 import { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
-import { SystemDialog } from '@/dialog';
-import { Notify } from '@/notify';
+import { default as SystemDialog } from '@/dialog/system';
+import { default as Notify } from '@/notify/notify';
 import { OptionsProvider } from './context';
 import { Options } from './options';
 import styles from './style.module.css';
@@ -15,11 +15,8 @@ import styles from './style.module.css';
 /**
  * 运行项目
  *
- * @remarks 这会将参数 app 包含在 {@link OptionsProvider}、{@link SystemDialog} 和 {@link Notify} 包围的组件中。
- *
- * 此方法会将 'root' 作为 mountedElement 上的 `container-name` 值，
- * 其它组件的 css 样式会用到此属性，比如 {@link Notify} 就使用 `@sm/root:` 作为样式变体。
- * 如果不是通过此方法创建的，需要手动向 mountedElement 添加 `container-name` 属性。
+ * @remarks 此方法会将 'root' 作为 mountedElement 上的 `container-name` 值，
+ * 子组件的 css 样式可以使用此作为容器查询，比如 {@link Notify} 就使用 `@sm/root:` 作为样式变体。
  *
  * @param app - 实际的内容组件；
  * @param routes - 路由数据；

@@ -70,7 +70,7 @@ function Alert(props: DialogProps): JSX.Element {
  * {@link window#alert} 是阻塞模式的，而当前函数则是异步函数。
  *
  * @param msg - 提示框的内容；
- * @param title - 提示框的标题，如果为空则采用 {@link SystemDialog} 的 {@link Props#header} 作为默认值；
+ * @param title - 提示框的标题；
  */
 export async function alert(msg: any, title?: string): Promise<void> {
     await alertInst(msg, title);
@@ -108,7 +108,7 @@ function Confirm(props: DialogProps): JSX.Element {
  * {@link window#confirm} 是阻塞模式的，而当前函数则是异步函数。
  *
  * @param msg - 提示框的内容；
- * @param title - 提示框的标题，如果为空则采用 {@link SystemDialog} 的 {@link Props#header} 作为默认值；
+ * @param title - 提示框的标题；
  */
 export async function confirm(msg?: string, title?: string): Promise<boolean> {
     return await confirmInst(msg, title);
@@ -150,7 +150,7 @@ function Prompt(props: DialogProps): JSX.Element {
  *
  * @param msg - 对话框的内容；
  * @param val - 对话框中的默认值；
- * @param title - 对话框的标题，如果为空则采用 {@link SystemDialog} 的 {@link Props#header} 作为默认值；
+ * @param title - 对话框的标题；
  */
 export async function prompt(msg?: string, val?: string, title?: string): Promise<string | null> {
     return await promptInst(msg, val, title);

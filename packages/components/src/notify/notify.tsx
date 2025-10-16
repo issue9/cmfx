@@ -27,8 +27,6 @@ let notifyInst: typeof notify;
 /**
  * 发送一条通知给用户
  *
- * @remarks 仅可在 {@link Notify} 组件之内使用。
- *
  * @param title - 标题；
  * @param body - 具体内容，如果为空则只显示标题；
  * @param type - 类型，仅对非系统通知的情况下有效；
