@@ -55,6 +55,14 @@ export function BackTop(props: Props): JSX.Element {
 
         calcVisible(); // 初始化状态
         scroller!.addEventListener('scroll', calcVisible);
+    });
+
+    onCleanup(() => {
+        scroller && scroller.removeEventListener('scroll', calcVisible);
+    });
+
+    return <Button square rounded palette={props.palette} ref={el => {
+        ref = el;
 
         if (props.ref) {
             props.ref({
@@ -62,14 +70,7 @@ export function BackTop(props: Props): JSX.Element {
                 backtop() { backtop(); }
             });
         }
-    });
-
-    onCleanup(() => {
-        scroller && scroller.removeEventListener('scroll', calcVisible);
-    });
-
-    return <Button square rounded palette={props.palette} ref={el => ref = el}
-        class={joinClass(undefined, styles.backtop, props.class)} onclick={() => backtop()}
+    }} class={joinClass(undefined, styles.backtop, props.class)} onclick={() => backtop()}
     >
         {props.children ?? <IconVerticalAlignTop />}
     </Button>;

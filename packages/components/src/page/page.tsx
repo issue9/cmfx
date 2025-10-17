@@ -2,23 +2,37 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, JSX, Match, ParentProps, Switch } from 'solid-js';
+import { createEffect, JSX, Match, onMount, ParentProps, Switch } from 'solid-js';
 
-import { BackTop, BackTopProps } from '@/backtop';
-import { BaseProps, joinClass } from '@/base';
+import { BackTop, BackTopProps, BackTopRef } from '@/backtop';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import { useComponents, useLocale } from '@/context';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Ref {
     /**
-     * 配置 BackTop 组件
+     * 返回组件的根元素
+     */
+    element(): HTMLDivElement;
+
+    /**
+     * 返回顶部按钮的接口
+     */
+    backtop(): BackTopRef;
+}
+
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+    /**
+     * 配置 {@link BackTop} 组件
      *
      * @remarks 可以有以下取值：
      * - undefined 默认选项的 BackTop 组件；
      * - false 不显示 BackTop 组件；
      * - {@link BackTopProps} 自定义的 BackTop 组件属性；
+     *
+     * @defaultValue undefined
      */
-    backtop?: false | BackTopProps;
+    backtop?: false | Omit<BackTopProps, 'ref'>;
 
     /**
      * 页面标题的翻译 ID
@@ -35,14 +49,26 @@ export function Page (props: Props): JSX.Element {
     const [, act] = useComponents();
     const l = useLocale();
 
+    let ref: HTMLDivElement;
+    let backtopRef: BackTopRef;
+
     createEffect(() => { act.setTitle(l.t(props.title)); });
 
-    return <div class={joinClass(props.palette, styles.page, props.class)}>
+    onMount(() => {
+        if (props.ref) {
+            props.ref({
+                element: () => ref,
+                backtop: () => backtopRef,
+            });
+        }
+    });
+
+    return <div ref={el => ref = el} class={joinClass(props.palette, styles.page, props.class)}>
         {props.children}
         <Switch>
-            <Match when={props.backtop === undefined}><BackTop /></Match>
-            <Match when={props.backtop !== false}>
-                {p => <BackTop {...p} />}
+            <Match when={props.backtop === undefined}><BackTop ref={el => backtopRef = el} /></Match>
+            <Match when={props.backtop !== false ? props.backtop : undefined}>
+                {p => <BackTop {...p} ref={el => backtopRef = el} />}
             </Match>
         </Switch>
     </div>;
