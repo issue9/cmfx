@@ -6,7 +6,7 @@ import { BackTop } from '@cmfx/components';
 import { For, JSX } from 'solid-js';
 import IconNav from '~icons/material-symbols/navigation';
 
-import { Demo, paletteSelector } from './base';
+import { paletteSelector } from '../base';
 
 export default function(): JSX.Element {
     const [paletteS, palette] = paletteSelector();
@@ -15,23 +15,15 @@ export default function(): JSX.Element {
         len.push(i);
     }
 
-    return <Demo settings={paletteS}>
-        <div class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">
+    return <div>
+        {paletteS}
+        <div class="overflow-y-scroll w-1/3 h-[100px] border border-palette-fg mt-10">
             <For each={len}>
-                {(i) => (
-                    <>{i} <br /></>
-                )}
-            </For>
-            <BackTop palette={palette()} class="mb-10 start-[300px] !bottom-4 end-[unset]" />
-        </div>
-
-        <div class="overflow-y-scroll w-1/3 h-[500px] border border-palette-fg mt-10">
-            <For each={len}>
-                {(i) => (
+                {i => (
                     <>{i} <br /></>
                 )}
             </For>
             <BackTop palette={palette()} class="mb-10">{<IconNav />}</BackTop>
         </div>
-    </Demo>;
+    </div>;
 }
