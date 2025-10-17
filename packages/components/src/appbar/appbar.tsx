@@ -50,8 +50,12 @@ export default function Appbar(props: Props): JSX.Element {
             <h1 class={styles.name}>{props.title}</h1>
         </Dynamic>
 
-        <div class={styles.main}>{props.children}</div>
+        <Show when={props.children}>
+            <div class={styles.main}>{props.children}</div>
+        </Show>
 
-        <div class={styles.actions}>{props.actions}</div>
+        <Show when={props.actions}>
+            <div class={styles.actions}>{props.actions}</div>
+        </Show>
     </header>;
 }

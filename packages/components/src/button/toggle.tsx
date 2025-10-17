@@ -82,12 +82,12 @@ export function ToggleButton(props: Props): JSX.Element {
     </Button>;
 }
 
-export type ToggleFullscreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'>;
+export type ToggleFullScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'>;
 
 /**
  * 切换全屏状态的按钮
  */
-export function ToggleFullscreenButton(props: ToggleFullscreenButtonProps): JSX.Element {
+export function ToggleFullScreenButton(props: ToggleFullScreenButtonProps): JSX.Element {
     const [fs, setFS] = createSignal(!document.fullscreenElement);
 
     // 有可能浏览器通过其它方式控制全屏功能

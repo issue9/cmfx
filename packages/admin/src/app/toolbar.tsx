@@ -3,32 +3,21 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, classList, Dropdown, DropdownRef, fieldAccessor,
-    Locale, MenuItemItem, TextField, ToggleFullscreenButton, MenuItem as XMenuItem
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, fieldAccessor,
+    Locale, MenuItemItem, TextField, ToggleFullScreenButton, MenuItem as XMenuItem
 } from '@cmfx/components';
-import { createEffect, createSignal, JSX, Setter, Show, Signal } from 'solid-js';
+import { Accessor, createSignal, JSX, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
-import IconMenu from '~icons/material-symbols/menu';
-import IconMenuOpen from '~icons/material-symbols/menu-open';
 import IconSearch from '~icons/material-symbols/search';
 
 import { useAdmin, useLocale } from '@/context';
 import { MenuItem } from '@/options';
-
 import styles from './style.module.css';
-
-export interface MenuVisibleProps {
-    menuVisible: Signal<boolean>;
-}
-
-type Props = MenuVisibleProps & {
-    switch: Setter<string>; // 切换侧边栏菜单的操作
-};
 
 /**
  * 顶部工具栏
  */
-export default function Toolbar(props: Props) {
+export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>; }) {
     const [, act, opt] = useAdmin();
     const l = useLocale();
 
@@ -54,10 +43,6 @@ export default function Toolbar(props: Props) {
 
         setCandidate(items);
         if (items.length > 0) { dropdownRef.show(); }
-    });
-
-    createEffect(() => {
-        if (!opt.aside.floatingMinWidth) { props.menuVisible[1](true); }
     });
 
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
@@ -88,25 +73,14 @@ export default function Toolbar(props: Props) {
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>
                 {hk =>
-                    <ToggleFullscreenButton hotkey={hk()} square type='button' kind='flat'
+                    <ToggleFullScreenButton square type='button' kind='flat'
                         rounded title={l.t('_c.fullscreen')} />
                 }
             </Show>
             <Show when={act.user()}><UserMenu /></Show>
         </>
     }>
-        <Show when={act.isLogin()}>
-            <Button square rounded type="button" kind='flat' class={classList(undefined, {
-                '@xs/root:!hidden': opt.aside.floatingMinWidth == 'xs',
-                '@sm/root:!hidden': opt.aside.floatingMinWidth == 'sm',
-                '@md/root:!hidden': opt.aside.floatingMinWidth == 'md',
-                '@lg/root:!hidden': opt.aside.floatingMinWidth == 'lg',
-                '@xl/root:!hidden': opt.aside.floatingMinWidth == 'xl',
-                '@2xl/root:!hidden': opt.aside.floatingMinWidth == '2xl',
-            })} onclick={() => props.menuVisible[1](!props.menuVisible[0]())}>
-                {props.menuVisible[0]() ? <IconMenuOpen /> : <IconMenu />}
-            </Button>
-        </Show>
+        <Show when={act.isLogin()}>{props.drawer()?.ToggleButton()}</Show>
     </Appbar>;
 }
 

@@ -35,7 +35,7 @@ export default function SchemeBuilder(): JSX.Element {
         },
     };
 
-    return <Drawer class={styles.builder}
+    return <Drawer class={styles.builder} floating='md'
         palette='secondary' mainPalette='surface' main={<Demo m={modeFA} s={schemeFA} />}
     >
         {params(schemeFA, modeFA, ref)}

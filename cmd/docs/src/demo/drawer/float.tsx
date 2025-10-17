@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Breakpoint, breakpoints, Button, Drawer } from '@cmfx/components';
-import { createMemo, createSignal } from 'solid-js';
+import { Breakpoint, breakpoints, Button, Drawer, DrawerRef } from '@cmfx/components';
+import { createMemo, createSignal, Show } from 'solid-js';
 
 import { arraySelector } from '../base';
 
-export default function() {
+export default function () {
     const [breakpointS, breakpoint]
         = arraySelector<Breakpoint | 'true' | 'false'>('breakpoint', [...breakpoints, 'true', 'false'], 'md');
     const [posS, pos] = arraySelector('pos', ['start', 'end'], 'start');
@@ -25,12 +25,20 @@ export default function() {
     });
 
     const [visible, setVisible] = createSignal(true);
+    const [ref, setRef] = createSignal<DrawerRef>();
 
     return <div>
         {breakpointS}
         {posS}
-        {<Button onclick={()=>setVisible(!visible())}>show</Button>}
-        <Drawer pos={pos()} palette='primary' visible={visible()} floating={bp()} main={
+        {<Button onclick={() => {
+            setVisible(!visible());
+            ref()?.toggle();
+        }}>show</Button>}
+        <br />
+        <Show when={ref()}>
+            {ref()!.ToggleButton()}
+        </Show>
+        <Drawer ref={setRef} pos={pos()} palette='primary' visible={visible()} floating={bp()} main={
             <main class="h-full bg-secondary-bg">abc<br /><br /><br />
                 <br /><br /><br />hij
             </main>

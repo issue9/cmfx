@@ -16,7 +16,7 @@
     }
 
     .search-dropdown {
-        @apply w-60 self-center;
+        @apply w-60 self-center @max-md/root:hidden;
     }
 
     .search-icon {

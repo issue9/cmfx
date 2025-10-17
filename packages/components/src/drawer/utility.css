@@ -13,6 +13,5 @@
 
     >aside.cmfx-drawer-hidden-aside {
         transform: scaleX(0);
-        flex-basis: 0px;
     }
 }

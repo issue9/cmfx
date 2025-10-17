@@ -5,8 +5,7 @@
 import {
     Button, ButtonGroup, ButtonKind, buttonKinds, ConfirmButton,
     LinkButton, SplitButton, SplitButtonItem,
-    ToggleButton,
-    ToggleFitScreenButton
+    ToggleButton,ToggleFullScreenButton,ToggleFitScreenButton
 } from '@cmfx/components';
 import { Accessor, For, JSX, Setter } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
@@ -172,12 +171,24 @@ export default function() {
 
     const FitScreen = () => <div class="flex flex-wrap gap-5">
         <For each={palettesWithUndefined}>
-            {(c) => {
+            {(c, index) => {
                 let screenElement: HTMLElement;
                 return <div class="w-10" ref={el => screenElement = el}>
-                    <ToggleFitScreenButton square disabled={disabled()} rounded={rounded()} kind={kind()} container={screenElement!} palette={c} />
+                    <ToggleFitScreenButton square disabled={disabled()} rounded={rounded()} kind={kind()}
+                        container={screenElement!} palette={c} hotkey={new Hotkey('a' + index(), 'control')} />
                     <p>line1</p>
                     <p>line2</p>
+                </div>;
+            }}
+        </For>
+    </div>;
+
+    const FullScreen = () => <div class="flex flex-wrap gap-5">
+        <For each={palettesWithUndefined}>
+            {(c, index) => {
+                return <div class="w-10">
+                    <ToggleFullScreenButton square disabled={disabled()} rounded={rounded()} kind={kind()}
+                        palette={c} hotkey={new Hotkey('a' + index(), 'alt')} />
                 </div>;
             }}
         </For>
@@ -186,11 +197,12 @@ export default function() {
     let toggleFlag = false;
     const ToggleButtons = () => <div class="flex flex-wrap gap-5">
         <For each={palettesWithUndefined}>
-            {(c,index) => {
+            {(c, index) => {
                 return <div class="w-10">
-                    <ToggleButton animation={index()%2} square disabled={disabled()} rounded={rounded()} kind={kind()} palette={c}
-                        on={<IconClose />} off={<IconFace />} toggle={async() => toggleFlag = !toggleFlag} />
-                    <p>a={index()%2}</p>
+                    <ToggleButton animation={(index() % 2) === 0} square disabled={disabled()} rounded={rounded()}
+                        kind={kind()} palette={c} on={<IconClose />} off={<IconFace />}
+                        toggle={async () => toggleFlag = !toggleFlag} hotkey={new Hotkey('a' + index(), 'shift')} />
+                    <p>a={index() % 2}</p>
                 </div>;
             }}
         </For>
@@ -206,6 +218,10 @@ export default function() {
 
         <Stage title="fit screen">
             <FitScreen />
+        </Stage>
+
+        <Stage title="full screen">
+            <FullScreen />
         </Stage>
 
         <Stage title="toggle button">

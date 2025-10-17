@@ -6,7 +6,7 @@ import './style.css';
 
 import {
     Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes,
-    run, TextField, ToggleFullscreenButton, useComponents, useLocale, useTheme
+    run, TextField, ToggleFullScreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, Show } from 'solid-js';
@@ -81,7 +81,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
     return <div class={styles.main}>
         <Appbar href='/' palette='secondary' title={options.title} actions={
-            <div class={styles.actions}>
+            <>
                 <Dropdown trigger='hover' value={[l.match(Array.from(languageIcons.keys()))]}
                     onChange={e => act.switchLocale(e)} items={l.locales.map(locale => ({
                         type: 'item',
@@ -135,10 +135,10 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                     <Button kind='flat' square><IconAlign /></Button>
                 </Dropdown>
 
-                <ToggleFullscreenButton kind='flat' square title={l.t('_c.fullscreen')} />
+                <ToggleFullScreenButton kind='flat' square title={l.t('_c.fullscreen')} />
 
                 <LinkButton kind='flat' square href={pkg.repository.url}><IconGithub /></LinkButton>
-            </div>
+            </>
         }>
             <Menu class='ms-5 me-5' layout='horizontal' items={[
                 { type: 'a', label: l.t('_d.main.home'), value: '/' },

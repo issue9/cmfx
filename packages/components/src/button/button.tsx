@@ -54,11 +54,11 @@ export const presetProps: Readonly<Partial<Props>> = {
 export function Button(props: Props) {
     props = mergeProps(presetProps, props);
     const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'square', 'class', 'ref']);
-    let ref: Ref;
+    let ref: HTMLButtonElement;
 
     if (props.hotkey && props.onclick) {
         onMount(() => {
-            Hotkey.bind(props.hotkey!, () => { ref!.element().click(); });
+            Hotkey.bind(props.hotkey!, () => { ref!.click(); });
         });
         onCleanup(() => Hotkey.unbind(props.hotkey!));
     }
@@ -68,6 +68,7 @@ export function Button(props: Props) {
         [styles.rounded]: props.rounded,
         [styles.checked]: props.checked,
     }, styles.button, styles[props.kind!], props.class)} ref={el => {
+        ref = el;
         if (!props.ref) { return; }
         props.ref({ element: () => el });
     }}

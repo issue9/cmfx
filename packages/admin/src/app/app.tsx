@@ -2,17 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
-import { Problem } from '@cmfx/core';
+import { Drawer, DrawerRef,ToggleFullScreenButton, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
+import { Hotkey, Problem } from '@cmfx/core';
 import { Navigate, RouteSectionProps } from '@solidjs/router';
-import { Accessor, createSignal, ErrorBoundary, JSX, Match, ParentProps, Switch } from 'solid-js';
+import { createSignal, ErrorBoundary, JSX, Match, ParentProps, Setter, Switch } from 'solid-js';
 
 import { useAdmin, useLocale } from '@/context';
 import { Provider } from '@/context/context';
 import { build as buildOptions, Options } from '@/options/options';
 import * as errors from './errors';
 import styles from './style.module.css';
-import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
+import { buildItems, default as Toolbar } from './toolbar';
 
 /**
  * 初始化整个项目
@@ -22,8 +22,7 @@ import { buildItems, MenuVisibleProps, default as Toolbar } from './toolbar';
  */
 export function create(elementID: string, o: Options) {
     const opt = buildOptions(o);
-    const menuVisible = createSignal(true);
-    const [selected, setSelected] = createSignal<string>('');
+    const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
 
     const routes = [
         {
@@ -34,7 +33,7 @@ export function create(elementID: string, o: Options) {
         {
             path: '/',
             component: (props: { children?: JSX.Element }) =>
-                <Private menuVisible={menuVisible} selected={selected}>{props.children}</Private>,
+                <Private setDrawer={setDrawerRef}>{props.children}</Private>,
 
             // 所有的 404 都将会在 children 中匹配 *，如果是未登录，则在匹配之后跳转到登录页。
             children: [...opt.routes.private.routes, { path: '*', component: errors.NotFound }]
@@ -85,7 +84,7 @@ export function create(elementID: string, o: Options) {
     const root = (p: RouteSectionProps) => {
         return <Provider {...opt}>
             <div class={ joinClass('surface', styles.app) }>
-                <Toolbar menuVisible={menuVisible} switch={setSelected} />
+                <Toolbar drawer={drawerRef}/>
                 <main class={styles.main}>{p.children}</main>
             </div>
         </Provider>;
@@ -94,11 +93,7 @@ export function create(elementID: string, o: Options) {
     run(root, routes, document.getElementById(elementID)!, oo);
 }
 
-type PrivateProps = ParentProps<MenuVisibleProps & {
-    selected: Accessor<string>; // 获取当前侧边栏选中的菜单项
-}>;
-
-function Private(props: PrivateProps): JSX.Element {
+function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {
     const l = useLocale();
     const [api, act, opt] = useAdmin();
 
@@ -107,12 +102,15 @@ function Private(props: PrivateProps): JSX.Element {
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={act.isLogin()}>
-            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary'
-                close={()=>props.menuVisible[1](false)} visible={props.menuVisible[0]()}
+            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' ref={props.setDrawer}
                 main={
-                    <ErrorBoundary fallback={err=>(<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
+                    <ErrorBoundary fallback={err => (<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
-                <Menu layout='inline' value={[props.selected()]} items={buildItems(l, opt.aside.menus)} />
+                <>
+                    <ToggleFullScreenButton hotkey={new Hotkey('f','control')} square type='button' kind='flat'
+                        rounded title={l.t('_c.fullscreen')} />
+                    <Menu layout='inline' items={buildItems(l, opt.aside.menus)} />
+                </>
             </Drawer>
         </Match>
     </Switch>;

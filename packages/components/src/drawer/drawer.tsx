@@ -2,10 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 import { Transition, TransitionProps } from 'solid-transition-group';
+import IconMenu from '~icons/material-symbols/menu';
+import IconMenuOpen from '~icons/material-symbols/menu-open';
 
-import { BaseProps, Breakpoint, classList, joinClass, Palette } from '@/base';
+import { BaseProps, Breakpoint, classList, joinClass, Palette, RefProps } from '@/base';
+import { ToggleButton, ToggleButtonProps } from '@/button';
 import styles from './style.module.css';
 
 const transition: TransitionProps = {
@@ -21,32 +24,69 @@ const transition: TransitionProps = {
     exitToClass: styles['drawer-fade-exit-to'],
 };
 
-export interface Props extends BaseProps {
+export interface Ref {
     /**
-     * 是否显示侧边栏的内容
-     *
-     * @remarks 仅在 floating !== false 时有效果，
-     * 当 floating === false 时，表示侧边栏始终是可见的。
-     *
-     * @reactive
+     * 返回组件的根元素
      */
-    visible?: boolean;
+    element(): HTMLDivElement;
 
     /**
-     * 当 floating 为 true 时，点击遮罩层将调用此方法关闭侧边栏。
+     * 返回侧边栏的元素
      */
-    close?: { (): void };
+    aside(): HTMLElement;
+
+    /**
+     * 返回组件主区域的元素
+     */
+    main(): HTMLElement;
+
+    /**
+     * 显示侧边栏
+     */
+    show(): void;
+
+    /**
+     * 隐藏侧边栏
+     */
+    hide(): void;
+
+    /**
+     * 切换侧边栏的状态
+     */
+    toggle(): void;
+
+    /**
+     * 生成一个用于显示和隐藏侧边栏的按钮组件
+     *
+     * @param props - 组件属性，参数说明如下：
+     *  - on 显示状态下的图标；
+     *  - off 隐藏状态下的图标；
+     *
+     * @remarks 该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。
+     */
+    ToggleButton(props?: Omit<ToggleButtonProps, 'toggle' | 'value'>): JSX.Element;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
+    /**
+     * 侧边栏的初始状态
+     */
+    visible?: boolean;
 
     /**
      * 侧边栏是以浮动的形式出现
      *
      * @remarks 默认值为 false。如果是 true 或是 false 表示始终保持一种状态，
      * 其它的值表示在整个页面小于此值时才变为浮动状态。
+     *
+     * @reactive
      */
     floating?: boolean | Breakpoint;
 
     /**
      * 位置，默认值为 start
+     *
+     * @reactive
      */
     pos?: 'start' | 'end';
 
@@ -70,54 +110,69 @@ const presetProps: Readonly<Partial<Props>> = {
 
 export function Drawer(props: Props) {
     props = mergeProps(presetProps, props);
+    let rootRef: HTMLDivElement;
     let asideRef: HTMLElement;
-    let mainRef: HTMLElement;
 
-    const [canFloating, setCanFloating] = createSignal(false);
-    const [floatCls, setFloatCls] = createSignal('');
+    const [visible, setVisible] = createSignal(props.visible);
 
-    createEffect(() => {
-        setCanFloating(props.floating !== false);
-
-        if (typeof props.floating === 'string') {
-            setFloatCls(props.floating);
-        } else {
-            setFloatCls('');
-        }
-    });
-
-    if (props.close) {
+    onMount(() => {
         const handleClick = (e: MouseEvent) => {
-            if (!canFloating() || !props.visible) { return; }
+            if ((props.floating === undefined) || !visible()) { return; }
 
             const node = e.target as HTMLElement;
-            if (mainRef.contains(node) && !asideRef.contains(node)) {
-                props.close!();
+            if (rootRef.contains(node) && !asideRef.contains(node)) {
+                setVisible(false);
             }
         };
 
-        onMount(() => {
-            document.addEventListener('click', handleClick);
-        });
+        document.addEventListener('click', handleClick);
         onCleanup(() => {
             document.removeEventListener('click', handleClick);
         });
-    }
+    });
 
-    return <div ref={el => mainRef = el} class={classList(props.palette, {
-        'cmfx-drawer-floating': !floatCls() && canFloating(),
-        '@max-xs/root:cmfx-drawer-floating': floatCls() == 'xs',
-        '@max-sm/root:cmfx-drawer-floating': floatCls() == 'sm',
-        '@max-md/root:cmfx-drawer-floating': floatCls() == 'md',
-        '@max-lg/root:cmfx-drawer-floating': floatCls() == 'lg',
-        '@max-xl/root:cmfx-drawer-floating': floatCls() == 'xl',
-        '@max-2xl/root:cmfx-drawer-floating': floatCls() == '2xl',
+    return <div ref={el => rootRef = el} class={classList(props.palette, {
+        'cmfx-drawer-floating': props.floating === true,
+        '@max-xs/root:cmfx-drawer-floating': props.floating === 'xs',
+        '@max-sm/root:cmfx-drawer-floating': props.floating === 'sm',
+        '@max-md/root:cmfx-drawer-floating': props.floating === 'md',
+        '@max-lg/root:cmfx-drawer-floating': props.floating === 'lg',
+        '@max-xl/root:cmfx-drawer-floating': props.floating === 'xl',
+        '@max-2xl/root:cmfx-drawer-floating': props.floating === '2xl',
     }, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
     >
-        <aside ref={(el) => asideRef = el}
-            class={!props.visible && canFloating() ? 'cmfx-drawer-hidden-aside' : undefined}
+        <aside ref={(el) => asideRef = el} classList={{
+            'cmfx-drawer-hidden-aside': props.floating !== undefined && !visible(),
+        }}
         >{props.children}</aside>
-        <main class={joinClass(props.mainPalette)}>
+        <main class={joinClass(props.mainPalette)} ref={el => {
+            if (props.ref) {
+                props.ref({
+                    element() { return rootRef; },
+                    main() { return el; },
+                    aside() { return asideRef; },
+                    show() { setVisible(true); },
+                    hide() { setVisible(false); },
+                    toggle() { setVisible(!visible()); },
+                    ToggleButton(p: Omit<ToggleButtonProps, 'toggle' | 'value'>): JSX.Element {
+                        p = mergeProps({ show: <IconMenuOpen />, hide: <IconMenu /> }, p);
+                        return <ToggleButton square animation={p.animation} on={p.on} off={p.off}
+                            class={classList(p.palette, {
+                                '@xs/root:!hidden': props.floating == 'xs',
+                                '@sm/root:!hidden': props.floating == 'sm',
+                                '@md/root:!hidden': props.floating == 'md',
+                                '@lg/root:!hidden': props.floating == 'lg',
+                                '@xl/root:!hidden': props.floating == 'xl',
+                                '@2xl/root:!hidden': props.floating == '2xl',
+                            }, p.class)} toggle={async (): Promise<boolean> => {
+                                setVisible(!visible());
+                                return !!visible();
+                            }}
+                        />;
+                    }
+                });
+            }
+        }}>
             <Transition {...transition}>{props.main}</Transition>
         </main>
     </div>;

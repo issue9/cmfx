@@ -17,7 +17,7 @@ export function buildRoute(prefix: string): RouteDefinition {
         path: prefix,
         component: (props: ParentProps) => {
             const l = useLocale();
-            return <Drawer visible palette='secondary' mainPalette='surface' main={props.children}>
+            return <Drawer visible floating='md' palette='secondary' mainPalette='surface' main={props.children}>
                 <Menu class="min-w-65" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;
         },
