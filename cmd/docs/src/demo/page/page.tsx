@@ -4,29 +4,27 @@
 
 import { Page } from '@cmfx/components';
 import { For } from 'solid-js';
+import IconNav from '~icons/material-symbols/navigation';
 
-import { Demo, boolSelector, paletteSelector } from './base';
+import { paletteSelector, arraySelector } from '../base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
-    const [disableBackTopS, disableBackTop] = boolSelector('disable backtop');
+    const [backtopS, backtop] = arraySelector('backtop', ['disabled', 'custom', 'default'], 'default');
     const len: Array<number> = [];
     for (let i = 0; i<100; i++) {
         len.push(i);
     }
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {disableBackTopS}
-        </>
-    }>
-        <Page title='title' palette={palette()} backtop={disableBackTop() === true ? false : undefined}>
+    return <div>
+        {paletteS}
+        {backtopS}
+        <Page title='title' palette={palette()} backtop={backtop() === 'disabled' ? false : (backtop() === 'custom' ? { children: <IconNav />, class:'end-10' } : undefined)}>
             <For each={len}>
                 {i => (
                     <>{i} <br /></>
                 )}
             </For>
         </Page>
-    </Demo>;
+    </div>;
 }
