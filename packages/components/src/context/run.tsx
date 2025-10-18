@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { HashRouter, RouteDefinition, RouteSectionProps } from '@solidjs/router';
+import { HashRouter, Router, RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
@@ -22,19 +22,22 @@ import styles from './style.module.css';
  * @param routes - 路由数据；
  * @param mountedElement - 组件挂载的元素；
  * @param o - 初始化参数；
+ * @param r - 指定路由，默认为 {@link HasRouter}；
  */
 export function run(
-    app: Component<RouteSectionProps>, routes: Array<RouteDefinition>, mountedElement: HTMLElement, o: Options
+    app: Component<RouteSectionProps>, routes: Array<RouteDefinition>, mountedElement: HTMLElement, o: Options,
+    r?: typeof Router
 ): void {
     mountedElement.classList.add(styles.root);
 
     const Root = (props: RouteSectionProps) => {
         return <OptionsProvider {...o}>
-            <SystemDialog mount={mountedElement} palette='secondary'>
+            <SystemDialog mount={mountedElement} palette='primary'>
                 <Notify mount={mountedElement} palette='error'>{app(props)}</Notify>
             </SystemDialog>
         </OptionsProvider>;
     };
 
-    render(() => <HashRouter root={Root}>{routes}</HashRouter>, mountedElement);
+    r = r ?? HashRouter;
+    render(() => r({ root: Root, children: routes }), mountedElement);
 }
