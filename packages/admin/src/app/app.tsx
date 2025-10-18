@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef,ToggleFullScreenButton, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
-import { Hotkey, Problem } from '@cmfx/core';
-import { Navigate, RouteSectionProps } from '@solidjs/router';
+import { Drawer, DrawerRef, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
+import { Problem } from '@cmfx/core';
+import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, ParentProps, Setter, Switch } from 'solid-js';
 
 import { useAdmin, useLocale } from '@/context';
@@ -19,8 +19,9 @@ import { buildItems, default as Toolbar } from './toolbar';
  *
  * @param elementID - 挂载的元素 ID；
  * @param o - 项目的初始化选项；
+ * @param router - 指定路由对象，默认为 {@link HashRouter}；
  */
-export function create(elementID: string, o: Options) {
+export function create(elementID: string, o: Options, router?: typeof Router) {
     const opt = buildOptions(o);
     const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
 
@@ -40,7 +41,7 @@ export function create(elementID: string, o: Options) {
         }
     ];
 
-    const oo: XOptions = {
+    const xo: XOptions = {
         id: opt.id,
         storage: opt.storage,
         configName: opt.configName,
@@ -84,13 +85,13 @@ export function create(elementID: string, o: Options) {
     const root = (p: RouteSectionProps) => {
         return <Provider {...opt}>
             <div class={ joinClass('surface', styles.app) }>
-                <Toolbar drawer={drawerRef}/>
+                <Toolbar drawer={drawerRef} />
                 <main class={styles.main}>{p.children}</main>
             </div>
         </Provider>;
     };
 
-    run(root, routes, document.getElementById(elementID)!, oo);
+    run(root, routes, document.getElementById(elementID)!, xo, router);
 }
 
 function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {
@@ -106,11 +107,7 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
                 main={
                     <ErrorBoundary fallback={err => (<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
-                <>
-                    <ToggleFullScreenButton hotkey={new Hotkey('f','control')} square type='button' kind='flat'
-                        rounded title={l.t('_c.fullscreen')} />
-                    <Menu layout='inline' items={buildItems(l, opt.aside.menus)} />
-                </>
+                <Menu layout='inline' items={buildItems(l, opt.aside.menus)} />
             </Drawer>
         </Match>
     </Switch>;

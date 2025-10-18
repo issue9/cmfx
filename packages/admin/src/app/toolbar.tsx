@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, fieldAccessor,
-    Locale, MenuItemItem, TextField, ToggleFullScreenButton, MenuItem as XMenuItem
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, fieldAccessor,Locale,
+    MenuItemItem, TextField, ToggleFullScreenButton, MenuItem as XMenuItem
 } from '@cmfx/components';
 import { Accessor, createSignal, JSX, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/close';
@@ -49,7 +49,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
         <>
             <Show when={act.user() ? opt.toolbar.get('search') : undefined}>
                 {hk =>
-                    (<Dropdown class="w-60 self-center" trigger='custom' items={candidate()} ref={el => {
+                    <Dropdown class="w-60 self-center" trigger='custom' items={candidate()} ref={el => {
                         dropdownRef = el;
                         dropdownRef.menu().element().style.height = '240px';
                         dropdownRef.menu().element().style.overflowY = 'auto';
@@ -68,12 +68,12 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
                                 </Show>
                             }
                         />
-                    </Dropdown>)
+                    </Dropdown>
                 }
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>
                 {hk =>
-                    <ToggleFullScreenButton square type='button' kind='flat'
+                    <ToggleFullScreenButton hotkey={hk()} square type='button' kind='flat'
                         rounded title={l.t('_c.fullscreen')} />
                 }
             </Show>
