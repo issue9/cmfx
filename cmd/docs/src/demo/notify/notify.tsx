@@ -5,7 +5,7 @@
 import { Button, notify, NotifyType, notifyTypes, useLocale } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
 
-import { Demo } from './base';
+import { Demo } from '../base';
 
 export default function() {
     const [title, setTitle] = createSignal('title');
@@ -22,11 +22,11 @@ export default function() {
         <div class="flex flex-col gap-2 w-40">
             <select value={type()} onChange={(e) => { setType(e.target.value as NotifyType); }}>
                 <For each={notifyTypes}>
-                    {(item) => (<option value={item}>{item}</option>)}
+                    {item => (<option value={item}>{item}</option>)}
                 </For>
             </select >
-            <input onInput={(e) => { setTitle(e.target.value); }} value={title()} />
-            <textarea onInput={(e) => { setBody(e.target.value); }} value={body()} />
+            <input onInput={e => { setTitle(e.target.value); }} value={title()} />
+            <textarea onInput={e => { setBody(e.target.value); }} value={body()} />
             <input type="number" step={500} onInput={(e) => { setTimeout(parseInt(e.target.value)); }} value={timeout()} />
             <Button palette='primary' onclick={notify1}>notify</Button>
         </div>

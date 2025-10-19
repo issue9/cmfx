@@ -109,7 +109,7 @@ describe('Parser', {timeout: 20000}, () => {
     });
     */
 
-    // 函数
+    // 函数 joinClass
     test('joinClass', () => {
         const props = p.prorps(['joinClass']);
         expect(props).toHaveLength(1);
@@ -118,7 +118,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.name).toEqual('joinClass');
         expect(pp.summary).toEqual('将多个 CSS 的类名组合成 class 属性值');
 
-        expect(pp.fields).toBeFalsy();
+        expect(pp.fields).toHaveLength(2);
         expect(pp.type).toEqual('function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined;');
     });
 });

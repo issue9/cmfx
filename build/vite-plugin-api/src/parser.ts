@@ -9,7 +9,8 @@ import {
 import path from 'node:path';
 import {
     CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration,
-    ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags
+    ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags,
+    FunctionDeclaration, FunctionExpression
 } from 'ts-morph';
 import ts from 'typescript';
 
@@ -38,14 +39,12 @@ export interface Object {
     /**
      * 如果是联合类型或是其它不用解析的类型，此值用于表示具体的类型值。
      *
-     * @remarks 如果 {@link fields} 不为空，此值应该为空。
+     * @remarks 如果是函数类型，type 与 {@link fields} 都不为空，其它情况下两者必有一个为空。
      */
     type?: string;
 
     /**
-     * 类型的字段列表
-     *
-     * @remarks 如果 {@link "type"} 不为空，此值应该为空。
+     * 类型的字段列表或是参数列表
      */
     fields?: Array<Field>;
 }
@@ -84,7 +83,7 @@ export interface Field {
     /**
      * 是否为响应式字段
      */
-    reactive: boolean;
+    reactive?: boolean;
 }
 
 /**
@@ -174,6 +173,12 @@ export class Parser {
      * 生成类型字段列表或是对应的类型名称
      */
     private buildNodeType(obj: Object, node: Node): void {
+        if (Node.isFunctionDeclaration(node) || Node.isFunctionExpression(node)) { // 函数
+            obj.type = node.getText().replace(/export\s*declare\s*/, '');
+            this.getMethodFields(obj, node);
+            return;
+        }
+
         const mems = this.getNodeType(node);
 
         if (!mems) { return; }
@@ -217,14 +222,31 @@ export class Parser {
     }
 
     /**
-     * 获取节点 node 的字段或是对应的类型
+     * 获取节点 node 类型为方法的所有参数列表并写入 Obj.fields 中
+     */
+    private getMethodFields(obj: Object, node: FunctionDeclaration | FunctionExpression): void {
+        const txt = node.getJsDocs()[0].getFullText();
+        const doc = this.#parser.parseString(txt ?? '').docComment;
+        const params = node.getParameters();
+
+        if (!obj.fields) { obj.fields = []; }
+        for (const param of params) {
+            const pp = doc.params.blocks.find(p => param.getName() === p.parameterName);
+            const init = param.getInitializer();
+            obj.fields.push({
+                name: param.getName(),
+                summary: comment2String(pp!.content),
+                type: param?.getType().getText(param, TypeFormatFlags.UseAliasDefinedOutsideCurrentScope)!,
+                preset: init ? init.getText() : undefined,
+            });
+        }
+    }
+
+    /**
+     * 获取节点 node 的类型字段或是对应的类型名称
      */
     private getNodeType(node?: Node): Array<TypeElementTypes> | string | undefined {
         if (!node) { return; }
-
-        if (Node.isFunctionDeclaration(node) || Node.isFunctionExpression(node)) { // 函数
-            return node.getText().replace(/export\s*declare\s*/, '');
-        }
 
         if (Node.isInterfaceDeclaration(node)) { // 接口
             const props = node.getMembers();

@@ -70,7 +70,7 @@
                 }
 
                 .code {
-                    @apply mt-2;
+                    @apply mt-2 font-mono;
                 }
             }
         }

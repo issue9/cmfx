@@ -53,20 +53,22 @@ export default function Stages(props: Props):JSX.Element {
                 <article class={styles.apis}>
                     <h3>{l.t('_d.stages.api')}</h3>
                     <For each={apis()}>
-                        {api => (
-                            <section class={styles.api}>
+                        {api => {
+                            const isFunc = api.fields && api.type;
+                            return <section class={styles.api}>
                                 <h4>{api.name}</h4>
                                 <p>{api.summary}</p>
                                 <p>{api.remarks}</p>
                                 <Switch fallback={<code>{`${api.name} = ${api.type}`}</code>}>
                                     <Match when={api.fields}>
+                                        <Show when={api.type}>{c => <code class={styles.code}>{c()}</code>}</Show>
                                         <Table hoverable>
                                             <thead>
                                                 <tr>
                                                     <th>{l.t('_d.stages.param')}</th>
                                                     <th>{l.t('_d.stages.type')}</th>
                                                     <th>{l.t('_d.stages.preset')}</th>
-                                                    <th>{l.t('_d.stages.reactive')}</th>
+                                                    <Show when={!isFunc}><th>{l.t('_d.stages.reactive')}</th></Show>
                                                     <th>{l.t('_d.stages.desc')}</th>
                                                 </tr>
                                             </thead>
@@ -77,11 +79,13 @@ export default function Stages(props: Props):JSX.Element {
                                                             <th>{field.name}</th>
                                                             <td>{field.type}</td>
                                                             <td>{field.preset}</td>
-                                                            <td>
-                                                                <Show when={field.reactive} fallback={<Checkbox readonly />}>
-                                                                    <Checkbox checked readonly />
-                                                                </Show>
-                                                            </td>
+                                                            <Show when={!isFunc}>
+                                                                <td>
+                                                                    <Show when={field.reactive} fallback={<Checkbox readonly />}>
+                                                                        <Checkbox checked readonly />
+                                                                    </Show>
+                                                                </td>
+                                                            </Show>
                                                             <td>{field.summary}<br />{field.remarks}</td>
                                                         </tr>
                                                     )}
@@ -90,8 +94,8 @@ export default function Stages(props: Props):JSX.Element {
                                         </Table>
                                     </Match>
                                 </Switch>
-                            </section>
-                        )}
+                            </section>;
+                        }}
                     </For>
                 </article>
             }
