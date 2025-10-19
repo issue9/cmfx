@@ -45,17 +45,17 @@ export default function Appbar(props: Props): JSX.Element {
     return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)}>
         <Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
             <Show when={props.logo}>
-                <img alt="LOGO" class={styles.logo} src={props.logo} />
+                {c => <img alt="LOGO" class={styles.logo} src={c()} />}
             </Show>
             <h1 class={styles.name}>{props.title}</h1>
         </Dynamic>
 
         <Show when={props.children}>
-            <div class={styles.main}>{props.children}</div>
+            {c => <div class={styles.main}>{c()}</div>}
         </Show>
 
         <Show when={props.actions}>
-            <div class={styles.actions}>{props.actions}</div>
+            {c => <div class={styles.actions}>{c()}</div>}
         </Show>
     </header>;
 }

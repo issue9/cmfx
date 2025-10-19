@@ -30,7 +30,7 @@ export function Label(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
     return <Dynamic component={props.tag} class={joinClass(props.palette, styles.label, props.class)}>
-        <Show when={props.icon}>{props.icon}</Show>
-        { props.children }
+        <Show when={props.icon}>{c => { return c(); }}</Show>
+        {props.children}
     </Dynamic>;
 }

@@ -77,18 +77,18 @@ export default function Result(props: Props) {
         );
     });
 
-    return <div class={cls()} style={{'gap': props.gap}}>
+    return <div class={cls()} style={{ 'gap': props.gap }}>
         <Show when={props.illustration}>
-            <div aria-hidden="true" class={styles.illustration}>{props.illustration}</div>
+            {c => <div aria-hidden="true" class={styles.illustration}>{c()}</div>}
         </Show>
 
         <Show when={props.children || props.title || props.description}>
             <div class={styles.content}>
                 <Show when={props.title}>
-                    <h2 class={styles.title}>{props.title}</h2>
+                    {c => <h2 class={styles.title}>{c()}</h2>}
                 </Show>
                 <Show when={props.description}>
-                    <p class={styles.description}>{props.description}</p>
+                    {c => <p class={styles.description}>{c()}</p>}
                 </Show>
                 {props.children}
             </div>

@@ -15,6 +15,7 @@ const messages: typeof m = {
             preset: '默认值',
             reactive: '响应式',
             desc: '描述',
+            faq: 'FAQ',
         },
         main: {
             home: '首页',

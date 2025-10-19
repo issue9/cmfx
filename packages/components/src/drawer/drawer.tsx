@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import { Transition, TransitionProps } from 'solid-transition-group';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
@@ -64,8 +64,13 @@ export interface Ref {
      *
      * @remarks 该按钮会根据侧边栏的状态是否处于可调整的状态而自动显示或是隐藏。
      */
-    ToggleButton(props?: Omit<ToggleButtonProps, 'toggle' | 'value'>): JSX.Element;
+    ToggleButton(props?: ToggleDrawerButtonProps): JSX.Element;
 }
+
+type ToggleDrawerButtonProps = Omit<ToggleButtonProps, 'toggle' | 'value' | 'on' | 'off'> & {
+    on?: JSX.Element;
+    off?: JSX.Element;
+};
 
 export interface Props extends BaseProps, RefProps<Ref> {
     /**
@@ -154,20 +159,20 @@ export function Drawer(props: Props) {
                     show() { setVisible(true); },
                     hide() { setVisible(false); },
                     toggle() { setVisible(!visible()); },
-                    ToggleButton(p: Omit<ToggleButtonProps, 'toggle' | 'value'>): JSX.Element {
-                        p = mergeProps({ show: <IconMenuOpen />, hide: <IconMenu /> }, p);
-                        return <ToggleButton square animation={p.animation} on={p.on} off={p.off}
-                            class={classList(p.palette, {
-                                '@xs/root:!hidden': props.floating == 'xs',
-                                '@sm/root:!hidden': props.floating == 'sm',
-                                '@md/root:!hidden': props.floating == 'md',
-                                '@lg/root:!hidden': props.floating == 'lg',
-                                '@xl/root:!hidden': props.floating == 'xl',
-                                '@2xl/root:!hidden': props.floating == '2xl',
-                            }, p.class)} toggle={async (): Promise<boolean> => {
-                                setVisible(!visible());
-                                return !!visible();
-                            }}
+                    ToggleButton(p?: ToggleDrawerButtonProps): JSX.Element {
+                        p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu /> }, p);
+                        const [_, btnProps] = splitProps(p, ['class']);
+                        return <ToggleButton {...btnProps as ToggleButtonProps} class={classList(p.palette, {
+                            '@xs/root:!hidden': props.floating == 'xs',
+                            '@sm/root:!hidden': props.floating == 'sm',
+                            '@md/root:!hidden': props.floating == 'md',
+                            '@lg/root:!hidden': props.floating == 'lg',
+                            '@xl/root:!hidden': props.floating == 'xl',
+                            '@2xl/root:!hidden': props.floating == '2xl',
+                        }, props.class)} toggle={async (): Promise<boolean> => {
+                            setVisible(!visible());
+                            return !!visible();
+                        }}
                         />;
                     }
                 });

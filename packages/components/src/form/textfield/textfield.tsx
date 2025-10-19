@@ -103,7 +103,7 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
         return <div style={p.style}
             class={joinClass(undefined, styles['text-field'], props.rounded ? styles.rounded : '')}
         >
-            <Show when={props.prefix}>{props.prefix}</Show>
+            <Show when={props.prefix}>{c => { return c(); }}</Show>
             <input id={id} class={styles.input} type={props.type}
                 inputMode={props.inputMode} autocomplete={props.autocomplete}
                 tabIndex={props.tabindex} disabled={props.disabled}
@@ -112,7 +112,7 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
                 ref={el => {
                     if (props.ref) {
                         props.ref({
-                            element:()=>rootRef,
+                            element: () => rootRef,
                             input: () => el,
                         });
                     }
@@ -130,7 +130,7 @@ export function TextField<T extends Value = string>(props: Props<T>):JSX.Element
                     }
                 }}
             />
-            <Show when={props.suffix}>{props.suffix}</Show>
+            <Show when={props.suffix}>{c => { return c(); }}</Show>
         </div>;
     };
 

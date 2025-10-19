@@ -102,7 +102,7 @@ export default function Stage(props: Props) {
             </div>
 
             <Show when={props.source}>
-                <Code wrap ln={0} lang='tsx' class={styles.code}>{props.source}</Code>
+                {s => <Code wrap ln={0} lang='tsx' class={styles.code}>{s()}</Code>}
             </Show>
         </div>
     </>;

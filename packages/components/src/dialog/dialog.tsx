@@ -191,14 +191,16 @@ export function Dialog(props: Props): JSX.Element {
     return <dialog closedby={undefined} ref={(el) => { props.ref(buildRef(el, l)); ref = el; }}
         class={joinClass(props.palette, styles.dialog, props.class)}>
         <Show when={props.header}>
-            <header ref={el => toolbar = el}>
-                {props.header}
-                <IconClose class={styles.close} onClick={() => ref.close('close')} />
-            </header>
+            {c =>
+                <header ref={el => toolbar = el}>
+                    {c()}
+                    <IconClose class={styles.close} onClick={() => ref.close('close')} />
+                </header>
+            }
         </Show>
 
         <main class={props.scrollable ? styles.scrollable : ''}>{props.children}</main>
 
-        <Show when={props.actions}><footer>{props.actions}</footer></Show>
+        <Show when={props.actions}>{c => <footer>{c()}</footer>}</Show>
     </dialog>;
 }

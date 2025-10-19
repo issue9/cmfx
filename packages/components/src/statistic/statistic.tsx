@@ -43,7 +43,7 @@ export default function Statistic(props: Props): JSX.Element {
     return <div class={joinClass(props.palette, styles.statistic)}>
         <div class={styles.label}>{props.label}</div>
         <div class={styles.content}>
-            <Show when={props.icon}>{props.icon}</Show>
+            <Show when={props.icon}>{c => { return c(); }}</Show>
             <Counter value={props.value} formatter={props.formatter} />
         </div>
     </div>;

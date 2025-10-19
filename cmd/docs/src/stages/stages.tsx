@@ -49,57 +49,61 @@ export default function Stages(props: Props):JSX.Element {
         </div>
 
         <Show when={props.api}>
-            <article class={styles.apis}>
-                <h3>{ l.t('_d.stages.api') }</h3>
-                <For each={props.api}>
-                    {api => (
-                        <section class={styles.api}>
-                            <h4>{api.name}</h4>
-                            <p>{api.summary}</p>
-                            <p>{api.remarks}</p>
-                            <Switch fallback={<code>{ `${api.name} = ${api.type}` }</code>}>
-                                <Match when={api.fields}>
-                                    <Table hoverable>
-                                        <thead>
-                                            <tr>
-                                                <th>{ l.t('_d.stages.param') }</th>
-                                                <th>{ l.t('_d.stages.type') }</th>
-                                                <th>{ l.t('_d.stages.preset') }</th>
-                                                <th>{ l.t('_d.stages.reactive') }</th>
-                                                <th>{ l.t('_d.stages.desc') }</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <For each={api.fields}>
-                                                {field => (
-                                                    <tr>
-                                                        <th>{field.name}</th>
-                                                        <td>{field.type}</td>
-                                                        <td>{field.preset}</td>
-                                                        <td>
-                                                            <Show when={field.reactive} fallback={<Checkbox readonly />}>
-                                                                <Checkbox checked readonly />
-                                                            </Show>
-                                                        </td>
-                                                        <td>{field.summary}<br />{field.remarks}</td>
-                                                    </tr>
-                                                )}
-                                            </For>
-                                        </tbody>
-                                    </Table>
-                                </Match>
-                            </Switch>
-                        </section>
-                    )}
-                </For>
-            </article>
+            {apis =>
+                <article class={styles.apis}>
+                    <h3>{l.t('_d.stages.api')}</h3>
+                    <For each={apis()}>
+                        {api => (
+                            <section class={styles.api}>
+                                <h4>{api.name}</h4>
+                                <p>{api.summary}</p>
+                                <p>{api.remarks}</p>
+                                <Switch fallback={<code>{`${api.name} = ${api.type}`}</code>}>
+                                    <Match when={api.fields}>
+                                        <Table hoverable>
+                                            <thead>
+                                                <tr>
+                                                    <th>{l.t('_d.stages.param')}</th>
+                                                    <th>{l.t('_d.stages.type')}</th>
+                                                    <th>{l.t('_d.stages.preset')}</th>
+                                                    <th>{l.t('_d.stages.reactive')}</th>
+                                                    <th>{l.t('_d.stages.desc')}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <For each={api.fields}>
+                                                    {field => (
+                                                        <tr>
+                                                            <th>{field.name}</th>
+                                                            <td>{field.type}</td>
+                                                            <td>{field.preset}</td>
+                                                            <td>
+                                                                <Show when={field.reactive} fallback={<Checkbox readonly />}>
+                                                                    <Checkbox checked readonly />
+                                                                </Show>
+                                                            </td>
+                                                            <td>{field.summary}<br />{field.remarks}</td>
+                                                        </tr>
+                                                    )}
+                                                </For>
+                                            </tbody>
+                                        </Table>
+                                    </Match>
+                                </Switch>
+                            </section>
+                        )}
+                    </For>
+                </article>
+            }
         </Show>
 
         <Show when={props.faq}>
-            <article>
-                <h3>FAQ</h3>
-                {props.faq}
-            </article>
+            {faq =>
+                <article>
+                    <h3>{l.t('_d.stages.faq')}</h3>
+                    {faq()}
+                </article>
+            }
         </Show>
 
     </Page>;

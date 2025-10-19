@@ -60,7 +60,7 @@ export function Alert(props: Props): JSX.Element {
             </div>
         </div>
         <Show when={props.body}>
-            <div class={styles.body}><p>{props.body}</p></div>
+            {c => <div class={styles.body}><p>{c()}</p></div>}
         </Show>
     </div>;
 }

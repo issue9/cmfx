@@ -14,6 +14,7 @@ const messages = {
             preset: 'Preset value',
             reactive: 'Reactive',
             desc: 'Description',
+            faq: 'FAQ',
         },
         main: {
             home: 'Home',

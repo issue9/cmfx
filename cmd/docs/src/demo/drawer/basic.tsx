@@ -29,6 +29,6 @@ export default function () {
             <div class="h-full border-palette-border min-w-20">aside<br /></div>
         </Drawer>
         <br />
-        {ref!.ToggleButton()}
+        {ref!.ToggleButton({ square: true })}
     </div>;
 }

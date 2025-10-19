@@ -78,9 +78,9 @@ export interface DemoProps {
 }
 
 export function Stage(props: ParentProps<{title?: string, class?: string}>) {
-    return <fieldset class={joinClass(undefined, 'border border-palette-fg p-2 flex flex-col gap-4 ',props.class)}>
+    return <fieldset class={joinClass(undefined, 'border border-palette-fg p-2 flex flex-col gap-4 ', props.class)}>
         <Show when={props.title}>
-            <legend>{props.title}</legend>
+            {t => <legend>{t()}</legend>}
         </Show>
         {props.children}
     </fieldset>;

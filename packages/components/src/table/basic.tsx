@@ -92,9 +92,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 });
             }
         }}>
-        <Show when={props.extraHeader}>
-            {props.extraHeader}
-        </Show>
+        <Show when={props.extraHeader}>{c => { return c(); }}</Show>
 
         <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable} striped={props.striped} ref={el => tableRef = el}>
             <Show when={hasCol}>
@@ -143,6 +141,6 @@ export function BasicTable<T extends object>(props: Props<T>) {
             </tbody>
         </Table>
 
-        <Show when={props.extraFooter}>{props.extraFooter}</Show>
+        <Show when={props.extraFooter}>{c => { return c(); }}</Show>
     </Spin>;
 }

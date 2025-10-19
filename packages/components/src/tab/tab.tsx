@@ -170,7 +170,7 @@ export function Tab(props: Props) {
         </div>
 
         <Show when={props.children}>
-            <div role="tabpanel" class={props.panelClass}>{props.children}</div>
+            {c => <div role="tabpanel" class={props.panelClass}>{c()}</div>}
         </Show>
     </div>;
 }

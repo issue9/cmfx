@@ -136,6 +136,7 @@ close #1
 所以在所有的 `vite.config.ts` 中都将 `solid-router` 加入到 `rollupOptions.external`，只在主项目中真实导入；
 - 组件文档，如果某个对象存在多个文档内容，只提取其最后一个作为文档内容；
 - 文档采用 [tsdoc](https://tsdoc.org) 标准，与 JSDoc 稍有差异，比如 `@template` 应该改为 `@typeParam`，`@default` 应该改为 `@defaultValue` 等；
+- solid 的条件组件内尽量使用参数初始化，比如 `<Show when={props.xx}>{c=><div>c()</div>}</Show>`，而不是 `<Show when={props.xx}><div>{props.xx}</div></Show>`，后一种形式可能会造成部分功能不可用，比如 Hotkey 会提示快捷键重复使用；
 
 ### 后端
 

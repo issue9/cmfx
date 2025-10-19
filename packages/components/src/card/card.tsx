@@ -40,7 +40,7 @@ export interface Props extends BaseProps, ParentProps {
 export function Card(props: Props): JSX.Element {
     return <div class={joinClass(props.palette, styles.card, props.class)}>
         <Show when={props.header}>
-            <header class={joinClass(undefined, styles.header, props.headerClass)}>{props.header}</header>
+            {c => <header class={joinClass(undefined, styles.header, props.headerClass)}>{c()}</header>}
         </Show>
 
         <main class={joinClass(undefined, styles.main, props.mainClass)}>
@@ -48,7 +48,7 @@ export function Card(props: Props): JSX.Element {
         </main>
 
         <Show when={props.footer}>
-            <footer class={joinClass(undefined, styles.footer, props.footerClass)}>{props.footer}</footer>
+            {c => <footer class={joinClass(undefined, styles.footer, props.footerClass)}>{c()}</footer>}
         </Show>
     </div>;
 }
