@@ -5,8 +5,8 @@
 import './style.css';
 
 import {
-    Appbar, Button, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem, Mode, modes,
-    run, TextField, ToggleFullScreenButton, useComponents, useLocale, useTheme
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem,
+    Mode, modes, run, TextField, ToggleFullScreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, Show } from 'solid-js';
@@ -30,6 +30,7 @@ import IconBuilder from '~icons/mdi/theme';
 import pkg from '../package.json';
 import { buildMenus as buildDemoMenus, buildRoute as buildDemoRoute } from './demo';
 import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './docs';
+import { buildRoute as buildThemeRoute } from './theme/builder';
 import { options } from './options';
 
 import styles from './style.module.css';
@@ -42,6 +43,10 @@ const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
 const docsRoute = '/docs';
 const demoRoute = '/demo';
 const themeRoute = '/theme-builder';
+
+const [docsRef, setDocsRef] = createSignal<DrawerRef>();
+const [demoRef, setDemoRef] = createSignal<DrawerRef>();
+const [themeRef, setThemeRef] = createSignal<DrawerRef>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
     const l = useLocale();
@@ -82,6 +87,10 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
     return <div class={styles.main}>
         <Appbar href='/' palette='secondary' title={options.title} actions={
             <>
+                <Show when={docsRef()}>{r => { return r().ToggleButton({square: true, kind: 'flat'}); }}</Show>
+                <Show when={demoRef()}>{r => { return r().ToggleButton({square: true, kind: 'flat'}); }}</Show>
+                <Show when={themeRef()}>{r => { return r().ToggleButton({square: true, kind: 'flat'}); }}</Show>
+
                 <Dropdown trigger='hover' value={[l.match(Array.from(languageIcons.keys()))]}
                     onChange={e => act.switchLocale(e)} items={l.locales.map(locale => ({
                         type: 'item',
@@ -173,9 +182,9 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
-    { path: themeRoute, component: lazy(() => import('./theme/builder')) },
-    buildDemoRoute(demoRoute),
-    buildDocsRoute(docsRoute),
+    buildThemeRoute(themeRoute, setThemeRef),
+    buildDemoRoute(demoRoute, setDemoRef),
+    buildDocsRoute(docsRoute, setDocsRef),
 ];
 
 run((props: RouteSectionProps) => <InternalApp {...props} />, routes, document.getElementById('app')!, options);

@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, Locale, Menu, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
+import { Drawer, DrawerRef, Locale, Menu, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
 import { ArrayElement } from '@cmfx/core';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { marked } from 'marked';
-import { JSX, ParentProps, createEffect, createMemo, createSignal } from 'solid-js';
+import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onMount, onCleanup } from 'solid-js';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
 import introReadme from '../../../../README.md?raw';
@@ -170,13 +170,19 @@ function Markdown(props: { article: string }): JSX.Element {
 /**
  * 提供了文档浏览的路由定义
  */
-export function buildRoute(prefix: string): RouteDefinition {
+export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefined>): RouteDefinition {
     return {
         path: prefix,
         component: (props: ParentProps) => {
             const l = useLocale();
 
-            return <Drawer visible floating='md' palette='secondary' mainPalette='surface' main={props.children}>
+            let ref: DrawerRef;
+            onMount(() => { setDrawer(ref); });
+            onCleanup(() => setDrawer(undefined));
+
+            return <Drawer visible floating='md' ref={el => ref = el}
+                palette='secondary' mainPalette='surface' main={props.children}
+            >
                 <Menu class="min-w-60" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;
         },
