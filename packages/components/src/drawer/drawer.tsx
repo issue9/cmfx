@@ -160,7 +160,7 @@ export function Drawer(props: Props) {
                     hide() { setVisible(false); },
                     toggle() { setVisible(!visible()); },
                     ToggleButton(p?: ToggleDrawerButtonProps): JSX.Element {
-                        p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu /> }, p);
+                        p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: visible() }, p);
                         const [_, btnProps] = splitProps(p, ['class']);
                         return <ToggleButton {...btnProps as ToggleButtonProps} class={classList(p.palette, {
                             '@xs/root:!hidden': props.floating == 'xs',
