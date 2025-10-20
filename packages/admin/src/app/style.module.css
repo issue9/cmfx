@@ -14,6 +14,10 @@
             @apply relative h-full flex-1 overflow-y-hidden;
         }
 
+        .aside {
+            @apply min-w-60;
+        }
+
         .search-icon {
             @apply self-center aspect-square w-6;
         }

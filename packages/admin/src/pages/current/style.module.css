@@ -8,7 +8,7 @@
 
 @layer components {
     .login {
-        @apply justify-center h-full items-center;
+        @apply justify-center h-full items-center @container/login;
 
         background-image:
             radial-gradient(circle at 85% 5%,
@@ -28,7 +28,7 @@
                 color-mix(in lch, var(--tertiary-bg), transparent) 100%);
 
         .form {
-            @apply flex justify-center flex-col gap-2 w-full xs:w-96 p-5;
+            @apply flex justify-center flex-col gap-2 w-full @xs/login:w-96 p-5;
             @apply border border-palette-border rounded-md bg-palette-bg shadow-md shadow-palette-border;
 
             form {
@@ -41,7 +41,7 @@
         }
 
         footer {
-            @apply flex gap-2 w-full xs:w-96 justify-between flex-wrap;
+            @apply flex gap-2 w-full @xs/login:w-96 justify-between flex-wrap;
 
             a:hover {
                 @apply text-palette-fg-low;

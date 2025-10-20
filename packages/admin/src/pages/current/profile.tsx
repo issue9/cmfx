@@ -88,9 +88,8 @@ export function Profile(props: Props): JSX.Element {
                     <div class="flex gap-2">
                         <Button palette='primary' onclick={async () => {
                             const ret = await uploadRef.upload();
-                            if (!ret) {
-                                return;
-                            }
+                            if (!ret) { return; }
+
                             setAvatar(ret[0]);
                             const r = await api.patch('/info', { 'avatar': ret[0] });
                             if (!r.ok) {
@@ -134,7 +133,7 @@ export function Profile(props: Props): JSX.Element {
             </thead>
             <tbody>
                 <For each={passports()}>
-                    {(item) => {
+                    {item => {
                         const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
 
                         return <tr>

@@ -13,11 +13,6 @@ import styles from './style.module.css';
 
 export interface Props {
     /**
-     * 用以指定登录页面的 background-image 属性
-     */
-    bg?: string;
-
-    /**
      * 登录页面底部的链接
      */
     footer?: Array<Link>;
@@ -51,7 +46,7 @@ function LoginBox(props: Props): JSX.Element {
 
     const [passports, setPassports] = createSignal<Array<[string,string]>>([]);
     const passport = fieldAccessor('passport', q.type ?? 'password');
-    passport.onChange((n) => setQ({ type: n }));
+    passport.onChange(n => setQ({ type: n }));
 
     onMount(async () => {
         const r = await api.get<Array<user.Passport>>('/passports');
@@ -59,14 +54,14 @@ function LoginBox(props: Props): JSX.Element {
             await act.outputProblem(r.body);
             return;
         }
-        setPassports(r.body!.map((v)=>[v.id,v.desc]));
+        setPassports(r.body!.map(v => [v.id, v.desc]));
     });
 
-    return <Page title="_p.current.login" class={joinClass(undefined, styles.login, `bg-[${props.bg}]`)}>
+    return <Page title="_p.current.login" class={joinClass(undefined, styles.login)}>
         <div class={styles.form}>
             <div class={styles.title}>
                 <p class="text-2xl">{l.t('_p.current.login')}</p>
-                <Choice class='min-w-40' accessor={passport} options={passports()
+                <Choice accessor={passport} options={passports()
                     .map(v => ({ type: 'item', value: v[0], label: l.t(v[1]) }))}
                 />
             </div>
@@ -76,7 +71,7 @@ function LoginBox(props: Props): JSX.Element {
         <Show when={props.footer && props.footer.length > 0}>
             <footer>
                 <For each={props.footer}>
-                    {(item) => (
+                    {item => (
                         <Switch fallback={<p innerHTML={item.title} />}>
                             <Match when={item.link}>
                                 <a href={item.link} innerHTML={item.title} />

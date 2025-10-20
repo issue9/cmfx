@@ -8,7 +8,7 @@
 
 @layer components {
     .info {
-        @apply flex flex-wrap !flex-row gap-5 justify-between content-center box-border;
+        @apply flex flex-wrap !flex-row gap-5 justify-between content-center box-border @container/info;
 
         .panel {
             @apply flex flex-col border border-palette-border p-2 rounded-md flex-grow;
@@ -43,8 +43,9 @@
             @apply @sm/about:grid-cols-2 @md/about:grid-cols-3 @lg/about:grid-cols-4;
 
             .item {
-                @apply flex flex-col p-2 hover:cursor-pointer border border-transparent text-palette-fg;
-                @apply hover:border-palette-border-focused;
+                @apply flex flex-col p-2 text-palette-fg bg-palette-bg;
+                @apply hover:bg-palette-bg-focused hover:cursor-pointer hover:text-palette-fg-focused;
+                @apply transition;
 
                 .version {
                     @apply text-palette-fg-low;

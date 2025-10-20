@@ -107,7 +107,7 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
                 main={
                     <ErrorBoundary fallback={err => (<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
-                <Menu layout='inline' items={buildItems(l, opt.aside.menus)} />
+                <Menu class={styles.aside} layout='inline' items={buildItems(l, opt.aside.menus)} />
             </Drawer>
         </Match>
     </Switch>;
