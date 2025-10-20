@@ -41,7 +41,7 @@ export function APIs(): JSX.Element {
     };
 
     return <Page title="_p.system.apiViewer">
-        <RemoteTable systemToolbar queries={queries} path='/system/apis'
+        <RemoteTable systemToolbar queries={queries} path='/system/apis' hoverable
             toolbar={<Label icon={<IconAPI />}>{ l.t('_p.system.apis') }</Label>}
             columns={[
                 { id: 'router', label: l.t('_p.system.router') },

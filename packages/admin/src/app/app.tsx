@@ -103,7 +103,7 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={act.isLogin()}>
-            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' ref={props.setDrawer}
+            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' ref={props.setDrawer} mainPalette='surface'
                 main={
                     <ErrorBoundary fallback={err => (<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>

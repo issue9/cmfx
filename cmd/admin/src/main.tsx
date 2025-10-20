@@ -19,7 +19,7 @@ const rolesPage = roles.build('/roles');
 const adminsPage = admins.build('/admins');
 const systemPage = system.build('/system', () => {
     const l = useLocale();
-    return <p>{l.t('_p.system.system')}</p>;
+    return <p>关于页面的内容，可以使用任意的 `use*` 方法。{l.t('_p.system.system')}</p>;
 });
 const membersPage = members.build('/members');
 const currentPage = current.build('/current', () => {

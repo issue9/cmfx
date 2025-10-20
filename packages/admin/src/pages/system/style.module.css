@@ -14,7 +14,8 @@
             @apply flex flex-col border border-palette-border p-2 rounded-md flex-grow;
 
             dl {
-                @apply flex flex-wrap hover:bg-palette-bg-low px-2 rounded-sm cursor-default;
+                @apply flex flex-wrap hover:bg-palette-bg-focused px-2 rounded-sm cursor-pointer;
+                @apply transition;
 
                 dt {
                     @apply w-48;
@@ -30,6 +31,7 @@
 
                 li {
                     @apply flex flex-wrap justify-between items-center px-2 p-1 rounded-sm hover:bg-palette-bg-focused cursor-default;
+                    @apply transition;
                 }
             }
         }

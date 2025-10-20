@@ -43,6 +43,9 @@ export class current implements Pages {
 
     /**
      * 登录页面
+     *
+     * @remarks 提供一个默认的登录页面。
+     * 该页面并未包含在 {@link routes} 和 {@link menus} 中。
      */
     static Login = (props: Omit<LoginProps, 'passports'>): JSX.Element => {
         return <Login {...props} passports={current.#passports} />;

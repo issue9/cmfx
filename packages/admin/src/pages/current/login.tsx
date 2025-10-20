@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, fieldAccessor, joinClass, Page } from '@cmfx/components';
+import { BaseProps, Choice, fieldAccessor, joinClass, Page } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
 
@@ -11,7 +11,7 @@ import { useAdmin, useLocale } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
-export interface Props {
+export interface Props extends BaseProps {
     /**
      * 登录页面底部的链接
      */
@@ -57,7 +57,7 @@ function LoginBox(props: Props): JSX.Element {
         setPassports(r.body!.map(v => [v.id, v.desc]));
     });
 
-    return <Page title="_p.current.login" class={joinClass(undefined, styles.login)}>
+    return <Page title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
         <div class={styles.form}>
             <div class={styles.title}>
                 <p class="text-2xl">{l.t('_p.current.login')}</p>

@@ -140,7 +140,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
         async logout() {
             await api.logout();
             sessionStorage.removeItem(opt.id + currentKey);
-            await userData.refetch();
+            userData.mutate();
             act.switchConfig(opt.configName);
         },
 

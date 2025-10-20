@@ -31,15 +31,15 @@ export function About(props: Props): JSX.Element {
         {props.description && props.description({})}
 
         <Show when={f.serverDependencies}>
-            {renderPackage(l.t('_p.system.srvDeps'), f.serverDependencies, <IconHost />)}
+            {c => { return renderPackage(l.t('_p.system.srvDeps'), c(), <IconHost />); }}
         </Show>
 
         <Show when={f.dependencies}>
-            {renderPackage(l.t('_p.system.prodDeps'), f.dependencies, <IconAutomation />)}
+            {c => { return renderPackage(l.t('_p.system.prodDeps'), c(), <IconAutomation />); }}
         </Show>
 
         <Show when={f.devDependencies}>
-            {renderPackage(l.t('_p.system.devDeps'), f.devDependencies, <IconFolderCode />)}
+            {c => { return renderPackage(l.t('_p.system.devDeps'), c(), <IconFolderCode />); }}
         </Show>
     </Page>;
 }
@@ -48,12 +48,12 @@ function renderPackage(title: string, pkgs: Array<Package>, icon?: JSX.Element):
     return <fieldset class="palette--tertiary">
         <Label class='px-1 text-lg' icon={icon} tag='legend'>{title}</Label>
         <For each={pkgs}>
-            {(item) => (
+            {item =>
                 <div class={styles.item}>
                     <span>{item.name}</span>
                     <span class={styles.version}>{item.version}</span>
                 </div>
-            )}
+            }
         </For>
     </fieldset>;
 }
