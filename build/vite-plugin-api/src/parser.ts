@@ -8,9 +8,8 @@ import {
 } from '@microsoft/tsdoc';
 import path from 'node:path';
 import {
-    CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration,
-    ModuledNode, Node, Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags,
-    FunctionDeclaration, FunctionExpression
+    CallSignatureDeclaration, ConstructSignatureDeclaration, IndexSignatureDeclaration, ModuledNode, Node,
+    Project, Type, TypeChecker, TypeElementTypes, TypeFormatFlags, FunctionDeclaration, FunctionExpression
 } from 'ts-morph';
 import ts from 'typescript';
 
@@ -157,7 +156,8 @@ export class Parser {
             const txt = decl.getJsDocs()[0]?.getFullText();
             const jsdoc = this.#parser.parseString(txt ?? '').docComment;
             const obj: Object = {
-                name: decl.getName() ?? '',
+                //name: decl.getName() ?? '',
+                name: prop,
                 summary: comment2String(jsdoc.summarySection),
                 remarks: comment2String(jsdoc.remarksBlock?.content),
             };
@@ -175,11 +175,11 @@ export class Parser {
     private buildNodeType(obj: Object, node: Node): void {
         if (Node.isFunctionDeclaration(node) || Node.isFunctionExpression(node)) { // 函数
             obj.type = node.getText().replace(/export\s*declare\s*/, '');
-            this.getMethodFields(obj, node);
+            this.getMethodParams(obj, node);
             return;
         }
 
-        const mems = this.getNodeType(node);
+        const mems = this.getNodeType(obj, node);
 
         if (!mems) { return; }
 
@@ -224,7 +224,7 @@ export class Parser {
     /**
      * 获取节点 node 类型为方法的所有参数列表并写入 Obj.fields 中
      */
-    private getMethodFields(obj: Object, node: FunctionDeclaration | FunctionExpression): void {
+    private getMethodParams(obj: Object, node: FunctionDeclaration | FunctionExpression): void {
         const txt = node.getJsDocs()[0].getFullText();
         const doc = this.#parser.parseString(txt ?? '').docComment;
         const params = node.getParameters();
@@ -245,7 +245,7 @@ export class Parser {
     /**
      * 获取节点 node 的类型字段或是对应的类型名称
      */
-    private getNodeType(node?: Node): Array<TypeElementTypes> | string | undefined {
+    private getNodeType(obj: Object, node?: Node): Array<TypeElementTypes> | string | undefined {
         if (!node) { return; }
 
         if (Node.isInterfaceDeclaration(node)) { // 接口
@@ -257,17 +257,18 @@ export class Parser {
         }
 
         if (Node.isTypeAliasDeclaration(node)) { // 类型别名
-            const typ = this.#checker.getTypeAtLocation(node);
-            return this.getAliasType(typ);
+            const typ = this.#checker.getTypeAtLocation(node).getApparentType();
+            return this.getAliasType(typ, node, obj);
         }
     }
 
     /**
      * 获取类型别名的真实类型 typ 的字段或是类型声明
      */
-    private getAliasType(typ: Type): Array<TypeElementTypes> | string | undefined {
+    private getAliasType(typ: Type, node: Node, obj: Object): Array<TypeElementTypes> | string | undefined {
         if (typ.getCallSignatures().length > 0) { // 函数
-            return typ.getText().replace(/export\s*declare\s*/, '');
+            this.getMethodParams(obj, node as FunctionDeclaration | FunctionExpression);
+            return;
         }
 
         // 判断 t 是否为标准库的类型
@@ -276,11 +277,20 @@ export class Parser {
             return sourceFile.getFilePath().includes('typescript/lib/lib.');
         };
 
-        // 右侧都是字面量类型或是标准库中的类型
-        const lit = typ.isUnion() && typ.getUnionTypes().every(t => t.isLiteral())
-            || typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral())
-            || typ.getSymbol()?.getDeclarations().every(isStd); // 标准库
-        if (lit) { return typ.getText(); }
+        // 判断 t 是否为第三方包中的类型
+        const isModules = (t: Node<ts.Node>): boolean => {
+            const sourceFile = t.getSourceFile();
+            return sourceFile.getFilePath().includes('node_modules/');
+        };
+
+        if (typ.getSymbol()?.getDeclarations().every(isStd) // 标准库
+            || typ.getSymbol()?.getDeclarations().every(isModules)) { // 第三方库
+            return typ.getText();
+        } else if (typ.isUnion() && typ.getUnionTypes().every(t => t.isLiteral())) {
+            return typ.getUnionTypes().map(t => t.getLiteralValue()).join(' | ');
+        } else if (typ.isIntersection() && typ.getIntersectionTypes().every(t => t.isLiteral())) {
+            return typ.getIntersectionTypes().map(t => t.getLiteralValue()).join(' & ');
+        }
 
         return getTypeMember(typ);
     }

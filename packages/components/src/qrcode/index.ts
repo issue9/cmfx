@@ -8,5 +8,6 @@ export type { Props as QRCodeProps, Ref as QRCodeRef } from './qrcode';
 export type {
     CornerDotType as QRCodeCornerDotType,
     CornerSquareType as QRCodeCornerSquareType,
-    DotType as QRCodeDotType
+    DotType as QRCodeDotType,
+    default as QRCodeStyling
 } from 'qr-code-styling';

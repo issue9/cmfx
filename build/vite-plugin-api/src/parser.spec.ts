@@ -48,6 +48,18 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.type).toContain('left');
     });
 
+    // 引用其它包的枚举类型 QRCodeCornerDotType
+    test('QRCodeCornerDotType', () => {
+        const props = p.prorps(['QRCodeCornerDotType']);
+        expect(props).toHaveLength(1);
+        const pp = props[0];
+        expect(pp.name).toEqual('QRCodeCornerDotType');
+        expect(pp.summary).toBeFalsy();
+        expect(pp.remarks).toBeFalsy();
+        expect(pp.fields).toBeUndefined();
+        expect(pp.type).toContain('classy-rounded');
+    });
+
     // 继承：CodeProps extends BaseProps
     test('CodeProps', () => {
         const props = p.prorps(['CodeProps']);

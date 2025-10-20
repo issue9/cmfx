@@ -20,6 +20,14 @@ export interface Ref {
      * 获取组件的根元素
      */
     element(): HTMLSpanElement;
+
+    /**
+     * 提供了 qr-code-styling 的实例
+     *
+     * @remarks 这是二维码对象的原始操作对象。需要注意的是，
+     * 此方法返回的对象提供的下载方法与 {@link download} 在颜色上是不同的。
+     */
+    qrCodeStyling(): QRCodeStyling;
 }
 
 export interface Props extends BaseProps, RefProps<Ref> {
@@ -78,6 +86,8 @@ export function QRCode(props: Props): JSX.Element {
     const [ref, setRef] = createSignal<HTMLSpanElement>();
 
     let download: Ref['download'];
+    let qr: QRCodeStyling;
+
     const init = () => {
         const opt: Partial<Options> = {
             width: props.width,
@@ -113,7 +123,7 @@ export function QRCode(props: Props): JSX.Element {
             ref()!.removeChild(ref()!.firstChild!);
         }
 
-        const qr = new QRCodeStyling(opt);
+        qr = new QRCodeStyling(opt);
         qr.append(ref());
 
         download = async (name?: string, ext?: FileExtension): Promise<void> => {
@@ -137,11 +147,9 @@ export function QRCode(props: Props): JSX.Element {
 
         if (props.ref) {
             props.ref({
-                async download(name, ext): Promise<void> {
-                    return await download(name, ext);
-                },
-
-                element() { return el; }
+                async download(name, ext): Promise<void> { return await download(name, ext); },
+                element() { return el; },
+                qrCodeStyling() { return qr; }
             });
         }
     }} />;

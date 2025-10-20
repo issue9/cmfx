@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2025 caixw
+#
+# SPDX-License-Identifier: MIT
+
+- QRCodeProps
+- QRCodeRef
+- QRCodeCornerDotType
+- QRCodeCornerSquareType
+- QRCodeDotType
+- QRCodeStyling

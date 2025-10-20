@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { QRCode, QRCodeCornerDotType, QRCodeCornerSquareType, QRCodeDotType, QRCodeRef } from '@cmfx/components';
+import { QRCode, QRCodeCornerDotType, Button, QRCodeCornerSquareType, QRCodeDotType, QRCodeRef } from '@cmfx/components';
 
-import { arraySelector, Demo, paletteSelector, Stage } from './base';
+import { arraySelector, paletteSelector } from '../base';
 
 const dotTypes = ['dots' , 'rounded' , 'classy' , 'classy-rounded' , 'square' , 'extra-rounded'] as const;
 const cornerDotTypes = ['dot', 'square'] as const;
@@ -30,24 +30,16 @@ export default function() {
 
     let ref: QRCodeRef;
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {typeS}
-            {ctypeS}
-            {cstypeS}
-        </>
-    }>
-
-        <Stage title="qrcode">
-            <QRCode type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
-        </Stage>
-
-        <Stage title="padding">
-            <QRCode ref={el=>ref=el} padding={10} type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
-            <button onclick={()=>ref.download()}>png</button>
-            <button onclick={()=>ref.download('f1', 'jpeg')}>jpeg</button>
-            <button onclick={()=>ref.download('f1', 'svg')}>svg</button>
-        </Stage>
-    </Demo>;
+    return <div>
+        {paletteS}
+        {typeS}
+        {ctypeS}
+        {cstypeS}
+        <QRCode ref={el => ref = el} padding={10} type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
+        <div class="w-full flex justify-between mt-5">
+            <Button onclick={() => ref.download()}>png</Button>
+            <Button onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button>
+            <Button onclick={() => ref.download('f1', 'svg')}>svg</Button>
+        </div>
+    </div>;
 }

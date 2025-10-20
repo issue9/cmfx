@@ -5,18 +5,16 @@
 import { Button, Spin } from '@cmfx/components';
 import IconFace from '~icons/material-symbols/face';
 
-import { Demo, boolSelector, paletteSelector } from './base';
+import { boolSelector, paletteSelector } from '../base';
 
 export default function () {
     const [spinningS, spinning] = boolSelector('spinning', false);
     const [paletteS, palette] = paletteSelector('primary');
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {spinningS}
-        </>
-    }>
+    return <div>
+        {paletteS}
+        {spinningS}
+
         <Spin palette={palette()} spinning={spinning()} class="border border-palette-bg-high flex gap-2 p-2 rounded-md">
             <button>btn1</button>
             <button>btn2</button>
@@ -38,5 +36,5 @@ export default function () {
             <p>animate-spin indicator</p>
             <Button>btn2</Button>
         </Spin>
-    </Demo>;
+    </div>;
 }
