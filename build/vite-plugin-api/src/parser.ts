@@ -225,11 +225,12 @@ export class Parser {
      * 获取节点 node 类型为方法的所有参数列表并写入 Obj.fields 中
      */
     private getMethodParams(obj: Object, node: FunctionDeclaration | FunctionExpression): void {
-        const txt = node.getJsDocs()[0].getFullText();
-        const doc = this.#parser.parseString(txt ?? '').docComment;
         const params = node.getParameters();
-
         if (!obj.fields) { obj.fields = []; }
+
+        const jsdoc = node.getJsDocs();
+        const doc = this.#parser.parseString(jsdoc ? jsdoc[0].getFullText() : '').docComment;
+
         for (const param of params) {
             const pp = doc.params.blocks.find(p => param.getName() === p.parameterName);
             const init = param.getInitializer();
