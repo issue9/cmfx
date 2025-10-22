@@ -78,9 +78,9 @@ export default function Counter(props: Props): JSX.Element {
     onMount(() => play());
 
     createEffect(() => {
-        const f = props.frequency;
-        const v = props.value;
-        const s = props.start;
+        props.frequency;
+        props.value;
+        props.start;
         play();
     });
 
