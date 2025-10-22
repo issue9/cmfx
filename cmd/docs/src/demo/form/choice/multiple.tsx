@@ -4,17 +4,9 @@
 
 import { Choice, ChoiceOption, fieldAccessor, TextField } from '@cmfx/components';
 
-import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
+import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function() {
-    const fa = fieldAccessor<string|undefined>('choice', '1');
-    const options: Array<ChoiceOption> = [
-        { type: 'item', value: '1', label: <div>abc</div> },
-        { type: 'item', value: '2', label: <div style="color:green">green</div > },
-        { type: 'item', value: '3', label: <div style="color:red">red<br />red</div> },
-    ];
-
-
     const mfa = fieldAccessor<Array<number>>('choice', [1,2]);
     const multipleOptions: Array<ChoiceOption<number>> = [
         { type: 'item', value: 1, label: <div>abc</div> },
@@ -45,28 +37,20 @@ export default function() {
     const [roundedS, rounded] = boolSelector('rounded');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {disabledS}
-            {readonlyS}
-            {roundedS}
-            {layoutS}
+    return <div>
+        {paletteS}
+        {disabledS}
+        {readonlyS}
+        {roundedS}
+        {layoutS}
 
-            <button class="palette--primary" onClick={() => {
-                fa.setError(fa.getError() ? undefined : 'error');
-                mfa.setError(mfa.getError() ? undefined : 'error');
-            }}>toggle error</button>
-        </>
-    }>
-        <Stage title="label" class="flex flex-row gap-5">
-            <Choice hasHelp layout={layout()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
-            <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
-        </Stage>
+        <button class="palette--primary" onClick={() => {
+            mfa.setError(mfa.getError() ? undefined : 'error');
+        }}>toggle error</button>
 
-        <Stage title="multiple" class="flex flex-row gap-5">
+        <div class="flex flex-row gap-5">
             <Choice layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
             <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

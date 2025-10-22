@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2025 caixw
+#
+# SPDX-License-Identifier: MIT
+
+- UploadProps
+- UploadRef
+- AlbumProps
+- file2Base64

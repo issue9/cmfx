@@ -10,5 +10,6 @@
     .overlay {
         @apply fixed flex justify-center items-center;
         @apply transition-opacity;
+        @apply z-dialog;
     }
 }

@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 
-import { fieldAccessor, FieldOptions, Palette, Radio, RadioGroup } from '@cmfx/components';
+import { fieldAccessor, FieldOptions, Palette, RadioGroup } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
+import { boolSelector, layoutSelector, palettesWithUndefined } from '../../base';
 
 export default function() {
     const [change, setChange] = createSignal<string>('');
@@ -28,28 +28,20 @@ export default function() {
         }
     });
 
-    return <Demo settings={
-        <>
-            {readonlyS}
-            {disabledS}
-            {layoutS}
-            {itemLayoutS}
-            {blockS}
-            {roundedS}
+    return <div>
+        {readonlyS}
+        {disabledS}
+        {layoutS}
+        {itemLayoutS}
+        {blockS}
+        {roundedS}
+        <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
 
-            <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
-        </>
-    }>
-        <Stage title="radio">
-            <input type="radio" name="radio1" value="option1" tabindex={0} readonly={readonly()} disabled={disabled()} />
-            <input type="radio" name="radio1" value="option2" tabindex={0} readonly={readonly()} disabled={disabled()} />
-            <Radio name="radio1" label="Radio" block={block()} tabindex={0} rounded={rounded()} value="option3" readonly={readonly()} disabled={disabled()} />
-        </Stage>
-        <Stage title="radio group">
+        <div>
             <RadioGroup hasHelp rounded={rounded()} label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
             />
             <span>{change()}</span>
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

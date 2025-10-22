@@ -5,7 +5,7 @@
 import { Album, fieldAccessor } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
-import { boolSelector, Demo, layoutSelector, paletteSelector, Stage } from '../base';
+import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(): JSX.Element {
     const [paletteS, palette] = paletteSelector('secondary');
@@ -14,26 +14,24 @@ export default function(): JSX.Element {
     const [autoS, auto] = boolSelector('auto');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
-    const basicA = fieldAccessor('upload', ['../../../../../cmd/admin/public/icon.svg', './test.jpg']);
+    const basicA = fieldAccessor('upload', ['../../../../../../cmd/admin/public/icon.svg', './test.jpg']);
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {disabledS}
-            {reverseS}
-            {autoS}
-            {layoutS}
-            <button class="palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
-        </>
-    }>
-        <Stage title='basic'>
+    return <div>
+        {paletteS}
+        {disabledS}
+        {reverseS}
+        {autoS}
+        {layoutS}
+        <button class="palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
+
+        <div title='basic'>
             <Album hasHelp layout={layout()} fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
                 action='./' accessor={basicA} />
-        </Stage>
+        </div>
 
-        <Stage title='basic+drop'>
+        <div title='basic+drop'>
             <Album hasHelp layout={layout()} fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
                 action='./' accessor={basicA} />
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

@@ -27,7 +27,7 @@ export async function copy2Clipboard(target: HTMLElement, text: string) {
         overlay.style.left = `${rect.left}px`;
         overlay.style.width = `${rect.width}px`;
         overlay.style.height = `${rect.height}px`;
-        overlay.style.color = ok ? 'var(--primary-fg)' : 'var(--error-fg)';
+        overlay.style.color = ok ? 'var(--fg)' : 'var(--error-fg)';
         overlay.style.opacity = '0';
 
         requestAnimationFrame(() => {

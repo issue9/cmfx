@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { fieldAccessor, Range } from '@cmfx/components';
-import { For, JSX } from 'solid-js';
+import { JSX } from 'solid-js';
 
-import { boolSelector, Demo, layoutSelector, palettesWithUndefined, Stage } from '../base';
+import { boolSelector, layoutSelector } from '../../base';
 
 function formatValue(value: number): JSX.Element {
     return value.toFixed(2)+'%';
@@ -21,31 +21,16 @@ export default function () {
     const [valueS, value] = boolSelector('value', false);
     const [roundedS, rounded] = boolSelector('rounded', false);
 
-    return <Demo settings={
-        <>
-            {readonlyS}
-            {disabledS}
-            {layoutS}
-            {fitHeightS}
-            {valueS}
-            {roundedS}
-            <button class="palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
-        </>
-    }>
-        <Stage title="palette">
-            <For each={palettesWithUndefined}>
-                {(item) => (
-                    <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label={item ?? 'undefined'} accessor={f} palette={item} disabled={disabled()} readonly={readonly()} layout={layout()} />
-                )}
-            </For>
-        </Stage>
+    return <div>
+        {readonlyS}
+        {disabledS}
+        {layoutS}
+        {fitHeightS}
+        {valueS}
+        {roundedS}
+        <button class="palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
 
-        <Stage title="float step">
-            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f} palette='primary'
-                step={0.5} min={0} max={100} disabled={disabled()} readonly={readonly()} layout={layout()} />
-        </Stage>
-
-        <Stage title="mark">
+        <div>
             <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} accessor={f}
                 palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
                 step={10} min={0} max={100} marks={[
@@ -56,9 +41,9 @@ export default function () {
                     [100, 'last'],
                 ]}
             />
-        </Stage>
+        </div>
 
-        <Stage title="mark">
+        <div>
             <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} class="min-w-90" fitHeight={fitHeight()}
                 accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()}
                 step={10} min={0} max={130} marks={[
@@ -69,6 +54,6 @@ export default function () {
                     [130, 'last'],
                 ]}
             />
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

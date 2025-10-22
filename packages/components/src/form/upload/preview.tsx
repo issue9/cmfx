@@ -57,6 +57,11 @@ export function PreviewFile(props: FileProps): JSX.Element {
     </div>;
 }
 
+/**
+ * 将文件对象转换为 Base64 字符串
+ *
+ * @param file - 需要转换的文件对象；
+ */
 export function file2Base64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();

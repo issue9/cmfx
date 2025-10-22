@@ -4,7 +4,7 @@
 
 import { Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, useComponents } from '@cmfx/components';
 
-import { boolSelector, Demo, layoutSelector, paletteSelector } from './base';
+import { boolSelector, layoutSelector, paletteSelector } from '../base';
 
 export default function() {
     const [, act] = useComponents();
@@ -20,14 +20,11 @@ export default function() {
         textarea: 'textarea',
     }, async () => { return { ok: false, status: 500, body: {type: '500', title: '请求未处理', status: 500} }; }, act.outputProblem);
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {roundedS}
-            {helpS}
-            {layoutS}
-        </>
-    }>
+    return <div>
+        {paletteS}
+        {roundedS}
+        {helpS}
+        {layoutS}
         <Form formAccessor={f} palette={palette()} {...f.events()} rounded={rounded()} layout={layout()} hasHelp={help()}>
             <TextField label="textField" accessor={f.accessor<string>('f1')} help="这是一个帮助文本" />
             <Number label="number" accessor={f.accessor('f2')} help="这是一个帮助文本" />
@@ -38,5 +35,5 @@ export default function() {
                 <Button type="submit">submit</Button>
             </div>
         </Form>
-    </Demo>;
+    </div>;
 }

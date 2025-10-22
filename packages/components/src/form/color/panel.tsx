@@ -164,7 +164,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
             </Show>
             <div class={styles.current} ref={el => contentRef = el}
                 onClick={() => copy2Clipboard(contentRef, access.getValue())}
-                style={{ 'background': access.getValue(), 'color': props.wcag }}
+                style={{ 'background': access.getValue(), 'color': props.wcag ?? 'var(--fg)' }}
             >{access.getValue()}</div>
 
             <Show when={props.wcag}>
