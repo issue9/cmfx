@@ -2,11 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import Browser from 'bowser';
+
 /**
  * 支持的修饰符
  */
 export type Modifier = 'meta' | 'alt' | 'control' | 'shift';
 
+/**
+ * 至少一个修饰符
+ */
 export type Modifiers = [Modifier, ...Modifier[]];
 
 export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier, number>([
@@ -15,6 +20,25 @@ export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier, nu
     ['control', 4], // ctrl / control
     ['shift', 8],
 ]);
+
+const osName = Browser.parse(window.navigator.userAgent).os.name?.toLowerCase();
+
+const modifierSymbols: ReadonlyMap<string, ReadonlyMap<Modifier, string>> = new Map([
+    ['windows', new Map([
+        ['meta', 'Win'],
+        ['alt', 'Alt'],
+        ['control', 'Ctrl'],
+        ['shift', 'Shift']
+    ])],
+    ['macos', new Map([
+        ['meta', '⌘'],
+        ['alt', '⌥'],
+        ['control', '⌃'],
+        ['shift', '⇧']
+    ])],
+]);
+
+const modifierSymbolsByOS = osName ? modifierSymbols.get(osName) : undefined;
 
 export type Handler = (e: KeyboardEvent) => void;
 
@@ -183,5 +207,15 @@ export class Hotkey {
      */
     keys(): string[] { return this.#keys; }
 
-    toString(): string { return this.#keys.join('+'); }
+    /**
+     * 将快捷键转换为一个可读的字符串
+     *
+     * @param os - 是否输出与当前系统相符的快捷键符号；
+     */
+    toString(os?: boolean): string {
+        if (os && modifierSymbolsByOS) {
+            return this.#keys.map(k => modifierSymbolsByOS.get(k as any) ?? k).join('+');
+        }
+        return this.#keys.join('+');
+    }
 }

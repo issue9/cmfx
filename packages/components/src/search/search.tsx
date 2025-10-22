@@ -100,7 +100,7 @@ export default function Search(props: Props): JSX.Element {
             placeholder={l.t('_c.search')} prefix={props.icon ? <IconSearch class={styles.icon} /> : undefined} suffix={
                 <Switch>
                     <Match when={!fa.getValue() && props.hotkey ? props.hotkey : undefined}>
-                        {hk => <kbd>{hk().toString()}</kbd>}
+                        {hk => <kbd>{hk().toString(true)}</kbd>}
                     </Match>
                     <Match when={fa.getValue() && props.clear}>
                         <IconClear class={styles.clear} onclick={() => {

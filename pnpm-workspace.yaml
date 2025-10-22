@@ -16,6 +16,7 @@ catalog:
   '@types/node': ^24.9.1
   '@vitest/coverage-v8': ^3.2.4
   autoprefixer: ^10.4.21
+  bowser: ^2.12.1
   colorjs.io: ^0.5.2
   intl-messageformat: ^10.7.18
   jsdom: ^27.0.1

@@ -40,6 +40,7 @@
     "dependencies": {
         "@formatjs/intl-durationformat": "catalog:",
         "intl-messageformat": "catalog:",
+        "bowser": "catalog:",
         "cbor2": "^2.0.1",
         "printd": "^1.6.0",
         "yaml": "catalog:",

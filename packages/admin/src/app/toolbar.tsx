@@ -39,7 +39,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
             <Show when={act.user() ? opt.toolbar.get('search') : undefined}>
                 {hk =>
                     <Search class={styles.search} icon clear hotkey={hk()}
-                        onSearch={v=>search(v, buildItems(l, opt.aside.menus))} />
+                        onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
                 }
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>
@@ -51,7 +51,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
             <Show when={act.user()}><UserMenu /></Show>
         </>
     }>
-        <Show when={act.isLogin()}>{props.drawer()?.ToggleButton()}</Show>
+        <Show when={act.isLogin()}>{props.drawer()?.ToggleButton({ square: true })}</Show>
     </Appbar>;
 }
 

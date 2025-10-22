@@ -51,7 +51,7 @@
         "@cmfx/vite-plugin-about": "workspace:*",
         "@scure/base": "^2.0.0",
         "@solidjs/router": "catalog:",
-        "bowser": "^2.12.1",
+        "bowser": "catalog:",
         "solid-js": "catalog:",
         "tailwindcss": "catalog:",
         "@iconify/json": "catalog:"
