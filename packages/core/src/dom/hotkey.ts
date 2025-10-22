@@ -10,9 +10,9 @@ export type Modifier = 'meta' | 'alt' | 'control' | 'shift';
 export type Modifiers = [Modifier, ...Modifier[]];
 
 export const modifierCodes: ReadonlyMap<Modifier, number> = new Map<Modifier, number>([
-    ['meta', 1],
-    ['alt', 2],
-    ['control', 4],
+    ['meta', 1], // window / command
+    ['alt', 2], // alt / option
+    ['control', 4], // ctrl / control
     ['shift', 8],
 ]);
 

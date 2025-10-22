@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import { JSX, createSignal, Match, mergeProps, Switch } from 'solid-js';
+import { JSX, onMount, createSignal, Match, mergeProps, Switch, onCleanup } from 'solid-js';
 import IconSearch from '~icons/material-symbols/search';
 import IconClear from '~icons/material-symbols/close';
 
@@ -12,7 +12,6 @@ import { MenuItemItem, DropdownRef, Dropdown, DropdownProps } from '@/menu';
 import { fieldAccessor, InputMode, TextField, TextFieldRef } from '@/form';
 import styles from './style.module.css';
 import { useLocale } from '@/context';
-import { onMount } from 'solid-js';
 
 export interface Props extends BaseProps {
     hotkey?: Hotkey;
@@ -70,7 +69,10 @@ export default function Search(props: Props): JSX.Element {
     let textfieldRef: TextFieldRef;
 
     onMount(() => { // 绑定快捷键
-        if (props.hotkey) { Hotkey.bind(props.hotkey, () => textfieldRef.input().focus); }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, () => textfieldRef.input().focus()); }
+    });
+    onCleanup(()=>{
+        if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
     fa.onChange(async (value) => {
