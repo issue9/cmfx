@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, onMount } from 'solid-js';
+import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
 import { useComponents } from '@/context';
 import { FieldBaseProps, useForm } from '@/form/field';
-import { mergeProps } from 'solid-js';
 
 /**
  * 上传组件的外放接口

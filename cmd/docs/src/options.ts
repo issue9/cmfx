@@ -13,8 +13,8 @@ export const options: Options = {
     locale: 'zh-Hans',
     displayStyle: 'full',
     logo: './logo.svg',
-    systemDialog: true,
-    systemNotify: true,
+    systemDialog: false,
+    systemNotify: false,
     messages: {
         'en': [
             async () => (await import('@cmfx/components/messages/en.lang.js')).default,
