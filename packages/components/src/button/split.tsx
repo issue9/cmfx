@@ -60,7 +60,7 @@ export function SplitButton(props: Props) {
         <Button class={styles.split} ref={el => downRef = el} square onclick={() => {
             popElem.togglePopover();
 
-            const anchor = group.getBoundingClientRect();
+            const anchor = group.element().getBoundingClientRect();
             if (props.direction === 'left') {
                 anchor.x = anchor.right - popElem.getBoundingClientRect().width;
             }
