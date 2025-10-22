@@ -1,0 +1,34 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .dropdown {
+        @apply w-60 self-center;
+    }
+
+    .icon {
+        @apply self-center aspect-square w-6;
+    }
+
+    kbd {
+        @apply border border-palette-border rounded-sm bg-palette-bg-low text-palette-fg m-[3px] px-1 py-[1px] text-sm;
+        @apply flex items-center justify-center flex-0 cursor-default;
+    }
+
+    .dropdown:focus-within {
+        kbd {
+            display: none;
+        }
+    }
+
+    .clear {
+        @apply self-center aspect-square w-6 cursor-pointer;
+        @apply hover:text-palette-fg-focused;
+        @apply transition;
+    }
+}

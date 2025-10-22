@@ -43,6 +43,7 @@ export * from './page';
 export * from './pagination';
 export * from './qrcode';
 export * from './result';
+export * from './search';
 export * from './spin';
 export * from './statistic';
 export * from './tab';
@@ -51,4 +52,3 @@ export * from './theme';
 export * from './tooltip';
 export * from './typography';
 export * from './wizard';
-

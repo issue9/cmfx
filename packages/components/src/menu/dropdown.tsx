@@ -123,6 +123,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         <Menu layout='vertical' tag='menu' {...menuProps} items={props.items}
             class={joinClass(undefined, styles.dropdown)}
             ref={el => {
+                el.element().tabIndex = -1;
                 el.element().popover = props.trigger === 'contextmenu' ? 'manual' : 'auto';
                 menuRef = el;
 

@@ -9,7 +9,7 @@
 @layer components {
     .appbar {
         @apply bg-palette-bg text-palette-fg;
-        @apply border-b border-b-palette-border;
+        @apply border-b border-b-palette-border px-2;
         @apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
 
         .title {
@@ -25,7 +25,7 @@
         }
 
         .main {
-            @apply flex flex-1 justify-start;
+            @apply flex flex-1 justify-start items-center;
         }
 
         .actions {

@@ -8,7 +8,7 @@
 
 @layer components {
     .app {
-        @apply flex flex-col box-border overflow-hidden h-full bg-[var(--bg)] text-[var(--fg)];
+        @apply flex flex-col box-border overflow-hidden h-full bg-palette-bg text-palette-fg;
 
         .main {
             @apply relative h-full flex-1 overflow-y-hidden;
@@ -18,12 +18,8 @@
             @apply min-w-60;
         }
 
-        .search-icon {
-            @apply self-center aspect-square w-6;
-        }
-
-        .search-clear {
-            @apply self-center aspect-square w-6 cursor-pointer;
+        .search {
+            @apply w-60 self-center;
         }
     }
 }

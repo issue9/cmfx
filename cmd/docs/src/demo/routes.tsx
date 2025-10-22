@@ -47,6 +47,7 @@ import IconDatePanel from '~icons/solar/calendar-date-bold';
 import IconPagination from '~icons/stash/pagination-duotone';
 import IconResult from '~icons/stash/search-results';
 import IconStepper from '~icons/streamline-flex/steps-2-remix';
+import IconSearch from '~icons/material-symbols/search-rounded';
 import IconTextfield from '~icons/streamline-plump/input-box-solid';
 import IconColor from '~icons/streamline/color-picker-remix';
 import IconMonthPanel from '~icons/tabler/calendar-month';
@@ -248,6 +249,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'feedback', path: '/notify', component: lazy(() => import('./notify')),
         info: { title: '_d.demo.notify', icon: <IconNotify /> },
+    },
+    {
+        kind: 'feedback', path: '/search', component: lazy(() => import('./search')),
+        info: { title: '_d.demo.search', icon: <IconSearch /> },
     },
     {
         kind: 'feedback', path: '/spin', component: lazy(() => import('./spin')),

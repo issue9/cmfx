@@ -29,7 +29,7 @@
         "@iconify/json": "catalog:",
         "@solidjs/router": "catalog:",
         "colorjs.io": "catalog:",
-        "marked": "^16.4.0",
+        "marked": "^16.4.1",
         "shiki": "catalog:",
         "solid-js": "catalog:",
         "tailwindcss": "catalog:"

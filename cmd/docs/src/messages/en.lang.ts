@@ -93,6 +93,7 @@ const messages = {
             range: 'Range',
             result: 'Result',
             spin: 'Spin',
+            search: 'Search',
             statistic: 'Statistic',
             stepper: 'Stepper',
             tab: 'Tab',

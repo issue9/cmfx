@@ -5,8 +5,8 @@
 import './style.css';
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, fieldAccessor, LinkButton, Menu, MenuItemItem,
-    Mode, modes, run, TextField, ToggleFullScreenButton, useComponents, useLocale, useTheme
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, LinkButton, Menu, MenuItemItem,
+    Mode, modes, run, Search, ToggleFullScreenButton, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, Show } from 'solid-js';
@@ -15,7 +15,6 @@ import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconAnimation from '~icons/material-symbols/animation';
 import IconSystem from '~icons/material-symbols/brightness-4';
-import IconClear from '~icons/material-symbols/close';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconAlign from '~icons/material-symbols/format-align-center-rounded';
 import IconAuto from '~icons/material-symbols/format-align-justify-rounded';
@@ -24,7 +23,6 @@ import IconRTL from '~icons/material-symbols/format-align-right-rounded';
 import IconLanguage from '~icons/material-symbols/language';
 import IconLight from '~icons/material-symbols/light-mode';
 import IconTheme from '~icons/material-symbols/palette';
-import IconSearch from '~icons/material-symbols/search';
 import IconBuilder from '~icons/mdi/theme';
 
 import pkg from '../package.json';
@@ -34,6 +32,7 @@ import { buildRoute as buildThemeRoute } from './theme/builder';
 import { options } from './options';
 
 import styles from './style.module.css';
+import { Hotkey } from '@cmfx/core';
 
 const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
     ['en', <IconEN />],
@@ -55,10 +54,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
     const theme = useTheme();
 
     const menus = [...buildDemoMenus(l, demoRoute), ...buildDocsMenus(l, docsRoute)];
-    const [candidate, setCandidate] = createSignal<Array<MenuItemItem<string>>>([]);
-    let dropdownRef: DropdownRef;
-    const searchFA = fieldAccessor('search', '');
-    searchFA.onChange(value => {
+    const search = async (value: string) => {
         const items: Array<MenuItemItem<string>> = [];
 
         for (const m of menus) {
@@ -77,9 +73,8 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
             }
         }
 
-        setCandidate(items);
-        if (items.length > 0) { dropdownRef.show(); }
-    });
+        return items;
+    };
 
     const [themeValues, setThemeValues] = createSignal<Array<Mode | 'reduced-motion'>>([theme.mode ?? 'system'], { equals: false });
     let themeDropdown: DropdownRef;
@@ -155,26 +150,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                 { type: 'a', label: l.t('_d.main.components'), value: demoRoute },
             ]} />
 
-            <Dropdown class={styles['search-dropdown']} trigger='custom' items={candidate()} ref={el => {
-                dropdownRef = el;
-                dropdownRef.menu().element().style.height = '240px';
-                dropdownRef.menu().element().style.overflowY = 'auto';
-            }} onPopover={visible => {
-                if (visible) {
-                    dropdownRef.menu().element().style.width
-                        = dropdownRef.element().getBoundingClientRect().width + 'px';
-                }
-                return false;
-            }}>
-                <TextField autocomplete='off' placeholder={l.t('_c.search')} accessor={searchFA}
-                    prefix={<IconSearch class={styles['search-icon']} />}
-                    suffix={
-                        <Show when={searchFA.getValue()}>
-                            <IconClear onclick={() => searchFA.setValue('')} class={styles['search-clear']} />
-                        </Show>
-                    }
-                />
-            </Dropdown>
+            <Search class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
         </Appbar>
         {props.children}
     </div>;

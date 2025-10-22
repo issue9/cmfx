@@ -3,12 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, fieldAccessor,Locale,
-    MenuItemItem, TextField, ToggleFullScreenButton, MenuItem as XMenuItem
+    Appbar, Button, DrawerRef, Dropdown, Locale, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem
 } from '@cmfx/components';
 import { Accessor, createSignal, JSX, Show } from 'solid-js';
-import IconClear from '~icons/material-symbols/close';
-import IconSearch from '~icons/material-symbols/search';
 
 import { useAdmin, useLocale } from '@/context';
 import { MenuItem } from '@/options';
@@ -21,54 +18,28 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
     const [, act, opt] = useAdmin();
     const l = useLocale();
 
-    const [candidate, setCandidate] = createSignal<Array<MenuItemItem<string>>>([]);
-    let dropdownRef: DropdownRef;
-    const searchFA = fieldAccessor('search', '');
-    searchFA.onChange(value => {
+    const search = async (value: string, menus: Array<XMenuItem<string>>): Promise<Array<MenuItemItem<string>>> => {
         const items: Array<MenuItemItem<string>> = [];
-        const menus = buildItems(l, opt.aside.menus);
 
         for (const m of menus) {
-            if (m.type === 'a' && m.label && (m.label as string).toLowerCase().includes(value.toLowerCase())) {
+            if (m.type === 'a' && m.items && m.items.length > 0) {
+                items.push(...await search(value, m.items));
+            } else if (m.type === 'a' && m.label && (m.label as string).toLowerCase().includes(value.toLowerCase())) {
                 items.push({ type: 'a', value: m.value, label: m.label });
-            } else if (m.type === 'group' && m.items) {
-                // 目前只有两级菜单
-                for (const mm of m.items) {
-                    if (mm.type === 'a' && mm.label && (mm.label as string).toLowerCase().includes(value.toLowerCase())) {
-                        items.push({ type: 'a', value: mm.value, label: mm.label });
-                    }
-                }
+            } else if (m.type === 'group' && m.items && m.items.length > 0) {
+                items.push(...await search(value, m.items));
             }
         }
 
-        setCandidate(items);
-        if (items.length > 0) { dropdownRef.show(); }
-    });
+        return items;
+    };
 
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
         <>
             <Show when={act.user() ? opt.toolbar.get('search') : undefined}>
                 {hk =>
-                    <Dropdown class="w-60 self-center" trigger='custom' items={candidate()} ref={el => {
-                        dropdownRef = el;
-                        dropdownRef.menu().element().style.height = '240px';
-                        dropdownRef.menu().element().style.overflowY = 'auto';
-                    }} onPopover={visible => {
-                        if (visible) {
-                            dropdownRef.menu().element().style.width
-                                = dropdownRef.element().getBoundingClientRect().width + 'px';
-                        }
-                        return false;
-                    }}>
-                        <TextField placeholder={l.t('_c.search')} accessor={searchFA}
-                            prefix={<IconSearch class={styles['search-icon']} />}
-                            suffix={
-                                <Show when={searchFA.getValue()}>
-                                    <IconClear onclick={() => searchFA.setValue('')} class={styles['search-clear']} />
-                                </Show>
-                            }
-                        />
-                    </Dropdown>
+                    <Search class={styles.search} icon clear hotkey={hk()}
+                        onSearch={v=>search(v, buildItems(l, opt.aside.menus))} />
                 }
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>

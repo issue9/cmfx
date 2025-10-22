@@ -94,6 +94,7 @@ const messages: typeof m = {
             range: 'Range 范围选择器',
             result: 'Result 结果页',
             spin: 'Spin 加载',
+            search: 'Search 搜索框',
             statistic: 'Statistic 统计',
             stepper: 'Stepper 步骤',
             tab: 'Tab 标签页',

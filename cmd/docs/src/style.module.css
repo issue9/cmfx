@@ -13,17 +13,9 @@
         .actions {
             @apply flex gap-2 me-2;
         }
-    }
 
-    .search-dropdown {
-        @apply w-60 self-center @max-md/root:hidden;
-    }
-
-    .search-icon {
-        @apply self-center aspect-square w-6;
-    }
-
-    .search-clear {
-        @apply self-center aspect-square w-6 cursor-pointer;
+        .search {
+            @apply @max-md/root:hidden;
+        }
     }
 }
