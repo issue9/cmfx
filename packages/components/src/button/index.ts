@@ -18,7 +18,7 @@ export { SplitButton } from './split';
 export type { Item as SplitButtonItem, Props as SplitButtonProps } from './split';
 
 export { ToggleButton, ToggleFitScreenButton, ToggleFullScreenButton } from './toggle';
-export type { Props as ToggleButtonProps, ToggleFitScreenButtonProps, ToggleFullScreenButtonProps as ToggleFullscreenButtonProps } from './toggle';
+export type { Props as ToggleButtonProps, ToggleFitScreenButtonProps, ToggleFullScreenButtonProps } from './toggle';
 
 export { kinds as buttonKinds } from './types';
 export type { Kind as ButtonKind } from './types';
