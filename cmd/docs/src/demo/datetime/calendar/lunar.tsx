@@ -5,7 +5,7 @@
 import { Calendar, datetimePluginLunar, notify, Week } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '../base';
+import { boolSelector, paletteSelector } from '../../base';
 
 export default function () {
     const now = new Date();
@@ -17,25 +17,17 @@ export default function () {
     const [weekendS, weekend] = boolSelector('weekend');
     const [minmaxS, minmax] = boolSelector('minmax');
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {weekendS}
-            {minmaxS}
-            <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
-        </>
-    }>
-        <Stage class="w-full h-[600px]">
-            <Calendar weekend={weekend()} weekBase={week()} palette={palette()}
-                min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                onSelected={(d: Date) => notify(d.toString())} />
-        </Stage>
+    return <div>
+        {paletteS}
+        {weekendS}
+        {minmaxS}
+        <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
 
-        <Stage class="w-full h-[600px]" title="农历">
+        <div class="w-full h-[600px]">
             <Calendar weekend={weekend()} weekBase={week()} palette={palette()}
                 plugins={[datetimePluginLunar]}
                 min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 onSelected={(d: Date) => notify(d.toString())} />
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

@@ -4,9 +4,9 @@
 
 import { joinClass, modes, ThemeProvider } from '@cmfx/components';
 import * as illustrations from '@cmfx/illustrations';
-
 import { createEffect, createSignal } from 'solid-js';
-import { arraySelector, boolSelector, Demo, paletteSelector, Stage } from './base';
+
+import { arraySelector, boolSelector, paletteSelector } from '../base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
@@ -19,58 +19,58 @@ export default function() {
         setCls(joinClass(undefined, scale() ? 'w-200' : 'w-150', 'p-4', 'bg-palette-bg'));
     });
 
-    return <Demo settings={<>
+    return <div>
         {paletteS}
         {modeS}
         {customS}
         {scaleS}
-    </>}>
+
         <ThemeProvider mode={mode()}>
             <div class='flex flex-wrap gap-5'>
-                <Stage title='400' class={cls()}>
+                <div title='400' class={cls()}>
                     <illustrations.Error400 palette={palette()} text={custom() ? '自定义错误信息' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="401" class={cls()}>
+                <div title="401" class={cls()}>
                     <illustrations.Error401 palette={palette()} text={custom() ? '未验证的登录信息' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="403" class={cls()}>
+                <div title="403" class={cls()}>
                     <illustrations.Error403 palette={palette()} text={custom() ? '禁 止 访 问' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="404" class={cls()}>
+                <div title="404" class={cls()}>
                     <illustrations.Error404 palette={palette()} text={custom() ? '页面未找到' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="429" class={cls()}>
+                <div title="429" class={cls()}>
                     <illustrations.Error429 palette={palette()} text={custom() ? '请求过多' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="500" class={cls()}>
+                <div title="500" class={cls()}>
                     <illustrations.Error500 palette={palette()} text={custom() ? '服务器错误' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="503" class={cls()}>
+                <div title="503" class={cls()}>
                     <illustrations.Error503 palette={palette()} text={custom() ? '服 务 暂 不 可 用' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="504" class={cls()}>
+                <div title="504" class={cls()}>
                     <illustrations.Error504 palette={palette()} text={custom() ? '网 关 超 时' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="bug" class={cls()}>
+                <div title="bug" class={cls()}>
                     <illustrations.BUG palette={palette()} />
-                </Stage>
+                </div>
 
-                <Stage title="building" class={cls()}>
+                <div title="building" class={cls()}>
                     <illustrations.Building palette={palette()} text={custom() ? '升级中...' : undefined} />
-                </Stage>
+                </div>
 
-                <Stage title="login" class={cls()}>
+                <div title="login" class={cls()}>
                     <illustrations.Login palette={palette()} text={custom() ? '欢迎回来' : undefined} />
-                </Stage>
+                </div>
             </div>
         </ThemeProvider>
-    </Demo>;
+    </div>;
 }

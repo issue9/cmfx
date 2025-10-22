@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { joinClass, Layout, layouts, Palette, palettes } from '@cmfx/components';
+import { Layout, layouts, Palette, palettes } from '@cmfx/components';
 import { PopoverPosition } from '@cmfx/core';
-import { Accessor, createSignal, For, JSX, ParentProps, Setter, Show } from 'solid-js';
+import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
 
@@ -75,28 +75,4 @@ export interface DemoProps {
      * 展示区的内容
      */
     children: JSX.Element;
-}
-
-export function Stage(props: ParentProps<{title?: string, class?: string}>) {
-    return <fieldset class={joinClass(undefined, 'border border-palette-fg p-2 flex flex-col gap-4 ', props.class)}>
-        <Show when={props.title}>
-            {t => <legend>{t()}</legend>}
-        </Show>
-        {props.children}
-    </fieldset>;
-}
-
-/**
- * demo 展示组件
- */
-export function Demo(props: DemoProps) {
-    return <div class="flex flex-col gap-y-5 justify-between">
-        <div class="settings flex flex-wrap gap-5 p-5 sticky top-0 bg-palette-bg border-b border-palette-bg-high z-50">
-            {props.settings}
-        </div>
-
-        <div class="stages flex flex-wrap justify-between gap-5 p-5">
-            {props.children}
-        </div>
-    </div>;
 }

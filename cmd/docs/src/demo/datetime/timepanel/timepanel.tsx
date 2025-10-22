@@ -5,7 +5,7 @@
 import { Button, TimePanel } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { boolSelector, Demo, paletteSelector, Stage } from '../base';
+import { boolSelector, paletteSelector } from '../../base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector('primary');
@@ -15,22 +15,20 @@ export default function() {
     const [val, setValue] = createSignal<Date | undefined>(undefined);
     const [valShow, setValShow] = createSignal<string>('');
 
-    return <Demo settings={
-        <>
-            {paletteS}
-            {disabledS}
-            {readonlyS}
-            <Button onclick={() => setValue()}>set undefined</Button>
-            <Button onclick={() => setValue(new Date())}>now</Button>
-        </>
-    }>
-        <Stage title="panel" class="flex items-start">
+    return <div>
+        {paletteS}
+        {disabledS}
+        {readonlyS}
+        <Button onclick={() => setValue()}>set undefined</Button>
+        <Button onclick={() => setValue(new Date())}>now</Button>
+
+        <div class="flex items-start flex-col">
             <TimePanel palette={palette()} readonly={readonly()} disabled={disabled()} value={val()}
                 onChange={(val, old) => {
                     setValShow(`new:${val}old:${old}`);
                     setValue(val);
                 }} />
             <p>{valShow()}</p>
-        </Stage>
-    </Demo>;
+        </div>
+    </div>;
 }

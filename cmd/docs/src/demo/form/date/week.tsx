@@ -5,7 +5,7 @@
 import { fieldAccessor, Week, WeekPicker, WeekValueType } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 
-import { boolSelector, layoutSelector, paletteSelector, Stage } from '../../base';
+import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function() {
     const weekNum = fieldAccessor<WeekValueType>('week', [2025, 7]);
@@ -32,18 +32,18 @@ export default function() {
         <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于'
             value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
 
-        <Stage title="week picker">
+        <div title="week picker">
             <WeekPicker class="w-[400px]" placeholder='placeholder' layout={layout()}
                 label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 weekend={weekend()} palette={palette()} rounded={rounded()}
                 readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
-        </Stage>
+        </div>
 
-        <Stage title="week picker min-width">
+        <div title="week picker min-width">
             <WeekPicker class="w-[200px]" placeholder='placeholder' layout={layout()}
                 label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
                 weekend={weekend()} palette={palette()} rounded={rounded()}
                 readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
-        </Stage>
+        </div>
     </div>;
 }

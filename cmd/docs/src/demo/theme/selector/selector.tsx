@@ -4,7 +4,7 @@
 
 import { Scheme, schemes, SchemeSelector } from '@cmfx/components';
 
-import { Demo, paletteSelector, Stage } from '../base';
+import { paletteSelector } from '../../base';
 
 export default function() {
     const [paletteS, palette] = paletteSelector();
@@ -13,11 +13,8 @@ export default function() {
         ['Purple', schemes.purple]
     ]);
 
-    return <Demo settings={<>
+    return <div>
         {paletteS}
-    </>}>
-        <Stage title="default">
-            <SchemeSelector value='default' palette={palette()} schemes={s} />
-        </Stage>
-    </Demo>;
+        <SchemeSelector value='default' palette={palette()} schemes={s} />
+    </div>;
 }

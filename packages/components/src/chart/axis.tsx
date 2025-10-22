@@ -113,7 +113,7 @@ export interface Series<T extends object> {
 
 const presetProps = {
     ...presetBaseProps,
-};
+} as const;
 
 /**
  * 带坐标系的图表组件
