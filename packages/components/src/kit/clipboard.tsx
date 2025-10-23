@@ -13,7 +13,7 @@ import styles from './style.module.css';
 /**
  * 复制内容到剪切版，并在 target 显示复制状态。
  *
- * @param target - 显示复制状态的对象，状态会显示在该对象之上；
+ * @param target - 显示复制状态的对象，状态会显示在该对象之上，要求 target.parentElement 不能为空；
  * @param text - 复制的内容；
  */
 export async function copy2Clipboard(target: HTMLElement, text: string) {
@@ -21,7 +21,7 @@ export async function copy2Clipboard(target: HTMLElement, text: string) {
         const rect = target.getBoundingClientRect();
 
         const overlay = document.createElement('div');
-        document.body.append(overlay);
+        target.parentElement!.append(overlay); // 插在 body 之下，无法正常显示在弹出对象上。
         overlay.className = styles.overlay;
         overlay.style.top = `${rect.top}px`;
         overlay.style.left = `${rect.left}px`;
@@ -38,7 +38,7 @@ export async function copy2Clipboard(target: HTMLElement, text: string) {
 
         await sleep(2000);
         overlay.style.opacity = '0';
-        await sleep(transitionDuration(target));
+        await sleep(transitionDuration(target)); // 等待动画完成
         overlay.remove();
     });
 }
