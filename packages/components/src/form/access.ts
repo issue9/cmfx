@@ -156,13 +156,21 @@ export class ObjectAccessor<T extends Flattenable> {
     }
 
     /**
+     * 返回原始的存储对象
+     *
+     * @remarks 是一个由 {@link createStore} 创建的对象。是一个可响应式的对象。
+     */
+    raw(): T { return this.#valGetter; }
+
+    /**
      * 返回当前对象的值
      *
      * @param validation - 是对返回之前对数据进行验证，如果此值非空，
      *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
      *
      * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
-     *  其它情况下都将返回当前表单的最新值。
+     * 其它情况下都将返回当前表单的最新值。
+     * 返回对象已经由 {@link unwrap} 进行了解绑。
      */
     object(validation?: Validation<T>): T;
     object(validation?: Validation<T>): T | undefined {

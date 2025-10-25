@@ -19,6 +19,7 @@ describe('ObjectAccessor', () => {
     expect(f.isPreset()).toEqual<boolean>(true);
     t(f.accessor('f1'));
     expect(f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
+    expect(f.raw()).toEqual({ 'f1': 7, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(false);
 
     test('validation', () => {

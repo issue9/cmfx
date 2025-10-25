@@ -17,6 +17,7 @@ export default [
     includeIgnoreFile(path.resolve(__dirname, '.gitignore')),
 
     includeIgnoreFile(path.resolve(__dirname, 'packages/core/.gitignore')),
+    includeIgnoreFile(path.resolve(__dirname, 'packages/illustrations/.gitignore')),
     includeIgnoreFile(path.resolve(__dirname, 'packages/components/.gitignore')),
     includeIgnoreFile(path.resolve(__dirname, 'packages/admin/.gitignore')),
 

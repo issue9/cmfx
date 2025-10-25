@@ -58,19 +58,19 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 
                 <ButtonGroup kind='border'>
                     <Button square title={l.t('_d.theme.light')}
-                        checked={m.getValue() === 'light'} onClick={() => m.setValue('light')}>
+                        checked={m.getValue() === 'light'} onclick={() => m.setValue('light')}>
                         <IconLight />
                     </Button>
                     <Button square title={l.t('_d.theme.dark')}
-                        checked={m.getValue() === 'dark'} onClick={() => m.setValue('dark')}>
+                        checked={m.getValue() === 'dark'} onclick={() => m.setValue('dark')}>
                         <IconDark />
                     </Button>
                 </ButtonGroup>
             </div>
 
             <ButtonGroup kind='border'>
-                <Button square onClick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
-                <Button square onClick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
+                <Button square onclick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
+                <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
             </ButtonGroup>
         </div>
 

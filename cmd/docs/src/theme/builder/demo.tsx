@@ -7,7 +7,7 @@ import {
     Menu, Mode, ObjectAccessor, Password, Scheme, TextField, ThemeProvider, useLocale
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
-import { JSX } from 'solid-js';
+import { createEffect, JSX } from 'solid-js';
 
 import styles from './style.module.css';
 
@@ -20,7 +20,7 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，出现 main 中同时出现在多个元素。
     return <div class="w-full h-full p-2">
-        <ThemeProvider mode={props.m.getValue()} scheme={props.s.object()}>
+        <ThemeProvider mode={props.m.getValue()} scheme={props.s.raw()}>
             <div class={styles.demo}>
                 <Appbar title={l.t('_d.theme.componentsDemo')} />
                 <Components />
@@ -48,7 +48,7 @@ function Components(): JSX.Element {
     }, 0 as any);
 
     return <div class={styles.components}>
-        <BasicTable class="!w-full" items={items} columns={columns} />
+        <BasicTable class="w-full!" items={items} columns={columns} />
 
         <DatePanel value={new Date()} />
 
