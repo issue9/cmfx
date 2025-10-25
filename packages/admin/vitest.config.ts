@@ -8,5 +8,10 @@ import viteConfig from './vite.config';
 export default mergeConfig(viteConfig, defineConfig({
     test: {
         environment: 'jsdom',
+        server: {
+            deps: {
+                inline: ['@solidjs/router'] // vitest v4 必须要加
+            }
+        }
     },
 }));

@@ -9,5 +9,10 @@ export default mergeConfig(viteConfig, defineConfig({
     test: {
         setupFiles: ['./src/vitest_setup.ts'],
         environment: 'jsdom',
-    },
+        server: {
+            deps: {
+                inline: ['@solidjs/router'] // vitest v4 必须要加
+            }
+        }
+    }
 }));

@@ -31,8 +31,8 @@
     ],
     "scripts": {
         "lint": "eslint",
-        "test": "vitest --coverage.enabled true",
-        "test-nowatch": "vitest run --coverage.enabled true"
+        "test": "vitest",
+        "test-nowatch": "vitest run"
     },
     "devDependencies": {
         "@eslint/compat": "^1.4.0",
