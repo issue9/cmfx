@@ -2,4 +2,4 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { createBytesFormatter } from './bytes';
+export { default as Clipboard, copy2Clipboard } from './clipboard';

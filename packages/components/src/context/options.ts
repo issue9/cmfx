@@ -38,14 +38,14 @@ export interface Options {
     /**
      * 默认的配置名
      *
-     * 当处于多用户环境时，每个用户可能有不同的本地配置，此值可作为默认值使用。
+     * @remarks 当处于多用户环境时，每个用户可能有不同的本地配置，此值可作为默认值使用。
      */
     configName: string | number;
 
     /**
-     * 默认的主题样式，当在 {@link Options#storage} 中存在时，当前值将被忽略。
+     * 默认的主题样式，当在 {@link storage} 中存在时，当前值将被忽略。
      *
-     * 如果是字符串，会尝试从 {@link Options#schemes} 中获取对应的 {@link Scheme} 对象。
+     * @remarks 如果是字符串，会尝试从 {@link schemes} 中获取对应的 {@link Scheme} 对象。
      */
     scheme?: string | Scheme;
 
@@ -104,7 +104,7 @@ export interface Options {
     /**
      * 网站的标题
      *
-     * 如果不会空，会和 {@link Options#titleSeparator} 组成页面标题的后缀。
+     * @remarks 如果不为空，会和 {@link titleSeparator} 组成页面标题的后缀。
      */
     title: string;
 

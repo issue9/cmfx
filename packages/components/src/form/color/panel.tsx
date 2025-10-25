@@ -9,10 +9,9 @@ import IconAccessibility from '~icons/octicon/accessibility-inset-24';
 
 import { joinClass, RefProps } from '@/base';
 import { Button } from '@/button';
-import { useLocale } from '@/context';
+import { useLocale, copy2Clipboard } from '@/context';
 import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
 import { Range, RangeRef } from '@/form/range';
-import { copy2Clipboard } from '@/kit';
 import styles from './style.module.css';
 
 declare global {

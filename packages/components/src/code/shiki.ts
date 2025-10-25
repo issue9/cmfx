@@ -5,7 +5,7 @@
 import { BundledLanguage, ThemeRegistrationRaw, codeToHtml } from 'shiki/bundle/full';
 
 import { joinClass } from '@/base';
-import { copy2Clipboard } from '@/kit';
+import { copy2Clipboard } from '@/context';
 import styles from './style.module.css';
 
 window.copyShikiCode2Clipboard = copy2Clipboard;

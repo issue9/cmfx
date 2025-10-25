@@ -50,8 +50,6 @@ function useInternalOptions(): InternalOptionsContext {
  * 初始化当前组件的环境
  *
  * @remarks 这是用于初始化项目的最外层组件，不保证任何属性是否有响应状态。
- * 如果是手动调用此组件对项目进行初始化，需要保存包含此组件的元素上的 `container-name` 为 root。
- * 如无特殊需要，可以直接使用 {@link ./run.tsx#run}。
  */
 export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     Hotkey.init(); // 初始化快捷键。

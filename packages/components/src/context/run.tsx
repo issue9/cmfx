@@ -7,10 +7,11 @@ import { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { default as SystemDialog } from '@/dialog/system';
-import { default as Notify } from '@/notify/notify';
+import { Notify } from './notify';
 import { OptionsProvider } from './context';
 import { Options } from './options';
 import styles from './style.module.css';
+import { Clipboard } from './clipboard';
 
 /**
  * 运行项目
@@ -33,7 +34,9 @@ export function run(
     const Root = (props: RouteSectionProps) => {
         return <OptionsProvider {...o}>
             <SystemDialog mount={mountedElement} palette='primary'>
-                <Notify mount={mountedElement} palette='error'>{app(props)}</Notify>
+                <Notify mount={mountedElement} palette='error'>
+                    <Clipboard>{app(props)}</Clipboard>
+                </Notify>
             </SystemDialog>
         </OptionsProvider>;
     };

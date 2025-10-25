@@ -13,4 +13,9 @@ export type { Props as LocaleProps } from './locale';
 export { ThemeProvider, useTheme } from './theme';
 export type { Props as ThemeProps } from './theme';
 
+export { copy2Clipboard } from './clipboard';
+
+export { notify, notifyTypes } from './notify';
+export type { NotifyType } from './notify';
+
 export { run } from './run';
