@@ -47,8 +47,12 @@
                     @apply flex flex-col justify-between p-2 flex-1 h-fit max-w-fit;
 
                     >.toolbar {
-                        @apply w-full px-2 pb-2 border border-transparent border-b-palette-border mb-8;
-                        @apply flex gap-2 justify-center;
+                        @apply w-full pb-2 border border-transparent border-b-palette-border mb-8;
+                        @apply flex gap-2 justify-start;
+                    }
+
+                    .component {
+                        @apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
                     }
                 }
 
@@ -62,11 +66,6 @@
 
                 .demo {
                     @apply w-full max-w-full;
-
-                    >.toolbar {
-                        @apply border-b-palette-border;
-                        @apply flex gap-2 justify-center;
-                    }
                 }
 
                 .code {

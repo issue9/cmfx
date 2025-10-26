@@ -37,6 +37,9 @@ export interface Props {
      */
     height?: number;
 
+    /**
+     * 整个演示对象的布局
+     */
     layout?: Layout;
 }
 

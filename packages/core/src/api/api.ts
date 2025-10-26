@@ -95,12 +95,12 @@ export class API {
      * 以下操作会删除缓存内容：
      *  - 切换语言；
      *  - 访问了该接口的非 GET 请求；
-     *  - 调用 {@link API#uncache} 方法；
-     *  - 调用 {@link API#clearCache} 方法；
+     *  - 调用 {@link uncache} 方法；
+     *  - 调用 {@link clearCache} 方法；
      *  - 调用参数 deps 中的非 GET 请求；
      *  - token 发生变化；
      *
-     * @param path - 相对于 {@link API#baseURL} 的接口地址；
+     * @param path - 相对于 {@link baseURL} 的接口地址；
      * @param deps - 缓存的依赖接口，这些依赖项的非 GET 接口一旦被调用，将更新当前的缓存项。
      *  支持在尾部以 * 作为通配符，用以匹配任意字符。
      *
@@ -117,7 +117,7 @@ export class API {
     /**
      * 清除指定的缓存项
      *
-     * @param path - 相对于 {@link API#baseURL} 的接口地址；
+     * @param path - 相对于 {@link baseURL} 的接口地址；
      */
     async uncache(path: string): Promise<void> {
         this.#cachePaths.delete(path);
@@ -137,7 +137,7 @@ export class API {
     /**
      * 将 path 包装为一个 API 的 URL
      *
-     * @param path - 相对于 {@link API#baseURL} 的地址
+     * @param path - 相对于 {@link baseURL} 的地址
      */
     buildURL(path: string): string {
         if (path.length === 0) {
@@ -188,7 +188,7 @@ export class API {
     /**
      * 执行普通的 API 请求
      *
-     * @param path - 请求地址，相对于 {@link API#baseURL}；
+     * @param path - 请求地址，相对于 {@link baseURL}；
      * @param method - 请求方法；
      * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌；
@@ -206,7 +206,7 @@ export class API {
     /**
      * 执行上传操作
      *
-     * @param path - 上传地址，相对于 {@link API#baseURL}；
+     * @param path - 上传地址，相对于 {@link baseURL}；
      * @param obj - 上传的对象；
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
      * @param method - 请求方法；
@@ -330,7 +330,7 @@ export class API {
     /**
      * 相当于标准库的 {@link window.fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
-     * @param path - 地址，相对于 {@link API#baseURL}；
+     * @param path - 地址，相对于 {@link baseURL}；
      * @param req - 相关的参数；
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。

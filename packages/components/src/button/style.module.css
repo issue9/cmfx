@@ -122,7 +122,7 @@
     }
 
     .group.fill {
-        @apply bg-palette-bg-low border-palette-border;
+        @apply border-palette-border;
 
         .button:enabled:hover,
         .button.link-enabled:hover,
@@ -137,7 +137,7 @@
     }
 
     .group.border {
-        @apply text-palette-bg bg-transparent border border-palette-border;
+        @apply border-palette-border;
 
         .button {
             @apply bg-transparent border-transparent;

@@ -48,31 +48,18 @@ export function arraySelector<T extends string|number|undefined>(
 ): [JSX.Element, Accessor<T>, Setter<T>] {
     const [get, set] = createSignal<T>(preset);
 
-    const elem = <fieldset class="border-2 flex flex-wrap px-2 py-1">
+    const elem = <fieldset class="border flex flex-wrap px-2 py-1">
         <legend>{label}</legend>
         <For each={array}>
-            {(item) => (
-                <label class="me-4">
-                    <input class="me-1" type="radio" name={label}
-                        value={item} onClick={() => set(item as any)}
-                        checked={get() === item}
-                    />{item !== undefined ? item : 'undefined'}
-                </label>
-            )}
+            {item => <label class="me-4">
+                <input class="me-1" type="radio" name={label}
+                    value={item} onClick={() => set(item as any)}
+                    checked={get() === item}
+                />{item !== undefined ? item : 'undefined'}
+            </label>
+            }
         </For>
     </fieldset>;
 
     return [elem, get, set];
-}
-
-export interface DemoProps {
-    /**
-     * 设置项的内容
-     */
-    settings?: JSX.Element;
-
-    /**
-     * 展示区的内容
-     */
-    children: JSX.Element;
 }
