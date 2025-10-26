@@ -7,7 +7,7 @@ import {
     Menu, Mode, ObjectAccessor, Password, Scheme, TextField, ThemeProvider, useLocale
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
-import { createEffect, JSX } from 'solid-js';
+import { JSX } from 'solid-js';
 
 import styles from './style.module.css';
 

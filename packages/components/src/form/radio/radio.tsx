@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createMemo, JSX, mergeProps } from 'solid-js';
+import { createMemo, JSX, mergeProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass } from '@/base';
 import { FieldBaseProps } from '@/form/field';
@@ -45,15 +45,7 @@ export function Radio(props: Props): JSX.Element {
         );
     });
 
-    let ref: HTMLLabelElement;
-    createEffect(() => {
-        const block = props.block;
-        if (!block) { return; }
-        const checked = props.checked;
-        checked ? ref.focus() : ref.blur();
-    });
-
-    return <label role="radio" ref={el => ref = el} title={props.title} class={cls()}
+    return <label role="radio" title={props.title} class={cls()}
         tabindex={props.block ? props.tabindex : -1}
         aria-checked={props.checked} aria-readonly={props.readonly} aria-disabled={props.disabled}
     >
