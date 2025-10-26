@@ -18,7 +18,7 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
     const l = useLocale();
 
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
-    // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，出现 main 中同时出现在多个元素。
+    // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
     return <div class="w-full h-full p-2">
         <ThemeProvider mode={props.m.getValue()} scheme={props.s.raw()}>
             <div class={styles.demo}>
@@ -48,11 +48,11 @@ function Components(): JSX.Element {
     }, 0 as any);
 
     return <div class={styles.components}>
-        <BasicTable class="w-full!" items={items} columns={columns} />
+        <BasicTable class="w-full! transition-all" items={items} columns={columns} />
 
-        <DatePanel value={new Date()} />
+        <DatePanel class="transition-all" value={new Date()} />
 
-        <Card header='注册用户'
+        <Card class="transition-all" header='注册用户'
             footerClass='flex justify-between'
             footer={<><Button palette='primary'>重置</Button><Button palette='primary'>注册</Button></>}
         >
@@ -62,7 +62,7 @@ function Components(): JSX.Element {
             </Form>
         </Card>
 
-        <Menu class="min-w-50 border border-palette-fg-low rounded-md" layout='inline' items={[
+        <Menu class="min-w-50 border border-palette-fg-low rounded-md transition-all" layout='inline' items={[
             { type: 'item', label: 'Item 1', value: '1' },
             { type: 'item', label: 'Item 2', value: '2' },
             { type: 'item', label: 'Item 3', value: '3' },
