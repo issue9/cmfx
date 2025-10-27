@@ -229,9 +229,8 @@ const shikiStyle: ThemeRegistrationRaw = {
 export async function highlightCode(
     code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string,
 ): Promise<string> {
-    const w = ln !== undefined
-        ? code.split('\n').length + ln // 二行代码，但是从 9 开始计算行号，还是得有 2 位长度。
-        : 0;
+    // 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度。
+    const w = ln === undefined ? 0 : code.split('\n').length + ln;
 
     return await codeToHtml(code, {
         lang: lang || 'text',

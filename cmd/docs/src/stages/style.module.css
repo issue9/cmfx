@@ -26,6 +26,11 @@
             @apply mb-4 mt-2;
         }
 
+        ul,
+        ol {
+            @apply ps-1 list-inside list-disc;
+        }
+
         .apis {
             @apply mt-2 flex flex-col gap-2;
 
@@ -34,6 +39,15 @@
 
                 table th {
                     white-space: nowrap;
+                }
+
+                table th,
+                table td {
+                    @apply text-left;
+                }
+
+                table .chk {
+                    @apply w-fit;
                 }
             }
         }

@@ -6,6 +6,7 @@ import { Checkbox, Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
 import { useCurrentMatches } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import { Marked } from 'marked';
 
 import { default as Stage, Props as StageProps } from './stage';
 import styles from './style.module.css';
@@ -53,49 +54,7 @@ export default function Stages(props: Props):JSX.Element {
                 <article class={styles.apis}>
                     <h3>{l.t('_d.stages.api')}</h3>
                     <For each={apis()}>
-                        {api => {
-                            const isFunc = api.fields && api.type;
-                            return <section class={styles.api}>
-                                <h4>{api.name}</h4>
-                                <p>{api.summary}</p>
-                                <p>{api.remarks}</p>
-                                <Switch fallback={<code>{`${api.name} = ${api.type}`}</code>}>
-                                    <Match when={api.fields}>
-                                        <Show when={api.type}>{c => <code class={styles.code}>{c()}</code>}</Show>
-                                        <Table hoverable>
-                                            <thead>
-                                                <tr>
-                                                    <th>{l.t('_d.stages.param')}</th>
-                                                    <th>{l.t('_d.stages.type')}</th>
-                                                    <th>{l.t('_d.stages.preset')}</th>
-                                                    <Show when={!isFunc}><th>{l.t('_d.stages.reactive')}</th></Show>
-                                                    <th>{l.t('_d.stages.desc')}</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <For each={api.fields}>
-                                                    {field => (
-                                                        <tr>
-                                                            <th>{field.name}</th>
-                                                            <td>{field.type}</td>
-                                                            <td>{field.preset}</td>
-                                                            <Show when={!isFunc}>
-                                                                <td>
-                                                                    <Show when={field.reactive} fallback={<Checkbox readonly />}>
-                                                                        <Checkbox checked readonly />
-                                                                    </Show>
-                                                                </td>
-                                                            </Show>
-                                                            <td>{field.summary}<br />{field.remarks}</td>
-                                                        </tr>
-                                                    )}
-                                                </For>
-                                            </tbody>
-                                        </Table>
-                                    </Match>
-                                </Switch>
-                            </section>;
-                        }}
+                        {api => buildAPI(api) }
                     </For>
                 </article>
             }
@@ -111,4 +70,61 @@ export default function Stages(props: Props):JSX.Element {
         </Show>
 
     </Page>;
+}
+
+const markedParser = new Marked({ async: false });
+
+function buildAPI(api: Object): JSX.Element {
+    const l = useLocale();
+    const isFunc = api.fields && api.type;
+
+    return <section class={styles.api}>
+        <h4>{api.name}</h4>
+        <Show when={api.summary}>{
+            summary => <p>{summary()}</p>
+        }</Show>
+        <Show when={api.remarks}>{remarks =>
+            <p innerHTML={markedParser.parse(remarks(), { async: false })} />
+        }</Show>
+        <Switch fallback={<code>{`${api.name} = ${api.type}`}</code>}>
+            <Match when={api.fields}>
+                <Show when={api.type}>{c => <code class={styles.code}>{c()}</code>}</Show>
+                <Table hoverable>
+                    <thead>
+                        <tr>
+                            <th>{l.t('_d.stages.param')}</th>
+                            <th>{l.t('_d.stages.type')}</th>
+                            <th>{l.t('_d.stages.preset')}</th>
+                            <Show when={!isFunc}><th>{l.t('_d.stages.reactive')}</th></Show>
+                            <th>{l.t('_d.stages.desc')}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <For each={api.fields}>
+                            {field => (
+                                <tr>
+                                    <th>{field.name}</th>
+                                    <td>{field.type}</td>
+                                    <td>{field.preset}</td>
+                                    <Show when={!isFunc}>
+                                        <td>
+                                            <Show when={field.reactive} fallback={<Checkbox class={styles.chk} readonly />}>
+                                                <Checkbox class={styles.chk} checked readonly />
+                                            </Show>
+                                        </td>
+                                    </Show>
+                                    <td>
+                                        {field.summary}
+                                        <Show when={field.remarks}>{remarks =>
+                                            <p innerHTML={markedParser.parse(remarks(), { async: false })} />
+                                        }</Show>
+                                    </td>
+                                </tr>
+                            )}
+                        </For>
+                    </tbody>
+                </Table>
+            </Match>
+        </Switch>
+    </section>;
 }

@@ -28,6 +28,8 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
      *
      * @remarks 比如图标之类可能需要此属性，
      * 但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。
+     *
+     * @reactive
      */
     square?: boolean;
 }

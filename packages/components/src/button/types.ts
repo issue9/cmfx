@@ -6,6 +6,8 @@ import { Hotkey } from '@cmfx/core';
 
 import { BaseProps } from '@/base';
 
+export const kinds = ['flat' , 'border' , 'fill'] as const;
+
 /**
  * 组件的风格
  *
@@ -14,8 +16,6 @@ import { BaseProps } from '@/base';
  *  - border 无背景，有边框；
  *  - fill 有背景，有边框；
  */
-export const kinds = ['flat' , 'border' , 'fill'] as const;
-
 export type Kind = typeof kinds[number];
 
 export interface Props extends BaseProps {
@@ -23,11 +23,21 @@ export interface Props extends BaseProps {
 
     /**
      * 组件的展示风格
+     *
+     * @reactive
      */
     kind?: Kind;
 
+    /**
+     * 是否为圆角
+     *
+     * @reactive
+     */
     rounded?: boolean;
 
+    /**
+     * 快捷键
+     */
     hotkey?: Hotkey;
 }
 

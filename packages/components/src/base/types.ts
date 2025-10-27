@@ -44,8 +44,13 @@ export interface Props {
 }
 
 /**
- * 用于指定 ref 的组件属性
+ * 用于指定组件的 ref 属性
+ *
+ * @typeParam REF - Ref 对象类型；
  */
-export interface RefProps<T> {
-    ref?: { (m: T): void };
+export interface RefProps<REF> {
+    /**
+     * 对当前组件的一些次要操作可能会通过此方法给出
+     */
+    ref?: { (m: REF): void };
 }

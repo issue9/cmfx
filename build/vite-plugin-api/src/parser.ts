@@ -333,7 +333,7 @@ function comment2String(node?: DocNode): string | undefined {
 
     if (node instanceof DocParagraph || node instanceof DocSection) {
         const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
-        return nodes.length > 0 ? nodes.join('') : undefined;
+        return nodes.length > 0 ? nodes.join('\n') : undefined; // 多行文本可能是 markdown
     }
 
     if ('getChildNodes' in node) {

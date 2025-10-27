@@ -24,6 +24,8 @@ export interface Props extends BaseProps {
 
     /**
      * 菜单展开的方向
+     *
+     * @reactive
      */
     direction?: 'left' | 'right';
 }

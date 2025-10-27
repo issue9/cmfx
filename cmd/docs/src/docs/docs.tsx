@@ -5,7 +5,7 @@
 import { Drawer, DrawerRef, Locale, Menu, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
 import { ArrayElement } from '@cmfx/core';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
-import { marked } from 'marked';
+import { Marked } from 'marked';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onMount, onCleanup } from 'solid-js';
 
 import introChangeLog from '../../../../CHANGELOG.md?raw';
@@ -27,7 +27,7 @@ import { markedShiki } from './shiki';
 
 import styles from './style.module.css';
 
-marked.use(markedShiki());
+const markedHiglight = new Marked(markedShiki());
 
 // NOTE: 增删文件，需要同时修改以下几处：
 //  - maps
@@ -157,7 +157,7 @@ function Markdown(props: { article: string }): JSX.Element {
 
     createEffect(async () => {
         const data = curr()?.get(props.article);
-        if (data) { setHTML(await marked.parse(data)); }
+        if (data) { setHTML(await markedHiglight.parse(data)); }
     });
 
 
