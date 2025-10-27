@@ -8,6 +8,6 @@
 
 @layer components {
     .counter {
-        @apply font-mono;
+        @apply font-mono text-palette-fg;
     }
 }

@@ -6,7 +6,7 @@ export { Button } from './button';
 export type { Props as ButtonProps, Ref as ButtonRef } from './button';
 
 export { LinkButton } from './link';
-export type { Props as LinkButtonProps } from './link';
+export type { Props as LinkButtonProps, Ref as LinkButtonRef } from './link';
 
 export { ConfirmButton } from './confirm';
 export type { Props as ConfirmButtonProps } from './confirm';

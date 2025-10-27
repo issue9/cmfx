@@ -4,34 +4,32 @@
 
 import { Hotkey } from '@cmfx/core';
 import { A, useNavigate } from '@solidjs/router';
-import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
-import { classList } from '@/base';
+import { classList, RefProps } from '@/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps } from './types';
+
+export interface Ref {
+    element(): HTMLAnchorElement;
+}
 
 /**
  * 将 {@link A} 以按钮的形式展示
  */
-export interface Props extends BaseProps, Omit<JSX.AnchorHTMLAttributes<HTMLAnchorElement>, 'children'> {
+export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 跳转的链接
      */
     href: string;
 
     /**
-     * 是否为图标按钮
+     * 是否为一个长宽比为 1:1 的按钮
      *
-     * 如果为 true，表示将 children 作为图标内容进行解析。
+     * @remarks 比如图标之类可能需要此属性，
+     * 但是单字符按钮如果需要显示正方形不能指定此属性，因为字符本身就是不是正方式的。
      */
     square?: boolean;
-
-    /**
-     * 按钮内容，如果 icon 为 true，那么内容应该是图标名称，否则不能显示为正确图标。
-     */
-    children: JSX.Element;
-
-    disabled?: boolean;
 }
 
 /**
@@ -39,7 +37,7 @@ export interface Props extends BaseProps, Omit<JSX.AnchorHTMLAttributes<HTMLAnch
  */
 export function LinkButton(props: Props) {
     props = mergeProps(presetProps, props);
-    const [_, linkProps] = splitProps(props, ['square', 'children', 'disabled', 'kind', 'rounded', 'class']);
+    const [_, linkProps] = splitProps(props, ['square', 'children', 'disabled', 'kind', 'rounded', 'class', 'ref']);
 
     if (props.hotkey) {
         onMount(() => {
@@ -51,7 +49,10 @@ export function LinkButton(props: Props) {
     // A.href 无法设置为 javascript:void(0)
     return <A {...linkProps} onClick={
         !props.disabled ? undefined : e => e.preventDefault()
-    } class={classList(props.palette, {
+    } ref={el=>{
+        if (!props.ref) { return; }
+        props.ref({ element() { return el; } });
+    }} class={classList(props.palette, {
         [styles.square]: props.square,
         [styles.rounded]: props.rounded,
         [styles['link-enabled']]: !props.disabled,

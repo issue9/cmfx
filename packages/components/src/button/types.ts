@@ -19,6 +19,8 @@ export const kinds = ['flat' , 'border' , 'fill'] as const;
 export type Kind = typeof kinds[number];
 
 export interface Props extends BaseProps {
+    disabled?: boolean;
+
     /**
      * 组件的展示风格
      */

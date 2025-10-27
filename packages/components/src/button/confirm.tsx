@@ -29,9 +29,9 @@ export interface Props extends BaseProps {
     /**
      * 点击事件
      *
-     * 这将在用户点击确认按钮之后执行。
+     * @remarks 这将在用户点击确认按钮之后执行。
      */
-    onClick: NonNullable<BaseProps['onclick']>; // 此处重新声明只是为了将可选字段变为必填字段。
+    onclick: NonNullable<BaseProps['onclick']>; // 此处重新声明只是为了将可选字段变为必填字段。
 }
 
 /**
@@ -43,7 +43,7 @@ export function ConfirmButton(props: Props) {
     let popElem: HTMLDivElement;
     let ref: ButtonRef;
 
-    const [_, btnProps] = splitProps(props, ['children', 'onClick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
+    const [_, btnProps] = splitProps(props, ['children', 'onclick', 'prompt', 'palette', 'ok', 'cancel', 'ref']);
 
     onMount(() => {
         if (props.hotkey) { Hotkey.bind(props.hotkey, () => { ref!.element().click(); }); }
@@ -53,7 +53,7 @@ export function ConfirmButton(props: Props) {
     });
 
     const confirm: BaseProps['onclick'] = e => {
-        handleEvent(props.onClick, e);
+        handleEvent(props.onclick, e);
         popElem.hidePopover();
     };
 

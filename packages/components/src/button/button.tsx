@@ -23,11 +23,6 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     square?: boolean;
 
     /**
-     * 按钮内容
-     */
-    children: JSX.Element;
-
-    /**
      * 是否处于选中状态
      */
     checked?: boolean;
@@ -37,8 +32,6 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     onclick?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['onclick'];
 
     autofocus?: boolean;
-
-    disabled?: boolean;
 
     title?: string;
 }

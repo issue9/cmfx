@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps } from 'solid-js';
+import { ParentProps, mergeProps } from 'solid-js';
 
 import { classList, Layout, RefProps } from '@/base';
 import styles from './style.module.css';
@@ -12,14 +12,7 @@ export interface Ref {
     element(): HTMLFieldSetElement;
 }
 
-export interface Props extends Omit<BaseProps, 'hotkey'>, RefProps<Ref> {
-    /**
-     * 子元素，必须得是 Button 或是 LinkButton 类型。
-     */
-    children: JSX.Element;
-
-    disabled?: boolean;
-
+export interface Props extends Omit<BaseProps, 'hotkey'>, ParentProps, RefProps<Ref> {
     layout?: Layout;
 }
 
