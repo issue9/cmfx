@@ -50,6 +50,10 @@
                     @apply w-fit;
                 }
             }
+
+            code {
+                @apply font-mono px-1;
+            }
         }
 
         .stages {

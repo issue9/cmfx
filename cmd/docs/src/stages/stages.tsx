@@ -6,9 +6,9 @@ import { Checkbox, Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
 import { useCurrentMatches } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
-import { Marked } from 'marked';
 
 import { default as Stage, Props as StageProps } from './stage';
+import { markdown } from './markdown';
 import styles from './style.module.css';
 
 export interface Props extends ParentProps {
@@ -72,23 +72,21 @@ export default function Stages(props: Props):JSX.Element {
     </Page>;
 }
 
-const markedParser = new Marked({ async: false });
-
 function buildAPI(api: Object): JSX.Element {
     const l = useLocale();
     const isFunc = api.fields && api.type;
 
     return <section class={styles.api}>
         <h4>{api.name}</h4>
-        <Show when={api.summary}>{
-            summary => <p>{summary()}</p>
+        <Show when={api.summary}>{summary =>
+            <p innerHTML={markdown(summary())} />
         }</Show>
         <Show when={api.remarks}>{remarks =>
-            <p innerHTML={markedParser.parse(remarks(), { async: false })} />
+            <p innerHTML={markdown(remarks())} />
         }</Show>
         <Switch fallback={<code>{`${api.name} = ${api.type}`}</code>}>
             <Match when={api.fields}>
-                <Show when={api.type}>{c => <code class={styles.code}>{c()}</code>}</Show>
+                <Show when={api.type}>{c => <code>{c()}</code>}</Show>
                 <Table hoverable>
                     <thead>
                         <tr>
@@ -114,9 +112,11 @@ function buildAPI(api: Object): JSX.Element {
                                         </td>
                                     </Show>
                                     <td>
-                                        {field.summary}
+                                        <Show when={field.summary}>{summary =>
+                                            <p innerHTML={markdown(summary())} />
+                                        }</Show>
                                         <Show when={field.remarks}>{remarks =>
-                                            <p innerHTML={markedParser.parse(remarks(), { async: false })} />
+                                            <p innerHTML={markdown(remarks())} />
                                         }</Show>
                                     </td>
                                 </tr>

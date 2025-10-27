@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    DocCodeSpan, DocLinkTag, DocNode, DocParagraph, DocPlainText, DocSection,
+    DocCodeSpan, DocLinkTag, DocNode, DocMemberReference, DocPlainText,
     StandardTags, TSDocConfiguration, TSDocParser, TSDocTagDefinition, TSDocTagSyntaxKind
 } from '@microsoft/tsdoc';
 import path from 'node:path';
@@ -320,24 +320,22 @@ function getTypeMember(typ: Type): Array<TypeElementTypes> {
 function comment2String(node?: DocNode): string | undefined {
     if (!node) { return undefined; }
 
-    if (node instanceof DocPlainText) {
-        const txt = node.text.trim();
-        return txt ? txt : undefined;
-    }
+    if (node instanceof DocPlainText) { return node.text.trim(); }
+
     if (node instanceof DocCodeSpan) { return `\`${node.code}\``; }
 
+    if (node instanceof DocMemberReference) { return node.memberIdentifier?.identifier; }
+
     if (node instanceof DocLinkTag) {
-        if (!node.linkText && !node.urlDestination) { return undefined; }
-        return `[${node.linkText ?? node.urlDestination}](${node.urlDestination})`;
+        if (node.linkText) { // url
+            return `[${node.linkText}](${node.urlDestination ?? node.linkText})`;
+        }
+
+        // 文档内链接，直接返回文本，链接在当前并无实际意义
+        const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
+        return nodes.length > 0 ? '`' + nodes.join('').trim() + '`' : undefined;
     }
 
-    if (node instanceof DocParagraph || node instanceof DocSection) {
-        const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
-        return nodes.length > 0 ? nodes.join('\n') : undefined; // 多行文本可能是 markdown
-    }
-
-    if ('getChildNodes' in node) {
-        const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
-        return nodes.length > 0 ? nodes.join('') : undefined;
-    }
+    const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
+    return nodes.length > 0 ? nodes.join('') + '\n\n' : undefined;
 }
