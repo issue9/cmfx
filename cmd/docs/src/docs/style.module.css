@@ -7,54 +7,63 @@
 @reference '../style.css';
 
 @layer components {
-    article.doc {
-        @apply p-2;
+    .docs {
+        @apply flex flex-row gap-1 justify-between;
+        @apply @container/docs;
 
-        p:first-of-type {
-            /* 应用在 README.md 中的 badge 图标上 */
-            @apply flex flex-wrap gap-2;
+        .nav {
+            @apply max-w-50 @max-md/docs:hidden;
         }
 
-        h1 {
-            @apply text-3xl font-bold mb-4;
-        }
+        article.doc {
+            @apply p-2;
 
-        h2 {
-            @apply text-2xl font-bold mb-2 mt-5;
-        }
+            p:first-of-type {
+                /* 应用在 README.md 中的 badge 图标上 */
+                @apply flex flex-wrap gap-2;
+            }
 
-        h3 {
-            @apply text-xl font-bold mb-1 mt-4;
-        }
+            h1 {
+                @apply text-3xl font-bold mb-4;
+            }
 
-        h4 {
-            @apply text-lg font-bold mb-1 mt-4;
-        }
+            h2 {
+                @apply text-2xl font-bold mb-2 mt-5;
+            }
 
-        h5 {
-            @apply text-lg font-bold mb-1 mt-4;
-        }
+            h3 {
+                @apply text-xl font-bold mb-1 mt-4;
+            }
 
-        h6 {
-            @apply text-base font-bold mb-1 mt-4;
-        }
+            h4 {
+                @apply text-lg font-bold mb-1 mt-4;
+            }
 
-        p {
-            @apply py-1;
-        }
+            h5 {
+                @apply text-lg font-bold mb-1 mt-4;
+            }
 
-        ul {
-            @apply ps-1 list-inside list-disc;
-        }
+            h6 {
+                @apply text-base font-bold mb-1 mt-4;
+            }
 
-        a:link,
-        a:visited {
-            @apply text-palette-fg-focused;
-        }
+            p {
+                @apply py-1;
+            }
 
-        /* 代码块的样式 */
-        pre {
-            @apply !bg-palette-bg-low !text-palette-fg rounded-md p-2;
+            ul {
+                @apply ps-1 list-inside list-disc;
+            }
+
+            a:link,
+            a:visited {
+                @apply text-palette-fg-focused;
+            }
+
+            /* 代码块的样式 */
+            pre {
+                @apply !bg-palette-bg-low !text-palette-fg rounded-md p-2;
+            }
         }
     }
 }

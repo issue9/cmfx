@@ -84,6 +84,7 @@ const messages = {
             localeConfig: 'Locale Config',
             menu: 'Menu',
             monthpanel: 'Month Panel',
+            nav: 'Nav',
             notify: 'Notify',
             optionsConfig: 'Options Config',
             page: 'Page',

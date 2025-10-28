@@ -22,6 +22,7 @@ import IconPage from '~icons/icon-park-outline/page';
 import IconPresetComponent from '~icons/iconamoon/component-fill'; // 组件的默认图标
 import IconCounter from '~icons/ix/counter';
 import IconDate from '~icons/lets-icons/date-range-light';
+import IconNav from '~icons/material-symbols/list-alt-rounded';
 import IconTable from '~icons/lets-icons/table';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
 import IconTab from '~icons/material-symbols/tab-outline';
@@ -118,6 +119,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'navigation', path: '/menu', component: lazy(() => import('./menu')),
         info: { title: '_d.demo.menu', icon: <IconMenu /> },
+    },
+    {
+        kind: 'navigation', path: '/nav', component: lazy(() => import('./nav')),
+        info: { title: '_d.demo.nav', icon: <IconNav /> },
     },
     {
         kind: 'navigation', path: '/tab', component: lazy(() => import('./tab')),

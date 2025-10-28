@@ -1,0 +1,52 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .nav {
+        @apply flex flex-col gap-1 w-fit text-palette-fg bg-palette-bg min-h-full h-fit p-2;
+        @apply sticky top-0;
+
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6 {
+            @apply cursor-pointer;
+            @apply hover:text-palette-fg-focused;
+            @apply active:text-palette-fg-actived;
+            @apply w-full overflow-x-hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .h1 {
+            @apply ms-0;
+        }
+
+        .h2 {
+            @apply ms-2;
+        }
+
+        .h3 {
+            @apply ms-4;
+        }
+
+        .h4 {
+            @apply ms-6;
+        }
+
+        .h5 {
+            @apply ms-8;
+        }
+
+        .h6 {
+            @apply ms-10;
+        }
+    }
+}

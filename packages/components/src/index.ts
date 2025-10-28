@@ -38,6 +38,7 @@ export * from './icon';
 export * from './kit';
 export * from './menu';
 export * from './messages';
+export * from './nav';
 export * from './page';
 export * from './pagination';
 export * from './qrcode';

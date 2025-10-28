@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, Locale, Menu, MenuItem, MenuItemGroup, Page, useLocale } from '@cmfx/components';
+import { Drawer, DrawerRef, Locale, Nav, Menu, MenuItem, MenuItemGroup, Page, useLocale, NavRef } from '@cmfx/components';
 import { ArrayElement } from '@cmfx/core';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { Marked } from 'marked';
@@ -155,16 +155,24 @@ function Markdown(props: { article: string }): JSX.Element {
 
     const [html, setHTML] = createSignal(curr()?.get(props.article));
 
-    createEffect(async () => {
-        const data = curr()?.get(props.article);
-        if (data) { setHTML(await markedHiglight.parse(data)); }
-    });
-
-
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
 
-    return <Page title={title}><article class={styles.doc} innerHTML={html()} /></Page>;
+    let articleRef: HTMLElement;
+    let navRef: NavRef;
+
+    createEffect(async () => {
+        const data = curr()?.get(props.article);
+        if (data) {
+            setHTML(await markedHiglight.parse(data));
+            navRef.refresh();
+        }
+    });
+
+    return <Page title={title} class={styles.docs}>
+        <article ref={el => articleRef = el} class={styles.doc} innerHTML={html()} />
+        <Nav class={styles.nav} ref={el => navRef = el} target={articleRef!} query='h2,h3,h4,h5,h6' />
+    </Page>;
 }
 
 /**

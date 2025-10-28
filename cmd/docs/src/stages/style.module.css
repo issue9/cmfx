@@ -8,86 +8,95 @@
 
 @layer components {
     .page {
-        @apply flex !gap-1;
+        @apply flex flex-row gap-1 justify-between;
+        @apply @container/page;
 
-        h2 {
-            @apply text-4xl;
+        .nav {
+            @apply max-w-50 @max-md/page:hidden;
         }
 
-        h3 {
-            @apply text-2xl mt-4;
-        }
+        article.root {
+            @apply flex flex-col !gap-1;
 
-        h4 {
-            @apply text-xl mt-4;
-        }
-
-        .desc {
-            @apply mb-4 mt-2;
-        }
-
-        ul,
-        ol {
-            @apply ps-1 list-inside list-disc;
-        }
-
-        .apis {
-            @apply mt-2 flex flex-col gap-2;
-
-            .api {
-                @apply flex flex-col gap-1;
-
-                table th {
-                    white-space: nowrap;
-                }
-
-                table th,
-                table td {
-                    @apply text-left;
-                }
-
-                table .chk {
-                    @apply w-fit;
-                }
+            h2 {
+                @apply text-4xl;
             }
 
-            code {
-                @apply font-mono px-1;
+            h3 {
+                @apply text-2xl mt-4;
             }
-        }
 
-        .stages {
-            .stage {
-                @apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
-                @apply border border-palette-border;
+            h4 {
+                @apply text-xl mt-4;
+            }
 
-                .demo {
-                    @apply flex flex-col justify-between p-2 flex-1 h-fit max-w-fit;
+            .desc {
+                @apply mb-4 mt-2;
+            }
 
-                    >.toolbar {
-                        @apply w-full pb-2 border border-transparent border-b-palette-border mb-8;
-                        @apply flex gap-2 justify-start;
+            ul,
+            ol {
+                @apply ps-1 list-inside list-disc;
+            }
+
+            .apis {
+                @apply mt-2 flex flex-col gap-2;
+
+                .api {
+                    @apply flex flex-col gap-1;
+
+                    table th {
+                        white-space: nowrap;
                     }
 
-                    .component {
-                        @apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
+                    table th,
+                    table td {
+                        @apply text-left;
+                    }
+
+                    table .chk {
+                        @apply w-fit;
                     }
                 }
 
-                .code {
-                    @apply border-transparent !rounded-none flex-1 w-full;
+                code {
+                    @apply font-mono px-1;
                 }
             }
 
-            .stage.vertical {
-                @apply flex-col !items-stretch !justify-stretch;
+            .stages {
+                .stage {
+                    @apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
+                    @apply border border-palette-border;
 
-                .demo {
-                    @apply w-full max-w-full;
+                    .demo {
+                        @apply flex flex-col justify-between p-2 flex-1 h-fit max-w-fit;
+
+                        >.toolbar {
+                            @apply w-full pb-2 border border-transparent border-b-palette-border mb-8;
+                            @apply flex gap-2 justify-start;
+                        }
+
+                        .component {
+                            @apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
+                        }
+                    }
+
+                    .code {
+                        @apply border-transparent !rounded-none flex-1 w-full;
+                    }
                 }
 
-                .code {
-                    @apply mt-2 font-mono;
+                .stage.vertical {
+                    @apply flex-col !items-stretch !justify-stretch;
+
+                    .demo {
+                        @apply w-full max-w-full;
+                    }
+
+                    .code {
+                        @apply mt-2 font-mono;
+                    }
                 }
             }
         }

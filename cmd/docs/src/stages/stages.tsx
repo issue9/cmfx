@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Checkbox, Page, Table, useLocale } from '@cmfx/components';
+import { Checkbox, Nav, Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
 import { useCurrentMatches } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
@@ -37,38 +37,43 @@ export default function Stages(props: Props):JSX.Element {
     const route = useCurrentMatches()();
     const title = route[route.length - 1].route.info?.title;
 
+    let articleRef: HTMLElement;
+
     return <Page class={styles.page} title={title}>
-        <h2>{l.t(title)}</h2>
+        <article class={styles.root} ref={el => articleRef = el}>
+            <h2>{l.t(title)}</h2>
 
-        <div>{props.children}</div>
+            <div>{props.children}</div>
 
-        <h3>{l.t('_d.stages.codeDemo')}</h3>
-        <div class={styles.stages}>
-            <For each={props.stages}>
-                {stage => <Stage {...stage} />}
-            </For>
-        </div>
+            <h3>{l.t('_d.stages.codeDemo')}</h3>
+            <div class={styles.stages}>
+                <For each={props.stages}>
+                    {stage => <Stage {...stage} />}
+                </For>
+            </div>
 
-        <Show when={props.api}>
-            {apis =>
-                <article class={styles.apis}>
-                    <h3>{l.t('_d.stages.api')}</h3>
-                    <For each={apis()}>
-                        {api => buildAPI(api) }
-                    </For>
-                </article>
-            }
-        </Show>
+            <Show when={props.api}>
+                {apis =>
+                    <article class={styles.apis}>
+                        <h3>{l.t('_d.stages.api')}</h3>
+                        <For each={apis()}>
+                            {api => buildAPI(api)}
+                        </For>
+                    </article>
+                }
+            </Show>
 
-        <Show when={props.faq}>
-            {faq =>
-                <article>
-                    <h3>{l.t('_d.stages.faq')}</h3>
-                    {faq()}
-                </article>
-            }
-        </Show>
+            <Show when={props.faq}>
+                {faq =>
+                    <article>
+                        <h3>{l.t('_d.stages.faq')}</h3>
+                        {faq()}
+                    </article>
+                }
+            </Show>
+        </article>
 
+        <Nav class={styles.nav} target={articleRef!} query='h3,h4,h5,h6' />
     </Page>;
 }
 
