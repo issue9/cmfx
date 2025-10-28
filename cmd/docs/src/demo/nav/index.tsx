@@ -14,6 +14,5 @@ import { default as api } from './api.json';
 export default function(): JSX.Element {
     return <Stages dir='demo/nav' api={api} stages={[
         { component: <C1 />, source: s1, layout: 'vertical', title: 'nav' },
-    ]}>
-    </Stages>;
+    ]} />;
 }

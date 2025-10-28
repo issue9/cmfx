@@ -232,11 +232,11 @@ export class Parser {
         const doc = this.#parser.parseString(jsdoc ? jsdoc[0].getFullText() : '').docComment;
 
         for (const param of params) {
-            const pp = doc.params.blocks.find(p => param.getName() === p.parameterName);
+            const paramDoc = doc.params.blocks.find(p => param.getName() === p.parameterName);
             const init = param.getInitializer();
             obj.fields.push({
                 name: param.getName(),
-                summary: comment2String(pp!.content),
+                summary: paramDoc ? comment2String(paramDoc.content) : '',
                 type: param?.getType().getText(param, TypeFormatFlags.UseAliasDefinedOutsideCurrentScope)!,
                 preset: init ? init.getText() : undefined,
             });

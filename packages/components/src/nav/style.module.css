@@ -21,6 +21,7 @@
             @apply hover:text-palette-fg-focused;
             @apply active:text-palette-fg-actived;
             @apply w-full overflow-x-hidden;
+            @apply transition;
             white-space: nowrap;
             text-overflow: ellipsis;
         }

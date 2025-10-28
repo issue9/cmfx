@@ -30,7 +30,7 @@ function print_break_change() {
     local LOG
 
     LOG=$(git log "$FROM_TAG..$TO_TAG" --pretty=format:"%B" --no-merges \
-        --regexp-ignore-case -E --grep="^.+(.+)!:" \
+        --regexp-ignore-case -E --grep='^.+(\([^)]*\))?!:' \
         | sed -n '/^BREAKING CHANGE:/,/^$/p' | sed 's/^BREAKING CHANGE:[ ]*/- /')
 
     if [ -n "$LOG" ]; then

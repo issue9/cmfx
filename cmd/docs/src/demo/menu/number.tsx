@@ -42,7 +42,7 @@ export default function() {
                 },
             ]
         },
-        { type: 'item', value: 3, label: 'v3(control+a)', hotkey: new Hotkey('a', 'control') },
+        { type: 'item', value: 3, label: 'v3' },
         {
             type: 'item', value: 4, label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 41, label: 'v41' },

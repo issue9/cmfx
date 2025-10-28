@@ -13,7 +13,8 @@ const pb = tb * 1024;
 /**
  * 创建用于格式化字节大小的函数
  *
- * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位。
+ * @param l - 本地化接口；
+ * @returns 用于格式化的函数，会根据传入的字节大小自动选择合适的单位；
  */
 export function createBytesFormatter(l: Locale): {(byte: number): string} {
     let style: Intl.NumberFormatOptions['unitDisplay'];

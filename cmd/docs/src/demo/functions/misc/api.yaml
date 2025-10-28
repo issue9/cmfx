@@ -1,0 +1,8 @@
+# SPDX-FileCopyrightText: 2025 caixw
+#
+# SPDX-License-Identifier: MIT
+
+- run
+- createBytesFormatter
+- copy2Clipboard
+- notify

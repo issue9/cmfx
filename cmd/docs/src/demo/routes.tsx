@@ -24,6 +24,8 @@ import IconCounter from '~icons/ix/counter';
 import IconDate from '~icons/lets-icons/date-range-light';
 import IconNav from '~icons/material-symbols/list-alt-rounded';
 import IconTable from '~icons/lets-icons/table';
+import IconStyle from '~icons/material-symbols/style-outline';
+import IconMisc from '~icons/eos-icons/miscellaneous';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
 import IconTab from '~icons/material-symbols/tab-outline';
 import IconAppbar from '~icons/material-symbols/toolbar';
@@ -62,7 +64,7 @@ import IconRange from '~icons/uil/slider-h-range';
 
 
 // 组件的分类
-type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config';
+type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config' | 'function';
 
 // 组件的路由定义
 //
@@ -99,6 +101,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.typography', icon: <IconTypography /> },
     },
 
+    //----------------------- layout
+
     {
         kind: 'layout', path: '/divider', component: lazy(() => import('./divider')),
         info: { title: '_d.demo.divider', icon: <IconDivider /> },
@@ -111,6 +115,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         kind: 'layout', path: '/page', component: lazy(() => import('./page')),
         info: { title: '_d.demo.page', icon: <IconPage /> },
     },
+
+    //----------------------- navigation
 
     {
         kind: 'navigation', path: '/backtop', component: lazy(() => import('./backtop')),
@@ -140,6 +146,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         kind: 'navigation', path: '/wizard-tour', component: lazy(() => import('./wizard/tour')),
         info: { title: '_d.demo.tour', icon: <IconTour /> },
     },
+
+    //----------------------- data-input
 
     {
         kind: 'data-input', path: '/form-checkbox', component: lazy(() => import('./form/checkbox')),
@@ -189,6 +197,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         kind: 'data-input', path: '/form-upload', component: lazy(() => import('./form/upload')),
         info: { title: '_d.demo.upload', icon: <IconUpload /> },
     },
+
+    //----------------------- data-display
 
     {
         kind: 'data-display', path: '/code', component: lazy(() => import('./code')),
@@ -243,6 +253,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.table', icon: <IconTable /> },
     },
 
+    //----------------------- feedback
+
     {
         kind: 'feedback', path: '/badge', component: lazy(() => import('./badge')),
         info: { title: '_d.demo.badge', icon: <IconBadge /> },
@@ -272,6 +284,8 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.tooltip', icon: <IconTooltip /> },
     },
 
+    //----------------------- config
+
     {
         kind: 'config', path: '/config/locale', component: lazy(() => import('./config/locale')),
         info: { title: '_d.demo.localeConfig', icon: <IconLocaleConfig /> },
@@ -283,6 +297,17 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'config', path: '/config/theme', component: lazy(() => import('./config/theme')),
         info: { title: '_d.demo.themeConfig', icon: <IconThemeConfig /> },
+    },
+
+    //----------------------- misc
+
+    {
+        kind: 'function', path: '/functions/style', component: lazy(() => import('./functions/style')),
+        info: { title: '_d.demo.style', icon: <IconStyle /> },
+    },
+    {
+        kind: 'function', path: '/functions/misc', component: lazy(() => import('./functions/misc')),
+        info: { title: '_d.demo.misc', icon: <IconMisc /> },
     },
 ] as const;
 
@@ -297,6 +322,7 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
         { type: 'group', label: l.t('_d.demo.dataDisplay'), items: [] },
         { type: 'group', label: l.t('_d.demo.feedback'), items: [] },
         { type: 'group', label: l.t('_d.demo.config'), items: [] },
+        { type: 'group', label: l.t('_d.demo.function'), items: [] },
     ];
 
     const append = (group: MenuItem<string>, r: ArrayElement<typeof routes>) => {
@@ -331,6 +357,9 @@ export function buildMenus(l: Locale, prefix: string): Array<MenuItem<string>> {
             break;
         case 'config':
             append(menus[7], r);
+            break;
+        case 'function':
+            append(menus[8], r);
             break;
         }
     });

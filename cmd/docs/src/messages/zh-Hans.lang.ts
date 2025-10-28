@@ -58,6 +58,7 @@ const messages: typeof m = {
             dataDisplay: '数据展示',
             feedback: '反馈',
             config: '配置',
+            function: '函数及类型',
 
             // 组件名称
 
@@ -73,6 +74,7 @@ const messages: typeof m = {
             checkbox: 'Checkbox 复选框',
             choice: 'Choice 选择器',
             color: 'Color 颜色',
+            style: 'Style 样式相关',
             date: 'Date 日期',
             datepanel: 'Date Panel 日期面板',
             dialog: 'Dialog 对话框',
@@ -84,6 +86,7 @@ const messages: typeof m = {
             icon: 'Icon 图标',
             illustrations: 'Illustrations 插画',
             localeConfig: 'Locale Config 国际化配置',
+            misc: 'Misc 其它',
             menu: 'Menu 菜单',
             monthpanel: 'Month Panel 月份面板',
             nav: 'Nav 文章导航',

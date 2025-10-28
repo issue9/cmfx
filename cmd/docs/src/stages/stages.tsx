@@ -26,7 +26,7 @@ export interface Props extends ParentProps {
     /**
      * 所有展示舞台
      */
-    stages: Array<StageProps>;
+    stages?: Array<StageProps>;
 
     /**
      * 常见问题
@@ -60,12 +60,16 @@ export default function Stages(props: Props):JSX.Element {
 
             <div>{props.children}</div>
 
-            <h3>{l.t('_d.stages.codeDemo')}</h3>
-            <div class={styles.stages}>
-                <For each={props.stages}>
-                    {stage => <Stage {...stage} />}
-                </For>
-            </div>
+            <Show when={props.stages}>
+                {stages =><>
+                    <h3>{l.t('_d.stages.codeDemo')}</h3>
+                    <div class={styles.stages}>
+                        <For each={stages()}>
+                            {stage => <Stage {...stage} />}
+                        </For>
+                    </div>
+                </>}
+            </Show>
 
             <Show when={props.api}>
                 {apis =>

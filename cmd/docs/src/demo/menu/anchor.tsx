@@ -40,7 +40,7 @@ export default function() {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3(control+c)' },
+        { type: 'item', value: 'v3', label: 'v3' },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },

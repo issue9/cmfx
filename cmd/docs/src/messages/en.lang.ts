@@ -57,6 +57,7 @@ const messages = {
             dataDisplay: 'Data Display',
             feedback: 'Feedback',
             config: 'Configuration',
+            function: 'Function and class',
 
             // 组件名称
 
@@ -72,6 +73,7 @@ const messages = {
             checkbox: 'Checkbox',
             choice: 'Choice',
             color: 'Color',
+            style: 'Style',
             date: 'Date',
             datepanel: 'Date Panel',
             dialog: 'Dialog',
@@ -83,6 +85,7 @@ const messages = {
             icon: 'Icon',
             illustrations: 'Illustrations',
             localeConfig: 'Locale Config',
+            misc: 'Misc',
             menu: 'Menu',
             monthpanel: 'Month Panel',
             nav: 'Nav',
