@@ -140,7 +140,7 @@ export default function Tour(props: Props): JSX.Element {
             if (!el) { continue; }
 
             if (i === index() && open()) {
-                el.scrollIntoView({ behavior: 'smooth' });
+                el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
                 el.classList.add(styles.focus);
                 ref.move(calcPopoverPosition(ref.element(), el.getBoundingClientRect(), step.pos, 'start', 8));
             } else {

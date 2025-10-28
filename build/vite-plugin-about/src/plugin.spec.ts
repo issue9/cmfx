@@ -5,7 +5,6 @@
 import { expect, test } from 'vitest';
 
 import { about } from './plugin';
-//import { __CMFX_ABOUT__ } from './plugin';
 
 test('plugin', async () => {
     const p = about({

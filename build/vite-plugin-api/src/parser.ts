@@ -337,5 +337,7 @@ function comment2String(node?: DocNode): string | undefined {
     }
 
     const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
-    return nodes.length > 0 ? nodes.join('') + '\n\n' : undefined;
+    if (nodes.length <= 0) { return undefined; }
+    const s = nodes.join('');
+    return s.endsWith('\n\n') ? s : s + '\n\n'; // 防止过多的换行符
 }

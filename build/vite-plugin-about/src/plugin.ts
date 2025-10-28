@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { readFileSync } from 'node:fs';
-import { Plugin } from 'vite';
+import { ConfigPluginContext, Plugin, UserConfig } from 'vite';
 
 import pkg from '../package.json';
 import { initPnpmVersionSearch, parseGomods } from './files';
@@ -42,7 +42,7 @@ interface PackageJSON {
  *
  * @returns vite 插件
  */
-export function about(options: Options): Plugin {
+export function about(options: Options): Plugin<Options> {
     const about: About = {
         version: '',
         dependencies: [],
@@ -71,7 +71,7 @@ export function about(options: Options): Plugin {
     return {
         name: 'vite-plugin-cmfx-about',
 
-        config: async () => {
+        async config(this: ConfigPluginContext , conf: UserConfig) {
             const search = await initPnpmVersionSearch();
 
             // 替换依赖项的 catalog 和 workspace 为真实的版本号

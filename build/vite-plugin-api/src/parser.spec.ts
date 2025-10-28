@@ -31,7 +31,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(f2.name).toEqual('class');
         expect(f2.type).toContain('string');
         expect(f2.reactive).toBe(true);
-        expect(f2.preset).toEqual('undefined');
+        expect(f2.preset?.trim()).toEqual('undefined');
         expect(f2.summary).not.toBeUndefined();
         expect(f2.remarks).not.toBeUndefined();
     });
@@ -128,7 +128,7 @@ describe('Parser', {timeout: 20000}, () => {
 
         const pp = props[0];
         expect(pp.name).toEqual('joinClass');
-        expect(pp.summary).toEqual('将多个 CSS 的类名组合成 class 属性值');
+        expect(pp.summary?.trim()).toEqual('将多个 CSS 的类名组合成 class 属性值');
 
         expect(pp.fields).toHaveLength(2);
         expect(pp.type).toEqual('function joinClass(palette?: Palette, ...cls: Array<string | undefined | null>): string | undefined;');
