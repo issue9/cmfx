@@ -12,7 +12,14 @@ import { default as Nav, Ref } from './nav';
 describe('Nav', () => {
     test('ref', async () => {
         let ref: Ref;
-        const { unmount } = render(() => <Nav target={ref.element()} ref={el => ref = el} />, {
+        let articleRef: HTMLElement;
+        const { unmount } = render(() => <div>
+            <article ref={el => articleRef = el}>
+                <h1>head1</h1>
+                <h2>head2</h2>
+            </article>
+            <Nav target={articleRef} ref={el => ref = el} />
+        </div>, {
             wrapper: Provider,
         });
 
