@@ -10,7 +10,7 @@ import { default as s1 } from './illustrations.tsx?raw';
 import { Stages } from '../../stages';
 
 export default function(): JSX.Element {
-    return <Stages stages={[
+    return <Stages dir='demo/illustations' stages={[
         { component: <C1 />, source: s1, title: '插图' },
     ]}>
     </Stages>;

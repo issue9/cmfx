@@ -15,7 +15,7 @@ import { default as group } from './group.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/radio' api={api} stages={[
         { component: <Radio />, source: radio, title: 'radio' },
         { component: <Group />, source: group, title: 'group' },
     ]}>

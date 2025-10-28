@@ -4,14 +4,25 @@
 
 import { Checkbox, Nav, Page, Table, useLocale } from '@cmfx/components';
 import { Object } from '@cmfx/vite-plugin-api';
-import { useCurrentMatches } from '@solidjs/router';
+import { useCurrentMatches, A } from '@solidjs/router';
 import { For, JSX, Match, ParentProps, Show, Switch } from 'solid-js';
+import IconGithub from '~icons/icon-park-outline/github';
+
 
 import { default as Stage, Props as StageProps } from './stage';
 import { markdown } from './markdown';
 import styles from './style.module.css';
+import pkg from '../../package.json';
+
+// 演示文件的基地址
+const baseURL = pkg.repository.url + '/tree/master/' + pkg.repository.directory;
 
 export interface Props extends ParentProps {
+    /**
+     * 演示文件相对于 src 所在的目录
+     */
+    dir: string;
+
     /**
      * 所有展示舞台
      */
@@ -38,10 +49,14 @@ export default function Stages(props: Props):JSX.Element {
     const title = route[route.length - 1].route.info?.title;
 
     let articleRef: HTMLElement;
+    const url = baseURL + '/src/' + props.dir;
 
     return <Page class={styles.page} title={title}>
         <article class={styles.root} ref={el => articleRef = el}>
-            <h2>{l.t(title)}</h2>
+            <h2>
+                {l.t(title)}
+                <A class={styles.edit} href={url} title={l.t('_d.stages.editOnGithub')}><IconGithub /></A>
+            </h2>
 
             <div>{props.children}</div>
 

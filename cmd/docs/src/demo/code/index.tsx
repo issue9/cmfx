@@ -18,7 +18,7 @@ import { default as s3 } from './multiple.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/code' api={api} stages={[
         { component: <C1 />, source: s1, title: '基本功能' },
         { component: <C2 />, source: s2, title: '可滚动' },
         { component: <C3 />, source: s3, title: '多行不可滚动' },

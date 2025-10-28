@@ -15,7 +15,7 @@ import { default as s2 } from './demo2.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/tooltip' api={api} stages={[
         { component: <C1 />, source: s1, title: 't1', desc: '这是一段描述信息' },
         { component: <C2 />, source: s2, title: 't2' },
     ]}>

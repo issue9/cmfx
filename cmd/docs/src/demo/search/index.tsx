@@ -12,7 +12,7 @@ import { default as s1 } from './search.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/search' api={api} stages={[
         { component: <C1 />, source: s1, title: '基本功能' },
     ]}>
     </Stages>;

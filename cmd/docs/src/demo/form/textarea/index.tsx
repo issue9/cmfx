@@ -12,7 +12,7 @@ import { default as textarea } from './textarea.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/textarea' api={api} stages={[
         { component: <Textarea />, source: textarea, title: 'textarea' },
     ]}>
     </Stages>;

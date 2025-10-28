@@ -27,7 +27,7 @@ import { default as button } from './button.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/button' api={api} stages={[
         { component: <Button />, source: button, title: 'button' },
         { component: <Link />, source: link, title: 'link button' },
         { component: <Toggle />, source: toggle, title: 'toggle button' },

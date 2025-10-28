@@ -16,6 +16,7 @@ const messages: typeof m = {
             reactive: '响应式',
             desc: '描述',
             faq: 'FAQ',
+            editOnGithub: '在 github 编辑',
         },
         main: {
             home: '首页',

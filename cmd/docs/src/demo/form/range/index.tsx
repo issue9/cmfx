@@ -18,7 +18,7 @@ import { default as mark } from './mark.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/range' api={api} stages={[
         { component: <Basic />, source: basic, title: 'basic' },
         { component: <Step />, source: step, title: 'step' },
         { component: <Mark />, source: mark, title: 'mark' },

@@ -15,6 +15,7 @@ const messages = {
             reactive: 'Reactive',
             desc: 'Description',
             faq: 'FAQ',
+            editOnGithub: 'Edit on github',
         },
         main: {
             home: 'Home',

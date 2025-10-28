@@ -18,7 +18,7 @@ import { default as indeterminate } from './indeterminate.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/checkbox' api={api} stages={[
         { component: <Checkbox />, source: checkbox, title: 'checkbox' },
         { component: <Group />, source: group, title: 'checkbox group' },
         { component: <Indeterminate />, source: indeterminate, title: 'indeterminate' },

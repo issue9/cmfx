@@ -36,7 +36,7 @@ import { default as s9 } from './onpopover.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/menu' api={api} stages={[
         { component: <C1 />, source: s1, height: 800, title: '数字作为值' },
         { component: <C2 />, source: s2, title: '多选' },
         { component: <C3 />, source: s3, title: '链接' },

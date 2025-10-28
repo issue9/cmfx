@@ -18,7 +18,7 @@ import { default as password } from './password.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/textfield' api={api} stages={[
         { component: <TextField />, source: textField, title: 'textfield' },
         { component: <Number />, source: number, title: 'number' },
         { component: <Password />, source: password, title: 'password' },

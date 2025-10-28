@@ -19,7 +19,13 @@
             @apply flex flex-col !gap-1;
 
             h2 {
-                @apply text-4xl;
+                @apply text-3xl flex gap-2 items-center;
+
+                .edit {
+                    @apply text-xl text-palette-fg/50;
+                    @apply hover:text-palette-fg-focused;
+                    @apply active:text-palette-fg-actived;
+                }
             }
 
             h3 {

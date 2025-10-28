@@ -24,7 +24,7 @@ import { default as s5 } from './custom-empty.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/result' api={api} stages={[
         { component: <C1 />, source: s1, title: 'horizontal' },
         { component: <C2 />, source: s2, title: 'vertical' },
         { component: <C3 />, source: s3, title: 'auto' },

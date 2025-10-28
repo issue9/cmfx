@@ -18,7 +18,7 @@ import { default as preset } from './preset.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/color' api={api} stages={[
         { component: <Panel />, source: panel, title: 'panel' },
         { component: <Picker />, source: picker, title: 'picker' },
         { component: <Preset />, source: preset, title: 'preset' },

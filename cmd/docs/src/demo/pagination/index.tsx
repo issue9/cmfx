@@ -15,7 +15,7 @@ import { default as s2 } from './bar.tsx?raw';
 import { default as api } from './api.json';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/pagination' api={api} stages={[
         { component: <C1 />, source: s1, title: 'pagination' },
         { component: <C2 />, source: s2, title: 'pagination bar' },
     ]}>

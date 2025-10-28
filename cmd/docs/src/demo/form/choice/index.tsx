@@ -15,7 +15,7 @@ import { default as multiple } from './multiple.tsx?raw';
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/form/choice' api={api} stages={[
         { component: <Basic />, source: basic, title: 'basic' },
         { component: <Multiple />, source: multiple, title: 'multiple' },
     ]}>

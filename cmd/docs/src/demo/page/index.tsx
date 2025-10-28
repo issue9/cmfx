@@ -12,7 +12,7 @@ import { default as s1 } from './page.tsx?raw';
 import { Stages } from '../../stages';
 
 export default function(): JSX.Element {
-    return <Stages api={api} stages={[
+    return <Stages dir='demo/page' api={api} stages={[
         { component: <C1 />, source: s1, title: '基本用法' },
     ]}>
     </Stages>;
