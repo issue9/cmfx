@@ -38,7 +38,7 @@ export class Webauthn implements PassportComponents {
         const nav = useNavigate();
         const account = fieldAccessor('account', '');
 
-        return <form class="!gap-5" onReset={() => account.reset()} onSubmit={async () => {
+        return <form class="gap-5!" onReset={() => account.reset()} onSubmit={async () => {
             const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
             if (!r1.ok) {
                 if (r1.status === 401) {
@@ -87,10 +87,10 @@ export class Webauthn implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField hasHelp prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
+            <TextField hasHelp prefix={<IconPerson class="px-1 py-0! shrink-0 self-center w-auto" />}
                 suffix={
                     <Show when={account.getValue()!==''}>
-                        <IconClose class="px-1 !py-0 shrink-0 self-center w-auto" onClick={()=>account.setValue('')} />
+                        <IconClose class="px-1 py-0! shrink-0 self-center w-auto" onClick={()=>account.setValue('')} />
                     </Show>
                 }
                 placeholder={l.t('_p.current.username')} accessor={account} />

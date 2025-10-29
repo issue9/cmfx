@@ -47,6 +47,6 @@
     }
 
     .pop {
-        @apply max-h-60 !overflow-y-auto;
+        @apply max-h-60 overflow-y-auto!;
     }
 }

@@ -31,7 +31,7 @@
 
             .actions {
                 button {
-                    @apply !p-1;
+                    @apply p-1!;
                 }
             }
         }

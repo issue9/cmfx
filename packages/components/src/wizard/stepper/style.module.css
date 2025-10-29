@@ -40,7 +40,7 @@
             /* 横线 */
             .step:not(:first-child)::before {
                 content: '';
-                @apply !h-1 w-full grow bg-palette-bg-low block;
+                @apply h-1! w-full grow bg-palette-bg-low block;
             }
 
             .step.completed {
@@ -69,7 +69,7 @@
         @apply flex-row;
 
         >header {
-            @apply !flex-col w-20 max-w-50;
+            @apply flex-col! w-20 max-w-50;
 
             .step {
                 @apply flex-col items-start;
@@ -79,7 +79,7 @@
             .step:not(:first-child)::before {
                 content: '';
                 margin-left: calc(var(--stepper-icon-size) - --spacing(0.5));
-                @apply !h-5 w-1 grow block;
+                @apply h-5! w-1 grow block;
             }
         }
     }

@@ -31,7 +31,7 @@
         }
 
         .activator-container.rounded {
-            @apply !rounded-full;
+            @apply rounded-full!;
         }
     }
 
@@ -43,7 +43,7 @@
         @apply overflow-hidden;
 
         .dt-panel {
-            @apply !rounded-none !border-none;
+            @apply rounded-none! border-none!;
         }
 
         .actions {

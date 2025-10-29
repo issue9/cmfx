@@ -30,7 +30,7 @@
         }
 
         .action.start {
-            @apply !order-1;
+            @apply order-1!;
         }
     }
 

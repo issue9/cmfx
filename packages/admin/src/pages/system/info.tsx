@@ -135,7 +135,7 @@ export function Info(): JSX.Element {
         await api.delete('/system/systat');
     });
 
-    return <Page title="_p.system.serverInfo" class={ joinClass(undefined, '!max-w-lg', styles.info)}>
+    return <Page title="_p.system.serverInfo" class={ joinClass(undefined, 'max-w-lg!', styles.info)}>
         <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-sm/info:w-full')}>
             <Label icon={<IconInfo />} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
@@ -230,7 +230,7 @@ export function Info(): JSX.Element {
 
         <fieldset class={joinClass(undefined, styles.panel, 'w-full') }>
             <Label icon={<IconChart />} tag='legend'>{l.t('_p.system.states')}</Label>
-            <Tab onChange={changeTab} class="flex-grow-0 m-auto mb-4" items={[
+            <Tab onChange={changeTab} class="grow-0 m-auto mb-4" items={[
                 { id: 'cpu', label: l.t('_c.cpu') + ' (%)' },
                 { id: 'memory', label: l.t('_c.memory') + ' (MB)' },
                 { id: 'connections', label: l.t('_p.system.connections') },

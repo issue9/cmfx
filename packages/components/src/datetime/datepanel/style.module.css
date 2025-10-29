@@ -110,7 +110,7 @@
                 @apply flex flex-wrap;
 
                 >fieldset.panel {
-                    @apply !rounded-none border-transparent;
+                    @apply rounded-none! border-transparent;
                 }
 
                 >fieldset.panel:last-child {

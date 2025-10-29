@@ -22,7 +22,7 @@ export default function(): JSX.Element {
                     <>{i} <br /></>
                 )}
             </For>
-            <BackTop palette={palette()} class="mb-10 start-[300px] !bottom-4 end-[unset]" />
+            <BackTop palette={palette()} class="mb-10 start-[300px] bottom-4! end-[unset]" />
         </div>
     </div>;
 }

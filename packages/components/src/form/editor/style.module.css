@@ -13,13 +13,13 @@
         }
 
         :global(.ql-toolbar) {
-            @apply !border-palette-border;
+            @apply border-palette-border!;
             @apply rounded-t-md;
             @apply transition;
         }
 
         :global(.ql-container) {
-            @apply !border-palette-border border;
+            @apply border-palette-border! border;
             @apply rounded-b-md;
             @apply transition;
         }
@@ -28,11 +28,11 @@
     .editor:has([contenteditable=true]):hover,
     .editor:focus-within {
         :global(.ql-toolbar) {
-            @apply !border-palette-border-focused;
+            @apply border-palette-border-focused!;
         }
 
         :global(.ql-container) {
-            @apply !border-palette-border-focused;
+            @apply border-palette-border-focused!;
         }
     }
 

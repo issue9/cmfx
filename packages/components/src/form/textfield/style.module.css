@@ -16,11 +16,11 @@
         @apply transition;
 
         >:first-child {
-            @apply !rounded-l-md;
+            @apply rounded-l-md!;
         }
 
         >:last-child {
-            @apply !rounded-r-md;
+            @apply rounded-r-md!;
         }
 
         >input {
@@ -46,15 +46,15 @@
         @apply rounded-full;
 
         >:first-child {
-            @apply !rounded-l-full;
+            @apply rounded-l-full!;
         }
 
         >:last-child {
-            @apply !rounded-r-full;
+            @apply rounded-r-full!;
         }
     }
 
     .number-spin {
-        @apply !px-[1px] !py-0 rounded-none;
+        @apply px-px! py-0! rounded-none;
     }
 }

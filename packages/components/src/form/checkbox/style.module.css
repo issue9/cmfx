@@ -9,7 +9,7 @@
 @layer components {
     input[type="checkbox"] {
         @apply appearance-none relative inline-block p-0 w-4 h-4 cursor-pointer outline-none;
-        @apply border-2 border-palette-border !rounded-xs;
+        @apply border-2 border-palette-border rounded-xs!;
         @apply active:border-palette-border-actived;
         @apply hover:border-palette-border-focused;
         @apply focus:border-palette-border-focused;
@@ -19,7 +19,7 @@
     }
 
     input[type="checkbox"].rounded {
-        @apply !rounded-full;
+        @apply rounded-full!;
     }
 
     input[type="checkbox"]:disabled {
@@ -68,7 +68,7 @@
         @apply transition;
 
         input {
-            @apply !hidden;
+            @apply hidden!;
         }
     }
 

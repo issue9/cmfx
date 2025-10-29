@@ -8,7 +8,7 @@
 
 @layer components {
     input[type="radio"] {
-        @apply appearance-none relative inline-block w-4 h-4 !rounded-sm cursor-pointer;
+        @apply appearance-none relative inline-block w-4 h-4 rounded-sm! cursor-pointer;
         @apply p-0 border-2 border-palette-fg outline-none;
         @apply hover:border-palette-fg-focused;
         @apply checked:border-palette-fg-selected;
@@ -21,7 +21,7 @@
     }
 
     input[type="radio"].rounded {
-        @apply !rounded-full;
+        @apply rounded-full!;
     }
 
     /* 内部实心圆 */

@@ -11,7 +11,7 @@
         @apply rounded-lg overflow-hidden border border-palette-border w-full h-full;
 
         >table {
-            @apply !w-full !h-full;
+            @apply w-full! h-full!;
 
             thead tr>th {
                 @apply py-[--spacing(.5)];
