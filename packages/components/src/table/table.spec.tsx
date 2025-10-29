@@ -27,7 +27,7 @@ describe('Table', () => {
 
     test('loader ref', async () => {
         let ref: LoaderTableRef<object>;
-        const { unmount } = render(() => <LoaderTable<object, Query> load={async (q: Query): Promise<object[]> => { return []; }} columns={[]} queries={{}} ref={el => ref = el} />, {
+        const { unmount } = render(() => <LoaderTable<object, Query> load={async (_: Query): Promise<object[]> => { return []; }} columns={[]} queries={{}} ref={el => ref = el} />, {
             wrapper: Provider,
         });
         await sleep(500); // Provider 是异步的，需要等待其完成加载。

@@ -32,6 +32,8 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
      * @reactive
      */
     square?: boolean;
+
+    title?: string;
 }
 
 /**

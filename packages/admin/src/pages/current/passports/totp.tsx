@@ -80,7 +80,7 @@ export class TOTP implements PassportComponents {
 
         return <>
             <Show when={username}>
-                <ConfirmButton palette='error' square rounded title={l.t('_p.current.unbindTOTP')} onClick={async () => {
+                <ConfirmButton palette='error' square rounded title={l.t('_p.current.unbindTOTP')} onclick={async () => {
                     const r = await api.delete(`/passports/${this.#id}`);
                     if (!r.ok) {
                         act.outputProblem(r.body);

@@ -4,10 +4,14 @@
 
 import { JSX, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import styles from './style.module.css';
 
-export interface Props extends ParentProps, BaseProps {
+export interface Ref {
+    element(): HTMLFieldSetElement;
+}
+
+export interface Props extends ParentProps, BaseProps, RefProps<Ref> {
     /**
      * 加载状态
      *
@@ -39,7 +43,10 @@ export interface Props extends ParentProps, BaseProps {
  * @remarks 该组件可以作为任何具有加载状态的组件的容器，包含了 `@container/spin` 容器查询条件。
  */
 export function Spin(props: Props) {
-    return <fieldset class={joinClass(props.palette, styles.spin, props.class)}>
+    return <fieldset class={joinClass(props.palette, styles.spin, props.class)} ref={el => {
+        if (!props.ref) { return; }
+        props.ref({ element() { return el; } });
+    }}>
         {props.children}
         <Show when={props.spinning}>
             <div class={joinClass(undefined, styles.indicator, props.overlayClass)}>{props.indicator}</div>

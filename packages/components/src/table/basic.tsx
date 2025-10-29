@@ -7,7 +7,7 @@ import { For, JSX, Show } from 'solid-js';
 import { joinClass, RefProps } from '@/base';
 import { useLocale } from '@/context';
 import { Empty } from '@/result';
-import { Spin } from '@/spin';
+import { Spin, SpinRef } from '@/spin';
 import { Column } from './column';
 import styles from './style.module.css';
 import { Table, Props as TableProps, Ref as TableRef } from './table';
@@ -16,7 +16,7 @@ export interface Ref {
     /**
      * 组件根元素
      */
-    element(): HTMLElement;
+    element(): SpinRef;
 
     /**
      * 组件中的表格元素
@@ -84,7 +84,7 @@ export function BasicTable<T extends object>(props: Props<T>) {
     const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
     return <Spin spinning={props.loading} palette={props.palette} class={joinClass(undefined, styles.table, props.class)}
-        ref={(el: HTMLElement) => {
+        ref={(el: SpinRef) => {
             if (props.ref) {
                 props.ref({
                     element: () => el,

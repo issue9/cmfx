@@ -192,13 +192,13 @@ export function Info(): JSX.Element {
         <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-sm/info:w-full')}>
             <Label icon={<IconAction />} tag='legend'>{l.t('_p.actions')}</Label>
 
-            <ConfirmButton palette='secondary' onClick={async () => await act.clearCache()}>
+            <ConfirmButton palette='secondary' onclick={async () => await act.clearCache()}>
                 <IconClear class="me-1" />{l.t('_p.system.clearCache')}
             </ConfirmButton>
             <span class="mt-1">{l.t('_p.system.clearCacheHelp')}</span>
 
             <Divider padding='1rem' />
-            <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onClick={async () => {
+            <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onclick={async () => {
                 const ret = await api.post('/system/backup');
                 if (!ret.ok) {
                     await act.outputProblem(ret.body);
@@ -214,7 +214,7 @@ export function Info(): JSX.Element {
                     {(item) => (
                         <li>
                             {item.path}&nbsp;({bytesFormatter()(item.size)})
-                            <ConfirmButton kind='flat' palette='error' onClick={async () => {
+                            <ConfirmButton kind='flat' palette='error' onclick={async () => {
                                 const ret = await api.delete('/system/backup/' + item.path);
                                 if (!ret.ok) {
                                     await act.outputProblem(ret.body);

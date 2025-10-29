@@ -125,7 +125,7 @@ export class Webauthn implements PassportComponents {
                             {
                                 id: 'id', label: l.t('_p.actions'), renderContent: (_, val) => (
                                     <ConfirmButton square rounded palette='error' title={l.t('_p.current.unbindWebauthn')}
-                                        onClick={async () => {
+                                        onclick={async () => {
                                             const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
                                             if (!r1.ok) {
                                                 act.outputProblem(r1.body);
@@ -174,7 +174,7 @@ export class Webauthn implements PassportComponents {
                                 await f();
                             }}><IconAddLink />&#160;{l.t('_p.current.bindWebauthn')}</Button>
 
-                            <ConfirmButton palette='secondary' rounded onClick={async () => {
+                            <ConfirmButton palette='secondary' rounded onclick={async () => {
                                 const r1 = await api.delete(`/passports/${this.#id}`);
                                 if (!r1.ok) {
                                     act.outputProblem(r1.body);

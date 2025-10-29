@@ -58,7 +58,7 @@ export function Edit(props: Props): JSX.Element {
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
             <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} label={l.t('_p.sex')} />
             <div class="w-full flex justify-between gap-5">
-                <LinkButton href={props.backURL} type="button" palette='secondary'>
+                <LinkButton href={props.backURL} palette='secondary'>
                     <IconArrowBack />
                     {l.t('_p.back')}
                 </LinkButton>
