@@ -234,9 +234,10 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 
                                 if (props.layout !== 'inline') { // 单选，还得处理弹出内容关闭的问题
                                     if (i().level > 0) {
-                                        e.currentTarget.parentElement?.parentElement?.classList.add(styles.hide);
-                                        await sleep(300);
-                                        e.currentTarget.parentElement?.parentElement?.classList.remove(styles.hide);
+                                        const parent = e.currentTarget.parentElement!;
+                                        parent.classList.add(styles.hide);
+                                        await sleep(3000);
+                                        parent.classList.remove(styles.hide);
                                     }
                                 }
                             }

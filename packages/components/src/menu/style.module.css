@@ -22,7 +22,7 @@
             @apply flex flex-col relative;
 
             >.title {
-                @apply m-1 py-[--spacing(1.5)] px-3 cursor-pointer rounded-md;
+                @apply m-1 py-1.5 px-3 cursor-pointer rounded-md;
                 @apply flex flex-row items-center gap-1;
 
                 @apply focus-within:bg-palette-bg-focused focus-within:text-palette-fg-focused focus-within:outline-none focus-within:border-none;
