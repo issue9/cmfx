@@ -53,7 +53,7 @@
         }
 
         li.group>.title {
-            @apply text-palette-fg-low cursor-default !ps-1;
+            @apply text-palette-fg-low cursor-default ps-1!;
         }
 
         li.item.disabled>.title {
@@ -83,15 +83,15 @@
         @apply flex-row gap-2;
 
         >li.divider {
-            @apply !px-0;
+            @apply px-0!;
         }
 
         * li.divider {
-            @apply !py-0;
+            @apply py-0!;
         }
 
         >li>.title {
-            @apply !mx-0 text-nowrap;
+            @apply mx-0! text-nowrap;
         }
 
         li>ul {
@@ -112,7 +112,7 @@
         @apply flex-col;
 
         li.divider {
-            @apply !py-0;
+            @apply py-0!;
         }
 
         li>ul {
@@ -138,16 +138,16 @@
 
         li {
             >ul {
-                @apply flex-col !rounded-none;
+                @apply flex-col rounded-none!;
             }
         }
 
         >li.divider {
-            @apply !py-0;
+            @apply py-0!;
         }
 
         * li.divider {
-            @apply !px-0;
+            @apply px-0!;
         }
     }
 

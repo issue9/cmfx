@@ -4,7 +4,9 @@
 
 import { Layout, layouts, Palette, palettes } from '@cmfx/components';
 import { PopoverPosition } from '@cmfx/core';
-import { Accessor, createSignal, For, JSX, Setter } from 'solid-js';
+import { Accessor, createSignal, createUniqueId, For, JSX, Setter } from 'solid-js';
+
+import styles from './style.module.css';
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
 
@@ -31,15 +33,13 @@ export function boolSelector(
  * 创建色盘选择工具
  * @param preset - 默认值
  */
-export function paletteSelector(
-    preset?: Palette
-): [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
+export function paletteSelector(preset?: Palette)
+    : [JSX.Element, Accessor<Palette|undefined>, Setter<Palette|undefined>] {
     return arraySelector<Palette | undefined>('颜色', palettesWithUndefined, preset);
 }
 
-export function layoutSelector(
-    label: string, preset?: Layout
-): [JSX.Element, Accessor<Layout|undefined>, Setter<Layout|undefined>] {
+export function layoutSelector(label: string, preset?: Layout)
+    : [JSX.Element, Accessor<Layout|undefined>, Setter<Layout|undefined>] {
     return arraySelector(label, layouts, preset);
 }
 
@@ -48,11 +48,12 @@ export function arraySelector<T extends string|number|undefined>(
 ): [JSX.Element, Accessor<T>, Setter<T>] {
     const [get, set] = createSignal<T>(preset);
 
-    const elem = <fieldset class="border flex flex-wrap px-2 py-1">
+    const name = createUniqueId(); // 保证一组 radio 一个独立的名称
+    const elem = <fieldset class={styles['radio-selector']}>
         <legend>{label}</legend>
         <For each={array}>
-            {item => <label class="me-4">
-                <input class="me-1" type="radio" name={label}
+            {item => <label>
+                <input type="radio" name={name}
                     value={item} onClick={() => set(item as any)}
                     checked={get() === item}
                 />{item !== undefined ? item : 'undefined'}
