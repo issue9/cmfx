@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { highlightCode } from '@cmfx/components';
+import { highlight } from '@cmfx/components';
 import type { MarkedExtension } from 'marked';
 
 /**
@@ -15,7 +15,7 @@ export function markedShiki(): MarkedExtension {
         async walkTokens(token) {
             if (token.type !== 'code') { return; }
 
-            const htmlText = await highlightCode(token.text, token.lang);
+            const htmlText = await highlight(token.text, token.lang);
 
             Object.assign(token, {
                 type: 'html',

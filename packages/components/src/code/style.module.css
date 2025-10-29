@@ -9,7 +9,7 @@
 @layer components {
     .shiki {
         @apply font-mono leading-5 overflow-clip relative;
-        @apply rounded-lg border border-palette-border p-1;
+        @apply rounded-lg border border-palette-border/50 p-1;
         @apply text-palette-fg bg-palette-bg;
 
         >code {
@@ -18,7 +18,7 @@
 
         >.lang,
         >.action {
-            @apply absolute top-0 !py-1 !px-2 start-auto end-0 text-sm;
+            @apply absolute top-0 py-1! px-2! start-auto end-0 text-sm;
             @apply transition;
         }
 
@@ -38,7 +38,7 @@
     }
 
     .shiki.ln {
-        @apply !ps-0;
+        @apply ps-0!;
 
         --line-number-start: 0;
         --line-number-width: 2ch;
@@ -63,7 +63,7 @@
 
         >code>span::before {
             margin-inline-start: calc(-1 * var(--line-number-margin));
-            @apply font-mono w-[var(--line-number-width)] px-1 me-1 box-content;
+            @apply font-mono w-(--line-number-width) px-1 me-1 box-content;
             @apply inline-block bg-palette-bg-low text-palette-fg-low start-0 top-0 sticky;
             content: counter(line);
         }

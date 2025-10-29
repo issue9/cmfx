@@ -16,7 +16,7 @@
         }
 
         article.root {
-            @apply flex flex-col !gap-1;
+            @apply flex flex-col gap-1!;
 
             h2 {
                 @apply text-3xl flex gap-2 items-center;
@@ -33,11 +33,11 @@
             }
 
             h4 {
-                @apply text-xl mt-4;
+                @apply text-xl mt-6 mb-3;
             }
 
             .desc {
-                @apply mb-4 mt-2;
+                @apply mt-4 mb-2;
             }
 
             ul,
@@ -65,8 +65,8 @@
                     }
                 }
 
-                code {
-                    @apply font-mono px-1;
+                code { /* 文档中的类型名称等 codespan 类型的简要代码 */
+                    @apply px-1 font-mono;
                 }
             }
 
@@ -89,19 +89,15 @@
                     }
 
                     .code {
-                        @apply border-transparent !rounded-none flex-1 w-full;
+                        @apply border-transparent rounded-none! flex-1 w-full;
                     }
                 }
 
                 .stage.vertical {
-                    @apply flex-col !items-stretch !justify-stretch;
+                    @apply flex-col items-stretch! justify-stretch!;
 
                     .demo {
                         @apply w-full max-w-full;
-                    }
-
-                    .code {
-                        @apply mt-2 font-mono;
                     }
                 }
             }

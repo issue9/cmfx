@@ -13,7 +13,7 @@ catalog:
   '@tailwindcss/vite': ^4.1.16
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
-  '@types/node': ^24.9.1
+  '@types/node': ^24.9.2
   '@vitest/coverage-v8': ^4.0.4
   autoprefixer: ^10.4.21
   bowser: ^2.12.1

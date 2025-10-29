@@ -108,9 +108,9 @@ function buildAPI(api: Object): JSX.Element {
         <Show when={api.remarks}>{remarks =>
             <p innerHTML={markdown(remarks())} />
         }</Show>
-        <Switch fallback={<code>{`${api.name} = ${api.type}`}</code>}>
+        <Switch fallback={<p innerHTML={markdown('```ts\n'+api.type+'\n```')} />}>
             <Match when={api.fields}>
-                <Show when={api.type}>{c => <code>{c()}</code>}</Show>
+                <Show when={api.type}>{c => <p innerHTML={ markdown('```ts\n'+c()+'\n```')} />}</Show>
                 <Table hoverable>
                     <thead>
                         <tr>

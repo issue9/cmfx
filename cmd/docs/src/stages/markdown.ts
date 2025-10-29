@@ -2,23 +2,35 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { Highlighter } from '@cmfx/components';
 import { MarkedExtension, Marked } from 'marked';
 
-const markedParser = new Marked({ async: false }, markedCode());
+const higlighter = await Highlighter.build('ts');
 
 function markedCode(): MarkedExtension {
     return {
         walkTokens(token) {
-            if (token.type !== 'codespan') { return; }
-
-            Object.assign(token, {
-                type: 'html',
-                block: true,
-                text: `<code>${token.text}</code>`
-            });
+            switch (token.type) {
+            case 'codespan':
+                Object.assign(token, {
+                    type: 'html',
+                    block: true,
+                    text: `<code>${token.text}</code>`
+                });
+                break;
+            case 'code':
+                Object.assign(token, {
+                    type: 'html',
+                    block: true,
+                    text: higlighter.html(token.text, 'ts', undefined, true)
+                });
+                break;
+            }
         }
     };
 }
+
+const markedParser = new Marked({ async: false }, markedCode());
 
 /**
  * 解析 markdown 内容为普通的 html

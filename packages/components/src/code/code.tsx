@@ -7,7 +7,7 @@ import { createEffect, createSignal, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { BaseProps, joinClass } from '@/base';
-import { highlightCode } from './shiki';
+import { highlight } from './shiki';
 
 export interface Props extends BaseProps {
     /**
@@ -65,7 +65,7 @@ export default function Code(props: Props): JSX.Element {
 
     createEffect(async () => {
         const cls = joinClass(props.palette, props.class);
-        const el = template(await highlightCode(props.children, props.lang, props.ln, props.wrap, cls))() as HTMLElement;
+        const el = template(await highlight(props.children, props.lang, props.ln, props.wrap, cls))() as HTMLElement;
         setHTML(el);
     });
 

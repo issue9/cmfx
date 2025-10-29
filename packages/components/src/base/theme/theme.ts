@@ -6,6 +6,9 @@ import { transitionDurationName } from './scheme';
 
 export const breakpoints = ['xs', 'sm', 'md', 'lg', 'xl', '2xl'] as const;
 
+/**
+ * 支持的屏幕类型
+ */
 export type Breakpoint = typeof breakpoints[number];
 
 /**

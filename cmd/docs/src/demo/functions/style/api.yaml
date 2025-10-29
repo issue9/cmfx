@@ -4,4 +4,7 @@
 
 - joinClass
 - classList
-- highlightCode
+- highlight
+- Highlighter
+- Palette
+- Breakpoint

@@ -5,4 +5,4 @@
 export { default as Code } from './code';
 export type { Props as CodeProps } from './code';
 
-export { highlightCode } from './shiki';
+export { highlight, Highlighter } from './shiki';

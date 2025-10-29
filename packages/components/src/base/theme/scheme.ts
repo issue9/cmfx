@@ -96,14 +96,14 @@ export interface Palettes {
     'surface-bg-high': string;
 }
 
+export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surface'] as const;
+
 /**
  * 组件可用的几种色盘
  *
- * 当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，
- * 具体可参考 /tailwind.css 中的 palette--primary 等相关的定义。
+ * @remarks 当为组件指定一个色盘时，并不是直接改变相应在的颜色，而是在该组件上指定相应在的颜色变量，
+ * 具体可参考 /tailwind.css 中的 `palette--primary` 等相关的定义。
  */
-export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surface'] as const;
-
 export type Palette = typeof palettes[number];
 
 /**
