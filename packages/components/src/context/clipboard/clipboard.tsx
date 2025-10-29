@@ -47,7 +47,7 @@ export default function Clipboard(props: ParentProps): JSX.Element {
         });
     };
 
-    return props.children;
+    return <>props.children</>; // NOTE: <></> 必须要有，否则不会初始化 copy2ClipboardInst？
 }
 
 /**
