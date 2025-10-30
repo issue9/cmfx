@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonRef, Tooltip, TooltipRef } from '@cmfx/components';
+import { Button, ButtonRef, Tooltip, TooltipRef, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import { createSignal } from 'solid-js';
 
 import { posSelector } from '../base';
 
-export default function () {
+export default function (props: MountProps) {
     let ref1: TooltipRef;
     let btn1: ButtonRef;
     const [timeout, setTimeout] = createSignal<number>();
@@ -15,8 +16,11 @@ export default function () {
     const [posS, pos] = posSelector();
 
     return <>
-        {posS}
-        <input type="number" min={-1} max={5000} step={100} onChange={e => setTimeout(parseInt(e.target.value))} />
+        <Portal mount={props.mount}>
+            {posS}
+            <input type="number" min={-1} max={5000} step={100} onChange={e => setTimeout(parseInt(e.target.value))} />
+        </Portal>
+
         <Button palette='primary' ref={el => btn1 = el} onclick={() => ref1.show(btn1.element(), pos())}>show</Button>
         <Tooltip ref={el => ref1 = el} stays={timeout()}>
             <p>tooltip</p>

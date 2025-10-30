@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { cloneElement, fieldAccessor, TextField } from '@cmfx/components';
+import { cloneElement, fieldAccessor, TextField, MountProps, Button } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const txt = fieldAccessor('name', 'text');
 
     const [disabledS, disabled] = boolSelector('disabled');
@@ -19,15 +20,17 @@ export default function() {
     const prefix = <div class="bg-red-500 flex items-center">prefix</div>;
     const suffix = <div class="bg-red-500 flex items-center">suffix</div>;
 
-    return <div>
-        {paletteS}
-        {readonlyS}
-        {roundedS}
-        {disabledS}
-        {layoutS}
-        <button class="palette--primary" onClick={() => {
-            txt.setError(txt.getError() ? undefined : 'error');
-        }}>toggle error</button>
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {readonlyS}
+            {roundedS}
+            {disabledS}
+            {layoutS}
+            <Button palette="primary" onclick={() => {
+                txt.setError(txt.getError() ? undefined : 'error');
+            }}>toggle error</Button>
+        </Portal>
 
         <div class="flex flex-col gap-2 w-80">
             <TextField hasHelp layout={layout()} placeholder='placeholder' palette={palette()}
@@ -50,5 +53,5 @@ export default function() {
                 }}
             />
         </div>
-    </div>;
+    </>;
 }

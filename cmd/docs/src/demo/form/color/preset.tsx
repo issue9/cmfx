@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, OKLCHPanel, OKLCHPicker } from '@cmfx/components';
+import { fieldAccessor, OKLCHPanel, OKLCHPicker, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
     const [roundedS, rounded] = boolSelector('rounded');
     const [paletteS, palette] = paletteSelector();
@@ -17,11 +18,13 @@ export default function() {
     const wcag = fieldAccessor('wcag', 'oklch(1% 0.11 10)');
 
     return <div>
-        {paletteS}
-        {layoutS}
-        {roundedS}
-        {readonlyS}
-        {disabledS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {layoutS}
+            {roundedS}
+            {readonlyS}
+            {disabledS}
+        </Portal>
 
         <OKLCHPicker readonly={readonly()} disabled={disabled()} palette={palette()} layout={layout()} accessor={wcag} label='wcag' rounded={rounded()} />
         <OKLCHPanel readonly={readonly()} disabled={disabled()} palette={palette()} accessor={color} wcag={wcag.getValue()} presets={[

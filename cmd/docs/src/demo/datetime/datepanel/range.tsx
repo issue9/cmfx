@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DateRangePanel, DateRangeValueType, datetimePluginLunar, Week } from '@cmfx/components';
+import { Button, DateRangePanel, DateRangeValueType, datetimePluginLunar, Week, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const now = new Date();
     const min = new Date(now.getFullYear(), now.getMonth()-2, now.getDate());
     const max = new Date(now.getFullYear(), now.getMonth()+2, now.getDate());;
@@ -21,27 +22,28 @@ export default function() {
     const [minmaxS, minmax] = boolSelector('minmax');
     const [shortcutS, shortcut] = boolSelector('shortcuts(range)');
 
-
     const [range, setRange] = createSignal<DateRangeValueType>();
 
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        {weekendS}
-        {minmaxS}
-        {weeksS}
-        {shortcutS}
-        <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
-        <Button onclick={() => {
-            setRange();
-        }}>set undefined</Button>
-        <Button onclick={() => {
-            const now = new Date();
-            const next = new Date(now);
-            next.setMonth(next.getMonth() + 1);
-            setRange([now, next]);
-        }}>now</Button>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            {weekendS}
+            {minmaxS}
+            {weeksS}
+            {shortcutS}
+            <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
+            <Button onclick={() => {
+                setRange();
+            }}>set undefined</Button>
+            <Button onclick={() => {
+                const now = new Date();
+                const next = new Date(now);
+                next.setMonth(next.getMonth() + 1);
+                setRange([now, next]);
+            }}>now</Button>
+        </Portal>
 
         <div title="range panel" class="flex items-start">
             <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}

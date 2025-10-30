@@ -33,16 +33,4 @@
             }
         }
     }
-
-    fieldset.radio-selector {
-        @apply border flex flex-wrap px-2 py-1;
-
-        >label {
-            @apply me-4;
-
-            >input {
-                @apply me-1;
-            }
-        }
-    }
 }

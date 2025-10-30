@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceOption, fieldAccessor, TextField } from '@cmfx/components';
+import { Choice, ChoiceOption, fieldAccessor, TextField, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const mfa = fieldAccessor<Array<number>>('choice', [1,2]);
     const multipleOptions: Array<ChoiceOption<number>> = [
         { type: 'item', value: 1, label: <div>abc</div> },
@@ -38,15 +39,17 @@ export default function() {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        {roundedS}
-        {layoutS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            {roundedS}
+            {layoutS}
 
-        <button class="palette--primary" onClick={() => {
-            mfa.setError(mfa.getError() ? undefined : 'error');
-        }}>toggle error</button>
+            <button class="palette--primary" onClick={() => {
+                mfa.setError(mfa.getError() ? undefined : 'error');
+            }}>toggle error</button>
+        </Portal>
 
         <div class="flex flex-row gap-5">
             <Choice layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />

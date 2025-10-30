@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Layout, layouts, Palette, palettes } from '@cmfx/components';
+import { Checkbox, Choice, ChoiceOption, fieldAccessor, Layout, layouts, Palette, palettes } from '@cmfx/components';
 import { PopoverPosition } from '@cmfx/core';
-import { Accessor, createSignal, createUniqueId, For, JSX, Setter } from 'solid-js';
-
-import styles from './style.module.css';
+import { Accessor, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
 
 export const palettesWithUndefined = [...palettes, undefined] as const;
 
@@ -25,8 +23,9 @@ export function posSelector(
 export function boolSelector(
     label: string, preset: boolean = false
 ): [JSX.Element, Accessor<boolean>, Setter<boolean>] {
-    const [get, set] = createSignal(preset);
-    return [<label><input checked={get()} type="checkbox" onChange={() => set(!get())} />{label}</label>, get, set];
+    const [get,set] = createSignal(preset);
+    const chk = <Checkbox checked={get()} onChange={v=>set(!!v)} label={label} />;
+    return [chk, get, set];
 }
 
 /**
@@ -46,21 +45,17 @@ export function layoutSelector(label: string, preset?: Layout)
 export function arraySelector<T extends string|number|undefined>(
     label: string, array: ReadonlyArray<T>, preset: T
 ): [JSX.Element, Accessor<T>, Setter<T>] {
-    const [get, set] = createSignal<T>(preset);
+    const signal = createSignal<T>(preset);
 
+    const options: Array<ChoiceOption<T>> = array.map(item => {
+        return {
+            type: 'item',
+            value: item,
+            label: item ?? 'undefined'
+        };
+    });
     const name = createUniqueId(); // 保证一组 radio 一个独立的名称
-    const elem = <fieldset class={styles['radio-selector']}>
-        <legend>{label}</legend>
-        <For each={array}>
-            {item => <label>
-                <input type="radio" name={name}
-                    value={item} onClick={() => set(item as any)}
-                    checked={get() === item}
-                />{item !== undefined ? item : 'undefined'}
-            </label>
-            }
-        </For>
-    </fieldset>;
+    const elem = <Choice layout='horizontal' label={label} accessor={fieldAccessor(name, signal)} options={options} />;
 
-    return [elem, get, set];
+    return [elem, signal[0], signal[1]];
 }

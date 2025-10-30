@@ -15,12 +15,12 @@
         ul.item {
             @apply overflow-y-hidden h-full w-10;
 
-            li {
-                @apply rounded-sm m-[1px] text-center cursor-default;
+            >li {
+                @apply rounded-sm m-px text-center cursor-default;
                 @apply transition;
             }
 
-            li.selected {
+            >li.selected {
                 @apply bg-palette-bg-selected;
             }
         }
@@ -30,7 +30,7 @@
         ul.item {
             @apply overflow-y-scroll;
 
-            li:hover {
+            >li:hover {
                 @apply bg-palette-bg-focused cursor-pointer;
             }
         }

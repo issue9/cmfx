@@ -13,7 +13,7 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/datetime/week' api={api} stages={[
-        { component: <C1 />, source: s1, title: 'week' },
+        { component: C1, source: s1, title: 'week' },
     ]}>
     </Stages>;
 }

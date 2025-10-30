@@ -2,19 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Scheme, schemes, SchemeSelector } from '@cmfx/components';
+import { Scheme, schemes, SchemeSelector, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const s = new Map<string, Scheme>([
         ['Green', schemes.green],
         ['Purple', schemes.purple]
     ]);
 
-    return <div>
-        {paletteS}
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+        </Portal>
+
         <SchemeSelector value='default' palette={palette()} schemes={s} />
-    </div>;
+    </>;
 }

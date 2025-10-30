@@ -3,23 +3,22 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    AnimationIcon, AnimationIconRef, AnimationIconRotation, Button, animationIconRotations
+    AnimationIcon, AnimationIconRef, AnimationIconRotation, Button, animationIconRotations, MountProps
 } from '@cmfx/components';
-import { For, createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
 import IconPerson from '~icons/material-symbols/person';
+import { arraySelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     let aref: AnimationIconRef;
-    const [rotation, setRotation] = createSignal<AnimationIconRotation>('none');
+    const [rotationS, rotation] = arraySelector<AnimationIconRotation>('rotation', animationIconRotations, 'none');
 
     return <div>
-        <select name="rotation" onChange={e => setRotation(e.target.value as AnimationIconRotation)}>
-            <For each={animationIconRotations}>
-                {item => <option value={item}>{item}</option>}
-            </For>
-        </select>
+        <Portal mount={props.mount}>
+            {rotationS}
+        </Portal>
 
         <Button>
             <AnimationIcon class="w-8 aspect-square" ref={el => aref = el} icons={{

@@ -16,8 +16,8 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/counter' api={api} stages={[
-        { component: <C1 />, source: s1, title: 'basic' },
-        { component: <C2 />, source: s2, title: 'formatter' },
+        { component: C1, source: s1, title: 'basic' },
+        { component: C2, source: s2, title: 'formatter' },
     ]}>
     </Stages>;
 }

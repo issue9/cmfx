@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, MenuItem } from '@cmfx/components';
+import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
 
     const items: Array<MenuItem<string>> = [
@@ -48,7 +49,10 @@ export default function() {
     ];
 
     return <div>
-        {paletteS}
+        <Portal mount={props.mount}>
+            {paletteS}
+        </Portal>
+
         <Dropdown palette={palette()} items={items}
             trigger='click' onPopover={() => true}>
             <div class="bg-primary-bg text-primary-fg w-10 h-10">click</div>

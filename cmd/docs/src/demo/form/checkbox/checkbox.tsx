@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Checkbox } from '@cmfx/components';
+import { Checkbox, MountProps } from '@cmfx/components';
 import { createSignal, For } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, palettesWithUndefined } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [blockS, block] = boolSelector('block');
@@ -17,10 +18,13 @@ export default function() {
     const onchange = (v?: boolean): void => { setChk(v); };
 
     return <div>
-        {readonlyS}
-        {disabledS}
-        {blockS}
-        {roundedS}
+        <Portal mount={props.mount}>
+            {readonlyS}
+            {disabledS}
+            {blockS}
+            {roundedS}
+        </Portal>
+
         <div>
             <For each={palettesWithUndefined}>
                 {(item) => (
@@ -34,7 +38,7 @@ export default function() {
         <div>
             <Checkbox rounded={rounded()} indeterminate title='onchange' label='事件：onchange'
                 onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
-            <div>{ chk() ? 'checked' : 'unchecked' }</div>
+            <div>{chk() ? 'checked' : 'unchecked'}</div>
         </div>
     </div>;
 }

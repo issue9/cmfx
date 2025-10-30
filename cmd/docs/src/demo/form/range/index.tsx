@@ -19,9 +19,9 @@ import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/form/range' api={api} stages={[
-        { component: <Basic />, source: basic, title: 'basic' },
-        { component: <Step />, source: step, title: 'step' },
-        { component: <Mark />, source: mark, title: 'mark' },
+        { component: Basic, source: basic, title: 'basic' },
+        { component: Step, source: step, title: 'step' },
+        { component: Mark, source: mark, title: 'mark' },
     ]}>
     </Stages>;
 }

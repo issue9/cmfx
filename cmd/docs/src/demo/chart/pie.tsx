@@ -2,15 +2,18 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { PieChart } from '@cmfx/components';
+import { PieChart, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
 
     return <div>
-        {paletteS}
+        <Portal mount={props.mount}>
+            {paletteS}
+        </Portal>
 
         <div>
             <PieChart palette={palette()} tooltip legend='left' radius={['30%', '50%']} padding={5} borderRadius={5}

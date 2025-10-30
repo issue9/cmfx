@@ -16,8 +16,8 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/config/theme' api={api} stages={[
-        { component: <C1 />, source: s1, title: 'ThemeProvider' },
-        { component: <C2 />, source: s2, title: '修改全局主题' },
+        { component: C1, source: s1, title: 'ThemeProvider' },
+        { component: C2, source: s2, title: '修改全局主题' },
     ]}>
     </Stages>;
 }

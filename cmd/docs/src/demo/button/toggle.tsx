@@ -2,8 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ButtonKind, buttonKinds, ToggleButton, ToggleFullScreenButton, ToggleFitScreenButton } from '@cmfx/components';
+import {
+    ButtonKind, buttonKinds, ToggleButton, ToggleFullScreenButton, ToggleFitScreenButton, MountProps
+} from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
+import { Portal } from 'solid-js/web';
 import { Accessor, JSX, Setter } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -14,7 +17,7 @@ export function kindSelector(v: ButtonKind = 'fill'): [JSX.Element, Accessor<But
     return arraySelector('风格', buttonKinds, v);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [kindS, kind] = kindSelector('fill');
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
@@ -25,9 +28,11 @@ export default function() {
     let toggleFlag2 = false;
 
     return <div>
-        {kindS}
-        {disabledS}
-        {roundedS}
+        <Portal mount={props.mount}>
+            {kindS}
+            {disabledS}
+            {roundedS}
+        </Portal>
 
         <div class="flex flex-wrap items-center gap-2">
             <ToggleButton animation square disabled={disabled()} rounded={rounded()}

@@ -3,12 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 
-import { fieldAccessor, FieldOptions, Palette, RadioGroup } from '@cmfx/components';
+import { fieldAccessor, FieldOptions, Palette, RadioGroup, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, palettesWithUndefined } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [change, setChange] = createSignal<string>('');
     const f = fieldAccessor<Palette>('name', 'secondary');
     f.onChange((v, o) => setChange(`new: ${v}, old: ${o}`));
@@ -28,14 +29,16 @@ export default function() {
         }
     });
 
-    return <div>
-        {readonlyS}
-        {disabledS}
-        {layoutS}
-        {itemLayoutS}
-        {blockS}
-        {roundedS}
-        <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+    return <>
+        <Portal mount={props.mount}>
+            {readonlyS}
+            {disabledS}
+            {layoutS}
+            {itemLayoutS}
+            {blockS}
+            {roundedS}
+            <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+        </Portal>
 
         <div>
             <RadioGroup hasHelp rounded={rounded()} label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
@@ -43,5 +46,5 @@ export default function() {
             />
             <span>{change()}</span>
         </div>
-    </div>;
+    </>;
 }

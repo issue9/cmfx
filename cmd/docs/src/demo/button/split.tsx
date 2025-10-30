@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ButtonKind, buttonKinds, SplitButton, SplitButtonItem } from '@cmfx/components';
+import { ButtonKind, buttonKinds, SplitButton, SplitButtonItem, MountProps } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import { Accessor, For, JSX, Setter } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector, palettesWithUndefined } from '../base';
 
@@ -12,15 +13,17 @@ export function kindSelector(v: ButtonKind = 'fill'): [JSX.Element, Accessor<But
     return arraySelector('风格', buttonKinds, v);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [kindS, kind] = kindSelector('fill');
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 
     return <div>
-        {kindS}
-        {disabledS}
-        {roundedS}
+        <Portal mount={props.mount}>
+            {kindS}
+            {disabledS}
+            {roundedS}
+        </Portal>
 
         <div class="flex flex-wrap items-center gap-2">
             <For each={palettesWithUndefined}>

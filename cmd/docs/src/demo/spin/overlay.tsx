@@ -2,18 +2,21 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Spin } from '@cmfx/components';
+import { Button, Spin, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { boolSelector, paletteSelector } from '../base';
 
-export default function () {
+export default function (props: MountProps) {
     const [spinningS, spinning] = boolSelector('spinning', false);
     const [paletteS, palette] = paletteSelector('primary');
 
     return <div>
-        {paletteS}
-        {spinningS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {spinningS}
+        </Portal>
 
         <Spin palette={palette()} indicator={<IconFace />} spinning={spinning()}
             class="border border-palette-border flex gap-2 p-2"

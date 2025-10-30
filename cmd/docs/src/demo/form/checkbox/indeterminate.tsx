@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Checkbox } from '@cmfx/components';
+import { Button, Checkbox, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [blockS, block] = boolSelector('block');
@@ -16,10 +17,13 @@ export default function() {
     const [i, setI] = createSignal<boolean>(true);
 
     return <div>
-        {readonlyS}
-        {disabledS}
-        {blockS}
-        {roundedS}
+        <Portal mount={props.mount}>
+            {readonlyS}
+            {disabledS}
+            {blockS}
+            {roundedS}
+        </Portal>
+
         <Checkbox indeterminate={i()} title='indeterminate' rounded={rounded()}
             label='indeterminate' block={block()} disabled={disabled()} readonly={readonly()} />
         <Button onclick={() => setI(!i())}>indeterminate - {i() ? 'true' : 'false'}</Button>

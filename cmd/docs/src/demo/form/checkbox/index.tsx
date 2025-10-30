@@ -19,9 +19,9 @@ import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/form/checkbox' api={api} stages={[
-        { component: <Checkbox />, source: checkbox, title: 'checkbox' },
-        { component: <Group />, source: group, title: 'checkbox group' },
-        { component: <Indeterminate />, source: indeterminate, title: 'indeterminate' },
+        { component: Checkbox, source: checkbox, title: 'checkbox' },
+        { component: Group, source: group, title: 'checkbox group' },
+        { component: Indeterminate, source: indeterminate, title: 'indeterminate' },
     ]}>
     </Stages>;
 }

@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { YearPanel } from '@cmfx/components';
+import { YearPanel, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
@@ -18,10 +19,12 @@ export default function() {
 
     const now = new Date();
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        {minmaxS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            {minmaxS}
+        </Portal>
 
         <div title="panel" class="flex items-start">
             <YearPanel palette={palette()} readonly={readonly()} disabled={disabled()} value={year()}

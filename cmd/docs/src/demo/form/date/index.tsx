@@ -19,9 +19,9 @@ import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/form/date' api={api} stages={[
-        { component: <Date />, source: date, title: 'date' },
-        { component: <Range />, source: range, title: 'range' },
-        { component: <Week />, source: week, title: 'week' },
+        { component: Date, source: date, title: 'date' },
+        { component: Range, source: range, title: 'range' },
+        { component: Week, source: week, title: 'week' },
     ]}>
     </Stages>;
 }

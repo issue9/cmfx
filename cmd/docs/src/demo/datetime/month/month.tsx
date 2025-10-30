@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, MonthPanel } from '@cmfx/components';
+import { Button, MonthPanel, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
@@ -18,12 +19,14 @@ export default function() {
 
     const now = new Date();
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        {minmaxS}
-        <Button onclick={() => setMonthValue()}>set undefined</Button>
-        <Button onclick={() => setMonthValue(new Date())}>current</Button>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            {minmaxS}
+            <Button onclick={() => setMonthValue()}>set undefined</Button>
+            <Button onclick={() => setMonthValue(new Date())}>current</Button>
+        </Portal>
 
         <div title="panel" class="flex items-start">
             <MonthPanel palette={palette()} readonly={readonly()} disabled={disabled()} value={month()}

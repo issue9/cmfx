@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, Password } from '@cmfx/components';
+import { fieldAccessor, Password, MountProps, Button } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const pwd = fieldAccessor('name', 'pwd');
 
     const [disabledS, disabled] = boolSelector('disabled');
@@ -17,14 +18,16 @@ export default function() {
     const [paletteS, palette] = paletteSelector();
 
     return <div>
-        {paletteS}
-        {readonlyS}
-        {roundedS}
-        {disabledS}
-        {layoutS}
-        <button class="palette--primary" onClick={() => {
-            pwd.setError(pwd.getError() ? undefined : 'error');
-        }}>toggle error</button>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {readonlyS}
+            {roundedS}
+            {disabledS}
+            {layoutS}
+            <Button palette="primary" onclick={() => {
+                pwd.setError(pwd.getError() ? undefined : 'error');
+            }}>toggle error</Button>
+        </Portal>
 
         <Password hasHelp layout={layout()} placeholder='placeholder' label="password"
             prefix={<IconFace class='self-center' />} palette={palette()} disabled={disabled()}

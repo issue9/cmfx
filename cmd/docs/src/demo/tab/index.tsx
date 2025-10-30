@@ -25,11 +25,11 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/tab' api={api} stages={[
-        { component: <C1 />, source: s1, layout: 'horizontal', title: '横向' },
-        { component: <C2 />, source: s2, layout: 'horizontal', title: '纵向' },
-        { component: <C3 />, source: s3, layout: 'horizontal', title: '带面板' },
-        { component: <C4 />, source: s4, layout: 'horizontal', title: '纵向滚动' },
-        { component: <C5 />, source: s5, layout: 'horizontal', title: '横向滚动' },
+        { component: C1, source: s1, layout: 'horizontal', title: '横向' },
+        { component: C2, source: s2, layout: 'horizontal', title: '纵向' },
+        { component: C3, source: s3, layout: 'horizontal', title: '带面板' },
+        { component: C4, source: s4, layout: 'horizontal', title: '纵向滚动' },
+        { component: C5, source: s5, layout: 'horizontal', title: '横向滚动' },
     ]}>
     </Stages>;
 }

@@ -13,7 +13,7 @@ import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/form/textarea' api={api} stages={[
-        { component: <Textarea />, source: textarea, title: 'textarea' },
+        { component: Textarea, source: textarea, title: 'textarea' },
     ]}>
     </Stages>;
 }

@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 
-import { FieldOptions, Palette, Radio } from '@cmfx/components';
+import { FieldOptions, Palette, Radio, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, palettesWithUndefined } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [blockS, block] = boolSelector('block');
@@ -22,16 +23,18 @@ export default function() {
         }
     });
 
-    return <div>
-        {readonlyS}
-        {disabledS}
-        {blockS}
-        {roundedS}
+    return <>
+        <Portal mount={props.mount}>
+            {readonlyS}
+            {disabledS}
+            {blockS}
+            {roundedS}
+        </Portal>
 
         <div>
             <input type="radio" name="radio1" value="option1" tabindex={0} readonly={readonly()} disabled={disabled()} />
             <input type="radio" name="radio1" value="option2" tabindex={0} readonly={readonly()} disabled={disabled()} />
             <Radio name="radio1" label="Radio" block={block()} tabindex={0} rounded={rounded()} value="option3" readonly={readonly()} disabled={disabled()} />
         </div>
-    </div>;
+    </>;
 }

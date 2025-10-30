@@ -16,8 +16,8 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/typography' api={api} stages={[
-        { component: <C1 />, source: s1, title: 'label' },
-        { component: <C2 />, source: s2, title: 'description' },
+        { component: C1, source: s1, title: 'label' },
+        { component: C2, source: s2, title: 'description' },
     ]}>
     </Stages>;
 }

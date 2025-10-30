@@ -40,8 +40,9 @@
                 @apply mt-4 mb-2;
             }
 
-            ul,
-            ol {
+            /* 限定在 p 元素之内，以免其它展示组件的元素被涉及。 */
+            p ul,
+            p ol {
                 @apply ps-1 list-inside list-disc;
             }
 
@@ -80,7 +81,19 @@
 
                         >.toolbar {
                             @apply w-full pb-2 border border-transparent border-b-palette-border mb-8;
-                            @apply flex gap-2 justify-start;
+                            @apply flex gap-2 justify-start flex-wrap;
+
+                            >.left {
+                                @apply flex gap-2 justify-start;
+                            }
+
+                            >.right {
+                                @apply flex gap-2 justify-start;
+
+                                >div { /* 这是由 Portal 额外添加的，需要将其内容进行过滤 */
+                                    @apply contents;
+                                }
+                            }
                         }
 
                         .component {

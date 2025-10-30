@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Column, LoaderTable, TextField } from '@cmfx/components';
+import { Button, Column, LoaderTable, TextField, MountProps } from '@cmfx/components';
 import { Page, Query, sleep } from '@cmfx/core';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
 
@@ -48,7 +49,7 @@ const pagingLoader = async (oa: Q): Promise<Page<Item>> => {
     };
 };
 
-export default function () {
+export default function (props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
     const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', true);
@@ -61,9 +62,11 @@ export default function () {
     ];
 
     return <>
-        {paletteS}
-        {fixedLayoutS}
-        {systemToolbarS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {fixedLayoutS}
+            {systemToolbarS}
+        </Portal>
 
         <LoaderTable accentPalette='primary' paging systemToolbar={systemToolbar()}
             inSearch

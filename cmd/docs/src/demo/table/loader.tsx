@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, LoaderTable } from '@cmfx/components';
+import { Column, LoaderTable, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import { sleep } from '@cmfx/core';
 
 import { boolSelector, paletteSelector } from '../base';
@@ -28,7 +29,7 @@ const nopagingLoader = async (_: {}): Promise<Array<Item>> => {
 };
 
 
-export default function () {
+export default function (props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
     const [systemToolbarS, systemToolbar] = boolSelector('systemToolbar', true);
@@ -41,9 +42,12 @@ export default function () {
     ];
 
     return <>
-        {paletteS}
-        {fixedLayoutS}
-        {systemToolbarS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {fixedLayoutS}
+            {systemToolbarS}
+        </Portal>
+
         <LoaderTable systemToolbar={systemToolbar()}
             fixedLayout={fixedLayout()}
             palette={palette()}

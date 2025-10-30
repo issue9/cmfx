@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { fieldAccessor, OKLCHPanel } from '@cmfx/components';
+import { fieldAccessor, OKLCHPanel, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [readonlyS, readonly] = boolSelector('readonly');
     const [disabledS, disabled] = boolSelector('disabled');
@@ -14,9 +15,12 @@ export default function() {
     const color = fieldAccessor('color', 'oklch(1% 0.3 100)');
 
     return <div>
-        {paletteS}
-        {readonlyS}
-        {disabledS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {readonlyS}
+            {disabledS}
+        </Portal>
+
         <OKLCHPanel readonly={readonly()} disabled={disabled()} palette={palette()} accessor={color} />
     </div>;
 }

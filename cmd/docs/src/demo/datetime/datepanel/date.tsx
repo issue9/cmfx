@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, DatePanel, datetimePluginLunar, Week } from '@cmfx/components';
+import { Button, DatePanel, datetimePluginLunar, Week, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const now = new Date();
     const min = new Date(now.getFullYear(), now.getMonth()-2, now.getDate());
     const max = new Date(now.getFullYear(), now.getMonth()+2, now.getDate());;
@@ -27,25 +28,27 @@ export default function() {
     const [valWithTimeShow, setValWithTimeShow] = createSignal<string>('');
 
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        {weekendS}
-        {minmaxS}
-        {timeS}
-        {weeksS}
-        <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
-        <Button onclick={() => {
-            setValue();
-            setValWithTime();
-        }}>set undefined</Button>
-        <Button onclick={() => {
-            const now = new Date();
-            const next = new Date(now);
-            next.setMonth(next.getMonth() + 1);
-            setValue(now);
-            setValWithTime(now);
-        }}>now</Button>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            {weekendS}
+            {minmaxS}
+            {timeS}
+            {weeksS}
+            <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于' value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
+            <Button onclick={() => {
+                setValue();
+                setValWithTime();
+            }}>set undefined</Button>
+            <Button onclick={() => {
+                const now = new Date();
+                const next = new Date(now);
+                next.setMonth(next.getMonth() + 1);
+                setValue(now);
+                setValWithTime(now);
+            }}>now</Button>
+        </Portal>
 
         <div title="panel" class="flex items-start flex-col">
             <DatePanel time={time()} min={minmax() ? min : undefined} max={minmax() ? max : undefined} weeks={weeks()}

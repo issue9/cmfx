@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BasicTable, Button, Column } from '@cmfx/components';
+import { BasicTable, Button, Column, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
 
@@ -12,7 +13,7 @@ interface Item {
     address: string;
 }
 
-export default function () {
+export default function (props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [loadingS, loading] = boolSelector('loading', false);
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
@@ -35,10 +36,12 @@ export default function () {
     ];
 
     return <>
-        {paletteS}
-        {loadingS}
-        {nodataS}
-        {fixedLayoutS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {loadingS}
+            {nodataS}
+            {fixedLayoutS}
+        </Portal>
 
         <BasicTable loading={loading()} fixedLayout={fixedLayout()} palette={palette()}
             items={nodata() ? [] : items} columns={columns}

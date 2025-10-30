@@ -19,9 +19,9 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/spin' api={api} stages={[
-        { component: <Spin />, source: spin, title: '基本功能' },
-        { component: <Indicator />, source: indicator, title: 'indicator' },
-        { component: <Overlay />, source: overlay, title: 'overlay' },
+        { component: Spin, source: spin, title: '基本功能' },
+        { component: Indicator, source: indicator, title: 'indicator' },
+        { component: Overlay, source: overlay, title: 'overlay' },
     ]}>
     </Stages>;
 }

@@ -2,14 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Result } from '@cmfx/components';
+import { Result, MountProps } from '@cmfx/components';
 import { Error404 } from '@cmfx/illustrations';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
-    return <Result layout='vertical' title='page not found' palette={palette()} illustration={<Error404 />}>
-        {paletteS}
-    </Result>;
+
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+        </Portal>
+
+        <Result layout='vertical' title='page not found' palette={palette()} illustration={<Error404 />} />
+    </>;
 }

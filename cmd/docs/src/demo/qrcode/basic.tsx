@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { QRCode, QRCodeCornerDotType, QRCodeCornerSquareType, QRCodeDotType } from '@cmfx/components';
+import { QRCode, QRCodeCornerDotType, QRCodeCornerSquareType, QRCodeDotType, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { arraySelector, paletteSelector } from '../base';
 
@@ -22,17 +23,20 @@ export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'squar
     return arraySelector<QRCodeCornerSquareType|undefined>('corner square type', [...cornerSquareTypes, undefined], preset);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [typeS, t] = typeSelector();
     const [ctypeS, ctype] = cornerTypeSelector();
     const [cstypeS, cstype] = cornerSquareTypeSelector();
 
-    return <div>
-        {paletteS}
-        {typeS}
-        {ctypeS}
-        {cstypeS}
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {typeS}
+            {ctypeS}
+            {cstypeS}
+        </Portal>
+
         <QRCode type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
-    </div>;
+    </>;
 }

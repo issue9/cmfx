@@ -28,12 +28,12 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/button' api={api} stages={[
-        { component: <Button />, source: button, title: 'button' },
-        { component: <Link />, source: link, title: 'link button' },
-        { component: <Toggle />, source: toggle, title: 'toggle button' },
-        { component: <Split />, source: split, title: 'split button' },
-        { component: <Block />, source: block, title: 'block' },
-        { component: <Group />, source: group, title: 'group' },
+        { component: Button, source: button, title: 'button' },
+        { component: Link, source: link, title: 'link button' },
+        { component: Toggle, source: toggle, title: 'toggle button' },
+        { component: Split, source: split, title: 'split button' },
+        { component: Block, source: block, title: 'block' },
+        { component: Group, source: group, title: 'group' },
     ]}>
     </Stages>;
 }

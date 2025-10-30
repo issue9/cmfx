@@ -13,7 +13,7 @@ import { Stages } from '../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/page' api={api} stages={[
-        { component: <C1 />, source: s1, title: '基本用法' },
+        { component: C1, source: s1, title: '基本用法' },
     ]}>
     </Stages>;
 }

@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceOption, fieldAccessor, TextField } from '@cmfx/components';
+import { Choice, ChoiceOption, fieldAccessor, TextField, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const fa = fieldAccessor<string|undefined>('choice', '1');
     const options: Array<ChoiceOption> = [
         { type: 'item', value: '1', label: <div>abc</div> },
@@ -23,15 +24,17 @@ export default function() {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        {roundedS}
-        {layoutS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            {roundedS}
+            {layoutS}
 
-        <button class="palette--primary" onClick={() => {
-            fa.setError(fa.getError() ? undefined : 'error');
-        }}>toggle error</button>
+            <button class="palette--primary" onClick={() => {
+                fa.setError(fa.getError() ? undefined : 'error');
+            }}>toggle error</button>
+        </Portal>
 
         <div class="flex flex-row gap-5">
             <Choice hasHelp layout={layout()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />

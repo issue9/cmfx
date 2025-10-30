@@ -2,14 +2,15 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, WeekPanel, WeekValueType } from '@cmfx/components';
+import { Button, WeekPanel, WeekValueType, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { getISOWeek } from '@cmfx/core';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
@@ -18,11 +19,13 @@ export default function() {
     const [valShow, setValShow] = createSignal<string>('');
 
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        <Button onclick={() => setValue()}>set undefined</Button>
-        <Button onclick={() => setValue(getISOWeek(new Date()))}>now</Button>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            <Button onclick={() => setValue()}>set undefined</Button>
+            <Button onclick={() => setValue(getISOWeek(new Date()))}>now</Button>
+        </Portal>
 
         <div title="panel" class="flex items-start flex-col">
             <WeekPanel palette={palette()} readonly={readonly()} disabled={disabled()} value={value()}

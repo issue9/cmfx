@@ -22,10 +22,10 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/badge' api={api} stages={[
-        { component: <C1 />, source: s1, title: '基本功能' },
-        { component: <C2 />, source: s2, title: '文本' },
-        { component: <C3 />, source: s3, title: '长文本' },
-        { component: <C4 />, source: s4, title: '图标' },
+        { component: C1, source: s1, title: '基本功能' },
+        { component: C2, source: s2, title: '文本' },
+        { component: C3, source: s3, title: '长文本' },
+        { component: C4, source: s4, title: '图标' },
     ]}>
     </Stages>;
 }

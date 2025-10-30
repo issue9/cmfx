@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, ButtonKind, buttonKinds } from '@cmfx/components';
+import { Button, ButtonGroup, ButtonKind, buttonKinds, MountProps } from '@cmfx/components';
 import { Accessor, JSX, Setter } from 'solid-js';
 import IconFace from '~icons/material-symbols/face';
+import { Portal } from 'solid-js/web';
 
 import { arraySelector, boolSelector } from '../base';
 
@@ -12,15 +13,18 @@ export function kindSelector(v: ButtonKind = 'fill'): [JSX.Element, Accessor<But
     return arraySelector('风格', buttonKinds, v);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [kindS, kind] = kindSelector('fill');
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 
     return <div>
-        {kindS}
-        {disabledS}
-        {roundedS}
+        <Portal mount={props.mount}>
+            {kindS}
+            {disabledS}
+            {roundedS}
+        </Portal>
+
         <div class="flex flex-col gap-y-2">
             <Button class="w-full" disabled={disabled()} rounded={rounded()} kind={kind()} palette='primary'>block</Button>
 

@@ -2,8 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, Code, joinClass, Layout, ThemeProvider, ToggleFitScreenButton } from '@cmfx/components';
-import { createEffect, createSignal, JSX, mergeProps, Show } from 'solid-js';
+import {
+    Button, ButtonGroup, Code, joinClass, MountProps, Layout, ThemeProvider, ToggleFitScreenButton
+} from '@cmfx/components';
+import { Component, createEffect, createSignal, JSX, mergeProps, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
 import IconRTL from '~icons/material-symbols/format-align-right-rounded';
@@ -19,8 +21,11 @@ export interface Props {
 
     /**
      * 源代码对应的组件
+     *
+     * @remarks 该组件可以接受一个 {@link MountProps} 类型作为组件的属性列表。
+     * 组件内可以通过 {@link MountProps.mount} 将设置项添加到工具栏上。
      */
-    component: JSX.Element;
+    component: Component<MountProps>;
 
     /**
      * 标题
@@ -66,6 +71,8 @@ export default function Stage(props: Props) {
         }
     });
 
+    let settingRef: HTMLElement;
+
     return <>
         <Show when={props.title}>{title => <h4>{title()}</h4>}</Show>
 
@@ -73,34 +80,42 @@ export default function Stage(props: Props) {
             <article class={styles.desc}>{desc()}</article>
         }</Show>
 
-        <div class={joinClass(undefined, styles.stage, props.layout === 'vertical' ? styles.vertical : '')} ref={setStageRef}>
+        <div ref={setStageRef}
+            class={joinClass(undefined, styles.stage, props.layout === 'vertical' ? styles.vertical : '')}
+        >
             <div class={styles.demo} ref={setDemoRef}
                 style={{ height: typeof props.height === 'number' ? `${props.height}px` : props.height }}
             >
                 <div class={styles.toolbar}>
-                    <ButtonGroup>
-                        <Button square checked={dir() === 'rtl'} onclick={() => { setDir('rtl'); }}>
-                            <IconRTL />
-                        </Button>
-                        <Button square checked={dir() === 'ltr'} onclick={() => { setDir('ltr'); }}>
-                            <IconLTR />
-                        </Button>
-                    </ButtonGroup>
+                    <div class={styles.left}>
+                        <ToggleFitScreenButton square container={demoRef()!} />
 
-                    <ButtonGroup>
-                        <Button square checked={mode() === 'dark'} onclick={() => { setMode('dark'); }}>
-                            <IconDark />
-                        </Button>
-                        <Button square checked={mode() === 'light'} onclick={() => { setMode('light'); }}>
-                            <IconLight />
-                        </Button>
-                    </ButtonGroup>
+                        <ButtonGroup>
+                            <Button square checked={dir() === 'rtl'} onclick={() => { setDir('rtl'); }}>
+                                <IconRTL />
+                            </Button>
+                            <Button square checked={dir() === 'ltr'} onclick={() => { setDir('ltr'); }}>
+                                <IconLTR />
+                            </Button>
+                        </ButtonGroup>
 
-                    <ToggleFitScreenButton square container={demoRef()!} />
+                        <ButtonGroup>
+                            <Button square checked={mode() === 'dark'} onclick={() => { setMode('dark'); }}>
+                                <IconDark />
+                            </Button>
+                            <Button square checked={mode() === 'light'} onclick={() => { setMode('light'); }}>
+                                <IconLight />
+                            </Button>
+                        </ButtonGroup>
+                    </div>
+
+                    <div class={styles.right} ref={el => settingRef = el} />
                 </div>
 
                 <ThemeProvider mode={mode()}>
-                    <div class={styles.component} dir={dir()}>{props.component}</div>
+                    <div class={styles.component} dir={dir()}>
+                        {props.component({ mount: settingRef! })}
+                    </div>
                 </ThemeProvider>
             </div>
 

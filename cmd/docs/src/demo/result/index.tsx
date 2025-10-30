@@ -25,11 +25,11 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/result' api={api} stages={[
-        { component: <C1 />, source: s1, title: 'horizontal' },
-        { component: <C2 />, source: s2, title: 'vertical' },
-        { component: <C3 />, source: s3, title: 'auto' },
-        { component: <C4 />, source: s4, height: 250, title: 'empty' },
-        { component: <C5 />, source: s5, height: 300, title: 'custom-empty' },
+        { component: C1, source: s1, title: 'horizontal' },
+        { component: C2, source: s2, title: 'vertical' },
+        { component: C3, source: s3, title: 'auto' },
+        { component: C4, source: s4, height: 250, title: 'empty' },
+        { component: C5, source: s5, height: 300, title: 'custom-empty' },
     ]}>
         用于是展示一操作的结果页
     </Stages>;

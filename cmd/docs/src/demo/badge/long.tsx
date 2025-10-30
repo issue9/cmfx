@@ -2,16 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Badge, badgeCorners, Button } from '@cmfx/components';
+import { Badge, badgeCorners, Button, MountProps } from '@cmfx/components';
 import { For } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
-export default function () {
+export default function (props: MountProps) {
     const [paletteS, palette] = paletteSelector();
 
     return <div>
-        {paletteS}
+        <Portal mount={props.mount}>
+            {paletteS}
+        </Portal>
+
         <div class="flex flex-wrap gap-3 justify-start">
             <For each={badgeCorners}>
                 {pos => (

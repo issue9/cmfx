@@ -13,7 +13,7 @@ import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/form/upload' api={api} stages={[
-        { component: <Upload />, source: upload, title: 'upload' },
+        { component: Upload, source: upload, title: 'upload' },
     ]}>
     </Stages>;
 }

@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, MenuItem } from '@cmfx/components';
+import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import { Hotkey } from '@cmfx/core';
 import IconFace from '~icons/material-symbols/face';
 
@@ -13,7 +14,7 @@ function selectedClassSelector(preset?: string) {
     return arraySelector('selected class', [styles.selected, '', undefined], preset);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
 
@@ -57,11 +58,14 @@ export default function() {
         },
     ];
 
-    return <div>
-        {paletteS}
-        {selectedClsS}
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {selectedClsS}
+        </Portal>
+
         <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>
             <div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
         </Dropdown>
-    </div>;
+    </>;
 }

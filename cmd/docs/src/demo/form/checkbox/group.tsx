@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { CheckboxGroup, fieldAccessor, FieldOptions } from '@cmfx/components';
+import { CheckboxGroup, fieldAccessor, FieldOptions, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
@@ -22,14 +23,16 @@ export default function() {
     ];
 
     return <div>
-        {readonlyS}
-        {disabledS}
-        {layoutS}
-        {itemLayoutS}
-        {blockS}
-        {roundedS}
+        <Portal mount={props.mount}>
+            {readonlyS}
+            {disabledS}
+            {layoutS}
+            {itemLayoutS}
+            {blockS}
+            {roundedS}
 
-        <button class="palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <button class="palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+        </Portal>
 
         <div>
             <CheckboxGroup hasHelp help="help text" layout={layout()} itemLayout={itemLayout()} rounded={rounded()}

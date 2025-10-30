@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Album, fieldAccessor } from '@cmfx/components';
+import { Album, fieldAccessor, MountProps, Button } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import { JSX } from 'solid-js';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function(): JSX.Element {
+export default function(props: MountProps): JSX.Element {
     const [paletteS, palette] = paletteSelector('secondary');
     const [disabledS, disabled] = boolSelector('disabled');
     const [reverseS, reverse] = boolSelector('reverse');
@@ -16,13 +17,15 @@ export default function(): JSX.Element {
 
     const basicA = fieldAccessor('upload', ['../../../../../../cmd/admin/public/icon.svg', './test.jpg']);
 
-    return <div>
-        {paletteS}
-        {disabledS}
-        {reverseS}
-        {autoS}
-        {layoutS}
-        <button class="palette--primary" onClick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</button>
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {reverseS}
+            {autoS}
+            {layoutS}
+            <Button palette="primary" onclick={() => basicA.setError(basicA.getError() ? undefined : 'error')}>toggle error</Button>
+        </Portal>
 
         <div title='basic'>
             <Album hasHelp layout={layout()} fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
@@ -33,5 +36,5 @@ export default function(): JSX.Element {
             <Album hasHelp layout={layout()} fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
                 action='./' accessor={basicA} />
         </div>
-    </div>;
+    </>;
 }

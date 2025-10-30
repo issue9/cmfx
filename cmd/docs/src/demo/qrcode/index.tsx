@@ -16,8 +16,8 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/qrcode' api={api} stages={[
-        { component: <C1 />, source: s1, title: '基本功能' },
-        { component: <C2 />, source: s2, title: '下载' },
+        { component: C1, source: s1, title: '基本功能' },
+        { component: C2, source: s2, title: '下载' },
     ]}>
     </Stages>;
 }

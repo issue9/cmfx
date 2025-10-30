@@ -2,31 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Divider, DividerProps } from '@cmfx/components';
-import { createSignal, For } from 'solid-js';
+import { Divider, DividerProps, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
-import { layoutSelector, paletteSelector } from '../base';
+import { arraySelector, layoutSelector, paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [layoutS, layout] = layoutSelector('布局', 'vertical');
-    const [pos, setPos] = createSignal<DividerProps['pos']>('start');
+    const [posS, pos] = arraySelector<DividerProps['pos']>('pos', ['start', 'center', 'end'], 'start');
 
-    return <div class="p-4">
-        {paletteS}
-        {layoutS}
-        <fieldset class="border-2">
-            <legend>位置</legend>
-            <For each={new Array<DividerProps['pos']>('start', 'center', 'end')}>
-                {(item) => (
-                    <label class="me-4">
-                        <input class="me-1" type="radio" name="type" value={item} onClick={() => setPos(item)} checked={pos() === item} />{item}
-                    </label>
-                )}
-            </For>
-        </fieldset>
-        <br /><br />
+    return <div>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {layoutS}
+            {posS}
+        </Portal>
 
         <div class="w-56 h-56">
             <Divider layout={layout()} palette={palette()} pos={pos()}>

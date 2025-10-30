@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { QRCode, QRCodeCornerDotType, Button, QRCodeCornerSquareType, QRCodeDotType, QRCodeRef } from '@cmfx/components';
+import {
+    QRCode, QRCodeCornerDotType, Button, QRCodeCornerSquareType, QRCodeDotType, QRCodeRef, MountProps
+} from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { arraySelector, paletteSelector } from '../base';
 
@@ -22,7 +25,7 @@ export function cornerSquareTypeSelector(preset: QRCodeCornerSquareType = 'squar
     return arraySelector<QRCodeCornerSquareType|undefined>('corner square type', [...cornerSquareTypes, undefined], preset);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [typeS, t] = typeSelector();
     const [ctypeS, ctype] = cornerTypeSelector();
@@ -30,16 +33,19 @@ export default function() {
 
     let ref: QRCodeRef;
 
-    return <div>
-        {paletteS}
-        {typeS}
-        {ctypeS}
-        {cstypeS}
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {typeS}
+            {ctypeS}
+            {cstypeS}
+        </Portal>
+
         <QRCode ref={el => ref = el} padding={10} type={t()} cornerDotType={ctype()} cornerSquareType={cstype()} palette={palette()} value="https://example.com" />
         <div class="w-full flex justify-between mt-5">
             <Button onclick={() => ref.download()}>png</Button>
             <Button onclick={() => ref.download('f1', 'jpeg')}>jpeg</Button>
             <Button onclick={() => ref.download('f1', 'svg')}>svg</Button>
         </div>
-    </div>;
+    </>;
 }

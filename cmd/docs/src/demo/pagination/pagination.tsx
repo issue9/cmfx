@@ -2,20 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Pagination } from '@cmfx/components';
+import { Pagination, Number, fieldAccessor, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [page, setPage] = createSignal('');
-    const [spans, setSpans] = createSignal(3);
+    const span = fieldAccessor('spans', 3);
 
     return <div>
-        {paletteS}
-        <input type="number" value={spans()} onchange={(e) => setSpans(parseInt(e.target.value))} placeholder='spans' />
-        <Pagination palette={palette()} count={10} value={5} spans={spans()}
+        <Portal mount={props.mount}>
+            {paletteS}
+            <Number class="w-20" accessor={span} />
+        </Portal>
+
+        <Pagination palette={palette()} count={10} value={5} spans={span.getValue()}
             onChange={(val, old) => { return setPage(`new:${val}, old:${old}`); }} />
         <pre>{page()}</pre>
     </div>;

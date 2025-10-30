@@ -2,19 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Code } from '@cmfx/components';
+import { Code, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [editableS, editable] = boolSelector('可编辑');
     const [wrapS, wrap] = boolSelector('自动换行');
 
     return <div>
-        {paletteS}
-        {editableS}
-        {wrapS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {editableS}
+            {wrapS}
+        </Portal>
+
         <Code wrap={wrap()} ln={21} class="w-100" palette={palette()} lang="tsx" editable={editable()} oninput={v => console.log(v)}>
             {`/*
  * SPDX-FileCopyrightText: 2025 caixw

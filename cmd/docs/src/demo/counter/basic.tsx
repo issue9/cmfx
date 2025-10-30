@@ -2,21 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Counter, CounterRef, fieldAccessor, Number } from '@cmfx/components';
-import { createSignal } from 'solid-js';
+import { Button, MountProps, Counter, CounterRef, fieldAccessor, Number } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     let ref: CounterRef;
-    const freq = createSignal(20);
-    const fa = fieldAccessor('freq', freq);
+    const fa = fieldAccessor('freq', 20);
 
     return <div>
-        {paletteS}
-        <Number accessor={fa} />
-        <Counter ref={el => ref = el} palette={palette()} value={500} frequency={freq[0]()} />
+        <Portal mount={props.mount}>
+            {paletteS}
+            <Number class="w-20" accessor={fa} />
+        </Portal>
+
+        <Counter ref={el => ref = el} palette={palette()} value={500} frequency={fa.getValue()} />
         <Button onclick={() => ref.play()}>play</Button>
     </div>;
 }

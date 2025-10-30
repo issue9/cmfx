@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AxisChart, AxisRef } from '@cmfx/components';
+import { AxisChart, AxisRef, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
 
@@ -16,7 +17,7 @@ const items: Array<Item> = [
     { name: 'name5', v1: 30, v2: 78 },
 ] as const;
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [smoothS, smooth] = boolSelector('smooth');
 
@@ -34,8 +35,10 @@ export default function() {
     }, 500);
 
     return <div>
-        {paletteS}
-        {smoothS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {smoothS}
+        </Portal>
 
         <div>
             <AxisChart palette={palette()} tooltip legend='right' selectedMode='single'

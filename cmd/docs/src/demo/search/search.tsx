@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Search } from '@cmfx/components';
+import { Search, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
 import { paletteSelector, boolSelector } from '../base';
 import { Hotkey } from '@cmfx/core';
 
-export default function () {
+export default function (props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [iconS, icon] = boolSelector('icon');
     const [clearS, clear] = boolSelector('clear');
@@ -20,12 +21,14 @@ export default function () {
         'abcdef4@example.com',
     ];
 
-    return <div>
-        {paletteS}
-        {iconS}
-        {clearS}
+    return <>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {iconS}
+            {clearS}
+        </Portal>
 
-        <Search icon={icon()} clear={clear()} palette={palette()} hotkey={new Hotkey('a','alt','control')} onSearch={async (v) => {
+        <Search icon={icon()} clear={clear()} palette={palette()} hotkey={new Hotkey('a', 'alt', 'control')} onSearch={async (v) => {
             if (!v) {
                 return items.map(vv => { return { type: 'a', label: vv, value: vv }; });
             }
@@ -33,5 +36,5 @@ export default function () {
             return items.filter(vv => vv.includes(v))
                 .map(vv => { return { type: 'a', label: vv, value: vv }; });
         }} />
-    </div>;
+    </>;
 }

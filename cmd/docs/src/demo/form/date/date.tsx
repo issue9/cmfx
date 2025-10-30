@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DatePicker, fieldAccessor, Week } from '@cmfx/components';
+import { DatePicker, fieldAccessor, Week, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const ac = fieldAccessor<Date, 'date'>('dp', new Date('2024-01-02T15:34'));
     const ac2 = fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
 
@@ -24,16 +25,18 @@ export default function() {
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <div>
-        {paletteS}
-        {timeS}
-        {disabledS}
-        {readonlyS}
-        {weekendS}
-        {roundedS}
-        {minmaxS}
-        {layoutS}
-        <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于'
-            value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
+        <Portal mount={props.mount}>
+            {paletteS}
+            {timeS}
+            {disabledS}
+            {readonlyS}
+            {weekendS}
+            {roundedS}
+            {minmaxS}
+            {layoutS}
+            <input type="number" min="0" max="6" class="w-40" placeholder='每周起始于'
+                value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
+        </Portal>
 
         <div>
             <DatePicker class="w-[400px]" placeholder='placeholder' layout={layout()}

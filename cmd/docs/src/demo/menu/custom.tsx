@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dropdown, DropdownRef, MenuItem } from '@cmfx/components';
+import { Button, Dropdown, DropdownRef, MenuItem, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import IconFace from '~icons/material-symbols/face';
 
 import { arraySelector, paletteSelector } from '../base';
@@ -12,7 +13,7 @@ function selectedClassSelector(preset?: string) {
     return arraySelector('selected class', [styles.selected, '', undefined], preset);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
 
@@ -59,8 +60,11 @@ export default function() {
     let ref: DropdownRef;
 
     return <div>
-        {paletteS}
-        {selectedClsS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {selectedClsS}
+        </Portal>
+
         <Button onclick={() => ref.show()}>show</Button>
         <Button onclick={() => ref.hide()}>hide</Button>
         <br />

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, MenuItem } from '@cmfx/components';
+import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
 import { Hotkey } from '@cmfx/core';
 import IconFace from '~icons/material-symbols/face';
+import { Portal } from 'solid-js/web';
 
 import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
@@ -13,7 +14,7 @@ function selectedClassSelector(preset?: string) {
     return arraySelector('selected class', [styles.selected, '', undefined], preset);
 }
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [selectedClsS, selectedCls] = selectedClassSelector(undefined);
 
@@ -58,8 +59,11 @@ export default function() {
     ];
 
     return <div>
-        {paletteS}
-        {selectedClsS}
+        <Portal mount={props.mount}>
+            {paletteS}
+            {selectedClsS}
+        </Portal>
+
         <Dropdown selectedClass={selectedCls()} palette={palette()}
             items={items} trigger='hover' onPopover={e => { console.log('visible:', e); return false; }}>
             <div class="bg-primary-bg text-primary-fg w-full h-full">hover</div>

@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, TimePanel } from '@cmfx/components';
+import { Button, TimePanel, MountProps } from '@cmfx/components';
 import { createSignal } from 'solid-js';
+import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../../base';
 
-export default function() {
+export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector('primary');
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
@@ -16,11 +17,13 @@ export default function() {
     const [valShow, setValShow] = createSignal<string>('');
 
     return <div>
-        {paletteS}
-        {disabledS}
-        {readonlyS}
-        <Button onclick={() => setValue()}>set undefined</Button>
-        <Button onclick={() => setValue(new Date())}>now</Button>
+        <Portal mount={props.mount}>
+            {paletteS}
+            {disabledS}
+            {readonlyS}
+            <Button onclick={() => setValue()}>set undefined</Button>
+            <Button onclick={() => setValue(new Date())}>now</Button>
+        </Portal>
 
         <div class="flex items-start flex-col">
             <TimePanel palette={palette()} readonly={readonly()} disabled={disabled()} value={val()}

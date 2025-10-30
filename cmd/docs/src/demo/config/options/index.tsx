@@ -13,7 +13,7 @@ import { default as api } from './api.json';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/config/options' api={api} stages={[
-        { component: <C1 />, source: s1, title: 'config' },
+        { component: C1, source: s1, title: 'config' },
     ]}>
         经由 `run` 方法传入的一个全局性配置对象。
     </Stages>;
