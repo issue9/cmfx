@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor,
-    ObjectAccessor, QRCode, TextField
+    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor, ObjectAccessor, QRCode, TextField
 } from '@cmfx/components';
 import { base32nopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';

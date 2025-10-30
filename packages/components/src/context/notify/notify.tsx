@@ -6,7 +6,7 @@ import { sleep } from '@cmfx/core';
 import { JSX, mergeProps, ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
-import { BaseProps, joinClass, Palette } from '@/base';
+import { BaseProps, joinClass, MountProps, Palette } from '@/base';
 import { useComponents } from '@/context';
 import { Alert } from './alert';
 import styles from './style.module.css';
@@ -39,12 +39,7 @@ export async function notify(
     return await notifyInst(title, body, type, lang, timeout);
 }
 
-export interface Props extends BaseProps, ParentProps {
-    /**
-     * 挂载位置，默认为 body
-     */
-    mount?: Node;
-}
+export type Props = BaseProps & ParentProps & MountProps;
 
 /**
  * 注册全局通知组件

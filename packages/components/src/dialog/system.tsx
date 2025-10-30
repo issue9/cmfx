@@ -5,17 +5,12 @@
 import { createSignal, JSX, ParentProps } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { BaseProps } from '@/base';
+import { BaseProps, MountProps } from '@/base';
 import { useComponents } from '@/context';
 import { fieldAccessor, TextField } from '@/form';
 import { Dialog, Ref } from './dialog';
 
-export interface Props extends BaseProps, ParentProps {
-    /**
-     * 挂载位置，默认为 body
-     */
-    mount?: Node;
-}
+export type Props = BaseProps & ParentProps & MountProps;
 
 interface DialogProps extends BaseProps { header?: string; }
 

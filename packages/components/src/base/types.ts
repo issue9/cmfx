@@ -54,3 +54,13 @@ export interface RefProps<REF> {
      */
     ref?: { (m: REF): void };
 }
+
+/**
+ * 为 Portal 组件指定的挂载属性
+ */
+export interface MountProps {
+    /**
+     * 为 Portal 指定挂载位置
+     */
+    mount?: Node;
+}

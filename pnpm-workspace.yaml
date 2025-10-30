@@ -14,7 +14,7 @@ catalog:
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
   '@types/node': ^24.9.2
-  '@vitest/coverage-v8': ^4.0.4
+  '@vitest/coverage-v8': ^4.0.5
   autoprefixer: ^10.4.21
   bowser: ^2.12.1
   colorjs.io: ^0.5.2
@@ -29,7 +29,7 @@ catalog:
   vite-plugin-dts: ^4.5.4
   vite-plugin-solid: ^2.11.10
   vite-plugin-static-copy: ^3.1.4
-  vitest: ^4.0.4
+  vitest: ^4.0.5
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.8.1
 
