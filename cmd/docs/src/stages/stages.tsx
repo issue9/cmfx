@@ -96,6 +96,10 @@ export default function Stages(props: Props):JSX.Element {
     </Page>;
 }
 
+function tscode(code?: string): string {
+    return code ? markdown('```ts\n' + code + '\n```') : '';
+}
+
 function buildAPI(api: Object): JSX.Element {
     const l = useLocale();
     const isFunc = api.fields && api.type;
@@ -108,9 +112,9 @@ function buildAPI(api: Object): JSX.Element {
         <Show when={api.remarks}>{remarks =>
             <p innerHTML={markdown(remarks())} />
         }</Show>
-        <Switch fallback={<p innerHTML={markdown('```ts\n'+api.type+'\n```')} />}>
+        <Switch fallback={<p innerHTML={tscode(api.type)} />}>
             <Match when={api.fields}>
-                <Show when={api.type}>{c => <p innerHTML={ markdown('```ts\n'+c()+'\n```')} />}</Show>
+                <Show when={api.type}>{c => <p innerHTML={ tscode(c())} />}</Show>
                 <Table hoverable>
                     <thead>
                         <tr>
@@ -126,8 +130,8 @@ function buildAPI(api: Object): JSX.Element {
                             {field => (
                                 <tr>
                                     <th>{field.name}</th>
-                                    <td>{field.type}</td>
-                                    <td>{field.preset}</td>
+                                    <td innerHTML={tscode(field.type)} />
+                                    <td innerHTML={tscode(field.preset)} />
                                     <Show when={!isFunc}>
                                         <td>
                                             <Show when={field.reactive} fallback={<Checkbox class={styles.chk} readonly />}>

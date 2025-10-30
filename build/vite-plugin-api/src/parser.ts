@@ -338,6 +338,6 @@ function comment2String(node?: DocNode): string | undefined {
 
     const nodes = node.getChildNodes().map(comment2String).filter(v => !!v);
     if (nodes.length <= 0) { return undefined; }
-    const s = nodes.join('');
+    const s = nodes.join('\n');
     return s.endsWith('\n\n') ? s : s + '\n\n'; // 防止过多的换行符
 }

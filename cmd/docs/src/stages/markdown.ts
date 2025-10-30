@@ -5,6 +5,8 @@
 import { Highlighter } from '@cmfx/components';
 import { MarkedExtension, Marked } from 'marked';
 
+import styles from './style.module.css';
+
 const higlighter = await Highlighter.build('ts');
 
 function markedCode(): MarkedExtension {
@@ -22,7 +24,7 @@ function markedCode(): MarkedExtension {
                 Object.assign(token, {
                     type: 'html',
                     block: true,
-                    text: higlighter.html(token.text, 'ts', undefined, true)
+                    text: higlighter.html(token.text, 'ts', undefined, true, styles['simple-code'], true)
                 });
                 break;
             }

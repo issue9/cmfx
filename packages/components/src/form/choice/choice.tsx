@@ -86,7 +86,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
     const scrollIntoView = () => { // 滚动到第一个选中项，如果选中项是子菜单，则无效。
         for (const li of liList) {
             if (li && li.ariaSelected === 'true') {
-                li.scrollIntoView({ block: 'center', behavior: 'smooth' });
+                li.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
                 return;
             }
         }
