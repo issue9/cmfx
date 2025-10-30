@@ -60,8 +60,8 @@ import IconChart from '~icons/tdesign/chart-pie-filled';
 import IconChoice from '~icons/tdesign/component-dropdown-filled';
 import IconIcon from '~icons/tdesign/icon-filled';
 import IconIllustration from '~icons/uil/illustration';
+import IconInput from '~icons/material-symbols/input-rounded';
 import IconRange from '~icons/uil/slider-h-range';
-
 
 // 组件的分类
 type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config' | 'function';
@@ -91,6 +91,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'general', path: '/illustrations', component: lazy(() => import('./illustrations')),
         info: { title: '_d.demo.illustrations', icon: <IconIllustration /> },
+    },
+    {
+        kind: 'general', path: '/input', component: lazy(() => import('./input')),
+        info: { title: '_d.demo.input', icon: <IconInput /> },
     },
     {
         kind: 'general', path: '/theme-selector', component: lazy(() => import('./theme/selector')),

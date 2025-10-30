@@ -135,7 +135,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
                 value={getValue()} onChange={change}
             />
 
-            <div class={joinClass(undefined, styles.actions, '!justify-end')}>
+            <div class={joinClass(undefined, styles.actions, 'justify-end!')}>
                 <Button kind='flat' class='py-0 px-1' onclick={() => {
                     props.accessor.setValue([undefined, undefined]);
                     panelRef.hidePopover();

@@ -6,8 +6,9 @@ import { createMemo, createUniqueId, JSX, mergeProps, Show } from 'solid-js';
 
 import { joinClass } from '@/base';
 import {
-    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useForm
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
+import { InputMode } from '@/input';
 import styles from './style.module.css';
 
 type Value = string | number | Array<string>;

@@ -7,53 +7,6 @@
 @reference '../../style.css';
 
 @layer components {
-    .text-field {
-        @apply rounded-md border border-palette-border flex justify-between text-center w-full h-full;
-
-        @apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
-        @apply has-enabled:hover:border-palette-border-focused has-enabled:hover:bg-palette-bg-focused;
-        @apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
-        @apply transition;
-
-        >:first-child {
-            @apply rounded-l-md!;
-        }
-
-        >:last-child {
-            @apply rounded-r-md!;
-        }
-
-        >input {
-            @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
-
-            -webkit-appearance: textfield;
-            -moz-appearance: textfield;
-            appearance: textfield;
-        }
-
-        >input::-webkit-outer-spin-button,
-        >input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    }
-
-    .text-field:has(:disabled) {
-        @apply border-palette-border-disabled text-palette-fg-disabled;
-    }
-
-    .text-field.rounded {
-        @apply rounded-full;
-
-        >:first-child {
-            @apply rounded-l-full!;
-        }
-
-        >:last-child {
-            @apply rounded-r-full!;
-        }
-    }
-
     .number-spin {
         @apply px-px! py-0! rounded-none;
     }

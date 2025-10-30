@@ -22,6 +22,7 @@ window.requestIdleCallback = window.requestIdleCallback ||
 export * from './appbar';
 export * from './backtop';
 export * from './badge';
+export * from './input';
 export * from './base';
 export * from './button';
 export * from './card';

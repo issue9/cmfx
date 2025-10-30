@@ -2,31 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
-
-import { joinClass, RefProps } from '@/base';
 import {
-    Accessor, AutoComplete, calcLayoutFieldAreas, Field,
-    fieldArea2Style, FieldBaseProps, FieldHelpArea, InputMode, useForm
+    createEffect, createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, Show, Switch
+} from 'solid-js';
+
+import { RefProps } from '@/base';
+import {
+    Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
 import { Dropdown, DropdownRef, MenuItemItem } from '@/menu';
-import styles from './style.module.css';
+import { InputValue, InputRef, InputMode, AutoComplete, Input } from '@/input';
 
-type Value = string | number | undefined;
+export type Ref = InputRef;
 
-export interface Ref {
-    /**
-     * 组件的根元素
-     */
-    element(): HTMLDivElement;
-
-    /**
-     * 组件中实际用于输入的 input 元素
-     */
-    input(): HTMLInputElement;
-}
-
-export interface Props<T extends Value = string> extends FieldBaseProps, RefProps<Ref> {
+export interface Props<T extends InputValue = string> extends FieldBaseProps, RefProps<Ref> {
     /**
      * 文本框内顶部的内容
      *
@@ -51,14 +40,14 @@ export interface Props<T extends Value = string> extends FieldBaseProps, RefProp
     /**
      * 内容类型
      *
-     * 只有在此值为 number 时，内容才会被当作数值处理。
+     * @remarks 只有在此值为 number 时，内容才会被当作数值处理。
      */
     type?: 'text' | 'url' | 'tel' | 'email' | 'number' | 'password' | 'search';
 
     /**
      * NOTE: 非响应式属性
      */
-    accessor: Accessor<T>;
+    accessor: Accessor<T | undefined>;
 
     /**
      * 键盘的输入模式
@@ -79,7 +68,7 @@ export interface Props<T extends Value = string> extends FieldBaseProps, RefProp
      *
      * @remarks 当前此属性不为空时，每次的输入都会触发此方法，并将其返回值作为候选列表展示。
      */
-    onSearch?: { (text: T): Array<Exclude<T, undefined>>; };
+    onSearch?: { (text?: T): Array<Exclude<T, undefined>>; };
 }
 
 /**
@@ -87,51 +76,43 @@ export interface Props<T extends Value = string> extends FieldBaseProps, RefProp
  *
  * @typeParam T - 文本框内容的类型
  */
-export function TextField<T extends Value = string>(props: Props<T>):JSX.Element {
+export function TextField<T extends InputValue = string>(props: Props<T>):JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
-    const access = props.accessor;
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     const [candidate, setCandidate] = createSignal<Array<MenuItemItem<Exclude<T, undefined>>>>([]);
 
-    let rootRef: HTMLDivElement;
     let dropdownRef: DropdownRef;
+    let rootRef: HTMLDivElement;
 
-    const Trigger = (p: {style?: JSX.CSSProperties}) => {
-        return <div style={p.style}
-            class={joinClass(undefined, styles['text-field'], props.rounded ? styles.rounded : '')}
-        >
-            <Show when={props.prefix}>{c => { return c(); }}</Show>
-            <input id={id} class={styles.input} type={props.type}
-                inputMode={props.inputMode} autocomplete={props.autocomplete}
-                tabIndex={props.tabindex} disabled={props.disabled}
-                readOnly={props.readonly} placeholder={props.placeholder}
-                value={access.getValue() ?? ''} // 正常处理 undefined
-                ref={el => {
-                    if (props.ref) {
-                        props.ref({
-                            element: () => rootRef,
-                            input: () => el,
-                        });
-                    }
-                }} onInput={e => {
-                    let v = e.target.value as T;
-                    if (props.type === 'number') {
-                        v = parseInt(e.target.value) as T;
-                    }
-                    access.setValue(v);
-                    access.setError();
+    const Trigger = (p: {style?: string}) => {
+        let inputRef: InputRef;
+        createEffect(() => { inputRef.element().style = p.style ?? ''; });
 
-                    if (props.onSearch) {
-                        setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
-                        dropdownRef.show();
-                    }
-                }}
-            />
-            <Show when={props.suffix}>{c => { return c(); }}</Show>
-        </div>;
+        return <Input id={id} prefix={props.prefix} suffix={props.suffix} rounded={props.rounded}
+            inputMode={props.inputMode} autocomplete={props.autocomplete}
+            tabindex={props.tabindex} disabled={props.disabled}
+            readonly={props.readonly} placeholder={props.placeholder}
+            value={props.accessor.getValue()} onChange={v => {
+                props.accessor.setValue(v);
+                props.accessor.setError();
+
+                if (props.onSearch) {
+                    setCandidate(props.onSearch(v).map(item => ({ type: 'item', value: item, label: item })));
+                    dropdownRef.show();
+                }
+            }} ref={el => {
+                inputRef = el;
+                if (props.ref) {
+                    props.ref({
+                        element: () => rootRef,
+                        input: () => el.input(),
+                    });
+                }
+            }}
+        />;
     };
 
     return <Field title={props.title} ref={el => rootRef = el} palette={props.palette} class={props.class}>

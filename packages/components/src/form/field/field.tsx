@@ -40,12 +40,10 @@ export interface FieldAreas {
 /**
  * 将 {@link FieldArea} 转换为 CSS 样式
  */
-export function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
-    return {
-        'grid-area': area.pos,
-        'grid-column-end': area.cols ? (`span ${area.cols}`) : undefined,
-        'grid-row-end': area.rows ? (`span ${area.rows}`) : undefined,
-    };
+export function fieldArea2Style(area: FieldArea): string {
+    return `grid-area: ${area.pos};` +
+        (area.cols ? `grid-column-end: span ${area.cols};` : '') +
+        (area.rows ? `grid-row-end: span ${area.rows};` : '');
 }
 
 /**

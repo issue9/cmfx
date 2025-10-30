@@ -11,7 +11,7 @@ export type { Props as FormProps } from './form';
 // field 部分内容仅内部使用
 export { fieldAccessor, FormProvider, useForm } from './field';
 export type {
-    Accessor, AutoComplete, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext, InputMode
+    Accessor, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext
 } from './field';
 
 export * from './checkbox';
@@ -25,4 +25,3 @@ export * from './textarea';
 export * from './textfield';
 export * from './time';
 export * from './upload';
-

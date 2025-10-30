@@ -84,6 +84,7 @@ const messages = {
             form: 'Form',
             icon: 'Icon',
             illustrations: 'Illustrations',
+            input: 'Input',
             localeConfig: 'Locale Config',
             misc: 'Misc',
             menu: 'Menu',

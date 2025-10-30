@@ -7,8 +7,29 @@ import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
 import { Provider } from '@/context/context.spec';
-import Field, { calcLayoutFieldAreas, HelpArea } from './field';
+import Field, { calcLayoutFieldAreas, HelpArea, fieldArea2Style } from './field';
 import styles from './style.module.css';
+
+describe('fieldArea2Style', () => {
+    test('pos', () => {
+        expect(fieldArea2Style({ pos: 'top-left' })).toEqual('grid-area: top-left;');
+    });
+
+    test('pos-cols', () => {
+        expect(fieldArea2Style({ pos: 'top-left', cols: 2 }))
+            .toEqual('grid-area: top-left;grid-column-end: span 2;');
+    });
+
+    test('pos-cols-rows', () => {
+        expect(fieldArea2Style({ pos: 'top-left', cols: 2, rows: 3 }))
+            .toEqual('grid-area: top-left;grid-column-end: span 2;grid-row-end: span 3;');
+    });
+
+    test('pos-rows', () => {
+        expect(fieldArea2Style({ pos: 'top-left', rows: 3 }))
+            .toEqual('grid-area: top-left;grid-row-end: span 3;');
+    });
+});
 
 describe('calcLayoutFieldAreas', () => {
     test('horizontal', () => {

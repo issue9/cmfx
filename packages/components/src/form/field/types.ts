@@ -59,22 +59,3 @@ export type Option<K extends AvailableEnumType> = {
  * @typeParam K - 表示的是选择项的值类型，要求唯一且可比较。
  */
 export type Options<T extends AvailableEnumType> = Array<Option<T>>;
-
-/**
- * input 组件的 inputMode 属性的可选值
- */
-export type InputMode = JSX.HTMLAttributes<HTMLElement>['inputMode'];
-
-/**
- * input 组件的 autoComplete 属性
- *
- * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill
- */
-export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name'
-    | 'honorific-suffix' | 'nickname' | 'organization-title' | 'username' | 'new-password' | 'current-password'
-    | 'one-time-code' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3'
-    | 'address-level' | 'address-level3' | 'address-level2' | 'address-level1' | 'country' | 'country-name'
-    | 'postal-code' | 'cc-name' | 'cc-given-name' | 'cc-additional-name' | 'cc-family-name' | 'cc-number' | 'cc-exp'
-    | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language'
-    | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'url' | 'photo' | 'tel' | 'tel-country-code' | 'tel-national'
-    | 'tel-area-code' | 'tel-local' | 'tel-local-prefix' | 'tel-local-suffix' | 'tel-extension' | 'email' | 'impp';

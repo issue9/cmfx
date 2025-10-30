@@ -8,8 +8,7 @@ export type { FieldArea, FieldAreas, FieldProps } from './field';
 export { fieldAccessor } from './access';
 export type { Accessor, ChangeFunc } from './access';
 
-export type { AutoComplete, FieldBaseProps, InputMode, Option, Options } from './types';
+export type { FieldBaseProps, Option, Options } from './types';
 
 export { FormProvider, useForm } from './context';
 export type { FormContext } from './context';
-

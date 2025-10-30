@@ -8,8 +8,8 @@ import IconSearch from '~icons/material-symbols/search';
 import IconClear from '~icons/material-symbols/close';
 
 import { BaseProps, joinClass } from '@/base';
+import { Input, InputRef, InputMode } from '@/input';
 import { MenuItemItem, DropdownRef, Dropdown, DropdownProps } from '@/menu';
-import { fieldAccessor, InputMode, TextField, TextFieldRef } from '@/form';
 import styles from './style.module.css';
 import { useLocale } from '@/context';
 
@@ -63,21 +63,17 @@ export default function Search(props: Props): JSX.Element {
     props = mergeProps({ placeholder: l.t('_c.search') } as Props, props);
 
     let dropdownRef: DropdownRef;
-    const fa = fieldAccessor('search', '');
     const [candidate, setCandidate] = createSignal<Array<MenuItemItem<string>>>([]);
 
-    let textfieldRef: TextFieldRef;
+    const [value, setValue] = createSignal('');
+
+    let inputRef: InputRef;
 
     onMount(() => { // 绑定快捷键
-        if (props.hotkey) { Hotkey.bind(props.hotkey, () => textfieldRef.input().focus()); }
+        if (props.hotkey) { Hotkey.bind(props.hotkey, () => inputRef.input().focus()); }
     });
     onCleanup(()=>{
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
-    });
-
-    fa.onChange(async (value) => {
-        setCandidate(await props.onSearch(value));
-        dropdownRef.show();
     });
 
     return <Dropdown palette={props.palette} class={joinClass(undefined, styles.dropdown, props.class)}
@@ -91,31 +87,35 @@ export default function Search(props: Props): JSX.Element {
                     = dropdownRef.element().getBoundingClientRect().width + 'px';
             }
             return false;
-        }} onChange={(val,old)=>{
+        }} onChange={(val, old) => {
             if (props.onSelect) { props.onSelect(val, old); }
             (document.activeElement as any).blur();
         }}
     >
-        <TextField palette={props.palette} inputMode={props.inputMode} type='search' autocomplete='off' accessor={fa}
+        <Input palette={props.palette} inputMode={props.inputMode} type='search' autocomplete='off'
             placeholder={l.t('_c.search')} prefix={props.icon ? <IconSearch class={styles.icon} /> : undefined} suffix={
                 <Switch>
-                    <Match when={!fa.getValue() && props.hotkey ? props.hotkey : undefined}>
+                    <Match when={!value() && props.hotkey ? props.hotkey : undefined}>
                         {hk => <kbd>{hk().toString(true)}</kbd>}
                     </Match>
-                    <Match when={fa.getValue() && props.clear}>
+                    <Match when={value() && props.clear}>
                         <IconClear class={styles.clear} onclick={() => {
-                            fa.setValue('');
-                            textfieldRef.input().focus();
+                            setValue('');
+                            inputRef.input().focus();
                         }} />
                     </Match>
                 </Switch>
             } ref={el => {
-                textfieldRef = el;
+                inputRef = el;
                 el.input().onfocus = async () => {
-                    setCandidate(await props.onSearch(fa.getValue()));
+                    setCandidate(await props.onSearch(value()));
                     dropdownRef.show();
                 };
                 el.input().onclick = () => dropdownRef.show(); // 解决 onfocus 自动关闭 dropdown 的问题
+            }} value={value()} onChange={async (v) => {
+                setCandidate(await props.onSearch(v ?? ''));
+                setValue(v ?? '');
+                dropdownRef.show();
             }}
         />
     </Dropdown>;

@@ -85,6 +85,7 @@ const messages: typeof m = {
             form: 'Form 表单',
             icon: 'Icon 图标',
             illustrations: 'Illustrations 插画',
+            input: 'Input 输入框基础',
             localeConfig: 'Locale Config 国际化配置',
             misc: 'Misc 其它',
             menu: 'Menu 菜单',
