@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceOption, fieldAccessor, TextField, MountProps } from '@cmfx/components';
+import { Choice, ChoiceOption, fieldAccessor, TextField, MountProps, Button } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
@@ -31,12 +31,12 @@ export default function(props: MountProps) {
             {roundedS}
             {layoutS}
 
-            <button class="palette--primary" onClick={() => {
+            <Button palette="primary" onclick={() => {
                 fa.setError(fa.getError() ? undefined : 'error');
-            }}>toggle error</button>
+            }}>toggle error</Button>
         </Portal>
 
-        <div class="flex flex-row gap-5">
+        <div class="flex gap-5 justify-start items-start">
             <Choice hasHelp layout={layout()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
             <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
         </div>

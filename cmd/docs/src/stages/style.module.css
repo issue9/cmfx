@@ -88,7 +88,7 @@
                             }
 
                             >.right {
-                                @apply flex gap-2 justify-start;
+                                @apply flex flex-wrap gap-2 justify-start items-center;
 
                                 >div { /* 这是由 Portal 额外添加的，需要将其内容进行过滤 */
                                     @apply contents;

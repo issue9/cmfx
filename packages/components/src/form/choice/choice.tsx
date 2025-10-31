@@ -4,19 +4,19 @@
 
 import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import IconExpandAll from '~icons/material-symbols/expand-all';
+import { sleep } from '@cmfx/core';
 
 import { AvailableEnumType, cloneElement, joinClass, transitionDuration } from '@/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
 import { Dropdown, DropdownRef, MenuItem, MenuItemItem } from '@/menu';
-import { sleep } from '@cmfx/core';
 import styles from './style.module.css';
 
 /**
  * 单个选择项的类型
  *
- * @remarks 直接采用了与 {@link MenuItem | 菜单项} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
+ * @remarks 直接采用了与 {@link MenuItem} 相同的类型，但是对为 type 为 a 的项是忽略处理的。
  */
 export type Option<T extends AvailableEnumType = string> = MenuItem<T>;
 
@@ -102,7 +102,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
     const id = createUniqueId();
     let dropdownRef: DropdownRef;
     return <Field class={joinClass(undefined, styles.activator, props.class)}
-        title={props.title} palette={props.palette} aria-haspopup
+        title={props.title} palette={props.palette}
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}

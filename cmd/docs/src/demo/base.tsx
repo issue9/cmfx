@@ -37,8 +37,8 @@ export function paletteSelector(preset?: Palette)
     return arraySelector<Palette | undefined>('颜色', palettesWithUndefined, preset);
 }
 
-export function layoutSelector(label: string, preset?: Layout)
-    : [JSX.Element, Accessor<Layout|undefined>, Setter<Layout|undefined>] {
+export function layoutSelector(label: string, preset: Layout = 'horizontal')
+    : [JSX.Element, Accessor<Layout>, Setter<Layout>] {
     return arraySelector(label, layouts, preset);
 }
 
