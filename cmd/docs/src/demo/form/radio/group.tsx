@@ -3,11 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 
-import { fieldAccessor, FieldOptions, Palette, RadioGroup, MountProps } from '@cmfx/components';
+import { fieldAccessor, FieldOptions, Palette, RadioGroup, MountProps, Button } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, palettesWithUndefined } from '../../base';
+import { boolSelector, layoutSelector } from '../../base';
 
 export default function(props: MountProps) {
     const [change, setChange] = createSignal<string>('');
@@ -20,14 +20,12 @@ export default function(props: MountProps) {
     const [blockS, block] = boolSelector('block');
     const [roundedS, rounded] = boolSelector('rounded');
 
-    const options: FieldOptions<Palette | 'undefined'> = [];
-    palettesWithUndefined.forEach(item => {
-        if (item) {
-            options.push({ value: item, label: item });
-        } else {
-            options.push({ value: 'undefined', label: 'undefined' });
-        }
-    });
+    const options: FieldOptions<Palette | 'undefined'> = [
+        {value: 'error', label: 'error'},
+        {value: 'secondary', label: 'secondary'},
+        {value: 'undefined', label: 'undefined'},
+        {value: 'surface', label: 'surface'},
+    ];
 
     return <>
         <Portal mount={props.mount}>
@@ -37,11 +35,12 @@ export default function(props: MountProps) {
             {itemLayoutS}
             {blockS}
             {roundedS}
-            <button class=" palette--primary" onClick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</button>
+            <Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>
 
         <div>
-            <RadioGroup hasHelp rounded={rounded()} label='test' block={block()} itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
+            <RadioGroup hasHelp rounded={rounded()} label='test' block={block()}
+                itemLayout={itemLayout()} layout={layout()} palette={f.getValue()}
                 disabled={disabled()} readonly={readonly()} accessor={f} options={options}
             />
             <span>{change()}</span>

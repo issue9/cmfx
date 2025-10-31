@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { Checkbox, MountProps } from '@cmfx/components';
-import { createSignal, For } from 'solid-js';
+import { createSignal } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, palettesWithUndefined } from '../../base';
+import { boolSelector } from '../../base';
 
 export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
@@ -25,19 +25,18 @@ export default function(props: MountProps) {
             {roundedS}
         </Portal>
 
-        <div>
-            <For each={palettesWithUndefined}>
-                {(item) => (
-                    <Checkbox rounded={rounded()} title={item ? item : 'undefined'} label='test'
-                        block={block()} palette={item} disabled={disabled()} readonly={readonly()}
-                    />
-                )}
-            </For>
-        </div>
+        <div class="flex flex-col justify-start">
+            <Checkbox rounded={rounded()} title='primary' label='primary'
+                block={block()} palette='primary' disabled={disabled()} readonly={readonly()}
+            />
 
-        <div>
+            <Checkbox rounded={rounded()} title='error' label='error'
+                block={block()} palette='error' disabled={disabled()} readonly={readonly()}
+            />
+
             <Checkbox rounded={rounded()} indeterminate title='onchange' label='事件：onchange'
                 onChange={onchange} block={block()} disabled={disabled()} readonly={readonly()} />
+
             <div>{chk() ? 'checked' : 'unchecked'}</div>
         </div>
     </div>;

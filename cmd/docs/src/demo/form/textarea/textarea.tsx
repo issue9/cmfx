@@ -3,10 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { fieldAccessor, TextArea, MountProps, Button } from '@cmfx/components';
-import { For } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, palettesWithUndefined } from '../../base';
+import { boolSelector, layoutSelector } from '../../base';
 
 export default function(props: MountProps) {
     const f = fieldAccessor('name', '5');
@@ -21,11 +20,9 @@ export default function(props: MountProps) {
             {layoutS}
             <Button palette="primary" onclick={() => f.setError(f.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>
-
-        <For each={palettesWithUndefined}>
-            {(item) => (
-                <TextArea hasHelp layout={layout()} palette={item} label={item ? item : 'undefined'} title={item ? item : 'undefined'} disabled={disabled()} readonly={readonly()} accessor={f} />
-            )}
-        </For>
+        <TextArea hasHelp layout={layout()} palette='primary' label='primary' title='primary'
+            disabled={disabled()} readonly={readonly()} accessor={f} />
+        <TextArea hasHelp layout={layout()} palette='error' label='error' title='error'
+            disabled={disabled()} readonly={readonly()} accessor={f} />
     </div>;
 }

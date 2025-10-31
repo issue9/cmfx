@@ -6,7 +6,7 @@ import { Checkbox, Choice, ChoiceOption, fieldAccessor, Layout, layouts, Palette
 import { PopoverPosition } from '@cmfx/core';
 import { Accessor, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
 
-export const palettesWithUndefined = [...palettes, undefined] as const;
+const palettesWithUndefined = [...palettes, undefined] as const;
 
 export function posSelector(
     preset: PopoverPosition = 'right'
@@ -42,6 +42,9 @@ export function layoutSelector(label: string, preset?: Layout)
     return arraySelector(label, layouts, preset);
 }
 
+/**
+ * 将数组生成下拉的单选项
+ */
 export function arraySelector<T extends string|number|undefined>(
     label: string, array: ReadonlyArray<T>, preset: T
 ): [JSX.Element, Accessor<T>, Setter<T>] {

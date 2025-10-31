@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Tab, TabItem } from '@cmfx/components';
-import { For } from 'solid-js';
+import { MountProps, Tab, TabItem } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 
-import { palettesWithUndefined } from '../base';
+import { paletteSelector } from '../base';
 
-export default function() {
+export default function(props: MountProps) {
     const items: Array<TabItem> = [
         { id: 'k1', label: 'K1' },
         { id: 'k2', label: 'K22222' },
@@ -15,14 +15,13 @@ export default function() {
         { id: 'k4', label: 'K4' },
     ];
 
+    const [paletteS, palette] = paletteSelector();
+
     return <div>
-        <For each={palettesWithUndefined}>
-            {(c) => (
-                <>
-                    <Tab palette={c} items={structuredClone(items)} />
-                    <br />
-                </>
-            )}
-        </For>
+        <Portal mount={props.mount}>
+            {paletteS}
+        </Portal>
+
+        <Tab class="w-fit!" palette={palette()} items={structuredClone(items)} />
     </div>;
 }

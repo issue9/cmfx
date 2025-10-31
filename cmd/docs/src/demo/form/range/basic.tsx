@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { fieldAccessor, Range, MountProps, Button } from '@cmfx/components';
-import { For, JSX } from 'solid-js';
+import { JSX } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, palettesWithUndefined } from '../../base';
+import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 function formatValue(value: number): JSX.Element {
     return value.toFixed(2)+'%';
@@ -21,9 +21,11 @@ export default function (props: MountProps) {
     const [fitHeightS, fitHeight] = boolSelector('fitHeight', false);
     const [valueS, value] = boolSelector('value', false);
     const [roundedS, rounded] = boolSelector('rounded', false);
+    const [paletteS, palette] = paletteSelector();
 
     return <>
         <Portal mount={props.mount}>
+            {paletteS}
             {readonlyS}
             {disabledS}
             {layoutS}
@@ -34,11 +36,11 @@ export default function (props: MountProps) {
         </Portal>
 
         <div>
-            <For each={palettesWithUndefined}>
-                {(item) => (
-                    <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label={item ?? 'undefined'} accessor={f} palette={item} disabled={disabled()} readonly={readonly()} layout={layout()} />
-                )}
-            </For>
+            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label='label'
+                accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()} />
+
+            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label='label'
+                accessor={f} palette={palette()} disabled={disabled()} readonly={readonly()} layout={layout()} />
         </div>
     </>;
 }

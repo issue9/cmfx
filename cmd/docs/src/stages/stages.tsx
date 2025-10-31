@@ -97,7 +97,7 @@ export default function Stages(props: Props):JSX.Element {
 }
 
 function tscode(code?: string): string {
-    return code ? markdown('```ts\n' + code + '\n```') : '';
+    return code ? markdown('```ts\n' + code.trim() + '\n```') : '';
 }
 
 function buildAPI(api: Object): JSX.Element {
