@@ -36,6 +36,7 @@ export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [roundedS, rounded] = boolSelector('rounded');
+    const [closableS, closable] = boolSelector('closable');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <div>
@@ -44,6 +45,7 @@ export default function(props: MountProps) {
             {disabledS}
             {readonlyS}
             {roundedS}
+            {closableS}
             {layoutS}
 
             <Button palette="primary" onclick={() => {
@@ -52,8 +54,13 @@ export default function(props: MountProps) {
         </Portal>
 
         <div class="flex flex-row gap-5">
-            <Choice layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions} />
-            <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+            <Choice layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()}
+                readonly={readonly()} palette={palette()} accessor={mfa} multiple options={multipleOptions}
+                closable={closable()}
+            />
+            <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()}
+                readonly={readonly()} palette={palette()} accessor={tf}
+            />
         </div>
     </div>;
 }

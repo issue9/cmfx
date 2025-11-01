@@ -72,6 +72,8 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
     let isOpen = false;
 
     const show = () => {
+        if (isOpen) { return; }
+
         menuRef.element().showPopover();
         adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
     };

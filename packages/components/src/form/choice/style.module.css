@@ -18,7 +18,14 @@
                 @apply bg-transparent flex flex-wrap w-full gap-1 cursor-pointer items-center peer-read-only:cursor-default;
 
                 .chip {
-                    @apply rounded-xs bg-palette-bg-high px-2 flex flex-col justify-center hover:bg-palette-bg-focused;
+                    @apply rounded-xs bg-palette-bg-high px-1 hover:bg-palette-bg-focused;
+                    @apply flex gap-1 justify-center items-center;
+
+                    .close {
+                        @apply text-base p-px bg-palette-bg/50 text-palette-fg/50;
+                        @apply hover:bg-palette-bg-focused/50 hover:text-palette-fg-focused/50;
+                        @apply active:bg-palette-bg-actived/50 active:text-palette-fg-actived/50;
+                    }
                 }
 
                 .placeholder {

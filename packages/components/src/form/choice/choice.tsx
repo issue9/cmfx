@@ -4,6 +4,7 @@
 
 import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import IconExpandAll from '~icons/material-symbols/expand-all';
+import IconClose from '~icons/material-symbols/close';
 import { sleep } from '@cmfx/core';
 
 import { AvailableEnumType, cloneElement, joinClass, transitionDuration } from '@/base';
@@ -38,6 +39,13 @@ export interface Props<T extends AvailableEnumType = string, M extends boolean =
     multiple?: M;
 
     /**
+     * 选项是否可关闭
+     *
+     * @reactive
+     */
+    closable?: boolean;
+
+    /**
      * NOTE: 非响应式属性
      */
     accessor: M extends true ? Accessor<Array<T> | undefined> : Accessor<T | undefined>;
@@ -46,7 +54,9 @@ export interface Props<T extends AvailableEnumType = string, M extends boolean =
 /**
  * 用以替代 select 组件
  */
-export function Choice<T extends AvailableEnumType = string, M extends boolean = false>(props: Props<T, M>): JSX.Element {
+export function Choice<T extends AvailableEnumType = string, M extends boolean = false>(
+    props: Props<T, M>
+): JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
@@ -139,7 +149,18 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
                             {val =>
                                 <For each={getMultipleItems(val())}>
                                     {item =>
-                                        <span class={styles.chip}>{cloneElement(item.label)}</span>
+                                        <span class={styles.chip}>
+                                            {cloneElement(item.label)}
+                                            <Show when={props.closable}>
+                                                <IconClose class={styles.close} onclick={e => {
+                                                    const v = props.accessor.getValue() as Array<T>;
+                                                    const vals = v.filter(vv => vv != item.value);
+                                                    props.accessor.setValue(vals as any);
+                                                    e.stopPropagation();
+                                                    e.preventDefault();
+                                                }} />
+                                            </Show>
+                                        </span>
                                     }
                                 </For>
                             }
