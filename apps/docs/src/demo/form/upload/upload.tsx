@@ -15,7 +15,7 @@ export default function(props: MountProps): JSX.Element {
     const [autoS, auto] = boolSelector('auto');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
-    const basicA = fieldAccessor('upload', ['../../../../../../cmd/admin/public/icon.svg', './test.jpg']);
+    const basicA = fieldAccessor('upload', ['../../../../../../apps/admin/public/icon.svg', './test.jpg']);
 
     return <>
         <Portal mount={props.mount}>

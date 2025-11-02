@@ -2,24 +2,24 @@ packages:
   - packages/**
   - build/vite-plugin-about
   - build/vite-plugin-api
-  - cmd/docs
-  - cmd/admin
+  - apps/docs
+  - apps/admin
 
 catalog:
   '@formatjs/intl-durationformat': ^0.7.6
-  '@iconify/json': ^2.2.401
+  '@iconify/json': ^2.2.402
   '@solidjs/router': ^0.15.3
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.1.16
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
   '@types/node': ^24.9.2
-  '@vitest/coverage-v8': ^4.0.5
+  '@vitest/coverage-v8': ^4.0.6
   autoprefixer: ^10.4.21
   bowser: ^2.12.1
   colorjs.io: ^0.5.2
   intl-messageformat: ^10.7.18
-  jsdom: ^27.0.1
+  jsdom: ^27.1.0
   shiki: ^3.14.0
   solid-js: ^1.9.10
   tailwindcss: ^4.1.16
@@ -29,7 +29,7 @@ catalog:
   vite-plugin-dts: ^4.5.4
   vite-plugin-solid: ^2.11.10
   vite-plugin-static-copy: ^3.1.4
-  vitest: ^4.0.5
+  vitest: ^4.0.6
   vitest-fetch-mock: ^0.4.5
   yaml: ^2.8.1
 

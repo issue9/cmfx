@@ -3,11 +3,11 @@ module github.com/issue9/cmfx
 go 1.25.0
 
 ignore (
+	./apps/admin
+	./apps/docs
+
 	./build/vite-plugin-about
 	./build/vite-plugin-api
-
-	./cmd/admin
-	./cmd/docs
 
 	./coverage
 	./docs

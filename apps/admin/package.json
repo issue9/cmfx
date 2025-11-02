@@ -1,19 +1,19 @@
 {
-    "name": "@cmfx/docs",
+    "name": "@cmfx/admin-demo",
     "version": "0.14.0",
     "type": "module",
     "author": {
         "name": "caixw",
         "url": "https://caixw.io"
     },
-    "homepage": "https://issue9.github.io/cmfx",
+    "homepage": "https://github.com/issue9/cmfx",
     "bugs": {
         "url": "https://github.com/issue9/cmfx/issues"
     },
     "repository": {
         "type": "git",
         "url": "https://github.com/issue9/cmfx",
-        "directory": "cmd/docs"
+        "directory": "apps/admin"
     },
     "license": "MIT",
     "scripts": {
@@ -22,24 +22,22 @@
         "preview": "vite preview"
     },
     "dependencies": {
+        "@cmfx/admin": "workspace:*",
         "@cmfx/components": "workspace:*",
-        "@cmfx/illustrations": "workspace:*",
         "@cmfx/core": "workspace:*",
-        "@cmfx/vite-plugin-api": "workspace:*",
-        "@iconify/json": "catalog:",
         "@solidjs/router": "catalog:",
-        "colorjs.io": "catalog:",
-        "marked": "^16.4.1",
-        "shiki": "catalog:",
+        "tailwindcss": "catalog:",
         "solid-js": "catalog:",
-        "tailwindcss": "catalog:"
+        "@iconify/json": "catalog:"
     },
     "devDependencies": {
-        "@tailwindcss/vite": "catalog:",
-        "@types/node": "catalog:",
-        "autoprefixer": "catalog:",
-        "typescript": "catalog:",
         "unplugin-icons": "catalog:",
+        "@types/node": "catalog:",
+        "@vitejs/plugin-basic-ssl": "^2.1.0",
+        "autoprefixer": "catalog:",
+        "@cmfx/vite-plugin-about": "workspace:*",
+        "@tailwindcss/vite": "catalog:",
+        "typescript": "catalog:",
         "vite": "catalog:",
         "vite-plugin-solid": "catalog:"
     }

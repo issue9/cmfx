@@ -14,7 +14,7 @@ import { Options } from './options';
 // 提供用于测试的配置项
 const options: Options = {
     id: 'admin',
-    logo: '../../../../cmd/admin/public/icon.svg',
+    logo: '../../../../apps/admin/public/icon.svg',
     systemDialog: false,
     systemNotify: false,
     storage: window.localStorage,

@@ -3,9 +3,9 @@
 # SPDX-License-Identifier: MIT
 
 ROOT = .
-CMD = $(ROOT)/cmd
+APP = $(ROOT)/apps
 
-CMD_SERVER = $(CMD)/server
+APP_SERVER = $(APP)/server
 SERVER_BIN = server
 
 ########################### mk-coverage ###################################
@@ -28,21 +28,21 @@ gen:
 
 ########################### build ###################################
 
-.PHONY: build build-go build-ts build-cmd
+.PHONY: build build-go build-ts build-app
 .PHONY: build-ts-plugin-about build-ts-plugin-api build-ts-plugin
 .PHONY: build-ts-docs build-ts-admin-demo build-ts-core build-ts-components build-ts-illustrations build-ts-admin
 
 build: build-go build-ts
 
-build-cmd: build-go build-ts-admin build-ts-docs
+build-app: build-go build-ts-admin build-ts-docs
 
 build-ts-plugin: build-ts-plugin-about build-ts-plugin-api
 
 build-go: gen
-	go build -o=$(CMD_SERVER)/$(SERVER_BIN) -v $(CMD_SERVER)
+	go build -o=$(APP_SERVER)/$(SERVER_BIN) -v $(APP_SERVER)
 
 build-ts-docs: build-ts-admin-demo
-	pnpm --filter=./cmd/docs run build
+	pnpm --filter=./apps/docs run build
 
 build-ts-plugin-about:
 	pnpm --filter=./build/vite-plugin-about run build
@@ -63,7 +63,7 @@ build-ts-admin: build-ts-plugin build-ts-components build-ts-illustrations
 	pnpm --filter=./packages/admin run build
 
 build-ts-admin-demo: build-ts-admin
-	pnpm --filter=./cmd/admin run build
+	pnpm --filter=./apps/admin run build
 
 # 编译前端项目内容
 build-ts: build-ts-docs
@@ -82,21 +82,21 @@ install-go:
 install: install-go install-ts
 
 # 安装基本数据，依赖 build 生成的测试项目
-init: build-cmd
-	cd $(CMD_SERVER) && ./server -a=install
+init: build-app
+	cd $(APP_SERVER) && ./server -a=install
 
 ########################### watch ###################################
 
 .PHONY: watch-server watch-admin watch-docs watch
 
 watch-server:
-	web watch -app=-a=serve $(CMD_SERVER)
+	web watch -app=-a=serve $(APP_SERVER)
 
 watch-admin:
-	pnpm --filter=./cmd/admin run dev
+	pnpm --filter=./apps/admin run dev
 
 watch-docs:
-	pnpm --filter=./cmd/docs run dev
+	pnpm --filter=./apps/docs run dev
 
 # 运行测试内容
 #

@@ -48,7 +48,7 @@ scope 表示修改的范围，可以为空，不作强制要求，但应该尽�
 - components: 对 `/packages/components` 进行了修改；
 - illustrations: 对 `/packages/illustrations` 进行了修改；
 - admin: 对 `/packages/admin` 进行了修改；
-- docs: 对 `/cmd/docs` 进行了修改；
+- docs: 对 `/apps/docs` 进行了修改；
 - server: 对 `/cmfx` 进行了修改；
 - plugin-about: 对 `/build/vite-plugin-about` 进行了修改；
 - plugin-api: 对 `/build/vite-plugin-api` 进行了修改；
@@ -111,9 +111,9 @@ close #1
 
 ### 目录结构
 
-- cmd/server 简单的后端服务；
-- cmd/admin 适配 `cmd/server` 的后台管理；
-- cmd/docs 生成项目文档；
+- apps/server 简单的后端服务；
+- apps/admin 适配 `apps/server` 的后台管理；
+- apps/docs 生成项目文档；
 - cmfx 后端源码的主目录；
 - packages/core 前端的核心代码库；
 - packages/components 前端组件库；
