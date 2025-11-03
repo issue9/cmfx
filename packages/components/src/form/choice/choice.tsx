@@ -5,9 +5,8 @@
 import { createMemo, createUniqueId, For, JSX, Match, mergeProps, Show, Switch } from 'solid-js';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 import IconClose from '~icons/material-symbols/close';
-import { sleep } from '@cmfx/core';
 
-import { AvailableEnumType, cloneElement, joinClass, transitionDuration } from '@/base';
+import { AvailableEnumType, cloneElement, joinClass } from '@/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
@@ -93,16 +92,6 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
         return items;
     };
 
-    let liList: NodeListOf<HTMLLIElement>;
-    const scrollIntoView = () => { // 滚动到第一个选中项，如果选中项是子菜单，则无效。
-        for (const li of liList) {
-            if (li && li.ariaSelected === 'true') {
-                li.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-                return;
-            }
-        }
-    };
-
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
     const value = createMemo(() => { // 生成下拉菜单的选中项
@@ -125,15 +114,11 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
                 s.maxHeight = '240px';
                 s.overflowY = 'auto';
 
-                liList = el.menu().element().querySelectorAll('li');
-
                 dropdownRef = el;
             }} onPopover={e => {
                 if (props.disabled) { return true; } // disabled 模式下不弹出菜单
 
-                if (e) {
-                    sleep(transitionDuration(dropdownRef.element())).then(() => { scrollIntoView(); });
-                }
+                if (e) { dropdownRef.menu().scrollSelectedIntoView(); }
                 return false;
             }} onChange={e => {
                 if (props.readonly || props.disabled) { return; }

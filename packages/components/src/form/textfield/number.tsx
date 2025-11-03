@@ -12,7 +12,7 @@ import styles from './style.module.css';
 import { Ref, TextField, Props as TextFieldProps } from './textfield';
 
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete' | 'inputMode';
-export interface Props extends Omit<TextFieldProps<number | undefined>, omitFields> {
+export interface Props extends Omit<TextFieldProps<number>, omitFields> {
     min?: number;
     max?: number;
     step?: number;

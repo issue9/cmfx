@@ -7,7 +7,7 @@ import { createSignal, JSX, Show, untrack } from 'solid-js';
 import { BaseProps, RefProps, joinClass } from '@/base';
 import styles from './style.module.css';
 
-export type Value = string | number | undefined;
+export type Value = string | number;
 
 /**
  * input 组件的 inputMode 属性的可选值

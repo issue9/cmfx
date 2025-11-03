@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, Menu, useLocale } from '@cmfx/components';
+import { Drawer, MenuRef, DrawerRef, Menu, useLocale } from '@cmfx/components';
 import { RouteDefinition } from '@solidjs/router';
 import { onCleanup, onMount, ParentProps, Setter } from 'solid-js';
 
@@ -18,14 +18,19 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
         component: (props: ParentProps) => {
             const l = useLocale();
 
+            let menuRef: MenuRef;
             let ref: DrawerRef;
-            onMount(() => { setDrawer(ref); });
+
+            onMount(() => {
+                setDrawer(ref);
+                menuRef.scrollSelectedIntoView();
+            });
             onCleanup(() => setDrawer(undefined));
 
             return <Drawer visible floating='md' ref={el => ref = el}
                 palette='secondary' mainPalette='surface' main={props.children}
             >
-                <Menu class="min-w-65" layout='inline' items={buildMenus(l, prefix)} />
+                <Menu ref={el => menuRef = el} class="min-w-65" layout='inline' items={buildMenus(l, prefix)} />
             </Drawer>;
         },
         children: [

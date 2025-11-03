@@ -12,7 +12,7 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 
-import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps } from '@/base';
+import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps, transitionDuration } from '@/base';
 import { Divider } from '@/divider';
 import { ChangeFunc } from '@/form/field';
 import { AnimationIcon, AnimationIconRef } from '@/icon';
@@ -24,6 +24,13 @@ export interface Ref {
      * 返回组件的根元素
      */
     element(): HTMLMenuElement | HTMLElement;
+
+    /**
+     * 将选中项滚动到可见范围
+     *
+     * @remarks 如果选中项是子菜单，那么将滚动到让其父元素处于可见位置。
+     */
+    scrollSelectedIntoView(): void;
 }
 
 type CF<M extends boolean = false, T extends AvailableEnumType = string, V = M extends true ? T[] : T>
@@ -61,7 +68,7 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
     onChange?: CF<M, T>;
 
     /**
-     * 初始的选中项
+     * 默认的选中项
      *
      * @reactive
      */
@@ -297,9 +304,18 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 
     return <Dynamic component={props.tag} ref={(el: HTMLMenuElement | HTMLElement) => {
         ref = el;
-        if (props.ref) { props.ref({
-            element: () => el,
-        }); }
+        if (props.ref) {
+            props.ref({
+                element: () => el,
+                scrollSelectedIntoView: () => {
+                    sleep(transitionDuration(el)).then(() => {
+                        const els = selectedElements(el, true);
+                        if (els.length > 0) {
+                            els[0].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    });
+                },
+            }); }
     }}
     class={classList(props.palette, {
         [styles.horizontal]: props.layout === 'horizontal',
@@ -311,4 +327,11 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
             {item => buildMenuItem(item, props.layout === 'horizontal' ? 'vertical' : 'horizontal')}
         </For>
     </Dynamic>;
+}
+
+export function selectedElements(menu: HTMLElement, root?: boolean) {
+    if (root) {
+        return menu.querySelectorAll(':scope>li[aria-selected="true"],:scope>li:has(li[aria-selected="true"])');
+    }
+    return menu.querySelectorAll('li[aria-selected="true"]');
 }

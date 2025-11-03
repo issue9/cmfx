@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
+import { Drawer, DrawerRef, MenuRef, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
 import { Problem } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
-import { createSignal, ErrorBoundary, JSX, Match, ParentProps, Setter, Switch } from 'solid-js';
+import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
 import { useAdmin, useLocale } from '@/context';
 import { Provider } from '@/context/context';
@@ -96,7 +96,10 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
 
 function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {
     const l = useLocale();
+    let menuRef: MenuRef;
     const [api, act, opt] = useAdmin();
+
+    onMount(() => menuRef.scrollSelectedIntoView());
 
     return <Switch>
         <Match when={!api.isLogin()}>
@@ -107,7 +110,8 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
                 main={
                     <ErrorBoundary fallback={err => (<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
                 }>
-                <Menu class={styles.aside} layout='inline' items={buildItems(l, opt.aside.menus)} />
+                <Menu ref={el => menuRef = el} class={styles.aside} layout='inline'
+                    items={buildItems(l, opt.aside.menus)} />
             </Drawer>
         </Match>
     </Switch>;
