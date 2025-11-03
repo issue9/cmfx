@@ -107,7 +107,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 
     const value = createMemo(() => { // 生成下拉菜单的选中项
         const v = props.accessor.getValue();
-        return v ? (Array.isArray(v) ? v : [v]) : undefined;
+        return v !== undefined ? (Array.isArray(v) ? v : [v]) : undefined;
     });
 
     const id = createUniqueId();
