@@ -333,5 +333,5 @@ export function selectedElements(menu: HTMLElement, root?: boolean) {
     if (root) {
         return menu.querySelectorAll(':scope>li[aria-selected="true"],:scope>li:has(li[aria-selected="true"])');
     }
-    return menu.querySelectorAll('li[aria-selected="true"]');
+    return menu.querySelectorAll(':scope li[aria-selected="true"]');
 }
