@@ -21,6 +21,7 @@ export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [roundedS, rounded] = boolSelector('rounded');
+    const [closableS, closable] = boolSelector('closable');
     const [layoutS, layout] = layoutSelector('布局', 'horizontal');
 
     return <div>
@@ -28,6 +29,7 @@ export default function(props: MountProps) {
             {paletteS}
             {disabledS}
             {readonlyS}
+            {closableS}
             {roundedS}
             {layoutS}
 
@@ -37,8 +39,11 @@ export default function(props: MountProps) {
         </Portal>
 
         <div class="flex gap-5 justify-start items-start">
-            <Choice hasHelp layout={layout()} tabindex={0} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} label="label+tabindex" accessor={fa} options={options} />
-            <TextField layout={layout()} placeholder='placeholder' disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
+            <Choice closable={closable()} hasHelp layout={layout()} tabindex={0} placeholder='placeholder'
+                disabled={disabled()} rounded={rounded()} readonly={readonly()} palette={palette()}
+                label="label+tabindex" accessor={fa} options={options} />
+            <TextField layout={layout()} placeholder='placeholder' disabled={disabled()}
+                rounded={rounded()} readonly={readonly()} palette={palette()} accessor={tf} />
         </div>
     </div>;
 }

@@ -41,6 +41,9 @@ export interface Props<T extends AvailableEnumType = string, M extends boolean =
     /**
      * 选项是否可关闭
      *
+     * @remarks 如果为 true，表示可以通过每个选中项后的关闭按钮取消当前选中项，
+     * 如果是单选，那么可以让整个选项处于没有选中项的状态。
+     *
      * @reactive
      */
     closable?: boolean;
@@ -80,15 +83,13 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
         });
     };
 
-    const getSingleItem = (val: T): MenuItemItem<T> | undefined => {
-        let item: MenuItemItem<T> | undefined = undefined;
-        wlak(i => { if (i.value === val) { item = i; } }, props.options);
-        return item;
-    };
-
-    const getMultipleItems = (vals: Array<T>): Array<MenuItemItem<T>> => {
+    const getSelectedMenuItems = (vals: Array<T>): Array<MenuItemItem<T>> => {
         let items: Array<MenuItemItem<T>> = [];
-        wlak(i => { if (vals.includes(i.value!)) { items.push(i); } }, props.options);
+        if (props.multiple) {
+            wlak(i => { if (vals.includes(i.value!)) { items.push(i); } }, props.options);
+        } else {
+            wlak(i => { if (i.value === vals[0]) { items.push(i); } }, props.options);
+        }
         return items;
     };
 
@@ -118,61 +119,65 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>
 
-        <Dropdown value={value()} items={props.options} multiple={props.multiple} ref={el => {
-            const s = el.menu().element().style;
-            s.maxHeight = '240px';
-            s.overflowY = 'auto';
+        <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}>
+            <Dropdown value={value()} items={props.options} multiple={props.multiple} ref={el => {
+                const s = el.menu().element().style;
+                s.maxHeight = '240px';
+                s.overflowY = 'auto';
 
-            liList = el.menu().element().querySelectorAll('li');
+                liList = el.menu().element().querySelectorAll('li');
 
-            dropdownRef = el;
-        }} onPopover={e => {
-            if (props.disabled) { return true; } // disabled 模式下不弹出菜单
+                dropdownRef = el;
+            }} onPopover={e => {
+                if (props.disabled) { return true; } // disabled 模式下不弹出菜单
 
-            if (e) {
-                sleep(transitionDuration(dropdownRef.element())).then(() => { scrollIntoView(); });
-            }
-            return false;
-        }} onChange={e => {
-            if (props.readonly || props.disabled) { return; }
+                if (e) {
+                    sleep(transitionDuration(dropdownRef.element())).then(() => { scrollIntoView(); });
+                }
+                return false;
+            }} onChange={e => {
+                if (props.readonly || props.disabled) { return; }
 
-            props.accessor.setValue(e as any);
-        }}>
-            <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}
-                class={joinClass(undefined, styles['activator-container'], props.rounded ? 'rounded-full' : '')}>
-                <input id={id} tabIndex={props.tabindex} class="hidden peer"
-                    disabled={props.disabled} readOnly={props.readonly}
-                />
-                <div class={styles.input}>
-                    <Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
-                        <Match when={props.multiple ? (value() && value()!.length > 0 ? value() : undefined) : undefined}>
-                            {val =>
-                                <For each={getMultipleItems(val())}>
-                                    {item =>
-                                        <span class={styles.chip}>
-                                            {cloneElement(item.label)}
-                                            <Show when={props.closable}>
-                                                <IconClose class={styles.close} onclick={e => {
-                                                    const v = props.accessor.getValue() as Array<T>;
-                                                    const vals = v.filter(vv => vv != item.value);
-                                                    props.accessor.setValue(vals as any);
-                                                    e.stopPropagation();
-                                                    e.preventDefault();
-                                                }} />
-                                            </Show>
-                                        </span>
-                                    }
-                                </For>
-                            }
-                        </Match>
-                        <Match when={!props.multiple ? (value() && value()!.length > 0 ? value()![0] : undefined) : undefined}>
-                            {val => <>{cloneElement(getSingleItem(val())?.label)}</>}
-                        </Match>
-                    </Switch>
+                props.accessor.setValue(e as any);
+            }}>
+                <div class={joinClass(undefined, styles['activator-container'], props.rounded ? 'rounded-full' : '')}>
+                    <input id={id} tabIndex={props.tabindex} class="hidden peer"
+                        disabled={props.disabled} readOnly={props.readonly}
+                    />
+                    <div class={styles.input}>
+                        <Switch fallback={<span class={styles.placeholder} innerHTML={props.placeholder ?? '&#160;'} />}>
+                            <Match when={value() && value()!.length > 0 ? value() : undefined}>
+                                {val =>
+                                    <For each={getSelectedMenuItems(val())}>
+                                        {item =>
+                                            <span class={styles.chip}>
+                                                {cloneElement(item.label)}
+                                                <Show when={props.closable}>
+                                                    <IconClose class={styles.close} onclick={e => {
+                                                        if (props.disabled || props.readonly) { return; }
+
+                                                        if (props.multiple) {
+                                                            const v = props.accessor.getValue() as Array<T>;
+                                                            const vals = v.filter(vv => vv != item.value);
+                                                            props.accessor.setValue(vals as any);
+                                                        } else {
+                                                            props.accessor.setValue(undefined);
+                                                        }
+                                                        e.stopPropagation();
+                                                        e.preventDefault();
+                                                    }} />
+                                                </Show>
+                                            </span>
+                                        }
+                                    </For>
+                                }
+                            </Match>
+                        </Switch>
+                    </div>
+                    <IconExpandAll class={styles.expand} />
                 </div>
-                <IconExpandAll class={styles.expand} />
-            </div>
-        </Dropdown>
+            </Dropdown>
+        </div>
 
         <Show when={areas().helpArea}>
             {area => <FieldHelpArea area={area()} getError={props.accessor.getError} help={props.help} />}

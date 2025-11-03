@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { CheckboxGroup, fieldAccessor, FieldOptions, MountProps } from '@cmfx/components';
+import { CheckboxGroup, fieldAccessor, FieldOptions, MountProps, Button } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector } from '../../base';
@@ -10,8 +10,8 @@ import { boolSelector, layoutSelector } from '../../base';
 export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
-    const [layoutS, layout] = layoutSelector('布局', 'horizontal');
-    const [itemLayoutS, itemLayout] = layoutSelector('子项布局', 'horizontal');
+    const [layoutS, layout] = layoutSelector('布局');
+    const [itemLayoutS, itemLayout] = layoutSelector('子项布局');
     const [blockS, block] = boolSelector('block');
     const [roundedS, rounded] = boolSelector('rounded');
 
@@ -31,7 +31,7 @@ export default function(props: MountProps) {
             {blockS}
             {roundedS}
 
-            <button class="palette--primary" onClick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</button>
+            <Button palette="primary" onclick={() => groupFA.setError(groupFA.getError() ? undefined : 'error')}>toggle error</Button>
         </Portal>
 
         <div>

@@ -2,21 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, ButtonKind, buttonKinds, LinkButton, MountProps } from '@cmfx/components';
-import { Accessor, JSX, Setter } from 'solid-js';
+import { Button, ButtonGroup, LinkButton, MountProps } from '@cmfx/components';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
 import IconSync from '~icons/material-symbols/sync';
 import { Portal } from 'solid-js/web';
 
-import { arraySelector, boolSelector } from '../base';
-
-export function kindSelector(v: ButtonKind = 'fill'): [JSX.Element, Accessor<ButtonKind>, Setter<ButtonKind>] {
-    return arraySelector('风格', buttonKinds, v);
-}
+import { boolSelector, buttonKindSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [kindS, kind] = kindSelector('fill');
+    const [kindS, kind] = buttonKindSelector();
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 
