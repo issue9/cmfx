@@ -28,6 +28,7 @@ import IconStyle from '~icons/material-symbols/style-outline';
 import IconMisc from '~icons/eos-icons/miscellaneous';
 import IconDialog from '~icons/material-symbols/dialogs-outline-rounded';
 import IconTab from '~icons/material-symbols/tab-outline';
+import IconDropdown from '~icons/material-symbols/dropdown-outline';
 import IconAppbar from '~icons/material-symbols/toolbar';
 import IconEditor from '~icons/material-symbols/wysiwyg';
 import IconNotify from '~icons/mdi/bell-notification-outline';
@@ -125,6 +126,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'navigation', path: '/backtop', component: lazy(() => import('./backtop')),
         info: { title: '_d.demo.backtop', icon: <IconBacktop /> },
+    },
+    {
+        kind: 'navigation', path: '/dropdown', component: lazy(() => import('./dropdown')),
+        info: { title: '_d.demo.dropdown', icon: <IconDropdown /> },
     },
     {
         kind: 'navigation', path: '/menu', component: lazy(() => import('./menu')),

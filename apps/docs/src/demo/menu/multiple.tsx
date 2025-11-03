@@ -11,7 +11,7 @@ import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
-    return arraySelector('selected class', [styles.selected, '', undefined], preset);
+    return arraySelector('selected class', new Map([[styles.selected, 'selected'], ['', '空']]), preset);
 }
 
 export default function(props: MountProps) {

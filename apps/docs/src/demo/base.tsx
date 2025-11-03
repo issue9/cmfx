@@ -45,20 +45,37 @@ export function buttonKindSelector(v?: ButtonKind) {
 }
 
 /**
- * 将数组生成下拉的单选项
+ * 将数组或是 Map 生成下拉的单选项
+ *
+ * @param label - 标题；
+ * @param array - 数组或是 Map，如果是数组，数组的元素值将作为选项值和选项名称展示，如果是 map，键名为选项值，键值为选项名称；
+ * @param preset - 默认值；
  */
 export function arraySelector<T extends string|number>(
-    label: string, array: ReadonlyArray<T>, preset?: T
+    label: string, array: ReadonlyArray<T> | ReadonlyMap<T, string>, preset?: T
 ): [JSX.Element, Accessor<T|undefined>, Setter<T|undefined>] {
     const signal = createSignal<T|undefined>(preset);
 
-    const options: Array<ChoiceOption<T>> = array.map(item => {
-        return {
-            type: 'item',
-            value: item,
-            label: item
-        };
-    });
+    let options: Array<ChoiceOption<T>>;
+
+    if (Array.isArray(array)) {
+        options = array.map(item => {
+            return {
+                type: 'item',
+                value: item,
+                label: item
+            };
+        });
+    } else {
+        const m = array as ReadonlyMap<T, string>;
+        options = Array.from(m.entries()).map(([key, val]) => {
+            return {
+                type: 'item',
+                value: key,
+                label: val
+            };
+        });
+    }
     const name = createUniqueId(); // 保证一组 radio 一个独立的名称
     const elem = <Choice closable layout='horizontal' placeholder={label}
         accessor={fieldAccessor(name, signal)} options={options} />;

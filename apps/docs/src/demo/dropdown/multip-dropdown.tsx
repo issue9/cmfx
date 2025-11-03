@@ -3,15 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
+import { Portal } from 'solid-js/web';
 import { Hotkey } from '@cmfx/core';
 import IconFace from '~icons/material-symbols/face';
-import { Portal } from 'solid-js/web';
 
 import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
-    return arraySelector('selected class', [styles.selected, '', undefined], preset);
+    return arraySelector('selected class', new Map([[styles.selected, 'selected'], ['', '空']]), preset);
 }
 
 export default function(props: MountProps) {
@@ -41,7 +41,7 @@ export default function(props: MountProps) {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3(control+b)', hotkey: new Hotkey('b', 'control') },
+        { type: 'item', value: 'v3', label: 'v3(control+w)', hotkey: new Hotkey('w', 'control') },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },
@@ -58,15 +58,14 @@ export default function(props: MountProps) {
         },
     ];
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {paletteS}
             {selectedClsS}
         </Portal>
 
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items}
-            trigger='contextmenu' onPopover={e => { console.log('visible:', e); return false; }}>
-            <div class="bg-primary-bg text-primary-fg w-10 h-10">right click</div>
+        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>
+            <div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
         </Dropdown>
-    </div>;
+    </>;
 }

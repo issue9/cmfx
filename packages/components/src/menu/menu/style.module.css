@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-@reference '../style.css';
+@reference '../../style.css';
 
 @layer components {
 
@@ -149,11 +149,5 @@
         * li.divider {
             @apply px-0!;
         }
-    }
-
-    /********************************* dropdown *******************************/
-
-    .dropdown {
-        @apply border border-palette-border rounded-md;
     }
 }

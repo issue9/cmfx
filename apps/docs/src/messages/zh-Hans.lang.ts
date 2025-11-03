@@ -80,6 +80,7 @@ const messages: typeof m = {
             dialog: 'Dialog 对话框',
             divider: 'Divider 分割线',
             drawer: 'Drawer 抽屉',
+            dropdown: 'Dropdown 下拉菜单',
             editor: 'Editor WYSIWYG 编辑器',
             empty: 'Empty 空状态',
             form: 'Form 表单',

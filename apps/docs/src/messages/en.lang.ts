@@ -79,6 +79,7 @@ const messages = {
             dialog: 'Dialog',
             divider: 'Divider',
             drawer: 'Drawer',
+            dropdown: 'Dropdown',
             editor: 'Editor',
             empty: 'Empty',
             form: 'Form',

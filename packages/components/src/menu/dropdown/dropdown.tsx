@@ -6,7 +6,7 @@ import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass, RefProps } from '@/base';
-import { default as Menu, Props as MenuProps, Ref as MenuRef } from './menu';
+import { Menu, MenuProps, MenuRef } from '@/menu';
 import styles from './style.module.css';
 
 export interface Ref {

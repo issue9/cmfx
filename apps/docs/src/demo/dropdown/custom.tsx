@@ -1,17 +1,16 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
-import { Dropdown, MenuItem, MountProps } from '@cmfx/components';
+import { Button, Dropdown, DropdownRef, MenuItem, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
-import { Hotkey } from '@cmfx/core';
 import IconFace from '~icons/material-symbols/face';
 
 import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
-    return arraySelector('selected class', [styles.selected, '', undefined], preset);
+    return arraySelector('selected class', new Map([[styles.selected, 'selected'], ['', '空']]), preset);
 }
 
 export default function(props: MountProps) {
@@ -41,7 +40,7 @@ export default function(props: MountProps) {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3(control+w)', hotkey: new Hotkey('w', 'control') },
+        { type: 'item', value: 'v3', label: 'v3' },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },
@@ -58,14 +57,20 @@ export default function(props: MountProps) {
         },
     ];
 
-    return <>
+    let ref: DropdownRef;
+
+    return <div>
         <Portal mount={props.mount}>
             {paletteS}
             {selectedClsS}
         </Portal>
 
-        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items} multiple>
-            <div class="bg-primary-bg text-primary-fg w-full h-full">click</div>
+        <Button onclick={() => ref.show()}>show</Button>
+        <Button onclick={() => ref.hide()}>hide</Button>
+        <br />
+        <Dropdown selectedClass={selectedCls()} palette={palette()} ref={el => ref = el}
+            items={items} trigger='custom' onPopover={e => { console.log('visible:', e); return false; }}>
+            <div class="bg-primary-bg text-primary-fg w-full h-full">custom</div>
         </Dropdown>
-    </>;
+    </div>;
 }

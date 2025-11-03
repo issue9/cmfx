@@ -1,0 +1,13 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../style.css';
+
+@layer components {
+    .dropdown {
+        @apply border border-palette-border rounded-md;
+    }
+}

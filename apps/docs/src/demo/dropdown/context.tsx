@@ -11,7 +11,7 @@ import { arraySelector, paletteSelector } from '../base';
 import styles from './style.module.css';
 
 function selectedClassSelector(preset?: string) {
-    return arraySelector('selected class', [styles.selected, '', undefined], preset);
+    return arraySelector('selected class', new Map([[styles.selected, 'selected'], ['', '空']]), preset);
 }
 
 export default function(props: MountProps) {
@@ -41,7 +41,7 @@ export default function(props: MountProps) {
                 },
             ]
         },
-        { type: 'item', value: 'v3', label: 'v3(control+q)', hotkey: new Hotkey('q', 'control') },
+        { type: 'item', value: 'v3', label: 'v3(control+b)', hotkey: new Hotkey('b', 'control') },
         {
             type: 'item', value: 'v4', label: '很长很长很长的标题-v4', prefix: <IconFace />, items: [
                 { type: 'item', value: 'v41', label: 'v41' },
@@ -64,9 +64,9 @@ export default function(props: MountProps) {
             {selectedClsS}
         </Portal>
 
-        <Dropdown selectedClass={selectedCls()} palette={palette()}
-            items={items} trigger='hover' onPopover={e => { console.log('visible:', e); return false; }}>
-            <div class="bg-primary-bg text-primary-fg w-full h-full">hover</div>
+        <Dropdown selectedClass={selectedCls()} palette={palette()} items={items}
+            trigger='contextmenu' onPopover={e => { console.log('visible:', e); return false; }}>
+            <div class="bg-primary-bg text-primary-fg w-10 h-10">right click</div>
         </Dropdown>
     </div>;
 }
