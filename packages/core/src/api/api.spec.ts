@@ -2,23 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { beforeEach, describe, expect, test, vi } from 'vitest';
+import { beforeEach, describe, expect, test } from 'vitest';
 
 import { sleep } from '@/time';
 import { API, query2Search } from './api';
 import { Token, writeToken } from './token';
-
-Object.defineProperty(window, 'EventSource', {
-    writable: true,
-    value: vi.fn().mockImplementation(() => ({
-        close: vi.fn(() => { }),
-        addEventListener: vi.fn(
-            (event: string, callback: (_message?: MessageEvent) => {}) => {
-                if (event === 'connect') { callback(); }
-            },
-        ),
-    })),
-});
 
 describe('API', () => {
     const id = 'cmfx-token-name';

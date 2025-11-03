@@ -6,18 +6,17 @@ import './style.css';
 
 // TODO: safari 不支持 requestIdleCallback，后期可删除。
 // https://caniuse.com/?search=requestIdleCallback
-window.requestIdleCallback = window.requestIdleCallback ||
-    function (cb) {
-        var start = Date.now();
-        return setTimeout(function () {
-            cb({
-                didTimeout: false,
-                timeRemaining: function () {
-                    return Math.max(0, 50 - (Date.now() - start));
-                },
-            });
-        }, 1);
-    };
+window.requestIdleCallback = window.requestIdleCallback || function (cb) {
+    var start = Date.now();
+    return setTimeout(function () {
+        cb({
+            didTimeout: false,
+            timeRemaining: function () {
+                return Math.max(0, 50 - (Date.now() - start));
+            },
+        });
+    }, 1);
+};
 
 export * from './appbar';
 export * from './backtop';
