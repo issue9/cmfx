@@ -125,7 +125,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
 
                 props.accessor.setValue(e as any);
             }}>
-                <div class={joinClass(undefined, styles['activator-container'], props.rounded ? 'rounded-full' : '')}>
+                <div class={joinClass(undefined, styles['activator-container'], props.rounded ? styles.rounded : '')}>
                     <input id={id} tabIndex={props.tabindex} class="hidden peer"
                         disabled={props.disabled} readOnly={props.readonly}
                     />

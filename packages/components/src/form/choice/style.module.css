@@ -38,6 +38,18 @@
             }
         }
 
+        .activator-container.rounded {
+            @apply rounded-full!;
+
+            .chip {
+                @apply rounded-full!;
+
+                .close {
+                    @apply rounded-full!;
+                }
+            }
+        }
+
         .activator-container:has(:disabled) {
             @apply cursor-not-allowed border-palette-border-disabled;
 
