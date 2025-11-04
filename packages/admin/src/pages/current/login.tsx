@@ -60,7 +60,7 @@ function LoginBox(props: Props): JSX.Element {
     return <Page title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
         <div class={styles.form}>
             <div class={styles.title}>
-                <p class="text-2xl">{l.t('_p.current.login')}</p>
+                <p>{l.t('_p.current.login')}</p>
                 <Choice accessor={passport} options={passports()
                     .map(v => ({ type: 'item', value: v[0], label: l.t(v[1]) }))}
                 />

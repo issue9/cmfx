@@ -19,6 +19,7 @@ import IconPerson from '~icons/material-symbols/person';
 
 import { useAdmin } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
+import styles from './style.module.css';
 
 export class Webauthn implements PassportComponents {
     #id: string;
@@ -38,7 +39,7 @@ export class Webauthn implements PassportComponents {
         const nav = useNavigate();
         const account = fieldAccessor('account', '');
 
-        return <form class="gap-5!" onReset={() => account.reset()} onSubmit={async () => {
+        return <form class={styles.webauthn} onReset={() => account.reset()} onSubmit={async () => {
             const r1 = await api.get<CredentialRequestOptions>(`/passports/${this.#id}/login/${account.getValue()}`);
             if (!r1.ok) {
                 if (r1.status === 401) {
@@ -50,12 +51,12 @@ export class Webauthn implements PassportComponents {
             }
 
             const pubKey = r1.body!.publicKey!;
-            pubKey.challenge = base64urlnopad.decode(pubKey.challenge as any);
+            pubKey.challenge = base64urlnopad.decode(pubKey.challenge);
             if (pubKey.allowCredentials) {
                 pubKey.allowCredentials = pubKey.allowCredentials.map(c => ({
                     ...c,
-                    id: base64urlnopad.decode(c.id as any),
-                }));
+                    id: base64urlnopad.decode(c.id),
+                })) as any;
             }
             const credential = await navigator.credentials.get({ publicKey: pubKey }) as any;
 
@@ -87,10 +88,10 @@ export class Webauthn implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField hasHelp prefix={<IconPerson class="px-1 py-0! shrink-0 self-center w-auto" />}
+            <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
                 suffix={
                     <Show when={account.getValue()!==''}>
-                        <IconClose class="px-1 py-0! shrink-0 self-center w-auto" onClick={()=>account.setValue('')} />
+                        <IconClose class={styles['text-field']} onClick={()=>account.setValue('')} />
                     </Show>
                 }
                 placeholder={l.t('_p.current.username')} accessor={account} />
@@ -148,7 +149,7 @@ export class Webauthn implements PassportComponents {
                                 }
 
                                 const pubKey = r1.body!.publicKey!;
-                                pubKey.challenge = base64urlnopad.decode(pubKey.challenge as any);
+                                pubKey.challenge = base64urlnopad.decode(pubKey.challenge);
                                 if (pubKey.user && pubKey.user.id) {
                                     pubKey.user.id = base64urlnopad.decode(pubKey.user.id as any);
                                 }

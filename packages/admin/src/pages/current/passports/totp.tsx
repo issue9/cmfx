@@ -15,6 +15,7 @@ import IconPin from '~icons/material-symbols/pin';
 
 import { useAdmin, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
+import styles from './style.module.css';
 
 // 登录框的字段
 type Account = {
@@ -50,7 +51,7 @@ export class TOTP implements PassportComponents {
 
         const account = new ObjectAccessor<Account>({ username: '', code: '' });
 
-        return <form onReset={() => account.reset()} onSubmit={async () => {
+        return <form class={styles.totp} onReset={() => account.reset()} onSubmit={async () => {
             const r = await api.post(`/passports/${this.#id}/login`, account.object());
             const ret = await api.login(r);
             if (ret === true) {
@@ -59,9 +60,9 @@ export class TOTP implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField hasHelp prefix={<IconPerson class="px-1 py-0! shrink-0 self-center w-auto" />}
+            <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
                 placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username')} />
-            <TextField hasHelp prefix={<IconPin class="px-1 py-0! shrink-0 self-center w-auto" />}
+            <TextField hasHelp prefix={<IconPin class={styles['text-field']} />} autocomplete='one-time-code'
                 placeholder={l.t('_p.current.verifyCode')} accessor={account.accessor<string>('code')} />
 
             <Button palette='primary' disabled={account.accessor('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
@@ -113,7 +114,7 @@ export class TOTP implements PassportComponents {
 
                         await act.refetchUser();
                     })}>
-                    <form class="flex flex-col gap-2">
+                    <form class={styles['action-form']}>
                         <p title={qr()}>
                             <QRCode type='rounded' value={qr()} />
                         </p>

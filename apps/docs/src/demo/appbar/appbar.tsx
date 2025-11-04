@@ -11,7 +11,7 @@ import { paletteSelector } from '../base';
 export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
 
-    return <div>
+    return <div class="w-full">
         <Portal mount={props.mount}>
             {paletteS}
         </Portal>

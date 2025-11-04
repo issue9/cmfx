@@ -3,7 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Checkbox, Choice, ChoiceOption, fieldAccessor, Layout, layouts, Palette, palettes, ButtonKind, buttonKinds
+    Checkbox, Choice, ChoiceOption, fieldAccessor, Layout,
+    layouts, Palette, palettes, ButtonKind, buttonKinds, useLocale
 } from '@cmfx/components';
 import { PopoverPosition } from '@cmfx/core';
 import { Accessor, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
@@ -30,7 +31,8 @@ export function boolSelector(label: string, preset: boolean = false)
  * @param preset - 默认值
  */
 export function paletteSelector(preset?: Palette) {
-    return arraySelector('颜色', palettes, preset);
+    const l = useLocale();
+    return arraySelector(l.t('_d.demo.palette'), palettes, preset);
 }
 
 export function layoutSelector(label: string, preset?: Layout) {
@@ -38,7 +40,8 @@ export function layoutSelector(label: string, preset?: Layout) {
 }
 
 export function buttonKindSelector(v?: ButtonKind) {
-    return arraySelector('风格', buttonKinds, v);
+    const l = useLocale();
+    return arraySelector(l.t('_d.demo.buttonKind'), buttonKinds, v);
 }
 
 /**

@@ -37,6 +37,10 @@
 
             .title {
                 @apply flex justify-between mb-8;
+
+                >p{
+                    @apply text-2xl;
+                }
             }
         }
 

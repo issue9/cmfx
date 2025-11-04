@@ -1,0 +1,37 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../../../style.css';
+
+@layer components {
+    .password {
+        .text-field {
+            @apply px-1 py-0! shrink-0 self-center w-auto;
+        }
+
+        .action-form {
+            @apply flex flex-col gap-2;
+        }
+    }
+
+    .totp {
+        .text-field {
+            @apply px-1 py-0! shrink-0 self-center w-auto;
+        }
+
+        .action-form {
+            @apply flex flex-col gap-2;
+        }
+    }
+
+    .webauthn {
+        @apply gap-5!;
+
+        .text-field {
+            @apply px-1 py-0! shrink-0 self-center w-auto;
+        }
+    }
+}

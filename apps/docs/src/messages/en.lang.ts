@@ -47,6 +47,8 @@ const messages = {
         },
         demo: {
             overview: 'Overview',
+            palette: 'Palette',
+            buttonKind: 'Button Kind',
 
             // 分类名称
 

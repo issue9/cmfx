@@ -11,6 +11,7 @@ import IconPerson from '~icons/material-symbols/person';
 
 import { useAdmin, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
+import styles from './style.module.css';
 
 type PasswordAccount = {
     username: string;
@@ -43,7 +44,7 @@ export class Pwd implements PassportComponents {
         const nav = useNavigate();
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
 
-        return <form onReset={() => account.reset()} onSubmit={async () => {
+        return <form class={styles.password} onReset={() => account.reset()} onSubmit={async () => {
             const r = await api.post(`/passports/${this.#id}/login`, account.object());
             const ret = await act.login(r);
             if (ret === true) {
@@ -52,9 +53,10 @@ export class Pwd implements PassportComponents {
                 await act.outputProblem(ret);
             }
         }}>
-            <TextField hasHelp prefix={<IconPerson class="px-1 !py-0 shrink-0 self-center w-auto" />}
+            <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
                 placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username')} />
-            <Password hasHelp prefix={<IconPassword class="px-1 !py-0 shrink-0 self-center w-auto" />} placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password')} />
+            <Password hasHelp prefix={<IconPassword class={styles['text-field']} />} autocomplete='current-password'
+                placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password')} />
 
             <Button palette='primary' disabled={account.accessor<string>('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
             <Button palette='secondary' disabled={account.isPreset()} type="reset" > {l.t('_c.reset')} </Button>
@@ -83,7 +85,7 @@ export class Pwd implements PassportComponents {
                     await act.refetchUser();
                     return undefined;
                 })}>
-                <form class="flex flex-col gap-2">
+                <form class={styles['action-form']}>
                     <TextField placeholder={l.t('_p.current.oldPassword')} accessor={pwd.accessor<string>('old')} />
                     <TextField placeholder={l.t('_p.current.newPassword')} accessor={pwd.accessor<string>('new')} />
                 </form>

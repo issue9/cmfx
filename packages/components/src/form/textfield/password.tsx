@@ -2,37 +2,40 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createSignal } from 'solid-js';
+import { JSX, createSignal, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
-import { Button } from '@/button';
-import { AnimationIcon, AnimationIconRef } from '@/icon';
+import { ToggleButton } from '@/button';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
+import styles from './style.module.css';
 
 export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref' | 'autocomplete'> {
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
+
+    /**
+     * 默认情况下密码是否可见
+     */
+    visible?: boolean;
 }
 
 /**
  * 密码输入组件
  */
 export function Password(props: Props): JSX.Element {
-    const [visible, setVisible] = createSignal(false);
+    const [visible, setVisible] = createSignal(!!props.visible);
     let ref: TextFieldRef;
-    let aref: AnimationIconRef;
 
-    return <TextField {...props} type="password" ref={el=>ref=el} suffix={
-        <Button kind='flat' disabled={props.disabled || props.readonly} square class="px-1! py-0! rounded-none"
-            onclick={() => {
+    onMount(() => {
+        ref.input().type = props.visible ? 'text' : 'password';
+    });
+
+    return <TextField {...props} type="password" class={styles.pasword} ref={el => ref = el} suffix={
+        <ToggleButton kind='flat' animation square disabled={props.disabled || props.readonly} value={props.visible}
+            off={<IconVisibility />} on={<IconVisibilityOff />} toggle={async () => {
                 setVisible(!visible());
                 ref.input().type = visible() ? 'text' : 'password';
-                aref.to(visible() ? 'visible' : 'hidden');
-            }}>
-            <AnimationIcon ref={el=>aref=el} icons={{
-                visible: <IconVisibility />,
-                hidden: <IconVisibilityOff />
+                return visible();
             }} />
-        </Button>
     } />;
 }

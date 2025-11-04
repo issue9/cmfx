@@ -4,9 +4,12 @@
 
 import { JSX } from 'solid-js';
 
+/**
+ * 登录方式需要实现的接口
+ */
 export interface PassportComponents {
     /**
-     * 登录页面
+     * 登录页面的容器
      */
     Login(): JSX.Element;
 

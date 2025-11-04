@@ -48,6 +48,8 @@ const messages: typeof m = {
         },
         demo: {
             overview: '组件总览',
+            palette: '调色板',
+            buttonKind: '按钮风格',
 
             // 分类名称
 
