@@ -36,11 +36,13 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
 
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
         <>
-            <Show when={act.user() ? opt.toolbar.get('search') : undefined}>
-                {hk =>
-                    <Search class={styles.search} icon clear hotkey={hk()}
-                        onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
-                }
+            <Show when={act.isLogin()}>
+                <Show when={opt.toolbar.get('search')}>
+                    {hk => // NOTE: 当两个 Show 合并时，会出现 Attempting to access a stale value 的错误
+                        <Search class={styles.search} icon clear hotkey={hk()}
+                            onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
+                    }
+                </Show>
             </Show>
             <Show when={opt.toolbar.get('fullscreen')}>
                 {hk =>
@@ -48,7 +50,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
                         rounded title={l.t('_c.fullscreen')} />
                 }
             </Show>
-            <Show when={act.user()}><UserMenu /></Show>
+            <Show when={act.isLogin()}><UserMenu /></Show>
         </>
     }>
         <Show when={act.isLogin()}>{props.drawer()?.ToggleButton({ square: true })}</Show>

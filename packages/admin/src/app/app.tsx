@@ -99,7 +99,9 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
     let menuRef: MenuRef;
     const [api, act, opt] = useAdmin();
 
-    onMount(() => menuRef.scrollSelectedIntoView());
+    onMount(() => {
+        if (menuRef) { menuRef.scrollSelectedIntoView(); }
+    });
 
     return <Switch>
         <Match when={!api.isLogin()}>
@@ -108,7 +110,7 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
         <Match when={act.isLogin()}>
             <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' ref={props.setDrawer} mainPalette='surface'
                 main={
-                    <ErrorBoundary fallback={err => (<errors.ErrorHandler err={err} />)}>{props.children}</ErrorBoundary>
+                    <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>{props.children}</ErrorBoundary>
                 }>
                 <Menu ref={el => menuRef = el} class={styles.aside} layout='inline'
                     items={buildItems(l, opt.aside.menus)} />

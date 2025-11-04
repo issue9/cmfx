@@ -9,6 +9,9 @@ import { createMemo, JSX } from 'solid-js';
 
 import { useAdmin, useLocale } from '@/context';
 
+/**
+ * 一个包含 HTTP 状态码的错误
+ */
 export class HTTPError extends Error {
     #status: number;
 
@@ -17,6 +20,9 @@ export class HTTPError extends Error {
         this.#status = status;
     }
 
+    /**
+     * 表示 HTTP 状态码
+     */
     get status(): number { return this.#status; }
 }
 

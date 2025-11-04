@@ -32,9 +32,8 @@ const currentKey = '-uid';
  */
 export function useAdmin() {
     const ctx = useContext(internalOptContext);
-    if (!ctx) {
-        throw '未找到正确的 optContext';
-    }
+    if (!ctx) { throw '未找到正确的 optContext'; }
+
     return [ctx.coreAPI, ctx.actions, ctx] as [api: API, actions: ReturnType<typeof buildActions>, options: OptContext];
 }
 
@@ -57,30 +56,29 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
 
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
-        if (!api.isLogin()) {
-            return {} as User; // 虽然返回的值没有用，但不能是 undefined，否则会出错。
-        }
+        // 虽然返回的值没有用，但不能是 undefined，否则会出错。
+        if (!api.isLogin()) { return; }
 
-        // 依然可能 401，比如由服务器导致的用户退出，f.isLogin 是检测不出来的。
+        // 依然可能 401，比如由服务器导致的用户退出，api.isLogin 是检测不出来的。
 
         const r = await api.get<User>(opt.api.info);
         if (r.ok) {
             const u = r.body;
-            if (u && !u.avatar) {
-                u.avatar = opt.logo;
-            }
+            if (u && !u.avatar) { u.avatar = opt.logo; }
             return u;
         }
 
-        // 此时 notify 还未初始化
-        console.error(r.body?.title);
+        console.error(r.body?.title); // 此时 notify 还未初始化
     });
 
     return {
         /**
          * 是否已经登录
          */
-        isLogin() { return api.isLogin(); },
+        isLogin(): boolean {
+            // NOTE: api.isLogin 不是响应式的，所以改为 user。
+            return !user.loading && !!user();
+        },
 
         /**
          * 清除浏览器的所有缓存

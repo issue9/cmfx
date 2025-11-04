@@ -262,9 +262,10 @@ export class API {
     }
 
     /**
-     * 当前是否是有效果的登录状态
+     * 当前是否是有效的登录状态
      *
-     * NOTE: 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
+     * @remarks 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
+     * 所以是无法判断诸如服务端重启等非当前实例主动发起退出导致的状态。
      */
     isLogin(): boolean {
         return !!this.#token && state(this.#token) !== 'refreshExpired';
