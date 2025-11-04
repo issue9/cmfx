@@ -12,7 +12,7 @@ export default function (props: MountProps) {
     const [posS, pos] = arraySelector('pos', ['start', 'end'], 'start');
     let ref: DrawerRef;
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {paletteS}
             {posS}
@@ -26,9 +26,7 @@ export default function (props: MountProps) {
             <div class="h-full border-palette-border min-w-20">aside<br /></div>
         </Drawer>
 
-        <br />
-        {ref!.ToggleButton({ square: true })}
-
+        {ref!.ToggleButton({ square: true, class: 'grow-0' })}
         <Button onclick={() => { ref.toggle(); }}>ref.toggle</Button>
-    </div>;
+    </>;
 }

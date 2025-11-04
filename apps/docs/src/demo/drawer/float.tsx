@@ -27,7 +27,7 @@ export default function (props: MountProps) {
 
     const [ref, setRef] = createSignal<DrawerRef>();
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {breakpointS}
             {posS}
@@ -39,6 +39,7 @@ export default function (props: MountProps) {
         <Show when={ref()}>
             {ref()!.ToggleButton()}
         </Show>
+
         <Drawer ref={setRef} pos={pos()} palette='primary' visible={true} floating={bp()} main={
             <main class="h-full bg-secondary-bg">abc<br /><br /><br />
                 <br /><br /><br />hij
@@ -46,5 +47,5 @@ export default function (props: MountProps) {
         }>
             <div class="h-full border-palette-border min-w-20">aside<br /></div>
         </Drawer>
-    </div>;
+    </>;
 }

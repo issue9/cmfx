@@ -7,12 +7,12 @@
 @reference '../style.css';
 
 @layer components {
-    .page {
+    .stages-page {
         @apply flex flex-row gap-1 justify-between;
-        @apply @container/page;
+        @apply @container/stages;
 
         .nav {
-            @apply max-w-50 @max-md/page:hidden;
+            @apply max-w-50 @max-md/stages:hidden;
         }
 
         article.root {
@@ -72,15 +72,15 @@
             }
 
             .stages {
-                .stage {
+                .stage { /* 单个展示舞台，包含演示区域和代码 */
                     @apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
                     @apply border border-palette-border;
 
-                    .demo {
+                    .demo { /* 演示区域，包含了常规的工具栏和演示组件 */
                         @apply flex flex-col justify-between p-2 flex-1 h-fit max-w-fit;
 
                         >.toolbar {
-                            @apply w-full pb-2 border border-transparent border-b-palette-border mb-8;
+                            @apply w-full pb-2 border border-transparent border-b-palette-border mb-4;
                             @apply flex gap-2 justify-start flex-wrap;
 
                             >.left {
@@ -96,8 +96,10 @@
                             }
                         }
 
-                        .component {
+                        .component { /* 演示组件 */
                             @apply bg-palette-bg text-palette-fg p-2 border border-palette-border;
+                            @apply min-w-fit min-h-fit grow;
+                            @apply flex flex-wrap gap-2;
                         }
                     }
 

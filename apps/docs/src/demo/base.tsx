@@ -15,8 +15,8 @@ export function posSelector(preset?: PopoverPosition) {
 /**
  * 创建一个 bool 选择项
  *
- * @param label - 标题
- * @param preset - 默认值
+ * @param label - 标题；
+ * @param preset - 默认值；
  */
 export function boolSelector(label: string, preset: boolean = false)
     : [JSX.Element, Accessor<boolean>, Setter<boolean>] {

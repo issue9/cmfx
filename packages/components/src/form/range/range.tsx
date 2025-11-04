@@ -24,12 +24,31 @@ export interface Ref {
 }
 
 export interface Props extends FieldBaseProps, RefProps<Ref> {
+    /**
+     * 最小值
+     *
+     * @reactive
+     */
     min?: number;
+
+    /**
+     * 最大值
+     *
+     * @reactive
+     */
     max?: number;
+
+    /**
+     * 步长
+     *
+     * @reactive
+     */
     step?: number;
 
     /**
      * 滑轨和滑块拥有相同的调度
+     *
+     * @reactive
      */
     fitHeight?: boolean;
 
@@ -44,7 +63,9 @@ export interface Props extends FieldBaseProps, RefProps<Ref> {
     accessor: Accessor<number>;
 
     /**
-     * 如果需要显示滑块的当前值，可以通过此字段进行格式化。
+     * 是否需要显示滑块的当前值
+     *
+     * @reactive
      */
     value?: (value: number) => JSX.Element;
 }
@@ -111,9 +132,11 @@ export default function Range(props: Props): JSX.Element {
             aria-readonly={props.readonly} aria-disabled={props.disabled}
         >
             <input type="range" min={props.min} max={props.max}
-                class={props.rounded ? styles.rounded : ''}
                 step={props.step} value={access.getValue()} readOnly={props.readonly}
-                classList={{ [styles['fit-height']]: props.fitHeight }}
+                classList={{
+                    [styles['fit-height']]: props.fitHeight,
+                    [styles.rounded]: props.rounded,
+                }}
                 ref={el => {
                     inputRef = el;
                     if (props.ref) {

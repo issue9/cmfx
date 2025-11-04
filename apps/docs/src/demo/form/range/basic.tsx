@@ -36,10 +36,10 @@ export default function (props: MountProps) {
         </Portal>
 
         <div>
-            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label='label'
+            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label='label'
                 accessor={f} palette='primary' disabled={disabled()} readonly={readonly()} layout={layout()} />
 
-            <Range rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label='label'
+            <Range hasHelp rounded={rounded()} value={value() ? formatValue : undefined} fitHeight={fitHeight()} label='label'
                 accessor={f} palette={palette()} disabled={disabled()} readonly={readonly()} layout={layout()} />
         </div>
     </>;

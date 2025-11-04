@@ -51,7 +51,7 @@ export default function Stages(props: Props):JSX.Element {
     let articleRef: HTMLElement;
     const url = baseURL + '/src/' + props.dir;
 
-    return <Page class={styles.page} title={title}>
+    return <Page class={styles['stages-page']} title={title}>
         <article class={styles.root} ref={el => articleRef = el}>
             <h2>
                 {l.t(title)}
