@@ -8,9 +8,7 @@ import {
 import { PopoverPosition } from '@cmfx/core';
 import { Accessor, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
 
-export function posSelector(
-    preset: PopoverPosition = 'right'
-): [JSX.Element, Accessor<PopoverPosition|undefined>, Setter<PopoverPosition|undefined>] {
+export function posSelector(preset?: PopoverPosition) {
     return arraySelector('pos', ['left', 'right', 'top', 'bottom'], preset);
 }
 
@@ -20,9 +18,8 @@ export function posSelector(
  * @param label - 标题
  * @param preset - 默认值
  */
-export function boolSelector(
-    label: string, preset: boolean = false
-): [JSX.Element, Accessor<boolean>, Setter<boolean>] {
+export function boolSelector(label: string, preset: boolean = false)
+    : [JSX.Element, Accessor<boolean>, Setter<boolean>] {
     const [get,set] = createSignal(preset);
     const chk = <Checkbox checked={get()} onChange={v=>set(!!v)} label={label} />;
     return [chk, get, set];
@@ -54,7 +51,7 @@ export function buttonKindSelector(v?: ButtonKind) {
 export function arraySelector<T extends string|number>(
     label: string, array: ReadonlyArray<T> | ReadonlyMap<T, string>, preset?: T
 ): [JSX.Element, Accessor<T|undefined>, Setter<T|undefined>] {
-    const signal = createSignal<T|undefined>(preset);
+    const signal = createSignal<T | undefined>(preset);
 
     let options: Array<ChoiceOption<T>>;
 

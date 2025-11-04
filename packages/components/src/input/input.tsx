@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createSignal, JSX, Show, untrack } from 'solid-js';
+import { createEffect, createSignal, JSX, Show, untrack } from 'solid-js';
 
 import { BaseProps, RefProps, joinClass } from '@/base';
 import styles from './style.module.css';
@@ -18,15 +18,17 @@ export type Mode = JSX.HTMLAttributes<HTMLElement>['inputMode'];
  * input 组件的 autoComplete 属性
  *
  * https://html.spec.whatwg.org/multipage/form-control-infrastructure.html#autofill
+ * https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Attributes/autocomplete
  */
-export type AutoComplete = 'off' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name'
+export type AutoComplete = 'off' | 'on' | 'name' | 'honorific-prefix' | 'given-name' | 'additional-name' | 'family-name'
     | 'honorific-suffix' | 'nickname' | 'organization-title' | 'username' | 'new-password' | 'current-password'
     | 'one-time-code' | 'organization' | 'street-address' | 'address-line1' | 'address-line2' | 'address-line3'
     | 'address-level' | 'address-level3' | 'address-level2' | 'address-level1' | 'country' | 'country-name'
     | 'postal-code' | 'cc-name' | 'cc-given-name' | 'cc-additional-name' | 'cc-family-name' | 'cc-number' | 'cc-exp'
     | 'cc-exp-month' | 'cc-exp-year' | 'cc-csc' | 'cc-type' | 'transaction-currency' | 'transaction-amount' | 'language'
     | 'bday' | 'bday-day' | 'bday-month' | 'bday-year' | 'sex' | 'url' | 'photo' | 'tel' | 'tel-country-code' | 'tel-national'
-    | 'tel-area-code' | 'tel-local' | 'tel-local-prefix' | 'tel-local-suffix' | 'tel-extension' | 'email' | 'impp';
+    | 'tel-area-code' | 'tel-local' | 'tel-local-prefix' | 'tel-local-suffix' | 'tel-extension' | 'email' | 'impp'
+    | 'webauthn' | 'pager' | 'fax' | 'work' | 'mobile' | 'shipping' | 'billing';
 
 export interface Ref {
     /**
@@ -121,11 +123,13 @@ export interface Props<T extends Value = string> extends BaseProps, RefProps<Ref
 /**
  * 对 input 的简单封装，主要供其它组件使用。是 Search 和 TextField 的基础。
  *
- * @typeParam T - 文本框内容的类型
+ * @typeParam T - 文本框内容的类型；
  */
 export function Input<T extends Value = string>(props: Props<T>):JSX.Element {
     let rootRef: HTMLDivElement;
     const [value, setValue] = createSignal<T | undefined>(props.value);
+
+    createEffect(() => setValue(() => props.value));
 
     return <div ref={el => rootRef = el}
         class={joinClass(props.palette, styles.input, props.rounded ? styles.rounded : '', props.class)}

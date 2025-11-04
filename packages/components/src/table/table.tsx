@@ -23,7 +23,6 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 
     /**
      * 指定条纹色的间隔
-     * - 0 表示没有；
      *
      * @reactive
      */

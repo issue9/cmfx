@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Table, MountProps, TableProps } from '@cmfx/components';
+import { Table, fieldAccessor, MountProps, TableProps, Number } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import { For } from 'solid-js';
 
-import { createSignal } from 'solid-js';
 import { boolSelector, paletteSelector } from '../base';
 
 interface Item {
@@ -28,17 +27,17 @@ export default function (props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [fixedLayoutS, fixedLayout] = boolSelector('fixedLayout', false);
     const [hoverableS, hoverable] = boolSelector('hoverable', false);
-    const [striped, setStriped] = createSignal<TableProps['striped']>(0);
+    const striped = fieldAccessor<TableProps['striped']>('striped', 0);
 
     return <>
         <Portal mount={props.mount}>
             {paletteS}
             {fixedLayoutS}
             {hoverableS}
-            <input type="number" min={0} max={10} value={striped()} onInput={e => setStriped(parseInt(e.currentTarget.value))} />
+            <Number class="w-20" accessor={striped} min={0} max={10} />
         </Portal>
 
-        <Table striped={striped()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
+        <Table striped={striped.getValue()} palette={palette()} fixedLayout={fixedLayout()} hoverable={hoverable()}>
             <thead>
                 <tr>
                     <th>ID</th>
