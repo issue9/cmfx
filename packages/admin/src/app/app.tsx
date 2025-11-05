@@ -28,8 +28,8 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
     const routes = [
         {
             path: '/',
-            component: (props: { children?: JSX.Element }) => <>{props.children}</>,
-            children: opt.routes.public.routes
+            component: (props: { children?: JSX.Element }) => <Public>{props.children}</Public>,
+            children: [...opt.routes.public.routes, { path: '*', component: errors.NotFound }]
         },
         {
             path: '/',
@@ -84,14 +84,22 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
 
     const root = (p: RouteSectionProps) => {
         return <Provider {...opt}>
-            <div class={ joinClass('surface', styles.app) }>
-                <Toolbar drawer={drawerRef} />
-                <main class={styles.main}>{p.children}</main>
-            </div>
+            <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
+                <div class={joinClass('surface', styles.app)}>
+                    <Toolbar drawer={drawerRef} />
+                    <main class={styles.main}>{p.children}</main>
+                </div>
+            </ErrorBoundary>
         </Provider>;
     };
 
     run(root, routes, document.getElementById(elementID)!, xo, router);
+}
+
+function Public(props: ParentProps): JSX.Element {
+    return <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
+        {props.children}
+    </ErrorBoundary>;
 }
 
 function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {

@@ -22,4 +22,8 @@
             @apply w-60 self-center;
         }
     }
+
+    .error-actions {
+        @apply flex flex-col gap-4 max-w-60;
+    }
 }

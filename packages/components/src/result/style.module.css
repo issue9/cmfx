@@ -8,8 +8,10 @@
 
 @layer components {
     .result {
+        --result-gap: 2.5rem;
         @apply text-palette-fg p-8 mx-auto w-full h-full text-wrap whitespace-break-spaces;
-        @apply flex items-center justify-center;
+        @apply flex items-center justify-center gap-(--result-gap);
+        @apply @container/result;
 
         .illustration {
             @apply h-1/2 w-1/2 flex justify-end;
@@ -36,7 +38,7 @@
         }
 
         .content {
-            @apply items-start h-full w-1/2;
+            @apply items-start justify-center h-full w-1/2;
         }
     }
 
@@ -53,14 +55,20 @@
     }
 
     .result.auto {
-        @apply flex flex-row flex-wrap;
+        @apply flex flex-wrap;
 
         .illustration {
-            @apply min-w-fit flex-1;
+            @apply h-full;
+            width: calc(50% - var(--result-gap));
+
+            @apply @max-md/result:h-1/2 @max-md/result:w-full @max-md/result:justify-center @max-md/result:grow;
         }
 
         .content {
-            @apply flex-1 w-fit;
+            @apply items-start justify-center h-full;
+            width: calc(50% - var(--result-gap));
+
+            @apply @max-md/result:items-center @max-md/result:w-full @max-md/result:h-1/2 @max-md/result:grow;
         }
     }
 }
