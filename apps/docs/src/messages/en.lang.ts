@@ -117,6 +117,7 @@ const messages = {
             timer: 'Timer',
             timezone: 'Timezone',
             tour: 'Tour',
+            transition: 'Transition',
             typography: 'Typography',
             upload: 'Upload',
             weekPanel: 'Week Panel',

@@ -118,6 +118,7 @@ const messages: typeof m = {
             timer: 'Timer 计时器',
             timezone: 'Timezone 时区',
             tour: 'Tour 新手导航',
+            transition: 'Transition 过渡动画',
             typography: 'Typography 排版',
             upload: 'Upload 上传',
             weekPanel: 'Week Panel 周面板',

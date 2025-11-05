@@ -6,7 +6,7 @@ import './style.css';
 
 import {
     Appbar, Button, DrawerRef, Dropdown, DropdownRef, LinkButton, Menu, MenuItemItem,
-    Mode, modes, run, Search, ToggleFullScreenButton, useComponents, useLocale, useTheme
+    Mode, modes, run, Search, ToggleFullScreenButton, Transition, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, Show } from 'solid-js';
@@ -152,7 +152,8 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
             <Search class={styles.search} onSearch={search} icon clear hotkey={new Hotkey('k', 'control')} />
         </Appbar>
-        {props.children}
+
+        <Transition>{props.children}</Transition>
     </div>;
 }
 

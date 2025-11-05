@@ -63,6 +63,7 @@ import IconIcon from '~icons/tdesign/icon-filled';
 import IconIllustration from '~icons/uil/illustration';
 import IconInput from '~icons/material-symbols/input-rounded';
 import IconRange from '~icons/uil/slider-h-range';
+import IconTransition from '~icons/material-symbols/masked-transitions';
 
 // 组件的分类
 type Kind = 'general' | 'layout' | 'navigation' | 'data-input' | 'data-display' | 'feedback' | 'config' | 'function';
@@ -100,6 +101,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'general', path: '/theme-selector', component: lazy(() => import('./theme/selector')),
         info: { title: '_d.demo.themeSelector', icon: <IconTheme /> },
+    },
+    {
+        kind: 'general', path: '/transition', component: lazy(() => import('./transition')),
+        info: { title: '_d.demo.transition', icon: <IconTransition /> },
     },
     {
         kind: 'general', path: '/typography', component: lazy(() => import('./typography')),

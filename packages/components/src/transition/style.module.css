@@ -1,0 +1,41 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    /* Transition 动画 */
+
+    .enter-active,
+    .exit-active {
+        @apply transition-opacity;
+    }
+
+    /* 准备入场 */
+    .enter {
+        visibility: hidden;
+        opacity: 0;
+    }
+
+    /* 已经退出 */
+    .exit-to {
+        visibility: hidden;
+        opacity: 0;
+        height: 0 !important;
+    }
+
+    /* 准备退出 */
+    .exit {
+        height: 0 !important;
+        visibility: hidden;
+    }
+
+    /* 已经入场 */
+    .enter-to {
+        visibility: visible;
+        opacity: 1;
+    }
+}

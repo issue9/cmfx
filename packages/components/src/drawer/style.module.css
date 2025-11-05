@@ -21,27 +21,6 @@
         >main {
             @apply overflow-y-auto h-full flex-1 text-palette-fg bg-palette-bg;
         }
-
-        /* Transition 动画 */
-
-        .drawer-fade-enter-active,
-        .drawer-fade-exit-active {
-            transition: opacity var(--default-transition-duration), transform var(--default-transition-duration);
-        }
-
-        /* 准备入场或是已经退出 */
-        .drawer-fade-enter,
-        .drawer-fade-exit-to {
-            transform: translateX(10px);
-            opacity: 0;
-        }
-
-        /* 准备退出或是已经入场 */
-        .drawer-fade-exit,
-        .drawer-fade-enter-to {
-            transform: translateX(0px);
-            opacity: 1;
-        }
     }
 
     .drawer.end {

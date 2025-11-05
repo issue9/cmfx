@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps, Choice, fieldAccessor, joinClass, Page } from '@cmfx/components';
+import { BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, Page, Transition } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
-import { createSignal, For, JSX, Match, onMount, Show, Switch } from 'solid-js';
+import { createResource, For, JSX, Match, Show, Switch } from 'solid-js';
 
 import { user } from '@/components';
 import { useAdmin, useLocale } from '@/context';
@@ -44,28 +44,29 @@ function LoginBox(props: Props): JSX.Element {
 
     api.cache('/passports');
 
-    const [passports, setPassports] = createSignal<Array<[string,string]>>([]);
     const passport = fieldAccessor('passport', q.type ?? 'password');
     passport.onChange(n => setQ({ type: n }));
 
-    onMount(async () => {
+    const [passports] = createResource<Array<ChoiceOption>>(async () => {
         const r = await api.get<Array<user.Passport>>('/passports');
         if (!r.ok) {
             await act.outputProblem(r.body);
-            return;
+            return [];
         }
-        setPassports(r.body!.map(v => [v.id, v.desc]));
+        return r.body!.map(v => ({ type: 'item', value: v.id, label: v.desc }));
     });
 
     return <Page title="_p.current.login" class={joinClass(props.palette, styles.login, props.class)}>
         <div class={styles.form}>
             <div class={styles.title}>
                 <p>{l.t('_p.current.login')}</p>
-                <Choice accessor={passport} options={passports()
-                    .map(v => ({ type: 'item', value: v[0], label: l.t(v[1]) }))}
-                />
+                <Choice accessor={passport} options={!passports.loading ? passports()! : []}/>
             </div>
-            {props.passports.get(passport.getValue())?.Login()}
+            <div>
+                <Transition>
+                    {props.passports.get(passport.getValue())?.Login()}
+                </Transition>
+            </div>
         </div>
 
         <Show when={props.footer && props.footer.length > 0}>

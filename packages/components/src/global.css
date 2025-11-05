@@ -15,7 +15,7 @@
 }
 
 kbd {
-    @apply border border-palette-border rounded-sm bg-palette-bg-low px-1 py-[1px];
+    @apply border border-palette-border rounded-sm bg-palette-bg-low px-1 py-px;
 }
 
 /*********************************** 减少动画 *******************************/

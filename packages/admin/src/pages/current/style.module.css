@@ -30,6 +30,7 @@
         .form {
             @apply flex justify-center flex-col gap-2 w-full @xs/login:w-96 p-5;
             @apply border border-palette-border rounded-md bg-palette-bg shadow-md;
+            @apply transition;
 
             form {
                 @apply flex justify-center flex-col gap-2 w-full;

@@ -3,26 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
-import { Transition, TransitionProps } from 'solid-transition-group';
 import IconMenu from '~icons/material-symbols/menu';
 import IconMenuOpen from '~icons/material-symbols/menu-open';
 
 import { BaseProps, Breakpoint, classList, joinClass, Palette, RefProps } from '@/base';
 import { ToggleButton, ToggleButtonProps } from '@/button';
+import { Transition } from '@/transition';
 import styles from './style.module.css';
-
-const transition: TransitionProps = {
-    // NOTE: mode === outin 时，在嵌套 Transition 时会出现子元素无法显示的问题。
-    // inout 模式则切换动画看起来比较乱，所以采用默认值，表示两者同时进行。
-
-    enterActiveClass: styles['drawer-fade-enter-active'],
-    enterClass: styles['drawer-fade-enter'],
-    enterToClass: styles['drawer-fade-enter-to'],
-
-    exitActiveClass: styles['drawer-fade-exit-active'],
-    exitClass: styles['drawer-fade-exit'],
-    exitToClass: styles['drawer-fade-exit-to'],
-};
 
 export interface Ref {
     /**
@@ -163,12 +150,12 @@ export function Drawer(props: Props) {
                         p = mergeProps({ on: <IconMenuOpen />, off: <IconMenu />, value: visible() }, p);
                         const [_, btnProps] = splitProps(p, ['class']);
                         return <ToggleButton {...btnProps as ToggleButtonProps} class={classList(p.palette, {
-                            '@xs/root:!hidden': props.floating == 'xs',
-                            '@sm/root:!hidden': props.floating == 'sm',
-                            '@md/root:!hidden': props.floating == 'md',
-                            '@lg/root:!hidden': props.floating == 'lg',
-                            '@xl/root:!hidden': props.floating == 'xl',
-                            '@2xl/root:!hidden': props.floating == '2xl',
+                            '@xs/root:hidden!': props.floating == 'xs',
+                            '@sm/root:hidden!': props.floating == 'sm',
+                            '@md/root:hidden!': props.floating == 'md',
+                            '@lg/root:hidden!': props.floating == 'lg',
+                            '@xl/root:hidden!': props.floating == 'xl',
+                            '@2xl/root:hidden!': props.floating == '2xl',
                         }, props.class)} toggle={async (): Promise<boolean> => {
                             setVisible(!visible());
                             return !!visible();
@@ -178,7 +165,7 @@ export function Drawer(props: Props) {
                 });
             }
         }}>
-            <Transition {...transition}>{props.main}</Transition>
+            <Transition>{props.main}</Transition>
         </main>
     </div>;
 }
