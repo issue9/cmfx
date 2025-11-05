@@ -28,7 +28,7 @@ describe('API', () => {
         expect(() => { f.buildURL(''); }).toThrowError('参数 path 不能为空');
     });
 
-    test('get', async() => {
+    test('get', async () => {
         fetchMock.mockResponseOnce('123');
 
         const api = await API.build(id, s, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
@@ -39,7 +39,7 @@ describe('API', () => {
     });
 
     test('post', async () => {
-        fetchMock.mockResponseOnce('123', {status: 401});
+        fetchMock.mockResponseOnce('123', { status: 401 });
 
         const f = await API.build(id, s, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
         const data = await f.post('/abc');
@@ -109,6 +109,6 @@ test('query2Search', () => {
     expect(query2Search({ str: 'str' })).toEqual('?str=str');
     expect(query2Search({ str: 'str', page: 1 })).toEqual('?str=str&page=0');
     expect(query2Search({ str: 'str', num: 0, bool: false })).toEqual('?str=str&num=0&bool=false');
-    expect(query2Search({ str: ['str'], num: [0,1], bool: false })).toEqual('?str=str&num=0%2C1&bool=false');
+    expect(query2Search({ str: ['str'], num: [0, 1], bool: false })).toEqual('?str=str&num=0%2C1&bool=false');
     expect(query2Search({})).toEqual('');
 });

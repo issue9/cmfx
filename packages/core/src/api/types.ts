@@ -10,19 +10,19 @@ export type Method = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
  * @typeParam E - 表示 extension 字段的类型，如果该字段空值，不需要指定。
  */
 export interface Problem<E = never> {
-    type: string
-    title: string
-    status: number
-    detail?: string
-    instance?: string
-    extension?: E
+    type: string;
+    title: string;
+    status: number;
+    detail?: string;
+    instance?: string;
+    extension?: E;
 
     /**
      * 具体的错误字段
      *
      * 根据 status 的不同，可能表示提交对象、查询参数或是报头的错误。
      */
-    params?: Array<Param>
+    params?: Array<Param>;
 }
 
 export interface Param {

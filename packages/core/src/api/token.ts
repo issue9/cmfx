@@ -62,7 +62,7 @@ export function state(t: Token): TokenState {
     if (now >= t.refresh_exp) {
         return 'refreshExpired';
     }
-    if(now >= t.access_exp) {
+    if (now >= t.access_exp) {
         return 'accessExpired';
     }
     return 'normal';

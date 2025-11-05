@@ -30,7 +30,7 @@ class JSONImpl implements Serializer {
 }
 
 class YAMLImpl implements Serializer {
-    parse<T = unknown>(s: Uint8Array): T { return  YAML.parse(textDecoder.decode(s)); }
+    parse<T = unknown>(s: Uint8Array): T { return YAML.parse(textDecoder.decode(s)); }
     stringify<T = unknown>(o: T): Uint8Array { return textEncoder.encode(YAML.stringify(o)); }
 }
 

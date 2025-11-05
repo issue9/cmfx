@@ -36,7 +36,7 @@ export class Exporter<T extends object, Q extends Query> {
         this.#columns = cols;
 
         const row: Array<string> = [];
-        for(const c of cols) {
+        for (const c of cols) {
             if (!c.isUnexported) {
                 row.push(c.label ?? c.id);
             }
@@ -48,9 +48,9 @@ export class Exporter<T extends object, Q extends Query> {
      * 添加一至多行数据
      */
     #append(...rows: Array<T>): void {
-        for(const row of rows) {
-            const data:Array<string> = [];
-            for(const c of this.#columns) {
+        for (const row of rows) {
+            const data: Array<string> = [];
+            for (const c of this.#columns) {
                 if (c.isUnexported) {
                     continue;
                 }
@@ -59,7 +59,7 @@ export class Exporter<T extends object, Q extends Query> {
                 data.push(c.content ? c.content(c.id, val, row) : val);
             }
 
-            xlsx.utils.sheet_add_aoa(this.#sheet, [data], {origin: -1});
+            xlsx.utils.sheet_add_aoa(this.#sheet, [data], { origin: -1 });
         }
     }
 
@@ -71,7 +71,7 @@ export class Exporter<T extends object, Q extends Query> {
 
         if (ret === undefined) {
             return undefined;
-        }else if (Array.isArray(ret)) {
+        } else if (Array.isArray(ret)) {
             this.#append(...ret);
         } else {
             this.#append(...ret.current);

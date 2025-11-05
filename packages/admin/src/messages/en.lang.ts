@@ -40,7 +40,7 @@ const messages = {
             forbidden: 'Forbidden',
             pageNotFound: 'Page not found',
             tooManyRequests: 'Too many requests',
-            internalServerError: 'Server error',
+            internalServerError: 'Internal server error',
             serverUnavailable: 'Server unavailable',
             gatewayTimeout: 'Gateway timeout',
 

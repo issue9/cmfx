@@ -6,7 +6,7 @@ import { expect, test } from 'vitest';
 import { HTTPError } from './errors';
 
 test('HTTPError', () => {
-    const e = new HTTPError(500, 'msg');
+    const e = new HTTPError(500, 'title', 'msg');
 
     expect(e).toBeInstanceOf(HTTPError);
     expect(e).toBeInstanceOf(Error);

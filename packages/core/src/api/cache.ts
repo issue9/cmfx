@@ -11,7 +11,7 @@ export async function newCache(id: string): Promise<Cache> {
 }
 
 class CacheImplement implements Cache {
-    async add(_: RequestInfo | URL): Promise<void> {}
+    async add(_: RequestInfo | URL): Promise<void> { }
     async addAll(requests: RequestInfo[]): Promise<void>;
     async addAll(requests: Iterable<RequestInfo>): Promise<void>;
     async addAll(_: unknown): Promise<void> { return; }

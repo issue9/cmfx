@@ -42,7 +42,7 @@ const messages: typeof m = {
             forbidden: '无权访问当前页面',
             pageNotFound: '访问的页面不存在',
             tooManyRequests: '过多的请求',
-            internalServerError: '服务端错误',
+            internalServerError: '服务端内部发生错误',
             serverUnavailable: '服务暂不可用',
             gatewayTimeout: '请求网关超时',
 

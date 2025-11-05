@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Drawer, DrawerRef, MenuRef, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
-import { Problem } from '@cmfx/core';
+import { API, Problem } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
@@ -68,14 +68,10 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
         pageSize: opt.api.presetSize,
         stays: opt.stays,
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
-            if (!p) {
-                throw '发生了一个未知的错误，请联系管理员！';
-            }
+            if (!p) { throw '发生了一个未知的错误，请联系管理员！'; }
 
-            if (p.status === 401) {
-                throw new errors.HTTPError(401, p.title);
-            } else if (p.status >= 500) {
-                throw new errors.HTTPError(p.status, p.title);
+            if (p.status === 401 || p.status === API.ErrorCode || p.status >= 500) {
+                throw new errors.HTTPError(p.status, p.title, p.detail);
             } else { // 其它 4XX 错误弹出提示框
                 await notify(p.title, p.detail, 'error');
             }

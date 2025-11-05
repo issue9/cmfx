@@ -12,6 +12,14 @@ import { Method, Problem, Query, Return } from './types';
  * 封装了 API 访问的基本功能
  */
 export class API {
+    /**
+     * 当前客户端发生的一些非预料错误时的错误代码
+     *
+     * @remarks 表示客户端本身的错误，比如浏览器因版本问题导致其 fetch 的异常等。
+     *  采用了 418 这个正常情况下很少被用的 HTTP 代码表示。
+     */
+    static readonly ErrorCode = 418;
+
     // NOTE: API 可能存在多个不同配置的实例，在添加静态属性时要注意。
 
     /**
@@ -86,7 +94,7 @@ export class API {
         if (this.#locale === v) { return; }
 
         this.#locale = v;
-        this.clearCache().then(()=>{});
+        this.clearCache().then(() => { });
     }
 
     /**
@@ -128,7 +136,7 @@ export class API {
      * 清除所有的缓存项
      */
     async clearCache(): Promise<void> {
-        for(let val of this.#cachePaths.keys()) {
+        for (let val of this.#cachePaths.keys()) {
             await this.uncache(val);
         }
         this.#cachePaths.clear();
@@ -153,36 +161,36 @@ export class API {
     /**
      * DELETE 请求
      */
-    async delete<R=never,PE=never>(path: string, withToken = true): Promise<Return<R,PE>> {
-        return this.request<R,PE>(path, 'DELETE', undefined, withToken);
+    async delete<R = never, PE = never>(path: string, withToken = true): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'DELETE', undefined, withToken);
     }
 
     /**
      * POST 请求
      */
-    async post<R=never,PE=never>(path: string, body?: unknown, withToken = true): Promise<Return<R,PE>> {
-        return this.request<R,PE>(path, 'POST', body, withToken);
+    async post<R = never, PE = never>(path: string, body?: unknown, withToken = true): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'POST', body, withToken);
     }
 
     /**
      * PUT 请求
      */
-    async put<R=never,PE=never>(path: string, body?: unknown, withToken = true): Promise<Return<R,PE>> {
-        return this.request<R,PE>(path, 'PUT', body, withToken);
+    async put<R = never, PE = never>(path: string, body?: unknown, withToken = true): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'PUT', body, withToken);
     }
 
     /**
      * PATCH 请求
      */
-    async patch<R=never,PE=never>(path: string, body?: unknown, withToken = true): Promise<Return<R,PE>> {
-        return this.request<R,PE>(path, 'PATCH', body, withToken);
+    async patch<R = never, PE = never>(path: string, body?: unknown, withToken = true): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'PATCH', body, withToken);
     }
 
     /**
      * GET 请求
      */
-    async get<R=never,PE=never>(path: string, withToken = true): Promise<Return<R,PE>> {
-        return this.request<R,PE>(path, 'GET', undefined, withToken);
+    async get<R = never, PE = never>(path: string, withToken = true): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'GET', undefined, withToken);
     }
 
     /**
@@ -195,12 +203,12 @@ export class API {
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
-    async request<R=never,PE=never>(
+    async request<R = never, PE = never>(
         path: string, method: Method, obj?: unknown, withToken = true
-    ): Promise<Return<R,PE>> {
+    ): Promise<Return<R, PE>> {
         const token = withToken ? await this.getToken() : undefined;
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
-        return this.#withArgument<R,PE>(path, method, token, !!body, body as BodyInit);
+        return this.#withArgument<R, PE>(path, method, token, !!body, body as BodyInit);
     }
 
     /**
@@ -211,11 +219,11 @@ export class API {
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
      * @param method - 请求方法；
      */
-    async upload<R=never,PE=never>(
+    async upload<R = never, PE = never>(
         path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true
-    ): Promise<Return<R,PE>> {
+    ): Promise<Return<R, PE>> {
         const token = withToken ? await this.getToken() : undefined;
-        return this.#withArgument<R,PE>(path, method, token, false, obj);
+        return this.#withArgument<R, PE>(path, method, token, false, obj);
     }
 
     /**
@@ -224,7 +232,7 @@ export class API {
      * @param ret - 表示执行登录操作之后返回的对象；
      * @returns 如果返回 true，表示操作成功，否则表示错误信息；
      */
-    async login(ret: Return<Token, never>): Promise<Problem<never>|undefined|true> {
+    async login(ret: Return<Token, never>): Promise<Problem<never> | undefined | true> {
         if (!ret.ok) {
             return ret.body;
         }
@@ -306,9 +314,9 @@ export class API {
      * @param ct - 是否需要指定 content-type 报头；
      * @param body - 提交的内容，如果没有可以为空；
      */
-    async #withArgument<R=never,PE=never>(
+    async #withArgument<R = never, PE = never>(
         path: string, method: Method, token?: string, ct?: boolean, body?: BodyInit
-    ): Promise<Return<R,PE>> {
+    ): Promise<Return<R, PE>> {
         const h = new Headers({
             'Accept': this.#acceptType + '; charset=UTF-8',
             'Accept-Language': this.#locale,
@@ -336,7 +344,7 @@ export class API {
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never。
      */
-    async #fetch<R=never,PE=never>(path: string, req?: RequestInit): Promise<Return<R,PE>> {
+    async #fetch<R = never, PE = never>(path: string, req?: RequestInit): Promise<Return<R, PE>> {
         // NOTE: req 的不同，可能需要返回不同的结果，对于缓存的接口，
         // 没办法根据 req 的不同而选择缓存不同的数据。干脆直接不让此方法公开。
 
@@ -360,7 +368,7 @@ export class API {
                     if (!isMatched && this.#cachePaths.has(path)) {
                         await this.#cache.put(fullPath, resp.clone());
                     }
-                } else if (!req ||(req.method !== 'OPTIONS' && req.method !== 'HEAD')) { // 非 GET 请求，则清除缓存。
+                } else if (!req || (req.method !== 'OPTIONS' && req.method !== 'HEAD')) { // 非 GET 请求，则清除缓存。
                     const key = this.#needUncache(path);
                     if (key) {
                         await this.#cache.delete(this.buildURL(key));
@@ -377,20 +385,28 @@ export class API {
                 delToken(this.#id, this.#storage);
             }
             return { headers: resp.headers, status: resp.status, ok: false, body: await this.parse<Problem<PE>>(resp) };
-        } catch(e) {
-            const p: Problem<PE> = { type: '500', status: 500, title: 'error' };
-            // TODO: 采用 Error.isError https://caniuse.com/?search=isError
-            p.detail = e instanceof Error ? e.message : (e as any).toString();
-            return { status: 500, ok: false, body: p };
+        } catch (e) { // 此处捕获的是客户端代码本身的错误
+            const td = e instanceof Error // TODO: 采用 Error.isError https://caniuse.com/?search=isError
+                ? { title: e.name, detail: e.message }
+                : { title: String(e), detail: String(e) };
+            return {
+                status: API.ErrorCode,
+                ok: false,
+                body: {
+                    type: API.ErrorCode.toString(),
+                    status: API.ErrorCode,
+                    ...td
+                }
+            };
         }
     }
 
-    #needUncache(path: string): string|undefined {
-        for(const [key, deps] of this.#cachePaths) {
-            for(const dep of deps) {
+    #needUncache(path: string): string | undefined {
+        for (const [key, deps] of this.#cachePaths) {
+            for (const dep of deps) {
                 if (dep === path) { return key; }
 
-                if (dep.charAt(dep.length-1) === '*' && path.startsWith(dep.substring(0, dep.length-1))) {
+                if (dep.charAt(dep.length - 1) === '*' && path.startsWith(dep.substring(0, dep.length - 1))) {
                     return key;
                 }
             }
@@ -437,7 +453,7 @@ export class API {
      * 关闭当前实例建立起来的所有 SSE 服务
      */
     async closeEventSource(): Promise<void> {
-        for(const [_, item] of this.#events) {
+        for (const [_, item] of this.#events) {
             item[0].close();
         }
         this.#events.clear();
@@ -452,13 +468,13 @@ export class API {
                 return;
             }
 
-            path = path+'?token='+r.body!.token;
+            path = path + '?token=' + r.body!.token;
         }
 
         // watch 返回 Promise 和 Connect 两个对象，
         // Promise 监视 Connect.val 的变化，直到其变为 true，Promise 才会 resolve。
         interface Connect { val: boolean; }
-        const watch = ():[Promise<unknown>, Connect] => {
+        const watch = (): [Promise<unknown>, Connect] => {
             const connect: Connect = { val: false };
             let proxy: Connect;
             const p = new Promise((resolve) => {
@@ -487,7 +503,7 @@ export class API {
  */
 export function query2Search<Q extends Query>(q: Q): string {
     if (q.page) {
-        q = {...q};
+        q = { ...q };
         q.page! -= 1;
     }
 
@@ -506,7 +522,7 @@ export function query2Search<Q extends Query>(q: Q): string {
 
     const qs = s.toString();
     if (qs) {
-        return '?'+qs;
+        return '?' + qs;
     }
     return '';
 }
