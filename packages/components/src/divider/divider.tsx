@@ -42,13 +42,9 @@ const presetProps: Readonly<Props> = {
 export function Divider(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    const style = createMemo(()=>{
+    const style = createMemo(() => {
         const s = { [props.layout === 'horizontal' ? 'padding-block' : 'padding-inline']: props.padding };
-        if (!props.style) { return s; }
-        if (typeof props.style === 'string') {
-            return style2String(s) + ';' + props.style;
-        }
-        return { ...s, ...props.style };
+        return style2String(s, props.style);
     });
 
     return <div role="separator" aria-orientation={props.layout} style={style()}

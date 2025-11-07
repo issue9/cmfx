@@ -5,6 +5,7 @@
 - joinClass
 - classList
 - highlight
+- style2String
 - Highlighter
 - Palette
 - Breakpoint

@@ -5,6 +5,7 @@
 import { JSX } from 'solid-js';
 
 import { Palette } from './theme';
+import { Props } from './types';
 
 /**
  * 复制整个 {@link JSX#Element} 元素
@@ -74,4 +75,37 @@ export function joinClass(palette?: Palette, ...cls: Array<string|undefined|null
     return cls && cls.length > 0
         ? ((palette ? `palette--${palette} ` : '') + cls.join(' '))
         : (palette ? `palette--${palette}` : undefined);
+}
+
+/**
+ * 将 solidjs 的 style 组件属性转换为字符串
+ *
+ * @param style - 符合 solidjs 中的 style 属性的值列表；
+ */
+export function style2String(...style: Array<Props['style']>): string {
+    if (style.length === 0) { return ''; }
+
+    let ret = '';
+
+    for (let s of style) {
+        if (!s) { continue; }
+
+        if (typeof s !== 'string') {
+            Object.entries(s)
+                .forEach(([key, value]) => {
+                    if (value === undefined || value === null) { return; }
+
+                    const cssKey = key.replace(/[A-Z]/g, m => '-' + m.toLowerCase()); // 驼峰转连字符
+                    if (typeof value === 'number') {
+                        ret += `${cssKey}:${value}px;`;
+                    } else {
+                        ret += `${cssKey}:${value};`;
+                    }
+                });
+        } else {
+            ret += s + ';';
+        }
+    }
+
+    return ret;
 }

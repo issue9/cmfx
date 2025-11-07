@@ -76,21 +76,3 @@ export interface MountProps {
      */
     mount?: Node;
 }
-
-/**
- * 将 style 转换为字符串
- */
-export function style2String(style: Props['style']): string {
-    if (!style) return '';
-
-    if (typeof style === 'string') { return style; }
-
-    return Object.entries(style)
-        .filter(([_, value]) => value !== undefined && value !== null)
-        .map(([key, value]) => {
-            // 驼峰转连字符
-            const cssKey = key.replace(/[A-Z]/g, m => '-' + m.toLowerCase());
-            return `${cssKey}:${value}`;
-        })
-        .join(';');
-}

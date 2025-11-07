@@ -77,18 +77,7 @@ export default function Result(props: Props) {
         );
     });
 
-    const style = createMemo(() => {
-        const s = { '--result-gap': props.gap };
-
-        if (!props.style) { return s; }
-
-        if (typeof props.style === 'object') {
-            return { ...s, ...props.style };
-        }
-        return style2String(s) + ';' + props.style;
-    });
-
-    return <div class={cls()} style={style()}>
+    return <div class={cls()} style={style2String({ '--result-gap': props.gap }, props.style)}>
         <Show when={props.illustration}>
             {c => <div aria-hidden="true" class={styles.illustration}>{c()}</div>}
         </Show>

@@ -291,7 +291,7 @@ function buildOptions<L extends BundledLanguage>(
 ): CodeToHastOptions<L, never> {
     // 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度。
     const w = ln === undefined ? '0ch' : (code.split('\n').length + ln).toString().length + 'ch';
-    const s = ';'+style2String(style) + `;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`;
+    const s = style2String(`;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`, style);
 
     return {
         lang: lang || 'text',
