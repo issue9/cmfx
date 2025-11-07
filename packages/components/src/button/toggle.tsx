@@ -86,8 +86,12 @@ export type ToggleFullScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 
 
 /**
  * 切换全屏状态的按钮
+ *
+ * @remarks 并不是所有的浏览器都支持全屏功能，比如 iOS 系统，在不支持的系统上默认会处于禁用状态。
  */
 export function ToggleFullScreenButton(props: ToggleFullScreenButtonProps): JSX.Element {
+    props = mergeProps(presetProps, { disabled: !document.fullscreenEnabled }, props);
+
     const [fs, setFS] = createSignal(!document.fullscreenElement);
 
     // 有可能浏览器通过其它方式控制全屏功能
@@ -105,7 +109,8 @@ export function ToggleFullScreenButton(props: ToggleFullScreenButtonProps): JSX.
         }
     };
 
-    return <ToggleButton {...props} value={fs()} toggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
+    return <ToggleButton {...props} value={fs()}
+        toggle={toggle} on={<IconFullScreen />} off={<IconFullScreenExit />} />;
 }
 
 export type ToggleFitScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 'value'> & {
