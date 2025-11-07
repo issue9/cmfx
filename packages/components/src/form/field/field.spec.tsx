@@ -2,32 +2,40 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
-import Field, { calcLayoutFieldAreas, HelpArea, fieldArea2Style } from './field';
-import styles from './style.module.css';
+import { ComponentTester } from '@/context/context.spec';
+import Field, { calcLayoutFieldAreas, fieldArea2Style } from './field';
 
 describe('fieldArea2Style', () => {
     test('pos', () => {
-        expect(fieldArea2Style({ pos: 'top-left' })).toEqual('grid-area: top-left;');
+        expect(fieldArea2Style({ pos: 'top-left' }))
+            .toEqual({ 'grid-area': 'top-left' });
     });
 
     test('pos-cols', () => {
         expect(fieldArea2Style({ pos: 'top-left', cols: 2 }))
-            .toEqual('grid-area: top-left;grid-column-end: span 2;');
+            .toEqual({
+                'grid-area': 'top-left',
+                'grid-column-end': 'span 2'
+            });
     });
 
     test('pos-cols-rows', () => {
         expect(fieldArea2Style({ pos: 'top-left', cols: 2, rows: 3 }))
-            .toEqual('grid-area: top-left;grid-column-end: span 2;grid-row-end: span 3;');
+            .toEqual({
+                'grid-area': 'top-left',
+                'grid-column-end': 'span 2',
+                'grid-row-end': 'span 3'
+            });
     });
 
     test('pos-rows', () => {
         expect(fieldArea2Style({ pos: 'top-left', rows: 3 }))
-            .toEqual('grid-area: top-left;grid-row-end: span 3;');
+            .toEqual({
+                'grid-area': 'top-left',
+                'grid-row-end': 'span 3'
+            });
     });
 });
 
@@ -77,58 +85,11 @@ describe('calcLayoutFieldAreas', () => {
     });
 });
 
-describe('Field', () => {
-    test('!help && !label', async () => {
-        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, false)}><label>input</label></Field>, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
+describe('Field', async () => {
+    const ct = await ComponentTester.build(
+        'Field',
+        props => <Field {...props} />
+    );
 
-        const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.help)).toBeFalsy();
-        expect(c.querySelector('label')).not.toBeFalsy();
-        unmount();
-    });
-
-    test('help && !label', async () => {
-        const { container, unmount } = render(() =>
-            <Field {...calcLayoutFieldAreas('horizontal', true, false)}>
-                <HelpArea area={{ pos: 'top-left' }} getError={()=>'error'} />
-            </Field>, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
-        const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.help)).toBeTruthy();
-        expect(c.querySelector('label')).toBeFalsy();
-        unmount();
-    });
-
-    test('!help && label', async () => {
-        const { container, unmount } = render(() => <Field {...calcLayoutFieldAreas('horizontal', false, true)}><label>input</label></Field>, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
-        const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.help)).toBeFalsy();
-        expect(c.querySelector('label')).toBeTruthy();
-        unmount();
-    });
-
-    test('help && label', async () => {
-        const { container, unmount } = render(() =>
-            <Field {...calcLayoutFieldAreas('horizontal', true, true)}>
-                <HelpArea area={{ pos: 'top-left' }} getError={()=>'error'} /><label>input</label>
-            </Field>, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
-        const c = container.children.item(0)!;
-        expect(c.querySelector('.' + styles.help)).toBeTruthy();
-        expect(c.querySelector('label')).toBeTruthy();
-        unmount();
-    });
+    test('props', () => ct.testProps());
 });

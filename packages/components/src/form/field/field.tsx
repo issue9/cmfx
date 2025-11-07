@@ -4,10 +4,10 @@
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { joinClass, Layout } from '@/base';
+import { BaseProps, joinClass, Layout } from '@/base';
 import { Accessor } from './access';
-import styles from './style.module.css';
 import type { Props } from './types';
+import styles from './style.module.css';
 
 /**
  * 子组件所处的位置
@@ -40,10 +40,12 @@ export interface FieldAreas {
 /**
  * 将 {@link FieldArea} 转换为 CSS 样式
  */
-export function fieldArea2Style(area: FieldArea): string {
-    return `grid-area: ${area.pos};` +
-        (area.cols ? `grid-column-end: span ${area.cols};` : '') +
-        (area.rows ? `grid-row-end: span ${area.rows};` : '');
+export function fieldArea2Style(area: FieldArea): BaseProps['style'] {
+    return {
+        'grid-area': area.pos,
+        'grid-column-end': area.cols ? `span ${area.cols}` : undefined,
+        'grid-row-end': area.rows ? `span ${area.rows}` : undefined,
+    };
 }
 
 /**

@@ -6,7 +6,7 @@ import {
     createEffect, createMemo, createSignal, createUniqueId, JSX, Match, mergeProps, Show, Switch
 } from 'solid-js';
 
-import { RefProps } from '@/base';
+import { BaseProps, RefProps, style2String } from '@/base';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
@@ -87,9 +87,9 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
     let dropdownRef: DropdownRef;
     let rootRef: HTMLDivElement;
 
-    const Trigger = (p: {style?: string}) => {
+    const Trigger = (p: {style?: BaseProps['style']}) => {
         let inputRef: InputRef;
-        createEffect(() => { inputRef.element().style = p.style ?? ''; });
+        createEffect(() => { inputRef.element().style = style2String(p.style); });
 
         return <Input id={id} prefix={props.prefix} suffix={props.suffix} rounded={props.rounded}
             inputMode={props.inputMode} autocomplete={props.autocomplete}
