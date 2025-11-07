@@ -41,7 +41,7 @@ const options: Options = {
 };
 
 /**
- * 所有测试组件的包装组件
+ * 提供了一个用于测试的环境，包含了基础的环境配置。
  */
 export function Provider(props: ParentProps) {
     const Root = () => {
@@ -72,6 +72,7 @@ export class ComponentTester {
      * 生成基本的组件测试环境
      * @param name - 组件名称，方便定位错误位置；
      * @param r - 生成组件的方法，需要将 props 传递给组件；
+     * @param dur - 用于等待组件加载完成，默认为 500 毫秒。
      */
     static async build(name: string, r: { (props: BaseProps): JSX.Element; }, dur: number = 500): Promise<ComponentTester> {
         const props = { palette: 'primary', 'class': 'custom-cls', style: { '--custom-style': 'red' } } as const;
@@ -89,7 +90,7 @@ export class ComponentTester {
     get result(): Result { return this.#result; }
 
     /**
-     * 测试 {@link ComponentTester#props} 是否正确附加在组件上
+     * 测试 {@link BaseProps} 是否正确附加在组件上
      *
      * @param root - 组件的根元素，如果未提供，则默认为第一个子元素。
      */

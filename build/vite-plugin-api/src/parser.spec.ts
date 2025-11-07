@@ -18,7 +18,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.summary).not.toBeUndefined();
         expect(pp.remarks).not.toBeUndefined();
 
-        expect(pp.fields).toHaveLength(2);
+        expect(pp.fields).toHaveLength(3); // palette, class, style
         const f1 = pp.fields![0];
         expect(f1.name).toEqual('palette');
         expect(f1.type).toContain('secondary');
@@ -70,7 +70,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.summary).toBeUndefined();
         expect(pp.remarks).toBeUndefined();
 
-        expect(pp.fields).toHaveLength(8);
+        expect(pp.fields).toHaveLength(9);
         const f1 = pp.fields?.filter(v => v.name === 'palette')[0];
         expect(f1).not.toBeUndefined();
     });
@@ -85,7 +85,7 @@ describe('Parser', {timeout: 20000}, () => {
         expect(pp.summary).toBeUndefined();
         expect(pp.remarks).toBeUndefined();
 
-        expect(pp.fields).toHaveLength(6);
+        expect(pp.fields).toHaveLength(7);
         const f1 = pp.fields?.filter(v => v.name === 'palette')[0];
         expect(f1).not.toBeUndefined();
 
@@ -101,7 +101,7 @@ describe('Parser', {timeout: 20000}, () => {
         const pp = props[0];
         expect(pp.name).toEqual('TooltipProps');
 
-        expect(pp.fields).toHaveLength(5);
+        expect(pp.fields).toHaveLength(6);
         const f1 = pp.fields?.filter(v => v.name === 'stays')[0];
         expect(f1).not.toBeUndefined();
         expect(f1?.preset).not.toBeUndefined();

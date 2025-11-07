@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
 import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider, ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import { default as Menu, Ref, selectedElements } from './menu';
 import { MenuItem } from './item';
 
@@ -65,9 +64,7 @@ describe('selectedElements', async () => {
     </ul>;
 
     // 需要加载到 DOM，否则测试失败！
-    const { unmount } = render(() => els, { wrapper: Provider });
-
-    await sleep(500); // Provider 是异步的，需要等待其完成加载。
+    const { unmount } = render(() => els);
 
     test('!root', () => {
         const el = selectedElements(els as any);

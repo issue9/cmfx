@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider, ComponentTester } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import { Dialog, Ref } from './dialog';
 import styles from './style.module.css';
 
