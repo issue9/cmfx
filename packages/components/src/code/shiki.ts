@@ -6,7 +6,7 @@ import {
     BundledLanguage, CodeToHastOptions, createHighlighter, ThemeRegistrationRaw, codeToHtml, HighlighterGeneric
 } from 'shiki/bundle/full';
 
-import { joinClass } from '@/base';
+import { BaseProps, joinClass, style2String } from '@/base';
 import { copy2Clipboard } from '@/context';
 import styles from './style.module.css';
 
@@ -53,11 +53,12 @@ export class Highlighter<L extends BundledLanguage> {
      * @param ln - 起始行号，unndefined 表示不显示行号；
      * @param wrap - 是否换行；
      * @param cls - 传递给 pre 标签的 CSS 类名；
-     * @param simple - 简单模式，没有复杂按钮，也没有语言名称，对于单行的代码可使用此方式；
+     * @param style - 传递给 pre 标签的 CSS 样式；
+     * @param simple - 简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；
      * @returns 高亮处理之后的 html 代码；
      */
-    html(code: string, lang: L, ln?: number, wrap?: boolean, cls?: string, simple?: boolean): string {
-        return this.#h.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, simple));
+    html(code: string, lang: L, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean): string {
+        return this.#h.codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, simple));
     }
 
     /**
@@ -74,16 +75,17 @@ export class Highlighter<L extends BundledLanguage> {
  * @param ln - 起始行号，不需要则为 undefined；
  * @param wrap - 是否自动换行；
  * @param cls - 传递给 pre 标签的 CSS 类名；
- * @param simple - 简单模式，没有复杂按钮，也没有语言名称，对于单行的代码可使用此方式；
+ * @param style - 传递给 pre 标签的 CSS 样式；
+ * @param simple - 简单模式，没有复制按钮，也没有语言名称，对于单行的代码可使用此方式；
  * @returns 高亮后的 HTML 代码；
  *
  * @remarks 用户需要自己在 package.json 的 dependencies 中导入
  * [shiki](https://shiki.tmrs.site/) 该包才有高亮功能。
  */
 export async function highlight(
-    code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, simple?: boolean
+    code: string, lang?: BundledLanguage, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean
 ): Promise<string> {
-    return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, simple));
+    return await codeToHtml(code, buildOptions(code, lang, ln, wrap, cls, style, simple));
 }
 
 // 定义了 shiki 的主题
@@ -285,10 +287,11 @@ const shikiTheme: ThemeRegistrationRaw = {
 };
 
 function buildOptions<L extends BundledLanguage>(
-    code: string, lang?: L, ln?: number, wrap?: boolean, cls?: string, simple?: boolean
+    code: string, lang?: L, ln?: number, wrap?: boolean, cls?: string, style?: BaseProps['style'], simple?: boolean
 ): CodeToHastOptions<L, never> {
     // 行号列的宽度，即使只有两行代码，但是从 9 开始计算行号，还是得有 2 位长度。
     const w = ln === undefined ? '0ch' : (code.split('\n').length + ln).toString().length + 'ch';
+    const s = ';'+style2String(style) + `;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`;
 
     return {
         lang: lang || 'text',
@@ -302,7 +305,7 @@ function buildOptions<L extends BundledLanguage>(
                     wrap ? styles.wrap : '',
                     cls,
                 );
-                node.properties.style += `;--line-number-start: ${ln ?? 0};--line-number-width: ${w}`;
+                node.properties.style += s;
 
                 if (!simple) {
                     if (lang) { // 显示语言标签

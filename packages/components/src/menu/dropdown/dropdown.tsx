@@ -65,7 +65,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
 ): JSX.Element {
     props = mergeProps({ trigger: 'click' as Props['trigger'] }, props);
 
-    const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class']);
+    const [_, menuProps] = splitProps(props, ['trigger', 'children', 'items', 'ref', 'onChange', 'class', 'style']);
     const [triggerRef, setTriggerRef] = createSignal<HTMLDivElement>();
     let menuRef: MenuRef;
     let rootRef: HTMLDivElement;
@@ -100,7 +100,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         });
     }
 
-    return <div class={props.class} ref={el => rootRef = el}>
+    return <div class={joinClass(props.palette, props.class)} style={props.style} ref={el => rootRef = el}>
         <div aria-haspopup ref={el => setTriggerRef(el)} onmouseenter={() => {
             if (props.trigger !== 'hover' || !menuRef) { return; }
             show();

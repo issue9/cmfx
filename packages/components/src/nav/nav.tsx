@@ -49,7 +49,7 @@ export default function Nav(props: Props): JSX.Element {
         setHeadings(props.target.querySelectorAll(props.query!));
     };
 
-    return <nav class={joinClass(props.palette, styles.nav, props.class)} ref={el => {
+    return <nav class={joinClass(props.palette, styles.nav, props.class)} style={props.style} ref={el => {
         if (!props.ref) { return; }
         props.ref({
             element() { return el; },

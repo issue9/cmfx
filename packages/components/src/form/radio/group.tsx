@@ -48,7 +48,7 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
     });
 
     const access = props.accessor;
-    return <Field class={props.class} title={props.title} palette={props.palette} ref={el => {
+    return <Field class={props.class} style={props.style} title={props.title} palette={props.palette} ref={el => {
         el.role = 'radiogroup';
     }}>
         <Show when={areas().labelArea}>

@@ -48,7 +48,7 @@ export function Checkbox(props: Props): JSX.Element {
         );
     });
 
-    return <label role="checkbox" title={props.title} class={cls()}
+    return <label role="checkbox" title={props.title} class={cls()} style={props.style}
         tabindex={props.block ? props.tabindex : -1}
         aria-checked={props.checked} aria-readonly={props.readonly} aria-disabled={props.disabled}
     >

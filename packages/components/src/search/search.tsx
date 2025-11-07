@@ -77,6 +77,7 @@ export default function Search(props: Props): JSX.Element {
     });
 
     return <Dropdown palette={props.palette} class={joinClass(undefined, styles.dropdown, props.class)}
+        style={props.style}
         trigger='custom' items={candidate()} ref={el => {
             dropdownRef = el;
             dropdownRef.menu().element().style.height = '240px';
@@ -92,7 +93,7 @@ export default function Search(props: Props): JSX.Element {
             (document.activeElement as any).blur();
         }}
     >
-        <Input palette={props.palette} inputMode={props.inputMode} type='search' autocomplete='off'
+        <Input inputMode={props.inputMode} type='search' autocomplete='off'
             placeholder={l.t('_c.search')} prefix={props.icon ? <IconSearch class={styles.icon} /> : undefined} suffix={
                 <Switch>
                     <Match when={!value() && props.hotkey ? props.hotkey : undefined}>

@@ -46,7 +46,7 @@ export function Selector(props: Props): JSX.Element {
         }
     });
 
-    return <div class={joinClass(props.palette, styles.selector, props.class)}>
+    return <div class={joinClass(props.palette, styles.selector, props.class)} style={props.style}>
         <For each={Array.from(props.schemes.entries())}>
             {scheme => {
                 const colors = scheme[1].dark!;

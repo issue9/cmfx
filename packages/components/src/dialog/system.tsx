@@ -92,7 +92,7 @@ function Confirm(props: DialogProps): JSX.Element {
         });
     };
 
-    return <Dialog movable palette={props.palette} header={title()} class='m-w-60' ref={el => dlg = el}
+    return <Dialog movable palette={props.palette} header={title()} class='min-w-60' ref={el => dlg = el}
         actions={dlg!.DefaultActions(async () => 'true')}>
         <p>{msg()}</p>
     </Dialog>;

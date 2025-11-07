@@ -28,11 +28,19 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
      * @defaultValue 10
      */
     distance?: number;
+
+    /**
+     * 是否为圆形
+     *
+     * @reactive
+     */
+    rounded?: boolean;
 }
 
 /**
  * 返回顶部的按钮
  *
+ * @remarks
  * 该组件会向上查找包含 overflow-y、overflow-block 或是 overflow 样式的组件，如果能找到，将功能用在此组件上。
  */
 export function BackTop(props: Props): JSX.Element {
@@ -61,7 +69,7 @@ export function BackTop(props: Props): JSX.Element {
         scroller && scroller.removeEventListener('scroll', calcVisible);
     });
 
-    return <Button square rounded palette={props.palette} ref={el => {
+    return <Button square rounded={props.rounded} palette={props.palette} ref={el => {
         ref = el;
 
         if (props.ref) {
@@ -70,7 +78,8 @@ export function BackTop(props: Props): JSX.Element {
                 backtop() { backtop(); }
             });
         }
-    }} class={joinClass(undefined, styles.backtop, props.class)} onclick={() => backtop()}
+    }} class={joinClass(undefined, styles.backtop, props.class)} style={props.style}
+    onclick={() => backtop()}
     >
         {props.children ?? <IconVerticalAlignTop />}
     </Button>;

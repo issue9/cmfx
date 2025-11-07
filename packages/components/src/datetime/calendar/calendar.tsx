@@ -71,7 +71,7 @@ export default function Calendar(props: Props): JSX.Element {
     const [selected, setSelected] = createSignal<Date>();
 
     return <DateView ref={el => setRef(el)} initValue={props.current ?? new Date()} min={props.min} max={props.max}
-        plugins={props.plugins} class={joinClass(undefined, styles.calendar, props.class)}
+        plugins={props.plugins} class={joinClass(undefined, styles.calendar, props.class)} style={props.style}
         weekend={props.weekend} weekBase={props.weekBase} weekName='long' palette={props.palette}
         todayClass={styles.today} selectedClass={styles.selected}
         coveredClass={styles.covered} disabledClass={styles.disabled}

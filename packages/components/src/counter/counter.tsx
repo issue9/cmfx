@@ -84,7 +84,7 @@ export default function Counter(props: Props): JSX.Element {
         play();
     });
 
-    return <div class={joinClass(props.palette, styles.counter, props.class)} ref={el => {
+    return <div class={joinClass(props.palette, styles.counter, props.class)} style={props.style} ref={el => {
         dur = transitionDuration(el); // 当前对象的主题可能与全局的不一样。
 
         if (props.ref) {

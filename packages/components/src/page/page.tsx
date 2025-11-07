@@ -63,7 +63,7 @@ export function Page (props: Props): JSX.Element {
         }
     });
 
-    return <div ref={el => ref = el} class={joinClass(props.palette, styles.page, props.class)}>
+    return <div ref={el => ref = el} class={joinClass(props.palette, styles.page, props.class)} style={props.style}>
         {props.children}
         <Switch>
             <Match when={props.backtop === undefined}><BackTop ref={el => backtopRef = el} /></Match>

@@ -51,7 +51,7 @@ export default function YearPanel(props: Props): JSX.Element {
     const years = createMemo(() => { return genYears(panelValue()); });
 
     return <fieldset popover={props.popover} ref={el => { if (props.ref) { props.ref({ element() { return el; }}); }}}
-        disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)}
+        disabled={props.disabled} class={joinClass(props.palette, styles.panel, props.class)} style={props.style}
     >
         <header class={styles.year}>
             {years()[0]}-{years()[years().length - 1]}

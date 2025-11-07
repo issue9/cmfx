@@ -96,7 +96,7 @@ export function Pagination(props: Props): JSX.Element {
     });
 
     return <nav class={joinClass(props.palette, styles.pagination, props.class)}
-        aria-orientation='horizontal'
+        style={props.style} aria-orientation='horizontal'
     >
         <Button square onclick={() => change(1)}
             aria-label={l.t('_c.pagination.firstPage')}

@@ -11,7 +11,7 @@
         @apply flex flex-wrap gap-2 bg-palette-bg text-palette-fg border-palette-border p-2 rounded-md;
 
         button.option {
-            @apply flex justify-start items-center gap-4 p-1 grow-1 cursor-pointer;
+            @apply flex justify-start items-center gap-4 p-1 grow cursor-pointer;
             @apply border border-transparent;
             @apply hover:border-palette-border rounded-md;
             @apply transition;

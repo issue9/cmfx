@@ -7,22 +7,22 @@ import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
 
 import { joinClass } from '@/base';
-import { WeekPanel } from '@/datetime';
+import { Week, WeekPanel } from '@/datetime';
 import { WeekValueType } from '@/datetime/dateview';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea } from '@/form/field';
-import { Props as PickerProps, presetProps } from './date';
+import { Props as PickerProps, DateType } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-export interface Props extends Omit<PickerProps, 'accessor' | 'accentPalette' | 'time'> {
+export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accessor' | 'accentPalette' | 'time'> {
     accessor: Accessor<WeekValueType | undefined>;
 }
 
 /**
  * 周数选择组件
  */
-export function WeekPicker(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+export function WeekPicker<T extends DateType>(props: Props<T>): JSX.Element {
+    props = mergeProps({weekBase: 0 as Week}, props);
 
     const [panelProps, _] = splitProps(props,
         ['weekBase', 'weekend', 'disabled', 'readonly', 'palette', 'min', 'max']);
@@ -42,7 +42,7 @@ export function WeekPicker(props: Props): JSX.Element {
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={joinClass(undefined, styles.activator, props.class)}
-        title={props.title} palette={props.palette} aria-haspopup
+        style={props.style} title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}

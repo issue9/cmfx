@@ -9,7 +9,7 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
-import { DatePanel, DatePanelProps } from '@/datetime';
+import { DatePanel, DatePanelProps, Week } from '@/datetime';
 import {
     Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm
 } from '@/form/field';
@@ -19,22 +19,18 @@ import { togglePop } from './utils';
 // 允许的日期类型
 export type DateType = Date | string | number;
 
-export interface Props extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
+export interface Props<T extends DateType> extends FieldBaseProps, Omit<DatePanelProps, 'onChange' | 'value' | 'popover' | 'ref'> {
     placeholder?: string;
 
     /**
      * NOTE: 非响应式属性
      */
-    accessor: Accessor<DateType | undefined, 'number' | 'string' | 'date'>;
+    accessor: Accessor<T | undefined, 'number' | 'string' | 'date'>;
 }
 
-export const presetProps: Partial<Props> = {
-    weekBase: 0,
-} as const;
-
-export function DatePicker(props: Props): JSX.Element {
+export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
     const form = useForm();
-    props = mergeProps(presetProps, form, props);
+    props = mergeProps({weekBase: 0 as Week}, form, props);
 
     const l = useLocale();
 
@@ -66,21 +62,21 @@ export function DatePicker(props: Props): JSX.Element {
     const setValue = (value?: Date) => {
         switch (props.accessor.kind()) {
         case 'string':
-            props.accessor.setValue(value?.toISOString());
+            props.accessor.setValue(value?.toISOString() as any);
             break;
         case 'number':
-            props.accessor.setValue(value?.getTime());
+            props.accessor.setValue(value?.getTime() as any);
             break;
         default:
-            props.accessor.setValue(value);
+            props.accessor.setValue(value as any);
             break;
         }
     };
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={joinClass(undefined, styles.activator, props.class)}
-        title={props.title} palette={props.palette} aria-haspopup
+    return <Field palette={props.palette} class={joinClass(undefined, styles.activator, props.class)}
+        style={props.style} title={props.title} aria-haspopup
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
@@ -114,7 +110,7 @@ export function DatePicker(props: Props): JSX.Element {
                     <Button kind='flat' class='py-0 px-1' onclick={() => {
                         const now = new Date();
                         if ((props.min && props.min > now) || (props.max && props.max < now)) { return; }
-                        props.accessor.setValue(now);
+                        props.accessor.setValue(now as any);
                         panelRef.hidePopover();
                     }}>{l.t(props.time ? '_c.date.now' : '_c.date.today')}</Button>
                 </div>

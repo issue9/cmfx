@@ -13,7 +13,7 @@ import styles from './style.module.css';
 
 type Value = string | number | Array<string>;
 
-export interface Props<T> extends FieldBaseProps {
+export interface Props<T extends Value> extends FieldBaseProps {
     placeholder?: string;
 
     /**
@@ -37,9 +37,7 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
 
-    return <Field class={props.class}
-        title={props.title}
-        palette={props.palette}>
+    return <Field class={props.class} style={props.style} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>

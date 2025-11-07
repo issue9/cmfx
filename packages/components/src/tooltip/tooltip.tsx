@@ -47,19 +47,20 @@ export default function Tooltip(props: Props): JSX.Element {
     const [, , opt] = useComponents();
     const duration = props.stays ?? opt.stays;
 
-    return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)} ref={el => {
-        props.ref({
-            show(anchor: HTMLElement, pos: PopoverPosition) {
-                el.showPopover();
-                adjustPopoverPosition(el, anchor.getBoundingClientRect(), 4, pos, 'center');
+    return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)}
+        style={props.style} ref={el => {
+            props.ref({
+                show(anchor: HTMLElement, pos: PopoverPosition) {
+                    el.showPopover();
+                    adjustPopoverPosition(el, anchor.getBoundingClientRect(), 4, pos, 'center');
 
-                if (duration >= 0) { setTimeout(() => el.hidePopover(), duration); }
-            },
+                    if (duration >= 0) { setTimeout(() => el.hidePopover(), duration); }
+                },
 
-            hide() { el.hidePopover(); },
+                hide() { el.hidePopover(); },
 
-            element() { return el; }
-        });
-    }}
+                element() { return el; }
+            });
+        }}
     >{props.children}</div>;
 }

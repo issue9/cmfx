@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
+import { arrayEqual } from '@cmfx/core';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -10,16 +11,13 @@ import IconExpandAll from '~icons/material-symbols/expand-all';
 import { joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
-import { DateRangePanel, DateRangeValueType } from '@/datetime';
+import { DateRangePanel, DateRangeValueType, Week } from '@/datetime';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldHelpArea, useForm } from '@/form/field';
-import { arrayEqual } from '@cmfx/core';
-import { presetProps as basePresetProps, DateType, Props as PickerProps } from './date';
+import { DateType, Props as PickerProps } from './date';
 import styles from './style.module.css';
 import { togglePop } from './utils';
 
-//type RangeValueType = [start: DateType | undefined, end: DateType | undefined];
-
-export interface Props<T extends DateType> extends Omit<PickerProps, 'accessor'> {
+export interface Props<T extends DateType> extends Omit<PickerProps<T>, 'accessor'> {
     /**
      * 中间的箭头
      */
@@ -40,7 +38,7 @@ export interface Props<T extends DateType> extends Omit<PickerProps, 'accessor'>
 export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Element {
     const form = useForm();
     props = mergeProps({
-        ...basePresetProps,
+        weekBase: 0 as Week,
         arrowIcon: <IconArrowRight />,
     }, form, props);
     const l = useLocale();
@@ -99,8 +97,8 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
 
     const id = createUniqueId();
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={joinClass(undefined, styles.activator, props.class)}
-        title={props.title} palette={props.palette} aria-haspopup
+    return <Field palette={props.palette} class={joinClass(undefined, styles.activator, props.class)}
+        style={ props.style } title={props.title} aria-haspopup
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}

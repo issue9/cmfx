@@ -38,7 +38,7 @@ export interface Props extends BaseProps, ParentProps {
  * 简单的卡片组件
  */
 export function Card(props: Props): JSX.Element {
-    return <div class={joinClass(props.palette, styles.card, props.class)}>
+    return <div class={joinClass(props.palette, styles.card, props.class)} style={props.style}>
         <Show when={props.header}>
             {c => <header class={joinClass(undefined, styles.header, props.headerClass)}>{c()}</header>}
         </Show>

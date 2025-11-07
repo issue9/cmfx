@@ -61,7 +61,7 @@ export default function(props: MountProps) {
 
     const [val, setValue] = createSignal<string>('');
 
-    return <>
+    return <div>
         <Portal mount={props.mount}>
             {paletteS}
             {layoutS}
@@ -74,5 +74,5 @@ export default function(props: MountProps) {
             }}
         />
         <p>{val()}</p>
-    </>;
+    </div>;
 }

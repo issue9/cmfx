@@ -83,15 +83,16 @@ export function BasicTable<T extends object>(props: Props<T>) {
 
     const hasCol = props.columns.findIndex(v => !!v.colClass) >= 0;
 
-    return <Spin spinning={props.loading} palette={props.palette} class={joinClass(undefined, styles.table, props.class)}
-        ref={(el: SpinRef) => {
+    return <Spin spinning={props.loading} palette={props.palette} style={props.style}
+        class={joinClass(undefined, styles.table, props.class)} ref={(el: SpinRef) => {
             if (props.ref) {
                 props.ref({
                     element: () => el,
                     table: () => tableRef,
                 });
             }
-        }}>
+        }}
+    >
         <Show when={props.extraHeader}>{c => { return c(); }}</Show>
 
         <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable} striped={props.striped} ref={el => tableRef = el}>

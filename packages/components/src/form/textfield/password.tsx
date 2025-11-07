@@ -8,7 +8,6 @@ import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
 import { ToggleButton } from '@/button';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
-import styles from './style.module.css';
 
 export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref' | 'autocomplete'> {
     autocomplete?: 'new-password' | 'current-password' | 'one-time-code' | 'off';
@@ -30,7 +29,7 @@ export function Password(props: Props): JSX.Element {
         ref.input().type = props.visible ? 'text' : 'password';
     });
 
-    return <TextField {...props} type="password" class={styles.pasword} ref={el => ref = el} suffix={
+    return <TextField {...props} type="password" ref={el => ref = el} suffix={
         <ToggleButton kind='flat' animation square disabled={props.disabled || props.readonly} value={props.visible}
             off={<IconVisibility />} on={<IconVisibilityOff />} toggle={async () => {
                 setVisible(!visible());

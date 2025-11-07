@@ -142,7 +142,7 @@ export function QRCode(props: Props): JSX.Element {
     createEffect(init);
     onMount(init);
 
-    return <span class={joinClass(props.palette, styles.qrcode, props.class)} ref={el => {
+    return <span class={joinClass(props.palette, styles.qrcode, props.class)} style={props.style} ref={el => {
         setRef(el);
 
         if (props.ref) {

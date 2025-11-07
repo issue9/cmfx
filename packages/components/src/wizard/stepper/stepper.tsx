@@ -28,13 +28,6 @@ export interface Props extends BaseProps, RefProps<Ref> {
     index?: number;
 
     /**
-     * 已完成项的色盘
-     *
-     * @reactive
-     */
-    accentPalette: Palette;
-
-    /**
      * 布局
      *
      * @reactive
@@ -51,7 +44,7 @@ export default function Stepper(props: Props): JSX.Element {
     const [index, setIndex] = createSignal(props.index ?? 0);
 
     return <div class={joinClass(props.palette, props.layout === 'vertical' ? styles.vertical : '', styles.stepper, props.class)}
-        ref={el => {
+        style={ props.style } ref={el => {
             if (props.ref) {
                 props.ref({
                     next: () => {

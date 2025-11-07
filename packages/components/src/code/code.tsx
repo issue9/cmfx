@@ -65,8 +65,8 @@ export default function Code(props: Props): JSX.Element {
 
     createEffect(async () => {
         const cls = joinClass(props.palette, props.class);
-        const el = template(await highlight(props.children, props.lang, props.ln, props.wrap, cls))() as HTMLElement;
-        setHTML(el);
+        const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style);
+        setHTML(template(pre)() as HTMLElement);
     });
 
     createEffect(() => {

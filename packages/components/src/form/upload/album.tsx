@@ -79,7 +79,9 @@ export function Album(props: Props): JSX.Element {
     });
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
-    return <Field class={props.class} ref={el => rootRef = el} title={props.title} palette={props.palette}>
+    return <Field class={props.class} style={props.style} ref={el => rootRef = el}
+        title={props.title} palette={props.palette}
+    >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
         </Show>

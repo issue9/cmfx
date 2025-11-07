@@ -27,7 +27,7 @@ export default function(props: MountProps): JSX.Element {
 
         <div class='w-full'>
             <p>icon=dot</p>
-            <Stepper layout={layout()} palette={palette()} ref={el => ref1 = el} accentPalette='primary' steps={[
+            <Stepper layout={layout()} palette={palette()} ref={el => ref1 = el} steps={[
                 { title: 'Step 1', content: 'Content for Step 1' },
                 { title: 'Step 2222222', content: 'Content for Step 2' },
                 { title: 'Step 3', content: 'Content for Step 3' },
@@ -39,7 +39,7 @@ export default function(props: MountProps): JSX.Element {
 
         <div class='w-full'>
             <p>icon=icon</p>
-            <Stepper layout={layout()} palette={palette()} ref={el => ref2 = el} accentPalette='primary' steps={[
+            <Stepper layout={layout()} palette={palette()} ref={el => ref2 = el} steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: <IconPersion /> },
                 { title: 'Step 2222222', content: 'Content for Step 2', icon: <IconChat /> },
                 { title: 'Step 3', content: 'Content for Step 3', icon: <IconCheck /> },
@@ -51,7 +51,7 @@ export default function(props: MountProps): JSX.Element {
 
         <div class='w-full'>
             <p>w-full</p>
-            <Stepper layout={layout()} palette={palette()} ref={el => ref3 = el} accentPalette='primary' steps={[
+            <Stepper layout={layout()} palette={palette()} ref={el => ref3 = el} steps={[
                 { title: 'Step 1', content: 'Content for Step 1', icon: (c?: boolean) => c ? <IconCheck /> : true },
                 { title: 'Step 2', content: 'Content for Step 2', icon: (c?: boolean) => c ? <IconCheck /> : true },
                 { title: 'Step 3', content: 'Content for Step 3', icon: true },

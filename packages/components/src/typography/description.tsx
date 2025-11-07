@@ -28,7 +28,7 @@ export interface Props extends BaseProps, ParentProps {
  * 一长段内容的描述信息，可带一个标题。
  */
 export function Description(props: Props): JSX.Element {
-    return <div class={joinClass(props.palette, styles.description, props.class)}>
+    return <div class={joinClass(props.palette, styles.description, props.class)} style={props.style}>
         <Show when={props.icon || props.title}>
             <Label class={styles.title} icon={props.icon}>{ props.title }</Label>
         </Show>

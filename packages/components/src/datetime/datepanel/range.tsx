@@ -32,7 +32,7 @@ export interface Props extends Omit<CommonProps, 'value' | 'onChange' | 'viewRef
  * 日期范围选择组件
  */
 export function DateRangePanel(props: Props) {
-    const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'palette']);
+    const [_, panelProps] = splitProps(props, ['value', 'onChange', 'popover', 'ref', 'class', 'palette', 'style']);
 
     const l = useLocale();
     let viewRef1: DateViewRef;
@@ -238,7 +238,7 @@ export function DateRangePanel(props: Props) {
     onCleanup(() => { if (resizeObserver) { resizeObserver.disconnect(); } });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
-        class={joinClass(props.palette, styles.range, props.class)}
+        class={joinClass(props.palette, styles.range, props.class)} style={props.style}
         ref={el => { if (props.ref) { props.ref(el); } }}
     >
         <main>

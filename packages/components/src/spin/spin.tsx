@@ -43,7 +43,7 @@ export interface Props extends ParentProps, BaseProps, RefProps<Ref> {
  * @remarks 该组件可以作为任何具有加载状态的组件的容器，包含了 `@container/spin` 容器查询条件。
  */
 export function Spin(props: Props) {
-    return <fieldset class={joinClass(props.palette, styles.spin, props.class)} ref={el => {
+    return <fieldset class={joinClass(props.palette, styles.spin, props.class)} style={props.style} ref={el => {
         if (!props.ref) { return; }
         props.ref({ element() { return el; } });
     }}>

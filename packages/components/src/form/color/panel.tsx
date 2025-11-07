@@ -126,7 +126,7 @@ export default function OKLCHPanel(props: Props): JSX.Element {
 
     return <fieldset aria-readonly={props.readonly} disabled={props.disabled}
         class={joinClass(props.palette, styles['oklch-panel'], props.class)}
-        ref={el => {
+        style={ props.style }  ref={el => {
             if (props.ref) { props.ref({ element: () => el }); }
         }}
     >

@@ -132,6 +132,7 @@ export function Drawer(props: Props) {
         '@max-xl/root:cmfx-drawer-floating': props.floating === 'xl',
         '@max-2xl/root:cmfx-drawer-floating': props.floating === '2xl',
     }, props.pos === 'end' ? styles.end : '', styles.drawer, props.class)}
+    style={props.style}
     >
         <aside ref={(el) => asideRef = el} classList={{
             'cmfx-drawer-hidden-aside': props.floating !== undefined && !visible(),

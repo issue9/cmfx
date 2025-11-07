@@ -106,7 +106,7 @@ export function PaginationBar(props: Props): JSX.Element {
         };
     });
 
-    return <div class={joinClass(props.palette, styles.bar, props.class)}>
+    return <div class={joinClass(props.palette, styles.bar, props.class)} style={props.style}>
         {l.t('_c.pagination.items', translateItems())}
         <div class={styles.right}>
             <Choice accessor={sizeAccessor} options={sizesOptions()} />

@@ -104,7 +104,7 @@ export function Editor(props: Props): JSX.Element {
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     return <Field class={joinClass(undefined, styles.editor, props.class)}
-        title={props.title} palette={props.palette} ref={el => {
+        style={props.style} title={props.title} palette={props.palette} ref={el => {
             root = el;
 
             if (!props.ref) { return; }

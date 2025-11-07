@@ -41,14 +41,12 @@ export default function TimePanel(props: Props): JSX.Element {
 
     const scrollTimer = () => {
         const items = ref.querySelectorAll(`ul>li.${styles.selected}`);
-        if (items && items.length > 0) {
-            for (const item of items) {
-                const p = item.parentElement;
-                const top = item.getBoundingClientRect().top - p!.getBoundingClientRect().top;
+        for (const item of items) {
+            const p = item.parentElement!;
 
-                // scrollBy 与 scrollIntoView 不同点在于，scrollBy 并不会让整个 p 出现在页面的可见范围之内。
-                p!.scrollBy({ top: top, behavior: 'smooth' });
-            }
+            // scrollBy 与 scrollIntoView 不同点在于，scrollBy 并不会让整个 p 出现在页面的可见范围之内。
+            const top = item.getBoundingClientRect().top - p.getBoundingClientRect().top;
+            p.scrollBy({ top: top, behavior: 'smooth' });
         }
     };
 
@@ -70,7 +68,7 @@ export default function TimePanel(props: Props): JSX.Element {
     onMount(() => { scrollTimer(); });
 
     return <fieldset disabled={props.disabled} popover={props.popover}
-        class={joinClass(props.palette, styles.time, props.class)}
+        class={joinClass(props.palette, styles.time, props.class)} style={props.style}
         ref={ el => {
             ref = el;
             if (props.ref) { props.ref({ element() { return el; }}); }

@@ -47,10 +47,10 @@ const presetProps: Readonly<Partial<Props>> = {
 export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
 
-    return <div class={joinClass(undefined, styles.badge, props.class)}>
+    return <div class={joinClass(props.palette, styles.badge, props.class)} style={props.style}>
         {props.children}
-        <span class={joinClass(props.palette,props.rounded ? 'rounded-full' : '',styles[props.pos!],styles.point)}>
-            { props.content }
+        <span class={joinClass(undefined, props.rounded ? 'rounded-full' : '', styles[props.pos!], styles.point)}>
+            {props.content}
         </span>
     </div>;
 }

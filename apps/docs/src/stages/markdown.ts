@@ -24,7 +24,7 @@ function markedCode(): MarkedExtension {
                 Object.assign(token, {
                     type: 'html',
                     block: true,
-                    text: higlighter.html(token.text, 'ts', undefined, true, styles['simple-code'], true)
+                    text: higlighter.html(token.text, 'ts', undefined, true, styles['simple-code'], undefined, true)
                 });
                 break;
             }

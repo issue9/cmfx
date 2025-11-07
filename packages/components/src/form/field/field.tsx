@@ -133,9 +133,8 @@ export default function Field(props: FieldProps): JSX.Element {
     // help 应该与 input 左对齐，而不是与 label 左对齐。
 
     return <div class={joinClass(props.palette, styles.field, props.class)}
-        ref={el => { if (props.ref) { props.ref(el); } }}>
-        {props.children}
-    </div>;
+        style={props.style} ref={el => { if (props.ref) { props.ref(el); } }}
+    >{props.children}</div>;
 }
 
 interface HelpAreaProps {

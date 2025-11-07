@@ -133,6 +133,7 @@ export function Input<T extends Value = string>(props: Props<T>):JSX.Element {
 
     return <div ref={el => rootRef = el}
         class={joinClass(props.palette, styles.input, props.rounded ? styles.rounded : '', props.class)}
+        style={props.style}
     >
         <Show when={props.prefix}>{c => { return c(); }}</Show>
 

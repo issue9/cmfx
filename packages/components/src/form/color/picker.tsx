@@ -35,7 +35,7 @@ export default function OKLCHPicker(props: Props): JSX.Element {
 
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, props.hasHelp, !!props.label));
     const id = createUniqueId();
-    return <Field class={props.class} title={props.title} palette={props.palette} aria-haspopup>
+    return <Field class={props.class} title={props.title} palette={props.palette} aria-haspopup style={props.style}>
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>

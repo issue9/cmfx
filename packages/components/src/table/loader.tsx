@@ -329,8 +329,8 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 
     if (!props.paging) {
         const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'accentPalette', 'hoverable', 'striped', 'stickyHeader', 'ref']);
-        return <BasicTable ref={(el)=>ref=el} stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+        return <BasicTable ref={(el) => ref = el} stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
     }
     const [_, basicProps] = splitProps(props, ['load', 'queries', 'queryForm', 'toolbar', 'systemToolbar', 'paging', 'accentPalette', 'pageSizes', 'hoverable', 'striped', 'stickyHeader', 'ref']);
-    return <BasicTable ref={(el)=>ref=el} stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
+    return <BasicTable ref={(el) => ref = el} stickyHeader={sticky()} striped={striped()} hoverable={hoverable()} loading={items.loading} items={items()!} {...basicProps} extraFooter={footer} extraHeader={header} />;
 }

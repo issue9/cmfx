@@ -29,7 +29,7 @@ const presetProps: Readonly<Partial<Props>> = {
 export function Label(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <Dynamic component={props.tag} class={joinClass(props.palette, styles.label, props.class)}>
+    return <Dynamic component={props.tag} class={joinClass(props.palette, styles.label, props.class)} style={props.style}>
         <Show when={props.icon}>{c => { return c(); }}</Show>
         {props.children}
     </Dynamic>;

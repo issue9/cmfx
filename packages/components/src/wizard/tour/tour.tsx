@@ -44,8 +44,6 @@ export interface Step extends WizardStep {
 export interface Props extends BaseProps {
     /**
      * 指定所有教程步骤
-     *
-     * @reactive
      */
     steps: Array<Step>;
 
@@ -149,8 +147,8 @@ export default function Tour(props: Props): JSX.Element {
         }
     });
 
-    return <Dialog class={joinClass(undefined, styles.tour, props.class)} ref={el => ref = el}
-        header={<Label icon={curr().icon}>{header()}</Label>}
+    return <Dialog palette={props.palette} class={joinClass(undefined, styles.tour, props.class)} style={props.style}
+        ref={el => ref = el} header={<Label icon={curr().icon}>{header()}</Label>}
         actions={<>
             {index() > 0 && <Button onclick={() => setIndex(index() - 1)}>{props.prev || l.t('_c.tour.prev')}</Button>}
             {index() == 0 && <Button palette={props.accentPalette} onclick={() => setIndex(index() + 1)}>{props.next || l.t('_c.tour.start')}</Button>}

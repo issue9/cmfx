@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, ParentProps } from 'solid-js';
+import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
-import { BaseProps, classList, Layout } from '@/base';
+import { BaseProps, classList, Layout, style2String } from '@/base';
 import styles from './style.module.css';
 
 export type Props = ParentProps<{
@@ -42,8 +42,16 @@ const presetProps: Readonly<Props> = {
 export function Divider(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
 
-    return <div role="separator" aria-orientation={props.layout}
-        style={{ [props.layout === 'horizontal' ? 'padding-block' : 'padding-inline']: props.padding }}
+    const style = createMemo(()=>{
+        const s = { [props.layout === 'horizontal' ? 'padding-block' : 'padding-inline']: props.padding };
+        if (!props.style) { return s; }
+        if (typeof props.style === 'string') {
+            return style2String(s) + ';' + props.style;
+        }
+        return { ...s, ...props.style };
+    });
+
+    return <div role="separator" aria-orientation={props.layout} style={style()}
         class={classList(props.palette, {
             [styles.vertical]: props.layout !== 'horizontal',
             [styles[`pos-${props.children ? (props.pos ?? 'none') : 'none'}`]]: true,

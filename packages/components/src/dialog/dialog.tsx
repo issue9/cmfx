@@ -189,7 +189,8 @@ export function Dialog(props: Props): JSX.Element {
     });
 
     return <dialog closedby={undefined} ref={(el) => { props.ref(buildRef(el, l)); ref = el; }}
-        class={joinClass(props.palette, styles.dialog, props.class)}>
+        class={joinClass(props.palette, styles.dialog, props.class)} style={props.style}
+    >
         <Show when={props.header}>
             {c =>
                 <header ref={el => toolbar = el}>

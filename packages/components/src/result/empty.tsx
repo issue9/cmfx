@@ -27,7 +27,7 @@ const presetProps: Props = {
  */
 export default function Empty(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    return <Result layout='vertical' class={props.class} gap='2px'
+    return <Result layout='vertical' class={props.class} style={props.style} gap='2px'
         palette={props.palette} illustration={props.icon}>
         {props.children}
     </Result>;

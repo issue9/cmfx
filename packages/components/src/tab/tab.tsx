@@ -133,7 +133,7 @@ export function Tab(props: Props) {
         }
     };
 
-    return <div role="tablist" aria-orientation={layout} class={cls()}>
+    return <div role="tablist" aria-orientation={layout} class={cls()} style={props.style}>
         <div ref={setTabsRef} class={joinClass(undefined, styles.tabs, props.children ? styles['has-panel'] : '')}>
             <Show when={isOverflow()}>
                 <button class={styles.prev} onclick={e => scroll(e, -40)}>

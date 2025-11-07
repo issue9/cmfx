@@ -92,7 +92,7 @@ export default function Timezone(props: Props): JSX.Element {
         if (props.onChange) { props.onChange(value, old); }
     };
 
-    return <div class={joinClass(props.palette, props.class)}>
+    return <div class={joinClass(props.palette, props.class)} style={props.style}>
         <Tab value={tab()} items={tabs} onChange={v => setTab(v)} panelClass={styles.panel}>
             <For each={regions()}>
                 {region => (

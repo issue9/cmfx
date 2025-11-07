@@ -40,7 +40,7 @@ export interface Props extends BaseProps {
  * 提供显示一组统计数据
  */
 export default function Statistic(props: Props): JSX.Element {
-    return <div class={joinClass(props.palette, styles.statistic)}>
+    return <div class={joinClass(props.palette, styles.statistic, props.class)} style={props.style}>
         <div class={styles.label}>{props.label}</div>
         <div class={styles.content}>
             <Show when={props.icon}>{c => { return c(); }}</Show>

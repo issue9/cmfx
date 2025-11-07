@@ -42,7 +42,7 @@ export interface Props extends BaseProps, ParentProps {
  * ```
  */
 export default function Appbar(props: Props): JSX.Element {
-    return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)}>
+    return <header role="toolbar" class={joinClass(props.palette, styles.appbar, props.class)} style={props.style}>
         <Dynamic class={styles.title} component={props.href ? A : 'div'} href={props.href}>
             <Show when={props.logo}>
                 {c => <img alt="LOGO" class={styles.logo} src={c()} />}

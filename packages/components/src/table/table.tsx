@@ -42,11 +42,13 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * 所有的依赖和限制与内置的 table 元素相同
  */
 export function Table(props: Props) {
-    return <table ref={el => { if (props.ref) { props.ref({ element: () => el }); }}} class={classList(props.palette, {
-        [styles['fixed-layout']]: props.fixedLayout,
-        [styles.hoverable]: props.hoverable,
-        [styles[`striped-${props.striped}`]]: !!props.striped
-    },styles['cmfx-table'], props.class)}>
+    return <table ref={el => { if (props.ref) { props.ref({ element: () => el }); } }}
+        class={classList(props.palette, {
+            [styles['fixed-layout']]: props.fixedLayout,
+            [styles.hoverable]: props.hoverable,
+            [styles[`striped-${props.striped}`]]: !!props.striped
+        }, styles['cmfx-table'], props.class)} style={props.style}
+    >
         {props.children}
     </table>;
 }

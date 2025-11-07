@@ -115,7 +115,9 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
         />;
     };
 
-    return <Field title={props.title} ref={el => rootRef = el} palette={props.palette} class={props.class}>
+    return <Field title={props.title} ref={el => rootRef = el}
+        palette={props.palette} class={props.class} style={props.style}
+    >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
         </Show>

@@ -322,6 +322,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         [styles.vertical]: props.layout === 'vertical',
         [styles.inline]: props.layout === 'inline',
     }, styles.menu, props.class)}
+    style={props.style}
     >
         <For each={buildRenderItemType(props.items, 0)}>
             {item => buildMenuItem(item, props.layout === 'horizontal' ? 'vertical' : 'horizontal')}

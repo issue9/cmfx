@@ -52,7 +52,7 @@ export default function Time(props: Props) {
     }));
 
     return <Field class={joinClass(undefined, styles.activator, props.class)}
-        title={props.title} palette={props.palette} aria-haspopup
+        style={props.style} title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}

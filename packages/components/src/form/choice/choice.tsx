@@ -102,7 +102,7 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
     const id = createUniqueId();
     let dropdownRef: DropdownRef;
     return <Field class={joinClass(undefined, styles.activator, props.class)}
-        title={props.title} palette={props.palette}
+        style={props.style} title={props.title} palette={props.palette}
     >
         <Show when={areas().labelArea}>
             {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}

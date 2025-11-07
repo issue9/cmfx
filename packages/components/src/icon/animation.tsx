@@ -6,7 +6,7 @@ import { bundleSvgsString, easings, Rotation, rotations, SVGMorpheus } from '@ic
 import { createEffect, createResource, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, joinClass, transitionDuration } from '@/base';
+import { BaseProps, joinClass, style2String, transitionDuration } from '@/base';
 import { useTheme } from '@/context';
 
 export interface Ref {
@@ -97,10 +97,18 @@ export function AnimationIcon(props: Props): JSX.Element {
         const scheme = theme.scheme;
         const cls = props.class;
         const p = props.palette;
+        const style = props.style;
+
         if ((cls || p || mode || scheme) && !icons.loading) {
-            // 此处的 !text-palette-fg 必不可少的，如果不强制设置颜色，svg 的默认色可能是 currentColor。
+            // 此处的 text-palette-fg! 必不可少的，如果不强制设置颜色，svg 的默认色可能是 currentColor。
             // 它会从父类查找颜色，如果父类设置了 :active 等伪类的颜色值，那么它可能获取的是伪类状态下的颜色。
-            icons()!.setAttribute('class', joinClass(p, '!text-palette-fg', 'w-4', cls)!);
+            icons()!.setAttribute('class', joinClass(p, 'text-palette-fg!', 'w-4', cls)!);
+
+            if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
+        }
+
+        if (style && !icons.loading) {
+            icons()!.setAttribute('style', style2String(style));
 
             if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
         }

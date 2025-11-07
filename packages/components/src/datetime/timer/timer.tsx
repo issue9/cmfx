@@ -131,7 +131,7 @@ export default function Timer(props: Props): JSX.Element {
         return getFieldIndex(props.startField!); // 由 mergeProps 决定 startField 必然存在。
     });
 
-    return <div class={joinClass(props.palette, styles.timer, props.class)} ref={el => {
+    return <div class={joinClass(props.palette, styles.timer, props.class)} style={props.style} ref={el => {
         if (props.ref) {
             props.ref({
                 toggle() { timer().toggle(); },

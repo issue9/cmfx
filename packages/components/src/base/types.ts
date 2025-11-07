@@ -2,6 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { JSX } from 'solid-js';
 
 import { Palette } from './theme';
 
@@ -41,6 +42,17 @@ export interface Props {
      * @reactive
      */
     class?: string;
+
+    /**
+     * 组件根元素的样式
+     *
+     * @remarks
+     * 相对于 {@link Props."class"}，一些简短的样式设置，直接使用此属性更方便，
+     * 还有一些自定义的样式变量也可以使用此属性设置。
+     *
+     * @reactive
+     */
+    style?: JSX.DOMAttributes<HTMLElement>['style'];
 }
 
 /**
@@ -63,4 +75,22 @@ export interface MountProps {
      * 为 Portal 指定挂载位置
      */
     mount?: Node;
+}
+
+/**
+ * 将 style 转换为字符串
+ */
+export function style2String(style: Props['style']): string {
+    if (!style) return '';
+
+    if (typeof style === 'string') { return style; }
+
+    return Object.entries(style)
+        .filter(([_, value]) => value !== undefined && value !== null)
+        .map(([key, value]) => {
+            // 驼峰转连字符
+            const cssKey = key.replace(/[A-Z]/g, m => '-' + m.toLowerCase());
+            return `${cssKey}:${value}`;
+        })
+        .join(';');
 }
