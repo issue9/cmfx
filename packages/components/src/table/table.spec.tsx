@@ -2,52 +2,49 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Query, sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
+import { Query } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import { BasicTable, Ref as BasicTableRef } from './basic';
 import { LoaderTable, Ref as LoaderTableRef } from './loader';
 import { RemoteTable, Ref as RemoteTableRef } from './remote';
 
-describe('Table', () => {
-    test('basic ref', async () => {
-        let ref: BasicTableRef;
-        const { unmount } = render(() => <BasicTable columns={[]} ref={el => ref = el} />, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
+describe('BsicTable', async () => {
+    let ref: BasicTableRef;
+    const ct = await ComponentTester.build(
+        'BsicTable',
+        props => <BasicTable {...props} columns={[]} ref={el => ref = el} />
+    );
+    test('props', async () => {
         expect(ref!.element()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
-
-        unmount();
+        ct.testProps();
     });
+});
 
-    test('loader ref', async () => {
-        let ref: LoaderTableRef<object>;
-        const { unmount } = render(() => <LoaderTable<object, Query> load={async (_: Query): Promise<object[]> => { return []; }} columns={[]} queries={{}} ref={el => ref = el} />, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
+describe('LoaderTable', async () => {
+    let ref: LoaderTableRef<object>;
+    const ct = await ComponentTester.build(
+        'LoaderTable',
+        props => <LoaderTable<object, Query> {...props} load={async (_: Query): Promise<object[]> => { return []; }} columns={[]} queries={{}} ref={el => ref = el} />
+    );
+    test('props', async () => {
         expect(ref!.element()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
-
-        unmount();
+        ct.testProps();
     });
+});
 
-    test('remote ref', async () => {
-        let ref: RemoteTableRef<object>;
-        const { unmount } = render(() => <RemoteTable<object, Query> path='/' columns={[]} queries={{}} ref={el => ref = el} />, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
+describe('RemoteTable', async () => {
+    let ref: RemoteTableRef<object>;
+    const ct = await ComponentTester.build(
+        'RemoteTable',
+        props => <RemoteTable<object, Query> {...props} path='/' columns={[]} queries={{}} ref={el => ref = el} />
+    );
+    test('props', async () => {
         expect(ref!.element()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
-
-        unmount();
+        ct.testProps();
     });
 });

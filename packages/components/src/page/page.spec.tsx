@@ -2,39 +2,35 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import { Page, Ref } from './page';
 
-describe('Page.ref', () => {
-    test('backtop=undefined', async () => {
-        let ref: Ref;
-        const { unmount } = render(() => <Page title='title' ref={el => ref = el}>abc</Page>, {
-            wrapper: Provider,
-        });
+describe('Page backtop=undefined', async () => {
+    let ref: Ref;
+    const ct = await ComponentTester.build(
+        'Page',
+        props => <Page {...props} title='title' ref={el => ref = el}>abc</Page>
+    );
 
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
+    test('props', () => ct.testProps());
 
+    test('backtop=undefined', () => {
         expect(ref!.element()).not.toBeUndefined();
         expect(ref!.backtop()).not.toBeUndefined();
-
-        unmount();
     });
+});
+
+describe('Page', async () => {
+    let ref: Ref;
+    await ComponentTester.build(
+        'Page',
+        props => <Page backtop={false} {...props} title='title' ref={el => ref = el}>abc</Page>
+    );
 
     test('backtop=false', async () => {
-        let ref: Ref;
-        const { unmount } = render(() => <Page title='title' ref={el => ref = el} backtop={false}>abc</Page>, {
-            wrapper: Provider,
-        });
-
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
         expect(ref!.element()).not.toBeUndefined();
         expect(ref!.backtop()).toBeUndefined();
-
-        unmount();
     });
 });

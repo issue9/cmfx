@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
 import userEvent from '@testing-library/user-event';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import { default as DateView, inRange } from './dateview';
 import styles from './style.module.css';
 
@@ -51,26 +49,31 @@ describe('inRange', () => {
     });
 });
 
-test('DateView', async () => {
+describe('DateView', async () => {
     const user = userEvent.setup();
     let curr: Date | undefined;
 
-    const { container, unmount } = render(() => <DateView ref={() => { }} onClick={d => curr = d}
-        weekName='long' initValue={new Date()} todayClass='today'
-        coveredClass='cover' selectedClass='sel' disabledClass='disabled'
-    />, {
-        wrapper: Provider,
+    const ct = await ComponentTester.build(
+        'DateView',
+        props => <DateView {...props} ref={() => { }} onClick={d => curr = d}
+            weekName='long' initValue={new Date()} todayClass='today'
+            coveredClass='cover' selectedClass='sel' disabledClass='disabled'
+        />
+    );
+
+    test('props', () => {
+        ct.testProps();
     });
-    await sleep(500); // Provider 是异步的，需要等待其完成加载。
-    const root = container.children.item(0)! as HTMLElement;
-    expect(root).toHaveClass(styles.dateview);
 
-    const trs = root.querySelectorAll('tbody>tr');
-    expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
+    test('hover & click', async () => {
+        const root = ct.result.container.firstElementChild as HTMLElement;
+        expect(root).toHaveClass(styles.dateview);
 
-    expect(curr).toBeUndefined(); // 未点击
-    await user.click(trs[2].children.item(2) as HTMLTableCellElement);
-    expect(curr).toBeTruthy();
+        const trs = root.querySelectorAll('tbody>tr');
+        expect(trs.length).toBeGreaterThanOrEqual(5); // 确保有数据产生
 
-    unmount();
+        expect(curr).toBeUndefined(); // 未点击
+        await user.click(trs[2].children.item(2) as HTMLTableCellElement);
+        expect(curr).toBeTruthy();
+    });
 });

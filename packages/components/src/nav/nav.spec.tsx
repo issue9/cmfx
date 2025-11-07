@@ -2,31 +2,31 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import { default as Nav, Ref } from './nav';
 
-describe('Nav', () => {
-    test('ref', async () => {
-        let ref: Ref;
-        let articleRef: HTMLElement;
-        const { unmount } = render(() => <div>
+describe('Nav', async () => {
+    let ref: Ref;
+    let articleRef: HTMLElement;
+
+    const ct = await ComponentTester.build(
+        'Nav',
+        props => <div>
             <article ref={el => articleRef = el}>
                 <h1>head1</h1>
                 <h2>head2</h2>
             </article>
-            <Nav target={articleRef} ref={el => ref = el} />
-        </div>, {
-            wrapper: Provider,
-        });
+            <Nav {...props} target={articleRef} ref={el => ref = el} />
+        </div>
+    );
 
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
+    test('ref', () => {
         expect(ref!.element()).not.toBeUndefined();
-
-        unmount();
     });
+
+    // 组件包含在一个 Div 中
+    const root = ct.result.container.firstElementChild!.children[1];
+    test('props', () => ct.testProps(root));
 });

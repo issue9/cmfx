@@ -6,7 +6,7 @@ import { sleep } from '@cmfx/core';
 import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { Provider, ComponentTester } from '@/context/context.spec';
 import { default as Menu, Ref, selectedElements } from './menu';
 import { MenuItem } from './item';
 
@@ -34,19 +34,18 @@ const items: Array<MenuItem<string>> = [
     },
 ];
 
-describe('Menu', () => {
+describe('Menu', async () => {
+    let ref: Ref;
+    const ct = await ComponentTester.build(
+        'Menu',
+        props => <Menu {...props} multiple items={items} value={['v1', 'v233']} ref={el => ref = el} />
+    );
+
     test('ref', async () => {
-        let ref: Ref;
-        const { unmount } = render(() => <Menu multiple items={items} value={['v1', 'v233']} ref={el => ref = el} />, {
-            wrapper: Provider,
-        });
-
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
         expect(ref!.element()).not.toBeUndefined();
-
-        unmount();
     });
+
+    test('props', () => ct.testProps());
 });
 
 describe('selectedElements', async () => {
@@ -66,9 +65,7 @@ describe('selectedElements', async () => {
     </ul>;
 
     // 需要加载到 DOM，否则测试失败！
-    const { unmount } = render(() => els, {
-        wrapper: Provider,
-    });
+    const { unmount } = render(() => els, { wrapper: Provider });
 
     await sleep(500); // Provider 是异步的，需要等待其完成加载。
 

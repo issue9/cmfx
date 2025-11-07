@@ -2,16 +2,26 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
+import { createSignal } from 'solid-js';
 
-import { Badge } from './badge';
+import { Badge, Corner } from './badge';
+import { ComponentTester } from '@/context/context.spec';
 import styles from './style.module.css';
 
 describe('Badge', async () => {
-    test('pos=undefined,palette=undefined', async () => {
-        const { container, unmount } = render(() => <Badge content={'text'}>abc</Badge>);
-        const c = container.children.item(0)!;
+    const [pos, setPos] = createSignal<Corner>();
+    const ct = await ComponentTester.build(
+        'Badge',
+        props => <Badge pos={pos()} content="text" {...props}>abc</Badge>
+    );
+
+    test('props', async () => {
+        ct.testProps();
+    });
+
+    test('pos=undefined', async () => {
+        const c = ct.result.container.firstElementChild!;
 
         expect(c).toHaveClass(styles.badge);
         expect(c).toHaveTextContent('abc');
@@ -20,14 +30,12 @@ describe('Badge', async () => {
         expect(span).toHaveTextContent('text');
         expect(span).toHaveClass(styles.point);
         expect(span).toHaveClass(styles.topright);
-        expect(span).not.toHaveClass('palette-/');
-
-        unmount();
     });
 
-    test('pos=bottomleft,palette=primary', async () => {
-        const { container, unmount } = render(() => <Badge pos='bottomleft' content={'text'}>abc</Badge>);
-        const c = container.children.item(0)!;
+    test('pos=bottomleft', async () => {
+        setPos('bottomleft');
+
+        const c = ct.result.container.firstElementChild!;
 
         expect(c).toHaveClass(styles.badge);
         expect(c).toHaveTextContent('abc');
@@ -36,8 +44,5 @@ describe('Badge', async () => {
         expect(span).toHaveTextContent('text');
         expect(span).toHaveClass(styles.point);
         expect(span).toHaveClass(styles.bottomleft);
-        expect(span).not.toHaveClass('palette--primary');
-
-        unmount();
     });
 });

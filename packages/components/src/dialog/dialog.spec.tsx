@@ -6,18 +6,16 @@ import { sleep } from '@cmfx/core';
 import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { Provider, ComponentTester } from '@/context/context.spec';
 import { Dialog, Ref } from './dialog';
 import styles from './style.module.css';
 
-describe('Dialog', () => {
+describe('Dialog', async () => {
+    let ref: Ref;
+    const ct = await ComponentTester.build('Dialog', props => <Dialog {...props} ref={el => ref = el}>abc</Dialog>);
+
     test('move', async () => {
-        let ref: Ref;
-        const { container, unmount } = render(() => <Dialog ref={el => ref = el}>abc</Dialog>, {
-            wrapper: Provider,
-        });
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-        const c = container.children.item(0)! as HTMLElement;
+        const c = ct.result.container.firstElementChild as HTMLElement;
         expect(c).toHaveClass(styles.dialog);
 
         ref!.move({ x: 10, y: 10 });
@@ -29,20 +27,10 @@ describe('Dialog', () => {
         expect(c.style.insetInlineStart).toEqual('50%');
         expect(c.style.insetBlockStart).toEqual('50%');
         expect(c.style.translate).toEqual('var(--tw-translate-x) var(--tw-translate-y)');
-
-        unmount();
     });
 
-    test('ref', async () => {
-        let ref: Ref;
-        const { unmount } = render(() => <Dialog ref={el => ref = el}>abc</Dialog>, {
-            wrapper: Provider,
-        });
-
-        await sleep(500); // Provider 是异步的，需要等待其完成加载。
-
+    test('props', async () => {
         expect(ref!.element()).not.toBeUndefined();
-
-        unmount();
+        ct.testProps();
     });
 });

@@ -2,41 +2,37 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { render } from '@solidjs/testing-library';
+import { createSignal } from 'solid-js';
 import { describe, expect, test } from 'vitest';
 
+import { ComponentTester } from '@/context/context.spec';
 import { joinClass } from '@/base';
-import { Divider } from './divider';
+import { Divider, Props } from './divider';
 import styles from './style.module.css';
 
 describe('Divider', async () => {
-    test('pos=undefined', async () => {
-        const { container, unmount } = render(() => <Divider>abc</Divider>);
-        const c = container.children.item(0)!;
+    const [pos, setPos] = createSignal<Props['pos']>();
+    const ct = await ComponentTester.build('Divider', props => <Divider pos={pos()} {...props}>abc</Divider>);
+    const c = ct.result.container.firstElementChild as HTMLDivElement;
 
+    test('props', () => {
+        ct.testProps();
+    });
+
+    test('pos=undefined', async () => {
         expect(c).toHaveClass(styles.divider);
         expect(c).toHaveTextContent('abc');
-
-        unmount();
     });
 
     test('pos=end', async () => {
-        const { container, unmount } = render(() => <Divider pos='end'>abc</Divider>);
-        const c = container.children.item(0)!;
-
+        setPos('end');
         expect(c).toHaveClass(joinClass(undefined, styles.divider, styles['pos-end'])!);
         expect(c).toHaveTextContent('abc');
-
-        unmount();
     });
 
     test('pos=center', async () => {
-        const { container, unmount } = render(() => <Divider pos='center'>abc</Divider>);
-        const c = container.children.item(0)!;
-
+        setPos('center');
         expect(c).toHaveClass(joinClass(undefined, styles.divider, styles['pos-center'])!);
         expect(c).toHaveTextContent('abc');
-
-        unmount();
     });
 });

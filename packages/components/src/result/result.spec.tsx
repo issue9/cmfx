@@ -2,24 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { sleep } from '@cmfx/core';
-import { render } from '@solidjs/testing-library';
 import { describe, expect, test } from 'vitest';
 
-import { Provider } from '@/context/context.spec';
+import { ComponentTester } from '@/context/context.spec';
 import Result from './result';
 import styles from './style.module.css';
 
-describe('Result', () => {
+describe('Result', async () => {
+    const ct = await ComponentTester.build(
+        'Result',
+        props => <Result title='title' {...props}>abc</Result>
+    );
+
     test('title', async () => {
-        const { container, unmount } = render(() => <Result title='title'>abc</Result>, {
-            wrapper: Provider,
-        });
-        await sleep(500);
-        const c = container.children.item(0)!;
+        const c = ct.result.container.firstElementChild!;
         expect(c).toHaveClass(styles.result);
         expect(c).toHaveTextContent('abc');
-
-        unmount();
     });
+
+    test('props', () => ct.testProps());
 });
