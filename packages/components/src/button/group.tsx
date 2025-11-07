@@ -21,16 +21,18 @@ const presetProps: Readonly<Partial<Props>> = {
     layout: 'horizontal'
 } as const;
 
+/**
+ * 按钮分组
+ */
 export function ButtonGroup(props: Props) {
     props = mergeProps(presetProps, props);
 
-    return <fieldset role="group" disabled={props.disabled}
-        aria-orientation={props.layout}
+    return <fieldset role="group" disabled={props.disabled} aria-orientation={props.layout}
         class={classList(props.palette, {
             [styles.rounded]: props.rounded,
             [styles.vertical]: props.layout === 'vertical',
         }, styles.group, styles[props.kind!], props.class)}
-        ref={el => {
+        style={props.style} ref={el => {
             if (props.ref) { props.ref({ element() { return el; } }); }
         }}
     >
