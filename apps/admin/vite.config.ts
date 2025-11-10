@@ -9,6 +9,7 @@ import path from 'path';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import pkg from './package.json';
 
@@ -45,14 +46,20 @@ export default defineConfig(({ mode }) => {
         } : undefined,
 
         plugins: [
-            solidPlugin(),
             Icons({ compiler: 'solid', scale: 1 }),
             tailwindcss(),
             about({
                 packages: ['./package.json'],
                 gomods: ['../../go.mod']
             }),
-
+            viteStaticCopy({
+                targets: [
+                    { src: '../../LICENSE', dest: '../' },
+                    { src: '../../.browserslistrc', dest: '../' },
+                    { src: '../../logo.svg', dest: '../public/' },
+                ]
+            }),
+            solidPlugin(),
             /*
             basicSsl({
                 name: 'test',

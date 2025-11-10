@@ -76,15 +76,16 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
         return items;
     };
 
-    const [themeValues, setThemeValues] = createSignal<Array<Mode | 'reduced-motion'>>([theme.mode ?? 'system'], { equals: false });
+    const [themeValues, setThemeValues]
+        = createSignal<Array<Mode | 'reduced-motion'>>([theme.mode ?? 'system'], { equals: false });
     let themeDropdown: DropdownRef;
 
     return <div class={styles.main}>
-        <Appbar href='/' palette='secondary' title={options.title} actions={
+        <Appbar href='/' palette='secondary' logo={options.logo} title={options.title} actions={
             <>
-                <Show when={docsRef()}>{r => { return r().ToggleButton({square: true, kind: 'flat'}); }}</Show>
-                <Show when={demoRef()}>{r => { return r().ToggleButton({square: true, kind: 'flat'}); }}</Show>
-                <Show when={themeRef()}>{r => { return r().ToggleButton({square: true, kind: 'flat'}); }}</Show>
+                <Show when={docsRef()}>{r => { return r().ToggleButton({ square: true, kind: 'flat' }); }}</Show>
+                <Show when={demoRef()}>{r => { return r().ToggleButton({ square: true, kind: 'flat' }); }}</Show>
+                <Show when={themeRef()}>{r => { return r().ToggleButton({ square: true, kind: 'flat' }); }}</Show>
 
                 <Dropdown trigger='hover' value={[l.match(Array.from(languageIcons.keys()))]}
                     onChange={e => act.switchLocale(e)} items={l.locales.map(locale => ({
@@ -97,34 +98,35 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                     <Button kind='flat' square><IconLanguage /></Button>
                 </Dropdown>
 
-                <Dropdown ref={el => themeDropdown = el} trigger='hover' multiple value={themeValues()} onChange={(val, old) => {
-                    const n = val.filter(v => modes.includes(v as any)); // 提取新值中的有关 Mode 类型的
-                    const o = old ? old.filter(v => modes.includes(v as any)) : []; // 提取旧值中的有关 Mode 类型的
-                    const m = n.filter(v => !o.includes(v)); // 提取只存在于新值中的 Mode 类型值
-                    if (m && m.length > 0) { // 如果存在 m，则删除 val 中所有的 Mode 值，并添加 m 至 val。
-                        const v = val.filter(v => !modes.includes(v as any));
-                        const mode = m[0];
-                        v.push(mode);
-                        setThemeValues(v as any);
-                        act.switchMode(mode as Mode);
-                    }
+                <Dropdown ref={el => themeDropdown = el} trigger='hover' multiple value={themeValues()}
+                    onChange={(val, old) => {
+                        const n = val.filter(v => modes.includes(v as any)); // 提取新值中的有关 Mode 类型的
+                        const o = old ? old.filter(v => modes.includes(v as any)) : []; // 提取旧值中的有关 Mode 类型的
+                        const m = n.filter(v => !o.includes(v)); // 提取只存在于新值中的 Mode 类型值
+                        if (m && m.length > 0) { // 如果存在 m，则删除 val 中所有的 Mode 值，并添加 m 至 val。
+                            const v = val.filter(v => !modes.includes(v as any));
+                            const mode = m[0];
+                            v.push(mode);
+                            setThemeValues(v as any);
+                            act.switchMode(mode as Mode);
+                        }
 
-                    if (val.includes('reduced-motion')) {
-                        document.documentElement.classList.add('prefers-reduced-motion');
-                    } else {
-                        document.documentElement.classList.remove('prefers-reduced-motion');
-                    }
+                        if (val.includes('reduced-motion')) {
+                            document.documentElement.classList.add('prefers-reduced-motion');
+                        } else {
+                            document.documentElement.classList.remove('prefers-reduced-motion');
+                        }
 
-                    themeDropdown.hide();
-                }} items={[
-                    { type: 'item', label: l.t('_d.main.dark'), value: 'dark', prefix: <IconDark /> },
-                    { type: 'item', label: l.t('_d.main.light'), value: 'light', prefix: <IconLight /> },
-                    { type: 'item', label: l.t('_d.main.system'), value: 'system', prefix: <IconSystem /> },
-                    { type: 'divider' },
-                    { type: 'item', label: l.t('_d.main.reducedMotion'), value: 'reduced-motion', prefix: <IconAnimation /> },
-                    { type: 'divider' },
-                    { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', prefix: <IconBuilder /> },
-                ]}>
+                        themeDropdown.hide();
+                    }} items={[
+                        { type: 'item', label: l.t('_d.main.dark'), value: 'dark', prefix: <IconDark /> },
+                        { type: 'item', label: l.t('_d.main.light'), value: 'light', prefix: <IconLight /> },
+                        { type: 'item', label: l.t('_d.main.system'), value: 'system', prefix: <IconSystem /> },
+                        { type: 'divider' },
+                        { type: 'item', label: l.t('_d.main.reducedMotion'), value: 'reduced-motion', prefix: <IconAnimation /> },
+                        { type: 'divider' },
+                        { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', prefix: <IconBuilder /> },
+                    ]}>
                     <Button kind='flat' square><IconTheme /></Button>
                 </Dropdown>
 

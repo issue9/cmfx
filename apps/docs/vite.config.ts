@@ -8,6 +8,7 @@ import path from 'path';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
+import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import pkg from './package.json';
 
@@ -50,9 +51,16 @@ export default defineConfig(({ mode }) => {
                 components: '../../packages/components',
                 root: './src/demo',
             }),
-            solidPlugin(),
             Icons({ compiler: 'solid', scale: 1 }),
             tailwindcss(),
+            viteStaticCopy({
+                targets: [
+                    { src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outdir 目录的
+                    { src: '../../.browserslistrc', dest: '../apps/docs' },
+                    { src: '../../logo.svg', dest: '../apps/docs/public/' },
+                ]
+            }),
+            solidPlugin(),
         ]
     };
 });
