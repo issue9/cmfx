@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, mergeProps, ParentProps } from 'solid-js';
+import { createMemo, JSX, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
 import styles from './style.module.css';
@@ -19,6 +19,7 @@ export interface Props extends BaseProps, ParentProps {
      * 位置
      *
      * @reactive
+     * @defaultValue 'topright'
      */
     pos?: Corner;
 
@@ -46,10 +47,19 @@ const presetProps: Readonly<Partial<Props>> = {
  */
 export function Badge(props: Props) {
     props = mergeProps(presetProps, props);
+    const cls = createMemo(() => {
+        return joinClass(
+            props.palette,
+            props.rounded ? 'rounded-full' : '',
+            styles[props.pos!],
+            styles.point,
+            props.class,
+        );
+    });
 
-    return <div class={joinClass(props.palette, styles.badge, props.class)} style={props.style}>
+    return <div class={styles.badge}>
         {props.children}
-        <span class={joinClass(undefined, props.rounded ? 'rounded-full' : '', styles[props.pos!], styles.point)}>
+        <span class={cls()} style={props.style}>
             {props.content}
         </span>
     </div>;

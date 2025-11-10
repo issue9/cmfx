@@ -17,7 +17,8 @@ describe('Badge', async () => {
     );
 
     test('props', async () => {
-        ct.testProps();
+        const root = ct.result.container.firstChild;
+        ct.testProps(root!.lastChild as Element);
     });
 
     test('pos=undefined', async () => {
