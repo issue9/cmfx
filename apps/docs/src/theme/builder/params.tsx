@@ -92,8 +92,8 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
  */
 export function random(s: ObjectAccessor<ExpandType<Scheme>>, contrast: 75 | 60 | 45 = 60) {
     batch(() => {
-        // 字体不生成随机，改字体会直接作用在整个页面上。
-        s.accessor<string>('fontSize').setValue('16px');
+        // 改字体会直接作用在整个页面上。所以随机功能不修改字体大小。
+        // s.accessor<string>('fontSize').setValue('16px');
 
         s.accessor<number>('contrast').setValue(contrast);
 

@@ -23,7 +23,8 @@ export interface Props extends BaseProps, ParentProps {
     /**
      * 首部的链接
      *
-     * @remarks 如果提供了 href，则 {@link title} 和 {@link logo} 将被渲染为一个链接内的元素。
+     * @remarks
+     * 如果提供了 href，则 {@link title} 和 {@link logo} 将被渲染为一个链接内的元素。
      */
     href?: string;
 
