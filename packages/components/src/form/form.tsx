@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { mergeProps, ParentProps } from 'solid-js';
+import { createMemo, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout } from '@/base';
 import { Spin } from '@/spin';
@@ -58,13 +58,27 @@ const preset = {
 export function Form<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>) {
     props = mergeProps(preset, props);
 
+    const cls = createMemo(() => {
+        return joinClass(
+            undefined,
+            styles.form,
+            props.layout === 'vertical' ? 'flex-col' : '',
+            props.class
+        );
+    });
+
     return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>
-        <Spin spinning={props.formAccessor.submitting()} palette={props.palette} class={props.class} style={props.style}>
-            <form class={joinClass(undefined, styles.form, props.layout === 'vertical' ? 'flex-col' : '')}
-                method={props.inDialog ? 'dialog' : undefined}
-                {...props.formAccessor.events()}>
-                {props.children}
-            </form>
+        <Spin tag="form" spinning={props.formAccessor.submitting()} palette={props.palette} class={cls()} style={props.style}
+            ref={el => {
+                const f = el.element() as HTMLFormElement;
+                if (props.inDialog) { f.method = 'dialog'; }
+
+                const e = props.formAccessor.events();
+                f.onreset = e.onReset;
+                f.onsubmit = e.onSubmit;
+            }}
+        >
+            {props.children}
         </Spin>
     </FormProvider>;
 }

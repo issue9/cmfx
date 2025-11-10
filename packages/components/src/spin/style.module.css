@@ -8,7 +8,7 @@
 
 @layer components {
     .spin {
-        @apply relative @container/spin;
+        @apply relative;
 
         .indicator {
             @apply cursor-wait;
