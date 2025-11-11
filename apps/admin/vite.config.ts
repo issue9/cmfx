@@ -56,7 +56,7 @@ export default defineConfig(({ mode }) => {
                 targets: [
                     { src: '../../LICENSE', dest: '../' },
                     { src: '../../.browserslistrc', dest: '../' },
-                    { src: '../../logo.svg', dest: '../public/' },
+                    { src: '../../assets/brand-static.svg', dest: '../public/' },
                 ]
             }),
             solidPlugin(),

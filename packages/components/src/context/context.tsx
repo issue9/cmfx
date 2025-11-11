@@ -7,7 +7,7 @@ import {
     createContext, createEffect, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import IconProgress from '~icons/material-symbols/progress-activity';
+import IconProgress from '~icons/cmfx/brand-animate';
 
 import { Mode, Scheme } from '@/base';
 import { registerLocales } from '@/chart/locale';

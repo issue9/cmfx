@@ -11,12 +11,24 @@ import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import pkg from './package.json';
+import customIcons from '../../build/unplugin-icons';
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
         solidPlugin(),
-        Icons({ compiler: 'solid', scale: 1 }),
+        viteStaticCopy({
+            targets: [
+                { src: '../../LICENSE', dest: '../' },
+                { src: '../../.browserslistrc', dest: '../' },
+                { src: './src/tailwind.css', dest: './' },
+            ]
+        }),
+        Icons({
+            compiler: 'solid',
+            scale: 1,
+            customCollections: customIcons,
+        }),
         dts({
             entryRoot: './src',
             insertTypesEntry: true,
@@ -28,14 +40,7 @@ export default defineConfig({
                 './src/**/*.spec.tsx',
             ]
         }),
-        viteStaticCopy({
-            targets: [
-                { src: '../../LICENSE', dest: '../' },
-                { src: '../../.browserslistrc', dest: '../' },
-                { src: './src/tailwind.css', dest: './' },
-            ]
-        }),
-        tailwindcss()
+        tailwindcss(),
     ],
 
     define: { 'process.env': {} },

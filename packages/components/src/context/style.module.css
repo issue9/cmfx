@@ -11,7 +11,7 @@
         @apply @container/root;
 
         .loading {
-            @apply w-full h-full flex justify-center items-center animate-spin text-7xl;
+            @apply w-full h-full flex justify-center items-center text-7xl;
         }
     }
 }

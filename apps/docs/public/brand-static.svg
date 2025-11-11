@@ -1,4 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+	<title>
+		cmfx brand
+	</title>
 	<path stroke-width="16" d="M192 192A512 512 0 0 1 832 190" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
 	<path fill="none" stroke="currentColor" stroke-width="16" d="M192 192A230 230 0 0 1 402 402" stroke-linecap="round" stroke-linejoin="round" />
 	<path fill="none" stroke="currentColor" stroke-width="16" d="M832 192A230 230 0 0 0 622 402" stroke-linecap="round" stroke-linejoin="round" />
@@ -17,7 +20,13 @@
 	<path fill="none" stroke="currentColor" stroke-width="16" d="M397 926A202 662 0 0 0 512 802" stroke-linecap="round" stroke-linejoin="round" />
 	<path fill="none" stroke="currentColor" stroke-width="16" d="M627 926A202 662 0 0 1 512 802" stroke-linecap="round" stroke-linejoin="round" />
 	<path fill="none" stroke="currentColor" stroke-width="16" d="M257 873A512 512 0 0 0 767 873" stroke-linecap="round" stroke-linejoin="round" />
-	<path fill="none" stroke="currentColor" stroke-width="16" d="M342 182A412 412 0 0 1 682 182" stroke-linecap="round" />
-	<path fill="none" stroke="currentColor" stroke-width="16" d="M394 250A312 312 0 0 1 630 250" stroke-linecap="round" />
-	<path fill="none" stroke="currentColor" stroke-width="16" d="M430 322A212 212 0 0 1 594 322" stroke-linecap="round" />
+
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M342 182A412 412 0 0 1 682 182" stroke-linecap="round">
+	</path>
+
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M394 250A312 312 0 0 1 630 250" stroke-linecap="round">
+	</path>
+
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M430 322A212 212 0 0 1 594 322" stroke-linecap="round">
+	</path>
 </svg>

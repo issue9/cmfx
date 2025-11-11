@@ -4,13 +4,14 @@
 
 import { api } from '@cmfx/vite-plugin-api';
 import tailwindcss from '@tailwindcss/vite';
-import path from 'path';
+import path from 'node:path';
 import Icons from 'unplugin-icons/vite';
 import { defineConfig } from 'vite';
 import solidPlugin from 'vite-plugin-solid';
 import { viteStaticCopy } from 'vite-plugin-static-copy';
 
 import pkg from './package.json';
+import customIcons from '../../build/unplugin-icons';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -51,13 +52,17 @@ export default defineConfig(({ mode }) => {
                 components: '../../packages/components',
                 root: './src/demo',
             }),
-            Icons({ compiler: 'solid', scale: 1 }),
+            Icons({
+                compiler: 'solid',
+                scale: 1,
+                customCollections: customIcons,
+            }),
             tailwindcss(),
             viteStaticCopy({
                 targets: [
                     { src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outdir 目录的
                     { src: '../../.browserslistrc', dest: '../apps/docs' },
-                    { src: '../../logo.svg', dest: '../apps/docs/public/' },
+                    { src: '../../assets/brand-static.svg', dest: '../apps/docs/public' },
                 ]
             }),
             solidPlugin(),

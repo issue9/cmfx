@@ -1,6 +1,7 @@
 {
     "extends": "../tsconfig.node.json",
     "include": [
-        "vite.config.ts"
+        "vite.config.ts",
+        "../../build/unplugin-icons.ts"
     ]
 }

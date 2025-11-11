@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+	<title>
+		cmfx brand
+	</title>
+	<path stroke-width="16" d="M192 192A512 512 0 0 1 832 190" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M192 192A230 230 0 0 1 402 402" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M832 192A230 230 0 0 0 622 402" stroke-linecap="round" stroke-linejoin="round" />
+	<line x2="402" stroke="currentColor" stroke-width="16" x1="402" y1="402" y2="767" stroke-linecap="round" />
+	<line x2="622" stroke="currentColor" stroke-width="16" x1="622" y1="402" y2="767" stroke-linecap="round" />
+	<path stroke="currentColor" stroke-width="16" d="M257 873A392 767 0 0 0 402 767" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+	<path stroke="currentColor" stroke-width="16" d="M767 873A392 767 0 0 1 622 767" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+	<path d="M167 222A230 230 0 0 0 402 402" fill="none" stroke-width="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+	<path d="M857 222A230 230 0 0 1 622 402" fill="none" stroke-width="16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke-width="16" stroke="currentColor" d="M167 222A512 512 0 0 0 212 852" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke-width="16" stroke="currentColor" d="M857 222A512 512 0 0 1 812 852" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M80 512A417 417 0 0 0 342 622" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M944 512A417 417 0 0 1 682 622" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="currentColor" stroke="currentColor" stroke-width="16" d="M192 192A50 50 0 1 1 272 138" stroke-linejoin="round" stroke-linecap="round" />
+	<path fill="currentColor" stroke="currentColor" stroke-width="16" d="M832 192A50 50 0 1 0 752 138" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M397 926A202 662 0 0 0 512 802" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M627 926A202 662 0 0 1 512 802" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M257 873A512 512 0 0 0 767 873" stroke-linecap="round" stroke-linejoin="round" />
+
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M342 182A412 412 0 0 1 682 182" stroke-linecap="round">
+	    <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin="0s" />
+	</path>
+
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M394 250A312 312 0 0 1 630 250" stroke-linecap="round">
+	    <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin="0s" />
+	</path>
+
+	<path fill="none" stroke="currentColor" stroke-width="16" d="M430 322A212 212 0 0 1 594 322" stroke-linecap="round">
+	    <animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin="0s" />
+	</path>
+</svg>
