@@ -7,10 +7,10 @@ import {
     createContext, createEffect, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext
 } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import IconProgress from '~icons/material-symbols/progress-activity';
 
 import { Mode, Scheme } from '@/base';
 import { registerLocales } from '@/chart/locale';
+import { IconCmfxBrandAnimate } from '@/icon';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
 import styles from './style.module.css';
@@ -90,7 +90,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     // NOTE: 需要通过 data.loading 等待 createResource 完成，才能真正加载组件。
 
     return <internalOptionsContext.Provider value={obj}>
-        <Switch fallback={<div class={styles.loading}><IconProgress /></div>}>
+        <Switch fallback={<div class={styles.loading}><IconCmfxBrandAnimate /></div>}>
             <Match when={!data.loading ? data() : undefined}>
                 {d =>
                     <ThemeProvider mode={d().mode} styleElement={document.documentElement}

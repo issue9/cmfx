@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+	<title>
+		cmfx brand
+	</title>
+	<path stroke-width="32" d="M167 222A512 512 0 0 1 857 222" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M167 222A320 320 0 0 1 402 652" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M857 222A320 320 0 0 0 622 652" stroke-linecap="round" stroke-linejoin="round" />
+	<path d="M140 262A230 230 0 0 0 394 402" fill="none" stroke-width="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+	<path d="M884 262A230 230 0 0 1 630 402" fill="none" stroke-width="32" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke-width="32" stroke="currentColor" d="M140 262A512 512 0 0 0 92 572" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke-width="32" stroke="currentColor" d="M884 262A512 512 0 0 1 932 572" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M92 430A417 417 0 0 0 352 540" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M932 430A417 417 0 0 1 672 540" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="currentColor" stroke="currentColor" stroke-width="32" d="M167 222A50 50 0 1 1 272 138" stroke-linejoin="round" stroke-linecap="round" />
+	<path fill="currentColor" stroke="currentColor" stroke-width="32" d="M857 222A50 50 0 1 0 752 138" stroke-linecap="round" stroke-linejoin="round" />
+	<polyline fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" points="402 652 512 702 622 652" />
+	<line x2="512" stroke="currentColor" stroke-width="32" stroke-linecap="round" x1="512" y1="702" y2="806" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M302 896A512 1022 0 0 1 722 896" stroke-linecap="round" stroke-linejoin="round" />
+	<line x2="320" stroke="currentColor" stroke-linecap="round" stroke-width="32" x1="412" y1="822" y2="692" />
+	<line x2="704" stroke="currentColor" stroke-linecap="round" stroke-width="32" x1="612" y1="822" y2="692" />
+	<path fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" d="M110 662A400 400 0 0 1 320 692" />
+	<path fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" d="M914 662A400 400 0 0 0 704 692" />
+	<path fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" d="M370 762A270 270 0 0 0 170 800" />
+	<path fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" d="M654 762A270 270 0 0 1 854 800" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M362 932A512 512 0 0 0 662 932" stroke-linecap="round" stroke-linejoin="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M342 182A412 412 0 0 1 682 182" stroke-linecap="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M394 250A312 312 0 0 1 630 250" stroke-linecap="round" />
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M430 322A212 212 0 0 1 594 322" stroke-linecap="round" />
+</svg>

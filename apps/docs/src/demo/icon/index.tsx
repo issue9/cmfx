@@ -6,18 +6,22 @@ import { JSX } from 'solid-js';
 
 import { default as api } from './api.json';
 
-import { default as C1 } from './text';
-import { default as s1 } from './text.tsx?raw';
+import { default as Text } from './text';
+import { default as text } from './text.tsx?raw';
 
-import { default as C2 } from './animation';
-import { default as s2 } from './animation.tsx?raw';
+import { default as Animation } from './animation';
+import { default as animation } from './animation.tsx?raw';
+
+import { default as Brand } from './brand';
+import { default as brand } from './brand.tsx?raw';
 
 import { Stages } from '../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/icon' api={api} stages={[
-        { component: C1, source: s1, title: '与文本的排版' },
-        { component: C2, source: s2, title: '动画图标' },
+        { component: Text, source: text, title: '与文本的排版' },
+        { component: Animation, source: animation, title: '动画图标' },
+        { component: Brand, source: brand, title: '当前产品相关的标志' },
     ]}>
     </Stages>;
 }
