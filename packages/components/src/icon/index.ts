@@ -5,4 +5,6 @@
 export { AnimationIcon, animationIconEasings, animationIconRotations } from './animation';
 export type { Props as AnimationIconProps, Ref as AnimationIconRef } from './animation';
 
+export * from './icon';
+
 export type { Rotation as AnimationIconRotation } from '@iconsets/svg-morpheus-ts';

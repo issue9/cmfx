@@ -55,7 +55,7 @@ export default defineConfig(({ mode }) => {
             Icons({
                 compiler: 'solid',
                 scale: 1,
-                customCollections: customIcons,
+                customCollections: customIcons, // 热编译需要此属性作为热更新的依据。
             }),
             tailwindcss(),
             viteStaticCopy({
