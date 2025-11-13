@@ -6,9 +6,6 @@
 - ButtonRef
 - ButtonKind
 
-- LinkButtonProps
-- LinkButtonRef
-
 - ConfirmButtonProps
 
 - ButtonGroupProps

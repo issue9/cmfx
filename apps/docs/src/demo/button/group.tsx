@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ButtonGroup, LinkButton, MountProps } from '@cmfx/components';
+import { Button, ButtonGroup, MountProps } from '@cmfx/components';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
 import IconSync from '~icons/material-symbols/sync';
@@ -42,15 +42,15 @@ export default function(props: MountProps) {
             </ButtonGroup>
 
             <ButtonGroup rounded={rounded()} palette='surface' kind={kind()} disabled={disabled()}>
-                <LinkButton href='.'>abc</LinkButton>
-                <LinkButton href='.'>def</LinkButton>
-                <LinkButton href='.'>hij</LinkButton>
+                <Button type='a' href='.'>abc</Button>
+                <Button type='a' href='.'>def</Button>
+                <Button type='a' href='.'>hij</Button>
             </ButtonGroup>
 
             <ButtonGroup rounded={rounded()} kind={kind()} disabled={disabled()}>
-                <LinkButton square href=""><IconFace /></LinkButton>
-                <LinkButton square href=""><IconClose /></LinkButton>
-                <LinkButton square href=""><IconSync /></LinkButton>
+                <Button type='a' square href=""><IconFace /></Button>
+                <Button type='a' square href=""><IconClose /></Button>
+                <Button type='a' square href=""><IconSync /></Button>
             </ButtonGroup>
         </div>
     </div>;

@@ -9,10 +9,19 @@ import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
 import { AnimationIcon, AnimationIconRef } from '@/icon';
-import { Props as BaseProps, Button, presetProps } from './button';
+import { Props as BaseProps, Button } from './button';
+import { presetProps } from './types';
 import styles from './style.module.css';
 
-export interface Props extends Omit<BaseProps, 'onclick' | 'children'> {
+export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> {
+    /**
+     * 按钮的类型
+     *
+     * @reactive
+     * @defaultValue 'button'
+     */
+    type?: Exclude<BaseProps['type'], 'a'>;
+
     /**
      * 指定按钮的状态
      *
@@ -59,7 +68,7 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children'> {
  * 除非像全屏这种直接在应用上体现出来的。
  */
 export function ToggleButton(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    props = mergeProps(presetProps, { type: 'button' as Props['type'] }, props);
     const [_, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'animation', 'value']);
 
     const [val, setVal] = createSignal<boolean>(!!props.value);
@@ -91,8 +100,7 @@ export type ToggleFullScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 
  * @remarks 并不是所有的浏览器都支持全屏功能，比如 iOS 系统，在不支持的系统上默认会处于禁用状态。
  */
 export function ToggleFullScreenButton(props: ToggleFullScreenButtonProps): JSX.Element {
-    props = mergeProps(presetProps, { disabled: !document.fullscreenEnabled }, props);
-
+    props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
     const [fs, setFS] = createSignal(!document.fullscreenElement);
 
     // 有可能浏览器通过其它方式控制全屏功能
@@ -127,7 +135,6 @@ export type ToggleFitScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | '
  * NOTE: 需要保证当前组件必须在 {@link ToggleFitScreenButtonProps#container} 之内，否则可能会无法退回原来状态的可能。
  */
 export function ToggleFitScreenButton(props: ToggleFitScreenButtonProps): JSX.Element {
-    props = mergeProps(presetProps, props);
     const [_, btnProps] = splitProps(props, ['container']);
     const toggle = async () => {
         return props.container.classList.toggle(styles['fit-screen']);

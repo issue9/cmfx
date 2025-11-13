@@ -6,17 +6,46 @@ import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
 import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } from 'solid-js';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
-import { joinClass } from '@/base';
+import { handleEvent, joinClass } from '@/base';
 import { Props as BaseProps, presetProps as basePrsetProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 import styles from './style.module.css';
 
 export type Item = { type: 'divider' } | {
-    type: 'item';
+    /**
+     * 按钮类型
+     */
+    type: BaseProps['type'];
+
+    /**
+     * 按钮上的内容
+     */
     label: JSX.Element;
-    onClick: NonNullable<BaseProps['onclick']>;
+
+    /**
+     * 点击事件
+     */
+    onclick?: NonNullable<BaseProps['onclick']>;
+
+    /**
+     * 如果 type=='a'，则为跳转的链接
+     */
+    href?: string;
+
+    /**
+     * 禁用状态
+     */
     disabled?: boolean;
+
+    /**
+     * 快捷键
+     */
     hotkey?: Hotkey;
+
+    /**
+     * 是否选中
+     */
+    checked?: boolean;
 };
 
 export interface Props extends BaseProps {
@@ -77,26 +106,24 @@ export function SplitButton(props: Props) {
         {activator}
         <div ref={el => popElem = el} popover="auto" class={joinClass(props.palette, styles['split-content'])}>
             <For each={props.menus}>
-                {item => {
-                    let ref: Ref;
-                    if (item.type === 'item' && item.hotkey) {
-                        const hk = item.hotkey;
-                        onMount(() => { Hotkey.bind(hk, () => { ref.element().click(); }); });
-                        onCleanup(() => { Hotkey.unbind(hk); });
-                    }
-                    return <Switch>
+                {item =>
+                    <Switch>
                         <Match when={item.type === 'divider'}>
                             <hr class="border-palette-border" />
                         </Match>
-                        <Match when={item.type === 'item'}>
-                            <Button ref={el => ref = el} kind='flat' disabled={(item as any).disabled}
-                                class={styles['split-item']} onclick={() => {
-                                    (item as any).onClick();
-                                    popElem.hidePopover();
-                                }}>{(item as any).label}</Button>
+                        <Match when={item.type !== 'divider' ? item : undefined}>
+                            {it => {
+                                const click = it().onclick;
+                                delete it().onclick;
+                                return <Button kind='flat' {...it()}
+                                    class={styles['split-item']} onclick={e => {
+                                        click && handleEvent(click, e);
+                                        popElem.hidePopover();
+                                    }}>{it().label}</Button>;
+                            }}
                         </Match>
-                    </Switch>;
-                }}
+                    </Switch>
+                }
             </For>
         </div>
     </>;

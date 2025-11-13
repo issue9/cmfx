@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { LinkButton, useComponents, useLocale } from '@cmfx/components';
+import { useComponents, useLocale, Button } from '@cmfx/components';
 import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 
@@ -24,13 +24,13 @@ export default function Home() {
             solidjs: '<a href="https://www.solidjs.com">Solid</a>'
         })} />
         <nav>
-            <LinkButton class="px-3 py-2" kind='fill' href="/docs" palette='primary'>
+            <Button type='a' class="px-3 py-2" kind='fill' href="/docs" palette='primary'>
                 {l.t('_d.home.start')}
-            </LinkButton>
+            </Button>
 
-            <LinkButton class="px-3 py-2" kind='border' href={pkg.homepage}>
+            <Button type='a' class="px-3 py-2" kind='border' href={pkg.homepage}>
                 <IconGithub class="me-1" />Github
-            </LinkButton>
+            </Button>
         </nav>
     </div>;
 }

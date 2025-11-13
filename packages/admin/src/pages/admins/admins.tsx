@@ -2,9 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField, useLocale
-} from '@cmfx/components';
+import { Button, Page, RemoteTable, RemoteTableRef, TextField, useLocale } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { createMemo, JSX, Show } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
@@ -45,7 +43,7 @@ export function Admins(props: Props): JSX.Element {
 
     return <Page title="_p.admin.adminsManager">
         <RemoteTable<Admin, Q> ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
-            <LinkButton palette='primary' href={`${props.routePrefix}/0`}>{l.t('_p.newItem')}</LinkButton>
+            <Button type='a' palette='primary' href={`${props.routePrefix}/0`}>{l.t('_p.newItem')}</Button>
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
@@ -72,9 +70,9 @@ export function Admins(props: Props): JSX.Element {
                 id: 'actions', cellClass: 'no-print', label: l.t('_p.actions'), isUnexported: true, renderContent: ((_, __, obj?: Admin) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
-                            <LinkButton square rounded palette='tertiary'
+                            <Button type='a' square rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={l.t('_p.editItem')}><IconEdit /></LinkButton>
+                                title={l.t('_p.editItem')}><IconEdit /></Button>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>

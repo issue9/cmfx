@@ -5,8 +5,8 @@
 import './style.css';
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, LinkButton, Menu, MenuItemItem,
-    Mode, modes, run, Search, ToggleFullScreenButton, Transition, useComponents, useLocale, useTheme
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes,
+    run, Search, ToggleFullScreenButton, Transition, useComponents, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
 import { createSignal, JSX, lazy, Show } from 'solid-js';
@@ -143,7 +143,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
 
                 <ToggleFullScreenButton kind='flat' square title={l.t('_c.fullscreen')} />
 
-                <LinkButton kind='flat' square href={pkg.repository.url}><IconGithub /></LinkButton>
+                <Button type='a' kind='flat' square href={pkg.repository.url}><IconGithub /></Button>
             </>
         }>
             <Menu class='ms-5 me-5' layout='horizontal' items={[

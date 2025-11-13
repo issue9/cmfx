@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LinkButton, Page, RemoteTable, RemoteTableRef, TextField } from '@cmfx/components';
+import { Button, Page, RemoteTable, RemoteTableRef, TextField } from '@cmfx/components';
 import { Query } from '@cmfx/core';
 import { Component, createMemo, JSX, Show } from 'solid-js';
 import IconLock from '~icons/material-symbols/lock';
@@ -96,9 +96,9 @@ export function Members(props: Props): JSX.Element {
                 id: 'actions', cellClass:'no-print', label: l.t('_p.actions'), isUnexported: true, renderContent: ((_, __, obj?: Member) => {
                     return <div class="flex gap-x-2">
                         <Show when={obj?.state !== 'deleted'}>
-                            <LinkButton square rounded palette='tertiary'
+                            <Button type='a' square rounded palette='tertiary'
                                 href={`${props.routePrefix}/${obj!['id']}`}
-                                title={l.t('_p.member.view')}><IconVisibility /></LinkButton>
+                                title={l.t('_p.member.view')}><IconVisibility /></Button>
                         </Show>
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>

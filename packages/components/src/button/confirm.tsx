@@ -9,6 +9,7 @@ import { handleEvent, joinClass } from '@/base';
 import { useLocale } from '@/context';
 import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
 import styles from './style.module.css';
+import { useNavigate } from '@solidjs/router';
 
 export interface Props extends BaseProps {
     /**
@@ -25,13 +26,6 @@ export interface Props extends BaseProps {
      * 自定义取消按钮上的内容
      */
     cancel?: JSX.Element;
-
-    /**
-     * 点击事件
-     *
-     * @remarks 这将在用户点击确认按钮之后执行。
-     */
-    onclick: NonNullable<BaseProps['onclick']>; // 此处重新声明只是为了将可选字段变为必填字段。
 }
 
 /**
@@ -52,13 +46,18 @@ export function ConfirmButton(props: Props) {
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
+    const nav = useNavigate();
     const confirm: BaseProps['onclick'] = e => {
-        handleEvent(props.onclick, e);
+        if (props.onclick) { handleEvent(props.onclick, e); }
+
+        if (props.type === 'a') { nav(props.href!); }
+
         popElem.hidePopover();
     };
 
     return <>
-        <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onclick={() => {
+        <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onclick={e => {
+            e.preventDefault(); // 取消默认动作，比如 type='a' 时的跳转
             popElem.togglePopover();
             adjustPopoverPosition(popElem, ref.element().getBoundingClientRect());
         }}>{props.children}</Button>

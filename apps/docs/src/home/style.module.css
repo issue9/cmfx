@@ -10,10 +10,6 @@
     .home {
         @apply flex flex-col items-center justify-center h-full gap-5;
 
-        >nav {
-            @apply flex items-center justify-center gap-5;
-        }
-
         background-image: radial-gradient(circle at 85% 5%,
             color-mix(in lch, var(--surface-bg), transparent) 0%,
             color-mix(in lch, var(--surface-bg-low), transparent) 50%,
@@ -30,6 +26,11 @@
             color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
             color-mix(in lch, var(--tertiary-bg), transparent) 100%);
 
+        a:link,
+        a:visited {
+            @apply text-palette-fg-focused;
+        }
+
         h2 {
             @apply text-6xl font-bold;
         }
@@ -38,9 +39,9 @@
             @apply text-xl;
         }
 
-        a:link,
-        a:visited {
-            @apply text-palette-fg-focused;
+        >nav {
+            @apply flex items-center justify-center gap-5;
         }
+
     }
 }

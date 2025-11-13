@@ -15,11 +15,11 @@ export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
 
     const menus: Array<SplitButtonItem> = [
-        { type: 'item', label: 'button1', onClick: () => console.log('btn1') },
-        { type: 'item', label: 'button2', onClick: () => console.log('btn2') },
+        { type: 'button', label: 'button1', onclick: () => console.log('btn1') },
+        { type: 'a', label: 'nav(home)', onclick: () => console.log('btn2'), href: '/' },
         { type: 'divider' },
-        { type: 'item', label: 'confirm', onClick: () => confirm('confirm') },
-        { type: 'item', label: 'confirm(ctrl+alt+d)', onClick: () => confirm('confirm(ctrl+alt+d)'), hotkey: new Hotkey('d', 'control', 'alt') }
+        { type: 'button', label: 'confirm', onclick: () => confirm('confirm') },
+        { type: 'button', label: 'confirm(ctrl+alt+d)', onclick: () => confirm('confirm(ctrl+alt+d)'), hotkey: new Hotkey('d', 'control', 'alt') }
     ];
 
     return <>
