@@ -66,7 +66,7 @@ export function ConfirmButton(props: Props) {
             {props.prompt ?? l.t('_c.areYouSure')}
             <div class={styles['confirm-actions']}>
                 <Button palette='secondary' onclick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>
-                <Button palette='primary' autofocus onclick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
+                <Button palette='primary' ref={el => el.element().autofocus = true} onclick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
             </div>
         </div>
     </>;

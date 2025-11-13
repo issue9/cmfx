@@ -35,8 +35,6 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
 
     onclick?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['onclick'];
 
-    autofocus?: boolean;
-
     title?: string;
 }
 
