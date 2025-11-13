@@ -62,7 +62,13 @@ export default defineConfig(({ mode }) => {
                 targets: [
                     { src: '../../LICENSE', dest: '../apps/docs' }, // dest 是相对于 tsconfig 中 outdir 目录的
                     { src: '../../.browserslistrc', dest: '../apps/docs' },
-                    { src: '../../assets/brand-static.svg', dest: '../apps/docs/public' },
+                    {
+                        src: '../../assets/brand-static.svg',
+                        dest: '../apps/docs/public',
+                        transform: (content, path) => {
+                            return content.replace(/currentColor/g, '#00a1f1');
+                        }
+                    },
                 ]
             }),
             solidPlugin(),

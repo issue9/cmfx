@@ -209,7 +209,7 @@
 
     /************************* split ******************************/
 
-    .split-content {
+    .split-pop {
         @apply bg-palette-bg gap-y-1 rounded-md mt-1 border border-palette-border m-0 flex flex-col;
 
         .split-item {

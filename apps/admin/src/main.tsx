@@ -134,7 +134,7 @@ const o: Options = {
     },
 
     title: 'Title',
-    logo: 'logo.svg',
+    logo: './brand-static.svg',
     aside: {
         menus: menus,
     },

@@ -2,9 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useComponents, useLocale, Button } from '@cmfx/components';
+import { useComponents, useLocale, Button, SplitButton } from '@cmfx/components';
 import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
+import IconAI from '~icons/mingcute/ai-fill';
 
 import pkg from '../../package.json';
 import styles from './style.module.css';
@@ -31,6 +32,16 @@ export default function Home() {
             <Button type='a' class="px-3 py-2" kind='border' href={pkg.homepage}>
                 <IconGithub class="me-1" />Github
             </Button>
+
+            <SplitButton type='a' class="px-3 py-2" kind='border' href="https://deepwiki.com/issue9/cmfx" menus={[
+                {
+                    type: 'a',
+                    label: 'zread',
+                    href: 'https://zread.ai/issue9/cmfx'
+                }
+            ]}>
+                <IconAI class='me-1' /> DeepWiki
+            </SplitButton>
         </nav>
     </div>;
 }

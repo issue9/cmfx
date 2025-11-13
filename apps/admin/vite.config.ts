@@ -56,7 +56,13 @@ export default defineConfig(({ mode }) => {
                 targets: [
                     { src: '../../LICENSE', dest: '../' },
                     { src: '../../.browserslistrc', dest: '../' },
-                    { src: '../../assets/brand-static.svg', dest: '../public/' },
+                    {
+                        src: '../../assets/brand-static.svg',
+                        dest: '../public/',
+                        transform: (content, path) => {
+                            return content.replace(/currentColor/g, '#00a1f1');
+                        }
+                    },
                 ]
             }),
             solidPlugin(),

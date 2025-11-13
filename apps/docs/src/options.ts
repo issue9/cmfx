@@ -12,7 +12,7 @@ export const options: Options = {
     mode: 'system',
     locale: 'zh-Hans',
     displayStyle: 'full',
-    logo: './logo.svg',
+    logo: './brand-static.svg',
     systemDialog: false,
     systemNotify: false,
     messages: {

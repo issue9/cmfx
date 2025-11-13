@@ -68,7 +68,7 @@ const presetProps: Readonly<Partial<Props>> = {
  * 带有一个默认操作的一组按钮
  *
  * @remarks
- * 属性中，除了 menus 用于表示所有的子命令外，其它属性都是用于描述默认按钮的属性的。
+ * 属性中，除了 menus 和 palette 用于表示所有的子命令外，其它属性都是用于描述默认按钮的属性的。
 */
 export function SplitButton(props: Props) {
     props = mergeProps(presetProps, props);
@@ -87,7 +87,6 @@ export function SplitButton(props: Props) {
 
     const activator = <ButtonGroup palette={props.palette} ref={el => group = el}
         kind={props.kind} rounded={props.rounded} disabled={props.disabled}
-        class={props.class} style={props.style}
     >
         <Button {...btnProps}>{props.children}</Button>
         <Button class={styles.split} ref={el => downRef = el} square onclick={() => {
@@ -104,7 +103,7 @@ export function SplitButton(props: Props) {
 
     return <>
         {activator}
-        <div ref={el => popElem = el} popover="auto" class={joinClass(props.palette, styles['split-content'])}>
+        <div ref={el => popElem = el} popover="auto" class={joinClass(props.palette, styles['split-pop'])}>
             <For each={props.menus}>
                 {item =>
                     <Switch>
