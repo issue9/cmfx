@@ -1,12 +1,5 @@
 {
-    "compilerOptions": {
-        "composite": true,
-        "skipLibCheck": true,
-        "module": "ESNext",
-        "moduleResolution": "bundler",
-        "allowSyntheticDefaultImports": true,
-        "strict": true
-    },
+    "extends": "../../build/tsconfig.node.json",
     "include": [
         "vite.config.ts",
         "../../build/unplugin-icons.ts"
