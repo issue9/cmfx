@@ -72,8 +72,8 @@ const presetProps: Readonly<Partial<Props>> = {
 */
 export function SplitButton(props: Props) {
     props = mergeProps(presetProps, props);
-    let popElem: HTMLDivElement;
-    let group: GroupRef;
+    let popRef: HTMLDivElement;
+    let groupRef: GroupRef;
     let downRef: Ref;
 
     onMount(() => {
@@ -83,27 +83,28 @@ export function SplitButton(props: Props) {
         if (props.hotkey) { Hotkey.unbind(props.hotkey); }
     });
 
-    const [_, btnProps] = splitProps(props, ['rounded', 'disabled', 'palette', 'menus']);
+    const [_, btnProps] = splitProps(props, ['rounded', 'disabled', 'menus']);
 
-    const activator = <ButtonGroup palette={props.palette} ref={el => group = el}
+    const activator = <ButtonGroup palette={props.palette} ref={el => groupRef = el}
         kind={props.kind} rounded={props.rounded} disabled={props.disabled}
     >
         <Button {...btnProps}>{props.children}</Button>
         <Button class={styles.split} ref={el => downRef = el} square onclick={() => {
-            popElem.togglePopover();
+            popRef.togglePopover();
 
-            const anchor = group.element().getBoundingClientRect();
+            const anchor = groupRef.element().getBoundingClientRect();
             if (props.direction === 'left') {
-                anchor.x = anchor.right - popElem.getBoundingClientRect().width;
+                anchor.x = anchor.right - popRef.getBoundingClientRect().width;
             }
 
-            adjustPopoverPosition(popElem, anchor, 0, 'bottom');
+            adjustPopoverPosition(popRef, anchor, 0, 'bottom');
+            popRef.style.minWidth = `${groupRef.element().offsetWidth}px`;
         }}><IconArrowDown /></Button>
     </ButtonGroup>;
 
     return <>
         {activator}
-        <div ref={el => popElem = el} popover="auto" class={joinClass(props.palette, styles['split-pop'])}>
+        <div ref={el => popRef = el} popover="auto" class={joinClass(props.palette, styles['split-pop'])}>
             <For each={props.menus}>
                 {item =>
                     <Switch>
@@ -117,7 +118,7 @@ export function SplitButton(props: Props) {
                                 return <Button kind='flat' {...it()}
                                     class={styles['split-item']} onclick={e => {
                                         click && handleEvent(click, e);
-                                        popElem.hidePopover();
+                                        popRef.hidePopover();
                                     }}>{it().label}</Button>;
                             }}
                         </Match>

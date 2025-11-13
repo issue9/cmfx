@@ -26,21 +26,25 @@
             color-mix(in lch, var(--tertiary-bg-high), transparent) 50%,
             color-mix(in lch, var(--tertiary-bg), transparent) 100%);
 
-        a:link,
-        a:visited {
-            @apply text-palette-fg-focused;
-        }
-
         h2 {
             @apply text-6xl font-bold;
         }
 
         p {
             @apply text-xl;
+
+            a:link,
+            a:visited {
+                @apply text-palette-fg-focused;
+            }
         }
 
         >nav {
             @apply flex items-center justify-center gap-5;
+
+            .btn {
+                @apply px-3 py-2;
+            }
         }
 
     }

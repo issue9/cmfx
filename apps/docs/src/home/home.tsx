@@ -6,6 +6,7 @@ import { useComponents, useLocale, Button, SplitButton } from '@cmfx/components'
 import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconAI from '~icons/mingcute/ai-fill';
+import IconStart from '~icons/mdi/read-more';
 
 import pkg from '../../package.json';
 import styles from './style.module.css';
@@ -25,15 +26,16 @@ export default function Home() {
             solidjs: '<a href="https://www.solidjs.com">Solid</a>'
         })} />
         <nav>
-            <Button type='a' class="px-3 py-2" kind='fill' href="/docs" palette='primary'>
+            <Button type='a' class={styles.btn} kind='fill' href="/docs" palette='primary'>
+                <IconStart class="me-1" />
                 {l.t('_d.home.start')}
             </Button>
 
-            <Button type='a' class="px-3 py-2" kind='border' href={pkg.homepage}>
+            <Button type='a' class={styles.btn} kind='fill' href={pkg.homepage}>
                 <IconGithub class="me-1" />Github
             </Button>
 
-            <SplitButton type='a' class="px-3 py-2" kind='border' href="https://deepwiki.com/issue9/cmfx" menus={[
+            <SplitButton type='a' class={styles.btn} kind='fill' href="https://deepwiki.com/issue9/cmfx" menus={[
                 {
                     type: 'a',
                     label: 'zread',
