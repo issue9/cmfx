@@ -34,9 +34,8 @@ export interface Token {
  */
 export function getToken(id: string, s: Storage): Token | undefined {
     const t = s.getItem(id);
-    if (!t) {
-        return;
-    }
+    if (!t) { return; }
+
     return JSON.parse(t) as Token;
 }
 

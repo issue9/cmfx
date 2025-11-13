@@ -149,7 +149,7 @@ export class API {
      */
     buildURL(path: string): string {
         if (path.length === 0) {
-            throw '参数 path 不能为空';
+            throw new Error('参数 path 不能为空');
         }
 
         if (path.charAt(0) !== '/') {
@@ -283,9 +283,7 @@ export class API {
      * 获得令牌，如果令牌已经过期，会尝试刷新令牌，令牌不存在，则返回 undefined。
      */
     async getToken(): Promise<string | undefined> {
-        if (!this.#token) {
-            return undefined;
-        }
+        if (!this.#token) { return undefined; }
 
         switch (state(this.#token)) {
         case 'normal': // 正常状态
@@ -415,9 +413,8 @@ export class API {
 
     async parse<R>(resp: Response): Promise<R | undefined> {
         const bs = await resp.bytes();
-        if (bs.length === 0) {
-            return;
-        }
+        if (bs.length === 0) { return; }
+
         return this.#acceptSerializer.parse(bs) as R;
     }
 
@@ -436,7 +433,7 @@ export class API {
         if (this.#events.has(path)) {
             const item = this.#events.get(path)!;
             if (item[1] !== needLogin) {
-                throw '参数 needLogin 与现有的实例不一致';
+                throw new Error('参数 needLogin 与现有的实例不一致');
             }
             return item[0];
         }
@@ -465,7 +462,7 @@ export class API {
             const r = await this.post<SSEToken>(path);
             if (!r.ok) {
                 console.error(r.body);
-                return;
+                throw new Error(r.body!.title);
             }
 
             path = path + '?token=' + r.body!.token;
@@ -521,8 +518,5 @@ export function query2Search<Q extends Query>(q: Q): string {
     });
 
     const qs = s.toString();
-    if (qs) {
-        return '?' + qs;
-    }
-    return '';
+    return qs ? ('?' + qs) : '';
 }
