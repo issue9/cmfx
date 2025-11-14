@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ButtonGroup, Code, joinClass, MountProps, Layout, ThemeProvider, ToggleFitScreenButton
+    Button, ButtonGroup, Code, joinClass, MountProps, Layout, ThemeProvider, ToggleFitScreenButton, CodeRef
 } from '@cmfx/components';
-import { Component, createEffect, createSignal, JSX, mergeProps, Show } from 'solid-js';
+import { Component, createEffect, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
 import IconRTL from '~icons/material-symbols/format-align-right-rounded';
@@ -40,35 +40,42 @@ export interface Props {
     /**
      * 组件内的演示内容高度
      */
-    height?: number;
+    height?: JSX.CSSProperties['height'];
 
     /**
      * 整个演示对象的布局
      */
-    layout?: Layout;
+    layout?: Layout | 'auto';
 }
 
 /**
  * 用于展示组件的舞台
  */
 export default function Stage(props: Props) {
-    props = mergeProps({ layout: 'horizontal' as Layout }, props);
+    props = mergeProps({ layout: 'auto' as Layout }, props);
 
     const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
     const [dir, setDir] = createSignal<'ltr' | 'rtl'>(initDir);
     const [mode, setMode] = createSignal<'light' | 'dark'>('light');
 
     const [demoRef, setDemoRef] = createSignal<HTMLDivElement>();
-    const [stageRef, setStageRef] = createSignal<HTMLDivElement>();
-    createEffect(() => {
-        if (props.layout === 'vertical') { return; }
+    const [codeHeight, setCodeHeight] = createSignal<string>();
 
-        if (demoRef() && stageRef()) {
-            requestIdleCallback(() => {
-                // 4 可以让实际的演示内容与底部的工具栏之间有一定的空隙
-                stageRef()!.style.height = (demoRef()!.offsetHeight + 4) + 'px';
-            });
-        }
+    onMount(()=>{
+        const ro = new ResizeObserver(entries => {
+            setCodeHeight(entries[0]!.borderBoxSize[0].blockSize.toString() + 'px');
+        });
+        ro.observe(demoRef()!);
+
+        onCleanup(() => ro.disconnect());
+    });
+
+    const stageCls = createMemo(()=>{
+        return joinClass(
+            undefined,
+            styles.stage,
+            props.layout === 'auto' ? styles.auto : (props.layout === 'vertical' ? styles.vertical : ''),
+        );
     });
 
     let settingRef: HTMLElement;
@@ -80,12 +87,8 @@ export default function Stage(props: Props) {
             <article class={styles.desc}>{desc()}</article>
         }</Show>
 
-        <div ref={setStageRef}
-            class={joinClass(undefined, styles.stage, props.layout === 'vertical' ? styles.vertical : '')}
-        >
-            <div class={styles.demo} ref={setDemoRef}
-                style={{ height: typeof props.height === 'number' ? `${props.height}px` : props.height }}
-            >
+        <div class={stageCls()}>
+            <div class={styles.demo} ref={setDemoRef} style={{ height: props.height }}>
                 <div class={styles.toolbar}>
                     <div class={styles.left}>
                         <ToggleFitScreenButton square container={demoRef()!} />
@@ -120,7 +123,7 @@ export default function Stage(props: Props) {
             </div>
 
             <Show when={props.source}>
-                {s => <Code wrap ln={0} lang='tsx' class={styles.code}>{s()}</Code>}
+                {s => <Code wrap ln={0} lang='tsx' class={styles.code} style={{height: codeHeight()}}>{s()}</Code>}
             </Show>
         </div>
     </>;

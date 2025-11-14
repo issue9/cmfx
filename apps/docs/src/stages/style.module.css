@@ -16,7 +16,7 @@
         }
 
         article.root {
-            @apply flex flex-col gap-1!;
+            @apply w-full;
 
             h2 {
                 @apply text-3xl flex gap-2 items-center;
@@ -72,12 +72,14 @@
             }
 
             .stages {
+                @apply flex flex-col w-full;
+
                 .stage { /* 单个展示舞台，包含演示区域和代码 */
                     @apply flex mb-4 rounded-lg bg-palette-bg-low overflow-clip;
                     @apply border border-palette-border;
 
                     .demo { /* 演示区域，包含了常规的工具栏和演示组件 */
-                        @apply flex flex-col justify-between p-2 flex-1 h-fit max-w-fit;
+                        @apply flex flex-col justify-between p-2 flex-1 h-fit w-1/2;
 
                         >.toolbar {
                             @apply w-full pb-2 border border-transparent border-b-palette-border mb-4;
@@ -104,7 +106,7 @@
                     }
 
                     .code {
-                        @apply border-transparent rounded-none! flex-1 w-full;
+                        @apply border-transparent rounded-none! flex-1 w-1/2;
                     }
                 }
 
@@ -113,6 +115,24 @@
 
                     .demo {
                         @apply w-full max-w-full;
+                    }
+
+                    .code {
+                        @apply w-full;
+                    }
+                }
+
+                .stage.auto {
+                    @apply @max-md/stages:flex-col! @max-md/stages:justify-start! @max-md/stages:items-start!;
+
+                    .demo {
+                        @apply h-full min-h-fit w-1/2;
+                        @apply @max-md/stages:w-full!;
+                    }
+
+                    .code {
+                        @apply w-1/2 overflow-y-auto;
+                        @apply @max-md/stages:w-full! @max-md/stages:flex-none;
                     }
                 }
             }

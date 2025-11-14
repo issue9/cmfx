@@ -14,7 +14,7 @@ export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [roundedS, rounded] = boolSelector('rounded');
 
-    return <div>
+    return <div class="w-full min-w-90">
         <Portal mount={props.mount}>
             {kindS}
             {disabledS}
