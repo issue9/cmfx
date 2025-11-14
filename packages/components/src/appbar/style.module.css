@@ -13,14 +13,16 @@
         @apply w-full py-4 flex flex-wrap gap-4 justify-between items-center;
 
         .title {
-            @apply flex items-center gap-2;
+            @apply flex items-center justify-start gap-2 shrink-0 whitespace-nowrap;
 
             .logo {
-                @apply inline-block max-w-6 max-h-6;
+                @apply block;
+                @apply w-auto min-w-6;
+                @apply h-full min-h-6;
             }
 
             .name {
-                @apply inline-block text-lg font-bold;
+                @apply block text-lg font-bold;
             }
         }
 
@@ -29,7 +31,7 @@
         }
 
         .actions {
-            @apply flex gap-2 items-center justify-between ml-auto;
+            @apply flex gap-2 items-center justify-between justify-self-end;
         }
     }
 }

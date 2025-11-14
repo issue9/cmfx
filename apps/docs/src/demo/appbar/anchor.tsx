@@ -17,7 +17,7 @@ export default function(props: MountProps) {
             {paletteS}
         </Portal>
 
-        <Appbar palette={palette()} title="这个公司的名称有一点点长哦！" logo={opt.logo} actions={
+        <Appbar href="/" palette={palette()} title={opt.title} logo={opt.logo} actions={
             <>
                 <Button square><IconEye /></Button>
                 <Button square><IconEye /></Button>
