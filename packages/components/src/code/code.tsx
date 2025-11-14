@@ -6,10 +6,14 @@ import { BundledLanguage } from 'shiki/bundle/full';
 import { createEffect, createSignal, JSX } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps, joinClass, RefProps } from '@/base';
 import { highlight } from './shiki';
 
-export interface Props extends BaseProps {
+export interface Ref {
+    element(): HTMLElement;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 代码
      *
@@ -67,6 +71,10 @@ export default function Code(props: Props): JSX.Element {
         const cls = joinClass(props.palette, props.class);
         const pre = await highlight(props.children, props.lang, props.ln, props.wrap, cls, props.style);
         setHTML(template(pre)() as HTMLElement);
+
+        if (props.ref) {
+            props.ref({ element: () => html()! });
+        }
     });
 
     createEffect(() => {

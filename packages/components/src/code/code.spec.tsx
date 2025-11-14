@@ -2,12 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, test, expect } from 'vitest';
 
 import { ComponentTester } from '@/context/context.spec';
-import { default as Code } from './code';
+import { default as Code, Ref } from './code';
 
 describe('Code', async () => {
-    const ct = await ComponentTester.build('Code', props => <Code {...props}>abc</Code>);
+    let ref: Ref;
+    const ct = await ComponentTester.build(
+        'Code',
+        props => <Code ref={el => ref = el} {...props}>abc</Code>,
+    );
+
     test('props', () => ct.testProps());
+
+    test('ref', () => {
+        expect(ref).toBeDefined();
+        expect(ref.element()).toBeDefined();
+    });
 });
