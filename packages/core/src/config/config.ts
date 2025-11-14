@@ -7,7 +7,7 @@
  */
 export class Config {
     readonly #prefix: string;
-    readonly #s: Storage;
+    readonly #storage: Storage;
     #id: string = '';
 
     /**
@@ -20,13 +20,13 @@ export class Config {
     constructor(prefix: string, id: string | number, s?: Storage) {
         this.#prefix = prefix;
         if (!s) { s = localStorage; }
-        this.#s = s;
+        this.#storage = s;
         this.switch(id);
     }
 
     get prefix(): string { return this.#prefix; }
 
-    get storage(): Storage { return this.#s; }
+    get storage(): Storage { return this.#storage; }
 
     /**
      * 切换配置对象
@@ -41,7 +41,7 @@ export class Config {
      * 获取配置项
      */
     get<T>(id: string): T | undefined {
-        const s = this.#s.getItem(this.#id + id);
+        const s = this.#storage.getItem(this.#id + id);
         if (!s) {
             return;
         }
@@ -53,11 +53,11 @@ export class Config {
      */
     set<T>(id: string, obj: T) {
         const s = JSON.stringify(obj);
-        this.#s.setItem(this.#id + id, s);
+        this.#storage.setItem(this.#id + id, s);
     }
 
     /**
      * 删除配置项
      */
-    remove(id: string) { this.#s.removeItem(this.#id + id); }
+    remove(id: string) { this.#storage.removeItem(this.#id + id); }
 }

@@ -22,6 +22,8 @@ import advanceLocaleEN from './advance/locale.en.md?raw';
 import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
 import advanceThemeEN from './advance/theme.en.md?raw';
 import advanceThemeZHHans from './advance/theme.zh-Hans.md?raw';
+import advancePluginsEN from './advance/plugins.en.md?raw';
+import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
 
 import { markedShiki } from './shiki';
 
@@ -44,7 +46,8 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
         ['usage/faq', usageFAQEN],
 
         ['advance/theme', advanceThemeEN],
-        ['advance/locale', advanceLocaleEN]
+        ['advance/locale', advanceLocaleEN],
+        ['advance/plugins', advancePluginsEN]
     ])],
     ['zh-Hans', new Map([
         ['intro/readme', introReadme],
@@ -55,7 +58,8 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
         ['usage/faq', usageFAQZHHans],
 
         ['advance/theme', advanceThemeZHHans],
-        ['advance/locale', advanceLocaleZHHans]
+        ['advance/locale', advanceLocaleZHHans],
+        ['advance/plugins', advancePluginsZHHans]
     ])],
 ]);
 
@@ -79,6 +83,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         component: () => <Markdown article='intro/changelog' />
     },
 
+    //////////////////// usage
+
     {
         kind: 'usage',
         path: '/usage/install',
@@ -98,6 +104,8 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         component: () => <Markdown article='usage/faq' />
     },
 
+    //////////////////// advance
+
     {
         kind: 'advance',
         path: '/advance/theme',
@@ -109,6 +117,12 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         path: '/advance/locale',
         info: { title: '_d.docs.locale' },
         component: () => <Markdown article='advance/locale' />
+    },
+    {
+        kind: 'advance',
+        path: '/advance/plugins',
+        info: { title: '_d.docs.plugins' },
+        component: () => <Markdown article='advance/plugins' />
     },
 ] as const;
 
