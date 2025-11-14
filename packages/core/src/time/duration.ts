@@ -2,8 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import '@formatjs/intl-durationformat/polyfill';
-
 /**
  * 表示时间段
  *
