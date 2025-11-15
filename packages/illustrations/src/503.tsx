@@ -12,7 +12,7 @@ const presetText = 'SERVICE UNAVAILABLE';
  * https://storyset.com/illustration/503-error-service-unavailable/amico
  */
 export default function Error503(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <polygon id="illustrations-503-1" points="259.14 154.86 259.14 151.1 259.14 151.1 259.14 122.41 255.83 120.56 255.83 153.02 165.07 205.5 165.07 209.33 255.83 156.78 255.83 229.69 259.14 231.54 259.14 154.86 259.14 154.86" />

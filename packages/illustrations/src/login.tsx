@@ -12,7 +12,7 @@ const presetText = 'User Login';
  * https://storyset.com/illustration/login/amico
  */
 export default function Login(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-login-1" d="M216.2,356.64l34.94-20.2c3.6-2.08,5.4-4.8,5.4-7.53s0-4.86,0-4.86l-36.24-20.44a7.64,7.64,0,0,1-3.48-6V254.52l-61,35.26v43.07a7.7,7.7,0,0,0,3.48,6l30.84,17.76C197.32,360.8,209,360.8,216.2,356.64Z" />

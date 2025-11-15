@@ -12,7 +12,7 @@ const presetText = 'FORBIDDEN';
  * https://storyset.com/illustration/403-error-forbidden/amico
  */
 export default function Error403(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <polygon id="illustrations-403-1" points="120.43 168.9 120.43 406.38 219.1 349.42 219.1 111.95 120.43 168.9" />
@@ -100,7 +100,8 @@ export default function Error403(props: Props): JSX.Element {
             </g>
             <g id="freepik--Tapes--inject-121">
                 <polygon points="112.53 369.86 108.83 367.75 108.84 380.2 112.53 382.31 112.53 369.86" style="opacity:0.2" />
-                <use href="#illustrations-403-2" fill="currentColor" /><use href="#illustrations-403-2" opacity=".2" />
+                <use href="#illustrations-403-2" fill="currentColor" />
+                <use href="#illustrations-403-2" opacity=".2" />
                 <polygon points="230.53 215.01 112.53 369.86 112.54 382.31 230.53 227.47 230.53 215.01" style="opacity:0.25" />
                 <polygon points="230.53 211.7 112.53 366.54 112.54 378.99 230.53 224.15 230.53 211.7" style="fill:currentColor" />
                 <polygon points="230.53 224.13 230.53 218.48 224.68 219.38 219.81 225.77 230.53 224.13" style="fill:#455a64" />
@@ -119,7 +120,8 @@ export default function Error403(props: Props): JSX.Element {
                 <polygon points="112.53 283.52 230.53 298.93 230.53 311.38 112.53 295.98 112.53 283.52" style="opacity:.25" />
                 <polygon points="112.53 281.42 230.53 296.82 230.53 309.27 112.53 293.87 112.53 281.42" style="fill:currentColor" />
                 <polygon points="112.53 283.52 108.83 281.35 108.84 293.81 112.53 295.97 112.53 283.52" style="opacity:.2" />
-                <use href="#illustrations-403-3" fill="currentColor" /><use href="#illustrations-403-3" opacity=".2" />
+                <use href="#illustrations-403-3" fill="currentColor" />
+                <use href="#illustrations-403-3" opacity=".2" />
                 <text x="114" y="276.5" transform='skewY(7.5)' style="font-size:.52rem;fill:#455a64">FORBIDDEN 403 FORBIDDEN</text>
             </g>
         </g>
@@ -191,9 +193,11 @@ export default function Error403(props: Props): JSX.Element {
             <path d="M334.13,158.62a14.94,14.94,0,0,0,.42,1.74,8.37,8.37,0,0,0,.81,1.47c3.12.61,10.62,1.1,20.51-1.26,6.2-1.49,9.06-3.21,10.24-4.45a3.36,3.36,0,0,0,1.2-2.9l-.12-1.37s-2.06,2.73-12.2,5.26A70.36,70.36,0,0,1,334.13,158.62Z" style="fill:currentColor" />
             <path d="M334.13,158.62a14.94,14.94,0,0,0,.42,1.74,8.37,8.37,0,0,0,.81,1.47c3.12.61,10.62,1.1,20.51-1.26,6.2-1.49,9.06-3.21,10.24-4.45a3.36,3.36,0,0,0,1.2-2.9l-.12-1.37s-2.06,2.73-12.2,5.26A70.36,70.36,0,0,1,334.13,158.62Z" style="opacity:0.05" />
             <path d="M339.53,295.16c-1-1.46-3.31-2.78-4.17-3.64-1.52-1.54-3.74-4.79-3.41-5.39s1.26.18,3.2.17c3,0,3.82-1.18,3.79-2.28,0-.86-1.83-.7-4-1.18-1.91-.61-4.2-2.76-5.45-4.45s-2.26-6.1-2.26-6.1-6.49.09-11,3.16c0,0,1.29,6.7,2.77,11.45,1.65,5.33,5.39,11.21,11.08,12.53a13.83,13.83,0,0,0,7.16-.36,5.29,5.29,0,0,0,1.9-.94A2,2,0,0,0,339.53,295.16Z" style="fill:#ffa8a7" />
-            <use href="#illustrations-403-11" fill="currentColor" /><use href="#illustrations-403-11" style="fill:#fff;opacity:0.65" />
+            <use href="#illustrations-403-11" fill="currentColor" />
+            <use href="#illustrations-403-11" style="fill:#fff;opacity:0.65" />
             <path d="M316.27,260c-1.74-8.5-4.59-25.14-2.64-38.23-1.12,6.43-2.43,15-2.43,19.69,0,7.27,2.17,21.88,5,34.33a20.33,20.33,0,0,0,4.16-.08C319.11,271.6,317.34,265.24,316.27,260Z" style="opacity:0.1" />
-            <use href="#illustrations-403-12" fill="currentColor" /><use href="#illustrations-403-12" opacity=".1" />
+            <use href="#illustrations-403-12" fill="currentColor" />
+            <use href="#illustrations-403-12" opacity=".1" />
             <g id="freepik--shield--inject-121">
                 <path d="M364.79,145.63c0-.08,0-.13,0-.15h0l-.32-.2h0s-.1,0-.17,0a2.37,2.37,0,0,1-2.33.25,1.6,1.6,0,0,1-.26-.26h0a.19.19,0,0,0-.07-.06l-.32-.2h0c-.07,0-.14,0-.19.11a7.61,7.61,0,0,1-3.05,3.52.5.5,0,0,0-.19.13.41.41,0,0,0-.11.26c-.07,2,.95,5.37,3,6.54a3,3,0,0,0,.38.24C364.16,152.9,364.71,148.07,364.79,145.63Z" style="fill:#ebebeb" />
                 <path d="M360.74,155.59c-2.1-1.17-3.11-4.49-3-6.54a.42.42,0,0,1,0-.16l.33.2a.29.29,0,0,0,0,.16C358,151.19,358.86,154.27,360.74,155.59Z" style="fill:#e0e0e0" />

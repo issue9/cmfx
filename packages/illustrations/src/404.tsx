@@ -12,7 +12,7 @@ const presetText = 'PAGE NOT FOUND';
  * https://storyset.com/illustration/404-error/amico
  */
 export default function Error404(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-404-1" d="M173.82,456.14v2.38a2.09,2.09,0,0,1-.88,2l-1.44.84-.06,0a2.09,2.09,0,0,0,.94-2V457a6.21,6.21,0,0,0-.89-3l1.44-.83A6.18,6.18,0,0,1,173.82,456.14Z" />
@@ -50,27 +50,37 @@ export default function Error404(props: Props): JSX.Element {
                 <path d="M154.24,440.49l16-9.23c1.19-.69,2.16-.13,2.16,1.25v13.77a4.8,4.8,0,0,1-2.16,3.75l-16,9.22c-1.2.69-2.17.13-2.17-1.25V444.24A4.78,4.78,0,0,1,154.24,440.49Z" style="fill:#455a64" />
                 <path d="M170.79,450.89l-13.22-7.63-1.43.83v9.38l13.21,7.63a2.14,2.14,0,0,0,2.15.2l1.44-.83a2.1,2.1,0,0,0,.88-2v-2.38A6.69,6.69,0,0,0,170.79,450.89Zm-2.43,2.51a4.47,4.47,0,0,1,2,3.51,2.38,2.38,0,0,1-.07.56,2.46,2.46,0,0,1-.52-.21,4.51,4.51,0,0,1-2-3.52,2.47,2.47,0,0,1,.07-.57A2.13,2.13,0,0,1,168.36,453.4Z" style="fill:currentColor" />
                 <path d="M170.79,450.89l-13.22-7.63-1.43.83,13.21,7.63a6.69,6.69,0,0,1,3,5.25v2.38a2.09,2.09,0,0,1-.95,2l.07,0,1.44-.84a2.09,2.09,0,0,0,.88-2v-2.38A6.72,6.72,0,0,0,170.79,450.89Z" style="fill:#fff;opacity:0.85" />
-                <use href="#illustrations-404-1" fill="currentColor" /><use href="#illustrations-404-1" style="fill:#fff;opacity:.6" /><use href="#illustrations-404-1" opacity=".05" />
+                <use href="#illustrations-404-1" fill="currentColor" /><use href="#illustrations-404-1" style="fill:#fff;opacity:.6" />
+                <use href="#illustrations-404-1" opacity=".05" />
                 <use href="#illustrations-404-2" style="fill:#fff;opacity:.6" /><use href="#illustrations-404-2" opacity="0.1" />
                 <path d="M169.35,451.72l-13.21-7.63v9.38l13.21,7.63c1.68,1,3,.18,3-1.75V457A6.66,6.66,0,0,0,169.35,451.72Zm-1,6.37a4.51,4.51,0,0,1-2-3.52c0-1.3.91-1.82,2-1.17a4.47,4.47,0,0,1,2,3.51C170.39,458.21,169.48,458.73,168.36,458.09Z" style="fill:#fff;opacity:0.7" />
                 <path d="M181.54,444.68l-13.21-7.63-1.44.83v9.38l13.21,7.63a2.12,2.12,0,0,0,2.15.21l1.44-.84a2.09,2.09,0,0,0,.88-1.95v-2.38A6.69,6.69,0,0,0,181.54,444.68Zm-2.43,2.51a4.47,4.47,0,0,1,2,3.52,2.23,2.23,0,0,1-.07.55,1.72,1.72,0,0,1-.52-.21,4.49,4.49,0,0,1-2-3.52,2.31,2.31,0,0,1,.07-.56A2.07,2.07,0,0,1,179.11,447.19Z" style="fill:currentColor" />
                 <path d="M181.54,444.68l-13.22-7.63-1.43.83,13.21,7.63a6.69,6.69,0,0,1,3,5.25v2.38a2.09,2.09,0,0,1-.95,2l.07,0,1.44-.84a2.09,2.09,0,0,0,.88-1.95v-2.38A6.72,6.72,0,0,0,181.54,444.68Z" style="fill:#fff;opacity:0.85" />
-                <use href="#illustrations-404-3" fill="currentColor" /><use href="#illustrations-404-3" style="fill:#fff;opacity:.6" /><use href="#illustrations-404-3" opacity=".05" />
-                <use href="#illustrations-404-4" style="fill:#fff;opacity:.6" /><use href="#illustrations-404-4" opacity=".1" />
+                <use href="#illustrations-404-3" fill="currentColor" />
+                <use href="#illustrations-404-3" style="fill:#fff;opacity:.6" />
+                <use href="#illustrations-404-3" opacity=".05" />
+                <use href="#illustrations-404-4" style="fill:#fff;opacity:.6" />
+                <use href="#illustrations-404-4" opacity=".1" />
                 <path d="M180.11,445.51l-13.22-7.63v9.38l13.21,7.63c1.68,1,3,.19,3-1.75v-2.38A6.72,6.72,0,0,0,180.11,445.51Zm-1,6.37a4.49,4.49,0,0,1-2-3.52c0-1.29.91-1.82,2-1.17a4.47,4.47,0,0,1,2,3.52C181.14,452,180.23,452.53,179.11,451.88Z" style="fill:#fff;opacity:0.7" />
             </g>
             <g id="freepik--device--inject-79">
-                <use href="#illustrations-404-5" fill="currentColor" /><use href="#illustrations-404-5" opacity=".6" />
+                <use href="#illustrations-404-5" fill="currentColor" />
+                <use href="#illustrations-404-5" opacity=".6" />
                 <path d="M177.81,374.74V380l-12-6.94a8.3,8.3,0,0,1-3.74-6.48V320.17L174.55,313c.25,3.17.54,6.46.8,9.66l-8.78,5.08v36.22a8.19,8.19,0,0,0,3.74,6.48Z" style="opacity:0.3" />
-                <use href="#illustrations-404-6" fill="currentColor" /><use href="#illustrations-404-6" opacity=".3" />
+                <use href="#illustrations-404-6" fill="currentColor" />
+                <use href="#illustrations-404-6" opacity=".3" />
                 <path d="M243.62,336.85h0l-7.62-4.4a8.28,8.28,0,0,1-3.74-6.49V289.73l-65.68,38v36.23a8.25,8.25,0,0,0,3.74,6.48l7.5,4.33Z" style="opacity:0.5" />
-                <use href="#illustrations-404-7" fill="currentColor" /><use href="#illustrations-404-7" opacity=".5" />
+                <use href="#illustrations-404-7" fill="currentColor" />
+                <use href="#illustrations-404-7" opacity=".5" />
                 <path d="M61.1,409a10,10,0,0,0,9.07-.17l254-146.66c2.58-1.49,4.67-5.12,4.67-4.1V26.72c0-7-2-10.54-4.39-11.94a10,10,0,0,0-9.06.17L61.4,161.61a10.32,10.32,0,0,0-4.68,8.1V401A10,10,0,0,0,61.1,409Z" style="fill:currentColor" />
-                <use href="#illustrations-404-8" fill="currentColor" /><use href="#illustrations-404-8" opacity=".5" />
-                <use href="#illustrations-404-9" fill="currentColor" /><use href="#illustrations-404-9" opacity=".5" />
+                <use href="#illustrations-404-8" fill="currentColor" />
+                <use href="#illustrations-404-8" opacity=".5" />
+                <use href="#illustrations-404-9" fill="currentColor" />
+                <use href="#illustrations-404-9" opacity=".5" />
                 <path d="M65.49,396.36v14.7c0,3,2.1,4.2,4.68,2.7l254-146.65a10.35,10.35,0,0,0,4.68-8.11V244.26Z" style="fill:currentColor" />
                 <path d="M65.49,396.32v14.74c0,3,2.1,4.2,4.68,2.7l254-146.65a10.35,10.35,0,0,0,4.68-8.11V244.26Z" style="opacity:0.3" />
-                <use href="#illustrations-404-10" fill="currentColor" /><use href="#illustrations-404-10" fill="#263238" />
+                <use href="#illustrations-404-10" fill="currentColor" />
+                <use href="#illustrations-404-10" fill="#263238" />
                 <path d="M66.87,170.14a10,10,0,0,0-1.38,4.63V396.36l-8.78-5.08V169.71a9.69,9.69,0,0,1,1.37-4.62Z" style="opacity:0.7" />
                 <path d="M328.83,21.94c-.33-2.41-2.28-3.28-4.64-1.93l-254,146.66a9.5,9.5,0,0,0-3.31,3.48l-8.78-5.07a9.66,9.66,0,0,1,3.31-3.48L315.42,15a10,10,0,0,1,9.07-.17A10.1,10.1,0,0,1,328.83,21.94Z" style="opacity:0.3" />
             </g>
@@ -159,7 +169,8 @@ export default function Error404(props: Props): JSX.Element {
                 <path d="M377.06,148.22V84a2.86,2.86,0,0,1,1.29-2.24l50.22-29c.71-.41,1.29-.08,1.29.74v64.21a2.89,2.89,0,0,1-1.29,2.24l-50.22,29C377.63,149.38,377.06,149,377.06,148.22Z" style="fill:currentColor" />
                 <path d="M378.35,149a3,3,0,0,1-2.6,0l-4.63-2.6a2.83,2.83,0,0,1-1.3-2.22V80a2.68,2.68,0,0,1,.41-1.32l7.21,4.11a2.56,2.56,0,0,0-.38,1.27v64.2C377.06,149,377.59,149.41,378.35,149Z" style="opacity:0.2" />
                 <path d="M429.84,53.29c-.1-.65-.63-.88-1.27-.51l-50.22,29a2.66,2.66,0,0,0-.91,1l-7.21-4.11a2.54,2.54,0,0,1,.89-.92l50.22-29a2.88,2.88,0,0,1,2.59,0l4.63,2.59A2.86,2.86,0,0,1,429.84,53.29Z" style="fill:#fff;opacity:0.4" />
-                <use href="#illustrations-404-11" fill="currentColor" /><use href="#illustrations-404-11" opacity=".1" />
+                <use href="#illustrations-404-11" fill="currentColor" />
+                <use href="#illustrations-404-11" opacity=".1" />
                 <path d="M377.06,103.47l-10.41,10.58a1.15,1.15,0,0,0,1,1.94l9.43-1.36C378.07,114.63,378.07,103.47,377.06,103.47Z" style="fill:currentColor" />
             </g>
             <g id="freepik--dead-emoji--inject-79">

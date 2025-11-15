@@ -12,7 +12,7 @@ const presetText = 'Too Many Requests';
  * https://storyset.com/illustration/error-429/amico
  */
 export default function Error429(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-429-1" d="M135.44,280.79,98,259.19l-.12,43.94,55.94,32.31.07-22.64Z" />
@@ -156,7 +156,8 @@ export default function Error429(props: Props): JSX.Element {
             <polygon points="262.77 295.99 223.83 298.17 217.48 287.15 200.13 297.16 242.21 313.65 262.77 295.99" style="fill:#fff;opacity:.4" />
         </g>
         <g id="freepik--Character--inject-33">
-            <use href="#illustrations-429-17" fill="currentColor" /><use href="#illustrations-429-17" opacity=".1" />
+            <use href="#illustrations-429-17" fill="currentColor" />
+            <use href="#illustrations-429-17" opacity=".1" />
             <path d="M403.67,195.63a54.67,54.67,0,0,0,12,2.64,8.7,8.7,0,0,1-6.71,1.66A8.49,8.49,0,0,1,403.67,195.63Z" style="opacity:0.1" />
             <path d="M388.7,394.43c-.66,2.07-2.94,3.26-5.11,3.43a25.75,25.75,0,0,1-6.45-.82c-4.8-.87-9.43,0-14.21-.12a20.32,20.32,0,0,1-4.67-.51,7.69,7.69,0,0,1-4-2.36,5.31,5.31,0,0,1-1.15-2.5,5,5,0,0,0,1.15,3.91,7.74,7.74,0,0,0,4,2.35,20.32,20.32,0,0,0,4.67.51c4.78.11,9.41-.75,14.21.12a25.31,25.31,0,0,0,6.45.83c2.17-.18,4.45-1.36,5.11-3.44a5.48,5.48,0,0,0,.17-2.21A5.84,5.84,0,0,1,388.7,394.43Z" style="fill:#263238" />
             <path d="M388.58,390.45l-.89-4.36a6.35,6.35,0,0,0-.74-2.21,2.15,2.15,0,0,0-1.94-1.11c-2.62-.35-6.32-1.3-8.5.2a19.58,19.58,0,0,1-11.75,3.41c-2.17-.08-4.34-.53-6.5-.26s-4.39,1.46-5,3.54a4.31,4.31,0,0,0-.11,1.89,5.31,5.31,0,0,0,1.15,2.5,7.69,7.69,0,0,0,4,2.36,20.32,20.32,0,0,0,4.67.51c4.78.11,9.41-.75,14.21.12a25.75,25.75,0,0,0,6.45.82c2.17-.17,4.45-1.36,5.11-3.43a5.84,5.84,0,0,0,.17-.81A10.34,10.34,0,0,0,388.58,390.45Z" style="fill:#37474f" />
@@ -183,7 +184,8 @@ export default function Error429(props: Props): JSX.Element {
             <path d="M273.68,88l64.43,37.18a7.17,7.17,0,0,1,2.69,2.72,7.26,7.26,0,0,1,.93,3.53V171c0,4.84-4.11,8.12-9.52,5l-5.14-2.93h0l-1.05-.6-.23-.13h0l-34.44-20h0l-23.57-13.47a7.21,7.21,0,0,1-3.63-6.25V93C264.15,87.84,270.45,86.15,273.68,88Z" style="fill:currentColor" />
             <path d="M335,131.15a7.37,7.37,0,0,0-1.93-2.41h0a6.7,6.7,0,0,0-.87-.6L267.75,91a2.4,2.4,0,0,0-3.6,2.08c0-5.2,6.3-6.89,9.53-5l64.43,37.18a7.17,7.17,0,0,1,2.69,2.72Z" style="fill:#fff;opacity:0.4" />
             <path d="M335.8,173.93V134.39a6.11,6.11,0,0,0-.06-.86,7.68,7.68,0,0,0-.75-2.38l5.81-3.24a7.26,7.26,0,0,1,.93,3.53V171c0,4.84-4.11,8.12-9.52,5A2.4,2.4,0,0,0,335.8,173.93Z" style="fill:#fff;opacity:0.2" />
-            <use href="#illustrations-429-18" fill="currentColor" /><use href="#illustrations-429-18" style="fill:#fff;opacity:.4" />
+            <use href="#illustrations-429-18" fill="currentColor" />
+            <use href="#illustrations-429-18" style="fill:#fff;opacity:.4" />
             <path d="M265,113.13l-5.35,1.49a1.17,1.17,0,0,0-.48,2l5.56,5.15Z" style="fill:currentColor" />
             <text x="300" y="-26" text-anchor="middle" transform='skewY(30)' style="font-size:2.2rem;font-weight:bold;fill:#fff">429</text>
         </g>

@@ -13,7 +13,7 @@ const presetText = 'UNAUTHORIZED';
  * https://storyset.com/illustration/401-error-unauthorized/amico
  */
 export default function Error401(props: Props): JSX.Element {
-    const [, svgProps] = splitProps(props, ['text', 'palette']);
+    const [, svgProps] = splitProps(props, ['text', 'palette', 'class']);
     return <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...svgProps} class={buildClass(props)}>
         <defs>
             <path id="illustrations-401-1" d="M357.63,100.63a.9.9,0,0,1-.31-.67,1,1,0,0,1,.24-.71l3.07-3.37a1,1,0,0,1,1.38-.07l2.7,2.46A.91.91,0,0,1,365,99a.94.94,0,0,1-.24.7L361.71,103a1,1,0,0,1-1.38.07ZM343,87.38A1,1,0,0,1,343,86L346,82.63a1,1,0,0,1,1.38-.07L359,93a1,1,0,0,1,.06,1.38L356,97.79a1,1,0,0,1-.68.32,1,1,0,0,1-.7-.25Z" />
@@ -193,7 +193,8 @@ export default function Error401(props: Props): JSX.Element {
             <polygon points="337.52 357.04 337.52 368.46 336.69 367.99 336.69 356.57 337.52 357.04" style="fill:#455a64" />
             <polygon points="321.03 347.54 321.03 358.96 320.21 358.49 320.21 347.06 321.03 347.54" style="fill:#455a64" />
             <path d="M346,343.94,319.2,328.5c-.47-.27-.85-.08-.85.43a1.78,1.78,0,0,0,.85,1.39L346,345.77c.46.27.84.08.84-.43A1.83,1.83,0,0,0,346,343.94Z" style="opacity:.3" />
-            <use href="#illustrations-401-4" fill="currentColor" /><use href="#illustrations-401-4" opacity=".15" />
+            <use href="#illustrations-401-4" fill="currentColor" />
+            <use href="#illustrations-401-4" opacity=".15" />
         </g>
         <g id="freepik--error-401--inject-182">
             <text x="142" y="210" text-anchor="middle" transform='skewY(-30)' style="font-size:3.7rem;font-weight:bold;fill:currentColor">401</text>
