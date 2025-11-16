@@ -55,14 +55,29 @@
                 @apply ps-1 list-inside list-disc;
             }
 
+            a {
+                @apply relative;
+            }
             a:link,
             a:visited {
                 @apply text-palette-fg-focused;
             }
+            a::after {
+                content: "";
+                position: absolute;
+                left: 0;
+                bottom: 0;
+                width: 0;
+                height: 1px;
+                background: currentColor;
+                transition: width var(--default-transition-duration) ease;
+            }
+            a:hover::after {
+                width: 100%;
+            }
 
-            /* 代码块的样式 */
-            pre {
-                @apply !bg-palette-bg-low !text-palette-fg rounded-md p-2;
+            pre { /* 代码块的样式 */
+                @apply bg-palette-bg-low! text-palette-fg! rounded-md p-2;
             }
         }
     }

@@ -17,7 +17,10 @@ const filename = 'api';
  */
 export interface Options {
     /**
-     * 组件的根目录
+     * 组件包的根目录
+     *
+     * @remarks
+     * 将从该目录下的 index.d.ts 中读取文档内容。
      */
     components: string;
 
@@ -29,8 +32,6 @@ export interface Options {
 
 /**
  * 根据配置提取指定项目下的对象注释作为文档
- *
- * @returns vite 插件
  */
 export default function api(o: Options): Plugin {
     const parser = new Parser(o.components);

@@ -19,9 +19,7 @@ export type Breakpoint = typeof breakpoints[number];
  */
 export function transitionDuration(el?: Element): number {
     let val = getComputedStyle(el || document.documentElement).getPropertyValue(transitionDurationName);
-    if (!val) {
-        return 300;
-    }
+    if (!val) { return 300; }
 
     if (val.endsWith('ms')) {
         return parseInt(val.substring(0, val.length - 2));
@@ -30,4 +28,23 @@ export function transitionDuration(el?: Element): number {
     } else { // 其它直接当作数值处理
         return parseInt(val);
     }
+}
+
+/**
+ * 当前组件是否要减少动画功能
+ *
+ * @param el - 需要判定的元素，如果为空，则采用 media query 查询 `prefers-reduced-motion: reduce`；
+ */
+export function isReducedMotion(el?: Element | null): boolean {
+    if (!el) {
+        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    }
+
+    let hasRM: boolean = false;
+    while(el && !hasRM) {
+        hasRM = el.classList.contains('prefers-reduced-motion');
+        el = el.parentElement;
+    }
+
+    return hasRM || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }

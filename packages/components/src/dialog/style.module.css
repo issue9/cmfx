@@ -24,6 +24,7 @@ dialog::backdrop {
 @layer components {
     dialog.dialog {
         @apply flex flex-col bg-palette-bg text-palette-fg rounded-md overflow-clip border border-palette-border;
+        @apply shadow-md;
 
         >header {
             @apply flex items-center justify-between p-2 border-b border-b-palette-border grow-0 shrink-0;

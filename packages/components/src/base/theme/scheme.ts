@@ -27,7 +27,8 @@ export interface Scheme {
     /**
      * 全局字体的大小
      *
-     * @remarks 该值将会修改 html 下的 font-size 属性。默认值为 16px。
+     * @remarks
+     * 该值将会修改 html 下的 font-size 属性。默认值为 16px。
      * 当多个主题嵌套设置时，最后调用 changeScheme 的 font-size 会应用到全局。
      */
     fontSize?: string;

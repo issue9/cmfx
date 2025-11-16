@@ -25,14 +25,16 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> 
     /**
      * 指定按钮的状态
      *
-     * @remarks 有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。
+     * @remarks
+     * 有些条件下可能会通过外部状态修改按钮的状态，此时可以使用此属性。
      */
     value?: boolean;
 
     /**
      * 执行切换状态的方法
      *
-     * @remarks 该方法应该返回一个 `Promise<boolean>`，用于异步执行切换操作。
+     * @remarks
+     * 该方法应该返回一个 `Promise<boolean>`，用于异步执行切换操作。
      * 当 Promise 解决时，根据返回的值决定显示 {@link on} 或是 {@link off}。
      */
     toggle: { (): Promise<boolean>; };
@@ -54,7 +56,8 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> 
     /**
      * 图标之间的切换是否采用动画效果
      *
-     * @remarks 默认为 false，如果为 true，需要保证 {@link on} 和 {@link off} 为 svg 图标。
+     * @remarks
+     * 默认为 false，如果为 true，需要保证 {@link on} 和 {@link off} 为 svg 图标。
      */
     animation?: boolean;
 }
@@ -97,7 +100,8 @@ export type ToggleFullScreenButtonProps = Omit<Props, 'toggle' | 'on' | 'off' | 
 /**
  * 切换全屏状态的按钮
  *
- * @remarks 并不是所有的浏览器都支持全屏功能，比如 iOS 系统，在不支持的系统上默认会处于禁用状态。
+ * @remarks
+ * 并不是所有的浏览器都支持全屏功能，比如 iOS 系统，在不支持的系统上默认会处于禁用状态。
  */
 export function ToggleFullScreenButton(props: ToggleFullScreenButtonProps): JSX.Element {
     props = mergeProps({ disabled: !document.fullscreenEnabled }, props);
