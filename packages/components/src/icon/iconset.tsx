@@ -6,7 +6,7 @@ import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from 
 import { createEffect, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, joinClass, style2String, transitionDuration } from '@/base';
+import { BaseProps, isReducedMotion, joinClass, style2String, transitionDuration } from '@/base';
 import { useTheme } from '@/context';
 
 export interface Ref {
@@ -20,14 +20,14 @@ export interface Ref {
     /**
      * 显示下一个图标
      *
-     * @remarks 图标的顺序与 {@link Props.icons} 的顺序是相同的。
+     * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
      */
     next(): void;
 
     /**
      * 显示上一个图标
      *
-     * @remarks 图标的顺序与 {@link Props.icons} 的顺序是相同的。
+     * @remarks 图标的顺序与 {@link Props#icons} 的顺序是相同的。
      */
     prev(): void;
 
@@ -77,8 +77,6 @@ export interface Props extends BaseProps {
  * @remarks
  * 可以一次性指定多个图标，通过 {@link Ref#to} 实现跳转到另一个图标且带有动画效果。
  * 应该尽量避免纯图标表示的状态切换，纯粹的图标很难告诉用户当前的图标是表示当前状态还是点击之后的状态。
- *
- * 图标的切换不会受到 `@media (prefers-reduced-motion: reduce)` 的影响。
  */
 export function IconSet(props: Props): JSX.Element {
     const keys = Object.keys(props.icons); // 图标名称列表
@@ -117,31 +115,33 @@ export function IconSet(props: Props): JSX.Element {
         }
     });
 
-    onMount(() => {
-        const dur = transitionDuration(icons);
+    const getDuration = () => {
+        return isReducedMotion(icons) ? 0 : transitionDuration(icons);
+    };
 
+    onMount(() => {
         morpheus = new SVGMorpheus(icons, {
             iconId: props.preset,
-            duration: dur,
+            duration: getDuration(),
             easing: props.easing,
             rotation: props.rotation,
         }, () => {
             props.ref({
                 to: (gid) => {
-                    morpheus.to(gid, { duration: dur });
+                    morpheus.to(gid, { duration: getDuration() });
                     index = keys.indexOf(gid);
                 },
 
                 next: () => {
                     index++;
                     if (index >= keys.length) { index = 0; }
-                    morpheus.to(keys[index], { duration: dur });
+                    morpheus.to(keys[index], { duration: getDuration() });
                 },
 
                 prev: () => {
                     index--;
                     if (index < 0) { index = keys.length - 1; }
-                    morpheus.to(keys[index], { duration: dur });
+                    morpheus.to(keys[index], { duration: getDuration() });
                 },
 
                 element: () => icons,

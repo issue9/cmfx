@@ -36,15 +36,10 @@ export function transitionDuration(el?: Element): number {
  * @param el - 需要判定的元素，如果为空，则采用 media query 查询 `prefers-reduced-motion: reduce`；
  */
 export function isReducedMotion(el?: Element | null): boolean {
-    if (!el) {
-        return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    }
-
-    let hasRM: boolean = false;
-    while(el && !hasRM) {
-        hasRM = el.classList.contains('prefers-reduced-motion');
+    while(el) {
+        if (el.classList.contains('prefers-reduced-motion')) { return true; }
         el = el.parentElement;
     }
 
-    return hasRM || window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
