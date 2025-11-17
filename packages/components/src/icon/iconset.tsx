@@ -6,7 +6,7 @@ import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from 
 import { createEffect, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, isReducedMotion, joinClass, style2String, transitionDuration } from '@/base';
+import { BaseProps, isReducedMotion, joinClass, RefProps, style2String, transitionDuration } from '@/base';
 import { useTheme } from '@/context';
 
 export interface Ref {
@@ -41,7 +41,7 @@ export const iconSetRotations = rotations;
 
 export const iconSetEasings = Object.keys(easings);
 
-export interface Props extends BaseProps {
+export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 图标集
      *
@@ -51,9 +51,11 @@ export interface Props extends BaseProps {
     icons: Record<string, JSX.Element>;
 
     /**
-     * 默认显示的图标，如果未指定，则采用 {@link Props.icons} 中的最后一个。
+     * 显示的图标，如果未指定，则采用 {@link Props.icons} 中的最后一个。
+     *
+     * @reactive
      */
-    preset?: string;
+    value?: string;
 
     /**
      * 缓动函数
@@ -67,8 +69,6 @@ export interface Props extends BaseProps {
      * 旋转方式
      */
     rotation?: Rotation;
-
-    ref: { (ref: Ref): void; };
 }
 
 /**
@@ -80,7 +80,7 @@ export interface Props extends BaseProps {
  */
 export function IconSet(props: Props): JSX.Element {
     const keys = Object.keys(props.icons); // 图标名称列表
-    let index = props.preset ? keys.indexOf(props.preset) : keys.length - 1; // 当前图标在 keys 中的索引
+    let index = props.value ? keys.indexOf(props.value) : keys.length - 1; // 当前图标在 keys 中的索引
 
     const maps: Record<string, string> = {};
     Object.entries(props.icons).forEach(value => {
@@ -119,13 +119,22 @@ export function IconSet(props: Props): JSX.Element {
         return isReducedMotion(icons) ? 0 : transitionDuration(icons);
     };
 
+    createEffect(() => { // 监视 props.value
+        const toid = props.value;
+        if (morpheus && toid) {
+            morpheus.to(toid, { duration: getDuration() });
+        }
+    });
+
     onMount(() => {
         morpheus = new SVGMorpheus(icons, {
-            iconId: props.preset,
+            iconId: props.value,
             duration: getDuration(),
             easing: props.easing,
             rotation: props.rotation,
         }, () => {
+            if (!props.ref) { return; }
+
             props.ref({
                 to: (gid) => {
                     morpheus.to(gid, { duration: getDuration() });
