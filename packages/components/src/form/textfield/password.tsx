@@ -30,7 +30,7 @@ export function Password(props: Props): JSX.Element {
     });
 
     return <TextField {...props} type="password" ref={el => ref = el} suffix={
-        <ToggleButton kind='flat' animation square disabled={props.disabled || props.readonly} value={props.visible}
+        <ToggleButton kind='flat' square disabled={props.disabled || props.readonly} value={props.visible}
             off={<IconVisibility />} on={<IconVisibilityOff />} toggle={async () => {
                 setVisible(!visible());
                 ref.input().type = visible() ? 'text' : 'password';

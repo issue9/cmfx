@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createEffect, createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
+import { createSignal, JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 import IconCollapse from '~icons/material-symbols/collapse-content';
 import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
-import { IconSet, IconSetRef } from '@/icon';
+import { IconSet } from '@/icon';
 import { Props as BaseProps, Button } from './button';
 import { presetProps } from './types';
 import styles from './style.module.css';
@@ -52,14 +52,6 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> 
      * @reactive
      */
     off: JSX.Element;
-
-    /**
-     * 图标之间的切换是否采用动画效果
-     *
-     * @remarks
-     * 默认为 false，如果为 true，需要保证 {@link on} 和 {@link off} 为 svg 图标。
-     */
-    animation?: boolean;
 }
 
 /**
@@ -72,26 +64,11 @@ export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> 
  */
 export function ToggleButton(props: Props): JSX.Element {
     props = mergeProps(presetProps, { type: 'button' as Props['type'] }, props);
-    const [_, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'animation', 'value']);
+    const [_, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
+    const [val, setVal] = createSignal(props.value);
 
-    const [val, setVal] = createSignal<boolean>(!!props.value);
-    createEffect(() => {setVal(!!props.value);});
-
-    if (props.animation) {
-        let animationRef: IconSetRef;
-        const icons = {on: props.on, off: props.off};
-        const next = async () => {
-            const id = await props.toggle();
-            animationRef.to(id ? 'on' : 'off');
-        };
-
-        return <Button {...btnProps} onclick={async () => { next(); }}>
-            <IconSet icons={icons} ref={el => animationRef = el} />
-        </Button>;
-    }
-
-    return <Button {...btnProps} onclick={async () => {setVal((await props.toggle()));}}>
-        {val() ? props.on : props.off}
+    return <Button {...btnProps} onclick={async () => { setVal(await props.toggle()); }}>
+        <IconSet icons={{on: props.on, off: props.off}} value={val() ? 'on' : 'off'} />
     </Button>;
 }
 

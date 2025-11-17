@@ -28,11 +28,11 @@ export default function(props: MountProps) {
         </Portal>
 
         <div class="flex flex-wrap items-center gap-2">
-            <ToggleButton animation square disabled={disabled()} rounded={rounded()}
+            <ToggleButton square disabled={disabled()} rounded={rounded()}
                 kind={kind()} palette='tertiary' on={<IconClose />} off={<IconFace />}
                 toggle={async () => toggleFlag2 = !toggleFlag2} hotkey={new Hotkey('b', 'shift')} />
 
-            <ToggleButton square disabled={disabled()} rounded={rounded()}
+            <ToggleButton class="prefers-reduced-motion" square disabled={disabled()} rounded={rounded()}
                 kind={kind()} palette='tertiary' on={<IconClose />} off={<IconFace />}
                 toggle={async () => toggleFlag1 = !toggleFlag1} hotkey={new Hotkey('a', 'shift')} />
 
