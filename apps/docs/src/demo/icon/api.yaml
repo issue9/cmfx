@@ -2,5 +2,5 @@
 #
 # SPDX-License-Identifier: MIT
 
-- AnimationIconProps
-- AnimationIconRef
+- IconSetProps
+- IconSetRef

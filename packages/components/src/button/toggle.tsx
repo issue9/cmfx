@@ -8,7 +8,7 @@ import IconExpand from '~icons/material-symbols/expand-content';
 import IconFullScreen from '~icons/material-symbols/fullscreen';
 import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
-import { AnimationIcon, AnimationIconRef } from '@/icon';
+import { IconSet, IconSetRef } from '@/icon';
 import { Props as BaseProps, Button } from './button';
 import { presetProps } from './types';
 import styles from './style.module.css';
@@ -78,7 +78,7 @@ export function ToggleButton(props: Props): JSX.Element {
     createEffect(() => {setVal(!!props.value);});
 
     if (props.animation) {
-        let animationRef: AnimationIconRef;
+        let animationRef: IconSetRef;
         const icons = {on: props.on, off: props.off};
         const next = async () => {
             const id = await props.toggle();
@@ -86,7 +86,7 @@ export function ToggleButton(props: Props): JSX.Element {
         };
 
         return <Button {...btnProps} onclick={async () => { next(); }}>
-            <AnimationIcon icons={icons} ref={el => animationRef = el} />
+            <IconSet icons={icons} ref={el => animationRef = el} />
         </Button>;
     }
 

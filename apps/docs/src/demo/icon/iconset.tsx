@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    AnimationIcon, AnimationIconRef, AnimationIconRotation, Button, animationIconRotations, MountProps
+    IconSet, IconSetRef, IconSetRotation, Button, iconSetRotations, MountProps
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 import IconClose from '~icons/material-symbols/close';
@@ -12,8 +12,8 @@ import IconPerson from '~icons/material-symbols/person';
 import { arraySelector } from '../base';
 
 export default function(props: MountProps) {
-    let aref: AnimationIconRef;
-    const [rotationS, rotation] = arraySelector<AnimationIconRotation>('rotation', animationIconRotations, 'none');
+    let aref: IconSetRef;
+    const [rotationS, rotation] = arraySelector<IconSetRotation>('rotation', iconSetRotations, 'none');
 
     return <div>
         <Portal mount={props.mount}>
@@ -21,7 +21,7 @@ export default function(props: MountProps) {
         </Portal>
 
         <Button>
-            <AnimationIcon class="w-8 aspect-square" ref={el => aref = el} icons={{
+            <IconSet class="w-8 aspect-square" ref={el => aref = el} icons={{
                 face: <IconFace />,
                 close: <IconClose />,
                 person: <IconPerson />,

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AnimationIcon, AnimationIconRef, Button, Divider, Scheme, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
+import { IconSet, IconSetRef, Button, Divider, Scheme, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -16,7 +16,7 @@ export default function() {
 
     const [m2, setMode2] = createSignal(opt.mode);
 
-    let ref: AnimationIconRef;
+    let ref: IconSetRef;
 
     return <div>
         <Button>这是继承上一层的主题: {g.mode}, {g.scheme?.light?.['primary-bg']}</Button>
@@ -32,7 +32,7 @@ export default function() {
             <Button onclick={() => setMode('dark')}>深色</Button>
             <Button onclick={() => setMode('system')}>跟随系统</Button>
             <Button onclick={() => ref.next()} class="w-16">
-                <AnimationIcon ref={el=>ref=el} icons={{
+                <IconSet ref={el => ref = el} icons={{
                     face: <IconFace />,
                     close: <IconClose />,
                     person: <IconPerson />,

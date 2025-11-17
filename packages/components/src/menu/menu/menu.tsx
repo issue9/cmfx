@@ -15,7 +15,7 @@ import IconArrowUp from '~icons/material-symbols/keyboard-arrow-up';
 import { AvailableEnumType, BaseProps, classList, joinClass, Layout, RefProps, transitionDuration } from '@/base';
 import { Divider } from '@/divider';
 import { ChangeFunc } from '@/form/field';
-import { AnimationIcon, AnimationIconRef } from '@/icon';
+import { IconSet, IconSetRef } from '@/icon';
 import { buildRenderItemType, MenuItem, RenderMenuItem } from './item';
 import styles from './style.module.css';
 
@@ -165,7 +165,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
 
                     const val = i().value;
 
-                    let iconRef: AnimationIconRef;
+                    let iconRef: IconSetRef;
                     const [expanded, setExpanded] = createSignal(false);
                     const hasItems = i().items && i().items!.length > 0;
                     const isAnchor = item.type === 'a';
@@ -278,7 +278,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                                         </Switch>
                                     </Match>
                                     <Match when={props.layout === 'inline'}>
-                                        <AnimationIcon ref={el => iconRef = el} rotation='none'
+                                        <IconSet ref={el => iconRef = el} rotation='none'
                                             class={joinClass(undefined, styles.icon, styles.suffix)} palette={props.palette}
                                             icons={{ up: <IconArrowUp />, down: <IconArrowDown /> }}
                                         />

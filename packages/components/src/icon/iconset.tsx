@@ -37,9 +37,9 @@ export interface Ref {
     element(): SVGSVGElement;
 }
 
-export const animationIconRotations = rotations;
+export const iconSetRotations = rotations;
 
-export const animationIconEasings = Object.keys(easings);
+export const iconSetEasings = Object.keys(easings);
 
 export interface Props extends BaseProps {
     /**
@@ -80,7 +80,7 @@ export interface Props extends BaseProps {
  *
  * 图标的切换不会受到 `@media (prefers-reduced-motion: reduce)` 的影响。
  */
-export function AnimationIcon(props: Props): JSX.Element {
+export function IconSet(props: Props): JSX.Element {
     const keys = Object.keys(props.icons); // 图标名称列表
     let index = props.preset ? keys.indexOf(props.preset) : keys.length - 1; // 当前图标在 keys 中的索引
 

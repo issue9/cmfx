@@ -7,13 +7,13 @@ import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 
 import { ComponentTester } from '@/context/context.spec';
-import { AnimationIcon, Ref } from './animation';
+import { IconSet, Ref } from './iconset';
 
-describe('AnimationIcon', async () => {
+describe('IconSet', async () => {
     let ref: Ref;
     const ct = await ComponentTester.build(
-        'AnimationIcon',
-        props => <AnimationIcon ref={el => ref = el} {...props}
+        'IconSet',
+        props => <IconSet ref={el => ref = el} {...props}
             icons={{ 'down': <IconArrowDown />, 'right': <IconArrowRight /> }} />,
     );
 

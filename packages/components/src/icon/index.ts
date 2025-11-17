@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { AnimationIcon, animationIconEasings, animationIconRotations } from './animation';
-export type { Props as AnimationIconProps, Ref as AnimationIconRef } from './animation';
+export { IconSet, iconSetEasings, iconSetRotations } from './iconset';
+export type { Props as IconSetProps, Ref as IconSetRef } from './iconset';
 
-export type { Rotation as AnimationIconRotation } from '@iconsets/svg-morpheus-ts';
+export type { Rotation as IconSetRotation } from '@iconsets/svg-morpheus-ts';
 
 export * from './icon';
