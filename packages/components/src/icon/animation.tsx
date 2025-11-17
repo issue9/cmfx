@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { bundleSvgsString, easings, Rotation, rotations, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
-import { createEffect, createResource, JSX, onMount } from 'solid-js';
+import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
+import { createEffect, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { BaseProps, joinClass, style2String, transitionDuration } from '@/base';
@@ -31,6 +31,9 @@ export interface Ref {
      */
     prev(): void;
 
+    /**
+     * 组件的根元素
+     */
     element(): SVGSVGElement;
 }
 
@@ -42,7 +45,8 @@ export interface Props extends BaseProps {
     /**
      * 图标集
      *
-     * @remarks 键名为图标的 ID，键值为图标实例或是图标的 URL；
+     * @remarks
+     * 键名为图标的 ID，键值为图标实例；
      */
     icons: Record<string, JSX.Element>;
 
@@ -54,7 +58,8 @@ export interface Props extends BaseProps {
     /**
      * 缓动函数
      *
-     * @remarks 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
+     * @remarks
+     * 如果需要自定义缓动函数，可以通过使用 {@link SVGMorpheus#registerEasing} 方法进行注册。
      */
     easing?: keyof typeof easings;
 
@@ -79,16 +84,13 @@ export function AnimationIcon(props: Props): JSX.Element {
     const keys = Object.keys(props.icons); // 图标名称列表
     let index = props.preset ? keys.indexOf(props.preset) : keys.length - 1; // 当前图标在 keys 中的索引
 
-    const [icons] = createResource(async () => { // 主要是为了 await 功能
-        const maps: Record<string, string> = {};
-
-        Object.entries(props.icons).forEach(value => {
-            maps[value[0]] = (value[1] as HTMLElement)?.outerHTML;
-        });
-
-        const el = await bundleSvgsString(maps, { style: '' });
-        return template(el)().cloneNode(true) as SVGSVGElement;
+    const maps: Record<string, string> = {};
+    Object.entries(props.icons).forEach(value => {
+        maps[value[0]] = (value[1] as HTMLElement)?.outerHTML;
     });
+
+    const el = bundleSvgsStringSync(maps, { style: '' });
+    const icons = template(el)().cloneNode(true) as SVGSVGElement;
 
     const theme = useTheme();
     let morpheus: SVGMorpheus;
@@ -100,60 +102,52 @@ export function AnimationIcon(props: Props): JSX.Element {
         const p = props.palette;
         const style = props.style;
 
-        if ((cls || p || mode || scheme) && !icons.loading) {
+        if ((cls || p || mode || scheme)) {
             // 此处的 text-palette-fg! 必不可少的，如果不强制设置颜色，svg 的默认色可能是 currentColor。
             // 它会从父类查找颜色，如果父类设置了 :active 等伪类的颜色值，那么它可能获取的是伪类状态下的颜色。
-            icons()!.setAttribute('class', joinClass(p, 'text-palette-fg!', 'w-4', cls)!);
+            icons.setAttribute('class', joinClass(p, 'text-palette-fg!', 'w-4', cls)!);
 
             if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
         }
 
-        if (style && !icons.loading) {
-            icons()!.setAttribute('style', style2String(style));
+        if (style) {
+            icons.setAttribute('style', style2String(style));
 
             if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
         }
     });
 
     onMount(() => {
-        createEffect(() => { // 保证在创建组件之后执行初始化 morpheus 操作
-            const l = icons.loading;
-            if (l) { return; } // 未加载完
+        const dur = transitionDuration(icons);
 
-            const i = icons();
-            const dur = transitionDuration(i);
+        morpheus = new SVGMorpheus(icons, {
+            iconId: props.preset,
+            duration: dur,
+            easing: props.easing,
+            rotation: props.rotation,
+        }, () => {
+            props.ref({
+                to: (gid) => {
+                    morpheus.to(gid, { duration: dur });
+                    index = keys.indexOf(gid);
+                },
 
-            requestIdleCallback(() => {
-                morpheus = new SVGMorpheus(i!, {
-                    iconId: props.preset,
-                    duration: dur,
-                    easing: props.easing,
-                    rotation: props.rotation,
-                }, () => {
-                    props.ref({
-                        to: (gid) => {
-                            morpheus.to(gid, { duration: dur });
-                            index = keys.indexOf(gid);
-                        },
+                next: () => {
+                    index++;
+                    if (index >= keys.length) { index = 0; }
+                    morpheus.to(keys[index], { duration: dur });
+                },
 
-                        next: () => {
-                            index++;
-                            if (index >= keys.length) { index = 0; }
-                            morpheus.to(keys[index], { duration: dur });
-                        },
+                prev: () => {
+                    index--;
+                    if (index < 0) { index = keys.length - 1; }
+                    morpheus.to(keys[index], { duration: dur });
+                },
 
-                        prev: () => {
-                            index--;
-                            if (index < 0) { index = keys.length - 1; }
-                            morpheus.to(keys[index], { duration: dur });
-                        },
-
-                        element: () => i!,
-                    });
-                });
+                element: () => icons,
             });
         });
     });
 
-    return <>{icons()}</>;
+    return <>{icons}</>;
 }

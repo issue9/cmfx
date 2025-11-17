@@ -389,8 +389,8 @@ importers:
         specifier: 'catalog:'
         version: 2.2.407
       '@iconsets/svg-morpheus-ts':
-        specifier: ^1.3.1
-        version: 1.3.1
+        specifier: ^1.3.3
+        version: 1.3.3
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.15.4(solid-js@1.9.10)
@@ -921,8 +921,8 @@ packages:
   '@iconify/utils@3.0.2':
     resolution: {integrity: sha512-EfJS0rLfVuRuJRn4psJHtK2A9TqVnkxPpHY6lYHiB9+8eSuudsxbwMiavocG45ujOo6FJ+CIRlRnlOGinzkaGQ==}
 
-  '@iconsets/svg-morpheus-ts@1.3.1':
-    resolution: {integrity: sha512-RjdDLdWpca3KzY4QvEL+36T1wMNxiET/BcBSW4mDWGBIwM8s9u6LNbGnVRnpYg5JUcdA+fkk6EsHeMNyEUrWcQ==}
+  '@iconsets/svg-morpheus-ts@1.3.3':
+    resolution: {integrity: sha512-vf2Tz/CyYINW5iBcmcc50DD7L0lDKCJkPsa30amJ7XprvjxoYgHSve/4MFvKRgLl7pYIzePRUojTQJeWOJAknA==}
     engines: {node: '>=18.0.0', pnpm: '>=9.0.0'}
 
   '@isaacs/balanced-match@4.0.1':
@@ -3279,7 +3279,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@iconsets/svg-morpheus-ts@1.3.1':
+  '@iconsets/svg-morpheus-ts@1.3.3':
     dependencies:
       colorjs.io: 0.5.2
 
