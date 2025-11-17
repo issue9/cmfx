@@ -3,13 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ButtonGroup, Code, joinClass, MountProps, Layout, ThemeProvider, ToggleFitScreenButton
+    Button, ButtonGroup, Code, joinClass, MountProps, Layout, ThemeProvider, ToggleFitScreenButton,
+    useLocale
 } from '@cmfx/components';
 import { Component, createMemo, createSignal, JSX, mergeProps, onCleanup, onMount, Show } from 'solid-js';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconLTR from '~icons/material-symbols/format-align-left-rounded';
 import IconRTL from '~icons/material-symbols/format-align-right-rounded';
 import IconLight from '~icons/material-symbols/light-mode';
+import IconAnimation from '~icons/material-symbols/animation';
 
 import styles from './style.module.css';
 
@@ -52,11 +54,13 @@ export interface Props {
  * 用于展示组件的舞台
  */
 export default function Stage(props: Props) {
+    const l = useLocale();
     props = mergeProps({ layout: 'auto' as Layout }, props);
 
     const initDir = window.getComputedStyle(document.body).direction === 'rtl' ? 'rtl' : 'ltr';
     const [dir, setDir] = createSignal<'ltr' | 'rtl'>(initDir);
     const [mode, setMode] = createSignal<'light' | 'dark'>('light');
+    const [rm, setRM] = createSignal<boolean>(false);
 
     const [demoRef, setDemoRef] = createSignal<HTMLDivElement>();
     const [codeHeight, setCodeHeight] = createSignal<string>();
@@ -110,13 +114,19 @@ export default function Stage(props: Props) {
                                 <IconLight />
                             </Button>
                         </ButtonGroup>
+
+                        <Button onclick={()=>setRM(!rm())} checked={rm()} square title={l.t('_d.main.reducedMotion')}>
+                            <IconAnimation />
+                        </Button>
                     </div>
 
                     <div class={styles.right} ref={el => settingRef = el} />
                 </div>
 
                 <ThemeProvider mode={mode()}>
-                    <div class={styles.component} dir={dir()}>
+                    <div dir={dir()}
+                        class={joinClass(undefined, styles.component, rm() ? 'prefers-reduced-motion' : '')}
+                    >
                         {props.component({ mount: settingRef! })}
                     </div>
                 </ThemeProvider>

@@ -45,7 +45,7 @@
 
 
     .radio {
-        @apply border-2 border-transparent text-palette-fg box-border;
+        @apply border border-transparent text-palette-fg box-border;
         @apply overflow-hidden cursor-pointer outline-none;
         @apply flex items-center justify-center gap-1;
     }

@@ -10,22 +10,20 @@ import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
 import IconPerson from '~icons/material-symbols/person';
 
-import { arraySelector, boolSelector, paletteSelector } from '../base';
+import { arraySelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
     let aref: IconSetRef;
     const [rotationS, rotation] = arraySelector<IconSetRotation>('rotation', iconSetRotations, 'none');
     const [paletteS, palette] = paletteSelector();
-    const [rmS, rm] = boolSelector('减少动画', false);
 
     return <div>
         <Portal mount={props.mount}>
             {rotationS}
             {paletteS}
-            {rmS}
         </Portal>
 
-        <Button class={rm() ? 'prefers-reduced-motion' : ''}>
+        <Button>
             <IconSet palette={palette()} class="w-8 aspect-square" ref={el => aref = el} icons={{
                 face: <IconFace />,
                 close: <IconClose />,
