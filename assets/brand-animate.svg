@@ -23,13 +23,13 @@
 	<path fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" d="M370 762A270 270 0 0 0 170 800" />
 	<path fill="none" stroke="currentColor" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" d="M654 762A270 270 0 0 1 854 800" />
 	<path fill="none" stroke="currentColor" stroke-width="32" d="M362 932A512 512 0 0 0 662 932" stroke-linecap="round" stroke-linejoin="round" />
-	<path fill="none" stroke="currentColor" stroke-width="32" d="M342 182A412 412 0 0 1 682 182" stroke-linecap="round">
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M342 200A412 412 0 0 1 682 200" stroke-linecap="round">
 		<animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin="1s" />
 	</path>
-	<path fill="none" stroke="currentColor" stroke-width="32" d="M394 250A312 312 0 0 1 630 250" stroke-linecap="round">
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M394 260A312 312 0 0 1 630 260" stroke-linecap="round">
 		<animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin=".5s" />
 	</path>
-	<path fill="none" stroke="currentColor" stroke-width="32" d="M430 322A212 212 0 0 1 594 322" stroke-linecap="round">
+	<path fill="none" stroke="currentColor" stroke-width="32" d="M430 330A212 212 0 0 1 594 330" stroke-linecap="round">
 		<animate attributeName="opacity" values="1;0;1" dur="3s" repeatCount="indefinite" begin="0s" />
 	</path>
 </svg>
