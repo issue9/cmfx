@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { changeScheme, nextPalette, Scheme } from './scheme';
+import { changeScheme, nextPalette, otherPalettes, getElementPalette, Scheme } from './scheme';
 
 test('changeScheme', () => {
     const parent = document.createElement('div');
@@ -26,4 +26,19 @@ test('nextPalette', () => {
     expect(nextPalette('error')).toEqual('surface');
     expect(nextPalette('surface')).toEqual('primary');
     expect(nextPalette('secondary')).toEqual('tertiary');
+});
+
+test('otherPalettes', () => {
+    expect(otherPalettes('error')).toEqual(['primary', 'secondary', 'tertiary', 'surface']);
+    expect(otherPalettes('surface')).toEqual(['primary', 'secondary', 'tertiary', 'error']);
+    expect(otherPalettes('primary')).toEqual(['secondary', 'tertiary', 'error', 'surface']);
+    expect(otherPalettes('secondary')).toEqual(['primary', 'tertiary', 'error', 'surface']);
+    expect(otherPalettes('tertiary')).toEqual(['primary', 'secondary', 'error', 'surface']);
+});
+
+test('getElementPalette', () => {
+    expect(getElementPalette(document.documentElement)).toBeUndefined();
+
+    document.documentElement.classList.add('palette--primary');
+    expect(getElementPalette(document.documentElement)).toEqual('primary');
 });

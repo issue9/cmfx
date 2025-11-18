@@ -9,3 +9,6 @@
 - Highlighter
 - Palette
 - Breakpoint
+- nextPalette
+- getElementPalette
+- otherPalettes
