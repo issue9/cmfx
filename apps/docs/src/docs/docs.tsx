@@ -19,13 +19,17 @@ import usageInstallEN from './usage/install.en.md?raw';
 import usageInstallZHHans from './usage/install.zh-Hans.md?raw';
 import usagePlatformEN from './usage/platform.en.md?raw';
 import usagePlatformZHHans from './usage/platform.zh-Hans.md?raw';
+import usageThemeEN from './usage/theme.en.md?raw';
+import usageThemeZHHans from './usage/theme.zh-Hans.md?raw';
+import usageSvgEN from './usage/svg.en.md?raw';
+import usageSvgZHHans from './usage/svg.zh-Hans.md?raw';
 
 import advanceLocaleEN from './advance/locale.en.md?raw';
 import advanceLocaleZHHans from './advance/locale.zh-Hans.md?raw';
-import advanceThemeEN from './advance/theme.en.md?raw';
-import advanceThemeZHHans from './advance/theme.zh-Hans.md?raw';
 import advancePluginsEN from './advance/plugins.en.md?raw';
 import advancePluginsZHHans from './advance/plugins.zh-Hans.md?raw';
+import advanceCustomThemeEN from './advance/custom-theme.en.md?raw';
+import advanceCustomThemeZHHans from './advance/custom-theme.zh-Hans.md?raw';
 
 import { markedShiki } from './shiki';
 
@@ -46,10 +50,12 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
         ['usage/install', usageInstallEN],
         ['usage/platform', usagePlatformEN],
         ['usage/faq', usageFAQEN],
+        ['usage/theme', usageThemeEN],
+        ['usage/svg', usageSvgEN],
 
-        ['advance/theme', advanceThemeEN],
         ['advance/locale', advanceLocaleEN],
-        ['advance/plugins', advancePluginsEN]
+        ['advance/plugins', advancePluginsEN],
+        ['advance/custom-theme', advanceCustomThemeEN]
     ])],
     ['zh-Hans', new Map([
         ['intro/readme', introReadme],
@@ -58,10 +64,12 @@ const maps: ReadonlyMap<string, ReadonlyMap<string, string>> = new Map([
         ['usage/install', usageInstallZHHans],
         ['usage/platform', usagePlatformZHHans],
         ['usage/faq', usageFAQZHHans],
+        ['usage/theme', usageThemeZHHans],
+        ['usage/svg', usageSvgZHHans],
 
-        ['advance/theme', advanceThemeZHHans],
         ['advance/locale', advanceLocaleZHHans],
-        ['advance/plugins', advancePluginsZHHans]
+        ['advance/plugins', advancePluginsZHHans],
+        ['advance/custom-theme', advanceCustomThemeZHHans]
     ])],
 ]);
 
@@ -101,6 +109,18 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
     },
     {
         kind: 'usage',
+        path: '/usage/svg',
+        info: { title: '_d.docs.svg' },
+        component: () => <Markdown article='usage/svg' />
+    },
+    {
+        kind: 'usage',
+        path: '/usage/theme',
+        info: { title: '_d.docs.theme' },
+        component: () => <Markdown article='usage/theme' />
+    },
+    {
+        kind: 'usage',
         path: '/usage/faq',
         info: { title: '_d.docs.faq' },
         component: () => <Markdown article='usage/faq' />
@@ -108,12 +128,6 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
 
     //////////////////// advance
 
-    {
-        kind: 'advance',
-        path: '/advance/theme',
-        info: { title: '_d.docs.theme' },
-        component: () => <Markdown article='advance/theme' />
-    },
     {
         kind: 'advance',
         path: '/advance/locale',
@@ -126,6 +140,13 @@ const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.docs.plugins' },
         component: () => <Markdown article='advance/plugins' />
     },
+    {
+        kind: 'advance',
+        path: '/advance/custom-theme',
+        info: { title: '_d.docs.customTheme' },
+        component: () => <Markdown article='advance/custom-theme' />
+    },
+
 ] as const;
 
 // 生成 Drawer 组件的侧边栏菜单

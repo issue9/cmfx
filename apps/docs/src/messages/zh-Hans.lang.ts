@@ -46,6 +46,8 @@ const messages: typeof m = {
             locale: '国际化',
             plugins: '插件',
             changelog: '变更日志',
+            customTheme: '自定义主题',
+            svg: 'SVG',
         },
         demo: {
             overview: '组件总览',

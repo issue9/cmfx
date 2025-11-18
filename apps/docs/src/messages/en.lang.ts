@@ -45,6 +45,8 @@ const messages = {
             locale: 'Locale',
             plugins: 'Plugins',
             changelog: 'Changelog',
+            customTheme: 'Custom theme',
+            svg: 'SVG',
         },
         demo: {
             overview: 'Overview',
