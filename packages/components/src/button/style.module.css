@@ -183,7 +183,7 @@
     }
 
     .group.flat:enabled:hover {
-        @apply bg-palette-bg-focused text-palette-fg-focused border-palette-border-focused;
+        @apply bg-palette-bg-focused text-palette-fg-focused;
     }
 
     .button.link-disabled,

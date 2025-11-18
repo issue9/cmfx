@@ -23,7 +23,8 @@ export type Props = ParentProps<{
     /**
      * 主题配置
      *
-     * @remarks 如果是 string 类型，则从 {@link Options.schemes} 查找同名的，
+     * @remarks
+     * 如果是 string 类型，则从 {@link Options.schemes} 查找同名的，
      * 如果是 {@link Scheme} 类型则表示直接应用该主题。
      *
      * @reactive
@@ -40,16 +41,20 @@ export type Props = ParentProps<{
     /**
      * 指定用于保存当前主题样式的元素 ID
      *
-     * @remarks 当指定了该值，会将主题的样式写在此元素上。否则样式会依次写在 {@link children} 元素上。
+     * @remarks
+     * 当指定了该值，会将主题的样式写在此元素上。否则样式会依次写在 {@link children} 元素上。
      * 某些情况下可能存在一个无任何展示内容的父元素，此时可以指定其作为保存主题样式的元素。
      */
     styleElement?: HTMLElement;
 }>;
 
 /**
- * 指定一个新的主题对象，未指定的参数从父类继承。
+ * 指定一个新的主题对象
  *
- * NOTE: 如果 {@link Props.children} 不是 HTMLElement 类型，将不启作用。
+ * @remarks
+ * 未指定的参数从父类继承。
+ * 如果 {@link Props.children} 不是 HTMLElement 类型，将不启作用。
+ * 只对被包含的元素起作用，像 notify 等方法触发的通知框，其所在的位置如果不在当前范围之内，主题对其不起作用。
  */
 export function ThemeProvider(props: Props): JSX.Element {
     const [, theme] = splitProps(props, ['children']);
