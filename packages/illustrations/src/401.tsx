@@ -160,12 +160,15 @@ export default function Error401(props: Props): JSX.Element {
             </g>
             <g id="freepik--exclamation-marks--inject-182">
                 <path d="M363.51,85a1,1,0,0,1,.08-.75,1,1,0,0,1,.57-.47l4.37-1.32a1,1,0,0,1,1.21.65l1.06,3.5a.92.92,0,0,1-.08.74,1,1,0,0,1-.57.48l-4.37,1.31a1,1,0,0,1-1.21-.65Zm-5.7-18.87a1,1,0,0,1,.65-1.22l4.37-1.32a1,1,0,0,1,.74.08.92.92,0,0,1,.47.57l4.51,14.93a1,1,0,0,1-.65,1.21l-4.36,1.32a.92.92,0,0,1-.74-.08.93.93,0,0,1-.48-.57Z" style="fill:currentColor" />
-                <use href="#illustrations-401-1" fill="currentColor" /><use href="#illustrations-401-1" style="fill:#fff;opacity:.6" />
+                <use href="#illustrations-401-1" fill="currentColor" />
+                <use href="#illustrations-401-1" style="fill:#fff;opacity:.6" />
             </g>
         </g>
         <g id="freepik--id-card--inject-182">
-            <use href="#illustrations-401-2" fill="currentColor" /><use href="#illustrations-401-2" opacity=".15" />
-            <use href="#illustrations-401-3" fill="currentColor" /><use href="#illustrations-401-3" opacity=".3" />
+            <use href="#illustrations-401-2" fill="currentColor" />
+            <use href="#illustrations-401-2" opacity=".15" />
+            <use href="#illustrations-401-3" fill="currentColor" />
+            <use href="#illustrations-401-3" opacity=".3" />
             <path d="M365.32,239.58,346.88,229l-16.6-9.6-30.46-17.57a2.86,2.86,0,0,0-2.56-.4l-.18.1a1.31,1.31,0,0,0-.47.4,2.79,2.79,0,0,0-.36.47.29.29,0,0,1-.08.18c0,.14-.1.33-.13.51a3.58,3.58,0,0,0-.12,1V347.38a8.51,8.51,0,0,0,3.9,6.74L365.32,392a3.4,3.4,0,0,0,1.34.46,2,2,0,0,0,1.26-.13,2.66,2.66,0,0,0,1.3-2.61V246.37A8.76,8.76,0,0,0,365.32,239.58Zm-24.5,4-16.63-9.6a9.85,9.85,0,0,1-4.6-7.61c0-2.74,2.06-3.8,4.6-2.31l1.94,1.11,14.69,8.48A9.83,9.83,0,0,1,345,239a6.6,6.6,0,0,1,.43,2.27C345.4,244,343.34,245,340.82,243.54Z" style="fill:currentColor" />
             <path d="M355.87,259.38l-46.6-26.91c-.84-.48-1.51-.09-1.51.87v71.85a3.32,3.32,0,0,0,1.51,2.62l46.6,26.86c.84.48,1.51.09,1.51-.88V262A3.31,3.31,0,0,0,355.87,259.38Z" style="fill:#fafafa;opacity:.7" />
             <path d="M342.31,269.28,322.83,258c.67-2.3,2.05-7.87,3.86-9.54s3.69,3.59,5.88,4.85,4.22-1.51,5.88,1.94C340.26,259,341.64,266.21,342.31,269.28Z" style="fill:#455a64" />
