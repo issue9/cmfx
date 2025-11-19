@@ -43,7 +43,7 @@ export interface Props extends BaseProps {
     /**
      * 图表的配置项
      *
-     * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--bg) 等以适应主题的变化。
+     * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--palette-bg) 等以适应主题的变化。
      */
     o: ChartsOption;
 }

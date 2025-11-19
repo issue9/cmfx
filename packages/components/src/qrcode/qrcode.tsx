@@ -99,11 +99,11 @@ export function QRCode(props: Props): JSX.Element {
                 errorCorrectionLevel: props.errorCorrectionLevel,
             },
             dotsOptions: {
-                color: 'var(--fg)',
+                color: 'var(--palette-fg)',
                 type: props.type,
             },
             backgroundOptions: {
-                color: 'var(--bg)'
+                color: 'var(--palette-bg)'
             }
         };
 
@@ -127,13 +127,13 @@ export function QRCode(props: Props): JSX.Element {
         qr.append(ref());
 
         download = async (name?: string, ext?: FileExtension): Promise<void> => {
-            // 因为用到的颜色是 var(--bg) 的 CSS 变量，下载时，这些引用的外部变量无法自动转换。
+            // 因为用到的颜色是 var(--palette-bg) 的 CSS 变量，下载时，这些引用的外部变量无法自动转换。
             // 所以需要创建一个临时的对象，并将 CSS 变量计算为对应的值。
 
             const elem = ref() ?? document.documentElement;
             const qr2 = new QRCodeStyling(Object.assign(structuredClone(opt), {
-                backgroundOptions: { color: getComputedStyle(elem).getPropertyValue('--bg') },
-                dotsOptions: { color: getComputedStyle(elem).getPropertyValue('--fg') },
+                backgroundOptions: { color: getComputedStyle(elem).getPropertyValue('--palette-bg') },
+                dotsOptions: { color: getComputedStyle(elem).getPropertyValue('--palette-fg') },
             }));
             return await qr2.download({ name: name, extension: ext });
         };

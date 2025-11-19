@@ -50,4 +50,15 @@
             }
         }
     }
+
+    fieldset.dateview:disabled {
+        @apply text-palette-fg-disabled bg-palette-bg-disabled border-palette-bg-disabled cursor-not-allowed;
+
+        >table {
+            tbody td,
+            tbody * {
+                @apply cursor-not-allowed;
+            }
+        }
+    }
 }

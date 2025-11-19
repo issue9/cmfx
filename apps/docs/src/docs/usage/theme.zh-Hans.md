@@ -16,7 +16,8 @@
 - error
 - surface
 
-每个色盘又衍生了 base、high 和 low 三种颜色以及前景色 fg 和背景色 bg 供开发者使用，所以一个色盘总共有 6 种颜色：
+每个色盘又衍生了 基础色、high 和 low 三种颜色。
+以及根据颜色所处的位置不同分成 边框 border、前景色 fg 和背景色 bg 供开发者使用，所以一个色盘总共有 9 种颜色：
 
 - bg
 - bg-high
@@ -24,8 +25,11 @@
 - fg
 - fg-high
 - fg-low
+- border
+- border-high
+- border-low
 
-在 tailwind 中可以使用 `bg-{palette/primary/secondary/tertiary/error/surface}-{bg/fg}-{low/high/}` 等对颜色进行访问。
+在 tailwind 中可以使用 `bg-{palette/primary/secondary/tertiary/error/surface}-{bg/fg/border}-{low/high/}` 等对颜色进行访问。
 
 ## z-index
 

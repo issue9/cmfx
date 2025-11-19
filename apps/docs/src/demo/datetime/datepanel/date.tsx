@@ -50,7 +50,7 @@ export default function(props: MountProps) {
             }}>now</Button>
         </Portal>
 
-        <div title="panel" class="flex items-start flex-col">
+        <div class="flex items-start flex-col">
             <DatePanel time={time()} min={minmax() ? min : undefined} max={minmax() ? max : undefined} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={val()} weekBase={week()}
                 onChange={(val, old) => {
@@ -60,7 +60,7 @@ export default function(props: MountProps) {
             <p>{valShow()}</p>
         </div>
 
-        <div title="panel with time" class="flex items-start flex-col">
+        <div class="flex items-start flex-col">
             <DatePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} time={!time()} weeks={weeks()}
                 weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} value={valWithTime()} weekBase={week()}
                 plugins={[datetimePluginLunar]}

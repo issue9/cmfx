@@ -35,7 +35,7 @@ export function Alert(props: Props): JSX.Element {
             const timeout = props.timeout;
             const timer = createTimer(timeout, -100, (t: number) => {
                 const p = (timeout - t) / timeout * 100;
-                wrapRef.style.background = `conic-gradient(var(--bg-low) 0% ${p}%, var(--bg-high) ${p}% 100%)`;
+                wrapRef.style.background = `conic-gradient(var(--palette-bg-low) 0% ${p}%, var(--palette-bg-high) ${p}% 100%)`;
                 if (t <= 0) { del(); }
             });
             timer.start();

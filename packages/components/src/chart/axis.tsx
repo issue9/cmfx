@@ -144,8 +144,8 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
         });
     }
 
-    const axisLine = {lineStyle: { color: 'var(--fg-low)' },};
-    const splitLine = { lineStyle: { color: ['var(--bg-low)'] } };
+    const axisLine = {lineStyle: { color: 'var(--palette-fg-low)' },};
+    const splitLine = { lineStyle: { color: ['var(--palette-bg-low)'] } };
 
     const o = createMemo(() => {
         const dimensions = [props.xAxis.key, ...props.series.map(s=>s.key)] as Array<string>;
@@ -158,10 +158,10 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
         }
 
         const o: echarts.EChartsOption = {
-            tooltip: { show: props.tooltip, textStyle: {color: 'var(--fg)'}, backgroundColor: 'var(--bg)' },
+            tooltip: { show: props.tooltip, textStyle: {color: 'var(--palette-fg)'}, backgroundColor: 'var(--palette-bg)' },
             legend: props.legend ? {
                 show: !!props.legend,
-                textStyle: { color: 'var(--fg)'},
+                textStyle: { color: 'var(--palette-fg)'},
                 left: props.legend,
             } : undefined,
             xAxis: {

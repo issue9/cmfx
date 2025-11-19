@@ -93,8 +93,8 @@ const shikiTheme: ThemeRegistrationRaw = {
     // 以下变量的定义来源于：
     // https://github.com/shikijs/shiki/blob/9260f3fd109eca7bece80c92196f627ccae202d0/packages/core/src/theme-css-variables.ts
     name: styles.shiki,
-    bg: 'var(--bg)',
-    fg: 'var(--fg)',
+    bg: 'var(--palette-bg)',
+    fg: 'var(--palette-fg)',
     settings: [{
         scope: [
             'keyword.operator.accessor',
@@ -103,7 +103,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'markup.fenced_code meta.embedded.block',
         ],
         settings: {
-            foreground: 'var(--fg)',
+            foreground: 'var(--palette-fg)',
         },
     },
     {

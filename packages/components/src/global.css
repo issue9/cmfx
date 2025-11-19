@@ -7,11 +7,11 @@
 /* 重定义 windows 下的 edge 滚动条 */
 * {
     scrollbar-width: thin;
-    scrollbar-color: var(--bg-low) var(--bg-high);
+    scrollbar-color: var(--palette-bg-low) var(--palette-bg-high);
 }
 
 ::placeholder {
-    color: var(--bg-low);
+    color: var(--palette-bg-low);
 }
 
 kbd {

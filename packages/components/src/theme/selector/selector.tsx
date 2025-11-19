@@ -49,8 +49,6 @@ export function Selector(props: Props): JSX.Element {
     return <div class={joinClass(props.palette, styles.selector, props.class)} style={props.style}>
         <For each={Array.from(props.schemes.entries())}>
             {scheme => {
-                const colors = scheme[1].dark!;
-
                 return <button
                     class={joinClass(undefined, styles.option, value() === scheme[0] ? styles.selected : '')}
                     onClick={() => {
@@ -60,14 +58,13 @@ export function Selector(props: Props): JSX.Element {
                         if (props.onChange) { props.onChange(scheme[0], old); }
                     }}>
                     <div class={styles.blocks}>
-                        <div class={styles.block} style={{ 'background-color': colors['primary-bg'] }}></div>
-                        <div class={styles.block} style={{ 'background-color': colors['secondary-bg'] }}></div>
-                        <div class={styles.block} style={{ 'background-color': colors['tertiary-bg'] }}></div>
-                        <div class={styles.block} style={{ 'background-color': colors['surface-bg'] }}></div>
+                        <div class={styles.block} style={{ 'background-color': scheme[1].primary }}></div>
+                        <div class={styles.block} style={{ 'background-color': scheme[1].secondary }}></div>
+                        <div class={styles.block} style={{ 'background-color': scheme[1].tertiary }}></div>
+                        <div class={styles.block} style={{ 'background-color': scheme[1].surface }}></div>
                     </div>
                     <div class={styles.info}>
                         <div>{scheme[0]}</div>
-                        <div>WCAG: {scheme[1].contrast}</div>
                     </div>
                 </button>;
             }}

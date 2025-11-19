@@ -23,6 +23,6 @@
     }
 
     .textarea:disabled {
-        @apply cursor-not-allowed text-[var(--bg-low)];
+        @apply cursor-not-allowed text-[var(--palette-bg-low)];
     }
 }
