@@ -128,19 +128,19 @@ const shikiTheme: ThemeRegistrationRaw = {
         scope: 'meta.link.inline.markdown',
         settings: {
             fontStyle: 'underline',
-            foreground: 'var(--primary-fg)',
+            foreground: 'var(--palette-2-fg)',
         },
     },
     {
         scope: ['string', 'markup.fenced_code', 'markup.inline'],
         settings: {
-            foreground: 'var(--primary-fg-low)',
+            foreground: 'var(--palette-2-fg-low)',
         },
     },
     {
         scope: ['comment', 'string.quoted.docstring.multi'],
         settings: {
-            foreground: 'var(--primary-fg-high)',
+            foreground: 'var(--palette-2-fg-high)',
         },
     },
     {
@@ -158,7 +158,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'support',
         ],
         settings: {
-            foreground: 'var(--error-fg)',
+            foreground: 'var(--palette-3-fg)',
         },
     },
     {
@@ -175,13 +175,13 @@ const shikiTheme: ThemeRegistrationRaw = {
             'punctuation.definition.template-expression',
         ],
         settings: {
-            foreground: 'var(--error-fg-low)',
+            foreground: 'var(--palette-3-fg-low)',
         },
     },
     {
         scope: 'variable.parameter.function',
         settings: {
-            foreground: 'var(--error-fg-high)',
+            foreground: 'var(--palette-3-fg-high)',
         },
     },
     {
@@ -196,7 +196,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'constant.keyword.clojure',
         ],
         settings: {
-            foreground: 'var(--tertiary-fg)',
+            foreground: 'var(--palette-4-fg)',
         },
     },
     {
@@ -210,7 +210,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'keyword.other.template',
         ],
         settings: {
-            foreground: 'var(--tertiary-fg-low)',
+            foreground: 'var(--palette-4-fg-low)',
         },
     },
     {
@@ -221,7 +221,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'meta.function-call.arguments',
         ],
         settings: {
-            foreground: 'var(--tertiary-fg-high)',
+            foreground: 'var(--palette-4-fg-high)',
         },
     },
     {
@@ -231,14 +231,14 @@ const shikiTheme: ThemeRegistrationRaw = {
             'punctuation.definition.metadata.markdown',
         ],
         settings: {
-            foreground: 'var(--secondary-fg)',
+            foreground: 'var(--palette-5-fg)',
         },
     },
     {
         // [Custom] Markdown list
         scope: ['beginning.punctuation.definition.list.markdown'],
         settings: {
-            foreground: 'var(--secondary-fg-low)',
+            foreground: 'var(--palette-5-fg-low)',
         },
     },
     {
@@ -250,7 +250,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'string.other.link.description.markdown',
         ],
         settings: {
-            foreground: 'var(--secondary-fg-high)',
+            foreground: 'var(--palette-5-fg-high)',
         },
     },
     {
@@ -261,7 +261,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'punctuation.definition.inserted',
         ],
         settings: {
-            foreground: 'var(--surface-fg)',
+            foreground: 'var(--palette-fg)',
         },
     },
     {
@@ -271,7 +271,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'punctuation.definition.deleted',
         ],
         settings: {
-            foreground: 'var(--surface-fg-low)',
+            foreground: 'var(--palette-fg-low)',
         },
     },
     {
@@ -280,7 +280,7 @@ const shikiTheme: ThemeRegistrationRaw = {
             'punctuation.definition.changed',
         ],
         settings: {
-            foreground: 'var(--surface-fg-high)',
+            foreground: 'var(--palette-fg-high)',
         },
     },
     ],

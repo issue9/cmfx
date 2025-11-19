@@ -65,41 +65,6 @@ export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surfac
 export type Palette = typeof palettes[number];
 
 /**
- * 获取与 p 相邻的另一个色盘
- *
- * @remarks
- * 按照 {@link palettes} 的顺序获取下一个色盘。如果已经是最后一个，则返回第一个。
- */
-export function nextPalette(p: Palette): Palette {
-    return palettes[(palettes.indexOf(p) + 1) % palettes.length];
-}
-
-/**
- * 获取除 p 以外的所有色盘名称
- */
-export function otherPalettes(p: Palette): Array<Palette> {
-    return [...palettes.filter(pp => pp !== p)];
-}
-
-/**
- * 获取元素 el 所拥有的色盘名称
- *
- * @remarks
- * 会一直向上查找，直到找到一个有效的色盘名称，或者到达文档根节点。
- */
-export function getElementPalette(el: HTMLElement | null): Palette | undefined {
-    while(el) {
-        for(const cls of el.classList) {
-            if (cls.startsWith('palette--')) {
-                return cls.slice('palette--'.length) as Palette;
-            }
-        }
-
-        el = el.parentElement;
-    }
-}
-
-/**
  * 改变主题色
  */
 export function changeScheme(elem: HTMLElement, s?: Scheme) {

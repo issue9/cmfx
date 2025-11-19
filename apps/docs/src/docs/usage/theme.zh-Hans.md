@@ -29,7 +29,8 @@
 - border-high
 - border-low
 
-在 tailwind 中可以使用 `bg-{palette/primary/secondary/tertiary/error/surface}-{bg/fg/border}-{low/high/}` 等对颜色进行访问。
+在 tailwind 中可以使用 `bg-{palette/palette-*/primary/secondary/tertiary/error/surface}-{bg/fg/border}-{low/high/}` 等对颜色进行访问。
+其中的 palette 和 palette-* 表示组件的当前色盘或是基于当前色盘的之后个 n 个色盘。
 
 ## z-index
 
