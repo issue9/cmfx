@@ -24,7 +24,7 @@ export interface Props {
      * 指定当前组件采用的色盘
      *
      * @remarks
-     * 如果指定了此值，那么在组件内部的 CSS 引用的诸如 `--bg` 等 CSS 变量都将使用此色盘对应的颜色。
+     * 如果指定了此值，那么在组件内部的 CSS 引用的诸如 `--palette-bg` 等 CSS 变量都将使用此色盘对应的颜色。
      * 如果是 undefined，则表示从父元素继承。
      *
      * @reactive

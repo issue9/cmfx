@@ -32,18 +32,10 @@
                     }
 
                     .palette {
-                        @apply flex flex-col justify-start;
+                        @apply flex justify-start gap-1 items-center;
 
-                        .blocks {
-                            @apply flex justify-between items-center gap-2;
-
-                            .block {
-                                @apply flex flex-wrap gap-1 justify-center items-center;
-
-                                .title {
-                                    @apply text-end;
-                                }
-                            }
+                        .title {
+                            @apply w-22 text-ellipsis;
                         }
                     }
 

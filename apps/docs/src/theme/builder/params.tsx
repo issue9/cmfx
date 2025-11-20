@@ -7,14 +7,13 @@ import {
     Locale, MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useComponents, useLocale
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
-import { batch, JSX, Show } from 'solid-js';
+import { batch, JSX } from 'solid-js';
+import Color from 'colorjs.io';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
-import IconRandLess from '~icons/material-symbols/brightness-4-rounded';
-import IconRandNormal from '~icons/material-symbols/brightness-6-rounded';
-import IconRandMore from '~icons/material-symbols/brightness-7-rounded';
+import IconRand from '~icons/material-symbols/brightness-6-rounded';
 import IconColors from '~icons/material-symbols/colors';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
@@ -22,7 +21,6 @@ import IconLight from '~icons/material-symbols/light-mode';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { randOklchColor } from './oklch';
 import { Ref } from './ref';
 import styles from './style.module.css';
 
@@ -49,11 +47,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
                         </Button>
                     </Dropdown>
                     <Button square title={l.t('_d.theme.randomContrastLess')}
-                        onclick={() => random(s, 45)}><IconRandLess /></Button>
-                    <Button square title={l.t('_d.theme.randomContrastNormal')}
-                        onclick={() => random(s, 60)}><IconRandNormal /></Button>
-                    <Button square title={l.t('_d.theme.randomContrastMore')}
-                        onclick={() => random(s, 75)}><IconRandMore /></Button>
+                        onclick={() => random(s)}><IconRand /></Button>
                 </ButtonGroup>
 
                 <ButtonGroup kind='border'>
@@ -76,7 +70,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 
         <div class={styles.ps}>
             {fontSizeParams(l, s)}
-            {colorsParams(l, m, s)}
+            {colorsParams(l, s)}
             {radiusParams(l, s)}
             {otherParams(l, s)}
         </div>
@@ -90,97 +84,27 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 /**
  * 生成随机参数
  */
-export function random(s: ObjectAccessor<ExpandType<Scheme>>, contrast: 75 | 60 | 45 = 60) {
+export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
     batch(() => {
         // 改字体会直接作用在整个页面上。所以随机功能不修改字体大小。
         // s.accessor<string>('fontSize').setValue('16px');
 
-        s.accessor<number>('contrast').setValue(contrast);
-
         let h = rand(0, 360, 3);
-        let c = randOklchColor(h, contrast);
-        s.accessor<string>('dark.error-bg').setValue(c[1].toString());
-        s.accessor<string>('dark.error-fg').setValue(c[0].toString());
-        s.accessor<string>('light.error-bg').setValue(c[0].toString());
-        s.accessor<string>('light.error-fg').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'low');
-        s.accessor<string>('dark.error-bg-low').setValue(c[1].toString());
-        s.accessor<string>('dark.error-fg-low').setValue(c[0].toString());
-        s.accessor<string>('light.error-bg-low').setValue(c[0].toString());
-        s.accessor<string>('light.error-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'high');
-        s.accessor<string>('dark.error-bg-high').setValue(c[1].toString());
-        s.accessor<string>('dark.error-fg-high').setValue(c[0].toString());
-        s.accessor<string>('light.error-bg-high').setValue(c[0].toString());
-        s.accessor<string>('light.error-fg-high').setValue(c[1].toString());
+        s.accessor<string>('error').setValue(new Color('oklch', [.9, .2, h]).toString());
 
         h = rand((h + 20) % 360, 360, 3);
-        c = randOklchColor(h, contrast);
-        s.accessor<string>('dark.surface-bg').setValue(c[1].toString());
-        s.accessor<string>('dark.surface-fg').setValue(c[0].toString());
-        s.accessor<string>('light.surface-bg').setValue(c[0].toString());
-        s.accessor<string>('light.surface-fg').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'low');
-        s.accessor<string>('dark.surface-bg-low').setValue(c[1].toString());
-        s.accessor<string>('dark.surface-fg-low').setValue(c[0].toString());
-        s.accessor<string>('light.surface-bg-low').setValue(c[0].toString());
-        s.accessor<string>('light.surface-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'high');
-        s.accessor<string>('dark.surface-bg-high').setValue(c[1].toString());
-        s.accessor<string>('dark.surface-fg-high').setValue(c[0].toString());
-        s.accessor<string>('light.surface-bg-high').setValue(c[0].toString());
-        s.accessor<string>('light.surface-fg-high').setValue(c[1].toString());
+        s.accessor<string>('surface').setValue(new Color('oklch', [.9, .2, h]).toString());
 
         h = rand((h + 20) % 360, 360, 3);
-        c = randOklchColor(h, contrast);
-        s.accessor<string>('dark.primary-bg').setValue(c[1].toString());
-        s.accessor<string>('dark.primary-fg').setValue(c[0].toString());
-        s.accessor<string>('light.primary-bg').setValue(c[0].toString());
-        s.accessor<string>('light.primary-fg').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'low');
-        s.accessor<string>('dark.primary-bg-low').setValue(c[1].toString());
-        s.accessor<string>('dark.primary-fg-low').setValue(c[0].toString());
-        s.accessor<string>('light.primary-bg-low').setValue(c[0].toString());
-        s.accessor<string>('light.primary-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'high');
-        s.accessor<string>('dark.primary-bg-high').setValue(c[1].toString());
-        s.accessor<string>('dark.primary-fg-high').setValue(c[0].toString());
-        s.accessor<string>('light.primary-bg-high').setValue(c[0].toString());
-        s.accessor<string>('light.primary-fg-high').setValue(c[1].toString());
+        s.accessor<string>('primary').setValue(new Color('oklch', [.9, .2, h]).toString());
+
 
         h = rand((h + 20) % 360, 360, 3);
-        c = randOklchColor(h, contrast);
-        s.accessor<string>('dark.secondary-bg').setValue(c[1].toString());
-        s.accessor<string>('dark.secondary-fg').setValue(c[0].toString());
-        s.accessor<string>('light.secondary-bg').setValue(c[0].toString());
-        s.accessor<string>('light.secondary-fg').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'low');
-        s.accessor<string>('dark.secondary-bg-low').setValue(c[1].toString());
-        s.accessor<string>('dark.secondary-fg-low').setValue(c[0].toString());
-        s.accessor<string>('light.secondary-bg-low').setValue(c[0].toString());
-        s.accessor<string>('light.secondary-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'high');
-        s.accessor<string>('dark.secondary-bg-high').setValue(c[1].toString());
-        s.accessor<string>('dark.secondary-fg-high').setValue(c[0].toString());
-        s.accessor<string>('light.secondary-bg-high').setValue(c[0].toString());
-        s.accessor<string>('light.secondary-fg-high').setValue(c[1].toString());
+        s.accessor<string>('secondary').setValue(new Color('oklch', [.9, .2, h]).toString());
 
         h = rand((h + 20) % 360, 360, 3);
-        c = randOklchColor(h, contrast);
-        s.accessor<string>('dark.tertiary-bg').setValue(c[1].toString());
-        s.accessor<string>('dark.tertiary-fg').setValue(c[0].toString());
-        s.accessor<string>('light.tertiary-bg').setValue(c[0].toString());
-        s.accessor<string>('light.tertiary-fg').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'low');
-        s.accessor<string>('dark.tertiary-bg-low').setValue(c[1].toString());
-        s.accessor<string>('dark.tertiary-fg-low').setValue(c[0].toString());
-        s.accessor<string>('light.tertiary-bg-low').setValue(c[0].toString());
-        s.accessor<string>('light.tertiary-fg-low').setValue(c[1].toString());
-        c = randOklchColor(h, contrast, 'high');
-        s.accessor<string>('dark.tertiary-bg-high').setValue(c[1].toString());
-        s.accessor<string>('dark.tertiary-fg-high').setValue(c[0].toString());
-        s.accessor<string>('light.tertiary-bg-high').setValue(c[0].toString());
-        s.accessor<string>('light.tertiary-fg-high').setValue(c[1].toString());
+        s.accessor<string>('tertiary').setValue(new Color('oklch', [.9, .2, h]).toString());
+
 
         s.accessor<number>('radius.xs').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.sm').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
@@ -255,45 +179,26 @@ function fontSize(a: Accessor<string>): JSX.Element {
 }
 
 // 颜色选择参数面板
-function colorsParams(l: Locale, m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconColors class="me-1" />{l.t('_d.theme.colors')}</Divider>
-        {palette(m.getValue(), 'primary', s)}
-        {palette(m.getValue(), 'secondary', s)}
-        {palette(m.getValue(), 'tertiary', s)}
-        {palette(m.getValue(), 'error', s)}
-        {palette(m.getValue(), 'surface', s)}
+        {palette('primary', s)}
+        {palette('secondary', s)}
+        {palette('tertiary', s)}
+        {palette('error', s)}
+        {palette('surface', s)}
     </div>;
 }
 
-function palette(mode: Mode, palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    const block = (name: string) => {
-        const bg = s.accessor<string>(`${mode}.${palette}-bg${name ? '-' + name : ''}` as any);
-        const bgV = bg.getValue();
-        if (bgV.startsWith('var(--')) {
-            bg.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(bgV.slice(4, -1)));
-        }
-
-        const fg = s.accessor<string>(`${mode}.${palette}-fg${name ? '-' + name : ''}` as any);
-        const fgV = fg.getValue();
-        if (fgV.startsWith('var(--')) {
-            fg.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(fgV.slice(4, -1)));
-        }
-
-        return <div class={styles.block}>
-            <Show when={name}><div class={styles.title}>{name}</div></Show>
-            <OKLCHPicker accessor={bg} />
-            <OKLCHPicker accessor={fg} wcag={bg.getValue()} />
-        </div>;
-    };
+function palette(palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+    const color = s.accessor<string>(`${palette}` as any);
+    const colorVal = color.getValue();
+    if (colorVal.startsWith('var(--')) { // 值是变量，需要计算其真实的值。
+        color.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(colorVal.slice(4, -1)));
+    }
 
     return <div class={styles.palette}>
-        <div>{palette}</div>
-        <div class={styles.blocks}>
-            {block('')}
-            {block('low')}
-            {block('high')}
-        </div>
+        <OKLCHPicker layout='horizontal' label={<div class={styles.title}>{palette}</div>} accessor={color} />
     </div>;
 }
 

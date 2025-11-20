@@ -7,9 +7,7 @@
 /* 定义了主题变量 */
 
 :root {
-    color-scheme: light dark;
-
-    /*
+    /**
      * 重定义了 tailwind 的默认变量
      *
      * 默认值与 @theme 中定义的值是不相同的，默认值写在 @theme 中不起作用。
@@ -17,219 +15,659 @@
 
     --default-transition-duration: 300ms;
 
-    --primary-bg-low: light-dark(var(--color-blue-100), var(--color-blue-800));
-    --primary-bg: light-dark(var(--color-blue-300), var(--color-blue-900));
-    --primary-bg-high: light-dark(var(--color-blue-400), var(--color-blue-950));
-    --primary-fg-low: light-dark(var(--color-blue-800), var(--color-blue-100));
-    --primary-fg: light-dark(var(--color-blue-900), var(--color-blue-300));
-    --primary-fg-high: light-dark(var(--color-blue-950), var(--color-blue-400));
+    --primary: var(--color-blue-900);
+    --secondary: var(--color-teal-900);
+    --tertiary: var(--color-indigo-900);
+    --surface: var(--color-slate-900);
+    --error: var(--color-red-900);
+}
 
-    --secondary-bg-low: light-dark(var(--color-teal-100), var(--color-teal-800));
-    --secondary-bg: light-dark(var(--color-teal-300), var(--color-teal-900));
-    --secondary-bg-high: light-dark(var(--color-teal-400), var(--color-teal-950));
-    --secondary-fg-low: light-dark(var(--color-teal-800), var(--color-teal-100));
-    --secondary-fg: light-dark(var(--color-teal-900), var(--color-teal-300));
-    --secondary-fg-high: light-dark(var(--color-teal-950), var(--color-teal-400));
+@media (prefers-contrast: no-preference) {
+  :root {
+      --contrast: 90%;
+      --opacity: .5;
+  }
+}
 
-    --tertiary-bg-low: light-dark(var(--color-indigo-100), var(--color-indigo-800));
-    --tertiary-bg: light-dark(var(--color-indigo-300), var(--color-indigo-900));
-    --tertiary-bg-high: light-dark(var(--color-indigo-400), var(--color-indigo-950));
-    --tertiary-fg-low: light-dark(var(--color-indigo-800), var(--color-indigo-100));
-    --tertiary-fg: light-dark(var(--color-indigo-900), var(--color-indigo-300));
-    --tertiary-fg-high: light-dark(var(--color-indigo-950), var(--color-indigo-400));
+@media (prefers-contrast: more) {
+  :root {
+      --contrast: 100%;
+      --opacity: .7;
+  }
+}
 
-    --surface-bg-low: light-dark(var(--color-slate-100), var(--color-slate-800));
-    --surface-bg: light-dark(var(--color-slate-300), var(--color-slate-900));
-    --surface-bg-high: light-dark(var(--color-slate-400), var(--color-slate-950));
-    --surface-fg-low: light-dark(var(--color-slate-800), var(--color-slate-100));
-    --surface-fg: light-dark(var(--color-slate-900), var(--color-slate-300));
-    --surface-fg-high: light-dark(var(--color-slate-950), var(--color-slate-400));
+@media (prefers-contrast: less) {
+  :root {
+      --contrast: 80%;
+      --opacity: .3;
+  }
+}
 
-    --error-bg-low: light-dark(var(--color-red-100), var(--color-red-800));
-    --error-bg: light-dark(var(--color-red-300), var(--color-red-900));
-    --error-bg-high: light-dark(var(--color-red-400), var(--color-red-950));
-    --error-fg-low: light-dark(var(--color-red-800), var(--color-red-100));
-    --error-fg: light-dark(var(--color-red-900), var(--color-red-300));
-    --error-fg-high: light-dark(var(--color-red-950), var(--color-red-400));
+:root {
+    color-scheme: light dark;
 
-    --bg: var(--surface-bg);
-    --bg-low: var(--surface-bg-low);
-    --bg-high: var(--surface-bg-high);
-    --fg: var(--surface-fg);
-    --fg-low: var(--surface-fg-low);
-    --fg-high: var(--surface-fg-high);
+    /**
+     * 向外公开的各个色盘颜色变量
+     */
+
+    --primary-fg-low: light-dark(oklch(from var(--primary) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 0%) c h));
+    --primary-fg: light-dark(oklch(from var(--primary) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 10%) c h));
+    --primary-fg-high: light-dark(oklch(from var(--primary) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 20%) c h));
+    --primary-bg-low: light-dark(oklch(from var(--primary) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 60%) c h));
+    --primary-bg: light-dark(oklch(from var(--primary) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 70%) c h));
+    --primary-bg-high: light-dark(oklch(from var(--primary) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 80%) c h));
+    --primary-border: light-dark(oklch(from var(--primary) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--primary) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --primary-border-low: light-dark(oklch(from var(--primary) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--primary) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --primary-border-high: light-dark(oklch(from var(--primary) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--primary) calc(var(--contrast) - 20%) c h / var(--opacity)));
+
+    --secondary-fg-low: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 0%) c h));
+    --secondary-fg: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 10%) c h));
+    --secondary-fg-high: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 20%) c h));
+    --secondary-bg-low: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 60%) c h));
+    --secondary-bg: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 70%) c h));
+    --secondary-bg-high: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 80%) c h));
+    --secondary-border: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--secondary) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --secondary-border-low: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--secondary) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --secondary-border-high: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--secondary) calc(var(--contrast) - 20%) c h / var(--opacity)));
+
+    --tertiary-fg-low: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 0%) c h));
+    --tertiary-fg: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 10%) c h));
+    --tertiary-fg-high: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 20%) c h));
+    --tertiary-bg-low: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 60%) c h));
+    --tertiary-bg: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 70%) c h));
+    --tertiary-bg-high: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 80%) c h));
+    --tertiary-border: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --tertiary-border-low: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --tertiary-border-high: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 20%) c h / var(--opacity)));
+
+    --error-fg-low: light-dark(oklch(from var(--error) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 0%) c h));
+    --error-fg: light-dark(oklch(from var(--error) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 10%) c h));
+    --error-fg-high: light-dark(oklch(from var(--error) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 20%) c h));
+    --error-bg-low: light-dark(oklch(from var(--error) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 60%) c h));
+    --error-bg: light-dark(oklch(from var(--error) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 70%) c h));
+    --error-bg-high: light-dark(oklch(from var(--error) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 80%) c h));
+    --error-border: light-dark(oklch(from var(--error) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--error) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --error-border-low: light-dark(oklch(from var(--error) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--error) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --error-border-high: light-dark(oklch(from var(--error) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--error) calc(var(--contrast) - 20%) c h / var(--opacity)));
+
+    --surface-fg-low: light-dark(oklch(from var(--surface) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 0%) c h));
+    --surface-fg: light-dark(oklch(from var(--surface) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 10%) c h));
+    --surface-fg-high: light-dark(oklch(from var(--surface) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 20%) c h));
+    --surface-bg-low: light-dark(oklch(from var(--surface) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 60%) c h));
+    --surface-bg: light-dark(oklch(from var(--surface) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 70%) c h));
+    --surface-bg-high: light-dark(oklch(from var(--surface) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 80%) c h));
+    --surface-border: light-dark(oklch(from var(--surface) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--surface) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --surface-border-low: light-dark(oklch(from var(--surface) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--surface) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --surface-border-high: light-dark(oklch(from var(--surface) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--surface) calc(var(--contrast) - 20%) c h / var(--opacity)));
+
+    /**
+     * 当前色盘的颜色变量
+     */
+
+    --palette-fg-low: var(--surface-fg-low);
+    --palette-fg: var(--surface-fg);
+    --palette-fg-high: var(--surface-fg-high);
+    --palette-bg-low: var(--surface-bg-low);
+    --palette-bg: var(--surface-bg);
+    --palette-bg-high: var(--surface-bg-high);
+    --palette-border: var(--surface-border);
+    --palette-border-low: var(--surface-border-low);
+    --palette-border-high: var(--surface-border-high);
+
+    --palette-2-fg-low: var(--primary-fg-low);
+    --palette-2-fg: var(--primary-fg);
+    --palette-2-fg-high: var(--primary-fg-high);
+    --palette-2-bg-low: var(--primary-bg-low);
+    --palette-2-bg: var(--primary-bg);
+    --palette-2-bg-high: var(--primary-bg-high);
+    --palette-2-border: var(--primary-border);
+    --palette-2-border-low: var(--primary-border-low);
+    --palette-2-border-high: var(--primary-border-high);
+
+    --palette-3-fg-low: var(--secondary-fg-low);
+    --palette-3-fg: var(--secondary-fg);
+    --palette-3-fg-high: var(--secondary-fg-high);
+    --palette-3-bg-low: var(--secondary-bg-low);
+    --palette-3-bg: var(--secondary-bg);
+    --palette-3-bg-high: var(--secondary-bg-high);
+    --palette-3-border: var(--secondary-border);
+    --palette-3-border-low: var(--secondary-border-low);
+    --palette-3-border-high: var(--secondary-border-high);
+
+    --palette-4-fg-low: var(--tertiary-fg-low);
+    --palette-4-fg: var(--tertiary-fg);
+    --palette-4-fg-high: var(--tertiary-fg-high);
+    --palette-4-bg-low: var(--tertiary-bg-low);
+    --palette-4-bg: var(--tertiary-bg);
+    --palette-4-bg-high: var(--tertiary-bg-high);
+    --palette-4-border: var(--tertiary-border);
+    --palette-4-border-low: var(--tertiary-border-low);
+    --palette-4-border-high: var(--tertiary-border-high);
+
+    --palette-5-fg-low: var(--error-fg-low);
+    --palette-5-fg: var(--error-fg);
+    --palette-5-fg-high: var(--error-fg-high);
+    --palette-5-bg-low: var(--error-bg-low);
+    --palette-5-bg: var(--error-bg);
+    --palette-5-bg-high: var(--error-bg-high);
+    --palette-5-border: var(--error-border);
+    --palette-5-border-low: var(--error-border-low);
+    --palette-5-border-high: var(--error-border-high);
 }
 
 /********************* 预定义的调色板 **********************/
 
 .palette--primary {
-    --bg: var(--primary-bg);
-    --bg-low: var(--primary-bg-low);
-    --bg-high: var(--primary-bg-high);
-    --fg: var(--primary-fg);
-    --fg-low: var(--primary-fg-low);
-    --fg-high: var(--primary-fg-high);
+    --palette-fg-low: var(--primary-fg-low);
+    --palette-fg: var(--primary-fg);
+    --palette-fg-high: var(--primary-fg-high);
+    --palette-bg-low: var(--primary-bg-low);
+    --palette-bg: var(--primary-bg);
+    --palette-bg-high: var(--primary-bg-high);
+    --palette-border: var(--primary-border);
+    --palette-border-low: var(--primary-border-low);
+    --palette-border-high: var(--primary-border-high);
+
+    --palette-2-fg-low: var(--secondary-fg-low);
+    --palette-2-fg: var(--secondary-fg);
+    --palette-2-fg-high: var(--secondary-fg-high);
+    --palette-2-bg-low: var(--secondary-bg-low);
+    --palette-2-bg: var(--secondary-bg);
+    --palette-2-bg-high: var(--secondary-bg-high);
+    --palette-2-border: var(--secondary-border);
+    --palette-2-border-low: var(--secondary-border-low);
+    --palette-2-border-high: var(--secondary-border-high);
+
+    --palette-3-fg-low: var(--tertiary-fg-low);
+    --palette-3-fg: var(--tertiary-fg);
+    --palette-3-fg-high: var(--tertiary-fg-high);
+    --palette-3-bg-low: var(--tertiary-bg-low);
+    --palette-3-bg: var(--tertiary-bg);
+    --palette-3-bg-high: var(--tertiary-bg-high);
+    --palette-3-border: var(--tertiary-border);
+    --palette-3-border-low: var(--tertiary-border-low);
+    --palette-3-border-high: var(--tertiary-border-high);
+
+    --palette-4-fg-low: var(--error-fg-low);
+    --palette-4-fg: var(--error-fg);
+    --palette-4-fg-high: var(--error-fg-high);
+    --palette-4-bg-low: var(--error-bg-low);
+    --palette-4-bg: var(--error-bg);
+    --palette-4-bg-high: var(--error-bg-high);
+    --palette-4-border: var(--error-border);
+    --palette-4-border-low: var(--error-border-low);
+    --palette-4-border-high: var(--error-border-high);
+
+    --palette-5-fg-low: var(--surface-fg-low);
+    --palette-5-fg: var(--surface-fg);
+    --palette-5-fg-high: var(--surface-fg-high);
+    --palette-5-bg-low: var(--surface-bg-low);
+    --palette-5-bg: var(--surface-bg);
+    --palette-5-bg-high: var(--surface-bg-high);
+    --palette-5-border: var(--surface-border);
+    --palette-5-border-low: var(--surface-border-low);
+    --palette-5-border-high: var(--surface-border-high);
 }
 
 .palette--secondary {
-    --bg: var(--secondary-bg);
-    --bg-low: var(--secondary-bg-low);
-    --bg-high: var(--secondary-bg-high);
-    --fg: var(--secondary-fg);
-    --fg-low: var(--secondary-fg-low);
-    --fg-high: var(--secondary-fg-high);
+    --palette-fg-low: var(--secondary-fg-low);
+    --palette-fg: var(--secondary-fg);
+    --palette-fg-high: var(--secondary-fg-high);
+    --palette-bg-low: var(--secondary-bg-low);
+    --palette-bg: var(--secondary-bg);
+    --palette-bg-high: var(--secondary-bg-high);
+    --palette-border: var(--secondary-border);
+    --palette-border-low: var(--secondary-border-low);
+    --palette-border-high: var(--secondary-border-high);
+
+    --palette-2-fg-low: var(--tertiary-fg-low);
+    --palette-2-fg: var(--tertiary-fg);
+    --palette-2-fg-high: var(--tertiary-fg-high);
+    --palette-2-bg-low: var(--tertiary-bg-low);
+    --palette-2-bg: var(--tertiary-bg);
+    --palette-2-bg-high: var(--tertiary-bg-high);
+    --palette-2-border: var(--tertiary-border);
+    --palette-2-border-low: var(--tertiary-border-low);
+    --palette-2-border-high: var(--tertiary-border-high);
+
+    --palette-3-fg-low: var(--error-fg-low);
+    --palette-3-fg: var(--error-fg);
+    --palette-3-fg-high: var(--error-fg-high);
+    --palette-3-bg-low: var(--error-bg-low);
+    --palette-3-bg: var(--error-bg);
+    --palette-3-bg-high: var(--error-bg-high);
+    --palette-3-border: var(--error-border);
+    --palette-3-border-low: var(--error-border-low);
+    --palette-3-border-high: var(--error-border-high);
+
+    --palette-4-fg-low: var(--surface-fg-low);
+    --palette-4-fg: var(--surface-fg);
+    --palette-4-fg-high: var(--surface-fg-high);
+    --palette-4-bg-low: var(--surface-bg-low);
+    --palette-4-bg: var(--surface-bg);
+    --palette-4-bg-high: var(--surface-bg-high);
+    --palette-4-border: var(--surface-border);
+    --palette-4-border-low: var(--surface-border-low);
+    --palette-4-border-high: var(--surface-border-high);
+
+    --palette-5-fg-low: var(--primary-fg-low);
+    --palette-5-fg: var(--primary-fg);
+    --palette-5-fg-high: var(--primary-fg-high);
+    --palette-5-bg-low: var(--primary-bg-low);
+    --palette-5-bg: var(--primary-bg);
+    --palette-5-bg-high: var(--primary-bg-high);
+    --palette-5-border: var(--primary-border);
+    --palette-5-border-low: var(--primary-border-low);
+    --palette-5-border-high: var(--primary-border-high);
 }
 
 .palette--tertiary {
-    --bg: var(--tertiary-bg);
-    --bg-low: var(--tertiary-bg-low);
-    --bg-high: var(--tertiary-bg-high);
-    --fg: var(--tertiary-fg);
-    --fg-low: var(--tertiary-fg-low);
-    --fg-high: var(--tertiary-fg-high);
+    --palette-fg-low: var(--tertiary-fg-low);
+    --palette-fg: var(--tertiary-fg);
+    --palette-fg-high: var(--tertiary-fg-high);
+    --palette-bg-low: var(--tertiary-bg-low);
+    --palette-bg: var(--tertiary-bg);
+    --palette-bg-high: var(--tertiary-bg-high);
+    --palette-border: var(--tertiary-border);
+    --palette-border-low: var(--tertiary-border-low);
+    --palette-border-high: var(--tertiary-border-high);
+
+    --palette-2-fg-low: var(--error-fg-low);
+    --palette-2-fg: var(--error-fg);
+    --palette-2-fg-high: var(--error-fg-high);
+    --palette-2-bg-low: var(--error-bg-low);
+    --palette-2-bg: var(--error-bg);
+    --palette-2-bg-high: var(--error-bg-high);
+    --palette-2-border: var(--error-border);
+    --palette-2-border-low: var(--error-border-low);
+    --palette-2-border-high: var(--error-border-high);
+
+    --palette-3-fg-low: var(--surface-fg-low);
+    --palette-3-fg: var(--surface-fg);
+    --palette-3-fg-high: var(--surface-fg-high);
+    --palette-3-bg-low: var(--surface-bg-low);
+    --palette-3-bg: var(--surface-bg);
+    --palette-3-bg-high: var(--surface-bg-high);
+    --palette-3-border: var(--surface-border);
+    --palette-3-border-low: var(--surface-border-low);
+    --palette-3-border-high: var(--surface-border-high);
+
+    --palette-4-fg-low: var(--primary-fg-low);
+    --palette-4-fg: var(--primary-fg);
+    --palette-4-fg-high: var(--primary-fg-high);
+    --palette-4-bg-low: var(--primary-bg-low);
+    --palette-4-bg: var(--primary-bg);
+    --palette-4-bg-high: var(--primary-bg-high);
+    --palette-4-border: var(--primary-border);
+    --palette-4-border-low: var(--primary-border-low);
+    --palette-4-border-high: var(--primary-border-high);
+
+    --palette-5-fg-low: var(--secondary-fg-low);
+    --palette-5-fg: var(--secondary-fg);
+    --palette-5-fg-high: var(--secondary-fg-high);
+    --palette-5-bg-low: var(--secondary-bg-low);
+    --palette-5-bg: var(--secondary-bg);
+    --palette-5-bg-high: var(--secondary-bg-high);
+    --palette-5-border: var(--secondary-border);
+    --palette-5-border-low: var(--secondary-border-low);
+    --palette-5-border-high: var(--secondary-border-high);
 }
 
 .palette--error {
-    --bg: var(--error-bg);
-    --bg-low: var(--error-bg-low);
-    --bg-high: var(--error-bg-high);
-    --fg: var(--error-fg);
-    --fg-low: var(--error-fg-low);
-    --fg-high: var(--error-fg-high);
+    --palette-fg-low: var(--error-fg-low);
+    --palette-fg: var(--error-fg);
+    --palette-fg-high: var(--error-fg-high);
+    --palette-bg-low: var(--error-bg-low);
+    --palette-bg: var(--error-bg);
+    --palette-bg-high: var(--error-bg-high);
+    --palette-border: var(--error-border);
+    --palette-border-low: var(--error-border-low);
+    --palette-border-high: var(--error-border-high);
+
+    --palette-2-fg-low: var(--surface-fg-low);
+    --palette-2-fg: var(--surface-fg);
+    --palette-2-fg-high: var(--surface-fg-high);
+    --palette-2-bg-low: var(--surface-bg-low);
+    --palette-2-bg: var(--surface-bg);
+    --palette-2-bg-high: var(--surface-bg-high);
+    --palette-2-border: var(--surface-border);
+    --palette-2-border-low: var(--surface-border-low);
+    --palette-2-border-high: var(--surface-border-high);
+
+    --palette-3-fg-low: var(--primary-fg-low);
+    --palette-3-fg: var(--primary-fg);
+    --palette-3-fg-high: var(--primary-fg-high);
+    --palette-3-bg-low: var(--primary-bg-low);
+    --palette-3-bg: var(--primary-bg);
+    --palette-3-bg-high: var(--primary-bg-high);
+    --palette-3-border: var(--primary-border);
+    --palette-3-border-low: var(--primary-border-low);
+    --palette-3-border-high: var(--primary-border-high);
+
+    --palette-4-fg-low: var(--secondary-fg-low);
+    --palette-4-fg: var(--secondary-fg);
+    --palette-4-fg-high: var(--secondary-fg-high);
+    --palette-4-bg-low: var(--secondary-bg-low);
+    --palette-4-bg: var(--secondary-bg);
+    --palette-4-bg-high: var(--secondary-bg-high);
+    --palette-4-border: var(--secondary-border);
+    --palette-4-border-low: var(--secondary-border-low);
+    --palette-4-border-high: var(--secondary-border-high);
+
+    --palette-5-fg-low: var(--tertiary-fg-low);
+    --palette-5-fg: var(--tertiary-fg);
+    --palette-5-fg-high: var(--tertiary-fg-high);
+    --palette-5-bg-low: var(--tertiary-bg-low);
+    --palette-5-bg: var(--tertiary-bg);
+    --palette-5-bg-high: var(--tertiary-bg-high);
+    --palette-5-border: var(--tertiary-border);
+    --palette-5-border-low: var(--tertiary-border-low);
+    --palette-5-border-high: var(--tertiary-border-high);
 }
 
 .palette--surface {
-    --bg: var(--surface-bg);
-    --bg-low: var(--surface-bg-low);
-    --bg-high: var(--surface-bg-high);
-    --fg: var(--surface-fg);
-    --fg-low: var(--surface-fg-low);
-    --fg-high: var(--surface-fg-high);
+    --palette-fg-low: var(--surface-fg-low);
+    --palette-fg: var(--surface-fg);
+    --palette-fg-high: var(--surface-fg-high);
+    --palette-bg-low: var(--surface-bg-low);
+    --palette-bg: var(--surface-bg);
+    --palette-bg-high: var(--surface-bg-high);
+    --palette-border: var(--surface-border);
+    --palette-border-low: var(--surface-border-low);
+    --palette-border-high: var(--surface-border-high);
+
+    --palette-2-fg-low: var(--primary-fg-low);
+    --palette-2-fg: var(--primary-fg);
+    --palette-2-fg-high: var(--primary-fg-high);
+    --palette-2-bg-low: var(--primary-bg-low);
+    --palette-2-bg: var(--primary-bg);
+    --palette-2-bg-high: var(--primary-bg-high);
+    --palette-2-border: var(--primary-border);
+    --palette-2-border-low: var(--primary-border-low);
+    --palette-2-border-high: var(--primary-border-high);
+
+    --palette-3-fg-low: var(--secondary-fg-low);
+    --palette-3-fg: var(--secondary-fg);
+    --palette-3-fg-high: var(--secondary-fg-high);
+    --palette-3-bg-low: var(--secondary-bg-low);
+    --palette-3-bg: var(--secondary-bg);
+    --palette-3-bg-high: var(--secondary-bg-high);
+    --palette-3-border: var(--secondary-border);
+    --palette-3-border-low: var(--secondary-border-low);
+    --palette-3-border-high: var(--secondary-border-high);
+
+    --palette-4-fg-low: var(--tertiary-fg-low);
+    --palette-4-fg: var(--tertiary-fg);
+    --palette-4-fg-high: var(--tertiary-fg-high);
+    --palette-4-bg-low: var(--tertiary-bg-low);
+    --palette-4-bg: var(--tertiary-bg);
+    --palette-4-bg-high: var(--tertiary-bg-high);
+    --palette-4-border: var(--tertiary-border);
+    --palette-4-border-low: var(--tertiary-border-low);
+    --palette-4-border-high: var(--tertiary-border-high);
+
+    --palette-5-fg-low: var(--error-fg-low);
+    --palette-5-fg: var(--error-fg);
+    --palette-5-fg-high: var(--error-fg-high);
+    --palette-5-bg-low: var(--error-bg-low);
+    --palette-5-bg: var(--error-bg);
+    --palette-5-bg-high: var(--error-bg-high);
+    --palette-5-border: var(--error-border);
+    --palette-5-border-low: var(--error-border-low);
+    --palette-5-border-high: var(--error-border-high);
 }
 
 /****************** tailwind *********************/
 
 @theme inline {
-    --color-primary-bg-low: var(--primary-bg-low);
-    --color-primary-bg: var(--primary-bg);
-    --color-primary-bg-high: var(--primary-bg-high);
     --color-primary-fg-low: var(--primary-fg-low);
     --color-primary-fg: var(--primary-fg);
     --color-primary-fg-high: var(--primary-fg-high);
-    --color-primary-border: --alpha(var(--primary-fg) / .7);
-    --color-primary-bg-disabled: var(--primary-bg-low);
-    --color-primary-fg-disabled: var(--primary-fg-low);
-    --color-primary-border-disabled: --alpha(var(--primary-fg-low) / .5);
+    --color-primary-bg-low: var(--primary-bg-low);
+    --color-primary-bg: var(--primary-bg);
+    --color-primary-bg-high: var(--primary-bg-high);
+    --color-primary-border: var(--primary-border);
+    --color-primary-bg-disabled: oklch(from var(--primary-bg-low) l .03 h);
+    --color-primary-fg-disabled: oklch(from var(--primary-fg-low) l .03 h);
+    --color-primary-border-disabled: oklch(from var(--primary-border-low) l .03 h);
     --color-primary-bg-focused: --alpha(var(--primary-bg-low) / .7);
     --color-primary-fg-focused: --alpha(var(--primary-fg-low) / .7);
-    --color-primary-border-focused: var(--primary-fg-low);
+    --color-primary-border-focused: var(--primary-border-low);
     --color-primary-bg-selected: var(--primary-bg-high);
     --color-primary-fg-selected: var(--primary-fg-high);
-    --color-primary-border-selected: var(--primary-fg-high);
+    --color-primary-border-selected: var(--primary-border-high);
     --color-primary-bg-actived: --alpha(var(--primary-bg-high) / .7);
     --color-primary-fg-actived: --alpha(var(--primary-fg-high) / .7);
-    --color-primary-border-actived: --alpha(var(--primary-fg-high) / .3);
+    --color-primary-border-actived: --alpha(var(--primary-border-high) / .3);
 
-
-    --color-secondary-bg-low: var(--secondary-bg-low);
-    --color-secondary-bg: var(--secondary-bg);
-    --color-secondary-bg-high: var(--secondary-bg-high);
     --color-secondary-fg-low: var(--secondary-fg-low);
     --color-secondary-fg: var(--secondary-fg);
     --color-secondary-fg-high: var(--secondary-fg-high);
-    --color-secondary-border: --alpha(var(--secondary-fg) / .7);
-    --color-secondary-bg-disabled: var(--secondary-bg-low);
-    --color-secondary-fg-disabled: var(--secondary-fg-low);
-    --color-secondary-border-disabled: --alpha(var(--secondary-fg-low) / .5);
+    --color-secondary-bg-low: var(--secondary-bg-low);
+    --color-secondary-bg: var(--secondary-bg);
+    --color-secondary-bg-high: var(--secondary-bg-high);
+    --color-secondary-border: var(--secondary-border);
+    --color-secondary-bg-disabled: oklch(from var(--secondary-bg-low) l .03 h);
+    --color-secondary-fg-disabled: oklch(from var(--secondary-fg-low) l .03 h);
+    --color-secondary-border-disabled: oklch(from var(--secondary-border-low) l .03 h);
     --color-secondary-bg-focused: --alpha(var(--secondary-bg-low) / .7);
     --color-secondary-fg-focused: --alpha(var(--secondary-fg-low) / .7);
-    --color-secondary-border-focused: var(--secondary-fg-low);
+    --color-secondary-border-focused: var(--secondary-border-low);
     --color-secondary-bg-selected: var(--secondary-bg-high);
     --color-secondary-fg-selected: var(--secondary-fg-high);
-    --color-secondary-border-selected: var(--secondary-fg-high);
+    --color-secondary-border-selected: var(--secondary-border-high);
     --color-secondary-bg-actived: --alpha(var(--secondary-bg-high) / .7);
     --color-secondary-fg-actived: --alpha(var(--secondary-fg-high) / .7);
-    --color-secondary-border-actived: --alpha(var(--secondary-fg-high) / .3);
+    --color-secondary-border-actived: --alpha(var(--secondary-border-high) / .3);
 
-    --color-tertiary-bg-low: var(--tertiary-bg-low);
-    --color-tertiary-bg: var(--tertiary-bg);
-    --color-tertiary-bg-high: var(--tertiary-bg-high);
     --color-tertiary-fg-low: var(--tertiary-fg-low);
     --color-tertiary-fg: var(--tertiary-fg);
     --color-tertiary-fg-high: var(--tertiary-fg-high);
-    --color-tertiary-border: --alpha(var(--tertiary-fg) / .7);
-    --color-tertiary-bg-disabled: var(--tertiary-bg-low);
-    --color-tertiary-fg-disabled: var(--tertiary-fg-low);
-    --color-tertiary-border-disabled: --alpha(var(--tertiary-fg-low) / .5);
+    --color-tertiary-bg-low: var(--tertiary-bg-low);
+    --color-tertiary-bg: var(--tertiary-bg);
+    --color-tertiary-bg-high: var(--tertiary-bg-high);
+    --color-tertiary-border: var(--tertiary-border);
+    --color-tertiary-bg-disabled: oklch(from var(--tertiary-bg-low) l .03 h);
+    --color-tertiary-fg-disabled: oklch(from var(--tertiary-fg-low) l .03 h);
+    --color-tertiary-border-disabled: oklch(from var(--tertiary-border-low) l .03 h);
     --color-tertiary-bg-focused: --alpha(var(--tertiary-bg-low) / .7);
     --color-tertiary-fg-focused: --alpha(var(--tertiary-fg-low) / .7);
-    --color-tertiary-border-focused: var(--tertiary-fg-low);
+    --color-tertiary-border-focused: var(--tertiary-border-low);
     --color-tertiary-bg-selected: var(--tertiary-bg-high);
     --color-tertiary-fg-selected: var(--tertiary-fg-high);
-    --color-tertiary-border-selected: var(--tertiary-fg-high);
+    --color-tertiary-border-selected: var(--tertiary-border-high);
     --color-tertiary-bg-actived: --alpha(var(--tertiary-bg-high) / .7);
     --color-tertiary-fg-actived: --alpha(var(--tertiary-fg-high) / .7);
-    --color-tertiary-border-actived: --alpha(var(--tertiary-fg-high) / .3);
+    --color-tertiary-border-actived: --alpha(var(--tertiary-border-high) / .3);
 
-    --color-surface-bg-low: var(--surface-bg-low);
-    --color-surface-bg: var(--surface-bg);
-    --color-surface-bg-high: var(--surface-bg-high);
-    --color-surface-fg-low: var(--surface-fg-low);
-    --color-surface-fg: var(--surface-fg);
-    --color-surface-fg-high: var(--surface-fg-high);
-    --color-surface-border: --alpha(var(--surface-fg) / .7);
-    --color-surface-bg-disabled: var(--surface-bg-low);
-    --color-surface-fg-disabled: var(--surface-fg-low);
-    --color-surface-border-disabled: --alpha(var(--surface-fg-low) / .5);
-    --color-surface-bg-focused: --alpha(var(--surface-bg-low) / .7);
-    --color-surface-fg-focused: --alpha(var(--surface-fg-low) / .7);
-    --color-surface-border-focused: var(--surface-fg-low);
-    --color-surface-bg-selected: var(--surface-bg-high);
-    --color-surface-fg-selected: var(--surface-fg-high);
-    --color-surface-border-selected: var(--surface-fg-high);
-    --color-surface-bg-actived: --alpha(var(--surface-bg-high) / .7);
-    --color-surface-fg-actived: --alpha(var(--surface-fg-high) / .7);
-    --color-surface-border-actived: --alpha(var(--surface-fg-high) / .3);
-
-    --color-error-bg-low: var(--error-bg-low);
-    --color-error-bg: var(--error-bg);
-    --color-error-bg-high: var(--error-bg-high);
     --color-error-fg-low: var(--error-fg-low);
     --color-error-fg: var(--error-fg);
     --color-error-fg-high: var(--error-fg-high);
-    --color-error-border: --alpha(var(--error-fg) / .7);
-    --color-error-bg-disabled: var(--error-bg-low);
-    --color-error-fg-disabled: var(--error-fg-low);
-    --color-error-border-disabled: --alpha(var(--error-fg-low) / .5);
+    --color-error-bg-low: var(--error-bg-low);
+    --color-error-bg: var(--error-bg);
+    --color-error-bg-high: var(--error-bg-high);
+    --color-error-border: var(--error-border);
+    --color-error-bg-disabled: oklch(from var(--error-bg-low) l .03 h);
+    --color-error-fg-disabled: oklch(from var(--error-fg-low) l .03 h);
+    --color-error-border-disabled: oklch(from var(--error-border-low) l .03 h);
     --color-error-bg-focused: --alpha(var(--error-bg-low) / .7);
     --color-error-fg-focused: --alpha(var(--error-fg-low) / .7);
-    --color-error-border-focused: var(--error-fg-low);
+    --color-error-border-focused: var(--error-border-low);
     --color-error-bg-selected: var(--error-bg-high);
     --color-error-fg-selected: var(--error-fg-high);
-    --color-error-border-selected: var(--error-fg-high);
+    --color-error-border-selected: var(--error-border-high);
     --color-error-bg-actived: --alpha(var(--error-bg-high) / .7);
     --color-error-fg-actived: --alpha(var(--error-fg-high) / .7);
-    --color-error-border-actived: --alpha(var(--error-fg-high) / .3);
+    --color-error-border-actived: --alpha(var(--error-border-high) / .3);
 
-    --color-palette-bg: var(--bg);
-    --color-palette-bg-low: var(--bg-low);
-    --color-palette-bg-high: var(--bg-high);
-    --color-palette-fg: var(--fg);
-    --color-palette-fg-low: var(--fg-low);
-    --color-palette-fg-high: var(--fg-high);
-    --color-palette-border: --alpha(var(--fg) / .7);
-    --color-palette-bg-disabled: var(--bg-low);
-    --color-palette-fg-disabled: var(--fg-low);
-    --color-palette-border-disabled: --alpha(var(--fg-low) / .5);
-    --color-palette-bg-focused: --alpha(var(--bg-low) / .7);
-    --color-palette-fg-focused: --alpha(var(--fg-low) / .7);
-    --color-palette-border-focused: var(--fg-low);
-    --color-palette-bg-selected: var(--bg-high);
-    --color-palette-fg-selected: var(--fg-high);
-    --color-palette-border-selected: var(--fg-high);
-    --color-palette-bg-actived: --alpha(var(--bg-high) / .7);
-    --color-palette-fg-actived: --alpha(var(--fg-high) / .7);
-    --color-palette-border-actived: --alpha(var(--fg-high) / .3);
+    --color-surface-fg-low: var(--surface-fg-low);
+    --color-surface-fg: var(--surface-fg);
+    --color-surface-fg-high: var(--surface-fg-high);
+    --color-surface-bg-low: var(--surface-bg-low);
+    --color-surface-bg: var(--surface-bg);
+    --color-surface-bg-high: var(--surface-bg-high);
+    --color-surface-border: var(--surface-border);
+    --color-surface-bg-disabled: oklch(from var(--surface-bg-low) l .03 h);
+    --color-surface-fg-disabled: oklch(from var(--surface-fg-low) l .03 h);
+    --color-surface-border-disabled: oklch(from var(--surface-border-low) l .03 h);
+    --color-surface-bg-focused: --alpha(var(--surface-bg-low) / .7);
+    --color-surface-fg-focused: --alpha(var(--surface-fg-low) / .7);
+    --color-surface-border-focused: var(--surface-border-low);
+    --color-surface-bg-selected: var(--surface-bg-high);
+    --color-surface-fg-selected: var(--surface-fg-high);
+    --color-surface-border-selected: var(--surface-border-high);
+    --color-surface-bg-actived: --alpha(var(--surface-bg-high) / .7);
+    --color-surface-fg-actived: --alpha(var(--surface-fg-high) / .7);
+    --color-surface-border-actived: --alpha(var(--surface-border-high) / .3);
+
+    /**
+     * 当前色盘应用在 tailwind 中的颜色值
+     */
+
+    --color-palette-fg-low: var(--palette-fg-low);
+    --color-palette-fg: var(--palette-fg);
+    --color-palette-fg-high: var(--palette-fg-high);
+    --color-palette-bg-low: var(--palette-bg-low);
+    --color-palette-bg: var(--palette-bg);
+    --color-palette-bg-high: var(--palette-bg-high);
+    --color-palette-border: var(--palette-border);
+    --color-palette-bg-disabled: oklch(from var(--palette-bg-low) l .03 h);
+    --color-palette-fg-disabled: oklch(from var(--palette-fg-low) l .03 h);
+    --color-palette-border-disabled: oklch(from var(--palette-border-low) l .03 h);
+    --color-palette-bg-focused: --alpha(var(--palette-bg-low) / .7);
+    --color-palette-fg-focused: --alpha(var(--palette-fg-low) / .7);
+    --color-palette-border-focused: var(--palette-border-low);
+    --color-palette-bg-selected: var(--palette-bg-high);
+    --color-palette-fg-selected: var(--palette-fg-high);
+    --color-palette-border-selected: var(--palette-border-high);
+    --color-palette-bg-actived: --alpha(var(--palette-bg-high) / .7);
+    --color-palette-fg-actived: --alpha(var(--palette-fg-high) / .7);
+    --color-palette-border-actived: --alpha(var(--palette-border-high) / .3);
+
+    --color-palette-2-fg-low: var(--palette-2-fg-low);
+    --color-palette-2-fg: var(--palette-2-fg);
+    --color-palette-2-fg-high: var(--palette-2-fg-high);
+    --color-palette-2-bg-low: var(--palette-2-bg-low);
+    --color-palette-2-bg: var(--palette-2-bg);
+    --color-palette-2-bg-high: var(--palette-2-bg-high);
+    --color-palette-2-border: var(--palette-2-border);
+    --color-palette-2-bg-disabled: oklch(from var(--palette-2-bg-low) l .03 h);
+    --color-palette-2-fg-disabled: oklch(from var(--palette-2-fg-low) l .03 h);
+    --color-palette-2-border-disabled: oklch(from var(--palette-2-border-low) l .03 h);
+    --color-palette-2-bg-focused: --alpha(var(--palette-2-bg-low) / .7);
+    --color-palette-2-fg-focused: --alpha(var(--palette-2-fg-low) / .7);
+    --color-palette-2-border-focused: var(--palette-2-border-low);
+    --color-palette-2-bg-selected: var(--palette-2-bg-high);
+    --color-palette-2-fg-selected: var(--palette-2-fg-high);
+    --color-palette-2-border-selected: var(--palette-2-border-high);
+    --color-palette-2-bg-actived: --alpha(var(--palette-2-bg-high) / .7);
+    --color-palette-2-fg-actived: --alpha(var(--palette-2-fg-high) / .7);
+    --color-palette-2-border-actived: --alpha(var(--palette-2-border-high) / .3);
+
+    --color-palette-3-fg-low: var(--palette-3-fg-low);
+    --color-palette-3-fg: var(--palette-3-fg);
+    --color-palette-3-fg-high: var(--palette-3-fg-high);
+    --color-palette-3-bg-low: var(--palette-3-bg-low);
+    --color-palette-3-bg: var(--palette-3-bg);
+    --color-palette-3-bg-high: var(--palette-3-bg-high);
+    --color-palette-3-border: var(--palette-3-border);
+    --color-palette-3-bg-disabled: oklch(from var(--palette-3-bg-low) l .03 h);
+    --color-palette-3-fg-disabled: oklch(from var(--palette-3-fg-low) l .03 h);
+    --color-palette-3-border-disabled: oklch(from var(--palette-3-border-low) l .03 h);
+    --color-palette-3-bg-focused: --alpha(var(--palette-3-bg-low) / .7);
+    --color-palette-3-fg-focused: --alpha(var(--palette-3-fg-low) / .7);
+    --color-palette-3-border-focused: var(--palette-3-border-low);
+    --color-palette-3-bg-selected: var(--palette-3-bg-high);
+    --color-palette-3-fg-selected: var(--palette-3-fg-high);
+    --color-palette-3-border-selected: var(--palette-3-border-high);
+    --color-palette-3-bg-actived: --alpha(var(--palette-3-bg-high) / .7);
+    --color-palette-3-fg-actived: --alpha(var(--palette-3-fg-high) / .7);
+    --color-palette-3-border-actived: --alpha(var(--palette-3-border-high) / .3);
+
+    --color-palette-4-fg-low: var(--palette-4-fg-low);
+    --color-palette-4-fg: var(--palette-4-fg);
+    --color-palette-4-fg-high: var(--palette-4-fg-high);
+    --color-palette-4-bg-low: var(--palette-4-bg-low);
+    --color-palette-4-bg: var(--palette-4-bg);
+    --color-palette-4-bg-high: var(--palette-4-bg-high);
+    --color-palette-4-border: var(--palette-4-border);
+    --color-palette-4-bg-disabled: oklch(from var(--palette-4-bg-low) l .03 h);
+    --color-palette-4-fg-disabled: oklch(from var(--palette-4-fg-low) l .03 h);
+    --color-palette-4-border-disabled: oklch(from var(--palette-4-border-low) l .03 h);
+    --color-palette-4-bg-focused: --alpha(var(--palette-4-bg-low) / .7);
+    --color-palette-4-fg-focused: --alpha(var(--palette-4-fg-low) / .7);
+    --color-palette-4-border-focused: var(--palette-4-border-low);
+    --color-palette-4-bg-selected: var(--palette-4-bg-high);
+    --color-palette-4-fg-selected: var(--palette-4-fg-high);
+    --color-palette-4-border-selected: var(--palette-4-border-high);
+    --color-palette-4-bg-actived: --alpha(var(--palette-4-bg-high) / .7);
+    --color-palette-4-fg-actived: --alpha(var(--palette-4-fg-high) / .7);
+    --color-palette-4-border-actived: --alpha(var(--palette-4-border-high) / .3);
+
+    --color-palette-5-fg-low: var(--palette-5-fg-low);
+    --color-palette-5-fg: var(--palette-5-fg);
+    --color-palette-5-fg-high: var(--palette-5-fg-high);
+    --color-palette-5-bg-low: var(--palette-5-bg-low);
+    --color-palette-5-bg: var(--palette-5-bg);
+    --color-palette-5-bg-high: var(--palette-5-bg-high);
+    --color-palette-5-border: var(--palette-5-border);
+    --color-palette-5-bg-disabled: oklch(from var(--palette-5-bg-low) l .03 h);
+    --color-palette-5-fg-disabled: oklch(from var(--palette-5-fg-low) l .03 h);
+    --color-palette-5-border-disabled: oklch(from var(--palette-5-border-low) l .03 h);
+    --color-palette-5-bg-focused: --alpha(var(--palette-5-bg-low) / .7);
+    --color-palette-5-fg-focused: --alpha(var(--palette-5-fg-low) / .7);
+    --color-palette-5-border-focused: var(--palette-5-border-low);
+    --color-palette-5-bg-selected: var(--palette-5-bg-high);
+    --color-palette-5-fg-selected: var(--palette-5-fg-high);
+    --color-palette-5-border-selected: var(--palette-5-border-high);
+    --color-palette-5-bg-actived: --alpha(var(--palette-5-bg-high) / .7);
+    --color-palette-5-fg-actived: --alpha(var(--palette-5-fg-high) / .7);
+    --color-palette-5-border-actived: --alpha(var(--palette-5-border-high) / .3);
 
     /*
      * NOTE: 需要保证与 base/theme/theme.ts 中 Breakpoint 类型的取值相对应

@@ -63,10 +63,10 @@ export function PieChart(props: Props): JSX.Element {
 
     const o = createMemo(() => {
         const o: echarts.EChartsOption = {
-            tooltip: { show: props.tooltip, textStyle: {color: 'var(--fg)'}, backgroundColor: 'var(--bg)', trigger: 'item' },
+            tooltip: { show: props.tooltip, textStyle: {color: 'var(--palette-fg)'}, backgroundColor: 'var(--palette-bg)', trigger: 'item' },
             legend: props.legend ? {
                 show: !!props.legend,
-                textStyle: { color: 'var(--fg)'},
+                textStyle: { color: 'var(--palette-fg)'},
                 orient: props.legend==='center' ? 'horizontal' : 'vertical',
                 left: props.legend,
             } : undefined,
@@ -80,7 +80,7 @@ export function PieChart(props: Props): JSX.Element {
                     borderRadius: props.borderRadius
                 } : undefined,
                 label: {
-                    color: 'var(--fg)'
+                    color: 'var(--palette-fg)'
                 }
             },
             dataset: {

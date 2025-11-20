@@ -16,7 +16,8 @@
 - error
 - surface
 
-每个色盘又衍生了 base、high 和 low 三种颜色以及前景色 fg 和背景色 bg 供开发者使用，所以一个色盘总共有 6 种颜色：
+每个色盘又衍生了 基础色、high 和 low 三种颜色。
+以及根据颜色所处的位置不同分成 边框 border、前景色 fg 和背景色 bg 供开发者使用，所以一个色盘总共有 9 种颜色：
 
 - bg
 - bg-high
@@ -24,8 +25,12 @@
 - fg
 - fg-high
 - fg-low
+- border
+- border-high
+- border-low
 
-在 tailwind 中可以使用 `bg-{palette/primary/secondary/tertiary/error/surface}-{bg/fg}-{low/high/}` 等对颜色进行访问。
+在 tailwind 中可以使用 `bg-{palette/palette-*/primary/secondary/tertiary/error/surface}-{bg/fg/border}-{low/high/}` 等对颜色进行访问。
+其中的 palette 和 palette-* 表示组件的当前色盘或是基于当前色盘的之后个 n 个色盘。
 
 ## z-index
 
@@ -43,6 +48,7 @@
 
 减少动画效果，与 `@media (prefers-reduced-motion: reduce)` 一样的效果，但是此类可以用于局部。
 系统级别的设置可参考[各个操作系统的设置](https://developer.mozilla.org/zh-CN/docs/Web/CSS/@media/prefers-reduced-motion#%E7%94%A8%E6%88%B7%E5%81%8F%E5%A5%BD)。
+如果 `@media (prefers-reduced-motion: reduce)` 匹配，则 css 样式不再起作用。
 
 ### `.no-print`
 

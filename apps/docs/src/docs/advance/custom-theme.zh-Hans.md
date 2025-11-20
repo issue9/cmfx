@@ -5,16 +5,17 @@
 主题对象的结构如下：
 
 ```ts
+/**
+ * 定义主题相关的各类变量
+ */
 export interface Scheme {
-    /**
-     * 用于指示当前主题颜色的对比度
-     */
-    contrast: number;
+    primary: string;
+    secondary: string;
+    tertiary: string;
+    error: string;
+    surface: string;
 
     // NOTE: 主题颜色值是必须要定义的，不能从父元素继承。
-
-    dark: Palettes;
-    light: Palettes;
 
     /**
      * 全局字体的大小
@@ -48,44 +49,5 @@ export interface Radius {
     '2xl': number;
     '3xl': number;
     '4xl': number;
-}
-
-export interface Palettes {
-    [key: string]: string;
-
-    'primary-fg': string;
-    'primary-fg-low': string;
-    'primary-fg-high': string;
-    'primary-bg': string;
-    'primary-bg-low': string;
-    'primary-bg-high': string;
-
-    'secondary-fg': string;
-    'secondary-fg-low': string;
-    'secondary-fg-high': string;
-    'secondary-bg': string;
-    'secondary-bg-low': string;
-    'secondary-bg-high': string;
-
-    'tertiary-fg': string;
-    'tertiary-fg-low': string;
-    'tertiary-fg-high': string;
-    'tertiary-bg': string;
-    'tertiary-bg-low': string;
-    'tertiary-bg-high': string;
-
-    'error-fg': string;
-    'error-fg-low': string;
-    'error-fg-high': string;
-    'error-bg': string;
-    'error-bg-low': string;
-    'error-bg-high': string;
-
-    'surface-fg': string;
-    'surface-fg-low': string;
-    'surface-fg-high': string;
-    'surface-bg': string;
-    'surface-bg-low': string;
-    'surface-bg-high': string;
 }
 ```
