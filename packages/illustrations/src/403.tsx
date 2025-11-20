@@ -33,11 +33,11 @@ export default function Error403(props: Props): JSX.Element {
             <path id="illustrations-403-16" d="M157.52,321.57l0,0c-.38.49-6.29,5.64-15.36,21.07l-18.39,4.62,15,1.35-6.88,12-15.7,3.88,12.44,1.54s-3,12.18-11.61,17.55c-4.78,3-7.15,3.48-8.67,2.15-1.06-.94-1.52-6.71-2.58-11.84s-1.45-13.52,3-23.83a31.46,31.46,0,0,1,4.78-7.64C124.72,329,146.58,321.83,157.52,321.57Z" />
         </defs>
 
-        <ellipse id="freepik--Floor--inject-121" cx="250" cy="384.61" rx="209.73" ry="94.79" style="fill:var(--surface-bg-low)" />
+        <ellipse cx="250" cy="384.61" rx="209.73" ry="94.79" fill="var(--palette-2-bg-low)" />
 
         <g id="freepik--Shadows--inject-121">
-            <ellipse cx="352.36" cy="395.73" rx="56.05" ry="32.36" style="fill:var(--surface-bg)" />
-            <path d="M91.71,412.52c-9.53,5.57-9.53,14.59,0,20.15s25,5.56,34.51,0,9.53-14.58,0-20.15S101.24,407,91.71,412.52Z" style="fill:var(--surface-bg)" />
+            <ellipse cx="352.36" cy="395.73" rx="56.05" ry="32.36" fill="var(--palette-2-bg)" />
+            <path d="M91.71,412.52c-9.53,5.57-9.53,14.59,0,20.15s25,5.56,34.51,0,9.53-14.58,0-20.15S101.24,407,91.71,412.52Z" fill="var(--palette-2-bg)" />
         </g>
 
         <g id="freepik--Door--inject-121">

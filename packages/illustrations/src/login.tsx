@@ -26,11 +26,11 @@ export default function Login(props: Props): JSX.Element {
             <path id="illustrations-login-9" d="M396.5,288c0,9.63-2.93,16.51-7.49,19.39,1.43-.82,4.95-2.86,5.91-3.4,4.76-2.76,7.84-9.74,7.84-19.61,0-.36,0-.73,0-1.1l-6.26,3.62C396.49,287.29,396.5,287.65,396.5,288Z" fill="currentColor" />
         </defs>
 
-        <ellipse id="freepik--Floor--inject-33" cx="249.05" cy="350.02" rx="235.61" ry="136.03" style="fill:var(--surface-bg-low)" />
+        <ellipse cx="249.05" cy="350.02" rx="235.61" ry="136.03" fill="var(--palette-2-bg-low)" />
 
         <g id="freepik--Shadow--inject-33">
-            <path d="M384.36,397.22c-15.45-8.92-15.45-23.38,0-32.3s40.5-8.92,55.95,0,15.45,23.38,0,32.3S399.81,406.14,384.36,397.22Z" style="fill:var(--surface-bg)" />
-            <path d="M70.12,398.46,29.48,375c-2.29-1.32-2.29-3.47,0-4.79L265.87,233.73a9.17,9.17,0,0,1,8.29,0l40.65,23.46c2.29,1.32,2.29,3.47,0,4.79L78.42,398.46A9.19,9.19,0,0,1,70.12,398.46Z" style="fill:var(--surface-bg)" />
+            <path d="M384.36,397.22c-15.45-8.92-15.45-23.38,0-32.3s40.5-8.92,55.95,0,15.45,23.38,0,32.3S399.81,406.14,384.36,397.22Z" fill="var(--palette-2-bg)" />
+            <path d="M70.12,398.46,29.48,375c-2.29-1.32-2.29-3.47,0-4.79L265.87,233.73a9.17,9.17,0,0,1,8.29,0l40.65,23.46c2.29,1.32,2.29,3.47,0,4.79L78.42,398.46A9.19,9.19,0,0,1,70.12,398.46Z" fill="var(--palette-2-bg)" />
         </g>
         <g id="freepik--Device--inject-33">
             <use href="#illustrations-login-1" fill="currentColor" /><use href="#illustrations-login-1" opacity=".6" />

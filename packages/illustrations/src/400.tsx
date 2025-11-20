@@ -22,11 +22,11 @@ export default function Error400(props: Props): JSX.Element {
             <polygon id="illustrations-400-9" points="69.13 298.92 69.13 308.58 127.69 342.39 127.69 332.73 69.13 298.92" />
         </defs>
 
-        <ellipse id="freepik--Floor--inject-112" cx="250" cy="351.33" rx="237.96" ry="135.52" style="fill:var(--surface-bg-low)" />
+        <ellipse cx="250" cy="351.33" rx="237.96" ry="135.52" fill="var(--palette-2-bg-low)" />
 
         <g id="freepik--Shadows--inject-112">
-            <polygon points="130.96 447.97 268.09 368.38 200.81 329.13 154.8 355.69 63.67 408.71 130.96 447.97" style="fill:var(--surface-bg)" />
-            <ellipse cx="396.08" cy="384.97" rx="55.29" ry="31.92" style="fill:var(--surface-bg)" />
+            <polygon points="130.96 447.97 268.09 368.38 200.81 329.13 154.8 355.69 63.67 408.71 130.96 447.97" fill="var(--palette-2-bg)" />
+            <ellipse cx="396.08" cy="384.97" rx="55.29" ry="31.92" fill="var(--palette-2-bg)" />
         </g>
 
         <g id="freepik--character-2--inject-112">
