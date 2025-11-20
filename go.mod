@@ -39,8 +39,8 @@ require (
 	github.com/kardianos/service v1.2.4
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/shirou/gopsutil/v4 v4.25.8
-	golang.org/x/crypto v0.42.0
-	golang.org/x/text v0.29.0
+	golang.org/x/crypto v0.45.0
+	golang.org/x/text v0.31.0
 )
 
 require (
@@ -77,9 +77,9 @@ require (
 	github.com/tklauser/numcpus v0.10.0 // indirect
 	github.com/x448/float16 v0.8.4 // indirect
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
-	golang.org/x/mod v0.28.0 // indirect
-	golang.org/x/net v0.43.0 // indirect
-	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/mod v0.29.0 // indirect
+	golang.org/x/net v0.47.0 // indirect
+	golang.org/x/sync v0.18.0 // indirect
+	golang.org/x/sys v0.38.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 )
