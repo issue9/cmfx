@@ -9,11 +9,6 @@
  * 定义主题相关的各类变量
  */
 export interface Scheme {
-    /**
-     * 用于指示当前主题颜色的对比度
-     */
-    contrast: number; // TODO: 删除
-
     primary: string;
     secondary: string;
     tertiary: string;

@@ -7,8 +7,6 @@
 /* 定义了主题变量 */
 
 :root {
-    color-scheme: light dark;
-
     /**
      * 重定义了 tailwind 的默认变量
      *
@@ -22,60 +20,130 @@
     --tertiary: var(--color-indigo-900);
     --surface: var(--color-slate-900);
     --error: var(--color-red-900);
+}
+
+@media (prefers-contrast: no-preference) {
+  :root {
+      --contrast: 90%;
+      --opacity: .5;
+  }
+}
+
+@media (prefers-contrast: more) {
+  :root {
+      --contrast: 100%;
+      --opacity: .7;
+  }
+}
+
+@media (prefers-contrast: less) {
+  :root {
+      --contrast: 80%;
+      --opacity: .3;
+  }
+}
+
+:root {
+    color-scheme: light dark;
 
     /**
      * 向外公开的各个色盘颜色变量
      */
 
-    --primary-fg-low: light-dark(oklch(from var(--primary) 30% c h), oklch(from var(--primary) 90% c h));
-    --primary-fg: light-dark(oklch(from var(--primary) 20% c h), oklch(from var(--primary) 80% c h));
-    --primary-fg-high: light-dark(oklch(from var(--primary) 10% c h), oklch(from var(--primary) 70% c h));
-    --primary-bg-low: light-dark(oklch(from var(--primary) 90% c h), oklch(from var(--primary) 30% c h));
-    --primary-bg: light-dark(oklch(from var(--primary) 80% c h), oklch(from var(--primary) 20% c h));
-    --primary-bg-high: light-dark(oklch(from var(--primary) 70% c h), oklch(from var(--primary) 10% c h));
-    --primary-border: light-dark(oklch(from var(--primary) 20% c h / .7), oklch(from var(--primary) 80% c h / .7));
-    --primary-border-low: light-dark(oklch(from var(--primary) 30% c h / .7), oklch(from var(--primary) 90% c h / .7));
-    --primary-border-high: light-dark(oklch(from var(--primary) 10% c h / .7), oklch(from var(--primary) 70% c h / .7));
+    --primary-fg-low: light-dark(oklch(from var(--primary) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 0%) c h));
+    --primary-fg: light-dark(oklch(from var(--primary) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 10%) c h));
+    --primary-fg-high: light-dark(oklch(from var(--primary) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 20%) c h));
+    --primary-bg-low: light-dark(oklch(from var(--primary) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 60%) c h));
+    --primary-bg: light-dark(oklch(from var(--primary) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 70%) c h));
+    --primary-bg-high: light-dark(oklch(from var(--primary) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--primary) calc(var(--contrast) - 80%) c h));
+    --primary-border: light-dark(oklch(from var(--primary) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--primary) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --primary-border-low: light-dark(oklch(from var(--primary) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--primary) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --primary-border-high: light-dark(oklch(from var(--primary) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--primary) calc(var(--contrast) - 20%) c h / var(--opacity)));
 
-    --secondary-fg-low: light-dark(oklch(from var(--secondary) 30% c h), oklch(from var(--secondary) 90% c h));
-    --secondary-fg: light-dark(oklch(from var(--secondary) 20% c h), oklch(from var(--secondary) 80% c h));
-    --secondary-fg-high: light-dark(oklch(from var(--secondary) 10% c h), oklch(from var(--secondary) 70% c h));
-    --secondary-bg-low: light-dark(oklch(from var(--secondary) 90% c h), oklch(from var(--secondary) 30% c h));
-    --secondary-bg: light-dark(oklch(from var(--secondary) 80% c h), oklch(from var(--secondary) 20% c h));
-    --secondary-bg-high: light-dark(oklch(from var(--secondary) 70% c h), oklch(from var(--secondary) 10% c h));
-    --secondary-border: light-dark(oklch(from var(--secondary) 20% c h / .7), oklch(from var(--secondary) 80% c h / .7));
-    --secondary-border-low: light-dark(oklch(from var(--secondary) 30% c h / .7), oklch(from var(--secondary) 90% c h / .7));
-    --secondary-border-high: light-dark(oklch(from var(--secondary) 10% c h / .7), oklch(from var(--secondary) 70% c h / .7));
+    --secondary-fg-low: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 0%) c h));
+    --secondary-fg: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 10%) c h));
+    --secondary-fg-high: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 20%) c h));
+    --secondary-bg-low: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 60%) c h));
+    --secondary-bg: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 70%) c h));
+    --secondary-bg-high: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--secondary) calc(var(--contrast) - 80%) c h));
+    --secondary-border: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--secondary) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --secondary-border-low: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--secondary) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --secondary-border-high: light-dark(oklch(from var(--secondary) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--secondary) calc(var(--contrast) - 20%) c h / var(--opacity)));
 
-    --tertiary-fg-low: light-dark(oklch(from var(--tertiary) 30% c h), oklch(from var(--tertiary) 90% c h));
-    --tertiary-fg: light-dark(oklch(from var(--tertiary) 20% c h), oklch(from var(--tertiary) 80% c h));
-    --tertiary-fg-high: light-dark(oklch(from var(--tertiary) 10% c h), oklch(from var(--tertiary) 70% c h));
-    --tertiary-bg-low: light-dark(oklch(from var(--tertiary) 90% c h), oklch(from var(--tertiary) 30% c h));
-    --tertiary-bg: light-dark(oklch(from var(--tertiary) 80% c h), oklch(from var(--tertiary) 20% c h));
-    --tertiary-bg-high: light-dark(oklch(from var(--tertiary) 70% c h), oklch(from var(--tertiary) 10% c h));
-    --tertiary-border: light-dark(oklch(from var(--tertiary) 20% c h / .7), oklch(from var(--tertiary) 80% c h / .7));
-    --tertiary-border-low: light-dark(oklch(from var(--tertiary) 30% c h / .7), oklch(from var(--tertiary) 90% c h / .7));
-    --tertiary-border-high: light-dark(oklch(from var(--tertiary) 10% c h / .7), oklch(from var(--tertiary) 70% c h / .7));
+    --tertiary-fg-low: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 0%) c h));
+    --tertiary-fg: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 10%) c h));
+    --tertiary-fg-high: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 20%) c h));
+    --tertiary-bg-low: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 60%) c h));
+    --tertiary-bg: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 70%) c h));
+    --tertiary-bg-high: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 80%) c h));
+    --tertiary-border: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --tertiary-border-low: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --tertiary-border-high: light-dark(oklch(from var(--tertiary) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--tertiary) calc(var(--contrast) - 20%) c h / var(--opacity)));
 
-    --error-fg-low: light-dark(oklch(from var(--error) 30% c h), oklch(from var(--error) 90% c h));
-    --error-fg: light-dark(oklch(from var(--error) 20% c h), oklch(from var(--error) 80% c h));
-    --error-fg-high: light-dark(oklch(from var(--error) 10% c h), oklch(from var(--error) 70% c h));
-    --error-bg-low: light-dark(oklch(from var(--error) 90% c h), oklch(from var(--error) 30% c h));
-    --error-bg: light-dark(oklch(from var(--error) 80% c h), oklch(from var(--error) 20% c h));
-    --error-bg-high: light-dark(oklch(from var(--error) 70% c h), oklch(from var(--error) 10% c h));
-    --error-border: light-dark(oklch(from var(--error) 20% c h / .7), oklch(from var(--error) 80% c h / .7));
-    --error-border-low: light-dark(oklch(from var(--error) 30% c h / .7), oklch(from var(--error) 90% c h / .7));
-    --error-border-high: light-dark(oklch(from var(--error) 10% c h / .7), oklch(from var(--error) 70% c h / .7));
+    --error-fg-low: light-dark(oklch(from var(--error) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 0%) c h));
+    --error-fg: light-dark(oklch(from var(--error) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 10%) c h));
+    --error-fg-high: light-dark(oklch(from var(--error) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 20%) c h));
+    --error-bg-low: light-dark(oklch(from var(--error) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 60%) c h));
+    --error-bg: light-dark(oklch(from var(--error) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 70%) c h));
+    --error-bg-high: light-dark(oklch(from var(--error) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--error) calc(var(--contrast) - 80%) c h));
+    --error-border: light-dark(oklch(from var(--error) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--error) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --error-border-low: light-dark(oklch(from var(--error) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--error) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --error-border-high: light-dark(oklch(from var(--error) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--error) calc(var(--contrast) - 20%) c h / var(--opacity)));
 
-    --surface-fg-low: light-dark(oklch(from var(--surface) 30% c h), oklch(from var(--surface) 90% c h));
-    --surface-fg: light-dark(oklch(from var(--surface) 20% c h), oklch(from var(--surface) 80% c h));
-    --surface-fg-high: light-dark(oklch(from var(--surface) 10% c h), oklch(from var(--surface) 70% c h));
-    --surface-bg-low: light-dark(oklch(from var(--surface) 90% c h), oklch(from var(--surface) 30% c h));
-    --surface-bg: light-dark(oklch(from var(--surface) 80% c h), oklch(from var(--surface) 20% c h));
-    --surface-bg-high: light-dark(oklch(from var(--surface) 70% c h), oklch(from var(--surface) 10% c h));
-    --surface-border: light-dark(oklch(from var(--surface) 20% c h / .7), oklch(from var(--surface) 80% c h / .7));
-    --surface-border-low: light-dark(oklch(from var(--surface) 30% c h / .7), oklch(from var(--surface) 90% c h / .7));
-    --surface-border-high: light-dark(oklch(from var(--surface) 10% c h / .7), oklch(from var(--surface) 70% c h / .7));
+    --surface-fg-low: light-dark(oklch(from var(--surface) calc(var(--contrast) - 60%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 0%) c h));
+    --surface-fg: light-dark(oklch(from var(--surface) calc(var(--contrast) - 70%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 10%) c h));
+    --surface-fg-high: light-dark(oklch(from var(--surface) calc(var(--contrast) - 80%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 20%) c h));
+    --surface-bg-low: light-dark(oklch(from var(--surface) calc(var(--contrast) - 0%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 60%) c h));
+    --surface-bg: light-dark(oklch(from var(--surface) calc(var(--contrast) - 10%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 70%) c h));
+    --surface-bg-high: light-dark(oklch(from var(--surface) calc(var(--contrast) - 20%) c h),
+                    oklch(from var(--surface) calc(var(--contrast) - 80%) c h));
+    --surface-border: light-dark(oklch(from var(--surface) calc(var(--contrast) - 70%) c h / var(--opacity)),
+                    oklch(from var(--surface) calc(var(--contrast) - 10%) c h / var(--opacity)));
+    --surface-border-low: light-dark(oklch(from var(--surface) calc(var(--contrast) - 60%) c h / var(--opacity)),
+                    oklch(from var(--surface) calc(var(--contrast) - 0%) c h / var(--opacity)));
+    --surface-border-high: light-dark(oklch(from var(--surface) calc(var(--contrast) - 80%) c h / var(--opacity)),
+                    oklch(from var(--surface) calc(var(--contrast) - 20%) c h / var(--opacity)));
 
     /**
      * 当前色盘的颜色变量
