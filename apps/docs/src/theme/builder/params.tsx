@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label,
-    Locale, MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useComponents, useLocale
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label, Locale,
+    MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, ThemeProvider, useComponents, useLocale
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
 import { batch, JSX } from 'solid-js';
@@ -13,7 +13,7 @@ import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
-import IconRand from '~icons/material-symbols/brightness-6-rounded';
+import IconRand from '~icons/mingcute/random-fill';
 import IconColors from '~icons/material-symbols/colors';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
@@ -46,7 +46,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
                             <IconLoad />
                         </Button>
                     </Dropdown>
-                    <Button square title={l.t('_d.theme.randomContrastLess')}
+                    <Button square title={l.t('_d.theme.generateScheme')}
                         onclick={() => random(s)}><IconRand /></Button>
                 </ButtonGroup>
 
@@ -64,18 +64,22 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
 
             <ButtonGroup kind='border'>
                 <Button square onclick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
-                <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
+                <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>
+                    <IconExport />
+                </Button>
             </ButtonGroup>
         </div>
 
         <div class={styles.ps}>
             {fontSizeParams(l, s)}
-            {colorsParams(l, s)}
+            {colorsParams(l, s, m)}
             {radiusParams(l, s)}
             {otherParams(l, s)}
         </div>
 
-        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}>
+        <Dialog class="h-2/3" ref={el => dlg = el}
+            header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}
+        >
             <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
         </Dialog>
     </div>;
@@ -179,14 +183,18 @@ function fontSize(a: Accessor<string>): JSX.Element {
 }
 
 // 颜色选择参数面板
-function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
+function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>, mode: Accessor<Mode>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconColors class="me-1" />{l.t('_d.theme.colors')}</Divider>
-        {palette('primary', s)}
-        {palette('secondary', s)}
-        {palette('tertiary', s)}
-        {palette('error', s)}
-        {palette('surface', s)}
+        <ThemeProvider scheme={s.raw()} mode={mode.getValue()}>
+            <div>
+                {palette('primary', s)}
+                {palette('secondary', s)}
+                {palette('tertiary', s)}
+                {palette('error', s)}
+                {palette('surface', s)}
+            </div>
+        </ThemeProvider>
     </div>;
 }
 
@@ -197,9 +205,23 @@ function palette(palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.E
         color.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(colorVal.slice(4, -1)));
     }
 
+    const sty = (t: '' | '-low' | '-high') => ({
+        'background-color': `var(--${palette}-bg${t})`,
+        'color': `var(--${palette}-fg${t})`,
+        'border': `1px solid var(--${palette}-border${t})`
+    });
+
     return <div class={styles.palette}>
-        <OKLCHPicker layout='horizontal' label={<div class={styles.title}>{palette}</div>} accessor={color} />
+        {palette}
+        <div class={styles.blocks}>
+            <OKLCHPicker class="me-auto" accessor={color} />
+
+            <div style={{...sty('-low')}} class={styles.block}>low</div>
+            <div style={{...sty('')}} class={styles.block}>base</div>
+            <div style={{...sty('-high')}} class={styles.block}>high</div>
+        </div>
     </div>;
+    return ;
 }
 
 function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {

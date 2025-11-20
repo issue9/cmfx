@@ -138,10 +138,11 @@ const messages: typeof m = {
             colors: '颜色',
             radius: '圆角',
             transitionDuration: '动画时长',
-            randomContrastLess: '生成低对比度主题',
-            randomContrastMore: '生成高对比度主题',
-            randomContrastNormal: '生成主题',
+            generateScheme: '生成主题',
             otherParams: '其它参数',
+            contrastMore: '提高对比度',
+            contrastLess: '降底对比度',
+            contrastNone: '正常对比度',
         }
     }
 };
