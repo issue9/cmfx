@@ -3,16 +3,19 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAccessor,
-    Menu, Mode, ObjectAccessor, Password, Scheme, TextField, ThemeProvider, useLocale
+    Accessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAccessor, joinClass,
+    Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
-import { createSignal, JSX } from 'solid-js';
+import { createSignal, For, JSX, Match, Switch } from 'solid-js';
 import IconLess from '~icons/zondicons/minus-outline';
 import IconMore from '~icons/zondicons/add-outline';
 import IconNone from '~icons/ic/round-contrast';
+import IconComponents from '~icons/material-symbols/widget-medium-rounded';
+import IconPalettes from '~icons/material-symbols/palette';
 
 import styles from './style.module.css';
+import { createEffect } from 'solid-js';
 
 type Contrast = 'more' | 'less' | 'none';
 
@@ -30,28 +33,116 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
     const l = useLocale();
 
     const [contrast, setContrast] = createSignal<Contrast>('none');
+    const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
 
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
     return <div class={styles.main}>
         <ThemeProvider mode={props.m.getValue()} scheme={props.s.raw()}>
             <div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
-                <Appbar title={l.t('_d.theme.componentsDemo')} actions={
-                    <ButtonGroup>
-                        <Button checked={contrast() === 'more'} square title={l.t('_d.theme.contrastMore')}
-                            onclick={() => setContrast('more')}
-                        ><IconMore /></Button>
-                        <Button checked={contrast() === 'none'} square title={l.t('_d.theme.contrastNone')}
-                            onclick={() => setContrast('none')}
-                        ><IconNone /></Button>
-                        <Button checked={contrast() === 'less'} square title={l.t('_d.theme.contrastLess')}
-                            onclick={() => setContrast('less')}
-                        ><IconLess /></Button>
-                    </ButtonGroup>
-                } />
-                <Components />
+                <Appbar title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
+                    actions={
+                        <>
+                            <ButtonGroup>
+                                <Button square checked={typ() === 'components'} title={l.t('_d.theme.components')}
+                                    onclick={() => setTyp('components')}
+                                ><IconComponents /></Button>
+
+                                <Button square checked={typ() === 'palettes'} title={l.t('_d.theme.palettes')}
+                                    onclick={() => setTyp('palettes')}
+                                ><IconPalettes /></Button>
+                            </ButtonGroup>
+
+                            <ButtonGroup>
+                                <Button checked={contrast() === 'more'} square title={l.t('_d.theme.contrastMore')}
+                                    onclick={() => setContrast('more')}
+                                ><IconMore /></Button>
+
+                                <Button checked={contrast() === 'none'} square title={l.t('_d.theme.contrastNone')}
+                                    onclick={() => setContrast('none')}
+                                ><IconNone /></Button>
+
+                                <Button checked={contrast() === 'less'} square title={l.t('_d.theme.contrastLess')}
+                                    onclick={() => setContrast('less')}
+                                ><IconLess /></Button>
+                            </ButtonGroup>
+                        </>
+                    } />
+                <Switch>
+                    <Match when={typ() === 'components'}>
+                        <Components />
+                    </Match>
+                    <Match when={typ() === 'palettes'}>
+                        <Palettes s={props.s} c={contrast()} />
+                    </Match>
+                </Switch>
             </div>
         </ThemeProvider>
+    </div>;
+}
+
+function Palettes(props: {s:ObjectAccessor<ExpandType<Scheme>>, c: Contrast}): JSX.Element {
+    return <div class={styles.palettes}>
+        <For each={palettes}>
+            {p => <PaletteBlocks p={p} s={props.s} c={props.c} />}
+        </For>
+    </div>;
+}
+
+function PaletteBlocks(props: { p: Palette, s: ObjectAccessor<ExpandType<Scheme>>, c: Contrast }): JSX.Element {
+    const raw = props.s.raw();
+
+    let baseRef: HTMLDivElement;
+    let lowRef: HTMLDivElement;
+    let highRef: HTMLDivElement;
+    let disabledRef: HTMLDivElement;
+    let focusedRef: HTMLDivElement;
+    let activedRef: HTMLDivElement;
+    let selectedRef: HTMLDivElement;
+    const [baseWCAG, setBaseWCAG] = createSignal('');
+    const [lowWCAG, setLowWCAG] = createSignal('');
+    const [highWCAG, setHighWCAG] = createSignal('');
+    const [disabledWCAG, setDisabledWCAG] = createSignal('');
+    const [focusedWCAG, setFocusedWCAG] = createSignal('');
+    const [activedWCAG, setActivedWCAG] = createSignal('');
+    const [selectedWCAG, setSelectedWCAG] = createSignal('');
+
+    createEffect(()=>{
+        raw[props.p] && props.c;
+
+        const baseS = window.getComputedStyle(baseRef);
+        setBaseWCAG(wcag(baseS.getPropertyValue('background-color'), baseS.getPropertyValue('color')));
+
+        const lowS = window.getComputedStyle(lowRef);
+        setLowWCAG(wcag(lowS.getPropertyValue('background-color'), lowS.getPropertyValue('color')));
+
+        const highS = window.getComputedStyle(highRef);
+        setHighWCAG(wcag(highS.getPropertyValue('background-color'), highS.getPropertyValue('color')));
+
+        const disabledS = window.getComputedStyle(disabledRef);
+        setDisabledWCAG(wcag(disabledS.getPropertyValue('background-color'), disabledS.getPropertyValue('color')));
+
+        const focusedS = window.getComputedStyle(focusedRef);
+        setFocusedWCAG(wcag(focusedS.getPropertyValue('background-color'), focusedS.getPropertyValue('color')));
+
+        const activedS = window.getComputedStyle(activedRef);
+        setActivedWCAG(wcag(activedS.getPropertyValue('background-color'), activedS.getPropertyValue('color')));
+
+        const selectedS = window.getComputedStyle(selectedRef);
+        setSelectedWCAG(wcag(selectedS.getPropertyValue('background-color'), selectedS.getPropertyValue('color')));
+    });
+
+    return <div class={styles.palette}>
+        <p class={styles.name}>{props.p}</p>
+        <div ref={el => baseRef = el} class={joinClass(undefined, styles.color, styles[props.p])}>base:{baseWCAG()}</div>
+        <div ref={el => lowRef = el} class={joinClass(undefined, styles.color, styles[`${props.p}-low`])}>low:{lowWCAG() }</div>
+        <div ref={el => highRef = el} class={joinClass(undefined, styles.color, styles[`${props.p}-high`])}>high:{highWCAG()}</div>
+        <div class={styles.exts}>
+            <div ref={el => disabledRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-disabled`])}>disabled:{disabledWCAG() }</div>
+            <div ref={el => focusedRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-focused`])}>focused:{focusedWCAG() }</div>
+            <div ref={el => activedRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-actived`])}>actived:{activedWCAG() }</div>
+            <div ref={el => selectedRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-selected`])}>selected:{selectedWCAG() }</div>
+        </div>
     </div>;
 }
 

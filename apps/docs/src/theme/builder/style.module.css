@@ -77,6 +77,140 @@
                     @apply flex flex-wrap gap-4 w-full items-start;
                     @apply transition;
                 }
+
+                .palettes {
+                    @apply flex flex-col gap-8 items-center mt-4;
+
+                    .palette {
+                        @apply flex flex-col flex-wrap gap-2 w-full;
+
+                        .name {
+                            @apply w-full font-bold text-lg;
+                        }
+
+                        .color {
+                            @apply w-full px-1 py-2 h-16 flex items-center border-4;
+                        }
+
+                        .exts {
+                            @apply flex gap-2;
+
+                            .color.ext {
+                                @apply w-1/4;
+                            }
+                        }
+
+                        .color.primary {
+                            @apply bg-primary-bg text-primary-fg border-primary-border;
+                        }
+                        .color.primary-low {
+                            @apply bg-primary-bg-low text-primary-fg-low border-primary-border-low;
+                        }
+                        .color.primary-high {
+                            @apply bg-primary-bg-high text-primary-fg-high border-primary-border-high;
+                        }
+                        .color.primary-disabled {
+                            @apply bg-primary-bg-disabled text-primary-fg-disabled border-primary-border-disabled;
+                        }
+                        .color.primary-actived {
+                            @apply bg-primary-bg-actived text-primary-fg-actived border-primary-border-actived;
+                        }
+                        .color.primary-focused {
+                            @apply bg-primary-bg-focused text-primary-fg-focused border-primary-border-focused;
+                        }
+                        .color.primary-selected {
+                            @apply bg-primary-bg-selected text-primary-fg-selected border-primary-border-selected;
+                        }
+
+                        .color.secondary {
+                            @apply bg-secondary-bg text-secondary-fg border-secondary-border;
+                        }
+                        .color.secondary-low {
+                            @apply bg-secondary-bg-low text-secondary-fg-low border-secondary-border-low;
+                        }
+                        .color.secondary-high {
+                            @apply bg-secondary-bg-high text-secondary-fg-high border-secondary-border-high;
+                        }
+                        .color.secondary-disabled {
+                            @apply bg-secondary-bg-disabled text-secondary-fg-disabled border-secondary-border-disabled;
+                        }
+                        .color.secondary-actived {
+                            @apply bg-secondary-bg-actived text-secondary-fg-actived border-secondary-border-actived;
+                        }
+                        .color.secondary-focused {
+                            @apply bg-secondary-bg-focused text-secondary-fg-focused border-secondary-border-focused;
+                        }
+                        .color.secondary-selected {
+                            @apply bg-secondary-bg-selected text-secondary-fg-selected border-secondary-border-selected;
+                        }
+
+                        .color.tertiary {
+                            @apply bg-tertiary-bg text-tertiary-fg border-tertiary-border;
+                        }
+                        .color.tertiary-low {
+                            @apply bg-tertiary-bg-low text-tertiary-fg-low border-tertiary-border-low;
+                        }
+                        .color.tertiary-high {
+                            @apply bg-tertiary-bg-high text-tertiary-fg-high border-tertiary-border-high;
+                        }
+                        .color.tertiary-disabled {
+                            @apply bg-tertiary-bg-disabled text-tertiary-fg-disabled border-tertiary-border-disabled;
+                        }
+                        .color.tertiary-actived {
+                            @apply bg-tertiary-bg-actived text-tertiary-fg-actived border-tertiary-border-actived;
+                        }
+                        .color.tertiary-focused {
+                            @apply bg-tertiary-bg-focused text-tertiary-fg-focused border-tertiary-border-focused;
+                        }
+                        .color.tertiary-selected {
+                            @apply bg-tertiary-bg-selected text-tertiary-fg-selected border-tertiary-border-selected;
+                        }
+
+                        .color.error {
+                            @apply bg-error-bg text-error-fg border-error-border;
+                        }
+                        .color.error-low {
+                            @apply bg-error-bg-low text-error-fg-low border-error-border-low;
+                        }
+                        .color.error-high {
+                            @apply bg-error-bg-high text-error-fg-high border-error-border-high;
+                        }
+                        .color.error-disabled {
+                            @apply bg-error-bg-disabled text-error-fg-disabled border-error-border-disabled;
+                        }
+                        .color.error-actived {
+                            @apply bg-error-bg-actived text-error-fg-actived border-error-border-actived;
+                        }
+                        .color.error-focused {
+                            @apply bg-error-bg-focused text-error-fg-focused border-error-border-focused;
+                        }
+                        .color.error-selected {
+                            @apply bg-error-bg-selected text-error-fg-selected border-error-border-selected;
+                        }
+
+                        .color.surface {
+                            @apply bg-surface-bg text-surface-fg border-surface-border;
+                        }
+                        .color.surface-low {
+                            @apply bg-surface-bg-low text-surface-fg-low border-surface-border-low;
+                        }
+                        .color.surface-high {
+                            @apply bg-surface-bg-high text-surface-fg-high border-surface-border-high;
+                        }
+                        .color.surface-disabled {
+                            @apply bg-surface-bg-disabled text-surface-fg-disabled border-surface-border-disabled;
+                        }
+                        .color.surface-actived {
+                            @apply bg-surface-bg-actived text-surface-fg-actived border-surface-border-actived;
+                        }
+                        .color.surface-focused {
+                            @apply bg-surface-bg-focused text-surface-fg-focused border-surface-border-focused;
+                        }
+                        .color.surface-selected {
+                            @apply bg-surface-bg-selected text-surface-fg-selected border-surface-border-selected;
+                        }
+                    }
+                }
             }
         }
     }
