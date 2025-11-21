@@ -35,10 +35,14 @@
                         @apply flex flex-col;
 
                         .blocks {
-                            @apply flex gap-2 items-center justify-end;
+                            @apply flex gap-4 items-center justify-between;
 
-                            .block {
-                                @apply h-8 leading-8 text-center align-middle px-1;
+                            .right {
+                                @apply flex gap-2 items-center justify-end;
+
+                                .block {
+                                    @apply h-8 min-w-8 w-10 leading-8 text-center align-middle px-1;
+                                }
                             }
                         }
                     }
@@ -62,13 +66,17 @@
             }
         }
 
-        .demo {
-            @apply px-4 pb-4 rounded-lg bg-palette-bg text-palette-fg overflow-y-scroll;
-            @apply transition;
+        .main{
+            @apply w-full h-full p-2;
 
-            .components {
-                @apply flex flex-wrap gap-4 w-full items-start;
+            .demo {
+                @apply px-4 pb-4 rounded-lg bg-palette-bg text-palette-fg overflow-y-scroll;
                 @apply transition;
+
+                .components {
+                    @apply flex flex-wrap gap-4 w-full items-start;
+                    @apply transition;
+                }
             }
         }
     }

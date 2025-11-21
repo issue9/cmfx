@@ -16,8 +16,9 @@ import styles from './style.module.css';
 
 type Contrast = 'more' | 'less' | 'none';
 
+// 参考 tailwind.css 中的设置
 const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
-    ['more', { '--contrast': '100%', '--opacity': '.7' }], // 参考 tailwind.css 中的设置
+    ['more', { '--contrast': '100%', '--opacity': '.7' }],
     ['less', { '--contrast': '80%', '--opacity': '.3' }],
     ['none', { '--contrast': '90%', '--opacity': '.5' }],
 ]);
@@ -32,7 +33,7 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
 
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
-    return <div class="w-full h-full p-2">
+    return <div class={styles.main}>
         <ThemeProvider mode={props.m.getValue()} scheme={props.s.raw()}>
             <div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
                 <Appbar title={l.t('_d.theme.componentsDemo')} actions={

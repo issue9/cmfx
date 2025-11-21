@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label, Locale,
-    MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, ThemeProvider, useComponents, useLocale
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label,
+    Locale, wcag, MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme,
+    ThemeProvider, useComponents, useLocale,
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
-import { batch, JSX } from 'solid-js';
+import { batch, createSignal, JSX, onMount } from 'solid-js';
 import Color from 'colorjs.io';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
@@ -21,7 +22,7 @@ import IconLight from '~icons/material-symbols/light-mode';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { Ref } from './ref';
+import { Ref, convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
 
 /**
@@ -40,7 +41,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
             <div class={styles.actions}>
                 <ButtonGroup kind='border'>
                     <Dropdown trigger='click' selectedClass='' items={schemes} onChange={e => {
-                        s.setObject(unwrap(opt.schemes?.get(e)!));
+                        s.setObject(convertSchemeVar2Color(unwrap(opt.schemes?.get(e)!)));
                     }}>
                         <Button kind='border' square title={l.t('_d.theme.loadPredefinedSchemes')}>
                             <IconLoad />
@@ -186,42 +187,60 @@ function fontSize(a: Accessor<string>): JSX.Element {
 function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>, mode: Accessor<Mode>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconColors class="me-1" />{l.t('_d.theme.colors')}</Divider>
-        <ThemeProvider scheme={s.raw()} mode={mode.getValue()}>
-            <div>
-                {palette('primary', s)}
-                {palette('secondary', s)}
-                {palette('tertiary', s)}
-                {palette('error', s)}
-                {palette('surface', s)}
-            </div>
-        </ThemeProvider>
+        <PalettePicker palette='primary' schemes={s} mode={mode} />
+        <PalettePicker palette='secondary' schemes={s} mode={mode} />
+        <PalettePicker palette='tertiary' schemes={s} mode={mode} />
+        <PalettePicker palette='error' schemes={s} mode={mode} />
+        <PalettePicker palette='surface' schemes={s} mode={mode} />
     </div>;
 }
 
-function palette(palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    const color = s.accessor<string>(`${palette}` as any);
-    const colorVal = color.getValue();
-    if (colorVal.startsWith('var(--')) { // 值是变量，需要计算其真实的值。
-        color.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(colorVal.slice(4, -1)));
-    }
-
+function PalettePicker(
+    props: { palette: Palette, schemes: ObjectAccessor<ExpandType<Scheme>>, mode: Accessor<Mode> }
+): JSX.Element {
     const sty = (t: '' | '-low' | '-high') => ({
-        'background-color': `var(--${palette}-bg${t})`,
-        'color': `var(--${palette}-fg${t})`,
-        'border': `1px solid var(--${palette}-border${t})`
+        'background-color': `var(--${props.palette}-bg${t})`,
+        'color': `var(--${props.palette}-fg${t})`,
+        'border': `1px solid var(--${props.palette}-border${t})`
     });
 
-    return <div class={styles.palette}>
-        {palette}
-        <div class={styles.blocks}>
-            <OKLCHPicker class="me-auto" accessor={color} />
+    let ref1: HTMLDivElement;
+    let ref2: HTMLDivElement;
+    let ref3: HTMLDivElement;
 
-            <div style={{...sty('-low')}} class={styles.block}>low</div>
-            <div style={{...sty('')}} class={styles.block}>base</div>
-            <div style={{...sty('-high')}} class={styles.block}>high</div>
+    const [wcag1, setWCAG1] = createSignal('');
+    const [wcag2, setWCAG2] = createSignal('');
+    const [wcag3, setWCAG3] = createSignal('');
+
+    const change =() => {
+        const s1 = window.getComputedStyle(ref1);
+        setWCAG1(wcag(s1.getPropertyValue('background-color'), s1.getPropertyValue('color')));
+
+        const s2 = window.getComputedStyle(ref2);
+        setWCAG2(wcag(s2.getPropertyValue('background-color'), s2.getPropertyValue('color')));
+
+        const s3 = window.getComputedStyle(ref3);
+        setWCAG3(wcag(s3.getPropertyValue('background-color'), s3.getPropertyValue('color')));
+    };
+    onMount(() => change());
+
+    const color = props.schemes.accessor<string>(props.palette);
+    color.onChange(() => change());
+
+    return <div class={styles.palette}>
+        {props.palette}
+        <div class={styles.blocks}>
+            <OKLCHPicker accessor={color} />
+
+            <ThemeProvider scheme={props.schemes.raw()} mode={props.mode.getValue()}>
+                <div class={styles.right}>
+                    <div ref={el => ref1 = el} style={{ ...sty('-low') }} class={styles.block}>{wcag1()}</div>
+                    <div ref={el => ref2 = el} style={{ ...sty('') }} class={styles.block}>{wcag2()}</div>
+                    <div ref={el => ref3 = el} style={{ ...sty('-high') }} class={styles.block}>{wcag3()}</div>
+                </div>
+            </ThemeProvider>
         </div>
     </div>;
-    return ;
 }
 
 function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {

@@ -11,7 +11,7 @@ import {
 
 import { Demo } from './demo';
 import { params } from './params';
-import { Ref } from './ref';
+import { Ref, convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
 
 /**
@@ -30,7 +30,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
             const [, act] = useComponents();
 
             const t = useTheme();
-            const schemeFA = new ObjectAccessor<Scheme>(unwrap(t.scheme!));
+            const schemeFA = new ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)!));
 
             createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
