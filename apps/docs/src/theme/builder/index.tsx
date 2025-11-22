@@ -5,9 +5,7 @@
 import { RouteDefinition } from '@solidjs/router';
 import { onMount, onCleanup, Setter, createEffect } from 'solid-js';
 import { unwrap } from 'solid-js/store';
-import {
-    Drawer, DrawerRef, fieldAccessor, Mode, ObjectAccessor, Scheme, useComponents, useLocale, useTheme
-} from '@cmfx/components';
+import { Drawer, DrawerRef, ObjectAccessor, Scheme, useComponents, useLocale, useTheme } from '@cmfx/components';
 
 import { Demo } from './demo';
 import { params } from './params';
@@ -25,7 +23,6 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
             onMount(() => { setDrawer(drawerRef); });
             onCleanup(() => setDrawer(undefined));
 
-            const modeFA = fieldAccessor<Mode>('mode', 'light');
             const l = useLocale();
             const [, act] = useComponents();
 
@@ -44,9 +41,9 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
             };
 
             return <Drawer class={styles.builder} floating='md' ref={el => drawerRef = el}
-                palette='secondary' mainPalette='surface' main={<Demo m={modeFA} s={schemeFA} />}
+                palette='secondary' mainPalette='surface' main={<Demo s={schemeFA} />}
             >
-                {params(schemeFA, modeFA, ref)}
+                {params(schemeFA, ref)}
             </Drawer>;
         }
     };

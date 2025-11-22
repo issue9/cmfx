@@ -3,19 +3,20 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAccessor, joinClass,
+    fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAccessor, joinClass,
     Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
-import { createSignal, For, JSX, Match, Switch } from 'solid-js';
+import { createSignal, createEffect, For, JSX, Match, Switch } from 'solid-js';
 import IconLess from '~icons/zondicons/minus-outline';
 import IconMore from '~icons/zondicons/add-outline';
 import IconNone from '~icons/ic/round-contrast';
 import IconComponents from '~icons/material-symbols/widget-medium-rounded';
 import IconPalettes from '~icons/material-symbols/palette';
+import IconDark from '~icons/material-symbols/dark-mode';
+import IconLight from '~icons/material-symbols/light-mode';
 
 import styles from './style.module.css';
-import { createEffect } from 'solid-js';
 
 type Contrast = 'more' | 'less' | 'none';
 
@@ -29,16 +30,17 @@ const contrasts: ReadonlyMap<Contrast, Record<string, string>> = new Map([
 /**
  * 组件演示
  */
-export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
     const l = useLocale();
 
     const [contrast, setContrast] = createSignal<Contrast>('none');
     const [typ, setTyp] = createSignal<'components' | 'palettes'>('components');
+    const mode = fieldAccessor<Mode>('mode', 'light');
 
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
     return <div class={styles.main}>
-        <ThemeProvider mode={props.m.getValue()} scheme={props.s.raw()}>
+        <ThemeProvider mode={mode.getValue()} scheme={props.s.raw()}>
             <div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
                 <Appbar title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
                     actions={
@@ -51,6 +53,17 @@ export function Demo(props: { m: Accessor<Mode>, s: ObjectAccessor<ExpandType<Sc
                                 <Button square checked={typ() === 'palettes'} title={l.t('_d.theme.palettes')}
                                     onclick={() => setTyp('palettes')}
                                 ><IconPalettes /></Button>
+                            </ButtonGroup>
+
+                            <ButtonGroup>
+                                <Button square title={l.t('_d.theme.light')}
+                                    checked={mode.getValue() === 'light'} onclick={() => mode.setValue('light')}>
+                                    <IconLight />
+                                </Button>
+                                <Button square title={l.t('_d.theme.dark')}
+                                    checked={mode.getValue() === 'dark'} onclick={() => mode.setValue('dark')}>
+                                    <IconDark />
+                                </Button>
                             </ButtonGroup>
 
                             <ButtonGroup>
@@ -134,14 +147,28 @@ function PaletteBlocks(props: { p: Palette, s: ObjectAccessor<ExpandType<Scheme>
 
     return <div class={styles.palette}>
         <p class={styles.name}>{props.p}</p>
-        <div ref={el => baseRef = el} class={joinClass(undefined, styles.color, styles[props.p])}>base:{baseWCAG()}</div>
-        <div ref={el => lowRef = el} class={joinClass(undefined, styles.color, styles[`${props.p}-low`])}>low:{lowWCAG() }</div>
-        <div ref={el => highRef = el} class={joinClass(undefined, styles.color, styles[`${props.p}-high`])}>high:{highWCAG()}</div>
+        <div ref={el => baseRef = el}
+            class={joinClass(undefined, styles.color, styles[props.p])}
+        >base:{baseWCAG()}</div>
+        <div ref={el => lowRef = el}
+            class={joinClass(undefined, styles.color, styles[`${props.p}-low`])}
+        >low:{lowWCAG() }</div>
+        <div ref={el => highRef = el}
+            class={joinClass(undefined, styles.color, styles[`${props.p}-high`])}
+        >high:{highWCAG()}</div>
         <div class={styles.exts}>
-            <div ref={el => disabledRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-disabled`])}>disabled:{disabledWCAG() }</div>
-            <div ref={el => focusedRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-focused`])}>focused:{focusedWCAG() }</div>
-            <div ref={el => activedRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-actived`])}>actived:{activedWCAG() }</div>
-            <div ref={el => selectedRef = el} class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-selected`])}>selected:{selectedWCAG() }</div>
+            <div ref={el => disabledRef = el}
+                class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-disabled`])}
+            >disabled:{disabledWCAG() }</div>
+            <div ref={el => focusedRef = el}
+                class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-focused`])}
+            >focused:{focusedWCAG() }</div>
+            <div ref={el => activedRef = el}
+                class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-actived`])}
+            >actived:{activedWCAG() }</div>
+            <div ref={el => selectedRef = el}
+                class={joinClass(undefined, styles.color, styles.ext, styles[`${props.p}-selected`])}
+            >selected:{selectedWCAG() }</div>
         </div>
     </div>;
 }
@@ -156,7 +183,10 @@ function Components(): JSX.Element {
         { id: 'id' },
         { id: 'name' },
         { id: 'address' },
-        { id: 'action', renderLabel: 'ACTIONS', renderContent: () => { return <button>...</button>; }, isUnexported: true }
+        {
+            id: 'action', renderLabel: 'ACTIONS', isUnexported: true,
+            renderContent: () => { return <button>...</button>; },
+        }
     ];
 
     const regUserAccessor = new FormAccessor({

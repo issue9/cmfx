@@ -31,22 +31,6 @@
                         @apply aspect-square text-center align-middle;
                     }
 
-                    .palette {
-                        @apply flex flex-col;
-
-                        .blocks {
-                            @apply flex gap-4 items-center justify-between;
-
-                            .right {
-                                @apply flex gap-2 items-center justify-end;
-
-                                .block {
-                                    @apply h-8 min-w-8 w-10 leading-8 text-center align-middle px-1;
-                                }
-                            }
-                        }
-                    }
-
                     .radius {
                         @apply flex justify-between;
 
