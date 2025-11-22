@@ -41,7 +41,10 @@ export type Scheme = {
 };
 
 /**
- * 圆角参数的设置，单位为 rem。
+ * 圆角参数的设置
+ *
+ * @remarks
+ * 单位为 rem。属性名表示的是组件的大小。
  */
 export type Radius = {
     xs: number;
@@ -49,9 +52,6 @@ export type Radius = {
     md: number;
     lg: number;
     xl: number;
-    '2xl': number;
-    '3xl': number;
-    '4xl': number;
 };
 
 export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surface'] as const;

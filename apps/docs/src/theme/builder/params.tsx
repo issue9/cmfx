@@ -105,9 +105,6 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
         s.accessor<number>('radius.md').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.lg').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-        s.accessor<number>('radius.2xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-        s.accessor<number>('radius.3xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-        s.accessor<number>('radius.4xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
 
         s.accessor<number>('transitionDuration').setValue(rand(transitionValues.min, transitionValues.max, 0));
     });
@@ -122,9 +119,6 @@ function radiusParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Ele
         {radius('md', s.accessor<number>('radius.md'))}
         {radius('lg', s.accessor<number>('radius.lg'))}
         {radius('xl', s.accessor<number>('radius.xl'))}
-        {radius('2xl', s.accessor<number>('radius.2xl'))}
-        {radius('3xl', s.accessor<number>('radius.3xl'))}
-        {radius('4xl', s.accessor<number>('radius.4xl'))}
     </div>;
 }
 

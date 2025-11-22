@@ -8,7 +8,7 @@
 /**
  * 定义主题相关的各类变量
  */
-export interface Scheme {
+export type Scheme = {
     primary: string;
     secondary: string;
     tertiary: string;
@@ -35,19 +35,19 @@ export interface Scheme {
      * 动画的时长，默认为 300，单位为 ms。
      */
     transitionDuration?: number;
-}
+};
 
 /**
- * 圆角参数的设置，单位为 rem。
+ * 圆角参数的设置
+ *
+ * @remarks
+ * 单位为 rem。属性名表示的是组件的大小。
  */
-export interface Radius {
+export type Radius = {
     xs: number;
     sm: number;
     md: number;
     lg: number;
     xl: number;
-    '2xl': number;
-    '3xl': number;
-    '4xl': number;
-}
+};
 ```

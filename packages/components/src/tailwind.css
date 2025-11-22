@@ -689,6 +689,11 @@
     --color-palette-5-fg-selected: var(--palette-5-fg-high);
     --color-palette-5-border-selected: var(--palette-5-border-high);
 
+    /* 删除不必要的圆角类型 */
+    --radius-2xl: initial;
+    --radius-3xl: initial;
+    --radius-4xl: initial;
+
     /*
      * NOTE: 需要保证与 base/theme/theme.ts 中 Breakpoint 类型的取值相对应
      *
