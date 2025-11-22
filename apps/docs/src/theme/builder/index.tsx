@@ -9,7 +9,7 @@ import { Drawer, DrawerRef, ObjectAccessor, Scheme, useComponents, useLocale, us
 
 import { Demo } from './demo';
 import { params } from './params';
-import { Ref, convertSchemeVar2Color } from './utils';
+import { convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
 
 /**
@@ -31,19 +31,12 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
 
             createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
-            const ref: Ref = {
-                export: (): Scheme => {
-                    return schemeFA.object();
-                },
-                apply: () => {
-                    act.switchScheme(schemeFA.object());
-                },
-            };
-
-            return <Drawer class={styles.builder} floating='md' ref={el => drawerRef = el}
-                palette='secondary' mainPalette='surface' main={<Demo s={schemeFA} />}
+            return <Drawer class={styles.builder} floating='md' ref={el => {
+                drawerRef = el;
+                el.main().style.overflow = 'unset';
+            }} palette='secondary' mainPalette='surface' main={<Demo s={schemeFA} />}
             >
-                {params(schemeFA, ref)}
+                {params(schemeFA)}
             </Drawer>;
         }
     };

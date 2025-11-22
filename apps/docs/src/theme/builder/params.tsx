@@ -8,7 +8,7 @@ import {
     RangeRef, fieldAccessor,
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
-import { batch, JSX, createEffect } from 'solid-js';
+import { batch, createMemo, JSX, createEffect } from 'solid-js';
 import Color from 'colorjs.io';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
@@ -20,19 +20,21 @@ import IconExport from '~icons/material-symbols/export-notes';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { Ref, convertSchemeVar2Color } from './utils';
+import { convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
 
 /**
  * 参数面板
  */
-export function params(s: ObjectAccessor<ExpandType<Scheme>>, ref: Ref): JSX.Element {
+export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const l = useLocale();
-    const [, , opt] = useComponents();
+    const [, act, opt] = useComponents();
     let dlg: DialogRef;
 
     const schemes = Array.from(opt.schemes!).
         map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
+
+    const source = createMemo(() => JSON.stringify(s.raw(), null, 4));
 
     return <div class={styles.params}>
         <div class={joinClass('primary', styles.toolbar)}>
@@ -51,7 +53,9 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, ref: Ref): JSX.Ele
             </div>
 
             <ButtonGroup kind='border'>
-                <Button square onclick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
+                <Button square onclick={() => act.switchScheme(s.object())} title={l.t('_d.theme.apply')}>
+                    <IconApply />
+                </Button>
                 <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>
                     <IconExport />
                 </Button>
@@ -65,10 +69,10 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, ref: Ref): JSX.Ele
             {otherParams(l, s)}
         </div>
 
-        <Dialog class="h-2/3" ref={el => dlg = el}
+        <Dialog movable class="h-1/2" ref={el => dlg = el}
             header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}
         >
-            <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
+            <Code lang='json' class="h-full" ln={0}>{source()}</Code>
         </Dialog>
     </div>;
 }

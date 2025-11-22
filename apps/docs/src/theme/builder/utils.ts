@@ -4,18 +4,6 @@
 
 import { Scheme, palettes } from '@cmfx/components';
 
-export interface Ref {
-    /**
-     * 导出 Scheme 对象
-     */
-    export(): Scheme;
-
-    /**
-     * 将当前主题应用到全局
-     */
-    apply(): void;
-}
-
 /**
  * 将参数 s 中的颜色变量转换为实际颜色值
  */

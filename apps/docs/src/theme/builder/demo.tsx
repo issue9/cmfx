@@ -43,7 +43,7 @@ export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Elem
         <ThemeProvider mode={mode.getValue()} scheme={props.s.raw()}>
             <div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
                 <Appbar title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
-                    actions={
+                    class={styles.appbar} actions={
                         <>
                             <ButtonGroup>
                                 <Button square checked={typ() === 'components'} title={l.t('_d.theme.components')}
@@ -81,14 +81,12 @@ export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Elem
                             </ButtonGroup>
                         </>
                     } />
-                <Switch>
-                    <Match when={typ() === 'components'}>
-                        <Components />
-                    </Match>
-                    <Match when={typ() === 'palettes'}>
-                        <Palettes s={props.s} c={contrast()} />
-                    </Match>
-                </Switch>
+                <div class={styles.content}>
+                    <Switch>
+                        <Match when={typ() === 'components'}><Components /></Match>
+                        <Match when={typ() === 'palettes'}><Palettes s={props.s} c={contrast()} /></Match>
+                    </Switch>
+                </div>
             </div>
         </ThemeProvider>
     </div>;
