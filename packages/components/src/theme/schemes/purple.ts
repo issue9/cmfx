@@ -7,7 +7,6 @@
 import { Scheme } from '@/base';
 
 export default {
-    contrast: 60,
     fontSize: '16px',
     error: 'oklch(30.66% 0.242 51.977)',
     surface: 'oklch(30.835% 0.211 144.8)',
