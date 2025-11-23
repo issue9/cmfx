@@ -7,7 +7,7 @@ import { createEffect, createMemo, createSignal, For, JSX, Show } from 'solid-js
 import IconPicker from '~icons/circum/picker-half';
 import IconAccessibility from '~icons/octicon/accessibility-inset-24';
 
-import { joinClass, RefProps } from '@/base';
+import { joinClass, RefProps, wcag } from '@/base';
 import { Button } from '@/button';
 import { useLocale, copy2Clipboard } from '@/context';
 import { Accessor, fieldAccessor, FieldBaseProps } from '@/form/field';
@@ -167,27 +167,17 @@ export default function OKLCHPanel(props: Props): JSX.Element {
             >{access.getValue()}</div>
 
             <Show when={props.wcag}>
-                {wcag => (
+                {val => (
                     <div onClick={() => setApca(!apca())} class={styles.wcag}
                         title={apca() ? 'WCAG 3.X(APCA)' : 'WCAG 2.X'}
                     >
                         <IconAccessibility />
-                        <span>{calcWCAG(access.getValue(), wcag(), apca())}</span>
+                        <span>{wcag(access.getValue(), val(), apca())}</span>
                     </div>
                 )}
             </Show>
         </div>
     </fieldset>;
-}
-
-function calcWCAG(c1: string, c2: string, apca?: boolean): string {
-    const cc1 = new Color(c1);
-    const cc2 = new Color(c2);
-    // apca 中正数表示深色文字在浅色背景上，负数表示浅色文字在深色背景上，所以要做绝对值。
-
-    return apca
-        ? Math.abs(cc1.contrastAPCA(cc2)).toFixed(0)
-        : cc1.contrastWCAG21(cc2).toFixed(1);
 }
 
 function fmtColor(l: number, c: number, h: number, a: number): string {
