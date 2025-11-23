@@ -8,7 +8,7 @@ export const transitionDurationName = '--default-transition-duration';
 /**
  * 定义主题相关的各类变量
  */
-export interface Scheme {
+export type Scheme = {
     // 对主题的修改，大部分是对 tailwind 主题的修改，其字段来源于：
     // https://github.com/tailwindlabs/tailwindcss/blob/main/packages/tailwindcss/theme.css
 
@@ -38,21 +38,21 @@ export interface Scheme {
      * 动画的时长，默认为 300，单位为 ms。
      */
     transitionDuration?: number;
-}
+};
 
 /**
- * 圆角参数的设置，单位为 rem。
+ * 圆角参数的设置
+ *
+ * @remarks
+ * 单位为 rem。属性名表示的是组件的大小。
  */
-export interface Radius {
+export type Radius = {
     xs: number;
     sm: number;
     md: number;
     lg: number;
     xl: number;
-    '2xl': number;
-    '3xl': number;
-    '4xl': number;
-}
+};
 
 export const palettes = ['primary' , 'secondary' , 'tertiary' , 'error', 'surface'] as const;
 
@@ -70,27 +70,23 @@ export type Palette = typeof palettes[number];
 export function changeScheme(elem: HTMLElement, s?: Scheme) {
     if (!s) { return; }
 
-    Object.entries(s).forEach(([k, v]) => {
-        if (v === undefined) { return; }
+    if (s.fontSize) { document.documentElement.style.fontSize = s.fontSize; }
 
-        switch (k) {
-        case 'fontSize':
-            if (v) { document.documentElement.style.fontSize = v; }
-            return;
-        case 'radius':
-            Object.entries<string>(v).forEach(([k2, v2]) => {
-                if (v2 !== undefined) { elem.style.setProperty(`--radius-${k2}`, `${v2}rem`); }
-            });
-            return;
-        case 'transitionDuration':
-            elem.style.setProperty(transitionDurationName, `${v}ms`);
-            return;
-        case 'contrast':
-            return;
-        default: // 只剩下 Palette 的定义了
-            elem.style.setProperty(`--${k}`, v);
-        }
-    });
+    if (s.radius) {
+        Object.entries(s.radius).forEach(([k2, v2]) => {
+            if (v2 !== undefined) { elem.style.setProperty(`--radius-${k2}`, `${v2}rem`); }
+        });
+    }
+
+    if (s.transitionDuration) {
+        elem.style.setProperty(transitionDurationName, `${s.transitionDuration}ms`);
+    }
+
+    if (s.primary) { elem.style.setProperty('--primary', s.primary); }
+    if (s.secondary) { elem.style.setProperty('--secondary', s.secondary); }
+    if (s.tertiary) { elem.style.setProperty('--tertiary', s.tertiary); }
+    if (s.error) { elem.style.setProperty('--error', s.error); }
+    if (s.surface) { elem.style.setProperty('--surface', s.surface); }
 
     // --palette-bg 等变量引用的值 --primary 已经改变。
     // 需要复制这些变量到当前元素，让元素重新计算 --palette-bg 等变量的值。

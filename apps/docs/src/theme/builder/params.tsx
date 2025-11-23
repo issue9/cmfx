@@ -4,67 +4,61 @@
 
 import {
     Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label,
-    Locale, MenuItemItem, Mode, ObjectAccessor, OKLCHPicker, Palette, RadioGroup, Range, Scheme, useComponents, useLocale
+    Locale, MenuItemItem, ObjectAccessor, Palette, RadioGroup, Range, Scheme, useComponents, useLocale,
+    RangeRef, fieldAccessor,
 } from '@cmfx/components';
 import { ExpandType, rand } from '@cmfx/core';
-import { batch, JSX } from 'solid-js';
+import { batch, createMemo, JSX, createEffect } from 'solid-js';
 import Color from 'colorjs.io';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
-import IconRand from '~icons/material-symbols/brightness-6-rounded';
+import IconRand from '~icons/mingcute/random-fill';
 import IconColors from '~icons/material-symbols/colors';
-import IconDark from '~icons/material-symbols/dark-mode';
 import IconExport from '~icons/material-symbols/export-notes';
-import IconLight from '~icons/material-symbols/light-mode';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
 
-import { Ref } from './ref';
+import { convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
 
 /**
  * 参数面板
  */
-export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>, ref: Ref): JSX.Element {
+export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const l = useLocale();
-    const [, , opt] = useComponents();
+    const [, act, opt] = useComponents();
     let dlg: DialogRef;
 
     const schemes = Array.from(opt.schemes!).
         map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
+
+    const source = createMemo(() => JSON.stringify(s.raw(), null, 4));
 
     return <div class={styles.params}>
         <div class={joinClass('primary', styles.toolbar)}>
             <div class={styles.actions}>
                 <ButtonGroup kind='border'>
                     <Dropdown trigger='click' selectedClass='' items={schemes} onChange={e => {
-                        s.setObject(unwrap(opt.schemes?.get(e)!));
+                        s.setObject(convertSchemeVar2Color(unwrap(opt.schemes?.get(e)!)));
                     }}>
                         <Button kind='border' square title={l.t('_d.theme.loadPredefinedSchemes')}>
                             <IconLoad />
                         </Button>
                     </Dropdown>
-                    <Button square title={l.t('_d.theme.randomContrastLess')}
+                    <Button square title={l.t('_d.theme.generateScheme')}
                         onclick={() => random(s)}><IconRand /></Button>
-                </ButtonGroup>
-
-                <ButtonGroup kind='border'>
-                    <Button square title={l.t('_d.theme.light')}
-                        checked={m.getValue() === 'light'} onclick={() => m.setValue('light')}>
-                        <IconLight />
-                    </Button>
-                    <Button square title={l.t('_d.theme.dark')}
-                        checked={m.getValue() === 'dark'} onclick={() => m.setValue('dark')}>
-                        <IconDark />
-                    </Button>
                 </ButtonGroup>
             </div>
 
             <ButtonGroup kind='border'>
-                <Button square onclick={() => ref.apply()} title={l.t('_d.theme.apply')}><IconApply /></Button>
-                <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}><IconExport /></Button>
+                <Button square onclick={() => act.switchScheme(s.object())} title={l.t('_d.theme.apply')}>
+                    <IconApply />
+                </Button>
+                <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>
+                    <IconExport />
+                </Button>
             </ButtonGroup>
         </div>
 
@@ -75,8 +69,10 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>, m: Accessor<Mode>,
             {otherParams(l, s)}
         </div>
 
-        <Dialog class="h-2/3" ref={el => dlg = el} header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}>
-            <Code lang='json' class="h-full" ln={0}>{JSON.stringify(s.object(), null, 4)}</Code>
+        <Dialog movable class="h-1/2" ref={el => dlg = el}
+            header={<Label icon={<IconExport />}>{l.t('_d.theme.export')}</Label>}
+        >
+            <Code lang='json' class="h-full" ln={0}>{source()}</Code>
         </Dialog>
     </div>;
 }
@@ -89,31 +85,26 @@ export function random(s: ObjectAccessor<ExpandType<Scheme>>) {
         // 改字体会直接作用在整个页面上。所以随机功能不修改字体大小。
         // s.accessor<string>('fontSize').setValue('16px');
 
-        let h = rand(0, 360, 3);
-        s.accessor<string>('error').setValue(new Color('oklch', [.9, .2, h]).toString());
+        let h = rand(0, 360, 2);
+        s.accessor<string>('error').setValue(fmtColor(1, .4, h));
 
-        h = rand((h + 20) % 360, 360, 3);
-        s.accessor<string>('surface').setValue(new Color('oklch', [.9, .2, h]).toString());
+        h = rand((h + 20) % 360, 360, 2);
+        s.accessor<string>('primary').setValue(fmtColor(1, .4, h));
 
-        h = rand((h + 20) % 360, 360, 3);
-        s.accessor<string>('primary').setValue(new Color('oklch', [.9, .2, h]).toString());
+        h = rand((h + 20) % 360, 360, 2);
+        s.accessor<string>('secondary').setValue(fmtColor(1, .4, h));
 
+        h = rand((h + 20) % 360, 360, 2);
+        s.accessor<string>('tertiary').setValue(fmtColor(1, .4, h));
 
-        h = rand((h + 20) % 360, 360, 3);
-        s.accessor<string>('secondary').setValue(new Color('oklch', [.9, .2, h]).toString());
-
-        h = rand((h + 20) % 360, 360, 3);
-        s.accessor<string>('tertiary').setValue(new Color('oklch', [.9, .2, h]).toString());
-
+        h = rand((h + 20) % 360, 360, 2);
+        s.accessor<string>('surface').setValue(fmtColor(1, .4, h));
 
         s.accessor<number>('radius.xs').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.sm').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.md').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.lg').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
         s.accessor<number>('radius.xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-        s.accessor<number>('radius.2xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-        s.accessor<number>('radius.3xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
-        s.accessor<number>('radius.4xl').setValue(radiusValues[rand(0, radiusValues.length, 0)]);
 
         s.accessor<number>('transitionDuration').setValue(rand(transitionValues.min, transitionValues.max, 0));
     });
@@ -128,9 +119,6 @@ function radiusParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Ele
         {radius('md', s.accessor<number>('radius.md'))}
         {radius('lg', s.accessor<number>('radius.lg'))}
         {radius('xl', s.accessor<number>('radius.xl'))}
-        {radius('2xl', s.accessor<number>('radius.2xl'))}
-        {radius('3xl', s.accessor<number>('radius.3xl'))}
-        {radius('4xl', s.accessor<number>('radius.4xl'))}
     </div>;
 }
 
@@ -182,24 +170,41 @@ function fontSize(a: Accessor<string>): JSX.Element {
 function colorsParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     return <div class={styles.param}>
         <Divider><IconColors class="me-1" />{l.t('_d.theme.colors')}</Divider>
-        {palette('primary', s)}
-        {palette('secondary', s)}
-        {palette('tertiary', s)}
-        {palette('error', s)}
-        {palette('surface', s)}
+        <PalettePicker palette='primary' schemes={s} />
+        <PalettePicker palette='secondary' schemes={s} />
+        <PalettePicker palette='tertiary' schemes={s} />
+        <PalettePicker palette='error' schemes={s} />
+        <PalettePicker palette='surface' schemes={s} />
     </div>;
 }
 
-function palette(palette: Palette, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
-    const color = s.accessor<string>(`${palette}` as any);
-    const colorVal = color.getValue();
-    if (colorVal.startsWith('var(--')) { // 值是变量，需要计算其真实的值。
-        color.setValue(window.getComputedStyle(document.documentElement).getPropertyValue(colorVal.slice(4, -1)));
-    }
+function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<ExpandType<Scheme>> }): JSX.Element {
+    let rangeRef: RangeRef;
+    const schemesFA = props.schemes.accessor<string>(props.palette);
 
-    return <div class={styles.palette}>
-        <OKLCHPicker layout='horizontal' label={<div class={styles.title}>{palette}</div>} accessor={color} />
-    </div>;
+    const c = new Color(props.schemes.raw()[props.palette]);
+    const hueFA = fieldAccessor<number>('hue', c.h);
+    hueFA.onChange(v => {
+        const c = new Color(schemesFA.getValue());
+        schemesFA.setValue(fmtColor(c.l, c.c, v));
+    });
+
+    createEffect(() => {
+        const c = new Color(props.schemes.raw()[props.palette]);
+
+        rangeRef.input().style.background = `linear-gradient(to right, ${fmtColor(c.l, c.c, 0)},
+            ${fmtColor(c.l, c.c, 20)}, ${fmtColor(c.l, c.c, 40)}, ${fmtColor(c.l, c.c, 60)},
+            ${fmtColor(c.l, c.c, 80)}, ${fmtColor(c.l, c.c, 100)}, ${fmtColor(c.l, c.c, 120)},
+            ${fmtColor(c.l, c.c, 140)}, ${fmtColor(c.l, c.c, 160)}, ${fmtColor(c.l, c.c, 180)},
+            ${fmtColor(c.l, c.c, 200)}, ${fmtColor(c.l, c.c, 220)}, ${fmtColor(c.l, c.c, 240)},
+            ${fmtColor(c.l, c.c, 260)}, ${fmtColor(c.l, c.c, 280)}, ${fmtColor(c.l, c.c, 300)},
+            ${fmtColor(c.l, c.c, 320)}, ${fmtColor(c.l, c.c, 340)}, ${fmtColor(c.l, c.c, 360)})`;
+
+        hueFA.setValue(c.h);
+    });
+
+    return <Range min={0} max={360} step={0.01} fitHeight ref={el => rangeRef = el} layout='vertical' label={props.palette}
+        accessor={hueFA} value={v => `${v.toFixed(2)}%`} />;
 }
 
 function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
@@ -213,3 +218,7 @@ function otherParams(l: Locale, s: ObjectAccessor<ExpandType<Scheme>>): JSX.Elem
 
 // transition 可用的参数
 const transitionValues = { min: 100, max: 1000, step: 50 } as const;
+
+function fmtColor(l: number, c: number, h: number): string {
+    return `oklch(${l} ${c} ${h})`;
+}

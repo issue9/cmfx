@@ -132,15 +132,17 @@ const messages = {
             light: 'Light',
             export: 'Export',
             apply: 'Apply',
-            componentsDemo: 'Components Demo',
+            components: 'Components',
+            palettes: 'Palettes',
             fontSize: 'Font size',
             colors: 'Colors',
             radius: 'Radius',
             transitionDuration: 'transition duration',
-            randomContrastLess: 'Random less contrast',
-            randomContrastMore: 'Random more contrast',
-            randomContrastNormal: 'Random contrast',
+            generateScheme: 'Generate scheme',
             otherParams: 'Other params',
+            contrastMore: 'More',
+            contrastLess: 'Less',
+            contrastNone: 'None',
         }
     }
 };

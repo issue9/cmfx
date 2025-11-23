@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-// 采用变量名作为颜色值
+// 采用 tailwind 变量名作为颜色值
 
 import { Scheme } from '@/base';
 
 export default {
-    contrast: 60,
     fontSize: '16px',
     primary: 'var(--color-blue-900)',
     secondary: 'var(--color-green-900)',
@@ -20,9 +19,6 @@ export default {
         'md': 0,
         'lg': 0,
         'xl': 0.5,
-        '2xl': 0.5,
-        '3xl': 1,
-        '4xl': 1,
     },
     'transitionDuration': 300
 } as Scheme;

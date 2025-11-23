@@ -23,7 +23,8 @@ const transition: TransitionProps = {
 /**
  * 提供一个转场动画的组件
  *
- * @remarks 这是基于 {@link Trans|Transition} 的封装，提供了默认的样式和动画效果。
+ * @remarks
+ * 这是基于 {@link Trans|Transition} 的封装，提供了默认的样式和动画效果。
  *
  * NOTE: 如果 Transition 放在一个带 gap 的 flex 中，在切换时会出现同时存在两个元素的情况，
  * 虽然上一个元素已经不可见，便是 gap 依然是存在的，会造成父元素的尺寸变化，如果不想这种变化，

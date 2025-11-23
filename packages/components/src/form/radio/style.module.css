@@ -67,6 +67,7 @@
     .radio.block:has(:checked) {
         @apply text-palette-fg-selected;
         @apply border-palette-border-selected;
+        @apply bg-palette-bg-selected;
     }
 
     .radio.block:has(:enabled):not([aria-readonly="true"]):focus-visible {
@@ -80,17 +81,19 @@
     }
 
     .radio.block:has(:enabled):not([aria-readonly="true"]):hover {
+        @apply text-palette-fg-focused;
         @apply border-palette-border-focused;
+        @apply bg-palette-bg-focused;
     }
 
     .radio:not(.block):has(:enabled):not([aria-readonly="true"]):hover {
         @apply text-palette-fg-focused;
     }
 
-    /* NOTE: active 要在 hover 之后，否则 hover 始终覆盖 active 的效果。 */
-
     .radio.block:has(:enabled):not([aria-readonly="true"]):active {
-        @apply text-palette-fg-actived border-palette-border-actived;
+        @apply text-palette-fg-actived;
+        @apply border-palette-border-actived;
+        @apply bg-palette-bg-actived;
     }
 
     .radio:not(.block):has(:enabled):not([aria-readonly="true"]):active {
