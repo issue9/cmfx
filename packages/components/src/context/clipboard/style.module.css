@@ -8,7 +8,7 @@
 
 @layer components {
     .overlay {
-        @apply fixed flex justify-center items-center bg-palette-bg/50;
+        @apply absolute flex justify-center items-center bg-palette-bg/50;
         @apply transition-opacity;
     }
 }

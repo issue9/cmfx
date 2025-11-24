@@ -14,6 +14,8 @@ import { useComponents } from '@/context';
 
 let copy2ClipboardInst: typeof copy2Clipboard;
 
+const positions: Array<string> = ['absolute', 'relative', 'fixed'] as const;
+
 /**
  * 初始化剪切版环境
  */
@@ -25,10 +27,14 @@ export default function Clipboard(props: ParentProps): JSX.Element {
             const rect = target.getBoundingClientRect();
 
             const overlay = document.createElement('div');
-            target.parentElement!.append(overlay); // 插在 body 之下，无法正常显示在弹出对象上。
-            overlay.className = styles.overlay;
-            overlay.style.top = `${rect.top}px`;
-            overlay.style.left = `${rect.left}px`;
+            target.append(overlay); // 插在 body 之下，无法正常显示在弹出对象上。
+
+            if (!positions.includes(getComputedStyle(target).getPropertyValue('position'))) {
+                target.style.position = 'relative';
+            }
+            overlay.classList.add(styles.overlay);
+            overlay.style.top = `${0}px`;
+            overlay.style.left = `${0}px`;
             overlay.style.width = `${rect.width}px`;
             overlay.style.height = `${rect.height}px`;
             overlay.style.color = ok ? 'var(--palette-fg)' : 'var(--error-fg)';
