@@ -54,6 +54,7 @@ const messages = {
             green: 'Green',
             blue: 'Blue',
             preset: 'Preset',
+            websafe: 'Web safe',
         },
         pagination: {
             prev: 'Prev',

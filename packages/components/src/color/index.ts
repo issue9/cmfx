@@ -12,3 +12,4 @@ export { OKLCHPickerPanel as ColorPickerPanelOKLCH } from './picker_oklch';
 export { HSLPickerPanel as ColorPickerPanelHSL } from './picker_hsl';
 export { RGBPickerPanel as ColorPickerPanelRGB } from './picker_rgb';
 export { PresetPickerPanel as ColorPickerPanelPreset } from './picker_preset';
+export { WebSafePickerPanel as ColorPickerPanelWebSafe } from './picker_websafe';

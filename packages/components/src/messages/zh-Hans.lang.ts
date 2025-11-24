@@ -56,6 +56,7 @@ const messages: typeof m = {
             green: '绿(G)',
             blue: '蓝(B)',
             preset: '预设值',
+            websafe: 'Web 安全色',
         },
         pagination: {
             prev: '前一页',

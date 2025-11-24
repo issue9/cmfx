@@ -7,12 +7,13 @@ import { describe, test } from 'vitest';
 import { ComponentTester } from '@/context/context.spec';
 import ColorPicker from './picker';
 import { fieldAccessor } from '@/form/field';
+import { ColorPickerPanelHSL } from '@/color';
 
 describe('ColorPicker', async () => {
-    const fa = fieldAccessor('chk', 'oklch(1,1,1)');
+    const fa = fieldAccessor('color', 'oklch(1,1,1)');
     const ct = await ComponentTester.build(
         'ColorPicker',
-        props => <ColorPicker accessor={fa} {...props} />
+        props => <ColorPicker pickers={[new ColorPickerPanelHSL()]} accessor={fa} {...props} />
     );
 
     test('props', () => ct.testProps());
