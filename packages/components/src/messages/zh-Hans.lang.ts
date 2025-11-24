@@ -55,6 +55,7 @@ const messages: typeof m = {
             red: '红(R)',
             green: '绿(G)',
             blue: '蓝(B)',
+            preset: '预设值',
         },
         pagination: {
             prev: '前一页',

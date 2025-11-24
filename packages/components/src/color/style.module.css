@@ -10,13 +10,20 @@
      .color-panel {
          @apply flex flex-col gap-2 p-2 bg-palette-bg text-palette-fg;
 
-         .tabs {
-             @apply self-start;
+         >header {
+             @apply flex justify-between items-center;
          }
 
          >main {
-             .vars {
-                 @apply grid grid-flow-col grid-rows-11 gap-1;
+            /*
+             * 面板大小依据 TailwindVarsSpace 计算的，
+             * h-65 = 11 * h-5 + gap-1 * 10
+             * w-131 = 22 * w-5 + gap-1 * 21
+             */
+            @apply h-65 w-131;
+
+             .vars, .presets {
+                 @apply grid grid-flow-col grid-rows-11 gap-1 w-full h-full;
 
                  .color {
                      @apply w-5 aspect-square cursor-pointer rounded-xs;
@@ -24,15 +31,15 @@
                      @apply hover:border-palette-border-focused;
                      @apply active:border-palette-border-actived;
                  }
+
+                .color.selected {
+                    @apply border-palette-border-selected text-palette-fg-selected bg-palette-bg-selected;
+                }
              }
 
              .oklch, .hsl, .rgb {
-                 @apply flex flex-col gap-1 justify-between items-stretch w-full;
+                 @apply w-full h-full flex flex-col gap-1 justify-between items-stretch;
              }
-         }
-
-         >footer {
-             @apply flex justify-between items-center;
          }
      }
 

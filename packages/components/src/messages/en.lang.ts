@@ -53,6 +53,7 @@ const messages = {
             red: 'Red',
             green: 'Green',
             blue: 'Blue',
+            preset: 'Preset',
         },
         pagination: {
             prev: 'Prev',

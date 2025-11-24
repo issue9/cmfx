@@ -2,7 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-export const vars: Array<string> = [
+import { For, JSX, Signal } from 'solid-js';
+
+import { Picker } from './picker';
+import styles from './style.module.css';
+import { joinClass } from '@/base';
+
+const vars: Array<string> = [
     '--color-red-50', '--color-red-100', '--color-red-200', '--color-red-300', '--color-red-400', '--color-red-500',
     '--color-red-600', '--color-red-700', '--color-red-800', '--color-red-900', '--color-red-950',
 
@@ -69,3 +75,22 @@ export const vars: Array<string> = [
     '--color-stone-50', '--color-stone-100', '--color-stone-200', '--color-stone-300', '--color-stone-400', '--color-stone-500',
     '--color-stone-600', '--color-stone-700', '--color-stone-800', '--color-stone-900', '--color-stone-950',
 ] as const;
+
+export class TailwindVarsPicker implements Picker {
+    get id(): string { return 'tailwind'; }
+    get localeID(): string { return '_c.color.vars'; }
+    include(value: string): boolean { return vars.includes(value); }
+
+    panel(s: Signal<string>): JSX.Element {
+        return <div class={styles.vars}>
+            <For each={vars}>
+                {v =>
+                    <span class={joinClass(undefined, styles.color, v === s[0]() ? styles.selected : '')}
+                        style={{ 'background': `var(${v})` }} onclick={() => {
+                            s[1](v);
+                        }} />
+                }
+            </For>
+        </div>;
+    }
+}
