@@ -4,14 +4,14 @@
 
 import { For, JSX, Signal } from 'solid-js';
 
-import { Picker } from './picker';
+import { PickerPanel } from './picker';
 import { joinClass } from '@/base';
 import styles from './style.module.css';
 
 /**
- * 用户自己提供一系列颜色的 {@link Picker} 实现
+ * 用户自己提供一系列颜色的 {@link PickerPanel} 实现
  */
-export class PresetPicker implements Picker {
+export class PresetPickerPanel implements PickerPanel {
     readonly #values: Array<string>;
 
     /**

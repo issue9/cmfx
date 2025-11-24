@@ -7,7 +7,7 @@ import { Signal, JSX } from 'solid-js';
 /**
  * 表示颜色选择面板的类型
  */
-export interface Picker {
+export interface PickerPanel {
     /**
      * 表示当前拾取框的唯一 ID
      */

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    ColorPanel, MountProps, ColorPickerTailwind, ColorPickerOKLCH, ColorPickerHSL, ColorPickerRGB
+    ColorPanel, MountProps, ColorPickerPanelTailwind, ColorPickerPanelOKLCH, ColorPickerPanelHSL, ColorPickerPanelRGB
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
@@ -18,10 +18,10 @@ export default function(props: MountProps) {
         </Portal>
 
         <ColorPanel wcag="oklch(10% .5 .5)" palette={palette()} value='rgb(255 10 10)' pickers={[
-            new ColorPickerTailwind(),
-            new ColorPickerOKLCH(),
-            new ColorPickerHSL(),
-            new ColorPickerRGB(),
+            new ColorPickerPanelTailwind(),
+            new ColorPickerPanelOKLCH(),
+            new ColorPickerPanelHSL(),
+            new ColorPickerPanelRGB(),
         ]}>
         </ColorPanel>
     </>;

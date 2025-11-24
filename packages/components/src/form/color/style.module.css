@@ -7,52 +7,7 @@
 @reference '../../style.css';
 
 @layer components {
-    .oklch-panel {
-        @apply flex flex-col gap-1 max-w-80 min-w-75;
-        @apply border border-palette-border rounded-lg p-2;
-        @apply text-palette-fg bg-palette-bg;
-
-        .blocks {
-            @apply flex flex-wrap justify-between gap-1 items-center mt-1;
-
-            .block {
-                @apply aspect-square w-5 border border-palette-border rounded-sm cursor-pointer;
-                @apply transition;
-                @apply hover:border-palette-border-focused;
-                @apply active:border-palette-border-actived;
-            }
-
-            .block.selected {
-                @apply border border-palette-fg-selected;
-            }
-        }
-
-        .info {
-            @apply flex justify-between items-stretch gap-2 mt-2;
-
-            .wcag {
-                @apply flex justify-between items-center gap-1 text-lg cursor-pointer;
-            }
-
-            .current {
-                @apply text-sm cursor-pointer;
-                @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
-                @apply flex justify-center items-center h-8 w-full;
-                @apply border border-palette-border rounded-sm;
-                @apply hover:border-palette-border-focused;
-                @apply active:border-palette-border-actived;
-                @apply transition;
-            }
-        }
-    }
-
-    .oklch-panel:disabled {
-        .block {
-            @apply cursor-not-allowed;
-        }
-    }
-
-    .oklch-activator-block {
+    .color-panel-activator {
         @apply aspect-square w-8 rounded-sm cursor-pointer border border-palette-border;
         @apply flex justify-center items-center font-bold;
 

@@ -5,10 +5,10 @@
 export type { Props as ColorPanelProps } from './color';
 export { default as ColorPanel } from './color';
 
-export type { Picker as ColorPicker } from './picker';
+export type { PickerPanel as ColorPickerPanel } from './picker';
 
-export { TailwindVarsPicker as ColorPickerTailwind } from './picker_vars';
-export { OKLCHPicker as ColorPickerOKLCH } from './picker_oklch';
-export { HSLPicker as ColorPickerHSL } from './picker_hsl';
-export { RGBPicker as ColorPickerRGB } from './picker_rgb';
-export { PresetPicker as ColorPickerPreset } from './picker_preset';
+export { TailwindVarsPickerPanel as ColorPickerPanelTailwind } from './picker_vars';
+export { OKLCHPickerPanel as ColorPickerPanelOKLCH } from './picker_oklch';
+export { HSLPickerPanel as ColorPickerPanelHSL } from './picker_hsl';
+export { RGBPickerPanel as ColorPickerPanelRGB } from './picker_rgb';
+export { PresetPickerPanel as ColorPickerPanelPreset } from './picker_preset';

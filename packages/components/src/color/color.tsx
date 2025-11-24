@@ -10,7 +10,7 @@ import { Button } from '@/button';
 import { BaseProps, joinClass, PropsError, wcag } from '@/base';
 import { useLocale, copy2Clipboard } from '@/context';
 import { Choice, ChoiceOption, fieldAccessor } from '@/form';
-import { Picker } from './picker';
+import { PickerPanel } from './picker';
 import styles from './style.module.css';
 
 declare global {
@@ -47,7 +47,7 @@ export interface Props extends BaseProps {
     /**
      * 指定的颜色拾取面板的类型
      */
-    pickers: Array<Picker>;
+    pickers: Array<PickerPanel>;
 }
 
 /**

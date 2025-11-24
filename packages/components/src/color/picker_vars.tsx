@@ -4,7 +4,7 @@
 
 import { For, JSX, Signal } from 'solid-js';
 
-import { Picker } from './picker';
+import { PickerPanel } from './picker';
 import { joinClass } from '@/base';
 import styles from './style.module.css';
 
@@ -77,9 +77,9 @@ const vars: Array<string> = [
 ] as const;
 
 /**
- * tailwind 提供的颜色列表 {@link Picker} 实现
+ * tailwind 提供的颜色列表 {@link PickerPanel} 实现
  */
-export class TailwindVarsPicker implements Picker {
+export class TailwindVarsPickerPanel implements PickerPanel {
     readonly #disabled: Array<string> = [];
 
     /**

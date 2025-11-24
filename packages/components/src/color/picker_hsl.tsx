@@ -6,7 +6,7 @@ import { createEffect, JSX, Signal } from 'solid-js';
 import Color from 'colorjs.io';
 
 import { ObjectAccessor, Range, RangeRef } from '@/form';
-import { Picker } from './picker';
+import { PickerPanel } from './picker';
 import styles from './style.module.css';
 import { useLocale } from '@/context';
 
@@ -18,9 +18,9 @@ type HSL = {
 };
 
 /**
- * HSL 的 {@link Picker} 实现
+ * HSL 的 {@link PickerPanel} 实现
  */
-export class HSLPicker implements Picker {
+export class HSLPickerPanel implements PickerPanel {
     readonly #hsl: ObjectAccessor<HSL>;
     readonly #h?: number;
     readonly #s?: number;

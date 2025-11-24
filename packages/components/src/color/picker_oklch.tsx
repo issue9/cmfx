@@ -6,7 +6,7 @@ import { createEffect, JSX, Signal } from 'solid-js';
 import Color from 'colorjs.io';
 
 import { ObjectAccessor, Range, RangeRef } from '@/form';
-import { Picker } from './picker';
+import { PickerPanel } from './picker';
 import styles from './style.module.css';
 import { useLocale } from '@/context';
 
@@ -18,9 +18,9 @@ type OKLCH = {
 };
 
 /**
- * OKLCH 的 {@link Picker} 实现
+ * OKLCH 的 {@link PickerPanel} 实现
  */
-export class OKLCHPicker implements Picker {
+export class OKLCHPickerPanel implements PickerPanel {
     readonly #oklch: ObjectAccessor<OKLCH>;
     readonly #l?: number;
     readonly #c?: number;
