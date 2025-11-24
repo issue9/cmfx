@@ -5,8 +5,8 @@
 import { For, JSX, Signal } from 'solid-js';
 
 import { Picker } from './picker';
-import styles from './style.module.css';
 import { joinClass } from '@/base';
+import styles from './style.module.css';
 
 const vars: Array<string> = [
     'var(--color-red-50)', 'var(--color-red-100)', 'var(--color-red-200)', 'var(--color-red-300)', 'var(--color-red-400)', 'var(--color-red-500)',
@@ -76,20 +76,43 @@ const vars: Array<string> = [
     'var(--color-stone-600)', 'var(--color-stone-700)', 'var(--color-stone-800)', 'var(--color-stone-900)', 'var(--color-stone-950)',
 ] as const;
 
+/**
+ * tailwind 提供的颜色列表 {@link Picker} 实现
+ */
 export class TailwindVarsPicker implements Picker {
+    readonly #disabled: Array<string> = [];
+
+    /**
+     * 构造函数
+     *
+     * @param disabled - 禁用的颜色列表；
+     */
+    constructor(...disabled: Array<string>) {
+        this.#disabled = disabled ?? [];
+    }
+
     get id(): string { return 'tailwind'; }
+
     get localeID(): string { return '_c.color.vars'; }
+
     include(value: string): boolean { return vars.includes(value); }
 
     panel(s: Signal<string>): JSX.Element {
         return <div class={styles.vars}>
             <For each={vars}>
-                {v =>
-                    <span class={joinClass(undefined, styles.color, v === s[0]() ? styles.selected : '')}
-                        style={{ 'background': v }} onclick={() => {
-                            s[1](v);
-                        }} />
-                }
+                {v => {
+                    const cls = joinClass(
+                        undefined,
+                        styles.color,
+                        v === s[0]() ? styles.selected : '',
+                        this.#disabled.includes(v) ? styles.disabled : ''
+                    );
+
+                    return <span class={cls} style={{ 'background': v }} onclick={() => {
+                        if (this.#disabled.includes(v)) { return; }
+                        s[1](v);
+                    }} />;
+                }}
             </For>
         </div>;
     }

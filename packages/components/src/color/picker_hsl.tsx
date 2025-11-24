@@ -17,11 +17,30 @@ type HSL = {
     a: number;
 };
 
+/**
+ * HSL 的 {@link Picker} 实现
+ */
 export class HSLPicker implements Picker {
     readonly #hsl: ObjectAccessor<HSL>;
+    readonly #h?: number;
+    readonly #s?: number;
+    readonly #l?: number;
+    readonly #a?: number;
 
-    constructor() {
-        this.#hsl = new ObjectAccessor<HSL>({ h: 180, s: 50, l: 50, a: 1 });
+    /**
+     * 构造函数
+     *
+     * @param h - 如果指定了非 undefined 的值，表示将 h 固定为此值，无法修改，取值范围 [0,360]；
+     * @param s - 如果指定了非 undefined 的值，表示将 s 固定为此值，无法修改，取值范围 [0,100]；
+     * @param l - 如果指定了非 undefined 的值，表示将 l 固定为此值，无法修改，取值范围 [0,100]；
+     * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
+     */
+    constructor(h?: number, s?: number, l?: number, a?: number) {
+        this.#hsl = new ObjectAccessor<HSL>({ h: h ?? 180, s: s ?? 50, l: l ?? 50, a: a ?? 1 });
+        this.#h = h;
+        this.#s = s;
+        this.#l = l;
+        this.#a = a;
     }
 
     get id(): string { return 'hsl'; }
@@ -70,13 +89,13 @@ export class HSLPicker implements Picker {
 
         const l = useLocale();
         return <div class={styles.hsl}>
-            <Range fitHeight accessor={this.#hsl.accessor('h')} label={l.t('_c.color.hue')}
+            <Range disabled={!!this.#h} fitHeight accessor={this.#hsl.accessor('h')} label={l.t('_c.color.hue')}
                 ref={el => hRef = el} value={v => `${v.toFixed(2)}`} min={0} max={360} step={1} />
-            <Range fitHeight accessor={this.#hsl.accessor('s')} label={l.t('_c.color.saturation')}
+            <Range disabled={!!this.#s} fitHeight accessor={this.#hsl.accessor('s')} label={l.t('_c.color.saturation')}
                 ref={el => sRef = el} value={v => `${v.toFixed(2)}%`} min={0} max={100} step={.01} />
-            <Range fitHeight accessor={this.#hsl.accessor('l')} label={l.t('_c.color.lightness')}
+            <Range disabled={!!this.#l} fitHeight accessor={this.#hsl.accessor('l')} label={l.t('_c.color.lightness')}
                 ref={el => lRef = el} value={v => `${v.toFixed(2)}%`} min={0} max={100} step={.01} />
-            <Range fitHeight accessor={this.#hsl.accessor('a')} label={l.t('_c.color.alpha')}
+            <Range disabled={!!this.#a} fitHeight accessor={this.#hsl.accessor('a')} label={l.t('_c.color.alpha')}
                 ref={el => aRef = el} value={v => `${v.toFixed(2)}`} min={0} max={1} step={.01} />
         </div>;
     }

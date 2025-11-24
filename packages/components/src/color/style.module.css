@@ -53,6 +53,10 @@
                 .color.selected {
                     @apply border-palette-border-selected text-palette-fg-selected bg-palette-bg-selected;
                 }
+
+                .color.disabled {
+                    @apply border-palette-border-disabled text-palette-fg-disabled bg-palette-bg-disabled cursor-not-allowed;
+                }
              }
 
              .oklch, .hsl, .rgb {

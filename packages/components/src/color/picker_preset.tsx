@@ -8,6 +8,9 @@ import { Picker } from './picker';
 import { joinClass } from '@/base';
 import styles from './style.module.css';
 
+/**
+ * 用户自己提供一系列颜色的 {@link Picker} 实现
+ */
 export class PresetPicker implements Picker {
     readonly #values: Array<string>;
 
@@ -21,7 +24,9 @@ export class PresetPicker implements Picker {
     }
 
     get id(): string { return 'preset'; }
+
     get localeID(): string { return '_c.color.preset'; }
+
     include(value: string): boolean { return this.#values.includes(value); }
 
     panel(signal: Signal<string>): JSX.Element {

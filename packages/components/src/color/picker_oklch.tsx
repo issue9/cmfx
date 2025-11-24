@@ -17,15 +17,36 @@ type OKLCH = {
     a: number;
 };
 
+/**
+ * OKLCH 的 {@link Picker} 实现
+ */
 export class OKLCHPicker implements Picker {
     readonly #oklch: ObjectAccessor<OKLCH>;
+    readonly #l?: number;
+    readonly #c?: number;
+    readonly #h?: number;
+    readonly #a?: number;
 
-    constructor() {
-        this.#oklch = new ObjectAccessor<OKLCH>({ l: 1, c: .4, h: 1, a: 1 });
+    /**
+     * 构造函数
+     *
+     * @param l - 如果指定了非 undefined 的值，表示将 l 固定为此值，无法修改，取值范围 [0,1]；
+     * @param c - 如果指定了非 undefined 的值，表示将 c 固定为此值，无法修改，取值范围 [0,.4]；
+     * @param h - 如果指定了非 undefined 的值，表示将 h 固定为此值，无法修改，取值范围 [0,360]；
+     * @param a - 如果指定了非 undefined 的值，表示将 a 固定为此值，无法修改，取值范围 [0,1]；
+     */
+    constructor(l?: number, c?: number, h?: number, a?: number) {
+        this.#oklch = new ObjectAccessor<OKLCH>({ l: l ?? 1, c: c ?? .4, h: h ?? 1, a: a ?? 1 });
+        this.#l = l;
+        this.#c = c;
+        this.#h = h;
+        this.#a = a;
     }
 
     get id(): string { return 'oklch'; }
+
     get localeID(): string { return '_c.color.oklch'; }
+
     include(value: string): boolean { return value.startsWith('oklch('); }
 
     panel(signal: Signal<string>): JSX.Element {
@@ -70,13 +91,13 @@ export class OKLCHPicker implements Picker {
 
         return <div class={styles.oklch}>
             <Range fitHeight accessor={this.#oklch.accessor('l')} label={l.t('_c.color.lightness')} ref={el => rl = el}
-                value={v => `${(v*100).toFixed(2)}%`} min={0} max={1} step={0.0001} />
+                disabled={!!this.#l} value={v => `${(v*100).toFixed(2)}%`} min={0} max={1} step={0.0001} />
             <Range fitHeight accessor={this.#oklch.accessor('c')} label={l.t('_c.color.chroma')} ref={el => rc = el}
-                value={v => `${v.toFixed(2)}`} min={0} max={.4} step={0.01} />
+                disabled={!!this.#c} value={v => `${v.toFixed(2)}`} min={0} max={.4} step={0.01} />
             <Range fitHeight accessor={this.#oklch.accessor('h')} label={l.t('_c.color.hue')} ref={el => rh = el}
-                value={v => `${v.toFixed(2)}`} min={0} max={360} step={0.01} />
+                disabled={!!this.#h} value={v => `${v.toFixed(2)}`} min={0} max={360} step={0.01} />
             <Range fitHeight accessor={this.#oklch.accessor('a')} label={l.t('_c.color.alpha')} ref={el => ra = el}
-                value={v => `${v.toFixed(2)}`} min={0} max={1} step={0.01} />
+                disabled={!!this.#a} value={v => `${v.toFixed(2)}`} min={0} max={1} step={0.01} />
         </div>;
     }
 }
