@@ -54,6 +54,7 @@ import IconStepper from '~icons/streamline-flex/steps-2-remix';
 import IconSearch from '~icons/material-symbols/search-rounded';
 import IconTextfield from '~icons/streamline-plump/input-box-solid';
 import IconColor from '~icons/streamline/color-picker-remix';
+import IconColorPanel from '~icons/material-symbols/format-color-fill-rounded';
 import IconMonthPanel from '~icons/tabler/calendar-month';
 import IconBacktop from '~icons/tabler/transition-top-filled';
 import IconButton from '~icons/tdesign/button-filled';
@@ -217,6 +218,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'data-display', path: '/code', component: lazy(() => import('./code')),
         info: { title: '_d.demo.code', icon: <IconCode /> },
+    },
+    {
+        kind: 'data-display', path: '/color', component: lazy(() => import('./color')),
+        info: { title: '_d.demo.color', icon: <IconColorPanel /> },
     },
     {
         kind: 'data-display', path: '/counter', component: lazy(() => import('./counter')),

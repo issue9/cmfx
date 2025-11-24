@@ -1,0 +1,48 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+ @reference '../style.css';
+
+ @layer components {
+     .color-panel {
+         @apply flex flex-col gap-2 p-2 bg-palette-bg text-palette-fg;
+
+         .tabs {
+             @apply self-start;
+         }
+
+         >main {
+             .vars {
+                 @apply grid grid-flow-col grid-rows-11 gap-1;
+
+                 .color {
+                     @apply w-5 aspect-square cursor-pointer rounded-xs;
+                     @apply border border-palette-border;
+                     @apply hover:border-palette-border-focused;
+                     @apply active:border-palette-border-actived;
+                 }
+             }
+
+             .oklch, .hsl, .rgb {
+                 @apply flex flex-col gap-1 justify-between items-stretch w-full;
+             }
+         }
+
+         >footer {
+             @apply flex justify-between items-center;
+         }
+     }
+
+     .color-panel.disabled {
+         >main {
+             .vars {
+                 .color {
+                     @apply cursor-not-allowed;
+                 }
+             }
+         }
+     }
+ }

@@ -43,10 +43,18 @@ const messages: typeof m = {
             week: '周',
         },
         color: {
+            vars: 'Tailwind 变量',
+            oklch: 'OKLCH',
+            hsl: 'HSL',
+            rgb: 'RGB',
             lightness: '亮度(L)',
             chroma: '色度(C)',
             hue: '色相(H)',
+            saturation: '饱和度(S)',
             alpha: '透明度(A)',
+            red: '红(R)',
+            green: '绿(G)',
+            blue: '蓝(B)',
         },
         pagination: {
             prev: '前一页',

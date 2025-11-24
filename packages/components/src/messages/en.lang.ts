@@ -41,10 +41,18 @@ const messages = {
             week: 'Week',
         },
         color: {
+            vars: 'Tailwind variables',
+            oklch: 'OKLCH',
+            hsl: 'HSL',
+            rgb: 'RGB',
             lightness: 'Lightness',
             chroma: 'Chroma',
             hue: 'Hue',
+            saturation: 'Saturation',
             alpha: 'Alpha',
+            red: 'Red',
+            green: 'Green',
+            blue: 'Blue',
         },
         pagination: {
             prev: 'Prev',
