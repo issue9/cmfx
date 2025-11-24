@@ -11,6 +11,11 @@ import styles from './style.module.css';
 export class PresetPicker implements Picker {
     readonly #values: Array<string>;
 
+    /**
+     * 构造函数
+     *
+     * @param presets - 预设值列表；
+     */
     constructor(...presets: Array<string>) {
         this.#values = presets;
     }

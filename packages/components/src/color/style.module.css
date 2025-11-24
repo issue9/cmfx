@@ -11,7 +11,25 @@
          @apply flex flex-col gap-2 p-2 bg-palette-bg text-palette-fg;
 
          >header {
-             @apply flex justify-between items-center;
+             @apply flex justify-between items-center gap-2;
+
+             .middle {
+                @apply flex gap-1 items-center justify-center;
+
+                .value {
+                    @apply text-sm cursor-pointer;
+                    @apply overflow-hidden overflow-ellipsis whitespace-nowrap;
+                    @apply flex justify-center items-center h-8 w-fit px-2;
+                    @apply border border-palette-border rounded-sm;
+                    @apply hover:border-palette-border-focused;
+                    @apply active:border-palette-border-actived;
+                    @apply transition;
+                }
+
+                .wcag-value {
+                    @apply cursor-pointer;
+                }
+             }
          }
 
          >main {

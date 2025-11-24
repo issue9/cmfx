@@ -37,4 +37,8 @@ describe('wcag', () => {
         expect(wcag('#000', '#fff', true)).toEqual('108');
         expect(wcag('#00f', '#fff', true)).toEqual('91');
     });
+
+    test('oklch vs hsl', () => {
+        expect(wcag('oklch(80%, 0.2, 3)', 'hsl(20, 2%, 20%)', true)).toBeTruthy();
+    });
 });

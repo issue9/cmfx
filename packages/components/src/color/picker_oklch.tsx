@@ -70,7 +70,7 @@ export class OKLCHPicker implements Picker {
 
         return <div class={styles.oklch}>
             <Range fitHeight accessor={this.#oklch.accessor('l')} label={l.t('_c.color.lightness')} ref={el => rl = el}
-                value={v => `${v.toFixed(2)}%`} min={0} max={100} step={0.01} />
+                value={v => `${(v*100).toFixed(2)}%`} min={0} max={1} step={0.0001} />
             <Range fitHeight accessor={this.#oklch.accessor('c')} label={l.t('_c.color.chroma')} ref={el => rc = el}
                 value={v => `${v.toFixed(2)}`} min={0} max={.4} step={0.01} />
             <Range fitHeight accessor={this.#oklch.accessor('h')} label={l.t('_c.color.hue')} ref={el => rh = el}
