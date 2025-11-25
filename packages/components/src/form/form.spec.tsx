@@ -13,7 +13,7 @@ describe('Form', async () => {
     const fa = new FormAccessor({}, req as any);
     const ct = await ComponentTester.build(
         'Form',
-        props => <Form formAccessor={fa} {...props}>abc</Form>
+        props => <Form accessor={fa} {...props}>abc</Form>
     );
 
     test('props', () => ct.testProps());

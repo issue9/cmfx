@@ -15,6 +15,7 @@ export interface Accessor<T, K extends string = string> {
     /**
      * 这是对类型 T 的补充说明
      *
+     * @remarks
      * 当 T 无法说明类型时，比如 undefined，由 kind 返回具体的类型说明。
      *
      * NOTE: 当 Accessor 支持多种类型时，比如 `Accessor<string|date|undefined>`，
@@ -51,7 +52,7 @@ export interface Accessor<T, K extends string = string> {
 
     /**
      * 设置当前组件的错误信息
-     * @param string - 错误信息
+     * @param string - 错误信息，undefined 表示清除错误；
      */
     setError(string?: string): void;
 
@@ -82,9 +83,7 @@ export interface ChangeFunc<T> {
  * const date = fieldAccessor<Date|string|undefined, 'date'|'string'>('created_time', undefined, 'string');
  * ```
  */
-export function fieldAccessor<T, K extends string = string>(
-    name: string, v: T | Signal<T>, kind?: K
-): Accessor<T, K> {
+export function fieldAccessor<T, K extends string = string>(name: string, v: T | Signal<T>, kind?: K): Accessor<T, K> {
     let preset: T;
 
     let s: Signal<T>;

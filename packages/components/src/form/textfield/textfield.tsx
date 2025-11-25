@@ -87,7 +87,7 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
     let dropdownRef: DropdownRef;
     let rootRef: HTMLDivElement;
 
-    const Trigger = (p: {style?: BaseProps['style']}) => {
+    const Trigger = (p: { style?: BaseProps['style'] }) => {
         let inputRef: InputRef;
         createEffect(() => { inputRef.element().style = style2String(p.style); });
 

@@ -110,7 +110,7 @@ export function Profile(props: Props): JSX.Element {
 
         <Divider padding='4px' />
 
-        <Form formAccessor={infoAccess} class={styles.form}>
+        <Form accessor={infoAccess} class={styles.form}>
             <TextField class="w-full" label={l.t('_p.current.name')} accessor={nameA} />
             <TextField class="w-full" label={l.t('_p.nickname')} accessor={nicknameA} />
             <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={sexA} />

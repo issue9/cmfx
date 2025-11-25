@@ -40,7 +40,8 @@ export interface Props<T extends AvailableEnumType = string, M extends boolean =
     /**
      * 选项是否可关闭
      *
-     * @remarks 如果为 true，表示可以通过每个选中项后的关闭按钮取消当前选中项，
+     * @remarks
+     * 如果为 true，表示可以通过每个选中项后的关闭按钮取消当前选中项，
      * 如果是单选，那么可以让整个选项处于没有选中项的状态。
      *
      * @reactive

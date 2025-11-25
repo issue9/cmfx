@@ -24,7 +24,7 @@ export default function(props: MountProps) {
         <Button onclick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>
         <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
             <div>
-                <Form formAccessor={fa} inDialog>
+                <Form accessor={fa} inDialog>
                     <div class="flex flex-col">
                         <div class="py-3">form</div>
                         <div class="flex">

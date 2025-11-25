@@ -100,7 +100,6 @@ export function DatePicker<T extends DateType>(props: Props<T>): JSX.Element {
         </div>
 
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
-
             <DatePanel class={styles['dt-panel']} {...panelProps}
                 value={getValue()} onChange={val => setValue(val)}
             />

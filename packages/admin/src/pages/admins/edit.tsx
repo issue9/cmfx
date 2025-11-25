@@ -52,7 +52,7 @@ export function Edit(props: Props): JSX.Element {
     });
 
     return <Page title="_p.admin.admin" class="max-w-xs">
-        <Form formAccessor={form} class="flex flex-col">
+        <Form accessor={form} class="flex flex-col">
             <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_p.admin.name')} />
             <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_p.nickname')} />
             <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />

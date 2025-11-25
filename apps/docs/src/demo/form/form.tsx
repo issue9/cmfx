@@ -31,7 +31,7 @@ export default function(props: MountProps) {
             {layoutS}
         </Portal>
 
-        <Form formAccessor={f} palette={palette()} {...f.events()} rounded={rounded()} layout={layout()} hasHelp={help()}>
+        <Form accessor={f} palette={palette()} {...f.events()} rounded={rounded()} layout={layout()} hasHelp={help()}>
             <TextField label="textField" accessor={f.accessor<string>('f1')} help="这是一个帮助文本" />
             <Number label="number" accessor={f.accessor('f2')} help="这是一个帮助文本" />
             <DatePicker label="date" accessor={f.accessor('date')} help="这是一个帮助文本" />

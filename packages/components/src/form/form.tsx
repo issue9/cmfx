@@ -12,7 +12,7 @@ import { FormProvider } from './field';
 import styles from './style.module.css';
 
 export interface Props<T extends Flattenable, R = never, P = never> extends BaseProps, ParentProps {
-    formAccessor: FormAccessor<T, R, P>;
+    accessor: FormAccessor<T, R, P>;
 
     /**
      * 表单位于对话框中
@@ -68,12 +68,12 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
     });
 
     return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>
-        <Spin tag="form" spinning={props.formAccessor.submitting()} palette={props.palette} class={cls()} style={props.style}
-            ref={el => {
+        <Spin tag="form" spinning={props.accessor.submitting()}
+            palette={props.palette} class={cls()} style={props.style} ref={el => {
                 const f = el.element() as HTMLFormElement;
                 if (props.inDialog) { f.method = 'dialog'; }
 
-                const e = props.formAccessor.events();
+                const e = props.accessor.events();
                 f.onreset = e.onReset;
                 f.onsubmit = e.onSubmit;
             }}
