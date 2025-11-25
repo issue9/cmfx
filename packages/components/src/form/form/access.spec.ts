@@ -5,8 +5,8 @@
 import { ExpandType, FlattenKeys } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
+import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
-import { Accessor } from './field';
 
 describe('ObjectAccessor', () => {
     interface Object {

@@ -185,7 +185,7 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
         info: { title: '_d.demo.editor', icon: <IconEditor /> },
     },
     {
-        kind: 'data-input', path: '/form', component: lazy(() => import('./form')),
+        kind: 'data-input', path: '/form-form', component: lazy(() => import('./form/form')),
         info: { title: '_d.demo.form', icon: <IconForm /> },
     },
     {

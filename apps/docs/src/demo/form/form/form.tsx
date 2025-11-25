@@ -7,7 +7,7 @@ import {
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '../base';
+import { boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
     const [, act] = useComponents();

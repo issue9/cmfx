@@ -9,6 +9,7 @@ import { Layout } from '@/base';
 /**
  * 提供了表单的上下文环境
  *
+ * @remarks
  * 在表单中的组件，部分属性可以通过此上下文环境进行设置。
  */
 export interface FormContext {

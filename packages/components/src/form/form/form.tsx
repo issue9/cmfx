@@ -7,8 +7,8 @@ import { createMemo, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout } from '@/base';
 import { Spin } from '@/spin';
+import { FormProvider } from '@/form/field';
 import { FormAccessor } from './access';
-import { FormProvider } from './field';
 import styles from './style.module.css';
 
 export interface Props<T extends Flattenable, R = never, P = never> extends BaseProps, ParentProps {

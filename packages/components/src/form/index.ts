@@ -2,12 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { FormAccessor, ObjectAccessor } from './access';
-export type { Validation } from './access';
-
-export { Form } from './form';
-export type { Props as FormProps } from './form';
-
 // field 部分内容仅内部使用
 export { fieldAccessor, FormProvider, useForm } from './field';
 export type {
@@ -19,6 +13,7 @@ export * from './choice';
 export * from './color';
 export * from './date';
 export * from './editor';
+export * from './form';
 export * from './radio';
 export * from './range';
 export * from './textarea';

@@ -6,13 +6,13 @@ import { Flattenable, FlattenKeys, Problem, Return } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
-import { Accessor, ChangeFunc } from './field';
+import { Accessor, ChangeFunc } from '@/form/field';
 
 // ObjectAccessor 中保存错误的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
 
 /**
- * 验证数据 obj 的函数签名
+ * 验证数据 obj
  *
  * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 Map。
  */
