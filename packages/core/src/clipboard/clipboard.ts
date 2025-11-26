@@ -44,7 +44,5 @@ export async function write2Clipboard(text: string | { (): string; }, after?: Af
         }
     }
 
-    if (after) {
-        after(true, t);
-    }
+    if (after) { after(true, t); }
 }

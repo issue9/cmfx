@@ -58,8 +58,7 @@
         "shiki": "catalog:",
         "solid-js": "catalog:",
         "solid-transition-group": "^0.3.0",
-        "tailwindcss": "catalog:",
-        "zod": "catalog:"
+        "tailwindcss": "catalog:"
     },
     "devDependencies": {
         "@tailwindcss/vite": "catalog:",

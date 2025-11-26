@@ -60,8 +60,9 @@ export default defineConfig({
  */`;
                     } else { return ''; }
                 }
-
-            }
+            },
+            // 不需要打包的内容
+            external: ['zod']
         }
     }
 });

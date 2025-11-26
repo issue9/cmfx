@@ -39,12 +39,13 @@
     },
     "dependencies": {
         "@formatjs/intl-durationformat": "catalog:",
-        "intl-messageformat": "catalog:",
         "bowser": "catalog:",
         "cbor2": "^2.0.1",
+        "intl-messageformat": "catalog:",
         "printd": "^1.6.0",
+        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz",
         "yaml": "catalog:",
-        "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+        "zod": "catalog:"
     },
     "devDependencies": {
         "@types/node": "catalog:",

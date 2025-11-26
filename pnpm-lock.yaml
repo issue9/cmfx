@@ -482,6 +482,9 @@ importers:
       yaml:
         specifier: 'catalog:'
         version: 2.8.1
+      zod:
+        specifier: 'catalog:'
+        version: 4.1.13
     devDependencies:
       '@types/node':
         specifier: 'catalog:'

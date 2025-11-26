@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys, Problem, Return } from '@cmfx/core';
+import { Flattenable, FlattenKeys, Problem, Return, Validator } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
 import { Accessor, ChangeFunc } from '@/form/field';
-import { ObjectValidator } from './validation';
 
 // ObjectAccessor 中保存错误的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
@@ -165,8 +164,8 @@ export class ObjectAccessor<T extends Flattenable> {
      * 返回对象已经由 {@link unwrap} 进行了解绑。
      */
     async object(): Promise<T>;
-    async object(validation?: ObjectValidator<T>): Promise<T | undefined>;
-    async object(validation?: ObjectValidator<T>): Promise<T | undefined> {
+    async object(validation?: Validator<T>): Promise<T | undefined>;
+    async object(validation?: Validator<T>): Promise<T | undefined> {
         const v: T = unwrap<T>(this.#valGetter);
         if (!validation) { return v; }
 
@@ -230,7 +229,7 @@ interface ProcessProblem<T = never> {
  */
 export class FormAccessor<T extends Flattenable, R = never, P = never> {
     readonly #object: ObjectAccessor<T>;
-    readonly #validation?: ObjectValidator<T>;
+    readonly #validation?: Validator<T>;
     readonly #pp?: ProcessProblem<P>;
     readonly #request: Request<T, R, P>;
     readonly #success?: SuccessFunc<R>;
@@ -246,8 +245,8 @@ export class FormAccessor<T extends Flattenable, R = never, P = never> {
      * @param v - 提交前对数据的验证方法；
      */
     constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>);
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: ObjectValidator<T>);
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: ObjectValidator<T>) {
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validator<T>);
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validator<T>) {
         // NOTE: act 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
         this.#validation = v;

@@ -2,28 +2,24 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys } from '@cmfx/core';
 import * as z from 'zod';
 
-/**
- * 错误信息
- *
- * @remarks
- * 保持与 {@link @cmfx/core#Problem.params} 相同的类型。
- */
-type Errors<T extends Flattenable> = Array<{ name: FlattenKeys<T>, reason: string }>;
+import { FlattenKeys, Flattenable } from '@/types';
+import { Params } from '@/api/types';
 
 /**
  * 验证数据的返回结果
+ *
+ * @typeParam T - 需要验证的数据类型；
  */
-export type ValidResult<T extends Flattenable> = [data: T | undefined, errors: Errors<T> | undefined];
+export type ValidResult<T extends Flattenable> = [data: T | undefined, errors: Params<FlattenKeys<T>> | undefined];
 
 /**
  * 验证对象 T 的数据是否合法
  *
  * @typeParam T - 需要验证的数据类型；
  */
-export interface ObjectValidator<T extends Flattenable> {
+export interface Validator<T extends Flattenable> {
     /**
      * 验证整个对象
      *
@@ -34,12 +30,15 @@ export interface ObjectValidator<T extends Flattenable> {
     (obj: T): Promise<ValidResult<T>>;
 }
 
-export function zodValidator<T extends Flattenable>(s: z.ZodObject): ObjectValidator<T> {
+/**
+ * 将参数 zod 对象包装为 {@link Validator} 方法
+ */
+export function zodValidator<T extends Flattenable>(s: z.ZodObject): Validator<T> {
     return async(obj: T): Promise<ValidResult<T>> => {
         const result = await s.safeParseAsync(obj);
         if (result.success) { return [result.data as T, undefined]; }
 
-        const errors: Errors<T> = [];
+        const errors: Params<FlattenKeys<T>> = [];
         result.error.issues.map(i => {
             errors.push({ name: i.path.join('.') as FlattenKeys<T>, reason: i.message });
         });

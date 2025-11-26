@@ -26,3 +26,4 @@ export * from './locale';
 export * from './math';
 export * from './time';
 export * from './types';
+export * from './validation';

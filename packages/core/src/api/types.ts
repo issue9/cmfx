@@ -22,13 +22,28 @@ export interface Problem<E = never> {
      *
      * 根据 status 的不同，可能表示提交对象、查询参数或是报头的错误。
      */
-    params?: Array<Param>;
+    params?: Params;
 }
 
-export interface Param {
-    name: string;
+/**
+ * 表示字段错误的列表
+ *
+ * @remarks
+ * 同时表示了后端返回的 {@link Problem#params} 以及在前端数据验证中表示的验证错误。
+ *
+ * @typeParam K - 表示字段名的类型，默认为 string，但是在前端的数据验证中，可以收紧为某个对象的 keyof。
+ */
+export type Params<K extends string = string> = Array<{
+    /**
+     * 表示出错的字段名
+     */
+    name: K;
+
+    /**
+     * 错误信息
+     */
     reason: string;
-}
+}>;
 
 /**
  * 接口返回的对象
