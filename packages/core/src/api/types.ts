@@ -68,7 +68,7 @@ export type Return<R = never, PE = never> = {
     status: number;
 
     /**
-     * 是否出错了。
+     * 是否出错了
      */
     ok: false;
 } | {
@@ -88,7 +88,7 @@ export type Return<R = never, PE = never> = {
     status: number;
 
     /**
-     * 是否出错了。
+     * 是否出错了
      */
     ok: true;
 };

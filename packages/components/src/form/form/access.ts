@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys, Problem, Validator } from '@cmfx/core';
+import { Flattenable, FlattenKeys, Params, Validator } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
@@ -78,9 +78,10 @@ export class ObjectAccessor<T extends Flattenable> {
     }
 
     /**
-     * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
+     * 返回某个字段的 {@link Accessor} 接口供表单元素使用
      *
-     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
+     * @remarks
+     * 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
      * @typeParam FT - 表示 name 字段的类型；
@@ -160,7 +161,7 @@ export class ObjectAccessor<T extends Flattenable> {
      * @param validator - 是对返回之前对数据进行验证，如果此值非空，
      *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
      *
-     * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
+     * @returns 在 validator 不为空且验证出错的情况下，会返回 undefined，
      * 其它情况下都将返回当前表单的最新值。
      * 返回对象已经由 {@link unwrap} 进行了解绑。
      */
@@ -173,7 +174,7 @@ export class ObjectAccessor<T extends Flattenable> {
         const rslt = await validator(v);
         if (!rslt[1]) { return rslt[0]; }
 
-        rslt[1].forEach(err => { this.accessor(err.name).setError(err.reason); });
+        this.setError(rslt[1]);
     }
 
     /**
@@ -186,24 +187,26 @@ export class ObjectAccessor<T extends Flattenable> {
     }
 
     /**
-     * 根据 {@link Problem} 设置当前对象的错误信息
+     * 将错误信息设置到指定的字段上
      *
-     * @returns 错误是否已经被处理；
+     * @param errs - 错误列表，为空表示取消所有的错误显示；
      */
-    errorsFromProblem<PE = never>(p?: Problem<PE>):boolean {
-        if (p && p.params) {
-            p.params.forEach(param => {
-                this.accessor(param.name as FlattenKeys<T>).setError(param.reason);
-            });
+    setError(errs?: Params<FlattenKeys<T>>) {
+        if (!errs) {
+            this.#errSetter({} as any);
+            return;
         }
-        return !!p && !!p.params && p.params.length > 0;
+
+        errs.forEach(param => {
+            this.accessor(param.name).setError(param.reason);
+        });
     }
 
     /**
      * 重置所有字段的状态和值
      */
     reset() {
-        this.#errSetter({} as any);
+        this.setError();
         this.#valSetter(structuredClone(this.#preset));
         this.#checkPreset();
     }
