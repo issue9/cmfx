@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ExpandType } from '@cmfx/core';
+import { ExpandType, ValidResult } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
-import { ValidResult } from './validation';
 
 describe('ObjectAccessor', async () => {
     interface Object {

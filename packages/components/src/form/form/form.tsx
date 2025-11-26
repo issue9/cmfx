@@ -73,9 +73,14 @@ export function Form<T extends Flattenable, R = never, P = never>(props: Props<T
                 const f = el.element() as HTMLFormElement;
                 if (props.inDialog) { f.method = 'dialog'; }
 
-                const e = props.accessor.events();
-                f.onreset = e.onReset;
-                f.onsubmit = e.onSubmit;
+                f.addEventListener('reset', e => {
+                    props.accessor.reset();
+                    e.preventDefault();
+                });
+                f.addEventListener('submit', e => {
+                    props.accessor.submit();
+                    e.preventDefault();
+                });
             }}
         >
             {props.children}

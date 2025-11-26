@@ -314,23 +314,4 @@ export class FormAccessor<T extends Flattenable, R = never, P = never> {
         }
         return false;
     }
-
-    /**
-     * 生成符合 form 的 onReset 和 onSubmit 事件
-     */
-    events() {
-        const self = this;
-
-        return {
-            onReset(e: Event): void {
-                self.reset();
-                e.preventDefault();
-            },
-
-            async onSubmit(e: Event) {
-                await self.submit();
-                e.preventDefault();
-            }
-        };
-    }
 }

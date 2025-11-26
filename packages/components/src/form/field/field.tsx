@@ -122,6 +122,7 @@ export type FieldProps = ParentProps<Omit<Props, 'label'> & {
 /**
  * 表单字段的基本结构
  *
+ * @remarks
  * 所有的表单字段可基于此组件作二次开发，以达到样式上的统一。
  *
  * 组件内的各个子组件，需要通过 style 属性指定位置，可指定的位置如下：
