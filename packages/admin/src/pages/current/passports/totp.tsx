@@ -52,7 +52,7 @@ export class TOTP implements PassportComponents {
         const account = new ObjectAccessor<Account>({ username: '', code: '' });
 
         return <form class={styles.totp} onReset={() => account.reset()} onSubmit={async () => {
-            const r = await api.post(`/passports/${this.#id}/login`, account.object());
+            const r = await api.post(`/passports/${this.#id}/login`, await account.object());
             const ret = await api.login(r);
             if (ret === true) {
                 nav(opt.routes.private.home);

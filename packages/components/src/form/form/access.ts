@@ -7,18 +7,10 @@ import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
 import { Accessor, ChangeFunc } from '@/form/field';
+import { ObjectValidator } from './validation';
 
 // ObjectAccessor 中保存错误的类型
 type Err<T extends Flattenable> = Record<FlattenKeys<T>, string | undefined>;
-
-/**
- * 验证数据 obj
- *
- * 如果不存在错误，则返回 undefined，否则返回以字段名作为关键字的 Map。
- */
-export interface Validation<T extends Flattenable> {
-    (obj: T): Map<FlattenKeys<T>, string> | undefined;
-}
 
 /**
  * 将一组 {@link Accessor} 存储至一个对象中
@@ -172,19 +164,16 @@ export class ObjectAccessor<T extends Flattenable> {
      * 其它情况下都将返回当前表单的最新值。
      * 返回对象已经由 {@link unwrap} 进行了解绑。
      */
-    object(validation?: Validation<T>): T;
-    object(validation?: Validation<T>): T | undefined {
+    async object(): Promise<T>;
+    async object(validation?: ObjectValidator<T>): Promise<T | undefined>;
+    async object(validation?: ObjectValidator<T>): Promise<T | undefined> {
         const v: T = unwrap<T>(this.#valGetter);
+        if (!validation) { return v; }
 
-        if (validation) {
-            const errors = validation(v);
-            if (errors) {
-                errors.forEach((err, name) => { this.accessor(name).setError(err); });
-                return;
-            }
-        }
+        const rslt = await validation(v);
+        if (!rslt[1]) { return rslt[0]; }
 
-        return v;
+        rslt[1].forEach(err => { this.accessor(err.name).setError(err.reason); });
     }
 
     /**
@@ -241,7 +230,7 @@ interface ProcessProblem<T = never> {
  */
 export class FormAccessor<T extends Flattenable, R = never, P = never> {
     readonly #object: ObjectAccessor<T>;
-    readonly #validation?: Validation<T>;
+    readonly #validation?: ObjectValidator<T>;
     readonly #pp?: ProcessProblem<P>;
     readonly #request: Request<T, R, P>;
     readonly #success?: SuccessFunc<R>;
@@ -257,8 +246,8 @@ export class FormAccessor<T extends Flattenable, R = never, P = never> {
      * @param v - 提交前对数据的验证方法；
      */
     constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>);
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validation<T>);
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validation<T>) {
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: ObjectValidator<T>);
+    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: ObjectValidator<T>) {
         // NOTE: act 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
         this.#validation = v;
@@ -310,7 +299,7 @@ export class FormAccessor<T extends Flattenable, R = never, P = never> {
 
     // 执行请求操作
     private async req(): Promise<boolean> {
-        const obj = this.#object.object(this.#validation);
+        const obj = await this.#object.object(this.#validation);
         if (!obj) { return false; }
 
         const ret = await this.#request(unwrap(obj));

@@ -1,0 +1,48 @@
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { Flattenable, FlattenKeys } from '@cmfx/core';
+import * as z from 'zod';
+
+/**
+ * 错误信息
+ *
+ * @remarks
+ * 保持与 {@link @cmfx/core#Problem.params} 相同的类型。
+ */
+type Errors<T extends Flattenable> = Array<{ name: FlattenKeys<T>, reason: string }>;
+
+/**
+ * 验证数据的返回结果
+ */
+export type ValidResult<T extends Flattenable> = [data: T | undefined, errors: Errors<T> | undefined];
+
+/**
+ * 验证对象 T 的数据是否合法
+ *
+ * @typeParam T - 需要验证的数据类型；
+ */
+export interface ObjectValidator<T extends Flattenable> {
+    /**
+     * 验证整个对象
+     *
+     * @param obj - 需要验证的对象；
+     * @returns 验证结果，如果验证通过则返回 undefined，否则返回一个由元组组成的数组，
+     * 元素的第一个元素表示错误字段，第二个元素表示错误信息列表；
+     */
+    (obj: T): Promise<ValidResult<T>>;
+}
+
+export function zodValidator<T extends Flattenable>(s: z.ZodObject): ObjectValidator<T> {
+    return async(obj: T): Promise<ValidResult<T>> => {
+        const result = await s.safeParseAsync(obj);
+        if (result.success) { return [result.data as T, undefined]; }
+
+        const errors: Errors<T> = [];
+        result.error.issues.map(i => {
+            errors.push({ name: i.path.join('.') as FlattenKeys<T>, reason: i.message });
+        });
+        return [undefined, errors];
+    };
+}

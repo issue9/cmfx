@@ -45,7 +45,7 @@ export class Pwd implements PassportComponents {
         const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
 
         return <form class={styles.password} onReset={() => account.reset()} onSubmit={async () => {
-            const r = await api.post(`/passports/${this.#id}/login`, account.object());
+            const r = await api.post(`/passports/${this.#id}/login`, await account.object());
             const ret = await act.login(r);
             if (ret === true) {
                 nav(opt.routes.private.home);
@@ -76,7 +76,7 @@ export class Pwd implements PassportComponents {
 
             <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}
                 actions={dialogRef!.DefaultActions(async () => {
-                    const r = await api.put(`/passports/${this.#id}`, pwd.object());
+                    const r = await api.put(`/passports/${this.#id}`, await pwd.object());
                     if (!r.ok) {
                         await act.outputProblem(r.body);
                         return undefined;

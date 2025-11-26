@@ -2,29 +2,33 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ExpandType, FlattenKeys } from '@cmfx/core';
+import { ExpandType } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
+import { ValidResult } from './validation';
 
-describe('ObjectAccessor', () => {
+describe('ObjectAccessor', async () => {
     interface Object {
         [k: string]: unknown;
         f1: number;
         f2: string;
     }
 
+    const validator = async (_: Object): Promise<ValidResult<Object>> => {
+        return [undefined, [{ name: 'f1', reason: 'err' }]];
+    };
+
     const f = new ObjectAccessor<ExpandType<Object>>({ 'f1': 5, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(true);
     t(f.accessor('f1'));
-    expect(f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
+    expect(await f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
     expect(f.raw()).toEqual({ 'f1': 7, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(false);
 
-    test('validation', () => {
-        const v = (_: Object) => { return new Map<FlattenKeys<ExpandType<Object>>, string>([['f1', 'err']]); };
-        expect(f.object(v)).toBeUndefined();
+    test('validation', async () => {
+        expect(await f.object(validator)).toBeUndefined();
         expect(f.accessor('f1').getError(), 'err');
 
         const f1 = f.accessor('f1');

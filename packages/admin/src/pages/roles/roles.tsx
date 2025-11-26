@@ -42,7 +42,7 @@ export function Roles(props: Props): JSX.Element {
         let ret: Return<Role, never>;
         const id = currentID.getValue();
 
-        const obj = current.object();
+        const obj = await current.object();
         delete obj.id;
         if (id) {
             ret = await api.put(`/roles/${id}`, obj);

@@ -53,7 +53,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
             </div>
 
             <ButtonGroup kind='border'>
-                <Button square onclick={() => act.switchScheme(s.object())} title={l.t('_d.theme.apply')}>
+                <Button square onclick={async () => act.switchScheme(await s.object())} title={l.t('_d.theme.apply')}>
                     <IconApply />
                 </Button>
                 <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>

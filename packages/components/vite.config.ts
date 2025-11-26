@@ -78,7 +78,7 @@ export default defineConfig({
                 }
             },
             // 不需要打包的内容
-            external: ['solid-js', '@solidjs/router', '@cmfx/core', 'shiki/bundle/full']
+            external: ['solid-js', '@solidjs/router', '@cmfx/core', 'shiki/bundle/full', 'zod']
         }
     }
 });
