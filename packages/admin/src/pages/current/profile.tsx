@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, file2Base64, Form, FormAccessor, Page, TextField, Upload, UploadRef } from '@cmfx/components';
+import { Button, Divider, file2Base64, Form, FormAPI, Page, TextField, Upload, UploadRef } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 import IconHelp from '~icons/material-symbols/help';
 
@@ -20,7 +20,7 @@ export function Profile(props: Props): JSX.Element {
     const l = useLocale();
     let uploadRef: UploadRef;
 
-    const infoAccess = new FormAccessor<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, (obj)=>{
+    const infoAccess = new FormAPI<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, (obj)=>{
         return api.patch(opt.api.info, obj);
     }, act.outputProblem, async () => {
         await act.refetchUser();

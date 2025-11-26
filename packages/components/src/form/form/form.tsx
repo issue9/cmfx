@@ -8,11 +8,11 @@ import { createMemo, mergeProps, ParentProps } from 'solid-js';
 import { BaseProps, joinClass, Layout } from '@/base';
 import { Spin } from '@/spin';
 import { FormProvider } from '@/form/field';
-import { FormAccessor } from './access';
+import { FormAPI } from './api';
 import styles from './style.module.css';
 
 export interface Props<T extends Flattenable, R = never, P = never> extends BaseProps, ParentProps {
-    accessor: FormAccessor<T, R, P>;
+    accessor: FormAPI<T, R, P>;
 
     /**
      * 表单位于对话框中

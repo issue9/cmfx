@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, FormAccessor, Page, TextField } from '@cmfx/components';
+import { Button, Divider, Form, FormAPI, Page, TextField } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -27,7 +27,7 @@ export function Edit(props: Props): JSX.Element {
     const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     const nav = useNavigate();
-    const form = new FormAccessor<Admin>(zeroAdmin(),
+    const form = new FormAPI<Admin>(zeroAdmin(),
         async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
         act.outputProblem,
         () => { nav(props.backURL); }

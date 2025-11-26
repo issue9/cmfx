@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Form, FormAccessor, useComponents, MountProps } from '@cmfx/components';
+import { Button, Dialog, DialogRef, Form, FormAPI, useComponents, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
@@ -14,7 +14,7 @@ export default function(props: MountProps) {
     let dlg2: DialogRef;
     let dlg3: DialogRef;
 
-    const fa = new FormAccessor({}, async () => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; }, act.outputProblem);
+    const fa = new FormAPI({}, async () => { return {ok:false, status:500, body: {title: 'req error', type: 'err', status: 500}}; }, act.outputProblem);
 
     return <div>
         <Portal mount={props.mount}>

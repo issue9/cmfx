@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, DatePicker, Form, FormAccessor, Number, TextArea, TextField, useComponents, MountProps
+    Button, DatePicker, Form, FormAPI, Number, TextArea, TextField, useComponents, MountProps
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
@@ -16,7 +16,7 @@ export default function(props: MountProps) {
     const [helpS, help] = boolSelector('help');
     const [layoutS, layout] = layoutSelector('layout');
 
-    const f = new FormAccessor({
+    const f = new FormAPI({
         f1: 'f1',
         f2: 5,
         date: new Date('2021-01-02T15:31'),

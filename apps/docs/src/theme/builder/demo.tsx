@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAccessor, joinClass,
+    fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAPI, joinClass,
     Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
@@ -187,7 +187,7 @@ function Components(): JSX.Element {
         }
     ];
 
-    const regUserAccessor = new FormAccessor({
+    const regUserAccessor = new FormAPI({
         username: '',
         password: ''
     }, 0 as any);

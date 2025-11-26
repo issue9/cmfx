@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAccessor, notify, Page, Password, TextField } from '@cmfx/components';
+import { Button, Form, FormAPI, notify, Page, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -22,7 +22,7 @@ export function New(props: Props): JSX.Element {
     const [api, act] = useAdmin();
     const l = useLocale();
 
-    const form = new FormAccessor<Admin>(zeroAdmin(), async (obj) => {
+    const form = new FormAPI<Admin>(zeroAdmin(), async (obj) => {
         return await api.post('/admins', obj);
     }, act.outputProblem, async () => {
         await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
