@@ -56,11 +56,11 @@ export class HSLPickerPanel implements PickerPanel {
         let aRef: RangeRef;
 
         createEffect(() => {
-            const raw = this.#hsl.raw();
-            const hh = raw.h;
-            const ss = raw.s;
-            const ll = raw.l;
-            const aa = raw.a;
+            const store = this.#hsl.store();
+            const hh = store.h;
+            const ss = store.s;
+            const ll = store.l;
+            const aa = store.a;
             signal[1](fmtHSL(hh, ss, ll, aa));
 
             hRef.input().style.background = `linear-gradient(to right, ${fmtHSL(0, ss, ll, aa)},

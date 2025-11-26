@@ -151,12 +151,12 @@ export class ObjectAccessor<T extends Flattenable> {
      *
      * @remarks 是一个由 {@link createStore} 创建的对象。是一个可响应式的对象。
      */
-    raw(): T { return this.#valGetter; }
+    store(): Store<T> { return this.#valGetter; }
 
     /**
      * 返回当前对象的值
      *
-     * @param validation - 是对返回之前对数据进行验证，如果此值非空，
+     * @param validator - 是对返回之前对数据进行验证，如果此值非空，
      *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
      *
      * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
@@ -164,12 +164,12 @@ export class ObjectAccessor<T extends Flattenable> {
      * 返回对象已经由 {@link unwrap} 进行了解绑。
      */
     async object(): Promise<T>;
-    async object(validation?: Validator<T>): Promise<T | undefined>;
-    async object(validation?: Validator<T>): Promise<T | undefined> {
+    async object(validator?: Validator<T>): Promise<T | undefined>;
+    async object(validator?: Validator<T>): Promise<T | undefined> {
         const v: T = unwrap<T>(this.#valGetter);
-        if (!validation) { return v; }
+        if (!validator) { return v; }
 
-        const rslt = await validation(v);
+        const rslt = await validator(v);
         if (!rslt[1]) { return rslt[0]; }
 
         rslt[1].forEach(err => { this.accessor(err.name).setError(err.reason); });
@@ -229,7 +229,7 @@ interface ProcessProblem<T = never> {
  */
 export class FormAccessor<T extends Flattenable, R = never, P = never> {
     readonly #object: ObjectAccessor<T>;
-    readonly #validation?: Validator<T>;
+    readonly #validator?: Validator<T>;
     readonly #pp?: ProcessProblem<P>;
     readonly #request: Request<T, R, P>;
     readonly #success?: SuccessFunc<R>;
@@ -249,7 +249,7 @@ export class FormAccessor<T extends Flattenable, R = never, P = never> {
     constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validator<T>) {
         // NOTE: act 参数可以很好地限制此构造函数只能在组件中使用！
         this.#object = new ObjectAccessor(preset);
-        this.#validation = v;
+        this.#validator = v;
         this.#pp = pp;
         this.#request = req;
         this.#success = succ;
@@ -298,7 +298,7 @@ export class FormAccessor<T extends Flattenable, R = never, P = never> {
 
     // 执行请求操作
     private async req(): Promise<boolean> {
-        const obj = await this.#object.object(this.#validation);
+        const obj = await this.#object.object(this.#validator);
         if (!obj) { return false; }
 
         const ret = await this.#request(unwrap(obj));

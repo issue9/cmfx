@@ -56,11 +56,11 @@ export class OKLCHPickerPanel implements PickerPanel {
         let ra: RangeRef;
 
         createEffect(() => { // 根据值改变背景颜色
-            const raw = this.#oklch.raw();
-            const ll = raw.l;
-            const cc = raw.c;
-            const hh = raw.h;
-            const aa = raw.a;
+            const store = this.#oklch.store();
+            const ll = store.l;
+            const cc = store.c;
+            const hh = store.h;
+            const aa = store.a;
             signal[1](fmtOKLCH(ll, cc, hh, aa));
 
             rl.input().style.background = `linear-gradient(to right, ${fmtOKLCH(0, cc, hh, aa)},

@@ -56,11 +56,11 @@ export class RGBPickerPanel implements PickerPanel {
         let aRef: RangeRef;
 
         createEffect(() => {
-            const raw = this.#rgb.raw();
-            const rr = raw.r;
-            const gg = raw.g;
-            const bb = raw.b;
-            const aa = raw.a;
+            const store = this.#rgb.store();
+            const rr = store.r;
+            const gg = store.g;
+            const bb = store.b;
+            const aa = store.a;
             signal[1](fmtRGB(rr, gg, bb, aa));
 
             rRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, gg, bb, aa)},
