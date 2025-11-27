@@ -10,32 +10,33 @@ import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
 
 /**
- * 提交数据成功时的处理方法原型
- *
- * @typeParam R - 表示服务端返回的类型；
+ * 初始 {@link FormAPI} 的方法
  */
-export interface SubmitSuccess<R> {
-    (r?: Return<R, never>): void;
-}
+export interface Options<T extends Flattenable, R = never, PE = never> {
+    /**
+     * 初始值
+     */
+    readonly value: T;
 
-/**
- * 提交数据的方法原型
- *
- * @typeParam T - 表示需要提交的对象类型；
- * @typeParam R - 表示服务端返回的类型；
- * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
- */
-export interface Submit<T extends Flattenable, R = never, P = never> {
-    (obj: T): Promise<Return<R, P>>;
-}
+    /**
+     * 在服务端返回未处理的 {@link Problem} 对象时的处理方法，当前实现会自动处理带有 Problem#params 字段的错误
+     */
+    readonly onProblem?: { (p: Problem<PE>): Promise<void> };
 
-/**
- * 提交数据返回 {@link Problem} 时的处理方法原型
- *
- * @typeParam E - 表示服务端返回的 {@link Problem#extension} 的类型；
- */
-export interface SubmitProblem<E = never> {
-    (p: Problem<E>): Promise<void>;
+    /**
+     * 在接口正常返回时调用的方法；
+     */
+    readonly onSuccess?: { (r?: Return<R, never>): void; };
+
+    /**
+     * 提交前对数据的验证方法；
+     */
+    readonly validator?: Validator<T>;
+
+    /**
+     * 提交数据的方法，如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#submitting} 将无实际作用
+     */
+    readonly submit?: { (obj: T): Promise<Return<R, PE>>; };
 }
 
 /**
@@ -47,10 +48,11 @@ export interface SubmitProblem<E = never> {
  */
 export class FormAPI<T extends Flattenable, R = never, P = never> {
     readonly #object: ObjectAccessor<T>;
-    readonly #validator?: Validator<T>;
-    readonly onProblem?: SubmitProblem<P>;
-    readonly #submit?: Submit<T, R, P>;
-    readonly onSuccess?: SubmitSuccess<R>;
+    readonly #validator?: Options<T, R, P>['validator'];
+    readonly onProblem?: Options<T, R, P>['onProblem'];
+    readonly #submit?: Options<T, R, P>['submit'];
+    readonly onSuccess?: Options<T, R, P>['onSuccess'];
+
     readonly #submitting: Signal<boolean>;
 
     /**
@@ -58,18 +60,16 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
      *
      * @param preset - 初始值；
      * @param submit - 提交数据的方法，如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#submitting} 将无实际作用；
-     * @param onProblem - 如果服务端返回的错误未得到处理，则调用此方法作最后处理，当前实现会自动处理带有 Problem#params 字段的错误；
+     * @param onProblem - 在服务端返回未处理的 {@link Problem} 对象时的处理方法，当前实现会自动处理带有 Problem#params 字段的错误；
      * @param onSuccess - 在接口正常返回时调用的方法；
      * @param v - 提交前对数据的验证方法；
      */
-    constructor(preset: T, submit?: Submit<T, R, P>, onProblem?: SubmitProblem<P>);
-    constructor(preset: T, submit?: Submit<T, R, P>, onProblem?: SubmitProblem<P>, onSuccess?: SubmitSuccess<R>, v?: Validator<T>);
-    constructor(preset: T, submit?: Submit<T, R, P>, onProblem?: SubmitProblem<P>, onSuccess?: SubmitSuccess<R>, v?: Validator<T>) {
-        this.#object = new ObjectAccessor(preset);
-        this.#validator = v;
-        this.onProblem = onProblem;
-        this.#submit = submit;
-        this.onSuccess = onSuccess;
+    constructor(options: Options<T, R, P>) {
+        this.#object = new ObjectAccessor(options.value);
+        this.#validator = options.validator;
+        this.onProblem = options.onProblem;
+        this.#submit = options.submit;
+        this.onSuccess = options.onSuccess;
         this.#submitting = createSignal<boolean>(false);
     }
 

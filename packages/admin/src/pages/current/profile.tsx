@@ -20,23 +20,12 @@ export function Profile(props: Props): JSX.Element {
     const l = useLocale();
     let uploadRef: UploadRef;
 
-    const infoAccess = new FormAPI<User>({sex: 'unknown',state: 'normal',name: '',nickname: '', passports: []}, (obj)=>{
-        return api.patch(opt.api.info, obj);
-    }, act.outputProblem, async () => {
-        await act.refetchUser();
-    }, (obj) => {
-        if (!obj.name) {
-            return new Map([['name', l.t('_p.error.canNotBeEmpty')]]);
-        }
-        if (!obj.nickname) {
-            return new Map([['nickname', l.t('_p.error.canNotBeEmpty')]]);
-        }
+    const fapi = new FormAPI({
+        value: { sex: 'unknown', state: 'normal', name: '', nickname: '', passports: [] } as User,
+        onProblem: p => act.outputProblem(p),
+        submit: async obj => { return api.patch(opt.api.info, obj); },
+        onSuccess: async () => { await act.refetchUser(); }
     });
-
-    const nameA = infoAccess.accessor<string>('name');
-    const nicknameA = infoAccess.accessor<string>('nickname');
-    const sexA = infoAccess.accessor<user.Sex>('sex');
-    const passportA = infoAccess.accessor<User['passports']>('passports');
 
     const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
@@ -47,7 +36,12 @@ export function Profile(props: Props): JSX.Element {
         const u = act.user();
         if (!u) { return; }
 
-        infoAccess.setPreset(u);
+        fapi.setPreset(u);
+
+        const nameA = fapi.accessor('name');
+        const nicknameA = fapi.accessor('nickname');
+        const sexA = fapi.accessor('sex');
+        const passportA = fapi.accessor<User['passports']>('passports');
 
         nameA.setValue(u.name!);
         nicknameA.setValue(u.nickname!);
@@ -110,14 +104,14 @@ export function Profile(props: Props): JSX.Element {
 
         <Divider padding='4px' />
 
-        <Form accessor={infoAccess} class={styles.form}>
-            <TextField class="w-full" label={l.t('_p.current.name')} accessor={nameA} />
-            <TextField class="w-full" label={l.t('_p.nickname')} accessor={nicknameA} />
-            <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={sexA} />
+        <Form class={styles.form} accessor={fapi}>
+            <TextField class="w-full" label={l.t('_p.current.name')} accessor={fapi.accessor('name')} />
+            <TextField class="w-full" label={l.t('_p.nickname')} accessor={fapi.accessor('nickname')} />
+            <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor('sex')} />
 
             <div class={styles.actions}>
-                <Button palette="secondary" type="reset" disabled={infoAccess.isPreset()}>{l.t('_c.reset')}</Button>
-                <Button palette="primary" type="submit" disabled={infoAccess.isPreset()}>{l.t('_p.save')}</Button>
+                <Button palette="secondary" type="reset" disabled={fapi.isPreset()}>{l.t('_c.reset')}</Button>
+                <Button palette="primary" type="submit" disabled={fapi.isPreset()}>{l.t('_p.save')}</Button>
             </div>
         </Form>
 
@@ -134,7 +128,7 @@ export function Profile(props: Props): JSX.Element {
             <tbody>
                 <For each={passports()}>
                     {item => {
-                        const username = createMemo(() => passportA.getValue()!.find((v) => v.id == item.id)?.identity);
+                        const username = createMemo(() => fapi.accessor<User['passports']>('passports').getValue()!.find(v => v.id == item.id)?.identity);
 
                         return <tr>
                             <td class="flex items-center">

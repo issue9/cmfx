@@ -4,7 +4,7 @@
 
 import {
     fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAPI, joinClass,
-    Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag
+    Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag,
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
 import { createSignal, createEffect, For, JSX, Match, Switch } from 'solid-js';
@@ -187,10 +187,12 @@ function Components(): JSX.Element {
         }
     ];
 
-    const regUserAccessor = new FormAPI({
-        username: '',
-        password: ''
-    }, 0 as any);
+    const api = new FormAPI({
+        value: {
+            username: '',
+            password: ''
+        },
+    });
 
     return <div class={styles.components}>
         <BasicTable class="w-full! transition-all" items={items} columns={columns} />
@@ -201,9 +203,9 @@ function Components(): JSX.Element {
             footerClass='flex justify-between'
             footer={<><Button palette='primary'>重置</Button><Button palette='primary'>注册</Button></>}
         >
-            <Form accessor={regUserAccessor} layout='vertical'>
-                <TextField accessor={regUserAccessor.accessor<string>('username')} label='用户名' placeholder='请输入用户名' />
-                <Password accessor={regUserAccessor.accessor<string>('password')} label='密码' placeholder='请输入密码' />
+            <Form accessor={api} layout='vertical'>
+                <TextField accessor={api.accessor<string>('username')} label='用户名' placeholder='请输入用户名' />
+                <Password accessor={api.accessor<string>('password')} label='密码' placeholder='请输入密码' />
             </Form>
         </Card>
 
@@ -211,10 +213,12 @@ function Components(): JSX.Element {
             { type: 'item', label: 'Item 1', value: '1' },
             { type: 'item', label: 'Item 2', value: '2' },
             { type: 'item', label: 'Item 3', value: '3' },
-            { type: 'group', label: 'group', items: [
-                { type: 'item', label: 'Item 1', value: '41' },
-                { type: 'item', label: 'Item 2', value: '42' },
-            ] },
+            {
+                type: 'group', label: 'group', items: [
+                    { type: 'item', label: 'Item 1', value: '41' },
+                    { type: 'item', label: 'Item 2', value: '42' },
+                ]
+            },
         ]} />
     </div>;
 }

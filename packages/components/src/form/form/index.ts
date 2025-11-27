@@ -5,6 +5,7 @@
 export { ObjectAccessor } from './access';
 
 export { FormAPI } from './api';
+export type { Options as FormAPIOptions } from './api';
 
 export { Form } from './form';
 export type { Props as FormProps } from './form';
