@@ -56,7 +56,7 @@ export class OKLCHPickerPanel implements PickerPanel {
         let ra: RangeRef;
 
         createEffect(() => { // 根据值改变背景颜色
-            const store = this.#oklch.store();
+            const store = this.#oklch.getValue();
             const ll = store.l;
             const cc = store.c;
             const hh = store.h;

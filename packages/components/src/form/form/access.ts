@@ -153,7 +153,7 @@ export class ObjectAccessor<T extends Flattenable> {
      * @remarks
      * 是一个由 {@link createStore} 创建的对象。是一个可响应式的对象。
      */
-    store(): Store<T> { return this.#valGetter; }
+    getValue(): Store<T> { return this.#valGetter; }
 
     /**
      * 返回当前对象的值
@@ -163,7 +163,7 @@ export class ObjectAccessor<T extends Flattenable> {
      *
      * @returns 在 validator 不为空且验证出错的情况下，会返回 undefined，
      * 其它情况下都将返回当前表单的最新值。
-     * 返回对象已经由 {@link unwrap} 进行了解绑。
+     * 与 {@link getValue} 的区别在于当前方法的返回值由 {@link unwrap} 进行了解绑。
      */
     async object(): Promise<T>;
     async object(validator?: Validator<T>): Promise<T | undefined>;
@@ -180,7 +180,7 @@ export class ObjectAccessor<T extends Flattenable> {
     /**
      * 修改整个对象的值
      */
-    setObject(obj: T) {
+    setValue(obj: T) {
         Object.entries(obj).forEach(([k, v]) => {
             this.accessor(k as FlattenKeys<T>).setValue(v);
         });

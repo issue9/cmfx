@@ -23,7 +23,7 @@ describe('ObjectAccessor', async () => {
     expect(f.isPreset()).toEqual<boolean>(true);
     t(f.accessor('f1'));
     expect(await f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
-    expect(f.store()).toEqual({ 'f1': 7, 'f2': 'f2' });
+    expect(f.getValue()).toEqual({ 'f1': 7, 'f2': 'f2' });
     expect(f.isPreset()).toEqual<boolean>(false);
 
     test('validation', async () => {
@@ -49,8 +49,8 @@ describe('ObjectAccessor', async () => {
         expect(f.isPreset()).toBeFalsy();
     });
 
-    test('setObject', () => {
-        f.setObject({ 'f1': 11, 'f2': '22' });
+    test('setValue', () => {
+        f.setValue({ 'f1': 11, 'f2': '22' });
         expect(f.accessor('f1').getValue()).toEqual(11);
         expect(f.accessor('f2').getValue()).toEqual('22');
     });

@@ -4,7 +4,7 @@
 
 import { Flattenable, FlattenKeys, Problem, Return, Validator, Params } from '@cmfx/core';
 import { createSignal, Signal } from 'solid-js';
-import { unwrap } from 'solid-js/store';
+import { Store } from 'solid-js/store';
 
 import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
@@ -60,7 +60,8 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
      *
      * @param preset - 初始值；
      * @param submit - 提交数据的方法，如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#submitting} 将无实际作用；
-     * @param onProblem - 在服务端返回未处理的 {@link Problem} 对象时的处理方法，当前实现会自动处理带有 Problem#params 字段的错误；
+     * @param onProblem - 处理服务端返回为 {@link Problem} 时的方法。如果服务端返回的是 400 且带有 params，会自动进行一次处理，
+     *  如果 onProblem 不想再次处理，需要将其过滤；
      * @param onSuccess - 在接口正常返回时调用的方法；
      * @param v - 提交前对数据的验证方法；
      */
@@ -94,7 +95,9 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
 
     setPreset(v: T) { return this.#object.setPreset(v); }
 
-    setObject(v: T) { return this.#object.setObject(v); }
+    setValue(v: T) { return this.#object.setValue(v); }
+
+    getValue(): Store<T> { return this.#object.getValue(); }
 
     /**
      * 将错误信息设置到指定的字段上
@@ -121,7 +124,7 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
             const obj = await this.object();
             if (!obj) { return false; }
 
-            const ret = await this.#submit(unwrap(obj));
+            const ret = await this.#submit(obj);
             if (ret.ok) {
                 if (this.onSuccess) { this.onSuccess(ret); }
                 return true;
@@ -129,11 +132,10 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
 
             if (!ret.body) { return true; }
 
-            if (ret.body.params) {
-                this.#object.setError(ret.body.params as any);
-            }else if (this.onProblem) {
-                await this.onProblem(ret.body);
-            }
+            if (ret.body.params) { this.#object.setError(ret.body.params as any); }
+
+            if (this.onProblem) { await this.onProblem(ret.body); }
+
             return false;
         } finally {
             this.#submitting[1](false);
