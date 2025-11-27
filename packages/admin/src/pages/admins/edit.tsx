@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, createForm, Page, TextField } from '@cmfx/components';
+import { Button, Divider, createForm, Page, TextField, Table } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -69,7 +69,7 @@ export function Edit(props: Props): JSX.Element {
 
         <Divider padding='8px'>{l.t('_p.admin.passport')}</Divider>
 
-        <table class="cmfx-table">
+        <Table hoverable>
             <thead>
                 <tr>
                     <th>{l.t('_p.admin.passportType')}</th>
@@ -90,7 +90,7 @@ export function Edit(props: Props): JSX.Element {
                     }}
                 </For>
             </tbody>
-        </table>
+        </Table>
     </Page>;
 }
 
