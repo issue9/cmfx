@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, Form, FormAPI, joinClass,
+    fieldAccessor, Appbar, BasicTable, Button, ButtonGroup, Card, Column, DatePanel, joinClass, createForm,
     Menu, Mode, ObjectAccessor, Palette, palettes, Password, Scheme, TextField, ThemeProvider, useLocale, wcag,
 } from '@cmfx/components';
 import { ExpandType } from '@cmfx/core';
@@ -187,7 +187,7 @@ function Components(): JSX.Element {
         }
     ];
 
-    const api = new FormAPI({
+    const [api, Form] = createForm({
         value: {
             username: '',
             password: ''
@@ -203,7 +203,7 @@ function Components(): JSX.Element {
             footerClass='flex justify-between'
             footer={<><Button palette='primary'>重置</Button><Button palette='primary'>注册</Button></>}
         >
-            <Form accessor={api} layout='vertical'>
+            <Form layout='vertical'>
                 <TextField accessor={api.accessor<string>('username')} label='用户名' placeholder='请输入用户名' />
                 <Password accessor={api.accessor<string>('password')} label='密码' placeholder='请输入密码' />
             </Form>

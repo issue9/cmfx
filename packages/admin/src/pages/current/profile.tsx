@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, file2Base64, Form, FormAPI, Page, TextField, Upload, UploadRef } from '@cmfx/components';
+import { Button, Divider, file2Base64, createForm, Page, TextField, Upload, UploadRef } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 import IconHelp from '~icons/material-symbols/help';
 
@@ -20,7 +20,7 @@ export function Profile(props: Props): JSX.Element {
     const l = useLocale();
     let uploadRef: UploadRef;
 
-    const fapi = new FormAPI({
+    const [fapi, Form] = createForm({
         value: { sex: 'unknown', state: 'normal', name: '', nickname: '', passports: [] } as User,
         onProblem: p => act.outputProblem(p),
         submit: async obj => { return api.patch(opt.api.info, obj); },
@@ -104,7 +104,7 @@ export function Profile(props: Props): JSX.Element {
 
         <Divider padding='4px' />
 
-        <Form class={styles.form} accessor={fapi}>
+        <Form class={styles.form}>
             <TextField class="w-full" label={l.t('_p.current.name')} accessor={fapi.accessor('name')} />
             <TextField class="w-full" label={l.t('_p.nickname')} accessor={fapi.accessor('nickname')} />
             <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor('sex')} />

@@ -10,7 +10,7 @@ import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
 
 /**
- * 初始 {@link FormAPI} 的方法
+ * 初始 {@link FormAPI} 的参数
  */
 export interface Options<T extends Flattenable, R = never, PE = never> {
     /**

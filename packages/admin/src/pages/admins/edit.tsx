@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, FormAPI, Page, TextField } from '@cmfx/components';
+import { Button, Divider, createForm, Page, TextField } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -27,7 +27,7 @@ export function Edit(props: Props): JSX.Element {
     const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     const nav = useNavigate();
-    const fapi = new FormAPI<Admin>({
+    const [fapi, Form] = createForm<Admin>({
         value: zeroAdmin(),
         submit: async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
         onProblem: p => act.outputProblem(p),
@@ -52,7 +52,7 @@ export function Edit(props: Props): JSX.Element {
     });
 
     return <Page title="_p.admin.admin" class="max-w-xs">
-        <Form accessor={fapi} class="flex flex-col">
+        <Form class="flex flex-col">
             <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
             <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
             <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />

@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, DatePicker, Form, FormAPI, Number, TextArea, TextField, useComponents, MountProps
+    Button, DatePicker, createForm, Number, TextArea, TextField, useComponents, MountProps
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
@@ -16,7 +16,7 @@ export default function(props: MountProps) {
     const [helpS, help] = boolSelector('help');
     const [layoutS, layout] = layoutSelector('layout');
 
-    const api = new FormAPI({
+    const [api, Form] = createForm({
         value: {
             f1: 'f1',
             f2: 5,
@@ -35,7 +35,7 @@ export default function(props: MountProps) {
             {layoutS}
         </Portal>
 
-        <Form palette={palette()} rounded={rounded()} layout={layout()} hasHelp={help()} accessor={api}>
+        <Form palette={palette()} rounded={rounded()} layout={layout()} hasHelp={help()}>
             <TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
             <Number label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
             <DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />

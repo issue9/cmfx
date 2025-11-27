@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, Form, useComponents, MountProps, FormAPI } from '@cmfx/components';
+import { Button, Dialog, DialogRef, createForm, useComponents, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
@@ -14,7 +14,7 @@ export default function(props: MountProps) {
     let dlg2: DialogRef;
     let dlg3: DialogRef;
 
-    const api = new FormAPI({
+    const [, Form] = createForm({
         value: {},
         submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
         onProblem: p => act.outputProblem(p)
@@ -28,7 +28,7 @@ export default function(props: MountProps) {
         <Button onclick={() => dlg2.element().showModal()} palette={palette()}>showModal</Button>
         <Dialog movable palette={palette()} ref={el => dlg2 = el} header="header">
             <div>
-                <Form accessor={api} inDialog>
+                <Form inDialog>
                     <div class="flex flex-col">
                         <div class="py-3">form</div>
                         <div class="flex">

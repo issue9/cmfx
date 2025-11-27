@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAPI, notify, Page, Password, TextField } from '@cmfx/components';
+import { Button, createForm, notify, Page, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -22,7 +22,7 @@ export function New(props: Props): JSX.Element {
     const [api, act] = useAdmin();
     const l = useLocale();
 
-    const fapi = new FormAPI({
+    const [fapi, Form] = createForm({
         value: zeroAdmin(),
         submit: async obj => { return await api.post('/admins', obj); },
         onProblem: p => act.outputProblem(p),
@@ -33,7 +33,7 @@ export function New(props: Props): JSX.Element {
     });
 
     return <Page title="_p.admin.admin" class="max-w-xs">
-        <Form class="flex flex-col" accessor={fapi}>
+        <Form class="flex flex-col">
             <TextField class='w-full' accessor={fapi.accessor<string>('username')} label={l.t('_p.current.username')} />
             <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
             <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
