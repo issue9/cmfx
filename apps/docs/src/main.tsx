@@ -5,11 +5,11 @@
 import './style.css';
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes,
+    Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes, Result,
     run, Search, ToggleFullScreenButton, Transition, useComponents, useLocale, useTheme
 } from '@cmfx/components';
-import { RouteDefinition, RouteSectionProps } from '@solidjs/router';
-import { createSignal, JSX, lazy, Show } from 'solid-js';
+import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
+import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
@@ -24,6 +24,7 @@ import IconLanguage from '~icons/material-symbols/language';
 import IconLight from '~icons/material-symbols/light-mode';
 import IconTheme from '~icons/material-symbols/palette';
 import IconBuilder from '~icons/mdi/theme';
+import * as illustrations from '@cmfx/illustrations';
 
 import pkg from '../package.json';
 import { buildMenus as buildDemoMenus, buildRoute as buildDemoRoute } from './demo';
@@ -159,11 +160,26 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
     </div>;
 }
 
+function NotFound(): JSX.Element {
+    const l = useLocale();
+    const nav = useNavigate();
+
+    const text = createMemo(() => { return l.t('_d.error.pageNotFound'); });
+
+    return <Result palette='error' title={text()} illustration={<illustrations.Error404 text={text()} />}>
+        <div class={styles['error-actions']}>
+            <Button palette='primary' type='a' href="/">{l.t('_d.error.backHome')}</Button>
+            <Button palette='primary' type='button' onclick={() => { nav(-1); }}>{l.t('_d.error.backPrev')}</Button>
+        </div>
+    </Result>;
+}
+
 const routes: Array<RouteDefinition> = [
     { path: '/', component: lazy(() => import('./home')) },
     buildThemeRoute(themeRoute, setThemeRef),
     buildDemoRoute(demoRoute, setDemoRef),
     buildDocsRoute(docsRoute, setDocsRef),
+    { path: '*', component: NotFound }
 ];
 
 run((props: RouteSectionProps) => <InternalApp {...props} />, routes, document.getElementById('app')!, options);

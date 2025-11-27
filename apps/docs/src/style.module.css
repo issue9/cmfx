@@ -18,4 +18,8 @@
             @apply @max-md/root:hidden;
         }
     }
+
+    .error-actions {
+        @apply flex flex-col gap-4 max-w-60;
+    }
 }

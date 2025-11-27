@@ -54,7 +54,7 @@ export function NotFound(): JSX.Element {
 
     return <Result palette='error' title={text()} illustration={<illustrations.Error404 text={text()} />}>
         <div class={styles['error-actions']}>
-            <Button palette='primary' onclick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
+            <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
             <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
         </div>
     </Result>;
@@ -72,7 +72,7 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
     const unknown = (title: string, msg?: string) => {
         return <Result palette='error' title={title} description={msg} illustration={<illustrations.BUG />}>
             <div class={styles['error-actions']}>
-                <Button palette='primary' onclick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
+                <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
                 <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                 <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
             </div>
@@ -112,7 +112,7 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
             text = l.t('_p.error.forbidden');
             return <Result palette='error' title={text} illustration={<illustrations.Error403 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' onclick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                     <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
                 </div>
@@ -131,7 +131,7 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
             text = l.t('_p.error.internalServerError');
             return <Result palette='error' title={text} illustration={<illustrations.Error500 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' onclick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                     <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
                 </div>
@@ -140,7 +140,7 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
             text = l.t('_p.error.serverUnavailable');
             return <Result palette='error' title={text} illustration={<illustrations.Error503 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' onclick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                     <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
                 </div>
@@ -149,7 +149,7 @@ export function ErrorHandler(props: { err: Error | any }): JSX.Element {
             text = l.t('_p.error.gatewayTimeout');
             return <Result palette='error' title={text} illustration={<illustrations.Error504 text={text} />}>
                 <div class={styles['error-actions']}>
-                    <Button palette='primary' onclick={() => { nav(opt.routes.private.home); }}>{l.t('_p.error.backHome')}</Button>
+                    <Button palette='primary' type='a' href={opt.routes.private.home}>{l.t('_p.error.backHome')}</Button>
                     <Button palette='primary' onclick={() => { nav(-1); }}>{l.t('_p.error.backPrev')}</Button>
                     <Button palette='primary' onclick={() => window.location.reload()}>{l.t('_c.refresh')}</Button>
                 </div>

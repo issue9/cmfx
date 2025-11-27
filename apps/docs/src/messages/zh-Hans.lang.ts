@@ -18,6 +18,11 @@ const messages: typeof m = {
             faq: 'FAQ',
             editOnGithub: '在 github 编辑',
         },
+        error: {
+            pageNotFound: '页面不存在',
+            backHome: '返回首页',
+            backPrev: '返回上一页'
+        },
         main: {
             home: '首页',
             docs: '文档',

@@ -5,7 +5,7 @@
 
 const messages = {
     _d: {
-        stages:{
+        stages: {
             codeDemo: 'Code Demo',
 
             api: 'API',
@@ -16,6 +16,11 @@ const messages = {
             desc: 'Description',
             faq: 'FAQ',
             editOnGithub: 'Edit on github',
+        },
+        error: {
+            pageNotFound: 'Page not found',
+            backHome: 'Back to home',
+            backPrev: 'Back to previous page'
         },
         main: {
             home: 'Home',

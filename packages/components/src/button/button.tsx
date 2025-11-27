@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import { A } from '@solidjs/router';
+import { A, AnchorProps } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { classList, PropsError, RefProps } from '@/base';
@@ -64,7 +64,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     /**
      * 指向的链接，仅在 type 为 'a' 时有效。
      */
-    href?: string;
+    href?: AnchorProps['href'];
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
