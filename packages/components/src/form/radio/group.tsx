@@ -52,7 +52,11 @@ export function RadioGroup<T extends AvailableEnumType> (props: Props<T>): JSX.E
         el.role = 'radiogroup';
     }}>
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)} class={inputCls()} onKeyDown={e => {

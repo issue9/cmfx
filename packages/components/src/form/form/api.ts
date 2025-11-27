@@ -144,5 +144,8 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
 
     reset() { this.#object.reset(); }
 
+    /**
+     * 验证并返回对象
+     */
     async object() { return await this.#object.object(this.#validator); }
 }

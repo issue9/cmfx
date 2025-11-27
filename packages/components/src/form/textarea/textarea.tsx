@@ -39,7 +39,11 @@ export function TextArea<T extends Value>(props: Props<T>):JSX.Element {
 
     return <Field class={props.class} style={props.style} title={props.title} palette={props.palette}>
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <textarea style={fieldArea2Style(areas().inputArea)} id={id} inputMode={props.inputMode}

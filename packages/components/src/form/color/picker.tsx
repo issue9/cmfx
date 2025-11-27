@@ -25,7 +25,11 @@ export default function ColorPicker(props: Props): JSX.Element {
     const id = createUniqueId();
     return <Field class={props.class} title={props.title} palette={props.palette} aria-haspopup style={props.style}>
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)}>

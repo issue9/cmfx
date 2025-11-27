@@ -3,14 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Checkbox, Choice, ChoiceOption, fieldAccessor, Layout,
-    layouts, Palette, palettes, ButtonKind, buttonKinds, useLocale
+    Checkbox, Choice, ChoiceOption, fieldAccessor, Layout, labelAlignments,
+    LabelAlignment, layouts, Palette, palettes, ButtonKind, buttonKinds, useLocale
 } from '@cmfx/components';
 import { PopoverPosition } from '@cmfx/core';
 import { Accessor, createSignal, createUniqueId, JSX, Setter } from 'solid-js';
 
 export function posSelector(preset?: PopoverPosition) {
     return arraySelector('pos', ['left', 'right', 'top', 'bottom'], preset);
+}
+
+export function labelAlignSelector(preset: LabelAlignment) {
+    return arraySelector('label align', labelAlignments, preset);
 }
 
 /**

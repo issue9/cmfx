@@ -38,7 +38,7 @@ export function Edit(props: Props): JSX.Element {
         const r1 = await api.get<Admin>(`/admins/${ps.id}`);
         if (r1.ok) {
             fapi.setPreset(r1.body!);
-            fapi.setObject(r1.body!);
+            fapi.setValue(r1.body!);
         } else {
             await act.outputProblem(r1.body);
         }

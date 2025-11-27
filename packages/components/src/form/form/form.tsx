@@ -7,11 +7,11 @@ import { Component, createMemo, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout } from '@/base';
 import { Spin } from '@/spin';
-import { FormProvider } from '@/form/field';
+import { CommonProps, FormProvider } from '@/form/field';
 import { FormAPI, Options } from './api';
 import styles from './style.module.css';
 
-export interface Props extends BaseProps, ParentProps {
+export interface Props extends BaseProps, CommonProps, ParentProps {
     /**
      * 表单位于对话框中
      *
@@ -19,33 +19,9 @@ export interface Props extends BaseProps, ParentProps {
      * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
      */
     inDialog?: boolean;
-
-    // 以下为 FormContext 的属性
-
-    /**
-     * 子组件的 layout 属性的默认值
-     *
-     * @remarks 同时也影响整个 Form 组件的布局。
-     * @reactive
-     */
-    layout?: Layout;
-
-    /**
-     * 子组件的 hasHelp 属性的默认值
-     *
-     * @reactive
-     */
-    hasHelp?: boolean;
-
-    /**
-     * 子组件的 rounded 属性的默认值
-     *
-     * @reactive
-     */
-    rounded?: boolean;
 }
 
-const preset = {
+const preset: Props = {
     layout: 'horizontal' as Layout,
     hasHelp: true,
 } as const;
@@ -73,8 +49,10 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             );
         });
 
-        return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>
-            <Spin tag="form" spinning={api.submitting()}
+        return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}
+            disabled={props.disabled} readonly={props.readonly} labelAlign={props.labelAlign} labelWidth={props.labelWidth}
+        >
+            <Spin tag="form" spinning={api.submitting() || props.disabled}
                 palette={props.palette} class={cls()} style={props.style} ref={el => {
                     const f = el.element() as HTMLFormElement;
                     if (props.inDialog) { f.method = 'dialog'; }

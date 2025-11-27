@@ -83,7 +83,11 @@ export function Album(props: Props): JSX.Element {
         title={props.title} palette={props.palette}
     >
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }}>{props.label}</label>}
         </Show>
 
         <fieldset style={fieldArea2Style(areas().inputArea)} ref={el => dropRef = el} class={styles['upload-content']}>

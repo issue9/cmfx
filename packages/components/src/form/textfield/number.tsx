@@ -38,9 +38,7 @@ export function Number(props: Props): JSX.Element {
     const access = props.accessor;
 
     const step = (v: number) => {
-        if (props.readonly || props.disabled) {
-            return;
-        }
+        if (props.readonly || props.disabled) { return; }
 
         const n = (access.getValue() ?? 0) + v;
         if (props.min !== undefined && v < 0 && n < props.min) {
@@ -57,6 +55,8 @@ export function Number(props: Props): JSX.Element {
     let ref: Ref;
 
     const wheel = (e: WheelEvent)=>{
+        if (props.readonly || props.disabled) { return; }
+
         e.preventDefault();
         const stepV = props.step ?? 1;
         step(e.deltaY > 0 ? stepV : -stepV);

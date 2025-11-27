@@ -119,7 +119,11 @@ export function TextField<T extends InputValue = string>(props: Props<T>):JSX.El
         palette={props.palette} class={props.class} style={props.style}
     >
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <Switch fallback={<Trigger style={fieldArea2Style(areas().inputArea)} />}>

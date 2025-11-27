@@ -4,7 +4,7 @@
 
 import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
 
-import { Layout } from '@/base';
+import { CommonProps } from './types';
 
 /**
  * 提供了表单的上下文环境
@@ -12,22 +12,7 @@ import { Layout } from '@/base';
  * @remarks
  * 在表单中的组件，部分属性可以通过此上下文环境进行设置。
  */
-export interface FormContext {
-    /**
-     * 组件是否为圆角
-     */
-    rounded?: boolean;
-
-    /**
-     * 是否应该为帮助信息预留位置
-     */
-    hasHelp?: boolean;
-
-    /**
-     * 组件的布局方式
-     */
-    layout?: Layout;
-}
+export type FormContext = CommonProps;
 
 const ctx = createContext<FormContext>({} as FormContext);
 

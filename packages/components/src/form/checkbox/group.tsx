@@ -34,14 +34,17 @@ export function CheckboxGroup<T extends string | number>(props: Props<T>): JSX.E
     const form = useForm();
     props = mergeProps(form, props);
 
-
     const [chkProps, _] = splitProps(props, ['disabled', 'readonly', 'tabindex', 'block', 'rounded']);
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label));
 
     const access = props.accessor;
     return <Field class={props.class} title={props.title} palette={props.palette} style={props.style}>
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)}
