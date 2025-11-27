@@ -5,7 +5,7 @@
 import * as z from 'zod';
 
 import { FlattenKeys, Flattenable } from '@/types';
-import { Params } from '@/api/types';
+import { Params } from '@/api';
 
 /**
  * 验证数据的返回结果

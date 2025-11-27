@@ -55,7 +55,11 @@ export default function Time(props: Props) {
         style={props.style} title={props.title} palette={props.palette} aria-haspopup
     >
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}

@@ -7,7 +7,7 @@ import {
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '../../base';
+import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
     const [, act] = useComponents();
@@ -17,6 +17,7 @@ export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [layoutS, layout] = layoutSelector('layout');
+    const [labelAlignS, labelAlign] = labelAlignSelector('start');
 
     const [api, Form] = createForm({
         value: {
@@ -37,10 +38,11 @@ export default function(props: MountProps) {
             {layoutS}
             {disabledS}
             {readonlyS}
+            {labelAlignS}
         </Portal>
 
         <Form palette={palette()} rounded={rounded()} layout={layout()} hasHelp={help()}
-            disabled={disabled()} readonly={readonly()}
+            disabled={disabled()} readonly={readonly()} labelWidth='100px' labelAlign={labelAlign()}
         >
             <TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
             <Number label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />

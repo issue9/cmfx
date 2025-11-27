@@ -4,7 +4,7 @@
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { BaseProps, joinClass, Layout } from '@/base';
+import { joinClass, Layout } from '@/base';
 import { Accessor } from './access';
 import type { Props } from './types';
 import styles from './style.module.css';
@@ -40,7 +40,7 @@ export interface FieldAreas {
 /**
  * 将 {@link FieldArea} 转换为 CSS 样式
  */
-export function fieldArea2Style(area: FieldArea): BaseProps['style'] {
+export function fieldArea2Style(area: FieldArea): JSX.CSSProperties {
     return {
         'grid-area': area.pos,
         'grid-column-end': area.cols ? `span ${area.cols}` : undefined,
@@ -115,7 +115,7 @@ function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAre
     return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
-export type FieldProps = ParentProps<Omit<Props, 'label'> & {
+export type FieldProps = ParentProps<Props & {
     ref?: { (el: HTMLDivElement): void; };
 }>;
 

@@ -9,11 +9,15 @@ import { default as api } from './api.json';
 import { default as Form } from './form';
 import { default as form } from './form.tsx?raw';
 
+import { default as Label } from './label';
+import { default as label } from './label.tsx?raw';
+
 import { Stages } from '../../../stages';
 
 export default function(): JSX.Element {
     return <Stages dir='demo/form' api={api} stages={[
         { component: Form, source: form, title: 'form' },
+        { component: Label, source: label, title: 'label' },
     ]}>
     </Stages>;
 }

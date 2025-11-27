@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 // field 部分内容仅内部使用
-export { fieldAccessor, FormProvider, useForm } from './field';
+export { fieldAccessor, labelAlignments, FormProvider, useForm } from './field';
 export type {
-    Accessor, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext
+    Accessor, FieldBaseProps, Option as FieldOption, Options as FieldOptions, FormContext, LabelAlignment
 } from './field';
 
 export * from './checkbox';

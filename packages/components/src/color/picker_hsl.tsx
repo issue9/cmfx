@@ -56,7 +56,7 @@ export class HSLPickerPanel implements PickerPanel {
         let aRef: RangeRef;
 
         createEffect(() => {
-            const store = this.#hsl.store();
+            const store = this.#hsl.getValue();
             const hh = store.h;
             const ss = store.s;
             const ll = store.l;

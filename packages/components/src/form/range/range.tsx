@@ -125,7 +125,11 @@ export default function Range(props: Props): JSX.Element {
     const areas = createMemo(() => calcLayoutFieldAreas(props.layout!, !!props.hasHelp, !!props.label, !!props.value));
     return <Field class={props.class} title={props.title} palette={props.palette} style={props.style}>
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <div ref={el => wrapRef = el} style={fieldArea2Style(areas().inputArea)} class={styles.range}

@@ -12,6 +12,9 @@ import { default as checkbox } from './checkbox.tsx?raw';
 import { default as Group } from './group';
 import { default as group } from './group.tsx?raw';
 
+import { default as Label } from './group-label';
+import { default as label } from './group-label.tsx?raw';
+
 import { default as Indeterminate } from './indeterminate';
 import { default as indeterminate } from './indeterminate.tsx?raw';
 
@@ -21,6 +24,7 @@ export default function(): JSX.Element {
     return <Stages dir='demo/form/checkbox' api={api} stages={[
         { component: Checkbox, source: checkbox, title: 'checkbox' },
         { component: Group, source: group, title: 'checkbox group' },
+        { component: Label, source: label, title: 'label' },
         { component: Indeterminate, source: indeterminate, title: 'indeterminate' },
     ]}>
     </Stages>;

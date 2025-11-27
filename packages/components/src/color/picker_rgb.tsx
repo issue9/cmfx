@@ -56,7 +56,7 @@ export class RGBPickerPanel implements PickerPanel {
         let aRef: RangeRef;
 
         createEffect(() => {
-            const store = this.#rgb.store();
+            const store = this.#rgb.getValue();
             const rr = store.r;
             const gg = store.g;
             const bb = store.b;

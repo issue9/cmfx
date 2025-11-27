@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys, Problem, Return, Validator } from '@cmfx/core';
+import { Flattenable, FlattenKeys, Params, Validator } from '@cmfx/core';
 import { createSignal, Signal, untrack } from 'solid-js';
 import { createStore, produce, SetStoreFunction, Store, unwrap } from 'solid-js/store';
 
@@ -78,9 +78,10 @@ export class ObjectAccessor<T extends Flattenable> {
     }
 
     /**
-     * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
+     * 返回某个字段的 {@link Accessor} 接口供表单元素使用
      *
-     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
+     * @remarks
+     * 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
      * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
      *
      * @typeParam FT - 表示 name 字段的类型；
@@ -149,9 +150,10 @@ export class ObjectAccessor<T extends Flattenable> {
     /**
      * 返回原始的存储对象
      *
-     * @remarks 是一个由 {@link createStore} 创建的对象。是一个可响应式的对象。
+     * @remarks
+     * 是一个由 {@link createStore} 创建的对象。是一个可响应式的对象。
      */
-    store(): Store<T> { return this.#valGetter; }
+    getValue(): Store<T> { return this.#valGetter; }
 
     /**
      * 返回当前对象的值
@@ -159,9 +161,9 @@ export class ObjectAccessor<T extends Flattenable> {
      * @param validator - 是对返回之前对数据进行验证，如果此值非空，
      *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
      *
-     * @returns 在 validation 不为空且验证出错的情况下，会返回 undefined，
+     * @returns 在 validator 不为空且验证出错的情况下，会返回 undefined，
      * 其它情况下都将返回当前表单的最新值。
-     * 返回对象已经由 {@link unwrap} 进行了解绑。
+     * 与 {@link getValue} 的区别在于当前方法的返回值由 {@link unwrap} 进行了解绑。
      */
     async object(): Promise<T>;
     async object(validator?: Validator<T>): Promise<T | undefined>;
@@ -172,146 +174,40 @@ export class ObjectAccessor<T extends Flattenable> {
         const rslt = await validator(v);
         if (!rslt[1]) { return rslt[0]; }
 
-        rslt[1].forEach(err => { this.accessor(err.name).setError(err.reason); });
+        this.setError(rslt[1]);
     }
 
     /**
      * 修改整个对象的值
      */
-    setObject(obj: T) {
+    setValue(obj: T) {
         Object.entries(obj).forEach(([k, v]) => {
             this.accessor(k as FlattenKeys<T>).setValue(v);
         });
     }
 
     /**
-     * 根据 {@link Problem} 设置当前对象的错误信息
+     * 将错误信息设置到指定的字段上
      *
-     * @returns 错误是否已经被处理；
+     * @param errs - 错误列表，为空表示取消所有的错误显示；
      */
-    errorsFromProblem<PE = never>(p?: Problem<PE>):boolean {
-        if (p && p.params) {
-            p.params.forEach(param => {
-                this.accessor(param.name as FlattenKeys<T>).setError(param.reason);
-            });
+    setError(errs?: Params<FlattenKeys<T>>) {
+        if (!errs) {
+            this.#errSetter({} as any);
+            return;
         }
-        return !!p && !!p.params && p.params.length > 0;
+
+        errs.forEach(param => {
+            this.accessor(param.name).setError(param.reason);
+        });
     }
 
     /**
      * 重置所有字段的状态和值
      */
     reset() {
-        this.#errSetter({} as any);
+        this.setError();
         this.#valSetter(structuredClone(this.#preset));
         this.#checkPreset();
-    }
-}
-
-interface SuccessFunc<T> {
-    (r?: Return<T, never>): void;
-}
-
-interface Request<T extends Flattenable, R = never, P = never> {
-    (obj: T): Promise<Return<R, P>>;
-}
-
-interface ProcessProblem<T = never> {
-    (p: Problem<T>): Promise<void>;
-}
-
-/**
- * 适用于表单的 {@link ObjectAccessor}
- *
- * @typeParam T - 表示需要提交的对象类型；
- * @typeParam R - 表示服务端返回的类型；
- * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
- */
-export class FormAccessor<T extends Flattenable, R = never, P = never> {
-    readonly #object: ObjectAccessor<T>;
-    readonly #validator?: Validator<T>;
-    readonly #pp?: ProcessProblem<P>;
-    readonly #request: Request<T, R, P>;
-    readonly #success?: SuccessFunc<R>;
-    readonly #submitting: Signal<boolean>;
-
-    /**
-     * 构造函数
-     *
-     * @param preset - 初始值；
-     * @param req - 提交数据的方法；
-     * @param pp - 如果服务端返回的错误未得到处理，则调用此方法作最后处理；
-     * @param succ - 在接口正常返回时调用的方法；
-     * @param v - 提交前对数据的验证方法；
-     */
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>);
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validator<T>);
-    constructor(preset: T, req: Request<T, R, P>, pp?: ProcessProblem<P>, succ?: SuccessFunc<R>, v?: Validator<T>) {
-        // NOTE: act 参数可以很好地限制此构造函数只能在组件中使用！
-        this.#object = new ObjectAccessor(preset);
-        this.#validator = v;
-        this.#pp = pp;
-        this.#request = req;
-        this.#success = succ;
-        this.#submitting = createSignal<boolean>(false);
-    }
-
-    /**
-     * 指示是否处于提交状态
-     */
-    submitting() { return this.#submitting[0](); }
-
-    /**
-     * 返回某个字段的 {@link Accessor} 接口供表单元素使用。
-     *
-     * NOTE: 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
-     * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
-     */
-    accessor<FT = unknown, K extends string = string>(name: FlattenKeys<T>, kind?: K): Accessor<FT, K> {
-        return this.#object.accessor<FT, K>(name, kind);
-    }
-
-    setPreset(v: T) { return this.#object.setPreset(v); }
-
-    setObject(v: T) { return this.#object.setObject(v); }
-
-    /**
-     * 当前内容是否都是默认值
-     */
-    isPreset() { return this.#object.isPreset(); }
-
-    /**
-     * 提交数据
-     *
-     * @returns 表示接口是否成功调用
-     */
-    async submit(): Promise<boolean> {
-        try {
-            this.#submitting[1](true);
-            return await this.req();
-        } finally {
-            this.#submitting[1](false);
-        }
-    }
-
-    reset() { this.#object.reset(); }
-
-    // 执行请求操作
-    private async req(): Promise<boolean> {
-        const obj = await this.#object.object(this.#validator);
-        if (!obj) { return false; }
-
-        const ret = await this.#request(unwrap(obj));
-        if (ret.ok) {
-            if (this.#success) { this.#success(ret); }
-            return true;
-        }
-
-        if (!ret.body) { return true; }
-
-        if (!this.#object.errorsFromProblem(ret.body) && this.#pp) {
-            await this.#pp(ret.body);
-        }
-        return false;
     }
 }

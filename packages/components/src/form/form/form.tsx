@@ -3,17 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { createMemo, mergeProps, ParentProps } from 'solid-js';
+import { Component, createMemo, mergeProps, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout } from '@/base';
 import { Spin } from '@/spin';
-import { FormProvider } from '@/form/field';
-import { FormAccessor } from './access';
+import { CommonProps, FormProvider } from '@/form/field';
+import { FormAPI, Options } from './api';
 import styles from './style.module.css';
 
-export interface Props<T extends Flattenable, R = never, P = never> extends BaseProps, ParentProps {
-    accessor: FormAccessor<T, R, P>;
-
+export interface Props extends BaseProps, CommonProps, ParentProps {
     /**
      * 表单位于对话框中
      *
@@ -21,69 +19,58 @@ export interface Props<T extends Flattenable, R = never, P = never> extends Base
      * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
      */
     inDialog?: boolean;
-
-    // 以下为 FormContext 的属性
-
-    /**
-     * 子组件的 layout 属性的默认值
-     *
-     * @remarks 同时也影响整个 Form 组件的布局。
-     * @reactive
-     */
-    layout?: Layout;
-
-    /**
-     * 子组件的 hasHelp 属性的默认值
-     *
-     * @reactive
-     */
-    hasHelp?: boolean;
-
-    /**
-     * 子组件的 rounded 属性的默认值
-     *
-     * @reactive
-     */
-    rounded?: boolean;
 }
 
-const preset = {
+const preset: Props = {
     layout: 'horizontal' as Layout,
     hasHelp: true,
 } as const;
 
 /**
- * 表单组件
+ * 生成创建表单的相关功能
+ *
+ * @param options - 初始化参数；
+ * @returns 返回元组，第一个元素为 {@link FormAPI}，第二个元素为 Form 组件；
  */
-export function Form<T extends Flattenable, R = never, P = never>(props: Props<T, R, P>) {
-    props = mergeProps(preset, props);
+export function createForm<T extends Flattenable, R = never, P = never>(
+    options: Options<T, R, P>
+): [api: FormAPI<T, R, P>, Form: Component<Props>] {
+    const api = new FormAPI<T, R, P>(options);
 
-    const cls = createMemo(() => {
-        return joinClass(
-            undefined,
-            styles.form,
-            props.layout === 'vertical' ? 'flex-col' : '',
-            props.class
-        );
-    });
+    const f = (props: Props) => {
+        props = mergeProps(preset, props);
 
-    return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}>
-        <Spin tag="form" spinning={props.accessor.submitting()}
-            palette={props.palette} class={cls()} style={props.style} ref={el => {
-                const f = el.element() as HTMLFormElement;
-                if (props.inDialog) { f.method = 'dialog'; }
+        const cls = createMemo(() => {
+            return joinClass(
+                undefined,
+                styles.form,
+                props.layout === 'vertical' ? 'flex-col' : '',
+                props.class
+            );
+        });
 
-                f.addEventListener('reset', e => {
-                    props.accessor.reset();
-                    e.preventDefault();
-                });
-                f.addEventListener('submit', e => {
-                    props.accessor.submit();
-                    e.preventDefault();
-                });
-            }}
+        return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}
+            disabled={props.disabled} readonly={props.readonly} labelAlign={props.labelAlign} labelWidth={props.labelWidth}
         >
-            {props.children}
-        </Spin>
-    </FormProvider>;
+            <Spin tag="form" spinning={api.submitting() || props.disabled}
+                palette={props.palette} class={cls()} style={props.style} ref={el => {
+                    const f = el.element() as HTMLFormElement;
+                    if (props.inDialog) { f.method = 'dialog'; }
+
+                    f.addEventListener('reset', e => {
+                        api.reset();
+                        e.preventDefault();
+                    });
+                    f.addEventListener('submit', e => {
+                        api.submit();
+                        e.preventDefault();
+                    });
+                }}
+            >
+                {props.children}
+            </Spin>
+        </FormProvider>;
+    };
+
+    return [api, f];
 }

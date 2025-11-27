@@ -106,7 +106,11 @@ export function Choice<T extends AvailableEnumType = string, M extends boolean =
         style={props.style} title={props.title} palette={props.palette}
     >
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)} tabIndex={props.tabindex}>

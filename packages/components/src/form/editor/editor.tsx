@@ -115,7 +115,11 @@ export function Editor(props: Props): JSX.Element {
         }}
     >
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} onClick={() => editor.focus()}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} onClick={() => editor.focus()}>{props.label}</label>}
         </Show>
 
         <div class={styles['editor-wrap']} style={fieldArea2Style(areas().inputArea)}>

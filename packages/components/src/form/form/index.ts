@@ -2,7 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { FormAccessor, ObjectAccessor } from './access';
+export { ObjectAccessor } from './access';
 
-export { Form } from './form';
+export { FormAPI } from './api';
+export type { Options as FormAPIOptions } from './api';
+
+export { createForm } from './form';
 export type { Props as FormProps } from './form';

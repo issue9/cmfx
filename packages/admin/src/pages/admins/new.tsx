@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Form, FormAccessor, notify, Page, Password, TextField } from '@cmfx/components';
+import { Button, createForm, notify, Page, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -22,21 +22,24 @@ export function New(props: Props): JSX.Element {
     const [api, act] = useAdmin();
     const l = useLocale();
 
-    const form = new FormAccessor<Admin>(zeroAdmin(), async (obj) => {
-        return await api.post('/admins', obj);
-    }, act.outputProblem, async () => {
-        await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
-        useNavigate()(-1);
+    const [fapi, Form] = createForm({
+        value: zeroAdmin(),
+        submit: async obj => { return await api.post('/admins', obj); },
+        onProblem: p => act.outputProblem(p),
+        onSuccess: async () => {
+            await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
+            useNavigate()(-1);
+        }
     });
 
     return <Page title="_p.admin.admin" class="max-w-xs">
-        <Form accessor={form} class="flex flex-col">
-            <TextField class='w-full' accessor={form.accessor<string>('username')} label={l.t('_p.current.username')} />
-            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_p.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-            <Password class='w-full' autocomplete='new-password' accessor={form.accessor<string>('password')} label={l.t('_p.current.password')} />
-            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
-            <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} />
+        <Form class="flex flex-col">
+            <TextField class='w-full' accessor={fapi.accessor<string>('username')} label={l.t('_p.current.username')} />
+            <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
+            <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+            <Password class='w-full' autocomplete='new-password' accessor={fapi.accessor<string>('password')} label={l.t('_p.current.password')} />
+            <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
+            <user.SexSelector class='w-full' accessor={fapi.accessor<user.Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <Button type='a' href={props.backURL} palette='secondary'>
                     <IconArrowBack />{l.t('_c.cancel')}

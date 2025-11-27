@@ -101,7 +101,11 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
         style={ props.style } title={props.title} aria-haspopup
     >
         <Show when={areas().labelArea}>
-            {area => <label style={fieldArea2Style(area())} for={id}>{props.label}</label>}
+            {area => <label style={{
+                ...fieldArea2Style(area()),
+                'width': props.labelWidth,
+                'text-align': props.labelAlign,
+            }} for={id}>{props.label}</label>}
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)} ref={el => anchorRef = el}

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, Form, FormAccessor, Page, TextField } from '@cmfx/components';
+import { Button, Divider, createForm, Page, TextField } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
@@ -27,18 +27,18 @@ export function Edit(props: Props): JSX.Element {
     const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
 
     const nav = useNavigate();
-    const form = new FormAccessor<Admin>(zeroAdmin(),
-        async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
-        act.outputProblem,
-        () => { nav(props.backURL); }
-    );
-    const formPassports = form.accessor<Admin['passports']>('passports');
+    const [fapi, Form] = createForm<Admin>({
+        value: zeroAdmin(),
+        submit: async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
+        onProblem: p => act.outputProblem(p),
+        onSuccess: () => nav(props.backURL)
+    });
 
     onMount(async () => {
         const r1 = await api.get<Admin>(`/admins/${ps.id}`);
         if (r1.ok) {
-            form.setPreset(r1.body!);
-            form.setObject(r1.body!);
+            fapi.setPreset(r1.body!);
+            fapi.setValue(r1.body!);
         } else {
             await act.outputProblem(r1.body);
         }
@@ -52,18 +52,18 @@ export function Edit(props: Props): JSX.Element {
     });
 
     return <Page title="_p.admin.admin" class="max-w-xs">
-        <Form accessor={form} class="flex flex-col">
-            <TextField class='w-full' accessor={form.accessor<string>('name')} label={l.t('_p.admin.name')} />
-            <TextField class='w-full' accessor={form.accessor<string>('nickname')} label={l.t('_p.nickname')} />
-            <roles.Selector class="w-full" multiple accessor={form.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
-            <user.SexSelector class='w-full' accessor={form.accessor<user.Sex>('sex')} label={l.t('_p.sex')} />
+        <Form class="flex flex-col">
+            <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
+            <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
+            <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
+            <user.SexSelector class='w-full' accessor={fapi.accessor<user.Sex>('sex')} label={l.t('_p.sex')} />
             <div class="w-full flex justify-between gap-5">
                 <Button type='a' href={props.backURL} palette='secondary'>
                     <IconArrowBack />
                     {l.t('_p.back')}
                 </Button>
-                <Button disabled={form.isPreset()} type="reset" palette='secondary'>{l.t('_c.reset')}</Button>
-                <Button disabled={form.isPreset()} type="submit" palette='primary'>{l.t('_c.ok')}</Button>
+                <Button disabled={fapi.isPreset()} type="reset" palette='secondary'>{l.t('_c.reset')}</Button>
+                <Button disabled={fapi.isPreset()} type="submit" palette='primary'>{l.t('_c.ok')}</Button>
             </div>
         </Form>
 
@@ -79,7 +79,7 @@ export function Edit(props: Props): JSX.Element {
             <tbody>
                 <For each={passports()}>
                     {(item) => {
-                        const uid = formPassports.getValue()!.find((v) => v.id == item.id)?.id;
+                        const uid = fapi.accessor<Admin['passports']>('passports').getValue()!.find(v => v.id == item.id)?.id;
                         return <tr>
                             <td class="flex items-center">
                                 {item.id}

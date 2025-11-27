@@ -7,6 +7,6 @@ export { API, query2Search } from './api';
 export { mimetypes } from './serializer';
 export type { Mimetype } from './serializer';
 
-export type { Method, Page, Problem, Query, Return } from './types';
+export type { Method, Page, Problem, Query, Return, Params } from './types';
 
 export type { Token } from './token';
