@@ -304,8 +304,8 @@ export default function Error400(props: Props): JSX.Element {
         </g>
 
         <g id="freepik--error-400--inject-112">
-            <text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:var(--fg-low)">{ props.text ?? presetText }</text>
-            <text x="253" y="80.5" text-anchor="middle" style="font-size:2.2rem;font-weight:bold;fill:var(--fg-high)">ERROR 400</text>
+            <text x="250" y="108" text-anchor="middle" style="font-size:1.2rem;font-weight:bold;fill:var(--palette-fg-low)">{ props.text ?? presetText }</text>
+            <text x="253" y="80.5" text-anchor="middle" style="font-size:2.2rem;font-weight:bold;fill:var(--palette-fg-high)">ERROR 400</text>
         </g>
     </svg>;
 }

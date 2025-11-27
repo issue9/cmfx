@@ -146,9 +146,7 @@ export default function Error503(props: Props): JSX.Element {
                         <use href="#illustrations-503-21" fill="currentColor" /><use href="#illustrations-503-21" opacity=".35" />
                         <path d="M246.41,172.65l-2.3,1.32a.59.59,0,0,0,0,1.11l1,.59a2.16,2.16,0,0,0,1.92,0l2.3-1.32c.53-.31.54-.81,0-1.11l-1-.59A2.1,2.1,0,0,0,246.41,172.65Z" fill="currentColor" />
                         <use href="#illustrations-503-22" fill="currentColor" /><use href="#illustrations-503-22" opacity=".35" />
-                        <text x="354" y="-8.5" text-anchor="middle" transform='skewX(-30),skewY(24)' style="font-size:.2rem;fill:#000">ERROR 503</text>
-                    </g>
-                    <g id="freepik--phone--inject-109">
+                        <text x="354" y="-8.5" text-anchor="middle" transform='skewX(-30),skewY(24)' style="font-size:.2rem" fill="var(--palette-bg)">ERROR 503</text>
                         <use href="#illustrations-503-24" fill="#455a64" /><use href="#illustrations-503-24" opacity=".1" />
                         <path d="M229.21,182.6v3.06a2.86,2.86,0,0,1-1.35,2.38h0l-.78.46-8.57,5a3.16,3.16,0,0,0,1.88-2.72V187.7a2.07,2.07,0,0,0,1-.24l7.41-4.28A.71.71,0,0,0,229.21,182.6Z" style="fill:#263238" />
                         <path d="M203.37,171.36l-4.67,2.7-4.16,2.4A5.38,5.38,0,0,1,194,175l-.64-2.9v0a2,2,0,0,0,1-.23l7.41-4.28a.75.75,0,0,0,.41-.53h0l.63,2.86A5.46,5.46,0,0,0,203.37,171.36Z" style="fill:#263238" />

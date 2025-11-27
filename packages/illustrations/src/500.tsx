@@ -370,7 +370,7 @@ export default function Error500(props: Props): JSX.Element {
         </g>
         <g id="freepik--error-500--inject-92">
             <text x="200" y="280" transform='skewY(-30)' style="font-size:3.7rem;font-weight:bold;fill:currentColor">500</text>
-            <text x="205" y="315" transform='skewY(-30)' style="font-size:.9rem;font-weight:bold;fill:var(--fg-low)">{props.text ?? presetText}</text>
+            <text x="205" y="315" transform='skewY(-30)' style="font-size:.9rem;font-weight:bold;fill:var(--palette-fg-low)">{props.text ?? presetText}</text>
             <path d="M252.08,191.4a1.47,1.47,0,0,0-2.18.27c-.67.83-.73,3.39-1,5.12a20.89,20.89,0,0,1-1.69,5.34,27.8,27.8,0,0,1-5.71,7.86,36.13,36.13,0,0,1-10.93,7.29,31.77,31.77,0,0,1-4.24,1.48c-1.43.39-3.35.43-4.58,1.24a.42.42,0,0,0,0,.62c1.5.62,3.34.35,4.9.14a25.91,25.91,0,0,0,5.79-1.6,35.36,35.36,0,0,0,10.44-6.35,30.94,30.94,0,0,0,7.44-9.28,21.71,21.71,0,0,0,2.06-6.06,20.93,20.93,0,0,0,.44-3.34A3.22,3.22,0,0,0,252.08,191.4Z" style="fill:#455a64" />
         </g>
     </svg>;

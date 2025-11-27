@@ -65,7 +65,7 @@ export default function Login(props: Props): JSX.Element {
             <path d="M245.89,199.84l-98,56.59a4.57,4.57,0,0,0-1.56,1.64l8.35,4.82a4.49,4.49,0,0,1,1.57-1.66l98-56.58Z" style="fill:#455a64" />
             <path d="M254.23,204.65l-98,56.58a4.93,4.93,0,0,0-2.23,3.86v38.23c0,1.42,1,2,2.23,1.29l98-56.58Z" style="fill:#37474f" />
             <path d="M178.83,256.57l50.57-29.19c2.09-1.21,3.79-.35,3.79,1.92a8.13,8.13,0,0,1-3.8,6.3l-50.56,29.2c-2.09,1.21-3.8.35-3.8-1.92A8.16,8.16,0,0,1,178.83,256.57Z" fill="currentColor" />
-            <text x="206.8" y="386.24" text-anchor="middle" transform='skewY(-30)' style="font-size:.7rem;font-weight:bold;fill:#fafafa">{props.text ?? presetText}</text>
+            <text x="206.8" y="386.24" text-anchor="middle" transform='skewY(-30)' style="font-size:.7rem;font-weight:bold;fill:currentColor">{props.text ?? presetText}</text>
             <path d="M277.87,224.4,268.16,230l1.51-13.62c-1.17-.62-1.91-2.13-1.91-4.3,0-3.87,2.36-8.36,5.26-10s5.25.1,5.25,4a13.26,13.26,0,0,1-1.9,6.5Z" style="fill:#455a64" />
             <polygon points="277.88 224.4 269.33 219.47 268.16 230.01 277.88 224.4" style="fill:#37474f" />
             <path d="M273,202.05a11.45,11.45,0,0,0-4.48,5.95l7.83,4.52h0a13.26,13.26,0,0,0,1.9-6.5C278.27,202.15,275.92,200.38,273,202.05Z" style="fill:#37474f" />
