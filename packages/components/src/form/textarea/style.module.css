@@ -9,20 +9,16 @@
 @layer components {
     .textarea {
         @apply rounded-md outline-none bg-transparent border border-palette-border flex px-2 py-2 w-full text-left;
-
-        @apply focus:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
-        @apply hover:enabled:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
-        @apply active:enabled:border-palette-border-actived active:enabled:bg-palette-bg-actived;
         @apply read-only:cursor-default;
         @apply transition;
 
+        @apply focus:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
+        @apply hover:enabled:border-palette-border-focused hover:enabled:bg-palette-bg-focused;
+        @apply active:enabled:border-palette-border-actived active:enabled:bg-palette-bg-actived;
+        @apply disabled:cursor-not-allowed disabled:text-palette-fg-disabled disabled:border-palette-border-disabled;
     }
 
     .textarea.rounded {
         @apply rounded-full;
-    }
-
-    .textarea:disabled {
-        @apply cursor-not-allowed text-[var(--palette-bg-low)];
     }
 }

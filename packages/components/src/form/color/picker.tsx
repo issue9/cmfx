@@ -4,7 +4,7 @@
 
 import { createMemo, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
 
-import { joinClass } from '@/base';
+import { classList } from '@/base';
 import { Accessor, calcLayoutFieldAreas, Field, fieldArea2Style, FieldBaseProps, FieldHelpArea, useForm } from '@/form/field';
 import { ColorPanel, ColorPanelProps } from '@/color';
 import { Dialog, DialogRef } from '@/dialog';
@@ -33,12 +33,19 @@ export default function ColorPicker(props: Props): JSX.Element {
         </Show>
 
         <div style={fieldArea2Style(areas().inputArea)}>
-            <div class={joinClass(undefined, styles['color-panel-activator'], props.rounded ? 'rounded-full' : '')}
-                onClick={() => dlgRef.element().showModal()}
-                style={{
-                    'background': props.accessor.getValue(),
-                    'color': props.wcag,
-                }}
+            <div class={classList(undefined, {
+                [styles['color-panel-activator']]: true,
+                [styles.rounded]: props.rounded,
+                [styles.readonly]: props.readonly,
+                [styles.disabled]: props.disabled,
+            })} onClick={() => {
+                if (props.disabled || props.disabled) { return; }
+
+                dlgRef.element().showModal();
+            }} style={{
+                'background': props.accessor.getValue(),
+                'color': props.wcag,
+            }}
             >
                 <Show when={props.wcag}>A</Show>
                 <input id={id} onClick={e => e.preventDefault()} type="color" class="hidden"

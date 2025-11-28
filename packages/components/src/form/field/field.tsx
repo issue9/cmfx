@@ -4,7 +4,7 @@
 
 import { JSX, ParentProps } from 'solid-js';
 
-import { joinClass, Layout } from '@/base';
+import { joinClass, Layout, RefProps } from '@/base';
 import { Accessor } from './access';
 import type { Props } from './types';
 import styles from './style.module.css';
@@ -115,9 +115,7 @@ function calcVerticalFieldAreas(hasHelp?: boolean, hasLabel?: boolean): FieldAre
     return { inputArea: { pos: 'top-left', cols: 3, rows: 3 } };
 }
 
-export type FieldProps = ParentProps<Props & {
-    ref?: { (el: HTMLDivElement): void; };
-}>;
+export type FieldProps = ParentProps<Props & RefProps<HTMLDivElement>>;
 
 /**
  * 表单字段的基本结构

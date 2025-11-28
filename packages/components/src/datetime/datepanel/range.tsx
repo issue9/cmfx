@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { arrayEqual } from '@cmfx/core';
 import {
     createEffect, createMemo, createSignal, Match, onCleanup, onMount, Show, splitProps, Switch, untrack
 } from 'solid-js';
+import equal from 'fast-deep-equal';
 
 import { joinClass } from '@/base';
 import { Button } from '@/button';
@@ -119,19 +119,20 @@ export function DateRangePanel(props: Props) {
 
         index = index === 0 ? 1 : 0;
 
-        if (props.onChange && onchange) { props.onChange(values(), old); }
+        const vals = untrack(values) as [Date, Date];
+        if (props.onChange && onchange && !equal(vals, old)) { props.onChange(vals, old); }
     };
 
     // 监视外部直接通过 props.value 修改
     createEffect(() => {
         const old = untrack(values);
-        if (props.value === old || (props.value && arrayEqual(old, props.value))) { return; }
+        if (props.value === old || (props.value && equal(old, props.value))) { return; }
 
         viewRef1?.unselect(...old);
         viewRef2?.unselect(...old);
 
         const v = props.value || [undefined, undefined];
-        if (arrayEqual(v, [undefined, undefined])) {
+        if (equal(v, [undefined, undefined])) {
             viewRef1?.uncover();
             viewRef2?.uncover();
 
@@ -159,7 +160,7 @@ export function DateRangePanel(props: Props) {
 
         setValues(vals);
         index = 0;
-        if (props.onChange) { props.onChange(values(), old); }
+        if (props.onChange && !equal(vals, old)) { props.onChange(vals, old); }
     });
 
     const valueFormater = createMemo(() => {

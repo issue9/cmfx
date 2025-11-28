@@ -9,7 +9,7 @@
 @layer components {
     .activator {
         .activator-container {
-            @apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none;
+            @apply rounded-md border border-palette-border flex items-center px-2 py-1 cursor-pointer outline-none w-full;
 
             @apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
             @apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
@@ -22,12 +22,8 @@
             }
 
             .input.range {
-                @apply focus-within:text-palette-fg-high;
+                @apply focus-within:text-palette-fg-focused;
             }
-        }
-
-        .activator-container:focus {
-            @apply border-palette-border-focused;
         }
 
         .activator-container.rounded {

@@ -39,7 +39,7 @@ export interface CommonProps {
     readonly?: boolean;
 
     /**
-     * 子组件的 layout 属性的默认值
+     * 表单组件的 layout 属性的默认值
      *
      * @remarks 同时也影响整个 Form 组件的布局。
      * @reactive
@@ -48,7 +48,7 @@ export interface CommonProps {
     layout?: Layout;
 
     /**
-     * 子组件的 hasHelp 属性的默认值
+     * 表单组件的 hasHelp 属性的默认值
      *
      * @reactive
      * @defaultValue true
@@ -56,21 +56,21 @@ export interface CommonProps {
     hasHelp?: boolean;
 
     /**
-     * 子组件的 rounded 属性的默认值
+     * 表单组件的 rounded 属性的默认值
      *
      * @reactive
      */
     rounded?: boolean;
 
     /**
-     * 子组件中 label 宽度的默认值
+     * 表单组件中 label 宽度的默认值
      *
      * @reactive
      */
     labelWidth?: string;
 
     /**
-     * 子组件中 label 的对齐方式
+     * 表单组件中 label 的对齐方式
      *
      * @remarks
      * 只有在 label 有明确宽度的情况下该属性才有效，比如设置了一个比较宽的 {@link labelWidth}。

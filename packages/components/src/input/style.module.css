@@ -11,20 +11,21 @@
         @apply rounded-md border border-palette-border flex justify-between text-center w-full h-full;
 
         @apply has-[:focus:enabled]:border-palette-border-focused has-[:focus:enabled]:bg-palette-bg-focused;
-        @apply has-enabled:hover:border-palette-border-focused has-enabled:hover:bg-palette-bg-focused;
+        @apply has-[:hover:enabled]:border-palette-border-focused has-[:hover:enabled]:bg-palette-bg-focused;
         @apply has-[:active:enabled]:border-palette-border-actived has-[:active:enabled]:bg-palette-bg-actived;
         @apply transition;
 
         >:first-child {
-            @apply rounded-l-md!;
+            @apply rounded-s-md!;
         }
 
         >:last-child {
-            @apply rounded-r-md!;
+            @apply rounded-e-md!;
         }
 
         >input {
             @apply p-1 outline-none bg-transparent flex-1 w-full text-left;
+            @apply disabled:cursor-not-allowed;
 
             -webkit-appearance: textfield;
             -moz-appearance: textfield;
@@ -39,18 +40,18 @@
     }
 
     .input:has(:disabled) {
-        @apply border-palette-border-disabled text-palette-fg-disabled;
+        @apply border-palette-border-disabled text-palette-fg-disabled cursor-not-allowed;
     }
 
     .input.rounded {
         @apply rounded-full;
 
         >:first-child {
-            @apply rounded-l-full!;
+            @apply rounded-s-full!;
         }
 
         >:last-child {
-            @apply rounded-r-full!;
+            @apply rounded-e-full!;
         }
     }
 }
