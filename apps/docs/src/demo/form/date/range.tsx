@@ -42,12 +42,12 @@ export default function(props: MountProps) {
             label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
             weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
             readonly={readonly()} disabled={disabled()} accessor={dateFA} weekBase={week()} time={time()} />
-        <p>{dateFA.getValue().toString() ?? ''}</p>
+        <p>{dateFA.getValue().join('-') ?? ''}</p>
 
         <DateRangePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
             label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
             weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
             readonly={readonly()} disabled={disabled()} accessor={numberFA} weekBase={week()} time={time()} />
-        <p>{numberFA.getValue() ?? ''}</p>
+        <p>{numberFA.getValue().join('-') ?? ''}</p>
     </>;
 }
