@@ -22,12 +22,8 @@
             }
 
             .input.range {
-                @apply focus-within:text-palette-fg-high;
+                @apply focus-within:text-palette-fg-focused;
             }
-        }
-
-        .activator-container:focus {
-            @apply border-palette-border-focused;
         }
 
         .activator-container.rounded {
