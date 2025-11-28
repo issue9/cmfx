@@ -35,18 +35,14 @@ export default function(props: MountProps) {
                 value={week as any} onChange={(e) => setWeek(parseInt(e.target.value) as Week)} />
         </Portal>
 
-        <div title="week picker">
-            <WeekPicker class="w-[400px]" placeholder='placeholder' layout={layout()}
-                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()}
-                readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
-        </div>
+        <WeekPicker class="w-[400px]" placeholder='placeholder' layout={layout()}
+            label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            weekend={weekend()} palette={palette()} rounded={rounded()}
+            readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
 
-        <div title="week picker min-width">
-            <WeekPicker class="w-[200px]" placeholder='placeholder' layout={layout()}
-                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()}
-                readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
-        </div>
+        <WeekPicker class="w-[200px]" placeholder='placeholder' layout={layout()}
+            label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            weekend={weekend()} palette={palette()} rounded={rounded()}
+            readonly={readonly()} disabled={disabled()} accessor={weekNum} weekBase={week()} />
     </>;
 }

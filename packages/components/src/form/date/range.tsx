@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { createMemo, createSignal, createUniqueId, JSX, mergeProps, Show, splitProps } from 'solid-js';
-import { arrayEqual } from '@cmfx/core';
+import equal from 'fast-deep-equal';
 import IconArrowRight from '~icons/bxs/right-arrow';
 import IconClose from '~icons/material-symbols/close';
 import IconExpandAll from '~icons/material-symbols/expand-all';
@@ -58,11 +58,10 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
     const getValue = (): DateRangeValueType | undefined => {
         const v = props.accessor.getValue();
         if (v === undefined) { return undefined; }
-        if (arrayEqual(v, [undefined, undefined])) { return [undefined, undefined]; }
+        if (equal(v, [undefined, undefined])) { return [undefined, undefined]; }
 
         switch (props.accessor.kind()) {
         case 'string':
-            return [v[0] === undefined ? undefined : new Date(v[0]), v[1] === undefined ? undefined : new Date(v[1])];
         case 'number':
             return [v[0] === undefined ? undefined : new Date(v[0]), v[1] === undefined ? undefined : new Date(v[1])];
         default:
@@ -71,7 +70,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
     };
 
     const change = (val?: DateRangeValueType) => {
-        if (val === undefined || arrayEqual(val, [undefined, undefined])) {
+        if (val === undefined || equal(val, [undefined, undefined])) {
             props.accessor.setValue(val as any);
             return;
         }
@@ -132,10 +131,7 @@ export function DateRangePicker<T extends DateType>(props: Props<T>): JSX.Elemen
         </div>
 
         <fieldset popover="auto" disabled={props.disabled} ref={el => panelRef = el} class={styles.panel} aria-haspopup>
-
-            <DateRangePanel class={styles['dt-panel']} {...panelProps}
-                value={getValue()} onChange={change}
-            />
+            <DateRangePanel class={styles['dt-panel']} {...panelProps} value={getValue()} onChange={change} />
 
             <div class={joinClass(undefined, styles.actions, 'justify-end!')}>
                 <Button kind='flat' class='py-0 px-1' onclick={() => {

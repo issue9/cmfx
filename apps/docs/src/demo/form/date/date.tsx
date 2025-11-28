@@ -8,8 +8,8 @@ import { Portal } from 'solid-js/web';
 import { arraySelector, boolSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const ac = fieldAccessor<Date, 'date'>('dp', new Date('2024-01-02T15:34'));
-    const ac2 = fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
+    const dateFA = fieldAccessor<Date, 'date'>('dp', new Date('2024-01-02T15:34'));
+    const numberFA = fieldAccessor<number | undefined, 'number'>('dp', undefined, 'number');
 
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
@@ -36,19 +36,16 @@ export default function(props: MountProps) {
             {weekS}
         </Portal>
 
-        <div>
-            <DatePicker class="w-[400px]" placeholder='placeholder' layout={layout()}
-                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()}
-                readonly={readonly()} disabled={disabled()} accessor={ac} weekBase={week()} time={time()} />
-        </div>
+        <DatePicker class="w-[400px]" placeholder='placeholder' layout={layout()}
+            label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            weekend={weekend()} palette={palette()} rounded={rounded()}
+            readonly={readonly()} disabled={disabled()} accessor={dateFA} weekBase={week()} time={time()} />
+        <p>{dateFA.getValue().toString() ?? 'undefined'}</p>
 
-        <div title="min-width">
-            <DatePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
-                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()}
-                readonly={readonly()} disabled={disabled()} accessor={ac2} weekBase={week()} time={time()} />
-            <p>{ac2.getValue()}</p>
-        </div>
+        <DatePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
+            label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            weekend={weekend()} palette={palette()} rounded={rounded()}
+            readonly={readonly()} disabled={disabled()} accessor={numberFA} weekBase={week()} time={time()} />
+        <p>{numberFA.getValue() ?? 'undefined'}</p>
     </div>;
 }

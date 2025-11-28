@@ -76,7 +76,7 @@ export interface ChangeFunc<T> {
  * @param kind - 指定 {@link Accessor.kind} 的值；
  * @typeParam T - 关联的值类型；
  * @typeParam K - 这是对 T 的描述，当 T 的实际值为 undefined 等时，
- * 无法真正表示其类型，由 K 进行描述，通常是一个字符串类型的枚举类型；
+ * 无法真正表示其类型，由 K 进行描述，通常是一个字符串组成的枚举类型；
  *
  * @example
  * ```ts

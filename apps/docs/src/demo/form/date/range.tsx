@@ -2,13 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DateRangePicker, fieldAccessor, weeks, Week, MountProps, Number } from '@cmfx/components';
+import { DateRangePicker, fieldAccessor, weeks, Week, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector, arraySelector } from '../../base';
 
 export default function(props: MountProps) {
-    const range = fieldAccessor<[Date, Date], 'date'>('range', [new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')]);
+    const dateFA = fieldAccessor<[Date, Date], 'date'>('range', [new Date('2024-01-02T15:34'), new Date('2025-01-02T15:34')]);
+    const numberFA = fieldAccessor<[number|undefined, number|undefined], 'number'>('range', [undefined, 1765000000000], 'number');
 
     const min = new Date('2023-12-02T15:34');
     const max = new Date('2025-12-02T15:34');
@@ -37,18 +38,16 @@ export default function(props: MountProps) {
             {weekS}
         </Portal>
 
-        <div title="range picker">
-            <DateRangePicker class="w-[400px]" placeholder='placeholder' layout={layout()}
-                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
-                readonly={readonly()} disabled={disabled()} accessor={range} weekBase={week()} time={time()} />
-        </div>
+        <DateRangePicker class="w-[400px]" placeholder='placeholder' layout={layout()}
+            label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
+            readonly={readonly()} disabled={disabled()} accessor={dateFA} weekBase={week()} time={time()} />
+        <p>{dateFA.getValue().toString() ?? ''}</p>
 
-        <div title="range min-width">
-            <DateRangePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
-                label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
-                weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
-                readonly={readonly()} disabled={disabled()} accessor={range} weekBase={week()} time={time()} />
-        </div>
+        <DateRangePicker class="w-[200px]" placeholder='placeholder' layout={layout()}
+            label='label' min={minmax() ? min : undefined} max={minmax() ? max : undefined}
+            weekend={weekend()} palette={palette()} rounded={rounded()} shortcuts={shortcut()}
+            readonly={readonly()} disabled={disabled()} accessor={numberFA} weekBase={week()} time={time()} />
+        <p>{numberFA.getValue() ?? ''}</p>
     </>;
 }
