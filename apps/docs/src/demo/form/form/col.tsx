@@ -7,7 +7,7 @@ import {
 } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, layoutSelector, paletteSelector } from '../../base';
+import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
     const [, act] = useComponents();
@@ -17,6 +17,7 @@ export default function(props: MountProps) {
     const [disabledS, disabled] = boolSelector('disabled');
     const [readonlyS, readonly] = boolSelector('readonly');
     const [layoutS, layout] = layoutSelector('layout');
+    const [labelAlignS, labelAlign] = labelAlignSelector('start');
 
     const [api, Form] = createForm({
         value: {
@@ -37,16 +38,17 @@ export default function(props: MountProps) {
             {layoutS}
             {disabledS}
             {readonlyS}
+            {labelAlignS}
         </Portal>
 
-        <Form palette={palette()} rounded={rounded()} layout={layout()} hasHelp={help()}
-            disabled={disabled()} readonly={readonly()} class="flex gap-4 flex-col"
+        <Form palette={palette()} rounded={rounded()} layout={layout()} hasHelp={help()} class="grid grid-cols-2 gap-2"
+            disabled={disabled()} readonly={readonly()} labelWidth='70px' labelAlign={labelAlign()}
         >
             <TextField label="textField" accessor={api.accessor<string>('f1')} help="这是一个帮助文本" />
             <Number label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
             <DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
             <TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
-            <div class="w-full flex justify-between">
+            <div class="col-span-full flex justify-between">
                 <Button type="reset">reset</Button>
                 <Button type="submit">submit</Button>
             </div>
