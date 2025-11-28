@@ -73,11 +73,11 @@ export function Number(props: Props): JSX.Element {
     return <TextField ref={el => ref = el} {...fieldProps} type="number" suffix={
         <>
             <Button kind='flat' class={styles['number-spin']} disabled={props.disabled || props.readonly}
-                onclick={() => step(props.step!)}>
+                onclick={() => step(props.step!)} ref={el => el.element().tabIndex = -1}>
                 <IconArrowUp />
             </Button>
             <Button kind='flat' class={styles['number-spin']} disabled={props.disabled || props.readonly}
-                onclick={() => step(-props.step!)}>
+                onclick={() => step(-props.step!)} ref={el => el.element().tabIndex = -1}>
                 <IconArrowDown />
             </Button>
         </>
