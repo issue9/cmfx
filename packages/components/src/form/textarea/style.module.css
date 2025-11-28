@@ -15,7 +15,7 @@
         @apply focus:enabled:border-palette-border-focused focus:enabled:bg-palette-bg-focused;
         @apply hover:enabled:border-palette-border-focused hover:enabled:bg-palette-bg-focused;
         @apply active:enabled:border-palette-border-actived active:enabled:bg-palette-bg-actived;
-        @apply disabled:cursor-not-allowed disabled:text-palette-fg-disabled disabled:bg-palette-bg-disabled disabled:border-palette-border-disabled;
+        @apply disabled:cursor-not-allowed disabled:text-palette-fg-disabled disabled:border-palette-border-disabled;
     }
 
     .textarea.rounded {

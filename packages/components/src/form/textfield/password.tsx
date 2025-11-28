@@ -2,11 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, createSignal, onMount } from 'solid-js';
+import { JSX, createSignal, mergeProps, onMount } from 'solid-js';
 import IconVisibility from '~icons/material-symbols/visibility';
 import IconVisibilityOff from '~icons/material-symbols/visibility-off';
 
 import { ToggleButton } from '@/button';
+import { useForm } from '@/form/field';
 import { Props as BaseProps, TextField, Ref as TextFieldRef } from './textfield';
 
 export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref' | 'autocomplete'> {
@@ -22,6 +23,9 @@ export interface Props extends Omit<BaseProps<string>, 'suffix' | 'type' | 'ref'
  * 密码输入组件
  */
 export function Password(props: Props): JSX.Element {
+    const form = useForm(); // Password 在 textfield 的外层，所以得保证 useForm 是可用的。
+    props = mergeProps(form, props);
+
     const [visible, setVisible] = createSignal(!!props.visible);
     let ref: TextFieldRef;
 

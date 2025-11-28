@@ -43,6 +43,11 @@ export interface Actions {
     Reset(props: Omit<ButtonProps, 'type' | 'onclick'>): JSX.Element;
 }
 
+function ButtonAction (props: ButtonProps): JSX.Element {
+    const f = useForm();
+    return <Button {...mergeProps({ disabled: f.disabled, rounded: f.rounded }, props)} />;
+}
+
 /**
  * 生成创建表单的相关功能
  *
@@ -83,11 +88,6 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         </FormProvider>;
     };
 
-    const ButtonAction = function(props: ButtonProps): JSX.Element {
-        const f = useForm();
-        props = mergeProps({ disabled: f.disabled, rounded: f.rounded }, props);
-        return <Button {...props} />;
-    };
     const actions: Actions = {
         Button: ButtonAction,
 
@@ -96,7 +96,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         },
 
         Submit(props: Omit<ButtonProps, 'onclick' | 'type'>): JSX.Element {
-            return <ButtonAction {...props} type="submit" onclick={() => api.submit()} />;
+            return <ButtonAction {...props} type="submit" onclick={async () => await api.submit()} />;
         },
     };
 

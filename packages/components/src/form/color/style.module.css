@@ -15,4 +15,16 @@
         @apply hover:border-palette-border-focused;
         @apply active:border-palette-border-actived;
     }
+
+    .color-panel-activator.readonly {
+        @apply cursor-default;
+    }
+
+    .color-panel-activator.rounded {
+        @apply rounded-full;
+    }
+
+    .color-panel-activator.disabled {
+        @apply cursor-not-allowed;
+    }
 }

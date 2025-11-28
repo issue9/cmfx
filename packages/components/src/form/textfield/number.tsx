@@ -8,8 +8,9 @@ import IconArrowUp from '~icons/material-symbols/arrow-drop-up';
 
 import { PropsError } from '@/base';
 import { Button } from '@/button';
-import styles from './style.module.css';
+import { useForm } from '@/form/field';
 import { Ref, TextField, Props as TextFieldProps } from './textfield';
+import styles from './style.module.css';
 
 type omitFields = 'suffix' | 'type' | 'ref' | 'autocomplete' | 'inputMode';
 export interface Props extends Omit<TextFieldProps<number>, omitFields> {
@@ -28,7 +29,8 @@ const presetProps: Partial<Props> = {
  * 数字输入组件
  */
 export function Number(props: Props): JSX.Element {
-    props = mergeProps(presetProps, props);
+    const form = useForm(); // Number 在 textfield 的外层，所以得保证 useForm 是可用的。
+    props = mergeProps(presetProps, form, props);
     const [_, fieldProps] = splitProps(props, ['min', 'max', 'step']);
 
     if (props.step === 0) {

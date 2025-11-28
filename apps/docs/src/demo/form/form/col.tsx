@@ -19,7 +19,7 @@ export default function(props: MountProps) {
     const [layoutS, layout] = layoutSelector('layout');
     const [labelAlignS, labelAlign] = labelAlignSelector('start');
 
-    const [api, Form] = createForm({
+    const [api, Form, { Reset, Submit }] = createForm({
         value: {
             f1: 'f1',
             f2: 5,
@@ -49,8 +49,8 @@ export default function(props: MountProps) {
             <DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
             <TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
             <div class="col-span-full flex justify-between">
-                <Button type="reset">reset</Button>
-                <Button type="submit">submit</Button>
+                <Reset>reset</Reset>
+                <Submit>submit</Submit>
             </div>
         </Form>
     </>;
