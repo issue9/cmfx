@@ -38,7 +38,7 @@
         }
 
         .content {
-            @apply items-start justify-center h-full w-1/2;
+            @apply items-start justify-center h-full max-w-1/2 w-fit;
         }
     }
 
@@ -66,7 +66,8 @@
 
         .content {
             @apply items-start justify-center h-full;
-            width: calc(50% - var(--result-gap));
+            max-width: calc(50% - var(--result-gap));
+            width: fit-content;
 
             @apply @max-3xl/result:items-center @max-3xl/result:w-full @max-3xl/result:h-1/2 @max-3xl/result:grow;
         }
