@@ -47,6 +47,12 @@
                 @apply text-base font-bold mb-1 mt-4;
             }
 
+            table {
+                h1,h2,h3,h4,h5,h6 {
+                    @apply text-base;
+                }
+            }
+
             p {
                 @apply py-1;
             }

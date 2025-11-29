@@ -36,6 +36,12 @@
                 @apply text-xl mt-6 mb-3;
             }
 
+            table {
+                h2,h3,h4 {
+                    @apply text-base;
+                }
+            }
+
             .desc {
                 @apply mt-4 mb-2;
             }
