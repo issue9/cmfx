@@ -63,20 +63,20 @@ export class RGBPickerPanel implements PickerPanel {
             const aa = store.a;
             signal[1](fmtRGB(rr, gg, bb, aa));
 
-            rRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, gg, bb, aa)},
-                ${fmtRGB(.1, gg, bb, aa)},${fmtRGB(.2, gg, bb, aa)},${fmtRGB(.3, gg, bb, aa)},${fmtRGB(.4, gg, bb, aa)},
-                ${fmtRGB(.5, gg, bb, aa)},${fmtRGB(.6, gg, bb, aa)},${fmtRGB(.7, gg, bb, aa)},${fmtRGB(.8, gg, bb, aa)},
-                ${fmtRGB(.9, gg, bb, aa)},${fmtRGB(1, gg, bb, aa)})`;
+            rRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
+                ${fmtRGB(.1, 0, 0, 1)},${fmtRGB(.2, 0, 0, 1)},${fmtRGB(.3, 0, 0, 1)},${fmtRGB(.4, 0, 0, 1)},
+                ${fmtRGB(.5, 0, 0, 1)},${fmtRGB(.6, 0, 0, 1)},${fmtRGB(.7, 0, 0, 1)},${fmtRGB(.8, 0, 0, 1)},
+                ${fmtRGB(.9, 0, 0, 1)},${fmtRGB(1, 0, 0, 1)})`;
 
-            gRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, 0, bb, aa)},
-                ${fmtRGB(rr, .1, bb, aa)},${fmtRGB(rr, .2, bb, aa)},${fmtRGB(rr, .3, bb, aa)},${fmtRGB(rr, .4, bb, aa)},
-                ${fmtRGB(rr, .5, bb, aa)},${fmtRGB(rr, .6, bb, aa)},${fmtRGB(rr, .7, bb, aa)},${fmtRGB(rr, .8, bb, aa)},
-                ${fmtRGB(rr, .9, bb, aa)},${fmtRGB(rr, 1, bb, aa)})`;
+            gRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
+                ${fmtRGB(0, .1, 0, 1)},${fmtRGB(0, .2, 0, 1)},${fmtRGB(0, .3, 0, 1)},${fmtRGB(0, .4, 0, 1)},
+                ${fmtRGB(0, .5, 0, 1)},${fmtRGB(0, .6, 0, 1)},${fmtRGB(0, .7, 0, 1)},${fmtRGB(0, .8, 0, 1)},
+                ${fmtRGB(0, .9, 0, 1)},${fmtRGB(0, 1, 0, 1)})`;
 
-            bRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, 0, aa)},
-                ${fmtRGB(rr, gg, .1, aa)},${fmtRGB(rr, gg, .2, aa)},${fmtRGB(rr, gg, .3, aa)},${fmtRGB(rr, gg, .4, aa)},
-                ${fmtRGB(rr, gg, .5, aa)},${fmtRGB(rr, gg, .6, aa)},${fmtRGB(rr, gg, .7, aa)},${fmtRGB(rr, gg, .8, aa)},
-                ${fmtRGB(rr, gg, .9, aa)},${fmtRGB(rr, gg, 1, aa)})`;
+            bRef.input().style.background = `linear-gradient(to right, ${fmtRGB(0, 0, 0, 1)},
+                ${fmtRGB(0, 0, .1, 1)},${fmtRGB(0, 0, .2, 1)},${fmtRGB(0, 0, .3, 1)},${fmtRGB(0, 0, .4, 1)},
+                ${fmtRGB(0, 0, .5, 1)},${fmtRGB(0, 0, .6, 1)},${fmtRGB(0, 0, .7, 1)},${fmtRGB(0, 0, .8, 1)},
+                ${fmtRGB(0, 0, .9, 1)},${fmtRGB(0, 0, 1, 1)})`;
 
             aRef.input().style.background = `linear-gradient(to right, ${fmtRGB(rr, gg, bb, 0)},
                 ${fmtRGB(rr, gg, bb, .1)},${fmtRGB(rr, gg, bb, .2)},${fmtRGB(rr, gg, bb, .3)},${fmtRGB(rr, gg, bb, .4)},
