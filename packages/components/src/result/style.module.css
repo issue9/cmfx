@@ -61,14 +61,14 @@
             @apply h-full;
             width: calc(50% - var(--result-gap));
 
-            @apply @max-md/result:h-1/2 @max-md/result:w-full @max-md/result:justify-center @max-md/result:grow;
+            @apply @max-3xl/result:h-1/2 @max-3xl/result:w-full @max-3xl/result:justify-center @max-3xl/result:grow;
         }
 
         .content {
             @apply items-start justify-center h-full;
             width: calc(50% - var(--result-gap));
 
-            @apply @max-md/result:items-center @max-md/result:w-full @max-md/result:h-1/2 @max-md/result:grow;
+            @apply @max-3xl/result:items-center @max-3xl/result:w-full @max-3xl/result:h-1/2 @max-3xl/result:grow;
         }
     }
 }

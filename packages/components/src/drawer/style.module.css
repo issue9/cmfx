@@ -9,6 +9,7 @@
 @layer components {
     .drawer {
         @apply h-full w-full flex overflow-hidden relative bg-palette-bg text-palette-fg;
+        @apply @container/drawer;
 
         >aside {
             @apply h-full bg-palette-bg text-palette-fg z-affix overflow-y-auto overflow-x-hidden;

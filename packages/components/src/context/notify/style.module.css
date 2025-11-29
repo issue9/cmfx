@@ -9,7 +9,7 @@
 @layer components {
     .notify {
         @apply absolute top-4 end-4 start-4 flex flex-col z-notify gap-2;
-        @apply @sm/root:min-w-60 @sm/root:max-w-125 @sm/root:w-auto @sm/root:start-auto;
+        @apply @2xl/root:min-w-60 @2xl/root:max-w-125 @2xl/root:w-auto @2xl/root:start-auto;
 
         .message {
             @apply bg-palette-bg text-palette-fg rounded-md block w-full h-auto overflow-y-hidden;

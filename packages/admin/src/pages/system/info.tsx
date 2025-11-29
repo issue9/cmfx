@@ -136,7 +136,7 @@ export function Info(): JSX.Element {
     });
 
     return <Page title="_p.system.serverInfo" class={ joinClass(undefined, 'max-w-lg!', styles.info)}>
-        <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-sm/info:w-full')}>
+        <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
             <Label icon={<IconInfo />} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>
 
@@ -189,7 +189,7 @@ export function Info(): JSX.Element {
             <dl><dt>{l.t('_p.system.waitDuration')}</dt><dd>{db()?.waitDuration}</dd></dl>
         </fieldset>
 
-        <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-sm/info:w-full')}>
+        <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
             <Label icon={<IconAction />} tag='legend'>{l.t('_p.actions')}</Label>
 
             <ConfirmButton palette='secondary' onclick={async () => await act.clearCache()}>

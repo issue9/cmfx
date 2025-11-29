@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Breakpoint, breakpoints, Button, Drawer, DrawerRef, MountProps } from '@cmfx/components';
+import { Button, Drawer, DrawerRef, MountProps } from '@cmfx/components';
 import { createMemo, createSignal, Show } from 'solid-js';
 import { Portal } from 'solid-js/web';
 
@@ -10,7 +10,7 @@ import { arraySelector } from '../base';
 
 export default function (props: MountProps) {
     const [breakpointS, breakpoint]
-        = arraySelector<Breakpoint | 'true' | 'false'>('breakpoint', [...breakpoints, 'true', 'false'], 'md');
+        = arraySelector('breakpoint', ['lg', '2xl', '4xl', '6xl', '8xl', 'true', 'false'], 'lg');
     const [posS, pos] = arraySelector('pos', ['start', 'end'], 'start');
 
     const bp = createMemo(() => {

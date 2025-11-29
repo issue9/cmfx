@@ -12,7 +12,7 @@
         @apply @container/docs;
 
         .nav {
-            @apply max-w-50 @max-md/docs:hidden;
+            @apply max-w-50 @max-3xl/docs:hidden;
         }
 
         article.doc {

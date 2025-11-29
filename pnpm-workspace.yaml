@@ -7,7 +7,7 @@ packages:
 
 catalog:
   '@formatjs/intl-durationformat': ^0.7.6
-  '@iconify/json': ^2.2.410
+  '@iconify/json': ^2.2.412
   '@solidjs/router': ^0.15.4
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.1.17
@@ -16,11 +16,11 @@ catalog:
   '@types/node': ^24.10.1
   '@vitest/coverage-v8': ^4.0.14
   autoprefixer: ^10.4.22
-  bowser: ^2.13.0
+  bowser: ^2.13.1
   colorjs.io: ^0.5.2
   intl-messageformat: ^10.7.18
   jsdom: ^27.2.0
-  shiki: ^3.15.0
+  shiki: ^3.17.0
   solid-js: ^1.9.10
   tailwindcss: ^4.1.17
   typescript: ^5.9.3

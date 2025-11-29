@@ -24,7 +24,7 @@ export default function(props: MountProps) {
 
     const [range, setRange] = createSignal<DateRangeValueType>();
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {paletteS}
             {disabledS}
@@ -45,22 +45,18 @@ export default function(props: MountProps) {
             }}>now</Button>
         </Portal>
 
-        <div title="range panel" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
-                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
-                plugins={[datetimePluginLunar]} value={range()}
-                onChange={(val) => {
-                    setRange(val);
-                }} />
-        </div>
+        <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
+            weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
+            plugins={[datetimePluginLunar]} value={range()}
+            onChange={(val) => {
+                setRange(val);
+            }} />
 
-        <div title="range panel with time" class="flex items-start">
-            <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
-                weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
-                time value={range()}
-                onChange={(val) => {
-                    setRange(val);
-                }} />
-        </div>
-    </div>;
+        <DateRangePanel min={minmax() ? min : undefined} max={minmax() ? max : undefined} shortcuts={shortcut()} weeks={weeks()}
+            weekend={weekend()} palette={palette()} readonly={readonly()} disabled={disabled()} weekBase={week()}
+            time value={range()}
+            onChange={(val) => {
+                setRange(val);
+            }} />
+    </>;
 }

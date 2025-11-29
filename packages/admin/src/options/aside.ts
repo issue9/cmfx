@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Breakpoint } from '@cmfx/components';
+import { DrawerProps } from '@cmfx/components';
 import { PickOptional } from '@cmfx/core';
 
 import type { MenuItem } from './route';
@@ -19,9 +19,9 @@ export interface Aside {
     /**
      * 侧边栏在小于此值时将变为浮动状态
      */
-    floatingMinWidth?: Breakpoint;
+    floatingMinWidth?: Exclude<DrawerProps['floating'], boolean>;
 }
 
 export const presetAside: Readonly<PickOptional<Aside>> = {
-    floatingMinWidth: 'xs',
+    floatingMinWidth: 'lg',
 } as const;

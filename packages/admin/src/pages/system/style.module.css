@@ -42,7 +42,7 @@
 
         >fieldset {
             @apply grid grid-cols-1 border border-palette-border rounded-md px-4 py-3 bg-palette-bg;
-            @apply @sm/about:grid-cols-2 @md/about:grid-cols-3 @lg/about:grid-cols-4;
+            @apply @2xl/about:grid-cols-2 @3xl/about:grid-cols-3 @5xl/about:grid-cols-4;
 
             .item {
                 @apply flex flex-col p-2 text-palette-fg bg-palette-bg;

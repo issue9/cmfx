@@ -15,7 +15,7 @@
         }
 
         .search {
-            @apply @max-md/root:hidden;
+            @apply @max-3xl/root:hidden;
         }
     }
 

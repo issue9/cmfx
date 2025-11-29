@@ -12,7 +12,7 @@
         @apply @container/stages;
 
         .nav {
-            @apply max-w-50 @max-md/stages:hidden;
+            @apply max-w-50 @max-3xl/stages:hidden;
         }
 
         article.root {
@@ -123,16 +123,16 @@
                 }
 
                 .stage.auto {
-                    @apply @max-md/stages:flex-col! @max-md/stages:justify-start! @max-md/stages:items-start!;
+                    @apply @max-3xl/stages:flex-col! @max-3xl/stages:justify-start! @max-3xl/stages:items-start!;
 
                     .demo {
                         @apply h-full min-h-fit w-1/2;
-                        @apply @max-md/stages:w-full!;
+                        @apply @max-3xl/stages:w-full!;
                     }
 
                     .code {
                         @apply w-1/2 overflow-y-auto;
-                        @apply @max-md/stages:w-full! @max-md/stages:flex-none;
+                        @apply @max-3xl/stages:w-full! @max-3xl/stages:flex-none;
                     }
                 }
             }

@@ -6,12 +6,10 @@
 
 /* NOTE: @utility 直接写在 style.module.css 中无效？ */
 
-@utility cmfx-drawer-floating {
-    >aside {
-        position: absolute;
-    }
+@utility cmfx-drawer-floating-aside {
+    position: absolute;
+}
 
-    >aside.cmfx-drawer-hidden-aside {
-        transform: scaleX(0);
-    }
+@utility cmfx-drawer-hidden-aside {
+    transform: scaleX(0);
 }

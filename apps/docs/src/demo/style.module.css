@@ -12,7 +12,7 @@
 
         fieldset.group {
             @apply grid gap-4;
-            @apply grid-cols-2 @md/overview:grid-cols-3 @lg/overview:grid-cols-4 @2xl/overview:grid-cols-6;
+            @apply grid-cols-2 @3xl/overview:grid-cols-3 @5xl/overview:grid-cols-4 @7xl/overview:grid-cols-6;
 
             legend {
                 @apply text-2xl font-bold my-2;
