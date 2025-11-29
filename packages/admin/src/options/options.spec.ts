@@ -92,5 +92,5 @@ test('build', async () => {
     expect(o.api.contentType).toEqual('application/json');
     expect(o.api.acceptType).toEqual('application/json');
     expect(o.titleSeparator).toEqual(' | ');
-    expect(o.aside.floatingMinWidth).toEqual('xs'); // 默认值
+    expect(o.aside.floatingMinWidth).toEqual('lg'); // 默认值
 });
