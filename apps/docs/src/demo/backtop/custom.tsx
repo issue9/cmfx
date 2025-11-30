@@ -17,16 +17,16 @@ export default function(props: MountProps): JSX.Element {
         len.push(i);
     }
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {paletteS}
         </Portal>
 
-        <div class="overflow-y-scroll w-1/3 h-[100px] border border-palette-fg mt-10">
+        <div class="overflow-y-scroll w-10 h-25 border border-palette-fg mt-10">
             <For each={len}>
                 {i => <>{i} <br /></>}
             </For>
             <BackTop palette={palette()} class="mb-10">{<IconNav />}</BackTop>
         </div>
-    </div>;
+    </>;
 }

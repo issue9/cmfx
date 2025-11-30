@@ -33,6 +33,14 @@ export interface Props extends BaseProps, RefProps<Ref> {
      * @defaultValue `h1,h2,h3,h4,h5,h6`
      */
     query?: string;
+
+    /**
+     * 最小的标题数量
+     *
+     * @remarks
+     * 表示只有大于等于此数量的标题才会显示，默认为 1。
+     */
+    minHeaderCount?: number;
 }
 
 const queryString = 'h1,h2,h3,h4,h5,h6';
@@ -41,12 +49,14 @@ const queryString = 'h1,h2,h3,h4,h5,h6';
  * 根据 h1-h6 元素生成导航内容
  */
 export default function Nav(props: Props): JSX.Element {
-    props = mergeProps({ query: queryString }, props);
+    props = mergeProps({ query: queryString, minHeaderCount: 1 }, props);
 
-    const [headings, setHeadings] = createSignal(props.target.querySelectorAll(props.query!));
+    const list = props.target.querySelectorAll(props.query!);
+    const [headings, setHeadings] = createSignal(list.length >= props.minHeaderCount! ? list : []);
 
     const refresh = (): void => {
-        setHeadings(props.target.querySelectorAll(props.query!));
+        const list = props.target.querySelectorAll(props.query!);
+        setHeadings(list.length >= props.minHeaderCount! ? list : []);
     };
 
     return <nav class={joinClass(props.palette, styles.nav, props.class)} style={props.style} ref={el => {

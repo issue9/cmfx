@@ -208,7 +208,7 @@ function Markdown(props: { article: string }): JSX.Element {
 
     return <Page title={title} class={styles.docs}>
         <article ref={el => articleRef = el} class={styles.doc} innerHTML={html()} />
-        <Nav class={styles.nav} ref={el => navRef = el} target={articleRef!} query='h2,h3,h4,h5,h6' />
+        <Nav minHeaderCount={5} class={styles.nav} ref={el => navRef = el} target={articleRef!} query='h2,h3,h4,h5,h6' />
     </Page>;
 }
 

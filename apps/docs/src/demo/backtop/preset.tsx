@@ -16,7 +16,7 @@ export default function(props: MountProps): JSX.Element {
         len.push(i);
     }
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {paletteS}
         </Portal>
@@ -27,5 +27,5 @@ export default function(props: MountProps): JSX.Element {
             </For>
             <BackTop palette={palette()} class="mb-10 start-[300px] bottom-4! end-[unset]" />
         </div>
-    </div>;
+    </>;
 }
