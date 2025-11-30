@@ -10,6 +10,7 @@ import { zodValidator } from './validation';
 const usr = z.object({
     name: z.string().min(2).max(100),
     age: z.number().min(18).max(100),
+    address: z.array(z.string().min(2).max(100)).length(2),
 });
 
 type User = z.infer<typeof usr>;
@@ -21,6 +22,7 @@ describe('zod', async()=>{
         const user: User = {
             name: 'John Doe',
             age: 25,
+            address: ['123 Main St', '456 Elm St']
         };
 
         const result = await v(user);
@@ -33,10 +35,12 @@ describe('zod', async()=>{
         const user: User = {
             name: 'John Doe',
             age: 12,
+            address: ['123 Main St', '']
         };
 
         const result = await v(user);
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
+        expect(result[1]![1].name).toEqual('address[1]');
     });
 });

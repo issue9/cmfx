@@ -31,7 +31,7 @@ export interface Validator<T extends Flattenable> {
 }
 
 /**
- * 将参数 zod 对象包装为 {@link Validator} 方法
+ * 将 {@link z.ZodObject | Zod} 对象包装为 {@link Validator} 方法
  */
 export function zodValidator<T extends Flattenable>(s: z.ZodObject): Validator<T> {
     return async(obj: T): Promise<ValidResult<T>> => {
@@ -40,7 +40,21 @@ export function zodValidator<T extends Flattenable>(s: z.ZodObject): Validator<T
 
         const errors: Params<FlattenKeys<T>> = [];
         result.error.issues.map(i => {
-            errors.push({ name: i.path.join('.') as FlattenKeys<T>, reason: i.message });
+            let p = '';
+            for(const pp of i.path) {
+                switch (typeof pp) {
+                case 'number':
+                    p += `[${pp}]`;
+                    break;
+                case 'string':
+                    if (p) {
+                        p += `.${pp}`;
+                    } else {
+                        p = pp;
+                    }
+                }
+            }
+            errors.push({ name: p as FlattenKeys<T>, reason: i.message });
         });
         return [undefined, errors];
     };
