@@ -52,7 +52,7 @@ const locales = [
     'TR',
     'UK',
     'VI',
-    'ZH', 
+    'ZH',
 ] as const;
 
 type LocaleID = typeof locales[number];

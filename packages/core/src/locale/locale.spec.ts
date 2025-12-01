@@ -31,6 +31,7 @@ describe('Locale', async () => {
         await Locale.addDict('en',
             async () => { return { 'lang': { '2': { '11': '11' } } }; },
             async () => { return { 'lang': { '2': { '22': '22' } } }; },
+            async () => { return undefined; },
         );
         expect(Locale.translate('en', 'lang.2.11')).toEqual('11');
         expect(Locale.translate('en', 'lang.2.22')).toEqual('22');

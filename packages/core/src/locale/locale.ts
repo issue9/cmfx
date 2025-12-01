@@ -84,13 +84,16 @@ export class Locale {
         }
 
         for (const l of loaders) {
-            Object.entries<string>(flatten(await l())).forEach((item) => {
-                try {
-                    msgs.set(item[0], new IntlMessageFormat(item[1], locale));
-                } catch (err) {
-                    console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
-                }
-            });
+            const dict = await l();
+            if (dict) {
+                Object.entries<string>(flatten(dict)).forEach((item) => {
+                    try {
+                        msgs.set(item[0], new IntlMessageFormat(item[1], locale));
+                    } catch (err) {
+                        console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
+                    }
+                });
+            }
 
             Locale.#messages.set(locale, msgs);
         }
