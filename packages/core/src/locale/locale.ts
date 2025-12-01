@@ -4,8 +4,9 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { Dict, dictFlatten, DictKeys, Loader } from './dict';
+import { Dict, DictKeys, Loader } from './dict';
 import { match } from './match';
+import { flatten } from '@/types';
 
 export const displayStyles = ['full', 'short', 'narrow'] as const;
 
@@ -83,7 +84,7 @@ export class Locale {
         }
 
         for (const l of loaders) {
-            Object.entries<string>(dictFlatten(await l())).forEach((item) => {
+            Object.entries<string>(flatten(await l())).forEach((item) => {
                 try {
                     msgs.set(item[0], new IntlMessageFormat(item[1], locale));
                 } catch (err) {
@@ -94,6 +95,8 @@ export class Locale {
             Locale.#messages.set(locale, msgs);
         }
     }
+
+    ///////////////////////// 以下为实例字段 /////////////////////////
 
     readonly #current: Map<string, IntlMessageFormat>;
     readonly #locale: Intl.Locale;
