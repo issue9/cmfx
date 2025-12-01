@@ -40,7 +40,7 @@ export function Demo(props: { s: ObjectAccessor<ExpandType<Scheme>> }): JSX.Elem
     // NOTE: 此处的 ThemeProvider 必须包含在 div 中，否则当处于 Transition 元素中时，
     // 快速多次地调整 ThemeProvider 参数可能会导致元素消失失败，main 中同时出现在多个元素。
     return <div class={styles.main}>
-        <ThemeProvider mode={mode.getValue()} scheme={props.s.store()}>
+        <ThemeProvider mode={mode.getValue()} scheme={props.s.getValue()}>
             <div class={styles.demo} style={{ ...contrasts.get(contrast()) }}>
                 <Appbar title={typ() === 'components' ? l.t('_d.theme.components') : l.t('_d.theme.palettes')}
                     class={styles.appbar} actions={
@@ -101,7 +101,7 @@ function Palettes(props: {s:ObjectAccessor<ExpandType<Scheme>>, c: Contrast}): J
 }
 
 function PaletteBlocks(props: { p: Palette, s: ObjectAccessor<ExpandType<Scheme>>, c: Contrast }): JSX.Element {
-    const raw = props.s.store();
+    const raw = props.s.getValue();
 
     let baseRef: HTMLDivElement;
     let lowRef: HTMLDivElement;

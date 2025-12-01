@@ -34,14 +34,14 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const schemes = Array.from(opt.schemes!).
         map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
 
-    const source = createMemo(() => JSON.stringify(s.store(), null, 4));
+    const source = createMemo(() => JSON.stringify(s.getValue(), null, 4));
 
     return <div class={styles.params}>
         <div class={joinClass('primary', styles.toolbar)}>
             <div class={styles.actions}>
                 <ButtonGroup kind='border'>
                     <Dropdown trigger='click' selectedClass='' items={schemes} onChange={e => {
-                        s.setObject(convertSchemeVar2Color(unwrap(opt.schemes?.get(e)!)));
+                        s.setValue(convertSchemeVar2Color(unwrap(opt.schemes?.get(e)!)));
                     }}>
                         <Button kind='border' square title={l.t('_d.theme.loadPredefinedSchemes')}>
                             <IconLoad />
@@ -182,7 +182,7 @@ function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<Expand
     let rangeRef: RangeRef;
     const schemesFA = props.schemes.accessor<string>(props.palette);
 
-    const c = new Color(props.schemes.store()[props.palette]);
+    const c = new Color(props.schemes.getValue()[props.palette]);
     const hueFA = fieldAccessor<number>('hue', c.h);
     hueFA.onChange(v => {
         const c = new Color(schemesFA.getValue());
@@ -190,7 +190,7 @@ function PalettePicker(props: { palette: Palette, schemes: ObjectAccessor<Expand
     });
 
     createEffect(() => {
-        const c = new Color(props.schemes.store()[props.palette]);
+        const c = new Color(props.schemes.getValue()[props.palette]);
 
         rangeRef.input().style.background = `linear-gradient(to right, ${fmtColor(c.l, c.c, 0)},
             ${fmtColor(c.l, c.c, 20)}, ${fmtColor(c.l, c.c, 40)}, ${fmtColor(c.l, c.c, 60)},
