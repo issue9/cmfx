@@ -59,6 +59,8 @@ const locales = [
 
 type LocaleID = typeof locales[number];
 
+const objects = Locale.createObject('zod');
+
 /**
  * 将 {@link z.ZodObject | Zod} 对象包装为 {@link Validator} 方法
  */
@@ -66,8 +68,11 @@ export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Va
     return async(obj: T): Promise<ValidResult<T>> => {
         if (l) {
             const id = matchLocales(l.locale.toString(), locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
-            const { default: locale } = await import(`../../node_modules/zod/v4/locales/${id}.js`);
-            var errsMap = locale();
+            var errsMap = objects.get(id);
+            if (!errsMap) {
+                const { default: locale } = await import(`../../node_modules/zod/v4/locales/${id}.js`);
+                errsMap = locale();
+            }
         }
 
         const result = await s.safeParseAsync(obj, l ? { error: errsMap.localeError } : undefined);

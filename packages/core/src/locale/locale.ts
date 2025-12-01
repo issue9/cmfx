@@ -28,7 +28,8 @@ export type DisplayStyle = typeof displayStyles[number];
  */
 export class Locale {
     static #fallback: string;
-    static #messages: Map<string, Map<string, IntlMessageFormat>>;
+    static #messages: Map<string, Map<string, IntlMessageFormat>> = new Map();
+    static #objects: Map<string, Map<string, any>> = new Map();
 
     /**
      * 初始化
@@ -36,8 +37,36 @@ export class Locale {
      * @param fallback - 在找不到对应在的语言时采用的默认值；
      */
     static init(fallback: string) {
+        if (Locale.#fallback) { throw new Error('不能多次调用 Locale.init'); }
+
         Locale.#fallback = fallback;
-        Locale.#messages = new Map();
+    }
+
+    /**
+     * 创建一个用于缓存本地化对象的接口
+     *
+     * @remarks
+     * 对于一些引入的第三方库，其本身可能提供了本地化的相关数据，但是又没有能力同时加载多个语言环境，比如 zod。
+     * 当前方法返回的对象可以保存这些数据，以便在需要时直接使用，而无需再次加载。
+     * @param id - 唯一 ID，一般直接使用包名即可。
+     */
+    static createObject(id: string) {
+        const obj = new Map<string, any>();
+        Locale.#objects.set(id, obj);
+
+        return {
+            get(locale: string) {
+                return obj.get(locale);
+            },
+
+            set(locale: string, o: any) {
+                return obj.set(locale, o);
+            },
+
+            destory() {
+                Locale.#objects.delete(id);
+            }
+        };
     }
 
     /**

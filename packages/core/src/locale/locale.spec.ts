@@ -11,6 +11,13 @@ describe('Locale', async () => {
     Locale.init('en');
     expect(Locale.languageSize()).toEqual(0);
 
+    test('createObject', () => {
+        const obj = Locale.createObject('test---id');
+        obj.set('zh', { 'lang': 'zh' });
+        expect(obj.get('zh')).toEqual({ 'lang': 'zh' });
+        obj.destory();
+    });
+
     test('addDict', async () => {
         await Locale.addDict('en', async () => { return { 'lang': 'en' }; });
         expect(Locale.languageSize()).toEqual(1);
