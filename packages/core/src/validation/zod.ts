@@ -65,9 +65,8 @@ type LocaleID = typeof locales[number];
 export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
     return async(obj: T): Promise<ValidResult<T>> => {
         if (l) {
-            const lid = l.locale.toString();
-            const id = matchLocales(lid, locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
-            const { default: locale } = await import(`zod/v4/locales/${id}.js`);
+            const id = matchLocales(l.locale.toString(), locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
+            const { default: locale } = await import(`../../node_modules/zod/v4/locales/${id}.js`);
             var errsMap = locale();
         }
 

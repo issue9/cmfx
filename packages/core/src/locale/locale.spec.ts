@@ -35,6 +35,9 @@ describe('Locale', async () => {
         );
         expect(Locale.translate('en', 'lang.2.11')).toEqual('11');
         expect(Locale.translate('en', 'lang.2.22')).toEqual('22');
+
+        Locale.delDict('en');
+        expect(Locale.translate('en', 'lang.2.22')).toEqual('lang.2.22');
     });
 
     test('t/tt', async () => {

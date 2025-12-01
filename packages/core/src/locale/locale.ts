@@ -99,6 +99,13 @@ export class Locale {
         }
     }
 
+    /**
+     * 删除对某个语言的支持
+     */
+    static delDict(locale: string) {
+        Locale.#messages.delete(locale);
+    }
+
     ///////////////////////// 以下为实例字段 /////////////////////////
 
     readonly #current: Map<string, IntlMessageFormat>;
