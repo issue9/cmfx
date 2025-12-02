@@ -9,7 +9,7 @@ import { BaseProps, isReducedMotion, joinClass, transitionDuration } from '@/bas
 import { useLocale } from '@/context';
 import { matchLocale } from './locale';
 
-export type ChartsOption = echarts.EChartsOption;
+export type ChartOption = echarts.EChartsOption;
 
 export interface Props extends BaseProps {
     /**
@@ -43,7 +43,7 @@ export interface Props extends BaseProps {
      * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--palette-bg) 等以适应主题的变化。
      * @reactive
      */
-    o: ChartsOption;
+    o: ChartOption;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {

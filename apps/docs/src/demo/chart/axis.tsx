@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { AxisChart, AxisRef, MountProps } from '@cmfx/components';
+import { ChartAxis, ChartAxisRef, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, paletteSelector } from '../base';
@@ -21,7 +21,7 @@ export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
     const [smoothS, smooth] = boolSelector('smooth');
 
-    let axisRef: AxisRef<Item>;
+    let axisRef: ChartAxisRef<Item>;
 
     const x = [1, 2, 3, 4, 5, 6, 7];
     let count = x.length;
@@ -41,14 +41,14 @@ export default function(props: MountProps) {
         </Portal>
 
         <div>
-            <AxisChart palette={palette()} tooltip legend='right' selectedMode='single'
+            <ChartAxis palette={palette()} tooltip legend='right' selectedMode='single'
                 xAxis={{ name: 'X', key: 'name' }}
                 series={[{ type: 'line', key: 'v1', smooth: smooth() }, { type: 'bar', key: 'v2', yAxisIndex: 1, area: true, smooth: smooth() }]}
                 data={items} />
         </div>
 
         <div>
-            <AxisChart palette={palette()} size={10} ref={el => axisRef = el} tooltip legend='center'
+            <ChartAxis palette={palette()} size={10} ref={el => axisRef = el} tooltip legend='center'
                 xAxis={{ name: 'X', key: 'name' }}
                 series={[{ type: 'bar', key: 'v2', yAxisIndex: 1, smooth: smooth() }, { type: 'line', key: 'v1', area: true, smooth: smooth() },]}
                 data={items} />

@@ -4,7 +4,7 @@
 
 import { createMemo, JSX, mergeProps, splitProps } from 'solid-js';
 
-import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
+import { Props as BaseProps, Chart, presetProps as presetBaseProps, ChartOption } from './chart';
 
 export interface Props extends Omit<BaseProps, 'o'> {
     /**
@@ -57,12 +57,12 @@ const presetProps = {
 /**
  * 带坐标系的图表组件
  */
-export function PieChart(props: Props): JSX.Element {
+export function ChartPie(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, charsProps] = splitProps(props, ['data', 'tooltip', 'legend', 'padding', 'radius']);
 
     const o = createMemo(() => {
-        const o: echarts.EChartsOption = {
+        const o: ChartOption = {
             tooltip: { show: props.tooltip, textStyle: {color: 'var(--palette-fg)'}, backgroundColor: 'var(--palette-bg)', trigger: 'item' },
             legend: props.legend ? {
                 show: !!props.legend,

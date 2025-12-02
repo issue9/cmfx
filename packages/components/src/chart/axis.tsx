@@ -2,12 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import * as echarts from 'echarts/types/dist/echarts';
 import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
 import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { RefProps } from '@/base';
-import { Props as BaseProps, Chart, presetProps as presetBaseProps } from './chart';
+import { Props as BaseProps, Chart, presetProps as presetBaseProps, ChartOption } from './chart';
 
 export interface Ref<T extends object> {
     /**
@@ -120,7 +119,7 @@ const presetProps = {
  *
  * @typeParam T - 每一条数据的类型
  */
-export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
+export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
     props = mergeProps(presetProps, props);
     const [_, charsProps] = splitProps(props, ['xAxis', 'data', 'size', 'tooltip', 'legend', 'series', 'ref']);
 
@@ -157,7 +156,7 @@ export function AxisChart<T extends object>(props: Props<T>): JSX.Element {
             yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });
         }
 
-        const o: echarts.EChartsOption = {
+        const o: ChartOption = {
             tooltip: { show: props.tooltip, textStyle: {color: 'var(--palette-fg)'}, backgroundColor: 'var(--palette-bg)' },
             legend: props.legend ? {
                 show: !!props.legend,

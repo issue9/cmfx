@@ -5,14 +5,14 @@
 import { describe, test } from 'vitest';
 
 import { ComponentTester } from '@/context/context.spec';
-import { Chart, ChartsOption } from './chart';
+import { Chart, ChartOption } from './chart';
 
 describe('Chart', async () => {
     const x = [1, 2, 3, 4, 5, 6, 7];
     const s1 = [15, 23, 22, 21, 13, 14, 26];
     const s2 = [10, 20, 24, 28, 15, 17, 20];
 
-    const opt: ChartsOption = {
+    const opt: ChartOption = {
         title: { show: false },
         xAxis: {
             type: 'category',
