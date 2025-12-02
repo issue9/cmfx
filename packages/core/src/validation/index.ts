@@ -3,4 +3,4 @@
 // SPDX-License-Identifier: MIT
 
 export type { ValidResult, Validator } from './validation';
-export { zodValidator } from './validation';
+export { validator as zodValidator } from './zod';

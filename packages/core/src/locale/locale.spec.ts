@@ -11,6 +11,13 @@ describe('Locale', async () => {
     Locale.init('en');
     expect(Locale.languageSize()).toEqual(0);
 
+    test('createObject', () => {
+        const obj = Locale.createObject('test---id');
+        obj.set('zh', { 'lang': 'zh' });
+        expect(obj.get('zh')).toEqual({ 'lang': 'zh' });
+        obj.destory();
+    });
+
     test('addDict', async () => {
         await Locale.addDict('en', async () => { return { 'lang': 'en' }; });
         expect(Locale.languageSize()).toEqual(1);
@@ -31,9 +38,13 @@ describe('Locale', async () => {
         await Locale.addDict('en',
             async () => { return { 'lang': { '2': { '11': '11' } } }; },
             async () => { return { 'lang': { '2': { '22': '22' } } }; },
+            async () => { return undefined; },
         );
         expect(Locale.translate('en', 'lang.2.11')).toEqual('11');
         expect(Locale.translate('en', 'lang.2.22')).toEqual('22');
+
+        Locale.delDict('en');
+        expect(Locale.translate('en', 'lang.2.22')).toEqual('lang.2.22');
     });
 
     test('t/tt', async () => {

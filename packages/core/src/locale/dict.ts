@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flatten, flatten, Flattenable, FlattenKeys } from '@/types';
+import { Flattenable, FlattenKeys } from '@/types';
 
 /**
  * 翻译对象
@@ -15,18 +15,10 @@ export type Dict = Flattenable<string>;
 export type DictKeys<T extends Dict> = FlattenKeys<T>;
 
 /**
- * 每个翻译对象扁平化的表示
- */
-export type DictFlatten<T extends Dict> = Flatten<T, string>;
-
-/**
- * 将翻译对象 dict 转换为一个扁平的对象
- */
-export function dictFlatten<T extends Dict>(dict: T): DictFlatten<T> {
-    return flatten<T, string>(dict);
-}
-
-/**
  * 加载翻译对象的方法
+ *
+ * @returns 翻译对象
+ * 对于一些第三方库，可能并不需要返回其对象，而直接执行其对应的加载操作，
+ * 那么可以返回一个 undefined。
  */
-export type Loader = { (): Promise<Dict> };
+export type Loader = { (): Promise<Dict | undefined> };

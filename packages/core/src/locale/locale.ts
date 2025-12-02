@@ -4,8 +4,9 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { Dict, dictFlatten, DictKeys, Loader } from './dict';
+import { Dict, DictKeys, Loader } from './dict';
 import { match } from './match';
+import { flatten } from '@/types';
 
 export const displayStyles = ['full', 'short', 'narrow'] as const;
 
@@ -27,7 +28,8 @@ export type DisplayStyle = typeof displayStyles[number];
  */
 export class Locale {
     static #fallback: string;
-    static #messages: Map<string, Map<string, IntlMessageFormat>>;
+    static #messages: Map<string, Map<string, IntlMessageFormat>> = new Map();
+    static #objects: Map<string, Map<string, any>> = new Map();
 
     /**
      * 初始化
@@ -35,8 +37,36 @@ export class Locale {
      * @param fallback - 在找不到对应在的语言时采用的默认值；
      */
     static init(fallback: string) {
+        if (Locale.#fallback) { throw new Error('不能多次调用 Locale.init'); }
+
         Locale.#fallback = fallback;
-        Locale.#messages = new Map();
+    }
+
+    /**
+     * 创建一个用于缓存本地化对象的接口
+     *
+     * @remarks
+     * 对于一些引入的第三方库，其本身可能提供了本地化的相关数据，但是又没有能力同时加载多个语言环境，比如 zod。
+     * 当前方法返回的对象可以保存这些数据，以便在需要时直接使用，而无需再次加载。
+     * @param id - 唯一 ID，一般直接使用包名即可。
+     */
+    static createObject(id: string) {
+        const obj = new Map<string, any>();
+        Locale.#objects.set(id, obj);
+
+        return {
+            get(locale: string) {
+                return obj.get(locale);
+            },
+
+            set(locale: string, o: any) {
+                return obj.set(locale, o);
+            },
+
+            destory() {
+                Locale.#objects.delete(id);
+            }
+        };
     }
 
     /**
@@ -83,17 +113,29 @@ export class Locale {
         }
 
         for (const l of loaders) {
-            Object.entries<string>(dictFlatten(await l())).forEach((item) => {
-                try {
-                    msgs.set(item[0], new IntlMessageFormat(item[1], locale));
-                } catch (err) {
-                    console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
-                }
-            });
+            const dict = await l();
+            if (dict) {
+                Object.entries<string>(flatten(dict)).forEach((item) => {
+                    try {
+                        msgs.set(item[0], new IntlMessageFormat(item[1], locale));
+                    } catch (err) {
+                        console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
+                    }
+                });
+            }
 
             Locale.#messages.set(locale, msgs);
         }
     }
+
+    /**
+     * 删除对某个语言的支持
+     */
+    static delDict(locale: string) {
+        Locale.#messages.delete(locale);
+    }
+
+    ///////////////////////// 以下为实例字段 /////////////////////////
 
     readonly #current: Map<string, IntlMessageFormat>;
     readonly #locale: Intl.Locale;
