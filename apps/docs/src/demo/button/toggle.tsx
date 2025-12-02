@@ -32,12 +32,6 @@ export default function(props: MountProps) {
                 kind={kind()} palette='tertiary' on={<IconClose />} off={<IconFace />}
                 toggle={async () => toggleFlag2 = !toggleFlag2} hotkey={new Hotkey('b', 'shift')} />
 
-            <ToggleButton class="prefers-reduced-motion" square disabled={disabled()} rounded={rounded()}
-                kind={kind()} palette='tertiary' on={<IconClose />} off={<IconFace />}
-                toggle={async () => toggleFlag1 = !toggleFlag1} hotkey={new Hotkey('a', 'shift')} />
-
-            <br />
-
             <ToggleFullScreenButton square disabled={disabled()} rounded={rounded()} kind={kind()}
                 palette='primary' hotkey={new Hotkey('a', 'alt')} />
             <ToggleFullScreenButton square disabled={disabled()} rounded={rounded()} kind={kind()}

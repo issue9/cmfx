@@ -30,7 +30,6 @@ const messages: typeof m = {
             dark: '深色模式',
             light: '浅色模式',
             system: '跟随系统',
-            reducedMotion: '减少动画效果',
             themeBuilder: '主题编辑器',
             ltr: 'LTR',
             rtl: 'RTL',

@@ -29,15 +29,6 @@ kbd {
     }
 }
 
-.prefers-reduced-motion {
-    *,
-    *::before,
-    *::after {
-        transition-property: none !important;
-        animation: none !important;
-    }
-}
-
 /********************* 为所有的 popover 添加动画效果 *******************/
 
 /* 调用者需要指定非 none 的 display 属性 */

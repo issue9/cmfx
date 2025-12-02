@@ -33,20 +33,6 @@ export function transitionDuration(el?: Element): number {
 }
 
 /**
- * 当前组件是否要减少动画功能
- *
- * @param el - 需要判定的元素，如果为空，则采用 media query 查询 `prefers-reduced-motion: reduce`；
- */
-export function isReducedMotion(el?: Element | null): boolean {
-    while(el) {
-        if (el.classList.contains('prefers-reduced-motion')) { return true; }
-        el = el.parentElement;
-    }
-
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-}
-
-/**
  * 计算两个颜色值之间的 wcag 值
  *
  * @param c1 - 第一个颜色值；
@@ -62,3 +48,5 @@ export function wcag(c1: string, c2: string, apca?: boolean): string {
         ? Math.abs(cc1.contrastAPCA(cc2)).toFixed(0)
         : cc1.contrastWCAG21(cc2).toFixed(1);
 }
+
+export const reducedMotionWatcher = window.matchMedia('(prefers-reduced-motion: reduce)');

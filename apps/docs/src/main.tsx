@@ -13,7 +13,6 @@ import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
 import IconEN from '~icons/icon-park-outline/english';
 import IconGithub from '~icons/icon-park-outline/github';
-import IconAnimation from '~icons/material-symbols/animation';
 import IconSystem from '~icons/material-symbols/brightness-4';
 import IconDark from '~icons/material-symbols/dark-mode';
 import IconAlign from '~icons/material-symbols/format-align-center-rounded';
@@ -78,7 +77,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
     };
 
     const [themeValues, setThemeValues]
-        = createSignal<Array<Mode | 'reduced-motion'>>([theme.mode ?? 'system'], { equals: false });
+        = createSignal<Array<Mode>>([theme.mode ?? 'system'], { equals: false });
     let themeDropdown: DropdownRef;
 
     return <div class={styles.main}>
@@ -112,19 +111,11 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                             act.switchMode(mode as Mode);
                         }
 
-                        if (val.includes('reduced-motion')) {
-                            document.documentElement.classList.add('prefers-reduced-motion');
-                        } else {
-                            document.documentElement.classList.remove('prefers-reduced-motion');
-                        }
-
                         themeDropdown.hide();
                     }} items={[
                         { type: 'item', label: l.t('_d.main.dark'), value: 'dark', prefix: <IconDark /> },
                         { type: 'item', label: l.t('_d.main.light'), value: 'light', prefix: <IconLight /> },
                         { type: 'item', label: l.t('_d.main.system'), value: 'system', prefix: <IconSystem /> },
-                        { type: 'divider' },
-                        { type: 'item', label: l.t('_d.main.reducedMotion'), value: 'reduced-motion', prefix: <IconAnimation /> },
                         { type: 'divider' },
                         { type: 'a', label: l.t('_d.main.themeBuilder'), value: 'theme-builder', prefix: <IconBuilder /> },
                     ]}>

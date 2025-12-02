@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
-import { createEffect, JSX, onMount } from 'solid-js';
+import { createEffect, JSX, onCleanup, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, isReducedMotion, joinClass, RefProps, style2String, transitionDuration } from '@/base';
+import { BaseProps, reducedMotionWatcher, joinClass, RefProps, style2String, transitionDuration } from '@/base';
 import { useTheme } from '@/context';
 
 export interface Ref {
@@ -72,11 +72,13 @@ export interface Props extends BaseProps, RefProps<Ref> {
 }
 
 /**
- * 提供多图标的动画切换效果
+ * 提供多图标的切换效果
  *
  * @remarks
  * 可以一次性指定多个图标，通过 {@link Ref#to} 实现跳转到另一个图标且带有动画效果。
  * 应该尽量避免纯图标表示的状态切换，纯粹的图标很难告诉用户当前的图标是表示当前状态还是点击之后的状态。
+ *
+ * 会根据 `@media(prefers-reduced-motion: reduce)` 判断是否需要使用动画效果。
  */
 export function IconSet(props: Props): JSX.Element {
     const keys = Object.keys(props.icons); // 图标名称列表
@@ -115,9 +117,13 @@ export function IconSet(props: Props): JSX.Element {
         }
     });
 
-    const getDuration = () => {
-        return isReducedMotion(icons) ? 0 : transitionDuration(icons);
+    // 是否不需要动画效果
+    let isReducedMotion = reducedMotionWatcher.matches;
+    const getReducedMotion = (v: MediaQueryListEvent) => {
+        isReducedMotion = v.matches;
     };
+
+    const getDuration = () => isReducedMotion ? 0 : transitionDuration(icons);
 
     createEffect(() => { // 监视 props.value
         const toid = props.value;
@@ -127,6 +133,8 @@ export function IconSet(props: Props): JSX.Element {
     });
 
     onMount(() => {
+        reducedMotionWatcher.addEventListener('change', getReducedMotion);
+
         morpheus = new SVGMorpheus(icons, {
             iconId: props.value,
             duration: getDuration(),
@@ -156,6 +164,10 @@ export function IconSet(props: Props): JSX.Element {
                 element: () => icons,
             });
         });
+    });
+
+    onCleanup(() => {
+        reducedMotionWatcher.removeEventListener('change', getReducedMotion);
     });
 
     return <>{icons}</>;

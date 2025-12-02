@@ -4,7 +4,7 @@
 
 import { describe, expect, test } from 'vitest';
 
-import { transitionDuration, isReducedMotion, wcag } from './theme';
+import { transitionDuration, wcag } from './theme';
 import '../../tailwind.css'; // 需要启用样式表
 
 test('transitionDuration', () => {
@@ -18,13 +18,6 @@ test('transitionDuration', () => {
 
     document.documentElement.style.setProperty('--default-transition-duration', '300');
     expect(transitionDuration()).toEqual(300);
-});
-
-test('isReducedMotion', () => {
-    expect(isReducedMotion()).toEqual(false);
-
-    document.documentElement.classList.add('prefers-reduced-motion');
-    expect(isReducedMotion(document.documentElement)).toEqual(true);
 });
 
 describe('wcag', () => {

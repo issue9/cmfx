@@ -31,7 +31,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
 
             createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
-            return <Drawer class={styles.builder} floating='md' ref={el => {
+            return <Drawer class={styles.builder} floating='lg' ref={el => {
                 drawerRef = el;
                 el.main().style.overflow = 'unset';
             }} palette='secondary' mainPalette='surface' main={<Demo s={schemeFA} />}
