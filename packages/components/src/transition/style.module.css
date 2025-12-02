@@ -12,12 +12,14 @@
     .enter-active,
     .exit-active {
         @apply transition-opacity;
+        @apply motion-reduce:transition-opacity!;
     }
 
     /* 准备入场 */
     .enter {
         visibility: hidden;
         opacity: 0;
+        @apply motion-reduce:transition-opacity!;
     }
 
     /* 已经退出 */
@@ -25,17 +27,20 @@
         visibility: hidden;
         opacity: 0;
         height: 0 !important;
+        @apply motion-reduce:transition-opacity!;
     }
 
     /* 准备退出 */
     .exit {
         height: 0 !important;
         visibility: hidden;
+        @apply motion-reduce:transition-opacity!;
     }
 
     /* 已经入场 */
     .enter-to {
         visibility: visible;
         opacity: 1;
+        @apply motion-reduce:transition-opacity!;
     }
 }

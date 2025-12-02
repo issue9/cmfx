@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    AxisChart, AxisRef, ConfirmButton, createBytesFormatter, Divider, joinClass, Label, Page, Tab
+    ChartAxis, ChartAxisRef, ConfirmButton, createBytesFormatter, Divider, joinClass, Label, Page, Tab
 } from '@cmfx/components';
 import {
     createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount
@@ -54,7 +54,7 @@ export function Info(): JSX.Element {
 
     // event source
 
-    let axisRef: AxisRef<Numbers>;
+    let axisRef: ChartAxisRef<Numbers>;
 
     const [stat, setStat] = createSignal('cpu');
     const changeTab = (val: string) => {
@@ -236,7 +236,7 @@ export function Info(): JSX.Element {
                 { id: 'connections', label: l.t('_p.system.connections') },
                 { id: 'goroutines', label: l.t('_p.system.goroutines') },
             ]} />
-            <AxisChart ref={(el) => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
+            <ChartAxis ref={el => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
                 series={[
                     { type: 'line', key: 'os', name: l.t('_c.os'), area: true, smooth: true },
                     { type: 'line', key: 'process', name: l.t('_c.process'), area: true, smooth: true },

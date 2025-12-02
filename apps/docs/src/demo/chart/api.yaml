@@ -3,8 +3,8 @@
 # SPDX-License-Identifier: MIT
 
 - ChartProps
-- AxisChartProps
-- AxisChartPropsAxis
-- AxisChartPropsSeries
-- AxisRef
-- PieChartProps
+- ChartAxisProps
+- ChartAxisPropsAxis
+- ChartAxisPropsSeries
+- ChartAxisRef
+- ChartPieProps
