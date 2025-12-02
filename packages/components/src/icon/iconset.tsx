@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { bundleSvgsStringSync, easings, Rotation, rotations, SVGMorpheus } from '@iconsets/svg-morpheus-ts';
-import { createEffect, JSX, onCleanup, onMount } from 'solid-js';
+import { createEffect, createMemo, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
-import { BaseProps, reducedMotionWatcher, joinClass, RefProps, style2String, transitionDuration } from '@/base';
+import { BaseProps, isReducedMotion, joinClass, RefProps, style2String, transitionDuration } from '@/base';
 import { useTheme } from '@/context';
 
 export interface Ref {
@@ -117,13 +117,7 @@ export function IconSet(props: Props): JSX.Element {
         }
     });
 
-    // 是否不需要动画效果
-    let isReducedMotion = reducedMotionWatcher.matches;
-    const getReducedMotion = (v: MediaQueryListEvent) => {
-        isReducedMotion = v.matches;
-    };
-
-    const getDuration = () => isReducedMotion ? 0 : transitionDuration(icons);
+    const getDuration = createMemo(() => isReducedMotion() ? 0 : transitionDuration(icons));
 
     createEffect(() => { // 监视 props.value
         const toid = props.value;
@@ -133,8 +127,6 @@ export function IconSet(props: Props): JSX.Element {
     });
 
     onMount(() => {
-        reducedMotionWatcher.addEventListener('change', getReducedMotion);
-
         morpheus = new SVGMorpheus(icons, {
             iconId: props.value,
             duration: getDuration(),
@@ -164,10 +156,6 @@ export function IconSet(props: Props): JSX.Element {
                 element: () => icons,
             });
         });
-    });
-
-    onCleanup(() => {
-        reducedMotionWatcher.removeEventListener('change', getReducedMotion);
     });
 
     return <>{icons}</>;

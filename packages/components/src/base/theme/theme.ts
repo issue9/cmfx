@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import Color from 'colorjs.io';
+import { createSignal } from 'solid-js';
 
 import { transitionDurationName } from './scheme';
 
@@ -49,4 +50,10 @@ export function wcag(c1: string, c2: string, apca?: boolean): string {
         : cc1.contrastWCAG21(cc2).toFixed(1);
 }
 
-export const reducedMotionWatcher = window.matchMedia('(prefers-reduced-motion: reduce)');
+const reducedMotionWatcher = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+const [isReducedMotion, setIsReducedMotion] = createSignal<boolean>(reducedMotionWatcher.matches);
+
+reducedMotionWatcher.addEventListener('change', e => { setIsReducedMotion(e.matches); });
+
+export { isReducedMotion };

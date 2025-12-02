@@ -5,7 +5,7 @@
 import * as echarts from 'echarts';
 import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, reducedMotionWatcher, joinClass, transitionDuration } from '@/base';
+import { BaseProps, isReducedMotion, joinClass, transitionDuration } from '@/base';
 import { useLocale } from '@/context';
 import { matchLocale } from './locale';
 
@@ -68,12 +68,6 @@ export function Chart(props: Props): JSX.Element {
 
     const resize = () => { inst.resize(); };
 
-    // 是否不需要动画效果
-    let isReducedMotion = reducedMotionWatcher.matches;
-    const getReducedMotion = (v: MediaQueryListEvent) => {
-        isReducedMotion = v.matches;
-    };
-
     onMount(() => {
         const theme = {
             /*
@@ -93,18 +87,16 @@ export function Chart(props: Props): JSX.Element {
         });
 
         window.addEventListener('resize', resize);
-        reducedMotionWatcher.addEventListener('change', getReducedMotion);
     });
 
     onCleanup(() => {
         inst.dispose();
         window.removeEventListener('resize', resize);
-        reducedMotionWatcher.removeEventListener('change', getReducedMotion);
     });
 
     createEffect(() => { // 监视 props.o 变化
         // TODO: getMode()
-        props.o.animation = !!isReducedMotion;
+        props.o.animation = !!isReducedMotion();
         props.o.animationDuration = transitionDuration(ref);
         inst.setOption(props.o);
     });
