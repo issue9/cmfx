@@ -26,5 +26,5 @@ test('parseGomods', () => {
 
 test('initPnpmVersionSearch', async () => {
     const s = await initPnpmVersionSearch();
-    expect(s('yaml')).toEqual('^2.8.1');
+    expect(s('yaml')).toEqual('^2.8.2');
 });
