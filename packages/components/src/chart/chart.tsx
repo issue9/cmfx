@@ -81,8 +81,9 @@ export function Chart(props: Props): JSX.Element {
 
     onMount(() => {
         const theme = {
+            // TODO: https://github.com/apache/echarts/issues/20757
+            // TODO: https://github.com/apache/echarts/issues/19976
             /*
-             * TODO: https://github.com/apache/echarts/issues/20757
             color: [
                 'var(--palette-2-bg)', 'var(--palette-2-fg)', 'var(--palette-3-bg)', 'var(--palette-3-fg)',
                 'var(--palette-4-bg)', 'var(--palette-4-fg)', 'var(--palette-5-bg)', 'var(--palette-5-fg)',
