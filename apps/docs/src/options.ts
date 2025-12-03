@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options, Scheme, schemes } from '@cmfx/components';
-import { Problem } from '@cmfx/core';
+import { Options, Scheme, schemes, createChartLocaleLoader } from '@cmfx/components';
+import { Problem, createZodLocaleLoader } from '@cmfx/core';
 
 export const options: Options = {
     id: 'admin',
@@ -19,10 +19,14 @@ export const options: Options = {
         'en': [
             async () => (await import('@cmfx/components/messages/en.lang.js')).default,
             async () => (await import('./messages/en.lang.js')).default,
+            createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langEN.js')).default),
+            createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
         ],
         'zh-Hans': [
             async () => (await import('@cmfx/components/messages/zh-Hans.lang.js')).default,
             async () => (await import('./messages/zh-Hans.lang.js')).default,
+            createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langZH.js')).default),
+            createZodLocaleLoader((await import('../node_modules/zod/v4/locales/zh-CN.js')).default),
         ],
     },
 

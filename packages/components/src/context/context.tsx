@@ -9,7 +9,6 @@ import {
 import { createStore } from 'solid-js/store';
 
 import { Mode, Scheme } from '@/base';
-import { registerLocales } from '@/chart/locale';
 import { IconCmfxBrandAnimate } from '@/icon';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
@@ -66,7 +65,6 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     const [data] = createResource(true, async () => {
         for (const [key, loaders] of Object.entries(props.messages)) {
             await Locale.addDict(key, ...loaders);
-            await registerLocales(key); // 加载图表组件的本地化语言
         }
 
         const api = await API.build(props.id+'-token', props.storage, props.apiBase,

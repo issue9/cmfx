@@ -2,20 +2,22 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { matchLocales } from '@cmfx/core';
+import { matchLocales, DictLoader, Dict } from '@cmfx/core';
 import * as echarts from 'echarts';
 
 /**
- * 注册与 l 最匹配的语言
+ * 创建用于加载 echarts 语言包的加载器
+ * @param obj - 需要加载的内容，比如 `(await import(`../../node_modules/echarts/lib/i18n/langEN.js`)).default`；
+ * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；
  */
-export async function registerLocales(l: string) {
-    const id = matchLocale(l);
-    if (!locales.includes(id)) { // echarts 未提供的语言则直接忽略加载。
-        return;
-    }
+export function createChartLocaleLoader(obj: any ): DictLoader {
+    return async (locale: string): Promise<Dict | undefined> => {
+        const id = matchLocale(locale);
+        if (!locales.includes(id)) { return; }// echarts 未提供的语言则直接忽略加载。
 
-    const obj = (await import(`../../node_modules/echarts/lib/i18n/lang${id}.js`)).default;
-    echarts.registerLocale(id, obj);
+        echarts.registerLocale(id, obj);
+        return undefined;
+    };
 }
 
 /**

@@ -5,7 +5,7 @@
 import { describe, expect, test } from 'vitest';
 import * as z from 'zod';
 
-import { validator } from './zod';
+import { createZodLocaleLoader, validator } from './zod';
 import { Locale } from '@/locale';
 
 const usr = z.object({
@@ -16,7 +16,12 @@ const usr = z.object({
 
 type User = z.infer<typeof usr>;
 
-describe('zod', async()=>{
+describe('zod', async () => {
+    const enLoader = createZodLocaleLoader((await import('../../node_modules/zod/v4/locales/en.js')).default);
+    const zhLoader = createZodLocaleLoader((await import('../../node_modules/zod/v4/locales/zh-CN.js')).default);
+    await enLoader('en');
+    await zhLoader('zh-CN');
+
     Locale.init('en');
     Locale.addDict('zh', async () => { return undefined; });
     Locale.addDict('en', async () => { return undefined; });

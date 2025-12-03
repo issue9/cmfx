@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import * as z from 'zod';
-import { FlattenKeys, Flattenable } from '@/types';
 
-import { Locale, matchLocales } from '@/locale';
+import { FlattenKeys, Flattenable } from '@/types';
+import { Dict, DictLoader, Locale, matchLocales } from '@/locale';
 import { Params } from '@/api';
 import { ValidResult, Validator } from './validation';
 
@@ -62,17 +62,29 @@ type LocaleID = typeof locales[number];
 const objects = Locale.createObject('zod');
 
 /**
+ * 创建一个用于加载 zod 本地化语言的函数
+ *
+ * @param f - 加载 zod 本地化语言内容，比如 `(await import('../../node_modules/zod/v4/locales/en.js')).default`；
+ * @returns 返回的是一个 {@link DictLoader} 函数，可在 {@link Locale.addDict} 中使用；
+ */
+export function createZodLocaleLoader(f: () => any): DictLoader {
+    return async (locale: string): Promise<Dict | undefined> => {
+        objects.set(locale, f());
+        return undefined;
+    };
+}
+
+/**
  * 将 {@link z.ZodObject | Zod} 对象包装为 {@link Validator} 方法
+ *
+ * @param s - zod schema；
+ * @param l - 本地化语言的 ID；
  */
 export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
     return async(obj: T): Promise<ValidResult<T>> => {
         if (l) {
             const id = matchLocales(l.locale.toString(), locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
             var errsMap = objects.get(id);
-            if (!errsMap) {
-                const { default: locale } = await import(`../../node_modules/zod/v4/locales/${id}.js`);
-                errsMap = locale();
-            }
         }
 
         const result = await s.safeParseAsync(obj, l ? { error: errsMap.localeError } : undefined);

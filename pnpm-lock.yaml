@@ -42,6 +42,9 @@ catalogs:
     colorjs.io:
       specifier: ^0.5.2
       version: 0.5.2
+    echarts:
+      specifier: ^6.0.0
+      version: 6.0.0
     intl-messageformat:
       specifier: ^10.7.18
       version: 10.7.18
@@ -161,12 +164,18 @@ importers:
       '@solidjs/router':
         specifier: 'catalog:'
         version: 0.15.4(solid-js@1.9.10)
+      echarts:
+        specifier: 'catalog:'
+        version: 6.0.0
       solid-js:
         specifier: 'catalog:'
         version: 1.9.10
       tailwindcss:
         specifier: 'catalog:'
         version: 4.1.17
+      zod:
+        specifier: 'catalog:'
+        version: 4.1.13
     devDependencies:
       '@cmfx/vite-plugin-about':
         specifier: workspace:*
@@ -222,6 +231,9 @@ importers:
       colorjs.io:
         specifier: 'catalog:'
         version: 0.5.2
+      echarts:
+        specifier: 'catalog:'
+        version: 6.0.0
       marked:
         specifier: ^17.0.0
         version: 17.0.0
@@ -234,6 +246,9 @@ importers:
       tailwindcss:
         specifier: 'catalog:'
         version: 4.1.17
+      zod:
+        specifier: 'catalog:'
+        version: 4.1.13
     devDependencies:
       '@tailwindcss/vite':
         specifier: 'catalog:'
@@ -401,7 +416,7 @@ importers:
         specifier: 'catalog:'
         version: 0.5.2
       echarts:
-        specifier: ^6.0.0
+        specifier: 'catalog:'
         version: 6.0.0
       fast-deep-equal:
         specifier: ^3.1.3
