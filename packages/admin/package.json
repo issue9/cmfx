@@ -49,12 +49,13 @@
         "@cmfx/components": "workspace:*",
         "@cmfx/illustrations": "workspace:*",
         "@cmfx/vite-plugin-about": "workspace:*",
+        "@iconify/json": "catalog:",
         "@scure/base": "^2.0.0",
         "@solidjs/router": "catalog:",
         "bowser": "catalog:",
         "solid-js": "catalog:",
         "tailwindcss": "catalog:",
-        "@iconify/json": "catalog:"
+        "zod": "catalog:"
     },
     "devDependencies": {
         "unplugin-icons": "catalog:",

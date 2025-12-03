@@ -25,10 +25,12 @@
         "@cmfx/admin": "workspace:*",
         "@cmfx/components": "workspace:*",
         "@cmfx/core": "workspace:*",
+        "@iconify/json": "catalog:",
         "@solidjs/router": "catalog:",
+        "echarts": "catalog:",
         "tailwindcss": "catalog:",
         "solid-js": "catalog:",
-        "@iconify/json": "catalog:"
+        "zod": "catalog:"
     },
     "devDependencies": {
         "unplugin-icons": "catalog:",

@@ -37,8 +37,6 @@ export class Locale {
      * @param fallback - 在找不到对应在的语言时采用的默认值；
      */
     static init(fallback: string) {
-        if (Locale.#fallback) { throw new Error('不能多次调用 Locale.init'); }
-
         Locale.#fallback = fallback;
     }
 
@@ -55,17 +53,11 @@ export class Locale {
         Locale.#objects.set(id, obj);
 
         return {
-            get(locale: string) {
-                return obj.get(locale);
-            },
+            get(locale: string) { return obj.get(locale); },
 
-            set(locale: string, o: any) {
-                return obj.set(locale, o);
-            },
+            set(locale: string, o: any) { return obj.set(locale, o); },
 
-            destory() {
-                Locale.#objects.delete(id);
-            }
+            destory() { Locale.#objects.delete(id); }
         };
     }
 
@@ -112,8 +104,8 @@ export class Locale {
             msgs = new Map<string, IntlMessageFormat>();
         }
 
-        for (const l of loaders) {
-            const dict = await l();
+        for (const loader of loaders) {
+            const dict = await loader(locale);
             if (dict) {
                 Object.entries<string>(flatten(dict)).forEach((item) => {
                     try {

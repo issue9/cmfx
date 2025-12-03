@@ -11,4 +11,4 @@ export type { Props as ChartAxisProps, XAxis as ChartAxisPropsAxis, Series as Ch
 export { ChartPie } from './pie';
 export type { Props as ChartPieProps } from './pie';
 
-export { matchLocale as matchChartLocale } from './locale';
+export { createChartLocaleLoader } from './locale';

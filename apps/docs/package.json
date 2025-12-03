@@ -29,10 +29,12 @@
         "@iconify/json": "catalog:",
         "@solidjs/router": "catalog:",
         "colorjs.io": "catalog:",
+        "echarts": "catalog:",
         "marked": "^17.0.0",
         "shiki": "catalog:",
         "solid-js": "catalog:",
-        "tailwindcss": "catalog:"
+        "tailwindcss": "catalog:",
+        "zod": "catalog:"
     },
     "devDependencies": {
         "@tailwindcss/vite": "catalog:",

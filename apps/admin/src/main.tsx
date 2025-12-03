@@ -5,7 +5,8 @@
 import './style.css';
 
 import { admins, createApp, current, members, MenuItem, Options, roles, Routes, system } from '@cmfx/admin';
-import { Card, Label, Scheme, schemes, useLocale } from '@cmfx/components';
+import { createZodLocaleLoader } from '@cmfx/core';
+import { Card, Label, Scheme, schemes, useLocale, createChartLocaleLoader } from '@cmfx/components';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
@@ -115,11 +116,15 @@ const o: Options = {
                 async () => { return (await import('@cmfx/components/messages/en.lang.js')).default; },
                 async () => { return (await import('@cmfx/admin/messages/en.lang.js')).default; },
                 async () => { return (await import('./locales/en')).default; },
+                createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langEN.js')).default),
+                createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
             ],
             'zh-Hans': [
                 async () => { return (await import('@cmfx/components/messages/zh-Hans.lang.js')).default; },
                 async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang.js')).default; },
                 async () => { return (await import('./locales/zh-Hans')).default; },
+                createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langZH.js')).default),
+                createZodLocaleLoader((await import('../node_modules/zod/v4/locales/zh-CN.js')).default),
             ],
         },
         fallback: 'en',
