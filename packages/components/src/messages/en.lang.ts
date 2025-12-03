@@ -90,3 +90,8 @@ const messages = {
 };
 
 export default messages;
+
+/**
+ * 框架内部的翻译对象
+ */
+export type Messages = typeof messages;

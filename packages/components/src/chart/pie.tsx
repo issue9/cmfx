@@ -63,11 +63,11 @@ export function ChartPie(props: Props): JSX.Element {
 
     const o = createMemo(() => {
         const o: ChartOption = {
-            tooltip: { show: props.tooltip, textStyle: {color: 'var(--palette-fg)'}, backgroundColor: 'var(--palette-bg)', trigger: 'item' },
+            tooltip: { show: props.tooltip, textStyle: { color: 'var(--palette-fg)' }, backgroundColor: 'var(--palette-bg)', trigger: 'item' },
             legend: props.legend ? {
                 show: !!props.legend,
-                textStyle: { color: 'var(--palette-fg)'},
-                orient: props.legend==='center' ? 'horizontal' : 'vertical',
+                textStyle: { color: 'var(--palette-fg)' },
+                orient: props.legend === 'center' ? 'horizontal' : 'vertical',
                 left: props.legend,
             } : undefined,
             series: {

@@ -95,8 +95,7 @@ export function Chart(props: Props): JSX.Element {
     });
 
     createEffect(() => { // 监视 props.o 变化
-        // TODO: getMode()
-        props.o.animation = !!isReducedMotion();
+        props.o.animation = !isReducedMotion();
         props.o.animationDuration = transitionDuration(ref);
         inst.setOption(props.o);
     });

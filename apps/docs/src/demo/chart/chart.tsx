@@ -52,11 +52,11 @@ export default function(props: MountProps) {
         });
     }, 500);
 
-    return <div>
+    return <>
         <Portal mount={props.mount}>
             {paletteS}
         </Portal>
 
         <Chart palette={palette()} o={opt} />
-    </div>;
+    </>;
 }

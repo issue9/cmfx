@@ -3,6 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { expect, test } from 'vitest';
+
 import { matchLocale } from './locale';
 
 test('matchLocale', async () => {

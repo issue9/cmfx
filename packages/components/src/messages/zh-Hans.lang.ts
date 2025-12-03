@@ -2,9 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { default as m } from './en.lang';
+import type { Messages } from './en.lang';
 
-const messages: typeof m = {
+const messages: Messages = {
     _c: {
         fullscreen: '全屏',
         successful: '成功',

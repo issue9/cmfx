@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { YAXisOption } from 'echarts/types/src/coord/cartesian/AxisModel.js';
 import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { RefProps } from '@/base';
@@ -51,7 +50,8 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'>, RefProps<
     /**
      * 展示的数据
      *
-     * 可动态更新，如果总量超过 size，最早的数据会被删除。
+     * @remarks
+     * 可通过 {@link Ref#append}，如果总量超过 {@link size}，最早的数据会被删除。
      */
     data: Array<T>;
 
@@ -128,7 +128,7 @@ export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
     if (props.ref) {
         props.ref({
             append(...data: Array<T>) {
-                setData((prev) => {
+                setData(prev => {
                     let d = [...prev, ...data];
                     if (props.size && (d.length > props.size)) {
                         d.splice(0, d.length - props.size);
@@ -137,30 +137,28 @@ export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
                 });
             },
 
-            clear() {
-                setData([]);
-            }
+            clear() { setData([]); }
         });
     }
 
     const axisLine = {lineStyle: { color: 'var(--palette-fg-low)' },};
     const splitLine = { lineStyle: { color: ['var(--palette-bg-low)'] } };
 
-    const o = createMemo(() => {
-        const dimensions = [props.xAxis.key, ...props.series.map(s=>s.key)] as Array<string>;
+    const o = createMemo<ChartOption>(() => {
+        const dimensions = [props.xAxis.key, ...props.series.map(s => s.key)] as Array<string>;
 
-        const yAxis: Array<YAXisOption> = [{
+        const yAxis: ChartOption['yAxis'] = [{
             type: 'value', axisLine: axisLine, splitLine: splitLine, show: true, name: props.yAxis
         }];
-        if (props.series.find((s)=>s.yAxisIndex===1)) {
+        if (props.series.find(s => s.yAxisIndex === 1)) {
             yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });
         }
 
-        const o: ChartOption = {
-            tooltip: { show: props.tooltip, textStyle: {color: 'var(--palette-fg)'}, backgroundColor: 'var(--palette-bg)' },
+        return {
+            tooltip: { show: props.tooltip, textStyle: { color: 'var(--palette-fg)' }, backgroundColor: 'var(--palette-bg)' },
             legend: props.legend ? {
                 show: !!props.legend,
-                textStyle: { color: 'var(--palette-fg)'},
+                textStyle: { color: 'var(--palette-fg)' },
                 left: props.legend,
             } : undefined,
             xAxis: {
@@ -170,7 +168,7 @@ export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
                 splitLine: splitLine,
             },
             yAxis: yAxis,
-            series: props.series.map((s) => {
+            series: props.series.map(s => {
                 return {
                     name: s.name ?? s.type,
                     type: s.type,
@@ -188,7 +186,6 @@ export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
                 source: data(),
             }
         };
-        return o;
     });
 
     return <Chart o={o()} {...charsProps} />;

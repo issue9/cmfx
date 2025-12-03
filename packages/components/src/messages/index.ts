@@ -4,11 +4,6 @@
 
 import { DictKeys } from '@cmfx/core';
 
-import messages from './en.lang';
-
-/**
- * 框架内部的翻译对象
- */
-export type Messages = typeof messages;
+import type { Messages } from './en.lang';
 
 export type MessagesKey = DictKeys<Messages>;
