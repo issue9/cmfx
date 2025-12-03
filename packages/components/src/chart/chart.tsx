@@ -3,15 +3,33 @@
 // SPDX-License-Identifier: MIT
 
 import * as echarts from 'echarts';
-import { createEffect, JSX, mergeProps, onCleanup, onMount } from 'solid-js';
+import { createEffect, JSX, mergeProps, on, onCleanup, onMount } from 'solid-js';
 
-import { BaseProps, isReducedMotion, joinClass, transitionDuration } from '@/base';
+import { BaseProps, isReducedMotion, joinClass, RefProps, transitionDuration } from '@/base';
 import { useLocale } from '@/context';
 import { matchLocale } from './locale';
 
 export type ChartOption = echarts.EChartsOption;
 
-export interface Props extends BaseProps {
+export interface Ref {
+    /**
+     * 返回 echarts 的操作实例
+     */
+    echarts(): echarts.ECharts;
+
+    /**
+     * 组件根元素
+     */
+    element(): HTMLDivElement;
+
+    /**
+     * 更新图表数据
+     * @param o - 新的图表数据
+     */
+    update(o: ChartOption): void;
+}
+
+export interface Props extends BaseProps, RefProps<Ref> {
     /**
      * 是否扩大可点击元素的响应范围
      *
@@ -38,12 +56,9 @@ export interface Props extends BaseProps {
     width?: number | string;
 
     /**
-     * 图表的配置项
-     *
-     * NOTE: o 中各种颜色值可以引用 CSS 的变量：var(--palette-bg) 等以适应主题的变化。
-     * @reactive
+     * 图表的初始数据
      */
-    o: ChartOption;
+    initValue: ChartOption;
 }
 
 export const presetProps: Readonly<Partial<Props>> = {
@@ -54,10 +69,6 @@ export const presetProps: Readonly<Partial<Props>> = {
 
 /**
  * echarts 组件
- *
- * @remarks
- * echarts 的 setOption 函数映射到 {@link Props#o} 属性，更新 o 属性相当于调用 setOption 方法。
- * {@link echarts#init} 的各个参数则由组件的其它属性组成，都是非响应式的。
  */
 export function Chart(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
@@ -86,6 +97,13 @@ export function Chart(props: Props): JSX.Element {
             renderer: 'svg',
         });
 
+        // 初始数据
+        inst.setOption({
+            animation: !isReducedMotion(),
+            animationDuration: transitionDuration(ref),
+            ...props.initValue,
+        });
+
         window.addEventListener('resize', resize);
     });
 
@@ -94,11 +112,18 @@ export function Chart(props: Props): JSX.Element {
         window.removeEventListener('resize', resize);
     });
 
-    createEffect(() => { // 监视 props.o 变化
-        props.o.animation = !isReducedMotion();
-        props.o.animationDuration = transitionDuration(ref);
-        inst.setOption(props.o);
-    });
+    createEffect(on(isReducedMotion, () => {
+        inst.setOption({ animation: !isReducedMotion() });
+    }));
 
-    return <div class={joinClass(props.palette, props.class)} ref={el => ref = el} style={props.style} />;
+    return <div class={joinClass(props.palette, props.class)} style={props.style} ref={el => {
+        ref = el;
+        if (props.ref) {
+            props.ref({
+                element() { return el; },
+                echarts() { return inst; },
+                update(o: ChartOption) { inst.setOption(o); }
+            });
+        }
+    }} />;
 }

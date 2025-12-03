@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@/context/context.spec';
-import { Chart, ChartOption } from './chart';
+import { Chart, ChartOption, Ref } from './chart';
 
 describe('Chart', async () => {
     const x = [1, 2, 3, 4, 5, 6, 7];
@@ -32,10 +32,17 @@ describe('Chart', async () => {
             },
         ]
     };
-    const ct = await ComponentTester.build('Chart', props => <Chart o={opt} {...props} />);
 
-    // 根元素的基本属性检测
+    let ref: Ref;
+    const ct = await ComponentTester.build('Chart', props => <Chart ref={el => ref = el} initValue={opt} {...props} />);
+
     test('props', async () => {
         ct.testProps();
+    });
+
+    test('ref', async () => {
+        expect(ref).toBeDefined();
+        expect(ref.element()).toBeInstanceOf(HTMLDivElement);
+        expect(ref.echarts()).toBeDefined();
     });
 });

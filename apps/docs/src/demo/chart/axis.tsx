@@ -5,7 +5,7 @@
 import { ChartAxis, ChartAxisRef, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
-import { boolSelector, paletteSelector } from '../base';
+import { paletteSelector } from '../base';
 
 interface Item {name:string, v1: number, v2: number}
 
@@ -19,7 +19,6 @@ const items: Array<Item> = [
 
 export default function(props: MountProps) {
     const [paletteS, palette] = paletteSelector();
-    const [smoothS, smooth] = boolSelector('smooth');
 
     let axisRef: ChartAxisRef<Item>;
 
@@ -37,21 +36,20 @@ export default function(props: MountProps) {
     return <div>
         <Portal mount={props.mount}>
             {paletteS}
-            {smoothS}
         </Portal>
 
         <div>
             <ChartAxis palette={palette()} tooltip legend='right' selectedMode='single'
-                xAxis={{ name: 'X', key: 'name' }}
-                series={[{ type: 'line', key: 'v1', smooth: smooth() }, { type: 'bar', key: 'v2', yAxisIndex: 1, area: true, smooth: smooth() }]}
-                data={items} />
+                xAxis={{ name: 'X', key: 'name' }} yAxis='YYY'
+                series={[{ type: 'line', key: 'v1' }, { type: 'bar', key: 'v2', yAxisIndex: 1, area: true }]}
+                initValue={items} />
         </div>
 
         <div>
             <ChartAxis palette={palette()} size={10} ref={el => axisRef = el} tooltip legend='center'
                 xAxis={{ name: 'X', key: 'name' }}
-                series={[{ type: 'bar', key: 'v2', yAxisIndex: 1, smooth: smooth() }, { type: 'line', key: 'v1', area: true, smooth: smooth() },]}
-                data={items} />
+                series={[{ type: 'bar', key: 'v2', yAxisIndex: 1, smooth: true }, { type: 'line', key: 'v1', area: true, smooth: true },]}
+                initValue={items} />
         </div>
     </div>;
 }

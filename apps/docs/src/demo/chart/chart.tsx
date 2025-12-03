@@ -2,9 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Chart, ChartOption, MountProps } from '@cmfx/components';
+import { Chart, ChartRef, ChartOption, MountProps } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
-import { createStore } from 'solid-js/store';
 
 import { paletteSelector } from '../base';
 
@@ -15,7 +14,7 @@ export default function(props: MountProps) {
     const s1 = [15, 23, 22, 21, 13, 14, 26];
     const s2 = [10, 20, 24, 28, 15, 17, 20];
     let count = x.length;
-    const [opt, setOpt] = createStore<ChartOption>({
+    const initData: ChartOption = {
         title: { show: false },
         xAxis: {
             type: 'category',
@@ -34,7 +33,9 @@ export default function(props: MountProps) {
                 type: 'bar'
             },
         ]
-    });
+    };
+
+    let ref: ChartRef;
 
     setInterval(() => {
         x.push(++count);
@@ -43,7 +44,8 @@ export default function(props: MountProps) {
         x.shift();
         s1.shift();
         s2.shift();
-        setOpt({
+
+        ref.update({
             xAxis: { data: [...x] },
             series: [
                 { data: [...s1] },
@@ -57,6 +59,6 @@ export default function(props: MountProps) {
             {paletteS}
         </Portal>
 
-        <Chart palette={palette()} o={opt} />
+        <Chart palette={palette()} initValue={initData} ref={el=>ref=el} />
     </>;
 }

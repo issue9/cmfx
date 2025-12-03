@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 export { Chart } from './chart';
-export type { Props as ChartProps, ChartOption } from './chart';
+export type { Props as ChartProps, ChartOption, Ref as ChartRef } from './chart';
 
 export { ChartAxis } from './axis';
 export type { Props as ChartAxisProps, XAxis as ChartAxisPropsAxis, Series as ChartAxisPropsSeries, Ref as ChartAxisRef } from './axis';

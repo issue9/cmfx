@@ -2,12 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { createMemo, createSignal, JSX, mergeProps, splitProps } from 'solid-js';
+import { createEffect, createSignal, JSX, mergeProps, onMount, splitProps } from 'solid-js';
 
 import { RefProps } from '@/base';
-import { Props as BaseProps, Chart, presetProps as presetBaseProps, ChartOption } from './chart';
+import { Props as BaseProps, Chart, presetProps, ChartOption, Ref as ChartRef } from './chart';
 
 export interface Ref<T extends object> {
+    /**
+     * 组件根元素
+     */
+    element(): HTMLDivElement;
+
     /**
      * 追加数据
      */
@@ -19,12 +24,15 @@ export interface Ref<T extends object> {
     clear(): void;
 }
 
-export interface Props<T extends object> extends Omit<BaseProps, 'o'>, RefProps<Ref<T>> {
+export interface Props<T extends object> extends Omit<BaseProps, 'initValue' | 'ref'>, RefProps<Ref<T>> {
     /**
      * X 轴的设置
      */
     xAxis: XAxis<T>;
 
+    /**
+     * Y 轴名称
+     */
     yAxis?: string;
 
     /**
@@ -53,7 +61,7 @@ export interface Props<T extends object> extends Omit<BaseProps, 'o'>, RefProps<
      * @remarks
      * 可通过 {@link Ref#append}，如果总量超过 {@link size}，最早的数据会被删除。
      */
-    data: Array<T>;
+    initValue: Array<T>;
 
     /**
     * 最大的数据量，当图表中的数据大于此值时，会删除顶部的数据。
@@ -110,83 +118,96 @@ export interface Series<T extends object> {
     area?: boolean;
 }
 
-const presetProps = {
-    ...presetBaseProps,
-} as const;
-
 /**
  * 带坐标系的图表组件
  *
  * @typeParam T - 每一条数据的类型
  */
 export function ChartAxis<T extends object>(props: Props<T>): JSX.Element {
-    props = mergeProps(presetProps, props);
-    const [_, charsProps] = splitProps(props, ['xAxis', 'data', 'size', 'tooltip', 'legend', 'series', 'ref']);
+    props = mergeProps(presetProps as any, props);
+    const [_, charsProps] = splitProps(props, ['xAxis', 'initValue', 'size', 'tooltip', 'legend', 'series', 'ref']);
 
-    const [data, setData] = createSignal<Array<T>>(props.data);
+    const [data, setData] = createSignal<Array<T>>(props.initValue);
 
-    if (props.ref) {
-        props.ref({
-            append(...data: Array<T>) {
-                setData(prev => {
-                    let d = [...prev, ...data];
-                    if (props.size && (d.length > props.size)) {
-                        d.splice(0, d.length - props.size);
-                    }
-                    return d;
-                });
-            },
-
-            clear() { setData([]); }
-        });
-    }
-
+    let ref: ChartRef;
     const axisLine = {lineStyle: { color: 'var(--palette-fg-low)' },};
     const splitLine = { lineStyle: { color: ['var(--palette-bg-low)'] } };
 
-    const o = createMemo<ChartOption>(() => {
-        const dimensions = [props.xAxis.key, ...props.series.map(s => s.key)] as Array<string>;
+    const dimensions = [props.xAxis.key, ...props.series.map(s => s.key)] as Array<string>;
 
-        const yAxis: ChartOption['yAxis'] = [{
-            type: 'value', axisLine: axisLine, splitLine: splitLine, show: true, name: props.yAxis
-        }];
-        if (props.series.find(s => s.yAxisIndex === 1)) {
-            yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });
-        }
+    const yAxis: ChartOption['yAxis'] = [{
+        type: 'value', axisLine: axisLine, splitLine: splitLine, show: true, name: props.yAxis
+    }];
+    if (props.series.find(s => s.yAxisIndex === 1)) {
+        yAxis.push({ type: 'value', axisLine: axisLine, splitLine: splitLine, show: true });
+    }
 
+    const tooltip = {
+        show: props.tooltip,
+        textStyle: { color: 'var(--palette-fg)' },
+        backgroundColor: 'var(--palette-bg)'
+    };
+
+    const legend = props.legend ? {
+        show: !!props.legend,
+        textStyle: { color: 'var(--palette-fg)' },
+        left: props.legend,
+    } : undefined;
+
+    const xAxis: ChartOption['xAxis'] = {
+        name: props.xAxis.name,
+        type: 'category',
+        axisLine: axisLine,
+        splitLine: splitLine,
+    };
+    const series = props.series.map(s => {
         return {
-            tooltip: { show: props.tooltip, textStyle: { color: 'var(--palette-fg)' }, backgroundColor: 'var(--palette-bg)' },
-            legend: props.legend ? {
-                show: !!props.legend,
-                textStyle: { color: 'var(--palette-fg)' },
-                left: props.legend,
-            } : undefined,
-            xAxis: {
-                name: props.xAxis.name,
-                type: 'category',
-                axisLine: axisLine,
-                splitLine: splitLine,
-            },
-            yAxis: yAxis,
-            series: props.series.map(s => {
-                return {
-                    name: s.name ?? s.type,
-                    type: s.type,
-                    yAxisIndex: s.yAxisIndex,
-                    symbol: 'circle',
-                    symbolSize: 8,
-                    selectedMode: props.selectedMode,
-                    stack: s.stack,
-                    smooth: s.smooth,
-                    areaStyle: s.area ? {} : undefined,
-                };
-            }),
-            dataset: {
-                dimensions: dimensions,
-                source: data(),
-            }
+            name: s.name ?? s.type,
+            type: s.type,
+            yAxisIndex: s.yAxisIndex,
+            symbol: 'circle',
+            symbolSize: 8,
+            selectedMode: props.selectedMode,
+            stack: s.stack,
+            smooth: s.smooth,
+            areaStyle: s.area ? {} : undefined,
         };
     });
 
-    return <Chart o={o()} {...charsProps} />;
+    onMount(() => { // 只能在组件加载完成之后才可以调用 ref.update
+        createEffect(() => {
+            ref.update({
+                dataset: { source: data() }
+            });
+        });
+    });
+
+    const value = {
+        tooltip, legend, xAxis, yAxis, series, dataset: {
+            dimensions,
+            source: props.initValue,
+        }
+    };
+
+    return <Chart initValue={value} {...charsProps} ref={el => {
+        ref = el;
+
+        if (props.ref) {
+            props.ref({
+                append(...data: Array<T>) {
+                    setData(prev => {
+                        let d = [...prev, ...data];
+                        if (props.size && (d.length > props.size)) {
+                            d.splice(0, d.length - props.size);
+                        }
+                        return d;
+                    });
+                },
+
+                clear() { setData([]); },
+
+                element() { return el.element(); }
+            });
+        }
+    }} />;
 }

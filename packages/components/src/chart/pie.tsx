@@ -6,7 +6,7 @@ import { createMemo, JSX, mergeProps, splitProps } from 'solid-js';
 
 import { Props as BaseProps, Chart, presetProps as presetBaseProps, ChartOption } from './chart';
 
-export interface Props extends Omit<BaseProps, 'o'> {
+export interface Props extends Omit<BaseProps, 'initValue' | 'ref'> {
     /**
      * 是否显示提示信息
      */
@@ -45,7 +45,7 @@ export interface Props extends Omit<BaseProps, 'o'> {
     /**
      * 展示的数据
      */
-    data: Array<{name: string, value: number, selected?: boolean}>;
+    initValue: Array<{name: string, value: number, selected?: boolean}>;
 }
 
 const presetProps = {
@@ -59,7 +59,7 @@ const presetProps = {
  */
 export function ChartPie(props: Props): JSX.Element {
     props = mergeProps(presetProps, props);
-    const [_, charsProps] = splitProps(props, ['data', 'tooltip', 'legend', 'padding', 'radius']);
+    const [_, charsProps] = splitProps(props, ['initValue', 'tooltip', 'legend', 'padding', 'radius']);
 
     const o = createMemo(() => {
         const o: ChartOption = {
@@ -84,11 +84,11 @@ export function ChartPie(props: Props): JSX.Element {
                 }
             },
             dataset: {
-                source: props.data,
+                source: props.initValue,
             }
         };
         return o;
     });
 
-    return <Chart o={o()} {...charsProps} />;
+    return <Chart initValue={o()} {...charsProps} />;
 }
