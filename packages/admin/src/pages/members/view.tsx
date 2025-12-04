@@ -28,7 +28,7 @@ export interface Props {
 export function View(props: Props): JSX.Element {
     const [api, act, opt] = useAdmin();
     const l = useLocale();
-    const id = parseInt(useParams().id);
+    const id = parseInt(useParams().id ?? '0');
     const [member, setMember] = createSignal<Member>({
         id: 0,
         no: '',

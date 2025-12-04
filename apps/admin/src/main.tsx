@@ -142,6 +142,7 @@ const o: Options = {
     logo: './brand-static.svg',
     aside: {
         menus: menus,
+        floatingMinWidth: 'xs'
     },
     userMenus: currentPage.menus()
 };

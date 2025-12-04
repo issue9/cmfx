@@ -11,7 +11,7 @@
         @apply flex flex-wrap flex-row! gap-5 justify-between content-center box-border @container/info;
 
         .panel {
-            @apply flex flex-col border border-palette-border p-2 rounded-md flex-grow;
+            @apply flex flex-col border border-palette-border p-2 rounded-md grow;
 
             dl {
                 @apply flex flex-wrap hover:bg-palette-bg-focused px-2 rounded-sm cursor-pointer;
@@ -22,7 +22,7 @@
                 }
 
                 dd {
-                    @apply text-right m-auto flex-grow;
+                    @apply text-right m-auto grow;
                 }
             }
 

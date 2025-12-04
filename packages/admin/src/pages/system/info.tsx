@@ -61,8 +61,6 @@ export function Info(): JSX.Element {
         setStat(val);
     };
 
-    const [data, setData] = createSignal<Array<Numbers>>([]);
-
     const [cpu, setCPU] = createSignal<Array<Numbers>>([]);
     const [mem, setMem] = createSignal<Array<Numbers>>([]);
     const [conns, setConns] = createSignal<Array<Numbers>>([]);
@@ -108,19 +106,19 @@ export function Info(): JSX.Element {
             switch(stat()) {
             case 'cpu':
                 axisRef.append({ os: fixed(os.cpu), process: fixed(pro.cpu), created: created });
-                setData(cpu());
+                //setData(cpu());
                 break;
             case 'mem':
                 axisRef.append({ os: fixed(os.mem/mb), process: fixed(pro.mem/mb), created: created });
-                setData(mem());
+                //setData(mem());
                 break;
             case 'conns':
                 axisRef.append({ os: fixed(os.net.conns), process: fixed(pro.conns), created: created });
-                setData(conns());
+                //setData(conns());
                 break;
             case 'goroutines':
                 axisRef.append({ os: 0, process: fixed(pro.goroutines), created: created });
-                setData(goroutines());
+                //setData(goroutines());
                 break;
             }
         });
@@ -236,12 +234,12 @@ export function Info(): JSX.Element {
                 { id: 'connections', label: l.t('_p.system.connections') },
                 { id: 'goroutines', label: l.t('_p.system.goroutines') },
             ]} />
-            <ChartAxis ref={el => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
+            <ChartAxis<Numbers> ref={el => axisRef = el} width='auto' size={50} tooltip legend='center' xAxis={{ key: 'created' }}
                 series={[
                     { type: 'line', key: 'os', name: l.t('_c.os'), area: true, smooth: true },
                     { type: 'line', key: 'process', name: l.t('_c.process'), area: true, smooth: true },
                 ]}
-                data={data()}
+                initValue={[]}
             />
         </fieldset>
     </Page>;
