@@ -73,8 +73,7 @@ export function Tab(props: Props) {
         setVal(() => v);
     };
 
-    // 监视 props.value 的变化
-    createEffect(() => {
+    createEffect(() => { // 监视 props.value 的变化
         setVal(() => props.value ?? props.items[0].id);
     });
 

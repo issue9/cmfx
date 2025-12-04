@@ -119,6 +119,8 @@ export function Button(props: Props) {
         [styles.checked]: props.checked,
     }, styles.button, styles[props.kind!], props.class)} ref={el => {
         ref = el;
+        if (props.checked) { el.ariaChecked = 'true'; }
+
         if (!props.ref) { return; }
         props.ref({ element: () => el });
     }}

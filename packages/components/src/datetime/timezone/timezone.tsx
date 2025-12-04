@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle } from '@cmfx/core';
-import { createEffect, createMemo, createSignal, For, JSX, Show, untrack } from 'solid-js';
+import { createEffect, createMemo, createSignal, For, JSX, onMount, Show, untrack } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
-import { Button } from '@/button';
+import { Button, ButtonRef } from '@/button';
 import { useLocale } from '@/context';
 import { ChangeFunc } from '@/form/field';
 import { Tab, TabItem } from '@/tab';
@@ -70,8 +70,7 @@ export default function Timezone(props: Props): JSX.Element {
     const [tab, setTab] = createSignal<string | undefined>(tabs[0].id);
     const [selected, setSelected] = createSignal<string | undefined>(props.value);
 
-    // 监视 props.value 变化
-    createEffect(() => {
+    createEffect(() => { // 监视 props.value 变化
         setSelected(props.value);
         if (props.value) {
             const s = props.value.split('/');
@@ -92,6 +91,13 @@ export default function Timezone(props: Props): JSX.Element {
         if (props.onChange) { props.onChange(value, old); }
     };
 
+    let buttonRef: ButtonRef;
+    onMount(() => {
+        requestAnimationFrame(() => {
+            buttonRef?.element().scrollIntoView();
+        });
+    });
+
     return <div class={joinClass(props.palette, props.class)} style={props.style}>
         <Tab value={tab()} items={tabs} onChange={v => setTab(v)} panelClass={styles.panel}>
             <For each={regions()}>
@@ -101,7 +107,11 @@ export default function Timezone(props: Props): JSX.Element {
                             <For each={timezones()}>
                                 {item => (
                                     <Button checked={selected() === item.id} kind='flat' class={styles.item}
-                                        onclick={() => change(item.id)}
+                                        onclick={() => change(item.id)} ref={el => {
+                                            if (selected() === item.id && !buttonRef) {
+                                                buttonRef = el;
+                                            }
+                                        }}
                                     >
                                         <span class={styles.line}>{item.displayName}</span>
                                         <span class={styles.line} title={item.id}>{item.id}</span>
