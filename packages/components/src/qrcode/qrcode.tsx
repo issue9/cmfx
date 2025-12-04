@@ -24,7 +24,8 @@ export interface Ref {
     /**
      * 提供了 qr-code-styling 的实例
      *
-     * @remarks 这是二维码对象的原始操作对象。需要注意的是，
+     * @remarks
+     * 这是二维码对象的原始操作对象。需要注意的是，
      * 此方法返回的对象提供的下载方法与 {@link download} 在颜色上是不同的。
      */
     qrCodeStyling(): QRCodeStyling;
