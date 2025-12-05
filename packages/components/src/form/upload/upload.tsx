@@ -46,7 +46,7 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'> {
     fieldName: string;
 
     /**
-     * 上传的地址，是相对于 api#baseURL 的地址
+     * 上传的地址，是相对于 {@link API#baseURL} 的地址
      */
     action: string;
 

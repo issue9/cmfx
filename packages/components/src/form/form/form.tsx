@@ -92,11 +92,11 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         Button: ButtonAction,
 
         Reset(props: Omit<ButtonProps, 'onclick' | 'type'>): JSX.Element {
-            return <ButtonAction {...props} type="reset" onclick={() => api.reset()} />;
+            return <ButtonAction {...props} type="reset" />;
         },
 
         Submit(props: Omit<ButtonProps, 'onclick' | 'type'>): JSX.Element {
-            return <ButtonAction {...props} type="submit" onclick={async () => await api.submit()} />;
+            return <ButtonAction {...props} type="submit" />;
         },
     };
 

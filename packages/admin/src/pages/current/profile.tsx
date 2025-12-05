@@ -96,7 +96,7 @@ export function Profile(props: Props): JSX.Element {
                         <Button palette='error' onclick={() => {
                             setAvatar(originAvatar);
                             uploadRef.delete(0);
-                        }}>{l.t('_o.cancel')}</Button>
+                        }}>{l.t('_c.cancel')}</Button>
                     </div>
                 </Show>
             </div>
@@ -111,7 +111,7 @@ export function Profile(props: Props): JSX.Element {
 
             <div class={styles.actions}>
                 <actions.Reset palette="secondary" disabled={fapi.isPreset()}>{l.t('_c.reset')}</actions.Reset>
-                <actions.Reset palette="primary" disabled={fapi.isPreset()}>{l.t('_p.save')}</actions.Reset>
+                <actions.Submit palette="primary" disabled={fapi.isPreset()}>{l.t('_p.save')}</actions.Submit>
             </div>
         </Form>
 

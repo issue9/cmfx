@@ -2,26 +2,27 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, ObjectAccessor, Password, TextField } from '@cmfx/components';
+import { Button, createForm, Dialog, DialogRef, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
+import { z } from 'zod';
 
 import { useAdmin, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
-type PasswordAccount = {
-    username: string;
-    password: string;
-};
+const passwordAccountSchema = z.object({
+    username: z.string().min(1).max(100),
+    password: z.string().min(1).max(100),
+});
 
-type PasswordValue = {
-    old: string;
-    new: string;
-};
+const passwordValueSchema = z.object({
+    old: z.string().min(1).max(100),
+    new: z.string().min(1).max(100),
+});
 
 /**
  * 密码登录方式
@@ -42,53 +43,56 @@ export class Pwd implements PassportComponents {
         const l = useLocale();
         const [api, act, opt] = useAdmin();
         const nav = useNavigate();
-        const account = new ObjectAccessor<PasswordAccount>({ username: '', password: '' });
-
-        return <form class={styles.password} onReset={() => account.reset()} onSubmit={async () => {
-            const r = await api.post(`/passports/${this.#id}/login`, await account.object());
-            const ret = await act.login(r);
-            if (ret === true) {
+        const [fapi, Form, actions] = createForm({
+            value: passwordAccountSchema.partial().parse({}),
+            submit: async obj => {
+                const ret = await api.post(`/passports/${this.#id}/login`, obj);
+                await act.login(ret);
+                return ret;
+            },
+            onProblem: p => act.outputProblem(p),
+            onSuccess: async () => {
                 nav(opt.routes.private.home);
-            } else if (ret) {
-                await act.outputProblem(ret);
             }
-        }}>
-            <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
-                placeholder={l.t('_p.current.username')} accessor={account.accessor<string>('username')} />
-            <Password hasHelp prefix={<IconPassword class={styles['text-field']} />} autocomplete='current-password'
-                placeholder={l.t('_p.current.password')} accessor={account.accessor<string>('password')} />
+        });
 
-            <Button palette='primary' disabled={account.accessor<string>('username').getValue() == ''} type="submit">{l.t('_c.ok')}</Button>
-            <Button palette='secondary' disabled={account.isPreset()} type="reset" > {l.t('_c.reset')} </Button>
-        </form>;
+        return <Form class={styles.password}>
+            <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
+                placeholder={l.t('_p.current.username')} accessor={fapi.accessor<string>('username')} />
+            <Password hasHelp prefix={<IconPassword class={styles['text-field']} />} autocomplete='current-password'
+                placeholder={l.t('_p.current.password')} accessor={fapi.accessor<string>('password')} />
+
+            <actions.Submit palette='primary' disabled={fapi.accessor<string>('username').getValue() == ''}>{l.t('_c.ok')}</actions.Submit>
+            <actions.Reset palette='secondary' disabled={fapi.isPreset()}> {l.t('_c.reset')} </actions.Reset>
+        </Form>;
     }
 
-    Actions(__: RefreshFunc): JSX.Element {
+    Actions(_: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
         const l = useLocale();
         const [api, act] = useAdmin();
-        const pwd = new ObjectAccessor<PasswordValue>({ old: '', new: '' });
+        const [fapi , Form, actions] = createForm({
+            value: passwordValueSchema.partial().parse({}),
+            submit: async obj => {
+                const r = await api.put(`/passports/${this.#id}`, obj);
+                await act.refetchUser();
+                return r;
+            },
+            onProblem: p => act.outputProblem(p),
+        });
 
         return <>
             <Button square rounded title={l.t('_p.current.changePassword')} onclick={() => {
                 dialogRef.element().showModal();
             }}><IconPasskey /></Button>
 
-            <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}
-                actions={dialogRef!.DefaultActions(async () => {
-                    const r = await api.put(`/passports/${this.#id}`, await pwd.object());
-                    if (!r.ok) {
-                        await act.outputProblem(r.body);
-                        return undefined;
-                    }
+            <Dialog ref={(el) => dialogRef = el} header={l.t('_p.current.changePassword')}>
+                <Form class={styles['action-form']}>
+                    <TextField placeholder={l.t('_p.current.oldPassword')} accessor={fapi.accessor<string>('old')} />
+                    <TextField placeholder={l.t('_p.current.newPassword')} accessor={fapi.accessor<string>('new')} />
 
-                    await act.refetchUser();
-                    return undefined;
-                })}>
-                <form class={styles['action-form']}>
-                    <TextField placeholder={l.t('_p.current.oldPassword')} accessor={pwd.accessor<string>('old')} />
-                    <TextField placeholder={l.t('_p.current.newPassword')} accessor={pwd.accessor<string>('new')} />
-                </form>
+                    <actions.Submit class="ms-auto">{ l.t('_c.ok') }</actions.Submit>
+                </Form>
             </Dialog>
         </>;
     }

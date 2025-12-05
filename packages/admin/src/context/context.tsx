@@ -9,6 +9,7 @@ import { JSX, ParentProps, createContext, createResource, mergeProps, useContext
 
 import { build as buildOptions } from '@/options/options';
 import { User } from './user';
+import { HTTPError } from '@/app';
 
 type OptContext = ReturnType<typeof buildOptions>;
 
@@ -68,7 +69,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
             return u;
         }
 
-        console.error(r.body?.title); // 此时 notify 还未初始化
+        throw new HTTPError(r.status, r.body?.title!, r.body?.detail); // 此时 notify 还未初始化
     });
 
     return {

@@ -70,7 +70,7 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
         outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) { throw '发生了一个未知的错误，请联系管理员！'; }
 
-            if (p.status === 401 || p.status === API.ErrorCode || p.status >= 500) {
+            if (p.status === API.ErrorCode || p.status >= 500) {
                 throw new errors.HTTPError(p.status, p.title, p.detail);
             } else { // 其它 4XX 错误弹出提示框
                 await notify(p.title, p.detail, 'error');

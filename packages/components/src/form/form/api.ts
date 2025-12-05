@@ -19,7 +19,7 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
     readonly value: T;
 
     /**
-     * 在服务端返回未处理的 {@link Problem} 对象时的处理方法，当前实现会自动处理带有 Problem#params 字段的错误
+     * 在服务端返回未处理的 {@link Problem} 对象时的处理方法，当前实现会自动处理带有 {@link Problem#params} 字段的错误
      */
     readonly onProblem?: { (p: Problem<PE>): Promise<void> };
 
