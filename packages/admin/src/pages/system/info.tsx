@@ -133,7 +133,7 @@ export function Info(): JSX.Element {
         await api.delete('/system/systat');
     });
 
-    return <Page title="_p.system.serverInfo" class={ joinClass(undefined, 'max-w-lg!', styles.info)}>
+    return <Page title="_p.system.serverInfo" class={ joinClass(undefined, styles.info)}>
         <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
             <Label icon={<IconInfo />} tag='legend'>{l.t('_p.system.serverInfo')}</Label>
             <dl><dt>{l.t('_p.system.name')}</dt><dd>{info()?.id}&nbsp;({info()?.version})</dd></dl>

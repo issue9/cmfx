@@ -59,7 +59,7 @@
     }
 
     .profile {
-        @apply max-w-xs;
+        @apply max-w-xl;
 
         .avatar {
             @apply rounded-full border border-palette-border w-24 h-24;
@@ -89,6 +89,8 @@
     }
 
     .settings {
+        @apply w-2xl;
+
         .color-block {
             @apply flex flex-wrap w-10;
 

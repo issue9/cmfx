@@ -12,6 +12,7 @@ import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
 import { useAdmin, useLocale } from '@/context';
+import styles from './style.module.css';
 
 export type Role = {
     id?: string;
@@ -74,12 +75,12 @@ export function Roles(props: Props): JSX.Element {
         dialogRef.element().showModal();
     };
 
-    return <Page title="_p.roles.rolesManager" class="max-w-lg">
+    return <Page title="_p.roles.rolesManager" class={styles.roles}>
         <Dialog ref={(el) => dialogRef = el}
             header={currentID.getValue() ? l.t('_p.editItem') : l.t('_p.newItem')}
             actions={dialogRef!.DefaultActions(save)}
         >
-            <form class="flex flex-col gap-2">
+            <form class={styles.form}>
                 <TextField accessor={current.accessor<string>('name')} />
                 <TextArea accessor={current.accessor<string>('description')} />
             </form>

@@ -10,6 +10,7 @@ import IconTask from '~icons/material-symbols/task';
 
 import { useAdmin, useLocale } from '@/context';
 import { MessagesKey } from '@/messages';
+import styles from './style.module.css';
 
 interface Service {
     jobs: Array<Job>;
@@ -56,7 +57,7 @@ export function Services(): JSX.Element {
 
     const states = createMemo(() => { return stateMap.map(v => ({ type: 'item', value: v[0], label: l.t(v[1]) })); });
 
-    return <Page title='_p.system.serviceViewer' class="max-w-lg">
+    return <Page title='_p.system.serviceViewer' class={styles.services}>
         <fieldset>
             <Label icon={<IconSubtitle />} tag='legend'>{l.t('_p.system.services')}</Label>
             <LoaderTable hoverable load={async(_:Query)=>(await items())?.services} queries={{}} columns={[
