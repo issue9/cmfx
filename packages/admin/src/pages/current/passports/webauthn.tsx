@@ -21,6 +21,8 @@ import { useAdmin } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
+const textDecoder = new TextDecoder('utf-8');
+
 export class Webauthn implements PassportComponents {
     #id: string;
 
@@ -51,11 +53,11 @@ export class Webauthn implements PassportComponents {
             }
 
             const pubKey = r1.body!.publicKey!;
-            pubKey.challenge = base64urlnopad.decode(pubKey.challenge);
+            pubKey.challenge = new Uint8Array(base64urlnopad.decode(textDecoder.decode(pubKey.challenge)));
             if (pubKey.allowCredentials) {
                 pubKey.allowCredentials = pubKey.allowCredentials.map(c => ({
                     ...c,
-                    id: base64urlnopad.decode(c.id),
+                    id: base64urlnopad.decode(textDecoder.decode(c.id)),
                 })) as any;
             }
             const credential = await navigator.credentials.get({ publicKey: pubKey }) as any;
@@ -149,9 +151,9 @@ export class Webauthn implements PassportComponents {
                                 }
 
                                 const pubKey = r1.body!.publicKey!;
-                                pubKey.challenge = base64urlnopad.decode(pubKey.challenge);
+                                pubKey.challenge = new Uint8Array(base64urlnopad.decode(textDecoder.decode(pubKey.challenge)));
                                 if (pubKey.user && pubKey.user.id) {
-                                    pubKey.user.id = base64urlnopad.decode(pubKey.user.id as any);
+                                    pubKey.user.id = new Uint8Array(base64urlnopad.decode(pubKey.user.id as any));
                                 }
                                 const credential = await navigator.credentials.create({ publicKey: pubKey }) as any;
 

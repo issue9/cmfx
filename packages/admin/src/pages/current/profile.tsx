@@ -7,7 +7,7 @@ import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 
 import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
-import { useAdmin, useLocale, User } from '@/context';
+import { useAdmin, useLocale, User, Sex } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -20,7 +20,7 @@ export function Profile(props: Props): JSX.Element {
     const l = useLocale();
     let uploadRef: UploadRef;
 
-    const [fapi, Form] = createForm({
+    const [fapi, Form, actions] = createForm({
         value: { sex: 'unknown', state: 'normal', name: '', nickname: '', passports: [] } as User,
         onProblem: p => act.outputProblem(p),
         submit: async obj => { return api.patch(opt.api.info, obj); },
@@ -107,11 +107,11 @@ export function Profile(props: Props): JSX.Element {
         <Form class={styles.form}>
             <TextField class="w-full" label={l.t('_p.current.name')} accessor={fapi.accessor('name')} />
             <TextField class="w-full" label={l.t('_p.nickname')} accessor={fapi.accessor('nickname')} />
-            <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor('sex')} />
+            <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor<Sex>('sex')} />
 
             <div class={styles.actions}>
-                <Button palette="secondary" type="reset" disabled={fapi.isPreset()}>{l.t('_c.reset')}</Button>
-                <Button palette="primary" type="submit" disabled={fapi.isPreset()}>{l.t('_p.save')}</Button>
+                <actions.Reset palette="secondary" disabled={fapi.isPreset()}>{l.t('_c.reset')}</actions.Reset>
+                <actions.Reset palette="primary" disabled={fapi.isPreset()}>{l.t('_p.save')}</actions.Reset>
             </div>
         </Form>
 

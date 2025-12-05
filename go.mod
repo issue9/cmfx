@@ -35,7 +35,7 @@ require (
 	github.com/issue9/sliceutil v0.17.0
 	github.com/issue9/upload/v4 v4.0.0
 	github.com/issue9/web v0.104.3
-	github.com/issue9/webuse/v7 v7.0.0-20251204064700-6e295c4c691e
+	github.com/issue9/webuse/v7 v7.0.0-20251204064944-89e0b70b86bc
 	github.com/kardianos/service v1.2.4
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/shirou/gopsutil/v4 v4.25.11

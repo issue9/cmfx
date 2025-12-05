@@ -335,7 +335,7 @@ export class API {
     }
 
     /**
-     * 相当于标准库的 {@link window.fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
+     * 相当于标准库的 {@link fetch} 方法，但是对返回参数作了处理，参数也兼容标准库的 fetch 方法。
      *
      * @param path - 地址，相对于 {@link baseURL}；
      * @param req - 相关的参数；

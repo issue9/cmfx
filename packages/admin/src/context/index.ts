@@ -5,5 +5,6 @@
 export { useLocale } from '@cmfx/components';
 
 export { useAdmin } from './context';
-export type { User } from './user';
 
+export type { User, Sex, State } from './user';
+export { userSchema, sexSchema, stateSchema } from './user';
