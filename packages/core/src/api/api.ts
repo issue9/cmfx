@@ -161,36 +161,44 @@ export class API {
     /**
      * DELETE 请求
      */
-    async delete<R = never, PE = never>(path: string, withToken = true): Promise<Return<R, PE>> {
-        return this.request<R, PE>(path, 'DELETE', undefined, withToken);
+    async delete<R = never, PE = never>(
+        path: string, withToken = true, headers?: HeadersInit
+    ): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'DELETE', undefined, withToken, headers);
     }
 
     /**
      * POST 请求
      */
-    async post<R = never, PE = never>(path: string, body?: unknown, withToken = true): Promise<Return<R, PE>> {
-        return this.request<R, PE>(path, 'POST', body, withToken);
+    async post<R = never, PE = never>(
+        path: string, body?: unknown, withToken = true, headers?: HeadersInit
+    ): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'POST', body, withToken, headers);
     }
 
     /**
      * PUT 请求
      */
-    async put<R = never, PE = never>(path: string, body?: unknown, withToken = true): Promise<Return<R, PE>> {
-        return this.request<R, PE>(path, 'PUT', body, withToken);
+    async put<R = never, PE = never>(
+        path: string, body?: unknown, withToken = true, headers?: HeadersInit
+    ): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'PUT', body, withToken, headers);
     }
 
     /**
      * PATCH 请求
      */
-    async patch<R = never, PE = never>(path: string, body?: unknown, withToken = true): Promise<Return<R, PE>> {
-        return this.request<R, PE>(path, 'PATCH', body, withToken);
+    async patch<R = never, PE = never>(
+        path: string, body?: unknown, withToken = true, headers?: HeadersInit
+    ): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'PATCH', body, withToken, headers);
     }
 
     /**
      * GET 请求
      */
-    async get<R = never, PE = never>(path: string, withToken = true): Promise<Return<R, PE>> {
-        return this.request<R, PE>(path, 'GET', undefined, withToken);
+    async get<R = never, PE = never>(path: string, withToken = true, headers?: HeadersInit): Promise<Return<R, PE>> {
+        return this.request<R, PE>(path, 'GET', undefined, withToken, headers);
     }
 
     /**
@@ -200,15 +208,24 @@ export class API {
      * @param method - 请求方法；
      * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌；
+     * @param headers - 自定义请求头内容；
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
     async request<R = never, PE = never>(
-        path: string, method: Method, obj?: unknown, withToken = true
+        path: string, method: Method, obj?: unknown, withToken = true, headers?: HeadersInit
     ): Promise<Return<R, PE>> {
-        const token = withToken ? await this.getToken() : undefined;
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
-        return this.#withArgument<R, PE>(path, method, token, !!body, body as BodyInit);
+
+        const h = new Headers(headers);
+        if (withToken) {
+            h.set('Authorization', 'Bearer ' + await this.getToken());
+        }
+        if (body) {
+            h.set('Content-Type', this.#contentType + '; charset=UTF-8');
+        }
+
+        return this.#withArgument<R, PE>(path, method, h, body as BufferSource);
     }
 
     /**
@@ -218,12 +235,16 @@ export class API {
      * @param obj - 上传的对象；
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
      * @param method - 请求方法；
+     * @param headers - 自定义请求头；
      */
     async upload<R = never, PE = never>(
-        path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true
+        path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, headers?: HeadersInit
     ): Promise<Return<R, PE>> {
-        const token = withToken ? await this.getToken() : undefined;
-        return this.#withArgument<R, PE>(path, method, token, false, obj);
+        const h = new Headers(headers);
+        if (withToken) {
+            h.set('Authorization', 'Bearer ' + await this.getToken());
+        }
+        return this.#withArgument<R, PE>(path, method, h, obj);
     }
 
     /**
@@ -291,15 +312,15 @@ export class API {
         case 'refreshExpired': // 刷新令牌也过期了
             return undefined;
         case 'accessExpired': // 尝试刷新令牌
-        { //大括号的作用是防止 case 内部的变量 ret 提升作用域！
-            const ret = await this.#withArgument<Token>(this.#tokenPath, 'PUT', this.#token.refresh_token, true);
+            const ret = await this.#withArgument<Token>(this.#tokenPath, 'PUT', new Headers({
+                'Authorization': 'Bearer ' + this.#token.refresh_token,
+            }));
             if (!ret.ok) {
                 return undefined;
             }
 
             this.#token = writeToken(ret.body!, this.#id, this.#storage);
             return this.#token.access_token;
-        }
         }
     }
 
@@ -308,29 +329,25 @@ export class API {
      *
      * @param path - 请求路径，相对于 baseURL 的路径；
      * @param method - 请求方法；
-     * @param token - 携带的令牌，如果为空，表示不需要令牌；
-     * @param ct - 是否需要指定 content-type 报头；
+     * @param headers - 请求头；
      * @param body - 提交的内容，如果没有可以为空；
      */
     async #withArgument<R = never, PE = never>(
-        path: string, method: Method, token?: string, ct?: boolean, body?: BodyInit
+        path: string, method: Method, headers: Headers, body?: BodyInit
     ): Promise<Return<R, PE>> {
-        const h = new Headers({
-            'Accept': this.#acceptType + '; charset=UTF-8',
-            'Accept-Language': this.#locale,
-        });
-        if (token) {
-            h.set('Authorization', 'Bearer ' + token);
+
+        if (!(headers.has('Accept'))) {
+            headers.set('Accept', this.#acceptType + '; charset=UTF-8');
         }
-        if (ct) {
-            h.set('Content-Type', this.#contentType + '; charset=UTF-8');
+        if (!headers.has('Accept-Language')) {
+            headers.set('Accept-Language', this.#locale);
         }
 
         return await this.#fetch(path, {
             method: method,
             body: body,
             mode: 'cors',
-            headers: h,
+            headers: headers,
         });
     }
 

@@ -51,7 +51,7 @@ export function Edit(props: Props): JSX.Element {
         setPassports(r2.body!);
     });
 
-    return <Page title="_p.admin.admin" class="max-w-xs">
+    return <Page title="_p.admin.admin" class="max-w-2xl">
         <Form class="flex flex-col">
             <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
             <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />

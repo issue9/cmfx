@@ -32,7 +32,7 @@ export function New(props: Props): JSX.Element {
         }
     });
 
-    return <Page title="_p.admin.admin" class="max-w-xs">
+    return <Page title="_p.admin.admin" class="max-w-2xl">
         <Form class="flex flex-col">
             <TextField class='w-full' accessor={fapi.accessor<string>('username')} label={l.t('_p.current.username')} />
             <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />

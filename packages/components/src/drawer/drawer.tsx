@@ -74,7 +74,7 @@ export interface Props extends BaseProps, RefProps<Ref> {
      *
      * @reactive
      */
-    floating?: boolean | 'lg' | '2xl' | '4xl' | '6xl' | '8xl';
+    floating?: boolean | '3xs' | 'xs' | 'sm' | 'md' | 'lg' | '2xl' | '4xl' | '6xl' | '8xl';
 
     /**
      * 位置，默认值为 start

@@ -212,7 +212,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
             <form class={styles.search}>
                 {props.queryForm!(queries)}
                 <div class={styles.actions}>
-                    <SplitButton palette='primary' type='submit' onclick={async () => await refetch()} menus={[
+                    <SplitButton direction='left' palette='primary' type='submit' onclick={async () => await refetch()} menus={[
                         {
                             type: 'button', onclick: async () => { await exports('.csv'); }, label: <Label icon={<IconCSV />}>
                                 {l.t('_c.table.exportTo', { type: 'CSV' })}
