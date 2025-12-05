@@ -5,12 +5,14 @@
 import { Button, Divider, createForm, Page, TextField, Table } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
+import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
-import { useAdmin, useLocale, User } from '@/context';
+import { sexSchema, useAdmin, useLocale } from '@/context';
 import { roles } from '@/pages/roles';
+import { passportSchema } from '@/context/user';
 
 interface Props {
     /**
@@ -18,6 +20,16 @@ interface Props {
      */
     backURL: string;
 }
+
+const adminSchema = z.object({
+    sex: sexSchema,
+    name: z.string().min(1),
+    nickname: z.string().min(1),
+    roles: z.array(z.string().min(1)),
+    passports: z.array(passportSchema)
+});
+
+type Admin = z.infer<typeof adminSchema>;
 
 export function Edit(props: Props): JSX.Element {
     const [api, act] = useAdmin();
@@ -28,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
 
     const nav = useNavigate();
     const [fapi, Form] = createForm<Admin>({
-        value: zeroAdmin(),
+        value: adminSchema.parse({sex: 'unknown'}),
         submit: async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
         onProblem: p => act.outputProblem(p),
         onSuccess: () => nav(props.backURL)
@@ -92,22 +104,4 @@ export function Edit(props: Props): JSX.Element {
             </tbody>
         </Table>
     </Page>;
-}
-
-type Admin = {
-    sex: user.Sex;
-    name: string;
-    nickname: string;
-    roles: Array<string>;
-    passports?: User['passports'];
-};
-
-function zeroAdmin(): Admin {
-    return {
-        sex: 'unknown',
-        name: '',
-        nickname: '',
-        roles: [],
-        passports: [],
-    };
 }

@@ -17,6 +17,13 @@ export interface Props extends BaseProps {
     hotkey?: Hotkey;
 
     /**
+     * 圆角
+     *
+     * @reactive
+     */
+    rounded?: boolean;
+
+    /**
      * 搜索框的图标
      *
      * @reactive
@@ -93,7 +100,7 @@ export default function Search(props: Props): JSX.Element {
             (document.activeElement as any).blur();
         }}
     >
-        <Input inputMode={props.inputMode} type='search' autocomplete='off'
+        <Input rounded={props.rounded} inputMode={props.inputMode} type='search' autocomplete='off'
             placeholder={l.t('_c.search')} prefix={props.icon ? <IconSearch class={styles.icon} /> : undefined} suffix={
                 <Switch>
                     <Match when={!value() && props.hotkey ? props.hotkey : undefined}>

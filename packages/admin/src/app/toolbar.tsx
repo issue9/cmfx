@@ -47,7 +47,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
             <Show when={opt.toolbar.get('fullscreen')}>
                 {hk =>
                     <ToggleFullScreenButton hotkey={hk()} square type='button' kind='flat'
-                        rounded title={l.t('_c.fullscreen')} />
+                        title={l.t('_c.fullscreen')} />
                 }
             </Show>
             <Show when={act.isLogin()}><UserMenu /></Show>
@@ -65,9 +65,8 @@ function UserMenu(): JSX.Element {
     const l = useLocale();
     const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button rounded class="ps-1"
-        onclick={()=>setVisible(!visible())}>
-        <img alt='avatar' class="w-6 h-6 rounded-full me-1" src={ act.user()?.avatar } />
+    const activator = <Button kind='flat' class="ps-1" onclick={()=>setVisible(!visible())}>
+        <img alt='avatar' class={styles.avatar} src={ act.user()?.avatar } />
         {act.user()?.name}
     </Button>;
 

@@ -92,8 +92,8 @@ const messages: typeof m = {
             lastUsed: '最后使用时间',
         },
         system: {
-            apis: 'API',
-            apiViewer: 'API',
+            routes: '路由',
+            routesViewer: '路由',
             router: '路由',
             method: '请求方法',
             pattern: '路径',

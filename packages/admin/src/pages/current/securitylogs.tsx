@@ -9,12 +9,12 @@ import { JSX } from 'solid-js';
 
 import { useLocale } from '@/context';
 
-interface SecurityLog {
+type SecurityLog = {
     content: string;
     ip: string;
     ua: string;
     created: string;
-}
+};
 
 interface Query extends Q {
     text: string;

@@ -12,6 +12,11 @@ export type Sex = z.infer<typeof sexSchema>;
 
 export type State = z.infer<typeof stateSchema>;
 
+export const passportSchema = z.object({
+    id: z.string(),
+    identity: z.string().min(2).max(32),
+});
+
 export const userSchema = z.object({
     id: z.number().min(1).optional(),
     sex: sexSchema,
@@ -20,10 +25,7 @@ export const userSchema = z.object({
     nickname: z.string().min(2).max(32),
     avatar: z.string().optional(),
     roles: z.array(z.string()).optional(),
-    passports: z.array(z.object({
-        id: z.string(),
-        identity: z.string().min(2).max(32),
-    })).optional(),
+    passports: z.array(passportSchema).optional(),
 });
 
 /**

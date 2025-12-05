@@ -15,7 +15,7 @@ import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
  * 数据表中每一行的类型，必须带有 ID 作为其唯一标记。
  */
 interface Obj {
-    id: string | number;
+    id?: string | number;
     [key: string]: unknown;
 }
 
@@ -25,14 +25,12 @@ export interface Ref<T extends Obj> extends LoaderRef<T> {
      *
      * @param id - 需要删除数据的 id，该值相对于 {@link Props#path} 属性生成删除地址。
      */
-    delete<T extends Obj['id']>(id: T): Promise<void>;
+    delete(id: T['id']): Promise<void>;
 
     /**
-     * 提供一个用于删除指定 id 的按钮组件
-     *
-     * 访问的地址为 DELETE {@link Props#path}/id。
+     * 基于 {@link delete} 提供一个用于删除指定 id 的按钮组件
      */
-    DeleteAction<T extends Obj['id']>(id: T): JSX.Element;
+    DeleteAction(id: T['id']): JSX.Element;
 }
 
 export interface Props<T extends Obj, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'>, RefProps<Ref<T>> {
@@ -65,7 +63,9 @@ export function RemoteTable<T extends Obj, Q extends Query>(props: Props<T,Q>) {
 
                 async refresh(): Promise<void> { await ref.refresh(); },
 
-                async delete<T extends string | number>(id: T): Promise<void> {
+                async delete(id: T['id']): Promise<void> {
+                    if (id === undefined) { throw new Error('参数 id 必须是一个有效的值'); }
+
                     const ret = await api.delete(`${props.path}/${id}`);
                     if (!ret.ok) {
                         await act.outputProblem(ret.body);
@@ -74,7 +74,9 @@ export function RemoteTable<T extends Obj, Q extends Query>(props: Props<T,Q>) {
                     await ref.refresh();
                 },
 
-                DeleteAction(id: string | number) {
+                DeleteAction(id: T['id']) {
+                    if (id === undefined) { throw new Error('参数 id 必须是一个有效的值'); }
+
                     return <ConfirmButton square rounded palette='error'
                         title={l.t('_c.deleteRow')}
                         onclick={async () => { await this.delete(id); }}

@@ -19,6 +19,17 @@ interface Props {
     routePrefix: string;
 }
 
+export type Admin = {
+    id: number;
+    no: string;
+    sex: user.Sex;
+    name: string;
+    nickname: string;
+    avatar?: string;
+    created?: string;
+    state: user.State;
+};
+
 interface Q extends Query {
     text: string;
     state: Array<user.State>;
@@ -105,15 +116,4 @@ export function Admins(props: Props): JSX.Element {
             },
         ]} />
     </Page>;
-}
-
-export interface Admin {
-    id?: number;
-    no?: string;
-    sex: user.Sex;
-    name: string;
-    nickname: string;
-    avatar?: string;
-    created?: string;
-    state: user.State;
 }

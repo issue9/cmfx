@@ -23,7 +23,7 @@ import (
 	"github.com/issue9/cmfx/cmfx/user"
 )
 
-func (m *Module) adminGetAPIs(_ *web.Context) web.Responser { return web.OK(m.health.States()) }
+func (m *Module) adminGetRoutes(*web.Context) web.Responser { return web.OK(m.health.States()) }
 
 // 数据库的基本信息
 type dbVO struct {

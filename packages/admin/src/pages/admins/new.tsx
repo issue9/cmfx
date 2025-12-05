@@ -5,10 +5,11 @@
 import { Button, createForm, notify, Page, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
+import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
 import { user } from '@/components';
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin, useLocale, sexSchema } from '@/context';
 import { roles } from '@/pages/roles';
 
 interface Props {
@@ -18,12 +19,21 @@ interface Props {
     backURL: string;
 }
 
+const adminSchema = z.object({
+    sex: sexSchema,
+    name: z.string().min(1),
+    nickname: z.string().min(1),
+    roles: z.array(z.string().min(1)),
+    username: z.string().min(1),
+    password: z.string().min(1),
+});
+
 export function New(props: Props): JSX.Element {
     const [api, act] = useAdmin();
     const l = useLocale();
 
     const [fapi, Form] = createForm({
-        value: zeroAdmin(),
+        value: adminSchema.parse({ sex: 'unknown' }),
         submit: async obj => { return await api.post('/admins', obj); },
         onProblem: p => act.outputProblem(p),
         onSuccess: async () => {
@@ -48,24 +58,4 @@ export function New(props: Props): JSX.Element {
             </div>
         </Form>
     </Page>;
-}
-
-type Admin = {
-    sex: user.Sex;
-    name: string;
-    nickname: string;
-    roles: Array<string>;
-    username: string;
-    password: string;
-};
-
-export function zeroAdmin(): Admin {
-    return {
-        sex: 'unknown',
-        name: '',
-        nickname: '',
-        roles: [],
-        username: '',
-        password: '',
-    };
 }

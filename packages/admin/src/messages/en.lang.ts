@@ -90,8 +90,8 @@ const messages = {
             lastUsed: 'Last used',
         },
         system: {
-            apis: 'API',
-            apiViewer: 'API Viewer',
+            routes: 'Routes',
+            routesViewer: 'Route viewer',
             router: 'Router',
             method: 'Method',
             pattern: 'Pattern',

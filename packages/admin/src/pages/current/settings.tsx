@@ -62,9 +62,7 @@ export function Settings(): JSX.Element {
             {l.t('_p.settings.localeDesc')!}
         </Description>
 
-        <div class="w-60">
-            <Choice accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
-        </div>
+        <Choice accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
 
         <Divider />
 
@@ -78,7 +76,7 @@ export function Settings(): JSX.Element {
             { value: 'full', label: l.t('_p.settings.long') },
         ]} />
 
-        <div class="ms-1 ps-2 border-l-2 border-palette-bg-low">
+        <div class={styles['ds-demo']}>
             <p>{l.datetimeFormat().format(new Date())}</p>
             <p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
             <p>{createBytesFormatter(l)(1111223245)}</p>

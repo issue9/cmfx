@@ -3,16 +3,16 @@
 // SPDX-License-Identifier: MIT
 
 import { VoidComponent } from 'solid-js';
-import IconAPI from '~icons/material-symbols/api';
+import IconRoutes from '~icons/material-symbols/route';
 import IconHelp from '~icons/material-symbols/help';
 import IconInfo from '~icons/material-symbols/page-info';
-import IconSettings from '~icons/material-symbols/settings-slow-motion';
+import IconServices from '~icons/eos-icons/service-plan';
 
 
 import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { About } from './about';
-import { APIs } from './apis';
+import { Routes } from './routes';
 import { Info } from './info';
 import { Services } from './services';
 
@@ -21,9 +21,9 @@ import { Services } from './services';
  */
 export class system implements Pages {
     /**
-     * API 页面
+     * 路由数据页面
      */
-    static APIs = APIs;
+    static Routes = Routes;
 
     /**
      * 系统服务页面
@@ -60,7 +60,7 @@ export class system implements Pages {
 
     routes(): Array<Route> {
         const routes: Array<Route> = [
-            { path: this.#prefix + '/apis', component: APIs },
+            { path: this.#prefix + '/routes', component: Routes },
             { path: this.#prefix + '/services', component: Services },
             { path: this.#prefix + '/info', component: Info },
         ];
@@ -73,8 +73,8 @@ export class system implements Pages {
 
     menus(): Array<MenuItem> {
         const menus: Array<MenuItem> = [
-            { type: 'item', icon: <IconAPI />, label: '_p.system.apis', path: this.#prefix + '/apis' },
-            { type: 'item', icon: <IconSettings />, label: '_p.system.services', path: this.#prefix + '/services' },
+            { type: 'item', icon: <IconRoutes />, label: '_p.system.routes', path: this.#prefix + '/routes' },
+            { type: 'item', icon: <IconServices />, label: '_p.system.services', path: this.#prefix + '/services' },
             { type: 'item', icon: <IconHelp />, label: '_p.system.serverInfo', path: this.#prefix + '/info' },
         ];
         if (this.#about) {

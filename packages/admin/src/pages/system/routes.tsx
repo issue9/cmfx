@@ -5,11 +5,11 @@
 import { Column, Label, Page, RemoteTable } from '@cmfx/components';
 import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
-import IconAPI from '~icons/material-symbols/api';
+import IconRoutes from '~icons/material-symbols/route';
 
 import { useLocale } from '@/context';
 
-interface API {
+type Route = {
     method: string;
     pattern: string;
     router: string;
@@ -25,14 +25,14 @@ interface API {
     max: Duration;
     min: Duration;
     spend: Duration;
-}
+};
 
 interface Q extends Query {
     method: Array<Method>;
     text: string;
 }
 
-export function APIs(): JSX.Element {
+export function Routes(): JSX.Element {
     const l = useLocale();
 
     const queries: Q = {
@@ -40,9 +40,9 @@ export function APIs(): JSX.Element {
         text: ''
     };
 
-    return <Page title="_p.system.apiViewer">
-        <RemoteTable systemToolbar queries={queries} path='/system/apis' hoverable
-            toolbar={<Label icon={<IconAPI />}>{ l.t('_p.system.apis') }</Label>}
+    return <Page title="_p.system.routesViewer">
+        <RemoteTable systemToolbar queries={queries} path='/system/routes' hoverable
+            toolbar={<Label icon={<IconRoutes />}>{ l.t('_p.system.routesViewer') }</Label>}
             columns={[
                 { id: 'router', label: l.t('_p.system.router') },
                 { id: 'method', label: l.t('_p.system.method') },
@@ -58,11 +58,11 @@ export function APIs(): JSX.Element {
 
                 { id: 'max', label: l.t('_p.system.max'), content: (_: string, val: Duration) => { formatDuration(l.durationFormat(), val); } },
                 { id: 'min', label: l.t('_p.system.min'), content: (_: string, val: Duration) => { return formatDuration(l.durationFormat(), val); } },
-                { id: 'spend', label: l.t('_p.system.spend'), content: (_: string, val: Duration, api?: API) => {
+                { id: 'spend', label: l.t('_p.system.spend'), content: (_: string, val: Duration, api?: Route) => {
                     const count = api?.count!;
                     val = count > 0 ? parseDuration(val) / count : 0;
                     return formatDuration(l.durationFormat(), val);
                 } },
-            ] as Array<Column<API>>} />
+            ] as Array<Column<Route>>} />
     </Page>;
 }

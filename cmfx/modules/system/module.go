@@ -93,10 +93,10 @@ func Load(mod *cmfx.Module, conf *Config, adminL *admin.Module) *Module {
 				Response200(servicesVO{}).
 				Desc(web.Phrase("get services list api"), nil)
 		})).
-		Get("/apis", m.adminGetAPIs, resGetAPIs, api(func(o *openapi.Operation) {
+		Get("/routes", m.adminGetRoutes, resGetAPIs, api(func(o *openapi.Operation) {
 			o.Tag("system").
 				Response200([]health.State{}).
-				Desc(web.Phrase("get api list api"), nil)
+				Desc(web.Phrase("get routes list api"), nil)
 		})).
 		Post("/systat", m.adminPostSystat, resGetStat, mod.API(func(o *openapi.Operation) {
 			o.Tag("system", "systat", "sse").

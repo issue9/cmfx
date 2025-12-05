@@ -89,14 +89,10 @@
     }
 
     .settings {
-        @apply w-2xl;
+        @apply w-4xl;
 
-        .color-block {
-            @apply flex flex-wrap w-10;
-
-            span {
-                @apply w-5 h-5;
-            }
+        .ds-demo {
+            @apply ms-1 ps-2 border-l-2 border-palette-bg-low;
         }
     }
 

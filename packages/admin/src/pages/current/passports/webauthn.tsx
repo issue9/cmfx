@@ -23,6 +23,13 @@ import styles from './style.module.css';
 
 const textDecoder = new TextDecoder('utf-8');
 
+type Credential = {
+    id: string;
+    created: string;
+    last: string;
+    ua: string;
+};
+
 export class Webauthn implements PassportComponents {
     #id: string;
 
@@ -191,13 +198,6 @@ export class Webauthn implements PassportComponents {
             </Dialog>
         </>;
     }
-}
-
-interface Credential {
-    created: string;
-    last: string;
-    id: string;
-    ua: string;
 }
 
 function bufferToBase64URL(b: ArrayBuffer): string {

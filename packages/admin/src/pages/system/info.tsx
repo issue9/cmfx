@@ -209,7 +209,7 @@ export function Info(): JSX.Element {
             <span class="mt-1">{l.t('_p.system.backupDBHelp', { cron: backup()?.cron! })}</span>
             <ul class={styles.backup_list}>
                 <For each={backup()?.list}>
-                    {(item) => (
+                    {item => (
                         <li>
                             {item.path}&nbsp;({bytesFormatter()(item.size)})
                             <ConfirmButton kind='flat' palette='error' onclick={async () => {
