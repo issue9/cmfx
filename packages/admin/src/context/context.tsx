@@ -55,6 +55,22 @@ export function Provider(props: ParentProps<OptContext>): JSX.Element {
     </internalOptContext.Provider>;
 }
 
+export async function clearStorage(api: API) {
+    await api.logout();
+
+    await api.clearCache();
+
+    // localStorage
+    localStorage.clear();
+    sessionStorage.clear();
+
+    // IndexedDB
+    const dbs = await indexedDB.databases();
+    for (const db of dbs) {
+        if (db.name) { indexedDB.deleteDatabase(db.name); }
+    }
+}
+
 function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。
@@ -85,22 +101,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
          * 清除浏览器的所有缓存
          */
         async clearCache(): Promise<void> {
-            await api.clearCache();
-
-            // localStorage
-            localStorage.clear();
-            sessionStorage.clear();
-
-            // IndexedDB
-            const dbs = await indexedDB.databases();
-            for (const db of dbs) {
-                if (db.name) {
-                    indexedDB.deleteDatabase(db.name);
-                }
-            }
-
-            await api.logout();
-
+            await clearStorage(api);
             nav(opt.routes.public.home);
         },
 

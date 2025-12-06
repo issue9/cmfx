@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition, pointInElement } from '@cmfx/core';
+import { adjustPopoverPosition, Hotkey, pointInElement } from '@cmfx/core';
 import { createSignal, JSX, mergeProps, onCleanup, onMount, ParentProps, splitProps } from 'solid-js';
 
 import { AvailableEnumType, joinClass, RefProps } from '@/base';
@@ -52,6 +52,11 @@ export interface Props<M extends boolean = false, T extends AvailableEnumType = 
      * visible 参数表示当前是否为可见状态，返回值为 `true` 时，将阻止下拉菜单的弹出。
      */
     onPopover?: { (visible: boolean): boolean | undefined; };
+
+    /**
+     * 快捷键
+     */
+    hotkey?: Hotkey;
 }
 
 /**
@@ -75,7 +80,7 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
         if (isOpen) { return; }
 
         menuRef.element().showPopover();
-        adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 0, 'bottom', 'end');
+        adjustPopoverPosition(menuRef.element(), triggerRef()!.getBoundingClientRect(), 1, 'bottom', 'end');
     };
 
     // 右键菜单需要对弹出和隐藏进行额外控制
@@ -98,6 +103,13 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
             document.removeEventListener('keydown', handleEsc);
             document.removeEventListener('click', click);
         });
+    }
+
+    if (props.hotkey) {
+        onMount(() => {
+            Hotkey.bind(props.hotkey!, () => isOpen ? menuRef.element().hidePopover() : show());
+        });
+        onCleanup(() => { Hotkey.unbind(props.hotkey!); });
     }
 
     return <div class={joinClass(props.palette, props.class)} style={props.style} ref={el => rootRef = el}>
@@ -137,7 +149,8 @@ export default function Dropdown<M extends boolean = false, T extends AvailableE
                 };
 
                 el.element().onbeforetoggle = (e: ToggleEvent) => {
-                    if (props.onPopover && props.onPopover(e.newState === 'open')) {
+                    isOpen = e.newState === 'open';
+                    if (props.onPopover && props.onPopover(isOpen)) {
                         e.preventDefault();
                     }
                 };

@@ -5,9 +5,13 @@
 import {
     Appbar, Button, DrawerRef, Dropdown, Locale, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem
 } from '@cmfx/components';
-import { Accessor, createSignal, JSX, Show } from 'solid-js';
+import { Accessor, JSX, Show } from 'solid-js';
+import IconClear from '~icons/material-symbols/delete-rounded';
+import { Hotkey } from '@cmfx/core';
+import { useNavigate } from '@solidjs/router';
 
 import { useAdmin, useLocale } from '@/context';
+import { clearStorage } from '@/context/context';
 import { MenuItem } from '@/options';
 import styles from './style.module.css';
 
@@ -37,18 +41,17 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
         <>
             <Show when={act.isLogin()}>
-                <Show when={opt.toolbar.get('search')}>
-                    {hk => // NOTE: 当两个 Show 合并时，会出现 Attempting to access a stale value 的错误
-                        <Search class={styles.search} icon clear hotkey={hk()}
-                            onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
-                    }
+                <Show when={opt.toolbar.has('search')}>
+                    <Search class={styles.search} icon clear hotkey={opt.toolbar.get('search')}
+                        onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
                 </Show>
             </Show>
-            <Show when={opt.toolbar.get('fullscreen')}>
-                {hk =>
-                    <ToggleFullScreenButton hotkey={hk()} square type='button' kind='flat'
-                        title={l.t('_c.fullscreen')} />
-                }
+            <Show when={opt.toolbar.has('clear')}>
+                <ClearCache hk={opt.toolbar.get('clear')} />
+            </Show>
+            <Show when={opt.toolbar.has('fullscreen')}>
+                <ToggleFullScreenButton hotkey={opt.toolbar.get('fullscreen')} square type='button' kind='flat'
+                    title={l.t('_c.fullscreen')} />
             </Show>
             <Show when={act.isLogin()}><UserMenu /></Show>
         </>
@@ -57,15 +60,44 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
     </Appbar>;
 }
 
+function ClearCache(props: { hk?: Hotkey }): JSX.Element {
+    const l = useLocale();
+    const [api, act, opt] = useAdmin();
+    const nav = useNavigate();
+
+    return <Dropdown hotkey={props.hk} trigger='hover' items={[
+        { type: 'item', value: 'clear-api-cache', label: l.t('_p.system.clearAPICache') },
+        { type: 'item', value: 'clear-storage', label: l.t('_p.system.clearStorage') },
+        { type: 'divider' },
+        { type: 'item', value: 'clear-all', label: l.t('_p.system.clearAllCache') },
+    ]} onChange={async val => {
+        switch (val) {
+        case 'clear-all':
+            await act.clearCache();
+            break;
+        case 'clear-api-cache':
+            await api.clearCache();
+            break;
+        case 'clear-storage':
+            await clearStorage(api);
+            nav(opt.routes.public.home);
+            break;
+        }
+    }}>
+        <Button kind='flat' square title={l.t('_p.system.clearCache')}>
+            <IconClear />
+        </Button>
+    </Dropdown>;
+}
+
 /**
  * 用户名及其下拉菜单
  */
 function UserMenu(): JSX.Element {
     const [, act, opt] = useAdmin();
     const l = useLocale();
-    const [visible, setVisible] = createSignal(false);
 
-    const activator = <Button kind='flat' class="ps-1" onclick={()=>setVisible(!visible())}>
+    const activator = <Button kind='flat' class="ps-1">
         <img alt='avatar' class={styles.avatar} src={ act.user()?.avatar } />
         {act.user()?.name}
     </Button>;

@@ -5,12 +5,8 @@
 import {
     ChartAxis, ChartAxisRef, ConfirmButton, createBytesFormatter, Divider, joinClass, Label, Page, Tab
 } from '@cmfx/components';
-import {
-    createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount
-} from 'solid-js';
-import IconAction from '~icons/material-symbols/action-key';
+import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
-import IconClear from '~icons/material-symbols/clear-all';
 import IconDatabase from '~icons/material-symbols/database';
 import IconDataset from '~icons/material-symbols/dataset';
 import IconInfo from '~icons/material-symbols/info';
@@ -188,14 +184,7 @@ export function Info(): JSX.Element {
         </fieldset>
 
         <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
-            <Label icon={<IconAction />} tag='legend'>{l.t('_p.actions')}</Label>
-
-            <ConfirmButton palette='secondary' onclick={async () => await act.clearCache()}>
-                <IconClear class="me-1" />{l.t('_p.system.clearCache')}
-            </ConfirmButton>
-            <span class="mt-1">{l.t('_p.system.clearCacheHelp')}</span>
-
-            <Divider padding='1rem' />
+            <Label icon={<IconDatabase />} tag='legend'>{l.t('_c.database')}</Label>
             <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onclick={async () => {
                 const ret = await api.post('/system/backup');
                 if (!ret.ok) {

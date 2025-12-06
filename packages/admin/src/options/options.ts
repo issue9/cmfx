@@ -74,16 +74,16 @@ export interface Options {
     /**
      * 定义了工具栏上的按钮
      *
-     * @remarks 键名定义了需要在工具栏上出现的按钮；
-     * 键值则定义了该工具栏对应的快捷键；
+     * @remarks 键名定义了需要在工具栏上出现的按钮；键值则定义了该工具栏对应的快捷键；
      *
      * 目前的按钮可以是以下值：
-     *  - fullscreen 全屏；
      *  - search 搜索，登录之后有效；
+     *  - clear 清除缓存的菜单；
+     *  - fullscreen 全屏；
      *
      * NOTE: 默认为显示全部的按钮，如果不想显示任何按钮，应该赋值一个长度为零的空对象。
      */
-    toolbar?: Map<'fullscreen' | 'search', Hotkey | undefined>;
+    toolbar?: Map<'fullscreen' | 'search' | 'clear', Hotkey | undefined>;
 
     /**
      * 用户菜单
@@ -187,6 +187,7 @@ const presetOptions: Readonly<PickOptional<Options>> = {
     toolbar: new Map([
         ['fullscreen', new Hotkey('f', 'control')],
         ['search', new Hotkey('k', 'control')],
+        ['clear', undefined],
     ]),
     stays: 5000,
 } as const;
