@@ -5,10 +5,8 @@
 import { Choice, ChoiceProps, Enums, useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
-import { User } from '@/context';
+import { State } from '@/context';
 import { MessagesKey } from '@/messages';
-
-export type State = User['state'];
 
 export const states: Enums<State, MessagesKey> = [
     ['normal', '_p.states.normal'],

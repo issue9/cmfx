@@ -9,7 +9,7 @@ import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
 import { user } from '@/components';
-import { useAdmin, useLocale, sexSchema } from '@/context';
+import { useAdmin, useLocale, sexSchema, Sex } from '@/context';
 import { roles } from '@/pages/roles';
 
 interface Props {
@@ -49,7 +49,7 @@ export function New(props: Props): JSX.Element {
             <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
             <Password class='w-full' autocomplete='new-password' accessor={fapi.accessor<string>('password')} label={l.t('_p.current.password')} />
             <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
-            <user.SexSelector class='w-full' accessor={fapi.accessor<user.Sex>('sex')} />
+            <user.SexSelector class='w-full' accessor={fapi.accessor<Sex>('sex')} />
             <div class="w-full flex justify-between gap-5">
                 <Button type='a' href={props.backURL} palette='secondary'>
                     <IconArrowBack />{l.t('_c.cancel')}

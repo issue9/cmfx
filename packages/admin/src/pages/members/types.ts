@@ -2,18 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { user } from '@/components';
-import { User } from '@/context';
+import { User, Sex, State } from '@/context';
 
-export interface Member {
+export type Member = {
     id: number;
     nickname: string;
     no: string;
-    sex: user.Sex;
-    state: user.State;
-    
+    sex: Sex;
+    state: State;
+
     avatar?: string;
     birthday?: string;
     created?: string;
     passports?: User['passports'];
-}
+};

@@ -10,7 +10,7 @@ import IconLockOpen from '~icons/material-symbols/lock-open-right';
 import IconVisibility from '~icons/material-symbols/visibility';
 
 import { user } from '@/components';
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin, useLocale, State, Sex } from '@/context';
 import { Member } from './types';
 
 export interface ActionProps {
@@ -44,8 +44,8 @@ interface Props {
 
 interface Q extends Query {
     text: string;
-    state: Array<user.State>;
-    sex: Array<user.Sex>;
+    state: Array<State>;
+    sex: Array<Sex>;
 }
 
 /**
@@ -71,8 +71,8 @@ export function Members(props: Props): JSX.Element {
         <RemoteTable<Member, Q> ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
-                <user.StateSelector multiple accessor={qa.accessor<Array<user.State>>('state')} />
-                <user.SexSelector multiple accessor={qa.accessor<Array<user.Sex>>('sex')} />
+                <user.StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
+                <user.SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
             { id: 'id', label: l.t('_p.id') },

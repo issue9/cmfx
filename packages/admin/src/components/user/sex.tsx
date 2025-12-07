@@ -5,10 +5,8 @@
 import { Choice, ChoiceProps, Enums, useLocale } from '@cmfx/components';
 import { JSX } from 'solid-js';
 
-import { User } from '@/context';
+import { Sex } from '@/context';
 import { MessagesKey } from '@/messages';
-
-export type Sex = User['sex'];
 
 export const sexes: Enums<Sex, MessagesKey> = [
     ['male', '_p.sexes.male'],

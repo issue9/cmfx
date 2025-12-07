@@ -10,7 +10,7 @@ import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
 import { user } from '@/components';
-import { useAdmin } from '@/context';
+import { useAdmin, Sex, State } from '@/context';
 
 interface Props {
     /**
@@ -22,18 +22,18 @@ interface Props {
 export type Admin = {
     id: number;
     no: string;
-    sex: user.Sex;
+    sex: Sex;
     name: string;
     nickname: string;
     avatar?: string;
     created?: string;
-    state: user.State;
+    state: State;
 };
 
 interface Q extends Query {
     text: string;
-    state: Array<user.State>;
-    sex: Array<user.Sex>;
+    state: Array<State>;
+    sex: Array<Sex>;
 }
 
 export function Admins(props: Props): JSX.Element {
@@ -58,8 +58,8 @@ export function Admins(props: Props): JSX.Element {
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
-                <user.StateSelector multiple accessor={qa.accessor<Array<user.State>>('state')} />
-                <user.SexSelector multiple accessor={qa.accessor<Array<user.Sex>>('sex')} />
+                <user.StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
+                <user.SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
             { id: 'id', label: l.t('_p.id') },

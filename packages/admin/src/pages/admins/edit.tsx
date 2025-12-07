@@ -10,7 +10,7 @@ import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
-import { sexSchema, useAdmin, useLocale } from '@/context';
+import { sexSchema, useAdmin, useLocale, Sex } from '@/context';
 import { roles } from '@/pages/roles';
 import { passportSchema } from '@/context/user';
 
@@ -68,7 +68,7 @@ export function Edit(props: Props): JSX.Element {
             <TextField class='w-full' accessor={fapi.accessor<string>('name')} label={l.t('_p.admin.name')} />
             <TextField class='w-full' accessor={fapi.accessor<string>('nickname')} label={l.t('_p.nickname')} />
             <roles.Selector class="w-full" multiple accessor={fapi.accessor<Array<string>>('roles')} label={l.t('_p.roles.roles')} />
-            <user.SexSelector class='w-full' accessor={fapi.accessor<user.Sex>('sex')} label={l.t('_p.sex')} />
+            <user.SexSelector class='w-full' accessor={fapi.accessor<Sex>('sex')} label={l.t('_p.sex')} />
             <div class="w-full flex justify-between gap-5">
                 <Button type='a' href={props.backURL} palette='secondary'>
                     <IconArrowBack />

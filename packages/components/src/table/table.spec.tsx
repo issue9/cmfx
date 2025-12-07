@@ -37,10 +37,14 @@ describe('LoaderTable', async () => {
 });
 
 describe('RemoteTable', async () => {
-    let ref: RemoteTableRef<object>;
+    type Obj = {
+        name: string;
+    };
+
+    let ref: RemoteTableRef<Obj>;
     const ct = await ComponentTester.build(
         'RemoteTable',
-        props => <RemoteTable<object, Query> {...props} path='/' columns={[]} queries={{}} ref={el => ref = el} />
+        props => <RemoteTable<Obj, Query> {...props} path='/' columns={[]} queries={{}} ref={el => ref = el} />
     );
     test('props', async () => {
         expect(ref!.element()).not.toBeUndefined();
