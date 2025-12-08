@@ -56,7 +56,7 @@ func TestSystem_apis(t *testing.T) {
 				NotEmpty(body)
 		})
 
-	suite.Get("/admin/system/apis").
+	suite.Get("/admin/system/routes").
 		Header(header.AcceptLanguage, language.SimplifiedChinese.String()).
 		Header(header.Accept, "application/json;charset=utf-8").
 		Header(header.Authorization, auth.BuildToken(auth.Bearer, token)).
