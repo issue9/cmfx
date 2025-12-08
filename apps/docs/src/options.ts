@@ -3,16 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { Options, Scheme, schemes, createChartLocaleLoader } from '@cmfx/components';
-import { Problem, createZodLocaleLoader } from '@cmfx/core';
+import { Config, Problem, createZodLocaleLoader } from '@cmfx/core';
 
 export const options: Options = {
-    id: 'admin',
-    configName: '',
-    storage: window.sessionStorage,
+    config: new Config('admin', '', window.sessionStorage),
     mode: 'system',
     locale: 'zh-Hans',
     displayStyle: 'full',
-    logo: './brand-static.svg',
+    logo: '/brand-static.svg',
     systemDialog: false,
     systemNotify: false,
     messages: {

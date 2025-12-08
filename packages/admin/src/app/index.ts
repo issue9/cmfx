@@ -3,5 +3,3 @@
 // SPDX-License-Identifier: MIT
 
 export { create as createApp } from './app';
-export { HTTPError } from './errors';
-

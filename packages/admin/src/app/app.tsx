@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, MenuRef, joinClass, Menu, notify, run, Options as XOptions } from '@cmfx/components';
-import { API, Problem } from '@cmfx/core';
+import { Drawer, DrawerRef, MenuRef, joinClass, Menu, run, Options as XOptions } from '@cmfx/components';
+import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
@@ -42,9 +42,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
     ];
 
     const xo: XOptions = {
-        id: opt.id,
-        storage: opt.storage,
-        configName: opt.configName,
+        config: new Config(opt.id, opt.configName, opt.storage),
         logo: opt.logo,
         systemNotify: !!opt.system.notification,
         systemDialog: !!opt.system.dialog,
@@ -62,15 +60,6 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         pageSizes: opt.api.pageSizes,
         pageSize: opt.api.presetSize,
         stays: opt.stays,
-        problemHandler: async function <P>(p?: Problem<P>): Promise<void> {
-            if (!p) { throw '发生了一个未知的错误，请联系管理员！'; }
-
-            if (p.status === API.ErrorCode || p.status >= 500) {
-                throw new errors.HTTPError(p.status, p.title, p.detail);
-            } else { // 其它 4XX 错误弹出提示框
-                await notify(p.title, p.detail, 'error');
-            }
-        }
     };
 
     const api = await API.build(opt.id+'-token', opt.storage, opt.api.base,

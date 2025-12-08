@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DictLoader, DisplayStyle, Problem } from '@cmfx/core';
+import { Config, DictLoader, DisplayStyle } from '@cmfx/core';
 
 import { Mode, Scheme } from '@/base';
 
@@ -11,9 +11,9 @@ import { Mode, Scheme } from '@/base';
 */
 export interface Options {
     /**
-     * 该项目的唯一 ID
+     * 提供用于保存配置项到 Storage 对象的接口
      */
-    id: string;
+    config: Config;
 
     /**
      * 项目的 LOGO
@@ -31,21 +31,10 @@ export interface Options {
     systemNotify: boolean;
 
     /**
-     * 一些配置项的保存位置
-     */
-    storage: Storage;
-
-    /**
-     * 默认的配置名
+     * 默认的主题样式，当在 {@link config} 中存在时，当前值将被忽略。
      *
-     * @remarks 当处于多用户环境时，每个用户可能有不同的本地配置，此值可作为默认值使用。
-     */
-    configName: string | number;
-
-    /**
-     * 默认的主题样式，当在 {@link storage} 中存在时，当前值将被忽略。
-     *
-     * @remarks 如果是字符串，会尝试从 {@link schemes} 中获取对应的 {@link Scheme} 对象。
+     * @remarks
+     * 如果是字符串，会尝试从 {@link schemes} 中获取对应的 {@link Scheme} 对象。
      */
     scheme?: string | Scheme;
 
@@ -57,22 +46,22 @@ export interface Options {
     schemes?: Map<string, Scheme>;
 
     /**
-     * 默认的主题模式，当在 {@link storage} 中存在时，当前值将被忽略。
+     * 默认的主题模式，当在 {@link config} 中存在时，当前值将被忽略。
      */
     mode?: Mode;
 
     /**
-     * 初始的本地化语言 ID，当在 {@link storage} 中存在时，当前值将被忽略。
+     * 初始的本地化语言 ID，当在 {@link config} 中存在时，当前值将被忽略。
      */
     locale: string;
 
     /**
-     * 本地化的量词风格，当在 {@link storage} 中存在时，当前值将被忽略。
+     * 本地化的量词风格，当在 {@link config} 中存在时，当前值将被忽略。
      */
     displayStyle: DisplayStyle;
 
     /**
-     * 时区，当在 {@link storage} 中存在时，当前值将被忽略。
+     * 时区，当在 {@link config} 中存在时，当前值将被忽略。
      */
     timezone?: string;
 
@@ -107,14 +96,4 @@ export interface Options {
      * 提示框，通知栏等元素在界面上的默认停留时间，单位为 ms。
      */
     stays: number;
-
-    /**
-     * 在 API 请求时返回为 {@link Problem} 时的处理方式
-     *
-     * @remarks
-     * 用户可以自行处理部分常用的错误，剩余的交由此方法处理。
-     *
-     * @param p - 如果该值空，则应该抛出异常；
-     */
-    problemHandler<P>(p?: Problem<P>): Promise<void>;
 }

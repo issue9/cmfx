@@ -16,7 +16,7 @@ import { BaseProps } from '@/base';
 // 提供用于测试的配置项
 const options: Options = {
     id: 'admin',
-    logo: '../../../../apps/admin/public/icon.svg',
+    logo: '../../../../apps/admin/public/brand-static.svg',
     systemDialog: false,
     systemNotify: false,
     storage: window.localStorage,
@@ -26,10 +26,6 @@ const options: Options = {
     locale: 'zh-Hans',
     displayStyle: 'full',
     messages: { 'zh-Hans': [async () => (await import('@/messages/zh-Hans.lang')).default] },
-    apiBase: 'http://localhost:3000',
-    apiToken: '/login',
-    apiAcceptType: 'application/cbor',
-    apiContentType: 'application/cbor',
     title: 'title',
     titleSeparator: '-',
     pageSize: 20,

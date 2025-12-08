@@ -4,9 +4,7 @@
 
 import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
-import { useComponents } from '@/context';
 import { FieldBaseProps, useForm } from '@/form/field';
-import { API } from '@cmfx/core';
 
 /**
  * 上传组件的外放接口
@@ -47,16 +45,6 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'> {
     fieldName: string;
 
     /**
-     * 上传的地址，是相对于 {@link Props#api.baseURL} 的地址
-     */
-    path: string;
-
-    /**
-     * 与后端通信的 {@link API} 对象
-     */
-    api: API;
-
-    /**
      * 是否多选
      */
     multiple?: boolean;
@@ -72,6 +60,14 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'> {
      * 指定一个接受拖拖拽文件的区域
      */
     dropzone?: HTMLElement;
+
+    /**
+     * 执行上传操作
+     *
+     * @param obj - FormData 对象，包含所有待上传的文件；
+     * @returns 上传成功后返回的文件列表，失败则返回 undefined。
+     */
+    upload: { (obj: FormData): Promise<Array<string> | undefined>; };
 }
 
 /**
@@ -81,7 +77,6 @@ export function Upload(props: Props): JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
-    const [actions] = useComponents();
     const [files, setFiles] = createSignal<Array<File>>([]);
 
     const add = (fs: FileList | null) => {
@@ -139,14 +134,12 @@ export function Upload(props: Props): JSX.Element {
                     data.append(props.fieldName, item);
                 }
 
-                const ret = await props.api.upload<Array<string>>(props.path, data);
-                if (!ret.ok) {
-                    await actions.handleProblem(ret.body);
-                    return;
+                const ret = await props.upload(data);
+                if (ret) {
+                    setFiles([]);
+                    return ret;
                 }
-
-                setFiles([]);
-                return ret.body;
+                return undefined;
             },
 
             element(): HTMLInputElement {return el;},

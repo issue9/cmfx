@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, useComponents } from '@cmfx/components';
+import { Mode, useComponents, notify } from '@cmfx/components';
 import { API, DisplayStyle, Problem, Return, Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
-import { HTTPError } from '@/app';
+import { HTTPError } from './errors';
 import { build as buildOptions } from '@/options/options';
 import { User } from './user';
 
@@ -31,23 +31,22 @@ const currentKey = '-uid';
  * - 1: 组件库提供的其它方法；
  * - 2: 组件库初始化时的选项；
  */
-export function useAdmin() {
+export function useAdmin(): [api: API, actions: ReturnType<typeof buildActions>, options: OptContext] {
     const ctx = useContext(internalOptContext);
     if (!ctx) { throw '未找到正确的 optContext'; }
-
-    return [ctx.coreAPI, ctx.actions, ctx] as [api: API, actions: ReturnType<typeof buildActions>, options: OptContext];
+    return [ctx.coreAPI, ctx.actions, ctx];
 }
 
 // NOTE: 需要保证在 {@link run} 之内运行
 export function Provider(props: ParentProps<OptContext & {coreAPI: API}>): JSX.Element {
     const nav = useNavigate();
-    const [act, opt] = useComponents();
+    const [act] = useComponents();
     const p = mergeProps(props, {
         coreAPI: props.coreAPI,
         actions: buildActions(props.coreAPI, act, props, nav),
     });
 
-    const uid = parseInt(sessionStorage.getItem(opt.id + currentKey) ?? '0');
+    const uid = parseInt(sessionStorage.getItem(props.id + currentKey) ?? '0');
     p.actions.switchConfig(uid);
 
     return <internalOptContext.Provider value={p}>
@@ -71,7 +70,7 @@ export async function clearStorage(api: API) {
     }
 }
 
-function buildActions(api: API, act: ReturnType<typeof useComponents>[0], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
+function buildActions(api: API, act: ReturnType<typeof useComponents>[0], opt: OptContext, nav: ReturnType<typeof useNavigate>) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         if (!api.isLogin()) { return; }
@@ -110,7 +109,15 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[0], opt: O
          *
          * @param p - 如果该值空，则会抛出异常；
          */
-        async handleProblem<P>(p?: Problem<P>): Promise<void> { await act.handleProblem(p); },
+        async handleProblem<P>(p?: Problem<P>): Promise<void> {
+            if (!p) { throw '发生了一个未知的错误，请联系管理员！'; }
+
+            if (p.status === API.ErrorCode || p.status >= 500) {
+                throw new HTTPError(p.status, p.title, p.detail);
+            } else { // 其它 4XX 错误弹出提示框
+                await notify(p.title, p.detail, 'error');
+            }
+        },
 
         /**
          * 设置登录状态并刷新 user

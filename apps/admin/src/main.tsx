@@ -139,7 +139,7 @@ const o: Options = {
     },
 
     title: 'Title',
-    logo: './brand-static.svg',
+    logo: '/brand-static.svg',
     aside: {
         menus: menus,
         floatingMinWidth: 'xs'

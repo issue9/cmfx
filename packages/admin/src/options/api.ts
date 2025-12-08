@@ -68,7 +68,7 @@ export function sanitizeAPI(api: API): Required<API> {
     const a = Object.assign(presetAPI, api);
 
     if (a.base.length === 0 || (!api.base.startsWith('http://') && !api.base.startsWith('https://'))) {
-        throw 'base 格式错误';
+        throw new Error('base 格式错误');
     }
     if (a.base.charAt(a.base.length - 1) === '/') { // 保证不以 / 结尾
         a.base = a.base.substring(0, a.base.length - 1);
@@ -78,7 +78,7 @@ export function sanitizeAPI(api: API): Required<API> {
     a.info = checkAPIPath(a.info, 'info');
 
     if (!a.pageSizes!.includes(a.presetSize!)) {
-        throw 'presetSize 必须存在于 pageSizes 之中';
+        throw new Error('presetSize 必须存在于 pageSizes 之中');
     }
 
 
@@ -87,7 +87,7 @@ export function sanitizeAPI(api: API): Required<API> {
 
 function checkAPIPath(path: string, key: string): string {
     if (!path.length) {
-        throw `api.${key} 不能为空`;
+        throw new Error(`api.${key} 不能为空`);
     }
 
     if (path.charAt(0) !== '/') {

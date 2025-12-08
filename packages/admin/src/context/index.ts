@@ -8,3 +8,5 @@ export { useAdmin } from './context';
 
 export type { User, Sex, State } from './user';
 export { userSchema, sexSchema, stateSchema } from './user';
+
+export { HTTPError } from './errors';

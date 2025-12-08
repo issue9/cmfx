@@ -68,7 +68,13 @@ export function Profile(props: Props): JSX.Element {
     });
 
     return <Page title='_p.current.profile' class={styles.profile}>
-        <Upload ref={el => uploadRef = el} fieldName='files' path='/uploads' api={api} />
+        <Upload ref={el => uploadRef = el} fieldName='files' upload={async data=>{
+            const ret = await api.upload('/upload', data);
+            if (!ret.ok) {
+                await act.handleProblem(ret.body);
+            }
+            return undefined;
+        }} />
         <div class="flex gap-4">
             <img class={styles.avatar} alt="avatar" src={avatar()} />
             <div class={styles.name}>

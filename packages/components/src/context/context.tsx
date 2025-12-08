@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config, DisplayStyle, Hotkey, Locale, Problem } from '@cmfx/core';
+import { DisplayStyle, Hotkey, Locale } from '@cmfx/core';
 import { createContext, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
@@ -26,7 +26,6 @@ export type Actions = ReturnType<typeof buildActions>;
 
 // 添加了部分仅内部可见的属性
 type InternalOptions = Options & {
-    config?: Config;
     actions?: Actions;
 };
 
@@ -37,7 +36,6 @@ const internalOptionsContext = createContext<InternalOptionsContext>();
 function useInternalOptions(): InternalOptionsContext {
     const ctx = useContext(internalOptionsContext);
     if (!ctx) { throw '未找到正确的 optionsContext'; }
-
     return ctx;
 }
 
@@ -57,17 +55,16 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
         return true;
     }, { initialValue: true });
 
-    const [_, opt] = splitProps(props, ['children']);
+    const [, opt] = splitProps(props, ['children']);
     const obj = createStore<InternalOptions>(opt);
     obj[1]({
-        config: new Config(props.id, props.configName, props.storage),
         actions: buildActions(obj),
     });
 
-    if (props.schemes && props.scheme) { // 如果没有这两个值，说明不需要主题。
+    if (opt.schemes && opt.scheme) { // 如果没有这两个值，说明不需要主题。
         applyTheme(document.documentElement, {
-            scheme: (typeof props.scheme === 'string') ? props.schemes.get(props.scheme) : props.scheme,
-            mode: props.mode,
+            scheme: (typeof opt.scheme === 'string') ? opt.schemes.get(opt.scheme) : opt.scheme,
+            mode: opt.mode,
         });
     }
 
@@ -99,9 +96,9 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
  * - 0: 组件库提供的其它方法；
  * - 1: 组件库初始化时的选项；
  */
-export function useComponents() {
+export function useComponents(): [actions: Actions, options: Options] {
     const options = useInternalOptions()[0];
-    return [options.actions, options] as [actions: Actions, options: Options];
+    return [options.actions!, options];
 }
 
 export function buildActions(ctx: InternalOptionsContext) {
@@ -135,7 +132,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         },
 
         /**
-         * 切换语言
+         * 切换全局语言
          *
          * @param id - 新语言的 ID
          */
@@ -146,7 +143,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         },
 
         /**
-         * 切换单位样式
+         * 切换全局单位样式
          */
         switchDisplayStyle(style: DisplayStyle) {
             setOptions({ displayStyle: style });
@@ -162,7 +159,7 @@ export function buildActions(ctx: InternalOptionsContext) {
         },
 
         /**
-         * 切换主题色
+         * 切换全局主题色
          *
          * @param scheme - 新主题色的 ID 或 {@link Scheme} 对象，
          * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
@@ -174,18 +171,11 @@ export function buildActions(ctx: InternalOptionsContext) {
         },
 
         /**
-         * 切换主题模式
+         * 切换全局主题模式
          */
         switchMode(mode: Mode) {
             setOptions({ mode: mode });
             options.config!.set(modeKey, mode);
         },
-
-        /**
-         * 对默认的 {@link Problem} 数据处理
-         */
-        async handleProblem<T = never>(problem?: Problem<T>): Promise<void> {
-            await options.problemHandler(problem);
-        }
     };
 }

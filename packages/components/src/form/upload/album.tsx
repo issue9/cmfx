@@ -92,10 +92,9 @@ export function Album(props: Props): JSX.Element {
 
         <fieldset style={fieldArea2Style(areas().inputArea)} ref={el => dropRef = el} class={styles['upload-content']}>
             <Upload ref={el => uploadRef = el}
-                api={props.api}
+                upload={props.upload}
                 fieldName={props.fieldName}
                 multiple={props.multiple}
-                path={props.path}
                 accept={props.accept}
                 dropzone={dropRef!} />
 
