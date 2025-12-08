@@ -9,7 +9,7 @@ import { delToken, getToken, SSEToken, state, Token, writeToken } from './token'
 import { Method, Problem, Query, Return } from './types';
 
 /**
- * 封装了 API 访问的基本功能
+ * 封装了访问后端接口的基本功能
  */
 export class API {
     /**
@@ -100,6 +100,7 @@ export class API {
     /**
      * 缓存 path 指向的 GET 接口数据
      *
+     * @remarks
      * 以下操作会删除缓存内容：
      *  - 切换语言；
      *  - 访问了该接口的非 GET 请求；
@@ -143,9 +144,9 @@ export class API {
     }
 
     /**
-     * 将 path 包装为一个 API 的 URL
+     * 将 path 包装为一个完整的 API 访问地址
      *
-     * @param path - 相对于 {@link baseURL} 的地址
+     * @param path - 相对于 {@link baseURL} 的地址；
      */
     buildURL(path: string): string {
         if (path.length === 0) {
@@ -160,6 +161,10 @@ export class API {
 
     /**
      * DELETE 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容；
      */
     async delete<R = never, PE = never>(
         path: string, withToken = true, headers?: HeadersInit
@@ -169,6 +174,11 @@ export class API {
 
     /**
      * POST 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容；
      */
     async post<R = never, PE = never>(
         path: string, body?: unknown, withToken = true, headers?: HeadersInit
@@ -178,6 +188,11 @@ export class API {
 
     /**
      * PUT 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容；
      */
     async put<R = never, PE = never>(
         path: string, body?: unknown, withToken = true, headers?: HeadersInit
@@ -187,6 +202,11 @@ export class API {
 
     /**
      * PATCH 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容；
      */
     async patch<R = never, PE = never>(
         path: string, body?: unknown, withToken = true, headers?: HeadersInit
@@ -196,6 +216,10 @@ export class API {
 
     /**
      * GET 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容；
      */
     async get<R = never, PE = never>(path: string, withToken = true, headers?: HeadersInit): Promise<Return<R, PE>> {
         return this.request<R, PE>(path, 'GET', undefined, withToken, headers);
@@ -204,10 +228,10 @@ export class API {
     /**
      * 执行普通的 API 请求
      *
-     * @param path - 请求地址，相对于 {@link baseURL}；
+     * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param method - 请求方法；
      * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
      * @param headers - 自定义请求头内容；
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
@@ -218,10 +242,10 @@ export class API {
         const body = obj === undefined ? undefined : this.#contentSerializer.stringify(obj);
 
         const h = new Headers(headers);
-        if (withToken) {
+        if (withToken && !h.has('Authorization')) {
             h.set('Authorization', 'Bearer ' + await this.getToken());
         }
-        if (body) {
+        if (body && !h.has('Content-Type')) {
             h.set('Content-Type', this.#contentType + '; charset=UTF-8');
         }
 
@@ -231,9 +255,9 @@ export class API {
     /**
      * 执行上传操作
      *
-     * @param path - 上传地址，相对于 {@link baseURL}；
+     * @param path - 相对于 {@link baseURL} 的上传地址；
      * @param obj - 上传的对象；
-     * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌；
+     * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
      * @param method - 请求方法；
      * @param headers - 自定义请求头；
      */
@@ -241,7 +265,7 @@ export class API {
         path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, headers?: HeadersInit
     ): Promise<Return<R, PE>> {
         const h = new Headers(headers);
-        if (withToken) {
+        if (withToken && !h.has('Authorization')) {
             h.set('Authorization', 'Bearer ' + await this.getToken());
         }
         return this.#withArgument<R, PE>(path, method, h, obj);
@@ -265,9 +289,7 @@ export class API {
     }
 
     /**
-     * 退出当前的登录状态
-     *
-     * 同时会断开需要登录的 SSE 连接。
+     * 退出当前的登录状态并断开需要登录的 SSE 连接
      */
     async logout() {
         await this.delete(this.#tokenPath);
@@ -293,7 +315,8 @@ export class API {
     /**
      * 当前是否是有效的登录状态
      *
-     * @remarks 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
+     * @remarks
+     * 此方法与 {@link API#getToken} 的不同在于当前方法不会主动刷新 token。
      * 所以是无法判断诸如服务端重启等非当前实例主动发起退出导致的状态。
      */
     isLogin(): boolean {
@@ -432,7 +455,7 @@ export class API {
         const bs = await resp.bytes();
         if (bs.length === 0) { return; }
 
-        return this.#acceptSerializer.parse(bs) as R;
+        return this.#acceptSerializer.parse<R>(bs);
     }
 
     /**
