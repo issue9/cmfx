@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Query } from '@cmfx/core';
+import { API, Query } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ComponentTester } from '@/context/context.spec';
@@ -41,11 +41,14 @@ describe('RemoteTable', async () => {
         name: string;
     };
 
+    const api = API.build('id', sessionStorage, '/base', '/token', 'application/json', 'application/json', 'zh-CN');
+
     let ref: RemoteTableRef<Obj>;
     const ct = await ComponentTester.build(
         'RemoteTable',
-        props => <RemoteTable<Obj, Query> {...props} path='/' columns={[]} queries={{}} ref={el => ref = el} />
+        props => <RemoteTable<Obj, Query> {...props} path='/' columns={[]} queries={{}} ref={el => ref = el} api={api} />
     );
+
     test('props', async () => {
         expect(ref!.element()).not.toBeUndefined();
         expect(ref!.table()).not.toBeUndefined();
