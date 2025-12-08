@@ -39,7 +39,12 @@ export interface Props<T extends Row, Q extends Query> extends Omit<LoaderProps<
      *
      * 由 {@link Ref.DeleteAction} 生成的组件也会基于此值作删除操作
      */
-    path: string
+    path: string;
+
+    /**
+     * 指定访问后端接口的 {@link API} 对象
+     */
+    api: API;
 }
 
 /**
@@ -49,11 +54,11 @@ export interface Props<T extends Row, Q extends Query> extends Omit<LoaderProps<
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
 export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
-    const [api, act] = useComponents();
+    const [act] = useComponents();
     const l = useLocale();
 
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
-    const load = props.paging ? buildPagingLoadFunc(api, act, props.path) : buildNoPagingLoadFunc(api, act, props.path);
+    const load = props.paging ? buildPagingLoadFunc(props.api, act, props.path) : buildNoPagingLoadFunc(props.api, act, props.path);
     let ref: LoaderRef<T>;
 
     onMount(() => {
@@ -66,7 +71,7 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
                 async delete(id: T['id']): Promise<void> {
                     if (id === undefined) { throw new Error('参数 id 必须是一个有效的值'); }
 
-                    const ret = await api.delete(`${props.path}/${id}`);
+                    const ret = await props.api.delete(`${props.path}/${id}`);
                     if (!ret.ok) {
                         await act.handleProblem(ret.body);
                         return;
@@ -93,7 +98,7 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
     return <LoaderTable ref={(el) => ref = el} {...tableProps} load={load as any} />;
 }
 
-function buildPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {
+function buildPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[0], path: string) {
     return async (q: Q): Promise<Page<T> | undefined> => {
         const ret = await api.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
@@ -106,7 +111,7 @@ function buildPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: 
     };
 }
 
-function buildNoPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {
+function buildNoPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[0], path: string) {
     return async (q: Q): Promise<Array<T> | undefined> => {
         const ret = await api.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {

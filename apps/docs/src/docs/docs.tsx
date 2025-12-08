@@ -229,7 +229,7 @@ export function buildRoute(prefix: string, setDrawer: Setter<DrawerRef | undefin
             });
             onCleanup(() => setDrawer(undefined));
 
-            return <Drawer visible floating='lg' ref={el => ref = el}
+            return <Drawer visible floating='xs' ref={el => ref = el}
                 palette='secondary' mainPalette='surface' main={props.children}
             >
                 <Menu ref={el => menuRef = el} class="min-w-60" layout='inline' items={buildMenus(l, prefix)} />

@@ -7,7 +7,7 @@ import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/co
 import { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
 
-import { useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 
 type Route = {
     method: string;
@@ -34,6 +34,7 @@ interface Q extends Query {
 
 export function Routes(): JSX.Element {
     const l = useLocale();
+    const [api] = useAdmin();
 
     const queries: Q = {
         method: ['GET', 'DELETE', 'PUT', 'PATCH', 'POST'],
@@ -41,7 +42,7 @@ export function Routes(): JSX.Element {
     };
 
     return <Page title="_p.system.routesViewer">
-        <RemoteTable systemToolbar queries={queries} path='/system/routes' hoverable
+        <RemoteTable api={api} systemToolbar queries={queries} path='/system/routes' hoverable
             toolbar={<Label icon={<IconRoutes />}>{ l.t('_p.system.routesViewer') }</Label>}
             columns={[
                 { id: 'router', label: l.t('_p.system.router') },

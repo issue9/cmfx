@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DictLoader, DisplayStyle, Mimetype, Problem } from '@cmfx/core';
+import { DictLoader, DisplayStyle, Problem } from '@cmfx/core';
 
 import { Mode, Scheme } from '@/base';
 
@@ -80,26 +80,6 @@ export interface Options {
      * 当前支持的语言列表以及加载方法
      */
     messages: Record<string, Array<DictLoader>>;
-
-    /**
-     * API 访问的基地址
-     */
-    apiBase: string;
-
-    /**
-     * API 令牌的续订地址
-     */
-    apiToken: string;
-
-    /**
-     * API 接收的媒体类型
-     */
-    apiAcceptType: Mimetype;
-
-    /**
-     * API 提交的媒体类型
-     */
-    apiContentType: Mimetype;
 
     /**
      * 网站的标题

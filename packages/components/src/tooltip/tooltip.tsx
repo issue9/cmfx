@@ -44,7 +44,7 @@ export interface Props extends BaseProps, ParentProps {
  * 小型的弹出提示框
  */
 export default function Tooltip(props: Props): JSX.Element {
-    const [, , opt] = useComponents();
+    const [, opt] = useComponents();
     const duration = props.stays ?? opt.stays;
 
     return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)}

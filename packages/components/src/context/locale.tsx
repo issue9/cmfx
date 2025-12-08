@@ -39,9 +39,8 @@ const localeContext = createContext<Locale>();
  */
 export function useLocale(): Locale {
     const ctx = useContext(localeContext);
-    if (!ctx) {
-        throw new Error('本地化的上下文环境还未初始化');
-    }
+    if (!ctx) { throw new Error('本地化的上下文环境还未初始化'); }
+
     return ctx;
 }
 

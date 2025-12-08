@@ -12,7 +12,7 @@ import pkg from '../../package.json';
 import styles from './style.module.css';
 
 export default function Home() {
-    const [, act, opt] = useComponents();
+    const [act, opt] = useComponents();
     const l = useLocale();
 
     createEffect(() => {

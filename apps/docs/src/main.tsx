@@ -49,7 +49,7 @@ const [themeRef, setThemeRef] = createSignal<DrawerRef>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
     const l = useLocale();
-    const [, act] = useComponents();
+    const [act] = useComponents();
     const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
     const theme = useTheme();
 

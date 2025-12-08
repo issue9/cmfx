@@ -29,12 +29,12 @@ export default function(props: MountProps): JSX.Element {
 
         <div title='basic'>
             <Album hasHelp layout={layout()} fieldName='file' label="label" class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} auto={auto()}
-                action='./' accessor={basicA} />
+                path='./' accessor={basicA} />
         </div>
 
         <div title='basic+drop'>
             <Album hasHelp layout={layout()} fieldName='file' class='min-w-16' reverse={reverse()} disabled={disabled()} palette={palette()} droppable auto={auto()}
-                action='./' accessor={basicA} />
+                path='./' accessor={basicA} />
         </div>
     </>;
 }

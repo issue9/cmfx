@@ -132,7 +132,7 @@ const presetProps = {
  * @typeParam Q - 为查询参数的类型；
  */
 export function LoaderTable<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
-    const [, , opt] = useComponents();
+    const [, opt] = useComponents();
     const l = useLocale();
     let ref: BasicTableRef;
 

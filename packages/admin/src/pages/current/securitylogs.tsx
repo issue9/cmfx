@@ -7,7 +7,7 @@ import { Query as Q } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { useLocale } from '@/context';
+import { useAdmin, useLocale } from '@/context';
 
 type SecurityLog = {
     content: string;
@@ -24,6 +24,7 @@ interface Query extends Q {
 
 export function SecurityLogs(): JSX.Element {
     const l = useLocale();
+    const [api] = useAdmin();
 
     const q: Query = {
         page: 1,
@@ -32,7 +33,7 @@ export function SecurityLogs(): JSX.Element {
     };
 
     return <Page title="_p.current.securitylog">
-        <RemoteTable<SecurityLog, Query> path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
+        <RemoteTable<SecurityLog, Query> api={api} path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
             { id: 'content', label: l.t('_p.current.content') },
             { id: 'ip', label: l.t('_p.current.ip') },
             { id: 'ua', label: l.t('_p.current.ua'), content:(_: string, val?: string)=>{

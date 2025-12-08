@@ -9,7 +9,7 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [, , opt] = useComponents();
+    const [, opt] = useComponents();
     const [paletteS, palette] = paletteSelector();
 
     return <>

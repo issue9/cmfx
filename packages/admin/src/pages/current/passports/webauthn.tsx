@@ -124,7 +124,7 @@ export class Webauthn implements PassportComponents {
                 <Label icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label>
             }>
                 <div class="overflow-auto">
-                    <RemoteTable<Credential, {}> ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
+                    <RemoteTable<Credential, {}> api={api} ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
                         columns={[
                             { id: 'id', label: l.t('_p.id') },
                             { id: 'ua', label: l.t('_p.current.ua') },

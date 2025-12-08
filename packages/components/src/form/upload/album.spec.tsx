@@ -12,7 +12,7 @@ describe('Album', async () => {
     const fa = fieldAccessor('tf', ['url']);
     const ct = await ComponentTester.build(
         'Album',
-        props => <Album fieldName='file' action='/upload' accessor={fa} {...props} />
+        props => <Album fieldName='file' path='/upload' accessor={fa} {...props} />
     );
 
     test('prorps', () => ct.testProps());

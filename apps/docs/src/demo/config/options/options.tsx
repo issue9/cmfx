@@ -5,7 +5,7 @@
 import { Code, useComponents } from '@cmfx/components';
 
 export default function() {
-    const [, , options] = useComponents();
+    const [, options] = useComponents();
 
     return <Code lang="ts">
         {JSON.stringify(options, null, 4)}

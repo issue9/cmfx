@@ -7,7 +7,7 @@ import { DisplayStyle } from '@cmfx/core';
 import { createSignal } from 'solid-js';
 
 export default function() {
-    const [, , opt] = useComponents();
+    const [, opt] = useComponents();
     const l = useLocale();
     const now = new Date();
 

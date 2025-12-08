@@ -21,7 +21,7 @@ import styles from './style.module.css';
  * 设置页面
  */
 export function Settings(): JSX.Element {
-    const [, act, opt] = useComponents();
+    const [act, opt] = useComponents();
     const l = useLocale();
 
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');

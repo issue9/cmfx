@@ -24,14 +24,14 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
             onCleanup(() => setDrawer(undefined));
 
             const l = useLocale();
-            const [, act] = useComponents();
+            const [act] = useComponents();
 
             const t = useTheme();
             const schemeFA = new ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)!));
 
             createEffect(() => { act.setTitle(l.t('_d.theme.builder')); });
 
-            return <Drawer class={styles.builder} floating='lg' ref={el => {
+            return <Drawer class={styles.builder} floating='xs' ref={el => {
                 drawerRef = el;
                 el.main().style.overflow = 'unset';
             }} palette='secondary' mainPalette='surface' main={<Demo s={schemeFA} />}

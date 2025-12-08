@@ -68,7 +68,7 @@ export function Members(props: Props): JSX.Element {
     const states = createMemo(() => { return user.states.map(state => ({ type: 'item', value: state[0], label: l.t(state[1]) })); });
 
     return <Page title="_p.member.membersManager">
-        <RemoteTable<Member, Q> ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={(qa) => (
+        <RemoteTable<Member, Q> api={api} ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={qa => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
                 <user.StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />

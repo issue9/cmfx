@@ -7,9 +7,9 @@ import { API, DisplayStyle, Problem, Return, Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
+import { HTTPError } from '@/app';
 import { build as buildOptions } from '@/options/options';
 import { User } from './user';
-import { HTTPError } from '@/app';
 
 type OptContext = ReturnType<typeof buildOptions>;
 
@@ -39,12 +39,12 @@ export function useAdmin() {
 }
 
 // NOTE: 需要保证在 {@link run} 之内运行
-export function Provider(props: ParentProps<OptContext>): JSX.Element {
+export function Provider(props: ParentProps<OptContext & {coreAPI: API}>): JSX.Element {
     const nav = useNavigate();
-    const [api, act, opt] = useComponents();
+    const [act, opt] = useComponents();
     const p = mergeProps(props, {
-        coreAPI: api,
-        actions: buildActions(api, act, props, nav),
+        coreAPI: props.coreAPI,
+        actions: buildActions(props.coreAPI, act, props, nav),
     });
 
     const uid = parseInt(sessionStorage.getItem(opt.id + currentKey) ?? '0');
@@ -71,7 +71,7 @@ export async function clearStorage(api: API) {
     }
 }
 
-function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
+function buildActions(api: API, act: ReturnType<typeof useComponents>[0], opt: OptContext,nav: ReturnType<typeof useNavigate>) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         if (!api.isLogin()) { return; }

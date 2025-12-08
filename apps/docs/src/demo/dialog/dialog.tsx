@@ -8,7 +8,7 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [, act] = useComponents();
+    const [act] = useComponents();
     const [paletteS, palette] = paletteSelector('primary');
 
     let dlg2: DialogRef;

@@ -21,7 +21,7 @@ import { buildItems, default as Toolbar } from './toolbar';
  * @param o - 项目的初始化选项；
  * @param router - 指定路由对象，默认为 {@link HashRouter}；
  */
-export function create(elementID: string, o: Options, router?: typeof Router) {
+export async function create(elementID: string, o: Options, router?: typeof Router) {
     const opt = buildOptions(o);
     const [drawerRef, setDrawerRef] = createSignal<DrawerRef>();
 
@@ -57,11 +57,6 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
         displayStyle: opt.locales.displayStyle!,
         messages: opt.locales.messages,
 
-        apiBase: opt.api.base,
-        apiToken: opt.api.token,
-        apiAcceptType: opt.api.acceptType,
-        apiContentType: opt.api.contentType,
-
         title: opt.title,
         titleSeparator: opt.titleSeparator,
         pageSizes: opt.api.pageSizes,
@@ -78,8 +73,11 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
         }
     };
 
+    const api = await API.build(opt.id+'-token', opt.storage, opt.api.base,
+        opt.api.token, opt.api.contentType, opt.api.acceptType, opt.locales.fallback);
+
     const root = (p: RouteSectionProps) => {
-        return <Provider {...opt}>
+        return <Provider {...opt} coreAPI={api}>
             <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
                 <div class={joinClass('surface', styles.app)}>
                     <Toolbar drawer={drawerRef} />

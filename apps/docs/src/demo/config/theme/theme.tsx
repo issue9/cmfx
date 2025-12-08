@@ -9,7 +9,7 @@ import IconFace from '~icons/material-symbols/face';
 import IconPerson from '~icons/material-symbols/person';
 
 export default function() {
-    const [, , opt] = useComponents();
+    const [, opt] = useComponents();
     const [s, setScheme] = createSignal<Scheme | undefined>(typeof opt.scheme === 'string' ? opt.schemes?.get(opt.scheme) : opt.scheme);
     const [m, setMode] = createSignal(opt.mode);
     const g = useTheme();

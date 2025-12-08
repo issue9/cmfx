@@ -57,7 +57,7 @@ export default function Notify(props: Props): JSX.Element {
 }
 
 function initNotify(p: Props): JSX.Element {
-    const [, , opt] = useComponents();
+    const [, opt] = useComponents();
     let ref: HTMLDivElement;
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout?: number) => {

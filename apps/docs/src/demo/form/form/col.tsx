@@ -10,7 +10,7 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [, act] = useComponents();
+    const [act] = useComponents();
     const [paletteS, palette] = paletteSelector('secondary');
     const [roundedS, rounded] = boolSelector('rounded');
     const [helpS, help] = boolSelector('help');

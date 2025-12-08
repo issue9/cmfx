@@ -6,6 +6,7 @@ import { createSignal, JSX, mergeProps, onMount } from 'solid-js';
 
 import { useComponents } from '@/context';
 import { FieldBaseProps, useForm } from '@/form/field';
+import { API } from '@cmfx/core';
 
 /**
  * 上传组件的外放接口
@@ -46,14 +47,17 @@ export interface Props extends Omit<FieldBaseProps, 'rounded'> {
     fieldName: string;
 
     /**
-     * 上传的地址，是相对于 {@link API#baseURL} 的地址
+     * 上传的地址，是相对于 {@link Props#api.baseURL} 的地址
      */
-    action: string;
+    path: string;
+
+    /**
+     * 与后端通信的 {@link API} 对象
+     */
+    api: API;
 
     /**
      * 是否多选
-     *
-     * 非响应式属性
      */
     multiple?: boolean;
 
@@ -77,7 +81,7 @@ export function Upload(props: Props): JSX.Element {
     const form = useForm();
     props = mergeProps(form, props);
 
-    const [api, actions] = useComponents();
+    const [actions] = useComponents();
     const [files, setFiles] = createSignal<Array<File>>([]);
 
     const add = (fs: FileList | null) => {
@@ -135,7 +139,7 @@ export function Upload(props: Props): JSX.Element {
                     data.append(props.fieldName, item);
                 }
 
-                const ret = await api.upload<Array<string>>(props.action, data);
+                const ret = await props.api.upload<Array<string>>(props.path, data);
                 if (!ret.ok) {
                     await actions.handleProblem(ret.body);
                     return;

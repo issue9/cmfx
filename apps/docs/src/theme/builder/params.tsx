@@ -28,7 +28,7 @@ import styles from './style.module.css';
  */
 export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const l = useLocale();
-    const [, act, opt] = useComponents();
+    const [act, opt] = useComponents();
     let dlg: DialogRef;
 
     const schemes = Array.from(opt.schemes!).

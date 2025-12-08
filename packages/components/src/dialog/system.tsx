@@ -18,7 +18,7 @@ interface DialogProps extends BaseProps { header?: string; }
  * 提供了 {@link alert}、{@link confirm} 和 {@link prompt} 的方法，可用于替换对应的浏览器方法。
  */
 export default function SystemDialog(props: Props): JSX.Element {
-    const [, , o] = useComponents();
+    const [, o] = useComponents();
 
     if (o.systemDialog) {
         window.alert = alert;

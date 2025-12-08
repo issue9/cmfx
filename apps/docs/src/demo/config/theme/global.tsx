@@ -5,7 +5,7 @@
 import { Button, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
 
 export default function() {
-    const [, act, opt] = useComponents();
+    const [act, opt] = useComponents();
     const t = useTheme();
 
     return <div>

@@ -46,7 +46,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * @remarks 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
 export function Page (props: Props): JSX.Element {
-    const [, act] = useComponents();
+    const [act] = useComponents();
     const l = useLocale();
 
     let ref: HTMLDivElement;
