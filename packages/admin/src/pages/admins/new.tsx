@@ -35,7 +35,7 @@ export function New(props: Props): JSX.Element {
     const [fapi, Form] = createForm({
         value: adminSchema.parse({ sex: 'unknown' }),
         submit: async obj => { return await api.post('/admins', obj); },
-        onProblem: p => act.outputProblem(p),
+        onProblem: async p => act.handleProblem(p),
         onSuccess: async () => {
             await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
             useNavigate()(-1);

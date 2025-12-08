@@ -25,7 +25,7 @@ export default function(props: MountProps) {
             date: new Date('2021-01-02T15:31'),
             textarea: 'textarea',
         },
-        onProblem: async (e) => act.outputProblem(e),
+        onProblem: async e => act.handleProblem(e),
         submit: async () => ({ ok: false, status: 500, body: { type: '500', title: '请求未处理', status: 500 } }),
     });
 

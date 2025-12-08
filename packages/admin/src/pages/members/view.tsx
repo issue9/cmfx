@@ -42,7 +42,7 @@ export function View(props: Props): JSX.Element {
     onMount(async () => {
         const r = await api.get<Member>(`/members/${id}`);
         if (!r.ok) {
-            await act.outputProblem(r.body);
+            await act.handleProblem(r.body);
             return;
         }
 
@@ -54,7 +54,7 @@ export function View(props: Props): JSX.Element {
 
         const r2 = await api.get<Array<user.Passport>>('/passports');
         if (!r2.ok) {
-            await act.outputProblem(r2.body);
+            await act.handleProblem(r2.body);
             return;
         }
         setPassports(r2.body!);

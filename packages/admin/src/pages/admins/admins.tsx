@@ -90,7 +90,7 @@ export function Admins(props: Props): JSX.Element {
                             <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onclick={async () => {
                                 const r = await api.post(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await act.outputProblem(r.body);
+                                    await act.handleProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();
@@ -101,7 +101,7 @@ export function Admins(props: Props): JSX.Element {
                             <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onclick={async () => {
                                 const r = await api.delete(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await act.outputProblem(r.body);
+                                    await act.handleProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();

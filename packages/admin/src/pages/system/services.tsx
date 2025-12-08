@@ -49,7 +49,7 @@ export function Services(): JSX.Element {
     const items = createMemo(async()=>{
         const ret = await api.get<Service>('/system/services');
         if (!ret.ok) {
-            await act.outputProblem(ret.body);
+            await act.handleProblem(ret.body);
             return;
         }
         return ret.body;

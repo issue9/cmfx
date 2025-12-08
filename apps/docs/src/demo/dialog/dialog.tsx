@@ -17,7 +17,7 @@ export default function(props: MountProps) {
     const [, Form] = createForm({
         value: {},
         submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
-        onProblem: p => act.outputProblem(p)
+        onProblem: async p => act.handleProblem(p)
     });
 
     return <div>

@@ -30,7 +30,7 @@ export function MemStatistic(): JSX.Element {
     onMount(async () => {
         const r = await api.get<Statistic>('/statistic/member');
         if (!r.ok) {
-            await act.outputProblem(r.body);
+            await act.handleProblem(r.body);
             return;
         }
         setStatistic(r.body!);

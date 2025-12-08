@@ -57,7 +57,7 @@ export class TOTP implements PassportComponents {
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
-                await act.outputProblem(ret);
+                await act.handleProblem(ret);
             }
         }}>
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
@@ -83,7 +83,7 @@ export class TOTP implements PassportComponents {
                 <ConfirmButton palette='error' square rounded title={l.t('_p.current.unbindTOTP')} onclick={async () => {
                     const r = await api.delete(`/passports/${this.#id}`);
                     if (!r.ok) {
-                        act.outputProblem(r.body);
+                        await act.handleProblem(r.body);
                         return;
                     }
                     await f();
@@ -94,7 +94,7 @@ export class TOTP implements PassportComponents {
                 <Button square rounded title={l.t('_p.current.bindTOTP')} onclick={async () => {
                     const r = await api.post<Secret>(`/passports/${this.#id}/secret`);
                     if (!r.ok) {
-                        act.outputProblem(r.body);
+                        await act.handleProblem(r.body);
                         return;
                     }
 

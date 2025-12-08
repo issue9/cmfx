@@ -14,12 +14,12 @@ import { Props as LoaderProps, Ref as LoaderRef, LoaderTable } from './loader';
 /**
  * 数据表中每一行的类型，必须带有 ID 作为其唯一标记。
  */
-interface Obj {
+interface Row {
     id?: string | number;
     [key: string]: unknown;
 }
 
-export interface Ref<T extends Obj> extends LoaderRef<T> {
+export interface Ref<T extends Row> extends LoaderRef<T> {
     /**
      * 删除指定数据并刷新当前表
      *
@@ -33,7 +33,7 @@ export interface Ref<T extends Obj> extends LoaderRef<T> {
     DeleteAction(id: T['id']): JSX.Element;
 }
 
-export interface Props<T extends Obj, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'>, RefProps<Ref<T>> {
+export interface Props<T extends Row, Q extends Query> extends Omit<LoaderProps<T, Q>, 'load'|'ref'>, RefProps<Ref<T>> {
     /**
      * 数据的加载地址
      *
@@ -48,7 +48,7 @@ export interface Props<T extends Obj, Q extends Query> extends Omit<LoaderProps<
  * 相对于 {@link LoaderTable}，限制了加载的数据方式只能是特定的远程地址。
  * 但是通过 {@link Ref} 也提供了更多的操作方法。
  */
-export function RemoteTable<T extends Obj, Q extends Query>(props: Props<T,Q>) {
+export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
     const [api, act] = useComponents();
     const l = useLocale();
 
@@ -68,7 +68,7 @@ export function RemoteTable<T extends Obj, Q extends Query>(props: Props<T,Q>) {
 
                     const ret = await api.delete(`${props.path}/${id}`);
                     if (!ret.ok) {
-                        await act.outputProblem(ret.body);
+                        await act.handleProblem(ret.body);
                         return;
                     }
                     await ref.refresh();
@@ -93,12 +93,12 @@ export function RemoteTable<T extends Obj, Q extends Query>(props: Props<T,Q>) {
     return <LoaderTable ref={(el) => ref = el} {...tableProps} load={load as any} />;
 }
 
-function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {
+function buildPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {
     return async (q: Q): Promise<Page<T> | undefined> => {
         const ret = await api.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
             if (ret.status !== 404) {
-                await actions.outputProblem(ret.body);
+                await actions.handleProblem(ret.body);
             }
             return { count: 0, current: [] };
         }
@@ -106,12 +106,12 @@ function buildPagingLoadFunc<T extends object, Q extends Query>(api: API, action
     };
 }
 
-function buildNoPagingLoadFunc<T extends object, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {
+function buildNoPagingLoadFunc<T extends Row, Q extends Query>(api: API, actions: ReturnType<typeof useComponents>[1], path: string) {
     return async (q: Q): Promise<Array<T> | undefined> => {
         const ret = await api.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {
             if (ret.status !== 404) {
-                await actions.outputProblem(ret.body);
+                await actions.handleProblem(ret.body);
             }
             return [];
         }

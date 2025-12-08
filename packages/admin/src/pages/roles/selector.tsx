@@ -17,7 +17,7 @@ export function Selector<M extends boolean>(props: Props<M>): JSX.Element {
     onMount(async () => {
         const r = await api.get<Array<Role>>('/roles');
         if (!r.ok) {
-            await act.outputProblem(r.body);
+            await act.handleProblem(r.body);
             return;
         }
 

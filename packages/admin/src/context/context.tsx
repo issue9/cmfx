@@ -110,7 +110,7 @@ function buildActions(api: API, act: ReturnType<typeof useComponents>[1], opt: O
          *
          * @param p - 如果该值空，则会抛出异常；
          */
-        async outputProblem<P>(p?: Problem<P>): Promise<void> { await act.outputProblem(p); },
+        async handleProblem<P>(p?: Problem<P>): Promise<void> { await act.handleProblem(p); },
 
         /**
          * 设置登录状态并刷新 user

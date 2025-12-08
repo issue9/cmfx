@@ -36,7 +36,7 @@ export function Permission(): JSX.Element {
                 return;
             }
 
-            await act.outputProblem(ret.body);
+            await act.handleProblem(ret.body);
             return;
         }
 
@@ -51,7 +51,7 @@ export function Permission(): JSX.Element {
 
             const ret = await api.get<Array<Resource>>('/resources');
             if (!ret.ok) {
-                await act.outputProblem(ret.body);
+                await act.handleProblem(ret.body);
                 return;
             }
             setResources(ret.body!);
@@ -61,7 +61,7 @@ export function Permission(): JSX.Element {
     const save = async()=>{
         const ret = await api.put(`/roles/${ps.id}/resources`, current());
         if (!ret.ok) {
-            await act.outputProblem(ret.body);
+            await act.handleProblem(ret.body);
             return;
         }
         nav(-1);

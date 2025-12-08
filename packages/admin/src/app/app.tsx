@@ -67,7 +67,7 @@ export function create(elementID: string, o: Options, router?: typeof Router) {
         pageSizes: opt.api.pageSizes,
         pageSize: opt.api.presetSize,
         stays: opt.stays,
-        outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+        problemHandler: async function <P>(p?: Problem<P>): Promise<void> {
             if (!p) { throw '发生了一个未知的错误，请联系管理员！'; }
 
             if (p.status === API.ErrorCode || p.status >= 500) {

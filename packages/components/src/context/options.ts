@@ -129,9 +129,12 @@ export interface Options {
     stays: number;
 
     /**
-     * 将 {@link Problem} 作为错误进行处理，用户可以自行处理部分常用的错误，剩余的交由此方法处理。
+     * 在 API 请求时返回为 {@link Problem} 时的处理方式
      *
-     * @param p - 如果该值空，则会抛出异常；
+     * @remarks
+     * 用户可以自行处理部分常用的错误，剩余的交由此方法处理。
+     *
+     * @param p - 如果该值空，则应该抛出异常；
      */
-    outputProblem<P>(p?: Problem<P>): Promise<void>;
+    problemHandler<P>(p?: Problem<P>): Promise<void>;
 }

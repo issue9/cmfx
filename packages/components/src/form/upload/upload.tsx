@@ -137,7 +137,7 @@ export function Upload(props: Props): JSX.Element {
 
                 const ret = await api.upload<Array<string>>(props.action, data);
                 if (!ret.ok) {
-                    await actions.outputProblem(ret.body);
+                    await actions.handleProblem(ret.body);
                     return;
                 }
 

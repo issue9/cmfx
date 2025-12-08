@@ -22,7 +22,7 @@ export function Profile(props: Props): JSX.Element {
 
     const [fapi, Form, actions] = createForm({
         value: { sex: 'unknown', state: 'normal', name: '', nickname: '', passports: [] } as User,
-        onProblem: p => act.outputProblem(p),
+        onProblem: async p => act.handleProblem(p),
         submit: async obj => { return api.patch(opt.api.info, obj); },
         onSuccess: async () => { await act.refetchUser(); }
     });
@@ -61,7 +61,7 @@ export function Profile(props: Props): JSX.Element {
     onMount(async () => {
         const r = await api.get<Array<user.Passport>>('/passports');
         if (!r.ok) {
-            await act.outputProblem(r.body);
+            await act.handleProblem(r.body);
             return;
         }
         setPassports(r.body!);
@@ -87,7 +87,7 @@ export function Profile(props: Props): JSX.Element {
                             setAvatar(ret[0]);
                             const r = await api.patch('/info', { 'avatar': ret[0] });
                             if (!r.ok) {
-                                await act.outputProblem(r.body);
+                                await act.handleProblem(r.body);
                                 return;
                             }
                             await act.refetchUser();

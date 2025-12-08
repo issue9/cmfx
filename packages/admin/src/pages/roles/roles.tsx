@@ -52,7 +52,7 @@ export function Roles(props: Props): JSX.Element {
         }
 
         if (!ret.ok) {
-            await act.outputProblem(ret.body);
+            await act.handleProblem(ret.body);
             return;
         }
         await tableRef.refresh();

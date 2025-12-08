@@ -55,7 +55,7 @@ export class Webauthn implements PassportComponents {
                     account.setError(l.t('_p.current.invalidAccount'));
                     return;
                 }
-                act.outputProblem(r1.body);
+                await act.handleProblem(r1.body);
                 return;
             }
 
@@ -86,7 +86,7 @@ export class Webauthn implements PassportComponents {
                     account.setError(l.t('_p.current.invalidAccount'));
                     return;
                 }
-                act.outputProblem(r2.body);
+                await act.handleProblem(r2.body);
                 return;
             }
 
@@ -94,7 +94,7 @@ export class Webauthn implements PassportComponents {
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
-                await act.outputProblem(ret);
+                await act.handleProblem(ret);
             }
         }}>
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
@@ -138,7 +138,7 @@ export class Webauthn implements PassportComponents {
                                         onclick={async () => {
                                             const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
                                             if (!r1.ok) {
-                                                act.outputProblem(r1.body);
+                                                await act.handleProblem(r1.body);
                                                 return;
                                             }
 
@@ -153,7 +153,7 @@ export class Webauthn implements PassportComponents {
                             <Button palette='primary' rounded onclick={async () => {
                                 const r1 = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
                                 if (!r1.ok) {
-                                    act.outputProblem(r1.body);
+                                    await act.handleProblem(r1.body);
                                     return;
                                 }
 
@@ -176,7 +176,7 @@ export class Webauthn implements PassportComponents {
 
                                 const r2 = await api.post(`/passports/${this.#id}/register`, pc);
                                 if (!r2.ok) {
-                                    act.outputProblem(r2.body);
+                                    await act.handleProblem(r2.body);
                                     return;
                                 }
 
@@ -187,7 +187,7 @@ export class Webauthn implements PassportComponents {
                             <ConfirmButton palette='secondary' rounded onclick={async () => {
                                 const r1 = await api.delete(`/passports/${this.#id}`);
                                 if (!r1.ok) {
-                                    act.outputProblem(r1.body);
+                                    await act.handleProblem(r1.body);
                                     return;
                                 }
                                 await f();

@@ -41,8 +41,8 @@ export function Edit(props: Props): JSX.Element {
     const nav = useNavigate();
     const [fapi, Form] = createForm<Admin>({
         value: adminSchema.parse({sex: 'unknown'}),
-        submit: async (obj) => { return await api.patch(`/admins/${ps.id}`, obj); },
-        onProblem: p => act.outputProblem(p),
+        submit: async obj => { return await api.patch(`/admins/${ps.id}`, obj); },
+        onProblem: async p => act.handleProblem(p),
         onSuccess: () => nav(props.backURL)
     });
 
@@ -52,12 +52,12 @@ export function Edit(props: Props): JSX.Element {
             fapi.setPreset(r1.body!);
             fapi.setValue(r1.body!);
         } else {
-            await act.outputProblem(r1.body);
+            await act.handleProblem(r1.body);
         }
 
         const r2 = await api.get<Array<user.Passport>>('/passports');
         if (!r2.ok) {
-            await act.outputProblem(r2.body);
+            await act.handleProblem(r2.body);
             return;
         }
         setPassports(r2.body!);

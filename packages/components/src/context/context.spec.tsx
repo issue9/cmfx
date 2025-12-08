@@ -35,7 +35,7 @@ const options: Options = {
     pageSize: 20,
     pageSizes: [10, 20, 30],
     stays: 2000,
-    outputProblem: async function <P>(p?: Problem<P>): Promise<void> {
+    problemHandler: async function <P>(p?: Problem<P>): Promise<void> {
         console.error(p);
     },
 };

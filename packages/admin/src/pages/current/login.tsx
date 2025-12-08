@@ -50,7 +50,7 @@ function LoginBox(props: Props): JSX.Element {
     const [passports] = createResource<Array<ChoiceOption>>(async () => {
         const r = await api.get<Array<user.Passport>>('/passports');
         if (!r.ok) {
-            await act.outputProblem(r.body);
+            await act.handleProblem(r.body);
             return [];
         }
         return r.body!.map(v => ({ type: 'item', value: v.id, label: v.desc }));

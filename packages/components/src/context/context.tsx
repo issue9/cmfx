@@ -201,8 +201,8 @@ export function buildActions(ctx: InternalOptionsContext) {
         /**
          * 对默认的 {@link Problem} 数据处理
          */
-        async outputProblem<T = never>(problem?: Problem<T>): Promise<void> {
-            await options.outputProblem(problem);
+        async handleProblem<T = never>(problem?: Problem<T>): Promise<void> {
+            await options.problemHandler(problem);
         }
     };
 }

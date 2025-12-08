@@ -25,7 +25,7 @@ export function Info(): JSX.Element {
     const [info] = createResource(async()=>{
         const ret = await api.get<Info>('/system/info');
         if (!ret.ok) {
-            await act.outputProblem(ret.body);
+            await act.handleProblem(ret.body);
             return;
         }
         return ret.body;
@@ -42,7 +42,7 @@ export function Info(): JSX.Element {
     const [backup, {refetch}] = createResource(async () => {
         const ret = await api.get<Backup>('/system/backup');
         if (!ret.ok) {
-            await act.outputProblem(ret.body);
+            await act.handleProblem(ret.body);
             return;
         }
         return ret.body;
@@ -188,7 +188,7 @@ export function Info(): JSX.Element {
             <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onclick={async () => {
                 const ret = await api.post('/system/backup');
                 if (!ret.ok) {
-                    await act.outputProblem(ret.body);
+                    await act.handleProblem(ret.body);
                     return;
                 }
                 await refetch();
@@ -204,7 +204,7 @@ export function Info(): JSX.Element {
                             <ConfirmButton kind='flat' palette='error' onclick={async () => {
                                 const ret = await api.delete('/system/backup/' + item.path);
                                 if (!ret.ok) {
-                                    await act.outputProblem(ret.body);
+                                    await act.handleProblem(ret.body);
                                     return;
                                 }
                                 await refetch();

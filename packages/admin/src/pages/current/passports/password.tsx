@@ -50,7 +50,7 @@ export class Pwd implements PassportComponents {
                 await act.login(ret);
                 return ret;
             },
-            onProblem: p => act.outputProblem(p),
+            onProblem: async p => act.handleProblem(p),
             onSuccess: async () => {
                 nav(opt.routes.private.home);
             }
@@ -78,7 +78,7 @@ export class Pwd implements PassportComponents {
                 await act.refetchUser();
                 return r;
             },
-            onProblem: p => act.outputProblem(p),
+            onProblem: async p => act.handleProblem(p),
         });
 
         return <>
