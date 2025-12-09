@@ -94,7 +94,9 @@ export default function Timezone(props: Props): JSX.Element {
     let buttonRef: ButtonRef;
     onMount(() => {
         requestAnimationFrame(() => {
-            buttonRef?.element().scrollIntoView({behavior: 'smooth', block: 'nearest'});
+            const p = buttonRef?.element().parentElement!;
+            const top = buttonRef?.element().getBoundingClientRect().top - p.getBoundingClientRect().top;
+            p.scrollBy({ top: top, behavior: 'smooth' });
         });
     });
 
