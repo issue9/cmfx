@@ -110,6 +110,7 @@ const messages = {
             result: 'Result',
             spin: 'Spin',
             search: 'Search',
+            settings: 'Settings',
             statistic: 'Statistic',
             stepper: 'Stepper',
             tab: 'Tab',

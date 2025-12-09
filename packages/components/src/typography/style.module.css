@@ -19,7 +19,7 @@
         }
 
         .desc {
-            @apply px-3 py-2 text-xs;
+            @apply px-3 py-2 text-sm;
         }
     }
 }

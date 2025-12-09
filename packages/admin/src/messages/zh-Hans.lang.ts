@@ -172,28 +172,7 @@ const messages: typeof m = {
             name: '名称',
             editPermission: '权限',
             description: '描述'
-        },
-        settings: {
-            mode: '主题模式',
-            modeDesc: '自定义页面的主题模式',
-            dark: '深色主题',
-            light: '浅色主题',
-            system: '跟随系统',
-            color: '主色调',
-            colorDesc: '自定义页面的主色调',
-            nopreference: '正常',
-            less: '减少对比度',
-            more: '加大对比度',
-            locale: '本地化',
-            localeDesc: '设置页面的界面语言',
-            displayStyle: '显示形式',
-            displayStyleDesc: '设置各类数据的显示形式',
-            timezone: '时区',
-            timezoneDesc: '设置当前浏览器显示的时区，仅限当前浏览器有效果。',
-            long: '完整格式',
-            short: '短格式',
-            narrow: '精简格式'
-        },
+        }
     }
 };
 

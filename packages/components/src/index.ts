@@ -48,6 +48,7 @@ export * from './result';
 export * from './search';
 export * from './spin';
 export * from './statistic';
+export * from './settings';
 export * from './tab';
 export * from './table';
 export * from './theme';

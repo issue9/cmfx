@@ -111,6 +111,7 @@ const messages: typeof m = {
             result: 'Result 结果页',
             spin: 'Spin 加载',
             search: 'Search 搜索框',
+            settings: 'Settings 设置',
             statistic: 'Statistic 统计',
             stepper: 'Stepper 步骤',
             tab: 'Tab 标签页',

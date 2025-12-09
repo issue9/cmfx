@@ -106,6 +106,6 @@
     }
 
     .group-content {
-        @apply flex flex-wrap gap-1 justify-between items-start w-full;
+        @apply flex flex-wrap gap-3 justify-between items-start w-full;
     }
 }

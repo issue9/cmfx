@@ -1,0 +1,25 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .settings {
+        @apply bg-palette-bg pb-3;
+
+        .radios {
+            @apply w-fit;
+        }
+
+        .item {
+            @apply px-3;
+        }
+
+        .ds-demo {
+            @apply ms-3 px-2 my-1 border-l-2 border-palette-bg-low text-sm;
+        }
+    }
+}

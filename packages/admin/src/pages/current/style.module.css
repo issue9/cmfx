@@ -90,10 +90,6 @@
 
     .settings {
         @apply w-4xl;
-
-        .ds-demo {
-            @apply ms-1 ps-2 border-l-2 border-palette-bg-low;
-        }
     }
 
     .memstatistic {

@@ -41,7 +41,7 @@ describe('RemoteTable', async () => {
         name: string;
     };
 
-    const api = API.build('id', sessionStorage, '/base', '/token', 'application/json', 'application/json', 'zh-CN');
+    const api = await API.build('id', sessionStorage, '/base', '/token', 'application/json', 'application/json', 'zh-CN');
 
     let ref: RemoteTableRef<Obj>;
     const ct = await ComponentTester.build(

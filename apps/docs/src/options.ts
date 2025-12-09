@@ -13,6 +13,7 @@ export const options: Options = {
     logo: '/brand-static.svg',
     systemDialog: false,
     systemNotify: false,
+    timezone: 'Asia/Shanghai',
     messages: {
         'en': [
             async () => (await import('@cmfx/components/messages/en.lang.js')).default,

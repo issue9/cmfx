@@ -63,6 +63,24 @@ const messages = {
             lastPage: 'Last page',
             items: '{ start }-{ end } of { count }'
         },
+        settings: {
+            mode: 'Theme mode',
+            modeDesc: 'Customize the theme mode of the page',
+            dark: 'Dark',
+            light: 'Light',
+            system: 'System',
+            color: 'Primary color',
+            colorDesc: 'Customize the theme primary color of the page',
+            locale: 'Locale',
+            localeDesc: 'Set the ui language of the page',
+            displayStyle: 'Display style',
+            displayStyleDesc: 'Set the display style of page',
+            timezone: 'Timezone',
+            timezoneDesc: 'Set the timezone of the page',
+            long: 'long',
+            short: 'short',
+            narrow: 'narrow'
+        },
         table: {
             nodata: 'No data',
             exportTo: 'Export to {type}',

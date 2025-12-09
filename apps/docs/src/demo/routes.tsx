@@ -64,6 +64,7 @@ import IconIcon from '~icons/tdesign/icon-filled';
 import IconIllustration from '~icons/uil/illustration';
 import IconInput from '~icons/material-symbols/input-rounded';
 import IconRange from '~icons/uil/slider-h-range';
+import IconSettings from '~icons/material-symbols/settings';
 import IconTransition from '~icons/material-symbols/masked-transitions';
 
 // 组件的分类
@@ -316,6 +317,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
     {
         kind: 'config', path: '/config/theme', component: lazy(() => import('./config/theme')),
         info: { title: '_d.demo.themeConfig', icon: <IconThemeConfig /> },
+    },
+    {
+        kind: 'config', path: '/config/settings', component: lazy(() => import('./config/settings')),
+        info: { title: '_d.demo.settings', icon: <IconSettings /> },
     },
 
     //----------------------- misc
