@@ -3,10 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 import { Options, Scheme, schemes, createChartLocaleLoader } from '@cmfx/components';
-import { Config, Problem, createZodLocaleLoader } from '@cmfx/core';
+import { Config, createZodLocaleLoader } from '@cmfx/core';
 
 export const options: Options = {
-    config: new Config('admin', '', window.sessionStorage),
+    config: new Config('docs', '', sessionStorage),
     mode: 'system',
     locale: 'zh-Hans',
     displayStyle: 'full',
@@ -40,7 +40,4 @@ export const options: Options = {
     pageSizes: [10, 20, 50, 100, 200, 500],
     pageSize: 20,
     stays: 2000,
-    problemHandler: async function <P>(p?: Problem<P>): Promise<void> {
-        console.error(p ? p.title : '');
-    }
 };

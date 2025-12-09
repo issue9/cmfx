@@ -66,6 +66,14 @@ export interface Options {
     timezone?: string;
 
     /**
+     * 提示框，通知栏等元素在界面上的默认停留时间
+     *
+     * @remarks
+     * 单位为 ms。当在 {@link config} 中存在时，当前值将被忽略。
+     */
+    stays?: number;
+
+    /**
      * 当前支持的语言列表以及加载方法
      */
     messages: Record<string, Array<DictLoader>>;
@@ -91,9 +99,4 @@ export interface Options {
      * 表格等需要分页对象的每页默认数量
      */
     pageSize: number;
-
-    /**
-     * 提示框，通知栏等元素在界面上的默认停留时间，单位为 ms。
-     */
-    stays: number;
 }

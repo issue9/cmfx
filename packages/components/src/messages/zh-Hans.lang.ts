@@ -79,6 +79,8 @@ const messages: Messages = {
             displayStyleDesc: '设置各类数据的显示形式',
             timezone: '时区',
             timezoneDesc: '设置当前浏览器显示的时区，仅限当前浏览器有效果。',
+            stays: '停留时间',
+            staysDesc: '设置通知弹出框的默认停留时间，单位为毫秒。',
             long: '完整格式',
             short: '短格式',
             narrow: '精简格式'

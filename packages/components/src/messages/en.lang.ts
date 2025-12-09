@@ -77,6 +77,8 @@ const messages = {
             displayStyleDesc: 'Set the display style of page',
             timezone: 'Timezone',
             timezoneDesc: 'Set the timezone of the page',
+            stays: 'Stays duration',
+            staysDesc: 'Set the stays duration of the notify',
             long: 'long',
             short: 'short',
             narrow: 'narrow'

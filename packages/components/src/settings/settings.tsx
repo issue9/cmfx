@@ -8,12 +8,13 @@ import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
 import IconPalette from '~icons/material-symbols/palette';
 import IconSettings from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
+import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconTimezone from '~icons/mdi/timezone';
 
 import { BaseProps, joinClass, Mode } from '@/base';
 import { useComponents, useLocale } from '@/context';
 import { Description } from '@/typography';
-import { fieldAccessor, RadioGroup, Choice } from '@/form';
+import { fieldAccessor, RadioGroup, Choice, Number } from '@/form';
 import { Divider } from '@/divider';
 import { SchemeSelector } from '@/theme';
 import { Timezone } from '@/datetime';
@@ -33,10 +34,13 @@ export function Settings(props: Props) {
     modeFA.onChange(m => { act.switchMode(m); });
 
     const localeFA = fieldAccessor<string>('locale', Locale.matchLanguage(opt.locale));
-    localeFA.onChange((v) => { act.switchLocale(v); });
+    localeFA.onChange(v => { act.switchLocale(v); });
 
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
-    unitFA.onChange((v) => { act.switchDisplayStyle(v); });
+    unitFA.onChange(v => { act.switchDisplayStyle(v); });
+
+    const staysFA = fieldAccessor<number>('stays', opt.stays ?? 3000);
+    staysFA.onChange(v => { act.setStays(v); });
 
     return <div class={joinClass(props.palette, styles.settings, props.class)} style={props.style}>
         <Description icon={/*@once*/<IconSettings />} title={l.t('_c.settings.mode')!}>
@@ -53,7 +57,7 @@ export function Settings(props: Props) {
         />
 
         <Show when={opt.schemes && opt.scheme}>
-            <Divider padding='8px' />
+            <Divider padding='16px 8px' />
 
             <Description icon={/*@once*/<IconPalette />} title={l.t('_c.settings.color')!}>
                 {l.t('_c.settings.colorDesc')!}
@@ -63,21 +67,19 @@ export function Settings(props: Props) {
                 value={opt.scheme!} onChange={val => act.switchScheme(val)} />
         </Show>
 
-        <Divider padding='8px' />
+        <Divider padding='16px 8px' />
 
         <Description icon={/*@once*/<IconTranslate />} title={l.t('_c.settings.locale')!}>
             {l.t('_c.settings.localeDesc')!}
         </Description>
-
         <Choice class={styles.item}
             accessor={localeFA} options={l.locales.map(v => ({ type: 'item', value: v[0], label: v[1] }))} />
 
-        <Divider padding='8px' />
+        <Divider padding='16px 8px' />
 
         <Description icon={/*@once*/<IconFormat />} title={l.t('_c.settings.displayStyle')!}>
             {l.t('_c.settings.displayStyleDesc')!}
         </Description>
-
         <RadioGroup itemLayout='horizontal' accessor={unitFA} block={/*@once*/false}
             class={joinClass(undefined, styles.item, styles.radios)}
             options={/*@once*/[
@@ -86,19 +88,25 @@ export function Settings(props: Props) {
                 { value: 'full', label: l.t('_c.settings.long') },
             ]}
         />
-
         <div class={joinClass(undefined, styles.item, styles['ds-demo'])}>
             <p>{l.datetimeFormat().format(new Date())}</p>
             <p>{formatDuration(l.durationFormat(), 1111111223245)}</p>
             <p>{createBytesFormatter(l)(1111223245)}</p>
         </div>
 
-        <Divider padding='8px' />
+        <Divider padding='16px 8px' />
 
         <Description icon={/*@once*/<IconTimezone />} title={l.t('_c.settings.timezone')!}>
             {l.t('_c.settings.timezoneDesc')!}
         </Description>
-
         <Timezone class={styles.item} value={opt.timezone} onChange={v => { act.switchTimezone(v); }} />
+
+        <Divider padding='16px 8px' />
+
+        <Description icon={/*@once*/<IconNotify />} title={l.t('_c.settings.stays')!}>
+            {l.t('_c.settings.staysDesc')!}
+        </Description>
+        <Number accessor={staysFA} min={1000} max={10000} step={500}
+            class={joinClass(undefined, styles.item, styles.stays)} />
     </div>;
 }

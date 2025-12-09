@@ -21,5 +21,9 @@
         .ds-demo {
             @apply ms-3 px-2 my-1 border-l-2 border-palette-bg-low text-sm;
         }
+
+        .stays {
+            @apply w-fit;
+        }
     }
 }

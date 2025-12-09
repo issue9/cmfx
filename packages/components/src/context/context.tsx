@@ -18,6 +18,7 @@ const displayStyleKey = 'display-style';
 const schemeKey = 'scheme';
 const modeKey = 'mode';
 const tzKey = 'timezone';
+const staysKey = 'stays';
 
 /**
  * 提供了对全局配置的更改
@@ -105,6 +106,19 @@ export function buildActions(ctx: InternalOptionsContext) {
     const options = ctx[0];
     const setOptions = ctx[1];
 
+    const read = () => {
+        setOptions({ // 读取新配置
+            scheme: options.config!.get(schemeKey) ?? options.scheme,
+            mode: options.config!.get(modeKey) ?? options.mode,
+            locale: options.config!.get(localeKey) ?? options.locale,
+            displayStyle: options.config!.get(displayStyleKey) ?? options.displayStyle,
+            timezone: options.config!.get(tzKey) ?? options.timezone,
+            stays: options.config!.get(staysKey) ?? options.stays,
+        });
+    };
+
+    read();
+
     return {
         /**
          * 设置 HTML 文档的标题
@@ -121,14 +135,7 @@ export function buildActions(ctx: InternalOptionsContext) {
          */
         switchConfig(id: string | number) {
             options.config!.switch(id);
-
-            setOptions({ // 读取新配置
-                scheme: options.config!.get(schemeKey) ?? options.scheme,
-                mode: options.config!.get(modeKey) ?? options.mode,
-                locale: options.config!.get(localeKey) ?? options.locale,
-                displayStyle: options.config!.get(displayStyleKey) ?? options.displayStyle,
-                timezone: options.config!.get(tzKey) ?? options.timezone,
-            });
+            read();
         },
 
         /**
@@ -177,5 +184,13 @@ export function buildActions(ctx: InternalOptionsContext) {
             setOptions({ mode: mode });
             options.config!.set(modeKey, mode);
         },
+
+        /**
+         * 通知的停留时间，单位为毫秒。
+         */
+        setStays(stay: number) {
+            setOptions({ stays: stay });
+            options.config!.set(staysKey, stay);
+        }
     };
 }
