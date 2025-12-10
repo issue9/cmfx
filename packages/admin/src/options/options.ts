@@ -128,6 +128,7 @@ export interface Locales {
     /**
      * 指定本地化文本的加载方式
      *
+     * @remarks
      * 并不会自动加载内置的本地化对象，也需要在此指定。
      */
     messages: Record<string, Array<DictLoader>>;
@@ -135,6 +136,7 @@ export interface Locales {
     /**
      * 备用的本地化 ID
      *
+     * @remarks
      * 在所需的本地化 ID 无法找到时，会采用该值。
      */
     fallback: string;

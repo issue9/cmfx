@@ -10,7 +10,7 @@ export const options: Options = {
     mode: 'system',
     locale: 'zh-Hans',
     displayStyle: 'full',
-    logo: '/brand-static.svg',
+    logo: './brand-static.svg',
     systemDialog: false,
     systemNotify: false,
     timezone: 'Asia/Shanghai',

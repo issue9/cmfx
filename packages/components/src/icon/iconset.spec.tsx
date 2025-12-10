@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { describe, test } from 'vitest';
+import { describe, test, expect } from 'vitest';
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 import IconArrowRight from '~icons/material-symbols/keyboard-arrow-right';
 
@@ -19,11 +19,8 @@ describe('IconSet', async () => {
 
     test('props', () => ct.testProps());
 
-    // ref 的初始化在 requestIdleCallback 之后。
-    /*
     test('ref', () => {
         expect(ref).toBeDefined();
         expect(ref!.element()).toBeDefined();
     });
-    */
 });

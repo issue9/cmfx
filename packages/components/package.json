@@ -48,7 +48,7 @@
         "@cmfx/core": "workspace:*",
         "@formatjs/intl-durationformat": "catalog:",
         "@iconify/json": "catalog:",
-        "@iconsets/svg-morpheus-ts": "^1.3.4",
+        "@iconsets/svg-morpheus-ts": "^1.4.10",
         "@solidjs/router": "catalog:",
         "colorjs.io": "catalog:",
         "echarts": "catalog:",

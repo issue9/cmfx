@@ -1,0 +1,14 @@
+/*
+ * SPDX-FileCopyrightText: 2025 caixw
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+@reference '../style.css';
+
+@layer components {
+    .iconset {
+        width: 1em;
+        height: 1em;
+    }
+}

@@ -7,7 +7,7 @@ import { createEffect, createMemo, JSX, onMount } from 'solid-js';
 import { template } from 'solid-js/web';
 
 import { BaseProps, isReducedMotion, joinClass, RefProps, style2String, transitionDuration } from '@/base';
-import { useTheme } from '@/context';
+import styles from './style.module.css';
 
 export interface Ref {
     /**
@@ -89,41 +89,21 @@ export function IconSet(props: Props): JSX.Element {
         maps[value[0]] = (value[1] as HTMLElement)?.outerHTML;
     });
 
-    const el = bundleSvgsStringSync(maps, { style: '' });
+    const el = bundleSvgsStringSync(maps, { style: style2String(props.style) });
     const icons = template(el)().cloneNode(true) as SVGSVGElement;
 
-    const theme = useTheme();
     let morpheus: SVGMorpheus;
-
-    createEffect(() => { // 监视样式和主题变化
-        const mode = theme.mode; // 必须要单独调用 theme.mode，如果直接写在 if 条件语句中，无法监视到其变化。
-        const scheme = theme.scheme;
-        const cls = props.class;
-        const p = props.palette;
-        const style = props.style;
-
-        if ((cls || p || mode || scheme)) {
-            // 此处的 text-palette-fg! 必不可少的，如果不强制设置颜色，svg 的默认色可能是 currentColor。
-            // 它会从父类查找颜色，如果父类设置了 :active 等伪类的颜色值，那么它可能获取的是伪类状态下的颜色。
-            icons.setAttribute('class', joinClass(p, 'text-palette-fg!', 'w-4', cls)!);
-
-            if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
-        }
-
-        if (style) {
-            icons.setAttribute('style', style2String(style));
-
-            if (morpheus) { morpheus.to(morpheus.currIconId(), { rotation: 'none' }); }
-        }
-    });
 
     const getDuration = createMemo(() => isReducedMotion() ? 0 : transitionDuration(icons));
 
+    createEffect(() => { // 监视样式和主题变化
+        icons.setAttribute('class', joinClass(props.palette, styles.iconset, props.class)!);
+        icons.setAttribute('style', style2String(props.style));
+    });
+
     createEffect(() => { // 监视 props.value
         const toid = props.value;
-        if (morpheus && toid) {
-            morpheus.to(toid, { duration: getDuration() });
-        }
+        if (morpheus && toid) { morpheus.to(toid, { duration: getDuration() }); }
     });
 
     onMount(() => {
@@ -132,6 +112,7 @@ export function IconSet(props: Props): JSX.Element {
             duration: getDuration(),
             easing: props.easing,
             rotation: props.rotation,
+            lite: true,
         }, () => {
             if (!props.ref) { return; }
 
@@ -156,6 +137,8 @@ export function IconSet(props: Props): JSX.Element {
                 element: () => icons,
             });
         });
+
+        morpheus.to(morpheus.currIconId(), { rotation: 'none' });
     });
 
     return <>{icons}</>;
