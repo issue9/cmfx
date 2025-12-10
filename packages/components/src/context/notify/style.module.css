@@ -24,7 +24,7 @@
                     @apply flex items-center justify-center p-[--spacing(.5)] rounded-xs bg-palette-bg text-base;
 
                     .close {
-                        @apply bg-palette-bg text-palette-fg p-[--spacing(.5)];
+                        @apply bg-palette-bg text-palette-fg p-[--spacing(.5)] rounded-xs;
                         @apply hover:cursor-pointer hover:text-palette-fg-focused hover:bg-palette-bg-focused;
                         @apply active:bg-palette-bg-actived active:text-palette-fg-actived;
                         @apply transition;

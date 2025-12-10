@@ -19,6 +19,7 @@ window.requestIdleCallback = window.requestIdleCallback || function (cb) {
 };
 
 export * from './appbar';
+export * from './avatar';
 export * from './backtop';
 export * from './badge';
 export * from './color';

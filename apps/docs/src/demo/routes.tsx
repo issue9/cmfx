@@ -7,6 +7,7 @@ import { ArrayElement } from '@cmfx/core';
 import { RouteDefinition } from '@solidjs/router';
 import { lazy } from 'solid-js';
 import IconRadio from '~icons/akar-icons/radio-fill';
+import IconAvatar from '~icons/material-symbols/person';
 import IconMenu from '~icons/bi/menu-down';
 import IconTextarea from '~icons/bi/textarea-resize';
 import IconTime from '~icons/bxs/time';
@@ -216,6 +217,10 @@ export const routes: Array<RouteDefinition & { kind: Kind }> = [
 
     //----------------------- data-display
 
+    {
+        kind: 'data-display', path: '/avatar', component: lazy(() => import('./avatar')),
+        info: { title: '_d.demo.avatar', icon: <IconAvatar /> },
+    },
     {
         kind: 'data-display', path: '/code', component: lazy(() => import('./code')),
         info: { title: '_d.demo.code', icon: <IconCode /> },
