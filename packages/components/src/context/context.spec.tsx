@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { render } from '@solidjs/testing-library';
-import { Problem, sleep } from '@cmfx/core';
+import { Config, sleep } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
 import { ParentProps, JSX } from 'solid-js';
 import { createStore } from 'solid-js/store';
@@ -15,12 +15,10 @@ import { BaseProps } from '@/base';
 
 // 提供用于测试的配置项
 const options: Options = {
-    id: 'admin',
+    config: new Config('admin', '', sessionStorage),
     logo: '../../../../apps/admin/public/brand-static.svg',
     systemDialog: false,
     systemNotify: false,
-    storage: window.localStorage,
-    configName: '',
     scheme: 'def',
     mode: 'dark',
     locale: 'zh-Hans',
@@ -31,9 +29,6 @@ const options: Options = {
     pageSize: 20,
     pageSizes: [10, 20, 30],
     stays: 2000,
-    problemHandler: async function <P>(p?: Problem<P>): Promise<void> {
-        console.error(p);
-    },
 };
 
 /**
