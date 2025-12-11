@@ -9,7 +9,7 @@ import (
 	"io/fs"
 	"os"
 
-	xupload "github.com/issue9/upload/v4"
+	xupload "github.com/issue9/upload/v5"
 
 	"github.com/issue9/cmfx/cmfx/initial/test"
 	"github.com/issue9/cmfx/cmfx/modules/upload"
@@ -25,7 +25,7 @@ func NewSaver(suite *test.Suite, baseURL string) xupload.Saver {
 	root, err := os.OpenRoot("./upload")
 	suite.Assertion().NotError(err).NotNil(root)
 
-	s, err := xupload.NewLocalSaver(root, baseURL, xupload.Day, func(dir fs.FS, filename, ext string) string {
+	s, err := xupload.NewLocalSaver(root, baseURL, func(dir fs.FS, filename, ext string) string {
 		return suite.Module().Server().ID() + ext // filename 可能带非英文字符
 	})
 

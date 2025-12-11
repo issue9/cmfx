@@ -12,7 +12,7 @@ import (
 	"os"
 	"time"
 
-	xupload "github.com/issue9/upload/v4"
+	xupload "github.com/issue9/upload/v5"
 	"github.com/issue9/web"
 	"github.com/issue9/web/mimetype/cbor"
 	"github.com/issue9/web/mimetype/json"
@@ -93,7 +93,7 @@ func initServer(id, ver string, o *server.Options, user *Config, action string) 
 	if err != nil {
 		return nil, err
 	}
-	uploadSaver, err := xupload.NewLocalSaver(upRoot, url, xupload.Day, func(dir fs.FS, filename, ext string) string {
+	uploadSaver, err := xupload.NewLocalSaver(upRoot, url, func(dir fs.FS, filename, ext string) string {
 		return s.UniqueID() + ext // filename 可能带非英文字符
 	})
 	if err != nil {

@@ -8,8 +8,8 @@ import { Portal } from 'solid-js/web';
 import { paletteSelector, boolSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [paletteS, palette] = paletteSelector();
-    const [roundedS, rounded] = boolSelector('rounded');
+    const [paletteS, palette] = paletteSelector('primary');
+    const [roundedS, rounded] = boolSelector('rounded', true);
 
     return <>
         <Portal mount={props.mount}>

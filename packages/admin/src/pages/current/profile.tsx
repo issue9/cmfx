@@ -2,12 +2,17 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, file2Base64, createForm, Page, TextField, Upload, UploadRef, Table } from '@cmfx/components';
+import {
+    Button, Divider, file2Base64, createForm, Page, TextField, Upload, UploadRef, Table, Avatar,
+    fieldAccessor
+} from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 import IconHelp from '~icons/material-symbols/help';
+import IconCamera from '~icons/material-symbols/photo-camera';
+import { z } from 'zod';
 
 import { user } from '@/components';
-import { useAdmin, useLocale, User, Sex } from '@/context';
+import { useAdmin, useLocale, Sex, sexSchema } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -15,13 +20,19 @@ interface Props {
     passports: Map<string, PassportComponents>;
 }
 
+const infoSchema = z.object({
+    sex: sexSchema,
+    name: z.string().min(2).max(10),
+    nickname: z.string().min(2).max(10),
+});
+
 export function Profile(props: Props): JSX.Element {
     const [api, act, opt] = useAdmin();
     const l = useLocale();
     let uploadRef: UploadRef;
 
     const [fapi, Form, actions] = createForm({
-        value: { sex: 'unknown', state: 'normal', name: '', nickname: '', passports: [] } as User,
+        value: infoSchema.partial().parse({ sex: 'unknown' }),
         onProblem: async p => act.handleProblem(p),
         submit: async obj => { return api.patch(opt.api.info, obj); },
         onSuccess: async () => { await act.refetchUser(); }
@@ -41,7 +52,7 @@ export function Profile(props: Props): JSX.Element {
         const nameA = fapi.accessor('name');
         const nicknameA = fapi.accessor('nickname');
         const sexA = fapi.accessor('sex');
-        const passportA = fapi.accessor<User['passports']>('passports');
+        const passportA = fieldAccessor('passports', u.passports);
 
         nameA.setValue(u.name!);
         nicknameA.setValue(u.nickname!);
@@ -68,29 +79,27 @@ export function Profile(props: Props): JSX.Element {
     });
 
     return <Page title='_p.current.profile' class={styles.profile}>
-        <Upload ref={el => uploadRef = el} fieldName='files' upload={async data=>{
-            const ret = await api.upload('/upload', data);
+        <Upload ref={el => uploadRef = el} fieldName='files' upload={async data => {
+            const ret = await api.upload<Array<string>>('/uploads', data);
             if (!ret.ok) {
                 await act.handleProblem(ret.body);
+                return undefined;
             }
-            return undefined;
+            return ret.body;
         }} />
         <div class="flex gap-4">
-            <img class={styles.avatar} alt="avatar" src={avatar()} />
+            <Avatar class={styles.avatar} value={avatar()} fallback="avatar" hover={<IconCamera />} onclick={() => {
+                uploadRef.pick();
+            }} />
             <div class={styles.name}>
                 <p class="text-2xl">{act.user()?.name}</p>
-                <Show when={uploadRef!.files().length === 0}>
-                    <Button palette='tertiary' onclick={async () => {
-                        uploadRef.pick();
-                    }}>{l.t('_p.current.pickAvatar')}</Button>
-                </Show>
                 <Show when={uploadRef!.files().length > 0}>
                     <div class="flex gap-2">
                         <Button palette='primary' onclick={async () => {
                             const ret = await uploadRef.upload();
                             if (!ret) { return; }
-
                             setAvatar(ret[0]);
+
                             const r = await api.patch('/info', { 'avatar': ret[0] });
                             if (!r.ok) {
                                 await act.handleProblem(r.body);
@@ -134,7 +143,7 @@ export function Profile(props: Props): JSX.Element {
             <tbody>
                 <For each={passports()}>
                     {item => {
-                        const username = createMemo(() => fapi.accessor<User['passports']>('passports').getValue()!.find(v => v.id == item.id)?.identity);
+                        const username = createMemo(() => act.user()?.passports?.find(v => v.id == item.id)?.identity);
 
                         return <tr>
                             <td class="flex items-center">

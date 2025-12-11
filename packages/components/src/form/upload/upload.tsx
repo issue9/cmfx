@@ -142,9 +142,9 @@ export function Upload(props: Props): JSX.Element {
                 return undefined;
             },
 
-            element(): HTMLInputElement {return el;},
+            element(): HTMLInputElement { return el; },
         });
-    }} onchange={e=>{
+    }} onchange={e => {
         const target = e.target as HTMLInputElement;
         add(target.files);
     }} />;

@@ -65,7 +65,7 @@ export default function Avatar(props: Props): JSX.Element {
         <Switch fallback={
             <img onerror={() => setError(true)} src={props.value} alt='avatar' loading={props.lazy ? 'lazy' : 'eager'} />
         }>
-            <Match when={error() && (!props.hover)}>
+            <Match when={error()}>
                 <div class={styles.fallback}>{props.fallback}</div>
             </Match>
         </Switch>

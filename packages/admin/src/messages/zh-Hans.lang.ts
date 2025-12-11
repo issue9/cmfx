@@ -76,7 +76,6 @@ const messages: typeof m = {
 
             profile: '个人信息',
             name: '姓名',
-            pickAvatar: '选择头像',
             delete: '删除',
             changePassword: '更改密码',
             oldPassword: '旧密码',

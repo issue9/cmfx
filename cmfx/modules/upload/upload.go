@@ -8,7 +8,7 @@ package upload
 import (
 	"errors"
 
-	"github.com/issue9/upload/v4"
+	"github.com/issue9/upload/v5"
 	"github.com/issue9/web"
 	"github.com/issue9/web/openapi"
 	"github.com/issue9/webuse/v7/handlers/static"
@@ -58,7 +58,7 @@ func (m *Module) Handle(prefix *web.Prefix, api func(func(*openapi.Operation)) w
 		case err != nil:
 			return ctx.Error(err, "")
 		default:
-			return web.OK(files)
+			return web.Created(files, "")
 		}
 	}, api(func(o *openapi.Operation) {
 		o.Tag("upload").

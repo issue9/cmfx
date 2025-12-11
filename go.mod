@@ -33,14 +33,14 @@ require (
 	github.com/issue9/rands/v3 v3.1.0
 	github.com/issue9/scheduled v0.22.4
 	github.com/issue9/sliceutil v0.17.0
-	github.com/issue9/upload/v4 v4.0.0
+	github.com/issue9/upload/v5 v5.0.0
 	github.com/issue9/web v0.104.3
 	github.com/issue9/webuse/v7 v7.0.0-20251204064944-89e0b70b86bc
 	github.com/kardianos/service v1.2.4
 	github.com/mattn/go-sqlite3 v1.14.32
 	github.com/shirou/gopsutil/v4 v4.25.11
-	golang.org/x/crypto v0.45.0
-	golang.org/x/text v0.31.0
+	golang.org/x/crypto v0.46.0
+	golang.org/x/text v0.32.0
 )
 
 require (
@@ -79,7 +79,7 @@ require (
 	github.com/yusufpapurcu/wmi v1.2.4 // indirect
 	golang.org/x/mod v0.30.0 // indirect
 	golang.org/x/net v0.47.0 // indirect
-	golang.org/x/sync v0.18.0 // indirect
-	golang.org/x/sys v0.38.0 // indirect
+	golang.org/x/sync v0.19.0 // indirect
+	golang.org/x/sys v0.39.0 // indirect
 	golang.org/x/xerrors v0.0.0-20240903120638-7835f813f4da // indirect
 )

@@ -74,7 +74,6 @@ const messages = {
 
             profile: 'Profile',
             name: 'Name',
-            pickAvatar: 'pick avatar',
             delete: 'Delete',
             changePassword: 'Change password',
             oldPassword: 'Old password',

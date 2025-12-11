@@ -134,7 +134,7 @@ const o: Options = {
         base: urlBase,
         token: '/token',
         info: '/info',
-        contentType: 'application/cbor',
+        contentType: 'application/json',
         acceptType: 'application/json'
     },
 

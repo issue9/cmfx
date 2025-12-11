@@ -17,7 +17,7 @@
         }
 
         .fallback {
-            @apply w-full h-full flex items-center text-center text-ellipsis overflow-hidden;
+            @apply w-full h-full flex items-center text-center justify-center overflow-hidden;
         }
 
         .hover {
