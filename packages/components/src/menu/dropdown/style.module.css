@@ -8,6 +8,6 @@
 
 @layer components {
     .dropdown {
-        @apply border border-palette-border rounded-md;
+        @apply border border-palette-border rounded-md z-popover;
     }
 }

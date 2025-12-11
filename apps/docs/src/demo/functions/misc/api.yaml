@@ -6,4 +6,7 @@
 - createBytesFormatter
 - copy2Clipboard
 - notify
+- alert
+- confirm
+- prompt
 - file2Base64
