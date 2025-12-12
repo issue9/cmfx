@@ -7,13 +7,13 @@ packages:
 
 catalog:
   '@formatjs/intl-durationformat': ^0.7.6
-  '@iconify/json': ^2.2.416
+  '@iconify/json': ^2.2.417
   '@solidjs/router': ^0.15.4
   '@solidjs/testing-library': ^0.8.10
-  '@tailwindcss/vite': ^4.1.17
+  '@tailwindcss/vite': ^4.1.18
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
-  '@types/node': ^25.0.0
+  '@types/node': ^25.0.1
   '@vitest/coverage-v8': ^4.0.15
   autoprefixer: ^10.4.22
   bowser: ^2.13.1
@@ -23,7 +23,7 @@ catalog:
   jsdom: ^27.3.0
   shiki: ^3.19.0
   solid-js: ^1.9.10
-  tailwindcss: ^4.1.17
+  tailwindcss: ^4.1.18
   typescript: ^5.9.3
   unplugin-icons: ^22.5.0
   vite: ^7.2.7

@@ -131,6 +131,7 @@
     nav.inline,
     menu.inline {
         @apply flex-col;
+        transition: height var(--default-transition-duration) ease;
 
         >li>ul {
             @apply bg-palette-bg-low/50;
@@ -138,7 +139,8 @@
 
         li {
             >ul {
-                @apply flex-col rounded-none!;
+                @apply flex flex-col rounded-none! overflow-hidden h-0;
+                transition: height var(--default-transition-duration) ease;
             }
         }
 

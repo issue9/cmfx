@@ -251,6 +251,36 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         } else if (props.layout === 'inline') { // 点击带有子菜单的项
                             setExpanded(!expanded());
                             iconRef.to(expanded() ? 'up' : 'down');
+
+                            const curr = e.currentTarget as HTMLLIElement;
+                            let ul = curr.querySelector(':scope>ul') as HTMLUListElement;
+                            if (!ul) { return; }
+
+                            if (!expanded()) { // 收起
+                                const h = ul.scrollHeight;
+                                ul.style.height = '0'; // 触发动画
+
+                                while (true) { // 为外层元素减少当前元素的高度
+                                    ul = ul.parentElement!.parentElement! as HTMLUListElement;
+                                    if (!ul) { break; }
+
+                                    ul.style.height = (ul.scrollHeight - h) + 'px';
+
+                                    if (ul.dataset.menuRoot) { break; }
+                                }
+                            } else { // 展开
+                                const h = ul.scrollHeight;
+                                ul.style.height = h + 'px'; // 触发动画到内容高度
+
+                                while(true) { // 为外层元素增加当前元素的高度
+                                    ul = ul.parentElement!.parentElement! as HTMLUListElement;
+                                    if (!ul) { break; }
+
+                                    ul.style.height = (ul.scrollHeight + h) + 'px';
+
+                                    if (ul.dataset.menuRoot) { break; }
+                                };
+                            }
                         }
                     }}>
                         <Dynamic class={styles.title} tabindex={0} component={(isAnchor && !hasItems) ? A : 'p'}
@@ -288,10 +318,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
                         </Dynamic>
                         <Show when={i().items}>
                             {items =>
-                                <ul classList={{
-                                    '!hidden': !expanded() && props.layout === 'inline',
-                                    '!flex': expanded() && props.layout === 'inline',
-                                }}>
+                                <ul>
                                     <For each={items()}>{child => buildMenuItem(child)}</For>
                                 </ul>
                             }
@@ -302,7 +329,7 @@ export default function Menu<M extends boolean = false, T extends AvailableEnumT
         </Switch>;
     };
 
-    return <Dynamic component={props.tag} ref={(el: HTMLMenuElement | HTMLElement) => {
+    return <Dynamic data-menu-root component={props.tag} ref={(el: HTMLMenuElement | HTMLElement) => {
         ref = el;
         if (props.ref) {
             props.ref({
