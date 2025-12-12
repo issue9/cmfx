@@ -40,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
 
     const nav = useNavigate();
     const [fapi, Form] = createForm<Admin>({
-        value: adminSchema.parse({sex: 'unknown'}),
+        value: adminSchema.partial().parse({sex: 'unknown'}),
         submit: async obj => { return await api.patch(`/admins/${ps.id}`, obj); },
         onProblem: async p => act.handleProblem(p),
         onSuccess: () => nav(props.backURL)

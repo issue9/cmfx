@@ -66,7 +66,8 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         props = mergeProps(preset, props);
 
         return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}
-            disabled={props.disabled} readonly={props.readonly} labelAlign={props.labelAlign} labelWidth={props.labelWidth}
+            disabled={props.disabled} readonly={props.readonly}
+            labelAlign={props.labelAlign} labelWidth={props.labelWidth}
         >
             <Spin tag="form" spinning={api.submitting()} palette={props.palette}
                 class={joinClass(undefined, props.class)} style={props.style} ref={el => {

@@ -8,7 +8,7 @@
 
 @layer components {
     input[type="radio"] {
-        @apply appearance-none relative inline-block w-4 h-4 rounded-sm! cursor-pointer;
+        @apply appearance-none relative inline-block w-4 h-4 rounded-xs! cursor-pointer;
         @apply p-0 border-2 border-palette-fg outline-none;
         @apply hover:border-palette-fg-focused;
         @apply checked:border-palette-fg-selected;
@@ -27,7 +27,7 @@
     /* 内部实心圆 */
     input[type="radio"]:after {
         @apply transition;
-        @apply inline-block absolute start-1/4 top-1/4 bg-palette-fg rounded-sm w-1/2 h-1/2 opacity-0;
+        @apply inline-block absolute start-1/4 top-1/4 bg-palette-fg rounded-xs w-1/2 h-1/2 opacity-0;
         content: '';
         transform-origin: center center;
         pointer-events: none;

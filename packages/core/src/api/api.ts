@@ -90,7 +90,7 @@ export class API {
     /**
      * 切换语言并清空缓存
      */
-    setLocale(v: string) {
+    setLocale(v: string): void {
         if (this.#locale === v) { return; }
 
         this.#locale = v;
