@@ -90,7 +90,7 @@ export class Webauthn implements PassportComponents {
                 return;
             }
 
-            const ret = await api.login(r2);
+            const ret = await api.api().login(r2);
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {

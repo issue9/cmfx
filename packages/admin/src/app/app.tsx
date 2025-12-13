@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, MenuRef, joinClass, Menu, run, Options as XOptions } from '@cmfx/components';
+import { Drawer, DrawerRef, joinClass, Menu, MenuRef, run, Options as XOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
@@ -95,7 +95,7 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
     });
 
     return <Switch>
-        <Match when={!api.isLogin()}>
+        <Match when={!api.api().isLogin()}>
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={act.isLogin()}>

@@ -92,11 +92,11 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的上传地址；
      * @param obj - 上传的对象；
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param method - 请求方法；
+     * @param method - 请求方法，默认为 POST；
      * @param headers - 自定义请求头；
      */
     upload<R = never, PE = never>(
-        path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT', withToken?: boolean, headers?: Headers
+        path: string, obj: FormData, method?: 'POST' | 'PATCH' | 'PUT', withToken?: boolean, headers?: Headers
     ): Promise<Return<R, PE>>;
 }
 
@@ -233,7 +233,7 @@ export class API implements REST {
             },
 
             async upload<R = never, PE = never>(
-                path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT', withToken = true, headers?: Headers
+                path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, headers?: Headers
             ): Promise<Return<R, PE>> {
                 return await self.upload<R, PE>(path, obj, method, withToken, build(headers));
             }
