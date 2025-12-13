@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Divider, createForm, Page, TextField, Table } from '@cmfx/components';
+import { Button, createForm, Divider, Page, Table, TextField } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import * as z from 'zod';
@@ -10,9 +10,9 @@ import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
 import { user } from '@/components';
-import { sexSchema, useAdmin, useLocale, Sex } from '@/context';
-import { roles } from '@/pages/roles';
+import { Sex, sexSchema, useAdmin, useLocale } from '@/context';
 import { passportSchema } from '@/context/user';
+import { roles } from '@/pages/roles';
 
 interface Props {
     /**
@@ -40,7 +40,7 @@ export function Edit(props: Props): JSX.Element {
 
     const nav = useNavigate();
     const [fapi, Form] = createForm<Admin>({
-        value: adminSchema.partial().parse({sex: 'unknown'}),
+        value: adminSchema.parse({sex: 'unknown'}),
         submit: async obj => { return await api.patch(`/admins/${ps.id}`, obj); },
         onProblem: async p => act.handleProblem(p),
         onSuccess: () => nav(props.backURL)

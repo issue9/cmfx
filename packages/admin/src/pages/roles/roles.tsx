@@ -85,7 +85,7 @@ export function Roles(props: Props): JSX.Element {
                 <TextArea accessor={current.accessor<string>('description')} />
             </form>
         </Dialog>
-        <RemoteTable api={api} ref={(el) => tableRef = el} path='/roles' queries={{}} systemToolbar columns={[
+        <RemoteTable rest={api} ref={el => tableRef = el} path='/roles' queries={{}} systemToolbar columns={[
             { id: 'id', label: l.t('_p.id') },
             { id: 'name', label: l.t('_p.roles.name') },
             { id: 'description', label: l.t('_p.roles.description') },

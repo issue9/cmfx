@@ -5,34 +5,37 @@
 import { beforeEach, describe, expect, test } from 'vitest';
 
 import { sleep } from '@/time';
-import { API, query2Search } from './api';
+import { API, query2Search, REST } from './api';
 import { Token, writeToken } from './token';
 
-describe('API', () => {
+describe('API', async () => {
     const id = 'cmfx-token-name';
     const s = window.localStorage;
+    const api = await API.build(id, s, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
 
     beforeEach(() => {
         fetchMock.resetMocks();
     });
 
     test('build', async () => {
-        const api = await API.build(id, s, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
         expect(api).not.toBeNull();
     });
 
     test('buildURL', async () => {
-        const f = await API.build(id, s, 'http://localhost', '/login', 'application/json', 'application/yaml', 'zh-cn');
-        expect(f.buildURL('/path')).toEqual('http://localhost/path');
-        expect(f.buildURL('path')).toEqual('http://localhost/path');
-        expect(() => { f.buildURL(''); }).toThrowError('参数 path 不能为空');
+        expect(api.buildURL('/path')).toEqual('http://localhost/path');
+        expect(api.buildURL('path')).toEqual('http://localhost/path');
+        expect(() => { api.buildURL(''); }).toThrowError('参数 path 不能为空');
     });
 
+    testREST(api);
+    testREST(api.rest());
+});
+
+function testREST(rest: REST) {
     test('get', async () => {
         fetchMock.mockResponseOnce('123');
 
-        const api = await API.build(id, s, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
-        const data = await api.get('/abc');
+        const data = await rest.get('/abc');
         expect(data.ok).toBeTruthy();
         expect(data.status).toEqual(200);
         expect(data.body).toEqual<number>(123);
@@ -41,11 +44,35 @@ describe('API', () => {
     test('post', async () => {
         fetchMock.mockResponseOnce('123', { status: 401 });
 
-        const f = await API.build(id, s, 'http://localhost', '/login', 'application/yaml', 'application/json', 'zh-cn');
-        const data = await f.post('/abc');
+        const data = await rest.post('/abc');
         expect(data.ok).toBeFalsy();
     });
-});
+
+    test('put', async () => {
+        fetchMock.mockResponseOnce('123', { status: 401 });
+
+        const data = await rest.put('/abc');
+        expect(data.ok).toBeFalsy();
+    });
+
+    test('patch', async () => {
+        fetchMock.mockResponseOnce('123', { status: 401 });
+
+        const data = await rest.patch('/abc', 'body');
+        expect(data.ok).toBeFalsy();
+    });
+
+    test('delete', async () => {
+        fetchMock.mockResponseOnce('123', { status: 401 });
+
+        const data = await rest.delete('/abc');
+        expect(data.ok).toBeFalsy();
+    });
+
+    test('api', () => {
+        expect(rest.api()).toBeDefined();
+    });
+}
 
 describe('API token', () => {
     const id = 'cmfx-token-name';

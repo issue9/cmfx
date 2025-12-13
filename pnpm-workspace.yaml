@@ -21,7 +21,7 @@ catalog:
   echarts: ^6.0.0
   intl-messageformat: ^10.7.18
   jsdom: ^27.3.0
-  shiki: ^3.19.0
+  shiki: ^3.20.0
   solid-js: ^1.9.10
   tailwindcss: ^4.1.18
   typescript: ^5.9.3

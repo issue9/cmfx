@@ -53,7 +53,7 @@ export function Admins(props: Props): JSX.Element {
     const states = createMemo(() => { return user.states.map(([value, label]) => ({ type: 'item', value: value, label: l.t(label) })); });
 
     return <Page title="_p.admin.adminsManager">
-        <RemoteTable<Admin, Q> api={api} ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
+        <RemoteTable<Admin, Q> rest={api} ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
             <Button type='a' palette='primary' href={`${props.routePrefix}/0`}>{l.t('_p.newItem')}</Button>
         } queryForm={(qa) => (
             <>
