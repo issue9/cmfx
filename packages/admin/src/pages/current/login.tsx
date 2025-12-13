@@ -42,7 +42,7 @@ function LoginBox(props: Props): JSX.Element {
     const l = useLocale();
     const [q,setQ] = useSearchParams<{ type: string }>();
 
-    api.cache('/passports');
+    api.api().cache('/passports');
 
     const passport = fieldAccessor('passport', q.type ?? 'password');
     passport.onChange(n => setQ({ type: n }));

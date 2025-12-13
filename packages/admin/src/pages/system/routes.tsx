@@ -42,7 +42,7 @@ export function Routes(): JSX.Element {
     };
 
     return <Page title="_p.system.routesViewer">
-        <RemoteTable api={api} systemToolbar queries={queries} path='/system/routes' hoverable
+        <RemoteTable rest={api} systemToolbar queries={queries} path='/system/routes' hoverable
             toolbar={<Label icon={<IconRoutes />}>{ l.t('_p.system.routesViewer') }</Label>}
             columns={[
                 { id: 'router', label: l.t('_p.system.router') },
@@ -59,8 +59,8 @@ export function Routes(): JSX.Element {
 
                 { id: 'max', label: l.t('_p.system.max'), content: (_: string, val: Duration) => { formatDuration(l.durationFormat(), val); } },
                 { id: 'min', label: l.t('_p.system.min'), content: (_: string, val: Duration) => { return formatDuration(l.durationFormat(), val); } },
-                { id: 'spend', label: l.t('_p.system.spend'), content: (_: string, val: Duration, api?: Route) => {
-                    const count = api?.count!;
+                { id: 'spend', label: l.t('_p.system.spend'), content: (_: string, val: Duration, route?: Route) => {
+                    const count = route ? route!.count : 0;
                     val = count > 0 ? parseDuration(val) / count : 0;
                     return formatDuration(l.durationFormat(), val);
                 } },

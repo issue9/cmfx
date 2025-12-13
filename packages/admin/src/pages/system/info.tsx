@@ -83,7 +83,7 @@ export function Info(): JSX.Element {
 
     onMount(async () => {
         const fixed = (num: number)=>Math.round(num * 100) / 100; // 固定小数点
-        const es = await api.eventSource('/sse', true);
+        const es = await api.api().eventSource('/sse', true);
 
         es!.addEventListener('systat', (s: MessageEvent) => {
             const d = JSON.parse(s.data) as Stats;

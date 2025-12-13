@@ -33,7 +33,7 @@ export function SecurityLogs(): JSX.Element {
     };
 
     return <Page title="_p.current.securitylog">
-        <RemoteTable<SecurityLog, Query> api={api} path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
+        <RemoteTable<SecurityLog, Query> rest={api} path='/securitylog' paging inSearch systemToolbar queries={q} columns={[
             { id: 'content', label: l.t('_p.current.content') },
             { id: 'ip', label: l.t('_p.current.ip') },
             { id: 'ua', label: l.t('_p.current.ua'), content:(_: string, val?: string)=>{

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { API, Page, Query, query2Search, Problem } from '@cmfx/core';
+import { Page, Problem, Query, query2Search, REST } from '@cmfx/core';
 import { JSX, onMount, splitProps } from 'solid-js';
 import IconDelete from '~icons/material-symbols/delete';
 
@@ -42,9 +42,9 @@ export interface Props<T extends Row, Q extends Query> extends Omit<LoaderProps<
     path: string;
 
     /**
-     * 指定访问后端接口的 {@link API} 对象
+     * 指定访问后端接口的 {@link REST} 对象
      */
-    api: API;
+    rest: REST;
 
     onProblem?: { <PE = never>(p?: Problem<PE>): Promise<void>; };
 }
@@ -60,8 +60,8 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
 
     const [_, tableProps] = splitProps(props, ['path', 'ref']);
     const load = props.paging
-        ? buildPagingLoadFunc(props.api, props.path, props.onProblem)
-        : buildNoPagingLoadFunc(props.api, props.path, props.onProblem);
+        ? buildPagingLoadFunc(props.rest, props.path, props.onProblem)
+        : buildNoPagingLoadFunc(props.rest, props.path, props.onProblem);
     let ref: LoaderRef<T>;
 
     onMount(() => {
@@ -74,7 +74,7 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
                 async delete(id: T['id']): Promise<void> {
                     if (id === undefined) { throw new Error('参数 id 必须是一个有效的值'); }
 
-                    const ret = await props.api.delete(`${props.path}/${id}`);
+                    const ret = await props.rest.delete(`${props.path}/${id}`);
                     if (!ret.ok) {
                         if (props.onProblem) { await props.onProblem(ret.body); }
                         return;
@@ -101,26 +101,22 @@ export function RemoteTable<T extends Row, Q extends Query>(props: Props<T,Q>) {
     return <LoaderTable ref={el => ref = el} {...tableProps} load={load as any} />;
 }
 
-function buildPagingLoadFunc<T extends Row, Q extends Query>(api: API, path: string, onProblem?: Props<T,Q>['onProblem']) {
+function buildPagingLoadFunc<T extends Row, Q extends Query>(rest: REST, path: string, onProblem?: Props<T,Q>['onProblem']) {
     return async (q: Q): Promise<Page<T> | undefined> => {
-        const ret = await api.get<Page<T>>(path + query2Search(q));
+        const ret = await rest.get<Page<T>>(path + query2Search(q));
         if (!ret.ok) {
-            if (ret.status !== 404) {
-                onProblem && onProblem(ret.body);
-            }
+            if ((ret.status !== 404) && onProblem) { onProblem(ret.body); }
             return { count: 0, current: [] };
         }
         return ret.body;
     };
 }
 
-function buildNoPagingLoadFunc<T extends Row, Q extends Query>(api: API, path: string, onProblem?: Props<T,Q>['onProblem']) {
+function buildNoPagingLoadFunc<T extends Row, Q extends Query>(rest: REST, path: string, onProblem?: Props<T,Q>['onProblem']) {
     return async (q: Q): Promise<Array<T> | undefined> => {
-        const ret = await api.get<Array<T>>(path + query2Search(q));
+        const ret = await rest.get<Array<T>>(path + query2Search(q));
         if (!ret.ok) {
-            if (ret.status !== 404) {
-                onProblem && onProblem(ret.body);
-            }
+            if ((ret.status !== 404) && onProblem) { onProblem(ret.body); }
             return [];
         }
         return ret.body;

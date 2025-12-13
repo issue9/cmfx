@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, useComponents, notify } from '@cmfx/components';
-import { API, DisplayStyle, Problem, Return, Token } from '@cmfx/core';
+import { Mode, notify, useComponents, useLocale } from '@cmfx/components';
+import { API, DisplayStyle, Problem, REST, Return, Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
 
-import { HTTPError } from './errors';
 import { build as buildOptions } from '@/options/options';
+import { HTTPError } from './errors';
 import { User } from './user';
 
 type OptContext = ReturnType<typeof buildOptions>;
@@ -27,14 +27,16 @@ const currentKey = '-uid';
  * 获取全局的操作接口
  *
  * @returns 返回一个元组，包含以下属性：
- * - 0: API 对象，这是一个全局对象，需要注意一些属性的修改，比如本地化信息；
+ * - 0: {@link REST} 对象，相对于 {@link API}，会自动添加 `Accept-Language` 报头；
  * - 1: 组件库提供的其它方法；
  * - 2: 组件库初始化时的选项；
  */
-export function useAdmin(): [api: API, actions: ReturnType<typeof buildActions>, options: OptContext] {
+export function useAdmin(): [api: REST, actions: ReturnType<typeof buildActions>, options: OptContext] {
     const ctx = useContext(internalOptContext);
     if (!ctx) { throw '未找到正确的 optContext'; }
-    return [ctx.coreAPI, ctx.actions, ctx];
+
+    const l = useLocale();
+    return [ctx.coreAPI.rest(new Headers({ 'Accept-Language': l.locale.toString() })), ctx.actions, ctx];
 }
 
 // NOTE: 需要保证在 {@link run} 之内运行
@@ -70,7 +72,9 @@ export async function clearStorage(api: API) {
     }
 }
 
-function buildActions(api: API, act: ReturnType<typeof useComponents>[0], opt: OptContext, nav: ReturnType<typeof useNavigate>) {
+function buildActions(
+    api: API, act: ReturnType<typeof useComponents>[0], opt: OptContext, nav: ReturnType<typeof useNavigate>
+) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         if (!api.isLogin()) { return; }

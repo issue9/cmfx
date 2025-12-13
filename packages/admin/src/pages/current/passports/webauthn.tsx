@@ -90,7 +90,7 @@ export class Webauthn implements PassportComponents {
                 return;
             }
 
-            const ret = await api.login(r2);
+            const ret = await api.api().login(r2);
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
@@ -124,7 +124,7 @@ export class Webauthn implements PassportComponents {
                 <Label icon={<IconCredit />}>{l.t('_p.current.webauthnCredentials')}</Label>
             }>
                 <div class="overflow-auto">
-                    <RemoteTable<Credential, {}> api={api} ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
+                    <RemoteTable<Credential, {}> rest={api} ref={el => tableRef = el} queries={{}} path={`/passports/${this.#id}/credentials`}
                         columns={[
                             { id: 'id', label: l.t('_p.id') },
                             { id: 'ua', label: l.t('_p.current.ua') },

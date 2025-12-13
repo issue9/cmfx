@@ -5,10 +5,10 @@
 import {
     Appbar, Button, DrawerRef, Dropdown, Locale, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem
 } from '@cmfx/components';
-import { Accessor, JSX, Show } from 'solid-js';
-import IconClear from '~icons/material-symbols/delete-rounded';
 import { Hotkey } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
+import { Accessor, JSX, Show } from 'solid-js';
+import IconClear from '~icons/material-symbols/delete-rounded';
 
 import { useAdmin, useLocale } from '@/context';
 import { clearStorage } from '@/context/context';
@@ -76,10 +76,10 @@ function ClearCache(props: { hk?: Hotkey }): JSX.Element {
             await act.clearCache();
             break;
         case 'clear-api-cache':
-            await api.clearCache();
+            await api.api().clearCache();
             break;
         case 'clear-storage':
-            await clearStorage(api);
+            await clearStorage(api.api());
             nav(opt.routes.public.home);
             break;
         }

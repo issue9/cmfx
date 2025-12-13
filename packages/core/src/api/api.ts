@@ -9,9 +9,108 @@ import { delToken, getToken, SSEToken, state, Token, writeToken } from './token'
 import { Method, Problem, Query, Return } from './types';
 
 /**
+ * RESTful 接口的基本操作方法
+ */
+export interface REST {
+    /**
+     * 返回关联的 {@link API} 对象
+     */
+    api(): API;
+
+    /**
+     * DELETE 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    delete<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
+
+    /**
+     * POST 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    post<R = never, PE = never>(
+        path: string, body?: unknown, withToken?: boolean, headers?: Headers
+    ): Promise<Return<R, PE>>;
+
+    /**
+     * PUT 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    put<R = never, PE = never>(
+        path: string, body?: unknown, withToken?: boolean, headers?: Headers
+    ): Promise<Return<R, PE>>;
+
+    /**
+     * PATCH 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    patch<R = never, PE = never>(
+        path: string, body?: unknown, withToken?: boolean, headers?: Headers
+    ): Promise<Return<R, PE>>;
+
+    /**
+     * GET 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    get<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
+
+    /**
+     * 执行普通的 API 请求
+     *
+     * @param path - 相对于 {@link baseURL} 的请求地址；
+     * @param method - 请求方法；
+     * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
+     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
+     * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
+     */
+    request<R = never, PE = never>(
+        path: string, method: Method, obj?: unknown, withToken?: boolean, headers?: Headers
+    ): Promise<Return<R, PE>>;
+
+    /**
+     * 执行上传操作
+     *
+     * @param path - 相对于 {@link baseURL} 的上传地址；
+     * @param obj - 上传的对象；
+     * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
+     * @param method - 请求方法，默认为 POST；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    upload<R = never, PE = never>(
+        path: string, obj: FormData, method?: 'POST' | 'PATCH' | 'PUT', withToken?: boolean, headers?: Headers
+    ): Promise<Return<R, PE>>;
+}
+
+/**
  * 封装了访问后端接口的基本功能
  */
-export class API {
+export class API implements REST {
     /**
      * 当前客户端发生的一些非预料错误时的错误代码
      *
@@ -80,6 +179,73 @@ export class API {
         this.#contentSerializer = serializers.get(contentType)!;
         this.#acceptType = accept;
         this.#acceptSerializer = serializers.get(accept)!;
+    }
+
+    /**
+     * 声明一个包含指定报头的 {@link REST} 实例
+     *
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
+     */
+    rest(headers?: Headers): REST {
+        const self = this;
+
+        const build = (h?: Headers) => {
+            if (!headers) { return h; }
+            if (!h) { return headers; }
+
+            const hh = new Headers(headers);
+            for (const [key, value] of h.entries()) {
+                hh.set(key, value);
+            }
+            return hh;
+        };
+
+        return {
+            api(): API { return self; },
+
+            async get<R = never, PE = never>(
+                path: string, withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.request<R, PE>(path, 'GET', undefined, withToken, headers);
+            },
+
+            async post<R = never, PE = never>(
+                path: string, body: BodyInit, withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.request<R, PE>(path, 'POST', body, withToken, headers);
+            },
+
+            async put<R = never, PE = never>(
+                path: string, body: BodyInit, withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.request<R, PE>(path, 'PUT', body, withToken, headers);
+            },
+
+            async patch<R = never, PE = never>(
+                path: string, body: BodyInit, withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.request<R, PE>(path, 'PATCH', body, withToken, headers);
+            },
+
+            async delete<R = never, PE = never>(
+                path: string, withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.request<R, PE>(path, 'DELETE', undefined, withToken, headers);
+            },
+
+            async request<R = never, PE = never>(
+                path: string, method: Method, obj?: unknown, withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.request<R, PE>(path, method, obj, withToken, build(headers));
+            },
+
+            async upload<R = never, PE = never>(
+                path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, headers?: Headers
+            ): Promise<Return<R, PE>> {
+                return await self.upload<R, PE>(path, obj, method, withToken, build(headers));
+            }
+        };
     }
 
     /**
@@ -159,83 +325,34 @@ export class API {
         return this.baseURL + path;
     }
 
-    /**
-     * DELETE 请求
-     *
-     * @param path - 相对于 {@link baseURL} 的请求地址；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
-     */
-    async delete<R = never, PE = never>(
-        path: string, withToken = true, headers?: Headers
-    ): Promise<Return<R, PE>> {
+    api(): API { return this; }
+
+    async delete<R = never, PE = never>(path: string, withToken = true, headers?: Headers): Promise<Return<R, PE>> {
         return this.request<R, PE>(path, 'DELETE', undefined, withToken, headers);
     }
 
-    /**
-     * POST 请求
-     *
-     * @param path - 相对于 {@link baseURL} 的请求地址；
-     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
-     */
     async post<R = never, PE = never>(
         path: string, body?: unknown, withToken = true, headers?: Headers
     ): Promise<Return<R, PE>> {
         return this.request<R, PE>(path, 'POST', body, withToken, headers);
     }
 
-    /**
-     * PUT 请求
-     *
-     * @param path - 相对于 {@link baseURL} 的请求地址；
-     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
-     */
     async put<R = never, PE = never>(
         path: string, body?: unknown, withToken = true, headers?: Headers
     ): Promise<Return<R, PE>> {
         return this.request<R, PE>(path, 'PUT', body, withToken, headers);
     }
 
-    /**
-     * PATCH 请求
-     *
-     * @param path - 相对于 {@link baseURL} 的请求地址；
-     * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
-     */
     async patch<R = never, PE = never>(
         path: string, body?: unknown, withToken = true, headers?: Headers
     ): Promise<Return<R, PE>> {
         return this.request<R, PE>(path, 'PATCH', body, withToken, headers);
     }
 
-    /**
-     * GET 请求
-     *
-     * @param path - 相对于 {@link baseURL} 的请求地址；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
-     */
     async get<R = never, PE = never>(path: string, withToken = true, headers?: Headers): Promise<Return<R, PE>> {
         return this.request<R, PE>(path, 'GET', undefined, withToken, headers);
     }
 
-    /**
-     * 执行普通的 API 请求
-     *
-     * @param path - 相对于 {@link baseURL} 的请求地址；
-     * @param method - 请求方法；
-     * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
-     * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
-     * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
-     * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
-     */
     async request<R = never, PE = never>(
         path: string, method: Method, obj?: unknown, withToken = true, headers?: Headers
     ): Promise<Return<R, PE>> {
@@ -253,15 +370,6 @@ export class API {
         return this.#withArgument<R, PE>(path, method, headers, body as BufferSource);
     }
 
-    /**
-     * 执行上传操作
-     *
-     * @param path - 相对于 {@link baseURL} 的上传地址；
-     * @param obj - 上传的对象；
-     * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param method - 请求方法；
-     * @param headers - 自定义请求头；
-     */
     async upload<R = never, PE = never>(
         path: string, obj: FormData, method: 'POST' | 'PATCH' | 'PUT' = 'POST', withToken = true, headers?: Headers
     ): Promise<Return<R, PE>> {
@@ -370,6 +478,8 @@ export class API {
         }
         if (!headers.has('Accept-Language')) {
             headers.set('Accept-Language', this.#locale);
+        } else if (headers.get('Accept-Language') !== this.#locale) {
+            this.clearCache().then(() => { });
         }
 
         return await this.#fetch(path, {
