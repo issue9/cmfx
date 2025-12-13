@@ -22,7 +22,8 @@ export interface REST {
      *
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     delete<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
 
@@ -32,7 +33,8 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     post<R = never, PE = never>(
         path: string, body?: unknown, withToken?: boolean, headers?: Headers
@@ -44,7 +46,8 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     put<R = never, PE = never>(
         path: string, body?: unknown, withToken?: boolean, headers?: Headers
@@ -56,7 +59,8 @@ export interface REST {
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param body - 请求对象，会由 #contentSerializer 进行转换，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     patch<R = never, PE = never>(
         path: string, body?: unknown, withToken?: boolean, headers?: Headers
@@ -67,7 +71,8 @@ export interface REST {
      *
      * @param path - 相对于 {@link baseURL} 的请求地址；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     get<R = never, PE = never>(path: string, withToken?: boolean, headers?: Headers): Promise<Return<R, PE>>;
 
@@ -78,7 +83,8 @@ export interface REST {
      * @param method - 请求方法；
      * @param obj - 请求对象，会由 #contentSerializer 进行转换，如果是 GET，可以为空；
      * @param withToken - 是否带上令牌，如果此值为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
-     * @param headers - 自定义请求头内容；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      * @typeParam R - 表示在接口操作成功的情况下返回的类型，如果不需要该数据可设置为 never；
      * @typeParam PE - 表示在接口操作失败之后，{@link Problem#extension} 字段的类型，如果该字段为空值，可设置为 never；
      */
@@ -93,7 +99,8 @@ export interface REST {
      * @param obj - 上传的对象；
      * @param withToken - 是否需要带上令牌，如果为 true，那么在登录过期时会尝试刷新令牌。该值可能会被 headers 参数的相关设置覆盖；
      * @param method - 请求方法，默认为 POST；
-     * @param headers - 自定义请求头；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     upload<R = never, PE = never>(
         path: string, obj: FormData, method?: 'POST' | 'PATCH' | 'PUT', withToken?: boolean, headers?: Headers
@@ -177,7 +184,8 @@ export class API implements REST {
     /**
      * 声明一个包含指定报头的 {@link REST} 实例
      *
-     * @param headers - 自定义的报头；
+     * @param headers - 自定义请求头内容，区分大小写。
+     *  如果 Accept-Language 的值如果与当前对象的 locale 不同，会清空缓存；
      */
     rest(headers?: Headers): REST {
         const self = this;
@@ -470,6 +478,8 @@ export class API implements REST {
         }
         if (!headers.has('Accept-Language')) {
             headers.set('Accept-Language', this.#locale);
+        } else if (headers.get('Accept-Language') !== this.#locale) {
+            this.clearCache().then(() => { });
         }
 
         return await this.#fetch(path, {
