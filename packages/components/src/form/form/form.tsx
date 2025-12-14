@@ -3,13 +3,14 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { Component, JSX, mergeProps, ParentProps } from 'solid-js';
+import { Component, JSX, mergeProps, ParentProps, Show } from 'solid-js';
 
-import { BaseProps, joinClass, Layout } from '@/base';
+import { BaseProps, joinClass, Layout, Palette } from '@/base';
 import { Button, ButtonProps } from '@/button';
-import { Spin } from '@/spin';
 import { FormContext, FormProvider, useForm } from '@/form/field';
+import { Spin } from '@/spin';
 import { FormAPI, Options } from './api';
+import styles from './style.module.css';
 
 export interface Props extends BaseProps, FormContext, ParentProps {
     /**
@@ -41,6 +42,13 @@ export interface Actions {
      * 重置按钮
      */
     Reset(props: Omit<ButtonProps, 'type' | 'onclick'>): JSX.Element;
+
+    /**
+     * 显示整个表单的错误信息
+     *
+     * @param props - 组件属性，默认值为 `{ palette: 'error' as Palette }`
+     */
+    Message(props: BaseProps): JSX.Element;
 }
 
 function ButtonAction (props: ButtonProps): JSX.Element {
@@ -99,6 +107,15 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         Submit(props: Omit<ButtonProps, 'onclick' | 'type'>): JSX.Element {
             return <ButtonAction {...props} type="submit" />;
         },
+
+        Message(props: BaseProps): JSX.Element {
+            props = mergeProps({ palette: 'error' as Palette }, props );
+            return <Show when={api.getError()}>
+                {err =>
+                    <div class={joinClass(props.palette, styles.error, props.class)} style={props.style}>{err()}</div>
+                }
+            </Show>;
+        }
     };
 
     return [api, form, actions];

@@ -7,13 +7,13 @@ packages:
 
 catalog:
   '@formatjs/intl-durationformat': ^0.7.6
-  '@iconify/json': ^2.2.417
+  '@iconify/json': ^2.2.418
   '@solidjs/router': ^0.15.4
   '@solidjs/testing-library': ^0.8.10
   '@tailwindcss/vite': ^4.1.18
   '@testing-library/jest-dom': ^6.9.1
   '@testing-library/user-event': ^14.6.1
-  '@types/node': ^25.0.1
+  '@types/node': ^25.0.2
   '@vitest/coverage-v8': ^4.0.15
   autoprefixer: ^10.4.22
   bowser: ^2.13.1

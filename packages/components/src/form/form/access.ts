@@ -22,11 +22,11 @@ export class ObjectAccessor<T extends Flattenable> {
 
     readonly #valGetter: Store<T>;
     readonly #valSetter: SetStoreFunction<T>;
+    readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown, string>>;
 
     readonly #errGetter: Store<Err<T>>;
     readonly #errSetter: SetStoreFunction<Err<T>>;
-
-    readonly #accessors: Map<FlattenKeys<T>, Accessor<unknown, string>>;
+    readonly #error: Signal<string>; // 全局错误信息
 
     /**
      * 构造函数
@@ -39,9 +39,10 @@ export class ObjectAccessor<T extends Flattenable> {
         this.#isPreset = createSignal(true);
 
         [this.#valGetter, this.#valSetter] = createStore<T>(structuredClone(preset)); // 复制对象，防止与默认对象冲突。
-        [this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
-
         this.#accessors = new Map<FlattenKeys<T>, Accessor<unknown, string>>();
+
+        [this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
+        this.#error = createSignal('');
     }
 
     /**
@@ -144,6 +145,7 @@ export class ObjectAccessor<T extends Flattenable> {
             }
         };
         this.#accessors.set(name, a as Accessor<T[keyof T], K>);
+
         return a;
     }
 
@@ -189,11 +191,17 @@ export class ObjectAccessor<T extends Flattenable> {
     /**
      * 将错误信息设置到指定的字段上
      *
-     * @param errs - 错误列表，为空表示取消所有的错误显示；
+     * @param errs - 错误列表，为空表示取消所有的错误显示，如果是字符串，表示未匹配的具体字段的错误；
      */
-    setError(errs?: Params<FlattenKeys<T>>) {
+    setError(errs?: Params<FlattenKeys<T>> | string) {
         if (!errs) {
             this.#errSetter({} as any);
+            this.#error[1]('');
+            return;
+        }
+
+        if (typeof errs === 'string') {
+            this.#error[1](errs);
             return;
         }
 
@@ -201,6 +209,11 @@ export class ObjectAccessor<T extends Flattenable> {
             this.accessor(param.name).setError(param.reason);
         });
     }
+
+    /**
+     * 返回表示当前整个对象的错误信息
+     */
+    getError(): string { return this.#error[0](); }
 
     /**
      * 重置所有字段的状态和值

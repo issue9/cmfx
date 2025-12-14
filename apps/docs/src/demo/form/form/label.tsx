@@ -2,15 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import {
-    Button, DatePicker, createForm, Number, TextArea, TextField, useComponents, MountProps
-} from '@cmfx/components';
+import { Button, createForm, DatePicker, MountProps, Number, TextArea, TextField } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, labelAlignSelector, layoutSelector, paletteSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [act] = useComponents();
     const [paletteS, palette] = paletteSelector('secondary');
     const [roundedS, rounded] = boolSelector('rounded');
     const [helpS, help] = boolSelector('help');
@@ -26,7 +23,6 @@ export default function(props: MountProps) {
             date: new Date('2021-01-02T15:31'),
             textarea: 'textarea',
         },
-        onProblem: async e => act.handleProblem(e),
         submit: async () => ({ ok: false, status: 500, body: { type: '500', title: '请求未处理', status: 500 } }),
     });
 

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Flattenable, FlattenKeys, Problem, Return, Validator, Params } from '@cmfx/core';
+import { Flattenable, FlattenKeys, Params, Problem, Return, Validator } from '@cmfx/core';
 import { createSignal, Signal } from 'solid-js';
 import { Store } from 'solid-js/store';
 
@@ -19,12 +19,15 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
     readonly value: T;
 
     /**
-     * 在服务端返回未处理的 {@link Problem} 对象时的处理方法，当前实现会自动处理带有 {@link Problem#params} 字段的错误
+     * 在服务端返回未处理的 {@link Problem} 对象时的处理方法
+     *
+     * @remarks
+     * FormAPI 本身会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。
      */
     readonly onProblem?: { (p: Problem<PE>): Promise<void> };
 
     /**
-     * 在接口正常返回时调用的方法；
+     * 在接口正常返回时调用的方法
      */
     readonly onSuccess?: { (r?: Return<R, never>): void; };
 
@@ -102,9 +105,11 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
     /**
      * 将错误信息设置到指定的字段上
      *
-     * @param errs - 错误列表，为空表示取消所有的错误显示；
+     * @param errs - 错误列表，为空表示取消所有的错误显示，如果是字符串，表示未匹配的具体字段的错误；
      */
-    setError(errs?: Params<FlattenKeys<T>>) { this.#object.setError(errs); }
+    setError(errs?: Params<FlattenKeys<T>> | string) { this.#object.setError(errs); }
+
+    getError(): string { return this.#object.getError(); }
 
     /**
      * 当前内容是否都是默认值
@@ -132,7 +137,13 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
 
             if (!ret.body) { return true; }
 
-            if (ret.body.params) { this.#object.setError(ret.body.params as any); }
+            if (ret.status === 400) {
+                if (ret.body.params) {
+                    this.#object.setError(ret.body.params as Params<FlattenKeys<T>>);
+                } else {
+                    this.#object.setError(ret.body.title);
+                }
+            }
 
             if (this.onProblem) { await this.onProblem(ret.body); }
 
