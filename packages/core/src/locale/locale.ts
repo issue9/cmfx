@@ -52,6 +52,19 @@ export class Locale {
         const obj = new Map<string, T>();
         Locale.#objects.set(id, obj);
 
+        function get(locale: string): T | undefined;
+        function get(locale: string, init: () => T): T;
+        function get(locale: string, init?: () => T): T | undefined {
+            const o = obj.get(locale);
+            if (o) { return o; }
+
+            if (init) {
+                const o = init();
+                obj.set(locale, o);
+                return o;
+            }
+        }
+
         return {
             /**
              * 获取指定语言的缓存对象
@@ -59,15 +72,7 @@ export class Locale {
              * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'；
              * @param init - 当缓存中不存在指定语言的缓存对象时，调用该函数以初始化该对象；
              */
-            get(locale: string, init?: () => T): T | undefined {
-                const o = obj.get(locale);
-                if (o) { return o; }
-
-                if (init) {
-                    obj.set(locale, init());
-                    return obj.get(locale);
-                }
-            },
+            get,
 
             /**
              * 设置指定语言的缓存对象

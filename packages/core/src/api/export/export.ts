@@ -38,7 +38,7 @@ export class Exporter<T extends object, Q extends Query> {
         const row: Array<string> = [];
         for (const c of cols) {
             if (!c.isUnexported) {
-                row.push(c.label ?? c.id);
+                row.push(c.label ?? c.id.toString());
             }
         }
         this.#sheet = xlsx.utils.aoa_to_sheet([row]);

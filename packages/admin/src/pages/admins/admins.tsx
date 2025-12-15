@@ -9,8 +9,8 @@ import IconEdit from '~icons/material-symbols/edit';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
-import { user } from '@/components';
-import { useAdmin, Sex, State } from '@/context';
+import { localeSexes, localeStates, SexSelector, StateSelector } from '@/components';
+import { Sex, State, useAdmin } from '@/context';
 
 interface Props {
     /**
@@ -49,8 +49,8 @@ export function Admins(props: Props): JSX.Element {
 
     let ref: RemoteTableRef<Admin>;
 
-    const sexes = createMemo(() => { return user.sexes.map(([value, label]) => ({ type: 'item', value: value, label: l.t(label) })); });
-    const states = createMemo(() => { return user.states.map(([value, label]) => ({ type: 'item', value: value, label: l.t(label) })); });
+    const sexes = createMemo(() => { return localeSexes(l); });
+    const states = createMemo(() => { return localeStates(l); });
 
     return <Page title="_p.admin.adminsManager">
         <RemoteTable<Admin, Q> rest={api} ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
@@ -58,14 +58,14 @@ export function Admins(props: Props): JSX.Element {
         } queryForm={(qa) => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
-                <user.StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
-                <user.SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
+                <StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
+                <SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
             { id: 'id', label: l.t('_p.id') },
             { id: 'no', label: l.t('_p.no') },
             {
-                id: 'sex', label: l.t('_p.sex'), content: ((_: string, v) => {
+                id: 'sex', label: l.t('_p.sex'), content: ((_, v) => {
                     return sexes().find(val => val.value === v)?.label;
                 })
             },

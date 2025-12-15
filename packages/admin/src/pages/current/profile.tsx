@@ -3,16 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, Divider, file2Base64, createForm, Page, TextField, Upload, UploadRef, Table, Avatar,
-    fieldAccessor
+    Avatar, Button, createForm, Divider, fieldAccessor, file2Base64, Page, Table, TextField, Upload, UploadRef
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
+import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
 import IconCamera from '~icons/material-symbols/photo-camera';
-import { z } from 'zod';
 
-import { user } from '@/components';
-import { useAdmin, useLocale, Sex, sexSchema } from '@/context';
+import { Passport, SexSelector } from '@/components';
+import { Sex, sexSchema, useAdmin, useLocale } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -38,7 +37,7 @@ export function Profile(props: Props): JSX.Element {
         onSuccess: async () => { await act.refetchUser(); }
     });
 
-    const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
+    const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
     const [avatar, setAvatar] = createSignal('');
     let originAvatar = ''; // 原始的头像内容，在取消上传头像时，可以从此值恢复。
@@ -70,7 +69,7 @@ export function Profile(props: Props): JSX.Element {
     });
 
     onMount(async () => {
-        const r = await api.get<Array<user.Passport>>('/passports');
+        const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
             await act.handleProblem(r.body);
             return;
@@ -122,7 +121,7 @@ export function Profile(props: Props): JSX.Element {
         <Form class={styles.form}>
             <TextField class="w-full" label={l.t('_p.current.name')} accessor={fapi.accessor('name')} />
             <TextField class="w-full" label={l.t('_p.nickname')} accessor={fapi.accessor('nickname')} />
-            <user.SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor<Sex>('sex')} />
+            <SexSelector class="w-full" label={l.t('_p.sex')} accessor={fapi.accessor<Sex>('sex')} />
 
             <div class={styles.actions}>
                 <actions.Reset palette="secondary" disabled={fapi.isPreset()}>{l.t('_c.reset')}</actions.Reset>

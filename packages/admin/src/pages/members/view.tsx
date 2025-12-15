@@ -4,9 +4,9 @@
 
 import { joinClass, Page } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
-import { Component, createSignal, For, JSX, onMount, Show } from 'solid-js';
+import { Component, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
-import { user } from '@/components';
+import { localeSexes, localeStates, Passport } from '@/components';
 import { useAdmin, useLocale } from '@/context';
 import styles from './style.module.css';
 import { Member } from './types';
@@ -37,7 +37,7 @@ export function View(props: Props): JSX.Element {
         state: 'normal'
     });
 
-    const [passports, setPassports] = createSignal<Array<user.Passport>>([]);
+    const [passports, setPassports] = createSignal<Array<Passport>>([]);
 
     onMount(async () => {
         const r = await api.get<Member>(`/members/${id}`);
@@ -52,7 +52,7 @@ export function View(props: Props): JSX.Element {
         }
         setMember(r.body!);
 
-        const r2 = await api.get<Array<user.Passport>>('/passports');
+        const r2 = await api.get<Array<Passport>>('/passports');
         if (!r2.ok) {
             await act.handleProblem(r2.body);
             return;
@@ -60,40 +60,43 @@ export function View(props: Props): JSX.Element {
         setPassports(r2.body!);
     });
 
-    return <Page title='_p.member.view' class={ joinClass(undefined, 'max-w-lg', styles.view) }>
+    const sexes = createMemo(() => { return localeSexes(l); });
+    const states = createMemo(() => { return localeStates(l); });
+
+    return <Page title='_p.member.view' class={joinClass(undefined, 'max-w-lg', styles.view)}>
         <div class={styles.info}>
-            <img class={styles.avatar} src={ member().avatar } alt="avatar" />
+            <img class={styles.avatar} src={member().avatar} alt="avatar" />
 
             <div class={styles.item}>
-                <dl><dt class="me-2">{l.t('_p.id')}</dt><dd>{ member().id }</dd></dl>
-                <dl><dt class="me-2">{l.t('_p.no')}</dt><dd>{ member().no }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.id')}</dt><dd>{member().id}</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.no')}</dt><dd>{member().no}</dd></dl>
             </div>
 
             <div class={styles.item}>
                 <dl>
                     <dt class="me-2">{l.t('_p.created')}</dt>
-                    <dd>{ member().created ? l.datetimeFormat().format(new Date(member().created!)) : '' }</dd>
+                    <dd>{member().created ? l.datetimeFormat().format(new Date(member().created!)) : ''}</dd>
                 </dl>
                 <dl>
                     <dt class="me-2">{l.t('_p.member.birthday')}</dt>
-                    <dd>{member().birthday ? l.datetimeFormat().format(new Date(member().birthday!)) : '' }</dd>
+                    <dd>{member().birthday ? l.datetimeFormat().format(new Date(member().birthday!)) : ''}</dd>
                 </dl>
             </div>
 
             <div class={styles.item}>
-                <dl><dt class="me-2">{l.t('_p.nickname')}</dt><dd>{ member().nickname }</dd></dl>
-                <dl><dt class="me-2">{l.t('_p.sex')}</dt><dd>{ l.t(user.sexes.find((v)=>v[0]===member().sex)![1]) }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.nickname')}</dt><dd>{member().nickname}</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.sex')}</dt><dd>{sexes().find(v => v.value === member().sex)?.label}</dd></dl>
             </div>
 
             <div class={styles.item}>
-                <dl><dt class="me-2">{l.t('_p.state')}</dt><dd>{ l.t(user.states.find((v)=>v[0]===member().state)![1]) }</dd></dl>
+                <dl><dt class="me-2">{l.t('_p.state')}</dt><dd>{states().find(v => v.value === member().state)?.label}</dd></dl>
                 <dl>
                     <dt class="me-2">{l.t('_p.member.passports')}</dt>
                     <dd class="flex gap-2">
                         <For each={passports()}>
-                            {(item)=>(
-                                <Show when={member().passports && member().passports?.find((v)=>v.id===item.id)}>
-                                    <span title={item.desc}>{ item.id }</span>
+                            {(item) => (
+                                <Show when={member().passports && member().passports?.find((v) => v.id === item.id)}>
+                                    <span title={item.desc}>{item.id}</span>
                                 </Show>
                             )}
                         </For>

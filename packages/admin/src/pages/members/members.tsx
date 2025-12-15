@@ -9,8 +9,8 @@ import IconLock from '~icons/material-symbols/lock';
 import IconLockOpen from '~icons/material-symbols/lock-open-right';
 import IconVisibility from '~icons/material-symbols/visibility';
 
-import { user } from '@/components';
-import { useAdmin, useLocale, State, Sex } from '@/context';
+import { localeSexes, localeStates, SexSelector, StateSelector } from '@/components';
+import { Sex, State, useAdmin, useLocale } from '@/context';
 import { Member } from './types';
 
 export interface ActionProps {
@@ -64,15 +64,15 @@ export function Members(props: Props): JSX.Element {
 
     let ref: RemoteTableRef<Member>;
 
-    const sexes = createMemo(() => { return user.sexes.map(sex => ({ type: 'item', value: sex[0], label: l.t(sex[1]) })); });
-    const states = createMemo(() => { return user.states.map(state => ({ type: 'item', value: state[0], label: l.t(state[1]) })); });
+    const sexes = createMemo(() => { return localeSexes(l); });
+    const states = createMemo(() => { return localeStates(l); });
 
     return <Page title="_p.member.membersManager">
         <RemoteTable<Member, Q> rest={api} ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={qa => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
-                <user.StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
-                <user.SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
+                <StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
+                <SexSelector multiple accessor={qa.accessor<Array<Sex>>('sex')} />
             </>
         )} columns={[
             { id: 'id', label: l.t('_p.id') },

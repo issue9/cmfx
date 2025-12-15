@@ -4,9 +4,9 @@
 
 import * as z from 'zod';
 
-import { FlattenKeys, Flattenable } from '@/types';
-import { Dict, DictLoader, Locale, matchLocales } from '@/locale';
 import { Params } from '@/api';
+import { Dict, DictLoader, Locale, matchLocales } from '@/locale';
+import { FlattenKeys, Flattenable } from '@/types';
 import { ValidResult, Validator } from './validation';
 
 const locales = [
@@ -59,7 +59,7 @@ const locales = [
 
 type LocaleID = typeof locales[number];
 
-const objects = Locale.createObject('zod');
+const objects = Locale.createObject<any>('zod');
 
 /**
  * 创建一个用于加载 zod 本地化语言的函数
@@ -79,12 +79,13 @@ export function createZodLocaleLoader(f: () => any): DictLoader {
  *
  * @param s - zod schema；
  * @param l - 本地化语言的 ID；
+ * @typeParam T - 被验证对象的类型；
  */
 export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
     return async(obj: T): Promise<ValidResult<T>> => {
         if (l) {
             const id = matchLocales(l.locale.toString(), locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
-            var errsMap = objects.get(id);
+            var errsMap = objects.get(id)!;
         }
 
         const result = await s.safeParseAsync(obj, l ? { error: errsMap.localeError } : undefined);

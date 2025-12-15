@@ -6,7 +6,7 @@ import { BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, Page, Transi
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createResource, For, JSX, Match, Show, Switch } from 'solid-js';
 
-import { user } from '@/components';
+import { Passport } from '@/components';
 import { useAdmin, useLocale } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
@@ -48,7 +48,7 @@ function LoginBox(props: Props): JSX.Element {
     passport.onChange(n => setQ({ type: n }));
 
     const [passports] = createResource<Array<ChoiceOption>>(async () => {
-        const r = await api.get<Array<user.Passport>>('/passports');
+        const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
             await act.handleProblem(r.body);
             return [];

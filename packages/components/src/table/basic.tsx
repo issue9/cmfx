@@ -95,7 +95,9 @@ export function BasicTable<T extends object>(props: Props<T>) {
     >
         <Show when={props.extraHeader}>{c => { return c(); }}</Show>
 
-        <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable} striped={props.striped} ref={el => tableRef = el}>
+        <Table fixedLayout={props.fixedLayout} hoverable={props.hoverable}
+            striped={props.striped} ref={el => tableRef = el}
+        >
             <Show when={hasCol}>
                 <colgroup>
                     <For each={props.columns}>
@@ -111,7 +113,9 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 <tr>
                     <For each={props.columns}>
                         {item => (
-                            <th class={item.headClass ?? item.cellClass}>{item.renderLabel ?? (item.label ?? item.id)}</th>
+                            <th class={item.headClass ?? item.cellClass}>
+                                {item.renderLabel ?? (item.label ?? item.id.toString())}
+                            </th>
                         )}
                     </For>
                 </tr>
@@ -126,7 +130,11 @@ export function BasicTable<T extends object>(props: Props<T>) {
                                     {h => {
                                         const i = h.id in item ? (item as any)[h.id] : undefined;
                                         return <td class={h.cellClass}>
-                                            {h.renderContent ? h.renderContent(h.id, i, item) : (h.content ? h.content(h.id, i, item) : i)}
+                                            {
+                                                h.renderContent
+                                                    ? h.renderContent(h.id, i, item)
+                                                    : (h.content ? h.content(h.id, i, item) : i)
+                                            }
                                         </td>;
                                     }}
                                 </For>
@@ -136,7 +144,9 @@ export function BasicTable<T extends object>(props: Props<T>) {
                 </Show>
                 <Show when={!props.items || props.items.length === 0}>
                     <tr>
-                        <td colSpan={props.columns.length}><Empty palette={props.palette}>{l.t('_c.table.nodata')}</Empty></td>
+                        <td colSpan={props.columns.length}>
+                            <Empty palette={props.palette}>{l.t('_c.table.nodata')}</Empty>
+                        </td>
                     </tr>
                 </Show>
             </tbody>
