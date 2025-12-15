@@ -12,10 +12,15 @@ describe('Locale', async () => {
     expect(Locale.languageSize()).toEqual(0);
 
     test('createObject', () => {
-        const obj = Locale.createObject('test---id');
-        obj.set('zh', { 'lang': 'zh' });
-        expect(obj.get('zh')).toEqual({ 'lang': 'zh' });
-        obj.destory();
+        const obj1 = Locale.createObject('test---id');
+        obj1.set('zh', { 'lang': 'zh' });
+        expect(obj1.get('zh')).toEqual({ 'lang': 'zh' });
+        obj1.destroy();
+
+        const obj2 = Locale.createObject('test---id');
+        expect(obj2.get('zh', () => ({ 'lang': 'zh' }))).toEqual({ 'lang': 'zh' });
+        obj2.destroy('zh');
+        expect(obj2.get('zh')).toBeUndefined();
     });
 
     test('addDict', async () => {

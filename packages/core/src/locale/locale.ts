@@ -4,9 +4,9 @@
 
 import IntlMessageFormat from 'intl-messageformat';
 
+import { flatten } from '@/types';
 import { Dict, DictKeys, Loader } from './dict';
 import { match } from './match';
-import { flatten } from '@/types';
 
 export const displayStyles = ['full', 'short', 'narrow'] as const;
 
@@ -29,7 +29,7 @@ export type DisplayStyle = typeof displayStyles[number];
 export class Locale {
     static #fallback: string;
     static #messages: Map<string, Map<string, IntlMessageFormat>> = new Map();
-    static #objects: Map<string, Map<string, any>> = new Map();
+    static #objects: Map<string, Map<string, unknown>> = new Map();
 
     /**
      * 初始化
@@ -48,16 +48,47 @@ export class Locale {
      * 当前方法返回的对象可以保存这些数据，以便在需要时直接使用，而无需再次加载。
      * @param id - 唯一 ID，一般直接使用包名即可。
      */
-    static createObject(id: string) {
-        const obj = new Map<string, any>();
+    static createObject<T>(id: string) {
+        const obj = new Map<string, T>();
         Locale.#objects.set(id, obj);
 
         return {
-            get(locale: string) { return obj.get(locale); },
+            /**
+             * 获取指定语言的缓存对象
+             *
+             * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'；
+             * @param init - 当缓存中不存在指定语言的缓存对象时，调用该函数以初始化该对象；
+             */
+            get(locale: string, init?: () => T): T | undefined {
+                const o = obj.get(locale);
+                if (o) { return o; }
 
-            set(locale: string, o: any) { return obj.set(locale, o); },
+                if (init) {
+                    obj.set(locale, init());
+                    return obj.get(locale);
+                }
+            },
 
-            destory() { Locale.#objects.delete(id); }
+            /**
+             * 设置指定语言的缓存对象
+             *
+             * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'；
+             * @param o - 缓存对象；
+             */
+            set(locale: string, o: T): void { obj.set(locale, o); },
+
+            /**
+             * 销毁指定语言的缓存对象
+             *
+             * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'，如果未指定表示销毁所有；
+             */
+            destroy(locale?: string): void {
+                if (locale) {
+                    obj.delete(locale);
+                } else {
+                    Locale.#objects.delete(id);
+                }
+            },
         };
     }
 
