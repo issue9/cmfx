@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { JSX, ValidComponent, ParentProps, Show } from 'solid-js';
+import { JSX, ParentProps, Show, ValidComponent } from 'solid-js';
+import { Dynamic } from 'solid-js/web';
 
 import { BaseProps, joinClass, RefProps } from '@/base';
 import styles from './style.module.css';
-import { Dynamic } from 'solid-js/web';
 
 export interface Ref {
     /**
@@ -19,6 +19,8 @@ export interface Ref {
 }
 
 export interface Props extends ParentProps, BaseProps, RefProps<Ref> {
+    id?: string;
+
     /**
      * 自定义标签
      *
@@ -60,7 +62,7 @@ export interface Props extends ParentProps, BaseProps, RefProps<Ref> {
 export function Spin(props: Props) {
     const tag = props.tag ?? 'div';
 
-    return <Dynamic component={tag} class={joinClass(props.palette, styles.spin, props.class)}
+    return <Dynamic id={props.id} component={tag} class={joinClass(props.palette, styles.spin, props.class)}
         style={props.style} ref={(el: HTMLElement) => {
             if (!props.ref) { return; }
             props.ref({ element() { return el; } });

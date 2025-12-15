@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, DatePicker, MountProps, Number, TextArea, TextField } from '@cmfx/components';
+import { Button, createForm, DatePicker, MountProps, notify, Number, TextArea, TextField } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { boolSelector, layoutSelector, paletteSelector } from '../../base';
@@ -23,6 +23,7 @@ export default function(props: MountProps) {
             textarea: 'textarea',
         },
         submit: async () => ({ ok: false, status: 500, body: { type: '500', title: '请求未处理', status: 500 } }),
+        onProblem: p => notify('error', p.title),
     });
 
     return <>
@@ -46,10 +47,10 @@ export default function(props: MountProps) {
             <Number label="number" accessor={api.accessor('f2')} help="这是一个帮助文本" />
             <DatePicker label="date" accessor={api.accessor('date')} help="这是一个帮助文本" />
             <TextArea label="textarea" class="grow" accessor={api.accessor<string>('textarea')} help="这是一个帮助文本" />
-            <div class="w-full flex justify-between">
-                <Button type="reset">reset</Button>
-                <Button type="submit">submit</Button>
-            </div>
         </Form>
+        <div class="w-full flex justify-between">
+            <actions.Reset>reset</actions.Reset>
+            <actions.Submit>submit</actions.Submit>
+        </div>
     </>;
 }

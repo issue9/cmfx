@@ -3,10 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { Component, JSX, mergeProps, ParentProps, Show } from 'solid-js';
+import { Component, createUniqueId, JSX, mergeProps, ParentProps, Show } from 'solid-js';
 
 import { BaseProps, joinClass, Layout, Palette } from '@/base';
-import { Button, ButtonProps } from '@/button';
+import { Button } from '@/button';
+import { BProps } from '@/button/button';
 import { FormContext, FormProvider, useForm } from '@/form/field';
 import { Spin } from '@/spin';
 import { FormAPI, Options } from './api';
@@ -31,17 +32,17 @@ export interface Actions {
     /**
      * 普通的按钮，但是可以跟随 {@link FormContext#rounded} 属性变化
      */
-    Button(props: ButtonProps): JSX.Element;
+    Button(props: BProps): JSX.Element;
 
     /**
      * 提交按钮
      */
-    Submit(props: Omit<ButtonProps, 'type' | 'onclick'>): JSX.Element;
+    Submit(props: Omit<BProps, 'type' | 'onclick'>): JSX.Element;
 
     /**
      * 重置按钮
      */
-    Reset(props: Omit<ButtonProps, 'type' | 'onclick'>): JSX.Element;
+    Reset(props: Omit<BProps, 'type' | 'onclick'>): JSX.Element;
 
     /**
      * 显示整个表单的错误信息
@@ -51,7 +52,7 @@ export interface Actions {
     Message(props: BaseProps): JSX.Element;
 }
 
-function ButtonAction (props: ButtonProps): JSX.Element {
+function ButtonAction (props: BProps): JSX.Element {
     const f = useForm();
     return <Button {...mergeProps({ disabled: f.disabled, rounded: f.rounded }, props)} />;
 }
@@ -70,6 +71,8 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 ): [api: FormAPI<T, R, P>, Form: Component<Props>, actions: Actions] {
     const api = new FormAPI<T, R, P>(options);
 
+    const id = `form-${createUniqueId()}`;
+
     const form = (props: Props) => {
         props = mergeProps(preset, props);
 
@@ -77,7 +80,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             disabled={props.disabled} readonly={props.readonly}
             labelAlign={props.labelAlign} labelWidth={props.labelWidth}
         >
-            <Spin tag="form" spinning={api.submitting()} palette={props.palette}
+            <Spin id={id} tag="form" spinning={api.submitting()} palette={props.palette}
                 class={joinClass(undefined, props.class)} style={props.style} ref={el => {
                     const f = el.element() as HTMLFormElement;
                     if (props.inDialog) { f.method = 'dialog'; }
@@ -100,12 +103,12 @@ export function createForm<T extends Flattenable, R = never, P = never>(
     const actions: Actions = {
         Button: ButtonAction,
 
-        Reset(props: Omit<ButtonProps, 'onclick' | 'type'>): JSX.Element {
-            return <ButtonAction {...props} type="reset" />;
+        Reset(props: Omit<BProps, 'onclick' | 'type'>): JSX.Element {
+            return <ButtonAction form={id} {...props} type="reset" />;
         },
 
-        Submit(props: Omit<ButtonProps, 'onclick' | 'type'>): JSX.Element {
-            return <ButtonAction {...props} type="submit" />;
+        Submit(props: Omit<BProps, 'onclick' | 'type'>): JSX.Element {
+            return <ButtonAction form={id} {...props} type="submit" />;
         },
 
         Message(props: BaseProps): JSX.Element {
