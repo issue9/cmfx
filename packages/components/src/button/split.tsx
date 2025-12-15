@@ -7,7 +7,7 @@ import { For, JSX, Match, mergeProps, onCleanup, onMount, splitProps, Switch } f
 import IconArrowDown from '~icons/material-symbols/keyboard-arrow-down';
 
 import { handleEvent, joinClass } from '@/base';
-import { Props as BaseProps, presetProps as basePrsetProps, Button, Ref } from './button';
+import { AProps, Props as BaseProps, presetProps as basePrsetProps, BProps, Button, Ref } from './button';
 import { ButtonGroup, Ref as GroupRef } from './group';
 import styles from './style.module.css';
 
@@ -48,16 +48,18 @@ export type Item = { type: 'divider' } | {
     checked?: boolean;
 };
 
-export interface Props extends BaseProps {
+interface Base {
     menus: Array<Item>;
 
     /**
      * 菜单展开的方向
      *
-     * @reactive
+     *
      */
     direction?: 'left' | 'right';
 }
+
+export type Props = Base & AProps | Base & BProps;
 
 const presetProps: Readonly<Partial<Props>> = {
     ...basePrsetProps,
@@ -71,7 +73,7 @@ const presetProps: Readonly<Partial<Props>> = {
  * 属性中，除了 menus 和 palette 用于表示所有的子命令外，其它属性都是用于描述默认按钮的属性的。
 */
 export function SplitButton(props: Props) {
-    props = mergeProps(presetProps, props);
+    props = mergeProps(presetProps, props) as Props;
     let popRef: HTMLDivElement;
     let groupRef: GroupRef;
     let downRef: Ref;
@@ -117,7 +119,7 @@ export function SplitButton(props: Props) {
                                 delete it().onclick;
                                 return <Button kind='flat' {...it()}
                                     class={styles['split-item']} onclick={e => {
-                                        click && handleEvent(click, e);
+                                        if (click) { handleEvent(click, e); }
                                         popRef.hidePopover();
                                     }}>{it().label}</Button>;
                             }}

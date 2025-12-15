@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Hotkey, adjustPopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition, Hotkey } from '@cmfx/core';
+import { useNavigate } from '@solidjs/router';
 import { JSX, mergeProps, onCleanup, onMount, splitProps } from 'solid-js';
 
 import { handleEvent, joinClass } from '@/base';
 import { useLocale } from '@/context';
-import { Props as BaseProps, Button, Ref as ButtonRef, presetProps } from './button';
+import { AProps, Props as BaseProps, BProps, Button, Ref as ButtonRef, presetProps } from './button';
 import styles from './style.module.css';
-import { useNavigate } from '@solidjs/router';
 
-export interface Props extends BaseProps {
+interface Base {
     /**
      * 确认框的提示内容，如果为空会显示一条默认的提示语句。
      */
@@ -28,11 +28,13 @@ export interface Props extends BaseProps {
     cancel?: JSX.Element;
 }
 
+export type Props = Base & AProps | Base & BProps;
+
 /**
  * 带确认功能的按钮
  */
 export function ConfirmButton(props: Props) {
-    props = mergeProps(presetProps, props);
+    props = mergeProps(presetProps, props) as Props;
     const l = useLocale();
     let popElem: HTMLDivElement;
     let ref: ButtonRef;
@@ -56,16 +58,24 @@ export function ConfirmButton(props: Props) {
     };
 
     return <>
-        <Button ref={(el) => ref = el} {...btnProps} palette={props.palette} onclick={e => {
+        <Button ref={el => ref = el} {...btnProps as any} palette={props.palette} onclick={e => {
             e.preventDefault(); // 取消默认动作，比如 type='a' 时的跳转
             popElem.togglePopover();
             adjustPopoverPosition(popElem, ref.element().getBoundingClientRect());
-        }}>{props.children}</Button>
+        }}>
+            {props.children}
+        </Button>
+
         <div popover="auto" ref={el => popElem = el} class={joinClass(props.palette, styles['confirm-panel'])}>
             {props.prompt ?? l.t('_c.areYouSure')}
             <div class={styles['confirm-actions']}>
-                <Button palette='secondary' onclick={() => popElem.hidePopover()}>{props.cancel ?? l.t('_c.cancel')}</Button>
-                <Button palette='primary' ref={el => el.element().autofocus = true} onclick={confirm}>{props.ok ?? l.t('_c.ok')}</Button>
+                <Button palette='secondary' onclick={() => popElem.hidePopover()}>
+                    {props.cancel ?? l.t('_c.cancel')}
+                </Button>
+
+                <Button palette='primary' ref={el => el.element().autofocus = true} onclick={confirm}>
+                    {props.ok ?? l.t('_c.ok')}
+                </Button>
             </div>
         </div>
     </>;

@@ -10,8 +10,8 @@ import IconFullScreenExit from '~icons/material-symbols/fullscreen-exit';
 
 import { IconSet } from '@/icon';
 import { Props as BaseProps, Button } from './button';
-import { presetProps } from './types';
 import styles from './style.module.css';
+import { presetProps } from './types';
 
 export interface Props extends Omit<BaseProps, 'onclick' | 'children' | 'type'> {
     /**
@@ -67,7 +67,7 @@ export function ToggleButton(props: Props): JSX.Element {
     const [_, btnProps] = splitProps(props, ['toggle', 'on', 'off', 'value']);
     const [val, setVal] = createSignal(props.value);
 
-    return <Button {...btnProps} onclick={async () => { setVal(await props.toggle()); }}>
+    return <Button {...btnProps as any} onclick={async () => { setVal(await props.toggle()); }}>
         <IconSet icons={{on: props.on, off: props.off}} value={val() ? 'on' : 'off'} />
     </Button>;
 }

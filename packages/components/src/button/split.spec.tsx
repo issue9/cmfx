@@ -13,5 +13,5 @@ describe('SplitButton', async () => {
         props => <SplitButton menus={[]} {...props}>abc</SplitButton>
     );
 
-    test('props', () => ct.testProps(ct.result.container.firstElementChild?.firstElementChild!));
+    test('props', () => ct.testProps(ct.result.container.firstElementChild!.firstElementChild!));
 });

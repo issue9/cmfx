@@ -10,16 +10,21 @@ import { classList, PropsError, RefProps } from '@/base';
 import styles from './style.module.css';
 import { Props as BaseProps, presetProps as presetBaseProps } from './types';
 
-export interface Ref {
+export interface Ref<A extends boolean = false, E = A extends false ? HTMLButtonElement : HTMLAnchorElement> {
     /**
      * 返回组件的根元素
-     *
-     * @returns 根据 {@link Props#"type"} 的不同，返回的类型是不同的。
      */
-    element(): HTMLButtonElement | HTMLAnchorElement;
+    element(): E;
 }
 
-export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
+interface Base extends BaseProps, ParentProps {
+    /**
+     * 鼠标的提示内容
+     *
+     * @reactive
+     */
+    title?: string;
+
     /**
      * 是否为一个长宽比为 1:1 的按钮
      *
@@ -32,6 +37,16 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     square?: boolean;
 
     /**
+     * 按钮的点击操作，type 为 'a'，也会触发此事件。
+     */
+    onclick?: JSX.CustomEventHandlersLowerCase<HTMLElement>['onclick'];
+};
+
+/**
+ * 按钮类型的属性
+ */
+export interface BProps extends Base, RefProps<Ref<false>> {
+    /**
      * 是否处于选中状态
      *
      * @reactive
@@ -39,35 +54,33 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
     checked?: boolean;
 
     /**
-     * 鼠标的提示内容
-     *
-     * @reactive
-     */
-    title?: string;
-
-    /**
      * 按钮的类型了
-     *
-     * @remarks
-     * 除了 html 中有关 button 的类型之外，还添加了以下类型：
-     *  - a 表示这是一个链接，但是看起来看个按钮；
      *
      * @defaultValue 'button'
      */
-    type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'] | 'a';
+    type?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['type'];
 
     /**
-     * 按钮的点击操作，type 为 'a'，也会触发此事件。
+     * 关联的表单 id
      */
-    onclick?: JSX.CustomEventHandlersLowerCase<HTMLElement>['onclick'];
+    form?: JSX.ButtonHTMLAttributes<HTMLButtonElement>['form'];
+};
+
+/**
+ * 链接类型的按钮属性
+ */
+export interface AProps extends Base, RefProps<Ref<true>> {
+    type: 'a';
 
     /**
-     * 指向的链接，仅在 type 为 'a' 时有效。
+     * 指向的链接
      */
     href?: AnchorProps['href'];
-}
+};
 
-export const presetProps: Readonly<Partial<Props>> = {
+export type Props = BProps | AProps;
+
+export const presetProps: Readonly<Partial<BProps>> = {
     ...presetBaseProps,
     type: 'button'
 };
@@ -98,8 +111,9 @@ export function Button(props: Props) {
         return <A {...btnProps} href={props.href!} onClick={
             !props.disabled ? undefined : e => e.preventDefault()
         } ref={el => {
+            ref = el;
             if (!props.ref) { return; }
-            props.ref({ element() { return el; } });
+            props.ref({ element() { return el; } } as any);
         }} class={classList(props.palette, {
             [styles.square]: props.square,
             [styles.rounded]: props.rounded,
@@ -112,8 +126,8 @@ export function Button(props: Props) {
 
     props = mergeProps(presetProps, props);
 
-    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'square', 'class', 'ref', 'type', 'href']);
-    return <button {...btnProps} type={props.type as any} class={classList(props.palette, {
+    const [_, btnProps] = splitProps(props, ['kind', 'rounded', 'palette', 'children', 'square', 'class', 'ref', 'type']);
+    return <button {...btnProps} type={props.type} class={classList(props.palette, {
         [styles.square]: props.square,
         [styles.rounded]: props.rounded,
         [styles.checked]: props.checked,
