@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { Component, createUniqueId, JSX, mergeProps, ParentProps, Show } from 'solid-js';
+import { Component, createUniqueId, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout, Palette } from '@/base';
 import { Button } from '@/button';
@@ -71,7 +71,7 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 ): [api: FormAPI<T, R, P>, Form: Component<Props>, actions: Actions] {
     const api = new FormAPI<T, R, P>(options);
 
-    const id = `form-${createUniqueId()}`;
+    const id = createUniqueId();
 
     const form = (props: Props) => {
         props = mergeProps(preset, props);
@@ -104,7 +104,8 @@ export function createForm<T extends Flattenable, R = never, P = never>(
         Button: ButtonAction,
 
         Reset(props: Omit<BProps, 'onclick' | 'type'>): JSX.Element {
-            return <ButtonAction form={id} {...props} type="reset" />;
+            const [_, otherProps] = splitProps(props, ['disabled']);
+            return <ButtonAction form={id} {...otherProps} type="reset" disabled={props.disabled ?? api.isPreset()} />;
         },
 
         Submit(props: Omit<BProps, 'onclick' | 'type'>): JSX.Element {

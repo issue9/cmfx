@@ -5,10 +5,10 @@
 import { Button, createForm, Dialog, DialogRef, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
+import { z } from 'zod';
 import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
-import { z } from 'zod';
 
 import { useAdmin, useLocale } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
@@ -50,20 +50,29 @@ export class Pwd implements PassportComponents {
                 await act.login(ret);
                 return ret;
             },
-            onProblem: async p => act.handleProblem(p),
-            onSuccess: async () => {
-                nav(opt.routes.private.home);
-            }
+            onProblem: async p => {
+                if (p.status === 401) {
+                    fapi.setError(p.title);
+                    return;
+                }
+
+                await act.handleProblem(p);
+            },
+            onSuccess: async () => nav(opt.routes.private.home),
         });
 
         return <Form class={styles.password}>
+            <actions.Message />
+
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
                 placeholder={l.t('_p.current.username')} accessor={fapi.accessor<string>('username')} />
             <Password hasHelp prefix={<IconPassword class={styles['text-field']} />} autocomplete='current-password'
                 placeholder={l.t('_p.current.password')} accessor={fapi.accessor<string>('password')} />
 
-            <actions.Submit palette='primary' disabled={fapi.accessor<string>('username').getValue() == ''}>{l.t('_c.ok')}</actions.Submit>
-            <actions.Reset palette='secondary' disabled={fapi.isPreset()}> {l.t('_c.reset')} </actions.Reset>
+            <actions.Submit palette='primary' disabled={fapi.accessor<string>('username').getValue() == ''}>
+                {l.t('_c.ok')}
+            </actions.Submit>
+            <actions.Reset palette='secondary'> {l.t('_c.reset')} </actions.Reset>
         </Form>;
     }
 

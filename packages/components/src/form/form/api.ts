@@ -124,6 +124,8 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
     async submit(): Promise<boolean> {
         if (!this.#submit) { return false; }
 
+        this.setError(); // 取消上次的错误提示
+
         this.#submitting[1](true);
         try {
             const obj = await this.object();
@@ -143,6 +145,8 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
                 } else {
                     this.#object.setError(ret.body.title);
                 }
+
+                return false;
             }
 
             if (this.onProblem) { await this.onProblem(ret.body); }
@@ -158,5 +162,5 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
     /**
      * 验证并返回对象
      */
-    async object() { return await this.#object.object(this.#validator); }
+    async object(): Promise<T | undefined> { return await this.#object.object(this.#validator); }
 }
