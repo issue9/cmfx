@@ -2,23 +2,23 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { DisplayStyle, formatDuration, I18n } from '@cmfx/core';
 import { Show } from 'solid-js';
-import { formatDuration, DisplayStyle, Locale } from '@cmfx/core';
 import IconFormat from '~icons/material-symbols/format-letter-spacing-2';
+import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconPalette from '~icons/material-symbols/palette';
 import IconSettings from '~icons/material-symbols/settings-night-sight';
 import IconTranslate from '~icons/material-symbols/translate';
-import IconNotify from '~icons/material-symbols/notifications-active-rounded';
 import IconTimezone from '~icons/mdi/timezone';
 
 import { BaseProps, joinClass, Mode } from '@/base';
 import { useComponents, useLocale } from '@/context';
-import { Description } from '@/typography';
-import { fieldAccessor, RadioGroup, Choice, Number } from '@/form';
-import { Divider } from '@/divider';
-import { SchemeSelector } from '@/theme';
 import { Timezone } from '@/datetime';
+import { Divider } from '@/divider';
+import { Choice, fieldAccessor, Number, RadioGroup } from '@/form';
 import { createBytesFormatter } from '@/kit';
+import { SchemeSelector } from '@/theme';
+import { Description } from '@/typography';
 import styles from './style.module.css';
 
 export interface Props extends BaseProps {}
@@ -33,7 +33,7 @@ export function Settings(props: Props) {
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
     modeFA.onChange(m => { act.switchMode(m); });
 
-    const localeFA = fieldAccessor<string>('locale', Locale.matchLanguage(opt.locale));
+    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale));
     localeFA.onChange(v => { act.switchLocale(v); });
 
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);

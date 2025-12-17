@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { CancelMovable, movable } from '@cmfx/core';
+import { CancelMovable, Locale, movable } from '@cmfx/core';
 import { JSX, onCleanup, onMount, Show } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 
-import { BaseProps, joinClass, Locale } from '@/base';
+import { BaseProps, joinClass } from '@/base';
 import { Button } from '@/button';
 import { useLocale } from '@/context';
 import styles from './style.module.css';

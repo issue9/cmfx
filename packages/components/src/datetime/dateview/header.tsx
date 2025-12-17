@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { adjustPopoverPosition } from '@cmfx/core';
+import { adjustPopoverPosition, Locale } from '@cmfx/core';
 import { Accessor, createMemo, JSX, untrack } from 'solid-js';
 import IconPrevMonth from '~icons/material-symbols/chevron-left';
 import IconNextMonth from '~icons/material-symbols/chevron-right';
@@ -10,7 +10,6 @@ import IconPrevYear from '~icons/material-symbols/keyboard-double-arrow-left';
 import IconNextYear from '~icons/material-symbols/keyboard-double-arrow-right';
 import IconToday from '~icons/material-symbols/today';
 
-import { Locale } from '@/base';
 import { Button, ButtonGroup } from '@/button';
 import { MonthPanel, MonthPanelRef } from '@/datetime/monthpanel';
 import styles from './style.module.css';

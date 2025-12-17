@@ -1,12 +1,10 @@
-// SPDX-FileCopyrightText: 2024-2025 caixw
+// SPDX-FileCopyrightText: 2025 caixw
 //
 // SPDX-License-Identifier: MIT
 
 import IntlMessageFormat from 'intl-messageformat';
 
-import { flatten } from '@/types';
-import { Dict, DictKeys, Loader } from './dict';
-import { match } from './match';
+import { Dict, DictKeys } from './dict';
 
 export const displayStyles = ['full', 'short', 'narrow'] as const;
 
@@ -21,208 +19,20 @@ export const displayStyles = ['full', 'short', 'narrow'] as const;
  */
 export type DisplayStyle = typeof displayStyles[number];
 
+export type TranslateArgs = Parameters<IntlMessageFormat['format']>[0];
+
 /**
- * 提供本地化相关的功能
+ * 提供本地化的接口
  *
+ * @remarks
  * 除了翻译之外，对于一些常用的格式比如日期等也提供了支持。
  */
-export class Locale {
-    static #fallback: string;
-    static #messages: Map<string, Map<string, IntlMessageFormat>> = new Map();
-    static #objects: Map<string, Map<string, unknown>> = new Map();
+export interface Locale {
+    get locale(): Intl.Locale;
 
-    /**
-     * 初始化
-     *
-     * @param fallback - 在找不到对应在的语言时采用的默认值；
-     */
-    static init(fallback: string) {
-        Locale.#fallback = fallback;
-    }
+    get displayStyle(): DisplayStyle;
 
-    /**
-     * 创建一个用于缓存本地化对象的接口
-     *
-     * @remarks
-     * 对于一些引入的第三方库，其本身可能提供了本地化的相关数据，但是又没有能力同时加载多个语言环境，比如 zod。
-     * 当前方法返回的对象可以保存这些数据，以便在需要时直接使用，而无需再次加载。
-     * @param id - 唯一 ID，一般直接使用包名即可。
-     */
-    static createObject<T>(id: string) {
-        const obj = new Map<string, T>();
-        Locale.#objects.set(id, obj);
-
-        function get(locale: string): T | undefined;
-        function get(locale: string, init: () => T): T;
-        function get(locale: string, init?: () => T): T | undefined {
-            const o = obj.get(locale);
-            if (o) { return o; }
-
-            if (init) {
-                const o = init();
-                obj.set(locale, o);
-                return o;
-            }
-        }
-
-        return {
-            /**
-             * 获取指定语言的缓存对象
-             *
-             * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'；
-             * @param init - 当缓存中不存在指定语言的缓存对象时，调用该函数以初始化该对象；
-             */
-            get,
-
-            /**
-             * 设置指定语言的缓存对象
-             *
-             * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'；
-             * @param o - 缓存对象；
-             */
-            set(locale: string, o: T): void { obj.set(locale, o); },
-
-            /**
-             * 销毁指定语言的缓存对象
-             *
-             * @param locale - 语言标识符，如 'en-US' 或 'zh-CN'，如果未指定表示销毁所有；
-             */
-            destroy(locale?: string): void {
-                if (locale) {
-                    obj.delete(locale);
-                } else {
-                    Locale.#objects.delete(id);
-                }
-            },
-        };
-    }
-
-    /**
-     * 支持的语言数量
-     */
-    static languageSize(): number { return Locale.#messages.size; }
-
-    /**
-     * 支持语言列表
-     */
-    static languages(): Array<string> { return [...Locale.#messages.keys()]; }
-
-    /**
-     * 以 locale 的指定的语言翻译 key 指向的内容
-     *
-     * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
-     */
-    static translate<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
-        const msgs = Locale.#messages.get(Locale.matchLanguage(locale));
-        if (!msgs) { return key as string; }
-
-        const f = msgs.get(key as string);
-        return (f ? f.format(args) : key) as string;
-    }
-
-    /**
-     * 在当前支持的语言中找出与 l 最匹配的语言
-     */
-    static matchLanguage(l: string): string {
-        if (Locale.#messages.has(l)) { return l; }
-
-        return match(l, Locale.languages(), Locale.#fallback);
-    }
-
-    /**
-     * 添加支持的语言及他它的翻译对象的加载方法
-     */
-    static async addDict(locale: string, ...loaders: Array<Loader>) {
-        let msgs: Map<string, IntlMessageFormat>;
-        if (Locale.#messages.has(locale)) {
-            msgs = Locale.#messages.get(locale)!;
-        } else {
-            msgs = new Map<string, IntlMessageFormat>();
-        }
-
-        for (const loader of loaders) {
-            const dict = await loader(locale);
-            if (dict) {
-                Object.entries<string>(flatten(dict)).forEach((item) => {
-                    try {
-                        msgs.set(item[0], new IntlMessageFormat(item[1], locale));
-                    } catch (err) {
-                        console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
-                    }
-                });
-            }
-
-            Locale.#messages.set(locale, msgs);
-        }
-    }
-
-    /**
-     * 删除对某个语言的支持
-     */
-    static delDict(locale: string) {
-        Locale.#messages.delete(locale);
-    }
-
-    ///////////////////////// 以下为实例字段 /////////////////////////
-
-    readonly #current: Map<string, IntlMessageFormat>;
-    readonly #locale: Intl.Locale;
-    readonly #displayStyle: DisplayStyle;
-
-    readonly #dtStyle: Intl.DateTimeFormatOptions['timeStyle'];
-    readonly #durationStyle: Intl.RelativeTimeFormatOptions['style'];
-    readonly #numberStyle: Intl.NumberFormatOptions['unitDisplay'];
-
-    readonly #displayNames: Intl.DisplayNames;
-    readonly #timezone: string;
-
-    /**
-     * 构造函数
-     * @param locale - 本地化字符串；
-     * @param style - 显示风格；
-     * @param tz - 时区；
-     */
-    constructor(locale: string, style: DisplayStyle, tz?: string) {
-        locale = Locale.matchLanguage(locale); // 找出当前支持的语言中与参数指定最匹配的项
-        const curr = Locale.#messages.get(locale);
-        if (curr) {
-            this.#current = curr;
-        } else {
-            this.#current = new Map();
-        }
-
-        this.#locale = new Intl.Locale(locale);
-
-        this.#displayStyle = style;
-        switch (style) {
-        case 'full':
-            this.#dtStyle = 'full';
-            this.#durationStyle = 'long';
-            this.#numberStyle = 'long';
-            break;
-        case 'short':
-            this.#dtStyle = 'medium';
-            this.#durationStyle = 'short';
-            this.#numberStyle = 'short';
-            break;
-        case 'narrow':
-            this.#dtStyle = 'short';
-            this.#durationStyle = 'narrow';
-            this.#numberStyle = 'narrow';
-            break;
-        default:
-            throw `参数 style 的值无效 ${style}`;
-        }
-        this.#displayNames = new Intl.DisplayNames(this.locale, { type: 'language', languageDisplay: 'dialect' });
-
-        this.#timezone = tz || Intl.DateTimeFormat().resolvedOptions().timeZone;
-    }
-
-    get locale(): Intl.Locale { return this.#locale; }
-
-    get displayStyle(): DisplayStyle { return this.#displayStyle; }
-
-    get timezone(): string { return this.#timezone; }
+    get timezone(): string;
 
     /**
      * 创建 {@link Intl#DateTimeFormat} 对象
@@ -230,128 +40,62 @@ export class Locale {
      * NOTE: 如果 o.timeStyle 和 o.dateStyle 都未指定，则使用构造函数指定的 style 参数。
      * 如果 o.timeZone 未指定，则使用构造函数指定的 timeZone 参数。
      */
-    datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-        if (!o) {
-            o = { timeStyle: this.#dtStyle, dateStyle: this.#dtStyle, timeZone: this.timezone };
-        } else {
-            if (!o.dateStyle) { o.dateStyle = this.#dtStyle; }
-            if (!o.timeStyle) { o.timeStyle = this.#dtStyle; }
-            if (!o.timeZone) { o.timeZone = this.timezone; }
-        }
-
-        return new Intl.DateTimeFormat(this.locale, o);
-    }
+    datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat;
 
     /**
      * 创建 {@link Intl#DateTimeFormat} 对象，只打印日期部分。
      */
-    dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-        if (!o) {
-            o = { dateStyle: this.#dtStyle, timeZone: this.timezone };
-        } else {
-            if (!o.dateStyle) { o.dateStyle = this.#dtStyle; }
-            if (!o.timeZone) { o.timeZone = this.timezone; }
-        }
-        o.timeStyle = undefined;
-
-
-        return new Intl.DateTimeFormat(this.locale, o);
-    }
+    dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat;
 
     /**
      * 创建 {@link Intl#DateTimeFormat} 对象，只打印时间部分。
      */
-    timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-        if (!o) {
-            o = { timeStyle: this.#dtStyle, timeZone: this.timezone };
-        } else {
-            if (!o.timeStyle) { o.timeStyle = this.#dtStyle; }
-            if (!o.timeZone) { o.timeZone = this.timezone; }
-        }
-        o.dateStyle = undefined;
-
-        return new Intl.DateTimeFormat(this.locale, o);
-    }
+    timeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat;
 
     /**
      * 创建 {@link Intl#NumberFormat} 对象
      *
      * NOTE: 如果 o.unitDisplay 未指定，则使用构造函数指定的 style 参数。
      */
-    numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat {
-        if (!o) {
-            o = { unitDisplay: this.#numberStyle };
-        } else if (!o.unitDisplay) {
-            o.unitDisplay = this.#numberStyle;
-        }
-
-        return new Intl.NumberFormat(this.locale, o);
-    }
+    numberFormat(o?: Intl.NumberFormatOptions): Intl.NumberFormat;
 
     /**
      * 创建 {@link Intl#DurationFormat} 对象
      *
      * NOTE: 如果 o.style 未指定，则使用构造函数指定的 style 参数。
      */
-    durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat {
-        if (!o) {
-            o = { style: this.#durationStyle };
-        } else if (!o.style) {
-            o.style = this.#durationStyle;
-        }
-
-        return new (Intl as any).DurationFormat(this.locale, o);
-    }
+    durationFormat(o?: Intl.DurationFormatOptions): Intl.DurationFormat;
 
     /**
      * 创建 {@link Intl#RelativeTimeFormat} 对象
      *
      * NOTE: 如果 o.style 未指定，则使用构造函数指定的 style 参数。
      */
-    relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat {
-        if (!o) {
-            o = { style: this.#durationStyle };
-        } else if (!o.style) {
-            o.style = this.#durationStyle; // style 与 druationFormat 的取值相同
-        }
-
-        return new Intl.RelativeTimeFormat(this.locale, o);
-    }
+    relativeTimeFormat(o?: Intl.RelativeTimeFormatOptions): Intl.RelativeTimeFormat;
 
     /**
      * 查找 locales 中与当前的语言最配的一个 ID，若是实在无法匹配，则返回 und。
      */
-    match(locales: Array<string>) { return match(this.locale.toString(), locales, 'und'); }
+    match(locales: Array<string>): string;
 
     /**
      * 返回支持的本地化列表
+     *
+     * @returns 返回语言 id 与语言名称的列表；
      */
-    get locales() {
-        const loc: Array<[string, string]> = [];
-        Locale.#messages.forEach((_, key) => {
-            loc.push([key, this.#displayNames.of(key)!]);
-        });
-        return loc;
-    }
+    get locales(): Array<[id: string, displayName: string]>;
 
     /**
      * 翻译 key 指向的内容
      *
      * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string {
-        const f = this.#current.get(key as string);
-        return (f ? f.format(args) : key) as string;
-    }
+    t<D extends Dict>(key: string | DictKeys<D>, args?: TranslateArgs): string;
 
     /**
      * 以 locale 的指定的语言翻译 key 指向的内容
      *
      * @typeParam D - 翻译字典的对象，若指定了该对象，则会采用该对象的字段名作为 key 参数的类型。
      */
-    tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string {
-        return Locale.translate(locale, key, args);
-    }
+    tt<D extends Dict>(locale: string, key: string | DictKeys<D>, args?: TranslateArgs): string;
 }
-
-export type TranslateArgs = Parameters<IntlMessageFormat['format']>[0];

@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { DisplayStyle, Hotkey, Locale } from '@cmfx/core';
+import { DisplayStyle, Hotkey, I18n } from '@cmfx/core';
 import { createContext, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
@@ -48,10 +48,10 @@ function useInternalOptions(): InternalOptionsContext {
 export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     Hotkey.init(); // 初始化快捷键
 
-    Locale.init(props.locale);
+    I18n.init(props.locale);
     const [messageResource] = createResource(true, async () => {
         for (const [key, loaders] of Object.entries(props.messages)) {
-            await Locale.addDict(key, ...loaders);
+            await I18n.addDict(key, ...loaders);
         }
         return true;
     }, { initialValue: true });

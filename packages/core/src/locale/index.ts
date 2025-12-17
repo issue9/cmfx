@@ -4,7 +4,9 @@
 
 export type { Dict, DictKeys, Loader as DictLoader } from './dict';
 
-export { displayStyles, Locale } from './locale';
-export type { DisplayStyle, TranslateArgs } from './locale';
+export { I18n } from './i18n';
+
+export { displayStyles } from './locale';
+export type { DisplayStyle, Locale, TranslateArgs } from './locale';
 
 export { match as matchLocales } from './match';

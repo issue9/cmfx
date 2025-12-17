@@ -5,11 +5,9 @@
 export { classList, cloneElement, handleEvent, joinClass, style2String } from './func';
 
 export { layouts } from './types';
-export type { Props as BaseProps, Layout, RefProps, MountProps } from './types';
+export type { Props as BaseProps, Layout, MountProps, RefProps } from './types';
 
 export type { AvailableEnumType, Enum, Enums } from './enum';
-
-export type { Locale } from './locale';
 
 export { PropsError } from './errors';
 

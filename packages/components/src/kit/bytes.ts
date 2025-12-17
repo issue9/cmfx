@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale } from '@/base';
+import { Locale } from '@cmfx/core';
 
 const kb = 1024;
 const mb = kb * 1024;

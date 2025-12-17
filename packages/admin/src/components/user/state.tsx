@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Choice, ChoiceProps, Locale, useLocale } from '@cmfx/components';
-import { Locale as CoreLocale } from '@cmfx/core';
+import { Choice, ChoiceProps, useLocale } from '@cmfx/components';
+import { I18n, Locale } from '@cmfx/core';
 import { JSX, createMemo } from 'solid-js';
 
 import { State } from '@/context';
 
-const localeObjects = CoreLocale.createObject<Array<{type: 'item', value: State, label: string}>>('--states');
+const localeObjects = I18n.createObject<Array<{type: 'item', value: State, label: string}>>('--states');
 
 /**
  * 返回本地化的性别列表

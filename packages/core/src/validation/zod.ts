@@ -5,7 +5,7 @@
 import * as z from 'zod';
 
 import { Params } from '@/api';
-import { Dict, DictLoader, Locale, matchLocales } from '@/locale';
+import { Dict, DictLoader, I18n, matchLocales } from '@/locale';
 import { FlattenKeys, Flattenable } from '@/types';
 import { ValidResult, Validator } from './validation';
 
@@ -59,7 +59,7 @@ const locales = [
 
 type LocaleID = typeof locales[number];
 
-const objects = Locale.createObject<any>('zod');
+const objects = I18n.createObject<any>('zod');
 
 /**
  * 创建一个用于加载 zod 本地化语言的函数

@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, Locale, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem, useLocale
+    Appbar, Button, DrawerRef, Dropdown, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem, useLocale
 } from '@cmfx/components';
-import { Hotkey } from '@cmfx/core';
+import { Hotkey, Locale } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
