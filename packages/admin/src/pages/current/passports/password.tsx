@@ -11,18 +11,20 @@ import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
 
-import { useAdmin } from '@/context';
+import { useAdmin, usernameSchema } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
+const passwordSchema = z.string().min(2).max(32);
+
 const accountSchema = z.object({
-    username: z.string().min(2).max(100),
-    password: z.string().min(2).max(100),
+    username: usernameSchema,
+    password: passwordSchema,
 });
 
 const valueSchema = z.object({
-    old: z.string().min(1).max(100),
-    new: z.string().min(1).max(100),
+    old: passwordSchema,
+    new: passwordSchema,
 });
 
 /**
@@ -44,9 +46,9 @@ export class Pwd implements PassportComponents {
         const l = useLocale();
         const [api, act, opt] = useAdmin();
         const nav = useNavigate();
-        const [fapi, Form, actions] = createForm({
-            value: accountSchema.partial().parse({}),
-            validator: zodValidator(accountSchema.clone(), l.locale.toString()),
+        const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>>({
+            value: {username: '', password: ''},
+            validator: zodValidator(accountSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
                 const ret = await api.post(`/passports/${this.#id}/login`, obj);
@@ -83,9 +85,9 @@ export class Pwd implements PassportComponents {
         let dialogRef: DialogRef;
         const l = useLocale();
         const [api, act] = useAdmin();
-        const [fapi , Form, actions] = createForm({
-            value: valueSchema.partial().parse({}),
-            validator: zodValidator(valueSchema.clone()),
+        const [fapi , Form, actions] = createForm<z.infer<typeof valueSchema>>({
+            value: {old: '', new: ''},
+            validator: zodValidator(valueSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
                 const r = await api.put(`/passports/${this.#id}`, obj);

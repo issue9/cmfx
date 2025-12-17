@@ -31,6 +31,11 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
 
     /**
      * 提交前对数据的验证方法；
+     *
+     * @remarks
+     * 如果需要验证器输出的错误信息保持与当前环境相同的本地化语言，
+     * 在 {@link FormAPI} 中使用需要使用 {@link Validator#changeLocale} 更新语言，
+     * 在 {@link createForm} 中则会自动调用 {@link Validator#changeLocale} 更新语言。
      */
     readonly validator?: Validator<T>;
 

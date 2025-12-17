@@ -87,6 +87,11 @@ export class ObjectAccessor<T extends Flattenable> {
     }
 
     /**
+     * 返回当前关联的验证器
+     */
+    validator(): Validator<T> | undefined { return this.#validator; }
+
+    /**
      * 返回某个字段的 {@link Accessor} 接口供表单元素使用
      *
      * @remarks
@@ -154,7 +159,7 @@ export class ObjectAccessor<T extends Flattenable> {
 
         if (parent.#validOnChange && parent.#validator) {
             a.onChange(async val => {
-                const rslt = await parent.#validator!(val, name);
+                const rslt = await parent.#validator!.valid(val, name);
                 a.setError(rslt[1] ? rslt[1][0].reason : undefined);
             });
         }
@@ -183,7 +188,7 @@ export class ObjectAccessor<T extends Flattenable> {
         const v: T = unwrap<T>(this.#valGetter);
         if (!this.#validator) { return v; }
 
-        const rslt = await this.#validator(v);
+        const rslt = await this.#validator.valid(v);
         if (!rslt[1]) { return rslt[0]; }
 
         this.setError(rslt[1]);

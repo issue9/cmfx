@@ -5,7 +5,7 @@
 import * as z from 'zod';
 
 import { Params } from '@/api';
-import { Dict, DictLoader, I18n, matchLocales } from '@/locale';
+import { Dict, DictLoader, I18n, Locale, matchLocales } from '@/locale';
 import { FlattenKeys, Flattenable } from '@/types';
 import { ValidResult, Validator } from './validation';
 
@@ -57,8 +57,6 @@ const locales = [
     'yo',
 ];
 
-type LocaleID = typeof locales[number];
-
 const objects = I18n.createObject<any>('zod');
 
 /**
@@ -78,40 +76,47 @@ export function createZodLocaleLoader(f: () => any): DictLoader {
  * 将 {@link z.ZodObject | Zod} 对象包装为 {@link Validator} 方法
  *
  * @param s - zod schema；
- * @param l - 本地化语言的 ID；
+ * @param l - Locale 对象；
  * @typeParam T - 被验证对象的类型；
  */
-export function validator<T extends Flattenable>(s: z.ZodObject, l?: string): Validator<T> {
-    return async(obj: T, path?: FlattenKeys<T>): Promise<ValidResult<T>> => {
-        let errsMap: { localeError: any } | undefined = undefined;
-        if (l) {
-            const id = matchLocales(l, locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
-            errsMap = objects.get(id)!;
-        }
+export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
+    let errsMap: { localeError: any } | undefined = undefined;
+    if (l) {
+        const id = matchLocales(l.locale.toString(), locales, I18n.fallback, {localeMatcher: 'best fit'});
+        errsMap = objects.get(id)!;
+    }
 
-        if (path) {
-            let schema = s; // 参数 s 会重复使用，所以需要一个新的变量来保存 path 对应的值。
-            const items = path.split('.');
-            for (const item of items) {
-                schema = schema.shape[item];
+    return {
+        changeLocale(locale: Locale): void {
+            const id = matchLocales(locale.locale.toString(), locales, I18n.fallback, { localeMatcher: 'best fit' });
+            errsMap = objects.get(id)!;
+        },
+
+        async valid(obj: any, path?: FlattenKeys<T>): Promise<ValidResult<T>> {
+            if (path) {
+                let schema = s; // 参数 s 会重复使用，所以需要一个新的变量来保存 path 对应的值。
+                const items = path.split('.');
+                for (const item of items) {
+                    schema = schema.shape[item];
+                }
+
+                const result = await schema.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
+                if (result.success) { return [result.data as T, undefined]; }
+
+                const err = result.error.issues[0];
+                return [undefined, [{ name: joinProperyKey(path, err.path) as FlattenKeys<T>, reason: err.message }]];
             }
 
-            const result = await schema.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
+            const result = await s.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
             if (result.success) { return [result.data as T, undefined]; }
 
-            const err = result.error.issues[0];
-            return [undefined, [{ name: joinProperyKey(path, err.path) as FlattenKeys<T>, reason: err.message }]];
+            const errors: Params<FlattenKeys<T>> = [];
+            result.error.issues.map(i => {
+                const p = joinProperyKey('', i.path) as FlattenKeys<T>;
+                errors.push({ name: p, reason: i.message });
+            });
+            return [undefined, errors];
         }
-
-        const result = await s.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
-        if (result.success) { return [result.data as T, undefined]; }
-
-        const errors: Params<FlattenKeys<T>> = [];
-        result.error.issues.map(i => {
-            const p = joinProperyKey('', i.path) as FlattenKeys<T>;
-            errors.push({ name: p , reason: i.message });
-        });
-        return [undefined, errors];
     };
 }
 

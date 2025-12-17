@@ -33,7 +33,7 @@ describe('zod', async () => {
             address: ['123 Main St', '456 Elm St']
         };
 
-        const result = await validator(usr)(user);
+        const result = await validator(usr).valid(user);
         expect(result[0]).toEqual(user);
         expect(result[1]).toBeUndefined();
     });
@@ -46,24 +46,21 @@ describe('zod', async () => {
             address: ['123 Main St', '']
         };
 
-        const result = await validator(usr)(user);
+        const v = validator(usr);
+
+        let result = await v.valid(user);
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
         expect(result[1]![0].reason).toEqual('Too small: expected number to be >=18');
         expect(result[1]![1].name).toEqual('address[1]');
-    });
 
-    test('invalid-en', async () => {
-        const user: User = {
-            name: 'John Doe',
-            age: 12,
-            address: ['123 Main St', '']
-        };
+        // 切换语言
 
-        const result = await validator(usr, 'en-us')(user);
+        v.changeLocale(new I18n('zh', 'full'));
+        result = await validator(usr, new I18n('zh', 'full')).valid(user);
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
-        expect(result[1]![0].reason).toEqual('Too small: expected number to be >=18');
+        expect(result[1]![0].reason).toEqual('数值过小：期望 number >=18');
         expect(result[1]![1].name).toEqual('address[1]');
     });
 
@@ -74,7 +71,7 @@ describe('zod', async () => {
             address: ['123 Main St', '']
         };
 
-        const result = await validator(usr, 'zh')(user);
+        const result = await validator(usr, new I18n('zh', 'full')).valid(user);
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
         expect(result[1]![0].reason).toEqual('数值过小：期望 number >=18');
@@ -88,11 +85,11 @@ describe('zod', async () => {
             address: ['123 Main St', '']
         };
 
-        let result = await validator<User>(usr, 'zh')(user.name, 'name');
+        let result = await validator<User>(usr, new I18n('zh', 'full')).valid(user.name, 'name');
         expect(result[0]).toEqual('John Doe');
         expect(result[1]).toBeUndefined();
 
-        result = await validator<User>(usr, 'zh')(user.age, 'age');
+        result = await validator<User>(usr, new I18n('zh', 'full')).valid(user.age, 'age');
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
     });

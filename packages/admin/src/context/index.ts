@@ -4,7 +4,7 @@
 
 export { useAdmin } from './context';
 
-export { sexSchema, stateSchema, userSchema } from './user';
+export { sexSchema, stateSchema, usernameSchema, userSchema } from './user';
 export type { Sex, State, User } from './user';
 
 export { HTTPError } from './errors';

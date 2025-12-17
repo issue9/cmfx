@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ExpandType, sleep, ValidResult } from '@cmfx/core';
+import { ExpandType, Locale, sleep, ValidResult } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
 import { ObjectAccessor } from './access';
@@ -14,11 +14,15 @@ type Object = {
 
 describe('validation', async () => {
     test('obj', async () => {
-        const validator = async (v: Object): Promise<ValidResult<Object>> => {
-            if (v.age < 18) {
-                return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+        const validator = {
+            changeLocale(_: Locale): void { },
+
+            async valid(v: Object): Promise<ValidResult<Object>> {
+                if (v.age < 18) {
+                    return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+                }
+                return [v, undefined];
             }
-            return [v, undefined];
         };
 
         const oa = new ObjectAccessor<ExpandType<Object>>({ 'age': 20, 'name': 'f2' }, validator, true);
@@ -32,11 +36,15 @@ describe('validation', async () => {
     });
 
     test('field', async () => {
-        const validator = async (v: any, name?: string): Promise<ValidResult<Object>> => {
-            if (v < 18 && name === 'age') {
-                return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+        const validator = {
+            changeLocale(_: Locale): void { },
+
+            async valid(v: any, name?: string): Promise<ValidResult<Object>> {
+                if (v < 18 && name === 'age') {
+                    return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+                }
+                return [{ [name!]: v } as any, undefined];
             }
-            return [{ [name!]: v } as any, undefined];
         };
 
         const oa = new ObjectAccessor<ExpandType<Object>>({ 'age': 20, 'name': 'f2' }, validator, true);
@@ -50,11 +58,15 @@ describe('validation', async () => {
 });
 
 describe('ObjectAccessor', async () => {
-    const validator = async (v: Object): Promise<ValidResult<Object>> => {
-        if (v.age < 18) {
-            return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+    const validator = {
+        changeLocale(_: Locale): void { },
+
+        async valid(v: Object): Promise<ValidResult<Object>> {
+            if (v.age < 18) {
+                return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+            }
+            return [v, undefined];
         }
-        return [v, undefined];
     };
 
     const oa = new ObjectAccessor<ExpandType<Object>>({ 'age': 20, 'name': 'f2' }, validator, true);

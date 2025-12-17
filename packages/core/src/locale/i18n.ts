@@ -26,6 +26,8 @@ export class I18n implements Locale {
         I18n.#fallback = fallback;
     }
 
+    static get fallback(): string { return I18n.#fallback; }
+
     /**
      * 创建一个用于缓存本地化对象的接口
      *
