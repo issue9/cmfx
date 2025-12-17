@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Column, Label, Page, RemoteTable } from '@cmfx/components';
+import { Column, Label, Page, RemoteTable, useLocale } from '@cmfx/components';
 import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/core';
 import { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 
 type Route = {
     method: string;

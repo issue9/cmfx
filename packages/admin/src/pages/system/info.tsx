@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    ChartAxis, ChartAxisRef, ConfirmButton, createBytesFormatter, Divider, joinClass, Label, Page, Tab
+    ChartAxis, ChartAxisRef, ConfirmButton, createBytesFormatter, Divider, joinClass, Label, Page, Tab, useLocale
 } from '@cmfx/components';
 import { createEffect, createMemo, createResource, createSignal, For, JSX, onCleanup, onMount } from 'solid-js';
 import IconBackup from '~icons/material-symbols/backup';
@@ -12,7 +12,7 @@ import IconDataset from '~icons/material-symbols/dataset';
 import IconInfo from '~icons/material-symbols/info';
 import IconChart from '~icons/material-symbols/ssid-chart';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import styles from './style.module.css';
 
 const mb = 1024 * 1024;

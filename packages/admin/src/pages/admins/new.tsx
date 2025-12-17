@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, notify, Page, Password, TextField } from '@cmfx/components';
+import { Button, createForm, notify, useLocale, Page, Password, TextField } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
 import { SexSelector } from '@/components';
-import { Sex, sexSchema, useAdmin, useLocale } from '@/context';
+import { Sex, sexSchema, useAdmin } from '@/context';
 import { roles } from '@/pages/roles';
 
 interface Props {

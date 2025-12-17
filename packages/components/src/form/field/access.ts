@@ -52,9 +52,9 @@ export interface Accessor<T, K extends string = string> {
 
     /**
      * 设置当前组件的错误信息
-     * @param string - 错误信息，undefined 表示清除错误；
+     * @param err - 错误信息，undefined 表示清除错误；
      */
-    setError(string?: string): void;
+    setError(err?: string): void;
 
     /**
      * 重置为初始状态
@@ -105,7 +105,7 @@ export function fieldAccessor<T, K extends string = string>(name: string, v: T |
 
         getError(): string | undefined { return err(); },
 
-        setError(err: string): void { errSetter(err); },
+        setError(err?: string): void { errSetter(err); },
 
         onChange(change) { changes.push(change); },
 

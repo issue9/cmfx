@@ -2,11 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-export { useLocale } from '@cmfx/components';
-
 export { useAdmin } from './context';
 
-export type { User, Sex, State } from './user';
-export { userSchema, sexSchema, stateSchema } from './user';
+export { sexSchema, stateSchema, userSchema } from './user';
+export type { Sex, State, User } from './user';
 
 export { HTTPError } from './errors';

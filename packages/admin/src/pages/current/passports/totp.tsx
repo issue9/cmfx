@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor, ObjectAccessor, QRCode, TextField
+    Button, ConfirmButton, Dialog, DialogRef, fieldAccessor, ObjectAccessor, QRCode, TextField, useLocale
 } from '@cmfx/components';
 import { base32nopad } from '@scure/base';
 import { useNavigate } from '@solidjs/router';
@@ -13,7 +13,7 @@ import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 import IconPin from '~icons/material-symbols/pin';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 

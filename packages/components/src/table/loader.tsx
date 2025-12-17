@@ -154,8 +154,10 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
     const [total, setTotal] = createSignal<number>(100);
 
     const [items, { refetch }] = createResource(async () => {
-        const ret = await load(await queries.object());
+        const q = await queries.object();
+        if (!q) { return undefined; }
 
+        const ret = await load(q);
         if (ret === undefined) {
             return undefined;
         }else if (Array.isArray(ret)) {
@@ -177,7 +179,10 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
 
     const exports = async function (ext: Parameters<Exporter<T, Q>['export']>[1]) {
         const e = new Exporter<T, Q>(props.columns);
-        const q = { ...await queries.object() };
+        const qq = await queries.object();
+        if (!qq) { return; }
+
+        const q = { ...qq };
         delete q.size;
         delete q.page;
 

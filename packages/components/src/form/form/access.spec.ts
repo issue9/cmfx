@@ -2,83 +2,111 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { ExpandType, ValidResult } from '@cmfx/core';
+import { ExpandType, sleep, ValidResult } from '@cmfx/core';
 import { describe, expect, test } from 'vitest';
 
-import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
 
-describe('ObjectAccessor', async () => {
-    interface Object {
-        [k: string]: unknown;
-        f1: number;
-        f2: string;
-    }
+type Object = {
+    age: number;
+    name: string;
+};
 
-    const validator = async (_: Object): Promise<ValidResult<Object>> => {
-        return [undefined, [{ name: 'f1', reason: 'err' }]];
-    };
+describe('validation', async () => {
+    test('obj', async () => {
+        const validator = async (v: Object): Promise<ValidResult<Object>> => {
+            if (v.age < 18) {
+                return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+            }
+            return [v, undefined];
+        };
 
-    const f = new ObjectAccessor<ExpandType<Object>>({ 'f1': 5, 'f2': 'f2' });
-    expect(f.isPreset()).toEqual<boolean>(true);
-    t(f.accessor('f1'));
-    expect(await f.object()).toEqual({ 'f1': 7, 'f2': 'f2' });
-    expect(f.getValue()).toEqual({ 'f1': 7, 'f2': 'f2' });
-    expect(f.isPreset()).toEqual<boolean>(false);
+        const oa = new ObjectAccessor<ExpandType<Object>>({ 'age': 20, 'name': 'f2' }, validator, true);
 
-    test('validation', async () => {
-        expect(await f.object(validator)).toBeUndefined();
-        expect(f.accessor('f1').getError(), 'err');
-
-        const f1 = f.accessor('f1');
-        expect(f1).toEqual(f.accessor('f1'));
-
-        f.reset();
-        expect(f.isPreset()).toBeTruthy();
-        expect(f1).toEqual(f.accessor('f1')); // 同一个 Accessor 接口只有一个对象
+        const age = oa.accessor('age');
+        age.setValue(2);
+        await sleep(500); // setValue 触发的 onchange 是异步操作
+        const obj = await oa.object();
+        expect(obj).toBeUndefined();
+        expect(age.getError()).toEqual('age must be greater than or equal to 18'); // 触发验证
     });
 
-    test('setPreset', () => {
-        f.setPreset({ 'f1': 1, 'f2': '2' });
-        expect(f.isPreset()).toBeFalsy();
-        f.reset();
-        expect(f.isPreset()).toBeTruthy();
-        expect(f.accessor('f1').getValue()).toEqual(1);
+    test('field', async () => {
+        const validator = async (v: any, name?: string): Promise<ValidResult<Object>> => {
+            if (v < 18 && name === 'age') {
+                return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+            }
+            return [{ [name!]: v } as any, undefined];
+        };
 
-        f.accessor('f1').setValue(2);
-        expect(f.isPreset()).toBeFalsy();
-    });
+        const oa = new ObjectAccessor<ExpandType<Object>>({ 'age': 20, 'name': 'f2' }, validator, true);
 
-    test('setValue', () => {
-        f.setValue({ 'f1': 11, 'f2': '22' });
-        expect(f.accessor('f1').getValue()).toEqual(11);
-        expect(f.accessor('f2').getValue()).toEqual('22');
-    });
-
-    test('children', () => {
-        const a = f.accessor<number>('not.exists' as any);
-        expect(a.getValue()).toEqual('');
-
-        a.setValue(5);
-        expect(a.getValue()).toEqual(5);
+        const age = oa.accessor('age');
+        age.setValue(2);
+        await sleep(500); // setValue 触发的 onchange 是异步操作
+        expect(age.getValue()).toEqual<number>(2);
+        expect(age.getError()).toEqual('age must be greater than or equal to 18'); // 触发验证
     });
 });
 
-function t(a: Accessor<number>) {
-    expect(a.getError()).toBeUndefined();
-    expect(a.getValue()).toEqual<number>(5);
+describe('ObjectAccessor', async () => {
+    const validator = async (v: Object): Promise<ValidResult<Object>> => {
+        if (v.age < 18) {
+            return [undefined, [{ name: 'age', reason: 'age must be greater than or equal to 18' }]];
+        }
+        return [v, undefined];
+    };
 
-    a.setError('error');
-    expect(a.getError()).toEqual<string>('error');
+    const oa = new ObjectAccessor<ExpandType<Object>>({ 'age': 20, 'name': 'f2' }, validator, true);
 
-    a.setValue(7);
-    expect(a.getValue()).toEqual<number>(7);
-    expect(a.getError()).toEqual<string>('error');
-    a.setError('error');
+    test('基本属性', async () => {
+        expect(oa.isPreset()).toEqual<boolean>(true);
+        expect(await oa.object()).toEqual({ 'age': 20, 'name': 'f2' });
+        expect(oa.getValue()).toEqual({ 'age': 20, 'name': 'f2' });
+    });
 
-    a.reset();
-    expect(a.getValue()).toEqual<number>(5);
-    expect(a.getError()).toBeUndefined();
+    test('field access', async () => {
+        const age = oa.accessor('age');
+        expect(age).toEqual(oa.accessor('age')); // 同一个 Accessor 接口只有一个对象
 
-    a.setValue(7);
-}
+        expect(age.getError()).toBeUndefined();
+        expect(age.getValue()).toEqual<number>(20);
+
+        age.setError('error');
+        expect(age.getError()).toEqual<string>('error');
+
+        age.setValue(25);
+        expect(age.getValue()).toEqual<number>(25);
+        await sleep(500); // setValue 触发的 onchange 是异步操作
+        expect(age.getError()).toBeUndefined(); // 触发验证，错误信息被清除
+
+        age.reset();
+        expect(age.getValue()).toEqual<number>(20);
+        expect(age.getError()).toBeUndefined();
+    });
+
+    test('setPreset', () => {
+        oa.setPreset({ 'age': 20, 'name': '2' });
+        expect(oa.isPreset()).toBeFalsy();
+        oa.reset();
+        expect(oa.isPreset()).toBeTruthy();
+        expect(oa.accessor('age').getValue()).toEqual(20);
+
+        oa.accessor('age').setValue(22);
+        expect(oa.isPreset()).toBeFalsy();
+    });
+
+    test('setValue', () => {
+        oa.setValue({ 'age': 21, 'name': '22' });
+        expect(oa.accessor('age').getValue()).toEqual(21);
+        expect(oa.accessor('name').getValue()).toEqual('22');
+    });
+
+    test('children', () => {
+        const a = oa.accessor<number>('not.exists' as any);
+        expect(a.getValue()).toEqual('');
+
+        a.setValue(25);
+        expect(a.getValue()).toEqual(25);
+    });
+});

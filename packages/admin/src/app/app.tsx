@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, joinClass, Menu, MenuRef, run, Options as XOptions } from '@cmfx/components';
+import { Drawer, DrawerRef, joinClass, useLocale, Menu, MenuRef, run, Options as XOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import { Provider } from '@/context/context';
 import { build as buildOptions, Options } from '@/options/options';
 import * as errors from './errors';

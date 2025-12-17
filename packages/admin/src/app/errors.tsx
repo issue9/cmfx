@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Result } from '@cmfx/components';
+import { Button, Result, useLocale } from '@cmfx/components';
 import { API } from '@cmfx/core';
 import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 
-import { useAdmin, useLocale, HTTPError } from '@/context';
+import { useAdmin, HTTPError } from '@/context';
 import styles from './style.module.css';
 
 /**

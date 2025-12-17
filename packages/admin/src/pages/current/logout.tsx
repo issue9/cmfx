@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, IconCmfxBrandAnimate } from '@cmfx/components';
+import { Page, IconCmfxBrandAnimate, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX, onMount } from 'solid-js';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import styles from './style.module.css';
 
 export function Logout(): JSX.Element {

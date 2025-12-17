@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, Dialog, DialogRef, Password, TextField } from '@cmfx/components';
+import { Button, createForm, Dialog, DialogRef, Password, TextField, useLocale } from '@cmfx/components';
+import { zodValidator } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import { z } from 'zod';
@@ -10,16 +11,16 @@ import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
-const passwordAccountSchema = z.object({
-    username: z.string().min(1).max(100),
-    password: z.string().min(1).max(100),
+const accountSchema = z.object({
+    username: z.string().min(2).max(100),
+    password: z.string().min(2).max(100),
 });
 
-const passwordValueSchema = z.object({
+const valueSchema = z.object({
     old: z.string().min(1).max(100),
     new: z.string().min(1).max(100),
 });
@@ -44,7 +45,9 @@ export class Pwd implements PassportComponents {
         const [api, act, opt] = useAdmin();
         const nav = useNavigate();
         const [fapi, Form, actions] = createForm({
-            value: passwordAccountSchema.partial().parse({}),
+            value: accountSchema.partial().parse({}),
+            validator: zodValidator(accountSchema.clone(), l.locale.toString()),
+            validOnChange: true,
             submit: async obj => {
                 const ret = await api.post(`/passports/${this.#id}/login`, obj);
                 await act.login(ret);
@@ -81,7 +84,9 @@ export class Pwd implements PassportComponents {
         const l = useLocale();
         const [api, act] = useAdmin();
         const [fapi , Form, actions] = createForm({
-            value: passwordValueSchema.partial().parse({}),
+            value: valueSchema.partial().parse({}),
+            validator: zodValidator(valueSchema.clone()),
+            validOnChange: true,
             submit: async obj => {
                 const r = await api.put(`/passports/${this.#id}`, obj);
                 await act.refetchUser();

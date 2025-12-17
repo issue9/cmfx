@@ -17,6 +17,7 @@ export interface Props extends BaseProps, FormContext, ParentProps {
     /**
      * 表单位于对话框中
      *
+     * @remarks
      * 如果指定了该属性，那么表单的 submit 按钮将会关闭对话框，
      * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
      */
@@ -36,11 +37,19 @@ export interface Actions {
 
     /**
      * 提交按钮
+     *
+     * @remarks
+     * 如果指定了 {@link FormContext#inDialog} 属性，那么表单的 submit 按钮将会关闭所在的对话框，
+     * 且 submit 按钮的 value 属性会传递给 dialog.returnValue。
+     * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
      */
     Submit(props: Omit<BProps, 'type' | 'onclick'>): JSX.Element;
 
     /**
      * 重置按钮
+     *
+     * @remarks
+     * 按钮可以在表单之外，点击时会正确触发对应的表单事件。
      */
     Reset(props: Omit<BProps, 'type' | 'onclick'>): JSX.Element;
 

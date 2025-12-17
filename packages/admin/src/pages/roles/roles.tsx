@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, Column, Dialog, DialogRef, ObjectAccessor,
+    Button, Column, Dialog, DialogRef, ObjectAccessor, useLocale,
     Page, RemoteTable, RemoteTableRef, TextArea, TextField
 } from '@cmfx/components';
 import { Return } from '@cmfx/core';
@@ -11,7 +11,7 @@ import { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import styles from './style.module.css';
 
 export type Role = {

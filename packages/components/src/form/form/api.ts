@@ -4,9 +4,7 @@
 
 import { Flattenable, FlattenKeys, Params, Problem, Return, Validator } from '@cmfx/core';
 import { createSignal, Signal } from 'solid-js';
-import { Store } from 'solid-js/store';
 
-import { Accessor } from '@/form/field';
 import { ObjectAccessor } from './access';
 
 /**
@@ -37,6 +35,11 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
     readonly validator?: Validator<T>;
 
     /**
+     * 是否在单个数据变更时即验证该条数据
+     */
+    readonly validOnChange?: boolean;
+
+    /**
      * 提交数据的方法，如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#submitting} 将无实际作用
      */
     readonly submit?: { (obj: T): Promise<Return<R, PE>>; };
@@ -45,35 +48,24 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
 /**
  * 用于操作表单的 API
  *
+ * @remarks
+ * 相对于 {@link ObjectAccessor}，当前对象提供了一些额外的接口用于以方便与表单进行配合操作。
+ *
  * @typeParam T - 表示需要提交的对象类型；
  * @typeParam R - 表示服务端返回的类型；
  * @typeParam P - 表示服务端出错是返回的 {@link Problem#extension} 类型；
  */
-export class FormAPI<T extends Flattenable, R = never, P = never> {
-    readonly #object: ObjectAccessor<T>;
-    readonly #validator?: Options<T, R, P>['validator'];
-    readonly onProblem?: Options<T, R, P>['onProblem'];
+export class FormAPI<T extends Flattenable, R = never, P = never> extends ObjectAccessor<T> {
+    readonly #onProblem?: Options<T, R, P>['onProblem'];
     readonly #submit?: Options<T, R, P>['submit'];
-    readonly onSuccess?: Options<T, R, P>['onSuccess'];
-
+    readonly #onSuccess?: Options<T, R, P>['onSuccess'];
     readonly #submitting: Signal<boolean>;
 
-    /**
-     * 构造函数
-     *
-     * @param preset - 初始值；
-     * @param submit - 提交数据的方法，如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#submitting} 将无实际作用；
-     * @param onProblem - 处理服务端返回为 {@link Problem} 时的方法。如果服务端返回的是 400 且带有 params，会自动进行一次处理，
-     *  如果 onProblem 不想再次处理，需要将其过滤；
-     * @param onSuccess - 在接口正常返回时调用的方法；
-     * @param v - 提交前对数据的验证方法；
-     */
     constructor(options: Options<T, R, P>) {
-        this.#object = new ObjectAccessor(options.value);
-        this.#validator = options.validator;
-        this.onProblem = options.onProblem;
+        super(options.value, options.validator, options.validOnChange);
+        this.#onProblem = options.onProblem;
         this.#submit = options.submit;
-        this.onSuccess = options.onSuccess;
+        this.#onSuccess = options.onSuccess;
         this.#submitting = createSignal<boolean>(false);
     }
 
@@ -81,45 +73,14 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
      * 指示是否处于提交状态
      *
      * @remarks
-     * 如果当前表单未在构造函数中指定 req 参数，则始终返回 false。
+     * 如果当前表单未在构造函数中指定 {@link Options#submit} 参数，则始终返回 false。
      */
     submitting() { return this.#submitting[0](); }
 
     /**
-     * 返回某个字段的 {@link Accessor} 接口供表单元素使用
-     *
-     * @remarks
-     * 即使指定的字段当前还不存在于当前对象，依然会返回一个 {@link Accessor} 接口，
-     * 后续的 {@link Accessor#setValue} 会自动向当前对象添加该值。
-     */
-    accessor<FT = unknown, K extends string = string>(name: FlattenKeys<T>, kind?: K): Accessor<FT, K> {
-        return this.#object.accessor<FT, K>(name, kind);
-    }
-
-    setPreset(v: T) { return this.#object.setPreset(v); }
-
-    setValue(v: T) { return this.#object.setValue(v); }
-
-    getValue(): Store<T> { return this.#object.getValue(); }
-
-    /**
-     * 将错误信息设置到指定的字段上
-     *
-     * @param errs - 错误列表，为空表示取消所有的错误显示，如果是字符串，表示未匹配的具体字段的错误；
-     */
-    setError(errs?: Params<FlattenKeys<T>> | string) { this.#object.setError(errs); }
-
-    getError(): string { return this.#object.getError(); }
-
-    /**
-     * 当前内容是否都是默认值
-     */
-    isPreset() { return this.#object.isPreset(); }
-
-    /**
      * 提交数据
      *
-     * @returns 表示接口是否成功调用，如果当前表单未在构造函数中指定 req 参数，则始终返回 false。
+     * @returns 表示接口是否成功调用，如果当前表单未在构造函数中指定 {@link Options#submit} 参数，则始终返回 false。
      */
     async submit(): Promise<boolean> {
         if (!this.#submit) { return false; }
@@ -133,7 +94,7 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
 
             const ret = await this.#submit(obj);
             if (ret.ok) {
-                if (this.onSuccess) { this.onSuccess(ret); }
+                if (this.#onSuccess) { this.#onSuccess(ret); }
                 return true;
             }
 
@@ -141,26 +102,19 @@ export class FormAPI<T extends Flattenable, R = never, P = never> {
 
             if (ret.status === 400) {
                 if (ret.body.params) {
-                    this.#object.setError(ret.body.params as Params<FlattenKeys<T>>);
+                    this.setError(ret.body.params as Params<FlattenKeys<T>>);
                 } else {
-                    this.#object.setError(ret.body.title);
+                    this.setError(ret.body.title);
                 }
 
                 return false;
             }
 
-            if (this.onProblem) { await this.onProblem(ret.body); }
+            if (this.#onProblem) { await this.#onProblem(ret.body); }
 
             return false;
         } finally {
             this.#submitting[1](false);
         }
     }
-
-    reset() { this.#object.reset(); }
-
-    /**
-     * 验证并返回对象
-     */
-    async object(): Promise<T | undefined> { return await this.#object.object(this.#validator); }
 }

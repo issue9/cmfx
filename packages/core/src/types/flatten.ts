@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Expand, RemoveIndexSignature } from './types';
+import { RemoveIndexSignature } from './types';
 
 /**
  * 联合类型转换为交叉类型
@@ -54,7 +54,7 @@ type FlattenT<T extends Object<F>, F extends unknown = unknown, P = {}, TT = Rem
  *
  * NOTE: 该类型不等价于 keyof Flatten，只包含字符串类型的字段名。
  */
-export type Keys<T extends Object<FT>, FT extends unknown = unknown> = Extract<keyof Flatten<T, FT>, string>;
+export type Keys<T extends Object<FT>, FT extends unknown = unknown> = keyof Flatten<T, FT> & string;;
 
 function isObj<T extends unknown = unknown>(value: unknown): value is Object<T> {
     return value != null && typeof value === 'object' && !Array.isArray(value);

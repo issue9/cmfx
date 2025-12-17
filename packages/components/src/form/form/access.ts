@@ -28,12 +28,17 @@ export class ObjectAccessor<T extends Flattenable> {
     readonly #errSetter: SetStoreFunction<Err<T>>;
     readonly #error: Signal<string>; // 全局错误信息
 
+    readonly #validator?: Validator<T>;
+    readonly #validOnChange?: boolean;
+
     /**
      * 构造函数
      *
      * @param preset - 初始值，该对象要求必须是可由 {@link structuredClone} 进行复制的；
+     * @param validator - 验证器，用于验证表单数据的合法性；
+     * @param validOnChange - 是否在每个字段被修改时就对该字段进行验证；
      */
-    constructor(preset: T) {
+    constructor(preset: T, validator?: Validator<T>, validOnChange?: boolean) {
         // NOTE: 如果 preset 是一个 createStore 创建的对象，无法复制其中的值作为默认值。
         this.#preset = preset;
         this.#isPreset = createSignal(true);
@@ -43,6 +48,9 @@ export class ObjectAccessor<T extends Flattenable> {
 
         [this.#errGetter, this.#errSetter] = createStore<Err<T>>({} as any);
         this.#error = createSignal('');
+
+        this.#validator = validator;
+        this.#validOnChange = validOnChange;
     }
 
     /**
@@ -93,30 +101,29 @@ export class ObjectAccessor<T extends Flattenable> {
      * @param kind - 指定 {@link Accessor#kind} 的值；
      */
     accessor<FT = unknown, K extends string = string>(name: FlattenKeys<T>, kind?: K): Accessor<FT, K> {
-        let a: Accessor<FT, K> | undefined = this.#accessors.get(name) as Accessor<FT, K>;
-        if (a) { return a as Accessor<FT, K>; }
+        if (this.#accessors.has(name)) { return this.#accessors.get(name) as Accessor<FT, K>; }
 
-        const self = this;
+        const parent = this;
         const changes: Array<ChangeFunc<FT>> = [];
-        const path = (name as string).split('.');
+        const path = name.split('.');
 
-        a = {
+        const a: Accessor<FT, K> = {
             kind(): K | undefined { return kind; },
 
             name(): string { return name as string; },
 
-            getError(): string | undefined { return self.#errGetter[name]; },
+            getError(): string | undefined { return parent.#errGetter[name]; },
 
-            setError(err?: string): void { self.#errSetter({ [name]: err } as any); },
+            setError(err?: string): void { parent.#errSetter(name as any, err as any); },
 
             onChange(change) { changes.push(change); },
 
             getValue(): FT {
-                if (path.length === 1) { return self.#valGetter[name] as FT; }
+                if (path.length === 1) { return parent.#valGetter[name] as FT; }
 
                 const v = path.reduce<FT | T>((acc, key) => {
                     return key && acc ? (acc as T)[key] as FT : acc;
-                }, self.#valGetter);
+                }, parent.#valGetter);
 
                 return (v ?? '') as FT;
             },
@@ -124,9 +131,9 @@ export class ObjectAccessor<T extends Flattenable> {
             setValue(val: FT) {
                 const old = untrack(this.getValue);
                 if (old !== val) {
-                    changes.forEach((f) => { f(val, old); });
+                    changes.forEach(f => { f(val, old); });
 
-                    self.#valSetter(produce((draft) => {
+                    parent.#valSetter(produce(draft => {
                         let target = draft as any; // as any 去掉只读属性！
                         for (let i = 0; i < path.length - 1; i++) {
                             target[path[i]] ??= {};
@@ -136,15 +143,23 @@ export class ObjectAccessor<T extends Flattenable> {
                     }));
                 }
 
-                self.#checkPreset();
+                parent.#checkPreset();
             },
 
             reset() {
                 this.setError();
-                this.setValue(self.#preset[name] as FT);
+                this.setValue(parent.#preset[name] as FT);
             }
         };
-        this.#accessors.set(name, a as Accessor<T[keyof T], K>);
+
+        if (parent.#validOnChange && parent.#validator) {
+            a.onChange(async val => {
+                const rslt = await parent.#validator!(val, name);
+                a.setError(rslt[1] ? rslt[1][0].reason : undefined);
+            });
+        }
+
+        this.#accessors.set(name, a);
 
         return a;
     }
@@ -160,20 +175,15 @@ export class ObjectAccessor<T extends Flattenable> {
     /**
      * 返回当前对象的值
      *
-     * @param validator - 是对返回之前对数据进行验证，如果此值非空，
-     *  那么会验证数据，并在出错时调用每个字段的 setError 进行设置。
-     *
      * @returns 在 validator 不为空且验证出错的情况下，会返回 undefined，
      * 其它情况下都将返回当前表单的最新值。
      * 与 {@link getValue} 的区别在于当前方法的返回值由 {@link unwrap} 进行了解绑。
      */
-    async object(): Promise<T>;
-    async object(validator?: Validator<T>): Promise<T | undefined>;
-    async object(validator?: Validator<T>): Promise<T | undefined> {
+    async object(): Promise<T | undefined> {
         const v: T = unwrap<T>(this.#valGetter);
-        if (!validator) { return v; }
+        if (!this.#validator) { return v; }
 
-        const rslt = await validator(v);
+        const rslt = await this.#validator(v);
         if (!rslt[1]) { return rslt[0]; }
 
         this.setError(rslt[1]);

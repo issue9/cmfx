@@ -81,34 +81,53 @@ export function createZodLocaleLoader(f: () => any): DictLoader {
  * @param l - 本地化语言的 ID；
  * @typeParam T - 被验证对象的类型；
  */
-export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
-    return async(obj: T): Promise<ValidResult<T>> => {
+export function validator<T extends Flattenable>(s: z.ZodObject, l?: string): Validator<T> {
+    return async(obj: T, path?: FlattenKeys<T>): Promise<ValidResult<T>> => {
+        let errsMap: { localeError: any } | undefined = undefined;
         if (l) {
-            const id = matchLocales(l.locale.toString(), locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
-            var errsMap = objects.get(id)!;
+            const id = matchLocales(l, locales, 'en', {localeMatcher: 'best fit'}) as LocaleID;
+            errsMap = objects.get(id)!;
         }
 
-        const result = await s.safeParseAsync(obj, l ? { error: errsMap.localeError } : undefined);
+        if (path) {
+            let schema = s; // 参数 s 会重复使用，所以需要一个新的变量来保存 path 对应的值。
+            const items = path.split('.');
+            for (const item of items) {
+                schema = schema.shape[item];
+            }
+
+            const result = await schema.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
+            if (result.success) { return [result.data as T, undefined]; }
+
+            const err = result.error.issues[0];
+            return [undefined, [{ name: joinProperyKey(path, err.path) as FlattenKeys<T>, reason: err.message }]];
+        }
+
+        const result = await s.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
         if (result.success) { return [result.data as T, undefined]; }
 
         const errors: Params<FlattenKeys<T>> = [];
         result.error.issues.map(i => {
-            let p = '';
-            for(const pp of i.path) {
-                switch (typeof pp) {
-                case 'number':
-                    p += `[${pp}]`;
-                    break;
-                case 'string':
-                    if (p) {
-                        p += `.${pp}`;
-                    } else {
-                        p = pp;
-                    }
-                }
-            }
-            errors.push({ name: p as FlattenKeys<T>, reason: i.message });
+            const p = joinProperyKey('', i.path) as FlattenKeys<T>;
+            errors.push({ name: p , reason: i.message });
         });
         return [undefined, errors];
     };
+}
+
+function joinProperyKey(p: string, keys: Array<PropertyKey>): string {
+    for(const pp of keys) {
+        switch (typeof pp) {
+        case 'number':
+            p += `[${pp}]`;
+            break;
+        case 'string':
+            if (p) {
+                p += `.${pp}`;
+            } else {
+                p = pp;
+            }
+        }
+    }
+    return p;
 }

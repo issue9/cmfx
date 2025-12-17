@@ -2,12 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, Page, Transition } from '@cmfx/components';
+import {
+    BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, useLocale, Page, Transition
+} from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createResource, For, JSX, Match, Show, Switch } from 'solid-js';
 
 import { Passport } from '@/components';
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 

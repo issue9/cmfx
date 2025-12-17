@@ -2,12 +2,12 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Page, RemoteTable, TextField } from '@cmfx/components';
+import { Page, RemoteTable, TextField, useLocale } from '@cmfx/components';
 import { Query as Q } from '@cmfx/core';
 import Bowser from 'bowser';
 import { JSX } from 'solid-js';
 
-import { useAdmin, useLocale } from '@/context';
+import { useAdmin } from '@/context';
 
 type SecurityLog = {
     content: string;
