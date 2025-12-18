@@ -22,11 +22,6 @@ const accountSchema = z.object({
     password: passwordSchema,
 });
 
-const valueSchema = z.object({
-    old: passwordSchema,
-    new: passwordSchema,
-});
-
 /**
  * 密码登录方式
  */
@@ -45,10 +40,11 @@ export class Pwd implements PassportComponents {
     Login(): JSX.Element {
         const l = useLocale();
         const [api, act, opt] = useAdmin();
+
         const nav = useNavigate();
         const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>>({
             value: {username: '', password: ''},
-            validator: zodValidator(accountSchema.clone(), l),
+            validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
                 const ret = await api.post(`/passports/${this.#id}/login`, obj);
@@ -85,16 +81,29 @@ export class Pwd implements PassportComponents {
         let dialogRef: DialogRef;
         const l = useLocale();
         const [api, act] = useAdmin();
+
+        const valueSchema = z.object({
+            old: passwordSchema,
+            new: passwordSchema,
+        }).refine(
+            data => data.old !== data.new,
+            {
+                error: () => l.t('_p.current.passwordsMustBeDifferent'),
+                abort: true,
+                path: ['new']
+            },
+        );
+
         const [fapi , Form, actions] = createForm<z.infer<typeof valueSchema>>({
             value: {old: '', new: ''},
-            validator: zodValidator(valueSchema.clone(), l),
+            validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
                 const r = await api.put(`/passports/${this.#id}`, obj);
                 await act.refetchUser();
                 return r;
             },
-            onProblem: async p => act.handleProblem(p),
+            onProblem: act.handleProblem,
         });
 
         return <>

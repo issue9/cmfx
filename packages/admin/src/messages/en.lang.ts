@@ -87,6 +87,7 @@ const messages = {
             invalidCode: 'Invalid code',
             webauthnCredentials: 'Webauthn credentials',
             lastUsed: 'Last used',
+            passwordsMustBeDifferent: 'Passwords must be different',
         },
         system: {
             routes: 'Routes',

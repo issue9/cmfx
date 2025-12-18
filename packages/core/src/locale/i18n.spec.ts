@@ -12,12 +12,12 @@ describe('i18n', async () => {
     expect(I18n.languageSize()).toEqual(0);
 
     test('createObject', () => {
-        const obj1 = I18n.createObject('test---id');
+        const obj1 = I18n.createObject();
         obj1.set('zh', { 'lang': 'zh' });
         expect(obj1.get('zh')).toEqual({ 'lang': 'zh' });
         obj1.destroy();
 
-        const obj2 = I18n.createObject('test---id');
+        const obj2 = I18n.createObject();
         expect(obj2.get('zh', () => ({ 'lang': 'zh' }))).toEqual({ 'lang': 'zh' });
         obj2.destroy('zh');
         expect(obj2.get('zh')).toBeUndefined();

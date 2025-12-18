@@ -5,59 +5,11 @@
 import * as z from 'zod';
 
 import { Params } from '@/api';
-import { Dict, DictLoader, I18n, Locale, matchLocales } from '@/locale';
+import { Dict, DictLoader, I18n, Locale } from '@/locale';
 import { FlattenKeys, Flattenable } from '@/types';
 import { ValidResult, Validator } from './validation';
 
-const locales = [
-    'ar',
-    'az',
-    'be',
-    'bg',
-    'ca',
-    'cs',
-    'da',
-    'de',
-    'en',
-    'eo',
-    'es',
-    'fa',
-    'fi',
-    'fr',
-    'fr-CA',
-    'he',
-    'hu',
-    'id',
-    'is',
-    'it',
-    'ja',
-    'ka',
-    'km',
-    'ko',
-    'lt',
-    'mk',
-    'ms',
-    'nl',
-    'no',
-    'ota',
-    'ps',
-    'pl',
-    'pt',
-    'ru',
-    'sl',
-    'sv',
-    'ta',
-    'th',
-    'tr',
-    'uk',
-    'ur',
-    'vi',
-    'zh-CN',
-    'zh-TW',
-    'yo',
-];
-
-const objects = I18n.createObject<any>('zod');
+const objects = I18n.createObject<any>();
 
 /**
  * 创建一个用于加载 zod 本地化语言的函数
@@ -80,16 +32,15 @@ export function createZodLocaleLoader(f: () => any): DictLoader {
  * @typeParam T - 被验证对象的类型；
  */
 export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Validator<T> {
-    let errsMap: { localeError: any } | undefined = undefined;
+    let params: any;
     if (l) {
-        const id = matchLocales(l.locale.toString(), locales, I18n.fallback, {localeMatcher: 'best fit'});
-        errsMap = objects.get(id)!;
+        const obj = objects.get(l.locale.toString());
+        if (obj) { params = { error: obj.localeError }; }
     }
 
     return {
-        changeLocale(locale: Locale): void {
-            const id = matchLocales(locale.locale.toString(), locales, I18n.fallback, { localeMatcher: 'best fit' });
-            errsMap = objects.get(id)!;
+        changeLocale(id: Locale): void {
+            params = id ? { error: objects.get(id.locale.toString()).localeError } : undefined;
         },
 
         async valid(obj: any, path?: FlattenKeys<T>): Promise<ValidResult<T>> {
@@ -100,14 +51,14 @@ export function validator<T extends Flattenable>(s: z.ZodObject, l?: Locale): Va
                     schema = schema.shape[item];
                 }
 
-                const result = await schema.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
+                const result = await schema.safeParseAsync(obj, params);
                 if (result.success) { return [result.data as T, undefined]; }
 
                 const err = result.error.issues[0];
                 return [undefined, [{ name: joinProperyKey(path, err.path) as FlattenKeys<T>, reason: err.message }]];
             }
 
-            const result = await s.safeParseAsync(obj, errsMap ? { error: errsMap.localeError } : undefined);
+            const result = await s.safeParseAsync(obj, params);
             if (result.success) { return [result.data as T, undefined]; }
 
             const errors: Params<FlattenKeys<T>> = [];

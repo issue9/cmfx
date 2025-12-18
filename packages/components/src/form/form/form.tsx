@@ -3,11 +3,12 @@
 // SPDX-License-Identifier: MIT
 
 import { Flattenable } from '@cmfx/core';
-import { Component, createUniqueId, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
+import { Component, createEffect, createUniqueId, JSX, mergeProps, ParentProps, Show, splitProps } from 'solid-js';
 
 import { BaseProps, joinClass, Layout, Palette } from '@/base';
 import { Button } from '@/button';
 import { BProps } from '@/button/button';
+import { useLocale } from '@/context';
 import { FormContext, FormProvider, useForm } from '@/form/field';
 import { Spin } from '@/spin';
 import { FormAPI, Options } from './api';
@@ -84,6 +85,12 @@ export function createForm<T extends Flattenable, R = never, P = never>(
 
     const form = (props: Props) => {
         props = mergeProps(preset, props);
+        const l = useLocale();
+
+        createEffect(() => { // 保证验证器的语言正确
+            const v = api.validator();
+            if (v) { v.changeLocale(l); }
+        });
 
         return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}
             disabled={props.disabled} readonly={props.readonly}

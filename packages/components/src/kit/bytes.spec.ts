@@ -2,18 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Locale } from '@cmfx/core';
+import { I18n } from '@cmfx/core';
 import { expect, test } from 'vitest';
 
-import { buildLocale } from '@/base/locale';
 import { createBytesFormatter } from './bytes';
 
 test('createBytesFormatter', async () => {
-    Locale.init('en');
-    await Locale.addDict('en', async () => { return { 'lang': 'en' }; });
+    I18n.init('en');
+    await I18n.addDict('en', async () => { return { 'lang': 'en' }; });
 
-    const ll = new Locale('en', 'full');
-    const l = buildLocale(ll);
+    const l = new I18n('en', 'full');
     const f = createBytesFormatter(l);
     expect(f(1022)).equal('1,022 bytes');
     expect(f(1026)).equal('1.002 kilobytes');

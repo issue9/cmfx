@@ -89,6 +89,7 @@ const messages: typeof m = {
             invalidCode: '无效的验证码',
             webauthnCredentials: 'webauthn 证书管理',
             lastUsed: '最后使用时间',
+            passwordsMustBeDifferent: '新旧密码不能相同',
         },
         system: {
             routes: '路由',

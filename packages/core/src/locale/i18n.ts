@@ -15,7 +15,6 @@ import { match } from './match';
 export class I18n implements Locale {
     static #fallback: string;
     static #messages: Map<string, Map<string, IntlMessageFormat>> = new Map();
-    static #objects: Map<string, Map<string, unknown>> = new Map();
 
     /**
      * 初始化
@@ -36,9 +35,8 @@ export class I18n implements Locale {
      * 当前方法返回的对象可以保存这些数据，以便在需要时直接使用，而无需再次加载。
      * @param id - 唯一 ID，一般直接使用包名即可。
      */
-    static createObject<T>(id: string) {
+    static createObject<T>() {
         const obj = new Map<string, T>();
-        I18n.#objects.set(id, obj);
 
         function get(locale: string): T | undefined;
         function get(locale: string, init: () => T): T;
@@ -50,6 +48,9 @@ export class I18n implements Locale {
                 const o = init();
                 obj.set(locale, o);
                 return o;
+            } else { // 若不存在初始化方法，则查找最匹配的项作为返回值
+                const id = match(locale, Array.from(obj.keys()), I18n.fallback, {localeMatcher: 'best fit'});
+                return obj.get(id);
             }
         }
 
@@ -79,7 +80,7 @@ export class I18n implements Locale {
                 if (locale) {
                     obj.delete(locale);
                 } else {
-                    I18n.#objects.delete(id);
+                    obj.clear();
                 }
             },
         };
@@ -113,14 +114,13 @@ export class I18n implements Locale {
      */
     static matchLanguage(l: string): string {
         if (I18n.#messages.has(l)) { return l; }
-
-        return match(l, I18n.languages(), I18n.#fallback);
+        return match(l, I18n.languages(), I18n.#fallback, { localeMatcher: 'best fit' });
     }
 
     /**
      * 添加支持的语言及他它的翻译对象的加载方法
      */
-    static async addDict(locale: string, ...loaders: Array<Loader>) {
+    static async addDict(locale: string, ...loaders: Array<Loader>): Promise<void> {
         let msgs: Map<string, IntlMessageFormat>;
         if (I18n.#messages.has(locale)) {
             msgs = I18n.#messages.get(locale)!;
@@ -135,13 +135,12 @@ export class I18n implements Locale {
                     try {
                         msgs.set(item[0], new IntlMessageFormat(item[1], locale));
                     } catch (err) {
-                        console.error(`解析 ${item[1]} 是出现了错误 ${err}`);
+                        throw new Error(`解析 ${item[1]} 是出现了错误 ${err}`);
                     }
                 });
             }
-
-            I18n.#messages.set(locale, msgs);
         }
+        I18n.#messages.set(locale, msgs);
     }
 
     /**

@@ -15,9 +15,10 @@ interface Options {
  * @param options - 可用的选项，只有一个字段 localeMatcher，该字段有以下两种取值：
  *  - lookup；
  *  - best fit；
+ * 默认值为 lookup。
  */
 export function match(requested: string, availables: Readonly<Array<string>>, preset: string, options: Options = {}): string {
-    let ret = availables.find((v) => Intl.getCanonicalLocales(v)[0]===Intl.getCanonicalLocales(requested)[0]);
+    let ret = availables.find(v => Intl.getCanonicalLocales(v)[0] === Intl.getCanonicalLocales(requested)[0]);
     if (ret) { return ret; }
 
     if (options.localeMatcher === 'lookup') {

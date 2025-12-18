@@ -8,7 +8,7 @@ import { createMemo, JSX } from 'solid-js';
 
 import { Sex } from '@/context';
 
-const localeObjects = I18n.createObject<Array<{type: 'item', value: Sex, label: string}>>('--sex');
+const localeObjects = I18n.createObject<Array<{type: 'item', value: Sex, label: string}>>();
 
 /**
  * 返回本地化的性别列表

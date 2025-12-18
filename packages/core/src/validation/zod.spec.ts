@@ -19,12 +19,10 @@ type User = z.infer<typeof usr>;
 describe('zod', async () => {
     const enLoader = createZodLocaleLoader((await import('../../node_modules/zod/v4/locales/en.js')).default);
     const zhLoader = createZodLocaleLoader((await import('../../node_modules/zod/v4/locales/zh-CN.js')).default);
-    await enLoader('en');
-    await zhLoader('zh-CN');
 
     I18n.init('en');
-    I18n.addDict('zh', async () => { return undefined; });
-    I18n.addDict('en', async () => { return undefined; });
+    await I18n.addDict('en', enLoader);
+    await I18n.addDict('zh', zhLoader);
 
     test('valid', async () => {
         const user: User = {
@@ -38,8 +36,7 @@ describe('zod', async () => {
         expect(result[1]).toBeUndefined();
     });
 
-
-    test('invalid', async () => {
+    test('changeLocale', async () => {
         const user: User = {
             name: 'John Doe',
             age: 12,
@@ -54,10 +51,19 @@ describe('zod', async () => {
         expect(result[1]![0].reason).toEqual('Too small: expected number to be >=18');
         expect(result[1]![1].name).toEqual('address[1]');
 
-        // 切换语言
+        // 切换语言-相似名称
+
+        v.changeLocale(new I18n('zh-CN', 'full'));
+        result = await v.valid(user);
+        expect(result[0]).toBeUndefined();
+        expect(result[1]![0].name).toEqual('age');
+        expect(result[1]![0].reason).toEqual('数值过小：期望 number >=18');
+        expect(result[1]![1].name).toEqual('address[1]');
+
+        // 切换语言-同名
 
         v.changeLocale(new I18n('zh', 'full'));
-        result = await validator(usr, new I18n('zh', 'full')).valid(user);
+        result = await v.valid(user);
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
         expect(result[1]![0].reason).toEqual('数值过小：期望 number >=18');
@@ -71,7 +77,7 @@ describe('zod', async () => {
             address: ['123 Main St', '']
         };
 
-        const result = await validator(usr, new I18n('zh', 'full')).valid(user);
+        const result = await validator(usr, new I18n('zh-CN', 'full')).valid(user);
         expect(result[0]).toBeUndefined();
         expect(result[1]![0].name).toEqual('age');
         expect(result[1]![0].reason).toEqual('数值过小：期望 number >=18');

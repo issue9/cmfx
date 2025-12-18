@@ -8,7 +8,7 @@ import { JSX, createMemo } from 'solid-js';
 
 import { State } from '@/context';
 
-const localeObjects = I18n.createObject<Array<{type: 'item', value: State, label: string}>>('--states');
+const localeObjects = I18n.createObject<Array<{type: 'item', value: State, label: string}>>();
 
 /**
  * 返回本地化的性别列表
