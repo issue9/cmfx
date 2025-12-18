@@ -11,7 +11,7 @@ import { Mode, Scheme } from '@/base';
 */
 export interface Options {
     /**
-     * 提供用于保存配置项到 Storage 对象的接口
+     * 提供用于保存配置项到 {@link Storage} 对象的接口
      */
     config: Config;
 
@@ -51,9 +51,15 @@ export interface Options {
     mode?: Mode;
 
     /**
-     * 初始的本地化语言 ID，当在 {@link config} 中存在时，当前值将被忽略。
+     * 初始的本地化语言 ID
+     *
+     * @remarks
+     * 当在 {@link config} 中存在时，当前值将被忽略。
+     * 如果未指定，则会依次从以下顺序读取配置：
+     * - html.lang 属性；
+     * - 浏览器的语言设置；
      */
-    locale: string;
+    locale?: string;
 
     /**
      * 本地化的量词风格，当在 {@link config} 中存在时，当前值将被忽略。

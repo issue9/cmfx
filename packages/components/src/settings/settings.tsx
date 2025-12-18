@@ -33,7 +33,7 @@ export function Settings(props: Props) {
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
     modeFA.onChange(m => { act.switchMode(m); });
 
-    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale));
+    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale!));
     localeFA.onChange(v => { act.switchLocale(v); });
 
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);

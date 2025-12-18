@@ -139,7 +139,7 @@ export interface Locales {
      * @remarks
      * 在所需的本地化 ID 无法找到时，会采用该值。
      */
-    fallback: string;
+    fallback?: string;
 
     /**
      * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link DisplayStyle}

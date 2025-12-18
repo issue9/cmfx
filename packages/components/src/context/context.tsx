@@ -3,7 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle, Hotkey, I18n } from '@cmfx/core';
-import { createContext, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
+import {
+    createContext, createResource, JSX, Match, mergeProps, ParentProps, splitProps, Switch, useContext
+} from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { Mode, Scheme } from '@/base';
@@ -48,7 +50,9 @@ function useInternalOptions(): InternalOptionsContext {
 export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
     Hotkey.init(); // 初始化快捷键
 
-    I18n.init(props.locale);
+    props = mergeProps({ locale: document.documentElement.lang || navigator.language }, props);
+
+    I18n.init(props.locale!);
     const [messageResource] = createResource(true, async () => {
         for (const [key, loaders] of Object.entries(props.messages)) {
             await I18n.addDict(key, ...loaders);
@@ -58,9 +62,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
 
     const [, opt] = splitProps(props, ['children']);
     const obj = createStore<InternalOptions>(opt);
-    obj[1]({
-        actions: buildActions(obj),
-    });
+    obj[1]({ actions: buildActions(obj) });
 
     if (opt.schemes && opt.scheme) { // 如果没有这两个值，说明不需要主题。
         applyTheme(document.documentElement, {
@@ -81,7 +83,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
                             : obj[0].scheme as Scheme
                     }
                 >
-                    <LocaleProvider id={obj[0].locale} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
+                    <LocaleProvider id={obj[0].locale!} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
                         {props.children}
                     </LocaleProvider>
                 </ThemeProvider>

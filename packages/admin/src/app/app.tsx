@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, joinClass, useLocale, Menu, MenuRef, run, Options as XOptions } from '@cmfx/components';
+import { Drawer, DrawerRef, joinClass, Menu, MenuRef, run, useLocale, Options as XOptions } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
@@ -51,7 +51,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         schemes: opt.theme.schemes,
         mode: opt.theme.mode,
 
-        locale: opt.locales.fallback,
+        locale: opt.locales.fallback || document.documentElement.lang || navigator.language,
         displayStyle: opt.locales.displayStyle!,
         messages: opt.locales.messages,
 
@@ -63,7 +63,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
     };
 
     const api = await API.build(opt.id+'-token', opt.storage, opt.api.base,
-        opt.api.token, opt.api.contentType, opt.api.acceptType, opt.locales.fallback);
+        opt.api.token, opt.api.contentType, opt.api.acceptType, xo.locale!);
 
     const root = (p: RouteSectionProps) => {
         return <Provider {...opt} coreAPI={api}>
