@@ -7,7 +7,7 @@ export { classList, cloneElement, handleEvent, joinClass, style2String } from '.
 export { layouts } from './types';
 export type { Props as BaseProps, Layout, MountProps, RefProps } from './types';
 
-export type { AvailableEnumType, Enum, Enums } from './enum';
+export type { AvailableEnumType } from './enum';
 
 export { PropsError } from './errors';
 
