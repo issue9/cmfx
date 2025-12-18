@@ -50,7 +50,7 @@
         "vitest": "catalog:"
     },
     "dependencies": {
-        "@microsoft/tsdoc": "^0.15.1",
+        "@microsoft/tsdoc": "^0.16.0",
         "ts-morph": "^27.0.2",
         "typescript": "catalog:",
         "yaml": "catalog:"

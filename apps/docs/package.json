@@ -30,7 +30,7 @@
         "@solidjs/router": "catalog:",
         "colorjs.io": "catalog:",
         "echarts": "catalog:",
-        "marked": "^17.0.0",
+        "marked": "^17.0.1",
         "shiki": "catalog:",
         "solid-js": "catalog:",
         "tailwindcss": "catalog:",
