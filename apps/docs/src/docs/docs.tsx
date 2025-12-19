@@ -3,9 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Drawer, DrawerRef, Locale, Nav, Menu, MenuItem, MenuItemGroup, Page, useLocale, NavRef, MenuRef
+    Drawer, DrawerRef, Nav, Menu, MenuItem, MenuItemGroup, Page, useLocale, NavRef, MenuRef
 } from '@cmfx/components';
-import { ArrayElement } from '@cmfx/core';
+import { ArrayElement, Locale } from '@cmfx/core';
 import { RouteDefinition, useCurrentMatches } from '@solidjs/router';
 import { Marked } from 'marked';
 import { JSX, ParentProps, Setter, createEffect, createMemo, createSignal, onMount, onCleanup } from 'solid-js';

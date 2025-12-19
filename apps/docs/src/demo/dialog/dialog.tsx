@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, createForm, useComponents, MountProps } from '@cmfx/components';
+import { Button, Dialog, DialogRef, MountProps, createForm, useComponents } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
@@ -15,7 +15,7 @@ export default function(props: MountProps) {
     let dlg3: DialogRef;
 
     const [, Form] = createForm({
-        value: {},
+        initValue: {},
         submit: async () => ({ ok: false, status: 500, body: { title: 'req error', type: 'err', status: 500 } }),
         onProblem: async p => act.handleProblem(p)
     });

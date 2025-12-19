@@ -33,7 +33,7 @@ export function New(props: Props): JSX.Element {
     const l = useLocale();
 
     const [fapi, Form] = createForm({
-        value: adminSchema.parse({ sex: 'unknown' }),
+        initValue: adminSchema.parse({ sex: 'unknown' }),
         submit: async obj => { return await api.post('/admins', obj); },
         onProblem: async p => act.handleProblem(p),
         onSuccess: async () => {

@@ -16,7 +16,7 @@ export default function(props: MountProps) {
     const [layoutS, layout] = layoutSelector('layout');
 
     const [api, Form, actions] = createForm({
-        value: {
+        initValue: {
             f1: 'f1',
             f2: 5,
             date: new Date('2021-01-02T15:31'),

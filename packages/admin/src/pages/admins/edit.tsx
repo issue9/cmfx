@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, useLocale, Divider, Page, Table, TextField } from '@cmfx/components';
+import { Button, createForm, Divider, Page, Table, TextField, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createSignal, For, JSX, onMount } from 'solid-js';
 import * as z from 'zod';
@@ -40,9 +40,9 @@ export function Edit(props: Props): JSX.Element {
 
     const nav = useNavigate();
     const [fapi, Form] = createForm<Admin>({
-        value: adminSchema.parse({sex: 'unknown'}),
+        initValue: {sex: 'unknown', name: '', nickname: '', roles: [], passports: []},
         submit: async obj => { return await api.patch(`/admins/${ps.id}`, obj); },
-        onProblem: async p => act.handleProblem(p),
+        onProblem: act.handleProblem,
         onSuccess: () => nav(props.backURL)
     });
 

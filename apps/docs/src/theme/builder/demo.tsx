@@ -188,7 +188,7 @@ function Components(): JSX.Element {
     ];
 
     const [api, Form] = createForm({
-        value: {
+        initValue: {
             username: '',
             password: ''
         },

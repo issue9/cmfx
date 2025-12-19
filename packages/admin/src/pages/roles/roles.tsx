@@ -3,8 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Button, Column, Dialog, DialogRef, ObjectAccessor, useLocale,
-    Page, RemoteTable, RemoteTableRef, TextArea, TextField
+    Button, Column, Dialog, DialogRef, ObjectAccessor, Page, RemoteTable, RemoteTableRef, TextArea, TextField, useLocale
 } from '@cmfx/components';
 import { Return } from '@cmfx/core';
 import { JSX } from 'solid-js';
@@ -44,7 +43,7 @@ export function Roles(props: Props): JSX.Element {
         const id = currentID.getValue();
 
         const obj = await current.object();
-        delete obj.id;
+        delete obj?.id;
         if (id) {
             ret = await api.put(`/roles/${id}`, obj);
         } else {
@@ -85,6 +84,7 @@ export function Roles(props: Props): JSX.Element {
                 <TextArea accessor={current.accessor<string>('description')} />
             </form>
         </Dialog>
+
         <RemoteTable rest={api} ref={el => tableRef = el} path='/roles' queries={{}} systemToolbar columns={[
             { id: 'id', label: l.t('_p.id') },
             { id: 'name', label: l.t('_p.roles.name') },

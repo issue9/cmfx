@@ -31,7 +31,7 @@ export function Profile(props: Props): JSX.Element {
     let uploadRef: UploadRef;
 
     const [fapi, Form, actions] = createForm({
-        value: infoSchema.partial().parse({ sex: 'unknown' }),
+        initValue: infoSchema.partial().parse({ sex: 'unknown' }),
         onProblem: async p => act.handleProblem(p),
         submit: async obj => { return api.patch(opt.api.info, obj); },
         onSuccess: async () => { await act.refetchUser(); }

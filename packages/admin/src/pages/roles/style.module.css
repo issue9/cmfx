@@ -24,7 +24,7 @@
     }
 
     .roles {
-        @apply max-w-2xl;
+        @apply max-w-4xl!;
 
         .form {
             @apply flex flex-col gap-2;

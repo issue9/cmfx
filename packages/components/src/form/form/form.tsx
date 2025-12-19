@@ -92,11 +92,13 @@ export function createForm<T extends Flattenable, R = never, P = never>(
             if (v) { v.changeLocale(l); }
         });
 
+        if (options.load) { api.load(); }
+
         return <FormProvider layout={props.layout} hasHelp={props.hasHelp} rounded={props.rounded}
             disabled={props.disabled} readonly={props.readonly}
             labelAlign={props.labelAlign} labelWidth={props.labelWidth}
         >
-            <Spin id={id} tag="form" spinning={api.submitting()} palette={props.palette}
+            <Spin id={id} tag="form" spinning={api.spinning()} palette={props.palette}
                 class={joinClass(undefined, props.class)} style={props.style} ref={el => {
                     const f = el.element() as HTMLFormElement;
                     if (props.inDialog) { f.method = 'dialog'; }

@@ -13,14 +13,19 @@ import { ObjectAccessor } from './access';
 export interface Options<T extends Flattenable, R = never, PE = never> {
     /**
      * 初始值
+     *
+     * @remarks
+     * 该值仅作为数据表的初始默认值使用，一般情况下直接给定一个所有字段均为零值的对象即可。
+     * 如果 {@link load} 不为空，可能还需要调用该方法对数据表进行真正的初始化，比如从远程拉取数据。
      */
-    readonly value: T;
+    readonly initValue: T;
 
     /**
      * 在服务端返回未处理的 {@link Problem} 对象时的处理方法
      *
      * @remarks
-     * FormAPI 本身会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。
+     * 该方法仅在 {@link load} 和 {@link submit} 的调用过程中会调用。
+     * {@link submit} 会自动处理状态码为 400 的错误。onProblem 只需要处理其它情况即可。
      */
     readonly onProblem?: { (p: Problem<PE>): Promise<void> };
 
@@ -45,9 +50,20 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
     readonly validOnChange?: boolean;
 
     /**
-     * 提交数据的方法，如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#submitting} 将无实际作用
+     * 提交数据的方法
+     *
+     * @remarks
+     * 如果为空那么 {@link FormAPI#submit} 和 {@link FormAPI#spinning} 将无实际作用
      */
     readonly submit?: { (obj: T): Promise<Return<R, PE>>; };
+
+    /**
+     * 加载表单数据
+     *
+     * @remarks
+     * 如果为空，{@link FormAPI#load} 将无实际用处。
+     */
+    readonly load?: { (): Promise<Return<T, PE>>; };
 }
 
 /**
@@ -62,25 +78,55 @@ export interface Options<T extends Flattenable, R = never, PE = never> {
  */
 export class FormAPI<T extends Flattenable, R = never, P = never> extends ObjectAccessor<T> {
     readonly #onProblem?: Options<T, R, P>['onProblem'];
+    readonly #load?: Options<T, R, P>['load'];
     readonly #submit?: Options<T, R, P>['submit'];
     readonly #onSuccess?: Options<T, R, P>['onSuccess'];
-    readonly #submitting: Signal<boolean>;
+    readonly #spinning: Signal<boolean>;
 
     constructor(options: Options<T, R, P>) {
-        super(options.value, options.validator, options.validOnChange);
+        super(options.initValue, options.validator, options.validOnChange);
         this.#onProblem = options.onProblem;
         this.#submit = options.submit;
         this.#onSuccess = options.onSuccess;
-        this.#submitting = createSignal<boolean>(false);
+        this.#spinning = createSignal<boolean>(false);
     }
 
     /**
-     * 指示是否处于提交状态
+     * 指示是否处于交互状态
      *
      * @remarks
-     * 如果当前表单未在构造函数中指定 {@link Options#submit} 参数，则始终返回 false。
+     * 在 {@link load} 和 {@link submit} 的调用过程中，会返回 true。
      */
-    submitting() { return this.#submitting[0](); }
+    spinning() { return this.#spinning[0](); }
+
+    /**
+     * 加载数据
+     *
+     * @remarks
+     * 只有在正确加载数据的情况下，才会更换当前表单中的数据。否则保持原有数据不变。
+     * 加载的数据不会调用验证器对数据进行验证。
+     */
+    async load(): Promise<boolean> {
+        if (!this.#load) { return false; }
+
+        this.#spinning[1](true);
+
+        try{
+            const ret = await this.#load();
+            if (ret.ok) {
+                if (ret.body) { this.setValue(ret.body); }
+            } else {
+                if (this.#onProblem) {
+                    if (!ret.body) { throw new Error('后端未返回正确的 Problem 对象'); }
+                    await this.#onProblem(ret.body);
+                }
+            }
+
+            return ret.ok;
+        } finally {
+            this.#spinning[1](false);
+        }
+    }
 
     /**
      * 提交数据
@@ -92,7 +138,7 @@ export class FormAPI<T extends Flattenable, R = never, P = never> extends Object
 
         this.setError(); // 取消上次的错误提示
 
-        this.#submitting[1](true);
+        this.#spinning[1](true);
         try {
             const obj = await this.object();
             if (!obj) { return false; }
@@ -103,7 +149,7 @@ export class FormAPI<T extends Flattenable, R = never, P = never> extends Object
                 return true;
             }
 
-            if (!ret.body) { return true; }
+            if (!ret.body) { throw new Error('后端未返回正确的 Problem 对象'); }
 
             if (ret.status === 400) {
                 if (ret.body.params) {
@@ -119,7 +165,7 @@ export class FormAPI<T extends Flattenable, R = never, P = never> extends Object
 
             return false;
         } finally {
-            this.#submitting[1](false);
+            this.#spinning[1](false);
         }
     }
 }

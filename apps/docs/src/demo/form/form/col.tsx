@@ -17,7 +17,7 @@ export default function(props: MountProps) {
     const [labelAlignS, labelAlign] = labelAlignSelector('start');
 
     const [api, Form, { Reset, Submit }] = createForm({
-        value: {
+        initValue: {
             f1: 'f1',
             f2: 5,
             date: new Date('2021-01-02T15:31'),

@@ -9,7 +9,7 @@ import { createForm } from './form';
 
 describe('Form', async () => {
     const [_, Form] = createForm({
-        value: {},
+        initValue: {},
         submit: async (v: {}) => ({ ok: true, status: 200, body: v }),
     });
 

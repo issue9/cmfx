@@ -43,7 +43,7 @@ export class Pwd implements PassportComponents {
 
         const nav = useNavigate();
         const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>>({
-            value: {username: '', password: ''},
+            initValue: {username: '', password: ''},
             validator: zodValidator<z.infer<typeof accountSchema>>(accountSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
@@ -95,7 +95,7 @@ export class Pwd implements PassportComponents {
         );
 
         const [fapi , Form, actions] = createForm<z.infer<typeof valueSchema>>({
-            value: {old: '', new: ''},
+            initValue: {old: '', new: ''},
             validator: zodValidator<z.infer<typeof valueSchema>>(valueSchema.clone(), l),
             validOnChange: true,
             submit: async obj => {
