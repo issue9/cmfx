@@ -2,10 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, notify, useOptions, useLocale } from '@cmfx/components';
-import { API, DisplayStyle, Problem, REST, Return, Token } from '@cmfx/core';
-import { useNavigate } from '@solidjs/router';
-import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
+import { notify, OptionsSetter, useLocale, useOptions } from '@cmfx/components';
+import { API, Problem, REST, Return, Token } from '@cmfx/core';
+import { createContext, createResource, JSX, mergeProps, ParentProps, useContext } from 'solid-js';
 
 import { build as buildOptions } from '@/options/options';
 import { HTTPError } from './errors';
@@ -13,15 +12,12 @@ import { User } from './user';
 
 type OptContext = ReturnType<typeof buildOptions>;
 
-type InternalOptions = OptContext & {
+type AdminContext = OptContext & {
     coreAPI: API;
     actions: ReturnType<typeof buildActions>;
 };
 
-const internalOptContext = createContext<InternalOptions>();
-
-// 保存于 sessionStorage 中的表示当前登录用户的 id
-const currentKey = '-uid';
+const adminContext = createContext<AdminContext>();
 
 /**
  * 获取全局的操作接口
@@ -32,8 +28,8 @@ const currentKey = '-uid';
  * - 2: 组件库初始化时的选项；
  */
 export function useAdmin(): [api: REST, actions: ReturnType<typeof buildActions>, options: OptContext] {
-    const ctx = useContext(internalOptContext);
-    if (!ctx) { throw '未找到正确的 optContext'; }
+    const ctx = useContext(adminContext);
+    if (!ctx) { throw '未找到正确的 adminContext'; }
 
     const l = useLocale();
     return [ctx.coreAPI.rest(new Headers({ 'Accept-Language': l.locale.toString() })), ctx.actions, ctx];
@@ -41,40 +37,18 @@ export function useAdmin(): [api: REST, actions: ReturnType<typeof buildActions>
 
 // NOTE: 需要保证在 {@link run} 之内运行
 export function Provider(props: ParentProps<OptContext & {coreAPI: API}>): JSX.Element {
-    const nav = useNavigate();
     const [act] = useOptions();
     const p = mergeProps(props, {
         coreAPI: props.coreAPI,
-        actions: buildActions(props.coreAPI, act, props, nav),
+        actions: buildActions(props.coreAPI, act, props),
     });
 
-    const uid = parseInt(sessionStorage.getItem(props.id + currentKey) ?? '0');
-    p.actions.switchConfig(uid);
-
-    return <internalOptContext.Provider value={p}>
+    return <adminContext.Provider value={p}>
         {props.children}
-    </internalOptContext.Provider>;
+    </adminContext.Provider>;
 }
 
-export async function clearStorage(api: API) {
-    await api.logout();
-
-    await api.clearCache();
-
-    // localStorage
-    localStorage.clear();
-    sessionStorage.clear();
-
-    // IndexedDB
-    const dbs = await indexedDB.databases();
-    for (const db of dbs) {
-        if (db.name) { indexedDB.deleteDatabase(db.name); }
-    }
-}
-
-function buildActions(
-    api: API, act: ReturnType<typeof useOptions>[0], opt: OptContext, nav: ReturnType<typeof useNavigate>
-) {
+function buildActions(api: API, set: OptionsSetter, opt: OptContext) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         if (!api.isLogin()) { return; }
@@ -96,16 +70,32 @@ function buildActions(
          * 是否已经登录
          */
         isLogin(): boolean {
-            // NOTE: api.isLogin 不是响应式的，所以改为 user。
+            // NOTE: API.isLogin 不是响应式的，所以改为 user。
             return !user.loading && !!user();
         },
 
         /**
          * 清除浏览器的所有缓存
+         *
+         * @param type - 缓存类型，可以是以下值：
+         * - `cache`：清除与后通讯中接口保存的缓存；
+         * - `storage`：清除存储在 storage 中的登录信息和当前用户的配置信息；
+         * - `undefined`：同时包含以上两者；
          */
-        async clearCache(): Promise<void> {
-            await clearStorage(api);
-            nav(opt.routes.public.home);
+        async clearCache(type?: 'cache' | 'storage'): Promise<void> {
+            switch (type) {
+            case 'cache':
+                await api.clearCache();
+                break;
+            case 'storage':
+                await this.logout(); // 清除存储在 storage 中的登录信息
+                set.clearStorage();
+                break;
+            default:
+                await api.clearCache();
+                await this.logout();
+                set.clearStorage();
+            }
         },
 
         /**
@@ -136,8 +126,7 @@ function buildActions(
             if (ret === true) {
                 await userData.refetch();
                 const uid = this.user()!.id!.toString();
-                sessionStorage.setItem(opt.id + currentKey, uid);
-                act.switchConfig(uid);
+                set.switchConfig(uid);
             }
             return ret;
         },
@@ -150,9 +139,8 @@ function buildActions(
          */
         async logout() {
             await api.logout();
-            sessionStorage.removeItem(opt.id + currentKey);
             userData.mutate();
-            act.switchConfig(opt.configName);
+            set.switchConfig(opt.configName);
         },
 
         /**
@@ -164,28 +152,5 @@ function buildActions(
          * 从服务器更新数据
          */
         async refetchUser() { await userData.refetch(); },
-
-        setTitle(v: string) { act.setTitle(v); },
-
-        switchConfig(id: string | number): void { act.switchConfig(id); },
-
-        /**
-         * 切换主题色
-         */
-        switchScheme(scheme: string) { act.switchScheme(scheme); },
-
-        /**
-         * 切换主题模式
-         */
-        switchMode(mode: Mode) { act.switchMode(mode); },
-
-        /**
-         * 切换本地化对象
-         *
-         * @param id - 本地化 ID
-         */
-        switchLocale(id: string) { act.switchLocale(id); },
-
-        switchDisplayStyle(style: DisplayStyle) { act.switchDisplayStyle(style); },
     };
 }

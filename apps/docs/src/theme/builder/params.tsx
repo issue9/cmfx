@@ -3,25 +3,30 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label,
-    MenuItemItem, ObjectAccessor, Palette, RadioGroup, Range, Scheme, useOptions, useLocale,
-    RangeRef, fieldAccessor,
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown,
+    fieldAccessor,
+    FieldOption, joinClass, Label,
+    MenuItemItem, ObjectAccessor, Palette, RadioGroup, Range,
+    RangeRef,
+    Scheme,
+    useLocale,
+    useOptions,
 } from '@cmfx/components';
 import { ExpandType, Locale, rand } from '@cmfx/core';
-import { batch, createMemo, JSX, createEffect } from 'solid-js';
 import Color from 'colorjs.io';
+import { batch, createEffect, createMemo, JSX } from 'solid-js';
 import { unwrap } from 'solid-js/store';
 import IconApply from '~icons/fluent/text-change-accept-20-filled';
 import IconOptions from '~icons/ion/options';
 import IconLoad from '~icons/material-symbols/arrow-upload-progress';
-import IconRand from '~icons/mingcute/random-fill';
 import IconColors from '~icons/material-symbols/colors';
 import IconExport from '~icons/material-symbols/export-notes';
 import IconRadius from '~icons/mingcute/border-radius-fill';
 import IconFontSize from '~icons/mingcute/font-size-fill';
+import IconRand from '~icons/mingcute/random-fill';
 
-import { convertSchemeVar2Color } from './utils';
 import styles from './style.module.css';
+import { convertSchemeVar2Color } from './utils';
 
 /**
  * 参数面板
@@ -53,7 +58,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
             </div>
 
             <ButtonGroup kind='border'>
-                <Button square onclick={async () => act.switchScheme(await s.object())} title={l.t('_d.theme.apply')}>
+                <Button square onclick={async () => act.setScheme(await s.object())} title={l.t('_d.theme.apply')}>
                     <IconApply />
                 </Button>
                 <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>

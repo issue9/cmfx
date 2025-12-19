@@ -6,8 +6,12 @@ import './style.css';
 
 import {
     Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes, Result,
-    run, Search, ToggleFullScreenButton, Transition, useOptions, useLocale, useTheme
+    run, Search, ToggleFullScreenButton, Transition,
+    useLocale,
+    useOptions,
+    useTheme
 } from '@cmfx/components';
+import * as illustrations from '@cmfx/illustrations';
 import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
 import IconZH from '~icons/icon-park-outline/chinese';
@@ -23,16 +27,15 @@ import IconLanguage from '~icons/material-symbols/language';
 import IconLight from '~icons/material-symbols/light-mode';
 import IconTheme from '~icons/material-symbols/palette';
 import IconBuilder from '~icons/mdi/theme';
-import * as illustrations from '@cmfx/illustrations';
 
 import pkg from '../package.json';
 import { buildMenus as buildDemoMenus, buildRoute as buildDemoRoute } from './demo';
 import { buildMenus as buildDocsMenus, buildRoute as buildDocsRoute } from './docs';
-import { buildRoute as buildThemeRoute } from './theme/builder';
 import { options } from './options';
+import { buildRoute as buildThemeRoute } from './theme/builder';
 
-import styles from './style.module.css';
 import { Hotkey } from '@cmfx/core';
+import styles from './style.module.css';
 
 const languageIcons: ReadonlyMap<string, JSX.Element> = new Map([
     ['en', <IconEN />],
@@ -88,7 +91,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                 <Show when={themeRef()}>{r => { return r().ToggleButton({ square: true, kind: 'flat' }); }}</Show>
 
                 <Dropdown trigger='hover' value={[l.match(Array.from(languageIcons.keys()))]}
-                    onChange={e => act.switchLocale(e)} items={l.locales.map(locale => ({
+                    onChange={e => act.setLocale(e)} items={l.locales.map(locale => ({
                         type: 'item',
                         label: locale[1],
                         value: locale[0],
@@ -108,7 +111,7 @@ function InternalApp(props: RouteSectionProps): JSX.Element {
                             const mode = m[0];
                             v.push(mode);
                             setThemeValues(v as any);
-                            act.switchMode(mode as Mode);
+                            act.setMode(mode as Mode);
                         }
 
                         themeDropdown.hide();

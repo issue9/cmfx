@@ -20,7 +20,7 @@ import { default as api } from './api.json';
 export default function(): JSX.Element {
     return <Stages dir='demo/config/locale' api={api} stages={[
         { component: C1, source: s1, title: 'LocaleProvider', desc: '可通过 `LocaleProvider` 的属性修改所包含内容的语言。' },
-        { component: C2, source: s2, title: 'Action.switchLocale', desc: '可通过 `Action.switchLocale` 修改全局的本地化内容。' },
+        { component: C2, source: s2, title: 'Action.setLocale', desc: '可通过 `Action.setLocale` 修改全局的本地化内容。' },
         { component: C3, source: s3, title: '其它属性' },
     ]}>
     </Stages>;

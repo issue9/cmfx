@@ -12,7 +12,7 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 
 import { BaseProps, joinClass, Mode } from '@/base';
-import { useOptions, useLocale } from '@/context';
+import { useLocale, useOptions } from '@/context';
 import { Timezone } from '@/datetime';
 import { Divider } from '@/divider';
 import { Choice, fieldAccessor, Number, RadioGroup } from '@/form';
@@ -25,19 +25,22 @@ export interface Props extends BaseProps {}
 
 /**
  * 提供了整个项目页可设置的选项
+ *
+ * @remarks
+ * 这是对 {@link useOptions} 中所有选项的设置。
  */
 export function Settings(props: Props) {
     const [act, opt] = useOptions();
     const l = useLocale();
 
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
-    modeFA.onChange(m => { act.switchMode(m); });
+    modeFA.onChange(m => { act.setMode(m); });
 
     const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale!));
-    localeFA.onChange(v => { act.switchLocale(v); });
+    localeFA.onChange(v => { act.setLocale(v); });
 
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
-    unitFA.onChange(v => { act.switchDisplayStyle(v); });
+    unitFA.onChange(v => { act.setDisplayStyle(v); });
 
     const staysFA = fieldAccessor<number>('stays', opt.stays ?? 3000);
     staysFA.onChange(v => { act.setStays(v); });
@@ -64,7 +67,7 @@ export function Settings(props: Props) {
             </Description>
 
             <SchemeSelector class={styles.item} schemes={opt.schemes!}
-                value={opt.scheme!} onChange={val => act.switchScheme(val)} />
+                value={opt.scheme!} onChange={val => act.setScheme(val)} />
         </Show>
 
         <Divider padding='16px 8px' />
@@ -99,7 +102,7 @@ export function Settings(props: Props) {
         <Description icon={/*@once*/<IconTimezone />} title={l.t('_c.settings.timezone')!}>
             {l.t('_c.settings.timezoneDesc')!}
         </Description>
-        <Timezone class={styles.item} value={opt.timezone} onChange={v => { act.switchTimezone(v); }} />
+        <Timezone class={styles.item} value={opt.timezone} onChange={v => { act.setTimezone(v); }} />
 
         <Divider padding='16px 8px' />
 

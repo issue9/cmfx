@@ -118,6 +118,19 @@ export function buildSetter(ctx: OptionsGetSetContext) {
 
     return {
         /**
+         * 切换配置
+         *
+         * @remarks
+         * 多用户环境，可以根据不同的用户 ID 切换不同的配置。
+         *
+         * @param id - 新配置的 ID，一般为用户 ID 等能表示用户唯一标记的值；
+         */
+        switchConfig(id: string) {
+            o.config!.switch(id);
+            read();
+        },
+
+        /**
          * 设置 HTML 文档的标题
          */
         setTitle(v: string) {
@@ -126,71 +139,63 @@ export function buildSetter(ctx: OptionsGetSetContext) {
         },
 
         /**
-         * 切换配置
-         *
-         * @remarks
-         * 多用户环境，可以根据不同的用户 ID 切换不同的配置。
-         *
-         * @param id - 新配置的 ID，一般为用户 ID 等能表示用户唯一标记的值；
-         */
-        switchConfig(id: string | number) {
-            o.config!.switch(id);
-            read();
-        },
-
-        /**
-         * 切换当前配置的全局语言
+         * 设置当前配置的全局语言
          *
          * @param id - 新语言的 ID
          */
-        switchLocale(id: string): void {
+        setLocale(id: string): void {
             set({ locale: id });
             o.config!.set(localeKey, id);
             document.documentElement.lang = id;
         },
 
         /**
-         * 切换当前配置的全局单位样式
+         * 设置当前配置的全局单位样式
          */
-        switchDisplayStyle(style: DisplayStyle) {
+        setDisplayStyle(style: DisplayStyle) {
             set({ displayStyle: style });
             o.config!.set(displayStyleKey, style);
         },
 
         /**
-         * 切换当前配置的全局时区
+         * 设置当前配置的全局时区
          */
-        switchTimezone(tz: string) {
+        setTimezone(tz: string) {
             set({ timezone: tz });
             o.config!.set(tzKey, tz);
         },
 
         /**
-         * 切换当前配置的全局主题色
+         * 设置当前配置的全局主题色
          *
          * @param scheme - 新主题色的 ID 或 {@link Scheme} 对象，
          * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
          */
-        switchScheme(scheme: string | Scheme) {
+        setScheme(scheme: string | Scheme) {
             const s = structuredClone((typeof scheme === 'string') ? o.schemes!.get(scheme) : scheme);
             set({ scheme: s });
             o.config!.set(schemeKey, s);
         },
 
         /**
-         * 切换当前配置的全局主题模式
+         * 设置当前配置的全局主题模式
          */
-        switchMode(mode: Mode) {
+        setMode(mode: Mode) {
             set({ mode: mode });
             o.config!.set(modeKey, mode);
         },
 
         /**
-         * 通知当前配置的停留时间，单位为毫秒。
+         * 设置当前配置中通知的停留时间，单位为毫秒。
          */
         setStays(stay: number) {
             set({ stays: stay });
             o.config!.set(staysKey, stay);
-        }
+        },
+
+        /**
+         * 清除当前用户的配置
+         */
+        clearStorage() { o.config!.clear(); }
     };
 }

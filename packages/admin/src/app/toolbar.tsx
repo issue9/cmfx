@@ -11,7 +11,6 @@ import { Accessor, JSX, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
 
 import { useAdmin } from '@/context';
-import { clearStorage } from '@/context/context';
 import { MenuItem } from '@/options';
 import styles from './style.module.css';
 
@@ -62,10 +61,10 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
 
 function ClearCache(props: { hk?: Hotkey }): JSX.Element {
     const l = useLocale();
-    const [api, act, opt] = useAdmin();
+    const [, act, opt] = useAdmin();
     const nav = useNavigate();
 
-    return <Dropdown hotkey={props.hk} trigger='hover' items={[
+    return <Dropdown selectedClass='' hotkey={props.hk} trigger='hover' items={[
         { type: 'item', value: 'clear-api-cache', label: l.t('_p.system.clearAPICache') },
         { type: 'item', value: 'clear-storage', label: l.t('_p.system.clearStorage') },
         { type: 'divider' },
@@ -74,19 +73,18 @@ function ClearCache(props: { hk?: Hotkey }): JSX.Element {
         switch (val) {
         case 'clear-all':
             await act.clearCache();
+            nav(opt.routes.public.home);
             break;
         case 'clear-api-cache':
-            await api.api().clearCache();
+            await act.clearCache('cache');
             break;
         case 'clear-storage':
-            await clearStorage(api.api());
+            await act.clearCache('storage');
             nav(opt.routes.public.home);
             break;
         }
     }}>
-        <Button kind='flat' square title={l.t('_p.system.clearCache')}>
-            <IconClear />
-        </Button>
+        <Button kind='flat' square title={l.t('_p.system.clearCache')}><IconClear /></Button>
     </Dropdown>;
 }
 

@@ -24,7 +24,7 @@ export interface Options {
     /**
      * 配置内容在 storage 中的名称
      */
-    configName?: string | number;
+    configName?: string;
 
     /**
      * 网站的标题
@@ -177,7 +177,7 @@ export interface Theme {
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,
-    configName: 0,
+    configName: '0',
     system: {
         dialog: true,
         notification: true,

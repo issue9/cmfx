@@ -14,12 +14,12 @@ export default function() {
         <ThemeProvider mode='light' scheme={opt.schemes?.get('green')}>
             <Button>这是当前固定的主题-green</Button>
 
-            <Button onclick={() => act.switchScheme('purple')}>主题-purple</Button>
-            <Button onclick={() => act.switchScheme('green')}>主题-green</Button>
+            <Button onclick={() => act.setScheme('purple')}>主题-purple</Button>
+            <Button onclick={() => act.setScheme('green')}>主题-green</Button>
 
-            <Button onclick={() => act.switchMode('light')}>浅色</Button>
-            <Button onclick={() => act.switchMode('dark')}>深色</Button>
-            <Button onclick={() => act.switchMode('system')}>跟随系统</Button>
+            <Button onclick={() => act.setMode('light')}>浅色</Button>
+            <Button onclick={() => act.setMode('dark')}>深色</Button>
+            <Button onclick={() => act.setMode('system')}>跟随系统</Button>
         </ThemeProvider>
     </div>;
 }
