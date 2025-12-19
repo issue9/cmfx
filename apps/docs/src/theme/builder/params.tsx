@@ -4,10 +4,10 @@
 
 import {
     Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, FieldOption, joinClass, Label,
-    Locale, MenuItemItem, ObjectAccessor, Palette, RadioGroup, Range, Scheme, useComponents, useLocale,
+    MenuItemItem, ObjectAccessor, Palette, RadioGroup, Range, Scheme, useOptions, useLocale,
     RangeRef, fieldAccessor,
 } from '@cmfx/components';
-import { ExpandType, rand } from '@cmfx/core';
+import { ExpandType, Locale, rand } from '@cmfx/core';
 import { batch, createMemo, JSX, createEffect } from 'solid-js';
 import Color from 'colorjs.io';
 import { unwrap } from 'solid-js/store';
@@ -28,7 +28,7 @@ import styles from './style.module.css';
  */
 export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const l = useLocale();
-    const [act, opt] = useComponents();
+    const [act, opt] = useOptions();
     let dlg: DialogRef;
 
     const schemes = Array.from(opt.schemes!).

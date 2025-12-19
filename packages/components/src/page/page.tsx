@@ -6,7 +6,7 @@ import { createEffect, JSX, Match, onMount, ParentProps, Switch } from 'solid-js
 
 import { BackTop, BackTopProps, BackTopRef } from '@/backtop';
 import { BaseProps, joinClass, RefProps } from '@/base';
-import { useComponents, useLocale } from '@/context';
+import { useOptions, useLocale } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -46,7 +46,7 @@ export interface Props extends BaseProps, ParentProps, RefProps<Ref> {
  * @remarks 默认是 flex-col 布局。如果有需要，可自行指定 class 进行修改。
  */
 export function Page (props: Props): JSX.Element {
-    const [act] = useComponents();
+    const [act] = useOptions();
     const l = useLocale();
 
     let ref: HTMLDivElement;

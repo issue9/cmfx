@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, LocaleProvider, useComponents, useLocale } from '@cmfx/components';
+import { Button, LocaleProvider, useOptions, useLocale } from '@cmfx/components';
 
 export default function() {
-    const [act] = useComponents();
+    const [act] = useOptions();
     const l = useLocale();
 
     return <div>

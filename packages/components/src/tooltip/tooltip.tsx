@@ -6,7 +6,7 @@ import { adjustPopoverPosition, PopoverPosition } from '@cmfx/core';
 import { JSX, ParentProps } from 'solid-js';
 
 import { BaseProps, joinClass } from '@/base';
-import { useComponents } from '@/context';
+import { useOptions } from '@/context';
 import styles from './style.module.css';
 
 export interface Ref {
@@ -44,7 +44,7 @@ export interface Props extends BaseProps, ParentProps {
  * 小型的弹出提示框
  */
 export default function Tooltip(props: Props): JSX.Element {
-    const [, opt] = useComponents();
+    const [, opt] = useOptions();
     const duration = props.stays ?? opt.stays!;
 
     return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)}

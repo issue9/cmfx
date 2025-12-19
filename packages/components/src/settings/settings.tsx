@@ -12,7 +12,7 @@ import IconTranslate from '~icons/material-symbols/translate';
 import IconTimezone from '~icons/mdi/timezone';
 
 import { BaseProps, joinClass, Mode } from '@/base';
-import { useComponents, useLocale } from '@/context';
+import { useOptions, useLocale } from '@/context';
 import { Timezone } from '@/datetime';
 import { Divider } from '@/divider';
 import { Choice, fieldAccessor, Number, RadioGroup } from '@/form';
@@ -27,7 +27,7 @@ export interface Props extends BaseProps {}
  * 提供了整个项目页可设置的选项
  */
 export function Settings(props: Props) {
-    const [act, opt] = useComponents();
+    const [act, opt] = useOptions();
     const l = useLocale();
 
     const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');

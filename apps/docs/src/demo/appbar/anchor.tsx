@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Appbar, Button, MountProps, useComponents } from '@cmfx/components';
+import { Appbar, Button, MountProps, useOptions } from '@cmfx/components';
 import IconEye from '~icons/material-symbols/eyeglasses';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [, opt] = useComponents();
+    const [, opt] = useOptions();
     const [paletteS, palette] = paletteSelector();
 
     return <>

@@ -5,7 +5,7 @@
 import { RouteDefinition } from '@solidjs/router';
 import { onMount, onCleanup, Setter, createEffect } from 'solid-js';
 import { unwrap } from 'solid-js/store';
-import { Drawer, DrawerRef, ObjectAccessor, Scheme, useComponents, useLocale, useTheme } from '@cmfx/components';
+import { Drawer, DrawerRef, ObjectAccessor, Scheme, useOptions, useLocale, useTheme } from '@cmfx/components';
 
 import { Demo } from './demo';
 import { params } from './params';
@@ -24,7 +24,7 @@ export function buildRoute(path: string, setDrawer: Setter<DrawerRef | undefined
             onCleanup(() => setDrawer(undefined));
 
             const l = useLocale();
-            const [act] = useComponents();
+            const [act] = useOptions();
 
             const t = useTheme();
             const schemeFA = new ObjectAccessor<Scheme>(convertSchemeVar2Color(unwrap(t.scheme)!));

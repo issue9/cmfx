@@ -10,7 +10,7 @@ import IconError from '~icons/material-symbols/error';
 
 import { transitionDuration } from '@/base';
 import styles from './style.module.css';
-import { useComponents } from '@/context';
+import { useOptions } from '@/context';
 
 let copy2ClipboardInst: typeof copy2Clipboard;
 
@@ -20,7 +20,7 @@ const positions: Array<string> = ['absolute', 'relative', 'fixed'] as const;
  * 初始化剪切版环境
  */
 export default function Clipboard(props: ParentProps): JSX.Element {
-    const [, opt] = useComponents();
+    const [, opt] = useOptions();
 
     copy2ClipboardInst = async (target: HTMLElement, text: string): Promise<void> => {
         await write2Clipboard(text, async (ok?: boolean) => {

@@ -2,13 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, Dialog, DialogRef, MountProps, createForm, useComponents } from '@cmfx/components';
+import { Button, Dialog, DialogRef, MountProps, createForm, useOptions } from '@cmfx/components';
 import { Portal } from 'solid-js/web';
 
 import { paletteSelector } from '../base';
 
 export default function(props: MountProps) {
-    const [act] = useComponents();
+    const [act] = useOptions();
     const [paletteS, palette] = paletteSelector('primary');
 
     let dlg2: DialogRef;

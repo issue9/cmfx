@@ -2,10 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
+import { Button, ThemeProvider, useOptions, useTheme } from '@cmfx/components';
 
 export default function() {
-    const [act, opt] = useComponents();
+    const [act, opt] = useOptions();
     const t = useTheme();
 
     return <div>

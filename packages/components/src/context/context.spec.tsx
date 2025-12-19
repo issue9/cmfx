@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { render } from '@solidjs/testing-library';
 import { Config, sleep } from '@cmfx/core';
 import { HashRouter } from '@solidjs/router';
-import { ParentProps, JSX } from 'solid-js';
+import { render } from '@solidjs/testing-library';
+import { JSX, ParentProps } from 'solid-js';
 import { createStore } from 'solid-js/store';
-import { expect, test, afterAll } from 'vitest';
+import { afterAll, expect, test } from 'vitest';
 
-import { buildActions, OptionsProvider } from './context';
-import { Options } from './options';
 import { BaseProps } from '@/base';
+import { buildSetter, OptionsProvider } from './context';
+import { Options } from './options';
 
 // 提供用于测试的配置项
 const options: Options = {
@@ -108,8 +108,8 @@ export class ComponentTester {
     }
 }
 
-test('buildActions',  () => {
-    const act = buildActions(createStore({...options}));
+test('buildSetter',  () => {
+    const act = buildSetter(createStore({...options}));
     expect(act).not.toBeUndefined();
 
     act.setTitle('t');

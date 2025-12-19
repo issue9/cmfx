@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { useComponents, useLocale, Button, SplitButton } from '@cmfx/components';
+import { useOptions, useLocale, Button, SplitButton } from '@cmfx/components';
 import { createEffect } from 'solid-js';
 import IconGithub from '~icons/icon-park-outline/github';
 import IconAI from '~icons/mingcute/ai-fill';
@@ -12,7 +12,7 @@ import pkg from '../../package.json';
 import styles from './style.module.css';
 
 export default function Home() {
-    const [act, opt] = useComponents();
+    const [act, opt] = useOptions();
     const l = useLocale();
 
     createEffect(() => {

@@ -6,7 +6,7 @@ import './style.css';
 
 import {
     Appbar, Button, DrawerRef, Dropdown, DropdownRef, Menu, MenuItemItem, Mode, modes, Result,
-    run, Search, ToggleFullScreenButton, Transition, useComponents, useLocale, useTheme
+    run, Search, ToggleFullScreenButton, Transition, useOptions, useLocale, useTheme
 } from '@cmfx/components';
 import { RouteDefinition, RouteSectionProps, useNavigate } from '@solidjs/router';
 import { createMemo, createSignal, JSX, lazy, Show } from 'solid-js';
@@ -49,7 +49,7 @@ const [themeRef, setThemeRef] = createSignal<DrawerRef>();
 
 function InternalApp(props: RouteSectionProps): JSX.Element {
     const l = useLocale();
-    const [act] = useComponents();
+    const [act] = useOptions();
     const [dir, setDir] = createSignal<'ltr' | 'rtl' | 'auto'>('auto');
     const theme = useTheme();
 

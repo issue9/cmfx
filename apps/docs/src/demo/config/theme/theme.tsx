@@ -2,14 +2,14 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { IconSet, IconSetRef, Button, Divider, Scheme, ThemeProvider, useComponents, useTheme } from '@cmfx/components';
+import { IconSet, IconSetRef, Button, Divider, Scheme, ThemeProvider, useOptions, useTheme } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
 import IconPerson from '~icons/material-symbols/person';
 
 export default function() {
-    const [, opt] = useComponents();
+    const [, opt] = useOptions();
     const [s, setScheme] = createSignal<Scheme | undefined>(typeof opt.scheme === 'string' ? opt.schemes?.get(opt.scheme) : opt.scheme);
     const [m, setMode] = createSignal(opt.mode);
     const g = useTheme();

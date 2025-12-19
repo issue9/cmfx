@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, notify, useComponents, useLocale } from '@cmfx/components';
+import { Mode, notify, useOptions, useLocale } from '@cmfx/components';
 import { API, DisplayStyle, Problem, REST, Return, Token } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { JSX, ParentProps, createContext, createResource, mergeProps, useContext } from 'solid-js';
@@ -42,7 +42,7 @@ export function useAdmin(): [api: REST, actions: ReturnType<typeof buildActions>
 // NOTE: 需要保证在 {@link run} 之内运行
 export function Provider(props: ParentProps<OptContext & {coreAPI: API}>): JSX.Element {
     const nav = useNavigate();
-    const [act] = useComponents();
+    const [act] = useOptions();
     const p = mergeProps(props, {
         coreAPI: props.coreAPI,
         actions: buildActions(props.coreAPI, act, props, nav),
@@ -73,7 +73,7 @@ export async function clearStorage(api: API) {
 }
 
 function buildActions(
-    api: API, act: ReturnType<typeof useComponents>[0], opt: OptContext, nav: ReturnType<typeof useNavigate>
+    api: API, act: ReturnType<typeof useOptions>[0], opt: OptContext, nav: ReturnType<typeof useNavigate>
 ) {
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。

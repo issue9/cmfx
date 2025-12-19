@@ -7,7 +7,7 @@ import { JSX, mergeProps, ParentProps } from 'solid-js';
 import { Portal, render } from 'solid-js/web';
 
 import { BaseProps, joinClass, MountProps, Palette } from '@/base';
-import { useComponents } from '@/context';
+import { useOptions } from '@/context';
 import { Alert } from './alert';
 import styles from './style.module.css';
 
@@ -57,7 +57,7 @@ export default function Notify(props: Props): JSX.Element {
 }
 
 function initNotify(p: Props): JSX.Element {
-    const [, opt] = useComponents();
+    const [, opt] = useOptions();
     let ref: HTMLDivElement;
 
     notifyInst = async (title: string, body?: string, type?: Type, lang?: string, timeout?: number) => {

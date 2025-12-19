@@ -15,7 +15,7 @@ import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette, RefProps } from '@/base';
 import { Button, SplitButton, ToggleFitScreenButton } from '@/button';
-import { useComponents, useLocale } from '@/context';
+import { useOptions, useLocale } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { Checkbox, ObjectAccessor, Radio } from '@/form';
@@ -132,7 +132,7 @@ const presetProps = {
  * @typeParam Q - 为查询参数的类型；
  */
 export function LoaderTable<T extends object, Q extends Query = Query>(props: Props<T, Q>) {
-    const [, opt] = useComponents();
+    const [, opt] = useOptions();
     const l = useLocale();
     let ref: BasicTableRef;
 
