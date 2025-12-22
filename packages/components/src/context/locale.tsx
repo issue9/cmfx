@@ -5,6 +5,8 @@
 import { Dict, DictKeys, DisplayStyle, I18n, Locale, TranslateArgs } from '@cmfx/core';
 import { createContext, createEffect, createSignal, JSX, ParentProps, useContext } from 'solid-js';
 
+import { ContextNotFoundError } from './errors';
+
 export type Props = ParentProps<{
     /**
      * 语言 ID
@@ -60,13 +62,12 @@ function buildLocale(props: Props) {
     };
 }
 
-
 /**
  * 返回用于本地化的对象
  */
 export function useLocale(): Locale {
     const ctx = useContext(localeContext);
-    if (!ctx) { throw new Error('本地化的上下文环境还未初始化'); }
+    if (!ctx) { throw new ContextNotFoundError('localeContext'); }
     return ctx;
 }
 

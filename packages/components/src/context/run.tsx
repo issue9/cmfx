@@ -21,14 +21,14 @@ import styles from './style.module.css';
  * 子组件的 css 样式可以使用此作为容器查询，比如 {@link Notify} 就使用 `@sm/root:` 作为样式变体。
  *
  * @param app - 实际的内容组件；
- * @param routes - 路由数据；
  * @param mountedElement - 组件挂载的元素；
  * @param o - 初始化参数；
- * @param r - 指定路由，默认为 {@link HasRouter}；
+ * @param routes - 路由数据；
+ * @param router - 指定路由，默认为 {@link HasRouter}；
  */
 export function run(
-    app: Component<RouteSectionProps>, routes: Array<RouteDefinition>, mountedElement: HTMLElement, o: Options,
-    r?: typeof Router
+    app: Component<RouteSectionProps>, mountedElement: HTMLElement, o: Options,
+    routes: Array<RouteDefinition>, router?: typeof Router
 ): void {
     mountedElement.classList.add(styles.root);
     const opt = requiredOptions(o);
@@ -43,6 +43,6 @@ export function run(
         </OptionsProvider>;
     };
 
-    r = r ?? HashRouter;
-    render(() => r({ root: Root, children: routes }), mountedElement);
+    router = router ?? HashRouter;
+    render(() => router({ root: Root, children: routes }), mountedElement);
 }

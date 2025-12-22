@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+export type { ContextNotFoundError } from './errors';
+
 export type { Options } from './options';
 
 export { useOptions } from './context';

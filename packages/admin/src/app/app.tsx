@@ -76,7 +76,7 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         </OptionsProvider>;
     };
 
-    run(root, routes, document.getElementById(elementID)!, xo, router);
+    run(root, document.getElementById(elementID)!, xo, routes, router);
 }
 
 function Public(props: ParentProps): JSX.Element {

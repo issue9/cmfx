@@ -5,6 +5,7 @@
 import { children, createContext, createEffect, For, JSX, ParentProps, splitProps, useContext } from 'solid-js';
 
 import { changeMode, changeScheme, Mode, Scheme } from '@/base';
+import { ContextNotFoundError } from './errors';
 
 const themeContext = createContext<Theme>();
 
@@ -13,9 +14,7 @@ const themeContext = createContext<Theme>();
  */
 export function useTheme(): Theme {
     const ctx = useContext(themeContext);
-    if (!ctx) {
-        throw new Error('主题的上下文环境还未初始化');
-    }
+    if (!ctx) { throw new ContextNotFoundError('themeContext'); }
     return ctx;
 }
 

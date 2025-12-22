@@ -6,6 +6,7 @@ import { API } from '@cmfx/core';
 import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
 
 import { build } from '@/app/options';
+import { ContextNotFoundError } from '@cmfx/components';
 
 type OptionsContext = ReturnType<typeof build> & {coreAPI: API};
 
@@ -23,6 +24,6 @@ export function OptionsProvider(props: ParentProps<OptionsContext>): JSX.Element
  */
 export function useOptions(): OptionsContext {
     const ctx = useContext(optionsContext);
-    if (!ctx) { throw '未找到正确的 optionsContext'; }
+    if (!ctx) { throw new ContextNotFoundError('optionsContext'); }
     return ctx;
 }

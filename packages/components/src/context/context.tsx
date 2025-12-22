@@ -8,6 +8,7 @@ import { createStore } from 'solid-js/store';
 
 import { Mode, Scheme } from '@/base';
 import { IconCmfxBrandAnimate } from '@/icon';
+import { ContextNotFoundError } from './errors';
 import { LocaleProvider } from './locale';
 import { Options } from './options';
 import styles from './style.module.css';
@@ -91,7 +92,7 @@ export function OptionsProvider(props: ParentProps<Required<Options>>): JSX.Elem
  */
 export function useOptions(): [setter: OptionsSetter, options: Required<Options>] {
     const ctx = useContext(optionsGetSetContext);
-    if (!ctx) { throw new Error('未找到正确的 optionsGetSetContext'); }
+    if (!ctx) { throw new ContextNotFoundError('optionsGetSetContext'); }
     return [ctx[0].setter!, ctx[0]];
 }
 
