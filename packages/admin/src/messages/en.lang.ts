@@ -7,6 +7,7 @@ const messages = {
         app: {
             keyDesc: '\'<kbd>\'&#8593;\'</kbd>\' \'<kbd>\'&#8595;\'</kbd>\' select item; \'<kbd>\'enter\'</kbd>\' confirm; \'<kbd>\'ESC\'</kbd>\' cancel.',
             searchAtSidebar: 'search at sidebar',
+            fetchUserInfoError: 'Failed to fetch user information',
         },
         save: 'Save',
         nickname: 'Nickname',

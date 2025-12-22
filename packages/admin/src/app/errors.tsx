@@ -8,7 +8,7 @@ import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 
-import { useAdmin, HTTPError } from '@/context';
+import { HTTPError, useAdmin } from '@/context';
 import styles from './style.module.css';
 
 /**

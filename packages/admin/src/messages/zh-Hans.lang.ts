@@ -9,6 +9,7 @@ const messages: typeof m = {
         app: {
             keyDesc: '\'<kbd>\'&#8593;\'</kbd>\' \'<kbd>\'&#8595;\'</kbd>\' 选择项；\'<kbd>\'Enter\'</kbd>\' 确定选择；\'<kbd>\'ESC\'</kbd>\' 关闭。',
             searchAtSidebar: '搜索侧边栏菜单',
+            fetchUserInfoError: '获取用户信息失败',
         },
         save: '保存',
         nickname: '昵称',

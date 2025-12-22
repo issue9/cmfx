@@ -10,9 +10,9 @@ import { build as buildOptions } from '@/options/options';
 import { HTTPError } from './errors';
 import { User } from './user';
 
-type OptContext = ReturnType<typeof buildOptions>;
+type OptionsContext = ReturnType<typeof buildOptions>;
 
-type AdminContext = OptContext & {
+type AdminContext = OptionsContext & {
     coreAPI: API;
     actions: ReturnType<typeof buildActions>;
 };
@@ -27,7 +27,7 @@ const adminContext = createContext<AdminContext>();
  * - 1: 组件库提供的其它方法；
  * - 2: 组件库初始化时的选项；
  */
-export function useAdmin(): [api: REST, actions: ReturnType<typeof buildActions>, options: OptContext] {
+export function useAdmin(): [rest: REST, actions: ReturnType<typeof buildActions>, options: OptionsContext] {
     const ctx = useContext(adminContext);
     if (!ctx) { throw '未找到正确的 adminContext'; }
 
@@ -36,19 +36,19 @@ export function useAdmin(): [api: REST, actions: ReturnType<typeof buildActions>
 }
 
 // NOTE: 需要保证在 {@link run} 之内运行
-export function Provider(props: ParentProps<OptContext & {coreAPI: API}>): JSX.Element {
+export function Provider(props: ParentProps<OptionsContext & {coreAPI: API}>): JSX.Element {
     const [act] = useOptions();
     const p = mergeProps(props, {
         coreAPI: props.coreAPI,
         actions: buildActions(props.coreAPI, act, props),
     });
 
-    return <adminContext.Provider value={p}>
-        {props.children}
-    </adminContext.Provider>;
+    return <adminContext.Provider value={p}>{props.children}</adminContext.Provider>;
 }
 
-function buildActions(api: API, set: OptionsSetter, opt: OptContext) {
+function buildActions(api: API, set: OptionsSetter, opt: OptionsContext) {
+    const l = useLocale();
+
     const [user, userData] = createResource(async (): Promise<User | undefined> => {
         // 虽然返回的值没有用，但不能是 undefined，否则会出错。
         if (!api.isLogin()) { return; }
@@ -62,7 +62,8 @@ function buildActions(api: API, set: OptionsSetter, opt: OptContext) {
             return u;
         }
 
-        throw new HTTPError(r.status, r.body?.title!, r.body?.detail); // 此时 notify 还未初始化
+        const title = r.body ? r.body.title : l.t('_p.app.fetchUserInfoError');
+        notify(title, undefined, 'error', l.locale.toString());
     });
 
     return {
@@ -104,7 +105,7 @@ function buildActions(api: API, set: OptionsSetter, opt: OptContext) {
          * @param p - 如果该值空，则会抛出异常；
          */
         async handleProblem<P>(p?: Problem<P>): Promise<void> {
-            if (!p) { throw '发生了一个未知的错误，请联系管理员！'; }
+            if (!p) { throw new Error('发生了一个未知的错误，请联系管理员！'); }
 
             if (p.status === API.ErrorCode || p.status >= 500) {
                 throw new HTTPError(p.status, p.title, p.detail);
