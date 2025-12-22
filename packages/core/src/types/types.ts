@@ -68,11 +68,19 @@ export type RemoveIndexSignature<T> = {
                 : K]: T[K];
 };
 
-type RequiredKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? never : K }[keyof T];
-
-type PartialKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? K : never }[keyof T];
+/**
+ * 提取所有字段为可选类型的名称组成联合类型
+ */
+export type OptionalKeys<T> = NonNullable<{
+    [K in keyof T]: undefined extends T[K] ? K : never;
+}[keyof T]>;
 
 /**
- * 将类型 T 的可选字段变为必选，必选字段变为可选。
+ * 排除 T 中所有的可选字段组成一个新的对象
  */
-export type SwapPartialRequired<T> = Partial<Pick<T, RequiredKeys<T>>> & Required<Pick<T, PartialKeys<T>>>;
+export type OmitOptional<T> = Omit<T, OptionalKeys<T>>;
+
+/**
+ * 提取 T 中所有的可选字段组成一个新的对象
+ */
+export type PickOptional<T> = Pick<T, OptionalKeys<T>>;

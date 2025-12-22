@@ -12,20 +12,20 @@ import IconDataset from '~icons/material-symbols/dataset';
 import IconInfo from '~icons/material-symbols/info';
 import IconChart from '~icons/material-symbols/ssid-chart';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useREST } from '@/app';
 import styles from './style.module.css';
 
 const mb = 1024 * 1024;
 
 export function Info(): JSX.Element {
-    const [api, act] = useAdmin();
+    const rest = useREST();
     const l = useLocale();
     const bytesFormatter = createMemo(() => createBytesFormatter(l));
 
     const [info] = createResource(async()=>{
-        const ret = await api.get<Info>('/system/info');
+        const ret = await rest.get<Info>('/system/info');
         if (!ret.ok) {
-            await act.handleProblem(ret.body);
+            await handleProblem(ret.body);
             return;
         }
         return ret.body;
@@ -40,9 +40,9 @@ export function Info(): JSX.Element {
     // backup
 
     const [backup, {refetch}] = createResource(async () => {
-        const ret = await api.get<Backup>('/system/backup');
+        const ret = await rest.get<Backup>('/system/backup');
         if (!ret.ok) {
-            await act.handleProblem(ret.body);
+            await handleProblem(ret.body);
             return;
         }
         return ret.body;
@@ -83,7 +83,7 @@ export function Info(): JSX.Element {
 
     onMount(async () => {
         const fixed = (num: number)=>Math.round(num * 100) / 100; // 固定小数点
-        const es = await api.api().eventSource('/sse', true);
+        const es = await rest.api().eventSource('/sse', true);
 
         es!.addEventListener('systat', (s: MessageEvent) => {
             const d = JSON.parse(s.data) as Stats;
@@ -119,14 +119,14 @@ export function Info(): JSX.Element {
             }
         });
 
-        const r = await api.post('/system/systat');
+        const r = await rest.post('/system/systat');
         if (!r.ok) {
             console.error(r.body);
         }
     });
 
     onCleanup(async () => {
-        await api.delete('/system/systat');
+        await rest.delete('/system/systat');
     });
 
     return <Page title="_p.system.serverInfo" class={ joinClass(undefined, styles.info)}>
@@ -186,9 +186,9 @@ export function Info(): JSX.Element {
         <fieldset class={joinClass(undefined, styles.panel, 'w-[45%]', '@max-2xl/info:w-full')}>
             <Label icon={<IconDatabase />} tag='legend'>{l.t('_c.database')}</Label>
             <ConfirmButton palette='secondary' disabled={backup()?.cron === ''} onclick={async () => {
-                const ret = await api.post('/system/backup');
+                const ret = await rest.post('/system/backup');
                 if (!ret.ok) {
-                    await act.handleProblem(ret.body);
+                    await handleProblem(ret.body);
                     return;
                 }
                 await refetch();
@@ -202,9 +202,9 @@ export function Info(): JSX.Element {
                         <li>
                             {item.path}&nbsp;({bytesFormatter()(item.size)})
                             <ConfirmButton kind='flat' palette='error' onclick={async () => {
-                                const ret = await api.delete('/system/backup/' + item.path);
+                                const ret = await rest.delete('/system/backup/' + item.path);
                                 if (!ret.ok) {
-                                    await act.handleProblem(ret.body);
+                                    await handleProblem(ret.body);
                                     return;
                                 }
                                 await refetch();

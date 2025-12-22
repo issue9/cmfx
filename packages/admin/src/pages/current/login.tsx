@@ -3,13 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, useLocale, Page, Transition
+    BaseProps, Choice, ChoiceOption, fieldAccessor, joinClass, Page, Transition, useLocale
 } from '@cmfx/components';
 import { Navigate, useSearchParams } from '@solidjs/router';
 import { createResource, For, JSX, Match, Show, Switch } from 'solid-js';
 
+import { handleProblem, useAdmin, useOptions, useREST } from '@/app';
 import { Passport } from '@/components';
-import { useAdmin } from '@/context';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -31,16 +31,17 @@ interface Link {
  * 登录页面
  */
 export function Login(props: Props): JSX.Element {
-    const [, act, opt] = useAdmin();
+    const opt = useOptions();
+    const usr = useAdmin();
 
     return <Switch>
-        <Match when={act.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
-        <Match when={!act.isLogin()}><LoginBox {...props} /></Match>
+        <Match when={usr.isLogin()}><Navigate href={opt.routes.private.home} /></Match>
+        <Match when={!usr.isLogin()}><LoginBox {...props} /></Match>
     </Switch>;
 }
 
 function LoginBox(props: Props): JSX.Element {
-    const [api, act] = useAdmin();
+    const api = useREST();
     const l = useLocale();
     const [q,setQ] = useSearchParams<{ type: string }>();
 
@@ -52,7 +53,7 @@ function LoginBox(props: Props): JSX.Element {
     const [passports] = createResource<Array<ChoiceOption>>(async () => {
         const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            await act.handleProblem(r.body);
+            await handleProblem(r.body);
             return [];
         }
         return r.body!.map(v => ({ type: 'item', value: v.id, label: v.desc }));

@@ -3,17 +3,15 @@
 // SPDX-License-Identifier: MIT
 
 import { VoidComponent } from 'solid-js';
-import IconRoutes from '~icons/material-symbols/route';
+import IconServices from '~icons/eos-icons/service-plan';
 import IconHelp from '~icons/material-symbols/help';
 import IconInfo from '~icons/material-symbols/page-info';
-import IconServices from '~icons/eos-icons/service-plan';
+import IconRoutes from '~icons/material-symbols/route';
 
-
-import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { About } from './about';
-import { Routes } from './routes';
 import { Info } from './info';
+import { Routes } from './routes';
 import { Services } from './services';
 
 /**
@@ -58,8 +56,8 @@ export class system implements Pages {
         this.#about = about;
     }
 
-    routes(): Array<Route> {
-        const routes: Array<Route> = [
+    routes(): ReturnType<Pages['routes']> {
+        const routes = [
             { path: this.#prefix + '/routes', component: Routes },
             { path: this.#prefix + '/services', component: Services },
             { path: this.#prefix + '/info', component: Info },
@@ -71,8 +69,8 @@ export class system implements Pages {
         return routes;
     }
 
-    menus(): Array<MenuItem> {
-        const menus: Array<MenuItem> = [
+    menus(): ReturnType<Pages['menus']> {
+        const menus: ReturnType<Pages['menus']> = [
             { type: 'item', icon: <IconRoutes />, label: '_p.system.routes', path: this.#prefix + '/routes' },
             { type: 'item', icon: <IconServices />, label: '_p.system.services', path: this.#prefix + '/services' },
             { type: 'item', icon: <IconHelp />, label: '_p.system.serverInfo', path: this.#prefix + '/info' },

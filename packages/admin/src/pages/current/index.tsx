@@ -9,7 +9,6 @@ import IconLogout from '~icons/material-symbols/logout';
 import IconSecurity from '~icons/material-symbols/security';
 import IconSettings from '~icons/material-symbols/settings';
 
-import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { Dashboard } from './dashboard';
 import { Login, Props as LoginProps } from './login';
@@ -104,7 +103,7 @@ export class current implements Pages {
     /**
      * 提供了除登录页之外的所有路由
      */
-    routes(): Array<Route> {
+    routes(): ReturnType<Pages['routes']> {
         return [
             { path: this.#prefix + '/dashboard', component: () => <Dashboard>{this.#dashboardChildren!({})}</Dashboard> },
             { path: this.#prefix + '/profile', component: current.Profile },
@@ -114,7 +113,7 @@ export class current implements Pages {
         ];
     }
 
-    menus(): Array<MenuItem> {
+    menus(): ReturnType<Pages['menus']> {
         return [
             { type: 'item', label: '_p.current.dashboard', path: this.#prefix + '/dashboard', icon: <IconDashboard /> },
             { type: 'item', label: '_p.current.profile', path: this.#prefix + '/profile', icon: <IconIDCard /> },

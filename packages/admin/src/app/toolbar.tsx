@@ -3,22 +3,24 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Appbar, Button, DrawerRef, Dropdown, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem, useLocale
+    Appbar, Button, DrawerRef, Dropdown, MenuItemItem, Search, ToggleFullScreenButton, MenuItem as XMenuItem,
+    useLocale, useOptions
 } from '@cmfx/components';
 import { Hotkey, Locale } from '@cmfx/core';
 import { useNavigate } from '@solidjs/router';
 import { Accessor, JSX, Show } from 'solid-js';
 import IconClear from '~icons/material-symbols/delete-rounded';
 
-import { useAdmin } from '@/context';
-import { MenuItem } from '@/options';
+import { MenuItem } from './options';
+import { useAPI, useAdmin, useOptions as useAdminOptions } from './context';
 import styles from './style.module.css';
 
 /**
  * 顶部工具栏
  */
 export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>; }) {
-    const [, act, opt] = useAdmin();
+    const usr = useAdmin();
+    const opt = useAdminOptions();
     const l = useLocale();
 
     const search = async (value: string, menus: Array<XMenuItem<string>>): Promise<Array<MenuItemItem<string>>> => {
@@ -39,7 +41,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
 
     return <Appbar palette='tertiary' logo={opt.logo} title={opt.title} class='px-4' actions={
         <>
-            <Show when={act.isLogin()}>
+            <Show when={usr.isLogin()}>
                 <Show when={opt.toolbar.has('search')}>
                     <Search class={styles.search} icon clear hotkey={opt.toolbar.get('search')}
                         onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
@@ -52,17 +54,20 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
                 <ToggleFullScreenButton hotkey={opt.toolbar.get('fullscreen')} square type='button' kind='flat'
                     title={l.t('_c.fullscreen')} />
             </Show>
-            <Show when={act.isLogin()}><UserMenu /></Show>
+            <Show when={usr.isLogin()}><UserMenu /></Show>
         </>
     }>
-        <Show when={act.isLogin()}>{props.drawer()?.ToggleButton({ square: true })}</Show>
+        <Show when={usr.isLogin()}>{props.drawer()?.ToggleButton({ square: true })}</Show>
     </Appbar>;
 }
 
 function ClearCache(props: { hk?: Hotkey }): JSX.Element {
     const l = useLocale();
-    const [, act, opt] = useAdmin();
+    const api = useAPI();
+    const usr = useAdmin();
+    const opt = useAdminOptions();
     const nav = useNavigate();
+    const [set] = useOptions();
 
     return <Dropdown selectedClass='' hotkey={props.hk} trigger='hover' items={[
         { type: 'item', value: 'clear-api-cache', label: l.t('_p.system.clearAPICache') },
@@ -72,14 +77,17 @@ function ClearCache(props: { hk?: Hotkey }): JSX.Element {
     ]} onChange={async val => {
         switch (val) {
         case 'clear-all':
-            await act.clearCache();
+            await api.clearCache();
+            await usr.logout();
+            set.clearStorage();
             nav(opt.routes.public.home);
             break;
         case 'clear-api-cache':
-            await act.clearCache('cache');
+            await api.clearCache();
             break;
         case 'clear-storage':
-            await act.clearCache('storage');
+            await usr.logout(); // 清除存储在 storage 中的登录信息
+            set.clearStorage();
             nav(opt.routes.public.home);
             break;
         }
@@ -92,12 +100,13 @@ function ClearCache(props: { hk?: Hotkey }): JSX.Element {
  * 用户名及其下拉菜单
  */
 function UserMenu(): JSX.Element {
-    const [, act, opt] = useAdmin();
+    const opt = useAdminOptions();
+    const usr = useAdmin();
     const l = useLocale();
 
     const activator = <Button kind='flat' class="ps-1">
-        <img alt='avatar' class={styles.avatar} src={ act.user()?.avatar } />
-        {act.user()?.name}
+        <img alt='avatar' class={styles.avatar} src={ usr.info()?.avatar } />
+        {usr.info()?.name}
     </Button>;
 
     return <Dropdown trigger='hover' items={buildItems(l, opt.userMenus)}>

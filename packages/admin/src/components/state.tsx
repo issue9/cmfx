@@ -6,7 +6,7 @@ import { Choice, ChoiceProps, useLocale } from '@cmfx/components';
 import { I18n, Locale } from '@cmfx/core';
 import { JSX, createMemo } from 'solid-js';
 
-import { State } from '@/context';
+import { State } from '@/schemas';
 
 const localeObjects = I18n.createObject<Array<{type: 'item', value: State, label: string}>>();
 

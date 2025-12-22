@@ -17,7 +17,7 @@ import IconDelete from '~icons/material-symbols/delete';
 import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useOptions, useREST } from '@/app';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
@@ -43,7 +43,8 @@ export class Webauthn implements PassportComponents {
     }
 
     Login(): JSX.Element {
-        const [api, act, opt] = useAdmin();
+        const api = useREST();
+        const opt = useOptions();
         const l = useLocale();
         const nav = useNavigate();
         const account = fieldAccessor('account', '');
@@ -55,7 +56,7 @@ export class Webauthn implements PassportComponents {
                     account.setError(l.t('_p.current.invalidAccount'));
                     return;
                 }
-                await act.handleProblem(r1.body);
+                await handleProblem(r1.body);
                 return;
             }
 
@@ -86,7 +87,7 @@ export class Webauthn implements PassportComponents {
                     account.setError(l.t('_p.current.invalidAccount'));
                     return;
                 }
-                await act.handleProblem(r2.body);
+                await handleProblem(r2.body);
                 return;
             }
 
@@ -94,7 +95,7 @@ export class Webauthn implements PassportComponents {
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
-                await act.handleProblem(ret);
+                await handleProblem(ret);
             }
         }}>
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
@@ -111,7 +112,7 @@ export class Webauthn implements PassportComponents {
 
     Actions(f: RefreshFunc): JSX.Element {
         const l = useLocale();
-        const [api, act] = useAdmin();
+        const api = useREST();
         let dialogRef: DialogRef;
         let tableRef: RemoteTableRef<Credential>;
 
@@ -138,7 +139,7 @@ export class Webauthn implements PassportComponents {
                                         onclick={async () => {
                                             const r1 = await api.delete(`/passports/${this.#id}/credentials/${val}`);
                                             if (!r1.ok) {
-                                                await act.handleProblem(r1.body);
+                                                await handleProblem(r1.body);
                                                 return;
                                             }
 
@@ -153,7 +154,7 @@ export class Webauthn implements PassportComponents {
                             <Button palette='primary' rounded onclick={async () => {
                                 const r1 = await api.get<CredentialCreationOptions>(`/passports/${this.#id}/register`);
                                 if (!r1.ok) {
-                                    await act.handleProblem(r1.body);
+                                    await handleProblem(r1.body);
                                     return;
                                 }
 
@@ -176,7 +177,7 @@ export class Webauthn implements PassportComponents {
 
                                 const r2 = await api.post(`/passports/${this.#id}/register`, pc);
                                 if (!r2.ok) {
-                                    await act.handleProblem(r2.body);
+                                    await handleProblem(r2.body);
                                     return;
                                 }
 
@@ -187,7 +188,7 @@ export class Webauthn implements PassportComponents {
                             <ConfirmButton palette='secondary' rounded onclick={async () => {
                                 const r1 = await api.delete(`/passports/${this.#id}`);
                                 if (!r1.ok) {
-                                    await act.handleProblem(r1.body);
+                                    await handleProblem(r1.body);
                                     return;
                                 }
                                 await f();

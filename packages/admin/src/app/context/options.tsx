@@ -1,0 +1,28 @@
+// SPDX-FileCopyrightText: 2025 caixw
+//
+// SPDX-License-Identifier: MIT
+
+import { API } from '@cmfx/core';
+import { createContext, JSX, ParentProps, splitProps, useContext } from 'solid-js';
+
+import { build } from '@/app/options';
+
+type OptionsContext = ReturnType<typeof build> & {coreAPI: API};
+
+const optionsContext = createContext<OptionsContext>();
+
+export function OptionsProvider(props: ParentProps<OptionsContext>): JSX.Element {
+    const [, opt] = splitProps(props, ['children']);
+    return <optionsContext.Provider value={opt}>
+        {props.children}
+    </optionsContext.Provider>;
+}
+
+/**
+ * 返回当前项目的配置项
+ */
+export function useOptions(): OptionsContext {
+    const ctx = useContext(optionsContext);
+    if (!ctx) { throw '未找到正确的 optionsContext'; }
+    return ctx;
+}

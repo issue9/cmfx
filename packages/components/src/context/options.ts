@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Config, DictLoader, DisplayStyle, SwapPartialRequired } from '@cmfx/core';
+import { Config, DictLoader, DisplayStyle, PickOptional } from '@cmfx/core';
 
 import { Mode, Scheme } from '@/base';
 
@@ -111,7 +111,7 @@ export interface Options {
     pageSize?: number;
 }
 
-const presetOptions: SwapPartialRequired<Options> = {
+const presetOptions: PickOptional<Options> = {
     systemDialog: false,
     systemNotify: false,
     locale: document.documentElement.lang

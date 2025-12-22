@@ -4,7 +4,6 @@
 
 import IconAccount from '~icons/material-symbols/manage-accounts';
 
-import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { Admins } from './admins';
 import { Edit } from './edit';
@@ -42,7 +41,7 @@ export class admins implements Pages {
         return new admins(prefix);
     }
 
-    routes(): Array<Route> {
+    routes(): ReturnType<Pages['routes']> {
         return [
             { path: this.#prefix, component: () => Admins({ routePrefix: this.#prefix }) },
             { path: this.#prefix + '/0', component: () => New({ backURL: this.#prefix }) },
@@ -50,7 +49,7 @@ export class admins implements Pages {
         ];
     }
 
-    menus(): Array<MenuItem> {
+    menus(): ReturnType<Pages['menus']> {
         return [
             { type: 'item', icon: <IconAccount />, label: '_p.admin.admin', path: this.#prefix },
         ];

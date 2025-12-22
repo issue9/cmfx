@@ -11,7 +11,7 @@ import IconGroup from '~icons/material-symbols/group';
 import IconPersonChk from '~icons/material-symbols/person-check';
 import IconRecord from '~icons/material-symbols/record-voice-over';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useREST } from '@/app';
 import styles from './style.module.css';
 
 export function MemStatistic(): JSX.Element {
@@ -25,12 +25,12 @@ export function MemStatistic(): JSX.Element {
     });
 
     const l = useLocale();
-    const [api, act] = useAdmin();
+    const api = useREST();
 
     onMount(async () => {
         const r = await api.get<Statistic>('/statistic/member');
         if (!r.ok) {
-            await act.handleProblem(r.body);
+            await handleProblem(r.body);
             return;
         }
         setStatistic(r.body!);

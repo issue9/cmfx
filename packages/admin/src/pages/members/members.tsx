@@ -9,8 +9,9 @@ import IconLock from '~icons/material-symbols/lock';
 import IconLockOpen from '~icons/material-symbols/lock-open-right';
 import IconVisibility from '~icons/material-symbols/visibility';
 
+import { handleProblem, useREST } from '@/app';
 import { localeSexes, localeStates, SexSelector, StateSelector } from '@/components';
-import { Sex, State, useAdmin } from '@/context';
+import { Sex, State } from '@/schemas';
 import { Member } from './types';
 
 export interface ActionProps {
@@ -52,7 +53,7 @@ interface Q extends Query {
  * 会员列表组件
  */
 export function Members(props: Props): JSX.Element {
-    const [api, act] = useAdmin();
+    const rest = useREST();
     const l = useLocale();
 
     const q: Q = {
@@ -68,7 +69,7 @@ export function Members(props: Props): JSX.Element {
     const states = createMemo(() => { return localeStates(l); });
 
     return <Page title="_p.member.membersManager">
-        <RemoteTable<Member, Q> rest={api} ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={qa => (
+        <RemoteTable<Member, Q> rest={rest} ref={(el)=>ref=el} inSearch paging path='/members' queries={q} systemToolbar queryForm={qa => (
             <>
                 <TextField accessor={qa.accessor<string>('text')} />
                 <StateSelector multiple accessor={qa.accessor<Array<State>>('state')} />
@@ -103,9 +104,9 @@ export function Members(props: Props): JSX.Element {
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
                             <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onclick={async () => {
-                                const r = await api.post(`/members/${obj!['id']}/locked`);
+                                const r = await rest.post(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await act.handleProblem(r.body);
+                                    await handleProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();
@@ -114,9 +115,9 @@ export function Members(props: Props): JSX.Element {
 
                         <Show when={obj?.state === 'locked'}>
                             <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onclick={async () => {
-                                const r = await api.delete(`/members/${obj!['id']}/locked`);
+                                const r = await rest.delete(`/members/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await act.handleProblem(r.body);
+                                    await handleProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();

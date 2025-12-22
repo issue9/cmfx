@@ -9,10 +9,11 @@ import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 import IconHelp from '~icons/material-symbols/help';
 
+import { handleProblem } from '@/app';
+import { passportSchema, useREST } from '@/app/context';
 import { Passport, SexSelector } from '@/components';
-import { Sex, sexSchema, useAdmin } from '@/context';
-import { passportSchema } from '@/context/user';
 import { roles } from '@/pages/roles';
+import { Sex, sexSchema } from '@/schemas';
 
 interface Props {
     /**
@@ -32,7 +33,7 @@ const adminSchema = z.object({
 type Admin = z.infer<typeof adminSchema>;
 
 export function Edit(props: Props): JSX.Element {
-    const [api, act] = useAdmin();
+    const api = useREST();
     const l = useLocale();
     const ps = useParams<{id: string}>();
 
@@ -42,7 +43,7 @@ export function Edit(props: Props): JSX.Element {
     const [fapi, Form] = createForm<Admin>({
         initValue: {sex: 'unknown', name: '', nickname: '', roles: [], passports: []},
         submit: async obj => { return await api.patch(`/admins/${ps.id}`, obj); },
-        onProblem: act.handleProblem,
+        onProblem: handleProblem,
         onSuccess: () => nav(props.backURL)
     });
 
@@ -52,12 +53,12 @@ export function Edit(props: Props): JSX.Element {
             fapi.setPreset(r1.body!);
             fapi.setValue(r1.body!);
         } else {
-            await act.handleProblem(r1.body);
+            await handleProblem(r1.body);
         }
 
         const r2 = await api.get<Array<Passport>>('/passports');
         if (!r2.ok) {
-            await act.handleProblem(r2.body);
+            await handleProblem(r2.body);
             return;
         }
         setPassports(r2.body!);

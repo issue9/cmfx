@@ -11,7 +11,8 @@ import IconPasskey from '~icons/material-symbols/passkey';
 import IconPassword from '~icons/material-symbols/password-2';
 import IconPerson from '~icons/material-symbols/person';
 
-import { useAdmin, usernameSchema } from '@/context';
+import { handleProblem, useAdmin, useOptions, useREST } from '@/app';
+import { usernameSchema } from '@/schemas';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
@@ -39,7 +40,9 @@ export class Pwd implements PassportComponents {
 
     Login(): JSX.Element {
         const l = useLocale();
-        const [api, act, opt] = useAdmin();
+        const api = useREST();
+        const opt = useOptions();
+        const usr = useAdmin();
 
         const nav = useNavigate();
         const [fapi, Form, actions] = createForm<z.infer<typeof accountSchema>>({
@@ -48,7 +51,7 @@ export class Pwd implements PassportComponents {
             validOnChange: true,
             submit: async obj => {
                 const ret = await api.post(`/passports/${this.#id}/login`, obj);
-                await act.login(ret);
+                await usr.login(ret);
                 return ret;
             },
             onProblem: async p => {
@@ -57,7 +60,7 @@ export class Pwd implements PassportComponents {
                     return;
                 }
 
-                await act.handleProblem(p);
+                await handleProblem(p);
             },
             onSuccess: async () => nav(opt.routes.private.home),
         });
@@ -80,7 +83,8 @@ export class Pwd implements PassportComponents {
     Actions(_: RefreshFunc): JSX.Element {
         let dialogRef: DialogRef;
         const l = useLocale();
-        const [api, act] = useAdmin();
+        const api = useREST();
+        const usr = useAdmin();
 
         const valueSchema = z.object({
             old: passwordSchema,
@@ -100,10 +104,10 @@ export class Pwd implements PassportComponents {
             validOnChange: true,
             submit: async obj => {
                 const r = await api.put(`/passports/${this.#id}`, obj);
-                await act.refetchUser();
+                await usr.refetch();
                 return r;
             },
-            onProblem: act.handleProblem,
+            onProblem: handleProblem,
         });
 
         return <>

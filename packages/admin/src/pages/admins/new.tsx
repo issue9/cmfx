@@ -2,15 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Button, createForm, notify, useLocale, Page, Password, TextField } from '@cmfx/components';
+import { Button, createForm, notify, Page, Password, TextField, useLocale } from '@cmfx/components';
 import { useNavigate } from '@solidjs/router';
 import { JSX } from 'solid-js';
 import * as z from 'zod';
 import IconArrowBack from '~icons/material-symbols/arrow-back-ios';
 
+import { handleProblem, useREST } from '@/app';
 import { SexSelector } from '@/components';
-import { Sex, sexSchema, useAdmin } from '@/context';
 import { roles } from '@/pages/roles';
+import { Sex, sexSchema } from '@/schemas';
 
 interface Props {
     /**
@@ -29,13 +30,13 @@ const adminSchema = z.object({
 });
 
 export function New(props: Props): JSX.Element {
-    const [api, act] = useAdmin();
     const l = useLocale();
+    const rest = useREST();
 
     const [fapi, Form] = createForm({
         initValue: adminSchema.parse({ sex: 'unknown' }),
-        submit: async obj => { return await api.post('/admins', obj); },
-        onProblem: async p => act.handleProblem(p),
+        submit: async obj => { return await rest.post('/admins', obj); },
+        onProblem: async p => handleProblem(p),
         onSuccess: async () => {
             await notify(l.t('_p.admin.addSuccessful'), undefined, 'success');
             useNavigate()(-1);

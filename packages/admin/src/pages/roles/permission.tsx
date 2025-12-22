@@ -6,7 +6,7 @@ import { Button, Checkbox, Page, useLocale } from '@cmfx/components';
 import { useNavigate, useParams } from '@solidjs/router';
 import { createEffect, createResource, createSignal, For, JSX } from 'solid-js';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useREST } from '@/app';
 import styles from './style.module.css';
 
 interface Resource {
@@ -21,7 +21,7 @@ interface RoleResource {
 }
 
 export function Permission(): JSX.Element {
-    const [api, act] = useAdmin();
+    const rest = useREST();
     const l = useLocale();
     const ps = useParams<{id: string}>();
     const nav = useNavigate();
@@ -30,13 +30,13 @@ export function Permission(): JSX.Element {
     const [resources, setResources] = createSignal<Array<Resource>>([], {equals: false});
 
     const [roleResource] = createResource(async () => {
-        const ret = await api.get<RoleResource>(`/roles/${ps.id}/resources`);
+        const ret = await rest.get<RoleResource>(`/roles/${ps.id}/resources`);
         if (!ret.ok) {
             if (ret.status === 404) {
                 return;
             }
 
-            await act.handleProblem(ret.body);
+            await handleProblem(ret.body);
             return;
         }
 
@@ -49,9 +49,9 @@ export function Permission(): JSX.Element {
             setParent(b ? (b.parent ?? []) : []);
             setCurrent(b ? (b.current ?? []) : []);
 
-            const ret = await api.get<Array<Resource>>('/resources');
+            const ret = await rest.get<Array<Resource>>('/resources');
             if (!ret.ok) {
-                await act.handleProblem(ret.body);
+                await handleProblem(ret.body);
                 return;
             }
             setResources(ret.body!);
@@ -59,9 +59,9 @@ export function Permission(): JSX.Element {
     });
 
     const save = async()=>{
-        const ret = await api.put(`/roles/${ps.id}/resources`, current());
+        const ret = await rest.put(`/roles/${ps.id}/resources`, current());
         if (!ret.ok) {
-            await act.handleProblem(ret.body);
+            await handleProblem(ret.body);
             return;
         }
         nav(-1);

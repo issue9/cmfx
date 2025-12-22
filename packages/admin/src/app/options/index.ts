@@ -3,7 +3,10 @@
 // SPDX-License-Identifier: MIT
 
 export type { API } from './api';
-export type { Aside } from './aside';
-export type { Locales, Options } from './options';
-export type { MenuItem, Route, Routes } from './route';
 
+export type { Aside } from './aside';
+
+export { build } from './options';
+export type { Options } from './options';
+
+export type { MenuItem } from './route';

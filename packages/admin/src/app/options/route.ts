@@ -3,8 +3,8 @@
 // SPDX-License-Identifier: MIT
 
 import { Hotkey } from '@cmfx/core';
-import { RouteSectionProps } from '@solidjs/router';
-import { Component, JSX } from 'solid-js';
+import { RouteDefinition } from '@solidjs/router';
+import { JSX } from 'solid-js';
 
 /**
  * 对路由的定义
@@ -32,24 +32,7 @@ interface Group {
     /**
      * 该分组下的所有路由项
      */
-    routes: Array<Route>;
-}
-
-export interface Route {
-    /**
-     * 页面的路由地址
-     */
-    path?: string | Array<string>;
-
-    /**
-     * 页面对应的实际组件
-     */
-    component?: Component<RouteSectionProps>;
-
-    /**
-     * 子路由
-     */
-    children?: Array<Route>;
+    routes: Array<RouteDefinition>;
 }
 
 export type MenuItem = {

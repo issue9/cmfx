@@ -8,15 +8,46 @@ import * as illustrations from '@cmfx/illustrations';
 import { Navigate, useLocation, useNavigate } from '@solidjs/router';
 import { createMemo, JSX } from 'solid-js';
 
-import { HTTPError, useAdmin } from '@/context';
+import { useOptions } from './context';
 import styles from './style.module.css';
+
+/**
+ * 一个包含 HTTP 状态码的错误
+ */
+export class HTTPError extends Error {
+    #status: number;
+    #title: string;
+
+    /**
+     * 构造函数
+     * @param status - 状态码；
+     * @param title - 简要的错误说明；
+     * @param message - 详细的错误说明；
+     */
+    constructor(status: number, title: string, message?: string) {
+        super(message);
+        this.#status = status;
+        this.#title = title;
+        this.name = 'HTTPError';
+    }
+
+    /**
+     * 表示 HTTP 状态码
+     */
+    get status(): number { return this.#status; }
+
+    /**
+     * 表示简要的错误说明
+     */
+    get title(): string { return this.#title; }
+}
 
 /**
  * 404 错误
  */
 export function NotFound(): JSX.Element {
     const l = useLocale();
-    const [, , opt] = useAdmin();
+    const opt = useOptions();
     const nav = useNavigate();
 
     const text = createMemo(() => { return l.t('_p.error.pageNotFound'); });
@@ -33,7 +64,7 @@ export function NotFound(): JSX.Element {
  * 错误处理方法，尽可能地抛出 {@link HTTPError} 对象，可以显示更明确的错误页面。
  */
 export function ErrorHandler(props: { err: Error | any }): JSX.Element {
-    const [, , opt] = useAdmin();
+    const opt = useOptions();
     const nav = useNavigate();
     const l = useLocale();
 

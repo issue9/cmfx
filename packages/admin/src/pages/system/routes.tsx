@@ -7,7 +7,7 @@ import { Duration, formatDuration, Method, parseDuration, Query } from '@cmfx/co
 import { JSX } from 'solid-js';
 import IconRoutes from '~icons/material-symbols/route';
 
-import { useAdmin } from '@/context';
+import { useREST } from '@/app';
 
 type Route = {
     method: string;
@@ -34,7 +34,7 @@ interface Q extends Query {
 
 export function Routes(): JSX.Element {
     const l = useLocale();
-    const [api] = useAdmin();
+    const api = useREST();
 
     const queries: Q = {
         method: ['GET', 'DELETE', 'PUT', 'PATCH', 'POST'],

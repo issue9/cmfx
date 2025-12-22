@@ -13,7 +13,7 @@ import IconLinkOff from '~icons/material-symbols/link-off';
 import IconPerson from '~icons/material-symbols/person';
 import IconPin from '~icons/material-symbols/pin';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useAdmin, useOptions, useREST } from '@/app';
 import { PassportComponents, RefreshFunc } from './passports';
 import styles from './style.module.css';
 
@@ -46,7 +46,8 @@ export class TOTP implements PassportComponents {
 
     Login(): JSX.Element {
         const l = useLocale();
-        const [api, act, opt] = useAdmin();
+        const api = useREST();
+        const opt = useOptions();
         const nav = useNavigate();
 
         const account = new ObjectAccessor<Account>({ username: '', code: '' });
@@ -57,7 +58,7 @@ export class TOTP implements PassportComponents {
             if (ret === true) {
                 nav(opt.routes.private.home);
             } else if (ret) {
-                await act.handleProblem(ret);
+                await handleProblem(ret);
             }
         }}>
             <TextField hasHelp prefix={<IconPerson class={styles['text-field']} />} autocomplete='username'
@@ -71,8 +72,10 @@ export class TOTP implements PassportComponents {
     }
 
     Actions(f: RefreshFunc, username?: string): JSX.Element {
-        const [api, act, opt] = useAdmin();
         const l = useLocale();
+        const api = useREST();
+        const opt = useOptions();
+        const usr = useAdmin();
 
         let dialogRef: DialogRef;
         const code = fieldAccessor('code', '');
@@ -83,7 +86,7 @@ export class TOTP implements PassportComponents {
                 <ConfirmButton palette='error' square rounded title={l.t('_p.current.unbindTOTP')} onclick={async () => {
                     const r = await api.delete(`/passports/${this.#id}`);
                     if (!r.ok) {
-                        await act.handleProblem(r.body);
+                        await handleProblem(r.body);
                         return;
                     }
                     await f();
@@ -94,7 +97,7 @@ export class TOTP implements PassportComponents {
                 <Button square rounded title={l.t('_p.current.bindTOTP')} onclick={async () => {
                     const r = await api.post<Secret>(`/passports/${this.#id}/secret`);
                     if (!r.ok) {
-                        await act.handleProblem(r.body);
+                        await handleProblem(r.body);
                         return;
                     }
 
@@ -112,7 +115,7 @@ export class TOTP implements PassportComponents {
                             return false;
                         }
 
-                        await act.refetchUser();
+                        await usr.refetch();
                     })}>
                     <form class={styles['action-form']}>
                         <p title={qr()}>

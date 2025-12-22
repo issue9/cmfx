@@ -9,8 +9,9 @@ import IconEdit from '~icons/material-symbols/edit';
 import IconLock from '~icons/material-symbols/lock';
 import IconLockOpenRight from '~icons/material-symbols/lock-open-right';
 
+import { handleProblem, useREST } from '@/app';
 import { localeSexes, localeStates, SexSelector, StateSelector } from '@/components';
-import { Sex, State, useAdmin } from '@/context';
+import { Sex, State } from '@/schemas';
 
 interface Props {
     /**
@@ -38,7 +39,7 @@ interface Q extends Query {
 
 export function Admins(props: Props): JSX.Element {
     const l = useLocale();
-    const [api, act] = useAdmin();
+    const rest = useREST();
 
     const q: Q = {
         text: '',
@@ -53,7 +54,7 @@ export function Admins(props: Props): JSX.Element {
     const states = createMemo(() => { return localeStates(l); });
 
     return <Page title="_p.admin.adminsManager">
-        <RemoteTable<Admin, Q> rest={api} ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
+        <RemoteTable<Admin, Q> rest={rest} ref={(el)=>ref=el} inSearch paging path='/admins' queries={q} systemToolbar toolbar={
             <Button type='a' palette='primary' href={`${props.routePrefix}/0`}>{l.t('_p.newItem')}</Button>
         } queryForm={(qa) => (
             <>
@@ -88,9 +89,9 @@ export function Admins(props: Props): JSX.Element {
 
                         <Show when={obj?.state !== 'locked' && obj?.state !== 'deleted'}>
                             <Button square rounded palette='error' title={l.t('_p.admin.lockUser')} onclick={async () => {
-                                const r = await api.post(`/admins/${obj!['id']}/locked`);
+                                const r = await rest.post(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await act.handleProblem(r.body);
+                                    await handleProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();
@@ -99,9 +100,9 @@ export function Admins(props: Props): JSX.Element {
 
                         <Show when={obj?.state === 'locked'}>
                             <Button square rounded palette='tertiary' title={l.t('_p.admin.unlockUser')} onclick={async () => {
-                                const r = await api.delete(`/admins/${obj!['id']}/locked`);
+                                const r = await rest.delete(`/admins/${obj!['id']}/locked`);
                                 if (!r.ok) {
-                                    await act.handleProblem(r.body);
+                                    await handleProblem(r.body);
                                     return;
                                 }
                                 await ref.refresh();

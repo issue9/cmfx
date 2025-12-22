@@ -2,7 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { User, Sex, State } from '@/context';
+import { Admin } from '@/app';
+import { Sex, State } from '@/schemas';
 
 export type Member = {
     id: number;
@@ -14,5 +15,5 @@ export type Member = {
     avatar?: string;
     birthday?: string;
     created?: string;
-    passports?: User['passports'];
+    passports?: Admin['passports'];
 };

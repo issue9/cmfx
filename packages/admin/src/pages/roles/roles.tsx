@@ -10,7 +10,7 @@ import { JSX } from 'solid-js';
 import IconEdit from '~icons/material-symbols/edit';
 import IconPasskey from '~icons/material-symbols/passkey';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useREST } from '@/app';
 import styles from './style.module.css';
 
 export type Role = {
@@ -28,14 +28,14 @@ interface Props {
 }
 
 export function Roles(props: Props): JSX.Element {
-    const [api, act] = useAdmin();
     const l = useLocale();
+    const rest = useREST();
     let tableRef: RemoteTableRef<Role>;
     let dialogRef: DialogRef;
     const current = new ObjectAccessor({} as Role);
     const currentID = current.accessor('id');
 
-    api.api().cache('/roles','/roles/*');
+    rest.api().cache('/roles','/roles/*');
 
     // 保存数据
     const save = async (): Promise<undefined> => {
@@ -45,13 +45,13 @@ export function Roles(props: Props): JSX.Element {
         const obj = await current.object();
         delete obj?.id;
         if (id) {
-            ret = await api.put(`/roles/${id}`, obj);
+            ret = await rest.put(`/roles/${id}`, obj);
         } else {
-            ret = await api.post('/roles', obj);
+            ret = await rest.post('/roles', obj);
         }
 
         if (!ret.ok) {
-            await act.handleProblem(ret.body);
+            await handleProblem(ret.body);
             return;
         }
         await tableRef.refresh();
@@ -85,7 +85,7 @@ export function Roles(props: Props): JSX.Element {
             </form>
         </Dialog>
 
-        <RemoteTable rest={api} ref={el => tableRef = el} path='/roles' queries={{}} systemToolbar columns={[
+        <RemoteTable rest={rest} ref={el => tableRef = el} path='/roles' queries={{}} systemToolbar columns={[
             { id: 'id', label: l.t('_p.id') },
             { id: 'name', label: l.t('_p.roles.name') },
             { id: 'description', label: l.t('_p.roles.description') },

@@ -5,7 +5,6 @@
 import { Component } from 'solid-js';
 import IconGroup from '~icons/material-symbols/group';
 
-import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { ActionProps, Members } from './members';
 import { PanelProps, View } from './view';
@@ -46,14 +45,14 @@ export class members implements Pages {
         return new members(prefix, memActions, viewPanels);
     }
 
-    routes(): Array<Route> {
+    routes(): ReturnType<Pages['routes']> {
         return [
             { path: this.#prefix, component: ()=>Members({routePrefix: this.#prefix, actions: this.#memberActions}) },
             { path: `${this.#prefix}/:id`, component: ()=><View panels={this.#viewPanels} /> },
         ];
     }
 
-    menus(): Array<MenuItem> {
+    menus(): ReturnType<Pages['menus']> {
         return [
             { type: 'item', icon: <IconGroup />, label: '_p.member.member', path: this.#prefix },
         ];

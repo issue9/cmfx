@@ -7,9 +7,9 @@ import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
-import { useAdmin } from '@/context';
-import { Provider } from '@/context/context';
-import { build as buildOptions, Options } from '@/options/options';
+import { OptionsProvider, useAdmin, useOptions, useREST } from './context';
+import { build as buildOptions, Options } from './options';
+
 import * as errors from './errors';
 import styles from './style.module.css';
 import { buildItems, default as Toolbar } from './toolbar';
@@ -66,14 +66,14 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         opt.api.token, opt.api.contentType, opt.api.acceptType, xo.locale!);
 
     const root = (p: RouteSectionProps) => {
-        return <Provider {...opt} coreAPI={api}>
+        return <OptionsProvider coreAPI={api} {...opt}>
             <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>
                 <div class={joinClass('surface', styles.app)}>
                     <Toolbar drawer={drawerRef} />
                     <main class={styles.main}>{p.children}</main>
                 </div>
             </ErrorBoundary>
-        </Provider>;
+        </OptionsProvider>;
     };
 
     run(root, routes, document.getElementById(elementID)!, xo, router);
@@ -88,7 +88,9 @@ function Public(props: ParentProps): JSX.Element {
 function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>): JSX.Element {
     const l = useLocale();
     let menuRef: MenuRef;
-    const [api, act, opt] = useAdmin();
+    const act = useAdmin();
+    const api = useREST();
+    const opt = useOptions();
 
     onMount(() => {
         if (menuRef) { menuRef.scrollSelectedIntoView(); }

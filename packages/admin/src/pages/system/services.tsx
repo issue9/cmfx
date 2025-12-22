@@ -8,7 +8,7 @@ import { createMemo, JSX } from 'solid-js';
 import IconSubtitle from '~icons/material-symbols/subtitles-gear';
 import IconTask from '~icons/material-symbols/task';
 
-import { useAdmin } from '@/context';
+import { handleProblem, useREST } from '@/app';
 import { MessagesKey } from '@/messages';
 import styles from './style.module.css';
 
@@ -40,7 +40,7 @@ export const stateMap: Array<[State, MessagesKey]> = [
  * 服务列表页面
  */
 export function Services(): JSX.Element {
-    const [api, act] = useAdmin();
+    const api = useREST();
     const l = useLocale();
     const f = createMemo(() => {
         return l.datetimeFormat().format;
@@ -49,7 +49,7 @@ export function Services(): JSX.Element {
     const items = createMemo(async()=>{
         const ret = await api.get<Service>('/system/services');
         if (!ret.ok) {
-            await act.handleProblem(ret.body);
+            await handleProblem(ret.body);
             return;
         }
         return ret.body;

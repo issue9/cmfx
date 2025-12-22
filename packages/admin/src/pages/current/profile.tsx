@@ -3,15 +3,18 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Avatar, Button, createForm, Divider, useLocale, fieldAccessor, file2Base64, Page, Table, TextField, Upload, UploadRef
+    Avatar, Button, createForm, Divider,
+    fieldAccessor, file2Base64, Page, Table, TextField, Upload, UploadRef,
+    useLocale
 } from '@cmfx/components';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 import { z } from 'zod';
 import IconHelp from '~icons/material-symbols/help';
 import IconCamera from '~icons/material-symbols/photo-camera';
 
+import { handleProblem, useAdmin, useOptions, useREST } from '@/app';
 import { Passport, SexSelector } from '@/components';
-import { Sex, sexSchema, useAdmin } from '@/context';
+import { Sex, sexSchema } from '@/schemas';
 import { PassportComponents } from './passports';
 import styles from './style.module.css';
 
@@ -26,15 +29,17 @@ const infoSchema = z.object({
 });
 
 export function Profile(props: Props): JSX.Element {
-    const [api, act, opt] = useAdmin();
+    const api = useREST();
+    const opt = useOptions();
+    const usr = useAdmin();
     const l = useLocale();
     let uploadRef: UploadRef;
 
     const [fapi, Form, actions] = createForm({
         initValue: infoSchema.partial().parse({ sex: 'unknown' }),
-        onProblem: async p => act.handleProblem(p),
+        onProblem: async p => handleProblem(p),
         submit: async obj => { return api.patch(opt.api.info, obj); },
-        onSuccess: async () => { await act.refetchUser(); }
+        onSuccess: async () => { await usr.refetch(); }
     });
 
     const [passports, setPassports] = createSignal<Array<Passport>>([]);
@@ -43,23 +48,23 @@ export function Profile(props: Props): JSX.Element {
     let originAvatar = ''; // 原始的头像内容，在取消上传头像时，可以从此值恢复。
 
     createEffect(() => {
-        const u = act.user();
-        if (!u) { return; }
+        const info = usr.info();
+        if (!info) { return; }
 
-        fapi.setPreset(u);
+        fapi.setPreset(info);
 
         const nameA = fapi.accessor('name');
         const nicknameA = fapi.accessor('nickname');
         const sexA = fapi.accessor('sex');
-        const passportA = fieldAccessor('passports', u.passports);
+        const passportA = fieldAccessor('passports', info.passports);
 
-        nameA.setValue(u.name!);
-        nicknameA.setValue(u.nickname!);
-        sexA.setValue(u.sex!);
-        passportA.setValue(u.passports);
+        nameA.setValue(info.name!);
+        nicknameA.setValue(info.nickname!);
+        sexA.setValue(info.sex!);
+        passportA.setValue(info.passports);
 
-        setAvatar(u.avatar!);
-        originAvatar = u.avatar!;
+        setAvatar(info.avatar!);
+        originAvatar = info.avatar!;
     });
 
     createEffect(async () => {
@@ -71,7 +76,7 @@ export function Profile(props: Props): JSX.Element {
     onMount(async () => {
         const r = await api.get<Array<Passport>>('/passports');
         if (!r.ok) {
-            await act.handleProblem(r.body);
+            await handleProblem(r.body);
             return;
         }
         setPassports(r.body!);
@@ -81,7 +86,7 @@ export function Profile(props: Props): JSX.Element {
         <Upload ref={el => uploadRef = el} fieldName='files' upload={async data => {
             const ret = await api.upload<Array<string>>('/uploads', data);
             if (!ret.ok) {
-                await act.handleProblem(ret.body);
+                await handleProblem(ret.body);
                 return undefined;
             }
             return ret.body;
@@ -91,7 +96,7 @@ export function Profile(props: Props): JSX.Element {
                 uploadRef.pick();
             }} />
             <div class={styles.name}>
-                <p class="text-2xl">{act.user()?.name}</p>
+                <p class="text-2xl">{usr.info()?.name}</p>
                 <Show when={uploadRef!.files().length > 0}>
                     <div class="flex gap-2">
                         <Button palette='primary' onclick={async () => {
@@ -101,10 +106,10 @@ export function Profile(props: Props): JSX.Element {
 
                             const r = await api.patch('/info', { 'avatar': ret[0] });
                             if (!r.ok) {
-                                await act.handleProblem(r.body);
+                                await handleProblem(r.body);
                                 return;
                             }
-                            await act.refetchUser();
+                            await usr.refetch();
                         }}>{l.t('_p.save')}</Button>
 
                         <Button palette='error' onclick={() => {
@@ -142,7 +147,7 @@ export function Profile(props: Props): JSX.Element {
             <tbody>
                 <For each={passports()}>
                     {item => {
-                        const username = createMemo(() => act.user()?.passports?.find(v => v.id == item.id)?.identity);
+                        const username = createMemo(() => usr.info()?.passports?.find(v => v.id == item.id)?.identity);
 
                         return <tr>
                             <td class="flex items-center">
@@ -152,7 +157,7 @@ export function Profile(props: Props): JSX.Element {
 
                             <td>{username()}</td>
                             <td class="flex gap-2">
-                                {props.passports.get(item.id)?.Actions(async () => await act.refetchUser(), username())}
+                                {props.passports.get(item.id)?.Actions(async () => await usr.refetch(), username())}
                             </td>
                         </tr>;
                     }}

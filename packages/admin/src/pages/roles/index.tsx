@@ -4,7 +4,6 @@
 
 import IconGroups from '~icons/material-symbols/groups';
 
-import { MenuItem, Route } from '@/options';
 import { Pages } from '@/pages/pages';
 import { Permission } from './permission';
 import { Roles } from './roles';
@@ -39,14 +38,14 @@ export class roles implements Pages {
         return new roles(prefix);
     }
 
-    routes(): Array<Route> {
+    routes(): ReturnType<Pages['routes']> {
         return [
             { path: this.#prefix, component: ()=>Roles({routePrefix: this.#prefix}) },
             { path: this.#prefix + '/:id/permission', component: Permission },
         ];
     }
 
-    menus(): Array<MenuItem> {
+    menus(): ReturnType<Pages['menus']> {
         return [
             { type: 'item', icon: <IconGroups />, label: '_p.roles.roles', path: this.#prefix },
         ];

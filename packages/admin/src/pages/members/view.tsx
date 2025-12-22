@@ -6,8 +6,8 @@ import { joinClass, Page, useLocale } from '@cmfx/components';
 import { useParams } from '@solidjs/router';
 import { Component, createMemo, createSignal, For, JSX, onMount, Show } from 'solid-js';
 
+import { handleProblem, useOptions, useREST } from '@/app';
 import { localeSexes, localeStates, Passport } from '@/components';
-import { useAdmin } from '@/context';
 import styles from './style.module.css';
 import { Member } from './types';
 
@@ -26,7 +26,8 @@ export interface Props {
 }
 
 export function View(props: Props): JSX.Element {
-    const [api, act, opt] = useAdmin();
+    const api = useREST();
+    const opt = useOptions();
     const l = useLocale();
     const id = parseInt(useParams().id ?? '0');
     const [member, setMember] = createSignal<Member>({
@@ -42,7 +43,7 @@ export function View(props: Props): JSX.Element {
     onMount(async () => {
         const r = await api.get<Member>(`/members/${id}`);
         if (!r.ok) {
-            await act.handleProblem(r.body);
+            await handleProblem(r.body);
             return;
         }
 
@@ -54,7 +55,7 @@ export function View(props: Props): JSX.Element {
 
         const r2 = await api.get<Array<Passport>>('/passports');
         if (!r2.ok) {
-            await act.handleProblem(r2.body);
+            await handleProblem(r2.body);
             return;
         }
         setPassports(r2.body!);
