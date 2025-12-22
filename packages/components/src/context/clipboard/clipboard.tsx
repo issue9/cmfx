@@ -46,7 +46,7 @@ export default function Clipboard(props: ParentProps): JSX.Element {
 
             render(() => ok ? <IconOK /> : <IconError />, overlay);
 
-            await sleep(opt.stays!);
+            await sleep(opt.stays);
             overlay.style.opacity = '0';
             await sleep(transitionDuration(target)); // 等待动画完成
             overlay.remove();

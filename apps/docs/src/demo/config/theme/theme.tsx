@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { IconSet, IconSetRef, Button, Divider, Scheme, ThemeProvider, useOptions, useTheme } from '@cmfx/components';
+import { Button, Divider, IconSet, IconSetRef, Scheme, ThemeProvider, useOptions, useTheme } from '@cmfx/components';
 import { createSignal } from 'solid-js';
 import IconClose from '~icons/material-symbols/close';
 import IconFace from '~icons/material-symbols/face';
@@ -19,11 +19,11 @@ export default function() {
     let ref: IconSetRef;
 
     return <div>
-        <Button>这是继承上一层的主题: {g.mode}, {g.scheme?.light?.['primary-bg']}</Button>
+        <Button>这是继承上一层的主题: {g.mode}, {g.scheme?.primary}</Button>
         <Divider />
 
         <ThemeProvider mode={m()} scheme={s()}>
-            <Button>这是当前主题 {useTheme().mode}, {useTheme().scheme?.light?.['primary-bg']}</Button>
+            <Button>这是当前主题 {useTheme().mode}, {useTheme().scheme?.primary}</Button>
 
             <Button onclick={() => setScheme(opt.schemes?.get('purple'))}>主题-purple</Button>
             <Button onclick={() => setScheme(opt.schemes?.get('green'))}>主题-green</Button>

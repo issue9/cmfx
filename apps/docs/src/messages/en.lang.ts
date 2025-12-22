@@ -133,6 +133,7 @@ const messages = {
         },
         theme: {
             loadPredefinedSchemes: 'load predefined schemes',
+            predefinedSchemesNotFound: 'predefined schemes not found {name}',
             builder: 'Theme Builder',
             dark: 'Dark',
             light: 'Light',

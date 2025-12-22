@@ -7,6 +7,6 @@ export type { Flatten, Object as Flattenable, Keys as FlattenKeys } from './flat
 
 export type { OmitOptional, OptionalKeys, PickOptional } from './optional';
 
-export type { Expand as ExpandType, RemoveIndexSignature } from './types';
+export type { Expand as ExpandType, RemoveIndexSignature, SwapPartialRequired } from './types';
 
 export type { ArrayElement } from './array';

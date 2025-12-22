@@ -134,6 +134,7 @@ const messages: typeof m = {
         },
         theme: {
             loadPredefinedSchemes: '加载预定义的主题',
+            predefinedSchemesNotFound: '未找到预定义的主题 {name}',
             builder: '主题编辑器',
             dark: '深色',
             light: '浅色',

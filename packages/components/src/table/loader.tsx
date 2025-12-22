@@ -15,7 +15,7 @@ import IconTableRows from '~icons/material-symbols/table-rows-narrow';
 
 import { Palette, RefProps } from '@/base';
 import { Button, SplitButton, ToggleFitScreenButton } from '@/button';
-import { useOptions, useLocale } from '@/context';
+import { useLocale, useOptions } from '@/context';
 import { prompt } from '@/dialog';
 import { Divider } from '@/divider';
 import { Checkbox, ObjectAccessor, Radio } from '@/form';
@@ -115,15 +115,18 @@ export type Props<T extends object, Q extends Query> = BaseTableProps<T, Q> & {
      * NOTE: 只有在 paging 为 true 时才会有效
      */
     pageSizes?: Array<number>;
+
+    /**
+     * 每一页的数量
+     *
+     * @reactive
+     * @defaultValue `Options.pageSize`
+     */
+    pageSize?: number;
 } | BaseTableProps<T, Q> & {
     load: { (q: Q): Promise<Array<T> | undefined>; };
     paging?: false;
 };
-
-const presetProps = {
-    filename: 'download',
-    accentPalette: 'primary' as Palette,
-} as const;
 
 /**
  * 基于加载方法加载数据的表格
@@ -137,7 +140,12 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
     let ref: BasicTableRef;
 
     let load = props.load;
-    props = mergeProps(presetProps, { pageSizes: opt.pageSizes }, props);
+    props = mergeProps({
+        filename: 'download',
+        accentPalette: 'primary' as Palette,
+        pageSizes: opt.pageSizes,
+        pageSize: opt.pageSize,
+    }, props);
 
     const [searchG, searchS] = useSearchParams<Params<Q>>();
     if (props.inSearch) {
@@ -199,7 +207,7 @@ export function LoaderTable<T extends object, Q extends Query = Query>(props: Pr
         const page = queries.accessor<number>('page' as any); // Q 是泛型对象，无法展开获取 accessor 的参数类型。
         const size = queries.accessor<number>('size' as any);
         if (size.getValue()===0) {
-            size.setValue(opt.pageSizes[1]);
+            size.setValue(props.pageSize!);
         }
 
         footer = <PaginationBar class={styles.footer} palette={props.accentPalette}

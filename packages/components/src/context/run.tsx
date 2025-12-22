@@ -2,16 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { HashRouter, Router, RouteDefinition, RouteSectionProps } from '@solidjs/router';
+import { HashRouter, RouteDefinition, Router, RouteSectionProps } from '@solidjs/router';
 import { Component } from 'solid-js';
 import { render } from 'solid-js/web';
 
 import { default as SystemDialog } from '@/dialog/system';
-import { Notify } from './notify';
-import { OptionsProvider } from './context';
-import { Options } from './options';
-import styles from './style.module.css';
 import { Clipboard } from './clipboard';
+import { OptionsProvider } from './context';
+import { Notify } from './notify';
+import { Options, requiredOptions } from './options';
+import styles from './style.module.css';
 
 /**
  * 运行项目
@@ -31,9 +31,10 @@ export function run(
     r?: typeof Router
 ): void {
     mountedElement.classList.add(styles.root);
+    const opt = requiredOptions(o);
 
     const Root = (props: RouteSectionProps) => {
-        return <OptionsProvider {...o}>
+        return <OptionsProvider {...opt}>
             <SystemDialog mount={mountedElement} palette='primary'>
                 <Notify mount={mountedElement} palette='error'>
                     <Clipboard>{app(props)}</Clipboard>

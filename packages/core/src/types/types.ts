@@ -45,7 +45,7 @@ export type Expand<T> = T extends object
 
 // 以下代码无法对子元素进行展开
 //export type Expand<T> = T extends infer O ? { [K in keyof O]: O[K] } : never;
-    
+
 /**
  * 移除 interface 声明中的索引签名，展示真实的结构
  *
@@ -67,3 +67,12 @@ export type RemoveIndexSignature<T> = {
                 ? never
                 : K]: T[K];
 };
+
+type RequiredKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? never : K }[keyof T];
+
+type PartialKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? K : never }[keyof T];
+
+/**
+ * 将类型 T 的可选字段变为必选，必选字段变为可选。
+ */
+export type SwapPartialRequired<T> = Partial<Pick<T, RequiredKeys<T>>> & Required<Pick<T, PartialKeys<T>>>;

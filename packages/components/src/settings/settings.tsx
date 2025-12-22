@@ -33,16 +33,16 @@ export function Settings(props: Props) {
     const [act, opt] = useOptions();
     const l = useLocale();
 
-    const modeFA = fieldAccessor<Mode>('mode', opt.mode ?? 'system');
+    const modeFA = fieldAccessor<Mode>('mode', opt.mode);
     modeFA.onChange(m => { act.setMode(m); });
 
-    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale!));
+    const localeFA = fieldAccessor<string>('locale', I18n.matchLanguage(opt.locale));
     localeFA.onChange(v => { act.setLocale(v); });
 
     const unitFA = fieldAccessor<DisplayStyle>('unit', opt.displayStyle);
     unitFA.onChange(v => { act.setDisplayStyle(v); });
 
-    const staysFA = fieldAccessor<number>('stays', opt.stays ?? 3000);
+    const staysFA = fieldAccessor<number>('stays', opt.stays);
     staysFA.onChange(v => { act.setStays(v); });
 
     return <div class={joinClass(props.palette, styles.settings, props.class)} style={props.style}>
@@ -66,8 +66,8 @@ export function Settings(props: Props) {
                 {l.t('_c.settings.colorDesc')!}
             </Description>
 
-            <SchemeSelector class={styles.item} schemes={opt.schemes!}
-                value={opt.scheme!} onChange={val => act.setScheme(val)} />
+            <SchemeSelector class={styles.item} schemes={opt.schemes}
+                value={opt.scheme} onChange={val => act.setScheme(val)} />
         </Show>
 
         <Divider padding='16px 8px' />

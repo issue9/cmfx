@@ -45,7 +45,7 @@ export interface Props extends BaseProps, ParentProps {
  */
 export default function Tooltip(props: Props): JSX.Element {
     const [, opt] = useOptions();
-    const duration = props.stays ?? opt.stays!;
+    const duration = props.stays ?? opt.stays;
 
     return <div popover='auto' class={joinClass(props.palette, styles.tooltip, props.class)}
         style={props.style} ref={el => {

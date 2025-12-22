@@ -41,7 +41,7 @@ function buildLocale(props: Props) {
         },
 
         get locale(): Intl.Locale { return get().locale; },
-        get displayStyle(): 'full' | 'short' | 'narrow' { return get().displayStyle; },
+        get displayStyle(): DisplayStyle { return get().displayStyle; },
         get timezone(): string { return get().timezone; },
         datetimeFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return get().datetimeFormat(o); },
         dateFormat(o?: Intl.DateTimeFormatOptions): Intl.DateTimeFormat { return get().dateFormat(o); },

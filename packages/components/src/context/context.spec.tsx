@@ -11,7 +11,7 @@ import { afterAll, expect, test } from 'vitest';
 
 import { BaseProps } from '@/base';
 import { buildSetter, OptionsProvider } from './context';
-import { Options } from './options';
+import { Options, requiredOptions } from './options';
 
 // 提供用于测试的配置项
 const options: Options = {
@@ -35,8 +35,9 @@ const options: Options = {
  * 提供了一个用于测试的环境，包含了基础的环境配置。
  */
 export function Provider(props: ParentProps) {
+    const opt = requiredOptions(options);
     const Root = () => {
-        return <OptionsProvider {...options }>{props.children}</OptionsProvider>;
+        return <OptionsProvider {...opt }>{props.children}</OptionsProvider>;
     };
     return <HashRouter root={Root}>{[]}</HashRouter>;
 }
@@ -109,7 +110,7 @@ export class ComponentTester {
 }
 
 test('buildSetter',  () => {
-    const act = buildSetter(createStore({...options}));
+    const act = buildSetter(createStore({...requiredOptions(options)}));
     expect(act).not.toBeUndefined();
 
     act.setTitle('t');

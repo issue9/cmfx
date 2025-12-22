@@ -3,14 +3,9 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown,
-    fieldAccessor,
-    FieldOption, joinClass, Label,
-    MenuItemItem, ObjectAccessor, Palette, RadioGroup, Range,
-    RangeRef,
-    Scheme,
-    useLocale,
-    useOptions,
+    Accessor, Button, ButtonGroup, Code, Dialog, DialogRef, Divider, Dropdown, fieldAccessor,
+    FieldOption, joinClass, Label, MenuItemItem, notify, ObjectAccessor, Palette, RadioGroup, Range,
+    RangeRef, Scheme, useLocale, useOptions,
 } from '@cmfx/components';
 import { ExpandType, Locale, rand } from '@cmfx/core';
 import Color from 'colorjs.io';
@@ -36,7 +31,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
     const [act, opt] = useOptions();
     let dlg: DialogRef;
 
-    const schemes = Array.from(opt.schemes!).
+    const schemes = Array.from(opt.schemes).
         map(s => { return { type: 'item', value: s[0], label: s[0] }; }) as Array<MenuItemItem<string>>;
 
     const source = createMemo(() => JSON.stringify(s.getValue(), null, 4));
@@ -46,7 +41,12 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
             <div class={styles.actions}>
                 <ButtonGroup kind='border'>
                     <Dropdown trigger='click' selectedClass='' items={schemes} onChange={e => {
-                        s.setValue(convertSchemeVar2Color(unwrap(opt.schemes?.get(e)!)));
+                        const obj = opt.schemes.get(e);
+                        if (!obj) {
+                            notify(l.t('_d.theme.predefinedSchemesNotFound', { name: e }));
+                            return;
+                        }
+                        s.setValue(convertSchemeVar2Color(unwrap(obj)));
                     }}>
                         <Button kind='border' square title={l.t('_d.theme.loadPredefinedSchemes')}>
                             <IconLoad />
@@ -58,7 +58,7 @@ export function params(s: ObjectAccessor<ExpandType<Scheme>>): JSX.Element {
             </div>
 
             <ButtonGroup kind='border'>
-                <Button square onclick={async () => act.setScheme(await s.object())} title={l.t('_d.theme.apply')}>
+                <Button square onclick={async () => act.setScheme((await s.object())!)} title={l.t('_d.theme.apply')}>
                     <IconApply />
                 </Button>
                 <Button square onclick={() => dlg.element().showModal()} title={l.t('_d.theme.export')}>

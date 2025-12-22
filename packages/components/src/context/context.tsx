@@ -3,9 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import { DisplayStyle, Hotkey, I18n } from '@cmfx/core';
-import {
-    createContext, createResource, JSX, Match, mergeProps, ParentProps, splitProps, Switch, useContext
-} from 'solid-js';
+import { createContext, createResource, JSX, Match, ParentProps, splitProps, Switch, useContext } from 'solid-js';
 import { createStore } from 'solid-js/store';
 
 import { Mode, Scheme } from '@/base';
@@ -27,7 +25,7 @@ const staysKey = 'stays';
  */
 export type OptionsSetter = ReturnType<typeof buildSetter>;
 
-type OptionsGetSetter = Options & {
+type OptionsGetSetter = Required<Options> & {
     setter?: OptionsSetter;
 };
 
@@ -41,12 +39,10 @@ const optionsGetSetContext = createContext<OptionsGetSetContext>();
  * @remarks
  * 这是用于初始化项目的最外层组件，不保证任何属性是否有响应状态。
  */
-export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
+export function OptionsProvider(props: ParentProps<Required<Options>>): JSX.Element {
     Hotkey.init(); // 初始化快捷键
 
-    props = mergeProps({ locale: document.documentElement.lang || navigator.language }, props);
-
-    I18n.init(props.locale!);
+    I18n.init(props.locale);
     const [messageResource] = createResource(true, async () => {
         for (const [key, loaders] of Object.entries(props.messages)) {
             await I18n.addDict(key, ...loaders);
@@ -77,7 +73,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
                             : obj[0].scheme as Scheme
                     }
                 >
-                    <LocaleProvider id={obj[0].locale!} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
+                    <LocaleProvider id={obj[0].locale} displayStyle={obj[0].displayStyle} timezone={obj[0].timezone}>
                         {props.children}
                     </LocaleProvider>
                 </ThemeProvider>
@@ -93,7 +89,7 @@ export function OptionsProvider(props: ParentProps<Options>): JSX.Element {
  * - 0: 组件库提供的其它方法；
  * - 1: 组件库初始化时的选项；
  */
-export function useOptions(): [setter: OptionsSetter, options: Options] {
+export function useOptions(): [setter: OptionsSetter, options: Required<Options>] {
     const ctx = useContext(optionsGetSetContext);
     if (!ctx) { throw new Error('未找到正确的 optionsGetSetContext'); }
     return [ctx[0].setter!, ctx[0]];
@@ -105,12 +101,12 @@ export function buildSetter(ctx: OptionsGetSetContext) {
 
     const read = () => { // 从配置内容中读取
         set({
-            scheme: o.config!.get(schemeKey) ?? o.scheme,
-            mode: o.config!.get(modeKey) ?? o.mode,
-            locale: o.config!.get(localeKey) ?? o.locale,
-            displayStyle: o.config!.get(displayStyleKey) ?? o.displayStyle,
-            timezone: o.config!.get(tzKey) ?? o.timezone,
-            stays: o.config!.get(staysKey) ?? o.stays,
+            scheme: o.config.get(schemeKey) ?? o.scheme,
+            mode: o.config.get(modeKey) ?? o.mode,
+            locale: o.config.get(localeKey) ?? o.locale,
+            displayStyle: o.config.get(displayStyleKey) ?? o.displayStyle,
+            timezone: o.config.get(tzKey) ?? o.timezone,
+            stays: o.config.get(staysKey) ?? o.stays,
         });
     };
 
@@ -126,7 +122,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          * @param id - 新配置的 ID，一般为用户 ID 等能表示用户唯一标记的值；
          */
         switchConfig(id: string) {
-            o.config!.switch(id);
+            o.config.switch(id);
             read();
         },
 
@@ -145,7 +141,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setLocale(id: string): void {
             set({ locale: id });
-            o.config!.set(localeKey, id);
+            o.config.set(localeKey, id);
             document.documentElement.lang = id;
         },
 
@@ -154,7 +150,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setDisplayStyle(style: DisplayStyle) {
             set({ displayStyle: style });
-            o.config!.set(displayStyleKey, style);
+            o.config.set(displayStyleKey, style);
         },
 
         /**
@@ -162,7 +158,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setTimezone(tz: string) {
             set({ timezone: tz });
-            o.config!.set(tzKey, tz);
+            o.config.set(tzKey, tz);
         },
 
         /**
@@ -172,9 +168,9 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          * 如果是对象类型，需要注意该值必须是能被 {@link structuredClone} 复制的，防止外部修改时，引起主题变化。
          */
         setScheme(scheme: string | Scheme) {
-            const s = structuredClone((typeof scheme === 'string') ? o.schemes!.get(scheme) : scheme);
+            const s = structuredClone((typeof scheme === 'string') ? o.schemes.get(scheme) : scheme);
             set({ scheme: s });
-            o.config!.set(schemeKey, s);
+            o.config.set(schemeKey, s);
         },
 
         /**
@@ -182,7 +178,7 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setMode(mode: Mode) {
             set({ mode: mode });
-            o.config!.set(modeKey, mode);
+            o.config.set(modeKey, mode);
         },
 
         /**
@@ -190,12 +186,12 @@ export function buildSetter(ctx: OptionsGetSetContext) {
          */
         setStays(stay: number) {
             set({ stays: stay });
-            o.config!.set(staysKey, stay);
+            o.config.set(staysKey, stay);
         },
 
         /**
          * 清除当前用户的配置
          */
-        clearStorage() { o.config!.clear(); }
+        clearStorage() { o.config.clear(); }
     };
 }
