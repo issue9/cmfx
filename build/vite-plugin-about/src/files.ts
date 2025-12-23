@@ -2,11 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { Package } from '@cmfx/admin/plugin';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import YAML from 'yaml';
-
-import { Package } from './global';
 
 /**
  * 向上查找指定的文件，如果存在则返回该文件的路径。
@@ -36,9 +35,7 @@ export function findUp(filenames: Array<string>, dir = process.cwd()): string | 
  * 解析 go.mod 中的的包信息
  */
 export function parseGomods(paths?: Array<string>): Array<Package> {
-    if (!paths) {
-        return [];
-    }
+    if (!paths) { return []; }
 
     const pkgs: Array<Package> = [];
     for(const p of paths) {

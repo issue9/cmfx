@@ -4,6 +4,3 @@
 
 export { about } from './plugin';
 export type { Options } from './plugin';
-
-export type { About, Package } from './global';
-

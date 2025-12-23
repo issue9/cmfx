@@ -3,6 +3,11 @@
 // SPDX-License-Identifier: MIT
 
 /**
+ * 通过插件注入的全局变量名称
+ */
+export const aboutName = '__CMFX_ADMIN_ABOUT__';
+
+/**
  * 每个依赖包的信息
  */
 export interface Package {
@@ -40,8 +45,4 @@ export interface About {
      * 软件版本
      */
     version: string;
-}
-
-declare global {
-    const __CMFX_ABOUT__: About;
 }

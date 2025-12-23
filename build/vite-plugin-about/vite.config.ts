@@ -25,7 +25,6 @@ export default defineConfig({
         viteStaticCopy({
             targets: [
                 { src: '../../LICENSE', dest: '../' },
-                { src: './src/global.d.ts', dest: '../lib' },
             ]
         })
     ],
@@ -59,7 +58,7 @@ export default defineConfig({
                     } else { return ''; }
                 }
             },
-            external: ['vite', 'node:fs', 'node:process', 'node:path']
+            external: ['vite', 'node:fs', 'node:process', 'node:path', '@cmfx/admin']
         }
     }
 });

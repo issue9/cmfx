@@ -35,6 +35,10 @@
             "types": "./lib/index.d.ts",
             "import": "./lib/index.js"
         },
+        "./plugin": {
+            "types": "./lib/plugin.d.ts",
+            "import": "./lib/plugin.js"
+        },
         "./style.css": "./lib/style.css",
         "./messages/": {
             "require": "./lib/messages/",

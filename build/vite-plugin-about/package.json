@@ -49,6 +49,7 @@
         "vitest": "catalog:"
     },
     "dependencies": {
-        "yaml": "catalog:"
+        "yaml": "catalog:",
+        "@cmfx/admin": "workspace:*"
     }
 }

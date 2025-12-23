@@ -52,6 +52,7 @@ export default defineConfig({
         lib: {
             entry: {
                 'index': './src/index.ts',
+                'plugin': './src/plugin.ts',
                 'messages/en.lang': './src/messages/en.lang.ts',
                 'messages/zh-Hans.lang': './src/messages/zh-Hans.lang.ts',
             },

@@ -3,12 +3,13 @@
 // SPDX-License-Identifier: MIT
 
 import { Label, Page, useLocale } from '@cmfx/components';
-import type { Package } from '@cmfx/vite-plugin-about';
 import { For, JSX, Show, VoidComponent } from 'solid-js';
 import IconAutomation from '~icons/material-symbols/automation';
 import IconFolderCode from '~icons/material-symbols/folder-code';
 import IconHost from '~icons/material-symbols/host';
 
+import type { About as AboutData, Package } from './plugin';
+import { aboutName } from './plugin';
 import styles from './style.module.css';
 
 interface Props {
@@ -25,7 +26,7 @@ interface Props {
  */
 export function About(props: Props): JSX.Element {
     const l = useLocale();
-    const f = __CMFX_ABOUT__;
+    const f = (globalThis as any)[aboutName] as AboutData;
 
     return <Page title='_p.system.about' class={styles.about}>
         {props.description && props.description({})}

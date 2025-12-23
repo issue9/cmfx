@@ -2,12 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
+import type { About, Package } from '@cmfx/admin/plugin';
+import { aboutName } from '@cmfx/admin/plugin';
 import { readFileSync } from 'node:fs';
 import { ConfigPluginContext, Plugin, UserConfig } from 'vite';
 
 import pkg from '../package.json';
 import { initPnpmVersionSearch, parseGomods } from './files';
-import { About, Package } from './global';
 
 /**
  * 初始化插件的选项
@@ -33,14 +34,6 @@ interface PackageJSON {
 
 /**
  * 用于生成关于页面的数据
- *
- * @remarks 当前插件会将项目的依赖信息以 {@link About} 类型写到全局变量 __CMFX_ABOUT__ 中。
- * 如果是 ts 环境，需要 __CMFX_ABOUT__ 的类型，可通过以下两种方式获取：
- *
- *  1. /// <reference types="@cmfx/vite-plugin-about" /> 单个文件中使用；
- *  2. 在 vite.config.ts 的 compilerOptions.types 添加 `@cmfx/vite-plugin-about`，则是整个项目都可使用；
- *
- * @returns vite 插件
  */
 export function about(options: Options): Plugin<Options> {
     const about: About = {
@@ -71,7 +64,7 @@ export function about(options: Options): Plugin<Options> {
     return {
         name: 'vite-plugin-cmfx-about',
 
-        async config(this: ConfigPluginContext , conf: UserConfig) {
+        async config(this: ConfigPluginContext , _: UserConfig) {
             const search = await initPnpmVersionSearch();
 
             // 替换依赖项的 catalog 和 workspace 为真实的版本号
@@ -94,7 +87,7 @@ export function about(options: Options): Plugin<Options> {
 
             return {
                 define: {
-                    '__CMFX_ABOUT__': about
+                    [aboutName]: about,
                 }
             };
         }

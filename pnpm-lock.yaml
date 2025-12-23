@@ -277,6 +277,9 @@ importers:
 
   build/vite-plugin-about:
     dependencies:
+      '@cmfx/admin':
+        specifier: workspace:*
+        version: link:../../packages/admin
       yaml:
         specifier: 'catalog:'
         version: 2.8.2
