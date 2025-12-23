@@ -43,21 +43,22 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
     const xo: XOptions = {
         config: new Config(opt.id, opt.configName, opt.storage),
         logo: opt.logo,
-        systemNotify: !!opt.system.notification,
-        systemDialog: !!opt.system.dialog,
+        systemNotify: opt.systemNotify,
+        systemDialog: opt.systemDialog,
 
-        scheme: opt.theme.scheme,
-        schemes: opt.theme.schemes,
-        mode: opt.theme.mode,
+        scheme: opt.scheme,
+        schemes: opt.schemes,
+        mode: opt.mode,
 
-        locale: opt.locales.fallback || document.documentElement.lang || navigator.language,
-        displayStyle: opt.locales.displayStyle!,
-        messages: opt.locales.messages,
+        locale: opt.locale,
+        displayStyle: opt.displayStyle,
+        messages: opt.messages,
+        timezone: opt.timezone,
 
         title: opt.title,
         titleSeparator: opt.titleSeparator,
         pageSizes: opt.api.pageSizes,
-        pageSize: opt.api.presetSize,
+        pageSize: opt.api.pageSize,
         stays: opt.stays,
     };
 
@@ -100,12 +101,12 @@ function Private(props: ParentProps<{setDrawer: Setter<DrawerRef | undefined>;}>
             <Navigate href={/*@once*/opt.routes.public.home} />
         </Match>
         <Match when={act.isLogin()}>
-            <Drawer floating={opt.aside.floatingMinWidth} palette='tertiary' ref={props.setDrawer} mainPalette='surface'
+            <Drawer floating={opt.floatingMinWidth} palette='tertiary' ref={props.setDrawer} mainPalette='surface'
                 main={
                     <ErrorBoundary fallback={err => <errors.ErrorHandler err={err} />}>{props.children}</ErrorBoundary>
                 }>
                 <Menu ref={el => menuRef = el} class={styles.aside} layout='inline'
-                    items={buildItems(l, opt.aside.menus)} />
+                    items={buildItems(l, opt.menus)} />
             </Drawer>
         </Match>
     </Switch>;

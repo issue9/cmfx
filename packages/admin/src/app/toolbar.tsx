@@ -44,7 +44,7 @@ export default function Toolbar(props: { drawer: Accessor<DrawerRef | undefined>
             <Show when={usr.isLogin()}>
                 <Show when={opt.toolbar.has('search')}>
                     <Search class={styles.search} icon clear hotkey={opt.toolbar.get('search')}
-                        onSearch={v => search(v, buildItems(l, opt.aside.menus))} />
+                        onSearch={v => search(v, buildItems(l, opt.menus))} />
                 </Show>
             </Show>
             <Show when={opt.toolbar.has('clear')}>

@@ -22,11 +22,15 @@ export interface Options {
 
     /**
      * 是否采用系统对话框
+     *
+     * @defaultValue false
      */
     systemDialog?: boolean;
 
     /**
      * 是否采用系统通知
+     *
+     * @defaultValue false
      */
     systemNotify?: boolean;
 
@@ -35,18 +39,25 @@ export interface Options {
      *
      * @remarks
      * 如果是字符串，会尝试从 {@link schemes} 中获取对应的 {@link Scheme} 对象。
+     *
+     * @defaultValue ''
      */
     scheme?: string | Scheme;
 
     /**
      * 支持的主题列表
      *
+     * @remarks
      * {@link ../theme/schemes#schemes} 下定义部分主题可以直接在此处使用。
+     *
+     * @defaultValue `new Map()`
      */
     schemes?: Map<string, Scheme>;
 
     /**
      * 默认的主题模式，当在 {@link config} 中存在时，当前值将被忽略。
+     *
+     * @defaultValue 'system'
      */
     mode?: Mode;
 
@@ -55,23 +66,25 @@ export interface Options {
      *
      * @remarks
      * 当在 {@link config} 中存在时，当前值将被忽略。
-     * 如果未指定，则会依次从以下顺序读取配置：
-     * - html.lang 属性；
-     * - 浏览器的语言设置；
+     *
+     * @defaultValue `document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`
      */
     locale?: string;
 
     /**
      * 本地化的量词风格，当在 {@link config} 中存在时，当前值将被忽略。
+     *
+     * @defaultValue 'short'
      */
     displayStyle?: DisplayStyle;
 
     /**
      * 指定时区
-
+     *
      * @remarks
      * 当在 {@link config} 中存在时，当前值将被忽略。
-     * 如果未指定，将采用浏览器的默认时区作为默认值。
+     *
+     * @defaultValue `Intl.DateTimeFormat().resolvedOptions().timeZone`
      */
     timezone?: string;
 
@@ -80,6 +93,8 @@ export interface Options {
      *
      * @remarks
      * 单位为 ms。当在 {@link config} 中存在时，当前值将被忽略。
+     *
+     * @defaultValue 5000
      */
     stays?: number;
 
@@ -97,16 +112,22 @@ export interface Options {
 
     /**
      * 网页标题的分隔符
+     *
+     * @defaultValue ' - '
      */
     titleSeparator?: string;
 
     /**
      * 分页符中页码选项的默认值
+     *
+     * @defaultValue [10, 20, 50, 100]
      */
     pageSizes?: Array<number>;
 
     /**
      * 表格等需要分页对象的每页默认数量
+     *
+     * @defaultValue 20
      */
     pageSize?: number;
 }

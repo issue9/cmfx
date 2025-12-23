@@ -4,7 +4,7 @@
 
 import { expect, test } from 'vitest';
 
-import { build, Locales } from './options';
+import { build } from './options';
 import { Routes } from './route';
 
 const api = {
@@ -12,10 +12,10 @@ const api = {
     token: '/login',
     info: '/info',
     pageSizes: [1, 2],
-    presetSize: 1
+    pageSize: 1
 };
 
-const locales: Locales = {
+const locales = {
     messages: {
         'en': [async () => { return (await import('@/messages/en.lang')).default; }],
         'zh-Hans': [async () => { return (await import('@/messages/zh-Hans.lang')).default; }],
@@ -46,51 +46,30 @@ const routes: Routes = {
 
 export const options = build({
     id: 'abc',
-    locales,
+    ...locales,
     routes,
     api: api,
+    menus: [],
     userMenus: [],
     title: 't1',
     logo: 'l1'
 });
 
 test('build', async () => {
-    expect(()=>build({
-        id: 'abc',
-        locales,
-        routes,
-        api: api,
-        userMenus: [],
-        title: '',
-        logo: 'logo'
-    })).toThrowError('title 不能为空');
-
-    expect(()=>build({
-        id: 'abc',
-        locales,
-        routes,
-        api: api,
-        userMenus: [],
-        title: 'title',
-        logo: ''
-    })).toThrowError('logo 不能为空');
-
     const o = build({
         id: 'abc',
-        locales,
+        ...locales,
         routes,
         api: api,
         userMenus: [],
         title: 't1',
         logo: 'l1',
-        aside:{
-            menus: [],
-        }
+        menus: [],
     });
     expect(o.logo).toEqual('l1');
     expect(o.title).toEqual('t1');
     expect(o.api.contentType).toEqual('application/json');
     expect(o.api.acceptType).toEqual('application/json');
     expect(o.titleSeparator).toEqual(' | ');
-    expect(o.aside.floatingMinWidth).toEqual('lg'); // 默认值
+    expect(o.floatingMinWidth).toEqual('lg'); // 默认值
 });

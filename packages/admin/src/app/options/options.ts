@@ -2,12 +2,10 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Mode, Scheme } from '@cmfx/components';
+import { DrawerProps, Mode, Scheme } from '@cmfx/components';
 import { DictLoader, DisplayStyle, Hotkey, PickOptional } from '@cmfx/core';
 
 import { API, sanitizeAPI } from './api';
-import type { Aside } from './aside';
-import { presetAside } from './aside';
 import type { MenuItem, Routes } from './route';
 
 /**
@@ -23,6 +21,8 @@ export interface Options {
 
     /**
      * 配置内容在 storage 中的名称
+     *
+     * @defaultValue '0'
      */
     configName?: string;
 
@@ -33,13 +33,35 @@ export interface Options {
 
     /**
      * 保存本地数据的位置
+     *
+     * @defaultValue localStorage
      */
     storage?: Storage;
 
     /**
-     * 默认的主题
+     * 主题模式
+     *
+     * @defaultValue 'system'
      */
-    theme?: Theme;
+    mode?: Mode;
+
+    /**
+     * 可用的主题列表
+     *
+     * @defaultValue `new Map()`
+     */
+    schemes?: Map<string, Scheme>;
+
+    // NOTE: scheme 不采用在 schemes 中的索引，而是对应的实例值，
+    // 这样的做的好处是在改变 schemes 的值时，scheme 依然是有意义的。
+    // 且在 @cmfx/components 的配置中也是采用 Scheme 对象的值保存的。
+
+    /**
+     * 当前使用的主题，必须存在于 schemes 中。
+     *
+     * @defaultValue ''
+     */
+    scheme?: string;
 
     /**
      * LOGO，URL 格式
@@ -47,9 +69,21 @@ export interface Options {
     logo: string;
 
     /**
-     * 提供部分系统或浏览器相关的设置
+     * 采用系统通知
+     *
+     * @remarks
+     * 该功能需要在 https 下才有效，否则依然会采用内部的通知界面。
+     *
+     * @defaultValue false
      */
-    system?: System;
+    systemNotify?: boolean;
+
+    /**
+     * 替换浏览器的 alert、confirm 和 prompt 对话框
+     *
+     * @defaultValue false
+     */
+    systemDialog?: boolean
 
     /**
      * 后台需要用到的 API 地址
@@ -58,6 +92,8 @@ export interface Options {
 
     /**
      * 标题中的分隔符
+     *
+     * @defaultValue ' - '
      */
     titleSeparator?: string;
 
@@ -67,9 +103,16 @@ export interface Options {
     routes: Routes;
 
     /**
-     * 侧边栏的设置
+     * 左侧的导航菜单
      */
-    aside?: Aside;
+    menus: Array<MenuItem>;
+
+    /**
+     * 侧边栏在小于此值时将变为浮动状态
+     *
+     * @defaultValue 'lg'
+     */
+    floatingMinWidth?: Exclude<DrawerProps['floating'], boolean>;
 
     /**
      * 定义了工具栏上的按钮
@@ -82,6 +125,8 @@ export interface Options {
      *  - fullscreen 全屏；
      *
      * NOTE: 默认为显示全部的按钮，如果不想显示任何按钮，应该赋值一个长度为零的空对象。
+     *
+     * @defaultValue 所有项
      */
     toolbar?: Map<'fullscreen' | 'search' | 'clear', Hotkey | undefined>;
 
@@ -91,41 +136,6 @@ export interface Options {
     userMenus: Array<MenuItem>;
 
     /**
-     * 与本地化相关的一些设置
-     */
-    locales: Locales;
-
-    /**
-     * 通知等元素的停留时间
-     */
-    stays?: number;
-}
-
-/**
- * 一些与系统相关的设置
- */
-interface System {
-    /**
-     * 采用系统通知代替框架内部的实现
-     *
-     * 该功能需要在 https 下才有效，否则依然会采用内部的通知界面。
-     */
-    notification?: boolean;
-
-    /**
-     * 将浏览器的对话框代替为框架内的实现，目前支持以下几种：
-     *  - window.alert
-     *  - window.prompt
-     *  - window.confirm
-     */
-    dialog?: boolean;
-}
-
-/**
- * 设置项中与本地化相关的设置
- */
-export interface Locales {
-    /**
      * 指定本地化文本的加载方式
      *
      * @remarks
@@ -134,66 +144,56 @@ export interface Locales {
     messages: Record<string, Array<DictLoader>>;
 
     /**
-     * 备用的本地化 ID
+     * 默认的本地化语言
      *
-     * @remarks
-     * 在所需的本地化 ID 无法找到时，会采用该值。
+     * @defaultValue `document.documentElement.lang || navigator.language || (navigator.languages.length > 0 ? navigator.languages[0] : 'en')`
      */
-    fallback?: string;
+    locale?: string;
 
     /**
      * 一些与本地化相关的单位名称的显示方式，说明可参考 {@link DisplayStyle}
+     *
+     * @defaultValue 'short'
      */
     displayStyle?: DisplayStyle;
-}
-
-/**
- * 主题相关的设置
- */
-export interface Theme {
-    /**
-     * 主题模式
-     */
-    mode: Mode;
 
     /**
-     * 可用的主题列表
+     * 指定时区
      *
-     * 可由 {@link genScheme} 和 {@link genSchemes} 生成主题数据。
-     *
-     * 如果为空，则采用 genSchemes(20) 生成主题数据。
+     * @defaultValue `Intl.DateTimeFormat().resolvedOptions().timeZone`
      */
-    schemes?: Map<string, Scheme>;
-
-    // NOTE: scheme 不采用在 schemes 中的索引，而是对应的实例值，
-    // 这样的做的好处是在改变 schemes 的值时，scheme 依然是有意义的。
-    // 且在 @cmfx/components 的配置中也是采用 Scheme 对象的值保存的。
+    timezone?: string;
 
     /**
-     * 当前使用的主题，必须存在于 schemes 中。
+     * 通知等元素的停留时间
+     *
+     * @defaultValue 5000
      */
-    scheme?: string;
+    stays?: number;
 }
 
 const presetOptions: Readonly<PickOptional<Options>> = {
     storage: window.localStorage,
     configName: '0',
-    system: {
-        dialog: true,
-        notification: true,
-    },
-    titleSeparator: ' | ',
-    theme: {
-        mode: 'system',
-    },
+    systemDialog: false,
+    systemNotify: false,
+    titleSeparator: ' - ',
+    floatingMinWidth: 'lg',
+    mode: 'system',
+    scheme: '',
+    schemes: new Map(),
     toolbar: new Map([
         ['fullscreen', new Hotkey('f', 'control')],
         ['search', new Hotkey('k', 'control')],
         ['clear', undefined],
     ]),
+    locale: document.documentElement.lang
+        || navigator.language
+        || (navigator.languages.length > 0 ? navigator.languages[0] : 'en'),
+    displayStyle: 'short',
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
     stays: 5000,
 } as const;
-
 
 type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
 
@@ -203,30 +203,7 @@ type ReqOptions = Required<Omit<Options, 'api'>> & { api: Required<API> };
  * @param o - 原始的对象
  */
 export function build(o: Options): ReqOptions {
-    if (o.id.length === 0) {
-        throw 'id 不能为空';
-    }
-
-    if (o.title.length === 0) {
-        throw 'title 不能为空';
-    }
-
-    if (o.logo.length === 0) {
-        throw 'logo 不能为空';
-    }
-
     const opt = Object.assign({}, presetOptions, o) as Required<Options>;
-    opt.aside = Object.assign({}, presetAside, opt.aside);
-
-    if (!opt.titleSeparator) {
-        throw 'titleSeparator 不能为空';
-    }
-
-    if (!opt.locales.displayStyle) {
-        opt.locales.displayStyle = 'short';
-    }
-
     opt.api = sanitizeAPI(opt.api);
-
     return opt as ReqOptions;
 }

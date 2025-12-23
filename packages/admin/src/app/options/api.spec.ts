@@ -12,7 +12,7 @@ test('sanitizeAPI', () => {
         token: '/login',
         info: '/info',
         pageSizes: [1,2],
-        presetSize: 1
+        pageSize: 1
     };
 
     expect(() => {

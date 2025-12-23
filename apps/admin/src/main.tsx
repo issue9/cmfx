@@ -4,9 +4,9 @@
 
 import './style.css';
 
-import { admins, createApp, current, members, MenuItem, Options, roles, Routes, system } from '@cmfx/admin';
+import { admins, createApp, current, members, Options, roles, system } from '@cmfx/admin';
+import { Card, createChartLocaleLoader, Label, Scheme, schemes, useLocale } from '@cmfx/components';
 import { createZodLocaleLoader } from '@cmfx/core';
-import { Card, Label, Scheme, schemes, useLocale, createChartLocaleLoader } from '@cmfx/components';
 import IconSettings from '~icons/material-symbols/admin-panel-settings';
 import IconDashboard from '~icons/material-symbols/dashboard';
 import IconHost from '~icons/material-symbols/host';
@@ -40,7 +40,7 @@ const currentPage = current.build('/current', () => {
     </>;
 });
 
-const routes: Routes = {
+const routes: Options['routes'] = {
     public: {
         home: '/login',
         routes: [
@@ -65,7 +65,7 @@ const routes: Routes = {
     }
 };
 
-const menus: Array<MenuItem> = [
+const menus: Options['menus'] = [
     { type: 'item', icon: <IconDashboard />, label: '_p.current.dashboard', path: '/current/dashboard' },
     { type: 'item', label: 'nest.abc', path: '/test/5/test' },
     {
@@ -96,39 +96,33 @@ const o: Options = {
 
     routes,
 
-    system: {
-        dialog: true,
-        notification: true
-    },
+    systemDialog: true,
+    systemNotify: true,
 
-    theme: {
-        mode: 'system',
-        scheme: 'green',
-        schemes: new Map<string, Scheme>([
-            ['green', schemes.green],
-            ['purple', schemes.purple],
-        ]),
-    },
+    mode: 'system',
+    scheme: 'green',
+    schemes: new Map<string, Scheme>([
+        ['green', schemes.green],
+        ['purple', schemes.purple],
+    ]),
 
-    locales: {
-        messages: {
-            'en': [
-                async () => { return (await import('@cmfx/components/messages/en.lang.js')).default; },
-                async () => { return (await import('@cmfx/admin/messages/en.lang.js')).default; },
-                async () => { return (await import('./locales/en')).default; },
-                createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langEN.js')).default),
-                createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
-            ],
-            'zh-Hans': [
-                async () => { return (await import('@cmfx/components/messages/zh-Hans.lang.js')).default; },
-                async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang.js')).default; },
-                async () => { return (await import('./locales/zh-Hans')).default; },
-                createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langZH.js')).default),
-                createZodLocaleLoader((await import('../node_modules/zod/v4/locales/zh-CN.js')).default),
-            ],
-        },
-        fallback: 'en',
+    messages: {
+        'en': [
+            async () => { return (await import('@cmfx/components/messages/en.lang.js')).default; },
+            async () => { return (await import('@cmfx/admin/messages/en.lang.js')).default; },
+            async () => { return (await import('./locales/en')).default; },
+            createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langEN.js')).default),
+            createZodLocaleLoader((await import('../node_modules/zod/v4/locales/en.js')).default),
+        ],
+        'zh-Hans': [
+            async () => { return (await import('@cmfx/components/messages/zh-Hans.lang.js')).default; },
+            async () => { return (await import('@cmfx/admin/messages/zh-Hans.lang.js')).default; },
+            async () => { return (await import('./locales/zh-Hans')).default; },
+            createChartLocaleLoader((await import('../node_modules/echarts/lib/i18n/langZH.js')).default),
+            createZodLocaleLoader((await import('../node_modules/zod/v4/locales/zh-CN.js')).default),
+        ],
     },
+    locale: 'en',
 
     api: {
         base: urlBase,
@@ -140,10 +134,8 @@ const o: Options = {
 
     title: 'Title',
     logo: '/brand-static.svg',
-    aside: {
-        menus: menus,
-        floatingMinWidth: 'xs'
-    },
+    menus: menus,
+    floatingMinWidth: 'xs',
     userMenus: currentPage.menus()
 };
 

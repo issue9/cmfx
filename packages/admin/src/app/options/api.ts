@@ -39,7 +39,7 @@ export interface API {
     /**
      * 默认的分页数量，必须存在于 {@link API#pageSizes}。
      */
-    presetSize?: number;
+    pageSize?: number;
 
     /**
      * 请求内容的格式
@@ -54,7 +54,7 @@ export interface API {
 
 const presetAPI: Readonly<PickOptional<API>> = {
     pageSizes: [10, 20, 50, 100, 200],
-    presetSize: 20,
+    pageSize: 20,
     contentType: 'application/json',
     acceptType: 'application/json'
 };
@@ -77,8 +77,8 @@ export function sanitizeAPI(api: API): Required<API> {
     a.token = checkAPIPath(a.token, 'token');
     a.info = checkAPIPath(a.info, 'info');
 
-    if (!a.pageSizes!.includes(a.presetSize!)) {
-        throw new Error('presetSize 必须存在于 pageSizes 之中');
+    if (!a.pageSizes!.includes(a.pageSize!)) {
+        throw new Error('pageSize 必须存在于 pageSizes 之中');
     }
 
 
