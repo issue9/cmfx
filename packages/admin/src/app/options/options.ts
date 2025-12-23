@@ -32,11 +32,11 @@ export interface Options {
     title: string;
 
     /**
-     * 保存本地数据的位置
+     * token 保存的位置
      *
-     * @defaultValue localStorage
+     * @defaultValue sessionStorage
      */
-    storage?: Storage;
+    tokenStorage?: Storage;
 
     /**
      * 主题模式
@@ -173,7 +173,7 @@ export interface Options {
 }
 
 const presetOptions: Readonly<PickOptional<Options>> = {
-    storage: window.localStorage,
+    tokenStorage: sessionStorage,
     configName: '0',
     systemDialog: false,
     systemNotify: false,

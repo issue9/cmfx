@@ -70,6 +70,6 @@ test('build', async () => {
     expect(o.title).toEqual('t1');
     expect(o.api.contentType).toEqual('application/json');
     expect(o.api.acceptType).toEqual('application/json');
-    expect(o.titleSeparator).toEqual(' | ');
+    expect(o.titleSeparator).toEqual(' - ');
     expect(o.floatingMinWidth).toEqual('lg'); // 默认值
 });

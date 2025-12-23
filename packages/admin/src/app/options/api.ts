@@ -33,21 +33,29 @@ export interface API {
 
     /**
      * api 请求时可用的分页数值
+     *
+     * @defaultValue [10, 20, 50, 100, 200]
      */
     pageSizes?: Array<number>;
 
     /**
      * 默认的分页数量，必须存在于 {@link API#pageSizes}。
+     *
+     * @defaultValue 20
      */
     pageSize?: number;
 
     /**
      * 请求内容的格式
+     *
+     * @defaultValue 'application/json'
      */
     contentType?: Mimetype;
 
     /**
      * 返回内容的格式
+     *
+     * @defaultValue 'application/json'
      */
     acceptType?: Mimetype;
 }
@@ -90,8 +98,7 @@ function checkAPIPath(path: string, key: string): string {
         throw new Error(`api.${key} 不能为空`);
     }
 
-    if (path.charAt(0) !== '/') {
-        path = '/' + path;
-    }
+    if (path.charAt(0) !== '/') { path = '/' + path; }
+
     return path;
 }

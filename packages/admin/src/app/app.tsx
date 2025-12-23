@@ -2,7 +2,7 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Drawer, DrawerRef, joinClass, Menu, MenuRef, run, useLocale, Options as XOptions } from '@cmfx/components';
+import { Drawer, DrawerRef, joinClass, Menu, MenuRef, run, useLocale } from '@cmfx/components';
 import { API, Config } from '@cmfx/core';
 import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
@@ -40,8 +40,9 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         }
     ];
 
-    const xo: XOptions = {
-        config: new Config(opt.id, opt.configName, opt.storage),
+    const xo = {
+        // 非机密数据，且有固化要求，使用 localStorage 存储，不考虑其它。
+        config: new Config(opt.id, opt.configName, localStorage),
         logo: opt.logo,
         systemNotify: opt.systemNotify,
         systemDialog: opt.systemDialog,
@@ -62,8 +63,8 @@ export async function create(elementID: string, o: Options, router?: typeof Rout
         stays: opt.stays,
     };
 
-    const api = await API.build(opt.id+'-token', opt.storage, opt.api.base,
-        opt.api.token, opt.api.contentType, opt.api.acceptType, xo.locale!);
+    const api = await API.build(opt.id+'-token', opt.tokenStorage, opt.api.base,
+        opt.api.token, opt.api.contentType, opt.api.acceptType, opt.locale);
 
     const root = (p: RouteSectionProps) => {
         return <OptionsProvider coreAPI={api} {...opt}>
