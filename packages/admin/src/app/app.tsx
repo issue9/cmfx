@@ -8,9 +8,8 @@ import { Navigate, Router, RouteSectionProps } from '@solidjs/router';
 import { createSignal, ErrorBoundary, JSX, Match, onMount, ParentProps, Setter, Switch } from 'solid-js';
 
 import { OptionsProvider, useAdmin, useOptions, useREST } from './context';
-import { build as buildOptions, Options } from './options';
-
 import * as errors from './errors';
+import { build as buildOptions, Options } from './options';
 import styles from './style.module.css';
 import { buildItems, default as Toolbar } from './toolbar';
 

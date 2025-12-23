@@ -7,7 +7,6 @@
         "types": [
             "vite/client",
             "@testing-library/jest-dom",
-            "@cmfx/vite-plugin-about",
             "unplugin-icons/types/solid"
         ],
         "paths": {
