@@ -41,7 +41,7 @@ build-ts-plugin: build-ts-plugin-about build-ts-plugin-api
 build-go: gen
 	go build -o=$(APP_SERVER)/$(SERVER_BIN) -v $(APP_SERVER)
 
-build-ts-docs: build-ts-admin-demo
+build-ts-docs: build-ts-admin-demo build-ts-plugin-api
 	pnpm --filter=./apps/docs run build
 
 build-ts-plugin-about: build-ts-admin
