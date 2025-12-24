@@ -62,7 +62,7 @@ build-ts-illustrations: build-ts-components
 build-ts-admin: build-ts-components build-ts-illustrations
 	pnpm --filter=./packages/admin run build
 
-build-ts-admin-demo: build-ts-admin
+build-ts-admin-demo: build-ts-admin build-ts-plugin-about
 	pnpm --filter=./apps/admin run build
 
 # 编译前端项目内容
