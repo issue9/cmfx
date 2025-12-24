@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 import {
-    createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, ParentProps, Show
+    createEffect, createMemo, createSignal, For, JSX, mergeProps, onCleanup, onMount, ParentProps, Show, untrack
 } from 'solid-js';
 import IconPrev from '~icons/material-symbols/chevron-left';
 import IconNext from '~icons/material-symbols/chevron-right';
@@ -68,13 +68,20 @@ export function Tab(props: Props) {
 
     const [val, setVal] = createSignal<Item['id']>(props.value ?? props.items[0].id);
 
-    const change = (v: Item['id'], old?: Item['id']): void => {
+    const click = (v: Item['id']): void => {
+        const old = untrack(val);
+        if (v === old) { return; }
+
         if (props.onChange) { props.onChange(v, old); }
         setVal(() => v);
     };
 
     createEffect(() => { // 监视 props.value 的变化
-        setVal(() => props.value ?? props.items[0].id);
+        const v = props.value;
+        const old = untrack(val);
+        if (old === v) { return; }
+
+        setVal(() => v ?? props.items[0].id);
     });
 
     const [isOverflow, setIsOverflow] = createSignal(false);
@@ -93,7 +100,6 @@ export function Tab(props: Props) {
 
         onCleanup(() => { observer.disconnect(); });
     });
-
 
     // 组件根元素的 css
     const cls = createMemo(() => {
@@ -143,7 +149,7 @@ export function Tab(props: Props) {
                         {item => (
                             <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
                                 class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
-                                onClick={() => { change(item.id, props.value); }}
+                                onClick={() => { click(item.id); }}
                             >
                                 {item.label}
                             </button>
@@ -159,7 +165,7 @@ export function Tab(props: Props) {
                     {item => (
                         <button role='tab' aria-selected={val() == item.id} disabled={item.disabled}
                             class={joinClass(undefined, styles.item, val() === item.id ? styles.select : '')}
-                            onClick={() => { change(item.id, props.value); }}
+                            onClick={() => { click(item.id); }}
                         >
                             {item.label}
                         </button>

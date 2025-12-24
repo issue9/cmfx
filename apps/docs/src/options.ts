@@ -2,11 +2,11 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { Options, Scheme, schemes, createChartLocaleLoader } from '@cmfx/components';
+import { createChartLocaleLoader, Options, Scheme, schemes } from '@cmfx/components';
 import { Config, createZodLocaleLoader } from '@cmfx/core';
 
 export const options: Options = {
-    config: new Config('docs', '', sessionStorage),
+    config: new Config('docs', 'default', localStorage),
     mode: 'system',
     locale: 'zh-Hans',
     displayStyle: 'full',

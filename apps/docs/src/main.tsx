@@ -176,4 +176,4 @@ const routes: Array<RouteDefinition> = [
     { path: '*', component: NotFound }
 ];
 
-run((props: RouteSectionProps) => <InternalApp {...props} />, routes, document.getElementById('app')!, options);
+run((props: RouteSectionProps) => <InternalApp {...props} />, document.getElementById('app')!, options, routes);

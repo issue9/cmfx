@@ -38,9 +38,7 @@ function buildLocale(props: Props) {
     const [get, set] = createSignal<Locale>(new I18n(props.id, props.displayStyle, props.timezone));
 
     return {
-        change(props: Props) {
-            set(new I18n(props.id, props.displayStyle, props.timezone));
-        },
+        change(id: string, style: DisplayStyle, tz?: string) { set(new I18n(id, style, tz)); },
 
         get locale(): Intl.Locale { return get().locale; },
         get displayStyle(): DisplayStyle { return get().displayStyle; },
@@ -76,6 +74,8 @@ export function useLocale(): Locale {
  */
 export function LocaleProvider(props: ParentProps<Props>): JSX.Element {
     const l = buildLocale(props);
-    createEffect(() => { l.change(props); });
+    createEffect(() => {
+        l.change(props.id, props.displayStyle, props.timezone);
+    });
     return <localeContext.Provider value={l}>{props.children}</localeContext.Provider>;
 }

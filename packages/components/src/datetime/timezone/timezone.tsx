@@ -5,7 +5,7 @@
 import { DisplayStyle } from '@cmfx/core';
 import { createEffect, createMemo, createSignal, For, JSX, onMount, Show, untrack } from 'solid-js';
 
-import { BaseProps, joinClass } from '@/base';
+import { BaseProps } from '@/base';
 import { Button, ButtonRef } from '@/button';
 import { useLocale } from '@/context';
 import { ChangeFunc } from '@/form/field';
@@ -21,19 +21,13 @@ export interface Props extends BaseProps {
     onChange?: ChangeFunc<string>;
 }
 
-interface TZ {
-    id: string;
-    displayName: string; // 本地化名称
-}
-
 interface Region {
     id: string;
-    displayName: string; // 本地化名称
-    timezones: Array<TZ>;
+    displayName: string;
+    timezones: Array<string>;
 }
 
-// 返回本地化的区域列表
-export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Array<Region> {
+export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Map<string, string> {
     const fmt = (tz: string): string => {
         const formatter = new Intl.DateTimeFormat(l, {
             timeZone: tz,
@@ -43,18 +37,24 @@ export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Array<Re
         return parts.find(p => p.type === 'timeZoneName')?.value || tz;
     };
 
+    const ret = new Map<string, string>();
+    Intl.supportedValuesOf('timeZone').forEach(tz => ret.set(tz, fmt(tz)));
+    return ret;
+}
+
+export function buildRegion(): Array<Region> {
     const regions = Intl.supportedValuesOf('timeZone').reduce((acc, tz) => {
         const [region,] = tz.split('/');
         if (!acc.has(region)) { acc.set(region, []); }
-        acc.get(region)?.push({ id: tz, displayName: fmt(tz) });
+        acc.get(region)!.push(tz);
         return acc;
-    }, new Map<string, Array<TZ>>());
+    }, new Map<string, Array<string>>());
 
-    return Array.from(regions.entries()).map(([id, timezones]) => ({
+    return Array.from(regions.entries().map(([id, timezones]) => ({
         id,
-        displayName: id,
+        displayName: id.split('/')[0],
         timezones,
-    }));
+    })));
 }
 
 /**
@@ -64,29 +64,31 @@ export function buildLocaleRegion(l: Intl.Locale, style: DisplayStyle): Array<Re
  */
 export default function Timezone(props: Props): JSX.Element {
     const l = useLocale();
-    const regions = createMemo(() => { return buildLocaleRegion(l.locale, l.displayStyle); });
 
-    const tabs = regions().map(v => { return { id: v.id, label: v.displayName }; }) as Array<TabItem>;
+    const regions = buildRegion();
+    const localeRegions = createMemo(() => { return buildLocaleRegion(l.locale, l.displayStyle); });
+    const tabs = regions.map(v => { return { id: v.id, label: v.displayName } as TabItem; });
+
     const [tab, setTab] = createSignal<string | undefined>(tabs[0].id);
     const [selected, setSelected] = createSignal<string | undefined>(props.value);
+    if (props.value) {
+        setTab(props.value.split('/')[0]);
+    }
 
     createEffect(() => { // 监视 props.value 变化
-        setSelected(props.value);
-        if (props.value) {
-            const s = props.value.split('/');
-            setTab(s[0]);
-        }
+        const val = props.value;
+        if (val === untrack(selected)) { return; }
+
+        setSelected(val);
+        if (val) { setTab(val.split('/')[0]); }
     });
 
-    const change = (value: string) => {
+    const click = (value: string) => {
         const old = untrack(selected);
         if (old === value) { return; }
 
         setSelected(value);
-        if (props.value) {
-            const s = props.value.split('/');
-            setTab(s[0]);
-        }
+        if (value) { setTab(value.split('/')[0]); }
 
         if (props.onChange) { props.onChange(value, old); }
     };
@@ -96,36 +98,35 @@ export default function Timezone(props: Props): JSX.Element {
         requestAnimationFrame(() => {
             if (!buttonRef) { return; }
 
-            const p = buttonRef?.element().parentElement!;
-            const top = buttonRef?.element().getBoundingClientRect().top - p.getBoundingClientRect().top;
+            const p = buttonRef.element().parentElement!;
+            const top = buttonRef.element().getBoundingClientRect().top - p.getBoundingClientRect().top;
             p.scrollBy({ top: top, behavior: 'smooth' });
         });
     });
 
-    return <div class={joinClass(props.palette, props.class)} style={props.style}>
-        <Tab value={tab()} items={tabs} onChange={v => setTab(v)} panelClass={styles.panel}>
-            <For each={regions()}>
-                {region => (
-                    <Show when={region.id === tab() ? region.timezones : undefined}>
-                        {timezones => (
-                            <For each={timezones()}>
-                                {item => (
-                                    <Button checked={selected() === item.id} kind='flat' class={styles.item}
-                                        onclick={() => change(item.id)} ref={el => {
-                                            if (selected() === item.id && !buttonRef) {
-                                                buttonRef = el;
-                                            }
-                                        }}
-                                    >
-                                        <span class={styles.line}>{item.displayName}</span>
-                                        <span class={styles.line} title={item.id}>{item.id}</span>
-                                    </Button>
-                                )}
-                            </For>
-                        )}
-                    </Show>
-                )}
-            </For>
-        </Tab>
-    </div>;
+    return <Tab class={props.class} style={props.style} palette={props.palette}
+        value={tab()} items={tabs} onChange={v => setTab(v)} panelClass={styles.panel}>
+        <For each={regions}>
+            {region =>
+                <Show when={region.id === tab() ? region.timezones : undefined}>
+                    {timezones =>
+                        <For each={timezones()}>
+                            {item =>
+                                <Button checked={selected() === item} kind='flat' class={styles.item}
+                                    onclick={() => click(item)} ref={el => {
+                                        if (selected() === item && !buttonRef) {
+                                            buttonRef = el;
+                                        }
+                                    }}
+                                >
+                                    <span class={styles.line}>{localeRegions().get(item)}</span>
+                                    <span class={styles.line} title={item}>{item}</span>
+                                </Button>
+                            }
+                        </For>
+                    }
+                </Show>
+            }
+        </For>
+    </Tab>;
 }

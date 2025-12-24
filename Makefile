@@ -44,7 +44,7 @@ build-go: gen
 build-ts-docs: build-ts-admin-demo
 	pnpm --filter=./apps/docs run build
 
-build-ts-plugin-about:
+build-ts-plugin-about: build-ts-admin
 	pnpm --filter=./build/vite-plugin-about run build
 
 build-ts-plugin-api:
@@ -59,7 +59,7 @@ build-ts-components: build-ts-core
 build-ts-illustrations: build-ts-components
 	pnpm --filter=./packages/illustrations run build
 
-build-ts-admin: build-ts-plugin build-ts-components build-ts-illustrations
+build-ts-admin: build-ts-components build-ts-illustrations
 	pnpm --filter=./packages/admin run build
 
 build-ts-admin-demo: build-ts-admin

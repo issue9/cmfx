@@ -102,7 +102,9 @@ export function Settings(props: Props) {
         <Description icon={/*@once*/<IconTimezone />} title={l.t('_c.settings.timezone')!}>
             {l.t('_c.settings.timezoneDesc')!}
         </Description>
-        <Timezone class={styles.item} value={opt.timezone} onChange={v => { act.setTimezone(v); }} />
+        <div class={styles.item}>
+            <Timezone value={opt.timezone} onChange={v => { act.setTimezone(v); }} />
+        </div>
 
         <Divider padding='16px 8px' />
 
