@@ -63,6 +63,9 @@ const messages = {
             rounded: 'Rounded',
             disabled: 'Disabled',
             readonly: 'Readonly',
+            componentLayout: 'Layout',
+            itemLayout: 'Item layout',
+            block: 'Block',
 
             // 分类名称
 

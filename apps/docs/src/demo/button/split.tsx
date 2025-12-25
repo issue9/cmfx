@@ -11,7 +11,7 @@ import { boolSelector, buttonKindSelector, paletteSelector } from '../base';
 export default function(props: MountProps) {
     const [Palette, palette] = paletteSelector();
     const [Kind, kind] = buttonKindSelector();
-    const [Disabled, disabled] = boolSelector('disabled');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     const menus: Array<SplitButtonItem> = [

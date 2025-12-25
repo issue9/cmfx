@@ -17,7 +17,7 @@ export default function (props: MountProps) {
 
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
     const [FitHeight, fitHeight] = boolSelector('fitHeight', false);
     const [Value, value] = boolSelector('value', false);
     const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);

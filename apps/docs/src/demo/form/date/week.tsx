@@ -21,7 +21,7 @@ export default function(props: MountProps) {
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
     const [Weekend, weekend] = boolSelector('weekend');
     const [Minmax, minmax] = boolSelector('minmax');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
     return <>
         <Portal mount={props.mount}>

@@ -8,11 +8,11 @@ import { Portal } from 'solid-js/web';
 import { boolSelector, labelAlignSelector, layoutSelector } from '../../base';
 
 export default function(props: MountProps) {
-    const [Layout, layout] = layoutSelector('布局');
-    const [ItemLayout, itemLayout] = layoutSelector('子项布局');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
+    const [ItemLayout, itemLayout] = layoutSelector('_d.demo.itemLayout');
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Block, block] = boolSelector('block');
+    const [Block, block] = boolSelector('_d.demo.block');
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
     const [LabelAlign, labelAlign] = labelAlignSelector('start');
 

@@ -64,6 +64,9 @@ const messages: typeof m = {
             rounded: '圆角',
             disabled: '禁用',
             readonly: '只读',
+            componentLayout: '布局',
+            itemLayout: '子项布局',
+            block: '方块',
 
             // 分类名称
 

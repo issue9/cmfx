@@ -12,7 +12,7 @@ export default function(props: MountProps) {
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Block, block] = boolSelector('block');
+    const [Block, block] = boolSelector('_d.demo.block');
 
     return <>
         <Portal mount={props.mount}>

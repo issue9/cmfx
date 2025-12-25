@@ -20,7 +20,7 @@ export default function(props: MountProps) {
     const [Weekend, weekend] = boolSelector('weekend');
     const [Time, time] = boolSelector('time');
     const [Minmax, minmax] = boolSelector('minmax');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
     const [Week, week] = arraySelector<Week>('weekBase', weeks);
 
     return <div>

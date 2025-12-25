@@ -16,9 +16,9 @@ export default function(props: MountProps) {
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
-    const [ItemLayout, itemLayout] = layoutSelector('子项布局', 'horizontal');
-    const [Block, block] = boolSelector('block');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
+    const [ItemLayout, itemLayout] = layoutSelector('_d.demo.itemLayout', 'horizontal');
+    const [Block, block] = boolSelector('_d.demo.block');
 
     const options: FieldOptions<Palette | 'undefined'> = [
         {value: 'error', label: 'error'},

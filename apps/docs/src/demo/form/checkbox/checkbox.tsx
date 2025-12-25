@@ -11,7 +11,7 @@ import { boolSelector } from '../../base';
 export default function(props: MountProps) {
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Block, block] = boolSelector('block');
+    const [Block, block] = boolSelector('_d.demo.block');
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     const [chk, setChk] = createSignal<boolean>();

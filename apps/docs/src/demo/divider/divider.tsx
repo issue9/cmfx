@@ -10,7 +10,7 @@ import { arraySelector, layoutSelector, paletteSelector } from '../base';
 
 export default function(props: MountProps) {
     const [Palette, palette] = paletteSelector();
-    const [Layout, layout] = layoutSelector('布局', 'vertical');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'vertical');
     const [Pos, pos] = arraySelector('pos', ['start', 'center', 'end'], 'start');
 
     return <div>

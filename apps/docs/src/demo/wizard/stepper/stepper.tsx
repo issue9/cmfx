@@ -17,7 +17,7 @@ export default function(props: MountProps): JSX.Element {
     let ref3: StepperRef;
 
     const [Palette, palette] = paletteSelector('surface');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
     return <>
         <Portal mount={props.mount}>

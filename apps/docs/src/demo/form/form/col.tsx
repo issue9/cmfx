@@ -13,7 +13,7 @@ export default function(props: MountProps) {
     const [Help, help] = boolSelector('help');
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Layout, layout] = layoutSelector('layout');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout');
     const [LabelAlign, labelAlign] = labelAlignSelector('start');
 
     const [api, Form, { Reset, Submit }] = createForm({

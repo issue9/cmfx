@@ -14,7 +14,7 @@ export default function(props: MountProps) {
     const [Palette, palette] = paletteSelector();
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
     const [Rounded, rounded] = boolSelector('_d.demo.rounded', false);
 
     const prefix = <div class="bg-red-500 flex items-center">prefix</div>;

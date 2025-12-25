@@ -12,7 +12,7 @@ import { boolSelector, buttonKindSelector } from '../base';
 
 export default function(props: MountProps) {
     const [Kind, kind] = buttonKindSelector();
-    const [Disabled, disabled] = boolSelector('disabled');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Rounded, rounded] = boolSelector('_d.demo.rounded');
 
     let screenElement: HTMLDivElement;

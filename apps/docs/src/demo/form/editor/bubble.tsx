@@ -12,7 +12,7 @@ export default function (props: MountProps) {
     const [Disabled, disabled] = boolSelector('_d.demo.disabled');
     const [Readonly, readonly] = boolSelector('_d.demo.readonly');
     const [Palette, palette] = paletteSelector();
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
     return <div>
         <Portal mount={props.mount}>

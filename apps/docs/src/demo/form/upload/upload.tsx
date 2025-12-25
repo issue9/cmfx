@@ -12,8 +12,8 @@ export default function(props: MountProps): JSX.Element {
     const [Reverse, reverse] = boolSelector('reverse');
     const [Auto, auto] = boolSelector('auto');
     const [Palette, palette] = paletteSelector();
-    const [Disabled, disabled] = boolSelector('disabled');
-    const [Layout, layout] = layoutSelector('布局', 'horizontal');
+    const [Disabled, disabled] = boolSelector('_d.demo.disabled');
+    const [Layout, layout] = layoutSelector('_d.demo.componentLayout', 'horizontal');
 
     const basicA = fieldAccessor('upload', ['../../../../../../apps/admin/public/icon.svg', './test.jpg']);
 
